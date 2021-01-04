@@ -11,6 +11,7 @@ const (
 	EmptyStatus                       = "Empty Status"
 	FilePath                          = "File Path"
 	DirectoryPath                     = "Directory Path"
+	Dot                               = "."
 	UpperCaseA                        = 'A'
 	UpperCaseZ                        = 'Z'
 	LowerCaseA                        = 'a'
@@ -142,6 +143,7 @@ const (
 	MinusOne                          = -1
 	InvalidInstance                   = -1
 	InvalidValue                      = -1
+	WildCardSymbol                    = "*"
 
 	// https://stackoverflow.com/questions/18415904/what-does-mode-t-0644-mean
 	FileModePermission = 0644

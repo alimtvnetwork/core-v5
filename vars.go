@@ -7,6 +7,7 @@ var (
 	emptyStatus                       = EmptyStatus
 	filePath                          = FilePath
 	directoryPath                     = DirectoryPath
+	dot                               = Dot
 	upperCaseA                        = UpperCaseA
 	upperCaseZ                        = UpperCaseZ
 	lowerCaseA                        = LowerCaseA
@@ -138,4 +139,5 @@ var (
 	minusOne                          = MinusOne
 	invalidInstance                   = InvalidInstance
 	invalidValue                      = InvalidValue
+	wildCardSymbol                    = WildCardSymbol
 )
