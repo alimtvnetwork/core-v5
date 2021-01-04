@@ -7,6 +7,7 @@ var (
 	EmptyStatusPtr                       = &emptyStatus
 	FilePathPtr                          = &filePath
 	DirectoryPathPtr                     = &directoryPath
+	DotPtr                               = &dot
 	UpperCaseAPtr                        = &upperCaseA
 	UpperCaseZPtr                        = &upperCaseZ
 	LowerCaseAPtr                        = &lowerCaseA
@@ -138,4 +139,5 @@ var (
 	MinusOnePtr                          = &minusOne
 	InvalidInstancePtr                   = &invalidInstance
 	InvalidValuePtr                      = &invalidValue
+	WildCardSymbolPtr                    = &wildCardSymbol
 )
