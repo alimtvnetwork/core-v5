@@ -7,6 +7,30 @@ import (
 
 type Variant byte
 
+func GetSet(
+	isCondition bool,
+	trueValue Variant,
+	falseValue Variant,
+) Variant {
+	if isCondition {
+		return trueValue
+	}
+
+	return falseValue
+}
+
+func GetSetVariant(
+	isCondition bool,
+	trueValue byte,
+	falseValue byte,
+) Variant {
+	if isCondition {
+		return Variant(trueValue)
+	}
+
+	return Variant(falseValue)
+}
+
 func (v Variant) Value() byte {
 	return byte(v)
 }

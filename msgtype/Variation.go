@@ -60,6 +60,30 @@ const (
 	SearchInputOrSearchTermEmpty    Variation = "Search Input or search term either null or empty."
 )
 
+func GetSet(
+	isCondition bool,
+	trueValue Variation,
+	falseValue Variation,
+) Variation {
+	if isCondition {
+		return trueValue
+	}
+
+	return falseValue
+}
+
+func GetSetVariant(
+	isCondition bool,
+	trueValue string,
+	falseValue string,
+) Variation {
+	if isCondition {
+		return Variation(trueValue)
+	}
+
+	return Variation(falseValue)
+}
+
 func (variation Variation) String() string {
 	return string(variation)
 }

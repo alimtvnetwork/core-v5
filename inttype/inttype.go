@@ -11,6 +11,30 @@ func (v Variant) Value() int {
 	return int(v)
 }
 
+func GetSet(
+	isCondition bool,
+	trueValue Variant,
+	falseValue Variant,
+) Variant {
+	if isCondition {
+		return trueValue
+	}
+
+	return falseValue
+}
+
+func GetSetVariant(
+	isCondition bool,
+	trueValue int,
+	falseValue int,
+) Variant {
+	if isCondition {
+		return Variant(trueValue)
+	}
+
+	return Variant(falseValue)
+}
+
 func (v Variant) StringValue() string {
 	return string(v)
 }
