@@ -43,6 +43,26 @@ func GetSetByte(
 	return Value(falseValue)
 }
 
+func GetBool(
+	isCondition bool,
+) Value {
+	if isCondition {
+		return True
+	}
+
+	return False
+}
+
+func GetSetUnset(
+	isCondition bool,
+) Value {
+	if isCondition {
+		return Set
+	}
+
+	return Unset
+}
+
 func (v Value) Value() byte {
 	return byte(v)
 }
