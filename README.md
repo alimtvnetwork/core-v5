@@ -51,6 +51,8 @@ Any other packages used
 
 ## Links
 
+- [go - Calling a method on a nil struct pointer doesn't panic. Why not? - Stack Overflow](https://stackoverflow.com/questions/42238624/calling-a-method-on-a-nil-struct-pointer-doesnt-panic-why-not)
+
 ## Issues
 
 - [Create your issues](https://gitlab.com/evatix-go/core/-/issues)
