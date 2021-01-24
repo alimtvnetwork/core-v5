@@ -9,6 +9,9 @@ const (
 	commonJoiner                                = "\n\t- "
 	NoElements                                  = " {No Elements}"
 	charCollectionMapLengthFormat               = "\n## Items of `%s`"
+	charHashsetMapLengthFormat                  = charCollectionMapLengthFormat
 	charCollectionMapSingleItemFormat           = "\n\t- `%s` has `%d` items."
+	charHashsetMapSingleItemFormat              = charCollectionMapSingleItemFormat
 	summaryOfCharCollectionMapLengthFormat      = "# Summary of `%T`, Length (\"%d\")"
+	summaryOfCharHashsetMapLengthFormat         = summaryOfCharCollectionMapLengthFormat
 )

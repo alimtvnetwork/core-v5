@@ -32,18 +32,35 @@ func main() {
 		10,
 		5)
 
-	var onComplete corestr.OnComplete = func(stringsMap *corestr.CharCollectionMap) {
+	var onComplete corestr.OnCompleteCharCollectionMap = func(stringsMap *corestr.CharCollectionMap) {
 		stringsMap.PrintLock(true)
 
-		hashset := cmap.HashsetByStringFirstChar("a")
+		json := cmap.Json()
 
-		json := hashset.Json()
+		fmt.Println("json1:\n", json.JsonString())
 
-		fmt.Println("json:\n", json.JsonString())
+		h, e := stringsMap.ParseInjectUsingJson(json)
 
-		h, e := hashset.NewUsingJson(json)
+		fmt.Println("Data from JSON1:\n", h, e)
 
-		fmt.Println("Data from JSON:\n", h, e)
+		hashset1 := cmap.HashsetByStringFirstCharLock("a")
+		json2 := hashset1.Json()
+
+		fmt.Println("json2:\n", json2.JsonString())
+
+		h2, e2 := hashset1.ParseInjectUsingJson(json2)
+
+		fmt.Println("Data from JSON2:\n", h2.List(), h2, e2)
+
+		hCollections := stringsMap.HashsetsCollection()
+
+		json3 := hCollections.Json()
+
+		fmt.Println("json3:\n", json3.JsonString())
+
+		h3, _ := hCollections.ParseInjectUsingJson(json3)
+
+		fmt.Println("Data from JSON3:\n", h3.String())
 	}
 
 	cmap.AddStringsPtrAsyncLock(collection.ListPtr(), nil)

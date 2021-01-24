@@ -3,6 +3,7 @@ package corestr
 import (
 	"sync"
 
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/converters"
 )
 
@@ -16,7 +17,7 @@ func NewHashset(length int) *Hashset {
 	hashset := make(map[string]bool, length)
 
 	return &Hashset{
-		elementsMap:   &hashset,
+		items:         &hashset,
 		hasMapUpdated: false,
 		cachedList:    nil,
 		length:        length,
@@ -30,7 +31,7 @@ func NewHashsetWithValues(items ...string) *Hashset {
 		return EmptyHashset()
 	}
 
-	return NewHashsetUsingArray(&items)
+	return NewHashsetUsingStrings(&items)
 }
 
 func NewUsingStringPointersArray(inputArray *[]*string) *Hashset {
@@ -48,10 +49,10 @@ func NewHashsetUsingCollection(collection *Collection) *Hashset {
 		return EmptyHashset()
 	}
 
-	return NewHashsetUsingArray(collection.elements)
+	return NewHashsetUsingStrings(collection.items)
 }
 
-func NewHashsetUsingArray(inputArray *[]string) *Hashset {
+func NewHashsetUsingStrings(inputArray *[]string) *Hashset {
 	if inputArray == nil || *inputArray == nil {
 		return EmptyHashset()
 	}
@@ -69,7 +70,7 @@ func NewHashsetUsingMap(mapString *map[string]bool) *Hashset {
 	length := len(*mapString)
 
 	return &Hashset{
-		elementsMap:   mapString,
+		items:         mapString,
 		hasMapUpdated: false,
 		cachedList:    nil,
 		length:        length,
@@ -84,7 +85,7 @@ func NewCollection(capacity int) *Collection {
 	collection := make([]string, 0, capacity)
 
 	return &Collection{
-		elements: &collection,
+		items: &collection,
 	}
 }
 
@@ -92,13 +93,13 @@ func EmptyCollection() *Collection {
 	collection := make([]string, 0, 0)
 
 	return &Collection{
-		elements: &collection,
+		items: &collection,
 	}
 }
 
 func NewCollectionUsingStrings(stringItems *[]string) *Collection {
 	return &Collection{
-		elements: stringItems,
+		items: stringItems,
 	}
 }
 
@@ -106,6 +107,56 @@ func NewCollectionUsingLength(len, capacity int) *Collection {
 	collection := make([]string, len, capacity)
 
 	return &Collection{
-		elements: &collection,
+		items: &collection,
+	}
+}
+
+// --------- HashsetsCollection starts ----------
+
+func EmptyHashsetsCollection() *HashsetsCollection {
+	collection := make([]*Hashset, 0, 0)
+
+	return &HashsetsCollection{
+		items: &collection,
+	}
+}
+
+func NewHashsetsCollection(hashsets *[]Hashset) *HashsetsCollection {
+	if hashsets == nil ||
+		*hashsets == nil {
+		return EmptyHashsetsCollection()
+	}
+
+	length := len(*hashsets)
+	collection := make(
+		[]*Hashset,
+		length,
+		length+constants.ArbitraryCapacity10)
+
+	for i, hashset := range *hashsets {
+		collection[i] = &hashset
+	}
+
+	return &HashsetsCollection{
+		items: &collection,
+	}
+}
+
+func NewHashsetsCollectionUsingPointerHashsets(hashsets *[]*Hashset) *HashsetsCollection {
+	if hashsets == nil ||
+		*hashsets == nil {
+		return EmptyHashsetsCollection()
+	}
+
+	return &HashsetsCollection{
+		items: hashsets,
+	}
+}
+
+func NewHashsetsCollectionUsingLength(len, capacity int) *HashsetsCollection {
+	collection := make([]*Hashset, len, capacity)
+
+	return &HashsetsCollection{
+		items: &collection,
 	}
 }
