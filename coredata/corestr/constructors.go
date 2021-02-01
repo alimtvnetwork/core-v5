@@ -163,16 +163,14 @@ func NewCollectionUsingLength(len, capacity int) *Collection {
 func NewCharCollectionMap(
 	capacity, selfCollectionCapacity int,
 ) *CharCollectionMap {
-	const limit = constants.ArbitraryCapacity10
-
-	if capacity < limit {
-		capacity = limit
+	if capacity < charCollectionDefaultCapacity {
+		capacity = charCollectionDefaultCapacity
 	}
 
 	mapElements := make(map[byte]*Collection, capacity)
 
-	if selfCollectionCapacity < limit {
-		selfCollectionCapacity = limit
+	if selfCollectionCapacity < charCollectionDefaultCapacity {
+		selfCollectionCapacity = charCollectionDefaultCapacity
 	}
 
 	return &CharCollectionMap{
