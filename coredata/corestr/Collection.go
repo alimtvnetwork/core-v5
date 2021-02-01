@@ -158,6 +158,215 @@ func (collection *Collection) Adds(items ...string) *Collection {
 	return collection
 }
 
+func (collection *Collection) AddHashmapsValues(
+	hashmaps ...*Hashmap,
+) *Collection {
+	if hashmaps == nil {
+		return collection
+	}
+
+	for _, hashmap := range hashmaps {
+		if hashmap == nil || hashmap.IsEmpty() {
+			continue
+		}
+
+		for _, v := range *hashmap.items {
+			*collection.items = append(
+				*collection.items,
+				v)
+		}
+	}
+
+	return collection
+}
+
+func (collection *Collection) AddHashmapsKeys(
+	hashmaps ...*Hashmap,
+) *Collection {
+	if hashmaps == nil {
+		return collection
+	}
+
+	collection.resizeForHashmaps(
+		&hashmaps,
+		constants.ArbitraryCapacity1)
+
+	for _, hashmap := range hashmaps {
+		if hashmap == nil || hashmap.IsEmpty() {
+			continue
+		}
+
+		for k := range *hashmap.items {
+			*collection.items = append(
+				*collection.items,
+				k)
+		}
+	}
+
+	return collection
+}
+
+func (collection *Collection) resizeForHashmaps(
+	hashmaps *[]*Hashmap,
+	multiplier int,
+) *Collection {
+	if hashmaps == nil {
+		return collection
+	}
+
+	length := 0
+
+	for _, hashmap := range *hashmaps {
+		if hashmap == nil || hashmap.IsEmpty() {
+			continue
+		}
+
+		length += hashmap.Length()
+	}
+
+	if length < constants.ArbitraryCapacity100 {
+		return collection
+	}
+
+	finalLength :=
+		length*multiplier +
+			length/2
+
+	return collection.AddCapacity(finalLength)
+}
+
+func (collection *Collection) resizeForCollections(
+	collections *[]*Collection,
+	multiplier int,
+) *Collection {
+	if collections == nil {
+		return collection
+	}
+
+	length := 0
+
+	for _, hashmap := range *collections {
+		if hashmap == nil || hashmap.IsEmpty() {
+			continue
+		}
+
+		length += hashmap.Length()
+	}
+
+	if length < constants.ArbitraryCapacity100 {
+		return collection
+	}
+
+	finalLength :=
+		length*multiplier +
+			length/2
+
+	return collection.AddCapacity(finalLength)
+}
+
+func (collection *Collection) resizeForItems(
+	items *[]string,
+	multiplier int,
+) *Collection {
+	if items == nil {
+		return collection
+	}
+
+	length := len(*items)
+	if length < constants.ArbitraryCapacity100 {
+		return collection
+	}
+
+	finalLength :=
+		length*multiplier +
+			length/2
+
+	return collection.AddCapacity(finalLength)
+}
+
+func (collection *Collection) resizeForAnys(
+	items *[]interface{},
+	multiplier int,
+) *Collection {
+	if items == nil {
+		return collection
+	}
+
+	length := len(*items)
+	if length < constants.ArbitraryCapacity100 {
+		return collection
+	}
+
+	finalLength :=
+		length*multiplier +
+			length/2
+
+	return collection.AddCapacity(finalLength)
+}
+
+func (collection *Collection) AddHashmapsKeysValues(
+	hashmaps ...*Hashmap,
+) *Collection {
+	if hashmaps == nil {
+		return collection
+	}
+
+	collection.resizeForHashmaps(
+		&hashmaps,
+		constants.ArbitraryCapacity2)
+
+	for _, hashmap := range hashmaps {
+		if hashmap == nil || hashmap.IsEmpty() {
+			continue
+		}
+
+		for k, v := range *hashmap.items {
+			*collection.items = append(
+				*collection.items,
+				k)
+			*collection.items = append(
+				*collection.items,
+				v)
+		}
+	}
+
+	return collection
+}
+
+func (collection *Collection) AddHashmapsKeysValuesUsingFilter(
+	filter IsKeyValueFilter,
+	hashmaps ...*Hashmap,
+) *Collection {
+	if hashmaps == nil {
+		return collection
+	}
+
+	collection.resizeForHashmaps(
+		&hashmaps,
+		constants.ArbitraryCapacity1)
+
+	for _, hashmap := range hashmaps {
+		if hashmap == nil || hashmap.IsEmpty() {
+			continue
+		}
+
+		for k, v := range *hashmap.items {
+			result, isAcceptable := filter(KeyValuePair{
+				Key:   k,
+				Value: v,
+			})
+
+			if isAcceptable {
+				*collection.items = append(
+					*collection.items,
+					result)
+			}
+		}
+	}
+
+	return collection
+}
+
 func (collection *Collection) AddPtr(str *string) *Collection {
 	*collection.items = append(
 		*collection.items,
@@ -233,6 +442,10 @@ func (collection *Collection) AddStringsPtr(str *[]string) *Collection {
 func (collection *Collection) AppendCollection(
 	anotherCollection Collection,
 ) *Collection {
+	collection.resizeForItems(
+		anotherCollection.items,
+		constants.ArbitraryCapacity1)
+
 	*collection.items = append(
 		*collection.items,
 		*anotherCollection.items...)
@@ -243,6 +456,10 @@ func (collection *Collection) AppendCollection(
 func (collection *Collection) AppendCollectionPtr(
 	anotherCollection *Collection,
 ) *Collection {
+	collection.resizeForItems(
+		anotherCollection.items,
+		constants.ArbitraryCapacity1)
+
 	*collection.items = append(
 		*collection.items,
 		*anotherCollection.items...)
@@ -253,6 +470,14 @@ func (collection *Collection) AppendCollectionPtr(
 func (collection *Collection) AppendCollectionsPtr(
 	anotherCollectionsPtr ...*Collection,
 ) *Collection {
+	if anotherCollectionsPtr == nil {
+		return collection
+	}
+
+	collection.resizeForCollections(
+		&anotherCollectionsPtr,
+		constants.ArbitraryCapacity1)
+
 	capacitiesIncrease := 0
 	for _, currentCollection := range anotherCollectionsPtr {
 		if currentCollection == nil || currentCollection.IsEmpty() {
@@ -279,6 +504,14 @@ func (collection *Collection) AppendCollectionsPtr(
 
 // Continue on nil
 func (collection *Collection) AppendAnysLock(anys ...interface{}) *Collection {
+	if anys == nil {
+		return collection
+	}
+
+	collection.resizeForAnys(
+		&anys,
+		constants.ArbitraryCapacity1)
+
 	for _, any := range anys {
 		if any == nil {
 			continue
@@ -298,6 +531,14 @@ func (collection *Collection) AppendAnysLock(anys ...interface{}) *Collection {
 
 // Continue on nil
 func (collection *Collection) AppendAnys(anys ...interface{}) *Collection {
+	if anys == nil {
+		return collection
+	}
+
+	collection.resizeForAnys(
+		&anys,
+		constants.ArbitraryCapacity1)
+
 	for _, any := range anys {
 		if any == nil {
 			continue
@@ -321,6 +562,14 @@ func (collection *Collection) AppendAnysUsingFilter(
 	filter IsStringFilter,
 	anys ...interface{},
 ) *Collection {
+	if anys == nil {
+		return collection
+	}
+
+	collection.resizeForAnys(
+		&anys,
+		constants.ArbitraryCapacity1)
+
 	for _, any := range anys {
 		if any == nil {
 			continue
@@ -349,6 +598,14 @@ func (collection *Collection) AppendAnysUsingFilterLock(
 	filter IsStringFilter,
 	anys ...interface{},
 ) *Collection {
+	if anys == nil {
+		return collection
+	}
+
+	collection.resizeForAnys(
+		&anys,
+		constants.ArbitraryCapacity1)
+
 	for _, any := range anys {
 		if any == nil {
 			continue
@@ -373,6 +630,14 @@ func (collection *Collection) AppendAnysUsingFilterLock(
 
 // Continue on nil
 func (collection *Collection) AppendNonEmptyAnys(anys ...interface{}) *Collection {
+	if anys == nil {
+		return collection
+	}
+
+	collection.resizeForAnys(
+		&anys,
+		constants.ArbitraryCapacity1)
+
 	for _, any := range anys {
 		if any == nil {
 			continue
@@ -393,6 +658,10 @@ func (collection *Collection) AppendNonEmptyAnys(anys ...interface{}) *Collectio
 
 // Skip on nil
 func (collection *Collection) AddsPtr(itemsPtr ...*string) *Collection {
+	if itemsPtr == nil {
+		return collection
+	}
+
 	for _, str := range itemsPtr {
 		if str == nil {
 			continue
@@ -671,7 +940,20 @@ func (collection *Collection) HasAll(items ...string) bool {
 	return true
 }
 
-func (collection *Collection) Sorted() *Collection {
+// Creates new doesn't modify current collection
+func (collection *Collection) SortedListAsc() *[]string {
+	if collection.IsEmpty() {
+		return &[]string{}
+	}
+
+	list := &(*collection.items)
+	sort.Strings(*list)
+
+	return list
+}
+
+// mutates current collection
+func (collection *Collection) SortedAsc() *Collection {
 	if collection.IsEmpty() {
 		return collection
 	}
@@ -681,7 +963,8 @@ func (collection *Collection) Sorted() *Collection {
 	return collection
 }
 
-func (collection *Collection) SortedLock() *Collection {
+// mutates current collection
+func (collection *Collection) SortedAscLock() *Collection {
 	if collection.IsEmptyLock() {
 		return collection
 	}
@@ -690,6 +973,36 @@ func (collection *Collection) SortedLock() *Collection {
 	defer collection.Unlock()
 
 	sort.Strings(*collection.items)
+
+	return collection
+}
+
+// Creates new one.
+func (collection *Collection) SortedListDsc() *[]string {
+	list := collection.SortedListAsc()
+	length := len(*list)
+	mid := length / 2
+
+	for i := 0; i < mid; i++ {
+		temp := (*list)[i]
+		(*list)[i] = (*list)[length-1-i]
+		(*list)[length-1-i] = temp
+	}
+
+	return list
+}
+
+// mutates itself.
+func (collection *Collection) SortedDsc() *Collection {
+	list := collection.items
+	length := len(*list)
+	mid := length / 2
+
+	for i := 0; i < mid; i++ {
+		temp := (*list)[i]
+		(*list)[i] = (*list)[length-1-i]
+		(*list)[length-1-i] = temp
+	}
 
 	return collection
 }
@@ -895,12 +1208,12 @@ func (collection *Collection) UnmarshalJSON(data []byte) error {
 
 func (collection *Collection) Json() *corejson.Result {
 	if collection.IsEmpty() {
-		return corejson.EmptyJsonResultWithoutErrorPtr()
+		return corejson.EmptyWithoutErrorPtr()
 	}
 
 	jsonBytes, err := json.Marshal(collection)
 
-	return corejson.NewJsonResultPtr(jsonBytes, err)
+	return corejson.NewPtr(jsonBytes, err)
 }
 
 func (collection *Collection) ParseInjectUsingJson(
