@@ -54,6 +54,12 @@ Any other packages used
 - [go - Calling a method on a nil struct pointer doesn't panic. Why not? - Stack Overflow](https://stackoverflow.com/questions/42238624/calling-a-method-on-a-nil-struct-pointer-doesnt-panic-why-not)
 - [Array of pointers to JSON - Stack Overflow](https://stackoverflow.com/questions/28101966/array-of-pointers-to-json)
 - [Json Parsing of Array Pointers](https://play.golang.org/p/zTuMLBgGWk)
+- [Go Slice Tricks Cheat Sheet](https://ueokande.github.io/go-slice-tricks/)
+- [SliceTricks · golang/go Wiki](https://github.com/golang/go/wiki/SliceTricks)
+- [ueokande/go-slice-tricks: Cheat Sheet for Go Slice Tricks](https://github.com/ueokande/go-slice-tricks)
+- [Quick Sort in Go (Golang) - golangprograms.com](https://www.golangprograms.com/golang-program-for-implementation-of-quick-sort.html)
+    - [Sorting using golang lib](https://play.golang.org/p/sJ8a464USeV)
+    - [Pointer Strings Sort](https://play.golang.org/p/8V8YYdQrO6q)
 
 ## Issues
 

@@ -10,7 +10,7 @@ const (
 	RegularCollectionEfficiencyLimit            = 1000
 	DoubleLimit                                 = RegularCollectionEfficiencyLimit * 3
 	commonJoiner                                = "\n\t- "
-	NoElements                                  = " {No Elements}"
+	NoElements                                  = " {No Element}"
 	charCollectionMapLengthFormat               = "\n## Items of `%s`"
 	charHashsetMapLengthFormat                  = charCollectionMapLengthFormat
 	charCollectionMapSingleItemFormat           = "\n\t- `%s` has `%d` items."
