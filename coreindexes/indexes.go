@@ -1,5 +1,6 @@
 package coreindexes
 
+//goland:noinspection ALL
 const (
 	First   = 0
 	Second  = 1
@@ -12,3 +13,13 @@ const (
 	Ninth   = 9
 	Tenth   = 10
 )
+
+func IsCurrentIndex(indexes *[]int, currentIndex int) bool {
+	for _, indexValue := range *indexes {
+		if indexValue == currentIndex {
+			return true
+		}
+	}
+
+	return false
+}

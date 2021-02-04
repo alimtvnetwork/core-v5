@@ -1,0 +1,763 @@
+package corestr
+
+import (
+	"encoding/json"
+	"strings"
+	"sync"
+
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/evatix-go/core/msgtype"
+)
+
+type LinkedList struct {
+	head, tail *LinkedListNode
+	length     int
+	sync.Mutex
+}
+
+func (linkedList *LinkedList) Tail() *LinkedListNode {
+	return linkedList.tail
+}
+
+func (linkedList *LinkedList) Head() *LinkedListNode {
+	return linkedList.head
+}
+
+func (linkedList *LinkedList) Length() int {
+	return linkedList.length
+}
+
+func (linkedList *LinkedList) incrementLength() int {
+	linkedList.length++
+
+	return linkedList.length
+}
+
+func (linkedList *LinkedList) setLengthToZero() int {
+	linkedList.length = 0
+
+	return linkedList.length
+}
+
+func (linkedList *LinkedList) decrementLength() int {
+	linkedList.length--
+
+	return linkedList.length
+}
+
+func (linkedList *LinkedList) incrementLengthLock() {
+	linkedList.Lock()
+	linkedList.length++
+	linkedList.Unlock()
+}
+
+func (linkedList *LinkedList) decrementLengthLock() {
+	linkedList.Lock()
+	linkedList.length--
+	linkedList.Unlock()
+}
+
+func (linkedList *LinkedList) LengthLock() int {
+	linkedList.Lock()
+	defer linkedList.Unlock()
+
+	return linkedList.length
+}
+
+//goland:noinspection GoVetCopyLock
+func (linkedList *LinkedList) IsEquals(
+	anotherLinkedList LinkedList,
+) bool {
+	return linkedList.IsEqualsWithSensitivePtr(
+		&anotherLinkedList,
+		true)
+}
+
+func (linkedList *LinkedList) IsEqualsPtr(
+	anotherLinkedList *LinkedList,
+) bool {
+	return linkedList.IsEqualsWithSensitivePtr(
+		anotherLinkedList,
+		true)
+}
+
+func (linkedList *LinkedList) IsEqualsWithSensitivePtr(
+	anotherLinkedList *LinkedList,
+	isCaseSensitive bool,
+) bool {
+	if anotherLinkedList == nil && linkedList == nil {
+		return true
+	}
+
+	if anotherLinkedList == nil || linkedList == nil {
+		return false
+	}
+
+	if linkedList == anotherLinkedList {
+		return true
+	}
+
+	if linkedList.IsEmpty() && anotherLinkedList.IsEmpty() {
+		return true
+	}
+
+	if linkedList.IsEmpty() || anotherLinkedList.IsEmpty() {
+		return false
+	}
+
+	if linkedList.Length() != anotherLinkedList.Length() {
+		return false
+	}
+
+	leftNode := linkedList.head
+	rightNode := anotherLinkedList.head
+
+	for {
+		isBothExist := leftNode != nil && rightNode != nil
+		isBothNull := leftNode == nil && rightNode == nil
+		isBothEqualPointer := leftNode == rightNode
+		isEqual := isBothEqualPointer ||
+			isBothNull ||
+			isBothExist &&
+				leftNode.IsEqualSensitive(
+					rightNode, isCaseSensitive)
+
+		if !isEqual {
+			return false
+		}
+
+		if leftNode.HasNext() && rightNode.HasNext() {
+			// both has possibility of having next
+
+			leftNode = leftNode.Next()
+			rightNode = rightNode.Next()
+
+			continue
+		}
+
+		if leftNode.HasNext() || rightNode.HasNext() {
+			// one has next another doesn't
+			return false
+		}
+
+		return false
+	}
+}
+
+func (linkedList *LinkedList) IsEmptyLock() bool {
+	linkedList.Lock()
+	defer linkedList.Unlock()
+
+	return linkedList.head == nil || linkedList.length == 0
+}
+
+func (linkedList *LinkedList) IsEmpty() bool {
+	return linkedList.head == nil || linkedList.length == 0
+}
+
+func (linkedList *LinkedList) Add(item string) *LinkedList {
+	if linkedList.IsEmpty() {
+		linkedList.head = &LinkedListNode{
+			Element: item,
+			next:    nil,
+		}
+
+		linkedList.tail = linkedList.head
+		linkedList.incrementLength()
+
+		return linkedList
+	}
+
+	linkedList.tail.next = &LinkedListNode{
+		Element: item,
+		next:    nil,
+	}
+
+	linkedList.tail = linkedList.tail.next
+	linkedList.incrementLength()
+
+	return linkedList
+}
+
+func (linkedList *LinkedList) PushBack(item string) *LinkedList {
+	return linkedList.Add(item)
+}
+
+func (linkedList *LinkedList) Push(item string) *LinkedList {
+	return linkedList.Add(item)
+}
+
+func (linkedList *LinkedList) PushFront(item string) *LinkedList {
+	return linkedList.AddFront(item)
+}
+
+func (linkedList *LinkedList) AddFront(item string) *LinkedList {
+	if linkedList.IsEmpty() {
+		return linkedList.Add(item)
+	}
+
+	node := &LinkedListNode{
+		Element: item,
+		next:    linkedList.head,
+	}
+
+	linkedList.head = node
+	linkedList.incrementLength()
+
+	return linkedList
+}
+
+func (linkedList *LinkedList) AttachWithNode(currentNode, addingNode *LinkedListNode) error {
+	if currentNode == nil {
+		return msgtype.
+			CannotBeNilMessage.
+			Error("CurrentNode cannot be nil.", nil)
+	}
+
+	if currentNode.next != nil {
+		return msgtype.
+			ShouldBeNilMessage.
+			Error("CurrentNode.next", nil)
+	}
+
+	addingNode.next = currentNode.next
+	currentNode.next = addingNode
+	linkedList.incrementLength()
+
+	return nil
+}
+
+// iSkipOnNil
+func (linkedList *LinkedList) AddCollectionToNode(
+	isSkipOnNull bool,
+	node *LinkedListNode,
+	collection *Collection,
+) *LinkedList {
+	return linkedList.AddStringsPtrToNode(
+		isSkipOnNull,
+		node,
+		collection.items)
+}
+
+func (linkedList *LinkedList) Loop(
+	simpleProcessor LinkedListSimpleProcessor,
+) *LinkedList {
+	length := linkedList.Length()
+	if length == 0 {
+		return linkedList
+	}
+
+	node := linkedList.head
+	isBreak := simpleProcessor(0, node, nil, true, false)
+	if isBreak {
+		return linkedList
+	}
+
+	lenMinusOne := length - 1
+	index := 1
+	isEndingIndex := false
+
+	for node.HasNext() {
+		prev := node
+		node = node.Next()
+		isEndingIndex = lenMinusOne == index
+		isBreak = simpleProcessor(index, node, prev, false, isEndingIndex)
+		if isBreak {
+			return linkedList
+		}
+
+		index++
+	}
+
+	return linkedList
+}
+
+func (linkedList *LinkedList) Filter(
+	filter LinkedListFilter,
+) *[]*LinkedListNode {
+	length := linkedList.Length()
+	list := make([]*LinkedListNode, 0, length)
+
+	if length == 0 {
+		return &list
+	}
+
+	node := linkedList.head
+	result, isKeep := filter(linkedList, 0, node)
+
+	if isKeep {
+		list = append(list, result)
+	}
+
+	index := 1
+	for node.HasNext() {
+		node = node.Next()
+		result2, isKeep2 := filter(linkedList, index, node)
+
+		if isKeep2 {
+			list = append(list, result2)
+		}
+
+		index++
+	}
+
+	return &list
+}
+
+func (linkedList *LinkedList) RemoveNodeByElementValue(
+	element string,
+	isCaseSensitive bool,
+) *LinkedList {
+	var processor LinkedListSimpleProcessor = func(
+		index int, currentNode, prevNode *LinkedListNode, isFirstIndex, isEndingIndex bool,
+	) (isBreak bool) {
+		isSameNode := (isCaseSensitive && currentNode.Element == element) ||
+			(!isCaseSensitive && strings.EqualFold(element, currentNode.Element))
+
+		if isSameNode && isFirstIndex {
+			linkedList.head = currentNode.next
+
+			return false
+		}
+
+		if isSameNode {
+			prevNode.next = currentNode.next
+
+			return false
+		}
+
+		return false
+	}
+
+	return linkedList.Loop(processor)
+}
+
+func (linkedList *LinkedList) RemoveNodeByIndex(
+	removingIndexes ...int,
+) *LinkedList {
+	if removingIndexes == nil {
+		return linkedList
+	}
+
+	removingIndexesPtr := &removingIndexes
+
+	var processor LinkedListSimpleProcessor = func(
+		index int, currentNode, prevNode *LinkedListNode, isFirstIndex, isEndingIndex bool,
+	) (isBreak bool) {
+		isSameNode := coreindexes.IsCurrentIndex(removingIndexesPtr, index)
+		if isSameNode && isFirstIndex {
+			linkedList.head = currentNode.next
+
+			return false
+		}
+
+		if isSameNode {
+			prevNode.next = currentNode.next
+
+			return false
+		}
+
+		return false
+	}
+
+	return linkedList.Loop(processor)
+}
+
+func (linkedList *LinkedList) RemoveNode(
+	removingNode *LinkedListNode,
+) *LinkedList {
+	var processor LinkedListSimpleProcessor = func(
+		index int, currentNode, prevNode *LinkedListNode, isFirstIndex, isEndingIndex bool,
+	) (isBreak bool) {
+		isSameNode := currentNode == removingNode
+		if isSameNode && isFirstIndex {
+			linkedList.head = currentNode.next
+
+			return true
+		}
+
+		if isSameNode {
+			prevNode.next = currentNode.next
+
+			return true
+		}
+
+		return false
+	}
+
+	return linkedList.Loop(processor)
+}
+
+// iSkipOnNil
+func (linkedList *LinkedList) AddStringsPtrToNode(
+	isSkipOnNull bool,
+	node *LinkedListNode,
+	items *[]string,
+) *LinkedList {
+	if items == nil || node == nil && isSkipOnNull {
+		return linkedList
+	}
+
+	if node == nil {
+		msgtype.
+			CannotBeNilMessage.
+			HandleUsingPanic(
+				"node cannot be nil.",
+				nil)
+	}
+
+	length := len(*items)
+
+	if length == 0 {
+		return linkedList
+	}
+
+	if length == 1 {
+		linkedList.AddAfterNode(node, (*items)[0])
+
+		return linkedList
+	}
+
+	finalHead := &LinkedListNode{
+		Element: (*items)[0],
+		next:    nil,
+	}
+
+	nextNode := finalHead
+
+	for _, item := range (*items)[1:] {
+		nextNode = nextNode.AddNext(linkedList, item)
+	}
+
+	//goland:noinspection GoNilness
+	nextNode.next = node.next
+	//goland:noinspection GoNilness
+	node.next = finalHead
+	linkedList.incrementLength()
+
+	return linkedList
+}
+
+func (linkedList *LinkedList) AddAfterNode(node *LinkedListNode, item string) *LinkedListNode {
+	newNode := &LinkedListNode{
+		Element: item,
+		next:    node.next,
+	}
+
+	node.next = newNode
+	linkedList.incrementLength()
+
+	return newNode
+}
+
+// add to back
+func (linkedList *LinkedList) AddStringsPtr(items *[]string) *LinkedList {
+	if items == nil {
+		return linkedList
+	}
+
+	for _, item := range *items {
+		linkedList.Add(item)
+	}
+
+	return linkedList
+}
+
+// Expensive operation BigO(n)
+func (linkedList *LinkedList) IndexAt(index int) *LinkedListNode {
+	length := linkedList.Length()
+	if index < 0 {
+		return nil
+	}
+
+	if length == 0 || length-1 < index {
+		msgtype.OutOfRange.HandleUsingPanic(
+			"Given index is out of range. Whereas length:",
+			length)
+	}
+
+	if index == 0 {
+		return linkedList.head
+	}
+
+	node := linkedList.head
+	i := 1
+	for node.HasNext() {
+		node = node.Next()
+
+		if i == index {
+			return node
+		}
+
+		i++
+	}
+
+	return nil
+}
+
+// Expensive operation BigO(n)
+func (linkedList *LinkedList) SafePointerIndexAt(index int) *string {
+	node := linkedList.SafeIndexAt(index)
+
+	if node == nil {
+		return nil
+	}
+
+	return &node.Element
+}
+
+// Expensive operation BigO(n)
+func (linkedList *LinkedList) SafePointerIndexAtUsingDefault(index int, defaultString string) string {
+	node := linkedList.SafeIndexAt(index)
+
+	if node == nil {
+		return defaultString
+	}
+
+	return node.Element
+}
+
+// Expensive operation BigO(n)
+func (linkedList *LinkedList) SafeIndexAt(index int) *LinkedListNode {
+	length := linkedList.Length()
+	isExitCondition := index < 0 || length == 0 || length-1 < index
+	if isExitCondition {
+		return nil
+	}
+
+	if index == 0 {
+		return linkedList.head
+	}
+
+	node := linkedList.head
+	i := 1
+	for node.HasNext() {
+		node = node.Next()
+
+		if i == index {
+			return node
+		}
+
+		i++
+	}
+
+	return nil
+}
+
+// skip on nil, add to back
+func (linkedList *LinkedList) AddPointerStringsPtr(items *[]*string) *LinkedList {
+	if items == nil {
+		return linkedList
+	}
+
+	for _, item := range *items {
+		if item == nil {
+			continue
+		}
+
+		linkedList.Add(*item)
+	}
+
+	return linkedList
+}
+
+// skip on nil
+func (linkedList *LinkedList) AddCollection(collection *Collection) *LinkedList {
+	if collection == nil {
+		return linkedList
+	}
+
+	for _, item := range *collection.items {
+		linkedList.Add(item)
+	}
+
+	return linkedList
+}
+
+func (linkedList *LinkedList) ToCollection(addCapacity int) *Collection {
+	collection := NewCollection(linkedList.Length() + addCapacity)
+
+	if linkedList.IsEmpty() {
+		return collection
+	}
+
+	node := linkedList.head
+	collection.Add(node.Element)
+
+	for node.HasNext() {
+		node = node.Next()
+		collection.Add(node.Element)
+	}
+
+	return collection
+}
+
+// must return slice.
+func (linkedList *LinkedList) ListPtr() *[]string {
+	list := make([]string, 0, linkedList.Length())
+
+	if linkedList.IsEmpty() {
+		return &list
+	}
+
+	node := linkedList.head
+	list = append(list, node.Element)
+
+	for node.HasNext() {
+		node = node.Next()
+		list = append(list, node.Element)
+	}
+
+	return &list
+}
+
+func (linkedList *LinkedList) String() string {
+	if linkedList.IsEmpty() {
+		return commonJoiner + NoElements
+	}
+
+	return commonJoiner +
+		strings.Join(
+			*linkedList.ListPtr(),
+			commonJoiner)
+}
+
+func (linkedList *LinkedList) StringLock() string {
+	if linkedList.IsEmptyLock() {
+		return commonJoiner + NoElements
+	}
+
+	linkedList.Lock()
+	defer linkedList.Unlock()
+
+	return commonJoiner +
+		strings.Join(
+			*linkedList.ListPtr(),
+			commonJoiner)
+}
+
+func (linkedList *LinkedList) Join(
+	separator string,
+) string {
+	return strings.Join(*linkedList.ListPtr(), separator)
+}
+
+func (linkedList *LinkedList) Joins(
+	separator string,
+	items ...string,
+) string {
+	if items == nil || linkedList.Length() == 0 {
+		return strings.Join(items, separator)
+	}
+
+	collection := linkedList.ToCollection(len(items) +
+		constants.ArbitraryCapacity2)
+	collection.AddStringsPtr(&items)
+
+	return collection.Join(separator)
+}
+
+func (linkedList *LinkedList) JsonModel() *CollectionDataModel {
+	return linkedList.ToCollection(0).JsonModel()
+}
+
+func (linkedList *LinkedList) JsonModelAny() interface{} {
+	return linkedList.JsonModel()
+}
+
+func (linkedList *LinkedList) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*linkedList.JsonModel())
+}
+
+func (linkedList *LinkedList) UnmarshalJSON(data []byte) error {
+	var dataModel CollectionDataModel
+	err := json.Unmarshal(data, &dataModel)
+
+	if err == nil {
+		linkedList.Clear()
+		linkedList.AddStringsPtr(dataModel.Items)
+	}
+
+	return err
+}
+
+func (linkedList *LinkedList) RemoveAll() *LinkedList {
+	return linkedList.Clear()
+}
+
+func (linkedList *LinkedList) Clear() *LinkedList {
+	if linkedList.IsEmpty() {
+		return linkedList
+	}
+
+	linkedList.head = nil
+	linkedList.tail = nil
+	linkedList.setLengthToZero()
+
+	return linkedList
+}
+
+func (linkedList *LinkedList) Json() *corejson.Result {
+	if linkedList.IsEmpty() {
+		return corejson.EmptyWithoutErrorPtr()
+	}
+
+	jsonBytes, err := json.Marshal(linkedList)
+
+	return corejson.NewPtr(jsonBytes, err)
+}
+
+func (linkedList *LinkedList) ParseInjectUsingJson(
+	jsonResult *corejson.Result,
+) (*LinkedList, error) {
+	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
+		return EmptyLinkedList(), nil
+	}
+
+	err := json.Unmarshal(*jsonResult.Bytes, &linkedList)
+
+	if err != nil {
+		return EmptyLinkedList(), err
+	}
+
+	return linkedList, nil
+}
+
+// Panic if error
+func (linkedList *LinkedList) ParseInjectUsingJsonMust(
+	jsonResult *corejson.Result,
+) *LinkedList {
+	newUsingJson, err :=
+		linkedList.ParseInjectUsingJson(jsonResult)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return newUsingJson
+}
+
+// Panic if error
+func (linkedList *LinkedList) JsonParseSelfInject(jsonResult *corejson.Result) {
+	linkedList.ParseInjectUsingJsonMust(jsonResult)
+}
+
+func (linkedList *LinkedList) AsJsoner() *corejson.Jsoner {
+	var jsoner corejson.Jsoner = linkedList
+
+	return &jsoner
+}
+
+func (linkedList *LinkedList) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
+	var jsonInjector corejson.ParseSelfInjector = linkedList
+
+	return &jsonInjector
+}
+
+func (linkedList *LinkedList) AsJsonMarshaller() *corejson.JsonMarshaller {
+	var jsonMarshaller corejson.JsonMarshaller = linkedList
+
+	return &jsonMarshaller
+}

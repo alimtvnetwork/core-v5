@@ -53,6 +53,7 @@ func (hashmap *Hashmap) AddOrUpdateWithWgLock(key, val string, group *sync.WaitG
 	hashmap.Unlock()
 
 	hashmap.hasMapUpdated = true
+
 	group.Done()
 
 	return hashmap
@@ -129,6 +130,7 @@ func (hashmap *Hashmap) AddOrUpdateStringsPtrWgLock(keys, values *[]string, wg *
 
 	hashmap.Unlock()
 	wg.Done()
+
 	hashmap.hasMapUpdated = true
 
 	return hashmap
@@ -451,9 +453,12 @@ func (hashmap *Hashmap) Items() *map[string]string {
 	return hashmap.items
 }
 
+//goland:noinspection GoLinterLocal
 func (hashmap *Hashmap) ItemsCopyLock() *map[string]string {
 	hashmap.Lock()
+
 	copiedItemsMap := &(*hashmap.items)
+
 	hashmap.Unlock()
 
 	return copiedItemsMap
@@ -501,11 +506,13 @@ func (hashmap *Hashmap) KeysValuesCollection() (keys, values *Collection) {
 
 	go func() {
 		keys = NewCollectionUsingStrings(hashmap.Keys())
+
 		wg.Done()
 	}()
 
 	go func() {
 		values = NewCollectionUsingStrings(hashmap.ValuesListPtr())
+
 		wg.Done()
 	}()
 
@@ -668,48 +675,24 @@ func (hashmap *Hashmap) LengthLock() int {
 	return hashmap.Length()
 }
 
-func (hashmap *Hashmap) IsEquals(another Hashmap) bool {
+//goland:noinspection GoLinterLocal
+func (hashmap *Hashmap) IsEquals(another Hashmap) bool { //nolint:govet
 	return hashmap.IsEqualsPtr(&another)
 }
 
 func (hashmap *Hashmap) IsEqualsPtrLock(another *Hashmap) bool {
-	if hashmap == nil {
-		return false
-	}
+	hashmap.Lock()
+	defer hashmap.Unlock()
 
-	if hashmap == another {
-		// ptr same
-		return true
-	}
-
-	if hashmap.IsEmpty() && another.IsEmpty() {
-		return true
-	}
-
-	if hashmap.IsEmpty() || another.IsEmpty() {
-		return false
-	}
-
-	leftLength := hashmap.Length()
-	rightLength := another.Length()
-
-	if leftLength != rightLength {
-		return false
-	}
-
-	for key, value := range *hashmap.items {
-		result, has := (*another.items)[key]
-
-		if !has || !(result != value) {
-			return false
-		}
-	}
-
-	return true
+	return hashmap.IsEqualsPtr(another)
 }
 
 func (hashmap *Hashmap) IsEqualsPtr(another *Hashmap) bool {
-	if hashmap == nil {
+	if hashmap == nil && another == nil {
+		return true
+	}
+
+	if hashmap == nil || another == nil {
 		return false
 	}
 
