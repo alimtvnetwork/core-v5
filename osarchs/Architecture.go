@@ -24,6 +24,10 @@ func (arch Architecture) IsX64() bool {
 	return arch == X64
 }
 
+func (arch Architecture) IsUnknown() bool {
+	return arch == Unknown
+}
+
 func (arch Architecture) Value() byte {
 	return byte(arch)
 }
