@@ -309,6 +309,27 @@ func (linkedCollections *LinkedCollections) Add(collection *Collection) *LinkedC
 	return linkedCollections
 }
 
+func (linkedCollections *LinkedCollections) AddStringsLock(stringsItems ...string) *LinkedCollections {
+	if len(stringsItems) == 0 {
+		return linkedCollections
+	}
+
+	linkedCollections.Lock()
+	defer linkedCollections.Unlock()
+
+	return linkedCollections.AddStringsPtr(&stringsItems, false)
+}
+
+func (linkedCollections *LinkedCollections) AddStrings(stringsItems ...string) *LinkedCollections {
+	if len(stringsItems) == 0 {
+		return linkedCollections
+	}
+
+	collection := NewCollectionUsingStrings(&stringsItems, false)
+
+	return linkedCollections.Add(collection)
+}
+
 func (linkedCollections *LinkedCollections) AddBackNode(node *LinkedCollectionNode) *LinkedCollections {
 	return linkedCollections.AppendNode(node)
 }
