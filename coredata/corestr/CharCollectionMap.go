@@ -486,6 +486,8 @@ func (charCollectionMap *CharCollectionMap) AddLock(
 
 	if has {
 		collection.AddLock(str)
+		(*charCollectionMap.
+			items)[char] = collection
 
 		return charCollectionMap
 	}
@@ -510,6 +512,10 @@ func (charCollectionMap *CharCollectionMap) Add(
 
 	if has {
 		collection.Add(str)
+		(*charCollectionMap.
+			items)[char] = collection
+
+		return charCollectionMap
 	}
 
 	newCollection := NewCollection(charCollectionMap.eachCollectionCapacity)
@@ -530,6 +536,10 @@ func (charCollectionMap *CharCollectionMap) AddStringPtr(
 
 	if has {
 		collection.AddPtr(str)
+		(*charCollectionMap.
+			items)[char] = collection
+
+		return charCollectionMap
 	}
 
 	newCollection := NewCollection(charCollectionMap.eachCollectionCapacity)
@@ -553,6 +563,10 @@ func (charCollectionMap *CharCollectionMap) AddStringPtrLock(
 
 	if has {
 		collection.AddPtrLock(str)
+		charCollectionMap.Lock()
+		(*charCollectionMap.
+			items)[char] = collection
+		charCollectionMap.Unlock()
 
 		return charCollectionMap
 	}
@@ -585,13 +599,17 @@ func (charCollectionMap *CharCollectionMap) AddSameStartingCharItems(
 
 	if has {
 		values.AddStringsPtr(allItemsWithSameChar)
+		(*charCollectionMap.
+			items)[char] = values
 
 		return charCollectionMap
 	}
 
 	(*charCollectionMap.
 		items)[char] =
-		NewCollectionUsingStrings(allItemsWithSameChar, isCloneAdd)
+		NewCollectionUsingStrings(
+			allItemsWithSameChar,
+			isCloneAdd)
 
 	return charCollectionMap
 }
@@ -706,8 +724,9 @@ func (charCollectionMap *CharCollectionMap) AddStringsPtrAsyncLock(
 		return charCollectionMap
 	}
 
-	isListIsTooLargeAndHasExistingData := length > RegularCollectionEfficiencyLimit &&
-		charCollectionMap.Length() > DoubleLimit
+	isListIsTooLargeAndHasExistingData :=
+		length > RegularCollectionEfficiencyLimit &&
+			charCollectionMap.Length() > DoubleLimit
 
 	if isListIsTooLargeAndHasExistingData {
 		return charCollectionMap.
@@ -740,7 +759,8 @@ func (charCollectionMap *CharCollectionMap) AddStringsPtrAsyncLock(
 }
 
 func (charCollectionMap *CharCollectionMap) efficientAddOfLargeItems(
-	largeStringsCollection *[]string, onComplete OnCompleteCharCollectionMap,
+	largeStringsCollection *[]string,
+	onComplete OnCompleteCharCollectionMap,
 ) *CharCollectionMap {
 	allCharsMap := charCollectionMap.
 		GetCharsPtrGroups(largeStringsCollection)
