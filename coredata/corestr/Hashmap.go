@@ -68,10 +68,11 @@ func (hashmap *Hashmap) AddOrUpdateWithWgLock(
 
 func (hashmap *Hashmap) AddOrUpdatePtrLock(key, val *string) *Hashmap {
 	hashmap.Lock()
-	(*hashmap.items)[*key] = *val
-	hashmap.Unlock()
 
+	(*hashmap.items)[*key] = *val
 	hashmap.hasMapUpdated = true
+
+	hashmap.Unlock()
 
 	return hashmap
 }
@@ -144,10 +145,9 @@ func (hashmap *Hashmap) AddOrUpdateStringsPtrWgLock(keys, values *[]string, wg *
 		(*hashmap.items)[key] = (*values)[i]
 	}
 
+	hashmap.hasMapUpdated = true
 	hashmap.Unlock()
 	wg.Done()
-
-	hashmap.hasMapUpdated = true
 
 	return hashmap
 }
@@ -176,9 +176,8 @@ func (hashmap *Hashmap) AddOrUpdateStringsPtrLock(keys, values *[]string) *Hashm
 		(*hashmap.items)[key] = (*values)[i]
 	}
 
-	hashmap.Unlock()
-
 	hashmap.hasMapUpdated = true
+	hashmap.Unlock()
 
 	return hashmap
 }
