@@ -96,7 +96,7 @@ func (jsonResult *Result) HasJson() bool {
 	return jsonResult.HasBytes()
 }
 
-func (jsonResult *Result) Unmarshall(any interface{}) error {
+func (jsonResult *Result) Unmarshal(any interface{}) error {
 	if jsonResult.HasError() {
 		return jsonResult.Error
 	}
