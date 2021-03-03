@@ -1575,9 +1575,7 @@ func (collection *Collection) CharCollectionMap() *CharCollectionMap {
 		length,
 		lengthByFourBestGuess)
 
-	for _, item := range *collection.items {
-		runeMap.AddStringPtr(&item)
-	}
+	runeMap.AddStringsPtr(collection.items)
 
 	return runeMap
 }

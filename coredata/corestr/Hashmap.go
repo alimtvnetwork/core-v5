@@ -51,7 +51,10 @@ func (hashmap *Hashmap) AddOrUpdatePtr(key, val *string) *Hashmap {
 	return hashmap
 }
 
-func (hashmap *Hashmap) AddOrUpdateWithWgLock(key, val string, group *sync.WaitGroup) *Hashmap {
+func (hashmap *Hashmap) AddOrUpdateWithWgLock(
+	key, val string,
+	group *sync.WaitGroup,
+) *Hashmap {
 	hashmap.Lock()
 	(*hashmap.items)[key] = val
 	hashmap.Unlock()
@@ -73,14 +76,20 @@ func (hashmap *Hashmap) AddOrUpdatePtrLock(key, val *string) *Hashmap {
 	return hashmap
 }
 
-func (hashmap *Hashmap) AddOrUpdateKeyStrValInt(key string, val int) *Hashmap {
+func (hashmap *Hashmap) AddOrUpdateKeyStrValInt(
+	key string,
+	val int,
+) *Hashmap {
 	(*hashmap.items)[key] = fmt.Sprintf("%d", val)
 	hashmap.hasMapUpdated = true
 
 	return hashmap
 }
 
-func (hashmap *Hashmap) AddOrUpdateKeyStrValFloat(key string, val float32) *Hashmap {
+func (hashmap *Hashmap) AddOrUpdateKeyStrValFloat(
+	key string,
+	val float32,
+) *Hashmap {
 	(*hashmap.items)[key] = fmt.Sprintf("%f", val)
 	hashmap.hasMapUpdated = true
 
@@ -94,7 +103,10 @@ func (hashmap *Hashmap) AddOrUpdateKeyStrValFloat64(key string, val float64) *Ha
 	return hashmap
 }
 
-func (hashmap *Hashmap) AddOrUpdateKeyStrValAny(key string, val interface{}) *Hashmap {
+func (hashmap *Hashmap) AddOrUpdateKeyStrValAny(
+	key string,
+	val interface{},
+) *Hashmap {
 	(*hashmap.items)[key] = fmt.Sprintf(constants.SprintValueFormat, val)
 	hashmap.hasMapUpdated = true
 
@@ -602,9 +614,10 @@ func (hashmap *Hashmap) KeysValuesListLock() (keys, values *[]string) {
 }
 
 func (hashmap *Hashmap) Keys() *[]string {
-	keys := make([]string, len(*hashmap.items))
+	length := len(*hashmap.items)
+	keys := make([]string, length)
 
-	if hashmap.IsEmpty() {
+	if length == 0 {
 		return &keys
 	}
 
@@ -618,13 +631,16 @@ func (hashmap *Hashmap) Keys() *[]string {
 }
 
 func (hashmap *Hashmap) KeysCollection() *Collection {
-	return NewCollectionUsingStrings(hashmap.Keys(), false)
+	return NewCollectionUsingStrings(
+		hashmap.Keys(),
+		false)
 }
 
 func (hashmap *Hashmap) KeysLock() *[]string {
-	keys := make([]string, hashmap.LengthLock())
+	length := hashmap.LengthLock()
+	keys := make([]string, length)
 
-	if hashmap.IsEmpty() {
+	if length == 0 {
 		return &keys
 	}
 
@@ -651,6 +667,13 @@ func (hashmap *Hashmap) ValuesListCopyPtrLock() *[]string {
 func (hashmap *Hashmap) setCached() {
 	length := hashmap.Length()
 	list := make([]string, length)
+
+	if length == 0 {
+		hashmap.cachedList = &list
+		hashmap.hasMapUpdated = false
+
+		return
+	}
 
 	i := 0
 

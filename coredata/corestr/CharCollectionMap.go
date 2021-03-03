@@ -122,7 +122,7 @@ func (charCollectionMap *CharCollectionMap) SummaryString() string {
 	for key, collection := range *charCollectionMap.items {
 		collectionOfCollection[i] = fmt.Sprintf(
 			charCollectionMapSingleItemFormat,
-			i+1,
+			i,
 			string(key),
 			collection.Length())
 
@@ -486,8 +486,6 @@ func (charCollectionMap *CharCollectionMap) AddLock(
 
 	if has {
 		collection.AddLock(str)
-		(*charCollectionMap.
-			items)[char] = collection
 
 		return charCollectionMap
 	}
@@ -512,8 +510,6 @@ func (charCollectionMap *CharCollectionMap) Add(
 
 	if has {
 		collection.Add(str)
-		(*charCollectionMap.
-			items)[char] = collection
 
 		return charCollectionMap
 	}
@@ -536,8 +532,6 @@ func (charCollectionMap *CharCollectionMap) AddStringPtr(
 
 	if has {
 		collection.AddPtr(str)
-		(*charCollectionMap.
-			items)[char] = collection
 
 		return charCollectionMap
 	}
@@ -563,10 +557,6 @@ func (charCollectionMap *CharCollectionMap) AddStringPtrLock(
 
 	if has {
 		collection.AddPtrLock(str)
-		charCollectionMap.Lock()
-		(*charCollectionMap.
-			items)[char] = collection
-		charCollectionMap.Unlock()
 
 		return charCollectionMap
 	}
@@ -1252,7 +1242,9 @@ func (charCollectionMap *CharCollectionMap) ParseInjectUsingJson(
 		return EmptyCharCollectionMap(), nil
 	}
 
-	err := json.Unmarshal(*jsonResult.Bytes, &charCollectionMap)
+	err := json.Unmarshal(
+		*jsonResult.Bytes,
+		&charCollectionMap)
 
 	if err != nil {
 		return EmptyCharCollectionMap(), err
