@@ -1052,7 +1052,7 @@ func (charHashsetMap *CharHashsetMap) AddHashsetLock(
 	stringsWithSameStartChar *Hashset,
 ) *Hashset {
 	isNilOrEmptyHashsetGiven := stringsWithSameStartChar == nil ||
-		stringsWithSameStartChar.IsEmptyLock()
+		stringsWithSameStartChar.IsEmpty()
 
 	foundHashset := charHashsetMap.GetHashsetLock(
 		str,

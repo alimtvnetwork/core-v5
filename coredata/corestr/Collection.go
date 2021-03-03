@@ -623,6 +623,15 @@ func (collection *Collection) AddStringsPtr(stringItems *[]string) *Collection {
 	return collection
 }
 
+func (collection *Collection) AddStringsPtrLock(stringItems *[]string) *Collection {
+	collection.Lock()
+	defer collection.Unlock()
+
+	collection.AddStringsPtr(stringItems)
+
+	return collection
+}
+
 func (collection *Collection) AddStringsPtrAsync(
 	wg *sync.WaitGroup,
 	stringItems *[]string,

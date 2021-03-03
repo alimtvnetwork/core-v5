@@ -589,8 +589,6 @@ func (charCollectionMap *CharCollectionMap) AddSameStartingCharItems(
 
 	if has {
 		values.AddStringsPtr(allItemsWithSameChar)
-		(*charCollectionMap.
-			items)[char] = values
 
 		return charCollectionMap
 	}
@@ -1012,7 +1010,7 @@ func (charCollectionMap *CharCollectionMap) AddSameCharsCollectionLock(
 
 	if isAddToCollection {
 		//goland:noinspection GoNilness
-		foundCollection.AddStringsPtr(stringsWithSameStartChar.items)
+		foundCollection.AddStringsPtrLock(stringsWithSameStartChar.items)
 
 		return foundCollection
 	} else if hasCollectionHoweverNothingToAdd {
