@@ -23,7 +23,38 @@ func main() {
 		"12",
 	}
 
-	collection := corestr.NewCollectionPtrUsingStrings(items, 0)
+	// collectionPtr := corestr.NewCollectionPtrUsingStrings(items, 0)
+	collection := corestr.NewCollectionUsingStrings(items, false)
 
+	PrintCollection(collection)
+}
+
+func PrintCollection(collection *corestr.Collection) {
 	fmt.Println(collection.GetPagedCollection(3).String())
+
+	fmt.Print("\n\nTake 5:\n\n")
+	fmt.Println(collection.Take(5))
+	fmt.Print("\n\n Skip 2:\n\n")
+	fmt.Println(collection.Skip(2))
+	fmt.Print("\n\n Skip 0:\n\n")
+	fmt.Println(collection.Skip(0))
+	fmt.Print("\n\n Take 0:\n\n")
+	fmt.Println(collection.Take(0))
+	fmt.Print("\n\n Skip(5).Take(2):\n\n")
+	fmt.Println(collection.Skip(5).Take(2))
+}
+
+func PrintCollectionPtr(collectionPtr *corestr.CollectionPtr) {
+	fmt.Println(collectionPtr.GetPagedCollection(3).String())
+
+	fmt.Print("\n\nTake 5:\n\n")
+	fmt.Println(collectionPtr.Take(5))
+	fmt.Print("\n\n Skip 2:\n\n")
+	fmt.Println(collectionPtr.Skip(2))
+	fmt.Print("\n\n Skip 0:\n\n")
+	fmt.Println(collectionPtr.Skip(0))
+	fmt.Print("\n\n Take 0:\n\n")
+	fmt.Println(collectionPtr.Take(0))
+	fmt.Print("\n\n Skip(5).Take(2):\n\n")
+	fmt.Println(collectionPtr.Skip(5).Take(2))
 }

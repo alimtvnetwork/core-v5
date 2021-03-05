@@ -1407,11 +1407,15 @@ func (collectionPtr *CollectionPtr) Take(
 ) *CollectionPtr {
 	length := collectionPtr.Length()
 
-	if length <= take || take == 0 {
+	if length <= take {
 		return collectionPtr
 	}
 
-	list := (*collectionPtr.items)[:take+1]
+	if take == 0 {
+		return EmptyCollectionPtr()
+	}
+
+	list := (*collectionPtr.items)[:take]
 
 	return NewCollectionPtrUsingPointerStrings(
 		&list,
@@ -1431,19 +1435,12 @@ func (collectionPtr *CollectionPtr) Skip(
 				"Length is lower than skip value. Skip:",
 				skip)
 	}
-	if skip < 0 {
-		msgtype.
-			ShouldBeGreaterThanEqualMessage.
-			HandleUsingPanic(
-				"Skip should be more than or equal to 0.",
-				skip)
-	}
 
 	if skip == 0 {
 		return collectionPtr
 	}
 
-	list := (*collectionPtr.items)[skip+1:]
+	list := (*collectionPtr.items)[skip:]
 
 	return NewCollectionPtrUsingPointerStrings(
 		&list,
@@ -1481,10 +1478,6 @@ func (collectionPtr *CollectionPtr) GetPagedCollection(
 		pagedCollection := collectionPtr.GetSinglePageCollection(
 			eachPageSize, i)
 
-		if i >= pagesPossibleCeiling && pagedCollection.IsEmpty() {
-			break
-		}
-
 		collectionOfCollection.Adds(
 			pagedCollection)
 	}
@@ -1517,15 +1510,13 @@ func (collectionPtr *CollectionPtr) GetSinglePageCollection(
 				pageIndex)
 	}
 
-	skipIndex := skipItems + 1
-	endingIndex := skipIndex + eachPageSize
+	endingIndex := skipItems + eachPageSize
 
 	if endingIndex > length {
 		endingIndex = length
 	}
 
-	list := (*collectionPtr.items)[
-		skipIndex:endingIndex]
+	list := (*collectionPtr.items)[skipItems:endingIndex]
 
 	return NewCollectionPtrUsingPointerStrings(
 		&list,
