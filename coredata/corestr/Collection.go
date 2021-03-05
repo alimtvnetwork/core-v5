@@ -622,11 +622,15 @@ func (collection *Collection) Take(
 ) *Collection {
 	length := collection.Length()
 
-	if length <= take || take == 0 {
+	if length <= take {
 		return collection
 	}
 
-	list := (*collection.items)[:take+1]
+	if take == 0 {
+		return EmptyCollection()
+	}
+
+	list := (*collection.items)[:take]
 
 	return NewCollectionUsingStrings(
 		&list,
@@ -646,19 +650,12 @@ func (collection *Collection) Skip(
 				"Length is lower than skip value. Skip:",
 				skip)
 	}
-	if skip < 0 {
-		msgtype.
-			ShouldBeGreaterThanEqualMessage.
-			HandleUsingPanic(
-				"Skip should be more than or equal to 0.",
-				skip)
-	}
 
 	if skip == 0 {
 		return collection
 	}
 
-	list := (*collection.items)[skip+1:]
+	list := (*collection.items)[skip:]
 
 	return NewCollectionUsingStrings(
 		&list,
@@ -683,7 +680,8 @@ func (collection *Collection) GetPagedCollection(
 
 	if length < eachPageSize {
 		return NewCollectionsOfCollectionUsingStrings(
-			collection.items, false)
+			collection.items,
+			false)
 	}
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
@@ -694,10 +692,6 @@ func (collection *Collection) GetPagedCollection(
 	for i := 1; i <= pagesPossibleCeiling; i++ {
 		pagedCollection := collection.GetSinglePageCollection(
 			eachPageSize, i)
-
-		if i >= pagesPossibleCeiling && pagedCollection.IsEmpty() {
-			break
-		}
 
 		collectionOfCollection.Adds(
 			pagedCollection)
@@ -731,15 +725,13 @@ func (collection *Collection) GetSinglePageCollection(
 				pageIndex)
 	}
 
-	skipIndex := skipItems + 1
-	endingIndex := skipIndex + eachPageSize
+	endingIndex := skipItems + eachPageSize
 
 	if endingIndex > length {
 		endingIndex = length
 	}
 
-	list := (*collection.items)[
-		skipIndex:endingIndex]
+	list := (*collection.items)[skipItems:endingIndex]
 
 	return NewCollectionUsingStrings(
 		&list,
