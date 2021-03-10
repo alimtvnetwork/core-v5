@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/defaulterr"
 )
 
 type ResultsCollection struct {
@@ -470,7 +471,7 @@ func (receiver *ResultsCollection) ParseInjectUsingJson(
 	jsonResult *Result,
 ) (*ResultsCollection, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
-		return EmptyResultsCollection(), nil
+		return EmptyResultsCollection(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
 	err := json.Unmarshal(

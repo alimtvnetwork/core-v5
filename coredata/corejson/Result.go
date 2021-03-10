@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/evatix-go/core/defaulterr"
 )
 
 type Result struct {
@@ -145,7 +146,7 @@ func (jsonResult *Result) ParseInjectUsingJson(
 	jsonResultIn *Result,
 ) (*Result, error) {
 	if jsonResultIn == nil || jsonResultIn.IsEmptyJsonBytes() {
-		return EmptyWithoutErrorPtr(), nil
+		return EmptyWithoutErrorPtr(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
 	err := json.Unmarshal(
