@@ -44,6 +44,7 @@ It makes our other go-packages DRY and concise.
 ## Examples Videos
 
 - [Core Basics Intro](https://drive.google.com/file/d/1CA4817zaehhWqgtAGI2UH7Tojtngcyjw/view)
+- [Core Usage Video](https://drive.google.com/file/d/1kwC_3R-QIZE1pNK_9F7hFdYuGB0CSGYh/view?usp=sharing)
 
 ## Examples
 
