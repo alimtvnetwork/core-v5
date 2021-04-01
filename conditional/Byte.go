@@ -2,11 +2,11 @@ package conditional
 
 func Byte(
 	isTrue bool,
-	value, defaultVal byte,
+	trueValue, falseValue byte,
 ) byte {
 	if isTrue {
-		return value
+		return trueValue
 	}
 
-	return defaultVal
+	return falseValue
 }

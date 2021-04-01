@@ -2,11 +2,11 @@ package conditional
 
 func Bool(
 	isTrue bool,
-	value, defaultVal bool,
+	trueValue, falseValue bool,
 ) bool {
 	if isTrue {
-		return value
+		return trueValue
 	}
 
-	return defaultVal
+	return falseValue
 }

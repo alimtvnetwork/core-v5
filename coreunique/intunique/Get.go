@@ -6,7 +6,8 @@ func Get(intSlice *[]int) *[]int {
 	}
 
 	length := len(*intSlice)
-	if length == 0 {
+
+	if length == 0 || length == 1 {
 		return intSlice
 	}
 

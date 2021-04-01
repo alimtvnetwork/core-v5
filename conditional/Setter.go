@@ -4,11 +4,11 @@ import "gitlab.com/evatix-go/core/issetter"
 
 func Setter(
 	isTrue bool,
-	value, defaultVal issetter.Value,
+	trueValue, falseValue issetter.Value,
 ) interface{} {
 	if isTrue {
-		return value
+		return trueValue
 	}
 
-	return defaultVal
+	return falseValue
 }

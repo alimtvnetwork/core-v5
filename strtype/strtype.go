@@ -85,6 +85,8 @@ func (v Variant) IsTrue(n string, compare corecomparator.Compare) bool {
 		return v.IsLess(n)
 	case corecomparator.LeftLessEqual:
 		return v.IsLessEqual(n)
+	case corecomparator.NotEqual:
+		return !v.IsEqual(n)
 	default:
 		msg := msgtype.RangeNotMeet(
 			msgtype.ComparatorShouldBeWithinRanghe.String(),

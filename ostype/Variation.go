@@ -6,6 +6,8 @@ import (
 
 type Variation byte
 
+// https://stackoverflow.com/a/50117892 | https://gist.github.com/asukakenji/f15ba7e588ac42795f421b48b8aede63
+// go tool dist list
 const (
 	Any Variation = iota
 	Windows
@@ -73,10 +75,6 @@ func (variation Variation) Group() Group {
 
 	if variation == Android {
 		return AndroidGroup
-	}
-
-	if variation == JavaScript {
-		return JavaScriptGroup
 	}
 
 	return UnixGroup

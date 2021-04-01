@@ -2,11 +2,11 @@ package conditional
 
 func Interfaces(
 	isTrue bool,
-	value, defaultVal []interface{},
+	trueValue, falseValue []interface{},
 ) []interface{} {
 	if isTrue {
-		return value
+		return trueValue
 	}
 
-	return defaultVal
+	return falseValue
 }

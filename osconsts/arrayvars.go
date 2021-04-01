@@ -31,6 +31,6 @@ var (
 	}
 
 	UnixGroups = []string{
-		"debian", "linux", "darwin", "mac", "ios", "ubuntu", "dragonfly", "freeBSD", "openBSD", "netBSD", "solaris",
+		"android", "darwin", "dragonfly", "freebsd", "linux", "nacl", "netbsd", "openBSD", "plan9", "solaris",
 	}
 )

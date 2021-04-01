@@ -9,6 +9,10 @@ import (
 
 type Variant int
 
+const (
+	Uninitialized Variant = iota
+)
+
 func (v Variant) Value() int {
 	return int(v)
 }
@@ -41,6 +45,10 @@ func GetSetVariant(
 
 func (v Variant) StringValue() string {
 	return strconv.Itoa(v.Value())
+}
+
+func (v Variant) IsUninitialized() bool {
+	return v == Uninitialized
 }
 
 // v + n
@@ -94,6 +102,8 @@ func (v Variant) IsTrue(n int, compare corecomparator.Compare) bool {
 		return v.IsLess(n)
 	case corecomparator.LeftLessEqual:
 		return v.IsLessEqual(n)
+	case corecomparator.NotEqual:
+		return !v.IsEqual(n)
 	default:
 		msg := msgtype.RangeNotMeet(
 			msgtype.ComparatorShouldBeWithinRanghe.String(),
