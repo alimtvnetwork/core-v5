@@ -1,6 +1,8 @@
 package converters
 
-import "unsafe"
+import (
+	"unsafe"
+)
 
 // Returns string arrays from unsafe bytes pointer
 //

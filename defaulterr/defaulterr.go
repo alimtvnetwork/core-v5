@@ -42,4 +42,8 @@ var (
 	CannotRemoveFromEmptyCollection = msgtype.
 		CannotRemoveIndexesFromEmptyCollection.
 		ErrorNoRefs("Cannot process request: cannot remove from empty collection.")
+
+	CannotConvertStringToByte = msgtype.
+		FailedToConvert.
+		ErrorNoRefs("Cannot convert string to byte.")
 )

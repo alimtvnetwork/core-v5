@@ -13,9 +13,9 @@ import (
 func New(mode string) (Wrapper, error) {
 	length := len(mode)
 
-	if length != SupportedLength {
+	if length != supportedLength {
 		panic(msgtype.OutOfRangeLength.Combine(
-			"mode length should be "+SupportedLengthString,
+			"mode length should be "+supportedLengthString,
 			length))
 	}
 
@@ -38,17 +38,17 @@ func New(mode string) (Wrapper, error) {
 	}
 
 	return NewUsingByte(
-		allBytes[OwnerIndex],
-		allBytes[GroupIndex],
-		allBytes[OtherIndex]), nil
+		allBytes[ownerIndex],
+		allBytes[groupIndex],
+		allBytes[otherIndex]), nil
 }
 
 // each byte should not be more than 7
 func NewUsingBytes(allBytes [3]byte) Wrapper {
 	return NewUsingByte(
-		allBytes[OwnerIndex],
-		allBytes[GroupIndex],
-		allBytes[OtherIndex])
+		allBytes[ownerIndex],
+		allBytes[groupIndex],
+		allBytes[otherIndex])
 }
 
 func NewUsingFileMode(fileMode os.FileMode) Wrapper {

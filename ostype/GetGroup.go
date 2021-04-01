@@ -14,10 +14,6 @@ func GetGroup(rawRuntimeGoos string) Group {
 		return AndroidGroup
 	}
 
-	if rawRuntimeGoos == osconsts.JavaScript {
-		return JavaScriptGroup
-	}
-
 	isUnixGroup, has := osconsts.UnixGroupsMap[rawRuntimeGoos]
 
 	if has && isUnixGroup {

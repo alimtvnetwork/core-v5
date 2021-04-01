@@ -20,11 +20,11 @@ func NewAttribute(isRead, isWrite, isExecute bool) Attribute {
 func NewAttributeUsingRwx(rwx string) Attribute {
 	length := len(rwx)
 
-	if length != SupportedLength {
+	if length != supportedLength {
 		panic(msgtype.
 			LengthShouldBeEqualToMessage.
 			Combine(
-				"rwx length should be "+SupportedLengthString,
+				"rwx length should be "+supportedLengthString,
 				length))
 	}
 
@@ -33,9 +33,9 @@ func NewAttributeUsingRwx(rwx string) Attribute {
 	e := rwx[2]
 
 	return Attribute{
-		IsRead:    r == ReadChar,
-		IsWrite:   w == WriteChar,
-		IsExecute: e == ExecuteChar,
+		IsRead:    r == readChar,
+		IsWrite:   w == writeChar,
+		IsExecute: e == executeChar,
 	}
 }
 
@@ -58,12 +58,16 @@ func NewAttributeUsingByte(v byte) Attribute {
 	}
 
 	// TODO optimize logic in future.
-	isRead := v >= ReadValue
-	isWrite := (isRead && v >= ReadWriteValue) || (!isRead && v >= WriteValue)
-	isExecute := (isWrite && isRead && v >= ReadWriteExecuteValue) ||
-		(isRead && !isWrite && v >= ReadExecuteValue) ||
-		(isWrite && !isRead && v >= WriteExecuteValue) ||
-		(!isRead && !isWrite && v >= ExecuteValue)
+	/*	isRead := (v & 0x04) != 0
+		isWrite := (v & 0x02) != 0
+		isExec := (v & 0x01) != 0
+	*/
+	isRead := v >= readValue
+	isWrite := (isRead && v >= readWriteValue) || (!isRead && v >= writeValue)
+	isExecute := (isWrite && isRead && v >= readWriteExecuteValue) ||
+		(isRead && !isWrite && v >= readExecuteValue) ||
+		(isWrite && !isRead && v >= writeExecuteValue) ||
+		(!isRead && !isWrite && v >= executeValue)
 
 	return Attribute{
 		IsRead:    isRead,

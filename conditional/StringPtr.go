@@ -2,11 +2,11 @@ package conditional
 
 func StringPtr(
 	isTrue bool,
-	value, defaultVal *string,
+	trueValue, falseValue *string,
 ) *string {
 	if isTrue {
-		return value
+		return trueValue
 	}
 
-	return defaultVal
+	return falseValue
 }

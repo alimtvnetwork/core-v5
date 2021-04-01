@@ -2,7 +2,7 @@ package corecomparator
 
 type Compare byte
 
-var compares = []string{"Equal", "LeftGreater", "LeftGreaterEqual", "LeftLess", "LeftLessEqual"}
+var compares = []string{"Equal", "LeftGreater", "LeftGreaterEqual", "LeftLess", "LeftLessEqual", "NotEqual"}
 
 const (
 	Equal Compare = iota
@@ -10,6 +10,7 @@ const (
 	LeftGreaterEqual
 	LeftLess
 	LeftLessEqual
+	NotEqual
 )
 
 func Min() Compare {
@@ -17,7 +18,7 @@ func Min() Compare {
 }
 
 func Max() Compare {
-	return LeftLessEqual
+	return NotEqual
 }
 
 func (compare Compare) Is(other Compare) bool {
@@ -42,6 +43,10 @@ func (compare Compare) IsLeftLess() bool {
 
 func (compare Compare) IsLeftLessEqual() bool {
 	return compare == LeftLessEqual
+}
+
+func (compare Compare) IsNotEqual() bool {
+	return compare == NotEqual
 }
 
 func (compare Compare) Value() byte {

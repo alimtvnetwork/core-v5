@@ -8,7 +8,6 @@ const (
 	WindowsGroup Group = iota
 	UnixGroup
 	AndroidGroup
-	JavaScriptGroup
 	UnknownGroup
 )
 
@@ -26,10 +25,6 @@ func (group Group) IsUnix() bool {
 
 func (group Group) IsAndroid() bool {
 	return group == AndroidGroup
-}
-
-func (group Group) IsJavaScript() bool {
-	return group == JavaScriptGroup
 }
 
 func (group Group) IsUnknown() bool {

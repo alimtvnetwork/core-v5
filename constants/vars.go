@@ -138,7 +138,7 @@ var (
 	startOfBlock                      = StartOfBlock
 	minusOne                          = MinusOne
 	invalidValue                      = InvalidValue
-	wildCardSymbol                    = WildCardSymbol
+	wildCardSymbol                    = WildcardSymbol
 	parenthesisStart                  = ParenthesisStart
 	parenthesisEnd                    = ParenthesisEnd
 	curlyStart                        = CurlyStart
