@@ -301,10 +301,8 @@ func (hashsetsCollection *HashsetsCollection) Join(
 		separator)
 }
 
-func (hashsetsCollection *HashsetsCollection) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = hashsetsCollection
-
-	return &jsoner
+func (hashsetsCollection *HashsetsCollection) AsJsoner() corejson.Jsoner {
+	return hashsetsCollection
 }
 
 func (hashsetsCollection *HashsetsCollection) JsonParseSelfInject(
@@ -317,14 +315,10 @@ func (hashsetsCollection *HashsetsCollection) JsonParseSelfInject(
 	return err
 }
 
-func (hashsetsCollection *HashsetsCollection) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonMarshaller corejson.ParseSelfInjector = hashsetsCollection
-
-	return &jsonMarshaller
+func (hashsetsCollection *HashsetsCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return hashsetsCollection
 }
 
-func (hashsetsCollection *HashsetsCollection) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = hashsetsCollection
-
-	return &jsonMarshaller
+func (hashsetsCollection *HashsetsCollection) AsJsonMarshaller() corejson.JsonMarshaller {
+	return hashsetsCollection
 }

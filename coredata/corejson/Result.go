@@ -98,7 +98,7 @@ func (jsonResult *Result) HasJson() bool {
 }
 
 func (jsonResult *Result) InjectInto(
-	injector ParseSelfInjector,
+	injector JsonParseSelfInjector,
 ) error {
 	return injector.JsonParseSelfInject(jsonResult)
 }
@@ -174,10 +174,8 @@ func (jsonResult *Result) ParseInjectUsingJsonMust(
 	return result
 }
 
-func (jsonResult *Result) AsJsoner() *Jsoner {
-	var jsoner Jsoner = jsonResult
-
-	return &jsoner
+func (jsonResult *Result) AsJsoner() Jsoner {
+	return jsonResult
 }
 
 func (jsonResult *Result) JsonParseSelfInject(
@@ -188,14 +186,10 @@ func (jsonResult *Result) JsonParseSelfInject(
 	return err
 }
 
-func (jsonResult *Result) AsJsonParseSelfInjector() *ParseSelfInjector {
-	var jsonMarshaller ParseSelfInjector = jsonResult
-
-	return &jsonMarshaller
+func (jsonResult *Result) AsJsonParseSelfInjector() JsonParseSelfInjector {
+	return jsonResult
 }
 
-func (jsonResult *Result) AsJsonMarshaller() *JsonMarshaller {
-	var jsonMarshaller JsonMarshaller = jsonResult
-
-	return &jsonMarshaller
+func (jsonResult *Result) AsJsonMarshaller() JsonMarshaller {
+	return jsonResult
 }

@@ -152,7 +152,7 @@ func (receiver *ResultsCollection) UnmarshalAt(
 
 func (receiver *ResultsCollection) InjectIntoAt(
 	index int,
-	injector ParseSelfInjector,
+	injector JsonParseSelfInjector,
 ) error {
 	return injector.JsonParseSelfInject(
 		(*receiver.Items)[index])
@@ -160,7 +160,7 @@ func (receiver *ResultsCollection) InjectIntoAt(
 
 // any nil skip
 func (receiver *ResultsCollection) InjectIntoSameIndex(
-	injectors ...ParseSelfInjector,
+	injectors ...JsonParseSelfInjector,
 ) (
 	errListPtr *[]error,
 	hasAnyError bool,
@@ -500,10 +500,8 @@ func (receiver *ResultsCollection) ParseInjectUsingJsonMust(
 	return resultCollection
 }
 
-func (receiver *ResultsCollection) AsJsoner() *Jsoner {
-	var jsoner Jsoner = receiver
-
-	return &jsoner
+func (receiver *ResultsCollection) AsJsoner() Jsoner {
+	return receiver
 }
 
 func (receiver *ResultsCollection) JsonParseSelfInject(
@@ -516,8 +514,6 @@ func (receiver *ResultsCollection) JsonParseSelfInject(
 	return err
 }
 
-func (receiver *ResultsCollection) AsJsonParseSelfInjector() *ParseSelfInjector {
-	var jsonMarshaller ParseSelfInjector = receiver
-
-	return &jsonMarshaller
+func (receiver *ResultsCollection) AsJsonParseSelfInjector() JsonParseSelfInjector {
+	return receiver
 }

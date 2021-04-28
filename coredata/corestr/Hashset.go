@@ -955,10 +955,8 @@ func (hashset *Hashset) ParseInjectUsingJsonMust(
 	return hashSet
 }
 
-func (hashset *Hashset) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = hashset
-
-	return &jsoner
+func (hashset *Hashset) AsJsoner() corejson.Jsoner {
+	return hashset
 }
 
 func (hashset *Hashset) JsonParseSelfInject(
@@ -971,14 +969,10 @@ func (hashset *Hashset) JsonParseSelfInject(
 	return err
 }
 
-func (hashset *Hashset) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonMarshaller corejson.ParseSelfInjector = hashset
-
-	return &jsonMarshaller
+func (hashset *Hashset) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return hashset
 }
 
-func (hashset *Hashset) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = hashset
-
-	return &jsonMarshaller
+func (hashset *Hashset) AsJsonMarshaller() corejson.JsonMarshaller {
+	return hashset
 }
