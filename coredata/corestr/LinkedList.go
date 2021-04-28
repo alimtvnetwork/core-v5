@@ -1026,20 +1026,14 @@ func (linkedList *LinkedList) JsonParseSelfInject(
 	return err
 }
 
-func (linkedList *LinkedList) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = linkedList
-
-	return &jsoner
+func (linkedList *LinkedList) AsJsoner() corejson.Jsoner {
+	return linkedList
 }
 
-func (linkedList *LinkedList) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonInjector corejson.ParseSelfInjector = linkedList
-
-	return &jsonInjector
+func (linkedList *LinkedList) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return linkedList
 }
 
-func (linkedList *LinkedList) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = linkedList
-
-	return &jsonMarshaller
+func (linkedList *LinkedList) AsJsonMarshaller() corejson.JsonMarshaller {
+	return linkedList
 }

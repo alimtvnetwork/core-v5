@@ -1013,10 +1013,8 @@ func (hashmap *Hashmap) ParseInjectUsingJsonMust(
 	return hashSet
 }
 
-func (hashmap *Hashmap) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = hashmap
-
-	return &jsoner
+func (hashmap *Hashmap) AsJsoner() corejson.Jsoner {
+	return hashmap
 }
 
 func (hashmap *Hashmap) JsonParseSelfInject(
@@ -1029,14 +1027,10 @@ func (hashmap *Hashmap) JsonParseSelfInject(
 	return err
 }
 
-func (hashmap *Hashmap) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonMarshaller corejson.ParseSelfInjector = hashmap
-
-	return &jsonMarshaller
+func (hashmap *Hashmap) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return hashmap
 }
 
-func (hashmap *Hashmap) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = hashmap
-
-	return &jsonMarshaller
+func (hashmap *Hashmap) AsJsonMarshaller() corejson.JsonMarshaller {
+	return hashmap
 }

@@ -263,20 +263,14 @@ func (cc *CollectionsOfCollectionPtr) JsonParseSelfInject(
 	return err
 }
 
-func (cc *CollectionsOfCollectionPtr) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = cc
-
-	return &jsoner
+func (cc *CollectionsOfCollectionPtr) AsJsoner() corejson.Jsoner {
+	return cc
 }
 
-func (cc *CollectionsOfCollectionPtr) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonInjector corejson.ParseSelfInjector = cc
-
-	return &jsonInjector
+func (cc *CollectionsOfCollectionPtr) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return cc
 }
 
-func (cc *CollectionsOfCollectionPtr) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = cc
-
-	return &jsonMarshaller
+func (cc *CollectionsOfCollectionPtr) AsJsonMarshaller() corejson.JsonMarshaller {
+	return cc
 }

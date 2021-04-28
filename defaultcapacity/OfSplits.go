@@ -1,6 +1,8 @@
 package defaultcapacity
 
-import "gitlab.com/evatix-go/core/constants"
+import (
+	"gitlab.com/evatix-go/core/constants"
+)
 
 // returns max as 100
 func OfSplits(wholeTextLength int, limits int) int {

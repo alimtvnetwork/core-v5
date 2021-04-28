@@ -1151,22 +1151,16 @@ func (charHashsetMap *CharHashsetMap) JsonModelAny() interface{} {
 	return charHashsetMap.JsonModel()
 }
 
-func (charHashsetMap *CharHashsetMap) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = charHashsetMap
-
-	return &jsoner
+func (charHashsetMap *CharHashsetMap) AsJsoner() corejson.Jsoner {
+	return charHashsetMap
 }
 
-func (charHashsetMap *CharHashsetMap) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = charHashsetMap
-
-	return &jsonMarshaller
+func (charHashsetMap *CharHashsetMap) AsJsonMarshaller() corejson.JsonMarshaller {
+	return charHashsetMap
 }
 
-func (charHashsetMap *CharHashsetMap) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonMarshaller corejson.ParseSelfInjector = charHashsetMap
-
-	return &jsonMarshaller
+func (charHashsetMap *CharHashsetMap) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return charHashsetMap
 }
 
 func (charHashsetMap *CharHashsetMap) JsonParseSelfInject(

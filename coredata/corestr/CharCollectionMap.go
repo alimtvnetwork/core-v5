@@ -1184,22 +1184,16 @@ func (charCollectionMap *CharCollectionMap) JsonModelAny() interface{} {
 	return charCollectionMap.JsonModel()
 }
 
-func (charCollectionMap *CharCollectionMap) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = charCollectionMap
-
-	return &jsoner
+func (charCollectionMap *CharCollectionMap) AsJsoner() corejson.Jsoner {
+	return charCollectionMap
 }
 
-func (charCollectionMap *CharCollectionMap) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = charCollectionMap
-
-	return &jsonMarshaller
+func (charCollectionMap *CharCollectionMap) AsJsonMarshaller() corejson.JsonMarshaller {
+	return charCollectionMap
 }
 
-func (charCollectionMap *CharCollectionMap) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonMarshaller corejson.ParseSelfInjector = charCollectionMap
-
-	return &jsonMarshaller
+func (charCollectionMap *CharCollectionMap) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return charCollectionMap
 }
 
 func (charCollectionMap *CharCollectionMap) JsonParseSelfInject(

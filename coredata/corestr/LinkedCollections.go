@@ -1344,20 +1344,14 @@ func (linkedCollections *LinkedCollections) JsonParseSelfInject(
 	return err
 }
 
-func (linkedCollections *LinkedCollections) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = linkedCollections
-
-	return &jsoner
+func (linkedCollections *LinkedCollections) AsJsoner() corejson.Jsoner {
+	return linkedCollections
 }
 
-func (linkedCollections *LinkedCollections) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonInjector corejson.ParseSelfInjector = linkedCollections
-
-	return &jsonInjector
+func (linkedCollections *LinkedCollections) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return linkedCollections
 }
 
-func (linkedCollections *LinkedCollections) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = linkedCollections
-
-	return &jsonMarshaller
+func (linkedCollections *LinkedCollections) AsJsonMarshaller() corejson.JsonMarshaller {
+	return linkedCollections
 }

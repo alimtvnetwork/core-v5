@@ -1919,20 +1919,14 @@ func (collectionPtr *CollectionPtr) JsonParseSelfInject(
 	return err
 }
 
-func (collectionPtr *CollectionPtr) AsJsoner() *corejson.Jsoner {
-	var jsoner corejson.Jsoner = collectionPtr
-
-	return &jsoner
+func (collectionPtr *CollectionPtr) AsJsoner() corejson.Jsoner {
+	return collectionPtr
 }
 
-func (collectionPtr *CollectionPtr) AsJsonParseSelfInjector() *corejson.ParseSelfInjector {
-	var jsonInjector corejson.ParseSelfInjector = collectionPtr
-
-	return &jsonInjector
+func (collectionPtr *CollectionPtr) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return collectionPtr
 }
 
-func (collectionPtr *CollectionPtr) AsJsonMarshaller() *corejson.JsonMarshaller {
-	var jsonMarshaller corejson.JsonMarshaller = collectionPtr
-
-	return &jsonMarshaller
+func (collectionPtr *CollectionPtr) AsJsonMarshaller() corejson.JsonMarshaller {
+	return collectionPtr
 }

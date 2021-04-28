@@ -294,6 +294,17 @@ const (
 	N19                                       = 19
 	N20                                       = 20
 	N21                                       = 21
+	N22                                       = 22
+	N23                                       = 23
+	N24                                       = 24
+	N25                                       = 25
+	N26                                       = 26
+	N27                                       = 27
+	N28                                       = 28
+	N29                                       = 29
+	N30                                       = 30
+	N31                                       = 31
+	N32                                       = 32
 	DistributorID                             = "Distributor ID"
 	Description                               = "Description"
 	Release                                   = "Release"
