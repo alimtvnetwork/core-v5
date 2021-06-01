@@ -326,7 +326,7 @@ func (linkedList *LinkedList) AttachWithNode(currentNode, addingNode *LinkedList
 	return nil
 }
 
-// iSkipOnNil
+// AddCollectionToNode iSkipOnNil
 func (linkedList *LinkedList) AddCollectionToNode(
 	isSkipOnNull bool,
 	node *LinkedListNode,

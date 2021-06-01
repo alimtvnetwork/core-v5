@@ -36,7 +36,7 @@ func (hashset *Hashset) HasItems() bool {
 	return !hashset.IsEmpty()
 }
 
-// Changing capacity creates new map and points to it.
+// AddCapacitiesLock Changing capacity creates new map and points to it.
 // There is memory copy and loop is performed.
 func (hashset *Hashset) AddCapacitiesLock(
 	capacities ...int,
@@ -54,7 +54,7 @@ func (hashset *Hashset) AddCapacitiesLock(
 	return hashset.ResizeLock(length)
 }
 
-// Changing capacity creates new map and points to it.
+// AddCapacities Changing capacity creates new map and points to it.
 // There is memory copy and loop is performed.
 func (hashset *Hashset) AddCapacities(
 	capacities ...int,
@@ -72,7 +72,7 @@ func (hashset *Hashset) AddCapacities(
 	return hashset.Resize(length)
 }
 
-// Changing capacity creates new map and points to it.
+// Resize Changing capacity creates new map and points to it.
 // There is memory copy and loop is performed.
 func (hashset *Hashset) Resize(capacity int) *Hashset {
 	length := hashset.Length()
@@ -264,7 +264,7 @@ func (hashset *Hashset) AddHashsetItems(
 	return hashset
 }
 
-// only add if the value is true
+// AddItemsMap only add if the value is true
 func (hashset *Hashset) AddItemsMap(
 	itemsMap *map[string]bool,
 ) *Hashset {
@@ -291,7 +291,7 @@ func (hashset *Hashset) AddItemsMap(
 	return hashset
 }
 
-// only add if the value is true
+// AddItemsMapWgLock only add if the value is true
 // Assume that wg already enqueued the job as wg.Add(...) done already.
 func (hashset *Hashset) AddItemsMapWgLock(
 	itemsMap *map[string]bool,
@@ -808,7 +808,7 @@ func (hashset *Hashset) setCached() {
 	hashset.cachedList = &list
 }
 
-// Create a new items with all lower strings
+// ToLowerSet Create a new items with all lower strings
 func (hashset *Hashset) ToLowerSet() *Hashset {
 	length := hashset.Length()
 	newMap := make(map[string]bool, length)
@@ -984,7 +984,7 @@ func (hashset *Hashset) Json() *corejson.Result {
 	return corejson.NewPtr(jsonBytes, err)
 }
 
-// It will not update the self but creates a new one.
+// ParseInjectUsingJson It will not update the self but creates a new one.
 func (hashset *Hashset) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*Hashset, error) {
@@ -1001,7 +1001,7 @@ func (hashset *Hashset) ParseInjectUsingJson(
 	return hashset, nil
 }
 
-// Panic if error
+// ParseInjectUsingJsonMust Panic if error
 func (hashset *Hashset) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *Hashset {

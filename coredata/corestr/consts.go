@@ -19,6 +19,15 @@ const (
 	summaryOfCharHashsetMapLengthFormat         = summaryOfCharCollectionMapLengthFormat
 	nodesCannotBeNull                           = "node cannot be nil."
 	currentNodeCannotBeNull                     = "CurrentNode cannot be nil."
-	linkedListCollectionCompareHeaderLeft       = "\n=================================================\n-------------------------------------------------\n# %s - Length : %d\n%s\n\n"
-	linkedListCollectionCompareHeaderRight      = "\n-------------------------------------------------\n# %s - Length : %d\n%s\n----------------\nIs Equals: %+v\nLength: %d | %d\n"
+	linkedListCollectionCompareHeaderLeft       = "\n=================================================\n" +
+		"-------------------------------------------------\n" +
+		"# %s - Length : %d\n" +
+		"%s\n" +
+		"\n"
+	linkedListCollectionCompareHeaderRight = "\n-------------------------------------------------\n" +
+		"# %s - Length : %d\n" +
+		"%s\n" +
+		"----------------\n" +
+		"Is Equals: %+v\n" +
+		"Length: %d | %d\n"
 )

@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata"
 )
 
-// Warning: Data gets mutated inside.
+// QuickPtr Warning: Data gets mutated inside.
 //
 // Reference : https://play.golang.org/p/_OkY82E2kO9
 func QuickPtr(pointerStringsIn *[]*string) *[]*string {
@@ -16,7 +16,7 @@ func QuickPtr(pointerStringsIn *[]*string) *[]*string {
 	return pointerStringsIn
 }
 
-// Warning: Data gets mutated inside.
+// Quick Warning: Data gets mutated inside.
 //
 // Reference : https://play.golang.org/p/sJ8a464USeV
 func Quick(stringsPointerIn *[]string) *[]string {
@@ -25,7 +25,7 @@ func Quick(stringsPointerIn *[]string) *[]string {
 	return stringsPointerIn
 }
 
-// Warning: Data gets mutated inside.
+// QuickDscPtr Warning: Data gets mutated inside.
 //
 // Reference : https://play.golang.org/p/_OkY82E2kO9
 func QuickDscPtr(pointerStringsIn *[]*string) *[]*string {
@@ -35,7 +35,7 @@ func QuickDscPtr(pointerStringsIn *[]*string) *[]*string {
 	return pointerStringsIn
 }
 
-// Warning: Data gets mutated inside.
+// QuickDsc Warning: Data gets mutated inside.
 //
 // Reference : https://play.golang.org/p/sJ8a464USeV
 func QuickDsc(stringsPointerIn *[]string) *[]string {

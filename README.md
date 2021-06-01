@@ -140,18 +140,20 @@ Any other packages used
 
 ## Links
 
-- [go - Calling a method on a nil struct pointer doesn't panic. Why not? - Stack Overflow](https://stackoverflow.com/questions/42238624/calling-a-method-on-a-nil-struct-pointer-doesnt-panic-why-not)
+- [go - Calling a method on a nil struct pointer doesn't panic.](https://t.ly/aTp0)
 - [Array of pointers to JSON - Stack Overflow](https://stackoverflow.com/questions/28101966/array-of-pointers-to-json)
 - [Json Parsing of Array Pointers](https://play.golang.org/p/zTuMLBgGWk)
-- [Go Slice Tricks Cheat Sheet](https://ueokande.github.io/go-slice-tricks/)
-- [SliceTricks · golang/go Wiki](https://github.com/golang/go/wiki/SliceTricks)
+- [Go Slice Tricks Cheat Sheet
+  ](https://ueokande.github.io/go-slice-tricks/)
+- [SliceTricks · golang/go Wiki
+  ](https://github.com/golang/go/wiki/SliceTricks)
 - [ueokande/go-slice-tricks: Cheat Sheet for Go Slice Tricks](https://github.com/ueokande/go-slice-tricks)
-- [Quick Sort in Go (Golang) - golangprograms.com](https://www.golangprograms.com/golang-program-for-implementation-of-quick-sort.html)
-    - [Sorting using golang lib](https://play.golang.org/p/sJ8a464USeV)
-    - [Pointer Strings Sort](https://play.golang.org/p/8V8YYdQrO6q)
+- [Quick Sort in Go (Golang) - golangprograms.com](https://t.ly/pDyj)
+  - [Sorting using golang lib](https://play.golang.org/p/sJ8a464USeV)
+  - [Pointer Strings Sort](https://play.golang.org/p/8V8YYdQrO6q)
 - [Golang Array process issue without copying (!Important)](https://play.golang.org/p/GvdJMPmCStz)
 - [Linked List | Set 2 (Inserting a node) - GeeksforGeeks](https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/)
-- [Go Data Structures: Linked List](https://flaviocopes.com/golang-data-structure-linked-list/)
+- [Go Data Structures: Linked List](https://t.ly/QLLy)
 - [System info](https://github.com/zcalusic/sysinfo)
   -[Stackoverflow Centos detect](https://stackoverflow.com/a/65207574)
 

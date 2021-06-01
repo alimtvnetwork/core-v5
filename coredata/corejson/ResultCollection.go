@@ -27,7 +27,7 @@ func (receiver *ResultsCollection) HasItems() bool {
 		len(*receiver.Items) > 0
 }
 
-// skip on nil
+// AddSkipOnNil skip on nil
 func (receiver *ResultsCollection) AddSkipOnNil(
 	result *Result,
 ) *ResultsCollection {
@@ -48,7 +48,7 @@ func (receiver *ResultsCollection) GetAt(
 	return (*receiver.Items)[index]
 }
 
-// has any error
+// HasError has any error
 func (receiver *ResultsCollection) HasError() bool {
 	for _, result := range *receiver.Items {
 		if result != nil && result.Error != nil {
@@ -158,7 +158,7 @@ func (receiver *ResultsCollection) InjectIntoAt(
 		(*receiver.Items)[index])
 }
 
-// any nil skip
+// InjectIntoSameIndex any nil skip
 func (receiver *ResultsCollection) InjectIntoSameIndex(
 	injectors ...JsonParseSelfInjector,
 ) (
@@ -204,7 +204,7 @@ func (receiver *ResultsCollection) InjectIntoSameIndex(
 	return &errList, hasAnyError
 }
 
-// any nil skip
+// UnmarshalIntoSameIndex any nil skip
 func (receiver *ResultsCollection) UnmarshalIntoSameIndex(
 	anys ...interface{},
 ) (
@@ -298,7 +298,7 @@ func (receiver *ResultsCollection) Adds(
 	return receiver
 }
 
-// Skip on nil
+// AddsAnys Skip on nil
 func (receiver *ResultsCollection) AddsAnys(
 	anys ...interface{},
 ) *ResultsCollection {
@@ -309,7 +309,7 @@ func (receiver *ResultsCollection) AddsAnys(
 	return receiver.AddsAnysPtr(&anys)
 }
 
-// Skip on nil
+// AddsAnysPtr Skip on nil
 func (receiver *ResultsCollection) AddsAnysPtr(
 	anysPtr *[]interface{},
 ) *ResultsCollection {
@@ -330,7 +330,7 @@ func (receiver *ResultsCollection) AddsAnysPtr(
 	return receiver
 }
 
-// skip on nil items
+// AddResultsCollection skip on nil items
 func (receiver *ResultsCollection) AddResultsCollection(
 	collection *ResultsCollection,
 ) *ResultsCollection {
@@ -341,7 +341,7 @@ func (receiver *ResultsCollection) AddResultsCollection(
 	return receiver.AddNonNilItemsPtr(collection.Items)
 }
 
-// skip on nil
+// AddNonNilItems skip on nil
 func (receiver *ResultsCollection) AddNonNilItems(
 	results ...*Result,
 ) *ResultsCollection {
@@ -363,7 +363,7 @@ func (receiver *ResultsCollection) AddNonNilItems(
 	return receiver
 }
 
-// skip on nil
+// AddNonNilItemsPtr skip on nil
 func (receiver *ResultsCollection) AddNonNilItemsPtr(
 	results *[]*Result,
 ) *ResultsCollection {
@@ -407,7 +407,7 @@ func (receiver *ResultsCollection) GetStrings() *[]string {
 	return &list
 }
 
-// skip on nil
+// AddJsoner skip on nil
 func (receiver *ResultsCollection) AddJsoner(
 	jsoners ...Jsoner,
 ) *ResultsCollection {
@@ -486,7 +486,7 @@ func (receiver *ResultsCollection) ParseInjectUsingJson(
 	return receiver, nil
 }
 
-// Panic if error
+// ParseInjectUsingJsonMust Panic if error
 func (receiver *ResultsCollection) ParseInjectUsingJsonMust(
 	jsonResult *Result,
 ) *ResultsCollection {

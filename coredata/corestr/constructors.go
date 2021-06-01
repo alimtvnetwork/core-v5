@@ -249,7 +249,8 @@ func NewCollectionPtrUsingLength(length, capacity int) *CollectionPtr {
 
 // --------- CharCollectionMap starts ----------
 
-// NewCharCollectionMap CharCollectionMap.eachCollectionCapacity, capacity minimum 10 will be set if lower than 10 is given.
+// NewCharCollectionMap CharCollectionMap.eachCollectionCapacity,
+// capacity minimum 10 will be set if lower than 10 is given.
 //
 // For lower than 5 use the EmptyCharCollectionMap items definition.
 func NewCharCollectionMap(
