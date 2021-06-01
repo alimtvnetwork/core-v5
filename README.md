@@ -152,7 +152,7 @@ Any other packages used
   - [Sorting using golang lib](https://play.golang.org/p/sJ8a464USeV)
   - [Pointer Strings Sort](https://play.golang.org/p/8V8YYdQrO6q)
 - [Golang Array process issue without copying (!Important)](https://play.golang.org/p/GvdJMPmCStz)
-- [Linked List | Set 2 (Inserting a node) - GeeksforGeeks](https://www.geeksforgeeks.org/linked-list-set-2-inserting-a-node/)
+- [Linked List | Set 2 (Inserting a node) - GeeksforGeeks](https://t.ly/MMaY)
 - [Go Data Structures: Linked List](https://t.ly/QLLy)
 - [System info](https://github.com/zcalusic/sysinfo)
   -[Stackoverflow Centos detect](https://stackoverflow.com/a/65207574)
