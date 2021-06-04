@@ -12,7 +12,7 @@ import (
 
 type numberEnumBase struct {
 	actualValueRanges    interface{}
-	stringRanges         *[]string
+	stringRanges         []string
 	rangesCsvString      *coreonce.StringOnce
 	rangesInvalidMessage *coreonce.StringOnce
 	invalidError         *coreonce.ErrorOnce
@@ -20,12 +20,19 @@ type numberEnumBase struct {
 
 func newNumberEnumBase(
 	actualRangesAnyType interface{},
-	stringRanges *[]string,
+	stringRanges []string,
 	min, max interface{},
 ) *numberEnumBase {
+	if stringRanges == nil {
+		msgtype.MeaningFulErrorHandle(
+			msgtype.CannotBeNilMessage,
+			"newNumberEnumBase",
+			errors.New("StringRanges cannot be nil"))
+	}
+
 	rangesToCsvOnce := coreonce.NewStringOncePtr(func() string {
 		return converters.StringsToCsv(
-			stringRanges,
+			&stringRanges,
 			false)
 	})
 
@@ -62,11 +69,11 @@ func (receiver *numberEnumBase) RangesInvalidErr() error {
 }
 
 func (receiver *numberEnumBase) StringRangesPtr() *[]string {
-	return receiver.stringRanges
+	return &receiver.stringRanges
 }
 
 func (receiver *numberEnumBase) StringRanges() []string {
-	return *receiver.stringRanges
+	return receiver.stringRanges
 }
 
 func (receiver *numberEnumBase) StringJson(input interface{}) (jsonString string, err error) {

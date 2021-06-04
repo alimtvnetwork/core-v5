@@ -20,7 +20,7 @@ func NewAttribute(isRead, isWrite, isExecute bool) Attribute {
 func NewAttributeUsingRwx(rwx string) Attribute {
 	length := len(rwx)
 
-	if length != SupportedLength {
+	if length != SingleRwxLength {
 		panic(GetRwxLengthError(rwx))
 	}
 

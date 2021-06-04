@@ -418,7 +418,7 @@ func (receiver *ResultsCollection) AddJsoner(
 	return receiver.AddJsonerPtr(&jsoners)
 }
 
-// skip on nil
+// AddJsonerPtr skip on nil
 func (receiver *ResultsCollection) AddJsonerPtr(
 	jsoners *[]Jsoner,
 ) *ResultsCollection {
@@ -466,7 +466,7 @@ func (receiver *ResultsCollection) Json() *Result {
 	return NewPtr(jsonBytes, err)
 }
 
-// It will not update the self but creates a new one.
+// ParseInjectUsingJson It will not update the self but creates a new one.
 func (receiver *ResultsCollection) ParseInjectUsingJson(
 	jsonResult *Result,
 ) (*ResultsCollection, error) {

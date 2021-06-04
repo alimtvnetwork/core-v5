@@ -8,11 +8,28 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/constants/bitsize"
+	"gitlab.com/evatix-go/core/internal/fsinternal"
+	"gitlab.com/evatix-go/core/internal/messages"
 	"gitlab.com/evatix-go/core/msgtype"
 )
 
 type Wrapper struct {
 	Owner, Group, Other Attribute
+}
+
+func (wrapper Wrapper) Verify(location string) error {
+	return VerifyChmod(location, wrapper.ToHyphenedRwx())
+}
+
+func (wrapper Wrapper) VerifyPaths(location *[]string, isContinueOnError bool) error {
+	return VerifyChmodPaths(
+		location,
+		wrapper.ToHyphenedRwx(),
+		isContinueOnError)
+}
+
+func (wrapper Wrapper) HasChmod(location string) bool {
+	return IsChmod(location, wrapper.ToHyphenedRwx())
 }
 
 // Bytes return rwx, (Owner)(Group)(Other) byte values under 1-7
@@ -37,7 +54,7 @@ func (wrapper Wrapper) ToUint32Octal() uint32 {
 	if err != nil {
 		msgtype.
 			MeaningFulErrorHandle(
-				msgtype.FileChmodConvertFailedMessage,
+				msgtype.PathChmodConvertFailedMessage,
 				"ToUint32Octal",
 				err)
 	}
@@ -74,8 +91,8 @@ func (wrapper Wrapper) ToModeStr() string {
 	return string(allBytes[1:])
 }
 
-// ToRwxes returns "-rwxrwxrwx"
-func (wrapper Wrapper) ToRwxes() string {
+// ToHyphenedRwx returns "-rwxrwxrwx"
+func (wrapper Wrapper) ToHyphenedRwx() string {
 	owner := wrapper.Owner.ToRwxString()
 	group := wrapper.Group.ToRwxString()
 	other := wrapper.Other.ToRwxString()
@@ -84,8 +101,8 @@ func (wrapper Wrapper) ToRwxes() string {
 	return constants.Hyphen + owner + group + other
 }
 
-func (wrapper Wrapper) ToRwxesChars() []byte {
-	str := wrapper.ToRwxes()
+func (wrapper Wrapper) ToHyphenedRwxChars() []byte {
+	str := wrapper.ToHyphenedRwx()
 	chars := []byte(str)
 
 	return chars
@@ -93,7 +110,7 @@ func (wrapper Wrapper) ToRwxesChars() []byte {
 
 func (wrapper Wrapper) String() string {
 	// # https://ss64.com/bash/chmod.html, needs to be 10 always
-	return wrapper.ToRwxes()
+	return wrapper.ToHyphenedRwx()
 }
 
 func (wrapper Wrapper) ToFileMode() os.FileMode {
@@ -107,15 +124,24 @@ func (wrapper Wrapper) ApplyChmod(
 	fileOrDirectoryPath string,
 	isSkipOnNonExist bool,
 ) error {
-	if isSkipOnNonExist && !isPathExist(fileOrDirectoryPath) {
+	isFileExist := fsinternal.IsPathExists(fileOrDirectoryPath)
+
+	if isSkipOnNonExist && !isFileExist {
 		return nil
+	}
+
+	if !isSkipOnNonExist && !isFileExist {
+		return msgtype.
+			PathInvalidErrorMessage.
+			Error(
+				messages.PathNotExist, fileOrDirectoryPath)
 	}
 
 	err := os.Chmod(fileOrDirectoryPath, wrapper.ToFileMode())
 
 	if err != nil {
 		return msgtype.
-			FileChmodApplyMessage.
+			PathChmodApplyMessage.
 			Error(err.Error(), fileOrDirectoryPath)
 	}
 
@@ -127,27 +153,36 @@ func (wrapper Wrapper) UnixApplyRecursive(
 	dirPath string,
 	isSkipOnNonExist bool,
 ) error {
-	if isSkipOnNonExist && !isPathExist(dirPath) {
+	isFileExist := fsinternal.IsPathExists(dirPath)
+
+	if isSkipOnNonExist && !isFileExist {
 		return nil
 	}
 
-	fileMode := wrapper.ToFileMode()
+	if !isSkipOnNonExist && !isFileExist {
+		return msgtype.
+			PathInvalidErrorMessage.
+			Error(
+				"Path doesn't exist", dirPath)
+	}
 
-	if fileMode.IsDir() {
-		return wrapper.applyRecursiveChmodUsingCmd(
+	isDir := fsinternal.IsDirectory(dirPath)
+
+	if isDir {
+		return wrapper.applyUnixRecursiveChmodUsingCmd(
 			dirPath)
 	}
 
 	return nil
 }
 
-func (wrapper Wrapper) applyRecursiveChmodUsingCmd(dirPath string) error {
-	cmd := wrapper.getRecursiveCmdForChmod()
+func (wrapper Wrapper) applyUnixRecursiveChmodUsingCmd(dirPath string) error {
+	cmd := wrapper.getUnixRecursiveCmdForChmod(dirPath)
 
 	if cmd == nil {
 		return msgtype.
 			FailedToCreateCmd.Error(
-			constants.ChmodCommand,
+			constants.BashCommandline,
 			dirPath)
 	}
 
@@ -165,11 +200,19 @@ func (wrapper Wrapper) applyRecursiveChmodUsingCmd(dirPath string) error {
 	return nil
 }
 
-func (wrapper Wrapper) getRecursiveCmdForChmod() *exec.Cmd {
+func (wrapper Wrapper) getUnixRecursiveCmdForChmod(dirPath string) *exec.Cmd {
+	instructionLine := constants.ChmodCommand +
+		constants.Space +
+		constants.RecursiveCommandFlag +
+		constants.Space +
+		wrapper.ToModeStr() +
+		constants.Space +
+		dirPath
+
 	return exec.Command(
-		constants.ChmodCommand,
-		constants.RecursiveCommandFlag,
-		wrapper.ToModeStr())
+		constants.BinShellCmd,
+		constants.NonInteractiveFlag,
+		instructionLine)
 }
 
 func (wrapper Wrapper) MustApplyChmod(fileOrDirectoryPath string) {

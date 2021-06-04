@@ -1,9 +1,27 @@
 package coreinterface
 
+import "gitlab.com/evatix-go/core/coredata/corejson"
+
+type BasicEnumer interface {
+	Stringer
+	corejson.JsonMarshaller
+}
+
 type BasicEnumContractsBinder interface {
+	BasicEnumer
+	AsBasicEnumContractsBinder() BasicEnumContractsBinder
+}
+
+type StandardEnumer interface {
+	BasicEnumer
 	StringRangesGetter
 	RangeValidateChecker
-	AsBasicEnumContractsBinder() BasicEnumContractsBinder
+	corejson.JsonContractsBinder
+}
+
+type StandardEnumerContractsBinder interface {
+	StandardEnumer
+	AsStandardEnumerContractsBinder() StandardEnumerContractsBinder
 }
 
 type BasicByteEnumContractsBinder interface {

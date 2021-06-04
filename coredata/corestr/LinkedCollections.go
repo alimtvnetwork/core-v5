@@ -870,7 +870,7 @@ func (linkedCollections *LinkedCollections) AddCollectionsToNode(
 		&collections)
 }
 
-// iSkipOnNil
+// AddCollectionsPointerToNode iSkipOnNil
 func (linkedCollections *LinkedCollections) AddCollectionsPointerToNode(
 	isSkipOnNull bool,
 	node *LinkedCollectionNode,
@@ -955,7 +955,7 @@ func (linkedCollections *LinkedCollections) AddAfterNodeAsync(
 	}()
 }
 
-// add to back
+// AddStringsPtrAsync add to back
 func (linkedCollections *LinkedCollections) AddStringsPtrAsync(
 	wg *sync.WaitGroup,
 	items *[]string,
@@ -980,7 +980,7 @@ func (linkedCollections *LinkedCollections) AddStringsPtrAsync(
 	return linkedCollections
 }
 
-// add to back
+// AddStringsPtr add to back
 func (linkedCollections *LinkedCollections) AddStringsPtr(
 	items *[]string,
 	isMakeClone bool,
@@ -994,7 +994,7 @@ func (linkedCollections *LinkedCollections) AddStringsPtr(
 	return linkedCollections.Add(collection)
 }
 
-// Expensive operation BigO(n)
+// IndexAt Expensive operation BigO(n)
 func (linkedCollections *LinkedCollections) IndexAt(
 	index int,
 ) *LinkedCollectionNode {
@@ -1028,7 +1028,7 @@ func (linkedCollections *LinkedCollections) IndexAt(
 	return nil
 }
 
-// Expensive operation BigO(n)
+// SafePointerIndexAt Expensive operation BigO(n)
 func (linkedCollections *LinkedCollections) SafePointerIndexAt(
 	index int,
 ) *Collection {
@@ -1041,7 +1041,7 @@ func (linkedCollections *LinkedCollections) SafePointerIndexAt(
 	return node.Element
 }
 
-// Expensive operation BigO(n)
+// SafeIndexAt Expensive operation BigO(n)
 func (linkedCollections *LinkedCollections) SafeIndexAt(
 	index int,
 ) *LinkedCollectionNode {
@@ -1070,7 +1070,7 @@ func (linkedCollections *LinkedCollections) SafeIndexAt(
 	return nil
 }
 
-// skip on nil, add to back
+// AddPointerStringsPtr skip on nil, add to back
 func (linkedCollections *LinkedCollections) AddPointerStringsPtr(
 	items *[]*string,
 ) *LinkedCollections {
@@ -1085,7 +1085,7 @@ func (linkedCollections *LinkedCollections) AddPointerStringsPtr(
 	return linkedCollections.Add(collection)
 }
 
-// skip on nil, add to back
+// AddPointerStringsPtrAsync skip on nil, add to back
 func (linkedCollections *LinkedCollections) AddPointerStringsPtrAsync(
 	wg *sync.WaitGroup,
 	items *[]*string,
@@ -1295,7 +1295,7 @@ func (linkedCollections *LinkedCollections) ParseInjectUsingJson(
 	return linkedCollections, nil
 }
 
-// Panic if error
+// ParseInjectUsingJsonMust Panic if error
 func (linkedCollections *LinkedCollections) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *LinkedCollections {
@@ -1333,7 +1333,6 @@ func (linkedCollections *LinkedCollections) GetCompareSummary(
 	return leftStr + rightStr
 }
 
-// Panic if error
 func (linkedCollections *LinkedCollections) JsonParseSelfInject(
 	jsonResult *corejson.Result,
 ) error {

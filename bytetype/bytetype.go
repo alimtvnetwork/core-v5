@@ -2,9 +2,18 @@ package bytetype
 
 import (
 	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/msgtype"
 )
 
 type Variant byte
+
+func (v Variant) MarshalJSON() ([]byte, error) {
+	return []byte(basicEnumImpl.ToEnumString(v)), nil
+}
+
+func (v Variant) UnmarshalJSON(data []byte) error {
+	panic(msgtype.NotImplemented.ErrorNoRefs("UnmarshalJSON not implemented for bytetype."))
+}
 
 func (v Variant) String() string {
 	return basicEnumImpl.ToEnumString(v.Value())

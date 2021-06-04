@@ -5,7 +5,7 @@ import (
 	"gitlab.com/evatix-go/core/constants/percentconst"
 )
 
-// Result must be positive possibleLen * multiplier + constants.ArbitraryCapacity50.
+// PredictiveDefault Result must be positive possibleLen * multiplier + constants.ArbitraryCapacity50.
 //
 // Less than zero yields constants.ArbitraryCapacity50
 func PredictiveDefault(possibleLen int) int {

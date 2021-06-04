@@ -14,9 +14,9 @@ import (
 func New(mode string) (Wrapper, error) {
 	length := len(mode)
 
-	if length != SupportedLength {
+	if length != SingleRwxLength {
 		panic(msgtype.OutOfRangeLength.Combine(
-			"mode length should be "+SupportedLengthString,
+			"mode length should be "+SingleRwxLengthString,
 			length))
 	}
 
@@ -123,12 +123,8 @@ func NewUsingAttrs(owner, group, other Attribute) Wrapper {
 func NewUsingHyphenedRwxes(hyphenedRwxRwxRwx string) (Wrapper, error) {
 	length := len(hyphenedRwxRwxRwx)
 
-	if length != constants.N10 {
-		err := msgtype.
-			LengthShouldBeEqualToMessage.
-			Error(messages.HyphenedRwxRwxRwxLengthMustBe10, length)
-
-		return Wrapper{}, err
+	if length != HyphenedRwxLength {
+		return Wrapper{}, hyphenedRwxLengthErr
 	}
 
 	return NewUsingRwxes(hyphenedRwxRwxRwx[constants.One:])
@@ -144,12 +140,8 @@ func NewUsingHyphenedRwxes(hyphenedRwxRwxRwx string) (Wrapper, error) {
 func NewUsingRwxes(rwxrwxrwx string) (Wrapper, error) {
 	length := len(rwxrwxrwx)
 
-	if length != constants.N9 {
-		err := msgtype.
-			LengthShouldBeEqualToMessage.
-			Error(messages.RwxRwxRwxLengthMustBe9, length)
-
-		return Wrapper{}, err
+	if length != FullRwxLengthWithoutHyphen {
+		return Wrapper{}, fullRwxLengthWithoutHyphenErr
 	}
 
 	owner := rwxrwxrwx[0:3]

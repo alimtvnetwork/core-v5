@@ -1,0 +1,43 @@
+package chmodhelpertestwrappers
+
+import (
+	"path"
+
+	"gitlab.com/evatix-go/core/chmodhelper"
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/msgtype"
+)
+
+type CreatePathsInstruction struct {
+	Dir      string
+	Files    []string
+	ApplyRwx chmodins.RwxOwnerGroupOther
+}
+
+func (receiver *CreatePathsInstruction) GetPaths() *[]string {
+	collection := corestr.NewCollection(constants.ArbitraryCapacity50)
+
+	for _, file := range receiver.Files {
+		compiledPath := path.Join(receiver.Dir, file)
+		collection.Add(compiledPath)
+	}
+
+	return collection.ListPtr()
+}
+
+func (receiver *CreatePathsInstruction) GetFilesChmodMap() *corestr.Hashmap {
+	files := receiver.GetPaths()
+	hashmap := corestr.NewHashmap(constants.ArbitraryCapacity50)
+
+	for _, filePath := range *files {
+		fileMode, err := chmodhelper.GetExistingChmod(filePath)
+
+		msgtype.SimpleHandleErr(err, filePath)
+
+		hashmap.AddOrUpdate(filePath, fileMode.String())
+	}
+
+	return hashmap
+}

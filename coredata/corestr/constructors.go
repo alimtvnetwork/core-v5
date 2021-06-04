@@ -323,12 +323,14 @@ func NewCharCollectionMapUsingItemsPlusCap(
 ) *CharCollectionMap {
 	isDefined := items != nil && *items != nil
 	length := 0
-	if isDefined {
+	if items != nil && *items != nil {
 		length = len(*items)
 		additionalCapacityOrLength += length
 	}
 
-	mapElements := make(map[byte]*Collection, additionalCapacityOrLength)
+	mapElements := make(
+		map[byte]*Collection,
+		additionalCapacityOrLength)
 
 	charCollectionMap := &CharCollectionMap{
 		items:                  &mapElements,

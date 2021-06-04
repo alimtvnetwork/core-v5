@@ -43,6 +43,8 @@ const (
 	SprintPropertyNameValueFormat             = "%+v"
 	SprintTypeFormat                          = "%T"
 	SprintDoubleQuoteFormat                   = "%q"
+	SprintStringFormat                        = "%s"
+	SprintThridBracketQuoteFormat             = "[\"%v\"]"
 	EqualSymbol                               = "="
 	DoubleEqualSymbol                         = "=="
 	TrippleEqualSymbol                        = "==="
@@ -240,13 +242,6 @@ const (
 	TeldaRune                         rune    = '~'
 	BrokenLongPathUncPrefix                   = `\?\UNC\`
 	BrokenLongPathQuestionMarkPrefix          = `\?\`
-	Shell                                     = "sh"
-	Bash                                      = "bash"
-	Pwsh                                      = "pwsh"
-	Cmd                                       = "cmd"
-	HypenC                                    = "-c"
-	Cd                                        = "cd"
-	Pwd                                       = "pwd"
 	N0                                        = 0
 	N1                                        = 1
 	N2                                        = 2
@@ -289,6 +284,20 @@ const (
 	ArgumentForReleaseDate                    = "-v"
 	LsbCommand                                = "lsb_release"
 	UnameCommand                              = "uname"
+	Shell                                     = "sh"
+	Bash                                      = "bash"
+	BinShellCmd                               = "/bin/sh"
+	ShellCmdline                              = "sh"
+	PerlCmdline                               = "perl"
+	MakeCmdline                               = "make"
+	Pwsh                                      = "pwsh"
+	Cmd                                       = "cmd"
+	HypenC                                    = "-c"
+	Cd                                        = "cd"
+	Pwd                                       = "pwd"
+	BashDefaultPath                           = "/bin/bash"
+	BashCommandline                           = "bash"
+	NonInteractiveFlag                        = "-c"
 	ChmodCommand                              = "chmod"
 	RecursiveCommandFlag                      = "-R"
 	VersionCommandForCmd                      = "ver.exe"
