@@ -1,11 +1,11 @@
 package chmodhelper
 
 import (
-	"gitlab.com/evatix-go/core/chmodhelper/chmodinstruction"
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 )
 
 func ParseRwxInstructionToExecutor(
-	rwxInstruction *chmodinstruction.RwxInstruction,
+	rwxInstruction *chmodins.RwxInstruction,
 ) (
 	*RwxInstructionExecutor, error,
 ) {

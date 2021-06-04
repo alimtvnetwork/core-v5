@@ -9,4 +9,6 @@ const (
 	CannotConvertStringToByteForMoreThan255  = "Cannot convert string to byte. String is a number " +
 		"but larger than byte size. At max it could be 255."
 	CannotConvertStringToByte = "Cannot convert string to byte."
+	// expectingMessageFormat "%s - expecting (type:[%T]) : [\"%v\"], but received or actual (type:[%T]) : [\"%v\"]"
+	expectingMessageFormat = "%s - expecting (type:[%T]) : [\"%v\"], but received or actual (type:[%T]) : [\"%v\"]"
 )

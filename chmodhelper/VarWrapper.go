@@ -1,40 +1,21 @@
 package chmodhelper
 
-import (
-	"gitlab.com/evatix-go/core/chmodhelper/chmodinstruction"
-	"gitlab.com/evatix-go/core/constants"
-)
-
 type VarWrapper struct {
 	rawInput            string
 	isFixedType         bool
 	Owner, Group, Other VarAttribute
 }
 
-func ParseRwxInstructionToStringRwx(
-	rwxInstruction *chmodinstruction.RwxInstruction,
-	isIncludeHyphen bool,
-) string {
-	if rwxInstruction == nil {
-		return constants.EmptyString
-	}
-
-	var hyphen string
-
-	if isIncludeHyphen {
-		hyphen = constants.Hyphen
-	}
-
-	compiled := hyphen +
-		rwxInstruction.Owner +
-		rwxInstruction.Group +
-		rwxInstruction.Other
-
-	return compiled
-}
-
 func (varWrapper *VarWrapper) IsFixedType() bool {
 	return varWrapper.isFixedType
+}
+
+func (varWrapper *VarWrapper) ToCompileFixedPtr() *Wrapper {
+	if varWrapper.IsFixedType() {
+		return varWrapper.ToCompileWrapperPtr(nil)
+	}
+
+	return nil
 }
 
 // ToCompileWrapper if Fixed type then fixed input can be nil.

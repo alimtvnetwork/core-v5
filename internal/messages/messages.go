@@ -8,4 +8,5 @@ const (
 	DynamicFailedToParseToFloat64BecauseNull      = "dynamic datatype failed to parse to float64 because it is nil."
 	FailedToCompileChmodhelperVarWrapperToWrapper = "Failed to compile chmodhelper.VarWrapper to failedToExecute.Wrapper."
 	FailedToGetFileModeRwx                        = "Failed to get the existing filemode (Rwx...)."
+	PathNotExist                                  = "Path doesn't exist"
 )

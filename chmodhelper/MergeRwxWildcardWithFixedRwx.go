@@ -1,15 +1,21 @@
 package chmodhelper
 
-func MergeRwxWildcardWithFixedRwx(rwxWildcard, rwxFixed string) (fixedAttribute *Attribute, err error) {
+func MergeRwxWildcardWithFixedRwx(
+	rwxWildcard,
+	rwxFixed string,
+) (
+	fixedAttribute *Attribute,
+	err error,
+) {
 	length := len(rwxWildcard)
 
-	if length != SupportedLength {
+	if length != SingleRwxLength {
 		return nil, GetRwxLengthError(rwxWildcard)
 	}
 
 	length2 := len(rwxFixed)
 
-	if length2 != SupportedLength {
+	if length2 != SingleRwxLength {
 		return nil, GetRwxLengthError(rwxFixed)
 	}
 

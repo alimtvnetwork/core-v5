@@ -83,8 +83,8 @@ func (receiver *RwxInstructionExecutors) ApplyOnPath(location string) error {
 		return nil
 	}
 
-	for _, instruction := range *receiver.items {
-		err := instruction.ApplyOnPath(location)
+	for _, executor := range *receiver.items {
+		err := executor.ApplyOnPath(location)
 
 		if err != nil {
 			return err
@@ -100,8 +100,8 @@ func (receiver *RwxInstructionExecutors) ApplyOnPaths(locations *[]string) error
 		return nil
 	}
 
-	for _, instruction := range *receiver.items {
-		err := instruction.ApplyOnPaths(locations)
+	for _, executor := range *receiver.items {
+		err := executor.ApplyOnPaths(locations)
 
 		if err != nil {
 			return err

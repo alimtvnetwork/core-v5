@@ -11,6 +11,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreindexes"
+	"gitlab.com/evatix-go/core/defaultcapacity"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/internal/stringutil"
 	"gitlab.com/evatix-go/core/msgtype"
@@ -231,6 +232,32 @@ func (collection *Collection) AddIf(isAdd bool, addingString string) *Collection
 		addingString)
 
 	return collection
+}
+
+func (collection *Collection) ConcatNew(
+	predictiveLengthAdd int,
+	addingStrings ...string,
+) *Collection {
+	length := len(addingStrings)
+
+	if length == 0 {
+		return NewCollectionUsingStrings(collection.items, true)
+	}
+
+	finalLength := collection.Length() + length
+	capacity := defaultcapacity.PredictiveFiftyPercentIncrement(finalLength, predictiveLengthAdd)
+
+	return NewCollectionUsingLength(finalLength, capacity).
+		AddStringsPtr(&addingStrings)
+}
+
+func (collection *Collection) ToError(sep string) error {
+	return msgtype.SliceError(sep, collection.items)
+}
+
+func (collection *Collection) ToDefaultError() error {
+	return msgtype.SliceError(
+		constants.NewLineUnix, collection.items)
 }
 
 func (collection *Collection) AddIfMany(

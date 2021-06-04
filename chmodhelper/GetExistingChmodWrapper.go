@@ -6,12 +6,14 @@ import (
 	"gitlab.com/evatix-go/core/msgtype"
 )
 
-func GetExistingChmodWrapper(filePath string) (Wrapper, error) {
+func GetExistingChmodWrapper(
+	filePath string,
+) (Wrapper, error) {
 	fileInfo, err := os.Stat(filePath)
 
 	if err != nil {
 		return Wrapper{}, msgtype.
-			FileErrorMessage.
+			PathErrorMessage.
 			Error(err.Error(), ", file:"+filePath)
 	}
 

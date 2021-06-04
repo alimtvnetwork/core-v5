@@ -9,6 +9,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/defaulterr"
+	"gitlab.com/evatix-go/core/msgtype"
 )
 
 type Hashmap struct {
@@ -1010,6 +1011,45 @@ func (hashmap *Hashmap) ParseInjectUsingJsonMust(
 	}
 
 	return hashSet
+}
+
+func (hashmap *Hashmap) ToError(sep string) error {
+	return msgtype.SliceError(sep, hashmap.KeyValStringLines())
+}
+
+func (hashmap *Hashmap) ToDefaultError() error {
+	return msgtype.SliceError(
+		constants.NewLineUnix, hashmap.KeyValStringLines())
+}
+
+func (hashmap *Hashmap) KeyValStringLines() *[]string {
+	return hashmap.ToStringsUsingCompiler(func(key, val string) string {
+		return key + constants.HypenAngelRight + val
+	})
+}
+
+func (hashmap *Hashmap) ToStringsUsingCompiler(
+	compilerFunc func(
+		key,
+		val string,
+	) string,
+) *[]string {
+	length := hashmap.Length()
+	slice := make([]string, length)
+
+	if length == 0 {
+		return &slice
+	}
+
+	index := 0
+	for key, val := range *hashmap.items {
+		line := compilerFunc(key, val)
+		slice[index] = line
+
+		index++
+	}
+
+	return &slice
 }
 
 func (hashmap *Hashmap) AsJsoner() corejson.Jsoner {

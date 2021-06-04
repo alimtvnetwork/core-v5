@@ -92,7 +92,7 @@ func (hashset *Hashset) Resize(capacity int) *Hashset {
 	return hashset
 }
 
-// Changing capacity creates new map and points to it.
+// ResizeLock Changing capacity creates new map and points to it.
 // There is memory copy and loop is performed.
 func (hashset *Hashset) ResizeLock(capacity int) *Hashset {
 	length := hashset.LengthLock()
@@ -560,7 +560,7 @@ func (hashset *Hashset) HasAllStringsPtr(keys *[]string) bool {
 	return true
 }
 
-// return false on items is nil or empty.
+// HasAllCollectionItems return false on items is nil or empty.
 func (hashset *Hashset) HasAllCollectionItems(
 	collection *Collection,
 ) bool {
@@ -608,7 +608,7 @@ func (hashset *Hashset) HasWithLock(key string) bool {
 	return isFound && isSet
 }
 
-// must return slice.
+// GetFilteredItems must return slice.
 func (hashset *Hashset) GetFilteredItems(
 	filter IsStringFilter,
 ) *[]string {
@@ -642,7 +642,7 @@ func (hashset *Hashset) GetFilteredItems(
 	return &filteredList
 }
 
-// must return items.
+// GetFilteredCollection must return items.
 func (hashset *Hashset) GetFilteredCollection(
 	filter IsStringFilter,
 ) *Collection {
@@ -678,7 +678,7 @@ func (hashset *Hashset) GetFilteredCollection(
 		&filteredList, false)
 }
 
-// Get all hashset items except the mentioned ones in anotherHashset.
+// GetAllExceptHashset Get all hashset items except the mentioned ones in anotherHashset.
 // Always returns a copy of new strings.
 // It is like set A - B
 // Set A = this Hashset
@@ -708,7 +708,7 @@ func (hashset *Hashset) GetAllExceptHashset(
 	return &finalList
 }
 
-// Get all hashset items except the mentioned ones in items.
+// GetAllExcept Get all hashset items except the mentioned ones in items.
 // Always returns a copy of new strings.
 // It is like set A - B
 // Set A = this Hashset
@@ -729,7 +729,7 @@ func (hashset *Hashset) GetAllExcept(
 		newHashset)
 }
 
-// Get all hashset items except the mentioned ones in collection.
+// GetAllExceptCollection Get all hashset items except the mentioned ones in collection.
 // Always returns a copy of new strings.
 // It is like set A - B
 // Set A = this Hashset
@@ -745,7 +745,7 @@ func (hashset *Hashset) GetAllExceptCollection(
 		collection.HashsetAsIs())
 }
 
-// Get all hashset items except the mentioned ones in collectionPtr.
+// GetAllExceptCollectionPtr Get all hashset items except the mentioned ones in collectionPtr.
 // Always returns a copy of new strings.
 // It is like set A - B
 // Set A = this Hashset
@@ -784,7 +784,7 @@ func (hashset *Hashset) ListPtr() *[]string {
 	return hashset.cachedList
 }
 
-// a slice must returned
+// ListCopyPtrLock a slice must returned
 func (hashset *Hashset) ListCopyPtrLock() *[]string {
 	hashset.Lock()
 	defer hashset.Unlock()

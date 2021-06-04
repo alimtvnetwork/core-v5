@@ -11,7 +11,7 @@ func GetExistingChmod(filePath string) (os.FileMode, error) {
 
 	if err != nil {
 		return 0, msgtype.
-			FileErrorMessage.
+			PathErrorMessage.
 			Error(err.Error(), ", file:"+filePath)
 	}
 

@@ -1,0 +1,46 @@
+package chmodhelpertestwrappers
+
+import (
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+	"gitlab.com/evatix-go/core/coretests"
+)
+
+type RwxInstructionTestWrapper struct {
+	RwxInstructions []*chmodins.RwxInstruction
+	DefaultRwx      *chmodins.RwxOwnerGroupOther
+	IsErrorExpected bool
+	CreatePaths     []*CreatePathsInstruction
+	funcName        coretests.TestFuncName
+	expected        chmodins.RwxOwnerGroupOther
+	actual          interface{}
+}
+
+func (receiver *RwxInstructionTestWrapper) Actual() interface{} {
+	return receiver.actual
+}
+
+func (receiver *RwxInstructionTestWrapper) SetActual(actual interface{}) {
+	receiver.actual = actual
+}
+
+func (receiver *RwxInstructionTestWrapper) FuncName() string {
+	return receiver.funcName.Value()
+}
+
+func (receiver *RwxInstructionTestWrapper) Value() interface{} {
+	return receiver
+}
+
+func (receiver *RwxInstructionTestWrapper) Expected() interface{} {
+	return receiver.expected
+}
+
+func (receiver *RwxInstructionTestWrapper) ExpectedAsRwxOwnerGroupOtherInstruction() chmodins.RwxOwnerGroupOther {
+	return receiver.expected
+}
+
+func (receiver *RwxInstructionTestWrapper) AsTestCaseMessenger() coretests.TestCaseMessenger {
+	var testCaseMessenger coretests.TestCaseMessenger = receiver
+
+	return testCaseMessenger
+}

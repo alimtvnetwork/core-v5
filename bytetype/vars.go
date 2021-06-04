@@ -7,8 +7,8 @@ import (
 
 var (
 	basicEnumImpl = enumimpl.NewBasicByte(
-		&[]byte{},
-		&[]string{},
+		[]byte{},
+		[]string{},
 		constants.Zero,
 		constants.MaxUnit8)
 )

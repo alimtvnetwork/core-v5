@@ -9,7 +9,7 @@ type BasicString struct {
 }
 
 func NewBasicString(
-	stringRanges *[]string,
+	stringRanges []string,
 	min, max string,
 ) *BasicString {
 	enumBase := newNumberEnumBase(
@@ -23,7 +23,7 @@ func NewBasicString(
 		minVal:         min,
 		maxVal:         max,
 		hashset: *converters.
-			StringsToMap(stringRanges),
+			StringsToMap(&stringRanges),
 	}
 }
 
@@ -35,8 +35,16 @@ func (receiver *BasicString) Min() string {
 	return receiver.minVal
 }
 
-func (receiver *BasicString) Ranges() *[]string {
-	return receiver.actualValueRanges.(*[]string)
+func (receiver *BasicString) Ranges() []string {
+	return receiver.actualValueRanges.([]string)
+}
+
+func (receiver *BasicString) Hashset() map[string]bool {
+	return receiver.hashset
+}
+
+func (receiver *BasicString) HashsetPtr() *map[string]bool {
+	return &receiver.hashset
 }
 
 func (receiver *BasicString) IsValidRange(value string) bool {

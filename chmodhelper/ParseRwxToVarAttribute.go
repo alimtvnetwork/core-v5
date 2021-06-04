@@ -8,7 +8,7 @@ import (
 func ParseRwxToVarAttribute(rwx string) (varAttribute *VarAttribute, err error) {
 	length := len(rwx)
 
-	if length != SupportedLength {
+	if length != SingleRwxLength {
 		return nil, GetRwxLengthError(rwx)
 	}
 
@@ -55,7 +55,7 @@ func ParseRwxToVarAttribute(rwx string) (varAttribute *VarAttribute, err error) 
 
 	return &VarAttribute{
 		rawInput:    rwx,
-		isFixedType: isVarType,
+		isFixedType: !isVarType,
 		isRead:      isRead,
 		isWrite:     isWrite,
 		isExecute:   isExecute,

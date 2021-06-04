@@ -3,14 +3,14 @@ package chmodhelper
 import (
 	"os"
 
-	"gitlab.com/evatix-go/core/chmodhelper/chmodinstruction"
+	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/internal/messages"
 	"gitlab.com/evatix-go/core/msgtype"
 )
 
 type RwxInstructionExecutor struct {
-	rwxInstruction *chmodinstruction.RwxInstruction
+	rwxInstruction *chmodins.RwxInstruction
 	varWrapper     *VarWrapper
 }
 
@@ -66,7 +66,7 @@ func (receiver *RwxInstructionExecutor) ApplyOnPath(location string) error {
 	fileModWrapper, err := GetExistingChmodWrapperPtr(location)
 
 	if err != nil {
-		return msgtype.FileErrorMessage.Error(messages.FailedToGetFileModeRwx, location)
+		return msgtype.PathErrorMessage.Error(messages.FailedToGetFileModeRwx, location)
 	}
 
 	compiledWrapper, err2 := receiver.CompiledWrapperUsingWrapper(fileModWrapper)
@@ -76,7 +76,7 @@ func (receiver *RwxInstructionExecutor) ApplyOnPath(location string) error {
 
 		return msgtype.
 			MeaningFulError(
-				msgtype.FileErrorMessage, funcWithLoc, err2)
+				msgtype.PathErrorMessage, funcWithLoc, err2)
 	}
 
 	if receiver.rwxInstruction.IsRecursive {

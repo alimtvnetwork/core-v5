@@ -1,8 +1,8 @@
-package chmodhelper
+package fsinternal
 
 import "os"
 
-func isPathExist(location string) bool {
+func IsPathExists(location string) bool {
 	_, err := os.Stat(location)
 
 	return !os.IsNotExist(err)
