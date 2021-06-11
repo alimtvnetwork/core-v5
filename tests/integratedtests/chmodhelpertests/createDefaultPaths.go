@@ -18,7 +18,7 @@ func createDefaultPaths(pathCreators *[]*chmodhelpertestwrappers.CreatePathsInst
 			msgtype.SimpleHandleErr(err1, dir)
 		}
 
-		fileMode := parseRwxUnixToFileMode(&pathCreate.ApplyRwx)
+		fileMode := parseRwxLinuxToFileMode(&pathCreate.ApplyRwx)
 
 		mkDirErr := os.MkdirAll(dir, fileMode)
 

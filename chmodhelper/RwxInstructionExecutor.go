@@ -80,7 +80,7 @@ func (receiver *RwxInstructionExecutor) ApplyOnPath(location string) error {
 	}
 
 	if receiver.rwxInstruction.IsRecursive {
-		return compiledWrapper.UnixApplyRecursive(
+		return compiledWrapper.LinuxApplyRecursive(
 			location,
 			receiver.rwxInstruction.IsSkipOnNonExist)
 	}

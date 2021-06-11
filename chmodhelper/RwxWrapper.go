@@ -191,8 +191,8 @@ func (wrapper RwxWrapper) ApplyChmod(
 	return nil
 }
 
-// UnixApplyRecursive skip if it is a non dir path
-func (wrapper RwxWrapper) UnixApplyRecursive(
+// LinuxApplyRecursive skip if it is a non dir path
+func (wrapper RwxWrapper) LinuxApplyRecursive(
 	dirPath string,
 	isSkipOnNonExist bool,
 ) error {
@@ -209,12 +209,12 @@ func (wrapper RwxWrapper) UnixApplyRecursive(
 				"Path doesn't exist", dirPath)
 	}
 
-	return wrapper.applyUnixRecursiveChmodUsingCmd(
+	return wrapper.applyLinuxRecursiveChmodUsingCmd(
 		dirPath)
 }
 
-func (wrapper RwxWrapper) applyUnixRecursiveChmodUsingCmd(dirPath string) error {
-	cmd := wrapper.getUnixRecursiveCmdForChmod(dirPath)
+func (wrapper RwxWrapper) applyLinuxRecursiveChmodUsingCmd(dirPath string) error {
+	cmd := wrapper.getLinuxRecursiveCmdForChmod(dirPath)
 
 	if cmd == nil {
 		return msgtype.
@@ -237,7 +237,7 @@ func (wrapper RwxWrapper) applyUnixRecursiveChmodUsingCmd(dirPath string) error 
 	return nil
 }
 
-func (wrapper RwxWrapper) getUnixRecursiveCmdForChmod(dirPath string) *exec.Cmd {
+func (wrapper RwxWrapper) getLinuxRecursiveCmdForChmod(dirPath string) *exec.Cmd {
 	instructionLine := constants.ChmodCommand +
 		constants.Space +
 		constants.RecursiveCommandFlag +
@@ -253,7 +253,9 @@ func (wrapper RwxWrapper) getUnixRecursiveCmdForChmod(dirPath string) *exec.Cmd 
 }
 
 func (wrapper RwxWrapper) MustApplyChmod(fileOrDirectoryPath string) {
-	err := os.Chmod(fileOrDirectoryPath, wrapper.ToFileMode())
+	err := os.Chmod(
+		fileOrDirectoryPath,
+		wrapper.ToFileMode())
 
 	if err != nil {
 		panic(err)

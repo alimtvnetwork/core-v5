@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
-func unixApplyRecursivePathInstructions(
+func linuxApplyRecursivePathInstructions(
 	testCase *chmodhelpertestwrappers.RwxInstructionTestWrapper,
 ) error {
 	executors, err := chmodhelper.ParseRwxInstructionsToExecutors(

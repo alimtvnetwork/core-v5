@@ -7,7 +7,7 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 )
 
-func parseRwxUnixToFileMode(rwxOwnerGroupOther *chmodins.RwxOwnerGroupOther) os.FileMode {
+func parseRwxLinuxToFileMode(rwxOwnerGroupOther *chmodins.RwxOwnerGroupOther) os.FileMode {
 	varWrapper, err := chmodhelper.ParseRwxOwnerGroupOtherToRwxVariableWrapper(
 		rwxOwnerGroupOther)
 
