@@ -13,7 +13,7 @@ func (receiver BaseDisplay) IsDisplay(display string) bool {
 	return receiver.Display == display
 }
 
-func (receiver BaseDisplay) IsIdCaseInsensitive(display string) bool {
+func (receiver BaseDisplay) IsDisplayCaseInsensitive(display string) bool {
 	return strings.EqualFold(receiver.Display, display)
 }
 
