@@ -12,5 +12,5 @@ type ResponseAttribute struct {
 	HttpCode              int
 	HttpMethod            reqtype.Request
 	IsValid               bool
-	InvalidMessage        string `json:"InvalidMessage,omitempty"`
+	Message               string `json:"Message,omitempty"`
 }
