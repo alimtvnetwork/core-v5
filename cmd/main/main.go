@@ -29,8 +29,8 @@ func main() {
 	// 	fmt.Println("IsCreate OR Merge:", variation.IsAnyOfReqs(reqtype.Create, reqtype.Merge))
 	// }
 
-	fmt.Println(reqtype.RangesNotMeetError("", reqtype.Create, reqtype.Merge))
-
+	// fmt.Println(reqtype.RangesNotMeetError("", reqtype.Create, reqtype.Merge))
+	fmt.Println(reqtype.BasicEnumImpl.RangesInvalidErr())
 	// items := &[]string{
 	// 	"00",
 	// 	"01",

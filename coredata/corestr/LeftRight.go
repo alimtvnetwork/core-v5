@@ -3,9 +3,9 @@ package corestr
 import "gitlab.com/evatix-go/core/internal/stringutil"
 
 type LeftRight struct {
-	Left, Right    string
-	IsValid        bool
-	InvalidMessage string
+	Left, Right string
+	IsValid     bool
+	Message     string
 }
 
 func (receiver *LeftRight) LeftBytes() []byte {

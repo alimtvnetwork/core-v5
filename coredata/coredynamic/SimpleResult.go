@@ -10,10 +10,10 @@ import (
 )
 
 type SimpleResult struct {
+	Dynamic
 	Result         interface{}
 	InvalidMessage string
 	err            error
-	Dynamic
 }
 
 func NewSimpleResult(

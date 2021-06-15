@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/msgtype"
 )
 
-func GetExistingChmodWrapper(
+func GetExistingChmodRwxWrapper(
 	filePath string,
 ) (RwxWrapper, error) {
 	fileInfo, err := os.Stat(filePath)

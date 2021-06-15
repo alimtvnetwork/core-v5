@@ -14,10 +14,12 @@ type RwxInstructionExecutor struct {
 	varWrapper     *RwxVariableWrapper
 }
 
+// IsVarWrapper if it has any wildcard symbol in it
 func (receiver *RwxInstructionExecutor) IsVarWrapper() bool {
 	return !receiver.varWrapper.IsFixedType()
 }
 
+// IsFixedWrapper true indicates no wildcard symbol
 func (receiver *RwxInstructionExecutor) IsFixedWrapper() bool {
 	return receiver.varWrapper.IsFixedType()
 }
@@ -40,7 +42,7 @@ func (receiver *RwxInstructionExecutor) CompiledWrapper(mode os.FileMode) (*RwxW
 	return nil, failedToCompileVarWrapperToWrapper
 }
 
-func (receiver *RwxInstructionExecutor) CompiledWrapperUsingWrapper(
+func (receiver *RwxInstructionExecutor) CompiledRwxWrapperUsingFixedRwxWrapper(
 	wrapper *RwxWrapper,
 ) (*RwxWrapper, error) {
 	if receiver.IsFixedWrapper() {
@@ -63,13 +65,13 @@ func (receiver *RwxInstructionExecutor) CompiledWrapperUsingWrapper(
 }
 
 func (receiver *RwxInstructionExecutor) ApplyOnPath(location string) error {
-	fileModWrapper, err := GetExistingChmodWrapperPtr(location)
+	existingRwxFileModWrapper, err := GetExistingChmodRwxWrapperPtr(location)
 
 	if err != nil {
 		return msgtype.PathErrorMessage.Error(messages.FailedToGetFileModeRwx, location)
 	}
 
-	compiledWrapper, err2 := receiver.CompiledWrapperUsingWrapper(fileModWrapper)
+	compiledWrapper, err2 := receiver.CompiledRwxWrapperUsingFixedRwxWrapper(existingRwxFileModWrapper)
 
 	if err2 != nil {
 		funcWithLoc := "ApplyOnPath" + constants.HypenAngelRight + location

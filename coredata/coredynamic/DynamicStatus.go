@@ -1,6 +1,7 @@
 package coredynamic
 
 type DynamicStatus struct {
-	Index int
 	Dynamic
+	Index   int
+	Message string
 }
