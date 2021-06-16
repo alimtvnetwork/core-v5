@@ -4,6 +4,7 @@ import (
 	"regexp"
 	"strings"
 
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/internal/stringutil"
 )
 
@@ -12,6 +13,18 @@ type ValueValid struct {
 	valueBytes *[]byte
 	IsValid    bool
 	Message    string
+}
+
+func InvalidValueValidNoMessage() *ValueValid {
+	return InvalidValueValid(constants.EmptyString)
+}
+
+func InvalidValueValid(message string) *ValueValid {
+	return &ValueValid{
+		Value:   constants.EmptyString,
+		IsValid: false,
+		Message: message,
+	}
 }
 
 func (receiver *ValueValid) ValueBytesOnce() []byte {
@@ -101,4 +114,16 @@ func (receiver *ValueValid) IsRegexMatches(regexp *regexp.Regexp) bool {
 	}
 
 	return regexp.MatchString(receiver.Value)
+}
+
+func (receiver *ValueValid) Clone() *ValueValid {
+	if receiver == nil {
+		return nil
+	}
+
+	return &ValueValid{
+		Value:   receiver.Value,
+		IsValid: receiver.IsValid,
+		Message: receiver.Message,
+	}
 }

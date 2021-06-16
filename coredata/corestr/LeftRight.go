@@ -1,11 +1,32 @@
 package corestr
 
-import "gitlab.com/evatix-go/core/internal/stringutil"
+import (
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/internal/stringutil"
+)
 
 type LeftRight struct {
 	Left, Right string
 	IsValid     bool
 	Message     string
+}
+
+func InvalidLeftRightNoMessage() *LeftRight {
+	return &LeftRight{
+		Left:    constants.EmptyString,
+		Right:   constants.EmptyString,
+		IsValid: false,
+		Message: constants.EmptyString,
+	}
+}
+
+func InvalidLeftRight(message string) *LeftRight {
+	return &LeftRight{
+		Left:    constants.EmptyString,
+		Right:   constants.EmptyString,
+		IsValid: false,
+		Message: message,
+	}
 }
 
 func (receiver *LeftRight) LeftBytes() []byte {

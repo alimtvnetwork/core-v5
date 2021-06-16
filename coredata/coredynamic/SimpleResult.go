@@ -11,9 +11,27 @@ import (
 
 type SimpleResult struct {
 	Dynamic
-	Result         interface{}
-	InvalidMessage string
-	err            error
+	Result  interface{}
+	Message string
+	err     error
+}
+
+func InvalidSimpleResultNoMessage() *SimpleResult {
+	return &SimpleResult{
+		Result:  nil,
+		Dynamic: NewDynamic(nil, false),
+		Message: constants.EmptyString,
+	}
+}
+
+func InvalidSimpleResult(
+	invalidMessage string,
+) *SimpleResult {
+	return &SimpleResult{
+		Result:  nil,
+		Dynamic: NewDynamic(nil, false),
+		Message: invalidMessage,
+	}
 }
 
 func NewSimpleResult(
@@ -22,9 +40,9 @@ func NewSimpleResult(
 	invalidMessage string,
 ) *SimpleResult {
 	return &SimpleResult{
-		Result:         result,
-		Dynamic:        NewDynamic(result, isValid),
-		InvalidMessage: invalidMessage,
+		Result:  result,
+		Dynamic: NewDynamic(result, isValid),
+		Message: invalidMessage,
 	}
 }
 
@@ -45,7 +63,7 @@ func (receiver *SimpleResult) GetErrorOnTypeMismatch(
 		return errors.New(typeMismatchMessage)
 	}
 
-	return errors.New(typeMismatchMessage + receiver.InvalidMessage)
+	return errors.New(typeMismatchMessage + receiver.Message)
 }
 
 func (receiver *SimpleResult) InvalidError() error {
@@ -53,13 +71,25 @@ func (receiver *SimpleResult) InvalidError() error {
 		return receiver.err
 	}
 
-	if stringutil.IsEmptyOrWhitespace(receiver.InvalidMessage) {
+	if stringutil.IsEmptyOrWhitespace(receiver.Message) {
 		return nil
 	}
 
 	if receiver.err == nil {
-		receiver.err = errors.New(receiver.InvalidMessage)
+		receiver.err = errors.New(receiver.Message)
 	}
 
 	return receiver.err
+}
+
+func (receiver *SimpleResult) Clone() *SimpleResult {
+	if receiver == nil {
+		return nil
+	}
+
+	return &SimpleResult{
+		Dynamic: receiver.Dynamic,
+		Result:  receiver.Result,
+		Message: receiver.Message,
+	}
 }

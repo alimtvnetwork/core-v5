@@ -1,6 +1,8 @@
 package coreapi
 
-import "gitlab.com/evatix-go/core/reqtype"
+import (
+	"gitlab.com/evatix-go/core/reqtype"
+)
 
 type ResponseAttribute struct {
 	ResponseOfRequestType reqtype.Request
@@ -13,4 +15,23 @@ type ResponseAttribute struct {
 	HttpMethod            reqtype.Request
 	IsValid               bool
 	Message               string `json:"Message,omitempty"`
+}
+
+func (receiver *ResponseAttribute) Clone() *ResponseAttribute {
+	if receiver == nil {
+		return nil
+	}
+
+	return &ResponseAttribute{
+		ResponseOfRequestType: receiver.ResponseOfRequestType,
+		Count:                 receiver.Count,
+		HasAnyRecord:          receiver.HasAnyRecord,
+		NextPageRequestUrl:    receiver.NextPageRequestUrl,
+		StepsPerformed:        receiver.StepsPerformed,
+		DebugInfos:            receiver.DebugInfos,
+		HttpCode:              receiver.HttpCode,
+		HttpMethod:            receiver.HttpMethod,
+		IsValid:               receiver.IsValid,
+		Message:               receiver.Message,
+	}
 }
