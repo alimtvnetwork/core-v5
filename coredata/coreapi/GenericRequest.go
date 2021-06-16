@@ -7,6 +7,13 @@ type GenericRequestIn struct {
 	Request   interface{}       `json:"Request,omitempty"`
 }
 
+func InvalidGenericRequestIn(attr *RequestAttribute) *GenericRequestIn {
+	return &GenericRequestIn{
+		Attribute: attr,
+		Request:   nil,
+	}
+}
+
 func (receiver *GenericRequestIn) SimpleGenericRequest(
 	isValid bool,
 	invalidMessage string,
@@ -14,5 +21,16 @@ func (receiver *GenericRequestIn) SimpleGenericRequest(
 	return &SimpleGenericRequest{
 		Attribute: receiver.Attribute,
 		Request:   coredynamic.NewSimpleRequest(receiver.Request, isValid, invalidMessage),
+	}
+}
+
+func (receiver *GenericRequestIn) Clone() *GenericRequestIn {
+	if receiver == nil {
+		return nil
+	}
+
+	return &GenericRequestIn{
+		Attribute: receiver.Attribute.Clone(),
+		Request:   receiver.Clone(),
 	}
 }

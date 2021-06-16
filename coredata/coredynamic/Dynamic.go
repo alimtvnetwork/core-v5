@@ -28,6 +28,18 @@ type Dynamic struct {
 	isPointer       issetter.Value
 }
 
+func InvalidDynamic(
+) Dynamic {
+	return *InvalidDynamicPtr()
+}
+
+func InvalidDynamicPtr(
+) *Dynamic {
+	return NewDynamicPtr(
+		nil,
+		false)
+}
+
 func NewDynamic(
 	data interface{},
 	isValid bool,
@@ -303,4 +315,14 @@ func (receiver *Dynamic) StringJsonMust() string {
 	}
 
 	return string(marshalledBytes)
+}
+
+func (receiver *Dynamic) Clone() *Dynamic {
+	if receiver == nil {
+		return nil
+	}
+
+	return NewDynamicPtr(
+		receiver.innerData,
+		receiver.isValid)
 }

@@ -4,9 +4,10 @@ type Specification struct {
 	BaseIdDisplayType
 	BaseTags
 	BaseIsGlobal
+	flatSpec *FlatSpecification
 }
 
-func (r Specification) ClonePtr() *Specification {
+func (r *Specification) Clone() *Specification {
 	return &Specification{
 		BaseIdDisplayType: BaseIdDisplayType{
 			BaseIdentifier: BaseIdentifier{r.Id},
@@ -18,4 +19,16 @@ func (r Specification) ClonePtr() *Specification {
 		},
 		BaseIsGlobal: BaseIsGlobal{r.IsGlobal},
 	}
+}
+
+func (r *Specification) FlatSpecification() *FlatSpecification {
+	if r.flatSpec != nil {
+		return r.flatSpec
+	}
+
+	r.flatSpec = NewFlatSpecificationUsingSpec(
+		r,
+		true)
+
+	return r.flatSpec
 }

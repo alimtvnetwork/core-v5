@@ -2,9 +2,9 @@ package stringslice
 
 import "gitlab.com/evatix-go/core/constants"
 
-func PrependNew(firstSlice []string, additionalItems ...string) *[]string {
-	sliceLength := len(firstSlice)
-	additionalItemsLength := len(additionalItems)
+func PrependNew(secondSlice []string, prependingItems ...string) *[]string {
+	sliceLength := len(secondSlice)
+	additionalItemsLength := len(prependingItems)
 
 	newSlice := make(
 		[]string,
@@ -12,11 +12,11 @@ func PrependNew(firstSlice []string, additionalItems ...string) *[]string {
 		sliceLength+additionalItemsLength)
 
 	if additionalItemsLength > 0 {
-		newSlice = append(newSlice, additionalItems...)
+		newSlice = append(newSlice, prependingItems...)
 	}
 
 	if sliceLength > 0 {
-		newSlice = append(newSlice, firstSlice...)
+		newSlice = append(newSlice, secondSlice...)
 	}
 
 	return &newSlice

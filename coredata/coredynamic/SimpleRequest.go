@@ -12,19 +12,39 @@ import (
 
 type SimpleRequest struct {
 	Dynamic
-	invalidMessage string
-	err            error
+	message string
+	err     error
+}
+
+func InvalidSimpleRequestNoMessage() *SimpleRequest {
+	return &SimpleRequest{
+		Dynamic: NewDynamic(nil, false),
+		message: constants.EmptyString,
+	}
+}
+
+func InvalidSimpleRequest(
+	message string,
+) *SimpleRequest {
+	return &SimpleRequest{
+		Dynamic: NewDynamic(nil, false),
+		message: message,
+	}
 }
 
 func NewSimpleRequest(
 	request interface{},
 	isValid bool,
-	inValidMsg string,
+	message string,
 ) *SimpleRequest {
 	return &SimpleRequest{
-		Dynamic:        NewDynamic(request, isValid),
-		invalidMessage: inValidMsg,
+		Dynamic: NewDynamic(request, isValid),
+		message: message,
 	}
+}
+
+func (receiver *SimpleRequest) Message() string {
+	return receiver.message
 }
 
 func (receiver *SimpleRequest) Request() interface{} {
@@ -52,7 +72,7 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 		return errors.New(typeMismatchMessage)
 	}
 
-	return errors.New(typeMismatchMessage + receiver.invalidMessage)
+	return errors.New(typeMismatchMessage + receiver.message)
 }
 
 func (receiver *SimpleRequest) IsReflectKind(checkingKind reflect.Kind) bool {
@@ -73,12 +93,12 @@ func (receiver *SimpleRequest) InvalidError() error {
 		return receiver.err
 	}
 
-	if stringutil.IsEmptyOrWhitespace(receiver.invalidMessage) {
+	if stringutil.IsEmptyOrWhitespace(receiver.message) {
 		return nil
 	}
 
 	if receiver.err == nil {
-		receiver.err = errors.New(receiver.invalidMessage)
+		receiver.err = errors.New(receiver.message)
 	}
 
 	return receiver.err
