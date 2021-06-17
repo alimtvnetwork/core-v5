@@ -2111,7 +2111,7 @@ func (collection *Collection) NonEmptyJoins(
 func (collection *Collection) NonWhitespaceJoins(
 	joiner string,
 ) string {
-	return stringslice.NonWhitespaceJoin(
+	return stringslice.NonWhitespaceJoinPtr(
 		collection.items,
 		joiner)
 }

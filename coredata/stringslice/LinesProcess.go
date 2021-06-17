@@ -7,12 +7,16 @@ import (
 // LinesProcess split text using constants.NewLineUnix
 // then returns lines processed by lineProcessor
 func LinesProcess(
-	splitsLines []string,
+	lines []string,
 	lineProcessor func(index int, lineIn string) (lineOut string, isTake, isBreak bool),
 ) []string {
-	slice := Make(constants.Zero, len(splitsLines))
+	if len(lines) == 0 {
+		return []string{}
+	}
 
-	for i, lineIn := range splitsLines {
+	slice := Make(constants.Zero, len(lines))
+
+	for i, lineIn := range lines {
 		lineOut, isTake, isBreak := lineProcessor(i, lineIn)
 
 		if isTake {

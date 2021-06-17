@@ -11,6 +11,10 @@ func LinesSimpleProcessNoEmpty(
 	splitsLines []string,
 	lineProcessor func(lineIn string) (lineOut string),
 ) []string {
+	if len(splitsLines) == 0 {
+		return []string{}
+	}
+
 	slice := Make(constants.Zero, len(splitsLines))
 
 	for _, lineIn := range splitsLines {

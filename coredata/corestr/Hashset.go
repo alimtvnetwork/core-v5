@@ -984,7 +984,7 @@ func (hashset *Hashset) NonEmptyJoins(
 func (hashset *Hashset) NonWhitespaceJoins(
 	joiner string,
 ) string {
-	return stringslice.NonWhitespaceJoin(
+	return stringslice.NonWhitespaceJoinPtr(
 		hashset.ListPtr(),
 		joiner)
 }

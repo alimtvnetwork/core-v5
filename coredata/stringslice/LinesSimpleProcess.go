@@ -7,6 +7,11 @@ func LinesSimpleProcess(
 	lineProcessor func(lineIn string) (lineOut string),
 ) []string {
 	length := len(splitsLines)
+
+	if length == 0 {
+		return []string{}
+	}
+
 	slice := Make(length, length)
 
 	for i, lineIn := range splitsLines {
