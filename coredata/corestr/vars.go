@@ -9,4 +9,8 @@ import (
 var (
 	StaticJsonError = msgtype.EmptyResultCannotMakeJson.
 		Error(constants.EmptyString, constants.EmptyString)
+	ExpectingLengthForLeftRight      = constants.Two
+	LeftRightExpectingLengthMessager = msgtype.ExpectingFuture(
+		"Expecting length at least",
+		ExpectingLengthForLeftRight)
 )

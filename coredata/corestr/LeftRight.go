@@ -29,6 +29,30 @@ func InvalidLeftRight(message string) *LeftRight {
 	}
 }
 
+func LeftRightUsingSlicePtr(slice *[]string) *LeftRight {
+	if slice == nil || *slice == nil {
+		return LeftRightUsingSlice(nil)
+	}
+
+	return LeftRightUsingSlice(*slice)
+}
+
+func LeftRightUsingSlice(slice []string) *LeftRight {
+	length := len(slice)
+
+	if length == 0 {
+		return InvalidLeftRight(
+			LeftRightExpectingLengthMessager.Message(
+				length))
+	}
+
+	return &LeftRight{
+		Left:    slice[constants.Zero],
+		Right:   slice[length-1],
+		IsValid: length == ExpectingLengthForLeftRight,
+	}
+}
+
 func (receiver *LeftRight) LeftBytes() []byte {
 	return []byte(receiver.Left)
 }

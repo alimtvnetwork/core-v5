@@ -1,8 +1,8 @@
 package stringslice
 
-// ToSlicePtr on nil or empty makes new  &[]string{}
+// SlicePtr on nil or empty makes new  &[]string{}
 // else makes a pointer to self and returns
-func ToSlicePtr(slice []string) (slicePtr *[]string) {
+func SlicePtr(slice []string) (slicePtr *[]string) {
 	if len(slice) == 0 {
 		return &[]string{}
 	}

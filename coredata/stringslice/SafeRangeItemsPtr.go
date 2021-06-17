@@ -1,13 +1,14 @@
 package stringslice
 
-func NonWhitespaceSlicePtr(
+func SafeRangeItemsPtr(
 	slice *[]string,
+	start, end int,
 ) *[]string {
 	if slice == nil || *slice == nil {
 		return &[]string{}
 	}
 
-	nonPtrSlice := NonWhitespaceSlice(*slice)
+	results := SafeRangeItems(*slice, start, end)
 
-	return &nonPtrSlice
+	return &results
 }

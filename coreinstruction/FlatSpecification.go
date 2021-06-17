@@ -89,7 +89,7 @@ func (receiver *FlatSpecification) Clone() *FlatSpecification {
 		Display:  receiver.Display,
 		Type:     receiver.Type,
 		IsGlobal: receiver.IsGlobal,
-		Tags:     stringslice.ToCloneSlicePtr(receiver.Tags),
+		Tags:     stringslice.ClonePtr(receiver.Tags),
 		IsValid:  receiver.IsValid,
 	}
 }

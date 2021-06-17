@@ -3,6 +3,7 @@ package corerange
 import (
 	"strings"
 
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
 )
 
@@ -36,6 +37,40 @@ func NewStartEndString(raw, sep string) *StartEndString {
 		BaseRange: &BaseRange{
 			RawInput:  raw,
 			Separator: sep,
+			IsValid:   isValid,
+			HasStart:  hasStart,
+			HasEnd:    hasEnd,
+		},
+		Start: start,
+		End:   end,
+	}
+}
+
+// NewStartEndStringUsingLines using first, last index
+func NewStartEndStringUsingLines(lines []string) *StartEndString {
+	length := len(lines)
+	hasStart := length >= 1
+	hasEnd := length >= 2
+	isValid := false
+	isValid = isValid &&
+		length == 2 &&
+		hasStart &&
+		hasEnd
+
+	var start, end string
+
+	if hasStart {
+		start = lines[coreindexes.First]
+	}
+
+	if hasEnd {
+		end = lines[length-1]
+	}
+
+	return &StartEndString{
+		BaseRange: &BaseRange{
+			RawInput:  constants.EmptyString,
+			Separator: constants.EmptyString,
 			IsValid:   isValid,
 			HasStart:  hasStart,
 			HasEnd:    hasEnd,
