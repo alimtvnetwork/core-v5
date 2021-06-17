@@ -67,6 +67,18 @@ func (receiver *RwxOwnerGroupOther) IsOther(rwx string) bool {
 	return receiver.Other == rwx
 }
 
+func (receiver *RwxOwnerGroupOther) ExpandCharOwner() (r, w, x byte) {
+	return expandCharsRwx(receiver.Owner)
+}
+
+func (receiver *RwxOwnerGroupOther) ExpandCharGroup() (r, w, x byte) {
+	return expandCharsRwx(receiver.Group)
+}
+
+func (receiver *RwxOwnerGroupOther) ExpandCharOther() (r, w, x byte) {
+	return expandCharsRwx(receiver.Other)
+}
+
 func (receiver *RwxOwnerGroupOther) Is(
 	ownerRwx,
 	groupRwx,
@@ -106,4 +118,16 @@ func (receiver *RwxOwnerGroupOther) String() string {
 		receiver.Owner +
 		receiver.Group +
 		receiver.Other
+}
+
+func (receiver *RwxOwnerGroupOther) Clone() *RwxOwnerGroupOther {
+	if receiver == nil {
+		return nil
+	}
+
+	return &RwxOwnerGroupOther{
+		Owner: receiver.Owner,
+		Group: receiver.Group,
+		Other: receiver.Other,
+	}
 }

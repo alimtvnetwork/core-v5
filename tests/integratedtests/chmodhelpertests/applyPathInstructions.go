@@ -15,7 +15,7 @@ func applyPathInstructions(
 	msgtype.SimpleHandleErr(err, "applyPathInstructions")
 
 	for _, createPath := range testCase.CreatePaths {
-		err2 := executors.ApplyOnPaths(createPath.GetPaths())
+		err2 := executors.ApplyOnPathsPtr(createPath.GetPathsPtr())
 
 		if err2 != nil {
 			return err2

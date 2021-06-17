@@ -95,13 +95,21 @@ func (receiver *RwxInstructionExecutors) ApplyOnPath(location string) error {
 	return nil
 }
 
-func (receiver *RwxInstructionExecutors) ApplyOnPaths(locations *[]string) error {
+func (receiver *RwxInstructionExecutors) ApplyOnPaths(locations []string) error {
+	if len(locations) == 0 {
+		return nil
+	}
+
+	return receiver.ApplyOnPathsPtr(&locations)
+}
+
+func (receiver *RwxInstructionExecutors) ApplyOnPathsPtr(locations *[]string) error {
 	if receiver.IsEmpty() {
 		return nil
 	}
 
 	for _, executor := range *receiver.items {
-		err := executor.ApplyOnPaths(locations)
+		err := executor.ApplyOnPathsPtr(locations)
 
 		if err != nil {
 			return err

@@ -11,7 +11,7 @@ type Attribute struct {
 	IsExecute bool
 }
 
-func (attribute Attribute) ToAttributeValue() AttributeValue {
+func (attribute *Attribute) ToAttributeValue() AttributeValue {
 	read, write, exe, sum := attribute.ToSpecificBytes()
 
 	return AttributeValue{
@@ -22,7 +22,7 @@ func (attribute Attribute) ToAttributeValue() AttributeValue {
 	}
 }
 
-func (attribute Attribute) ToSpecificBytes() (read, write, exe, sum byte) {
+func (attribute *Attribute) ToSpecificBytes() (read, write, exe, sum byte) {
 	read = conditional.Byte(attribute.IsRead, ReadValue, constants.Zero)
 	write = conditional.Byte(attribute.IsWrite, WriteValue, constants.Zero)
 	exe = conditional.Byte(attribute.IsExecute, ExecuteValue, constants.Zero)
@@ -31,7 +31,7 @@ func (attribute Attribute) ToSpecificBytes() (read, write, exe, sum byte) {
 }
 
 // ToByte refers to the compiled byte value in between 0-7
-func (attribute Attribute) ToByte() byte {
+func (attribute *Attribute) ToByte() byte {
 	r := conditional.Byte(attribute.IsRead, ReadValue, constants.Zero)
 	w := conditional.Byte(attribute.IsWrite, WriteValue, constants.Zero)
 	e := conditional.Byte(attribute.IsExecute, ExecuteValue, constants.Zero)
@@ -40,11 +40,11 @@ func (attribute Attribute) ToByte() byte {
 }
 
 // ToSum refers to the compiled byte value in between 0-7
-func (attribute Attribute) ToSum() byte {
+func (attribute *Attribute) ToSum() byte {
 	return attribute.ToByte()
 }
 
-func (attribute Attribute) ToRwx() [3]byte {
+func (attribute *Attribute) ToRwx() [3]byte {
 	return [3]byte{
 		conditional.Byte(attribute.IsRead, ReadChar, constants.HyphenChar),
 		conditional.Byte(attribute.IsWrite, WriteChar, constants.HyphenChar),
@@ -53,13 +53,13 @@ func (attribute Attribute) ToRwx() [3]byte {
 }
 
 // ToRwxString returns "rwx"
-func (attribute Attribute) ToRwxString() string {
+func (attribute *Attribute) ToRwxString() string {
 	rwxBytes := attribute.ToRwx()
 
 	return string(rwxBytes[:])
 }
 
-func (attribute Attribute) ToVariant() AttrVariant {
+func (attribute *Attribute) ToVariant() AttrVariant {
 	b := attribute.ToByte()
 
 	return AttrVariant(b)
@@ -68,6 +68,18 @@ func (attribute Attribute) ToVariant() AttrVariant {
 // ToStringByte returns the compiled byte value as Char byte value
 //
 // It is not restricted between 0-7 but 0-7 + char '0', which makes it string 0-7
-func (attribute Attribute) ToStringByte() byte {
+func (attribute *Attribute) ToStringByte() byte {
 	return attribute.ToByte() + constants.ZeroChar
+}
+
+func (attribute *Attribute) Clone() *Attribute {
+	if attribute == nil {
+		return nil
+	}
+
+	return &Attribute{
+		IsRead:    attribute.IsRead,
+		IsWrite:   attribute.IsWrite,
+		IsExecute: attribute.IsExecute,
+	}
 }

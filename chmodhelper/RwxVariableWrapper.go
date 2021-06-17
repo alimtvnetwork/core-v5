@@ -39,3 +39,17 @@ func (varWrapper *RwxVariableWrapper) ToCompileWrapperPtr(fixed *RwxWrapper) *Rw
 		Other: varWrapper.Other.ToCompileAttr(&fixed.Other),
 	}
 }
+
+func (varWrapper *RwxVariableWrapper) Clone() *RwxVariableWrapper {
+	if varWrapper == nil {
+		return nil
+	}
+
+	return &RwxVariableWrapper{
+		rawInput:    varWrapper.rawInput,
+		isFixedType: varWrapper.IsFixedType(),
+		Owner:       *varWrapper.Owner.Clone(),
+		Group:       *varWrapper.Group.Clone(),
+		Other:       *varWrapper.Other.Clone(),
+	}
+}

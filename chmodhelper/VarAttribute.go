@@ -45,3 +45,17 @@ func (varAttribute *VarAttribute) ToCompileAttr(fixed *Attribute) Attribute {
 		IsExecute: varAttribute.isExecute.WildcardApply(fixed.IsExecute),
 	}
 }
+
+func (varAttribute *VarAttribute) Clone() *VarAttribute {
+	if varAttribute == nil {
+		return nil
+	}
+
+	return &VarAttribute{
+		rawInput:    varAttribute.rawInput,
+		isFixedType: varAttribute.IsFixedType(),
+		isRead:      varAttribute.isRead,
+		isWrite:     varAttribute.isWrite,
+		isExecute:   varAttribute.isExecute,
+	}
+}

@@ -12,7 +12,7 @@ func ParseRwxToVarAttribute(rwx string) (varAttribute *VarAttribute, err error) 
 		return nil, GetRwxLengthError(rwx)
 	}
 
-	r, w, x := ExpendRwx(rwx)
+	r, w, x := ExpandCharRwx(rwx)
 
 	// any is true
 	isRead := issetter.GetBool(r == ReadChar)

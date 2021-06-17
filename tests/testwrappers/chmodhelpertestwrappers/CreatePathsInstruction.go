@@ -16,7 +16,11 @@ type CreatePathsInstruction struct {
 	ApplyRwx chmodins.RwxOwnerGroupOther
 }
 
-func (receiver *CreatePathsInstruction) GetPaths() *[]string {
+func (receiver *CreatePathsInstruction) GetPaths() []string {
+	return *receiver.GetPathsPtr()
+}
+
+func (receiver *CreatePathsInstruction) GetPathsPtr() *[]string {
 	collection := corestr.NewCollection(constants.ArbitraryCapacity50)
 
 	for _, file := range receiver.Files {
@@ -28,7 +32,7 @@ func (receiver *CreatePathsInstruction) GetPaths() *[]string {
 }
 
 func (receiver *CreatePathsInstruction) GetFilesChmodMap() *corestr.Hashmap {
-	files := receiver.GetPaths()
+	files := receiver.GetPathsPtr()
 	hashmap := corestr.NewHashmap(constants.ArbitraryCapacity50)
 
 	for _, filePath := range *files {
