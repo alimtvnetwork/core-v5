@@ -1,6 +1,9 @@
 package msgtype
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+)
 
 type ExpectingRecord struct {
 	ExpectingTitle string
@@ -18,4 +21,13 @@ func (receiver *ExpectingRecord) Message(actual interface{}) string {
 		receiver.ExpectingTitle,
 		receiver.WasExpecting, receiver.WasExpecting,
 		actual, actual)
+}
+
+// Error
+// Expecting
+//
+// returns
+//      "%s - expecting (type:[%T]) : [\"%v\"], but received or actual (type:[%T]) : [\"%v\"]"
+func (receiver *ExpectingRecord) Error(actual interface{}) error {
+	return errors.New(receiver.Message(actual))
 }
