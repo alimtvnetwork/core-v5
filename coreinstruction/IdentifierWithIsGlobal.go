@@ -18,6 +18,10 @@ func NewIdentifierWithIsGlobal(
 }
 
 func (receiver *IdentifierWithIsGlobal) Clone() *IdentifierWithIsGlobal {
+	if receiver == nil {
+		return nil
+	}
+
 	return &IdentifierWithIsGlobal{
 		BaseIdentifier: *receiver.BaseIdentifier.Clone(),
 		IsGlobal:       receiver.IsGlobal,

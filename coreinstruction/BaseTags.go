@@ -12,10 +12,23 @@ type BaseTags struct {
 	Tags        *[]string `json:"Tags,omitempty"`
 }
 
-func NewTags(tags *[]string) *BaseTags {
+func NewTagsPtr(tags *[]string) *BaseTags {
+	if tags == nil || len(*tags) == 0 {
+		return NewTags(nil)
+	}
+
+	return NewTags(*tags)
+}
+
+func NewTags(tags []string) *BaseTags {
+	if len(tags) == 0 {
+		return &BaseTags{
+			Tags: &[]string{},
+		}
+	}
+
 	return &BaseTags{
-		tagsHashset: nil,
-		Tags:        tags,
+		Tags: &tags,
 	}
 }
 

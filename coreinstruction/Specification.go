@@ -7,6 +7,56 @@ type Specification struct {
 	flatSpec *FlatSpecification
 }
 
+func NewSpecificationSimple(
+	id,
+	display,
+	typeName string,
+) *Specification {
+	return &Specification{
+		BaseIdDisplayType: BaseIdDisplayType{
+			BaseIdentifier: BaseIdentifier{Id: id},
+			BaseDisplay:    BaseDisplay{display},
+			BaseType:       BaseType{typeName},
+		},
+		BaseTags:     *NewTags(nil),
+		BaseIsGlobal: BaseIsGlobal{false},
+	}
+}
+
+func NewSpecificationSimpleGlobal(
+	id,
+	display,
+	typeName string,
+) *Specification {
+	return &Specification{
+		BaseIdDisplayType: BaseIdDisplayType{
+			BaseIdentifier: BaseIdentifier{Id: id},
+			BaseDisplay:    BaseDisplay{display},
+			BaseType:       BaseType{typeName},
+		},
+		BaseTags:     *NewTags(nil),
+		BaseIsGlobal: BaseIsGlobal{true},
+	}
+}
+
+func NewSpecification(
+	id,
+	display,
+	typeName string,
+	tags []string,
+	isGlobal bool,
+) *Specification {
+	return &Specification{
+		BaseIdDisplayType: BaseIdDisplayType{
+			BaseIdentifier: BaseIdentifier{Id: id},
+			BaseDisplay:    BaseDisplay{display},
+			BaseType:       BaseType{typeName},
+		},
+		BaseTags:     *NewTags(tags),
+		BaseIsGlobal: BaseIsGlobal{isGlobal},
+	}
+}
+
 func (r *Specification) Clone() *Specification {
 	return &Specification{
 		BaseIdDisplayType: BaseIdDisplayType{
