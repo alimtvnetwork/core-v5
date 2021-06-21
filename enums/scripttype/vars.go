@@ -6,10 +6,8 @@ import (
 )
 
 var (
-	bash                   = Bash
-	cmd                    = Cmd
-	bashDefaultScript      = bash.ScriptDefault()
-	cmdDefaultScript       = cmd.ScriptDefault()
+	bashDefaultScript      = RangesMap[Bash]
+	cmdDefaultScript       = RangesMap[Cmd]
 	scriptTypeStringRanges = [...]string{
 		Uninitialized: "Uninitialized",
 		Default:       "Default",

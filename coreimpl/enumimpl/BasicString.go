@@ -4,13 +4,14 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/defaulterr"
+	"gitlab.com/evatix-go/core/simplewrap"
 )
 
 type BasicString struct {
 	*numberEnumBase
-	hashset          map[string]bool
-	jsonBytesHashmap map[string][]byte
-	minVal, maxVal   string
+	jsonDoubleQuoteNameToValueHashMap        map[string]bool   // contains names double quotes to value
+	valueToJsonDoubleQuoteStringBytesHashmap map[string][]byte // contains value to string bytes with double quotes
+	minVal, maxVal                           string
 }
 
 func NewBasicString(
@@ -23,21 +24,27 @@ func NewBasicString(
 		min,
 		max)
 
-	jsonBytesHashmap := make(
+	jsonDoubleQuoteNameToValueHashMap := make(
+		map[string]string,
+		len(stringRanges))
+	valueToJsonDoubleQuoteStringBytesHashmap := make(
 		map[string][]byte,
 		len(stringRanges))
 
-	for _, actualVal := range stringRanges {
-		jsonBytesHashmap[actualVal] = []byte(actualVal)
+	for i, actualVal := range stringRanges {
+		key := stringRanges[i]
+		jsonName := simplewrap.WithDoubleQuote(key)
+		jsonDoubleQuoteNameToValueHashMap[jsonName] = actualVal
+		valueToJsonDoubleQuoteStringBytesHashmap[key] = []byte(jsonName)
 	}
 
 	return &BasicString{
 		numberEnumBase: enumBase,
 		minVal:         min,
 		maxVal:         max,
-		hashset: *converters.
+		jsonDoubleQuoteNameToValueHashMap: *converters.
 			StringsToMap(&stringRanges),
-		jsonBytesHashmap: jsonBytesHashmap,
+		valueToJsonDoubleQuoteStringBytesHashmap: valueToJsonDoubleQuoteStringBytesHashmap,
 	}
 }
 
@@ -68,20 +75,20 @@ func (receiver *BasicString) Ranges() []string {
 }
 
 func (receiver *BasicString) Hashset() map[string]bool {
-	return receiver.hashset
+	return receiver.jsonDoubleQuoteNameToValueHashMap
 }
 
 func (receiver *BasicString) HashsetPtr() *map[string]bool {
-	return &receiver.hashset
+	return &receiver.jsonDoubleQuoteNameToValueHashMap
 }
 
 func (receiver *BasicString) IsValidRange(value string) bool {
-	return receiver.hashset[value]
+	return receiver.jsonDoubleQuoteNameToValueHashMap[value]
 }
 
 // ToEnumJsonBytes used for MarshalJSON from map
 func (receiver *BasicString) ToEnumJsonBytes(value string) []byte {
-	return receiver.jsonBytesHashmap[value]
+	return receiver.valueToJsonDoubleQuoteStringBytesHashmap[value]
 }
 
 // UnmarshallEnumToValue Mostly used for UnmarshalJSON

@@ -4,16 +4,17 @@ import (
 	"fmt"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/simplewrap"
 )
 
 type BasicByte struct {
 	*numberEnumBase
-	hashMap          map[string]byte
-	jsonBytesHashmap map[byte][]byte
-	minVal, maxVal   byte
+	jsonDoubleQuoteNameToValueHashMap        map[string]byte // contains names double quotes to value
+	valueToJsonDoubleQuoteStringBytesHashmap map[byte][]byte // contains value to string bytes with double quotes
+	valueNameHashmap                         map[byte]string // contains name without double quotes
+	minVal, maxVal                           byte
 }
 
 func NewBasicByte(
@@ -27,21 +28,25 @@ func NewBasicByte(
 		min,
 		max)
 
-	hashMap := make(map[string]byte, len(actualValueRanges))
-	jsonBytesHashmap := make(map[byte][]byte, len(actualValueRanges))
+	jsonDoubleQuoteNameToValueHashMap := make(map[string]byte, len(actualValueRanges))
+	valueToJsonDoubleQuoteStringBytesHashmap := make(map[byte][]byte, len(actualValueRanges))
+	valueNameHashmap := make(map[byte]string, len(actualValueRanges))
 
 	for i, actualVal := range actualValueRanges {
 		key := stringRanges[i]
-		hashMap[key] = actualVal
-		jsonBytesHashmap[actualVal] = []byte(key)
+		jsonName := simplewrap.WithDoubleQuote(key)
+		jsonDoubleQuoteNameToValueHashMap[jsonName] = actualVal
+		valueToJsonDoubleQuoteStringBytesHashmap[actualVal] = []byte(jsonName)
+		valueNameHashmap[actualVal] = key
 	}
 
 	return &BasicByte{
-		numberEnumBase:   enumBase,
-		minVal:           min,
-		maxVal:           max,
-		hashMap:          hashMap,
-		jsonBytesHashmap: jsonBytesHashmap,
+		numberEnumBase:                           enumBase,
+		minVal:                                   min,
+		maxVal:                                   max,
+		jsonDoubleQuoteNameToValueHashMap:        jsonDoubleQuoteNameToValueHashMap,
+		valueToJsonDoubleQuoteStringBytesHashmap: valueToJsonDoubleQuoteStringBytesHashmap,
+		valueNameHashmap:                         valueNameHashmap,
 	}
 }
 
@@ -86,7 +91,7 @@ func (receiver *BasicByte) Min() byte {
 }
 
 func (receiver *BasicByte) GetValueByString(valueString string) byte {
-	return receiver.hashMap[valueString]
+	return receiver.jsonDoubleQuoteNameToValueHashMap[valueString]
 }
 
 func (receiver *BasicByte) GetStringValue(input byte) string {
@@ -98,11 +103,11 @@ func (receiver *BasicByte) Ranges() []byte {
 }
 
 func (receiver *BasicByte) Hashmap() map[string]byte {
-	return receiver.hashMap
+	return receiver.jsonDoubleQuoteNameToValueHashMap
 }
 
 func (receiver *BasicByte) HashmapPtr() *map[string]byte {
-	return &receiver.hashMap
+	return &receiver.jsonDoubleQuoteNameToValueHashMap
 }
 
 func (receiver *BasicByte) IsValidRange(value byte) bool {
@@ -111,11 +116,11 @@ func (receiver *BasicByte) IsValidRange(value byte) bool {
 
 // ToEnumJsonBytes used for MarshalJSON from map
 func (receiver *BasicByte) ToEnumJsonBytes(value byte) []byte {
-	return receiver.jsonBytesHashmap[value]
+	return receiver.valueToJsonDoubleQuoteStringBytesHashmap[value]
 }
 
 func (receiver *BasicByte) ToEnumString(value byte) string {
-	return *converters.UnsafeBytesToStringPtr(receiver.jsonBytesHashmap[value])
+	return receiver.valueNameHashmap[value]
 }
 
 func (receiver *BasicByte) ToNumberString(valueInRawFormat interface{}) string {
@@ -134,7 +139,7 @@ func (receiver *BasicByte) UnmarshallEnumToValue(
 	}
 
 	str := string(jsonUnmarshallingValue)
-	v, has := receiver.hashMap[str]
+	v, has := receiver.jsonDoubleQuoteNameToValueHashMap[str]
 
 	if !has {
 		return constants.Zero,

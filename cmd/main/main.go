@@ -1,11 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 
-	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/coreutils/stringutil"
+	"gitlab.com/evatix-go/core/enums/scripttype"
 	"gitlab.com/evatix-go/core/reqtype"
 )
 
@@ -34,13 +35,34 @@ func main() {
 	// fmt.Println(reqtype.RangesNotMeetError("", reqtype.Create, reqtype.Merge))
 	// fmt.Println(reqtype.BasicEnumImpl.RangesInvalidErr())
 
-	fixedRwx := chmodins.FixRwxFullStringWithWildcards("-rwx-w-r-x")
-	fmt.Println(fixedRwx)
-	ownerGO, _ := chmodins.ExpandRwxFullStringToOwnerGroupOther(fixedRwx)
+	var v = reqtype.Delete
 
-	fmt.Println(ownerGO.Owner, ownerGO.Group, ownerGO.Other)
-	fmt.Println(stringutil.MaskLines(chmodins.AllWildCardsRwxFullString, "-rwx"))
-	fmt.Println(reqtype.RangesNotSupportedFor("", reqtype.Create, reqtype.Merge))
+	bytes, err := json.Marshal(v)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Marshalled:", string(bytes))
+	fmt.Println("Name:", v.Name())
+
+	var w reqtype.Request
+	err = json.Unmarshal(bytes, &w)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Unmarshalled: ", w.String())
+	variant := scripttype.Default
+	fmt.Println(variant.ScriptDefault())
+
+	// fixedRwx := chmodins.FixRwxFullStringWithWildcards("-rwx-w-r-x")
+	// fmt.Println(fixedRwx)
+	// ownerGO, _ := chmodins.ExpandRwxFullStringToOwnerGroupOther(fixedRwx)
+
+	// fmt.Println(ownerGO.Owner, ownerGO.Group, ownerGO.Other)
+	// fmt.Println(stringutil.MaskLines(chmodins.AllWildCardsRwxFullString, "-rwx"))
+	// fmt.Println(reqtype.RangesNotSupportedFor("", reqtype.Create, reqtype.Merge))
 	// items := &[]string{
 	// 	"00",
 	// 	"01",

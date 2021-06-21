@@ -4,16 +4,17 @@ import (
 	"fmt"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/simplewrap"
 )
 
 type BasicInt8 struct {
 	*numberEnumBase
-	hashMap          map[string]int8
-	jsonBytesHashmap map[int8][]byte
-	minVal, maxVal   int8
+	jsonDoubleQuoteNameToValueHashMap        map[string]int8 // contains names double quotes to value
+	valueToJsonDoubleQuoteStringBytesHashmap map[int8][]byte // contains value to string bytes with double quotes
+	valueNameHashmap                         map[int8]string // contains name without double quotes
+	minVal, maxVal                           int8
 }
 
 func NewBasicInt8(
@@ -27,22 +28,44 @@ func NewBasicInt8(
 		min,
 		max)
 
-	hashMap := make(map[string]int8, len(actualValueRanges))
-	jsonBytesHashmap := make(map[int8][]byte, len(actualValueRanges))
+	jsonDoubleQuoteNameToValueHashMap := make(map[string]int8, len(actualValueRanges))
+	valueToJsonDoubleQuoteStringBytesHashmap := make(map[int8][]byte, len(actualValueRanges))
+	valueNameHashmap := make(map[int8]string, len(actualValueRanges))
 
 	for i, actualVal := range actualValueRanges {
 		key := stringRanges[i]
-		hashMap[key] = actualVal
-		jsonBytesHashmap[actualVal] = []byte(key)
+		jsonName := simplewrap.WithDoubleQuote(key)
+		jsonDoubleQuoteNameToValueHashMap[jsonName] = actualVal
+		valueToJsonDoubleQuoteStringBytesHashmap[actualVal] = []byte(jsonName)
+		valueNameHashmap[actualVal] = key
 	}
 
 	return &BasicInt8{
-		numberEnumBase:   enumBase,
-		minVal:           min,
-		maxVal:           max,
-		hashMap:          hashMap,
-		jsonBytesHashmap: jsonBytesHashmap,
+		numberEnumBase:                           enumBase,
+		minVal:                                   min,
+		maxVal:                                   max,
+		jsonDoubleQuoteNameToValueHashMap:        jsonDoubleQuoteNameToValueHashMap,
+		valueToJsonDoubleQuoteStringBytesHashmap: valueToJsonDoubleQuoteStringBytesHashmap,
+		valueNameHashmap:                         valueNameHashmap,
 	}
+}
+
+func NewBasicInt8UsingIndexedSlice(
+	indexedSliceWithValues []string,
+) *BasicInt8 {
+	min := constants.Zero
+	max := len(indexedSliceWithValues)
+
+	actualValues := make([]int8, max)
+	for i := range indexedSliceWithValues {
+		actualValues[i] = int8(i)
+	}
+
+	return NewBasicInt8(
+		actualValues,
+		indexedSliceWithValues,
+		int8(min),
+		int8(max))
 }
 
 func (receiver *BasicInt8) IsAnyOf(value int8, checkingItems ...int8) bool {
@@ -68,7 +91,7 @@ func (receiver *BasicInt8) Min() int8 {
 }
 
 func (receiver *BasicInt8) GetValueByString(valueString string) int8 {
-	return receiver.hashMap[valueString]
+	return receiver.jsonDoubleQuoteNameToValueHashMap[valueString]
 }
 
 func (receiver *BasicInt8) GetStringValue(input int8) string {
@@ -80,11 +103,11 @@ func (receiver *BasicInt8) Ranges() []int8 {
 }
 
 func (receiver *BasicInt8) Hashmap() map[string]int8 {
-	return receiver.hashMap
+	return receiver.jsonDoubleQuoteNameToValueHashMap
 }
 
 func (receiver *BasicInt8) HashmapPtr() *map[string]int8 {
-	return &receiver.hashMap
+	return &receiver.jsonDoubleQuoteNameToValueHashMap
 }
 
 func (receiver *BasicInt8) IsValidRange(value int8) bool {
@@ -93,11 +116,11 @@ func (receiver *BasicInt8) IsValidRange(value int8) bool {
 
 // ToEnumJsonBytes used for MarshalJSON from map
 func (receiver *BasicInt8) ToEnumJsonBytes(value int8) []byte {
-	return receiver.jsonBytesHashmap[value]
+	return receiver.valueToJsonDoubleQuoteStringBytesHashmap[value]
 }
 
 func (receiver *BasicInt8) ToEnumString(value int8) string {
-	return *converters.UnsafeBytesToStringPtr(receiver.jsonBytesHashmap[value])
+	return receiver.valueNameHashmap[value]
 }
 
 func (receiver *BasicInt8) ToNumberString(valueInRawFormat interface{}) string {
@@ -116,14 +139,15 @@ func (receiver *BasicInt8) UnmarshallEnumToValue(
 	}
 
 	str := string(jsonUnmarshallingValue)
-	v, has := receiver.hashMap[str]
+	v, has := receiver.jsonDoubleQuoteNameToValueHashMap[str]
 
 	if !has {
-		return constants.Zero, msgtype.MeaningFulErrorWithData(
-			msgtype.UnMarshallingFailed,
-			"UnmarshallEnumToValue",
-			defaulterr.UnMarshallingPlusCannotFindingEnumMap,
-			string(jsonUnmarshallingValue))
+		return constants.Zero,
+			msgtype.MeaningFulErrorWithData(
+				msgtype.UnMarshallingFailed,
+				"UnmarshallEnumToValue",
+				defaulterr.UnMarshallingPlusCannotFindingEnumMap,
+				string(jsonUnmarshallingValue))
 	}
 
 	return v, nil
