@@ -19,10 +19,10 @@ func GetFilesChmodRwxFullMap(
 	var sliceErr []string
 
 	for _, filePath := range requestedPaths {
-		fileMode, err := GetExistingChmod(filePath)
+		fileMode, err2 := GetExistingChmod(filePath)
 
-		if err != nil {
-			sliceErr = append(sliceErr, err.Error())
+		if err2 != nil {
+			sliceErr = append(sliceErr, err2.Error())
 
 			continue
 		}

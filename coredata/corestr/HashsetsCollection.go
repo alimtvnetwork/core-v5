@@ -14,51 +14,51 @@ type HashsetsCollection struct {
 	items *[]*Hashset
 }
 
-func (hashsetsCollection *HashsetsCollection) IsEmpty() bool {
-	return hashsetsCollection.items == nil ||
-		*hashsetsCollection.items == nil ||
-		len(*hashsetsCollection.items) == 0
+func (it *HashsetsCollection) IsEmpty() bool {
+	return it.items == nil ||
+		*it.items == nil ||
+		len(*it.items) == 0
 }
 
-func (hashsetsCollection *HashsetsCollection) HasItems() bool {
-	return hashsetsCollection.items != nil &&
-		*hashsetsCollection.items != nil &&
-		len(*hashsetsCollection.items) > 0
+func (it *HashsetsCollection) HasItems() bool {
+	return it.items != nil &&
+		*it.items != nil &&
+		len(*it.items) > 0
 }
 
-func (hashsetsCollection *HashsetsCollection) IndexOf(index int) *Hashset {
-	if hashsetsCollection.IsEmpty() ||
-		hashsetsCollection.Length()-1 > index {
+func (it *HashsetsCollection) IndexOf(index int) *Hashset {
+	if it.IsEmpty() ||
+		it.Length()-1 > index {
 		return nil
 	}
 
-	hashset := (*hashsetsCollection.items)[index]
+	hashset := (*it.items)[index]
 
 	return hashset
 }
 
-func (hashsetsCollection *HashsetsCollection) ListPtr() *[]*Hashset {
-	return hashsetsCollection.items
+func (it *HashsetsCollection) ListPtr() *[]*Hashset {
+	return it.items
 }
 
-func (hashsetsCollection *HashsetsCollection) List() []*Hashset {
-	return *hashsetsCollection.items
+func (it *HashsetsCollection) List() []*Hashset {
+	return *it.items
 }
 
-func (hashsetsCollection *HashsetsCollection) StringsList() *[]string {
-	if hashsetsCollection.IsEmpty() {
+func (it *HashsetsCollection) StringsList() *[]string {
+	if it.IsEmpty() {
 		return constants.EmptyStringsPtr
 	}
 
 	completeLength := 0
-	for _, hashset := range *hashsetsCollection.items {
+	for _, hashset := range *it.items {
 		completeLength += hashset.Length()
 	}
 
 	stringsList := make([]string, completeLength)
 	index := 0
 
-	for _, hashset := range *hashsetsCollection.items {
+	for _, hashset := range *it.items {
 		for _, item := range *hashset.ListPtr() {
 			stringsList[index] = item
 			index++
@@ -70,17 +70,17 @@ func (hashsetsCollection *HashsetsCollection) StringsList() *[]string {
 
 // HasAll items returns false
 // hashsetsCollection empty returns false
-func (hashsetsCollection *HashsetsCollection) HasAll(items ...string) bool {
-	if hashsetsCollection.IsEmpty() || items == nil {
+func (it *HashsetsCollection) HasAll(items ...string) bool {
+	if it.IsEmpty() || items == nil {
 		return false
 	}
 
-	length := hashsetsCollection.Length()
+	length := it.Length()
 	boolList := make([]bool, length)
 	wg := &sync.WaitGroup{}
 	wg.Add(length)
 	hasFunc := func(i int, wg *sync.WaitGroup) {
-		boolList[i] = (*hashsetsCollection.items)[i].HasAllStringsPtr(&items)
+		boolList[i] = (*it.items)[i].HasAllStringsPtr(&items)
 		wg.Done()
 	}
 
@@ -99,10 +99,10 @@ func (hashsetsCollection *HashsetsCollection) HasAll(items ...string) bool {
 	return false
 }
 
-func (hashsetsCollection *HashsetsCollection) ListDirectPtr() *[]Hashset {
-	list := make([]Hashset, hashsetsCollection.Length())
+func (it *HashsetsCollection) ListDirectPtr() *[]Hashset {
+	list := make([]Hashset, it.Length())
 
-	for i, hashset := range *hashsetsCollection.items {
+	for i, hashset := range *it.items {
 		//goland:noinspection GoLinterLocal,GoVetCopyLock
 		list[i] = *hashset //nolint:govet
 	}
@@ -110,40 +110,87 @@ func (hashsetsCollection *HashsetsCollection) ListDirectPtr() *[]Hashset {
 	return &list
 }
 
-func (hashsetsCollection *HashsetsCollection) Add(hashset *Hashset) *HashsetsCollection {
-	*hashsetsCollection.items = append(*hashsetsCollection.items, hashset)
-
-	return hashsetsCollection
-}
-
-func (hashsetsCollection *HashsetsCollection) AddNonNil(hashset *Hashset) *HashsetsCollection {
-	if hashset == nil {
-		return hashsetsCollection
+func (it *HashsetsCollection) AddHashsetsCollection(
+	next *HashsetsCollection,
+) *HashsetsCollection {
+	if next == nil || next.IsEmpty() {
+		return it
 	}
 
-	*hashsetsCollection.items = append(*hashsetsCollection.items, hashset)
+	items := *it.items
 
-	return hashsetsCollection
+	for _, nextHashset := range *next.items {
+		items = append(items, nextHashset)
+	}
+
+	it.items = &items
+
+	return it
 }
 
-func (hashsetsCollection *HashsetsCollection) AddNonEmpty(
+func (it *HashsetsCollection) ConcatNew(
+	nextCollections ...*HashsetsCollection,
+) *HashsetsCollection {
+	if nextCollections == nil || len(nextCollections) == 0 {
+		return NewHashsetsCollectionUsingPointerHashsets(it.items)
+	}
+
+	length := it.Length() + constants.Capacity4
+
+	for _, collection := range nextCollections {
+		length += collection.Length()
+	}
+
+	newHashsetsCollection := NewHashsetsCollectionUsingLength(constants.Zero, length)
+	newHashsetsCollection.AddHashsetsCollection(it)
+
+	for _, collection := range nextCollections {
+		newHashsetsCollection.AddHashsetsCollection(collection)
+	}
+
+	return newHashsetsCollection
+}
+
+func (it *HashsetsCollection) Add(
+	hashset *Hashset,
+) *HashsetsCollection {
+	*it.items = append(
+		*it.items,
+		hashset)
+
+	return it
+}
+
+func (it *HashsetsCollection) AddNonNil(
+	hashset *Hashset,
+) *HashsetsCollection {
+	if hashset == nil {
+		return it
+	}
+
+	*it.items = append(*it.items, hashset)
+
+	return it
+}
+
+func (it *HashsetsCollection) AddNonEmpty(
 	hashset *Hashset,
 ) *HashsetsCollection {
 	if hashset == nil || hashset.IsEmpty() {
-		return hashsetsCollection
+		return it
 	}
 
-	*hashsetsCollection.items = append(*hashsetsCollection.items, hashset)
+	*it.items = append(*it.items, hashset)
 
-	return hashsetsCollection
+	return it
 }
 
 // Adds nil will be skipped
-func (hashsetsCollection *HashsetsCollection) Adds(
+func (it *HashsetsCollection) Adds(
 	hashsets ...*Hashset,
 ) *HashsetsCollection {
 	if hashsets == nil {
-		return hashsetsCollection
+		return it
 	}
 
 	for _, hashset := range hashsets {
@@ -151,57 +198,57 @@ func (hashsetsCollection *HashsetsCollection) Adds(
 			continue
 		}
 
-		*hashsetsCollection.items = append(
-			*hashsetsCollection.items,
+		*it.items = append(
+			*it.items,
 			hashset)
 	}
 
-	return hashsetsCollection
+	return it
 }
 
-func (hashsetsCollection *HashsetsCollection) Length() int {
-	if hashsetsCollection.items == nil ||
-		*hashsetsCollection.items == nil {
+func (it *HashsetsCollection) Length() int {
+	if it.items == nil ||
+		*it.items == nil {
 		return 0
 	}
 
-	return len(*hashsetsCollection.items)
+	return len(*it.items)
 }
 
-func (hashsetsCollection *HashsetsCollection) IsEqual(another HashsetsCollection) bool {
-	return hashsetsCollection.IsEqualPtr(&another)
+func (it *HashsetsCollection) IsEqual(another HashsetsCollection) bool {
+	return it.IsEqualPtr(&another)
 }
 
-func (hashsetsCollection *HashsetsCollection) IsEqualPtr(another *HashsetsCollection) bool {
-	if hashsetsCollection == nil && another == nil {
+func (it *HashsetsCollection) IsEqualPtr(another *HashsetsCollection) bool {
+	if it == nil && another == nil {
 		return true
 	}
 
-	if hashsetsCollection == nil || another == nil {
+	if it == nil || another == nil {
 		return false
 	}
 
-	if hashsetsCollection == another {
+	if it == another {
 		// ptr same
 		return true
 	}
 
-	if hashsetsCollection.IsEmpty() && another.IsEmpty() {
+	if it.IsEmpty() && another.IsEmpty() {
 		return true
 	}
 
-	if hashsetsCollection.IsEmpty() || another.IsEmpty() {
+	if it.IsEmpty() || another.IsEmpty() {
 		return false
 	}
 
-	leftLength := hashsetsCollection.Length()
+	leftLength := it.Length()
 	rightLength := another.Length()
 
 	if leftLength != rightLength {
 		return false
 	}
 
-	for i, hashset := range *hashsetsCollection.items {
+	for i, hashset := range *it.items {
 		anotherHashset := (*another.items)[i]
 
 		if !hashset.IsEqualsPtr(anotherHashset) {
@@ -212,62 +259,62 @@ func (hashsetsCollection *HashsetsCollection) IsEqualPtr(another *HashsetsCollec
 	return true
 }
 
-func (hashsetsCollection *HashsetsCollection) JsonModel() *HashsetsCollectionDataModel {
-	return NewHashsetsCollectionDataModelUsing(hashsetsCollection)
+func (it *HashsetsCollection) JsonModel() *HashsetsCollectionDataModel {
+	return NewHashsetsCollectionDataModelUsing(it)
 }
 
-func (hashsetsCollection *HashsetsCollection) JsonModelAny() interface{} {
-	return hashsetsCollection.JsonModel()
+func (it *HashsetsCollection) JsonModelAny() interface{} {
+	return it.JsonModel()
 }
 
-func (hashsetsCollection *HashsetsCollection) MarshalJSON() ([]byte, error) {
-	return json.Marshal(hashsetsCollection.JsonModel())
+func (it *HashsetsCollection) MarshalJSON() ([]byte, error) {
+	return json.Marshal(it.JsonModel())
 }
 
-func (hashsetsCollection *HashsetsCollection) UnmarshalJSON(
+func (it *HashsetsCollection) UnmarshalJSON(
 	data []byte,
 ) error {
 	var dataModel HashsetsCollectionDataModel
 	err := json.Unmarshal(data, &dataModel)
 
 	if err == nil {
-		hashsetsCollection.items = dataModel.Items
+		it.items = dataModel.Items
 	}
 
 	return err
 }
 
-func (hashsetsCollection *HashsetsCollection) Json() *corejson.Result {
-	if hashsetsCollection.IsEmpty() {
+func (it *HashsetsCollection) Json() *corejson.Result {
+	if it.IsEmpty() {
 		return corejson.EmptyWithoutErrorPtr()
 	}
 
-	jsonBytes, err := json.Marshal(hashsetsCollection)
+	jsonBytes, err := json.Marshal(it)
 
 	return corejson.NewPtr(jsonBytes, err)
 }
 
-func (hashsetsCollection *HashsetsCollection) ParseInjectUsingJson(
+func (it *HashsetsCollection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*HashsetsCollection, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
 		return EmptyHashsetsCollection(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
-	err := json.Unmarshal(*jsonResult.Bytes, &hashsetsCollection)
+	err := json.Unmarshal(*jsonResult.Bytes, &it)
 
 	if err != nil {
 		return EmptyHashsetsCollection(), err
 	}
 
-	return hashsetsCollection, nil
+	return it, nil
 }
 
 // ParseInjectUsingJsonMust Panic if error
-func (hashsetsCollection *HashsetsCollection) ParseInjectUsingJsonMust(
+func (it *HashsetsCollection) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *HashsetsCollection {
-	hashSet, err := hashsetsCollection.
+	hashSet, err := it.
 		ParseInjectUsingJson(jsonResult)
 
 	if err != nil {
@@ -277,14 +324,14 @@ func (hashsetsCollection *HashsetsCollection) ParseInjectUsingJsonMust(
 	return hashSet
 }
 
-func (hashsetsCollection *HashsetsCollection) String() string {
-	if hashsetsCollection.IsEmpty() {
+func (it *HashsetsCollection) String() string {
+	if it.IsEmpty() {
 		return commonJoiner + NoElements
 	}
 
-	strList := make([]string, hashsetsCollection.Length())
+	strList := make([]string, it.Length())
 
-	for i, hashset := range *hashsetsCollection.items {
+	for i, hashset := range *it.items {
 		strList[i] = hashset.String()
 	}
 
@@ -293,32 +340,32 @@ func (hashsetsCollection *HashsetsCollection) String() string {
 		"")
 }
 
-func (hashsetsCollection *HashsetsCollection) Join(
+func (it *HashsetsCollection) Join(
 	separator string,
 ) string {
 	return strings.Join(
-		*hashsetsCollection.StringsList(),
+		*it.StringsList(),
 		separator)
 }
 
-func (hashsetsCollection *HashsetsCollection) AsJsoner() corejson.Jsoner {
-	return hashsetsCollection
+func (it *HashsetsCollection) AsJsoner() corejson.Jsoner {
+	return it
 }
 
-func (hashsetsCollection *HashsetsCollection) JsonParseSelfInject(
+func (it *HashsetsCollection) JsonParseSelfInject(
 	jsonResult *corejson.Result,
 ) error {
-	_, err := hashsetsCollection.ParseInjectUsingJson(
+	_, err := it.ParseInjectUsingJson(
 		jsonResult,
 	)
 
 	return err
 }
 
-func (hashsetsCollection *HashsetsCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
-	return hashsetsCollection
+func (it *HashsetsCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return it
 }
 
-func (hashsetsCollection *HashsetsCollection) AsJsonMarshaller() corejson.JsonMarshaller {
-	return hashsetsCollection
+func (it *HashsetsCollection) AsJsonMarshaller() corejson.JsonMarshaller {
+	return it
 }

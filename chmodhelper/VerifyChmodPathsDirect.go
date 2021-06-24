@@ -1,6 +1,6 @@
 package chmodhelper
 
-// VerifyChmodMany - expectedHyphenedRwx should be 10 chars example "-rwxrwxrwx"
+// VerifyChmodPathsDirect - expectedHyphenedRwx should be 10 chars example "-rwxrwxrwx"
 //
 // Multiple files verification error will be returned as once.
 func VerifyChmodPathsDirect(

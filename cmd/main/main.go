@@ -1,147 +1,55 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"log"
 
 	"gitlab.com/evatix-go/core/coredata/corestr"
-	"gitlab.com/evatix-go/core/enums/scripttype"
-	"gitlab.com/evatix-go/core/reqtype"
 )
 
 func main() {
-	// rwx := chmodins.RwxOwnerGroupOther{
-	// 	Owner: "rwx",
-	// 	Group: "r--",
-	// 	Other: "-wx",
-	// }
-	//
+	// rwx, err := chmodhelper.NewRwxVariableWrapper("-rwx-*-r*x")
+	// fmt.Println(err)
 	// fmt.Println(rwx.String())
-	// wrapper, _ := chmodhelper.NewUsingRwxOwnerGroupOther(&rwx)
-
-	// fmt.Println(wrapper.ToRwxOwnerGroupOther().String())
 	//
-	// for name, variation := range linuxtype.RangesMap {
-	// 	fmt.Println(name, variation.Name(), variation.Value(), variation.String(), variation.ToNumberString())
+	// rs := rwx.IsEqualPartialRwxPartial("-rwx-w-r*x")
+	// fmt.Println(rs)
+	//
+	// fmt.Println(msgtype.ExpectingSimpleNoType("Alim", "Rwx", "wrx"))
+	//
+	// rwxIns := chmodins.RwxInstruction{
+	// 	RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+	// 		Owner: "rwx",
+	// 		Group: "rwx",
+	// 		Other: "r--",
+	// 	},
+	// 	Condition: chmodins.Condition{
+	// 		IsSkipOnInvalid:  false,
+	// 		IsContinueOnError: false,
+	// 		IsRecursive:       false,
+	// 	},
 	// }
 	//
-	// for name, variation := range reqtype.RangesMap {
-	// 	fmt.Println(name, variation.Name(), variation.Value(), variation.String(), variation.ToNumberString())
-	// 	fmt.Println(variation.IsCrudOrSkip())
-	// 	fmt.Println("IsCreate OR Merge:", variation.IsAnyOfReqs(reqtype.Create, reqtype.Merge))
-	// }
-
-	// fmt.Println(reqtype.RangesNotMeetError("", reqtype.Create, reqtype.Merge))
-	// fmt.Println(reqtype.BasicEnumImpl.RangesInvalidErr())
-
-	var v = reqtype.Delete
-
-	bytes, err := json.Marshal(v)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Marshalled:", string(bytes))
-	fmt.Println("Name:", v.Name())
-
-	var w reqtype.Request
-	err = json.Unmarshal(bytes, &w)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println("Unmarshalled: ", w.String())
-	variant := scripttype.Default
-	fmt.Println(variant.ScriptDefault())
-
-	// fixedRwx := chmodins.FixRwxFullStringWithWildcards("-rwx-w-r-x")
-	// fmt.Println(fixedRwx)
-	// ownerGO, _ := chmodins.ExpandRwxFullStringToOwnerGroupOther(fixedRwx)
-
-	// fmt.Println(ownerGO.Owner, ownerGO.Group, ownerGO.Other)
-	// fmt.Println(stringutil.MaskLines(chmodins.AllWildCardsRwxFullString, "-rwx"))
-	// fmt.Println(reqtype.RangesNotSupportedFor("", reqtype.Create, reqtype.Merge))
-	// items := &[]string{
-	// 	"00",
-	// 	"01",
-	// 	"02",
-	// 	"03",
-	// 	"04",
-	// 	"05",
-	// 	"06",
-	// 	"07",
-	// 	"08",
-	// 	"09",
-	// 	"10",
-	// 	"11",
-	// 	"12",
+	// executor, err := chmodhelper.ParseRwxInstructionToExecutor(&rwxIns)
+	//
+	// msgtype.SimpleHandleErr(err, "")
+	//
+	// locations := []string{
+	// 	"/temp/core/test-cases-2",
+	// 	"/temp/core/test-cases-3s",
+	// 	"/temp/core/test-cases-3x",
+	// 	"/temp/core/test-cases-3",
 	// }
 	//
-	// // collectionPtr := corestr.NewCollectionPtrUsingStrings(items, 0)
-	// collection := corestr.NewCollectionUsingStrings(items, false)
-	// jsonResults := corejson.NewResultsCollectionUsingJsoners(1, collection)
-	// jsonResultFromResults := jsonResults.Json()
+	// err2 := chmodhelper.VerifyChmodLocationsUsingPartialRwx(
+	// 	true, true,
+	// 	"-rwxrwx",
+	// 	locations)
 	//
-	// fmt.Println(jsonResultFromResults.JsonString())
+	// err3 := executor.VerifyRwxModifiersDirect(
+	// 	false,
+	// 	locations...)
 	//
-	// res2 := corejson.EmptyResultsCollection()
-	//
-	// res2.ParseInjectUsingJson(jsonResultFromResults)
-	//
-	// fmt.Println(res2.Json().JsonString())
-	// collect2 := corestr.EmptyCollection()
-	//
-	// // res2.InjectIntoAt(0, collect2)
-	// // res2.UnmarshalAt(0, collect2)
-	// res2.UnmarshalIntoSameIndex(collect2)
-	//
-	// fmt.Println(collect2)
-
-	// PrintCollection(collection)
-
-	// moredata3 := map[int]string{1: "one", 2: "two", 3: "three", 4: "four"}
-	// dynamicCollection := coredynamic.NewDynamicCollection(100)
-	//
-	// dynamicCollection.AddAny(1, true)
-	// dynamicCollection.AddAny(2, true)
-	// dynamicCollection.AddAny(3, true)
-	// dynamicCollection.AddAny(4, true)
-	// dynamicCollection.AddAny(5, true)
-	// dynamicCollection.AddAny(moredata3, true)
-	// maps, _ := result.
-	// 	MapToKeyVal()
-
-	// fmt.Printf(constants.SprintPropertyNameValueFormat, maps)
-	// fmt.Println(dynamicCollection.RemoveAt(1))
-	// fmt.Println(dynamicCollection.Length())
-	// fmt.Println(dynamicCollection.ListStrings())
-	// fmt.Println(dynamicCollection.StringJson())
-	// fmt.Println(dynamicCollection.At(2).IsPrimitive())
-	// fmt.Println(dynamicCollection.Items())
-	//
-	// _ = bytetype.Variant(1).RangesInvalidMessage()
-	// bt := bytetype.Variant(1)
-	// fmt.Println(bt.StringJsonMust())
-	// fmt.Println(bt.Value())
-	// fmt.Println(bt.IsValidRange())
-	//
-	// fmt.Println(chmodhelper.MergeRwxWildcardWithFixedRwx("-w*", "r-x"))
-	// fmt.Println(constants.MinInt)
-	// t3 := bytetype.T3
-	// b, e := t3.MarshalJSON()
-	// fmt.Println(string(b), e)
-	//
-	// fmt.Println(t3.RangesInvalidMessage())
-	// fmt.Println(t3.String())
-	//
-	// fmt.Println(bytetype.BasicEnum2Impl.StringJson(bytetype.Ab4))
-
-	// fmt.Println(result.IsSliceOrArray())
-	// fmt.Println(result.IsMap())
-	// fmt.Println(result.InvalidError())
-	// fmt.Println(result.GetErrorOnTypeMismatch(reflect.TypeOf(map[int]string{}), true))
+	// msgtype.SimpleHandleErrMany("", err2)
 }
 
 func PrintCollection(collection *corestr.Collection) {

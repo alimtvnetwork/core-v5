@@ -2,15 +2,15 @@ package chmodhelper
 
 import "gitlab.com/evatix-go/core/chmodhelper/chmodins"
 
-// RwxWildcardStringApplyChmod
+// RwxPartialApplyChmod
 // rwxPartial can be any length in
 // between 0-10 (rest will be fixed by wildcard)
 //
 // rwxPartial:
-//  - "rwx" will be "-rwx******"
-//  - "rwxr-x" will be "-rwxr-x***"
+//  - "-rwx" will be "-rwx******"
 //  - "-rwxr-x" will be "-rwxr-x***"
-func RwxWildcardStringApplyChmod(
+//  - "-rwxr-x" will be "-rwxr-x***"
+func RwxPartialApplyChmod(
 	rwxPartial string,
 	condition *chmodins.Condition,
 	locations ...string,
@@ -19,7 +19,7 @@ func RwxWildcardStringApplyChmod(
 		return nil
 	}
 
-	rwxInstructionExecutor, err := RwxWildcardStringToInstructionExecutor(
+	rwxInstructionExecutor, err := RwxPartialToInstructionExecutor(
 		rwxPartial,
 		condition)
 

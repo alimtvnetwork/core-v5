@@ -6,7 +6,7 @@ import (
 )
 
 type RwxInstructionTestWrapper struct {
-	RwxInstructions []*chmodins.RwxInstruction
+	RwxInstructions []chmodins.RwxInstruction
 	DefaultRwx      *chmodins.RwxOwnerGroupOther
 	IsErrorExpected bool
 	CreatePaths     []*CreatePathsInstruction

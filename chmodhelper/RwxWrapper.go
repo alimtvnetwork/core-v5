@@ -144,6 +144,16 @@ func (rwxWrapper *RwxWrapper) ToFullRwxValueString() string {
 	return constants.Hyphen + owner + group + other
 }
 
+// ToFullRwxValueStringExceptHyphen returns "rwxrwxrwx", 9 chars
+func (rwxWrapper *RwxWrapper) ToFullRwxValueStringExceptHyphen() string {
+	owner := rwxWrapper.Owner.ToRwxString()
+	group := rwxWrapper.Group.ToRwxString()
+	other := rwxWrapper.Other.ToRwxString()
+
+	// # https://ss64.com/bash/chmod.html, needs to be 10 always
+	return owner + group + other
+}
+
 // ToFullRwxValuesChars "-rwxrwxrwx" Bytes values
 func (rwxWrapper *RwxWrapper) ToFullRwxValuesChars() []byte {
 	str := rwxWrapper.ToFullRwxValueString()
@@ -165,16 +175,16 @@ func (rwxWrapper *RwxWrapper) ToFileMode() os.FileMode {
 }
 
 func (rwxWrapper *RwxWrapper) ApplyChmod(
-	isSkipOnNonExist bool,
+	isSkipOnInvalid bool,
 	fileOrDirectoryPath string,
 ) error {
 	isFileExist := fsinternal.IsPathExists(fileOrDirectoryPath)
 
-	if isSkipOnNonExist && !isFileExist {
+	if isSkipOnInvalid && !isFileExist {
 		return nil
 	}
 
-	if !isSkipOnNonExist && !isFileExist {
+	if !isSkipOnInvalid && !isFileExist {
 		return msgtype.
 			PathInvalidErrorMessage.
 			Error(
@@ -194,16 +204,16 @@ func (rwxWrapper *RwxWrapper) ApplyChmod(
 
 // LinuxApplyRecursive skip if it is a non dir path
 func (rwxWrapper *RwxWrapper) LinuxApplyRecursive(
-	isSkipOnNonExist bool,
+	isSkipOnInvalid bool,
 	location string,
 ) error {
 	isFileExist := fsinternal.IsPathExists(location)
 
-	if isSkipOnNonExist && !isFileExist {
+	if isSkipOnInvalid && !isFileExist {
 		return nil
 	}
 
-	if !isSkipOnNonExist && !isFileExist {
+	if !isSkipOnInvalid && !isFileExist {
 		return msgtype.
 			PathInvalidErrorMessage.
 			Error(
@@ -312,7 +322,7 @@ func (rwxWrapper *RwxWrapper) applyLinuxChmodOnManyNonRecursive(
 
 	for _, location := range locations {
 		err := rwxWrapper.ApplyChmod(
-			condition.IsSkipOnNonExist,
+			condition.IsSkipOnInvalid,
 			location)
 
 		if err != nil {
@@ -350,7 +360,7 @@ func (rwxWrapper *RwxWrapper) applyLinuxChmodOnManyRecursive(
 
 	for _, location := range locations {
 		err := rwxWrapper.LinuxApplyRecursive(
-			condition.IsSkipOnNonExist,
+			condition.IsSkipOnInvalid,
 			location)
 
 		if err != nil {
@@ -369,7 +379,7 @@ func (rwxWrapper *RwxWrapper) applyLinuxChmodRecursiveManyContinueOnError(
 
 	for _, location := range locations {
 		err := rwxWrapper.LinuxApplyRecursive(
-			condition.IsSkipOnNonExist,
+			condition.IsSkipOnInvalid,
 			location)
 
 		if err != nil {
@@ -388,7 +398,7 @@ func (rwxWrapper *RwxWrapper) applyLinuxChmodNonRecursiveManyContinueOnError(
 
 	for _, location := range locations {
 		err := rwxWrapper.ApplyChmod(
-			condition.IsSkipOnNonExist,
+			condition.IsSkipOnInvalid,
 			location)
 
 		if err != nil {
@@ -397,4 +407,76 @@ func (rwxWrapper *RwxWrapper) applyLinuxChmodNonRecursiveManyContinueOnError(
 	}
 
 	return msgtype.SliceToErrorPtr(&errSlice)
+}
+
+// IsEqualVarWrapper if rwxVariableWrapper nil then returns false
+func (rwxWrapper *RwxWrapper) IsEqualVarWrapper(
+	rwxVariableWrapper *RwxVariableWrapper,
+) bool {
+	if rwxVariableWrapper == nil {
+		return false
+	}
+
+	return rwxVariableWrapper.IsEqualRwxWrapperPtr(
+		rwxWrapper)
+}
+
+// IsRwxEqualFileInfo if fileInfo nil then returns false
+func (rwxWrapper *RwxWrapper) IsRwxEqualFileInfo(
+	fileInfo os.FileInfo,
+) bool {
+	if fileInfo == nil {
+		return false
+	}
+
+	return rwxWrapper.IsRwxFullEqual(
+		fileInfo.Mode().String())
+}
+
+func (rwxWrapper *RwxWrapper) IsRwxEqualLocation(
+	location string,
+) bool {
+	fileInfo, _ := os.Stat(location)
+
+	if fileInfo == nil {
+		return false
+	}
+
+	return rwxWrapper.IsRwxFullEqual(
+		fileInfo.Mode().String())
+}
+
+func (rwxWrapper *RwxWrapper) IsRwxFullEqual(
+	rwxFull string,
+) bool {
+	if len(rwxFull) < chmodins.RwxFullLength {
+		return false
+	}
+
+	return rwxWrapper.ToFullRwxValueStringExceptHyphen() == rwxFull[1:]
+}
+
+func (rwxWrapper *RwxWrapper) IsEqualPtr(
+	next *RwxWrapper,
+) bool {
+	if rwxWrapper == nil && next == nil {
+		return true
+	}
+
+	if rwxWrapper == nil || next == nil {
+		return false
+	}
+
+	return rwxWrapper.Owner.IsEqual(next.Owner) &&
+		rwxWrapper.Group.IsEqual(next.Group) &&
+		rwxWrapper.Other.IsEqual(next.Other)
+}
+
+func (rwxWrapper *RwxWrapper) IsEqualFileMode(
+	mode os.FileMode,
+) bool {
+	toString := mode.String()[1:]
+	wrapperString := rwxWrapper.ToFullRwxValueStringExceptHyphen()
+
+	return toString == wrapperString
 }

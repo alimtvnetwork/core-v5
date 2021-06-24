@@ -5,11 +5,14 @@ import (
 	"testing"
 
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
+	"gitlab.com/evatix-go/core/coretests"
 	"gitlab.com/evatix-go/core/msgtype"
 	"gitlab.com/evatix-go/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
-func Test_RwxWrapperManyApplyValue(t *testing.T) {
+func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
+	coretests.SkipOnWindows(t)
+
 	// Arrange
 	createPathInstructions := chmodhelpertestwrappers.CreatePathInstruction2
 	createDefaultPaths(&createPathInstructions)
@@ -34,6 +37,7 @@ func Test_RwxWrapperManyApplyValue(t *testing.T) {
 		msgtype.SimpleHandleErr(err2, "rwxWrapper.ApplyLinuxChmodOnMany failed")
 
 		// for directory `-` will be placed not `d`
+		// Assert
 		assertSingleChmod(
 			t,
 			header,

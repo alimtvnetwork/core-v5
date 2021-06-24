@@ -8,7 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
-func Test_LinuxApplyRecursiveOnPath(t *testing.T) {
+func Test_LinuxApplyRecursiveOnPath_Unix(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	for _, testCase := range chmodhelpertestwrappers.RwxInstructionsUnixApplyRecursivelyTestCases {

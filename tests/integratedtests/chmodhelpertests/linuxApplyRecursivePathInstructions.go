@@ -10,7 +10,7 @@ func linuxApplyRecursivePathInstructions(
 	testCase *chmodhelpertestwrappers.RwxInstructionTestWrapper,
 ) error {
 	executors, err := chmodhelper.ParseRwxInstructionsToExecutors(
-		&testCase.RwxInstructions)
+		testCase.RwxInstructions)
 
 	msgtype.SimpleHandleErr(err, "linuxApplyRecursivePathInstructions")
 

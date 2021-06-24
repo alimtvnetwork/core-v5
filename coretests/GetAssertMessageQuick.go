@@ -8,7 +8,7 @@ func GetAssertMessageQuick(
 	expected interface{},
 	counter int,
 ) string {
-	return fmt.Sprintf("----------------------\n%d )\tWhen:%#v\n\t\tActual:%#v , Expected:%#v",
+	return fmt.Sprintf(quickActualExpectedMessageFormat,
 		counter,
 		when,
 		actual,

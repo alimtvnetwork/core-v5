@@ -1,7 +1,7 @@
 package chmodins
 
 type BaseRwxInstructions struct {
-	RwxInstructions *[]*RwxInstruction `json:"RwxInstructions,omitempty"`
+	RwxInstructions []RwxInstruction `json:"RwxInstructions,omitempty"`
 }
 
 func (receiver *BaseRwxInstructions) Length() int {
@@ -9,7 +9,7 @@ func (receiver *BaseRwxInstructions) Length() int {
 		return 0
 	}
 
-	return len(* receiver.RwxInstructions)
+	return len(receiver.RwxInstructions)
 }
 
 func (receiver *BaseRwxInstructions) IsEmpty() bool {
@@ -26,14 +26,14 @@ func (receiver *BaseRwxInstructions) Clone() *BaseRwxInstructions {
 	}
 
 	instructions := make(
-		[]*RwxInstruction,
+		[]RwxInstruction,
 		receiver.Length())
 
-	for i, instruction := range *receiver.RwxInstructions {
-		instructions[i] = instruction.Clone()
+	for i, instruction := range receiver.RwxInstructions {
+		instructions[i] = *instruction.Clone()
 	}
 
 	return &BaseRwxInstructions{
-		RwxInstructions: &instructions,
+		RwxInstructions: instructions,
 	}
 }

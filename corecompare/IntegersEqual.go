@@ -1,6 +1,6 @@
 package corecompare
 
-func IntArray(array, other []int) bool {
+func IntegersEqual(array, other []int) bool {
 	if array == nil && other == nil {
 		return true
 	}
@@ -12,5 +12,5 @@ func IntArray(array, other []int) bool {
 	arrayPtr := &array
 	otherPtr := &other
 
-	return IntArrayPtr(arrayPtr, otherPtr)
+	return IntegersEqualPtr(arrayPtr, otherPtr)
 }

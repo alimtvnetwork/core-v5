@@ -13,7 +13,7 @@ func (receiver *RwxInstruction) Clone() *RwxInstruction {
 	return &RwxInstruction{
 		RwxOwnerGroupOther: *receiver.RwxOwnerGroupOther.Clone(),
 		Condition: Condition{
-			IsSkipOnNonExist:  receiver.IsSkipOnNonExist,
+			IsSkipOnInvalid:   receiver.IsSkipOnInvalid,
 			IsContinueOnError: receiver.IsContinueOnError,
 			IsRecursive:       receiver.IsRecursive,
 		},

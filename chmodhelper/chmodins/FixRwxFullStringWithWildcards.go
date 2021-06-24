@@ -7,20 +7,16 @@ import (
 
 // FixRwxFullStringWithWildcards can be less than 10 and can be
 //
-//  - "rwx" will be filled with "-rwx******"
-//  - "rw-" will be filled with "-rw-******"
-//  - "-rw-" will be filled with "-rw-******"
+//  - "-rwx" will be "-rwx******"
+//  - "-rwxr-x" will be "-rwxr-x***"
+//  - "-rwxr-x" will be "-rwxr-x***"
 func FixRwxFullStringWithWildcards(rwxFull string) (fixedRwx string) {
-	if len(rwxFull) == RwxFullLength {
+	length := len(rwxFull)
+
+	if length == RwxFullLength {
 		return rwxFull
-	}
-
-	if len(rwxFull) == constants.Zero {
+	} else if length == constants.Zero {
 		return AllWildCardsRwxFullString
-	}
-
-	if rwxFull[0] != constants.HyphenChar {
-		rwxFull = constants.Hyphen + rwxFull
 	}
 
 	return strutilinternal.MaskLine(

@@ -22,6 +22,7 @@ const (
 	GroupIndex                            = 1
 	OtherIndex                            = 2
 	ReadChar                         byte = 'r'
+	NopChar                          byte = '-'
 	WriteChar                        byte = 'w'
 	ExecuteChar                      byte = 'x'
 	AllWildcards                          = "***"

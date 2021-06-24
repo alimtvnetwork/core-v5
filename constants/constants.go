@@ -126,6 +126,7 @@ const (
 	StartOfBlock                              = "{"
 	MinusOne                                  = -1
 	InvalidValue                              = -1
+	TakeAllMinusOne                           = -1
 	WildcardSymbol                            = "*"
 	WildcardChar                              = '*'
 	WildcardRune                      rune    = '*'

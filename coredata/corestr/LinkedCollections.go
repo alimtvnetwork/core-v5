@@ -448,6 +448,25 @@ func (linkedCollections *LinkedCollections) AttachWithNode(
 	return nil
 }
 
+func (linkedCollections *LinkedCollections) AddAnother(
+	another *LinkedCollections,
+) *LinkedCollections {
+	if another == nil || another.IsEmpty() {
+		return linkedCollections
+	}
+
+	node := another.Head()
+	linkedCollections.Add(node.Element)
+
+	for node.HasNext() {
+		node = node.Next()
+
+		linkedCollections.Add(node.Element)
+	}
+
+	return linkedCollections
+}
+
 // AddCollectionToNode iSkipOnNil
 func (linkedCollections *LinkedCollections) AddCollectionToNode(
 	isSkipOnNull bool,
@@ -980,6 +999,29 @@ func (linkedCollections *LinkedCollections) AddStringsPtrAsync(
 	return linkedCollections
 }
 
+func (linkedCollections *LinkedCollections) ConcatNew(
+	isMakeCloneOnEmpty bool,
+	linkedCollectionsOfCollection ...*LinkedCollections,
+) *LinkedCollections {
+	isEmpty := len(linkedCollectionsOfCollection) == 0
+
+	if isEmpty && isMakeCloneOnEmpty {
+		return NewLinkedCollections().
+			AddAnother(linkedCollections)
+	} else if isEmpty && !isMakeCloneOnEmpty {
+		return linkedCollections
+	}
+
+	newLinkedCollections := NewLinkedCollections()
+	newLinkedCollections.AddAnother(linkedCollections)
+
+	for _, linkedCollection := range linkedCollectionsOfCollection {
+		newLinkedCollections.AddAnother(linkedCollection)
+	}
+
+	return newLinkedCollections
+}
+
 // AddAsyncFuncItems must add all the lengths to the wg
 func (linkedCollections *LinkedCollections) AddAsyncFuncItems(
 	wg *sync.WaitGroup,
@@ -1214,6 +1256,36 @@ func (linkedCollections *LinkedCollections) AddCollection(
 	}
 
 	return linkedCollections.Add(collection)
+}
+
+// AddCollectionsPtr skip on nil
+func (linkedCollections *LinkedCollections) AddCollectionsPtr(
+	collectionsOfCollection *[]*Collection,
+) *LinkedCollections {
+	if collectionsOfCollection == nil || len(*collectionsOfCollection) == 0 {
+		return linkedCollections
+	}
+
+	return linkedCollections.AddCollections(*collectionsOfCollection)
+}
+
+// AddCollections skip on nil
+func (linkedCollections *LinkedCollections) AddCollections(
+	collectionsOfCollection []*Collection,
+) *LinkedCollections {
+	if len(collectionsOfCollection) == 0 {
+		return linkedCollections
+	}
+
+	for _, collection := range collectionsOfCollection {
+		if collection == nil {
+			continue
+		}
+
+		return linkedCollections.Add(collection)
+	}
+
+	return linkedCollections
 }
 
 func (linkedCollections *LinkedCollections) ToCollection(

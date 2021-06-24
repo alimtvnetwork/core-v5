@@ -65,6 +65,58 @@ func (v Value) IsWildcard() bool {
 	return v == Wildcard
 }
 
+// IsWildcardOrBool
+//
+// if v.IsWildcard() then returns true regardless
+//
+// or else
+//
+// returns (isBool && v.IsTrue()) || (!isBool && v.IsFalse())
+func (v Value) IsWildcardOrBool(isBool bool) bool {
+	if v.IsWildcard() {
+		return true
+	}
+
+	return isBool
+}
+
+func (v Value) ToByteCondition(trueVal, falseVal, invalid byte) byte {
+	if v.IsTrue() {
+		return trueVal
+	}
+
+	if v.IsFalse() {
+		return falseVal
+	}
+
+	return invalid
+}
+
+func (v Value) ToByteConditionWithWildcard(wildcard, trueVal, falseVal, invalid byte) byte {
+	if v.IsWildcard() {
+		return wildcard
+	}
+
+	return v.ToByteCondition(trueVal, falseVal, invalid)
+}
+
+// GetSetterByComparing
+//
+// returns true value if any of ranges value matches
+func GetSetterByComparing(
+	trueVal, falseVal Value,
+	expectedVal interface{},
+	trueRanges ...interface{},
+) Value {
+	for _, s := range trueRanges {
+		if s == expectedVal {
+			return trueVal
+		}
+	}
+
+	return falseVal
+}
+
 // WildcardApply
 //
 // if IsWildcard() || IsUnSetOrUninitialized() then

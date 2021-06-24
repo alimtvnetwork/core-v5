@@ -5,15 +5,15 @@ import (
 	"gitlab.com/evatix-go/core/msgtype"
 )
 
-// RwxWildcardStringToInstructionExecutor
+// RwxPartialToInstructionExecutor
 // rwxPartial can be any length in
 // between 0-10 (rest will be fixed by wildcard)
 //
 // rwxPartial:
-//  - "rwx" will be "-rwx******"
-//  - "rwxr-x" will be "-rwxr-x***"
+//  - "-rwx" will be "-rwx******"
 //  - "-rwxr-x" will be "-rwxr-x***"
-func RwxWildcardStringToInstructionExecutor(
+//  - "-rwxr-x" will be "-rwxr-x***"
+func RwxPartialToInstructionExecutor(
 	rwxPartial string,
 	condition *chmodins.Condition,
 ) (*RwxInstructionExecutor, error) {
