@@ -16,6 +16,10 @@ func (varAttribute *VarAttribute) IsFixedType() bool {
 	return varAttribute.isFixedType
 }
 
+func (varAttribute *VarAttribute) HasWildcard() bool {
+	return !varAttribute.isFixedType
+}
+
 // ToCompileFixAttr must check IsFixedType, before calling.
 func (varAttribute *VarAttribute) ToCompileFixAttr() *Attribute {
 	if varAttribute.isFixedType {
@@ -58,4 +62,26 @@ func (varAttribute *VarAttribute) Clone() *VarAttribute {
 		isWrite:     varAttribute.isWrite,
 		isExecute:   varAttribute.isExecute,
 	}
+}
+
+func (varAttribute *VarAttribute) IsEqualPtr(next *VarAttribute) bool {
+	if varAttribute == nil && next == nil {
+		return true
+	}
+
+	if varAttribute == nil || next == nil {
+		return false
+	}
+
+	isRead := next.isRead == varAttribute.isRead
+	isWrite := next.isWrite == varAttribute.isWrite
+	isExecute := next.isExecute == varAttribute.isExecute
+
+	return isRead &&
+		isWrite &&
+		isExecute
+}
+
+func (varAttribute *VarAttribute) String() string {
+	return varAttribute.rawInput
 }

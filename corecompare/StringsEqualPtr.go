@@ -1,6 +1,6 @@
 package corecompare
 
-func IntArrayPtr(array, other *[]int) bool {
+func StringsEqualPtr(array, other *[]string) bool {
 	if array == nil && other == nil {
 		return true
 	}
@@ -15,11 +15,5 @@ func IntArrayPtr(array, other *[]int) bool {
 		return false
 	}
 
-	for i := 0; i < length; i++ {
-		if (*array)[i] != (*other)[i] {
-			return false
-		}
-	}
-
-	return true
+	return StringsEqual(*array, *other)
 }

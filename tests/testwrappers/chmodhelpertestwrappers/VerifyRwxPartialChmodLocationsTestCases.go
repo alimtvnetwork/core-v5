@@ -1,0 +1,30 @@
+package chmodhelpertestwrappers
+
+var VerifyRwxPartialChmodLocationsTestCases = []VerifyRwxPartialChmodLocationsWrapper{
+	{
+		Header:             "Missing Paths should NOT have error with it's location!",
+		Locations:          SimpleLocations,
+		IsContinueOnError:  true,
+		IsSkipOnInvalid:    true,
+		ExpectedPartialRwx: "-rwxrwx",
+		ExpectationErrorMessage: "/temp/core/test-cases-2 - " +
+			"Expect [\"rwxrwx***\"] != [\"rwxr-xr--\"] Actual\n" +
+			"/temp/core/test-cases-3 - " +
+			"Expect [\"rwxrwx***\"] != [\"rwxr-xr--\"] Actual",
+	},
+	{
+		Header:             "Missing Paths should have error with it's location!",
+		Locations:          SimpleLocations,
+		IsContinueOnError:  true,
+		IsSkipOnInvalid:    false,
+		ExpectedPartialRwx: "-rwxrwx-",
+		ExpectationErrorMessage: "/temp/core/test-cases-2 - " +
+			"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual\n" +
+			"/temp/core/test-cases-3 - " +
+			"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual\n" +
+			"Missing or paths having other access issues! Reference(s) { \"[" +
+			"/temp/core/test-cases-3s " +
+			"/temp/core/test-cases-3x" +
+			"]\" }",
+	},
+}

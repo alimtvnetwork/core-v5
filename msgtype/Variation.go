@@ -2,7 +2,6 @@ package msgtype
 
 import (
 	"errors"
-	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
 )
@@ -54,7 +53,7 @@ const (
 	EmptyArrayMessage                      Variation = "Empty array, which is unexpected."
 	EmptyItemsMessage                      Variation = "Empty items, which is unexpected."
 	PathErrorMessage                       Variation = "Path error, which is unexpected."
-	PathChmodMismatchErrorMessage          Variation = "Path chmod doesn't match as expected. Expectation mismatch error."
+	PathChmodMismatchErrorMessage          Variation = "Path chmod doesn't match as expected. IsMatchesExpectation mismatch error."
 	PathInvalidErrorMessage                Variation = "Path is not present in the location given."
 	PathChmodApplyMessage                  Variation = "Path chmod apply error."
 	PathChmodConvertFailedMessage          Variation = "Path chmod convert failed to octal."
@@ -77,7 +76,9 @@ const (
 	TypeMismatch                           Variation = "TypeMismatch: Type is not as expected."
 	NotImplemented                         Variation = "Not Implemented: Feature / method is not implemented yet."
 	NotSupported                           Variation = "Not Supported: Feature / method is not supported yet."
+	MissingOrPathsHavingIssues             Variation = "Missing or paths having other access issues!"
 	JsonResultBytesAreNilOrEmpty           Variation = "Json Result: Bytes data either nil or empty, cannot process the data for the given resource."
+	ValidataionFailed                      Variation = "Validation failed!"
 )
 
 func GetSet(
@@ -126,13 +127,19 @@ func (variation Variation) Combine(otherMsg string, reference interface{}) strin
 func (variation Variation) Error(otherMsg string, reference interface{}) error {
 	msg := CombineWithMsgType(variation, otherMsg, reference)
 
-	return errors.New(strings.ToLower(msg))
+	return errors.New(msg)
+}
+
+func (variation Variation) ErrorRefOnly(reference interface{}) error {
+	msg := CombineWithMsgType(variation, constants.EmptyString, reference)
+
+	return errors.New(msg)
 }
 
 func (variation Variation) ErrorNoRefs(otherMsg string) error {
-	msg := CombineWithMsgType(variation, otherMsg, "No Reference")
+	msg := CombineWithMsgType(variation, otherMsg, nil)
 
-	return errors.New(strings.ToLower(msg))
+	return errors.New(msg)
 }
 
 func (variation Variation) HandleUsingPanic(otherMsg string, reference interface{}) {

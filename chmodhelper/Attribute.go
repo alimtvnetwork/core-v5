@@ -83,3 +83,31 @@ func (attribute *Attribute) Clone() *Attribute {
 		IsExecute: attribute.IsExecute,
 	}
 }
+
+func (attribute *Attribute) IsEqualPtr(next *Attribute) bool {
+	if attribute == nil && next == nil {
+		return true
+	}
+
+	if attribute == nil || next == nil {
+		return false
+	}
+
+	isRead := attribute.IsRead == next.IsRead
+	isWrite := attribute.IsWrite == next.IsWrite
+	isExecute := attribute.IsExecute == next.IsExecute
+
+	return isRead &&
+		isWrite &&
+		isExecute
+}
+
+func (attribute Attribute) IsEqual(next Attribute) bool {
+	isRead := attribute.IsRead == next.IsRead
+	isWrite := attribute.IsWrite == next.IsWrite
+	isExecute := attribute.IsExecute == next.IsExecute
+
+	return isRead &&
+		isWrite &&
+		isExecute
+}

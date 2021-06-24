@@ -1,6 +1,10 @@
 package msgtype
 
-import "gitlab.com/evatix-go/core/constants"
+import (
+	"fmt"
+
+	"gitlab.com/evatix-go/core/constants"
+)
 
 func CombineWithMsgType(
 	genericMsg Variation,
@@ -9,17 +13,28 @@ func CombineWithMsgType(
 ) string {
 	if otherMsg == "" {
 		return genericMsg.String() +
-			constants.Space +
-			ReferenceStart +
-			ToValueString(reference) +
-			ReferenceEnd
+			getReferenceMessage(reference)
 	}
 
 	return genericMsg.String() +
 		constants.Space +
 		otherMsg +
-		constants.Space +
-		ReferenceStart +
-		ToValueString(reference) +
-		ReferenceEnd
+		getReferenceMessage(reference)
+}
+
+func getReferenceMessage(
+	reference interface{},
+) string {
+	if reference == nil {
+		return ""
+	}
+
+	currentString, isString := reference.(string)
+	if isString && currentString == "" {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		ReferenceFormat,
+		reference)
 }

@@ -126,6 +126,104 @@ func (hashset *Hashset) IsEmptyLock() bool {
 	return hashset.IsEmpty()
 }
 
+func (hashset *Hashset) ConcatNewHashsets(
+	isCloneCurrentOnEmpty bool,
+	hashsets ...*Hashset,
+) *Hashset {
+	isEmpty := hashsets == nil || len(hashsets) == 0
+
+	if isEmpty {
+		return NewHashsetUsingMap(
+			hashset.items,
+			constants.Zero,
+			isCloneCurrentOnEmpty)
+	}
+
+	length := hashset.Length() + constants.Capacity4
+
+	for _, h := range hashsets {
+		if h == nil {
+			continue
+		}
+
+		length += h.Length()
+	}
+
+	newHashset := NewHashsetUsingMap(
+		hashset.items,
+		length,
+		isCloneCurrentOnEmpty)
+
+	newHashset.AddHashsetItems(hashset)
+
+	for _, h := range hashsets {
+		newHashset.AddHashsetItems(h)
+	}
+
+	return newHashset
+}
+
+func (hashset *Hashset) ConcatNewStringsPointers(
+	isCloneCurrentOnEmpty bool,
+	stringsOfStringsItems ...*[]string,
+) *Hashset {
+	isEmpty := len(stringsOfStringsItems) == 0
+
+	if isEmpty {
+		return NewHashsetUsingMap(
+			hashset.items,
+			constants.Zero,
+			isCloneCurrentOnEmpty)
+	}
+
+	length := AllIndividualItemsStringsOfStringsPointerLength(&stringsOfStringsItems) +
+		hashset.Length() +
+		constants.Capacity4
+
+	newHashset := NewHashsetUsingMap(
+		hashset.items,
+		length,
+		isCloneCurrentOnEmpty)
+
+	newHashset.AddHashsetItems(hashset)
+
+	for _, stringsItems := range stringsOfStringsItems {
+		newHashset.AddStringsPtr(stringsItems)
+	}
+
+	return newHashset
+}
+
+func (hashset *Hashset) ConcatNewStrings(
+	isCloneCurrentOnEmpty bool,
+	stringsOfStringsItems ...[]string,
+) *Hashset {
+	isEmpty := len(stringsOfStringsItems) == 0
+
+	if isEmpty {
+		return NewHashsetUsingMap(
+			hashset.items,
+			constants.Zero,
+			isCloneCurrentOnEmpty)
+	}
+
+	length := AllIndividualStringsOfStringsLength(&stringsOfStringsItems) +
+		hashset.Length() +
+		constants.Capacity4
+	newHashset := NewHashsetUsingMap(
+		hashset.items,
+		length,
+		true)
+
+	newHashset.AddHashsetItems(hashset)
+
+	for _, stringsItems := range stringsOfStringsItems {
+		newHashset.AddStrings(stringsItems)
+	}
+
+	return newHashset
+}
+
 func (hashset *Hashset) AddPtr(key *string) *Hashset {
 	(*hashset.items)[*key] = true
 	hashset.hasMapUpdated = true
@@ -364,6 +462,14 @@ func (hashset *Hashset) AddStringsPtr(keys *[]string) *Hashset {
 	hashset.hasMapUpdated = true
 
 	return hashset
+}
+
+func (hashset *Hashset) AddStrings(keys []string) *Hashset {
+	if len(keys) == 0 {
+		return hashset
+	}
+
+	return hashset.AddStringsPtr(&keys)
 }
 
 func (hashset *Hashset) AddStringsPtrLock(keys *[]string) *Hashset {

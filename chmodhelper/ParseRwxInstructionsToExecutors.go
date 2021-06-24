@@ -3,7 +3,7 @@ package chmodhelper
 import "gitlab.com/evatix-go/core/chmodhelper/chmodins"
 
 func ParseRwxInstructionsToExecutors(
-	rwxInstructions *[]*chmodins.RwxInstruction,
+	rwxInstructions []chmodins.RwxInstruction,
 ) (
 	*RwxInstructionExecutors, error,
 ) {
@@ -11,15 +11,15 @@ func ParseRwxInstructionsToExecutors(
 		return NewRwxInstructionExecutors(0), rwxInstructionNilErr
 	}
 
-	length := len(*rwxInstructions)
+	length := len(rwxInstructions)
 	executors := NewRwxInstructionExecutors(length)
 
 	if length == 0 {
 		return executors, nil
 	}
 
-	for _, instruction := range *rwxInstructions {
-		executor, err := ParseRwxInstructionToExecutor(instruction)
+	for _, instruction := range rwxInstructions {
+		executor, err := ParseRwxInstructionToExecutor(&instruction)
 
 		if err != nil {
 			return executors, err

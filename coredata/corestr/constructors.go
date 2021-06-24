@@ -494,7 +494,7 @@ func NewHashmapUsingMap(
 
 	if isMakeClone {
 		hashMap := NewHashmap(length + addCapacity)
-		hashMap.AddOrUpdateMap(itemsMap)
+		hashMap.AddOrUpdateMapPtr(itemsMap)
 
 		return hashMap
 	}
@@ -519,7 +519,7 @@ func NewHashmapUsingMapUsingAddCapacity(
 
 	length := len(*itemsMap)
 	hashMap := NewHashmap(length + addCapacity)
-	hashMap.AddOrUpdateMap(itemsMap)
+	hashMap.AddOrUpdateMapPtr(itemsMap)
 
 	return hashMap
 }

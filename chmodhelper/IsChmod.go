@@ -20,7 +20,7 @@ func IsChmod(location string, expectedHyphenedRwx string) bool {
 		return false
 	}
 
-	existingFileMode := fileInfo.Mode().String()
+	existingFileMode := fileInfo.Mode().String()[1:]
 
-	return existingFileMode == expectedHyphenedRwx
+	return existingFileMode == expectedHyphenedRwx[1:]
 }

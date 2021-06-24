@@ -5,10 +5,10 @@ import "gitlab.com/evatix-go/core/chmodhelper/chmodins"
 // RwxInstructionsUnixApplyRecursivelyTestCases https://ss64.com/bash/chmod.html
 var RwxInstructionsUnixApplyRecursivelyTestCases = []RwxInstructionTestWrapper{
 	{
-		RwxInstructions: []*chmodins.RwxInstruction{
+		RwxInstructions: []chmodins.RwxInstruction{
 			{
 				Condition: chmodins.Condition{
-					IsSkipOnNonExist:  false,
+					IsSkipOnInvalid:   false,
 					IsContinueOnError: false,
 					IsRecursive:       true,
 				},

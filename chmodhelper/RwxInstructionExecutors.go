@@ -1,6 +1,9 @@
 package chmodhelper
 
-import "gitlab.com/evatix-go/core/constants"
+import (
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/msgtype"
+)
 
 type RwxInstructionExecutors struct {
 	items *[]*RwxInstructionExecutor
@@ -72,6 +75,55 @@ func (receiver *RwxInstructionExecutors) LastIndex() int {
 
 func (receiver *RwxInstructionExecutors) HasIndex(index int) bool {
 	return receiver.LastIndex() >= index
+}
+
+func (receiver *RwxInstructionExecutors) VerifyRwxModifiers(
+	isContinueOnErr,
+	isRecursiveIgnore bool,
+	locations []string,
+) error {
+	if len(locations) == 0 {
+		return nil
+	}
+
+	if isContinueOnErr {
+		return receiver.verifyChmodErrorContinueOnErr(
+			isRecursiveIgnore,
+			locations)
+	}
+
+	for _, executor := range *receiver.items {
+		err := executor.VerifyRwxModifiers(
+			isRecursiveIgnore,
+			locations)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (receiver *RwxInstructionExecutors) verifyChmodErrorContinueOnErr(
+	isRecursiveIgnore bool,
+	locations []string,
+) error {
+	var sliceErr []string
+
+	for _, executor := range *receiver.items {
+		err := executor.VerifyRwxModifiers(
+			isRecursiveIgnore,
+			locations)
+
+		if err != nil {
+			sliceErr = append(
+				sliceErr,
+				err.Error())
+		}
+	}
+
+	return msgtype.SliceToError(sliceErr)
 }
 
 func (receiver *RwxInstructionExecutors) Items() *[]*RwxInstructionExecutor {

@@ -26,12 +26,12 @@ func VerifyChmod(location string, expectedHyphenedRwx string) error {
 			err)
 	}
 
-	existingFileMode := fileInfo.Mode().String()
-	if existingFileMode == expectedHyphenedRwx {
+	existingFileMode := fileInfo.Mode().String()[1:]
+	if existingFileMode == expectedHyphenedRwx[1:] {
 		return nil
 	}
 
-	expectationFailedMessage := msgtype.Expecting(
+	expectationFailedMessage := msgtype.ExpectingSimpleNoType(
 		chmod,
 		expectedHyphenedRwx,
 		existingFileMode)

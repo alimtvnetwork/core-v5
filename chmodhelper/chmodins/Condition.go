@@ -1,14 +1,14 @@
 package chmodins
 
 type Condition struct {
-	IsSkipOnNonExist  bool `json:"IsSkipOnNonExist"`
+	IsSkipOnInvalid   bool `json:"IsSkipOnInvalid"`
 	IsContinueOnError bool `json:"IsContinueOnError"`
 	IsRecursive       bool `json:"IsRecursive"`
 }
 
 func DefaultAllTrueCondition() *Condition {
 	return &Condition{
-		IsSkipOnNonExist:  true,
+		IsSkipOnInvalid:   true,
 		IsContinueOnError: true,
 		IsRecursive:       true,
 	}
@@ -16,7 +16,7 @@ func DefaultAllTrueCondition() *Condition {
 
 func DefaultAllFalseCondition() *Condition {
 	return &Condition{
-		IsSkipOnNonExist:  false,
+		IsSkipOnInvalid:   false,
 		IsContinueOnError: false,
 		IsRecursive:       false,
 	}
@@ -25,7 +25,7 @@ func DefaultAllFalseCondition() *Condition {
 // DefaultAllFalseExceptRecurse only IsRecursive will be true
 func DefaultAllFalseExceptRecurse() *Condition {
 	return &Condition{
-		IsSkipOnNonExist:  false,
+		IsSkipOnInvalid:   false,
 		IsContinueOnError: false,
 		IsRecursive:       true,
 	}
@@ -37,7 +37,7 @@ func (receiver *Condition) Clone() *Condition {
 	}
 
 	return &Condition{
-		IsSkipOnNonExist:  receiver.IsSkipOnNonExist,
+		IsSkipOnInvalid:   receiver.IsSkipOnInvalid,
 		IsContinueOnError: receiver.IsContinueOnError,
 		IsRecursive:       receiver.IsRecursive,
 	}

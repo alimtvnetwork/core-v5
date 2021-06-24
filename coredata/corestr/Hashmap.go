@@ -200,10 +200,42 @@ func (hashmap *Hashmap) AddOrUpdateStringsPtrLock(
 	return hashmap
 }
 
+func (hashmap *Hashmap) AddOrUpdateHashmap(
+	hashmap2 *Hashmap,
+) *Hashmap {
+	if hashmap2 == nil {
+		return hashmap
+	}
+
+	for key, val := range *hashmap2.items {
+		(*hashmap.items)[key] = val
+	}
+
+	hashmap.hasMapUpdated = true
+
+	return hashmap
+}
+
 func (hashmap *Hashmap) AddOrUpdateMap(
+	itemsMap map[string]string,
+) *Hashmap {
+	if len(itemsMap) == 0 {
+		return hashmap
+	}
+
+	for key, val := range itemsMap {
+		(*hashmap.items)[key] = val
+	}
+
+	hashmap.hasMapUpdated = true
+
+	return hashmap
+}
+
+func (hashmap *Hashmap) AddOrUpdateMapPtr(
 	itemsMap *map[string]string,
 ) *Hashmap {
-	if itemsMap == nil {
+	if itemsMap == nil || len(*itemsMap) == 0 {
 		return hashmap
 	}
 
@@ -355,6 +387,80 @@ func (hashmap *Hashmap) AddsOrUpdatesUsingFilter(
 	}
 
 	return hashmap
+}
+
+func (hashmap *Hashmap) ConcatNew(
+	isCloneOnEmptyAsWell bool,
+	hashmaps ...*Hashmap,
+) *Hashmap {
+	if len(hashmaps) == 0 {
+		return NewHashmapUsingMap(
+			hashmap.items,
+			constants.Zero,
+			isCloneOnEmptyAsWell,
+		)
+	}
+
+	length := hashmap.Length() + constants.Capacity2
+
+	for _, h := range hashmaps {
+		if h == nil {
+			continue
+		}
+
+		length += h.length
+	}
+
+	newHashmap := NewHashmapUsingMap(
+		hashmap.items,
+		length,
+		true)
+
+	newHashmap.AddOrUpdateHashmap(hashmap)
+
+	for _, hashmap2 := range hashmaps {
+		newHashmap.AddOrUpdateHashmap(
+			hashmap2)
+	}
+
+	return newHashmap
+}
+
+func (hashmap *Hashmap) ConcatNewUsingMaps(
+	isCloneOnEmptyAsWell bool,
+	hashmaps ...*map[string]string,
+) *Hashmap {
+	if len(hashmaps) == 0 {
+		return NewHashmapUsingMap(
+			hashmap.items,
+			constants.Zero,
+			isCloneOnEmptyAsWell,
+		)
+	}
+
+	length := hashmap.Length() +
+		constants.Capacity5
+	for _, h := range hashmaps {
+		if h == nil {
+			continue
+		}
+
+		length += len(*h)
+	}
+
+	newHashmap := NewHashmapUsingMap(
+		hashmap.items,
+		length,
+		true)
+
+	newHashmap.AddOrUpdateHashmap(hashmap)
+
+	for _, hashmap2 := range hashmaps {
+		newHashmap.AddOrUpdateMapPtr(
+			hashmap2)
+	}
+
+	return newHashmap
 }
 
 func (hashmap *Hashmap) AddOrUpdateLock(key, value string) *Hashmap {
