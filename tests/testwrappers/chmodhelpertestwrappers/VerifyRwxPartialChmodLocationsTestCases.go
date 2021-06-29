@@ -13,6 +13,14 @@ var VerifyRwxPartialChmodLocationsTestCases = []VerifyRwxPartialChmodLocationsWr
 			"Expect [\"rwxrwx***\"] != [\"rwxr-xr--\"] Actual",
 	},
 	{
+		Header:                  "Missing Paths should NOT have error with it's location and all matches with expected RWX!",
+		Locations:               SimpleLocations,
+		IsContinueOnError:       true,
+		IsSkipOnInvalid:         true,
+		ExpectedPartialRwx:      "-rwx",
+		ExpectationErrorMessage: "",
+	},
+	{
 		Header:             "Missing Paths should have error with it's location!",
 		Locations:          SimpleLocations,
 		IsContinueOnError:  true,

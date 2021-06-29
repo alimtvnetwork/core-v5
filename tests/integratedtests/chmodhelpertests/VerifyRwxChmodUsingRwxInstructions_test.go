@@ -18,25 +18,23 @@ func Test_VerifyRwxChmodUsingRwxInstructions_Unix(t *testing.T) {
 	createPathInstructions := chmodhelpertestwrappers.CreatePathInstruction2
 	createDefaultPaths(&createPathInstructions)
 	for i, testCase := range chmodhelpertestwrappers.VerifyRwxChmodUsingRwxInstructionsTestCases {
+		expectationMessage := testCase.ExpectedErrorMessage
 		executor, err := chmodhelper.ParseRwxInstructionToExecutor(&testCase.RwxInstruction)
 
 		msgtype.SimpleHandleErr(err, "")
 
-		expectationMessage := testCase.ExpectedErrorMessage
-		err2 := executor.VerifyRwxModifiersDirect(
+		// Act
+		actualErr := executor.VerifyRwxModifiersDirect(
 			false,
 			testCase.Locations...)
 
-		// Act
-		actualMessage := err2.Error()
-
 		// Assert
 		Convey(testCase.Header, t, func() {
-			isEqual := coretests.IsStringMessageWithoutWhitespaceSortedEqual(
+			isEqual := coretests.IsStringErrorWithoutWhitespaceSortedEqual(
 				true,
 				true,
 				testCase.Header,
-				actualMessage,
+				actualErr,
 				expectationMessage,
 				i)
 

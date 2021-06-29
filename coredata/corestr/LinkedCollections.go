@@ -19,48 +19,48 @@ type LinkedCollections struct {
 	sync.Mutex
 }
 
-func (linkedCollections *LinkedCollections) Tail() *LinkedCollectionNode {
-	return linkedCollections.tail
+func (it *LinkedCollections) Tail() *LinkedCollectionNode {
+	return it.tail
 }
 
-func (linkedCollections *LinkedCollections) Head() *LinkedCollectionNode {
-	return linkedCollections.head
+func (it *LinkedCollections) Head() *LinkedCollectionNode {
+	return it.head
 }
 
-func (linkedCollections *LinkedCollections) First() *Collection {
-	return linkedCollections.head.Element
+func (it *LinkedCollections) First() *Collection {
+	return it.head.Element
 }
 
-func (linkedCollections *LinkedCollections) Single() *Collection {
-	return linkedCollections.head.Element
+func (it *LinkedCollections) Single() *Collection {
+	return it.head.Element
 }
 
-func (linkedCollections *LinkedCollections) Last() *Collection {
-	return linkedCollections.tail.Element
+func (it *LinkedCollections) Last() *Collection {
+	return it.tail.Element
 }
 
-func (linkedCollections *LinkedCollections) LastOrDefault() *Collection {
-	if linkedCollections.IsEmpty() {
+func (it *LinkedCollections) LastOrDefault() *Collection {
+	if it.IsEmpty() {
 		return EmptyCollection()
 	}
 
-	return linkedCollections.tail.Element
+	return it.tail.Element
 }
 
-func (linkedCollections *LinkedCollections) FirstOrDefault() *Collection {
-	if linkedCollections.IsEmpty() {
+func (it *LinkedCollections) FirstOrDefault() *Collection {
+	if it.IsEmpty() {
 		return EmptyCollection()
 	}
 
-	return linkedCollections.head.Element
+	return it.head.Element
 }
 
-func (linkedCollections *LinkedCollections) Length() int {
-	return linkedCollections.length
+func (it *LinkedCollections) Length() int {
+	return it.length
 }
 
 // AllIndividualItemsLength including all nested ones
-func (linkedCollections *LinkedCollections) AllIndividualItemsLength() int {
+func (it *LinkedCollections) AllIndividualItemsLength() int {
 	allLengthSum := 0
 
 	var processor LinkedCollectionSimpleProcessor = func(
@@ -71,78 +71,78 @@ func (linkedCollections *LinkedCollections) AllIndividualItemsLength() int {
 		return false
 	}
 
-	linkedCollections.Loop(processor)
+	it.Loop(processor)
 
 	return allLengthSum
 }
 
-func (linkedCollections *LinkedCollections) incrementLength() int {
-	linkedCollections.length++
+func (it *LinkedCollections) incrementLength() int {
+	it.length++
 
-	return linkedCollections.length
+	return it.length
 }
 
-func (linkedCollections *LinkedCollections) setLengthToZero() int {
-	linkedCollections.length = 0
+func (it *LinkedCollections) setLengthToZero() int {
+	it.length = 0
 
-	return linkedCollections.length
+	return it.length
 }
 
-func (linkedCollections *LinkedCollections) setLength(number int) int {
-	linkedCollections.length = number
+func (it *LinkedCollections) setLength(number int) int {
+	it.length = number
 
-	return linkedCollections.length
+	return it.length
 }
 
-func (linkedCollections *LinkedCollections) decrementLength() int {
-	linkedCollections.length--
+func (it *LinkedCollections) decrementLength() int {
+	it.length--
 
-	return linkedCollections.length
+	return it.length
 }
 
-func (linkedCollections *LinkedCollections) incrementLengthLock() {
-	linkedCollections.Lock()
-	linkedCollections.length++
-	linkedCollections.Unlock()
+func (it *LinkedCollections) incrementLengthLock() {
+	it.Lock()
+	it.length++
+	it.Unlock()
 }
 
-func (linkedCollections *LinkedCollections) incrementLengthUsingNumber(number int) int {
-	linkedCollections.length += number
+func (it *LinkedCollections) incrementLengthUsingNumber(number int) int {
+	it.length += number
 
-	return linkedCollections.length
+	return it.length
 }
 
-func (linkedCollections *LinkedCollections) LengthLock() int {
-	linkedCollections.Lock()
-	defer linkedCollections.Unlock()
+func (it *LinkedCollections) LengthLock() int {
+	it.Lock()
+	defer it.Unlock()
 
-	return linkedCollections.length
+	return it.length
 }
 
-func (linkedCollections *LinkedCollections) IsEqualsPtr(
+func (it *LinkedCollections) IsEqualsPtr(
 	anotherLinkedCollections *LinkedCollections,
 ) bool {
 	if anotherLinkedCollections == nil {
 		return false
 	}
 
-	if linkedCollections == anotherLinkedCollections {
+	if it == anotherLinkedCollections {
 		return true
 	}
 
-	if linkedCollections.IsEmpty() && anotherLinkedCollections.IsEmpty() {
+	if it.IsEmpty() && anotherLinkedCollections.IsEmpty() {
 		return true
 	}
 
-	if linkedCollections.IsEmpty() || anotherLinkedCollections.IsEmpty() {
+	if it.IsEmpty() || anotherLinkedCollections.IsEmpty() {
 		return false
 	}
 
-	if linkedCollections.Length() != anotherLinkedCollections.Length() {
+	if it.Length() != anotherLinkedCollections.Length() {
 		return false
 	}
 
-	leftNode := linkedCollections.head
+	leftNode := it.head
 	rightNode := anotherLinkedCollections.head
 
 	if leftNode == nil && rightNode == nil {
@@ -156,83 +156,83 @@ func (linkedCollections *LinkedCollections) IsEqualsPtr(
 	return leftNode.IsChainEqual(rightNode)
 }
 
-func (linkedCollections *LinkedCollections) IsEmptyLock() bool {
-	linkedCollections.Lock()
-	defer linkedCollections.Unlock()
+func (it *LinkedCollections) IsEmptyLock() bool {
+	it.Lock()
+	defer it.Unlock()
 
-	return linkedCollections.head == nil || linkedCollections.length == 0
+	return it.head == nil || it.length == 0
 }
 
-func (linkedCollections *LinkedCollections) IsEmpty() bool {
-	return linkedCollections.head == nil || linkedCollections.length == 0
+func (it *LinkedCollections) IsEmpty() bool {
+	return it.head == nil || it.length == 0
 }
 
-func (linkedCollections *LinkedCollections) HasItems() bool {
-	return linkedCollections.head != nil &&
-		linkedCollections.length > 0
+func (it *LinkedCollections) HasItems() bool {
+	return it.head != nil &&
+		it.length > 0
 }
 
 // InsertAt BigO(n) expensive operation.
-func (linkedCollections *LinkedCollections) InsertAt(
+func (it *LinkedCollections) InsertAt(
 	index int,
 	collection *Collection,
 ) *LinkedCollections {
 	if index < 1 {
-		return linkedCollections.AddFront(collection)
+		return it.AddFront(collection)
 	}
 
-	node := linkedCollections.IndexAt(index - 1)
-	linkedCollections.AddAfterNode(node, collection)
+	node := it.IndexAt(index - 1)
+	it.AddAfterNode(node, collection)
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AddAsync(
+func (it *LinkedCollections) AddAsync(
 	collection *Collection,
 	wg *sync.WaitGroup,
 ) *LinkedCollections {
 	go func() {
-		linkedCollections.Lock()
-		defer linkedCollections.Unlock()
-		linkedCollections.Add(collection)
+		it.Lock()
+		defer it.Unlock()
+		it.Add(collection)
 
 		wg.Done()
 	}()
 
-	return linkedCollections
+	return it
 }
 
 // AddsAsyncOnComplete Append back
-func (linkedCollections *LinkedCollections) AddsAsyncOnComplete(
+func (it *LinkedCollections) AddsAsyncOnComplete(
 	onComplete OnCompleteLinkedCollections,
 	isSkipOnNil bool,
 	collections ...*Collection,
 ) *LinkedCollections {
 	go func() {
-		linkedCollections.Lock()
-		defer linkedCollections.Unlock()
+		it.Lock()
+		defer it.Unlock()
 
-		linkedCollections.AppendCollectionsPointers(isSkipOnNil, &collections)
+		it.AppendCollectionsPointers(isSkipOnNil, &collections)
 
-		onComplete(linkedCollections)
+		onComplete(it)
 	}()
 
-	return linkedCollections
+	return it
 }
 
 // AddsUsingProcessorAsyncOnComplete Append back
-func (linkedCollections *LinkedCollections) AddsUsingProcessorAsyncOnComplete(
+func (it *LinkedCollections) AddsUsingProcessorAsyncOnComplete(
 	onComplete OnCompleteLinkedCollections,
 	processor AnyToCollectionProcessor,
 	isSkipOnNil bool,
 	anys ...interface{},
 ) *LinkedCollections {
 	go func() {
-		linkedCollections.Lock()
-		defer linkedCollections.Unlock()
+		it.Lock()
+		defer it.Unlock()
 
 		if anys == nil && isSkipOnNil {
-			onComplete(linkedCollections)
+			onComplete(it)
 
 			return
 		}
@@ -243,25 +243,25 @@ func (linkedCollections *LinkedCollections) AddsUsingProcessorAsyncOnComplete(
 			}
 
 			collection := processor(any, i)
-			linkedCollections.Add(collection)
+			it.Add(collection)
 		}
 
-		onComplete(linkedCollections)
+		onComplete(it)
 	}()
 
-	return linkedCollections
+	return it
 }
 
 // AddsUsingProcessorAsync Append back
-func (linkedCollections *LinkedCollections) AddsUsingProcessorAsync(
+func (it *LinkedCollections) AddsUsingProcessorAsync(
 	wg *sync.WaitGroup,
 	processor AnyToCollectionProcessor,
 	isSkipOnNil bool,
 	anys ...interface{},
 ) *LinkedCollections {
 	go func() {
-		linkedCollections.Lock()
-		defer linkedCollections.Unlock()
+		it.Lock()
+		defer it.Unlock()
 
 		if anys == nil && isSkipOnNil {
 			wg.Done()
@@ -275,157 +275,157 @@ func (linkedCollections *LinkedCollections) AddsUsingProcessorAsync(
 			}
 
 			collection := processor(any, i)
-			linkedCollections.Add(collection)
+			it.Add(collection)
 		}
 
 		wg.Done()
 	}()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AddLock(collection *Collection) *LinkedCollections {
-	linkedCollections.Lock()
-	defer linkedCollections.Unlock()
+func (it *LinkedCollections) AddLock(collection *Collection) *LinkedCollections {
+	it.Lock()
+	defer it.Unlock()
 
-	return linkedCollections.Add(collection)
+	return it.Add(collection)
 }
 
-func (linkedCollections *LinkedCollections) Add(collection *Collection) *LinkedCollections {
-	if linkedCollections.IsEmpty() {
-		linkedCollections.head = &LinkedCollectionNode{
+func (it *LinkedCollections) Add(collection *Collection) *LinkedCollections {
+	if it.IsEmpty() {
+		it.head = &LinkedCollectionNode{
 			Element: collection,
 			next:    nil,
 		}
 
-		linkedCollections.tail = linkedCollections.head
-		linkedCollections.incrementLength()
+		it.tail = it.head
+		it.incrementLength()
 
-		return linkedCollections
+		return it
 	}
 
-	linkedCollections.tail.next = &LinkedCollectionNode{
+	it.tail.next = &LinkedCollectionNode{
 		Element: collection,
 		next:    nil,
 	}
 
-	linkedCollections.tail = linkedCollections.tail.next
-	linkedCollections.incrementLength()
+	it.tail = it.tail.next
+	it.incrementLength()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AddStringsLock(stringsItems ...string) *LinkedCollections {
+func (it *LinkedCollections) AddStringsLock(stringsItems ...string) *LinkedCollections {
 	if len(stringsItems) == 0 {
-		return linkedCollections
+		return it
 	}
 
-	linkedCollections.Lock()
-	defer linkedCollections.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	return linkedCollections.AddStringsPtr(&stringsItems, false)
+	return it.AddStringsPtr(&stringsItems, false)
 }
 
-func (linkedCollections *LinkedCollections) AddStrings(stringsItems ...string) *LinkedCollections {
+func (it *LinkedCollections) AddStrings(stringsItems ...string) *LinkedCollections {
 	if len(stringsItems) == 0 {
-		return linkedCollections
+		return it
 	}
 
 	collection := NewCollectionUsingStrings(&stringsItems, false)
 
-	return linkedCollections.Add(collection)
+	return it.Add(collection)
 }
 
-func (linkedCollections *LinkedCollections) AddBackNode(node *LinkedCollectionNode) *LinkedCollections {
-	return linkedCollections.AppendNode(node)
+func (it *LinkedCollections) AddBackNode(node *LinkedCollectionNode) *LinkedCollections {
+	return it.AppendNode(node)
 }
 
-func (linkedCollections *LinkedCollections) AppendNode(node *LinkedCollectionNode) *LinkedCollections {
-	if linkedCollections.IsEmpty() {
-		linkedCollections.head = node
-		linkedCollections.tail = linkedCollections.head
-		linkedCollections.incrementLength()
+func (it *LinkedCollections) AppendNode(node *LinkedCollectionNode) *LinkedCollections {
+	if it.IsEmpty() {
+		it.head = node
+		it.tail = it.head
+		it.incrementLength()
 
-		return linkedCollections
+		return it
 	}
 
-	linkedCollections.tail.next = node
-	linkedCollections.tail = linkedCollections.tail.next
-	linkedCollections.incrementLength()
+	it.tail.next = node
+	it.tail = it.tail.next
+	it.incrementLength()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AppendChainOfNodes(nodeHead *LinkedCollectionNode) *LinkedCollections {
+func (it *LinkedCollections) AppendChainOfNodes(nodeHead *LinkedCollectionNode) *LinkedCollections {
 	endOfChain, length := nodeHead.EndOfChain()
 
-	if linkedCollections.IsEmpty() {
-		linkedCollections.head = nodeHead
+	if it.IsEmpty() {
+		it.head = nodeHead
 	} else {
-		linkedCollections.tail.next = nodeHead
+		it.tail.next = nodeHead
 	}
 
-	linkedCollections.tail = endOfChain
-	linkedCollections.incrementLengthUsingNumber(length)
+	it.tail = endOfChain
+	it.incrementLengthUsingNumber(length)
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AppendChainOfNodesAsync(
+func (it *LinkedCollections) AppendChainOfNodesAsync(
 	nodeHead *LinkedCollectionNode,
 	wg *sync.WaitGroup,
 ) *LinkedCollections {
 	go func() {
-		linkedCollections.Lock()
-		linkedCollections.AppendChainOfNodes(nodeHead)
-		linkedCollections.Unlock()
+		it.Lock()
+		it.AppendChainOfNodes(nodeHead)
+		it.Unlock()
 
 		wg.Done()
 	}()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) PushBackLock(collection *Collection) *LinkedCollections {
-	return linkedCollections.AddLock(collection)
+func (it *LinkedCollections) PushBackLock(collection *Collection) *LinkedCollections {
+	return it.AddLock(collection)
 }
 
-func (linkedCollections *LinkedCollections) PushBack(collection *Collection) *LinkedCollections {
-	return linkedCollections.Add(collection)
+func (it *LinkedCollections) PushBack(collection *Collection) *LinkedCollections {
+	return it.Add(collection)
 }
 
-func (linkedCollections *LinkedCollections) Push(collection *Collection) *LinkedCollections {
-	return linkedCollections.Add(collection)
+func (it *LinkedCollections) Push(collection *Collection) *LinkedCollections {
+	return it.Add(collection)
 }
 
-func (linkedCollections *LinkedCollections) PushFront(collection *Collection) *LinkedCollections {
-	return linkedCollections.AddFront(collection)
+func (it *LinkedCollections) PushFront(collection *Collection) *LinkedCollections {
+	return it.AddFront(collection)
 }
 
-func (linkedCollections *LinkedCollections) AddFrontLock(collection *Collection) *LinkedCollections {
-	linkedCollections.Lock()
-	defer linkedCollections.Unlock()
+func (it *LinkedCollections) AddFrontLock(collection *Collection) *LinkedCollections {
+	it.Lock()
+	defer it.Unlock()
 
-	return linkedCollections.AddFront(collection)
+	return it.AddFront(collection)
 }
 
-func (linkedCollections *LinkedCollections) AddFront(collection *Collection) *LinkedCollections {
-	if linkedCollections.IsEmpty() {
-		return linkedCollections.Add(collection)
+func (it *LinkedCollections) AddFront(collection *Collection) *LinkedCollections {
+	if it.IsEmpty() {
+		return it.Add(collection)
 	}
 
 	node := &LinkedCollectionNode{
 		Element: collection,
-		next:    linkedCollections.head,
+		next:    it.head,
 	}
 
-	linkedCollections.head = node
-	linkedCollections.incrementLength()
+	it.head = node
+	it.incrementLength()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AttachWithNode(
+func (it *LinkedCollections) AttachWithNode(
 	currentNode,
 	addingNode *LinkedCollectionNode,
 ) error {
@@ -443,46 +443,46 @@ func (linkedCollections *LinkedCollections) AttachWithNode(
 
 	addingNode.next = currentNode.next
 	currentNode.next = addingNode
-	linkedCollections.incrementLength()
+	it.incrementLength()
 
 	return nil
 }
 
-func (linkedCollections *LinkedCollections) AddAnother(
+func (it *LinkedCollections) AddAnother(
 	another *LinkedCollections,
 ) *LinkedCollections {
 	if another == nil || another.IsEmpty() {
-		return linkedCollections
+		return it
 	}
 
 	node := another.Head()
-	linkedCollections.Add(node.Element)
+	it.Add(node.Element)
 
 	for node.HasNext() {
 		node = node.Next()
 
-		linkedCollections.Add(node.Element)
+		it.Add(node.Element)
 	}
 
-	return linkedCollections
+	return it
 }
 
 // AddCollectionToNode iSkipOnNil
-func (linkedCollections *LinkedCollections) AddCollectionToNode(
+func (it *LinkedCollections) AddCollectionToNode(
 	isSkipOnNull bool,
 	node *LinkedCollectionNode,
 	collection *Collection,
 ) *LinkedCollections {
-	return linkedCollections.AddCollectionsToNode(
+	return it.AddCollectionsToNode(
 		isSkipOnNull,
 		node,
 		collection)
 }
 
-func (linkedCollections *LinkedCollections) GetNextNodes(count int) *[]*LinkedCollectionNode {
+func (it *LinkedCollections) GetNextNodes(count int) *[]*LinkedCollectionNode {
 	counter := 0
 
-	return linkedCollections.Filter(
+	return it.Filter(
 		func(
 			arg *LinkedCollectionFilterParameter,
 		) *LinkedCollectionFilterResult {
@@ -497,8 +497,8 @@ func (linkedCollections *LinkedCollections) GetNextNodes(count int) *[]*LinkedCo
 		})
 }
 
-func (linkedCollections *LinkedCollections) GetAllLinkedNodes() *[]*LinkedCollectionNode {
-	return linkedCollections.Filter(
+func (it *LinkedCollections) GetAllLinkedNodes() *[]*LinkedCollectionNode {
+	return it.Filter(
 		func(
 			arg *LinkedCollectionFilterParameter,
 		) *LinkedCollectionFilterResult {
@@ -510,15 +510,15 @@ func (linkedCollections *LinkedCollections) GetAllLinkedNodes() *[]*LinkedCollec
 		})
 }
 
-func (linkedCollections *LinkedCollections) Loop(
+func (it *LinkedCollections) Loop(
 	simpleProcessor LinkedCollectionSimpleProcessor,
 ) *LinkedCollections {
-	length := linkedCollections.Length()
+	length := it.Length()
 	if length == 0 {
-		return linkedCollections
+		return it
 	}
 
-	node := linkedCollections.head
+	node := it.head
 	arg := &LinkedCollectionProcessorParameter{
 		Index:         0,
 		CurrentNode:   node,
@@ -530,7 +530,7 @@ func (linkedCollections *LinkedCollections) Loop(
 	isBreak := simpleProcessor(arg)
 
 	if isBreak {
-		return linkedCollections
+		return it
 	}
 
 	lenMinusOne := length - 1
@@ -553,26 +553,26 @@ func (linkedCollections *LinkedCollections) Loop(
 		isBreak = simpleProcessor(arg2)
 
 		if isBreak {
-			return linkedCollections
+			return it
 		}
 
 		index++
 	}
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) Filter(
+func (it *LinkedCollections) Filter(
 	filter LinkedCollectionFilter,
 ) *[]*LinkedCollectionNode {
-	length := linkedCollections.Length()
+	length := it.Length()
 	list := make([]*LinkedCollectionNode, 0, length)
 
 	if length == 0 {
 		return &list
 	}
 
-	node := linkedCollections.head
+	node := it.head
 	arg := &LinkedCollectionFilterParameter{
 		Node:  node,
 		Index: 0,
@@ -613,11 +613,11 @@ func (linkedCollections *LinkedCollections) Filter(
 	return &list
 }
 
-func (linkedCollections *LinkedCollections) FilterAsCollection(
+func (it *LinkedCollections) FilterAsCollection(
 	filter LinkedCollectionFilter,
 	additionalCapacity int,
 ) *Collection {
-	items := linkedCollections.Filter(filter)
+	items := it.Filter(filter)
 
 	if len(*items) == 0 {
 		return EmptyCollection()
@@ -644,10 +644,10 @@ func (linkedCollections *LinkedCollections) FilterAsCollection(
 	return collection
 }
 
-func (linkedCollections *LinkedCollections) FilterAsCollections(
+func (it *LinkedCollections) FilterAsCollections(
 	filter LinkedCollectionFilter,
 ) *[]*Collection {
-	items := linkedCollections.Filter(filter)
+	items := it.Filter(filter)
 	collections := make([]*Collection, len(*items))
 
 	for i := range *items {
@@ -657,7 +657,7 @@ func (linkedCollections *LinkedCollections) FilterAsCollections(
 	return &collections
 }
 
-func (linkedCollections *LinkedCollections) RemoveNodeByIndex(
+func (it *LinkedCollections) RemoveNodeByIndex(
 	removingIndex int,
 ) *LinkedCollections {
 	if removingIndex < 0 {
@@ -678,10 +678,10 @@ func (linkedCollections *LinkedCollections) RemoveNodeByIndex(
 		}
 
 		isBreak = hasIndex
-		linkedCollections.decrementLength()
+		it.decrementLength()
 
 		if arg.IsFirstIndex {
-			linkedCollections.head =
+			it.head =
 				arg.CurrentNode.next
 			arg.CurrentNode = nil
 			return isBreak
@@ -700,20 +700,20 @@ func (linkedCollections *LinkedCollections) RemoveNodeByIndex(
 		return isBreak
 	}
 
-	return linkedCollections.Loop(singleProcessor)
+	return it.Loop(singleProcessor)
 }
 
-func (linkedCollections *LinkedCollections) RemoveNodeByIndexes(
+func (it *LinkedCollections) RemoveNodeByIndexes(
 	isIgnorePanic bool,
 	removingIndexes ...int,
 ) *LinkedCollections {
 	length := len(removingIndexes)
 
 	if length == 0 {
-		return linkedCollections
+		return it
 	}
 
-	if !isIgnorePanic && linkedCollections.IsEmpty() && length > 0 {
+	if !isIgnorePanic && it.IsEmpty() && length > 0 {
 		msgtype.
 			CannotRemoveIndexesFromEmptyCollection.
 			HandleUsingPanic("removingIndexes cannot be removed from empty LinkedCollections.", removingIndexes)
@@ -722,7 +722,7 @@ func (linkedCollections *LinkedCollections) RemoveNodeByIndexes(
 	removingIndexesCopy := removingIndexes
 	removingIndexesCopyPtr := &removingIndexesCopy
 
-	nonChainedNodes := linkedCollections.Filter(
+	nonChainedNodes := it.Filter(
 		func(arg *LinkedCollectionFilterParameter) *LinkedCollectionFilterResult {
 			hasIndex := coreindexes.HasIndexPlusRemoveIndex(removingIndexesCopyPtr, arg.Index)
 			if hasIndex {
@@ -748,16 +748,16 @@ func (linkedCollections *LinkedCollections) RemoveNodeByIndexes(
 	}
 
 	if nonChainedCollection.IsEmpty() {
-		return linkedCollections
+		return it
 	}
 
-	linkedCollections.setLength(nonChainedCollection.Length())
-	linkedCollections.head = nonChainedCollection.ApplyChaining().First()
+	it.setLength(nonChainedCollection.Length())
+	it.head = nonChainedCollection.ApplyChaining().First()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) RemoveNode(
+func (it *LinkedCollections) RemoveNode(
 	removingNode *LinkedCollectionNode,
 ) *LinkedCollections {
 	var processor LinkedCollectionSimpleProcessor = func(
@@ -765,15 +765,15 @@ func (linkedCollections *LinkedCollections) RemoveNode(
 	) (isBreak bool) {
 		isSameNode := arg.CurrentNode == removingNode
 		if isSameNode && arg.IsFirstIndex {
-			linkedCollections.head = arg.CurrentNode.next
-			linkedCollections.decrementLength()
+			it.head = arg.CurrentNode.next
+			it.decrementLength()
 
 			return true
 		}
 
 		if isSameNode {
 			arg.PrevNode.next = arg.CurrentNode.next
-			linkedCollections.decrementLength()
+			it.decrementLength()
 
 			return true
 		}
@@ -781,16 +781,16 @@ func (linkedCollections *LinkedCollections) RemoveNode(
 		return false
 	}
 
-	return linkedCollections.Loop(processor)
+	return it.Loop(processor)
 }
 
 // AppendCollections iSkipOnNil
-func (linkedCollections *LinkedCollections) AppendCollections(
+func (it *LinkedCollections) AppendCollections(
 	isSkipOnNull bool,
 	collections ...*Collection,
 ) *LinkedCollections {
 	if isSkipOnNull && collections == nil {
-		return linkedCollections
+		return it
 	}
 
 	for i := range collections {
@@ -799,19 +799,19 @@ func (linkedCollections *LinkedCollections) AppendCollections(
 			continue
 		}
 
-		linkedCollections.Add(collection)
+		it.Add(collection)
 	}
 
-	return linkedCollections
+	return it
 }
 
 // AppendCollectionsPointersLock iSkipOnNil
-func (linkedCollections *LinkedCollections) AppendCollectionsPointersLock(
+func (it *LinkedCollections) AppendCollectionsPointersLock(
 	isSkipOnNull bool,
 	collections *[]*Collection,
 ) *LinkedCollections {
 	if isSkipOnNull && collections == nil {
-		return linkedCollections
+		return it
 	}
 
 	for i := range *collections {
@@ -820,19 +820,19 @@ func (linkedCollections *LinkedCollections) AppendCollectionsPointersLock(
 			continue
 		}
 
-		linkedCollections.AddLock(collection)
+		it.AddLock(collection)
 	}
 
-	return linkedCollections
+	return it
 }
 
 // AppendCollectionsPointers iSkipOnNil
-func (linkedCollections *LinkedCollections) AppendCollectionsPointers(
+func (it *LinkedCollections) AppendCollectionsPointers(
 	isSkipOnNull bool,
 	collections *[]*Collection,
 ) *LinkedCollections {
 	if isSkipOnNull && collections == nil {
-		return linkedCollections
+		return it
 	}
 
 	for i := range *collections {
@@ -841,62 +841,62 @@ func (linkedCollections *LinkedCollections) AppendCollectionsPointers(
 			continue
 		}
 
-		linkedCollections.Add(collection)
+		it.Add(collection)
 	}
 
-	return linkedCollections
+	return it
 }
 
 // AddCollectionsToNodeAsync iSkipOnNil
-func (linkedCollections *LinkedCollections) AddCollectionsToNodeAsync(
+func (it *LinkedCollections) AddCollectionsToNodeAsync(
 	isSkipOnNull bool,
 	wg *sync.WaitGroup,
 	node *LinkedCollectionNode,
 	collections ...*Collection,
 ) *LinkedCollections {
 	if isSkipOnNull && collections == nil {
-		return linkedCollections
+		return it
 	}
 
 	go func() {
-		linkedCollections.Lock()
-		linkedCollections.AddCollectionsPointerToNode(
+		it.Lock()
+		it.AddCollectionsPointerToNode(
 			isSkipOnNull,
 			node,
 			&collections)
 
-		linkedCollections.Unlock()
+		it.Unlock()
 
 		wg.Done()
 	}()
 
-	return linkedCollections
+	return it
 }
 
 // AddCollectionsToNode iSkipOnNil
-func (linkedCollections *LinkedCollections) AddCollectionsToNode(
+func (it *LinkedCollections) AddCollectionsToNode(
 	isSkipOnNull bool,
 	node *LinkedCollectionNode,
 	collections ...*Collection,
 ) *LinkedCollections {
 	if isSkipOnNull && collections == nil {
-		return linkedCollections
+		return it
 	}
 
-	return linkedCollections.AddCollectionsPointerToNode(
+	return it.AddCollectionsPointerToNode(
 		isSkipOnNull,
 		node,
 		&collections)
 }
 
 // AddCollectionsPointerToNode iSkipOnNil
-func (linkedCollections *LinkedCollections) AddCollectionsPointerToNode(
+func (it *LinkedCollections) AddCollectionsPointerToNode(
 	isSkipOnNull bool,
 	node *LinkedCollectionNode,
 	items *[]*Collection,
 ) *LinkedCollections {
 	if items == nil || node == nil && isSkipOnNull {
-		return linkedCollections
+		return it
 	}
 
 	if node == nil {
@@ -910,13 +910,13 @@ func (linkedCollections *LinkedCollections) AddCollectionsPointerToNode(
 	length := len(*items)
 
 	if length == 0 {
-		return linkedCollections
+		return it
 	}
 
 	if length == 1 {
-		linkedCollections.AddAfterNode(node, (*items)[0])
+		it.AddAfterNode(node, (*items)[0])
 
-		return linkedCollections
+		return it
 	}
 
 	finalHead := &LinkedCollectionNode{
@@ -931,19 +931,19 @@ func (linkedCollections *LinkedCollections) AddCollectionsPointerToNode(
 			continue
 		}
 
-		nextNode = nextNode.AddNext(linkedCollections, collection)
+		nextNode = nextNode.AddNext(it, collection)
 	}
 
 	//goland:noinspection GoNilness
 	nextNode.next = node.next
 	//goland:noinspection GoNilness
 	node.next = finalHead
-	linkedCollections.incrementLength()
+	it.incrementLength()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AddAfterNode(
+func (it *LinkedCollections) AddAfterNode(
 	node *LinkedCollectionNode,
 	collection *Collection,
 ) *LinkedCollectionNode {
@@ -953,53 +953,53 @@ func (linkedCollections *LinkedCollections) AddAfterNode(
 	}
 
 	node.next = newNode
-	linkedCollections.incrementLength()
+	it.incrementLength()
 
 	return newNode
 }
 
-func (linkedCollections *LinkedCollections) AddAfterNodeAsync(
+func (it *LinkedCollections) AddAfterNodeAsync(
 	wg *sync.WaitGroup,
 	node *LinkedCollectionNode,
 	collection *Collection,
 ) {
 	go func() {
-		linkedCollections.Lock()
+		it.Lock()
 
-		linkedCollections.AddAfterNode(node, collection)
+		it.AddAfterNode(node, collection)
 
-		linkedCollections.Unlock()
+		it.Unlock()
 
 		wg.Done()
 	}()
 }
 
 // AddStringsPtrAsync add to back
-func (linkedCollections *LinkedCollections) AddStringsPtrAsync(
+func (it *LinkedCollections) AddStringsPtrAsync(
 	wg *sync.WaitGroup,
 	items *[]string,
 	isMakeClone bool,
 ) *LinkedCollections {
 	if items == nil {
-		return linkedCollections
+		return it
 	}
 
 	go func() {
 		collection := NewCollectionUsingStrings(items, isMakeClone)
 
-		linkedCollections.Lock()
+		it.Lock()
 
-		linkedCollections.Add(collection)
+		it.Add(collection)
 
-		linkedCollections.Unlock()
+		it.Unlock()
 
 		wg.Done()
 	}()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) ConcatNew(
+func (it *LinkedCollections) ConcatNew(
 	isMakeCloneOnEmpty bool,
 	linkedCollectionsOfCollection ...*LinkedCollections,
 ) *LinkedCollections {
@@ -1007,13 +1007,13 @@ func (linkedCollections *LinkedCollections) ConcatNew(
 
 	if isEmpty && isMakeCloneOnEmpty {
 		return NewLinkedCollections().
-			AddAnother(linkedCollections)
+			AddAnother(it)
 	} else if isEmpty && !isMakeCloneOnEmpty {
-		return linkedCollections
+		return it
 	}
 
 	newLinkedCollections := NewLinkedCollections()
-	newLinkedCollections.AddAnother(linkedCollections)
+	newLinkedCollections.AddAnother(it)
 
 	for _, linkedCollection := range linkedCollectionsOfCollection {
 		newLinkedCollections.AddAnother(linkedCollection)
@@ -1023,13 +1023,13 @@ func (linkedCollections *LinkedCollections) ConcatNew(
 }
 
 // AddAsyncFuncItems must add all the lengths to the wg
-func (linkedCollections *LinkedCollections) AddAsyncFuncItems(
+func (it *LinkedCollections) AddAsyncFuncItems(
 	wg *sync.WaitGroup,
 	isMakeClone bool,
 	asyncFunctions ...func() []string,
 ) *LinkedCollections {
 	if asyncFunctions == nil {
-		return linkedCollections
+		return it
 	}
 
 	asyncFuncWrap := func(asyncFunc func() []string) {
@@ -1043,9 +1043,9 @@ func (linkedCollections *LinkedCollections) AddAsyncFuncItems(
 
 		collection := NewCollectionUsingStrings(&items, isMakeClone)
 
-		linkedCollections.Lock()
-		linkedCollections.Add(collection)
-		linkedCollections.Unlock()
+		it.Lock()
+		it.Add(collection)
+		it.Unlock()
 
 		wg.Done()
 	}
@@ -1056,17 +1056,17 @@ func (linkedCollections *LinkedCollections) AddAsyncFuncItems(
 
 	wg.Wait()
 
-	return linkedCollections
+	return it
 }
 
 // AddAsyncFuncItemsPointer must add all the lengths to the wg
-func (linkedCollections *LinkedCollections) AddAsyncFuncItemsPointer(
+func (it *LinkedCollections) AddAsyncFuncItemsPointer(
 	wg *sync.WaitGroup,
 	isMakeClone bool,
 	asyncFunctions ...func() *[]string,
 ) *LinkedCollections {
 	if asyncFunctions == nil {
-		return linkedCollections
+		return it
 	}
 
 	asyncFuncWrap := func(asyncFunc func() *[]string) {
@@ -1080,9 +1080,9 @@ func (linkedCollections *LinkedCollections) AddAsyncFuncItemsPointer(
 
 		collection := NewCollectionUsingStrings(items, isMakeClone)
 
-		linkedCollections.Lock()
-		linkedCollections.Add(collection)
-		linkedCollections.Unlock()
+		it.Lock()
+		it.Add(collection)
+		it.Unlock()
 
 		wg.Done()
 	}
@@ -1093,30 +1093,30 @@ func (linkedCollections *LinkedCollections) AddAsyncFuncItemsPointer(
 
 	wg.Wait()
 
-	return linkedCollections
+	return it
 }
 
 // AddStringsPtr add to back
-func (linkedCollections *LinkedCollections) AddStringsPtr(
+func (it *LinkedCollections) AddStringsPtr(
 	items *[]string,
 	isMakeClone bool,
 ) *LinkedCollections {
 	if items == nil {
-		return linkedCollections
+		return it
 	}
 
 	collection := NewCollectionUsingStrings(items, isMakeClone)
 
-	return linkedCollections.Add(collection)
+	return it.Add(collection)
 }
 
 // AddStringsOfStringsPtr add to back
-func (linkedCollections *LinkedCollections) AddStringsOfStringsPtr(
+func (it *LinkedCollections) AddStringsOfStringsPtr(
 	items *[]*[]string,
 	isMakeClone bool,
 ) *LinkedCollections {
 	if items == nil || len(*items) == 0 {
-		return linkedCollections
+		return it
 	}
 
 	for _, stringItems := range *items {
@@ -1124,19 +1124,19 @@ func (linkedCollections *LinkedCollections) AddStringsOfStringsPtr(
 			continue
 		}
 
-		linkedCollections.AddStringsPtr(
+		it.AddStringsPtr(
 			stringItems,
 			isMakeClone)
 	}
 
-	return linkedCollections
+	return it
 }
 
 // IndexAt Expensive operation BigO(n)
-func (linkedCollections *LinkedCollections) IndexAt(
+func (it *LinkedCollections) IndexAt(
 	index int,
 ) *LinkedCollectionNode {
-	length := linkedCollections.Length()
+	length := it.Length()
 	if index < 0 {
 		return nil
 	}
@@ -1148,10 +1148,10 @@ func (linkedCollections *LinkedCollections) IndexAt(
 	}
 
 	if index == 0 {
-		return linkedCollections.head
+		return it.head
 	}
 
-	node := linkedCollections.head
+	node := it.head
 	i := 1
 	for node.HasNext() {
 		node = node.Next()
@@ -1167,10 +1167,10 @@ func (linkedCollections *LinkedCollections) IndexAt(
 }
 
 // SafePointerIndexAt Expensive operation BigO(n)
-func (linkedCollections *LinkedCollections) SafePointerIndexAt(
+func (it *LinkedCollections) SafePointerIndexAt(
 	index int,
 ) *Collection {
-	node := linkedCollections.SafeIndexAt(index)
+	node := it.SafeIndexAt(index)
 
 	if node == nil {
 		return nil
@@ -1180,20 +1180,20 @@ func (linkedCollections *LinkedCollections) SafePointerIndexAt(
 }
 
 // SafeIndexAt Expensive operation BigO(n)
-func (linkedCollections *LinkedCollections) SafeIndexAt(
+func (it *LinkedCollections) SafeIndexAt(
 	index int,
 ) *LinkedCollectionNode {
-	length := linkedCollections.Length()
+	length := it.Length()
 	isExitCondition := index < 0 || length == 0 || length-1 < index
 	if isExitCondition {
 		return nil
 	}
 
 	if index == 0 {
-		return linkedCollections.head
+		return it.head
 	}
 
-	node := linkedCollections.head
+	node := it.head
 	i := 1
 	for node.HasNext() {
 		node = node.Next()
@@ -1209,27 +1209,27 @@ func (linkedCollections *LinkedCollections) SafeIndexAt(
 }
 
 // AddPointerStringsPtr skip on nil, add to back
-func (linkedCollections *LinkedCollections) AddPointerStringsPtr(
+func (it *LinkedCollections) AddPointerStringsPtr(
 	items *[]*string,
 ) *LinkedCollections {
 	if items == nil {
-		return linkedCollections
+		return it
 	}
 
 	collection := NewCollectionUsingPointerStringsPlusCap(
 		items,
 		constants.Zero)
 
-	return linkedCollections.Add(collection)
+	return it.Add(collection)
 }
 
 // AddPointerStringsPtrAsync skip on nil, add to back
-func (linkedCollections *LinkedCollections) AddPointerStringsPtrAsync(
+func (it *LinkedCollections) AddPointerStringsPtrAsync(
 	wg *sync.WaitGroup,
 	items *[]*string,
 ) *LinkedCollections {
 	if items == nil {
-		return linkedCollections
+		return it
 	}
 
 	go func() {
@@ -1237,44 +1237,44 @@ func (linkedCollections *LinkedCollections) AddPointerStringsPtrAsync(
 			items,
 			constants.Zero)
 
-		linkedCollections.Lock()
-		linkedCollections.Add(collection)
-		linkedCollections.Unlock()
+		it.Lock()
+		it.Add(collection)
+		it.Unlock()
 
 		wg.Done()
 	}()
 
-	return linkedCollections
+	return it
 }
 
 // AddCollection skip on nil
-func (linkedCollections *LinkedCollections) AddCollection(
+func (it *LinkedCollections) AddCollection(
 	collection *Collection,
 ) *LinkedCollections {
 	if collection == nil {
-		return linkedCollections
+		return it
 	}
 
-	return linkedCollections.Add(collection)
+	return it.Add(collection)
 }
 
 // AddCollectionsPtr skip on nil
-func (linkedCollections *LinkedCollections) AddCollectionsPtr(
+func (it *LinkedCollections) AddCollectionsPtr(
 	collectionsOfCollection *[]*Collection,
 ) *LinkedCollections {
 	if collectionsOfCollection == nil || len(*collectionsOfCollection) == 0 {
-		return linkedCollections
+		return it
 	}
 
-	return linkedCollections.AddCollections(*collectionsOfCollection)
+	return it.AddCollections(*collectionsOfCollection)
 }
 
 // AddCollections skip on nil
-func (linkedCollections *LinkedCollections) AddCollections(
+func (it *LinkedCollections) AddCollections(
 	collectionsOfCollection []*Collection,
 ) *LinkedCollections {
 	if len(collectionsOfCollection) == 0 {
-		return linkedCollections
+		return it
 	}
 
 	for _, collection := range collectionsOfCollection {
@@ -1282,20 +1282,32 @@ func (linkedCollections *LinkedCollections) AddCollections(
 			continue
 		}
 
-		return linkedCollections.Add(collection)
+		return it.Add(collection)
 	}
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) ToCollection(
+func (it *LinkedCollections) ToStringsPtr() *[]string {
+	return it.ToCollectionSimple().Items()
+}
+
+func (it *LinkedCollections) ToStrings() []string {
+	return *it.ToCollectionSimple().Items()
+}
+
+func (it *LinkedCollections) ToCollectionSimple() *Collection {
+	return it.ToCollection(constants.Zero)
+}
+
+func (it *LinkedCollections) ToCollection(
 	addCapacity int,
 ) *Collection {
-	if linkedCollections.IsEmpty() {
+	if it.IsEmpty() {
 		return EmptyCollection()
 	}
 
-	newLength := linkedCollections.AllIndividualItemsLength() +
+	newLength := it.AllIndividualItemsLength() +
 		addCapacity
 
 	collection := NewCollection(newLength)
@@ -1311,19 +1323,19 @@ func (linkedCollections *LinkedCollections) ToCollection(
 		return false
 	}
 
-	linkedCollections.Loop(processor)
+	it.Loop(processor)
 
 	return collection
 }
 
-func (linkedCollections *LinkedCollections) ToCollectionsOfCollection(
+func (it *LinkedCollections) ToCollectionsOfCollection(
 	addCapacity int,
 ) *CollectionsOfCollection {
-	if linkedCollections.IsEmpty() {
+	if it.IsEmpty() {
 		return EmptyCollectionsOfCollection()
 	}
 
-	newLength := linkedCollections.AllIndividualItemsLength() +
+	newLength := it.AllIndividualItemsLength() +
 		addCapacity
 
 	collection := NewCollectionsOfCollection(newLength)
@@ -1340,20 +1352,20 @@ func (linkedCollections *LinkedCollections) ToCollectionsOfCollection(
 		return false
 	}
 
-	linkedCollections.Loop(processor)
+	it.Loop(processor)
 
 	return collection
 }
 
-func (linkedCollections *LinkedCollections) ItemsOfItems() *[]*[]string {
-	length := linkedCollections.Length()
+func (it *LinkedCollections) ItemsOfItems() *[]*[]string {
+	length := it.Length()
 	itemsOfItems := make([]*[]string, length)
 
 	if length == 0 {
 		return &itemsOfItems
 	}
 
-	nodes := linkedCollections.GetAllLinkedNodes()
+	nodes := it.GetAllLinkedNodes()
 
 	for i, node := range *nodes {
 		itemsOfItems[i] = node.Element.items
@@ -1362,15 +1374,15 @@ func (linkedCollections *LinkedCollections) ItemsOfItems() *[]*[]string {
 	return &itemsOfItems
 }
 
-func (linkedCollections *LinkedCollections) ItemsOfItemsCollection() *[]*Collection {
-	length := linkedCollections.Length()
+func (it *LinkedCollections) ItemsOfItemsCollection() *[]*Collection {
+	length := it.Length()
 	itemsOfItems := make([]*Collection, length)
 
 	if length == 0 {
 		return &itemsOfItems
 	}
 
-	nodes := linkedCollections.GetAllLinkedNodes()
+	nodes := it.GetAllLinkedNodes()
 
 	for i, node := range *nodes {
 		itemsOfItems[i] = node.Element
@@ -1380,129 +1392,129 @@ func (linkedCollections *LinkedCollections) ItemsOfItemsCollection() *[]*Collect
 }
 
 // ListPtr must return slice.
-func (linkedCollections *LinkedCollections) ListPtr() *[]string {
-	return linkedCollections.
+func (it *LinkedCollections) ListPtr() *[]string {
+	return it.
 		ToCollection(constants.ArbitraryCapacity5).
 		items
 }
 
-func (linkedCollections *LinkedCollections) String() string {
-	if linkedCollections.IsEmpty() {
+func (it *LinkedCollections) String() string {
+	if it.IsEmpty() {
 		return commonJoiner + NoElements
 	}
 
-	collections := *linkedCollections.ToCollectionsOfCollection(0)
+	collections := *it.ToCollectionsOfCollection(0)
 
 	return collections.String()
 }
 
-func (linkedCollections *LinkedCollections) StringLock() string {
-	if linkedCollections.IsEmptyLock() {
+func (it *LinkedCollections) StringLock() string {
+	if it.IsEmptyLock() {
 		return commonJoiner + NoElements
 	}
 
-	linkedCollections.Lock()
-	defer linkedCollections.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
 	return commonJoiner +
 		strings.Join(
-			*linkedCollections.ListPtr(),
+			*it.ListPtr(),
 			commonJoiner)
 }
 
-func (linkedCollections *LinkedCollections) Join(
+func (it *LinkedCollections) Join(
 	separator string,
 ) string {
-	return strings.Join(*linkedCollections.ListPtr(), separator)
+	return strings.Join(*it.ListPtr(), separator)
 }
 
-func (linkedCollections *LinkedCollections) Joins(
+func (it *LinkedCollections) Joins(
 	separator string,
 	items ...string,
 ) string {
-	if items == nil || linkedCollections.Length() == 0 {
+	if items == nil || it.Length() == 0 {
 		return strings.Join(items, separator)
 	}
 
-	collection := linkedCollections.ToCollection(len(items) +
+	collection := it.ToCollection(len(items) +
 		constants.ArbitraryCapacity2)
 	collection.AddStringsPtr(&items)
 
 	return collection.Join(separator)
 }
 
-func (linkedCollections *LinkedCollections) JsonModel() *CollectionDataModel {
-	return linkedCollections.ToCollection(0).JsonModel()
+func (it *LinkedCollections) JsonModel() *CollectionDataModel {
+	return it.ToCollection(0).JsonModel()
 }
 
-func (linkedCollections *LinkedCollections) JsonModelAny() interface{} {
-	return linkedCollections.JsonModel()
+func (it *LinkedCollections) JsonModelAny() interface{} {
+	return it.JsonModel()
 }
 
-func (linkedCollections *LinkedCollections) MarshalJSON() ([]byte, error) {
-	return json.Marshal(*linkedCollections.JsonModel())
+func (it *LinkedCollections) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*it.JsonModel())
 }
 
-func (linkedCollections *LinkedCollections) UnmarshalJSON(data []byte) error {
+func (it *LinkedCollections) UnmarshalJSON(data []byte) error {
 	var dataModel CollectionDataModel
 	err := json.Unmarshal(data, &dataModel)
 
 	if err == nil {
-		linkedCollections.Clear()
-		linkedCollections.AddStringsPtr(dataModel.Items, false)
+		it.Clear()
+		it.AddStringsPtr(dataModel.Items, false)
 	}
 
 	return err
 }
 
-func (linkedCollections *LinkedCollections) RemoveAll() *LinkedCollections {
-	return linkedCollections.Clear()
+func (it *LinkedCollections) RemoveAll() *LinkedCollections {
+	return it.Clear()
 }
 
-func (linkedCollections *LinkedCollections) Clear() *LinkedCollections {
-	if linkedCollections.IsEmpty() {
-		return linkedCollections
+func (it *LinkedCollections) Clear() *LinkedCollections {
+	if it.IsEmpty() {
+		return it
 	}
 
-	linkedCollections.head = nil
-	linkedCollections.tail = nil
-	linkedCollections.setLengthToZero()
+	it.head = nil
+	it.tail = nil
+	it.setLengthToZero()
 
-	return linkedCollections
+	return it
 }
 
-func (linkedCollections *LinkedCollections) Json() *corejson.Result {
-	if linkedCollections.IsEmpty() {
+func (it *LinkedCollections) Json() *corejson.Result {
+	if it.IsEmpty() {
 		return corejson.EmptyWithoutErrorPtr()
 	}
 
-	jsonBytes, err := json.Marshal(linkedCollections)
+	jsonBytes, err := json.Marshal(it)
 
 	return corejson.NewPtr(jsonBytes, err)
 }
 
-func (linkedCollections *LinkedCollections) ParseInjectUsingJson(
+func (it *LinkedCollections) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*LinkedCollections, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
 		return EmptyLinkedCollections(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
-	err := json.Unmarshal(*jsonResult.Bytes, &linkedCollections)
+	err := json.Unmarshal(*jsonResult.Bytes, &it)
 
 	if err != nil {
 		return EmptyLinkedCollections(), err
 	}
 
-	return linkedCollections, nil
+	return it, nil
 }
 
 // ParseInjectUsingJsonMust Panic if error
-func (linkedCollections *LinkedCollections) ParseInjectUsingJsonMust(
+func (it *LinkedCollections) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *LinkedCollections {
 	newUsingJson, err :=
-		linkedCollections.ParseInjectUsingJson(jsonResult)
+		it.ParseInjectUsingJson(jsonResult)
 
 	if err != nil {
 		panic(err)
@@ -1511,48 +1523,48 @@ func (linkedCollections *LinkedCollections) ParseInjectUsingJsonMust(
 	return newUsingJson
 }
 
-func (linkedCollections *LinkedCollections) GetCompareSummary(
+func (it *LinkedCollections) GetCompareSummary(
 	right *LinkedCollections, leftName, rightName string,
 ) string {
-	lLen := linkedCollections.Length()
+	lLen := it.Length()
 	rLen := right.Length()
 
 	leftStr := fmt.Sprintf(
 		linkedListCollectionCompareHeaderLeft,
 		leftName,
 		lLen,
-		linkedCollections)
+		it)
 
 	rightStr := fmt.Sprintf(
 		linkedListCollectionCompareHeaderRight,
 		rightName,
 		rLen,
 		right,
-		linkedCollections.IsEqualsPtr(right),
+		it.IsEqualsPtr(right),
 		lLen,
 		rLen)
 
 	return leftStr + rightStr
 }
 
-func (linkedCollections *LinkedCollections) JsonParseSelfInject(
+func (it *LinkedCollections) JsonParseSelfInject(
 	jsonResult *corejson.Result,
 ) error {
-	_, err := linkedCollections.ParseInjectUsingJson(
+	_, err := it.ParseInjectUsingJson(
 		jsonResult,
 	)
 
 	return err
 }
 
-func (linkedCollections *LinkedCollections) AsJsoner() corejson.Jsoner {
-	return linkedCollections
+func (it *LinkedCollections) AsJsoner() corejson.Jsoner {
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
-	return linkedCollections
+func (it *LinkedCollections) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
+	return it
 }
 
-func (linkedCollections *LinkedCollections) AsJsonMarshaller() corejson.JsonMarshaller {
-	return linkedCollections
+func (it *LinkedCollections) AsJsonMarshaller() corejson.JsonMarshaller {
+	return it
 }

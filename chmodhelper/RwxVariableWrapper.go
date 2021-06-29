@@ -156,6 +156,63 @@ func (varWrapper *RwxVariableWrapper) IsOtherPartialMatch(rwx string) bool {
 		rwx)
 }
 
+func (varWrapper *RwxVariableWrapper) ApplyRwxOnLocations(
+	isContinueOnError,
+	isSkipOnInvalid bool,
+	locations []string,
+) error {
+	existsFilteredPathFileInfoMap := GetExistsFilteredPathFileInfoMap(isSkipOnInvalid, locations)
+	if !isContinueOnError && existsFilteredPathFileInfoMap.Error != nil {
+		return existsFilteredPathFileInfoMap.Error
+	}
+
+	locationsFileInfoRwx := existsFilteredPathFileInfoMap.
+		LazyValidLocationFileInfoRwxWrappers()
+
+	if isContinueOnError {
+		var sliceErr []string
+		for _, locationFileInfoRwx := range locationsFileInfoRwx {
+			rwx := locationFileInfoRwx.
+				RwxWrapper
+
+			if rwx == nil {
+				continue
+			}
+
+			err := rwx.
+				ApplyChmod(
+					isSkipOnInvalid,
+					locationFileInfoRwx.Location)
+
+			if err != nil {
+				sliceErr = append(sliceErr, err.Error())
+			}
+		}
+
+		return msgtype.SliceToError(sliceErr)
+	}
+
+	for _, locationFileInfoRwx := range locationsFileInfoRwx {
+		rwx := locationFileInfoRwx.
+			RwxWrapper
+
+		if rwx == nil {
+			continue
+		}
+
+		err := rwx.
+			ApplyChmod(
+				isSkipOnInvalid,
+				locationFileInfoRwx.Location)
+
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (varWrapper *RwxVariableWrapper) RwxMatchingStatus(
 	isContinueOnError,
 	isSkipOnInvalid bool,

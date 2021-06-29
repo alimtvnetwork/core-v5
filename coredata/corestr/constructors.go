@@ -907,3 +907,31 @@ func NewCollectionsOfCollectionPtrUsingLength(
 		items: &collection,
 	}
 }
+
+// --------- KeyValue Collection starts ----------
+
+func NewKeyValueCollection(
+	capacity int,
+) *KeyValueCollection {
+	collection := make(
+		[]*KeyValuePair,
+		constants.Zero,
+		capacity)
+
+	return &KeyValueCollection{
+		Items: collection,
+	}
+}
+
+func NewKeyValueCollectionUsingMap(
+	input map[string]string,
+) *KeyValueCollection {
+	length := len(input)
+	keyValCollection := NewKeyValueCollection(length)
+
+	if length == 0 {
+		return keyValCollection
+	}
+
+	return keyValCollection.AddMap(input)
+}
