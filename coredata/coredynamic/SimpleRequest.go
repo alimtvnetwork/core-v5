@@ -43,6 +43,15 @@ func NewSimpleRequest(
 	}
 }
 
+func NewSimpleRequestValid(
+	request interface{},
+) *SimpleRequest {
+	return &SimpleRequest{
+		Dynamic: NewDynamic(request, true),
+		message: constants.EmptyString,
+	}
+}
+
 func (receiver *SimpleRequest) Message() string {
 	return receiver.message
 }

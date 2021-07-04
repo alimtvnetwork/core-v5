@@ -1,0 +1,22 @@
+package stringslice
+
+import (
+	"regexp"
+
+	"gitlab.com/evatix-go/core/constants"
+)
+
+func RegexTrimmedSplitNonEmptyAll(
+	regexp *regexp.Regexp,
+	content string,
+) []string {
+	items := regexp.Split(
+		content,
+		constants.TakeAllMinusOne)
+
+	if len(items) == 0 {
+		return []string{}
+	}
+
+	return NonWhitespaceTrimSlice(items)
+}

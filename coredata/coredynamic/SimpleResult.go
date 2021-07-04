@@ -34,6 +34,16 @@ func InvalidSimpleResult(
 	}
 }
 
+func NewSimpleResultValid(
+	result interface{},
+) *SimpleResult {
+	return &SimpleResult{
+		Result:  result,
+		Dynamic: NewDynamic(result, true),
+		Message: constants.EmptyString,
+	}
+}
+
 func NewSimpleResult(
 	result interface{},
 	isValid bool,

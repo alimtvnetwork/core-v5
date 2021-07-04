@@ -919,7 +919,7 @@ func NewKeyValueCollection(
 		capacity)
 
 	return &KeyValueCollection{
-		Items: collection,
+		KeyValuePairs: collection,
 	}
 }
 

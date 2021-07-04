@@ -40,6 +40,12 @@ func InvalidDynamicPtr(
 		false)
 }
 
+func NewDynamicValid(
+	data interface{},
+) Dynamic {
+	return *NewDynamicPtr(data, true)
+}
+
 func NewDynamic(
 	data interface{},
 	isValid bool,

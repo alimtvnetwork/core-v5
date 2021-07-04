@@ -1,87 +1,173 @@
 package corestr
 
 import (
+	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/constants/bitsize"
 	"gitlab.com/evatix-go/core/internal/strutilinternal"
 )
 
-type ValueValid struct {
+type ValidValue struct {
 	Value      string
 	valueBytes *[]byte
 	IsValid    bool
 	Message    string
 }
 
-func InvalidValueValidNoMessage() *ValueValid {
+func NewValueValid(value string) *ValidValue {
+	return &ValidValue{
+		Value:   value,
+		IsValid: true,
+		Message: constants.EmptyString,
+	}
+}
+
+func NewValueValidEmpty() *ValidValue {
+	return &ValidValue{
+		Value:   constants.EmptyString,
+		IsValid: true,
+		Message: constants.EmptyString,
+	}
+}
+func InvalidValueValidNoMessage() *ValidValue {
 	return InvalidValueValid(constants.EmptyString)
 }
 
-func InvalidValueValid(message string) *ValueValid {
-	return &ValueValid{
+func InvalidValueValid(message string) *ValidValue {
+	return &ValidValue{
 		Value:   constants.EmptyString,
 		IsValid: false,
 		Message: message,
 	}
 }
 
-func (receiver *ValueValid) ValueBytesOnce() []byte {
-	return *receiver.ValueBytesOncePtr()
+func (it *ValidValue) ValueBytesOnce() []byte {
+	return *it.ValueBytesOncePtr()
 }
 
-func (receiver *ValueValid) ValueBytesOncePtr() *[]byte {
-	if receiver.valueBytes == nil {
-		valueBytes := []byte(receiver.Value)
+func (it *ValidValue) ValueBytesOncePtr() *[]byte {
+	if it.valueBytes == nil {
+		valueBytes := []byte(it.Value)
 
-		receiver.valueBytes = &valueBytes
+		it.valueBytes = &valueBytes
 	}
 
-	return receiver.valueBytes
+	return it.valueBytes
 }
 
-func (receiver *ValueValid) IsEmpty() bool {
-	return receiver.Value == ""
+func (it *ValidValue) IsEmpty() bool {
+	return it.Value == ""
 }
 
-func (receiver *ValueValid) IsWhitespace() bool {
-	return strutilinternal.IsEmptyOrWhitespace(receiver.Value)
+func (it *ValidValue) IsWhitespace() bool {
+	return strutilinternal.IsEmptyOrWhitespace(it.Value)
 }
 
-func (receiver *ValueValid) Trim() string {
-	return strings.TrimSpace(receiver.Value)
+func (it *ValidValue) Trim() string {
+	return strings.TrimSpace(it.Value)
 }
 
-func (receiver *ValueValid) HasValidNonEmpty() bool {
-	return receiver.IsValid && !receiver.IsEmpty()
+func (it *ValidValue) HasValidNonEmpty() bool {
+	return it.IsValid && !it.IsEmpty()
 }
 
-func (receiver *ValueValid) HasValidNonWhitespace() bool {
-	return receiver.IsValid && !receiver.IsWhitespace()
+func (it *ValidValue) HasValidNonWhitespace() bool {
+	return it.IsValid && !it.IsWhitespace()
+}
+
+func (it *ValidValue) ValueBool() bool {
+	if it.Value == "" {
+		return false
+	}
+
+	toBool, err := strconv.ParseBool(it.Value)
+
+	if err != nil {
+		return false
+	}
+
+	return toBool
+}
+
+func (it *ValidValue) ValueInt(defaultInteger int) int {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil {
+		return defaultInteger
+	}
+
+	return toInt
+}
+
+func (it *ValidValue) ValueDefInt() int {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil {
+		return constants.Zero
+	}
+
+	return toInt
+}
+
+func (it *ValidValue) ValueByte(defVal byte) byte {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil || toInt > constants.MaxUnit8AsInt {
+		return defVal
+	}
+
+	return byte(toInt)
+}
+
+func (it *ValidValue) ValueDefByte() byte {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil || toInt > constants.MaxUnit8AsInt {
+		return constants.Zero
+	}
+
+	return byte(toInt)
+}
+
+func (it *ValidValue) ValueFloat64(defVal float64) float64 {
+	toFloat, err := strconv.ParseFloat(it.Value, bitsize.Of64)
+
+	if err != nil {
+		return defVal
+	}
+
+	return toFloat
+}
+
+func (it *ValidValue) ValueDefFloat64() float64 {
+	return it.ValueFloat64(constants.Zero)
 }
 
 // HasSafeNonEmpty receiver.IsValid &&
 //		!receiver.IsLeftEmpty() &&
 //		!receiver.IsMiddleEmpty() &&
 //		!receiver.IsRightEmpty()
-func (receiver *ValueValid) HasSafeNonEmpty() bool {
-	return receiver.IsValid &&
-		!receiver.IsEmpty()
+func (it *ValidValue) HasSafeNonEmpty() bool {
+	return it.IsValid &&
+		!it.IsEmpty()
 }
 
-func (receiver *ValueValid) Is(val string) bool {
-	return receiver.Value == val
+func (it *ValidValue) Is(val string) bool {
+	return it.Value == val
 }
 
 // IsAnyOf if length of values are 0 then returns true
-func (receiver *ValueValid) IsAnyOf(values ...string) bool {
+func (it *ValidValue) IsAnyOf(values ...string) bool {
 	if len(values) == 0 {
 		return true
 	}
 
 	for _, value := range values {
-		if receiver.Value == value {
+		if it.Value == value {
 			return true
 		}
 	}
@@ -89,18 +175,18 @@ func (receiver *ValueValid) IsAnyOf(values ...string) bool {
 	return false
 }
 
-func (receiver *ValueValid) IsContains(val string) bool {
-	return strings.Contains(receiver.Value, val)
+func (it *ValidValue) IsContains(val string) bool {
+	return strings.Contains(it.Value, val)
 }
 
 // IsAnyContains if length of values are 0 then returns true
-func (receiver *ValueValid) IsAnyContains(values ...string) bool {
+func (it *ValidValue) IsAnyContains(values ...string) bool {
 	if len(values) == 0 {
 		return true
 	}
 
 	for _, value := range values {
-		if receiver.IsContains(value) {
+		if it.IsContains(value) {
 			return true
 		}
 	}
@@ -108,26 +194,44 @@ func (receiver *ValueValid) IsAnyContains(values ...string) bool {
 	return false
 }
 
-func (receiver *ValueValid) IsEqualNonSensitive(val string) bool {
-	return strings.EqualFold(receiver.Value, val)
+func (it *ValidValue) IsEqualNonSensitive(val string) bool {
+	return strings.EqualFold(it.Value, val)
 }
 
-func (receiver *ValueValid) IsRegexMatches(regexp *regexp.Regexp) bool {
+func (it *ValidValue) IsRegexMatches(regexp *regexp.Regexp) bool {
 	if regexp == nil {
 		return false
 	}
 
-	return regexp.MatchString(receiver.Value)
+	return regexp.MatchString(it.Value)
 }
 
-func (receiver *ValueValid) Clone() *ValueValid {
-	if receiver == nil {
+func (it *ValidValue) Clone() *ValidValue {
+	if it == nil {
 		return nil
 	}
 
-	return &ValueValid{
-		Value:   receiver.Value,
-		IsValid: receiver.IsValid,
-		Message: receiver.Message,
+	return &ValidValue{
+		Value:   it.Value,
+		IsValid: it.IsValid,
+		Message: it.Message,
 	}
+}
+
+func (it *ValidValue) String() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
+	return it.Value
+}
+
+func (it *ValidValue) FullString() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
+	return fmt.Sprintf(
+		constants.SprintPropertyNameValueFormat,
+		*it)
 }

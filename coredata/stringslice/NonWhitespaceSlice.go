@@ -1,6 +1,8 @@
 package stringslice
 
-import "gitlab.com/evatix-go/core/internal/strutilinternal"
+import (
+	"gitlab.com/evatix-go/core/internal/strutilinternal"
+)
 
 func NonWhitespaceSlice(
 	slice []string,

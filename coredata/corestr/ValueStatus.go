@@ -3,7 +3,7 @@ package corestr
 import "gitlab.com/evatix-go/core/constants"
 
 type ValueStatus struct {
-	ValueValid *ValueValid
+	ValueValid *ValidValue
 	Index      int
 }
 

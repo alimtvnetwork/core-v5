@@ -5,58 +5,65 @@ import (
 )
 
 type Identifiers struct {
-	IdentifierWithIsGlobals []IdentifierWithIsGlobal `json:"IdentifierWithIsGlobals"`
+	Ids []BaseIdentifier `json:"Ids,omitempty"`
 }
 
 func EmptyIdentifiers() *Identifiers {
 	return &Identifiers{
-		IdentifierWithIsGlobals: []IdentifierWithIsGlobal{},
+		Ids: []BaseIdentifier{},
 	}
 }
 
+func NewIdentifiersUsingCap(
+	capacity int,
+) *Identifiers {
+	slice := make(
+		[]BaseIdentifier,
+		0,
+		capacity)
+
+	return &Identifiers{Ids: slice}
+}
+
 func NewIdentifiers(
-	isGlobal bool,
 	ids ...string,
 ) *Identifiers {
 	slice := make(
-		[]IdentifierWithIsGlobal,
+		[]BaseIdentifier,
 		len(ids))
 
 	if len(ids) == 0 {
 		return &Identifiers{
-			IdentifierWithIsGlobals: slice,
+			Ids: []BaseIdentifier{},
 		}
 	}
 
 	for i, id := range ids {
-		slice[i] = IdentifierWithIsGlobal{
-			BaseIdentifier: BaseIdentifier{
-				Id: id,
-			},
-			IsGlobal: isGlobal,
+		slice[i] = BaseIdentifier{
+			Id: id,
 		}
 	}
 
 	return &Identifiers{
-		IdentifierWithIsGlobals: slice,
+		Ids: slice,
 	}
 }
 
-func (receiver *Identifiers) Length() int {
-	return len(receiver.IdentifierWithIsGlobals)
+func (it *Identifiers) Length() int {
+	return len(it.Ids)
 }
 
-func (receiver *Identifiers) IsEmpty() bool {
-	return receiver.Length() == 0
+func (it *Identifiers) IsEmpty() bool {
+	return it.Length() == 0
 }
 
-func (receiver *Identifiers) IndexOf(id string) int {
-	if id == constants.EmptyString || receiver.IsEmpty() {
+func (it *Identifiers) IndexOf(id string) int {
+	if id == constants.EmptyString || it.IsEmpty() {
 		return constants.InvalidNotFoundCase
 	}
 
-	for index, identifierWithIsGlobal := range receiver.IdentifierWithIsGlobals {
-		if identifierWithIsGlobal.Id == id {
+	for index, baseIdentifier := range it.Ids {
+		if baseIdentifier.Id == id {
 			return index
 		}
 	}
@@ -64,74 +71,72 @@ func (receiver *Identifiers) IndexOf(id string) int {
 	return constants.InvalidNotFoundCase
 }
 
-func (receiver *Identifiers) GetById(id string) *IdentifierWithIsGlobal {
-	if id == constants.EmptyString || receiver.IsEmpty() {
+func (it *Identifiers) GetById(id string) *BaseIdentifier {
+	if id == constants.EmptyString || it.IsEmpty() {
 		return nil
 	}
 
-	for _, identifierWithIsGlobal := range receiver.IdentifierWithIsGlobals {
-		if identifierWithIsGlobal.Id == id {
-			return &identifierWithIsGlobal
+	for _, baseIdentifier := range it.Ids {
+		if baseIdentifier.Id == id {
+			return &baseIdentifier
 		}
 	}
 
 	return nil
 }
 
-func (receiver *Identifiers) Add(
-	isGlobal bool,
+func (it *Identifiers) Add(
 	id string,
 ) *Identifiers {
 	if id == constants.EmptyString {
-		return receiver
+		return it
 	}
 
-	receiver.IdentifierWithIsGlobals = append(
-		receiver.IdentifierWithIsGlobals,
-		*NewIdentifierWithIsGlobal(id, isGlobal))
+	it.Ids = append(
+		it.Ids,
+		BaseIdentifier{Id: id})
 
-	return receiver
+	return it
 }
 
-func (receiver *Identifiers) Adds(
-	isGlobal bool,
+func (it *Identifiers) Adds(
 	ids ...string,
 ) *Identifiers {
 	if len(ids) == 0 {
-		return receiver
+		return it
 	}
 
 	for _, id := range ids {
-		receiver.IdentifierWithIsGlobals = append(
-			receiver.IdentifierWithIsGlobals,
-			*NewIdentifierWithIsGlobal(id, isGlobal))
+		it.Ids = append(
+			it.Ids,
+			BaseIdentifier{Id: id})
 	}
 
-	return receiver
+	return it
 }
 
-func (receiver *Identifiers) HasAnyItem() bool {
-	return receiver.Length() > 0
+func (it *Identifiers) HasAnyItem() bool {
+	return it.Length() > 0
 }
 
-func (receiver *Identifiers) Clone() *Identifiers {
-	length := receiver.Length()
+func (it *Identifiers) Clone() *Identifiers {
+	length := it.Length()
 
 	slice := make(
-		[]IdentifierWithIsGlobal,
+		[]BaseIdentifier,
 		length)
 
 	if length == 0 {
 		return &Identifiers{
-			IdentifierWithIsGlobals: slice,
+			Ids: slice,
 		}
 	}
 
-	for i, idWithIsGlobal := range receiver.IdentifierWithIsGlobals {
-		slice[i] = *idWithIsGlobal.Clone()
+	for i, baseIdentifier := range it.Ids {
+		slice[i] = *baseIdentifier.Clone()
 	}
 
 	return &Identifiers{
-		IdentifierWithIsGlobals: slice,
+		Ids: slice,
 	}
 }

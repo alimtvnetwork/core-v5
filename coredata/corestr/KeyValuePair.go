@@ -2,7 +2,11 @@ package corestr
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
+
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/constants/bitsize"
 )
 
 type KeyValuePair struct {
@@ -42,6 +46,93 @@ func (it *KeyValuePair) TrimKey() string {
 
 func (it *KeyValuePair) TrimValue() string {
 	return strings.TrimSpace(it.Value)
+}
+
+func (it *KeyValuePair) ValueBool() bool {
+	if it.Value == "" {
+		return false
+	}
+
+	toBool, err := strconv.ParseBool(it.Value)
+
+	if err != nil {
+		return false
+	}
+
+	return toBool
+}
+
+func (it *KeyValuePair) ValueInt(defaultInteger int) int {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil {
+		return defaultInteger
+	}
+
+	return toInt
+}
+
+func (it *KeyValuePair) ValueDefInt() int {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil {
+		return constants.Zero
+	}
+
+	return toInt
+}
+
+func (it *KeyValuePair) ValueByte(defVal byte) byte {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil || toInt > constants.MaxUnit8AsInt {
+		return defVal
+	}
+
+	return byte(toInt)
+}
+
+func (it *KeyValuePair) ValueDefByte() byte {
+	toInt, err := strconv.Atoi(it.Value)
+
+	if err != nil || toInt > constants.MaxUnit8AsInt {
+		return constants.Zero
+	}
+
+	return byte(toInt)
+}
+
+func (it *KeyValuePair) ValueFloat64(defVal float64) float64 {
+	toFloat, err := strconv.ParseFloat(it.Value, bitsize.Of64)
+
+	if err != nil {
+		return defVal
+	}
+
+	return toFloat
+}
+
+func (it *KeyValuePair) ValueDefFloat64() float64 {
+	return it.ValueFloat64(constants.Zero)
+}
+
+func (it *KeyValuePair) ValueValid() ValidValue {
+	return ValidValue{
+		Value:   it.Value,
+		IsValid: true,
+		Message: constants.EmptyString,
+	}
+}
+
+func (it *KeyValuePair) ValueValidOptions(
+	isValid bool,
+	message string,
+) ValidValue {
+	return ValidValue{
+		Value:   it.Value,
+		IsValid: isValid,
+		Message: message,
+	}
 }
 
 func (it *KeyValuePair) Is(key, val string) bool {

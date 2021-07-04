@@ -1,11 +1,13 @@
 package corestr
 
 import (
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/defaultcapacity"
 	"gitlab.com/evatix-go/core/internal/strutilinternal"
 )
 
 type KeyValueCollection struct {
-	Items []*KeyValuePair
+	KeyValuePairs []*KeyValuePair `json:"KeyValuePairs,omitempty"`
 }
 
 func (it *KeyValueCollection) Count() int {
@@ -23,7 +25,63 @@ func (it *KeyValueCollection) LastIndex() int {
 func (it *KeyValueCollection) HasIndex(
 	index int,
 ) bool {
-	return it.LastIndex() >= index
+	return index != constants.InvalidNotFoundCase && it.LastIndex() >= index
+}
+
+func (it *KeyValueCollection) Find(
+	finder func(index int, currentKeyVal *KeyValuePair) (foundItem *KeyValuePair, isFound, isBreak bool),
+) []*KeyValuePair {
+	length := it.Length()
+
+	if length == 0 {
+		return []*KeyValuePair{}
+	}
+
+	slice := make(
+		[]*KeyValuePair,
+		0,
+		defaultcapacity.OfSearch(length))
+
+	for i, item := range it.KeyValuePairs {
+		foundItem, isFound, isBreak := finder(i, item)
+
+		if isFound && foundItem != nil {
+			slice = append(slice, foundItem)
+		}
+
+		if isBreak {
+			return slice
+		}
+	}
+
+	return slice
+}
+
+func (it *KeyValueCollection) SafeValueAt(index int) string {
+	if it.IsEmpty() {
+		return constants.EmptyString
+	}
+
+	if it.HasIndex(index) {
+		return it.KeyValuePairs[index].Value
+	}
+
+	return constants.EmptyString
+}
+
+func (it *KeyValueCollection) SafeValuesAtIndexes(indexes ...int) []string {
+	requestLength := len(indexes)
+	slice := make([]string, requestLength)
+
+	if requestLength == 0 {
+		return slice
+	}
+
+	for i, index := range indexes {
+		slice[i] = it.SafeValueAt(index)
+	}
+
+	return slice
 }
 
 func (it *KeyValueCollection) Strings() []string {
@@ -33,7 +91,7 @@ func (it *KeyValueCollection) Strings() []string {
 
 	slice := make([]string, it.Length())
 
-	for i, keyVal := range it.Items {
+	for i, keyVal := range it.KeyValuePairs {
 		slice[i] = keyVal.String()
 	}
 
@@ -49,7 +107,7 @@ func (it *KeyValueCollection) StringsUsingFormat(
 
 	slice := make([]string, it.Length())
 
-	for i, keyVal := range it.Items {
+	for i, keyVal := range it.KeyValuePairs {
 		slice[i] = keyVal.FormatString(format)
 	}
 
@@ -65,7 +123,7 @@ func (it *KeyValueCollection) Length() int {
 		return 0
 	}
 
-	return len(it.Items)
+	return len(it.KeyValuePairs)
 }
 
 func (it *KeyValueCollection) IsEmpty() bool {
@@ -73,7 +131,7 @@ func (it *KeyValueCollection) IsEmpty() bool {
 }
 
 func (it *KeyValueCollection) Add(key, val string) *KeyValueCollection {
-	it.Items = append(it.Items, &KeyValuePair{
+	it.KeyValuePairs = append(it.KeyValuePairs, &KeyValuePair{
 		Key:   key,
 		Value: val,
 	})
@@ -87,7 +145,7 @@ func (it *KeyValueCollection) Adds(keyValues ...KeyValuePair) *KeyValueCollectio
 	}
 
 	for _, keyVal := range keyValues {
-		it.Items = append(it.Items, &KeyValuePair{
+		it.KeyValuePairs = append(it.KeyValuePairs, &KeyValuePair{
 			Key:   keyVal.Key,
 			Value: keyVal.Value,
 		})
@@ -104,7 +162,7 @@ func (it *KeyValueCollection) AddMap(
 	}
 
 	for key, val := range inputMap {
-		it.Items = append(it.Items, &KeyValuePair{
+		it.KeyValuePairs = append(it.KeyValuePairs, &KeyValuePair{
 			Key:   key,
 			Value: val,
 		})
@@ -121,7 +179,7 @@ func (it *KeyValueCollection) AddHashsetMap(
 	}
 
 	for key := range inputMap {
-		it.Items = append(it.Items, &KeyValuePair{
+		it.KeyValuePairs = append(it.KeyValuePairs, &KeyValuePair{
 			Key:   key,
 			Value: key,
 		})
@@ -138,7 +196,7 @@ func (it *KeyValueCollection) AddHashset(
 	}
 
 	for key := range *inputHashset.items {
-		it.Items = append(it.Items, &KeyValuePair{
+		it.KeyValuePairs = append(it.KeyValuePairs, &KeyValuePair{
 			Key:   key,
 			Value: key,
 		})
@@ -155,7 +213,7 @@ func (it *KeyValueCollection) AddsHashmap(
 	}
 
 	for key, val := range *hashmap.items {
-		it.Items = append(it.Items, &KeyValuePair{
+		it.KeyValuePairs = append(it.KeyValuePairs, &KeyValuePair{
 			Key:   key,
 			Value: val,
 		})
@@ -172,7 +230,7 @@ func (it *KeyValueCollection) Hashmap() *Hashmap {
 		return hashmap
 	}
 
-	for _, keyVal := range it.Items {
+	for _, keyVal := range it.KeyValuePairs {
 		hashmap.AddOrUpdate(keyVal.Key, keyVal.Value)
 	}
 
