@@ -1,6 +1,7 @@
 package corestr
 
 import (
+	"regexp"
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
@@ -146,6 +147,22 @@ func (receiver *LeftRight) HasSafeNonEmpty() bool {
 	return receiver.IsValid &&
 		!receiver.IsLeftEmpty() &&
 		!receiver.IsRightEmpty()
+}
+
+func (receiver *LeftRight) IsLeftRegexMatch(regexp *regexp.Regexp) bool {
+	if regexp == nil {
+		return false
+	}
+
+	return regexp.MatchString(receiver.Left)
+}
+
+func (receiver *LeftRight) IsRightRegexMatch(regexp *regexp.Regexp) bool {
+	if regexp == nil {
+		return false
+	}
+
+	return regexp.MatchString(receiver.Right)
 }
 
 func (receiver *LeftRight) IsLeft(left string) bool {

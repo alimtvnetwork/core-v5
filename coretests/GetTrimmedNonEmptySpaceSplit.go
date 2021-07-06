@@ -6,7 +6,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/core/testconsts"
+	"gitlab.com/evatix-go/core/regexnew"
 )
 
 func GetTrimmedNonEmptySpaceSplit(
@@ -19,7 +19,7 @@ func GetTrimmedNonEmptySpaceSplit(
 		return []string{}
 	}
 
-	items := testconsts.WhitespaceOrPipeFinderRegex.Split(
+	items := regexnew.WhitespaceFinderRegex.Split(
 		message,
 		constants.TakeAllMinusOne)
 

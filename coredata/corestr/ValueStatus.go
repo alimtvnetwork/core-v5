@@ -13,7 +13,7 @@ func InvalidValueStatusNoMessage() *ValueStatus {
 
 func InvalidValueStatus(message string) *ValueStatus {
 	return &ValueStatus{
-		ValueValid: InvalidValueValid(message),
+		ValueValid: InvalidValidValue(message),
 		Index:      constants.InvalidNotFoundCase,
 	}
 }

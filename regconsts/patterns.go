@@ -64,6 +64,11 @@ const (
 	UnderscoreIdentifier               = `_*` + Identifier
 	ThirdBracketHeader                 = `\[[a-zA-Z][a-zA-Z_\d\-]*\]`
 	IMSI                               = "^\\d{14,15}$"
-	HashComment                        = "\\s*#[^\\n]*"    // Finds "# anything starts `#` with or ends with `# comment`"
-	HashOrSemicolonComment             = "\\s*[#;][^\\n]*" // Finds "#; anything starts `#` or';' with or ends with `# comment` or `; comment`"
+	HashComment                        = "#[^\\n]*"        // Finds all text after hash symbol
+	SlashComment                       = `\\[^\n]*`        // Finds all text after slash symbol
+	HashSemicolonComment               = "[#;][^\\n]*"     // Finds all text after hash or semicolon symbol
+	HashCommentWithSpaceOptional       = "\\s*#[^\\n]*"    // Finds anything starts with or ends with hash `#`, can have optional spaces before
+	HashOrSemicolonComment             = "\\s*[#;][^\\n]*" // Finds anything starts with or ends with hash `#` or semi-colon `;`, can have optional spaces before
+	AllWhitespaces                     = "\\s+"
+	AllWhitespacesOrPipe               = "\\s+|\\|+"
 )

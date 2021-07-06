@@ -18,7 +18,7 @@ type ValidValue struct {
 	Message    string
 }
 
-func NewValueValid(value string) *ValidValue {
+func NewValidValue(value string) *ValidValue {
 	return &ValidValue{
 		Value:   value,
 		IsValid: true,
@@ -26,18 +26,19 @@ func NewValueValid(value string) *ValidValue {
 	}
 }
 
-func NewValueValidEmpty() *ValidValue {
+func NewValidValueEmpty() *ValidValue {
 	return &ValidValue{
 		Value:   constants.EmptyString,
 		IsValid: true,
 		Message: constants.EmptyString,
 	}
 }
-func InvalidValueValidNoMessage() *ValidValue {
-	return InvalidValueValid(constants.EmptyString)
+
+func InvalidValidValueNoMessage() *ValidValue {
+	return InvalidValidValue(constants.EmptyString)
 }
 
-func InvalidValueValid(message string) *ValidValue {
+func InvalidValidValue(message string) *ValidValue {
 	return &ValidValue{
 		Value:   constants.EmptyString,
 		IsValid: false,
@@ -204,6 +205,68 @@ func (it *ValidValue) IsRegexMatches(regexp *regexp.Regexp) bool {
 	}
 
 	return regexp.MatchString(it.Value)
+}
+
+func (it *ValidValue) RegexFindString(regexp *regexp.Regexp) string {
+	if regexp == nil {
+		return constants.EmptyString
+	}
+
+	return regexp.FindString(it.Value)
+}
+
+func (it *ValidValue) RegexFindAllStrings(
+	regexp *regexp.Regexp,
+	n int,
+) []string {
+	if regexp == nil {
+		return []string{}
+	}
+
+	return regexp.FindAllString(it.Value, n)
+}
+
+func (it *ValidValue) Split(
+	sep string,
+) []string {
+	return strings.Split(it.Value, sep)
+}
+
+func (it *ValidValue) SplitNonEmpty(
+	sep string,
+) []string {
+	slice := strings.Split(it.Value, sep)
+
+	nonEmptySlice := make([]string, 0, len(slice))
+
+	for _, item := range slice {
+		if item == constants.EmptyString {
+			continue
+		}
+
+		nonEmptySlice = append(nonEmptySlice, item)
+	}
+
+	return slice
+}
+
+func (it *ValidValue) SplitTrimNonWhitespace(
+	sep string,
+) []string {
+	slice := strings.Split(it.Value, sep)
+
+	nonEmptySlice := make([]string, 0, len(slice))
+
+	for _, item := range slice {
+		itemTrimmed := strings.TrimSpace(item)
+		if itemTrimmed == constants.EmptyString {
+			continue
+		}
+
+		nonEmptySlice = append(nonEmptySlice, itemTrimmed)
+	}
+
+	return slice
 }
 
 func (it *ValidValue) Clone() *ValidValue {
