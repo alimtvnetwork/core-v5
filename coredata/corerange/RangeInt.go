@@ -1,6 +1,7 @@
 package corerange
 
 import (
+	"strconv"
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
@@ -11,6 +12,24 @@ import (
 type RangeInt struct {
 	*BaseRange
 	Start, End int
+}
+
+func NewRangeIntUsingValues(
+	start, end int,
+	isValid bool,
+) *RangeInt {
+	sep := constants.Hyphen
+	return &RangeInt{
+		BaseRange: &BaseRange{
+			RawInput:  strconv.Itoa(start) + sep + strconv.Itoa(end),
+			Separator: sep,
+			IsValid:   isValid,
+			HasStart:  start > 0,
+			HasEnd:    end > 0,
+		},
+		Start: start,
+		End:   end,
+	}
 }
 
 func NewRangeIntMinMax(

@@ -14,7 +14,7 @@ type RangeInt16 struct {
 func NewRangeInt16MinMax(
 	rawString, separator string,
 	min, max int16,
-) *RangeInt8 {
+) *RangeInt16 {
 	minMax := MinMaxInt{
 		Min: int(min),
 		Max: int(max),
@@ -24,14 +24,14 @@ func NewRangeInt16MinMax(
 		rawString,
 		separator,
 		&minMax).
-		CreateRangeInt8()
+		CreateRangeInt16()
 }
 
 func NewRangeInt16(
 	rawString, separator string,
-	minMaxInt8 *MinMaxInt8,
+	minMaxInt16 *MinMaxInt16,
 ) *RangeInt16 {
-	if minMaxInt8 == nil {
+	if minMaxInt16 == nil {
 		minMax := &MinMaxInt{
 			Min: math.MinInt16,
 			Max: math.MaxInt16,
@@ -45,7 +45,7 @@ func NewRangeInt16(
 		return rangeInt.CreateRangeInt16()
 	}
 
-	minMax := minMaxInt8.CreateMinMaxInt()
+	minMax := minMaxInt16.CreateMinMaxInt()
 
 	rangeInt := NewRangeInt(
 		rawString,

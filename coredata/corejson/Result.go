@@ -3,6 +3,7 @@ package corejson
 import (
 	"encoding/json"
 
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/msgtype"
@@ -14,85 +15,110 @@ type Result struct {
 	Error      error
 }
 
-func (jsonResult *Result) JsonString() string {
-	return *jsonResult.JsonStringPtr()
+func (it *Result) JsonString() string {
+	return *it.JsonStringPtr()
 }
 
-func (jsonResult *Result) JsonStringPtr() *string {
-	if jsonResult.jsonString != nil {
-		return jsonResult.jsonString
+func (it *Result) JsonStringPtr() *string {
+	if it == nil {
+		return constants.EmptyStringPtr
 	}
 
-	if jsonResult.jsonString == nil && jsonResult.HasBytes() {
-		jsonString := string(*jsonResult.Bytes)
-		jsonResult.jsonString = &jsonString
-	} else if jsonResult.jsonString == nil {
+	if it.jsonString != nil {
+		return it.jsonString
+	}
+
+	if it.jsonString == nil && it.HasBytes() {
+		jsonString := string(*it.Bytes)
+		it.jsonString = &jsonString
+	} else if it.jsonString == nil {
 		emptyStr := ""
-		jsonResult.jsonString = &emptyStr
+		it.jsonString = &emptyStr
 	}
 
-	return jsonResult.jsonString
+	return it.jsonString
 }
 
-func (jsonResult *Result) HasError() bool {
-	return jsonResult.Error != nil
+func (it *Result) HasError() bool {
+	return it != nil && it.Error != nil
+}
+
+func (it *Result) ValueMust() []byte {
+	return *it.ValueMustPtr()
+}
+
+func (it *Result) ValueMustPtr() *[]byte {
+	if it == nil ||
+		it.Error != nil ||
+		it.Bytes == nil ||
+		len(*it.Bytes) == 0 {
+		return &[]byte{}
+	}
+
+	return it.Bytes
 }
 
 // MeaningfulError create error even if results are nil.
-func (jsonResult *Result) MeaningfulError() error {
+func (it *Result) MeaningfulError() error {
 	var msgVariation msgtype.Variation
 
-	if jsonResult.IsEmptyJsonBytes() {
+	if it.IsEmptyJsonBytes() {
 		msgVariation = msgtype.JsonResultBytesAreNilOrEmpty
 	}
 
-	if jsonResult.HasError() {
+	if it.HasError() {
 		return msgtype.FailedToParse.Error(
-			jsonResult.Error.Error(),
+			it.Error.Error(),
 			msgVariation.String())
 	}
 
 	return nil
 }
 
-func (jsonResult *Result) IsEmptyError() bool {
-	return jsonResult.Error == nil
+func (it *Result) IsEmptyError() bool {
+	return it == nil || it.Error == nil
 }
 
-func (jsonResult *Result) HandleError() {
-	if jsonResult.IsEmptyError() {
+func (it *Result) HandleError() {
+	if it == nil || it.IsEmptyError() {
 		return
 	}
 
-	panic(jsonResult.Error)
+	panic(it.MeaningfulError())
 }
 
-func (jsonResult *Result) HandleErrorWithMsg(msg string) {
-	if jsonResult.IsEmptyError() {
+func (it *Result) HandleErrorWithMsg(msg string) {
+	if it.IsEmptyError() {
 		return
 	}
+
+	err := it.MeaningfulError()
 
 	if msg != "" {
-		panic(msg + jsonResult.Error.Error())
+		panic(msg + err.Error())
 	}
 
-	panic(jsonResult.Error)
+	panic(err)
 }
 
-func (jsonResult *Result) HasBytes() bool {
-	return !jsonResult.IsEmptyJsonBytes()
+func (it *Result) HasBytes() bool {
+	return !it.IsEmptyJsonBytes()
 }
 
 // IsEmptyJsonBytes len == 0, nil, {} returns as empty true
-func (jsonResult *Result) IsEmptyJsonBytes() bool {
-	isEmptyFirst := jsonResult.HasError() ||
-		jsonResult.Bytes == nil
+func (it *Result) IsEmptyJsonBytes() bool {
+	if it == nil {
+		return true
+	}
+
+	isEmptyFirst := it.HasError() ||
+		it.Bytes == nil
 
 	if isEmptyFirst {
 		return isEmptyFirst
 	}
 
-	length := len(*jsonResult.Bytes)
+	length := len(*it.Bytes)
 
 	if length == 0 {
 		return true
@@ -100,66 +126,66 @@ func (jsonResult *Result) IsEmptyJsonBytes() bool {
 
 	if length == 2 {
 		// empty json
-		return (*jsonResult.Bytes)[coreindexes.First] == 123 &&
-			(*jsonResult.Bytes)[coreindexes.Second] == 125
+		return (*it.Bytes)[coreindexes.First] == 123 &&
+			(*it.Bytes)[coreindexes.Second] == 125
 	}
 
 	return false
 }
 
-func (jsonResult *Result) IsEmptyJson() bool {
-	return jsonResult.Bytes == nil || len(*jsonResult.Bytes) == 0
+func (it *Result) IsEmptyJson() bool {
+	return it == nil || it.Bytes == nil || len(*it.Bytes) == 0
 }
 
-func (jsonResult *Result) HasJson() bool {
-	return jsonResult.HasBytes()
+func (it *Result) HasJson() bool {
+	return it.HasBytes()
 }
 
-func (jsonResult *Result) InjectInto(
+func (it *Result) InjectInto(
 	injector JsonParseSelfInjector,
 ) error {
-	return injector.JsonParseSelfInject(jsonResult)
+	return injector.JsonParseSelfInject(it)
 }
 
-func (jsonResult *Result) Unmarshal(any interface{}) error {
-	if jsonResult.HasError() {
-		return jsonResult.Error
+func (it *Result) Unmarshal(any interface{}) error {
+	if it.HasError() {
+		return it.Error
 	}
 
-	return json.Unmarshal(*jsonResult.Bytes, any)
+	return json.Unmarshal(*it.Bytes, any)
 }
 
 //goland:noinspection GoLinterLocal
-func (jsonResult *Result) JsonModel() *ResultModel {
-	return NewModel(jsonResult)
+func (it *Result) JsonModel() *ResultModel {
+	return NewModel(it)
 }
 
 //goland:noinspection GoLinterLocal
-func (jsonResult *Result) JsonModelAny() interface{} {
-	return jsonResult.JsonModel()
+func (it *Result) JsonModelAny() interface{} {
+	return it.JsonModel()
 }
 
-func (jsonResult *Result) MarshalJSON() ([]byte, error) {
-	return json.Marshal(jsonResult.JsonModel())
+func (it *Result) MarshalJSON() ([]byte, error) {
+	return json.Marshal(it.JsonModel())
 }
 
-func (jsonResult *Result) UnmarshalJSON(data []byte) error {
+func (it *Result) UnmarshalJSON(data []byte) error {
 	var dataModel ResultModel
 	err := json.Unmarshal(data, &dataModel)
 
 	if err == nil {
-		transpileModelToResult(&dataModel, jsonResult)
+		transpileModelToResult(&dataModel, it)
 	}
 
 	return err
 }
 
-func (jsonResult *Result) Json() *Result {
-	return jsonResult
+func (it *Result) Json() *Result {
+	return it
 }
 
 // ParseInjectUsingJson It will not update the self but creates a new one.
-func (jsonResult *Result) ParseInjectUsingJson(
+func (it *Result) ParseInjectUsingJson(
 	jsonResultIn *Result,
 ) (*Result, error) {
 	if jsonResultIn == nil || jsonResultIn.IsEmptyJsonBytes() {
@@ -168,20 +194,20 @@ func (jsonResult *Result) ParseInjectUsingJson(
 
 	err := json.Unmarshal(
 		*jsonResultIn.Bytes,
-		&jsonResult)
+		&it)
 
 	if err != nil {
 		return EmptyWithErrorPtr(err), err
 	}
 
-	return jsonResult, nil
+	return it, nil
 }
 
 // ParseInjectUsingJsonMust Panic if error
-func (jsonResult *Result) ParseInjectUsingJsonMust(
+func (it *Result) ParseInjectUsingJsonMust(
 	jsonResultIn *Result,
 ) *Result {
-	result, err := jsonResult.ParseInjectUsingJson(
+	result, err := it.ParseInjectUsingJson(
 		jsonResultIn)
 
 	if err != nil {
@@ -191,22 +217,22 @@ func (jsonResult *Result) ParseInjectUsingJsonMust(
 	return result
 }
 
-func (jsonResult *Result) AsJsoner() Jsoner {
-	return jsonResult
+func (it *Result) AsJsoner() Jsoner {
+	return it
 }
 
-func (jsonResult *Result) JsonParseSelfInject(
+func (it *Result) JsonParseSelfInject(
 	jsonResultIn *Result,
 ) error {
-	_, err := jsonResult.ParseInjectUsingJson(jsonResultIn)
+	_, err := it.ParseInjectUsingJson(jsonResultIn)
 
 	return err
 }
 
-func (jsonResult *Result) AsJsonParseSelfInjector() JsonParseSelfInjector {
-	return jsonResult
+func (it *Result) AsJsonParseSelfInjector() JsonParseSelfInjector {
+	return it
 }
 
-func (jsonResult *Result) AsJsonMarshaller() JsonMarshaller {
-	return jsonResult
+func (it *Result) AsJsonMarshaller() JsonMarshaller {
+	return it
 }

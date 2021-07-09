@@ -1,24 +1,26 @@
 package stringutil
 
-import "strings"
+import (
+	"strings"
+)
 
 func IsStartsWith(
-	baseStr, startsWith string,
+	content, startsWith string,
 	isIgnoreCase bool,
 ) bool {
 	if startsWith == "" {
 		return true
 	}
 
-	if baseStr == "" {
+	if content == "" {
 		return startsWith == ""
 	}
 
-	if baseStr == startsWith {
+	if content == startsWith {
 		return true
 	}
 
-	basePathLength := len(baseStr)
+	basePathLength := len(content)
 	startsWithLength := len(startsWith)
 
 	if startsWithLength > basePathLength {
@@ -27,7 +29,7 @@ func IsStartsWith(
 
 	if isIgnoreCase &&
 		basePathLength == startsWithLength &&
-		strings.EqualFold(baseStr, startsWith) {
+		strings.EqualFold(content, startsWith) {
 		return true
 	}
 
@@ -35,7 +37,7 @@ func IsStartsWith(
 		return false
 	}
 
-	remainingText := baseStr[:startsWithLength]
+	remainingText := content[:startsWithLength]
 
 	if !isIgnoreCase {
 		return startsWith == remainingText

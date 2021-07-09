@@ -43,6 +43,7 @@ const (
 	SprintPropertyNameValueFormat             = "%+v"
 	SprintTypeFormat                          = "%T"
 	SprintDoubleQuoteFormat                   = "%q"
+	SprintSingleQuoteFormat                   = "'%s'"
 	SprintStringFormat                        = "%s"
 	SprintThridBracketQuoteFormat             = "[\"%v\"]"
 	EqualSymbol                               = "="

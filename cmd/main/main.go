@@ -3,10 +3,23 @@ package main
 import (
 	"fmt"
 
+	"gitlab.com/evatix-go/core/coredata/corerange"
 	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/issetter"
 )
 
 func main() {
+	fmt.Println(corerange.StartEndSimpleString{
+		Start: "1",
+		End:   "2",
+	})
+
+	a, _ := issetter.Wildcard.MarshalJSON()
+
+	val2 := issetter.Value(0)
+
+	fmt.Println(val2.UnmarshalJSON(a))
+	fmt.Println(val2)
 	// rwx, err := chmodhelper.NewRwxVariableWrapper("-rwx-*-r*x")
 	// fmt.Println(err)
 	// fmt.Println(rwx.String())

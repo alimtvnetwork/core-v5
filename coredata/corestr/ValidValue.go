@@ -18,6 +18,38 @@ type ValidValue struct {
 	Message    string
 }
 
+func NewValidValueUsingAny(
+	isIncludeFieldName bool,
+	isValid bool,
+	any interface{},
+) *ValidValue {
+	toString := AnyToString(
+		isIncludeFieldName,
+		any)
+
+	return &ValidValue{
+		Value:   toString,
+		IsValid: isValid,
+		Message: constants.EmptyString,
+	}
+}
+
+// NewValidValueUsingAnyAutoValid IsValid to false on nil or empty string
+func NewValidValueUsingAnyAutoValid(
+	isIncludeFieldName bool,
+	any interface{},
+) *ValidValue {
+	toString := AnyToString(
+		isIncludeFieldName,
+		any)
+
+	return &ValidValue{
+		Value:   toString,
+		IsValid: toString == constants.EmptyString,
+		Message: constants.EmptyString,
+	}
+}
+
 func NewValidValue(value string) *ValidValue {
 	return &ValidValue{
 		Value:   value,
@@ -207,12 +239,28 @@ func (it *ValidValue) IsRegexMatches(regexp *regexp.Regexp) bool {
 	return regexp.MatchString(it.Value)
 }
 
-func (it *ValidValue) RegexFindString(regexp *regexp.Regexp) string {
+func (it *ValidValue) RegexFindString(
+	regexp *regexp.Regexp,
+) string {
 	if regexp == nil {
 		return constants.EmptyString
 	}
 
 	return regexp.FindString(it.Value)
+}
+
+func (it *ValidValue) RegexFindAllStringsWithFlag(
+	regexp *regexp.Regexp,
+	n int,
+) (foundItems []string, hasAny bool) {
+	if regexp == nil {
+		return []string{}, false
+	}
+
+	items := regexp.FindAllString(
+		it.Value, n)
+
+	return items, len(items) > 0
 }
 
 func (it *ValidValue) RegexFindAllStrings(

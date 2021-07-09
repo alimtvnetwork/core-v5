@@ -9,4 +9,11 @@ const (
 	DotJpg                  string = ".jpg"
 	DotDoc                  string = ".doc"
 	DotTxt                  string = ".txt"
+	DotJson                 string = ".json"
+	DotYaml                 string = ".yaml"
+	DotConf                 string = ".conf"
+	Json                    string = "json"
+	Txt                     string = "txt"
+	Yaml                    string = "yaml"
+	Conf                    string = "conf"
 )
