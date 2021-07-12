@@ -4,7 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/conditional"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/defaultcapacity"
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
 type ValidValues struct {
@@ -175,7 +175,7 @@ func (it *ValidValues) FullStrings() []string {
 }
 
 func (it *ValidValues) String() string {
-	return strutilinternal.AnyToString(it.Strings())
+	return utilstringinternal.AnyToString(it.Strings())
 }
 
 func (it *ValidValues) Length() int {

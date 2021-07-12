@@ -21,128 +21,132 @@ const (
 	Cmd
 )
 
-func (receiver *Variant) Name() string {
-	return scriptTypeBasicEnumImpl.ToEnumString(receiver.ValueByte())
+func (it *Variant) Name() string {
+	return scriptTypeBasicEnumImpl.ToEnumString(it.ValueByte())
 }
 
-func (receiver *Variant) ToNumberString() string {
-	return scriptTypeBasicEnumImpl.ToNumberString(receiver.ValueByte())
+func (it *Variant) ToNumberString() string {
+	return scriptTypeBasicEnumImpl.ToNumberString(it.ValueByte())
 }
 
-func (receiver *Variant) UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (byte, error) {
-	return scriptTypeBasicEnumImpl.UnmarshallEnumToValue(jsonUnmarshallingValue)
+func (it *Variant) UnmarshallEnumToValue(
+	jsonUnmarshallingValue []byte,
+) (byte, error) {
+	return scriptTypeBasicEnumImpl.UnmarshallToValue(
+		isMappedToDefault,
+		jsonUnmarshallingValue)
 }
 
-func (receiver *Variant) String() string {
-	return scriptTypeBasicEnumImpl.ToEnumString(receiver.ValueByte())
+func (it *Variant) String() string {
+	return scriptTypeBasicEnumImpl.ToEnumString(it.ValueByte())
 }
 
-func (receiver *Variant) MarshalJSON() ([]byte, error) {
-	return scriptTypeBasicEnumImpl.ToEnumJsonBytes(receiver.ValueByte()), nil
+func (it *Variant) MarshalJSON() ([]byte, error) {
+	return scriptTypeBasicEnumImpl.ToEnumJsonBytes(it.ValueByte()), nil
 }
 
-func (receiver *Variant) UnmarshalJSON(data []byte) error {
-	rawScriptType, err := scriptTypeBasicEnumImpl.UnmarshallEnumToValue(
+func (it *Variant) UnmarshalJSON(data []byte) error {
+	rawScriptType, err := it.UnmarshallEnumToValue(
 		data)
 
 	if err == nil {
-		*receiver = Variant(rawScriptType)
+		*it = Variant(rawScriptType)
 	}
 
 	return err
 }
 
-func (receiver *Variant) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
-	return receiver
+func (it *Variant) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
+	return it
 }
 
-func (receiver *Variant) MaxByte() byte {
+func (it *Variant) MaxByte() byte {
 	return scriptTypeBasicEnumImpl.Max()
 }
 
-func (receiver *Variant) MinByte() byte {
+func (it *Variant) MinByte() byte {
 	return scriptTypeBasicEnumImpl.Min()
 }
 
-func (receiver *Variant) ValueByte() byte {
-	return byte(*receiver)
+func (it *Variant) ValueByte() byte {
+	return byte(*it)
 }
 
-func (receiver *Variant) RangesByte() []byte {
+func (it *Variant) RangesByte() []byte {
 	return scriptTypeBasicEnumImpl.Ranges()
 }
 
-func (receiver Variant) IsUninitialized() bool {
-	return receiver == Uninitialized
+func (it Variant) IsUninitialized() bool {
+	return it == Uninitialized
 }
 
-func (receiver Variant) IsDefault() bool {
-	return receiver == Default
+func (it Variant) IsDefault() bool {
+	return it == Default
 }
 
-func (receiver Variant) IsShell() bool {
-	return receiver == Shell
+func (it Variant) IsShell() bool {
+	return it == Shell
 }
 
-func (receiver Variant) IsBash() bool {
-	return receiver == Bash
+func (it Variant) IsBash() bool {
+	return it == Bash
 }
 
-func (receiver Variant) IsPerl() bool {
-	return receiver == Perl
+func (it Variant) IsPerl() bool {
+	return it == Perl
 }
 
-func (receiver Variant) IsPython() bool {
-	return receiver == Python
+func (it Variant) IsPython() bool {
+	return it == Python
 }
 
-func (receiver Variant) IsPython2() bool {
-	return receiver == Python2
+func (it Variant) IsPython2() bool {
+	return it == Python2
 }
 
-func (receiver Variant) IsPython3() bool {
-	return receiver == Python3
+func (it Variant) IsPython3() bool {
+	return it == Python3
 }
 
-func (receiver Variant) IsCLang() bool {
-	return receiver == CLang
+func (it Variant) IsCLang() bool {
+	return it == CLang
 }
 
-func (receiver Variant) IsMakeScript() bool {
-	return receiver == MakeScript
+func (it Variant) IsMakeScript() bool {
+	return it == MakeScript
 }
 
-func (receiver Variant) IsPowershell() bool {
-	return receiver == Powershell
+func (it Variant) IsPowershell() bool {
+	return it == Powershell
 }
 
-func (receiver Variant) IsCmd() bool {
-	return receiver == Cmd
+func (it Variant) IsCmd() bool {
+	return it == Cmd
 }
 
-func (receiver Variant) IsCmdOrPowerShell() bool {
-	return receiver.IsCmd() ||
-		receiver.IsPowershell()
+func (it Variant) IsCmdOrPowerShell() bool {
+	return it.IsCmd() ||
+		it.IsPowershell()
 }
 
-func (receiver Variant) IsAnyPython() bool {
-	return receiver.IsPython() ||
-		receiver.IsPython2() ||
-		receiver.IsPython3()
+func (it Variant) IsAnyPython() bool {
+	return it.IsPython() ||
+		it.IsPython2() ||
+		it.IsPython3()
 }
 
-func (receiver *Variant) RangesVariants() []Variant {
+func (it *Variant) RangesVariants() []Variant {
 	return scriptTypeRanges[:]
 }
 
-func (receiver *Variant) ScriptDefault() *ScriptDefault {
-	if receiver.IsDefault() {
+func (it *Variant) ScriptDefault() *ScriptDefault {
+	if it.IsDefault() {
 		return DefaultOsScript()
 	}
 
-	return RangesMap[*receiver]
+	return RangesMap[*it]
 }
 
-func (receiver *Variant) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
-	return receiver
+func (it *Variant) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
+	return it
 }

@@ -97,6 +97,8 @@ const (
 	Capacity6              = 6
 	Capacity7              = 7
 	Capacity8              = bitsize.Of8
+	Capacity10             = 10
+	Capacity12             = 12
 	Capacity16             = bitsize.Of16
 	Capacity32             = bitsize.Of32
 	Capacity64             = bitsize.Of64

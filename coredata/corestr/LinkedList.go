@@ -10,7 +10,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/core/defaulterr"
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 	"gitlab.com/evatix-go/core/msgtype"
 )
 
@@ -236,7 +236,7 @@ func (linkedList *LinkedList) AddNonEmpty(item string) *LinkedList {
 }
 
 func (linkedList *LinkedList) AddNonEmptyWhitespace(item string) *LinkedList {
-	if strutilinternal.IsEmptyOrWhitespace(item) {
+	if utilstringinternal.IsEmptyOrWhitespace(item) {
 		return linkedList
 	}
 

@@ -11,7 +11,7 @@ import (
 // VerifyChmod - expectedHyphenedRwx should be 10 chars example "-rwxrwxrwx"
 func VerifyChmod(location string, expectedHyphenedRwx string) error {
 	if len(expectedHyphenedRwx) != HyphenedRwxLength {
-		return msgtype.MeaningFulError(
+		return msgtype.MeaningfulError(
 			msgtype.LengthShouldBeEqualToMessage,
 			"VerifyChmod"+constants.HypenAngelRight+location,
 			hyphenedRwxLengthErr)
@@ -20,7 +20,7 @@ func VerifyChmod(location string, expectedHyphenedRwx string) error {
 	fileInfo, err := os.Stat(location)
 
 	if os.IsNotExist(err) || fileInfo == nil {
-		return msgtype.MeaningFulError(
+		return msgtype.MeaningfulError(
 			msgtype.PathInvalidErrorMessage,
 			"VerifyChmod"+constants.HypenAngelRight+location,
 			err)
@@ -36,7 +36,7 @@ func VerifyChmod(location string, expectedHyphenedRwx string) error {
 		expectedHyphenedRwx,
 		existingFileMode)
 
-	return msgtype.MeaningFulError(
+	return msgtype.MeaningfulError(
 		msgtype.PathChmodMismatchErrorMessage,
 		"VerifyChmod"+constants.HypenAngelRight+location,
 		errors.New(expectationFailedMessage))

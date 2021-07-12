@@ -271,7 +271,7 @@ func (rwxWrapper *RwxWrapper) MustApplyChmod(fileOrDirectoryPath string) {
 	if err != nil {
 		finalErr := errors.New(err.Error() + fileOrDirectoryPath)
 
-		panic(msgtype.MeaningFulError(
+		panic(msgtype.MeaningfulError(
 			msgtype.PathChmodApplyMessage,
 			"MustApplyChmod",
 			finalErr))

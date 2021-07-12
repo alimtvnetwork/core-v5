@@ -91,18 +91,26 @@ func (receiver *BasicString) ToEnumJsonBytes(value string) []byte {
 	return receiver.valueToJsonDoubleQuoteStringBytesHashmap[value]
 }
 
-// UnmarshallEnumToValue Mostly used for UnmarshalJSON
+// UnmarshallToValue Mostly used for UnmarshalJSON
 //
 // Given bytes string enum value and transpile to exact enum raw value using map
-func (receiver *BasicString) UnmarshallEnumToValue(
+func (receiver *BasicString) UnmarshallToValue(
+	isMappedToFirstIfEmpty bool,
 	jsonUnmarshallingValue []byte,
 ) (string, error) {
-	if jsonUnmarshallingValue == nil {
+	if !isMappedToFirstIfEmpty && jsonUnmarshallingValue == nil {
 		return constants.EmptyString,
 			defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
+	if isMappedToFirstIfEmpty && jsonUnmarshallingValue == nil {
+		return receiver.minVal, nil
+	}
+
 	str := string(jsonUnmarshallingValue)
+	if isMappedToFirstIfEmpty && (str == "" || str == `""`) {
+		return receiver.minVal, nil
+	}
 
 	return str, nil
 }

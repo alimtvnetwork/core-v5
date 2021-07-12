@@ -8,4 +8,6 @@ var (
 	WhitespaceFinderRegex             = NewMust(regconsts.AllWhitespaces)
 	HashCommentWithSpaceOptionalRegex = NewMust(regconsts.HashCommentWithSpaceOptional)
 	WhitespaceOrPipeFinderRegex       = NewMust(regconsts.AllWhitespacesOrPipe)
+	DollarIdentifierRegex             = NewMust(regconsts.EachWordsWithDollarSymbolDefinition)
+	PercentIdentifierRegex            = NewMust(regconsts.EachWordsWithinPercentSymbolDefinition)
 )

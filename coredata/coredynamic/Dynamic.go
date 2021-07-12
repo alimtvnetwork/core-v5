@@ -12,7 +12,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/coreonce"
 	"gitlab.com/evatix-go/core/internal/messages"
 	"gitlab.com/evatix-go/core/internal/reflectinternal"
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 	"gitlab.com/evatix-go/core/issetter"
 	"gitlab.com/evatix-go/core/msgtype"
 )
@@ -28,13 +28,11 @@ type Dynamic struct {
 	isPointer       issetter.Value
 }
 
-func InvalidDynamic(
-) Dynamic {
+func InvalidDynamic() Dynamic {
 	return *InvalidDynamicPtr()
 }
 
-func InvalidDynamicPtr(
-) *Dynamic {
+func InvalidDynamicPtr() *Dynamic {
 	return NewDynamicPtr(
 		nil,
 		false)
@@ -95,7 +93,7 @@ func (receiver *Dynamic) StructStringPtr() *string {
 		return receiver.innerDataString
 	}
 
-	toString := strutilinternal.AnyToString(receiver.innerData)
+	toString := utilstringinternal.AnyToString(receiver.innerData)
 	receiver.innerDataString = &toString
 
 	return receiver.innerDataString
@@ -167,12 +165,12 @@ func (receiver *Dynamic) IsValueType() bool {
 }
 
 func (receiver *Dynamic) IsStructStringNullOrEmpty() bool {
-	return receiver.IsNull() || strutilinternal.IsNullOrEmpty(
+	return receiver.IsNull() || utilstringinternal.IsNullOrEmpty(
 		receiver.StructStringPtr())
 }
 
 func (receiver *Dynamic) IsStructStringNullOrEmptyOrWhitespace() bool {
-	return receiver.IsNull() || strutilinternal.IsNullOrEmptyOrWhitespace(
+	return receiver.IsNull() || utilstringinternal.IsNullOrEmptyOrWhitespace(
 		receiver.StructStringPtr())
 }
 

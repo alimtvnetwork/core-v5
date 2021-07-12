@@ -1,6 +1,6 @@
 package corerange
 
-import "gitlab.com/evatix-go/core/internal/strutilinternal"
+import "gitlab.com/evatix-go/core/internal/utilstringinternal"
 
 type RangeAny struct {
 	*BaseRange
@@ -9,15 +9,15 @@ type RangeAny struct {
 }
 
 func (r *RangeAny) RawInputString() string {
-	return strutilinternal.AnyToString(r.RawInput)
+	return utilstringinternal.AnyToString(r.RawInput)
 }
 
 func (r *RangeAny) StartString() string {
-	return strutilinternal.AnyToString(r.Start)
+	return utilstringinternal.AnyToString(r.Start)
 }
 
 func (r *RangeAny) EndString() string {
-	return strutilinternal.AnyToString(r.End)
+	return utilstringinternal.AnyToString(r.End)
 }
 
 func (r *RangeAny) CreateRangeInt() *RangeInt {

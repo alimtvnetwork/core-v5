@@ -1,0 +1,67 @@
+package corevalidatortests
+
+import (
+	"testing"
+
+	"github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/corevalidator"
+	"gitlab.com/evatix-go/core/enums/stringcompareas"
+	"gitlab.com/evatix-go/core/msgtype"
+	"gitlab.com/evatix-go/core/tests/testwrappers/corevalidatortestwrappers"
+)
+
+func Test_TestValidators(t *testing.T) {
+	for i, testCase := range corevalidatortestwrappers.TextValidatorsTestCases {
+		// Arrange
+		paramsBase := corevalidator.ValidatorParamsBase{
+			CaseIndex:                         constants.Zero, // fixing test case number here as it is fixed data
+			IsIgnoreCompareOnActualInputEmpty: testCase.IsSkipOnContentsEmpty,
+			IsAttachUserInputs:                true,
+			IsCaseSensitive:                   testCase.IsCaseSensitive,
+		}
+
+		err := testCase.Validators.AllVerifyErrorMany(
+			&paramsBase,
+			testCase.ComparingLines...)
+
+		errorLines := msgtype.ErrorToSplitLines(
+			err)
+
+		sliceValidator := corevalidator.SliceValidator{
+			InputLines:     errorLines,
+			ComparingLines: testCase.ExpectationLines,
+			ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+				IsTrimCompare:        false,
+				IsNonEmptyWhitespace: false,
+				IsSortStringsBySpace: false,
+			},
+			CompareAs: stringcompareas.Equal,
+		}
+
+		paramsBase2 := corevalidator.ValidatorParamsBase{
+			CaseIndex:                         i,
+			IsIgnoreCompareOnActualInputEmpty: false,
+			IsAttachUserInputs:                true,
+			IsCaseSensitive:                   testCase.IsCaseSensitive,
+		}
+
+		// Act
+		// validationFinalError := sliceValidator.AllVerifyErrorUptoLength(
+		// 	i,
+		// 	false,
+		// 	testCase.IsCaseSensitive,
+		// 	len(testCase.ExpectationLines) - 1)
+		validationFinalError := sliceValidator.AllVerifyError(
+			&paramsBase2)
+
+		isValid := validationFinalError == nil
+
+		// Assert
+		convey.Convey(testCase.Header, t, func() {
+			msgtype.ErrPrint(validationFinalError)
+
+			convey.So(isValid, convey.ShouldBeTrue)
+		})
+	}
+}

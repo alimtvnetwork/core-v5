@@ -102,7 +102,7 @@ func (it *RwxInstructionExecutor) ApplyOnPath(location string) error {
 		funcWithLoc := "ApplyOnPath" + constants.HypenAngelRight + location
 
 		return msgtype.
-			MeaningFulError(
+			MeaningfulError(
 				msgtype.PathErrorMessage, funcWithLoc, err2)
 	}
 
@@ -157,7 +157,7 @@ func (it *RwxInstructionExecutor) getVerifyRwxInternalError(
 ) {
 	if !isRecursiveIgnore && it.rwxInstruction.Condition.IsRecursive {
 		return nil, msgtype.NotSupported.Error(
-			"Condition.IsRecursive is not supported for Verify chmod.",
+			"IsRecursive is not supported for Verify chmod.",
 			locations)
 	}
 

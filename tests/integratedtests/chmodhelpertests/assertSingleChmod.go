@@ -5,15 +5,15 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/msgtype"
-	"gitlab.com/evatix-go/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 // assertSingleChmod , expectedChmodRwxFullString 10 chars "-rwxrwxrwx"
 func assertSingleChmod(
 	t *testing.T,
 	testHeader string,
-	createPath *chmodhelpertestwrappers.CreatePathsInstruction,
+	createPath *chmodhelper.DirFilesWithRwxPermission,
 	expectedChmodRwxFullString string,
 ) {
 	fileChmodMap := createPath.GetFilesChmodMap()

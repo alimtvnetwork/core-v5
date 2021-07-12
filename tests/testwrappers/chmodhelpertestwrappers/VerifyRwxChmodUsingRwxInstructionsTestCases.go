@@ -18,7 +18,7 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 			},
 		},
 		Locations: SimpleLocations,
-		ExpectedErrorMessage: "Missing or paths having other access issues! Reference(s) { \"[" +
+		ExpectedErrorMessage: "Path missing or having other access issues! Reference(s) { \"[" +
 			"/temp/core/test-cases-3s " +
 			"/temp/core/test-cases-3x" +
 			"]\" }",
@@ -59,7 +59,7 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 		},
 		Locations: SimpleLocations,
 		ExpectedErrorMessage: "Not Supported: Feature / method is not supported yet. " +
-			"Condition.IsRecursive is not supported for Verify chmod. " +
+			"ValidatorCoreCondition.IsRecursive is not supported for Verify chmod. " +
 			"Reference(s) { \"[" +
 			"/temp/core/test-cases-2 " +
 			"/temp/core/test-cases-3s " +
@@ -82,7 +82,7 @@ var VerifyRwxChmodUsingRwxInstructionsTestCases = []VerifyRwxChmodUsingRwxInstru
 			},
 		},
 		Locations: SimpleLocations,
-		ExpectedErrorMessage: "Missing or paths having other access issues! Reference(s) { " +
+		ExpectedErrorMessage: "Path missing or having other access issues! Reference(s) { " +
 			"\"" +
 			"[" +
 			"/temp/core/test-cases-3s " +

@@ -52,8 +52,28 @@ type BasicInt8EnumContractsDelegateBinder interface {
 	AsBasicInt8EnumContractsDelegateBinder() BasicInt8EnumContractsDelegateBinder
 }
 
-type BasicByteEnumer interface {
+type UnmarshallToValueByte interface {
+	UnmarshallToValue(isMappedToFirstIfEmpty bool, jsonUnmarshallingValue []byte) (byte, error)
+}
+
+type UnmarshallToValueInt interface {
+	UnmarshallToValue(isMappedToFirstIfEmpty bool, jsonUnmarshallingValue []byte) (int, error)
+}
+
+type UnmarshallToValueInt8 interface {
+	UnmarshallToValue(isMappedToFirstIfEmpty bool, jsonUnmarshallingValue []byte) (int8, error)
+}
+
+type UnmarshallToValueInt16 interface {
+	UnmarshallToValue(isMappedToFirstIfEmpty bool, jsonUnmarshallingValue []byte) (int16, error)
+}
+
+type UnmarshallEnumToValueByte interface {
 	UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (byte, error)
+}
+
+type BasicByteEnumer interface {
+	UnmarshallEnumToValueByte
 	MaxByte() byte
 	MinByte() byte
 	ValueByte() byte
@@ -77,7 +97,7 @@ type Int16ToEnumStringer interface {
 }
 
 type BasicInt32Enumer interface {
-	UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (int32, error)
+	UnmarshallEnumToValueInt32(jsonUnmarshallingValue []byte) (int32, error)
 	MaxInt32() int32
 	MinInt32() int32
 	ValueInt32() int32
@@ -86,7 +106,7 @@ type BasicInt32Enumer interface {
 }
 
 type BasicInt16Enumer interface {
-	UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (int16, error)
+	UnmarshallEnumToValueInt16(jsonUnmarshallingValue []byte) (int16, error)
 	MaxInt16() int16
 	MinInt16() int16
 	ValueInt16() int16
@@ -95,7 +115,7 @@ type BasicInt16Enumer interface {
 }
 
 type BasicInt8Enumer interface {
-	UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (int8, error)
+	UnmarshallEnumToValueInt8(jsonUnmarshallingValue []byte) (int8, error)
 	MaxInt8() int8
 	MinInt8() int8
 	ValueInt8() int8

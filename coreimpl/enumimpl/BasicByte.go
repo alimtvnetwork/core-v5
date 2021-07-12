@@ -127,18 +127,28 @@ func (receiver *BasicByte) ToNumberString(valueInRawFormat interface{}) string {
 	return fmt.Sprintf(constants.SprintValueFormat, valueInRawFormat)
 }
 
-// UnmarshallEnumToValue Mostly used for UnmarshalJSON
+// UnmarshallToValue Mostly used for UnmarshalJSON
 //
 // Given bytes string enum value and transpile to exact enum raw value using map
-func (receiver *BasicByte) UnmarshallEnumToValue(
+func (receiver *BasicByte) UnmarshallToValue(
+	isMappedToFirstIfEmpty bool,
 	jsonUnmarshallingValue []byte,
 ) (byte, error) {
-	if jsonUnmarshallingValue == nil {
+	if !isMappedToFirstIfEmpty && jsonUnmarshallingValue == nil {
 		return constants.Zero,
 			defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
+	if isMappedToFirstIfEmpty && jsonUnmarshallingValue == nil {
+		return receiver.minVal, nil
+	}
+
 	str := string(jsonUnmarshallingValue)
+	if isMappedToFirstIfEmpty &&
+		(str == constants.EmptyString || str == constants.DoubleQuotationStartEnd) {
+		return receiver.minVal, nil
+	}
+
 	v, has := receiver.jsonDoubleQuoteNameToValueHashMap[str]
 
 	if !has {

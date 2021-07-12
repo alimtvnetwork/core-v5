@@ -37,8 +37,8 @@ func (it *ComparingInstruction) ActualHashset() *corestr.Hashset {
 	return it.actualHashset
 }
 
-func (it *ComparingInstruction) IsMatches(
-	index int,
+func (it *ComparingInstruction) IsMatch(
+	testCaseIndex int,
 	isPrint bool,
 ) bool {
 	isMatchesEqual := !it.IsMatchingAsEqual || it.IsMatchingAsEqual &&
@@ -48,7 +48,7 @@ func (it *ComparingInstruction) IsMatches(
 			it.Header,
 			it.actual,
 			it.MatchingAsEqual,
-			index)
+			testCaseIndex)
 
 	for i, item := range it.ComparingItems {
 		isMatchesEqual = item.IsMatch(
