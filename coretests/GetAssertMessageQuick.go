@@ -1,6 +1,10 @@
 package coretests
 
-import "fmt"
+import (
+	"fmt"
+
+	"gitlab.com/evatix-go/core/internal/msgformats"
+)
 
 func GetAssertMessageQuick(
 	when,
@@ -8,7 +12,7 @@ func GetAssertMessageQuick(
 	expected interface{},
 	counter int,
 ) string {
-	return fmt.Sprintf(quickActualExpectedMessageFormat,
+	return fmt.Sprintf(msgformats.QuickActualExpectedMessageFormat,
 		counter,
 		when,
 		actual,

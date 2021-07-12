@@ -53,8 +53,12 @@ const (
 	EmptyArrayMessage                      Variation = "Empty array, which is unexpected."
 	EmptyItemsMessage                      Variation = "Empty items, which is unexpected."
 	PathErrorMessage                       Variation = "Path error, which is unexpected."
+	PathRemoveFailedMessage                Variation = "Path remove failed."
+	PathCreateFailedMessage                Variation = "Path create failed."
+	FileCloseFailedMessage                 Variation = "File close failed."
+	PathExpandFailedMessage                Variation = "Path expand failed."
 	PathChmodMismatchErrorMessage          Variation = "Path chmod doesn't match as expected. IsMatchesExpectation mismatch error."
-	PathInvalidErrorMessage                Variation = "Path is not present in the location given."
+	PathInvalidErrorMessage                Variation = "Path is missing or have permission issues in the location given."
 	PathChmodApplyMessage                  Variation = "Path chmod apply error."
 	PathChmodConvertFailedMessage          Variation = "Path chmod convert failed to octal."
 	UnexpectedValueErrorMessage            Variation = "Unexpected value error, which is unexpected."
@@ -76,9 +80,10 @@ const (
 	TypeMismatch                           Variation = "TypeMismatch: Type is not as expected."
 	NotImplemented                         Variation = "Not Implemented: Feature / method is not implemented yet."
 	NotSupported                           Variation = "Not Supported: Feature / method is not supported yet."
-	MissingOrPathsHavingIssues             Variation = "Missing or paths having other access issues!"
+	PathsMissingOrHavingIssues             Variation = "Path missing or having other access issues!"
 	JsonResultBytesAreNilOrEmpty           Variation = "Json Result: Bytes data either nil or empty, cannot process the data for the given resource."
 	ValidataionFailed                      Variation = "Validation failed!"
+	LengthIssue                            Variation = "Length Issue!"
 )
 
 func GetSet(

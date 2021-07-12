@@ -24,7 +24,7 @@ func ParseRwxInstructionUsingJsonResult(
 	err := json.Unmarshal(*result.Bytes, &rwxInstruction)
 
 	if err != nil {
-		return nil, msgtype.MeaningFulError(
+		return nil, msgtype.MeaningfulError(
 			msgtype.FailedToParse,
 			"ParseRwxInstructionUsingJsonResult",
 			err)

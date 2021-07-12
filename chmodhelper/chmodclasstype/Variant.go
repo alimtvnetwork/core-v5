@@ -60,7 +60,7 @@ func (receiver *Variant) String() string {
 }
 
 func (receiver *Variant) UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (byte, error) {
-	return BasicEnumImpl.UnmarshallEnumToValue(jsonUnmarshallingValue)
+	return BasicEnumImpl.UnmarshallToValue(true, jsonUnmarshallingValue)
 }
 
 func (receiver *Variant) MarshalJSON() ([]byte, error) {
@@ -68,7 +68,7 @@ func (receiver *Variant) MarshalJSON() ([]byte, error) {
 }
 
 func (receiver *Variant) UnmarshalJSON(data []byte) error {
-	dataConv, err := BasicEnumImpl.UnmarshallEnumToValue(data)
+	dataConv, err := receiver.UnmarshallEnumToValue(data)
 
 	if err == nil {
 		*receiver = Variant(dataConv)

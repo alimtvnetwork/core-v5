@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
 type LeftRight struct {
@@ -117,11 +117,11 @@ func (receiver *LeftRight) IsRightEmpty() bool {
 }
 
 func (receiver *LeftRight) IsRightWhitespace() bool {
-	return strutilinternal.IsEmptyOrWhitespace(receiver.Right)
+	return utilstringinternal.IsEmptyOrWhitespace(receiver.Right)
 }
 
 func (receiver *LeftRight) IsLeftWhitespace() bool {
-	return strutilinternal.IsEmptyOrWhitespace(receiver.Left)
+	return utilstringinternal.IsEmptyOrWhitespace(receiver.Left)
 }
 
 func (receiver *LeftRight) HasValidNonEmptyLeft() bool {

@@ -8,7 +8,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/constants/bitsize"
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
 type ValidValue struct {
@@ -16,6 +16,38 @@ type ValidValue struct {
 	valueBytes *[]byte
 	IsValid    bool
 	Message    string
+}
+
+func NewValidValueUsingAny(
+	isIncludeFieldName bool,
+	isValid bool,
+	any interface{},
+) *ValidValue {
+	toString := AnyToString(
+		isIncludeFieldName,
+		any)
+
+	return &ValidValue{
+		Value:   toString,
+		IsValid: isValid,
+		Message: constants.EmptyString,
+	}
+}
+
+// NewValidValueUsingAnyAutoValid IsValid to false on nil or empty string
+func NewValidValueUsingAnyAutoValid(
+	isIncludeFieldName bool,
+	any interface{},
+) *ValidValue {
+	toString := AnyToString(
+		isIncludeFieldName,
+		any)
+
+	return &ValidValue{
+		Value:   toString,
+		IsValid: toString == constants.EmptyString,
+		Message: constants.EmptyString,
+	}
 }
 
 func NewValidValue(value string) *ValidValue {
@@ -65,7 +97,7 @@ func (it *ValidValue) IsEmpty() bool {
 }
 
 func (it *ValidValue) IsWhitespace() bool {
-	return strutilinternal.IsEmptyOrWhitespace(it.Value)
+	return utilstringinternal.IsEmptyOrWhitespace(it.Value)
 }
 
 func (it *ValidValue) Trim() string {
@@ -207,12 +239,28 @@ func (it *ValidValue) IsRegexMatches(regexp *regexp.Regexp) bool {
 	return regexp.MatchString(it.Value)
 }
 
-func (it *ValidValue) RegexFindString(regexp *regexp.Regexp) string {
+func (it *ValidValue) RegexFindString(
+	regexp *regexp.Regexp,
+) string {
 	if regexp == nil {
 		return constants.EmptyString
 	}
 
 	return regexp.FindString(it.Value)
+}
+
+func (it *ValidValue) RegexFindAllStringsWithFlag(
+	regexp *regexp.Regexp,
+	n int,
+) (foundItems []string, hasAny bool) {
+	if regexp == nil {
+		return []string{}, false
+	}
+
+	items := regexp.FindAllString(
+		it.Value, n)
+
+	return items, len(items) > 0
 }
 
 func (it *ValidValue) RegexFindAllStrings(

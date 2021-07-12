@@ -37,7 +37,7 @@ func GetExistsFilteredPathFileInfoMap(
 
 	var err2 error
 	if len(missingOrHaveIssuesFiles) > 0 && !isSkipOnInvalid {
-		err2 = msgtype.MissingOrPathsHavingIssues.ErrorRefOnly(
+		err2 = msgtype.PathsMissingOrHavingIssues.ErrorRefOnly(
 			missingOrHaveIssuesFiles)
 	}
 

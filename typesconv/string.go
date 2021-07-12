@@ -1,6 +1,10 @@
 package typesconv
 
-import "gitlab.com/evatix-go/core/constants"
+import (
+	"strconv"
+
+	"gitlab.com/evatix-go/core/constants"
+)
 
 func StringPtr(val string) *string {
 	return &val
@@ -42,4 +46,57 @@ func StringPtrDefValFunc(val *string, defValFunc func() string) *string {
 	}
 
 	return val
+}
+
+func StringToBool(s string) bool {
+	if s == "" {
+		return false
+	}
+
+	switch s {
+	case "yes", "Yes", "YES":
+		return true
+	case "no", "NO", "No":
+		return false
+	}
+
+	isBool, err := strconv.ParseBool(s)
+
+	if err != nil {
+		return false
+	}
+
+	return isBool
+}
+
+func StringPointerToBool(s *string) bool {
+	if s == nil || *s == "" {
+		return false
+	}
+
+	return StringToBool(*s)
+}
+
+func StringPointerToBoolPtr(s *string) *bool {
+	if s == nil || *s == "" {
+		toFalse := false
+
+		return &toFalse
+	}
+
+	result := StringToBool(*s)
+
+	return &result
+}
+
+func StringToBoolPtr(s string) *bool {
+	if s == "" {
+		toFalse := false
+
+		return &toFalse
+	}
+
+	result := StringToBool(s)
+
+	return &result
 }

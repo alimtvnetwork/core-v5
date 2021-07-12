@@ -28,145 +28,145 @@ const (
 	Android
 )
 
-func (receiver Variation) Value() byte {
-	return byte(receiver)
+func (it Variation) Value() byte {
+	return byte(it)
 }
 
-func (receiver Variation) Name() string {
-	return BasicEnumImpl.ToEnumString(receiver.Value())
+func (it Variation) Name() string {
+	return BasicEnumImpl.ToEnumString(it.Value())
 }
 
-func (receiver Variation) IsUnknown() bool {
-	return receiver == Unknown
+func (it Variation) IsUnknown() bool {
+	return it == Unknown
 }
 
-func (receiver Variation) IsUbuntuServer() bool {
-	return receiver == UbuntuServer
+func (it Variation) IsUbuntuServer() bool {
+	return it == UbuntuServer
 }
 
-func (receiver Variation) IsUbuntuServer18() bool {
-	return receiver == UbuntuServer18
+func (it Variation) IsUbuntuServer18() bool {
+	return it == UbuntuServer18
 }
 
-func (receiver Variation) IsUbuntuServer19() bool {
-	return receiver == UbuntuServer19
+func (it Variation) IsUbuntuServer19() bool {
+	return it == UbuntuServer19
 }
 
-func (receiver Variation) IsUbuntuServer20() bool {
-	return receiver == UbuntuServer20
+func (it Variation) IsUbuntuServer20() bool {
+	return it == UbuntuServer20
 }
 
-func (receiver Variation) IsUbuntuServer21() bool {
-	return receiver == UbuntuServer21
+func (it Variation) IsUbuntuServer21() bool {
+	return it == UbuntuServer21
 }
 
-func (receiver Variation) IsUbuntuDesktop() bool {
-	return receiver == UbuntuDesktop
+func (it Variation) IsUbuntuDesktop() bool {
+	return it == UbuntuDesktop
 }
 
-func (receiver Variation) IsCentos() bool {
-	return receiver == Centos
+func (it Variation) IsCentos() bool {
+	return it == Centos
 }
 
-func (receiver Variation) IsCentos7() bool {
-	return receiver == Centos7
+func (it Variation) IsCentos7() bool {
+	return it == Centos7
 }
 
-func (receiver Variation) IsCentos8() bool {
-	return receiver == Centos8
+func (it Variation) IsCentos8() bool {
+	return it == Centos8
 }
 
-func (receiver Variation) IsCentos9() bool {
-	return receiver == Centos9
+func (it Variation) IsCentos9() bool {
+	return it == Centos9
 }
 
-func (receiver Variation) IsDebianServer() bool {
-	return receiver == DebianServer
+func (it Variation) IsDebianServer() bool {
+	return it == DebianServer
 }
 
-func (receiver Variation) IsDebianDesktop() bool {
-	return receiver == DebianDesktop
+func (it Variation) IsDebianDesktop() bool {
+	return it == DebianDesktop
 }
 
-func (receiver Variation) IsDocker() bool {
-	return receiver == Docker
+func (it Variation) IsDocker() bool {
+	return it == Docker
 }
 
-func (receiver Variation) IsDockerUbuntuServer() bool {
-	return receiver == DockerUbuntuServer
+func (it Variation) IsDockerUbuntuServer() bool {
+	return it == DockerUbuntuServer
 }
 
-func (receiver Variation) IsDockerUbuntuServer20() bool {
-	return receiver == DockerUbuntuServer20
+func (it Variation) IsDockerUbuntuServer20() bool {
+	return it == DockerUbuntuServer20
 }
 
-func (receiver Variation) IsDockerUbuntuServer21() bool {
-	return receiver == DockerUbuntuServer20
+func (it Variation) IsDockerUbuntuServer21() bool {
+	return it == DockerUbuntuServer20
 }
 
-func (receiver Variation) IsDockerCentos9() bool {
-	return receiver == DockerCentos9
+func (it Variation) IsDockerCentos9() bool {
+	return it == DockerCentos9
 }
 
-func (receiver Variation) IsAndroid() bool {
-	return receiver == Android
+func (it Variation) IsAndroid() bool {
+	return it == Android
 }
 
-func (receiver Variation) String() string {
-	return BasicEnumImpl.ToEnumString(receiver.Value())
+func (it Variation) String() string {
+	return BasicEnumImpl.ToEnumString(it.Value())
 }
 
-func (receiver Variation) IsAnyOf(checkingItems ...byte) bool {
-	return BasicEnumImpl.IsAnyOf(receiver.Value(), checkingItems...)
+func (it Variation) IsAnyOf(checkingItems ...byte) bool {
+	return BasicEnumImpl.IsAnyOf(it.Value(), checkingItems...)
 }
 
-func (receiver Variation) MarshalJSON() ([]byte, error) {
-	return BasicEnumImpl.ToEnumJsonBytes(receiver.Value()), nil
+func (it Variation) MarshalJSON() ([]byte, error) {
+	return BasicEnumImpl.ToEnumJsonBytes(it.Value()), nil
 }
 
-func (receiver Variation) ToNumberString() string {
-	return BasicEnumImpl.ToNumberString(receiver.Value())
+func (it Variation) ToNumberString() string {
+	return BasicEnumImpl.ToNumberString(it.Value())
 }
 
-func (receiver *Variation) UnmarshallEnumToValue(
+func (it *Variation) UnmarshallEnumToValue(
 	jsonUnmarshallingValue []byte,
 ) (byte, error) {
 	return BasicEnumImpl.
-		UnmarshallEnumToValue(jsonUnmarshallingValue)
+		UnmarshallToValue(true, jsonUnmarshallingValue)
 }
 
-func (receiver *Variation) UnmarshalJSON(data []byte) error {
-	dataConv, err := BasicEnumImpl.UnmarshallEnumToValue(data)
+func (it *Variation) UnmarshalJSON(data []byte) error {
+	dataConv, err := it.UnmarshallEnumToValue(data)
 
 	if err != nil {
 		return err
 	}
 
-	*receiver = Variation(dataConv)
+	*it = Variation(dataConv)
 
 	return nil
 }
 
-func (receiver Variation) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
-	return &receiver
+func (it Variation) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
+	return &it
 }
 
-func (receiver Variation) MaxByte() byte {
+func (it Variation) MaxByte() byte {
 	return BasicEnumImpl.Max()
 }
 
-func (receiver Variation) MinByte() byte {
+func (it Variation) MinByte() byte {
 	return BasicEnumImpl.Min()
 }
 
-func (receiver Variation) ValueByte() byte {
-	return receiver.Value()
+func (it Variation) ValueByte() byte {
+	return it.Value()
 }
 
-func (receiver Variation) RangesByte() []byte {
+func (it Variation) RangesByte() []byte {
 	return BasicEnumImpl.Ranges()
 }
 
-func (receiver Variation) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
-	return &receiver
+func (it Variation) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
+	return &it
 }

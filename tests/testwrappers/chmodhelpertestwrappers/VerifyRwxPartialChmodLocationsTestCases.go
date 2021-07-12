@@ -30,7 +30,7 @@ var VerifyRwxPartialChmodLocationsTestCases = []VerifyRwxPartialChmodLocationsWr
 			"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual\n" +
 			"/temp/core/test-cases-3 - " +
 			"Expect [\"rwxrwx-**\"] != [\"rwxr-xr--\"] Actual\n" +
-			"Missing or paths having other access issues! Reference(s) { \"[" +
+			"Path missing or having other access issues! Reference(s) { \"[" +
 			"/temp/core/test-cases-3s " +
 			"/temp/core/test-cases-3x" +
 			"]\" }",

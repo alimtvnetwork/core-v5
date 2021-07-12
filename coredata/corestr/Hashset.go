@@ -11,7 +11,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
 	"gitlab.com/evatix-go/core/defaulterr"
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
 type Hashset struct {
@@ -270,7 +270,7 @@ func (hashset *Hashset) AddNonEmpty(str string) *Hashset {
 }
 
 func (hashset *Hashset) AddNonEmptyWhitespace(str string) *Hashset {
-	if strutilinternal.IsEmptyOrWhitespace(str) {
+	if utilstringinternal.IsEmptyOrWhitespace(str) {
 		return hashset
 	}
 

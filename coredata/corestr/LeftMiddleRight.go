@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
 type LeftMiddleRight struct {
@@ -49,7 +49,7 @@ func (receiver *LeftMiddleRight) IsMiddleEmpty() bool {
 }
 
 func (receiver *LeftMiddleRight) IsMiddleWhitespace() bool {
-	return strutilinternal.IsEmptyOrWhitespace(receiver.Middle)
+	return utilstringinternal.IsEmptyOrWhitespace(receiver.Middle)
 }
 
 func (receiver *LeftMiddleRight) HasValidNonEmptyMiddle() bool {

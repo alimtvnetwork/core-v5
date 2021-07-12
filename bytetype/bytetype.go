@@ -15,7 +15,7 @@ func (v Variant) Name() string {
 	return basicEnumImpl.ToEnumString(v.Value())
 }
 
-func (v Variant) UnmarshallEnumToValue(jsonUnmarshallingValue []byte) (byte, error) {
+func (v Variant) UnmarshallToValue(jsonUnmarshallingValue []byte) (byte, error) {
 	panic("implement me")
 }
 

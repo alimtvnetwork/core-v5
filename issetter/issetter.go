@@ -2,9 +2,9 @@ package issetter
 
 import (
 	"errors"
-)
 
-var values = []string{"Uninitialized", "True", "False", "Unset", "Set", "Wildcard"}
+	"gitlab.com/evatix-go/core/defaulterr"
+)
 
 type Value byte
 
@@ -314,6 +314,34 @@ func (v Value) GetErrorOnOutOfRange(n byte, msg string) error {
 	if IsOutOfRange(n) {
 		return errors.New(msg)
 	}
+
+	return nil
+}
+
+func (v Value) Name() string {
+	return valuesToNameMap[v]
+}
+
+func (v Value) MarshalJSON() ([]byte, error) {
+	return valuesToJsonBytesMap[v], nil
+}
+
+func (v *Value) UnmarshalJSON(data []byte) error {
+	if data == nil {
+		return defaulterr.UnMarshallingFailedDueToNilOrEmpty
+	}
+
+	str := string(data)
+	val, has := jsonValuesMap[str]
+
+	if !has {
+		return errors.New(
+			"UnmarshalJSON failed , cannot map " +
+				str +
+				" to issetter.Value")
+	}
+
+	*v = val
 
 	return nil
 }

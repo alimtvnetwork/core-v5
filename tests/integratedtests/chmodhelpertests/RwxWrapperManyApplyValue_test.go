@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/coretests"
 	"gitlab.com/evatix-go/core/msgtype"
@@ -15,7 +16,9 @@ func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
 
 	// Arrange
 	createPathInstructions := chmodhelpertestwrappers.CreatePathInstruction2
-	createDefaultPaths(&createPathInstructions)
+	chmodhelper.CreateDirFilesWithRwxPermissionsMust(
+		true,
+		&createPathInstructions)
 	firstCreationIns := createPathInstructions[0]
 	paths := firstCreationIns.GetPaths()
 	condition := chmodins.DefaultAllTrueCondition()

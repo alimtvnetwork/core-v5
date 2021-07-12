@@ -11,5 +11,7 @@ func ToStringNameValues(any interface{}) string {
 		return constants.NilAngelBracket
 	}
 
-	return fmt.Sprintf(constants.SprintFullPropertyNameValueFormat, any)
+	return fmt.Sprintf(
+		constants.SprintFullPropertyNameValueFormat,
+		any)
 }

@@ -10,7 +10,7 @@ import (
 type Compare struct {
 	sortedString   *string
 	sortedStrings  []string
-	MatchingLength int // -1 means all, number means, that number must match
+	MatchingLength int // 0/-1 means all, number means, that number must match
 	StringContains string
 }
 

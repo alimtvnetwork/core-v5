@@ -43,6 +43,7 @@ const (
 	SprintPropertyNameValueFormat             = "%+v"
 	SprintTypeFormat                          = "%T"
 	SprintDoubleQuoteFormat                   = "%q"
+	SprintSingleQuoteFormat                   = "'%s'"
 	SprintStringFormat                        = "%s"
 	SprintThridBracketQuoteFormat             = "[\"%v\"]"
 	EqualSymbol                               = "="
@@ -126,7 +127,10 @@ const (
 	StartOfBlock                              = "{"
 	MinusOne                                  = -1
 	InvalidValue                              = -1
+	InvalidLineNumber                         = -1
 	TakeAllMinusOne                           = -1
+	NoLimits                                  = -1
+	DontCompare                               = -1
 	WildcardSymbol                            = "*"
 	WildcardChar                              = '*'
 	WildcardRune                      rune    = '*'
@@ -330,4 +334,10 @@ const (
 	NewLineUnixChar                   byte    = '\n'
 	NewLineUnixRune                   rune    = '\n'
 	DefaultRangesJoiner                       = ", "
+	DoubleQuotationStartEnd                   = `""`
+	DoubleQuotation                           = `"`
+	SingleQuotationStartEnd                   = `''`
+	SingleQuotation                           = `'`
+	CodeQuotation                             = "`"
+	CodeQuotationStartEnd                     = "``"
 )

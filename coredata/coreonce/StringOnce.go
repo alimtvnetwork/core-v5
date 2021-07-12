@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strings"
 
-	"gitlab.com/evatix-go/core/internal/strutilinternal"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 	"gitlab.com/evatix-go/core/issetter"
 )
 
@@ -68,7 +68,7 @@ func (receiver *StringOnce) IsEmpty() bool {
 }
 
 func (receiver *StringOnce) IsEmptyOrWhitespace() bool {
-	return strutilinternal.IsEmptyOrWhitespace(receiver.Value())
+	return utilstringinternal.IsEmptyOrWhitespace(receiver.Value())
 }
 
 func (receiver *StringOnce) Bytes() []byte {

@@ -1,6 +1,8 @@
 package msgtype
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Expecting
 //

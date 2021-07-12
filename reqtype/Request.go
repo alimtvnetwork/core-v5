@@ -68,222 +68,222 @@ const (
 	DynamicAction
 )
 
-func (receiver Request) IsUninitialized() bool {
-	return receiver == Uninitialized
+func (it Request) IsUninitialized() bool {
+	return it == Uninitialized
 }
 
-func (receiver Request) IsCreate() bool {
-	return receiver == Create
+func (it Request) IsCreate() bool {
+	return it == Create
 }
 
-func (receiver Request) IsRead() bool {
-	return receiver == Read
+func (it Request) IsRead() bool {
+	return it == Read
 }
 
-func (receiver Request) IsUpdate() bool {
-	return receiver == Update
+func (it Request) IsUpdate() bool {
+	return it == Update
 }
 
-func (receiver Request) IsDelete() bool {
-	return receiver == Delete
+func (it Request) IsDelete() bool {
+	return it == Delete
 }
 
-func (receiver Request) IsDrop() bool {
-	return receiver == Drop
+func (it Request) IsDrop() bool {
+	return it == Drop
 }
 
-func (receiver Request) IsCreateOrUpdate() bool {
-	return receiver == CreateOrUpdate
+func (it Request) IsCreateOrUpdate() bool {
+	return it == CreateOrUpdate
 }
 
-func (receiver Request) IsExistCheck() bool {
-	return receiver == ExistCheck
+func (it Request) IsExistCheck() bool {
+	return it == ExistCheck
 }
 
-func (receiver Request) IsSkipOnExist() bool {
-	return receiver == SkipOnExist
+func (it Request) IsSkipOnExist() bool {
+	return it == SkipOnExist
 }
 
-func (receiver Request) IsCreateOrSkipOnExist() bool {
-	return receiver == CreateOrSkipOnExist
+func (it Request) IsCreateOrSkipOnExist() bool {
+	return it == CreateOrSkipOnExist
 }
 
-func (receiver Request) IsUpdateOrSkipOnNonExist() bool {
-	return receiver == UpdateOrSkipOnNonExist
+func (it Request) IsUpdateOrSkipOnNonExist() bool {
+	return it == UpdateOrSkipOnNonExist
 }
 
-func (receiver Request) IsDeleteOrSkipOnNonExist() bool {
-	return receiver == DeleteOrSkipOnNonExist
+func (it Request) IsDeleteOrSkipOnNonExist() bool {
+	return it == DeleteOrSkipOnNonExist
 }
 
-func (receiver Request) IsDropOrSkipOnNonExist() bool {
-	return receiver == DropOrSkipOnNonExist
+func (it Request) IsDropOrSkipOnNonExist() bool {
+	return it == DropOrSkipOnNonExist
 }
 
-func (receiver Request) IsUpdateOnExist() bool {
-	return receiver == UpdateOnExist
+func (it Request) IsUpdateOnExist() bool {
+	return it == UpdateOnExist
 }
 
-func (receiver Request) IsDropOnExist() bool {
-	return receiver == DropOnExist
+func (it Request) IsDropOnExist() bool {
+	return it == DropOnExist
 }
 
-func (receiver Request) IsDropCreate() bool {
-	return receiver == DropCreate
+func (it Request) IsDropCreate() bool {
+	return it == DropCreate
 }
 
-func (receiver Request) IsAppend() bool {
-	return receiver == Append
+func (it Request) IsAppend() bool {
+	return it == Append
 }
 
-func (receiver Request) IsAppendByCompare() bool {
-	return receiver == AppendByCompare
+func (it Request) IsAppendByCompare() bool {
+	return it == AppendByCompare
 }
 
-func (receiver Request) IsAppendByCompareWhereCommentFound() bool {
-	return receiver == AppendByCompareWhereCommentFound
+func (it Request) IsAppendByCompareWhereCommentFound() bool {
+	return it == AppendByCompareWhereCommentFound
 }
 
-func (receiver Request) IsAppendLinesByCompare() bool {
-	return receiver == AppendLinesByCompare
+func (it Request) IsAppendLinesByCompare() bool {
+	return it == AppendLinesByCompare
 }
 
-func (receiver Request) IsAppendLines() bool {
-	return receiver == AppendLines
+func (it Request) IsAppendLines() bool {
+	return it == AppendLines
 }
 
-func (receiver Request) IsCreateOrAppend() bool {
-	return receiver == CreateOrAppend
+func (it Request) IsCreateOrAppend() bool {
+	return it == CreateOrAppend
 }
 
-func (receiver Request) IsPrepend() bool {
-	return receiver == Prepend
+func (it Request) IsPrepend() bool {
+	return it == Prepend
 }
 
-func (receiver Request) IsCreateOrPrepend() bool {
-	return receiver == CreateOrPrepend
+func (it Request) IsCreateOrPrepend() bool {
+	return it == CreateOrPrepend
 }
 
-func (receiver Request) IsPrependLines() bool {
-	return receiver == PrependLines
+func (it Request) IsPrependLines() bool {
+	return it == PrependLines
 }
 
-func (receiver Request) IsRename() bool {
-	return receiver == Rename
+func (it Request) IsRename() bool {
+	return it == Rename
 }
 
-func (receiver Request) IsChange() bool {
-	return receiver == Change
+func (it Request) IsChange() bool {
+	return it == Change
 }
 
-func (receiver Request) IsMerge() bool {
-	return receiver == Merge
+func (it Request) IsMerge() bool {
+	return it == Merge
 }
 
-func (receiver Request) IsMergeLines() bool {
-	return receiver == MergeLines
+func (it Request) IsMergeLines() bool {
+	return it == MergeLines
 }
 
-func (receiver Request) IsGetHttp() bool {
-	return receiver == GetHttp
+func (it Request) IsGetHttp() bool {
+	return it == GetHttp
 }
 
-func (receiver Request) IsPutHttp() bool {
-	return receiver == PutHttp
+func (it Request) IsPutHttp() bool {
+	return it == PutHttp
 }
 
-func (receiver Request) IsPostHttp() bool {
-	return receiver == PostHttp
+func (it Request) IsPostHttp() bool {
+	return it == PostHttp
 }
 
-func (receiver Request) IsDeleteHttp() bool {
-	return receiver == DeleteHttp
+func (it Request) IsDeleteHttp() bool {
+	return it == DeleteHttp
 }
 
-func (receiver Request) IsPatchHttp() bool {
-	return receiver == PatchHttp
+func (it Request) IsPatchHttp() bool {
+	return it == PatchHttp
 }
 
-func (receiver Request) IsTouch() bool {
-	return receiver == Touch
+func (it Request) IsTouch() bool {
+	return it == Touch
 }
 
-func (receiver Request) IsStart() bool {
-	return receiver == Start
+func (it Request) IsStart() bool {
+	return it == Start
 }
 
-func (receiver Request) IsStop() bool {
-	return receiver == Stop
+func (it Request) IsStop() bool {
+	return it == Stop
 }
 
-func (receiver Request) IsRestart() bool {
-	return receiver == Restart
+func (it Request) IsRestart() bool {
+	return it == Restart
 }
 
-func (receiver Request) IsReload() bool {
-	return receiver == Reload
+func (it Request) IsReload() bool {
+	return it == Reload
 }
 
-func (receiver Request) IsStopSleepStart() bool {
-	return receiver == StopSleepStart
+func (it Request) IsStopSleepStart() bool {
+	return it == StopSleepStart
 }
 
-func (receiver Request) IsSuspend() bool {
-	return receiver == Suspend
+func (it Request) IsSuspend() bool {
+	return it == Suspend
 }
 
-func (receiver Request) IsPause() bool {
-	return receiver == Pause
+func (it Request) IsPause() bool {
+	return it == Pause
 }
 
-func (receiver Request) IsResumed() bool {
-	return receiver == Resumed
+func (it Request) IsResumed() bool {
+	return it == Resumed
 }
 
-func (receiver Request) IsTryRestart3Times() bool {
-	return receiver == TryRestart3Times
+func (it Request) IsTryRestart3Times() bool {
+	return it == TryRestart3Times
 }
 
-func (receiver Request) IsTryRestart5Times() bool {
-	return receiver == TryRestart5Times
+func (it Request) IsTryRestart5Times() bool {
+	return it == TryRestart5Times
 }
 
-func (receiver Request) IsTryStart3Times() bool {
-	return receiver == TryStart3Times
+func (it Request) IsTryStart3Times() bool {
+	return it == TryStart3Times
 }
 
-func (receiver Request) IsTryStart5Times() bool {
-	return receiver == TryStart5Times
+func (it Request) IsTryStart5Times() bool {
+	return it == TryStart5Times
 }
 
-func (receiver Request) IsTryStop3Times() bool {
-	return receiver == TryStop3Times
+func (it Request) IsTryStop3Times() bool {
+	return it == TryStop3Times
 }
 
-func (receiver Request) IsTryStop5Times() bool {
-	return receiver == TryStop5Times
+func (it Request) IsTryStop5Times() bool {
+	return it == TryStop5Times
 }
 
-func (receiver Request) IsInheritOnly() bool {
-	return receiver == InheritOnly
+func (it Request) IsInheritOnly() bool {
+	return it == InheritOnly
 }
 
-func (receiver Request) IsInheritPlusOverride() bool {
-	return receiver == InheritPlusOverride
+func (it Request) IsInheritPlusOverride() bool {
+	return it == InheritPlusOverride
 }
 
 // IsRestartOrReload  receiver. IsRestart() || receiver. IsReload()
-func (receiver Request) IsRestartOrReload() bool {
-	return receiver.IsRestart() || receiver.IsReload()
+func (it Request) IsRestartOrReload() bool {
+	return it.IsRestart() || it.IsReload()
 }
 
 // IsCrud returns true if Read, Update, Create, Delete, IsCreateOrUpdate
-func (receiver Request) IsCrud() bool {
-	return receiver.IsRead() ||
-		receiver.IsCreate() ||
-		receiver.IsCreateOrUpdate() ||
-		receiver.IsUpdate() ||
-		receiver.IsDelete()
+func (it Request) IsCrud() bool {
+	return it.IsRead() ||
+		it.IsCreate() ||
+		it.IsCreateOrUpdate() ||
+		it.IsUpdate() ||
+		it.IsDelete()
 }
 
 // IsCrudSkip
@@ -291,21 +291,21 @@ func (receiver Request) IsCrud() bool {
 // returns true if
 // IsCreateOrSkipOnExist, IsUpdateOrSkipOnNonExist, IsDeleteOrSkipOnNonExist,
 // IsDropOnExist, IsDropOrSkipOnNonExist,
-func (receiver Request) IsCrudSkip() bool {
-	return receiver.IsCreateOrSkipOnExist() ||
-		receiver.IsUpdateOrSkipOnNonExist() ||
-		receiver.IsDeleteOrSkipOnNonExist() ||
-		receiver.IsDropOnExist() ||
-		receiver.IsDropOrSkipOnNonExist()
+func (it Request) IsCrudSkip() bool {
+	return it.IsCreateOrSkipOnExist() ||
+		it.IsUpdateOrSkipOnNonExist() ||
+		it.IsDeleteOrSkipOnNonExist() ||
+		it.IsDropOnExist() ||
+		it.IsDropOrSkipOnNonExist()
 }
 
 // IsCrudOrSkip
 //
 // returns true if
 // IsCrud || IsCrudSkip
-func (receiver Request) IsCrudOrSkip() bool {
-	return receiver.IsCrud() ||
-		receiver.IsCrudSkip()
+func (it Request) IsCrudOrSkip() bool {
+	return it.IsCrud() ||
+		it.IsCrudSkip()
 }
 
 // IsAnyDrop
@@ -313,13 +313,13 @@ func (receiver Request) IsCrudOrSkip() bool {
 // returns true if
 // IsDrop, IsDelete, IsDeleteOrSkipOnNonExist,
 // IsDropOnExist, IsDropCreate, IsDropOrSkipOnNonExist
-func (receiver Request) IsAnyDrop() bool {
-	return receiver.IsDrop() ||
-		receiver.IsDelete() ||
-		receiver.IsDeleteOrSkipOnNonExist() ||
-		receiver.IsDropOnExist() ||
-		receiver.IsDropCreate() ||
-		receiver.IsDropOrSkipOnNonExist()
+func (it Request) IsAnyDrop() bool {
+	return it.IsDrop() ||
+		it.IsDelete() ||
+		it.IsDeleteOrSkipOnNonExist() ||
+		it.IsDropOnExist() ||
+		it.IsDropCreate() ||
+		it.IsDropOrSkipOnNonExist()
 }
 
 // IsDropSafe
@@ -327,11 +327,11 @@ func (receiver Request) IsAnyDrop() bool {
 // returns true if
 // IsDeleteOrSkipOnNonExist, IsDropOnExist, IsDropCreate,
 // IsDropOrSkipOnNonExist
-func (receiver Request) IsDropSafe() bool {
-	return receiver.IsDeleteOrSkipOnNonExist() ||
-		receiver.IsDropOnExist() ||
-		receiver.IsDropCreate() ||
-		receiver.IsDropOrSkipOnNonExist()
+func (it Request) IsDropSafe() bool {
+	return it.IsDeleteOrSkipOnNonExist() ||
+		it.IsDropOnExist() ||
+		it.IsDropCreate() ||
+		it.IsDropOrSkipOnNonExist()
 }
 
 // IsAnyCreate
@@ -339,13 +339,13 @@ func (receiver Request) IsDropSafe() bool {
 // returns true if
 // IsCreate, IsCreateOrUpdate, IsCreateOrAppend,
 // IsCreateOrPrepend, IsCreateOrSkipOnExist, IsDropCreate
-func (receiver Request) IsAnyCreate() bool {
-	return receiver.IsCreate() ||
-		receiver.IsCreateOrUpdate() ||
-		receiver.IsCreateOrAppend() ||
-		receiver.IsCreateOrPrepend() ||
-		receiver.IsCreateOrSkipOnExist() ||
-		receiver.IsDropCreate()
+func (it Request) IsAnyCreate() bool {
+	return it.IsCreate() ||
+		it.IsCreateOrUpdate() ||
+		it.IsCreateOrAppend() ||
+		it.IsCreateOrPrepend() ||
+		it.IsCreateOrSkipOnExist() ||
+		it.IsDropCreate()
 }
 
 // IsHttp
@@ -353,47 +353,47 @@ func (receiver Request) IsAnyCreate() bool {
 // returns true if
 // IsGetHttp, IsPostHttp, IsPutHttp,
 // IsDeleteHttp, IsPatchHttp
-func (receiver Request) IsHttp() bool {
-	return receiver.IsGetHttp() ||
-		receiver.IsPostHttp() ||
-		receiver.IsPutHttp() ||
-		receiver.IsDeleteHttp() ||
-		receiver.IsPatchHttp()
+func (it Request) IsHttp() bool {
+	return it.IsGetHttp() ||
+		it.IsPostHttp() ||
+		it.IsPutHttp() ||
+		it.IsDeleteHttp() ||
+		it.IsPatchHttp()
 }
 
-func (receiver Request) Name() string {
-	return BasicEnumImpl.ToEnumString(receiver.Value())
+func (it Request) Name() string {
+	return BasicEnumImpl.ToEnumString(it.Value())
 }
 
-func (receiver Request) ToNumberString() string {
-	return BasicEnumImpl.ToNumberString(receiver.Value())
+func (it Request) ToNumberString() string {
+	return BasicEnumImpl.ToNumberString(it.Value())
 }
 
-func (receiver Request) UnmarshallEnumToValue(
+func (it Request) UnmarshallEnumToValue(
 	jsonUnmarshallingValue []byte,
 ) (byte, error) {
-	return BasicEnumImpl.UnmarshallEnumToValue(jsonUnmarshallingValue)
+	return BasicEnumImpl.UnmarshallToValue(true, jsonUnmarshallingValue)
 }
 
-func (receiver Request) IsValidRange() bool {
-	return BasicEnumImpl.IsValidRange(receiver.Value())
+func (it Request) IsValidRange() bool {
+	return BasicEnumImpl.IsValidRange(it.Value())
 }
 
 // IsInBetween edge case including the start, end
-func (receiver Request) IsInBetween(
+func (it Request) IsInBetween(
 	start, end Request,
 ) bool {
-	val := receiver.Value()
+	val := it.Value()
 
 	return val >= start.Value() && val <= end.Value()
 }
 
-func (receiver Request) CurrentNotImpl(
+func (it Request) CurrentNotImpl(
 	reference interface{},
 	messages ...string,
 ) error {
 	compiledMessage := strings.Join(messages, constants.Space)
-	fullCompiled := receiver.String() +
+	fullCompiled := it.String() +
 		" : is not implemented. " +
 		compiledMessage
 
@@ -405,13 +405,13 @@ func (receiver Request) CurrentNotImpl(
 }
 
 // IsAnyOfReqs returns true if current one is matching with any of it
-func (receiver Request) IsAnyOfReqs(reqs ...Request) bool {
+func (it Request) IsAnyOfReqs(reqs ...Request) bool {
 	if len(reqs) == 0 {
 		return true
 	}
 
 	for _, req := range reqs {
-		if req == receiver {
+		if req == it {
 			return true
 		}
 	}
@@ -420,7 +420,7 @@ func (receiver Request) IsAnyOfReqs(reqs ...Request) bool {
 }
 
 // GetStatusAnyOf returns status success true if current one is any of the given values.
-func (receiver Request) GetStatusAnyOf(reqs ...Request) *ResultStatus {
+func (it Request) GetStatusAnyOf(reqs ...Request) *ResultStatus {
 	if len(reqs) == 0 {
 		return &ResultStatus{
 			IsSuccess:  true,
@@ -431,7 +431,7 @@ func (receiver Request) GetStatusAnyOf(reqs ...Request) *ResultStatus {
 	}
 
 	for i, req := range reqs {
-		if req == receiver {
+		if req == it {
 			return &ResultStatus{
 				IsSuccess:  true,
 				IndexMatch: i,
@@ -456,14 +456,14 @@ func (receiver Request) GetStatusAnyOf(reqs ...Request) *ResultStatus {
 }
 
 // GetInBetweenStatus edge case including the start, end
-func (receiver Request) GetInBetweenStatus(start, end Request) *ResultStatus {
-	isInBetween := receiver.IsInBetween(start, end)
+func (it Request) GetInBetweenStatus(start, end Request) *ResultStatus {
+	isInBetween := it.IsInBetween(start, end)
 	ranges := RangesInBetween(start, end)
 
 	if isInBetween {
 		return &ResultStatus{
 			IsSuccess:  isInBetween,
-			IndexMatch: receiver.ValueInt(),
+			IndexMatch: it.ValueInt(),
 			Ranges:     ranges,
 			Error:      nil,
 		}
@@ -483,72 +483,72 @@ func (receiver Request) GetInBetweenStatus(start, end Request) *ResultStatus {
 	}
 }
 
-func (receiver Request) MaxByte() byte {
+func (it Request) MaxByte() byte {
 	return BasicEnumImpl.Max()
 }
 
-func (receiver Request) MinByte() byte {
+func (it Request) MinByte() byte {
 	return BasicEnumImpl.Min()
 }
 
-func (receiver Request) ValueByte() byte {
-	return receiver.Value()
+func (it Request) ValueByte() byte {
+	return it.Value()
 }
 
-func (receiver Request) RangesByte() []byte {
+func (it Request) RangesByte() []byte {
 	return BasicEnumImpl.Ranges()
 }
 
-func (receiver Request) Value() byte {
-	return byte(receiver)
+func (it Request) Value() byte {
+	return byte(it)
 }
 
-func (receiver Request) ValueInt() int {
-	return int(receiver)
+func (it Request) ValueInt() int {
+	return int(it)
 }
 
-func (receiver Request) IsAnyOf(checkingItems ...byte) bool {
-	return BasicEnumImpl.IsAnyOf(receiver.Value(), checkingItems...)
+func (it Request) IsAnyOf(checkingItems ...byte) bool {
+	return BasicEnumImpl.IsAnyOf(it.Value(), checkingItems...)
 }
 
-func (receiver Request) String() string {
-	return BasicEnumImpl.ToEnumString(receiver.Value())
+func (it Request) String() string {
+	return BasicEnumImpl.ToEnumString(it.Value())
 }
 
-func (receiver *Request) UnmarshalJSON(data []byte) error {
-	dataConv, err := BasicEnumImpl.UnmarshallEnumToValue(data)
+func (it *Request) UnmarshalJSON(data []byte) error {
+	dataConv, err := it.UnmarshallEnumToValue(data)
 
 	if err == nil {
-		*receiver = Request(dataConv)
+		*it = Request(dataConv)
 	}
 
 	return err
 }
 
-func (receiver Request) ToPtr() *Request {
-	return &receiver
+func (it Request) ToPtr() *Request {
+	return &it
 }
 
-func (receiver *Request) ToSimple() Request {
-	if receiver == nil {
+func (it *Request) ToSimple() Request {
+	if it == nil {
 		return Uninitialized
 	}
 
-	return *receiver
+	return *it
 }
 
-func (receiver Request) MarshalJSON() ([]byte, error) {
-	return BasicEnumImpl.ToEnumJsonBytes(receiver.Value()), nil
+func (it Request) MarshalJSON() ([]byte, error) {
+	return BasicEnumImpl.ToEnumJsonBytes(it.Value()), nil
 }
 
-func (receiver Request) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
-	return &receiver
+func (it Request) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
+	return &it
 }
 
-func (receiver *Request) AsJsonMarshaller() corejson.JsonMarshaller {
-	return receiver
+func (it *Request) AsJsonMarshaller() corejson.JsonMarshaller {
+	return it
 }
 
-func (receiver *Request) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
-	return receiver
+func (it *Request) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
+	return it
 }

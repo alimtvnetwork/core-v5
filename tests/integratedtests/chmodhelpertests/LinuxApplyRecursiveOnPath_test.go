@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/coretests"
 	"gitlab.com/evatix-go/core/tests/testwrappers/chmodhelpertestwrappers"
 )
@@ -17,7 +18,9 @@ func Test_LinuxApplyRecursiveOnPath_Unix(t *testing.T) {
 		testHeader := coretests.GetTestHeader(
 			caseMessenger)
 		// expected := testCase.ExpectedAsRwxOwnerGroupOtherInstruction()
-		createDefaultPaths(&testCase.CreatePaths)
+		chmodhelper.CreateDirFilesWithRwxPermissionsMust(
+			true,
+			&testCase.CreatePaths)
 
 		// Act
 		actualErr := linuxApplyRecursivePathInstructions(&testCase)

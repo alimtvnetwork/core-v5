@@ -1,6 +1,7 @@
 package chmodhelpertestwrappers
 
 import (
+	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/coretests"
 )
@@ -9,7 +10,7 @@ type RwxInstructionTestWrapper struct {
 	RwxInstructions []chmodins.RwxInstruction
 	DefaultRwx      *chmodins.RwxOwnerGroupOther
 	IsErrorExpected bool
-	CreatePaths     []*CreatePathsInstruction
+	CreatePaths     []*chmodhelper.DirFilesWithRwxPermission
 	funcName        coretests.TestFuncName
 	expected        chmodins.RwxOwnerGroupOther
 	actual          interface{}

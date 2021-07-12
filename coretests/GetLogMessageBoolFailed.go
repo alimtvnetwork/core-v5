@@ -2,6 +2,8 @@ package coretests
 
 import (
 	"fmt"
+
+	"gitlab.com/evatix-go/core/internal/msgformats"
 )
 
 func LogOnFail(
@@ -12,6 +14,6 @@ func LogOnFail(
 		return
 	}
 
-	logMessage := fmt.Sprintf(logFormat, expected, actual)
+	logMessage := fmt.Sprintf(msgformats.LogFormat, expected, actual)
 	fmt.Println(logMessage)
 }

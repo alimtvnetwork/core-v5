@@ -16,7 +16,9 @@ func Test_VerifyRwxChmodUsingRwxInstructions_Unix(t *testing.T) {
 
 	// Arrange
 	createPathInstructions := chmodhelpertestwrappers.CreatePathInstruction2
-	createDefaultPaths(&createPathInstructions)
+	chmodhelper.CreateDirFilesWithRwxPermissionsMust(
+		true,
+		&createPathInstructions)
 	for i, testCase := range chmodhelpertestwrappers.VerifyRwxChmodUsingRwxInstructionsTestCases {
 		expectationMessage := testCase.ExpectedErrorMessage
 		executor, err := chmodhelper.ParseRwxInstructionToExecutor(&testCase.RwxInstruction)

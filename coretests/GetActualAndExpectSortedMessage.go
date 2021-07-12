@@ -1,21 +1,22 @@
 package coretests
 
-import "fmt"
+import (
+	"gitlab.com/evatix-go/core/msgtype"
+)
 
 func GetActualAndExpectSortedMessage(
 	counter int,
 	when interface{},
 	actual interface{},
 	expected interface{},
-	actualSorted interface{},
-	expectedSorted interface{},
+	actualProcessed interface{},
+	expectedProcessed interface{},
 ) string {
-	return fmt.Sprintf(printValuesForActualAndSortedFormat,
+	return msgtype.GetWhenActualAndExpectProcessedMessage(
 		counter,
 		when,
 		actual,
 		expected,
-		actualSorted,
-		expectedSorted,
-	)
+		actualProcessed,
+		expectedProcessed)
 }

@@ -1,6 +1,6 @@
 package msgtype
 
-func MeaningFulError(
+func MeaningfulError(
 	msgType Variation,
 	funcName string,
 	err error,
@@ -9,5 +9,6 @@ func MeaningFulError(
 		return nil
 	}
 
-	return msgType.Error(funcName, err.Error())
+	return msgType.Error(
+		funcName, err.Error())
 }
