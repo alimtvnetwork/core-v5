@@ -78,7 +78,7 @@ func (it *LineValidator) VerifyError(
 		return errors.New(msg)
 	}
 
-	return it.TextValidator.VerifySimpleError(
+	return it.TextValidator.verifyDetailErrorUsingLineProcessing(
 		processingLineNumber,
 		params,
 		content)

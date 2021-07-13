@@ -68,7 +68,6 @@ func (it *LinesValidators) AddPtr(
 	return it
 }
 
-
 func (it *LinesValidators) Add(
 	validator LineValidator,
 ) *LinesValidators {
@@ -79,9 +78,8 @@ func (it *LinesValidators) Add(
 	return it
 }
 
-
 func (it *LinesValidators) Adds(
-	validators ... LineValidator,
+	validators ...LineValidator,
 ) *LinesValidators {
 	for _, validator := range validators {
 		it.Items = append(

@@ -29,7 +29,7 @@ func SplitContentsByWhitespaceConditions(
 		compiledStringSplits = stringslice.NonWhitespaceSlice(
 			compiledStringSplits)
 	}
-	
+
 	if isUnique {
 		hashset := corestr.NewHashsetUsingStrings(&compiledStringSplits)
 		compiledStringSplits = hashset.List()

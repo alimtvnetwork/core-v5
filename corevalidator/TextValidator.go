@@ -3,11 +3,9 @@ package corevalidator
 import (
 	"errors"
 	"fmt"
-	"sort"
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coreutils/stringutil"
 	"gitlab.com/evatix-go/core/enums/stringcompareas"
 	"gitlab.com/evatix-go/core/internal/msgformats"
@@ -84,7 +82,7 @@ func (it *TextValidator) GetCompiledTermBasedOnConditions(
 			it.IsNonEmptyWhitespace,
 			it.IsSortStringsBySpace,
 			it.IsUniqueWordOnly,
-			isCaseSensitive)
+			!isCaseSensitive)
 
 		return strings.Join(
 			compiledStringSplits,
@@ -92,22 +90,6 @@ func (it *TextValidator) GetCompiledTermBasedOnConditions(
 	}
 
 	return searchTerm
-}
-
-func (it *TextValidator) uniqueWordsOnly(
-	compiledStringSplits []string,
-) []string {
-	if it.IsUniqueWordOnly {
-		hashset := corestr.
-			NewHashsetUsingStrings(&compiledStringSplits)
-		compiledStringSplits = hashset.List()
-	}
-
-	if it.IsSortStringsBySpace {
-		sort.Strings(compiledStringSplits)
-	}
-
-	return compiledStringSplits
 }
 
 func (it *TextValidator) IsMatch(
@@ -155,6 +137,21 @@ func (it *TextValidator) VerifyDetailError(
 		return nil
 	}
 
+	return it.verifyDetailErrorUsingLineProcessing(
+		constants.InvalidValue,
+		params,
+		content)
+}
+
+func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
+	lineProcessingIndex int,
+	params *ValidatorParamsBase,
+	content string,
+) error {
+	if it == nil {
+		return nil
+	}
+
 	processedSearch := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
 		content,
@@ -169,11 +166,12 @@ func (it *TextValidator) VerifyDetailError(
 		return nil
 	}
 
-	method := it.SearchAs.Name()
+	expectationMethod := it.SearchAs.Name()
 
 	msg := msgtype.GetSearchTermExpectationMessage(
 		params.CaseIndex,
-		method,
+		expectationMethod,
+		lineProcessingIndex,
 		processedContent,
 		processedSearch,
 		it.String())
@@ -250,7 +248,7 @@ func (it *TextValidator) VerifyFirstError(
 	}
 
 	for i, content := range contents {
-		err := it.VerifySimpleError(
+		err := it.verifyDetailErrorUsingLineProcessing(
 			i,
 			params,
 			content,
@@ -280,7 +278,7 @@ func (it *TextValidator) AllVerifyError(
 	var sliceErr []string
 
 	for i, content := range contents {
-		err := it.VerifySimpleError(
+		err := it.verifyDetailErrorUsingLineProcessing(
 			i,
 			params,
 			content,

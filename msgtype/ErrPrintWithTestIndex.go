@@ -15,6 +15,7 @@ func ErrPrintWithTestIndex(
 			"Case Index: ",
 			caseIndex,
 			constants.CommaSpace,
+			constants.NewLineUnix,
 			err)
 	}
 }

@@ -9,6 +9,7 @@ import (
 func GetSearchTermExpectationMessage(
 	counter int,
 	expectationMessage string,
+	lineProcessingIndex int,
 	contentProcessed interface{},
 	searchTermProcessed interface{},
 	additionalInfo interface{}, // can be nil
@@ -18,6 +19,7 @@ func GetSearchTermExpectationMessage(
 			msgformats.PrintHeaderForSearchWithActualAndExpectedProcessedWithoutAdditionalFormat,
 			counter,
 			expectationMessage,
+			lineProcessingIndex,
 			contentProcessed,
 			searchTermProcessed,
 		)
@@ -27,6 +29,7 @@ func GetSearchTermExpectationMessage(
 		msgformats.PrintHeaderForSearchWithActualAndExpectedProcessedFormat,
 		counter,
 		expectationMessage,
+		lineProcessingIndex,
 		contentProcessed,
 		searchTermProcessed,
 		additionalInfo,

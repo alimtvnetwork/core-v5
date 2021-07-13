@@ -36,16 +36,16 @@ const (
 
 	SearchTermExpectedFormat = `Expecting (left) TextValidator %s ~= %s search term (right), method %s`
 
-	PrintHeaderForSearchWithActualAndExpectedProcessedFormat = "----------------------" +
-		"\n%d )\t" +
-		"ExpectationLines failed: Using Method `%#v`\n  " +
+	PrintHeaderForSearchWithActualAndExpectedProcessedFormat = "" +
+		"%d )\t" +
+		"  Expectation failed: Using Method `%#v`, Line Index: %d\n  " +
 		"   Content-Processed:`%#v`\n  " +
 		"SearchTerm-Processed:`%#v`\n  " +
 		"          Additional:`%#v`"
 
-	PrintHeaderForSearchWithActualAndExpectedProcessedWithoutAdditionalFormat = "----------------------" +
-		"\n%d )\t" +
-		"         Expectation:`%s`\n  " +
+	PrintHeaderForSearchWithActualAndExpectedProcessedWithoutAdditionalFormat = "" +
+		"%d )\t" +
+		"         Expectation:`%s`, Line Index: %d\n  " +
 		"   Content-Processed:`%#v`\n  " +
 		"SearchTerm-Processed:`%#v`\n  "
 
