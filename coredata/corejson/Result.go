@@ -94,7 +94,7 @@ func (it *Result) HandleErrorWithMsg(msg string) {
 
 	err := it.MeaningfulError()
 
-	if msg != "" {
+	if err != nil && msg != "" {
 		panic(msg + err.Error())
 	}
 
