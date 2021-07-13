@@ -213,7 +213,7 @@ func (it *RwxInstructionExecutor) verifyChmodLocationsNoContinue(
 			fileMode)
 
 		if err != nil {
-			return msgtype.MeaningFulErrorWithData(
+			return msgtype.MeaningfulErrorWithData(
 				msgtype.ValidataionFailed,
 				"verifyChmodLocationsNoContinue",
 				err,

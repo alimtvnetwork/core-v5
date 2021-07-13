@@ -153,9 +153,9 @@ func (receiver *BasicByte) UnmarshallToValue(
 
 	if !has {
 		return constants.Zero,
-			msgtype.MeaningFulErrorWithData(
+			msgtype.MeaningfulErrorWithData(
 				msgtype.UnMarshallingFailed,
-				"UnmarshallEnumToValue",
+				"UnmarshallToValue",
 				defaulterr.UnMarshallingPlusCannotFindingEnumMap,
 				string(jsonUnmarshallingValue))
 	}

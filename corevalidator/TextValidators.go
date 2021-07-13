@@ -252,7 +252,8 @@ func (it *TextValidators) AllVerifyErrorMany(
 		}
 	}
 
-	return msgtype.SliceToError(errorSlice)
+	return msgtype.SliceToError(
+		errorSlice)
 }
 
 func (it *TextValidators) AllVerifyError(

@@ -12,7 +12,7 @@ import (
 )
 
 func Test_TestValidators(t *testing.T) {
-	for i, testCase := range corevalidatortestwrappers.TextValidatorsTestCases {
+	for caseIndex, testCase := range corevalidatortestwrappers.TextValidatorsTestCases {
 		// Arrange
 		paramsBase := corevalidator.ValidatorParamsBase{
 			CaseIndex:                         constants.Zero, // fixing test case number here as it is fixed data
@@ -40,7 +40,7 @@ func Test_TestValidators(t *testing.T) {
 		}
 
 		paramsBase2 := corevalidator.ValidatorParamsBase{
-			CaseIndex:                         i,
+			CaseIndex:                         caseIndex,
 			IsIgnoreCompareOnActualInputEmpty: false,
 			IsAttachUserInputs:                true,
 			IsCaseSensitive:                   testCase.IsCaseSensitive,
@@ -48,7 +48,7 @@ func Test_TestValidators(t *testing.T) {
 
 		// Act
 		// validationFinalError := sliceValidator.AllVerifyErrorUptoLength(
-		// 	i,
+		// 	caseIndex,
 		// 	false,
 		// 	testCase.IsCaseSensitive,
 		// 	len(testCase.ExpectationLines) - 1)
@@ -59,7 +59,7 @@ func Test_TestValidators(t *testing.T) {
 
 		// Assert
 		convey.Convey(testCase.Header, t, func() {
-			msgtype.ErrPrint(validationFinalError)
+			msgtype.ErrPrintWithTestIndex(caseIndex, validationFinalError)
 
 			convey.So(isValid, convey.ShouldBeTrue)
 		})

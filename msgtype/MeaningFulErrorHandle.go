@@ -1,6 +1,6 @@
 package msgtype
 
-func MeaningFulErrorHandle(
+func MeaningfulErrorHandle(
 	msgType Variation,
 	funcName string,
 	err error,

@@ -63,7 +63,9 @@ func main() {
 			"2 )\tExpectation failed: Using Method `\"Equal\"`",
 			"        Content-Processed:`\"alim      alim 2 alim 4\"`",
 			"     SearchTerm-Processed:`\"alim      alim 2 alim 3\"`",
-			"Additional:`corevalidator.TextValidator{Search:\"   alim      alim 2 alim 3                 \", IsTrimCompare:true, IsSplitByWhitespace:false, IsNonEmptyWhitespace:true, IsSortStringsBySpace:false",
+			"Additional:`corevalidator.TextValidator{Search:\"   alim      alim 2 alim 3                 \", " +
+				"IsTrimCompare:true, IsSplitByWhitespace:false, " +
+				"IsNonEmptyWhitespace:true, IsSortStringsBySpace:false",
 		},
 		ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
 			IsTrimCompare:        true,

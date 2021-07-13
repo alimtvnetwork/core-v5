@@ -15,6 +15,17 @@ type LinesValidators struct {
 	Items []LineValidator
 }
 
+func NewLinesValidators(capacity int) *LinesValidators {
+	linesValidators := LinesValidators{
+		Items: make(
+			[]LineValidator,
+			0,
+			capacity),
+	}
+
+	return &linesValidators
+}
+
 func (it *LinesValidators) AsBasicSliceContractsBinder() coreinterface.BasicSlicerContractsBinder {
 	return it
 }
@@ -41,6 +52,44 @@ func (it *LinesValidators) HasAnyItem() bool {
 
 func (it *LinesValidators) LastIndex() int {
 	return it.Length() - 1
+}
+
+func (it *LinesValidators) AddPtr(
+	validator *LineValidator,
+) *LinesValidators {
+	if validator == nil {
+		return it
+	}
+
+	it.Items = append(
+		it.Items,
+		*validator)
+
+	return it
+}
+
+
+func (it *LinesValidators) Add(
+	validator LineValidator,
+) *LinesValidators {
+	it.Items = append(
+		it.Items,
+		validator)
+
+	return it
+}
+
+
+func (it *LinesValidators) Adds(
+	validators ... LineValidator,
+) *LinesValidators {
+	for _, validator := range validators {
+		it.Items = append(
+			it.Items,
+			validator)
+	}
+
+	return it
 }
 
 func (it *LinesValidators) HasIndex(index int) bool {
@@ -115,7 +164,7 @@ func (it *LinesValidators) VerifyFirstDefaultLineNumberError(
 	if length == 0 && params.IsIgnoreCompareOnActualInputEmpty {
 		return nil
 	} else if length == 0 && !params.IsIgnoreCompareOnActualInputEmpty {
-		return msgtype.MeaningFulErrorWithData(
+		return msgtype.MeaningfulErrorWithData(
 			msgtype.ValidataionFailed,
 			funcName,
 			errors.New(messages.CannotVerifyEmptyContentsWhereValidatorsArePresent),
@@ -148,7 +197,7 @@ func (it *LinesValidators) AllVerifyError(
 	if length == 0 && params.IsIgnoreCompareOnActualInputEmpty {
 		return nil
 	} else if length == 0 && !params.IsIgnoreCompareOnActualInputEmpty {
-		return msgtype.MeaningFulErrorWithData(
+		return msgtype.MeaningfulErrorWithData(
 			msgtype.ValidataionFailed,
 			funcName,
 			errors.New(messages.CannotVerifyEmptyContentsWhereValidatorsArePresent),

@@ -24,7 +24,7 @@ func newNumberEnumBase(
 	min, max interface{},
 ) *numberEnumBase {
 	if stringRanges == nil {
-		msgtype.MeaningFulErrorHandle(
+		msgtype.MeaningfulErrorHandle(
 			msgtype.CannotBeNilMessage,
 			"newNumberEnumBase",
 			errors.New("StringRanges cannot be nil"))

@@ -55,7 +55,7 @@ func (rwxWrapper *RwxWrapper) ToUint32Octal() uint32 {
 
 	if err != nil {
 		msgtype.
-			MeaningFulErrorHandle(
+			MeaningfulErrorHandle(
 				msgtype.PathChmodConvertFailedMessage,
 				"ToUint32Octal",
 				err)

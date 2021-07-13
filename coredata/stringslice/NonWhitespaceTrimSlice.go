@@ -1,6 +1,8 @@
 package stringslice
 
-import "strings"
+import (
+	"strings"
+)
 
 func NonWhitespaceTrimSlice(slice []string) []string {
 	if slice == nil {

@@ -58,7 +58,10 @@ func (it *TextValidator) SearchTextFinalizedPtr() *string {
 		return it.searchTextFinalized
 	}
 
-	searchTerm := it.GetCompiledTermBasedOnConditions(it.Search)
+	searchTerm := it.GetCompiledTermBasedOnConditions(
+		it.Search,
+		it.IsUniqueWordOnly) // for unique word, use lowercase
+
 	it.searchTextFinalized = &searchTerm
 
 	return it.searchTextFinalized
@@ -66,6 +69,7 @@ func (it *TextValidator) SearchTextFinalizedPtr() *string {
 
 func (it *TextValidator) GetCompiledTermBasedOnConditions(
 	input string,
+	isCaseSensitive bool,
 ) string {
 	searchTerm := input
 
@@ -74,16 +78,13 @@ func (it *TextValidator) GetCompiledTermBasedOnConditions(
 	}
 
 	if it.IsSplitByWhitespace() {
-		isSorting := it.IsSortStringsBySpace && !it.IsUniqueWordOnly
-		compiledStringSplits := stringutil.SplitContentsByWhitespace(
+		compiledStringSplits := stringutil.SplitContentsByWhitespaceConditions(
 			searchTerm,
 			it.IsTrimCompare,
 			it.IsNonEmptyWhitespace,
-			isSorting) // don't sort if unique asked
-
-		compiledStringSplits = it.
-			uniqueWordsOnly(
-				compiledStringSplits)
+			it.IsSortStringsBySpace,
+			it.IsUniqueWordOnly,
+			isCaseSensitive)
 
 		return strings.Join(
 			compiledStringSplits,
@@ -115,7 +116,8 @@ func (it *TextValidator) IsMatch(
 ) bool {
 	search := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
-		content)
+		content,
+		isCaseSensitive)
 
 	return it.SearchAs.IsCompareSuccess(
 		processedContent,
@@ -155,7 +157,8 @@ func (it *TextValidator) VerifyDetailError(
 
 	processedSearch := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
-		content)
+		content,
+		params.IsCaseSensitive)
 
 	isMatch := it.SearchAs.IsCompareSuccess(
 		processedContent,
@@ -193,7 +196,8 @@ func (it *TextValidator) VerifySimpleError(
 
 	processedSearch := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
-		content)
+		content,
+		params.IsCaseSensitive)
 
 	isMatch := it.SearchAs.IsCompareSuccess(
 		processedContent,

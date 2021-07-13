@@ -4,7 +4,7 @@ import (
 	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
-func MeaningFulErrorWithData(
+func MeaningfulErrorWithData(
 	msgType Variation,
 	funcName string,
 	err error,

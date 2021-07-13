@@ -2,22 +2,25 @@ package stringutil
 
 import (
 	"sort"
+	"strings"
 
-	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/coredata/stringslice"
-	"gitlab.com/evatix-go/core/regexnew"
 )
 
-func SplitContentsByWhitespace(
+func SplitContentsByWhitespaceConditions(
 	input string,
 	isTrimEachLine,
 	isNonEmptyWhitespace,
 	isSort bool,
+	isUnique bool,
+	isLowerCase bool,
 ) []string {
-	compiledStringSplits := regexnew.WhitespaceFinderRegex.
-		Split(
-			input,
-			constants.TakeAllMinusOne)
+	if isLowerCase && isUnique {
+		input = strings.ToLower(input)
+	}
+
+	compiledStringSplits := strings.Fields(input)
 
 	if isNonEmptyWhitespace && isTrimEachLine {
 		compiledStringSplits = stringslice.NonWhitespaceTrimSlice(
@@ -25,6 +28,11 @@ func SplitContentsByWhitespace(
 	} else if isNonEmptyWhitespace && !isTrimEachLine {
 		compiledStringSplits = stringslice.NonWhitespaceSlice(
 			compiledStringSplits)
+	}
+	
+	if isUnique {
+		hashset := corestr.NewHashsetUsingStrings(&compiledStringSplits)
+		compiledStringSplits = hashset.List()
 	}
 
 	if isSort {
