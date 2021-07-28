@@ -2,6 +2,7 @@ package corestr
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"math"
 	"sort"
@@ -24,120 +25,120 @@ type Collection struct {
 	sync.Mutex
 }
 
-func (collection *Collection) StringJson() (jsonString string, err error) {
-	return collection.Json().JsonString(), nil
+func (it *Collection) StringJson() (jsonString string, err error) {
+	return it.Json().JsonString(), nil
 }
 
-func (collection *Collection) StringJsonMust() string {
-	return collection.Json().JsonString()
+func (it *Collection) StringJsonMust() string {
+	return it.Json().JsonString()
 }
 
-func (collection *Collection) HasAnyItem() bool {
-	return collection.Length() > 0
+func (it *Collection) HasAnyItem() bool {
+	return it.Length() > 0
 }
 
-func (collection *Collection) LastIndex() int {
-	return collection.Length() - 1
+func (it *Collection) LastIndex() int {
+	return it.Length() - 1
 }
 
-func (collection *Collection) HasIndex(index int) bool {
-	return collection.LastIndex() >= index
+func (it *Collection) HasIndex(index int) bool {
+	return it.LastIndex() >= index
 }
 
-func (collection *Collection) ListStringsPtr() *[]string {
-	return collection.items
+func (it *Collection) ListStringsPtr() *[]string {
+	return it.items
 }
 
-func (collection *Collection) ListStrings() []string {
-	return *collection.items
+func (it *Collection) ListStrings() []string {
+	return *it.items
 }
 
-func (collection *Collection) StringJSON() string {
-	return collection.Json().JsonString()
+func (it *Collection) StringJSON() string {
+	return it.Json().JsonString()
 }
 
-func (collection *Collection) RemoveAt(index int) (isSuccess bool) {
-	length := collection.Length()
+func (it *Collection) RemoveAt(index int) (isSuccess bool) {
+	length := it.Length()
 	if length-1 > index {
 		return false
 	}
 
 	// a = append(a[:i], a[i+1:]...)
 	// https://github.com/golang/go/wiki/SliceTricks
-	items := *collection.items
-	*collection.items = append(items[:index], items[index+1:]...)
+	items := *it.items
+	*it.items = append(items[:index], items[index+1:]...)
 
 	return true
 }
 
-func (collection *Collection) Count() int {
-	return collection.Length()
+func (it *Collection) Count() int {
+	return it.Length()
 }
 
-func (collection *Collection) Capacity() int {
-	if collection.items == nil {
+func (it *Collection) Capacity() int {
+	if it.items == nil {
 		return 0
 	}
 
-	return cap(*collection.items)
+	return cap(*it.items)
 }
 
-func (collection *Collection) Length() int {
-	if collection.items == nil {
+func (it *Collection) Length() int {
+	if it.items == nil {
 		return 0
 	}
 
-	return len(*collection.items)
+	return len(*it.items)
 }
 
-func (collection *Collection) LengthLock() int {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) LengthLock() int {
+	it.Lock()
+	defer it.Unlock()
 
-	if collection.items == nil {
+	if it.items == nil {
 		return 0
 	}
 
-	return len(*collection.items)
+	return len(*it.items)
 }
 
-func (collection *Collection) IsEqualsPtr(
+func (it *Collection) IsEqualsPtr(
 	anotherCollection *Collection,
 ) bool {
-	return collection.IsEqualsWithSensitivePtr(
+	return it.IsEqualsWithSensitivePtr(
 		anotherCollection,
 		true)
 }
 
-func (collection *Collection) IsEqualsWithSensitivePtr(
+func (it *Collection) IsEqualsWithSensitivePtr(
 	anotherCollection *Collection,
 	isCaseSensitive bool,
 ) bool {
-	if anotherCollection == nil && collection == nil {
+	if anotherCollection == nil && it == nil {
 		return true
 	}
 
-	if anotherCollection == nil || collection == nil {
+	if anotherCollection == nil || it == nil {
 		return false
 	}
 
-	if collection == anotherCollection {
+	if it == anotherCollection {
 		return true
 	}
 
-	if collection.IsEmpty() && anotherCollection.IsEmpty() {
+	if it.IsEmpty() && anotherCollection.IsEmpty() {
 		return true
 	}
 
-	if collection.IsEmpty() || anotherCollection.IsEmpty() {
+	if it.IsEmpty() || anotherCollection.IsEmpty() {
 		return false
 	}
 
-	if collection.Length() != anotherCollection.Length() {
+	if it.Length() != anotherCollection.Length() {
 		return false
 	}
 
-	leftItems := collection.items
+	leftItems := it.items
 	rightItems := anotherCollection.items
 
 	if isCaseSensitive {
@@ -159,132 +160,158 @@ func (collection *Collection) IsEqualsWithSensitivePtr(
 	return true
 }
 
-func (collection *Collection) IsEmptyLock() bool {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) IsEmptyLock() bool {
+	it.Lock()
+	defer it.Unlock()
 
-	return collection.items == nil ||
-		*collection.items == nil ||
-		len(*collection.items) == 0
+	return it.items == nil ||
+		*it.items == nil ||
+		len(*it.items) == 0
 }
 
-func (collection *Collection) IsEmpty() bool {
-	return collection.items == nil ||
-		*collection.items == nil ||
-		len(*collection.items) == 0
+func (it *Collection) IsEmpty() bool {
+	return it.items == nil ||
+		*it.items == nil ||
+		len(*it.items) == 0
 }
 
-func (collection *Collection) HasItems() bool {
-	return collection.items != nil &&
-		*collection.items != nil &&
-		len(*collection.items) > 0
+func (it *Collection) HasItems() bool {
+	return it.items != nil &&
+		*it.items != nil &&
+		len(*it.items) > 0
 }
 
-func (collection *Collection) AddLock(str string) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) AddLock(str string) *Collection {
+	it.Lock()
+	defer it.Unlock()
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		str)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddNonEmpty(str string) *Collection {
+func (it *Collection) AddNonEmpty(str string) *Collection {
 	if str == "" {
-		return collection
+		return it
 	}
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		str)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddNonEmptyWhitespace(str string) *Collection {
+func (it *Collection) AddNonEmptyWhitespace(str string) *Collection {
 	if utilstringinternal.IsEmptyOrWhitespace(str) {
-		return collection
+		return it
 	}
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		str)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) Add(str string) *Collection {
-	*collection.items = append(
-		*collection.items,
+func (it *Collection) Add(str string) *Collection {
+	*it.items = append(
+		*it.items,
 		str)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddIf(isAdd bool, addingString string) *Collection {
+func (it *Collection) AddError(err error) *Collection {
+	if err == nil {
+		return it
+	}
+
+	*it.items = append(
+		*it.items,
+		err.Error())
+
+	return it
+}
+
+func (it *Collection) AsDefaultError() error {
+	return it.AsError(constants.NewLineUnix)
+}
+
+func (it *Collection) AsError(sep string) error {
+	if it.Length() == 0 {
+		return nil
+	}
+
+	toStr := it.Join(sep)
+
+	return errors.New(toStr)
+}
+
+func (it *Collection) AddIf(isAdd bool, addingString string) *Collection {
 	if !isAdd {
-		return collection
+		return it
 	}
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		addingString)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) ConcatNew(
+func (it *Collection) ConcatNew(
 	predictiveLengthAdd int,
 	addingStrings ...string,
 ) *Collection {
 	length := len(addingStrings)
 
 	if length == 0 {
-		return NewCollectionUsingStrings(collection.items, true)
+		return NewCollectionUsingStrings(it.items, true)
 	}
 
-	finalLength := collection.Length() + length
+	finalLength := it.Length() + length
 	capacity := defaultcapacity.PredictiveFiftyPercentIncrement(finalLength, predictiveLengthAdd)
 
 	return NewCollectionUsingLength(finalLength, capacity).
 		AddStringsPtr(&addingStrings)
 }
 
-func (collection *Collection) ToError(sep string) error {
-	return msgtype.SliceError(sep, collection.items)
+func (it *Collection) ToError(sep string) error {
+	return msgtype.SliceError(sep, it.items)
 }
 
-func (collection *Collection) ToDefaultError() error {
+func (it *Collection) ToDefaultError() error {
 	return msgtype.SliceError(
-		constants.NewLineUnix, collection.items)
+		constants.NewLineUnix, it.items)
 }
 
-func (collection *Collection) AddIfMany(
+func (it *Collection) AddIfMany(
 	isAdd bool,
 	addingStrings ...string,
 ) *Collection {
 	if !isAdd {
-		return collection
+		return it
 	}
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		addingStrings...)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddFunc(f func() string) *Collection {
-	*collection.items = append(
-		*collection.items,
+func (it *Collection) AddFunc(f func() string) *Collection {
+	*it.items = append(
+		*it.items,
 		f())
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddFuncErr(
+func (it *Collection) AddFuncErr(
 	funcReturnsStringError func() (result string, err error),
 	errHandler func(errInput error),
 ) *Collection {
@@ -293,77 +320,77 @@ func (collection *Collection) AddFuncErr(
 	if err != nil {
 		errHandler(err)
 
-		return collection
+		return it
 	}
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		r)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddsLock(items ...string) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) AddsLock(items ...string) *Collection {
+	it.Lock()
+	defer it.Unlock()
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		items...)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) Adds(items ...string) *Collection {
-	*collection.items = append(
-		*collection.items,
+func (it *Collection) Adds(items ...string) *Collection {
+	*it.items = append(
+		*it.items,
 		items...)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddCollection(collectionIn *Collection) *Collection {
-	return collection.AddStringsPtr(collectionIn.items)
+func (it *Collection) AddCollection(collectionIn *Collection) *Collection {
+	return it.AddStringsPtr(collectionIn.items)
 }
 
 // AddCollections skip on nil
-func (collection *Collection) AddCollections(collectionsIn ...*Collection) *Collection {
+func (it *Collection) AddCollections(collectionsIn ...*Collection) *Collection {
 	for _, collectionIn := range collectionsIn {
 		if collectionIn == nil || collectionIn.items == nil {
 			continue
 		}
 
-		collection.AddStringsPtr(collectionIn.items)
+		it.AddStringsPtr(collectionIn.items)
 	}
 
-	return collection
+	return it
 }
 
 // AddPointerCollections skip on nil
-func (collection *Collection) AddPointerCollections(collectionsIn *[]*Collection) *Collection {
+func (it *Collection) AddPointerCollections(collectionsIn *[]*Collection) *Collection {
 	for _, collectionIn := range *collectionsIn {
 		if collectionIn == nil || collectionIn.items == nil {
 			continue
 		}
 
-		collection.AddStringsPtr(collectionIn.items)
+		it.AddStringsPtr(collectionIn.items)
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddPointerCollectionsLock(collectionsIn *[]*Collection) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) AddPointerCollectionsLock(collectionsIn *[]*Collection) *Collection {
+	it.Lock()
+	defer it.Unlock()
 
-	return collection.AddPointerCollections(collectionsIn)
+	return it.AddPointerCollections(collectionsIn)
 }
 
-func (collection *Collection) AddHashmapsValues(
+func (it *Collection) AddHashmapsValues(
 	hashmaps ...*Hashmap,
 ) *Collection {
 	if hashmaps == nil {
-		return collection
+		return it
 	}
 
 	for _, hashmap := range hashmaps {
@@ -372,23 +399,23 @@ func (collection *Collection) AddHashmapsValues(
 		}
 
 		for _, v := range *hashmap.items {
-			*collection.items = append(
-				*collection.items,
+			*it.items = append(
+				*it.items,
 				v)
 		}
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddHashmapsKeys(
+func (it *Collection) AddHashmapsKeys(
 	hashmaps ...*Hashmap,
 ) *Collection {
 	if hashmaps == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForHashmaps(
+	it.resizeForHashmaps(
 		&hashmaps,
 		constants.One)
 
@@ -398,23 +425,23 @@ func (collection *Collection) AddHashmapsKeys(
 		}
 
 		for k := range *hashmap.items {
-			*collection.items = append(
-				*collection.items,
+			*it.items = append(
+				*it.items,
 				k)
 		}
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) isResizeRequired(
+func (it *Collection) isResizeRequired(
 	length int,
 ) bool {
 	if length < constants.ArbitraryCapacity200 {
 		return false
 	}
 
-	windowLength := collection.Capacity() - collection.Length()
+	windowLength := it.Capacity() - it.Length()
 	if windowLength >= length {
 		return false
 	}
@@ -422,12 +449,12 @@ func (collection *Collection) isResizeRequired(
 	return true
 }
 
-func (collection *Collection) resizeForHashmaps(
+func (it *Collection) resizeForHashmaps(
 	hashmaps *[]*Hashmap,
 	multiplier int,
 ) *Collection {
 	if hashmaps == nil {
-		return collection
+		return it
 	}
 
 	length := 0
@@ -440,23 +467,23 @@ func (collection *Collection) resizeForHashmaps(
 		length += hashmap.Length()
 	}
 
-	if !collection.isResizeRequired(length) {
-		return collection
+	if !it.isResizeRequired(length) {
+		return it
 	}
 
 	finalLength :=
 		length*multiplier +
 			length/2
 
-	return collection.AddCapacity(finalLength)
+	return it.AddCapacity(finalLength)
 }
 
-func (collection *Collection) resizeForCollections(
+func (it *Collection) resizeForCollections(
 	collections *[]*Collection,
 	multiplier int,
 ) *Collection {
 	if collections == nil {
-		return collection
+		return it
 	}
 
 	length := 0
@@ -469,85 +496,85 @@ func (collection *Collection) resizeForCollections(
 		length += hashmap.Length()
 	}
 
-	if !collection.isResizeRequired(length) {
-		return collection
+	if !it.isResizeRequired(length) {
+		return it
 	}
 
 	finalLength :=
 		length*multiplier +
 			length/2
 
-	return collection.AddCapacity(finalLength)
+	return it.AddCapacity(finalLength)
 }
 
-func (collection *Collection) resizeForItems(
+func (it *Collection) resizeForItems(
 	items *[]string,
 	multiplier int,
 ) *Collection {
 	if items == nil {
-		return collection
+		return it
 	}
 
 	length := len(*items)
-	if !collection.isResizeRequired(length) {
-		return collection
+	if !it.isResizeRequired(length) {
+		return it
 	}
 
 	finalLength :=
 		length*multiplier +
 			length/2
 
-	return collection.AddCapacity(finalLength)
+	return it.AddCapacity(finalLength)
 }
 
-func (collection *Collection) resizeForPointerItems(
+func (it *Collection) resizeForPointerItems(
 	items *[]*string,
 	multiplier int,
 ) *Collection {
 	if items == nil {
-		return collection
+		return it
 	}
 
 	length := len(*items)
-	if !collection.isResizeRequired(length) {
-		return collection
+	if !it.isResizeRequired(length) {
+		return it
 	}
 
 	finalLength :=
 		length*multiplier +
 			length/2
 
-	return collection.AddCapacity(finalLength)
+	return it.AddCapacity(finalLength)
 }
 
-func (collection *Collection) resizeForAnys(
+func (it *Collection) resizeForAnys(
 	items *[]interface{},
 	multiplier int,
 ) *Collection {
 	if items == nil {
-		return collection
+		return it
 	}
 
 	length := len(*items)
-	if !collection.isResizeRequired(length) {
-		return collection
+	if !it.isResizeRequired(length) {
+		return it
 	}
 
 	finalLength :=
 		length*multiplier +
 			length/2
 
-	return collection.AddCapacity(finalLength)
+	return it.AddCapacity(finalLength)
 }
 
-func (collection *Collection) AddHashmapsKeysValues(
+func (it *Collection) AddHashmapsKeysValues(
 	hashmaps ...*Hashmap,
 ) *Collection {
 	if hashmaps == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForHashmaps(
+	it.resizeForHashmaps(
 		&hashmaps,
 		constants.ArbitraryCapacity2)
 
@@ -557,27 +584,27 @@ func (collection *Collection) AddHashmapsKeysValues(
 		}
 
 		for k, v := range *hashmap.items {
-			*collection.items = append(
-				*collection.items,
+			*it.items = append(
+				*it.items,
 				k)
-			*collection.items = append(
-				*collection.items,
+			*it.items = append(
+				*it.items,
 				v)
 		}
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddHashmapsKeysValuesUsingFilter(
+func (it *Collection) AddHashmapsKeysValuesUsingFilter(
 	filter IsKeyValueFilter,
 	hashmaps ...*Hashmap,
 ) *Collection {
 	if hashmaps == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForHashmaps(
+	it.resizeForHashmaps(
 		&hashmaps,
 		constants.One)
 
@@ -593,97 +620,97 @@ func (collection *Collection) AddHashmapsKeysValuesUsingFilter(
 			})
 
 			if isAcceptable {
-				*collection.items = append(
-					*collection.items,
+				*it.items = append(
+					*it.items,
 					result)
 			}
 
 			if isBreak {
-				return collection
+				return it
 			}
 		}
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddPtr(str *string) *Collection {
-	*collection.items = append(
-		*collection.items,
+func (it *Collection) AddPtr(str *string) *Collection {
+	*it.items = append(
+		*it.items,
 		*str)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddPtrLock(str *string) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) AddPtrLock(str *string) *Collection {
+	it.Lock()
+	defer it.Unlock()
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		*str)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddWithWgLock(
+func (it *Collection) AddWithWgLock(
 	str string,
 	group *sync.WaitGroup,
 ) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		str)
 
 	group.Done()
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddsPtrLock(itemsPtr ...*string) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) AddsPtrLock(itemsPtr ...*string) *Collection {
+	it.Lock()
+	defer it.Unlock()
 
 	for _, str := range itemsPtr {
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			*str)
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddStringsPtrWgLock(
+func (it *Collection) AddStringsPtrWgLock(
 	str *[]string,
 	group *sync.WaitGroup,
 ) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		*str...)
 
 	group.Done()
 
-	return collection
+	return it
 }
 
 // AddPointerStringsPtrLock skip on nil
-func (collection *Collection) AddPointerStringsPtrLock(
+func (it *Collection) AddPointerStringsPtrLock(
 	pointerStringItems *[]*string,
 ) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	return collection.
+	return it.
 		AddPointerStringsPtr(pointerStringItems)
 }
 
 // AddPointerStringsPtr skip on nil
-func (collection *Collection) AddPointerStringsPtr(
+func (it *Collection) AddPointerStringsPtr(
 	pointerStringItems *[]*string,
 ) *Collection {
 	for i := range *pointerStringItems {
@@ -693,103 +720,103 @@ func (collection *Collection) AddPointerStringsPtr(
 			continue
 		}
 
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			*(*pointerStringItems)[i])
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) IndexAt(
+func (it *Collection) IndexAt(
 	index int,
 ) string {
-	return (*collection.items)[index]
+	return (*it.items)[index]
 }
 
-func (collection *Collection) SafePointerIndexAt(
+func (it *Collection) SafePointerIndexAt(
 	index int,
 ) *string {
-	length := collection.Length()
+	length := it.Length()
 	if length-1 < index {
 		return nil
 	}
 
-	return &(*collection.items)[index]
+	return &(*it.items)[index]
 }
 
-func (collection *Collection) SafePointerIndexAtUsingLength(
+func (it *Collection) SafePointerIndexAtUsingLength(
 	length, index int,
 ) *string {
 	if length-1 < index {
 		return nil
 	}
 
-	return &(*collection.items)[index]
+	return &(*it.items)[index]
 }
 
-func (collection *Collection) SafeIndexAtUsingLength(
+func (it *Collection) SafeIndexAtUsingLength(
 	defaultString string, length, index int,
 ) string {
 	if length-1 < index {
 		return defaultString
 	}
 
-	return (*collection.items)[index]
+	return (*it.items)[index]
 }
 
-func (collection *Collection) First() string {
-	return (*collection.items)[0]
+func (it *Collection) First() string {
+	return (*it.items)[0]
 }
 
-func (collection *Collection) Single() string {
-	length := collection.Length()
+func (it *Collection) Single() string {
+	length := it.Length()
 	if length != 1 {
 		msgtype.LengthShouldBeEqualToMessage.HandleUsingPanic("1", length)
 	}
 
-	return (*collection.items)[0]
+	return (*it.items)[0]
 }
 
-func (collection *Collection) Last() string {
-	length := collection.Length()
+func (it *Collection) Last() string {
+	length := it.Length()
 
-	return (*collection.items)[length-1]
+	return (*it.items)[length-1]
 }
 
-func (collection *Collection) LastOrDefault() string {
-	length := collection.Length()
+func (it *Collection) LastOrDefault() string {
+	length := it.Length()
 
 	if length == 0 {
 		return constants.EmptyString
 	}
 
-	return (*collection.items)[length-1]
+	return (*it.items)[length-1]
 }
 
-func (collection *Collection) FirstOrDefault() string {
-	if collection.IsEmpty() {
+func (it *Collection) FirstOrDefault() string {
+	if it.IsEmpty() {
 		return constants.EmptyString
 	}
 
-	return (*collection.items)[0]
+	return (*it.items)[0]
 }
 
 // Take use One based index
-func (collection *Collection) Take(
+func (it *Collection) Take(
 	take int,
 ) *Collection {
-	length := collection.Length()
+	length := it.Length()
 
 	if length <= take {
-		return collection
+		return it
 	}
 
 	if take == 0 {
 		return EmptyCollection()
 	}
 
-	list := (*collection.items)[:take]
+	list := (*it.items)[:take]
 
 	return NewCollectionUsingStrings(
 		&list,
@@ -797,10 +824,10 @@ func (collection *Collection) Take(
 }
 
 // Skip use One based index
-func (collection *Collection) Skip(
+func (it *Collection) Skip(
 	skip int,
 ) *Collection {
-	length := collection.Length()
+	length := it.Length()
 
 	if length < skip {
 		msgtype.
@@ -811,20 +838,20 @@ func (collection *Collection) Skip(
 	}
 
 	if skip == 0 {
-		return collection
+		return it
 	}
 
-	list := (*collection.items)[skip:]
+	list := (*it.items)[skip:]
 
 	return NewCollectionUsingStrings(
 		&list,
 		false)
 }
 
-func (collection *Collection) GetPagesSize(
+func (it *Collection) GetPagesSize(
 	eachPageSize int,
 ) int {
-	length := collection.Length()
+	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
 	pagesPossibleCeiling := int(math.Ceil(pagesPossibleFloat))
@@ -832,14 +859,14 @@ func (collection *Collection) GetPagesSize(
 	return pagesPossibleCeiling
 }
 
-func (collection *Collection) GetPagedCollection(
+func (it *Collection) GetPagedCollection(
 	eachPageSize int,
 ) *CollectionsOfCollection {
-	length := collection.Length()
+	length := it.Length()
 
 	if length < eachPageSize {
 		return NewCollectionsOfCollectionUsingStrings(
-			collection.items,
+			it.items,
 			false)
 	}
 
@@ -849,7 +876,7 @@ func (collection *Collection) GetPagedCollection(
 		pagesPossibleCeiling)
 
 	for i := 1; i <= pagesPossibleCeiling; i++ {
-		pagedCollection := collection.GetSinglePageCollection(
+		pagedCollection := it.GetSinglePageCollection(
 			eachPageSize, i)
 
 		collectionOfCollection.Adds(
@@ -860,14 +887,14 @@ func (collection *Collection) GetPagedCollection(
 }
 
 // GetSinglePageCollection PageIndex is one based index. Should be above or equal 1
-func (collection *Collection) GetSinglePageCollection(
+func (it *Collection) GetSinglePageCollection(
 	eachPageSize int,
 	pageIndex int,
 ) *Collection {
-	length := collection.Length()
+	length := it.Length()
 
 	if length < eachPageSize {
-		return collection
+		return it
 	}
 
 	/**
@@ -890,125 +917,125 @@ func (collection *Collection) GetSinglePageCollection(
 		endingIndex = length
 	}
 
-	list := (*collection.items)[skipItems:endingIndex]
+	list := (*it.items)[skipItems:endingIndex]
 
 	return NewCollectionUsingStrings(
 		&list,
 		false)
 }
 
-func (collection *Collection) AddStringsPtr(
+func (it *Collection) AddStringsPtr(
 	stringItems *[]string,
 ) *Collection {
 	if stringItems == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForItems(
+	it.resizeForItems(
 		stringItems,
 		constants.One)
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		*stringItems...)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddStringsPtrLock(
+func (it *Collection) AddStringsPtrLock(
 	stringItems *[]string,
 ) *Collection {
-	collection.Lock()
-	defer collection.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	collection.AddStringsPtr(stringItems)
+	it.AddStringsPtr(stringItems)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddStringsPtrAsync(
+func (it *Collection) AddStringsPtrAsync(
 	wg *sync.WaitGroup,
 	stringItems *[]string,
 ) *Collection {
 	if stringItems == nil {
-		return collection
+		return it
 	}
 
 	go func() {
-		collection.Lock()
+		it.Lock()
 
-		collection.AddStringsPtr(stringItems)
+		it.AddStringsPtr(stringItems)
 
-		collection.Unlock()
+		it.Unlock()
 
 		wg.Done()
 	}()
 
-	return collection
+	return it
 }
 
-func (collection *Collection) InsertItemsAt(
+func (it *Collection) InsertItemsAt(
 	index int, stringItems *[]string,
 ) *Collection {
-	length := collection.Length()
+	length := it.Length()
 	isAtFirst := length == 0
 	isAtLast := length-1 == index
 	isAppendItems := isAtFirst || isAtLast
 
 	if isAppendItems {
-		return collection.AddStringsPtr(stringItems)
+		return it.AddStringsPtr(stringItems)
 	}
 
 	// https://bit.ly/3pIDfRY
-	*collection.items =
+	*it.items =
 		append(
-			(*collection.items)[:index],
+			(*it.items)[:index],
 			*stringItems...)
 
-	*collection.items = append(
-		*collection.items,
-		(*collection.items)[index:]...)
+	*it.items = append(
+		*it.items,
+		(*it.items)[index:]...)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) ChainRemoveAt(
+func (it *Collection) ChainRemoveAt(
 	index int,
 ) *Collection {
-	*collection.items = append(
-		(*collection.items)[:index],
-		(*collection.items)[index+1:]...)
+	*it.items = append(
+		(*it.items)[:index],
+		(*it.items)[index+1:]...)
 
-	return collection
+	return it
 }
 
 // RemoveItemsIndexes creates a new collection without the indexes mentioned.
 //
 // it is better to filter out than remove.
-func (collection *Collection) RemoveItemsIndexes(
+func (it *Collection) RemoveItemsIndexes(
 	isIgnoreRemoveError bool,
 	indexes ...int,
 ) *Collection {
 	if isIgnoreRemoveError && indexes == nil {
-		return collection
+		return it
 	}
 
-	return collection.
+	return it.
 		RemoveItemsIndexesPtr(isIgnoreRemoveError, &indexes)
 }
 
 // RemoveItemsIndexesPtr creates a new collection without the indexes mentioned.
 //
 // it is better to filter out than remove.
-func (collection *Collection) RemoveItemsIndexesPtr(
+func (it *Collection) RemoveItemsIndexesPtr(
 	isIgnoreRemoveError bool,
 	indexes *[]int,
 ) *Collection {
 	if indexes == nil {
-		return collection
+		return it
 	}
 
-	length := collection.Length()
+	length := it.Length()
 	indexesLength := len(*indexes)
 	hasPossibleError := length == 0 && indexesLength > 0
 
@@ -1021,11 +1048,11 @@ func (collection *Collection) RemoveItemsIndexesPtr(
 	}
 
 	if hasPossibleError {
-		return collection
+		return it
 	}
 
-	newList := make([]string, 0, collection.Capacity())
-	for i, s := range *collection.items { //nolint:wsl
+	newList := make([]string, 0, it.Capacity())
+	for i, s := range *it.items { //nolint:wsl
 		if coreindexes.HasIndex(indexes, i) {
 			continue
 		}
@@ -1033,44 +1060,44 @@ func (collection *Collection) RemoveItemsIndexesPtr(
 		newList = append(newList, s)
 	}
 
-	collection.items = &newList
+	it.items = &newList
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AppendCollectionPtr(
+func (it *Collection) AppendCollectionPtr(
 	anotherCollection *Collection,
 ) *Collection {
-	collection.resizeForItems(
+	it.resizeForItems(
 		anotherCollection.items,
 		constants.One)
 
-	*collection.items = append(
-		*collection.items,
+	*it.items = append(
+		*it.items,
 		*anotherCollection.items...)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AppendCollectionsPtr(
+func (it *Collection) AppendCollectionsPtr(
 	anotherCollectionsPtr ...*Collection,
 ) *Collection {
 	if anotherCollectionsPtr == nil {
-		return collection
+		return it
 	}
 
-	return collection.AppendPointersCollectionsPtr(
+	return it.AppendPointersCollectionsPtr(
 		&anotherCollectionsPtr)
 }
 
-func (collection *Collection) AppendPointersCollectionsPtr(
+func (it *Collection) AppendPointersCollectionsPtr(
 	anotherCollectionsPtr *[]*Collection,
 ) *Collection {
 	if anotherCollectionsPtr == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForCollections(
+	it.resizeForCollections(
 		anotherCollectionsPtr,
 		constants.One)
 
@@ -1084,72 +1111,72 @@ func (collection *Collection) AppendPointersCollectionsPtr(
 		capacitiesIncrease += currentCollection.Length()
 	}
 
-	collection.AddCapacity(capacitiesIncrease)
+	it.AddCapacity(capacitiesIncrease)
 
 	for _, currentCollection := range *anotherCollectionsPtr {
 		if currentCollection == nil || currentCollection.IsEmpty() {
 			continue
 		}
 
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			*currentCollection.items...)
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AppendCollectionsPtrAsync(
+func (it *Collection) AppendCollectionsPtrAsync(
 	wg *sync.WaitGroup,
 	anotherCollectionsPtr ...*Collection,
 ) *Collection {
 	if anotherCollectionsPtr == nil {
-		return collection
+		return it
 	}
 
 	go func() {
-		collection.AppendPointersCollectionsPtr(
+		it.AppendPointersCollectionsPtr(
 			&anotherCollectionsPtr)
 
 		wg.Done()
 	}()
 
-	return collection
+	return it
 }
 
 // AppendAnysAsync Continue on nil
-func (collection *Collection) AppendAnysAsync(
+func (it *Collection) AppendAnysAsync(
 	wg *sync.WaitGroup,
 	anys ...interface{},
 ) *Collection {
 	if anys == nil {
-		return collection
+		return it
 	}
 
 	go func() {
-		collection.Lock()
-		collection.resizeForAnys(
+		it.Lock()
+		it.resizeForAnys(
 			&anys,
 			constants.One)
-		collection.Unlock()
+		it.Unlock()
 
-		collection.AppendAnysLock(&anys)
+		it.AppendAnysLock(&anys)
 
 		wg.Done()
 	}()
 
-	return collection
+	return it
 }
 
 // AppendAnysLock Continue on nil
-func (collection *Collection) AppendAnysLock(
+func (it *Collection) AppendAnysLock(
 	anys *[]interface{},
 ) *Collection {
 	if anys == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForAnys(
+	it.resizeForAnys(
 		anys,
 		constants.One)
 
@@ -1160,25 +1187,25 @@ func (collection *Collection) AppendAnysLock(
 
 		anyStr := fmt.Sprintf(constants.SprintValueFormat, any)
 
-		collection.Lock()
-		*collection.items = append(
-			*collection.items,
+		it.Lock()
+		*it.items = append(
+			*it.items,
 			anyStr)
-		collection.Unlock()
+		it.Unlock()
 	}
 
-	return collection
+	return it
 }
 
 // AppendAnys Continue on nil
-func (collection *Collection) AppendAnys(
+func (it *Collection) AppendAnys(
 	anys ...interface{},
 ) *Collection {
 	if anys == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForAnys(
+	it.resizeForAnys(
 		&anys,
 		constants.One)
 
@@ -1192,24 +1219,24 @@ func (collection *Collection) AppendAnys(
 			any,
 		)
 
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			anyStr)
 	}
 
-	return collection
+	return it
 }
 
 // AppendAnysUsingFilter Skip on nil
-func (collection *Collection) AppendAnysUsingFilter(
+func (it *Collection) AppendAnysUsingFilter(
 	filter IsStringFilter,
 	anys ...interface{},
 ) *Collection {
 	if anys == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForAnys(
+	it.resizeForAnys(
 		&anys,
 		constants.One)
 
@@ -1228,28 +1255,28 @@ func (collection *Collection) AppendAnysUsingFilter(
 			continue
 		}
 
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			result)
 
 		if isBreak {
-			return collection
+			return it
 		}
 	}
 
-	return collection
+	return it
 }
 
 // AppendAnysUsingFilterLock Skip on nil
-func (collection *Collection) AppendAnysUsingFilterLock(
+func (it *Collection) AppendAnysUsingFilterLock(
 	filter IsStringFilter,
 	anys ...interface{},
 ) *Collection {
 	if anys == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForAnys(
+	it.resizeForAnys(
 		&anys,
 		constants.One)
 
@@ -1265,29 +1292,29 @@ func (collection *Collection) AppendAnysUsingFilterLock(
 			continue
 		}
 
-		collection.Lock()
-		*collection.items = append(
-			*collection.items,
+		it.Lock()
+		*it.items = append(
+			*it.items,
 			result)
-		collection.Unlock()
+		it.Unlock()
 
 		if isBreak {
-			return collection
+			return it
 		}
 	}
 
-	return collection
+	return it
 }
 
 // AppendNonEmptyAnys Continue on nil
-func (collection *Collection) AppendNonEmptyAnys(
+func (it *Collection) AppendNonEmptyAnys(
 	anys ...interface{},
 ) *Collection {
 	if anys == nil {
-		return collection
+		return it
 	}
 
-	collection.resizeForAnys(
+	it.resizeForAnys(
 		&anys,
 		constants.One)
 
@@ -1301,18 +1328,18 @@ func (collection *Collection) AppendNonEmptyAnys(
 			continue
 		}
 
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			anyStr)
 	}
 
-	return collection
+	return it
 }
 
 // AddsPtr Skip on nil
-func (collection *Collection) AddsPtr(itemsPtr ...*string) *Collection {
+func (it *Collection) AddsPtr(itemsPtr ...*string) *Collection {
 	if itemsPtr == nil {
-		return collection
+		return it
 	}
 
 	for _, str := range itemsPtr {
@@ -1320,54 +1347,54 @@ func (collection *Collection) AddsPtr(itemsPtr ...*string) *Collection {
 			continue
 		}
 
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			*str)
 	}
 
-	return collection
+	return it
 }
 
 // AddsPtrAsync Skip on nil
-func (collection *Collection) AddsPtrAsync(
+func (it *Collection) AddsPtrAsync(
 	wg *sync.WaitGroup,
 	itemsPtr ...*string,
 ) *Collection {
 	if itemsPtr == nil {
-		return collection
+		return it
 	}
 
 	go func() {
-		collection.Lock()
-		collection.resizeForPointerItems(
+		it.Lock()
+		it.resizeForPointerItems(
 			&itemsPtr,
 			constants.One)
 
-		collection.Unlock()
+		it.Unlock()
 
 		for _, str := range itemsPtr {
 			if str == nil {
 				continue
 			}
 
-			collection.Lock()
+			it.Lock()
 
-			*collection.items = append(
-				*collection.items,
+			*it.items = append(
+				*it.items,
 				*str)
 
-			collection.Unlock()
+			it.Unlock()
 		}
 
 		wg.Done()
 	}()
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddsNonEmptyPtr(itemsPtr ...*string) *Collection {
+func (it *Collection) AddsNonEmptyPtr(itemsPtr ...*string) *Collection {
 	if itemsPtr == nil {
-		return collection
+		return it
 	}
 
 	for _, str := range itemsPtr {
@@ -1375,17 +1402,17 @@ func (collection *Collection) AddsNonEmptyPtr(itemsPtr ...*string) *Collection {
 			continue
 		}
 
-		*collection.items = append(
-			*collection.items,
+		*it.items = append(
+			*it.items,
 			*str)
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddsNonEmptyPtrLock(itemsPtr ...*string) *Collection {
+func (it *Collection) AddsNonEmptyPtrLock(itemsPtr ...*string) *Collection {
 	if itemsPtr == nil {
-		return collection
+		return it
 	}
 
 	for _, str := range itemsPtr {
@@ -1393,37 +1420,37 @@ func (collection *Collection) AddsNonEmptyPtrLock(itemsPtr ...*string) *Collecti
 			continue
 		}
 
-		collection.Lock()
-		*collection.items = append(
-			*collection.items,
+		it.Lock()
+		*it.items = append(
+			*it.items,
 			*str)
-		collection.Unlock()
+		it.Unlock()
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) UniqueBoolMapLock() *map[string]bool {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) UniqueBoolMapLock() *map[string]bool {
+	it.Lock()
+	defer it.Unlock()
 
-	return collection.UniqueBoolMap()
+	return it.UniqueBoolMap()
 }
 
-func (collection *Collection) UniqueBoolMap() *map[string]bool {
+func (it *Collection) UniqueBoolMap() *map[string]bool {
 	respectiveMap := make(
 		map[string]bool,
-		collection.Length())
+		it.Length())
 
-	for _, item := range *collection.items {
+	for _, item := range *it.items {
 		respectiveMap[item] = true
 	}
 
 	return &respectiveMap
 }
 
-func (collection *Collection) UniqueListPtr() *[]string {
-	boolMap := collection.UniqueBoolMap()
+func (it *Collection) UniqueListPtr() *[]string {
+	boolMap := it.UniqueBoolMap()
 	list := make([]string, len(*boolMap))
 
 	i := 0
@@ -1435,37 +1462,37 @@ func (collection *Collection) UniqueListPtr() *[]string {
 	return &list
 }
 
-func (collection *Collection) UniqueListPtrLock() *[]string {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) UniqueListPtrLock() *[]string {
+	it.Lock()
+	defer it.Unlock()
 
-	return collection.UniqueListPtr()
+	return it.UniqueListPtr()
 }
 
-func (collection *Collection) UniqueListLock() []string {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) UniqueListLock() []string {
+	it.Lock()
+	defer it.Unlock()
 
-	return collection.UniqueList()
+	return it.UniqueList()
 }
 
-func (collection *Collection) UniqueList() []string {
-	return *collection.UniqueListPtr()
+func (it *Collection) UniqueList() []string {
+	return *it.UniqueListPtr()
 }
 
-func (collection *Collection) List() []string {
-	return *collection.items
+func (it *Collection) List() []string {
+	return *it.items
 }
 
 // Filter must return a slice
-func (collection *Collection) Filter(filter IsStringFilter) *[]string {
-	if collection.IsEmpty() {
+func (it *Collection) Filter(filter IsStringFilter) *[]string {
+	if it.IsEmpty() {
 		return &([]string{})
 	}
 
-	list := make([]string, 0, collection.Length())
+	list := make([]string, 0, it.Length())
 
-	for i, element := range *collection.items {
+	for i, element := range *it.items {
 		result, isKeep, isBreak := filter(element, i)
 
 		if isKeep {
@@ -1481,8 +1508,8 @@ func (collection *Collection) Filter(filter IsStringFilter) *[]string {
 }
 
 // FilterLock must return a slice
-func (collection *Collection) FilterLock(filter IsStringFilter) *[]string {
-	elements := collection.ListCopyPtrLock()
+func (it *Collection) FilterLock(filter IsStringFilter) *[]string {
+	elements := it.ListCopyPtrLock()
 	length := len(*elements)
 
 	if length == 0 {
@@ -1507,18 +1534,18 @@ func (collection *Collection) FilterLock(filter IsStringFilter) *[]string {
 }
 
 // FilteredCollection must return a items
-func (collection *Collection) FilteredCollection(filter IsStringFilter) *Collection {
-	return NewCollectionUsingStrings(collection.Filter(filter), false)
+func (it *Collection) FilteredCollection(filter IsStringFilter) *Collection {
+	return NewCollectionUsingStrings(it.Filter(filter), false)
 }
 
 // FilteredCollectionLock must return a items
-func (collection *Collection) FilteredCollectionLock(filter IsStringFilter) *Collection {
-	return NewCollectionUsingStrings(collection.FilterLock(filter), false)
+func (it *Collection) FilteredCollectionLock(filter IsStringFilter) *Collection {
+	return NewCollectionUsingStrings(it.FilterLock(filter), false)
 }
 
 // FilterPtrLock must return a slice
-func (collection *Collection) FilterPtrLock(filterPtr IsStringPointerFilter) *[]*string {
-	elements := collection.ListCopyPtrLock()
+func (it *Collection) FilterPtrLock(filterPtr IsStringPointerFilter) *[]*string {
+	elements := it.ListCopyPtrLock()
 	length := len(*elements)
 
 	if length == 0 {
@@ -1543,14 +1570,14 @@ func (collection *Collection) FilterPtrLock(filterPtr IsStringPointerFilter) *[]
 }
 
 // FilterPtr must return a slice
-func (collection *Collection) FilterPtr(filterPtr IsStringPointerFilter) *[]*string {
-	if collection.IsEmpty() {
+func (it *Collection) FilterPtr(filterPtr IsStringPointerFilter) *[]*string {
+	if it.IsEmpty() {
 		return &([]*string{})
 	}
 
-	list := make([]*string, 0, collection.Length())
+	list := make([]*string, 0, it.Length())
 
-	for i, element := range *collection.items {
+	for i, element := range *it.items {
 		result, isKeep, isBreak := filterPtr(&element, i)
 
 		if isKeep {
@@ -1566,14 +1593,14 @@ func (collection *Collection) FilterPtr(filterPtr IsStringPointerFilter) *[]*str
 }
 
 // NonEmptyListPtr must return a slice
-func (collection *Collection) NonEmptyListPtr() *[]string {
-	if collection.IsEmpty() {
+func (it *Collection) NonEmptyListPtr() *[]string {
+	if it.IsEmpty() {
 		return &([]string{})
 	}
 
-	list := make([]string, 0, collection.Length())
+	list := make([]string, 0, it.Length())
 
-	for _, element := range *collection.items {
+	for _, element := range *it.items {
 		if element == "" {
 			continue
 		}
@@ -1584,71 +1611,71 @@ func (collection *Collection) NonEmptyListPtr() *[]string {
 	return &list
 }
 
-func (collection *Collection) HashsetAsIs() *Hashset {
+func (it *Collection) HashsetAsIs() *Hashset {
 	return NewHashsetUsingStrings(
-		collection.items)
+		it.items)
 }
 
-func (collection *Collection) HashsetWithDoubleLength() *Hashset {
+func (it *Collection) HashsetWithDoubleLength() *Hashset {
 	return NewHashsetUsingStrings(
-		collection.items)
+		it.items)
 }
 
-func (collection *Collection) HashsetLock() *Hashset {
+func (it *Collection) HashsetLock() *Hashset {
 	return NewHashsetUsingStrings(
-		collection.ListCopyPtrLock())
+		it.ListCopyPtrLock())
 }
 
-func (collection *Collection) NonEmptyItems() []string {
-	return stringslice.NonEmptySlice(*collection.items)
+func (it *Collection) NonEmptyItems() []string {
+	return stringslice.NonEmptySlice(*it.items)
 }
 
-func (collection *Collection) NonEmptyItemsPtr() *[]string {
-	return stringslice.NonEmptySlicePtr(collection.items)
+func (it *Collection) NonEmptyItemsPtr() *[]string {
+	return stringslice.NonEmptySlicePtr(it.items)
 }
 
-func (collection *Collection) NonEmptyItemsOrNonWhitespacePtr() *[]string {
-	return stringslice.NonWhitespaceSlicePtr(collection.items)
+func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() *[]string {
+	return stringslice.NonWhitespaceSlicePtr(it.items)
 }
 
 // Items direct return pointer
-func (collection *Collection) Items() *[]string {
-	return collection.items
+func (it *Collection) Items() *[]string {
+	return it.items
 }
 
 // ListPtr direct return pointer
-func (collection *Collection) ListPtr() *[]string {
-	return collection.items
+func (it *Collection) ListPtr() *[]string {
+	return it.items
 }
 
 // ListCopyPtrLock returns a copy of the items
 //
 // must return a slice
-func (collection *Collection) ListCopyPtrLock() *[]string {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) ListCopyPtrLock() *[]string {
+	it.Lock()
+	defer it.Unlock()
 
-	if collection.items == nil ||
-		*collection.items == nil {
+	if it.items == nil ||
+		*it.items == nil {
 		return &([]string{})
 	}
 
-	return &(*collection.items)
+	return &(*it.items)
 }
 
-func (collection *Collection) HasLock(str string) bool {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) HasLock(str string) bool {
+	it.Lock()
+	defer it.Unlock()
 
-	return collection.Has(str)
+	return it.Has(str)
 }
 
-func (collection *Collection) Has(str string) bool {
-	if collection.IsEmpty() {
+func (it *Collection) Has(str string) bool {
+	if it.IsEmpty() {
 		return false
 	}
 
-	for _, element := range *collection.items {
+	for _, element := range *it.items {
 		if element == str {
 			return true
 		}
@@ -1657,12 +1684,12 @@ func (collection *Collection) Has(str string) bool {
 	return false
 }
 
-func (collection *Collection) HasPtr(str *string) bool {
-	if str == nil || collection.IsEmpty() {
+func (it *Collection) HasPtr(str *string) bool {
+	if str == nil || it.IsEmpty() {
 		return false
 	}
 
-	for _, element := range *collection.items {
+	for _, element := range *it.items {
 		if element == *str {
 			return true
 		}
@@ -1671,13 +1698,13 @@ func (collection *Collection) HasPtr(str *string) bool {
 	return false
 }
 
-func (collection *Collection) HasAll(items ...string) bool {
-	if collection.IsEmpty() {
+func (it *Collection) HasAll(items ...string) bool {
+	if it.IsEmpty() {
 		return false
 	}
 
 	for _, element := range items {
-		if !collection.IsContainsPtr(&element) {
+		if !it.IsContainsPtr(&element) {
 			return false
 		}
 	}
@@ -1686,57 +1713,57 @@ func (collection *Collection) HasAll(items ...string) bool {
 }
 
 // SortedListAsc Creates new doesn't modify current collection
-func (collection *Collection) SortedListAsc() *[]string {
-	if collection.IsEmpty() {
+func (it *Collection) SortedListAsc() *[]string {
+	if it.IsEmpty() {
 		return &[]string{}
 	}
 
-	list := &(*collection.items)
+	list := &(*it.items)
 	sort.Strings(*list)
 
 	return list
 }
 
 // SortedAsc mutates current collection
-func (collection *Collection) SortedAsc() *Collection {
-	if collection.IsEmpty() {
-		return collection
+func (it *Collection) SortedAsc() *Collection {
+	if it.IsEmpty() {
+		return it
 	}
 
-	sort.Strings(*collection.items)
+	sort.Strings(*it.items)
 
-	return collection
+	return it
 }
 
 // SortedAscLock mutates current collection
-func (collection *Collection) SortedAscLock() *Collection {
-	if collection.IsEmptyLock() {
-		return collection
+func (it *Collection) SortedAscLock() *Collection {
+	if it.IsEmptyLock() {
+		return it
 	}
 
-	collection.Lock()
-	defer collection.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
-	sort.Strings(*collection.items)
+	sort.Strings(*it.items)
 
-	return collection
+	return it
 }
 
 // SortedListDsc Creates new one.
-func (collection *Collection) SortedListDsc() *[]string {
-	list := collection.SortedListAsc()
+func (it *Collection) SortedListDsc() *[]string {
+	list := it.SortedListAsc()
 	stringslice.InPlaceReverse(
-		collection.items)
+		it.items)
 
 	return list
 }
 
-func (collection *Collection) HasUsingSensitivity(str string, isCaseSensitive bool) bool {
+func (it *Collection) HasUsingSensitivity(str string, isCaseSensitive bool) bool {
 	if isCaseSensitive {
-		return collection.Has(str)
+		return it.Has(str)
 	}
 
-	for _, element := range *collection.items {
+	for _, element := range *it.items {
 		if strings.EqualFold(element, str) {
 			return true
 		}
@@ -1745,12 +1772,12 @@ func (collection *Collection) HasUsingSensitivity(str string, isCaseSensitive bo
 	return false
 }
 
-func (collection *Collection) IsContainsPtr(item *string) bool {
-	if item == nil || collection.IsEmpty() {
+func (it *Collection) IsContainsPtr(item *string) bool {
+	if item == nil || it.IsEmpty() {
 		return false
 	}
 
-	for _, element := range *collection.items {
+	for _, element := range *it.items {
 		if element == *item {
 			return true
 		}
@@ -1760,10 +1787,10 @@ func (collection *Collection) IsContainsPtr(item *string) bool {
 }
 
 // GetHashsetPlusHasAll nil will return false.
-func (collection *Collection) GetHashsetPlusHasAll(items *[]string) (*Hashset, bool) {
-	hashset := collection.HashsetAsIs()
+func (it *Collection) GetHashsetPlusHasAll(items *[]string) (*Hashset, bool) {
+	hashset := it.HashsetAsIs()
 
-	if items == nil || collection.IsEmpty() {
+	if items == nil || it.IsEmpty() {
 		return hashset, false
 	}
 
@@ -1771,17 +1798,17 @@ func (collection *Collection) GetHashsetPlusHasAll(items *[]string) (*Hashset, b
 }
 
 // IsContainsAllPtr nil will return false.
-func (collection *Collection) IsContainsAllPtr(items *[]string) bool {
+func (it *Collection) IsContainsAllPtr(items *[]string) bool {
 	if items == nil {
 		return false
 	}
 
-	if collection.IsEmpty() {
+	if it.IsEmpty() {
 		return false
 	}
 
 	for _, item := range *items {
-		if !collection.IsContainsPtr(&item) {
+		if !it.IsContainsPtr(&item) {
 			return false
 		}
 	}
@@ -1790,27 +1817,27 @@ func (collection *Collection) IsContainsAllPtr(items *[]string) bool {
 }
 
 // IsContainsAll nil will return false.
-func (collection *Collection) IsContainsAll(items ...string) bool {
+func (it *Collection) IsContainsAll(items ...string) bool {
 	if items == nil {
 		return false
 	}
 
-	return collection.IsContainsAllPtr(&items)
+	return it.IsContainsAllPtr(&items)
 }
 
 // IsContainsAllLock nil will return false.
-func (collection *Collection) IsContainsAllLock(items ...string) bool {
-	collection.Lock()
-	defer collection.Unlock()
+func (it *Collection) IsContainsAllLock(items ...string) bool {
+	it.Lock()
+	defer it.Unlock()
 
 	if items == nil {
 		return false
 	}
 
-	return collection.IsContainsAllPtr(&items)
+	return it.IsContainsAllPtr(&items)
 }
 
-func (collection *Collection) New(
+func (it *Collection) New(
 	slice ...string,
 ) *Collection {
 	length := len(slice)
@@ -1824,25 +1851,25 @@ func (collection *Collection) New(
 	return newCollection.AddStringsPtr(&slice)
 }
 
-func (collection *Collection) AddNonEmptyStrings(
+func (it *Collection) AddNonEmptyStrings(
 	slice ...string,
 ) *Collection {
 	if len(slice) == 0 {
-		return collection
+		return it
 	}
 
-	return collection.
+	return it.
 		AddNonEmptyStringsPtr(&slice)
 }
 
-func (collection *Collection) AddFuncResult(
+func (it *Collection) AddFuncResult(
 	getterFunctions ...func() string,
 ) *Collection {
 	if getterFunctions == nil {
-		return collection
+		return it
 	}
 
-	items := collection.items
+	items := it.items
 
 	for _, getterFunc := range getterFunctions {
 		item := getterFunc()
@@ -1850,62 +1877,62 @@ func (collection *Collection) AddFuncResult(
 		*items = append(*items, item)
 	}
 
-	collection.items = items
+	it.items = items
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddNonEmptyStringsPtr(
+func (it *Collection) AddNonEmptyStringsPtr(
 	slice *[]string,
 ) *Collection {
 	if slice == nil || len(*slice) == 0 {
-		return collection
+		return it
 	}
 
-	items := collection.items
+	items := it.items
 
 	for _, addingItem := range *slice {
 		*items = append(*items, addingItem)
 	}
 
-	collection.items = items
+	it.items = items
 
-	return collection
+	return it
 }
 
-func (collection *Collection) AddStringsByFuncChecking(
+func (it *Collection) AddStringsByFuncChecking(
 	slice *[]string,
 	isIntegrityOkay func(line string) bool,
 ) *Collection {
 
 	for _, item := range *slice {
 		if isIntegrityOkay(item) {
-			collection.Add(item)
+			it.Add(item)
 		}
 	}
 
-	return collection
+	return it
 }
 
-func (collection *Collection) ExpandSlicePlusAdd(
+func (it *Collection) ExpandSlicePlusAdd(
 	slice *[]string,
 	expandFunc func(line string) *[]string,
 ) *Collection {
 	items := stringslice.ExpandByFunc(slice, expandFunc)
 
-	return collection.AddStringsPtr(items)
+	return it.AddStringsPtr(items)
 }
 
-func (collection *Collection) MergeSlicesOfSlicePtr(slices *[]*[]string) *Collection {
-	collection.items = stringslice.MergeNewSlicesPtrOfSlicesPtr(slices)
+func (it *Collection) MergeSlicesOfSlicePtr(slices *[]*[]string) *Collection {
+	it.items = stringslice.MergeNewSlicesPtrOfSlicesPtr(slices)
 
-	return collection
+	return it
 }
 
-func (collection *Collection) MergeSlicesOfSlice(slices ...*[]string) *Collection {
-	collection.items = stringslice.MergeNewSlicesPtrOfSlicesPtr(&slices)
+func (it *Collection) MergeSlicesOfSlice(slices ...*[]string) *Collection {
+	it.items = stringslice.MergeNewSlicesPtrOfSlicesPtr(&slices)
 
-	return collection
+	return it
 }
 
 // GetAllExceptCollection Get all items except the mentioned ones.
@@ -1913,9 +1940,9 @@ func (collection *Collection) MergeSlicesOfSlice(slices ...*[]string) *Collectio
 // It is like set A - B
 // Set A = this collection
 // Set B = itemsCollection given in parameters.
-func (collection *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]string {
+func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]string {
 	if itemsCollection == nil || itemsCollection.IsEmpty() {
-		newItems := *collection.items
+		newItems := *it.items
 
 		return &newItems
 	}
@@ -1923,9 +1950,9 @@ func (collection *Collection) GetAllExceptCollection(itemsCollection *Collection
 	finalList := make(
 		[]string,
 		0,
-		collection.Length())
+		it.Length())
 
-	for _, item := range *collection.items {
+	for _, item := range *it.items {
 		if itemsCollection.Has(item) {
 			continue
 		}
@@ -1943,9 +1970,9 @@ func (collection *Collection) GetAllExceptCollection(itemsCollection *Collection
 // It is like set A - B
 // Set A = this collection
 // Set B = items given in parameters.
-func (collection *Collection) GetAllExcept(items *[]string) *[]string {
+func (it *Collection) GetAllExcept(items *[]string) *[]string {
 	if items == nil {
-		newItems := *collection.items
+		newItems := *it.items
 
 		return &newItems
 	}
@@ -1954,241 +1981,241 @@ func (collection *Collection) GetAllExcept(items *[]string) *[]string {
 		items,
 		false)
 
-	return collection.GetAllExceptCollection(
+	return it.GetAllExceptCollection(
 		newCollection)
 }
 
-func (collection *Collection) CharCollectionMap() *CharCollectionMap {
-	length := collection.Length()
+func (it *Collection) CharCollectionMap() *CharCollectionMap {
+	length := it.Length()
 	lengthByFourBestGuess := length / 4
 	runeMap := NewCharCollectionMap(
 		length,
 		lengthByFourBestGuess)
 
-	runeMap.AddStringsPtr(collection.items)
+	runeMap.AddStringsPtr(it.items)
 
 	return runeMap
 }
 
-func (collection *Collection) SummaryString(sequence int) string {
+func (it *Collection) SummaryString(sequence int) string {
 	header := fmt.Sprintf(
 		summaryOfCharCollectionMapLengthFormat,
-		collection,
-		collection.Length(),
+		it,
+		it.Length(),
 		sequence)
 
-	return collection.SummaryStringWithHeader(header)
+	return it.SummaryStringWithHeader(header)
 }
 
-func (collection *Collection) SummaryStringWithHeader(header string) string {
-	if collection.IsEmpty() {
+func (it *Collection) SummaryStringWithHeader(header string) string {
+	if it.IsEmpty() {
 		return header + commonJoiner + NoElements
 	}
 
-	return header + collection.String()
+	return header + it.String()
 }
 
-func (collection *Collection) String() string {
-	if collection.IsEmpty() {
+func (it *Collection) String() string {
+	if it.IsEmpty() {
 		return commonJoiner + NoElements
 	}
 
 	return commonJoiner +
 		strings.Join(
-			*collection.items,
+			*it.items,
 			commonJoiner)
 }
 
-func (collection *Collection) CsvLines() *[]string {
+func (it *Collection) CsvLines() *[]string {
 	return simplewrap.DoubleQuoteWrapElements(
-		collection.items,
+		it.items,
 		false)
 }
 
-func (collection *Collection) CsvLinesOptions(
+func (it *Collection) CsvLinesOptions(
 	isSkipQuoteOnlyOnExistence bool,
 ) *[]string {
 	return simplewrap.DoubleQuoteWrapElements(
-		collection.items,
+		it.items,
 		isSkipQuoteOnlyOnExistence)
 }
 
-func (collection *Collection) Csv() string {
-	if collection.IsEmpty() {
+func (it *Collection) Csv() string {
+	if it.IsEmpty() {
 		return constants.EmptyString
 	}
 
-	return collection.CsvOptions(false)
+	return it.CsvOptions(false)
 }
 
-func (collection *Collection) CsvOptions(isSkipQuoteOnlyOnExistence bool) string {
-	if collection.IsEmpty() {
+func (it *Collection) CsvOptions(isSkipQuoteOnlyOnExistence bool) string {
+	if it.IsEmpty() {
 		return constants.EmptyString
 	}
 
 	return strings.Join(
-		*collection.CsvLinesOptions(isSkipQuoteOnlyOnExistence),
+		*it.CsvLinesOptions(isSkipQuoteOnlyOnExistence),
 		constants.Comma)
 }
 
-func (collection *Collection) StringLock() string {
-	if collection.IsEmptyLock() {
+func (it *Collection) StringLock() string {
+	if it.IsEmptyLock() {
 		return commonJoiner + NoElements
 	}
 
-	collection.Lock()
-	defer collection.Unlock()
+	it.Lock()
+	defer it.Unlock()
 
 	return commonJoiner +
 		strings.Join(
-			*collection.items,
+			*it.items,
 			commonJoiner)
 }
 
-func (collection *Collection) Join(
+func (it *Collection) Join(
 	separator string,
 ) string {
-	return strings.Join(*collection.items, separator)
+	return strings.Join(*it.items, separator)
 }
 
-func (collection *Collection) AddCapacity(
+func (it *Collection) AddCapacity(
 	capacities ...int,
 ) *Collection {
 	if capacities == nil || len(capacities) == 0 {
-		return collection
+		return it
 	}
 
-	currentCapacity := collection.Capacity()
+	currentCapacity := it.Capacity()
 
 	for _, capacity := range capacities {
 		currentCapacity += capacity
 	}
 
-	return collection.Resize(currentCapacity)
+	return it.Resize(currentCapacity)
 }
 
 // Resize Only resize if capacity is bigger than the current one
-func (collection *Collection) Resize(
+func (it *Collection) Resize(
 	newCapacity int,
 ) *Collection {
-	capacity := collection.Capacity()
+	capacity := it.Capacity()
 	if capacity >= newCapacity {
-		return collection
+		return it
 	}
 
-	newItems := make([]string, collection.Length(), newCapacity)
-	copy(newItems, *collection.items)
+	newItems := make([]string, it.Length(), newCapacity)
+	copy(newItems, *it.items)
 
-	collection.items = &newItems
+	it.items = &newItems
 
-	return collection
+	return it
 }
 
-func (collection *Collection) Joins(
+func (it *Collection) Joins(
 	separator string,
 	items ...string,
 ) string {
 	if len(items) == 0 {
-		return strings.Join(*collection.items, separator)
+		return strings.Join(*it.items, separator)
 	}
 
-	newItems := make([]string, 0, collection.Length()+len(items))
-	copy(newItems, *collection.items)
+	newItems := make([]string, 0, it.Length()+len(items))
+	copy(newItems, *it.items)
 
 	newItems = append(newItems, items...)
 
 	return strings.Join(newItems, separator)
 }
 
-func (collection *Collection) NonEmptyJoins(
+func (it *Collection) NonEmptyJoins(
 	joiner string,
 ) string {
 	return stringslice.NonEmptyJoin(
-		collection.items,
+		it.items,
 		joiner)
 }
 
-func (collection *Collection) NonWhitespaceJoins(
+func (it *Collection) NonWhitespaceJoins(
 	joiner string,
 ) string {
 	return stringslice.NonWhitespaceJoinPtr(
-		collection.items,
+		it.items,
 		joiner)
 }
 
 // Clear clears existing items.
-func (collection *Collection) Clear() *Collection {
-	if collection.IsEmpty() {
-		return collection
+func (it *Collection) Clear() *Collection {
+	if it.IsEmpty() {
+		return it
 	}
 
-	clearedItems := (*collection.items)[:0]
-	collection.items = &clearedItems
+	clearedItems := (*it.items)[:0]
+	it.items = &clearedItems
 
-	return collection
+	return it
 }
 
-func (collection *Collection) JsonModel() *CollectionDataModel {
+func (it *Collection) JsonModel() *CollectionDataModel {
 	return &CollectionDataModel{
-		Items: collection.items,
+		Items: it.items,
 	}
 }
 
-func (collection *Collection) JsonModelAny() interface{} {
-	return collection.JsonModel()
+func (it *Collection) JsonModelAny() interface{} {
+	return it.JsonModel()
 }
 
-func (collection *Collection) MarshalJSON() ([]byte, error) {
-	return json.Marshal(*collection.JsonModel())
+func (it *Collection) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*it.JsonModel())
 }
 
-func (collection *Collection) UnmarshalJSON(data []byte) error {
+func (it *Collection) UnmarshalJSON(data []byte) error {
 	var dataModel CollectionDataModel
 
 	err := json.Unmarshal(data, &dataModel)
 
 	if err == nil {
-		collection.items = dataModel.Items
+		it.items = dataModel.Items
 	}
 
 	return err
 }
 
 //goland:noinspection GoLinterLocal
-func (collection *Collection) Json() *corejson.Result {
-	if collection.IsEmpty() {
+func (it *Collection) Json() *corejson.Result {
+	if it.IsEmpty() {
 		return corejson.EmptyWithoutErrorPtr()
 	}
 
-	jsonBytes, err := json.Marshal(collection)
+	jsonBytes, err := json.Marshal(it)
 
 	return corejson.NewPtr(jsonBytes, err)
 }
 
 //goland:noinspection GoLinterLocal
-func (collection *Collection) ParseInjectUsingJson(
+func (it *Collection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*Collection, error) {
 	if jsonResult == nil || jsonResult.IsEmptyJsonBytes() {
 		return EmptyCollection(), defaulterr.UnMarshallingFailedDueToNilOrEmpty
 	}
 
-	err := json.Unmarshal(*jsonResult.Bytes, &collection)
+	err := json.Unmarshal(*jsonResult.Bytes, &it)
 
 	if err != nil {
 		return EmptyCollection(), err
 	}
 
-	return collection, nil
+	return it, nil
 }
 
 // ParseInjectUsingJsonMust Panic if error
 //goland:noinspection GoLinterLocal
-func (collection *Collection) ParseInjectUsingJsonMust(
+func (it *Collection) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,
 ) *Collection {
 	newUsingJson, err :=
-		collection.ParseInjectUsingJson(jsonResult)
+		it.ParseInjectUsingJson(jsonResult)
 
 	if err != nil {
 		panic(err)
@@ -2197,20 +2224,20 @@ func (collection *Collection) ParseInjectUsingJsonMust(
 	return newUsingJson
 }
 
-func (collection *Collection) JsonParseSelfInject(
+func (it *Collection) JsonParseSelfInject(
 	jsonResult *corejson.Result,
 ) error {
-	_, err := collection.ParseInjectUsingJson(
+	_, err := it.ParseInjectUsingJson(
 		jsonResult,
 	)
 
 	return err
 }
 
-func (collection *Collection) AsJsonMarshaller() corejson.JsonMarshaller {
-	return collection
+func (it *Collection) AsJsonMarshaller() corejson.JsonMarshaller {
+	return it
 }
 
-func (collection *Collection) AsJsonContractsBinder() corejson.JsonContractsBinder {
-	return collection
+func (it *Collection) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return it
 }

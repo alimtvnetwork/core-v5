@@ -1,6 +1,8 @@
 package corevalidatortestwrappers
 
-import "gitlab.com/evatix-go/core/corevalidator"
+import (
+	"gitlab.com/evatix-go/core/corevalidator"
+)
 
 type TextValidatorsWrapper struct {
 	Header string

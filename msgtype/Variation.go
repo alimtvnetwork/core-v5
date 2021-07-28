@@ -80,6 +80,7 @@ const (
 	TypeMismatch                           Variation = "TypeMismatch: Type is not as expected."
 	NotImplemented                         Variation = "Not Implemented: Feature / method is not implemented yet."
 	NotSupported                           Variation = "Not Supported: Feature / method is not supported yet."
+	RangesOnlySupported                    Variation = "Only Ranges: Only selected ranges supported for the function / feature."
 	PathsMissingOrHavingIssues             Variation = "Path missing or having other access issues!"
 	JsonResultBytesAreNilOrEmpty           Variation = "Json Result: Bytes data either nil or empty, cannot process the data for the given resource."
 	ValidataionFailed                      Variation = "Validation failed!"

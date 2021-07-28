@@ -11,12 +11,12 @@ import (
 )
 
 type SliceValidator struct {
+	CompareAs stringcompareas.Variant
 	ValidatorCoreCondition
 	// InputLines considered to be actual
 	// ComparingLines considered to be expected
 	InputLines, ComparingLines []string
-	CompareAs                  stringcompareas.Variant
-	comparingValidators        *TextValidators
+	comparingValidators        *TextValidators // lazy
 }
 
 func NewSliceValidatorUsingErr(
@@ -92,6 +92,23 @@ func (it *SliceValidator) IsValidOtherLines(
 		isValidLines(
 			isCaseSensitive,
 			otherActualLines)
+}
+
+func (it *SliceValidator) SetActual(
+	actual []string,
+) *SliceValidator {
+	it.InputLines = actual
+
+	return it
+}
+
+func (it *SliceValidator) SetActualVsExpected(
+	actual, expected []string,
+) *SliceValidator {
+	it.InputLines = actual
+	it.ComparingLines = expected
+
+	return it
 }
 
 func (it *SliceValidator) InputLinesString() string {

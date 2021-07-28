@@ -403,6 +403,30 @@ func (it Request) CurrentNotImpl(
 	return msgtype.NotImplemented.Error(fullCompiled, reference)
 }
 
+func (it Request) NotSupportedErr(
+	message string,
+	reference interface{},
+) error {
+	return msgtype.NotSupported.Error(
+		message,
+		reference)
+}
+
+// IsNotAnyOfReqs returns true only if none of these matches
+func (it Request) IsNotAnyOfReqs(reqs ...Request) bool {
+	if len(reqs) == 0 {
+		return true
+	}
+
+	for _, req := range reqs {
+		if req == it {
+			return false
+		}
+	}
+
+	return true
+}
+
 // IsAnyOfReqs returns true if current one is matching with any of it
 func (it Request) IsAnyOfReqs(reqs ...Request) bool {
 	if len(reqs) == 0 {

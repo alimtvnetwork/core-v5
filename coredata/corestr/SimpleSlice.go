@@ -1,6 +1,7 @@
 package corestr
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -17,6 +18,22 @@ func NewSimpleSlice(capacity int) *SimpleSlice {
 	return &SimpleSlice{
 		slice,
 	}
+}
+
+func NewSimpleSliceUsing(isClone bool, lines []string) *SimpleSlice {
+	if lines == nil {
+		return EmptySimpleSlice()
+	}
+
+	if !isClone {
+		return &SimpleSlice{
+			lines,
+		}
+	}
+
+	slice := NewSimpleSlice(len(lines))
+
+	return slice.Adds(lines...)
 }
 
 func EmptySimpleSlice() *SimpleSlice {
@@ -40,13 +57,30 @@ func (it *SimpleSlice) AddIf(isAdd bool, item string) *SimpleSlice {
 }
 
 func (it *SimpleSlice) Adds(items ...string) *SimpleSlice {
-	for _, item := range items {
-		it.Items = append(
-			it.Items,
-			item)
-	}
+	it.Items = append(it.Items, items...)
 
 	return it
+}
+
+func (it *SimpleSlice) InsertAt(index int, item string) *SimpleSlice {
+	it.Items = append(it.Items[:index+1], it.Items[index:]...)
+	it.Items[index] = item
+
+	return it
+}
+
+func (it *SimpleSlice) AddStructOrPointer(
+	anyStruct interface{},
+) *SimpleSlice {
+	if anyStruct == nil {
+		return it
+	}
+
+	value := fmt.Sprintf(
+		constants.SprintValueFormat,
+		anyStruct)
+
+	return it.Add(value)
 }
 
 func (it *SimpleSlice) AddsIf(
@@ -60,12 +94,28 @@ func (it *SimpleSlice) AddsIf(
 	return it.Adds(items...)
 }
 
-func (it *SimpleSlice) AddErr(err error) *SimpleSlice {
+func (it *SimpleSlice) AddError(err error) *SimpleSlice {
 	if err != nil {
 		return it.Add(err.Error())
 	}
 
 	return it
+}
+
+func (it *SimpleSlice) AsDefaultError() error {
+	return it.AsError(constants.NewLineUnix)
+}
+
+func (it *SimpleSlice) AsError(joiner string) error {
+	if it == nil || it.Length() == 0 {
+		return nil
+	}
+
+	errStr := strings.Join(
+		it.Items,
+		joiner)
+
+	return errors.New(errStr)
 }
 
 func (it *SimpleSlice) FirstDynamic() interface{} {
@@ -164,6 +214,16 @@ func (it *SimpleSlice) Strings() []string {
 	return it.Items
 }
 
+func (it *SimpleSlice) Hashset() *Hashset {
+	return NewHashsetUsingStrings(&it.Items)
+}
+
+func (it *SimpleSlice) Collection(isClone bool) *Collection {
+	return NewCollectionUsingStrings(
+		&it.Items,
+		isClone)
+}
+
 func (it *SimpleSlice) String() string {
 	if it.IsEmpty() {
 		return constants.EmptyString
@@ -172,6 +232,25 @@ func (it *SimpleSlice) String() string {
 	return strings.Join(
 		it.Items,
 		constants.NewLineUnix)
+}
+
+func (it *SimpleSlice) ConcatNewSimpleSlices(items ...*SimpleSlice) *SimpleSlice {
+	items2 := append(
+		items,
+		it)
+	length := AllIndividualsLengthOfSimpleSlices(items2...)
+	slice := make(
+		[]string,
+		0,
+		length)
+
+	slice = append(slice, it.Items...)
+
+	for _, simpleSlice := range items {
+		slice = append(slice, simpleSlice.Items...)
+	}
+
+	return &SimpleSlice{Items: slice}
 }
 
 func (it *SimpleSlice) ConcatNewStrings(items ...string) []string {
@@ -184,13 +263,8 @@ func (it *SimpleSlice) ConcatNewStrings(items ...string) []string {
 		0,
 		it.Length()+len(items))
 
-	for _, item := range it.Items {
-		slice = append(slice, item)
-	}
-
-	for _, item := range items {
-		slice = append(slice, item)
-	}
+	slice = append(slice, it.Items...)
+	slice = append(slice, items...)
 
 	return slice
 }
