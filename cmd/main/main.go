@@ -85,6 +85,10 @@ func main() {
 	// 		&params2,
 	// 	))
 
+	x := corestr.SimpleSlice{Items: []string{"a", "b"}}
+
+	fmt.Println(x.JoinCsvLine())
+
 	ins := coreinstruction.NewStringCompare(
 		stringcompareas.EndsWith,
 		false,

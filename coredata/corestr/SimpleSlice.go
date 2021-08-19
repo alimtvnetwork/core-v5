@@ -253,6 +253,26 @@ func (it *SimpleSlice) Join(joiner string) string {
 	return strings.Join(it.Items, joiner)
 }
 
+func (it *SimpleSlice) JoinLine() string {
+	return strings.Join(it.Items, constants.NewLineUnix)
+}
+
+func (it *SimpleSlice) JoinSpace() string {
+	return strings.Join(it.Items, constants.Space)
+}
+
+func (it *SimpleSlice) JoinComma() string {
+	return strings.Join(it.Items, constants.Comma)
+}
+
+func (it *SimpleSlice) JoinCsv() string {
+	return strings.Join(it.CsvStrings(), constants.Comma)
+}
+
+func (it *SimpleSlice) JoinCsvLine() string {
+	return strings.Join(it.CsvStrings(), constants.Comma + constants.NewLineUnix)
+}
+
 func (it *SimpleSlice) PrependJoin(
 	joiner string,
 	prependItems ...string,
@@ -394,7 +414,7 @@ func (it *SimpleSlice) CsvStrings() []string {
 
 	for i, item := range it.Items {
 		newSlice[i] = fmt.Sprintf(
-			constants.SprintSingleQuoteFormat,
+			constants.SprintDoubleQuoteFormat,
 			item)
 	}
 

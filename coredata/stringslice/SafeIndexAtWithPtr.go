@@ -5,7 +5,7 @@ func SafeIndexAtWithPtr(
 	index int,
 	defaultVal string,
 ) string {
-	if IsEmptyPtr(slice) || len(*slice)-1 < index {
+	if IsEmptyPtr(slice) || index < 0 || len(*slice)-1 < index {
 		return defaultVal
 	}
 

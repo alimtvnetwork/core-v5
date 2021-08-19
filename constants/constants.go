@@ -349,4 +349,5 @@ const (
 	SprintFormatAnyNameValueWithPipe          = "%#v|%#v"
 	SprintFormatNumberWithHyphen              = "%d-%d"
 	SprintFormatNumberWithPipe                = "%d|%d"
+	CurrentDirDot                             = Dot
 )
