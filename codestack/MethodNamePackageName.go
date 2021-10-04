@@ -7,9 +7,9 @@ import (
 	"gitlab.com/evatix-go/core/coredata/stringslice"
 )
 
-func MethodNamePackageName(fullFuncName string) (packageName string, methodName string) {
+func MethodNamePackageName(fullFuncName string) (fullMethodName, packageName, methodName string) {
 	if fullFuncName == "" {
-		return "", ""
+		return "", "", ""
 	}
 
 	hasComplexName := strings.HasPrefix(fullFuncName, gitlabDotCom) ||
@@ -24,5 +24,5 @@ func MethodNamePackageName(fullFuncName string) (packageName string, methodName 
 	splitsByDot := strings.Split(fullFuncName, constants.Dot)
 	packageName, methodName = stringslice.FirstLastDefault(splitsByDot)
 
-	return packageName, methodName
+	return fullFuncName, packageName, methodName
 }

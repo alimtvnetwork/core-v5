@@ -11,14 +11,23 @@ func stackTrackerTest7() {
 		"gitlab.com/evatix-go/errorwrapper/trydo.WrapPanic.func1",
 		"trydo.WrapPanic.func1",
 		"evatix-go/errorwrapper/trydo.WrapPanic.func1",
+		"",
+		"something",
+		"something.new",
+		".....new",
+		"/",
+		" ",
+		" /",
+		" . ",
 	}
 
 	for i, s := range cases {
 		fmt.Println("index :", i)
 		fmt.Println(s, "= {")
-		packageName, methodName := codestack.MethodNamePackageName(s)
-		fmt.Println("   pkg=", packageName)
-		fmt.Println("   methodName=", methodName)
+		signature, packageName, methodName := codestack.MethodNamePackageName(s)
+		fmt.Println("   signature   =", signature)
+		fmt.Println("   pkg         =", packageName)
+		fmt.Println("   methodName  =", methodName)
 		fmt.Println("}\n-------")
 	}
 }

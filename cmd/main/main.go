@@ -23,9 +23,9 @@ func main() {
 	// versionComparesTest()
 	// testMakerTesting()
 	// coreDynamicMapAnyItems()
-	// stackTrackerTest7()
+	stackTrackerTest7()
 
 	// keyLegendsTest()
 	// stackTrackerTest()
-	stackTrackerTest5()
+	// stackTrackerTest5()
 }

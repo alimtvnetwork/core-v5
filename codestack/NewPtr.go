@@ -9,13 +9,13 @@ func NewPtr(skipIndex int) *Trace {
 	funcInfo := runtime.FuncForPC(pc)
 	fullFuncName := funcInfo.Name()
 
-	packageName, methodName := MethodNamePackageName(fullFuncName)
+	fullMethodSignature, packageName, methodName := MethodNamePackageName(fullFuncName)
 
 	return &Trace{
 		SkipIndex:         skipIndex,
 		PackageName:       packageName,
 		MethodName:        methodName,
-		PackageMethodName: fullFuncName,
+		PackageMethodName: fullMethodSignature,
 		FileName:          file,
 		Line:              line,
 		IsOkay:            isOkay,
