@@ -2,7 +2,6 @@ package corestr
 
 import (
 	"encoding/json"
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -31,6 +30,24 @@ func NewSimpleStringOnceAny(
 	return SimpleStringOnce{
 		value:        toString,
 		isInitialize: isInitialize,
+	}
+}
+
+func NewSimpleStringOnceInitialized(
+	value string,
+) SimpleStringOnce {
+	return SimpleStringOnce{
+		value:        value,
+		isInitialize: true,
+	}
+}
+
+func NewSimpleStringOnceInitializedPtr(
+	value string,
+) *SimpleStringOnce {
+	return &SimpleStringOnce{
+		value:        value,
+		isInitialize: true,
 	}
 }
 
@@ -437,27 +454,6 @@ func (it *SimpleStringOnce) StringPtr() *string {
 	}
 
 	return &it.value
-}
-
-func (it *SimpleStringOnce) FullString() string {
-	if it == nil {
-		return constants.EmptyString
-	}
-
-	return fmt.Sprintf(
-		constants.SprintPropertyNameValueFormat,
-		*it)
-}
-
-func (it *SimpleStringOnce) FullStringPtr() *string {
-	fullStr := it.FullString()
-
-	return &fullStr
-}
-
-type SimpleStringOnceModel struct {
-	Value        string
-	IsInitialize bool
 }
 
 func (it *SimpleStringOnce) JsonModel() SimpleStringOnceModel {
