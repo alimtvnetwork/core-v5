@@ -70,6 +70,26 @@ func (v Value) IsWildcard() bool {
 	return v == Wildcard
 }
 
+func (v Value) IsInit() bool {
+	return v != Uninitialized
+}
+
+func (v Value) IsInitBoolean() bool {
+	return v == True || v == False
+}
+
+func (v Value) IsInitBooleanWild() bool {
+	return v == True || v == False || v == Wildcard
+}
+
+func (v Value) IsInitSet() bool {
+	return v == Set || v == Unset
+}
+
+func (v Value) IsInitSetWild() bool {
+	return v == Set || v == Unset || v == Wildcard
+}
+
 // IsWildcardOrBool
 //
 // if v.IsWildcard() then returns true regardless

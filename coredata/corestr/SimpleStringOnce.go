@@ -84,10 +84,15 @@ func (it *SimpleStringOnce) IsInitialized() bool {
 }
 
 // IsUnInit Not initialized yet
+//
+// !it.isInitialize
 func (it *SimpleStringOnce) IsUnInit() bool {
 	return !it.isInitialize
 }
 
+// IsInvalid
+//
+//  !it.isInitialize || it.value == ""
 func (it *SimpleStringOnce) IsInvalid() bool {
 	return !it.isInitialize || it.value == ""
 }
@@ -437,6 +442,15 @@ func (it SimpleStringOnce) CloneUsingNewVal(val string) SimpleStringOnce {
 		value:        val,
 		isInitialize: it.isInitialize,
 	}
+}
+
+func (it *SimpleStringOnce) Dispose() {
+	if it == nil {
+		return
+	}
+
+	it.value = constants.EmptyString
+	it.isInitialize = true
 }
 
 func (it *SimpleStringOnce) String() string {
