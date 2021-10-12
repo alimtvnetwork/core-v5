@@ -2131,9 +2131,23 @@ func (it *Collection) StringLock() string {
 }
 
 func (it *Collection) Join(
-	separator string,
+	joiner string,
 ) string {
-	return strings.Join(it.items, separator)
+	if it.IsEmpty() {
+		return ""
+	}
+
+	return strings.Join(it.items, joiner)
+}
+
+func (it *Collection) JoinWith(
+	joiner string,
+) string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	return joiner + strings.Join(it.items, joiner)
 }
 
 func (it *Collection) AddCapacity(
@@ -2233,7 +2247,6 @@ func (it Collection) JsonPtr() *corejson.Result {
 	return corejson.NewFromAnyPtr(it)
 }
 
-//goland:noinspection GoLinterLocal
 func (it *Collection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*Collection, error) {
@@ -2294,6 +2307,6 @@ func (it *Collection) AsJsonMarshaller() corejson.JsonMarshaller {
 	return it
 }
 
-func (it *Collection) AsJsonContractsBinder() corejson.JsonContractsBinder {
+func (it *Collection) AsJsonerBinder() corejson.JsonerBinder {
 	return it
 }

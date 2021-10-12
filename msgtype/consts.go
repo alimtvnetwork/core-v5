@@ -24,5 +24,15 @@ const (
 	var3WithTypeFormat                            = "(%s [t:%T], %s[t:%T], %s[t:%T]) = (%v, %v, %v)"
 	messageVar2Format                             = "%s (%s, %s) = (%v, %v)"
 	messageVar3Format                             = "%s (%s, %s, %s) = (%v, %v, %v)"
+<<<<<<< Updated upstream:msgtype/consts.go
 	messageMapFormat                              = "%s Ref(s) { %s }"
+=======
+	messageMapFormat                              = constants.MessageReferenceWrapFormat
+	messageWithTracesWithoutRefFormat             = "%s \n%s"
+	messageWithTracesRefFormat                    = messageWithTracesWithoutRefFormat + " Ref (s) { %v }"
+	PrefixStackTrace                              = constants.Hyphen + constants.Space
+	PrefixStackTraceNewLine                       = constants.NewLineUnix + PrefixStackTrace
+	NewLineCodeStacksHeader                       = "\nCode Stacks :\n"
+	CodeStacksHeaderNewLine                       = "Code Stacks :\n"
+>>>>>>> Stashed changes:errcore/consts.go
 )

@@ -1,6 +1,10 @@
 package coredata
 
 import (
+	"errors"
+	"fmt"
+
+	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coreindexes"
 )
 
@@ -28,6 +32,30 @@ func (it *BytesError) StringPtr() *string {
 	}
 
 	return it.toString
+}
+
+func (it *BytesError) CombineErrorWithRef(references ...string) string {
+	if it.IsEmptyError() {
+		return ""
+	}
+
+	csv := csvinternal.StringsToStringDefault(references...)
+
+	return fmt.Sprintf(
+		constants.MessageReferenceWrapFormat,
+		it.Error.Error(),
+		csv)
+}
+
+func (it *BytesError) CombineErrorWithRefError(references ...string) error {
+	if it.IsEmptyError() {
+		return nil
+	}
+
+	errorString := it.CombineErrorWithRef(
+		references...)
+
+	return errors.New(errorString)
 }
 
 func (it *BytesError) HasError() bool {

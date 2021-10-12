@@ -18,7 +18,7 @@ import (
 )
 
 type CollectionPtr struct {
-	items *[]*string
+	items []*string
 	sync.Mutex
 }
 
@@ -1807,6 +1807,8 @@ func (it *CollectionPtr) IsContainsAll(
 	return it.IsContainsAllPtr(&items)
 }
 
+// IsContainsAllLock
+//
 // IsContainsAllLock IsContainsAllLock nil will return false.
 func (it *CollectionPtr) IsContainsAllLock(
 	items ...string,
@@ -2041,6 +2043,6 @@ func (it *CollectionPtr) JsonStringMust() string {
 	return it.Json().JsonString()
 }
 
-func (it *CollectionPtr) AsJsonContractsBinder() corejson.JsonContractsBinder {
+func (it *CollectionPtr) AsJsonerBinder() corejson.JsonerBinder {
 	return it
 }

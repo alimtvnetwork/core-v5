@@ -7,5 +7,5 @@ type StandardSlicer interface {
 	ItemAtRemover
 	ListStringsGetter
 	JsonCombineStringer
-	corejson.JsonContractsBinder
+	corejson.JsonerBinder
 }

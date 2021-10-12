@@ -21,6 +21,38 @@ func (it Result) JsonString() string {
 	return *it.JsonStringPtr()
 }
 
+func (it *Result) PrettyJsonBuffer(prefix, indent string) (*bytes.Buffer, error) {
+	var prettyJSON bytes.Buffer
+
+	if it == nil || len(it.Bytes) == 0 {
+		return &prettyJSON, nil
+	}
+
+	err := json.Indent(
+		&prettyJSON,
+		it.Bytes,
+		prefix,
+		indent)
+
+	return &prettyJSON, err
+}
+
+func (it *Result) PrettyJsonString() string {
+	if it == nil || len(it.Bytes) == 0 {
+		return ""
+	}
+
+	prettyJSON, err := it.PrettyJsonBuffer(
+		constants.EmptyString,
+		constants.Tab)
+
+	if err != nil {
+		return ""
+	}
+
+	return prettyJSON.String()
+}
+
 func (it *Result) JsonStringPtr() *string {
 	if it == nil {
 		return constants.EmptyStringPtr
@@ -359,6 +391,33 @@ func (it *Result) IsEqualPtr(another *Result) bool {
 	return bytes.Equal(it.Bytes, another.Bytes)
 }
 
+<<<<<<< Updated upstream
+=======
+func (it *Result) CombineErrorWithRef(references ...string) string {
+	if it.IsEmptyError() {
+		return ""
+	}
+
+	csv := csvinternal.StringsToStringDefault(references...)
+
+	return fmt.Sprintf(
+		constants.MessageReferenceWrapFormat,
+		it.Error.Error(),
+		csv)
+}
+
+func (it *Result) CombineErrorWithRefError(references ...string) error {
+	if it.IsEmptyError() {
+		return nil
+	}
+
+	errorString := it.CombineErrorWithRef(
+		references...)
+
+	return errors.New(errorString)
+}
+
+>>>>>>> Stashed changes
 func (it Result) IsEqual(another Result) bool {
 	if it.Length() != another.Length() {
 		return false
@@ -377,6 +436,14 @@ func (it Result) IsEqual(another Result) bool {
 }
 
 func (it Result) CloneIf(isClone, isDeepClone bool) Result {
+	if !isClone && !isDeepClone {
+		return Result{
+			Bytes:    it.Bytes,
+			Error:    it.Error,
+			TypeName: it.TypeName,
+		}
+	}
+
 	if isClone {
 		return it.Clone(isDeepClone)
 	}

@@ -19,7 +19,7 @@ type StandardEnumer interface {
 	BasicEnumer
 	StringRangesGetter
 	RangeValidateChecker
-	corejson.JsonContractsBinder
+	corejson.JsonerBinder
 }
 
 type StandardEnumerContractsBinder interface {

@@ -43,4 +43,9 @@ const (
 	X755                                         os.FileMode = 0755
 	X766                                         os.FileMode = 0766
 	X777                                         os.FileMode = 0777
+	DefaultRootDirChmod                          os.FileMode = 0644
+	DefaultRootFileChmod                         os.FileMode = 0644
+	DefaultUserFileChmod                         os.FileMode = 0664
+	DefaultUserFileExecuteChmod                  os.FileMode = 0774
+	DefaultUserOtherFileExecuteChmod             os.FileMode = 0775
 )
