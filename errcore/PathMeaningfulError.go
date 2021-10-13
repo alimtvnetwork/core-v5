@@ -1,6 +1,6 @@
 package errcore
 
-func PathMeaningFulError(
+func PathMeaningfulError(
 	rawErrType RawErrorType,
 	funcName string,
 	err error,

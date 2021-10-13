@@ -6,8 +6,8 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 )
 
-// PathMeaningFulMessage skip error if messages empty or length 0
-func PathMeaningFulMessage(
+// PathMeaningfulMessage skip error if messages empty or length 0
+func PathMeaningfulMessage(
 	rawErrType RawErrorType,
 	funcName string,
 	location string,
