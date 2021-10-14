@@ -1,6 +1,6 @@
 package regexnew
 
-// MatchUsingFuncErrorLock
+// MatchUsingCustomizeErrorFuncLock
 //
 // creates new regex using lock
 // and then calls match.

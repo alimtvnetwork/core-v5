@@ -12,15 +12,18 @@ var (
 		Patch.ValueInt(),
 		Build.ValueInt(),
 	}
+
 	UptoPatchIndexes = [...]int{
 		Major.ValueInt(),
 		Minor.ValueInt(),
 		Patch.ValueInt(),
 	}
+
 	UptoMinorIndexes = []int{
 		Major.ValueInt(),
 		Minor.ValueInt(),
 	}
+
 	UptoMajorIndexes = []int{
 		Major.ValueInt(),
 	}

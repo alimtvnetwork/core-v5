@@ -27,4 +27,5 @@ const (
 	ExecuteChar                      byte = 'x'
 	AllWildcards                          = "***"
 	pathInvalidMessage                    = "Path invalid or permission issue. path : "
+	messageWithPathWrappedFormat          = "%s Path: (\"%s\")" // message, path
 )

@@ -37,5 +37,11 @@ func main() {
 	// errTypePrintTest01()
 
 	// compareEnumTesting02()
-	indexEnumTesting01()
+	// indexEnumTesting01()
+
+	// nullTesting01()
+
+	// pathStatTest01()
+	pathStatTest02()
+
 }

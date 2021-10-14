@@ -6,7 +6,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 )
 
-// AnyItemsToCsvStrings
+// StringsToCsvStrings
 //
 // Formats :
 //  - isIncludeQuote && isIncludeSingleQuote = '%v' will be added

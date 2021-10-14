@@ -2,8 +2,10 @@ package chmodhelper
 
 import (
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"gitlab.com/evatix-go/core/constants"
@@ -27,6 +29,10 @@ func (it *PathExistStat) IsEmptyError() bool {
 
 func (it *PathExistStat) HasFileInfo() bool {
 	return it != nil && it.FileInfo != nil
+}
+
+func (it *PathExistStat) IsInvalidFileInfo() bool {
+	return it == nil || it.FileInfo == nil
 }
 
 func (it *PathExistStat) IsFile() bool {
@@ -139,14 +145,89 @@ func (it *PathExistStat) Dispose() {
 
 func (it *PathExistStat) IsInvalid() bool {
 	return it == nil ||
+		!it.IsExist ||
 		it.FileInfo == nil ||
 		it.Error != nil
 }
 
 func (it *PathExistStat) HasAnyIssues() bool {
 	return it == nil ||
+		!it.IsExist ||
 		it.FileInfo == nil ||
 		it.Error != nil
+}
+
+func (it *PathExistStat) NotExistError() error {
+	if it == nil {
+		return nil
+	}
+
+	if !it.IsExist || it.FileInfo == nil {
+		return it.MeaningFullError()
+	}
+
+	return nil
+}
+
+func (it *PathExistStat) MessageWithPathWrapped(
+	message string,
+) string {
+	if it == nil {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		messageWithPathWrappedFormat,
+		message,
+		it.Location)
+}
+
+// NotAFileError
+//
+// Get error on:
+//  - Path has issues or not exist
+//  - Expecting file, if not file then error
+func (it *PathExistStat) NotAFileError() error {
+	if it == nil {
+		return nil
+	}
+
+	if !it.IsExist {
+		return it.NotExistError()
+	}
+
+	if it.IsDir() {
+		return errcore.ExpectingSimpleNoTypeError(
+			it.MessageWithPathWrapped("Expecting file but received directory."),
+			"File",
+			"Directory")
+	}
+
+	return nil
+}
+
+// NotADirError
+//
+// Get error on:
+//  - Path has issues or not exist
+//  - Expecting dir, if not dir then error
+func (it *PathExistStat) NotADirError() error {
+	if it == nil {
+		return nil
+	}
+
+	if !it.IsExist {
+		return it.NotExistError()
+	}
+
+	if it.IsFile() {
+		return errcore.ExpectingSimpleNoTypeError(
+			it.MessageWithPathWrapped("Expecting directory but received file."),
+			"Directory",
+			"File")
+	}
+
+	return nil
 }
 
 func (it *PathExistStat) MeaningFullError() error {
@@ -159,15 +240,55 @@ func (it *PathExistStat) MeaningFullError() error {
 	}
 
 	newErrMsg := it.Error.Error() +
-		", location :" +
+		" Location :" +
 		it.Location
 
 	newErr := errors.New(newErrMsg)
 	meaningFulErr := errcore.MeaningfulError(
 		errcore.PathInvalidErrorType,
-		"PathExistStat",
+		"Function : {PathExistStat.MeaningFullError()}",
 		newErr,
 	)
 
 	return meaningFulErr
+}
+
+func (it *PathExistStat) String() string {
+	if it == nil {
+		return ""
+	}
+
+	slice := errcore.VarNameValuesStrings(
+		errcore.NameVal{
+			Name:  "Location",
+			Value: it.Location,
+		},
+		errcore.NameVal{
+			Name:  "Name",
+			Value: it.FileName(),
+		},
+		errcore.NameVal{
+			Name:  "IsExist",
+			Value: it.IsExist,
+		},
+		errcore.NameVal{
+			Name:  "IsFile",
+			Value: it.IsFile(),
+		},
+		errcore.NameVal{
+			Name:  "IsDir",
+			Value: it.IsDir(),
+		},
+		errcore.NameVal{
+			Name:  "Chmod",
+			Value: it.FileMode(),
+		},
+		errcore.NameVal{
+			Name:  "Error",
+			Value: it.Error,
+		})
+
+	return constants.NewLineSpaceHyphenSpace + strings.Join(
+		slice,
+		constants.IndentFileInfoEachLineJoiner)
 }
