@@ -42,6 +42,7 @@ func main() {
 	// nullTesting01()
 
 	// pathStatTest01()
-	pathStatTest02()
+	// pathStatTest02()
+	nullTesting02()
 
 }

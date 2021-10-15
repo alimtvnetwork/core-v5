@@ -1,8 +1,15 @@
 package anycmp
 
-import "gitlab.com/evatix-go/core/corecomparator"
+import (
+	"gitlab.com/evatix-go/core/corecomparator"
+	"gitlab.com/evatix-go/core/isany"
+)
 
 func Cmp(left, right interface{}) corecomparator.Compare {
+	if left == right {
+		return corecomparator.Equal
+	}
+
 	if left == nil && right == nil {
 		return corecomparator.Equal
 	}
@@ -11,8 +18,15 @@ func Cmp(left, right interface{}) corecomparator.Compare {
 		return corecomparator.NotEqual
 	}
 
-	if left == right {
+	isLeftNull, isRightNull := isany.NullLeftRight(left, right)
+	isBothEqual := isLeftNull == isRightNull
+
+	if isLeftNull && isBothEqual {
+		// both null
 		return corecomparator.Equal
+	} else if !isBothEqual && isLeftNull || isRightNull {
+		// any null but the other is not
+		return corecomparator.NotEqual
 	}
 
 	return corecomparator.Inconclusive
