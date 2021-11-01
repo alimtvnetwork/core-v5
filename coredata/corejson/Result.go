@@ -138,7 +138,7 @@ func (it *Result) String() string {
 }
 
 func (it *Result) SafeNonIssueBytes() []byte {
-	if it.HasSafeItems() {
+	if it.IsAnyNull() || it.HasError() {
 		return []byte{}
 	}
 
@@ -146,7 +146,7 @@ func (it *Result) SafeNonIssueBytes() []byte {
 }
 
 func (it *Result) SafeBytes() []byte {
-	if it.Bytes == nil {
+	if it.IsAnyNull() {
 		return []byte{}
 	}
 
@@ -154,7 +154,7 @@ func (it *Result) SafeBytes() []byte {
 }
 
 func (it *Result) SafeValues() []byte {
-	if it.Bytes == nil {
+	if it.IsAnyNull() {
 		return []byte{}
 	}
 
