@@ -43,12 +43,49 @@ func (it *newSimpleSliceCreator) SpreadStrings(
 	}
 }
 
+func (it *newSimpleSliceCreator) Create(
+	lines []string,
+) *SimpleSlice {
+	return &SimpleSlice{
+		lines,
+	}
+}
+
 func (it *newSimpleSliceCreator) Strings(
 	lines []string,
 ) *SimpleSlice {
 	return &SimpleSlice{
 		lines,
 	}
+}
+
+func (it *newSimpleSliceCreator) StringsPtr(
+	lines *[]string,
+) *SimpleSlice {
+	if lines == nil || len(*lines) == 0 {
+		return it.Empty()
+	}
+
+	return &SimpleSlice{
+		*lines,
+	}
+}
+
+func (it *newSimpleSliceCreator) StringsPtrOption(
+	isClone bool,
+	lines *[]string,
+) *SimpleSlice {
+	if lines == nil || len(*lines) == 0 {
+		return it.Empty()
+	}
+
+	if !isClone {
+		return &SimpleSlice{
+			*lines,
+		}
+	}
+
+	return it.StringsClone(*lines)
 }
 
 func (it *newSimpleSliceCreator) StringsClone(

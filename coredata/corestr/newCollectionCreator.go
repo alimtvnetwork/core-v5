@@ -33,6 +33,12 @@ func (it *newCollectionCreator) CloneStrings(stringItems []string) *Collection {
 	return collection.AddStringsPtr(&stringItems)
 }
 
+func (it *newCollectionCreator) Create(stringItems []string) *Collection {
+	return &Collection{
+		items: stringItems,
+	}
+}
+
 func (it *newCollectionCreator) Strings(stringItems []string) *Collection {
 	return &Collection{
 		items: stringItems,

@@ -8,6 +8,7 @@ type newCreator struct {
 	SimpleStringOnce           *newSimpleStringOnceCreator
 	SimpleSlice                *newSimpleSliceCreator
 	Hashset                    *newHashsetCreator
+	KeyValues                  *newKeyValuesCreator
 	HashsetsCollection         *newHashsetsCollectionCreator
 	Hashmap                    *newHashmapCreator
 	LinkedList                 *newLinkedListCreator

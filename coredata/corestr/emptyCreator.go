@@ -24,6 +24,20 @@ func (it *emptyCreator) SimpleSlice() *SimpleSlice {
 	}
 }
 
+func (it *emptyCreator) KeyAnyValuePair() *KeyAnyValuePair {
+	return &KeyAnyValuePair{}
+}
+
+func (it *emptyCreator) KeyValuePair() *KeyValuePair {
+	return &KeyValuePair{}
+}
+
+func (it *emptyCreator) KeyValueCollection() *KeyValueCollection {
+	return &KeyValueCollection{
+		KeyValuePairs: []*KeyValuePair{},
+	}
+}
+
 func (it *emptyCreator) LinkedCollections() *LinkedCollections {
 	return &LinkedCollections{}
 }
