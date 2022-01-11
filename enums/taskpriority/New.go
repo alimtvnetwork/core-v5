@@ -18,7 +18,8 @@ func New(priorityName string) (Variant, error) {
 		return variant, nil
 	}
 
-	message := simplewrap.WithCurly(priorityName) + " is not found in the map!"
+	message := simplewrap.WithCurly(priorityName) +
+		" is not found in the map!"
 	err := errcore.
 		EmptyItemsType.
 		ErrorNoRefs(message)

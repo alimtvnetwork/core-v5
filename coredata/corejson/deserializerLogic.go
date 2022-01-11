@@ -12,10 +12,101 @@ type deserializerLogic struct{}
 func (it deserializerLogic) ToStrings(
 	jsonResult *Result,
 ) (lines []string, err error) {
-	var slice []string
-	err = it.Apply(jsonResult, &slice)
+	err = it.Apply(jsonResult, &lines)
 
-	return slice, err
+	return lines, err
+}
+
+func (it deserializerLogic) UsingBytesToStrings(
+	rawBytes []byte,
+) (lines []string, err error) {
+	err = it.UsingBytes(
+		rawBytes,
+		&lines)
+
+	return lines, err
+}
+
+func (it deserializerLogic) UsingBytesToStringsMust(
+	rawBytes []byte,
+) (lines []string) {
+	err := it.UsingBytes(
+		rawBytes,
+		&lines)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return lines
+}
+
+func (it deserializerLogic) UsingBytesToString(
+	rawBytes []byte,
+) (line string, err error) {
+	err = it.UsingBytes(
+		rawBytes,
+		&line)
+
+	return line, err
+}
+
+func (it deserializerLogic) UsingBytesToIntegers(
+	rawBytes []byte,
+) (integers []int, err error) {
+	err = it.UsingBytes(
+		rawBytes,
+		&integers)
+
+	return integers, err
+}
+
+func (it deserializerLogic) UsingBytesToIntegersMust(
+	rawBytes []byte,
+) (integers []int) {
+	err := it.UsingBytes(
+		rawBytes,
+		&integers)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return integers
+}
+
+func (it deserializerLogic) UsingBytesToStringMust(
+	rawBytes []byte,
+) (line string) {
+	err := it.UsingBytes(rawBytes, &line)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return line
+}
+
+func (it deserializerLogic) UsingBytesToMapAnyItem(
+	rawBytes []byte,
+) (mapAnyItem map[string]interface{}, err error) {
+	err = it.UsingBytes(rawBytes, &mapAnyItem)
+
+	return mapAnyItem, err
+}
+
+func (it deserializerLogic) UsingBytesToMapAnyItemMust(
+	rawBytes []byte,
+) (mapAnyItem map[string]interface{}) {
+	err := it.UsingBytes(
+		rawBytes,
+		&mapAnyItem)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return mapAnyItem
 }
 
 func (it deserializerLogic) ToString(
@@ -135,7 +226,9 @@ func (it deserializerLogic) UsingBytesMust(
 	rawBytes []byte,
 	unmarshalToPointer interface{},
 ) {
-	err := it.UsingBytes(rawBytes, unmarshalToPointer)
+	err := it.UsingBytes(
+		rawBytes,
+		unmarshalToPointer)
 
 	if err != nil {
 		panic(err)

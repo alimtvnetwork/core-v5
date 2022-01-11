@@ -12,11 +12,15 @@ func New(anyItem interface{}) Result {
 	typeName := reflectinternal.TypeName(anyItem)
 
 	if err != nil {
-		return Result{
-			Bytes: jsonBytes,
-			Error: errcore.MarshallingFailedType.Error(
+		nextErr := errcore.
+			MarshallingFailedType.
+			Error(
 				err.Error(),
-				typeName),
+				typeName)
+
+		return Result{
+			Bytes:    jsonBytes,
+			Error:    nextErr,
 			TypeName: typeName,
 		}
 	}

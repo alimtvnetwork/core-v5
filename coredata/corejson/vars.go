@@ -6,12 +6,15 @@ import (
 )
 
 var (
+	Empty                   = emptyCreator{}
+	Serialize               = serializerLogic{}
+	Deserialize             = deserializerLogic{}
 	NewResult               = newResultCreator{}
 	NewResultsCollection    = newResultsCollectionCreator{}
 	NewBytesCollection      = newBytesCollectionCreator{}
 	NewResultsPtrCollection = newResultsPtrCollectionCreator{}
 	NewMapResults           = newMapResultsCreator{}
-	Empty                   = emptyCreator{}
-	StaticJsonError         = errcore.EmptyResultCannotMakeJsonType.
-				Error(constants.EmptyString, constants.EmptyString)
+	StaticJsonError         = errcore.
+				EmptyResultCannotMakeJsonType.
+				ErrorNoRefs(constants.EmptyString)
 )
