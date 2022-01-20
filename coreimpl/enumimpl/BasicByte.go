@@ -99,8 +99,32 @@ func (it *BasicByte) Min() byte {
 	return it.minVal
 }
 
-func (it *BasicByte) GetValueByString(valueString string) byte {
-	return it.jsonDoubleQuoteNameToValueHashMap[valueString]
+func (it *BasicByte) GetValueByString(jsonValueString string) byte {
+	return it.jsonDoubleQuoteNameToValueHashMap[jsonValueString]
+}
+
+func (it *BasicByte) GetValueByName(name string) (byte, error) {
+	v, has := it.jsonDoubleQuoteNameToValueHashMap[name]
+
+	if has {
+		return v, nil
+	}
+
+	wrapped := fmt.Sprintf(
+		constants.SprintDoubleQuoteFormat,
+		name)
+
+	nextVal, isFoundByWrapped := it.jsonDoubleQuoteNameToValueHashMap[wrapped]
+
+	if isFoundByWrapped {
+		return nextVal, nil
+	}
+
+	// has error
+	return 0, enumUnmarshallingMappingFailedError(
+		it.TypeName(),
+		name,
+		it.RangeNamesCsv())
 }
 
 func (it *BasicByte) GetStringValue(input byte) string {

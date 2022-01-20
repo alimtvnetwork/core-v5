@@ -83,6 +83,30 @@ func (it *BasicInt32) GetValueByString(valueString string) int32 {
 	return it.jsonDoubleQuoteNameToValueHashMap[valueString]
 }
 
+func (it *BasicInt32) GetValueByName(name string) (int32, error) {
+	v, has := it.jsonDoubleQuoteNameToValueHashMap[name]
+
+	if has {
+		return v, nil
+	}
+
+	wrapped := fmt.Sprintf(
+		constants.SprintDoubleQuoteFormat,
+		name)
+
+	nextVal, isFoundByWrapped := it.jsonDoubleQuoteNameToValueHashMap[wrapped]
+
+	if isFoundByWrapped {
+		return nextVal, nil
+	}
+
+	// has error
+	return constants.InvalidValue, enumUnmarshallingMappingFailedError(
+		it.TypeName(),
+		name,
+		it.RangeNamesCsv())
+}
+
 func (it *BasicInt32) GetStringValue(input int32) string {
 	return it.StringRanges()[input]
 }

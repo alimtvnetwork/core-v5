@@ -1,6 +1,8 @@
 package enumimpl
 
 import (
+	"fmt"
+
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/coreinterface"
@@ -83,6 +85,30 @@ func (it *BasicString) Hashset() map[string]bool {
 
 func (it *BasicString) HashsetPtr() *map[string]bool {
 	return &it.jsonDoubleQuoteNameToValueHashMap
+}
+
+func (it *BasicString) GetValueByName(name string) (string, error) {
+	_, has := it.jsonDoubleQuoteNameToValueHashMap[name]
+
+	if has {
+		return name, nil
+	}
+
+	wrapped := fmt.Sprintf(
+		constants.SprintDoubleQuoteFormat,
+		name)
+
+	_, isFoundByWrapped := it.jsonDoubleQuoteNameToValueHashMap[wrapped]
+
+	if isFoundByWrapped {
+		return wrapped, nil
+	}
+
+	// has error
+	return constants.EmptyString, enumUnmarshallingMappingFailedError(
+		it.TypeName(),
+		name,
+		it.RangeNamesCsv())
 }
 
 func (it *BasicString) IsValidRange(value string) bool {

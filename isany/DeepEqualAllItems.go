@@ -1,6 +1,6 @@
 package isany
 
-func DeepEqualItems(
+func DeepEqualAllItems(
 	items ...interface{},
 ) (isAllEqual bool) {
 	length := len(items)

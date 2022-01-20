@@ -69,7 +69,10 @@ func (it *numberEnumBase) TypeName() string {
 //
 // Make sure non ptr is called +
 // String should also be attached with non ptr.
-func (it *numberEnumBase) NameWithValueOption(value interface{}, isIncludeQuotation bool) string {
+func (it *numberEnumBase) NameWithValueOption(
+	value interface{},
+	isIncludeQuotation bool,
+) string {
 	if isIncludeQuotation {
 		return fmt.Sprintf(
 			constants.DoubleQuoteStringWithBracketWrapNumberFormat,

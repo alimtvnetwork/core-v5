@@ -103,6 +103,30 @@ func (it *BasicInt16) GetValueByString(valueString string) int16 {
 	return it.jsonDoubleQuoteNameToValueHashMap[valueString]
 }
 
+func (it *BasicInt16) GetValueByName(name string) (int16, error) {
+	v, has := it.jsonDoubleQuoteNameToValueHashMap[name]
+
+	if has {
+		return v, nil
+	}
+
+	wrapped := fmt.Sprintf(
+		constants.SprintDoubleQuoteFormat,
+		name)
+
+	nextVal, isFoundByWrapped := it.jsonDoubleQuoteNameToValueHashMap[wrapped]
+
+	if isFoundByWrapped {
+		return nextVal, nil
+	}
+
+	// has error
+	return constants.InvalidValue, enumUnmarshallingMappingFailedError(
+		it.TypeName(),
+		name,
+		it.RangeNamesCsv())
+}
+
 func (it *BasicInt16) GetStringValue(input int16) string {
 	return it.StringRanges()[input]
 }
