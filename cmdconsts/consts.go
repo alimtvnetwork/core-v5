@@ -66,6 +66,8 @@ const (
 	HyphenF                                = "-f"
 	HyphenCapsF                            = "-F"
 	HyphenG                                = "-G"
+	HyphenT                                = "-T"
+	HyphenTLower                           = "-t"
 	HyphenM                                = "-m"
 	HyphenN                                = "-n"
 	HyphenO                                = "-o"
