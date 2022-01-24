@@ -72,4 +72,8 @@ func payloadTest01() {
 	errcore.HandleErr(err)
 
 	fmt.Println("new slice", newSlice)
+
+	payloadsSlice2 := corepayload.New.PayloadsCollection.UsingWrappers(
+		sliceOfPayloads...)
+	fmt.Println("new slice2", payloadsSlice2)
 }

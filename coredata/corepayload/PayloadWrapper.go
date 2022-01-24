@@ -113,6 +113,14 @@ func (it *PayloadWrapper) HasAnyItem() bool {
 	return it.Length() > 0
 }
 
+func (it *PayloadWrapper) HasIssuesOrEmpty() bool {
+	return it == nil ||
+		it.
+			Attributes.
+			HasError() ||
+		it.Length() == 0
+}
+
 func (it *PayloadWrapper) HasError() bool {
 	return it != nil && it.Attributes.HasError()
 }
@@ -235,13 +243,12 @@ func (it *PayloadWrapper) PayloadDeserializeMust(
 	}
 }
 
-func (it *PayloadWrapper) DeserializePayloadsToManyPayloadWrappers() (
-	payloadWrappers []*PayloadWrapper, err error,
+func (it *PayloadWrapper) DeserializePayloadsToPayloadsCollection() (
+	payloadsCollection *PayloadsCollection, err error,
 ) {
 	return New.
-		PayloadWrapper.
-		DeserializeToMany(
-			it.Payloads)
+		PayloadsCollection.
+		Deserialize(it.Payloads)
 }
 
 func (it *PayloadWrapper) DeserializePayloadsToPayloadWrapper() (

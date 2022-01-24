@@ -151,6 +151,15 @@ func (it *Attributes) DeserializeDynamicPayloadsToPayloadWrapper() (
 	return payloadWrapper, err
 }
 
+func (it *Attributes) DeserializeDynamicPayloadsToPayloadWrappersCollection() (
+	payloadsCollection *PayloadsCollection, err error,
+) {
+	return New.
+		PayloadsCollection.
+		Deserialize(
+			it.DynamicPayloads)
+}
+
 func (it *Attributes) DeserializeDynamicPayloadsMust(
 	unmarshalToPointer interface{},
 ) {
@@ -458,7 +467,7 @@ func (it *Attributes) deepClonePtr() (*Attributes, error) {
 		All(
 			it.KeyValuePairs.ClonePtr(),
 			anyMap,
-			it.PagingInfo.Clone(),
+			it.PagingInfo.ClonePtr(),
 			corejson.BytesDeepClone(it.DynamicPayloads),
 			errcore.ToError(it.ErrorMessage)), nil
 }

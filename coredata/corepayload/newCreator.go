@@ -1,6 +1,7 @@
 package corepayload
 
 type newCreator struct {
-	PayloadWrapper newPayloadWrapperCreator
-	Attributes     newAttributesCreator
+	PayloadWrapper     newPayloadWrapperCreator
+	PayloadsCollection newPayloadsCollectionCreator
+	Attributes         newAttributesCreator
 }
