@@ -22,3 +22,9 @@ func (it *emptyCreator) AttributesDefaults() *Attributes {
 func (it *emptyCreator) PayloadWrapper() *PayloadWrapper {
 	return &PayloadWrapper{}
 }
+
+func (it *emptyCreator) PayloadsCollection() *PayloadsCollection {
+	return &PayloadsCollection{
+		Items: []*PayloadWrapper{},
+	}
+}

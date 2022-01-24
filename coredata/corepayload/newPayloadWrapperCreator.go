@@ -49,6 +49,15 @@ func (it newPayloadWrapperCreator) DeserializeToMany(
 	return payloadsSlice, nil
 }
 
+func (it newPayloadWrapperCreator) DeserializeToCollection(
+	rawBytes []byte,
+) (payloadsSlice *PayloadsCollection, err error) {
+	return New.
+		PayloadsCollection.
+		Deserialize(
+			rawBytes)
+}
+
 func (it newPayloadWrapperCreator) DeserializeUsingJsonResult(
 	jsonResult *corejson.Result,
 ) (*PayloadWrapper, error) {

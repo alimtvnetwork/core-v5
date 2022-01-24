@@ -1,5 +1,6 @@
 package corepayload
 
 var (
-	New = newCreator{}
+	Empty = emptyCreator{}
+	New   = newCreator{}
 )

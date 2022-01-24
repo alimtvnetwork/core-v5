@@ -45,7 +45,32 @@ func (it *PagingInfo) HasTotalItems() bool {
 	return it != nil && it.TotalItems > 0
 }
 
-func (it *PagingInfo) Clone() *PagingInfo {
+func (it *PagingInfo) IsInvalidTotalPages() bool {
+	return it == nil || it.TotalPages <= 0
+}
+
+func (it *PagingInfo) IsInvalidCurrentPageIndex() bool {
+	return it == nil || it.CurrentPageIndex <= 0
+}
+
+func (it *PagingInfo) IsInvalidPerPageItems() bool {
+	return it == nil || it.PerPageItems <= 0
+}
+
+func (it *PagingInfo) IsInvalidTotalItems() bool {
+	return it == nil || it.TotalItems <= 0
+}
+
+func (it PagingInfo) Clone() PagingInfo {
+	return PagingInfo{
+		TotalPages:       it.TotalPages,
+		CurrentPageIndex: it.CurrentPageIndex,
+		PerPageItems:     it.PerPageItems,
+		TotalItems:       it.TotalItems,
+	}
+}
+
+func (it *PagingInfo) ClonePtr() *PagingInfo {
 	if it == nil {
 		return nil
 	}
