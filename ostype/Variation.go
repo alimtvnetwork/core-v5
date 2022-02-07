@@ -2,7 +2,7 @@ package ostype
 
 import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 )
 
 type Variation byte
@@ -28,6 +28,72 @@ const (
 	IOs
 	Aix
 )
+
+func (it Variation) Format(format string) (compiled string) {
+	return basicEnumImplOsType.Format(format, it)
+}
+
+func (it Variation) IsEnumEqual(enum enuminf.BasicEnumer) bool {
+	return it.Value() == enum.ValueByte()
+}
+
+func (it *Variation) IsAnyEnumsEqual(enums ...enuminf.BasicEnumer) bool {
+	for _, enum := range enums {
+		if enum.IsEnumEqual(it) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variation) IsNameEqual(name string) bool {
+	return it.Name() == name
+}
+
+func (it Variation) IsNameOf(names ...string) bool {
+	for _, name := range names {
+		if it.IsNameEqual(name) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variation) IsValueEqual(value byte) bool {
+	return it.ValueByte() == value
+}
+
+func (it Variation) IsAnyValuesEqual(anyByteValues ...byte) bool {
+	for _, currentVal := range anyByteValues {
+		if it.IsValueEqual(currentVal) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variation) ValueInt() int {
+	return int(it)
+}
+
+func (it Variation) ValueInt8() int8 {
+	return int8(it)
+}
+
+func (it Variation) ValueInt16() int16 {
+	return int16(it)
+}
+
+func (it Variation) ValueInt32() int32 {
+	return int32(it)
+}
+
+func (it Variation) ValueString() string {
+	return it.ToNumberString()
+}
 
 func (it Variation) IsValid() bool {
 	return it.Value() != 0
@@ -196,14 +262,14 @@ func (it Variation) String() string {
 	return basicEnumImplOsType.ToEnumString(it.Value())
 }
 
-func (it *Variation) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
-	return it
+func (it Variation) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder {
+	return &it
 }
 
 func (it *Variation) AsJsonContractsBinder() corejson.JsonMarshaller {
 	return it
 }
 
-func (it Variation) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
+func (it Variation) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return &it
 }

@@ -77,7 +77,7 @@ func NewBasicInt16UsingIndexedSlice(
 		int16(max))
 }
 
-func (it *BasicInt16) IsAnyOf(value int16, checkingItems ...int16) bool {
+func (it BasicInt16) IsAnyOf(value int16, checkingItems ...int16) bool {
 	if len(checkingItems) == 0 {
 		return true
 	}
@@ -91,19 +91,19 @@ func (it *BasicInt16) IsAnyOf(value int16, checkingItems ...int16) bool {
 	return false
 }
 
-func (it *BasicInt16) Max() int16 {
+func (it BasicInt16) Max() int16 {
 	return it.maxVal
 }
 
-func (it *BasicInt16) Min() int16 {
+func (it BasicInt16) Min() int16 {
 	return it.minVal
 }
 
-func (it *BasicInt16) GetValueByString(valueString string) int16 {
+func (it BasicInt16) GetValueByString(valueString string) int16 {
 	return it.jsonDoubleQuoteNameToValueHashMap[valueString]
 }
 
-func (it *BasicInt16) GetValueByName(
+func (it BasicInt16) GetValueByName(
 	name string,
 ) (int16, error) {
 	v, has := it.jsonDoubleQuoteNameToValueHashMap[name]
@@ -129,36 +129,36 @@ func (it *BasicInt16) GetValueByName(
 		it.RangeNamesCsv())
 }
 
-func (it *BasicInt16) GetStringValue(input int16) string {
+func (it BasicInt16) GetStringValue(input int16) string {
 	return it.StringRanges()[input]
 }
 
-func (it *BasicInt16) Ranges() []int16 {
+func (it BasicInt16) Ranges() []int16 {
 	return it.actualValueRanges.([]int16)
 }
 
-func (it *BasicInt16) Hashmap() map[string]int16 {
+func (it BasicInt16) Hashmap() map[string]int16 {
 	return it.jsonDoubleQuoteNameToValueHashMap
 }
 
-func (it *BasicInt16) HashmapPtr() *map[string]int16 {
+func (it BasicInt16) HashmapPtr() *map[string]int16 {
 	return &it.jsonDoubleQuoteNameToValueHashMap
 }
 
-func (it *BasicInt16) IsValidRange(value int16) bool {
+func (it BasicInt16) IsValidRange(value int16) bool {
 	return value >= it.minVal && value <= it.maxVal
 }
 
 // ToEnumJsonBytes used for MarshalJSON from map
-func (it *BasicInt16) ToEnumJsonBytes(value int16) []byte {
+func (it BasicInt16) ToEnumJsonBytes(value int16) []byte {
 	return it.valueToJsonDoubleQuoteStringBytesHashmap[value]
 }
 
-func (it *BasicInt16) ToEnumString(value int16) string {
+func (it BasicInt16) ToEnumString(value int16) string {
 	return it.valueNameHashmap[value]
 }
 
-func (it *BasicInt16) AppendPrependJoinValue(
+func (it BasicInt16) AppendPrependJoinValue(
 	joiner string,
 	appendVal, prependVal int16,
 ) string {
@@ -167,7 +167,7 @@ func (it *BasicInt16) AppendPrependJoinValue(
 		it.ToEnumString(appendVal)
 }
 
-func (it *BasicInt16) AppendPrependJoinNamer(
+func (it BasicInt16) AppendPrependJoinNamer(
 	joiner string,
 	appendVal, prependVal coreinterface.ToNamer,
 ) string {
@@ -176,14 +176,14 @@ func (it *BasicInt16) AppendPrependJoinNamer(
 		appendVal.Name()
 }
 
-func (it *BasicInt16) ToNumberString(valueInRawFormat interface{}) string {
+func (it BasicInt16) ToNumberString(valueInRawFormat interface{}) string {
 	return fmt.Sprintf(constants.SprintValueFormat, valueInRawFormat)
 }
 
 // UnmarshallToValue Mostly used for UnmarshalJSON
 //
 // Given bytes string enum value and transpile to exact enum raw value using map
-func (it *BasicInt16) UnmarshallToValue(
+func (it BasicInt16) UnmarshallToValue(
 	isMappedToFirstIfEmpty bool,
 	jsonUnmarshallingValue []byte,
 ) (int16, error) {

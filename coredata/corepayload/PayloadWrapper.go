@@ -7,6 +7,7 @@ import (
 	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/coredata/coredynamic"
 	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coreinterface/entityinf"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/errcore"
 )
@@ -19,7 +20,83 @@ type PayloadWrapper struct {
 	CategoryName   string      `json:"CategoryName,omitempty"`
 	HasManyRecords bool        `json:"HasManyRecords,omitempty"`
 	Payloads       []byte      `json:"Payloads,omitempty"`
-	Attributes     *Attributes `json:"Attributes,omitempty"`
+	Attributes     *Attributes `json:"AnyAttributes,omitempty"`
+}
+
+func (it *PayloadWrapper) AnyAttributes() interface{} {
+	return it.Attributes
+}
+
+func (it *PayloadWrapper) ReflectSetAttributes(
+	toPointer interface{},
+) error {
+	return coredynamic.ReflectSetFromTo(
+		it.Attributes, toPointer)
+}
+
+func (it *PayloadWrapper) IdString() string {
+	return it.Identifier
+}
+
+func (it *PayloadWrapper) IdInteger() int {
+	return it.IdentifierInteger()
+}
+
+func (it *PayloadWrapper) IsStandardTaskEntityEqual(
+	entity entityinf.StandardTaskEntityDefiner,
+) bool {
+	another, isSuccess := entity.(*PayloadWrapper)
+
+	if !isSuccess {
+		return false
+	}
+
+	return it.IsEqual(another)
+}
+
+func (it *PayloadWrapper) ValueReflectSet(
+	setterPtr interface{},
+) error {
+	return coredynamic.ReflectSetFromTo(
+		it.Payloads,
+		setterPtr)
+}
+
+func (it *PayloadWrapper) Serialize() ([]byte, error) {
+	return it.Json().Raw()
+}
+
+func (it *PayloadWrapper) SerializeMust() []byte {
+	json := it.Json()
+	json.HandleError()
+
+	return json.Bytes
+}
+
+func (it *PayloadWrapper) Username() string {
+	if it.IsEmptyAttributes() {
+		return ""
+	}
+
+	virtualUser := it.Attributes.VirtualUser()
+
+	if virtualUser == nil {
+		return ""
+	}
+
+	return virtualUser.Name
+}
+
+func (it *PayloadWrapper) Value() interface{} {
+	return it.Payloads
+}
+
+func (it *PayloadWrapper) Error() error {
+	if it.IsEmptyError() {
+		return nil
+	}
+
+	return it.Attributes.Error()
 }
 
 func (it *PayloadWrapper) IsEqual(right *PayloadWrapper) bool {
@@ -406,5 +483,9 @@ func (it *PayloadWrapper) ClonePtr(
 }
 
 func (it PayloadWrapper) NonPtr() PayloadWrapper {
+	return it
+}
+
+func (it *PayloadWrapper) AsStandardTaskEntityDefinerContractsBinder() entityinf.StandardTaskEntityDefinerContractsBinder {
 	return it
 }

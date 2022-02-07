@@ -59,7 +59,7 @@ func (it *SessionInfo) HasUser() bool {
 	return it != nil && it.User.IsValidUser()
 }
 
-func (it *SessionInfo) IsUserNameEqual(
+func (it *SessionInfo) IsUsernameEqual(
 	name string,
 ) bool {
 	return it != nil &&

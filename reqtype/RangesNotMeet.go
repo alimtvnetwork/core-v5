@@ -13,8 +13,8 @@ func RangesNotMeet(
 		return constants.EmptyString
 	}
 
-	currentStart := start(&reqs)
-	currentEnd := end(&reqs)
+	currentStart := start(reqs)
+	currentEnd := end(reqs)
 
 	return errcore.RangeNotMeet(
 		message,

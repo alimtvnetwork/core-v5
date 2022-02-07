@@ -1,7 +1,7 @@
 package chmodclasstype
 
 import (
-	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 )
 
 type Variant byte
@@ -16,6 +16,72 @@ const (
 	GroupOther
 	OwnerOther
 )
+
+func (it Variant) Format(format string) (compiled string) {
+	return BasicEnumImpl.Format(format, it)
+}
+
+func (it Variant) IsEnumEqual(enum enuminf.BasicEnumer) bool {
+	return it.Value() == enum.ValueByte()
+}
+
+func (it *Variant) IsAnyEnumsEqual(enums ...enuminf.BasicEnumer) bool {
+	for _, enum := range enums {
+		if enum.IsEnumEqual(it) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variant) IsNameEqual(name string) bool {
+	return it.Name() == name
+}
+
+func (it Variant) IsNameOf(names ...string) bool {
+	for _, name := range names {
+		if it.IsNameEqual(name) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variant) IsValueEqual(value byte) bool {
+	return it.ValueByte() == value
+}
+
+func (it Variant) IsAnyValuesEqual(anyByteValues ...byte) bool {
+	for _, currentVal := range anyByteValues {
+		if it.IsValueEqual(currentVal) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variant) ValueInt() int {
+	return int(it)
+}
+
+func (it Variant) ValueInt8() int8 {
+	return int8(it)
+}
+
+func (it Variant) ValueInt16() int16 {
+	return int16(it)
+}
+
+func (it Variant) ValueInt32() int32 {
+	return int32(it)
+}
+
+func (it Variant) ValueString() string {
+	return it.ToNumberString()
+}
 
 func (it Variant) IsUnInitialized() bool {
 	return it == Invalid
@@ -99,8 +165,8 @@ func (it Variant) NameValue() string {
 	return BasicEnumImpl.NameWithValue(it)
 }
 
-func (it *Variant) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
-	return it
+func (it Variant) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder {
+	return &it
 }
 
 func (it *Variant) MaxByte() byte {
@@ -123,6 +189,6 @@ func (it *Variant) RangesByte() []byte {
 	return BasicEnumImpl.Ranges()
 }
 
-func (it *Variant) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
+func (it *Variant) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return it
 }

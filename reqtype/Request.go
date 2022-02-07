@@ -6,7 +6,7 @@ import (
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 	"gitlab.com/evatix-go/core/errcore"
 )
 
@@ -67,6 +67,68 @@ const (
 	InheritPlusOverride
 	DynamicAction
 )
+
+func (it Request) Format(format string) (compiled string) {
+	return BasicEnumImpl.Format(format, it)
+}
+
+func (it Request) IsEnumEqual(enum enuminf.BasicEnumer) bool {
+	return it.Value() == enum.ValueByte()
+}
+
+func (it *Request) IsAnyEnumsEqual(enums ...enuminf.BasicEnumer) bool {
+	for _, enum := range enums {
+		if enum.IsEnumEqual(it) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Request) IsNameEqual(name string) bool {
+	return it.Name() == name
+}
+
+func (it Request) IsNameOf(names ...string) bool {
+	for _, name := range names {
+		if it.IsNameEqual(name) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Request) IsValueEqual(value byte) bool {
+	return it.ValueByte() == value
+}
+
+func (it Request) IsAnyValuesEqual(anyByteValues ...byte) bool {
+	for _, currentVal := range anyByteValues {
+		if it.IsValueEqual(currentVal) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Request) ValueInt8() int8 {
+	return int8(it)
+}
+
+func (it Request) ValueInt16() int16 {
+	return int16(it)
+}
+
+func (it Request) ValueInt32() int32 {
+	return int32(it)
+}
+
+func (it Request) ValueString() string {
+	return it.ToNumberString()
+}
 
 func (it Request) IsValid() bool {
 	return it != Invalid
@@ -488,7 +550,6 @@ func (it Request) GetStatusAnyOf(reqs ...Request) *ResultStatus {
 			IsSuccess:  true,
 			IndexMatch: constants.InvalidNotFoundCase,
 			Ranges:     reqs,
-			Error:      nil,
 		}
 	}
 
@@ -498,15 +559,14 @@ func (it Request) GetStatusAnyOf(reqs ...Request) *ResultStatus {
 				IsSuccess:  true,
 				IndexMatch: i,
 				Ranges:     reqs,
-				Error:      nil,
 			}
 		}
 	}
 
 	errMsg := errcore.RangeNotMeet(
 		"Failed GetStatusAnyOf",
-		start(&reqs),
-		end(&reqs),
+		start(reqs),
+		end(reqs),
 		reqs)
 
 	return &ResultStatus{
@@ -603,7 +663,7 @@ func (it Request) MarshalJSON() ([]byte, error) {
 	return BasicEnumImpl.ToEnumJsonBytes(it.Value()), nil
 }
 
-func (it Request) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
+func (it Request) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder {
 	return &it
 }
 
@@ -611,6 +671,6 @@ func (it *Request) AsJsonMarshaller() corejson.JsonMarshaller {
 	return it
 }
 
-func (it Request) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
+func (it Request) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return &it
 }

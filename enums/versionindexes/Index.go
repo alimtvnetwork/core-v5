@@ -2,7 +2,7 @@ package versionindexes
 
 import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 	"gitlab.com/evatix-go/core/defaulterr"
 )
 
@@ -16,6 +16,68 @@ const (
 	Invalid Index = 4
 )
 
+func (it Index) Format(format string) (compiled string) {
+	return BasicEnumImpl.Format(format, it)
+}
+
+func (it Index) IsEnumEqual(enum enuminf.BasicEnumer) bool {
+	return it.ValueByte() == enum.ValueByte()
+}
+
+func (it *Index) IsAnyEnumsEqual(enums ...enuminf.BasicEnumer) bool {
+	for _, enum := range enums {
+		if enum.IsEnumEqual(it) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Index) IsValueEqual(value byte) bool {
+	return it.ValueByte() == value
+}
+
+func (it Index) IsAnyValuesEqual(anyByteValues ...byte) bool {
+	for _, valByte := range anyByteValues {
+		if it.IsValueEqual(valByte) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Index) IsNameEqual(name string) bool {
+	return it.Name() == name
+}
+
+func (it Index) IsNameOf(names ...string) bool {
+	for _, name := range names {
+		if it.IsNameEqual(name) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Index) ValueInt8() int8 {
+	return int8(it)
+}
+
+func (it Index) ValueInt16() int16 {
+	return int16(it)
+}
+
+func (it Index) ValueInt32() int32 {
+	return int32(it)
+}
+
+func (it Index) ValueString() string {
+	return it.ToNumberString()
+}
+
 func (it Index) IsValid() bool {
 	return it != Invalid
 }
@@ -24,7 +86,7 @@ func (it Index) IsInvalid() bool {
 	return it == Invalid
 }
 
-func (it *Index) Name() string {
+func (it Index) Name() string {
 	return BasicEnumImpl.ToEnumString(it.ValueByte())
 }
 
@@ -32,11 +94,11 @@ func (it Index) NameValue() string {
 	return BasicEnumImpl.NameWithValue(it)
 }
 
-func (it *Index) ToNumberString() string {
+func (it Index) ToNumberString() string {
 	return BasicEnumImpl.ToNumberString(it.ValueByte())
 }
 
-func (it *Index) UnmarshallEnumToValue(
+func (it Index) UnmarshallEnumToValue(
 	jsonUnmarshallingValue []byte,
 ) (byte, error) {
 	return BasicEnumImpl.UnmarshallToValue(
@@ -56,7 +118,7 @@ func (it Index) TypeName() string {
 	return BasicEnumImpl.TypeName()
 }
 
-func (it *Index) MarshalJSON() ([]byte, error) {
+func (it Index) MarshalJSON() ([]byte, error) {
 	return BasicEnumImpl.ToEnumJsonBytes(it.ValueByte()), nil
 }
 
@@ -101,8 +163,8 @@ func (it *Index) AsJsonContractsBinder() corejson.JsonContractsBinder {
 	return it
 }
 
-func (it *Index) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
-	return it
+func (it Index) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder {
+	return &it
 }
 
 func (it *Index) MaxByte() byte {
@@ -141,6 +203,6 @@ func (it Index) IsBuild() bool {
 	return it == Build
 }
 
-func (it *Index) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
-	return it
+func (it Index) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
+	return &it
 }

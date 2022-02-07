@@ -2,7 +2,7 @@ package ostype
 
 import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 )
 
 type Group byte
@@ -13,6 +13,72 @@ const (
 	AndroidGroup
 	InvalidGroup
 )
+
+func (it Group) Format(format string) (compiled string) {
+	return basicEnumImplOsGroup.Format(format, it)
+}
+
+func (it Group) IsEnumEqual(enum enuminf.BasicEnumer) bool {
+	return it.Value() == enum.ValueByte()
+}
+
+func (it *Group) IsAnyEnumsEqual(enums ...enuminf.BasicEnumer) bool {
+	for _, enum := range enums {
+		if enum.IsEnumEqual(it) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Group) IsNameEqual(name string) bool {
+	return it.Name() == name
+}
+
+func (it Group) IsNameOf(names ...string) bool {
+	for _, name := range names {
+		if it.IsNameEqual(name) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Group) IsValueEqual(value byte) bool {
+	return it.ValueByte() == value
+}
+
+func (it Group) IsAnyValuesEqual(anyByteValues ...byte) bool {
+	for _, currentVal := range anyByteValues {
+		if it.IsValueEqual(currentVal) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Group) ValueInt() int {
+	return int(it)
+}
+
+func (it Group) ValueInt8() int8 {
+	return int8(it)
+}
+
+func (it Group) ValueInt16() int16 {
+	return int16(it)
+}
+
+func (it Group) ValueInt32() int32 {
+	return int32(it)
+}
+
+func (it Group) ValueString() string {
+	return it.ToNumberString()
+}
 
 func (it Group) Is(another Group) bool {
 	return it == another
@@ -110,7 +176,7 @@ func (it Group) IsInvalid() bool {
 	return it == InvalidGroup
 }
 
-func (it *Group) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
+func (it *Group) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder {
 	return it
 }
 
@@ -118,6 +184,6 @@ func (it *Group) AsJsonContractsBinder() corejson.JsonMarshaller {
 	return it
 }
 
-func (it Group) AsBasicByteEnumContractsBinder() coreinterface.BasicByteEnumContractsBinder {
+func (it Group) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return &it
 }

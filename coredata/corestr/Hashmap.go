@@ -858,7 +858,7 @@ func (it *Hashmap) setCached() {
 	it.cachedList = list
 }
 
-// ValuesToLower Create a new items with all lower strings
+// ValuesToLower CreateUsingAliasMap a new items with all lower strings
 func (it *Hashmap) ValuesToLower() *Hashmap {
 	newMap := make(map[string]string, it.Length())
 

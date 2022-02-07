@@ -1056,7 +1056,7 @@ func (it *Hashset) setCached() {
 	it.cachedList = list
 }
 
-// ToLowerSet Create a new items with all lower strings
+// ToLowerSet CreateUsingAliasMap a new items with all lower strings
 func (it *Hashset) ToLowerSet() *Hashset {
 	length := it.Length()
 	newMap := make(map[string]bool, length)

@@ -8,7 +8,7 @@ import (
 var (
 	Ranges = [...]string{
 		Invalid:                          "Invalid",
-		Create:                           "Create",
+		Create:                           "CreateUsingAliasMap",
 		Read:                             "Read",
 		Update:                           "Update",
 		Delete:                           "Delete",
@@ -63,7 +63,7 @@ var (
 
 	RangesMap = map[string]Request{
 		"Invalid":                          Invalid,
-		"Create":                           Create,
+		"CreateUsingAliasMap":              Create,
 		"Read":                             Read,
 		"Update":                           Update,
 		"Delete":                           Delete,
@@ -116,7 +116,7 @@ var (
 		"DynamicAction":                    DynamicAction,
 	}
 
-	BasicEnumImpl = enumimpl.NewBasicByteUsingIndexedSlice(
+	BasicEnumImpl = enumimpl.New.BasicByte.UsingTypeSlice(
 		reflectinternal.TypeName(Invalid),
 		Ranges[:])
 )

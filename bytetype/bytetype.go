@@ -2,10 +2,66 @@ package bytetype
 
 import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
-	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 )
 
 type Variant byte
+
+func (it Variant) Format(format string) (compiled string) {
+	return BasicEnumImpl.Format(format, it)
+}
+
+func (it Variant) IsEnumEqual(enum enuminf.BasicEnumer) bool {
+	return it.Value() == enum.ValueByte()
+}
+
+func (it *Variant) IsAnyEnumsEqual(enums ...enuminf.BasicEnumer) bool {
+	for _, enum := range enums {
+		if enum.IsEnumEqual(it) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variant) IsNameEqual(name string) bool {
+	return it.Name() == name
+}
+
+func (it Variant) IsNameOf(names ...string) bool {
+	for _, name := range names {
+		if it.IsNameEqual(name) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Variant) ValueByte() byte {
+	return byte(it)
+}
+
+func (it Variant) ValueInt() int {
+	return int(it)
+}
+
+func (it Variant) ValueInt8() int8 {
+	return int8(it)
+}
+
+func (it Variant) ValueInt16() int16 {
+	return int16(it)
+}
+
+func (it Variant) ValueInt32() int32 {
+	return int32(it)
+}
+
+func (it Variant) ValueString() string {
+	return it.ToNumberString()
+}
 
 func (it Variant) IsValid() bool {
 	return it != 0
@@ -183,6 +239,6 @@ func (it Variant) TypeName() string {
 	return BasicEnumImpl.TypeName()
 }
 
-func (it Variant) AsBasicEnumContractsBinder() coreinterface.BasicEnumContractsBinder {
+func (it Variant) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder {
 	return &it
 }

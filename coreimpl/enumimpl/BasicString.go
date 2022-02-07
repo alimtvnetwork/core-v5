@@ -4,10 +4,8 @@ import (
 	"fmt"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/core/defaulterr"
-	"gitlab.com/evatix-go/core/simplewrap"
 )
 
 type BasicString struct {
@@ -17,43 +15,7 @@ type BasicString struct {
 	minVal, maxVal                           string
 }
 
-func NewBasicString(
-	typeName string,
-	stringRanges []string,
-	min, max string,
-) *BasicString {
-	enumBase := newNumberEnumBase(
-		typeName,
-		stringRanges,
-		stringRanges,
-		min,
-		max)
-
-	jsonDoubleQuoteNameToValueHashMap := make(
-		map[string]string,
-		len(stringRanges))
-	valueToJsonDoubleQuoteStringBytesHashmap := make(
-		map[string][]byte,
-		len(stringRanges))
-
-	for i, actualVal := range stringRanges {
-		key := stringRanges[i]
-		jsonName := simplewrap.WithDoubleQuote(key)
-		jsonDoubleQuoteNameToValueHashMap[jsonName] = actualVal
-		valueToJsonDoubleQuoteStringBytesHashmap[key] = []byte(jsonName)
-	}
-
-	return &BasicString{
-		numberEnumBase: enumBase,
-		minVal:         min,
-		maxVal:         max,
-		jsonDoubleQuoteNameToValueHashMap: *converters.
-			StringsToMap(&stringRanges),
-		valueToJsonDoubleQuoteStringBytesHashmap: valueToJsonDoubleQuoteStringBytesHashmap,
-	}
-}
-
-func (it *BasicString) IsAnyOf(value string, checkingItems ...string) bool {
+func (it BasicString) IsAnyOf(value string, checkingItems ...string) bool {
 	if len(checkingItems) == 0 {
 		return true
 	}
@@ -67,27 +29,27 @@ func (it *BasicString) IsAnyOf(value string, checkingItems ...string) bool {
 	return false
 }
 
-func (it *BasicString) Max() string {
+func (it BasicString) Max() string {
 	return it.maxVal
 }
 
-func (it *BasicString) Min() string {
+func (it BasicString) Min() string {
 	return it.minVal
 }
 
-func (it *BasicString) Ranges() []string {
+func (it BasicString) Ranges() []string {
 	return it.actualValueRanges.([]string)
 }
 
-func (it *BasicString) Hashset() map[string]bool {
+func (it BasicString) Hashset() map[string]bool {
 	return it.jsonDoubleQuoteNameToValueHashMap
 }
 
-func (it *BasicString) HashsetPtr() *map[string]bool {
+func (it BasicString) HashsetPtr() *map[string]bool {
 	return &it.jsonDoubleQuoteNameToValueHashMap
 }
 
-func (it *BasicString) GetValueByName(name string) (string, error) {
+func (it BasicString) GetValueByName(name string) (string, error) {
 	_, has := it.jsonDoubleQuoteNameToValueHashMap[name]
 
 	if has {
@@ -111,11 +73,11 @@ func (it *BasicString) GetValueByName(name string) (string, error) {
 		it.RangeNamesCsv())
 }
 
-func (it *BasicString) IsValidRange(value string) bool {
+func (it BasicString) IsValidRange(value string) bool {
 	return it.jsonDoubleQuoteNameToValueHashMap[value]
 }
 
-func (it *BasicString) AppendPrependJoinValue(
+func (it BasicString) AppendPrependJoinValue(
 	joiner string,
 	appendVal, prependVal string,
 ) string {
@@ -124,7 +86,7 @@ func (it *BasicString) AppendPrependJoinValue(
 		it.ToEnumString(appendVal)
 }
 
-func (it *BasicString) AppendPrependJoinNamer(
+func (it BasicString) AppendPrependJoinNamer(
 	joiner string,
 	appendVal, prependVal coreinterface.ToNamer,
 ) string {
@@ -134,14 +96,14 @@ func (it *BasicString) AppendPrependJoinNamer(
 }
 
 // ToEnumJsonBytes used for MarshalJSON from map
-func (it *BasicString) ToEnumJsonBytes(value string) []byte {
+func (it BasicString) ToEnumJsonBytes(value string) []byte {
 	return it.valueToJsonDoubleQuoteStringBytesHashmap[value]
 }
 
 // UnmarshallToValue Mostly used for UnmarshalJSON
 //
 // Given bytes string enum value and transpile to exact enum raw value using map
-func (it *BasicString) UnmarshallToValue(
+func (it BasicString) UnmarshallToValue(
 	isMappedToFirstIfEmpty bool,
 	jsonUnmarshallingValue []byte,
 ) (string, error) {
