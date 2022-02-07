@@ -10,7 +10,7 @@ import (
 
 // New
 //
-// Create new Version from given "v0.1.0" or "v0.0" or "v1" even "0.0.0" or empty string
+// CreateUsingAliasMap new Version from given "v0.1.0" or "v0.0" or "v1" even "0.0.0" or empty string
 //
 // Examples for valid input
 //  - "v0.0.0.0" or "0.0.0.0" represents "v{MajorInt}.{MinorInt}.{PatchInt}.{BuildInt}"

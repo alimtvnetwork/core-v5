@@ -17,7 +17,7 @@ var (
 		OwnerOther: "OwnerOther",
 	}
 
-	BasicEnumImpl = enumimpl.NewBasicByteUsingIndexedSlice(
+	BasicEnumImpl = enumimpl.New.BasicByte.UsingTypeSlice(
 		reflectinternal.TypeName(Invalid),
 		Ranges[:])
 )

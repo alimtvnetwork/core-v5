@@ -8,17 +8,23 @@ import (
 	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/coredata/coreonce"
 	"gitlab.com/evatix-go/core/errcore"
+	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
 type numberEnumBase struct {
 	actualValueRanges    interface{}
 	stringRanges         []string
-	rangesCsvString      *coreonce.StringOnce
-	rangesInvalidMessage *coreonce.StringOnce
-	invalidError         *coreonce.ErrorOnce
+	rangesCsvString      coreonce.StringOnce
+	rangesInvalidMessage coreonce.StringOnce
+	invalidError         coreonce.ErrorOnce
 	typeName             string
 }
 
+// newNumberEnumBase
+//
+//  @actualRangesAnyType : []Byte, []int, []int8... not pointer
+//
+//  Lengths must match stringRanges and actualRangesAnyType
 func newNumberEnumBase(
 	typeName string,
 	actualRangesAnyType interface{},
@@ -32,13 +38,13 @@ func newNumberEnumBase(
 			errors.New("StringRanges cannot be nil"))
 	}
 
-	rangesToCsvOnce := coreonce.NewStringOncePtr(func() string {
+	rangesToCsvOnce := coreonce.NewStringOnce(func() string {
 		return converters.StringsToCsvWithIndexes(
 			stringRanges,
 		)
 	})
 
-	invalidMessageOnce := coreonce.NewStringOncePtr(func() string {
+	invalidMessageOnce := coreonce.NewStringOnce(func() string {
 		msg := errcore.EnumRangeNotMeet(
 			min,
 			max,
@@ -51,7 +57,7 @@ func newNumberEnumBase(
 		actualValueRanges:    actualRangesAnyType,
 		stringRanges:         stringRanges,
 		rangesInvalidMessage: invalidMessageOnce,
-		invalidError: coreonce.NewErrorOncePtr(func() error {
+		invalidError: coreonce.NewErrorOnce(func() error {
 			return errors.New(invalidMessageOnce.Value())
 		}),
 		rangesCsvString: rangesToCsvOnce,
@@ -92,11 +98,53 @@ func (it *numberEnumBase) NameWithValueOption(
 //
 // Make sure non ptr is called +
 // String should also be attached with non ptr.
-func (it *numberEnumBase) NameWithValue(value interface{}) string {
+func (it *numberEnumBase) NameWithValue(
+	value interface{},
+) string {
 	return fmt.Sprintf(
 		constants.StringWithBracketWrapNumberFormat,
 		value,
 		value)
+}
+
+func (it *numberEnumBase) ValueString(
+	value interface{},
+) string {
+	return fmt.Sprintf(
+		constants.SprintNumberFormat,
+		value,
+	)
+}
+
+// Format
+//
+//  Outputs name and
+//  value by given format.
+//
+// sample-format :
+//  - "Enum of {type-name} - {name} - {value}"
+//
+// sample-format-output :
+//  - "Enum of EnumFullName - Invalid - 0"
+//
+// Key-Meaning :
+//  - {type-name} : represents type-name string
+//  - {name}      : represents name string
+//  - {value}     : represents value string
+func (it *numberEnumBase) Format(
+	format string,
+	value interface{},
+) string {
+	replacerMap := map[string]string{
+		typeNameTemplateKey: it.TypeName(),
+		nameKey:             it.ToEnumString(value),
+		valueKey:            it.ValueString(value),
+	}
+
+	return utilstringinternal.ReplaceTemplateMap(
+		true,
+		format,
+		replacerMap)
 }
 
 func (it *numberEnumBase) RangeNamesCsv() string {
@@ -123,6 +171,10 @@ func (it *numberEnumBase) JsonString(input interface{}) string {
 	return it.ToEnumString(input)
 }
 
-func (it *numberEnumBase) ToEnumString(input interface{}) string {
-	return fmt.Sprintf(constants.SprintValueFormat, input)
+func (it *numberEnumBase) ToEnumString(
+	input interface{},
+) string {
+	return fmt.Sprintf(
+		constants.SprintValueFormat,
+		input)
 }

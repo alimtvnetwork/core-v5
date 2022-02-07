@@ -57,7 +57,7 @@ func NewBasicInt32(
 	}
 }
 
-func (it *BasicInt32) IsAnyOf(value int32, checkingItems ...int32) bool {
+func (it BasicInt32) IsAnyOf(value int32, checkingItems ...int32) bool {
 	if len(checkingItems) == 0 {
 		return true
 	}
@@ -71,19 +71,19 @@ func (it *BasicInt32) IsAnyOf(value int32, checkingItems ...int32) bool {
 	return false
 }
 
-func (it *BasicInt32) Max() int32 {
+func (it BasicInt32) Max() int32 {
 	return it.maxVal
 }
 
-func (it *BasicInt32) Min() int32 {
+func (it BasicInt32) Min() int32 {
 	return it.minVal
 }
 
-func (it *BasicInt32) GetValueByString(valueString string) int32 {
+func (it BasicInt32) GetValueByString(valueString string) int32 {
 	return it.jsonDoubleQuoteNameToValueHashMap[valueString]
 }
 
-func (it *BasicInt32) GetValueByName(name string) (int32, error) {
+func (it BasicInt32) GetValueByName(name string) (int32, error) {
 	v, has := it.jsonDoubleQuoteNameToValueHashMap[name]
 
 	if has {
@@ -107,36 +107,36 @@ func (it *BasicInt32) GetValueByName(name string) (int32, error) {
 		it.RangeNamesCsv())
 }
 
-func (it *BasicInt32) GetStringValue(input int32) string {
+func (it BasicInt32) GetStringValue(input int32) string {
 	return it.StringRanges()[input]
 }
 
-func (it *BasicInt32) Ranges() []int32 {
+func (it BasicInt32) Ranges() []int32 {
 	return it.actualValueRanges.([]int32)
 }
 
-func (it *BasicInt32) Hashmap() map[string]int32 {
+func (it BasicInt32) Hashmap() map[string]int32 {
 	return it.jsonDoubleQuoteNameToValueHashMap
 }
 
-func (it *BasicInt32) HashmapPtr() *map[string]int32 {
+func (it BasicInt32) HashmapPtr() *map[string]int32 {
 	return &it.jsonDoubleQuoteNameToValueHashMap
 }
 
-func (it *BasicInt32) IsValidRange(value int32) bool {
+func (it BasicInt32) IsValidRange(value int32) bool {
 	return value >= it.minVal && value <= it.maxVal
 }
 
 // ToEnumJsonBytes used for MarshalJSON from map
-func (it *BasicInt32) ToEnumJsonBytes(value int32) []byte {
+func (it BasicInt32) ToEnumJsonBytes(value int32) []byte {
 	return it.valueToJsonDoubleQuoteStringBytesHashmap[value]
 }
 
-func (it *BasicInt32) ToEnumString(value int32) string {
+func (it BasicInt32) ToEnumString(value int32) string {
 	return it.valueNameHashmap[value]
 }
 
-func (it *BasicInt32) AppendPrependJoinValue(
+func (it BasicInt32) AppendPrependJoinValue(
 	joiner string,
 	appendVal, prependVal int32,
 ) string {
@@ -145,7 +145,7 @@ func (it *BasicInt32) AppendPrependJoinValue(
 		it.ToEnumString(appendVal)
 }
 
-func (it *BasicInt32) AppendPrependJoinNamer(
+func (it BasicInt32) AppendPrependJoinNamer(
 	joiner string,
 	appendVal, prependVal coreinterface.ToNamer,
 ) string {
@@ -155,14 +155,14 @@ func (it *BasicInt32) AppendPrependJoinNamer(
 
 }
 
-func (it *BasicInt32) ToNumberString(valueInRawFormat interface{}) string {
+func (it BasicInt32) ToNumberString(valueInRawFormat interface{}) string {
 	return fmt.Sprintf(constants.SprintValueFormat, valueInRawFormat)
 }
 
 // UnmarshallToValue Mostly used for UnmarshalJSON
 //
 // Given bytes string enum value and transpile to exact enum raw value using map
-func (it *BasicInt32) UnmarshallToValue(
+func (it BasicInt32) UnmarshallToValue(
 	isMappedToFirstIfEmpty bool,
 	jsonUnmarshallingValue []byte,
 ) (int32, error) {

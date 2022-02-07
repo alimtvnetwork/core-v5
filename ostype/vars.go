@@ -20,11 +20,11 @@ var (
 		"InvalidGroup",
 	}
 
-	basicEnumImplOsType = enumimpl.NewBasicByteUsingIndexedSlice(
+	basicEnumImplOsType = enumimpl.New.BasicByte.UsingTypeSlice(
 		coredynamic.TypeName(Any),
 		osTypesStrings[:])
 
-	basicEnumImplOsGroup = enumimpl.NewBasicByteUsingIndexedSlice(
+	basicEnumImplOsGroup = enumimpl.New.BasicByte.UsingTypeSlice(
 		coredynamic.TypeName(WindowsGroup),
 		osGroups)
 )

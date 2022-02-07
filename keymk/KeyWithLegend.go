@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/coreinterface"
+	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 )
 
 // KeyWithLegend
@@ -176,11 +176,13 @@ func (it *KeyWithLegend) ItemWithoutStateGroup(item interface{}) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) ItemEnumByte(item coreinterface.ByteEnumNamer) string {
+func (it *KeyWithLegend) ItemEnumByte(item enuminf.ByteEnumNamer) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		GroupId:   it.groupName,
-		ItemId:    fmt.Sprintf(constants.SprintValueFormat, item),
+		ItemId: fmt.Sprintf(
+			constants.SprintValueFormat,
+			item),
 	}
 
 	return it.CompileUsingRequest(request)

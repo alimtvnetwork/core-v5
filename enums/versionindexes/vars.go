@@ -42,7 +42,7 @@ var (
 		Build,
 	}
 
-	BasicEnumImpl = enumimpl.NewBasicByteUsingIndexedSlice(
+	BasicEnumImpl = enumimpl.New.BasicByte.UsingTypeSlice(
 		reflectinternal.TypeName(Major),
 		Ranges[:])
 )

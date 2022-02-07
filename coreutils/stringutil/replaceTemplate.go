@@ -152,9 +152,19 @@ func (it *replaceTemplate) CurlyKeyUsingMap(
 		mapToReplace)
 }
 
+// UsingMapOptions
+//
+//  Replaces format template using the map given.
+//
+//  format : {key}-text-something/{path}...
+//
+// Options:
+//  - isConvKeysToCurlyBraceKeys : true
+//      will convert map keys to {key} and then use
+//      recursive replace to reduce the template format.
 func (it *replaceTemplate) UsingMapOptions(
-	isConvKeysToCurlyBraceKeys bool, // conv key to {key} before replace
-	format string, // {key}-text...
+	isConvKeysToCurlyBraceKeys bool, // true: conv key to {key} before replace
+	format string, // Template-format: {key}-text-something/{path}...
 	mapToReplace map[string]string,
 ) string {
 	if len(mapToReplace) == 0 || len(format) == 0 {
@@ -184,4 +194,7 @@ func (it *replaceTemplate) UsingMapOptions(
 	}
 
 	return format
+}
+
+type name interface {
 }

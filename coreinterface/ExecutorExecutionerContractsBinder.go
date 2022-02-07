@@ -1,6 +1,0 @@
-package coreinterface
-
-type ExecutorExecutionerContractsBinder interface {
-	ExecutorExecutioner
-	AsExecutorExecutionerContractsBinder() ExecutorExecutionerContractsBinder
-}

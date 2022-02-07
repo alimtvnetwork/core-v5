@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	BasicEnumImpl = enumimpl.NewBasicByte(
+	BasicEnumImpl = enumimpl.New.BasicByte.Create(
 		reflectinternal.TypeName(Variant(0)),
 		[]byte{},
 		[]string{},
