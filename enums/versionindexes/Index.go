@@ -16,6 +16,10 @@ const (
 	Invalid Index = 4
 )
 
+func (it Index) IsByteValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
 func (it Index) Format(format string) (compiled string) {
 	return BasicEnumImpl.Format(format, it)
 }

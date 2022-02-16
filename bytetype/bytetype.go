@@ -7,6 +7,10 @@ import (
 
 type Variant byte
 
+func (it Variant) IsValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
 func (it Variant) Format(format string) (compiled string) {
 	return BasicEnumImpl.Format(format, it)
 }

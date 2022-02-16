@@ -1,0 +1,46 @@
+package loggerinf
+
+import "io"
+
+type Comitter interface {
+	Commit()
+}
+
+type StringFinalizer interface {
+	Finalize() string
+}
+
+type IfStringCompiler interface {
+	CompileIf(isCompile string) string
+}
+
+type Compiler interface {
+	Compile() string
+}
+
+type FmtCompiler interface {
+	CompileFmt(formatter string, v ...interface{}) string
+}
+
+type Serializer interface {
+	Serialize() ([]byte, error)
+}
+
+type NewGeneralWriter interface {
+	NewGeneralWriter(writeConfigurer WriterConfigurer) io.Writer
+}
+
+type Configurer interface {
+	LoggerTyper() LoggerTyper
+	StackSkipIndex() int
+}
+
+type WriterConfigurer interface {
+	Configurer
+	AdditionalConfigProcessor
+}
+
+type AdditionalConfigProcessor interface {
+	AdditionalConfigBytes() []byte
+	AdditionalConfigProcess() error
+}

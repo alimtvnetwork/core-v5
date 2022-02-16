@@ -1,0 +1,46 @@
+package loggerinf
+
+import (
+	"gitlab.com/evatix-go/core/coreinterface/errcoreinf"
+	"gitlab.com/evatix-go/core/internal/internalinterface"
+)
+
+type ModelBytesGetter interface {
+	ModelBytes() []byte
+}
+
+type LogMessageGetter interface {
+	LogMessage() string
+}
+
+type CompiledAttributesGetter interface {
+	CompiledAttributes() string
+}
+
+type ErrorAsBasicErrWrapperGetter interface {
+	ErrorAsBasicErrWrapper() errcoreinf.BasicErrWrapper
+}
+
+type CallerGetter interface {
+	Caller() Caller
+}
+
+type PersistentIdGetter interface {
+	PersistentId() uint
+}
+
+type ParentPersistentIdGetter interface {
+	ParentPersistentId() uint
+}
+
+type SpecificValuerGetter interface {
+	SpecificValuer() SpecificValuer
+}
+
+type LoggerTyperGetter interface {
+	LoggerTyper() LoggerTyper
+}
+
+type RawPayloadsGetter interface {
+	internalinterface.RawPayloadsGetter
+}

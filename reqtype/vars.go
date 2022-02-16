@@ -116,6 +116,89 @@ var (
 		"DynamicAction":                    DynamicAction,
 	}
 
+	createMap = map[Request]bool{
+		Create:              true,
+		CreateOrUpdate:      true,
+		CreateOrSkipOnExist: true,
+		DropCreate:          true,
+	}
+
+	createUpdateMap = map[Request]bool{
+		Create:                 true,
+		Update:                 true,
+		CreateOrUpdate:         true,
+		CreateOrSkipOnExist:    true,
+		UpdateOrSkipOnNonExist: true,
+		UpdateOnExist:          true,
+		CreateOrAppend:         true,
+	}
+
+	dropMap = map[Request]bool{
+		Drop:                   true,
+		DeleteOrSkipOnNonExist: true,
+		DropOrSkipOnNonExist:   true,
+		DropOnExist:            true,
+		DropCreate:             true,
+	}
+
+	readOrEditMap = map[Request]bool{
+		Read:                   true,
+		Update:                 true,
+		CreateOrUpdate:         true,
+		CreateOrSkipOnExist:    true,
+		UpdateOrSkipOnNonExist: true,
+		UpdateOnExist:          true,
+		Rename:                 true,
+		Change:                 true,
+	}
+
+	crudMap = map[Request]bool{
+		Create:                 true,
+		Read:                   true,
+		Update:                 true,
+		Delete:                 true,
+		Drop:                   true,
+		CreateOrUpdate:         true,
+		CreateOrSkipOnExist:    true,
+		UpdateOrSkipOnNonExist: true,
+		DeleteOrSkipOnNonExist: true,
+		DropOrSkipOnNonExist:   true,
+		UpdateOnExist:          true,
+		DropOnExist:            true,
+		DropCreate:             true,
+	}
+
+	editOrUpdateMap = map[Request]bool{
+		Create:                 true,
+		Update:                 true,
+		Delete:                 true,
+		CreateOrUpdate:         true,
+		CreateOrSkipOnExist:    true,
+		UpdateOrSkipOnNonExist: true,
+		UpdateOnExist:          true,
+		DropCreate:             true,
+	}
+
+	updateOrRemoveMap = map[Request]bool{
+		Update:               true,
+		CreateOrUpdate:       true,
+		DropOrSkipOnNonExist: true,
+		UpdateOnExist:        true,
+		DropOnExist:          true,
+		DropCreate:           true,
+	}
+
+	isExistOrSkipOnExistMap = map[Request]bool{
+		ExistCheck:             true,
+		SkipOnExist:            true,
+		CreateOrSkipOnExist:    true,
+		UpdateOrSkipOnNonExist: true,
+		DeleteOrSkipOnNonExist: true,
+		DropOrSkipOnNonExist:   true,
+		UpdateOnExist:          true,
+		DropOnExist:            true,
+	}
+
 	BasicEnumImpl = enumimpl.New.BasicByte.UsingTypeSlice(
 		reflectinternal.TypeName(Invalid),
 		Ranges[:])

@@ -68,12 +68,64 @@ const (
 	DynamicAction
 )
 
+func (it Request) IsNone() bool {
+	return it == Invalid
+}
+
+func (it Request) IsCreateLogically() bool {
+	return createMap[it]
+}
+
+func (it Request) IsCreateOrUpdateLogically() bool {
+	return createUpdateMap[it]
+}
+
+func (it Request) IsDropLogically() bool {
+	return dropMap[it]
+}
+
+func (it Request) IsCrudOnlyLogically() bool {
+	return crudMap[it]
+}
+
+func (it Request) IsNotCrudOnlyLogically() bool {
+	return !crudMap[it]
+}
+
+func (it Request) IsReadOrEditLogically() bool {
+	return readOrEditMap[it]
+}
+
+func (it Request) IsReadOrUpdateLogically() bool {
+	return readOrEditMap[it]
+}
+
+func (it Request) IsEditOrUpdateLogically() bool {
+	return editOrUpdateMap[it]
+}
+
+func (it Request) IsOnExistCheckLogically() bool {
+	return isExistOrSkipOnExistMap[it]
+}
+
+func (it Request) IsOnExistOrSkipOnNonExistLogically() bool {
+	return isExistOrSkipOnExistMap[it]
+}
+
+func (it Request) IsUpdateOrRemoveLogically() bool {
+	return updateOrRemoveMap[it]
+}
+
 func (it Request) Format(format string) (compiled string) {
 	return BasicEnumImpl.Format(format, it)
 }
 
 func (it Request) IsEnumEqual(enum enuminf.BasicEnumer) bool {
 	return it.Value() == enum.ValueByte()
+}
+
+func (it Request) IsByteValueEqual(value byte) bool {
+	return byte(it) == value
 }
 
 func (it *Request) IsAnyEnumsEqual(enums ...enuminf.BasicEnumer) bool {
@@ -676,5 +728,9 @@ func (it *Request) AsJsonMarshaller() corejson.JsonMarshaller {
 }
 
 func (it Request) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
+	return &it
+}
+
+func (it Request) AsCrudTyper() enuminf.CrudTyper {
 	return &it
 }

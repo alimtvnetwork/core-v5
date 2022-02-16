@@ -1,0 +1,30 @@
+package internalenuminf
+
+type EnvironmentFlagTyper interface {
+	BasicEnumer
+	ByteValuePlusEqualer
+
+	ToNumberString() string
+	IsValidInvalidChecker
+
+	IsVerbose() bool
+	IsDebug() bool
+	IsProduction() bool
+	IsStackTrace() bool
+	IsJson() bool
+	IsLog() bool
+	IsLoggedIn() bool
+
+	SessionDetailsDynamic() []byte
+	KeyValues() map[string]string
+	AnyKeyValues() map[string]interface{}
+
+	FlagValue(name string) string
+	FlagAnyValue(name string) interface{}
+	FlagAnyValueReflectSet(name string, toPointer interface{}) error
+
+	IsFlagEnabled(name string) bool
+	IsFlagDisabled(name string) bool
+
+	Serialize() ([]byte, error)
+}

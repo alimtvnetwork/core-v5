@@ -14,6 +14,10 @@ const (
 	InvalidGroup
 )
 
+func (it Group) IsByteValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
 func (it Group) Format(format string) (compiled string) {
 	return basicEnumImplOsGroup.Format(format, it)
 }

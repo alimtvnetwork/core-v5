@@ -1,7 +1,10 @@
 package errcore
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
+	"log"
 	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
@@ -9,6 +12,164 @@ import (
 
 type RawErrCollection struct {
 	Items []error
+}
+
+func (it RawErrCollection) HandleError() {
+	if it.IsEmpty() {
+		return
+	}
+
+	panic(it.Items)
+}
+
+func (it *RawErrCollection) IsNull() bool {
+	return it == nil || it.Items == nil
+}
+
+func (it *RawErrCollection) IsAnyNull() bool {
+	return it == nil || it.Items == nil
+}
+
+func (it RawErrCollection) ErrorString() string {
+	return it.String()
+}
+
+func (it RawErrCollection) Compile() string {
+	return it.String()
+}
+
+func (it RawErrCollection) HandleErrorWithRefs(
+	newMessage string,
+	refVar, refVal interface{},
+) {
+	if it.IsEmpty() {
+		return
+	}
+
+	reference :=
+		fmt.Sprintf(
+			keyValFormat,
+			refVar,
+			refVal)
+
+	panic(newMessage + reference + constants.DefaultLine + it.String())
+}
+
+func (it RawErrCollection) HandleErrorWithMsg(newMessage string) {
+	if it.IsEmpty() {
+		return
+	}
+
+	panic(newMessage + constants.DefaultLine + it.String())
+}
+
+func (it RawErrCollection) FullString() string {
+	return it.String()
+}
+
+func (it RawErrCollection) FullStringWithTraces() string {
+	return it.String()
+}
+
+func (it RawErrCollection) FullStringWithTracesIf(isStackTraces bool) string {
+	return it.String()
+}
+
+func (it RawErrCollection) ReferencesCompiledString() string {
+	return it.String()
+}
+
+func (it RawErrCollection) CompiledErrorWithStackTraces() error {
+	return it.CompiledError()
+}
+
+func (it RawErrCollection) CompiledStackTracesString() string {
+	return it.String()
+}
+
+func (it RawErrCollection) FullStringSplitByNewLine() []string {
+	return it.Strings()
+}
+
+func (it RawErrCollection) FullStringWithoutReferences() string {
+	return it.String()
+}
+
+func (it RawErrCollection) SerializeWithoutTraces() ([]byte, error) {
+	if it.IsEmpty() {
+		return nil, nil
+	}
+
+	return json.Marshal(it.Items)
+}
+
+func (it RawErrCollection) Serialize() ([]byte, error) {
+	if it.IsEmpty() {
+		return nil, nil
+	}
+
+	return json.Marshal(it.Items)
+}
+
+func (it RawErrCollection) SerializeMust() []byte {
+	rawBytes, err := it.Serialize()
+
+	MustBeEmpty(err)
+
+	return rawBytes
+}
+
+func (it RawErrCollection) MarshalJSON() ([]byte, error) {
+	if it.IsEmpty() {
+		return nil, nil
+	}
+
+	return json.Marshal(it.Items)
+}
+
+func (it RawErrCollection) UnmarshalJSON(data []byte) error {
+	var errItems []error
+	err := json.Unmarshal(data, &errItems)
+
+	if err == nil {
+		it.Items = errItems
+	}
+
+	return err
+}
+
+func (it RawErrCollection) Value() error {
+	return it.CompiledError()
+}
+
+func (it RawErrCollection) Log() {
+	if it.IsEmpty() {
+		return
+	}
+
+	fmt.Println(it.String())
+}
+
+func (it RawErrCollection) LogWithTraces() {
+	it.Log()
+}
+
+func (it RawErrCollection) LogFatal() {
+	if it.IsEmpty() {
+		return
+	}
+
+	log.Fatalln(it.String())
+}
+
+func (it RawErrCollection) LogFatalWithTraces() {
+	it.LogFatal()
+}
+
+func (it RawErrCollection) LogIf(isLog bool) {
+	if isLog {
+		it.LogFatal()
+	}
 }
 
 func (it RawErrCollection) AddErrors(errs ...error) {

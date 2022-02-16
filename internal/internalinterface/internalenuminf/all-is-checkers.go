@@ -48,8 +48,8 @@ type IsAnyValueInteger32Equaler interface {
 	IsAnyValuesEqual(anyValues ...int32) bool
 }
 
-type IsValueByteEqualer interface {
-	IsValueEqual(value byte) bool
+type IsByteValueEqualer interface {
+	IsByteValueEqual(value byte) bool
 }
 
 type IsValueIntegerEqualer interface {
