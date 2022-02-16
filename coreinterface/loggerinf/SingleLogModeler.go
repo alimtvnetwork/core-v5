@@ -8,20 +8,26 @@ import (
 
 type SingleLogModeler interface {
 	internalinterface.IdentifierGetter
-	PersistentId() uint
-	ParentPersistentId() uint
-	HasParent() bool
+	PersistentIdGetter
+	ParentPersistentIdGetter
+
+	HasParentChecker
+	HasModelChecker
+	hasErrorChecker
+
 	FilterTyper() enuminf.BasicEnumer
 	LevelTyper() enuminf.LogLevelTyper
 	LogTyper() enuminf.LoggerTyper
 	BasicErrorTyper() errcoreinf.BasicErrorTyper
 	ModelTyper() enuminf.BasicEnumer
-	ModelBytes() []byte
-	HasModel() bool
-	LogMessage() string
-	CompiledAttributes() string
-	Caller() Caller
-	HasError() bool
-	SpecificValuer() SpecificValuer
-	ErrorAsBasicErrWrapper() errcoreinf.BasicErrWrapper
+	EntityTypeName() string
+
+	ModelBytesGetter
+
+	LogMessageGetter
+	CompiledAttributesGetter
+	CallerGetter
+
+	SpecificValuerGetter
+	ErrorAsBasicErrWrapperGetter
 }

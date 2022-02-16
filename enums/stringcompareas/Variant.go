@@ -31,6 +31,10 @@ const (
 	Invalid
 )
 
+func (it Variant) IsByteValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
 func (it Variant) Format(format string) (compiled string) {
 	return basicEnumImpl.Format(format, it)
 }

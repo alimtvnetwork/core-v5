@@ -21,23 +21,23 @@ type IsAnyValueInteger32Equaler interface {
 }
 
 type IsValueByteEqualer interface {
-	IsValueEqual(value byte) bool
+	IsByteValueEqual(value byte) bool
 }
 
 type IsValueIntegerEqualer interface {
-	IsValueEqual(value int) bool
+	IsIntegerValueEqual(value int) bool
 }
 
 type IsValueInteger8Equaler interface {
-	IsValueEqual(value int8) bool
+	IsInteger8ValueEqual(value int8) bool
 }
 
 type IsValueInteger16Equaler interface {
-	IsValueEqual(value int16) bool
+	IsInteger16ValueEqual(value int16) bool
 }
 
 type IsValueInteger32Equaler interface {
-	IsValueEqual(value int32) bool
+	IsInteger32ValueEqual(value int32) bool
 }
 
 type IsEnumEqualer interface {

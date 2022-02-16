@@ -26,6 +26,46 @@ func (it Compare) Is(other Compare) bool {
 	return it == other
 }
 
+func (it Compare) IsLess() bool {
+	return it == LeftLess
+}
+
+func (it Compare) IsLessEqual() bool {
+	return it == LeftLess || it == Equal
+}
+
+func (it Compare) IsGreater() bool {
+	return it == LeftGreater
+}
+
+func (it Compare) IsGreaterEqual() bool {
+	return it == LeftGreater || it == Equal
+}
+
+func (it Compare) IsNameEqual(name string) bool {
+	return it.Name() == name
+}
+
+func (it Compare) ToNumberString() string {
+	return strconv.Itoa(int(it))
+}
+
+func (it Compare) IsValid() bool {
+	return it != Inconclusive
+}
+
+func (it Compare) IsInvalid() bool {
+	return it == Inconclusive
+}
+
+func (it Compare) RangeNamesCsv() string {
+	return RangeNamesCsv()
+}
+
+func (it Compare) IsValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
 func (it Compare) IsEqual() bool {
 	return it == Equal
 }
@@ -215,4 +255,42 @@ func (it Compare) StringValue() string {
 
 func (it Compare) String() string {
 	return CompareNames[it]
+}
+
+func (it Compare) IsNameOf(names ...string) bool {
+	for _, name := range names {
+		if it.IsNameEqual(name) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it Compare) ValueByte() byte {
+	return byte(it)
+}
+
+func (it Compare) ValueInt() int {
+	return int(it)
+}
+
+func (it Compare) ValueInt8() int8 {
+	return int8(it)
+}
+
+func (it Compare) ValueInt16() int16 {
+	return int16(it)
+}
+
+func (it Compare) ValueInt32() int32 {
+	return int32(it)
+}
+
+func (it Compare) ValueString() string {
+	return it.ToNumberString()
+}
+
+func (it Compare) Format(format string) (compiled string) {
+	panic("Not implemented for compare purposefully : " + format)
 }

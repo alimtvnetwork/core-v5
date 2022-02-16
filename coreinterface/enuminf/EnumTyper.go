@@ -3,7 +3,7 @@ package enuminf
 type EnumTyper interface {
 	EnumTypeChecker
 	enumNameStinger
-	nameValuer
+	NameValuer
 	IsNameEqualer
 	IsAnyNameOfChecker
 	ValueByte() byte

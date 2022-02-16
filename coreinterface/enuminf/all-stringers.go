@@ -23,7 +23,7 @@ type Int32ToEnumStringer interface {
 }
 
 type enumNameStinger interface {
-	namer
+	Namer
 	fmt.Stringer
 }
 

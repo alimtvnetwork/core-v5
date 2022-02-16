@@ -17,6 +17,10 @@ const (
 	OwnerOther
 )
 
+func (it Variant) IsByteValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
 func (it Variant) Format(format string) (compiled string) {
 	return BasicEnumImpl.Format(format, it)
 }
@@ -193,6 +197,6 @@ func (it Variant) EnumType() enuminf.EnumTyper {
 	return BasicEnumImpl.EnumType()
 }
 
-func (it *Variant) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
-	return it
+func (it Variant) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
+	return &it
 }

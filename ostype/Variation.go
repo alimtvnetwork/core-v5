@@ -29,6 +29,10 @@ const (
 	Aix
 )
 
+func (it Variation) IsByteValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
 func (it Variation) Format(format string) (compiled string) {
 	return basicEnumImplOsType.Format(format, it)
 }

@@ -68,6 +68,10 @@ type FullStringWithTracesIfGetter interface {
 	internalinterface.FullStringWithTracesIfGetter
 }
 
+// FullOrErrorMessageGetter
+//
+//  isErrorMessage : true will return only the error or else full string
+//  isWithRef : refers to include reference or not
 type FullOrErrorMessageGetter interface {
 	internalinterface.FullOrErrorMessageGetter
 }
@@ -132,7 +136,7 @@ type StringWithoutTyper interface {
 	StringWithoutType() string
 }
 
-type VariableValueRefer interface {
+type Referencer interface {
 	VarNamer
 	ValueDynamicGetter
 	VariableValueStringGetter
@@ -149,14 +153,18 @@ type VariableValueRefer interface {
 type BasicErrWrapper interface {
 	internalinterface.BasicErrWrapper
 	ErrorTypeAsBasicErrorTyper() BasicErrorTyper
-	Referencer() VariableValueRefer
+	Referencer() Referencer
+}
+
+type CompiledBasicErrWrapper interface {
+	CompiledToGenericBasicErrWrapper() BasicErrWrapper
+	CompiledToBasicErrWrapper(errType BasicErrorTyper) BasicErrWrapper
 }
 
 type BaseErrorWrapperCollectionDefiner interface {
 	BaseErrorOrCollectionWrapper
 	internalinterface.BaseErrorWrapperCollectionDefiner
-
-	CompiledBasicErrWrapper(errType BasicErrorTyper) BasicErrWrapper
+	CompiledBasicErrWrapper
 	AddErrorUsingBasicType(errType BasicErrorTyper, err error) BaseErrorWrapperCollectionDefiner
 	AddBasicErrWrapper(basicErrWrapper BasicErrWrapper) BaseErrorWrapperCollectionDefiner
 }

@@ -15,7 +15,7 @@ type Int32EnumNamer interface {
 	ValueInt32() int32
 }
 
-type namer interface {
+type Namer interface {
 	Name() string
 }
 
@@ -24,13 +24,13 @@ type ByteEnumNamer interface {
 	ValueByte() byte
 }
 
-// nameValuer / NameValue
+// NameValuer / NameValue
 //
 //   should be a combined string output using name[value]
 //
 // Sample :
 //  - "`EnumName[EnumValInteger]" -> `EnumName[2]`
-type nameValuer interface {
+type NameValuer interface {
 	// NameValue
 	//
 	//   should be a combined string output using name[value]
