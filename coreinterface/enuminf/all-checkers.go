@@ -22,10 +22,10 @@ type IsNameEqualer interface {
 //
 //  Returns true if any of the name matches.
 type IsAnyNameOfChecker interface {
-	// IsNameOf
+	// IsAnyNamesOf
 	//
 	//  Returns true if any of the name matches.
-	IsNameOf(names ...string) bool
+	IsAnyNamesOf(names ...string) bool
 }
 
 type RangeValidateChecker interface {

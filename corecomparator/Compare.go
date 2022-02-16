@@ -257,7 +257,7 @@ func (it Compare) String() string {
 	return CompareNames[it]
 }
 
-func (it Compare) IsNameOf(names ...string) bool {
+func (it Compare) IsAnyNamesOf(names ...string) bool {
 	for _, name := range names {
 		if it.IsNameEqual(name) {
 			return true

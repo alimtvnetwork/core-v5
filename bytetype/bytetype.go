@@ -33,7 +33,7 @@ func (it Variant) IsNameEqual(name string) bool {
 	return it.Name() == name
 }
 
-func (it Variant) IsNameOf(names ...string) bool {
+func (it Variant) IsAnyNamesOf(names ...string) bool {
 	for _, name := range names {
 		if it.IsNameEqual(name) {
 			return true

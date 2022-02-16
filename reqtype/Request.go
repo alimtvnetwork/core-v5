@@ -142,7 +142,7 @@ func (it Request) IsNameEqual(name string) bool {
 	return it.Name() == name
 }
 
-func (it Request) IsNameOf(names ...string) bool {
+func (it Request) IsAnyNamesOf(names ...string) bool {
 	for _, name := range names {
 		if it.IsNameEqual(name) {
 			return true

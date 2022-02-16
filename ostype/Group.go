@@ -40,7 +40,7 @@ func (it Group) IsNameEqual(name string) bool {
 	return it.Name() == name
 }
 
-func (it Group) IsNameOf(names ...string) bool {
+func (it Group) IsAnyNamesOf(names ...string) bool {
 	for _, name := range names {
 		if it.IsNameEqual(name) {
 			return true

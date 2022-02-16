@@ -24,7 +24,7 @@ type LinuxTyper interface {
 	IsAndroid() bool
 	fmt.Stringer
 	IsAnyOf(checkingItems ...byte) bool
-	IsNameOf(anyNames ...string) bool
+	IsAnyNamesOf(anyNames ...string) bool
 	IsAnyOfValues(checkingItems ...byte) bool
 	BasicEnumer
 	ByteValuePlusEqualer

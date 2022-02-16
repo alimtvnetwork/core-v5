@@ -82,7 +82,7 @@ func (it Value) IsNameEqual(name string) bool {
 	return it.Name() == name
 }
 
-func (it Value) IsNameOf(names ...string) bool {
+func (it Value) IsAnyNamesOf(names ...string) bool {
 	for _, name := range names {
 		if it.IsNameEqual(name) {
 			return true

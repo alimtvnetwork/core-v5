@@ -56,7 +56,7 @@ func (it Index) IsNameEqual(name string) bool {
 	return it.Name() == name
 }
 
-func (it Index) IsNameOf(names ...string) bool {
+func (it Index) IsAnyNamesOf(names ...string) bool {
 	for _, name := range names {
 		if it.IsNameEqual(name) {
 			return true

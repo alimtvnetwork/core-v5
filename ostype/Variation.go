@@ -55,7 +55,7 @@ func (it Variation) IsNameEqual(name string) bool {
 	return it.Name() == name
 }
 
-func (it Variation) IsNameOf(names ...string) bool {
+func (it Variation) IsAnyNamesOf(names ...string) bool {
 	for _, name := range names {
 		if it.IsNameEqual(name) {
 			return true
