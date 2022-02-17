@@ -1,6 +1,9 @@
 package internalenuminf
 
 type LogLevelTyper interface {
+	BasicEnumer
+	ByteValuePlusEqualer
+
 	IsLevelNum(level int) bool
 	IsLevel(level byte) bool
 	IsLevel1() bool
@@ -13,6 +16,4 @@ type LogLevelTyper interface {
 	IsLevel8() bool
 	IsLevel9() bool
 	IsLevel10() bool
-	BasicEnumer
-	ByteValuePlusEqualer
 }

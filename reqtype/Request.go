@@ -66,6 +66,9 @@ const (
 	InheritOnly
 	InheritPlusOverride
 	DynamicAction
+	Overwrite
+	Override
+	Enforce
 )
 
 func (it Request) IsNone() bool {
@@ -114,6 +117,22 @@ func (it Request) IsOnExistOrSkipOnNonExistLogically() bool {
 
 func (it Request) IsUpdateOrRemoveLogically() bool {
 	return updateOrRemoveMap[it]
+}
+
+func (it Request) IsOverwrite() bool {
+	return it == Overwrite
+}
+
+func (it Request) IsOverride() bool {
+	return it == Override
+}
+
+func (it Request) IsEnforce() bool {
+	return it == Enforce
+}
+
+func (it Request) IsOverrideOrOverwriteOrEnforce() bool {
+	return overrideLogicallyMap[it]
 }
 
 func (it Request) Format(format string) (compiled string) {
@@ -406,7 +425,9 @@ func (it Request) IsInheritPlusOverride() bool {
 	return it == InheritPlusOverride
 }
 
-// IsRestartOrReload  receiver. IsRestart() || receiver. IsReload()
+// IsRestartOrReload
+//
+//  Request. IsRestart() || Request. IsReload()
 func (it Request) IsRestartOrReload() bool {
 	return it.IsRestart() || it.IsReload()
 }
@@ -430,7 +451,14 @@ func (it Request) IsAnyApplyOnExist() bool {
 		it.IsDropOnExist()
 }
 
-// IsCrud returns true if Read, Update, Create, Delete, IsCreateOrUpdate
+// IsCrud
+//
+//  returns true if
+//      Read,
+//      Update,
+//      Create,
+//      Delete,
+//      IsCreateOrUpdate
 func (it Request) IsCrud() bool {
 	return it.IsRead() ||
 		it.IsCreate() ||
@@ -500,17 +528,33 @@ func (it Request) IsAnyCreate() bool {
 		it.IsDropCreate()
 }
 
-// IsHttp
+// IsAnyHttp
 //
 // returns true if
 // IsGetHttp, IsPostHttp, IsPutHttp,
 // IsDeleteHttp, IsPatchHttp
-func (it Request) IsHttp() bool {
-	return it.IsGetHttp() ||
-		it.IsPostHttp() ||
-		it.IsPutHttp() ||
-		it.IsDeleteHttp() ||
-		it.IsPatchHttp()
+func (it Request) IsAnyHttp() bool {
+	return httpRequests[it]
+}
+
+func (it Request) IsAnyAction() bool {
+	return actionRequests[it]
+}
+
+func (it Request) IsNotAnyAction() bool {
+	return !it.IsAnyAction()
+}
+
+func (it Request) IsAnyHttpMethod(methodNames ...string) bool {
+	return it.IsAnyHttp() && it.IsAnyNamesOf(methodNames...)
+}
+
+func (it Request) IsNotHttpMethod() bool {
+	return !it.IsAnyHttp()
+}
+
+func (it Request) IsNotOverrideOrOverwriteOrEnforce() bool {
+	return !it.IsOverrideOrOverwriteOrEnforce()
 }
 
 func (it Request) Name() string {
@@ -732,5 +776,17 @@ func (it Request) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContract
 }
 
 func (it Request) AsCrudTyper() enuminf.CrudTyper {
+	return &it
+}
+
+func (it Request) AsOverwriteOrRideOrEnforcer() enuminf.OverwriteOrRideOrEnforcer {
+	return &it
+}
+
+func (it Request) AsHttpMethodTyper() enuminf.HttpMethodTyper {
+	return &it
+}
+
+func (it Request) AsActionTyper() enuminf.ActionTyper {
 	return &it
 }

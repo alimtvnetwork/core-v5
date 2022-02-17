@@ -1,6 +1,7 @@
 package issetter
 
 import (
+	"encoding/json"
 	"errors"
 	"strconv"
 
@@ -31,6 +32,36 @@ const (
 	Set           Value = 4
 	Wildcard      Value = 5
 )
+
+func (it Value) IsValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
+func (it Value) RangeNamesCsv() string {
+	rawBytes, err := json.Marshal(values)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return string(rawBytes)
+}
+
+func (it Value) IsByteValueEqual(value byte) bool {
+	return byte(it) == value
+}
+
+func (it Value) IsOn() bool {
+	return trueMap[it]
+}
+
+func (it Value) IsOff() bool {
+	return falseMap[it]
+}
+
+func (it Value) IsLater() bool {
+	return it.IsUndefinedLogically()
+}
 
 // IsNo
 //
@@ -623,4 +654,10 @@ func (it *Value) UnmarshalJSON(data []byte) error {
 	*it = val
 
 	return nil
+}
+
+func (it Value) Serialize() ([]byte, error) {
+	name := it.Name()
+
+	return json.Marshal(name)
 }

@@ -44,3 +44,28 @@ type CompareMethodsTyper interface {
 	BasicEnumer
 	internalenuminf.CompareMethodsTyper
 }
+
+type OnOffLater interface {
+	BasicEnumer
+	internalenuminf.OnOffLater
+}
+
+type PrivilegeTyper interface {
+	BasicEnumer
+	internalenuminf.PrivilegeTyper
+}
+
+type OverwriteOrRideOrEnforcer interface {
+	BasicEnumer
+	internalenuminf.OverwriteOrRideOrEnforcer
+}
+
+type HttpMethodTyper interface {
+	BasicEnumer
+	internalenuminf.HttpMethodTyper
+}
+
+type ActionTyper interface {
+	BasicEnumer
+	internalenuminf.ActionTyper
+}

@@ -59,6 +59,27 @@ var (
 		InheritOnly:                      "InheritOnly",
 		InheritPlusOverride:              "InheritPlusOverride",
 		DynamicAction:                    "DynamicAction",
+		Override:                         "Override",
+		Overwrite:                        "Overwrite",
+		Enforce:                          "Enforce",
+	}
+
+	httpRequests = [...]bool{
+		GetHttp:    true,
+		PutHttp:    true,
+		PostHttp:   true,
+		DeleteHttp: true,
+		PatchHttp:  true,
+	}
+
+	actionRequests = [...]bool{
+		Start:   true,
+		Stop:    true,
+		Restart: true,
+		Reload:  true,
+		Suspend: true,
+		Pause:   true,
+		Resumed: true,
 	}
 
 	RangesMap = map[string]Request{
@@ -114,6 +135,15 @@ var (
 		"InheritOnly":                      InheritOnly,
 		"InheritPlusOverride":              InheritPlusOverride,
 		"DynamicAction":                    DynamicAction,
+		"Overwrite":                        Overwrite,
+		"Override":                         Override,
+		"Enforce":                          Enforce,
+	}
+
+	overrideLogicallyMap = map[Request]bool{
+		Overwrite: true,
+		Override:  true,
+		Enforce:   true,
 	}
 
 	createMap = map[Request]bool{

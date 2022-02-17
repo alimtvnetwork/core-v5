@@ -28,4 +28,5 @@ type EnvironmentTyper interface {
 	IsProduction1() bool
 	IsProduction2() bool
 	IsAnyProduction() bool
+	VersionNumber() int
 }

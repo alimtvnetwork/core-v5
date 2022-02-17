@@ -3,6 +3,9 @@ package internalenuminf
 import "fmt"
 
 type LinuxTyper interface {
+	BasicEnumer
+	ByteValuePlusEqualer
+
 	IsUnknown() bool
 	IsUbuntuServer() bool
 	IsUbuntuServer18() bool
@@ -23,9 +26,4 @@ type LinuxTyper interface {
 	IsDockerCentos9() bool
 	IsAndroid() bool
 	fmt.Stringer
-	IsAnyOf(checkingItems ...byte) bool
-	IsAnyNamesOf(anyNames ...string) bool
-	IsAnyOfValues(checkingItems ...byte) bool
-	BasicEnumer
-	ByteValuePlusEqualer
 }

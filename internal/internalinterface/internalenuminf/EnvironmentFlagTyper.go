@@ -25,6 +25,4 @@ type EnvironmentFlagTyper interface {
 
 	IsFlagEnabled(name string) bool
 	IsFlagDisabled(name string) bool
-
-	Serialize() ([]byte, error)
 }
