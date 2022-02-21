@@ -29,6 +29,30 @@ const (
 	Aix
 )
 
+func (it Variation) MaxMaxAny() (min, max interface{}) {
+	return basicEnumImplOsType.MaxMaxAny()
+}
+
+func (it Variation) MinValueString() string {
+	return basicEnumImplOsType.MinValueString()
+}
+
+func (it Variation) MaxValueString() string {
+	return basicEnumImplOsType.MaxValueString()
+}
+
+func (it Variation) MaxInt() int {
+	return basicEnumImplOsType.MaxInt()
+}
+
+func (it Variation) MinInt() int {
+	return basicEnumImplOsType.MinInt()
+}
+
+func (it Variation) RangesDynamicMap() map[string]interface{} {
+	return basicEnumImplOsType.RangesDynamicMap()
+}
+
 func (it Variation) IsByteValueEqual(value byte) bool {
 	return byte(it) == value
 }
@@ -274,8 +298,8 @@ func (it Variation) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinde
 	return &it
 }
 
-func (it *Variation) AsJsonContractsBinder() corejson.JsonMarshaller {
-	return it
+func (it Variation) AsJsonContractsBinder() corejson.JsonMarshaller {
+	return &it
 }
 
 func (it Variation) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {

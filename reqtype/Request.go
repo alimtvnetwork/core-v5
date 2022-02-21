@@ -71,6 +71,30 @@ const (
 	Enforce
 )
 
+func (it Request) MaxMaxAny() (min, max interface{}) {
+	return BasicEnumImpl.MaxMaxAny()
+}
+
+func (it Request) MinValueString() string {
+	return BasicEnumImpl.MinValueString()
+}
+
+func (it Request) MaxValueString() string {
+	return BasicEnumImpl.MaxValueString()
+}
+
+func (it Request) MaxInt() int {
+	return BasicEnumImpl.MaxInt()
+}
+
+func (it Request) MinInt() int {
+	return BasicEnumImpl.MinInt()
+}
+
+func (it Request) RangesDynamicMap() map[string]interface{} {
+	return BasicEnumImpl.RangesDynamicMap()
+}
+
 func (it Request) IsNone() bool {
 	return it == Invalid
 }

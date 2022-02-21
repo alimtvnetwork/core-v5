@@ -16,6 +16,30 @@ const (
 	Invalid Index = 4
 )
 
+func (it Index) MaxMaxAny() (min, max interface{}) {
+	return BasicEnumImpl.MaxMaxAny()
+}
+
+func (it Index) MinValueString() string {
+	return BasicEnumImpl.MinValueString()
+}
+
+func (it Index) MaxValueString() string {
+	return BasicEnumImpl.MaxValueString()
+}
+
+func (it Index) MaxInt() int {
+	return BasicEnumImpl.MaxInt()
+}
+
+func (it Index) MinInt() int {
+	return BasicEnumImpl.MinInt()
+}
+
+func (it Index) RangesDynamicMap() map[string]interface{} {
+	return BasicEnumImpl.RangesDynamicMap()
+}
+
 func (it Index) IsByteValueEqual(value byte) bool {
 	return byte(it) == value
 }

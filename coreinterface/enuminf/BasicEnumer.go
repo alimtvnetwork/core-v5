@@ -20,5 +20,11 @@ package enuminf
 type BasicEnumer interface {
 	BaseEnumer
 	EnumFormatter
+	MaxMaxAny() (min, max interface{})
+	MinValueString() string
+	MaxValueString() string
+	MaxInt() int
+	MinInt() int
+	RangesDynamicMapGetter
 	EnumType() EnumTyper
 }

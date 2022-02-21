@@ -7,6 +7,30 @@ import (
 
 type Variant byte
 
+func (it Variant) MaxMaxAny() (min, max interface{}) {
+	return BasicEnumImpl.MaxMaxAny()
+}
+
+func (it Variant) MinValueString() string {
+	return BasicEnumImpl.MinValueString()
+}
+
+func (it Variant) MaxValueString() string {
+	return BasicEnumImpl.MaxValueString()
+}
+
+func (it Variant) MaxInt() int {
+	return BasicEnumImpl.MaxInt()
+}
+
+func (it Variant) MinInt() int {
+	return BasicEnumImpl.MinInt()
+}
+
+func (it Variant) RangesDynamicMap() map[string]interface{} {
+	return BasicEnumImpl.RangesDynamicMap()
+}
+
 func (it Variant) IsValueEqual(value byte) bool {
 	return byte(it) == value
 }

@@ -3,6 +3,7 @@ package enumimpl
 import (
 	"errors"
 	"fmt"
+	"reflect"
 
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/converters"
@@ -18,6 +19,9 @@ type numberEnumBase struct {
 	rangesInvalidMessage coreonce.StringOnce
 	invalidError         coreonce.ErrorOnce
 	typeName             string
+	minAny, maxAny       interface{}
+	minStr, maxStr       string
+	rangesDynamicMap     *map[string]interface{}
 }
 
 // newNumberEnumBase
@@ -56,13 +60,68 @@ func newNumberEnumBase(
 	return &numberEnumBase{
 		actualValueRanges:    actualRangesAnyType,
 		stringRanges:         stringRanges,
+		rangesCsvString:      rangesToCsvOnce,
 		rangesInvalidMessage: invalidMessageOnce,
 		invalidError: coreonce.NewErrorOnce(func() error {
 			return errors.New(invalidMessageOnce.Value())
 		}),
-		rangesCsvString: rangesToCsvOnce,
-		typeName:        typeName,
+		typeName: typeName,
+		minAny:   min,
+		maxAny:   max,
 	}
+}
+
+func (it *numberEnumBase) MaxMaxAny() (min, max interface{}) {
+	return it.minAny, it.maxAny
+}
+
+func (it *numberEnumBase) MinValueString() string {
+	if it.minStr != "" {
+		return it.minStr
+	}
+
+	it.minStr = convAnyValToString(it.minAny)
+
+	return it.minStr
+}
+
+func (it *numberEnumBase) MinInt() int {
+	return convAnyValToInteger(it.minAny)
+}
+
+func (it *numberEnumBase) MaxInt() int {
+	return convAnyValToInteger(it.maxAny)
+}
+
+func (it *numberEnumBase) RangesMap() int {
+	return convAnyValToInteger(it.maxAny)
+}
+
+func (it *numberEnumBase) MaxValueString() string {
+	if it.maxStr != "" {
+		return it.maxStr
+	}
+
+	it.maxStr = convAnyValToString(it.maxAny)
+
+	return it.maxStr
+}
+
+func (it *numberEnumBase) RangesDynamicMap() map[string]interface{} {
+	if it.rangesDynamicMap != nil {
+		return *it.rangesDynamicMap
+	}
+
+	newMap := make(map[string]interface{}, len(it.stringRanges)+1)
+	reflectValues := reflect.ValueOf(it.actualValueRanges)
+	for i, name := range it.StringRanges() {
+		rfVal := reflectValues.Index(i)
+		newMap[name] = rfVal.Interface()
+	}
+
+	it.rangesDynamicMap = &newMap
+
+	return newMap
 }
 
 func (it *numberEnumBase) TypeName() string {

@@ -14,6 +14,30 @@ const (
 	InvalidGroup
 )
 
+func (it Group) MaxMaxAny() (min, max interface{}) {
+	return basicEnumImplOsGroup.MaxMaxAny()
+}
+
+func (it Group) MinValueString() string {
+	return basicEnumImplOsGroup.MinValueString()
+}
+
+func (it Group) MaxValueString() string {
+	return basicEnumImplOsGroup.MaxValueString()
+}
+
+func (it Group) MaxInt() int {
+	return basicEnumImplOsGroup.MaxInt()
+}
+
+func (it Group) MinInt() int {
+	return basicEnumImplOsGroup.MinInt()
+}
+
+func (it Group) RangesDynamicMap() map[string]interface{} {
+	return basicEnumImplOsGroup.RangesDynamicMap()
+}
+
 func (it Group) IsByteValueEqual(value byte) bool {
 	return byte(it) == value
 }

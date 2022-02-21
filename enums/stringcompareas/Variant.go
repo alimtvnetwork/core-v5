@@ -31,6 +31,30 @@ const (
 	Invalid
 )
 
+func (it Variant) MaxMaxAny() (min, max interface{}) {
+	return basicEnumImpl.MaxMaxAny()
+}
+
+func (it Variant) MinValueString() string {
+	return basicEnumImpl.MinValueString()
+}
+
+func (it Variant) MaxValueString() string {
+	return basicEnumImpl.MaxValueString()
+}
+
+func (it Variant) MaxInt() int {
+	return basicEnumImpl.MaxInt()
+}
+
+func (it Variant) MinInt() int {
+	return basicEnumImpl.MinInt()
+}
+
+func (it Variant) RangesDynamicMap() map[string]interface{} {
+	return basicEnumImpl.RangesDynamicMap()
+}
+
 func (it Variant) IsByteValueEqual(value byte) bool {
 	return byte(it) == value
 }
