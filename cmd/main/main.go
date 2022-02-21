@@ -1,5 +1,7 @@
 package main
 
+import "gitlab.com/evatix-go/core/codestack"
+
 func main() {
 	// x := corestr.SimpleSlice{Items: []string{"a", "b"}}
 	// result := x.Json()
@@ -48,5 +50,6 @@ func main() {
 	// keyLegendsTest()
 	// coreDynamicMapAnyItems()
 	// enumTesting()
-	payloadTest01()
+	// payloadTest01()
+	println(codestack.JoinPackageNameWithRelative("reqtype.Request", "Invalid"))
 }
