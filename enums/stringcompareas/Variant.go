@@ -421,3 +421,7 @@ func (it Variant) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder 
 func (it Variant) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return &it
 }
+
+func (it Variant) ToPtr() *Variant {
+	return &it
+}

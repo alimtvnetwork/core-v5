@@ -1,6 +1,10 @@
 package csvinternal
 
-import "strconv"
+import (
+	"fmt"
+
+	"gitlab.com/evatix-go/core/constants"
+)
 
 // RangeNamesWithValuesIndexes
 //
@@ -19,7 +23,10 @@ func RangeNamesWithValuesIndexes(
 	compiledRanges := make([]string, len(rangedItems))
 
 	for i, item := range rangedItems {
-		compiledRanges[i] = item + "[" + strconv.Itoa(i) + "]"
+		compiledRanges[i] = fmt.Sprintf(
+			constants.EnumNameValueFormat,
+			item,
+			i)
 	}
 
 	return compiledRanges

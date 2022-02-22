@@ -41,6 +41,134 @@ func (it DynamicMap) AllKeysSorted() []string {
 	return allKeys
 }
 
+func (it DynamicMap) AllValuesStrings() []string {
+	if it.IsEmpty() {
+		return []string{}
+	}
+
+	allValues := make(
+		[]string,
+		it.Length())
+
+	index := 0
+	for _, value := range it {
+		allValues[index] = fmt.Sprintf(
+			constants.SprintValueFormat,
+			value)
+		index++
+	}
+
+	return allValues
+}
+
+func (it DynamicMap) AllValuesStringsSorted() []string {
+	if it.IsEmpty() {
+		return []string{}
+	}
+
+	allValues := it.AllValuesStrings()
+	sort.Strings(allValues)
+
+	return allValues
+}
+
+func (it DynamicMap) AllValuesIntegers() []int {
+	if it.IsEmpty() {
+		return []int{}
+	}
+
+	allValues := make(
+		[]int,
+		it.Length())
+
+	index := 0
+	for _, value := range it {
+		allValues[index] = convAnyValToInteger(value)
+
+		index++
+	}
+
+	return allValues
+}
+
+func (it DynamicMap) MapIntegerString() (
+	rangeMap map[int]string,
+	allKeysSorted []int,
+) {
+	if it.IsEmpty() {
+		return map[int]string{}, []int{}
+	}
+
+	rangeMap = make(
+		map[int]string,
+		it.Length()+2)
+
+	allKeysSorted = make(
+		[]int,
+		it.Length())
+
+	index := 0
+	for key, value := range it {
+		valInt := convAnyValToInteger(value)
+		rangeMap[valInt] = key
+		allKeysSorted[index] = valInt
+
+		index++
+	}
+
+	sort.Ints(allKeysSorted)
+
+	return rangeMap, allKeysSorted
+}
+
+func (it DynamicMap) SortedKeyValues() (
+	keyValues []KeyValInteger,
+) {
+	if it.IsEmpty() {
+		return keyValues
+	}
+
+	keyValues = make(
+		[]KeyValInteger,
+		it.Length())
+
+	rangesMap, AllKeysSorted := it.MapIntegerString()
+
+	for i, keyInt := range AllKeysSorted {
+		name := rangesMap[keyInt]
+		keyValues[i] = KeyValInteger{
+			Key:          name,
+			ValueInteger: keyInt,
+		}
+	}
+
+	return keyValues
+}
+
+func (it DynamicMap) SortedKeyAnyValues() (
+	keyAnyValues []KeyAnyVal,
+) {
+	if it.IsEmpty() {
+		return keyAnyValues
+	}
+
+	keyAnyValues = make(
+		[]KeyAnyVal,
+		it.Length())
+
+	rangesMap, AllKeysSorted := it.MapIntegerString()
+
+	for i, keyInt := range AllKeysSorted {
+		name := rangesMap[keyInt]
+		keyAnyValues[i] = KeyAnyVal{
+			Key:      name,
+			AnyValue: keyInt,
+		}
+	}
+
+	return keyAnyValues
+}
+
 func (it *DynamicMap) Length() int {
 	if it == nil {
 		return 0

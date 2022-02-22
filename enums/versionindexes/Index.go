@@ -238,3 +238,7 @@ func (it Index) EnumType() enuminf.EnumTyper {
 func (it Index) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return &it
 }
+
+func (it Index) ToPtr() *Index {
+	return &it
+}

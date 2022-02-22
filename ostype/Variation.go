@@ -305,3 +305,7 @@ func (it Variation) AsJsonContractsBinder() corejson.JsonMarshaller {
 func (it Variation) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return &it
 }
+
+func (it Variation) ToPtr() *Variation {
+	return &it
+}

@@ -62,6 +62,21 @@ func (it Variant) IsInteger() bool {
 	return it == Integer
 }
 
+// IsNumber
+//
+//  Is any type of number
+func (it Variant) IsNumber() bool {
+	return numbersMap[it]
+}
+
+func (it Variant) IsAnyInteger() bool {
+	return integersMap[it]
+}
+
+func (it Variant) IsAnyUnsignedNumber() bool {
+	return unSignedMap[it]
+}
+
 func (it Variant) IsString() bool {
 	return it == String
 }

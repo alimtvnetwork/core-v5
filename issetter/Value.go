@@ -33,6 +33,30 @@ const (
 	Wildcard      Value = 5
 )
 
+func (it Value) MaxMaxAny() (min, max interface{}) {
+	return Min(), Max()
+}
+
+func (it Value) MinValueString() string {
+	return Min().StringValue()
+}
+
+func (it Value) MaxValueString() string {
+	return Max().StringValue()
+}
+
+func (it Value) MaxInt() int {
+	return Max().ValueInt()
+}
+
+func (it Value) MinInt() int {
+	return Min().ValueInt()
+}
+
+func (it Value) RangesDynamicMap() map[string]interface{} {
+	return dynamicRangesMap
+}
+
 func (it Value) IsValueEqual(value byte) bool {
 	return byte(it) == value
 }
@@ -686,4 +710,8 @@ func (it Value) MinByte() byte {
 
 func (it Value) RangesByte() []byte {
 	panic("not implemented, later, todo")
+}
+
+func (it Value) ToPtr() *Value {
+	return &it
 }

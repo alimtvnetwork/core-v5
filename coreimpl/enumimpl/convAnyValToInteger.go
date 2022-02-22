@@ -14,15 +14,36 @@ func convAnyValToInteger(val interface{}) int {
 		return constants.MinInt
 	}
 
+	valInt, isInt := val.(int)
+
+	if isInt {
+		return valInt
+	}
+
+	switch casted := val.(type) {
+	case valueByter:
+		return int(casted.Value())
+	case exactValueByter:
+		return int(casted.ValueByte())
+	case valueInter:
+		return casted.Value()
+	case exactValueInter:
+		return casted.ValueInt()
+	case valueInt8er:
+		return int(casted.Value())
+	case exactValueInt8er:
+		return int(casted.ValueInt8())
+	}
+
 	str := fmt.Sprintf(
 		constants.SprintValueFormat,
 		val)
 
-	atoi, err := strconv.Atoi(str)
+	convValueInt, err := strconv.Atoi(str)
 
 	if err != nil {
 		return constants.MinInt
 	}
 
-	return atoi
+	return convValueInt
 }

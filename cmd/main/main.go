@@ -1,6 +1,11 @@
 package main
 
-import "gitlab.com/evatix-go/core/codestack"
+import (
+	"fmt"
+
+	"gitlab.com/evatix-go/core/issetter"
+	"gitlab.com/evatix-go/core/reqtype"
+)
 
 func main() {
 	// x := corestr.SimpleSlice{Items: []string{"a", "b"}}
@@ -51,5 +56,9 @@ func main() {
 	// coreDynamicMapAnyItems()
 	// enumTesting()
 	// payloadTest01()
-	println(codestack.JoinPackageNameWithRelative("reqtype.Request", "Invalid"))
+	// println(codestack.JoinPackageNameWithRelative("reqtype.Request", "Invalid"))
+
+	fmt.Println(reqtype.BasicEnumImpl.DynamicMap().SortedKeyAnyValues())
+	fmt.Println(reqtype.Read.RangeNamesCsv())
+	fmt.Println(issetter.True.RangeNamesCsv())
 }

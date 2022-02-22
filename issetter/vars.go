@@ -179,5 +179,7 @@ var (
 	rangesCsvString = csvinternal.RangeNamesWithValuesIndexesCsvString(
 		values...)
 
+	dynamicRangesMap = generateDynamicRangesMap()
+
 	typeName = reflect.TypeOf(Uninitialized).String()
 )

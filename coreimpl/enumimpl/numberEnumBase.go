@@ -3,25 +3,26 @@ package enumimpl
 import (
 	"errors"
 	"fmt"
-	"reflect"
 
 	"gitlab.com/evatix-go/core/constants"
-	"gitlab.com/evatix-go/core/converters"
 	"gitlab.com/evatix-go/core/coredata/coreonce"
 	"gitlab.com/evatix-go/core/errcore"
+	"gitlab.com/evatix-go/core/internal/csvinternal"
 	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 )
 
 type numberEnumBase struct {
-	actualValueRanges    interface{}
-	stringRanges         []string
-	rangesCsvString      coreonce.StringOnce
-	rangesInvalidMessage coreonce.StringOnce
-	invalidError         coreonce.ErrorOnce
-	typeName             string
-	minAny, maxAny       interface{}
-	minStr, maxStr       string
-	rangesDynamicMap     *map[string]interface{}
+	actualValueRanges      interface{}
+	stringRanges           []string
+	rangesCsvString        coreonce.StringOnce
+	rangesInvalidMessage   coreonce.StringOnce
+	invalidError           coreonce.ErrorOnce
+	typeName               string
+	minAny, maxAny         interface{}
+	minStr, maxStr         string
+	keyAnyValues           []KeyAnyVal
+	rangesDynamicMap       map[string]interface{}
+	rangesIntegerStringMap map[int]string
 }
 
 // newNumberEnumBase
@@ -32,10 +33,10 @@ type numberEnumBase struct {
 func newNumberEnumBase(
 	typeName string,
 	actualRangesAnyType interface{},
-	stringRanges []string,
+	nameRanges []string,
 	min, max interface{},
 ) *numberEnumBase {
-	if stringRanges == nil {
+	if nameRanges == nil {
 		errcore.MeaningfulErrorHandle(
 			errcore.CannotBeNilType,
 			"newNumberEnumBase",
@@ -43,9 +44,17 @@ func newNumberEnumBase(
 	}
 
 	rangesToCsvOnce := coreonce.NewStringOnce(func() string {
-		return converters.StringsToCsvWithIndexes(
-			stringRanges,
-		)
+		allKeyValues := KeyAnyValues(
+			nameRanges,
+			actualRangesAnyType)
+		slice := make([]string, len(allKeyValues))
+
+		for i, keyAnyVal := range allKeyValues {
+			slice[i] = keyAnyVal.String()
+		}
+
+		return csvinternal.StringsToStringDefaultNoQuotations(
+			slice...)
 	})
 
 	invalidMessageOnce := coreonce.NewStringOnce(func() string {
@@ -59,7 +68,7 @@ func newNumberEnumBase(
 
 	return &numberEnumBase{
 		actualValueRanges:    actualRangesAnyType,
-		stringRanges:         stringRanges,
+		stringRanges:         nameRanges,
 		rangesCsvString:      rangesToCsvOnce,
 		rangesInvalidMessage: invalidMessageOnce,
 		invalidError: coreonce.NewErrorOnce(func() error {
@@ -107,21 +116,97 @@ func (it *numberEnumBase) MaxValueString() string {
 	return it.maxStr
 }
 
+func (it *numberEnumBase) Length() int {
+	return len(it.StringRanges())
+}
+
+func (it *numberEnumBase) Count() int {
+	return len(it.StringRanges())
+}
+
 func (it *numberEnumBase) RangesDynamicMap() map[string]interface{} {
 	if it.rangesDynamicMap != nil {
-		return *it.rangesDynamicMap
+		return it.rangesDynamicMap
 	}
 
 	newMap := make(map[string]interface{}, len(it.stringRanges)+1)
-	reflectValues := reflect.ValueOf(it.actualValueRanges)
-	for i, name := range it.StringRanges() {
-		rfVal := reflectValues.Index(i)
-		newMap[name] = rfVal.Interface()
+
+	for _, keyAnyVal := range it.KeyAnyValues() {
+		newMap[keyAnyVal.Key] = keyAnyVal.AnyValue
 	}
 
-	it.rangesDynamicMap = &newMap
+	it.rangesDynamicMap = newMap
 
 	return newMap
+}
+
+func (it *numberEnumBase) DynamicMap() DynamicMap {
+	return it.RangesDynamicMap()
+}
+
+func (it *numberEnumBase) RangesIntegerStringMap() map[int]string {
+	if it.rangesDynamicMap != nil {
+		return it.rangesIntegerStringMap
+	}
+
+	newMap := make(
+		map[int]string,
+		len(it.stringRanges)+1)
+
+	for _, keyAnyVal := range it.KeyAnyValues() {
+		newMap[keyAnyVal.ValInt()] = keyAnyVal.Key
+	}
+
+	it.rangesIntegerStringMap = newMap
+
+	return newMap
+}
+
+func (it *numberEnumBase) KeyAnyValues() []KeyAnyVal {
+	if it.keyAnyValues != nil {
+		return it.keyAnyValues
+	}
+
+	it.keyAnyValues = KeyAnyValues(
+		it.StringRanges(),
+		it.actualValueRanges)
+
+	return it.keyAnyValues
+}
+
+func (it *numberEnumBase) KeyValIntegers() []KeyValInteger {
+	slice := make([]KeyValInteger, it.Length())
+
+	it.LoopInteger(func(index int, name string, valInteger int) (isBreak bool) {
+		slice[index] = KeyValInteger{
+			Key:          name,
+			ValueInteger: valInteger,
+		}
+
+		return false
+	})
+
+	return slice
+}
+
+func (it *numberEnumBase) Loop(looperFunc LooperFunc) {
+	for i, keyAnyVal := range it.KeyAnyValues() {
+		isBreak := looperFunc(i, keyAnyVal.Key, keyAnyVal.AnyValue)
+
+		if isBreak {
+			return
+		}
+	}
+}
+
+func (it *numberEnumBase) LoopInteger(looperFunc LooperIntegerFunc) {
+	for i, keyAnyVal := range it.KeyAnyValues() {
+		isBreak := looperFunc(i, keyAnyVal.Key, keyAnyVal.ValInt())
+
+		if isBreak {
+			return
+		}
+	}
 }
 
 func (it *numberEnumBase) TypeName() string {

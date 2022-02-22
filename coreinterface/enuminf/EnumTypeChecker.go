@@ -11,5 +11,8 @@ type EnumTypeChecker interface {
 	IsInteger32() bool
 	IsInteger() bool
 	IsString() bool
+	IsNumber() bool
+	IsAnyInteger() bool
+	IsAnyUnsignedNumber() bool
 	IsValidInvalidChecker
 }

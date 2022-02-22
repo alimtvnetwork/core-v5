@@ -7,3 +7,19 @@ type valueByter interface {
 type exactValueByter interface {
 	ValueByte() byte
 }
+
+type valueInter interface {
+	Value() int
+}
+
+type exactValueInter interface {
+	ValueInt() int
+}
+
+type valueInt8er interface {
+	Value() int8
+}
+
+type exactValueInt8er interface {
+	ValueInt8() int8
+}

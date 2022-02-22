@@ -54,3 +54,11 @@ type BasicEnumerGetter interface {
 type RangeNamesCsvGetter interface {
 	RangeNamesCsv() string
 }
+
+type RangesIntegerStringMapGetter interface {
+	RangesIntegerStringMap() map[int]string
+}
+
+type RangesDynamicMapGetter interface {
+	RangesDynamicMap() map[string]interface{}
+}

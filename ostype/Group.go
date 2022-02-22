@@ -219,3 +219,7 @@ func (it *Group) AsJsonContractsBinder() corejson.JsonMarshaller {
 func (it Group) AsBasicByteEnumContractsBinder() enuminf.BasicByteEnumContractsBinder {
 	return &it
 }
+
+func (it Group) ToPtr() *Group {
+	return &it
+}
