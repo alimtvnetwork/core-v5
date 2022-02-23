@@ -1,6 +1,7 @@
 package enumimpl
 
 import (
+	"encoding/json"
 	"fmt"
 	"math"
 	"reflect"
@@ -257,6 +258,92 @@ func (it DynamicMap) IsMissingKey(key string) bool {
 	_, has := it[key]
 
 	return !has
+}
+
+func (it *DynamicMap) IsMismatch(
+	rightMap *DynamicMap,
+) bool {
+	return !it.IsEqual(rightMap)
+}
+
+func (it *DynamicMap) IsRawMismatch(
+	rightMap map[string]interface{},
+) bool {
+	return !it.IsRawEqual(rightMap)
+}
+
+func (it *DynamicMap) IsEqual(
+	rightMap *DynamicMap,
+) bool {
+	if it == nil && rightMap == nil {
+		return true
+	}
+
+	if it == nil || rightMap == nil {
+		return false
+	}
+
+	if it == rightMap {
+		return true
+	}
+
+	return it.IsRawEqual(*rightMap)
+}
+
+func (it *DynamicMap) IsRawEqual(
+	rightMap map[string]interface{},
+) bool {
+	if it == nil && rightMap == nil {
+		return true
+	}
+
+	if it == nil || rightMap == nil {
+		return false
+	}
+
+	if it.Length() != len(rightMap) {
+		return false
+	}
+
+	for key, valInf := range *it {
+		v2, has := rightMap[key]
+
+		if !has {
+			return false
+		}
+
+		if !reflect.DeepEqual(valInf, v2) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func (it *DynamicMap) IsKeysEqualOnly(
+	rightMap map[string]interface{},
+) bool {
+	if it == nil && rightMap == nil {
+		return true
+	}
+
+	if it == nil || rightMap == nil {
+		return false
+	}
+
+	if it.Length() != len(rightMap) {
+		return false
+	}
+
+	for key, _ := range *it {
+		_, has := rightMap[key]
+
+		if !has {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (it DynamicMap) KeyValue(
@@ -731,15 +818,39 @@ func (it DynamicMap) Strings() []string {
 	}
 
 	slice := make([]string, it.Length())
+	allKeysSorted := it.AllKeysSorted()
 
 	index := 0
-	for key, value := range it {
+	for _, key := range allKeysSorted {
+		val := it[key]
+
 		slice[index] = fmt.Sprintf(
 			constants.KeyValJsonFormat,
 			key,
-			value)
+			val)
 
 		index++
+	}
+
+	return slice
+}
+
+func (it DynamicMap) StringsUsingFmt(
+	formatter func(index int, key string, val interface{}) string,
+) []string {
+	if it.IsEmpty() {
+		return []string{}
+	}
+
+	slice := make([]string, it.Length())
+	allKeysSorted := it.AllKeysSorted()
+
+	for i, key := range allKeysSorted {
+		val := it[key]
+		slice[i] = formatter(
+			i,
+			key,
+			val)
 	}
 
 	return slice
@@ -749,6 +860,14 @@ func (it DynamicMap) String() string {
 	return strings.Join(
 		it.Strings(),
 		constants.DefaultLine)
+}
+
+func (it DynamicMap) IsStringEqual(anotherMapString string) bool {
+	return it.String() == anotherMapString
+}
+
+func (it DynamicMap) Serialize() ([]byte, error) {
+	return json.Marshal(it)
 }
 
 func (it DynamicMap) sortedKeyAnyValuesString() []KeyAnyVal {
