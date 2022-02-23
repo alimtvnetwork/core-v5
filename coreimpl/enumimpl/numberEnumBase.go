@@ -44,22 +44,30 @@ func newNumberEnumBase(
 			errors.New("StringRanges cannot be nil"))
 	}
 
+	integerEnumRangesOnce := coreonce.NewIntegersOnce(func() []int {
+		return IntegersRangesOfAnyVal(actualRangesAnyType)
+	})
+
 	rangesToCsvOnce := coreonce.NewStringOnce(func() string {
 		allKeyValues := KeyAnyValues(
 			nameRanges,
 			actualRangesAnyType)
-		slice := make([]string, len(allKeyValues))
+		length := len(allKeyValues)
+		newMap := make(map[int]string, length)
 
-		for i, keyAnyVal := range allKeyValues {
-			slice[i] = keyAnyVal.String()
+		for _, keyAnyVal := range allKeyValues {
+			newMap[keyAnyVal.ValInt()] = keyAnyVal.String()
+		}
+
+		integerRanges := integerEnumRangesOnce.Sorted()
+		newSortedSlice := make([]string, length)
+		for i, valueInt := range integerRanges {
+			nameValue := newMap[valueInt]
+			newSortedSlice[i] = nameValue
 		}
 
 		return csvinternal.StringsToStringDefaultNoQuotations(
-			slice...)
-	})
-
-	integerEnumRangesOnce := coreonce.NewIntegersOnce(func() []int {
-		return IntegersRangesOfAnyVal(actualRangesAnyType)
+			newSortedSlice...)
 	})
 
 	invalidMessageOnce := coreonce.NewStringOnce(func() string {
