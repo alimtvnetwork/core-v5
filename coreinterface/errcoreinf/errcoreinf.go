@@ -88,8 +88,20 @@ type BaseErrorTyper interface {
 	internalinterface.BaseErrorTyper
 }
 
+type BaseErrorTypeGetter interface {
+	BaseErrorTyper() BaseErrorTyper
+}
+
+type ErrTypeDetailDefiner interface {
+	TypenameString() string
+	TypeMessage() string
+	BaseErrorTypeGetter
+}
+
 type BasicErrorTyper interface {
 	BaseErrorTyper
+	enuminf.BasicEnumer
+	ErrTypeDetailDefiner() ErrTypeDetailDefiner
 	ErrorTypeAsBasicEnum() enuminf.BasicEnumer
 }
 

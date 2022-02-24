@@ -37,7 +37,6 @@ type BaseErrorTyper interface {
 	PanicNoRefs(
 		additionalMessage string,
 	)
-	ErrTypeDetailDefiner() ErrTypeDetailDefiner
 	// CodeWithTypeName
 	//
 	// 	errconsts.ErrorCodeHyphenTypeNameFormat  = "(#%d - %s)"
@@ -86,7 +85,7 @@ type BaseErrorTyper interface {
 		references ...string,
 	) string
 	RawValue() uint16
-	Value() int16
+	Value() uint16
 	ValueInt16() int16
 	ValueInt() int
 	ValueUInt() uint

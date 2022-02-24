@@ -65,14 +65,19 @@ func newNumberEnumBase(
 			actualRangesAnyType)
 		length := len(allKeyValues)
 		newMap := make(map[int]string, length)
+		integersSlice := make([]int, length)
 
-		for _, keyAnyVal := range allKeyValues {
-			newMap[keyAnyVal.ValInt()] = keyAnyVal.String()
+		for i, keyAnyVal := range allKeyValues {
+			valueInt := keyAnyVal.ValInt()
+			newMap[valueInt] = keyAnyVal.String()
+			integersSlice[i] = valueInt
 		}
 
-		integerRanges := integerEnumRangesOnce.Sorted()
+		sort.Ints(integersSlice)
+
 		newSortedSlice := make([]string, length)
-		for i, valueInt := range integerRanges {
+
+		for i, valueInt := range integersSlice {
 			nameValue := newMap[valueInt]
 			newSortedSlice[i] = nameValue
 		}
@@ -176,7 +181,9 @@ func (it *numberEnumBase) RangesDynamicMap() map[string]interface{} {
 		return it.rangesDynamicMap
 	}
 
-	newMap := make(map[string]interface{}, len(it.stringRanges)+1)
+	newMap := make(
+		map[string]interface{},
+		len(it.stringRanges)+1)
 
 	for _, keyAnyVal := range it.KeyAnyValues() {
 		newMap[keyAnyVal.Key] = keyAnyVal.AnyValue
@@ -248,7 +255,10 @@ func (it numberEnumBase) Loop(looperFunc LooperFunc) {
 
 func (it numberEnumBase) LoopInteger(looperFunc LooperIntegerFunc) {
 	for i, keyAnyVal := range it.KeyAnyValues() {
-		isBreak := looperFunc(i, keyAnyVal.Key, keyAnyVal.ValInt())
+		isBreak := looperFunc(
+			i,
+			keyAnyVal.Key,
+			keyAnyVal.ValInt())
 
 		if isBreak {
 			return
@@ -320,16 +330,12 @@ func (it numberEnumBase) Format(
 	format string,
 	value interface{},
 ) string {
-	replacerMap := map[string]string{
-		typeNameTemplateKey: it.TypeName(),
-		nameKey:             it.ToEnumString(value),
-		valueKey:            it.ValueString(value),
-	}
-
-	return utilstringinternal.ReplaceTemplateMap(
-		true,
+	return Format(
+		it.TypeName(),
+		it.ToName(value),
+		it.ValueString(value),
 		format,
-		replacerMap)
+	)
 }
 
 func (it *numberEnumBase) RangeNamesCsv() string {
@@ -365,6 +371,14 @@ func (it numberEnumBase) JsonString(input interface{}) string {
 }
 
 func (it numberEnumBase) ToEnumString(
+	input interface{},
+) string {
+	return fmt.Sprintf(
+		constants.SprintValueFormat,
+		input)
+}
+
+func (it numberEnumBase) ToName(
 	input interface{},
 ) string {
 	return fmt.Sprintf(

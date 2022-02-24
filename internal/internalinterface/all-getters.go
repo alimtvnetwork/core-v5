@@ -90,16 +90,6 @@ type ValueStringsGetter interface {
 	Value() []string
 }
 
-type ErrTypeDetailDefiner interface {
-	TypenameString() string
-	TypeMessage() string
-	BaseErrorTypeGetter
-}
-
-type BaseErrorTypeGetter interface {
-	BaseErrorTyper() BaseErrorTyper
-}
-
 type ErrorValueGetter interface {
 	Value() error
 }
