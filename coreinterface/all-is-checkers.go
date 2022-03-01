@@ -313,3 +313,52 @@ type Int16IsAnyOfChecker interface {
 type ByteIsAnyOfChecker interface {
 	IsAnyOf(value byte, checkingItems ...byte) bool
 }
+
+type IsEnableAllChecker interface {
+	IsEnableAll() bool
+}
+
+type IsEnableAnyChecker interface {
+	IsEnableAny() bool
+}
+
+type IsEnableAnyByNamesChecker interface {
+	IsEnableAnyByNames(enabledNames ...string) bool
+}
+
+type IsDisableAllChecker interface {
+	IsDisableAll() bool
+}
+
+type IsDisableAnyChecker interface {
+	IsDisableAny() bool
+}
+
+type IsDisableAnyByNamesChecker interface {
+	IsDisableAnyByNames(disabledNames ...string) bool
+}
+
+type IsFlagsEnabledByNamesChecker interface {
+	IsFlagsEnabledByNames(enabledNames ...string) bool
+}
+
+type IsFlagsDisabledByNamesChecker interface {
+	IsFlagsDisabledByNames(disabledNames ...string) bool
+}
+
+type IsKeyMissingChecker interface {
+	IsMissingKey(key string) bool
+}
+
+type IsCompletedChecker interface {
+	IsCompleted() bool
+}
+
+type IsCompletedLockChecker interface {
+	IsCompletedLock() bool
+}
+
+type IsCompletedLockUnlockChecker interface {
+	IsCompletedChecker
+	IsCompletedLockChecker
+}

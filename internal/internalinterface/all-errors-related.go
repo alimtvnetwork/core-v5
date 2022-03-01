@@ -100,10 +100,23 @@ type BaseErrorOrCollectionWrapper interface {
 	MarshalJSON() ([]byte, error)
 	UnmarshalJSON(data []byte) error
 	ErrorValueGetter
+
 	Dispose()
+
 	CompiledVoidLogger
+	IsCollectionTyper
 
 	fmt.Stringer
+}
+
+// IsCollectionTyper
+//
+//   returns true if current type is collection
+type IsCollectionTyper interface {
+	// IsCollectionType
+	//
+	//  returns true if current type is collection
+	IsCollectionType() bool
 }
 
 // BasicErrWrapper

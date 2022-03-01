@@ -29,9 +29,17 @@ type MetaAttributesStacker interface {
 	RawJson(title string, rawJsonBytes []byte) MetaAttributesStacker
 	Error(title string, err error) MetaAttributesStacker
 	AnErr(key string, err error) MetaAttributesStacker
-	MapAny(title string, mapAny map[string]interface{}) MetaAttributesStacker
+
 	MapIntegerAny(title string, mapAny map[int]interface{}) MetaAttributesStacker
 	Meta(title string, metaAttr MetaAttributesCompiler) MetaAttributesStacker
+
+	MapBool(title string, mapInt map[string]bool) MetaAttributesStacker
+	MapInt(title string, mapInt map[string]int) MetaAttributesStacker
+	MapAnyAny(title string, mapAny map[interface{}]interface{}) MetaAttributesStacker
+	MapAny(title string, mapAny map[string]interface{}) MetaAttributesStacker
+	MapIntAny(title string, mapAny map[int]interface{}) MetaAttributesStacker
+	MapIntString(title string, mapAny map[int]string) MetaAttributesStacker
+	MapJsonResult(title string, mapAny map[string]corejson.Result) MetaAttributesStacker
 
 	Json(title string, json *corejson.Result) MetaAttributesStacker
 	JsonItems(title string, jsons ...*corejson.Result) MetaAttributesStacker
@@ -76,6 +84,10 @@ type MetaAttributesStacker interface {
 	OnlyEnums(enums ...enuminf.BasicEnumer) MetaAttributesStacker
 	OnlyString(value string) MetaAttributesStacker
 	OnlyStrings(values ...string) MetaAttributesStacker
+
+	OnlyStringer(stringer fmt.Stringer) MetaAttributesStacker
+	OnlyStringers(stringers ...fmt.Stringer) MetaAttributesStacker
+
 	OnlyIntegers(values ...int) MetaAttributesStacker
 	OnlyBooleans(values ...bool) MetaAttributesStacker
 	OnlyBytes(rawBytes []byte) MetaAttributesStacker
@@ -83,6 +95,13 @@ type MetaAttributesStacker interface {
 	OnlyBytesErr(rawBytes []byte, err error) MetaAttributesStacker
 	OnlyAnyItems(values ...interface{}) MetaAttributesStacker
 	OnlyMetaAttr(metaAttr MetaAttributesCompiler) MetaAttributesStacker
+
+	OnlyMapBool(mapInt map[string]bool) MetaAttributesStacker
+	OnlyMapInt(mapInt map[string]int) MetaAttributesStacker
+	OnlyMapAny(mapAny map[string]interface{}) MetaAttributesStacker
+	OnlyMapIntAny(mapAny map[int]interface{}) MetaAttributesStacker
+	OnlyMapIntString(mapAny map[int]string) MetaAttributesStacker
+	OnlyMapJsonResult(mapAny map[string]corejson.Result) MetaAttributesStacker
 
 	OnlyJson(json *corejson.Result) MetaAttributesStacker
 	OnlyJsons(jsons ...*corejson.Result) MetaAttributesStacker

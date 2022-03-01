@@ -167,6 +167,7 @@ const (
 	NoItemsSquare                            = "[No Items]"
 	NoElementsSquare                         = "[No Element]"
 	DoubleNewLine                            = "\n\n"
+	DefaultLineByte                  byte    = '\n'
 	DotSymbol                                = "."
 	DotChar                          byte    = '.'
 	ForwardChar                      byte    = '/'
@@ -467,4 +468,19 @@ const (
 	Right                                    = "Right"
 	LeftLower                                = "left"
 	RightLower                               = "right"
+	List                                     = "List"
+	ListLower                                = "list"
+	ListsLower                               = "lists"
+	HistoryLower                             = "history"
+	VerboseLower                             = "verbose"
+	DoubleHyphen                             = "--"
+	VerboseFlagName                          = DoubleHyphen + VerboseLower
+	IncludesString                           = "Includes"
+	IncludeString                            = "Include"
+	DebugLowerString                         = "debug"
+	LogLowerString                           = "log"
+	JsonLowerString                          = "json"
+	AvailableLowerString                     = "available"
+	DefaultString                            = "Default"
+	AllCapitalDefaultString                  = "DEFAULT"
 )

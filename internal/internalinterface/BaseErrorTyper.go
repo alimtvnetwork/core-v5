@@ -67,23 +67,6 @@ type BaseErrorTyper interface {
 	ShortReferencesCsvError(
 		references ...interface{},
 	) error
-	// ExplicitCodeCodeValueTypeName
-	//
-	// 	errconsts.ErrorCodeWithTypeNameFormat = "(Code - #%d) : %s"
-	ExplicitCodeCodeValueTypeName() string
-	// CodeTypeNameWithReference
-	//
-	// 	errconsts.ErrorCodeHyphenTypeNameWithReferencesFormat = "(#%d - %s - {%v})"
-	CodeTypeNameWithReference(
-		referenceLine string,
-	) string
-
-	// CodeTypeNameWithReferences
-	//
-	// 	errconsts.ErrorCodeHyphenTypeNameWithReferencesFormat = "(#%d - %s - {%v})"
-	CodeTypeNameWithReferences(
-		references ...string,
-	) string
 	RawValue() uint16
 	Value() uint16
 	ValueInt16() int16

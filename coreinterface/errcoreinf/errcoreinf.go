@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 	"gitlab.com/evatix-go/core/internal/internalinterface"
 )
@@ -84,12 +85,50 @@ type ReferencesCompiledStringGetter interface {
 	internalinterface.ReferencesCompiledStringGetter
 }
 
+// ExplicitCodeValueNamer
+//
+// 	returns string in format "(Code - #%d) : %s"
+type ExplicitCodeValueNamer interface {
+	// ExplicitCodeValueName
+	//
+	// 	returns string in format "(Code - #%d) : %s"
+	ExplicitCodeValueName() string
+}
+
+type CodeTypeNameWithReferencer interface {
+	// CodeTypeNameWithReference
+	//
+	// 	returns string in format
+	// 	- "(#%d - %s - {%v})" : (error-code - name - referenceLine)
+	CodeTypeNameWithReference(
+		referenceLine string,
+	) string
+}
+
+type JsonModelAnyGetter interface {
+	JsonModelAny() interface{}
+}
+
+type CategoryNamer interface {
+	CategoryName() string
+}
+
 type BaseErrorTyper interface {
 	internalinterface.BaseErrorTyper
+	ExplicitCodeValueNamer
+	CodeTypeNameWithReferencer
+	JsonModelAnyGetter
+	CategoryNamer
+	coreinterface.AllSerializer
+	IsErrorTyperEqual(errTyper BaseErrorTyper) bool
 }
 
 type BaseErrorTypeGetter interface {
 	BaseErrorTyper() BaseErrorTyper
+}
+
+type BasicErrorTyperGetter interface {
+	BasicErrorTyper() BasicErrorTyper
 }
 
 type ErrTypeDetailDefiner interface {
@@ -101,6 +140,7 @@ type ErrTypeDetailDefiner interface {
 type BasicErrorTyper interface {
 	BaseErrorTyper
 	enuminf.BasicEnumer
+
 	ErrTypeDetailDefiner() ErrTypeDetailDefiner
 	ErrorTypeAsBasicEnum() enuminf.BasicEnumer
 }
@@ -159,13 +199,41 @@ type Referencer interface {
 	FullStringer
 	fmt.Stringer
 	corejson.Jsoner
-	Serialize() ([]byte, error)
+	coreinterface.AllSerializer
+
+	IsEqualReferencer(ref Referencer) bool
+}
+
+type StringsGetter interface {
+	Strings() []string
+}
+
+type ReferenceCollectionDefiner interface {
+	ReferencerCollection() []Referencer
+	HasAnyItem() bool
+	IsEmpty() string
+	Length() int
+	Count() int
+
+	AddVarVal(varName string, val interface{}) ReferenceCollectionDefiner
+	AddReferencer(ref Referencer) ReferenceCollectionDefiner
+	AddReferences(references ...Referencer) ReferenceCollectionDefiner
+
+	coreinterface.MapStringAnyGetter
+	coreinterface.AllSerializer
+	corejson.Jsoner
+
+	StringsGetter
+	fmt.Stringer
+	Compile() string
+
+	coreinterface.ReflectSetter
 }
 
 type BasicErrWrapper interface {
 	internalinterface.BasicErrWrapper
 	ErrorTypeAsBasicErrorTyper() BasicErrorTyper
-	Referencer() Referencer
+	ReferencesCollection() ReferenceCollectionDefiner
 }
 
 type CompiledBasicErrWrapper interface {

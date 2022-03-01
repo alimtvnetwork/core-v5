@@ -69,3 +69,13 @@ type ActionTyper interface {
 	BasicEnumer
 	internalenuminf.ActionTyper
 }
+
+type CompletionStateTyper interface {
+	BasicEnumer
+	internalenuminf.CompletionStateTyper
+}
+
+type EventTyper interface {
+	BasicEnumer
+	internalenuminf.EventTyper
+}

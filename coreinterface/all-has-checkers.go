@@ -38,3 +38,11 @@ type HasSafeItemsChecker interface {
 	// returns true if has valid item or items and no error
 	HasSafeItems() bool
 }
+
+type HasFlagByNameChecker interface {
+	HasFlagByName(flagName string) bool
+}
+
+type HasKeyChecker interface {
+	HasKey(key string) bool
+}

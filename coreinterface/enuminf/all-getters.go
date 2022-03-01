@@ -1,5 +1,7 @@
 package enuminf
 
+import "gitlab.com/evatix-go/core/internal/internalinterface"
+
 type SplitNameValueByteGetter interface {
 	enumNameStinger
 	Value() byte
@@ -65,4 +67,16 @@ type RangesDynamicMapGetter interface {
 
 type IntegerEnumRangesGetter interface {
 	IntegerEnumRanges() []int
+}
+
+type LoggerTyperGetter interface {
+	LoggerTyper() LoggerTyper
+}
+
+type EventTyperGetter interface {
+	EventTyper() EventTyper
+}
+
+type ErrorStringGetter interface {
+	internalinterface.ErrorStringGetter
 }

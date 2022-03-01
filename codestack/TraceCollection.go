@@ -834,6 +834,18 @@ func (it TraceCollection) JsonPtr() *corejson.Result {
 	return corejson.NewPtr(it)
 }
 
+func (it TraceCollection) Serializer() ([]byte, error) {
+	return it.Json().Raw()
+}
+
+func (it TraceCollection) StackTracesBytes() []byte {
+	if it.IsEmpty() {
+		return []byte{}
+	}
+
+	return []byte(it.CodeStacksString())
+}
+
 func (it *TraceCollection) ParseInjectUsingJson(
 	jsonResult *corejson.Result,
 ) (*TraceCollection, error) {

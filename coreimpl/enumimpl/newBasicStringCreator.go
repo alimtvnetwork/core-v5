@@ -142,13 +142,20 @@ func (it newBasicStringCreator) CreateUsingAliasMap(
 	jsonDoubleQuoteNameToValueHashMap := make(
 		map[string]string,
 		len(stringRangesNames))
+	nameWithIndexMap := make(
+		map[string]int,
+		len(stringRangesNames))
 	valueToJsonDoubleQuoteStringBytesHashmap := make(
 		map[string][]byte,
 		len(stringRangesNames))
 
-	for i, actualVal := range stringRangesNames {
-		key := stringRangesNames[i]
+	for index, actualVal := range stringRangesNames {
+		key := stringRangesNames[index]
 		jsonName := toJsonName(key)
+
+		nameWithIndexMap[jsonName] = index
+		nameWithIndexMap[key] = index
+
 		jsonDoubleQuoteNameToValueHashMap[jsonName] = actualVal
 		jsonDoubleQuoteNameToValueHashMap[key] = actualVal
 		valueToJsonDoubleQuoteStringBytesHashmap[key] = []byte(jsonName)
