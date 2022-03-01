@@ -236,3 +236,47 @@ type ValueStringGetter interface {
 type ValueStringsGetter interface {
 	Value() []string
 }
+
+type FilterTextGetter interface {
+	FilterText() string
+}
+
+type CategoryRevealerGetter interface {
+	CategoryRevealer() CategoryRevealer
+}
+
+type StackTracesBytesGetter interface {
+	StackTracesBytes() []byte
+}
+
+type JsonErrorBytesGetter interface {
+	JsonErrorBytes() []byte
+}
+
+type MapStringAnyGetter interface {
+	MapStringAny() map[string]interface{}
+}
+
+type VariableNameStringGetter interface {
+	VariableName() string
+}
+
+type VariableNameAnyGetter interface {
+	VariableNameAny() interface{}
+}
+
+type ValueAnyGetter interface {
+	ValueAny() interface{}
+}
+
+type ExplicitValueStringGetter interface {
+	ValueString() string
+}
+
+type KeysHashsetGetter interface {
+	KeysHashset() map[string]bool
+}
+
+type HashmapGetter interface {
+	Hashmap() map[string]string
+}

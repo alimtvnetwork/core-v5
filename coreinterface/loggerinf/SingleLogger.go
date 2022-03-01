@@ -34,6 +34,15 @@ type SingleLogger interface {
 	Err(err error) SingleLogger
 	AnErr(title string, err error) SingleLogger
 	ErrWithType(title string, errType errcoreinf.BasicErrorTyper, err error) SingleLogger
+	Meta(title string, metaAttr MetaAttributesCompiler) SingleLogger
+
+	MapBool(title string, mapInt map[string]bool) SingleLogger
+	MapInt(title string, mapInt map[string]int) SingleLogger
+	MapAnyAny(title string, mapAny map[interface{}]interface{}) SingleLogger
+	MapAny(title string, mapAny map[string]interface{}) SingleLogger
+	MapIntAny(title string, mapAny map[int]interface{}) SingleLogger
+	MapIntString(title string, mapAny map[int]string) SingleLogger
+	MapJsonResult(title string, mapAny map[string]corejson.Result) SingleLogger
 
 	DefaultStackTraces() SingleLogger
 	ErrWithTypeTraces(title string, errType errcoreinf.BasicErrorTyper, err error) SingleLogger
@@ -72,6 +81,11 @@ type SingleLogger interface {
 	OnlyError(err error) SingleLogger
 	OnlyString(value string) SingleLogger
 	OnlyStrings(values ...string) SingleLogger
+	OnlyMetaAttr(metaAttr MetaAttributesCompiler) SingleLogger
+
+	OnlyStringer(stringer fmt.Stringer) SingleLogger
+	OnlyStringers(stringers ...fmt.Stringer) SingleLogger
+
 	OnlyIntegers(values ...int) SingleLogger
 	OnlyBooleans(values ...bool) SingleLogger
 	OnlyBytes(rawBytes []byte) SingleLogger
@@ -80,11 +94,23 @@ type SingleLogger interface {
 	OnlyAnyItems(values ...interface{}) SingleLogger
 	Bool(title string, isResult bool) SingleLogger
 	Booleans(title string, isResults ...bool) SingleLogger
+
+	OnlyMapBool(mapInt map[string]bool) SingleLogger
+	OnlyMapInt(mapInt map[string]int) SingleLogger
+	OnlyMapAny(mapAny map[string]interface{}) SingleLogger
+	OnlyMapAnyAny(mapAny map[interface{}]interface{}) SingleLogger
+	OnlyMapIntAny(mapAny map[int]interface{}) SingleLogger
+	OnlyMapIntString(mapAny map[int]string) SingleLogger
+	OnlyMapJsonResult(mapAny map[string]corejson.Result) SingleLogger
+
 	AnyJsonLog(anyItem interface{}) SingleLogger
 	Any(anyItem interface{}) SingleLogger
 	AnyIf(isLog bool, anyItem interface{}) SingleLogger
 	AnyItems(anyItems ...interface{}) SingleLogger
 	AnyItemsIf(isLog bool, anyItems ...interface{}) SingleLogger
+
+	OnlyJson(json *corejson.Result) SingleLogger
+	OnlyJsons(jsons ...*corejson.Result) SingleLogger
 
 	Jsoner(jsoner corejson.Jsoner) SingleLogger
 	Jsoners(jsoners ...corejson.Jsoner) SingleLogger

@@ -12,7 +12,9 @@ type ActionTyper interface {
 	IsSuspend() bool
 	IsPause() bool
 	IsResumed() bool
+	IsStopEnableStart() bool
+	IsStopDisable() bool
 
 	IsAnyAction() bool
-	IsNotAnyAction() bool
+	IsUndefined() bool
 }

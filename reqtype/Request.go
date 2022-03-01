@@ -71,6 +71,18 @@ const (
 	Enforce
 )
 
+func (it Request) IsStopEnableStart() bool {
+	return false
+}
+
+func (it Request) IsStopDisable() bool {
+	return false
+}
+
+func (it Request) IsUndefined() bool {
+	return it == Invalid
+}
+
 func (it Request) AllNameValues() []string {
 	return BasicEnumImpl.AllNameValues()
 }

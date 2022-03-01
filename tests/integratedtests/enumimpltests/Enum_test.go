@@ -3,7 +3,6 @@ package enumimpltests
 import (
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/coreimpl/enumimpl/enumtype"
 )
 

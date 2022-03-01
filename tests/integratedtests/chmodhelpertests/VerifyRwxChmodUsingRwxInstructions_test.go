@@ -3,7 +3,6 @@ package chmodhelpertests
 import (
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/evatix-go/core/coretests"
 	"gitlab.com/evatix-go/core/errcore"
 

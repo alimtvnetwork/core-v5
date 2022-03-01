@@ -174,19 +174,41 @@ func (it Result) Raw() ([]byte, error) {
 	return it.SafeBytes(), it.MeaningfulError()
 }
 
-func (it *Result) RawString() (jsonString string, err error) {
+func (it *Result) RawMust() []byte {
+	if it == nil {
+		return []byte{}
+	}
+
+	if it.HasError() {
+		panic(it.MeaningfulErrorMessage())
+	}
+
+	return it.Bytes
+}
+
+func (it Result) RawString() (jsonString string, err error) {
 	return it.JsonString(), it.MeaningfulError()
 }
 
-func (it *Result) RawErrString() (rawJsonBytes []byte, errorMsg string) {
+func (it Result) RawStringMust() (jsonString string) {
+	jsonString, err := it.RawString()
+
+	if err != nil {
+		panic(err)
+	}
+
+	return jsonString
+}
+
+func (it Result) RawErrString() (rawJsonBytes []byte, errorMsg string) {
 	return it.Bytes, it.MeaningfulErrorMessage()
 }
 
-func (it *Result) RawPrettyString() (jsonString string, err error) {
+func (it Result) RawPrettyString() (jsonString string, err error) {
 	return it.PrettyJsonString(), it.MeaningfulError()
 }
 
-func (it *Result) MeaningfulErrorMessage() string {
+func (it Result) MeaningfulErrorMessage() string {
 	err := it.MeaningfulError()
 
 	if err == nil {
@@ -234,7 +256,7 @@ func (it *Result) IsEmptyError() bool {
 //  and has non-Empty json (other than length 0 or "{}")
 //
 // Invert of HasIssuesOrEmpty
-func (it *Result) HasSafeItems() bool {
+func (it Result) HasSafeItems() bool {
 	return !it.HasIssuesOrEmpty()
 }
 
@@ -257,39 +279,27 @@ func (it *Result) IsAnyNull() bool {
 // Result.IsAnyNull() ||
 // Result.HasError() ||
 // Result.IsEmptyJsonBytes()
-func (it *Result) HasIssuesOrEmpty() bool {
+func (it Result) HasIssuesOrEmpty() bool {
 	return it.IsAnyNull() || it.HasError() || it.IsEmptyJsonBytes()
 }
 
-func (it *Result) HandleError() {
-	if it == nil || it.IsEmptyError() {
-		return
+func (it Result) HandleError() {
+	if it.HasIssuesOrEmpty() {
+		panic(it.MeaningfulError())
 	}
-
-	panic(it.MeaningfulError())
 }
 
 // MustBeSafe alias for HandleError
-func (it *Result) MustBeSafe() {
-	if it == nil || it.IsEmptyError() {
-		return
+func (it Result) MustBeSafe() {
+	if it.HasIssuesOrEmpty() {
+		panic(it.MeaningfulError())
 	}
-
-	panic(it.MeaningfulError())
 }
 
 func (it *Result) HandleErrorWithMsg(msg string) {
-	if it.IsEmptyError() {
-		return
+	if it.HasIssuesOrEmpty() {
+		panic(msg + constants.DefaultLine + it.MeaningfulErrorMessage())
 	}
-
-	err := it.MeaningfulError()
-
-	if err != nil && msg != "" {
-		panic(msg + err.Error())
-	}
-
-	panic(err)
 }
 
 // HasBytes
@@ -487,7 +497,7 @@ func (it *Result) Serialize() ([]byte, error) {
 	return it.serializeInternal()
 }
 
-func (it *Result) SerializeMust() []byte {
+func (it Result) SerializeMust() []byte {
 	rs, err := it.Serialize()
 	errcore.MustBeEmpty(err)
 

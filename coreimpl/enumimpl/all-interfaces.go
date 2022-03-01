@@ -31,3 +31,9 @@ type valueUInt16er interface {
 type exactValueUInt16er interface {
 	ValueUInt16() uint16
 }
+
+type formatter interface {
+	TypeName() string
+	Name() string
+	ValueString() string
+}

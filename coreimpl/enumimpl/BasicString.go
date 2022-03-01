@@ -12,6 +12,7 @@ import (
 
 type BasicString struct {
 	numberEnumBase
+	nameWithIndexMap                         map[string]int
 	jsonDoubleQuoteNameToValueHashMap        map[string]bool   // contains names double quotes to value
 	valueToJsonDoubleQuoteStringBytesHashmap map[string][]byte // contains value to string bytes with double quotes
 	minVal, maxVal                           string
@@ -56,6 +57,63 @@ func (it BasicString) Ranges() []string {
 	return it.actualValueRanges.([]string)
 }
 
+func (it BasicString) HasAnyItem() bool {
+	return it.Length() > 0
+}
+
+func (it BasicString) MaxIndex() int {
+	return it.Length() - 1
+}
+
+func (it BasicString) GetNameByIndex(index int) string {
+	lastIndex := it.Length() - 1
+
+	if lastIndex >= index && index > 0 {
+		return it.StringRanges()[index]
+	}
+
+	return constants.EmptyString
+}
+
+// GetIndexByName
+//
+//  constants.InvalidValue refers to the invalid index
+func (it BasicString) GetIndexByName(name string) int {
+	if name == "" {
+		return constants.InvalidValue
+	}
+
+	lastIndex := it.Length() - 1
+
+	if lastIndex < 0 {
+		return constants.InvalidValue
+	}
+
+	index, has := it.nameWithIndexMap[name]
+
+	if has {
+		return index
+	}
+
+	return constants.InvalidValue
+}
+
+func (it BasicString) NameWithIndexMap() map[string]int {
+	return it.nameWithIndexMap
+}
+
+func (it BasicString) RangesIntegers() []int {
+	length := it.Length()
+
+	slice := make([]int, length)
+
+	for i := 0; i < length; i++ {
+		slice[i] = i
+	}
+
+	return slice
+}
+
 func (it BasicString) Hashset() map[string]bool {
 	return it.jsonDoubleQuoteNameToValueHashMap
 }
@@ -92,13 +150,18 @@ func (it BasicString) IsValidRange(value string) bool {
 	return it.jsonDoubleQuoteNameToValueHashMap[value]
 }
 
-func (it BasicString) OnlySupportedErr(supportedNames ...string) error {
+func (it BasicString) OnlySupportedErr(
+	supportedNames ...string,
+) error {
 	return OnlySupportedErr(
 		it.StringRanges(),
 		supportedNames...)
 }
 
-func (it BasicString) OnlySupportedMsgErr(errMessage string, supportedNames ...string) error {
+func (it BasicString) OnlySupportedMsgErr(
+	errMessage string,
+	supportedNames ...string,
+) error {
 	return errcore.ConcatMessageWithErr(
 		errMessage,
 		it.OnlySupportedErr(supportedNames...))

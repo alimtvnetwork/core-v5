@@ -37,10 +37,10 @@ type SpecificValuerGetter interface {
 	SpecificValuer() SpecificValuer
 }
 
-type LoggerTyperGetter interface {
-	LoggerTyper() LoggerTyper
-}
-
 type RawPayloadsGetter interface {
 	internalinterface.RawPayloadsGetter
+}
+
+type FilterTextGetter interface {
+	FilterText() string
 }

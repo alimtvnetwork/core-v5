@@ -1,6 +1,7 @@
 package loggerinf
 
 import (
+	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 	"gitlab.com/evatix-go/core/coreinterface/errcoreinf"
 	"gitlab.com/evatix-go/core/internal/internalinterface"
@@ -14,6 +15,9 @@ type SingleLogModeler interface {
 	HasParentChecker
 	HasModelChecker
 	hasErrorChecker
+
+	coreinterface.CategoryRevealer
+	coreinterface.CategoryRevealerGetter
 
 	FilterTyper() enuminf.BasicEnumer
 	LevelTyper() enuminf.LogLevelTyper
