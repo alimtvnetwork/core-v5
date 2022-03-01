@@ -261,18 +261,21 @@ func (it DynamicMap) IsMissingKey(key string) bool {
 }
 
 func (it *DynamicMap) IsMismatch(
+	isRegardlessType bool,
 	rightMap *DynamicMap,
 ) bool {
-	return !it.IsEqual(rightMap)
+	return !it.IsEqual(isRegardlessType, rightMap)
 }
 
 func (it *DynamicMap) IsRawMismatch(
+	isRegardlessType bool,
 	rightMap map[string]interface{},
 ) bool {
-	return !it.IsRawEqual(rightMap)
+	return !it.IsRawEqual(isRegardlessType, rightMap)
 }
 
 func (it *DynamicMap) IsEqual(
+	isRegardlessType bool,
 	rightMap *DynamicMap,
 ) bool {
 	if it == nil && rightMap == nil {
@@ -287,10 +290,13 @@ func (it *DynamicMap) IsEqual(
 		return true
 	}
 
-	return it.IsRawEqual(*rightMap)
+	return it.IsRawEqual(
+		isRegardlessType,
+		*rightMap)
 }
 
 func (it *DynamicMap) IsRawEqual(
+	isRegardlessType bool,
 	rightMap map[string]interface{},
 ) bool {
 	if it == nil && rightMap == nil {
@@ -305,19 +311,153 @@ func (it *DynamicMap) IsRawEqual(
 		return false
 	}
 
-	for key, valInf := range *it {
-		v2, has := rightMap[key]
+	for key, leftValInf := range *it {
+		rightValInf, has := rightMap[key]
 
 		if !has {
 			return false
 		}
 
-		if !reflect.DeepEqual(valInf, v2) {
+		if it.isNotEqual(
+			isRegardlessType,
+			leftValInf,
+			rightValInf) {
 			return false
 		}
 	}
 
 	return true
+}
+
+func (it *DynamicMap) DiffRaw(
+	isRegardlessType bool,
+	rightMap map[string]interface{},
+) DynamicMap {
+	if it == nil && rightMap == nil {
+		return map[string]interface{}{}
+	}
+
+	if it == nil && rightMap != nil {
+		return rightMap
+	}
+
+	if it != nil && rightMap == nil {
+		return *it
+	}
+
+	length := it.Length() / 3
+	diffMap := make(
+		map[string]interface{},
+		length)
+
+	for key, leftValInf := range *it {
+		rightValInf, has := rightMap[key]
+
+		if !has {
+			diffMap[key] = rightValInf
+
+			continue
+		}
+
+		if it.isNotEqual(
+			isRegardlessType,
+			leftValInf,
+			rightValInf) {
+			diffMap[key] = rightValInf
+		}
+	}
+
+	return diffMap
+}
+
+func (it *DynamicMap) DiffJsonMessage(
+	isRegardlessType bool,
+	rightMap map[string]interface{},
+) string {
+	diff := it.DiffRaw(isRegardlessType, rightMap)
+
+	if len(diff) == 0 {
+		return ""
+	}
+
+	jsonBytes, err := json.Marshal(diff)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return string(jsonBytes)
+}
+
+func (it *DynamicMap) ShouldDiffMessage(
+	isRegardlessType bool,
+	rightMap map[string]interface{},
+) string {
+	diffMessage := it.DiffJsonMessage(
+		isRegardlessType,
+		rightMap)
+
+	if diffMessage == "" {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		diffBetweenMapShouldBeMessageFormat,
+		diffMessage)
+}
+
+func (it *DynamicMap) ExpectingMessage(
+	title string,
+	expected map[string]interface{},
+) string {
+	expectedMap := DynamicMap(expected)
+	actualMapString := it.String()
+	expectedMapString := expectedMap.String()
+
+	isMapEqual := actualMapString == expectedMapString
+
+	if isMapEqual {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		actualVsExpectingMessageFormat,
+		title,
+		actualMapString,
+		expectedMapString,
+	)
+}
+
+func (it *DynamicMap) LogExpectingMessage(
+	title string,
+	expected map[string]interface{},
+) {
+	expectingMessage := it.ExpectingMessage(title, expected)
+
+	if expectingMessage == "" {
+		return
+	}
+
+	fmt.Println(expectingMessage)
+}
+
+func (it *DynamicMap) isNotEqual(
+	isRegardlessType bool,
+	left,
+	right interface{},
+) bool {
+	if isRegardlessType {
+		leftString := fmt.Sprintf(
+			constants.SprintPropertyNameValueFormat,
+			left)
+		rightString := fmt.Sprintf(
+			constants.SprintPropertyNameValueFormat,
+			right)
+
+		return leftString != rightString
+	}
+
+	return !reflect.DeepEqual(left, right)
 }
 
 func (it *DynamicMap) IsKeysEqualOnly(

@@ -8,33 +8,33 @@ import (
 
 type shouldBe struct{}
 
-func (it shouldBe) StrEqMsg(expecting, actual string) string {
+func (it shouldBe) StrEqMsg(actual, expecting string) string {
 	return fmt.Sprintf(
 		ShouldBeMessageFormat,
 		actual,
 		expecting)
 }
 
-func (it shouldBe) StrEqErr(expecting, actual string) error {
+func (it shouldBe) StrEqErr(actual, expecting string) error {
 	msg := it.StrEqMsg(expecting, actual)
 
 	return errors.New(msg)
 }
 
-func (it shouldBe) AnyEqMsg(expecting, actual interface{}) string {
+func (it shouldBe) AnyEqMsg(actual, expecting interface{}) string {
 	return fmt.Sprintf(
 		ShouldBeMessageFormat,
 		actual,
 		expecting)
 }
 
-func (it shouldBe) AnyEqErr(expecting, actual interface{}) error {
+func (it shouldBe) AnyEqErr(actual, expecting interface{}) error {
 	msg := it.AnyEqMsg(expecting, actual)
 
 	return errors.New(msg)
 }
 
-func (it shouldBe) JsonEqMsg(expecting, actual interface{}) string {
+func (it shouldBe) JsonEqMsg(actual, expecting interface{}) string {
 	actualJson, err := json.Marshal(actual)
 	MustBeEmpty(err)
 
@@ -47,7 +47,7 @@ func (it shouldBe) JsonEqMsg(expecting, actual interface{}) string {
 		expectingJson)
 }
 
-func (it shouldBe) JsonEqErr(expecting, actual interface{}) error {
+func (it shouldBe) JsonEqErr(actual, expecting interface{}) error {
 	msg := it.JsonEqMsg(expecting, actual)
 
 	return errors.New(msg)
