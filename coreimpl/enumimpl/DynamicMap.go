@@ -438,12 +438,12 @@ func (it *DynamicMap) ShouldDiffMessage(
 		diffMessage)
 }
 
-func (it *DynamicMap) ShouldDiffMessageLog(
+func (it *DynamicMap) LogShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
 	rightMap map[string]interface{},
-) {
-	diffMessage := it.ShouldDiffMessage(
+) (diffMessage string) {
+	diffMessage = it.ShouldDiffMessage(
 		isRegardlessType,
 		title,
 		rightMap)
@@ -453,6 +453,8 @@ func (it *DynamicMap) ShouldDiffMessageLog(
 	}
 
 	fmt.Println(diffMessage)
+
+	return diffMessage
 }
 
 func (it *DynamicMap) ExpectingMessage(
