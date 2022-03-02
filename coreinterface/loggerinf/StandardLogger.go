@@ -41,13 +41,13 @@ type StandardLogger interface {
 
 	ErrorDirect(err error) StandardLogger
 	OnErrStackTrace(err error) StandardLogger
-	ErrInterface(errorWrapperOrCollection errcoreinf.BaseErrorOrCollectionWrapper) StandardLogger
-	ErrInterfaceStackTraces(errorWrapperOrCollection errcoreinf.BaseErrorOrCollectionWrapper) StandardLogger
+	ErrInterface(errInf errcoreinf.BaseErrorOrCollectionWrapper) StandardLogger
+	ErrInterfaceStackTraces(errInfWithStackTraces errcoreinf.BaseErrorOrCollectionWrapper) StandardLogger
 
 	ReflectSetter
 
 	InfoOrError(isError bool) SingleLogger
-	Log(loggerType LoggerTyperGetter) StandardLogger
+	Log(loggerType enuminf.LoggerTyper) StandardLogger
 
 	ErrorJsoner(jsoner corejson.Jsoner) StandardLogger
 	DebugJsoner(jsoner corejson.Jsoner) StandardLogger

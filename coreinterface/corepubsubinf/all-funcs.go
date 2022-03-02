@@ -86,5 +86,7 @@ type (
 	StartEndSubscriptionFunc            func(isStart bool, subscriptionRecorder SubscriptionRecorder)
 	SimpleCompletionFunc                func(communicate CommunicateModeler)
 	CategoryNameAnyItemSubscriptionFunc func(categoryName string, anyItem interface{})
+	FilterAnyItemSubscriptionFunc       func(filter string, anyItem interface{})
+	FilterBytesSubscriptionFunc         func(filter string, rawBytes []byte)
 	MatcherFunc                         func() (isMatch bool)
 )

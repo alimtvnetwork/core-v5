@@ -373,6 +373,14 @@ func (it *DynamicMap) DiffRaw(
 
 	leftMap := *it
 	for rightKey, rightAnyVal := range rightMap {
+		_, hasDiff := diffMap[rightKey]
+
+		if hasDiff {
+			// already added
+
+			continue
+		}
+
 		leftVal, has := leftMap[rightKey]
 
 		if !has {
@@ -428,6 +436,23 @@ func (it *DynamicMap) ShouldDiffMessage(
 		diffBetweenMapShouldBeMessageFormat,
 		title,
 		diffMessage)
+}
+
+func (it *DynamicMap) ShouldDiffMessageLog(
+	isRegardlessType bool,
+	title string,
+	rightMap map[string]interface{},
+) {
+	diffMessage := it.ShouldDiffMessage(
+		isRegardlessType,
+		title,
+		rightMap)
+
+	if diffMessage == "" {
+		return
+	}
+
+	fmt.Println(diffMessage)
 }
 
 func (it *DynamicMap) ExpectingMessage(

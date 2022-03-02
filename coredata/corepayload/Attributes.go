@@ -9,6 +9,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/coredynamic"
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coredata/corestr"
+	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/core/defaulterr"
 	"gitlab.com/evatix-go/core/errcore"
 )
@@ -20,6 +21,34 @@ type Attributes struct {
 	KeyValuePairs    *corestr.Hashmap         `json:"KeyValuePairs,omitempty"`
 	AnyKeyValuePairs *coredynamic.MapAnyItems `json:"AnyKeyValuePairs,omitempty"`
 	DynamicPayloads  []byte                   `json:"DynamicPayloads,omitempty"`
+}
+
+func (it *Attributes) Payloads() []byte {
+	if it.IsEmpty() {
+		return []byte{}
+	}
+
+	return it.DynamicPayloads
+}
+
+func (it *Attributes) AnyKeyValMap() map[string]interface{} {
+	panic("implement me")
+}
+
+func (it *Attributes) Hashmap() map[string]string {
+	if it.IsEmpty() {
+		return map[string]string{}
+	}
+
+	return it.KeyValuePairs.Items()
+}
+
+func (it *Attributes) CompiledError() error {
+	return it.Error()
+}
+
+func (it *Attributes) IsSafeValid() bool {
+	panic("implement me")
 }
 
 func (it *Attributes) JsonString() string {
@@ -421,7 +450,7 @@ func (it *Attributes) JsonParseSelfInject(
 
 func (it *Attributes) AttachOrAppendError(
 	err error,
-) *Attributes {
+) coreinterface.AttributesBinder {
 	if err == nil {
 		return it
 	}
@@ -572,4 +601,8 @@ func (it *Attributes) deepClonePtr() (*Attributes, error) {
 
 func (it Attributes) NonPtr() Attributes {
 	return it
+}
+
+func (it Attributes) AsAttributesBinder() coreinterface.AttributesBinder {
+	return &it
 }

@@ -38,6 +38,7 @@ type LogTypeWriter interface {
 		logType string,
 		v ...interface{},
 	) error
+
 	LogTypeWriteStackSkipMust(
 		stackSkipIndex int,
 		logType string,

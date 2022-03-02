@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"testing"
 
+	. "github.com/smartystreets/goconvey/convey"
+
 	"gitlab.com/evatix-go/core/chmodhelper"
 	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/tests/testwrappers/chmodhelpertestwrappers"

@@ -11,7 +11,8 @@ import (
 )
 
 type MetaAttributesWithoutTileStacker interface {
-	LoggerTyperGetter
+	enuminf.LoggerTyperGetter
+
 	Title() string
 
 	On(isLog bool) MetaAttributesWithoutTileStacker

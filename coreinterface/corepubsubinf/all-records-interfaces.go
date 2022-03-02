@@ -50,6 +50,7 @@ type CommunicateModeler interface {
 	PersistentId() uint
 	IdAsStringer
 	TableName() string
+
 	SetCallerFileLineUsingStackSkip(
 		stackSkip int,
 	)

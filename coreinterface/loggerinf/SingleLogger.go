@@ -10,7 +10,8 @@ import (
 )
 
 type SingleLogger interface {
-	LoggerTyperGetter
+	enuminf.LoggerTyperGetter
+
 	Stack() MetaAttributesStacker
 	StackTitle(title string) MetaAttributesStacker
 
@@ -19,6 +20,7 @@ type SingleLogger interface {
 	OnString(input, expected string) SingleLogger
 
 	Title(message string) SingleLogger
+	Msg(message string) SingleLogger
 	TitleAttr(message, attr string) SingleLogger
 	Log(message string) SingleLogger
 	LogAttr(message, attr string) SingleLogger
@@ -64,18 +66,18 @@ type SingleLogger interface {
 		attrFullStringWithTraces errcoreinf.FullStringWithTracesGetter,
 	) SingleLogger
 
-	BasicErrWrapper(errWrapperOrCollection errcoreinf.BasicErrWrapper) SingleLogger
-	BaseRawErrCollectionDefiner(errWrapperOrCollection errcoreinf.BaseRawErrCollectionDefiner) SingleLogger
-	BaseErrorWrapperCollectionDefiner(errWrapperOrCollection errcoreinf.BaseErrorWrapperCollectionDefiner) SingleLogger
+	BasicErrWrapper(basicErrWrapper errcoreinf.BasicErrWrapper) SingleLogger
+	BaseRawErrCollectionDefiner(rawErrCollection errcoreinf.BaseRawErrCollectionDefiner) SingleLogger
+	BaseErrorWrapperCollectionDefiner(errWrapperCollection errcoreinf.BaseErrorWrapperCollectionDefiner) SingleLogger
 	ErrWrapperOrCollection(errWrapperOrCollection errcoreinf.BaseErrorOrCollectionWrapper) SingleLogger
 	RawErrCollection(title string, err errcoreinf.BaseRawErrCollectionDefiner) SingleLogger
 	CompiledBasicErrWrapper(compiler errcoreinf.CompiledBasicErrWrapper) SingleLogger
 
-	Namer(namer enuminf.Namer) SingleLogger
-	NamerTitle(title string, namer enuminf.Namer) SingleLogger
-
+	Namer(title string, namer enuminf.Namer) SingleLogger
 	Enum(title string, enum enuminf.BasicEnumer) SingleLogger
 	Enums(title string, enums ...enuminf.BasicEnumer) SingleLogger
+
+	OnlyNamer(namer enuminf.Namer) SingleLogger
 	OnlyEnum(enum enuminf.BasicEnumer) SingleLogger
 	OnlyEnums(enums ...enuminf.BasicEnumer) SingleLogger
 	OnlyError(err error) SingleLogger
@@ -91,7 +93,12 @@ type SingleLogger interface {
 	OnlyBytes(rawBytes []byte) SingleLogger
 	OnlyRawJson(rawBytes []byte) SingleLogger
 	OnlyBytesErr(rawBytes []byte, err error) SingleLogger
+
+	OnlyAny(anyItem interface{}) SingleLogger
 	OnlyAnyItems(values ...interface{}) SingleLogger
+	OnlyAnyIf(isLog bool, anyItem interface{}) SingleLogger
+	OnlyAnyItemsIf(isLog bool, anyItems ...interface{}) SingleLogger
+
 	Bool(title string, isResult bool) SingleLogger
 	Booleans(title string, isResults ...bool) SingleLogger
 
@@ -112,9 +119,9 @@ type SingleLogger interface {
 	OnlyJson(json *corejson.Result) SingleLogger
 	OnlyJsons(jsons ...*corejson.Result) SingleLogger
 
-	Jsoner(jsoner corejson.Jsoner) SingleLogger
+	Jsoner(title string, jsoner corejson.Jsoner) SingleLogger
 	Jsoners(jsoners ...corejson.Jsoner) SingleLogger
-	JsonerTitle(title string, jsoner corejson.Jsoner) SingleLogger
+	OnlyJsoner(jsoner corejson.Jsoner) SingleLogger
 
 	Serializer(serializer Serializer) SingleLogger
 	Serializers(serializers ...Serializer) SingleLogger

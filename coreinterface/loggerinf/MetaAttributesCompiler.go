@@ -4,6 +4,7 @@ import "gitlab.com/evatix-go/core/coreinterface"
 
 type MetaAttributesCompiler interface {
 	coreinterface.Disposer
+
 	StringFinalizer
 	IfStringCompiler
 	Compiler
@@ -14,4 +15,8 @@ type MetaAttributesCompiler interface {
 	CompileStacks() []string
 	ReflectSetter
 	CompileMap() map[string]interface{}
+
+	BytesCompiler
+	BytesCompilerIf
+	MustBytesCompiler
 }

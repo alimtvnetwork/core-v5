@@ -6,6 +6,18 @@ type Comitter interface {
 	Commit()
 }
 
+type BytesCompiler interface {
+	CompileBytes() ([]byte, error)
+}
+
+type BytesCompilerIf interface {
+	CompileBytesIf(isCompile bool) ([]byte, error)
+}
+
+type MustBytesCompiler interface {
+	CompileBytesMust() []byte
+}
+
 type StringFinalizer interface {
 	Finalize() string
 }

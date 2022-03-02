@@ -11,11 +11,12 @@ import (
 )
 
 type MetaAttributesStacker interface {
-	LoggerTyperGetter
+	enuminf.LoggerTyperGetter
 
 	On(isLog bool) MetaAttributesStacker
 	OnTitle(isLog bool, title string) MetaAttributesWithoutTileStacker
 
+	Msg(message string) MetaAttributesStacker
 	Title(title string) MetaAttributesStacker
 	TitleAttr(title, attr string) MetaAttributesStacker
 	Str(title, val string) MetaAttributesStacker
@@ -93,8 +94,12 @@ type MetaAttributesStacker interface {
 	OnlyBytes(rawBytes []byte) MetaAttributesStacker
 	OnlyRawJson(rawBytes []byte) MetaAttributesStacker
 	OnlyBytesErr(rawBytes []byte, err error) MetaAttributesStacker
+
+	OnlyAny(anyItem interface{}) MetaAttributesStacker
 	OnlyAnyItems(values ...interface{}) MetaAttributesStacker
 	OnlyMetaAttr(metaAttr MetaAttributesCompiler) MetaAttributesStacker
+	OnlyAnyIf(isLog bool, anyItem interface{}) MetaAttributesStacker
+	OnlyAnyItemsIf(isLog bool, anyItems ...interface{}) MetaAttributesStacker
 
 	OnlyMapBool(mapInt map[string]bool) MetaAttributesStacker
 	OnlyMapInt(mapInt map[string]int) MetaAttributesStacker
@@ -109,10 +114,7 @@ type MetaAttributesStacker interface {
 	Bool(title string, isResult bool) MetaAttributesStacker
 	Booleans(title string, isResults ...bool) MetaAttributesStacker
 
-	Any(anyItem interface{}) MetaAttributesStacker
-	AnyIf(isLog bool, anyItem interface{}) MetaAttributesStacker
-	AnyItems(anyItems ...interface{}) MetaAttributesStacker
-	AnyItemsIf(isLog bool, anyItems ...interface{}) MetaAttributesStacker
+	Any(title string, anyItem interface{}) MetaAttributesStacker
 
 	Jsoner(jsoner corejson.Jsoner) MetaAttributesStacker
 	Jsoners(jsoners ...corejson.Jsoner) MetaAttributesStacker

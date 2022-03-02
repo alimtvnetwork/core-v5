@@ -12,6 +12,8 @@ import (
 )
 
 type GenericSubscriber interface {
+	EnvOptioner() enuminf.EnvironmentOptioner
+
 	OnStart(
 		subscribers ...StartFunc,
 	) *sync.WaitGroup
@@ -62,11 +64,13 @@ type GenericSubscriber interface {
 		),
 	) *sync.WaitGroup
 
+	Success() GenericSubscriber
 	Info() GenericSubscriber
 	Debug() GenericSubscriber
 	Warn() GenericSubscriber
 	Error() GenericSubscriber
 	Failure() GenericSubscriber
+	Trace() GenericSubscriber
 
 	OnDebug() GenericSubscriber
 	OnVerbose() GenericSubscriber
@@ -85,28 +89,44 @@ type GenericSubscriber interface {
 	OnConditionFunc(isSubscribed func() bool) GenericSubscriber
 
 	WaitAll(waitGroups ...*sync.WaitGroup) errcoreinf.BasicErrWrapper
+	WaitGroupUntilCompleteLazy() *sync.WaitGroup
+	WaitUntilComplete()
+
+	DirectSubscriber
+	FilterSubscriber
 }
 
 type DirectSubscriber interface {
+	// SimpleSubscribe
+	//
+	//  All message listener
+	SimpleSubscribe(
+		subscribersFunctions ...SimpleSubscribeFunc,
+	)
+
+	All(
+		subscribersFunctions ...SimpleSubscribeFunc,
+	)
+
 	BasicErrorWrapper(
 		basicErrorWrapperSubscribeFunc DirectBasicErrorSubscribeFunc,
-	) *sync.WaitGroup
+	)
 
 	BaseErrorOrCollectionWrapper(
 		subscriberFunc DirectBaseErrorOrCollectionWrapperSubscribeFunc,
-	) *sync.WaitGroup
+	)
 
 	JsonResultError(
 		subscriberFunc DirectJsonResultSubscribeFunc,
-	) *sync.WaitGroup
+	)
 
 	String(
 		messageFunc DirectStringSubscribeFunc,
-	) *sync.WaitGroup
+	)
 
 	AnyItem(
 		subscribedFunc DirectAnyItemSubscribeFunc,
-	) *sync.WaitGroup
+	)
 
 	Bytes(
 		subscribedFunc DirectBytesSubscribeFunc,
@@ -114,36 +134,80 @@ type DirectSubscriber interface {
 
 	JsonBytes(
 		subscribedFunc DirectModelJsonSubscribeFunc,
-	) *sync.WaitGroup
+	)
 
 	HashmapSubscriberFunc(
 		subscriberFunc HashmapSubscribeFunc,
-	) *sync.WaitGroup
+	)
 
 	JsonResult(
 		subscribedFunc DirectJsonResultSubscribeFunc,
-	) *sync.WaitGroup
+	)
+
+	SegmentAll(
+		allSubscriberFunc SimpleSubscribeFunc,
+		successSubscriberFunc SimpleSubscribeFunc,
+		infoSubscriberFunc SimpleSubscribeFunc,
+		traceSubscriberFunc SimpleSubscribeFunc,
+		debugSubscriberFunc SimpleSubscribeFunc,
+		errorSubscriberFunc SimpleSubscribeFunc,
+		fatalSubscriberFunc SimpleSubscribeFunc,
+		panicSubscriberFunc SimpleSubscribeFunc,
+	)
+
+	MessageSegmentAll(
+		allSubscriberFunc DirectStringSubscribeFunc,
+		successSubscriberFunc DirectStringSubscribeFunc,
+		infoSubscriberFunc DirectStringSubscribeFunc,
+		traceSubscriberFunc DirectStringSubscribeFunc,
+		debugSubscriberFunc DirectStringSubscribeFunc,
+		errorSubscriberFunc DirectStringSubscribeFunc,
+		fatalSubscriberFunc DirectStringSubscribeFunc,
+		panicSubscriberFunc DirectStringSubscribeFunc,
+	)
+
+	SegmentFew(
+		allSubscriberFunc SimpleSubscribeFunc,
+		errorSubscriberFunc SimpleSubscribeFunc,
+		fatalSubscriberFunc SimpleSubscribeFunc,
+	)
+
+	MessageSegmentFew(
+		allSubscriberFunc DirectStringSubscribeFunc,
+		errorSubscriberFunc DirectStringSubscribeFunc,
+		fatalSubscriberFunc DirectStringSubscribeFunc,
+	)
 }
 
 type FilterSubscriber interface {
 	FilterText() string
 
 	Filter(
-		simpleFunc SimpleCompletionFunc,
-	) *sync.WaitGroup
+		filterSubscribers SimpleCompletionFunc,
+	)
 
 	SkipFilter(
-		simpleFunc SimpleCompletionFunc,
-	) *sync.WaitGroup
+		skipFilterFunc SimpleCompletionFunc,
+	)
 
 	CategoryFilter(
-		simpleFunc SimpleCompletionFunc,
-	) *sync.WaitGroup
+		filterSubscribeFunc SimpleCompletionFunc,
+	)
 
-	DirectSubscriber
+	FilterAnyItem(
+		subscribers ...FilterAnyItemSubscriptionFunc,
+	)
+
+	FilterBytes(
+		subscribers ...FilterBytesSubscriptionFunc,
+	)
 }
 
 type GenericPublisher interface {
+	EnvOptioner() enuminf.EnvironmentOptioner
+
+	All(communicate CommunicateModeler) GenericPublisher
+
 	Message(
 		category coreinterface.CategoryRevealer,
 		message string,
@@ -153,8 +217,6 @@ type GenericPublisher interface {
 		category coreinterface.CategoryRevealer,
 		isResult bool,
 	) GenericPublisher
-
-	SimpleModeler(communicate CommunicateModeler) GenericPublisher
 
 	JsonResult(
 		jsonResult *corejson.Result,
@@ -229,15 +291,22 @@ type GenericPublisher interface {
 		anyItem interface{},
 	) GenericPublisher
 
-	All() LogTyperPublisher
+	Success() LogTyperPublisher
 	Info() LogTyperPublisher
 	Debug() LogTyperPublisher
 	Error() LogTyperPublisher
 	Warn() LogTyperPublisher
 	Failure() LogTyperPublisher
+	Trace() LogTyperPublisher
 
 	OnDebug() LogTyperPublisher
 	OnVerbose() LogTyperPublisher
+
+	OnCondition(isMatch bool) LogTyperPublisher
+	OnFlag(name, value string) LogTyperPublisher
+	OnFlagEnabled(flagName string) LogTyperPublisher
+	OnFlagDisabled(flagName string) LogTyperPublisher
+
 	OnMatcherFunc(
 		logTyper enuminf.LoggerTyper,
 		matcherFunc MatcherFunc,
@@ -247,6 +316,15 @@ type GenericPublisher interface {
 	AsWriter() io.Writer
 	AsWriterByLogTyper(logTyper enuminf.LoggerTyper) io.Writer
 	AsWriterByLogTyperFilterText(logTyper enuminf.LoggerTyper, filterText string) io.Writer
+
+	AnErr(err error) GenericPublisher
+	Err(title string, err error) GenericPublisher
+	BaseErrOrCollection(baseErrOrCollection errcoreinf.BaseErrorOrCollectionWrapper) GenericPublisher
+	BasicErrWrapper(basicErrWrapper errcoreinf.BasicErrWrapper) GenericPublisher
+	BaseErrorWrapperCollectionDefiner(baseErrOrCollection errcoreinf.BaseErrorWrapperCollectionDefiner) GenericPublisher
+	BaseRawErrCollectionDefiner(baseErrOrCollection errcoreinf.BaseRawErrCollectionDefiner) GenericPublisher
+
+	loggerinf.AllLogWriter
 
 	LogTyper(
 		logTyper enuminf.LoggerTyper,
@@ -259,6 +337,11 @@ type GenericPublisher interface {
 type LogTyperPublisher interface {
 	LogTyper() enuminf.LoggerTyper
 	FilterText() string
+
+	Msg(message string) LogTyperPublisher
+	Title(message string) LogTyperPublisher
+	TitleAttr(message, attr string) LogTyperPublisher
+
 	Message(
 		category coreinterface.CategoryRevealer,
 		message string,
@@ -363,6 +446,10 @@ type LogTyperPublisher interface {
 
 	DirectHashmap(
 		hashmap map[string]string,
+	) LogTyperPublisher
+
+	DirectHashset(
+		hashset map[string]bool,
 	) LogTyperPublisher
 
 	StackSkip(stackSkip int) LogTyperPublisher

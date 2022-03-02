@@ -5,12 +5,14 @@ type ConditionalStandardLogger interface {
 	OnErr(err error) StandardLogger
 	OnString(expected, actual string) StandardLogger
 	OnBytes(expectedRawBytes, actualBytes []byte) StandardLogger
-	OnVerbose() StandardLogger
-	OnProduction() StandardLogger
-	OnTest() StandardLogger
-	OnDebug() StandardLogger
-	OnJson() StandardLogger
-	OnStacktrace() StandardLogger
+
+	OnVerbose() SingleLogger
+	OnProduction() SingleLogger
+	OnTest() SingleLogger
+	OnDebug() SingleLogger
+	OnJson() SingleLogger
+	OnStacktrace() SingleLogger
+
 	OnFlag(name, value string) StandardLogger
 	OnAnyFlag(name string, value interface{}) StandardLogger
 	OnFunc(isLoggerFunc func(logger StandardLogger) bool) StandardLogger
