@@ -2,35 +2,49 @@ package enumimpl
 
 import (
 	"fmt"
+	"reflect"
 
 	"gitlab.com/evatix-go/core/converters"
 )
 
 type newBasicStringCreator struct{}
 
-func (it newBasicStringCreator) CreateUsingMap(
+func (it newBasicStringCreator) Create(
 	typeName string,
-	actualRangesMap map[string]string,
+	actualRangesNames []string,
 ) *BasicString {
-	return it.CreateUsingMapPlusAliasMap(
+	return it.CreateAliasMapOnly(
 		typeName,
-		actualRangesMap,
+		actualRangesNames,
 		nil,
 	)
 }
 
-func (it newBasicStringCreator) CreateUsingMapPlusAliasMap(
+func (it newBasicStringCreator) CreateDefault(
+	firstItem interface{},
+	actualRangesNames []string,
+) *BasicString {
+	typeName := reflect.TypeOf(firstItem).String()
+
+	return it.CreateAliasMapOnly(
+		typeName,
+		actualRangesNames,
+		nil,
+	)
+}
+
+func (it newBasicStringCreator) CreateAliasMapOnly(
 	typeName string,
-	actualRangesMap map[string]string,
+	actualRangesNames []string,
 	aliasingMap map[string]string,
 ) *BasicString {
-	actualNames := make([]string, len(actualRangesMap))
+	actualNames := make([]string, len(actualRangesNames))
 
 	min := ""
 	max := ""
 
 	index := 0
-	for _, name := range actualRangesMap {
+	for _, name := range actualRangesNames {
 		actualNames[index] = name
 
 		if name > max {

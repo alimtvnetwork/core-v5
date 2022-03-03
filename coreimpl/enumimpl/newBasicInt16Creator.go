@@ -62,7 +62,7 @@ func (it newBasicInt16Creator) CreateUsingMapPlusAliasMap(
 
 // CreateUsingAliasMap
 //
-// Length : must match stringRanges and actualRangesAnyType
+//  Length : must match stringRanges and actualRangesAnyType
 func (it newBasicInt16Creator) CreateUsingAliasMap(
 	typeName string,
 	actualValueRanges []int16,

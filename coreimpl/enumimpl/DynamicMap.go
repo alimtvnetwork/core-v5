@@ -404,19 +404,20 @@ func (it *DynamicMap) DiffJsonMessage(
 	isRegardlessType bool,
 	rightMap map[string]interface{},
 ) string {
-	diff := it.DiffRaw(isRegardlessType, rightMap)
+	diffMap := it.DiffRaw(isRegardlessType, rightMap)
 
-	if len(diff) == 0 {
+	if diffMap.Length() == 0 {
 		return ""
 	}
 
-	jsonBytes, err := json.Marshal(diff)
+	slice := toStringsSliceOfDiffMap(diffMap)
+	compiledString := strings.Join(
+		slice,
+		constants.CommaUnixNewLine)
 
-	if err != nil {
-		panic(err)
-	}
-
-	return string(jsonBytes)
+	return fmt.Sprintf(
+		curlyWrapFormat,
+		compiledString)
 }
 
 func (it *DynamicMap) ShouldDiffMessage(
@@ -760,9 +761,9 @@ func (it DynamicMap) BasicString(
 ) *BasicString {
 	return New.
 		BasicString.
-		CreateUsingMap(
+		Create(
 			typeName,
-			it.ConvMapStringString())
+			it.AllKeysSorted())
 }
 
 func (it DynamicMap) BasicStringUsingAliasMap(
@@ -771,9 +772,9 @@ func (it DynamicMap) BasicStringUsingAliasMap(
 ) *BasicString {
 	return New.
 		BasicString.
-		CreateUsingMapPlusAliasMap(
+		CreateAliasMapOnly(
 			typeName,
-			it.ConvMapStringString(),
+			it.AllKeysSorted(),
 			aliasingMap)
 }
 

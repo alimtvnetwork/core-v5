@@ -47,6 +47,9 @@ type IsNullOrAnyNullChecker interface {
 
 type BaseErrorOrCollectionWrapper interface {
 	internalinterface.BaseErrorOrCollectionWrapper
+	IsCollect(another BaseErrorOrCollectionWrapper) bool
+	IsCollectedAny(anotherItems ...BaseErrorOrCollectionWrapper) bool
+	IsCollectOn(isCollect bool, another BaseErrorOrCollectionWrapper) bool
 }
 
 type AddErrorer interface {
@@ -287,4 +290,77 @@ type LeftShouldBeMessageVerifier interface {
 
 type LeftShouldBeErrorVerifier interface {
 	ShouldBeError(left, right interface{}) error
+}
+
+type CompleteSuccesser interface {
+	CompleteSuccess() BaseErrorOrCollectionWrapper
+}
+
+type MustCompleteSuccesser interface {
+	CompleteSuccessMust()
+}
+
+type CompleteFailurer interface {
+	CompleteFailure() BaseErrorOrCollectionWrapper
+}
+
+type MustCompleteFailurer interface {
+	CompleteFailureMust()
+}
+
+type AnyShouldBer interface {
+	AnyShouldBe(
+		title string,
+		actual, expected interface{},
+	) BaseErrorOrCollectionWrapper
+}
+
+type GenericErrorCompiler interface {
+	BaseErrorTypeGetter
+
+	CompiledMessage() string
+	JsonString() string
+
+	Length() int
+	IsEmpty() bool
+	HasAnyItem() bool
+	HasAnyIssues() bool
+
+	CompileString() string
+	Serialize() ([]byte, error)
+
+	Format(format string) string
+	CompileError() error
+
+	corejson.Jsoner
+
+	ToGenericErr() BaseErrorOrCollectionWrapper
+	MustBeEmptier
+	CompiledVoidLogger
+
+	fmt.Stringer
+}
+
+type MustBeEmptier interface {
+	MustBeSuccess() bool
+	MustBeEmpty()
+	HandleError()
+}
+
+type ErrorCompleter interface {
+	CompleteReceiveError(completionTyper enuminf.CompletionStateTyper) error
+	CompleteUsingErrReceiveError(completionTyper enuminf.CompletionStateTyper) error
+
+	CompleteSuccesser
+	CompleteFailurer
+	MustCompleteSuccesser
+	MustCompleteFailurer
+
+	Complete(completionTyper enuminf.CompletionStateTyper) BaseErrorOrCollectionWrapper
+	CompleteUsingErr(err error) BaseErrorOrCollectionWrapper
+	CompleteUsingErrWithTitle(title string, err error) BaseErrorOrCollectionWrapper
+	CompleteUsingBaseErrOrCollection(baseErrOrCollection BaseErrorOrCollectionWrapper) BaseErrorOrCollectionWrapper
+	CompleteUsingBasicErrWrapper(basicErrWrapper BasicErrWrapper) BaseErrorOrCollectionWrapper
+	CompleteUsingBaseErrorWrapperCollectionDefiner(baseErrOrCollection BaseErrorWrapperCollectionDefiner) BaseErrorOrCollectionWrapper
+	CompleteUsingBaseRawErrCollectionDefiner(baseErrOrCollection BaseRawErrCollectionDefiner) BaseErrorOrCollectionWrapper
 }

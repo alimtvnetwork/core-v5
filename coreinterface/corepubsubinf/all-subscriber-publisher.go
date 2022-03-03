@@ -472,11 +472,5 @@ type LogTyperPublisher interface {
 }
 
 type CompletePublisher interface {
-	Complete(completionTyper enuminf.CompletionStateTyper)
-	CompleteUsingErr(err error)
-	CompleteUsingErrWithTitle(title string, err error)
-	CompleteUsingBaseErrOrCollection(baseErrOrCollection errcoreinf.BaseErrorOrCollectionWrapper)
-	CompleteUsingBasicErrWrapper(basicErrWrapper errcoreinf.BasicErrWrapper)
-	CompleteUsingBaseErrorWrapperCollectionDefiner(baseErrOrCollection errcoreinf.BaseErrorWrapperCollectionDefiner)
-	CompleteUsingBaseRawErrCollectionDefiner(baseErrOrCollection errcoreinf.BaseRawErrCollectionDefiner)
+	errcoreinf.ErrorCompleter
 }

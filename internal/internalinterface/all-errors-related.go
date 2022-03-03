@@ -72,6 +72,8 @@ type BaseErrorOrCollectionWrapper interface {
 	IsSuccessValidator
 	IsInvalidChecker
 	HasErrorOrHasAnyErrorChecker
+	HasAnyIssues() bool
+
 	// StringCompiler
 	//
 	//  error wrapper compiles to string with traces.
@@ -86,8 +88,15 @@ type BaseErrorOrCollectionWrapper interface {
 	ReferencesCompiledStringGetter
 	CompiledErrorWithStackTracesGetter
 	CompiledStackTracesStringGetter
+
+	CompiledJsonErrorWithStackTracesGetter
+	CompiledJsonStringWithStackTracesGetter
+
 	FullStringSplitByNewLine() []string
 	FullStringWithoutReferences() string
+
+	MustBeEmptyError()
+
 	// SerializeWithoutTracesGetter
 	//
 	//  Stack traces will be SKIPPED from the json bytes
@@ -105,6 +114,8 @@ type BaseErrorOrCollectionWrapper interface {
 
 	CompiledVoidLogger
 	IsCollectionTyper
+
+	ReflectSetTo(toPtr interface{}) error
 
 	fmt.Stringer
 }

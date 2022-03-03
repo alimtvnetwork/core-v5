@@ -102,6 +102,20 @@ type CompiledErrorWithStackTracesGetter interface {
 	CompiledErrorWithStackTraces() error
 }
 
+// CompiledJsonErrorWithStackTracesGetter
+//
+//  returns error in json format with stack traces
+type CompiledJsonErrorWithStackTracesGetter interface {
+	CompiledJsonErrorWithStackTraces() error
+}
+
+// CompiledJsonStringWithStackTracesGetter
+//
+//  returns error in json format with stack traces
+type CompiledJsonStringWithStackTracesGetter interface {
+	CompiledJsonStringWithStackTraces() (jsonString string)
+}
+
 type FullStringWithTracesGetter interface {
 	FullStringWithTraces() string
 }
