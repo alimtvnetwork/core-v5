@@ -14,8 +14,11 @@ type ShouldBeMessager interface {
 	Expected() interface{}
 	GenericErrorCompiler
 
-	ConcatNew() ShouldBeMessager
-	ModifyMergeNew(another ShouldBeMessager) ShouldBeMessager
+	IsTitleEqual(title string) bool
+	IsEqualInterface(right ShouldBeMessager) bool
+
+	CloneNewInterface() ShouldBeMessager
+	ConcatNewInterface(another ShouldBeMessager) ShouldBeMessager
 }
 
 type ShouldBeChainCollectionDefiner interface {
@@ -23,6 +26,154 @@ type ShouldBeChainCollectionDefiner interface {
 
 	ListShouldBeChainCollectionDefiner() []ShouldBeMessager
 	Strings() []string
+}
+
+type AnyShouldBer interface {
+	AnyShouldBe(
+		title string,
+		actual, expected interface{},
+	) BaseErrorOrCollectionWrapper
+}
+
+type checkerShouldBer interface {
+	IsEmptyShouldBeTrue(
+		actual coreinterface.IsEmptyChecker,
+	) ShouldBeChainer
+
+	IsEmptyShouldBeFalse(
+		actual coreinterface.IsEmptyChecker,
+	) ShouldBeChainer
+
+	IsEnableAnyShouldBeTrue(
+		actual coreinterface.IsEnableAnyChecker,
+	) ShouldBeChainer
+
+	IsEnableAllShouldBeTrue(
+		actual coreinterface.IsEnableAllChecker,
+	) ShouldBeChainer
+
+	IsDisabledShouldBeTrue(
+		actual coreinterface.IsDisabledChecker,
+	) ShouldBeChainer
+
+	IsDisableAllShouldBeTrue(
+		actual coreinterface.IsDisableAllChecker,
+	) ShouldBeChainer
+
+	IsDisableAnyShouldBeTrue(
+		actual coreinterface.IsDisableAnyChecker,
+	) ShouldBeChainer
+}
+
+type stringsShouldBer interface {
+	ShouldBe(
+		actual, expected []string,
+	) ShouldBeChainer
+
+	ShouldBeOptions(
+		compareTyper enuminf.StringCompareTyper,
+		actual, expected []string,
+	) ShouldBeChainer
+
+	LengthShouldBe(
+		actual []string,
+		lengthExpected int,
+	) ShouldBeChainer
+
+	ShouldBeEqualDistinctOptions(
+		compareTyper enuminf.StringCompareTyper,
+		actual, expected []string,
+	) ShouldBeChainer
+
+	ShouldBeEqualRegardlessOrderOptions(
+		compareTyper enuminf.StringCompareTyper,
+		actual, expected []string,
+	) ShouldBeChainer
+
+	DistinctShouldBeOptions(
+		compareTyper enuminf.CompareMethodsTyper,
+		actual, expected []string,
+	) ShouldBeChainer
+}
+
+type stringShouldBer interface {
+	ShouldBe(
+		actual, expected string,
+	) ShouldBeChainer
+
+	ShouldBeEmpty(
+		actual string,
+	) ShouldBeChainer
+
+	ShouldBeWhitespace(
+		actual string,
+	) ShouldBeChainer
+
+	ShouldStartsWith(
+		startsWith,
+		actual string,
+	) ShouldBeChainer
+
+	ShouldEndsWith(
+		endsWith,
+		actual string,
+	) ShouldBeChainer
+
+	ShouldContains(
+		contains string,
+		actual string,
+	) ShouldBeChainer
+
+	NotStartsWith(
+		startsWith,
+		actual string,
+	) ShouldBeChainer
+
+	NotEndsWith(
+		endsWith,
+		actual string,
+	) ShouldBeChainer
+
+	NotContains(
+		contains string,
+		actual string,
+	) ShouldBeChainer
+
+	ShouldBeOptions(
+		compareTyper enuminf.StringCompareTyper,
+		actual, expected string,
+	) ShouldBeChainer
+
+	ShouldBeDefined(
+		title string,
+		actual string,
+	) ShouldBeChainer
+
+	ShouldBeEqualByFunc(
+		title string,
+		actual, expected string,
+		compareFunc func(actual, expected string) (isMatch bool),
+	) ShouldBeChainer
+}
+
+type errorShouldBer interface {
+	BaseErrShouldBeEmpty(
+		title string,
+		actual BaseErrorOrCollectionWrapper,
+	) ShouldBeChainer
+
+	ShouldBeDefined(
+		title string,
+		actual error,
+	) ShouldBeChainer
+
+	ShouldBeEmpty(
+		title string,
+		actual error,
+	) ShouldBeChainer
+
+	ErrorDefined(actual error) ShouldBeChainer
+	ErrorEmpty(actual error) ShouldBeChainer
 }
 
 type ShouldBeChainer interface {
@@ -40,9 +191,9 @@ type ShouldBeChainer interface {
 		actual, expected corejson.Jsoner,
 	) ShouldBeChainer
 
-	StringShouldBeDefined(
+	JsonerShouldBeDefined(
 		title string,
-		actual string,
+		actual corejson.Jsoner,
 	) ShouldBeChainer
 
 	IntegerShouldBeDefined(
@@ -80,6 +231,21 @@ type ShouldBeChainer interface {
 		actual, expected *corejson.Result,
 	) ShouldBeChainer
 
+	JsonResultShouldBeDefined(
+		title string,
+		actual *corejson.Result,
+	) ShouldBeChainer
+
+	JsonResultShouldHaveNoError(
+		title string,
+		actual *corejson.Result,
+	) ShouldBeChainer
+
+	JsonResultShouldHaveNoIssuesOrEmpty(
+		title string,
+		actual *corejson.Result,
+	) ShouldBeChainer
+
 	IntegerShouldBeGreater(
 		title string,
 		actual, expected int,
@@ -95,19 +261,35 @@ type ShouldBeChainer interface {
 		actual, expected []byte,
 	) ShouldBeChainer
 
+	BytesShouldBeDefined(
+		title string,
+		actual []byte,
+	) ShouldBeChainer
+
 	TypeShouldBe(
 		title string,
 		actual, expected reflect.Type,
 	) ShouldBeChainer
 
-	ShouldBeEmptyError(
+	TypeShouldBeAnyOf(
 		title string,
-		actual error,
+		actual reflect.Type,
+		expectedTypes ...reflect.Type,
 	) ShouldBeChainer
 
-	ShouldBeEmptyBaseErr(
+	ShouldBeSuccess(
 		title string,
-		actual BaseErrorOrCollectionWrapper,
+		actual coreinterface.IsSuccessValidator,
+	) ShouldBeChainer
+
+	ShouldBeFailed(
+		title string,
+		actual coreinterface.IsSuccessValidator,
+	) ShouldBeChainer
+
+	ShouldBeValid(
+		title string,
+		actual coreinterface.IsSuccessValidator,
 	) ShouldBeChainer
 
 	PointerShouldBe(
@@ -116,6 +298,17 @@ type ShouldBeChainer interface {
 	) ShouldBeChainer
 
 	IntegerShouldBe(
+		title string,
+		actual, expected int,
+	) ShouldBeChainer
+
+	IntegerShouldBeLessThan(
+		title string,
+		actual, expected int,
+	) ShouldBeChainer
+
+	IntegerShouldBeCompare(
+		numberCompareTyper enuminf.CompareMethodsTyper,
 		title string,
 		actual, expected int,
 	) ShouldBeChainer
@@ -139,12 +332,6 @@ type ShouldBeChainer interface {
 	ShouldBeHaveItem(
 		title string,
 		actual coreinterface.LengthGetter,
-	) ShouldBeChainer
-
-	StringShouldContain(
-		title string,
-		actual string,
-		contains string,
 	) ShouldBeChainer
 
 	SimpleEnumShouldBe(
@@ -172,97 +359,91 @@ type ShouldBeChainer interface {
 		actual, expected bool,
 	) ShouldBeChainer
 
-	StringShouldBe(
-		title string,
-		actual, expected string,
-	) ShouldBeChainer
-
-	StringShouldBeOptions(
-		compareTyper enuminf.CompareMethodsTyper,
-		title string,
-		actual, expected string,
-	) ShouldBeChainer
-
-	StringsShouldBe(
-		title string,
-		actual, expected []string,
-	)
-
-	StringsShouldBeOptions(
-		compareTyper enuminf.CompareMethodsTyper,
-		title string,
-		actual, expected []string,
-	) ShouldBeChainer
-
-	DistinctStringsShouldBeOptions(
-		compareTyper enuminf.CompareMethodsTyper,
-		title string,
-		actual, expected []string,
-	) ShouldBeChainer
-
-	DistinctOrderStringsShouldBeOptions(
-		compareTyper enuminf.CompareMethodsTyper,
-		title string,
-		actual, expected []string,
-	) ShouldBeChainer
-
-	OrderStringsShouldBeOptions(
-		compareTyper enuminf.CompareMethodsTyper,
-		title string,
-		actual, expected []string,
-	) ShouldBeChainer
-
 	MapStringAnyShouldBe(
 		title string,
 		actual, expected map[string]interface{},
 	) ShouldBeChainer
 
-	AnyShouldBe(
+	Error() errorShouldBer
+
+	ShouldBe(
 		title string,
 		actual, expected interface{},
 	) ShouldBeChainer
 
-	AnyShouldBeOn(
+	ShouldBeOn(
 		isCollect bool,
 		title string,
 		actual, expected interface{},
 	) ShouldBeChainer
 
-	AnyShouldBeRegardlessOn(
+	ShouldBeRegardlessOn(
 		isCollect bool,
 		title string,
 		actual, expected interface{},
 	) ShouldBeChainer
 
-	AnyShouldBeOption(
+	ShouldBeOption(
 		isRegardless bool,
 		title string,
 		actual, expected interface{},
 	) ShouldBeChainer
 
-	AnyShouldBeOptionOn(
+	ShouldBeOptionOn(
 		isCollect bool,
 		isRegardless bool,
 		title string,
 		actual, expected interface{},
 	) ShouldBeChainer
 
-	AnyShouldBeRegardless(
+	ShouldBeRegardless(
 		title string,
 		actual, expected interface{},
 	) ShouldBeChainer
 
-	AnyShouldBeUsingFunc(
+	ShouldBeUsingFunc(
 		title string,
 		actual, expected interface{},
 		compareFunc func(actual, expected interface{}) (isMatch bool),
 	) ShouldBeChainer
 
-	AnyShouldBeHaveNoPanic(
+	ShouldBeHaveNoPanicFunc(
 		title string,
 		actual, expected interface{},
 		recoverPanicCompareFunc func(actual, expected interface{}) (isMatch bool),
 	) ShouldBeChainer
+
+	ShouldBeDefined(
+		title string,
+		actual interface{},
+	) ShouldBeChainer
+
+	ManyShouldBeDefined(
+		title string,
+		actualItems ...interface{},
+	) ShouldBeChainer
+
+	ShouldBeNull(
+		title string,
+		actual interface{},
+	) ShouldBeChainer
+
+	PointerShouldBeNull(
+		title string,
+		actual interface{},
+	) ShouldBeChainer
+
+	Equal(actual, expected interface{}) ShouldBeChainer
+	EqualFunc(
+		actual, expected interface{},
+		compareFunc func(actual, expected interface{}) (isMatch bool),
+	) ShouldBeChainer
+	EqualOption(isRegardless bool, actual, expected interface{}) ShouldBeChainer
+	EqualRegardless(actual, expected interface{}) ShouldBeChainer
+
+	Checker(title string) checkerShouldBer
+	Str(title string) stringShouldBer
+	Strs(title string) stringsShouldBer
 
 	Compile() BaseErrorOrCollectionWrapper
 	CompileErr() error
@@ -275,6 +456,7 @@ type ShouldBeChainer interface {
 	IsCollected() bool
 
 	Append(anotherItems ...ShouldBeChainer) ShouldBeChainer
+	AppendNew(anotherItems ...ShouldBeChainer) ShouldBeChainer
 
 	LogOnIssues() (logged string)
 

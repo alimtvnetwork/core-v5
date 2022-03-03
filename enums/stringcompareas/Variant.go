@@ -31,6 +31,14 @@ const (
 	Invalid
 )
 
+func (it Variant) Value() byte {
+	return byte(it)
+}
+
+func (it Variant) IsAnyMethod(methodNames ...string) bool {
+	return BasicEnumImpl.IsAnyNamesOf(it.Value(), methodNames...)
+}
+
 func (it Variant) AllNameValues() []string {
 	return BasicEnumImpl.AllNameValues()
 }
@@ -435,6 +443,9 @@ func (it Variant) EnumType() enuminf.EnumTyper {
 }
 
 func (it Variant) AsBasicEnumContractsBinder() enuminf.BasicEnumContractsBinder {
+	return &it
+}
+func (it Variant) AsStringCompareTyper() enuminf.StringCompareTyper {
 	return &it
 }
 

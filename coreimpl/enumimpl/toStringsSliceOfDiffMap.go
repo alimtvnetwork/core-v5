@@ -14,14 +14,16 @@ func toStringsSliceOfDiffMap(diffMap DynamicMap) (diffSlice []string) {
 			line := keyValInteger.WrapKey() + ":" + valueString
 			slice[index] = line
 		}
-	} else if isString {
-		sortedKeysAnyValues := diffMap.SortedKeyAnyValues()
 
-		for index, anyKeyVal := range sortedKeysAnyValues {
-			line := anyKeyVal.WrapKey() + ":" +
-				anyKeyVal.WrapValue()
-			slice[index] = line
-		}
+		return slice
+	}
+
+	sortedKeysAnyValues := diffMap.SortedKeyAnyValues()
+
+	for index, anyKeyVal := range sortedKeysAnyValues {
+		line := anyKeyVal.WrapKey() + ":" +
+			anyKeyVal.WrapValue()
+		slice[index] = line
 	}
 
 	return slice

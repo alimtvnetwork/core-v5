@@ -50,6 +50,7 @@ type BaseErrorOrCollectionWrapper interface {
 	IsCollect(another BaseErrorOrCollectionWrapper) bool
 	IsCollectedAny(anotherItems ...BaseErrorOrCollectionWrapper) bool
 	IsCollectOn(isCollect bool, another BaseErrorOrCollectionWrapper) bool
+	IsEmptyAll(anotherItems ...BaseErrorOrCollectionWrapper) bool
 }
 
 type AddErrorer interface {
@@ -306,13 +307,6 @@ type CompleteFailurer interface {
 
 type MustCompleteFailurer interface {
 	CompleteFailureMust()
-}
-
-type AnyShouldBer interface {
-	AnyShouldBe(
-		title string,
-		actual, expected interface{},
-	) BaseErrorOrCollectionWrapper
 }
 
 type GenericErrorCompiler interface {

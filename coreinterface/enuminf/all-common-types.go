@@ -79,3 +79,8 @@ type EventTyper interface {
 	BasicEnumer
 	internalenuminf.EventTyper
 }
+
+type StringCompareTyper interface {
+	BasicEnumer
+	internalenuminf.StringCompareTyper
+}

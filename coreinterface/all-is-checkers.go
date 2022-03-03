@@ -314,6 +314,14 @@ type ByteIsAnyOfChecker interface {
 	IsAnyOf(value byte, checkingItems ...byte) bool
 }
 
+type IsEnabledChecker interface {
+	IsEnabled() bool
+}
+
+type IsDisabledChecker interface {
+	IsDisabled() bool
+}
+
 type IsEnableAllChecker interface {
 	IsEnableAll() bool
 }
@@ -344,6 +352,16 @@ type IsFlagsEnabledByNamesChecker interface {
 
 type IsFlagsDisabledByNamesChecker interface {
 	IsFlagsDisabledByNames(disabledNames ...string) bool
+}
+
+type IsEnableDisableConditionChecker interface {
+	IsEnableAllChecker
+	IsEnableAnyChecker
+	IsEnableAnyByNamesChecker
+
+	IsDisableAllChecker
+	IsDisableAnyChecker
+	IsDisableAnyByNamesChecker
 }
 
 type IsKeyMissingChecker interface {
