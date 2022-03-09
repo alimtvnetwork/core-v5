@@ -142,12 +142,33 @@ func (it *Result) IsErrorEqual(err error) bool {
 	return false
 }
 
-func (it *Result) String() string {
-	if it.HasIssuesOrEmpty() {
+func (it Result) String() string {
+	if it.IsAnyNull() {
 		return constants.EmptyString
 	}
 
-	return it.JsonString()
+	var currentMap map[string]string
+
+	if it.HasError() {
+		currentMap = map[string]string{
+			"Json":  it.JsonString(),
+			"Type":  it.TypeName,
+			"Error": it.MeaningfulErrorMessage(),
+		}
+	} else {
+		currentMap = map[string]string{
+			"Json": it.JsonString(),
+			"Type": it.TypeName,
+		}
+	}
+
+	toString := fmt.Sprintf(
+		constants.SprintValueFormat,
+		currentMap)
+
+	currentMap = nil
+
+	return toString
 }
 
 func (it *Result) SafeNonIssueBytes() []byte {
@@ -445,7 +466,9 @@ func (it *Result) Unmarshal(
 				reference)
 	}
 
-	err := json.Unmarshal(it.Bytes, anyPointer)
+	err := json.Unmarshal(
+		it.Bytes,
+		anyPointer)
 
 	if err == nil {
 		return nil
