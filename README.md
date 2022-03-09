@@ -48,7 +48,7 @@ It makes our other go-packages DRY and concise.
 
 ## Examples
 
-```go
+```go=
 // substituting functions as ternary operator
 fmt.Println(conditional.Int(true, 2, 7)) // 2
 fmt.Println(conditional.Int(false, 2, 7)) // 7
