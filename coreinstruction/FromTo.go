@@ -25,7 +25,7 @@ func (it *FromTo) IsToEmpty() bool {
 
 func (it FromTo) String() string {
 	if it.IsNull() {
-		return "FromTo null!"
+		return "SetFromTo null!"
 	}
 
 	return fmt.Sprintf(
