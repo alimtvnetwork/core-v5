@@ -40,7 +40,7 @@ func (it Variant) RangeNamesCsv() string {
 		rangesMap[:]...)
 }
 
-func (it Variant) MaxMaxAny() (min, max interface{}) {
+func (it Variant) MinMaxAny() (min, max interface{}) {
 	return Invalid, String
 }
 

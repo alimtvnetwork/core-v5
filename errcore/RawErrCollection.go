@@ -14,6 +14,75 @@ type RawErrCollection struct {
 	Items []error
 }
 
+func (it RawErrCollection) MustBeSafe() {
+	if it.IsEmpty() {
+		return
+	}
+
+	panic(it.CompiledError())
+}
+
+func (it RawErrCollection) HasAnyIssues() bool {
+	return !it.IsEmpty()
+}
+
+func (it RawErrCollection) IsDefined() bool {
+	return !it.IsEmpty()
+}
+
+func (it RawErrCollection) CompiledJsonErrorWithStackTraces() error {
+	allBytes, err := it.MarshalJSON()
+
+	if err == nil {
+		return errors.New(string(allBytes))
+	}
+
+	return ConcatMessageWithErr(string(allBytes), err)
+}
+
+func (it RawErrCollection) CompiledJsonStringWithStackTraces() (jsonString string) {
+	err := it.CompiledJsonErrorWithStackTraces()
+
+	if err == nil {
+		return ""
+	}
+
+	return err.Error()
+}
+
+func (it RawErrCollection) MustBeEmptyError() {
+	it.MustBeSafe()
+}
+
+func (it RawErrCollection) IsCollectionType() bool {
+	return true
+}
+
+func (it RawErrCollection) ReflectSetTo(toPtr interface{}) error {
+	switch v := toPtr.(type) {
+	case RawErrCollection:
+		return FailedToConvertType.Error(
+			"cannot convert to value type for RawErrCollection!",
+			toPtr)
+	case *RawErrCollection:
+		if v == nil {
+			return FailedToConvertType.
+				Error(
+					"cannot convert to value type for RawErrCollection to nil ptr!",
+					toPtr)
+		}
+
+		*v = it
+
+		return nil
+	}
+
+	return NotSupportedType.
+		Error(
+			"RawErrCollection.ReflectSetTo is not supported for other than ptr same time.",
+			toPtr)
+}
+
 func (it RawErrCollection) HandleError() {
 	if it.IsEmpty() {
 		return

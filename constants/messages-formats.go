@@ -17,6 +17,7 @@ const (
 	KeyValuePariSimpleFormat                     = "{ Key (Type - %T): %v} - { Value (Type - %T) : %v  }"
 	SprintFormatNumberWithColon                  = "%d:%d"
 	SprintFormatAnyValueWithColon                = "%v:%v"
+	TitleValueFormat                             = "%s : %v"
 	CurlyTitleWrapFormat                         = "%v: {%v}"        // Title, Value
 	QuotationTitleWrapFormat                     = "%v: \"%v\""      // Title, Value
 	QuotationTitleMetaWrapFormat                 = "%v: \"%v\" (%v)" // Title, Value, Meta

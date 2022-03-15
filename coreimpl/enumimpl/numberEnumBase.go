@@ -110,7 +110,7 @@ func newNumberEnumBase(
 	}
 }
 
-func (it numberEnumBase) MaxMaxAny() (min, max interface{}) {
+func (it numberEnumBase) MinMaxAny() (min, max interface{}) {
 	return it.minAny, it.maxAny
 }
 

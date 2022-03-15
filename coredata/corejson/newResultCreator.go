@@ -2,6 +2,7 @@ package corejson
 
 import (
 	"encoding/json"
+	"errors"
 
 	"gitlab.com/evatix-go/core/coredata"
 	"gitlab.com/evatix-go/core/errcore"
@@ -103,6 +104,47 @@ func (it newResultCreator) UsingBytesErrPtr(
 
 	return &Result{
 		Bytes:    *jsonBytes,
+		Error:    err,
+		TypeName: typeName,
+	}
+}
+
+func (it newResultCreator) PtrUsingStringPtr(
+	jsonStringPtr *string,
+	typeName string,
+) *Result {
+	if jsonStringPtr == nil {
+		return it.PtrUsingBytesPtr(
+			nil,
+			errors.New("json string ptr is nil cannot process further"),
+			typeName)
+	}
+
+	return &Result{
+		Bytes:    []byte(*jsonStringPtr),
+		TypeName: typeName,
+	}
+}
+
+func (it newResultCreator) UsingErrorStringPtr(
+	err error,
+	jsonStringPtr *string,
+	typeName string,
+) *Result {
+	var errMsg string
+	if err != nil {
+		errMsg = err.Error()
+	}
+
+	if jsonStringPtr == nil {
+		return it.PtrUsingBytesPtr(
+			nil,
+			errors.New("json string ptr is nil cannot process further"+errMsg),
+			typeName)
+	}
+
+	return &Result{
+		Bytes:    []byte(*jsonStringPtr),
 		Error:    err,
 		TypeName: typeName,
 	}

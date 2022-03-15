@@ -20,7 +20,7 @@ package enuminf
 type BasicEnumer interface {
 	BaseEnumer
 	EnumFormatter
-	MaxMaxAny() (min, max interface{})
+	MinMaxAny() (min, max interface{})
 	MinValueString() string
 	MaxValueString() string
 	MaxInt() int

@@ -49,8 +49,8 @@ func (it Variation) IntegerEnumRanges() []int {
 	return basicEnumImplOsType.IntegerEnumRanges()
 }
 
-func (it Variation) MaxMaxAny() (min, max interface{}) {
-	return basicEnumImplOsType.MaxMaxAny()
+func (it Variation) MinMaxAny() (min, max interface{}) {
+	return basicEnumImplOsType.MinMaxAny()
 }
 
 func (it Variation) MinValueString() string {
