@@ -97,6 +97,7 @@ type BaseErrorOrCollectionWrapper interface {
 	FullStringWithoutReferences() string
 
 	MustBeEmptyError()
+	MustBeSafe()
 
 	// SerializeWithoutTracesGetter
 	//

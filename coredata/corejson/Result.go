@@ -274,11 +274,21 @@ func (it *Result) MeaningfulError() error {
 			Error(errMsg, it.TypeName)
 	}
 
+	// must error
 	return errcore.
 		FailedToParseType.
 		Error(
-			it.Error.Error()+", type:",
-			it.TypeName)
+			it.Error.Error()+", type:"+it.TypeName+", payload:",
+			it.safeJsonStringInternal())
+}
+
+func (it *Result) safeJsonStringInternal() string {
+	var safeJsonString string
+	if it != nil && len(it.Bytes) > 0 {
+		safeJsonString = string(it.Bytes)
+	}
+
+	return safeJsonString
 }
 
 func (it *Result) IsEmptyError() bool {
@@ -454,16 +464,18 @@ func (it *Result) Unmarshal(
 	}
 
 	if it.HasError() {
-		reference := errcore.VarThreeNoType(
-			"JsonResult Error", it.Error,
-			"Source Type", it.TypeName,
-			"To Reference Type", reflectinternal.TypeName(anyPointer))
+		compiledMessage := errcore.MessageVarMap(
+			"json unmarshal failed with existing error",
+			map[string]interface{}{
+				"err":     it.Error,
+				"src":     it.TypeName,
+				"dst":     reflectinternal.TypeName(anyPointer),
+				"payload": it.safeJsonStringInternal(),
+			})
 
 		return errcore.
 			UnMarshallingFailedType.
-			Error(
-				"cannot unmarshal if JsonResult has already error.",
-				reference)
+			ErrorNoRefs(compiledMessage)
 	}
 
 	err := json.Unmarshal(
@@ -474,14 +486,19 @@ func (it *Result) Unmarshal(
 		return nil
 	}
 
-	reference := errcore.VarThreeNoType(
-		"Unmarshall Error", err.Error(),
-		"Source Type", it.TypeName,
-		"To Reference Type", reflectinternal.TypeName(anyPointer))
+	// unmarshal caught error
+	compiledMessage := errcore.MessageVarMap(
+		"json unmarshal failed",
+		map[string]interface{}{
+			"err":     it.Error,
+			"src":     it.TypeName,
+			"dst":     reflectinternal.TypeName(anyPointer),
+			"payload": it.safeJsonStringInternal(),
+		})
 
 	return errcore.
 		UnMarshallingFailedType.
-		ErrorRefOnly(reference)
+		ErrorNoRefs(compiledMessage)
 }
 
 // SerializeSkipExistingIssues
@@ -508,8 +525,8 @@ func (it *Result) serializeInternal() (
 
 	// has error
 	reference := errcore.VarTwoNoType(
-		"Marshal/Serialize Error", err.Error(),
-		"Source Type", it.TypeName,
+		"marshal or serialize Error", err.Error(),
+		"src", it.TypeName,
 	)
 
 	return nil, errcore.
@@ -521,20 +538,11 @@ func (it *Result) Serialize() ([]byte, error) {
 	if it == nil {
 		return nil, errcore.
 			Serialize.
-			ErrorNoRefs("cannot marshal if JsonResult is nil or null")
+			ErrorNoRefs("cannot marshal if JsonResult is null")
 	}
 
-	if it.HasError() {
-		reference := errcore.VarTwoNoType(
-			"JsonResult Error", it.Error,
-			"Source Type", it.TypeName,
-		)
-
-		return nil, errcore.
-			Serialize.
-			Error(
-				"cannot marshal if JsonResult has already error.",
-				reference)
+	if it.Error != nil {
+		return []byte{}, it.MeaningfulError()
 	}
 
 	return it.serializeInternal()
@@ -551,26 +559,31 @@ func (it Result) SerializeMust() []byte {
 //
 // Ignores and returns nil if HasIssuesOrEmpty satisfied
 func (it *Result) UnmarshalSkipExistingIssues(
-	anyItem interface{},
+	toPointer interface{},
 ) error {
 	if it.HasIssuesOrEmpty() {
 		return nil
 	}
 
-	err := json.Unmarshal(it.Bytes, anyItem)
+	err := json.Unmarshal(it.Bytes, toPointer)
 
 	if err == nil {
 		return nil
 	}
 
-	reference := errcore.VarThreeNoType(
-		"Unmarshall Error", err.Error(),
-		"Source Type", it.TypeName,
-		"To Reference Type", reflectinternal.TypeName(anyItem))
+	// unmarshal caught error
+	compiledMessage := errcore.MessageVarMap(
+		"json unmarshal failed",
+		map[string]interface{}{
+			"err":     err,
+			"src":     it.TypeName,
+			"dst":     reflectinternal.TypeName(toPointer),
+			"payload": it.safeJsonStringInternal(),
+		})
 
 	return errcore.
 		UnMarshallingFailedType.
-		ErrorRefOnly(reference)
+		ErrorNoRefs(compiledMessage)
 }
 
 func (it *Result) UnmarshalResult() (*Result, error) {

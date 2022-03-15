@@ -483,4 +483,7 @@ const (
 	AvailableLowerString                     = "available"
 	DefaultString                            = "Default"
 	AllCapitalDefaultString                  = "DEFAULT"
+	Localhost                                = "localhost"
+	LocalhostPublicPort                      = "localhost:80"
+	NewLineTabTab                            = "\n\t\t"
 )

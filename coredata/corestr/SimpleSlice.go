@@ -47,6 +47,122 @@ func (it *SimpleSlice) Adds(
 	return it
 }
 
+func (it *SimpleSlice) Append(
+	items ...string,
+) *SimpleSlice {
+	if len(items) == 0 {
+		return it
+	}
+
+	it.Items = append(it.Items, items...)
+
+	return it
+}
+
+// AppendFmt
+//
+//  Skips empty format + values
+func (it *SimpleSlice) AppendFmt(
+	format string,
+	v ...interface{},
+) *SimpleSlice {
+	if format == "" && len(v) == 0 {
+		return it
+	}
+
+	it.Items = append(
+		it.Items,
+		fmt.Sprintf(format, v...))
+
+	return it
+}
+
+// AppendFmtIf
+//
+//  Skips empty format + values
+func (it *SimpleSlice) AppendFmtIf(
+	isAppend bool,
+	format string,
+	v ...interface{},
+) *SimpleSlice {
+	if !isAppend || format == "" && len(v) == 0 {
+		return it
+	}
+
+	it.Items = append(
+		it.Items,
+		fmt.Sprintf(format, v...))
+
+	return it
+}
+
+// AddAsTitleValue
+//
+//  Adds Title : value (constants.TitleValueFormat)
+func (it *SimpleSlice) AddAsTitleValue(
+	title string,
+	value interface{},
+) *SimpleSlice {
+	it.Items = append(
+		it.Items,
+		fmt.Sprintf(constants.TitleValueFormat, title, value))
+
+	return it
+}
+
+// AddAsCurlyTitleWrap
+//
+//  Adds Title: {value} (constants.CurlyTitleWrapFormat)
+func (it *SimpleSlice) AddAsCurlyTitleWrap(
+	title string,
+	value interface{},
+) *SimpleSlice {
+	it.Items = append(
+		it.Items,
+		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value))
+
+	return it
+}
+
+// AddAsCurlyTitleWrapIf
+//
+//  Adds Title: {value} (constants.CurlyTitleWrapFormat)
+func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
+	isAppend bool,
+	title string,
+	value interface{},
+) *SimpleSlice {
+	if !isAppend {
+		return it
+	}
+
+	it.Items = append(
+		it.Items,
+		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value))
+
+	return it
+}
+
+// AddAsTitleValueIf
+//
+//  Skips if append is false
+//  Adds Title : value (constants.TitleValueFormat)
+func (it *SimpleSlice) AddAsTitleValueIf(
+	isAppend bool,
+	title string,
+	value interface{},
+) *SimpleSlice {
+	if !isAppend {
+		return it
+	}
+
+	it.Items = append(
+		it.Items,
+		fmt.Sprintf(constants.TitleValueFormat, title, value))
+
+	return it
+}
+
 func (it *SimpleSlice) InsertAt(index int, item string) *SimpleSlice {
 	it.Items = append(it.Items[:index+1], it.Items[index:]...)
 	it.Items[index] = item

@@ -34,8 +34,8 @@ func (it Group) IntegerEnumRanges() []int {
 	return basicEnumImplOsGroup.IntegerEnumRanges()
 }
 
-func (it Group) MaxMaxAny() (min, max interface{}) {
-	return basicEnumImplOsGroup.MaxMaxAny()
+func (it Group) MinMaxAny() (min, max interface{}) {
+	return basicEnumImplOsGroup.MinMaxAny()
 }
 
 func (it Group) MinValueString() string {

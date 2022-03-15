@@ -88,7 +88,7 @@ func (it Value) IntegerEnumRanges() []int {
 	return integerRanges
 }
 
-func (it Value) MaxMaxAny() (min, max interface{}) {
+func (it Value) MinMaxAny() (min, max interface{}) {
 	return Min(), Max()
 }
 

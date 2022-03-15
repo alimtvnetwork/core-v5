@@ -103,8 +103,8 @@ func (it Request) IntegerEnumRanges() []int {
 	return BasicEnumImpl.IntegerEnumRanges()
 }
 
-func (it Request) MaxMaxAny() (min, max interface{}) {
-	return BasicEnumImpl.MaxMaxAny()
+func (it Request) MinMaxAny() (min, max interface{}) {
+	return BasicEnumImpl.MinMaxAny()
 }
 
 func (it Request) MinValueString() string {

@@ -10,6 +10,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/constants/bitsize"
 	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/coreindexes"
 	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/internal/utilstringinternal"
 	"gitlab.com/evatix-go/core/issetter"
@@ -189,12 +190,12 @@ func (it *SimpleStringOnce) Uint16() (val uint16, isInRange bool) {
 }
 
 func (it *SimpleStringOnce) Uint32() (val uint32, isInRange bool) {
-	toUint16, isInRange := it.WithinRange(
+	converted, isInRange := it.WithinRange(
 		true,
 		constants.Zero,
-		math.MaxUint32)
+		math.MaxInt)
 
-	return uint32(toUint16), isInRange
+	return uint32(converted), isInRange
 }
 
 func (it *SimpleStringOnce) WithinRangeDefault(
@@ -502,6 +503,41 @@ func (it *SimpleStringOnce) Split(
 	sep string,
 ) []string {
 	return strings.Split(it.value, sep)
+}
+
+func (it *SimpleStringOnce) SplitLeftRight(
+	sep string,
+) (left, right string) {
+	splits := strings.SplitN(
+		it.String(),
+		sep,
+		expectedLeftRightLength)
+
+	length := len(splits)
+	first := splits[coreindexes.First]
+
+	if length == expectedLeftRightLength {
+		return first, splits[coreindexes.Second]
+	}
+
+	return first, constants.EmptyString
+}
+
+func (it *SimpleStringOnce) SplitLeftRightTrim(
+	sep string,
+) (left, right string) {
+	splits := strings.SplitN(
+		it.String(), sep,
+		expectedLeftRightLength)
+
+	length := len(splits)
+	first := splits[coreindexes.First]
+
+	if length == expectedLeftRightLength {
+		return strings.TrimSpace(first), strings.TrimSpace(splits[coreindexes.Second])
+	}
+
+	return strings.TrimSpace(first), constants.EmptyString
 }
 
 func (it *SimpleStringOnce) SplitNonEmpty(

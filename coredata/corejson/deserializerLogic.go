@@ -101,19 +101,28 @@ func (it deserializerLogic) UsingBytes(
 		rawBytes,
 		unmarshalToPointer)
 
-	if err != nil {
-		reference := errcore.VarTwoNoType(
-			"JsonResult Error", err.Error(),
-			"To Reference Type", reflectinternal.TypeName(unmarshalToPointer))
-
-		return errcore.
-			UnMarshallingFailedType.
-			Error(
-				"failed to unmarshal bytes.",
-				reference)
+	if err == nil {
+		return nil
 	}
 
-	return nil
+	var payloadString string
+	if len(rawBytes) > 0 {
+		payloadString = string(rawBytes)
+	}
+
+	// has error
+	compiledMessage := errcore.MessageVarMap(
+		"json unmarshal failed",
+		map[string]interface{}{
+			"err":     err,
+			"dst":     reflectinternal.TypeName(unmarshalToPointer),
+			"payload": payloadString,
+		})
+
+	return errcore.
+		UnMarshallingFailedType.
+		ErrorNoRefs(compiledMessage)
+
 }
 
 func (it deserializerLogic) UsingBytesPointerMust(

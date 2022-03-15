@@ -19,7 +19,7 @@ type Attributes struct {
 	PagingInfo       *PagingInfo                `json:"PagingInfo,omitempty"`
 	KeyValuePairs    *corestr.Hashmap           `json:"KeyValuePairs,omitempty"`
 	AnyKeyValuePairs *coredynamic.MapAnyItems   `json:"AnyKeyValuePairs,omitempty"`
-	FromTo           *coreinstruction.FromTo    `json:"FromTo,omitempty"`
+	FromTo           *coreinstruction.FromTo    `json:"FromTo,omitempty"` // Invoker and Receiver Details
 	DynamicPayloads  []byte                     `json:"DynamicPayloads,omitempty"`
 }
 

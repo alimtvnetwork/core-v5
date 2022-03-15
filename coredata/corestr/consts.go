@@ -31,4 +31,5 @@ const (
 		"----------------\n" +
 		"Is Equals: %+v\n" +
 		"Length: %d | %d\n"
+	expectedLeftRightLength = constants.Two
 )

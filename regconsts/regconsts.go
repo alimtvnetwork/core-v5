@@ -73,4 +73,12 @@ const (
 	AllWhitespacesOrPipe                   = "\\s+|\\|+"
 	EachWordsWithDollarSymbolDefinition    = `(\$\{` + AnyIdentifier + `\}|\$` + AnyIdentifier + `)+` // Selects a full word as "$identifier" symbol or ${identifier}
 	EachWordsWithinPercentSymbolDefinition = `(\%\{` + AnyIdentifier + `\}|\%` + AnyIdentifier + `)+` // Selects a full word as "%identifier" symbol or %{identifier}
+	PrettyName                             = `^PRETTY_NAME=(.*)$`                                     // https://t.ly/VsNo
+	ExactIdFieldMatching                   = `^ID=(.*)$`                                              // https://t.ly/VsNo
+	ExactVersionIdFieldMatching            = `^VERSION_ID=(.*)$`                                      // https://t.ly/VsNo
+	UbuntuNameChecker                      = `[\( ]([\d\.]+)`                                         // https://t.ly/VsNo
+	CentOsNameChecker                      = `^CentOS( Linux)? release ([\d\.]+) `                    // https://t.ly/VsNo
+	RedHatNameChecker                      = `[\( ]([\d\.]+)`                                         // https://t.ly/VsNo
+	FirstNumberAnyWhere                    = `(\d+){1}`                                               // https://regex101.com/r/7euGv5/1
+	WindowsVersionNumberChecker            = FirstNumberAnyWhere                                      // https://regex101.com/r/7euGv5/1
 )
