@@ -84,7 +84,7 @@ func (it *FilteredPathFileInfoMap) ValidLocationFileInfoRwxWrappers() []Location
 		slice[index] = LocationFileInfoRwxWrapper{
 			Location:   location,
 			FileInfo:   fileInfo,
-			RwxWrapper: NewUsingFileModePtr(fileInfo.Mode()),
+			RwxWrapper: New.RwxWrapper.UsingFileModePtr(fileInfo.Mode()),
 		}
 
 		index++

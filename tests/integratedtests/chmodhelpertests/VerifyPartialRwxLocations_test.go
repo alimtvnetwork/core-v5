@@ -23,11 +23,11 @@ func Test_VerifyRwxPartialChmodLocations_Unix(t *testing.T) {
 		expectationMessage := testCase.ExpectationErrorMessage
 
 		// Act
-		err := chmodhelper.VerifyChmodLocationsUsingPartialRwx(
+		err := chmodhelper.ChmodVerify.PathsUsingPartialRwxOptions(
 			testCase.IsContinueOnError,
 			testCase.IsSkipOnInvalid,
 			testCase.ExpectedPartialRwx,
-			testCase.Locations)
+			testCase.Locations...)
 
 		expectation := &errcore.ExpectationMessageDef{
 			CaseIndex:      caseIndex,

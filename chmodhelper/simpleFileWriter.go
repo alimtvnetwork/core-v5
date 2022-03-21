@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"reflect"
 
@@ -13,6 +14,14 @@ import (
 )
 
 type simpleFileWriter struct{}
+
+func (it simpleFileWriter) Lock() {
+	globalMutex.Lock()
+}
+
+func (it simpleFileWriter) Unlock() {
+	globalMutex.Unlock()
+}
 
 func (it simpleFileWriter) CreateDirOn(
 	isCreate bool,
@@ -25,6 +34,18 @@ func (it simpleFileWriter) CreateDirOn(
 
 	return it.CreateDirOnRequired(
 		chmod, dirPath)
+}
+
+func (it simpleFileWriter) CreateDirOnRequiredLock(
+	applyChmod os.FileMode,
+	dirPath string,
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.CreateDirOnRequired(
+		applyChmod,
+		dirPath)
 }
 
 func (it simpleFileWriter) CreateDirOnRequired(
@@ -50,6 +71,18 @@ func (it simpleFileWriter) CreateDirOnRequired(
 			", " + err.Error())
 }
 
+func (it simpleFileWriter) CreateDirLock(
+	applyChmod os.FileMode,
+	dirPath string,
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.CreateDir(
+		applyChmod,
+		dirPath)
+}
+
 func (it simpleFileWriter) CreateDir(
 	applyChmod os.FileMode,
 	dirPath string,
@@ -67,6 +100,16 @@ func (it simpleFileWriter) CreateDir(
 		"dir : " + dirPath +
 			", applyChmod :" + applyChmod.String() +
 			", " + err.Error())
+}
+
+func (it simpleFileWriter) CreateDirDefaultLock(
+	dirPath string,
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.CreateDirDefault(
+		dirPath)
 }
 
 // CreateDirDefault
@@ -90,6 +133,46 @@ func (it simpleFileWriter) CreateDirDefault(
 			", " + err.Error())
 }
 
+// WriteFileLock
+//
+//  Writes contents to file system.
+//
+// parentDirPath:
+//  - is a full path to the parent dir for checking
+//    if parent dir exist if not then created
+//
+// writingFilePath:
+//  - is a full path to the actual file where to write contents
+func (it simpleFileWriter) WriteFileLock(
+	chmodDir os.FileMode,
+	chmodFile os.FileMode,
+	isCreateDirOnRequired bool,
+	parentDirPath string,
+	writingFilePath string,
+	contentsBytes []byte,
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.WriteFile(
+		chmodDir,
+		chmodFile,
+		isCreateDirOnRequired,
+		parentDirPath,
+		writingFilePath,
+		contentsBytes)
+}
+
+// WriteFile
+//
+//  Writes contents to file system.
+//
+// parentDirPath:
+//  - is a full path to the parent dir for checking
+//    if parent dir exist if not then created
+//
+// writingFilePath:
+//  - is a full path to the actual file where to write contents
 func (it simpleFileWriter) WriteFile(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
@@ -132,6 +215,16 @@ func (it simpleFileWriter) WriteFile(
 			err.Error())
 }
 
+// WriteFileString
+//
+//  Writes contents to file system.
+//
+// parentDirPath:
+//  - is a full path to the parent dir for checking
+//    if parent dir exist if not then created
+//
+// writingFilePath:
+//  - is a full path to the actual file where to write contents
 func (it simpleFileWriter) WriteFileString(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
@@ -147,6 +240,18 @@ func (it simpleFileWriter) WriteFileString(
 		parentDirPath,
 		writingFilePath,
 		[]byte(content))
+}
+
+func (it simpleFileWriter) WriteStringLock(
+	writingFilePath string,
+	content string,
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.WriteString(
+		writingFilePath,
+		content)
 }
 
 // WriteString
@@ -172,6 +277,22 @@ func (it simpleFileWriter) WriteFileStringCreateDir(
 		chmodFile,
 		writingFilePath,
 		[]byte(content))
+}
+
+func (it simpleFileWriter) WriteFileCreateDirLock(
+	chmodDir os.FileMode,
+	chmodFile os.FileMode,
+	writingFilePath string,
+	contentsBytes []byte,
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.WriteFileCreateDirLock(
+		chmodDir,
+		chmodFile,
+		writingFilePath,
+		contentsBytes)
 }
 
 func (it simpleFileWriter) WriteFileCreateDir(
@@ -206,6 +327,18 @@ func (it simpleFileWriter) WriteFileStringCreateDirDefault(
 		[]byte(content))
 }
 
+func (it simpleFileWriter) WriteFileCreateDirDefaultLock(
+	writingFilePath string,
+	contentsBytes []byte,
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.WriteFileCreateDirDefault(
+		writingFilePath,
+		contentsBytes)
+}
+
 // WriteFileCreateDirDefault
 //
 //  Applies default chmod (for dir - 0755, for file - 0644)
@@ -220,6 +353,34 @@ func (it simpleFileWriter) WriteFileCreateDirDefault(
 		contentsBytes)
 }
 
+func (it simpleFileWriter) WriteAnyItemLock(
+	chmodDir os.FileMode,
+	chmodFile os.FileMode,
+	parentDir,
+	writingFilePath string,
+	anyItem interface{},
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.WriteAnyItem(
+		chmodDir,
+		chmodFile,
+		parentDir,
+		writingFilePath,
+		anyItem)
+}
+
+// WriteAnyItem
+//
+//  Writes contents to file system.
+//
+// parentDirPath:
+//  - is a full path to the parent dir for checking
+//    if parent dir exist if not then created
+//
+// writingFilePath:
+//  - is a full path to the actual file where to write contents
 func (it simpleFileWriter) WriteAnyItem(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
@@ -260,6 +421,17 @@ func (it simpleFileWriter) WriteAnyItem(
 			err.Error())
 }
 
+func (it simpleFileWriter) WriteAnyItemDefaultLock(
+	writingFilePath string,
+	anyItem interface{},
+) error {
+	globalMutex.Lock()
+	defer globalMutex.Unlock()
+
+	return it.WriteAnyItemDefault(
+		writingFilePath, anyItem)
+}
+
 // WriteAnyItemDefault
 //
 //  Applies default chmod (for dir - 0755, for file - 0644)
@@ -267,7 +439,7 @@ func (it simpleFileWriter) WriteAnyItemDefault(
 	writingFilePath string,
 	anyItem interface{},
 ) error {
-	parentDir := filepath.Dir(writingFilePath)
+	parentDir := path.Dir(writingFilePath)
 
 	return it.WriteAnyItem(
 		dirDefaultChmod,

@@ -11,7 +11,7 @@ import (
 //
 // Warning: File related errors will be swallowed
 func GetFilteredExistsFilesInfosOnly(
-	locations []string,
+	locations ...string,
 ) map[string]os.FileInfo {
 	if len(locations) == 0 {
 		return map[string]os.FileInfo{}

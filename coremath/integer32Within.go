@@ -30,10 +30,7 @@ func (it integer32Within) ToInt16(value int32) bool {
 	return value >= math.MinInt16 && value <= math.MaxInt16
 }
 
-func (it integer32Within) ToInt32(value int32) bool {
-	return value >= math.MinInt32 && value <= math.MaxInt32
-}
-
-func (it integer32Within) ToInt(value int32) bool {
+func (it integer32Within) ToInt(value int) bool {
+	// it would be different based on architecture.
 	return value >= math.MinInt32 && value <= math.MaxInt32
 }

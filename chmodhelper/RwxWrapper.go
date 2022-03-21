@@ -3,6 +3,7 @@ package chmodhelper
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io/fs"
 	"os"
 	"os/exec"
@@ -11,6 +12,7 @@ import (
 	"gitlab.com/evatix-go/core/chmodhelper/chmodins"
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/constants/bitsize"
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/internal/fsinternal"
 	"gitlab.com/evatix-go/core/internal/messages"
@@ -21,15 +23,39 @@ type RwxWrapper struct {
 	Owner, Group, Other Attribute
 }
 
-func (it *RwxWrapper) Verify(location string) error {
-	return VerifyChmod(location, it.ToFullRwxValueString())
+func (it *RwxWrapper) IsEmpty() bool {
+	return it == nil ||
+		it.Owner.IsEmpty() &&
+			it.Group.IsEmpty() &&
+			it.Group.IsEmpty()
 }
 
-func (it *RwxWrapper) VerifyPaths(location *[]string, isContinueOnError bool) error {
-	return VerifyChmodPaths(
-		location,
+func (it *RwxWrapper) IsNull() bool {
+	return it == nil
+}
+
+func (it *RwxWrapper) IsInvalid() bool {
+	return it.IsEmpty()
+}
+
+func (it *RwxWrapper) IsDefined() bool {
+	return !it.IsEmpty()
+}
+
+func (it *RwxWrapper) HasAnyItem() bool {
+	return !it.IsEmpty()
+}
+
+func (it *RwxWrapper) Verify(location string) error {
+	return ChmodVerify.RwxFull(location, it.ToFullRwxValueString())
+}
+
+func (it *RwxWrapper) VerifyPaths(isContinueOnError bool, locations ...string) error {
+	return ChmodVerify.PathsUsingRwxFull(
+		isContinueOnError,
 		it.ToFullRwxValueString(),
-		isContinueOnError)
+		locations...,
+	)
 }
 
 func (it *RwxWrapper) HasChmod(location string) bool {
@@ -138,7 +164,9 @@ func (it *RwxWrapper) ToRwxCompiledStr() string {
 	return string(allBytes[1:])
 }
 
-// ToFullRwxValueString returns "-rwxrwxrwx"
+// ToFullRwxValueString
+//
+//  returns "-rwxrwxrwx" / RwxFull (10)
 func (it *RwxWrapper) ToFullRwxValueString() string {
 	owner := it.Owner.ToRwxString()
 	group := it.Group.ToRwxString()
@@ -568,4 +596,61 @@ func (it *RwxWrapper) IsEqualFileMode(
 	wrapperString := it.ToFullRwxValueStringExceptHyphen()
 
 	return toString == wrapperString
+}
+
+func (it RwxWrapper) ToPtr() *RwxWrapper {
+	return &it
+}
+
+func (it *RwxWrapper) ToNonPtr() RwxWrapper {
+	return *it
+}
+
+func (it RwxWrapper) MarshalJSON() ([]byte, error) {
+	model := rwxWrapperModel{
+		Chmod:   it.ToFileModeString(),
+		RwxFull: it.ToFullRwxValueString(),
+	}
+
+	return corejson.New(model).Raw()
+}
+
+func (it *RwxWrapper) UnmarshalJSON(jsonBytes []byte) error {
+	var model rwxWrapperModel
+	err := corejson.Deserialize.UsingBytes(
+		jsonBytes, &model)
+
+	if err == nil {
+		// success
+		*it, err = New.
+			RwxWrapper.
+			RwxFullString(model.RwxFull)
+	}
+
+	return err
+}
+
+func (it RwxWrapper) FriendlyDisplay() string {
+	return fmt.Sprintf(
+		fileModeStringFriendlyDisplayFormat,
+		it.ToFileModeString(),
+		it.ToFullRwxValueString())
+}
+
+func (it RwxWrapper) Json() corejson.Result {
+	return corejson.New(it)
+}
+
+func (it RwxWrapper) JsonPtr() *corejson.Result {
+	return corejson.NewPtr(it)
+}
+
+func (it *RwxWrapper) JsonParseSelfInject(
+	jsonResult *corejson.Result,
+) error {
+	return jsonResult.Deserialize(it)
+}
+
+func (it RwxWrapper) AsJsonContractsBinder() corejson.JsonContractsBinder {
+	return &it
 }

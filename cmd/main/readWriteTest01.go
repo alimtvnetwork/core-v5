@@ -1,0 +1,27 @@
+package main
+
+import (
+	"fmt"
+
+	"gitlab.com/evatix-go/core/chmodhelper"
+	"gitlab.com/evatix-go/core/errcore"
+)
+
+func readWriteTest01() {
+	fmt.Println(chmodhelper.FileModeFriendlyString(0777))
+	thisFileRw := chmodhelper.New.SimpleFileReaderWriter.DefaultCleanPath("cmd/main/main.go")
+
+	fmt.Println(thisFileRw)
+	jsonResult := thisFileRw.Json()
+
+	fmt.Println(jsonResult.JsonString())
+	anotherRw := chmodhelper.New.SimpleFileReaderWriter.Path(
+		0111, 0111,
+		"dwdddw")
+	err := anotherRw.JsonParseSelfInject(jsonResult.Ptr())
+	errcore.HandleErr(err)
+	fmt.Println("unmarshalled", anotherRw.Json().JsonString())
+
+	fmt.Println(thisFileRw.Json().JsonString())
+	fmt.Println(thisFileRw.ReadStringMust())
+}

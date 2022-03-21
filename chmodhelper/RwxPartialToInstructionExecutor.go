@@ -6,6 +6,7 @@ import (
 )
 
 // RwxPartialToInstructionExecutor
+//
 // rwxPartial can be any length in
 // between 0-10 (rest will be fixed by wildcard)
 //
