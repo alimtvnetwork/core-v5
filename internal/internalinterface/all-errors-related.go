@@ -230,8 +230,6 @@ type BaseRawErrCollectionDefiner interface {
 type DyanmicLinqer interface {
 	FirstDynamic() interface{}
 	LastDynamic() interface{}
-	FirstOrDefault()
-	FirstOrDefaultCompiledError()
 	FirstOrDefaultError() error
 	FirstOrDefaultFullMessage() string
 	LastOrDefaultCompiledError() error
