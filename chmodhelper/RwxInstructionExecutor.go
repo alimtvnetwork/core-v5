@@ -57,7 +57,7 @@ func (it *RwxInstructionExecutor) CompiledWrapper(mode os.FileMode) (*RwxWrapper
 	}
 
 	if it.IsVarWrapper() {
-		fixedWrapper := NewUsingFileMode(mode)
+		fixedWrapper := New.RwxWrapper.UsingFileMode(mode)
 
 		return it.
 			varWrapper.
@@ -161,7 +161,9 @@ func (it *RwxInstructionExecutor) getVerifyRwxInternalError(
 			locations)
 	}
 
-	resultsMap := GetExistsFilteredPathFileInfoMap(it.rwxInstruction.IsSkipOnInvalid, locations)
+	resultsMap := GetExistsFilteredPathFileInfoMap(
+		it.rwxInstruction.IsSkipOnInvalid,
+		locations...)
 
 	return resultsMap, nil
 }

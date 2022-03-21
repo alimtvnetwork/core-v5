@@ -10,7 +10,7 @@ import (
 
 func GetExistsFilteredPathFileInfoMap(
 	isSkipOnInvalid bool,
-	locations []string,
+	locations ...string,
 ) *FilteredPathFileInfoMap {
 	if len(locations) == 0 {
 		return InvalidFilteredPathFileInfoMap()

@@ -44,7 +44,6 @@ func main() {
 	// pathStatTest01()
 	// pathStatTest02()
 	// nullTesting02()
-
 	// keyLegendsTest()
 	// coreDynamicMapAnyItems()
 	// enumTesting()
@@ -57,5 +56,6 @@ func main() {
 	// fmt.Println(reqtype.BasicEnumImpl.AllNameValues())
 	// fmt.Println(issetter.True.AllNameValues())
 
-	SimpleStringOnceChecker(100)
+	// SimpleStringOnceChecker(100)
+	readWriteTest01()
 }
