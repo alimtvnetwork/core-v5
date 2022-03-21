@@ -630,6 +630,10 @@ func (it *RwxWrapper) UnmarshalJSON(jsonBytes []byte) error {
 	return err
 }
 
+// FriendlyDisplay
+//
+//  fileModeStringFriendlyDisplayFormat : "{chmod : \"%s (%s)\"}"
+//  fileModeStringFriendlyDisplayFormat : "{chmod : \"0777 (-rw...)\"}"
 func (it RwxWrapper) FriendlyDisplay() string {
 	return fmt.Sprintf(
 		fileModeStringFriendlyDisplayFormat,

@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"reflect"
 
@@ -439,7 +438,7 @@ func (it simpleFileWriter) WriteAnyItemDefault(
 	writingFilePath string,
 	anyItem interface{},
 ) error {
-	parentDir := path.Dir(writingFilePath)
+	parentDir := filepath.Dir(writingFilePath)
 
 	return it.WriteAnyItem(
 		dirDefaultChmod,

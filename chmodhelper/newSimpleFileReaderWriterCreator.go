@@ -45,7 +45,7 @@ func (it newSimpleFileReaderWriterCreator) CreateClean(
 func (it newSimpleFileReaderWriterCreator) Default(
 	filePath string,
 ) *SimpleFileReaderWriter {
-	parentDir := path.Dir(filePath)
+	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:  dirDefaultChmod,
@@ -59,7 +59,7 @@ func (it newSimpleFileReaderWriterCreator) DefaultCleanPath(
 	filePath string,
 ) *SimpleFileReaderWriter {
 	filePath = path.Clean(filePath)
-	parentDir := path.Dir(filePath)
+	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:  dirDefaultChmod,
@@ -77,7 +77,7 @@ func (it newSimpleFileReaderWriterCreator) Path(
 	chmodFile os.FileMode,
 	filePath string,
 ) *SimpleFileReaderWriter {
-	parentDir := path.Dir(filePath)
+	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:  chmodDir,
@@ -100,7 +100,7 @@ func (it newSimpleFileReaderWriterCreator) PathCondition(
 		filePath = path.Clean(filePath)
 	}
 
-	parentDir := path.Dir(filePath)
+	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:  chmodDir,
@@ -117,7 +117,7 @@ func (it newSimpleFileReaderWriterCreator) PathDirDefaultChmod(
 	chmodFile os.FileMode,
 	filePath string,
 ) *SimpleFileReaderWriter {
-	parentDir := path.Dir(filePath)
+	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:  dirDefaultChmod,
