@@ -4,6 +4,7 @@ import (
 	"math"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/osconsts"
 )
 
 type integerOutOfRange struct{}
@@ -17,6 +18,10 @@ func (it integerOutOfRange) ToUnsignedInt16(value int) bool {
 }
 
 func (it integerOutOfRange) ToUnsignedInt32(value int) bool {
+	if osconsts.IsX32Architecture {
+		return !(value >= 0 && value <= math.MaxInt32)
+	}
+
 	return !(value >= 0 && value <= math.MaxUint32)
 }
 

@@ -4,6 +4,7 @@ import (
 	"math"
 	"reflect"
 	"strconv"
+	"strings"
 
 	"gitlab.com/evatix-go/core/constants"
 )
@@ -112,6 +113,44 @@ func (it newBasicInt8Creator) CreateUsingAliasMap(
 	}
 }
 
+func (it newBasicInt8Creator) CreateUsingSlicePlusAliasMapOptions(
+	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
+	firstItem interface{},
+	names []string,
+	aliasingMap map[string]int8,
+) *BasicInt8 {
+	actualRangesMap := it.sliceNamesToMap(names)
+
+	finalAliasMap := it.generateUppercaseLowercaseAliasMap(
+		isIncludeUppercaseLowercase,
+		actualRangesMap,
+		aliasingMap)
+
+	return it.CreateUsingMapPlusAliasMap(
+		reflect.TypeOf(firstItem).String(),
+		actualRangesMap,
+		finalAliasMap,
+	)
+}
+
+func (it newBasicInt8Creator) CreateUsingMapPlusAliasMapOptions(
+	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
+	firstItem interface{},
+	actualRangesMap map[int8]string,
+	aliasingMap map[string]int8,
+) *BasicInt8 {
+	finalAliasMap := it.generateUppercaseLowercaseAliasMap(
+		isIncludeUppercaseLowercase,
+		actualRangesMap,
+		aliasingMap)
+
+	return it.CreateUsingMapPlusAliasMap(
+		reflect.TypeOf(firstItem).String(),
+		actualRangesMap,
+		finalAliasMap,
+	)
+}
+
 func (it newBasicInt8Creator) UsingFirstItemSliceAliasMap(
 	firstItem interface{},
 	indexedSliceWithValues []string,
@@ -178,4 +217,85 @@ func (it newBasicInt8Creator) DefaultWithAliasMap(
 		indexedSliceWithValues[:],
 		aliasingMap, // aliasingMap
 	)
+}
+
+// DefaultAllCases
+//
+//  includes both lowercase and uppercase parsing.
+func (it newBasicInt8Creator) DefaultAllCases(
+	firstItem interface{},
+	indexedSliceWithValues []string,
+) *BasicInt8 {
+	return it.CreateUsingSlicePlusAliasMapOptions(
+		true,
+		firstItem,
+		indexedSliceWithValues,
+		nil, // aliasingMap
+	)
+}
+
+// DefaultWithAliasMapAllCases
+//
+//  includes both lowercase and uppercase parsing.
+func (it newBasicInt8Creator) DefaultWithAliasMapAllCases(
+	firstItem interface{},
+	indexedSliceWithValues []string,
+	aliasingMap map[string]int8,
+) *BasicInt8 {
+	return it.CreateUsingSlicePlusAliasMapOptions(
+		true,
+		firstItem,
+		indexedSliceWithValues[:],
+		aliasingMap, // aliasingMap
+	)
+}
+
+func (it newBasicInt8Creator) generateUppercaseLowercaseAliasMap(
+	isIncludeUppercaseLowercase bool,
+	rangesMap map[int8]string,
+	aliasingMap map[string]int8,
+) map[string]int8 {
+	if !isIncludeUppercaseLowercase {
+		return aliasingMap
+	}
+
+	finalAliasMap := make(
+		map[string]int8,
+		len(rangesMap)*3+len(aliasingMap)*3+2)
+
+	for keyAsByte, valueAsName := range rangesMap {
+		toUpper := strings.ToUpper(valueAsName)
+		toLower := strings.ToLower(valueAsName)
+		finalAliasMap[toUpper] = keyAsByte
+		finalAliasMap[toLower] = keyAsByte
+		finalAliasMap[valueAsName] = keyAsByte
+	}
+
+	if len(aliasingMap) == 0 {
+		return finalAliasMap
+	}
+
+	for keyAsName, valueAsByte := range aliasingMap {
+		toUpper := strings.ToUpper(keyAsName)
+		toLower := strings.ToLower(keyAsName)
+		finalAliasMap[toUpper] = valueAsByte
+		finalAliasMap[toLower] = valueAsByte
+		finalAliasMap[keyAsName] = valueAsByte
+	}
+
+	return finalAliasMap
+}
+
+func (it newBasicInt8Creator) sliceNamesToMap(
+	names []string,
+) map[int8]string {
+	newMap := make(
+		map[int8]string,
+		len(names))
+
+	for i, name := range names {
+		newMap[int8(i)] = name
+	}
+
+	return newMap
 }

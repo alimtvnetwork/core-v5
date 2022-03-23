@@ -114,20 +114,26 @@ func (it *KeyValCollection) MapAnyItems() *MapAnyItems {
 	return &MapAnyItems{Items: mapItems}
 }
 
-func (it *KeyValCollection) JsonMapResults() *corejson.MapResults {
-	mapResults := corejson.NewMapResults.UsingCap(it.Length())
+func (it *KeyValCollection) JsonMapResults() (*corejson.MapResults, error) {
+	mapResults := corejson.
+		NewMapResults.
+		UsingCap(it.Length())
 
 	if it.IsEmpty() {
-		return mapResults
+		return mapResults, nil
 	}
 
 	for _, keyVal := range it.items {
-		mapResults.AddAny(
+		err := mapResults.AddAny(
 			keyVal.KeyString(),
 			keyVal.Value)
+
+		if err != nil {
+			return mapResults, err
+		}
 	}
 
-	return mapResults
+	return mapResults, nil
 }
 
 func (it *KeyValCollection) JsonResultsCollection() *corejson.ResultsCollection {

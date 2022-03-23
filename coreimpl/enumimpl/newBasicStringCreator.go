@@ -68,6 +68,32 @@ func (it newBasicStringCreator) CreateUsingMapPlusAliasMapOptions(
 	)
 }
 
+func (it newBasicStringCreator) UsingFirstItemSliceCaseOptions(
+	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
+	firstItem interface{},
+	indexedSliceWithValues []string,
+) *BasicString {
+	return it.CreateUsingMapPlusAliasMapOptions(
+		isIncludeUppercaseLowercase,
+		firstItem,
+		indexedSliceWithValues,
+		nil)
+}
+
+// UsingFirstItemSliceAllCases
+//
+//  Includes both cases upper, lower case unmarshalling
+func (it newBasicStringCreator) UsingFirstItemSliceAllCases(
+	firstItem interface{},
+	indexedSliceWithValues []string,
+) *BasicString {
+	return it.CreateUsingMapPlusAliasMapOptions(
+		true,
+		firstItem,
+		indexedSliceWithValues,
+		nil)
+}
+
 func (it newBasicStringCreator) CreateAliasMapOnly(
 	typeName string,
 	actualRangesNames []string,

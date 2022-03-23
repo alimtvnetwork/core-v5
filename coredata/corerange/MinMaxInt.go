@@ -84,7 +84,7 @@ func (it *MinMaxInt) IsMaxLessEqual(val int) bool {
 }
 
 func (it *MinMaxInt) RangeLengthInt() int {
-	return int(it.RangeLength())
+	return it.RangeLength()
 }
 
 // RangeLength (5 - 3 = 2) + 1
@@ -103,7 +103,7 @@ func (it *MinMaxInt) RangesInt() []int {
 		it.RangeLengthInt())
 
 	for i, actualValue := range actualRanges {
-		rangesIntegers[i] = int(actualValue)
+		rangesIntegers[i] = actualValue
 	}
 
 	return rangesIntegers
