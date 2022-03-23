@@ -2,7 +2,7 @@ package loggerinf
 
 import "io"
 
-type Comitter interface {
+type Committer interface {
 	Commit()
 }
 
@@ -23,7 +23,7 @@ type StringFinalizer interface {
 }
 
 type IfStringCompiler interface {
-	CompileIf(isCompile string) string
+	CompileIf(isCompile bool) string
 }
 
 type Compiler interface {

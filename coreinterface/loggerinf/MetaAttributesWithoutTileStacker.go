@@ -14,6 +14,7 @@ type MetaAttributesWithoutTileStacker interface {
 	enuminf.LoggerTyperGetter
 
 	Title() string
+	IsSilent() bool
 
 	On(isLog bool) MetaAttributesWithoutTileStacker
 	Attr(attr string) MetaAttributesWithoutTileStacker
@@ -30,8 +31,8 @@ type MetaAttributesWithoutTileStacker interface {
 	MapAny(mapAny map[string]interface{}) MetaAttributesWithoutTileStacker
 	MapIntegerAny(mapAny map[int]interface{}) MetaAttributesWithoutTileStacker
 
-	Json(json *corejson.Result) MetaAttributesWithoutTileStacker
-	JsonItems(jsons ...*corejson.Result) MetaAttributesWithoutTileStacker
+	JsonResult(json *corejson.Result) MetaAttributesWithoutTileStacker
+	JsonResultItems(jsons ...*corejson.Result) MetaAttributesWithoutTileStacker
 
 	Err(err error) MetaAttributesWithoutTileStacker
 
@@ -151,5 +152,12 @@ type MetaAttributesWithoutTileStacker interface {
 	ConcatNew(others ...MetaAttributesWithoutTileStacker) MetaAttributesWithoutTileStacker
 	coreinterface.Clearer
 
+	Items() map[string]interface{}
+
+	GetAsStrings() []string
+	HasKey(name string) bool
+	GetVal(keyName string) (val interface{})
+
 	MetaAttributesCompiler
+	coreinterface.StandardSlicerContractsBinder
 }

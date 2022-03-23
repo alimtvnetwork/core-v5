@@ -1,6 +1,7 @@
 package loggerinf
 
 import (
+	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface"
 	"gitlab.com/evatix-go/core/coreinterface/enuminf"
 	"gitlab.com/evatix-go/core/coreinterface/errcoreinf"
@@ -34,4 +35,6 @@ type SingleLogModeler interface {
 
 	SpecificValuerGetter
 	ErrorAsBasicErrWrapperGetter
+
+	corejson.JsonContractsBinder
 }

@@ -17,6 +17,8 @@ type MetaAttributesStacker interface {
 	On(isLog bool) MetaAttributesStacker
 	OnTitle(isLog bool, title string) MetaAttributesWithoutTileStacker
 
+	IsSilent() bool
+
 	Msg(message string) MetaAttributesStacker
 	Title(title string) MetaAttributesStacker
 	TitleAttr(title, attr string) MetaAttributesStacker
@@ -62,8 +64,8 @@ type MetaAttributesStacker interface {
 	MapIntString(title string, mapAny map[int]string) MetaAttributesStacker
 	MapJsonResult(title string, mapAny map[string]corejson.Result) MetaAttributesStacker
 
-	Json(title string, json *corejson.Result) MetaAttributesStacker
-	JsonItems(title string, jsons ...*corejson.Result) MetaAttributesStacker
+	JsonResult(title string, json *corejson.Result) MetaAttributesStacker
+	JsonResultItems(title string, jsons ...*corejson.Result) MetaAttributesStacker
 
 	Err(err error) MetaAttributesStacker
 
@@ -174,8 +176,11 @@ type MetaAttributesStacker interface {
 
 	Int(key string, i int) MetaAttributesStacker
 	Integers(key string, integerItems ...int) MetaAttributesStacker
-	Fmt(format string, v ...interface{}) MetaAttributesStacker
-	FmtIf(isLog bool, format string, v ...interface{}) MetaAttributesStacker
+	Fmt(title, format string, v ...interface{}) MetaAttributesStacker
+	FmtIf(isLog bool, title, format string, v ...interface{}) MetaAttributesStacker
+
+	OnlyFmt(format string, v ...interface{}) MetaAttributesStacker
+	OnlyFmtIf(isLog bool, format string, v ...interface{}) MetaAttributesStacker
 
 	RawPayloadsGetter(payloadsGetter RawPayloadsGetter) MetaAttributesStacker
 	RawPayloadsGetterTitle(title string, payloadsGetter RawPayloadsGetter) MetaAttributesStacker
@@ -185,5 +190,12 @@ type MetaAttributesStacker interface {
 	ConcatNew(others ...MetaAttributesStacker) MetaAttributesStacker
 	coreinterface.Clearer
 
+	Items() map[string]interface{}
+
+	GetAsStrings() []string
+	HasKey(name string) bool
+	GetVal(keyName string) (val interface{})
+
 	MetaAttributesCompiler
+	coreinterface.StandardSlicerContractsBinder
 }
