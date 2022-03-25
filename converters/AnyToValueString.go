@@ -1,4 +1,4 @@
-package coreconverted
+package converters
 
 import (
 	"fmt"
