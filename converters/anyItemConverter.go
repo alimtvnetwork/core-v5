@@ -121,7 +121,7 @@ func (it anyItemConverter) ToStrings(
 		isSkipOnNil,
 		reflectVal)
 
-	return it.ManyToStringsSkipOnNil(anyItems)
+	return it.ItemsToStringsSkipOnNil(anyItems)
 }
 
 func (it anyItemConverter) ToStringsUsingProcessor(
@@ -237,7 +237,7 @@ func (it anyItemConverter) ToNonNullItems(
 		reflectVal)
 }
 
-func (it anyItemConverter) ManyToStringsSkipOnNil(
+func (it anyItemConverter) ItemsToStringsSkipOnNil(
 	anyItems ...interface{},
 ) []string {
 	return coreappend.PrependAppendAnyItemsToStringsSkipOnNil(
@@ -246,7 +246,7 @@ func (it anyItemConverter) ManyToStringsSkipOnNil(
 		anyItems...)
 }
 
-func (it anyItemConverter) ManyJoin(
+func (it anyItemConverter) ItemsJoin(
 	joiner string,
 	anyItems ...interface{},
 ) string {
@@ -254,7 +254,7 @@ func (it anyItemConverter) ManyJoin(
 		return constants.EmptyString
 	}
 
-	anyStrings := it.ManyToStringsSkipOnNil(anyItems...)
+	anyStrings := it.ItemsToStringsSkipOnNil(anyItems...)
 
 	return strings.Join(anyStrings, joiner)
 }
