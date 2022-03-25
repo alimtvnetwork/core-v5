@@ -6,6 +6,7 @@ const (
 	SprintNumberFormat                           = "%d"
 	SprintFullPropertyNameValueFormat            = "%#v"
 	SprintPropertyNameValueFormat                = "%+v"
+	SprintPropertyValueWithTypeFormat            = "%+v (%T)"
 	SprintTypeFormat                             = "%T"
 	SprintTypeInParenthesisFormat                = "(type : %T)"
 	SprintNilValueTypeInParenthesisFormat        = "<nil> (type : %T)"

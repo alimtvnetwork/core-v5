@@ -11,9 +11,9 @@ import (
 	"gitlab.com/evatix-go/core/internal/reflectinternal"
 )
 
-type anyItem struct{}
+type anyItemConverter struct{}
 
-func (it anyItem) ToString(
+func (it anyItemConverter) ToString(
 	isIncludeFullName bool,
 	any interface{},
 ) string {
@@ -32,10 +32,47 @@ func (it anyItem) ToString(
 		any)
 }
 
+func (it anyItemConverter) String(
+	any interface{},
+) string {
+	if any == nil {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		constants.SprintValueFormat,
+		any)
+}
+
+func (it anyItemConverter) FullString(
+	any interface{},
+) string {
+	if any == nil {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		constants.SprintPropertyNameValueFormat,
+		any)
+}
+
+func (it anyItemConverter) StringWithType(
+	any interface{},
+) string {
+	if any == nil {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		constants.SprintPropertyValueWithTypeFormat,
+		any,
+		any)
+}
+
 // ToSafeSerializedString
 //
 //  warning : on error swallows it
-func (it anyItem) ToSafeSerializedString(
+func (it anyItemConverter) ToSafeSerializedString(
 	any interface{},
 ) string {
 	if any == nil {
@@ -59,7 +96,7 @@ func (it anyItem) ToSafeSerializedString(
 //  return value using %v
 //
 //  warning : on error swallows it
-func (it anyItem) ToSafeSerializedStringSprintValue(
+func (it anyItemConverter) ToSafeSerializedStringSprintValue(
 	any interface{},
 ) string {
 	value := it.ToSafeSerializedString(
@@ -70,7 +107,7 @@ func (it anyItem) ToSafeSerializedStringSprintValue(
 		value)
 }
 
-func (it anyItem) ToStrings(
+func (it anyItemConverter) ToStrings(
 	isSkipOnNil bool,
 	anyItem interface{},
 ) []string {
@@ -87,7 +124,7 @@ func (it anyItem) ToStrings(
 	return it.ManyToStringsSkipOnNil(anyItems)
 }
 
-func (it anyItem) ToStringsUsingProcessor(
+func (it anyItemConverter) ToStringsUsingProcessor(
 	isSkipOnNil bool,
 	processor func(index int, in interface{}) (out string, isTake, isBreak bool),
 	any interface{},
@@ -118,7 +155,7 @@ func (it anyItem) ToStringsUsingProcessor(
 	return slice
 }
 
-func (it anyItem) ToStringsUsingSimpleProcessor(
+func (it anyItemConverter) ToStringsUsingSimpleProcessor(
 	isSkipOnNil bool,
 	simpleProcessor func(index int, in interface{}) (out string),
 	any interface{},
@@ -143,7 +180,7 @@ func (it anyItem) ToStringsUsingSimpleProcessor(
 	return slice
 }
 
-func (it anyItem) ToValueString(
+func (it anyItemConverter) ToValueString(
 	any interface{},
 ) string {
 	if any == nil {
@@ -155,7 +192,7 @@ func (it anyItem) ToValueString(
 		any)
 }
 
-func (it anyItem) ToValueStringWithType(
+func (it anyItemConverter) ToValueStringWithType(
 	any interface{},
 ) string {
 	if any == nil {
@@ -170,7 +207,7 @@ func (it anyItem) ToValueStringWithType(
 		any)
 }
 
-func (it anyItem) ToAnyItems(
+func (it anyItemConverter) ToAnyItems(
 	isSkipOnNil bool,
 	anyItem interface{},
 ) []interface{} {
@@ -185,7 +222,7 @@ func (it anyItem) ToAnyItems(
 		reflectVal)
 }
 
-func (it anyItem) ToNonNullItems(
+func (it anyItemConverter) ToNonNullItems(
 	isSkipOnNil bool,
 	anyItem interface{},
 ) []interface{} {
@@ -200,7 +237,7 @@ func (it anyItem) ToNonNullItems(
 		reflectVal)
 }
 
-func (it anyItem) ManyToStringsSkipOnNil(
+func (it anyItemConverter) ManyToStringsSkipOnNil(
 	anyItems ...interface{},
 ) []string {
 	return coreappend.PrependAppendAnyItemsToStringsSkipOnNil(
@@ -209,7 +246,7 @@ func (it anyItem) ManyToStringsSkipOnNil(
 		anyItems...)
 }
 
-func (it anyItem) ManyJoin(
+func (it anyItemConverter) ManyJoin(
 	joiner string,
 	anyItems ...interface{},
 ) string {
@@ -222,7 +259,7 @@ func (it anyItem) ManyJoin(
 	return strings.Join(anyStrings, joiner)
 }
 
-func (it anyItem) ToItemsThenJoin(
+func (it anyItemConverter) ToItemsThenJoin(
 	isSkipOnNil bool,
 	joiner string,
 	anySlice interface{},
@@ -240,7 +277,7 @@ func (it anyItem) ToItemsThenJoin(
 		joiner)
 }
 
-func (it anyItem) ToFullNameValueString(
+func (it anyItemConverter) ToFullNameValueString(
 	any interface{},
 ) string {
 	if any == nil {
