@@ -1,5 +1,11 @@
 package main
 
+import (
+	"fmt"
+
+	"gitlab.com/evatix-go/core/bytetype"
+)
+
 func main() {
 	// x := corestr.SimpleSlice{Items: []string{"a", "b"}}
 	// result := x.Json()
@@ -60,4 +66,5 @@ func main() {
 	// readWriteTest01()
 	// 	infoCreateExample01()
 	lazyRegExTester01()
+	fmt.Println(bytetype.New(1).StringValue())
 }

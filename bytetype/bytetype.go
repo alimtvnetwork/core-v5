@@ -2,6 +2,7 @@ package bytetype
 
 import (
 	"math"
+	"strconv"
 
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/coreinterface/enuminf"
@@ -165,7 +166,7 @@ func (it Variant) NameValue() string {
 }
 
 func (it Variant) ToNumberString() string {
-	return BasicEnumImpl.ToNumberString(it.Value())
+	return strconv.Itoa(it.ValueInt())
 }
 
 func (it Variant) Name() string {
@@ -241,7 +242,7 @@ func (it Variant) Value() byte {
 }
 
 func (it Variant) StringValue() string {
-	return string(it)
+	return strconv.Itoa(it.ValueInt())
 }
 
 func (it Variant) HasIndexInStrings(sliceOfStrings ...string) (val string, isValid bool) {
