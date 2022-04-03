@@ -1139,7 +1139,7 @@ func (it DynamicMap) sortedKeyAnyValuesString() []KeyAnyVal {
 	for i, keyName := range allStringsSorted {
 		newSlice[i] = KeyAnyVal{
 			Key:      keyName,
-			AnyValue: keyName,
+			AnyValue: it[keyName],
 		}
 	}
 
