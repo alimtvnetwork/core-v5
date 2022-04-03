@@ -1,5 +1,11 @@
 package corejson
 
+import (
+	"errors"
+
+	"gitlab.com/evatix-go/core/internal/reflectinternal"
+)
+
 type anyTo struct{}
 
 // SerializedJsonResult
@@ -15,6 +21,13 @@ type anyTo struct{}
 func (it anyTo) SerializedJsonResult(
 	fromAny interface{},
 ) *Result {
+	if reflectinternal.IsNull(fromAny) {
+		return &Result{
+			Error:    errors.New("nil object given"),
+			TypeName: reflectinternal.SafeTypeName(fromAny),
+		}
+	}
+
 	switch castedTo := fromAny.(type) {
 	case Result:
 		return castedTo.Ptr()

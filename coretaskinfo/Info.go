@@ -584,9 +584,11 @@ func (it *Info) MapWithPayloadAsAny(
 	jsonResult := corejson.
 		AnyTo.
 		SerializedJsonResult(payloadsAny)
+
 	if jsonResult.HasError() {
 		compiledMap[payloadsErrField] = jsonResult.MeaningfulErrorMessage()
 	}
+
 	compiledMap[payloadsField] = jsonResult.JsonString()
 
 	return compiledMap
@@ -604,9 +606,11 @@ func (it *Info) LazyMapWithPayloadAsAny(
 	jsonResult := corejson.
 		AnyTo.
 		SerializedJsonResult(payloadsAny)
+
 	if jsonResult.HasError() {
 		compiledMap[payloadsErrField] = jsonResult.MeaningfulErrorMessage()
 	}
+
 	compiledMap[payloadsField] = jsonResult.JsonString()
 
 	return compiledMap
