@@ -8,6 +8,7 @@ import (
 	"gitlab.com/evatix-go/core/constants"
 	"gitlab.com/evatix-go/core/coredata/corestr"
 	"gitlab.com/evatix-go/core/errcore"
+	"gitlab.com/evatix-go/core/internal/fsinternal"
 )
 
 type chmodVerifier struct{}
@@ -40,10 +41,59 @@ func (it chmodVerifier) IsEqualRwxFull(
 		expectedHyphenedRwx)
 }
 
+// IsEqualRwxFullSkipInvalid
+//
+//  On invalid path it is assumed to be equal.
+//  expectedHyphenedRwx must be 10 chars in "-rwxrwxrwx"
+//
+//  Hint. os.FileMode. String() returns "-rwxrwxrwx" full rwx
+//  https://go.dev/play/p/Qq_rKl_pAqe
+//
+// Format (length must be 10)
+//  "-rwxrwxrwx"
+//
+// Example:
+//  - owner all enabled only "-rwx------"
+//  - group all enabled only "----rwx---"
+//
+// Must have or restrictions:
+//  - string length must be 10.
+//
+// Reference:
+//  - https://ss64.com/bash/chmod.html
+func (it chmodVerifier) IsEqualRwxFullSkipInvalid(
+	location string,
+	expectedHyphenedRwx string,
+) bool {
+	if fsinternal.IsPathInvalid(location) {
+		return true
+	}
+
+	return IsChmod(
+		location,
+		expectedHyphenedRwx)
+}
+
 func (it chmodVerifier) IsEqual(
 	location string,
 	expectedFileMode os.FileMode,
 ) bool {
+	return IsChmod(
+		location,
+		expectedFileMode.String())
+}
+
+// IsEqualSkipInvalid
+//
+//  On invalid path it is assumed to be equal.
+func (it chmodVerifier) IsEqualSkipInvalid(
+	location string,
+	expectedFileMode os.FileMode,
+) bool {
+	if fsinternal.IsPathInvalid(location) {
+		return true
+	}
+
 	return IsChmod(
 		location,
 		expectedFileMode.String())

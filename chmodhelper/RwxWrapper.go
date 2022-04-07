@@ -15,6 +15,7 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/internal/fsinternal"
+	"gitlab.com/evatix-go/core/internal/osconstsinternal"
 	"gitlab.com/evatix-go/core/osconsts"
 )
 
@@ -219,11 +220,7 @@ func (it *RwxWrapper) ApplyChmod(
 	fileMode := it.ToFileMode()
 
 	if isPathInvalid {
-		return pathError(
-			"apply chmod failed because path doesn't exist and skip on invalid is not enabled",
-			fileMode,
-			location,
-			errors.New("invalid path"))
+		return it.invalidPathErr(fileMode, location)
 	}
 
 	err := os.Chmod(
@@ -239,6 +236,54 @@ func (it *RwxWrapper) ApplyChmod(
 	}
 
 	return nil
+}
+
+func (it *RwxWrapper) invalidPathErr(
+	fileMode os.FileMode,
+	location string,
+) error {
+	return pathError(
+		"apply chmod failed because path doesn't exist and skip on invalid is not enabled",
+		fileMode,
+		location,
+		errors.New("invalid path"))
+}
+
+func (it *RwxWrapper) ApplyChmodOptions(
+	isApply,
+	isApplyOnMismatch bool,
+	isSkipOnInvalid bool,
+	location string,
+) error {
+	if !isApply {
+		return nil
+	}
+
+	isInvalid := fsinternal.IsPathInvalid(location)
+
+	if isSkipOnInvalid && isInvalid {
+		return nil
+	}
+
+	fileMode := it.ToFileMode()
+
+	if isInvalid {
+		return it.invalidPathErr(fileMode, location)
+	}
+
+	// skip on windows
+	if osconstsinternal.IsWindows {
+		return nil
+	}
+
+	if isApplyOnMismatch && IsChmod(location, fileMode.String()) {
+		return nil
+	}
+
+	// unix, apply anyway, or mismatch.
+	return it.ApplyChmod(
+		false,
+		location)
 }
 
 func (it *RwxWrapper) ApplyChmodSkipInvalid(

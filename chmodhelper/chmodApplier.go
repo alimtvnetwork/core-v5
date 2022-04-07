@@ -21,6 +21,55 @@ func (it chmodApplier) Default(
 		location)
 }
 
+func (it chmodApplier) OnMismatchOption(
+	isApply,
+	isSkipOnInvalid bool,
+	fileMode os.FileMode,
+	location string,
+) error {
+	if !isApply {
+		return nil
+	}
+
+	rwx := New.RwxWrapper.UsingFileModePtr(
+		fileMode)
+
+	return rwx.ApplyChmodOptions(
+		isApply,
+		true,
+		isSkipOnInvalid,
+		location)
+}
+
+func (it chmodApplier) OnMismatch(
+	isSkipOnInvalid bool,
+	fileMode os.FileMode,
+	location string,
+) error {
+	rwx := New.RwxWrapper.UsingFileModePtr(
+		fileMode)
+
+	return rwx.ApplyChmodOptions(
+		true,
+		true,
+		isSkipOnInvalid,
+		location)
+}
+
+func (it chmodApplier) OnMismatchSkipInvalid(
+	fileMode os.FileMode,
+	location string,
+) error {
+	rwx := New.RwxWrapper.UsingFileModePtr(
+		fileMode)
+
+	return rwx.ApplyChmodOptions(
+		true,
+		true,
+		true,
+		location)
+}
+
 func (it chmodApplier) SkipInvalidFile(
 	fileMode os.FileMode,
 	location string,
