@@ -415,6 +415,12 @@ func (it *Key) IntRangeEnding(
 		endIncluding)
 }
 
+func (it *Key) CompileDefault() string {
+	return it.rootCompile(
+		it.option.Joiner,
+	)
+}
+
 func (it *Key) Compile(
 	items ...interface{},
 ) string {
@@ -452,6 +458,10 @@ func (it *Key) JoinUsingOption(
 
 func (it *Key) String() string {
 	return it.Compile()
+}
+
+func (it *Key) Strings() []string {
+	return it.AllRawItems()
 }
 
 func (it *Key) Name() string {

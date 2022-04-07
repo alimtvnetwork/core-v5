@@ -9,15 +9,15 @@ import (
 )
 
 type Info struct {
-	RootName       string           `json:"RootName,omitempty"`
-	Description    string           `json:"Description,omitempty"`
-	Url            string           `json:"Url,omitempty"`
-	HintUrl        string           `json:"HintUrl,omitempty"`
-	ErrorUrl       string           `json:"ErrorUrl,omitempty"`
-	ExampleUrl     string           `json:"ExampleUrl,omitempty"`
-	SingleExample  string           `json:"SingleExample,omitempty"`
-	Examples       []string         `json:"Examples,omitempty"` // proves sample examples to call things correctly
-	ExcludeOptions ExcludingOptions `json:"ExcludeOptions,omitempty"`
+	RootName       string            `json:"RootName,omitempty"`
+	Description    string            `json:"Description,omitempty"`
+	Url            string            `json:"Url,omitempty"`
+	HintUrl        string            `json:"HintUrl,omitempty"`
+	ErrorUrl       string            `json:"ErrorUrl,omitempty"`
+	ExampleUrl     string            `json:"ExampleUrl,omitempty"`
+	SingleExample  string            `json:"SingleExample,omitempty"`
+	Examples       []string          `json:"Examples,omitempty"` // proves sample examples to call things correctly
+	ExcludeOptions *ExcludingOptions `json:"ExcludeOptions,omitempty"`
 	lazyMap        map[string]string
 }
 
@@ -27,7 +27,7 @@ type Info struct {
 func (it *Info) SetSecure() *Info {
 	if it == nil {
 		return &Info{
-			ExcludeOptions: ExcludingOptions{
+			ExcludeOptions: &ExcludingOptions{
 				IsSecureText: true,
 			},
 		}
@@ -35,8 +35,7 @@ func (it *Info) SetSecure() *Info {
 
 	it.ExcludeOptions = it.
 		ExcludeOptions.
-		SetSecure().
-		ToNonPtr()
+		SetSecure()
 
 	return it
 }
@@ -52,8 +51,7 @@ func (it *Info) SetPlain() *Info {
 
 	it.ExcludeOptions = it.
 		ExcludeOptions.
-		SetPlainText().
-		ToNonPtr()
+		SetPlainText()
 
 	return it
 }
@@ -307,7 +305,11 @@ func (it *Info) ExamplesAsSlice() *corestr.SimpleSlice {
 	return corestr.New.SimpleSlice.Strings(it.Examples)
 }
 
-func (it Info) Options() ExcludingOptions {
+func (it *Info) Options() *ExcludingOptions {
+	if it == nil {
+		return &ExcludingOptions{}
+	}
+
 	return it.ExcludeOptions
 }
 

@@ -69,6 +69,10 @@ func (it *KeyWithLegend) GroupName() string {
 	return it.groupName
 }
 
+func (it *KeyWithLegend) StateName() string {
+	return it.stateName
+}
+
 // OutputItemsArray
 //
 //  Chain example LegendChainSample
@@ -213,6 +217,52 @@ func (it *KeyWithLegend) GroupString(group string) string {
 	return it.CompileUsingRequest(request)
 }
 
+// UpToGroup
+//
+//  Returns up to group without states
+//  Chain sample KeyWithLegend, LegendChainSample
+//
+//  State will be used from creation.
+//
+// Example:
+//  - "{root}-{package}-{group}"
+//
+// Missing:
+//  - "{state}-{user}-{item}"
+//
+// Conditions apply:
+//  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
+func (it *KeyWithLegend) UpToGroup(group interface{}) string {
+	request := KeyLegendCompileRequest{
+		GroupId: fmt.Sprintf(constants.SprintValueFormat, group),
+	}
+
+	return it.CompileUsingRequest(request)
+}
+
+// UpToGroupString
+//
+//  Returns up to group without states
+//  Chain sample KeyWithLegend, LegendChainSample
+//
+//  State will be used from creation.
+//
+// Example:
+//  - "{root}-{package}-{group}"
+//
+// Missing:
+//  - "{state}-{user}-{item}"
+//
+// Conditions apply:
+//  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
+func (it *KeyWithLegend) UpToGroupString(group string) string {
+	request := KeyLegendCompileRequest{
+		GroupId: group,
+	}
+
+	return it.CompileUsingRequest(request)
+}
+
 // ItemWithoutUser
 //
 //  Returns up to item without user.
@@ -317,7 +367,7 @@ func (it *KeyWithLegend) ItemEnumByte(item enuminf.ByteEnumNamer) string {
 //  Returns up to item without user.
 //  Chain sample KeyWithLegend, LegendChainSample
 //
-//  State, Group, State will be used from creation.
+//  State, Group will be used from creation.
 //
 // Example:
 //  - "{root}-{package}-{state}-{group}-{item}"
@@ -344,7 +394,7 @@ func (it *KeyWithLegend) Item(item interface{}) string {
 //  Returns up to item without user, group, state.
 //  Chain sample KeyWithLegend, LegendChainSample
 //
-//  State, Group, State will be used from creation.
+//  State, Group will be used from creation.
 //
 // Example:
 //  - "{root}-{package}-{state}-{group}-{item}"
@@ -369,7 +419,7 @@ func (it *KeyWithLegend) ItemString(item string) string {
 //  Returns up to item without user.
 //  Chain sample KeyWithLegend, LegendChainSample
 //
-//  State, Group, State will be used from creation.
+//  State, Group will be used from creation.
 //
 // Example:
 //  - "{root}-{package}-{state}-{group}-{item}"
@@ -388,7 +438,7 @@ func (it *KeyWithLegend) ItemInt(itemId int) string {
 //  Returns up to item without user.
 //  Chain sample KeyWithLegend, LegendChainSample
 //
-//  State, Group, State will be used from creation.
+//  State, Group will be used from creation.
 //
 // Example:
 //  - "{root}-{package}-{state}-{group}-{item}"
@@ -407,7 +457,7 @@ func (it *KeyWithLegend) ItemUInt(itemId uint) string {
 //  Returns up to item without user.
 //  Chain sample KeyWithLegend, LegendChainSample
 //
-//  State, Group, State will be used from creation.
+//  State, Group will be used from creation.
 //
 // Example:
 //  - "{root}-{package}-{state}-{group}-{item}"
@@ -466,7 +516,9 @@ func (it *KeyWithLegend) UserStringWithoutState(user string) string {
 //
 // Conditions apply:
 //  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) UpToState(user string) string {
+func (it *KeyWithLegend) UpToState(
+	user string,
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		UserId:    user,
@@ -476,7 +528,9 @@ func (it *KeyWithLegend) UpToState(user string) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupIntRange(startId, endId int) []string {
+func (it *KeyWithLegend) GroupIntRange(
+	startId, endId int,
+) []string {
 	ids := make([]string, 0, (endId-startId)+constants.Capacity3)
 
 	for i := startId; i <= endId; i++ {
@@ -486,7 +540,9 @@ func (it *KeyWithLegend) GroupIntRange(startId, endId int) []string {
 	return ids
 }
 
-func (it *KeyWithLegend) GroupUIntRange(startId, endId uint) []string {
+func (it *KeyWithLegend) GroupUIntRange(
+	startId, endId uint,
+) []string {
 	ids := make([]string, 0, (endId-startId)+constants.Capacity3)
 
 	for i := startId; i <= endId; i++ {
@@ -496,7 +552,9 @@ func (it *KeyWithLegend) GroupUIntRange(startId, endId uint) []string {
 	return ids
 }
 
-func (it *KeyWithLegend) ItemIntRange(startId, endId int) []string {
+func (it *KeyWithLegend) ItemIntRange(
+	startId, endId int,
+) []string {
 	ids := make([]string, 0, (endId-startId)+constants.Capacity3)
 
 	for i := startId; i <= endId; i++ {
@@ -506,7 +564,9 @@ func (it *KeyWithLegend) ItemIntRange(startId, endId int) []string {
 	return ids
 }
 
-func (it *KeyWithLegend) ItemUIntRange(startId, endId uint) []string {
+func (it *KeyWithLegend) ItemUIntRange(
+	startId, endId uint,
+) []string {
 	ids := make([]string, 0, (endId-startId)+constants.Capacity3)
 
 	for i := startId; i <= endId; i++ {
@@ -516,7 +576,9 @@ func (it *KeyWithLegend) ItemUIntRange(startId, endId uint) []string {
 	return ids
 }
 
-func (it *KeyWithLegend) GroupUserString(group, user string) string {
+func (it *KeyWithLegend) GroupUserString(
+	group, user string,
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		UserId:    user,
@@ -526,7 +588,9 @@ func (it *KeyWithLegend) GroupUserString(group, user string) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupUser(group, user interface{}) string {
+func (it *KeyWithLegend) GroupUser(
+	group, user interface{},
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		UserId:    fmt.Sprintf(constants.SprintValueFormat, user),
@@ -536,7 +600,9 @@ func (it *KeyWithLegend) GroupUser(group, user interface{}) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupUInt(group uint) string {
+func (it *KeyWithLegend) GroupUInt(
+	group uint,
+) string {
 	request := KeyLegendCompileRequest{
 		GroupId: fmt.Sprintf(constants.SprintValueFormat, group),
 	}
@@ -544,7 +610,9 @@ func (it *KeyWithLegend) GroupUInt(group uint) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupByte(group byte) string {
+func (it *KeyWithLegend) GroupByte(
+	group byte,
+) string {
 	request := KeyLegendCompileRequest{
 		GroupId: fmt.Sprintf(constants.SprintValueFormat, group),
 	}
@@ -552,7 +620,9 @@ func (it *KeyWithLegend) GroupByte(group byte) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupUserByte(group, user byte) string {
+func (it *KeyWithLegend) GroupUserByte(
+	group, user byte,
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		GroupId:   fmt.Sprintf(constants.SprintValueFormat, group),
@@ -577,7 +647,9 @@ func (it *KeyWithLegend) GroupUserByte(group, user byte) string {
 //
 // Conditions apply:
 //  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) GroupUserItem(group, user, item interface{}) string {
+func (it *KeyWithLegend) GroupUserItem(
+	group, user, item interface{},
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		UserId:    fmt.Sprintf(constants.SprintValueFormat, user),
@@ -588,7 +660,9 @@ func (it *KeyWithLegend) GroupUserItem(group, user, item interface{}) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupStateUserItem(group, state, user, item interface{}) string {
+func (it *KeyWithLegend) GroupStateUserItem(
+	group, state, user, item interface{},
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, state),
 		UserId:    fmt.Sprintf(constants.SprintValueFormat, user),
@@ -614,7 +688,9 @@ func (it *KeyWithLegend) GroupStateUserItem(group, state, user, item interface{}
 //
 // Conditions apply:
 //  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) StateUserItem(state, user, item interface{}) string {
+func (it *KeyWithLegend) StateUserItem(
+	state, user, item interface{},
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, state),
 		UserId:    fmt.Sprintf(constants.SprintValueFormat, user),
@@ -640,7 +716,9 @@ func (it *KeyWithLegend) StateUserItem(state, user, item interface{}) string {
 //
 // Conditions apply:
 //  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) StateUser(state, user interface{}) string {
+func (it *KeyWithLegend) StateUser(
+	state, user interface{},
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, state),
 		UserId:    fmt.Sprintf(constants.SprintValueFormat, user),
@@ -663,7 +741,9 @@ func (it *KeyWithLegend) GroupStateUserItemString(
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupUserItemString(group, user, item string) string {
+func (it *KeyWithLegend) GroupUserItemString(
+	group, user, item string,
+) string {
 	request := KeyLegendCompileRequest{
 		UserId:    user,
 		GroupId:   group,
@@ -674,15 +754,21 @@ func (it *KeyWithLegend) GroupUserItemString(group, user, item string) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupUserItemUint(group, user, item uint) string {
+func (it *KeyWithLegend) GroupUserItemUint(
+	group, user, item uint,
+) string {
 	return it.GroupUserItem(user, group, item)
 }
 
-func (it *KeyWithLegend) GroupUserItemInt(group, user, item int) string {
+func (it *KeyWithLegend) GroupUserItemInt(
+	group, user, item int,
+) string {
 	return it.GroupUserItem(user, group, item)
 }
 
-func (it *KeyWithLegend) GroupItem(group, item interface{}) string {
+func (it *KeyWithLegend) GroupItem(
+	group, item interface{},
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		GroupId:   fmt.Sprintf(constants.SprintValueFormat, group),
@@ -692,7 +778,9 @@ func (it *KeyWithLegend) GroupItem(group, item interface{}) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) StateItem(stateName, item interface{}) string {
+func (it *KeyWithLegend) StateItem(
+	stateName, item interface{},
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, stateName),
 		ItemId:    fmt.Sprintf(constants.SprintValueFormat, item),
@@ -706,7 +794,7 @@ func (it *KeyWithLegend) StateItem(stateName, item interface{}) string {
 //  Returns up to item without user.
 //  Chain sample KeyWithLegend, LegendChainSample
 //
-//  State, Group, State will be used from creation.
+//  State, Group will be used from creation.
 //
 // Example:
 //  - "{root}-{package}-{state}-{group}-{item}"
@@ -716,7 +804,9 @@ func (it *KeyWithLegend) StateItem(stateName, item interface{}) string {
 //
 // Conditions apply:
 //  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) GroupItemString(group, item string) string {
+func (it *KeyWithLegend) GroupItemString(
+	group, item string,
+) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		GroupId:   group,
@@ -726,7 +816,9 @@ func (it *KeyWithLegend) GroupItemString(group, item string) string {
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) GroupStateItemString(group, stateName, item string) string {
+func (it *KeyWithLegend) GroupStateItemString(
+	group, stateName, item string,
+) string {
 	request := KeyLegendCompileRequest{
 		GroupId:   group,
 		ItemId:    item,
@@ -736,7 +828,9 @@ func (it *KeyWithLegend) GroupStateItemString(group, stateName, item string) str
 	return it.CompileUsingRequest(request)
 }
 
-func (it *KeyWithLegend) StateItemString(stateName, item string) string {
+func (it *KeyWithLegend) StateItemString(
+	stateName, item string,
+) string {
 	request := KeyLegendCompileRequest{
 		GroupId:   it.groupName,
 		ItemId:    item,
@@ -750,6 +844,130 @@ func (it *KeyWithLegend) Compile(
 	itemId string,
 ) string {
 	return it.ItemString(itemId)
+}
+
+// CompileDefault
+//
+//  Returns up to item without user, group, state.
+//  Chain sample KeyWithLegend, LegendChainSample
+//
+//  Group, State will be used from creation.
+//
+// Example:
+//  - "{root}-{package}-{state}-{group}"
+//
+// Missing:
+//  - "{user}-{item}"
+//
+// Conditions apply:
+//  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
+func (it *KeyWithLegend) CompileDefault() string {
+	request := KeyLegendCompileRequest{
+		StateName: it.stateName,
+		GroupId:   it.groupName,
+	}
+
+	return it.CompileUsingRequest(request)
+}
+
+// CompileUsingJoiner
+//
+//  Returns up to item without user, group, state.
+//  Chain sample KeyWithLegend, LegendChainSample
+//
+//  State, Group will be used from creation.
+//
+// Example:
+//  - "{root}-{package}-{state}-{group}"
+//
+// Missing:
+//  - "{user}-{item}"
+//
+// Conditions apply:
+//  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
+func (it *KeyWithLegend) CompileUsingJoiner(
+	joiner string,
+) string {
+	request := KeyLegendCompileRequest{
+		StateName: it.stateName,
+		GroupId:   it.groupName,
+	}
+
+	finalItems := it.FinalStrings(request)
+
+	return strings.Join(finalItems, joiner)
+}
+
+// CompileStrings
+//
+//  Returns up to item without user, group, state.
+//  Chain sample KeyWithLegend, LegendChainSample
+//
+//  State, Group will be used from creation.
+//
+// Example:
+//  - "{root}-{package}-{state}-{group}"
+//
+// Missing:
+//  - "{user}-{item}"
+//
+// Conditions apply:
+//  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
+func (it *KeyWithLegend) CompileStrings() []string {
+	request := KeyLegendCompileRequest{
+		StateName: it.stateName,
+		GroupId:   it.groupName,
+	}
+
+	return it.FinalStrings(request)
+}
+
+// Strings
+//
+//  Returns up to item without user, group, state.
+//  Chain sample KeyWithLegend, LegendChainSample
+//
+//  State, Group will be used from creation.
+//
+// Example:
+//  - "{root}-{package}-{state}-{group}"
+//
+// Missing:
+//  - "{user}-{item}"
+//
+// Conditions apply:
+//  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
+func (it *KeyWithLegend) Strings() []string {
+	return it.CompileStrings()
+}
+
+// CompileItemUsingJoiner
+//
+//  Returns up to item without user, group, state.
+//  Chain sample KeyWithLegend, LegendChainSample
+//
+//  State, Group will be used from creation.
+//
+// Example:
+//  - "{root}-{package}-{state}-{group}"
+//
+// Missing:
+//  - "{user}-{item}"
+//
+// Conditions apply:
+//  - if Option.IsSkipEmptyEntry then empty input wil be ignored.
+func (it *KeyWithLegend) CompileItemUsingJoiner(
+	joiner, item string,
+) string {
+	request := KeyLegendCompileRequest{
+		StateName: it.stateName,
+		GroupId:   it.groupName,
+		ItemId:    item,
+	}
+
+	finalItems := it.FinalStrings(request)
+
+	return strings.Join(finalItems, joiner)
 }
 
 // CompileUsingRequest

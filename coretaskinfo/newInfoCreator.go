@@ -68,7 +68,7 @@ func (it newInfoCreator) Create(
 		ExampleUrl:    exampleUrl,
 		SingleExample: chainingExample,
 		Examples:      examples,
-		ExcludeOptions: ExcludingOptions{
+		ExcludeOptions: &ExcludingOptions{
 			IsSecureText: isSecure,
 		},
 	}
@@ -90,7 +90,7 @@ func (it newInfoCreator) SecureCreate(
 		ExampleUrl:    exampleUrl,
 		SingleExample: chainingExample,
 		Examples:      examples,
-		ExcludeOptions: ExcludingOptions{
+		ExcludeOptions: &ExcludingOptions{
 			IsSecureText: true,
 		},
 	}

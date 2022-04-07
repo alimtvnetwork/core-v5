@@ -1,6 +1,9 @@
 package chmodhelper
 
-import "sync"
+import (
+	"os"
+	"sync"
+)
 
 var (
 	SimpleFileWriter = simpleFileWriter{}
@@ -8,4 +11,5 @@ var (
 	ChmodApply       = chmodApplier{}
 	ChmodVerify      = chmodVerifier{}
 	globalMutex      = sync.Mutex{}
+	TempDirDefault   = os.TempDir()
 )

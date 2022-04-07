@@ -82,6 +82,27 @@ func (it newInfoPlainTextCreator) Examples(
 	}
 }
 
+func (it newInfoPlainTextCreator) NameUrlExamples(
+	name, url string,
+	examples ...string,
+) *Info {
+	return &Info{
+		RootName: name,
+		Url:      url,
+		Examples: examples,
+	}
+}
+
+func (it newInfoPlainTextCreator) UrlExamples(
+	url string,
+	examples ...string,
+) *Info {
+	return &Info{
+		Url:      url,
+		Examples: examples,
+	}
+}
+
 func (it newInfoPlainTextCreator) ExamplesOnly(
 	examples ...string,
 ) *Info {
