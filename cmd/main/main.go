@@ -63,8 +63,8 @@ func main() {
 	// fmt.Println(issetter.True.AllNameValues())
 
 	// SimpleStringOnceChecker(100)
-	// readWriteTest01()
-	// 	infoCreateExample01()
+	readWriteTest01()
+	infoCreateExample01()
 	lazyRegExTester01()
 	fmt.Println(bytetype.New(1).StringValue())
 }

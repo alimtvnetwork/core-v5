@@ -113,7 +113,7 @@ func (it *Info) IsIncludeExamples() bool {
 }
 
 func (it *Info) IsSecure() bool {
-	return it != nil && it.ExcludeOptions.IsSecureText
+	return it != nil && it.ExcludeOptions.IsSafeSecureText()
 }
 
 func (it *Info) IsPlainText() bool {
@@ -125,7 +125,7 @@ func (it *Info) IsIncludePayloads() bool {
 }
 
 func (it *Info) IsExcludePayload() bool {
-	return it != nil && it.ExcludeOptions.IsSecureText
+	return it != nil && it.ExcludeOptions.IsSafeSecureText()
 }
 
 // IsExcludeRootName
@@ -136,7 +136,7 @@ func (it *Info) IsExcludePayload() bool {
 //  return false on null
 func (it *Info) IsExcludeRootName() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeRootName
+		it.ExcludeOptions.IsSafeExcludeRootName()
 }
 
 // IsExcludeDescription
@@ -147,7 +147,7 @@ func (it *Info) IsExcludeRootName() bool {
 //  return false on null
 func (it *Info) IsExcludeDescription() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeDescription
+		it.ExcludeOptions.IsSafeExcludeDescription()
 }
 
 // IsExcludeUrl
@@ -158,7 +158,7 @@ func (it *Info) IsExcludeDescription() bool {
 //  return false on null
 func (it *Info) IsExcludeUrl() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeUrl
+		it.ExcludeOptions.IsSafeExcludeUrl()
 }
 
 // IsExcludeHintUrl
@@ -169,7 +169,7 @@ func (it *Info) IsExcludeUrl() bool {
 //  return false on null
 func (it *Info) IsExcludeHintUrl() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeHintUrl
+		it.ExcludeOptions.IsSafeExcludeHintUrl()
 }
 
 // IsExcludeErrorUrl
@@ -180,7 +180,7 @@ func (it *Info) IsExcludeHintUrl() bool {
 //  return false on null
 func (it *Info) IsExcludeErrorUrl() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeErrorUrl
+		it.ExcludeOptions.IsSafeExcludeErrorUrl()
 }
 
 // IsExcludeAdditionalErrorWrap
@@ -190,7 +190,8 @@ func (it *Info) IsExcludeErrorUrl() bool {
 //
 //  return false on null
 func (it *Info) IsExcludeAdditionalErrorWrap() bool {
-	return it != nil && it.ExcludeOptions.IsExcludeAdditionalErrorWrap
+	return it != nil &&
+		it.ExcludeOptions.IsSafeExcludeAdditionalErrorWrap()
 }
 
 // IsExcludeExampleUrl
@@ -198,7 +199,7 @@ func (it *Info) IsExcludeAdditionalErrorWrap() bool {
 //  return true on null
 func (it *Info) IsExcludeExampleUrl() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeExampleUrl
+		it.ExcludeOptions.IsSafeExcludeExampleUrl()
 }
 
 // IsExcludeSingleExample
@@ -206,7 +207,7 @@ func (it *Info) IsExcludeExampleUrl() bool {
 //  return true on null
 func (it *Info) IsExcludeSingleExample() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeSingleExample
+		it.ExcludeOptions.IsSafeExcludeSingleExample()
 }
 
 // IsExcludeExamples
@@ -214,7 +215,7 @@ func (it *Info) IsExcludeSingleExample() bool {
 //  return true on null
 func (it *Info) IsExcludeExamples() bool {
 	return it != nil &&
-		it.ExcludeOptions.IsExcludeExamples
+		it.ExcludeOptions.IsSafeExcludeExamples()
 }
 
 func (it *Info) Name() string {
@@ -466,7 +467,7 @@ func (it Info) Clone() Info {
 		ExampleUrl:     it.ExampleUrl,
 		SingleExample:  it.SingleExample,
 		Examples:       it.Examples,
-		ExcludeOptions: it.ExcludeOptions,
+		ExcludeOptions: it.ExcludeOptions.ClonePtr(),
 	}
 }
 
@@ -484,7 +485,7 @@ func (it *Info) ClonePtr() *Info {
 		ExampleUrl:     it.ExampleUrl,
 		SingleExample:  it.SingleExample,
 		Examples:       it.Examples,
-		ExcludeOptions: it.ExcludeOptions,
+		ExcludeOptions: it.ExcludeOptions.ClonePtr(),
 	}
 }
 

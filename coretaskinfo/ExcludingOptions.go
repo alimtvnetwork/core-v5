@@ -13,6 +13,46 @@ type ExcludingOptions struct {
 	IsSecureText bool // indicates secure text, invert means log payload, plain text. it will not log payload
 }
 
+func (it *ExcludingOptions) IsSafeExcludeRootName() bool {
+	return it != nil && it.IsExcludeRootName
+}
+
+func (it *ExcludingOptions) IsSafeExcludeDescription() bool {
+	return it != nil && it.IsExcludeDescription
+}
+
+func (it *ExcludingOptions) IsSafeExcludeUrl() bool {
+	return it != nil && it.IsExcludeUrl
+}
+
+func (it *ExcludingOptions) IsSafeExcludeErrorUrl() bool {
+	return it != nil && it.IsExcludeErrorUrl
+}
+
+func (it *ExcludingOptions) IsSafeExcludeAdditionalErrorWrap() bool {
+	return it != nil && it.IsExcludeAdditionalErrorWrap
+}
+
+func (it *ExcludingOptions) IsSafeExcludeHintUrl() bool {
+	return it != nil && it.IsExcludeHintUrl
+}
+
+func (it *ExcludingOptions) IsSafeExcludeExampleUrl() bool {
+	return it != nil && it.IsExcludeExampleUrl
+}
+
+func (it *ExcludingOptions) IsSafeExcludeSingleExample() bool {
+	return it != nil && it.IsExcludeSingleExample
+}
+
+func (it *ExcludingOptions) IsSafeExcludeExamples() bool {
+	return it != nil && it.IsExcludeExamples
+}
+
+func (it *ExcludingOptions) IsSafeSecureText() bool {
+	return it != nil && it.IsSecureText
+}
+
 func (it *ExcludingOptions) SetSecure() *ExcludingOptions {
 	if it == nil {
 		return &ExcludingOptions{
