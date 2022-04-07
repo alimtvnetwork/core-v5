@@ -105,6 +105,49 @@ func (it deserializerLogic) FromString(
 		toPtr)
 }
 
+// FromTo
+//
+// Giving nil is not support from to.
+//
+// Warning: must check nil before for from, to both.
+//
+// Casting from to steps:
+//  - reflection first if equal type + right ptr and not nil.
+//  - []byte
+//  - string
+//  - Jsoner
+//  - Result
+//  - *Result
+//  - bytesSerializer
+//  - serializerFunc
+//  - error to string then cast from json string then to actual unmarshal
+func (it deserializerLogic) FromTo(
+	fromAny interface{},
+	toPtr interface{},
+) error {
+	return CastAny.FromToDefault(
+		fromAny,
+		toPtr)
+}
+
+func (it deserializerLogic) MapAnyToPointer(
+	isSkipOnEmpty bool,
+	currentItemMap map[string]interface{},
+	toPtr interface{},
+) error {
+	if isSkipOnEmpty && len(currentItemMap) == 0 {
+		return nil
+	}
+
+	jsonResult := New(currentItemMap)
+
+	if jsonResult.HasIssuesOrEmpty() {
+		return jsonResult.MeaningfulError()
+	}
+
+	return jsonResult.Deserialize(toPtr)
+}
+
 func (it deserializerLogic) UsingStringOption(
 	isIgnoreEmptyString bool,
 	jsonString string,
