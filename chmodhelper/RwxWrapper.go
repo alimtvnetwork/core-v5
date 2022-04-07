@@ -15,7 +15,6 @@ import (
 	"gitlab.com/evatix-go/core/coredata/corejson"
 	"gitlab.com/evatix-go/core/errcore"
 	"gitlab.com/evatix-go/core/internal/fsinternal"
-	"gitlab.com/evatix-go/core/internal/messages"
 	"gitlab.com/evatix-go/core/osconsts"
 )
 
@@ -208,30 +207,46 @@ func (it *RwxWrapper) ToFileMode() os.FileMode {
 
 func (it *RwxWrapper) ApplyChmod(
 	isSkipOnInvalid bool,
-	fileOrDirectoryPath string,
+	location string,
 ) error {
-	isFileExist := fsinternal.IsPathExists(fileOrDirectoryPath)
+	isPathInvalid := fsinternal.IsPathInvalid(
+		location)
 
-	if isSkipOnInvalid && !isFileExist {
+	if isSkipOnInvalid && isPathInvalid {
 		return nil
 	}
 
-	if !isSkipOnInvalid && !isFileExist {
-		return errcore.
-			PathInvalidErrorType.
-			Error(
-				messages.PathNotExist, fileOrDirectoryPath)
+	fileMode := it.ToFileMode()
+
+	if isPathInvalid {
+		return pathError(
+			"apply chmod failed because path doesn't exist and skip on invalid is not enabled",
+			fileMode,
+			location,
+			errors.New("invalid path"))
 	}
 
-	err := os.Chmod(fileOrDirectoryPath, it.ToFileMode())
+	err := os.Chmod(
+		location,
+		fileMode)
 
 	if err != nil {
-		return errcore.
-			PathChmodApplyType.
-			Error(err.Error(), fileOrDirectoryPath)
+		return pathError(
+			"apply chmod failed",
+			fileMode,
+			location,
+			err)
 	}
 
 	return nil
+}
+
+func (it *RwxWrapper) ApplyChmodSkipInvalid(
+	location string,
+) error {
+	return it.ApplyChmod(
+		true,
+		location)
 }
 
 // LinuxApplyRecursive skip if it is a non dir path

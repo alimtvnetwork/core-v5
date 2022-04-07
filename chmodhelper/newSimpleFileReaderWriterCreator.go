@@ -23,10 +23,38 @@ func (it newSimpleFileReaderWriterCreator) Create(
 	absFilePath string,
 ) *SimpleFileReaderWriter {
 	return &SimpleFileReaderWriter{
-		ChmodDir:  chmodDir,
-		ChmodFile: chmodFile,
-		ParentDir: absParentDir,
-		FilePath:  absFilePath,
+		ChmodDir:               chmodDir,
+		ChmodFile:              chmodFile,
+		ParentDir:              absParentDir,
+		FilePath:               absFilePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
+	}
+}
+
+// All
+//
+// Arguments:
+// 	- chmodDir     : applying on parentDir
+// 	- chmodFile    : applying on file
+// 	- absParentDir : absolute parentDir ( it can be two level before ),
+// 	    it doesn't have to be relative to absFilePath but can be relative.
+// 	- absFilePath  : absolute file path
+func (it newSimpleFileReaderWriterCreator) All(
+	chmodDir,
+	chmodFile os.FileMode,
+	isApplyChmodMust bool,
+	isApplyOnMismatch bool,
+	absParentDir,
+	absFilePath string,
+) *SimpleFileReaderWriter {
+	return &SimpleFileReaderWriter{
+		ChmodDir:               chmodDir,
+		ChmodFile:              chmodFile,
+		ParentDir:              absParentDir,
+		FilePath:               absFilePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
 	}
 }
 
@@ -51,10 +79,12 @@ func (it newSimpleFileReaderWriterCreator) CreateClean(
 	filePath = path.Clean(filePath)
 
 	return &SimpleFileReaderWriter{
-		ChmodDir:  chmodDir,
-		ChmodFile: chmodFile,
-		ParentDir: parentDir,
-		FilePath:  filePath,
+		ChmodDir:               chmodDir,
+		ChmodFile:              chmodFile,
+		ParentDir:              parentDir,
+		FilePath:               filePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
 	}
 }
 
@@ -74,10 +104,12 @@ func (it newSimpleFileReaderWriterCreator) Default(
 	parentDir := filepath.Dir(absFilePath)
 
 	return &SimpleFileReaderWriter{
-		ChmodDir:  dirDefaultChmod,
-		ChmodFile: fileDefaultChmod,
-		ParentDir: parentDir,
-		FilePath:  absFilePath,
+		ChmodDir:               dirDefaultChmod,
+		ChmodFile:              fileDefaultChmod,
+		ParentDir:              parentDir,
+		FilePath:               absFilePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
 	}
 }
 
@@ -101,10 +133,12 @@ func (it newSimpleFileReaderWriterCreator) DefaultCleanPath(
 	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
-		ChmodDir:  dirDefaultChmod,
-		ChmodFile: fileDefaultChmod,
-		ParentDir: parentDir,
-		FilePath:  filePath,
+		ChmodDir:               dirDefaultChmod,
+		ChmodFile:              fileDefaultChmod,
+		ParentDir:              parentDir,
+		FilePath:               filePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
 	}
 }
 
@@ -123,10 +157,12 @@ func (it newSimpleFileReaderWriterCreator) Path(
 	parentDir := filepath.Dir(absFilePath)
 
 	return &SimpleFileReaderWriter{
-		ChmodDir:  chmodDir,
-		ChmodFile: chmodFile,
-		ParentDir: parentDir,
-		FilePath:  absFilePath,
+		ChmodDir:               chmodDir,
+		ChmodFile:              chmodFile,
+		ParentDir:              parentDir,
+		FilePath:               absFilePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
 	}
 }
 
@@ -143,10 +179,12 @@ func (it newSimpleFileReaderWriterCreator) PathCondition(
 	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
-		ChmodDir:  chmodDir,
-		ChmodFile: chmodFile,
-		ParentDir: parentDir,
-		FilePath:  filePath,
+		ChmodDir:               chmodDir,
+		ChmodFile:              chmodFile,
+		ParentDir:              parentDir,
+		FilePath:               filePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
 	}
 }
 
@@ -160,9 +198,11 @@ func (it newSimpleFileReaderWriterCreator) PathDirDefaultChmod(
 	parentDir := filepath.Dir(filePath)
 
 	return &SimpleFileReaderWriter{
-		ChmodDir:  dirDefaultChmod,
-		ChmodFile: chmodFile,
-		ParentDir: parentDir,
-		FilePath:  filePath,
+		ChmodDir:               dirDefaultChmod,
+		ChmodFile:              chmodFile,
+		ParentDir:              parentDir,
+		FilePath:               filePath,
+		IsMustChmodApplyOnFile: true,
+		IsApplyChmodOnMismatch: true,
 	}
 }

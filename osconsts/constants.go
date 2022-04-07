@@ -43,5 +43,5 @@ const (
 	LinuxHome                 = osconstsinternal.LinuxHome
 	LinuxHomeSlash            = osconstsinternal.LinuxHomeSlash
 	LinuxBin                  = osconstsinternal.LinuxBin
-	LinuxPermanentTemp        = osconstsinternal.LinuxPermanentTemp
+	LinuxPermanentTemp        = osconstsinternal.LinuxPermanentTemp // https://prnt.sc/gW0DA5d4jt6R, unix : /var/tmp/
 )

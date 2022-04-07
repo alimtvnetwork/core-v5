@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -15,9 +16,35 @@ import (
 )
 
 type SimpleFileReaderWriter struct {
-	ChmodDir, ChmodFile os.FileMode
-	ParentDir           string // full path to the parent dir
-	FilePath            string // full path to the actual file to write to or read from.
+	ChmodDir, ChmodFile    os.FileMode
+	ParentDir              string // full path to the parent dir
+	FilePath               string // full path to the actual file to write to or read from.
+	IsMustChmodApplyOnFile bool
+	IsApplyChmodOnMismatch bool
+}
+
+func (it SimpleFileReaderWriter) InitializeDefault(
+	isMustApplyChmod bool,
+) *SimpleFileReaderWriter {
+	filePath := path.Clean(it.FilePath)
+	parentDir := it.ParentDir
+
+	if parentDir == "" {
+		parentDir = filepath.Dir(filePath)
+	}
+
+	return &SimpleFileReaderWriter{
+		ChmodDir:               it.ChmodDir,
+		ChmodFile:              it.ChmodFile,
+		ParentDir:              parentDir,
+		FilePath:               filePath,
+		IsMustChmodApplyOnFile: isMustApplyChmod,
+		IsApplyChmodOnMismatch: true,
+	}
+}
+
+func (it SimpleFileReaderWriter) InitializeDefaultApplyChmod() *SimpleFileReaderWriter {
+	return it.InitializeDefault(true)
 }
 
 func (it SimpleFileReaderWriter) IsParentExist() bool {
@@ -63,6 +90,8 @@ func (it SimpleFileReaderWriter) Write(allBytes []byte) error {
 	err := SimpleFileWriter.WriteFile(
 		it.ChmodDir,
 		it.ChmodFile,
+		it.IsMustChmodApplyOnFile,
+		it.IsApplyChmodOnMismatch,
 		true,
 		it.ParentDir,
 		it.FilePath,
@@ -109,6 +138,8 @@ func (it SimpleFileReaderWriter) WriteString(content string) error {
 	err := SimpleFileWriter.WriteFileString(
 		it.ChmodDir,
 		it.ChmodFile,
+		it.IsMustChmodApplyOnFile,
+		it.IsApplyChmodOnMismatch,
 		true,
 		it.ParentDir,
 		it.FilePath,

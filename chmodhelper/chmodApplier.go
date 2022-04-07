@@ -21,6 +21,35 @@ func (it chmodApplier) Default(
 		location)
 }
 
+func (it chmodApplier) SkipInvalidFile(
+	fileMode os.FileMode,
+	location string,
+) error {
+	rwx := New.RwxWrapper.UsingFileModePtr(
+		fileMode)
+
+	return rwx.ApplyChmod(
+		true,
+		location)
+}
+
+func (it chmodApplier) ApplyIf(
+	isApply bool,
+	fileMode os.FileMode,
+	location string,
+) error {
+	if !isApply {
+		return nil
+	}
+
+	rwx := New.RwxWrapper.UsingFileModePtr(
+		fileMode)
+
+	return rwx.ApplyChmod(
+		false,
+		location)
+}
+
 func (it chmodApplier) Options(
 	isSkipInvalidPaths,
 	isRecursive bool,

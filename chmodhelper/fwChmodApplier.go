@@ -1,8 +1,6 @@
 package chmodhelper
 
 import (
-	"errors"
-	"fmt"
 	"os"
 
 	"gitlab.com/evatix-go/core/errcore"
@@ -40,19 +38,48 @@ func (it fwChmodApplier) Apply(
 		return nil
 	}
 
-	message := fmt.Sprintf(
-		"applying chmod failed, path : %q, chmod: %q, is-file-exist: %v, err: %s",
-		location,
-		FileModeFriendlyString(fileMode),
-		IsPathExists(location),
-		err.Error())
-
 	// has error
-	return errors.New(message)
+	return pathError(
+		"applying chmod failed",
+		fileMode,
+		location,
+		err)
 }
 
-func (it fwChmodApplier) OnDiffFile(filePath string) error {
-	return os.Chmod(filePath, it.rw.ChmodFile)
+// OnDiffFile
+//
+//  apply chmod on file if file doesn't have the save chmod
+func (it fwChmodApplier) OnDiffFile(
+	isSkipOnInvalidFile bool,
+	filePath string,
+) error {
+	if ChmodVerify.IsEqual(filePath, it.rw.ChmodFile) {
+		return nil
+	}
+
+	if isSkipOnInvalidFile && IsPathInvalid(filePath) {
+		return nil
+	}
+
+	return it.Apply(it.rw.ChmodFile, filePath)
+}
+
+// OnDiffDir
+//
+//  apply chmod on file if file doesn't have the save chmod
+func (it fwChmodApplier) OnDiffDir(
+	isSkipOnInvalidDir bool,
+	dirPath string,
+) error {
+	if ChmodVerify.IsEqual(dirPath, it.rw.ChmodDir) {
+		return nil
+	}
+
+	if isSkipOnInvalidDir && IsPathInvalid(dirPath) {
+		return nil
+	}
+
+	return it.Apply(it.rw.ChmodDir, dirPath)
 }
 
 // OnAll

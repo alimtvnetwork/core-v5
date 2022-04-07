@@ -11,6 +11,6 @@ var (
 	ChmodApply       = chmodApplier{}
 	ChmodVerify      = chmodVerifier{}
 	globalMutex      = sync.Mutex{}
-	TempDirDefault   = os.TempDir()
+	TempDirDefault   = os.TempDir() // eg. unix : /tmp, windows: %temp%
 	TempDirGetter    = tempDirGetter{}
 )

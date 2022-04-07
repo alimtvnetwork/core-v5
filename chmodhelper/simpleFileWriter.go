@@ -10,6 +10,8 @@ import (
 	"reflect"
 
 	"gitlab.com/evatix-go/core/constants"
+	"gitlab.com/evatix-go/core/coredata/corejson"
+	"gitlab.com/evatix-go/core/internal/osconstsinternal"
 )
 
 type simpleFileWriter struct{}
@@ -64,10 +66,11 @@ func (it simpleFileWriter) CreateDirOnRequired(
 	}
 
 	// has err
-	return errors.New(
-		"dir : " + dirPath +
-			", applyChmod :" + applyChmod.String() +
-			", " + err.Error())
+	return pathError(
+		"dir creation failed",
+		applyChmod,
+		dirPath,
+		err)
 }
 
 func (it simpleFileWriter) CreateDirLock(
@@ -145,6 +148,8 @@ func (it simpleFileWriter) CreateDirDefault(
 func (it simpleFileWriter) WriteFileLock(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
+	isApplyChmodMust,
+	isApplyChmodOnMismatch bool, // only apply for file, dir will not be applied if already created
 	isCreateDirOnRequired bool,
 	parentDirPath string,
 	writingFilePath string,
@@ -156,6 +161,8 @@ func (it simpleFileWriter) WriteFileLock(
 	return it.WriteFile(
 		chmodDir,
 		chmodFile,
+		isApplyChmodMust,
+		isApplyChmodOnMismatch,
 		isCreateDirOnRequired,
 		parentDirPath,
 		writingFilePath,
@@ -172,9 +179,15 @@ func (it simpleFileWriter) WriteFileLock(
 //
 // writingFilePath:
 //  - is a full path to the actual file where to write contents
+//
+// Warning:
+//  - Chmod will NOT be applied to dir if already created.
+//    This may harm other files.
 func (it simpleFileWriter) WriteFile(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
+	isApplyChmodMust,
+	isApplyChmodOnMismatch bool, // only apply for file, dir will not be applied if already created
 	isCreateDirOnRequired bool,
 	parentDirPath string,
 	writingFilePath string,
@@ -194,24 +207,29 @@ func (it simpleFileWriter) WriteFile(
 		contentsBytes,
 		chmodFile)
 
-	if err == nil {
+	if err != nil {
+		return errors.New(
+			"file writing failed" +
+				"filePath : " + writingFilePath +
+				"contents : " + corejson.BytesToString(contentsBytes) +
+				", chmod file :" + chmodFile.String() + ", " +
+				", chmod dir :" + chmodDir.String() + ", " +
+				err.Error())
+	}
+
+	isNotApplyChmod := !isApplyChmodMust
+
+	if isNotApplyChmod || osconstsinternal.IsWindows {
 		return nil
 	}
 
-	var contentsString string
-
-	if len(contentsBytes) > 0 {
-		contentsString = string(contentsBytes)
+	// unix, must chmod
+	if isApplyChmodOnMismatch && ChmodVerify.IsEqual(writingFilePath, chmodFile) {
+		return nil
 	}
 
-	// has err
-	return errors.New(
-		"file writing failed" +
-			"filePath : " + writingFilePath +
-			"contents : " + contentsString +
-			", chmod file :" + chmodFile.String() + ", " +
-			", chmod dir :" + chmodDir.String() + ", " +
-			err.Error())
+	// not equal or apply anyway
+	return ChmodApply.Default(chmodFile, writingFilePath)
 }
 
 // WriteFileString
@@ -227,6 +245,8 @@ func (it simpleFileWriter) WriteFile(
 func (it simpleFileWriter) WriteFileString(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
+	isApplyChmodMust,
+	isApplyChmodOnMismatch bool, // only apply for file, dir will not be applied if already created
 	isCreateDirOnRequired bool,
 	parentDirPath string,
 	writingFilePath string,
@@ -235,6 +255,8 @@ func (it simpleFileWriter) WriteFileString(
 	return it.WriteFile(
 		chmodDir,
 		chmodFile,
+		isApplyChmodMust,
+		isApplyChmodOnMismatch,
 		isCreateDirOnRequired,
 		parentDirPath,
 		writingFilePath,
@@ -306,6 +328,8 @@ func (it simpleFileWriter) WriteFileCreateDir(
 	return it.WriteFile(
 		chmodDir,
 		chmodFile,
+		true,
+		true,
 		true,
 		parentDir,
 		writingFilePath,
@@ -393,6 +417,8 @@ func (it simpleFileWriter) WriteAnyItem(
 		return it.WriteFile(
 			chmodDir,
 			chmodFile,
+			true,
+			true,
 			true,
 			parentDir,
 			writingFilePath,

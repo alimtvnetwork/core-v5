@@ -45,6 +45,6 @@ const (
 	LinuxHome                 = "/home"
 	LinuxHomeSlash            = "/home/"
 	LinuxBin                  = "/bin"
-	LinuxPermanentTemp        = "/var/tmp/"
+	LinuxPermanentTemp        = "/var/tmp/"         // https://prnt.sc/gW0DA5d4jt6R, unix : /var/tmp/
 	WindowsPermanentTemp      = "c:\\Windows\\Temp" // or %temp% expand
 )
