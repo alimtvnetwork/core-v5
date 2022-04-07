@@ -96,6 +96,15 @@ func (it deserializerLogic) UsingString(
 		toPtr)
 }
 
+func (it deserializerLogic) FromString(
+	jsonString string,
+	toPtr interface{},
+) error {
+	return it.UsingBytes(
+		[]byte(jsonString),
+		toPtr)
+}
+
 func (it deserializerLogic) UsingStringOption(
 	isIgnoreEmptyString bool,
 	jsonString string,
