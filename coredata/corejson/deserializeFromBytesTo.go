@@ -120,7 +120,10 @@ func (it deserializeFromBytesTo) StringMust(
 func (it deserializeFromBytesTo) MapAnyItem(
 	rawBytes []byte,
 ) (mapAnyItem map[string]interface{}, err error) {
-	err = Deserialize.UsingBytes(rawBytes, &mapAnyItem)
+	mapAnyItem = map[string]interface{}{}
+	err = Deserialize.UsingBytes(
+		rawBytes,
+		&mapAnyItem)
 
 	return mapAnyItem, err
 }
@@ -128,6 +131,7 @@ func (it deserializeFromBytesTo) MapAnyItem(
 func (it deserializeFromBytesTo) MapAnyItemMust(
 	rawBytes []byte,
 ) (mapAnyItem map[string]interface{}) {
+	mapAnyItem = map[string]interface{}{}
 	err := Deserialize.UsingBytes(
 		rawBytes,
 		&mapAnyItem)
@@ -140,6 +144,7 @@ func (it deserializeFromBytesTo) MapAnyItemMust(
 func (it deserializeFromBytesTo) MapStringString(
 	rawBytes []byte,
 ) (mappedItems map[string]string, err error) {
+	mappedItems = map[string]string{}
 	err = Deserialize.UsingBytes(
 		rawBytes,
 		&mappedItems)
@@ -150,6 +155,7 @@ func (it deserializeFromBytesTo) MapStringString(
 func (it deserializeFromBytesTo) MapStringStringMust(
 	rawBytes []byte,
 ) (mappedItems map[string]string) {
+	mappedItems = map[string]string{}
 	err := Deserialize.UsingBytes(
 		rawBytes,
 		&mappedItems)

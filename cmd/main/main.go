@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/evatix-go/core/bytetype"
+	"gitlab.com/evatix-go/core/coredata/corejson"
 )
 
 func main() {
@@ -63,8 +63,28 @@ func main() {
 	// fmt.Println(issetter.True.AllNameValues())
 
 	// SimpleStringOnceChecker(100)
-	readWriteTest01()
-	infoCreateExample01()
-	lazyRegExTester01()
-	fmt.Println(bytetype.New(1).StringValue())
+	// readWriteTest01()
+	// infoCreateExample01()
+	// lazyRegExTester01()
+	// fmt.Println(bytetype.New(1).StringValue())
+	jsonReadWriteTest01()
+}
+
+func jsonReadWriteTest01() {
+	results := corejson.
+		NewResultsCollection.
+		Default()
+
+	results.
+		AddAny("hello something").
+		AddAny([]int{
+			1, 2, 3,
+		}).
+		AddAny([]string{
+			"some",
+			"hello2",
+		})
+
+	json := results.Json()
+	fmt.Println(json.JsonString())
 }

@@ -22,6 +22,39 @@ type Result struct {
 	TypeName   string
 }
 
+func (it *Result) MarshalJSON() (jsonBytes []byte, parsedErr error) {
+	if it == nil {
+		return []byte{}, defaulterr.JsonResultNull
+	}
+
+	model := resultModel{
+		Bytes:    it.JsonString(),
+		Error:    it.Error,
+		TypeName: it.TypeName,
+	}
+
+	return json.Marshal(model)
+}
+
+func (it *Result) UnmarshalJSON(rawJsonBytes []byte) error {
+	if it == nil {
+		return defaulterr.JsonResultNull
+	}
+
+	var model resultModel
+	err := json.Unmarshal(
+		rawJsonBytes,
+		&model)
+
+	if err == nil {
+		it.Bytes = []byte(model.Bytes)
+		it.Error = model.Error
+		it.TypeName = model.TypeName
+	}
+
+	return err
+}
+
 func (it *Result) Map() map[string]string {
 	if it == nil {
 		return map[string]string{}
@@ -54,9 +87,26 @@ func (it *Result) DeserializedFieldsToMap() (
 		return map[string]interface{}{}, nil
 	}
 
+	fieldsMap = map[string]interface{}{}
 	parsingErr = it.Deserialize(fieldsMap)
 
 	return fieldsMap, parsingErr
+}
+
+func (it *Result) DeserializedMappedFields() (
+	mappedFields MappedFields,
+	parsingErr error,
+) {
+	fieldsMap, parsingErr := it.DeserializedFieldsToMap()
+
+	if parsingErr != nil {
+		return MappedFields{}, parsingErr
+	}
+
+	return MappedFields{
+		TypeName:  it.TypeName,
+		FieldsMap: fieldsMap,
+	}, parsingErr
 }
 
 // SafeDeserializedFieldsToMap
@@ -936,5 +986,8 @@ func (it Result) JsonParseSelfInject(
 }
 
 func (it Result) AsJsonParseSelfInjector() JsonParseSelfInjector {
+	return &it
+}
+func (it Result) AsJsonMarshaller() JsonMarshaller {
 	return &it
 }

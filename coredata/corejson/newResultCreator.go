@@ -106,6 +106,16 @@ func (it newResultCreator) UsingTypeBytesPtr(
 	}
 }
 
+func (it newResultCreator) UsingTypeBytes(
+	typeName string,
+	jsonBytes []byte,
+) Result {
+	return Result{
+		Bytes:    jsonBytes,
+		TypeName: typeName,
+	}
+}
+
 func (it newResultCreator) UsingBytesPtr(
 	jsonBytes *[]byte,
 ) *Result {

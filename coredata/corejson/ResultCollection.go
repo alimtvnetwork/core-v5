@@ -1,6 +1,7 @@
 package corejson
 
 import (
+	"encoding/json"
 	"errors"
 	"math"
 	"strings"
@@ -13,6 +14,41 @@ import (
 
 type ResultsCollection struct {
 	Items []Result `json:"JsonResultsCollection"`
+}
+
+func (it *ResultsCollection) MarshalJSON() (
+	jsonBytes []byte,
+	parsedErr error,
+) {
+	if it == nil {
+		return nil, errcore.
+			CannotBeNilType.
+			ErrorRefOnly("ResultsCollection")
+	}
+
+	return json.Marshal(
+		it.Items)
+}
+
+func (it *ResultsCollection) UnmarshalJSON(
+	rawJsonBytes []byte,
+) error {
+	if it == nil {
+		return errcore.
+			CannotBeNilType.
+			ErrorRefOnly("ResultsCollection")
+	}
+
+	var model []Result
+	err := json.Unmarshal(
+		rawJsonBytes,
+		&model)
+
+	if err == nil {
+		it.Items = model
+	}
+
+	return err
 }
 
 func (it *ResultsCollection) Length() int {
@@ -486,6 +522,28 @@ func (it *ResultsCollection) AddAny(
 	return it
 }
 
+func (it *ResultsCollection) AddBytes(
+	rawBytes []byte,
+) *ResultsCollection {
+	if rawBytes == nil {
+		return it
+	}
+
+	it.Items = append(
+		it.Items,
+		NewResult.UsingTypeBytes(
+			bytesFieldName,
+			rawBytes))
+
+	return it
+}
+
+func (it *ResultsCollection) AddStrings(
+	items ...string,
+) *ResultsCollection {
+	return it.AddAny(items)
+}
+
 // AddAnyItems Skip on nil
 func (it *ResultsCollection) AddAnyItems(
 	anyItems ...interface{},
@@ -743,11 +801,11 @@ func (it *ResultsCollection) JsonModelAny() interface{} {
 	return it.JsonModel()
 }
 
-func (it ResultsCollection) Json() Result {
+func (it *ResultsCollection) Json() Result {
 	return New(it)
 }
 
-func (it ResultsCollection) JsonPtr() *Result {
+func (it *ResultsCollection) JsonPtr() *Result {
 	return NewPtr(it)
 }
 
@@ -798,8 +856,12 @@ func (it *ResultsCollection) JsonParseSelfInject(
 	return err
 }
 
-func (it *ResultsCollection) AsJsonParseSelfInjector() JsonParseSelfInjector {
-	return it
+func (it ResultsCollection) AsJsonParseSelfInjector() JsonParseSelfInjector {
+	return &it
+}
+
+func (it ResultsCollection) AsJsonMarshaller() JsonMarshaller {
+	return &it
 }
 
 func (it ResultsCollection) ShadowClone() ResultsCollection {

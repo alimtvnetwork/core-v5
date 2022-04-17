@@ -283,3 +283,51 @@ func (it serializerLogic) ToPrettyStringIncludingErr(
 
 	return result.PrettyJsonStringOrErrString()
 }
+
+func (it serializerLogic) MapAnyItem(
+	rawBytes []byte,
+) (mapAnyItem map[string]interface{}, err error) {
+	mapAnyItem = map[string]interface{}{}
+	err = Deserialize.UsingBytes(
+		rawBytes,
+		&mapAnyItem)
+
+	return mapAnyItem, err
+}
+
+func (it serializerLogic) MapAnyItemMust(
+	rawBytes []byte,
+) (mapAnyItem map[string]interface{}) {
+	mapAnyItem = map[string]interface{}{}
+	err := Deserialize.UsingBytes(
+		rawBytes,
+		&mapAnyItem)
+
+	errcore.HandleErr(err)
+
+	return mapAnyItem
+}
+
+func (it serializerLogic) MapStringString(
+	rawBytes []byte,
+) (mappedItems map[string]string, err error) {
+	mappedItems = map[string]string{}
+	err = Deserialize.UsingBytes(
+		rawBytes,
+		&mappedItems)
+
+	return mappedItems, err
+}
+
+func (it serializerLogic) MapStringStringMust(
+	rawBytes []byte,
+) (mappedItems map[string]string) {
+	mappedItems = map[string]string{}
+	err := Deserialize.UsingBytes(
+		rawBytes,
+		&mappedItems)
+
+	errcore.HandleErr(err)
+
+	return mappedItems
+}

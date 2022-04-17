@@ -57,7 +57,7 @@ func (it anyTo) SerializedJsonResult(
 		}
 
 		return NewResult.UsingTypePlusString(
-			errTypeString,    // type
+			errTypeString, // type
 			castedTo.Error()) // json string
 	}
 
@@ -269,6 +269,82 @@ func (it anyTo) UsingSerializer(
 func (it anyTo) SerializedFieldsMap(
 	anyItem interface{},
 ) (fieldsMap map[string]interface{}, parsingErr error) {
-	return it.SerializedJsonResult(anyItem).
+	return it.
+		SerializedJsonResult(anyItem).
 		DeserializedFieldsToMap()
+}
+
+// SerializedFieldsMapFilter
+//
+//  usages json to bytes then use json to create fields map
+func (it anyTo) SerializedFieldsMapFilter(
+	isSkipInvalid bool,
+	anyItem interface{},
+	selectedFields ...string,
+) (fieldsMap map[string]interface{}, parsingErr error) {
+	currentMap, parsingErr := it.
+		SerializedJsonResult(anyItem).
+		DeserializedFieldsToMap()
+
+	if parsingErr != nil || len(currentMap) == 0 {
+		return currentMap, parsingErr
+	}
+
+	finalMap := make(map[string]interface{}, len(selectedFields))
+
+	for _, fieldName := range selectedFields {
+		currentVal, has := currentMap[fieldName]
+
+		if isSkipInvalid && !has {
+			continue
+		}
+
+		finalMap[fieldName] = currentVal
+	}
+
+	return finalMap, parsingErr
+}
+
+// SerializedFieldsMapSkipFilter
+//
+//  usages json to bytes then use json to create fields map
+func (it anyTo) SerializedFieldsMapSkipFilter(
+	anyItem interface{},
+	skipFieldNames ...string,
+) (fieldsMap map[string]interface{}, parsingErr error) {
+	currentMap, parsingErr := it.
+		SerializedJsonResult(anyItem).
+		DeserializedFieldsToMap()
+
+	if parsingErr != nil || len(currentMap) == 0 {
+		return currentMap, parsingErr
+	}
+
+	for _, skipFieldName := range skipFieldNames {
+		_, has := currentMap[skipFieldName]
+
+		if has {
+			delete(currentMap, skipFieldName)
+		}
+	}
+
+	return currentMap, parsingErr
+}
+
+
+
+// SerializedMappedFields
+//
+//  usages json to bytes then use json to create fields map
+func (it anyTo) SerializedMappedFields(
+	anyItem interface{},
+) (mappedFields MappedFields, parsingErr error) {
+	currentMap, parsingErr := it.
+		SerializedJsonResult(anyItem).
+		DeserializedFieldsToMap()
+
+	return MappedFields{
+		TypeName:  reflectinternal.TypeName(anyItem),
+		FieldsMap: currentMap,
+	}, parsingErr
 }

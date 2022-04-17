@@ -1,6 +1,7 @@
 package corejson
 
 import (
+	"encoding/json"
 	"errors"
 	"math"
 	"strings"
@@ -13,6 +14,41 @@ import (
 
 type ResultsPtrCollection struct {
 	Items []*Result `json:"JsonResultsCollection"`
+}
+
+func (it *ResultsPtrCollection) MarshalJSON() (
+	jsonBytes []byte,
+	parsedErr error,
+) {
+	if it == nil {
+		return nil, errcore.
+			CannotBeNilType.
+			ErrorRefOnly("ResultsCollection")
+	}
+
+	return json.Marshal(
+		it.Items)
+}
+
+func (it *ResultsPtrCollection) UnmarshalJSON(
+	rawJsonBytes []byte,
+) error {
+	if it == nil {
+		return errcore.
+			CannotBeNilType.
+			ErrorRefOnly("ResultsCollection")
+	}
+
+	var model []*Result
+	err := json.Unmarshal(
+		rawJsonBytes,
+		&model)
+
+	if err == nil {
+		it.Items = model
+	}
+
+	return err
 }
 
 func (it *ResultsPtrCollection) Length() int {
@@ -450,6 +486,28 @@ func (it *ResultsPtrCollection) AddAny(
 	return it
 }
 
+func (it *ResultsPtrCollection) AddBytes(
+	rawBytes []byte,
+) *ResultsPtrCollection {
+	if rawBytes == nil {
+		return it
+	}
+
+	it.Items = append(
+		it.Items,
+		NewResult.UsingTypeBytesPtr(
+			bytesFieldName,
+			rawBytes))
+
+	return it
+}
+
+func (it *ResultsPtrCollection) AddStrings(
+	items ...string,
+) *ResultsPtrCollection {
+	return it.AddAny(items)
+}
+
 // AddAnyItems Skip on nil
 func (it *ResultsPtrCollection) AddAnyItems(
 	anys ...interface{},
@@ -705,11 +763,11 @@ func (it *ResultsPtrCollection) JsonModelAny() interface{} {
 	return it.JsonModel()
 }
 
-func (it ResultsPtrCollection) Json() Result {
+func (it *ResultsPtrCollection) Json() Result {
 	return New(it)
 }
 
-func (it ResultsPtrCollection) JsonPtr() *Result {
+func (it *ResultsPtrCollection) JsonPtr() *Result {
 	return NewPtr(it)
 }
 
