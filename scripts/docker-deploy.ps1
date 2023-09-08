@@ -20,29 +20,43 @@ Write-Host "Selected Go version: $GO_VERSION"
 Write-Host "Supported platforms: $Platforms"
 Write-Host "Supported architectures: $Architectures"
 
-# Define the Bash script for building in the Docker container
+# Define the logic for Windows and non-Windows platforms (kept as Bash strings)
+$windows_logic = @"
+if [ \$GOOS == \"windows\" ]; then
+  echo \"Building \$GOOS-\$GOARCH.exe\"
+  go build -o \"bin/cli-\$FinalCliName.exe\" \"cmd/$CliName/*.go\"
+else
+  echo \"Building \$GOOS-\$GOARCH\"
+  go build -o \"bin/cli-\$FinalCliName\" \"cmd/$CliName/*.go\"
+fi
+"@
+
+$non_windows_logic = @"
+echo \"Building \$GOOS-\$GOARCH\"
+go build -o \"bin/cli-\$FinalCliName\" \"cmd/$CliName/*.go\"
+"@
+
+# Define the command to be executed inside the Docker container
 $build_command = @"
-rm -rf bin
-mkdir bin
-cp -R assets bin
-cp -R configs bin
-$Platforms | ForEach-Object {
-    GOOS=\$_
-$Architectures | ForEach-Object {
-        GOARCH=\$_
+rm -rf bin; `
+mkdir bin; `
+cp -R assets bin; `
+cp -R configs bin; `
+$Platforms | ForEach-Object {{ `
+    \$GOOS = \$_; `
+$Architectures | ForEach-Object {{ `
+        \$GOARCH = \$_; `
 
         # Construct the output CLI name
-        FinalCliName="${CliName}-\$GOOS-\$GOARCH"
+        \$FinalCliName = "${CliName}-\$GOOS-\$GOARCH"; `
 
-        if [ "\$GOOS" == "windows" ]; then
-            echo "Building \$GOOS-\$GOARCH.exe"
-            go build -o "bin/cli-\$FinalCliName.exe" "cmd/$CliName/*.go"
-        else
-            echo "Building \$GOOS-\$GOARCH"
-            go build -o "bin/cli-\$FinalCliName" "cmd/$CliName/*.go"
-        fi
-    }
-}
+        if [ \$GOOS == \"windows\" ]; then `
+$windows_logic `
+        else `
+$non_windows_logic `
+        fi `
+    }} `
+}} `
 "@
 
 Write-Host ""
