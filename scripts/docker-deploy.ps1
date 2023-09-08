@@ -1,40 +1,62 @@
+param (
+    [string]$GO_VERSION
+)
+
+# Check if the GO_VERSION argument is provided
+if (-not $GO_VERSION) {
+    Write-Host "Usage: ./build.ps1 -GO_VERSION <GO_VERSION>"
+    exit 1
+}
+
+# Extract CLI name from the parent directory name
+$CliName = (Get-Item $PSScriptRoot).Parent.Name
+
 $WorkDir = (Get-Location).Path
 $BinDir = Join-Path $WorkDir "bin"
+$Platforms = "darwin", "linux", "windows"
+$Architectures = "386", "amd64"
+
+Write-Host "Selected Go version: $GO_VERSION"
+Write-Host "Supported platforms: $Platforms"
+Write-Host "Supported architectures: $Architectures"
+
+# Define the Bash script for building in the Docker container
+$build_command = @"
+rm -rf bin
+mkdir bin
+cp -R assets bin
+cp -R configs bin
+$Platforms | ForEach-Object {
+    GOOS=\$_
+$Architectures | ForEach-Object {
+        GOARCH=\$_
+
+        # Construct the output CLI name
+        FinalCliName="${CliName}-\$GOOS-\$GOARCH"
+
+        if [ "\$GOOS" == "windows" ]; then
+            echo "Building \$GOOS-\$GOARCH.exe"
+            go build -o "bin/cli-\$FinalCliName.exe" "cmd/$CliName/*.go"
+        else
+            echo "Building \$GOOS-\$GOARCH"
+            go build -o "bin/cli-\$FinalCliName" "cmd/$CliName/*.go"
+        fi
+    }
+}
+"@
 
 Write-Host ""
-Write-Host " ---- [Start] Running all in docker [Start]-----"
+Write-Host " ---- [Start] deploy for platforms ($($Platforms -join ", ") [$($Architectures -join ", ")]) [Start]-----"
 Write-Host ""
 Write-Host "Work dir     : $WorkDir"
 Write-Host "Binaries dir : $BinDir"
 
-# docker run --rm -it -v "$PWD":/usr/src/myapp -v "$GOPATH":/go -w /usr/src/myapp golang:1.17.8
+# Run the Docker container with the specified Go version and build command
+docker run --rm -it `
+    -v "$WorkDir:/usr/src/myapp" `
+    -v "${Env:GOPATH}:/go" `
+    -w /usr/src/myapp `
+    "golang:$GO_VERSION" `
+    bash -c "$build_command"
 
-# Check if the 'results' directory exists, and create it if not
-if (-Not (Test-Path -Path "$BinDir/results" -PathType Container)) {
-    New-Item -Path "$BinDir/results" -ItemType Directory | Out-Null
-}
-
-Write-Host ""
-
-# Run the Docker command and capture output
-docker run --rm -it -v "$WorkDir":/usr/src/myapp -v "$Env:GOPATH":/go -w /usr/src/myapp golang:1.17.8 bash -c ' \
-    ./bin/cli-linux-amd64 2>&1 | tee bin/results/linux-amd64.out; cat bin/results/linux-amd64.out \
-'
-
-Write-Host "Running complete"
-Write-Host ""
-Write-Host "Output"
-Write-Host ""
-Write-Host ""
-
-# Display the contents of the 'results' directory
-Write-Host "ls -la $BinDir/results"
-Get-Content "$BinDir/results/linux-amd64.out"
-(Get-ChildItem -Path "$BinDir/results" | Format-Table -Property Name, Length)
-
-Write-Host "`$Path:"
-Write-Host "export PATH=`$PATH:`"$BinDir`""
-Write-Host "running : ${BinDir}/cli-linux-amd64"
-Write-Host ""
-Write-Host " ---- [End] Running in docker [end]-----"
-Write-Host ""
+Write-Host "Build complete"
