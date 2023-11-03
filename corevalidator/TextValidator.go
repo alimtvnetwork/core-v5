@@ -174,6 +174,7 @@ func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
 
 	msg := errcore.GetSearchTermExpectationMessage(
 		params.CaseIndex,
+		params.Header,
 		expectationMethod,
 		lineProcessingIndex,
 		processedContent,

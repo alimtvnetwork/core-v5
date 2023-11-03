@@ -246,6 +246,7 @@ func (it *SliceValidator) AllVerifyError(
 
 func (it *SliceValidator) AllVerifyErrorTestCase(
 	caseIndex int,
+	header string,
 	isCaseSensitive bool,
 ) error {
 	if it == nil {
@@ -254,6 +255,7 @@ func (it *SliceValidator) AllVerifyErrorTestCase(
 
 	params := ValidatorParamsBase{
 		CaseIndex:                         caseIndex,
+		Header:                            header,
 		IsIgnoreCompareOnActualInputEmpty: false,
 		IsAttachUserInputs:                true,
 		IsCaseSensitive:                   isCaseSensitive,
@@ -264,7 +266,7 @@ func (it *SliceValidator) AllVerifyErrorTestCase(
 		&params,
 		it.ExpectingLinesLength())
 
-	errcore.ErrPrintWithTestIndex(caseIndex, err)
+	errcore.ErrPrintWithTestIndex(caseIndex, header, err)
 
 	return err
 }
@@ -386,7 +388,7 @@ func (it *SliceValidator) initialVerifyError(
 		it.ExpectedLines == nil
 
 	if isAnyNilCase {
-		return errcore.ExpectingErrorSimpleNoType(
+		return errcore.ExpectingErrorSimpleNoTypeNewLineEnds(
 			"ActualLines, ExpectedLines any is nil and other is not.",
 			it.ActualLines,
 			it.ExpectedLines,
@@ -394,8 +396,8 @@ func (it *SliceValidator) initialVerifyError(
 	}
 
 	if !it.isLengthOkay(lengthUpto) {
-		return errcore.ExpectingErrorSimpleNoType(
-			"ActualLines, ExpectedLines Length is not equal",
+		return errcore.ExpectingErrorSimpleNoTypeNewLineEnds(
+			"ActualLines, ExpectedLines Length is not equal.",
 			len(it.ActualLines),
 			len(it.ExpectedLines),
 		)
@@ -440,8 +442,11 @@ func (it *SliceValidator) initialVerifyErrorWithMerged(
 }
 
 func (it *SliceValidator) ActualInputWithExpectingMessage(header string) string {
-	return it.ActualInputMessage(header) +
-		it.UserExpectingMessage()
+	actualInputMessage := it.ActualInputMessage(header)
+	userExpectingMessage := it.UserExpectingMessage(header)
+	finalMessage := actualInputMessage + constants.NewLineUnix + userExpectingMessage
+
+	return finalMessage
 }
 
 func (it *SliceValidator) ActualInputMessage(header string) string {
@@ -450,9 +455,9 @@ func (it *SliceValidator) ActualInputMessage(header string) string {
 		it.ActualLinesString())
 }
 
-func (it *SliceValidator) UserExpectingMessage() string {
+func (it *SliceValidator) UserExpectingMessage(header string) string {
 	return errcore.MsgHeaderPlusEnding(
-		expectingLinesMessage,
+		expectingLinesMessage + header,
 		it.ExpectingLinesString())
 }
 

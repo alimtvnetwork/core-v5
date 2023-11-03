@@ -42,7 +42,7 @@ const (
 		"    TestCase:`%#v` ,\n  "
 
 	PrintActualAndExpectedProcessedFormat = "----------------------" +
-		"\n%d )\t" +
+		"\n\n%d )\t" +
 		"  Actual:`%#v` ,\n\t\t" +
 		"Expected:`%#v`\n\t\t" +
 		"  Actual-Processed:`%#v` ,\n\t\t" +
@@ -51,17 +51,19 @@ const (
 	SearchTermExpectedFormat = `Expecting (left) TextValidator %s ~= %s search term (right), method %s`
 
 	PrintHeaderForSearchWithActualAndExpectedProcessedFormat = "" +
-		"%d )\t" +
-		"  Expectation failed: Using CompareMethod `%#v`, Line Index: %d\n  " +
-		"   Content-Processed:`%#v`\n  " +
-		"SearchTerm-Processed:`%#v`\n  " +
-		"          Additional:`%#v`"
+		"\n" +
+		"%d )   Header: `%s`\n" +
+		"----- Method: `%#v`, Line Index: %d\n\n" +
+		"--------------- Actual:\n`%#v`\n\n" +
+		"--- Expected or Search:\n`%#v`\n\n" +
+		"Additional: `%v`"
 
 	PrintHeaderForSearchWithActualAndExpectedProcessedWithoutAdditionalFormat = "" +
-		"%d )\t" +
-		"         Expectation:`%s`, Line Index: %d\n  " +
-		"   Content-Processed:`%#v`\n  " +
-		"SearchTerm-Processed:`%#v`\n  "
+		"\n" +
+		"%d ) Header: `%s`\n  " +
+		"Expectation: `%s`, Line Index: %d\n  " +
+		"     Actual: `%#v`\n\n" +
+		"   Expected: `%#v`\n\n"
 
 	PrintHeaderForSearchActualAndExpectedProcessedSimpleFormat = "%d )\t" +
 		"ExpectationLines failed: Failed match method [%#v], Index : [%#v]\n  " +
