@@ -10,6 +10,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"gitlab.com/auk-go/core/issetter"
 )
 
 // BaseTestCase
@@ -24,15 +25,16 @@ import (
 //   - ActualExpectedType : Verify type for the ExpectedInput
 //   - ExpectedTypeOfExpected : Verify type for the actual method return type, ExpectedInput type == ActualExpectedType == ExpectedTypeOfExpected (all 3 should match)
 type BaseTestCase struct {
-	Title                  string       // consider as header
-	ArrangeInput           interface{}  // preparing input
-	ActualInput            interface{}  // input for the act method
-	ExpectedInput          interface{}  // expectation set from the test
+	Title                 string         // consider as header
+	ArrangeInput          interface{}    // preparing input
+	ActualInput           interface{}    // input for the act method
+	ExpectedInput         interface{}    // expectation set from the test
 	ArrangeExpectedType    reflect.Type // Verify type for the ActualInput
 	ActualExpectedType     reflect.Type // Verify type for the expectation set input (ExpectedInput)
 	ExpectedTypeOfExpected reflect.Type // What actual function returned what is the type of it, verify
-	HasError               bool
-	IsValidateError        bool
+	IsEnable              issetter.Value // Only false makes it disabled.
+	HasError              bool
+	IsValidateError       bool
 }
 
 func (it *BaseTestCase) CaseTitle() string {
@@ -133,12 +135,70 @@ func (it *BaseTestCase) String(caseIndex int) string {
 		caseIndex, it)
 }
 
+func (it *BaseTestCase) Skip(
+	t *testing.T,
+	msg string,
+) {
+	t.Skipf(msg)
+}
+
+func (it *BaseTestCase) SkipFmt(
+	t *testing.T,
+	format string,
+	v ...interface{},
+) {
+	t.Skipf(format, v...)
+}
+
+func (it *BaseTestCase) SkipFmtIf(
+	isSkip bool,
+	t *testing.T,
+	format string,
+	v ...interface{},
+) {
+	if !isSkip {
+		return
+	}
+
+	t.Skipf(format, v...)
+}
+
+
+func (it *BaseTestCase) SkipIf(
+	isSkip bool,
+	t *testing.T,
+) {
+	if !isSkip {
+		return
+	}
+
+	t.Skipf(
+		"Header : %s, skipped: Disabled.",
+		it.Title)
+}
+
+func (it *BaseTestCase) IsDisabled() bool {
+	return it.IsEnable.IsFalse()
+}
+
+
+func (it *BaseTestCase) SkipOnDisable(t *testing.T) {
+	it.SkipIf(it.IsDisabled(), t)
+}
+
 func (it *BaseTestCase) ShouldBe(
 	caseIndex int,
 	t *testing.T,
 	assert convey.Assertion,
 	actual interface{},
 ) {
+	if it.IsEnable.IsFalse() {
+		t.Skipf(
+			"Header : %s (%d), skipped: Disabled.",
+			it.Title,
+			caseIndex)
+	}
+
 	it.ShouldBeExplicit(
 		true,
 		caseIndex,
@@ -158,6 +218,14 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	assert convey.Assertion,
 	expected interface{},
 ) {
+	if it.IsEnable.IsFalse() {
+		t.Skipf(
+			"Header : %s (%d),"+
+				"Skipped: Disabled.",
+			it.Title,
+			caseIndex)
+	}
+
 	it.SetActual(actual)
 
 	convey.Convey(title, t, func() {
