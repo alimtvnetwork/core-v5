@@ -25,16 +25,16 @@ import (
 //   - ActualExpectedType : Verify type for the ExpectedInput
 //   - ExpectedTypeOfExpected : Verify type for the actual method return type, ExpectedInput type == ActualExpectedType == ExpectedTypeOfExpected (all 3 should match)
 type BaseTestCase struct {
-	Title                 string         // consider as header
-	ArrangeInput          interface{}    // preparing input
-	ActualInput           interface{}    // input for the act method
-	ExpectedInput         interface{}    // expectation set from the test
-	ArrangeExpectedType    reflect.Type // Verify type for the ActualInput
-	ActualExpectedType     reflect.Type // Verify type for the expectation set input (ExpectedInput)
-	ExpectedTypeOfExpected reflect.Type // What actual function returned what is the type of it, verify
-	IsEnable              issetter.Value // Only false makes it disabled.
-	HasError              bool
-	IsValidateError       bool
+	Title                  string         // consider as header
+	ArrangeInput           interface{}    // preparing input
+	ActualInput            interface{}    // input for the act method
+	ExpectedInput          interface{}    // expectation set from the test
+	ArrangeExpectedType    reflect.Type   // Verify type for the ActualInput
+	ActualExpectedType     reflect.Type   // Verify type for the expectation set input (ExpectedInput)
+	ExpectedTypeOfExpected reflect.Type   // What actual function returned what is the type of it, verify
+	IsEnable               issetter.Value // Only false makes it disabled.
+	HasError               bool
+	IsValidateError        bool
 }
 
 func (it *BaseTestCase) CaseTitle() string {
@@ -163,7 +163,6 @@ func (it *BaseTestCase) SkipFmtIf(
 	t.Skipf(format, v...)
 }
 
-
 func (it *BaseTestCase) SkipIf(
 	isSkip bool,
 	t *testing.T,
@@ -180,7 +179,6 @@ func (it *BaseTestCase) SkipIf(
 func (it *BaseTestCase) IsDisabled() bool {
 	return it.IsEnable.IsFalse()
 }
-
 
 func (it *BaseTestCase) SkipOnDisable(t *testing.T) {
 	it.SkipIf(it.IsDisabled(), t)
