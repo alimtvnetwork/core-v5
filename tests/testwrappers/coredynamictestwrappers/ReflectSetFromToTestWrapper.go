@@ -11,6 +11,7 @@ type ReflectSetFromToTestWrapper struct {
 	IsUsePointerInFrom              bool
 	IsErrorExpected                 bool
 	IsPanic                         bool
+	PanicExpectation                interface{}
 	Validator                       corevalidator.TextValidator
 }
 

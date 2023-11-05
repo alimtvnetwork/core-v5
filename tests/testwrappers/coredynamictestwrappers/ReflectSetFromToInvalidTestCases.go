@@ -2,6 +2,7 @@ package coredynamictestwrappers
 
 import (
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/corevalidator"
 )
 
 var (
@@ -9,9 +10,13 @@ var (
 		{
 			Header: "(null, null) -- do nothing -- " +
 				"From `Null` to `Null` -- does nothing -- no error",
-			From:          nil,
-			To:            nil,
-			ExpectedValue: &ReflectSetFromToTestCasesDraftTypeExpected,
+			From:             nil,
+			To:               nil,
+			ExpectedValue:    &ReflectSetFromToTestCasesDraftTypeExpected,
+			IsErrorExpected:  true,
+			IsPanic:          true,
+			PanicExpectation: "",
+			Validator:        corevalidator.TextValidator{},
 		},
 		{
 			Header: "(null, valid type - coretests.DraftType) -- should panic -- " +
