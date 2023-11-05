@@ -147,10 +147,9 @@ func (it *MinMaxInt) CreateRanges(minMaxRanges ...MinMaxInt) []int {
 	return slice
 }
 
-// Ranges
+// RangesExcept
 //
-//	returns empty integers if IsInvalid
-//	return range int values
+// Returns ranges only without the except items
 func (it *MinMaxInt) RangesExcept(exceptItems ...int) []int {
 	length := it.RangeLength()
 	start := it.Min

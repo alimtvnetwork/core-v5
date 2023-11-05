@@ -156,20 +156,19 @@ func (it *MinMaxInt64) CreateRanges(minMaxRanges ...MinMaxInt64) []int64 {
 	return slice
 }
 
-// Ranges
+// RangesExcept
 //
-//	returns empty integers if IsInvalid
-//	return range int values
-func (it *MinMaxInt16) RangesExcept(exceptItems ...int) []int16 {
+// Returns ranges only without the except items
+func (it *MinMaxInt64) RangesExcept(exceptItems ...int) []int64 {
 	length := it.RangeLength()
 	start := it.Min
-	slice := make([]int16, 0, length)
+	slice := make([]int64, 0, length)
 	toHashmap := convertinteranl.
 		Integers.
 		ToMapBool(exceptItems...)
 
 	for i := 0; i < int(length); i++ {
-		id := start + int16(i)
+		id := start + int64(i)
 		if toHashmap[int(id)] {
 			continue
 		}
