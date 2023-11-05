@@ -62,7 +62,7 @@ func (it *SimpleSlice) Append(
 
 // AppendFmt
 //
-//  Skips empty format + values
+//	Skips empty format + values
 func (it *SimpleSlice) AppendFmt(
 	format string,
 	v ...interface{},
@@ -80,7 +80,7 @@ func (it *SimpleSlice) AppendFmt(
 
 // AppendFmtIf
 //
-//  Skips empty format + values
+//	Skips empty format + values
 func (it *SimpleSlice) AppendFmtIf(
 	isAppend bool,
 	format string,
@@ -99,7 +99,7 @@ func (it *SimpleSlice) AppendFmtIf(
 
 // AddAsTitleValue
 //
-//  Adds Title : value (constants.TitleValueFormat)
+//	Adds Title : value (constants.TitleValueFormat)
 func (it *SimpleSlice) AddAsTitleValue(
 	title string,
 	value interface{},
@@ -113,7 +113,7 @@ func (it *SimpleSlice) AddAsTitleValue(
 
 // AddAsCurlyTitleWrap
 //
-//  Adds Title: {value} (constants.CurlyTitleWrapFormat)
+//	Adds Title: {value} (constants.CurlyTitleWrapFormat)
 func (it *SimpleSlice) AddAsCurlyTitleWrap(
 	title string,
 	value interface{},
@@ -127,7 +127,7 @@ func (it *SimpleSlice) AddAsCurlyTitleWrap(
 
 // AddAsCurlyTitleWrapIf
 //
-//  Adds Title: {value} (constants.CurlyTitleWrapFormat)
+//	Adds Title: {value} (constants.CurlyTitleWrapFormat)
 func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
 	isAppend bool,
 	title string,
@@ -146,8 +146,8 @@ func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
 
 // AddAsTitleValueIf
 //
-//  Skips if append is false
-//  Adds Title : value (constants.TitleValueFormat)
+//	Skips if append is false
+//	Adds Title : value (constants.TitleValueFormat)
 func (it *SimpleSlice) AddAsTitleValueIf(
 	isAppend bool,
 	title string,
@@ -378,7 +378,7 @@ func (it *SimpleSlice) JoinLine() string {
 
 // JoinLineEofLine
 //
-//  contains new line at the end of the file
+//	contains new line at the end of the file
 func (it *SimpleSlice) JoinLineEofLine() string {
 	if it.IsEmpty() {
 		return ""
@@ -871,10 +871,10 @@ func (it SimpleSlice) IsDistinctEqual(rightSlice *SimpleSlice) bool {
 
 // IsUnorderedEqualRaw
 //
-//  sort both and then compare, if length are not equal then mismatch
+//	sort both and then compare, if length are not equal then mismatch
 //
-//  isClone:
-//      Don't mutate, create copy and then sort and then returns the final result.
+//	isClone:
+//	    Don't mutate, create copy and then sort and then returns the final result.
 func (it SimpleSlice) IsUnorderedEqualRaw(
 	isClone bool,
 	rightLines ...string,
@@ -909,10 +909,10 @@ func (it SimpleSlice) IsUnorderedEqualRaw(
 
 // IsUnorderedEqual
 //
-//  sort both and then compare, if length are not equal then mismatch
+//	sort both and then compare, if length are not equal then mismatch
 //
-//  isClone:
-//      Don't mutate, create copy and then sort and then returns the final result.
+//	isClone:
+//	    Don't mutate, create copy and then sort and then returns the final result.
 func (it SimpleSlice) IsUnorderedEqual(
 	isClone bool,
 	rightSlice *SimpleSlice,
@@ -933,7 +933,7 @@ func (it SimpleSlice) IsUnorderedEqual(
 
 // IsEqualByFunc
 //
-//  checks comparison by the given function.
+//	checks comparison by the given function.
 func (it SimpleSlice) IsEqualByFunc(
 	isMatchCheckerFunc func(index int, left, right string) (isMatch bool),
 	rightLines ...string,
@@ -959,8 +959,8 @@ func (it SimpleSlice) IsEqualByFunc(
 
 // IsEqualByFuncLinesSplit
 //
-//  first splits the line and then takes
-//  lines and process same as EqualByFunc
+//	first splits the line and then takes
+//	lines and process same as EqualByFunc
 func (it SimpleSlice) IsEqualByFuncLinesSplit(
 	isTrim bool,
 	splitter string,

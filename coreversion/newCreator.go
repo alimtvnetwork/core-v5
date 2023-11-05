@@ -16,12 +16,12 @@ type newCreator struct{}
 // CreateUsingAliasMap new Version from given "v0.1.0" or "v0.0" or "v1" even "0.0.0" or empty string
 //
 // Examples for valid input
-//  - "v0.0.0.0" or "0.0.0.0" represents "v{MajorInt}.{MinorInt}.{PatchInt}.{BuildInt}"
-//  - "v0.0.0"   or "0.0.0"   represents "v{MajorInt}.{MinorInt}.{PatchInt}"
-//  - "v0.0"     or "0.0"     represents "v{MajorInt}.{MinorInt}"
-//  - "v0"       or "0"       represents "v{MajorInt}"
-//  - "v"        or ""        represents "" Empty or Invalid Result but don't panic
-//  - ""                      represents "" Empty or Invalid Result but don't panic
+//   - "v0.0.0.0" or "0.0.0.0" represents "v{MajorInt}.{MinorInt}.{PatchInt}.{BuildInt}"
+//   - "v0.0.0"   or "0.0.0"   represents "v{MajorInt}.{MinorInt}.{PatchInt}"
+//   - "v0.0"     or "0.0"     represents "v{MajorInt}.{MinorInt}"
+//   - "v0"       or "0"       represents "v{MajorInt}"
+//   - "v"        or ""        represents "" Empty or Invalid Result but don't panic
+//   - ""                      represents "" Empty or Invalid Result but don't panic
 func (it newCreator) Default(version string) *Version {
 	if version == "" {
 		return Empty()
@@ -103,12 +103,12 @@ func (it newCreator) Default(version string) *Version {
 // CreateUsingAliasMap new Version from given "v0.1.0" or "v0.0" or "v1" even "0.0.0" or empty string
 //
 // Examples for valid input
-//  - "v0.0.0.0" or "0.0.0.0" represents "v{MajorInt}.{MinorInt}.{PatchInt}.{BuildInt}"
-//  - "v0.0.0"   or "0.0.0"   represents "v{MajorInt}.{MinorInt}.{PatchInt}"
-//  - "v0.0"     or "0.0"     represents "v{MajorInt}.{MinorInt}"
-//  - "v0"       or "0"       represents "v{MajorInt}"
-//  - "v"        or ""        represents "" Empty or Invalid Result but don't panic
-//  - ""                      represents "" Empty or Invalid Result but don't panic
+//   - "v0.0.0.0" or "0.0.0.0" represents "v{MajorInt}.{MinorInt}.{PatchInt}.{BuildInt}"
+//   - "v0.0.0"   or "0.0.0"   represents "v{MajorInt}.{MinorInt}.{PatchInt}"
+//   - "v0.0"     or "0.0"     represents "v{MajorInt}.{MinorInt}"
+//   - "v0"       or "0"       represents "v{MajorInt}"
+//   - "v"        or ""        represents "" Empty or Invalid Result but don't panic
+//   - ""                      represents "" Empty or Invalid Result but don't panic
 func (it newCreator) Version(version string) *Version {
 	return it.Default(version)
 }
@@ -118,12 +118,12 @@ func (it newCreator) Version(version string) *Version {
 // CreateUsingAliasMap new Version from given "v0.1.0" or "v0.0" or "v1" even "0.0.0" or empty string
 //
 // Examples for valid input
-//  - "v0.0.0.0" or "0.0.0.0" represents "v{MajorInt}.{MinorInt}.{PatchInt}.{BuildInt}"
-//  - "v0.0.0"   or "0.0.0"   represents "v{MajorInt}.{MinorInt}.{PatchInt}"
-//  - "v0.0"     or "0.0"     represents "v{MajorInt}.{MinorInt}"
-//  - "v0"       or "0"       represents "v{MajorInt}"
-//  - "v"        or ""        represents "" Empty or Invalid Result but don't panic
-//  - ""                      represents "" Empty or Invalid Result but don't panic
+//   - "v0.0.0.0" or "0.0.0.0" represents "v{MajorInt}.{MinorInt}.{PatchInt}.{BuildInt}"
+//   - "v0.0.0"   or "0.0.0"   represents "v{MajorInt}.{MinorInt}.{PatchInt}"
+//   - "v0.0"     or "0.0"     represents "v{MajorInt}.{MinorInt}"
+//   - "v0"       or "0"       represents "v{MajorInt}"
+//   - "v"        or ""        represents "" Empty or Invalid Result but don't panic
+//   - ""                      represents "" Empty or Invalid Result but don't panic
 func (it newCreator) Create(version string) *Version {
 	return it.Default(version)
 }
@@ -134,9 +134,9 @@ func (it newCreator) Major(majorString string) *Version {
 
 // SpreadStrings
 //
-//  versionindexes.Major = v[0]
-//  versionindexes.Minor = v[1]
-//   ...
+//	versionindexes.Major = v[0]
+//	versionindexes.Minor = v[1]
+//	 ...
 func (it newCreator) SpreadStrings(
 	v ...string,
 ) *Version {
@@ -149,9 +149,9 @@ func (it newCreator) SpreadStrings(
 
 // SpreadIntegers
 //
-//  versionindexes.Major = v[0]
-//  versionindexes.Minor = v[1]
-//   ...
+//	versionindexes.Major = v[0]
+//	versionindexes.Minor = v[1]
+//	 ...
 func (it newCreator) SpreadIntegers(
 	v ...int,
 ) *Version {
@@ -166,9 +166,9 @@ func (it newCreator) SpreadIntegers(
 
 // SpreadUnsignedIntegers
 //
-//  versionindexes.Major = v[0]
-//  versionindexes.Minor = v[1]
-//   ...
+//	versionindexes.Major = v[0]
+//	versionindexes.Minor = v[1]
+//	 ...
 func (it newCreator) SpreadUnsignedIntegers(
 	v ...uint,
 ) *Version {
@@ -183,9 +183,9 @@ func (it newCreator) SpreadUnsignedIntegers(
 
 // SpreadBytes
 //
-//  versionindexes.Major = v[0]
-//  versionindexes.Minor = v[1]
-//   ...
+//	versionindexes.Major = v[0]
+//	versionindexes.Minor = v[1]
+//	 ...
 func (it newCreator) SpreadBytes(
 	v ...byte,
 ) *Version {

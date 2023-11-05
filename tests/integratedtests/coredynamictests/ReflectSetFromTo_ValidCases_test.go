@@ -12,11 +12,11 @@ import (
 // Test_ReflectSetFromTo_ValidCases
 //
 // Valid Inputs:
-//  - From, To: (null, null)                          -- do nothing
-//  - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
-//  - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
-//  - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
-//  - From, To: (otherType, *[]byte)                  -- try marshal, reflect
+//   - From, To: (null, null)                          -- do nothing
+//   - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
+//   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
+//   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
+//   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
 func Test_ReflectSetFromTo_ValidCases(t *testing.T) {
 	for _, testCase := range coredynamictestwrappers.ReflectSetFromToValidTestCases {
 		// Act

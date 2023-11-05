@@ -8,7 +8,7 @@ import (
 
 // GetAssertMessageQuick
 //
-//  Gives generic and consistent test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+//	Gives generic and consistent test message using msgformats.QuickIndexInputActualExpectedMessageFormat
 func GetAssertMessageQuick(
 	when,
 	actual,

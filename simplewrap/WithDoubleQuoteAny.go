@@ -8,9 +8,9 @@ import (
 
 // WithDoubleQuoteAny
 //
-//  Alias for ToJsonName
+//	Alias for ToJsonName
 //
-//  " + source + " , also take care of any double if available next.
+//	" + source + " , also take care of any double if available next.
 func WithDoubleQuoteAny(source interface{}) string {
 	return fmt.Sprintf(
 		constants.SprintValueDoubleQuotationFormat,

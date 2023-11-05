@@ -9,8 +9,8 @@ import (
 // TitleQuotationMeta
 //
 // Example :
-//  - constants.QuotationTitleMetaWrapFormat
-//  -  "%v: \"%v\" (%v)"
+//   - constants.QuotationTitleMetaWrapFormat
+//   - "%v: \"%v\" (%v)"
 func TitleQuotationMeta(
 	title,
 	value,

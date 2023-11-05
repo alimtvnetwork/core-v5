@@ -72,7 +72,7 @@ func (it stringsTo) HashmapTrim(
 
 // HashmapUsingFuncOptions
 //
-//  Skips if empty after trim
+//	Skips if empty after trim
 func (it stringsTo) HashmapUsingFuncOptions(
 	isTrimBefore bool,
 	processorFunc func(line string) (key, val string),
@@ -87,7 +87,7 @@ func (it stringsTo) HashmapUsingFuncOptions(
 
 // HashmapUsingFuncTrim
 //
-//  Skips if empty after trim
+//	Skips if empty after trim
 func (it stringsTo) HashmapUsingFuncTrim(
 	processorFunc func(line string) (key, val string),
 	lines ...string,
@@ -101,7 +101,7 @@ func (it stringsTo) HashmapUsingFuncTrim(
 
 // MapStringIntegerUsingFunc
 //
-//  Skips if empty after trim
+//	Skips if empty after trim
 func (it stringsTo) MapStringIntegerUsingFunc(
 	isTrimBefore bool,
 	processorFunc func(line string) (key string, val int),
@@ -116,7 +116,7 @@ func (it stringsTo) MapStringIntegerUsingFunc(
 
 // MapStringAnyUsingFunc
 //
-//  Skips if empty after trim
+//	Skips if empty after trim
 func (it stringsTo) MapStringAnyUsingFunc(
 	isTrimBefore bool,
 	processorFunc func(line string) (key string, val interface{}),
@@ -137,10 +137,10 @@ func (it stringsTo) MapConverter(
 
 // PointerStrings
 //
-//  Will give empty or converted results array (not nil)
-//  It doesn't copy but points to same string address in the array
+//	Will give empty or converted results array (not nil)
+//	It doesn't copy but points to same string address in the array
 //
-//  Example code : https://play.golang.org/p/_OkY82E2kO9
+//	Example code : https://play.golang.org/p/_OkY82E2kO9
 func (it stringsTo) PointerStrings(pointerToStrings *[]string) *[]*string {
 	if pointerToStrings == nil || *pointerToStrings == nil {
 		var emptyResult []*string
@@ -160,8 +160,8 @@ func (it stringsTo) PointerStrings(pointerToStrings *[]string) *[]*string {
 
 // PointerStringsCopy
 //
-//  will give empty or converted results array (not nil)
-//  Copy each item to the new array
+//	will give empty or converted results array (not nil)
+//	Copy each item to the new array
 func (it stringsTo) PointerStringsCopy(pointerToStrings *[]string) *[]*string {
 	if pointerToStrings == nil || *pointerToStrings == nil {
 		var emptyResult []*string
@@ -242,7 +242,7 @@ func (it stringsTo) IntegersWithDefaults(
 
 // IntegersOptionPanic
 //
-//  panic if not a number
+//	panic if not a number
 func (it stringsTo) IntegersOptionPanic(
 	isPanic bool,
 	lines ...string,
@@ -266,7 +266,7 @@ func (it stringsTo) IntegersOptionPanic(
 
 // IntegersSkipErrors
 //
-//  no errors captured.
+//	no errors captured.
 func (it stringsTo) IntegersSkipErrors(
 	lines ...string,
 ) []int {
@@ -299,7 +299,7 @@ func (it stringsTo) BytesConditional(
 
 // BytesWithDefaults
 //
-//  panic if not a number or more than 255
+//	panic if not a number or more than 255
 func (it stringsTo) BytesWithDefaults(
 	defaultByte byte,
 	stringsSlice ...string,
@@ -380,7 +380,7 @@ func (it stringsTo) CsvWithIndexes(lines []string) string {
 
 // BytesMust
 //
-//  panic if not a number or more than 255 or less than 0
+//	panic if not a number or more than 255 or less than 0
 func (it stringsTo) BytesMust(lines ...string) []byte {
 	results := make([]byte, len(lines))
 
@@ -399,7 +399,7 @@ func (it stringsTo) BytesMust(lines ...string) []byte {
 
 // Float64sMust
 //
-//  panic if not a number
+//	panic if not a number
 func (it stringsTo) Float64sMust(lines ...string) []float64 {
 	results := make([]float64, len(lines))
 
@@ -418,7 +418,7 @@ func (it stringsTo) Float64sMust(lines ...string) []float64 {
 
 // Float64sConditional
 //
-//  handle convert from processor function either throw or ignore
+//	handle convert from processor function either throw or ignore
 func (it stringsTo) Float64sConditional(
 	processor func(in string) (out float64, isTake, isBreak bool),
 	lines []string,

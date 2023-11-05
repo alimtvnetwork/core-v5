@@ -101,8 +101,8 @@ func (it *MinMaxByte) RangeLength() byte {
 
 // RangesInt
 //
-//  returns empty integers if IsInvalid
-//  return range int values
+//	returns empty integers if IsInvalid
+//	return range int values
 func (it *MinMaxByte) RangesInt() []int {
 	actualRanges := it.Ranges()
 	rangesIntegers := make(
@@ -118,8 +118,8 @@ func (it *MinMaxByte) RangesInt() []int {
 
 // Ranges
 //
-//  returns empty bytes if IsInvalid
-//  return range int values
+//	returns empty bytes if IsInvalid
+//	return range int values
 func (it *MinMaxByte) Ranges() []byte {
 	length := it.RangeLength()
 	start := it.Min

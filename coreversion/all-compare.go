@@ -73,7 +73,7 @@ func IsExpectedVersion(
 
 // IsAtLeast
 //
-//  returns true if left version is equal or greater than the right
+//	returns true if left version is equal or greater than the right
 func IsAtLeast(
 	leftGreaterOrEqual,
 	rightVersion string,
@@ -86,7 +86,7 @@ func IsAtLeast(
 
 // IsLower
 //
-//  returns true if left version is less than the right version
+//	returns true if left version is less than the right version
 func IsLower(
 	leftGreaterOrEqual,
 	rightVersion string,
@@ -99,7 +99,7 @@ func IsLower(
 
 // IsLowerOrEqual
 //
-//  returns true if left version is less or equal than the right version
+//	returns true if left version is less or equal than the right version
 func IsLowerOrEqual(
 	leftGreaterOrEqual,
 	rightVersion string,

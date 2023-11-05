@@ -19,7 +19,7 @@ func (it *newSimpleSliceCreator) Cap(capacity int) *SimpleSlice {
 
 // Default
 //
-//  Capacity 10
+//	Capacity 10
 func (it *newSimpleSliceCreator) Default() *SimpleSlice {
 	slice := make([]string, 0, constants.Capacity10)
 
@@ -88,7 +88,7 @@ func (it *newSimpleSliceCreator) UsingLines(
 
 // Lines
 //
-//  don't clone
+//	don't clone
 func (it *newSimpleSliceCreator) Lines(
 	lines ...string,
 ) *SimpleSlice {

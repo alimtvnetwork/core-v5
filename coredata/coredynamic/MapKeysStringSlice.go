@@ -8,7 +8,7 @@ import (
 
 // MapKeysStringSlice
 //
-//  expectation : map[key:string]...value don't care.
+//	expectation : map[key:string]...value don't care.
 func MapKeysStringSlice(reflectVal reflect.Value) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
 		return MapKeysStringSlice(

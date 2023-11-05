@@ -48,7 +48,7 @@ func (it fwChmodApplier) Apply(
 
 // OnDiffFile
 //
-//  apply chmod on file if file doesn't have the save chmod
+//	apply chmod on file if file doesn't have the save chmod
 func (it fwChmodApplier) OnDiffFile(
 	isSkipOnInvalidFile bool,
 	filePath string,
@@ -66,7 +66,7 @@ func (it fwChmodApplier) OnDiffFile(
 
 // OnDiffDir
 //
-//  apply chmod on file if file doesn't have the save chmod
+//	apply chmod on file if file doesn't have the save chmod
 func (it fwChmodApplier) OnDiffDir(
 	isSkipOnInvalidDir bool,
 	dirPath string,
@@ -84,7 +84,7 @@ func (it fwChmodApplier) OnDiffDir(
 
 // OnAll
 //
-//  both file, parent dir
+//	both file, parent dir
 func (it fwChmodApplier) OnAll() error {
 	err := it.OnParent()
 

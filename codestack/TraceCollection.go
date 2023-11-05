@@ -646,10 +646,10 @@ func (it *TraceCollection) JoinUsingFmt(formatter Formatter, joiner string) stri
 // using format shortStringFormat "%s (%d) -> %s:%d"
 //
 // Format :
-//  - https://prnt.sc/25ypcyc : "%s (%d) -> %s:%d"
+//   - https://prnt.sc/25ypcyc : "%s (%d) -> %s:%d"
 //
 // Example :
-//  - Slice of []String{"Method (LineNumber) -> FileFullPath:LineNumber"}
+//   - Slice of []String{"Method (LineNumber) -> FileFullPath:LineNumber"}
 func (it *TraceCollection) ShortStrings() []string {
 	list := make([]string, it.Length())
 
@@ -667,10 +667,10 @@ func (it *TraceCollection) ShortStrings() []string {
 // using format shortStringFormat "%s (%d) -> %s:%d"
 //
 // Format :
-//  - https://prnt.sc/25ypcyc : "%s (%d) -> %s:%d"
+//   - https://prnt.sc/25ypcyc : "%s (%d) -> %s:%d"
 //
 // Example :
-//  - Compiled joined string of slice []String{"Method (LineNumber) -> FileFullPath:LineNumber"}
+//   - Compiled joined string of slice []String{"Method (LineNumber) -> FileFullPath:LineNumber"}
 func (it TraceCollection) JoinShortStrings(joiner string) string {
 	return strings.Join(it.ShortStrings(), joiner)
 }
@@ -722,10 +722,10 @@ func (it TraceCollection) JoinJsonStrings(joiner string) string {
 // Returns a join "Code Stack :\n- JoinLinesWith(\n- )"
 //
 // Format :
-//  - https://prnt.sc/25ypwem : "Code Stack :\n- JoinLinesWith(\n- )"
+//   - https://prnt.sc/25ypwem : "Code Stack :\n- JoinLinesWith(\n- )"
 //
 // Sample :
-//  - "Code Stack :\n- JoinLinesWith(\n- )"
+//   - "Code Stack :\n- JoinLinesWith(\n- )"
 func (it TraceCollection) CodeStacksString() string {
 	if it.IsEmpty() {
 		return constants.EmptyString

@@ -13,7 +13,7 @@ import (
 // It only makes all fields to nil or zero values.
 //
 // Warning :
-//  - Must be set as a pointer any.
+//   - Must be set as a pointer any.
 func ZeroSetAny(anyItem interface{}) {
 	if reflectinternal.IsNull(anyItem) {
 		return

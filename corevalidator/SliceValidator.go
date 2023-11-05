@@ -457,7 +457,7 @@ func (it *SliceValidator) ActualInputMessage(header string) string {
 
 func (it *SliceValidator) UserExpectingMessage(header string) string {
 	return errcore.MsgHeaderPlusEnding(
-		expectingLinesMessage + header,
+		expectingLinesMessage+header,
 		it.ExpectingLinesString())
 }
 

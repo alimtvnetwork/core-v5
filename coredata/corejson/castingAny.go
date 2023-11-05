@@ -36,15 +36,15 @@ func (it castingAny) FromToReflection(
 // Warning: must check nil before for from, to both.
 //
 // Casting from to steps:
-//  - reflection first if equal type + right ptr and not nil.
-//  - []byte
-//  - string
-//  - Jsoner
-//  - Result
-//  - *Result
-//  - bytesSerializer
-//  - serializerFunc
-//  - error to string then cast from json string then to actual unmarshal
+//   - reflection first if equal type + right ptr and not nil.
+//   - []byte
+//   - string
+//   - Jsoner
+//   - Result
+//   - *Result
+//   - bytesSerializer
+//   - serializerFunc
+//   - error to string then cast from json string then to actual unmarshal
 func (it castingAny) FromToOption(
 	isUseReflection bool,
 	fromAny,
@@ -121,7 +121,7 @@ func (it castingAny) FromToOption(
 
 // reflectionCasting
 //
-//  todo refactor return err
+//	todo refactor return err
 func (it castingAny) reflectionCasting(
 	isUseReflection bool,
 	fromAny interface{},

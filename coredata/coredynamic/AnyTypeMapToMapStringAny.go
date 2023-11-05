@@ -10,7 +10,7 @@ import (
 
 // AnyTypeMapToMapStringAny
 //
-//  expectation : map[key:interface{}]interface{} to map[string]interface{}
+//	expectation : map[key:interface{}]interface{} to map[string]interface{}
 func AnyTypeMapToMapStringAny(
 	reflectVal reflect.Value,
 ) (map[string]interface{}, error) {

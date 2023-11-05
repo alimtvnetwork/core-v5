@@ -45,7 +45,7 @@ func (it *SimpleStringOnce) Invalidate() {
 
 // IsInvalid
 //
-//  !it.isInitialize || it.value == ""
+//	!it.isInitialize || it.value == ""
 func (it *SimpleStringOnce) IsInvalid() bool {
 	return !it.isInitialize || it.value == ""
 }
@@ -393,8 +393,9 @@ func (it *SimpleStringOnce) Ptr() *SimpleStringOnce {
 }
 
 // HasSafeNonEmpty
-//      it.isInitialize &&
-//		!it.IsEmpty()
+//
+//	     it.isInitialize &&
+//			!it.IsEmpty()
 func (it *SimpleStringOnce) HasSafeNonEmpty() bool {
 	return it.isInitialize &&
 		!it.IsEmpty()

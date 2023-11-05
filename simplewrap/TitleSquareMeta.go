@@ -9,8 +9,8 @@ import (
 // TitleSquareMeta
 //
 // Example :
-//  - constants.SquareTitleMetaWrapFormat
-//  -  "%v: [%v] (%v)"
+//   - constants.SquareTitleMetaWrapFormat
+//   - "%v: [%v] (%v)"
 func TitleSquareMeta(
 	title,
 	value,

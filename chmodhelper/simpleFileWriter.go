@@ -137,14 +137,14 @@ func (it simpleFileWriter) CreateDirDefault(
 
 // WriteFileLock
 //
-//  Writes contents to file system.
+//	Writes contents to file system.
 //
 // parentDirPath:
-//  - is a full path to the parent dir for checking
-//    if parent dir exist if not then created
+//   - is a full path to the parent dir for checking
+//     if parent dir exist if not then created
 //
 // writingFilePath:
-//  - is a full path to the actual file where to write contents
+//   - is a full path to the actual file where to write contents
 func (it simpleFileWriter) WriteFileLock(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
@@ -171,18 +171,18 @@ func (it simpleFileWriter) WriteFileLock(
 
 // WriteFile
 //
-//  Writes contents to file system.
+//	Writes contents to file system.
 //
 // parentDirPath:
-//  - is a full path to the parent dir for checking
-//    if parent dir exist if not then created
+//   - is a full path to the parent dir for checking
+//     if parent dir exist if not then created
 //
 // writingFilePath:
-//  - is a full path to the actual file where to write contents
+//   - is a full path to the actual file where to write contents
 //
 // Warning:
-//  - Chmod will NOT be applied to dir if already created.
-//    This may harm other files.
+//   - Chmod will NOT be applied to dir if already created.
+//     This may harm other files.
 func (it simpleFileWriter) WriteFile(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
@@ -234,14 +234,14 @@ func (it simpleFileWriter) WriteFile(
 
 // WriteFileString
 //
-//  Writes contents to file system.
+//	Writes contents to file system.
 //
 // parentDirPath:
-//  - is a full path to the parent dir for checking
-//    if parent dir exist if not then created
+//   - is a full path to the parent dir for checking
+//     if parent dir exist if not then created
 //
 // writingFilePath:
-//  - is a full path to the actual file where to write contents
+//   - is a full path to the actual file where to write contents
 func (it simpleFileWriter) WriteFileString(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
@@ -277,7 +277,7 @@ func (it simpleFileWriter) WriteStringLock(
 
 // WriteString
 //
-//  Applies default chmod (for dir - 0755, for file - 0644)
+//	Applies default chmod (for dir - 0755, for file - 0644)
 func (it simpleFileWriter) WriteString(
 	writingFilePath string,
 	content string,
@@ -338,7 +338,7 @@ func (it simpleFileWriter) WriteFileCreateDir(
 
 // WriteFileStringCreateDirDefault
 //
-//  Applies default chmod (for dir - 0755, for file - 0644)
+//	Applies default chmod (for dir - 0755, for file - 0644)
 func (it simpleFileWriter) WriteFileStringCreateDirDefault(
 	writingFilePath string,
 	content string,
@@ -364,7 +364,7 @@ func (it simpleFileWriter) WriteFileCreateDirDefaultLock(
 
 // WriteFileCreateDirDefault
 //
-//  Applies default chmod (for dir - 0755, for file - 0644)
+//	Applies default chmod (for dir - 0755, for file - 0644)
 func (it simpleFileWriter) WriteFileCreateDirDefault(
 	writingFilePath string,
 	contentsBytes []byte,
@@ -396,14 +396,14 @@ func (it simpleFileWriter) WriteAnyItemLock(
 
 // WriteAnyItem
 //
-//  Writes contents to file system.
+//	Writes contents to file system.
 //
 // parentDirPath:
-//  - is a full path to the parent dir for checking
-//    if parent dir exist if not then created
+//   - is a full path to the parent dir for checking
+//     if parent dir exist if not then created
 //
 // writingFilePath:
-//  - is a full path to the actual file where to write contents
+//   - is a full path to the actual file where to write contents
 func (it simpleFileWriter) WriteAnyItem(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
@@ -459,7 +459,7 @@ func (it simpleFileWriter) WriteAnyItemDefaultLock(
 
 // WriteAnyItemDefault
 //
-//  Applies default chmod (for dir - 0755, for file - 0644)
+//	Applies default chmod (for dir - 0755, for file - 0644)
 func (it simpleFileWriter) WriteAnyItemDefault(
 	writingFilePath string,
 	anyItem interface{},

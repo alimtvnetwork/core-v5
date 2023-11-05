@@ -303,6 +303,7 @@ func (it *CollectionsOfCollection) ParseInjectUsingJson(
 }
 
 // ParseInjectUsingJsonMust Panic if error
+//
 //goland:noinspection GoLinterLocal
 func (it *CollectionsOfCollection) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,

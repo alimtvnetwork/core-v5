@@ -9,8 +9,8 @@ import (
 // TitleCurlyMeta
 //
 // Example :
-//  - constants.CurlyTitleMetaWrapFormat
-//  -  "%v: {%v} (%v)"
+//   - constants.CurlyTitleMetaWrapFormat
+//   - "%v: {%v} (%v)"
 func TitleCurlyMeta(
 	title,
 	value,

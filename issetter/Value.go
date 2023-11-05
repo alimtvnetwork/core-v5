@@ -15,15 +15,15 @@ import (
 
 // Value
 //
-//  Used evaluate lazy boolean valuesNames.
+//	Used evaluate lazy boolean valuesNames.
 //
 // Values:
-//  - Uninitialized Value = 0
-//  - True          Value = 1
-//  - False         Value = 2
-//  - Unset         Value = 3
-//  - Set           Value = 4
-//  - Wildcard      Value = 5
+//   - Uninitialized Value = 0
+//   - True          Value = 1
+//   - False         Value = 2
+//   - Unset         Value = 3
+//   - Set           Value = 4
+//   - Wildcard      Value = 5
 type Value byte
 
 const (
@@ -137,35 +137,35 @@ func (it Value) IsLater() bool {
 
 // IsNo
 //
-//  Returns true if False or Unset
+//	Returns true if False or Unset
 func (it Value) IsNo() bool {
 	return falseMap[it]
 }
 
 // IsAsk
 //
-//  Returns true if Uninitialized or Wildcard
+//	Returns true if Uninitialized or Wildcard
 func (it Value) IsAsk() bool {
 	return undefinedMap[it]
 }
 
 // IsIndeterminate
 //
-//  Returns true if Uninitialized or Wildcard
+//	Returns true if Uninitialized or Wildcard
 func (it Value) IsIndeterminate() bool {
 	return undefinedMap[it]
 }
 
 // IsAccept
 //
-//  Returns true if True or Set
+//	Returns true if True or Set
 func (it Value) IsAccept() bool {
 	return trueMap[it]
 }
 
 // IsReject
 //
-//  Returns true if False or Unset
+//	Returns true if False or Unset
 func (it Value) IsReject() bool {
 	return falseMap[it]
 }
@@ -180,7 +180,7 @@ func (it Value) IsSuccess() bool {
 
 // IsSkip
 //
-//  Returns true if Uninitialized or Wildcard
+//	Returns true if Uninitialized or Wildcard
 func (it Value) IsSkip() bool {
 	return undefinedMap[it]
 }
@@ -479,10 +479,11 @@ func (it Value) ToByteConditionWithWildcard(wildcard, trueVal, falseVal, invalid
 //
 // if IsWildcard() || IsUnSetOrUninitialized() then
 //
-//      return inputVal
+//	return inputVal
+//
 // else
 //
-//      return v. IsTrue()
+//	return v. IsTrue()
 func (it Value) WildcardApply(inputBool bool) bool {
 	if it.IsWildcard() || it.IsUnSetOrUninitialized() {
 		return inputBool
@@ -495,10 +496,11 @@ func (it Value) WildcardApply(inputBool bool) bool {
 //
 // if IsWildcard() || IsUnSetOrUninitialized() then
 //
-//      return inputVal
+//	return inputVal
+//
 // else
 //
-//      return v. IsTrue()
+//	return v. IsTrue()
 func (it Value) WildcardValueApply(inputVal Value) bool {
 	if it.IsWildcard() || it.IsUnSetOrUninitialized() {
 		return inputVal.IsTrue()
@@ -511,10 +513,11 @@ func (it Value) WildcardValueApply(inputVal Value) bool {
 //
 // if IsWildcard() || IsUnSetOrUninitialized() then
 //
-//      return inputBool
+//	return inputBool
+//
 // else
 //
-//      return v. IsTrue() || inputBool
+//	return v. IsTrue() || inputBool
 func (it Value) OrBool(inputBool bool) bool {
 	if it.IsWildcard() || it.IsUnSetOrUninitialized() {
 		return inputBool
@@ -527,10 +530,11 @@ func (it Value) OrBool(inputBool bool) bool {
 //
 // if IsWildcard() || IsUnSetOrUninitialized() then
 //
-//      return inputVal
+//	return inputVal
+//
 // else
 //
-//      return v. IsTrue() || inputVal. IsTrue()
+//	return v. IsTrue() || inputVal. IsTrue()
 func (it Value) OrValue(inputVal Value) bool {
 	if it.IsWildcard() || it.IsUnSetOrUninitialized() {
 		return inputVal.IsTrue()
@@ -543,10 +547,11 @@ func (it Value) OrValue(inputVal Value) bool {
 //
 // if IsWildcard() || IsUnSetOrUninitialized() then
 //
-//      return inputVal
+//	return inputVal
+//
 // else
 //
-//      return v. IsTrue() && inputBool
+//	return v. IsTrue() && inputBool
 func (it Value) AndBool(inputBool bool) bool {
 	if it.IsWildcard() || it.IsUnSetOrUninitialized() {
 		return inputBool
@@ -559,10 +564,11 @@ func (it Value) AndBool(inputBool bool) bool {
 //
 // if IsWildcard() || IsUnSetOrUninitialized() then
 //
-//      return inputVal
+//	return inputVal
+//
 // else
 //
-//      return GetBool(v. IsTrue() && inputVal. IsTrue())
+//	return GetBool(v. IsTrue() && inputVal. IsTrue())
 func (it Value) And(inputVal Value) Value {
 	if it.IsWildcard() || it.IsUnSetOrUninitialized() {
 		return inputVal

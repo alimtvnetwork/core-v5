@@ -13,10 +13,10 @@ type reflectGetUsingReflectValue struct{}
 
 // PublicValuesMapStruct
 //
-//  returns structs fields map[string]Interface{}
-//  map[string:fieldName]Interface{}:PublicValue
+//	returns structs fields map[string]Interface{}
+//	map[string:fieldName]Interface{}:PublicValue
 //
-//  Only public values will be collected into map values
+//	Only public values will be collected into map values
 func (it reflectGetUsingReflectValue) PublicValuesMapStruct(structValue reflect.Value) (
 	map[string]interface{}, error,
 ) {
@@ -47,10 +47,10 @@ func (it reflectGetUsingReflectValue) PublicValuesMapStruct(structValue reflect.
 
 // FieldNameWithTypeMap
 //
-//  returns structs fields map[string]Interface{}
-//  map[string:fieldName]reflect.Type:fieldType
+//	returns structs fields map[string]Interface{}
+//	map[string:fieldName]reflect.Type:fieldType
 //
-//  Only public values will be collected into map values
+//	Only public values will be collected into map values
 func (it reflectGetUsingReflectValue) FieldNameWithTypeMap(
 	rv reflect.Value,
 ) map[string]reflect.Type {
@@ -87,11 +87,11 @@ func (it reflectGetUsingReflectValue) FieldNameWithTypeMap(
 
 // FieldNameWithValuesMap
 //
-//  returns structs all fields (public, private) map[string]Interface{}
-//  map[string:fieldName]interface{}:fieldValuePublicOrPrivate
+//	returns structs all fields (public, private) map[string]Interface{}
+//	map[string:fieldName]interface{}:fieldValuePublicOrPrivate
 //
-//  unlike PublicValuesMapStruct to map it collects
-//  all fields with values including the private ones.
+//	unlike PublicValuesMapStruct to map it collects
+//	all fields with values including the private ones.
 //
 // However, this one will be slower in performance than PublicValuesMapStruct.
 func (it reflectGetUsingReflectValue) FieldNameWithValuesMap(
@@ -130,8 +130,8 @@ func (it reflectGetUsingReflectValue) FieldNameWithValuesMap(
 
 // FieldNamesMap
 //
-//  returns structs fields map[string]bool
-//  map[string:fieldName]bool
+//	returns structs fields map[string]bool
+//	map[string:fieldName]bool
 func (it reflectGetUsingReflectValue) FieldNamesMap(
 	rv reflect.Value,
 ) (map[string]bool, error) {
@@ -166,8 +166,8 @@ func (it reflectGetUsingReflectValue) FieldNamesMap(
 
 // StructFieldsMap
 //
-//  returns structs all fields (public, private) map[string]reflect.StructField
-//  map[string:fieldName]reflect.StructField:StructField
+//	returns structs all fields (public, private) map[string]reflect.StructField
+//	map[string:fieldName]reflect.StructField:StructField
 func (it reflectGetUsingReflectValue) StructFieldsMap(
 	rv reflect.Value,
 ) map[string]reflect.StructField {
@@ -204,8 +204,8 @@ func (it reflectGetUsingReflectValue) StructFieldsMap(
 
 // NullFieldsMap
 //
-//  returns structs all fields (public, private) map[string]bool
-//  null fields map only
+//	returns structs all fields (public, private) map[string]bool
+//	null fields map only
 func (it reflectGetUsingReflectValue) NullFieldsMap(
 	level int,
 	reflectVal reflect.Value,
@@ -252,8 +252,8 @@ func (it reflectGetUsingReflectValue) NullFieldsMap(
 
 // NullOrZeroFieldsMap
 //
-//  returns structs all fields (public, private) map[string]bool
-//  null or zero fields map only
+//	returns structs all fields (public, private) map[string]bool
+//	null or zero fields map only
 func (it reflectGetUsingReflectValue) NullOrZeroFieldsMap(
 	level int,
 	reflectVal reflect.Value,

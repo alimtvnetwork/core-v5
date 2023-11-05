@@ -187,7 +187,7 @@ func (it *KeyValuePair) IsKeyValueAnyEmpty() bool {
 
 // FormatString
 //
-//  First %v is key and next one is value
+//	First %v is key and next one is value
 func (it *KeyValuePair) FormatString(format string) string {
 	return fmt.Sprintf(
 		format,

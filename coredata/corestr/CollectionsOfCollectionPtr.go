@@ -242,6 +242,7 @@ func (it *CollectionsOfCollectionPtr) ParseInjectUsingJson(
 }
 
 // ParseInjectUsingJsonMust Panic if error
+//
 //goland:noinspection GoLinterLocal
 func (it *CollectionsOfCollectionPtr) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,

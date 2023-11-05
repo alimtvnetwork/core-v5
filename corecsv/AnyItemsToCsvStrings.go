@@ -9,9 +9,9 @@ import (
 // AnyItemsToCsvStrings
 //
 // Formats :
-//  - isIncludeQuote && isIncludeSingleQuote = '%v' will be added
-//  - isIncludeQuote && !isIncludeSingleQuote = "'%v'" will be added
-//  - !isIncludeQuote && !isIncludeSingleQuote = %v will be added
+//   - isIncludeQuote && isIncludeSingleQuote = '%v' will be added
+//   - isIncludeQuote && !isIncludeSingleQuote = "'%v'" will be added
+//   - !isIncludeQuote && !isIncludeSingleQuote = %v will be added
 func AnyItemsToCsvStrings(
 	isIncludeQuote,
 	isIncludeSingleQuote bool, // disable this will give double quote

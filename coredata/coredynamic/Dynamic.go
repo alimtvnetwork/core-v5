@@ -82,7 +82,7 @@ func (it *Dynamic) Value() interface{} {
 
 // Length Returns length of a slice, map, array
 //
-// It will also reduce from pointer
+// # It will also reduce from pointer
 //
 // Reference : https://cutt.ly/PnaWAFn | https://cutt.ly/jnaEig8 | https://play.golang.org/p/UCORoShXlv1
 func (it *Dynamic) Length() int {
@@ -495,6 +495,7 @@ func (it *Dynamic) ParseInjectUsingJson(
 }
 
 // ParseInjectUsingJsonMust Panic if error
+//
 //goland:noinspection GoLinterLocal
 func (it *Dynamic) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,

@@ -92,8 +92,8 @@ func (it *MinMaxInt) RangeLength() int {
 
 // RangesInt
 //
-//  returns empty integers if IsInvalid
-//  return range int values
+//	returns empty integers if IsInvalid
+//	return range int values
 func (it *MinMaxInt) RangesInt() []int {
 	actualRanges := it.Ranges()
 	rangesIntegers := make(
@@ -109,8 +109,8 @@ func (it *MinMaxInt) RangesInt() []int {
 
 // Ranges
 //
-//  returns empty integers if IsInvalid
-//  return range int values
+//	returns empty integers if IsInvalid
+//	return range int values
 func (it *MinMaxInt) Ranges() []int {
 	length := it.RangeLength()
 	start := it.Min
@@ -125,9 +125,9 @@ func (it *MinMaxInt) Ranges() []int {
 
 // Ranges
 //
-//  returns empty integers if IsInvalid
-//  return range int values
-func (it *MinMaxInt) RangesExcept(exceptItems ... int) []int {
+//	returns empty integers if IsInvalid
+//	return range int values
+func (it *MinMaxInt) RangesExcept(exceptItems ...int) []int {
 	length := it.RangeLength()
 	start := it.Min
 	slice := make([]int, length)

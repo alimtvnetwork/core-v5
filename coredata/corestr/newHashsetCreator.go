@@ -23,6 +23,7 @@ func (it *newHashsetCreator) Cap(length int) *Hashset {
 }
 
 // StringsOption addCapacity will not work if it is not a clone.
+//
 //goland:noinspection ALL
 func (it *newHashsetCreator) StringsOption(
 	addCapacity int,

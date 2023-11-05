@@ -1,8 +1,6 @@
 package enumimpltests
 
 import (
-	"reflect"
-	
 	"gitlab.com/auk-go/core/coreimpl/enumimpl"
 	"gitlab.com/auk-go/core/coretests"
 )
@@ -33,11 +31,9 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 				"{\n\n\"someKey2\":4\n\n}\n\n\n" +
 				"- Right Map - Has Diff from Left Map:\n" +
 				"{\n\n\"someKey2\":2\n\n}}",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 	{
@@ -63,11 +59,9 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 				"Difference Between Map:\n\n{\n" +
 				"- Left Map - Has Diff from Right Map:\n" +
 				"{\n\n\"someKey4\":4\n\n}\n\n\n- Right Map - Has Diff from Left Map:\n{\n\n\"someKey2\":2\n\n}}",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 	{
@@ -90,13 +84,11 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 				},
 				DifferChecker: enumimpl.DefaultDiffCheckerImpl,
 			},
-			ActualInput:            nil,
-			ExpectedInput:          "",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			ActualInput:     nil,
+			ExpectedInput:   "",
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 }

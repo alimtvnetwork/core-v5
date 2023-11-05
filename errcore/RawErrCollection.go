@@ -457,7 +457,7 @@ func (it *RawErrCollection) Adds(
 
 // AddString
 //
-//  Empty string will be ignored
+//	Empty string will be ignored
 func (it *RawErrCollection) AddString(
 	message string,
 ) {

@@ -668,6 +668,7 @@ func (it *PayloadWrapper) ParseInjectUsingJson(
 }
 
 // ParseInjectUsingJsonMust Panic if error
+//
 //goland:noinspection GoLinterLocal
 func (it *PayloadWrapper) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,

@@ -69,7 +69,7 @@ func (it SimpleFileReaderWriter) IsParentDirInvalid() bool {
 
 // HasAnyIssues
 //
-//  it.IsPathInvalid() || it.IsParentDirInvalid()
+//	it.IsPathInvalid() || it.IsParentDirInvalid()
 func (it SimpleFileReaderWriter) HasAnyIssues() bool {
 	return it.IsPathInvalid() || it.IsParentDirInvalid()
 }
@@ -371,7 +371,7 @@ func (it SimpleFileReaderWriter) CacheGetSetLock(
 
 // Deserialize
 //
-//  alias for Get
+//	alias for Get
 func (it SimpleFileReaderWriter) Deserialize(
 	toPtr interface{},
 ) error {
@@ -380,7 +380,7 @@ func (it SimpleFileReaderWriter) Deserialize(
 
 // DeserializeLock
 //
-//  alias for Get
+//	alias for Get
 func (it SimpleFileReaderWriter) DeserializeLock(
 	toPtr interface{},
 ) error {
@@ -389,21 +389,21 @@ func (it SimpleFileReaderWriter) DeserializeLock(
 
 // Serialize
 //
-//  alias for ReadOnExist
+//	alias for ReadOnExist
 func (it SimpleFileReaderWriter) Serialize() ([]byte, error) {
 	return it.ReadOnExist()
 }
 
 // SerializeLock
 //
-//  alias for ReadOnExist
+//	alias for ReadOnExist
 func (it SimpleFileReaderWriter) SerializeLock() ([]byte, error) {
 	return it.ReadOnExistLock()
 }
 
 // Set
 //
-//  alias for WriteAny
+//	alias for WriteAny
 func (it SimpleFileReaderWriter) Set(toPtr interface{}) error {
 	return it.WriteAny(toPtr)
 }
@@ -414,8 +414,8 @@ func (it SimpleFileReaderWriter) SetLock(toPtr interface{}) error {
 
 // Expire
 //
-//  Removes file on exist only
-//  alias for RemoveOnExist
+//	Removes file on exist only
+//	alias for RemoveOnExist
 func (it SimpleFileReaderWriter) Expire() error {
 	if it.IsExist() {
 		return os.RemoveAll(it.FilePath)
@@ -426,8 +426,8 @@ func (it SimpleFileReaderWriter) Expire() error {
 
 // ExpireLock
 //
-//  Removes file on exist only
-//  alias for RemoveOnExist
+//	Removes file on exist only
+//	alias for RemoveOnExist
 func (it SimpleFileReaderWriter) ExpireLock() error {
 	SimpleFileWriter.Lock()
 	defer SimpleFileWriter.Unlock()
@@ -437,14 +437,14 @@ func (it SimpleFileReaderWriter) ExpireLock() error {
 
 // OsFile
 //
-//  Os open files must be closed
+//	Os open files must be closed
 func (it SimpleFileReaderWriter) OsFile() (*os.File, error) {
 	return os.Open(it.FilePath)
 }
 
 // ExpireParentDir
 //
-//  warning: recursive process remove all files in it, undoable.
+//	warning: recursive process remove all files in it, undoable.
 func (it SimpleFileReaderWriter) ExpireParentDir() error {
 	if it.IsParentExist() {
 		return os.RemoveAll(it.ParentDir)
@@ -455,7 +455,7 @@ func (it SimpleFileReaderWriter) ExpireParentDir() error {
 
 // ExpireParentDirLock
 //
-//  warning: recursive process remove all files in it, undoable.
+//	warning: recursive process remove all files in it, undoable.
 func (it SimpleFileReaderWriter) ExpireParentDirLock() error {
 	SimpleFileWriter.Lock()
 	defer SimpleFileWriter.Unlock()
@@ -469,8 +469,8 @@ func (it SimpleFileReaderWriter) RemoveOnExist() error {
 
 // RemoveDirOnExist
 //
-//  alias for ExpireParentDir
-//  warning: recursive process remove all files in it, undoable.
+//	alias for ExpireParentDir
+//	warning: recursive process remove all files in it, undoable.
 func (it SimpleFileReaderWriter) RemoveDirOnExist() error {
 	return it.ExpireParentDir()
 }

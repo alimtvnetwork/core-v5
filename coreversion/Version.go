@@ -507,11 +507,11 @@ func (it *Version) IsExpectedComparison(
 
 // IsExpectedComparisonUsingVersionString
 //
-//  @Description: it returns the expected comparison result
-//  @param expectedComparison
-//  @param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
+//	@Description: it returns the expected comparison result
+//	@param expectedComparison
+//	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
-//  @return bool
+//	@return bool
 func (it *Version) IsExpectedComparisonUsingVersionString(
 	expectedComparison corecomparator.Compare,
 	rightVersion string,
@@ -524,10 +524,10 @@ func (it *Version) IsExpectedComparisonUsingVersionString(
 
 // IsAtLeast
 //
-//  @Description: it returns the true if current version is at same or above as the given one or more
-//  @param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
+//	@Description: it returns the true if current version is at same or above as the given one or more
+//	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
-//  @return bool
+//	@return bool
 func (it *Version) IsAtLeast(
 	rightVersion string,
 ) bool {
@@ -539,10 +539,10 @@ func (it *Version) IsAtLeast(
 
 // IsEqualVersionString
 //
-//  @Description: it returns the true if current version same by deduction
-//  @param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
+//	@Description: it returns the true if current version same by deduction
+//	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
-//  @return bool
+//	@return bool
 func (it *Version) IsEqualVersionString(
 	rightVersion string,
 ) bool {
@@ -554,10 +554,10 @@ func (it *Version) IsEqualVersionString(
 
 // IsLowerVersionString
 //
-//  @Description: it returns the true if current version less than the given version.
-//  @param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
+//	@Description: it returns the true if current version less than the given version.
+//	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
-//  @return bool
+//	@return bool
 func (it *Version) IsLowerVersionString(
 	rightVersion string,
 ) bool {
@@ -569,10 +569,10 @@ func (it *Version) IsLowerVersionString(
 
 // IsLowerEqualVersionString
 //
-//  @Description: it returns the true if current version less or equal than the given version.
-//  @param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
+//	@Description: it returns the true if current version less or equal than the given version.
+//	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
-//  @return bool
+//	@return bool
 func (it *Version) IsLowerEqualVersionString(
 	rightVersion string,
 ) bool {

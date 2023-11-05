@@ -140,7 +140,8 @@ func (it *MapAnyItems) GetFieldsMap(
 // GetSafeFieldsMap
 //
 // Warning:
-//  Swallows the parsing err if any
+//
+//	Swallows the parsing err if any
 func (it *MapAnyItems) GetSafeFieldsMap(
 	key string,
 ) (
@@ -478,7 +479,7 @@ func (it *MapAnyItems) GetPagedCollection(
 
 // AddMapResult
 //
-//  apply override on existing result
+//	apply override on existing result
 func (it *MapAnyItems) AddMapResult(
 	mapResults map[string]interface{},
 ) *MapAnyItems {
@@ -927,6 +928,7 @@ func (it *MapAnyItems) ParseInjectUsingJson(
 }
 
 // ParseInjectUsingJsonMust Panic if error
+//
 //goland:noinspection GoLinterLocal
 func (it *MapAnyItems) ParseInjectUsingJsonMust(
 	jsonResult *corejson.Result,

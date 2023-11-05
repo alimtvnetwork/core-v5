@@ -6,7 +6,7 @@ import (
 
 // UnsafeBytesToStrings
 //
-// Returns string arrays from unsafe bytes pointer
+// # Returns string arrays from unsafe bytes pointer
 //
 // May panic on conversion if the bytes were not in unsafe pointer.
 //

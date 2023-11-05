@@ -72,7 +72,7 @@ func (it anyItemConverter) StringWithType(
 
 // ToSafeSerializedString
 //
-//  warning : on error swallows it
+//	warning : on error swallows it
 func (it anyItemConverter) ToSafeSerializedString(
 	any interface{},
 ) string {
@@ -94,9 +94,9 @@ func (it anyItemConverter) ToSafeSerializedString(
 
 // ToSafeSerializedStringSprintValue
 //
-//  return value using %v
+//	return value using %v
 //
-//  warning : on error swallows it
+//	warning : on error swallows it
 func (it anyItemConverter) ToSafeSerializedStringSprintValue(
 	any interface{},
 ) string {
@@ -293,7 +293,8 @@ func (it anyItemConverter) ToFullNameValueString(
 // ToPrettyJson
 //
 // Warning:
-//  swallows error
+//
+//	swallows error
 func (it anyItemConverter) ToPrettyJson(
 	anyItem interface{},
 ) string {

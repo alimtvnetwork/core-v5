@@ -8,7 +8,7 @@ import (
 
 // GetAssertMessageUsingSimpleTestCaseWrapper
 //
-//  Gives generic and consistent test message using msgformats.QuickIndexTitleInputActualExpectedMessageFormat
+//	Gives generic and consistent test message using msgformats.QuickIndexTitleInputActualExpectedMessageFormat
 func GetAssertMessageUsingSimpleTestCaseWrapper(testCaseIndex int, testCaseWrapper SimpleTestCaseWrapper) string {
 	return fmt.Sprintf(
 		msgformats.QuickIndexTitleInputActualExpectedMessageFormat,

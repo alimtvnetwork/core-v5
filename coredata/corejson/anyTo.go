@@ -10,14 +10,14 @@ type anyTo struct{}
 
 // SerializedJsonResult
 //
-//  Casting happens:
-//  - self or self pointer returns directly
-//  - []Bytes to Result
-//  - string (json) to Result
-//  - Jsoner to Result
-//  - bytesSerializer to Result
-//  - error to Result
-//  - AnyItem
+//	Casting happens:
+//	- self or self pointer returns directly
+//	- []Bytes to Result
+//	- string (json) to Result
+//	- Jsoner to Result
+//	- bytesSerializer to Result
+//	- error to Result
+//	- AnyItem
 func (it anyTo) SerializedJsonResult(
 	fromAny interface{},
 ) *Result {
@@ -74,12 +74,12 @@ func (it anyTo) SerializedRaw(
 // SerializedString
 //
 // accepted types (usages SerializedJsonResult):
-//  - Result, *Result
-//  - []byte
-//  - string
-//  - jsoner
-//  - bytesSerializer
-//  - anyItem
+//   - Result, *Result
+//   - []byte
+//   - string
+//   - jsoner
+//   - bytesSerializer
+//   - anyItem
 func (it anyTo) SerializedString(
 	fromAny interface{},
 ) (serializedString string, err error) {
@@ -95,15 +95,16 @@ func (it anyTo) SerializedString(
 // SerializedSafeString
 //
 // accepted types (usages SerializedJsonResult):
-//  - Result, *Result
-//  - []byte
-//  - string
-//  - jsoner
-//  - bytesSerializer
-//  - anyItem
+//   - Result, *Result
+//   - []byte
+//   - string
+//   - jsoner
+//   - bytesSerializer
+//   - anyItem
 //
 // Warning:
-//  swallows error, important data convert must not go into this.
+//
+//	swallows error, important data convert must not go into this.
 func (it anyTo) SerializedSafeString(
 	fromAny interface{},
 ) (serializedString string) {
@@ -127,7 +128,7 @@ func (it anyTo) SerializedStringMust(
 
 // SafeJsonString
 //
-//  warning : swallows error
+//	warning : swallows error
 func (it anyTo) SafeJsonString(
 	anyItem interface{},
 ) string {
@@ -165,7 +166,7 @@ func (it anyTo) PrettyStringWithError(
 
 // SafeJsonPrettyString
 //
-//  warning : swallows error
+//	warning : swallows error
 func (it anyTo) SafeJsonPrettyString(
 	anyItem interface{},
 ) string {
@@ -265,7 +266,7 @@ func (it anyTo) UsingSerializer(
 
 // SerializedFieldsMap
 //
-//  usages json to bytes then use json to create fields map
+//	usages json to bytes then use json to create fields map
 func (it anyTo) SerializedFieldsMap(
 	anyItem interface{},
 ) (fieldsMap map[string]interface{}, parsingErr error) {

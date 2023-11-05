@@ -893,7 +893,7 @@ func (it *Hashmap) KeysLock() []string {
 
 // ValuesListCopyPtrLock
 //
-//  a slice must be returned
+//	a slice must be returned
 func (it *Hashmap) ValuesListCopyPtrLock() *[]string {
 	it.Lock()
 	defer it.Unlock()
