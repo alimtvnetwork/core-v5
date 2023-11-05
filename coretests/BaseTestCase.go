@@ -25,16 +25,16 @@ import (
 //   - ActualExpectedType : Verify type for the ExpectedInput
 //   - ExpectedTypeOfExpected : Verify type for the actual method return type, ExpectedInput type == ActualExpectedType == ExpectedTypeOfExpected (all 3 should match)
 type BaseTestCase struct {
-	Title                  string         // consider as header
-	ArrangeInput           interface{}    // preparing input
-	ActualInput            interface{}    // input for the act method
-	ExpectedInput          interface{}    // expectation set from the test
-	ArrangeExpectedType    reflect.Type   // Verify type for the ActualInput
-	ActualExpectedType     reflect.Type   // Verify type for the expectation set input (ExpectedInput)
-	ExpectedTypeOfExpected reflect.Type   // What actual function returned what is the type of it, verify
-	IsEnable               issetter.Value // Only false makes it disabled.
-	HasError               bool
-	IsValidateError        bool
+	Title                 string         // consider as header
+	ArrangeInput          interface{}    // preparing input
+	ActualInput           interface{}    // input for the act method
+	ExpectedInput         interface{}    // expectation set from the test
+	ArrangeExpectedType    reflect.Type // Verify type for the ArrangeInput
+	ActualExpectedType     reflect.Type // Verify the type of ActualInput, must use SetActual to set the actual
+	ExpectedTypeOfExpected reflect.Type // Verify the type of ExpectedInput
+	IsEnable              issetter.Value // Only false makes it disabled.
+	HasError              bool
+	IsValidateError       bool
 }
 
 func (it *BaseTestCase) CaseTitle() string {
@@ -51,6 +51,11 @@ func (it *BaseTestCase) TypesValidationMustPasses(t *testing.T) {
 	}
 }
 
+// TypeValidationError
+//
+// must use SetActual to set the actual,
+// what received from the act method,
+// set it using SetActual
 func (it *BaseTestCase) TypeValidationError() error {
 	var sliceErr []string
 	arrangeInputActualType := reflect.TypeOf(it.ArrangeInput)
@@ -135,55 +140,28 @@ func (it *BaseTestCase) String(caseIndex int) string {
 		caseIndex, it)
 }
 
-func (it *BaseTestCase) Skip(
-	t *testing.T,
-	msg string,
-) {
-	t.Skipf(msg)
-}
-
-func (it *BaseTestCase) SkipFmt(
-	t *testing.T,
-	format string,
-	v ...interface{},
-) {
-	t.Skipf(format, v...)
-}
-
-func (it *BaseTestCase) SkipFmtIf(
-	isSkip bool,
-	t *testing.T,
-	format string,
-	v ...interface{},
-) {
-	if !isSkip {
-		return
-	}
-
-	t.Skipf(format, v...)
-}
-
-func (it *BaseTestCase) SkipIf(
-	isSkip bool,
-	t *testing.T,
-) {
-	if !isSkip {
-		return
-	}
-
-	t.Skipf(
-		"Header : %s, skipped: Disabled.",
-		it.Title)
-}
-
 func (it *BaseTestCase) IsDisabled() bool {
 	return it.IsEnable.IsFalse()
 }
 
-func (it *BaseTestCase) SkipOnDisable(t *testing.T) {
-	it.SkipIf(it.IsDisabled(), t)
+func (it *BaseTestCase) IsSkipWithLog(caseIndex int) bool {
+	if it.IsDisabled() {
+		fmt.Printf(
+			"Header : %s (%d), skipped: Disabled.",
+			it.Title,
+			caseIndex)
+
+		return true
+	}
+
+	return false
 }
 
+
+
+// ShouldBe
+//
+// Disabled testcases will not be executed.
 func (it *BaseTestCase) ShouldBe(
 	caseIndex int,
 	t *testing.T,
@@ -191,10 +169,12 @@ func (it *BaseTestCase) ShouldBe(
 	actual interface{},
 ) {
 	if it.IsEnable.IsFalse() {
-		t.Skipf(
+		fmt.Printf(
 			"Header : %s (%d), skipped: Disabled.",
 			it.Title,
 			caseIndex)
+
+		return
 	}
 
 	it.ShouldBeExplicit(
