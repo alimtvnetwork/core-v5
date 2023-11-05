@@ -2,8 +2,6 @@ package corerange
 
 import (
 	"math"
-
-	"gitlab.com/auk-go/core/constants"
 )
 
 type RangeInt16 struct {
@@ -63,7 +61,7 @@ func (r *RangeInt16) DifferenceAbsolute() int16 {
 	diff := r.Difference()
 
 	if diff < 0 {
-		return diff
+		return diff * -1
 	}
 
 	return diff
@@ -76,20 +74,20 @@ func (r *RangeInt16) RangeLength() int16 {
 
 // RangesInt16 returns empty ints if IsInvalid
 // return range int values
-func (r *RangeInt16) RangesInt16() *[]int16 {
+func (r *RangeInt16) RangesInt16() []int16 {
 	return r.Ranges()
 }
 
 // Ranges returns empty ints if IsInvalid
 // return range int values
-func (r *RangeInt16) Ranges() *[]int16 {
+func (r *RangeInt16) Ranges() []int16 {
 	if r.IsInvalid() {
-		return &[]int16{}
+		return []int16{}
 	}
 
 	length := r.RangeLength()
 	start := r.Start
-	slice := make([]int16, constants.Zero, length)
+	slice := make([]int16, length)
 
 	var i int16
 
@@ -97,7 +95,7 @@ func (r *RangeInt16) Ranges() *[]int16 {
 		slice[i] = start + i
 	}
 
-	return &slice
+	return slice
 }
 
 func (r *RangeInt16) String() string {

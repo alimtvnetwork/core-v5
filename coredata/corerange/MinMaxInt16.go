@@ -1,5 +1,7 @@
 package corerange
 
+import "gitlab.com/auk-go/core/internal/convertinteranl"
+
 type MinMaxInt16 struct {
 	Min, Max int16
 }
@@ -127,6 +129,51 @@ func (it *MinMaxInt16) Ranges() []int16 {
 
 	for i = 0; i < length; i++ {
 		slice[i] = start + i
+	}
+
+	return slice
+}
+
+func (it *MinMaxInt16) CreateRanges(minMaxRanges ...MinMaxInt16) []int16 {
+	if len(minMaxRanges) == 0 {
+		return it.Ranges()
+	}
+
+	firstRanges := it.Ranges()
+	totalPossible := len(firstRanges)
+	for _, maxRange := range minMaxRanges {
+		totalPossible += int(maxRange.DifferenceAbsolute())
+	}
+
+	slice := make([]int16, 0, totalPossible)
+	slice = append(slice, firstRanges...)
+	for _, maxRange := range minMaxRanges {
+		slice = append(slice, maxRange.Ranges()...)
+	}
+
+	return slice
+}
+
+// Ranges
+//
+//	returns empty integers if IsInvalid
+//	return range int values
+func (it *MinMaxInt16) RangesExcept(exceptItems ...int) []int16 {
+	length := it.RangeLength()
+	start := it.Min
+	slice := make([]int16, 0, length)
+	toHashmap := convertinteranl.
+		Integers.
+		ToMapBool(exceptItems...)
+
+	for i := 0; i < int(length); i++ {
+		id := start + int16(i)
+		if toHashmap[int(id)] {
+			continue
+		}
+
+		// add not exist
+		slice = append(slice, id)
 	}
 
 	return slice

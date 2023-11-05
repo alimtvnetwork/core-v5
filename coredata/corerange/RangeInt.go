@@ -125,26 +125,26 @@ func (r *RangeInt) RangeLength() int {
 
 // RangesInt returns empty ints if IsInvalid
 // return range int values
-func (r *RangeInt) RangesInt() *[]int {
+func (r *RangeInt) RangesInt() []int {
 	return r.Ranges()
 }
 
 // Ranges returns empty ints if IsInvalid
 // return range int values
-func (r *RangeInt) Ranges() *[]int {
+func (r *RangeInt) Ranges() []int {
 	if r.IsInvalid() {
-		return &[]int{}
+		return []int{}
 	}
 
 	length := r.RangeLength()
 	start := r.Start
-	slice := make([]int, constants.Zero, length)
+	slice := make([]int, length)
 
 	for i := 0; i < length; i++ {
 		slice[i] = start + i
 	}
 
-	return &slice
+	return slice
 }
 
 func (r *RangeInt) String() string {
