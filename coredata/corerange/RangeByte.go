@@ -54,18 +54,19 @@ func NewRangeByte(
 		CreateRangeByte()
 }
 
+// Difference
+//
+// Checks comparison wise which one is bigger than does the diff.
 func (r *RangeByte) Difference() byte {
-	return r.End - r.Start
+	if r.End > r.Start {
+		return r.End - r.Start
+	}
+
+	return r.Start - r.End
 }
 
 func (r *RangeByte) DifferenceAbsolute() byte {
-	diff := r.Difference()
-
-	if diff < 0 {
-		return diff
-	}
-
-	return diff
+	return r.Difference()
 }
 
 // RangeLength (5 - 3 = 2) + 1
