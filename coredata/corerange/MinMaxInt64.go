@@ -1,6 +1,6 @@
 package corerange
 
-import "gitlab.com/auk-go/core/constants"
+import "gitlab.com/auk-go/core/internal/convertinteranl"
 
 type MinMaxInt64 struct {
 	Min, Max int64
@@ -125,13 +125,57 @@ func (it *MinMaxInt64) Ranges() []int64 {
 	start := it.Min
 	slice := make(
 		[]int64,
-		constants.Zero,
 		length)
 
 	var i int64
 
 	for i = 0; i < length; i++ {
 		slice[i] = start + i
+	}
+
+	return slice
+}
+
+func (it *MinMaxInt64) CreateRanges(minMaxRanges ...MinMaxInt64) []int64 {
+	if len(minMaxRanges) == 0 {
+		return it.Ranges()
+	}
+
+	firstRanges := it.Ranges()
+	totalPossible := len(firstRanges)
+	for _, maxRange := range minMaxRanges {
+		totalPossible += int(maxRange.DifferenceAbsolute())
+	}
+
+	slice := make([]int64, 0, totalPossible)
+	slice = append(slice, firstRanges...)
+	for _, maxRange := range minMaxRanges {
+		slice = append(slice, maxRange.Ranges()...)
+	}
+
+	return slice
+}
+
+// Ranges
+//
+//	returns empty integers if IsInvalid
+//	return range int values
+func (it *MinMaxInt16) RangesExcept(exceptItems ...int) []int16 {
+	length := it.RangeLength()
+	start := it.Min
+	slice := make([]int16, 0, length)
+	toHashmap := convertinteranl.
+		Integers.
+		ToMapBool(exceptItems...)
+
+	for i := 0; i < int(length); i++ {
+		id := start + int16(i)
+		if toHashmap[int(id)] {
+			continue
+		}
+
+		// add not exist
+		slice = append(slice, id)
 	}
 
 	return slice
