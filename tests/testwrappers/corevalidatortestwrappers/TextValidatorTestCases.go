@@ -274,16 +274,17 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       true,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"NotEqual\"`, Line Index: 1",
-			"     Content-Processed:`\"2 3 alim\"`",
-			"  SearchTerm-Processed:`\"2 3 alim\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `], " +
-				"CompareMethod: [`NotEqual`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`true`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
+			"",
+			"0 )   Header: `All flags true different text and multiple search NOT equal method gives only one error for equal one.`",
+			"----- Method: `\"NotEqual\"`, Line Index: 1",
+			"",
+			"--------------- Actual:",
+			"`\"2 3 alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`NotEqual`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`true`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
 		},
 	},
 	{
@@ -311,16 +312,17 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       false,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"NotEqual\"`, Line Index: 1",
-			"     Content-Processed:`\"2 3 alim\"`",
-			"  SearchTerm-Processed:`\"2 3 alim\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `], " +
-				"CompareMethod: [`NotEqual`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`true`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
+			"",
+			"0 )   Header: `Nonsensitive - All flags true different text and multiple search NOT equal method gives only one error for matching one for equal one.`",
+			"----- Method: `\"NotEqual\"`, Line Index: 1",
+			"",
+			"--------------- Actual:",
+			"`\"2 3 alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`NotEqual`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`true`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
 		},
 	},
 	{
@@ -348,16 +350,17 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       false,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"NotEqual\"`, Line Index: 1",
-			"     Content-Processed:`\"2 3 alim\"`",
-			"  SearchTerm-Processed:`\"2 3 alim\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `], " +
-				"CompareMethod: [`NotEqual`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`true`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
+			"",
+			"0 )   Header: `Nonsensitive - All flags true different text and multiple search NOT equal method gives only one error for matching one for equal one.`",
+			"----- Method: `\"NotEqual\"`, Line Index: 1",
+			"",
+			"--------------- Actual:",
+			"`\"2 3 alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`NotEqual`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`true`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
 		},
 	},
 	{
@@ -385,16 +388,17 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       false,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"NotEqual\"`, Line Index: 1",
-			"     Content-Processed:`\"2 3 Alim Alim alim\"`",
-			"  SearchTerm-Processed:`\"2 3 Alim alim alim\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 Alim 3                 `], " +
-				"CompareMethod: [`NotEqual`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`false`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
+			"",
+			"0 )   Header: `Nonsensitive - All flags true different text and multiple search NOT equal method gives only one error for matching one for equal one.`",
+			"----- Method: `\"NotEqual\"`, Line Index: 1",
+			"",
+			"--------------- Actual:",
+			"`\"2 3 alim alim alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim alim alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 Alim 3                 `], CompareMethod: [`NotEqual`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`false`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
 		},
 	},
 }
