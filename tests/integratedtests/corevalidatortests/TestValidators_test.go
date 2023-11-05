@@ -39,8 +39,9 @@ func Test_TestValidators(t *testing.T) {
 			CompareAs: stringcompareas.Equal,
 		}
 
-		paramsBase2 := corevalidator.ValidatorParamsBase{
+		nextBaseParam := corevalidator.ValidatorParamsBase{
 			CaseIndex:                         caseIndex,
+			Header:                            testCase.Header,
 			IsIgnoreCompareOnActualInputEmpty: false,
 			IsAttachUserInputs:                true,
 			IsCaseSensitive:                   testCase.IsCaseSensitive,
@@ -48,13 +49,16 @@ func Test_TestValidators(t *testing.T) {
 
 		// Act
 		validationFinalError := sliceValidator.AllVerifyError(
-			&paramsBase2)
+			&nextBaseParam)
 
 		isValid := validationFinalError == nil
 
 		// Assert
 		convey.Convey(testCase.Header, t, func() {
-			errcore.ErrPrintWithTestIndex(caseIndex, validationFinalError)
+			errcore.ErrPrintWithTestIndex(
+				caseIndex,
+				testCase.Header,
+				validationFinalError)
 
 			convey.So(isValid, convey.ShouldBeTrue)
 		})

@@ -1,0 +1,33 @@
+package coretests
+
+import (
+	"reflect"
+
+	"gitlab.com/auk-go/core/issetter"
+)
+
+// VerifyTypeOf
+//
+// # Verify type of
+//
+//   - BaseTestCase.ArrangeInput : What we set for initial input
+//   - BaseTestCase.ActualInput : must set BaseTestCase.SetActual
+//   - BaseTestCase.ExpectedInput : What we expect in the test case
+type VerifyTypeOf struct {
+	IsVerify      issetter.Value // Only true makes it verify
+	ArrangeInput  reflect.Type   // Verify type for the BaseTestCase.ArrangeInput
+	ActualInput   reflect.Type   // Verify type for the BaseTestCase.ActualInput, must set BaseTestCase.SetActual
+	ExpectedInput reflect.Type   // Verify type for the BaseTestCase.ExpectedInput
+}
+
+func (it *VerifyTypeOf) IsDefined() bool {
+	return it != nil
+}
+
+func (it *VerifyTypeOf) IsInvalid() bool {
+	return it != nil
+}
+
+func (it *VerifyTypeOf) IsDefinedAndVerify() bool {
+	return it != nil && it.IsVerify.IsTrue()
+}
