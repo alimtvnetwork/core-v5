@@ -21,18 +21,16 @@ func ErrorFuncWrapPanic(errFunc func() error) WrappedErr {
 	var err error
 	var hasThrown bool
 
-	catchFunc := func(e Exception) {
-		exception = e
-		hasThrown = true
-	}
-
-	defer func() {
-		r := recover()
-
-		catchFunc(r)
-	}()
-
-	err = errFunc()
+	Block{
+		Try: func() {
+			err = errFunc()
+		},
+		Catch: func(e Exception) {
+			exception = e
+			hasThrown = e != nil
+		},
+		Finally: nil,
+	}.Do()
 
 	return WrappedErr{
 		Error:     err,
