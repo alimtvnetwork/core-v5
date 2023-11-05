@@ -18,6 +18,7 @@ var (
 			To: &coretests.DraftType{
 				SampleString1: "Same data",
 			},
+			ExpectedValue: &ReflectSetFromToTestCasesDraftTypeExpected,
 		},
 		{
 			Header: "(sameTypeNonPointer, sameTypePointer) -- try reflection -- " +
