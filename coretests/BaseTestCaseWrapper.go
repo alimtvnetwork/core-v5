@@ -12,5 +12,5 @@ type BaseTestCaseWrapper interface {
 	SetActual(actual interface{})
 	String(caseIndex int) string
 	IsDisabled() bool
-	asSimpleTestCaseWrapper() SimpleTestCaseWrapper
+	AsSimpleTestCaseWrapper() SimpleTestCaseWrapper
 }

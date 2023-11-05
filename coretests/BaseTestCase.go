@@ -228,10 +228,10 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	})
 }
 
-func (it *BaseTestCase) asSimpleTestCaseWrapper() SimpleTestCaseWrapper {
+func (it *BaseTestCase) AsSimpleTestCaseWrapper() SimpleTestCaseWrapper {
 	return it
 }
 
-func (it *BaseTestCase) asBaseTestCaseWrapper() BaseTestCaseWrapper {
+func (it *BaseTestCase) AsBaseTestCaseWrapper() BaseTestCaseWrapper {
 	return it
 }

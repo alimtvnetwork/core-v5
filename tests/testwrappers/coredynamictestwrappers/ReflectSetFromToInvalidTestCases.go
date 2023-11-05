@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	ReflectSetFromToValidTestCases = []ReflectSetFromToTestWrapper{
+	ReflectSetFromToInvalidTestCases = []ReflectSetFromToTestWrapper{
 		{
 			Header: "(null, null) -- do nothing -- " +
 				"From `Null` to `Null` -- does nothing -- no error",

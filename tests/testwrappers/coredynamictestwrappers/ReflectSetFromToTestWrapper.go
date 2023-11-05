@@ -18,7 +18,7 @@ func (it ReflectSetFromToTestWrapper) CaseTitle() string {
 }
 
 func (it ReflectSetFromToTestWrapper) Input() interface{} {
-	return it
+	return it.From
 }
 
 func (it ReflectSetFromToTestWrapper) Expected() interface{} {
@@ -49,10 +49,10 @@ func (it ReflectSetFromToTestWrapper) Actual() interface{} {
 	return it.actual
 }
 
-func (it ReflectSetFromToTestWrapper) asSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
+func (it ReflectSetFromToTestWrapper) AsSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
 	return &it
 }
 
-func (it *ReflectSetFromToTestWrapper) asSimpleTestCaseWrapperContractsBinder() coretests.SimpleTestCaseWrapperContractsBinder {
+func (it *ReflectSetFromToTestWrapper) AsSimpleTestCaseWrapperContractsBinder() coretests.SimpleTestCaseWrapperContractsBinder {
 	return it
 }

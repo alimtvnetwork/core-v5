@@ -93,6 +93,6 @@ func (it *SimpleTestCase) ShouldBe(
 	})
 }
 
-func (it *SimpleTestCase) asSimpleTestCaseWrapper() SimpleTestCaseWrapper {
+func (it *SimpleTestCase) AsSimpleTestCaseWrapper() SimpleTestCaseWrapper {
 	return it
 }
