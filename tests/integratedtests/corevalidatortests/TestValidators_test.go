@@ -16,6 +16,7 @@ func Test_TestValidators(t *testing.T) {
 		// Arrange
 		paramsBase := corevalidator.ValidatorParamsBase{
 			CaseIndex:                         constants.Zero, // fixing test case number here as it is fixed data
+			Header:                            testCase.Header,
 			IsIgnoreCompareOnActualInputEmpty: testCase.IsSkipOnContentsEmpty,
 			IsAttachUserInputs:                true,
 			IsCaseSensitive:                   testCase.IsCaseSensitive,
@@ -29,10 +30,10 @@ func Test_TestValidators(t *testing.T) {
 			err)
 
 		sliceValidator := corevalidator.SliceValidator{
-			ActualLines:            errorLines,
-			ExpectedLines:          testCase.ExpectationLines,
 			ValidatorCoreCondition: corevalidator.DefaultDisabledCoreCondition,
 			CompareAs:              stringcompareas.Equal,
+			ActualLines:            errorLines,
+			ExpectedLines:          testCase.ExpectationLines,
 		}
 
 		nextBaseParam := corevalidator.ValidatorParamsBase{

@@ -28,20 +28,21 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       true,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"Equal\"`, Line Index: 0",
-			"     Content-Processed:`\"alim      alim 2 alim 4\"`",
-			"  SearchTerm-Processed:`\"   alim      alim 2 alim 3                 \"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `]," +
-				" CompareMethod: [`Equal`], " +
-				"IsTrimCompare: [`false`], " +
-				"IsSplitByWhitespace: [`false`], " +
-				"IsUniqueWordOnly: [`false`], " +
-				"IsNonEmptyWhitespace: [`false`], " +
-				"IsSortStringsBySpace: [`false`]\"`",
+			"",
+			"0 )   Header: `Comparing all flag to false, and comparing equal.`",
+			"----- Method: `\"Equal\"`, Line Index: 0",
+			"",
+			"--------------- Actual:",
+			"`\"alim      alim 2 alim 4\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"   alim      alim 2 alim 3                 \"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`Equal`], IsTrimCompare: [`false`], IsSplitByWhitespace: [`false`], IsUniqueWordOnly: [`false`], IsNonEmptyWhitespace: [`false`], IsSortStringsBySpace: [`false`]`",
 		},
 	},
 	{
-		Header: "Comparing all flag to false, and comparing equal.",
+		Header: "Comparing single line with TextValidator, when matches nothing to match in expectations.",
 		ComparingLines: []string{
 			"   alim      alim 2 alim 3                 ",
 		},
@@ -113,14 +114,14 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		Validators: corevalidator.TextValidators{
 			Items: []corevalidator.TextValidator{
 				{
-					Search: "   alim      alim 2 alim 3                 ",
+					Search:   "   alim      alim 2 alim 3                 ",
+					SearchAs: stringcompareas.Equal,
 					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     false,
 						IsNonEmptyWhitespace: true,
 						IsSortStringsBySpace: false,
 					},
-					SearchAs: stringcompareas.Equal,
 				},
 			},
 		},
