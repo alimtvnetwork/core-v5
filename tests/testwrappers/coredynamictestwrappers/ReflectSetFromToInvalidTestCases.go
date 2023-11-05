@@ -9,6 +9,18 @@ var (
 		{
 			Header: "(null, null) -- do nothing -- " +
 				"From `Null` to `Null` -- does nothing -- no error",
+			From:          nil,
+			To:            nil,
+			ExpectedValue: &ReflectSetFromToTestCasesDraftTypeExpected,
+		},
+		{
+			Header: "(null, valid type - coretests.DraftType) -- should panic -- " +
+				"From `Null` to `coretests.DraftType`",
+			From: nil,
+			To: &coretests.DraftType{
+				SampleString1: "Same data",
+			},
+			ExpectedValue: &ReflectSetFromToTestCasesDraftTypeExpected,
 		},
 		{
 			Header: "(sameTypePointer, sameTypePointer) -- try reflection -- " +
