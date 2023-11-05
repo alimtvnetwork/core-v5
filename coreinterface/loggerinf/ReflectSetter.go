@@ -9,7 +9,7 @@ package loggerinf
 //
 // # Set any object from to toPointer object
 //
-// Valid Inputs or Supported (https://t.ly/1Lpt):
+// Valid Inputs or Supported (https://t.ly/SGWUx):
 //   - From, To: (null, null)                          -- do nothing
 //   - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
 //   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
@@ -37,7 +37,7 @@ type ReflectSetter interface {
 	//
 	// Set any object from to toPointer object
 	//
-	// Valid Inputs or Supported (https://t.ly/1Lpt):
+	// Valid Inputs or Supported (https://t.ly/SGWUx):
 	//  - From, To: (null, null)                          -- do nothing
 	//  - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
 	//  - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
