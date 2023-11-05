@@ -1,5 +1,7 @@
 package corevalidator
 
+import "gitlab.com/auk-go/core/enums/stringcompareas"
+
 var (
 	DefaultDisabledCoreCondition = ValidatorCoreCondition{
 		IsTrimCompare:        false,
@@ -23,5 +25,11 @@ var (
 		IsUniqueWordOnly:     true,
 		IsNonEmptyWhitespace: true,
 		IsSortStringsBySpace: true,
+	}
+
+	EmptyValidator = TextValidator{
+		Search:                 "",
+		SearchAs:               stringcompareas.Equal,
+		ValidatorCoreCondition: DefaultTrimCoreCondition,
 	}
 )
