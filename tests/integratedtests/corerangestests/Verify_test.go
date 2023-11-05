@@ -3,62 +3,23 @@ package corerangestests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
+	"github.com/smarty/assertions/should"
+	"github.com/smartystreets/goconvey/convey"
 )
 
 func Test_IntRanges_ValidCases(t *testing.T) {
-	for _, testCase := range coredynamictestwrappers.ReflectSetFromToInvalidTestCases {
-		// Act
-		err := coredynamic.ReflectSetFromTo(
-			testCase.From,
-			testCase.To)
+	for _, testCase := range validIntRangeTestCases {
+		// Arrange
+		arrangeInputs := testCase.Arrange()
+		first := arrangeInputs[0]
+		rest := arrangeInputs[1:]
 
-		typeStatus := coredynamic.TypeSameStatus(
-			testCase.To,
-			testCase.ExpectedValue)
-		testCase.SetActual(testCase.To)
+		// Act
+		actualRanges := first.CreateRanges(rest...)
 
 		// Assert
-		Convey(testCase.CaseTitle(), t, func() {
-			So(err, ShouldBeNil)
-			typeStatus.MustBeSame()
-			switch convertedFrom := testCase.From.(type) {
-			case *coretests.DraftType:
-				toField := testCase.ToFieldToDraftType()
-				expectedField := testCase.ExpectedFieldToDraftType()
-				toFieldEqualErr := toField.
-					VerifyNotEqualExcludingInnerFieldsErr(
-						expectedField)
-				fromFieldEqualErr := convertedFrom.
-					VerifyNotEqualExcludingInnerFieldsErr(expectedField)
-
-				So(toFieldEqualErr, ShouldBeNil)
-				So(fromFieldEqualErr, ShouldBeNil)
-
-			case coretests.DraftType:
-				toField := testCase.ToFieldToDraftType()
-				expectedField := testCase.ExpectedFieldToDraftType()
-				toFieldEqualErr := toField.
-					VerifyNotEqualExcludingInnerFieldsErr(
-						expectedField)
-				fromFieldEqualErr := convertedFrom.
-					VerifyNotEqualExcludingInnerFieldsErr(expectedField)
-
-				So(toFieldEqualErr, ShouldBeNil)
-				So(fromFieldEqualErr, ShouldBeNil)
-
-			case []byte, *[]byte:
-				// expecting unmarshalling to type
-				// From, To: ([]byte or *[]byte, otherType) -- try unmarshal, reflect
-				// To, Expected should be same
-				toField := testCase.ToFieldToDraftType()
-				toFieldEqualErr := toField.
-					VerifyNotEqualExcludingInnerFieldsErr(
-						testCase.ExpectedFieldToDraftType())
-				So(toFieldEqualErr, ShouldBeNil)
-			}
+		convey.Convey(testCase.Title, t, func() {
+			convey.So(actualRanges, should.Equal, testCase.ExpectedInput)
 		})
 	}
 }

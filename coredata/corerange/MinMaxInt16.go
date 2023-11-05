@@ -1,6 +1,11 @@
 package corerange
 
-import "gitlab.com/auk-go/core/internal/convertinteranl"
+import (
+	"fmt"
+
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
+)
 
 type MinMaxInt16 struct {
 	Min, Max int16
@@ -225,4 +230,11 @@ func (it *MinMaxInt16) IsEqual(right *MinMaxInt16) bool {
 
 	return it.Max == right.Max &&
 		it.Min == right.Min
+}
+
+func (it MinMaxInt16) String() string {
+	return fmt.Sprintf(
+		constants.SprintFormatNumberWithHyphen,
+		it.Min,
+		it.Max)
 }
