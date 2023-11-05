@@ -9,9 +9,8 @@ type ReflectSetFromToTestWrapper struct {
 	Header                          string
 	From, To, ExpectedValue, actual interface{}
 	IsUsePointerInFrom              bool
-	IsErrorExpected                 bool
-	IsPanic                         bool
-	PanicExpectation                interface{}
+	IsExpectingError                bool
+	HasPanic                        bool
 	Validator                       corevalidator.TextValidator
 }
 

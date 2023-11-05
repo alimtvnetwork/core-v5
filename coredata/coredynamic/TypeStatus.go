@@ -153,7 +153,17 @@ func (it TypeStatus) MustBeSame() {
 		return
 	}
 
-	panic(it.NotMatchMessage(constants.LeftLower, constants.RightLower))
+	panic(it.ValidationError())
+}
+
+func (it TypeStatus) ValidationError() error {
+	if it.IsSame {
+		return nil
+	}
+
+	msg := it.NotMatchMessage(constants.LeftLower, constants.RightLower)
+
+	return errors.New(msg)
 }
 
 func (it TypeStatus) SrcDestinationMustBeSame() {

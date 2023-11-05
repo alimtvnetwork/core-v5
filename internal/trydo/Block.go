@@ -13,9 +13,8 @@ func (it Block) Do() {
 
 	if it.Catch != nil {
 		defer func() {
-			if r := recover(); r != nil {
-				it.Catch(r)
-			}
+			r := recover()
+			it.Catch(r)
 		}()
 	}
 
