@@ -128,26 +128,28 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       true,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"Equal\"`, Line Index: 0",
-			"     Content-Processed:`\"alim alim 2 alim 4\"`",
-			"  SearchTerm-Processed:`\"alim alim 2 alim 3\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `], " +
-				"CompareMethod: [`Equal`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`false`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`false`]\"`",
-			"0 )\t  Expectation failed: Using CompareMethod `\"Equal\"`, Line Index: 2",
-			"     Content-Processed:`\"alim alim 2 alim 5\"`",
-			"  SearchTerm-Processed:`\"alim alim 2 alim 3\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `], " +
-				"CompareMethod: [`Equal`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`false`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`false`]\"`",
+			"",
+			"0 )   Header: `IsTrimCompare with IsNonEmptyWhitespace true different text and multiple search should give 2 errors`",
+			"----- Method: `\"Equal\"`, Line Index: 0",
+			"",
+			"--------------- Actual:",
+			"`\"alim alim 2 alim 4\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"alim alim 2 alim 3\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`Equal`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`false`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`false`]`",
+			"",
+			"0 )   Header: `IsTrimCompare with IsNonEmptyWhitespace true different text and multiple search should give 2 errors`",
+			"----- Method: `\"Equal\"`, Line Index: 2",
+			"",
+			"--------------- Actual:",
+			"`\"alim alim 2 alim 5\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"alim alim 2 alim 3\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`Equal`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`false`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`false`]`",
 		},
 	},
 	{
@@ -175,26 +177,28 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       true,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"Equal\"`, Line Index: 0",
-			"     Content-Processed:`\"2 4 alim alim alim\"`",
-			"  SearchTerm-Processed:`\"2 3 alim alim alim\"`",
-			"            Additional:`\"Search Input: [`   alim      3 alim 2 alim                 `], " +
-				"CompareMethod: [`Equal`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`false`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
-			"0 )\t  Expectation failed: Using CompareMethod `\"Equal\"`, Line Index: 2",
-			"     Content-Processed:`\"2 5 alim alim alim\"`",
-			"  SearchTerm-Processed:`\"2 3 alim alim alim\"`",
-			"            Additional:`\"Search Input: [`   alim      3 alim 2 alim                 `], " +
-				"CompareMethod: [`Equal`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`false`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
+			"",
+			"0 )   Header: `IsTrimCompare, IsSortStringsBySpace with IsNonEmptyWhitespace true different text and multiple search should give 2 errors`",
+			"----- Method: `\"Equal\"`, Line Index: 0",
+			"",
+			"--------------- Actual:",
+			"`\"2 4 alim alim alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim alim alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      3 alim 2 alim                 `], CompareMethod: [`Equal`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`false`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
+			"",
+			"0 )   Header: `IsTrimCompare, IsSortStringsBySpace with IsNonEmptyWhitespace true different text and multiple search should give 2 errors`",
+			"----- Method: `\"Equal\"`, Line Index: 2",
+			"",
+			"--------------- Actual:",
+			"`\"2 5 alim alim alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim alim alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      3 alim 2 alim                 `], CompareMethod: [`Equal`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`false`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
 		},
 	},
 	{
@@ -221,26 +225,28 @@ var TextValidatorsTestCases = []TextValidatorsWrapper{
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       true,
 		ExpectationLines: []string{
-			"0 )\t  Expectation failed: Using CompareMethod `\"Equal\"`, Line Index: 0",
-			"     Content-Processed:`\"2 4 alim\"`",
-			"  SearchTerm-Processed:`\"2 3 alim\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `], " +
-				"CompareMethod: [`Equal`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`true`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
-			"0 )\t  Expectation failed: Using CompareMethod `\"Equal\"`, Line Index: 2",
-			"     Content-Processed:`\"2 5 alim\"`",
-			"  SearchTerm-Processed:`\"2 3 alim\"`",
-			"            Additional:`\"Search Input: [`   alim      alim 2 alim 3                 `], " +
-				"CompareMethod: [`Equal`], " +
-				"IsTrimCompare: [`true`], " +
-				"IsSplitByWhitespace: [`true`], " +
-				"IsUniqueWordOnly: [`true`], " +
-				"IsNonEmptyWhitespace: [`true`], " +
-				"IsSortStringsBySpace: [`true`]\"`",
+			"",
+			"0 )   Header: `All flags true different text and multiple search should give 2 errors`",
+			"----- Method: `\"Equal\"`, Line Index: 0",
+			"",
+			"--------------- Actual:",
+			"`\"2 4 alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`Equal`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`true`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
+			"",
+			"0 )   Header: `All flags true different text and multiple search should give 2 errors`",
+			"----- Method: `\"Equal\"`, Line Index: 2",
+			"",
+			"--------------- Actual:",
+			"`\"2 5 alim\"`",
+			"",
+			"--- Expected or Search:",
+			"`\"2 3 alim\"`",
+			"",
+			"Additional: `Search Input: [`   alim      alim 2 alim 3                 `], CompareMethod: [`Equal`], IsTrimCompare: [`true`], IsSplitByWhitespace: [`true`], IsUniqueWordOnly: [`true`], IsNonEmptyWhitespace: [`true`], IsSortStringsBySpace: [`true`]`",
 		},
 	},
 	{
