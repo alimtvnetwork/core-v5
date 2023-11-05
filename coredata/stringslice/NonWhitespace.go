@@ -4,7 +4,10 @@ import (
 	"gitlab.com/auk-go/core/internal/strutilinternal"
 )
 
-func NonWhitespaceSlice(
+// NonWhitespace
+//
+// Don't include line which is empty or whitespace.
+func NonWhitespace(
 	slice []string,
 ) []string {
 	if slice == nil {

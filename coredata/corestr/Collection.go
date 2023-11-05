@@ -1699,7 +1699,7 @@ func (it *Collection) NonEmptyItemsPtr() *[]string {
 }
 
 func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() *[]string {
-	return stringslice.NonWhitespaceSlicePtr(&it.items)
+	return stringslice.NonWhitespacePtr(&it.items)
 }
 
 // Items direct return pointer

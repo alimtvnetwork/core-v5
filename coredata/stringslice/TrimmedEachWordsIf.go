@@ -1,11 +1,11 @@
 package stringslice
 
-func NonWhitespaceTrimSliceIf(
+func TrimmedEachWordsIf(
 	isNonWhitespaceTrim bool,
 	slice []string,
 ) []string {
 	if isNonWhitespaceTrim {
-		return NonWhitespaceTrimSlice(slice)
+		return TrimmedEachWords(slice)
 	}
 
 	return NonNullStrings(slice)

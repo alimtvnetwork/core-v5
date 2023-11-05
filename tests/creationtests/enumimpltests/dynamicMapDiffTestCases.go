@@ -1,8 +1,6 @@
 package enumimpltests
 
 import (
-	"reflect"
-
 	"gitlab.com/auk-go/core/coreimpl/enumimpl"
 	"gitlab.com/auk-go/core/coretests"
 )
@@ -29,11 +27,9 @@ var dynamicMapDiffTestCases = []EnumImplDynamicMapTestWrapper{
 				"not-exist-in-left":            2,
 				"not-exist-in-right":           3,
 			},
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMap{}),
-			ActualExpectedType:     reflect.TypeOf(enumimpl.DynamicMap{}),
-			ExpectedTypeOfExpected: reflect.TypeOf(enumimpl.DynamicMap{}),
-			HasError:               false,
-			IsValidateError:        true,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 }

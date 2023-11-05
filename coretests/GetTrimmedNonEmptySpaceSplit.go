@@ -18,7 +18,7 @@ func GetTrimmedNonEmptySpaceSplit(
 	}
 
 	items := strings.Fields(message)
-	items = stringslice.NonWhitespaceTrimSlice(items)
+	items = stringslice.TrimmedEachWords(items)
 
 	if isSort {
 		sort.Strings(items)

@@ -29,14 +29,10 @@ func Test_TestValidators(t *testing.T) {
 			err)
 
 		sliceValidator := corevalidator.SliceValidator{
-			ActualLines:   errorLines,
-			ExpectedLines: testCase.ExpectationLines,
-			ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
-				IsTrimCompare:        false,
-				IsNonEmptyWhitespace: false,
-				IsSortStringsBySpace: false,
-			},
-			CompareAs: stringcompareas.Equal,
+			ActualLines:            errorLines,
+			ExpectedLines:          testCase.ExpectationLines,
+			ValidatorCoreCondition: corevalidator.DefaultDisabledCoreCondition,
+			CompareAs:              stringcompareas.Equal,
 		}
 
 		nextBaseParam := corevalidator.ValidatorParamsBase{
@@ -55,7 +51,7 @@ func Test_TestValidators(t *testing.T) {
 
 		// Assert
 		convey.Convey(testCase.Header, t, func() {
-			errcore.ErrPrintWithTestIndex(
+			errcore.PrintErrorWithTestIndex(
 				caseIndex,
 				testCase.Header,
 				validationFinalError)

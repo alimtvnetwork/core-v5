@@ -266,7 +266,7 @@ func (it *SliceValidator) AllVerifyErrorTestCase(
 		&params,
 		it.ExpectingLinesLength())
 
-	errcore.ErrPrintWithTestIndex(caseIndex, header, err)
+	errcore.PrintErrorWithTestIndex(caseIndex, header, err)
 
 	return err
 }

@@ -7,12 +7,20 @@ import (
 )
 
 type ShouldAsserter interface {
+	ShouldBeSimpleAsserter
+	ShouldBeExplicitAsserter
+}
+
+type ShouldBeSimpleAsserter interface {
 	ShouldBe(
 		caseIndex int,
 		t *testing.T,
 		assert convey.Assertion,
 		actual interface{},
 	)
+}
+
+type ShouldBeExplicitAsserter interface {
 	ShouldBeExplicit(
 		isValidateType bool,
 		caseIndex int,

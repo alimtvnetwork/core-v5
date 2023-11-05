@@ -135,6 +135,14 @@ func (it Value) IsLater() bool {
 	return it.IsUndefinedLogically()
 }
 
+func (it Value) IsNotTrue() bool {
+	return it != True
+}
+
+func (it Value) IsNot(of Value) bool {
+	return it != of
+}
+
 // IsNo
 //
 //	Returns true if False or Unset

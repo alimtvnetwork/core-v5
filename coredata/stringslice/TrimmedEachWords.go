@@ -4,7 +4,11 @@ import (
 	"strings"
 )
 
-func NonWhitespaceTrimSlice(slice []string) []string {
+// TrimmedEachWords
+//
+// Create a final slice by trimming each words in side each line.
+// No spaces remained.
+func TrimmedEachWords(slice []string) []string {
 	if slice == nil {
 		return []string{}
 	}

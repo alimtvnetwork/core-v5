@@ -19,17 +19,13 @@ import (
 //   - ArrangeInput : Preparing input
 //   - ActualInput : Input for the act method
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
-//   - Will verify type at ArrangeExpectedType
-//   - Set by Developer expectation or assumptions
-//   - ArrangeExpectedType : Verify type for the ActualInput
-//   - ActualExpectedType : Verify type for the ExpectedInput
-//   - ExpectedTypeOfExpected : Verify type for the actual method return type, ExpectedInput type == ActualExpectedType == ExpectedTypeOfExpected (all 3 should match)
+//   - Will verify type using VerifyTypeOf
 type BaseTestCase struct {
 	Title           string         // consider as header
 	ArrangeInput    interface{}    // preparing input, initial input
 	ActualInput     interface{}    // (dynamically set) : must be set after running Act, using SetActual
 	ExpectedInput   interface{}    // expectation set from the test
-	VerifyTypeOf    *VerifyTypeOf  // Verify the type of ArrangeInput, ActualInput, ExpectedInput
+	VerifyTypeOf    *VerifyTypeOf  // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
 	IsEnable        issetter.Value // Only false makes it disabled.
 	HasError        bool
 	IsValidateError bool
@@ -55,7 +51,7 @@ func (it *BaseTestCase) TypesValidationMustPasses(t *testing.T) {
 // what received from the act method,
 // set it using SetActual
 func (it *BaseTestCase) TypeValidationError() error {
-	if it.VerifyTypeOf.IsInvalid() {
+	if it.VerifyTypeOf.IsInvalidOrSkipVerify() {
 		return nil
 	}
 

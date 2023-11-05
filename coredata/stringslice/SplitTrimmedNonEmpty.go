@@ -23,5 +23,5 @@ func SplitTrimmedNonEmpty(
 		return []string{}
 	}
 
-	return NonWhitespaceTrimSlice(items)
+	return TrimmedEachWords(items)
 }

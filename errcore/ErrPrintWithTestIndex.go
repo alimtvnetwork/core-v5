@@ -6,7 +6,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func ErrPrintWithTestIndex(
+func PrintErrorWithTestIndex(
 	caseIndex int,
 	header string,
 	err error,

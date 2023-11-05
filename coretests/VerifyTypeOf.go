@@ -14,7 +14,7 @@ import (
 //   - BaseTestCase.ActualInput : must set BaseTestCase.SetActual
 //   - BaseTestCase.ExpectedInput : What we expect in the test case
 type VerifyTypeOf struct {
-	IsVerify      issetter.Value // Only true makes it verify
+	IsVerify      issetter.Value // Only false makes it verify, creating and attaching it makes it verify true by default.
 	ArrangeInput  reflect.Type   // Verify type for the BaseTestCase.ArrangeInput
 	ActualInput   reflect.Type   // Verify type for the BaseTestCase.ActualInput, must set BaseTestCase.SetActual
 	ExpectedInput reflect.Type   // Verify type for the BaseTestCase.ExpectedInput
@@ -28,6 +28,6 @@ func (it *VerifyTypeOf) IsInvalid() bool {
 	return it != nil
 }
 
-func (it *VerifyTypeOf) IsDefinedAndVerify() bool {
-	return it != nil && it.IsVerify.IsTrue()
+func (it *VerifyTypeOf) IsInvalidOrSkipVerify() bool {
+	return it == nil || it.IsVerify.IsNotTrue()
 }

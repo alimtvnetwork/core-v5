@@ -23,10 +23,10 @@ func SplitContentsByWhitespaceConditions(
 	compiledStringSplits := strings.Fields(input)
 
 	if isNonEmptyWhitespace && isTrimEachLine {
-		compiledStringSplits = stringslice.NonWhitespaceTrimSlice(
+		compiledStringSplits = stringslice.TrimmedEachWords(
 			compiledStringSplits)
 	} else if isNonEmptyWhitespace && !isTrimEachLine {
-		compiledStringSplits = stringslice.NonWhitespaceSlice(
+		compiledStringSplits = stringslice.NonWhitespace(
 			compiledStringSplits)
 	}
 
