@@ -2,7 +2,7 @@ package errcore
 
 import "fmt"
 
-func ErrPrint(
+func PrintError(
 	err error,
 ) {
 	if err != nil {
