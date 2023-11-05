@@ -11,4 +11,17 @@ var (
 	DefaultTrimCoreCondition = ValidatorCoreCondition{
 		IsTrimCompare: true,
 	}
+
+	DefaultSortTrimCoreCondition = ValidatorCoreCondition{
+		IsTrimCompare:        true,
+		IsNonEmptyWhitespace: true,
+		IsSortStringsBySpace: true,
+	}
+
+	DefaultUniqueWordsCoreCondition = ValidatorCoreCondition{
+		IsTrimCompare:        true,
+		IsUniqueWordOnly:     true,
+		IsNonEmptyWhitespace: true,
+		IsSortStringsBySpace: true,
+	}
 )

@@ -203,7 +203,11 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	it.SetActual(actual)
 
 	convey.Convey(title, t, func() {
-		convey.SoMsg(it.String(caseIndex), actual, assert, expected)
+		convey.SoMsg(
+			it.String(caseIndex),
+			actual,
+			assert,
+			expected)
 	})
 
 	if !isValidateType {

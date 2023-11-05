@@ -6,6 +6,9 @@ import (
 	"gitlab.com/auk-go/core/internal/msgformats"
 )
 
+// PrintNameValue
+//
+// Print using msgformats.PrintValuesFormat
 func PrintNameValue(header string, any interface{}) {
 	toString := ToStringNameValues(any)
 

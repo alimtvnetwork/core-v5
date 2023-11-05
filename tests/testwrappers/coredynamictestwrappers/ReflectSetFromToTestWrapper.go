@@ -49,10 +49,10 @@ func (it ReflectSetFromToTestWrapper) Actual() interface{} {
 	return it.actual
 }
 
-func (it ReflectSetFromToTestWrapper) AsSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
+func (it ReflectSetFromToTestWrapper) asSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
 	return &it
 }
 
-func (it *ReflectSetFromToTestWrapper) AsSimpleTestCaseWrapperContractsBinder() coretests.SimpleTestCaseWrapperContractsBinder {
+func (it *ReflectSetFromToTestWrapper) asSimpleTestCaseWrapperContractsBinder() coretests.SimpleTestCaseWrapperContractsBinder {
 	return it
 }

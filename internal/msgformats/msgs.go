@@ -46,7 +46,7 @@ const (
 		"  Actual:`%#v` ,\n\t\t" +
 		"Expected:`%#v`\n\t\t" +
 		"  Actual-Processed:`%#v` ,\n\t\t" +
-		"Expected-Processed:`%#v`"
+		"Expected-Processed:`%#v`\n"
 
 	SearchTermExpectedFormat = `Expecting (left) TextValidator %s ~= %s search term (right), method %s`
 

@@ -85,7 +85,11 @@ func (it *SimpleTestCase) ShouldBe(
 	it.SetActual(actual)
 
 	convey.Convey(it.Title, t, func() {
-		convey.SoMsg(it.String(caseIndex), actual, assert, it.ExpectedInput)
+		convey.SoMsg(
+			it.String(caseIndex),
+			actual,
+			assert,
+			it.ExpectedInput)
 	})
 }
 
