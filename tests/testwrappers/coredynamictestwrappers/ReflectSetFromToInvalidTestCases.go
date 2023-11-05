@@ -89,6 +89,24 @@ var (
 				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
+		{
+			Header: "Value type to Pointer is valid - (valid type - coretests.DraftType, pointer type - *coretests.DraftType) " +
+				"-- works, no error -- " +
+				"From `coretests.DraftType` to `*coretests.DraftType` (value type)",
+			From: coretests.DraftType{
+				SampleString1: "Same data",
+			},
+			To: &coretests.DraftType{
+				SampleString1: "Same data",
+			},
+			IsExpectingError: false,
+			HasPanic:         false,
+			Validator: corevalidator.TextValidator{
+				Search:                 "",
+				SearchAs:               stringcompareas.Equal,
+				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+			},
+		},
 		// {
 		// 	Header: "(sameTypePointer, sameTypePointer) -- try reflection -- " +
 		// 		"From `*FromToTestWrapper{Expected}` " +
