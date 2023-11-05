@@ -1,8 +1,6 @@
 package enumimpltests
 
 import (
-	"reflect"
-
 	"gitlab.com/auk-go/core/coretests"
 )
 
@@ -37,11 +35,9 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				"- Right Map - Has Diff from Left Map:\n{\n\n\"" +
 				"exist-in-left-right-diff-val\":\"{\"Left\":5,\"Right\":6}\",\n\"" +
 				"not-exist-in-right\":\"3 (type:int) - left - key is missing!\"\n\n}}",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 	{
@@ -62,13 +58,11 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				},
 				DifferChecker: checker1,
 			},
-			ActualInput:            nil,
-			ExpectedInput:          "",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			ActualInput:     nil,
+			ExpectedInput:   "",
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 	{
@@ -94,11 +88,9 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				"- Right Map - Has Diff from Left Map:\n" +
 				"{\n\n\"" +
 				"cl\":\"5 (type:int) - left - key is missing!\"\n\n}}",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 	{
@@ -124,11 +116,9 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				"- Left Map - Has Diff from Right Map:" +
 				"\n{\n\n\"" +
 				"cl\":\"{\"Left\":null,\"Right\":5}\"\n\n}\n}",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 	{
@@ -154,11 +144,9 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				"- Left Map - Has Diff from Right Map:" +
 				"\n{\n\n\"" +
 				"cl\":\"{\"Left\":null,\"Right\":5}\"\n\n}\n}",
-			ArrangeExpectedType:    reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-			ActualExpectedType:     reflect.TypeOf(""),
-			ExpectedTypeOfExpected: reflect.TypeOf(""),
-			HasError:               false,
-			IsValidateError:        true,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			HasError:        false,
+			IsValidateError: true,
 		},
 	},
 }

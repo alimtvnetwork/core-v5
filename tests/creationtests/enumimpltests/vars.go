@@ -20,4 +20,10 @@ var (
 		ActualInput:   reflect.TypeOf(enumimpl.DynamicMap{}),
 		ExpectedInput: reflect.TypeOf(enumimpl.DynamicMap{}),
 	}
+
+	typeVerifyOfDynamicMapDiffMessageTestCases = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf(LeftRightDynamicMap{}),
+		ActualInput:   reflect.TypeOf(""),
+		ExpectedInput: reflect.TypeOf(""),
+	}
 )
