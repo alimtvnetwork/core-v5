@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	ReflectSetFromToInvalidTestCases = []ReflectSetFromToTestWrapper{
+	ReflectSetFromToInvalidTestCases = []FromToTestWrapper{
 		{
 			Header: "(null, null) -- do nothing -- no error or exception panic" +
 				"From `Null` to `Null` -- does nothing -- no error",
@@ -91,8 +91,8 @@ var (
 		},
 		// {
 		// 	Header: "(sameTypePointer, sameTypePointer) -- try reflection -- " +
-		// 		"From `*ReflectSetFromToTestWrapper{Expected}` " +
-		// 		"to   `*ReflectSetFromToTestWrapper{Sample data}` should set to Expected. ",
+		// 		"From `*FromToTestWrapper{Expected}` " +
+		// 		"to   `*FromToTestWrapper{Sample data}` should set to Expected. ",
 		// 	From: &ReflectSetFromToTestCasesDraftTypeExpected,
 		// 	To: &coretests.DraftType{
 		// 		SampleString1: "Same data",
@@ -101,8 +101,8 @@ var (
 		// },
 		// {
 		// 	Header: "(sameTypeNonPointer, sameTypePointer) -- try reflection -- " +
-		// 		"From `ReflectSetFromToTestWrapper{Expected}` " +
-		// 		"to   `*ReflectSetFromToTestWrapper{Sample data}` should set to Expected.",
+		// 		"From `FromToTestWrapper{Expected}` " +
+		// 		"to   `*FromToTestWrapper{Sample data}` should set to Expected.",
 		// 	From: ReflectSetFromToTestCasesDraftTypeExpected,
 		// 	To: &coretests.DraftType{
 		// 		SampleString1: "Sample data",
@@ -111,8 +111,8 @@ var (
 		// },
 		// {
 		// 	Header: "(*[]byte, otherType) -- try unmarshal, reflect -- " +
-		// 		"From `*[]bytes(ReflectSetFromToTestWrapper{Expected}` " +
-		// 		"to   `*ReflectSetFromToTestWrapper{Sample data}` should set to Expected.",
+		// 		"From `*[]bytes(FromToTestWrapper{Expected}` " +
+		// 		"to   `*FromToTestWrapper{Sample data}` should set to Expected.",
 		// 	From: ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr(),
 		// 	To: &coretests.DraftType{
 		// 		SampleString1: "Sample data",
@@ -121,7 +121,7 @@ var (
 		// },
 		// {
 		// 	Header: "(otherType, *[]byte) -- try marshal, reflect -- " +
-		// 		"From `ReflectSetFromToTestWrapper{Expected}` " +
+		// 		"From `FromToTestWrapper{Expected}` " +
 		// 		"to   `*[]byte{}` should set to Expected.",
 		// 	From:          ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr(),
 		// 	To:            &[]byte{},

@@ -64,7 +64,7 @@ func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) 
 }
 
 func getFinalVerificationError(
-	testCase coredynamictestwrappers.ReflectSetFromToTestWrapper,
+	testCase coredynamictestwrappers.FromToTestWrapper,
 	validator corevalidator.TextValidator,
 	parameter *corevalidator.ValidatorParamsBase,
 	wrappedResult trydo.WrappedErr,
