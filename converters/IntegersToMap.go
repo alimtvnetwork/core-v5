@@ -1,12 +1,16 @@
 package converters
 
-func IntegersToMap(inputArray *[]int) *map[int]bool {
-	length := len(*inputArray)
+func IntegersToMap(inputArray ...int) map[int]bool {
+	if len(inputArray) == 0 {
+		return map[int]bool{}
+	}
+
+	length := len(inputArray)
 	hashset := make(map[int]bool, length)
 
-	for _, s := range *inputArray {
+	for _, s := range inputArray {
 		hashset[s] = true
 	}
 
-	return &hashset
+	return hashset
 }

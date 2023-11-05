@@ -1,5 +1,7 @@
 package corerange
 
+import "gitlab.com/auk-go/core/internal/convertinteranl"
+
 type MinMaxInt struct {
 	Min, Max int
 }
@@ -38,7 +40,9 @@ func (it *MinMaxInt) DifferenceAbsolute() int {
 		return diff
 	}
 
-	return diff
+	// negative
+
+	return diff * -1
 }
 
 func (it *MinMaxInt) IsMinEqual(val int) bool {
@@ -123,6 +127,26 @@ func (it *MinMaxInt) Ranges() []int {
 	return slice
 }
 
+func (it *MinMaxInt) CreateRanges(minMaxRanges ...MinMaxInt) []int {
+	if len(minMaxRanges) == 0 {
+		return it.Ranges()
+	}
+
+	firstRanges := it.Ranges()
+	totalPossible := len(firstRanges)
+	for _, maxRange := range minMaxRanges {
+		totalPossible += maxRange.DifferenceAbsolute()
+	}
+
+	slice := make([]int, 0, totalPossible)
+	slice = append(slice, firstRanges...)
+	for _, maxRange := range minMaxRanges {
+		slice = append(slice, maxRange.Ranges()...)
+	}
+
+	return slice
+}
+
 // Ranges
 //
 //	returns empty integers if IsInvalid
@@ -130,10 +154,19 @@ func (it *MinMaxInt) Ranges() []int {
 func (it *MinMaxInt) RangesExcept(exceptItems ...int) []int {
 	length := it.RangeLength()
 	start := it.Min
-	slice := make([]int, length)
+	slice := make([]int, 0, length)
+	toHashmap := convertinteranl.
+		Integers.
+		ToMapBool(exceptItems...)
 
 	for i := 0; i < length; i++ {
-		slice[i] = start + i
+		id := start + i
+		if toHashmap[id] {
+			continue
+		}
+
+		// add not exist
+		slice = append(slice, id)
 	}
 
 	return slice

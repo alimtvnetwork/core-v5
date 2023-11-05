@@ -1,7 +1,5 @@
 package corerange
 
-import "gitlab.com/auk-go/core/constants"
-
 type MinMaxInt16 struct {
 	Min, Max int16
 }
@@ -44,7 +42,7 @@ func (it *MinMaxInt16) DifferenceAbsolute() int16 {
 	diff := it.Difference()
 
 	if diff < 0 {
-		return diff
+		return diff * -1
 	}
 
 	return diff
@@ -124,7 +122,7 @@ func (it *MinMaxInt16) RangesInt() []int {
 func (it *MinMaxInt16) Ranges() []int16 {
 	length := it.RangeLength()
 	start := it.Min
-	slice := make([]int16, constants.Zero, length)
+	slice := make([]int16, length)
 	var i int16
 
 	for i = 0; i < length; i++ {

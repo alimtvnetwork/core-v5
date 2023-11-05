@@ -1,6 +1,8 @@
 package corerange
 
-import "gitlab.com/auk-go/core/constants"
+import (
+	"gitlab.com/auk-go/core/internal/convertinteranl"
+)
 
 type MinMaxInt8 struct {
 	Min, Max int8
@@ -44,7 +46,7 @@ func (it *MinMaxInt8) DifferenceAbsolute() int8 {
 	diff := it.Difference()
 
 	if diff < 0 {
-		return diff
+		return diff * -1
 	}
 
 	return diff
@@ -123,11 +125,56 @@ func (it *MinMaxInt8) RangesInt() []int {
 func (it *MinMaxInt8) Ranges() []int8 {
 	length := it.RangeLength()
 	start := it.Min
-	slice := make([]int8, constants.Zero, length)
+	slice := make([]int8, length)
 	var i int8
 
 	for i = 0; i < length; i++ {
 		slice[i] = start + i
+	}
+
+	return slice
+}
+
+func (it *MinMaxInt8) CreateRanges(minMaxRanges ...MinMaxInt8) []int8 {
+	if len(minMaxRanges) == 0 {
+		return it.Ranges()
+	}
+
+	firstRanges := it.Ranges()
+	totalPossible := len(firstRanges)
+	for _, maxRange := range minMaxRanges {
+		totalPossible += int(maxRange.DifferenceAbsolute())
+	}
+
+	slice := make([]int8, 0, totalPossible)
+	slice = append(slice, firstRanges...)
+	for _, maxRange := range minMaxRanges {
+		slice = append(slice, maxRange.Ranges()...)
+	}
+
+	return slice
+}
+
+// Ranges
+//
+//	returns empty integers if IsInvalid
+//	return range int values
+func (it *MinMaxInt8) RangesExcept(exceptItems ...int8) []int8 {
+	length := it.RangeLength()
+	start := it.Min
+	slice := make([]int8, 0, length)
+	toHashmap := convertinteranl.
+		Integers.
+		Int8ToMapBool(exceptItems...)
+
+	for i := 0; i < int(length); i++ {
+		id := start + int8(i)
+		if toHashmap[id] {
+			continue
+		}
+
+		// add not exist
+		slice = append(slice, id)
 	}
 
 	return slice

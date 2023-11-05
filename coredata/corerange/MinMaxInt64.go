@@ -44,7 +44,7 @@ func (it *MinMaxInt64) DifferenceAbsolute() int64 {
 	diff := it.Difference()
 
 	if diff < 0 {
-		return diff
+		return diff * -1
 	}
 
 	return diff
