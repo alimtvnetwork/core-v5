@@ -1,10 +1,13 @@
 package corerangestests
 
 import (
+	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
+	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/coredata/corerange"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/corevalidator"
@@ -113,49 +116,41 @@ func Test_StartEndRanges_ValidCases(t *testing.T) {
 }
 
 func Test_StartEndString_Functions_Result_Verification(t *testing.T) {
-	type inputWrapper struct {
-		Name string
-		corerange.StartEndInt
-		functions map[string]func() string
-	}
-
 	for caseIndex, testCase := range startEndRangesStringFunctionsVerificationTestCases {
 		// Arrange
 		arrangeInputs := testCase.ArrangeInput.([]corerange.StartEndInt)
-		var wrappers []inputWrapper
 		sliceValidator := testCase.Validator
+		slice := corestr.New.SimpleSlice.Cap(100)
 
-		for _, input := range arrangeInputs {
-			w := inputWrapper{
-				Name:        input.String(),
-				StartEndInt: input,
-				functions:   map[string]func() string{},
-			}
+		for i, input := range arrangeInputs {
+			slice.AppendFmt("StartEnd : %s", input.String())
 
-			functions := w.functions
-			functions["String"] = input.String
-			functions["StringColon"] = input.StringColon
-			functions["StringHyphen"] = input.StringHyphen
-			functions["StringSpace"] = input.StringSpace
+			slice.AppendFmt(
+				"    [%d] func : %s        | result : %s",
+				i,
+				"String",
+				input.String())
 
-			wrappers = append(wrappers, w)
+			slice.AppendFmt(
+				"    [%d] func : %s   | result : %s",
+				i,
+				"StringColon",
+				input.StringColon())
+
+			slice.AppendFmt(
+				"    [%d] func : %s  | result : %s",
+				i,
+				"StringHyphen",
+				input.StringHyphen())
+
+			slice.AppendFmt(
+				"    [%d] func : %s   | result : %s",
+				i,
+				"StringSpace",
+				input.StringSpace())
 		}
-
-		slice := corestr.New.SimpleSlice.Cap(len(wrappers) * 10)
 
 		// Act
-		for i, wrapper := range wrappers {
-			slice.AppendFmt("StartEnd : %s", wrapper.Name)
-
-			for funcName, f := range wrapper.functions {
-				slice.AppendFmt(
-					"    [%d] func : %s | result : %s",
-					i,
-					funcName,
-					f())
-			}
-		}
-
 		actual := slice.Strings()
 		testCase.SetActual(actual)
 		sliceValidator.SetActual(actual)
@@ -189,4 +184,52 @@ func Test_StartEndString_Functions_Result_Verification(t *testing.T) {
 				should.BeNil)
 		})
 	}
+}
+
+func Test_RangeInt_Valid_CheckWithInRange_Verification(t *testing.T) {
+	// Arrange
+	validCases := []int{
+		5, 13, 5, 10, 25,
+	}
+	toString := converters.AnyToValueString(validCases)
+
+	// Act, Assert
+	title := toString + " -- all these are valid for (range) : " + someRange.String()
+	convey.Convey(title, t, func() {
+		for _, v := range validCases {
+			isInRange := someRange.IsValidPlusWithinRange(v)
+
+			if !isInRange {
+				fmt.Println("Should be valid but invalid for : " + strconv.Itoa(v))
+			}
+
+			convey.So(
+				isInRange,
+				should.BeTrue)
+		}
+	})
+}
+
+func Test_RangeInt_Invalid_CheckWithInRange_Verification(t *testing.T) {
+	// Arrange
+	invalidCases := []int{
+		265, 311, 4, 26, 100,
+	}
+	toString := converters.AnyToValueString(invalidCases)
+
+	// Act, Assert
+	title := toString + " -- all these are valid for (range) : " + someRange.String()
+	convey.Convey(title, t, func() {
+		for _, v := range invalidCases {
+			isInRange := someRange.IsValidPlusWithinRange(v)
+
+			if isInRange {
+				fmt.Println("Should be Invalid but valid for : " + strconv.Itoa(v))
+			}
+
+			convey.So(
+				isInRange,
+				should.BeFalse)
+		}
+	})
 }

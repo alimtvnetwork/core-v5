@@ -39,5 +39,5 @@ func (receiver *BaseRange) String(start, end interface{}) string {
 		receiver.Separator +
 		constants.SprintValueFormat
 
-	return fmt.Sprint(format, start, end)
+	return fmt.Sprintf(format, start, end)
 }

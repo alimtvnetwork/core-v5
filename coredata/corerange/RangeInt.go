@@ -253,7 +253,7 @@ func (it *RangeInt) ShallowCreateRangeByte() *RangeByte {
 
 // IsWithinRange r.Start >= value && value <= r.End
 func (it *RangeInt) IsWithinRange(value int) bool {
-	return it.Start >= value && value <= it.End
+	return it.End >= value && value >= it.Start
 }
 
 // IsValidPlusWithinRange r.IsValid && r.IsWithinRange(value)
