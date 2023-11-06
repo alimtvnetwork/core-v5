@@ -53,12 +53,12 @@ func NewRangeInt16(
 	return rangeInt.CreateRangeInt16()
 }
 
-func (r *RangeInt16) Difference() int16 {
-	return r.End - r.Start
+func (it *RangeInt16) Difference() int16 {
+	return it.End - it.Start
 }
 
-func (r *RangeInt16) DifferenceAbsolute() int16 {
-	diff := r.Difference()
+func (it *RangeInt16) DifferenceAbsolute() int16 {
+	diff := it.Difference()
 
 	if diff < 0 {
 		return diff * -1
@@ -68,25 +68,25 @@ func (r *RangeInt16) DifferenceAbsolute() int16 {
 }
 
 // RangeLength (5 - 3 = 2) + 1
-func (r *RangeInt16) RangeLength() int16 {
-	return r.DifferenceAbsolute() + 1
+func (it *RangeInt16) RangeLength() int16 {
+	return it.DifferenceAbsolute() + 1
 }
 
 // RangesInt16 returns empty ints if IsInvalid
 // return range int values
-func (r *RangeInt16) RangesInt16() []int16 {
-	return r.Ranges()
+func (it *RangeInt16) RangesInt16() []int16 {
+	return it.Ranges()
 }
 
 // Ranges returns empty ints if IsInvalid
 // return range int values
-func (r *RangeInt16) Ranges() []int16 {
-	if r.IsInvalid() {
+func (it *RangeInt16) Ranges() []int16 {
+	if it.IsInvalid() {
 		return []int16{}
 	}
 
-	length := r.RangeLength()
-	start := r.Start
+	length := it.RangeLength()
+	start := it.Start
 	slice := make([]int16, length)
 
 	var i int16
@@ -98,21 +98,21 @@ func (r *RangeInt16) Ranges() []int16 {
 	return slice
 }
 
-func (r *RangeInt16) String() string {
-	return r.BaseRange.String(r.Start, r.End)
+func (it *RangeInt16) String() string {
+	return it.BaseRange.String(it.Start, it.End)
 }
 
-// IsWithinRange r.Start >= value && value <= r.End
-func (r *RangeInt16) IsWithinRange(value int16) bool {
-	return r.Start >= value && value <= r.End
+// IsWithinRange it.End >= value && value >= it.Start
+func (it *RangeInt16) IsWithinRange(value int16) bool {
+	return it.End >= value && value >= it.Start
 }
 
 // IsValidPlusWithinRange r.IsValid && r.IsWithinRange(value)
-func (r *RangeInt16) IsValidPlusWithinRange(value int16) bool {
-	return r.IsValid && r.IsWithinRange(value)
+func (it *RangeInt16) IsValidPlusWithinRange(value int16) bool {
+	return it.IsValid && it.IsWithinRange(value)
 }
 
 // IsInvalidValue !r.IsValid || !r.IsWithinRange(value)
-func (r *RangeInt16) IsInvalidValue(value int16) bool {
-	return !r.IsValid || !r.IsWithinRange(value)
+func (it *RangeInt16) IsInvalidValue(value int16) bool {
+	return !it.IsValid || !it.IsWithinRange(value)
 }

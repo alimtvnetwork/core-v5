@@ -185,9 +185,9 @@ func (it *MinMaxInt64) RangesExcept(exceptItems ...int) []int64 {
 	return slice
 }
 
-// IsWithinRange r.Min >= value && value <= r.Max
+// IsWithinRange it.Min <= value && value <= it.Max
 func (it *MinMaxInt64) IsWithinRange(value int64) bool {
-	return it != nil && it.Min >= value && value <= it.Max
+	return it != nil && it.Min <= value && value <= it.Max
 }
 
 // IsInvalidValue  !r.IsWithinRange(value)

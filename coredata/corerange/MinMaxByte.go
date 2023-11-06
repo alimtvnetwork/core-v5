@@ -137,9 +137,9 @@ func (it *MinMaxByte) Ranges() []byte {
 	return slice
 }
 
-// IsWithinRange r.Min >= value && value <= r.Max
+// IsWithinRange it.Min <= value && value <= it.Max
 func (it *MinMaxByte) IsWithinRange(value byte) bool {
-	return it.Min >= value && value <= it.Max
+	return it.Min <= value && value <= it.Max
 }
 
 // IsInvalidValue  !r.IsWithinRange(value)
