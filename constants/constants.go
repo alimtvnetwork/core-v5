@@ -435,8 +435,6 @@ const (
 	WhereClauseStart                         = " WHERE "
 	DoubleStars                              = "**"
 	Export                                   = "export"
-	ProductName                              = "Cimux"
-	ProductNameLower                         = "cimux"
 	RedisDefaultAddress                      = "localhost:6379"
 	DefaultConcurrency                       = 10
 	DefaultMaxTrySmall                       = 3

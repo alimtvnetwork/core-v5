@@ -10,7 +10,7 @@ type testWrapper struct {
 	coretests.BaseTestCase
 	IsExpectingError bool
 	HasPanic         bool
-	Validator        corevalidator.TextValidator
+	Validator        corevalidator.SliceValidator
 }
 
 func (it testWrapper) Arrange() []corerange.MinMaxInt {
