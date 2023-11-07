@@ -2,7 +2,7 @@ package corerangestests
 
 import (
 	"reflect"
-
+	
 	"gitlab.com/auk-go/core/coredata/corerange"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/corevalidator"
@@ -45,7 +45,7 @@ var (
 			},
 		},
 	}
-
+	
 	validInt8RangeTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -80,7 +80,7 @@ var (
 			},
 		},
 	}
-
+	
 	validStartEndRangesTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -115,7 +115,7 @@ var (
 			},
 		},
 	}
-
+	
 	startEndRangesStringFunctionsVerificationTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -166,6 +166,20 @@ var (
 			},
 		},
 	}
-
-	someRange = corerange.NewRangeIntUsingValues(5, 25, true)
+	
+	someRange  = corerange.NewRangeIntUsingValues(5, 25, true)
+	someRange1 = corerange.MinMaxInt{
+		Min: 5,
+		Max: 25,
+	}
+	someRange2        = corerange.NewRangeInt16("5:25", ":", nil)
+	range16WithinFunc = func(x int) bool {
+		return someRange2.IsWithinRange(int16(x))
+	}
+	
+	isWithInFuncs = []isWithInFunc{
+		someRange.IsValidPlusWithinRange,
+		someRange1.IsWithinRange,
+		range16WithinFunc,
+	}
 )
