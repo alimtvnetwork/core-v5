@@ -167,19 +167,19 @@ var (
 		},
 	}
 	
-	someRange  = corerange.NewRangeIntUsingValues(5, 25, true)
-	someRange1 = corerange.MinMaxInt{
+	someRange     = corerange.NewRangeIntUsingValues(5, 25, true)
+	minMaxDefault = corerange.MinMaxInt{
 		Min: 5,
 		Max: 25,
 	}
-	someRange2        = corerange.NewRangeInt16("5:25", ":", nil)
+	rangeInt16        = corerange.NewRangeInt16("5:25", ":", nil)
 	range16WithinFunc = func(x int) bool {
-		return someRange2.IsWithinRange(int16(x))
+		return rangeInt16.IsWithinRange(int16(x))
 	}
 	
-	isWithInFuncs = []isWithInFunc{
-		someRange.IsValidPlusWithinRange,
-		someRange1.IsWithinRange,
-		range16WithinFunc,
+	isWithInFuncsMap = map[string]isWithInDefinitionFunc{
+		reflect.TypeOf(someRange).String():     someRange.IsValidPlusWithinRange,
+		reflect.TypeOf(minMaxDefault).String(): minMaxDefault.IsWithinRange,
+		reflect.TypeOf(rangeInt16).String():    range16WithinFunc,
 	}
 )

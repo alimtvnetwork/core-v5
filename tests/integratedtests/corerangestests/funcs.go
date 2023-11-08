@@ -1,5 +1,5 @@
 package corerangestests
 
 type (
-	isWithInFunc func(value int) bool
+	isWithInDefinitionFunc func(value int) bool
 )
