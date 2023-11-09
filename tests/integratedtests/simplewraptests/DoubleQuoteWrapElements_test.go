@@ -9,6 +9,7 @@ import (
 )
 
 func Test_When_DoubleQuoteWrapElements_SkipQuoteOnPresent_Should_Only_Have_SingleDoubleQuotation_NotDuplicates(t *testing.T) {
+	// Arrange
 	testCases := []string{
 		"some-elem",
 		"alim-elem",
@@ -31,6 +32,8 @@ func Test_When_DoubleQuoteWrapElements_SkipQuoteOnPresent_Should_Only_Have_Singl
 		"\"'\"",
 		"\"simple\"",
 	}
+	
+	// Act
 	actual := simplewrap.
 		DoubleQuoteWrapElements(true,
 			testCases...)
@@ -42,6 +45,7 @@ func Test_When_DoubleQuoteWrapElements_SkipQuoteOnPresent_Should_Only_Have_Singl
 }
 
 func Test_When_DoubleQuoteWrapElements_SkipQuoteOnPresent_Disabled_Should_Have_DuplicateDoubleQuotations(t *testing.T) {
+	// Arrange
 	testCases := []string{
 		"some-elem",
 		"alim-elem",
