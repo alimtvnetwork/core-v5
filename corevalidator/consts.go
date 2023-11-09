@@ -1,6 +1,6 @@
 package corevalidator
 
 const (
-	actualUserInputsMessage = "Actual User Input: "
+	actualUserInputsMessage = "Actual Received: "
 	expectingLinesMessage   = "Expecting Input: "
 )

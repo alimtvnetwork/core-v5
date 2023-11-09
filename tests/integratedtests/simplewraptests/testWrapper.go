@@ -1,7 +1,6 @@
-package corerangestests
+package simplewraptests
 
 import (
-	"gitlab.com/auk-go/core/coredata/corerange"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/corevalidator"
 )
@@ -13,8 +12,8 @@ type testWrapper struct {
 	Validator        corevalidator.SliceValidator
 }
 
-func (it testWrapper) Arrange() []corerange.MinMaxInt {
-	return it.ArrangeInput.([]corerange.MinMaxInt)
+func (it testWrapper) Arrange() []string {
+	return it.ArrangeInput.([]string)
 }
 
 func (it testWrapper) Expected() []int {

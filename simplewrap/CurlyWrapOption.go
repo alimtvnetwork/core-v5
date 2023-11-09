@@ -6,10 +6,16 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func CurlyWrap(
+func CurlyWrapOption(
+	isSkipIfExists bool,
 	source interface{},
 ) string {
-	return fmt.Sprintf(
+	toStr := fmt.Sprintf(
 		constants.CurlyWrapFormat,
 		source)
+	
+	return ConditionalWrapWith(
+		'{',
+		toStr,
+		'}')
 }

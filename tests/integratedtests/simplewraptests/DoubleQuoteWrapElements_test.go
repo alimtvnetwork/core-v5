@@ -1,4 +1,4 @@
-package corerangestests
+package simplewraptests
 
 import (
 	"testing"

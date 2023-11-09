@@ -1,4 +1,4 @@
-package corerangestests
+package simplewraptests
 
 import (
 	"reflect"
@@ -11,30 +11,25 @@ import (
 )
 
 var (
-	validIntRangeTestCases = []testWrapper{
+	curlyWrapIfValidTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "2-5, 7-10, 15-20 --- ranges generate for int",
-				ArrangeInput: []corerange.MinMaxInt{
-					{
-						Min: 2,
-						Max: 5,
-					},
-					{
-						Min: 7,
-						Max: 10,
-					},
-					{
-						Min: 15,
-						Max: 20,
-					},
+				Title: "Given strings will be curly wrapped without checking. Curly wrapped guaranteed",
+				ArrangeInput: []string{
+					"alim",
+					"created",
+					"{curly}",
+					"which wraps",
+					"",
+					"any string to",
+					"curly",
+					"even empty ones",
+					"and",
+					"{curly ones}",
+					"{left curly exists",
+					"right curly exists}",
 				},
-				ExpectedInput: []int{
-					2, 3, 4,
-					5, 7, 8,
-					9, 10, 15,
-					16, 17, 18,
-					19, 20,
+				ExpectedInput: []string{
 				},
 				VerifyTypeOf: &coretests.VerifyTypeOf{
 					ArrangeInput:  reflect.TypeOf([]corerange.MinMaxInt{}),
