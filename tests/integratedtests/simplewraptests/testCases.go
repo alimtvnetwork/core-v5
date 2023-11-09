@@ -11,10 +11,11 @@ import (
 )
 
 var (
-	curlyWrapIfValidTestCases = []testWrapper{
+	curlyWrapIfEnabledValidTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Given strings will be curly wrapped without checking. Curly wrapped guaranteed",
+				Title: "Given strings will be curly wrapped without checking. " +
+					"Curly wrapped guaranteed, duplicate curly wrap is possible.",
 				ArrangeInput: []string{
 					"alim",
 					"created",
@@ -30,6 +31,103 @@ var (
 					"right curly exists}",
 				},
 				ExpectedInput: []string{
+					"{alim}",
+					"{created}",
+					"{{curly}}",
+					"{which wraps}",
+					"{}",
+					"{any string to}",
+					"{curly}",
+					"{even empty ones}",
+					"{and}",
+					"{{curly ones}}",
+					"{{left curly exists}",
+					"{right curly exists}}",
+				},
+				VerifyTypeOf: &coretests.VerifyTypeOf{
+					ArrangeInput:  reflect.TypeOf([]corerange.MinMaxInt{}),
+					ActualInput:   reflect.TypeOf([]int{}),
+					ExpectedInput: reflect.TypeOf([]int{}),
+				},
+				IsEnable: issetter.True,
+			},
+		},
+	}
+	curlyWrapIfDisabledValidTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be curly wrapped without checking. " +
+					"Curly wrapped guaranteed, duplicate curly wrap is possible.",
+				ArrangeInput: []string{
+					"alim",
+					"created",
+					"{curly}",
+					"which wraps",
+					"",
+					"any string to",
+					"curly",
+					"even empty ones",
+					"and",
+					"{curly ones}",
+					"{left curly exists",
+					"right curly exists}",
+				},
+				ExpectedInput: []string{
+					"alim",
+					"created",
+					"{curly}",
+					"which wraps",
+					"",
+					"any string to",
+					"curly",
+					"even empty ones",
+					"and",
+					"{curly ones}",
+					"{left curly exists",
+					"right curly exists}",
+				},
+				VerifyTypeOf: &coretests.VerifyTypeOf{
+					ArrangeInput:  reflect.TypeOf([]corerange.MinMaxInt{}),
+					ActualInput:   reflect.TypeOf([]int{}),
+					ExpectedInput: reflect.TypeOf([]int{}),
+				},
+				IsEnable: issetter.True,
+			},
+		},
+	}
+	
+	curlyWrapOptionsValidTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be curly wrapped without checking. " +
+					"Curly wrapped guaranteed, duplicate curly wrap is possible.",
+				ArrangeInput: []string{
+					"alim",
+					"created",
+					"{curly}",
+					"which wraps",
+					"",
+					"any string to",
+					"curly",
+					"even empty ones",
+					"and",
+					"{curly ones}",
+					"{left curly exists",
+					"right curly exists}",
+				},
+				ExpectedInput: []string{
+					"{alim}",
+					"{created}",
+					"{curly}",
+					"{which wraps}",
+					"{}",
+					"{any string to}",
+					"{curly}",
+					"{even empty ones}",
+					"{and}",
+					"{curly ones}",
+					"{left curly exists}",
+					"{right curly exists}",
 				},
 				VerifyTypeOf: &coretests.VerifyTypeOf{
 					ArrangeInput:  reflect.TypeOf([]corerange.MinMaxInt{}),
