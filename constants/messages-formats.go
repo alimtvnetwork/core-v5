@@ -12,6 +12,7 @@ const (
 	SprintNilValueTypeInParenthesisFormat        = "<nil> (type : %T)"
 	SprintValueWithTypeFormat                    = "%v " + SprintTypeInParenthesisFormat
 	SprintDoubleQuoteFormat                      = "%q"
+	SprintStartStringEndCharFormat               = "%c%s%c"
 	SprintSingleQuoteFormat                      = "'%s'"
 	SprintStringFormat                           = "%s"
 	SprintThirdBracketQuoteFormat                = "[\"%v\"]"
