@@ -37,7 +37,7 @@ const (
 	ThreeValueNewLineSpaceJoin                   = " %v\n %v\n %v"
 	BracketWrapFormat                            = "[%v]"
 	BracketQuotationWrapFormat                   = "[\"%v\"]"
-	CurlyWrapFormat                              = "{%v}"
+	CurlyWrapFormat                              = "{%s}"
 	SquareWrapFormat                             = "[%v]"
 	ParenthesisWrapFormat                        = "(%v)"
 	CurlyQuotationWrapFormat                     = "{\"%v\"}"
