@@ -414,4 +414,63 @@ var (
 			},
 		},
 	}
+
+	msgWrapsMsgTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "msg wrap msg for both exist - first msg (second msg).",
+				ArrangeInput: []string{
+					"first \"alim\" msg",  // msg 1
+					"second \"alim\" msg", // msg 2
+				},
+				ExpectedInput: []string{
+					"first \"alim\" msg (second \"alim\" msg)",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "msg wrap msg for first exist, second doesn't - first msg.",
+				ArrangeInput: []string{
+					"first \"alim\" only msg", // msg 1
+					"",
+				},
+				ExpectedInput: []string{
+					"first \"alim\" only msg",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "msg wrap msg for first empty, second exist - 2nd msg.",
+				ArrangeInput: []string{
+					"",                         // msg 1
+					"second \"alim\" only msg", // msg 2
+				},
+				ExpectedInput: []string{
+					"second \"alim\" only msg",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "msg wrap msg for both empty - returns empty.",
+				ArrangeInput: []string{
+					"", // msg 1
+					"", // msg 2
+				},
+				ExpectedInput: []string{
+					"",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 )
