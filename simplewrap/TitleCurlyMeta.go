@@ -2,7 +2,7 @@ package simplewrap
 
 import (
 	"fmt"
-
+	
 	"gitlab.com/auk-go/core/constants"
 )
 
@@ -18,7 +18,7 @@ func TitleCurlyMeta(
 ) string {
 	return fmt.Sprintf(
 		constants.CurlyTitleMetaWrapFormat,
-		title,
-		value,
+		toString(title),
+		toString(value),
 		meta)
 }

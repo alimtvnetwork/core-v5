@@ -99,8 +99,8 @@ var (
 	curlyWrapOptionsValidTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Given strings will be curly wrapped without checking. " +
-					"Curly wrapped guaranteed, duplicate curly wrap is possible.",
+				Title: "Given strings will be curly wrapped with checking. " +
+					"Curly wrapped guaranteed, no duplicate curly wrap possible.",
 				ArrangeInput: []string{
 					"alim",
 					"created",

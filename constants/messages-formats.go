@@ -2,7 +2,7 @@ package constants
 
 const (
 	SprintValueFormat                            = "%v"
-	SprintValueDoubleQuotationFormat             = "\"%v\""
+	SprintValueDoubleQuotationFormat             = "\"%s\""
 	SprintNumberFormat                           = "%d"
 	SprintFullPropertyNameValueFormat            = "%#v"
 	SprintPropertyNameValueFormat                = "%+v"
@@ -20,12 +20,12 @@ const (
 	SprintFormatNumberWithColon                  = "%d:%d"
 	SprintFormatAnyValueWithColon                = "%v:%v"
 	TitleValueFormat                             = "%s : %v"
-	CurlyTitleWrapFormat                         = "%v: {%v}"        // Title, Value
+	CurlyTitleWrapFormat                         = "%s: {%s}"        // Title, Value
 	QuotationTitleWrapFormat                     = "%v: \"%v\""      // Title, Value
-	QuotationTitleMetaWrapFormat                 = "%v: \"%v\" (%v)" // Title, Value, Meta
-	CurlyTitleMetaWrapFormat                     = "%v: {%v} (%v)"   // Title, Value, Meta
-	SquareTitleWrapFormat                        = "%v: [%v]"        // Title, Value
-	SquareTitleMetaWrapFormat                    = "%v: [%v] (%v)"   // Title, Value, Meta
+	QuotationTitleMetaWrapFormat                 = "%s: \"%s\" (%v)" // Title, Value, Meta
+	CurlyTitleMetaWrapFormat                     = "%s: {%s} (%v)"   // Title, Value, Meta
+	SquareTitleWrapFormat                        = "%s: [%s]"        // Title, Value
+	SquareTitleMetaWrapFormat                    = "%s: [%s] (%v)"   // Title, Value, Meta
 	SprintFormatAnyValueWithComma                = "%v,%v"
 	SprintFormatWithNewLine                      = "%v\n%v"
 	SprintFormatAnyValueWithPipe                 = "%v|%v"
@@ -35,11 +35,11 @@ const (
 	SprintFormatNumberWithPipe                   = "%d|%d"
 	ThreeValueNewLineJoin                        = "%v\n%v\n%v"
 	ThreeValueNewLineSpaceJoin                   = " %v\n %v\n %v"
-	BracketWrapFormat                            = "[%v]"
-	BracketQuotationWrapFormat                   = "[\"%v\"]"
+	BracketWrapFormat                            = "[%s]"
+	BracketQuotationWrapFormat                   = "[\"%s\"]"
 	CurlyWrapFormat                              = "{%s}"
-	SquareWrapFormat                             = "[%v]"
-	ParenthesisWrapFormat                        = "(%v)"
+	SquareWrapFormat                             = "[%s]"
+	ParenthesisWrapFormat                        = "(%s)"
 	CurlyQuotationWrapFormat                     = "{\"%s\"}"
 	ParenthesisQuotationWrap                     = "(\"%s\")"
 	ReferenceWrapFormat                          = "Ref (s) { %v }"
@@ -56,6 +56,7 @@ const (
 	SourceDestinationFormat                      = "{Source : %q, Destination: %q}" // source, destination
 	RenameFormat                                 = "{Existing : %q, New: %q}"       // existing, new
 	ValueWrapValueFormat                         = "%v (%v)"
+	StringWrapValueFormat                        = "%s (%s)"
 	FilePathEmpty                                = "File path was empty(\"\")."
 	EnumOnlySupportedFormat                      = "enum: %T, " +
 		"not supported (\"%s\") | only supported { %s }" // enumSelf, enumSelf, csv-support

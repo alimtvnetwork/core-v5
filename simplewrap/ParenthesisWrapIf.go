@@ -2,7 +2,7 @@ package simplewrap
 
 import (
 	"fmt"
-
+	
 	"gitlab.com/auk-go/core/constants"
 )
 
@@ -11,12 +11,10 @@ func ParenthesisWrapIf(
 	source interface{},
 ) string {
 	if !isSquareWrap {
-		return fmt.Sprintf(
-			constants.SprintValueFormat,
-			source)
+		return toString(source)
 	}
-
+	
 	return fmt.Sprintf(
 		constants.ParenthesisWrapFormat,
-		source)
+		toString(source))
 }
