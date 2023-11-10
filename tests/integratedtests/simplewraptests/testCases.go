@@ -4,6 +4,7 @@ import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coredata/corerange"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/issetter"
 )
@@ -354,6 +355,60 @@ var (
 				},
 				VerifyTypeOf: stringsSliceTypeVerification,
 				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	msgCsvItemsTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title curly value should look like - " +
+					"%s: (%s) - title: (csv values, ...).",
+				ArrangeInput: []interface{}{
+					"my title", // title
+					[]interface{}{
+						1,
+						"some csv string",
+						"some \"value\"",
+						"to curly {no}",
+					},
+				},
+				ExpectedInput: []string{
+					"my title (\"1\", \"some csv string\", \"some \"value\"\", \"to curly {no}\")",
+				},
+				VerifyTypeOf: &coretests.VerifyTypeOf{
+					ArrangeInput:  reflect.TypeOf([]interface{}{}),
+					ActualInput:   reflect.TypeOf([]string{}),
+					ExpectedInput: reflect.TypeOf([]string{}),
+				},
+				IsEnable: issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title curly value should look like - " +
+					"%s: (%s) - title: (csv values, ...).",
+				ArrangeInput: []interface{}{
+					"my title", // title
+					[]interface{}{
+						1,
+						5,
+						9,
+						corerange.MinMaxInt{
+							Min: 5,
+							Max: 25,
+						},
+					},
+				},
+				ExpectedInput: []string{
+					"my title (\"1\", \"5\", \"9\", \"5-25\")",
+				},
+				VerifyTypeOf: &coretests.VerifyTypeOf{
+					ArrangeInput:  reflect.TypeOf([]interface{}{}),
+					ActualInput:   reflect.TypeOf([]string{}),
+					ExpectedInput: reflect.TypeOf([]string{}),
+				},
+				IsEnable: issetter.True,
 			},
 		},
 	}
