@@ -394,6 +394,8 @@ var (
 						1,
 						5,
 						9,
+						"",
+						nil,
 						corerange.MinMaxInt{
 							Min: 5,
 							Max: 25,
@@ -401,7 +403,7 @@ var (
 					},
 				},
 				ExpectedInput: []string{
-					"my title (\"1\", \"5\", \"9\", \"5-25\")",
+					"my title (\"1\", \"5\", \"9\", \"\", \"<nil>\", \"5-25\")",
 				},
 				VerifyTypeOf: &coretests.VerifyTypeOf{
 					ArrangeInput:  reflect.TypeOf([]interface{}{}),
