@@ -2,7 +2,7 @@ package simplewraptests
 
 import (
 	"reflect"
-	
+
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/issetter"
 )
@@ -13,7 +13,7 @@ var (
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
-	
+
 	curlyWrapIfEnabledValidTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -90,7 +90,7 @@ var (
 			},
 		},
 	}
-	
+
 	curlyWrapOptionsValidTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -167,7 +167,7 @@ var (
 			},
 		},
 	}
-	
+
 	parenthesisDisabledRemainsAsItIsTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -200,6 +200,84 @@ var (
 					"(parenthesis ones)",
 					"(left parenthesis exists",
 					"right parenthesis exists)",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	squareBracketWrapTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be square bracket [ wrapped ] with no checking. " +
+					"Square bracket wrapped guaranteed, duplicate wrap possible.",
+				ArrangeInput: []string{
+					"alim",
+					"created",
+					"[sq bracket]",
+					"which wraps",
+					"",
+					"any string to",
+					"parenthesis",
+					"even empty ones",
+					"and",
+					"[square]",
+					"[left sq exists",
+					"right sq exists]",
+				},
+				ExpectedInput: []string{
+					"[alim]",
+					"[created]",
+					"[[sq bracket]]",
+					"[which wraps]",
+					"[]",
+					"[any string to]",
+					"[parenthesis]",
+					"[even empty ones]",
+					"[and]",
+					"[[square]]",
+					"[[left sq exists]",
+					"[right sq exists]]",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	squareBracketWrapDisabledTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be NOT square bracket [ wrapped ]. " +
+					"Square bracket wrapped is NOT guaranteed.",
+				ArrangeInput: []string{
+					"alim",
+					"created",
+					"[sq bracket]",
+					"which wraps",
+					"",
+					"any string to",
+					"parenthesis",
+					"even empty ones",
+					"and",
+					"[square]",
+					"[left sq exists",
+					"right sq exists]",
+				},
+				ExpectedInput: []string{
+					"alim",
+					"created",
+					"[sq bracket]",
+					"which wraps",
+					"",
+					"any string to",
+					"parenthesis",
+					"even empty ones",
+					"and",
+					"[square]",
+					"[left sq exists",
+					"right sq exists]",
 				},
 				VerifyTypeOf: stringsSliceTypeVerification,
 				IsEnable:     issetter.True,
