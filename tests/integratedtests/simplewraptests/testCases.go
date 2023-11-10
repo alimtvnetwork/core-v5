@@ -289,29 +289,35 @@ var (
 	titleCurlyMetaTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Title curly meta should look like : " +
-					"Square bracket wrapped is NOT guaranteed.",
+				Title: "Title curly meta should look like - " +
+					"title: {some-value} ({meta data}).",
 				ArrangeInput: []string{
 					"my title",       // title
 					"some \"value\"", // value
-					corejson.Serialize.ToString(coretests.DraftType{
-						// meta
-						SampleString1: "Some meta information",
+					corejson.Serialize.ToString(map[string]string{
+						"some-map-key": "Some meta information", // meta
 					}),
 				},
 				ExpectedInput: []string{
-					"alim",
-					"created",
-					"[sq bracket]",
-					"which wraps",
-					"",
-					"any string to",
-					"parenthesis",
-					"even empty ones",
-					"and",
-					"[square]",
-					"[left sq exists",
-					"right sq exists]",
+					"my title: {some \"value\"} ({\"some-map-key\":\"Some meta information\"})",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title curly meta should look like - " +
+					"title: {some-value} ({meta data}).",
+				ArrangeInput: []string{
+					"my title",        // title
+					"some2 \"value\"", // value
+					corejson.Serialize.ToString(map[string]string{
+						"1": "2-meta", // meta
+					}),
+				},
+				ExpectedInput: []string{
+					"my title: {some2 \"value\"} ({\"1\":\"2-meta\"})",
 				},
 				VerifyTypeOf: stringsSliceTypeVerification,
 				IsEnable:     issetter.True,

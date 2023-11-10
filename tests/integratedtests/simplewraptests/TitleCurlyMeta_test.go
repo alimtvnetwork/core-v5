@@ -7,25 +7,24 @@ import (
 	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
 func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {
-	// Arrange
-	sliceValidator := corevalidator.SliceValidator{
-		ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
-	}
-
 	for caseIndex, testCase := range titleCurlyMetaTestCases {
+		// Arrange
+		sliceValidator := corevalidator.SliceValidator{
+			ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+		}
+
 		inputs := testCase.Arrange()
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 		title := inputs[0]
 		value := inputs[1]
-		meta := inputs[3]
-		realMeta := &coretests.DraftType{}
+		meta := inputs[2]
+		realMeta := &map[string]string{}
 		corejson.Deserialize.FromStringMust(meta, realMeta)
 
 		actualSlice.Add(
