@@ -5,7 +5,9 @@ import (
 
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
+	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/simplewrap"
@@ -20,12 +22,17 @@ func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {
 	for caseIndex, testCase := range titleCurlyMetaTestCases {
 		inputs := testCase.Arrange()
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
+		title := inputs[0]
+		value := inputs[1]
+		meta := inputs[3]
+		realMeta := &coretests.DraftType{}
+		corejson.Deserialize.FromStringMust(meta, realMeta)
 
-		for _, input := range inputs {
-			actualSlice.Add(
-				simplewrap.CurlyWrapOption(
-					true, input))
-		}
+		actualSlice.Add(
+			simplewrap.TitleCurlyMeta(
+				title,
+				value,
+				meta))
 
 		finalActual := actualSlice.Strings()
 		testCase.SetActual(finalActual)
