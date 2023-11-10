@@ -2,7 +2,7 @@ package coretests
 
 import (
 	"reflect"
-
+	
 	"gitlab.com/auk-go/core/issetter"
 )
 
@@ -29,5 +29,5 @@ func (it *VerifyTypeOf) IsInvalid() bool {
 }
 
 func (it *VerifyTypeOf) IsInvalidOrSkipVerify() bool {
-	return it == nil || it.IsVerify.IsNotTrue()
+	return it == nil || it.IsVerify.IsFalse()
 }
