@@ -324,4 +324,37 @@ var (
 			},
 		},
 	}
+
+	titleCurlyTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title curly value should look like - " +
+					"%s: {%s} - title: {value}.",
+				ArrangeInput: []string{
+					"my title",       // title
+					"some \"value\"", // value
+				},
+				ExpectedInput: []string{
+					"my title: {some \"value\"}",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title curly value should look like - " +
+					"%s: {%s} - title: {value}.",
+				ArrangeInput: []string{
+					"my next title",   // title
+					"some2 \"value\"", // value
+				},
+				ExpectedInput: []string{
+					"my next title: {some2 \"value\"}",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 )
