@@ -11,13 +11,13 @@ import (
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
-func Test_CurlyWrapOptions_Wraps_All_CheckConditionally_NoDuplicateCurly(t *testing.T) {
+func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {
 	// Arrange
 	sliceValidator := corevalidator.SliceValidator{
 		ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
 	}
 
-	for caseIndex, testCase := range curlyWrapOptionsValidTestCases {
+	for caseIndex, testCase := range titleCurlyMetaTestCases {
 		inputs := testCase.Arrange()
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 

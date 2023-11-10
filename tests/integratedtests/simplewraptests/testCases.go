@@ -3,6 +3,7 @@ package simplewraptests
 import (
 	"reflect"
 
+	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/issetter"
 )
@@ -264,6 +265,39 @@ var (
 					"[square]",
 					"[left sq exists",
 					"right sq exists]",
+				},
+				ExpectedInput: []string{
+					"alim",
+					"created",
+					"[sq bracket]",
+					"which wraps",
+					"",
+					"any string to",
+					"parenthesis",
+					"even empty ones",
+					"and",
+					"[square]",
+					"[left sq exists",
+					"right sq exists]",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	titleCurlyMetaTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title curly meta should look like : " +
+					"Square bracket wrapped is NOT guaranteed.",
+				ArrangeInput: []string{
+					"my title",       // title
+					"some \"value\"", // value
+					corejson.Serialize.ToString(coretests.DraftType{
+						// meta
+						SampleString1: "Some meta information",
+					}),
 				},
 				ExpectedInput: []string{
 					"alim",
