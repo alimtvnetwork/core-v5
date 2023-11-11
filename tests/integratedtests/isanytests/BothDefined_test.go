@@ -5,26 +5,32 @@ import (
 
 	"gitlab.com/auk-go/core/corecsv"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/isany"
 )
 
-func Test_AllNull_Verification(t *testing.T) {
-	for caseIndex, testCase := range allNullTestCases {
+func Test_BothDefined_Verification(t *testing.T) {
+	for caseIndex, testCase := range bothDefinedTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]interface{})
+			ArrangeInput.([]coretests.ArgTwo)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
 			Cap(len(inputs))
 
 		// Act
-		actualSlice.AppendFmt(
-			defaultCaseIndexBoolStringFmt,
-			caseIndex,
-			isany.AllNull(inputs...),
-			corecsv.AnyToTypesCsvDefault(inputs...))
+		for i, parameter := range inputs {
+			f := parameter.First
+			s := parameter.Second
+
+			actualSlice.AppendFmt(
+				defaultCaseIndexBoolStringFmt,
+				i,
+				isany.DefinedBoth(f, s),
+				corecsv.AnyToTypesCsvDefault(f, s))
+		}
 
 		finalActual := actualSlice.Strings()
 		finalTestCase := coretestcases.

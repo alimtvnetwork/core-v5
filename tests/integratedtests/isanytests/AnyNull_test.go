@@ -21,7 +21,7 @@ func Test_AnyNull_Verification(t *testing.T) {
 
 		// Act
 		actualSlice.AppendFmt(
-			"%d : %t (%s)",
+			defaultCaseIndexBoolStringFmt,
 			caseIndex,
 			isany.AnyNull(inputs...),
 			corecsv.AnyToTypesCsvDefault(inputs...))

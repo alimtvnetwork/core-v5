@@ -14,6 +14,12 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
+	arrangeArgsTwoTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]coretests.ArgTwo{}),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf([]string{}),
+	}
+
 	someNull *coretests.ArgTwo = nil
 
 	nullTestCases = []testWrapper{
@@ -158,22 +164,67 @@ var (
 	bothDefinedTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Only defined (not null) ones will be true.",
-				ArrangeInput: []interface{}{
-					&coretests.ArgTwo{},
-					1,
-					nil,
-					coretests.ArgTwo{},
-					someNull,
+				Title: "Only both defined (not null) ones will be true.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  nil,
+						Second: nil,
+					},
+					{
+						First:  nil,
+						Second: someNull,
+					},
+					{
+						First:  someNull,
+						Second: nil,
+					},
+					{
+						First:  someNull,
+						Second: someNull,
+					},
+					{
+						First:  1,
+						Second: someNull,
+					},
+					{
+						First:  someNull,
+						Second: 2,
+					},
+					{
+						First:  1,
+						Second: nil,
+					},
+					{
+						First:  nil,
+						Second: 2,
+					},
+					{
+						First:  1,
+						Second: 2,
+					},
+					{
+						First:  &coretests.ArgTwo{},
+						Second: 2,
+					},
+					{
+						First:  &coretests.ArgTwo{},
+						Second: coretests.ArgTwo{},
+					},
 				},
 				ExpectedInput: []string{
-					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
-					"1 : true (value: 1, type: int)",
-					"2 : false (value: <nil>, type: <nil>)",
-					"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
-					"4 : false (value: <nil>, type: *coretests.ArgTwo)",
+					"0 : false (<nil>, <nil>)",
+					"1 : false (<nil>, *coretests.ArgTwo)",
+					"2 : false (*coretests.ArgTwo, <nil>)",
+					"3 : false (*coretests.ArgTwo, *coretests.ArgTwo)",
+					"4 : false (int, *coretests.ArgTwo)",
+					"5 : false (*coretests.ArgTwo, int)",
+					"6 : false (int, <nil>)",
+					"7 : false (<nil>, int)",
+					"8 : true (int, int)",
+					"9 : true (*coretests.ArgTwo, int)",
+					"10 : true (*coretests.ArgTwo, coretests.ArgTwo)",
 				},
-				VerifyTypeOf: arrangeTypeVerification,
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
