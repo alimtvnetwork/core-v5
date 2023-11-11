@@ -78,4 +78,56 @@ var (
 			},
 		},
 	}
+
+	anyNullTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if any case is null, it will result true, because one is nil.",
+				ArrangeInput: []interface{}{
+					&coretests.ArgTwo{},
+					1,
+					2,
+					coretests.ArgTwo{},
+					someNull,
+				},
+				ExpectedInput: []string{
+					"0 : true (*coretests.ArgTwo, int, int, coretests.ArgTwo, *coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if any case is null, it will result true, because one is nil.",
+				ArrangeInput: []interface{}{
+					nil,
+					someNull,
+					someNull,
+					nil,
+				},
+				ExpectedInput: []string{
+					"1 : true (<nil>, *coretests.ArgTwo, *coretests.ArgTwo, <nil>)",
+				},
+				VerifyTypeOf: arrangeTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if any case is null, it will result false, because none is nil.",
+				ArrangeInput: []interface{}{
+					1,
+					2,
+					"",
+					[]string{},
+				},
+				ExpectedInput: []string{
+					"2 : false (int, int, string, []string)",
+				},
+				VerifyTypeOf: arrangeTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 )
