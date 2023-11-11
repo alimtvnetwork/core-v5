@@ -1,4 +1,4 @@
-package anycmptests
+package isanytests
 
 import (
 	"testing"

@@ -1,4 +1,4 @@
-package anycmptests
+package isanytests
 
 import (
 	"reflect"
@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretests.ArgTwo{}),
+	arrangeInterfaceArrayTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]interface{}{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -18,34 +18,34 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "left and right is null and both are equal.",
-				ArrangeInput: []coretests.ArgTwo{
-					{
+				ArrangeInput: []interface{}{
+					coretests.DataHolder{
 						First:  nil,
 						Second: nil,
 					},
-					{
+					coretests.DataHolder{
 						First:  1,
 						Second: nil,
 					},
-					{
+					coretests.DataHolder{
 						First:  1,
 						Second: 2,
 					},
-					{
+					coretests.DataHolder{
 						First:  &coretests.DraftType{},
 						Second: nil,
 					},
-					{
+					coretests.DataHolder{
 						First:  nil,
 						Second: &coretests.DraftType{},
 					},
-					{
+					coretests.DataHolder{
 						First:  &coretests.DraftType{},
 						Second: &coretests.DraftType{},
 					},
-					{
-						First:  arrangeTypeVerification,
-						Second: arrangeTypeVerification,
+					coretests.DataHolder{
+						First:  arrangeInterfaceArrayTypeVerification,
+						Second: arrangeInterfaceArrayTypeVerification,
 					},
 				},
 				ExpectedInput: []string{
@@ -57,7 +57,7 @@ var (
 					"5 : Inconclusive (*coretests.DraftType, *coretests.DraftType)",
 					"6 : Equal (*coretests.VerifyTypeOf, *coretests.VerifyTypeOf)",
 				},
-				VerifyTypeOf: arrangeTypeVerification,
+				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
