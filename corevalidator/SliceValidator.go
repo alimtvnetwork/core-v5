@@ -10,6 +10,12 @@ import (
 	"gitlab.com/auk-go/core/internal/strutilinternal"
 )
 
+// SliceValidator
+//
+// Use this only for one time verification only.
+//
+// If IsUsedAlready, don't mutate the ActualLines or ExpectedLines
+// it will not work.
 type SliceValidator struct {
 	ValidatorCoreCondition
 	CompareAs stringcompareas.Variant
@@ -70,6 +76,14 @@ func NewSliceValidatorUsingAny(
 		CompareAs:           compareAs,
 		comparingValidators: nil,
 	}
+}
+
+func (it *SliceValidator) IsUsedAlready() bool {
+	if it == nil {
+		return false
+	}
+
+	return it.comparingValidators != nil
 }
 
 func (it *SliceValidator) ActualLinesLength() int {
@@ -271,6 +285,9 @@ func (it *SliceValidator) AllVerifyErrorTestCase(
 	return err
 }
 
+// AllVerifyErrorExceptLast
+//
+// Verify up to the second last item.
 func (it *SliceValidator) AllVerifyErrorExceptLast(
 	params *ValidatorParamsBase,
 ) error {

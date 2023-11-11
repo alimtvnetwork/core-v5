@@ -21,14 +21,15 @@ import (
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 //   - Will verify type using VerifyTypeOf
 type BaseTestCase struct {
-	Title           string         // consider as header
-	ArrangeInput    interface{}    // preparing input, initial input
-	ActualInput     interface{}    // (dynamically set) : must be set after running Act, using SetActual
-	ExpectedInput   interface{}    // expectation set from the test
-	VerifyTypeOf    *VerifyTypeOf  // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
-	IsEnable        issetter.Value // Only false makes it disabled.
-	HasError        bool
-	IsValidateError bool
+	Title             string         `json:",omitempty"` // consider as header
+	ArrangeInput      interface{}    `json:",omitempty"` // preparing input, initial input
+	ActualInput       interface{}    `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
+	ExpectedInput     interface{}    `json:",omitempty"` // expectation set from the test
+	VerifyTypeOf      *VerifyTypeOf  `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
+	ActFuncParameters *DataHolder    `json:",omitempty"` // If Act function requires more parameters it can be defined in the DataHolder.
+	IsEnable          issetter.Value `json:",omitempty"` // Only false makes it disabled.
+	HasError          bool           `json:",omitempty"`
+	IsValidateError   bool           `json:",omitempty"`
 }
 
 func (it *BaseTestCase) CaseTitle() string {
@@ -45,13 +46,23 @@ func (it *BaseTestCase) TypesValidationMustPasses(t *testing.T) {
 	}
 }
 
+func (it *BaseTestCase) IsTypeInvalidOrSkipVerify() bool {
+	return it == nil ||
+		it.VerifyTypeOf == nil ||
+		it.VerifyTypeOf.IsInvalidOrSkipVerify()
+}
+
+func (it *BaseTestCase) IsVerifyType() bool {
+	return it != nil && !it.IsTypeInvalidOrSkipVerify()
+}
+
 // TypeValidationError
 //
 // must use SetActual to set the actual,
 // what received from the act method,
 // set it using SetActual
 func (it *BaseTestCase) TypeValidationError() error {
-	if it.VerifyTypeOf.IsInvalidOrSkipVerify() {
+	if it.IsTypeInvalidOrSkipVerify() {
 		return nil
 	}
 
