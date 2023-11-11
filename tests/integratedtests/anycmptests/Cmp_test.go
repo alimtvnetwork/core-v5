@@ -3,24 +3,31 @@ package anycmptests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/corecsv"
+	"gitlab.com/auk-go/core/anycmp"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-func Test_Cmp_All_True_SingleQuotation_Verification(t *testing.T) {
+func Test_Cmp_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringSingleQuoteTestCases {
 		// Arrange
 		inputs := testCase.ArrangeInput.([]interface{})
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
-		actualSlice.Add(
-			corecsv.AnyItemsToCsvString(
-				constants.CommaSpace,
-				true, true,
-				inputs...))
+		for i, input := range inputs {
+			parameter := input.(coretests.DataHolder)
+			actualSlice.AppendFmt(
+				"%d : %s (%T, %T)",
+				i,
+				anycmp.Cmp(
+					parameter.First,
+					parameter.Second).
+					String(),
+				parameter.First,
+				parameter.Second)
+		}
 
 		finalActual := actualSlice.Strings()
 		finalTestCase := coretestcases.
