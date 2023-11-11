@@ -309,7 +309,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Title curly meta should look like - " +
-					"title: {some-value} ({meta data}).",
+					"eg. title: {some-value} ({meta data}).",
 				ArrangeInput: []string{
 					"my title",        // title
 					"some2 \"value\"", // value
@@ -330,7 +330,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Title curly value should look like - " +
-					"%s: {%s} - title: {value}.",
+					"format: %s: {%s} - eg. title: {value}.",
 				ArrangeInput: []string{
 					"my title",       // title
 					"some \"value\"", // value
@@ -345,7 +345,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Title curly value should look like - " +
-					"%s: {%s} - title: {value}.",
+					"format: %s: {%s} - eg. title: {value}.",
 				ArrangeInput: []string{
 					"my next title",   // title
 					"some2 \"value\"", // value
@@ -363,7 +363,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Title curly value should look like - " +
-					"%s: (%s) - title: (csv values, ...).",
+					"format: %s: (%s) - eg. title: (csv values, ...).",
 				ArrangeInput: []interface{}{
 					"my title", // title
 					[]interface{}{
@@ -387,7 +387,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Title curly value should look like - " +
-					"%s: (%s) - title: (csv values, ...).",
+					"format : %s: (%s) - eg. title: (csv values, ...).",
 				ArrangeInput: []interface{}{
 					"my title", // title
 					[]interface{}{
@@ -467,6 +467,46 @@ var (
 				},
 				ExpectedInput: []string{
 					"",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	withBracketsTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title square bracket wraps - " +
+					"format : [%s] - Eg. [value]. " +
+					"Doesn't verify existence and may have duplicate brackets",
+				ArrangeInput: []string{
+					"alim",
+					"created",
+					"[sq bracket]",
+					"which wraps",
+					"",
+					"any string to",
+					"parenthesis",
+					"even empty ones",
+					"and",
+					"[square]",
+					"[left sq exists",
+					"right sq exists]",
+				},
+				ExpectedInput: []string{
+					"[alim]",
+					"[created]",
+					"[[sq bracket]]",
+					"[which wraps]",
+					"[]",
+					"[any string to]",
+					"[parenthesis]",
+					"[even empty ones]",
+					"[and]",
+					"[[square]]",
+					"[[left sq exists]",
+					"[right sq exists]]",
 				},
 				VerifyTypeOf: stringsSliceTypeVerification,
 				IsEnable:     issetter.True,
