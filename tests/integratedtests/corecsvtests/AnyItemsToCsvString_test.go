@@ -59,3 +59,29 @@ func Test_AnyItemsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 			finalActual...)
 	}
 }
+
+func Test_AnyItemsToCsvString_NoQuotation_Verification(t *testing.T) {
+	for caseIndex, testCase := range anyItemsToCsvStringNoQuoteTestCases {
+		// Arrange
+		inputs := testCase.ArrangeInput.([]interface{})
+		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
+
+		// Act
+		actualSlice.Add(
+			corecsv.AnyItemsToCsvString(
+				constants.CommaSpace,
+				false,
+				false,
+				inputs...))
+
+		finalActual := actualSlice.Strings()
+		finalTestCase := coretestcases.
+			TestCaseV1(testCase.BaseTestCase)
+
+		// Assert
+		finalTestCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActual...)
+	}
+}
