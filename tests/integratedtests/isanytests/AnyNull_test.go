@@ -9,8 +9,8 @@ import (
 	"gitlab.com/auk-go/core/isany"
 )
 
-func Test_AllNull_Verification(t *testing.T) {
-	for caseIndex, testCase := range allNullTestCases {
+func Test_AnyNull_Verification(t *testing.T) {
+	for caseIndex, testCase := range anyNullTestCases {
 		// Arrange
 		inputs := testCase.
 			ArrangeInput.([]interface{})
@@ -23,7 +23,7 @@ func Test_AllNull_Verification(t *testing.T) {
 		actualSlice.AppendFmt(
 			"%d : %t (%s)",
 			caseIndex,
-			isany.AllNull(inputs...),
+			isany.AnyNull(inputs...),
 			corecsv.AnyToTypesCsvDefault(inputs...))
 
 		finalActual := actualSlice.Strings()
