@@ -1,6 +1,7 @@
 package corecsvtests
 
 import (
+	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/constants"
@@ -9,10 +10,10 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-func Test_StringersToString_All_True_SingleQuotation_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringsToCsvStringSingleQuoteTestCases {
+func Test_StringersToString_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringersTestCases {
 		// Arrange
-		inputs := testCase.Arrange()
+		inputs := testCase.ArrangeInput.([]fmt.Stringer)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -24,64 +25,6 @@ func Test_StringersToString_All_True_SingleQuotation_Verification(t *testing.T) 
 				constants.CommaSpace,
 				true,
 				true,
-				inputs...))
-
-		finalActual := actualSlice.Strings()
-		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
-
-		// Assert
-		finalTestCase.AssertEqual(
-			t,
-			caseIndex,
-			finalActual...)
-	}
-}
-
-func Test_StringersToString_DoubleQuotation_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringsToCsvStringDoubleQuoteTestCases {
-		// Arrange
-		inputs := testCase.Arrange()
-		actualSlice := corestr.
-			New.
-			SimpleSlice.
-			Cap(len(inputs))
-
-		// Act
-		actualSlice.Add(
-			corecsv.StringersToString(
-				constants.CommaSpace,
-				true,
-				false,
-				inputs...))
-
-		finalActual := actualSlice.Strings()
-		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
-
-		// Assert
-		finalTestCase.AssertEqual(
-			t,
-			caseIndex,
-			finalActual...)
-	}
-}
-
-func Test_StringersToString_NoQuotation_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringsToCsvStringNoQuoteTestCases {
-		// Arrange
-		inputs := testCase.Arrange()
-		actualSlice := corestr.
-			New.
-			SimpleSlice.
-			Cap(len(inputs))
-
-		// Act
-		actualSlice.Add(
-			corecsv.StringersToString(
-				constants.CommaSpace,
-				false,
-				false,
 				inputs...))
 
 		finalActual := actualSlice.Strings()

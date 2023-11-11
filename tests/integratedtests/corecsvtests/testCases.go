@@ -1,6 +1,7 @@
 package corecsvtests
 
 import (
+	"fmt"
 	"reflect"
 
 	"gitlab.com/auk-go/core/coretests"
@@ -13,9 +14,14 @@ var (
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
-
 	arrangeInterfaceArrayTypeVerification = &coretests.VerifyTypeOf{
 		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf([]string{}),
+	}
+
+	arrangeFmtStringerTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]fmt.Stringer{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -61,7 +67,6 @@ var (
 			},
 		},
 	}
-
 	anyItemsToCsvStringDoubleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -104,7 +109,6 @@ var (
 			},
 		},
 	}
-
 	anyItemsToCsvStringNoQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -138,7 +142,6 @@ var (
 			},
 		},
 	}
-
 	stringsToCsvStringSingleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -175,7 +178,6 @@ var (
 			},
 		},
 	}
-
 	stringsToCsvStringDoubleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -202,7 +204,6 @@ var (
 			},
 		},
 	}
-
 	stringsToCsvStringNoQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -229,7 +230,6 @@ var (
 			},
 		},
 	}
-
 	rangeNamesWithValuesIndexesTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -252,6 +252,30 @@ var (
 					"[5]",
 				},
 				VerifyTypeOf: defaultTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+	stringersTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will join like Csv single quote join.",
+				ArrangeInput: []fmt.Stringer{
+					coretests.SomeString{
+						Value: "some value",
+					},
+					coretests.SomeString{
+						Value: "alim",
+					},
+					coretests.SomeString{},
+					coretests.SomeString{
+						Value: "this is stringer",
+					},
+				},
+				ExpectedInput: []string{
+					"'some value', 'alim', '', 'this is stringer'",
+				},
+				VerifyTypeOf: arrangeFmtStringerTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
