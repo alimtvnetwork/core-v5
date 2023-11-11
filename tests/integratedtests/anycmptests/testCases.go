@@ -17,7 +17,10 @@ var (
 	anyItemsToCsvStringSingleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "left and right is null and both are equal.",
+				Title: "left and right is null checking, " +
+					"only Equal if both null or same pointer, " +
+					"NotEqual if one is null and another isn't." +
+					"On both not null it is inconclusive.",
 				ArrangeInput: []coretests.ArgTwo{
 					{
 						First:  nil,

@@ -9,11 +9,15 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-func Test_Cmp_Verification(t *testing.T) {
+func Test_AllNull_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringSingleQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]coretests.ArgTwo)
-		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
+		inputs := testCase.
+			ArrangeInput.([]coretests.ArgTwo)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
 
 		// Act
 		for i, parameter := range inputs {
