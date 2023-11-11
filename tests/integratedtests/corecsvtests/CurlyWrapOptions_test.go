@@ -8,7 +8,7 @@ import (
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
-func Test_CurlyWrapOptions_Wraps_All_CheckConditionally_NoDuplicateCurly(t *testing.T) {
+func Test_AnyItemsToCsvString_All_True_Verification(t *testing.T) {
 	for caseIndex, testCase := range curlyWrapOptionsValidTestCases {
 		// Arrange
 		inputs := testCase.Arrange()

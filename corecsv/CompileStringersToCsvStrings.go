@@ -27,8 +27,8 @@ func CompileStringersToCsvStrings(
 		// single quote
 		for i, compilerFunc := range compileStringerFunctions {
 			slice[i] = fmt.Sprintf(
-				constants.ValueWithSingleQuoteFormat,
-				compilerFunc())
+				constants.StringWithSingleQuoteFormat,
+				toString(compilerFunc()))
 		}
 
 		return slice
@@ -36,8 +36,8 @@ func CompileStringersToCsvStrings(
 		// double quote
 		for i, compilerFunc := range compileStringerFunctions {
 			slice[i] = fmt.Sprintf(
-				constants.ValueWithDoubleQuoteFormat,
-				compilerFunc())
+				constants.StringWithDoubleQuoteFormat,
+				toString(compilerFunc()))
 		}
 
 		return slice
@@ -47,7 +47,7 @@ func CompileStringersToCsvStrings(
 	for i, compilerFunc := range compileStringerFunctions {
 		slice[i] = fmt.Sprintf(
 			constants.SprintValueFormat,
-			compilerFunc())
+			toString(compilerFunc()))
 	}
 
 	return slice

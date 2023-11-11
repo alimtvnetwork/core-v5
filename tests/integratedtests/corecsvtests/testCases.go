@@ -19,8 +19,8 @@ var (
 	curlyWrapIfEnabledValidTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Given strings will be curly wrapped without checking. " +
-					"Curly wrapped guaranteed, duplicate curly wrap is possible.",
+				Title: "Given strings will be displayed as csv. " +
+					"On all true options, it will look like '%v'",
 				ArrangeInput: []string{
 					"alim",
 					"created",
