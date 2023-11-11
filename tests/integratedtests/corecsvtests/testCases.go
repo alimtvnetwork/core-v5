@@ -9,7 +9,7 @@ import (
 
 var (
 	defaultTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+		ArrangeInput:  reflect.TypeOf([]string{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -133,7 +133,7 @@ var (
 		},
 	}
 
-	stringersToCsvStringTestCases = []testWrapper{
+	stringersToCsvStringSingleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
@@ -163,6 +163,60 @@ var (
 						"'{curly ones}', " +
 						"'{left curly exists', " +
 						"'right curly exists}'",
+				},
+				VerifyTypeOf: defaultTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	stringersToCsvStringDoubleQuoteTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be displayed as csv. " +
+					"Double quote format: \"%s\", eg. \"%s\", \"%s\", \"%s\"...",
+				ArrangeInput: []string{
+					"1",
+					"2",
+					"alim",
+					"created",
+					"{curly}",
+					"",
+					"any string to",
+					"and",
+					"{curly ones}",
+					"{left curly exists",
+					"right curly exists}",
+				},
+				ExpectedInput: []string{
+					"\"1\", \"2\", \"alim\", \"created\", \"{curly}\", \"\", \"any string to\", \"and\", \"{curly ones}\", \"{left curly exists\", \"right curly exists}\"",
+				},
+				VerifyTypeOf: defaultTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	stringersToCsvStringNoQuoteTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be displayed as csv. " +
+					"No quote format: %s, eg. %s, %s, %s...",
+				ArrangeInput: []string{
+					"1",
+					"2",
+					"alim",
+					"created",
+					"{curly}",
+					"",
+					"any string to",
+					"and",
+					"{curly ones}",
+					"{left curly exists",
+					"right curly exists}",
+				},
+				ExpectedInput: []string{
+					"1, 2, alim, created, {curly}, , any string to, and, {curly ones}, {left curly exists, right curly exists}",
 				},
 				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,

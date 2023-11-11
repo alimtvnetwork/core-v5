@@ -10,7 +10,7 @@ import (
 )
 
 func Test_StringersToCsvString_All_True_SingleQuotation_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringersToCsvStringTestCases {
+	for caseIndex, testCase := range stringersToCsvStringSingleQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
 		actualSlice := corestr.
@@ -39,7 +39,7 @@ func Test_StringersToCsvString_All_True_SingleQuotation_Verification(t *testing.
 }
 
 func Test_StringersToCsvString_DoubleQuotation_Verification(t *testing.T) {
-	for caseIndex, testCase := range anyItemsToCsvStringDoubleQuoteTestCases {
+	for caseIndex, testCase := range stringersToCsvStringDoubleQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
 		actualSlice := corestr.
@@ -68,7 +68,7 @@ func Test_StringersToCsvString_DoubleQuotation_Verification(t *testing.T) {
 }
 
 func Test_StringersToCsvString_NoQuotation_Verification(t *testing.T) {
-	for caseIndex, testCase := range anyItemsToCsvStringNoQuoteTestCases {
+	for caseIndex, testCase := range stringersToCsvStringNoQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
 		actualSlice := corestr.
