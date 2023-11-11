@@ -6,16 +6,16 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-// StringersToCsvStrings
+// StringFunctionsToString
 //
 // Formats :
 //   - isIncludeQuote && isIncludeSingleQuote = '%v' will be added
 //   - isIncludeQuote && !isIncludeSingleQuote = "'%v'" will be added
 //   - !isIncludeQuote && !isIncludeSingleQuote = %v will be added
-func StringersToCsvStrings(
+func StringFunctionsToString(
 	isIncludeQuote,
 	isIncludeSingleQuote bool, // disable this will give double quote
-	stringerFunctions ...fmt.Stringer,
+	stringerFunctions ...func() string,
 ) []string {
 	if len(stringerFunctions) == 0 {
 		return []string{}
@@ -28,7 +28,7 @@ func StringersToCsvStrings(
 		for i, stringerFunc := range stringerFunctions {
 			slice[i] = fmt.Sprintf(
 				constants.StringWithSingleQuoteFormat,
-				stringerFunc.String())
+				stringerFunc())
 		}
 
 		return slice
@@ -37,7 +37,7 @@ func StringersToCsvStrings(
 		for i, stringerFunc := range stringerFunctions {
 			slice[i] = fmt.Sprintf(
 				constants.StringWithDoubleQuoteFormat,
-				stringerFunc.String())
+				stringerFunc())
 		}
 
 		return slice
@@ -47,7 +47,7 @@ func StringersToCsvStrings(
 	for i, stringerFunc := range stringerFunctions {
 		slice[i] = fmt.Sprintf(
 			constants.SprintStringFormat,
-			stringerFunc.String())
+			stringerFunc())
 	}
 
 	return slice

@@ -42,10 +42,10 @@ var (
 		},
 	}
 
-	allNullTestCases2 = []testWrapper{
+	allNullTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "all nulls will be returned as null, don't panic.",
+				Title: "Only true if all cases are null",
 				ArrangeInput: []interface{}{
 					nil,
 					&coretests.ArgTwo{},

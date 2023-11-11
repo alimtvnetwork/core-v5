@@ -6,48 +6,50 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-// StringersToCsvStrings
+// AnyToTypesCsvStrings
+//
+// if references empty or len 0 then empty string returned.
 //
 // Formats :
 //   - isIncludeQuote && isIncludeSingleQuote = '%v' will be added
 //   - isIncludeQuote && !isIncludeSingleQuote = "'%v'" will be added
 //   - !isIncludeQuote && !isIncludeSingleQuote = %v will be added
-func StringersToCsvStrings(
+func AnyToTypesCsvStrings(
 	isIncludeQuote,
 	isIncludeSingleQuote bool, // disable this will give double quote
-	stringerFunctions ...fmt.Stringer,
+	references ...interface{},
 ) []string {
-	if len(stringerFunctions) == 0 {
+	if len(references) == 0 {
 		return []string{}
 	}
 
-	slice := make([]string, len(stringerFunctions))
+	slice := make([]string, len(references))
 
 	if isIncludeQuote && isIncludeSingleQuote {
 		// single quote
-		for i, stringerFunc := range stringerFunctions {
+		for i, input := range references {
 			slice[i] = fmt.Sprintf(
-				constants.StringWithSingleQuoteFormat,
-				stringerFunc.String())
+				constants.TypeWithSingleQuoteFormat,
+				input)
 		}
 
 		return slice
 	} else if isIncludeQuote && !isIncludeSingleQuote {
 		// double quote
-		for i, stringerFunc := range stringerFunctions {
+		for i, input := range references {
 			slice[i] = fmt.Sprintf(
-				constants.StringWithDoubleQuoteFormat,
-				stringerFunc.String())
+				constants.TypeWithDoubleQuoteFormat,
+				input)
 		}
 
 		return slice
 	}
 
 	// no quote
-	for i, stringerFunc := range stringerFunctions {
+	for i, input := range references {
 		slice[i] = fmt.Sprintf(
-			constants.SprintStringFormat,
-			stringerFunc.String())
+			constants.SprintTypeFormat,
+			input)
 	}
 
 	return slice

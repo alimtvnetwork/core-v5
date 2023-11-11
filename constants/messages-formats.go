@@ -51,6 +51,8 @@ const (
 	ValueWithSingleQuoteFormat                   = "'%v'"
 	StringWithDoubleQuoteFormat                  = "\"%s\""
 	StringWithSingleQuoteFormat                  = "'%s'"
+	TypeWithSingleQuoteFormat                    = "'%T'"
+	TypeWithDoubleQuoteFormat                    = "\"%T\""
 	MessageWrapMessageFormat                     = "%s (%s)"
 	FromToFormat                                 = "{From : %q, To: %q}"            // From, To name
 	SourceDestinationFormat                      = "{Source : %q, Destination: %q}" // source, destination
