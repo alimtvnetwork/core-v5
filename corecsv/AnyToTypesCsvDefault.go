@@ -18,8 +18,8 @@ func AnyToTypesCsvDefault(
 	references ...interface{},
 ) string {
 	toSlice := AnyToTypesCsvStrings(
-		true,
-		true,
+		false,
+		false,
 		references...)
 
 	return strings.Join(
