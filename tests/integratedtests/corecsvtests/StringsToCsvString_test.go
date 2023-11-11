@@ -38,6 +38,32 @@ func Test_StringsToCsvString_All_True_SingleQuotation_Verification(t *testing.T)
 	}
 }
 
+func Test_DefaultCsvStrings_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringsToCsvStringDoubleQuoteTestCases {
+		// Arrange
+		inputs := testCase.Arrange()
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+
+		// Act
+		actualSlice.Add(
+			corecsv.DefaultCsv(
+				inputs...))
+
+		finalActual := actualSlice.Strings()
+		finalTestCase := coretestcases.
+			TestCaseV1(testCase.BaseTestCase)
+
+		// Assert
+		finalTestCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActual...)
+	}
+}
+
 func Test_StringsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringsToCsvStringDoubleQuoteTestCases {
 		// Arrange
