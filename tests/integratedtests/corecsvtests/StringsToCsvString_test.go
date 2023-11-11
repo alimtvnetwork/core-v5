@@ -9,7 +9,7 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-func Test_StringersToCsvString_All_True_SingleQuotation_Verification(t *testing.T) {
+func Test_StringsToCsvString_All_True_SingleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringersToCsvStringSingleQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
@@ -38,7 +38,7 @@ func Test_StringersToCsvString_All_True_SingleQuotation_Verification(t *testing.
 	}
 }
 
-func Test_StringersToCsvString_DoubleQuotation_Verification(t *testing.T) {
+func Test_StringsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringersToCsvStringDoubleQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
@@ -67,7 +67,7 @@ func Test_StringersToCsvString_DoubleQuotation_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringersToCsvString_NoQuotation_Verification(t *testing.T) {
+func Test_StringsToCsvString_NoQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringersToCsvStringNoQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
