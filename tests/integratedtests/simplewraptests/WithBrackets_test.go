@@ -32,3 +32,28 @@ func Test_WithBrackets_Verification(t *testing.T) {
 			finalActual...)
 	}
 }
+
+func Test_WithBracketsQuotation_Verification(t *testing.T) {
+	for caseIndex, testCase := range withBracketsQuotationTestCases {
+		// Arrange
+		inputs := testCase.Arrange()
+		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
+
+		// Act
+		for _, input := range inputs {
+			actualSlice.Add(
+				simplewrap.WithBracketsQuotation(
+					input))
+		}
+
+		finalActual := actualSlice.Strings()
+		finalTestCase := coretestcases.
+			TestCaseV1(testCase.BaseTestCase)
+
+		// Assert
+		finalTestCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActual...)
+	}
+}

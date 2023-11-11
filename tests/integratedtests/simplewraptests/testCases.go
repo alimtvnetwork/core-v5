@@ -513,4 +513,44 @@ var (
 			},
 		},
 	}
+
+	withBracketsQuotationTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Title square bracket wraps - " +
+					"format : [\"%s\"] - Eg. [\"value\"]. " +
+					"Doesn't verify existence and may have duplicate brackets",
+				ArrangeInput: []string{
+					"alim",
+					"created",
+					"[sq bracket]",
+					"which wraps",
+					"",
+					"any string to",
+					"parenthesis",
+					"even empty ones",
+					"and",
+					"[square]",
+					"[left sq exists",
+					"right sq exists]",
+				},
+				ExpectedInput: []string{
+					"[\"alim\"]",
+					"[\"created\"]",
+					"[\"[sq bracket]\"]",
+					"[\"which wraps\"]",
+					"[\"\"]",
+					"[\"any string to\"]",
+					"[\"parenthesis\"]",
+					"[\"even empty ones\"]",
+					"[\"and\"]",
+					"[\"[square]\"]",
+					"[\"[left sq exists\"]",
+					"[\"right sq exists]\"]",
+				},
+				VerifyTypeOf: stringsSliceTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 )
