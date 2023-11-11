@@ -8,44 +8,47 @@ import (
 )
 
 var (
-	arrangeInterfaceArrayTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+	arrangeTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]coretests.ArgTwo{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	anyItemsToCsvStringSingleQuoteTestCases = []testWrapper{
+	allNullTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "left and right is null and both are equal.",
-				ArrangeInput: []interface{}{
-					coretests.DataHolder{
+				Title: "left and right is null checking, " +
+					"only Equal if both null or same pointer, " +
+					"NotEqual if one is null and another isn't." +
+					"On both not null it is inconclusive.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
 						First:  nil,
 						Second: nil,
 					},
-					coretests.DataHolder{
+					{
 						First:  1,
 						Second: nil,
 					},
-					coretests.DataHolder{
+					{
 						First:  1,
 						Second: 2,
 					},
-					coretests.DataHolder{
+					{
 						First:  &coretests.DraftType{},
 						Second: nil,
 					},
-					coretests.DataHolder{
+					{
 						First:  nil,
 						Second: &coretests.DraftType{},
 					},
-					coretests.DataHolder{
+					{
 						First:  &coretests.DraftType{},
 						Second: &coretests.DraftType{},
 					},
-					coretests.DataHolder{
-						First:  arrangeInterfaceArrayTypeVerification,
-						Second: arrangeInterfaceArrayTypeVerification,
+					{
+						First:  arrangeTypeVerification,
+						Second: arrangeTypeVerification,
 					},
 				},
 				ExpectedInput: []string{
@@ -57,7 +60,7 @@ var (
 					"5 : Inconclusive (*coretests.DraftType, *coretests.DraftType)",
 					"6 : Equal (*coretests.VerifyTypeOf, *coretests.VerifyTypeOf)",
 				},
-				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
+				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},

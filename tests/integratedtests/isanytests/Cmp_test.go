@@ -10,7 +10,7 @@ import (
 )
 
 func Test_AllNull_Verification(t *testing.T) {
-	for caseIndex, testCase := range anyItemsToCsvStringSingleQuoteTestCases {
+	for caseIndex, testCase := range allNullTestCases {
 		// Arrange
 		inputs := testCase.
 			ArrangeInput.([]coretests.ArgTwo)

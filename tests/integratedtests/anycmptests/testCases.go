@@ -14,7 +14,7 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	anyItemsToCsvStringSingleQuoteTestCases = []testWrapper{
+	testCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "left and right is null checking, " +

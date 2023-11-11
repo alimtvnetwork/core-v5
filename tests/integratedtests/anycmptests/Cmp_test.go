@@ -10,7 +10,7 @@ import (
 )
 
 func Test_Cmp_Verification(t *testing.T) {
-	for caseIndex, testCase := range anyItemsToCsvStringSingleQuoteTestCases {
+	for caseIndex, testCase := range testCases {
 		// Arrange
 		inputs := testCase.ArrangeInput.([]coretests.ArgTwo)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
