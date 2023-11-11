@@ -343,4 +343,48 @@ var (
 			},
 		},
 	}
+
+	definedAnyOfTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if any is defined (not null) - DefinedAnyOf.",
+				ArrangeInput: [][]interface{}{
+					{
+						1,
+						2,
+						"some string",
+					},
+					{
+						1,
+						nil,
+						"some string",
+					},
+					{
+						1,
+						3,
+						someNull,
+					},
+					{
+						"",
+						3,
+						555.3,
+					},
+					{
+						nil,
+						someNull,
+						someNull,
+					},
+				},
+				ExpectedInput: []string{
+					"0 : true (int, int, string)",
+					"1 : true (int, <nil>, string)",
+					"2 : true (int, int, *coretests.ArgTwo)",
+					"3 : true (string, int, float64)",
+					"4 : false (<nil>, *coretests.ArgTwo, *coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeInterfaceOfInterfaceArrayTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 )

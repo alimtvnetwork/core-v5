@@ -1,0 +1,41 @@
+package isanytests
+
+import (
+	"testing"
+
+	"gitlab.com/auk-go/core/corecsv"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/isany"
+)
+
+func Test_DefinedAnyOf_Verification(t *testing.T) {
+	for caseIndex, testCase := range definedAnyOfTestCases {
+		// Arrange
+		inputs := testCase.
+			ArrangeInput.([][]interface{})
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+
+		// Act
+		for i, input := range inputs {
+			actualSlice.AppendFmt(
+				defaultCaseIndexBoolStringFmt,
+				i,
+				isany.DefinedAnyOf(input...),
+				corecsv.AnyToTypesCsvDefault(input...))
+		}
+
+		finalActual := actualSlice.Strings()
+		finalTestCase := coretestcases.
+			TestCaseV1(testCase.BaseTestCase)
+
+		// Assert
+		finalTestCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActual...)
+	}
+}
