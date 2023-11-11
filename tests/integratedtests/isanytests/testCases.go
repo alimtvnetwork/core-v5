@@ -9,47 +9,50 @@ import (
 
 var (
 	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretests.ArgTwo{}),
+		ArrangeInput:  reflect.TypeOf([]interface{}{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	allNullTestCases = []testWrapper{
+	someNull *coretests.ArgTwo = nil
+
+	nullTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "left and right is null checking, " +
-					"only Equal if both null or same pointer, " +
-					"NotEqual if one is null and another isn't." +
-					"On both not null it is inconclusive.",
-				ArrangeInput: []coretests.ArgTwo{
-					{
-						First:  nil,
-						Second: nil,
-					},
-					{
-						First:  1,
-						Second: nil,
-					},
-					{
-						First:  1,
-						Second: 2,
-					},
-					{
-						First:  &coretests.DraftType{},
-						Second: nil,
-					},
-					{
-						First:  nil,
-						Second: &coretests.DraftType{},
-					},
-					{
-						First:  &coretests.DraftType{},
-						Second: &coretests.DraftType{},
-					},
-					{
-						First:  arrangeTypeVerification,
-						Second: arrangeTypeVerification,
-					},
+				Title: "all nulls will be returned as null, don't panic.",
+				ArrangeInput: []interface{}{
+					nil,
+					&coretests.ArgTwo{},
+					someNull,
+					1,
+					2,
+					coretests.ArgTwo{},
+				},
+				ExpectedInput: []string{
+					"0 : true (<nil>)",
+					"1 : false (*coretests.ArgTwo)",
+					"2 : true (*coretests.ArgTwo)",
+					"3 : false (int)",
+					"4 : false (int)",
+					"5 : false (coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	allNullTestCases2 = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "all nulls will be returned as null, don't panic.",
+				ArrangeInput: []interface{}{
+					nil,
+					&coretests.ArgTwo{},
+					someNull,
+					1,
+					2,
+					coretests.ArgTwo{},
 				},
 				ExpectedInput: []string{
 					"0 : Equal (<nil>, <nil>)",

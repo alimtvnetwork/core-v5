@@ -3,33 +3,28 @@ package isanytests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/anycmp"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/isany"
 )
 
-func Test_AllNull_Verification(t *testing.T) {
-	for caseIndex, testCase := range allNullTestCases {
+func Test_Null_Verification(t *testing.T) {
+	for caseIndex, testCase := range nullTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.ArgTwo)
+			ArrangeInput.([]interface{})
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
 			Cap(len(inputs))
 
 		// Act
-		for i, parameter := range inputs {
+		for i, input := range inputs {
 			actualSlice.AppendFmt(
-				"%d : %s (%T, %T)",
+				"%d : %t (%T)",
 				i,
-				anycmp.Cmp(
-					parameter.First,
-					parameter.Second).
-					String(),
-				parameter.First,
-				parameter.Second)
+				isany.Null(input),
+				input)
 		}
 
 		finalActual := actualSlice.Strings()
