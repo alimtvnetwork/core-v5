@@ -67,6 +67,7 @@ var (
 			},
 		},
 	}
+
 	anyItemsToCsvStringDoubleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -276,6 +277,96 @@ var (
 					"'some value', 'alim', '', 'this is stringer'",
 				},
 				VerifyTypeOf: arrangeFmtStringerTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	anyToTypesCsvStringsSingleQuoteTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given items types will be converted into string with a single quote.",
+				ArrangeInput: []interface{}{
+					coretests.SomeString{
+						Value: "some value",
+					},
+					&coretests.SomeString{
+						Value: "alim",
+					},
+					nil,
+					"Hello",
+					1,
+					[]string{},
+				},
+				ExpectedInput: []string{
+					"'coretests.SomeString'",
+					"'*coretests.SomeString'",
+					"'<nil>'",
+					"'string'",
+					"'int'",
+					"'[]string'",
+				},
+				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	anyToTypesCsvStringsDoubleQuoteTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given items types will be converted into string with a double quote.",
+				ArrangeInput: []interface{}{
+					coretests.SomeString{
+						Value: "some value",
+					},
+					&coretests.SomeString{
+						Value: "alim",
+					},
+					nil,
+					"Hello",
+					1,
+					[]string{},
+				},
+				ExpectedInput: []string{
+					"\"coretests.SomeString\"",
+					"\"*coretests.SomeString\"",
+					"\"<nil>\"",
+					"\"string\"",
+					"\"int\"",
+					"\"[]string\"",
+				},
+				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	anyToTypesCsvStringsNoQuoteTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given items types will be converted into string without any quote.",
+				ArrangeInput: []interface{}{
+					coretests.SomeString{
+						Value: "some value",
+					},
+					&coretests.SomeString{
+						Value: "alim",
+					},
+					nil,
+					"Hello",
+					1,
+					[]string{},
+				},
+				ExpectedInput: []string{
+					"coretests.SomeString",
+					"*coretests.SomeString",
+					"<nil>",
+					"string",
+					"int",
+					"[]string",
+				},
+				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},

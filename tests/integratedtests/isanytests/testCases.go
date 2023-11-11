@@ -45,7 +45,7 @@ var (
 	allNullTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Only true if all cases are null",
+				Title: "Only true if all cases are null, will return false.",
 				ArrangeInput: []interface{}{
 					nil,
 					&coretests.ArgTwo{},
@@ -55,13 +55,23 @@ var (
 					coretests.ArgTwo{},
 				},
 				ExpectedInput: []string{
-					"0 : Equal (<nil>, <nil>)",
-					"1 : NotEqual (int, <nil>)",
-					"2 : Inconclusive (int, int)",
-					"3 : NotEqual (*coretests.DraftType, <nil>)",
-					"4 : NotEqual (<nil>, *coretests.DraftType)",
-					"5 : Inconclusive (*coretests.DraftType, *coretests.DraftType)",
-					"6 : Equal (*coretests.VerifyTypeOf, *coretests.VerifyTypeOf)",
+					"0 : false (<nil>, *coretests.ArgTwo, *coretests.ArgTwo, int, int, coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if all cases are null, will return true.",
+				ArrangeInput: []interface{}{
+					nil,
+					someNull,
+					someNull,
+					nil,
+				},
+				ExpectedInput: []string{
+					"1 : true (<nil>, *coretests.ArgTwo, *coretests.ArgTwo, <nil>)",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
