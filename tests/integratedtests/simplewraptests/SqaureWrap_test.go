@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/testsinternal"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
@@ -25,8 +25,7 @@ func Test_SquareWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Have_Du
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := testsinternal.
-			TestCase(testCase.BaseTestCase)
+		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -53,8 +52,7 @@ func Test_SquareWrapIf_Disabled_Wraps_Nothing(
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := testsinternal.
-			TestCase(testCase.BaseTestCase)
+		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(

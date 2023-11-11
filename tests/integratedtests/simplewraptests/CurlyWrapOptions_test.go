@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/testsinternal"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
@@ -22,8 +22,7 @@ func Test_CurlyWrapOptions_Wraps_All_CheckConditionally_NoDuplicateCurly(t *test
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := testsinternal.
-			TestCase(testCase.BaseTestCase)
+		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(

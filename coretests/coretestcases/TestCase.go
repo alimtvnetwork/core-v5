@@ -1,4 +1,4 @@
-package testsinternal
+package coretestcases
 
 import (
 	"fmt"
@@ -12,24 +12,24 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
-// TestCase
+// TestCaseV1
 //
 //   - Title : Test case header
 //   - ArrangeInput : Preparing input
 //   - ActualInput : Input for the act method
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 //   - Will verify type using VerifyTypeOf
-type TestCase coretests.BaseTestCase
+type TestCaseV1 coretests.BaseTestCase
 
-func (it *TestCase) SetActual(actual interface{}) {
+func (it *TestCaseV1) SetActual(actual interface{}) {
 	it.ActualInput = actual
 }
 
-func (it *TestCase) SetExpected(expected interface{}) {
+func (it *TestCaseV1) SetExpected(expected interface{}) {
 	it.ExpectedInput = expected
 }
 
-func (it *TestCase) VerifyAllEqual(
+func (it *TestCaseV1) VerifyAllEqual(
 	caseIndex int,
 	actualElement ...string,
 ) error {
@@ -40,7 +40,7 @@ func (it *TestCase) VerifyAllEqual(
 	)
 }
 
-func (it *TestCase) VerifyAll(
+func (it *TestCaseV1) VerifyAll(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
 	actualElements []string,
@@ -59,7 +59,7 @@ func (it *TestCase) VerifyAll(
 		sliceValidator)
 }
 
-func (it *TestCase) VerifyAllSliceValidator(
+func (it *TestCaseV1) VerifyAllSliceValidator(
 	caseIndex int,
 	validator corevalidator.SliceValidator,
 ) error {
@@ -73,7 +73,7 @@ func (it *TestCase) VerifyAllSliceValidator(
 	return validator.AllVerifyError(&baseParameter)
 }
 
-func (it *TestCase) VerifyError(
+func (it *TestCaseV1) VerifyError(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
 	actualElement ...string,
@@ -95,7 +95,7 @@ func (it *TestCase) VerifyError(
 		typeVerifyErr)
 }
 
-func (it *TestCase) Assert(
+func (it *TestCaseV1) Assert(
 	t *testing.T,
 	caseIndex int,
 	compareAs stringcompareas.Variant,
@@ -138,7 +138,7 @@ func (it *TestCase) Assert(
 		typeVerifyErr)
 }
 
-func (it *TestCase) AssertEqual(
+func (it *TestCaseV1) AssertEqual(
 	t *testing.T,
 	caseIndex int,
 	actualElements ...string,
@@ -149,6 +149,6 @@ func (it *TestCase) AssertEqual(
 		actualElements...)
 }
 
-func (it TestCase) AsBaseTestCase() coretests.BaseTestCase {
+func (it TestCaseV1) AsBaseTestCase() coretests.BaseTestCase {
 	return coretests.BaseTestCase(it)
 }

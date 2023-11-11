@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/testsinternal"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
@@ -26,8 +26,7 @@ func Test_ParenthesisWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Ha
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := testsinternal.
-			TestCase(testCase.BaseTestCase)
+		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -49,8 +48,7 @@ func Test_ParenthesisWrapIf_Disabled_Wraps_All_Without_Existing_Condition_Checki
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := testsinternal.
-			TestCase(testCase.BaseTestCase)
+		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
