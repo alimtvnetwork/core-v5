@@ -9,7 +9,7 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-func Test_StringsToCsvString_All_True_SingleQuotation_Verification(t *testing.T) {
+func Test_StringersToString_All_True_SingleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringsToCsvStringSingleQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
@@ -20,7 +20,7 @@ func Test_StringsToCsvString_All_True_SingleQuotation_Verification(t *testing.T)
 
 		// Act
 		actualSlice.Add(
-			corecsv.StringsToCsvString(
+			corecsv.StringersToString(
 				constants.CommaSpace,
 				true,
 				true,
@@ -38,7 +38,7 @@ func Test_StringsToCsvString_All_True_SingleQuotation_Verification(t *testing.T)
 	}
 }
 
-func Test_StringsToCsvString_DoubleQuotation_Verification(t *testing.T) {
+func Test_StringersToString_DoubleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringsToCsvStringDoubleQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
@@ -49,7 +49,7 @@ func Test_StringsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 
 		// Act
 		actualSlice.Add(
-			corecsv.StringsToCsvString(
+			corecsv.StringersToString(
 				constants.CommaSpace,
 				true,
 				false,
@@ -67,7 +67,7 @@ func Test_StringsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringsToCsvString_NoQuotation_Verification(t *testing.T) {
+func Test_StringersToString_NoQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringsToCsvStringNoQuoteTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
@@ -78,7 +78,7 @@ func Test_StringsToCsvString_NoQuotation_Verification(t *testing.T) {
 
 		// Act
 		actualSlice.Add(
-			corecsv.StringsToCsvString(
+			corecsv.StringersToString(
 				constants.CommaSpace,
 				false,
 				false,

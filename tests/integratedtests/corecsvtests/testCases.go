@@ -139,7 +139,7 @@ var (
 		},
 	}
 
-	stringersToCsvStringSingleQuoteTestCases = []testWrapper{
+	stringsToCsvStringSingleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
@@ -176,7 +176,7 @@ var (
 		},
 	}
 
-	stringersToCsvStringDoubleQuoteTestCases = []testWrapper{
+	stringsToCsvStringDoubleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
@@ -203,7 +203,7 @@ var (
 		},
 	}
 
-	stringersToCsvStringNoQuoteTestCases = []testWrapper{
+	stringsToCsvStringNoQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
