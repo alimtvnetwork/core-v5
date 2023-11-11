@@ -21,15 +21,15 @@ import (
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 //   - Will verify type using VerifyTypeOf
 type BaseTestCase struct {
-	Title             string         `json:",omitempty"` // consider as header
-	ArrangeInput      interface{}    `json:",omitempty"` // preparing input, initial input
-	ActualInput       interface{}    `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
-	ExpectedInput     interface{}    `json:",omitempty"` // expectation set from the test
-	VerifyTypeOf      *VerifyTypeOf  `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
-	ActFuncParameters *DataHolder    `json:",omitempty"` // If Act function requires more parameters it can be defined in the DataHolder.
-	IsEnable          issetter.Value `json:",omitempty"` // Only false makes it disabled.
-	HasError          bool           `json:",omitempty"`
-	IsValidateError   bool           `json:",omitempty"`
+	Title           string         `json:",omitempty"` // consider as header
+	ArrangeInput    interface{}    `json:",omitempty"` // preparing input, initial input
+	ActualInput     interface{}    `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
+	ExpectedInput   interface{}    `json:",omitempty"` // expectation set from the test
+	VerifyTypeOf    *VerifyTypeOf  `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
+	Parameters      *DataHolder    `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the DataHolder.
+	IsEnable        issetter.Value `json:",omitempty"` // Only false makes it disabled.
+	HasError        bool           `json:",omitempty"`
+	IsValidateError bool           `json:",omitempty"`
 }
 
 func (it *BaseTestCase) CaseTitle() string {
@@ -50,6 +50,75 @@ func (it *BaseTestCase) IsTypeInvalidOrSkipVerify() bool {
 	return it == nil ||
 		it.VerifyTypeOf == nil ||
 		it.VerifyTypeOf.IsInvalidOrSkipVerify()
+}
+
+func (it *BaseTestCase) HasParameters() bool {
+	return it != nil &&
+		it.Parameters != nil
+}
+
+func (it *BaseTestCase) IsInvalidParameters() bool {
+	return it == nil || it.Parameters == nil
+}
+
+func (it *BaseTestCase) FirstParam() interface{} {
+	if it.IsInvalidParameters() {
+		return nil
+	}
+
+	return it.Parameters.First
+}
+
+func (it *BaseTestCase) SecondParam() interface{} {
+	if it.IsInvalidParameters() {
+		return nil
+	}
+
+	return it.Parameters.Second
+}
+
+func (it *BaseTestCase) ThirdParam() interface{} {
+	if it.IsInvalidParameters() {
+		return nil
+	}
+
+	return it.Parameters.Third
+}
+
+func (it *BaseTestCase) FourthParam() interface{} {
+	if it.IsInvalidParameters() {
+		return nil
+	}
+
+	return it.Parameters.Fourth
+}
+
+func (it *BaseTestCase) FifthParam() interface{} {
+	if it.IsInvalidParameters() {
+		return nil
+	}
+
+	return it.Parameters.Fifth
+}
+
+func (it *BaseTestCase) HashmapParam() (hasMapItem bool, hashMap map[string]interface{}) {
+	if it.IsInvalidParameters() {
+		return false, map[string]interface{}{}
+	}
+
+	hashMap = it.Parameters.Hashmap
+
+	return len(hashMap) > 0, hashMap
+}
+
+func (it *BaseTestCase) HasValidHashmapParam() bool {
+	if it.IsInvalidParameters() {
+		return false
+	}
+
+	hashMap := it.Parameters.Hashmap
+
+	return len(hashMap) > 0
 }
 
 func (it *BaseTestCase) IsVerifyType() bool {
