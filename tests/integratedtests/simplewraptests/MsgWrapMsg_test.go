@@ -24,7 +24,8 @@ func Test_MsgWrapMsg_Wraps_Verification(t *testing.T) {
 			))
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
+		finalTestCase := coretestcases.
+			TestCaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
