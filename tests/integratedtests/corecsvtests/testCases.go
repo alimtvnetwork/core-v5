@@ -57,6 +57,49 @@ var (
 			},
 		},
 	}
+
+	anyItemsToCsvStringDoubleQuoteTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be displayed as csv. " +
+					"It will look like format: \"%s\", eg. \"%s\", \"%s\", \"%s\"...",
+				ArrangeInput: []interface{}{
+					1,
+					2,
+					"alim",
+					"created",
+					"{curly}",
+					"which wraps",
+					"",
+					"any string to",
+					"curly",
+					"even empty ones",
+					"and",
+					"{curly ones}",
+					"{left curly exists",
+					"right curly exists}",
+				},
+				ExpectedInput: []string{
+					"\"1\", " +
+						"\"2\", " +
+						"\"alim\", " +
+						"\"created\", " +
+						"\"{curly}\", " +
+						"\"which wraps\", " +
+						"\"\", " +
+						"\"any string to\", " +
+						"\"curly\", " +
+						"\"even empty ones\", " +
+						"\"and\", " +
+						"\"{curly ones}\", " +
+						"\"{left curly exists\", " +
+						"\"right curly exists}\"",
+				},
+				VerifyTypeOf: defaultTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 	curlyWrapIfDisabledValidTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
