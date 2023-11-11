@@ -20,6 +20,12 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
+	arrangeInterfaceOfInterfaceArrayTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([][]interface{}{}),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf([]string{}),
+	}
+
 	someNull *coretests.ArgTwo = nil
 
 	nullTestCases = []testWrapper{
@@ -233,7 +239,8 @@ var (
 	nullBothTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Only true if both are null (not defined). Kind of inverse of any defined.",
+				Title: "Only true if both are null (not defined). " +
+					"Kind of inverse of any defined.",
 				ArrangeInput: []coretests.ArgTwo{
 					{
 						First:  nil,
@@ -294,6 +301,44 @@ var (
 					"10 : false (*coretests.ArgTwo, coretests.ArgTwo)",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	definedAllOfTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if all are defined (not null) - DefinedAllOf.",
+				ArrangeInput: [][]interface{}{
+					{
+						1,
+						2,
+						"some string",
+					},
+					{
+						1,
+						nil,
+						"some string",
+					},
+					{
+						1,
+						3,
+						someNull,
+					},
+					{
+						"",
+						3,
+						555.3,
+					},
+				},
+				ExpectedInput: []string{
+					"0 : true (int, int, string)",
+					"1 : false (int, <nil>, string)",
+					"2 : false (int, int, *coretests.ArgTwo)",
+					"3 : true (string, int, float64)",
+				},
+				VerifyTypeOf: arrangeInterfaceOfInterfaceArrayTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
