@@ -14,6 +14,12 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
+	arrangeInterfaceArrayTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf([]string{}),
+	}
+
 	anyItemsToCsvStringSingleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -50,7 +56,7 @@ var (
 						"'{left curly exists', " +
 						"'right curly exists}'",
 				},
-				VerifyTypeOf: defaultTypeVerification,
+				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -93,7 +99,7 @@ var (
 						"\"{left curly exists\", " +
 						"\"right curly exists}\"",
 				},
-				VerifyTypeOf: defaultTypeVerification,
+				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -127,7 +133,7 @@ var (
 						"and, {curly ones}, " +
 						"{left curly exists, right curly exists}",
 				},
-				VerifyTypeOf: defaultTypeVerification,
+				VerifyTypeOf: arrangeInterfaceArrayTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
