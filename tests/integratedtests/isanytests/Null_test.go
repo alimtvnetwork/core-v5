@@ -21,9 +21,10 @@ func Test_Null_Verification(t *testing.T) {
 		// Act
 		for i, input := range inputs {
 			actualSlice.AppendFmt(
-				"%d : %t (%T)",
+				"%d : %t (%v, %T)",
 				i,
 				isany.Null(input),
+				input,
 				input)
 		}
 
