@@ -10,18 +10,20 @@ import (
 )
 
 var (
-	stringsSliceTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]string{}),
+	defaultTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]interface{}{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	curlyWrapIfEnabledValidTestCases = []testWrapper{
+	anyItemsToCsvStringSingleQuoteTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
-					"On all true options, it will look like '%v'",
-				ArrangeInput: []string{
+					"On all true options, it will look like format: '%s', eg. '%s', '%s', '%s'...",
+				ArrangeInput: []interface{}{
+					1,
+					2,
 					"alim",
 					"created",
 					"{curly}",
@@ -36,20 +38,21 @@ var (
 					"right curly exists}",
 				},
 				ExpectedInput: []string{
-					"{alim}",
-					"{created}",
-					"{{curly}}",
-					"{which wraps}",
-					"{}",
-					"{any string to}",
-					"{curly}",
-					"{even empty ones}",
-					"{and}",
-					"{{curly ones}}",
-					"{{left curly exists}",
-					"{right curly exists}}",
+					"'1', " +
+						"'2', " +
+						"'alim', " +
+						"'created', " +
+						"'{curly}', " +
+						"'which wraps', " +
+						"'', " +
+						"'any string to', " +
+						"'curly', " +
+						"'even empty ones', " +
+						"'and', '{curly ones}', " +
+						"'{left curly exists', " +
+						"'right curly exists}'",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -87,7 +90,7 @@ var (
 					"{left curly exists",
 					"right curly exists}",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -126,7 +129,7 @@ var (
 					"{left curly exists}",
 					"{right curly exists}",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -164,7 +167,7 @@ var (
 					"((left parenthesis exists)",
 					"(right parenthesis exists))",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -203,7 +206,7 @@ var (
 					"(left parenthesis exists",
 					"right parenthesis exists)",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -242,7 +245,7 @@ var (
 					"[[left sq exists]",
 					"[right sq exists]]",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -281,7 +284,7 @@ var (
 					"[left sq exists",
 					"right sq exists]",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -302,7 +305,7 @@ var (
 				ExpectedInput: []string{
 					"my title: {some \"value\"} ({\"some-map-key\":\"Some meta information\"})",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -320,7 +323,7 @@ var (
 				ExpectedInput: []string{
 					"my title: {some2 \"value\"} ({\"1\":\"2-meta\"})",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -338,7 +341,7 @@ var (
 				ExpectedInput: []string{
 					"my title: {some \"value\"}",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -353,7 +356,7 @@ var (
 				ExpectedInput: []string{
 					"my next title: {some2 \"value\"}",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -426,7 +429,7 @@ var (
 				ExpectedInput: []string{
 					"first \"alim\" msg (second \"alim\" msg)",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -440,7 +443,7 @@ var (
 				ExpectedInput: []string{
 					"first \"alim\" only msg",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -454,7 +457,7 @@ var (
 				ExpectedInput: []string{
 					"second \"alim\" only msg",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -468,7 +471,7 @@ var (
 				ExpectedInput: []string{
 					"",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -508,7 +511,7 @@ var (
 					"[[left sq exists]",
 					"[right sq exists]]",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},
@@ -548,7 +551,7 @@ var (
 					"[\"[left sq exists\"]",
 					"[\"right sq exists]\"]",
 				},
-				VerifyTypeOf: stringsSliceTypeVerification,
+				VerifyTypeOf: defaultTypeVerification,
 				IsEnable:     issetter.True,
 			},
 		},

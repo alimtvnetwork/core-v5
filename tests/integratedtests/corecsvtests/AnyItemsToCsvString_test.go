@@ -3,23 +3,24 @@ package corecsvtests
 import (
 	"testing"
 
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/corecsv"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/simplewrap"
 )
 
-func Test_AnyItemsToCsvString_All_True_Verification(t *testing.T) {
-	for caseIndex, testCase := range curlyWrapOptionsValidTestCases {
+func Test_AnyItemsToCsvString_All_True_SingleQuotation_Verification(t *testing.T) {
+	for caseIndex, testCase := range anyItemsToCsvStringSingleQuoteTestCases {
 		// Arrange
-		inputs := testCase.Arrange()
+		inputs := testCase.ArrangeInput.([]interface{})
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
-		for _, input := range inputs {
-			actualSlice.Add(
-				simplewrap.CurlyWrapOption(
-					true, input))
-		}
+		actualSlice.Add(
+			corecsv.AnyItemsToCsvString(
+				constants.CommaSpace,
+				true, true,
+				inputs...))
 
 		finalActual := actualSlice.Strings()
 		finalTestCase := coretestcases.
