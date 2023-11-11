@@ -130,4 +130,52 @@ var (
 			},
 		},
 	}
+
+	definedTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only defined (not null) ones will be true.",
+				ArrangeInput: []interface{}{
+					&coretests.ArgTwo{},
+					1,
+					nil,
+					coretests.ArgTwo{},
+					someNull,
+				},
+				ExpectedInput: []string{
+					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
+					"1 : true (value: 1, type: int)",
+					"2 : false (value: <nil>, type: <nil>)",
+					"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
+					"4 : false (value: <nil>, type: *coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	bothDefinedTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only defined (not null) ones will be true.",
+				ArrangeInput: []interface{}{
+					&coretests.ArgTwo{},
+					1,
+					nil,
+					coretests.ArgTwo{},
+					someNull,
+				},
+				ExpectedInput: []string{
+					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
+					"1 : true (value: 1, type: int)",
+					"2 : false (value: <nil>, type: <nil>)",
+					"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
+					"4 : false (value: <nil>, type: *coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 )
