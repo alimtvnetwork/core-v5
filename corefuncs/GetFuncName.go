@@ -1,25 +1,27 @@
 package corefuncs
 
-import (
-	"reflect"
-	"runtime"
-
-	"gitlab.com/auk-go/core/internal/reflectinternal"
-)
-
-// GetFuncName
+// GetFuncFullName
 //
 // Get the function name, passing non function may result panic
-func GetFuncName(i interface{}) string {
-	if reflectinternal.IsNull(i) {
+func GetFuncFullName(i interface{}) string {
+	f := GetFunc(i)
+
+	if f == nil {
 		return ""
 	}
 
-	rv := reflect.ValueOf(i)
+	return f.Name()
+}
 
-	if rv.Kind() != reflect.Func {
+// GetFuncFullName
+//
+// Get the function name, passing non function may result panic
+func GetFuncFullName(i interface{}) string {
+	f := GetFunc(i)
+
+	if f == nil {
 		return ""
 	}
 
-	return runtime.FuncForPC(rv.Pointer()).Name()
+	return f.Name()
 }

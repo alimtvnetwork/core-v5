@@ -23,8 +23,8 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 		// Act
 		for i, input := range inputs {
 			first := input.First
-			checkerFunc := input.Second.(isBoolCheckerFunc)
-			funcName := corefuncs.GetFuncName(input.Second)
+			checkerFunc := convertFuncType(input.Second)
+			funcName := corefuncs.GetFuncFullName(input.Second)
 
 			actualSlice.AppendFmt(
 				defaultCaseIndexBoolStringStringFmt,
