@@ -387,4 +387,87 @@ var (
 			},
 		},
 	}
+
+	jsonEqualTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if both defined (not null) ones will be true.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  nil,
+						Second: nil,
+					},
+					{
+						First:  nil,
+						Second: someNull,
+					},
+					{
+						First:  someNull,
+						Second: nil,
+					},
+					{
+						First:  someNull,
+						Second: someNull,
+					},
+					{
+						First:  1,
+						Second: someNull,
+					},
+					{
+						First:  someNull,
+						Second: 2,
+					},
+					{
+						First:  1,
+						Second: nil,
+					},
+					{
+						First:  nil,
+						Second: 2,
+					},
+					{
+						First:  1,
+						Second: 2,
+					},
+					{
+						First:  1,
+						Second: 1,
+					},
+					{
+						First:  "alim is equal",
+						Second: "alim is equal",
+					},
+					{
+						First: &coretests.ArgTwo{
+							First:  "1",
+							Second: "alim",
+						},
+						Second: coretests.ArgTwo{
+							First:  "1",
+							Second: "alim",
+						},
+					},
+					{
+						First:  &coretests.ArgTwo{},
+						Second: coretests.ArgTwo{},
+					},
+				},
+				ExpectedInput: []string{
+					"0 : false (<nil>, <nil>)",
+					"1 : false (<nil>, *coretests.ArgTwo)",
+					"2 : false (*coretests.ArgTwo, <nil>)",
+					"3 : false (*coretests.ArgTwo, *coretests.ArgTwo)",
+					"4 : false (int, *coretests.ArgTwo)",
+					"5 : false (*coretests.ArgTwo, int)",
+					"6 : false (int, <nil>)",
+					"7 : false (<nil>, int)",
+					"8 : true (int, int)",
+					"9 : true (*coretests.ArgTwo, int)",
+					"10 : true (*coretests.ArgTwo, coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
 )
