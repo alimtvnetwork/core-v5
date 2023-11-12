@@ -1,10 +1,7 @@
 package codestack
 
 import (
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 func MethodNamePackageName(fullFuncName string) (fullMethodName, packageName, methodName string) {
@@ -12,23 +9,5 @@ func MethodNamePackageName(fullFuncName string) (fullMethodName, packageName, me
 		return "", "", ""
 	}
 
-	hasComplexName := strings.HasPrefix(
-		fullFuncName,
-		gitlabDotCom) ||
-		strings.ContainsRune(
-			fullFuncName,
-			constants.ForwardRune)
-
-	if hasComplexName {
-		forwardSlashFound := strings.LastIndexByte(
-			fullFuncName,
-			constants.ForwardChar)
-
-		return MethodNamePackageName(fullFuncName[forwardSlashFound+1:])
-	}
-
-	splitsByDot := strings.Split(fullFuncName, constants.Dot)
-	packageName, methodName = stringslice.FirstLastDefault(splitsByDot)
-
-	return fullFuncName, packageName, methodName
+	return reflectinternal.MethodNamePackageName(fullFuncName)
 }
