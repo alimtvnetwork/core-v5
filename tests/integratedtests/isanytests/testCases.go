@@ -441,13 +441,60 @@ var (
 						First:  nil,
 						Second: 2,
 					},
+				},
+				ExpectedInput: []string{
+					"0 : false (1, null)",
+					"1 : false (null, 2)",
+					"2 : false (1, null)",
+					"3 : false (null, 2)",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if both equal in terms of json bytes. " +
+					"Expecting not equal comparing with same type different values.",
+				ArrangeInput: []coretests.ArgTwo{
 					{
 						First:  1,
 						Second: 2,
 					},
 					{
 						First:  1,
-						Second: 1,
+						Second: 5,
+					},
+					{
+						First:  "some alim",
+						Second: "some not alim",
+					},
+				},
+				ExpectedInput: []string{
+					"0 : false (1, 2)",
+					"1 : false (1, 5)",
+					"2 : false (\"some alim\", \"some not alim\")",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if both equal in terms of json bytes. " +
+					"Expecting equal comparing with any value as long as both are equal in terms of bytes.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: "1",
+					},
+					{
+						First:  float32(20),
+						Second: 20,
+					},
+					{
+						First:  -11,
+						Second: float32(-11),
 					},
 					{
 						First:  "alim is equal",
@@ -469,19 +516,12 @@ var (
 					},
 				},
 				ExpectedInput: []string{
-					"0 : true (null, null)",
-					"1 : true (null, null)",
-					"2 : true (null, null)",
-					"3 : true (null, null)",
-					"4 : false (1, null)",
-					"5 : false (null, 2)",
-					"6 : false (1, null)",
-					"7 : false (null, 2)",
-					"8 : false (1, 2)",
-					"9 : true (1, 1)",
-					"10 : true (\"alim is equal\", \"alim is equal\")",
-					"11 : true ({\"First\":\"1\",\"Second\":\"alim\"}, {\"First\":\"1\",\"Second\":\"alim\"})",
-					"12 : true (, )",
+					"0 : false (1, \"1\")",
+					"1 : true (20, 20)",
+					"2 : true (-11, -11)",
+					"3 : true (\"alim is equal\", \"alim is equal\")",
+					"4 : true ({\"First\":\"1\",\"Second\":\"alim\"}, {\"First\":\"1\",\"Second\":\"alim\"})",
+					"5 : true (, )",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,
@@ -490,35 +530,25 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
-					"Expecting not equal comparing with same type different values.",
+					"Expecting not equal comparing with string with integer with same value.",
 				ArrangeInput: []coretests.ArgTwo{
 					{
 						First:  1,
-						Second: 2,
+						Second: "1",
 					},
 					{
-						First:  1,
-						Second: 1,
+						First:  "55",
+						Second: 55,
 					},
 					{
-						First:  "some alim",
-						Second: "some not alim",
+						First:  -1,
+						Second: "-1",
 					},
 				},
 				ExpectedInput: []string{
-					"0 : true (null, null)",
-					"1 : true (null, null)",
-					"2 : true (null, null)",
-					"3 : true (null, null)",
-					"4 : false (1, null)",
-					"5 : false (null, 2)",
-					"6 : false (1, null)",
-					"7 : false (null, 2)",
-					"8 : false (1, 2)",
-					"9 : true (1, 1)",
-					"10 : true (\"alim is equal\", \"alim is equal\")",
-					"11 : true ({\"First\":\"1\",\"Second\":\"alim\"}, {\"First\":\"1\",\"Second\":\"alim\"})",
-					"12 : true (, )",
+					"0 : false (1, \"1\")",
+					"1 : false (\"55\", 55)",
+					"2 : false (-1, \"-1\")",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,
