@@ -3,7 +3,7 @@ package isanytests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/corecsv"
+	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
@@ -26,10 +26,11 @@ func Test_JsonEqual_Verification(t *testing.T) {
 			s := parameter.Second
 
 			actualSlice.AppendFmt(
-				defaultCaseIndexBoolStringFmt,
+				defaultCaseIndexBoolStringStringFmt,
 				i,
 				isany.JsonEqual(f, s),
-				corecsv.AnyToTypesCsvDefault(f, s))
+				corejson.Serialize.ToString(f),
+				corejson.Serialize.ToString(s))
 		}
 
 		finalActual := actualSlice.Strings()

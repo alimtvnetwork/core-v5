@@ -391,7 +391,7 @@ var (
 	jsonEqualTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Only true if both defined (not null) ones will be true.",
+				Title: "Only true if both equal in terms of json bytes.",
 				ArrangeInput: []coretests.ArgTwo{
 					{
 						First:  nil,
@@ -453,17 +453,19 @@ var (
 					},
 				},
 				ExpectedInput: []string{
-					"0 : false (<nil>, <nil>)",
-					"1 : false (<nil>, *coretests.ArgTwo)",
-					"2 : false (*coretests.ArgTwo, <nil>)",
-					"3 : false (*coretests.ArgTwo, *coretests.ArgTwo)",
-					"4 : false (int, *coretests.ArgTwo)",
-					"5 : false (*coretests.ArgTwo, int)",
-					"6 : false (int, <nil>)",
-					"7 : false (<nil>, int)",
-					"8 : true (int, int)",
-					"9 : true (*coretests.ArgTwo, int)",
-					"10 : true (*coretests.ArgTwo, coretests.ArgTwo)",
+					"0 : true (null, null)",
+					"1 : true (null, null)",
+					"2 : true (null, null)",
+					"3 : true (null, null)",
+					"4 : false (1, null)",
+					"5 : false (null, 2)",
+					"6 : false (1, null)",
+					"7 : false (null, 2)",
+					"8 : false (1, 2)",
+					"9 : true (1, 1)",
+					"10 : true (\"alim is equal\", \"alim is equal\")",
+					"11 : true ({\"First\":\"1\",\"Second\":\"alim\"}, {\"First\":\"1\",\"Second\":\"alim\"})",
+					"12 : true (, )",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,
