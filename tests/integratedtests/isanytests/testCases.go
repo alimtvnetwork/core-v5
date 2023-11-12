@@ -4,6 +4,7 @@ import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/issetter"
 )
 
@@ -549,6 +550,45 @@ var (
 					"0 : false (1, \"1\")",
 					"1 : false (\"55\", 55)",
 					"2 : false (-1, \"-1\")",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
+	reflectionTypesTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Primitive types verification test.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  coretests.ArgTwo{},
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  "some string",
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  float32(23),
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  true,
+						Second: isany.PrimitiveType,
+					},
+				},
+				ExpectedInput: []string{
+					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
+					"1 : true (value: 1, type: int)",
+					"2 : false (value: <nil>, type: <nil>)",
+					"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
+					"4 : false (value: <nil>, type: *coretests.ArgTwo)",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,
