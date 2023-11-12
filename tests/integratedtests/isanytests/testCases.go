@@ -391,7 +391,7 @@ var (
 	jsonEqualTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
-				Title: "Only true if both equal in terms of json bytes.",
+				Title: "Only true if both equal in terms of json bytes. Here all are null comparison.",
 				ArrangeInput: []coretests.ArgTwo{
 					{
 						First:  nil,
@@ -409,6 +409,22 @@ var (
 						First:  someNull,
 						Second: someNull,
 					},
+				},
+				ExpectedInput: []string{
+					"0 : true (null, null)",
+					"1 : true (null, null)",
+					"2 : true (null, null)",
+					"3 : true (null, null)",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if both equal in terms of json bytes. " +
+					"Expecting not equal comparing with null with non null.",
+				ArrangeInput: []coretests.ArgTwo{
 					{
 						First:  1,
 						Second: someNull,
@@ -450,6 +466,43 @@ var (
 					{
 						First:  &coretests.ArgTwo{},
 						Second: coretests.ArgTwo{},
+					},
+				},
+				ExpectedInput: []string{
+					"0 : true (null, null)",
+					"1 : true (null, null)",
+					"2 : true (null, null)",
+					"3 : true (null, null)",
+					"4 : false (1, null)",
+					"5 : false (null, 2)",
+					"6 : false (1, null)",
+					"7 : false (null, 2)",
+					"8 : false (1, 2)",
+					"9 : true (1, 1)",
+					"10 : true (\"alim is equal\", \"alim is equal\")",
+					"11 : true ({\"First\":\"1\",\"Second\":\"alim\"}, {\"First\":\"1\",\"Second\":\"alim\"})",
+					"12 : true (, )",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Only true if both equal in terms of json bytes. " +
+					"Expecting not equal comparing with same type different values.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: 2,
+					},
+					{
+						First:  1,
+						Second: 1,
+					},
+					{
+						First:  "some alim",
+						Second: "some not alim",
 					},
 				},
 				ExpectedInput: []string{
