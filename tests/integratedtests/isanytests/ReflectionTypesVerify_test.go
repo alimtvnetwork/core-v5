@@ -3,6 +3,7 @@ package isanytests
 import (
 	"testing"
 
+	"gitlab.com/auk-go/core/conditional"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/corefuncs"
 	"gitlab.com/auk-go/core/coretests"
@@ -11,6 +12,7 @@ import (
 )
 
 func Test_Reflection_Types_Verification(t *testing.T) {
+	toStringFunc := convertinteranl.AnyTo.SmartString
 	for caseIndex, testCase := range reflectionTypesTestCases {
 		// Arrange
 		inputs := testCase.
@@ -23,15 +25,21 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 		// Act
 		for i, input := range inputs {
 			first := input.First
+			isFunc := testCase.FirstParam()
 			checkerFunc := convertFuncType(input.Second)
 			funcName := corefuncs.GetFuncName(input.Second)
+			value := conditional.String(
+				isFunc == "isFunc",
+				funcName,
+				toStringFunc(first))
 
 			actualSlice.AppendFmt(
-				defaultCaseIndexBoolStringStringFmt,
+				booleanTypeStringStringFormat,
 				i,
 				checkerFunc(first),
+				first,
 				funcName,
-				convertinteranl.AnyTo.SmartString(first))
+				value)
 		}
 
 		finalActual := actualSlice.Strings()
