@@ -1,14 +1,13 @@
 package reflectinternal
 
-// GetFuncFullName
-//
-// Get the function name, passing non function may result panic
-func GetFuncFullName(i interface{}) string {
-	f := GetFunc(i)
+func GetFuncName(i interface{}) string {
+	funcFullName := GetFuncFullName(i)
 
-	if f == nil {
+	if len(funcFullName) == 0 {
 		return ""
 	}
 
-	return f.Name()
+	_, _, funcNameOnly := MethodNamePackageName(funcFullName)
+
+	return funcNameOnly
 }
