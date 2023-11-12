@@ -7,8 +7,8 @@ import (
 
 // JsonEqual
 //
-// first checks if string is passed, if yes then only check string.
-// Or, else, marshal and check with error equal if both equal then true.
+//	first checks if string is passed, if yes then only check string.
+//	Or, else, marshal and check with error equal if both equal then true.
 func JsonEqual(
 	left, right interface{},
 ) bool {
@@ -17,6 +17,13 @@ func JsonEqual(
 
 	if isLeftString && isRightString {
 		return leftString == rightString
+	}
+
+	leftInteger, isLeftInteger := left.(int)
+	rightInteger, isRightInteger := right.(int)
+
+	if isLeftInteger && isRightInteger {
+		return leftInteger == rightInteger
 	}
 
 	leftBytes, leftErr := json.Marshal(left)
