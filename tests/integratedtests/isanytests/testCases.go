@@ -584,6 +584,42 @@ var (
 					},
 				},
 				ExpectedInput: []string{
+					"0 : true (PrimitiveType, 1)",
+					"1 : false (PrimitiveType, {<nil> <nil>})",
+					"2 : true (PrimitiveType, some string)",
+					"3 : true (PrimitiveType, 23)",
+					"4 : true (PrimitiveType, true)",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "NumberType : verification test.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: isany.NumberType,
+					},
+					{
+						First:  float32(2),
+						Second: isany.NumberType,
+					},
+					{
+						First:  int64(1),
+						Second: isany.NumberType,
+					},
+					{
+						First:  byte(23),
+						Second: isany.NumberType,
+					},
+					{
+						First:  true,
+						Second: isany.NumberType,
+					},
+				},
+				ExpectedInput: []string{
 					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
 					"1 : true (value: 1, type: int)",
 					"2 : false (value: <nil>, type: <nil>)",
@@ -594,169 +630,133 @@ var (
 				IsEnable:     issetter.True,
 			},
 		},
-		// {
-		// 	BaseTestCase: coretests.BaseTestCase{
-		// 		Title: "NumberType : verification test.",
-		// 		ArrangeInput: []coretests.ArgTwo{
-		// 			{
-		// 				First:  1,
-		// 				Second: isany.NumberType,
-		// 			},
-		// 			{
-		// 				First:  float32(2),
-		// 				Second: isany.NumberType,
-		// 			},
-		// 			{
-		// 				First:  int64(1),
-		// 				Second: isany.NumberType,
-		// 			},
-		// 			{
-		// 				First:  byte(23),
-		// 				Second: isany.NumberType,
-		// 			},
-		// 			{
-		// 				First:  true,
-		// 				Second: isany.NumberType,
-		// 			},
-		// 		},
-		// 		ExpectedInput: []string{
-		// 			"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
-		// 			"1 : true (value: 1, type: int)",
-		// 			"2 : false (value: <nil>, type: <nil>)",
-		// 			"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
-		// 			"4 : false (value: <nil>, type: *coretests.ArgTwo)",
-		// 		},
-		// 		VerifyTypeOf: arrangeArgsTwoTypeVerification,
-		// 		IsEnable:     issetter.True,
-		// 	},
-		// },
-		// {
-		// 	BaseTestCase: coretests.BaseTestCase{
-		// 		Title: "Floating : verification test.",
-		// 		ArrangeInput: []coretests.ArgTwo{
-		// 			{
-		// 				First:  1,
-		// 				Second: isany.FloatingPointType,
-		// 			},
-		// 			{
-		// 				First:  coretests.ArgTwo{},
-		// 				Second: isany.FloatingPointType,
-		// 			},
-		// 			{
-		// 				First:  "some string",
-		// 				Second: isany.FloatingPointType,
-		// 			},
-		// 			{
-		// 				First:  float32(23),
-		// 				Second: isany.FloatingPointType,
-		// 			},
-		// 			{
-		// 				First:  1.5,
-		// 				Second: isany.FloatingPointType,
-		// 			},
-		// 			{
-		// 				First:  float64(65),
-		// 				Second: isany.FloatingPointType,
-		// 			},
-		// 			{
-		// 				First:  true,
-		// 				Second: isany.FloatingPointType,
-		// 			},
-		// 		},
-		// 		ExpectedInput: []string{
-		// 			"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
-		// 			"1 : true (value: 1, type: int)",
-		// 			"2 : false (value: <nil>, type: <nil>)",
-		// 			"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
-		// 			"4 : false (value: <nil>, type: *coretests.ArgTwo)",
-		// 		},
-		// 		VerifyTypeOf: arrangeArgsTwoTypeVerification,
-		// 		IsEnable:     issetter.True,
-		// 	},
-		// },
-		// {
-		// 	BaseTestCase: coretests.BaseTestCase{
-		// 		Title: "PositiveIntegerType: verification test.",
-		// 		ArrangeInput: []coretests.ArgTwo{
-		// 			{
-		// 				First:  1,
-		// 				Second: isany.PositiveIntegerType,
-		// 			},
-		// 			{
-		// 				First:  coretests.ArgTwo{},
-		// 				Second: isany.PositiveIntegerType,
-		// 			},
-		// 			{
-		// 				First:  "some string",
-		// 				Second: isany.PositiveIntegerType,
-		// 			},
-		// 			{
-		// 				First:  float32(23),
-		// 				Second: isany.PositiveIntegerType,
-		// 			},
-		// 			{
-		// 				First:  1.5,
-		// 				Second: isany.PositiveIntegerType,
-		// 			},
-		// 			{
-		// 				First:  float64(65),
-		// 				Second: isany.PositiveIntegerType,
-		// 			},
-		// 			{
-		// 				First:  true,
-		// 				Second: isany.PositiveIntegerType,
-		// 			},
-		// 		},
-		// 		ExpectedInput: []string{
-		// 			"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
-		// 			"1 : true (value: 1, type: int)",
-		// 			"2 : false (value: <nil>, type: <nil>)",
-		// 			"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
-		// 			"4 : false (value: <nil>, type: *coretests.ArgTwo)",
-		// 		},
-		// 		VerifyTypeOf: arrangeArgsTwoTypeVerification,
-		// 		IsEnable:     issetter.True,
-		// 	},
-		// },
-		// {
-		// 	BaseTestCase: coretests.BaseTestCase{
-		// 		Title: "FuncOnly : function verification test.",
-		// 		ArrangeInput: []coretests.ArgTwo{
-		// 			{
-		// 				First:  1,
-		// 				Second: isany.FuncOnly,
-		// 			},
-		// 			{
-		// 				First:  coretests.ArgTwo{},
-		// 				Second: isany.FuncOnly,
-		// 			},
-		// 			{
-		// 				First:  "some string",
-		// 				Second: isany.FuncOnly,
-		// 			},
-		// 			{
-		// 				First:  someNull,
-		// 				Second: isany.FuncOnly,
-		// 			},
-		// 			{
-		// 				First:  nil,
-		// 				Second: isany.FuncOnly,
-		// 			},
-		// 			{
-		// 				First:  isany.FuncOnly,
-		// 				Second: isany.FuncOnly,
-		// 			},
-		// 		},
-		// 		ExpectedInput: []string{
-		// 			"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
-		// 			"1 : true (value: 1, type: int)",
-		// 			"2 : false (value: <nil>, type: <nil>)",
-		// 			"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
-		// 			"4 : false (value: <nil>, type: *coretests.ArgTwo)",
-		// 		},
-		// 		VerifyTypeOf: arrangeArgsTwoTypeVerification,
-		// 		IsEnable:     issetter.True,
-		// 	},
-		// },
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Floating : verification test.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: isany.FloatingPointType,
+					},
+					{
+						First:  coretests.ArgTwo{},
+						Second: isany.FloatingPointType,
+					},
+					{
+						First:  "some string",
+						Second: isany.FloatingPointType,
+					},
+					{
+						First:  float32(23),
+						Second: isany.FloatingPointType,
+					},
+					{
+						First:  1.5,
+						Second: isany.FloatingPointType,
+					},
+					{
+						First:  float64(65),
+						Second: isany.FloatingPointType,
+					},
+					{
+						First:  true,
+						Second: isany.FloatingPointType,
+					},
+				},
+				ExpectedInput: []string{
+					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
+					"1 : true (value: 1, type: int)",
+					"2 : false (value: <nil>, type: <nil>)",
+					"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
+					"4 : false (value: <nil>, type: *coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "PositiveIntegerType: verification test.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: isany.PositiveIntegerType,
+					},
+					{
+						First:  coretests.ArgTwo{},
+						Second: isany.PositiveIntegerType,
+					},
+					{
+						First:  "some string",
+						Second: isany.PositiveIntegerType,
+					},
+					{
+						First:  float32(23),
+						Second: isany.PositiveIntegerType,
+					},
+					{
+						First:  1.5,
+						Second: isany.PositiveIntegerType,
+					},
+					{
+						First:  float64(65),
+						Second: isany.PositiveIntegerType,
+					},
+					{
+						First:  true,
+						Second: isany.PositiveIntegerType,
+					},
+				},
+				ExpectedInput: []string{
+					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
+					"1 : true (value: 1, type: int)",
+					"2 : false (value: <nil>, type: <nil>)",
+					"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
+					"4 : false (value: <nil>, type: *coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "FuncOnly : function verification test.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: isany.FuncOnly,
+					},
+					{
+						First:  coretests.ArgTwo{},
+						Second: isany.FuncOnly,
+					},
+					{
+						First:  "some string",
+						Second: isany.FuncOnly,
+					},
+					{
+						First:  someNull,
+						Second: isany.FuncOnly,
+					},
+					{
+						First:  nil,
+						Second: isany.FuncOnly,
+					},
+					{
+						First:  isany.FuncOnly,
+						Second: isany.FuncOnly,
+					},
+				},
+				ExpectedInput: []string{
+					"0 : true (value: &{<nil> <nil>}, type: *coretests.ArgTwo)",
+					"1 : true (value: 1, type: int)",
+					"2 : false (value: <nil>, type: <nil>)",
+					"3 : true (value: {<nil> <nil>}, type: coretests.ArgTwo)",
+					"4 : false (value: <nil>, type: *coretests.ArgTwo)",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
 	}
 )
