@@ -4,7 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"testing"
 
+	"github.com/smarty/assertions/should"
+	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 	"gitlab.com/auk-go/core/errcore"
@@ -246,6 +249,28 @@ func (it *SliceValidator) VerifyFirstLengthUptoError(
 		lengthUpTo)
 }
 
+func (it *SliceValidator) AssertAllQuick(
+	t *testing.T,
+	caseIndex int,
+	header string,
+	actualElements ...string,
+) {
+	if it == nil {
+		return
+	}
+
+	toErr := it.AllVerifyErrorQuick(
+		caseIndex,
+		header,
+		actualElements...)
+
+	convey.Convey(header, t, func() {
+		convey.So(
+			toErr,
+			should.BeNil)
+	})
+}
+
 func (it *SliceValidator) AllVerifyErrorQuick(
 	caseIndex int,
 	header string,
@@ -262,11 +287,12 @@ func (it *SliceValidator) AllVerifyErrorQuick(
 		IsAttachUserInputs:         true,
 		IsCaseSensitive:            true,
 	}
+
 	it.SetActual(actualElements)
 
 	return it.AllVerifyErrorUptoLength(
 		false,
-		params,
+		&params,
 		it.ExpectingLinesLength())
 }
 

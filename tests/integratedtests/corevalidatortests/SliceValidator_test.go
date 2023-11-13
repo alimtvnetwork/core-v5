@@ -3,11 +3,10 @@ package corevalidatortests
 import (
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/isany"
 )
 
@@ -35,19 +34,18 @@ func Test_SliceValidator(t *testing.T) {
 				corejson.Serialize.ToString(s))
 		}
 
-		finalActLines := actualSlice.Strings()
+		actLines := actualSlice.Strings()
 		actualError := testCase.Case.VerifyAllEqual(
 			caseIndex,
-			finalActLines...)
+			actLines...)
 		validator := testCase.Validator
+		errLines := errcore.ErrorToSplitLines(actualError)
 
 		// Assert
-		convey.Convey(testCase.Case.Title, t, func() {
-			validator.AllVerifyError()
-			convey.So(
-				actualError.Error(),
-				should.Equal,
-			)
-		})
+		validator.AssertAllQuick(
+			t,
+			caseIndex,
+			testCase.Case.Title,
+			errLines...)
 	}
 }
