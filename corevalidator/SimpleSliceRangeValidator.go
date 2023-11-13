@@ -25,7 +25,7 @@ func (it *SimpleSliceRangeValidator) SetActual(
 	return it
 }
 
-func (it *SimpleSliceRangeValidator) SliceValidators() []HeaderSliceValidator {
+func (it *SimpleSliceRangeValidator) Validators() HeaderSliceValidators {
 	validators := make([]HeaderSliceValidator, it.LengthOfVerifierSegments())
 
 	for _, segment := range it.VerifierSegments {
@@ -34,7 +34,7 @@ func (it *SimpleSliceRangeValidator) SliceValidators() []HeaderSliceValidator {
 		end := segment.RangeInt.End
 		actualSegments := it.actual.Items[start:end]
 		totalItems := end - start + 1
-		header := fmt.Sprintf("Slice validate for range %d to %d (total: %d lines)",
+		header := fmt.Sprintf("validate for range %d to %d (total: %d lines)",
 			start,
 			end,
 			totalItems)
@@ -62,7 +62,7 @@ func (it *SimpleSliceRangeValidator) VerifyAll(
 ) error {
 	it.SetActual(actual)
 
-	return it.SliceValidators().VerifyAll(
+	return it.Validators().VerifyAll(
 		header,
 		params,
 		isPrintError)
@@ -77,7 +77,7 @@ func (it *SimpleSliceRangeValidator) VerifyFirst(
 	params.Header = header
 	it.SetActual(actual)
 
-	return it.SliceValidators().VerifyFirst(
+	return it.Validators().VerifyFirst(
 		params,
 		isPrintError)
 }
@@ -92,7 +92,7 @@ func (it *SimpleSliceRangeValidator) VerifyUpto(
 	params.Header = header
 	it.SetActual(actual)
 
-	return it.SliceValidators().VerifyUpto(
+	return it.Validators().VerifyUpto(
 		isPrintError,
 		false,
 		length,

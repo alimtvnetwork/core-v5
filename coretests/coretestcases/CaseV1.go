@@ -29,7 +29,7 @@ func (it *CaseV1) SetExpected(expected interface{}) {
 	it.ExpectedInput = expected
 }
 
-func (it *CaseV1) VerifyAllEqual(
+func (it CaseV1) VerifyAllEqual(
 	caseIndex int,
 	actualElements ...string,
 ) error {
@@ -40,7 +40,7 @@ func (it *CaseV1) VerifyAllEqual(
 	)
 }
 
-func (it *CaseV1) SliceValidator(
+func (it CaseV1) SliceValidator(
 	compareAs stringcompareas.Variant,
 	actualElements []string,
 ) corevalidator.SliceValidator {
@@ -56,7 +56,7 @@ func (it *CaseV1) SliceValidator(
 	return sliceValidator
 }
 
-func (it *CaseV1) VerifyAll(
+func (it CaseV1) VerifyAll(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
 	actualElements []string,
@@ -75,7 +75,7 @@ func (it *CaseV1) VerifyAll(
 		sliceValidator)
 }
 
-func (it *CaseV1) VerifyFirst(
+func (it CaseV1) VerifyFirst(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
 	actualElements []string,
@@ -99,7 +99,7 @@ func (it *CaseV1) VerifyFirst(
 	return sliceValidator.VerifyFirstError(&param)
 }
 
-func (it *CaseV1) VerifyAllSliceValidator(
+func (it CaseV1) VerifyAllSliceValidator(
 	caseIndex int,
 	validator corevalidator.SliceValidator,
 ) error {
@@ -113,7 +113,7 @@ func (it *CaseV1) VerifyAllSliceValidator(
 	return validator.AllVerifyError(&param)
 }
 
-func (it *CaseV1) VerifyError(
+func (it CaseV1) VerifyError(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
 	actualElements ...string,
@@ -135,7 +135,7 @@ func (it *CaseV1) VerifyError(
 		typeVerifyErr)
 }
 
-func (it *CaseV1) Assert(
+func (it CaseV1) Assert(
 	t *testing.T,
 	caseIndex int,
 	compareAs stringcompareas.Variant,
@@ -173,7 +173,7 @@ func (it *CaseV1) Assert(
 		typeVerifyErr)
 }
 
-func (it *CaseV1) AssertEqual(
+func (it CaseV1) AssertEqual(
 	t *testing.T,
 	caseIndex int,
 	actualElements ...string,
