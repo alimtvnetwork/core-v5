@@ -13,6 +13,7 @@ func (it testWrapper) Arrange() []string {
 func (it testWrapper) Expected() []string {
 	return it.ExpectedInput.([]string)
 }
+
 func (it testWrapper) AsCaseV1() coretestcases.CaseV1 {
 	return coretestcases.CaseV1(it)
 }
