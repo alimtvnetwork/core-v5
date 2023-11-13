@@ -48,7 +48,7 @@ func (it *SimpleSliceRangeValidator) SliceValidators() *SliceValidators {
 func (it *SimpleSliceRangeValidator) VerifyAll(
 	header string,
 	actual []string,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	isPrintError bool,
 ) error {
 	it.SetActual(actual)
@@ -62,7 +62,7 @@ func (it *SimpleSliceRangeValidator) VerifyAll(
 func (it *SimpleSliceRangeValidator) VerifyFirst(
 	header string,
 	actual []string,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	isPrintError bool,
 ) error {
 	it.SetActual(actual)
@@ -76,7 +76,7 @@ func (it *SimpleSliceRangeValidator) VerifyFirst(
 func (it *SimpleSliceRangeValidator) VerifyUpto(
 	header string,
 	actual []string,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	length int,
 	isPrintError bool,
 ) error {

@@ -60,7 +60,7 @@ func (it *SliceValidators) IsMatch(
 
 func (it *SliceValidators) VerifyAll(
 	header string,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	isPrintError bool,
 ) error {
 	if it.IsEmpty() {
@@ -91,7 +91,7 @@ func (it *SliceValidators) VerifyAll(
 
 func (it *SliceValidators) AssertVerifyAll(
 	t *testing.T,
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) {
 	if it.IsEmpty() {
 		return
@@ -107,7 +107,7 @@ func (it *SliceValidators) AssertVerifyAll(
 }
 
 func (it *SliceValidators) VerifyAllError(
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) error {
 	if it.IsEmpty() {
 		return nil
@@ -130,7 +130,7 @@ func (it *SliceValidators) VerifyAllError(
 
 func (it *SliceValidators) AssertVerifyAllUsingActual(
 	t *testing.T,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	actualLines ...string,
 ) {
 	if it.IsEmpty() {
@@ -149,7 +149,7 @@ func (it *SliceValidators) AssertVerifyAllUsingActual(
 }
 
 func (it *SliceValidators) VerifyAllErrorUsingActual(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	actualLines ...string,
 ) error {
 	if it.IsEmpty() {
@@ -176,7 +176,7 @@ func (it *SliceValidators) VerifyAllErrorUsingActual(
 //
 // Only collect using the SliceValidator.VerifyFirstError
 func (it *SliceValidators) VerifyFirst(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	isPrintError bool,
 ) error {
 	if it.IsEmpty() {
@@ -211,7 +211,7 @@ func (it *SliceValidators) VerifyUpto(
 	isPrintErr,
 	isFirstOnly bool,
 	length int,
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) error {
 	if it.IsEmpty() {
 		return nil

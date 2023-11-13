@@ -29,6 +29,7 @@ type BaseTestCase struct {
 	Parameters      *DataHolder    `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the DataHolder.
 	IsEnable        issetter.Value `json:",omitempty"` // Only false makes it disabled.
 	HasError        bool           `json:",omitempty"`
+	HasPanic        bool           `json:",omitempty"`
 	IsValidateError bool           `json:",omitempty"`
 }
 

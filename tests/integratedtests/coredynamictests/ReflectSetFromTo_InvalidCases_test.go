@@ -41,12 +41,12 @@ func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) 
 			}
 		})
 
-		var parameter = &corevalidator.ValidatorParamsBase{
-			CaseIndex:                         0,
-			Header:                            testCase.Header,
-			IsIgnoreCompareOnActualInputEmpty: false,
-			IsAttachUserInputs:                true,
-			IsCaseSensitive:                   true,
+		var parameter = &corevalidator.Parameter{
+			CaseIndex:                  0,
+			Header:                     testCase.Header,
+			IsSkipCompareOnActualEmpty: false,
+			IsAttachUserInputs:         true,
+			IsCaseSensitive:            true,
 		}
 
 		validator := testCase.Validator
@@ -66,7 +66,7 @@ func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) 
 func getFinalVerificationError(
 	testCase coredynamictestwrappers.FromToTestWrapper,
 	validator corevalidator.TextValidator,
-	parameter *corevalidator.ValidatorParamsBase,
+	parameter *corevalidator.Parameter,
 	wrappedResult trydo.WrappedErr,
 ) error {
 	if testCase.HasPanic {

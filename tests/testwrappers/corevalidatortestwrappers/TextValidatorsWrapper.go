@@ -1,6 +1,7 @@
 package corevalidatortestwrappers
 
 import (
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/corevalidator"
 )
 
@@ -16,12 +17,6 @@ type TextValidatorsWrapper struct {
 }
 
 type SliceValidatorsWrapper struct {
-	Header string
-	// ComparingLines is actually the actual data from
-	// test but here it is the test cases for the expectation
-	ComparingLines        []string
-	Validators            corevalidator.SliceValidators
-	IsSkipOnContentsEmpty bool
-	IsCaseSensitive       bool
-	ExpectationLines      []string
+	Case      coretestcases.TestCaseV1
+	Validator corevalidator.SliceValidator
 }

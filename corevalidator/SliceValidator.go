@@ -221,7 +221,7 @@ func (it *SliceValidator) isValidLines(
 }
 
 func (it *SliceValidator) VerifyFirstError(
-	paramsBase *ValidatorParamsBase,
+	paramsBase *Parameter,
 ) error {
 	if it == nil {
 		return nil
@@ -233,7 +233,7 @@ func (it *SliceValidator) VerifyFirstError(
 }
 
 func (it *SliceValidator) VerifyFirstLengthUptoError(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	lengthUpTo int,
 ) error {
 	if it == nil {
@@ -247,7 +247,7 @@ func (it *SliceValidator) VerifyFirstLengthUptoError(
 }
 
 func (it *SliceValidator) AllVerifyError(
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) error {
 	if it == nil {
 		return nil
@@ -268,12 +268,12 @@ func (it *SliceValidator) AllVerifyErrorTestCase(
 		return nil
 	}
 
-	params := ValidatorParamsBase{
-		CaseIndex:                         caseIndex,
-		Header:                            header,
-		IsIgnoreCompareOnActualInputEmpty: false,
-		IsAttachUserInputs:                true,
-		IsCaseSensitive:                   isCaseSensitive,
+	params := Parameter{
+		CaseIndex:                  caseIndex,
+		Header:                     header,
+		IsSkipCompareOnActualEmpty: false,
+		IsAttachUserInputs:         true,
+		IsCaseSensitive:            isCaseSensitive,
 	}
 
 	err := it.AllVerifyErrorUptoLength(
@@ -290,7 +290,7 @@ func (it *SliceValidator) AllVerifyErrorTestCase(
 //
 // Verify up to the second last item.
 func (it *SliceValidator) AllVerifyErrorExceptLast(
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) error {
 	if it == nil {
 		return nil
@@ -304,7 +304,7 @@ func (it *SliceValidator) AllVerifyErrorExceptLast(
 
 func (it *SliceValidator) AllVerifyErrorUptoLength(
 	isFirstOnly bool,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	lengthUpto int,
 ) error {
 	if it == nil {
@@ -359,7 +359,7 @@ func (it *SliceValidator) AllVerifyErrorUptoLength(
 }
 
 func (it *SliceValidator) lengthVerifyError(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	lengthUpto int,
 ) error {
 	hasLengthUpto := lengthUpto > constants.InvalidValue
@@ -446,7 +446,7 @@ func (it *SliceValidator) isLengthOkay(lengthUpto int) bool {
 }
 
 func (it *SliceValidator) initialVerifyErrorWithMerged(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	lengthUpto int,
 ) error {
 	initialVerifyErr := it.initialVerifyError(
@@ -502,9 +502,9 @@ func (it *SliceValidator) UserExpectingMessage(
 }
 
 func (it *SliceValidator) isEmptyIgnoreCase(
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) bool {
-	return params.IsIgnoreCompareOnActualInputEmpty &&
+	return params.IsSkipCompareOnActualEmpty &&
 		len(it.ActualLines) == 0
 }
 
@@ -513,7 +513,7 @@ func (it *SliceValidator) isEmptyIgnoreCase(
 //   - Returns a combine error of actual and expecting inputs.
 //   - If all validation successful then no error.
 func (it *SliceValidator) UserInputsMergeWithError(
-	paramsBase *ValidatorParamsBase,
+	paramsBase *Parameter,
 	err error,
 ) error {
 	if !paramsBase.IsAttachUserInputs {

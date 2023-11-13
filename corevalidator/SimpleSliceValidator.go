@@ -33,7 +33,7 @@ func (it *SimpleSliceValidator) SliceValidator() *SliceValidator {
 
 func (it *SimpleSliceValidator) VerifyAll(
 	actual []string,
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) error {
 	sliceValidator := it.SliceValidator()
 	sliceValidator.ActualLines = actual
@@ -43,7 +43,7 @@ func (it *SimpleSliceValidator) VerifyAll(
 
 func (it *SimpleSliceValidator) VerifyFirst(
 	actual []string,
-	params *ValidatorParamsBase,
+	params *Parameter,
 ) error {
 	sliceValidator := it.SliceValidator()
 	sliceValidator.ActualLines = actual
@@ -53,7 +53,7 @@ func (it *SimpleSliceValidator) VerifyFirst(
 
 func (it *SimpleSliceValidator) VerifyUpto(
 	actual []string,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	length int,
 ) error {
 	sliceValidator := it.SliceValidator()

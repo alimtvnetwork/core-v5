@@ -8,7 +8,7 @@ import (
 
 // AnyToValuesTypeStrings
 //
-// Output : []{'value - type', 'value - type', ...}
+// Output : []{ 'value - type', 'value - type', ... }
 func AnyToValuesTypeStrings(
 	references ...interface{},
 ) []string {

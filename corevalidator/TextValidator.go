@@ -133,7 +133,7 @@ func (it *TextValidator) IsMatchMany(
 }
 
 func (it *TextValidator) VerifyDetailError(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	content string,
 ) error {
 	if it == nil {
@@ -148,7 +148,7 @@ func (it *TextValidator) VerifyDetailError(
 
 func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
 	lineProcessingIndex int,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	content string,
 ) error {
 	if it == nil {
@@ -190,7 +190,7 @@ func (it *TextValidator) MethodName() string {
 
 func (it *TextValidator) VerifySimpleError(
 	processingIndex int,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	content string,
 ) error {
 	if it == nil {
@@ -226,7 +226,7 @@ func (it *TextValidator) VerifySimpleError(
 
 func (it *TextValidator) VerifyMany(
 	isContinueOnError bool,
-	params *ValidatorParamsBase,
+	params *Parameter,
 	contents ...string,
 ) error {
 	if isContinueOnError {
@@ -241,7 +241,7 @@ func (it *TextValidator) VerifyMany(
 }
 
 func (it *TextValidator) VerifyFirstError(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	contents ...string,
 ) error {
 	if it == nil {
@@ -249,7 +249,7 @@ func (it *TextValidator) VerifyFirstError(
 	}
 
 	length := len(contents)
-	if length == 0 && params.IsIgnoreCompareOnActualInputEmpty {
+	if length == 0 && params.IsSkipCompareOnActualEmpty {
 		return nil
 	}
 
@@ -269,7 +269,7 @@ func (it *TextValidator) VerifyFirstError(
 }
 
 func (it *TextValidator) AllVerifyError(
-	params *ValidatorParamsBase,
+	params *Parameter,
 	contents ...string,
 ) error {
 	if it == nil {
@@ -277,7 +277,7 @@ func (it *TextValidator) AllVerifyError(
 	}
 
 	length := len(contents)
-	if length == 0 && params.IsIgnoreCompareOnActualInputEmpty {
+	if length == 0 && params.IsSkipCompareOnActualEmpty {
 		return nil
 	}
 

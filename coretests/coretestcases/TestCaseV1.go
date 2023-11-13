@@ -63,7 +63,7 @@ func (it *TestCaseV1) VerifyAllSliceValidator(
 	caseIndex int,
 	validator corevalidator.SliceValidator,
 ) error {
-	baseParameter := corevalidator.ValidatorParamsBase{
+	baseParameter := corevalidator.Parameter{
 		CaseIndex:          caseIndex,
 		Header:             it.Title,
 		IsAttachUserInputs: true,

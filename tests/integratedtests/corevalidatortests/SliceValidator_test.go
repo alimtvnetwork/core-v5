@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 	"gitlab.com/auk-go/core/errcore"
@@ -13,12 +12,12 @@ import (
 func Test_SliceValidator(t *testing.T) {
 	for caseIndex, testCase := range textValidatorsTestCases {
 		// Arrange
-		paramsBase := corevalidator.ValidatorParamsBase{
-			CaseIndex:                         constants.Zero, // fixing test case number here as it is fixed data
-			Header:                            testCase.Header,
-			IsIgnoreCompareOnActualInputEmpty: testCase.IsSkipOnContentsEmpty,
-			IsAttachUserInputs:                true,
-			IsCaseSensitive:                   testCase.IsCaseSensitive,
+		paramsBase := corevalidator.Parameter{
+			CaseIndex:                  caseIndex, // fixing test case number here as it is fixed data
+			Header:                     testCase.Header,
+			IsSkipCompareOnActualEmpty: testCase.IsSkipOnContentsEmpty,
+			IsAttachUserInputs:         true,
+			IsCaseSensitive:            testCase.IsCaseSensitive,
 		}
 
 		err := testCase.Validators.AllVerifyErrorMany(
@@ -35,12 +34,12 @@ func Test_SliceValidator(t *testing.T) {
 			ExpectedLines:          testCase.ExpectationLines,
 		}
 
-		nextBaseParam := corevalidator.ValidatorParamsBase{
-			CaseIndex:                         caseIndex,
-			Header:                            testCase.Header,
-			IsIgnoreCompareOnActualInputEmpty: false,
-			IsAttachUserInputs:                true,
-			IsCaseSensitive:                   testCase.IsCaseSensitive,
+		nextBaseParam := corevalidator.Parameter{
+			CaseIndex:                  caseIndex,
+			Header:                     testCase.Header,
+			IsSkipCompareOnActualEmpty: false,
+			IsAttachUserInputs:         true,
+			IsCaseSensitive:            testCase.IsCaseSensitive,
 		}
 
 		// Act
