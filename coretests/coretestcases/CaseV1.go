@@ -31,12 +31,12 @@ func (it *CaseV1) SetExpected(expected interface{}) {
 
 func (it *CaseV1) VerifyAllEqual(
 	caseIndex int,
-	actualElement ...string,
+	actualElements ...string,
 ) error {
 	return it.VerifyAll(
 		caseIndex,
 		stringcompareas.Equal,
-		actualElement,
+		actualElements,
 	)
 }
 
@@ -76,13 +76,13 @@ func (it *CaseV1) VerifyAllSliceValidator(
 func (it *CaseV1) VerifyError(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
-	actualElement ...string,
+	actualElements ...string,
 ) error {
 	toBaseTestCase := it.AsBaseTestCase()
 	validationFinalError := it.VerifyAll(
 		caseIndex,
 		compareAs,
-		actualElement)
+		actualElements)
 
 	if toBaseTestCase.IsTypeInvalidOrSkipVerify() {
 		return validationFinalError
@@ -99,20 +99,15 @@ func (it *CaseV1) Assert(
 	t *testing.T,
 	caseIndex int,
 	compareAs stringcompareas.Variant,
-	actualElement ...string,
+	actualElements ...string,
 ) error {
 	toBaseTestCase := it.AsBaseTestCase()
 	validationFinalError := it.VerifyAll(
 		caseIndex,
 		compareAs,
-		actualElement)
+		actualElements)
 
 	convey.Convey(toBaseTestCase.Title, t, func() {
-		// errcore.PrintErrorWithTestIndex(
-		// 	caseIndex,
-		// 	toBaseTestCase.Title,
-		// 	validationFinalError)
-
 		convey.So(
 			validationFinalError,
 			should.BeNil)

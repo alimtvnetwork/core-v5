@@ -37,6 +37,8 @@ var (
 				},
 				ExpectedInput: []string{
 					"Wrong expectation",
+					"Wrong expectation",
+					"Wrong expectation",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,

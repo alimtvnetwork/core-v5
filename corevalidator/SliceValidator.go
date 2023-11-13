@@ -246,6 +246,30 @@ func (it *SliceValidator) VerifyFirstLengthUptoError(
 		lengthUpTo)
 }
 
+func (it *SliceValidator) AllVerifyErrorQuick(
+	caseIndex int,
+	header string,
+	actualElements ...string,
+) error {
+	if it == nil {
+		return nil
+	}
+
+	var params = Parameter{
+		CaseIndex:                  caseIndex,
+		Header:                     header,
+		IsSkipCompareOnActualEmpty: true,
+		IsAttachUserInputs:         true,
+		IsCaseSensitive:            true,
+	}
+	it.SetActual(actualElements)
+
+	return it.AllVerifyErrorUptoLength(
+		false,
+		params,
+		it.ExpectingLinesLength())
+}
+
 func (it *SliceValidator) AllVerifyError(
 	params *Parameter,
 ) error {

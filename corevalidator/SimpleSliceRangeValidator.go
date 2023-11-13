@@ -24,7 +24,7 @@ func (it *SimpleSliceRangeValidator) SetActual(
 }
 
 func (it *SimpleSliceRangeValidator) SliceValidators() *SliceValidators {
-	validators := make([]*SliceValidator, it.LengthOfVerifierSegments())
+	validators := make([]SliceValidator, it.LengthOfVerifierSegments())
 
 	for _, segment := range it.VerifierSegments {
 		expectedSegments := segment.ExpectedLines
@@ -37,7 +37,7 @@ func (it *SimpleSliceRangeValidator) SliceValidators() *SliceValidators {
 			ExpectedLines:          expectedSegments,
 		}
 
-		validators = append(validators, &sliceValidator)
+		validators = append(validators, sliceValidator)
 	}
 
 	return &SliceValidators{
@@ -65,10 +65,10 @@ func (it *SimpleSliceRangeValidator) VerifyFirst(
 	params *Parameter,
 	isPrintError bool,
 ) error {
+	params.Header = header
 	it.SetActual(actual)
 
 	return it.SliceValidators().VerifyFirst(
-		header,
 		params,
 		isPrintError)
 }
@@ -80,13 +80,13 @@ func (it *SimpleSliceRangeValidator) VerifyUpto(
 	length int,
 	isPrintError bool,
 ) error {
+	params.Header = header
 	it.SetActual(actual)
 
 	return it.SliceValidators().VerifyUpto(
 		isPrintError,
 		false,
 		length,
-		header,
 		params,
 	)
 }

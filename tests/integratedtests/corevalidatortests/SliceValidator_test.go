@@ -3,6 +3,8 @@ package corevalidatortests
 import (
 	"testing"
 
+	"github.com/smarty/assertions/should"
+	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests"
@@ -34,11 +36,18 @@ func Test_SliceValidator(t *testing.T) {
 		}
 
 		finalActLines := actualSlice.Strings()
-
-		// Assert
-		testCase.Case.AssertEqual(
-			t,
+		actualError := testCase.Case.VerifyAllEqual(
 			caseIndex,
 			finalActLines...)
+		validator := testCase.Validator
+
+		// Assert
+		convey.Convey(testCase.Case.Title, t, func() {
+			validator.AllVerifyError()
+			convey.So(
+				actualError.Error(),
+				should.Equal,
+			)
+		})
 	}
 }
