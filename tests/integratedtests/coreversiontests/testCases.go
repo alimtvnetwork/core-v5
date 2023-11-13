@@ -15,8 +15,8 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	arrangeArgsTwoTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretests.ArgTwo{}),
+	arrangeStringTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]string{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -55,6 +55,38 @@ var (
 				"9 : invalid (empty)",
 			},
 			VerifyTypeOf: defaultVersionTypeVerification,
+			IsEnable:     issetter.True,
+		},
+	}
+
+	versionCreationUsingStringTestCases = []testWrapper{
+		{
+			Title: "Create versions using string.",
+			ArrangeInput: []string{
+				"-1",
+				"1.2.3.4",
+				"5.3.6",
+				"5.3",
+				"9",
+				"v1.2.3.4",
+				"v5.3.6",
+				"v5.3",
+				"v9",
+				"",
+			},
+			ExpectedInput: []string{
+				"0 : invalid (empty)",
+				"1 : v1.2.3.4 (compact: 1.2.3.4, display: v1.2.3.4)",
+				"2 : v5.3.6 (compact: 5.3.6, display: v5.3.6)",
+				"3 : v5.3 (compact: 5.3, display: v5.3)",
+				"4 : v9 (compact: 9, display: v9)",
+				"5 : v1.2.3.4 (compact: 1.2.3.4, display: v1.2.3.4)",
+				"6 : v5.3.6 (compact: 5.3.6, display: v5.3.6)",
+				"7 : v5.3 (compact: 5.3, display: v5.3)",
+				"8 : v9 (compact: 9, display: v9)",
+				"9 : invalid (empty)",
+			},
+			VerifyTypeOf: arrangeStringTypeVerification,
 			IsEnable:     issetter.True,
 		},
 	}

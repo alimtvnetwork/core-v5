@@ -43,3 +43,43 @@ func Test_Creation_Verification(t *testing.T) {
 			finalActLines...)
 	}
 }
+
+func Test_Creation_UsingString_Verification(t *testing.T) {
+	for caseIndex, testCase := range versionCreationUsingStringTestCases {
+		// Arrange
+		inputs := testCase.
+			ArrangeInput.([]string)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+		creatorFunc := coreversion.New.Default
+
+		// Act
+		for i, input := range inputs {
+			toVersion := creatorFunc(input)
+
+			if toVersion.IsInvalid() {
+				actualSlice.AppendFmt(
+					defaultInvalidCreationFmt,
+					i)
+			} else {
+				actualSlice.AppendFmt(
+					defaultCreationFmt,
+					i,
+					toVersion.String(),
+					toVersion.VersionCompact,
+					toVersion.VersionDisplay())
+			}
+		}
+
+		finalActLines := actualSlice.Strings()
+		finalCase := testCase.AsCaseV1()
+
+		// Assert
+		finalCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActLines...)
+	}
+}
