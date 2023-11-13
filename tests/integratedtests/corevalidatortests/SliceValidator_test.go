@@ -33,12 +33,12 @@ func Test_SliceValidator(t *testing.T) {
 				corejson.Serialize.ToString(s))
 		}
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 
 		// Assert
 		testCase.Case.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }

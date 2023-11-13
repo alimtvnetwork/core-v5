@@ -21,7 +21,7 @@ func Test_WithBrackets_Verification(t *testing.T) {
 					input))
 		}
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -29,7 +29,7 @@ func Test_WithBrackets_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
 
@@ -46,7 +46,7 @@ func Test_WithBracketsQuotation_Verification(t *testing.T) {
 					input))
 		}
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -54,6 +54,6 @@ func Test_WithBracketsQuotation_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }

@@ -22,7 +22,7 @@ func Test_MsgCsvItems_Verification(t *testing.T) {
 				title,
 				csvItems...))
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -30,6 +30,6 @@ func Test_MsgCsvItems_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }

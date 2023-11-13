@@ -34,9 +34,9 @@ func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {
 				value,
 				meta))
 
-		finalActuals := actualSlice.Strings()
-		testCase.SetActual(finalActuals)
-		sliceValidator.SetActual(finalActuals)
+		finalActLines := actualSlice.Strings()
+		testCase.SetActual(finalActLines)
+		sliceValidator.SetActual(finalActLines)
 		sliceValidator.ExpectedLines = testCase.ExpectedInput.([]string)
 
 		nextBaseParam := corevalidator.Parameter{
@@ -88,9 +88,9 @@ func Test_TitleCurly_Wraps_Verification(t *testing.T) {
 				value,
 			))
 
-		finalActuals := actualSlice.Strings()
-		testCase.SetActual(finalActuals)
-		sliceValidator.SetActual(finalActuals)
+		finalActLines := actualSlice.Strings()
+		testCase.SetActual(finalActLines)
+		sliceValidator.SetActual(finalActLines)
 		sliceValidator.ExpectedLines = testCase.ExpectedInput.([]string)
 
 		nextBaseParam := corevalidator.Parameter{

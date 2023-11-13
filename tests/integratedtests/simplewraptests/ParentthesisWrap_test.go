@@ -25,14 +25,14 @@ func Test_ParenthesisWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Ha
 					input))
 		}
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
 
@@ -47,13 +47,13 @@ func Test_ParenthesisWrapIf_Disabled_Wraps_All_Without_Existing_Condition_Checki
 			actualSlice.Add(simplewrap.ParenthesisWrapIf(false, input))
 		}
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }

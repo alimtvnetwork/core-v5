@@ -13,7 +13,7 @@ func Test_AnyToTypesCsvStrings_SingleQuote_Verification(t *testing.T) {
 		inputs := testCase.ArrangeInput.([]interface{})
 
 		// Act
-		finalActuals := corecsv.AnyToTypesCsvStrings(
+		finalActLines := corecsv.AnyToTypesCsvStrings(
 			true,
 			true,
 			inputs...)
@@ -25,7 +25,7 @@ func Test_AnyToTypesCsvStrings_SingleQuote_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
 
@@ -35,7 +35,7 @@ func Test_AnyToTypesCsvStrings_DoubleQuote_Verification(t *testing.T) {
 		inputs := testCase.ArrangeInput.([]interface{})
 
 		// Act
-		finalActuals := corecsv.AnyToTypesCsvStrings(
+		finalActLines := corecsv.AnyToTypesCsvStrings(
 			true,
 			false,
 			inputs...)
@@ -47,7 +47,7 @@ func Test_AnyToTypesCsvStrings_DoubleQuote_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
 
@@ -57,7 +57,7 @@ func Test_AnyToTypesCsvStrings_NoQuote_Verification(t *testing.T) {
 		inputs := testCase.ArrangeInput.([]interface{})
 
 		// Act
-		finalActuals := corecsv.AnyToTypesCsvStrings(
+		finalActLines := corecsv.AnyToTypesCsvStrings(
 			false,
 			false,
 			inputs...)
@@ -69,6 +69,6 @@ func Test_AnyToTypesCsvStrings_NoQuote_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }

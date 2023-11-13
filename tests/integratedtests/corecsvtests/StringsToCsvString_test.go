@@ -26,7 +26,7 @@ func Test_StringsToCsvString_All_True_SingleQuotation_Verification(t *testing.T)
 				true,
 				inputs...))
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -34,7 +34,7 @@ func Test_StringsToCsvString_All_True_SingleQuotation_Verification(t *testing.T)
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
 
@@ -52,7 +52,7 @@ func Test_DefaultCsvStrings_Verification(t *testing.T) {
 			corecsv.DefaultCsv(
 				inputs...))
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -60,7 +60,7 @@ func Test_DefaultCsvStrings_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
 
@@ -81,7 +81,7 @@ func Test_StringsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 				false,
 				inputs...))
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -89,7 +89,7 @@ func Test_StringsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
 
@@ -110,7 +110,7 @@ func Test_StringsToCsvString_NoQuotation_Verification(t *testing.T) {
 				false,
 				inputs...))
 
-		finalActuals := actualSlice.Strings()
+		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -118,6 +118,6 @@ func Test_StringsToCsvString_NoQuotation_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActuals...)
+			finalActLines...)
 	}
 }
