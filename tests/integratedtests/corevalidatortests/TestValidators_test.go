@@ -13,7 +13,7 @@ import (
 func Test_TestValidators(t *testing.T) {
 	for caseIndex, testCase := range textValidatorsTestCases {
 		// Arrange
-		paramsBase := corevalidator.Parameter{
+		parameter := corevalidator.Parameter{
 			CaseIndex:                  constants.Zero, // fixing test case number here as it is fixed data
 			Header:                     testCase.Header,
 			IsSkipCompareOnActualEmpty: testCase.IsSkipOnContentsEmpty,
@@ -22,7 +22,7 @@ func Test_TestValidators(t *testing.T) {
 		}
 
 		err := testCase.Validators.AllVerifyErrorMany(
-			&paramsBase,
+			&parameter,
 			testCase.ComparingLines...)
 
 		errorLines := errcore.ErrorToSplitLines(

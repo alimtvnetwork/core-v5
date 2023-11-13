@@ -40,6 +40,22 @@ func (it *CaseV1) VerifyAllEqual(
 	)
 }
 
+func (it *CaseV1) SliceValidator(
+	compareAs stringcompareas.Variant,
+	actualElements []string,
+) corevalidator.SliceValidator {
+	it.SetActual(actualElements)
+
+	sliceValidator := corevalidator.SliceValidator{
+		ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+		CompareAs:              compareAs,
+		ActualLines:            actualElements,
+		ExpectedLines:          it.ExpectedInput.([]string),
+	}
+
+	return sliceValidator
+}
+
 func (it *CaseV1) VerifyAll(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
@@ -59,18 +75,42 @@ func (it *CaseV1) VerifyAll(
 		sliceValidator)
 }
 
-func (it *CaseV1) VerifyAllSliceValidator(
+func (it *CaseV1) VerifyFirst(
 	caseIndex int,
-	validator corevalidator.SliceValidator,
+	compareAs stringcompareas.Variant,
+	actualElements []string,
 ) error {
-	baseParameter := corevalidator.Parameter{
+	it.SetActual(actualElements)
+
+	sliceValidator := corevalidator.SliceValidator{
+		ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+		CompareAs:              compareAs,
+		ActualLines:            actualElements,
+		ExpectedLines:          it.ExpectedInput.([]string),
+	}
+
+	param := corevalidator.Parameter{
 		CaseIndex:          caseIndex,
 		Header:             it.Title,
 		IsAttachUserInputs: true,
 		IsCaseSensitive:    true,
 	}
 
-	return validator.AllVerifyError(&baseParameter)
+	return sliceValidator.VerifyFirstError(&param)
+}
+
+func (it *CaseV1) VerifyAllSliceValidator(
+	caseIndex int,
+	validator corevalidator.SliceValidator,
+) error {
+	param := corevalidator.Parameter{
+		CaseIndex:          caseIndex,
+		Header:             it.Title,
+		IsAttachUserInputs: true,
+		IsCaseSensitive:    true,
+	}
+
+	return validator.AllVerifyError(&param)
 }
 
 func (it *CaseV1) VerifyError(

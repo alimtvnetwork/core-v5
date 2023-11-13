@@ -49,3 +49,43 @@ func Test_SliceValidator(t *testing.T) {
 			errLines...)
 	}
 }
+
+func Test_SliceValidator_FirstError(t *testing.T) {
+	for caseIndex, testCase := range sliceValidatorsTestCases {
+		// Arrange
+		inputs := testCase.
+			Case.
+			ArrangeInput.([]coretests.ArgTwo)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+
+		// Act
+		for i, parameter := range inputs {
+			f := parameter.First
+			s := parameter.Second
+
+			actualSlice.AppendFmt(
+				"%d : %t (%s, %s)",
+				i,
+				isany.JsonEqual(f, s),
+				corejson.Serialize.ToString(f),
+				corejson.Serialize.ToString(s))
+		}
+
+		actLines := actualSlice.Strings()
+		actualError := testCase.Case.VerifyAllEqual(
+			caseIndex,
+			actLines...)
+		validator := testCase.Validator
+		errLines := errcore.ErrorToSplitLines(actualError)
+
+		// Assert
+		validator.AssertAllQuick(
+			t,
+			caseIndex,
+			testCase.Case.Title,
+			errLines...)
+	}
+}

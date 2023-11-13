@@ -224,14 +224,14 @@ func (it *SliceValidator) isValidLines(
 }
 
 func (it *SliceValidator) VerifyFirstError(
-	paramsBase *Parameter,
+	parameter *Parameter,
 ) error {
 	if it == nil {
 		return nil
 	}
 
 	return it.VerifyFirstLengthUptoError(
-		paramsBase,
+		parameter,
 		it.ExpectingLinesLength())
 }
 
@@ -563,16 +563,16 @@ func (it *SliceValidator) isEmptyIgnoreCase(
 //   - Returns a combine error of actual and expecting inputs.
 //   - If all validation successful then no error.
 func (it *SliceValidator) UserInputsMergeWithError(
-	paramsBase *Parameter,
+	parameter *Parameter,
 	err error,
 ) error {
-	if !paramsBase.IsAttachUserInputs {
+	if !parameter.IsAttachUserInputs {
 		return err
 	}
 
 	toStr := it.ActualInputWithExpectingMessage(
-		paramsBase.CaseIndex,
-		paramsBase.Header)
+		parameter.CaseIndex,
+		parameter.Header)
 
 	if err == nil && len(toStr) == 0 {
 		return nil
