@@ -27,8 +27,6 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	someNull *coretests.ArgTwo = nil
-
 	versionCreationTestCases = []testWrapper{
 		{
 			Title: "Create versions with different args and methods.",
