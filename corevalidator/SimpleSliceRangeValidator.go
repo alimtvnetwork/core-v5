@@ -1,6 +1,8 @@
 package corevalidator
 
 import (
+	"fmt"
+
 	"gitlab.com/auk-go/core/coredata/corestr"
 )
 
@@ -23,26 +25,33 @@ func (it *SimpleSliceRangeValidator) SetActual(
 	return it
 }
 
-func (it *SimpleSliceRangeValidator) SliceValidators() *SliceValidators {
-	validators := make([]SliceValidator, it.LengthOfVerifierSegments())
+func (it *SimpleSliceRangeValidator) SliceValidators() []HeaderSliceValidator {
+	validators := make([]HeaderSliceValidator, it.LengthOfVerifierSegments())
 
 	for _, segment := range it.VerifierSegments {
 		expectedSegments := segment.ExpectedLines
-		actualSegments := it.actual.Items[segment.RangeInt.Start:segment.RangeInt.End]
-
-		sliceValidator := SliceValidator{
-			CompareAs:              segment.CompareAs,
-			ValidatorCoreCondition: segment.ValidatorCoreCondition,
-			ActualLines:            actualSegments,
-			ExpectedLines:          expectedSegments,
+		start := segment.RangeInt.Start
+		end := segment.RangeInt.End
+		actualSegments := it.actual.Items[start:end]
+		totalItems := end - start + 1
+		header := fmt.Sprintf("Slice validate for range %d to %d (total: %d lines)",
+			start,
+			end,
+			totalItems)
+		validator := HeaderSliceValidator{
+			Header: header,
+			SliceValidator: SliceValidator{
+				CompareAs:              segment.CompareAs,
+				ValidatorCoreCondition: segment.ValidatorCoreCondition,
+				ActualLines:            actualSegments,
+				ExpectedLines:          expectedSegments,
+			},
 		}
 
-		validators = append(validators, sliceValidator)
+		validators = append(validators, validator)
 	}
 
-	return &SliceValidators{
-		Validators: validators,
-	}
+	return validators
 }
 
 func (it *SimpleSliceRangeValidator) VerifyAll(
