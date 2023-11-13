@@ -2,6 +2,7 @@ package corevalidator
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -349,7 +350,9 @@ func (it *SliceValidator) AllVerifyErrorUptoLength(
 	if params.IsAttachUserInputs && len(sliceErr) > constants.Zero {
 		sliceErr = append(
 			sliceErr,
-			it.ActualInputWithExpectingMessage(params.Header))
+			it.ActualInputWithExpectingMessage(
+				params.CaseIndex,
+				params.Header))
 	}
 
 	return errcore.SliceToError(sliceErr)
@@ -458,23 +461,43 @@ func (it *SliceValidator) initialVerifyErrorWithMerged(
 	return nil
 }
 
-func (it *SliceValidator) ActualInputWithExpectingMessage(header string) string {
-	actualInputMessage := it.ActualInputMessage(header)
-	userExpectingMessage := it.UserExpectingMessage(header)
+func (it *SliceValidator) ActualInputWithExpectingMessage(caseIndex int, header string) string {
+	actualInputMessage := it.ActualInputMessage(
+		caseIndex,
+		header)
+	userExpectingMessage := it.UserExpectingMessage(
+		caseIndex,
+		header)
 	finalMessage := actualInputMessage + constants.NewLineUnix + userExpectingMessage
 
 	return finalMessage
 }
 
-func (it *SliceValidator) ActualInputMessage(header string) string {
+func (it *SliceValidator) ActualInputMessage(
+	caseIndex int,
+	header string,
+) string {
+	finalHeader := fmt.Sprintf(
+		actualUserInputsV2MessageFormat,
+		caseIndex,
+		header)
+
 	return errcore.MsgHeaderPlusEnding(
-		actualUserInputsMessage+header,
+		finalHeader,
 		it.ActualLinesString())
 }
 
-func (it *SliceValidator) UserExpectingMessage(header string) string {
+func (it *SliceValidator) UserExpectingMessage(
+	caseIndex int,
+	header string,
+) string {
+	finalHeader := fmt.Sprintf(
+		expectingLinesV2MessageFormat,
+		caseIndex,
+		header)
+
 	return errcore.MsgHeaderPlusEnding(
-		expectingLinesMessage+header,
+		finalHeader,
 		it.ExpectingLinesString())
 }
 
@@ -485,6 +508,10 @@ func (it *SliceValidator) isEmptyIgnoreCase(
 		len(it.ActualLines) == 0
 }
 
+// UserInputsMergeWithError
+//
+//   - Returns a combine error of actual and expecting inputs.
+//   - If all validation successful then no error.
 func (it *SliceValidator) UserInputsMergeWithError(
 	paramsBase *ValidatorParamsBase,
 	err error,
@@ -493,12 +520,19 @@ func (it *SliceValidator) UserInputsMergeWithError(
 		return err
 	}
 
-	if err == nil {
-		return errors.New(it.ActualInputWithExpectingMessage(paramsBase.Header))
+	toStr := it.ActualInputWithExpectingMessage(
+		paramsBase.CaseIndex,
+		paramsBase.Header)
+
+	if err == nil && len(toStr) == 0 {
+		return nil
 	}
 
-	msg := err.Error() +
-		it.ActualInputWithExpectingMessage(paramsBase.Header)
+	if err == nil && len(toStr) >= 0 {
+		return errors.New(toStr)
+	}
+
+	msg := err.Error() + toStr
 
 	return errors.New(msg)
 }

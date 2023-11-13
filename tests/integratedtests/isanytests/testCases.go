@@ -557,6 +557,139 @@ var (
 		},
 	}
 
+	conclusiveTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Expect all not equal and inconclusive because value same but data types are different.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  nil,
+						Second: nil,
+					},
+					{
+						First:  someNull,
+						Second: someNull,
+					},
+				},
+				ExpectedInput: []string{
+					"0 - Equal : true - Conclusive ('<nil>', '<nil>')",
+					"1 - Equal : true - Conclusive ('<nil> - *coretests.ArgTwo', '<nil> - *coretests.ArgTwo')",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Expect all not equal and inconclusive because value same but data types are different.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  nil,
+						Second: someNull,
+					},
+					{
+						First:  someNull,
+						Second: nil,
+					},
+				},
+				ExpectedInput: []string{
+					"0 - Equal : false - Conclusive ('<nil>', '<nil> - *coretests.ArgTwo')",
+					"1 - Equal : false - Conclusive ('<nil> - *coretests.ArgTwo', '<nil>')",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Expect all equal and conclusive because value same and data type also same.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: 1,
+					},
+					{
+						First:  2,
+						Second: 2,
+					},
+					{
+						First:  float64(-1),
+						Second: float64(-1),
+					},
+					{
+						First:  "some string",
+						Second: "some string",
+					},
+				},
+				ExpectedInput: []string{
+					"0 - Equal : true - Conclusive ('1 - int', '1 - int')",
+					"1 - Equal : true - Conclusive ('2 - int', '2 - int')",
+					"2 - Equal : true - Conclusive ('-1 - float64', '-1 - float64')",
+					"3 - Equal : true - Conclusive ('some string - string', 'some string - string')",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Expect all not equal and inconclusive because value different and data type also same and non pointer.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: 5,
+					},
+					{
+						First:  2,
+						Second: 3,
+					},
+					{
+						First:  1,
+						Second: 3,
+					},
+					{
+						First:  "some string",
+						Second: "some stringx",
+					},
+				},
+				ExpectedInput: []string{
+					"0 - Equal : false - Inconclusive ('1 - int', '5 - int')",
+					"1 - Equal : false - Inconclusive ('2 - int', '3 - int')",
+					"2 - Equal : false - Inconclusive ('1 - int', '3 - int')",
+					"3 - Equal : false - Inconclusive ('some string - string', 'some stringx - string')",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Same value different type results not equal and conclusive.",
+				ArrangeInput: []coretests.ArgTwo{
+					{
+						First:  1,
+						Second: byte(2),
+					},
+					{
+						First:  1,
+						Second: float64(1),
+					},
+					{
+						First:  "1",
+						Second: 1,
+					},
+				},
+				ExpectedInput: []string{
+					"0 - Equal : false - Conclusive ('1 - int', '2 - uint8')",
+					"1 - Equal : false - Conclusive ('1 - int', '1 - float64')",
+					"2 - Equal : false - Conclusive ('1 - string', '1 - int')",
+				},
+				VerifyTypeOf: arrangeArgsTwoTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
 	reflectionTypesTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -579,6 +712,30 @@ var (
 						Second: isany.PrimitiveType,
 					},
 					{
+						First:  uint(23),
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  uint32(23),
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  uint64(23),
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  int32(23),
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  int64(23),
+						Second: isany.PrimitiveType,
+					},
+					{
+						First:  []int{1},
+						Second: isany.PrimitiveType,
+					},
+					{
 						First:  true,
 						Second: isany.PrimitiveType,
 					},
@@ -588,7 +745,13 @@ var (
 					"1 : false (type: coretests.ArgTwo, PrimitiveType, {<nil> <nil>})",
 					"2 : true (type: string, PrimitiveType, some string)",
 					"3 : true (type: float32, PrimitiveType, 23)",
-					"4 : true (type: bool, PrimitiveType, true)",
+					"4 : true (type: uint, PrimitiveType, 23)",
+					"5 : true (type: uint32, PrimitiveType, 23)",
+					"6 : true (type: uint64, PrimitiveType, 23)",
+					"7 : true (type: int32, PrimitiveType, 23)",
+					"8 : true (type: int64, PrimitiveType, 23)",
+					"9 : false (type: []int, PrimitiveType, [1])",
+					"10 : true (type: bool, PrimitiveType, true)",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,
@@ -615,6 +778,30 @@ var (
 						Second: isany.NumberType,
 					},
 					{
+						First:  uint(23),
+						Second: isany.NumberType,
+					},
+					{
+						First:  uint32(23),
+						Second: isany.NumberType,
+					},
+					{
+						First:  uint64(23),
+						Second: isany.NumberType,
+					},
+					{
+						First:  int32(23),
+						Second: isany.NumberType,
+					},
+					{
+						First:  int64(23),
+						Second: isany.NumberType,
+					},
+					{
+						First:  []int{1},
+						Second: isany.NumberType,
+					},
+					{
 						First:  true,
 						Second: isany.NumberType,
 					},
@@ -624,7 +811,13 @@ var (
 					"1 : true (type: float32, NumberType, 2)",
 					"2 : true (type: int64, NumberType, 1)",
 					"3 : true (type: uint8, NumberType, 23)",
-					"4 : false (type: bool, NumberType, true)",
+					"4 : true (type: uint, NumberType, 23)",
+					"5 : true (type: uint32, NumberType, 23)",
+					"6 : true (type: uint64, NumberType, 23)",
+					"7 : true (type: int32, NumberType, 23)",
+					"8 : true (type: int64, NumberType, 23)",
+					"9 : false (type: []int, NumberType, [1])",
+					"10 : false (type: bool, NumberType, true)",
 				},
 				VerifyTypeOf: arrangeArgsTwoTypeVerification,
 				IsEnable:     issetter.True,
@@ -775,7 +968,7 @@ var (
 						Second: isany.FuncOnly,
 					},
 					{
-						First:  isany.FuncOnly,
+						First:  isany.PrimitiveType,
 						Second: isany.FuncOnly,
 					},
 				},

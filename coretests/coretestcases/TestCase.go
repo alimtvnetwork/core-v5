@@ -108,10 +108,10 @@ func (it *TestCaseV1) Assert(
 		actualElement)
 
 	convey.Convey(toBaseTestCase.Title, t, func() {
-		errcore.PrintErrorWithTestIndex(
-			caseIndex,
-			toBaseTestCase.Title,
-			validationFinalError)
+		// errcore.PrintErrorWithTestIndex(
+		// 	caseIndex,
+		// 	toBaseTestCase.Title,
+		// 	validationFinalError)
 
 		convey.So(
 			validationFinalError,

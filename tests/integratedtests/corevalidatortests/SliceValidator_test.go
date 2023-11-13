@@ -10,7 +10,7 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
-func Test_TestValidators(t *testing.T) {
+func Test_SliceValidator(t *testing.T) {
 	for caseIndex, testCase := range textValidatorsTestCases {
 		// Arrange
 		paramsBase := corevalidator.ValidatorParamsBase{

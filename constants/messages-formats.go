@@ -51,6 +51,7 @@ const (
 	ValueWithSingleQuoteFormat                   = "'%v'"
 	StringWithDoubleQuoteFormat                  = "\"%s\""
 	StringWithSingleQuoteFormat                  = "'%s'"
+	StringTypeFormat                             = "'%s - %T'"
 	TypeWithSingleQuoteFormat                    = "'%T'"
 	TypeWithDoubleQuoteFormat                    = "\"%T\""
 	MessageWrapMessageFormat                     = "%s (%s)"

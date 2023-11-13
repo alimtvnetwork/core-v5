@@ -14,3 +14,14 @@ type TextValidatorsWrapper struct {
 	IsCaseSensitive       bool
 	ExpectationLines      []string
 }
+
+type SliceValidatorsWrapper struct {
+	Header string
+	// ComparingLines is actually the actual data from
+	// test but here it is the test cases for the expectation
+	ComparingLines        []string
+	Validators            corevalidator.SliceValidators
+	IsSkipOnContentsEmpty bool
+	IsCaseSensitive       bool
+	ExpectationLines      []string
+}
