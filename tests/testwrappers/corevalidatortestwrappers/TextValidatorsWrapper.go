@@ -16,7 +16,7 @@ type TextValidatorsWrapper struct {
 	ExpectationLines      []string
 }
 
-type SliceValidatorsWrapper struct {
+type SliceValidatorWrapper struct {
 	Case      coretestcases.CaseV1
 	Validator corevalidator.SliceValidator
 }

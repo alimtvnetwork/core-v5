@@ -6,12 +6,13 @@ import (
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/enums/stringcompareas"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/isany"
 )
 
 func Test_SliceValidator(t *testing.T) {
-	for caseIndex, testCase := range sliceValidatorsTestCases {
+	for caseIndex, testCase := range sliceValidatorTestCases {
 		// Arrange
 		inputs := testCase.
 			Case.
@@ -51,7 +52,7 @@ func Test_SliceValidator(t *testing.T) {
 }
 
 func Test_SliceValidator_FirstError(t *testing.T) {
-	for caseIndex, testCase := range sliceValidatorsTestCases {
+	for caseIndex, testCase := range sliceValidatorFirstErrorTestCases {
 		// Arrange
 		inputs := testCase.
 			Case.
@@ -75,9 +76,10 @@ func Test_SliceValidator_FirstError(t *testing.T) {
 		}
 
 		actLines := actualSlice.Strings()
-		actualError := testCase.Case.VerifyAllEqual(
+		actualError := testCase.Case.VerifyFirst(
 			caseIndex,
-			actLines...)
+			stringcompareas.Equal,
+			actLines)
 		validator := testCase.Validator
 		errLines := errcore.ErrorToSplitLines(actualError)
 
