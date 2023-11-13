@@ -43,7 +43,9 @@ var (
 			},
 			Validator: corevalidator.SliceValidator{
 				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
-				ExpectedLines:          nil,
+				ExpectedLines: []string{
+					"Wrong expectation",
+				},
 			},
 		},
 	}
