@@ -24,7 +24,7 @@ func Test_AnyItemsToCsvString_All_True_SingleQuotation_Verification(t *testing.T
 
 		finalActual := actualSlice.Strings()
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -50,7 +50,7 @@ func Test_AnyItemsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 
 		finalActual := actualSlice.Strings()
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -76,7 +76,7 @@ func Test_AnyItemsToCsvString_NoQuotation_Verification(t *testing.T) {
 
 		finalActual := actualSlice.Strings()
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(

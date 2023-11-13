@@ -17,6 +17,6 @@ type TextValidatorsWrapper struct {
 }
 
 type SliceValidatorsWrapper struct {
-	Case      coretestcases.TestCaseV1
+	Case      coretestcases.CaseV1
 	Validator corevalidator.SliceValidator
 }

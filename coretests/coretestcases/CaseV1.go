@@ -12,24 +12,24 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
-// TestCaseV1
+// CaseV1
 //
 //   - Title : Test case header
 //   - ArrangeInput : Preparing input
 //   - ActualInput : Input for the act method
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 //   - Will verify type using VerifyTypeOf
-type TestCaseV1 coretests.BaseTestCase
+type CaseV1 coretests.BaseTestCase
 
-func (it *TestCaseV1) SetActual(actual interface{}) {
+func (it *CaseV1) SetActual(actual interface{}) {
 	it.ActualInput = actual
 }
 
-func (it *TestCaseV1) SetExpected(expected interface{}) {
+func (it *CaseV1) SetExpected(expected interface{}) {
 	it.ExpectedInput = expected
 }
 
-func (it *TestCaseV1) VerifyAllEqual(
+func (it *CaseV1) VerifyAllEqual(
 	caseIndex int,
 	actualElement ...string,
 ) error {
@@ -40,7 +40,7 @@ func (it *TestCaseV1) VerifyAllEqual(
 	)
 }
 
-func (it *TestCaseV1) VerifyAll(
+func (it *CaseV1) VerifyAll(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
 	actualElements []string,
@@ -59,7 +59,7 @@ func (it *TestCaseV1) VerifyAll(
 		sliceValidator)
 }
 
-func (it *TestCaseV1) VerifyAllSliceValidator(
+func (it *CaseV1) VerifyAllSliceValidator(
 	caseIndex int,
 	validator corevalidator.SliceValidator,
 ) error {
@@ -73,7 +73,7 @@ func (it *TestCaseV1) VerifyAllSliceValidator(
 	return validator.AllVerifyError(&baseParameter)
 }
 
-func (it *TestCaseV1) VerifyError(
+func (it *CaseV1) VerifyError(
 	caseIndex int,
 	compareAs stringcompareas.Variant,
 	actualElement ...string,
@@ -95,7 +95,7 @@ func (it *TestCaseV1) VerifyError(
 		typeVerifyErr)
 }
 
-func (it *TestCaseV1) Assert(
+func (it *CaseV1) Assert(
 	t *testing.T,
 	caseIndex int,
 	compareAs stringcompareas.Variant,
@@ -138,7 +138,7 @@ func (it *TestCaseV1) Assert(
 		typeVerifyErr)
 }
 
-func (it *TestCaseV1) AssertEqual(
+func (it *CaseV1) AssertEqual(
 	t *testing.T,
 	caseIndex int,
 	actualElements ...string,
@@ -149,6 +149,6 @@ func (it *TestCaseV1) AssertEqual(
 		actualElements...)
 }
 
-func (it TestCaseV1) AsBaseTestCase() coretests.BaseTestCase {
+func (it CaseV1) AsBaseTestCase() coretests.BaseTestCase {
 	return coretests.BaseTestCase(it)
 }

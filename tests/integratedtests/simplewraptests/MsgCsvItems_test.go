@@ -24,7 +24,7 @@ func Test_MsgCsvItems_Verification(t *testing.T) {
 
 		finalActual := actualSlice.Strings()
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(

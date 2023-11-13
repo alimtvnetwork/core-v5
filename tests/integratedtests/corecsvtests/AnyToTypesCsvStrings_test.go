@@ -19,7 +19,7 @@ func Test_AnyToTypesCsvStrings_SingleQuote_Verification(t *testing.T) {
 			inputs...)
 
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -41,7 +41,7 @@ func Test_AnyToTypesCsvStrings_DoubleQuote_Verification(t *testing.T) {
 			inputs...)
 
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -63,7 +63,7 @@ func Test_AnyToTypesCsvStrings_NoQuote_Verification(t *testing.T) {
 			inputs...)
 
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(

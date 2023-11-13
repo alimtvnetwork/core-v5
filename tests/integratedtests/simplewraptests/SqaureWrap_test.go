@@ -25,7 +25,7 @@ func Test_SquareWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Have_Du
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
+		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -52,7 +52,7 @@ func Test_SquareWrapIf_Disabled_Wraps_Nothing(
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
+		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(

@@ -19,7 +19,7 @@ var (
 
 	sliceValidatorsTestCases = []corevalidatortestwrappers.SliceValidatorsWrapper{
 		{
-			Case: coretestcases.TestCaseV1{
+			Case: coretestcases.CaseV1{
 				Title: "Diff check against invalid comparisons",
 				ArrangeInput: []coretests.ArgTwo{
 					{

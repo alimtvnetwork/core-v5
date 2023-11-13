@@ -26,7 +26,7 @@ func Test_ParenthesisWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Ha
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
+		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -48,7 +48,7 @@ func Test_ParenthesisWrapIf_Disabled_Wraps_All_Without_Existing_Condition_Checki
 		}
 
 		finalActual := actualSlice.Strings()
-		finalTestCase := coretestcases.TestCaseV1(testCase.BaseTestCase)
+		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(

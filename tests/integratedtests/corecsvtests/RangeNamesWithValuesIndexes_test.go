@@ -17,7 +17,7 @@ func Test_RangeNamesWithValuesIndexes_Verification(t *testing.T) {
 			inputs...)
 
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 
 		// Assert
 		finalTestCase.AssertEqual(
@@ -43,7 +43,7 @@ func Test_RangeNamesWithValuesIndexesCsvString_Verification(t *testing.T) {
 			inputs...)
 
 		finalTestCase := coretestcases.
-			TestCaseV1(testCase.BaseTestCase)
+			CaseV1(testCase.BaseTestCase)
 		finalTestCase.SetExpected([]string{
 			expectation,
 		})
