@@ -28,7 +28,7 @@ func Test_Cmp_Verification(t *testing.T) {
 				parameter.Second)
 		}
 
-		finalActual := actualSlice.Strings()
+		finalActuals := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -36,6 +36,6 @@ func Test_Cmp_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual...)
+			finalActuals...)
 	}
 }

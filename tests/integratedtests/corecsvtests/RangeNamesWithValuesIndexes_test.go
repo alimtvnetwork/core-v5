@@ -13,7 +13,7 @@ func Test_RangeNamesWithValuesIndexes_Verification(t *testing.T) {
 		inputs := testCase.Arrange()
 
 		// Act
-		finalActual := corecsv.RangeNamesWithValuesIndexes(
+		finalActuals := corecsv.RangeNamesWithValuesIndexes(
 			inputs...)
 
 		finalTestCase := coretestcases.
@@ -23,7 +23,7 @@ func Test_RangeNamesWithValuesIndexes_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual...)
+			finalActuals...)
 	}
 }
 
@@ -39,7 +39,7 @@ func Test_RangeNamesWithValuesIndexesCsvString_Verification(t *testing.T) {
 			"[5]"
 
 		// Act
-		finalActual := corecsv.RangeNamesWithValuesIndexesCsvString(
+		finalActuals := corecsv.RangeNamesWithValuesIndexesCsvString(
 			inputs...)
 
 		finalTestCase := coretestcases.
@@ -52,6 +52,6 @@ func Test_RangeNamesWithValuesIndexesCsvString_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual)
+			finalActuals)
 	}
 }

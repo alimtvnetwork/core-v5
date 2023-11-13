@@ -26,7 +26,7 @@ func Test_AnyNull_Verification(t *testing.T) {
 			isany.AnyNull(inputs...),
 			corecsv.AnyToTypesCsvDefault(inputs...))
 
-		finalActual := actualSlice.Strings()
+		finalActuals := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -34,6 +34,6 @@ func Test_AnyNull_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual...)
+			finalActuals...)
 	}
 }

@@ -40,7 +40,7 @@ func Test_Conclusive_Verification(t *testing.T) {
 				values)
 		}
 
-		finalActual := actualSlice.Strings()
+		finalActuals := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -48,6 +48,6 @@ func Test_Conclusive_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual...)
+			finalActuals...)
 	}
 }

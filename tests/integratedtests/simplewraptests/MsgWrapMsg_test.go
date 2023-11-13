@@ -23,7 +23,7 @@ func Test_MsgWrapMsg_Wraps_Verification(t *testing.T) {
 				secondMsg,
 			))
 
-		finalActual := actualSlice.Strings()
+		finalActuals := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -31,6 +31,6 @@ func Test_MsgWrapMsg_Wraps_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual...)
+			finalActuals...)
 	}
 }

@@ -27,7 +27,7 @@ func Test_StringersToString_Verification(t *testing.T) {
 				true,
 				inputs...))
 
-		finalActual := actualSlice.Strings()
+		finalActuals := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -35,6 +35,6 @@ func Test_StringersToString_Verification(t *testing.T) {
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual...)
+			finalActuals...)
 	}
 }

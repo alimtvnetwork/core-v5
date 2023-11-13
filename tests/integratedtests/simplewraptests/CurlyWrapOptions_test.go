@@ -21,7 +21,7 @@ func Test_CurlyWrapOptions_Wraps_All_CheckConditionally_NoDuplicateCurly(t *test
 					true, input))
 		}
 
-		finalActual := actualSlice.Strings()
+		finalActuals := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
@@ -29,6 +29,6 @@ func Test_CurlyWrapOptions_Wraps_All_CheckConditionally_NoDuplicateCurly(t *test
 		finalTestCase.AssertEqual(
 			t,
 			caseIndex,
-			finalActual...)
+			finalActuals...)
 	}
 }
