@@ -275,6 +275,56 @@ func (it stringsTo) IntegersSkipErrors(
 		lines...)
 }
 
+func (it stringsTo) IntegersSkipMapAndDefaultValue(
+	defaultVal int,
+	skipValues map[string]bool,
+	lines ...string,
+) []int {
+	results := make([]int, len(lines))
+
+	for i, v := range lines {
+		if skipValues[v] {
+			continue
+		}
+
+		vInt, err := strconv.Atoi(v)
+
+		if err != nil {
+			results[i] = defaultVal
+			continue
+		}
+
+		results[i] = vInt
+	}
+
+	return results
+}
+
+func (it stringsTo) IntegersSkipAndDefaultValue(
+	defaultVal int,
+	skipValue string,
+	lines ...string,
+) []int {
+	results := make([]int, len(lines))
+
+	for i, v := range lines {
+		if skipValue == v {
+			continue
+		}
+
+		vInt, err := strconv.Atoi(v)
+
+		if err != nil {
+			results[i] = defaultVal
+			continue
+		}
+
+		results[i] = vInt
+	}
+
+	return results
+}
+
 // BytesConditional only take if isTake returns true, breaks and exits if isBreak to true
 func (it stringsTo) BytesConditional(
 	processor func(in string) (out byte, isTake, isBreak bool),

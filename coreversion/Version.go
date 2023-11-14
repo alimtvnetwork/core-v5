@@ -11,17 +11,22 @@ import (
 )
 
 type Version struct {
-	VersionCompact string // ex : 1.0.1
-	VersionMajor   int
-	VersionMinor   int
-	VersionPatch   int
-	VersionBuild   int
+	VersionCompact  string // ex : 1.0.1
+	compiledVersion string // ex : v1.0.1
+	isInvalid       bool
+	VersionMajor    int
+	VersionMinor    int
+	VersionPatch    int
+	VersionBuild    int
 }
 
 func (it *Version) String() string {
 	return it.VersionDisplay()
 }
 
+// VersionDisplay
+//
+// Display with a prefix of `v`
 func (it *Version) VersionDisplay() string {
 	if it == nil || it.VersionCompact == "" {
 		return constants.EmptyString
@@ -30,8 +35,24 @@ func (it *Version) VersionDisplay() string {
 	return VSymbol + it.VersionCompact
 }
 
+// CompiledVersion
+//
+// It is similar to DisplayVersion, however,
+// it gets generated during the creation time
+// from the parsed major, minor, patch, build versions
+func (it *Version) CompiledVersion() string {
+	if it == nil || it.compiledVersion == "" {
+		return constants.EmptyString
+	}
+
+	return VSymbol + it.compiledVersion
+}
+
 func (it *Version) VersionDisplayMajor() string {
-	if it == nil || it.VersionCompact == "" || it.IsMajorInvalid() {
+	if it == nil ||
+		it.VersionCompact == "" ||
+		it.IsMajorInvalid() ||
+		it.IsInvalid() {
 		return constants.EmptyString
 	}
 
@@ -151,14 +172,16 @@ func (it *Version) IsBuildInvalidOrZero() bool {
 }
 
 func (it *Version) isInvalidOrEmptyAll() bool {
-	return it.IsMajorInvalidOrZero() &&
-		it.IsMinorInvalidOrZero() &&
-		it.IsPatchInvalidOrZero() &&
-		it.IsBuildInvalidOrZero()
+	return it.isInvalid == true ||
+		it.IsMajorInvalidOrZero() &&
+			it.IsMinorInvalidOrZero() &&
+			it.IsPatchInvalidOrZero() &&
+			it.IsBuildInvalidOrZero()
 }
 
 func (it *Version) IsEmptyOrInvalid() bool {
 	return it == nil ||
+		it.isInvalid == true ||
 		it.VersionDisplay() == "" ||
 		it.isInvalidOrEmptyAll()
 }

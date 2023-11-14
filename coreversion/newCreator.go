@@ -1,6 +1,7 @@
 package coreversion
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -40,62 +41,128 @@ func (it newCreator) Default(version string) *Version {
 	}
 
 	slice := strings.Split(trimmedVersion, constants.Dot)
-	length := len(slice)
-
-	if length >= versionindexes.BuildLength {
-		versionsValuesSlice := converters.StringsTo.IntegersSkipErrors(
+	versionsValuesSlice := converters.
+		StringsTo.
+		IntegersSkipMapAndDefaultValue(
+			InvalidVersionValue,
+			skipValuesMap,
 			slice...)
 
-		return &Version{
-			VersionCompact: trimmedVersion,
-			VersionMajor:   versionsValuesSlice[versionindexes.Major],
-			VersionMinor:   versionsValuesSlice[versionindexes.Minor],
-			VersionPatch:   versionsValuesSlice[versionindexes.Patch],
-			VersionBuild:   versionsValuesSlice[versionindexes.Build],
-		}
+	isMajorInvalid, major := it.getMajor(versionsValuesSlice)
+	isMinorInvalid, minor := it.getMinor(versionsValuesSlice)
+	isPatchInvalid, patch := it.getPatch(versionsValuesSlice)
+	isBuildInvalid, build := it.getBuild(versionsValuesSlice)
+	isInvalid := isMajorInvalid ||
+		isMinorInvalid ||
+		isPatchInvalid ||
+		isBuildInvalid
+
+	compile := it.getCompiledVersion(
+		major,
+		minor,
+		patch,
+		build)
+
+	return &Version{
+		VersionCompact:  trimmedVersion,
+		compiledVersion: compile,
+		isInvalid:       isInvalid,
+		VersionMajor:    major,
+		VersionMinor:    minor,
+		VersionPatch:    patch,
+		VersionBuild:    build,
+	}
+}
+
+func (it newCreator) getCompiledVersion(
+	major, minor, patch, build int,
+) (toCompile string) {
+	if build > 0 {
+		return fmt.Sprintf("v%d.%d.%d.%d",
+			major,
+			minor,
+			patch,
+			build)
 	}
 
-	if length >= versionindexes.PatchLength {
-		versionsValuesSlice := converters.StringsTo.IntegersSkipErrors(
-			slice...)
-
-		return &Version{
-			VersionCompact: trimmedVersion,
-			VersionMajor:   versionsValuesSlice[versionindexes.Major],
-			VersionMinor:   versionsValuesSlice[versionindexes.Minor],
-			VersionPatch:   versionsValuesSlice[versionindexes.Patch],
-			VersionBuild:   InvalidVersionValue,
-		}
+	if patch > 0 {
+		return fmt.Sprintf("v%d.%d.%d",
+			major,
+			minor,
+			patch)
 	}
 
-	if length >= versionindexes.MinorLength {
-		versionsValuesSlice := converters.StringsTo.IntegersSkipErrors(
-			slice...)
-
-		return &Version{
-			VersionCompact: trimmedVersion,
-			VersionMajor:   versionsValuesSlice[versionindexes.Major],
-			VersionMinor:   versionsValuesSlice[versionindexes.Minor],
-			VersionPatch:   InvalidVersionValue,
-			VersionBuild:   InvalidVersionValue,
-		}
+	if minor > 0 {
+		return fmt.Sprintf("v%d.%d",
+			major,
+			minor)
 	}
 
-	if length >= versionindexes.MajorLength {
-		majorVersion, _ := converters.StringToIntegerWithDefault(
-			slice[versionindexes.Major],
-			InvalidVersionValue)
-
-		return &Version{
-			VersionCompact: trimmedVersion,
-			VersionMajor:   majorVersion,
-			VersionMinor:   InvalidVersionValue,
-			VersionPatch:   InvalidVersionValue,
-			VersionBuild:   InvalidVersionValue,
-		}
+	if major > 0 {
+		return fmt.Sprintf("v%d",
+			major)
 	}
 
-	return EmptyUsingCompactVersion(trimmedVersion)
+	return invalidString
+}
+
+func (it newCreator) getMajor(
+	slice []int,
+) (isInvalid bool, value int) {
+	return it.getByIndex(
+		slice,
+		versionindexes.
+			Major.
+			ValueInt())
+}
+
+func (it newCreator) getMinor(
+	slice []int,
+) (isInvalid bool, value int) {
+	return it.getByIndex(
+		slice,
+		versionindexes.
+			Minor.
+			ValueInt())
+}
+
+func (it newCreator) getPatch(
+	slice []int,
+) (isInvalid bool, value int) {
+	return it.getByIndex(
+		slice,
+		versionindexes.
+			Patch.
+			ValueInt())
+}
+
+func (it newCreator) getBuild(
+	slice []int,
+) (isInvalid bool, value int) {
+	return it.getByIndex(
+		slice,
+		versionindexes.
+			Build.
+			ValueInt())
+}
+
+func (it newCreator) getByIndex(
+	slice []int,
+	index int,
+) (isInvalid bool, value int) {
+	if len(slice)-1 < index {
+		return false, InvalidVersionValue
+	}
+
+	value = slice[index]
+
+	if value <= InvalidVersionValue {
+		return true, InvalidVersionValue
+	}
+
+	// valid
+
+	return false, value
 }
 
 // Version

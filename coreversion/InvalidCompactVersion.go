@@ -1,10 +1,10 @@
 package coreversion
 
-func EmptyUsingCompactVersion(compactVersion string) *Version {
+func InvalidCompactVersion(compactVersion string) *Version {
 	return &Version{
 		VersionCompact:  compactVersion,
-		compiledVersion: "v" + compactVersion,
-		isInvalid:       false,
+		compiledVersion: invalidString,
+		isInvalid:       true,
 		VersionMajor:    InvalidVersionValue,
 		VersionMinor:    InvalidVersionValue,
 		VersionPatch:    InvalidVersionValue,
