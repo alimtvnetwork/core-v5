@@ -58,6 +58,7 @@ func (it newCreator) Default(version string) *Version {
 		isBuildInvalid
 
 	compile := it.getCompiledVersion(
+		VSymbol+trimmedVersion,
 		major,
 		minor,
 		patch,
@@ -75,6 +76,7 @@ func (it newCreator) Default(version string) *Version {
 }
 
 func (it newCreator) getCompiledVersion(
+	rawVersion string,
 	major, minor, patch, build int,
 ) (toCompile string) {
 	if build > 0 {
@@ -103,7 +105,7 @@ func (it newCreator) getCompiledVersion(
 			major)
 	}
 
-	return invalidString
+	return rawVersion
 }
 
 func (it newCreator) getMajor(

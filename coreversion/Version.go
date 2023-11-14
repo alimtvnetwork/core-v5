@@ -21,7 +21,7 @@ type Version struct {
 }
 
 func (it *Version) String() string {
-	return it.VersionDisplay()
+	return it.CompiledVersion()
 }
 
 // VersionDisplay
@@ -45,7 +45,7 @@ func (it *Version) CompiledVersion() string {
 		return constants.EmptyString
 	}
 
-	return VSymbol + it.compiledVersion
+	return it.compiledVersion
 }
 
 func (it *Version) VersionDisplayMajor() string {
