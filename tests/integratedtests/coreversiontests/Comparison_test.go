@@ -37,8 +37,8 @@ func Test_Comparison_Verification(t *testing.T) {
 				comparisonFmt,
 				i,
 				expectation,
-				l,
-				r,
+				left,
+				right,
 				isMatch)
 		}
 

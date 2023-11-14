@@ -136,12 +136,12 @@ var (
 				{
 					First:  "1.5.5",
 					Second: "1.*.8",
-					Third:  corecomparator.LeftLess, // expect
+					Third:  corecomparator.LeftGreater, // expect
 				},
 			},
 			ExpectedInput: []string{
-				"0 : Expect : LeftGreater - Left [1.2.5] - [1.2.4] Right , match: true",
-				"1 : Expect : LeftLess - Left [1.5.5] - [1.*.8] Right , match: true",
+				"0 : Expect : LeftGreater - Left [v1.2.5] - [v1.2.4] Right , match: true",
+				"1 : Expect : LeftGreater - Left [v1.5.5] - [v1.0.8] Right , match: true",
 			},
 			VerifyTypeOf: arrangeStringTypeVerification,
 			IsEnable:     issetter.True,
