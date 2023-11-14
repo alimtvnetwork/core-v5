@@ -22,7 +22,8 @@ func Test_Creation_Verification(t *testing.T) {
 			if input.IsInvalid() {
 				actualSlice.AppendFmt(
 					defaultInvalidCreationFmt,
-					i)
+					i,
+					input.String())
 			} else {
 				actualSlice.AppendFmt(
 					defaultCreationFmt,
@@ -62,7 +63,8 @@ func Test_Creation_UsingString_Verification(t *testing.T) {
 			if toVersion.IsInvalid() {
 				actualSlice.AppendFmt(
 					defaultInvalidCreationFmt,
-					i)
+					i,
+					toVersion.String())
 			} else {
 				actualSlice.AppendFmt(
 					defaultCreationFmt,
