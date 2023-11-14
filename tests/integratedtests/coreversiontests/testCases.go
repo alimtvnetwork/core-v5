@@ -3,6 +3,7 @@ package coreversiontests
 import (
 	"reflect"
 
+	"gitlab.com/auk-go/core/corecomparator"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coreversion"
 	"gitlab.com/auk-go/core/issetter"
@@ -117,6 +118,30 @@ var (
 				"23 : v13.0.6 (compact: 13..6, display: v13..6)",
 				"24 : v14.0.7 (compact: 14..7, display: v14..7)",
 				"25 : invalid - ",
+			},
+			VerifyTypeOf: arrangeStringTypeVerification,
+			IsEnable:     issetter.True,
+		},
+	}
+
+	comparisonStringTestCases = []testWrapper{
+		{
+			Title: "Versions comparisons",
+			ArrangeInput: []coretests.ArgThree{
+				{
+					First:  "1.2.5",
+					Second: "1.2.4",
+					Third:  corecomparator.LeftGreater, // expect
+				},
+				{
+					First:  "1.5.5",
+					Second: "1.*.8",
+					Third:  corecomparator.LeftLess, // expect
+				},
+			},
+			ExpectedInput: []string{
+				"0 : Expect : LeftGreater - Left [1.2.5] - [1.2.4] Right , match: true",
+				"1 : Expect : LeftLess - Left [1.5.5] - [1.*.8] Right , match: true",
 			},
 			VerifyTypeOf: arrangeStringTypeVerification,
 			IsEnable:     issetter.True,
