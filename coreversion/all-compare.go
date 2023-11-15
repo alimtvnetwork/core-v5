@@ -9,7 +9,8 @@ func Compare(
 	left,
 	right *Version,
 ) corecomparator.Compare {
-	compare, isApplicable := hasDeductUsingNilNess(left, right)
+	compare, isApplicable :=
+		hasDeductUsingNilNess(left, right)
 
 	if isApplicable {
 		return compare
@@ -51,8 +52,8 @@ func CompareVersionString(
 	leftVersion,
 	rightVersion string,
 ) corecomparator.Compare {
-	left := New.Default(leftVersion)
-	right := New.Default(rightVersion)
+	left := New.DefaultPtr(leftVersion)
+	right := New.DefaultPtr(rightVersion)
 
 	return Compare(left, right)
 }

@@ -13,7 +13,7 @@ func Test_Comparison_Verification(t *testing.T) {
 	for caseIndex, testCase := range comparisonStringTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.ArgThree)
+			ArrangeInput.([]coretests.LeftRightExpect)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -22,20 +22,20 @@ func Test_Comparison_Verification(t *testing.T) {
 		creatorFunc := coreversion.New.Default
 
 		// Act
-		for i, input := range inputs {
-			l := input.First.(string)
-			r := input.Second.(string)
-			expectation := input.Third.(corecomparator.Compare)
+		for index, input := range inputs {
+			l := input.Left.(string)
+			r := input.Right.(string)
+			expectation := input.Expect.(corecomparator.Compare)
 
 			left := creatorFunc(l)
 			right := creatorFunc(r)
 			isMatch := left.IsExpectedComparison(
 				expectation,
-				right)
+				&right)
 
 			actualSlice.AppendFmt(
 				comparisonFmt,
-				i,
+				index,
 				expectation,
 				left,
 				right,

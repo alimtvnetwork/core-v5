@@ -31,7 +31,7 @@ var (
 	versionCreationTestCases = []testWrapper{
 		{
 			Title: "Create versions with different args and methods.",
-			ArrangeInput: []*coreversion.Version{
+			ArrangeInput: []coreversion.Version{
 				coreversion.New.Invalid(),
 				coreversion.New.Default("1.2.3.4"),
 				coreversion.New.Default("5.3.6"),
@@ -127,16 +127,26 @@ var (
 	comparisonStringTestCases = []testWrapper{
 		{
 			Title: "Versions comparisons",
-			ArrangeInput: []coretests.ArgThree{
+			ArrangeInput: []coretests.LeftRightExpect{
 				{
-					First:  "1.2.5",
-					Second: "1.2.4",
-					Third:  corecomparator.LeftGreater, // expect
+					Left:   "1.2.5",
+					Right:  "1.2.4",
+					Expect: corecomparator.LeftGreater,
 				},
 				{
-					First:  "1.5.5",
-					Second: "1.*.8",
-					Third:  corecomparator.LeftGreater, // expect
+					Left:   "1.5.5",
+					Right:  "1.*.8",
+					Expect: corecomparator.LeftGreater,
+				},
+				{
+					Left:   "1.2",
+					Right:  "1.2.1",
+					Expect: corecomparator.LeftLess,
+				},
+				{
+					Left:   "1.2",
+					Right:  "1.2.1",
+					Expect: corecomparator.LeftLess,
 				},
 			},
 			ExpectedInput: []string{

@@ -12,3 +12,11 @@ func (it ArgThree) ArgTwo() ArgTwo {
 		Second: it.Second,
 	}
 }
+
+func (it ArgThree) LeftRightExpect() LeftRightExpect {
+	return LeftRightExpect{
+		Left:   it.First,
+		Right:  it.Second,
+		Expect: it.Third,
+	}
+}

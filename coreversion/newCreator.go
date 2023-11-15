@@ -23,7 +23,7 @@ type newCreator struct{}
 //   - "v0"       or "0"       represents "v{MajorInt}"
 //   - "v"        or ""        represents "" Empty or Invalid Result but don't panic
 //   - ""                      represents "" Empty or Invalid Result but don't panic
-func (it newCreator) Default(version string) *Version {
+func (it newCreator) Default(version string) Version {
 	if version == "" {
 		return Empty()
 	}
@@ -64,7 +64,7 @@ func (it newCreator) Default(version string) *Version {
 		patch,
 		build)
 
-	return &Version{
+	return Version{
 		VersionCompact:  trimmedVersion,
 		compiledVersion: compile,
 		isInvalid:       isInvalid,
@@ -73,6 +73,12 @@ func (it newCreator) Default(version string) *Version {
 		VersionPatch:    patch,
 		VersionBuild:    build,
 	}
+}
+
+func (it newCreator) DefaultPtr(version string) *Version {
+	toVersion := it.Default(version)
+
+	return &toVersion
 }
 
 func (it newCreator) getCompiledVersion(
@@ -178,7 +184,7 @@ func (it newCreator) getByIndex(
 //   - "v0"       or "0"       represents "v{MajorInt}"
 //   - "v"        or ""        represents "" Empty or Invalid Result but don't panic
 //   - ""                      represents "" Empty or Invalid Result but don't panic
-func (it newCreator) Version(version string) *Version {
+func (it newCreator) Version(version string) Version {
 	return it.Default(version)
 }
 
@@ -193,11 +199,11 @@ func (it newCreator) Version(version string) *Version {
 //   - "v0"       or "0"       represents "v{MajorInt}"
 //   - "v"        or ""        represents "" Empty or Invalid Result but don't panic
 //   - ""                      represents "" Empty or Invalid Result but don't panic
-func (it newCreator) Create(version string) *Version {
+func (it newCreator) Create(version string) Version {
 	return it.Default(version)
 }
 
-func (it newCreator) Major(majorString string) *Version {
+func (it newCreator) Major(majorString string) Version {
 	return it.Default(majorString)
 }
 
@@ -208,7 +214,7 @@ func (it newCreator) Major(majorString string) *Version {
 //	 ...
 func (it newCreator) SpreadStrings(
 	v ...string,
-) *Version {
+) Version {
 	actualCompiledVersionString := strings.Join(
 		v[:],
 		constants.Dot)
@@ -223,7 +229,7 @@ func (it newCreator) SpreadStrings(
 //	 ...
 func (it newCreator) SpreadIntegers(
 	v ...int,
-) *Version {
+) Version {
 	slice := make([]string, len(v))
 
 	for i, indexedVersionValue := range v {
@@ -240,7 +246,7 @@ func (it newCreator) SpreadIntegers(
 //	 ...
 func (it newCreator) SpreadUnsignedIntegers(
 	v ...uint,
-) *Version {
+) Version {
 	slice := make([]string, len(v))
 
 	for i, indexedVersionValue := range v {
@@ -257,7 +263,7 @@ func (it newCreator) SpreadUnsignedIntegers(
 //	 ...
 func (it newCreator) SpreadBytes(
 	v ...byte,
-) *Version {
+) Version {
 	slice := make([]string, len(v))
 
 	for i, indexedVersionValue := range v {
@@ -269,7 +275,7 @@ func (it newCreator) SpreadBytes(
 
 func (it newCreator) MajorMinor(
 	major, minor string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: major,
 		versionindexes.Minor: minor,
@@ -286,7 +292,7 @@ func (it newCreator) MajorMinorPatch(
 	major,
 	minor,
 	patch string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: major,
 		versionindexes.Minor: minor,
@@ -305,7 +311,7 @@ func (it newCreator) MajorMinorPatchBuild(
 	minor,
 	patch,
 	build string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: major,
 		versionindexes.Minor: minor,
@@ -325,7 +331,7 @@ func (it newCreator) All(
 	minor,
 	patch,
 	build string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: major,
 		versionindexes.Minor: minor,
@@ -345,7 +351,7 @@ func (it newCreator) AllInt(
 	minor,
 	patch,
 	build int,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: strconv.Itoa(major),
 		versionindexes.Minor: strconv.Itoa(minor),
@@ -365,7 +371,7 @@ func (it newCreator) AllByte(
 	minor,
 	patch,
 	build byte,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: strconv.Itoa(int(major)),
 		versionindexes.Minor: strconv.Itoa(int(minor)),
@@ -383,7 +389,7 @@ func (it newCreator) AllByte(
 func (it newCreator) MajorMinorInt(
 	major,
 	minor int,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: strconv.Itoa(major),
 		versionindexes.Minor: strconv.Itoa(minor),
@@ -400,7 +406,7 @@ func (it newCreator) MajorMinorPatchInt(
 	major,
 	minor,
 	patch int,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: strconv.Itoa(major),
 		versionindexes.Minor: strconv.Itoa(minor),
@@ -417,7 +423,7 @@ func (it newCreator) MajorMinorPatchInt(
 func (it newCreator) MajorBuildInt(
 	major,
 	build int,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: strconv.Itoa(major),
 		versionindexes.Build: strconv.Itoa(build),
@@ -433,7 +439,7 @@ func (it newCreator) MajorBuildInt(
 func (it newCreator) MajorBuild(
 	major,
 	build string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: major,
 		versionindexes.Build: build,
@@ -450,7 +456,7 @@ func (it newCreator) MajorMinorBuild(
 	major,
 	minor,
 	build string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: major,
 		versionindexes.Minor: minor,
@@ -467,7 +473,7 @@ func (it newCreator) MajorMinorBuild(
 func (it newCreator) MajorPatch(
 	major,
 	patch string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: major,
 		versionindexes.Patch: patch,
@@ -483,7 +489,7 @@ func (it newCreator) MajorPatch(
 func (it newCreator) MajorPatchInt(
 	major,
 	patch int,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Major: strconv.Itoa(major),
 		versionindexes.Patch: strconv.Itoa(patch),
@@ -499,7 +505,7 @@ func (it newCreator) MajorPatchInt(
 func (it newCreator) MinorBuildInt(
 	minor,
 	build int,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Minor: strconv.Itoa(minor),
 		versionindexes.Build: strconv.Itoa(build),
@@ -515,7 +521,7 @@ func (it newCreator) MinorBuildInt(
 func (it newCreator) PatchBuildInt(
 	patch,
 	build int,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Patch: strconv.Itoa(patch),
 		versionindexes.Build: strconv.Itoa(build),
@@ -531,7 +537,7 @@ func (it newCreator) PatchBuildInt(
 func (it newCreator) MinorBuild(
 	minor,
 	build string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Minor: minor,
 		versionindexes.Build: build,
@@ -547,7 +553,7 @@ func (it newCreator) MinorBuild(
 func (it newCreator) PatchBuild(
 	patch,
 	build string,
-) *Version {
+) Version {
 	actualVersionSlice := [...]string{
 		versionindexes.Patch: patch,
 		versionindexes.Build: build,
@@ -580,7 +586,7 @@ func (it newCreator) CollectionUsingCap(
 	capacity int,
 ) *VersionsCollection {
 	return &VersionsCollection{
-		Versions: make([]*Version, 0, capacity),
+		Versions: make([]Version, 0, capacity),
 	}
 }
 
@@ -588,10 +594,10 @@ func (it newCreator) EmptyCollection() *VersionsCollection {
 	return it.CollectionUsingCap(0)
 }
 
-func (it newCreator) Invalid() *Version {
+func (it newCreator) Invalid() Version {
 	return Empty()
 }
 
-func (it newCreator) Empty() *Version {
+func (it newCreator) Empty() Version {
 	return Empty()
 }

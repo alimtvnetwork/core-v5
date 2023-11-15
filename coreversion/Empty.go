@@ -2,12 +2,14 @@ package coreversion
 
 import "gitlab.com/auk-go/core/constants"
 
-func Empty() *Version {
-	return &Version{
-		VersionCompact: constants.EmptyString,
-		VersionMajor:   InvalidVersionValue,
-		VersionMinor:   InvalidVersionValue,
-		VersionPatch:   InvalidVersionValue,
-		VersionBuild:   InvalidVersionValue,
+func Empty() Version {
+	return Version{
+		VersionCompact:  constants.EmptyString,
+		compiledVersion: "",
+		isInvalid:       true,
+		VersionMajor:    InvalidVersionValue,
+		VersionMinor:    InvalidVersionValue,
+		VersionPatch:    InvalidVersionValue,
+		VersionBuild:    InvalidVersionValue,
 	}
 }

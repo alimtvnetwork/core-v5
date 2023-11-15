@@ -20,7 +20,7 @@ type Version struct {
 	VersionBuild    int
 }
 
-func (it *Version) String() string {
+func (it Version) String() string {
 	return it.CompiledVersion()
 }
 
@@ -541,7 +541,7 @@ func (it *Version) IsExpectedComparisonUsingVersionString(
 ) bool {
 	return it.IsExpectedComparison(
 		expectedComparison,
-		New.Default(rightVersion),
+		New.DefaultPtr(rightVersion),
 	)
 }
 
@@ -556,7 +556,7 @@ func (it *Version) IsAtLeast(
 ) bool {
 	return it.IsExpectedComparison(
 		corecomparator.LeftGreaterEqual,
-		New.Default(rightVersion),
+		New.DefaultPtr(rightVersion),
 	)
 }
 
@@ -571,7 +571,7 @@ func (it *Version) IsEqualVersionString(
 ) bool {
 	return it.IsExpectedComparison(
 		corecomparator.Equal,
-		New.Default(rightVersion),
+		New.DefaultPtr(rightVersion),
 	)
 }
 
@@ -586,7 +586,7 @@ func (it *Version) IsLowerVersionString(
 ) bool {
 	return it.IsExpectedComparison(
 		corecomparator.LeftLess,
-		New.Default(rightVersion),
+		New.DefaultPtr(rightVersion),
 	)
 }
 
@@ -601,7 +601,7 @@ func (it *Version) IsLowerEqualVersionString(
 ) bool {
 	return it.IsExpectedComparison(
 		corecomparator.LeftLessEqual,
-		New.Default(rightVersion),
+		New.DefaultPtr(rightVersion),
 	)
 }
 
@@ -629,11 +629,13 @@ func (it *Version) ComparisonValueIndexes(
 
 func (it Version) Clone() Version {
 	return Version{
-		VersionCompact: it.VersionCompact,
-		VersionMajor:   it.VersionMajor,
-		VersionMinor:   it.VersionMinor,
-		VersionPatch:   it.VersionPatch,
-		VersionBuild:   it.VersionBuild,
+		VersionCompact:  it.VersionCompact,
+		compiledVersion: it.compiledVersion,
+		isInvalid:       it.isInvalid,
+		VersionMajor:    it.VersionMajor,
+		VersionMinor:    it.VersionMinor,
+		VersionPatch:    it.VersionPatch,
+		VersionBuild:    it.VersionBuild,
 	}
 }
 
@@ -642,13 +644,9 @@ func (it *Version) ClonePtr() *Version {
 		return nil
 	}
 
-	return &Version{
-		VersionCompact: it.VersionCompact,
-		VersionMajor:   it.VersionMajor,
-		VersionMinor:   it.VersionMinor,
-		VersionPatch:   it.VersionPatch,
-		VersionBuild:   it.VersionBuild,
-	}
+	toVersion := it.Clone()
+
+	return &toVersion
 }
 
 func (it Version) NonPtr() Version {
