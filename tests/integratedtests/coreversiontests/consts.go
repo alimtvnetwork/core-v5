@@ -5,5 +5,5 @@ const (
 	defaultInvalidV1CreationFmt = "%d : invalid - %s (raw: %s)"
 	defaultInvalidV2CreationFmt = "%d : invalid - %s "
 
-	comparisonFmt = "%d : Left [%s, raw(%s)] %s [%s, raw(%s)] Right | Expect: %s - %t"
+	comparisonFmt = "%d : [ %s ] %s [ %s ] | Expect: %s - %t"
 )
