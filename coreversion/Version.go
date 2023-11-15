@@ -532,14 +532,14 @@ func (it *Version) IsExpectedComparison(
 		IsCompareEqualLogically(expectedComparison)
 }
 
-// IsExpectedComparisonUsingVersionString
+// IsExpectedComparisonRawVersion
 //
 //	@Description: it returns the expected comparison result
 //	@param expectedComparison
 //	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
 //	@return bool
-func (it *Version) IsExpectedComparisonUsingVersionString(
+func (it *Version) IsExpectedComparisonRawVersion(
 	expectedComparison corecomparator.Compare,
 	rightVersion string,
 ) bool {

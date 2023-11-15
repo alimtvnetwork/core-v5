@@ -324,4 +324,28 @@ var (
 			IsEnable:     issetter.True,
 		},
 	}
+
+	jsonTestCases = []testWrapper{
+		{
+			Title: "Create versions json string.",
+			ArrangeInput: []string{
+				"-1",
+				"v1.2.3.4",
+				"v5.3.6",
+				"5.3",
+				"9",
+				"",
+			},
+			ExpectedInput: []string{
+				"0 : [ -1 ] - {\"Compact\":\"-1\"}",
+				"1 : [ v1.2.3.4 ] - {\"Compact\":\"1.2.3.4\",\"Major\":1,\"Minor\":2,\"Patch\":3,\"Build\":4}",
+				"2 : [ v5.3.6 ] - {\"Compact\":\"5.3.6\",\"Major\":5,\"Minor\":3,\"Patch\":6}",
+				"3 : [ 5.3 ] - {\"Compact\":\"5.3\",\"Major\":5,\"Minor\":3}",
+				"4 : [ 9 ] - {\"Compact\":\"9\",\"Major\":9}",
+				"5 : [  ] - {\"Major\":-1,\"Minor\":-1,\"Patch\":-1,\"Build\":-1}",
+			},
+			VerifyTypeOf: arrangeStringTypeVerification,
+			IsEnable:     issetter.True,
+		},
+	}
 )

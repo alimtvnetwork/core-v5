@@ -6,4 +6,5 @@ const (
 	defaultInvalidV2CreationFmt = "%d : invalid - %s "
 
 	comparisonFmt = "%d : [ %s ] %s [ %s ] | Expect: %s - %t"
+	jsonFmt       = "%d : [ %s ] - %s"
 )
