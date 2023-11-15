@@ -36,10 +36,14 @@ func Test_Comparison_Verification(t *testing.T) {
 			actualSlice.AppendFmt(
 				comparisonFmt,
 				index,
-				expectation,
 				left,
+				l,
+				expectation.OperatorSymbol(),
 				right,
-				isMatch)
+				r,
+				expectation,
+				isMatch,
+			)
 		}
 
 		finalActLines := actualSlice.Strings()

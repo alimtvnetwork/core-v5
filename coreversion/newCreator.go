@@ -159,13 +159,13 @@ func (it newCreator) getByIndex(
 	index int,
 ) (isInvalid bool, value int) {
 	if len(slice)-1 < index {
-		return false, InvalidVersionValue
+		return false, 0
 	}
 
 	value = slice[index]
 
 	if value <= InvalidVersionValue {
-		return true, InvalidVersionValue
+		return true, 0
 	}
 
 	// valid

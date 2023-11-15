@@ -42,6 +42,15 @@ func Compare(
 		return patchVersionCompare
 	}
 
+	buildVersionCompare := corecmp.Integer(
+		left.VersionBuild,
+		right.VersionBuild,
+	)
+
+	if buildVersionCompare.IsNotEqualLogically() {
+		return buildVersionCompare
+	}
+
 	return corecomparator.Equal
 }
 

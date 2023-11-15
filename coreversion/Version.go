@@ -517,15 +517,18 @@ func (it *Version) IsLeftLessThanOrEqual(
 func (it *Version) IsLeftGreaterThanOrEqual(
 	right *Version,
 ) bool {
-	return Compare(it, right).IsLeftGreaterOrGreaterEqualOrEqual()
+	return Compare(it, right).
+		IsLeftGreaterOrGreaterEqualOrEqual()
 }
 
 func (it *Version) IsExpectedComparison(
 	expectedComparison corecomparator.Compare,
 	right *Version,
 ) bool {
-	return expectedComparison.IsCompareEqualLogically(
-		Compare(it, right))
+	c := Compare(it, right)
+
+	return c.
+		IsCompareEqualLogically(expectedComparison)
 }
 
 // IsExpectedComparisonUsingVersionString

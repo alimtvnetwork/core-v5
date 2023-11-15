@@ -234,6 +234,10 @@ func (it Compare) IsCompareEqualLogically(
 		return true
 	}
 
+	if expectedCompare == NotEqual {
+		return it.IsNotEqualLogically()
+	}
+
 	if expectedCompare.IsLeftGreaterEqualLogically() {
 		return it.IsLeftGreaterEqualLogically()
 	}

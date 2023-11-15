@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+	arrangeLeftRightTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]coretests.LeftRightExpect{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -148,12 +148,140 @@ var (
 					Right:  "1.2.1",
 					Expect: corecomparator.LeftLess,
 				},
+				{
+					Left:   "1.2",
+					Right:  "1.5",
+					Expect: corecomparator.LeftLess,
+				},
+				{
+					Left:   "5.2",
+					Right:  "1.5",
+					Expect: corecomparator.LeftGreater,
+				},
+				{
+					Left:   "5.2",
+					Right:  "5.2",
+					Expect: corecomparator.LeftGreater,
+				},
+				{
+					Left:   "5.2",
+					Right:  "5.2",
+					Expect: corecomparator.LeftGreaterEqual,
+				},
+				{
+					Left:   "5.2",
+					Right:  "5.1",
+					Expect: corecomparator.LeftLess,
+				},
+				{
+					Left:   "5.2",
+					Right:  "5.1",
+					Expect: corecomparator.LeftLessEqual,
+				},
+				{
+					Left:   "*.2",
+					Right:  "5.1",
+					Expect: corecomparator.LeftLessEqual,
+				},
+				{
+					Left:   "2.2",
+					Right:  "2.2.0",
+					Expect: corecomparator.Equal,
+				},
+				{
+					Left:   "2.2",
+					Right:  "2.2.0",
+					Expect: corecomparator.NotEqual,
+				},
+				{
+					Left:   "2.2",
+					Right:  "2.2.0.0",
+					Expect: corecomparator.Equal,
+				},
+				{
+					Left:   "2.2",
+					Right:  "2.2.0.0",
+					Expect: corecomparator.NotEqual,
+				},
+				{
+					Left:   "2.2",
+					Right:  "2.2",
+					Expect: corecomparator.Equal,
+				},
+				{
+					Left:   "2.2",
+					Right:  "2.2",
+					Expect: corecomparator.NotEqual,
+				},
+				{
+					Left:   "2.2.1",
+					Right:  "2",
+					Expect: corecomparator.NotEqual,
+				},
+				{
+					Left:   "2.2.1",
+					Right:  "2",
+					Expect: corecomparator.Equal,
+				},
+				{
+					Left:   "2.0",
+					Right:  "2.0.0",
+					Expect: corecomparator.Equal,
+				},
+				{
+					Left:   "2.0",
+					Right:  "2.0.0",
+					Expect: corecomparator.NotEqual,
+				},
+				{
+					Left:   "2.0.0.1",
+					Right:  "2.0.0.5",
+					Expect: corecomparator.LeftLess,
+				},
+				{
+					Left:   "2.0.0.1",
+					Right:  "2.0.0.1",
+					Expect: corecomparator.LeftLessEqual,
+				},
+				{
+					Left:   "2.0.0.1",
+					Right:  "2.0.0.1",
+					Expect: corecomparator.NotEqual,
+				},
+				{
+					Left:   "2.0.0.1",
+					Right:  "2.0.0.1",
+					Expect: corecomparator.Equal,
+				},
 			},
 			ExpectedInput: []string{
-				"0 : Expect : LeftGreater - Left [v1.2.5] - [v1.2.4] Right , match: true",
-				"1 : Expect : LeftGreater - Left [v1.5.5] - [v1.0.8] Right , match: true",
+				"0 : Left [v1.2.5, raw(1.2.5)] > [v1.2.4, raw(1.2.4)] Right | Expect: LeftGreater - true",
+				"1 : Left [v1.5.5, raw(1.5.5)] > [v1.0.8, raw(1.*.8)] Right | Expect: LeftGreater - true",
+				"2 : Left [v1.2, raw(1.2)] < [v1.2.1, raw(1.2.1)] Right | Expect: LeftLess - true",
+				"3 : Left [v1.2, raw(1.2)] < [v1.2.1, raw(1.2.1)] Right | Expect: LeftLess - true",
+				"4 : Left [v1.2, raw(1.2)] < [v1.5, raw(1.5)] Right | Expect: LeftLess - true",
+				"5 : Left [v5.2, raw(5.2)] > [v1.5, raw(1.5)] Right | Expect: LeftGreater - true",
+				"6 : Left [v5.2, raw(5.2)] > [v5.2, raw(5.2)] Right | Expect: LeftGreater - true",
+				"7 : Left [v5.2, raw(5.2)] >= [v5.2, raw(5.2)] Right | Expect: LeftGreaterEqual - true",
+				"8 : Left [v5.2, raw(5.2)] < [v5.1, raw(5.1)] Right | Expect: LeftLess - false",
+				"9 : Left [v5.2, raw(5.2)] <= [v5.1, raw(5.1)] Right | Expect: LeftLessEqual - false",
+				"10 : Left [v0.2, raw(*.2)] <= [v5.1, raw(5.1)] Right | Expect: LeftLessEqual - true",
+				"11 : Left [v2.2, raw(2.2)] = [v2.2, raw(2.2.0)] Right | Expect: Equal - true",
+				"12 : Left [v2.2, raw(2.2)] != [v2.2, raw(2.2.0)] Right | Expect: NotEqual - false",
+				"13 : Left [v2.2, raw(2.2)] = [v2.2, raw(2.2.0.0)] Right | Expect: Equal - true",
+				"14 : Left [v2.2, raw(2.2)] != [v2.2, raw(2.2.0.0)] Right | Expect: NotEqual - false",
+				"15 : Left [v2.2, raw(2.2)] = [v2.2, raw(2.2)] Right | Expect: Equal - true",
+				"16 : Left [v2.2, raw(2.2)] != [v2.2, raw(2.2)] Right | Expect: NotEqual - false",
+				"17 : Left [v2.2.1, raw(2.2.1)] != [v2, raw(2)] Right | Expect: NotEqual - true",
+				"18 : Left [v2.2.1, raw(2.2.1)] = [v2, raw(2)] Right | Expect: Equal - true",
+				"19 : Left [v2, raw(2.0)] = [v2, raw(2.0.0)] Right | Expect: Equal - true",
+				"20 : Left [v2, raw(2.0)] != [v2, raw(2.0.0)] Right | Expect: NotEqual - false",
+				"21 : Left [v2.0.0.1, raw(2.0.0.1)] < [v2.0.0.5, raw(2.0.0.5)] Right | Expect: LeftLess - true",
+				"22 : Left [v2.0.0.1, raw(2.0.0.1)] <= [v2.0.0.1, raw(2.0.0.1)] Right | Expect: LeftLessEqual - true",
+				"23 : Left [v2.0.0.1, raw(2.0.0.1)] != [v2.0.0.1, raw(2.0.0.1)] Right | Expect: NotEqual - false",
+				"24 : Left [v2.0.0.1, raw(2.0.0.1)] = [v2.0.0.1, raw(2.0.0.1)] Right | Expect: Equal - true",
 			},
-			VerifyTypeOf: arrangeStringTypeVerification,
+			VerifyTypeOf: arrangeLeftRightTypeVerification,
 			IsEnable:     issetter.True,
 		},
 	}

@@ -3,7 +3,7 @@ package coreversion
 func InvalidCompactVersion(compactVersion string) *Version {
 	return &Version{
 		VersionCompact:  compactVersion,
-		compiledVersion: invalidString,
+		compiledVersion: compactVersion,
 		isInvalid:       true,
 		VersionMajor:    InvalidVersionValue,
 		VersionMinor:    InvalidVersionValue,
