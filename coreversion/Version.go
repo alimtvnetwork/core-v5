@@ -10,14 +10,15 @@ import (
 	"gitlab.com/auk-go/core/enums/versionindexes"
 )
 
+//goland:noinspection ALL
 type Version struct {
-	VersionCompact  string // ex : 1.0.1
-	compiledVersion string // ex : v1.0.1
-	isInvalid       bool
-	VersionMajor    int
-	VersionMinor    int
-	VersionPatch    int
-	VersionBuild    int
+	VersionCompact  string `json:"Compact,omitempty"`  // ex : 1.0.1
+	compiledVersion string `json:"Compiled,omitempty"` // ex : v1.0.1
+	isInvalid       bool   `json:"IsInvalid,omitempty"`
+	VersionMajor    int    `json:"Major,omitempty"`
+	VersionMinor    int    `json:"Minor,omitempty"`
+	VersionPatch    int    `json:"Patch,omitempty"`
+	VersionBuild    int    `json:"Build,omitempty"`
 }
 
 func (it Version) String() string {
