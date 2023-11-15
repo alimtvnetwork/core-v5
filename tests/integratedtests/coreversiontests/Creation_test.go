@@ -11,7 +11,7 @@ func Test_Creation_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionCreationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]*coreversion.Version)
+			ArrangeInput.([]coreversion.Version)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -21,9 +21,10 @@ func Test_Creation_Verification(t *testing.T) {
 		for i, input := range inputs {
 			if input.IsInvalid() {
 				actualSlice.AppendFmt(
-					defaultInvalidCreationFmt,
+					defaultInvalidV2CreationFmt,
 					i,
-					input.String())
+					input.String(),
+				)
 			} else {
 				actualSlice.AppendFmt(
 					defaultCreationFmt,
@@ -62,9 +63,10 @@ func Test_Creation_UsingString_Verification(t *testing.T) {
 
 			if toVersion.IsInvalid() {
 				actualSlice.AppendFmt(
-					defaultInvalidCreationFmt,
+					defaultInvalidV1CreationFmt,
 					i,
-					toVersion.String())
+					toVersion.String(),
+					input)
 			} else {
 				actualSlice.AppendFmt(
 					defaultCreationFmt,
