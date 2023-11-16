@@ -6,6 +6,6 @@ const (
 	defaultInvalidV2CreationFmt = "%d : invalid - %s "
 
 	comparisonFmt       = "%d : [ %s ] %s [ %s ] | Expect: %s - %t"
-	comparisonMethodFmt = "%d : %s (%d, %d) -> %t"
+	comparisonMethodFmt = "    %d : .%s(%d, %d) -> %t | %t - expected"
 	jsonFmt             = "%d : [ %s ] - %s"
 )

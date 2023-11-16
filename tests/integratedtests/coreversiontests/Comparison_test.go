@@ -60,17 +60,23 @@ func Test_Method_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionMethodsVerificationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.ArgThree)
+			ArrangeInput.([]coretests.ArgFour)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
 			Cap(len(inputs))
 
+		actualSlice.AppendFmt(
+			"Testing for -> Version(%s)",
+			someVersionV5,
+		)
+
 		// Act
 		for index, input := range inputs {
 			f := input.First.(int)
 			s := input.Second.(int)
-			theFunc := input.Third.(func(major, x int) bool)
+			third := input.Third.(bool)
+			theFunc := input.Fourth.(func(major, x int) bool)
 			funcName := reflectinternal.GetFuncName(theFunc)
 
 			isMatch := theFunc(f, s)
@@ -82,6 +88,7 @@ func Test_Method_Verification(t *testing.T) {
 				f,
 				s,
 				isMatch,
+				third,
 			)
 		}
 
