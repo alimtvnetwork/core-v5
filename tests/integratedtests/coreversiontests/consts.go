@@ -5,6 +5,7 @@ const (
 	defaultInvalidV1CreationFmt = "%d : invalid - %s (raw: %s)"
 	defaultInvalidV2CreationFmt = "%d : invalid - %s "
 
-	comparisonFmt = "%d : [ %s ] %s [ %s ] | Expect: %s - %t"
-	jsonFmt       = "%d : [ %s ] - %s"
+	comparisonFmt       = "%d : [ %s ] %s [ %s ] | Expect: %s - %t"
+	comparisonMethodFmt = "%d : %s (%d, %d) -> %t"
+	jsonFmt             = "%d : [ %s ] - %s"
 )

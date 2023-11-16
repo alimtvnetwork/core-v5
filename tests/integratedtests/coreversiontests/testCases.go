@@ -352,4 +352,47 @@ var (
 			IsEnable:     issetter.True,
 		},
 	}
+
+	createFunc    = coreversion.New.Default
+	someVersionV5 = createFunc("v5.8.1.5")
+
+	versionMethodsVerificationTestCases = []testWrapper{
+		{
+			Title: "IsMajorBuildAtLeast",
+			ArrangeInput: []coretests.ArgThree{
+				{
+					First:  5, // major
+					Second: 5, // build
+					Third:  someVersionV5.IsMajorBuildAtLeast,
+				},
+				{
+					First:  4, // major
+					Second: 4, // build
+					Third:  someVersionV5.IsMajorBuildAtLeast,
+				},
+				{
+					First:  6, // major
+					Second: 5, // build
+					Third:  someVersionV5.IsMajorBuildAtLeast,
+				},
+				{
+					First:  4, // major
+					Second: 6, // build
+					Third:  someVersionV5.IsMajorBuildAtLeast,
+				},
+			},
+			ExpectedInput: []string{
+				"0 : [ -1 ] - {\"Compact\":\"-1\",\"Compiled\":\"v-1\",\"IsInvalid\":true}",
+				"1 : [ v1.2.3.4 ] - {\"Compact\":\"1.2.3.4\",\"Compiled\":\"v1.2.3.4\",\"Major\":1,\"Minor\":2,\"Patch\":3,\"Build\":4}",
+				"2 : [ v5.3.6 ] - {\"Compact\":\"5.3.6\",\"Compiled\":\"v5.3.6\",\"Major\":5,\"Minor\":3,\"Patch\":6}",
+				"3 : [ 5.3 ] - {\"Compact\":\"5.3\",\"Compiled\":\"v5.3\",\"Major\":5,\"Minor\":3}",
+				"4 : [ 9 ] - {\"Compact\":\"9\",\"Compiled\":\"v9\",\"Major\":9}",
+				"5 : [ v89.1.2    ] - {\"Compact\":\"89.1.2\",\"Compiled\":\"v89.1.2\",\"Major\":89,\"Minor\":1,\"Patch\":2}",
+				"6 : [ v89.1  .2   ] - {\"Compact\":\"89.1  .2\",\"Compiled\":\"v89.1.2\",\"Major\":89,\"Minor\":1,\"Patch\":2}",
+				"7 : [  ] - {\"IsInvalid\":true,\"Major\":-1,\"Minor\":-1,\"Patch\":-1,\"Build\":-1}",
+			},
+			VerifyTypeOf: arrangeStringTypeVerification,
+			IsEnable:     issetter.True,
+		},
+	}
 )

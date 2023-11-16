@@ -7,6 +7,7 @@ import (
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coreversion"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 func Test_Comparison_Verification(t *testing.T) {
@@ -40,6 +41,46 @@ func Test_Comparison_Verification(t *testing.T) {
 				expectation.OperatorSymbol(),
 				r,
 				expectation,
+				isMatch,
+			)
+		}
+
+		finalActLines := actualSlice.Strings()
+		finalCase := testCase.AsCaseV1()
+
+		// Assert
+		finalCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActLines...)
+	}
+}
+
+func Test_Method_Verification(t *testing.T) {
+	for caseIndex, testCase := range versionMethodsVerificationTestCases {
+		// Arrange
+		inputs := testCase.
+			ArrangeInput.([]coretests.ArgThree)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+
+		// Act
+		for index, input := range inputs {
+			f := input.First.(int)
+			s := input.Second.(int)
+			theFunc := input.Third.(func(major, x int) bool)
+			funcName := reflectinternal.GetFuncName(theFunc)
+
+			isMatch := theFunc(f, s)
+
+			actualSlice.AppendFmt(
+				comparisonMethodFmt,
+				index,
+				funcName,
+				f,
+				s,
 				isMatch,
 			)
 		}
