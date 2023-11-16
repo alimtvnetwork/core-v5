@@ -287,7 +287,7 @@ func (it stringsTo) IntegersSkipMapAndDefaultValue(
 			continue
 		}
 
-		vInt, err := strconv.Atoi(v)
+		vInt, err := strconv.Atoi(strings.TrimSpace(v))
 
 		if err != nil {
 			results[i] = defaultVal
