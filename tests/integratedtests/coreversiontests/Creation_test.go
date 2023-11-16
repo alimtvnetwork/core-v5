@@ -19,7 +19,7 @@ func Test_Creation_Verification(t *testing.T) {
 
 		// Act
 		for i, input := range inputs {
-			if input.IsInvalid() {
+			if input.IsSafeInvalidCheck() {
 				actualSlice.AppendFmt(
 					defaultInvalidV2CreationFmt,
 					i,
@@ -61,7 +61,7 @@ func Test_Creation_UsingString_Verification(t *testing.T) {
 		for i, input := range inputs {
 			toVersion := creatorFunc(input)
 
-			if toVersion.IsInvalid() {
+			if toVersion.IsSafeInvalidCheck() {
 				actualSlice.AppendFmt(
 					defaultInvalidV1CreationFmt,
 					i,

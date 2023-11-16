@@ -65,13 +65,13 @@ func (it newCreator) Default(version string) Version {
 		build)
 
 	return Version{
-		VersionCompact:  trimmedVersion,
-		compiledVersion: compile,
-		isInvalid:       isInvalid,
-		VersionMajor:    major,
-		VersionMinor:    minor,
-		VersionPatch:    patch,
-		VersionBuild:    build,
+		VersionCompact: trimmedVersion,
+		Compiled:       compile,
+		IsInvalid:      isInvalid,
+		VersionMajor:   major,
+		VersionMinor:   minor,
+		VersionPatch:   patch,
+		VersionBuild:   build,
 	}
 }
 

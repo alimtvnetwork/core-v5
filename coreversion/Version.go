@@ -10,15 +10,14 @@ import (
 	"gitlab.com/auk-go/core/enums/versionindexes"
 )
 
-//goland:noinspection ALL
 type Version struct {
-	VersionCompact  string `json:"Compact,omitempty"`  // ex : 1.0.1
-	compiledVersion string `json:"Compiled,omitempty"` // ex : v1.0.1
-	isInvalid       bool   `json:"IsInvalid,omitempty"`
-	VersionMajor    int    `json:"Major,omitempty"`
-	VersionMinor    int    `json:"Minor,omitempty"`
-	VersionPatch    int    `json:"Patch,omitempty"`
-	VersionBuild    int    `json:"Build,omitempty"`
+	VersionCompact string `json:"Compact,omitempty"`   // ex : 1.0.1
+	Compiled       string `json:"Compiled,omitempty"`  // ex : v1.0.1
+	IsInvalid      bool   `json:"IsInvalid,omitempty"` // json export field for serialize
+	VersionMajor   int    `json:"Major,omitempty"`
+	VersionMinor   int    `json:"Minor,omitempty"`
+	VersionPatch   int    `json:"Patch,omitempty"`
+	VersionBuild   int    `json:"Build,omitempty"`
 }
 
 func (it Version) String() string {
@@ -42,18 +41,18 @@ func (it *Version) VersionDisplay() string {
 // it gets generated during the creation time
 // from the parsed major, minor, patch, build versions
 func (it *Version) CompiledVersion() string {
-	if it == nil || it.compiledVersion == "" {
+	if it == nil || it.Compiled == "" {
 		return constants.EmptyString
 	}
 
-	return it.compiledVersion
+	return it.Compiled
 }
 
 func (it *Version) VersionDisplayMajor() string {
 	if it == nil ||
 		it.VersionCompact == "" ||
 		it.IsMajorInvalid() ||
-		it.IsInvalid() {
+		it.IsSafeInvalidCheck() {
 		return constants.EmptyString
 	}
 
@@ -173,7 +172,7 @@ func (it *Version) IsBuildInvalidOrZero() bool {
 }
 
 func (it *Version) isInvalidOrEmptyAll() bool {
-	return it.isInvalid == true ||
+	return it.IsInvalid == true ||
 		it.IsMajorInvalidOrZero() &&
 			it.IsMinorInvalidOrZero() &&
 			it.IsPatchInvalidOrZero() &&
@@ -182,7 +181,7 @@ func (it *Version) isInvalidOrEmptyAll() bool {
 
 func (it *Version) IsEmptyOrInvalid() bool {
 	return it == nil ||
-		it.isInvalid == true ||
+		it.IsInvalid == true ||
 		it.VersionDisplay() == "" ||
 		it.isInvalidOrEmptyAll()
 }
@@ -195,7 +194,7 @@ func (it *Version) IsDefined() bool {
 	return !it.IsEmptyOrInvalid()
 }
 
-func (it *Version) IsInvalid() bool {
+func (it *Version) IsSafeInvalidCheck() bool {
 	return it.IsEmptyOrInvalid()
 }
 
@@ -286,12 +285,19 @@ func (it *Version) IsMajorStringAtLeast(comparingMajor string) bool {
 		IsLeftGreaterOrGreaterEqualOrEqual()
 }
 
+// IsMajorMinorAtLeast
+//
+// Current major version and minor is greater or equal to the given ones.
 func (it *Version) IsMajorMinorAtLeast(
 	major, minor int,
 ) bool {
 	return it.MajorMinor(major, minor).
 		IsLeftGreaterOrGreaterEqualOrEqual()
 }
+
+// IsMajorBuildAtLeast
+//
+// Current major version and build is greater or equal to the given ones.
 func (it *Version) IsMajorBuildAtLeast(
 	major, build int,
 ) bool {
@@ -633,13 +639,13 @@ func (it *Version) ComparisonValueIndexes(
 
 func (it Version) Clone() Version {
 	return Version{
-		VersionCompact:  it.VersionCompact,
-		compiledVersion: it.compiledVersion,
-		isInvalid:       it.isInvalid,
-		VersionMajor:    it.VersionMajor,
-		VersionMinor:    it.VersionMinor,
-		VersionPatch:    it.VersionPatch,
-		VersionBuild:    it.VersionBuild,
+		VersionCompact: it.VersionCompact,
+		Compiled:       it.Compiled,
+		IsInvalid:      it.IsInvalid,
+		VersionMajor:   it.VersionMajor,
+		VersionMinor:   it.VersionMinor,
+		VersionPatch:   it.VersionPatch,
+		VersionBuild:   it.VersionBuild,
 	}
 }
 
