@@ -3,7 +3,7 @@ module gitlab.com/auk-go/core
 go 1.17.8
 
 require (
-	github.com/smarty/assertions v1.15.0
+	github.com/smarty/assertions v1.15.1
 	github.com/smartystreets/goconvey v1.8.1
 )
 
