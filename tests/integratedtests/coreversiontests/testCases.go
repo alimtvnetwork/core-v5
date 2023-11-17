@@ -22,6 +22,12 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
+	argsFiveTypeVerification = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf([]coretests.ArgFive{}),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf([]string{}),
+	}
+
 	arrangeStringTypeVerification = &coretests.VerifyTypeOf{
 		ArrangeInput:  reflect.TypeOf([]string{}),
 		ActualInput:   reflect.TypeOf([]string{}),
@@ -342,6 +348,7 @@ var (
 				"9",
 				"v89.1.2   ",
 				"v89.1  .2  ",
+				someVersionV5.String(),
 				"",
 			},
 			ExpectedInput: []string{
@@ -352,7 +359,8 @@ var (
 				"4 : [ 9 ] - {\"Compact\":\"9\",\"Compiled\":\"v9\",\"Major\":9}",
 				"5 : [ v89.1.2    ] - {\"Compact\":\"89.1.2\",\"Compiled\":\"v89.1.2\",\"Major\":89,\"Minor\":1,\"Patch\":2}",
 				"6 : [ v89.1  .2   ] - {\"Compact\":\"89.1  .2\",\"Compiled\":\"v89.1.2\",\"Major\":89,\"Minor\":1,\"Patch\":2}",
-				"7 : [  ] - {\"IsInvalid\":true,\"Major\":-1,\"Minor\":-1,\"Patch\":-1,\"Build\":-1}",
+				"7 : [ v5.8.1.5 ] - {\"Compact\":\"5.8.1.5\",\"Compiled\":\"v5.8.1.5\",\"Major\":5,\"Minor\":8,\"Patch\":1,\"Build\":5}",
+				"8 : [  ] - {\"IsInvalid\":true,\"Major\":-1,\"Minor\":-1,\"Patch\":-1,\"Build\":-1}",
 			},
 			VerifyTypeOf: arrangeStringTypeVerification,
 			IsEnable:     issetter.True,
@@ -362,9 +370,9 @@ var (
 	createFunc    = coreversion.New.Default
 	someVersionV5 = createFunc("v5.8.1.5")
 
-	versionMethodsVerificationTestCases = []testWrapper{
+	versionTwoParamsVerificationTestCases = []testWrapper{
 		{
-			Title: "IsMajorBuildAtLeast",
+			Title: "IsMajorBuildAtLeast - all matches the condition query.",
 			ArrangeInput: []coretests.ArgFour{
 				{
 					First:  5,    // major
@@ -399,6 +407,112 @@ var (
 				"    3 : .IsMajorBuildAtLeast(6, 5) -> false | false - expected",
 			},
 			VerifyTypeOf: argsFourTypeVerification,
+			IsEnable:     issetter.True,
+		},
+		{
+			Title: "IsMajorMinorAtLeast - all matches the condition query.",
+			ArrangeInput: []coretests.ArgFour{
+				{
+					First:  5,    // major
+					Second: 8,    // minor
+					Third:  true, // expect
+					Fourth: someVersionV5.IsMajorMinorAtLeast,
+				},
+				{
+					First:  4,    // major
+					Second: 1,    // minor
+					Third:  true, // expect
+					Fourth: someVersionV5.IsMajorMinorAtLeast,
+				},
+				{
+					First:  5,    // major
+					Second: 7,    // minor
+					Third:  true, // expect
+					Fourth: someVersionV5.IsMajorMinorAtLeast,
+				},
+				{
+					First:  5,     // major
+					Second: 9,     // minor
+					Third:  false, // expect
+					Fourth: someVersionV5.IsMajorMinorAtLeast,
+				},
+				{
+					First:  6,     // major
+					Second: 1,     // minor
+					Third:  false, // expect
+					Fourth: someVersionV5.IsMajorMinorAtLeast,
+				},
+			},
+			ExpectedInput: []string{
+				"Testing for -> Version(v5.8.1.5)",
+				"    0 : .IsMajorMinorAtLeast(5, 8) -> true | true - expected",
+				"    1 : .IsMajorMinorAtLeast(4, 1) -> true | true - expected",
+				"    2 : .IsMajorMinorAtLeast(5, 7) -> true | true - expected",
+				"    3 : .IsMajorMinorAtLeast(5, 9) -> false | false - expected",
+				"    4 : .IsMajorMinorAtLeast(6, 1) -> false | false - expected",
+			},
+			VerifyTypeOf: argsFourTypeVerification,
+			IsEnable:     issetter.True,
+		},
+	}
+
+	versionThreeParamsVerificationTestCases = []testWrapper{
+		{
+			Title: "IsMajorMinorPatchAtLeast - all matches the condition query.",
+			ArrangeInput: []coretests.ArgFive{
+				{
+					First:  5,    // major
+					Second: 5,    // build
+					Third:  1,    // patch
+					Fourth: true, // expect
+					Fifth:  someVersionV5.IsMajorMinorPatchAtLeast,
+				},
+				{
+					First:  4,    // major
+					Second: 4,    // build
+					Third:  1,    // patch
+					Fourth: true, // expect
+					Fifth:  someVersionV5.IsMajorMinorPatchAtLeast,
+				},
+				{
+					First:  5,    // major
+					Second: 8,    // build
+					Third:  1,    // patch
+					Fourth: true, // expect
+					Fifth:  someVersionV5.IsMajorMinorPatchAtLeast,
+				},
+				{
+					First:  5,     // major
+					Second: 8,     // build
+					Third:  2,     // patch
+					Fourth: false, // expect
+					Fifth:  someVersionV5.IsMajorMinorPatchAtLeast,
+				},
+				{
+					First:  6,     // major
+					Second: 5,     // build
+					Third:  1,     // patch
+					Fourth: false, // expect
+					Fifth:  someVersionV5.IsMajorMinorPatchAtLeast,
+				},
+				{
+					First:  7,     // major
+					Second: 0,     // build
+					Third:  0,     // patch
+					Fourth: false, // expect
+					Fifth:  someVersionV5.IsMajorMinorPatchAtLeast,
+				},
+			},
+			ExpectedInput: []string{
+				"Testing for -> Version(v5.8.1.5)",
+				"    0 : .IsMajorMinorPatchAtLeast(5, 5, 1) -> true | true - expected",
+				"    1 : .IsMajorMinorPatchAtLeast(4, 4, 1) -> true | true - expected",
+				"    2 : .IsMajorMinorPatchAtLeast(5, 8, 1) -> true | true - expected",
+				"    3 : .IsMajorMinorPatchAtLeast(5, 8, 2) -> false | false - expected",
+				"    4 : .IsMajorMinorPatchAtLeast(6, 5, 1) -> false | false - expected",
+				"    5 : .IsMajorMinorPatchAtLeast(7, 0, 0) -> false | false - expected",
+			},
+			VerifyTypeOf: argsFiveTypeVerification,
 			IsEnable:     issetter.True,
 		},
 	}
