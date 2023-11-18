@@ -9,7 +9,7 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
-func Test_SimpleFileWriter_Unix(t *testing.T) {
+func Test_SimpleFileWriter(t *testing.T) {
 	for caseIndex, testCase := range simpleFileWriterTestCases {
 		// Arrange
 		inputs := testCase.
