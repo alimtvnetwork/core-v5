@@ -4,10 +4,9 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/isany"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_SimpleFileWriter_Unix(t *testing.T) {
@@ -24,25 +23,40 @@ func Test_SimpleFileWriter_Unix(t *testing.T) {
 		for i, parameter := range inputs {
 			files := parameter.First.([]chmodhelper.DirFilesWithContent)
 
-			for i2, filesWithContent := range files {
+			for _, dirFiles := range files {
+				err := dirFiles.CreateUsingFileMode(
+					true,
+				)
 
+				errcore.HandleErr(err)
+
+				for _, file := range dirFiles.Files {
+					lines, err2 := file.ReadLines(dirFiles.Dir)
+
+					errcore.HandleErr(err2)
+
+					actualSlice.AppendFmt(
+						"%d : %s",
+						i,
+						file.RelativePath,
+					)
+
+					for lineIndex, line := range lines {
+						actualSlice.AppendFmt(
+							"         %d. %s",
+							lineIndex,
+							line,
+						)
+					}
+				}
 			}
 
-			actualSlice.AppendFmt(
-				defaultCaseIndexBoolStringStringFmt,
-				i,
-				isany.JsonEqual(f, s),
-				corejson.Serialize.ToString(f),
-				corejson.Serialize.ToString(s),
-			)
 		}
 
 		finalActLines := actualSlice.Strings()
-		finalTestCase := coretestcases.
-			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		testCase.AssertEqual(
 			t,
 			caseIndex,
 			finalActLines...,

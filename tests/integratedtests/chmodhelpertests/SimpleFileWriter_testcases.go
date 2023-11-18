@@ -16,9 +16,18 @@ var (
 					Expect: nil,
 				},
 			},
-			ActualInput:   nil,
-			ExpectedInput: []string{},
-			VerifyTypeOf:  nil,
+			ExpectedInput: []string{
+				"0 : file-1.txt",
+				"         0. some lines",
+				"         1. alim",
+				"0 : file-2.txt",
+				"         0. some lines file - 2",
+				"         1. alim",
+				"0 : file-3.txt",
+				"         0. some lines file - 3",
+				"         1. alim",
+			},
+			VerifyTypeOf: nil,
 		},
 	}
 )
