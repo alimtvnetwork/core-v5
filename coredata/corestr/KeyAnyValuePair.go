@@ -69,12 +69,12 @@ func (it *KeyAnyValuePair) ValueString() string {
 
 		return it.
 			valueString.
-			GetPlusSetOnUninitialized(valueString)
+			GetSetOnce(valueString)
 	}
 
 	return it.
 		valueString.
-		GetPlusSetEmptyOnUninitialized()
+		GetOnce()
 }
 
 func (it *KeyAnyValuePair) Serialize() ([]byte, error) {

@@ -28,7 +28,7 @@ func (it *Trace) Message() string {
 
 	return it.
 		message.
-		GetPlusSetOnUninitializedFunc(
+		GetOnceFunc(
 			it.getCompiledMessage)
 }
 
@@ -56,7 +56,7 @@ func (it *Trace) ShortString() string {
 
 	return it.
 		shortString.
-		GetPlusSetOnUninitialized(
+		GetSetOnce(
 			shortString)
 }
 
