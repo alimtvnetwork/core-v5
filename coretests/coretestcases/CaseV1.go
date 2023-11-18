@@ -157,7 +157,18 @@ func (it CaseV1) Assert(
 		return validationFinalError
 	}
 
-	typeVerifyErr := toBaseTestCase.TypeValidationError()
+	typeVerifyErr := it.AssertType(t)
+
+	return errcore.MergeErrors(
+		validationFinalError,
+		typeVerifyErr)
+}
+
+func (it CaseV1) AssertType(
+	t *testing.T,
+) error {
+	baseCase := it.AsBaseTestCase()
+	typeVerifyErr := baseCase.TypeValidationError()
 	typeVerifyTitle := fmt.Sprintf(
 		typeVerifyTitleFormat,
 		it.Title)
@@ -168,9 +179,7 @@ func (it CaseV1) Assert(
 			should.BeNil)
 	})
 
-	return errcore.MergeErrors(
-		validationFinalError,
-		typeVerifyErr)
+	return typeVerifyErr
 }
 
 func (it CaseV1) AssertEqual(

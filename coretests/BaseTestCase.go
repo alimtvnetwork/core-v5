@@ -170,6 +170,17 @@ func (it *BaseTestCase) TypeValidationError() error {
 				expectedInputActualType))
 	}
 
+	if len(sliceErr) > 0 {
+		var newSlice []string
+
+		newSlice = append(
+			newSlice,
+			it.Title)
+		sliceErr = append(
+			newSlice,
+			sliceErr...)
+	}
+
 	return errcore.SliceToError(sliceErr)
 }
 
