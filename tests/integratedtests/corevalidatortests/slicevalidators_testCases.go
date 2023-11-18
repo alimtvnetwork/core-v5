@@ -4,7 +4,7 @@ import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/issetter"
@@ -13,7 +13,7 @@ import (
 
 var (
 	arrangeArgsTwoTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretestargs.Two{}),
+		ArrangeInput:  reflect.TypeOf([]args.Two{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -22,7 +22,7 @@ var (
 		{
 			Case: coretestcases.CaseV1{
 				Title: "Diff check against invalid comparisons, it will contain all the diff Index 0 - 2",
-				ArrangeInput: []coretestargs.Two{
+				ArrangeInput: []args.Two{
 					{
 						First:  1,
 						Second: byte(2),
@@ -83,7 +83,7 @@ var (
 		{
 			Case: coretestcases.CaseV1{
 				Title: "Diff check against invalid comparisons, it will only contain the first diff Index 0.",
-				ArrangeInput: []coretestargs.Two{
+				ArrangeInput: []args.Two{
 					{
 						First:  1,
 						Second: byte(2),

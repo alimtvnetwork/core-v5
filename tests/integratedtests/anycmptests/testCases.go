@@ -4,13 +4,13 @@ import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/issetter"
 )
 
 var (
 	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretestargs.Two{}),
+		ArrangeInput:  reflect.TypeOf([]args.Two{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -22,7 +22,7 @@ var (
 					"only Equal if both null or same pointer, " +
 					"NotEqual if one is null and another isn't." +
 					"On both not null it is inconclusive.",
-				ArrangeInput: []coretestargs.Two{
+				ArrangeInput: []args.Two{
 					{
 						First:  nil,
 						Second: nil,

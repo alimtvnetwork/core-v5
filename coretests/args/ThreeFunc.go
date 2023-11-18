@@ -1,4 +1,4 @@
-package coretestargs
+package args
 
 import (
 	"fmt"
@@ -9,43 +9,56 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type TwoFunc struct {
+type ThreeFunc struct {
 	First    interface{} `json:",omitempty"`
 	Second   interface{} `json:",omitempty"`
+	Third    interface{} `json:",omitempty"`
 	WorkFunc interface{} `json:",omitempty"`
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
 }
 
-func (it TwoFunc) ArgTwo() TwoFunc {
+func (it ThreeFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it *TwoFunc) HasFirst() bool {
+func (it ThreeFunc) ArgThree() ThreeFunc {
+	return ThreeFunc{
+		First:  it.First,
+		Second: it.Second,
+		Third:  it.Third,
+	}
+}
+
+func (it *ThreeFunc) HasFirst() bool {
 	return it != nil && reflectinternal.IsNotNull(it.First)
 }
 
-func (it *TwoFunc) HasSecond() bool {
+func (it *ThreeFunc) HasSecond() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Second)
 }
 
-func (it *TwoFunc) HasFunc() bool {
+func (it *ThreeFunc) HasThird() bool {
+	return it != nil && reflectinternal.IsNotNull(it.Third)
+}
+
+func (it *ThreeFunc) HasFunc() bool {
 	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
 }
 
-func (it *TwoFunc) HasExpect() bool {
+func (it *ThreeFunc) HasExpect() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Expect)
 }
 
-func (it *TwoFunc) GetFuncName() string {
+func (it *ThreeFunc) GetFuncName() string {
 	return reflectinternal.GetFuncName(it.WorkFunc)
 }
 
-func (it TwoFunc) Slice() []interface{} {
+func (it ThreeFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -58,6 +71,10 @@ func (it TwoFunc) Slice() []interface{} {
 
 	if it.HasSecond() {
 		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
 	}
 
 	if it.HasFunc() {
@@ -73,7 +90,7 @@ func (it TwoFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it TwoFunc) GetByIndex(index int) interface{} {
+func (it ThreeFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -83,7 +100,7 @@ func (it TwoFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it TwoFunc) String() string {
+func (it ThreeFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -96,13 +113,13 @@ func (it TwoFunc) String() string {
 
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
-		"TwoFunc",
+		"ThreeFunc",
 		strings.Join(args, constants.CommaSpace))
 
 	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it TwoFunc) LeftRight() LeftRight {
+func (it ThreeFunc) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Right:  it.Second,

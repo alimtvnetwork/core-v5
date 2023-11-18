@@ -1,4 +1,4 @@
-package coretestargs
+package args
 
 import (
 	"fmt"

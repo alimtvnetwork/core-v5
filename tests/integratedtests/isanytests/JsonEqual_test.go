@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/isany"
 )
@@ -14,7 +14,7 @@ func Test_JsonEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range jsonEqualTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretestargs.Two)
+			ArrangeInput.([]args.Two)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

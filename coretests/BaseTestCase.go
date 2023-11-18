@@ -8,7 +8,7 @@ import (
 
 	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/issetter"
@@ -22,16 +22,16 @@ import (
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 //   - Will verify type using VerifyTypeOf
 type BaseTestCase struct {
-	Title           string               `json:",omitempty"` // consider as header
-	ArrangeInput    interface{}          `json:",omitempty"` // preparing input, initial input
-	ActualInput     interface{}          `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
-	ExpectedInput   interface{}          `json:",omitempty"` // expectation set from the test
-	VerifyTypeOf    *VerifyTypeOf        `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
-	Parameters      *coretestargs.Holder `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the Holder.
-	IsEnable        issetter.Value       `json:",omitempty"` // Only false makes it disabled.
-	HasError        bool                 `json:",omitempty"`
-	HasPanic        bool                 `json:",omitempty"`
-	IsValidateError bool                 `json:",omitempty"`
+	Title           string         `json:",omitempty"` // consider as header
+	ArrangeInput    interface{}    `json:",omitempty"` // preparing input, initial input
+	ActualInput     interface{}    `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
+	ExpectedInput   interface{}    `json:",omitempty"` // expectation set from the test
+	VerifyTypeOf    *VerifyTypeOf  `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
+	Parameters      *args.Holder   `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the Holder.
+	IsEnable        issetter.Value `json:",omitempty"` // Only false makes it disabled.
+	HasError        bool           `json:",omitempty"`
+	HasPanic        bool           `json:",omitempty"`
+	IsValidateError bool           `json:",omitempty"`
 }
 
 func (it *BaseTestCase) CaseTitle() string {

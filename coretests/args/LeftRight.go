@@ -1,4 +1,4 @@
-package coretestargs
+package args
 
 type LeftRight struct {
 	Left   interface{} `json:",omitempty"`

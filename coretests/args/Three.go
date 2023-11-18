@@ -1,4 +1,4 @@
-package coretestargs
+package args
 
 type Three struct {
 	First  interface{} `json:",omitempty"`

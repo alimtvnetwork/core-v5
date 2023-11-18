@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/corecomparator"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coreversion"
 )
 
@@ -13,7 +13,7 @@ func Test_Comparison_Verification(t *testing.T) {
 	for caseIndex, testCase := range comparisonStringTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretestargs.LeftRight)
+			ArrangeInput.([]args.LeftRight)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

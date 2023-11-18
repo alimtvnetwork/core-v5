@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/isany"
@@ -16,7 +16,7 @@ func Test_SliceValidator(t *testing.T) {
 		// Arrange
 		inputs := testCase.
 			Case.
-			ArrangeInput.([]coretestargs.Two)
+			ArrangeInput.([]args.Two)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -56,7 +56,7 @@ func Test_SliceValidator_FirstError(t *testing.T) {
 		// Arrange
 		inputs := testCase.
 			Case.
-			ArrangeInput.([]coretestargs.Two)
+			ArrangeInput.([]args.Two)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

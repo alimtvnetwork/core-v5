@@ -5,26 +5,26 @@ import (
 
 	"gitlab.com/auk-go/core/corecomparator"
 	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coreversion"
 	"gitlab.com/auk-go/core/issetter"
 )
 
 var (
 	arrangeLeftRightTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretestargs.LeftRight{}),
+		ArrangeInput:  reflect.TypeOf([]args.LeftRight{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
 	argsFourTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretestargs.Four{}),
+		ArrangeInput:  reflect.TypeOf([]args.Four{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
 	argsFiveTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretestargs.Five{}),
+		ArrangeInput:  reflect.TypeOf([]args.Five{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -140,7 +140,7 @@ var (
 	comparisonStringTestCases = []testWrapper{
 		{
 			Title: "Versions comparisons - Left Greater",
-			ArrangeInput: []coretestargs.LeftRight{
+			ArrangeInput: []args.LeftRight{
 				{
 					Left:   "1.2.5",
 					Right:  "1.2.4",
@@ -179,7 +179,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Left Less",
-			ArrangeInput: []coretestargs.LeftRight{
+			ArrangeInput: []args.LeftRight{
 				{
 					Left:   "1.2",
 					Right:  "1.2.1",
@@ -236,7 +236,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Equal",
-			ArrangeInput: []coretestargs.LeftRight{
+			ArrangeInput: []args.LeftRight{
 				{
 					Left:   "v2.2",
 					Right:  "v2.2.0",
@@ -281,7 +281,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Not Equal",
-			ArrangeInput: []coretestargs.LeftRight{
+			ArrangeInput: []args.LeftRight{
 				{
 					Left:   "v2.2",
 					Right:  "2.2.0",
@@ -374,7 +374,7 @@ var (
 	versionTwoParamsVerificationTestCases = []testWrapper{
 		{
 			Title: "IsMajorBuildAtLeast - all matches the condition query.",
-			ArrangeInput: []coretestargs.Four{
+			ArrangeInput: []args.Four{
 				{
 					First:  5,    // major
 					Second: 5,    // build
@@ -412,7 +412,7 @@ var (
 		},
 		{
 			Title: "IsMajorMinorAtLeast - all matches the condition query.",
-			ArrangeInput: []coretestargs.Four{
+			ArrangeInput: []args.Four{
 				{
 					First:  5,    // major
 					Second: 8,    // minor
@@ -460,7 +460,7 @@ var (
 	versionThreeParamsVerificationTestCases = []testWrapper{
 		{
 			Title: "IsMajorMinorPatchAtLeast - all matches the condition query.",
-			ArrangeInput: []coretestargs.Five{
+			ArrangeInput: []args.Five{
 				{
 					First:  5,    // major
 					Second: 5,    // build

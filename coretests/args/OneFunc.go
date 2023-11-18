@@ -1,4 +1,4 @@
-package coretestargs
+package args
 
 import (
 	"fmt"
@@ -9,70 +9,38 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type FourFunc struct {
+type OneFunc struct {
 	First    interface{} `json:",omitempty"`
-	Second   interface{} `json:",omitempty"`
-	Third    interface{} `json:",omitempty"`
-	Fourth   interface{} `json:",omitempty"`
 	WorkFunc interface{} `json:",omitempty"`
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
 }
 
-func (it FourFunc) ArgTwo() TwoFunc {
-	return TwoFunc{
+func (it OneFunc) ArgTwo() OneFunc {
+	return OneFunc{
 		First:  it.First,
-		Second: it.Second,
+		Expect: it.Expect,
 	}
 }
 
-func (it FourFunc) ArgThree() ThreeFunc {
-	return ThreeFunc{
-		First:  it.First,
-		Second: it.Second,
-		Third:  it.Third,
-	}
-}
-
-func (it FourFunc) ArgFour() FourFunc {
-	return FourFunc{
-		First:  it.First,
-		Second: it.Second,
-		Third:  it.Third,
-		Fourth: it.Fourth,
-	}
-}
-
-func (it *FourFunc) HasFirst() bool {
+func (it *OneFunc) HasFirst() bool {
 	return it != nil && reflectinternal.IsNotNull(it.First)
 }
 
-func (it *FourFunc) HasSecond() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Second)
-}
-
-func (it *FourFunc) HasThird() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Third)
-}
-
-func (it *FourFunc) HasFourth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fourth)
-}
-
-func (it *FourFunc) HasFunc() bool {
+func (it *OneFunc) HasFunc() bool {
 	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
 }
 
-func (it *FourFunc) HasExpect() bool {
+func (it *OneFunc) HasExpect() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Expect)
 }
 
-func (it *FourFunc) GetFuncName() string {
+func (it *OneFunc) GetFuncName() string {
 	return reflectinternal.GetFuncName(it.WorkFunc)
 }
 
-func (it FourFunc) Slice() []interface{} {
+func (it OneFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -81,18 +49,6 @@ func (it FourFunc) Slice() []interface{} {
 
 	if it.HasFirst() {
 		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
-
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
-
-	if it.HasFourth() {
-		args = append(args, it.Fourth)
 	}
 
 	if it.HasFunc() {
@@ -108,7 +64,7 @@ func (it FourFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it FourFunc) GetByIndex(index int) interface{} {
+func (it OneFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -118,7 +74,7 @@ func (it FourFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it FourFunc) String() string {
+func (it OneFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -131,8 +87,15 @@ func (it FourFunc) String() string {
 
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
-		"FourFunc",
+		"OneFunc",
 		strings.Join(args, constants.CommaSpace))
 
 	return it.toString.GetSetOnce(toFinalString)
+}
+
+func (it OneFunc) LeftRight() LeftRight {
+	return LeftRight{
+		Left:   it.First,
+		Expect: it.Expect,
+	}
 }

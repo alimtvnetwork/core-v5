@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/conditional"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestargs"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
@@ -15,7 +15,7 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 	for caseIndex, testCase := range reflectionTypesTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretestargs.OneFunc)
+			ArrangeInput.([]args.OneFunc)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
