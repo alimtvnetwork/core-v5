@@ -102,7 +102,7 @@ func (it TwoFunc) String() string {
 	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it TwoFunc) LeftRightExpect() LeftRight {
+func (it TwoFunc) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Right:  it.Second,
