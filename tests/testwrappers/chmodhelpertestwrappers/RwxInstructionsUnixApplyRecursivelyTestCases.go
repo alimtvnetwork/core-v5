@@ -1,6 +1,9 @@
 package chmodhelpertestwrappers
 
-import "gitlab.com/auk-go/core/chmodhelper/chmodins"
+import (
+	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"gitlab.com/auk-go/core/tests/integratedtests/chmodhelpertests"
+)
 
 // RwxInstructionsUnixApplyRecursivelyTestCases https://ss64.com/bash/chmod.html
 var RwxInstructionsUnixApplyRecursivelyTestCases = []RwxInstructionTestWrapper{
@@ -21,8 +24,8 @@ var RwxInstructionsUnixApplyRecursivelyTestCases = []RwxInstructionTestWrapper{
 		},
 		DefaultRwx:      &DefaultRwx,
 		IsErrorExpected: false,
-		CreatePaths:     CreatePathInstruction2,
+		CreatePaths:     chmodhelpertests.CreatePathInstruction2,
 		funcName:        RwxApplyOnPath,
-		expected:        DefaultExpected,
+		WhatIsExpected:  DefaultExpected,
 	},
 }

@@ -35,11 +35,11 @@ const (
 		"\n%d )" +
 		"   When: %#v\n  " +
 		"    Func:`%#v` ,\n\n  " +
-		"  Actual:\n  %#v,\n\n  " +
-		"Expected:\n  %#v,\n\n\n  " +
+		"  Actual:\n  `%#v`,\n\n  " +
+		"Expected:\n  `%#v`,\n\n\n  " +
 		"  Actual-Processed:\n   `%#v`,\n\n" +
 		"Expected-Processed:\n   `%#v`,\n\n" +
-		"    TestCase:\n   `%#v` ,\n  "
+		"    TestCase:\n   %#v ,\n  "
 
 	PrintActualAndExpectedProcessedFormat = "----------------------" +
 		"\n\n%d )\t" +

@@ -14,7 +14,7 @@ func Test_VerifyRwxPartialChmodLocations_Unix(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
-	createPathInstructions := chmodhelpertestwrappers.CreatePathInstruction2
+	createPathInstructions := CreatePathInstruction2
 	chmodhelper.CreateDirFilesWithRwxPermissionsMust(
 		true,
 		createPathInstructions)

@@ -12,7 +12,7 @@ type RwxInstructionTestWrapper struct {
 	IsErrorExpected bool
 	CreatePaths     []chmodhelper.DirFilesWithRwxPermission
 	funcName        coretests.TestFuncName
-	expected        chmodins.RwxOwnerGroupOther
+	WhatIsExpected  chmodins.RwxOwnerGroupOther
 	actual          interface{}
 }
 
@@ -33,11 +33,11 @@ func (receiver *RwxInstructionTestWrapper) Value() interface{} {
 }
 
 func (receiver *RwxInstructionTestWrapper) Expected() interface{} {
-	return receiver.expected
+	return receiver.WhatIsExpected
 }
 
 func (receiver *RwxInstructionTestWrapper) ExpectedAsRwxOwnerGroupOtherInstruction() chmodins.RwxOwnerGroupOther {
-	return receiver.expected
+	return receiver.WhatIsExpected
 }
 
 func (receiver *RwxInstructionTestWrapper) AsTestCaseMessenger() coretests.TestCaseMessenger {
