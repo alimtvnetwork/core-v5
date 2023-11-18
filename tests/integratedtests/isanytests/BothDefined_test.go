@@ -5,7 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/corecsv"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/coretestargs"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/isany"
 )
@@ -14,7 +14,7 @@ func Test_BothDefined_Verification(t *testing.T) {
 	for caseIndex, testCase := range bothDefinedTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.ArgTwo)
+			ArrangeInput.([]coretestargs.ArgTwo)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

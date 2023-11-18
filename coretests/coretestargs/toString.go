@@ -1,4 +1,4 @@
-package coretests
+package coretestargs
 
 import "gitlab.com/auk-go/core/internal/convertinteranl"
 

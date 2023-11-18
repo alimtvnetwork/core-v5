@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/coretestargs"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -12,7 +12,7 @@ func Test_TwoParams_Method_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionTwoParamsVerificationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.ArgFour)
+			ArrangeInput.([]coretestargs.ArgFour)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -60,7 +60,7 @@ func Test_ThreeParams_Method_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionThreeParamsVerificationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.ArgFive)
+			ArrangeInput.([]coretestargs.ArgFive)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

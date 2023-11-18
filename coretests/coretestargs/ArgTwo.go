@@ -1,4 +1,4 @@
-package coretests
+package coretestargs
 
 type ArgTwo struct {
 	First  interface{} `json:",omitempty"`

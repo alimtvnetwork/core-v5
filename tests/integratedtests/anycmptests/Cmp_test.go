@@ -5,14 +5,14 @@ import (
 
 	"gitlab.com/auk-go/core/anycmp"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/coretestargs"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
 func Test_Cmp_Verification(t *testing.T) {
 	for caseIndex, testCase := range testCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]coretests.ArgTwo)
+		inputs := testCase.ArrangeInput.([]coretestargs.ArgTwo)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act

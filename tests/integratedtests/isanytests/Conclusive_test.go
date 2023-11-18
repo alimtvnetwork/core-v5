@@ -6,7 +6,7 @@ import (
 	"gitlab.com/auk-go/core/conditional"
 	"gitlab.com/auk-go/core/corecsv"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/coretestargs"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/isany"
 )
@@ -15,7 +15,7 @@ func Test_Conclusive_Verification(t *testing.T) {
 	for caseIndex, testCase := range conclusiveTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.ArgTwo)
+			ArrangeInput.([]coretestargs.ArgTwo)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

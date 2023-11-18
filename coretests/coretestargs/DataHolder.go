@@ -1,4 +1,4 @@
-package coretests
+package coretestargs
 
 // DataHolder
 //

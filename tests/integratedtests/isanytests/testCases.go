@@ -4,6 +4,7 @@ import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/coretestargs"
 	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/issetter"
 )
@@ -16,7 +17,7 @@ var (
 	}
 
 	arrangeArgsTwoTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretests.ArgTwo{}),
+		ArrangeInput:  reflect.TypeOf([]coretestargs.ArgTwo{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -27,7 +28,7 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	someNull *coretests.ArgTwo = nil
+	someNull *coretestargs.ArgTwo = nil
 
 	nullTestCases = []testWrapper{
 		{
@@ -35,11 +36,11 @@ var (
 				Title: "all nulls will be returned as null, don't panic.",
 				ArrangeInput: []interface{}{
 					nil,
-					&coretests.ArgTwo{},
+					&coretestargs.ArgTwo{},
 					someNull,
 					1,
 					2,
-					coretests.ArgTwo{},
+					coretestargs.ArgTwo{},
 				},
 				ExpectedInput: []string{
 					"0 : true (value: <nil>, type: <nil>)",
@@ -61,11 +62,11 @@ var (
 				Title: "Only true if all cases are null, will return false.",
 				ArrangeInput: []interface{}{
 					nil,
-					&coretests.ArgTwo{},
+					&coretestargs.ArgTwo{},
 					someNull,
 					1,
 					2,
-					coretests.ArgTwo{},
+					coretestargs.ArgTwo{},
 				},
 				ExpectedInput: []string{
 					"0 : false (<nil>, *coretests.ArgTwo, *coretests.ArgTwo, int, int, coretests.ArgTwo)",
@@ -97,10 +98,10 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result true, because one is nil.",
 				ArrangeInput: []interface{}{
-					&coretests.ArgTwo{},
+					&coretestargs.ArgTwo{},
 					1,
 					2,
-					coretests.ArgTwo{},
+					coretestargs.ArgTwo{},
 					someNull,
 				},
 				ExpectedInput: []string{
@@ -149,10 +150,10 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if defined (not null) ones will be true.",
 				ArrangeInput: []interface{}{
-					&coretests.ArgTwo{},
+					&coretestargs.ArgTwo{},
 					1,
 					nil,
-					coretests.ArgTwo{},
+					coretestargs.ArgTwo{},
 					someNull,
 				},
 				ExpectedInput: []string{
@@ -172,7 +173,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both defined (not null) ones will be true.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  nil,
 						Second: nil,
@@ -210,12 +211,12 @@ var (
 						Second: 2,
 					},
 					{
-						First:  &coretests.ArgTwo{},
+						First:  &coretestargs.ArgTwo{},
 						Second: 2,
 					},
 					{
-						First:  &coretests.ArgTwo{},
-						Second: coretests.ArgTwo{},
+						First:  &coretestargs.ArgTwo{},
+						Second: coretestargs.ArgTwo{},
 					},
 				},
 				ExpectedInput: []string{
@@ -242,7 +243,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both are null (not defined). " +
 					"Kind of inverse of any defined.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  nil,
 						Second: nil,
@@ -280,12 +281,12 @@ var (
 						Second: 2,
 					},
 					{
-						First:  &coretests.ArgTwo{},
+						First:  &coretestargs.ArgTwo{},
 						Second: 2,
 					},
 					{
-						First:  &coretests.ArgTwo{},
-						Second: coretests.ArgTwo{},
+						First:  &coretestargs.ArgTwo{},
+						Second: coretestargs.ArgTwo{},
 					},
 				},
 				ExpectedInput: []string{
@@ -393,7 +394,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. Here all are null comparison.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  nil,
 						Second: nil,
@@ -425,7 +426,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with null with non null.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: someNull,
@@ -457,7 +458,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with same type different values.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: 2,
@@ -484,7 +485,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting equal comparing with any value as long as both are equal in terms of bytes.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: "1",
@@ -502,18 +503,18 @@ var (
 						Second: "alim is equal",
 					},
 					{
-						First: &coretests.ArgTwo{
+						First: &coretestargs.ArgTwo{
 							First:  "1",
 							Second: "alim",
 						},
-						Second: coretests.ArgTwo{
+						Second: coretestargs.ArgTwo{
 							First:  "1",
 							Second: "alim",
 						},
 					},
 					{
-						First:  &coretests.ArgTwo{},
-						Second: coretests.ArgTwo{},
+						First:  &coretestargs.ArgTwo{},
+						Second: coretestargs.ArgTwo{},
 					},
 				},
 				ExpectedInput: []string{
@@ -532,7 +533,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with string with integer with same value.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: "1",
@@ -561,7 +562,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value same but data types are different.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  nil,
 						Second: nil,
@@ -582,7 +583,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value same but data types are different.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  nil,
 						Second: someNull,
@@ -603,7 +604,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all equal and conclusive because value same and data type also same.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: 1,
@@ -634,7 +635,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value different and data type also same and non pointer.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: 5,
@@ -665,7 +666,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Same value different type results not equal and conclusive.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: byte(2),
@@ -694,13 +695,13 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Primitive types verification test.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: isany.PrimitiveType,
 					},
 					{
-						First:  coretests.ArgTwo{},
+						First:  coretestargs.ArgTwo{},
 						Second: isany.PrimitiveType,
 					},
 					{
@@ -760,7 +761,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "NumberType : verification test.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: isany.NumberType,
@@ -826,13 +827,13 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Floating : verification test.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: isany.FloatingPointType,
 					},
 					{
-						First:  coretests.ArgTwo{},
+						First:  coretestargs.ArgTwo{},
 						Second: isany.FloatingPointType,
 					},
 					{
@@ -872,7 +873,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "PositiveIntegerType: verification test.",
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  uint(64),
 						Second: isany.PositiveIntegerType,
@@ -898,7 +899,7 @@ var (
 						Second: isany.PositiveIntegerType,
 					},
 					{
-						First:  coretests.ArgTwo{},
+						First:  coretestargs.ArgTwo{},
 						Second: isany.PositiveIntegerType,
 					},
 					{
@@ -943,16 +944,16 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "FuncOnly : function verification test.",
-				Parameters: &coretests.DataHolder{
+				Parameters: &coretestargs.DataHolder{
 					First: "isFunc",
 				},
-				ArrangeInput: []coretests.ArgTwo{
+				ArrangeInput: []coretestargs.ArgTwo{
 					{
 						First:  1,
 						Second: isany.FuncOnly,
 					},
 					{
-						First:  coretests.ArgTwo{},
+						First:  coretestargs.ArgTwo{},
 						Second: isany.FuncOnly,
 					},
 					{

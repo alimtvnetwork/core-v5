@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/corecomparator"
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/coretestargs"
 	"gitlab.com/auk-go/core/coreversion"
 	"gitlab.com/auk-go/core/issetter"
 )
@@ -17,13 +18,13 @@ var (
 	}
 
 	argsFourTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretests.ArgFour{}),
+		ArrangeInput:  reflect.TypeOf([]coretestargs.ArgFour{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
 	argsFiveTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretests.ArgFive{}),
+		ArrangeInput:  reflect.TypeOf([]coretestargs.ArgFive{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -373,7 +374,7 @@ var (
 	versionTwoParamsVerificationTestCases = []testWrapper{
 		{
 			Title: "IsMajorBuildAtLeast - all matches the condition query.",
-			ArrangeInput: []coretests.ArgFour{
+			ArrangeInput: []coretestargs.ArgFour{
 				{
 					First:  5,    // major
 					Second: 5,    // build
@@ -411,7 +412,7 @@ var (
 		},
 		{
 			Title: "IsMajorMinorAtLeast - all matches the condition query.",
-			ArrangeInput: []coretests.ArgFour{
+			ArrangeInput: []coretestargs.ArgFour{
 				{
 					First:  5,    // major
 					Second: 8,    // minor
@@ -459,7 +460,7 @@ var (
 	versionThreeParamsVerificationTestCases = []testWrapper{
 		{
 			Title: "IsMajorMinorPatchAtLeast - all matches the condition query.",
-			ArrangeInput: []coretests.ArgFive{
+			ArrangeInput: []coretestargs.ArgFive{
 				{
 					First:  5,    // major
 					Second: 5,    // build

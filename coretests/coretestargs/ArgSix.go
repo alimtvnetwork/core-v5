@@ -1,4 +1,4 @@
-package coretests
+package coretestargs
 
 import (
 	"fmt"
@@ -9,26 +9,27 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type ArgFive struct {
+type ArgSix struct {
 	First    interface{} `json:",omitempty"`
 	Second   interface{} `json:",omitempty"`
 	Third    interface{} `json:",omitempty"`
 	Fourth   interface{} `json:",omitempty"`
 	Fifth    interface{} `json:",omitempty"`
+	Sixth    interface{} `json:",omitempty"`
 	WorkFunc interface{} `json:",omitempty"`
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
 }
 
-func (it ArgFive) ArgTwo() ArgTwo {
+func (it ArgSix) ArgTwo() ArgTwo {
 	return ArgTwo{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it ArgFive) ArgThree() ArgThree {
+func (it ArgSix) ArgThree() ArgThree {
 	return ArgThree{
 		First:  it.First,
 		Second: it.Second,
@@ -36,7 +37,7 @@ func (it ArgFive) ArgThree() ArgThree {
 	}
 }
 
-func (it ArgFive) ArgFour() ArgFour {
+func (it ArgSix) ArgFour() ArgFour {
 	return ArgFour{
 		First:  it.First,
 		Second: it.Second,
@@ -45,35 +46,48 @@ func (it ArgFive) ArgFour() ArgFour {
 	}
 }
 
-func (it *ArgFive) HasFirst() bool {
+func (it ArgSix) ArgFive() ArgFive {
+	return ArgFive{
+		First:  it.First,
+		Second: it.Second,
+		Third:  it.Third,
+		Fourth: it.Fourth,
+	}
+}
+
+func (it *ArgSix) HasFirst() bool {
 	return it != nil && reflectinternal.IsNotNull(it.First)
 }
 
-func (it *ArgFive) HasSecond() bool {
+func (it *ArgSix) HasSecond() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Second)
 }
 
-func (it *ArgFive) HasThird() bool {
+func (it *ArgSix) HasThird() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Third)
 }
 
-func (it *ArgFive) HasFourth() bool {
+func (it *ArgSix) HasFourth() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Fourth)
 }
 
-func (it *ArgFive) HasFifth() bool {
+func (it *ArgSix) HasFifth() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Fifth)
 }
 
-func (it *ArgFive) HasExpect() bool {
+func (it *ArgSix) HasSixth() bool {
+	return it != nil && reflectinternal.IsNotNull(it.Sixth)
+}
+
+func (it *ArgSix) HasExpect() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Expect)
 }
 
-func (it *ArgFive) GetFuncName() string {
+func (it *ArgSix) GetFuncName() string {
 	return reflectinternal.GetFuncName(it.WorkFunc)
 }
 
-func (it ArgFive) Slice() []interface{} {
+func (it ArgSix) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -100,6 +114,10 @@ func (it ArgFive) Slice() []interface{} {
 		args = append(args, it.Fifth)
 	}
 
+	if it.HasSixth() {
+		args = append(args, it.Sixth)
+	}
+
 	if it.HasExpect() {
 		args = append(args, it.Expect)
 	}
@@ -109,7 +127,7 @@ func (it ArgFive) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it ArgFive) GetByIndex(index int) interface{} {
+func (it ArgSix) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -119,7 +137,7 @@ func (it ArgFive) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it ArgFive) String() string {
+func (it ArgSix) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -132,7 +150,7 @@ func (it ArgFive) String() string {
 
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
-		"ArgFive",
+		"ArgSix",
 		strings.Join(args, constants.CommaSpace))
 
 	return it.toString.GetSetOnce(toFinalString)
