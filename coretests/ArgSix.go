@@ -16,6 +16,7 @@ type ArgSix struct {
 	Fourth   interface{} `json:",omitempty"`
 	Fifth    interface{} `json:",omitempty"`
 	Sixth    interface{} `json:",omitempty"`
+	WorkFunc interface{} `json:",omitempty"`
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
@@ -82,6 +83,10 @@ func (it *ArgSix) HasExpect() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Expect)
 }
 
+func (it *ArgSix) GetFuncName() string {
+	return reflectinternal.GetFuncName(it.WorkFunc)
+}
+
 func (it ArgSix) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
@@ -122,17 +127,31 @@ func (it ArgSix) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it ArgSix) GetByIndex(i int) {}
+func (it ArgSix) GetByIndex(index int) interface{} {
+	slice := it.Slice()
+
+	if len(slice)-1 < index {
+		return nil
+	}
+
+	return slice[index]
+}
 
 func (it ArgSix) String() string {
+	if it.toString.IsInitialized() {
+		return it.toString.String()
+	}
+
 	var args []string
 
 	for _, item := range it.Slice() {
 		args = append(args, toString(item))
 	}
 
-	return fmt.Sprintf(
+	toFinalString := fmt.Sprintf(
 		"%s { %s }",
 		"ArgSix",
 		strings.Join(args, constants.CommaSpace))
+
+	return it.toString.GetSetOnce(toFinalString)
 }
