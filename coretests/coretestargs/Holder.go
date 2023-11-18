@@ -1,12 +1,12 @@
 package coretestargs
 
-// DataHolder
+// Holder
 //
 // it is used to hold more dynamic parameters for
 // the Act function in the unit or integration test
 //
 // If parameters are not enough use the Hashmap
-type DataHolder struct {
+type Holder struct {
 	First   interface{}            `json:",omitempty"`
 	Second  interface{}            `json:",omitempty"`
 	Third   interface{}            `json:",omitempty"`

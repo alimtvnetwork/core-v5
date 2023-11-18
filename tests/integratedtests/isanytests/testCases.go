@@ -767,50 +767,50 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "NumberType : verification test.",
-				ArrangeInput: []coretestargs.Two{
+				ArrangeInput: []coretestargs.OneFunc{
 					{
-						First:  1,
-						Second: isany.NumberType,
+						First:    1,
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  float32(2),
-						Second: isany.NumberType,
+						First:    float32(2),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  int64(1),
-						Second: isany.NumberType,
+						First:    int64(1),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  byte(23),
-						Second: isany.NumberType,
+						First:    byte(23),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  uint(23),
-						Second: isany.NumberType,
+						First:    uint(23),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  uint32(23),
-						Second: isany.NumberType,
+						First:    uint32(23),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  uint64(23),
-						Second: isany.NumberType,
+						First:    uint64(23),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  int32(23),
-						Second: isany.NumberType,
+						First:    int32(23),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  int64(23),
-						Second: isany.NumberType,
+						First:    int64(23),
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  []int{1},
-						Second: isany.NumberType,
+						First:    []int{1},
+						WorkFunc: isany.NumberType,
 					},
 					{
-						First:  true,
-						Second: isany.NumberType,
+						First:    true,
+						WorkFunc: isany.NumberType,
 					},
 				},
 				ExpectedInput: []string{
@@ -833,34 +833,34 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Floating : verification test.",
-				ArrangeInput: []coretestargs.Two{
+				ArrangeInput: []coretestargs.OneFunc{
 					{
-						First:  1,
-						Second: isany.FloatingPointType,
+						First:    1,
+						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:  coretestargs.Two{},
-						Second: isany.FloatingPointType,
+						First:    coretestargs.Two{},
+						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:  "some string",
-						Second: isany.FloatingPointType,
+						First:    "some string",
+						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:  float32(23),
-						Second: isany.FloatingPointType,
+						First:    float32(23),
+						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:  1.5,
-						Second: isany.FloatingPointType,
+						First:    1.5,
+						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:  float64(65),
-						Second: isany.FloatingPointType,
+						First:    float64(65),
+						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:  true,
-						Second: isany.FloatingPointType,
+						First:    true,
+						WorkFunc: isany.FloatingPointType,
 					},
 				},
 				ExpectedInput: []string{
@@ -950,7 +950,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "FuncOnly : function verification test.",
-				Parameters: &coretestargs.DataHolder{
+				Parameters: &coretestargs.Holder{
 					First: "isFunc",
 				},
 				ArrangeInput: []coretestargs.Two{
