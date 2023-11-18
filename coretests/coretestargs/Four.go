@@ -8,7 +8,7 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type ArgFour struct {
+type Four struct {
 	First  interface{} `json:",omitempty"`
 	Second interface{} `json:",omitempty"`
 	Third  interface{} `json:",omitempty"`
@@ -16,42 +16,42 @@ type ArgFour struct {
 	Expect interface{} `json:",omitempty"`
 }
 
-func (it ArgFour) ArgTwo() ArgTwo {
-	return ArgTwo{
+func (it Four) ArgTwo() Two {
+	return Two{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it ArgFour) ArgThree() ArgThree {
-	return ArgThree{
+func (it Four) ArgThree() Three {
+	return Three{
 		First:  it.First,
 		Second: it.Second,
 		Third:  it.Third,
 	}
 }
 
-func (it *ArgFour) HasFirst() bool {
+func (it *Four) HasFirst() bool {
 	return it != nil && reflectinternal.IsNotNull(it.First)
 }
 
-func (it *ArgFour) HasSecond() bool {
+func (it *Four) HasSecond() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Second)
 }
 
-func (it *ArgFour) HasThird() bool {
+func (it *Four) HasThird() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Third)
 }
 
-func (it *ArgFour) HasFourth() bool {
+func (it *Four) HasFourth() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Fourth)
 }
 
-func (it *ArgFour) HasExpect() bool {
+func (it *Four) HasExpect() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Expect)
 }
 
-func (it ArgFour) String() string {
+func (it Four) String() string {
 	var args []string
 
 	if it.HasFirst() {
@@ -76,6 +76,6 @@ func (it ArgFour) String() string {
 
 	return fmt.Sprintf(
 		"%s { %s }",
-		"ArgFour",
+		"Four",
 		strings.Join(args, constants.CommaSpace))
 }

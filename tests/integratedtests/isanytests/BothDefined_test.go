@@ -14,7 +14,7 @@ func Test_BothDefined_Verification(t *testing.T) {
 	for caseIndex, testCase := range bothDefinedTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretestargs.ArgTwo)
+			ArrangeInput.([]coretestargs.Two)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

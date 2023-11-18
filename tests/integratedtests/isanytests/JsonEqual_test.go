@@ -14,7 +14,7 @@ func Test_JsonEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range jsonEqualTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretestargs.ArgTwo)
+			ArrangeInput.([]coretestargs.Two)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

@@ -16,7 +16,7 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 	for caseIndex, testCase := range reflectionTypesTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretestargs.ArgTwo)
+			ArrangeInput.([]coretestargs.Two)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
