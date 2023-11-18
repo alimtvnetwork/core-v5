@@ -12,13 +12,13 @@ import (
 	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
-type FilesWithContent struct {
+type DirFilesWithContent struct {
 	Dir         string
 	Files       []FileWithContent
 	DirFileMode os.FileMode
 }
 
-func (it *FilesWithContent) GetPaths() []string {
+func (it *DirFilesWithContent) GetPaths() []string {
 	collection := corestr.New.Collection.Cap(
 		constants.ArbitraryCapacity50,
 	)
@@ -31,7 +31,7 @@ func (it *FilesWithContent) GetPaths() []string {
 	return collection.List()
 }
 
-func (it *FilesWithContent) GetFilesChmodMap() *corestr.Hashmap {
+func (it *DirFilesWithContent) GetFilesChmodMap() *corestr.Hashmap {
 	files := it.GetPaths()
 
 	hashmap, err := GetFilesChmodRwxFullMap(files)
@@ -44,7 +44,7 @@ func (it *FilesWithContent) GetFilesChmodMap() *corestr.Hashmap {
 	return hashmap
 }
 
-func (it *FilesWithContent) CreateUsingFileMode(
+func (it *DirFilesWithContent) CreateUsingFileMode(
 	isRemoveBeforeCreate bool,
 ) error {
 	var sliceErr []string

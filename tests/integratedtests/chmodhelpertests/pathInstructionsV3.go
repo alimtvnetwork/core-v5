@@ -9,7 +9,7 @@ import (
 var (
 	defaultDir = pathinternal.JoinTemp("core", "case-v3")
 
-	pathInstructionsV3 = []chmodhelper.FilesWithContent{
+	pathInstructionsV3 = []chmodhelper.DirFilesWithContent{
 		{
 			Dir: defaultDir,
 			Files: []chmodhelper.FileWithContent{

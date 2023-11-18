@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	nullBothTestCases = []coretestcases.CaseV1{
+	simpleFileWriterTestCases = []coretestcases.CaseV1{
 		{
 			Title: "testing any file reading writing",
 			ArrangeInput: []args.Two{
