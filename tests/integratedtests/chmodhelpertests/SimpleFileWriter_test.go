@@ -13,7 +13,7 @@ func Test_SimpleFileWriter_Unix(t *testing.T) {
 	for caseIndex, testCase := range simpleFileWriterTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.One)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

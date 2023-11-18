@@ -9,11 +9,9 @@ var (
 	simpleFileWriterTestCases = []coretestcases.CaseV1{
 		{
 			Title: "testing any file reading writing",
-			ArrangeInput: []args.Two{
+			ArrangeInput: []args.One{
 				{
-					First:  pathInstructionsV3,
-					Second: nil,
-					Expect: nil,
+					First: pathInstructionsV3,
 				},
 			},
 			ExpectedInput: []string{
