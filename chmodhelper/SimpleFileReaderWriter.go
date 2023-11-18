@@ -87,7 +87,7 @@ func (it *SimpleFileReaderWriter) ChmodVerifier() fwChmodVerifier {
 }
 
 func (it SimpleFileReaderWriter) Write(allBytes []byte) error {
-	err := SimpleFileWriter.WriteFile(
+	err := SimpleFileWriter.FileWriter.All(
 		it.ChmodDir,
 		it.ChmodFile,
 		it.IsMustChmodApplyOnFile,
@@ -135,7 +135,7 @@ func (it SimpleFileReaderWriter) NewPathJoin(
 }
 
 func (it SimpleFileReaderWriter) WriteString(content string) error {
-	err := SimpleFileWriter.WriteFileString(
+	err := SimpleFileWriter.FileWriter.All(
 		it.ChmodDir,
 		it.ChmodFile,
 		it.IsMustChmodApplyOnFile,
@@ -143,7 +143,7 @@ func (it SimpleFileReaderWriter) WriteString(content string) error {
 		true,
 		it.ParentDir,
 		it.FilePath,
-		content)
+		[]byte(content))
 
 	if err == nil {
 		return nil
@@ -169,12 +169,15 @@ func (it SimpleFileReaderWriter) errorWrap(err error) error {
 func (it SimpleFileReaderWriter) WriteAny(
 	anyItem interface{},
 ) error {
-	err := SimpleFileWriter.WriteAnyItem(
-		it.ChmodDir,
-		it.ChmodFile,
-		it.ParentDir,
-		it.FilePath,
-		anyItem)
+	err := SimpleFileWriter.
+		FileWriter.
+		Any.
+		Chmod(
+			it.ChmodDir,
+			it.ChmodFile,
+			it.ParentDir,
+			it.FilePath,
+			anyItem)
 
 	if err == nil {
 		return nil
