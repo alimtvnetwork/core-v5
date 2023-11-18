@@ -5,6 +5,7 @@ type ArgFour struct {
 	Second interface{} `json:",omitempty"`
 	Third  interface{} `json:",omitempty"`
 	Fourth interface{} `json:",omitempty"`
+	Expect interface{} `json:",omitempty"`
 }
 
 func (it ArgFour) ArgTwo() ArgTwo {

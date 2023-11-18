@@ -13,5 +13,6 @@ type DataHolder struct {
 	Fourth  interface{}            `json:",omitempty"`
 	Fifth   interface{}            `json:",omitempty"`
 	Sixth   interface{}            `json:",omitempty"`
+	Expect  interface{}            `json:",omitempty"`
 	Hashmap map[string]interface{} `json:",omitempty"`
 }

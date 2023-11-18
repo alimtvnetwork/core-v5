@@ -13,7 +13,7 @@ func Test_Comparison_Verification(t *testing.T) {
 	for caseIndex, testCase := range comparisonStringTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]coretests.LeftRightExpect)
+			ArrangeInput.([]coretests.LeftRight)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

@@ -4,6 +4,7 @@ type ArgThree struct {
 	First  interface{} `json:",omitempty"`
 	Second interface{} `json:",omitempty"`
 	Third  interface{} `json:",omitempty"`
+	Expect interface{} `json:",omitempty"`
 }
 
 func (it ArgThree) ArgTwo() ArgTwo {
@@ -13,8 +14,8 @@ func (it ArgThree) ArgTwo() ArgTwo {
 	}
 }
 
-func (it ArgThree) LeftRightExpect() LeftRightExpect {
-	return LeftRightExpect{
+func (it ArgThree) LeftRightExpect() LeftRight {
+	return LeftRight{
 		Left:   it.First,
 		Right:  it.Second,
 		Expect: it.Third,

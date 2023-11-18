@@ -11,7 +11,7 @@ import (
 
 var (
 	arrangeLeftRightTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]coretests.LeftRightExpect{}),
+		ArrangeInput:  reflect.TypeOf([]coretests.LeftRight{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -139,7 +139,7 @@ var (
 	comparisonStringTestCases = []testWrapper{
 		{
 			Title: "Versions comparisons - Left Greater",
-			ArrangeInput: []coretests.LeftRightExpect{
+			ArrangeInput: []coretests.LeftRight{
 				{
 					Left:   "1.2.5",
 					Right:  "1.2.4",
@@ -178,7 +178,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Left Less",
-			ArrangeInput: []coretests.LeftRightExpect{
+			ArrangeInput: []coretests.LeftRight{
 				{
 					Left:   "1.2",
 					Right:  "1.2.1",
@@ -235,7 +235,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Equal",
-			ArrangeInput: []coretests.LeftRightExpect{
+			ArrangeInput: []coretests.LeftRight{
 				{
 					Left:   "v2.2",
 					Right:  "v2.2.0",
@@ -280,7 +280,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Not Equal",
-			ArrangeInput: []coretests.LeftRightExpect{
+			ArrangeInput: []coretests.LeftRight{
 				{
 					Left:   "v2.2",
 					Right:  "2.2.0",

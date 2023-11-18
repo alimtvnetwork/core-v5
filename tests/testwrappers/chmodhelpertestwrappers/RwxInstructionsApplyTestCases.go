@@ -22,7 +22,7 @@ var RwxInstructionsApplyTestCases = []RwxInstructionTestWrapper{
 		DefaultRwx:      &DefaultRwx,
 		IsErrorExpected: false,
 		CreatePaths:     CreatePathInstruction1,
-		funcName:        RwxApplyOnPath,
+		TestFuncName:    RwxApplyOnPath,
 		WhatIsExpected:  DefaultExpected,
 	},
 }
