@@ -9,71 +9,43 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type ArgFive struct {
+type TwoFunc struct {
 	First    interface{} `json:",omitempty"`
 	Second   interface{} `json:",omitempty"`
-	Third    interface{} `json:",omitempty"`
-	Fourth   interface{} `json:",omitempty"`
-	Fifth    interface{} `json:",omitempty"`
 	WorkFunc interface{} `json:",omitempty"`
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
 }
 
-func (it ArgFive) ArgTwo() ArgTwo {
-	return ArgTwo{
+func (it TwoFunc) ArgTwo() TwoFunc {
+	return TwoFunc{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it ArgFive) ArgThree() ArgThree {
-	return ArgThree{
-		First:  it.First,
-		Second: it.Second,
-		Third:  it.Third,
-	}
-}
-
-func (it ArgFive) ArgFour() ArgFour {
-	return ArgFour{
-		First:  it.First,
-		Second: it.Second,
-		Third:  it.Third,
-		Fourth: it.Fourth,
-	}
-}
-
-func (it *ArgFive) HasFirst() bool {
+func (it *TwoFunc) HasFirst() bool {
 	return it != nil && reflectinternal.IsNotNull(it.First)
 }
 
-func (it *ArgFive) HasSecond() bool {
+func (it *TwoFunc) HasSecond() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Second)
 }
 
-func (it *ArgFive) HasThird() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Third)
+func (it *TwoFunc) HasFunc() bool {
+	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
 }
 
-func (it *ArgFive) HasFourth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fourth)
-}
-
-func (it *ArgFive) HasFifth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fifth)
-}
-
-func (it *ArgFive) HasExpect() bool {
+func (it *TwoFunc) HasExpect() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Expect)
 }
 
-func (it *ArgFive) GetFuncName() string {
+func (it *TwoFunc) GetFuncName() string {
 	return reflectinternal.GetFuncName(it.WorkFunc)
 }
 
-func (it ArgFive) Slice() []interface{} {
+func (it TwoFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -88,16 +60,8 @@ func (it ArgFive) Slice() []interface{} {
 		args = append(args, it.Second)
 	}
 
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
-
-	if it.HasFourth() {
-		args = append(args, it.Fourth)
-	}
-
-	if it.HasFifth() {
-		args = append(args, it.Fifth)
+	if it.HasFunc() {
+		args = append(args, it.GetFuncName())
 	}
 
 	if it.HasExpect() {
@@ -109,7 +73,7 @@ func (it ArgFive) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it ArgFive) GetByIndex(index int) interface{} {
+func (it TwoFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -119,7 +83,7 @@ func (it ArgFive) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it ArgFive) String() string {
+func (it TwoFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -132,8 +96,16 @@ func (it ArgFive) String() string {
 
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
-		"ArgFive",
+		"TwoFunc",
 		strings.Join(args, constants.CommaSpace))
 
 	return it.toString.GetSetOnce(toFinalString)
+}
+
+func (it TwoFunc) LeftRightExpect() LeftRight {
+	return LeftRight{
+		Left:   it.First,
+		Right:  it.Second,
+		Expect: it.Expect,
+	}
 }

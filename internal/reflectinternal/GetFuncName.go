@@ -3,6 +3,10 @@ package reflectinternal
 import "strings"
 
 func GetFuncName(i interface{}) string {
+	if IsNull(i) {
+		return ""
+	}
+
 	funcFullName := GetFuncFullName(i)
 
 	if len(funcFullName) == 0 {

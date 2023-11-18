@@ -1,6 +1,4 @@
-package coretests
-
-import "gitlab.com/auk-go/core/coretests/coretestargs"
+package coretestargs
 
 type LeftRight struct {
 	Left   interface{} `json:",omitempty"`
@@ -8,15 +6,15 @@ type LeftRight struct {
 	Expect interface{} `json:",omitempty"`
 }
 
-func (it LeftRight) ArgTwo() coretestargs.ArgTwo {
-	return coretestargs.ArgTwo{
+func (it LeftRight) ArgTwo() TwoFunc {
+	return TwoFunc{
 		First:  it.Left,
 		Second: it.Right,
 	}
 }
 
-func (it LeftRight) ArgThree() coretestargs.ArgThree {
-	return coretestargs.ArgThree{
+func (it LeftRight) ArgThree() ThreeFunc {
+	return ThreeFunc{
 		First:  it.Left,
 		Second: it.Right,
 		Third:  it.Expect,
