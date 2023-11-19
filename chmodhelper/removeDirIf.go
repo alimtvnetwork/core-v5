@@ -1,26 +1,17 @@
 package chmodhelper
 
 import (
-	"os"
-
-	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
-func removeDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) error {
-	var removeErr error
-
-	if isRemoveAllDirBeforeCreate && IsPathExists(dir) {
-		removeErr = os.RemoveAll(dir)
-	}
-
-	if removeErr != nil {
-		return errcore.PathMeaningfulError(
-			errcore.PathCreateFailedType,
-			funcName,
-			removeErr,
-			dir,
-		)
-	}
-
-	return nil
+func removeDirIf(
+	isRemoveAllDirBeforeCreate bool,
+	dir string,
+	funcName string,
+) error {
+	return pathinternal.RemoveDirIf(
+		isRemoveAllDirBeforeCreate,
+		dir,
+		funcName,
+	)
 }

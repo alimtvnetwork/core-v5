@@ -1,7 +1,11 @@
 package pathinternal
 
-import "os"
+import (
+	"os"
+)
+
+var temp = Clean(os.TempDir())
 
 func GetTemp() string {
-	return os.TempDir()
+	return temp
 }

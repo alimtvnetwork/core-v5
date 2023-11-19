@@ -1,6 +1,7 @@
 package chmodhelpertests
 
 import (
+	"path/filepath"
 	"testing"
 
 	"gitlab.com/auk-go/core/chmodhelper"
@@ -8,9 +9,12 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/filemode"
 	"gitlab.com/auk-go/core/internal/pathinternal"
+	"gitlab.com/auk-go/core/iserror"
 )
 
 func Test_SimpleFileWriter_CreateDir_Verification(t *testing.T) {
+	temp := pathinternal.GetTemp()
+
 	for caseIndex, testCase := range createDirTestCases {
 		// Arrange
 		inputs := testCase.
@@ -37,15 +41,27 @@ func Test_SimpleFileWriter_CreateDir_Verification(t *testing.T) {
 				)
 
 				errcore.HandleErr(err)
+				relPath, _ := filepath.Rel(temp, parentDir)
 
-				actualSlice.AppendFmt(
-					"%d - %d : %s - isCreated : %t, err: %s",
-					i,
-					fileIndex,
-					parentDir,
-					chmodhelper.IsPathExists(parentDir),
-					errcore.ToString(err),
-				)
+				if iserror.Defined(err) {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - isCreated : %t, err: %s",
+						i,
+						fileIndex,
+						relPath,
+						chmodhelper.IsPathExists(parentDir),
+						errcore.ToString(err),
+					)
+				} else {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - isCreated : %t",
+						i,
+						fileIndex,
+						relPath,
+						chmodhelper.IsPathExists(parentDir),
+					)
+				}
+
 			}
 		}
 
