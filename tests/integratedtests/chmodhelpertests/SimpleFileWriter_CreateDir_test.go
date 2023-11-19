@@ -202,7 +202,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 
 				if iserror.Defined(finalErr) {
 					actualSlice.AppendFmt(
-						"%d - %d : %s - is exist already file but not dir, err: %s",
+						"%d - %d : %s - already exist as file, err: %s",
 						i,
 						fileIndex,
 						relPath,
