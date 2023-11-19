@@ -88,9 +88,7 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				"0 - 0 : core\\case-dir-create\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
-				"0 - 1 : core\\case-dir-create\\f\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
-				"0 - 2 : core\\case-dir-create\\s\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 0 : core\\case-dir-create\\by-checking\\a.txt - no error during 2nd invoke of createDir.Direct",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]chmodhelper.DirWithFiles{}),
 		},

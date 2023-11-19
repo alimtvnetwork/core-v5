@@ -240,7 +240,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 	temp := pathinternal.GetTemp()
 
-	for caseIndex, testCase := range createDirDirectTestCases {
+	for caseIndex, testCase := range createDirByCheckingTestCases {
 		// Arrange
 		inputs := testCase.
 			ArrangeInput.([]chmodhelper.DirWithFiles)
@@ -266,6 +266,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 
 			for fileIndex, file := range input.Files {
 				finalPath := pathinternal.Join(dir, file)
+				parentDir := pathinternal.ParentDir(finalPath)
 
 				err := fileWriter.String.Chmod(
 					filemode.X200,
@@ -278,7 +279,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 
 				finalErr := createDir.ByChecking(
 					filemode.X400,
-					finalPath,
+					parentDir,
 				)
 
 				errorString := errcore.ToString(finalErr)
