@@ -30,6 +30,12 @@ func Test_SimpleFileWriter_CreateDir_Verification(t *testing.T) {
 		// Act
 		for i, input := range inputs {
 			dir := input.Dir
+
+			pathinternal.RemoveDirMust(
+				dir,
+				"Test_SimpleFileWriter_CreateDir_Verification",
+			)
+
 			for fileIndex, file := range input.Files {
 				finalPath := pathinternal.Join(dir, file)
 				parentDir := pathinternal.ParentDir(finalPath)

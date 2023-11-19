@@ -24,3 +24,27 @@ func RemoveDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) e
 
 	return nil
 }
+
+func RemoveDirIfMust(isRemoveAllDirBeforeCreate bool, dir string, funcName string) {
+	removeErr := RemoveDirIf(
+		isRemoveAllDirBeforeCreate,
+		dir,
+		funcName,
+	)
+
+	if removeErr != nil {
+		panic(removeErr)
+	}
+}
+
+func RemoveDirMust(dir string, funcName string) {
+	removeErr := RemoveDirIf(
+		true,
+		dir,
+		funcName,
+	)
+
+	if removeErr != nil {
+		panic(removeErr)
+	}
+}
