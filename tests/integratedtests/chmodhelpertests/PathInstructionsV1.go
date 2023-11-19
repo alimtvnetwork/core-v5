@@ -1,8 +1,11 @@
-package chmodhelpertestwrappers
+package chmodhelpertests
 
-import "gitlab.com/auk-go/core/chmodhelper"
+import (
+	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+)
 
-var CreatePathInstruction1 = []chmodhelper.DirFilesWithRwxPermission{
+var PathInstructionsV1 = []chmodhelper.DirFilesWithRwxPermission{
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
 			Dir: "/temp/core/test-cases",
@@ -12,7 +15,7 @@ var CreatePathInstruction1 = []chmodhelper.DirFilesWithRwxPermission{
 				"file-3.txt",
 			},
 		},
-		ApplyRwx: DefaultRwx,
+		ApplyRwx: chmodhelpertestwrappers.DefaultRwx,
 	},
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
@@ -23,6 +26,6 @@ var CreatePathInstruction1 = []chmodhelper.DirFilesWithRwxPermission{
 				"file-3.txt",
 			},
 		},
-		ApplyRwx: DefaultRwx,
+		ApplyRwx: chmodhelpertestwrappers.DefaultRwx,
 	},
 }
