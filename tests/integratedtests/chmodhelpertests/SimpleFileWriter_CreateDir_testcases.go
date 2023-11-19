@@ -78,14 +78,12 @@ var (
 
 	createDirByCheckingTestCases = []coretestcases.CaseV1{
 		{
-			Title: "create dir check - direct create - if exist fails",
+			Title: "create dir check - direct create - by checking",
 			ArrangeInput: []chmodhelper.DirWithFiles{
 				{
 					Dir: dirCreateBasePath,
 					Files: []string{
-						"/first.txt",
-						"/f/first.txt",
-						"/s/first.txt",
+						"by-checking/a.txt",
 					},
 				},
 			},

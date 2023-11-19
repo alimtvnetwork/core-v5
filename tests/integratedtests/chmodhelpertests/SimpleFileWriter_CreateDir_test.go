@@ -237,7 +237,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 	}
 }
 
-func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Failx(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 	temp := pathinternal.GetTemp()
 
 	for caseIndex, testCase := range createDirDirectTestCases {
@@ -261,20 +261,23 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 
 			pathinternal.RemoveDirMust(
 				dir,
-				"Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail",
+				"Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails",
 			)
 
 			for fileIndex, file := range input.Files {
 				finalPath := pathinternal.Join(dir, file)
 
-				err := fileWriter.String.Default(
+				err := fileWriter.String.Chmod(
+					filemode.X200,
+					filemode.X300,
 					finalPath,
-					"",
+					"some thing",
 				)
 
 				errcore.HandleErr(err)
 
-				finalErr := createDir.Direct(
+				finalErr := createDir.ByChecking(
+					filemode.X400,
 					finalPath,
 				)
 
