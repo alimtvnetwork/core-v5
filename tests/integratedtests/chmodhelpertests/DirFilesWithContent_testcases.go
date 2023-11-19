@@ -1,14 +1,17 @@
 package chmodhelpertests
 
 import (
+	"reflect"
+
+	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
 var (
-	simpleFileWriterTestCases = []coretestcases.CaseV1{
+	dirFilesWithContentCreateReadTestCases = []coretestcases.CaseV1{
 		{
-			Title: "testing any file reading writing",
+			Title: "DirFilesWithContent - testing any file reading - writing",
 			ArrangeInput: []args.One{
 				{
 					First: pathInstructionsV3,
@@ -25,7 +28,11 @@ var (
 				"         0. some lines file - 3",
 				"         1. alim",
 			},
-			VerifyTypeOf: nil,
+			VerifyTypeOf: &coretests.VerifyTypeOf{
+				ArrangeInput:  reflect.TypeOf([]args.One{}),
+				ActualInput:   reflect.TypeOf([]string{}),
+				ExpectedInput: reflect.TypeOf([]string{}),
+			},
 		},
 	}
 )

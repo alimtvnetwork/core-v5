@@ -44,7 +44,7 @@ func (it *DirFilesWithContent) GetFilesChmodMap() *corestr.Hashmap {
 	return hashmap
 }
 
-func (it *DirFilesWithContent) CreateUsingFileMode(
+func (it *DirFilesWithContent) Create(
 	isRemoveBeforeCreate bool,
 ) error {
 	var sliceErr []string
@@ -53,7 +53,7 @@ func (it *DirFilesWithContent) CreateUsingFileMode(
 	removeDirErr := removeDirIf(
 		isRemoveBeforeCreate,
 		it.Dir,
-		"CreateUsingFileMode",
+		"Create",
 	)
 
 	if removeDirErr != nil {

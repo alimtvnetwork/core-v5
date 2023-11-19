@@ -9,8 +9,8 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
-func Test_SimpleFileWriter(t *testing.T) {
-	for caseIndex, testCase := range simpleFileWriterTestCases {
+func Test_DirFilesWithContent_Create_Read_Verification(t *testing.T) {
+	for caseIndex, testCase := range dirFilesWithContentCreateReadTestCases {
 		// Arrange
 		inputs := testCase.
 			ArrangeInput.([]args.One)
@@ -24,16 +24,14 @@ func Test_SimpleFileWriter(t *testing.T) {
 			files := parameter.First.([]chmodhelper.DirFilesWithContent)
 
 			for _, dirFiles := range files {
-				err := dirFiles.CreateUsingFileMode(
-					true,
-				)
+				err := dirFiles.Create(true)
 
 				errcore.HandleErr(err)
 
 				for _, file := range dirFiles.Files {
-					lines, err2 := file.ReadLines(dirFiles.Dir)
+					lines, readErr := file.ReadLines(dirFiles.Dir)
 
-					errcore.HandleErr(err2)
+					errcore.HandleErr(readErr)
 
 					actualSlice.AppendFmt(
 						"%d : %s",
@@ -50,7 +48,6 @@ func Test_SimpleFileWriter(t *testing.T) {
 					}
 				}
 			}
-
 		}
 
 		finalActLines := actualSlice.Strings()
