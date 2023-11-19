@@ -3,9 +3,11 @@ package chmodhelper
 import (
 	"errors"
 	"os"
+	"path/filepath"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/internal/osconstsinternal"
+	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
 type fileWriter struct {
@@ -45,7 +47,8 @@ func (it fileWriter) AllLock(
 		isCreateDirOnRequired,
 		parentDirPath,
 		writingFilePath,
-		contentsBytes)
+		contentsBytes,
+	)
 }
 
 // All
@@ -75,7 +78,8 @@ func (it fileWriter) All(
 	dirErr := dirCreator{}.If(
 		isCreateDirOnRequired,
 		chmodDir,
-		parentDirPath)
+		parentDirPath,
+	)
 
 	if dirErr != nil {
 		return dirErr
@@ -84,7 +88,8 @@ func (it fileWriter) All(
 	err := os.WriteFile(
 		writingFilePath,
 		contentsBytes,
-		chmodFile)
+		chmodFile,
+	)
 
 	if err != nil {
 		return errors.New(
@@ -93,7 +98,8 @@ func (it fileWriter) All(
 				"contents : " + corejson.BytesToString(contentsBytes) +
 				", chmod file :" + chmodFile.String() + ", " +
 				", chmod dir :" + chmodDir.String() + ", " +
-				err.Error())
+				err.Error(),
+		)
 	}
 
 	isNotApplyChmod := !isApplyChmodMust
@@ -109,4 +115,19 @@ func (it fileWriter) All(
 
 	// not equal or apply anyway
 	return ChmodApply.Default(chmodFile, writingFilePath)
+}
+
+func (it fileWriter) BaseDir(filePath string) string {
+	parentDir := pathinternal.Join(
+		filepath.Dir(writingFilePath),
+	)
+}
+
+func (it fileWriter) Chmod(
+	chmodDir os.FileMode,
+	chmodFile os.FileMode,
+	filePath string,
+	contentsBytes []byte,
+) error {
+	parentDir := path.ba
 }
