@@ -2,7 +2,7 @@ package coretests
 
 import (
 	"reflect"
-	
+
 	"gitlab.com/auk-go/core/issetter"
 )
 
@@ -18,6 +18,15 @@ type VerifyTypeOf struct {
 	ArrangeInput  reflect.Type   // Verify type for the BaseTestCase.ArrangeInput
 	ActualInput   reflect.Type   // Verify type for the BaseTestCase.ActualInput, must set BaseTestCase.SetActual
 	ExpectedInput reflect.Type   // Verify type for the BaseTestCase.ExpectedInput
+}
+
+func NewVerifyTypeOf(arrange interface{}) *VerifyTypeOf {
+	return &VerifyTypeOf{
+		IsVerify:      issetter.True,
+		ArrangeInput:  reflect.TypeOf(arrange),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf([]string{}),
+	}
 }
 
 func (it *VerifyTypeOf) IsDefined() bool {
