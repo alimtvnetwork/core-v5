@@ -96,7 +96,10 @@ func (it dirCreator) ByChecking(
 	)
 
 	if err == nil {
-		curErr := os.Chmod(dirPath, applyChmod)
+		curErr := os.Chmod(
+			dirPath,
+			applyChmod,
+		)
 
 		return newError.chmodApplyFailed(
 			applyChmod,
