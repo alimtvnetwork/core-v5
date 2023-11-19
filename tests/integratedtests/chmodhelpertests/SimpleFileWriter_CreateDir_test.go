@@ -150,7 +150,7 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileWriter_CreateDir_Direct_Fails_If_Dir_AlreadyExists(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail(t *testing.T) {
 	temp := pathinternal.GetTemp()
 
 	for caseIndex, testCase := range createDirDirectTestCases {
@@ -174,7 +174,7 @@ func Test_SimpleFileWriter_CreateDir_Direct_Fails_If_Dir_AlreadyExists(t *testin
 
 			pathinternal.RemoveDirMust(
 				dir,
-				"Test_SimpleFileWriter_CreateDir_Direct_Fails_If_Dir_AlreadyExists",
+				"Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail",
 			)
 
 			for fileIndex, file := range input.Files {
@@ -202,7 +202,7 @@ func Test_SimpleFileWriter_CreateDir_Direct_Fails_If_Dir_AlreadyExists(t *testin
 
 				if iserror.Defined(finalErr) {
 					actualSlice.AppendFmt(
-						"%d - %d : %s - is exist already, err: %s",
+						"%d - %d : %s - is exist already file but not dir, err: %s",
 						i,
 						fileIndex,
 						relPath,

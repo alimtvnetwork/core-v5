@@ -58,7 +58,37 @@ func (it dirCreator) IfMissing(
 	}
 
 	// has err
-	return pathError(
+	return newError.pathError(
+		"dir creation failed",
+		applyChmod,
+		dirPath,
+		err,
+	)
+}
+
+// ByChecking
+//
+// Check only if the dir is missing and apply chmod
+// if there is a mismatch
+func (it dirCreator) ByChecking(
+	applyChmod os.FileMode,
+	dirPath string,
+) error {
+	if IsPathExists(dirPath) {
+		return nil
+	}
+
+	err := os.MkdirAll(
+		dirPath,
+		applyChmod,
+	)
+
+	if err == nil {
+		return nil
+	}
+
+	// has err
+	return newError.pathError(
 		"dir creation failed",
 		applyChmod,
 		dirPath,
@@ -96,7 +126,7 @@ func (it dirCreator) Default(
 	}
 
 	// has err
-	return createDirError(dirPath, err)
+	return newError.dirError(dirPath, err)
 }
 
 func (it dirCreator) DirectLock(
@@ -125,5 +155,5 @@ func (it dirCreator) Direct(
 		return nil
 	}
 
-	return createDirError(dirPath, err)
+	return newError.dirError(dirPath, err)
 }
