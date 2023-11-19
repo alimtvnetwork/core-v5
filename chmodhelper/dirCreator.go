@@ -58,7 +58,7 @@ func (it dirCreator) IfMissing(
 	}
 
 	// has err
-	return newError.pathError(
+	return newError.pathErrorWithDirValidate(
 		"dir creation failed",
 		applyChmod,
 		dirPath,
@@ -99,7 +99,7 @@ func (it dirCreator) ByChecking(
 	}
 
 	// has err
-	return newError.pathError(
+	return newError.pathErrorWithDirValidate(
 		"dir creation failed",
 		applyChmod,
 		dirPath,
