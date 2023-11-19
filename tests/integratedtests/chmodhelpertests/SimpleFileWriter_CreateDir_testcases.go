@@ -56,7 +56,7 @@ var (
 
 	createDirDirectTestCases = []coretestcases.CaseV1{
 		{
-			Title: "create dir check - if-missing",
+			Title: "create dir check - direct create - if exist fails",
 			ArrangeInput: []chmodhelper.DirWithFiles{
 				{
 					Dir: dirCreateBasePath,
@@ -68,9 +68,9 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				"0 - 0 : core\\case-dir-create\\if-missing\\some-dir - isCreated : true",
-				"0 - 1 : core\\case-dir-create\\if-missing\\some-dir-2 - isCreated : true",
-				"0 - 2 : core\\case-dir-create\\if-missing\\some-dir-3 - isCreated : true",
+				"0 - 0 : core\\case-dir-create\\direct-create\\some-dir\\first.txt - is exist already, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 1 : core\\case-dir-create\\direct-create\\some-dir-2\\first.txt - is exist already, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 2 : core\\case-dir-create\\direct-create\\some-dir-3\\first.txt - is exist already, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]chmodhelper.DirWithFiles{}),
 		},

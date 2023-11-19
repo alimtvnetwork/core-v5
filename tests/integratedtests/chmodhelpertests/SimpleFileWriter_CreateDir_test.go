@@ -2,6 +2,7 @@ package chmodhelpertests
 
 import (
 	"path/filepath"
+	"strings"
 	"testing"
 
 	"gitlab.com/auk-go/core/chmodhelper"
@@ -102,7 +103,7 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 
 			pathinternal.RemoveDirMust(
 				dir,
-				"Test_SimpleFileWriter_CreateDir_Verification",
+				"Test_SimpleFileWriter_CreateDir_IfMissing_Verification",
 			)
 
 			for fileIndex, file := range input.Files {
@@ -133,6 +134,86 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 						fileIndex,
 						relPath,
 						chmodhelper.IsPathExists(parentDir),
+					)
+				}
+			}
+		}
+
+		finalActLines := actualSlice.Strings()
+
+		// Assert
+		testCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActLines...,
+		)
+	}
+}
+
+func Test_SimpleFileWriter_CreateDir_Direct_Fails_If_Dir_AlreadyExists(t *testing.T) {
+	temp := pathinternal.GetTemp()
+
+	for caseIndex, testCase := range createDirDirectTestCases {
+		// Arrange
+		inputs := testCase.
+			ArrangeInput.([]chmodhelper.DirWithFiles)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+		createDir := chmodhelper.
+			SimpleFileWriter.
+			CreateDir
+		fileWriter := chmodhelper.
+			SimpleFileWriter.
+			FileWriter
+
+		// Act
+		for i, input := range inputs {
+			dir := input.Dir
+
+			pathinternal.RemoveDirMust(
+				dir,
+				"Test_SimpleFileWriter_CreateDir_Direct_Fails_If_Dir_AlreadyExists",
+			)
+
+			for fileIndex, file := range input.Files {
+				finalPath := pathinternal.Join(dir, file)
+
+				err := fileWriter.String.Default(
+					finalPath,
+					"",
+				)
+
+				errcore.HandleErr(err)
+
+				finalErr := createDir.Direct(
+					finalPath,
+				)
+
+				errorString := errcore.ToString(finalErr)
+				errorString = strings.ReplaceAll(
+					errorString,
+					finalPath,
+					"",
+				)
+
+				relPath, _ := filepath.Rel(temp, finalPath)
+
+				if iserror.Defined(finalErr) {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - is exist already, err: %s",
+						i,
+						fileIndex,
+						relPath,
+						errorString,
+					)
+				} else {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - no error during 2nd invoke of createDir.Direct",
+						i,
+						fileIndex,
+						relPath,
 					)
 				}
 			}

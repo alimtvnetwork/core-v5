@@ -1,7 +1,6 @@
 package chmodhelper
 
 import (
-	"errors"
 	"os"
 )
 
@@ -20,7 +19,8 @@ func (it dirCreator) If(
 	}
 
 	return it.IfMissing(
-		chmod, dirPath,
+		chmod,
+		dirPath,
 	)
 }
 
@@ -96,11 +96,7 @@ func (it dirCreator) Default(
 	}
 
 	// has err
-	return errors.New(
-		"dir : " + dirPath +
-			", applyChmod :" + applyChmod.String() +
-			", " + err.Error(),
-	)
+	return createDirError(dirPath, err)
 }
 
 func (it dirCreator) DirectLock(
@@ -129,10 +125,5 @@ func (it dirCreator) Direct(
 		return nil
 	}
 
-	// has err
-	return errors.New(
-		"dir : " + dirPath +
-			", applyChmod :" + dirDefaultChmod.String() +
-			", " + err.Error(),
-	)
+	return createDirError(dirPath, err)
 }
