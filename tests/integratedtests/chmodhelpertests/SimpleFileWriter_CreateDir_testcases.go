@@ -61,16 +61,38 @@ var (
 				{
 					Dir: dirCreateBasePath,
 					Files: []string{
-						"/direct-create/some-dir/first.txt",
-						"/direct-create/some-dir-2/first.txt",
-						"/direct-create/some-dir-3/first.txt",
+						"/first.txt",
+						"/f/first.txt",
+						"/s/first.txt",
 					},
 				},
 			},
 			ExpectedInput: []string{
-				"0 - 0 : core\\case-dir-create\\direct-create\\some-dir\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
-				"0 - 1 : core\\case-dir-create\\direct-create\\some-dir-2\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
-				"0 - 2 : core\\case-dir-create\\direct-create\\some-dir-3\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 0 : core\\case-dir-create\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 1 : core\\case-dir-create\\f\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 2 : core\\case-dir-create\\s\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+			},
+			VerifyTypeOf: coretests.NewVerifyTypeOf([]chmodhelper.DirWithFiles{}),
+		},
+	}
+
+	createDirByCheckingTestCases = []coretestcases.CaseV1{
+		{
+			Title: "create dir check - direct create - if exist fails",
+			ArrangeInput: []chmodhelper.DirWithFiles{
+				{
+					Dir: dirCreateBasePath,
+					Files: []string{
+						"/first.txt",
+						"/f/first.txt",
+						"/s/first.txt",
+					},
+				},
+			},
+			ExpectedInput: []string{
+				"0 - 0 : core\\case-dir-create\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 1 : core\\case-dir-create\\f\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
+				"0 - 2 : core\\case-dir-create\\s\\first.txt - already exist as file, err: dir : , applyChmod :-rwxr-xr-x, path exist but it is not a dir.",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]chmodhelper.DirWithFiles{}),
 		},

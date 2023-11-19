@@ -69,6 +69,8 @@ func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
 					)
 				}
 			}
+
+			pathinternal.RemoveDirMustSimple(dir)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -137,6 +139,8 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 					)
 				}
 			}
+
+			pathinternal.RemoveDirMustSimple(dir)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -151,6 +155,89 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 }
 
 func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail(t *testing.T) {
+	temp := pathinternal.GetTemp()
+
+	for caseIndex, testCase := range createDirDirectTestCases {
+		// Arrange
+		inputs := testCase.
+			ArrangeInput.([]chmodhelper.DirWithFiles)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+		createDir := chmodhelper.
+			SimpleFileWriter.
+			CreateDir
+		fileWriter := chmodhelper.
+			SimpleFileWriter.
+			FileWriter
+
+		// Act
+		for i, input := range inputs {
+			dir := input.Dir
+
+			pathinternal.RemoveDirMust(
+				dir,
+				"Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail",
+			)
+
+			for fileIndex, file := range input.Files {
+				finalPath := pathinternal.Join(dir, file)
+
+				err := fileWriter.String.Default(
+					finalPath,
+					"",
+				)
+
+				errcore.HandleErr(err)
+
+				finalErr := createDir.ByChecking(
+					filemode.DirDefault,
+					finalPath,
+				)
+
+				errorString := errcore.ToString(finalErr)
+				errorString = strings.ReplaceAll(
+					errorString,
+					finalPath,
+					"",
+				)
+
+				relPath, _ := filepath.Rel(temp, finalPath)
+
+				if iserror.Defined(finalErr) {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - already exist as file, err: %s",
+						i,
+						fileIndex,
+						relPath,
+						errorString,
+					)
+				} else {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - no error during 2nd invoke of createDir.Direct",
+						i,
+						fileIndex,
+						relPath,
+					)
+				}
+			}
+
+			pathinternal.RemoveDirMustSimple(dir)
+		}
+
+		finalActLines := actualSlice.Strings()
+
+		// Assert
+		testCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActLines...,
+		)
+	}
+}
+
+func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Failx(t *testing.T) {
 	temp := pathinternal.GetTemp()
 
 	for caseIndex, testCase := range createDirDirectTestCases {
@@ -217,6 +304,8 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 					)
 				}
 			}
+
+			pathinternal.RemoveDirMustSimple(dir)
 		}
 
 		finalActLines := actualSlice.Strings()

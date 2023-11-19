@@ -73,7 +73,10 @@ func (it dirCreator) ByChecking(
 	applyChmod os.FileMode,
 	dirPath string,
 ) error {
-	if IsPathExists(dirPath) && IsDirectory(dirPath) {
+	isExists := IsPathExists(dirPath)
+	isDir := IsDirectory(dirPath)
+
+	if isExists && isDir {
 		curErr := os.Chmod(dirPath, applyChmod)
 
 		return newError.chmodApplyFailed(
@@ -81,6 +84,10 @@ func (it dirCreator) ByChecking(
 			dirPath,
 			curErr,
 		)
+	}
+
+	if isExists && !isDir {
+		return newError.notDirError(dirPath)
 	}
 
 	err := os.MkdirAll(

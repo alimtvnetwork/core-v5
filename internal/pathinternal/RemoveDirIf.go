@@ -48,3 +48,15 @@ func RemoveDirMust(dir string, funcName string) {
 		panic(removeErr)
 	}
 }
+
+func RemoveDirMustSimple(dir string) {
+	removeErr := RemoveDirIf(
+		true,
+		dir,
+		"",
+	)
+
+	if removeErr != nil {
+		panic(removeErr)
+	}
+}
