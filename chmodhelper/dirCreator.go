@@ -20,7 +20,8 @@ func (it dirCreator) If(
 	}
 
 	return it.IfMissing(
-		chmod, dirPath)
+		chmod, dirPath,
+	)
 }
 
 func (it dirCreator) IfMissingLock(
@@ -32,9 +33,13 @@ func (it dirCreator) IfMissingLock(
 
 	return it.IfMissing(
 		applyChmod,
-		dirPath)
+		dirPath,
+	)
 }
 
+// IfMissing
+//
+// Only create dir if missing.
 func (it dirCreator) IfMissing(
 	applyChmod os.FileMode,
 	dirPath string,
@@ -45,7 +50,8 @@ func (it dirCreator) IfMissing(
 
 	err := os.MkdirAll(
 		dirPath,
-		applyChmod)
+		applyChmod,
+	)
 
 	if err == nil {
 		return nil
@@ -56,7 +62,8 @@ func (it dirCreator) IfMissing(
 		"dir creation failed",
 		applyChmod,
 		dirPath,
-		err)
+		err,
+	)
 }
 
 func (it dirCreator) DefaultLock(
@@ -68,16 +75,21 @@ func (it dirCreator) DefaultLock(
 
 	return it.Default(
 		applyChmod,
-		dirPath)
+		dirPath,
+	)
 }
 
+// Default
+//
+// Direct try to create without checking if directory exists.
 func (it dirCreator) Default(
 	applyChmod os.FileMode,
 	dirPath string,
 ) error {
 	err := os.MkdirAll(
 		dirPath,
-		applyChmod)
+		applyChmod,
+	)
 
 	if err == nil {
 		return nil
@@ -87,7 +99,8 @@ func (it dirCreator) Default(
 	return errors.New(
 		"dir : " + dirPath +
 			", applyChmod :" + applyChmod.String() +
-			", " + err.Error())
+			", " + err.Error(),
+	)
 }
 
 func (it dirCreator) DirectLock(
@@ -97,7 +110,8 @@ func (it dirCreator) DirectLock(
 	defer globalMutex.Unlock()
 
 	return it.Direct(
-		dirPath)
+		dirPath,
+	)
 }
 
 // Direct
@@ -108,7 +122,8 @@ func (it dirCreator) Direct(
 ) error {
 	err := os.MkdirAll(
 		dirPath,
-		dirDefaultChmod)
+		dirDefaultChmod,
+	)
 
 	if err == nil {
 		return nil
@@ -118,5 +133,6 @@ func (it dirCreator) Direct(
 	return errors.New(
 		"dir : " + dirPath +
 			", applyChmod :" + dirDefaultChmod.String() +
-			", " + err.Error())
+			", " + err.Error(),
+	)
 }

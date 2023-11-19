@@ -12,7 +12,7 @@ import (
 	"gitlab.com/auk-go/core/iserror"
 )
 
-func Test_SimpleFileWriter_CreateDir_Verification(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
 
 	for caseIndex, testCase := range createDirTestCases {
@@ -67,7 +67,74 @@ func Test_SimpleFileWriter_CreateDir_Verification(t *testing.T) {
 						chmodhelper.IsPathExists(parentDir),
 					)
 				}
+			}
+		}
 
+		finalActLines := actualSlice.Strings()
+
+		// Assert
+		testCase.AssertEqual(
+			t,
+			caseIndex,
+			finalActLines...,
+		)
+	}
+}
+
+func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
+	temp := pathinternal.GetTemp()
+
+	for caseIndex, testCase := range createDirIfMissingTestCases {
+		// Arrange
+		inputs := testCase.
+			ArrangeInput.([]chmodhelper.DirWithFiles)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(len(inputs))
+		createDir := chmodhelper.
+			SimpleFileWriter.
+			CreateDir
+
+		// Act
+		for i, input := range inputs {
+			dir := input.Dir
+
+			pathinternal.RemoveDirMust(
+				dir,
+				"Test_SimpleFileWriter_CreateDir_Verification",
+			)
+
+			for fileIndex, file := range input.Files {
+				finalPath := pathinternal.Join(dir, file)
+				parentDir := pathinternal.ParentDir(finalPath)
+
+				err := createDir.IfMissing(
+					filemode.DirDefault,
+					parentDir,
+				)
+
+				errcore.HandleErr(err)
+				relPath, _ := filepath.Rel(temp, parentDir)
+
+				if iserror.Defined(err) {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - isCreated : %t, err: %s",
+						i,
+						fileIndex,
+						relPath,
+						chmodhelper.IsPathExists(parentDir),
+						errcore.ToString(err),
+					)
+				} else {
+					actualSlice.AppendFmt(
+						"%d - %d : %s - isCreated : %t",
+						i,
+						fileIndex,
+						relPath,
+						chmodhelper.IsPathExists(parentDir),
+					)
+				}
 			}
 		}
 
