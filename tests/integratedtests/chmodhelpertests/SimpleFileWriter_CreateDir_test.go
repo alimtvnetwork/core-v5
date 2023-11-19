@@ -5,48 +5,47 @@ import (
 
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/filemode"
+	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
 func Test_SimpleFileWriter_CreateDir_Verification(t *testing.T) {
-	for caseIndex, testCase := range dirFilesWithContentCreateReadTestCases {
+	for caseIndex, testCase := range createDirTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.One)
+			ArrangeInput.([]chmodhelper.DirWithFiles)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
 			Cap(len(inputs))
+		createDir := chmodhelper.
+			SimpleFileWriter.
+			CreateDir
 
 		// Act
-		for i, parameter := range inputs {
-			files := parameter.First.([]chmodhelper.DirFilesWithContent)
+		for i, input := range inputs {
+			dir := input.Dir
+			for fileIndex, file := range input.Files {
+				finalPath := pathinternal.Join(dir, file)
+				parentDir := pathinternal.ParentDir(finalPath)
 
-			for _, dirFiles := range files {
-				err := dirFiles.Create(true)
+				err := createDir.If(
+					true,
+					filemode.DirDefault,
+					parentDir,
+				)
 
 				errcore.HandleErr(err)
 
-				for _, file := range dirFiles.Files {
-					lines, readErr := file.ReadLines(dirFiles.Dir)
-
-					errcore.HandleErr(readErr)
-
-					actualSlice.AppendFmt(
-						"%d : %s",
-						i,
-						file.RelativePath,
-					)
-
-					for lineIndex, line := range lines {
-						actualSlice.AppendFmt(
-							"         %d. %s",
-							lineIndex,
-							line,
-						)
-					}
-				}
+				actualSlice.AppendFmt(
+					"%d - %d : %s - isCreated : %t, err: %s",
+					i,
+					fileIndex,
+					parentDir,
+					chmodhelper.IsPathExists(parentDir),
+					errcore.ToString(err),
+				)
 			}
 		}
 

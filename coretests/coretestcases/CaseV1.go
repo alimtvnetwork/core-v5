@@ -25,6 +25,10 @@ func (it *CaseV1) SetActual(actual interface{}) {
 	it.ActualInput = actual
 }
 
+func (it *CaseV1) CaseTitle() string {
+	return it.Title
+}
+
 func (it *CaseV1) SetExpected(expected interface{}) {
 	it.ExpectedInput = expected
 }
@@ -72,7 +76,8 @@ func (it CaseV1) VerifyAll(
 
 	return it.VerifyAllSliceValidator(
 		caseIndex,
-		sliceValidator)
+		sliceValidator,
+	)
 }
 
 func (it CaseV1) VerifyFirst(
@@ -122,7 +127,8 @@ func (it CaseV1) VerifyError(
 	validationFinalError := it.VerifyAll(
 		caseIndex,
 		compareAs,
-		actualElements)
+		actualElements,
+	)
 
 	if toBaseTestCase.IsTypeInvalidOrSkipVerify() {
 		return validationFinalError
@@ -132,7 +138,8 @@ func (it CaseV1) VerifyError(
 
 	return errcore.MergeErrors(
 		validationFinalError,
-		typeVerifyErr)
+		typeVerifyErr,
+	)
 }
 
 func (it CaseV1) Assert(
@@ -145,13 +152,17 @@ func (it CaseV1) Assert(
 	validationFinalError := it.VerifyAll(
 		caseIndex,
 		compareAs,
-		actualElements)
+		actualElements,
+	)
 
-	convey.Convey(toBaseTestCase.Title, t, func() {
-		convey.So(
-			validationFinalError,
-			should.BeNil)
-	})
+	convey.Convey(
+		toBaseTestCase.Title, t, func() {
+			convey.So(
+				validationFinalError,
+				should.BeNil,
+			)
+		},
+	)
 
 	if toBaseTestCase.IsTypeInvalidOrSkipVerify() {
 		return validationFinalError
@@ -161,7 +172,8 @@ func (it CaseV1) Assert(
 
 	return errcore.MergeErrors(
 		validationFinalError,
-		typeVerifyErr)
+		typeVerifyErr,
+	)
 }
 
 func (it CaseV1) AssertType(
@@ -171,13 +183,17 @@ func (it CaseV1) AssertType(
 	typeVerifyErr := baseCase.TypeValidationError()
 	typeVerifyTitle := fmt.Sprintf(
 		typeVerifyTitleFormat,
-		it.Title)
+		it.Title,
+	)
 
-	convey.Convey(typeVerifyTitle, t, func() {
-		convey.So(
-			typeVerifyErr,
-			should.BeNil)
-	})
+	convey.Convey(
+		typeVerifyTitle, t, func() {
+			convey.So(
+				typeVerifyErr,
+				should.BeNil,
+			)
+		},
+	)
 
 	return typeVerifyErr
 }
@@ -187,10 +203,63 @@ func (it CaseV1) AssertEqual(
 	caseIndex int,
 	actualElements ...string,
 ) {
-	_ = it.Assert(t,
+	_ = it.Assert(
+		t,
 		caseIndex,
 		stringcompareas.Equal,
-		actualElements...)
+		actualElements...,
+	)
+}
+
+func (it CaseV1) AssertNoError(
+	t *testing.T,
+	additionalTitle string,
+	caseIndex int,
+	err error,
+) {
+	finalTitle := fmt.Sprintf(
+		"%d - %s - %s",
+		caseIndex,
+		it.CaseTitle(),
+		additionalTitle,
+	)
+
+	convey.Convey(
+		finalTitle, t, func() {
+			convey.So(
+				err,
+				should.BeNil,
+			)
+		},
+	)
+}
+
+func (it CaseV1) AssertDirect(
+	t *testing.T,
+	additionalTitle string,
+	msg string,
+	caseIndex int,
+	actual interface{},
+	assertion convey.Assertion,
+	expectation interface{},
+) {
+	finalTitle := fmt.Sprintf(
+		"%d - %s - %s",
+		caseIndex,
+		it.CaseTitle(),
+		additionalTitle,
+	)
+
+	convey.Convey(
+		finalTitle, t, func() {
+			convey.SoMsg(
+				msg,
+				actual,
+				assertion,
+				expectation,
+			)
+		},
+	)
 }
 
 func (it CaseV1) AsBaseTestCase() coretests.BaseTestCase {

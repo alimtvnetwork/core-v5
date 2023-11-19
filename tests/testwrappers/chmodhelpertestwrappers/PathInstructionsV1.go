@@ -1,8 +1,7 @@
-package chmodhelpertests
+package chmodhelpertestwrappers
 
 import (
 	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 var PathInstructionsV1 = []chmodhelper.DirFilesWithRwxPermission{
@@ -15,7 +14,7 @@ var PathInstructionsV1 = []chmodhelper.DirFilesWithRwxPermission{
 				"file-3.txt",
 			},
 		},
-		ApplyRwx: chmodhelpertestwrappers.DefaultRwx,
+		ApplyRwx: DefaultRwx,
 	},
 	{
 		DirWithFiles: chmodhelper.DirWithFiles{
@@ -26,6 +25,6 @@ var PathInstructionsV1 = []chmodhelper.DirFilesWithRwxPermission{
 				"file-3.txt",
 			},
 		},
-		ApplyRwx: chmodhelpertestwrappers.DefaultRwx,
+		ApplyRwx: DefaultRwx,
 	},
 }

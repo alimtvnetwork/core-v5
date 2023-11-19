@@ -2,7 +2,6 @@ package chmodhelpertestwrappers
 
 import (
 	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/tests/integratedtests/chmodhelpertests"
 )
 
 // RwxInstructionsApplyTestCases https://ss64.com/bash/chmod.html
@@ -24,7 +23,7 @@ var RwxInstructionsApplyTestCases = []RwxInstructionTestWrapper{
 		},
 		DefaultRwx:      &DefaultRwx,
 		IsErrorExpected: false,
-		CreatePaths:     chmodhelpertests.PathInstructionsV1,
+		CreatePaths:     PathInstructionsV1,
 		TestFuncName:    RwxApplyOnPath,
 		WhatIsExpected:  DefaultExpected,
 	},

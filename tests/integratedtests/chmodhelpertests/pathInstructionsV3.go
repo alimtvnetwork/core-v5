@@ -7,11 +7,11 @@ import (
 )
 
 var (
-	defaultDir = pathinternal.JoinTemp("core", "case-v3")
+	defaultCaseDirV3 = pathinternal.JoinTemp("core", "case-v3")
 
 	pathInstructionsV3 = []chmodhelper.DirFilesWithContent{
 		{
-			Dir: defaultDir,
+			Dir: defaultCaseDirV3,
 			Files: []chmodhelper.FileWithContent{
 				{
 					RelativePath: "file-1.txt",
