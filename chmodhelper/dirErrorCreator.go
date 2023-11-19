@@ -64,3 +64,22 @@ func (it errorCreator) pathError(
 
 	return errors.New(compiledMessage)
 }
+
+func (it errorCreator) chmodApplyFailed(
+	applyChmod os.FileMode,
+	location string,
+	err error,
+) error {
+	if err == nil {
+		return nil
+	}
+
+	compiledMessage := pathErrorMessage(
+		"chmod apply failed",
+		applyChmod,
+		location,
+		err,
+	)
+
+	return errors.New(compiledMessage)
+}

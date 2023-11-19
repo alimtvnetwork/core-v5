@@ -68,14 +68,19 @@ func (it dirCreator) IfMissing(
 
 // ByChecking
 //
-// Check only if the dir is missing and apply chmod
-// if there is a mismatch
+// Check only if the dir is missing and apply chmod.
 func (it dirCreator) ByChecking(
 	applyChmod os.FileMode,
 	dirPath string,
 ) error {
-	if IsPathExists(dirPath) {
-		return nil
+	if IsPathExists(dirPath) && IsDirectory(dirPath) {
+		curErr := os.Chmod(dirPath, applyChmod)
+
+		return newError.chmodApplyFailed(
+			applyChmod,
+			dirPath,
+			curErr,
+		)
 	}
 
 	err := os.MkdirAll(
@@ -84,7 +89,13 @@ func (it dirCreator) ByChecking(
 	)
 
 	if err == nil {
-		return nil
+		curErr := os.Chmod(dirPath, applyChmod)
+
+		return newError.chmodApplyFailed(
+			applyChmod,
+			dirPath,
+			curErr,
+		)
 	}
 
 	// has err
