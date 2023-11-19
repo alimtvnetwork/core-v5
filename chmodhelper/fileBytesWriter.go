@@ -2,7 +2,8 @@ package chmodhelper
 
 import (
 	"os"
-	"path/filepath"
+
+	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
 type fileBytesWriter struct{}
@@ -23,7 +24,8 @@ func (it fileBytesWriter) WithDirChmodLock(
 		chmodDir,
 		chmodFile,
 		writingFilePath,
-		contentsBytes)
+		contentsBytes,
+	)
 }
 
 // WithDirChmod
@@ -35,8 +37,7 @@ func (it fileBytesWriter) WithDirChmod(
 	writingFilePath string,
 	contentsBytes []byte,
 ) error {
-	parentDir := filepath.Clean(
-		filepath.Dir(writingFilePath))
+	parentDir := pathinternal.ParentDir(writingFilePath)
 
 	return fileWriter{}.All(
 		chmodDir,
@@ -46,7 +47,8 @@ func (it fileBytesWriter) WithDirChmod(
 		true,
 		parentDir,
 		writingFilePath,
-		contentsBytes)
+		contentsBytes,
+	)
 }
 
 // Chmod
@@ -58,8 +60,7 @@ func (it fileBytesWriter) Chmod(
 	writingFilePath string,
 	contentsBytes []byte,
 ) error {
-	parentDir := filepath.Clean(
-		filepath.Dir(writingFilePath))
+	parentDir := pathinternal.ParentDir(writingFilePath)
 
 	return fileWriter{}.All(
 		chmodDir,
@@ -69,7 +70,8 @@ func (it fileBytesWriter) Chmod(
 		true,
 		parentDir,
 		writingFilePath,
-		contentsBytes)
+		contentsBytes,
+	)
 }
 
 func (it fileBytesWriter) WithDirLock(
@@ -81,7 +83,8 @@ func (it fileBytesWriter) WithDirLock(
 
 	return it.WithDir(
 		writingFilePath,
-		contentsBytes)
+		contentsBytes,
+	)
 }
 
 // WithDir
@@ -95,7 +98,8 @@ func (it fileBytesWriter) WithDir(
 		dirDefaultChmod,
 		fileDefaultChmod,
 		writingFilePath,
-		contentsBytes)
+		contentsBytes,
+	)
 }
 
 // Default
@@ -109,5 +113,6 @@ func (it fileBytesWriter) Default(
 		dirDefaultChmod,
 		fileDefaultChmod,
 		writingFilePath,
-		contentsBytes)
+		contentsBytes,
+	)
 }

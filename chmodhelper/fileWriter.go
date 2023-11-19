@@ -3,7 +3,6 @@ package chmodhelper
 import (
 	"errors"
 	"os"
-	"path/filepath"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/internal/osconstsinternal"
@@ -117,10 +116,8 @@ func (it fileWriter) All(
 	return ChmodApply.Default(chmodFile, writingFilePath)
 }
 
-func (it fileWriter) BaseDir(filePath string) string {
-	parentDir := pathinternal.Join(
-		filepath.Dir(writingFilePath),
-	)
+func (it fileWriter) ParentDir(filePath string) string {
+	return pathinternal.ParentDir(filePath)
 }
 
 func (it fileWriter) Chmod(
@@ -129,5 +126,35 @@ func (it fileWriter) Chmod(
 	filePath string,
 	contentsBytes []byte,
 ) error {
-	parentDir := path.ba
+	parentDir := it.ParentDir(filePath)
+
+	return it.All(
+		chmodDir,
+		chmodFile,
+		true,
+		true,
+		true,
+		parentDir,
+		filePath,
+		contentsBytes,
+	)
+}
+
+func (it fileWriter) ChmodFile(
+	chmodFile os.FileMode,
+	filePath string,
+	contentsBytes []byte,
+) error {
+	parentDir := it.ParentDir(filePath)
+
+	return it.All(
+		dirDefaultChmod,
+		chmodFile,
+		true,
+		true,
+		true,
+		parentDir,
+		filePath,
+		contentsBytes,
+	)
 }
