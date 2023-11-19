@@ -1,10 +1,26 @@
 package pathinternal
 
 var (
-	replacerMap = []fromToReplacer{
+	replacers = []fromToReplacer{
 		{
 			from: "////",
-			To:   "//",
+			to:   "/",
+		},
+		{
+			from: "///",
+			to:   "/",
+		},
+		{
+			from: "//",
+			to:   "/",
+		},
+		{
+			from: "\\\\",
+			to:   "/",
+		},
+		{
+			from: "\\",
+			to:   "/",
 		},
 	}
 )
