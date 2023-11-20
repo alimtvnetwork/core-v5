@@ -26,10 +26,10 @@ const (
 	//
 	// Index, Title, Input, Actual, Expected
 	QuickIndexTitleInputActualExpectedMessageFormat = "----------------------\n" +
-		"%d )\tTitle:%#v\n\t\t" +
-		"   Input:`%#v` ,\n\t\t" +
-		"  Actual:`%#v` ,\n\t\t" +
-		"Expected:`%#v`"
+		"%d )\tTitle:%#v\n" +
+		"   Input:`%#v` ,\n\n" +
+		"  Actual:\n  `%#v` ,\n\n" +
+		"Expected:\n  `%#v`"
 
 	PrintWhenActualAndExpectedProcessedFormat = "" +
 		"\n%d )" +

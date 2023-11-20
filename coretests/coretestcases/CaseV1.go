@@ -21,6 +21,25 @@ import (
 //   - Will verify type using VerifyTypeOf
 type CaseV1 coretests.BaseTestCase
 
+func (it *CaseV1) Input() interface{} {
+	return it.ArrangeInput
+}
+
+func (it *CaseV1) Expected() interface{} {
+	return it.Expected()
+}
+
+// Actual
+//
+// Must SetActual first.
+func (it *CaseV1) Actual() interface{} {
+	return it.ActualInput
+}
+
+func (it *CaseV1) AsSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
+	return it
+}
+
 func (it *CaseV1) SetActual(actual interface{}) {
 	it.ActualInput = actual
 }
@@ -264,4 +283,8 @@ func (it CaseV1) AssertDirect(
 
 func (it CaseV1) AsBaseTestCase() coretests.BaseTestCase {
 	return coretests.BaseTestCase(it)
+}
+
+func (it CaseV1) asSimpleTestCaseWrapperContractsBinder() coretests.SimpleTestCaseWrapperContractsBinder {
+	return &it
 }

@@ -44,7 +44,8 @@ func (it *BaseTestCase) TypesValidationMustPasses(t *testing.T) {
 	if err != nil {
 		t.Error(
 			"any one of the type validation failed",
-			err.Error())
+			err.Error(),
+		)
 	}
 }
 
@@ -149,7 +150,9 @@ func (it *BaseTestCase) TypeValidationError() error {
 			errcore.ExpectingSimpleNoType(
 				"Arrange Type Mismatch",
 				verifyOf.ArrangeInput,
-				arrangeInputActualType))
+				arrangeInputActualType,
+			),
+		)
 	}
 
 	if reflectinternal.IsNotNull(it.ActualInput) && actualInputActualType != verifyOf.ActualInput {
@@ -158,7 +161,9 @@ func (it *BaseTestCase) TypeValidationError() error {
 			errcore.ExpectingSimpleNoType(
 				"Actual Type Mismatch",
 				verifyOf.ActualInput,
-				actualInputActualType))
+				actualInputActualType,
+			),
+		)
 	}
 
 	if reflectinternal.IsNotNull(it.ExpectedInput) && expectedInputActualType != verifyOf.ExpectedInput {
@@ -167,7 +172,9 @@ func (it *BaseTestCase) TypeValidationError() error {
 			errcore.ExpectingSimpleNoType(
 				"Expected Type Mismatch",
 				verifyOf.ExpectedInput,
-				expectedInputActualType))
+				expectedInputActualType,
+			),
+		)
 	}
 
 	if len(sliceErr) > 0 {
@@ -175,10 +182,12 @@ func (it *BaseTestCase) TypeValidationError() error {
 
 		newSlice = append(
 			newSlice,
-			it.Title)
+			it.Title,
+		)
 		sliceErr = append(
 			newSlice,
-			sliceErr...)
+			sliceErr...,
+		)
 	}
 
 	return errcore.SliceToError(sliceErr)
@@ -191,7 +200,8 @@ func (it *BaseTestCase) TypeValidationError() error {
 func (it *BaseTestCase) ArrangeString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		it.ArrangeInput)
+		it.ArrangeInput,
+	)
 }
 
 // Input returns ArrangeInput
@@ -206,7 +216,8 @@ func (it *BaseTestCase) Expected() interface{} {
 func (it *BaseTestCase) ExpectedString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		it.ExpectedInput)
+		it.ExpectedInput,
+	)
 }
 
 func (it *BaseTestCase) Actual() interface{} {
@@ -216,7 +227,8 @@ func (it *BaseTestCase) Actual() interface{} {
 func (it *BaseTestCase) ActualString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		it.ActualInput)
+		it.ActualInput,
+	)
 }
 
 func (it *BaseTestCase) SetActual(actual interface{}) {
@@ -228,8 +240,15 @@ func (it *BaseTestCase) SetActual(actual interface{}) {
 //	returns a string format using GetAssertMessageUsingSimpleTestCaseWrapper
 //	- https://prnt.sc/lxUV0eYk_qlg
 func (it *BaseTestCase) String(caseIndex int) string {
-	return GetAssertMessageUsingSimpleTestCaseWrapper(
-		caseIndex, it)
+	return GetAssert.SimpleTestCaseWrapper.ToString(
+		caseIndex, it,
+	)
+}
+
+func (it *BaseTestCase) Strings(caseIndex int) []string {
+	return GetAssert.SimpleTestCaseWrapper.ToStrings(
+		caseIndex, it,
+	)
 }
 
 func (it *BaseTestCase) IsDisabled() bool {
@@ -241,7 +260,8 @@ func (it *BaseTestCase) IsSkipWithLog(caseIndex int) bool {
 		fmt.Printf(
 			"Header : %s (%d), skipped: Disabled.",
 			it.Title,
-			caseIndex)
+			caseIndex,
+		)
 
 		return true
 	}
@@ -259,10 +279,7 @@ func (it *BaseTestCase) ShouldBe(
 	actual interface{},
 ) {
 	if it.IsEnable.IsFalse() {
-		fmt.Printf(
-			skippedMsgFormat,
-			it.Title,
-			caseIndex)
+		it.noPrintAssert(caseIndex, t, assert, actual)
 
 		return
 	}
@@ -274,7 +291,38 @@ func (it *BaseTestCase) ShouldBe(
 		it.Title,
 		actual,
 		assert,
-		it.Expected())
+		it.Expected(),
+	)
+}
+
+func (it *BaseTestCase) noPrintAssert(
+	caseIndex int,
+	t *testing.T,
+	assert convey.Assertion,
+	actual interface{},
+) {
+	toTile := it.FormTitle(caseIndex)
+
+	it.SetActual(actual)
+
+	convey.Convey(
+		toTile, t, func() {
+			convey.SoMsg(
+				toTile,
+				actual,
+				assert,
+				it.ExpectedInput,
+			)
+		},
+	)
+}
+
+func (it *BaseTestCase) FormTitle(caseIndex int) string {
+	return fmt.Sprintf(
+		skippedMsgFormat,
+		it.Title,
+		caseIndex,
+	)
 }
 
 func (it *BaseTestCase) ShouldBeExplicit(
@@ -287,21 +335,23 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	expected interface{},
 ) {
 	if it.IsEnable.IsFalse() {
-		t.Skipf(
-			skippedMsgFormat,
-			it.Title,
-			caseIndex)
+		it.noPrintAssert(caseIndex, t, assert, actual)
+
+		return
 	}
 
 	it.SetActual(actual)
 
-	convey.Convey(title, t, func() {
-		convey.SoMsg(
-			it.String(caseIndex),
-			actual,
-			assert,
-			expected)
-	})
+	convey.Convey(
+		title, t, func() {
+			convey.SoMsg(
+				it.String(caseIndex),
+				actual,
+				assert,
+				expected,
+			)
+		},
+	)
 
 	if !isValidateType {
 		return
@@ -310,15 +360,18 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	err := it.TypeValidationError()
 	errHeader := fmt.Sprintf(
 		"case %d : test case type validation must passes - ",
-		caseIndex)
+		caseIndex,
+	)
 
 	if err != nil {
 		err = errors.New(errHeader + err.Error() + ", case title : " + title)
 	}
 
-	convey.Convey(errHeader, t, func() {
-		convey.So(err, convey.ShouldBeNil)
-	})
+	convey.Convey(
+		errHeader, t, func() {
+			convey.So(err, convey.ShouldBeNil)
+		},
+	)
 }
 
 func (it *BaseTestCase) AsSimpleTestCaseWrapper() SimpleTestCaseWrapper {

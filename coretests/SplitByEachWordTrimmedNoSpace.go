@@ -7,7 +7,7 @@ import (
 	"gitlab.com/auk-go/core/coredata/stringslice"
 )
 
-func GetTrimmedNonEmptySpaceSplit(
+func SplitByEachWordTrimmedNoSpace(
 	message string,
 	isSort bool,
 ) []string {
