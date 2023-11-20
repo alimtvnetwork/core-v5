@@ -15,6 +15,8 @@ import (
 
 func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
+	chmodhelper.SimpleFileWriter.Lock()
+	defer chmodhelper.SimpleFileWriter.Unlock()
 
 	for caseIndex, testCase := range createDirTestCases {
 		// Arrange
@@ -86,6 +88,8 @@ func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
 
 func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
+	chmodhelper.SimpleFileWriter.Lock()
+	defer chmodhelper.SimpleFileWriter.Unlock()
 
 	for caseIndex, testCase := range createDirIfMissingTestCases {
 		// Arrange
@@ -156,6 +160,8 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 
 func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail(t *testing.T) {
 	temp := pathinternal.GetTemp()
+	chmodhelper.SimpleFileWriter.Lock()
+	defer chmodhelper.SimpleFileWriter.Unlock()
 
 	for caseIndex, testCase := range createDirDirectTestCases {
 		// Arrange
@@ -239,6 +245,8 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 
 func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 	temp := pathinternal.GetTemp()
+	chmodhelper.SimpleFileWriter.Lock()
+	defer chmodhelper.SimpleFileWriter.Unlock()
 
 	for caseIndex, testCase := range createDirByCheckingTestCases {
 		// Arrange

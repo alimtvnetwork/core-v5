@@ -10,6 +10,9 @@ import (
 )
 
 func Test_DirFilesWithContent_Create_Read_Verification(t *testing.T) {
+	chmodhelper.SimpleFileWriter.Lock()
+	defer chmodhelper.SimpleFileWriter.Unlock()
+	
 	for caseIndex, testCase := range dirFilesWithContentCreateReadTestCases {
 		// Arrange
 		inputs := testCase.

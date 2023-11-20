@@ -16,7 +16,7 @@ func Clean(curPath string) string {
 	v = replaceFix(v)
 
 	if osconsts.IsWindows {
-		v = strings.ReplaceAll(v, "/", "\\")
+		v = strings.ReplaceAll(v, "//", "/")
 	}
 
 	return v
