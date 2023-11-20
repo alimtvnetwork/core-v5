@@ -8,7 +8,7 @@ import (
 var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 	{
 		BaseTestCase: coretests.BaseTestCase{
-			Title: "Dynamic map simple diff `someKey2` mismatch verify",
+			Title: "Dynamic map simple diff [someKey2] mismatch verify",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
 					Left: map[string]interface{}{
@@ -25,12 +25,12 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 				DifferChecker: enumimpl.DefaultDiffCheckerImpl,
 			},
 			ActualInput: nil,
-			ExpectedInput: "Dynamic map simple diff `someKey2` mismatch verify\n\n" +
+			ExpectedInput: "Dynamic map simple diff [someKey2] mismatch verify\n\n" +
 				"Difference Between Map:\n\n{\n" +
-				"- Left Map - Has Diff from Right Map:\n" +
-				"{\n\n\"someKey2\":4\n\n}\n\n\n" +
-				"- Right Map - Has Diff from Left Map:\n" +
-				"{\n\n\"someKey2\":2\n\n}}",
+				"- Left Map - Has Diff from Right Map:\n{\n\n\"" +
+				"someKey2\":4\n\n}\n\n\n" +
+				"- Right Map - Has Diff from Left Map:\n{\n\n\"" +
+				"someKey2\":2\n\n}}",
 			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
 			HasError:        false,
 			IsValidateError: true,
@@ -38,7 +38,7 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 	},
 	{
 		BaseTestCase: coretests.BaseTestCase{
-			Title: "Dynamic map simple diff `someKey2`, `someKey4` mismatch verify",
+			Title: "Dynamic map simple diff [someKey2], [someKey4] mismatch verify",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
 					Left: map[string]interface{}{
@@ -55,7 +55,7 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 				DifferChecker: enumimpl.DefaultDiffCheckerImpl,
 			},
 			ActualInput: nil,
-			ExpectedInput: "Dynamic map simple diff `someKey2`, `someKey4` mismatch verify\n\n" +
+			ExpectedInput: "Dynamic map simple diff [someKey2], [someKey4] mismatch verify\n\n" +
 				"Difference Between Map:\n\n{\n" +
 				"- Left Map - Has Diff from Right Map:\n" +
 				"{\n\n\"someKey4\":4\n\n}\n\n\n- Right Map - Has Diff from Left Map:\n{\n\n\"someKey2\":2\n\n}}",
@@ -66,7 +66,7 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 	},
 	{
 		BaseTestCase: coretests.BaseTestCase{
-			Title: "Dynamic map simple diff `someKey2`, `someKey4` mismatch verify",
+			Title: "Dynamic map simple diff [someKey2], [someKey4] mismatch verify",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
 					Left: map[string]interface{}{

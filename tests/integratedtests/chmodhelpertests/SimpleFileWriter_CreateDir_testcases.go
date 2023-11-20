@@ -83,7 +83,7 @@ var (
 				{
 					Dir: dirCreateBasePath,
 					Files: []string{
-						"by-checking/a.txt",
+						"by-checking\\a.txt",
 					},
 				},
 			},
