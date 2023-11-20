@@ -240,13 +240,13 @@ func (it *BaseTestCase) SetActual(actual interface{}) {
 //	returns a string format using GetAssertMessageUsingSimpleTestCaseWrapper
 //	- https://prnt.sc/lxUV0eYk_qlg
 func (it *BaseTestCase) String(caseIndex int) string {
-	return GetAssert.SimpleTestCaseWrapper.ToString(
+	return GetAssert.SimpleTestCaseWrapper.String(
 		caseIndex, it,
 	)
 }
 
-func (it *BaseTestCase) Strings(caseIndex int) []string {
-	return GetAssert.SimpleTestCaseWrapper.ToStrings(
+func (it *BaseTestCase) LinesString(caseIndex int) string {
+	return GetAssert.SimpleTestCaseWrapper.StringByLines(
 		caseIndex, it,
 	)
 }

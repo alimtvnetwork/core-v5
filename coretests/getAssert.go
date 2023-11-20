@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgformats"
 )
 
@@ -69,4 +70,10 @@ func (it getAssert) SortedArrayNoPrint(
 		false,
 		true, message,
 	)
+}
+
+func (it getAssert) ToStrings(
+	any interface{},
+) []string {
+	return convertinteranl.AnyTo.Strings(any)
 }
