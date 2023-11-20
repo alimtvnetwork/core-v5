@@ -11,15 +11,17 @@ func isStrMsgNonWhiteSortedEqualInternal(
 	actual string,
 	expectationMessageDef *errcore.ExpectationMessageDef,
 ) bool {
-	actualSortedDefault := GetMessageToSorted(
+	actualSortedDefault := GetAssert.SortedMessage(
 		false,
 		strings.TrimSpace(actual),
-		commonJoiner)
+		commonJoiner,
+	)
 
-	expectedSortedDefault := GetMessageToSorted(
+	expectedSortedDefault := GetAssert.SortedMessage(
 		false,
 		expectationMessageDef.ExpectedStringTrim(),
-		commonJoiner)
+		commonJoiner,
+	)
 
 	isEqual := actualSortedDefault == expectedSortedDefault
 	isFailed := !isEqual
@@ -30,7 +32,8 @@ func isStrMsgNonWhiteSortedEqualInternal(
 	expectationMessageDef.PrintIfFailed(
 		isPrintOnFail,
 		isFailed,
-		actual)
+		actual,
+	)
 
 	return isEqual
 }

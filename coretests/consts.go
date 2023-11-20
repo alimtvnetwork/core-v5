@@ -12,5 +12,5 @@ const (
 		" Left  = %s f1String=%s f2Int=%d\n" +
 		" Right = %s f1String=%s f2Int=%d\n"
 
-	skippedMsgFormat = "Header : %s | case : %d, skipped: disabled."
+	skippedMsgFormat = " %d - %s."
 )

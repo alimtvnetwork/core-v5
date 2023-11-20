@@ -32,7 +32,8 @@ func (it *SimpleTestCase) CaseTitle() string {
 func (it *SimpleTestCase) ArrangeString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		it.ArrangeInput)
+		it.ArrangeInput,
+	)
 }
 
 // Input returns ArrangeInput
@@ -47,7 +48,8 @@ func (it *SimpleTestCase) Expected() interface{} {
 func (it *SimpleTestCase) ExpectedString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		it.ExpectedInput)
+		it.ExpectedInput,
+	)
 }
 
 func (it *SimpleTestCase) Actual() interface{} {
@@ -57,7 +59,8 @@ func (it *SimpleTestCase) Actual() interface{} {
 func (it *SimpleTestCase) ActualString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		it.ActualInput)
+		it.ActualInput,
+	)
 }
 
 func (it *SimpleTestCase) SetActual(actual interface{}) {
@@ -69,8 +72,9 @@ func (it *SimpleTestCase) SetActual(actual interface{}) {
 //	returns a string format using GetAssertMessageUsingSimpleTestCaseWrapper
 //	- https://prnt.sc/lxUV0eYk_qlg
 func (it *SimpleTestCase) String(caseIndex int) string {
-	return GetAssertMessageUsingSimpleTestCaseWrapper(
-		caseIndex, it)
+	return GetAssert.SimpleTestCaseWrapper.String(
+		caseIndex, it,
+	)
 }
 
 // ShouldBe
@@ -84,13 +88,16 @@ func (it *SimpleTestCase) ShouldBe(
 ) {
 	it.SetActual(actual)
 
-	convey.Convey(it.Title, t, func() {
-		convey.SoMsg(
-			it.String(caseIndex),
-			actual,
-			assert,
-			it.ExpectedInput)
-	})
+	convey.Convey(
+		it.Title, t, func() {
+			convey.SoMsg(
+				it.String(caseIndex),
+				actual,
+				assert,
+				it.ExpectedInput,
+			)
+		},
+	)
 }
 
 func (it *SimpleTestCase) AsSimpleTestCaseWrapper() SimpleTestCaseWrapper {

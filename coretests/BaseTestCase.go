@@ -320,8 +320,8 @@ func (it *BaseTestCase) noPrintAssert(
 func (it *BaseTestCase) FormTitle(caseIndex int) string {
 	return fmt.Sprintf(
 		skippedMsgFormat,
-		it.Title,
 		caseIndex,
+		it.Title,
 	)
 }
 
@@ -341,11 +341,21 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	}
 
 	it.SetActual(actual)
+	headerTitle := it.FormTitle(caseIndex)
 
 	convey.Convey(
-		title, t, func() {
+		headerTitle, t, func() {
+			compare := assert(actual, expected)
+
+			if compare != "" {
+				// failed
+				toString := it.LinesString(caseIndex)
+
+				fmt.Println(toString)
+			}
+
 			convey.SoMsg(
-				it.String(caseIndex),
+				headerTitle,
 				actual,
 				assert,
 				expected,

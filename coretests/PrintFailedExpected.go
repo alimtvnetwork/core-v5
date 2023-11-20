@@ -10,7 +10,7 @@ func PrintFailedExpected(
 	counter int,
 ) {
 	if isFailed {
-		message := GetAssertMessageQuick(when, actual, expected, counter)
+		message := GetAssert.Quick(when, actual, expected, counter)
 
 		fmt.Println(message)
 	}

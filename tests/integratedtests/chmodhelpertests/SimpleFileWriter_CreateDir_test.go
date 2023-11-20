@@ -1,7 +1,6 @@
 package chmodhelpertests
 
 import (
-	"path/filepath"
 	"strings"
 	"testing"
 
@@ -50,7 +49,7 @@ func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
 				)
 
 				errcore.HandleErr(err)
-				relPath, _ := filepath.Rel(temp, parentDir)
+				relPath := pathinternal.Relative(temp, finalPath)
 
 				if iserror.Defined(err) {
 					actualSlice.AppendFmt(
@@ -122,7 +121,7 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 				)
 
 				errcore.HandleErr(err)
-				relPath, _ := filepath.Rel(temp, parentDir)
+				relPath := pathinternal.Relative(temp, finalPath)
 
 				if iserror.Defined(err) {
 					actualSlice.AppendFmt(
@@ -209,7 +208,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 					"",
 				)
 
-				relPath, _ := filepath.Rel(temp, finalPath)
+				relPath := pathinternal.Relative(temp, finalPath)
 
 				if iserror.Defined(finalErr) {
 					actualSlice.AppendFmt(
@@ -297,7 +296,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 					"",
 				)
 
-				relPath, _ := filepath.Rel(temp, finalPath)
+				relPath := pathinternal.Relative(temp, finalPath)
 
 				if iserror.Defined(finalErr) {
 					actualSlice.AppendFmt(
