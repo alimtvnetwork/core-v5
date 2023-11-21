@@ -2,8 +2,11 @@ package coretests
 
 import (
 	"fmt"
+	"strings"
 
+	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgformats"
 )
 
@@ -36,6 +39,46 @@ func (it getAssertSimpleTestCaseWrapper) Lines(
 	return actualLines, expectedLines
 }
 
+func (it getAssertSimpleTestCaseWrapper) ToQuoteLines(
+	tabCount int,
+	lines []string,
+) []string {
+	return errcore.StringLinesToQuoteLinesWithTabs(
+		tabCount,
+		lines)
+}
+
+func (it getAssertSimpleTestCaseWrapper) AnyToQuoteLines(
+	tabCount int,
+	anyItem interface{},
+) []string {
+	lines := convertinteranl.AnyTo.Strings(anyItem)
+
+	return it.ToQuoteLines(
+		tabCount,
+		lines)
+}
+
+func (it getAssertSimpleTestCaseWrapper) StringQuoteLine(
+	tabCount int,
+	lines []string,
+) string {
+	finalLines := it.ToQuoteLines(
+		tabCount,
+		lines)
+
+	return strings.Join(finalLines, constants.NewLineUnix)
+}
+
+func (it getAssertSimpleTestCaseWrapper) AnyToStringQuoteLine(
+	tabCount int,
+	anyItem interface{},
+) string {
+	lines := convertinteranl.AnyTo.Strings(anyItem)
+
+	return it.StringQuoteLine(tabCount, lines)
+}
+
 // StringByLines
 //
 // Actual lines and then expected lines.
@@ -43,9 +86,10 @@ func (it getAssertSimpleTestCaseWrapper) StringByLines(
 	testCaseIndex int,
 	testCaseWrapper SimpleTestCaseWrapper,
 ) string {
-	toStringsFunc := GetAssert.ToStrings
-	actualLines := toStringsFunc(testCaseWrapper.Actual())
-	expectedLines := toStringsFunc(testCaseWrapper.Expected())
+	toStringsFunc := it.AnyToQuoteLines
+	prefixSpaces := 4
+	actualLines := toStringsFunc(prefixSpaces, testCaseWrapper.Actual())
+	expectedLines := toStringsFunc(prefixSpaces, testCaseWrapper.Expected())
 
 	actual := errcore.StringLinesToQuoteLinesToSingle(actualLines)
 	expected := errcore.StringLinesToQuoteLinesToSingle(expectedLines)
