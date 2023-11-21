@@ -26,6 +26,16 @@ func (it getAssertSimpleTestCaseWrapper) String(
 	)
 }
 
+func (it getAssertSimpleTestCaseWrapper) Lines(
+	testCaseWrapper SimpleTestCaseWrapper,
+) (actualLines, expectedLines []string) {
+	toStringsFunc := GetAssert.ToStrings
+	actualLines = toStringsFunc(testCaseWrapper.Actual())
+	expectedLines = toStringsFunc(testCaseWrapper.Expected())
+
+	return actualLines, expectedLines
+}
+
 // StringByLines
 //
 // Actual lines and then expected lines.
@@ -39,13 +49,17 @@ func (it getAssertSimpleTestCaseWrapper) StringByLines(
 
 	actual := errcore.StringLinesToQuoteLinesToSingle(actualLines)
 	expected := errcore.StringLinesToQuoteLinesToSingle(expectedLines)
+	title := testCaseWrapper.CaseTitle()
 
 	return fmt.Sprintf(
-		msgformats.QuickIndexTitleInputActualExpectedMessageFormat,
+		msgformats.QuickLinesFormat,
 		testCaseIndex,
-		testCaseWrapper.CaseTitle(),
-		testCaseWrapper.Input(),
+		title,
+		testCaseIndex,
+		title,
 		actual,
+		testCaseIndex,
+		title,
 		expected,
 	)
 }

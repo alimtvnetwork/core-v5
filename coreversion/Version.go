@@ -13,7 +13,7 @@ import (
 type Version struct {
 	VersionCompact string `json:"Compact,omitempty"`   // ex : 1.0.1
 	Compiled       string `json:"Compiled,omitempty"`  // ex : v1.0.1
-	IsInvalid      bool   `json:"IsInvalid,omitempty"` // json export field for serialize
+	IsInvalid      bool   `json:"IsInvalid,omitempty"` // JSON export field for serialize
 	VersionMajor   int    `json:"Major,omitempty"`
 	VersionMinor   int    `json:"Minor,omitempty"`
 	VersionPatch   int    `json:"Patch,omitempty"`

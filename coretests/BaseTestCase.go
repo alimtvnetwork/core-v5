@@ -224,6 +224,14 @@ func (it *BaseTestCase) Actual() interface{} {
 	return it.ActualInput
 }
 
+func (it *BaseTestCase) ActualLines() []string {
+	return GetAssert.ToStrings(it.ActualInput)
+}
+
+func (it *BaseTestCase) ExpectedLines() []string {
+	return GetAssert.ToStrings(it.ExpectedInput)
+}
+
 func (it *BaseTestCase) ActualString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
@@ -345,7 +353,9 @@ func (it *BaseTestCase) ShouldBeExplicit(
 
 	convey.Convey(
 		headerTitle, t, func() {
-			compare := assert(actual, expected)
+			actualLines := GetAssert.ToStrings(actual)
+			expectedLines := GetAssert.ToStrings(expected)
+			compare := assert(actualLines, expectedLines)
 
 			if compare != "" {
 				// failed
@@ -356,9 +366,9 @@ func (it *BaseTestCase) ShouldBeExplicit(
 
 			convey.SoMsg(
 				headerTitle,
-				actual,
+				actualLines,
 				assert,
-				expected,
+				expectedLines,
 			)
 		},
 	)
@@ -368,9 +378,15 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	}
 
 	err := it.TypeValidationError()
+
+	if err == nil {
+		return
+	}
+
 	errHeader := fmt.Sprintf(
-		"case %d : test case type validation must passes - ",
+		"%d : %s - type verification failed",
 		caseIndex,
+		title,
 	)
 
 	if err != nil {

@@ -1,9 +1,11 @@
 package enumimpltests
 
 import (
+	"strings"
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
+	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 )
 
@@ -66,17 +68,22 @@ func Test_DynamicMapCreationDiffMessageV2(t *testing.T) {
 		arrangeInput := testCase.ArrangeAsLeftRightDynamicMapWithDefaultChecker()
 
 		// Act
-		diffJsonMessage := arrangeInput.Left.ShouldDiffLeftRightMessageUsingDifferChecker(
-			arrangeInput.DifferChecker,
-			true,
-			testCase.CaseTitle(),
-			arrangeInput.Right)
+		diffJsonMessage := arrangeInput.
+			Left.
+			ShouldDiffLeftRightMessageUsingDifferChecker(
+				arrangeInput.DifferChecker,
+				true,
+				testCase.CaseTitle(),
+				arrangeInput.Right)
+		lines := strings.Split(
+			diffJsonMessage,
+			constants.NewLineUnix)
 
 		// Assert
 		testCase.ShouldBe(
 			caseIndex,
 			t,
 			ShouldResemble,
-			diffJsonMessage)
+			lines)
 	}
 }

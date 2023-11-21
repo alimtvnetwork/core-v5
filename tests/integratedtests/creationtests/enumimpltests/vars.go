@@ -11,7 +11,13 @@ var (
 	checker1                                     = enumimpl.LeftRightDiffCheckerImpl
 	typeVerifyOfForDynamicMapSimpleDiffTestCases = &coretests.VerifyTypeOf{
 		ArrangeInput:  reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
-		ActualInput:   reflect.TypeOf(""),
+		ActualInput:   reflect.TypeOf([]string{}),
+		ExpectedInput: reflect.TypeOf([]string{}),
+	}
+
+	simpleDiffTestCases = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf(LeftRightDynamicMapWithDefaultChecker{}),
+		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf(""),
 	}
 

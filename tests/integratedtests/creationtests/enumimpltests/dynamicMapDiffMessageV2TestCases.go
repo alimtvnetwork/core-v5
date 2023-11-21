@@ -24,17 +24,29 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				DifferChecker: checker1,
 			},
 			ActualInput: nil,
-			ExpectedInput: "Dynamic map diff string compiled must be same\n\n" +
-				"Difference Between Map:\n\n" +
-				"{\n" +
-				"- Left Map - Has Diff from Right Map:\n" +
-				"{\n\n\"" +
-				"exist-in-left-right-diff-val\":\"{\"Left\":5,\"Right\":6}\",\n\"" +
-				"not-exist-in-left\":\"{\"Left\":null,\"Right\":2}\"\n\n}" +
-				"\n\n\n" +
-				"- Right Map - Has Diff from Left Map:\n{\n\n\"" +
-				"exist-in-left-right-diff-val\":\"{\"Left\":5,\"Right\":6}\",\n\"" +
-				"not-exist-in-right\":\"3 (type:int) - left - key is missing!\"\n\n}}",
+			ExpectedInput: []string{
+				"Dynamic map diff string compiled must be same",
+				"",
+				"Difference Between Map:",
+				"",
+				"{",
+				"- Left Map - Has Diff from Right Map:",
+				"{",
+				"",
+				"\"exist-in-left-right-diff-val\":\"{\"Left\":5,\"Right\":6}\",",
+				"\"not-exist-in-left\":\"{\"Left\":null,\"Right\":2}\"",
+				"",
+				"}",
+				"",
+				"",
+				"- Right Map - Has Diff from Left Map:",
+				"{",
+				"",
+				"\"exist-in-left-right-diff-val\":\"{\"Left\":5,\"Right\":6}\",",
+				"\"not-exist-in-right\":\"3 (type:int) - left - key is missing!\"",
+				"",
+				"}}",
+			},
 			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
 			HasError:        false,
 			IsValidateError: true,
@@ -60,7 +72,7 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			},
 			ActualInput:     nil,
 			ExpectedInput:   "",
-			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
+			VerifyTypeOf:    simpleDiffTestCases,
 			HasError:        false,
 			IsValidateError: true,
 		},
@@ -83,11 +95,19 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				DifferChecker: checker1,
 			},
 			ActualInput: nil,
-			ExpectedInput: "Dynamic map diff - right hand key missing\n\n" +
-				"Difference Between Map:\n\n{\n" +
-				"- Right Map - Has Diff from Left Map:\n" +
-				"{\n\n\"" +
-				"cl\":\"5 (type:int) - left - key is missing!\"\n\n}}",
+			ExpectedInput: []string{
+				"Dynamic map diff - right hand key missing",
+				"",
+				"Difference Between Map:",
+				"",
+				"{",
+				"- Right Map - Has Diff from Left Map:",
+				"{",
+				"",
+				"\"cl\":\"5 (type:int) - left - key is missing!\"",
+				"",
+				"}}",
+			},
 			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
 			HasError:        false,
 			IsValidateError: true,
