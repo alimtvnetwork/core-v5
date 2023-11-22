@@ -161,7 +161,7 @@ func (it CaseV1) VerifyError(
 	)
 }
 
-func (it CaseV1) Assert(
+func (it CaseV1) ShouldBe(
 	t *testing.T,
 	caseIndex int,
 	compareAs stringcompareas.Variant,
@@ -187,7 +187,7 @@ func (it CaseV1) Assert(
 		return validationFinalError
 	}
 
-	typeVerifyErr := it.AssertType(t)
+	typeVerifyErr := it.TypeShouldMatch(t)
 
 	return errcore.MergeErrors(
 		validationFinalError,
@@ -195,7 +195,7 @@ func (it CaseV1) Assert(
 	)
 }
 
-func (it CaseV1) AssertType(
+func (it CaseV1) TypeShouldMatch(
 	t *testing.T,
 ) error {
 	baseCase := it.AsBaseTestCase()
@@ -217,12 +217,12 @@ func (it CaseV1) AssertType(
 	return typeVerifyErr
 }
 
-func (it CaseV1) AssertEqual(
+func (it CaseV1) ShouldBeEqual(
 	t *testing.T,
 	caseIndex int,
 	actualElements ...string,
 ) {
-	_ = it.Assert(
+	_ = it.ShouldBe(
 		t,
 		caseIndex,
 		stringcompareas.Equal,
@@ -230,7 +230,7 @@ func (it CaseV1) AssertEqual(
 	)
 }
 
-func (it CaseV1) AssertNoError(
+func (it CaseV1) ShouldHaveNoError(
 	t *testing.T,
 	additionalTitle string,
 	caseIndex int,

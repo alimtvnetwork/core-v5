@@ -25,7 +25,8 @@ func Test_Defined_Verification(t *testing.T) {
 				i,
 				isany.Defined(input),
 				input,
-				input)
+				input,
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -33,9 +34,10 @@ func Test_Defined_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

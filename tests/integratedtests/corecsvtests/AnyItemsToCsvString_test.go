@@ -20,17 +20,20 @@ func Test_AnyItemsToCsvString_All_True_SingleQuotation_Verification(t *testing.T
 			corecsv.AnyItemsToCsvString(
 				constants.CommaSpace,
 				true, true,
-				inputs...))
+				inputs...,
+			),
+		)
 
 		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }
 
@@ -46,17 +49,20 @@ func Test_AnyItemsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 				constants.CommaSpace,
 				true,
 				false,
-				inputs...))
+				inputs...,
+			),
+		)
 
 		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }
 
@@ -72,16 +78,19 @@ func Test_AnyItemsToCsvString_NoQuotation_Verification(t *testing.T) {
 				constants.CommaSpace,
 				false,
 				false,
-				inputs...))
+				inputs...,
+			),
+		)
 
 		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

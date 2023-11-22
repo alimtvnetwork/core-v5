@@ -30,14 +30,16 @@ func Test_Conclusive_Verification(t *testing.T) {
 			conclusive := conditional.String(
 				isConclusive,
 				"Conclusive",
-				"Inconclusive")
+				"Inconclusive",
+			)
 
 			actualSlice.AppendFmt(
 				conclusiveFormat,
 				i,
 				isEqual,
 				conclusive,
-				values)
+				values,
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -45,9 +47,10 @@ func Test_Conclusive_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

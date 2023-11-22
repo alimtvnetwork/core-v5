@@ -36,9 +36,10 @@ func Test_Json_Verification(t *testing.T) {
 		finalCase := testCase.AsCaseV1()
 
 		// Assert
-		finalCase.AssertEqual(
+		finalCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

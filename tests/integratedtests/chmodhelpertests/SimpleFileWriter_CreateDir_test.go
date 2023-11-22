@@ -77,7 +77,7 @@ func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
 		finalActLines := actualSlice.Strings()
 
 		// Assert
-		testCase.AssertEqual(
+		testCase.ShouldBeEqual(
 			t,
 			caseIndex,
 			finalActLines...,
@@ -149,7 +149,7 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 		finalActLines := actualSlice.Strings()
 
 		// Assert
-		testCase.AssertEqual(
+		testCase.ShouldBeEqual(
 			t,
 			caseIndex,
 			finalActLines...,
@@ -234,7 +234,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 		finalActLines := actualSlice.Strings()
 
 		// Assert
-		testCase.AssertEqual(
+		testCase.ShouldBeEqual(
 			t,
 			caseIndex,
 			finalActLines...,
@@ -322,7 +322,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 		finalActLines := actualSlice.Strings()
 
 		// Assert
-		testCase.AssertEqual(
+		testCase.ShouldBeEqual(
 			t,
 			caseIndex,
 			finalActLines...,

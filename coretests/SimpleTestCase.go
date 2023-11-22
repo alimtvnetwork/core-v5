@@ -77,7 +77,7 @@ func (it *SimpleTestCase) String(caseIndex int) string {
 	)
 }
 
-// ShouldBe
+// Assert
 //
 // Disabled testcases will not be executed.
 func (it *SimpleTestCase) ShouldBe(

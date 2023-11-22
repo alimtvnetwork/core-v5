@@ -22,24 +22,29 @@ import (
 func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) {
 	for _, testCase := range coredynamictestwrappers.ReflectSetFromToInvalidTestCases {
 		// Act
-		wrappedResult := trydo.ErrorFuncWrapPanic(func() error {
-			return coredynamic.ReflectSetFromTo(
-				testCase.From,
-				testCase.To)
-		})
+		wrappedResult := trydo.ErrorFuncWrapPanic(
+			func() error {
+				return coredynamic.ReflectSetFromTo(
+					testCase.From,
+					testCase.To,
+				)
+			},
+		)
 
 		err := wrappedResult.Error
 
 		testCase.SetActual(wrappedResult)
 
 		// Assert
-		Convey(testCase.CaseTitle(), t, func() {
-			if testCase.IsExpectingError {
-				So(err, ShouldNotBeNil)
-			} else {
-				So(err, ShouldBeNil)
-			}
-		})
+		Convey(
+			testCase.CaseTitle(), t, func() {
+				if testCase.IsExpectingError {
+					So(err, ShouldNotBeNil)
+				} else {
+					So(err, ShouldBeNil)
+				}
+			},
+		)
 
 		var parameter = &corevalidator.Parameter{
 			CaseIndex:                  0,
@@ -51,15 +56,18 @@ func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) 
 
 		validator := testCase.Validator
 
-		Convey(testCase.CaseTitle()+"-exception-validation", t, func() {
-			finalErr := getFinalVerificationError(
-				testCase,
-				validator,
-				parameter,
-				wrappedResult)
+		Convey(
+			testCase.CaseTitle()+"-exception-validation", t, func() {
+				finalErr := getFinalVerificationError(
+					testCase,
+					validator,
+					parameter,
+					wrappedResult,
+				)
 
-			So(finalErr, ShouldBeNil)
-		})
+				So(finalErr, ShouldBeNil)
+			},
+		)
 	}
 }
 
@@ -72,16 +80,19 @@ func getFinalVerificationError(
 	if testCase.HasPanic {
 		return validator.VerifyDetailError(
 			parameter,
-			wrappedResult.ExceptionString())
+			wrappedResult.ExceptionString(),
+		)
 	}
 
 	if testCase.IsExpectingError {
 		return validator.VerifyDetailError(
 			parameter,
-			wrappedResult.ErrorString())
+			wrappedResult.ErrorString(),
+		)
 	}
 
 	return validator.VerifyDetailError(
 		parameter,
-		converters.AnyToValueString(testCase.ExpectedValue))
+		converters.AnyToValueString(testCase.ExpectedValue),
+	)
 }

@@ -25,7 +25,8 @@ func Test_DefinedAllOf_Verification(t *testing.T) {
 				defaultCaseIndexBoolStringFmt,
 				i,
 				isany.DefinedAllOf(input...),
-				corecsv.AnyToTypesCsvDefault(input...))
+				corecsv.AnyToTypesCsvDefault(input...),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -33,9 +34,10 @@ func Test_DefinedAllOf_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

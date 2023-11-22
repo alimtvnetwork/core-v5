@@ -18,7 +18,9 @@ func Test_WithBrackets_Verification(t *testing.T) {
 		for _, input := range inputs {
 			actualSlice.Add(
 				simplewrap.WithBrackets(
-					input))
+					input,
+				),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -26,10 +28,11 @@ func Test_WithBrackets_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }
 
@@ -43,7 +46,9 @@ func Test_WithBracketsQuotation_Verification(t *testing.T) {
 		for _, input := range inputs {
 			actualSlice.Add(
 				simplewrap.WithBracketsQuotation(
-					input))
+					input,
+				),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -51,9 +56,10 @@ func Test_WithBracketsQuotation_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

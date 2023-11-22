@@ -29,7 +29,8 @@ func Test_NullBoth_Verification(t *testing.T) {
 				defaultCaseIndexBoolStringFmt,
 				i,
 				isany.NullBoth(f, s),
-				corecsv.AnyToTypesCsvDefault(f, s))
+				corecsv.AnyToTypesCsvDefault(f, s),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -37,9 +38,10 @@ func Test_NullBoth_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

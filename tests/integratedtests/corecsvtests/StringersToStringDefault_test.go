@@ -25,16 +25,19 @@ func Test_StringersToString_Verification(t *testing.T) {
 				constants.CommaSpace,
 				true,
 				true,
-				inputs...))
+				inputs...,
+			),
+		)
 
 		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

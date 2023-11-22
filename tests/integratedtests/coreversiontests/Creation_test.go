@@ -31,7 +31,8 @@ func Test_Creation_Verification(t *testing.T) {
 					i,
 					input.String(),
 					input.VersionCompact,
-					input.VersionDisplay())
+					input.VersionDisplay(),
+				)
 			}
 		}
 
@@ -39,10 +40,11 @@ func Test_Creation_Verification(t *testing.T) {
 		finalCase := testCase.AsCaseV1()
 
 		// Assert
-		finalCase.AssertEqual(
+		finalCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }
 
@@ -66,14 +68,16 @@ func Test_Creation_UsingString_Verification(t *testing.T) {
 					defaultInvalidV1CreationFmt,
 					i,
 					toVersion.String(),
-					input)
+					input,
+				)
 			} else {
 				actualSlice.AppendFmt(
 					defaultCreationFmt,
 					i,
 					toVersion.String(),
 					toVersion.VersionCompact,
-					toVersion.VersionDisplay())
+					toVersion.VersionDisplay(),
+				)
 			}
 		}
 
@@ -81,9 +85,10 @@ func Test_Creation_UsingString_Verification(t *testing.T) {
 		finalCase := testCase.AsCaseV1()
 
 		// Assert
-		finalCase.AssertEqual(
+		finalCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

@@ -21,17 +21,20 @@ func Test_SquareWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Have_Du
 			actualSlice.Add(
 				simplewrap.SquareWrapIf(
 					true,
-					input))
+					input,
+				),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }
 
@@ -48,16 +51,19 @@ func Test_SquareWrapIf_Disabled_Wraps_Nothing(
 			actualSlice.Add(
 				simplewrap.SquareWrapIf(
 					false,
-					input))
+					input,
+				),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

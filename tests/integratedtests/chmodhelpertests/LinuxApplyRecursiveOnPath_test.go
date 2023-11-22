@@ -15,23 +15,28 @@ func Test_LinuxApplyRecursiveOnPath_Unix(t *testing.T) {
 		// Arrange
 		caseMessenger := testCase.AsTestCaseMessenger()
 		testHeader := coretests.GetTestHeader(
-			caseMessenger)
+			caseMessenger,
+		)
 		chmodhelper.CreateDirFilesWithRwxPermissionsMust(
 			true,
-			testCase.CreatePaths)
+			testCase.CreatePaths,
+		)
 
 		// Act
 		actualErr := linuxApplyRecursivePathInstructions(&testCase)
 		testCase.SetActual(actualErr)
 
 		// Assert
-		convey.Convey(testHeader, t, func() {
-			convey.So(actualErr, convey.ShouldBeNil)
-		})
+		convey.Convey(
+			testHeader, t, func() {
+				convey.So(actualErr, convey.ShouldBeNil)
+			},
+		)
 
 		assertTestCaseChmodAsExpected(
 			t,
 			&testCase,
-			testHeader)
+			testHeader,
+		)
 	}
 }

@@ -2,7 +2,7 @@ package simplewraptests
 
 import (
 	"testing"
-	
+
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/simplewrap"
@@ -32,16 +32,19 @@ func Test_DoubleQuoteWrapElementsWithIndexes_Should_Return_Slice_WithDoubleQuote
 		"\"'[7]\"",
 		"\"simple[8]\"",
 	}
-	
+
 	// Act
 	actual := simplewrap.
 		DoubleQuoteWrapElementsWithIndexes(
-			testCases...)
-	
+			testCases...,
+		)
+
 	// Assert
-	convey.Convey("Wrap strings with double quote with indexes - "+
-		"doesn't verify existing double quote, "+
-		"and possible duplicate double quote possible", t, func() {
-		convey.So(actual, should.Equal, expectation)
-	})
+	convey.Convey(
+		"Wrap strings with double quote with indexes - "+
+			"doesn't verify existing double quote, "+
+			"and possible duplicate double quote possible", t, func() {
+			convey.So(actual, should.Equal, expectation)
+		},
+	)
 }

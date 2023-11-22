@@ -20,16 +20,19 @@ func Test_MsgCsvItems_Verification(t *testing.T) {
 		actualSlice.Add(
 			simplewrap.MsgCsvItems(
 				title,
-				csvItems...))
+				csvItems...,
+			),
+		)
 
 		finalActLines := actualSlice.Strings()
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

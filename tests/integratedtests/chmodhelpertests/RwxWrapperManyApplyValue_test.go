@@ -21,7 +21,8 @@ func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
 	createPathInstructions := pathInstructionsV2
 	chmodhelper.CreateDirFilesWithRwxPermissionsMust(
 		true,
-		createPathInstructions)
+		createPathInstructions,
+	)
 	firstCreationIns := createPathInstructions[0]
 	paths := firstCreationIns.GetPaths()
 	condition := chmodins.DefaultAllTrueCondition()
@@ -35,19 +36,22 @@ func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
 			"Existing [%s] Applied by [%s] should result [%s]",
 			existingAppliedRwxFull,
 			expectation,
-			expectation)
+			expectation,
+		)
 
 		// Act
 		err2 := rwxWrapper.ApplyLinuxChmodOnMany(condition, paths...)
 		errcore.SimpleHandleErr(
 			err2,
-			"rwxWrapper.ApplyLinuxChmodOnMany failed")
+			"rwxWrapper.ApplyLinuxChmodOnMany failed",
+		)
 
 		// Assert
 		assertSingleChmod(
 			t,
 			header,
 			firstCreationIns,
-			expectation)
+			expectation,
+		)
 	}
 }

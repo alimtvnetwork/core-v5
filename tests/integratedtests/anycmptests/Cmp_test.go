@@ -22,10 +22,12 @@ func Test_Cmp_Verification(t *testing.T) {
 				i,
 				anycmp.Cmp(
 					parameter.First,
-					parameter.Second).
+					parameter.Second,
+				).
 					String(),
 				parameter.First,
-				parameter.Second)
+				parameter.Second,
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -33,9 +35,10 @@ func Test_Cmp_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

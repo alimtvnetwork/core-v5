@@ -18,7 +18,9 @@ func Test_CurlyWrapOptions_Wraps_All_CheckConditionally_NoDuplicateCurly(t *test
 		for _, input := range inputs {
 			actualSlice.Add(
 				simplewrap.CurlyWrapOption(
-					true, input))
+					true, input,
+				),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -26,9 +28,10 @@ func Test_CurlyWrapOptions_Wraps_All_CheckConditionally_NoDuplicateCurly(t *test
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

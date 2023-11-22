@@ -15,22 +15,26 @@ func Test_DynamicMapCreationDiff(t *testing.T) {
 		arrangeInput := testCase.ArrangeAsLeftRightDynamicMap()
 		diffMap := arrangeInput.Left.DiffRaw(
 			true,
-			arrangeInput.Right)
+			arrangeInput.Right,
+		)
 		mapAnyDiffer := coredynamic.MapAnyItemDiff(
-			arrangeInput.Left)
+			arrangeInput.Left,
+		)
 
 		// Act
 		anotherDiff := mapAnyDiffer.
 			DiffRaw(
 				true,
-				arrangeInput.Right)
+				arrangeInput.Right,
+			)
 
 		// Assert
 		testCase.ShouldBe(
 			caseIndex,
 			t,
 			ShouldResemble,
-			diffMap)
+			diffMap,
+		)
 		testCase.ShouldBeExplicit(
 			false,
 			caseIndex,
@@ -38,7 +42,8 @@ func Test_DynamicMapCreationDiff(t *testing.T) {
 			"both diff should be equal",
 			diffMap.Raw(),
 			ShouldResemble,
-			anotherDiff)
+			anotherDiff,
+		)
 	}
 }
 
@@ -51,14 +56,16 @@ func Test_DynamicMapCreationDiffMessage(t *testing.T) {
 		diffJsonMessage := arrangeInput.Left.ShouldDiffMessage(
 			true,
 			testCase.CaseTitle(),
-			arrangeInput.Right)
+			arrangeInput.Right,
+		)
 
 		// Assert
 		testCase.ShouldBe(
 			caseIndex,
 			t,
 			ShouldResemble,
-			diffJsonMessage)
+			diffJsonMessage,
+		)
 	}
 }
 
@@ -74,16 +81,19 @@ func Test_DynamicMapCreationDiffMessageV2(t *testing.T) {
 				arrangeInput.DifferChecker,
 				true,
 				testCase.CaseTitle(),
-				arrangeInput.Right)
+				arrangeInput.Right,
+			)
 		lines := strings.Split(
 			diffJsonMessage,
-			constants.NewLineUnix)
+			constants.NewLineUnix,
+		)
 
 		// Assert
 		testCase.ShouldBe(
 			caseIndex,
 			t,
 			ShouldResemble,
-			lines)
+			lines,
+		)
 	}
 }

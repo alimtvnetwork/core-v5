@@ -30,7 +30,8 @@ func Test_JsonEqual_Verification(t *testing.T) {
 				i,
 				isany.JsonEqual(f, s),
 				corejson.Serialize.ToString(f),
-				corejson.Serialize.ToString(s))
+				corejson.Serialize.ToString(s),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -38,9 +39,10 @@ func Test_JsonEqual_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

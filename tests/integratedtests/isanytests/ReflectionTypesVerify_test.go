@@ -30,7 +30,8 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 			value := conditional.String(
 				isFunc == "isFunc",
 				funcName,
-				toStringFunc(first))
+				toStringFunc(first),
+			)
 
 			actualSlice.AppendFmt(
 				booleanTypeStringStringFormat,
@@ -38,7 +39,8 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 				checkerFunc(first),
 				first,
 				funcName,
-				value)
+				value,
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
@@ -46,9 +48,10 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }

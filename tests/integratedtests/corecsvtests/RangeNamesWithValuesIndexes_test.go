@@ -14,16 +14,18 @@ func Test_RangeNamesWithValuesIndexes_Verification(t *testing.T) {
 
 		// Act
 		finalActLines := corecsv.RangeNamesWithValuesIndexes(
-			inputs...)
+			inputs...,
+		)
 
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines...)
+			finalActLines...,
+		)
 	}
 }
 
@@ -40,18 +42,22 @@ func Test_RangeNamesWithValuesIndexesCsvString_Verification(t *testing.T) {
 
 		// Act
 		finalActLines := corecsv.RangeNamesWithValuesIndexesCsvString(
-			inputs...)
+			inputs...,
+		)
 
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
-		finalTestCase.SetExpected([]string{
-			expectation,
-		})
+		finalTestCase.SetExpected(
+			[]string{
+				expectation,
+			},
+		)
 
 		// Assert
-		finalTestCase.AssertEqual(
+		finalTestCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			finalActLines)
+			finalActLines,
+		)
 	}
 }

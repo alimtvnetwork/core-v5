@@ -23,10 +23,12 @@ func Test_TestValidators(t *testing.T) {
 
 		err := testCase.Validators.AllVerifyErrorMany(
 			&parameter,
-			testCase.ComparingLines...)
+			testCase.ComparingLines...,
+		)
 
 		errorLines := errcore.ErrorToSplitLines(
-			err)
+			err,
+		)
 
 		sliceValidator := corevalidator.SliceValidator{
 			ValidatorCoreCondition: corevalidator.DefaultDisabledCoreCondition,
@@ -45,18 +47,22 @@ func Test_TestValidators(t *testing.T) {
 
 		// Act
 		validationFinalError := sliceValidator.AllVerifyError(
-			&nextBaseParam)
+			&nextBaseParam,
+		)
 
 		isValid := validationFinalError == nil
 
 		// Assert
-		convey.Convey(testCase.Header, t, func() {
-			errcore.PrintErrorWithTestIndex(
-				caseIndex,
-				testCase.Header,
-				validationFinalError)
+		convey.Convey(
+			testCase.Header, t, func() {
+				errcore.PrintErrorWithTestIndex(
+					caseIndex,
+					testCase.Header,
+					validationFinalError,
+				)
 
-			convey.So(isValid, convey.ShouldBeTrue)
-		})
+				convey.So(isValid, convey.ShouldBeTrue)
+			},
+		)
 	}
 }

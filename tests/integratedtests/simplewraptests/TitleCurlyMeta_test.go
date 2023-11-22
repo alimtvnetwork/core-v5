@@ -32,7 +32,9 @@ func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {
 			simplewrap.TitleCurlyMeta(
 				title,
 				value,
-				meta))
+				meta,
+			),
+		)
 
 		finalActLines := actualSlice.Strings()
 		testCase.SetActual(finalActLines)
@@ -47,25 +49,33 @@ func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {
 		}
 
 		validationFinalError := sliceValidator.AllVerifyError(
-			&nextBaseParam)
+			&nextBaseParam,
+		)
 
 		// Assert
-		convey.Convey(testCase.Title, t, func() {
-			errcore.PrintErrorWithTestIndex(
-				caseIndex,
-				testCase.Title,
-				validationFinalError)
+		convey.Convey(
+			testCase.Title, t, func() {
+				errcore.PrintErrorWithTestIndex(
+					caseIndex,
+					testCase.Title,
+					validationFinalError,
+				)
 
-			convey.So(
-				validationFinalError,
-				should.BeNil)
-		})
+				convey.So(
+					validationFinalError,
+					should.BeNil,
+				)
+			},
+		)
 
-		convey.Convey(testCase.Title+" - type verify", t, func() {
-			convey.So(
-				testCase.TypeValidationError(),
-				should.BeNil)
-		})
+		convey.Convey(
+			testCase.Title+" - type verify", t, func() {
+				convey.So(
+					testCase.TypeValidationError(),
+					should.BeNil,
+				)
+			},
+		)
 	}
 }
 
@@ -86,7 +96,8 @@ func Test_TitleCurly_Wraps_Verification(t *testing.T) {
 			simplewrap.TitleCurlyWrap(
 				title,
 				value,
-			))
+			),
+		)
 
 		finalActLines := actualSlice.Strings()
 		testCase.SetActual(finalActLines)
@@ -101,24 +112,32 @@ func Test_TitleCurly_Wraps_Verification(t *testing.T) {
 		}
 
 		validationFinalError := sliceValidator.AllVerifyError(
-			&nextBaseParam)
+			&nextBaseParam,
+		)
 
 		// Assert
-		convey.Convey(testCase.Title, t, func() {
-			errcore.PrintErrorWithTestIndex(
-				caseIndex,
-				testCase.Title,
-				validationFinalError)
+		convey.Convey(
+			testCase.Title, t, func() {
+				errcore.PrintErrorWithTestIndex(
+					caseIndex,
+					testCase.Title,
+					validationFinalError,
+				)
 
-			convey.So(
-				validationFinalError,
-				should.BeNil)
-		})
+				convey.So(
+					validationFinalError,
+					should.BeNil,
+				)
+			},
+		)
 
-		convey.Convey(testCase.Title+" - type verify", t, func() {
-			convey.So(
-				testCase.TypeValidationError(),
-				should.BeNil)
-		})
+		convey.Convey(
+			testCase.Title+" - type verify", t, func() {
+				convey.So(
+					testCase.TypeValidationError(),
+					should.BeNil,
+				)
+			},
+		)
 	}
 }

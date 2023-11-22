@@ -32,13 +32,15 @@ func Test_SliceValidator(t *testing.T) {
 				i,
 				isany.JsonEqual(f, s),
 				corejson.Serialize.ToString(f),
-				corejson.Serialize.ToString(s))
+				corejson.Serialize.ToString(s),
+			)
 		}
 
 		actLines := actualSlice.Strings()
 		actualError := testCase.Case.VerifyAllEqual(
 			caseIndex,
-			actLines...)
+			actLines...,
+		)
 		validator := testCase.Validator
 		errLines := errcore.ErrorToSplitLines(actualError)
 
@@ -47,7 +49,8 @@ func Test_SliceValidator(t *testing.T) {
 			t,
 			caseIndex,
 			testCase.Case.Title,
-			errLines...)
+			errLines...,
+		)
 	}
 }
 
@@ -72,14 +75,16 @@ func Test_SliceValidator_FirstError(t *testing.T) {
 				i,
 				isany.JsonEqual(f, s),
 				corejson.Serialize.ToString(f),
-				corejson.Serialize.ToString(s))
+				corejson.Serialize.ToString(s),
+			)
 		}
 
 		actLines := actualSlice.Strings()
 		actualError := testCase.Case.VerifyFirst(
 			caseIndex,
 			stringcompareas.Equal,
-			actLines)
+			actLines,
+		)
 		validator := testCase.Validator
 		errLines := errcore.ErrorToSplitLines(actualError)
 
@@ -88,6 +93,7 @@ func Test_SliceValidator_FirstError(t *testing.T) {
 			t,
 			caseIndex,
 			testCase.Case.Title,
-			errLines...)
+			errLines...,
+		)
 	}
 }

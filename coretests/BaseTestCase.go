@@ -277,7 +277,7 @@ func (it *BaseTestCase) IsSkipWithLog(caseIndex int) bool {
 	return false
 }
 
-// ShouldBe
+// Assert
 //
 // Disabled testcases will not be executed.
 func (it *BaseTestCase) ShouldBe(
