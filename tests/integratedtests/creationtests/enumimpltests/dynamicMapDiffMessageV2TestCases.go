@@ -70,7 +70,6 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				},
 				DifferChecker: checker1,
 			},
-			ActualInput:     nil,
 			ExpectedInput:   "",
 			VerifyTypeOf:    simpleDiffTestCases,
 			HasError:        false,
@@ -79,7 +78,7 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 	},
 	{
 		BaseTestCase: coretests.BaseTestCase{
-			Title: "Dynamic map diff - right hand key missing",
+			Title: "Dynamic map diff - right hand key missing - cl int 5",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
 					Left: map[string]interface{}{
@@ -96,7 +95,7 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			},
 			ActualInput: nil,
 			ExpectedInput: []string{
-				"Dynamic map diff - right hand key missing",
+				"Dynamic map diff - right hand key missing - cl int 5",
 				"",
 				"Difference Between Map:",
 				"",
@@ -108,7 +107,7 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				"",
 				"}}",
 			},
-			VerifyTypeOf:    simpleDiffTestCases,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
 			HasError:        false,
 			IsValidateError: true,
 		},
@@ -145,7 +144,7 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				"}",
 				"}",
 			},
-			VerifyTypeOf:    simpleDiffTestCases,
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
 			HasError:        false,
 			IsValidateError: true,
 		},
@@ -169,11 +168,18 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			},
 			ActualInput: nil,
 			ExpectedInput: []string{
-				"Dynamic map diff - left hand key missing\n\n" +
-					"Difference Between Map:\n\n{\n" +
-					"- Left Map - Has Diff from Right Map:" +
-					"\n{\n\n\"" +
-					"cl\":\"{\"Left\":null,\"Right\":5}\"\n\n}\n}",
+				"Dynamic map diff - left hand key missing",
+				"",
+				"Difference Between Map:",
+				"",
+				"{",
+				"- Left Map - Has Diff from Right Map:",
+				"{",
+				"",
+				"\"cl\":\"{\"Left\":null,\"Right\":5}\"",
+				"",
+				"}",
+				"}",
 			},
 			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
 			HasError:        false,
