@@ -16,7 +16,7 @@ func Test_RangeInt_Valid_WithInRange_Verification(t *testing.T) {
 	}
 	toString := converters.AnyToValueString(validCases)
 
-	// Act, ShouldBe
+	// Act, Assert
 	title := toString + " -- all these are valid for (range) : " + someRange.String()
 	convey.Convey(
 		title, t, func() {
@@ -77,7 +77,7 @@ func Test_RangeInt_Invalid_WithInRange_Verification(t *testing.T) {
 	}
 	toString := converters.AnyToValueString(invalidCases)
 
-	// Act, ShouldBe
+	// Act, Assert
 	title := toString + " -- all these are invalid for (range) : " + someRange.String()
 	convey.Convey(
 		title, t, func() {
