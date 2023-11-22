@@ -15,7 +15,6 @@ type Five struct {
 	Third    interface{} `json:",omitempty"`
 	Fourth   interface{} `json:",omitempty"`
 	Fifth    interface{} `json:",omitempty"`
-	WorkFunc interface{} `json:",omitempty"`
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
@@ -67,10 +66,6 @@ func (it *Five) HasFifth() bool {
 
 func (it *Five) HasExpect() bool {
 	return it != nil && reflectinternal.IsNotNull(it.Expect)
-}
-
-func (it *Five) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
 }
 
 func (it Five) Slice() []interface{} {
@@ -133,7 +128,8 @@ func (it Five) String() string {
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
 		"Five",
-		strings.Join(args, constants.CommaSpace))
+		strings.Join(args, constants.CommaSpace),
+	)
 
 	return it.toString.GetSetOnce(toFinalString)
 }
