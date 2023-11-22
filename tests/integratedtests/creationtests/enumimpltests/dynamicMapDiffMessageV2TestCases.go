@@ -151,7 +151,7 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 	},
 	{
 		BaseTestCase: coretests.BaseTestCase{
-			Title: "Dynamic map diff - left hand key missing",
+			Title: "Dynamic map diff - left cl - key missing",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
 					Left: map[string]interface{}{
@@ -168,7 +168,7 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			},
 			ActualInput: nil,
 			ExpectedInput: []string{
-				"Dynamic map diff - left hand key missing",
+				"Dynamic map diff - left cl - key missing",
 				"",
 				"Difference Between Map:",
 				"",
