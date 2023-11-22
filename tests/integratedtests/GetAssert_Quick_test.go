@@ -1,6 +1,7 @@
 package integratedtests
 
 import (
+	"strings"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
@@ -12,26 +13,24 @@ func Test_GetAssert_Quick_Verification(t *testing.T) {
 	for caseIndex, testCase := range quickTestCases {
 		// Arrange
 		input := testCase.
-			ArrangeInput.(args.Four)
+			ArrangeInput.(args.Dynamic)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
 			Cap(0)
 		asserter := coretests.GetAssert
 		quickFunc := asserter.QuickGherkins
+		params := input.Params
 
 		// Act
-		actualSlice.AppendFmt(
-			"%s",
-			quickFunc(
-				input.First,        // when
-				input.Second,       // actual
-				input.Third,        // expected
-				input.Fourth.(int), // counter
-			),
-			input,
-			input,
+		output := quickFunc(
+			params["when"],                      // when
+			params["actual"],                    // actual
+			params["expect"],                    // expected
+			input.GetAsIntDefault("counter", 0), // counter
 		)
+
+		actualSlice.Adds(strings.Split(output, "\n")...)
 
 		finalActLines := actualSlice.Strings()
 

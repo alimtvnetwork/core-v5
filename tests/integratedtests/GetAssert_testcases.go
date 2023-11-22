@@ -36,15 +36,19 @@ var (
 	quickTestCases = []coretestcases.CaseV1{
 		{
 			Title: "QuickGherkins output as gherkins format",
-			ArrangeInput: args.Four{
-
-				First:  "some title, or case when", // when
-				Second: "actual rec",               //
-				Third:  "expected item",
-				Fourth: 3,
+			ArrangeInput: args.Dynamic{
+				Params: map[string]interface{}{
+					"when":    "some title, or case when",
+					"actual":  "actual rec",
+					"expect":  "expected item",
+					"counter": 3,
+				},
 			},
 			ExpectedInput: []string{
-				"",
+				"----------------------",
+				"3 )  When: some title, or case when,",
+				"   Actual: actual rec,",
+				" Expected: expected item",
 			},
 			VerifyTypeOf: nil,
 		},

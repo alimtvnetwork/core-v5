@@ -121,6 +121,16 @@ func (it *Dynamic) GetAsInt(name string) (item int, isValid bool) {
 	return conv, isValid
 }
 
+func (it *Dynamic) GetAsIntDefault(name string, defaultVal int) (item int) {
+	v, isValid := it.GetAsInt(name)
+
+	if isValid {
+		return v
+	}
+
+	return defaultVal
+}
+
 func (it *Dynamic) GetAsString(name string) (item string, isValid bool) {
 	i, isValid := it.Get(name)
 
@@ -131,6 +141,16 @@ func (it *Dynamic) GetAsString(name string) (item string, isValid bool) {
 	conv, isValid := i.(string)
 
 	return conv, isValid
+}
+
+func (it *Dynamic) GetAsStringDefault(name string) (item string) {
+	v, isValid := it.GetAsString(name)
+
+	if isValid {
+		return v
+	}
+
+	return ""
 }
 
 func (it *Dynamic) GetAsStrings(name string) (items []string, isValid bool) {

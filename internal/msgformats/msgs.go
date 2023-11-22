@@ -18,9 +18,9 @@ const (
 	//
 	// Index, Input, Actual, Expected
 	QuickIndexInputActualExpectedMessageFormat = "----------------------\n" +
-		"%d )\tWhen:%#v\n\t\t" +
-		"  Actual:`%#v` ,\n\t\t" +
-		"Expected:`%#v`"
+		"%d )  When: %s,\n" +
+		"   Actual: %s,\n" +
+		" Expected: %s"
 
 	// QuickIndexTitleInputActualExpectedMessageFormat
 	//

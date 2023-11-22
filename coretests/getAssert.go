@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgformats"
 )
@@ -25,9 +26,9 @@ func (it getAssert) QuickGherkins(
 	return fmt.Sprintf(
 		msgformats.QuickIndexInputActualExpectedMessageFormat,
 		counter,
-		when,
-		actual,
-		expected,
+		converters.AnyToSmartString(when),
+		converters.AnyToSmartString(actual),
+		converters.AnyToSmartString(expected),
 	)
 }
 
