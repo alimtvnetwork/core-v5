@@ -254,7 +254,7 @@ func (it *BaseTestCase) String(caseIndex int) string {
 }
 
 func (it *BaseTestCase) LinesString(caseIndex int) string {
-	return GetAssert.SimpleTestCaseWrapper.StringByLines(
+	return GetAssert.SimpleTestCaseWrapper.CaseLinesUsingDoubleQuoteLinesToString(
 		caseIndex, it,
 	)
 }

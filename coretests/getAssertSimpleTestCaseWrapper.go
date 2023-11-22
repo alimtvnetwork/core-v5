@@ -62,7 +62,24 @@ func (it getAssertSimpleTestCaseWrapper) ToQuoteLines(
 	)
 }
 
-func (it getAssertSimpleTestCaseWrapper) AnyToSingleQuoteLines(
+// AnyToDoubleQuoteLines
+//
+// Converts from below lines or line to
+//
+//	line 1,
+//	line 2,
+//	line 3,
+//
+// Or, converts from below line to lines if string or converts it to line
+//
+//	"line 1,\nline 2,\nline 3"
+//
+// Converts a strings lines to
+//
+//	{spaces} "line 1",
+//	{spaces} "line 2",
+//	{spaces} "line 3",
+func (it getAssertSimpleTestCaseWrapper) AnyToDoubleQuoteLines(
 	tabCount int,
 	anyItem interface{},
 ) []string {
@@ -74,7 +91,7 @@ func (it getAssertSimpleTestCaseWrapper) AnyToSingleQuoteLines(
 	)
 }
 
-func (it getAssertSimpleTestCaseWrapper) SingleQuoteLinesToString(
+func (it getAssertSimpleTestCaseWrapper) DoubleQuoteLinesToString(
 	tabCount int,
 	lines []string,
 ) string {
@@ -92,13 +109,13 @@ func (it getAssertSimpleTestCaseWrapper) AnyToStringQuoteLine(
 ) string {
 	lines := convertinteranl.AnyTo.Strings(anyItem)
 
-	return it.SingleQuoteLinesToString(tabCount, lines)
+	return it.DoubleQuoteLinesToString(tabCount, lines)
 }
 
-// StringByLines
+// CaseLinesUsingDoubleQuoteLinesToString
 //
 // Actual lines and then expected lines.
-func (it getAssertSimpleTestCaseWrapper) StringByLines(
+func (it getAssertSimpleTestCaseWrapper) CaseLinesUsingDoubleQuoteLinesToString(
 	testCaseIndex int,
 	testCaseWrapper SimpleTestCaseWrapper,
 ) string {
@@ -107,8 +124,8 @@ func (it getAssertSimpleTestCaseWrapper) StringByLines(
 	actualLines := toStringsFunc(testCaseWrapper.Actual())
 	expectedLines := toStringsFunc(testCaseWrapper.Expected())
 
-	actual := it.SingleQuoteLinesToString(prefixSpaces, actualLines)
-	expected := it.SingleQuoteLinesToString(prefixSpaces, expectedLines)
+	actual := it.DoubleQuoteLinesToString(prefixSpaces, actualLines)
+	expected := it.DoubleQuoteLinesToString(prefixSpaces, expectedLines)
 	title := testCaseWrapper.CaseTitle()
 
 	return fmt.Sprintf(
