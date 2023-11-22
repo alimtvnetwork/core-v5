@@ -12,11 +12,11 @@ type getAssert struct {
 	SimpleTestCaseWrapper getAssertSimpleTestCaseWrapper
 }
 
-// Quick
+// QuickGherkins
 //
 // Gives generic and consistent
 // test message using msgformats.QuickIndexInputActualExpectedMessageFormat
-func (it getAssert) Quick(
+func (it getAssert) QuickGherkins(
 	when,
 	actual,
 	expected interface{},

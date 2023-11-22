@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests"
 )
 
 func Test_GetAssert_Quick_Verification(t *testing.T) {
@@ -15,17 +16,19 @@ func Test_GetAssert_Quick_Verification(t *testing.T) {
 			New.
 			SimpleSlice.
 			Cap(len(inputs))
+		asserter := coretests.GetAssert
+		quickFunc := asserter.QuickGherkins
 
 		// Act
-		// for i, input := range inputs {
-		// 	actualSlice.AppendFmt(
-		// 		"",
-		// 		i,
-		// 		isany.Defined(input),
-		// 		input,
-		// 		input,
-		// 	)
-		// }
+		for i, input := range inputs {
+			actualSlice.AppendFmt(
+				"",
+				i,
+				(input),
+				input,
+				input,
+			)
+		}
 
 		finalActLines := actualSlice.Strings()
 

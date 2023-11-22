@@ -35,7 +35,7 @@ var (
 
 	quickTestCases = []coretestcases.CaseV1{
 		{
-			Title:         "",
+			Title:         "QuickGherkins output as gherkins format",
 			ArrangeInput:  nil,
 			ExpectedInput: nil,
 			VerifyTypeOf:  nil,
