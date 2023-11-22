@@ -31,7 +31,6 @@ func Test_GetAssert_QuickGherkins_Verification(t *testing.T) {
 		)
 
 		actualSlice.Adds(strings.Split(output, "\n")...)
-
 		finalActLines := actualSlice.Strings()
 
 		// Assert
