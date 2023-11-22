@@ -39,16 +39,16 @@ var (
 				{
 					Dir: dirCreateBasePath,
 					Files: []string{
-						"/if-missing/some-dir/first.txt",
-						"/if-missing/some-dir-2/first.txt",
-						"/if-missing/some-dir-3/first.txt",
+						"/if-missing/first.txt",
+						"/if-missing/second.txt",
+						"/if-missing/third.txt",
 					},
 				},
 			},
 			ExpectedInput: []string{
-				"0 - 0 : core/case-dir-create/if-missing/some-dir - isCreated : true",
-				"0 - 1 : core/case-dir-create/if-missing/some-dir-2 - isCreated : true",
-				"0 - 2 : core/case-dir-create/if-missing/some-dir-3 - isCreated : true",
+				"0 - 0 : core/case-dir-create/if-missing - isCreated : true",
+				"0 - 1 : core/case-dir-create/if-missing - isCreated : true",
+				"0 - 2 : core/case-dir-create/if-missing - isCreated : true",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]chmodhelper.DirWithFiles{}),
 		},

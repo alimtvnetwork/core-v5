@@ -8,7 +8,8 @@ func StringLinesToQuoteLines(lines []string) []string {
 		return []string{}
 	}
 
-	return StringLinesToQuoteLinesWithTabs(
+	return LinesToDoubleQuoteLinesWithTabs(
 		0,
-		lines)
+		lines,
+	)
 }

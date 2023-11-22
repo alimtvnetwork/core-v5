@@ -39,16 +39,30 @@ func (it getAssertSimpleTestCaseWrapper) Lines(
 	return actualLines, expectedLines
 }
 
+// ToQuoteLines
+//
+// Converts from below lines to
+//
+//	line 1,
+//	line 2,
+//	line 3,
+//
+// Converts a strings lines to
+//
+//	{spaces} "line 1",
+//	{spaces} "line 2",
+//	{spaces} "line 3",
 func (it getAssertSimpleTestCaseWrapper) ToQuoteLines(
 	tabCount int,
 	lines []string,
 ) []string {
-	return errcore.StringLinesToQuoteLinesWithTabs(
+	return errcore.LinesToDoubleQuoteLinesWithTabs(
 		tabCount,
-		lines)
+		lines,
+	)
 }
 
-func (it getAssertSimpleTestCaseWrapper) AnyToQuoteLines(
+func (it getAssertSimpleTestCaseWrapper) AnyToSingleQuoteLines(
 	tabCount int,
 	anyItem interface{},
 ) []string {
@@ -56,16 +70,18 @@ func (it getAssertSimpleTestCaseWrapper) AnyToQuoteLines(
 
 	return it.ToQuoteLines(
 		tabCount,
-		lines)
+		lines,
+	)
 }
 
-func (it getAssertSimpleTestCaseWrapper) StringQuoteLine(
+func (it getAssertSimpleTestCaseWrapper) SingleQuoteLinesToString(
 	tabCount int,
 	lines []string,
 ) string {
 	finalLines := it.ToQuoteLines(
 		tabCount,
-		lines)
+		lines,
+	)
 
 	return strings.Join(finalLines, constants.NewLineUnix)
 }
@@ -76,7 +92,7 @@ func (it getAssertSimpleTestCaseWrapper) AnyToStringQuoteLine(
 ) string {
 	lines := convertinteranl.AnyTo.Strings(anyItem)
 
-	return it.StringQuoteLine(tabCount, lines)
+	return it.SingleQuoteLinesToString(tabCount, lines)
 }
 
 // StringByLines
@@ -86,13 +102,13 @@ func (it getAssertSimpleTestCaseWrapper) StringByLines(
 	testCaseIndex int,
 	testCaseWrapper SimpleTestCaseWrapper,
 ) string {
-	toStringsFunc := it.AnyToQuoteLines
+	toStringsFunc := GetAssert.ToStrings
 	prefixSpaces := 4
-	actualLines := toStringsFunc(prefixSpaces, testCaseWrapper.Actual())
-	expectedLines := toStringsFunc(prefixSpaces, testCaseWrapper.Expected())
+	actualLines := toStringsFunc(testCaseWrapper.Actual())
+	expectedLines := toStringsFunc(testCaseWrapper.Expected())
 
-	actual := errcore.StringLinesToQuoteLinesToSingle(actualLines)
-	expected := errcore.StringLinesToQuoteLinesToSingle(expectedLines)
+	actual := it.SingleQuoteLinesToString(prefixSpaces, actualLines)
+	expected := it.SingleQuoteLinesToString(prefixSpaces, expectedLines)
 	title := testCaseWrapper.CaseTitle()
 
 	return fmt.Sprintf(

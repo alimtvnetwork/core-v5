@@ -49,7 +49,7 @@ func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {
 				)
 
 				errcore.HandleErr(err)
-				relPath := pathinternal.Relative(temp, finalPath)
+				relPath := pathinternal.Relative(temp, parentDir)
 
 				if iserror.Defined(err) {
 					actualSlice.AppendFmt(
@@ -121,7 +121,7 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 				)
 
 				errcore.HandleErr(err)
-				relPath := pathinternal.Relative(temp, finalPath)
+				relPath := pathinternal.Relative(temp, parentDir)
 
 				if iserror.Defined(err) {
 					actualSlice.AppendFmt(

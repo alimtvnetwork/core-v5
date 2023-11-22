@@ -77,3 +77,9 @@ func (it getAssert) ToStrings(
 ) []string {
 	return convertinteranl.AnyTo.Strings(any)
 }
+
+func (it getAssert) ToStringsWithTab(
+	any interface{},
+) []string {
+	return convertinteranl.AnyTo.Strings(any)
+}

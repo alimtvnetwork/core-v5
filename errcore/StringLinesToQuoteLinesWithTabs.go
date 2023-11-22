@@ -7,10 +7,10 @@ import (
 	"gitlab.com/auk-go/core/internal/msgformats"
 )
 
-// StringLinesToQuoteLinesWithTabs
+// LinesToDoubleQuoteLinesWithTabs
 //
 // Each line will be wrapped with "\"%s\", quotation and comma
-func StringLinesToQuoteLinesWithTabs(
+func LinesToDoubleQuoteLinesWithTabs(
 	tabCount int,
 	lines []string,
 ) []string {
@@ -20,14 +20,16 @@ func StringLinesToQuoteLinesWithTabs(
 
 	slice := make(
 		[]string,
-		len(lines))
+		len(lines),
+	)
 
 	space := strings.Repeat(" ", tabCount)
 
 	for i, line := range lines {
 		slice[i] = fmt.Sprintf(
 			space+msgformats.LinePrinterFormat,
-			line)
+			line,
+		)
 	}
 
 	return slice
