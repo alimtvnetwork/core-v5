@@ -3,7 +3,7 @@ package coretests
 import (
 	"fmt"
 	"strings"
-
+	
 	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgformats"
@@ -13,11 +13,11 @@ type getAssert struct {
 	SimpleTestCaseWrapper getAssertSimpleTestCaseWrapper
 }
 
-// QuickGherkins
+// Quick
 //
 // Gives generic and consistent
 // test message using msgformats.QuickIndexInputActualExpectedMessageFormat
-func (it getAssert) QuickGherkins(
+func (it getAssert) Quick(
 	when,
 	actual,
 	expected interface{},
@@ -42,7 +42,7 @@ func (it getAssert) SortedMessage(
 		true,
 		message,
 	)
-
+	
 	return strings.Join(whitespaceRemovedSplits, joiner)
 }
 
@@ -54,7 +54,7 @@ func (it getAssert) SortedArray(
 	if isPrint {
 		fmt.Println(message)
 	}
-
+	
 	return SplitByEachWordTrimmedNoSpace(
 		message,
 		isSort,
@@ -80,7 +80,59 @@ func (it getAssert) ToStrings(
 }
 
 func (it getAssert) ToStringsWithTab(
+	spacePrefixCount int,
 	any interface{},
 ) []string {
-	return convertinteranl.AnyTo.Strings(any)
+	lines := convertinteranl.AnyTo.Strings(any)
+	
+	return it.StringsToSpaceString(
+		spacePrefixCount,
+		lines...)
+}
+
+func (it getAssert) StringsToSpaceString(
+	spaceCount int,
+	lines ...string,
+) []string {
+	if len(lines) == 0 {
+		return []string{}
+	}
+	
+	newLines := make([]string, len(lines))
+	prefix := strings.Repeat(
+		" ",
+		spaceCount)
+	
+	for i, line := range lines {
+		newLines[i] = fmt.Sprintf(
+			"%s%s",
+			prefix,
+			line)
+	}
+	
+	return newLines
+}
+
+func (it getAssert) StringsToSpaceStringUsingFunc(
+	spaceCount int,
+	toStringFunc func(i int, spacePrefix, line string) string,
+	lines ...string,
+) []string {
+	if len(lines) == 0 {
+		return []string{}
+	}
+	
+	newLines := make([]string, len(lines))
+	prefix := strings.Repeat(
+		" ",
+		spaceCount)
+	
+	for i, line := range lines {
+		newLines[i] = toStringFunc(
+			i,
+			prefix,
+			line)
+	}
+	
+	return newLines
 }
