@@ -51,4 +51,43 @@ var (
 			VerifyTypeOf: nil,
 		},
 	}
+
+	sortedArrayTestCases = []coretestcases.CaseV1{
+		{
+			Title: "SortedArray output verification",
+			ArrangeInput: args.Map{
+				"isPrint": false,
+				"isSort":  true,
+				"message": "some message alim, knows, who, do you know --- #alim",
+			},
+			ExpectedInput: []string{
+				"#alim",
+				"---",
+				"alim,",
+				"do",
+				"know",
+				"knows,",
+				"message",
+				"some",
+				"who,",
+				"you",
+			},
+			VerifyTypeOf: nil,
+		},
+	}
+
+	sortedMessageTestCases = []coretestcases.CaseV1{
+		{
+			Title: "SortedMessage output verification",
+			ArrangeInput: args.Map{
+				"isPrint": false,
+				"message": "some message alim, knows, who, do you know --- #alim",
+				"joiner":  " | ",
+			},
+			ExpectedInput: []string{
+				"#alim | --- | alim, | do | know | knows, | message | some | who, | you",
+			},
+			VerifyTypeOf: nil,
+		},
+	}
 )

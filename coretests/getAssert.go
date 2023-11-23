@@ -1,9 +1,6 @@
 package coretests
 
 import (
-	"fmt"
-	"strings"
-
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgcreator"
 )
@@ -75,11 +72,9 @@ func (it getAssert) ToStringsWithTab(
 	spacePrefixCount int,
 	any interface{},
 ) []string {
-	lines := convertinteranl.AnyTo.Strings(any)
-
-	return it.StringsToSpaceString(
+	return msgcreator.Assert.ToStringsWithTab(
 		spacePrefixCount,
-		lines...,
+		any,
 	)
 }
 
@@ -87,25 +82,10 @@ func (it getAssert) StringsToSpaceString(
 	spaceCount int,
 	lines ...string,
 ) []string {
-	if len(lines) == 0 {
-		return []string{}
-	}
-
-	newLines := make([]string, len(lines))
-	prefix := strings.Repeat(
-		" ",
+	return msgcreator.Assert.StringsToSpaceString(
 		spaceCount,
+		lines...,
 	)
-
-	for i, line := range lines {
-		newLines[i] = fmt.Sprintf(
-			"%s%s",
-			prefix,
-			line,
-		)
-	}
-
-	return newLines
 }
 
 func (it getAssert) StringsToSpaceStringUsingFunc(
@@ -113,23 +93,9 @@ func (it getAssert) StringsToSpaceStringUsingFunc(
 	toStringFunc func(i int, spacePrefix, line string) string,
 	lines ...string,
 ) []string {
-	if len(lines) == 0 {
-		return []string{}
-	}
-
-	newLines := make([]string, len(lines))
-	prefix := strings.Repeat(
-		" ",
+	return msgcreator.Assert.StringsToSpaceStringUsingFunc(
 		spaceCount,
+		toStringFunc,
+		lines...,
 	)
-
-	for i, line := range lines {
-		newLines[i] = toStringFunc(
-			i,
-			prefix,
-			line,
-		)
-	}
-
-	return newLines
 }
