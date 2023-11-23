@@ -1,4 +1,4 @@
-package coretests
+package msgcreator
 
 import (
 	"sort"

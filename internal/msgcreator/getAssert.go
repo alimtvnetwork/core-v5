@@ -1,16 +1,15 @@
-package coretests
+package msgcreator
 
 import (
 	"fmt"
 	"strings"
 
+	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/internal/msgcreator"
+	"gitlab.com/auk-go/core/internal/msgformats"
 )
 
-type getAssert struct {
-	SimpleTestCaseWrapper getAssertSimpleTestCaseWrapper
-}
+type getAssert struct{}
 
 // Quick
 //
@@ -22,11 +21,12 @@ func (it getAssert) Quick(
 	expected interface{},
 	counter int,
 ) string {
-	return msgcreator.Assert.Quick(
-		when,
-		actual,
-		expected,
+	return fmt.Sprintf(
+		msgformats.QuickIndexInputActualExpectedMessageFormat,
 		counter,
+		converters.AnyToSmartString(when),
+		converters.AnyToSmartString(actual),
+		converters.AnyToSmartString(expected),
 	)
 }
 
@@ -35,11 +35,13 @@ func (it getAssert) SortedMessage(
 	message,
 	joiner string,
 ) string {
-	return msgcreator.Assert.SortedMessage(
+	whitespaceRemovedSplits := it.SortedArray(
 		isPrint,
+		true,
 		message,
-		joiner,
 	)
+
+	return strings.Join(whitespaceRemovedSplits, joiner)
 }
 
 func (it getAssert) SortedArray(
@@ -47,10 +49,13 @@ func (it getAssert) SortedArray(
 	isSort bool,
 	message string,
 ) []string {
-	return msgcreator.Assert.SortedArray(
-		isPrint,
-		isSort,
+	if isPrint {
+		fmt.Println(message)
+	}
+
+	return SplitByEachWordTrimmedNoSpace(
 		message,
+		isSort,
 	)
 }
 
@@ -60,8 +65,9 @@ func (it getAssert) SortedArray(
 func (it getAssert) SortedArrayNoPrint(
 	message string,
 ) []string {
-	return msgcreator.Assert.SortedArrayNoPrint(
-		message,
+	return it.SortedArray(
+		false,
+		true, message,
 	)
 }
 

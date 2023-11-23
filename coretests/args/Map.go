@@ -6,7 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/internal/msgcreator"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -141,16 +141,24 @@ func (it Map) Arrange() interface{} {
 }
 
 func (it Map) WorkFunc() interface{} {
-	f1 := it.GetDirectLower("func")
+	return it.GetFirst(
+		"func",
+		"work.func",
+		"workFunc",
+	)
+}
 
-	if reflectinternal.IsNotNull(f1) {
-		return f1
+func (it Map) GetFirst(names ...string) interface{} {
+	if len(names) == 0 {
+		return nil
 	}
 
-	f2 := it.GetDirectLower("work.func")
+	for _, name := range names {
+		v, has := it[name]
 
-	if reflectinternal.IsNotNull(f2) {
-		return f2
+		if has && reflectinternal.IsNotNull(v) {
+			return v
+		}
 	}
 
 	return nil
@@ -158,6 +166,12 @@ func (it Map) WorkFunc() interface{} {
 
 func (it Map) WorkFuncName() string {
 	workFunc := it.WorkFunc()
+
+	return reflectinternal.GetFuncName(workFunc)
+}
+
+func (it Map) GetFirstFuncNameOf(names ...string) string {
+	workFunc := it.GetFirst(names...)
 
 	return reflectinternal.GetFuncName(workFunc)
 }
@@ -260,7 +274,7 @@ func (it Map) String() string {
 		args = append(args, toString(item))
 	}
 
-	toLines := coretests.GetAssert.StringsToSpaceStringUsingFunc(
+	toLines := msgcreator.Assert.StringsToSpaceStringUsingFunc(
 		4,
 		func(i int, spacePrefix, line string) string {
 			return fmt.Sprintf(
