@@ -11,9 +11,9 @@ import (
 )
 
 type DynamicFunc struct {
-	Params   map[string]interface{} `json:",omitempty"`
-	WorkFunc interface{}            `json:",omitempty"`
-	Expect   interface{}            `json:",omitempty"`
+	Params   Map         `json:",omitempty"`
+	WorkFunc interface{} `json:",omitempty"`
+	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
 }
@@ -94,6 +94,38 @@ func (it *DynamicFunc) IsKeyMissing(name string) bool {
 	_, has := it.Params[name]
 
 	return !has
+}
+
+func (it DynamicFunc) When() (item interface{}) {
+	return it.Params["when"]
+}
+
+func (it DynamicFunc) Title() (item interface{}) {
+	return it.Params["title"]
+}
+
+func (it DynamicFunc) GetLowerCase(name string) (item interface{}, isValid bool) {
+	lower := strings.ToLower(name)
+
+	return it.Get(lower)
+}
+
+func (it DynamicFunc) GetDirectLower(name string) interface{} {
+	x, has := it.Params[strings.ToLower(name)]
+
+	if has {
+		return x
+	}
+
+	return nil
+}
+
+func (it DynamicFunc) Actual() interface{} {
+	return it.GetDirectLower("actual")
+}
+
+func (it DynamicFunc) Arrange() interface{} {
+	return it.GetDirectLower("arrange")
 }
 
 func (it *DynamicFunc) Get(name string) (item interface{}, isValid bool) {
