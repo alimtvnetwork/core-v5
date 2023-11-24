@@ -1,6 +1,7 @@
 package integratedtests
 
 import (
+	"fmt"
 	"reflect"
 
 	"gitlab.com/auk-go/core/coretests"
@@ -202,6 +203,36 @@ var (
 				"      ],",
 				"      \"Expect\": \"alim expect\"",
 				"    }",
+			},
+			VerifyTypeOf: commonType,
+		},
+	}
+
+	stringsToSpaceStringUsingFuncTestCases = []coretestcases.CaseV1{
+		{
+			Title: "given lines 4 spaces - displays as {space}%d. 'line';",
+			ArrangeInput: args.Map{
+				"spaceCount": 4,
+				"converterFunc": coretests.ToLineConverterFunc(
+					func(i int, spacePrefix, line string) string {
+						return fmt.Sprintf(
+							"%s %d. '%s';",
+							spacePrefix,
+							i+1,
+							line,
+						)
+					},
+				),
+				"lines": []string{
+					"alim introduced",
+					"new custom formatter",
+					"lets see the format",
+				},
+			},
+			ExpectedInput: []string{
+				"     1. 'alim introduced';",
+				"     2. 'new custom formatter';",
+				"     3. 'lets see the format';",
 			},
 			VerifyTypeOf: commonType,
 		},
