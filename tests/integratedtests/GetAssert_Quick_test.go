@@ -132,7 +132,7 @@ func Test_GetAssert_SortedArrayNoPrint_Verification(t *testing.T) {
 }
 
 func Test_GetAssert_StringsToSpaceString_Verification(t *testing.T) {
-	for caseIndex, testCase := range sortedMessageTestCases {
+	for caseIndex, testCase := range stringsToSpaceStringTestCases {
 		// Arrange
 		input := testCase.
 			ArrangeInput.(args.Map)
