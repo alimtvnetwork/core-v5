@@ -70,12 +70,51 @@ func (it getAssert) SortedArrayNoPrint(
 	)
 }
 
+// ToStrings
+//
+//	This function will display complex objects to simpler form
+//	for the integration testing validation and expectations.
+//
+// # Steps:
+//  01. string to []string
+//  02. []string to as is.
+//  03. []interface{} to []string
+//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
+//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
+//  06. map[string]string (fmt - %s : %s)") to []string
+//  07. map[string]int (fmt - %s : %d)") to []string
+//  08. map[int]string (fmt - %d : %s)") to []string
+//  09. int to []string
+//  10. byte to []string
+//  11. bool to []string
+//
+// See also convertinteranl.AnyTo.Strings
 func (it getAssert) ToStrings(
 	any interface{},
 ) []string {
 	return convertinteranl.AnyTo.Strings(any)
 }
 
+// ToStringsWithTab
+//
+//	This function will display complex objects to simpler form
+//	for the integration testing validation and expectations.
+//	Usages a space prefix for each line.
+//
+// # Steps:
+//  01. string to []string
+//  02. []string to as is.
+//  03. []interface{} to []string
+//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
+//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
+//  06. map[string]string (fmt - %s : %s)") to []string
+//  07. map[string]int (fmt - %s : %d)") to []string
+//  08. map[int]string (fmt - %d : %s)") to []string
+//  09. int to []string
+//  10. byte to []string
+//  11. bool to []string
+//
+// See also convertinteranl.AnyTo.Strings
 func (it getAssert) ToStringsWithTab(
 	spacePrefixCount int,
 	any interface{},

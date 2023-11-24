@@ -3,6 +3,7 @@ package convertinteranl
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -62,7 +63,10 @@ func (it anyTo) SmartJson(anyItem interface{}) string {
 	case string:
 		return v
 	default:
-		toPrettyJson := jsoninternal.Pretty.AnyTo.PrettyStringDefault(anyItem)
+		toPrettyJson := jsoninternal.
+			Pretty.
+			AnyTo.
+			SafeString(anyItem)
 
 		return toPrettyJson
 	}
@@ -83,21 +87,53 @@ func (it anyTo) SmartPrettyJsonLines(anyItem interface{}) []string {
 		)
 
 	default:
-		toPrettyJson := jsoninternal.Pretty.AnyTo.PrettyStringDefault(anyItem)
-
-		return strings.Split(
-			toPrettyJson,
-			constants.NewLineUnix,
-		)
+		return it.PrettyJsonLines(anyItem)
 	}
 }
 
+func (it anyTo) PrettyJsonLines(anyItem interface{}) []string {
+	if anyItem == nil {
+		return []string{}
+	}
+
+	toPrettyJson := jsoninternal.
+		Pretty.
+		AnyTo.
+		PrettyStringDefault(anyItem)
+
+	return strings.Split(
+		toPrettyJson,
+		constants.NewLineUnix,
+	)
+}
+
+// Strings
+//
+//	This function will display complex objects to simpler form
+//	for the integration testing validation and expectations.
+//
+// # Steps:
+//  01. string to []string
+//  02. []string to as is.
+//  03. []interface{} to []string
+//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
+//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
+//  06. map[string]string (fmt - %s : %s)") to []string
+//  07. map[string]int (fmt - %s : %d)") to []string
+//  08. map[int]string (fmt - %d : %s)") to []string
+//  09. int to []string
+//  10. byte to []string
+//  11. bool to []string
+//  12. any to PrettyJSON
 func (it anyTo) Strings(
 	any interface{},
 ) []string {
 	switch v := any.(type) {
 	case string:
-		return strings.Split(v, constants.NewLineUnix)
+		return strings.Split(
+			v, constants.NewLineUnix,
+		)
+
 	case []string:
 		return v
 	case []interface{}:
@@ -108,7 +144,7 @@ func (it anyTo) Strings(
 		lines := make([]string, len(v))
 
 		for i, line := range v {
-			lines[i] = it.SmartString(line)
+			lines[i] = it.SmartJson(line)
 		}
 
 		return lines
@@ -186,9 +222,9 @@ func (it anyTo) Strings(
 
 		for key, value := range v {
 			lines[index] = fmt.Sprintf(
-				"%s : %s",
+				"%s : %d",
 				key,
-				it.String(value),
+				value,
 			)
 
 			index++
@@ -219,12 +255,19 @@ func (it anyTo) Strings(
 		sort.Strings(lines)
 
 		return lines
+	case int:
+		return []string{
+			strconv.Itoa(v),
+		}
+	case byte:
+		return []string{
+			strconv.Itoa(int(v)),
+		}
+	case bool:
+		return []string{
+			strconv.FormatBool(v),
+		}
 	default:
-		toString := jsoninternal.
-			Pretty.
-			AnyTo.
-			PrettyStringDefault(v)
-
-		return strings.Split(toString, constants.NewLineUnix)
+		return it.PrettyJsonLines(any)
 	}
 }

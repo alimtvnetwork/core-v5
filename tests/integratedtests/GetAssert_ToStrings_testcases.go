@@ -98,24 +98,6 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving map[string]string - converts to lines and returns sorted lines.",
-			ArrangeInput: args.Map{
-				"any": map[string]string{
-					"line 1": "passed map[string]string, which is",
-					"line 2": "any but keys as is but converts",
-					"line 3": "value to as is and",
-					"line 4": "returns simple line",
-				},
-			},
-			ExpectedInput: []string{
-				"line 1 : passed map[string]string, which is",
-				"line 2 : any but keys as is but converts",
-				"line 3 : value to as is and",
-				"line 4 : returns simple line",
-			},
-			VerifyTypeOf: commonType,
-		},
-		{
 			Title: "giving map[interface{}]interface{} - converts to lines and returns sorted lines.",
 			ArrangeInput: args.Map{
 				"any": map[interface{}]interface{}{
@@ -157,6 +139,118 @@ var (
 				"line 5 : some line 1\nsome line 2",
 				"line 6 : [\n  {\n    \"First\": \"line 6.1 first\",\n    \"Expect\": \"line 6.1 expect\"\n  },\n  \"some line 2\"\n]",
 				"{\n  \"First\": \"line 7 - key\"\n} : {\n  \"First\": \"line 7 - value\",\n  \"Expect\": \"line 7 - value.expect\"\n}",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving map[string]string - converts to lines and returns sorted lines.",
+			ArrangeInput: args.Map{
+				"any": map[string]string{
+					"line 1": "passed map[string]string, which is",
+					"line 2": "any but keys as is but converts",
+					"line 3": "value to as is and",
+					"line 4": "returns simple line",
+				},
+			},
+			ExpectedInput: []string{
+				"line 1 : passed map[string]string, which is",
+				"line 2 : any but keys as is but converts",
+				"line 3 : value to as is and",
+				"line 4 : returns simple line",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving map[string]int - converts to lines and returns sorted lines.",
+			ArrangeInput: args.Map{
+				"any": map[string]int{
+					"line 1": 1,
+					"line 2": 2,
+					"line 3": 3,
+					"line 4": 4,
+				},
+			},
+			ExpectedInput: []string{
+				"line 1 : 1",
+				"line 2 : 2",
+				"line 3 : 3",
+				"line 4 : 4",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving map[string]int - converts to lines and returns sorted lines.",
+			ArrangeInput: args.Map{
+				"any": map[int]string{
+					1: "line 1",
+					2: "line 2",
+					3: "line 3",
+					4: "line 4",
+				},
+			},
+			ExpectedInput: []string{
+				"1 : line 1",
+				"2 : line 2",
+				"3 : line 3",
+				"4 : line 4",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving int - gives []string { int }",
+			ArrangeInput: args.Map{
+				"any": 321,
+			},
+			ExpectedInput: []string{
+				"321",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving byte - gives []string { byte }",
+			ArrangeInput: args.Map{
+				"any": byte(156),
+			},
+			ExpectedInput: []string{
+				"156",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving bool - gives []string { bool }",
+			ArrangeInput: args.Map{
+				"any": true,
+			},
+			ExpectedInput: []string{
+				"true",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving args.One - converts to Smart JSON.",
+			ArrangeInput: args.Map{
+				"any": args.One{
+					First: []string{
+						"line 1",
+						"line 2",
+					},
+					Expect: []string{
+						"expect 1",
+						"expect 2",
+					},
+				},
+			},
+			ExpectedInput: []string{
+				"{",
+				"  \"First\": [",
+				"    \"line 1\",",
+				"    \"line 2\"",
+				"  ],",
+				"  \"Expect\": [",
+				"    \"expect 1\",",
+				"    \"expect 2\"",
+				"  ]",
+				"}",
 			},
 			VerifyTypeOf: commonType,
 		},

@@ -124,4 +124,63 @@ var (
 			VerifyTypeOf: commonType,
 		},
 	}
+
+	toStringsWithTabTestCases = []coretestcases.CaseV1{
+		{
+			Title: "given []string in any parameter with 4 spaces",
+			ArrangeInput: args.Map{
+				"spaceCount": 4,
+				"any": []string{
+					"#alim",
+					"---",
+					"some,",
+					"any lines",
+				},
+			},
+			ExpectedInput: []string{
+				"    #alim",
+				"    ---",
+				"    some,",
+				"    any lines",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "given []interface{} in any parameter with 4 spaces",
+			ArrangeInput: args.Map{
+				"spaceCount": 4,
+				"any": []interface{}{
+					"#alim",
+					"---",
+					args.Map{
+						"key": args.One{
+							First: []string{
+								"line alim 1",
+								"line alim 2",
+							},
+							Expect: "alim expect",
+						},
+					},
+					"any lines",
+					1,
+					255,
+					true,
+					args.One{
+						Expect: "alim expect",
+					},
+				},
+			},
+			ExpectedInput: []string{
+				"    #alim",
+				"    ---",
+				"    {\"key\":{\"First\":[\"line alim 1\",\"line alim 2\"],\"Expect\":\"alim expect\"}}",
+				"    any lines",
+				"    1",
+				"    255",
+				"    true",
+				"    {\"Expect\":\"alim expect\"}",
+			},
+			VerifyTypeOf: commonType,
+		},
+	}
 )
