@@ -90,4 +90,29 @@ var (
 			VerifyTypeOf: nil,
 		},
 	}
+
+	stringsToSpaceStringTestCases = []coretestcases.CaseV1{
+		{
+			Title: "StringsToSpaceString output verification",
+			ArrangeInput: args.Map{
+				"spaceCount": 4,
+				"lines": []string{
+					"#alim",
+					"---",
+					"alim,",
+					"do",
+					"",
+					"know",
+					"when",
+					"you",
+					"type,",
+					"lines",
+				},
+			},
+			ExpectedInput: []string{
+				"#alim | --- | alim, | do | know | knows, | message | some | who, | you",
+			},
+			VerifyTypeOf: nil,
+		},
+	}
 )

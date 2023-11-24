@@ -286,7 +286,7 @@ func (it Map) String() string {
 	)
 
 	toFinalString := fmt.Sprintf(
-		"%s {\n%s\n}",
+		"%s {\n%s\n}\n",
 		"Map",
 		strings.Join(toLines, constants.NewLineUnix),
 	)
