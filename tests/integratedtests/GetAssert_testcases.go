@@ -10,24 +10,6 @@ import (
 )
 
 var (
-	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
-		ActualInput:   reflect.TypeOf([]string{}),
-		ExpectedInput: reflect.TypeOf([]string{}),
-	}
-
-	twoArgsTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Two{}),
-		ActualInput:   reflect.TypeOf([]string{}),
-		ExpectedInput: reflect.TypeOf([]string{}),
-	}
-
-	oneFuncTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.OneFunc{}),
-		ActualInput:   reflect.TypeOf([]string{}),
-		ExpectedInput: reflect.TypeOf([]string{}),
-	}
-
 	commonType = &coretests.VerifyTypeOf{
 		ArrangeInput:  reflect.TypeOf(args.Map{}),
 		ActualInput:   reflect.TypeOf([]string{}),
