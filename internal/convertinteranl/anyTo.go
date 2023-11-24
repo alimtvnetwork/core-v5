@@ -2,6 +2,7 @@ package convertinteranl
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -61,7 +62,7 @@ func (it anyTo) SmartJson(anyItem interface{}) string {
 	case string:
 		return v
 	default:
-		toPrettyJson := jsoninternal.Pretty.AnyTo.SafeString(anyItem)
+		toPrettyJson := jsoninternal.Pretty.AnyTo.PrettyStringDefault(anyItem)
 
 		return toPrettyJson
 	}
@@ -82,7 +83,7 @@ func (it anyTo) SmartPrettyJsonLines(anyItem interface{}) []string {
 		)
 
 	default:
-		toPrettyJson := jsoninternal.Pretty.AnyTo.SafeString(anyItem)
+		toPrettyJson := jsoninternal.Pretty.AnyTo.PrettyStringDefault(anyItem)
 
 		return strings.Split(
 			toPrettyJson,
@@ -130,6 +131,8 @@ func (it anyTo) Strings(
 			index++
 		}
 
+		sort.Strings(lines)
+
 		return lines
 	case map[interface{}]interface{}:
 		if len(v) == 0 {
@@ -148,6 +151,8 @@ func (it anyTo) Strings(
 
 			index++
 		}
+
+		sort.Strings(lines)
 
 		return lines
 	case map[string]string:
@@ -168,8 +173,9 @@ func (it anyTo) Strings(
 			index++
 		}
 
-		return lines
+		sort.Strings(lines)
 
+		return lines
 	case map[string]int:
 		if len(v) == 0 {
 			return []string{}
@@ -187,6 +193,8 @@ func (it anyTo) Strings(
 
 			index++
 		}
+
+		sort.Strings(lines)
 
 		return lines
 
@@ -207,6 +215,8 @@ func (it anyTo) Strings(
 
 			index++
 		}
+
+		sort.Strings(lines)
 
 		return lines
 	default:
