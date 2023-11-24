@@ -17,7 +17,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 				{
 					Search:   "   alim      alim 2 alim 3                 ",
 					SearchAs: stringcompareas.Equal,
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        false,
 						IsUniqueWordOnly:     false,
 						IsNonEmptyWhitespace: false,
@@ -68,7 +68,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      alim 2 alim 3                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     false,
 						IsNonEmptyWhitespace: false,
@@ -91,7 +91,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      alim 2 alim 3                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     false,
 						IsNonEmptyWhitespace: true,
@@ -117,7 +117,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 				{
 					Search:   "   alim      alim 2 alim 3                 ",
 					SearchAs: stringcompareas.Equal,
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     false,
 						IsNonEmptyWhitespace: true,
@@ -165,7 +165,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      3 alim 2 alim                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     false,
 						IsNonEmptyWhitespace: true,
@@ -213,7 +213,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      alim 2 alim 3                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     true,
 						IsNonEmptyWhitespace: true,
@@ -262,7 +262,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      alim 2 alim 3                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     true,
 						IsNonEmptyWhitespace: true,
@@ -300,7 +300,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      alim 2 alim 3                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     true,
 						IsNonEmptyWhitespace: true,
@@ -338,7 +338,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      alim 2 alim 3                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     true,
 						IsNonEmptyWhitespace: true,
@@ -376,7 +376,7 @@ var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{
 			Items: []corevalidator.TextValidator{
 				{
 					Search: "   alim      alim 2 Alim 3                 ",
-					ValidatorCoreCondition: corevalidator.ValidatorCoreCondition{
+					Condition: corevalidator.Condition{
 						IsTrimCompare:        true,
 						IsUniqueWordOnly:     false,
 						IsNonEmptyWhitespace: true,

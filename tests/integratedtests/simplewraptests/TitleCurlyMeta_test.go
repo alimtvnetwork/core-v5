@@ -16,7 +16,7 @@ func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {
 	for caseIndex, testCase := range titleCurlyMetaTestCases {
 		// Arrange
 		sliceValidator := corevalidator.SliceValidator{
-			ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+			Condition: corevalidator.DefaultTrimCoreCondition,
 		}
 
 		inputs := testCase.Arrange()
@@ -83,7 +83,7 @@ func Test_TitleCurly_Wraps_Verification(t *testing.T) {
 	for caseIndex, testCase := range titleCurlyTestCases {
 		// Arrange
 		sliceValidator := corevalidator.SliceValidator{
-			ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+			Condition: corevalidator.DefaultTrimCoreCondition,
 		}
 
 		inputs := testCase.Arrange()

@@ -15,10 +15,10 @@ var SegmentValidatorTestCases = []SegmentValidatorWrapper{
 			VerifierSegments: []corevalidator.RangesSegment{
 
 				{
-					RangeInt:               corerange.RangeInt{},
-					ExpectedLines:          nil,
-					CompareAs:              stringcompareas.Equal,
-					ValidatorCoreCondition: corevalidator.DefaultDisabledCoreCondition,
+					RangeInt:      corerange.RangeInt{},
+					ExpectedLines: nil,
+					CompareAs:     stringcompareas.Equal,
+					Condition:     corevalidator.DefaultDisabledCoreCondition,
 				},
 			},
 		},

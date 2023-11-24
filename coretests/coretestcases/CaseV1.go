@@ -70,10 +70,10 @@ func (it CaseV1) SliceValidator(
 	it.SetActual(actualElements)
 
 	sliceValidator := corevalidator.SliceValidator{
-		ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
-		CompareAs:              compareAs,
-		ActualLines:            actualElements,
-		ExpectedLines:          it.ExpectedInput.([]string),
+		Condition:     corevalidator.DefaultTrimCoreCondition,
+		CompareAs:     compareAs,
+		ActualLines:   actualElements,
+		ExpectedLines: it.ExpectedInput.([]string),
 	}
 
 	return sliceValidator
@@ -87,10 +87,10 @@ func (it CaseV1) VerifyAll(
 	it.SetActual(actualElements)
 
 	sliceValidator := corevalidator.SliceValidator{
-		ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
-		CompareAs:              compareAs,
-		ActualLines:            actualElements,
-		ExpectedLines:          it.ExpectedInput.([]string),
+		Condition:     corevalidator.DefaultTrimCoreCondition,
+		CompareAs:     compareAs,
+		ActualLines:   actualElements,
+		ExpectedLines: it.ExpectedInput.([]string),
 	}
 
 	return it.VerifyAllSliceValidator(
@@ -107,10 +107,10 @@ func (it CaseV1) VerifyFirst(
 	it.SetActual(actualElements)
 
 	sliceValidator := corevalidator.SliceValidator{
-		ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
-		CompareAs:              compareAs,
-		ActualLines:            actualElements,
-		ExpectedLines:          it.ExpectedInput.([]string),
+		Condition:     corevalidator.DefaultTrimCoreCondition,
+		CompareAs:     compareAs,
+		ActualLines:   actualElements,
+		ExpectedLines: it.ExpectedInput.([]string),
 	}
 
 	param := corevalidator.Parameter{

@@ -15,7 +15,7 @@ import (
 type TextValidator struct {
 	Search   string `json:"Search,omitempty"`
 	SearchAs stringcompareas.Variant
-	ValidatorCoreCondition
+	Condition
 	searchTextFinalized *string
 }
 
@@ -29,7 +29,8 @@ func (it *TextValidator) ToString(isSingleLine bool) string {
 			it.IsSplitByWhitespace(),
 			it.IsUniqueWordOnly,
 			it.IsNonEmptyWhitespace,
-			it.IsSortStringsBySpace)
+			it.IsSortStringsBySpace,
+		)
 	}
 
 	return fmt.Sprintf(
@@ -40,7 +41,8 @@ func (it *TextValidator) ToString(isSingleLine bool) string {
 		it.IsSplitByWhitespace(),
 		it.IsUniqueWordOnly,
 		it.IsNonEmptyWhitespace,
-		it.IsSortStringsBySpace)
+		it.IsSortStringsBySpace,
+	)
 }
 
 func (it *TextValidator) String() string {
@@ -58,7 +60,8 @@ func (it *TextValidator) SearchTextFinalizedPtr() *string {
 
 	searchTerm := it.GetCompiledTermBasedOnConditions(
 		it.Search,
-		it.IsUniqueWordOnly) // for unique word, use lowercase
+		it.IsUniqueWordOnly,
+	) // for unique word, use lowercase
 
 	it.searchTextFinalized = &searchTerm
 
@@ -82,11 +85,13 @@ func (it *TextValidator) GetCompiledTermBasedOnConditions(
 			it.IsNonEmptyWhitespace,
 			it.IsSortStringsBySpace,
 			it.IsUniqueWordOnly,
-			!isCaseSensitive)
+			!isCaseSensitive,
+		)
 
 		return strings.Join(
 			compiledStringSplits,
-			constants.Space)
+			constants.Space,
+		)
 	}
 
 	return searchTerm
@@ -99,7 +104,8 @@ func (it *TextValidator) IsMatch(
 	search := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
 		content,
-		isCaseSensitive)
+		isCaseSensitive,
+	)
 
 	isIgnoreCase := !isCaseSensitive
 
@@ -143,7 +149,8 @@ func (it *TextValidator) VerifyDetailError(
 	return it.verifyDetailErrorUsingLineProcessing(
 		constants.InvalidValue,
 		params,
-		content)
+		content,
+	)
 }
 
 func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
@@ -158,7 +165,8 @@ func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
 	processedSearch := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
 		content,
-		params.IsCaseSensitive)
+		params.IsCaseSensitive,
+	)
 
 	isMatch := it.SearchAs.IsCompareSuccess(
 		params.IsIgnoreCase(),
@@ -179,7 +187,8 @@ func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
 		lineProcessingIndex,
 		processedContent,
 		processedSearch,
-		it.String())
+		it.String(),
+	)
 
 	return errors.New(msg)
 }
@@ -200,7 +209,8 @@ func (it *TextValidator) VerifySimpleError(
 	processedSearch := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
 		content,
-		params.IsCaseSensitive)
+		params.IsCaseSensitive,
+	)
 
 	isMatch := it.SearchAs.IsCompareSuccess(
 		params.IsIgnoreCase(),
@@ -219,7 +229,8 @@ func (it *TextValidator) VerifySimpleError(
 		method,
 		processingIndex,
 		processedContent,
-		processedSearch)
+		processedSearch,
+	)
 
 	return errors.New(msg)
 }
@@ -232,12 +243,14 @@ func (it *TextValidator) VerifyMany(
 	if isContinueOnError {
 		return it.AllVerifyError(
 			params,
-			contents...)
+			contents...,
+		)
 	}
 
 	return it.VerifyFirstError(
 		params,
-		contents...)
+		contents...,
+	)
 }
 
 func (it *TextValidator) VerifyFirstError(
@@ -293,10 +306,12 @@ func (it *TextValidator) AllVerifyError(
 		if err != nil {
 			sliceErr = append(
 				sliceErr,
-				err.Error())
+				err.Error(),
+			)
 		}
 	}
 
 	return errcore.SliceToError(
-		sliceErr)
+		sliceErr,
+	)
 }

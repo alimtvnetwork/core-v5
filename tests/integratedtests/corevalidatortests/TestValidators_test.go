@@ -31,10 +31,10 @@ func Test_TestValidators(t *testing.T) {
 		)
 
 		sliceValidator := corevalidator.SliceValidator{
-			ValidatorCoreCondition: corevalidator.DefaultDisabledCoreCondition,
-			CompareAs:              stringcompareas.Equal,
-			ActualLines:            errorLines,
-			ExpectedLines:          testCase.ExpectationLines,
+			Condition:     corevalidator.DefaultDisabledCoreCondition,
+			CompareAs:     stringcompareas.Equal,
+			ActualLines:   errorLines,
+			ExpectedLines: testCase.ExpectationLines,
 		}
 
 		nextBaseParam := corevalidator.Parameter{

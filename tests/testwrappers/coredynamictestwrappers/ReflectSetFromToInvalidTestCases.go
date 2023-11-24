@@ -16,9 +16,9 @@ var (
 			IsExpectingError: false,
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
-				Search:                 "",
-				SearchAs:               stringcompareas.Equal,
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+				Search:    "",
+				SearchAs:  stringcompareas.Equal,
+				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
 		{
@@ -32,9 +32,9 @@ var (
 			IsExpectingError: true,
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
-				Search:                 "Invalid : value cannot process it. `from` is nil, cannot set null or nil to destination.\"! Supported Types: https://t.ly/SGWUx,  Ref(s) { \"(FromType, ToType) = (<nil>, *coretests.DraftType)\" }",
-				SearchAs:               stringcompareas.Equal,
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+				Search:    "Invalid : value cannot process it. `from` is nil, cannot set null or nil to destination.\"! Supported Types: https://t.ly/SGWUx,  Ref(s) { \"(FromType, ToType) = (<nil>, *coretests.DraftType)\" }",
+				SearchAs:  stringcompareas.Equal,
+				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
 		{
@@ -48,9 +48,9 @@ var (
 			IsExpectingError: true,
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
-				Search:                 "Invalid : null pointer, cannot process it. \"destination pointer is null, cannot proceed further!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"*coretests.DraftType\", \"ToType\", \"<nil>\" }",
-				SearchAs:               stringcompareas.Equal,
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+				Search:    "Invalid : null pointer, cannot process it. \"destination pointer is null, cannot proceed further!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"*coretests.DraftType\", \"ToType\", \"<nil>\" }",
+				SearchAs:  stringcompareas.Equal,
+				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
 		{
@@ -66,9 +66,9 @@ var (
 			IsExpectingError: true,
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
-				Search:                 "Unexpected type error, which is unexpected. \"destination or toPointer must be a pointer to set!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"*coretests.DraftType\", \"ToType\", \"coretests.DraftType\" }",
-				SearchAs:               stringcompareas.Equal,
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+				Search:    "Unexpected type error, which is unexpected. \"destination or toPointer must be a pointer to set!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"*coretests.DraftType\", \"ToType\", \"coretests.DraftType\" }",
+				SearchAs:  stringcompareas.Equal,
+				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
 		{
@@ -84,9 +84,9 @@ var (
 			IsExpectingError: true,
 			HasPanic:         false,
 			Validator: corevalidator.TextValidator{
-				Search:                 "Unexpected type error, which is unexpected. \"destination or toPointer must be a pointer to set!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"coretests.DraftType\", \"ToType\", \"coretests.DraftType\" }",
-				SearchAs:               stringcompareas.Equal,
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+				Search:    "Unexpected type error, which is unexpected. \"destination or toPointer must be a pointer to set!\" Supported Types: https://t.ly/SGWUx,  Ref (s) { \"FromType\", \"coretests.DraftType\", \"ToType\", \"coretests.DraftType\" }",
+				SearchAs:  stringcompareas.Equal,
+				Condition: corevalidator.DefaultTrimCoreCondition,
 			},
 		},
 		{

@@ -2,7 +2,7 @@ package corerangestests
 
 import (
 	"reflect"
-	
+
 	"gitlab.com/auk-go/core/coredata/corerange"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/corevalidator"
@@ -45,7 +45,7 @@ var (
 			},
 		},
 	}
-	
+
 	validInt8RangeTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -80,7 +80,7 @@ var (
 			},
 		},
 	}
-	
+
 	validStartEndRangesTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -115,7 +115,7 @@ var (
 			},
 		},
 	}
-	
+
 	startEndRangesStringFunctionsVerificationTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -144,8 +144,8 @@ var (
 				IsValidateError: false,
 			},
 			Validator: corevalidator.SliceValidator{
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
-				CompareAs:              stringcompareas.Equal,
+				Condition: corevalidator.DefaultTrimCoreCondition,
+				CompareAs: stringcompareas.Equal,
 				ExpectedLines: []string{
 					"StartEnd : 2-5",
 					"    [0] func : String        | result : 2-5",
@@ -166,7 +166,7 @@ var (
 			},
 		},
 	}
-	
+
 	someRange     = corerange.NewRangeIntUsingValues(5, 25, true)
 	minMaxDefault = corerange.MinMaxInt{
 		Min: 5,
@@ -176,7 +176,7 @@ var (
 	range16WithinFunc = func(x int) bool {
 		return rangeInt16.IsWithinRange(int16(x))
 	}
-	
+
 	isWithInFuncsMap = map[string]isWithInDefinitionFunc{
 		reflect.TypeOf(someRange).String():     someRange.IsValidPlusWithinRange,
 		reflect.TypeOf(minMaxDefault).String(): minMaxDefault.IsWithinRange,

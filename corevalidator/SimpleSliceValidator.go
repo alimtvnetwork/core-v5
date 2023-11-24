@@ -8,24 +8,25 @@ import (
 type SimpleSliceValidator struct {
 	Expected *corestr.SimpleSlice
 	actual   *corestr.SimpleSlice
-	ValidatorCoreCondition
+	Condition
 	CompareAs stringcompareas.Variant
 }
 
 func (it *SimpleSliceValidator) SetActual(lines []string) *SimpleSliceValidator {
 	it.actual = corestr.New.SimpleSlice.Direct(
 		false,
-		lines)
+		lines,
+	)
 
 	return it
 }
 
 func (it *SimpleSliceValidator) SliceValidator() *SliceValidator {
 	sliceValidator := SliceValidator{
-		CompareAs:              it.CompareAs,
-		ValidatorCoreCondition: it.ValidatorCoreCondition,
-		ActualLines:            it.actual.Items,
-		ExpectedLines:          it.Expected.Items,
+		CompareAs:     it.CompareAs,
+		Condition:     it.Condition,
+		ActualLines:   it.actual.Items,
+		ExpectedLines: it.Expected.Items,
 	}
 
 	return &sliceValidator
@@ -62,5 +63,6 @@ func (it *SimpleSliceValidator) VerifyUpto(
 	return sliceValidator.AllVerifyErrorUptoLength(
 		false,
 		params,
-		length)
+		length,
+	)
 }

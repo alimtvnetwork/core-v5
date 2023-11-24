@@ -8,6 +8,7 @@ import (
 
 type RangeSegmentsValidator struct {
 	actual           *corestr.SimpleSlice
+	Title            string
 	VerifierSegments []RangesSegment
 }
 
@@ -36,7 +37,8 @@ func (it *RangeSegmentsValidator) Validators() HeaderSliceValidators {
 		actualSegments := it.actual.Items[start:end]
 		totalItems := end - start + 1
 		header := fmt.Sprintf(
-			"validate for range %d to %d (total: %d lines)",
+			"%s - validate for range %d to %d (total: %d lines)",
+			it.Title,
 			start,
 			end,
 			totalItems,
@@ -44,10 +46,10 @@ func (it *RangeSegmentsValidator) Validators() HeaderSliceValidators {
 		validator := HeaderSliceValidator{
 			Header: header,
 			SliceValidator: SliceValidator{
-				CompareAs:              segment.CompareAs,
-				ValidatorCoreCondition: segment.ValidatorCoreCondition,
-				ActualLines:            actualSegments,
-				ExpectedLines:          expectedSegments,
+				Condition:     segment.Condition,
+				CompareAs:     segment.CompareAs,
+				ActualLines:   actualSegments,
+				ExpectedLines: expectedSegments,
 			},
 		}
 
@@ -67,6 +69,19 @@ func (it *RangeSegmentsValidator) VerifyAll(
 
 	return it.Validators().VerifyAll(
 		header,
+		params,
+		isPrintError,
+	)
+}
+
+func (it *RangeSegmentsValidator) VerifySimple(
+	actual []string,
+	params *Parameter,
+	isPrintError bool,
+) error {
+	return it.VerifyAll(
+		it.Title,
+		actual,
 		params,
 		isPrintError,
 	)
@@ -102,5 +117,33 @@ func (it *RangeSegmentsValidator) VerifyUpto(
 		false,
 		length,
 		params,
+	)
+}
+
+func (it *RangeSegmentsValidator) VerifyFirstDefault(
+	actual []string,
+	params *Parameter,
+	isPrintError bool,
+) error {
+	return it.VerifyFirst(
+		it.Title,
+		actual,
+		params,
+		isPrintError,
+	)
+}
+
+func (it *RangeSegmentsValidator) VerifyUptoDefault(
+	actual []string,
+	params *Parameter,
+	length int,
+	isPrintError bool,
+) error {
+	return it.VerifyUpto(
+		it.Title,
+		actual,
+		params,
+		length,
+		isPrintError,
 	)
 }

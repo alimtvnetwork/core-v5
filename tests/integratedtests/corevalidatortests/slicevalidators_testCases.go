@@ -45,7 +45,7 @@ var (
 				IsEnable:     issetter.True,
 			},
 			Validator: corevalidator.SliceValidator{
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+				Condition: corevalidator.DefaultTrimCoreCondition,
 				ExpectedLines: []string{
 					"0 )\tExpectationLines failed: Failed match method [\"Equal\"], Index : [0]",
 					"     Actual-Processed: `\"0 : false (1, 2)\"`",
@@ -106,7 +106,7 @@ var (
 				IsEnable:     issetter.True,
 			},
 			Validator: corevalidator.SliceValidator{
-				ValidatorCoreCondition: corevalidator.DefaultTrimCoreCondition,
+				Condition: corevalidator.DefaultTrimCoreCondition,
 				ExpectedLines: []string{
 					"0 )\tExpectationLines failed: Failed match method [\"Equal\"], Index : [0]",
 					"     Actual-Processed: `\"0 : false (1, 2)\"`",

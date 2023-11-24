@@ -3,24 +3,24 @@ package corevalidator
 import "gitlab.com/auk-go/core/enums/stringcompareas"
 
 var (
-	DefaultDisabledCoreCondition = ValidatorCoreCondition{
+	DefaultDisabledCoreCondition = Condition{
 		IsTrimCompare:        false,
 		IsUniqueWordOnly:     false,
 		IsNonEmptyWhitespace: false,
 		IsSortStringsBySpace: false,
 	}
 
-	DefaultTrimCoreCondition = ValidatorCoreCondition{
+	DefaultTrimCoreCondition = Condition{
 		IsTrimCompare: true,
 	}
 
-	DefaultSortTrimCoreCondition = ValidatorCoreCondition{
+	DefaultSortTrimCoreCondition = Condition{
 		IsTrimCompare:        true,
 		IsNonEmptyWhitespace: true,
 		IsSortStringsBySpace: true,
 	}
 
-	DefaultUniqueWordsCoreCondition = ValidatorCoreCondition{
+	DefaultUniqueWordsCoreCondition = Condition{
 		IsTrimCompare:        true,
 		IsUniqueWordOnly:     true,
 		IsNonEmptyWhitespace: true,
@@ -28,8 +28,8 @@ var (
 	}
 
 	EmptyValidator = TextValidator{
-		Search:                 "",
-		SearchAs:               stringcompareas.Equal,
-		ValidatorCoreCondition: DefaultTrimCoreCondition,
+		Search:    "",
+		SearchAs:  stringcompareas.Equal,
+		Condition: DefaultTrimCoreCondition,
 	}
 )
