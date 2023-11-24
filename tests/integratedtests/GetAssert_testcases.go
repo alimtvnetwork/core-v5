@@ -239,7 +239,7 @@ var (
 			ArrangeInput: args.Map{
 				"any": map[interface{}]interface{}{
 					0:        "it is 0",
-					1:        "it is 1",
+					1:        []string{"it is 1"},
 					"line 1": "passed map[interface{}]interface{}, which is",
 					"line 2": "converts both keys and values to",
 					"line 3": "SmartJSON and returns it.",
