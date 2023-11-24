@@ -108,12 +108,12 @@ func (it getAssert) StringsToSpaceString(
 
 func (it getAssert) StringsToSpaceStringUsingFunc(
 	spaceCount int,
-	toStringFunc func(i int, spacePrefix, line string) string,
+	converterFunc ToLineConverterFunc,
 	lines ...string,
 ) []string {
 	return msgcreator.Assert.StringsToSpaceStringUsingFunc(
 		spaceCount,
-		toStringFunc,
+		converterFunc,
 		lines...,
 	)
 }

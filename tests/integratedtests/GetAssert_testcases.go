@@ -182,5 +182,28 @@ var (
 			},
 			VerifyTypeOf: commonType,
 		},
+		{
+			Title: "given args.One in any parameter with 4 spaces - does Pretty JSON with spaces",
+			ArrangeInput: args.Map{
+				"spaceCount": 4,
+				"any": args.One{
+					First: []string{
+						"line alim 1",
+						"line alim 2",
+					},
+					Expect: "alim expect",
+				},
+			},
+			ExpectedInput: []string{
+				"    {",
+				"      \"First\": [",
+				"        \"line alim 1\",",
+				"        \"line alim 2\"",
+				"      ],",
+				"      \"Expect\": \"alim expect\"",
+				"    }",
+			},
+			VerifyTypeOf: commonType,
+		},
 	}
 )
