@@ -26,7 +26,7 @@ func (it *CaseV1) Input() interface{} {
 }
 
 func (it *CaseV1) Expected() interface{} {
-	return it.Expected()
+	return it.ExpectedInput
 }
 
 // Actual
