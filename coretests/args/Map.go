@@ -169,6 +169,10 @@ func (it Map) Seventh() interface{} {
 	return it.GetFirstOfNames("seventh", "f7", "p7", "7")
 }
 
+func (it Map) SetActual(actual interface{}) {
+	it["actual"] = actual
+}
+
 func (it Map) WorkFunc() interface{} {
 	return it.GetFirstOfNames(
 		"func",
@@ -188,6 +192,20 @@ func (it Map) GetFirstOfNames(names ...string) interface{} {
 		if has && reflectinternal.IsNotNull(v) {
 			return v
 		}
+	}
+
+	return nil
+}
+
+func (it Map) GetAsStringSliceFirstOfNames(names ...string) []string {
+	if len(names) == 0 {
+		return nil
+	}
+
+	item := it.GetFirstOfNames(names...)
+
+	if reflectinternal.IsNotNull(item) {
+		return item.([]string)
 	}
 
 	return nil
