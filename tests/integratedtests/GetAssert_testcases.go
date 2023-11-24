@@ -237,4 +237,88 @@ var (
 			VerifyTypeOf: commonType,
 		},
 	}
+
+	anyToDoubleQuoteLinesTestCases = []coretestcases.CaseV1{
+		{
+			Title: "AnyToDoubleQuoteLines verification test",
+			Parameters: &args.Holder{
+				First: 4,
+				Second: []string{
+					"line 1",
+					"line 2",
+					"line 3",
+					"line 4",
+					"line 5",
+					"line 6",
+				},
+			},
+			ExpectedInput: []string{
+				"    \"line 1\",",
+				"    \"line 2\",",
+				"    \"line 3\",",
+				"    \"line 4\",",
+				"    \"line 5\",",
+				"    \"line 6\",",
+			},
+		},
+		{
+			Title: "AnyToDoubleQuoteLines => nil given doesn't panic",
+			Parameters: &args.Holder{
+				First:  4,
+				Second: nil,
+			},
+			ExpectedInput: []string{},
+		},
+		{
+			Title: "AnyToDoubleQuoteLines => empty slice returns valid result",
+			Parameters: &args.Holder{
+				First:  4,
+				Second: []string{},
+			},
+			ExpectedInput: []string{},
+		},
+		{
+			Title: "AnyToDoubleQuoteLines => map[string]string provides concat line.",
+			Parameters: &args.Holder{
+				First: 4,
+				Second: map[string]string{
+					"line 1": "some line 1",
+					"line 2": "some line 2",
+					"line 3": "some line 3",
+				},
+			},
+			ExpectedInput: []string{
+				"    \"line 1 : some line 1\",",
+				"    \"line 2 : some line 2\",",
+				"    \"line 3 : some line 3\",",
+			},
+		},
+		{
+			Title: "AnyToDoubleQuoteLines []interface{} any array provide nice lines",
+			Parameters: &args.Holder{
+				First: 4,
+				Second: []interface{}{
+					"line 1",
+					2,
+					args.Map{
+						"some key": "some val",
+					},
+					[]string{
+						"line 1",
+						"line 2",
+					},
+					"line 3",
+					"line 4",
+				},
+			},
+			ExpectedInput: []string{
+				"    \"line 1\",",
+				"    \"2\",",
+				"    \"{\\\"some key\\\":\\\"some val\\\"}\",",
+				"    \"line 1\\nline 2\",",
+				"    \"line 3\",",
+				"    \"line 4\",",
+			},
+		},
+	}
 )

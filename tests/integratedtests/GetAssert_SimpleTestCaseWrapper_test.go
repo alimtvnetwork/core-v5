@@ -10,7 +10,7 @@ import (
 )
 
 func Test_SimpleTestCaseWrapper_String_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringSimpleTestCasesTestCases {
+	for caseIndex, testCase := range stringTestCases {
 		// Arrange
 		actualSlice := corestr.
 			New.
@@ -28,6 +28,41 @@ func Test_SimpleTestCaseWrapper_String_Verification(t *testing.T) {
 		)
 
 		actualSlice.Adds(strings.Split(output, "\n")...)
+		finalActLines := actualSlice.Strings()
+
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			finalActLines...,
+		)
+	}
+}
+
+func Test_SimpleTestCaseWrapper_Lines_Verification(t *testing.T) {
+	for caseIndex, testCase := range linesTestCases {
+		// Arrange
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap(20)
+		asserter := coretests.GetAssert.SimpleTestCaseWrapper
+		caseV1 := testCase.ArrangeInput.(coretestcases.CaseV1)
+		simplerWrapper := caseV1.AsSimpleTestCaseWrapper()
+		prefixWithSpaceFunc := coretests.GetAssert.ToStringsWithTab
+		actFunc := asserter.Lines
+
+		// Act
+		arrange, expected := actFunc(
+			simplerWrapper,
+		)
+
+		actualSlice.Add("Title: " + simplerWrapper.CaseTitle())
+		actualSlice.Add("Arrange Lines:")
+		actualSlice.Adds(prefixWithSpaceFunc(4, arrange)...)
+		actualSlice.Add("Expected Lines:")
+		actualSlice.Adds(prefixWithSpaceFunc(4, expected)...)
+
 		finalActLines := actualSlice.Strings()
 
 		// Assert

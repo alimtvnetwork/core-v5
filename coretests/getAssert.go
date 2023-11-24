@@ -1,6 +1,10 @@
 package coretests
 
 import (
+	"strings"
+
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgcreator"
 )
@@ -87,11 +91,11 @@ func (it getAssert) ToStrings(
 }
 
 func (it getAssert) ToStringsWithTab(
-	spacePrefixCount int,
+	spaceCount int,
 	any interface{},
 ) []string {
 	return msgcreator.Assert.ToStringsWithTab(
-		spacePrefixCount,
+		spaceCount,
 		any,
 	)
 }
@@ -116,4 +120,77 @@ func (it getAssert) StringsToSpaceStringUsingFunc(
 		converterFunc,
 		lines...,
 	)
+}
+
+// ToQuoteLines
+//
+// Converts from below lines to
+//
+//	line 1,
+//	line 2,
+//	line 3,
+//
+// Converts a strings lines to
+//
+//	{spaces} "line 1",
+//	{spaces} "line 2",
+//	{spaces} "line 3",
+func (it getAssert) ToQuoteLines(
+	spaceCount int,
+	lines []string,
+) []string {
+	return errcore.LinesToDoubleQuoteLinesWithTabs(
+		spaceCount,
+		lines,
+	)
+}
+
+// AnyToDoubleQuoteLines
+//
+// Converts from below lines or line to
+//
+//	line 1,
+//	line 2,
+//	line 3,
+//
+// Or, converts from below line to lines if string or converts it to line
+//
+//	"line 1,\nline 2,\nline 3"
+//
+// Converts a strings lines to
+//
+//	{spaces} "line 1",
+//	{spaces} "line 2",
+//	{spaces} "line 3",
+func (it getAssert) AnyToDoubleQuoteLines(
+	spaceCount int,
+	anyItem interface{},
+) []string {
+	lines := convertinteranl.AnyTo.Strings(anyItem)
+
+	return it.ToQuoteLines(
+		spaceCount,
+		lines,
+	)
+}
+
+func (it getAssert) DoubleQuoteLinesToString(
+	spaceCount int,
+	lines []string,
+) string {
+	finalLines := it.ToQuoteLines(
+		spaceCount,
+		lines,
+	)
+
+	return strings.Join(finalLines, constants.NewLineUnix)
+}
+
+func (it getAssert) AnyToStringQuoteLine(
+	spaceCount int,
+	anyItem interface{},
+) string {
+	lines := convertinteranl.AnyTo.Strings(anyItem)
+
+	return it.DoubleQuoteLinesToString(spaceCount, lines)
 }

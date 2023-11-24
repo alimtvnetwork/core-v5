@@ -7,9 +7,9 @@ import (
 )
 
 var (
-	stringSimpleTestCasesTestCases = []coretestcases.CaseV1{
+	stringTestCases = []coretestcases.CaseV1{
 		{
-			Title: "giving []string or slice string - outputs as is.",
+			Title: "dff text but length is okay",
 			ArrangeInput: coretestcases.CaseV1{
 				Title: "giving string - output split to lines by newlines",
 				ArrangeInput: args.Map{
@@ -35,7 +35,7 @@ var (
 			VerifyTypeOf: coretests.NewVerifyTypeOf(coretestcases.CaseV1{}),
 		},
 		{
-			Title: "giving []string or slice string - outputs as is.",
+			Title: "empty slice both cases alright.",
 			ArrangeInput: coretestcases.CaseV1{
 				Title: "giving empty empty slice",
 				ArrangeInput: args.Map{
@@ -55,6 +55,62 @@ var (
 				"",
 				"Expected:",
 				"  `[]string{}`",
+			},
+			VerifyTypeOf: coretests.NewVerifyTypeOf(coretestcases.CaseV1{}),
+		},
+	}
+
+	linesTestCases = []coretestcases.CaseV1{
+		{
+			Title: "lines method verify output.",
+			ArrangeInput: coretestcases.CaseV1{
+				Title: "giving slice with diff length to verify",
+				ArrangeInput: args.Map{
+					"1": "line 1",
+					"2": "line 2",
+					"3": "line 3",
+				},
+				ActualInput: []string{
+					"arrange inputs 1",
+					"arrange inputs 2",
+					"arrange inputs 3",
+					"arrange inputs 4",
+				},
+				ExpectedInput: []string{
+					"diff text but not in length! L1",
+					"diff text but not in length! L2",
+				},
+				VerifyTypeOf: commonType,
+			},
+			ExpectedInput: []string{
+				"Title: giving slice with diff length to verify",
+				"Arrange Lines:",
+				"    arrange inputs 1",
+				"    arrange inputs 2",
+				"    arrange inputs 3",
+				"    arrange inputs 4",
+				"Expected Lines:",
+				"    diff text but not in length! L1",
+				"    diff text but not in length! L2",
+			},
+			VerifyTypeOf: coretests.NewVerifyTypeOf(coretestcases.CaseV1{}),
+		},
+		{
+			Title: "empty slice.",
+			ArrangeInput: coretestcases.CaseV1{
+				Title: "giving empty empty slice",
+				ArrangeInput: args.Map{
+					"any": []string{},
+				},
+				ActualInput:   "some actual text v2! - empty slice",
+				ExpectedInput: []string{},
+				VerifyTypeOf:  commonType,
+			},
+			ExpectedInput: []string{
+				"Title: giving empty empty slice",
+				"Arrange Lines:",
+				"    some actual text v2! - empty slice",
+				"Expected Lines:",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf(coretestcases.CaseV1{}),
 		},
