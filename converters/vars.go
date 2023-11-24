@@ -7,7 +7,7 @@ import (
 
 var (
 	StringsTo  = stringsTo{}
-	Any        = anyItemConverter{}
+	AnyTo      = anyItemConverter{}
 	Map        = convertinteranl.Map
 	PrettyJson = jsoninternal.Pretty
 )

@@ -231,6 +231,7 @@ var (
 			},
 		},
 	}
+
 	rangeNamesWithValuesIndexesTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{
@@ -257,6 +258,29 @@ var (
 			},
 		},
 	}
+
+	rangeNamesWithValuesIndexesStringTestCases = []testWrapper{
+		{
+			BaseTestCase: coretests.BaseTestCase{
+				Title: "Given strings will be displayed as Name[%d]. " +
+					"format: SomeString[Index], eg. SomeString[0]",
+				ArrangeInput: []string{
+					"some val at 0",
+					"some val at 1",
+					"some val at 2",
+					"Alim Ul Karim",
+					"Where It is",
+					"",
+				},
+				ExpectedInput: []string{
+					"some val at 0[0], some val at 1[1], some val at 2[2], Alim Ul Karim[3], Where It is[4], [5]",
+				},
+				VerifyTypeOf: defaultTypeVerification,
+				IsEnable:     issetter.True,
+			},
+		},
+	}
+
 	stringersTestCases = []testWrapper{
 		{
 			BaseTestCase: coretests.BaseTestCase{

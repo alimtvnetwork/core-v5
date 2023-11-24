@@ -11,7 +11,7 @@ var SegmentValidatorTestCases = []SegmentValidatorWrapper{
 		Header:                "",
 		IsSkipOnContentsEmpty: false,
 		IsCaseSensitive:       true,
-		SimpleSliceRangeValidator: corevalidator.SimpleSliceRangeValidator{
+		RangeSegmentsValidator: corevalidator.RangeSegmentsValidator{
 			VerifierSegments: []corevalidator.RangesSegment{
 
 				{

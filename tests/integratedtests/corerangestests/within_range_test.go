@@ -14,7 +14,7 @@ func Test_RangeInt_Valid_WithInRange_Verification(t *testing.T) {
 	validCases := []int{
 		5, 13, 5, 10, 25,
 	}
-	toString := converters.AnyToValueString(validCases)
+	toString := converters.AnyTo.ValueString(validCases)
 
 	// Act, Assert
 	title := toString + " -- all these are valid for (range) : " + someRange.String()
@@ -75,7 +75,7 @@ func Test_RangeInt_Invalid_WithInRange_Verification(t *testing.T) {
 	invalidCases := []int{
 		265, 311, 4, 26, 100,
 	}
-	toString := converters.AnyToValueString(invalidCases)
+	toString := converters.AnyTo.ValueString(invalidCases)
 
 	// Act, Assert
 	title := toString + " -- all these are invalid for (range) : " + someRange.String()

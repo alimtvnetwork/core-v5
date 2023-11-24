@@ -93,6 +93,6 @@ func getFinalVerificationError(
 
 	return validator.VerifyDetailError(
 		parameter,
-		converters.AnyToValueString(testCase.ExpectedValue),
+		converters.AnyTo.ValueString(testCase.ExpectedValue),
 	)
 }

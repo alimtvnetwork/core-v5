@@ -30,15 +30,9 @@ func Test_RangeNamesWithValuesIndexes_Verification(t *testing.T) {
 }
 
 func Test_RangeNamesWithValuesIndexesCsvString_Verification(t *testing.T) {
-	for caseIndex, testCase := range rangeNamesWithValuesIndexesTestCases {
+	for caseIndex, testCase := range rangeNamesWithValuesIndexesStringTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
-		expectation := "some val at 0[0], " +
-			"some val at 1[1], " +
-			"some val at 2[2], " +
-			"Alim Ul Karim[3], " +
-			"Where It is[4], " +
-			"[5]"
 
 		// Act
 		finalActLines := corecsv.RangeNamesWithValuesIndexesCsvString(
@@ -47,11 +41,6 @@ func Test_RangeNamesWithValuesIndexesCsvString_Verification(t *testing.T) {
 
 		finalTestCase := coretestcases.
 			CaseV1(testCase.BaseTestCase)
-		finalTestCase.SetExpected(
-			[]string{
-				expectation,
-			},
-		)
 
 		// Assert
 		finalTestCase.ShouldBeEqual(

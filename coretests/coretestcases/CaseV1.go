@@ -21,34 +21,34 @@ import (
 //   - Will verify type using VerifyTypeOf
 type CaseV1 coretests.BaseTestCase
 
-func (it *CaseV1) Input() interface{} {
+func (it CaseV1) Input() interface{} {
 	return it.ArrangeInput
 }
 
-func (it *CaseV1) Expected() interface{} {
+func (it CaseV1) Expected() interface{} {
 	return it.ExpectedInput
 }
 
 // Actual
 //
 // Must SetActual first.
-func (it *CaseV1) Actual() interface{} {
+func (it CaseV1) Actual() interface{} {
 	return it.ActualInput
 }
 
-func (it *CaseV1) AsSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
+func (it CaseV1) AsSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
 	return it
 }
 
-func (it *CaseV1) SetActual(actual interface{}) {
+func (it CaseV1) SetActual(actual interface{}) {
 	it.ActualInput = actual
 }
 
-func (it *CaseV1) CaseTitle() string {
+func (it CaseV1) CaseTitle() string {
 	return it.Title
 }
 
-func (it *CaseV1) SetExpected(expected interface{}) {
+func (it CaseV1) SetExpected(expected interface{}) {
 	it.ExpectedInput = expected
 }
 
@@ -195,6 +195,9 @@ func (it CaseV1) ShouldBe(
 	)
 }
 
+// TypeShouldMatch
+//
+// Assert along with returns the error.
 func (it CaseV1) TypeShouldMatch(
 	t *testing.T,
 ) error {
@@ -226,6 +229,75 @@ func (it CaseV1) ShouldBeEqual(
 		t,
 		caseIndex,
 		stringcompareas.Equal,
+		actualElements...,
+	)
+}
+
+func (it CaseV1) ShouldContains(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBe(
+		t,
+		caseIndex,
+		stringcompareas.Contains,
+		actualElements...,
+	)
+}
+
+func (it CaseV1) ShouldStartsWith(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBe(
+		t,
+		caseIndex,
+		stringcompareas.StartsWith,
+		actualElements...,
+	)
+}
+
+func (it CaseV1) ShouldEndsWith(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBe(
+		t,
+		caseIndex,
+		stringcompareas.EndsWith,
+		actualElements...,
+	)
+}
+
+func (it CaseV1) ShouldBeNotEqual(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBe(
+		t,
+		caseIndex,
+		stringcompareas.NotEqual,
+		actualElements...,
+	)
+}
+
+// ShouldBeRegex
+//
+// Each expectation line acts as a regex to
+// be validated against the actual line.
+func (it CaseV1) ShouldBeRegex(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBe(
+		t,
+		caseIndex,
+		stringcompareas.Regex,
 		actualElements...,
 	)
 }
@@ -262,12 +334,7 @@ func (it CaseV1) AssertDirect(
 	assertion convey.Assertion,
 	expectation interface{},
 ) {
-	finalTitle := fmt.Sprintf(
-		"%d - %s - %s",
-		caseIndex,
-		it.CaseTitle(),
-		additionalTitle,
-	)
+	finalTitle := it.PrepareTitle(caseIndex, additionalTitle)
 
 	convey.Convey(
 		finalTitle, t, func() {
@@ -278,6 +345,18 @@ func (it CaseV1) AssertDirect(
 				expectation,
 			)
 		},
+	)
+}
+
+func (it CaseV1) PrepareTitle(
+	caseIndex int,
+	additionalTitle string,
+) string {
+	return fmt.Sprintf(
+		"%d - %s - %s",
+		caseIndex,
+		it.CaseTitle(),
+		additionalTitle,
 	)
 }
 

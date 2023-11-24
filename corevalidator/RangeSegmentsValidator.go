@@ -6,26 +6,27 @@ import (
 	"gitlab.com/auk-go/core/coredata/corestr"
 )
 
-type SimpleSliceRangeValidator struct {
+type RangeSegmentsValidator struct {
 	actual           *corestr.SimpleSlice
 	VerifierSegments []RangesSegment
 }
 
-func (it *SimpleSliceRangeValidator) LengthOfVerifierSegments() int {
+func (it *RangeSegmentsValidator) LengthOfVerifierSegments() int {
 	return len(it.VerifierSegments)
 }
 
-func (it *SimpleSliceRangeValidator) SetActual(
+func (it *RangeSegmentsValidator) SetActual(
 	lines []string,
-) *SimpleSliceRangeValidator {
+) *RangeSegmentsValidator {
 	it.actual = corestr.New.SimpleSlice.Direct(
 		false,
-		lines)
+		lines,
+	)
 
 	return it
 }
 
-func (it *SimpleSliceRangeValidator) Validators() HeaderSliceValidators {
+func (it *RangeSegmentsValidator) Validators() HeaderSliceValidators {
 	validators := make([]HeaderSliceValidator, it.LengthOfVerifierSegments())
 
 	for _, segment := range it.VerifierSegments {
@@ -34,10 +35,12 @@ func (it *SimpleSliceRangeValidator) Validators() HeaderSliceValidators {
 		end := segment.RangeInt.End
 		actualSegments := it.actual.Items[start:end]
 		totalItems := end - start + 1
-		header := fmt.Sprintf("validate for range %d to %d (total: %d lines)",
+		header := fmt.Sprintf(
+			"validate for range %d to %d (total: %d lines)",
 			start,
 			end,
-			totalItems)
+			totalItems,
+		)
 		validator := HeaderSliceValidator{
 			Header: header,
 			SliceValidator: SliceValidator{
@@ -54,7 +57,7 @@ func (it *SimpleSliceRangeValidator) Validators() HeaderSliceValidators {
 	return validators
 }
 
-func (it *SimpleSliceRangeValidator) VerifyAll(
+func (it *RangeSegmentsValidator) VerifyAll(
 	header string,
 	actual []string,
 	params *Parameter,
@@ -65,10 +68,11 @@ func (it *SimpleSliceRangeValidator) VerifyAll(
 	return it.Validators().VerifyAll(
 		header,
 		params,
-		isPrintError)
+		isPrintError,
+	)
 }
 
-func (it *SimpleSliceRangeValidator) VerifyFirst(
+func (it *RangeSegmentsValidator) VerifyFirst(
 	header string,
 	actual []string,
 	params *Parameter,
@@ -79,10 +83,11 @@ func (it *SimpleSliceRangeValidator) VerifyFirst(
 
 	return it.Validators().VerifyFirst(
 		params,
-		isPrintError)
+		isPrintError,
+	)
 }
 
-func (it *SimpleSliceRangeValidator) VerifyUpto(
+func (it *RangeSegmentsValidator) VerifyUpto(
 	header string,
 	actual []string,
 	params *Parameter,
