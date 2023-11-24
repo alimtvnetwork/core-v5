@@ -321,4 +321,35 @@ var (
 			},
 		},
 	}
+
+	convertLinesToDoubleQuoteThenStringTestCases = []coretestcases.CaseV1{
+		{
+			Title: "ConvertLinesToDoubleQuoteThenString => convert []string to double quote string lines then to a single one",
+			Parameters: &args.Holder{
+				First: 4,
+				Second: []string{
+					"line 1",
+					"line 2",
+					"line 3",
+					"line 4",
+					"line 5",
+					"line 6",
+				},
+			},
+			ExpectedInput: []string{
+				"    \"line 1\",\n    \"line 2\",\n    \"line 3\",\n    \"line 4\",\n    \"line 5\",\n    \"line 6\",",
+			},
+		},
+
+		{
+			Title: "ConvertLinesToDoubleQuoteThenString => convert []string - empty slice return simple empty string",
+			Parameters: &args.Holder{
+				First:  4,
+				Second: []string{},
+			},
+			ExpectedInput: []string{
+				"",
+			},
+		},
+	}
 )
