@@ -174,7 +174,10 @@ func (it getAssert) AnyToDoubleQuoteLines(
 	)
 }
 
-func (it getAssert) DoubleQuoteLinesToString(
+// ConvertLinesToDoubleQuoteThenString
+//
+// Convert lines to double quote wrap and then adds a space prefix
+func (it getAssert) ConvertLinesToDoubleQuoteThenString(
 	spaceCount int,
 	lines []string,
 ) string {
@@ -186,11 +189,15 @@ func (it getAssert) DoubleQuoteLinesToString(
 	return strings.Join(finalLines, constants.NewLineUnix)
 }
 
-func (it getAssert) AnyToStringQuoteLine(
+// AnyToStringDoubleQuoteLine
+//
+// Convert Any to lines to double quote wrap
+// and then adds a space prefix (using ConvertLinesToDoubleQuoteThenString)
+func (it getAssert) AnyToStringDoubleQuoteLine(
 	spaceCount int,
 	anyItem interface{},
 ) string {
 	lines := convertinteranl.AnyTo.Strings(anyItem)
 
-	return it.DoubleQuoteLinesToString(spaceCount, lines)
+	return it.ConvertLinesToDoubleQuoteThenString(spaceCount, lines)
 }

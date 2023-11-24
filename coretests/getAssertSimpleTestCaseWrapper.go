@@ -47,8 +47,8 @@ func (it getAssertSimpleTestCaseWrapper) CaseLinesUsingDoubleQuoteLinesToString(
 	actualLines := toStringsFunc(testCaseWrapper.Actual())
 	expectedLines := toStringsFunc(testCaseWrapper.Expected())
 
-	actual := GetAssert.DoubleQuoteLinesToString(prefixSpaces, actualLines)
-	expected := GetAssert.DoubleQuoteLinesToString(prefixSpaces, expectedLines)
+	actual := GetAssert.ConvertLinesToDoubleQuoteThenString(prefixSpaces, actualLines)
+	expected := GetAssert.ConvertLinesToDoubleQuoteThenString(prefixSpaces, expectedLines)
 	title := testCaseWrapper.CaseTitle()
 
 	return fmt.Sprintf(
