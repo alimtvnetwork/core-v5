@@ -481,7 +481,7 @@ const (
 	LogLowerString                           = "log"
 	JsonLowerString                          = "json"
 	AvailableLowerString                     = "available"
-	DefaultString                            = "Default"
+	DefaultString                            = "Prefix"
 	AllCapitalDefaultString                  = "DEFAULT"
 	Localhost                                = "localhost"
 	LocalhostPublicPort                      = "localhost:80"

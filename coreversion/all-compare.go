@@ -18,7 +18,8 @@ func Compare(
 
 	majorVersionCompare := corecmp.Integer(
 		left.VersionMajor,
-		right.VersionMajor)
+		right.VersionMajor,
+	)
 
 	if majorVersionCompare.IsNotEqualLogically() {
 		return majorVersionCompare
@@ -27,7 +28,8 @@ func Compare(
 	// proceed only on equal
 	minorVersionCompare := corecmp.Integer(
 		left.VersionMinor,
-		right.VersionMinor)
+		right.VersionMinor,
+	)
 
 	if minorVersionCompare.IsNotEqualLogically() {
 		return minorVersionCompare
@@ -56,7 +58,7 @@ func Compare(
 
 // CompareVersionString
 //
-// See New.Default for more details
+// See New.Prefix for more details
 func CompareVersionString(
 	leftVersion,
 	rightVersion string,
@@ -69,14 +71,15 @@ func CompareVersionString(
 
 // IsExpectedVersion
 //
-// See New.Default for more details
+// See New.Prefix for more details
 func IsExpectedVersion(
 	expectedCompare corecomparator.Compare,
 	leftVersion,
 	rightVersion string,
 ) bool {
 	cmp := CompareVersionString(
-		leftVersion, rightVersion)
+		leftVersion, rightVersion,
+	)
 
 	return cmp.IsCompareEqualLogically(expectedCompare)
 }
@@ -89,7 +92,8 @@ func IsAtLeast(
 	rightVersion string,
 ) bool {
 	cmp := CompareVersionString(
-		leftGreaterOrEqual, rightVersion)
+		leftGreaterOrEqual, rightVersion,
+	)
 
 	return cmp.IsLeftGreaterEqualLogically()
 }
@@ -102,7 +106,8 @@ func IsLower(
 	rightVersion string,
 ) bool {
 	cmp := CompareVersionString(
-		leftGreaterOrEqual, rightVersion)
+		leftGreaterOrEqual, rightVersion,
+	)
 
 	return cmp.IsLeftLess()
 }
@@ -115,7 +120,8 @@ func IsLowerOrEqual(
 	rightVersion string,
 ) bool {
 	cmp := CompareVersionString(
-		leftGreaterOrEqual, rightVersion)
+		leftGreaterOrEqual, rightVersion,
+	)
 
 	return cmp.IsLeftLessEqualLogically()
 }

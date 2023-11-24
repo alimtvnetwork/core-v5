@@ -9,6 +9,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coreappend"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -25,12 +26,14 @@ func (it anyItemConverter) ToString(
 	if isIncludeFullName {
 		return fmt.Sprintf(
 			constants.SprintFullPropertyNameValueFormat,
-			any)
+			any,
+		)
 	}
 
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		any)
+		any,
+	)
 }
 
 func (it anyItemConverter) String(
@@ -42,7 +45,8 @@ func (it anyItemConverter) String(
 
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		any)
+		any,
+	)
 }
 
 func (it anyItemConverter) FullString(
@@ -54,7 +58,8 @@ func (it anyItemConverter) FullString(
 
 	return fmt.Sprintf(
 		constants.SprintPropertyNameValueFormat,
-		any)
+		any,
+	)
 }
 
 func (it anyItemConverter) StringWithType(
@@ -67,7 +72,8 @@ func (it anyItemConverter) StringWithType(
 	return fmt.Sprintf(
 		constants.SprintPropertyValueWithTypeFormat,
 		any,
-		any)
+		any,
+	)
 }
 
 // ToSafeSerializedString
@@ -101,11 +107,13 @@ func (it anyItemConverter) ToSafeSerializedStringSprintValue(
 	any interface{},
 ) string {
 	value := it.ToSafeSerializedString(
-		any)
+		any,
+	)
 
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		value)
+		value,
+	)
 }
 
 func (it anyItemConverter) ToStrings(
@@ -120,7 +128,8 @@ func (it anyItemConverter) ToStrings(
 
 	anyItems := reflectinternal.ReflectValToInterfaces(
 		isSkipOnNil,
-		reflectVal)
+		reflectVal,
+	)
 
 	return it.ItemsToStringsSkipOnNil(anyItems)
 }
@@ -190,7 +199,8 @@ func (it anyItemConverter) ToValueString(
 
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		any)
+		any,
+	)
 }
 
 func (it anyItemConverter) ToValueStringWithType(
@@ -199,13 +209,15 @@ func (it anyItemConverter) ToValueStringWithType(
 	if any == nil {
 		return fmt.Sprintf(
 			constants.SprintNilValueTypeInParenthesisFormat,
-			any)
+			any,
+		)
 	}
 
 	return fmt.Sprintf(
 		constants.SprintValueWithTypeFormat,
 		any,
-		any)
+		any,
+	)
 }
 
 func (it anyItemConverter) ToAnyItems(
@@ -220,7 +232,8 @@ func (it anyItemConverter) ToAnyItems(
 
 	return reflectinternal.ReflectValToInterfaces(
 		isSkipOnNil,
-		reflectVal)
+		reflectVal,
+	)
 }
 
 func (it anyItemConverter) ToNonNullItems(
@@ -235,7 +248,8 @@ func (it anyItemConverter) ToNonNullItems(
 
 	return reflectinternal.ReflectValToInterfaces(
 		isSkipOnNil,
-		reflectVal)
+		reflectVal,
+	)
 }
 
 func (it anyItemConverter) ItemsToStringsSkipOnNil(
@@ -244,7 +258,8 @@ func (it anyItemConverter) ItemsToStringsSkipOnNil(
 	return coreappend.PrependAppendAnyItemsToStringsSkipOnNil(
 		nil,
 		nil,
-		anyItems...)
+		anyItems...,
+	)
 }
 
 func (it anyItemConverter) ItemsJoin(
@@ -271,11 +286,13 @@ func (it anyItemConverter) ToItemsThenJoin(
 
 	anyStrings := it.ToStrings(
 		isSkipOnNil,
-		anySlice)
+		anySlice,
+	)
 
 	return strings.Join(
 		anyStrings,
-		joiner)
+		joiner,
+	)
 }
 
 func (it anyItemConverter) ToFullNameValueString(
@@ -287,7 +304,8 @@ func (it anyItemConverter) ToFullNameValueString(
 
 	return fmt.Sprintf(
 		constants.SprintFullPropertyNameValueFormat,
-		any)
+		any,
+	)
 }
 
 // ToPrettyJson
@@ -314,7 +332,8 @@ func (it anyItemConverter) ToPrettyJson(
 		&prettyJSON,
 		allBytes,
 		constants.EmptyString,
-		constants.Tab)
+		constants.Tab,
+	)
 
 	return prettyJSON.String()
 }
@@ -353,4 +372,32 @@ func (it anyItemConverter) Bytes(anyItem interface{}) []byte {
 
 		return toBytes
 	}
+}
+
+// ValueString
+//
+// If nil then returns ""
+// Or, returns %v of the value given.
+func (it anyItemConverter) ValueString(anyItem interface{}) string {
+	if anyItem == nil {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		constants.SprintValueFormat,
+		anyItem,
+	)
+}
+
+// SmartString
+//
+//   - If nil return ""
+//   - If string return just returns
+//   - Or, else return %v of value
+func (it anyItemConverter) SmartString(anyItem interface{}) string {
+	if anyItem == nil {
+		return ""
+	}
+
+	return convertinteranl.AnyTo.SmartString(anyItem)
 }

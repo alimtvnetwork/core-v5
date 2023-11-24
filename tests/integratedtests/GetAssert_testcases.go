@@ -27,8 +27,8 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	interfaceArrayTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([][]interface{}{}),
+	commonType = &coretests.VerifyTypeOf{
+		ArrangeInput:  reflect.TypeOf(args.Map{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -48,7 +48,7 @@ var (
 				"   Actual: actual rec,",
 				" Expected: expected item",
 			},
-			VerifyTypeOf: nil,
+			VerifyTypeOf: commonType,
 		},
 	}
 
@@ -72,7 +72,7 @@ var (
 				"who,",
 				"you",
 			},
-			VerifyTypeOf: nil,
+			VerifyTypeOf: commonType,
 		},
 	}
 
@@ -87,7 +87,7 @@ var (
 			ExpectedInput: []string{
 				"#alim | --- | alim, | do | know | knows, | message | some | who, | you",
 			},
-			VerifyTypeOf: nil,
+			VerifyTypeOf: commonType,
 		},
 	}
 
@@ -121,7 +121,87 @@ var (
 				"    type,",
 				"    lines",
 			},
-			VerifyTypeOf: nil,
+			VerifyTypeOf: commonType,
+		},
+	}
+
+	toStringsTestCases = []coretestcases.CaseV1{
+		{
+			Title: "giving string - output split to lines by newlines",
+			ArrangeInput: args.Map{
+				"any": "some string contains\nnewline\nin between",
+			},
+			ExpectedInput: []string{
+				"some string contains",
+				"newline",
+				"in between",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving []string or slice string - outputs as is.",
+			ArrangeInput: args.Map{
+				"any": []string{
+					"having exact lines will output",
+					"as the lines",
+					"were.",
+					"no change.",
+				},
+			},
+			ExpectedInput: []string{
+				"having exact lines will output",
+				"as the lines",
+				"were.",
+				"no change.",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving []string{} outputs as it is - empty string has no issues.",
+			ArrangeInput: args.Map{
+				"any": []string{},
+			},
+			ExpectedInput: []string{},
+			VerifyTypeOf:  commonType,
+		},
+		{
+			Title: "giving []interface - json convert and returns as it is.",
+			ArrangeInput: args.Map{
+				"any": []interface{}{
+					"passed []interface, which is",
+					"any but lines of any",
+					"gets no converted and",
+					"returns as it is",
+				},
+			},
+			ExpectedInput: []string{
+				"passed []interface, which is",
+				"any but lines of any",
+				"gets no converted and",
+				"returns as it is",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving []interface - json convert and returns as it is.",
+			ArrangeInput: args.Map{
+				"any": map[string]interface{}{
+					"line 1": "passed map[string]interface, which is",
+					"line 2": "any but keys as is but converts",
+					"line 3": "value to SmartJSON and",
+					"line 4": map[string]interface{}{
+						"sub line 1": "returns",
+						"sub line 2": -5,
+					},
+				},
+			},
+			ExpectedInput: []string{
+				"passed []interface, which is",
+				"any but lines of any",
+				"gets no converted and",
+				"returns as it is",
+			},
+			VerifyTypeOf: commonType,
 		},
 	}
 )
