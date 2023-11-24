@@ -2,6 +2,7 @@ package args
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -140,15 +141,43 @@ func (it Map) Arrange() interface{} {
 	return it.GetDirectLower("arrange")
 }
 
+func (it Map) First() interface{} {
+	return it.GetFirstOfNames("first", "f1", "p1", "1")
+}
+
+func (it Map) Second() interface{} {
+	return it.GetFirstOfNames("second", "f2", "p2", "2")
+}
+
+func (it Map) Third() interface{} {
+	return it.GetFirstOfNames("third", "f3", "p3", "3")
+}
+
+func (it Map) Fourth() interface{} {
+	return it.GetFirstOfNames("fourth", "f4", "p4", "4")
+}
+
+func (it Map) Fifth() interface{} {
+	return it.GetFirstOfNames("fifth", "f5", "p5", "5")
+}
+
+func (it Map) Sixth() interface{} {
+	return it.GetFirstOfNames("sixth", "f6", "p6", "6")
+}
+
+func (it Map) Seventh() interface{} {
+	return it.GetFirstOfNames("seventh", "f7", "p7", "7")
+}
+
 func (it Map) WorkFunc() interface{} {
-	return it.GetFirst(
+	return it.GetFirstOfNames(
 		"func",
 		"work.func",
 		"workFunc",
 	)
 }
 
-func (it Map) GetFirst(names ...string) interface{} {
+func (it Map) GetFirstOfNames(names ...string) interface{} {
 	if len(names) == 0 {
 		return nil
 	}
@@ -171,7 +200,7 @@ func (it Map) WorkFuncName() string {
 }
 
 func (it Map) GetFirstFuncNameOf(names ...string) string {
-	workFunc := it.GetFirst(names...)
+	workFunc := it.GetFirstOfNames(names...)
 
 	return reflectinternal.GetFuncName(workFunc)
 }
@@ -284,6 +313,8 @@ func (it Map) String() string {
 			)
 		},
 	)
+
+	sort.Strings(toLines)
 
 	toFinalString := fmt.Sprintf(
 		"%s {\n%s\n}\n",
