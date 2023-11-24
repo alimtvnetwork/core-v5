@@ -2,7 +2,7 @@ package converters
 
 import (
 	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/tests/integratedtests/jsoninternal"
+	"gitlab.com/auk-go/core/internal/jsoninternal"
 )
 
 var (

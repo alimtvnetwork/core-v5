@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/tests/integratedtests/jsoninternal"
+	"gitlab.com/auk-go/core/internal/jsoninternal"
 )
 
 type anyTo struct{}
@@ -63,8 +63,7 @@ func (it anyTo) SmartJson(anyItem interface{}) string {
 	case string:
 		return v
 	default:
-		toPrettyJson := jsoninternal.
-			Pretty.
+		toPrettyJson := jsoninternal.Pretty.
 			AnyTo.
 			SafeString(anyItem)
 
@@ -96,8 +95,7 @@ func (it anyTo) PrettyJsonLines(anyItem interface{}) []string {
 		return []string{}
 	}
 
-	toPrettyJson := jsoninternal.
-		Pretty.
+	toPrettyJson := jsoninternal.Pretty.
 		AnyTo.
 		PrettyStringDefault(anyItem)
 
