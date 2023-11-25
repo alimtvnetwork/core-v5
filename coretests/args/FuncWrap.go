@@ -11,7 +11,9 @@ import (
 
 type FuncWrap struct {
 	Name             string      `json:",omitempty"`
+	FullName         string      `json:",omitempty"`
 	Func             interface{} `json:"-,omitempty"`
+	isInvalid        bool
 	rvType           reflect.Type
 	method           reflect.Method
 	inArgsTypesNames []string
@@ -19,16 +21,48 @@ type FuncWrap struct {
 	outArgsTypes     []reflect.Type
 }
 
+func NewFuncWrap(anyFunc interface{}) *FuncWrap {
+	if reflectinternal.IsNull(anyFunc) {
+		return &FuncWrap{
+			Func:      anyFunc,
+			isInvalid: true,
+		}
+	}
+
+	typeOf := reflect.TypeOf(anyFunc)
+	kind := typeOf.Kind()
+
+	if kind != reflect.Func {
+		// invalid
+
+		return &FuncWrap{
+			Func:      anyFunc,
+			isInvalid: true,
+			rvType:    typeOf,
+		}
+	}
+
+	// valid
+
+	return &FuncWrap{
+		Name:      reflectinternal.GetFuncName(anyFunc),
+		Func:      anyFunc,
+		isInvalid: true,
+		rvType:    typeOf,
+		method:    typeOf.Method(0),
+	}
+}
+
 func (it FuncWrap) FuncName() string {
 	return it.Name
 }
 
 func (it *FuncWrap) HasValidFunc() bool {
-	return it != nil && reflectinternal.IsFunc(it.Func)
+	return it != nil && !it.isInvalid && reflectinternal.IsFunc(it.Func)
 }
 
 func (it *FuncWrap) IsInvalid() bool {
-	return it == nil || !it.HasValidFunc()
+	return it == nil || it.isInvalid || !it.HasValidFunc()
 }
 
 // ArgsCount returns -1 on invalid
@@ -223,68 +257,64 @@ func (it *FuncWrap) validationError() error {
 	return nil
 }
 
-func (it *FuncWrap) InvokeVoidMethod(
-	args ...interface{},
-) {
-	it.mustBeValid()
-
-	argsReflectValues := argsToRvFunc(args)
-	it.method.
-		Func.
-		Call(argsReflectValues)
-}
-
-func (it *FuncWrap) InvokeMethod(
-	args ...interface{},
-) []reflect.Value {
-	it.mustBeValid()
-	it.ValidateMethodArgs(args)
-
-	argsReflectValues := argsToRvFunc(args)
-
-	return it.
-		method.
-		Func.
-		Call(argsReflectValues)
-}
-
-func (it *FuncWrap) Invoke(
+func (it *FuncWrap) InvokeMust(
 	args ...interface{},
 ) []interface{} {
-	it.ValidateMethodArgs(args)
-
-	returnedValues := it.InvokeMethod(
-		args...,
-	)
-
-	return rvToInterfacesFunc(
-		returnedValues,
-	)
-}
-
-func (it *FuncWrap) ValidateMethodArgs(args []interface{}) {
-	expectedCount := it.ArgsCount()
-	given := len(args)
-
-	if given != expectedCount {
-		panic(it.argsCountMismatchErrorMessage(expectedCount, given, args))
-	}
-
-	_, err := it.VerifyInArgs(args)
+	results, err := it.Invoke(args...)
 
 	if err != nil {
 		panic(err)
 	}
+
+	return results
 }
 
-func (it *FuncWrap) argsCountMismatchErrorMessage(expectedCount int, given int, args []interface{}) string {
+func (it *FuncWrap) Invoke(
+	args ...interface{},
+) ([]interface{}, error) {
+	firstErr := it.validationError()
+
+	if firstErr != nil {
+		return nil, firstErr
+	}
+
+	argsValidationErr := it.ValidateMethodArgs(args)
+
+	if argsValidationErr != nil {
+		return nil, argsValidationErr
+	}
+
+	rvs := argsToRvFunc(args)
+	resultsRawValues := it.method.Func.Call(rvs)
+
+	return rvToInterfacesFunc(resultsRawValues), nil
+}
+
+func (it *FuncWrap) ValidateMethodArgs(args []interface{}) error {
+	expectedCount := it.ArgsCount()
+	given := len(args)
+
+	if given != expectedCount {
+		return errors.New(it.argsCountMismatchErrorMessage(expectedCount, given, args))
+	}
+
+	_, err := it.VerifyInArgs(args)
+
+	return err
+}
+
+func (it *FuncWrap) argsCountMismatchErrorMessage(
+	expectedCount int,
+	given int,
+	args []interface{},
+) string {
 	expectedTypes := it.GetInArgsTypesNames()
 	expectedToNames := strings.Join(expectedTypes, "\n\t -")
 	actualTypes := reflectinternal.Converter.InterfacesToTypesNames(args)
 	actualTypesName := strings.Join(actualTypes, "\n\t -")
 
 	return fmt.Sprintf(
-		"%s [Method] -> "+
+		"%s [Func] -> "+
 			"arguments count doesn't match for - Count - expected : "+
 			"%d, given : %d\nexpected types listed : %s\nactual given types list : %s",
 		it.Name,
@@ -297,27 +327,39 @@ func (it *FuncWrap) argsCountMismatchErrorMessage(expectedCount int, given int, 
 
 func (it *FuncWrap) GetFirstResponseOfInvoke(
 	args ...interface{},
-) (
-	firstResponse interface{},
-) {
-	return it.GetResponseOfIndexFromInvoke(0, args...)
+) (firstResponse interface{}, err error) {
+	result, err := it.InvokeResultOfIndex(0, args...)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, err
 }
 
-func (it *FuncWrap) GetResponseOfIndexFromInvoke(
+func (it *FuncWrap) InvokeResultOfIndex(
 	index int,
 	args ...interface{},
-) (
-	firstResponse interface{},
-) {
-	results := it.Invoke(args...)
+) (firstResponse interface{}, err error) {
+	results, err := it.Invoke(args...)
 
-	return results[index]
+	if err != nil {
+		return nil, err
+	}
+
+	return results[index], err
 }
 
 func (it *FuncWrap) InvokeError(
 	args ...interface{},
-) (err error) {
-	return it.GetFirstResponseOfInvoke(args...).(error)
+) (funcErr, processingErr error) {
+	result, err := it.GetFirstResponseOfInvoke(args...)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result.(error), err
 }
 
 // InvokeFirstAndError
@@ -325,15 +367,21 @@ func (it *FuncWrap) InvokeError(
 //	useful for method which looks like ReflectMethod() (soemthing, error)
 func (it *FuncWrap) InvokeFirstAndError(
 	args ...interface{},
-) (
-	firstResponse interface{}, err error,
-) {
-	responses := it.Invoke(args...)
+) (firstResponse interface{}, funcErr, processingErr error) {
+	results, processingErr := it.Invoke(args...)
 
-	first := responses[0]
-	second := responses[1].(error)
+	if processingErr != nil {
+		return nil, nil, processingErr
+	}
 
-	return first, second
+	if len(results) <= 1 {
+		return nil, nil, errors.New(it.FuncName() + " doesn't return at least 2 args")
+	}
+
+	first := results[0]
+	second := results[1].(error)
+
+	return first, second, processingErr
 }
 
 // IsNotEqual
