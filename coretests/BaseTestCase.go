@@ -34,11 +34,11 @@ type BaseTestCase struct {
 	IsValidateError bool           `json:",omitempty"`
 }
 
-func (it *BaseTestCase) CaseTitle() string {
+func (it BaseTestCase) CaseTitle() string {
 	return it.Title
 }
 
-func (it *BaseTestCase) TypesValidationMustPasses(t *testing.T) {
+func (it BaseTestCase) TypesValidationMustPasses(t *testing.T) {
 	err := it.TypeValidationError()
 
 	if err != nil {
@@ -72,7 +72,7 @@ func (it *BaseTestCase) FirstParam() interface{} {
 	return it.Parameters.First
 }
 
-func (it *BaseTestCase) SecondParam() interface{} {
+func (it BaseTestCase) SecondParam() interface{} {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -80,7 +80,7 @@ func (it *BaseTestCase) SecondParam() interface{} {
 	return it.Parameters.Second
 }
 
-func (it *BaseTestCase) ThirdParam() interface{} {
+func (it BaseTestCase) ThirdParam() interface{} {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -88,7 +88,7 @@ func (it *BaseTestCase) ThirdParam() interface{} {
 	return it.Parameters.Third
 }
 
-func (it *BaseTestCase) FourthParam() interface{} {
+func (it BaseTestCase) FourthParam() interface{} {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -96,7 +96,7 @@ func (it *BaseTestCase) FourthParam() interface{} {
 	return it.Parameters.Fourth
 }
 
-func (it *BaseTestCase) FifthParam() interface{} {
+func (it BaseTestCase) FifthParam() interface{} {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -104,7 +104,7 @@ func (it *BaseTestCase) FifthParam() interface{} {
 	return it.Parameters.Fifth
 }
 
-func (it *BaseTestCase) HashmapParam() (hasMapItem bool, hashMap map[string]interface{}) {
+func (it BaseTestCase) HashmapParam() (hasMapItem bool, hashMap map[string]interface{}) {
 	if it.IsInvalidParameters() {
 		return false, map[string]interface{}{}
 	}
@@ -114,7 +114,7 @@ func (it *BaseTestCase) HashmapParam() (hasMapItem bool, hashMap map[string]inte
 	return len(hashMap) > 0, hashMap
 }
 
-func (it *BaseTestCase) HasValidHashmapParam() bool {
+func (it BaseTestCase) HasValidHashmapParam() bool {
 	if it.IsInvalidParameters() {
 		return false
 	}
@@ -133,7 +133,7 @@ func (it *BaseTestCase) IsVerifyType() bool {
 // must use SetActual to set the actual,
 // what received from the act method,
 // set it using SetActual
-func (it *BaseTestCase) TypeValidationError() error {
+func (it BaseTestCase) TypeValidationError() error {
 	if it.IsTypeInvalidOrSkipVerify() {
 		return nil
 	}
@@ -197,7 +197,7 @@ func (it *BaseTestCase) TypeValidationError() error {
 //
 //	returns ArrangeInput in string
 //	format using constants.SprintValueFormat
-func (it *BaseTestCase) ArrangeString() string {
+func (it BaseTestCase) ArrangeString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
 		it.ArrangeInput,
@@ -205,41 +205,41 @@ func (it *BaseTestCase) ArrangeString() string {
 }
 
 // Input returns ArrangeInput
-func (it *BaseTestCase) Input() interface{} {
+func (it BaseTestCase) Input() interface{} {
 	return it.ArrangeInput
 }
 
-func (it *BaseTestCase) Expected() interface{} {
+func (it BaseTestCase) Expected() interface{} {
 	return it.ExpectedInput
 }
 
-func (it *BaseTestCase) ExpectedString() string {
+func (it BaseTestCase) ExpectedString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
 		it.ExpectedInput,
 	)
 }
 
-func (it *BaseTestCase) Actual() interface{} {
+func (it BaseTestCase) Actual() interface{} {
 	return it.ActualInput
 }
 
-func (it *BaseTestCase) ActualLines() []string {
+func (it BaseTestCase) ActualLines() []string {
 	return GetAssert.ToStrings(it.ActualInput)
 }
 
-func (it *BaseTestCase) ExpectedLines() []string {
+func (it BaseTestCase) ExpectedLines() []string {
 	return GetAssert.ToStrings(it.ExpectedInput)
 }
 
-func (it *BaseTestCase) ActualString() string {
+func (it BaseTestCase) ActualString() string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
 		it.ActualInput,
 	)
 }
 
-func (it *BaseTestCase) SetActual(actual interface{}) {
+func (it BaseTestCase) SetActual(actual interface{}) {
 	it.ActualInput = actual
 }
 
@@ -247,23 +247,23 @@ func (it *BaseTestCase) SetActual(actual interface{}) {
 //
 //	returns a string format using GetAssertMessageUsingSimpleTestCaseWrapper
 //	- https://prnt.sc/lxUV0eYk_qlg
-func (it *BaseTestCase) String(caseIndex int) string {
+func (it BaseTestCase) String(caseIndex int) string {
 	return GetAssert.SimpleTestCaseWrapper.String(
 		caseIndex, it,
 	)
 }
 
-func (it *BaseTestCase) LinesString(caseIndex int) string {
+func (it BaseTestCase) LinesString(caseIndex int) string {
 	return GetAssert.SimpleTestCaseWrapper.CaseLinesUsingDoubleQuoteLinesToString(
 		caseIndex, it,
 	)
 }
 
-func (it *BaseTestCase) IsDisabled() bool {
+func (it BaseTestCase) IsDisabled() bool {
 	return it.IsEnable.IsFalse()
 }
 
-func (it *BaseTestCase) IsSkipWithLog(caseIndex int) bool {
+func (it BaseTestCase) IsSkipWithLog(caseIndex int) bool {
 	if it.IsDisabled() {
 		fmt.Printf(
 			"Header : %s (%d), skipped: Disabled.",
@@ -277,10 +277,10 @@ func (it *BaseTestCase) IsSkipWithLog(caseIndex int) bool {
 	return false
 }
 
-// Assert
+// ShouldBe
 //
 // Disabled testcases will not be executed.
-func (it *BaseTestCase) ShouldBe(
+func (it BaseTestCase) ShouldBe(
 	caseIndex int,
 	t *testing.T,
 	assert convey.Assertion,
@@ -303,7 +303,7 @@ func (it *BaseTestCase) ShouldBe(
 	)
 }
 
-func (it *BaseTestCase) noPrintAssert(
+func (it BaseTestCase) noPrintAssert(
 	caseIndex int,
 	t *testing.T,
 	assert convey.Assertion,
@@ -325,7 +325,7 @@ func (it *BaseTestCase) noPrintAssert(
 	)
 }
 
-func (it *BaseTestCase) FormTitle(caseIndex int) string {
+func (it BaseTestCase) FormTitle(caseIndex int) string {
 	return fmt.Sprintf(
 		skippedMsgFormat,
 		caseIndex,
@@ -333,7 +333,15 @@ func (it *BaseTestCase) FormTitle(caseIndex int) string {
 	)
 }
 
-func (it *BaseTestCase) ShouldBeExplicit(
+func (it BaseTestCase) CustomTitle(caseIndex int, title string) string {
+	return fmt.Sprintf(
+		skippedMsgFormat,
+		caseIndex,
+		title,
+	)
+}
+
+func (it BaseTestCase) ShouldBeExplicit(
 	isValidateType bool,
 	caseIndex int,
 	t *testing.T,
@@ -349,16 +357,15 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	}
 
 	it.SetActual(actual)
-	headerTitle := it.FormTitle(caseIndex)
+	headerTitle := it.CustomTitle(caseIndex, title)
+	actualLines := GetAssert.ToStrings(actual)
+	expectedLines := GetAssert.ToStrings(expected)
+	compare := assert(actualLines, expectedLines)
+	isFailed := compare != ""
 
 	convey.Convey(
 		headerTitle, t, func() {
-			actualLines := GetAssert.ToStrings(actual)
-			expectedLines := GetAssert.ToStrings(expected)
-			compare := assert(actualLines, expectedLines)
-
-			if compare != "" {
-				// failed
+			if isFailed {
 				toString := it.LinesString(caseIndex)
 
 				fmt.Println(toString)
@@ -377,6 +384,14 @@ func (it *BaseTestCase) ShouldBeExplicit(
 		return
 	}
 
+	it.TypeShouldMatch(t, caseIndex, title)
+}
+
+func (it BaseTestCase) TypeShouldMatch(
+	t *testing.T,
+	caseIndex int,
+	title string,
+) {
 	err := it.TypeValidationError()
 
 	if err == nil {
@@ -389,21 +404,26 @@ func (it *BaseTestCase) ShouldBeExplicit(
 		title,
 	)
 
+	var finalError error
+
 	if err != nil {
-		err = errors.New(errHeader + err.Error() + ", case title : " + title)
+		finalError = errors.New(errHeader + err.Error())
 	}
 
 	convey.Convey(
 		errHeader, t, func() {
-			convey.So(err, convey.ShouldBeNil)
+			convey.So(
+				finalError,
+				convey.ShouldBeNil,
+			)
 		},
 	)
 }
 
-func (it *BaseTestCase) AsSimpleTestCaseWrapper() SimpleTestCaseWrapper {
+func (it BaseTestCase) AsSimpleTestCaseWrapper() SimpleTestCaseWrapper {
 	return it
 }
 
-func (it *BaseTestCase) AsBaseTestCaseWrapper() BaseTestCaseWrapper {
+func (it BaseTestCase) AsBaseTestCaseWrapper() BaseTestCaseWrapper {
 	return it
 }

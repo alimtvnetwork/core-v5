@@ -204,6 +204,14 @@ func (it getAssert) AnyToStringDoubleQuoteLine(
 	return it.ConvertLinesToDoubleQuoteThenString(spaceCount, lines)
 }
 
+func (it getAssert) ToString(
+	anyItem interface{},
+) string {
+	lines := convertinteranl.AnyTo.Strings(anyItem)
+
+	return strings.Join(lines, constants.NewLineUnix)
+}
+
 func LogOnFail(
 	isPass bool,
 	expected, actual interface{},
