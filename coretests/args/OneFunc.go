@@ -40,6 +40,26 @@ func (it *OneFunc) GetFuncName() string {
 	return reflectinternal.GetFuncName(it.WorkFunc)
 }
 
+func (it *OneFunc) FuncWrap() *FuncWrap {
+	return NewFuncWrap(it.WorkFunc)
+}
+
+func (it *OneFunc) Invoke(args ...interface{}) (
+	results []interface{}, processingErr error,
+) {
+	return it.FuncWrap().Invoke(args...)
+}
+
+func (it *OneFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+	results, err := it.FuncWrap().Invoke(args...)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return results
+}
+
 func (it OneFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
@@ -88,7 +108,8 @@ func (it OneFunc) String() string {
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
 		"OneFunc",
-		strings.Join(args, constants.CommaSpace))
+		strings.Join(args, constants.CommaSpace),
+	)
 
 	return it.toString.GetSetOnce(toFinalString)
 }
