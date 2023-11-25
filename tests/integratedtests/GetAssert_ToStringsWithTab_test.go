@@ -18,7 +18,7 @@ func Test_GetAssert_ToStringsWithTab_Verification(t *testing.T) {
 			SimpleSlice.
 			Cap(0)
 		asserter := coretests.GetAssert
-		actFunc := asserter.ToStringsWithTab
+		actFunc := asserter.ToStringsWithSpace
 
 		// Act
 		outputs := actFunc(

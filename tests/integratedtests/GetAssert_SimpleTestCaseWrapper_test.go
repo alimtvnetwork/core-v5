@@ -49,7 +49,7 @@ func Test_SimpleTestCaseWrapper_Lines_Verification(t *testing.T) {
 		asserter := coretests.GetAssert.SimpleTestCaseWrapper
 		caseV1 := testCase.ArrangeInput.(coretestcases.CaseV1)
 		simplerWrapper := caseV1.AsSimpleTestCaseWrapper()
-		prefixWithSpaceFunc := coretests.GetAssert.ToStringsWithTab
+		prefixWithSpaceFunc := coretests.GetAssert.ToStringsWithSpace
 		actFunc := asserter.Lines
 
 		// Act

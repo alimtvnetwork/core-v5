@@ -92,7 +92,7 @@ func (it getAssert) ToStrings(
 	return convertinteranl.AnyTo.Strings(any)
 }
 
-func (it getAssert) ToStringsWithTab(
+func (it getAssert) ToStringsWithSpace(
 	spaceCount int,
 	any interface{},
 ) []string {
@@ -100,6 +100,19 @@ func (it getAssert) ToStringsWithTab(
 		spaceCount,
 		any,
 	)
+}
+
+func (it getAssert) ErrorToLinesWithSpaces(
+	spaceCount int,
+	err error,
+) []string {
+	if err == nil {
+		return []string{}
+	}
+
+	errStr := errcore.ToString(err)
+
+	return it.ToStringsWithSpace(spaceCount, errStr)
 }
 
 func (it getAssert) StringsToSpaceString(

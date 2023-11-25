@@ -18,8 +18,11 @@ var (
 	funWrapCreationTestCases = []coretestcases.CaseV1{
 		{
 			Title: "Quick output as gherkins format",
-			ArrangeInput: args.OneFunc{
-				First: someFunctionV1,
+			ArrangeInput: args.ThreeFunc{
+				First:    "f1",
+				Second:   "f2",
+				Third:    "f3",
+				WorkFunc: someFunctionV1,
 			},
 			ExpectedInput: []string{
 				"----------------------",

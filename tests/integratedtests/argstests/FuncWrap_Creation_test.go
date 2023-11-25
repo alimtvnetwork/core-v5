@@ -12,7 +12,7 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 	for caseIndex, testCase := range funWrapCreationTestCases {
 		// Arrange
 		input := testCase.
-			ArrangeInput.(args.OneFunc)
+			ArrangeInput.(args.ThreeFunc)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -21,11 +21,32 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 		toStringsConv := coretests.GetAssert.ToStrings
 
 		// Act
-		output := actFunc(
+		funcWrap := actFunc(
+			input.WorkFunc,
+		)
+
+		output, err := funcWrap.Invoke(
 			input.First,
+			input.Second,
+			input.Third,
 		)
 
 		actualSlice.Adds(toStringsConv(output)...)
+
+		if err != nil {
+			errLines := coretests.
+				GetAssert.
+				ErrorToLinesWithSpaces(4, err)
+
+			actualSlice.Add(
+				"error : ",
+			)
+
+			actualSlice.Adds(
+				errLines...,
+			)
+		}
+
 		finalActLines := actualSlice.Strings()
 
 		// Assert

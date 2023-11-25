@@ -128,10 +128,14 @@ func (it anyTo) Strings(
 ) []string {
 	switch v := any.(type) {
 	case string:
-		return strings.Split(
-			v, constants.NewLineUnix,
-		)
+		if v == "" {
+			return []string{}
+		}
 
+		return strings.Split(
+			v,
+			constants.NewLineUnix,
+		)
 	case []string:
 		return v
 	case []interface{}:

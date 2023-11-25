@@ -15,7 +15,7 @@ type FuncWrap struct {
 	Func             interface{} `json:"-,omitempty"`
 	isInvalid        bool
 	rvType           reflect.Type
-	method           reflect.Method
+	rv               reflect.Value
 	inArgsTypesNames []string
 	inArgsTypes      []reflect.Type
 	outArgsTypes     []reflect.Type
@@ -46,10 +46,11 @@ func NewFuncWrap(anyFunc interface{}) *FuncWrap {
 
 	return &FuncWrap{
 		Name:      reflectinternal.GetFuncName(anyFunc),
+		FullName:  reflectinternal.GetFuncFullName(anyFunc),
 		Func:      anyFunc,
-		isInvalid: true,
+		isInvalid: false,
 		rvType:    typeOf,
-		method:    typeOf.Method(0),
+		rv:        reflect.ValueOf(anyFunc),
 	}
 }
 
@@ -73,7 +74,7 @@ func (it *FuncWrap) ArgsCount() int {
 
 	// https://stackoverflow.com/a/47626214
 
-	return it.method.Type.NumIn()
+	return it.rvType.NumIn()
 }
 
 // ArgsLength is an Alias for ArgsCount
@@ -89,15 +90,15 @@ func (it *FuncWrap) ReturnLength() int {
 
 	// https://stackoverflow.com/a/47626214
 
-	return it.method.Type.NumOut()
+	return it.rvType.NumOut()
 }
 
 func (it *FuncWrap) IsPublicMethod() bool {
-	return it != nil && it.method.PkgPath == ""
+	return it != nil && it.rvType.PkgPath() == ""
 }
 
 func (it *FuncWrap) IsPrivateMethod() bool {
-	return it != nil && it.method.PkgPath != ""
+	return it != nil && it.rvType.PkgPath() != ""
 }
 
 func (it *FuncWrap) GetType() reflect.Type {
@@ -221,7 +222,7 @@ func (it *FuncWrap) InvokeDirectly(
 		args,
 	)
 
-	values := it.method.Func.Call(argsReflectValues)
+	values := it.rv.Call(argsReflectValues)
 
 	return values, nil
 }
@@ -285,7 +286,7 @@ func (it *FuncWrap) Invoke(
 	}
 
 	rvs := argsToRvFunc(args)
-	resultsRawValues := it.method.Func.Call(rvs)
+	resultsRawValues := it.rv.Call(rvs)
 
 	return rvToInterfacesFunc(resultsRawValues), nil
 }
@@ -309,14 +310,19 @@ func (it *FuncWrap) argsCountMismatchErrorMessage(
 	args []interface{},
 ) string {
 	expectedTypes := it.GetInArgsTypesNames()
-	expectedToNames := strings.Join(expectedTypes, "\n\t -")
-	actualTypes := reflectinternal.Converter.InterfacesToTypesNames(args)
-	actualTypesName := strings.Join(actualTypes, "\n\t -")
+	expectedToNames := strings.Join(expectedTypes, "\n   - ")
+	actualTypes := reflectinternal.Converter.InterfacesToTypesNamesWithValues(args)
+	actualTypesName := strings.Join(actualTypes, "\n   - ")
 
 	return fmt.Sprintf(
-		"%s [Func] -> "+
-			"arguments count doesn't match for - Count - expected : "+
-			"%d, given : %d\nexpected types listed : %s\nactual given types list : %s",
+		"%s [Func] => "+
+			"arguments count doesn't match for - count - \n"+
+			"   expected : %d,\n"+
+			"   given    : %d\n"+
+			"expected types listed :\n"+
+			"   - %s\n"+
+			"actual given types list :\n"+
+			"   - %s",
 		it.Name,
 		expectedCount,
 		given,

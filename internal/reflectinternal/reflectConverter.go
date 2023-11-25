@@ -1,9 +1,11 @@
 package reflectinternal
 
 import (
+	"fmt"
 	"reflect"
 	"unsafe"
 
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectmodel"
 )
 
@@ -86,6 +88,29 @@ func (it reflectConverter) InterfacesToTypesNames(items []interface{}) []string 
 	for _, item := range items {
 		toType := reflect.TypeOf(item)
 		output = append(output, toType.Name())
+
+	}
+
+	return output
+}
+
+func (it reflectConverter) InterfacesToTypesNamesWithValues(items []interface{}) []string {
+	if len(items) == 0 {
+		return []string{}
+	}
+
+	var output []string
+
+	for i, item := range items {
+		toType := reflect.TypeOf(item)
+		compiledString := fmt.Sprintf(
+			"%d. %s [value: %s]",
+			i,
+			toType.Name(),
+			convertinteranl.AnyTo.SmartString(item),
+		)
+
+		output = append(output, compiledString)
 
 	}
 
