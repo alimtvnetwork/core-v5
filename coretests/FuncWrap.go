@@ -1,6 +1,11 @@
 package coretests
 
-import "gitlab.com/auk-go/core/internal/reflectinternal"
+import (
+	"errors"
+	"reflect"
+
+	"gitlab.com/auk-go/core/internal/reflectinternal"
+)
 
 type FuncWrap struct {
 	Name string
@@ -15,6 +20,16 @@ func (it *FuncWrap) HasValidFunc() bool {
 	return it != nil && reflectinternal.IsFunc(it.Func)
 }
 
-func (it *FuncWrap) Invoke(items ...interface{}) (results []interface{}) {
-	return it != nil && reflectinternal.IsFunc(it.Func)
+func (it *FuncWrap) IsInvalid() bool {
+	return it == nil || !it.HasValidFunc()
+}
+
+func (it *FuncWrap) Invoke(items ...interface{}) (results []interface{}, err error) {
+	if it.IsInvalid() {
+		return nil, errors.New("not a valid func")
+	}
+
+	rv := reflect.ValueOf(it.Func)
+
+	rv.Call()
 }
