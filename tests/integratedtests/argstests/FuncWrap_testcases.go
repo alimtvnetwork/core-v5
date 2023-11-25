@@ -10,7 +10,7 @@ import (
 
 var (
 	commonType = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf(args.Map{}),
+		ArrangeInput:  reflect.TypeOf(args.OneFunc{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
