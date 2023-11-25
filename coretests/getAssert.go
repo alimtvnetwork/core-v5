@@ -1,12 +1,14 @@
 package coretests
 
 import (
+	"fmt"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgcreator"
+	"gitlab.com/auk-go/core/internal/msgformats"
 )
 
 type getAssert struct {
@@ -200,4 +202,16 @@ func (it getAssert) AnyToStringDoubleQuoteLine(
 	lines := convertinteranl.AnyTo.Strings(anyItem)
 
 	return it.ConvertLinesToDoubleQuoteThenString(spaceCount, lines)
+}
+
+func LogOnFail(
+	isPass bool,
+	expected, actual interface{},
+) {
+	if isPass {
+		return
+	}
+
+	logMessage := fmt.Sprintf(msgformats.LogFormat, expected, actual)
+	fmt.Println(logMessage)
 }

@@ -63,3 +63,19 @@ func (it getAssertSimpleTestCaseWrapper) CaseLinesUsingDoubleQuoteLinesToString(
 		expected,
 	)
 }
+
+func GetAssertMessage(testCaseMessenger TestCaseMessenger, counter int) string {
+	return GetAssert.Quick(
+		testCaseMessenger.Value(),
+		testCaseMessenger.Actual(),
+		testCaseMessenger.Expected(),
+		counter,
+	)
+}
+
+func GetTestHeader(testCaseMessenger TestCaseMessenger) string {
+	return fmt.Sprintf(
+		"CompareMethod : [%s]",
+		testCaseMessenger.FuncName(),
+	)
+}
