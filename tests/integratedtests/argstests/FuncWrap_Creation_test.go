@@ -1,7 +1,6 @@
 package argstests
 
 import (
-	"strings"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
@@ -10,7 +9,7 @@ import (
 )
 
 func Test_FuncWrap_Creation_Verification(t *testing.T) {
-	for caseIndex, testCase := range quickTestCases {
+	for caseIndex, testCase := range funWrapCreationTestCases {
 		// Arrange
 		input := testCase.
 			ArrangeInput.(args.Map)
@@ -18,18 +17,15 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 			New.
 			SimpleSlice.
 			Cap(0)
-		asserter := coretests.GetAssert
-		quickFunc := asserter.Quick
+		actFunc := args.NewFuncWrap
+		toStringsConv := coretests.GetAssert.ToStrings
 
 		// Act
-		output := quickFunc(
-			input.When(),                        // when
-			input.Actual(),                      // actual
-			input.Expect(),                      // expected
-			input.GetAsIntDefault("counter", 0), // counter
+		output := actFunc(
+			input.First(),
 		)
 
-		actualSlice.Adds(strings.Split(output, "\n")...)
+		actualSlice.Adds(toStringsConv(output)...)
 		finalActLines := actualSlice.Strings()
 
 		// Assert
