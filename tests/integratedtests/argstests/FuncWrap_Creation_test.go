@@ -28,7 +28,6 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 		output, err := funcWrap.Invoke(
 			input.First,
 			input.Second,
-			input.Third,
 		)
 
 		actualSlice.Adds(toStringsConv(output)...)

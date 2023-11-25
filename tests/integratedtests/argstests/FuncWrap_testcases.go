@@ -20,7 +20,7 @@ var (
 			Title: "Quick output as gherkins format",
 			ArrangeInput: args.ThreeFunc{
 				First:    "f1",
-				Second:   "f2",
+				Second:   1,
 				Third:    "f3",
 				WorkFunc: someFunctionV1,
 			},
