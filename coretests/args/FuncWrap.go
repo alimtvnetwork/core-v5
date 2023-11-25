@@ -12,7 +12,7 @@ import (
 type FuncWrap struct {
 	Name             string      `json:",omitempty"`
 	Func             interface{} `json:"-,omitempty"`
-	rv               reflect.Type
+	rvType           reflect.Type
 	method           reflect.Method
 	inArgsTypesNames []string
 	inArgsTypes      []reflect.Type
@@ -36,9 +36,9 @@ func (it *FuncWrap) Invoke(items ...interface{}) (results []interface{}, callErr
 		return nil, errors.New("not a valid func")
 	}
 
-	// rv := reflect.ValueOf(it.Func)
+	// rvType := reflect.ValueOf(it.Func)
 
-	// rv.Call()
+	// rvType.Call()
 
 	return nil, nil
 }
@@ -83,7 +83,7 @@ func (it *FuncWrap) GetType() reflect.Type {
 		return nil
 	}
 
-	return it.rv
+	return it.rvType
 }
 
 func (it *FuncWrap) GetOutArgsTypes() []reflect.Type {
@@ -158,7 +158,7 @@ func (it *FuncWrap) GetInArgsTypesNames() []string {
 	}
 
 	// https://go.dev/play/p/dpIspUFfbu0
-	mainType := it.MethodReflectValue.Type()
+	mainType := it.rvType
 	slice := make([]string, 0, argsCount)
 
 	for i := 0; i < argsCount; i++ {
