@@ -31,18 +31,6 @@ func (it *FuncWrap) IsInvalid() bool {
 	return it == nil || !it.HasValidFunc()
 }
 
-func (it *FuncWrap) Invoke(items ...interface{}) (results []interface{}, callErr error) {
-	if it.IsInvalid() {
-		return nil, errors.New("not a valid func")
-	}
-
-	// rvType := reflect.ValueOf(it.Func)
-
-	// rvType.Call()
-
-	return nil, nil
-}
-
 // ArgsCount returns -1 on invalid
 func (it *FuncWrap) ArgsCount() int {
 	if it.IsInvalid() {
@@ -102,7 +90,7 @@ func (it *FuncWrap) GetOutArgsTypes() []reflect.Type {
 	}
 
 	// https://go.dev/play/p/dpIspUFfbu0
-	mainType := it.MethodReflectValue.Type()
+	mainType := it.rvType
 	slice := make([]reflect.Type, 0, argsOutCount)
 
 	for i := 0; i < argsOutCount; i++ {
@@ -130,7 +118,7 @@ func (it *FuncWrap) GetInArgsTypes() []reflect.Type {
 	}
 
 	// https://go.dev/play/p/dpIspUFfbu0
-	mainType := it.MethodReflectValue.Type()
+	mainType := it.rvType
 	slice := make([]reflect.Type, 0, argsCount)
 
 	for i := 0; i < argsCount; i++ {
@@ -171,35 +159,35 @@ func (it *FuncWrap) GetInArgsTypesNames() []string {
 }
 
 func (it *FuncWrap) VerifyInArgs(args []interface{}) (isOkay bool, err error) {
-	toTypes := argsToRvFunc(args)
+	toTypes := reflectinternal.Converter.InterfacesToTypes(args)
 
 	return it.InArgsVerifyRv(toTypes)
 }
 
 func (it *FuncWrap) VerifyOutArgs(args []interface{}) (isOkay bool, err error) {
-	toTypes := argsToRvFunc(args)
+	toTypes := reflectinternal.Converter.InterfacesToTypes(args)
 
 	return it.OutArgsVerifyRv(toTypes)
 }
 
 func (it *FuncWrap) InArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
-	return refinternal.Utils.VerifyReflectTypes(it.GetInArgsTypes(), args)
+	return reflectinternal.Utils.VerifyReflectTypes(it.GetInArgsTypes(), args)
 }
 
 func (it *FuncWrap) OutArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
-	return refinternal.Utils.VerifyReflectTypes(it.GetOutArgsTypes(), args)
+	return reflectinternal.Utils.VerifyReflectTypes(it.GetOutArgsTypes(), args)
 }
 
-func (it *FuncWrap) InvokeMethodDirectly(
+func (it *FuncWrap) InvokeDirectly(
 	args ...interface{},
 ) (returnedValues []reflect.Value, err error) {
 	it.mustBeValid()
 
-	argsReflectValues := ArgsReflectValues(
+	argsReflectValues := argsToRvFunc(
 		args,
 	)
 
-	values := it.MethodReflectValue.Call(argsReflectValues)
+	values := it.method.Func.Call(argsReflectValues)
 
 	return values, nil
 }
@@ -208,7 +196,6 @@ func (it *FuncWrap) InvokeMethodDirectlyVoid(
 	args ...interface{},
 ) error {
 	it.mustBeValid()
-
 	it.Invoke(args)
 
 	return nil
@@ -216,12 +203,24 @@ func (it *FuncWrap) InvokeMethodDirectlyVoid(
 
 func (it *FuncWrap) mustBeValid() {
 	if it == nil {
-		panic("cannot execute on nil method-wrapper")
+		panic("cannot execute on nil func-wrap")
 	}
 
 	if it.IsInvalid() {
-		panic("method invalid - " + it.Name)
+		panic("func-wrap invalid - " + it.Name)
 	}
+}
+
+func (it *FuncWrap) validationError() error {
+	if it == nil {
+		return errors.New("cannot execute on nil func-wrap")
+	}
+
+	if it.IsInvalid() {
+		return errors.New("func-wrap is invalid - " + it.Name)
+	}
+
+	return nil
 }
 
 func (it *FuncWrap) InvokeVoidMethod(
@@ -229,8 +228,9 @@ func (it *FuncWrap) InvokeVoidMethod(
 ) {
 	it.mustBeValid()
 
-	argsReflectValues := ArgsReflectValues(args)
-	it.MethodReflectValue.
+	argsReflectValues := argsToRvFunc(args)
+	it.method.
+		Func.
 		Call(argsReflectValues)
 }
 
@@ -280,7 +280,7 @@ func (it *FuncWrap) ValidateMethodArgs(args []interface{}) {
 func (it *FuncWrap) argsCountMismatchErrorMessage(expectedCount int, given int, args []interface{}) string {
 	expectedTypes := it.GetInArgsTypesNames()
 	expectedToNames := strings.Join(expectedTypes, "\n\t -")
-	actualTypes := refinternal.Converter.InterfacesToTypesNames(args)
+	actualTypes := reflectinternal.Converter.InterfacesToTypesNames(args)
 	actualTypesName := strings.Join(actualTypes, "\n\t -")
 
 	return fmt.Sprintf(
