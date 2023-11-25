@@ -15,10 +15,10 @@ import (
 //   - ActualInput : Input for the act method
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 type SimpleTestCase struct {
-	Title         string      // consider as header
-	ArrangeInput  interface{} // preparing input, initial input
-	ActualInput   interface{} // (dynamically set) : must be set after running Act, using SetActual
-	ExpectedInput interface{} // expectation set from the test
+	Title         string      `json:",omitempty"` // consider as header
+	ArrangeInput  interface{} `json:",omitempty"` // preparing input, initial input
+	ActualInput   interface{} `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
+	ExpectedInput interface{} `json:",omitempty"` // expectation set from the test
 	Params        args.Map
 }
 

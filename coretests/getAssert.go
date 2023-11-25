@@ -223,3 +223,22 @@ func LogOnFail(
 	logMessage := fmt.Sprintf(msgformats.LogFormat, expected, actual)
 	fmt.Println(logMessage)
 }
+
+func ToStringValues(any interface{}) string {
+	if any == nil {
+		return constants.NilAngelBracket
+	}
+
+	return fmt.Sprintf(constants.SprintValueFormat, any)
+}
+
+func ToStringNameValues(any interface{}) string {
+	if any == nil {
+		return constants.NilAngelBracket
+	}
+
+	return fmt.Sprintf(
+		constants.SprintFullPropertyNameValueFormat,
+		any,
+	)
+}
