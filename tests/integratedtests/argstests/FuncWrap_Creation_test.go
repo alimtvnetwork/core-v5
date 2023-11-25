@@ -9,7 +9,7 @@ import (
 	"gitlab.com/auk-go/core/coretests/args"
 )
 
-func Test_GetAssert_Quick_Verification(t *testing.T) {
+func Test_FuncWrap_Creation_Verification(t *testing.T) {
 	for caseIndex, testCase := range quickTestCases {
 		// Arrange
 		input := testCase.
