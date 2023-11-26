@@ -1,6 +1,7 @@
 package convertinteranl
 
 import (
+	"fmt"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -39,4 +40,32 @@ func (it stringUtil) PrependWithSpacesDefault(
 	)
 
 	return strings.Join(toSlice, constants.NewLineUnix)
+}
+
+// IndexToPosition
+//
+// Index to position format
+//
+//   - Index 0 => Position => 1st
+//   - Index 1 => Position => 2nd
+//   - Index 3 => Position => 3rd
+//   - Index Rest => Position => %dth
+func (it stringUtil) IndexToPosition(
+	index int,
+) string {
+	position := index + 1
+
+	switch position {
+	case 1:
+		return "1st"
+	case 2:
+		return "2nd"
+	case 3:
+		return "3rd"
+	default:
+		return fmt.Sprintf(
+			"%dth",
+			position,
+		)
+	}
 }

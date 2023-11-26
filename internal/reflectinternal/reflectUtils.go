@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-
-	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
 type reflectUtils struct{}
@@ -84,7 +82,12 @@ func (it reflectUtils) VerifyReflectTypesAny(left, right []interface{}) (isOkay 
 }
 
 func (it reflectUtils) errorMessageForTypeVerification(i int, errFirst error) string {
-	return fmt.Sprintf("- Index {%d} - %dth : %s", i, i+1, errFirst.Error())
+	return fmt.Sprintf(
+		"- Index {%d}, %s args : %s",
+		i,
+		indexToPositionFunc(i),
+		errFirst.Error(),
+	)
 }
 
 func (it reflectUtils) VerifyReflectTypes(
@@ -105,31 +108,36 @@ func (it reflectUtils) VerifyReflectTypes(
 		return false, errors.New(errMsg)
 	}
 
-	var errSlice []string
+	var errLines []string
 
 	for i := 0; i < leftLen; i++ {
-		l := expectedArgs[i]
-		r := givenArgs[i]
+		expected := expectedArgs[i]
+		given := givenArgs[i]
 
-		isCurrTypeOkay, errFirst := it.IsReflectTypeMatch(l, r)
+		isCurrTypeOkay, errFirst := it.IsReflectTypeMatch(expected, given)
 
 		if isCurrTypeOkay {
 			continue
 		}
 
 		if errFirst != nil {
-			errSlice = append(
-				errSlice,
+			errLines = append(
+				errLines,
 				it.errorMessageForTypeVerification(i, errFirst),
 			)
 		}
 	}
 
-	if len(errSlice) == 0 {
+	if len(errLines) == 0 {
 		return true, nil
 	}
 
-	convertinteranl.Util.String
+	finalErrMessage := prependWithSpacesFunc(
+		4,
+		errLines,
+		0,
+		fmt.Sprintf("%s =>", rootName),
+	)
 
 	return false, errors.New(finalErrMessage)
 }
@@ -148,9 +156,9 @@ func (it reflectUtils) IsReflectTypeMatch(expectedType, givenType reflect.Type) 
 	return false, errors.New(errMsg)
 }
 
-func (it reflectUtils) IsReflectTypeMatchAny(left, right interface{}) (isOkay bool, err error) {
-	l := reflect.TypeOf(left)
-	r := reflect.TypeOf(right)
+func (it reflectUtils) IsReflectTypeMatchAny(expected, given interface{}) (isOkay bool, err error) {
+	ex := reflect.TypeOf(expected)
+	gi := reflect.TypeOf(given)
 
-	return it.IsReflectTypeMatch(l, r)
+	return it.IsReflectTypeMatch(ex, gi)
 }
