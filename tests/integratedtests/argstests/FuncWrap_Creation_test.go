@@ -27,7 +27,7 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 		if err != nil {
 			errLines := coretests.
 				GetAssert.
-				ErrorToLinesWithSpaces(4, err)
+				ErrorToLinesWithSpaces(2, err)
 
 			actualSlice.Add(
 				"error : ",
