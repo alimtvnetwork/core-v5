@@ -20,14 +20,14 @@ type FourFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
-func (it FourFunc) ArgTwo() TwoFunc {
+func (it *FourFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it FourFunc) ArgThree() ThreeFunc {
+func (it *FourFunc) ArgThree() ThreeFunc {
 	return ThreeFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -35,7 +35,7 @@ func (it FourFunc) ArgThree() ThreeFunc {
 	}
 }
 
-func (it FourFunc) ArgFour() FourFunc {
+func (it *FourFunc) ArgFour() FourFunc {
 	return FourFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -72,7 +72,89 @@ func (it *FourFunc) GetFuncName() string {
 	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
-func (it FourFunc) Slice() []interface{} {
+func (it *FourFunc) FuncWrap() *FuncWrap {
+	return NewFuncWrap(it.WorkFunc)
+}
+
+func (it *FourFunc) Invoke(args ...interface{}) (
+	results []interface{}, processingErr error,
+) {
+	return it.FuncWrap().Invoke(args...)
+}
+
+func (it *FourFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+	results, err := it.FuncWrap().Invoke(args...)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return results
+}
+
+func (it *FourFunc) InvokeWithValidArgs() (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.ValidArgs()
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *FourFunc) InvokeArgs(upTo int) (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.Args(upTo)
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *FourFunc) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
+	}
+
+	if it.HasFourth() {
+		args = append(args, it.Fourth)
+	}
+
+	return args
+}
+
+func (it *FourFunc) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	if upTo >= 3 {
+		args = append(args, it.Third)
+	}
+
+	if upTo >= 4 {
+		args = append(args, it.Fourth)
+	}
+
+	return args
+}
+
+func (it *FourFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -108,7 +190,7 @@ func (it FourFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it FourFunc) GetByIndex(index int) interface{} {
+func (it *FourFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -118,7 +200,7 @@ func (it FourFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it FourFunc) String() string {
+func (it *FourFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
