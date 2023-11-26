@@ -95,7 +95,7 @@ func (it getAssert) ToStrings(
 	return convertinteranl.AnyTo.Strings(any)
 }
 
-// ToStringsWithTab
+// ToStringsWithSpace
 //
 //	This function will display complex objects to simpler form
 //	for the integration testing validation and expectations.
@@ -115,19 +115,19 @@ func (it getAssert) ToStrings(
 //  11. bool to []string
 //
 // See also convertinteranl.AnyTo.Strings
-func (it getAssert) ToStringsWithTab(
+func (it getAssert) ToStringsWithSpace(
 	spacePrefixCount int,
 	any interface{},
 ) []string {
 	lines := convertinteranl.AnyTo.Strings(any)
 
-	return it.StringsToSpaceString(
+	return it.StringsToWithSpaceLines(
 		spacePrefixCount,
 		lines...,
 	)
 }
 
-func (it getAssert) StringsToSpaceString(
+func (it getAssert) StringsToWithSpaceLines(
 	spaceCount int,
 	lines ...string,
 ) []string {

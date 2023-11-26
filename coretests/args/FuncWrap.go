@@ -206,11 +206,23 @@ func (it *FuncWrap) VerifyOutArgs(args []interface{}) (isOkay bool, err error) {
 }
 
 func (it *FuncWrap) InArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
-	return reflectinternal.Utils.VerifyReflectTypes(it.GetInArgsTypes(), args)
+	return reflectinternal.
+		Utils.
+		VerifyReflectTypes(
+			it.Name,
+			it.GetInArgsTypes(),
+			args,
+		)
 }
 
 func (it *FuncWrap) OutArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
-	return reflectinternal.Utils.VerifyReflectTypes(it.GetOutArgsTypes(), args)
+	return reflectinternal.
+		Utils.
+		VerifyReflectTypes(
+			it.Name,
+			it.GetOutArgsTypes(),
+			args,
+		)
 }
 
 func (it *FuncWrap) InvokeDirectly(

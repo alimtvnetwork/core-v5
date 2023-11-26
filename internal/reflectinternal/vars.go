@@ -2,6 +2,6 @@ package reflectinternal
 
 var (
 	Converter = reflectConverter{}
-	Utils     = utils{}
+	Utils     = reflectUtils{}
 	Looper    = looper{}
 )

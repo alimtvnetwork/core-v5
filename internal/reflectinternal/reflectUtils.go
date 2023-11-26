@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
-type utils struct{}
+type reflectUtils struct{}
 
-func (it utils) MaxLimit(currentLength, maxCapacity int) int {
+func (it reflectUtils) MaxLimit(currentLength, maxCapacity int) int {
 	if maxCapacity <= -1 {
 		return currentLength
 	}
@@ -21,7 +23,7 @@ func (it utils) MaxLimit(currentLength, maxCapacity int) int {
 	return currentLength
 }
 
-func (it utils) AppendArgs(appendingItem interface{}, args []interface{}) []interface{} {
+func (it reflectUtils) AppendArgs(appendingItem interface{}, args []interface{}) []interface{} {
 	if len(args) == 0 {
 		return []interface{}{appendingItem}
 	}
@@ -40,7 +42,7 @@ func (it utils) AppendArgs(appendingItem interface{}, args []interface{}) []inte
 	return list
 }
 
-func (it utils) VerifyReflectTypesAny(left, right []interface{}) (isOkay bool, err error) {
+func (it reflectUtils) VerifyReflectTypesAny(left, right []interface{}) (isOkay bool, err error) {
 	leftLen := len(left)
 	rightLen := len(right)
 
@@ -81,17 +83,21 @@ func (it utils) VerifyReflectTypesAny(left, right []interface{}) (isOkay bool, e
 	return false, errors.New(strings.Join(errSlice, "\n"))
 }
 
-func (it utils) errorMessageForTypeVerification(i int, errFirst error) string {
+func (it reflectUtils) errorMessageForTypeVerification(i int, errFirst error) string {
 	return fmt.Sprintf("- Index {%d} - %dth : %s", i, i+1, errFirst.Error())
 }
 
-func (it utils) VerifyReflectTypes(left, right []reflect.Type) (isOkay bool, err error) {
-	leftLen := len(left)
-	rightLen := len(right)
+func (it reflectUtils) VerifyReflectTypes(
+	rootName string,
+	expectedArgs,
+	givenArgs []reflect.Type,
+) (isOkay bool, err error) {
+	leftLen := len(expectedArgs)
+	rightLen := len(givenArgs)
 
 	if leftLen != rightLen {
 		errMsg := fmt.Sprintf(
-			"Left Len(%d) != Right Len (%d)",
+			"Expected Length (%d) != (%d) Given Length",
 			leftLen,
 			rightLen,
 		)
@@ -102,8 +108,8 @@ func (it utils) VerifyReflectTypes(left, right []reflect.Type) (isOkay bool, err
 	var errSlice []string
 
 	for i := 0; i < leftLen; i++ {
-		l := left[i]
-		r := right[i]
+		l := expectedArgs[i]
+		r := givenArgs[i]
 
 		isCurrTypeOkay, errFirst := it.IsReflectTypeMatch(l, r)
 
@@ -123,24 +129,26 @@ func (it utils) VerifyReflectTypes(left, right []reflect.Type) (isOkay bool, err
 		return true, nil
 	}
 
-	return false, errors.New(strings.Join(errSlice, "\n"))
+	convertinteranl.Util.String
+
+	return false, errors.New(finalErrMessage)
 }
 
-func (it utils) IsReflectTypeMatch(left, right reflect.Type) (isOkay bool, err error) {
-	if left == right {
+func (it reflectUtils) IsReflectTypeMatch(expectedType, givenType reflect.Type) (isOkay bool, err error) {
+	if expectedType == givenType {
 		return true, nil
 	}
 
 	errMsg := fmt.Sprintf(
-		"Left Type (%s) != Right Type (%s)",
-		left.Name(),
-		right.Name(),
+		"Expected Type (%s) != (%s) Given Type",
+		expectedType.Name(),
+		givenType.Name(),
 	)
 
 	return false, errors.New(errMsg)
 }
 
-func (it utils) IsReflectTypeMatchAny(left, right interface{}) (isOkay bool, err error) {
+func (it reflectUtils) IsReflectTypeMatchAny(left, right interface{}) (isOkay bool, err error) {
 	l := reflect.TypeOf(left)
 	r := reflect.TypeOf(right)
 

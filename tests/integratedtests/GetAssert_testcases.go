@@ -76,7 +76,7 @@ var (
 
 	stringsToSpaceStringTestCases = []coretestcases.CaseV1{
 		{
-			Title: "StringsToSpaceString output verification",
+			Title: "StringsToWithSpaceLines output verification",
 			ArrangeInput: args.Map{
 				"spaceCount": 4,
 				"lines": []string{

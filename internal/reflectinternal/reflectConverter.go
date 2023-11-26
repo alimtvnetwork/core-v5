@@ -72,7 +72,6 @@ func (it reflectConverter) InterfacesToTypes(items []interface{}) []reflect.Type
 	for _, item := range items {
 		toType := reflect.TypeOf(item)
 		output = append(output, toType)
-
 	}
 
 	return output
@@ -88,7 +87,6 @@ func (it reflectConverter) InterfacesToTypesNames(items []interface{}) []string 
 	for _, item := range items {
 		toType := reflect.TypeOf(item)
 		output = append(output, toType.Name())
-
 	}
 
 	return output

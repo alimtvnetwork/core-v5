@@ -96,7 +96,7 @@ func (it getAssert) ToStringsWithSpace(
 	spaceCount int,
 	any interface{},
 ) []string {
-	return msgcreator.Assert.ToStringsWithTab(
+	return msgcreator.Assert.ToStringsWithSpace(
 		spaceCount,
 		any,
 	)
@@ -119,7 +119,7 @@ func (it getAssert) StringsToSpaceString(
 	spaceCount int,
 	lines ...string,
 ) []string {
-	return msgcreator.Assert.StringsToSpaceString(
+	return msgcreator.Assert.StringsToWithSpaceLines(
 		spaceCount,
 		lines...,
 	)
