@@ -327,13 +327,13 @@ func (it *FuncWrap) argsCountMismatchErrorMessage(
 
 	return fmt.Sprintf(
 		"%s [Func] =>\n"+
-			"arguments count doesn't match for - count - \n"+
-			"   expected : %d\n"+
-			"   given    : %d\n"+
-			"expected types listed :\n"+
-			"   - %s\n"+
-			"actual given types list :\n"+
-			"   - %s",
+			"  arguments count doesn't match for - count:\n"+
+			"    expected : %d\n"+
+			"    given    : %d\n"+
+			"  expected types listed :\n"+
+			"    - %s\n"+
+			"  actual given types list :\n"+
+			"    - %s",
 		it.Name,
 		expectedCount,
 		given,

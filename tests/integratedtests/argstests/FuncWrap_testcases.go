@@ -17,10 +17,10 @@ var (
 
 	funWrapCreationTestCases = []coretestcases.CaseV1{
 		{
-			Title: "Quick output as gherkins format",
+			Title: "someFunctionV1 => Calls dynamically with valid params, outputs as it should.",
 			ArrangeInput: args.ThreeFunc{
 				First:    "f1",
-				Second:   1,
+				Second:   "f2",
 				Third:    "f3",
 				WorkFunc: someFunctionV1,
 			},
