@@ -49,7 +49,7 @@ var (
 				"        - string",
 				"      actual given types list :",
 				"        - 0. string [value: f1]",
-				"        - 1. string [value: f2]",
+				"        - 1. string [value: f2]x",
 			},
 			VerifyTypeOf: commonType,
 		},

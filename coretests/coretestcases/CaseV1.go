@@ -63,14 +63,39 @@ func (it CaseV1) VerifyAllEqual(
 	)
 }
 
+func (it CaseV1) VerifyAllEqualCondition(
+	caseIndex int,
+	condition corevalidator.Condition,
+	actualElements ...string,
+) error {
+	return it.VerifyAllCondition(
+		caseIndex,
+		stringcompareas.Equal,
+		condition,
+		actualElements,
+	)
+}
+
 func (it CaseV1) SliceValidator(
 	compareAs stringcompareas.Variant,
+	actualElements []string,
+) corevalidator.SliceValidator {
+	return it.SliceValidatorCondition(
+		compareAs,
+		corevalidator.DefaultDisabledCoreCondition,
+		actualElements,
+	)
+}
+
+func (it CaseV1) SliceValidatorCondition(
+	compareAs stringcompareas.Variant,
+	condition corevalidator.Condition,
 	actualElements []string,
 ) corevalidator.SliceValidator {
 	it.SetActual(actualElements)
 
 	sliceValidator := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultTrimCoreCondition,
+		Condition:     condition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
 		ExpectedLines: it.ExpectedInput.([]string),
@@ -87,16 +112,45 @@ func (it CaseV1) VerifyAll(
 	it.SetActual(actualElements)
 
 	sliceValidator := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultTrimCoreCondition,
+		Condition:     corevalidator.DefaultDisabledCoreCondition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
 		ExpectedLines: it.ExpectedInput.([]string),
 	}
 
-	return it.VerifyAllSliceValidator(
+	finalErr := it.VerifyAllSliceValidator(
 		caseIndex,
 		sliceValidator,
 	)
+
+	sliceValidator.Dispose()
+
+	return finalErr
+}
+
+func (it CaseV1) VerifyAllCondition(
+	caseIndex int,
+	compareAs stringcompareas.Variant,
+	condition corevalidator.Condition,
+	actualElements []string,
+) error {
+	it.SetActual(actualElements)
+
+	sliceValidator := corevalidator.SliceValidator{
+		Condition:     condition,
+		CompareAs:     compareAs,
+		ActualLines:   actualElements,
+		ExpectedLines: it.ExpectedInput.([]string),
+	}
+
+	finalErr := it.VerifyAllSliceValidator(
+		caseIndex,
+		sliceValidator,
+	)
+
+	sliceValidator.Dispose()
+
+	return finalErr
 }
 
 func (it CaseV1) VerifyFirst(
@@ -167,10 +221,27 @@ func (it CaseV1) ShouldBe(
 	compareAs stringcompareas.Variant,
 	actualElements ...string,
 ) error {
-	toBaseTestCase := it.AsBaseTestCase()
-	validationFinalError := it.VerifyAll(
+	return it.ShouldBeUsingCondition(
+		t,
 		caseIndex,
 		compareAs,
+		corevalidator.DefaultDisabledCoreCondition,
+		actualElements...,
+	)
+}
+
+func (it CaseV1) ShouldBeUsingCondition(
+	t *testing.T,
+	caseIndex int,
+	compareAs stringcompareas.Variant,
+	condition corevalidator.Condition,
+	actualElements ...string,
+) error {
+	toBaseTestCase := it.AsBaseTestCase()
+	validationFinalError := it.VerifyAllCondition(
+		caseIndex,
+		compareAs,
+		condition,
 		actualElements,
 	)
 
@@ -229,6 +300,34 @@ func (it CaseV1) ShouldBeEqual(
 		t,
 		caseIndex,
 		stringcompareas.Equal,
+		actualElements...,
+	)
+}
+
+func (it CaseV1) ShouldBeTrimEqual(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBeUsingCondition(
+		t,
+		caseIndex,
+		stringcompareas.Equal,
+		corevalidator.DefaultTrimCoreCondition,
+		actualElements...,
+	)
+}
+
+func (it CaseV1) ShouldBeSortedEqual(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBeUsingCondition(
+		t,
+		caseIndex,
+		stringcompareas.Equal,
+		corevalidator.DefaultSortTrimCoreCondition,
 		actualElements...,
 	)
 }
@@ -302,6 +401,24 @@ func (it CaseV1) ShouldBeRegex(
 	)
 }
 
+// ShouldBeRegex
+//
+// Each expectation line acts as a regex to
+// be validated against the actual line.
+func (it CaseV1) ShouldBeTrimRegex(
+	t *testing.T,
+	caseIndex int,
+	actualElements ...string,
+) {
+	_ = it.ShouldBeUsingCondition(
+		t,
+		caseIndex,
+		stringcompareas.Regex,
+		corevalidator.DefaultTrimCoreCondition,
+		actualElements...,
+	)
+}
+
 func (it CaseV1) ShouldHaveNoError(
 	t *testing.T,
 	additionalTitle string,
@@ -325,7 +442,10 @@ func (it CaseV1) ShouldHaveNoError(
 	)
 }
 
-func (it CaseV1) AssertDirect(
+// AssertDirectly
+//
+// Assert directly using convey.Convey
+func (it CaseV1) AssertDirectly(
 	t *testing.T,
 	additionalTitle string,
 	msg string,
@@ -334,7 +454,10 @@ func (it CaseV1) AssertDirect(
 	assertion convey.Assertion,
 	expectation interface{},
 ) {
-	finalTitle := it.PrepareTitle(caseIndex, additionalTitle)
+	finalTitle := it.PrepareTitle(
+		caseIndex,
+		additionalTitle,
+	)
 
 	convey.Convey(
 		finalTitle, t, func() {

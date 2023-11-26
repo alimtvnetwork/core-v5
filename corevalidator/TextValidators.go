@@ -305,3 +305,11 @@ func (it *TextValidators) AllVerifyError(
 
 	return errcore.SliceToError(errorSlice)
 }
+
+func (it *TextValidators) Dispose() {
+	if it == nil {
+		return
+	}
+
+	it.Items = nil
+}

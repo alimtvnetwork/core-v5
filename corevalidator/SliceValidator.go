@@ -621,3 +621,14 @@ func (it *SliceValidator) UserInputsMergeWithError(
 
 	return errors.New(msg)
 }
+
+func (it *SliceValidator) Dispose() {
+	if it == nil {
+		return
+	}
+
+	it.ActualLines = nil
+	it.ExpectedLines = nil
+	it.comparingValidators.Dispose()
+	it.comparingValidators = nil
+}
