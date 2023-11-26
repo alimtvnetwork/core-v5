@@ -48,7 +48,7 @@ func (it isChecker) AnyEqual(left, right interface{}) bool {
 	return reflect.DeepEqual(left, right)
 }
 
-func (it isChecker) IsFunc(item interface{}) bool {
+func (it isChecker) Func(item interface{}) bool {
 	if item == nil {
 		return true
 	}

@@ -22,7 +22,7 @@ type FuncWrap struct {
 }
 
 func NewFuncWrap(anyFunc interface{}) *FuncWrap {
-	if reflectinternal.IsNull(anyFunc) {
+	if reflectinternal.Is.Null(anyFunc) {
 		return &FuncWrap{
 			Func:      anyFunc,
 			isInvalid: true,
@@ -43,10 +43,13 @@ func NewFuncWrap(anyFunc interface{}) *FuncWrap {
 	}
 
 	// valid
+	fullName, funcName := reflectinternal.
+		GetFunc.
+		FullNameWithName(anyFunc)
 
 	return &FuncWrap{
-		Name:      reflectinternal.GetFuncName(anyFunc),
-		FullName:  reflectinternal.GetFuncFullName(anyFunc),
+		Name:      funcName,
+		FullName:  fullName,
 		Func:      anyFunc,
 		isInvalid: false,
 		rvType:    typeOf,
@@ -59,7 +62,7 @@ func (it FuncWrap) FuncName() string {
 }
 
 func (it *FuncWrap) HasValidFunc() bool {
-	return it != nil && !it.isInvalid && reflectinternal.IsFunc(it.Func)
+	return it != nil && !it.isInvalid && reflectinternal.Is.Func(it.Func)
 }
 
 func (it *FuncWrap) IsInvalid() bool {
@@ -225,27 +228,13 @@ func (it *FuncWrap) OutArgsVerifyRv(args []reflect.Type) (isOkay bool, err error
 		)
 }
 
-func (it *FuncWrap) InvokeDirectly(
+func (it *FuncWrap) VoidCallNoReturn(
 	args ...interface{},
-) (returnedValues []reflect.Value, err error) {
+) (processingErr error) {
 	it.mustBeValid()
+	_, err := it.Invoke(args)
 
-	argsReflectValues := argsToRvFunc(
-		args,
-	)
-
-	values := it.rv.Call(argsReflectValues)
-
-	return values, nil
-}
-
-func (it *FuncWrap) InvokeMethodDirectlyVoid(
-	args ...interface{},
-) error {
-	it.mustBeValid()
-	it.Invoke(args)
-
-	return nil
+	return err
 }
 
 func (it *FuncWrap) mustBeValid() {
@@ -264,7 +253,13 @@ func (it *FuncWrap) validationError() error {
 	}
 
 	if it.IsInvalid() {
-		return errors.New("func-wrap is invalid - " + it.Name)
+		return fmt.Errorf(
+			"func-wrap is invalid:\n"+
+				"    given type: %T\n"+
+				"    name: %s",
+			it.Func,
+			it.Name,
+		)
 	}
 
 	return nil
@@ -397,7 +392,9 @@ func (it *FuncWrap) InvokeFirstAndError(
 	}
 
 	if len(results) <= 1 {
-		return results, nil, errors.New(it.FuncName() + " doesn't return at least 2 args")
+		return results,
+			nil,
+			errors.New(it.FuncName() + " doesn't return at least 2 return args")
 	}
 
 	first := results[0]
