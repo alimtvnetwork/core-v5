@@ -50,3 +50,27 @@ func JoinPackageNameWithRelative(
 
 	return packageName + "." + relativeNamesJoin
 }
+
+func PackageName() (packageName string) {
+	_, packageName, _ = MethodNamePackageNameUsingStackSkip(
+		defaultInternalSkip,
+	)
+
+	return packageName
+}
+
+func PackageNameOf(fullName string) (packageName string) {
+	_, packageName, _ = MethodNamePackageName(
+		fullName,
+	)
+
+	return packageName
+}
+
+func PackageNameUsingStackSkip(stackSkipIndex int) (packageName string) {
+	_, packageName, _ = MethodNamePackageNameUsingStackSkip(
+		stackSkipIndex + defaultInternalSkip,
+	)
+
+	return packageName
+}
