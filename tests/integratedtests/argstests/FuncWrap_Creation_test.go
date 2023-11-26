@@ -16,7 +16,7 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
-			Cap(0)
+			Cap(30)
 		toStringsConv := coretests.GetAssert.ToStrings
 
 		// Act
@@ -27,7 +27,7 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 		if err != nil {
 			errLines := coretests.
 				GetAssert.
-				ErrorToLinesWithSpaces(2, err)
+				ErrorToLinesWithSpacesDefault(err)
 
 			actualSlice.Add(
 				"error : ",

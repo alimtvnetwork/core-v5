@@ -115,6 +115,12 @@ func (it getAssert) ErrorToLinesWithSpaces(
 	return it.ToStringsWithSpace(spaceCount, errStr)
 }
 
+func (it getAssert) ErrorToLinesWithSpacesDefault(
+	err error,
+) []string {
+	return it.ErrorToLinesWithSpaces(2, err)
+}
+
 func (it getAssert) StringsToSpaceString(
 	spaceCount int,
 	lines ...string,

@@ -487,6 +487,6 @@ func (it CaseV1) AsBaseTestCase() coretests.BaseTestCase {
 	return coretests.BaseTestCase(it)
 }
 
-func (it CaseV1) asSimpleTestCaseWrapperContractsBinder() coretests.SimpleTestCaseWrapperContractsBinder {
+func (it CaseV1) AsSimpleTestCaseWrapperContractsBinder() coretests.SimpleTestCaseWrapperContractsBinder {
 	return &it
 }
