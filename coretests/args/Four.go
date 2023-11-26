@@ -16,14 +16,14 @@ type Four struct {
 	Expect interface{} `json:",omitempty"`
 }
 
-func (it Four) ArgTwo() Two {
+func (it *Four) ArgTwo() Two {
 	return Two{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it Four) ArgThree() Three {
+func (it *Four) ArgThree() Three {
 	return Three{
 		First:  it.First,
 		Second: it.Second,
@@ -51,7 +51,51 @@ func (it *Four) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it Four) String() string {
+func (it *Four) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
+	}
+
+	if it.HasFourth() {
+		args = append(args, it.Fourth)
+	}
+
+	return args
+}
+
+func (it *Four) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	if upTo >= 3 {
+		args = append(args, it.Third)
+	}
+
+	if upTo >= 4 {
+		args = append(args, it.Fourth)
+	}
+
+	return args
+}
+
+func (it *Four) String() string {
 	var args []string
 
 	if it.HasFirst() {
