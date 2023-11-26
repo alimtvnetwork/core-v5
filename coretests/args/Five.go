@@ -20,14 +20,14 @@ type Five struct {
 	toString corestr.SimpleStringOnce
 }
 
-func (it Five) ArgTwo() Two {
+func (it *Five) ArgTwo() Two {
 	return Two{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it Five) ArgThree() Three {
+func (it *Five) ArgThree() Three {
 	return Three{
 		First:  it.First,
 		Second: it.Second,
@@ -35,7 +35,7 @@ func (it Five) ArgThree() Three {
 	}
 }
 
-func (it Five) ArgFour() Four {
+func (it *Five) ArgFour() Four {
 	return Four{
 		First:  it.First,
 		Second: it.Second,
@@ -68,7 +68,59 @@ func (it *Five) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it Five) Slice() []interface{} {
+func (it *Five) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
+	}
+
+	if it.HasFourth() {
+		args = append(args, it.Fourth)
+	}
+
+	if it.HasFifth() {
+		args = append(args, it.Fifth)
+	}
+
+	return args
+}
+
+func (it *Five) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	if upTo >= 3 {
+		args = append(args, it.Third)
+	}
+
+	if upTo >= 4 {
+		args = append(args, it.Fourth)
+	}
+
+	if upTo >= 5 {
+		args = append(args, it.Fifth)
+	}
+
+	return args
+}
+
+func (it *Five) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -104,7 +156,7 @@ func (it Five) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it Five) GetByIndex(index int) interface{} {
+func (it *Five) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -114,7 +166,7 @@ func (it Five) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it Five) String() string {
+func (it *Five) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
