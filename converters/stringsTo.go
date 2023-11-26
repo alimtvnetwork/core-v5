@@ -36,7 +36,8 @@ func (it stringsTo) HashmapTrimColon(
 		SliceToMapConverter(lines).
 		LineSplitMapOptions(
 			true,
-			constants.Colon)
+			constants.Colon,
+		)
 }
 
 func (it stringsTo) HashmapTrimHyphen(
@@ -46,7 +47,8 @@ func (it stringsTo) HashmapTrimHyphen(
 		SliceToMapConverter(lines).
 		LineSplitMapOptions(
 			true,
-			constants.Hyphen)
+			constants.Hyphen,
+		)
 }
 
 func (it stringsTo) HashmapOptions(
@@ -58,7 +60,8 @@ func (it stringsTo) HashmapOptions(
 		SliceToMapConverter(lines).
 		LineSplitMapOptions(
 			isTrim,
-			splitter)
+			splitter,
+		)
 }
 
 func (it stringsTo) HashmapTrim(
@@ -82,7 +85,8 @@ func (it stringsTo) HashmapUsingFuncOptions(
 		SliceToMapConverter(lines).
 		LineProcessorMapOptions(
 			isTrimBefore,
-			processorFunc)
+			processorFunc,
+		)
 }
 
 // HashmapUsingFuncTrim
@@ -96,7 +100,8 @@ func (it stringsTo) HashmapUsingFuncTrim(
 		SliceToMapConverter(lines).
 		LineProcessorMapOptions(
 			true,
-			processorFunc)
+			processorFunc,
+		)
 }
 
 // MapStringIntegerUsingFunc
@@ -111,7 +116,8 @@ func (it stringsTo) MapStringIntegerUsingFunc(
 		SliceToMapConverter(lines).
 		LineProcessorMapStringIntegerOptions(
 			isTrimBefore,
-			processorFunc)
+			processorFunc,
+		)
 }
 
 // MapStringAnyUsingFunc
@@ -126,7 +132,8 @@ func (it stringsTo) MapStringAnyUsingFunc(
 		SliceToMapConverter(lines).
 		LineProcessorMapStringAnyOptions(
 			isTrimBefore,
-			processorFunc)
+			processorFunc,
+		)
 }
 
 func (it stringsTo) MapConverter(
@@ -220,7 +227,8 @@ func (it stringsTo) IntegersWithDefaults(
 				err.Error()
 			errMessages = append(
 				errMessages,
-				errMessage)
+				errMessage,
+			)
 
 			continue
 		}
@@ -272,7 +280,8 @@ func (it stringsTo) IntegersSkipErrors(
 ) []int {
 	return it.IntegersOptionPanic(
 		false,
-		lines...)
+		lines...,
+	)
 }
 
 func (it stringsTo) IntegersSkipMapAndDefaultValue(
@@ -368,7 +377,8 @@ func (it stringsTo) BytesWithDefaults(
 				strconv.Itoa(i)
 			sliceErr = append(
 				sliceErr,
-				msg)
+				msg,
+			)
 
 			results[i] = defaultByte
 
@@ -383,7 +393,8 @@ func (it stringsTo) BytesWithDefaults(
 				strconv.Itoa(i)
 			sliceErr = append(
 				sliceErr,
-				msg)
+				msg,
+			)
 
 			results[i] = defaultByte
 
@@ -402,7 +413,8 @@ func (it stringsTo) BytesWithDefaults(
 func (it stringsTo) Csv(isSkipQuoteOnlyOnExistence bool, stringsSlice ...string) string {
 	csvLines := simplewrap.DoubleQuoteWrapElements(
 		isSkipQuoteOnlyOnExistence,
-		stringsSlice...)
+		stringsSlice...,
+	)
 
 	return strings.Join(csvLines, constants.Comma)
 }
@@ -488,4 +500,33 @@ func (it stringsTo) Float64sConditional(
 	}
 
 	return results
+}
+
+// PointerStringsToStrings will give empty or converted results array (not nil)
+func PointerStringsToStrings(pointerStringOfArray *[]*string) *[]string {
+	if pointerStringOfArray == nil || *pointerStringOfArray == nil {
+		var emptyResult []string
+
+		return &emptyResult
+	}
+
+	newArray := make([]string, len(*pointerStringOfArray))
+
+	for i, value := range *pointerStringOfArray {
+		newArray[i] = *value
+	}
+
+	return &newArray
+}
+
+func StringsPointersToStringBoolMap(inputArray *[]*string) *map[string]bool {
+	length := len(*inputArray)
+	hashset := make(map[string]bool, length)
+
+	for _, s := range *inputArray {
+		sC := *s
+		hashset[sC] = true
+	}
+
+	return &hashset
 }
