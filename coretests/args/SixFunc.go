@@ -91,7 +91,105 @@ func (it *SixFunc) GetFuncName() string {
 	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
-func (it SixFunc) Slice() []interface{} {
+func (it *SixFunc) FuncWrap() *FuncWrap {
+	return NewFuncWrap(it.WorkFunc)
+}
+
+func (it *SixFunc) Invoke(args ...interface{}) (
+	results []interface{}, processingErr error,
+) {
+	return it.FuncWrap().Invoke(args...)
+}
+
+func (it *SixFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+	results, err := it.FuncWrap().Invoke(args...)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return results
+}
+
+func (it *SixFunc) InvokeWithValidArgs() (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.ValidArgs()
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *SixFunc) InvokeArgs(upTo int) (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.Args(upTo)
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it SixFunc) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
+	}
+
+	if it.HasFourth() {
+		args = append(args, it.Fourth)
+	}
+
+	if it.HasFifth() {
+		args = append(args, it.Fifth)
+	}
+
+	if it.HasSixth() {
+		args = append(args, it.Sixth)
+	}
+
+	return args
+}
+
+func (it SixFunc) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	if upTo >= 3 {
+		args = append(args, it.Third)
+	}
+
+	if upTo >= 4 {
+		args = append(args, it.Fourth)
+	}
+
+	if upTo >= 5 {
+		args = append(args, it.Fifth)
+	}
+
+	if upTo >= 6 {
+		args = append(args, it.Sixth)
+	}
+
+	return args
+}
+
+func (it *SixFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -135,7 +233,7 @@ func (it SixFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it SixFunc) GetByIndex(index int) interface{} {
+func (it *SixFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
