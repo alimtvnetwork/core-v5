@@ -71,7 +71,7 @@ func ReflectSetFromTo(
 	isSameType := leftRfType == rightRfType
 	leftRv := reflect.ValueOf(from)
 	rightRv := reflect.ValueOf(toPointer) // right is pointer confirmed by previous validation
-	isLeftAnyNull := reflectinternal.IsNullUsingReflectValue(leftRv) ||
+	isLeftAnyNull := reflectinternal.Is.NullRv(leftRv) ||
 		reflectinternal.Is.Null(leftRfType)
 
 	if isLeftAnyNull {

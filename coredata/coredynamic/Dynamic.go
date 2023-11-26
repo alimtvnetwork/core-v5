@@ -200,12 +200,12 @@ func (it *Dynamic) IsStructStringNullOrEmptyOrWhitespace() bool {
 }
 
 func (it *Dynamic) IsPrimitive() bool {
-	return reflectinternal.IsPrimitive(it.ReflectKind())
+	return reflectinternal.Is.Primitive(it.ReflectKind())
 }
 
 // IsNumber true if float (any), byte, int (any), uint(any)
 func (it *Dynamic) IsNumber() bool {
-	return reflectinternal.IsNumber(it.ReflectKind())
+	return reflectinternal.Is.Number(it.ReflectKind())
 }
 
 func (it *Dynamic) IntDefault(defaultInt int) (val int, isSuccess bool) {
