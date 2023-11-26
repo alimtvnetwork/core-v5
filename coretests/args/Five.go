@@ -45,27 +45,27 @@ func (it Five) ArgFour() Four {
 }
 
 func (it *Five) HasFirst() bool {
-	return it != nil && reflectinternal.IsNotNull(it.First)
+	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
 func (it *Five) HasSecond() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Second)
+	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
 func (it *Five) HasThird() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Third)
+	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
 func (it *Five) HasFourth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fourth)
+	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
 func (it *Five) HasFifth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fifth)
+	return it != nil && reflectinternal.Is.Defined(it.Fifth)
 }
 
 func (it *Five) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it Five) Slice() []interface{} {

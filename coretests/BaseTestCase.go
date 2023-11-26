@@ -144,7 +144,7 @@ func (it BaseTestCase) TypeValidationError() error {
 	expectedInputActualType := reflect.TypeOf(it.ExpectedInput)
 	verifyOf := it.VerifyTypeOf
 
-	if reflectinternal.IsNotNull(it.ArrangeInput) && arrangeInputActualType != verifyOf.ArrangeInput {
+	if reflectinternal.Is.Defined(it.ArrangeInput) && arrangeInputActualType != verifyOf.ArrangeInput {
 		sliceErr = append(
 			sliceErr,
 			errcore.ExpectingSimpleNoType(
@@ -155,7 +155,7 @@ func (it BaseTestCase) TypeValidationError() error {
 		)
 	}
 
-	if reflectinternal.IsNotNull(it.ActualInput) && actualInputActualType != verifyOf.ActualInput {
+	if reflectinternal.Is.Defined(it.ActualInput) && actualInputActualType != verifyOf.ActualInput {
 		sliceErr = append(
 			sliceErr,
 			errcore.ExpectingSimpleNoType(
@@ -166,7 +166,7 @@ func (it BaseTestCase) TypeValidationError() error {
 		)
 	}
 
-	if reflectinternal.IsNotNull(it.ExpectedInput) && expectedInputActualType != verifyOf.ExpectedInput {
+	if reflectinternal.Is.Defined(it.ExpectedInput) && expectedInputActualType != verifyOf.ExpectedInput {
 		sliceErr = append(
 			sliceErr,
 			errcore.ExpectingSimpleNoType(

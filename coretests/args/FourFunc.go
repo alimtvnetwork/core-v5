@@ -45,27 +45,27 @@ func (it FourFunc) ArgFour() FourFunc {
 }
 
 func (it *FourFunc) HasFirst() bool {
-	return it != nil && reflectinternal.IsNotNull(it.First)
+	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
 func (it *FourFunc) HasSecond() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Second)
+	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
 func (it *FourFunc) HasThird() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Third)
+	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
 func (it *FourFunc) HasFourth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fourth)
+	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
 func (it *FourFunc) HasFunc() bool {
-	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
+	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
 func (it *FourFunc) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it *FourFunc) GetFuncName() string {
@@ -132,7 +132,8 @@ func (it FourFunc) String() string {
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
 		"FourFunc",
-		strings.Join(args, constants.CommaSpace))
+		strings.Join(args, constants.CommaSpace),
+	)
 
 	return it.toString.GetSetOnce(toFinalString)
 }

@@ -7,12 +7,13 @@ package args
 //
 // If parameters are not enough use the Hashmap
 type Holder struct {
-	First   interface{} `json:",omitempty"`
-	Second  interface{} `json:",omitempty"`
-	Third   interface{} `json:",omitempty"`
-	Fourth  interface{} `json:",omitempty"`
-	Fifth   interface{} `json:",omitempty"`
-	Sixth   interface{} `json:",omitempty"`
-	Expect  interface{} `json:",omitempty"`
-	Hashmap Map         `json:",omitempty"`
+	First    interface{} `json:",omitempty"`
+	Second   interface{} `json:",omitempty"`
+	Third    interface{} `json:",omitempty"`
+	Fourth   interface{} `json:",omitempty"`
+	Fifth    interface{} `json:",omitempty"`
+	Sixth    interface{} `json:",omitempty"`
+	WorkFunc interface{} `json:",omitempty"`
+	Expect   interface{} `json:",omitempty"`
+	Hashmap  Map         `json:",omitempty"`
 }

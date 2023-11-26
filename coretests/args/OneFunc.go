@@ -25,15 +25,15 @@ func (it OneFunc) ArgTwo() OneFunc {
 }
 
 func (it *OneFunc) HasFirst() bool {
-	return it != nil && reflectinternal.IsNotNull(it.First)
+	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
 func (it *OneFunc) HasFunc() bool {
-	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
+	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
 func (it *OneFunc) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it *OneFunc) GetFuncName() string {

@@ -24,7 +24,7 @@ func (it Map) HasDefined(name string) bool {
 	item, has := it[name]
 
 	return has &&
-		reflectinternal.IsNotNull(item)
+		reflectinternal.Is.Defined(item)
 }
 
 // Has
@@ -107,7 +107,7 @@ func (it Map) Get(name string) (item interface{}, isValid bool) {
 	item, has := it[name]
 
 	if has {
-		return item, reflectinternal.IsNotNull(item)
+		return item, reflectinternal.Is.Defined(item)
 	}
 
 	return nil, false
@@ -189,7 +189,7 @@ func (it Map) GetFirstOfNames(names ...string) interface{} {
 	for _, name := range names {
 		v, has := it[name]
 
-		if has && reflectinternal.IsNotNull(v) {
+		if has && reflectinternal.Is.Defined(v) {
 			return v
 		}
 	}
@@ -204,7 +204,7 @@ func (it Map) GetAsStringSliceFirstOfNames(names ...string) []string {
 
 	item := it.GetFirstOfNames(names...)
 
-	if reflectinternal.IsNotNull(item) {
+	if reflectinternal.Is.Defined(item) {
 		return item.([]string)
 	}
 

@@ -29,7 +29,7 @@ func (it *DynamicFunc) HasDefined(name string) bool {
 	item, has := it.Params[name]
 
 	return has &&
-		reflectinternal.IsNotNull(item)
+		reflectinternal.Is.Defined(item)
 }
 
 // Has
@@ -136,7 +136,7 @@ func (it *DynamicFunc) Get(name string) (item interface{}, isValid bool) {
 	item, has := it.Params[name]
 
 	if has {
-		return item, reflectinternal.IsNotNull(item)
+		return item, reflectinternal.Is.Defined(item)
 	}
 
 	return nil, false
@@ -191,11 +191,11 @@ func (it *DynamicFunc) GetAsAnyItems(name string) (items []interface{}, isValid 
 }
 
 func (it *DynamicFunc) HasFunc() bool {
-	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
+	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
 func (it *DynamicFunc) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it *DynamicFunc) GetFuncName() string {

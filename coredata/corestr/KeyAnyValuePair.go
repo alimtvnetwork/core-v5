@@ -44,11 +44,11 @@ func (it *KeyAnyValuePair) IsValueNull() bool {
 }
 
 func (it *KeyAnyValuePair) HasNonNull() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Value)
+	return it != nil && reflectinternal.Is.Defined(it.Value)
 }
 
 func (it *KeyAnyValuePair) HasValue() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Value)
+	return it != nil && reflectinternal.Is.Defined(it.Value)
 }
 
 func (it *KeyAnyValuePair) IsValueEmptyString() bool {
@@ -141,7 +141,8 @@ func (it KeyAnyValuePair) String() string {
 	return fmt.Sprintf(
 		keyValuePrintFormat,
 		it.Key,
-		it.Value)
+		it.Value,
+	)
 }
 
 func (it *KeyAnyValuePair) Clear() {

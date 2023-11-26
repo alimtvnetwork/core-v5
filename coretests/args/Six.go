@@ -55,31 +55,31 @@ func (it ArgSix) ArgFive() Five {
 }
 
 func (it *ArgSix) HasFirst() bool {
-	return it != nil && reflectinternal.IsNotNull(it.First)
+	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
 func (it *ArgSix) HasSecond() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Second)
+	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
 func (it *ArgSix) HasThird() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Third)
+	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
 func (it *ArgSix) HasFourth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fourth)
+	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
 func (it *ArgSix) HasFifth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fifth)
+	return it != nil && reflectinternal.Is.Defined(it.Fifth)
 }
 
 func (it *ArgSix) HasSixth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Sixth)
+	return it != nil && reflectinternal.Is.Defined(it.Sixth)
 }
 
 func (it *ArgSix) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it ArgSix) Slice() []interface{} {
@@ -146,7 +146,8 @@ func (it ArgSix) String() string {
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
 		"ArgSix",
-		strings.Join(args, constants.CommaSpace))
+		strings.Join(args, constants.CommaSpace),
+	)
 
 	return it.toString.GetSetOnce(toFinalString)
 }

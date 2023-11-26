@@ -26,19 +26,19 @@ func (it TwoFunc) ArgTwo() TwoFunc {
 }
 
 func (it *TwoFunc) HasFirst() bool {
-	return it != nil && reflectinternal.IsNotNull(it.First)
+	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
 func (it *TwoFunc) HasSecond() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Second)
+	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
 func (it *TwoFunc) HasFunc() bool {
-	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
+	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
 func (it *TwoFunc) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it *TwoFunc) GetFuncName() string {
@@ -97,7 +97,8 @@ func (it TwoFunc) String() string {
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
 		"TwoFunc",
-		strings.Join(args, constants.CommaSpace))
+		strings.Join(args, constants.CommaSpace),
+	)
 
 	return it.toString.GetSetOnce(toFinalString)
 }

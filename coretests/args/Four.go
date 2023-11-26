@@ -32,23 +32,23 @@ func (it Four) ArgThree() Three {
 }
 
 func (it *Four) HasFirst() bool {
-	return it != nil && reflectinternal.IsNotNull(it.First)
+	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
 func (it *Four) HasSecond() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Second)
+	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
 func (it *Four) HasThird() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Third)
+	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
 func (it *Four) HasFourth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fourth)
+	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
 func (it *Four) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it Four) String() string {
@@ -77,5 +77,6 @@ func (it Four) String() string {
 	return fmt.Sprintf(
 		"%s { %s }",
 		"Four",
-		strings.Join(args, constants.CommaSpace))
+		strings.Join(args, constants.CommaSpace),
+	)
 }

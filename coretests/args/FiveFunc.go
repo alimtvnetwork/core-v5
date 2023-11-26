@@ -46,31 +46,31 @@ func (it FiveFunc) ArgFour() FourFunc {
 }
 
 func (it *FiveFunc) HasFirst() bool {
-	return it != nil && reflectinternal.IsNotNull(it.First)
+	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
 func (it *FiveFunc) HasSecond() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Second)
+	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
 func (it *FiveFunc) HasThird() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Third)
+	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
 func (it *FiveFunc) HasFourth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fourth)
+	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
 func (it *FiveFunc) HasFifth() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Fifth)
+	return it != nil && reflectinternal.Is.Defined(it.Fifth)
 }
 
 func (it *FiveFunc) HasFunc() bool {
-	return it != nil && reflectinternal.IsNotNull(it.WorkFunc)
+	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
 func (it *FiveFunc) HasExpect() bool {
-	return it != nil && reflectinternal.IsNotNull(it.Expect)
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it *FiveFunc) GetFuncName() string {
@@ -141,7 +141,8 @@ func (it FiveFunc) String() string {
 	toFinalString := fmt.Sprintf(
 		"%s { %s }",
 		"FiveFunc",
-		strings.Join(args, constants.CommaSpace))
+		strings.Join(args, constants.CommaSpace),
+	)
 
 	return it.toString.GetSetOnce(toFinalString)
 }
