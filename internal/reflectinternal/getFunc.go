@@ -9,9 +9,9 @@ import (
 	"gitlab.com/auk-go/core/coredata/stringslice"
 )
 
-type functionGetter struct{}
+type getFunc struct{}
 
-func (it functionGetter) GetFunc(i interface{}) *runtime.Func {
+func (it getFunc) RunTime(i interface{}) *runtime.Func {
 	if IsNull(i) {
 		return nil
 	}
@@ -28,8 +28,8 @@ func (it functionGetter) GetFunc(i interface{}) *runtime.Func {
 // GetFuncFullName
 //
 // Get the function name, passing non function may result panic
-func (it functionGetter) GetFuncFullName(i interface{}) string {
-	f := GetFunc(i)
+func (it getFunc) FullName(i interface{}) string {
+	f := it.RunTime(i)
 
 	if f == nil {
 		return ""
@@ -38,35 +38,35 @@ func (it functionGetter) GetFuncFullName(i interface{}) string {
 	return f.Name()
 }
 
-func (it functionGetter) GetFuncFullNameWithName(i interface{}) (fullName, name string) {
-	fullName = GetFuncFullName(i)
+func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
+	fullName = it.FullName(i)
 
 	if len(fullName) == 0 {
 		return "", ""
 	}
 
-	_, _, funcNameOnly := MethodNamePackageName(fullName)
+	_, _, funcNameOnly := it.All(fullName)
 
-	return fullName, fixFinalFuncName(funcNameOnly)
+	return fullName, it.fixFinalFuncName(funcNameOnly)
 }
 
-func (it functionGetter) GetFuncName(i interface{}) string {
+func (it getFunc) Name(i interface{}) string {
 	if IsNull(i) {
 		return ""
 	}
 
-	funcFullName := GetFuncFullName(i)
+	funcFullName := it.FullName(i)
 
 	if len(funcFullName) == 0 {
 		return ""
 	}
 
-	_, _, funcNameOnly := MethodNamePackageName(funcFullName)
+	_, _, funcNameOnly := it.All(funcFullName)
 
-	return fixFinalFuncName(funcNameOnly)
+	return it.fixFinalFuncName(funcNameOnly)
 }
 
-func fixFinalFuncName(funcNameOnly string) string {
+func (it getFunc) fixFinalFuncName(funcNameOnly string) string {
 	if strings.HasSuffix(funcNameOnly, "-fm") {
 		return funcNameOnly[:len(funcNameOnly)-3]
 	}
@@ -74,7 +74,7 @@ func fixFinalFuncName(funcNameOnly string) string {
 	return funcNameOnly
 }
 
-func MethodNamePackageName(fullFuncName string) (fullMethodName, packageName, methodName string) {
+func (it getFunc) All(fullFuncName string) (fullMethodName, packageName, methodName string) {
 	if fullFuncName == "" {
 		return "", "", ""
 	}
@@ -99,11 +99,11 @@ func MethodNamePackageName(fullFuncName string) (fullMethodName, packageName, me
 			constants.ForwardChar,
 		)
 
-		return MethodNamePackageName(fullFuncName[forwardSlashFound+1:])
+		return it.All(fullFuncName[forwardSlashFound+1:])
 	}
 
 	splitsByDot := strings.Split(fullFuncName, constants.Dot)
 	packageName, methodName = stringslice.FirstLastDefault(splitsByDot)
 
-	return fixFinalFuncName(fullFuncName), packageName, fixFinalFuncName(methodName)
+	return it.fixFinalFuncName(fullFuncName), packageName, it.fixFinalFuncName(methodName)
 }
