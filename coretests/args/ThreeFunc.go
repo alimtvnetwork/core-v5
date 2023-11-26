@@ -55,7 +55,7 @@ func (it *ThreeFunc) HasExpect() bool {
 }
 
 func (it *ThreeFunc) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
 func (it ThreeFunc) Slice() []interface{} {

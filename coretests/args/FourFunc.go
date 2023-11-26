@@ -69,7 +69,7 @@ func (it *FourFunc) HasExpect() bool {
 }
 
 func (it *FourFunc) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
 func (it FourFunc) Slice() []interface{} {

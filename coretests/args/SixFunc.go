@@ -88,7 +88,7 @@ func (it *SixFunc) HasExpect() bool {
 }
 
 func (it *SixFunc) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
 func (it SixFunc) Slice() []interface{} {

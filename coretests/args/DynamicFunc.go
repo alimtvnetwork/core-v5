@@ -199,7 +199,7 @@ func (it *DynamicFunc) HasExpect() bool {
 }
 
 func (it *DynamicFunc) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
 func (it DynamicFunc) Slice() []interface{} {

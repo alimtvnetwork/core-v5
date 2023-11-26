@@ -37,7 +37,7 @@ func (it *OneFunc) HasExpect() bool {
 }
 
 func (it *OneFunc) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
 func (it *OneFunc) FuncWrap() *FuncWrap {

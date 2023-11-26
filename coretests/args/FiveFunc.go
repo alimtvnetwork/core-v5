@@ -74,7 +74,7 @@ func (it *FiveFunc) HasExpect() bool {
 }
 
 func (it *FiveFunc) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
 func (it FiveFunc) Slice() []interface{} {

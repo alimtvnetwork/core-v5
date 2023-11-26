@@ -42,7 +42,7 @@ func (it *TwoFunc) HasExpect() bool {
 }
 
 func (it *TwoFunc) GetFuncName() string {
-	return reflectinternal.GetFuncName(it.WorkFunc)
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
 func (it TwoFunc) Slice() []interface{} {

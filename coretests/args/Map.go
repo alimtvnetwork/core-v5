@@ -214,13 +214,13 @@ func (it Map) GetAsStringSliceFirstOfNames(names ...string) []string {
 func (it Map) WorkFuncName() string {
 	workFunc := it.WorkFunc()
 
-	return reflectinternal.GetFuncName(workFunc)
+	return reflectinternal.GetFunc.Name(workFunc)
 }
 
 func (it Map) GetFirstFuncNameOf(names ...string) string {
 	workFunc := it.GetFirstOfNames(names...)
 
-	return reflectinternal.GetFuncName(workFunc)
+	return reflectinternal.GetFunc.Name(workFunc)
 }
 
 func (it Map) GetAsInt(name string) (item int, isValid bool) {
