@@ -10,12 +10,12 @@ import (
 )
 
 type TwoFunc struct {
-	First    interface{} `json:",omitempty"`
-	Second   interface{} `json:",omitempty"`
-	WorkFunc interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
-	toString corestr.SimpleStringOnce
+	First    interface{}              `json:",omitempty"`
+	Second   interface{}              `json:",omitempty"`
+	WorkFunc interface{}              `json:"-"`
+	Expect   interface{}              `json:",omitempty"`
+	toSlice  *[]interface{}           `json:"-"`
+	toString corestr.SimpleStringOnce `json:"-"`
 }
 
 func (it *TwoFunc) ArgTwo() TwoFunc {
@@ -149,7 +149,7 @@ func (it *TwoFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it *TwoFunc) String() string {
+func (it TwoFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}

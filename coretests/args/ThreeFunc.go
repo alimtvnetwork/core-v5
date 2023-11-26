@@ -10,13 +10,13 @@ import (
 )
 
 type ThreeFunc struct {
-	First    interface{} `json:",omitempty"`
-	Second   interface{} `json:",omitempty"`
-	Third    interface{} `json:",omitempty"`
-	WorkFunc interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
-	toString corestr.SimpleStringOnce
+	First    interface{}              `json:",omitempty"`
+	Second   interface{}              `json:",omitempty"`
+	Third    interface{}              `json:",omitempty"`
+	WorkFunc interface{}              `json:"-"`
+	Expect   interface{}              `json:",omitempty"`
+	toSlice  *[]interface{}           `json:"-"`
+	toString corestr.SimpleStringOnce `json:"-"`
 }
 
 func (it *ThreeFunc) ArgTwo() TwoFunc {
@@ -166,7 +166,7 @@ func (it *ThreeFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it *ThreeFunc) String() string {
+func (it ThreeFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}

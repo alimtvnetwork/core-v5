@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgformats"
 )
@@ -125,6 +126,20 @@ func (it getAssert) ToStringsWithSpace(
 		spacePrefixCount,
 		lines...,
 	)
+}
+
+func (it getAssert) ToStringWithSpace(
+	spacePrefixCount int,
+	any interface{},
+) string {
+	lines := convertinteranl.AnyTo.Strings(any)
+
+	withSpace := it.StringsToWithSpaceLines(
+		spacePrefixCount,
+		lines...,
+	)
+
+	return strings.Join(withSpace, constants.NewLineUnix)
 }
 
 func (it getAssert) StringsToWithSpaceLines(

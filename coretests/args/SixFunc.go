@@ -10,16 +10,16 @@ import (
 )
 
 type SixFunc struct {
-	First    interface{} `json:",omitempty"`
-	Second   interface{} `json:",omitempty"`
-	Third    interface{} `json:",omitempty"`
-	Fourth   interface{} `json:",omitempty"`
-	Fifth    interface{} `json:",omitempty"`
-	Sixth    interface{} `json:",omitempty"`
-	WorkFunc interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
-	toString corestr.SimpleStringOnce
+	First    interface{}              `json:",omitempty"`
+	Second   interface{}              `json:",omitempty"`
+	Third    interface{}              `json:",omitempty"`
+	Fourth   interface{}              `json:",omitempty"`
+	Fifth    interface{}              `json:",omitempty"`
+	Sixth    interface{}              `json:",omitempty"`
+	WorkFunc interface{}              `json:"-"`
+	Expect   interface{}              `json:",omitempty"`
+	toSlice  *[]interface{}           `json:"-"`
+	toString corestr.SimpleStringOnce `json:"-"`
 }
 
 func (it *SixFunc) ArgTwo() TwoFunc {
@@ -243,7 +243,7 @@ func (it *SixFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it *SixFunc) String() string {
+func (it SixFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}

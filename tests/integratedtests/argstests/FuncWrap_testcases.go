@@ -126,5 +126,19 @@ var (
 			},
 			VerifyTypeOf: commonType,
 		},
+		{
+			Title: "someFunctionV3 => Calls dynamically with valid params, outputs as it should.",
+			ArrangeInput: args.ThreeFunc{
+				First:    "f1",
+				Second:   "f2",
+				WorkFunc: someFunctionV3,
+			},
+			ExpectedInput: []string{
+				"5",
+				"someFunctionV3 => called with (f1, f2) - (int, string, error)",
+				"some err of v3",
+			},
+			VerifyTypeOf: commonType,
+		},
 	}
 )

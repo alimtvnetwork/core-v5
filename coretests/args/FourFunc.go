@@ -200,7 +200,7 @@ func (it *FourFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it *FourFunc) String() string {
+func (it FourFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}

@@ -10,15 +10,15 @@ import (
 )
 
 type FuncWrap struct {
-	Name             string      `json:",omitempty"`
-	FullName         string      `json:",omitempty"`
-	Func             interface{} `json:"-,omitempty"`
-	isInvalid        bool
-	rvType           reflect.Type
-	rv               reflect.Value
-	inArgsTypesNames []string
-	inArgsTypes      []reflect.Type
-	outArgsTypes     []reflect.Type
+	Name             string         `json:",omitempty"`
+	FullName         string         `json:",omitempty"`
+	Func             interface{}    `json:"-"`
+	isInvalid        bool           `json:"IsInvalid,omitempty"`
+	rvType           reflect.Type   `json:"-"`
+	rv               reflect.Value  `json:"-"`
+	inArgsTypesNames []string       `json:"-"`
+	inArgsTypes      []reflect.Type `json:"-"`
+	outArgsTypes     []reflect.Type `json:"-"`
 }
 
 func NewFuncWrap(anyFunc interface{}) *FuncWrap {

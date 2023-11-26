@@ -70,8 +70,10 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 				},
 				DifferChecker: checker1,
 			},
-			ExpectedInput:   "",
-			VerifyTypeOf:    simpleDiffTestCases,
+			ExpectedInput: []string{
+				"",
+			},
+			VerifyTypeOf:    typeVerifyOfForDynamicMapSimpleDiffTestCases,
 			HasError:        false,
 			IsValidateError: true,
 		},

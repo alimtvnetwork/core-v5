@@ -123,7 +123,7 @@ func (it *Three) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it *Three) String() string {
+func (it Three) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}

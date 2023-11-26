@@ -10,15 +10,15 @@ import (
 )
 
 type FiveFunc struct {
-	First    interface{} `json:",omitempty"`
-	Second   interface{} `json:",omitempty"`
-	Third    interface{} `json:",omitempty"`
-	Fourth   interface{} `json:",omitempty"`
-	Fifth    interface{} `json:",omitempty"`
-	WorkFunc interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
-	toString corestr.SimpleStringOnce
+	First    interface{}              `json:",omitempty"`
+	Second   interface{}              `json:",omitempty"`
+	Third    interface{}              `json:",omitempty"`
+	Fourth   interface{}              `json:",omitempty"`
+	Fifth    interface{}              `json:",omitempty"`
+	WorkFunc interface{}              `json:"-"`
+	Expect   interface{}              `json:",omitempty"`
+	toSlice  *[]interface{}           `json:"-"`
+	toString corestr.SimpleStringOnce `json:"-"`
 }
 
 func (it *FiveFunc) ArgTwo() TwoFunc {

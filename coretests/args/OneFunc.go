@@ -10,11 +10,11 @@ import (
 )
 
 type OneFunc struct {
-	First    interface{} `json:",omitempty"`
-	WorkFunc interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
-	toString corestr.SimpleStringOnce
+	First    interface{}              `json:",omitempty"`
+	WorkFunc interface{}              `json:"-,omitempty"`
+	Expect   interface{}              `json:",omitempty"`
+	toSlice  *[]interface{}           `json:"-"`
+	toString corestr.SimpleStringOnce `json:"-"`
 }
 
 func (it *OneFunc) ArgTwo() OneFunc {
@@ -133,7 +133,7 @@ func (it *OneFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it *OneFunc) String() string {
+func (it OneFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}

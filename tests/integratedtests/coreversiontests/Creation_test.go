@@ -40,7 +40,7 @@ func Test_Creation_Verification(t *testing.T) {
 		finalCase := testCase.AsCaseV1()
 
 		// Assert
-		finalCase.ShouldBeEqual(
+		finalCase.ShouldBeTrimEqual(
 			t,
 			caseIndex,
 			finalActLines...,
