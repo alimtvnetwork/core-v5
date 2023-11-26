@@ -49,7 +49,7 @@ func (it reflectConverter) ReflectValuesToInterfaces(
 }
 
 func (it reflectConverter) ReflectValueToAnyValue(rv reflect.Value) interface{} {
-	if IsNull(rv) {
+	if Is.Null(rv) {
 		return nil
 	}
 
@@ -240,7 +240,7 @@ func ReflectValToInterfaces(
 
 		valueInf := value.Interface()
 
-		if isSkipOnNil && IsNull(value) {
+		if isSkipOnNil && Is.Null(value) {
 			continue
 		}
 
@@ -334,7 +334,7 @@ func ReflectValToInterfacesUsingProcessor(
 
 		valueInf := value.Interface()
 
-		if isSkipOnNil && IsNull(valueInf) {
+		if isSkipOnNil && Is.Null(valueInf) {
 			continue
 		}
 
@@ -366,7 +366,7 @@ func ReflectInterfaceVal(any interface{}) interface{} {
 func SafeTypeName(any interface{}) string {
 	rt := reflect.TypeOf(any)
 
-	if IsNull(rt) {
+	if Is.Null(rt) {
 		return ""
 	}
 
@@ -390,7 +390,7 @@ func SafeTypeNameOfSliceOrSingle(
 func SafeSliceToTypeName(slice interface{}) string {
 	rt := reflect.TypeOf(slice)
 
-	if IsNull(rt) {
+	if Is.Null(rt) {
 		return ""
 	}
 
