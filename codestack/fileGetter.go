@@ -77,3 +77,32 @@ func FullMethodNameOf(fullName string) (packageName string) {
 
 	return fullMethodNameOf
 }
+
+func CurrentFilePath() string {
+	_, filePath, _, isOkay := runtime.Caller(defaultInternalSkip)
+
+	if isOkay {
+		return filePath
+	}
+
+	return constants.EmptyString
+}
+func CurDir() string {
+	_, filePath, _, isOkay := runtime.Caller(defaultInternalSkip)
+
+	if isOkay {
+		return filepath.Dir(filePath)
+	}
+
+	return constants.EmptyString
+}
+
+func Dir(skipStack int) string {
+	_, filePath, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
+
+	if isOkay {
+		return filepath.Dir(filePath)
+	}
+
+	return constants.EmptyString
+}
