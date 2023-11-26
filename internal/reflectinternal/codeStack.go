@@ -15,7 +15,7 @@ func (it codeStack) New(skipStack int) StackTrace {
 	funcInfo := runtime.FuncForPC(pc)
 	fullFuncName := funcInfo.Name()
 
-	fullMethodSignature, packageName, methodName := MethodNamePackageName(fullFuncName)
+	fullMethodSignature, packageName, methodName := GetFunc.All(fullFuncName)
 
 	return StackTrace{
 		SkipIndex:         skipStack,
@@ -37,7 +37,7 @@ func (it codeStack) MethodName(skipStack int) string {
 	funcInfo := runtime.FuncForPC(pc)
 	fullFuncName := funcInfo.Name()
 
-	_, _, methodName := MethodNamePackageName(fullFuncName)
+	_, _, methodName := GetFunc.All(fullFuncName)
 
 	return methodName
 }
@@ -47,7 +47,7 @@ func (it codeStack) MethodNameWithLine(skipStack int) string {
 	funcInfo := runtime.FuncForPC(pc)
 	fullFuncName := funcInfo.Name()
 
-	_, _, methodName := MethodNamePackageName(fullFuncName)
+	_, _, methodName := GetFunc.All(fullFuncName)
 
 	return fmt.Sprintf(
 		"%s:%d",
@@ -61,7 +61,7 @@ func (it codeStack) FileWithLine(skipStack int) string {
 	funcInfo := runtime.FuncForPC(pc)
 	fullFuncName := funcInfo.Name()
 
-	_, _, methodName := MethodNamePackageName(fullFuncName)
+	_, _, methodName := GetFunc.All(fullFuncName)
 
 	return fmt.Sprintf(
 		shortStringFormat,
@@ -102,7 +102,11 @@ func (it codeStack) NewFileWithLines(skipStack, count int) []FileWithLine {
 	lines := make([]FileWithLine, 0, count)
 
 	for i := 0; i < count; i++ {
-		_, file, line, _ := runtime.Caller(skipStack + defaultInternalSkip)
+		_, file, line, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
+
+		if !isOkay {
+			return lines
+		}
 
 		f := FileWithLine{
 			FilePath: file,
@@ -125,4 +129,46 @@ func (it codeStack) NewFileWithLine(skipStack int) FileWithLine {
 		FilePath: file,
 		Line:     line,
 	}
+}
+
+func (it codeStack) NewStacks(skipStack, count int) []StackTrace {
+	slice := make([]StackTrace, 0, count)
+
+	for i := 0; i < count; i++ {
+		f := it.New(defaultInternalSkip + skipStack)
+
+		slice = append(
+			slice,
+			f,
+		)
+	}
+
+	return slice
+}
+
+func (it codeStack) StacksStrings(skipStack int) []string {
+	fileWithLines := it.NewFileWithLines(
+		skipStack,
+		defaultStackCount,
+	)
+
+	lines := make([]string, 0, len(fileWithLines))
+
+	for _, fileWithLine := range fileWithLines {
+		newLine := fmt.Sprintf(
+			fileWithLineFormat,
+			fileWithLine.FilePath,
+			fileWithLine.Line,
+		)
+
+		lines = append(lines, newLine)
+	}
+
+	return lines
+}
+
+func (it codeStack) StacksString(skipStack int) string {
+	lines := it.StacksStrings(skipStack + defaultStackCount)
+
+	return strings.Join(lines, constants.NewLineUnix)
 }

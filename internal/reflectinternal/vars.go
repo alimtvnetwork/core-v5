@@ -6,9 +6,9 @@ var (
 	Converter = reflectConverter{}
 	Utils     = reflectUtils{}
 	Looper    = looper{}
-
 	CodeStack = codeStack{}
 	GetFunc   = getFunc{}
+	Is        = isChecker{}
 
 	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition
 	prependWithSpacesFunc = convertinteranl.Util.String.PrependWithSpacesDefault

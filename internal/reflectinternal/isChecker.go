@@ -4,7 +4,7 @@ import "reflect"
 
 type isChecker struct{}
 
-func IsConclusive(left, right interface{}) (isEqual, isConclusive bool) {
+func (it isChecker) Conclusive(left, right interface{}) (isEqual, isConclusive bool) {
 	if left == right {
 		return true, true
 	}
@@ -19,8 +19,8 @@ func IsConclusive(left, right interface{}) (isEqual, isConclusive bool) {
 
 	leftRv := reflect.ValueOf(left)
 	rightRv := reflect.ValueOf(right)
-	isLeftNull := IsNullUsingReflectValue(leftRv)
-	isRightNull := IsNullUsingReflectValue(rightRv)
+	isLeftNull := it.NullRv(leftRv)
+	isRightNull := it.NullRv(rightRv)
 	isBothEqual := isLeftNull == isRightNull
 
 	if isLeftNull && isBothEqual {
@@ -38,8 +38,8 @@ func IsConclusive(left, right interface{}) (isEqual, isConclusive bool) {
 	return false, false
 }
 
-func IsAnyEqual(left, right interface{}) bool {
-	isEqual, isConclusive := IsConclusive(left, right)
+func (it isChecker) AnyEqual(left, right interface{}) bool {
+	isEqual, isConclusive := it.Conclusive(left, right)
 
 	if isConclusive {
 		return isEqual
@@ -48,17 +48,17 @@ func IsAnyEqual(left, right interface{}) bool {
 	return reflect.DeepEqual(left, right)
 }
 
-func IsFunc(item interface{}) bool {
+func (it isChecker) IsFunc(item interface{}) bool {
 	if item == nil {
 		return true
 	}
 
 	typeOf := reflect.TypeOf(item)
 
-	return IsFuncTypeOf(typeOf)
+	return it.FuncTypeOf(typeOf)
 }
 
-func IsFuncTypeOf(typeOf reflect.Type) bool {
+func (it isChecker) FuncTypeOf(typeOf reflect.Type) bool {
 	kind := typeOf.Kind()
 
 	switch kind {
@@ -69,10 +69,15 @@ func IsFuncTypeOf(typeOf reflect.Type) bool {
 	return false
 }
 
-func IsNotNull(item interface{}) bool {
-	return !IsNull(item)
+func (it isChecker) NotNull(item interface{}) bool {
+	return !it.Null(item)
 }
-func IsNull(item interface{}) bool {
+
+func (it isChecker) Defined(item interface{}) bool {
+	return !it.Null(item)
+}
+
+func (it isChecker) Null(item interface{}) bool {
 	if item == nil {
 		return true
 	}
@@ -87,7 +92,7 @@ func IsNull(item interface{}) bool {
 	}
 }
 
-func IsNullUsingReflectValue(rv reflect.Value) bool {
+func (it isChecker) NullRv(rv reflect.Value) bool {
 	switch rv.Kind() {
 	case reflect.Chan, reflect.Func, reflect.Map, reflect.Ptr, reflect.UnsafePointer, reflect.Slice:
 		return rv.IsNil()
@@ -96,12 +101,14 @@ func IsNullUsingReflectValue(rv reflect.Value) bool {
 	}
 }
 
-// IsNumber function returns true if the kind passed to it is one of the
+// Number
+//
+// function returns true if the kind passed to it is one of the
 // primitive types (reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
 //
 //	reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
 //	reflect.Float32, reflect.Float64)
-func IsNumber(kind reflect.Kind) bool {
+func (it isChecker) Number(kind reflect.Kind) bool {
 	switch kind {
 	case
 		reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
@@ -113,9 +120,11 @@ func IsNumber(kind reflect.Kind) bool {
 	}
 }
 
-// IsPrimitive function returns true if the kind passed to it is one of the
+// Primitive
+//
+// function returns true if the kind passed to it is one of the
 // primitive types (boolean, int, uint, float, string)
-func IsPrimitive(kind reflect.Kind) bool {
+func (it isChecker) Primitive(kind reflect.Kind) bool {
 	switch kind {
 	case
 		reflect.Bool,
@@ -130,43 +139,43 @@ func IsPrimitive(kind reflect.Kind) bool {
 	}
 }
 
-// IsZero
+// Zero
 //
 //	returns true if the current value is null
 //	or reflect value is zero
 //
 // Reference:
 //   - Stackoverflow Example : https://stackoverflow.com/a/23555352
-func IsZero(anyItem interface{}) bool {
-	if IsNull(anyItem) {
+func (it isChecker) Zero(anyItem interface{}) bool {
+	if it.Null(anyItem) {
 		return true
 	}
 
-	return IsZeroReflectValue(reflect.ValueOf(anyItem))
+	return it.ZeroRv(reflect.ValueOf(anyItem))
 }
 
-// IsZeroReflectValue
+// ZeroRv
 //
 //	returns true if the current value is null
 //	or reflect value is zero
 //
 // Reference:
 //   - Stackoverflow Example : https://stackoverflow.com/a/23555352
-func IsZeroReflectValue(rv reflect.Value) bool {
+func (it isChecker) ZeroRv(rv reflect.Value) bool {
 	switch rv.Kind() {
 	case reflect.Func, reflect.Map, reflect.Slice, reflect.Ptr:
 		return rv.IsNil()
 	case reflect.Array:
 		isAllZero := true
 		for i := 0; i < rv.Len(); i++ {
-			isAllZero = isAllZero && IsZeroReflectValue(rv.Index(i))
+			isAllZero = isAllZero && it.ZeroRv(rv.Index(i))
 		}
 
 		return isAllZero
 	case reflect.Struct:
 		isAllZero := true
 		for i := 0; i < rv.NumField(); i++ {
-			isAllZero = isAllZero && IsZeroReflectValue(rv.Field(i))
+			isAllZero = isAllZero && it.ZeroRv(rv.Field(i))
 		}
 
 		return isAllZero

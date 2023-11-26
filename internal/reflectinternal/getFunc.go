@@ -12,7 +12,7 @@ import (
 type getFunc struct{}
 
 func (it getFunc) RunTime(i interface{}) *runtime.Func {
-	if IsNull(i) {
+	if Is.Null(i) {
 		return nil
 	}
 
@@ -51,7 +51,7 @@ func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
 }
 
 func (it getFunc) Name(i interface{}) string {
-	if IsNull(i) {
+	if Is.Null(i) {
 		return ""
 	}
 
