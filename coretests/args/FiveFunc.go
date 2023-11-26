@@ -21,14 +21,14 @@ type FiveFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
-func (it FiveFunc) ArgTwo() TwoFunc {
+func (it *FiveFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it FiveFunc) ArgThree() ThreeFunc {
+func (it *FiveFunc) ArgThree() ThreeFunc {
 	return ThreeFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -36,7 +36,7 @@ func (it FiveFunc) ArgThree() ThreeFunc {
 	}
 }
 
-func (it FiveFunc) ArgFour() FourFunc {
+func (it *FiveFunc) ArgFour() FourFunc {
 	return FourFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -77,7 +77,97 @@ func (it *FiveFunc) GetFuncName() string {
 	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
-func (it FiveFunc) Slice() []interface{} {
+func (it *FiveFunc) FuncWrap() *FuncWrap {
+	return NewFuncWrap(it.WorkFunc)
+}
+
+func (it *FiveFunc) Invoke(args ...interface{}) (
+	results []interface{}, processingErr error,
+) {
+	return it.FuncWrap().Invoke(args...)
+}
+
+func (it *FiveFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+	results, err := it.FuncWrap().Invoke(args...)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return results
+}
+
+func (it *FiveFunc) InvokeWithValidArgs() (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.ValidArgs()
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *FiveFunc) InvokeArgs(upTo int) (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.Args(upTo)
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *FiveFunc) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
+	}
+
+	if it.HasFourth() {
+		args = append(args, it.Fourth)
+	}
+
+	if it.HasFifth() {
+		args = append(args, it.Fifth)
+	}
+
+	return args
+}
+
+func (it *FiveFunc) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	if upTo >= 3 {
+		args = append(args, it.Third)
+	}
+
+	if upTo >= 4 {
+		args = append(args, it.Fourth)
+	}
+
+	if upTo >= 5 {
+		args = append(args, it.Fifth)
+	}
+
+	return args
+}
+
+func (it *FiveFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -117,7 +207,7 @@ func (it FiveFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it FiveFunc) GetByIndex(index int) interface{} {
+func (it *FiveFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {

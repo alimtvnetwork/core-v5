@@ -22,14 +22,14 @@ type SixFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
-func (it SixFunc) ArgTwo() TwoFunc {
+func (it *SixFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it SixFunc) ArgThree() ThreeFunc {
+func (it *SixFunc) ArgThree() ThreeFunc {
 	return ThreeFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -37,7 +37,7 @@ func (it SixFunc) ArgThree() ThreeFunc {
 	}
 }
 
-func (it SixFunc) ArgFour() FourFunc {
+func (it *SixFunc) ArgFour() FourFunc {
 	return FourFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -46,7 +46,7 @@ func (it SixFunc) ArgFour() FourFunc {
 	}
 }
 
-func (it SixFunc) ArgFive() FiveFunc {
+func (it *SixFunc) ArgFive() FiveFunc {
 	return FiveFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -129,7 +129,7 @@ func (it *SixFunc) InvokeArgs(upTo int) (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it SixFunc) ValidArgs() []interface{} {
+func (it *SixFunc) ValidArgs() []interface{} {
 	var args []interface{}
 
 	if it.HasFirst() {
@@ -159,7 +159,7 @@ func (it SixFunc) ValidArgs() []interface{} {
 	return args
 }
 
-func (it SixFunc) Args(upTo int) []interface{} {
+func (it *SixFunc) Args(upTo int) []interface{} {
 	var args []interface{}
 
 	if upTo >= 1 {
@@ -243,7 +243,7 @@ func (it *SixFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it SixFunc) String() string {
+func (it *SixFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
