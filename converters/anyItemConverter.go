@@ -240,7 +240,7 @@ func (it anyItemConverter) ToNonNullItems(
 	isSkipOnNil bool,
 	anyItem interface{},
 ) []interface{} {
-	if isSkipOnNil && anyItem == nil || reflectinternal.IsNull(anyItem) {
+	if isSkipOnNil && anyItem == nil || reflectinternal.Is.Null(anyItem) {
 		return []interface{}{}
 	}
 

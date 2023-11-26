@@ -23,7 +23,8 @@ func (it reflectGetUsingReflectValue) PublicValuesMapStruct(structValue reflect.
 	if structValue.Kind() != reflect.Struct {
 		return nil, errcore.Expected.ReflectButFound(
 			reflect.Struct,
-			structValue.Kind())
+			structValue.Kind(),
+		)
 	}
 
 	structType := structValue.Type()
@@ -72,7 +73,8 @@ func (it reflectGetUsingReflectValue) FieldNameWithTypeMap(
 	fieldsHashset :=
 		make(
 			map[string]reflect.Type,
-			fieldsLength)
+			fieldsLength,
+		)
 
 	var name string
 
@@ -118,7 +120,8 @@ func (it reflectGetUsingReflectValue) FieldNameWithValuesMap(
 		if fieldType.PkgPath != "" {
 			unexportedField := reflect.NewAt(
 				fieldType.Type,
-				unsafe.Pointer(fieldValue.UnsafeAddr())).Elem()
+				unsafe.Pointer(fieldValue.UnsafeAddr()),
+			).Elem()
 			fieldToValueMap[fieldType.Name] = unexportedField.Interface()
 		} else {
 			fieldToValueMap[fieldType.Name] = fieldValue.Interface()
@@ -147,14 +150,16 @@ func (it reflectGetUsingReflectValue) FieldNamesMap(
 	if !structValue.IsValid() || structValueKind != reflect.Struct {
 		return map[string]bool{},
 			errcore.Expected.ReflectButFound(
-				reflect.Struct, structValueKind)
+				reflect.Struct, structValueKind,
+			)
 	}
 
 	structType := structValue.Type()
 	fieldsLength := structType.NumField()
 	fieldsMap := make(
 		map[string]bool,
-		fieldsLength+1)
+		fieldsLength+1,
+	)
 
 	for i := 0; i < fieldsLength; i++ {
 		name := structType.Field(i).Name
@@ -189,7 +194,8 @@ func (it reflectGetUsingReflectValue) StructFieldsMap(
 	fieldsHashset :=
 		make(
 			map[string]reflect.StructField,
-			fieldsLength)
+			fieldsLength,
+		)
 
 	var name string
 
@@ -234,14 +240,15 @@ func (it reflectGetUsingReflectValue) NullFieldsMap(
 	structNumFields := structType.NumField()
 	hashset := make(
 		map[string]bool,
-		structNumFields+1)
+		structNumFields+1,
+	)
 	var fieldValue reflect.Value
 	var fieldType reflect.StructField
 
 	for i := 0; i < structNumFields; i++ {
 		fieldValue = structValue.Field(i)
 
-		if reflectinternal.IsNullUsingReflectValue(fieldValue) {
+		if reflectinternal.Is.NullRv(fieldValue) {
 			fieldType = structType.Field(i)
 			hashset[fieldType.Name] = true
 		}
@@ -282,14 +289,15 @@ func (it reflectGetUsingReflectValue) NullOrZeroFieldsMap(
 	structNumFields := structType.NumField()
 	hashset := make(
 		map[string]bool,
-		structNumFields+1)
+		structNumFields+1,
+	)
 	var fieldValue reflect.Value
 	var fieldType reflect.StructField
 
 	for i := 0; i < structNumFields; i++ {
 		fieldValue = structValue.Field(i)
 
-		if reflectinternal.IsZeroReflectValue(fieldValue) {
+		if reflectinternal.Is.ZeroRv(fieldValue) {
 			fieldType = structType.Field(i)
 			hashset[fieldType.Name] = true
 		}

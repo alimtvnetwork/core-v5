@@ -39,7 +39,8 @@ func ReflectSetFromTo(
 ) error {
 	isLeftNull, isRightNull := isany.NullLeftRight(
 		from,
-		toPointer)
+		toPointer,
+	)
 
 	if isLeftNull == isRightNull && isLeftNull {
 		return nil
@@ -53,7 +54,8 @@ func ReflectSetFromTo(
 			InvalidNullPointerType.
 			MsgCsvRefError(
 				"\"destination pointer is null, cannot proceed further!\""+supportedTypesMessageReference,
-				"FromType", leftRfType, "ToType", rightRfType)
+				"FromType", leftRfType, "ToType", rightRfType,
+			)
 	}
 
 	rightKind := rightRfType.Kind()
@@ -62,14 +64,15 @@ func ReflectSetFromTo(
 		return errcore.UnexpectedType.
 			MsgCsvRefError(
 				"\"destination or toPointer must be a pointer to set!\""+supportedTypesMessageReference,
-				"FromType", leftRfType, "ToType", rightRfType)
+				"FromType", leftRfType, "ToType", rightRfType,
+			)
 	}
 
 	isSameType := leftRfType == rightRfType
 	leftRv := reflect.ValueOf(from)
 	rightRv := reflect.ValueOf(toPointer) // right is pointer confirmed by previous validation
 	isLeftAnyNull := reflectinternal.IsNullUsingReflectValue(leftRv) ||
-		reflectinternal.IsNull(leftRfType)
+		reflectinternal.Is.Null(leftRfType)
 
 	if isLeftAnyNull {
 		return errcore.
@@ -77,7 +80,8 @@ func ReflectSetFromTo(
 			SrcDestinationErr(
 				"`from` is nil, cannot set null or nil to destination.\"!"+supportedTypesMessageReference,
 				"FromType", leftRfType,
-				"ToType", rightRfType)
+				"ToType", rightRfType,
+			)
 	}
 
 	isLeftBytes := leftRfType == emptyBytesType
@@ -109,7 +113,8 @@ func ReflectSetFromTo(
 			SrcDestinationErr(
 				"supported: \"types are same pointer or any bytes or destination is pointer.\"!"+supportedTypesMessageReference,
 				"FromType", leftRfType,
-				"ToType", rightRfType)
+				"ToType", rightRfType,
+			)
 	}
 
 	// case : From, To  : ([]byte or *[]byte, otherType)  -- try unmarshal, reflect
@@ -118,7 +123,8 @@ func ReflectSetFromTo(
 			Deserialize.
 			UsingBytes(
 				from.([]byte),
-				toPointer)
+				toPointer,
+			)
 	}
 
 	// case : From, To  : (*[]byte, otherType) -- try unmarshal, reflect
@@ -127,7 +133,8 @@ func ReflectSetFromTo(
 			Deserialize.
 			UsingBytesPointer(
 				from.(*[]byte),
-				toPointer)
+				toPointer,
+			)
 	}
 
 	// case : From, To: (otherType, *[]byte) -- try marshal, reflect
@@ -144,12 +151,14 @@ func ReflectSetFromTo(
 			SrcDestinationErr(
 				finalErr.Error(),
 				"FromType", leftRfType,
-				"ToType", rightRfType)
+				"ToType", rightRfType,
+			)
 	}
 
 	err := json.Unmarshal(
 		rawBytes,
-		toPointer)
+		toPointer,
+	)
 
 	if err == nil {
 		return nil
@@ -161,5 +170,6 @@ func ReflectSetFromTo(
 		SrcDestinationErr(
 			err.Error(),
 			"FromType", leftRfType,
-			"ToType", rightRfType)
+			"ToType", rightRfType,
+		)
 }

@@ -15,7 +15,7 @@ import (
 // Warning :
 //   - Must be set as a pointer any.
 func ZeroSetAny(anyItem interface{}) {
-	if reflectinternal.IsNull(anyItem) {
+	if reflectinternal.Is.Null(anyItem) {
 		return
 	}
 

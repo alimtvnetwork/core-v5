@@ -10,5 +10,5 @@ import "gitlab.com/auk-go/core/internal/reflectinternal"
 // Reference:
 //   - Stackoverflow Example : https://stackoverflow.com/a/23555352
 func Zero(anyItem interface{}) bool {
-	return reflectinternal.IsZero(anyItem)
+	return reflectinternal.Is.Zero(anyItem)
 }

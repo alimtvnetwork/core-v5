@@ -18,16 +18,18 @@ type reflectGetter struct{}
 func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
 	map[string]interface{}, error,
 ) {
-	if reflectinternal.IsNull(anyItem) {
+	if reflectinternal.Is.Null(anyItem) {
 		return map[string]interface{}{},
 			errcore.
 				NullResultType.
 				ErrorNoRefs(
-					"null given to expand map[name]value, failed")
+					"null given to expand map[name]value, failed",
+				)
 	}
 
 	return ReflectGetterUsingReflectValue.PublicValuesMapStruct(
-		reflect.ValueOf(anyItem))
+		reflect.ValueOf(anyItem),
+	)
 }
 
 // FieldNameWithValuesMap
@@ -42,16 +44,18 @@ func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
 func (it reflectGetter) FieldNameWithValuesMap(anyItem interface{}) (
 	map[string]interface{}, error,
 ) {
-	if reflectinternal.IsNull(anyItem) {
+	if reflectinternal.Is.Null(anyItem) {
 		return map[string]interface{}{},
 			errcore.
 				NullResultType.
 				ErrorNoRefs(
-					"null given to expand map[name]value, failed")
+					"null given to expand map[name]value, failed",
+				)
 	}
 
 	return ReflectGetterUsingReflectValue.FieldNameWithValuesMap(
-		reflect.ValueOf(anyItem))
+		reflect.ValueOf(anyItem),
+	)
 }
 
 // FieldNamesMap
@@ -63,16 +67,18 @@ func (it reflectGetter) FieldNamesMap(
 ) (
 	map[string]bool, error,
 ) {
-	if reflectinternal.IsNull(anyItem) {
+	if reflectinternal.Is.Null(anyItem) {
 		return map[string]bool{},
 			errcore.
 				NullResultType.
 				ErrorNoRefs(
-					"null given to expand map[name]bool, failed")
+					"null given to expand map[name]bool, failed",
+				)
 	}
 
 	return ReflectGetterUsingReflectValue.FieldNamesMap(
-		reflect.ValueOf(anyItem))
+		reflect.ValueOf(anyItem),
+	)
 }
 
 // StructFieldsMap
@@ -82,12 +88,13 @@ func (it reflectGetter) FieldNamesMap(
 func (it reflectGetter) StructFieldsMap(
 	anyItem interface{},
 ) map[string]reflect.StructField {
-	if reflectinternal.IsNull(anyItem) {
+	if reflectinternal.Is.Null(anyItem) {
 		return map[string]reflect.StructField{}
 	}
 
 	return ReflectGetterUsingReflectValue.StructFieldsMap(
-		reflect.ValueOf(anyItem))
+		reflect.ValueOf(anyItem),
+	)
 }
 
 // NullFieldsMap
@@ -97,13 +104,14 @@ func (it reflectGetter) StructFieldsMap(
 func (it reflectGetter) NullFieldsMap(
 	anyItem interface{},
 ) map[string]bool {
-	if reflectinternal.IsNull(anyItem) {
+	if reflectinternal.Is.Null(anyItem) {
 		return map[string]bool{}
 	}
 
 	return ReflectGetterUsingReflectValue.NullFieldsMap(
 		defaultMaxLevelOfReflection,
-		reflect.ValueOf(anyItem))
+		reflect.ValueOf(anyItem),
+	)
 }
 
 // NullOrZeroFieldsMap
@@ -113,11 +121,12 @@ func (it reflectGetter) NullFieldsMap(
 func (it reflectGetter) NullOrZeroFieldsMap(
 	anyItem interface{},
 ) map[string]bool {
-	if reflectinternal.IsNull(anyItem) {
+	if reflectinternal.Is.Null(anyItem) {
 		return map[string]bool{}
 	}
 
 	return ReflectGetterUsingReflectValue.NullOrZeroFieldsMap(
 		defaultMaxLevelOfReflection,
-		reflect.ValueOf(anyItem))
+		reflect.ValueOf(anyItem),
+	)
 }

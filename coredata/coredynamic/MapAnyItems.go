@@ -32,7 +32,7 @@ func NewMapAnyItems(capacity int) *MapAnyItems {
 func NewMapAnyItemsUsingAnyTypeMap(
 	anyTypeOfMap interface{},
 ) (*MapAnyItems, error) {
-	if reflectinternal.IsNull(anyTypeOfMap) {
+	if reflectinternal.Is.Null(anyTypeOfMap) {
 		return EmptyMapAnyItems(), errcore.
 			CannotBeNilOrEmptyType.
 			ErrorNoRefs("given any map was nil, cannot process it.")
@@ -89,12 +89,14 @@ func (it *MapAnyItems) ReflectSetTo(
 	if !has {
 		return errcore.ErrorWithRefToError(
 			defaulterr.KeyNotExistInMap,
-			it.AllKeysSorted())
+			it.AllKeysSorted(),
+		)
 	}
 
 	return ReflectSetFromTo(
 		valInf,
-		toPointerOrBytes)
+		toPointerOrBytes,
+	)
 }
 
 func (it *MapAnyItems) ReflectSetToMust(
@@ -171,7 +173,8 @@ func (it *MapAnyItems) Deserialize(
 ) error {
 	return it.GetUsingUnmarshallAt(
 		key,
-		toPointer)
+		toPointer,
+	)
 }
 
 func (it *MapAnyItems) DeserializeMust(
@@ -180,7 +183,8 @@ func (it *MapAnyItems) DeserializeMust(
 ) {
 	err := it.GetUsingUnmarshallAt(
 		key,
-		toPointer)
+		toPointer,
+	)
 	errcore.HandleErr(err)
 }
 
@@ -201,7 +205,8 @@ func (it *MapAnyItems) GetUsingUnmarshallAt(
 	if err != nil {
 		ref := errcore.VarTwoNoType(
 			"key", key,
-			"type", TypeName(valInf))
+			"type", TypeName(valInf),
+		)
 
 		return errcore.MarshallingFailedType.ErrorRefOnly(ref)
 	}
@@ -212,7 +217,8 @@ func (it *MapAnyItems) GetUsingUnmarshallAt(
 		ref := errcore.VarThreeNoType(
 			"key", key,
 			"StoreType", TypeName(valInf),
-			"RequestedType", TypeName(unmarshalRef))
+			"RequestedType", TypeName(unmarshalRef),
+		)
 
 		return errcore.UnMarshallingFailedType.ErrorRefOnly(ref)
 	}
@@ -226,7 +232,8 @@ func (it *MapAnyItems) GetUsingUnmarshallManyAt(
 	for _, keyAny := range keyAnyItems {
 		err := it.GetUsingUnmarshallAt(
 			keyAny.Key,
-			keyAny.AnyInf)
+			keyAny.AnyInf,
+		)
 
 		if err != nil {
 			return err
@@ -246,7 +253,8 @@ func (it *MapAnyItems) GetManyItemsRefs(
 	for _, keyAny := range keyAnyItems {
 		err := it.GetItemRef(
 			keyAny.Key,
-			keyAny.AnyInf)
+			keyAny.AnyInf,
+		)
 
 		if err != nil {
 			return err
@@ -271,13 +279,15 @@ func (it *MapAnyItems) GetItemRef(
 	if referenceOut == nil {
 		reference := errcore.VarTwoNoType(
 			"key", key,
-			"referenceOutType", TypeName(referenceOut))
+			"referenceOutType", TypeName(referenceOut),
+		)
 
 		return errcore.
 			CannotBeNilType.
 			Error(
 				"referenceOut cannot be nil",
-				reference)
+				reference,
+			)
 	}
 
 	outInfRv := reflect.ValueOf(referenceOut)
@@ -286,26 +296,30 @@ func (it *MapAnyItems) GetItemRef(
 	if outInfRv.Kind() != reflect.Ptr {
 		reference := errcore.VarTwoNoType(
 			"key", key,
-			"referenceOutType", TypeName(referenceOut))
+			"referenceOutType", TypeName(referenceOut),
+		)
 
 		return errcore.
 			ShouldBePointerType.
 			Error(
 				"referenceOut is not a pointer!",
-				reference)
+				reference,
+			)
 	}
 
 	if outInfRv.IsNil() || foundItemRv.IsNil() {
 		reference := errcore.VarThreeNoType(
 			"key", key,
 			"referenceOutType", TypeName(referenceOut),
-			"foundItemType", TypeName(valInf))
+			"foundItemType", TypeName(valInf),
+		)
 
 		return errcore.
 			CannotBeNilType.
 			Error(
 				"referenceOut or found item is nil",
-				reference)
+				reference,
+			)
 	}
 
 	foundTypeName := foundItemRv.Type().String()
@@ -315,13 +329,15 @@ func (it *MapAnyItems) GetItemRef(
 		reference := errcore.VarThreeNoType(
 			"key", key,
 			"referenceOutType", refOutTypeName,
-			"foundItemType", foundTypeName)
+			"foundItemType", foundTypeName,
+		)
 
 		return errcore.
 			TypeMismatchType.
 			Error(
 				"Use UnmarshalAt method to get generic data to specific type.",
-				reference)
+				reference,
+			)
 	}
 
 	if foundItemRv.Kind() != reflect.Ptr {
@@ -339,13 +355,15 @@ func (it *MapAnyItems) GetItemRef(
 	reference := errcore.VarThreeNoType(
 		"key", key,
 		"referenceOutType", TypeName(referenceOut),
-		"foundItemType", TypeName(valInf))
+		"foundItemType", TypeName(valInf),
+	)
 
 	return errcore.
 		UnexpectedValueType.
 		Error(
 			"unknown error",
-			reference)
+			reference,
+		)
 }
 
 func (it *MapAnyItems) Add(
@@ -375,7 +393,8 @@ func (it *MapAnyItems) AddKeyAny(
 ) (isNewlyAdded bool) {
 	return it.Add(
 		keyAny.Key,
-		keyAny.AnyInf)
+		keyAny.AnyInf,
+	)
 }
 
 func (it *MapAnyItems) AddKeyAnyWithValidation(
@@ -388,7 +407,8 @@ func (it *MapAnyItems) AddKeyAnyWithValidation(
 			TypeMismatchType.
 			Expecting(
 				typeVerify.String(),
-				actualTypeOf.String())
+				actualTypeOf.String(),
+			)
 	}
 
 	it.AddKeyAny(keyAny)
@@ -407,7 +427,8 @@ func (it *MapAnyItems) AddWithValidation(
 			TypeMismatchType.
 			Expecting(
 				typeVerify.String(),
-				actualTypeOf.String())
+				actualTypeOf.String(),
+			)
 	}
 
 	it.Add(key, anyInf)
@@ -460,7 +481,8 @@ func (it *MapAnyItems) GetPagedCollection(
 		pagedCollection := it.GetSinglePageCollection(
 			eachPageSize,
 			oneBasedPageIndex,
-			allKeys)
+			allKeys,
+		)
 
 		collectionOfCollection[oneBasedPageIndex-1] = pagedCollection
 
@@ -531,7 +553,8 @@ func (it *MapAnyItems) AddManyMapResultsUsingOption(
 	for _, mapResult := range mapsOfMapsResults {
 		it.AddMapResultOption(
 			isOverridingExisting,
-			mapResult)
+			mapResult,
+		)
 	}
 
 	return it
@@ -552,14 +575,16 @@ func (it *MapAnyItems) GetSinglePageCollection(
 	if length != len(allKeys) {
 		reference := errcore.VarTwoNoType(
 			"MapLength", it.Length(),
-			"AllKeysLength", len(allKeys))
+			"AllKeysLength", len(allKeys),
+		)
 
 		errcore.
 			LengthShouldBeEqualToType.
 			HandleUsingPanic(
 				"allKeys length should be exact same as the map length, "+
 					"use AllKeys method to get the keys.",
-				reference)
+				reference,
+			)
 	}
 
 	/**
@@ -573,7 +598,8 @@ func (it *MapAnyItems) GetSinglePageCollection(
 			CannotBeNegativeIndexType.
 			HandleUsingPanic(
 				"pageIndex cannot be negative or zero.",
-				pageIndex)
+				pageIndex,
+			)
 	}
 
 	endingIndex := skipItems + eachPageSize
@@ -586,7 +612,8 @@ func (it *MapAnyItems) GetSinglePageCollection(
 
 	return it.GetNewMapUsingKeys(
 		true,
-		list...)
+		list...,
+	)
 }
 
 func (it *MapAnyItems) GetNewMapUsingKeys(
@@ -607,7 +634,8 @@ func (it *MapAnyItems) GetNewMapUsingKeys(
 				KeyNotExistInMapType.
 				HandleUsingPanic(
 					"given key is not found in the map, key ="+key,
-					it.AllKeys())
+					it.AllKeys(),
+				)
 		}
 
 		if has {
@@ -657,7 +685,8 @@ func (it *MapAnyItems) JsonResultOfKey(
 		Empty.
 		ResultPtrWithErr(
 			reflectinternal.TypeName(it),
-			err)
+			err,
+		)
 }
 
 func (it *MapAnyItems) JsonResultOfKeys(
@@ -672,7 +701,8 @@ func (it *MapAnyItems) JsonResultOfKeys(
 	for _, key := range keys {
 		mapResults.AddPtr(
 			key,
-			it.JsonResultOfKey(key))
+			it.JsonResultOfKey(key),
+		)
 	}
 
 	return mapResults
@@ -726,11 +756,13 @@ func (it *MapAnyItems) DiffRaw(
 	rightMap map[string]interface{},
 ) map[string]interface{} {
 	mapDiffer := mapdiffinternal.MapStringAnyDiff(
-		rightMap)
+		rightMap,
+	)
 
 	return mapDiffer.DiffRaw(
 		isRegardlessType,
-		rightMap)
+		rightMap,
+	)
 }
 
 func (it *MapAnyItems) Diff(
@@ -739,7 +771,8 @@ func (it *MapAnyItems) Diff(
 ) *MapAnyItems {
 	rawMap := it.DiffRaw(
 		isRegardlessType,
-		rightMap.Items)
+		rightMap.Items,
+	)
 
 	return NewMapAnyItemsUsingItems(rawMap)
 }
@@ -753,7 +786,8 @@ func (it *MapAnyItems) IsRawEqual(
 	return differ.
 		IsRawEqual(
 			isRegardlessType,
-			rightMap)
+			rightMap,
+		)
 }
 
 func (it *MapAnyItems) HashmapDiffUsingRaw(
@@ -762,7 +796,8 @@ func (it *MapAnyItems) HashmapDiffUsingRaw(
 ) MapAnyItemDiff {
 	diffMap := it.DiffRaw(
 		isRegardlessType,
-		rightMap)
+		rightMap,
+	)
 
 	if len(diffMap) == 0 {
 		return map[string]interface{}{}
@@ -781,7 +816,8 @@ func (it *MapAnyItems) HasAnyChanges(
 ) bool {
 	return !it.IsRawEqual(
 		isRegardlessType,
-		rightMap)
+		rightMap,
+	)
 }
 
 func (it *MapAnyItems) MapStringAnyDiff() mapdiffinternal.MapStringAnyDiff {
@@ -796,7 +832,8 @@ func (it *MapAnyItems) DiffJsonMessage(
 
 	return differ.DiffJsonMessage(
 		isRegardlessType,
-		rightMap)
+		rightMap,
+	)
 }
 
 func (it *MapAnyItems) ToStringsSliceOfDiffMap(
@@ -805,7 +842,8 @@ func (it *MapAnyItems) ToStringsSliceOfDiffMap(
 	differ := it.RawMapStringAnyDiff()
 
 	return differ.ToStringsSliceOfDiffMap(
-		diffMap)
+		diffMap,
+	)
 }
 
 func (it *MapAnyItems) ShouldDiffMessage(
@@ -818,7 +856,8 @@ func (it *MapAnyItems) ShouldDiffMessage(
 	return differ.ShouldDiffMessage(
 		isRegardlessType,
 		title,
-		rightMap)
+		rightMap,
+	)
 }
 
 func (it *MapAnyItems) LogShouldDiffMessage(
@@ -831,7 +870,8 @@ func (it *MapAnyItems) LogShouldDiffMessage(
 	return differ.LogShouldDiffMessage(
 		isRegardlessType,
 		title,
-		rightMap)
+		rightMap,
+	)
 }
 
 func (it *MapAnyItems) JsonMapResults() (*corejson.MapResults, error) {
@@ -844,7 +884,8 @@ func (it *MapAnyItems) JsonMapResults() (*corejson.MapResults, error) {
 	for key, anyInf := range it.Items {
 		err := mapResults.AddAny(
 			key,
-			anyInf)
+			anyInf,
+		)
 
 		if err != nil {
 			return mapResults, err
@@ -865,7 +906,8 @@ func (it *MapAnyItems) JsonResultsCollection() *corejson.ResultsCollection {
 
 	for _, anyInf := range it.Items {
 		jsonResultsCollection.AddAny(
-			anyInf)
+			anyInf,
+		)
 	}
 
 	return jsonResultsCollection
@@ -880,7 +922,8 @@ func (it *MapAnyItems) JsonResultsPtrCollection() *corejson.ResultsPtrCollection
 
 	for _, anyInf := range it.Items {
 		jsonResultsCollection.AddAny(
-			anyInf)
+			anyInf,
+		)
 	}
 
 	return jsonResultsCollection
@@ -889,7 +932,8 @@ func (it *MapAnyItems) JsonResultsPtrCollection() *corejson.ResultsPtrCollection
 func (it *MapAnyItems) JsonModel() *corejson.MapResults {
 	mapResults := corejson.NewMapResults.UsingCap(
 		it.Length() +
-			constants.Capacity3)
+			constants.Capacity3,
+	)
 
 	if it.IsEmpty() {
 		return mapResults
@@ -1022,7 +1066,7 @@ func (it *MapAnyItems) IsEqualRaw(
 		}
 
 		leftElem := it.Items[key]
-		if !reflectinternal.IsAnyEqual(leftElem, rightElem) {
+		if !reflectinternal.Is.AnyEqual(leftElem, rightElem) {
 			return false
 		}
 	}
@@ -1062,7 +1106,8 @@ func (it *MapAnyItems) ClonePtr() (*MapAnyItems, error) {
 	}
 
 	bytesConv := NewBytesConverter(
-		jsonResult.Bytes)
+		jsonResult.Bytes,
+	)
 
 	return bytesConv.ToMapAnyItems()
 }

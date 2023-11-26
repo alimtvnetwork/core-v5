@@ -21,7 +21,7 @@ type anyTo struct{}
 func (it anyTo) SerializedJsonResult(
 	fromAny interface{},
 ) *Result {
-	if reflectinternal.IsNull(fromAny) {
+	if reflectinternal.Is.Null(fromAny) {
 		return &Result{
 			Error:    errors.New("nil object given"),
 			TypeName: reflectinternal.SafeTypeName(fromAny),
@@ -57,12 +57,14 @@ func (it anyTo) SerializedJsonResult(
 		}
 
 		return NewResult.UsingTypePlusString(
-			errTypeString,    // type
-			castedTo.Error()) // json string
+			errTypeString, // type
+			castedTo.Error(),
+		) // json string
 	}
 
 	return Serialize.Apply(
-		fromAny)
+		fromAny,
+	)
 }
 
 func (it anyTo) SerializedRaw(
@@ -248,7 +250,8 @@ func (it anyTo) PrettyStringMust(
 	anyItem interface{},
 ) string {
 	jsonPretty, err := it.JsonStringWithErr(
-		anyItem)
+		anyItem,
+	)
 
 	if err != nil {
 		panic(err)
@@ -261,7 +264,8 @@ func (it anyTo) UsingSerializer(
 	serializer bytesSerializer,
 ) *Result {
 	return NewResult.UsingSerializer(
-		serializer)
+		serializer,
+	)
 }
 
 // SerializedFieldsMap

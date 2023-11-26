@@ -40,7 +40,7 @@ func (it *KeyAnyValuePair) Compile() string {
 }
 
 func (it *KeyAnyValuePair) IsValueNull() bool {
-	return it == nil || reflectinternal.IsNull(it.Value)
+	return it == nil || reflectinternal.Is.Null(it.Value)
 }
 
 func (it *KeyAnyValuePair) HasNonNull() bool {

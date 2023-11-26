@@ -11,7 +11,7 @@ import (
 //
 // Returns false for nil, struct, anything else
 func Function(item interface{}) (isFunc bool, name string) {
-	if reflectinternal.IsNull(item) {
+	if reflectinternal.Is.Null(item) {
 		return false, ""
 	}
 
