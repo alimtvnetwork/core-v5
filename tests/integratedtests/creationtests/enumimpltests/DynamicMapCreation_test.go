@@ -7,6 +7,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coretests"
 )
 
 func Test_DynamicMapCreationDiff(t *testing.T) {
@@ -58,13 +59,14 @@ func Test_DynamicMapCreationDiffMessage(t *testing.T) {
 			testCase.CaseTitle(),
 			arrangeInput.Right,
 		)
+		lines := coretests.GetAssert.ToStrings(diffJsonMessage)
 
 		// Assert
 		testCase.ShouldBe(
 			caseIndex,
 			t,
 			ShouldResemble,
-			diffJsonMessage,
+			lines,
 		)
 	}
 }
