@@ -5,14 +5,17 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type Three struct {
-	First  interface{} `json:",omitempty"`
-	Second interface{} `json:",omitempty"`
-	Third  interface{} `json:",omitempty"`
-	Expect interface{} `json:",omitempty"`
+	First    interface{} `json:",omitempty"`
+	Second   interface{} `json:",omitempty"`
+	Third    interface{} `json:",omitempty"`
+	Expect   interface{} `json:",omitempty"`
+	toSlice  *[]interface{}
+	toString corestr.SimpleStringOnce
 }
 
 func (it *Three) ArgTwo() TwoFunc {

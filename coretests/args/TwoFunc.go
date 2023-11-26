@@ -18,7 +18,7 @@ type TwoFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
-func (it TwoFunc) ArgTwo() TwoFunc {
+func (it *TwoFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -45,7 +45,73 @@ func (it *TwoFunc) GetFuncName() string {
 	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
-func (it TwoFunc) Slice() []interface{} {
+func (it *TwoFunc) FuncWrap() *FuncWrap {
+	return NewFuncWrap(it.WorkFunc)
+}
+
+func (it *TwoFunc) Invoke(args ...interface{}) (
+	results []interface{}, processingErr error,
+) {
+	return it.FuncWrap().Invoke(args...)
+}
+
+func (it *TwoFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+	results, err := it.FuncWrap().Invoke(args...)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return results
+}
+
+func (it *TwoFunc) InvokeWithValidArgs() (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.ValidArgs()
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *TwoFunc) InvokeArgs(upTo int) (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.Args(upTo)
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *TwoFunc) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	return args
+}
+
+func (it *TwoFunc) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	return args
+}
+
+func (it *TwoFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -73,7 +139,7 @@ func (it TwoFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it TwoFunc) GetByIndex(index int) interface{} {
+func (it *TwoFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -83,7 +149,7 @@ func (it TwoFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it TwoFunc) String() string {
+func (it *TwoFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -103,7 +169,7 @@ func (it TwoFunc) String() string {
 	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it TwoFunc) LeftRight() LeftRight {
+func (it *TwoFunc) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Right:  it.Second,

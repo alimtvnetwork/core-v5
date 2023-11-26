@@ -74,7 +74,7 @@ func (it Map) IsKeyInvalid(name string) bool {
 	item, has := it[name]
 
 	return !has ||
-		reflectinternal.IsNull(item)
+		reflectinternal.Is.Null(item)
 }
 
 // IsKeyMissing

@@ -78,7 +78,7 @@ func (it *Dynamic) IsKeyInvalid(name string) bool {
 	item, has := it.Params[name]
 
 	return !has ||
-		reflectinternal.IsNull(item)
+		reflectinternal.Is.Null(item)
 }
 
 // IsKeyMissing
