@@ -39,6 +39,7 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 		}
 
 		finalActLines := actualSlice.Strings()
+		actualSlice.Dispose()
 
 		// Assert
 		testCase.ShouldBeEqual(

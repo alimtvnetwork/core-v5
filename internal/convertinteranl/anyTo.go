@@ -62,6 +62,14 @@ func (it anyTo) SmartJson(anyItem interface{}) string {
 		)
 	case string:
 		return v
+	case int, int32, byte, int64, float64, float32, bool:
+		return it.SmartString(v)
+	case error:
+		if v == nil {
+			return ""
+		}
+
+		return v.Error()
 	default:
 		toPrettyJson := jsoninternal.Pretty.
 			AnyTo.
@@ -134,6 +142,15 @@ func (it anyTo) Strings(
 
 		return strings.Split(
 			v,
+			constants.NewLineUnix,
+		)
+	case error:
+		if v == nil {
+			return []string{}
+		}
+
+		return strings.Split(
+			v.Error(),
 			constants.NewLineUnix,
 		)
 	case []string:

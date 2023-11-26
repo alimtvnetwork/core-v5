@@ -68,5 +68,63 @@ var (
 			},
 			VerifyTypeOf: commonType,
 		},
+		{
+			Title: "giving nil as a work func, doesn't panic but returns error.",
+			ArrangeInput: args.ThreeFunc{
+				First:    "f1",
+				Second:   1,
+				Third:    "f3",
+				WorkFunc: nil,
+			},
+			ExpectedInput: []string{
+				"error : ",
+				"  func-wrap is invalid:",
+				"      given type: <nil>",
+				"      name: ",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "giving (int) as a work func, doesn't panic but returns error.",
+			ArrangeInput: args.ThreeFunc{
+				First:    "f1",
+				Second:   1,
+				Third:    "f3",
+				WorkFunc: 1,
+			},
+			ExpectedInput: []string{
+				"error : ",
+				"  func-wrap is invalid:",
+				"      given type: int",
+				"      name: ",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
+			ArrangeInput: args.ThreeFunc{
+				First:    "f1",
+				Second:   "f2",
+				WorkFunc: someFunctionV2,
+			},
+			ExpectedInput: []string{
+				"someFunctionV2 => called with (f1, f2) - (string, error)",
+				"some err v2",
+			},
+			VerifyTypeOf: commonType,
+		},
+		{
+			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
+			ArrangeInput: args.ThreeFunc{
+				First:    "f1",
+				Second:   "f2",
+				WorkFunc: someFunctionV2,
+			},
+			ExpectedInput: []string{
+				"someFunctionV2 => called with (f1, f2) - (string, error)",
+				"some err v2",
+			},
+			VerifyTypeOf: commonType,
+		},
 	}
 )
