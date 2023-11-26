@@ -128,6 +128,12 @@ func (it getAssert) ToStringsWithSpace(
 	)
 }
 
+func (it getAssert) ToStringsWithSpaceDefault(
+	any interface{},
+) []string {
+	return it.ToStringsWithSpace(2, any)
+}
+
 func (it getAssert) ToStringWithSpace(
 	spacePrefixCount int,
 	any interface{},

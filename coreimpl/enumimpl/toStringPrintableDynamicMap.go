@@ -15,9 +15,21 @@ func toStringPrintableDynamicMap(diffMap DynamicMap) string {
 	slice := toStringsSliceOfDiffMap(diffMap)
 	compiledString := strings.Join(
 		slice,
-		constants.CommaUnixNewLine)
+		constants.CommaUnixNewLine,
+	)
 
 	return fmt.Sprintf(
 		curlyWrapFormat,
-		compiledString)
+		compiledString,
+	)
+}
+
+func toStringPrintableDynamicMapLines(diffMap DynamicMap) []string {
+	if diffMap.IsEmpty() {
+		return []string{}
+	}
+
+	toString := toStringPrintableDynamicMap(diffMap)
+
+	return strings.Split(toString, constants.NewLineUnix)
 }

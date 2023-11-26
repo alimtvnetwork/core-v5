@@ -644,38 +644,30 @@ func (it *DynamicMap) DiffJsonMessageLeftRightUsingDifferChecker(
 		return ""
 	}
 
-	leftJson := toStringPrintableDynamicMap(lDiff)
-	rightJson := toStringPrintableDynamicMap(rDiff)
-	leftJson = msgcreator.Assert.ToStringWithSpace(
-		4,
+	leftJson := toStringPrintableDynamicMapLines(lDiff)
+	rightJson := toStringPrintableDynamicMapLines(rDiff)
+	leftJsonLines := msgcreator.Assert.ToStringsWithSpaceDefault(
 		leftJson,
 	)
 
-	rightJson = msgcreator.Assert.ToStringWithSpace(
-		4,
+	rightJsonLines := msgcreator.Assert.ToStringsWithSpaceDefault(
 		rightJson,
 	)
 
 	var slice []string
 
-	if leftJson != "" {
-		toMsg := fmt.Sprintf(
-			"\n- Left Map - Has Diff from Right Map:\n"+
-				"    %s\n",
-			leftJson,
-		)
-
+	if len(leftJson) > 0 {
+		toMsg := "\n- Left Map - Has Diff from Right Map:\n"
 		slice = append(slice, toMsg)
+
+		slice = append(slice, leftJsonLines...)
 	}
 
-	if rightJson != "" {
-		toMsg := fmt.Sprintf(
-			"\n- Right Map - Has Diff from Left Map:\n"+
-				"    %s",
-			rightJson,
-		)
-
+	if len(rightJson) > 0 {
+		toMsg := "\n- Right Map - Has Diff from Left Map:\n"
 		slice = append(slice, toMsg)
+
+		slice = append(slice, rightJsonLines...)
 	}
 
 	return strings.Join(slice, "\n")
