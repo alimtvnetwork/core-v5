@@ -3,6 +3,7 @@ package reflectinternal
 import (
 	"fmt"
 	"reflect"
+	"sync"
 	"unsafe"
 
 	"gitlab.com/auk-go/core/internal/convertinteranl"
@@ -202,4 +203,200 @@ func (it reflectConverter) ReducePointerRvDefaultToType(
 	}
 
 	return nil
+}
+
+func ReflectValToInterfaces(
+	isSkipOnNil bool,
+	reflectVal reflect.Value,
+) []interface{} {
+	if reflectVal.Kind() == reflect.Ptr {
+		return ReflectValToInterfaces(
+			isSkipOnNil,
+			reflect.Indirect(reflect.ValueOf(reflectVal)),
+		)
+	}
+
+	k := reflectVal.Kind()
+	isSliceOrArray := k == reflect.Slice ||
+		k == reflect.Array
+
+	if !isSliceOrArray {
+		return []interface{}{}
+	}
+
+	length := reflectVal.Len()
+	slice := make([]interface{}, 0, length)
+
+	if length == 0 {
+		return slice
+	}
+
+	for i := 0; i < length; i++ {
+		value := reflectVal.Index(i)
+
+		if value.Kind() == reflect.Ptr {
+			value = value.Elem()
+		}
+
+		valueInf := value.Interface()
+
+		if isSkipOnNil && IsNull(value) {
+			continue
+		}
+
+		slice = append(slice, valueInf)
+	}
+
+	return slice
+}
+
+func ReflectValToInterfacesAsync(
+	reflectVal reflect.Value,
+) []interface{} {
+	if reflectVal.Kind() == reflect.Ptr {
+		return ReflectValToInterfacesAsync(
+			reflect.Indirect(reflect.ValueOf(reflectVal)),
+		)
+	}
+
+	k := reflectVal.Kind()
+	isSliceOrArray := k == reflect.Slice ||
+		k == reflect.Array
+
+	if !isSliceOrArray {
+		return []interface{}{}
+	}
+
+	length := reflectVal.Len()
+	slice := make([]interface{}, length)
+
+	if length == 0 {
+		return slice
+	}
+
+	wg := sync.WaitGroup{}
+	setterIndexFunc := func(index int) {
+		value := reflectVal.Index(index)
+
+		if value.Kind() == reflect.Ptr {
+			value = value.Elem()
+		}
+
+		valueInf := value.Interface()
+		slice[index] = valueInf
+
+		wg.Done()
+	}
+
+	wg.Add(length)
+	for i := 0; i < length; i++ {
+		go setterIndexFunc(i)
+	}
+
+	wg.Wait()
+
+	return slice
+}
+
+func ReflectValToInterfacesUsingProcessor(
+	isSkipOnNil bool,
+	processorFunc func(item interface{}) (result interface{}, isTake, isBreak bool),
+	reflectVal reflect.Value,
+) []interface{} {
+	if reflectVal.Kind() == reflect.Ptr {
+		return ReflectValToInterfaces(
+			isSkipOnNil,
+			reflect.Indirect(reflect.ValueOf(reflectVal)),
+		)
+	}
+
+	k := reflectVal.Kind()
+	isSliceOrArray := k == reflect.Slice ||
+		k == reflect.Array
+
+	if !isSliceOrArray {
+		return []interface{}{}
+	}
+
+	length := reflectVal.Len()
+	slice := make([]interface{}, 0, length)
+
+	if length == 0 {
+		return slice
+	}
+
+	for i := 0; i < length; i++ {
+		value := reflectVal.Index(i)
+
+		if value.Kind() == reflect.Ptr {
+			value = value.Elem()
+		}
+
+		valueInf := value.Interface()
+
+		if isSkipOnNil && IsNull(valueInf) {
+			continue
+		}
+
+		rs, isTake, isBreak :=
+			processorFunc(valueInf)
+
+		if isTake {
+			slice = append(slice, rs)
+		}
+
+		if isBreak {
+			return slice
+		}
+	}
+
+	return slice
+}
+
+func ReflectInterfaceVal(any interface{}) interface{} {
+	rVal := reflect.ValueOf(any)
+
+	if rVal.Kind() == reflect.Ptr {
+		rVal = rVal.Elem()
+	}
+
+	return rVal.Interface()
+}
+
+func SafeTypeName(any interface{}) string {
+	rt := reflect.TypeOf(any)
+
+	if IsNull(rt) {
+		return ""
+	}
+
+	return rt.String()
+}
+
+func SafeTypeNameOfSliceOrSingle(
+	isSingle bool,
+	any interface{},
+) string {
+	if isSingle {
+		return SafeTypeName(any)
+	}
+
+	return SafeSliceToTypeName(any)
+}
+
+// SafeSliceToTypeName
+//
+// Gets slice element type name, reduce ptr slice as well.
+func SafeSliceToTypeName(slice interface{}) string {
+	rt := reflect.TypeOf(slice)
+
+	if IsNull(rt) {
+		return ""
+	}
+
+	if rt.Kind() == reflect.Ptr || rt.Kind() == reflect.Ptr {
+		rt = rt.Elem()
+	}
+
+	return rt.Elem().String()
 }

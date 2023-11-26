@@ -491,4 +491,5 @@ const (
 	DotStringTitleCase                       = ".String"
 	UnknownStringType                        = "Unknown type.String"
 	PayloadsFieldName                        = "Payloads"
+	NewLineBulletWithSpaceIndent             = "\n   - "
 )

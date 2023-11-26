@@ -284,7 +284,7 @@ func (it *FuncWrap) InvokeMust(
 
 func (it *FuncWrap) Invoke(
 	args ...interface{},
-) ([]interface{}, error) {
+) (results []interface{}, processingErr error) {
 	firstErr := it.validationError()
 
 	if firstErr != nil {
@@ -301,6 +301,10 @@ func (it *FuncWrap) Invoke(
 	resultsRawValues := it.rv.Call(rvs)
 
 	return rvToInterfacesFunc(resultsRawValues), nil
+}
+
+func (it *FuncWrap) VoidCall() ([]interface{}, error) {
+	return it.Invoke()
 }
 
 func (it *FuncWrap) ValidateMethodArgs(args []interface{}) error {
@@ -322,12 +326,12 @@ func (it *FuncWrap) argsCountMismatchErrorMessage(
 	args []interface{},
 ) string {
 	expectedTypes := it.GetInArgsTypesNames()
-	expectedToNames := strings.Join(expectedTypes, "\n   - ")
+	expectedToNames := strings.Join(expectedTypes, newLineSpaceIndent)
 	actualTypes := reflectinternal.Converter.InterfacesToTypesNamesWithValues(args)
-	actualTypesName := strings.Join(actualTypes, "\n   - ")
+	actualTypesName := strings.Join(actualTypes, newLineSpaceIndent)
 
 	return fmt.Sprintf(
-		"%s [Func] => "+
+		"%s [Func] =>\n"+
 			"arguments count doesn't match for - count - \n"+
 			"   expected : %d\n"+
 			"   given    : %d\n"+
@@ -393,7 +397,7 @@ func (it *FuncWrap) InvokeFirstAndError(
 	}
 
 	if len(results) <= 1 {
-		return nil, nil, errors.New(it.FuncName() + " doesn't return at least 2 args")
+		return results, nil, errors.New(it.FuncName() + " doesn't return at least 2 args")
 	}
 
 	first := results[0]
