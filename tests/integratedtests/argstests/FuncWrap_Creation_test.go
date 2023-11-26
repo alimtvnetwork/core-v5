@@ -17,14 +17,10 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 			New.
 			SimpleSlice.
 			Cap(0)
-		funcWrap := input.FuncWrap()
 		toStringsConv := coretests.GetAssert.ToStrings
 
 		// Act
-		output, err := funcWrap.Invoke(
-			input.First,
-			input.Second,
-		)
+		output, err := input.InvokeWithValidArgs()
 
 		actualSlice.Adds(toStringsConv(output)...)
 
