@@ -16,41 +16,6 @@ type TraceCollection struct {
 	Items []Trace `json:"Items,omitempty"`
 }
 
-func NewTraceCollection(capacity int) *TraceCollection {
-	slice := make([]Trace, 0, capacity)
-
-	return &TraceCollection{
-		slice,
-	}
-}
-
-func NewStacksCollection() *TraceCollection {
-	return NewTraceCollection(DefaultStackCount * 2)
-}
-
-func NewNewTraceCollectionUsing(
-	isClone bool,
-	traces ...Trace,
-) *TraceCollection {
-	if traces == nil {
-		return EmptyTraceCollection()
-	}
-
-	if !isClone {
-		return &TraceCollection{
-			traces,
-		}
-	}
-
-	slice := NewTraceCollection(len(traces))
-
-	return slice.Adds(traces...)
-}
-
-func EmptyTraceCollection() *TraceCollection {
-	return NewTraceCollection(0)
-}
-
 func (it TraceCollection) StackTracesJsonResult() *corejson.Result {
 	return it.JsonPtr()
 }
@@ -97,7 +62,7 @@ func (it *TraceCollection) AddsUsingSkip(
 		defaultInternalSkip
 
 	for i := start; i < stackCount+start; i++ {
-		trace := New(i)
+		trace := New.Create(i)
 		isSkip := isSkipInvalid && trace.HasIssues()
 
 		if isSkip && isBreakOnceInvalid {
@@ -108,7 +73,8 @@ func (it *TraceCollection) AddsUsingSkip(
 
 		it.Items = append(
 			it.Items,
-			trace)
+			trace,
+		)
 	}
 
 	return it
@@ -121,7 +87,8 @@ func (it *TraceCollection) AddsUsingSkipDefault(
 		true,
 		true,
 		startSkipIndex+defaultInternalSkip,
-		DefaultStackCount)
+		DefaultStackCount,
+	)
 }
 
 func (it *TraceCollection) AddsUsingSkipUsingFilter(
@@ -135,7 +102,7 @@ func (it *TraceCollection) AddsUsingSkipUsingFilter(
 		defaultInternalSkip
 
 	for i := start; i < stackCount+start; i++ {
-		trace := New(i)
+		trace := New.Create(i)
 		isSkip := isSkipInvalid && trace.HasIssues()
 
 		if isSkip && isBreakOnceInvalid {
@@ -149,7 +116,8 @@ func (it *TraceCollection) AddsUsingSkipUsingFilter(
 		if isTake {
 			it.Items = append(
 				it.Items,
-				trace)
+				trace,
+			)
 		}
 
 		if isBreak {
@@ -169,7 +137,8 @@ func (it *TraceCollection) Adds(
 
 	it.Items = append(
 		it.Items,
-		traces...)
+		traces...,
+	)
 
 	return it
 }
@@ -193,7 +162,8 @@ func (it *TraceCollection) AddsPtr(
 
 		it.Items = append(
 			it.Items,
-			*trace)
+			*trace,
+		)
 	}
 
 	return it
@@ -214,7 +184,8 @@ func (it *TraceCollection) ConcatNewPtr(
 
 	return cloned.AddsPtr(
 		true,
-		additionalTraces...)
+		additionalTraces...,
+	)
 }
 
 func (it *TraceCollection) ConcatNewUsingSkipPlusCount(
@@ -227,7 +198,8 @@ func (it *TraceCollection) ConcatNewUsingSkipPlusCount(
 		true,
 		true,
 		skipIndex+defaultInternalSkip,
-		stackCount)
+		stackCount,
+	)
 }
 
 func (it *TraceCollection) ConcatNewUsingSkip(
@@ -239,7 +211,8 @@ func (it *TraceCollection) ConcatNewUsingSkip(
 		true,
 		true,
 		skipIndex+defaultInternalSkip,
-		DefaultStackCount)
+		DefaultStackCount,
+	)
 }
 
 func (it *TraceCollection) AddsIf(
@@ -425,7 +398,8 @@ func (it *TraceCollection) GetSinglePageCollection(
 			CannotBeNegativeIndexType.
 			HandleUsingPanic(
 				"pageIndex cannot be negative or zero.",
-				pageIndex)
+				pageIndex,
+			)
 	}
 
 	endingIndex := skipItems + eachPageSize
@@ -503,11 +477,13 @@ func (it *TraceCollection) FilterWithLimit(
 ) []Trace {
 	length := defaultcapacity.MaxLimit(
 		it.Length(),
-		limit)
+		limit,
+	)
 	list := make(
 		[]Trace,
 		0,
-		length)
+		length,
+	)
 
 	collectedItems := 0
 	for _, item := range it.Items {
@@ -536,7 +512,8 @@ func (it *TraceCollection) FilterTraceCollection(
 	list := it.Filter(filterFunc)
 
 	traceCollection := NewNewTraceCollectionUsing(
-		false, list...)
+		false, list...,
+	)
 
 	return traceCollection
 }
@@ -544,33 +521,41 @@ func (it *TraceCollection) FilterTraceCollection(
 func (it *TraceCollection) FilterPackageNameTraceCollection(
 	packageName string,
 ) *TraceCollection {
-	return it.FilterTraceCollection(func(trace *Trace) (isTake, isBreak bool) {
-		return trace.PackageName == packageName, false
-	})
+	return it.FilterTraceCollection(
+		func(trace *Trace) (isTake, isBreak bool) {
+			return trace.PackageName == packageName, false
+		},
+	)
 }
 
 func (it *TraceCollection) SkipFilterPackageNameTraceCollection(
 	packageName string,
 ) *TraceCollection {
-	return it.FilterTraceCollection(func(trace *Trace) (isTake, isBreak bool) {
-		return trace.PackageName != packageName, false
-	})
+	return it.FilterTraceCollection(
+		func(trace *Trace) (isTake, isBreak bool) {
+			return trace.PackageName != packageName, false
+		},
+	)
 }
 
 func (it *TraceCollection) FilterMethodNameTraceCollection(
 	methodName string,
 ) *TraceCollection {
-	return it.FilterTraceCollection(func(trace *Trace) (isTake, isBreak bool) {
-		return trace.MethodName == methodName, false
-	})
+	return it.FilterTraceCollection(
+		func(trace *Trace) (isTake, isBreak bool) {
+			return trace.MethodName == methodName, false
+		},
+	)
 }
 
 func (it *TraceCollection) SkipFilterMethodNameTraceCollection(
 	methodName string,
 ) *TraceCollection {
-	return it.FilterTraceCollection(func(trace *Trace) (isTake, isBreak bool) {
-		return trace.MethodName != methodName, false
-	})
+	return it.FilterTraceCollection(
+		func(trace *Trace) (isTake, isBreak bool) {
+			return trace.MethodName != methodName, false
+		},
+	)
 }
 
 // FilterFullMethodNameTraceCollection
@@ -579,9 +564,11 @@ func (it *TraceCollection) SkipFilterMethodNameTraceCollection(
 func (it *TraceCollection) FilterFullMethodNameTraceCollection(
 	fullMethodName string,
 ) *TraceCollection {
-	return it.FilterTraceCollection(func(trace *Trace) (isTake, isBreak bool) {
-		return trace.PackageMethodName == fullMethodName, false
-	})
+	return it.FilterTraceCollection(
+		func(trace *Trace) (isTake, isBreak bool) {
+			return trace.PackageMethodName == fullMethodName, false
+		},
+	)
 }
 
 // SkipFilterFullMethodNameTraceCollection
@@ -590,17 +577,21 @@ func (it *TraceCollection) FilterFullMethodNameTraceCollection(
 func (it *TraceCollection) SkipFilterFullMethodNameTraceCollection(
 	fullMethodName string,
 ) *TraceCollection {
-	return it.FilterTraceCollection(func(trace *Trace) (isTake, isBreak bool) {
-		return trace.PackageMethodName != fullMethodName, false
-	})
+	return it.FilterTraceCollection(
+		func(trace *Trace) (isTake, isBreak bool) {
+			return trace.PackageMethodName != fullMethodName, false
+		},
+	)
 }
 
 func (it *TraceCollection) SkipFilterFilenameTraceCollection(
 	skipFilename string,
 ) *TraceCollection {
-	return it.FilterTraceCollection(func(trace *Trace) (isTake, isBreak bool) {
-		return trace.FilePath != skipFilename, false
-	})
+	return it.FilterTraceCollection(
+		func(trace *Trace) (isTake, isBreak bool) {
+			return trace.FilePath != skipFilename, false
+		},
+	)
 }
 
 func (it *TraceCollection) FileWithLines() []FileWithLine {
@@ -732,7 +723,8 @@ func (it TraceCollection) CodeStacksString() string {
 	}
 
 	toString := errcore.StackTracesCompiled(
-		it.ShortStrings())
+		it.ShortStrings(),
+	)
 
 	return toString
 }
@@ -743,7 +735,8 @@ func (it *TraceCollection) FileWithLinesString() string {
 	}
 
 	toString := errcore.StackTracesCompiled(
-		it.FileWithLinesStrings())
+		it.FileWithLinesStrings(),
+	)
 
 	return toString
 }
@@ -840,7 +833,8 @@ func (it TraceCollection) CsvStrings() []string {
 	for i, item := range it.Items {
 		newSlice[i] = fmt.Sprintf(
 			constants.SprintDoubleQuoteFormat,
-			item.String())
+			item.String(),
+		)
 	}
 
 	return newSlice

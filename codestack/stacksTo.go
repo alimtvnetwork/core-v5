@@ -4,17 +4,17 @@ import "gitlab.com/auk-go/core/constants"
 
 type stacksTo struct{}
 
-func StackTracesBytes(stackSkipIndex int) []byte {
+func (it stacksTo) Bytes(stackSkipIndex int) []byte {
 	return NewStacksDefaultCount(stackSkipIndex + defaultInternalSkip).
 		StackTracesBytes()
 }
 
-func StackTracesBytesDefault() []byte {
+func (it stacksTo) BytesDefault() []byte {
 	return NewStacksDefaultCount(defaultInternalSkip).
 		StackTracesBytes()
 }
 
-func StacksCountString(
+func (it stacksTo) String(
 	startSkipIndex, count int,
 ) string {
 	stacks := NewStacksDefault(
@@ -28,7 +28,7 @@ func StacksCountString(
 	return toString
 }
 
-func StacksCountStringUsingFmt(
+func (it stacksTo) StringUsingFmt(
 	formatter Formatter,
 	startSkipIndex, count int,
 ) string {
@@ -46,7 +46,7 @@ func StacksCountStringUsingFmt(
 	return toString
 }
 
-func StacksJsonString(
+func (it stacksTo) JsonString(
 	startSkipIndex int,
 ) string {
 	stacks := NewStacksDefaultCount(
@@ -60,11 +60,11 @@ func StacksJsonString(
 	return json.JsonString()
 }
 
-func StacksJsonStringDefault() string {
-	return StacksJsonString(defaultInternalSkip)
+func (it stacksTo) JsonStringDefault() string {
+	return it.JsonString(defaultInternalSkip)
 }
 
-func StacksString(
+func (it stacksTo) StringNoCount(
 	startSkipIndex int,
 ) string {
 	stacks := NewStacksDefaultCount(
@@ -77,7 +77,7 @@ func StacksString(
 	return toString
 }
 
-func StacksStringDefault() string {
+func (it stacksTo) StringDefault() string {
 	stacks := NewStacksDefaultCount(
 		defaultInternalSkip,
 	)
