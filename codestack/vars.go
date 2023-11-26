@@ -6,6 +6,8 @@ var (
 	NameOf   = currentNameOf{}
 	New      = newCreator{}
 	StacksTo = stacksTo{}
+	File     = fileGetter{}
+	Dir      = dirGetter{}
 
 	getFuncEverything = reflectinternal.GetFunc.All
 )

@@ -9,7 +9,7 @@ import (
 
 type fileGetter struct{}
 
-func FileName(skipStack int) string {
+func (it fileGetter) Name(skipStack int) string {
 	_, file, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
 
 	if !isOkay && file == "" {
@@ -21,7 +21,7 @@ func FileName(skipStack int) string {
 	return fileName
 }
 
-func FilePath(skipStack int) string {
+func (it fileGetter) Path(skipStack int) string {
 	_, file, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
 
 	if isOkay {
@@ -31,12 +31,10 @@ func FilePath(skipStack int) string {
 	return constants.EmptyString
 }
 
-func FilePathWithLineSeparate(
-	skipStack int,
-) (
+func (it fileGetter) PathLineSep(skipStack int) (
 	filePath string, lineNumber int,
 ) {
-	stack := New(Skip1 + skipStack)
+	stack := New.Create(Skip1 + skipStack)
 	fileWithLine := stack.FileWithLine()
 	filePath = fileWithLine.FullFilePath()
 	lineNumber = fileWithLine.LineNumber()
@@ -46,62 +44,31 @@ func FilePathWithLineSeparate(
 	return filePath, lineNumber
 }
 
-func FilePathWithLineSeparateDefault() (
-	filePath string, lineNumber int,
-) {
-	return FilePathWithLineSeparate(defaultInternalSkip)
+func (it fileGetter) PathLineSepDefault() (filePath string, lineNumber int) {
+	return it.PathLineSep(defaultInternalSkip)
 }
 
-func FilePathWithLineString(
-	skipStack int,
-) string {
-	stack := New(Skip1 + skipStack)
+func (it fileGetter) FilePathWithLineString(skipStack int) string {
+	stack := New.Create(Skip1 + skipStack)
 	fileWithLine := stack.FileWithLineString()
 	stack.Dispose()
 
 	return fileWithLine
 }
 
-func FilePathWithLineStringDefault() string {
-	stack := New(Skip1)
+func (it fileGetter) PathLineStringDefault() string {
+	stack := New.Create(Skip1)
 	fileWithLine := stack.FileWithLineString()
 	stack.Dispose()
 
 	return fileWithLine
 }
 
-func FullMethodNameOf(fullName string) (packageName string) {
-	fullMethodNameOf, _, _ := MethodNamePackageName(
-		fullName,
-	)
-
-	return fullMethodNameOf
-}
-
-func CurrentFilePath() string {
+func (it fileGetter) CurrentFilePath() string {
 	_, filePath, _, isOkay := runtime.Caller(defaultInternalSkip)
 
 	if isOkay {
 		return filePath
-	}
-
-	return constants.EmptyString
-}
-func CurDir() string {
-	_, filePath, _, isOkay := runtime.Caller(defaultInternalSkip)
-
-	if isOkay {
-		return filepath.Dir(filePath)
-	}
-
-	return constants.EmptyString
-}
-
-func Dir(skipStack int) string {
-	_, filePath, _, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
-
-	if isOkay {
-		return filepath.Dir(filePath)
 	}
 
 	return constants.EmptyString

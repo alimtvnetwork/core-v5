@@ -76,3 +76,11 @@ func (it currentNameOf) PackageStackSkip(stackSkipIndex int) (packageName string
 
 	return packageName
 }
+
+func (it currentNameOf) CurrentFuncFullPath(fullName string) (packageName string) {
+	fullMethodNameOf, _, _ := NameOf.All(
+		fullName,
+	)
+
+	return fullMethodNameOf
+}
