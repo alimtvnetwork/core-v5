@@ -25,22 +25,27 @@ func (it TraceCollection) StackTraces() string {
 }
 
 func (it TraceCollection) NewStackTraces(stackSkip int) string {
-	return NewStacksDefaultCount(stackSkip + defaultInternalSkip).
+	return New.
+		StackTrace.
+		DefaultCount(stackSkip + defaultInternalSkip).
 		CodeStacksString()
 }
 
 func (it TraceCollection) NewDefaultStackTraces() string {
-	return NewStacksDefaultCount(defaultInternalSkip).
-		CodeStacksString()
+	return it.NewStackTraces(defaultInternalSkip)
 }
 
 func (it TraceCollection) NewStackTracesJsonResult(stackSkip int) *corejson.Result {
-	return NewStacksDefaultCount(defaultInternalSkip + stackSkip).
+	return New.
+		StackTrace.
+		DefaultCount(defaultInternalSkip + stackSkip).
 		JsonPtr()
 }
 
 func (it TraceCollection) NewDefaultStackTracesJsonResult() *corejson.Result {
-	return NewStacksDefaultCount(defaultInternalSkip).
+	return New.
+		StackTrace.
+		DefaultCount(defaultInternalSkip).
 		JsonPtr()
 }
 
@@ -410,7 +415,7 @@ func (it *TraceCollection) GetSinglePageCollection(
 
 	list := it.Items[skipItems:endingIndex]
 
-	return NewNewTraceCollectionUsing(false, list...)
+	return New.traces.Using(false, list...)
 }
 
 func (it *TraceCollection) Length() int {
@@ -511,7 +516,7 @@ func (it *TraceCollection) FilterTraceCollection(
 ) *TraceCollection {
 	list := it.Filter(filterFunc)
 
-	traceCollection := NewNewTraceCollectionUsing(
+	traceCollection := New.traces.Using(
 		false, list...,
 	)
 
@@ -874,7 +879,7 @@ func (it *TraceCollection) ParseInjectUsingJson(
 	err := jsonResult.Unmarshal(it)
 
 	if err != nil {
-		return EmptyTraceCollection(), err
+		return New.traces.Empty(), err
 	}
 
 	return it, nil
@@ -945,7 +950,7 @@ func (it *TraceCollection) Dispose() {
 }
 
 func (it TraceCollection) Clone() TraceCollection {
-	list := NewTraceCollection(it.Length())
+	list := New.traces.Cap(it.Length())
 
 	return *list.Adds(it.Items...)
 }
@@ -955,7 +960,7 @@ func (it *TraceCollection) ClonePtr() *TraceCollection {
 		return nil
 	}
 
-	list := NewTraceCollection(it.Length())
+	list := New.traces.Cap(it.Length())
 
 	return list.Adds(it.Items...)
 }

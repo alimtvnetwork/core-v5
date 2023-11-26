@@ -2,7 +2,10 @@ package codestack
 
 import "runtime"
 
-type newCreator struct{}
+type newCreator struct {
+	traces     newTraceCollection
+	StackTrace newStacksCreator
+}
 
 func (it newCreator) Default() Trace {
 	return it.Create(defaultInternalSkip)

@@ -1,6 +1,8 @@
 package codestack
 
-func (it newCreator) CollectionByCap(capacity int) *TraceCollection {
+type newTraceCollection struct{}
+
+func (it newTraceCollection) Cap(capacity int) *TraceCollection {
 	slice := make([]Trace, 0, capacity)
 
 	return &TraceCollection{
@@ -8,16 +10,16 @@ func (it newCreator) CollectionByCap(capacity int) *TraceCollection {
 	}
 }
 
-func (it newCreator) Collection() *TraceCollection {
-	return it.CollectionByCap(DefaultStackCount + 5)
+func (it newTraceCollection) Default() *TraceCollection {
+	return it.Cap(DefaultStackCount + 5)
 }
 
-func (it newCreator) CollectionUsing(
+func (it newTraceCollection) Using(
 	isClone bool,
 	traces ...Trace,
 ) *TraceCollection {
 	if traces == nil {
-		return it.EmptyTraces()
+		return it.Empty()
 	}
 
 	if !isClone {
@@ -26,11 +28,11 @@ func (it newCreator) CollectionUsing(
 		}
 	}
 
-	slice := it.CollectionByCap(len(traces))
+	slice := it.Cap(len(traces))
 
 	return slice.Adds(traces...)
 }
 
-func (it newCreator) EmptyTraces() *TraceCollection {
-	return it.CollectionByCap(0)
+func (it newTraceCollection) Empty() *TraceCollection {
+	return it.Cap(0)
 }

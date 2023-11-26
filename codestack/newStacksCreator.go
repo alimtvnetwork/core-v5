@@ -4,13 +4,13 @@ import "gitlab.com/auk-go/core/constants"
 
 type newStacksCreator struct{}
 
-func NewStacks(
+func (it newStacksCreator) All(
 	isSkipInvalid,
 	isBreakOnceInvalid bool,
 	startSkipIndex, // should start from 1
 	stackCount int,
 ) TraceCollection {
-	traces := NewTraceCollection(stackCount + constants.Capacity2)
+	traces := New.traces.Cap(stackCount + constants.Capacity2)
 
 	return *traces.AddsUsingSkip(
 		isSkipInvalid,
@@ -20,11 +20,11 @@ func NewStacks(
 	)
 }
 
-func NewStacksDefault(
+func (it newStacksCreator) Default(
 	startSkipIndex,
 	stackCount int,
 ) TraceCollection {
-	return NewStacks(
+	return it.All(
 		true,
 		true,
 		startSkipIndex+defaultInternalSkip,
@@ -32,10 +32,10 @@ func NewStacksDefault(
 	)
 }
 
-func NewStacksDefaultCount(
+func (it newStacksCreator) DefaultCount(
 	startSkipIndex int,
 ) TraceCollection {
-	return NewStacks(
+	return it.All(
 		true,
 		true,
 		startSkipIndex+defaultInternalSkip,
@@ -43,8 +43,8 @@ func NewStacksDefaultCount(
 	)
 }
 
-func NewStacksDefaultCountSkip1() TraceCollection {
-	return NewStacks(
+func (it newStacksCreator) SkipOne() TraceCollection {
+	return it.All(
 		true,
 		true,
 		Skip1+defaultInternalSkip,
@@ -52,39 +52,11 @@ func NewStacksDefaultCountSkip1() TraceCollection {
 	)
 }
 
-func NewStacksDefaultCountSkipNone() TraceCollection {
-	return NewStacks(
+func (it newStacksCreator) SkipNone() TraceCollection {
+	return it.All(
 		true,
 		true,
 		defaultInternalSkip,
 		DefaultStackCount,
-	)
-}
-
-func NewStacksDefaultPtr(
-	startSkipIndex,
-	stackCount int,
-) *TraceCollection {
-	return NewStacksPtr(
-		true,
-		true,
-		startSkipIndex+defaultInternalSkip,
-		stackCount,
-	)
-}
-
-func NewStacksPtr(
-	isSkipInvalid,
-	isBreakOnceInvalid bool,
-	startSkipIndex,
-	stackCount int,
-) *TraceCollection {
-	traces := NewTraceCollection(stackCount + constants.Capacity2)
-
-	return traces.AddsUsingSkip(
-		isSkipInvalid,
-		isBreakOnceInvalid,
-		startSkipIndex+defaultInternalSkip,
-		stackCount,
 	)
 }
