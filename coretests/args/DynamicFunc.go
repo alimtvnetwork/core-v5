@@ -202,6 +202,52 @@ func (it *DynamicFunc) GetFuncName() string {
 	return reflectinternal.GetFunc.Name(it.WorkFunc)
 }
 
+func (it *DynamicFunc) FuncWrap() *FuncWrap {
+	return NewFuncWrap(it.WorkFunc)
+}
+
+func (it *DynamicFunc) Invoke(args ...interface{}) (
+	results []interface{}, processingErr error,
+) {
+	return it.FuncWrap().Invoke(args...)
+}
+
+func (it *DynamicFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+	results, err := it.FuncWrap().Invoke(args...)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return results
+}
+
+func (it *DynamicFunc) InvokeWithValidArgs() (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.ValidArgs()
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *DynamicFunc) InvokeArgs(names ...string) (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.Args(names...)
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *DynamicFunc) ValidArgs() []interface{} {
+	return it.Params.ValidArgs()
+}
+
+func (it *DynamicFunc) Args(names ...string) []interface{} {
+	return it.Params.Args(names...)
+}
+
 func (it DynamicFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice

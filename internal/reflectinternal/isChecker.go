@@ -58,6 +58,14 @@ func (it isChecker) Func(item interface{}) bool {
 	return it.FuncTypeOf(typeOf)
 }
 
+func (it isChecker) NotFunc(item interface{}) bool {
+	if item == nil {
+		return true
+	}
+
+	return !it.Func(item)
+}
+
 func (it isChecker) FuncTypeOf(typeOf reflect.Type) bool {
 	kind := typeOf.Kind()
 

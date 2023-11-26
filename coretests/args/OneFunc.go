@@ -17,10 +17,11 @@ type OneFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
-func (it OneFunc) ArgTwo() OneFunc {
+func (it *OneFunc) ArgTwo() OneFunc {
 	return OneFunc{
-		First:  it.First,
-		Expect: it.Expect,
+		First:    it.First,
+		WorkFunc: it.WorkFunc,
+		Expect:   it.Expect,
 	}
 }
 
@@ -60,7 +61,45 @@ func (it *OneFunc) InvokeMust(args ...interface{}) (results []interface{}) {
 	return results
 }
 
-func (it OneFunc) Slice() []interface{} {
+func (it *OneFunc) InvokeWithValidArgs() (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.ValidArgs()
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *OneFunc) InvokeArgs(upTo int) (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.Args(upTo)
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it *OneFunc) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	return args
+}
+
+func (it *OneFunc) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	return args
+}
+
+func (it *OneFunc) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -84,7 +123,7 @@ func (it OneFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it OneFunc) GetByIndex(index int) interface{} {
+func (it *OneFunc) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -94,7 +133,7 @@ func (it OneFunc) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it OneFunc) String() string {
+func (it *OneFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -114,9 +153,10 @@ func (it OneFunc) String() string {
 	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it OneFunc) LeftRight() LeftRight {
+func (it *OneFunc) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
+		Right:  it.WorkFunc,
 		Expect: it.Expect,
 	}
 }

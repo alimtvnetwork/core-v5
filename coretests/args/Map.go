@@ -7,6 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/converters"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/msgcreator"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
@@ -89,6 +90,22 @@ func (it Map) IsKeyMissing(name string) bool {
 	_, has := it[name]
 
 	return !has
+}
+
+func (it Map) SortedKeys() []string {
+	if len(it) == 0 {
+		return []string{}
+	}
+
+	sortedKeys, err := convertinteranl.
+		Map.
+		SortedKeys(it)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return sortedKeys
 }
 
 func (it Map) When() (item interface{}) {
@@ -215,6 +232,73 @@ func (it Map) WorkFuncName() string {
 	workFunc := it.WorkFunc()
 
 	return reflectinternal.GetFunc.Name(workFunc)
+}
+
+func (it Map) FuncWrap() *FuncWrap {
+	return NewFuncWrap(it.WorkFunc())
+}
+
+func (it Map) Invoke(args ...interface{}) (
+	results []interface{}, processingErr error,
+) {
+	return it.FuncWrap().Invoke(args...)
+}
+
+func (it Map) InvokeMust(args ...interface{}) (results []interface{}) {
+	results, err := it.FuncWrap().Invoke(args...)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return results
+}
+
+func (it Map) InvokeWithValidArgs() (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.ValidArgs()
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it Map) InvokeArgs(names ...string) (
+	results []interface{}, processingErr error,
+) {
+	funcWrap := it.FuncWrap()
+	validArgs := it.Args(names...)
+
+	return funcWrap.Invoke(validArgs...)
+}
+
+func (it Map) ValidArgs() []interface{} {
+	var args []interface{}
+
+	keys := it.SortedKeys()
+	isDefined := reflectinternal.Is.Defined
+	isNotFunc := reflectinternal.Is.NotFunc
+
+	for _, key := range keys {
+		val := it[key]
+
+		if isDefined(val) && isNotFunc(val) {
+			args = append(args, val)
+		}
+	}
+
+	return args
+}
+
+func (it Map) Args(names ...string) []interface{} {
+	var args []interface{}
+
+	for _, key := range names {
+		val := it[key]
+		args = append(args, val)
+	}
+
+	return args
 }
 
 func (it Map) GetFirstFuncNameOf(names ...string) string {

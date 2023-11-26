@@ -95,13 +95,13 @@ func (it *Dynamic) IsKeyMissing(name string) bool {
 	return !has
 }
 
-func (it Dynamic) GetLowerCase(name string) (item interface{}, isValid bool) {
+func (it *Dynamic) GetLowerCase(name string) (item interface{}, isValid bool) {
 	lower := strings.ToLower(name)
 
 	return it.Get(lower)
 }
 
-func (it Dynamic) GetDirectLower(name string) interface{} {
+func (it *Dynamic) GetDirectLower(name string) interface{} {
 	x, has := it.Params[strings.ToLower(name)]
 
 	if has {
@@ -111,11 +111,11 @@ func (it Dynamic) GetDirectLower(name string) interface{} {
 	return nil
 }
 
-func (it Dynamic) Actual() interface{} {
+func (it *Dynamic) Actual() interface{} {
 	return it.GetDirectLower("actual")
 }
 
-func (it Dynamic) Arrange() interface{} {
+func (it *Dynamic) Arrange() interface{} {
 	return it.GetDirectLower("arrange")
 }
 
@@ -205,7 +205,36 @@ func (it *Dynamic) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it Dynamic) Slice() []interface{} {
+func (it *Dynamic) ValidArgs() []interface{} {
+	var args []interface{}
+
+	keys := it.Params.SortedKeys()
+	isDefined := reflectinternal.Is.Defined
+	isNotFunc := reflectinternal.Is.NotFunc
+
+	for _, key := range keys {
+		val := it.Params[key]
+
+		if isDefined(val) && isNotFunc(val) {
+			args = append(args, val)
+		}
+	}
+
+	return args
+}
+
+func (it *Dynamic) Args(names ...string) []interface{} {
+	var args []interface{}
+
+	for _, key := range names {
+		val := it.Params[key]
+		args = append(args, val)
+	}
+
+	return args
+}
+
+func (it *Dynamic) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -239,7 +268,7 @@ func (it Dynamic) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it Dynamic) String() string {
+func (it *Dynamic) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
