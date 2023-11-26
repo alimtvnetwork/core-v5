@@ -252,7 +252,7 @@ func (it DynamicFunc) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"DynamicFunc",
 		strings.Join(args, constants.CommaSpace),
 	)

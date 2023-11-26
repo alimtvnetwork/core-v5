@@ -95,7 +95,7 @@ func (it TwoFunc) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"TwoFunc",
 		strings.Join(args, constants.CommaSpace),
 	)

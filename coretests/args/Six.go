@@ -144,7 +144,7 @@ func (it ArgSix) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"ArgSix",
 		strings.Join(args, constants.CommaSpace),
 	)

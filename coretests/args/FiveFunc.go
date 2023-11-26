@@ -229,7 +229,7 @@ func (it FiveFunc) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"FiveFunc",
 		strings.Join(args, constants.CommaSpace),
 	)

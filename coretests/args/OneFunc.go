@@ -106,7 +106,7 @@ func (it OneFunc) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"OneFunc",
 		strings.Join(args, constants.CommaSpace),
 	)

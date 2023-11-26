@@ -178,7 +178,7 @@ func (it *Five) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"Five",
 		strings.Join(args, constants.CommaSpace),
 	)

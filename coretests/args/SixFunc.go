@@ -255,7 +255,7 @@ func (it *SixFunc) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"SixFunc",
 		strings.Join(args, constants.CommaSpace),
 	)

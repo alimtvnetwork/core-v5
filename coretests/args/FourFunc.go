@@ -212,7 +212,7 @@ func (it *FourFunc) String() string {
 	}
 
 	toFinalString := fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"FourFunc",
 		strings.Join(args, constants.CommaSpace),
 	)

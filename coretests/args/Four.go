@@ -119,7 +119,7 @@ func (it *Four) String() string {
 	}
 
 	return fmt.Sprintf(
-		"%s { %s }",
+		selfToStringFmt,
 		"Four",
 		strings.Join(args, constants.CommaSpace),
 	)
