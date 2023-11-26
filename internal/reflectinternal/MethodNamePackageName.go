@@ -15,18 +15,22 @@ func MethodNamePackageName(fullFuncName string) (fullMethodName, packageName, me
 	hasComplexName :=
 		strings.HasPrefix(
 			fullFuncName,
-			gitlabDotCom) ||
+			gitlabDotCom,
+		) ||
 			strings.HasPrefix(
 				fullFuncName,
-				gitHubDotCom) ||
+				gitHubDotCom,
+			) ||
 			strings.LastIndexByte(
 				fullFuncName,
-				constants.ForwardChar) > -1
+				constants.ForwardChar,
+			) > -1
 
 	if hasComplexName {
 		forwardSlashFound := strings.LastIndexByte(
 			fullFuncName,
-			constants.ForwardChar)
+			constants.ForwardChar,
+		)
 
 		return MethodNamePackageName(fullFuncName[forwardSlashFound+1:])
 	}
@@ -34,5 +38,5 @@ func MethodNamePackageName(fullFuncName string) (fullMethodName, packageName, me
 	splitsByDot := strings.Split(fullFuncName, constants.Dot)
 	packageName, methodName = stringslice.FirstLastDefault(splitsByDot)
 
-	return fullFuncName, packageName, methodName
+	return fixFinalFuncName(fullFuncName), packageName, fixFinalFuncName(methodName)
 }

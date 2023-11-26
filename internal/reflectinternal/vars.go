@@ -7,6 +7,8 @@ var (
 	Utils     = reflectUtils{}
 	Looper    = looper{}
 
+	CodeStack = codeStack{}
+
 	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition
 	prependWithSpacesFunc = convertinteranl.Util.String.PrependWithSpacesDefault
 )

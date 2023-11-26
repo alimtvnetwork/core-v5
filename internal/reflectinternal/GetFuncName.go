@@ -1,7 +1,5 @@
 package reflectinternal
 
-import "strings"
-
 func GetFuncName(i interface{}) string {
 	if IsNull(i) {
 		return ""
@@ -15,9 +13,5 @@ func GetFuncName(i interface{}) string {
 
 	_, _, funcNameOnly := MethodNamePackageName(funcFullName)
 
-	if strings.HasSuffix(funcNameOnly, "-fm") {
-		return funcNameOnly[:len(funcNameOnly)-3]
-	}
-
-	return funcNameOnly
+	return fixFinalFuncName(funcNameOnly)
 }
