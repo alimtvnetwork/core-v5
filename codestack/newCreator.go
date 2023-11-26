@@ -4,15 +4,15 @@ import "runtime"
 
 type newCreator struct{}
 
-func NewDefault() Trace {
+func (it newCreator) Default() Trace {
 	return New(defaultInternalSkip)
 }
 
-func NewFirst() Trace {
+func (it newCreator) First() Trace {
 	return New(Skip2)
 }
 
-func NewPtr(skipIndex int) *Trace {
+func (it newCreator) Ptr(skipIndex int) *Trace {
 	pc, file, line, isOkay := runtime.Caller(skipIndex + defaultInternalSkip)
 	funcInfo := runtime.FuncForPC(pc)
 	fullFuncName := funcInfo.Name()
