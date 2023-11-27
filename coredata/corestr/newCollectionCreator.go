@@ -30,7 +30,7 @@ func (it *newCollectionCreator) CloneStrings(stringItems []string) *Collection {
 		items: slice,
 	}
 
-	return collection.AddStringsPtr(&stringItems)
+	return collection.AddStrings(&stringItems)
 }
 
 func (it *newCollectionCreator) Create(stringItems []string) *Collection {
@@ -42,16 +42,6 @@ func (it *newCollectionCreator) Create(stringItems []string) *Collection {
 func (it *newCollectionCreator) Strings(stringItems []string) *Collection {
 	return &Collection{
 		items: stringItems,
-	}
-}
-
-func (it *newCollectionCreator) StringsPtr(stringItems *[]string) *Collection {
-	if stringItems == nil {
-		return it.Empty()
-	}
-
-	return &Collection{
-		items: *stringItems,
 	}
 }
 
@@ -74,7 +64,7 @@ func (it *newCollectionCreator) StringsPtrOption(isMakeClone bool, stringItems *
 			items: slice,
 		}
 
-		return collection.AddStringsPtr(stringItems)
+		return collection.AddStrings(stringItems)
 	}
 
 	if stringItems == nil {
@@ -123,13 +113,14 @@ func (it *newCollectionCreator) StringsPtrPlusCap(
 	if additionalCap == 0 {
 		return it.StringsPtrOption(
 			false,
-			stringItems)
+			stringItems,
+		)
 	}
 
 	length := LengthOfStringsPtr(stringItems)
 	collection := it.Cap(length + additionalCap)
 
-	return collection.AddStringsPtr(stringItems)
+	return collection.AddStrings(stringItems)
 }
 
 func (it *newCollectionCreator) PointerStrings(

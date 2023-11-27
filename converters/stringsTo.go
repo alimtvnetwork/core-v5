@@ -502,12 +502,12 @@ func (it stringsTo) Float64sConditional(
 	return results
 }
 
-// PtrOfPtrToStrings will give empty or converted results array (not nil)
-func (it stringsTo) PtrOfPtrToStrings(pointerStringOfArray *[]*string) []string {
+// PtrOfPtrToPtrStrings will give empty or converted results array (not nil)
+func (it stringsTo) PtrOfPtrToPtrStrings(pointerStringOfArray *[]*string) *[]string {
 	if pointerStringOfArray == nil || *pointerStringOfArray == nil {
 		var emptyResult []string
 
-		return emptyResult
+		return &emptyResult
 	}
 
 	newArray := make([]string, len(*pointerStringOfArray))
@@ -516,7 +516,7 @@ func (it stringsTo) PtrOfPtrToStrings(pointerStringOfArray *[]*string) []string 
 		newArray[i] = *value
 	}
 
-	return newArray
+	return &newArray
 }
 
 func (it stringsTo) PtrOfPtrToMapStringBool(inputArray *[]*string) map[string]bool {

@@ -195,7 +195,7 @@ func (it anyTo) JsonString(
 	case string:
 		return casted
 	case []byte:
-		return BytesTo.String(casted)
+		return BytesToString(casted)
 	case Result:
 		return casted.JsonString()
 	case *Result:
@@ -214,7 +214,7 @@ func (it anyTo) JsonStringWithErr(
 	case string:
 		return casted, nil
 	case []byte:
-		return BytesTo.String(casted), nil
+		return BytesToString(casted), nil
 	case Result:
 		if casted.HasError() {
 			return casted.JsonString(), casted.MeaningfulError()

@@ -58,7 +58,8 @@ func (it *CharCollectionMap) GetCharsPtrGroups(
 
 	collectionMap := New.CharCollectionMap.CapSelfCap(
 		length,
-		length/3)
+		length/3,
+	)
 
 	return collectionMap.AddStringsPtr(items)
 }
@@ -84,13 +85,15 @@ func (it *CharCollectionMap) SummaryStringLock() string {
 	length := it.LengthLock()
 	collectionOfCollection := make(
 		[]string,
-		length+1)
+		length+1,
+	)
 
 	collectionOfCollection[coreindexes.First] = fmt.Sprintf(
 		summaryOfCharCollectionMapLengthFormat,
 		it,
 		length,
-		coreindexes.First)
+		coreindexes.First,
+	)
 
 	i := 1
 	for key, collection := range it.GetCopyMapLock() {
@@ -98,26 +101,30 @@ func (it *CharCollectionMap) SummaryStringLock() string {
 			charCollectionMapSingleItemFormat,
 			i+1,
 			string(key),
-			collection.LengthLock())
+			collection.LengthLock(),
+		)
 
 		i++
 	}
 
 	return strings.Join(
 		collectionOfCollection,
-		constants.EmptyString)
+		constants.EmptyString,
+	)
 }
 
 func (it *CharCollectionMap) SummaryString() string {
 	collectionOfCollection := make(
 		[]string,
-		it.Length()+1)
+		it.Length()+1,
+	)
 
 	collectionOfCollection[coreindexes.First] = fmt.Sprintf(
 		summaryOfCharCollectionMapLengthFormat,
 		it,
 		it.Length(),
-		coreindexes.First+1)
+		coreindexes.First+1,
+	)
 
 	i := 1
 	for key, collection := range it.items {
@@ -125,20 +132,23 @@ func (it *CharCollectionMap) SummaryString() string {
 			charCollectionMapSingleItemFormat,
 			i,
 			string(key),
-			collection.Length())
+			collection.Length(),
+		)
 
 		i++
 	}
 
 	return strings.Join(
 		collectionOfCollection,
-		constants.EmptyString)
+		constants.EmptyString,
+	)
 }
 
 func (it *CharCollectionMap) String() string {
 	collectionOfCollection := make(
 		[]string,
-		it.Length()*2+1)
+		it.Length()*2+1,
+	)
 
 	collectionOfCollection[coreindexes.First] =
 		it.SummaryString()
@@ -147,7 +157,8 @@ func (it *CharCollectionMap) String() string {
 	for key, collection := range it.items {
 		collectionOfCollection[i] = fmt.Sprintf(
 			charCollectionMapLengthFormat,
-			string(key))
+			string(key),
+		)
 
 		i++
 		collectionOfCollection[i] = collection.String()
@@ -156,7 +167,8 @@ func (it *CharCollectionMap) String() string {
 
 	return strings.Join(
 		collectionOfCollection,
-		constants.EmptyString)
+		constants.EmptyString,
+	)
 }
 
 func (it *CharCollectionMap) SortedListAsc() *[]string {
@@ -169,7 +181,8 @@ func (it *CharCollectionMap) SortedListAsc() *[]string {
 func (it *CharCollectionMap) StringLock() string {
 	collectionOfCollection := make(
 		[]string,
-		it.LengthLock()*2+1)
+		it.LengthLock()*2+1,
+	)
 
 	collectionOfCollection[coreindexes.First] =
 		it.SummaryStringLock()
@@ -178,7 +191,8 @@ func (it *CharCollectionMap) StringLock() string {
 	for key, collection := range it.GetCopyMapLock() {
 		collectionOfCollection[i] = fmt.Sprintf(
 			charCollectionMapLengthFormat,
-			string(key))
+			string(key),
+		)
 
 		i++
 		collectionOfCollection[i] =
@@ -188,7 +202,8 @@ func (it *CharCollectionMap) StringLock() string {
 
 	return strings.Join(
 		collectionOfCollection,
-		constants.EmptyString)
+		constants.EmptyString,
+	)
 }
 
 func (it *CharCollectionMap) Print(isPrint bool) {
@@ -394,7 +409,8 @@ func (it *CharCollectionMap) IsEqualsPtrLock(
 
 	return it.IsEqualsWithCaseSensitivityPtr(
 		another,
-		true)
+		true,
+	)
 }
 
 func (it *CharCollectionMap) IsEqualsPtr(
@@ -402,7 +418,8 @@ func (it *CharCollectionMap) IsEqualsPtr(
 ) bool {
 	return it.IsEqualsWithCaseSensitivityPtr(
 		another,
-		true)
+		true,
+	)
 }
 
 func (it *CharCollectionMap) IsEqualsWithCaseSensitivityPtrLock(
@@ -414,7 +431,8 @@ func (it *CharCollectionMap) IsEqualsWithCaseSensitivityPtrLock(
 
 	return it.IsEqualsWithCaseSensitivityPtr(
 		another,
-		isCaseSensitive)
+		isCaseSensitive,
+	)
 }
 
 func (it *CharCollectionMap) IsEqualsWithCaseSensitivityPtr(
@@ -453,7 +471,8 @@ func (it *CharCollectionMap) IsEqualsWithCaseSensitivityPtr(
 
 		if !rCollection.IsEqualsWithSensitivePtr(
 			collection,
-			isCaseSensitive) {
+			isCaseSensitive,
+		) {
 			return false
 		}
 	}
@@ -590,7 +609,8 @@ func (it *CharCollectionMap) AddPtrStringsLock(
 
 	for _, item := range *simpleStrings {
 		foundCollection := it.GetCollectionLock(
-			*item, true)
+			*item, true,
+		)
 
 		foundCollection.AddPtrLock(item)
 	}
@@ -633,10 +653,12 @@ func (it *CharCollectionMap) AddHashmapsKeysOrValuesBothUsingFilter(
 		}
 
 		for k, v := range hashmap.items {
-			result, isAccept, isBreak := filter(KeyValuePair{
-				Key:   k,
-				Value: v,
-			})
+			result, isAccept, isBreak := filter(
+				KeyValuePair{
+					Key:   k,
+					Value: v,
+				},
+			)
 
 			if isAccept {
 				it.AddStringPtr(&result)
@@ -697,7 +719,8 @@ func (it *CharCollectionMap) AddStringsPtrAsyncLock(
 		return it.
 			efficientAddOfLargeItems(
 				largeStringsCollection,
-				onComplete)
+				onComplete,
+			)
 	}
 
 	wg := &sync.WaitGroup{}
@@ -706,7 +729,8 @@ func (it *CharCollectionMap) AddStringsPtrAsyncLock(
 	for _, item := range *largeStringsCollection {
 		foundCollection := it.GetCollectionLock(
 			item,
-			true)
+			true,
+		)
 
 		go foundCollection.AddWithWgLock(
 			item,
@@ -736,7 +760,8 @@ func (it *CharCollectionMap) efficientAddOfLargeItems(
 	for key, collection := range allCharsMap.items {
 		foundCollection := it.GetCollectionLock(
 			string(key),
-			true)
+			true,
+		)
 
 		go foundCollection.AddStringsPtrWgLock(
 			&collection.items,
@@ -815,7 +840,8 @@ func (it *CharCollectionMap) GetCollectionLock(
 
 	return it.GetCollection(
 		strFirstChar,
-		isAddNewOnEmpty)
+		isAddNewOnEmpty,
+	)
 }
 
 func (it *CharCollectionMap) AddSameCharsCollection(
@@ -827,7 +853,8 @@ func (it *CharCollectionMap) AddSameCharsCollection(
 
 	foundCollection := it.GetCollection(
 		str,
-		false)
+		false,
+	)
 
 	has := foundCollection != nil
 	isAddToCollection := has && !isNilOrEmptyCollectionGiven
@@ -835,8 +862,9 @@ func (it *CharCollectionMap) AddSameCharsCollection(
 
 	if isAddToCollection {
 		//goland:noinspection GoNilness
-		foundCollection.AddStringsPtr(
-			&stringsWithSameStartChar.items)
+		foundCollection.AddStrings(
+			&stringsWithSameStartChar.items,
+		)
 
 		return foundCollection
 	} else if hasCollectionHoweverNothingToAdd {
@@ -848,7 +876,8 @@ func (it *CharCollectionMap) AddSameCharsCollection(
 	if isNilOrEmptyCollectionGiven {
 		// create new
 		newCollection := New.Collection.Cap(
-			it.eachCollectionCapacity)
+			it.eachCollectionCapacity,
+		)
 		it.items[char] = newCollection
 
 		return newCollection
@@ -870,7 +899,8 @@ func (it *CharCollectionMap) AddCollectionItems(
 	}
 
 	it.AddStringsPtr(
-		&collectionWithDiffStarts.items)
+		&collectionWithDiffStarts.items,
+	)
 
 	return it
 }
@@ -939,7 +969,8 @@ func (it *CharCollectionMap) AddCollectionItemsAsyncLock(
 
 	go it.AddStringsPtrAsyncLock(
 		&collectionWithDiffStarts.items,
-		onComplete)
+		onComplete,
+	)
 
 	return it
 }
@@ -979,7 +1010,8 @@ func (it *CharCollectionMap) AddSameCharsCollectionLock(
 
 	foundCollection := it.GetCollectionLock(
 		str,
-		false)
+		false,
+	)
 	has := foundCollection != nil
 	isAddToCollection := has && !isNilOrEmptyCollectionGiven
 	hasCollectionHoweverNothingToAdd := has && isNilOrEmptyCollectionGiven
@@ -998,7 +1030,8 @@ func (it *CharCollectionMap) AddSameCharsCollectionLock(
 	if isNilOrEmptyCollectionGiven {
 		// create new
 		newCollection := New.Collection.Cap(
-			it.eachCollectionCapacity)
+			it.eachCollectionCapacity,
+		)
 
 		it.Lock()
 
@@ -1034,7 +1067,8 @@ func (it *CharCollectionMap) HashsetByChar(
 	}
 
 	return New.Hashset.UsingCollection(
-		collection)
+		collection,
+	)
 }
 
 func (it *CharCollectionMap) HashsetByCharLock(
@@ -1081,7 +1115,8 @@ func (it *CharCollectionMap) HashsetsCollectionByStringFirstChar(
 	hashsets := make(
 		[]*Hashset,
 		0,
-		it.Length())
+		it.Length(),
+	)
 
 	for _, item := range stringItems {
 		char := it.GetChar(item)
@@ -1104,7 +1139,8 @@ func (it *CharCollectionMap) HashsetsCollection() *HashsetsCollection {
 	hashsets := make(
 		[]*Hashset,
 		0,
-		it.Length())
+		it.Length(),
+	)
 
 	for _, collection := range it.items {
 		if collection == nil ||
@@ -1129,7 +1165,8 @@ func (it *CharCollectionMap) HashsetsCollectionByChars(
 	hashsets := make(
 		[]*Hashset,
 		0,
-		it.Length())
+		it.Length(),
+	)
 
 	for _, char := range chars {
 		hashset := it.HashsetByChar(char)

@@ -6,12 +6,11 @@ import (
 	"sync"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/coredata/corejson"
 )
 
 type CollectionsOfCollection struct {
-	items []*Collection
+	items []Collection
 	sync.Mutex
 }
 
@@ -43,7 +42,7 @@ func (it *CollectionsOfCollection) AllIndividualItemsLength() int {
 	allLength := 0
 
 	for _, collection := range it.items {
-		if collection == nil || collection.IsEmpty() {
+		if collection.IsEmpty() {
 			continue
 		}
 
@@ -53,86 +52,58 @@ func (it *CollectionsOfCollection) AllIndividualItemsLength() int {
 	return allLength
 }
 
-func (it *CollectionsOfCollection) ItemsPtr() *[]*Collection {
+func (it *CollectionsOfCollection) ItemsPtr() *[]Collection {
 	return &it.items
 }
 
-func (it *CollectionsOfCollection) Items() []*Collection {
+func (it *CollectionsOfCollection) Items() []Collection {
 	return it.items
 }
 
-func (it *CollectionsOfCollection) ListPtr(additionalCapacity int) *[]string {
+func (it *CollectionsOfCollection) List(additionalCapacity int) []string {
 	allLength := it.AllIndividualItemsLength()
 	list := make([]string, 0, allLength+additionalCapacity)
 
 	if allLength == 0 {
-		return &list
+		return list
 	}
 
 	for _, collection := range it.items {
-
-		for _, s := range *collection.ListPtr() {
+		for _, s := range collection.List() {
 			list = append(list, s)
 		}
 	}
 
-	return &list
+	return list
 }
 
 func (it *CollectionsOfCollection) ToCollection() *Collection {
-	list := it.ListPtr(0)
+	list := it.List(0)
 
-	return New.Collection.StringsPtr(list)
+	return New.Collection.Strings(list)
 }
 
-func (it *CollectionsOfCollection) AddStringsPtr(
+func (it *CollectionsOfCollection) AddStrings(
 	isCloneAdd bool,
-	stringsItems *[]string,
+	stringsItems []string,
 ) *CollectionsOfCollection {
-	if stringsItems == nil || len(*stringsItems) == 0 {
+	if len(stringsItems) == 0 {
 		return it
 	}
 
-	return it.Adds(New.Collection.StringsOptions(isCloneAdd, *stringsItems))
-}
-
-func (it *CollectionsOfCollection) AddPointerStringsPtr(
-	pointerStringsItems *[]*string,
-) *CollectionsOfCollection {
-	if pointerStringsItems == nil {
-		return it
-	}
-
-	stringsItems := converters.PointerStringsToStrings(pointerStringsItems)
-
-	return it.Adds(New.Collection.StringsOptions(false, *stringsItems))
+	return it.Adds(*New.Collection.StringsOptions(isCloneAdd, stringsItems))
 }
 
 func (it *CollectionsOfCollection) AddsStringsOfStrings(
 	isMakeClone bool,
-	stringsOfPointerStrings ...*[]string,
+	stringsOfPointerStrings ...[]string,
 ) *CollectionsOfCollection {
 	if stringsOfPointerStrings == nil {
 		return it
 	}
 
 	for _, stringsPointer := range stringsOfPointerStrings {
-		it.AddStringsPtr(isMakeClone, stringsPointer)
-	}
-
-	return it
-}
-
-func (it *CollectionsOfCollection) AddsStringsOfPointerStrings(
-	isMakeClone bool,
-	stringsOfPointerStrings *[]*[]string,
-) *CollectionsOfCollection {
-	if stringsOfPointerStrings == nil {
-		return it
-	}
-
-	for _, stringsPointer := range *stringsOfPointerStrings {
-		it.AddStringsPtr(isMakeClone, stringsPointer)
+		it.AddStrings(isMakeClone, stringsPointer)
 	}
 
 	return it
@@ -158,48 +129,12 @@ func (it *CollectionsOfCollection) AddAsyncFuncItems(
 		}
 
 		it.Lock()
-		it.AddStringsPtr(
-			isMakeClone,
-			&items,
-		)
-		it.Unlock()
 
-		wg.Done()
-	}
-
-	for _, function := range asyncFunctions {
-		go asyncFuncWrap(function)
-	}
-
-	wg.Wait()
-
-	return it
-}
-
-// AddAsyncFuncItemsPointer must add all the lengths to the wg
-func (it *CollectionsOfCollection) AddAsyncFuncItemsPointer(
-	wg *sync.WaitGroup,
-	isMakeClone bool,
-	asyncFunctions ...func() *[]string,
-) *CollectionsOfCollection {
-	if asyncFunctions == nil {
-		return it
-	}
-
-	asyncFuncWrap := func(asyncFunc func() *[]string) {
-		items := asyncFunc()
-
-		if items == nil || len(*items) == 0 {
-			wg.Done()
-
-			return
-		}
-
-		it.Lock()
-		it.AddStringsPtr(
+		it.AddStrings(
 			isMakeClone,
 			items,
 		)
+
 		it.Unlock()
 
 		wg.Done()
@@ -215,24 +150,24 @@ func (it *CollectionsOfCollection) AddAsyncFuncItemsPointer(
 }
 
 func (it *CollectionsOfCollection) Adds(
-	collections ...*Collection,
+	collections ...Collection,
 ) *CollectionsOfCollection {
 	if collections == nil {
 		return it
 	}
 
-	return it.AddCollections(&collections)
+	return it.AddCollections(collections...)
 }
 
 func (it *CollectionsOfCollection) AddCollections(
-	collections *[]*Collection,
+	collections ...Collection,
 ) *CollectionsOfCollection {
 	if collections == nil {
 		return it
 	}
 
-	for i := range *collections {
-		it.items = append(it.items, (*collections)[i])
+	for i := range collections {
+		it.items = append(it.items, collections[i])
 	}
 
 	return it
@@ -242,21 +177,24 @@ func (it *CollectionsOfCollection) String() string {
 	list := make(
 		[]string,
 		0,
-		it.Length())
+		it.Length(),
+	)
 
 	for i, collection := range it.items {
 		list = append(
 			list,
-			collection.SummaryString(i+1))
+			collection.SummaryString(i+1),
+		)
 	}
 
 	return strings.Join(
 		list,
-		constants.DoubleNewLine)
+		constants.DoubleNewLine,
+	)
 }
 
-func (it *CollectionsOfCollection) JsonModel() *CollectionsOfCollectionModel {
-	return &CollectionsOfCollectionModel{
+func (it *CollectionsOfCollection) JsonModel() CollectionsOfCollectionModel {
+	return CollectionsOfCollectionModel{
 		Items: it.items,
 	}
 }
@@ -266,7 +204,7 @@ func (it *CollectionsOfCollection) JsonModelAny() interface{} {
 }
 
 func (it *CollectionsOfCollection) MarshalJSON() ([]byte, error) {
-	return json.Marshal(*it.JsonModel())
+	return json.Marshal(it.JsonModel())
 }
 
 func (it *CollectionsOfCollection) UnmarshalJSON(data []byte) error {

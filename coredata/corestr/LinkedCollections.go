@@ -475,7 +475,8 @@ func (it *LinkedCollections) AddCollectionToNode(
 	return it.AddCollectionsToNode(
 		isSkipOnNull,
 		node,
-		collection)
+		collection,
+	)
 }
 
 func (it *LinkedCollections) GetNextNodes(count int) *[]*LinkedCollectionNode {
@@ -493,7 +494,8 @@ func (it *LinkedCollections) GetNextNodes(count int) *[]*LinkedCollectionNode {
 				IsKeep:  true,
 				IsBreak: isBreak,
 			}
-		})
+		},
+	)
 }
 
 func (it *LinkedCollections) GetAllLinkedNodes() *[]*LinkedCollectionNode {
@@ -506,7 +508,8 @@ func (it *LinkedCollections) GetAllLinkedNodes() *[]*LinkedCollectionNode {
 				IsKeep:  true,
 				IsBreak: false,
 			}
-		})
+		},
+	)
 }
 
 func (it *LinkedCollections) Loop(
@@ -664,7 +667,8 @@ func (it *LinkedCollections) RemoveNodeByIndex(
 			CannotBeNegativeIndexType.
 			HandleUsingPanic(
 				"removeIndex was less than 0.",
-				removingIndex)
+				removingIndex,
+			)
 	}
 
 	var singleProcessor LinkedCollectionSimpleProcessor = func(
@@ -736,7 +740,8 @@ func (it *LinkedCollections) RemoveNodeByIndexes(
 				IsKeep:  true,
 				IsBreak: false,
 			}
-		})
+		},
+	)
 
 	nonChainedCollection := &NonChainedLinkedCollectionNodes{
 		items:             nonChainedNodes,
@@ -859,7 +864,8 @@ func (it *LinkedCollections) AddCollectionsToNodeAsync(
 		it.AddCollectionsPointerToNode(
 			isSkipOnNull,
 			node,
-			&collections)
+			&collections,
+		)
 
 		it.Unlock()
 
@@ -882,7 +888,8 @@ func (it *LinkedCollections) AddCollectionsToNode(
 	return it.AddCollectionsPointerToNode(
 		isSkipOnNull,
 		node,
-		&collections)
+		&collections,
+	)
 }
 
 // AddCollectionsPointerToNode iSkipOnNil
@@ -900,7 +907,8 @@ func (it *LinkedCollections) AddCollectionsPointerToNode(
 			CannotBeNilType.
 			HandleUsingPanic(
 				nodesCannotBeNull,
-				nil)
+				nil,
+			)
 	}
 
 	length := len(*items)
@@ -1145,7 +1153,8 @@ func (it *LinkedCollections) IndexAt(
 	if length == 0 || length-1 < index {
 		errcore.OutOfRangeType.HandleUsingPanic(
 			"Given index is out of range. Whereas length:",
-			length)
+			length,
+		)
 	}
 
 	if index == 0 {
@@ -1416,7 +1425,8 @@ func (it *LinkedCollections) StringLock() string {
 	return commonJoiner +
 		strings.Join(
 			*it.ListPtr(),
-			commonJoiner)
+			commonJoiner,
+		)
 }
 
 func (it *LinkedCollections) Join(
@@ -1433,9 +1443,11 @@ func (it *LinkedCollections) Joins(
 		return strings.Join(items, separator)
 	}
 
-	collection := it.ToCollection(len(items) +
-		constants.ArbitraryCapacity2)
-	collection.AddStringsPtr(&items)
+	collection := it.ToCollection(
+		len(items) +
+			constants.ArbitraryCapacity2,
+	)
+	collection.AddStrings(&items)
 
 	return collection.Join(separator)
 }
@@ -1524,7 +1536,8 @@ func (it *LinkedCollections) GetCompareSummary(
 		linkedListCollectionCompareHeaderLeft,
 		leftName,
 		lLen,
-		it)
+		it,
+	)
 
 	rightStr := fmt.Sprintf(
 		linkedListCollectionCompareHeaderRight,
@@ -1533,7 +1546,8 @@ func (it *LinkedCollections) GetCompareSummary(
 		right,
 		it.IsEqualsPtr(right),
 		lLen,
-		rLen)
+		rLen,
+	)
 
 	return leftStr + rightStr
 }
