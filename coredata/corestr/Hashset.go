@@ -997,13 +997,13 @@ func (it *Hashset) Dispose() {
 	it.cachedList = nil
 }
 
-// ListCopyPtrLock a slice must returned
-func (it *Hashset) ListCopyPtrLock() *[]string {
+// ListCopyLock a slice must returned
+func (it *Hashset) ListCopyLock() []string {
 	it.Lock()
 	defer it.Unlock()
 	cloned := *it.ListPtr()
 
-	return &cloned
+	return cloned
 }
 
 func (it *Hashset) setCached() {

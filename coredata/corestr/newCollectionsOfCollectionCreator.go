@@ -26,29 +26,14 @@ func (it *newCollectionsOfCollectionCreator) Empty() *CollectionsOfCollection {
 
 func (it *newCollectionsOfCollectionCreator) StringsOfStrings(
 	isMakeClone bool,
-	stringItems ...*[]string,
+	stringItems ...[]string,
 ) *CollectionsOfCollection {
-	length := LengthOfStringsOfPointerStrings(&stringItems)
+	length := len(stringItems)
 
 	return it.LenCap(
 		constants.Zero,
 		length,
-	).AddsStringsOfPointerStrings(isMakeClone, &stringItems)
-}
-
-func (it *newCollectionsOfCollectionCreator) StringsOfStringsPtrPtr(
-	isMakeClone bool,
-	stringItems *[]*[]string,
-) *CollectionsOfCollection {
-	length := LengthOfStringsOfPointerStrings(
-		stringItems)
-
-	return it.LenCap(
-		constants.Zero,
-		length,
-	).AddsStringsOfPointerStrings(
-		isMakeClone,
-		stringItems)
+	).AddsStringsOfStrings(isMakeClone, stringItems...)
 }
 
 func (it *newCollectionsOfCollectionCreator) SpreadStrings(
@@ -61,9 +46,9 @@ func (it *newCollectionsOfCollectionCreator) SpreadStrings(
 	return it.LenCap(
 		constants.Zero,
 		length,
-	).AddStringsPtr(
+	).AddStrings(
 		isMakeClone,
-		&stringItems,
+		stringItems,
 	)
 }
 
@@ -84,9 +69,9 @@ func (it *newCollectionsOfCollectionCreator) Strings(
 	collection := it.Cap(
 		length)
 
-	return collection.AddStringsPtr(
+	return collection.AddStrings(
 		false,
-		&stringItems)
+		stringItems)
 }
 
 func (it *newCollectionsOfCollectionCreator) StringsOption(
@@ -94,41 +79,25 @@ func (it *newCollectionsOfCollectionCreator) StringsOption(
 	capacity int,
 	stringItems []string,
 ) *CollectionsOfCollection {
-	length := len(
-		stringItems)
+	length := len(stringItems)
 	collection := it.Cap(
 		length + capacity)
 
-	return collection.AddStringsPtr(
+	return collection.AddStrings(
 		isMakeClone,
-		&stringItems)
+		stringItems)
 }
 
 func (it *newCollectionsOfCollectionCreator) StringsPtrOption(
 	isMakeClone bool,
 	capacity int,
-	stringItems *[]string,
+	stringItems []string,
 ) *CollectionsOfCollection {
-	length := LengthOfStringsPtr(
-		stringItems)
-	collection := it.Cap(
-		length + capacity)
+	length := len(stringItems)
+	collection := it.Cap(length + capacity)
 
-	return collection.AddStringsPtr(
+	return collection.AddStrings(
 		isMakeClone,
-		stringItems)
-}
-
-func (it *newCollectionsOfCollectionCreator) PointerStringsPtrOption(
-	capacity int,
-	stringItems *[]*string,
-) *CollectionsOfCollection {
-	length := LengthOfPointerStrings(
-		stringItems)
-	collection := it.Cap(
-		length + capacity)
-
-	return collection.AddPointerStringsPtr(
 		stringItems)
 }
 
