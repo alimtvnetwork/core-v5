@@ -7,5 +7,5 @@ func ExpandBySplit(slice *[]string, splitter string) *[]string {
 		return &[]string{}
 	}
 
-	return ExpandBySplitsPtr(slice, splitter)
+	return ExpandBySplits(slice, splitter)
 }

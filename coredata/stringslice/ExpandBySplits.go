@@ -6,20 +6,20 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-// ExpandBySplitsPtr
+// ExpandBySplits
 // Take each slice item, split and add to the new slice array and returns it.
-func ExpandBySplitsPtr(
-	slice *[]string,
+func ExpandBySplits(
+	slice []string,
 	splitters ...string,
-) *[]string {
-	length := LengthOfPointer(slice)
+) []string {
+	length := len(slice)
 	if length == 0 {
-		return &[]string{}
+		return []string{}
 	}
 
-	splitExpandFunc := func(line string) *[]string {
+	splitExpandFunc := func(line string) []string {
 		if len(splitters) == 0 {
-			return &[]string{}
+			return []string{}
 		}
 
 		newExpandedSlice := make([]string, 0, constants.Capacity8)
@@ -29,7 +29,7 @@ func ExpandBySplitsPtr(
 			newExpandedSlice = append(newExpandedSlice, lines...)
 		}
 
-		return &newExpandedSlice
+		return newExpandedSlice
 	}
 
 	expandedSlicesOfSlice := ExpandByFunc(slice, splitExpandFunc)

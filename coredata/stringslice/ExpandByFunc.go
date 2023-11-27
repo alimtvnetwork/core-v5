@@ -24,5 +24,5 @@ func ExpandByFunc(
 		sliceOfSlices = append(sliceOfSlices, expandedLines)
 	}
 
-	return MergeSlicesOfSlices(sliceOfSlices)
+	return MergeSlicesOfSlices(sliceOfSlices...)
 }
