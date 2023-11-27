@@ -300,7 +300,7 @@ func (it *Collection) ConcatNew(
 
 	return New.Collection.Cap(capacity).
 		Adds(it.items...).
-		AddStrings(&addingStrings)
+		AddStrings(addingStrings)
 }
 
 func (it *Collection) ToError(sep string) error {
@@ -397,23 +397,27 @@ func (it *Collection) AddCollection(collectionIn *Collection) *Collection {
 }
 
 // AddCollections skip on nil
-func (it *Collection) AddCollections(collectionsIn ...Collection) *Collection {
+func (it *Collection) AddCollections(
+	collectionsIn ...*Collection,
+) *Collection {
 	for _, collectionIn := range collectionsIn {
 		if collectionIn.IsEmpty() {
 			continue
 		}
 
-		it.AddStrings(&collectionIn.items)
+		it.AddStrings(collectionIn.items)
 	}
 
 	return it
 }
 
-func (it *Collection) AddPointerCollectionsLock(collectionsIn *[]*Collection) *Collection {
+func (it *Collection) AddPointerCollectionsLock(
+	collectionsIn ...*Collection,
+) *Collection {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.AddPointerCollections(collectionsIn)
+	return it.AppendCollections(collectionsIn...)
 }
 
 func (it *Collection) AddHashmapsValues(
@@ -447,8 +451,8 @@ func (it *Collection) AddHashmapsKeys(
 	}
 
 	it.resizeForHashmaps(
-		&hashmaps,
 		constants.One,
+		&hashmaps,
 	)
 
 	for _, hashmap := range hashmaps {
@@ -513,7 +517,7 @@ func (it *Collection) resizeForHashmaps(
 
 func (it *Collection) resizeForCollections(
 	multiplier int,
-	collections ...Collection,
+	collections ...*Collection,
 ) *Collection {
 	if len(collections) == 0 {
 		return it
@@ -1050,22 +1054,10 @@ func (it *Collection) AppendCollectionPtr(
 	return it
 }
 
-func (it *Collection) AppendCollectionsPtr(
-	anotherCollectionsPtr ...*Collection,
+func (it *Collection) AppendCollections(
+	items ...*Collection,
 ) *Collection {
-	if anotherCollectionsPtr == nil {
-		return it
-	}
-
-	return it.AppendCollectionsPtr(
-		&anotherCollectionsPtr,
-	)
-}
-
-func (it *Collection) AppendCollectionsPtr(
-	items ...Collection,
-) *Collection {
-	if items == nil {
+	if len(items) == 0 {
 		return it
 	}
 
@@ -1086,8 +1078,8 @@ func (it *Collection) AppendCollectionsPtr(
 
 	it.AddCapacity(capacitiesIncrease)
 
-	for _, currentCollection := range *items {
-		if currentCollection == nil || currentCollection.IsEmpty() {
+	for _, currentCollection := range items {
+		if currentCollection.IsEmpty() {
 			continue
 		}
 
@@ -1100,102 +1092,42 @@ func (it *Collection) AppendCollectionsPtr(
 	return it
 }
 
-func (it *Collection) AppendCollectionsPtrAsync(
-	wg *sync.WaitGroup,
-	anotherCollectionsPtr ...*Collection,
-) *Collection {
-	if anotherCollectionsPtr == nil {
-		return it
-	}
-
-	go func() {
-		it.AppendCollectionsPtr(
-			&anotherCollectionsPtr,
-		)
-
-		wg.Done()
-	}()
-
-	return it
-}
-
-// AppendAnysAsync Continue on nil
-func (it *Collection) AppendAnysAsync(
-	wg *sync.WaitGroup,
-	anys ...interface{},
-) *Collection {
-	if anys == nil {
-		return it
-	}
-
-	go func() {
-		it.Lock()
-		it.resizeForAnys(
-			&anys,
-			constants.One,
-		)
-		it.Unlock()
-
-		it.AppendAnysLock(&anys)
-
-		wg.Done()
-	}()
-
-	return it
-}
-
 // AppendAnysLock Continue on nil
 func (it *Collection) AppendAnysLock(
-	anys ...interface{},
+	anyItems ...interface{},
 ) *Collection {
-	if anys == nil {
+	if len(anyItems) == 0 {
 		return it
 	}
 
-	it.resizeForAnys(
-		anys,
-		constants.One,
-	)
-
-	for _, any := range *anys {
-		if any == nil {
-			continue
-		}
-
-		anyStr := fmt.Sprintf(constants.SprintValueFormat, any)
-
-		it.Lock()
-		it.items = append(
-			it.items,
-			anyStr,
-		)
-		it.Unlock()
-	}
+	it.Lock()
+	it.AppendAnys(anyItems...)
+	it.Unlock()
 
 	return it
 }
 
 // AppendAnys Continue on nil
 func (it *Collection) AppendAnys(
-	anys ...interface{},
+	anyItems ...interface{},
 ) *Collection {
-	if anys == nil {
+	if len(anyItems) == 0 {
 		return it
 	}
 
 	it.resizeForAnys(
-		&anys,
 		constants.One,
+		anyItems,
 	)
 
-	for _, any := range anys {
-		if any == nil {
+	for _, anyItem := range anyItems {
+		if anyItem == nil {
 			continue
 		}
 
 		anyStr := fmt.Sprintf(
 			constants.SprintValueFormat,
-			any,
+			anyItem,
 		)
 
 		it.items = append(
@@ -1210,25 +1142,25 @@ func (it *Collection) AppendAnys(
 // AppendAnysUsingFilter Skip on nil
 func (it *Collection) AppendAnysUsingFilter(
 	filter IsStringFilter,
-	anys ...interface{},
+	anyItems ...interface{},
 ) *Collection {
-	if anys == nil {
+	if len(anyItems) == 0 {
 		return it
 	}
 
 	it.resizeForAnys(
-		&anys,
 		constants.One,
+		anyItems,
 	)
 
-	for i, any := range anys {
-		if any == nil {
+	for i, anyItem := range anyItems {
+		if anyItem == nil {
 			continue
 		}
 
 		anyStr := fmt.Sprintf(
 			constants.SprintValueFormat,
-			any,
+			anyItem,
 		)
 
 		result, isKeep, isBreak := filter(anyStr, i)
@@ -1253,18 +1185,18 @@ func (it *Collection) AppendAnysUsingFilter(
 // AppendAnysUsingFilterLock Skip on nil
 func (it *Collection) AppendAnysUsingFilterLock(
 	filter IsStringFilter,
-	anys ...interface{},
+	anyItems ...interface{},
 ) *Collection {
-	if anys == nil {
+	if anyItems == nil {
 		return it
 	}
 
 	it.resizeForAnys(
-		&anys,
 		constants.One,
+		anyItems,
 	)
 
-	for i, any := range anys {
+	for i, any := range anyItems {
 		if any == nil {
 			continue
 		}
@@ -1293,23 +1225,23 @@ func (it *Collection) AppendAnysUsingFilterLock(
 
 // AppendNonEmptyAnys Continue on nil
 func (it *Collection) AppendNonEmptyAnys(
-	anys ...interface{},
+	anyItems ...interface{},
 ) *Collection {
-	if anys == nil {
+	if anyItems == nil {
 		return it
 	}
 
 	it.resizeForAnys(
-		&anys,
 		constants.One,
+		anyItems,
 	)
 
-	for _, any := range anys {
-		if any == nil {
+	for _, item := range anyItems {
+		if item == nil {
 			continue
 		}
 
-		anyStr := fmt.Sprintf(constants.SprintValueFormat, any)
+		anyStr := fmt.Sprintf(constants.SprintValueFormat, item)
 		if anyStr == "" {
 			continue
 		}
@@ -1323,54 +1255,30 @@ func (it *Collection) AppendNonEmptyAnys(
 	return it
 }
 
-// AddsPtr Skip on nil
-func (it *Collection) AddsPtr(itemsPtr ...*string) *Collection {
-	if itemsPtr == nil {
-		return it
-	}
-
-	for _, str := range itemsPtr {
-		if str == nil {
-			continue
-		}
-
-		it.items = append(
-			it.items,
-			*str,
-		)
-	}
-
-	return it
-}
-
-// AddsPtrAsync Skip on nil
-func (it *Collection) AddsPtrAsync(
+// AddsAsync Skip on nil
+func (it *Collection) AddsAsync(
 	wg *sync.WaitGroup,
-	itemsPtr ...*string,
+	items ...string,
 ) *Collection {
-	if itemsPtr == nil {
+	if items == nil {
 		return it
 	}
 
 	go func() {
 		it.Lock()
-		it.resizeForPointerItems(
-			&itemsPtr,
+		it.resizeForItems(
 			constants.One,
+			items...,
 		)
 
 		it.Unlock()
 
-		for _, str := range itemsPtr {
-			if str == nil {
-				continue
-			}
-
+		for _, str := range items {
 			it.Lock()
 
 			it.items = append(
 				it.items,
-				*str,
+				str,
 			)
 
 			it.Unlock()
@@ -1382,19 +1290,19 @@ func (it *Collection) AddsPtrAsync(
 	return it
 }
 
-func (it *Collection) AddsNonEmptyPtr(itemsPtr ...*string) *Collection {
+func (it *Collection) AddsNonEmpty(itemsPtr ...string) *Collection {
 	if itemsPtr == nil {
 		return it
 	}
 
 	for _, str := range itemsPtr {
-		if str == nil || *str == "" {
+		if len(str) == 0 {
 			continue
 		}
 
 		it.items = append(
 			it.items,
-			*str,
+			str,
 		)
 	}
 
@@ -1424,14 +1332,14 @@ func (it *Collection) AddsNonEmptyPtrLock(
 	return it
 }
 
-func (it *Collection) UniqueBoolMapLock() *map[string]bool {
+func (it *Collection) UniqueBoolMapLock() map[string]bool {
 	it.Lock()
 	defer it.Unlock()
 
 	return it.UniqueBoolMap()
 }
 
-func (it *Collection) UniqueBoolMap() *map[string]bool {
+func (it *Collection) UniqueBoolMap() map[string]bool {
 	respectiveMap := make(
 		map[string]bool,
 		it.Length(),
@@ -1441,27 +1349,7 @@ func (it *Collection) UniqueBoolMap() *map[string]bool {
 		respectiveMap[item] = true
 	}
 
-	return &respectiveMap
-}
-
-func (it *Collection) UniqueListPtr() *[]string {
-	boolMap := it.UniqueBoolMap()
-	list := make([]string, len(*boolMap))
-
-	i := 0
-	for str := range *boolMap {
-		list[i] = str
-		i++
-	}
-
-	return &list
-}
-
-func (it *Collection) UniqueListPtrLock() *[]string {
-	it.Lock()
-	defer it.Unlock()
-
-	return it.UniqueListPtr()
+	return respectiveMap
 }
 
 func (it *Collection) UniqueListLock() []string {
@@ -1472,7 +1360,14 @@ func (it *Collection) UniqueListLock() []string {
 }
 
 func (it *Collection) UniqueList() []string {
-	return *it.UniqueListPtr()
+	boolMap := it.UniqueBoolMap()
+	list := make([]string, len(boolMap))
+	i := 0
+	for str := range boolMap {
+		list[i] = str
+		i++
+	}
+	return list
 }
 
 func (it *Collection) List() []string {
@@ -1528,12 +1423,12 @@ func (it *Collection) FilterLock(filter IsStringFilter) []string {
 	return list
 }
 
-// FilteredCollection must return a items
+// FilteredCollection must return items
 func (it *Collection) FilteredCollection(filter IsStringFilter) *Collection {
 	return New.Collection.Strings(it.Filter(filter))
 }
 
-// FilteredCollectionLock must return a items
+// FilteredCollectionLock must return items
 func (it *Collection) FilteredCollectionLock(filter IsStringFilter) *Collection {
 	return New.Collection.Strings(it.FilterLock(filter))
 }
@@ -1848,13 +1743,13 @@ func (it *Collection) New(
 ) *Collection {
 	length := len(slice)
 
+	newCollection := New.Collection.Cap(length)
+
 	if length == 0 {
-		return New.Collection.Cap(constants.Zero)
+		return newCollection
 	}
 
-	newCollection := New.Collection.Cap(constants.Zero)
-
-	return newCollection.AddStrings(&slice)
+	return newCollection.AddStrings(slice)
 }
 
 func (it *Collection) AddNonEmptyStrings(
@@ -1921,24 +1816,18 @@ func (it *Collection) AddStringsByFuncChecking(
 }
 
 func (it *Collection) ExpandSlicePlusAdd(
-	slice *[]string,
-	expandFunc func(line string) *[]string,
+	slice []string,
+	expandFunc func(line string) []string,
 ) *Collection {
 	items := stringslice.ExpandByFunc(slice, expandFunc)
 
 	return it.AddStrings(items)
 }
 
-func (it *Collection) MergeSlicesOfSlicePtr(slices *[]*[]string) *Collection {
-	it.items = *stringslice.MergeNewSlicesPtrOfSlicesPtr(slices)
+func (it *Collection) MergeSlicesOfSlice(slices ...[]string) *Collection {
+	slice := stringslice.MergeSlicesOfSlices(slices...)
 
-	return it
-}
-
-func (it *Collection) MergeSlicesOfSlice(slices ...*[]string) *Collection {
-	it.items = *stringslice.MergeNewSlicesPtrOfSlicesPtr(&slices)
-
-	return it
+	return it.AddStrings(slice)
 }
 
 // GetAllExceptCollection Get all items except the mentioned ones.
@@ -2258,4 +2147,20 @@ func (it *Collection) Serialize() ([]byte, error) {
 
 func (it *Collection) Deserialize(toPtr interface{}) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
+}
+
+func (it *Collection) Join(sep string) string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	return strings.Join(it.items, sep)
+}
+
+func (it *Collection) JoinLine() string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	return strings.Join(it.items, constants.NewLineUnix)
 }

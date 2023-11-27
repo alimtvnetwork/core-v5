@@ -19,5 +19,5 @@ func MergeNewSimple(simpleSlices ...[]string) []string {
 		slicesPtr = append(slicesPtr, &slice)
 	}
 
-	return *MergeNewSlicesPtrOfSlicesPtr(&slicesPtr)
+	return *MergeSlicesOfSlices(&slicesPtr)
 }

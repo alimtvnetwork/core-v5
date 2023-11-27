@@ -2,22 +2,22 @@ package stringslice
 
 import "gitlab.com/auk-go/core/constants"
 
-// MergeNewSlicesPtrOfSlicesPtr Don't include nil or length 0 slices
-func MergeNewSlicesPtrOfSlicesPtr(slices *[]*[]string) *[]string {
-	if slices == nil {
-		return &[]string{}
+// MergeSlicesOfSlices Don't include nil or length 0 slices
+func MergeSlicesOfSlices(slicesOfSlice ...[]string) []string {
+	if len(slicesOfSlice) == 0 {
+		return []string{}
 	}
 
-	sliceLength := len(*slices)
+	sliceLength := len(slicesOfSlice)
 
 	if sliceLength == constants.Zero {
-		return &[]string{}
+		return []string{}
 	}
 
-	countOfAll := AllElemLengthSlicesPtr(slices)
+	countOfAll := AllElemLengthSlices(slicesOfSlice...)
 
 	if countOfAll == constants.Zero {
-		return &[]string{}
+		return []string{}
 	}
 
 	newSlice := make(
@@ -25,13 +25,13 @@ func MergeNewSlicesPtrOfSlicesPtr(slices *[]*[]string) *[]string {
 		constants.Zero,
 		countOfAll)
 
-	for _, slice := range *slices {
-		if len(*slice) == constants.Zero {
+	for _, slice := range slicesOfSlice {
+		if len(slice) == 0 {
 			continue
 		}
 
-		newSlice = append(newSlice, *slice...)
+		newSlice = append(newSlice, slice...)
 	}
 
-	return &newSlice
+	return newSlice
 }

@@ -92,14 +92,18 @@ func (it Map) IsKeyMissing(name string) bool {
 	return !has
 }
 
-func (it Map) SortedKeys() []string {
+func (it Map) SortedKeys() ([]string, error) {
 	if len(it) == 0 {
-		return []string{}
+		return []string{}, nil
 	}
 
-	sortedKeys, err := convertinteranl.
+	return convertinteranl.
 		Map.
 		SortedKeys(it)
+}
+
+func (it Map) SortedKeysMust() []string {
+	sortedKeys, err := it.SortedKeys()
 
 	if err != nil {
 		panic(err)
@@ -275,7 +279,7 @@ func (it Map) InvokeArgs(names ...string) (
 func (it Map) ValidArgs() []interface{} {
 	var args []interface{}
 
-	keys := it.SortedKeys()
+	keys, _ := it.SortedKeys()
 	isDefined := reflectinternal.Is.Defined
 	isNotFunc := reflectinternal.Is.NotFunc
 

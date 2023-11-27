@@ -8,5 +8,5 @@ func MergeNewSlicesPtrOfSlices(slices ...*[]string) *[]string {
 		return &[]string{}
 	}
 
-	return MergeNewSlicesPtrOfSlicesPtr(&slices)
+	return MergeSlicesOfSlices(&slices)
 }
