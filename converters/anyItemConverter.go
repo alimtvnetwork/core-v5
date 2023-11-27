@@ -88,14 +88,14 @@ func (it anyItemConverter) ToSafeSerializedString(
 
 	switch casted := any.(type) {
 	case []byte:
-		return BytesToString(casted)
+		return BytesTo.String(casted)
 	case *[]byte:
-		return BytesPtrToString(casted)
+		return BytesTo.PtrString(casted)
 	}
 
 	allBytes, _ := json.Marshal(any)
 
-	return BytesToString(allBytes)
+	return BytesTo.String(allBytes)
 }
 
 // ToSafeSerializedStringSprintValue
