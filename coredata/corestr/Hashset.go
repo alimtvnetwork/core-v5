@@ -954,22 +954,6 @@ func (it *Hashset) GetAllExceptCollection(
 		collection.HashsetAsIs())
 }
 
-// GetAllExceptCollectionPtr Get all hashset items except the mentioned ones in collectionPtr.
-// Always returns a copy of new strings.
-// It is like set A - B
-// Set A = this Hashset
-// Set B = collectionPtr given in parameters.
-func (it *Hashset) GetAllExceptCollectionPtr(
-	collectionPtr *CollectionPtr,
-) []string {
-	if collectionPtr == nil {
-		return it.List()
-	}
-
-	return it.GetAllExceptHashset(
-		collectionPtr.HashsetAsIs())
-}
-
 func (it *Hashset) Items() map[string]bool {
 	return it.items
 }
