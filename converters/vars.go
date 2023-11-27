@@ -6,8 +6,12 @@ import (
 )
 
 var (
-	StringsTo  = stringsTo{}
-	AnyTo      = anyItemConverter{}
-	Map        = convertinteranl.Map
-	PrettyJson = jsoninternal.Pretty
+	StringsTo   = stringsTo{}
+	AnyTo       = anyItemConverter{}
+	Map         = convertinteranl.Map
+	StringTo    = stringTo{}
+	PrettyJson  = jsoninternal.Pretty
+	BytesTo     = bytesTo{}
+	Integers    = convertinteranl.Integers
+	KeyValuesTO = convertinteranl.KeyValuesTo
 )

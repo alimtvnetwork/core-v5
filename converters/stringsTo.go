@@ -447,7 +447,7 @@ func (it stringsTo) BytesMust(lines ...string) []byte {
 	results := make([]byte, len(lines))
 
 	for i, v := range lines {
-		vInt, err := StringToByte(v)
+		vInt, err := StringTo.Byte(v)
 
 		if err != nil {
 			panic(err)
@@ -502,12 +502,12 @@ func (it stringsTo) Float64sConditional(
 	return results
 }
 
-// PointerStringsToStrings will give empty or converted results array (not nil)
-func PointerStringsToStrings(pointerStringOfArray *[]*string) *[]string {
+// PtrOfPtrToStrings will give empty or converted results array (not nil)
+func (it stringsTo) PtrOfPtrToStrings(pointerStringOfArray *[]*string) []string {
 	if pointerStringOfArray == nil || *pointerStringOfArray == nil {
 		var emptyResult []string
 
-		return &emptyResult
+		return emptyResult
 	}
 
 	newArray := make([]string, len(*pointerStringOfArray))
@@ -516,10 +516,14 @@ func PointerStringsToStrings(pointerStringOfArray *[]*string) *[]string {
 		newArray[i] = *value
 	}
 
-	return &newArray
+	return newArray
 }
 
-func StringsPointersToStringBoolMap(inputArray *[]*string) *map[string]bool {
+func (it stringsTo) PtrOfPtrToMapStringBool(inputArray *[]*string) map[string]bool {
+	if inputArray == nil || len(*inputArray) == 0 {
+		return map[string]bool{}
+	}
+
 	length := len(*inputArray)
 	hashset := make(map[string]bool, length)
 
@@ -528,5 +532,5 @@ func StringsPointersToStringBoolMap(inputArray *[]*string) *map[string]bool {
 		hashset[sC] = true
 	}
 
-	return &hashset
+	return hashset
 }

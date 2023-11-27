@@ -304,3 +304,18 @@ func (it mapConverter) CombineMapStringAny(
 
 	return newMap
 }
+
+func (it mapConverter) FromIntegersToMap(inputArray ...int) map[int]bool {
+	if len(inputArray) == 0 {
+		return map[int]bool{}
+	}
+
+	length := len(inputArray)
+	hashset := make(map[int]bool, length)
+
+	for _, s := range inputArray {
+		hashset[s] = true
+	}
+
+	return hashset
+}

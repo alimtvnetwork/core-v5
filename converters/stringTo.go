@@ -2,6 +2,7 @@ package converters
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -269,4 +270,16 @@ func (it stringTo) Byte(input string) (byte, error) {
 	}
 
 	return byte(vInt), nil
+}
+
+// JsonBytes
+//
+// Wraps with double quote and then returns as bytes
+func (it stringTo) JsonBytes(name string) []byte {
+	doubleQuoted := fmt.Sprintf(
+		constants.SprintDoubleQuoteFormat,
+		name,
+	)
+
+	return []byte(doubleQuoted)
 }

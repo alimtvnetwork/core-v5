@@ -3,7 +3,7 @@ package convertinteranl
 type keyValuesTo struct{}
 
 // ToMap keys nil will return empty map[string]string
-func (it mapConverter) ToMap(keys, values []string) map[string]string {
+func (it keyValuesTo) ToMap(keys, values []string) map[string]string {
 	if keys == nil || values == nil {
 		return map[string]string{}
 	}
@@ -18,7 +18,7 @@ func (it mapConverter) ToMap(keys, values []string) map[string]string {
 }
 
 // ToMapPtr keys nil will return empty map[string]string
-func (it mapConverter) ToMapPtr(keys, values *[]string) *map[string]string {
+func (it keyValuesTo) ToMapPtr(keys, values *[]string) *map[string]string {
 	if keys == nil || *keys == nil {
 		var emptyResult map[string]string
 
