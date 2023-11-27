@@ -8,12 +8,6 @@ func (it *emptyCreator) Collection() *Collection {
 	}
 }
 
-func (it *emptyCreator) CollectionPtr() *CollectionPtr {
-	return &CollectionPtr{
-		items: []*string{},
-	}
-}
-
 func (it *emptyCreator) LinkedList() *LinkedList {
 	return &LinkedList{}
 }
@@ -85,12 +79,6 @@ func (it *emptyCreator) CharCollectionMap() *CharCollectionMap {
 func (it *emptyCreator) KeyValuesCollection() *KeyValueCollection {
 	return &KeyValueCollection{
 		KeyValuePairs: nil,
-	}
-}
-
-func (it *emptyCreator) CollectionsOfCollectionPtr() *CollectionsOfCollectionPtr {
-	return &CollectionsOfCollectionPtr{
-		items: nil,
 	}
 }
 

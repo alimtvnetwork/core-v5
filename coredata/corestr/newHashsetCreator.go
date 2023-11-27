@@ -128,23 +128,6 @@ func (it *newHashsetCreator) StringsSpreadItems(
 		maps)
 }
 
-// StringsPtr addCapacity will not work if it is not a clone.
-func (it *newHashsetCreator) StringsPtr(
-	inputArray *[]string,
-) *Hashset {
-	if inputArray == nil || *inputArray == nil {
-		return it.Empty()
-	}
-
-	maps := converters.StringsTo.Hashset(*inputArray)
-
-	return it.UsingMapOption(
-		constants.Zero,
-		false,
-		maps,
-	)
-}
-
 // UsingMapOption addCapacity will not work if it is not a clone.
 func (it *newHashsetCreator) UsingMapOption(
 	addCapacity int,

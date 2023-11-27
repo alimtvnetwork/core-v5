@@ -1353,7 +1353,7 @@ func (it *LinkedCollections) ToCollectionsOfCollection(
 			return false
 		}
 
-		collection.Adds(arg.CurrentNode.Element)
+		collection.Add(arg.CurrentNode.Element)
 
 		return false
 	}
@@ -1447,7 +1447,7 @@ func (it *LinkedCollections) Joins(
 		len(items) +
 			constants.ArbitraryCapacity2,
 	)
-	collection.AddStrings(&items)
+	collection.AddStrings(items)
 
 	return collection.Join(separator)
 }

@@ -861,7 +861,7 @@ func (it *Collection) GetPagedCollection(
 		)
 
 		if pagedCollection != nil {
-			collectionOfCollection.items[oneBasedPageIndex-1] = *pagedCollection
+			collectionOfCollection.items[oneBasedPageIndex-1] = pagedCollection
 		}
 
 		wg.Done()
@@ -1892,7 +1892,7 @@ func (it *Collection) CharCollectionMap() *CharCollectionMap {
 		lengthByFourBestGuess,
 	)
 
-	return runeMap.AddStringsPtr(&it.items)
+	return runeMap.AddStrings(it.items...)
 }
 
 func (it *Collection) SummaryString(sequence int) string {

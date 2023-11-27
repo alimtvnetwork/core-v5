@@ -355,7 +355,7 @@ func (it *SimpleSlice) Strings() []string {
 }
 
 func (it *SimpleSlice) Hashset() *Hashset {
-	return New.Hashset.StringsPtr(&it.Items)
+	return New.Hashset.Strings(it.Items)
 }
 
 func (it *SimpleSlice) Join(joiner string) string {

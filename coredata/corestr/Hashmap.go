@@ -686,33 +686,29 @@ func (it *Hashmap) ValuesCollection() *Collection {
 }
 
 func (it *Hashmap) ValuesHashset() *Hashset {
-	return New.Hashset.StringsPtr(
-		it.ValuesListPtr(),
+	return New.Hashset.Strings(
+		it.ValuesList(),
 	)
 }
 
 func (it *Hashmap) ValuesCollectionLock() *Collection {
 	return New.Collection.StringsOptions(
-		false, *it.ValuesListCopyPtrLock(),
+		false, it.ValuesListCopyLock(),
 	)
 }
 
 func (it *Hashmap) ValuesHashsetLock() *Hashset {
-	return New.Hashset.StringsPtr(
-		it.ValuesListCopyPtrLock(),
+	return New.Hashset.Strings(
+		it.ValuesListCopyLock(),
 	)
 }
 
 func (it *Hashmap) ValuesList() []string {
-	return *it.ValuesListPtr()
-}
-
-func (it *Hashmap) ValuesListPtr() *[]string {
 	if it.hasMapUpdated || it.cachedList == nil {
 		it.setCached()
 	}
 
-	return &it.cachedList
+	return it.cachedList
 }
 
 func (it *Hashmap) KeysValuesCollection() (
@@ -730,8 +726,8 @@ func (it *Hashmap) KeysValuesCollection() (
 	}()
 
 	go func() {
-		values = New.Collection.StringsPtr(
-			it.ValuesListPtr(),
+		values = New.Collection.Strings(
+			it.ValuesList(),
 		)
 
 		wg.Done()
@@ -860,11 +856,11 @@ func (it *Hashmap) KeysLock() []string {
 // ValuesListCopyPtrLock
 //
 //	a slice must be returned
-func (it *Hashmap) ValuesListCopyPtrLock() *[]string {
+func (it *Hashmap) ValuesListCopyLock() []string {
 	it.Lock()
 	defer it.Unlock()
 
-	return &(*it.ValuesListPtr())
+	return it.ValuesList()
 }
 
 func (it *Hashmap) setCached() {
@@ -1015,7 +1011,7 @@ func (it *Hashmap) StringLock() string {
 
 	return commonJoiner +
 		strings.Join(
-			*it.ValuesListPtr(),
+			it.ValuesList(),
 			commonJoiner,
 		)
 }
@@ -1027,9 +1023,9 @@ func (it *Hashmap) StringLock() string {
 // Set B = anotherHashset given in parameters.
 func (it *Hashmap) GetValuesExceptKeysInHashset(
 	anotherHashset *Hashset,
-) *[]string {
+) []string {
 	if anotherHashset == nil || anotherHashset.IsEmpty() {
-		return it.ValuesListPtr()
+		return it.ValuesList()
 	}
 
 	finalList := make(
@@ -1049,7 +1045,7 @@ func (it *Hashmap) GetValuesExceptKeysInHashset(
 		)
 	}
 
-	return &finalList
+	return finalList
 }
 
 // GetValuesKeysExcept Get all items except the mentioned ones.
@@ -1058,13 +1054,13 @@ func (it *Hashmap) GetValuesExceptKeysInHashset(
 // Set A = this Hashmap
 // Set B = items given in parameters.
 func (it *Hashmap) GetValuesKeysExcept(
-	items *[]string,
-) *[]string {
+	items []string,
+) []string {
 	if items == nil {
-		return it.ValuesListPtr()
+		return it.ValuesList()
 	}
 
-	newCollection := New.Hashset.StringsPtr(
+	newCollection := New.Hashset.Strings(
 		items,
 	)
 
@@ -1080,9 +1076,9 @@ func (it *Hashmap) GetValuesKeysExcept(
 // Set B = collection given in parameters.
 func (it *Hashmap) GetAllExceptCollection(
 	collection *Collection,
-) *[]string {
+) []string {
 	if collection == nil {
-		return it.ValuesListPtr()
+		return it.ValuesList()
 	}
 
 	return it.GetValuesExceptKeysInHashset(
@@ -1094,7 +1090,7 @@ func (it *Hashmap) GetAllExceptCollection(
 func (it *Hashmap) Join(
 	separator string,
 ) string {
-	return strings.Join(*it.ValuesListPtr(), separator)
+	return strings.Join(it.ValuesList(), separator)
 }
 
 func (it *Hashmap) JoinKeys(

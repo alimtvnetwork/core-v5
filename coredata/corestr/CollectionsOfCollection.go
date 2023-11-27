@@ -10,7 +10,7 @@ import (
 )
 
 type CollectionsOfCollection struct {
-	items []Collection
+	items []*Collection
 	sync.Mutex
 }
 
@@ -52,11 +52,7 @@ func (it *CollectionsOfCollection) AllIndividualItemsLength() int {
 	return allLength
 }
 
-func (it *CollectionsOfCollection) ItemsPtr() *[]Collection {
-	return &it.items
-}
-
-func (it *CollectionsOfCollection) Items() []Collection {
+func (it *CollectionsOfCollection) Items() []*Collection {
 	return it.items
 }
 
@@ -166,9 +162,21 @@ func (it *CollectionsOfCollection) AddCollections(
 		return it
 	}
 
-	for i := range collections {
-		it.items = append(it.items, collections[i])
+	for _, item := range collections {
+		it.items = append(it.items, &item)
 	}
+
+	return it
+}
+
+func (it *CollectionsOfCollection) Add(
+	collection *Collection,
+) *CollectionsOfCollection {
+	if collection.IsEmpty() {
+		return it
+	}
+
+	it.items = append(it.items, collection)
 
 	return it
 }

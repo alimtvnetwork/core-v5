@@ -1038,7 +1038,7 @@ func (it *LinkedList) Joins(
 		len(items) +
 			constants.ArbitraryCapacity2,
 	)
-	collection.AddStrings(&items)
+	collection.AddStrings(items)
 
 	return collection.Join(separator)
 }
