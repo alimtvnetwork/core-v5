@@ -13,7 +13,7 @@ import (
 
 type stringTo struct{}
 
-func StringToIntegerWithDefault(
+func (it stringTo) IntegerWithDefault(
 	input string,
 	defaultInt int,
 ) (value int, isSuccess bool) {
@@ -30,7 +30,7 @@ func StringToIntegerWithDefault(
 	return convertedVal, true
 }
 
-func StringToIntegersWithDefaults(
+func (it stringTo) IntegersWithDefaults(
 	stringInput,
 	separator string,
 	defaultInt int,
@@ -77,7 +77,7 @@ func StringToIntegersWithDefaults(
 	}
 }
 
-func StringToIntegersConditional(
+func (it stringTo) IntegersConditional(
 	stringInput,
 	separator string,
 	processor func(in string) (out int, isTake, isBreak bool),
@@ -104,10 +104,10 @@ func StringToIntegersConditional(
 	return &results
 }
 
-func StringToIntegerMust(
+func (it stringTo) IntegerMust(
 	input string,
 ) (value int) {
-	value, err := StringToInteger(input)
+	value, err := it.Integer(input)
 
 	if err != nil {
 		panic(err)
@@ -116,7 +116,7 @@ func StringToIntegerMust(
 	return value
 }
 
-func StringToIntegerDefault(
+func (it stringTo) IntegerDefault(
 	input string,
 ) int {
 	value, err2 := strconv.Atoi(input)
@@ -128,7 +128,7 @@ func StringToIntegerDefault(
 	return value
 }
 
-func StringToInteger(
+func (it stringTo) Integer(
 	input string,
 ) (value int, err error) {
 	value, err2 := strconv.Atoi(input)
@@ -147,8 +147,8 @@ func StringToInteger(
 	return value, err
 }
 
-func StringToFloat64Must(input string) float64 {
-	value, err2 := StringToFloat64(input)
+func (it stringTo) Float64Must(input string) float64 {
+	value, err2 := it.Float64(input)
 
 	if err2 != nil {
 		panic(err2)
@@ -157,7 +157,7 @@ func StringToFloat64Must(input string) float64 {
 	return value
 }
 
-func StringToFloat64Default(
+func (it stringTo) Float64Default(
 	input string, defaultFloat64 float64,
 ) (value float64, isSuccess bool) {
 	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
@@ -169,7 +169,7 @@ func StringToFloat64Default(
 	return value, true
 }
 
-func StringToFloat64Conditional(
+func (it stringTo) Float64Conditional(
 	input string, defaultFloat64 float64,
 ) (value float64, isSuccess bool) {
 	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
@@ -181,7 +181,7 @@ func StringToFloat64Conditional(
 	return value, true
 }
 
-func StringToFloat64(input string) (value float64, err error) {
+func (it stringTo) Float64(input string) (value float64, err error) {
 	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
 
 	if err2 != nil {
@@ -199,10 +199,10 @@ func StringToFloat64(input string) (value float64, err error) {
 	return value, err
 }
 
-func StringToByteWithDefault(
+func (it stringTo) ByteWithDefault(
 	input string, defaultByte byte,
 ) (value byte, isSuccess bool) {
-	vByte, err := StringToByte(input)
+	vByte, err := it.Byte(input)
 
 	if err != nil {
 		return defaultByte, false
@@ -211,7 +211,7 @@ func StringToByteWithDefault(
 	return vByte, true
 }
 
-func StringToBytesConditional(
+func (it stringTo) BytesConditional(
 	stringInput,
 	separator string,
 	processor func(in string) (out byte, isTake, isBreak bool),
@@ -238,7 +238,7 @@ func StringToBytesConditional(
 	return &results
 }
 
-func StringToByte(input string) (byte, error) {
+func (it stringTo) Byte(input string) (byte, error) {
 	if input == "" {
 		return 0, errcore.FailedToConvertType.
 			Error(errcore.CannotConvertStringToByte, input)
