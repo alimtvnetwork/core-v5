@@ -678,28 +678,7 @@ func (it *Collection) AddWithWgLock(
 func (it *Collection) IndexAt(
 	index int,
 ) string {
-	return (it.items)[index]
-}
-
-func (it *Collection) SafePointerIndexAt(
-	index int,
-) *string {
-	length := it.Length()
-	if length-1 < index {
-		return nil
-	}
-
-	return &(it.items)[index]
-}
-
-func (it *Collection) SafePointerIndexAtUsingLength(
-	length, index int,
-) *string {
-	if length-1 < index {
-		return nil
-	}
-
-	return &(it.items)[index]
+	return it.items[index]
 }
 
 func (it *Collection) SafeIndexAtUsingLength(
@@ -709,11 +688,11 @@ func (it *Collection) SafeIndexAtUsingLength(
 		return defaultString
 	}
 
-	return (it.items)[index]
+	return it.items[index]
 }
 
 func (it *Collection) First() string {
-	return (it.items)[0]
+	return it.items[0]
 }
 
 func (it *Collection) Single() string {
@@ -725,13 +704,13 @@ func (it *Collection) Single() string {
 		)
 	}
 
-	return (it.items)[0]
+	return it.items[0]
 }
 
 func (it *Collection) Last() string {
 	length := it.Length()
 
-	return (it.items)[length-1]
+	return it.items[length-1]
 }
 
 func (it *Collection) LastOrDefault() string {
@@ -741,7 +720,7 @@ func (it *Collection) LastOrDefault() string {
 		return constants.EmptyString
 	}
 
-	return (it.items)[length-1]
+	return it.items[length-1]
 }
 
 func (it *Collection) FirstOrDefault() string {
@@ -749,7 +728,7 @@ func (it *Collection) FirstOrDefault() string {
 		return constants.EmptyString
 	}
 
-	return (it.items)[0]
+	return it.items[0]
 }
 
 // Take use One based index
@@ -766,7 +745,7 @@ func (it *Collection) Take(
 		return Empty.Collection()
 	}
 
-	list := (it.items)[:take]
+	list := it.items[:take]
 
 	return New.Collection.StringsOptions(
 		false,
@@ -793,7 +772,7 @@ func (it *Collection) Skip(
 		return it
 	}
 
-	list := (it.items)[skip:]
+	list := it.items[skip:]
 
 	return New.Collection.StringsOptions(
 		false,
@@ -909,7 +888,7 @@ func (it *Collection) GetSinglePageCollection(
 		endingIndex = length
 	}
 
-	list := (it.items)[skipItems:endingIndex]
+	list := it.items[skipItems:endingIndex]
 
 	return New.Collection.StringsOptions(
 		false,
@@ -975,8 +954,8 @@ func (it *Collection) ChainRemoveAt(
 	index int,
 ) *Collection {
 	it.items = append(
-		(it.items)[:index],
-		(it.items)[index+1:]...,
+		it.items[:index],
+		it.items[index+1:]...,
 	)
 
 	return it

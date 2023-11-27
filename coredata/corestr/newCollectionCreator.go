@@ -45,7 +45,7 @@ func (it *newCollectionCreator) Strings(stringItems []string) *Collection {
 	}
 }
 
-func (it *newCollectionCreator) StringsOption(
+func (it *newCollectionCreator) StringsOptions(
 	isMakeClone bool,
 	stringItems []string,
 ) *Collection {
@@ -104,7 +104,7 @@ func (it *newCollectionCreator) CapStrings(
 	stringItems []string,
 ) *Collection {
 	if additionalCap == 0 {
-		return it.StringsOption(
+		return it.StringsOptions(
 			false,
 			stringItems,
 		)
