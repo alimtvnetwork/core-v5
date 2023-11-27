@@ -168,39 +168,6 @@ func (it *Hashset) ConcatNewHashsets(
 	return newHashset
 }
 
-func (it *Hashset) ConcatNewStringsPointers(
-	isCloneCurrentOnEmpty bool,
-	stringsOfStringsItems ...*[]string,
-) *Hashset {
-	isEmpty := len(stringsOfStringsItems) == 0
-
-	if isEmpty {
-		return New.Hashset.UsingMapOption(
-			constants.Zero,
-			isCloneCurrentOnEmpty,
-			it.items,
-		)
-	}
-
-	length := AllIndividualItemsStringsOfStringsPointerLength(&stringsOfStringsItems) +
-		it.Length() +
-		constants.Capacity4
-
-	newHashset := New.Hashset.UsingMapOption(
-		length,
-		isCloneCurrentOnEmpty,
-		it.items,
-	)
-
-	newHashset.AddHashsetItems(it)
-
-	for _, stringsItems := range stringsOfStringsItems {
-		newHashset.AddStringsPtr(stringsItems)
-	}
-
-	return newHashset
-}
-
 func (it *Hashset) ConcatNewStrings(
 	isCloneCurrentOnEmpty bool,
 	stringsOfStringsItems ...[]string,
@@ -471,12 +438,12 @@ func (it *Hashset) AddHashsetWgLock(
 	return it
 }
 
-func (it *Hashset) AddStringsPtr(keys *[]string) *Hashset {
+func (it *Hashset) AddStrings(keys []string) *Hashset {
 	if keys == nil {
 		return it
 	}
 
-	for _, key := range *keys {
+	for _, key := range keys {
 		it.items[key] = true
 	}
 
@@ -485,20 +452,12 @@ func (it *Hashset) AddStringsPtr(keys *[]string) *Hashset {
 	return it
 }
 
-func (it *Hashset) AddStrings(keys []string) *Hashset {
-	if len(keys) == 0 {
-		return it
-	}
-
-	return it.AddStringsPtr(&keys)
-}
-
 func (it *Hashset) AddSimpleSlice(simpleSlice *SimpleSlice) *Hashset {
 	if simpleSlice.IsEmpty() {
 		return it
 	}
 
-	return it.AddStringsPtr(&simpleSlice.Items)
+	return it.Adds(simpleSlice.Items...)
 }
 
 func (it *Hashset) AddStringsPtrLock(keys *[]string) *Hashset {

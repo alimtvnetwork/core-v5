@@ -314,7 +314,9 @@ func (it *LinkedCollections) Add(collection *Collection) *LinkedCollections {
 	return it
 }
 
-func (it *LinkedCollections) AddStringsLock(stringsItems ...string) *LinkedCollections {
+func (it *LinkedCollections) AddStringsLock(
+	stringsItems ...string,
+) *LinkedCollections {
 	if len(stringsItems) == 0 {
 		return it
 	}
@@ -322,15 +324,19 @@ func (it *LinkedCollections) AddStringsLock(stringsItems ...string) *LinkedColle
 	it.Lock()
 	defer it.Unlock()
 
-	return it.AddStringsPtr(false, &stringsItems)
+	return it.AddStrings(stringsItems...)
 }
 
-func (it *LinkedCollections) AddStrings(stringsItems ...string) *LinkedCollections {
+func (it *LinkedCollections) AddStrings(
+	stringsItems ...string,
+) *LinkedCollections {
 	if len(stringsItems) == 0 {
 		return it
 	}
 
-	collection := New.Collection.StringsOptions(false, stringsItems)
+	collection := New.Collection.StringsOptions(
+		false,
+		stringsItems)
 
 	return it.Add(collection)
 }
@@ -978,31 +984,6 @@ func (it *LinkedCollections) AddAfterNodeAsync(
 	}()
 }
 
-// AddStringsPtrAsync add to back
-func (it *LinkedCollections) AddStringsPtrAsync(
-	wg *sync.WaitGroup,
-	isMakeClone bool,
-	items *[]string,
-) *LinkedCollections {
-	if items == nil {
-		return it
-	}
-
-	go func() {
-		collection := New.Collection.StringsPtrOption(isMakeClone, items)
-
-		it.Lock()
-
-		it.Add(collection)
-
-		it.Unlock()
-
-		wg.Done()
-	}()
-
-	return it
-}
-
 func (it *LinkedCollections) ConcatNew(
 	isMakeCloneOnEmpty bool,
 	linkedCollectionsOfCollection ...*LinkedCollections,
@@ -1071,22 +1052,22 @@ func (it *LinkedCollections) AddAsyncFuncItems(
 func (it *LinkedCollections) AddAsyncFuncItemsPointer(
 	wg *sync.WaitGroup,
 	isMakeClone bool,
-	asyncFunctions ...func() *[]string,
+	asyncFunctions ...func() []string,
 ) *LinkedCollections {
 	if asyncFunctions == nil {
 		return it
 	}
 
-	asyncFuncWrap := func(asyncFunc func() *[]string) {
+	asyncFuncWrap := func(asyncFunc func() []string) {
 		items := asyncFunc()
 
-		if items == nil || len(*items) == 0 {
+		if len(items) == 0 {
 			wg.Done()
 
 			return
 		}
 
-		collection := New.Collection.StringsPtrOption(isMakeClone, items)
+		collection := New.Collection.StringsOptions(isMakeClone, items)
 
 		it.Lock()
 		it.Add(collection)
@@ -1104,38 +1085,21 @@ func (it *LinkedCollections) AddAsyncFuncItemsPointer(
 	return it
 }
 
-// AddStringsPtr add to back
-func (it *LinkedCollections) AddStringsPtr(
+// AddStringsOfStrings add to back
+func (it *LinkedCollections) AddStringsOfStrings(
 	isMakeClone bool,
-	items *[]string,
+	items ...[]string,
 ) *LinkedCollections {
-	if items == nil {
+	if len(items) == 0 {
 		return it
 	}
 
-	collection := New.Collection.StringsPtrOption(isMakeClone, items)
-
-	return it.Add(collection)
-}
-
-// AddStringsOfStringsPtr add to back
-func (it *LinkedCollections) AddStringsOfStringsPtr(
-	items *[]*[]string,
-	isMakeClone bool,
-) *LinkedCollections {
-	if items == nil || len(*items) == 0 {
-		return it
-	}
-
-	for _, stringItems := range *items {
+	for _, stringItems := range items {
 		if stringItems == nil {
 			continue
 		}
 
-		it.AddStringsPtr(
-			isMakeClone,
-			stringItems,
-		)
+		it.AddStrings(stringItems...)
 	}
 
 	return it
@@ -1218,30 +1182,17 @@ func (it *LinkedCollections) SafeIndexAt(
 	return nil
 }
 
-// AddPointerStringsPtr skip on nil, add to back
-func (it *LinkedCollections) AddPointerStringsPtr(
-	items *[]*string,
-) *LinkedCollections {
-	if items == nil {
-		return it
-	}
-
-	collection := New.Collection.PointerStrings(*items)
-
-	return it.Add(collection)
-}
-
-// AddPointerStringsPtrAsync skip on nil, add to back
-func (it *LinkedCollections) AddPointerStringsPtrAsync(
+// AddStringsAsync skip on nil, add to back
+func (it *LinkedCollections) AddStringsAsync(
 	wg *sync.WaitGroup,
-	items *[]*string,
+	items []string,
 ) *LinkedCollections {
 	if items == nil {
 		return it
 	}
 
 	go func() {
-		collection := New.Collection.PointerStrings(*items)
+		collection := New.Collection.Strings(items)
 
 		it.Lock()
 		it.Add(collection)
@@ -1266,13 +1217,13 @@ func (it *LinkedCollections) AddCollection(
 
 // AddCollectionsPtr skip on nil
 func (it *LinkedCollections) AddCollectionsPtr(
-	collectionsOfCollection *[]*Collection,
+	collectionsOfCollection []*Collection,
 ) *LinkedCollections {
-	if collectionsOfCollection == nil || len(*collectionsOfCollection) == 0 {
+	if len(collectionsOfCollection) == 0 {
 		return it
 	}
 
-	return it.AddCollections(*collectionsOfCollection)
+	return it.AddCollections(collectionsOfCollection)
 }
 
 // AddCollections skip on nil

@@ -667,14 +667,13 @@ func (it *CharHashsetMap) AddStringPtrLock(
 // AddSameStartingCharItems Assuming all items starts with same chars
 func (it *CharHashsetMap) AddSameStartingCharItems(
 	char byte,
-	allItemsWithSameChar *[]string,
+	allItemsWithSameChar []string,
 ) *CharHashsetMap {
-	if allItemsWithSameChar == nil ||
-		*allItemsWithSameChar == nil {
+	if len(allItemsWithSameChar) == 0 {
 		return it
 	}
 
-	length := len(*allItemsWithSameChar)
+	length := len(allItemsWithSameChar)
 
 	if length == 0 {
 		return it
@@ -689,7 +688,7 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 	}
 
 	it.items[char] =
-		New.Hashset.StringsPtr(
+		New.Hashset.Strings(
 			allItemsWithSameChar)
 
 	return it
@@ -788,22 +787,6 @@ func (it *CharHashsetMap) efficientAddOfLargeItems(
 
 	if onComplete != nil {
 		onComplete(it)
-	}
-
-	return it
-}
-
-func (it *CharHashsetMap) AddStringsPtr(
-	items *[]string,
-) *CharHashsetMap {
-	if items == nil ||
-		*items == nil ||
-		len(*items) == 0 {
-		return it
-	}
-
-	for _, item := range *items {
-		it.AddStringPtr(&item)
 	}
 
 	return it
