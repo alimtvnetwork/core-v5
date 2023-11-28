@@ -41,7 +41,8 @@ func (it *newCollectionsOfCollectionCreator) SpreadStrings(
 	stringItems ...string,
 ) *CollectionsOfCollection {
 	length := len(
-		stringItems)
+		stringItems,
+	)
 
 	return it.LenCap(
 		constants.Zero,
@@ -58,20 +59,24 @@ func (it *newCollectionsOfCollectionCreator) CloneStrings(
 	return it.StringsOption(
 		true,
 		0,
-		stringItems)
+		stringItems,
+	)
 }
 
 func (it *newCollectionsOfCollectionCreator) Strings(
 	stringItems []string,
 ) *CollectionsOfCollection {
 	length := len(
-		stringItems)
+		stringItems,
+	)
 	collection := it.Cap(
-		length)
+		length,
+	)
 
 	return collection.AddStrings(
 		false,
-		stringItems)
+		stringItems,
+	)
 }
 
 func (it *newCollectionsOfCollectionCreator) StringsOption(
@@ -81,14 +86,16 @@ func (it *newCollectionsOfCollectionCreator) StringsOption(
 ) *CollectionsOfCollection {
 	length := len(stringItems)
 	collection := it.Cap(
-		length + capacity)
+		length + capacity,
+	)
 
 	return collection.AddStrings(
 		isMakeClone,
-		stringItems)
+		stringItems,
+	)
 }
 
-func (it *newCollectionsOfCollectionCreator) StringsPtrOption(
+func (it *newCollectionsOfCollectionCreator) StringsOptions(
 	isMakeClone bool,
 	capacity int,
 	stringItems []string,
@@ -98,7 +105,8 @@ func (it *newCollectionsOfCollectionCreator) StringsPtrOption(
 
 	return collection.AddStrings(
 		isMakeClone,
-		stringItems)
+		stringItems,
+	)
 }
 
 func (it *newCollectionsOfCollectionCreator) LenCap(
@@ -108,7 +116,8 @@ func (it *newCollectionsOfCollectionCreator) LenCap(
 	collection := make(
 		[]*Collection,
 		length,
-		capacity)
+		capacity,
+	)
 
 	return &CollectionsOfCollection{
 		items: collection,

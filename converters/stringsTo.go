@@ -534,3 +534,20 @@ func (it stringsTo) PtrOfPtrToMapStringBool(inputArray *[]*string) map[string]bo
 
 	return hashset
 }
+
+func (it stringsTo) CloneIf(
+	isClone bool,
+	items ...string,
+) []string {
+	if len(items) == 0 || isClone {
+		return items
+	}
+
+	newArray := make([]string, len(items))
+
+	for i, value := range items {
+		newArray[i] = value
+	}
+
+	return newArray
+}

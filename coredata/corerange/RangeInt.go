@@ -57,15 +57,17 @@ func NewRangeInt(
 	var start, end int
 
 	if hasStart {
-		start, isValid = converters.StringToIntegerWithDefault(
+		start, isValid = converters.StringTo.IntegerWithDefault(
 			ranges[coreindexes.First],
-			constants.MaxInt)
+			constants.MaxInt,
+		)
 	}
 
 	if hasEnd {
-		end, isValid = converters.StringToIntegerWithDefault(
+		end, isValid = converters.StringTo.IntegerWithDefault(
 			ranges[coreindexes.Second],
-			constants.MinInt)
+			constants.MinInt,
+		)
 	}
 
 	isValid = isValid &&

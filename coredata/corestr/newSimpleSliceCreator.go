@@ -58,7 +58,8 @@ func (it *newSimpleSliceCreator) DeserializeJsoner(
 		UsingJsonerToAny(
 			true,
 			jsoner,
-			empty)
+			empty,
+		)
 
 	if err == nil {
 		return empty, nil
@@ -133,7 +134,7 @@ func (it *newSimpleSliceCreator) StringsPtr(
 	}
 }
 
-func (it *newSimpleSliceCreator) StringsPtrOption(
+func (it *newSimpleSliceCreator) StringsOptions(
 	isClone bool,
 	lines *[]string,
 ) *SimpleSlice {

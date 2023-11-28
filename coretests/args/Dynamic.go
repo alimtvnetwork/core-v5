@@ -208,7 +208,7 @@ func (it *Dynamic) HasExpect() bool {
 func (it *Dynamic) ValidArgs() []interface{} {
 	var args []interface{}
 
-	keys := it.Params.SortedKeys()
+	keys := it.Params.SortedKeysMust()
 	isDefined := reflectinternal.Is.Defined
 	isNotFunc := reflectinternal.Is.NotFunc
 

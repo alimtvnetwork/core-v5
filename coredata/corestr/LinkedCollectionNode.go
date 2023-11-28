@@ -44,20 +44,21 @@ func (linkedCollectionNode *LinkedCollectionNode) AddNext(
 	return newNode
 }
 
-func (linkedCollectionNode *LinkedCollectionNode) AddStringsPtrToNode(
+func (linkedCollectionNode *LinkedCollectionNode) AddStringsToNode(
 	linkedCollection *LinkedCollections,
 	isSkipOnNull bool,
-	items *[]string,
+	items []string,
 	isMakeClone bool,
 ) *LinkedCollections {
 	collection := New.
 		Collection.
-		StringsPtrOption(isMakeClone, items)
+		StringsOptions(isMakeClone, items)
 
 	return linkedCollection.AddCollectionToNode(
 		isSkipOnNull,
 		linkedCollectionNode,
-		collection)
+		collection,
+	)
 }
 
 func (linkedCollectionNode *LinkedCollectionNode) AddCollectionToNode(
@@ -68,7 +69,8 @@ func (linkedCollectionNode *LinkedCollectionNode) AddCollectionToNode(
 	return linkedCollection.AddCollectionToNode(
 		isSkipOnNull,
 		linkedCollectionNode,
-		collection)
+		collection,
+	)
 }
 
 func (linkedCollectionNode *LinkedCollectionNode) AddNextNode(
@@ -158,7 +160,8 @@ func (linkedCollectionNode *LinkedCollectionNode) isNextEqual(
 	return next1.
 		Element.
 		IsEqualsPtr(
-			next2.Element)
+			next2.Element,
+		)
 }
 
 func (linkedCollectionNode *LinkedCollectionNode) isNextChainEqual(

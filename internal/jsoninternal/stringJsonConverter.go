@@ -1,6 +1,11 @@
 package jsoninternal
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+
+	"gitlab.com/auk-go/core/constants"
+)
 
 type stringJsonConverter struct{}
 
@@ -38,4 +43,13 @@ func (it stringJsonConverter) Pretty(
 	}
 
 	return Pretty.Bytes.Prefix("", b)
+}
+
+func (it stringJsonConverter) StringValue(name string) []byte {
+	doubleQuoted := fmt.Sprintf(
+		constants.SprintDoubleQuoteFormat,
+		name,
+	)
+
+	return []byte(doubleQuoted)
 }

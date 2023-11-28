@@ -242,14 +242,14 @@ func (it *Hashmap) AddsOrUpdates(
 	return it
 }
 
-func (it *Hashmap) AddOrUpdateKeyAnyValsPtr(
-	pairs *[]KeyAnyValuePair,
+func (it *Hashmap) AddOrUpdateKeyAnyValues(
+	pairs ...KeyAnyValuePair,
 ) *Hashmap {
-	if pairs == nil || *pairs == nil {
+	if len(pairs) == 0 {
 		return it
 	}
 
-	for _, pair := range *pairs {
+	for _, pair := range pairs {
 		it.items[pair.Key] = pair.ValueString()
 	}
 
@@ -258,14 +258,14 @@ func (it *Hashmap) AddOrUpdateKeyAnyValsPtr(
 	return it
 }
 
-func (it *Hashmap) AddOrUpdateKeyValsPtr(
-	pairs *[]KeyValuePair,
+func (it *Hashmap) AddOrUpdateKeyValues(
+	pairs ...KeyValuePair,
 ) *Hashmap {
-	if pairs == nil || *pairs == nil {
+	if len(pairs) == 0 {
 		return it
 	}
 
-	for _, pair := range *pairs {
+	for _, pair := range pairs {
 		it.items[pair.Key] = pair.Value
 	}
 

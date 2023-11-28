@@ -11,7 +11,8 @@ var (
 	Map         = convertinteranl.Map
 	StringTo    = stringTo{}
 	PrettyJson  = jsoninternal.Pretty
+	JsonString  = jsoninternal.String
 	BytesTo     = bytesTo{}
 	Integers    = convertinteranl.Integers
-	KeyValuesTO = convertinteranl.KeyValuesTo
+	KeyValuesTo = convertinteranl.KeyValuesTo
 )
