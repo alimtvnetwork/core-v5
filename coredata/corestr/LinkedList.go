@@ -68,26 +68,16 @@ func (it *LinkedList) LengthLock() int {
 	return it.length
 }
 
-//goland:noinspection GoVetCopyLock
 func (it *LinkedList) IsEquals(
-	anotherLinkedList LinkedList,
-) bool {
-	return it.IsEqualsWithSensitivePtr(
-		&anotherLinkedList,
-		true,
-	)
-}
-
-func (it *LinkedList) IsEqualsPtr(
 	anotherLinkedList *LinkedList,
 ) bool {
-	return it.IsEqualsWithSensitivePtr(
+	return it.IsEqualsWithSensitive(
 		anotherLinkedList,
 		true,
 	)
 }
 
-func (it *LinkedList) IsEqualsWithSensitivePtr(
+func (it *LinkedList) IsEqualsWithSensitive(
 	anotherLinkedList *LinkedList,
 	isCaseSensitive bool,
 ) bool {
@@ -616,7 +606,7 @@ func (it *LinkedList) GetCompareSummary(
 		rightName,
 		rLen,
 		right,
-		it.IsEqualsPtr(right),
+		it.IsEquals(right),
 		lLen,
 		rLen,
 	)
