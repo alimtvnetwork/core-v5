@@ -464,8 +464,8 @@ func (it *CharCollectionMap) IsEqualsCaseSensitive(
 		}
 
 		if !rCollection.IsEqualsWithSensitive(
-			collection,
 			isCaseSensitive,
+			collection,
 		) {
 			return false
 		}

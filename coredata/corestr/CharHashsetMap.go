@@ -661,21 +661,20 @@ func (it *CharHashsetMap) AddSameStartingCharItems(
 	return it
 }
 
-func (it *CharHashsetMap) AddPtrStringsLock(
-	simpleStrings *[]*string,
+func (it *CharHashsetMap) AddStringsLock(
+	simpleStrings ...string,
 ) *CharHashsetMap {
-	if simpleStrings == nil ||
-		*simpleStrings == nil ||
-		len(*simpleStrings) == 0 {
+	if len(simpleStrings) == 0 {
 		return it
 	}
 
-	for _, item := range *simpleStrings {
+	for _, item := range simpleStrings {
 		foundHashset := it.GetHashsetLock(
-			*item, true,
+			true,
+			item,
 		)
 
-		foundHashset.AddPtrLock(item)
+		foundHashset.AddLock(item)
 	}
 
 	return it
@@ -698,8 +697,8 @@ func (it *CharHashsetMap) AddStringsAsyncLock(
 	if isListIsTooLargeAndHasExistingData {
 		return it.
 			efficientAddOfLargeItems(
-				largeStringsHashset,
 				onComplete,
+				largeStringsHashset...,
 			)
 	}
 
@@ -708,8 +707,8 @@ func (it *CharHashsetMap) AddStringsAsyncLock(
 
 	for _, item := range largeStringsHashset {
 		foundHashset := it.GetHashsetLock(
-			item,
 			true,
+			item,
 		)
 
 		go foundHashset.AddWithWgLock(
@@ -728,18 +727,18 @@ func (it *CharHashsetMap) AddStringsAsyncLock(
 }
 
 func (it *CharHashsetMap) efficientAddOfLargeItems(
-	largeStringsHashset []string,
 	onComplete OnCompleteCharHashsetMap,
+	largeStringsHashset ...string,
 ) *CharHashsetMap {
-	allCharsMap := it.GetCharsGroups(largeStringsHashset)
+	allCharsMap := it.GetCharsGroups(largeStringsHashset...)
 
 	wg := &sync.WaitGroup{}
 	wg.Add(allCharsMap.Length())
 
 	for key, hashset := range allCharsMap.items {
 		foundHashset := it.GetHashsetLock(
-			string(key),
 			true,
+			string(key),
 		)
 
 		go foundHashset.AddHashsetWgLock(
@@ -766,7 +765,7 @@ func (it *CharHashsetMap) AddStrings(
 	}
 
 	for _, item := range items {
-		it.AddStringPtr(&item)
+		it.Add(item)
 	}
 
 	return it
@@ -795,8 +794,8 @@ func (it *CharHashsetMap) GetHashset(
 }
 
 func (it *CharHashsetMap) GetHashsetLock(
-	strFirstChar string,
 	isAddNewOnEmpty bool,
+	strFirstChar string,
 ) *Hashset {
 	it.Lock()
 	defer it.Unlock()
@@ -933,8 +932,8 @@ func (it *CharHashsetMap) AddSameCharsCollectionLock(
 		stringsWithSameStartChar.IsEmpty()
 
 	foundHashset := it.GetHashsetLock(
-		str,
 		false,
+		str,
 	)
 	has := foundHashset != nil
 	isAddToHashset := has &&
@@ -988,8 +987,8 @@ func (it *CharHashsetMap) AddHashsetLock(
 		stringsWithSameStartChar.IsEmpty()
 
 	foundHashset := it.GetHashsetLock(
-		str,
 		false,
+		str,
 	)
 	has := foundHashset != nil
 	isAddToHashset := has && !isNilOrEmptyHashsetGiven
