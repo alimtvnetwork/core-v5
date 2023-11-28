@@ -340,7 +340,7 @@ func (it *HashsetsCollection) Join(
 	separator string,
 ) string {
 	return strings.Join(
-		*it.StringsList(),
+		it.StringsList(),
 		separator,
 	)
 }
