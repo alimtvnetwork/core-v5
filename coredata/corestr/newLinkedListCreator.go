@@ -33,7 +33,7 @@ func (it *newLinkedListCreator) Strings(
 	linkedList := it.Create()
 
 	return linkedList.
-		AddStrings(stringItems...)
+		Adds(stringItems...)
 }
 
 func (it *newLinkedListCreator) SpreadStrings(
@@ -46,7 +46,7 @@ func (it *newLinkedListCreator) SpreadStrings(
 	linkedList := it.Create()
 
 	return linkedList.
-		AddStrings(stringItems...)
+		Adds(stringItems...)
 }
 
 func (it *newLinkedListCreator) UsingMap(

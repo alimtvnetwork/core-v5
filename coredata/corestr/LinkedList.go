@@ -258,7 +258,7 @@ func (it *LinkedList) AddIf(isAdd bool, item string) *LinkedList {
 	return it.Add(item)
 }
 
-func (it *LinkedList) AddIfMany(
+func (it *LinkedList) AddsIf(
 	isAdd bool,
 	addingStrings ...string,
 ) *LinkedList {
@@ -266,7 +266,7 @@ func (it *LinkedList) AddIfMany(
 		return it
 	}
 
-	return it.AddStrings(addingStrings...)
+	return it.Adds(addingStrings...)
 }
 
 func (it *LinkedList) AddFunc(f func() string) *LinkedList {
@@ -718,8 +718,8 @@ func (it *LinkedList) AddAfterNode(
 	return newNode
 }
 
-// AddStrings items add to back
-func (it *LinkedList) AddStrings(items ...string) *LinkedList {
+// Adds items add to back
+func (it *LinkedList) Adds(items ...string) *LinkedList {
 	if len(items) == 0 {
 		return it
 	}
@@ -731,12 +731,24 @@ func (it *LinkedList) AddStrings(items ...string) *LinkedList {
 	return it
 }
 
-// AddStringsLock add to back
-func (it *LinkedList) AddStringsLock(items ...string) *LinkedList {
+func (it *LinkedList) AddStrings(items []string) *LinkedList {
+	if len(items) == 0 {
+		return it
+	}
+
+	for _, item := range items {
+		it.Add(item)
+	}
+
+	return it
+}
+
+// AddsLock add to back
+func (it *LinkedList) AddsLock(items ...string) *LinkedList {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.AddStrings(items...)
+	return it.Adds(items...)
 }
 
 // IndexAt Expensive operation BigO(n)
@@ -1038,7 +1050,7 @@ func (it *LinkedList) UnmarshalJSON(data []byte) error {
 
 	if err == nil {
 		it.Clear()
-		it.AddStrings(dataModelStrings...)
+		it.Adds(dataModelStrings...)
 	}
 
 	return err
