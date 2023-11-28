@@ -40,9 +40,9 @@ func (it *HashsetsCollection) List() []*Hashset {
 	return it.items
 }
 
-func (it *HashsetsCollection) StringsList() *[]string {
+func (it *HashsetsCollection) StringsList() []string {
 	if it.IsEmpty() {
-		return constants.EmptyStringsPtr
+		return []string{}
 	}
 
 	completeLength := 0
@@ -60,7 +60,7 @@ func (it *HashsetsCollection) StringsList() *[]string {
 		}
 	}
 
-	return &stringsList
+	return stringsList
 }
 
 // HasAll items returns false
