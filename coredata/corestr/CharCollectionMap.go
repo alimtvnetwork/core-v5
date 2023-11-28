@@ -28,17 +28,7 @@ func (it *CharCollectionMap) GetChar(
 	return emptyChar
 }
 
-func (it *CharCollectionMap) GetCharOfPtr(
-	str *string,
-) byte {
-	if str == nil || *str == "" {
-		return emptyChar
-	}
-
-	return (*str)[coreindexes.First]
-}
-
-func (it *CharCollectionMap) GetCharsPtrGroups(
+func (it *CharCollectionMap) GetCharsGroups(
 	items []string,
 ) *CharCollectionMap {
 	if len(items) == 0 {
@@ -405,43 +395,43 @@ func (it *CharCollectionMap) LengthLock() int {
 	return len(it.items)
 }
 
-func (it *CharCollectionMap) IsEqualsPtrLock(
+func (it *CharCollectionMap) IsEqualsLock(
 	another *CharCollectionMap,
 ) bool {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.IsEqualsWithCaseSensitivityPtr(
-		another,
+	return it.IsEqualsCaseSensitive(
 		true,
+		another,
 	)
 }
 
-func (it *CharCollectionMap) IsEqualsPtr(
+func (it *CharCollectionMap) IsEquals(
 	another *CharCollectionMap,
 ) bool {
-	return it.IsEqualsWithCaseSensitivityPtr(
-		another,
+	return it.IsEqualsCaseSensitive(
 		true,
+		another,
 	)
 }
 
-func (it *CharCollectionMap) IsEqualsWithCaseSensitivityPtrLock(
-	another *CharCollectionMap,
+func (it *CharCollectionMap) IsEqualsCaseSensitiveLock(
 	isCaseSensitive bool,
+	another *CharCollectionMap,
 ) bool {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.IsEqualsWithCaseSensitivityPtr(
-		another,
+	return it.IsEqualsCaseSensitive(
 		isCaseSensitive,
+		another,
 	)
 }
 
-func (it *CharCollectionMap) IsEqualsWithCaseSensitivityPtr(
-	another *CharCollectionMap,
+func (it *CharCollectionMap) IsEqualsCaseSensitive(
 	isCaseSensitive bool,
+	another *CharCollectionMap,
 ) bool {
 	if another == nil {
 		return false
@@ -473,7 +463,7 @@ func (it *CharCollectionMap) IsEqualsWithCaseSensitivityPtr(
 			return false
 		}
 
-		if !rCollection.IsEqualsWithSensitivePtr(
+		if !rCollection.IsEqualsWithSensitive(
 			collection,
 			isCaseSensitive,
 		) {

@@ -101,18 +101,18 @@ func (it *Collection) LengthLock() int {
 	return len(it.items)
 }
 
-func (it *Collection) IsEqualsPtr(
+func (it *Collection) IsEquals(
 	anotherCollection *Collection,
 ) bool {
-	return it.IsEqualsWithSensitivePtr(
-		anotherCollection,
+	return it.IsEqualsWithSensitive(
 		true,
+		anotherCollection,
 	)
 }
 
-func (it *Collection) IsEqualsWithSensitivePtr(
-	anotherCollection *Collection,
+func (it *Collection) IsEqualsWithSensitive(
 	isCaseSensitive bool,
+	anotherCollection *Collection,
 ) bool {
 	if anotherCollection == nil && it == nil {
 		return true

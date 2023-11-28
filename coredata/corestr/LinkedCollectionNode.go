@@ -133,7 +133,7 @@ func (linkedCollectionNode *LinkedCollectionNode) IsEqual(another *LinkedCollect
 		return true
 	}
 
-	isElementSame := elem1.IsEqualsPtr(elem2)
+	isElementSame := elem1.IsEquals(elem2)
 
 	return isElementSame &&
 		linkedCollectionNode.isNextEqual(another)
@@ -159,7 +159,7 @@ func (linkedCollectionNode *LinkedCollectionNode) isNextEqual(
 
 	return next1.
 		Element.
-		IsEqualsPtr(
+		IsEquals(
 			next2.Element,
 		)
 }
@@ -197,7 +197,7 @@ func (linkedCollectionNode *LinkedCollectionNode) IsEqualValue(collection *Colle
 		return true
 	}
 
-	return elem1.IsEqualsPtr(collection)
+	return elem1.IsEquals(collection)
 }
 
 func (linkedCollectionNode *LinkedCollectionNode) EndOfChain() (

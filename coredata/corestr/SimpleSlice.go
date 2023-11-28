@@ -73,7 +73,8 @@ func (it *SimpleSlice) AppendFmt(
 
 	it.Items = append(
 		it.Items,
-		fmt.Sprintf(format, v...))
+		fmt.Sprintf(format, v...),
+	)
 
 	return it
 }
@@ -92,7 +93,8 @@ func (it *SimpleSlice) AppendFmtIf(
 
 	it.Items = append(
 		it.Items,
-		fmt.Sprintf(format, v...))
+		fmt.Sprintf(format, v...),
+	)
 
 	return it
 }
@@ -106,7 +108,8 @@ func (it *SimpleSlice) AddAsTitleValue(
 ) *SimpleSlice {
 	it.Items = append(
 		it.Items,
-		fmt.Sprintf(constants.TitleValueFormat, title, value))
+		fmt.Sprintf(constants.TitleValueFormat, title, value),
+	)
 
 	return it
 }
@@ -120,7 +123,8 @@ func (it *SimpleSlice) AddAsCurlyTitleWrap(
 ) *SimpleSlice {
 	it.Items = append(
 		it.Items,
-		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value))
+		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value),
+	)
 
 	return it
 }
@@ -139,7 +143,8 @@ func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
 
 	it.Items = append(
 		it.Items,
-		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value))
+		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value),
+	)
 
 	return it
 }
@@ -159,7 +164,8 @@ func (it *SimpleSlice) AddAsTitleValueIf(
 
 	it.Items = append(
 		it.Items,
-		fmt.Sprintf(constants.TitleValueFormat, title, value))
+		fmt.Sprintf(constants.TitleValueFormat, title, value),
+	)
 
 	return it
 }
@@ -184,7 +190,8 @@ func (it *SimpleSlice) AddStruct(
 
 	val := AnyToString(
 		isIncludeFieldName,
-		anyStruct)
+		anyStruct,
+	)
 
 	return it.Add(val)
 }
@@ -199,7 +206,8 @@ func (it *SimpleSlice) AddPointer(
 
 	val := AnyToString(
 		isIncludeFieldName,
-		anyPtr)
+		anyPtr,
+	)
 
 	return it.Add(val)
 }
@@ -234,7 +242,8 @@ func (it *SimpleSlice) AsError(joiner string) error {
 
 	errStr := strings.Join(
 		it.Items,
-		joiner)
+		joiner,
+	)
 
 	return errors.New(errStr)
 }
@@ -373,7 +382,8 @@ func (it *SimpleSlice) JoinLine() string {
 
 	return strings.Join(
 		it.Items,
-		constants.DefaultLine)
+		constants.DefaultLine,
+	)
 }
 
 // JoinLineEofLine
@@ -386,7 +396,8 @@ func (it *SimpleSlice) JoinLineEofLine() string {
 
 	joined := strings.Join(
 		it.Items,
-		constants.DefaultLine)
+		constants.DefaultLine,
+	)
 
 	if strings.HasSuffix(joined, constants.DefaultLine) {
 		// already contains
@@ -605,18 +616,21 @@ func (it *SimpleSlice) String() string {
 
 	return strings.Join(
 		it.Items,
-		constants.NewLineUnix)
+		constants.NewLineUnix,
+	)
 }
 
 func (it *SimpleSlice) ConcatNewSimpleSlices(items ...*SimpleSlice) *SimpleSlice {
 	items2 := append(
 		items,
-		it)
+		it,
+	)
 	length := AllIndividualsLengthOfSimpleSlices(items2...)
 	slice := make(
 		[]string,
 		0,
-		length)
+		length,
+	)
 
 	slice = append(slice, it.Items...)
 
@@ -635,7 +649,8 @@ func (it *SimpleSlice) ConcatNewStrings(items ...string) []string {
 	slice := make(
 		[]string,
 		0,
-		it.Length()+len(items))
+		it.Length()+len(items),
+	)
 
 	slice = append(slice, it.Items...)
 	slice = append(slice, items...)
@@ -665,7 +680,8 @@ func (it *SimpleSlice) CsvStrings() []string {
 	for i, item := range it.Items {
 		newSlice[i] = fmt.Sprintf(
 			constants.SprintDoubleQuoteFormat,
-			item)
+			item,
+		)
 	}
 
 	return newSlice
@@ -838,7 +854,8 @@ func (it SimpleSlice) Clone(isDeepClone bool) SimpleSlice {
 	return SimpleSlice{
 		Items: CloneSliceIf(
 			isDeepClone,
-			it.Items...),
+			it.Items...,
+		),
 	}
 }
 
@@ -848,7 +865,8 @@ func (it *SimpleSlice) ClonePtr(isDeepClone bool) *SimpleSlice {
 	}
 
 	cloned := it.Clone(
-		isDeepClone)
+		isDeepClone,
+	)
 
 	return &cloned
 }
@@ -862,11 +880,11 @@ func (it SimpleSlice) ShadowClone() *SimpleSlice {
 }
 
 func (it SimpleSlice) IsDistinctEqualRaw(rightLines ...string) bool {
-	return it.Hashset().IsEqualsPtr(New.Hashset.Strings(rightLines))
+	return it.Hashset().IsEquals(New.Hashset.Strings(rightLines))
 }
 
 func (it SimpleSlice) IsDistinctEqual(rightSlice *SimpleSlice) bool {
-	return it.Hashset().IsEqualsPtr(rightSlice.Hashset())
+	return it.Hashset().IsEquals(rightSlice.Hashset())
 }
 
 // IsUnorderedEqualRaw
@@ -901,7 +919,8 @@ func (it SimpleSlice) IsUnorderedEqualRaw(
 	it.Sort()
 	rightSort := New.SimpleSlice.Direct(
 		false,
-		rightLines)
+		rightLines,
+	)
 	rightSort.Sort()
 
 	return it.IsEqual(rightSort)
@@ -928,7 +947,8 @@ func (it SimpleSlice) IsUnorderedEqual(
 
 	return it.IsUnorderedEqualRaw(
 		isClone,
-		rightSlice.Items...)
+		rightSlice.Items...,
+	)
 }
 
 // IsEqualByFunc

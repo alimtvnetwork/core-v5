@@ -573,7 +573,8 @@ func (it *Hashset) AddsAnyUsingFilterLock(
 
 		anyStr := fmt.Sprintf(
 			constants.SprintValueFormat,
-			any)
+			any,
+		)
 
 		result, isKeep, isBreak := filter(anyStr, i)
 
@@ -773,7 +774,8 @@ func (it *Hashset) GetFilteredItems(
 	filteredList := make(
 		[]string,
 		0,
-		it.Length())
+		it.Length(),
+	)
 
 	i := 0
 	for key := range it.items {
@@ -786,7 +788,8 @@ func (it *Hashset) GetFilteredItems(
 
 		filteredList = append(
 			filteredList,
-			result)
+			result,
+		)
 
 		if isBreak {
 			return &filteredList
@@ -807,7 +810,8 @@ func (it *Hashset) GetFilteredCollection(
 	filteredList := make(
 		[]string,
 		0,
-		it.Length())
+		it.Length(),
+	)
 
 	i := 0
 	for key := range it.items {
@@ -820,18 +824,21 @@ func (it *Hashset) GetFilteredCollection(
 
 		filteredList = append(
 			filteredList,
-			result)
+			result,
+		)
 
 		if isBreak {
 			return New.Collection.StringsOptions(
 				false,
-				filteredList)
+				filteredList,
+			)
 		}
 	}
 
 	return New.Collection.StringsOptions(
 		false,
-		filteredList)
+		filteredList,
+	)
 }
 
 // GetAllExceptHashset Get all hashset items except the mentioned ones in anotherHashset.
@@ -849,7 +856,8 @@ func (it *Hashset) GetAllExceptHashset(
 	finalList := make(
 		[]string,
 		0,
-		it.Length())
+		it.Length(),
+	)
 
 	for item := range it.items {
 		if anotherHashset.Has(item) {
@@ -858,7 +866,8 @@ func (it *Hashset) GetAllExceptHashset(
 
 		finalList = append(
 			finalList,
-			item)
+			item,
+		)
 	}
 
 	return finalList
@@ -877,10 +886,12 @@ func (it *Hashset) GetAllExcept(
 	}
 
 	newHashset := New.Hashset.Strings(
-		items)
+		items,
+	)
 
 	return it.GetAllExceptHashset(
-		newHashset)
+		newHashset,
+	)
 }
 
 func (it *Hashset) GetAllExceptSpread(
@@ -891,10 +902,12 @@ func (it *Hashset) GetAllExceptSpread(
 	}
 
 	newHashset := New.Hashset.Strings(
-		items)
+		items,
+	)
 
 	return it.GetAllExceptHashset(
-		newHashset)
+		newHashset,
+	)
 }
 
 // GetAllExceptCollection Get all hashset items except the mentioned ones in collection.
@@ -910,7 +923,8 @@ func (it *Hashset) GetAllExceptCollection(
 	}
 
 	return it.GetAllExceptHashset(
-		collection.HashsetAsIs())
+		collection.HashsetAsIs(),
+	)
 }
 
 func (it *Hashset) Items() map[string]bool {
@@ -928,7 +942,8 @@ func (it *Hashset) MapStringAny() map[string]interface{} {
 
 	newMap := make(
 		map[string]interface{},
-		it.Length()+1)
+		it.Length()+1,
+	)
 
 	for name, isSet := range it.items {
 		newMap[name] = isSet
@@ -1062,10 +1077,10 @@ func (it *Hashset) IsEqualsPtrLock(another *Hashset) bool {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.IsEqualsPtr(another)
+	return it.IsEquals(another)
 }
 
-func (it *Hashset) IsEqualsPtr(another *Hashset) bool {
+func (it *Hashset) IsEquals(another *Hashset) bool {
 	if it == nil && another == nil {
 		return true
 	}
@@ -1138,7 +1153,8 @@ func (it Hashset) String() string {
 	return commonJoiner +
 		strings.Join(
 			it.List(),
-			commonJoiner)
+			commonJoiner,
+		)
 }
 
 func (it *Hashset) StringLock() string {
@@ -1152,7 +1168,8 @@ func (it *Hashset) StringLock() string {
 	return commonJoiner +
 		strings.Join(
 			*it.ListPtr(),
-			commonJoiner)
+			commonJoiner,
+		)
 }
 
 func (it Hashset) Join(
@@ -1166,7 +1183,8 @@ func (it Hashset) NonEmptyJoins(
 ) string {
 	return stringslice.NonEmptyJoinPtr(
 		it.ListPtr(),
-		joiner)
+		joiner,
+	)
 }
 
 func (it Hashset) NonWhitespaceJoins(
@@ -1174,7 +1192,8 @@ func (it Hashset) NonWhitespaceJoins(
 ) string {
 	return stringslice.NonWhitespaceJoinPtr(
 		it.ListPtr(),
-		joiner)
+		joiner,
+	)
 }
 
 //goland:noinspection GoLinterLocal
@@ -1289,7 +1308,8 @@ func (it *Hashset) DistinctDiffLinesRaw(
 	diffLines := make(
 		[]string,
 		0,
-		it.Length()+len(rightLines))
+		it.Length()+len(rightLines),
+	)
 
 	for _, rightItem := range rightLines {
 		_, has := it.items[rightItem]
@@ -1300,7 +1320,8 @@ func (it *Hashset) DistinctDiffLinesRaw(
 	}
 
 	rightHashset := converters.StringsTo.Hashset(
-		rightLines)
+		rightLines,
+	)
 
 	for leftItem := range it.items {
 		_, has := rightHashset[leftItem]
@@ -1317,7 +1338,8 @@ func (it *Hashset) DistinctDiffHashset(
 	rightHashset *Hashset,
 ) map[string]bool {
 	return it.DistinctDiffLines(
-		rightHashset.Lines()...)
+		rightHashset.Lines()...,
+	)
 }
 
 func (it *Hashset) DistinctDiffLines(
@@ -1339,7 +1361,8 @@ func (it *Hashset) DistinctDiffLines(
 
 	diffMap := make(
 		map[string]bool,
-		it.Length()+len(rightLines))
+		it.Length()+len(rightLines),
+	)
 
 	for _, rightItem := range rightLines {
 		_, has := it.items[rightItem]
@@ -1350,7 +1373,8 @@ func (it *Hashset) DistinctDiffLines(
 	}
 
 	rightHashset := converters.StringsTo.Hashset(
-		rightLines)
+		rightLines,
+	)
 
 	for leftItem := range it.items {
 		_, has := rightHashset[leftItem]
