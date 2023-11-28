@@ -266,7 +266,7 @@ func (it *LinkedList) AddIfMany(
 		return it
 	}
 
-	return it.AddStringsPtr(&addingStrings)
+	return it.AddStrings(addingStrings...)
 }
 
 func (it *LinkedList) AddFunc(f func() string) *LinkedList {
@@ -718,19 +718,6 @@ func (it *LinkedList) AddAfterNode(
 	return newNode
 }
 
-// AddStringsPtr add to back
-func (it *LinkedList) AddStringsPtr(items *[]string) *LinkedList {
-	if items == nil {
-		return it
-	}
-
-	for _, item := range *items {
-		it.Add(item)
-	}
-
-	return it
-}
-
 // AddStrings items add to back
 func (it *LinkedList) AddStrings(items ...string) *LinkedList {
 	if len(items) == 0 {
@@ -744,12 +731,12 @@ func (it *LinkedList) AddStrings(items ...string) *LinkedList {
 	return it
 }
 
-// AddStringsPtrLock add to back
-func (it *LinkedList) AddStringsPtrLock(items *[]string) *LinkedList {
+// AddStringsLock add to back
+func (it *LinkedList) AddStringsLock(items ...string) *LinkedList {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.AddStringsPtr(items)
+	return it.AddStrings(items...)
 }
 
 // IndexAt Expensive operation BigO(n)
