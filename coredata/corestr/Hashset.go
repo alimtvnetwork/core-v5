@@ -457,16 +457,16 @@ func (it *Hashset) AddSimpleSlice(simpleSlice *SimpleSlice) *Hashset {
 		return it
 	}
 
-	return it.Adds(simpleSlice.Items...)
+	return it.Adds(*simpleSlice...)
 }
 
-func (it *Hashset) AddStringsPtrLock(keys *[]string) *Hashset {
+func (it *Hashset) AddStringsLock(keys []string) *Hashset {
 	if keys == nil {
 		return it
 	}
 
 	it.Lock()
-	for _, key := range *keys {
+	for _, key := range keys {
 		it.items[key] = true
 	}
 
@@ -1073,7 +1073,7 @@ func (it *Hashset) LengthLock() int {
 	return it.Length()
 }
 
-func (it *Hashset) IsEqualsPtrLock(another *Hashset) bool {
+func (it *Hashset) IsEqualsLock(another *Hashset) bool {
 	it.Lock()
 	defer it.Unlock()
 
@@ -1145,7 +1145,7 @@ func (it *Hashset) RemoveWithLock(key string) *Hashset {
 	return it
 }
 
-func (it Hashset) String() string {
+func (it *Hashset) String() string {
 	if it.IsEmpty() {
 		return commonJoiner + NoElements
 	}

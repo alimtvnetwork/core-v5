@@ -12,9 +12,7 @@ type newSimpleSliceCreator struct{}
 func (it *newSimpleSliceCreator) Cap(capacity int) *SimpleSlice {
 	slice := make([]string, 0, capacity)
 
-	return &SimpleSlice{
-		slice,
-	}
+	return it.Strings(slice)
 }
 
 // Default
@@ -22,18 +20,9 @@ func (it *newSimpleSliceCreator) Cap(capacity int) *SimpleSlice {
 //	Capacity 10
 func (it *newSimpleSliceCreator) Default() *SimpleSlice {
 	slice := make([]string, 0, constants.Capacity10)
+	toConv := SimpleSlice(slice)
 
-	return &SimpleSlice{
-		slice,
-	}
-}
-
-func (it *newSimpleSliceCreator) DefaultSlice() SimpleSlice {
-	slice := make([]string, 0, constants.Capacity5)
-
-	return SimpleSlice{
-		slice,
-	}
+	return &toConv
 }
 
 func (it *newSimpleSliceCreator) Deserialize(
@@ -77,9 +66,7 @@ func (it *newSimpleSliceCreator) UsingLines(
 	}
 
 	if !isClone {
-		return &SimpleSlice{
-			lines,
-		}
+		return it.Strings(lines)
 	}
 
 	slice := it.Cap(len(lines))
@@ -93,33 +80,27 @@ func (it *newSimpleSliceCreator) UsingLines(
 func (it *newSimpleSliceCreator) Lines(
 	lines ...string,
 ) *SimpleSlice {
-	return &SimpleSlice{
-		lines,
-	}
+	return it.Strings(lines)
 }
 
 func (it *newSimpleSliceCreator) SpreadStrings(
 	lines ...string,
 ) *SimpleSlice {
-	return &SimpleSlice{
-		lines,
-	}
+	return it.Strings(lines)
 }
 
 func (it *newSimpleSliceCreator) Create(
 	lines []string,
 ) *SimpleSlice {
-	return &SimpleSlice{
-		lines,
-	}
+	return it.Strings(lines)
 }
 
 func (it *newSimpleSliceCreator) Strings(
 	lines []string,
 ) *SimpleSlice {
-	return &SimpleSlice{
-		lines,
-	}
+	slice := SimpleSlice(lines)
+
+	return &slice
 }
 
 func (it *newSimpleSliceCreator) StringsPtr(
@@ -129,9 +110,7 @@ func (it *newSimpleSliceCreator) StringsPtr(
 		return it.Empty()
 	}
 
-	return &SimpleSlice{
-		*lines,
-	}
+	return it.Strings(*lines)
 }
 
 func (it *newSimpleSliceCreator) StringsOptions(
@@ -143,9 +122,7 @@ func (it *newSimpleSliceCreator) StringsOptions(
 	}
 
 	if !isClone {
-		return &SimpleSlice{
-			*lines,
-		}
+		return it.Strings(*lines)
 	}
 
 	return it.StringsClone(*lines)
@@ -172,9 +149,7 @@ func (it *newSimpleSliceCreator) Direct(
 	}
 
 	if !isClone {
-		return &SimpleSlice{
-			lines,
-		}
+		return it.Strings(lines)
 	}
 
 	slice := it.Cap(len(lines))
@@ -187,9 +162,7 @@ func (it *newSimpleSliceCreator) UsingSeparatorLine(
 ) *SimpleSlice {
 	lines := strings.Split(line, sep)
 
-	return &SimpleSlice{
-		Items: lines,
-	}
+	return it.Strings(lines)
 }
 
 func (it *newSimpleSliceCreator) UsingLine(
@@ -197,13 +170,12 @@ func (it *newSimpleSliceCreator) UsingLine(
 ) *SimpleSlice {
 	lines := strings.Split(combinedLine, constants.DefaultLine)
 
-	return &SimpleSlice{
-		Items: lines,
-	}
+	return it.Strings(lines)
 }
 
 func (it *newSimpleSliceCreator) Empty() *SimpleSlice {
-	return &SimpleSlice{
-		nil,
-	}
+	lines := make([]string, 0)
+	slice := SimpleSlice(lines)
+
+	return &slice
 }

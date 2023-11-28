@@ -25,8 +25,8 @@ func (it *SimpleSliceValidator) SliceValidator() *SliceValidator {
 	sliceValidator := SliceValidator{
 		CompareAs:     it.CompareAs,
 		Condition:     it.Condition,
-		ActualLines:   it.actual.Items,
-		ExpectedLines: it.Expected.Items,
+		ActualLines:   it.actual.Strings(),
+		ExpectedLines: it.Expected.Strings(),
 	}
 
 	return &sliceValidator

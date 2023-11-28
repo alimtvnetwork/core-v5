@@ -945,8 +945,7 @@ func (it *CharHashsetMap) AddSameCharsCollectionLock(
 		list := stringsWithSameStartChar.
 			ListCopyPtrLock()
 
-		foundHashset.
-			AddStringsPtrLock(&list)
+		foundHashset.AddStringsLock(list)
 
 		return foundHashset
 	} else if hasHashsetHoweverNothingToAdd {
@@ -996,8 +995,8 @@ func (it *CharHashsetMap) AddHashsetLock(
 
 	if isAddToHashset {
 		//goland:noinspection GoNilness
-		foundHashset.AddStringsPtrLock(
-			stringsWithSameStartChar.ListPtr(),
+		foundHashset.AddStringsLock(
+			stringsWithSameStartChar.List(),
 		)
 
 		return foundHashset

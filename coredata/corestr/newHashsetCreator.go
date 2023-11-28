@@ -108,7 +108,7 @@ func (it *newHashsetCreator) SimpleSlice(
 		return it.Empty()
 	}
 
-	maps := converters.StringsTo.Hashset(simpleSlice.Items)
+	maps := converters.StringsTo.Hashset(simpleSlice.Strings())
 
 	return it.UsingMap(
 		maps,

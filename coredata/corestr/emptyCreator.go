@@ -13,9 +13,7 @@ func (it *emptyCreator) LinkedList() *LinkedList {
 }
 
 func (it *emptyCreator) SimpleSlice() *SimpleSlice {
-	return &SimpleSlice{
-		Items: nil,
-	}
+	return New.SimpleSlice.Empty()
 }
 
 func (it *emptyCreator) KeyAnyValuePair() *KeyAnyValuePair {

@@ -11,14 +11,12 @@ import (
 	"gitlab.com/auk-go/core/coredata/corejson"
 )
 
-type SimpleSlice struct {
-	Items []string `json:"Items,omitempty"`
-}
+type SimpleSlice []string
 
 func (it *SimpleSlice) Add(
 	item string,
 ) *SimpleSlice {
-	it.Items = append(it.Items, item)
+	*it = append(*it, item)
 
 	return it
 }
@@ -31,7 +29,7 @@ func (it *SimpleSlice) AddIf(
 		return it
 	}
 
-	it.Items = append(it.Items, item)
+	*it = append(*it, item)
 
 	return it
 }
@@ -43,7 +41,7 @@ func (it *SimpleSlice) Adds(
 		return it
 	}
 
-	it.Items = append(it.Items, items...)
+	*it = append(*it, items...)
 
 	return it
 }
@@ -55,7 +53,7 @@ func (it *SimpleSlice) Append(
 		return it
 	}
 
-	it.Items = append(it.Items, items...)
+	*it = append(*it, items...)
 
 	return it
 }
@@ -71,8 +69,8 @@ func (it *SimpleSlice) AppendFmt(
 		return it
 	}
 
-	it.Items = append(
-		it.Items,
+	*it = append(
+		*it,
 		fmt.Sprintf(format, v...),
 	)
 
@@ -91,8 +89,8 @@ func (it *SimpleSlice) AppendFmtIf(
 		return it
 	}
 
-	it.Items = append(
-		it.Items,
+	*it = append(
+		*it,
 		fmt.Sprintf(format, v...),
 	)
 
@@ -106,8 +104,8 @@ func (it *SimpleSlice) AddAsTitleValue(
 	title string,
 	value interface{},
 ) *SimpleSlice {
-	it.Items = append(
-		it.Items,
+	*it = append(
+		*it,
 		fmt.Sprintf(constants.TitleValueFormat, title, value),
 	)
 
@@ -121,8 +119,8 @@ func (it *SimpleSlice) AddAsCurlyTitleWrap(
 	title string,
 	value interface{},
 ) *SimpleSlice {
-	it.Items = append(
-		it.Items,
+	*it = append(
+		*it,
 		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value),
 	)
 
@@ -141,8 +139,8 @@ func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
 		return it
 	}
 
-	it.Items = append(
-		it.Items,
+	*it = append(
+		*it,
 		fmt.Sprintf(constants.CurlyTitleWrapFormat, title, value),
 	)
 
@@ -162,8 +160,8 @@ func (it *SimpleSlice) AddAsTitleValueIf(
 		return it
 	}
 
-	it.Items = append(
-		it.Items,
+	*it = append(
+		*it,
 		fmt.Sprintf(constants.TitleValueFormat, title, value),
 	)
 
@@ -174,8 +172,9 @@ func (it *SimpleSlice) InsertAt(
 	index int,
 	item string,
 ) *SimpleSlice {
-	it.Items = append(it.Items[:index+1], it.Items[index:]...)
-	it.Items[index] = item
+	slice := *it
+	slice = append(slice[:index+1], slice[index:]...)
+	slice[index] = item
 
 	return it
 }
@@ -241,7 +240,7 @@ func (it *SimpleSlice) AsError(joiner string) error {
 	}
 
 	errStr := strings.Join(
-		it.Items,
+		*it,
 		joiner,
 	)
 
@@ -249,19 +248,19 @@ func (it *SimpleSlice) AsError(joiner string) error {
 }
 
 func (it *SimpleSlice) FirstDynamic() interface{} {
-	return it.Items[0]
+	return (*it)[0]
 }
 
 func (it *SimpleSlice) First() string {
-	return it.Items[0]
+	return (*it)[0]
 }
 
 func (it *SimpleSlice) LastDynamic() interface{} {
-	return it.Items[it.LastIndex()]
+	return (*it)[it.LastIndex()]
 }
 
 func (it *SimpleSlice) Last() string {
-	return it.Items[it.LastIndex()]
+	return (*it)[it.LastIndex()]
 }
 
 func (it *SimpleSlice) FirstOrDefaultDynamic() interface{} {
@@ -289,19 +288,19 @@ func (it *SimpleSlice) LastOrDefault() string {
 }
 
 func (it *SimpleSlice) SkipDynamic(skippingItemsCount int) interface{} {
-	return it.Items[skippingItemsCount:]
+	return (*it)[skippingItemsCount:]
 }
 
 func (it *SimpleSlice) Skip(skippingItemsCount int) []string {
-	return it.Items[skippingItemsCount:]
+	return (*it)[skippingItemsCount:]
 }
 
 func (it *SimpleSlice) TakeDynamic(takeDynamicItems int) interface{} {
-	return it.Items[:takeDynamicItems]
+	return (*it)[:takeDynamicItems]
 }
 
 func (it *SimpleSlice) Take(takeDynamicItems int) []string {
-	return it.Items[:takeDynamicItems]
+	return (*it)[:takeDynamicItems]
 }
 
 func (it *SimpleSlice) LimitDynamic(limit int) interface{} {
@@ -317,7 +316,7 @@ func (it *SimpleSlice) Length() int {
 		return 0
 	}
 
-	return len(it.Items)
+	return len(*it)
 }
 
 func (it *SimpleSlice) Count() int {
@@ -332,7 +331,7 @@ func (it *SimpleSlice) CountFunc(
 	}
 
 	counter := 0
-	for i, item := range it.Items {
+	for i, item := range *it {
 		isCount := counterFunc(i, item)
 
 		if isCount {
@@ -360,11 +359,11 @@ func (it *SimpleSlice) HasIndex(index int) bool {
 }
 
 func (it *SimpleSlice) Strings() []string {
-	return it.Items
+	return *it
 }
 
 func (it *SimpleSlice) Hashset() *Hashset {
-	return New.Hashset.Strings(it.Items)
+	return New.Hashset.Strings(*it)
 }
 
 func (it *SimpleSlice) Join(joiner string) string {
@@ -372,7 +371,7 @@ func (it *SimpleSlice) Join(joiner string) string {
 		return ""
 	}
 
-	return strings.Join(it.Items, joiner)
+	return strings.Join(*it, joiner)
 }
 
 func (it *SimpleSlice) JoinLine() string {
@@ -381,7 +380,7 @@ func (it *SimpleSlice) JoinLine() string {
 	}
 
 	return strings.Join(
-		it.Items,
+		*it,
 		constants.DefaultLine,
 	)
 }
@@ -395,7 +394,7 @@ func (it *SimpleSlice) JoinLineEofLine() string {
 	}
 
 	joined := strings.Join(
-		it.Items,
+		*it,
 		constants.DefaultLine,
 	)
 
@@ -409,11 +408,11 @@ func (it *SimpleSlice) JoinLineEofLine() string {
 }
 
 func (it *SimpleSlice) JoinSpace() string {
-	return strings.Join(it.Items, constants.Space)
+	return strings.Join(*it, constants.Space)
 }
 
 func (it *SimpleSlice) JoinComma() string {
-	return strings.Join(it.Items, constants.Comma)
+	return strings.Join(*it, constants.Comma)
 }
 
 func (it *SimpleSlice) JoinCsv() string {
@@ -427,7 +426,7 @@ func (it *SimpleSlice) JoinCsvLine() string {
 func (it *SimpleSlice) EachItemSplitBy(splitBy string) (splitItemsOnly []string) {
 	slice := make([]string, 0, it.Length()*constants.Capacity3)
 
-	for _, item := range it.Items {
+	for _, item := range *it {
 		splitItems := strings.Split(item, splitBy)
 
 		slice = append(slice, splitItems...)
@@ -440,12 +439,10 @@ func (it *SimpleSlice) PrependJoin(
 	joiner string,
 	prependItems ...string,
 ) string {
-	prependSlice := &SimpleSlice{
-		Items: prependItems,
-	}
+	prependSlice := SimpleSlice(prependItems)
 
 	return prependSlice.
-		ConcatNew(it.Items...).
+		ConcatNew(*it...).
 		Join(joiner)
 }
 
@@ -462,11 +459,11 @@ func (it *SimpleSlice) PrependAppend(
 	prependItems, appendItems []string,
 ) *SimpleSlice {
 	if len(prependItems) > 0 {
-		it.Items = append(prependItems, it.Items...)
+		*it = append(prependItems, *it...)
 	}
 
 	if len(appendItems) > 0 {
-		it.Items = append(it.Items, appendItems...)
+		*it = append(*it, appendItems...)
 	}
 
 	return it
@@ -489,7 +486,7 @@ func (it *SimpleSlice) IsEqual(another *SimpleSlice) bool {
 		return true
 	}
 
-	return it.IsEqualLines(another.Items)
+	return it.IsEqualLines(*another)
 }
 
 // IsEqualUnorderedLines
@@ -513,10 +510,10 @@ func (it *SimpleSlice) IsEqualUnorderedLines(lines []string) bool {
 		return true
 	}
 
-	sort.Strings(it.Items)
+	sort.Strings(*it)
 	sort.Strings(lines)
 
-	for i, item := range it.Items {
+	for i, item := range *it {
 		anotherItem := lines[i]
 
 		if item != anotherItem {
@@ -551,11 +548,11 @@ func (it *SimpleSlice) IsEqualUnorderedLinesClone(lines []string) bool {
 	clonedLeftSlice := it.Clone(true)
 	clonedRightSlice := New.SimpleSlice.Direct(true, lines)
 
-	sort.Strings(clonedLeftSlice.Items)
-	sort.Strings(clonedRightSlice.Items)
+	sort.Strings(clonedLeftSlice)
+	sort.Strings(*clonedRightSlice)
 
-	for i, item := range clonedLeftSlice.Items {
-		anotherItem := clonedRightSlice.Items[i]
+	for i, item := range clonedLeftSlice {
+		anotherItem := (*clonedRightSlice)[i]
 
 		if item != anotherItem {
 			return false
@@ -583,7 +580,7 @@ func (it *SimpleSlice) IsEqualLines(lines []string) bool {
 		return false
 	}
 
-	for i, item := range it.Items {
+	for i, item := range *it {
 		anotherItem := lines[i]
 
 		if item != anotherItem {
@@ -597,7 +594,7 @@ func (it *SimpleSlice) IsEqualLines(lines []string) bool {
 func (it *SimpleSlice) Collection(isClone bool) *Collection {
 	return New.Collection.StringsOptions(
 		isClone,
-		it.Items,
+		*it,
 	)
 }
 
@@ -615,30 +612,32 @@ func (it *SimpleSlice) String() string {
 	}
 
 	return strings.Join(
-		it.Items,
+		*it,
 		constants.NewLineUnix,
 	)
 }
 
 func (it *SimpleSlice) ConcatNewSimpleSlices(items ...*SimpleSlice) *SimpleSlice {
-	items2 := append(
+	nextItems := append(
 		items,
 		it,
 	)
-	length := AllIndividualsLengthOfSimpleSlices(items2...)
+	length := AllIndividualsLengthOfSimpleSlices(nextItems...)
 	slice := make(
 		[]string,
 		0,
 		length,
 	)
 
-	slice = append(slice, it.Items...)
+	slice = append(slice, *it...)
 
 	for _, simpleSlice := range items {
-		slice = append(slice, simpleSlice.Items...)
+		slice = append(slice, *simpleSlice...)
 	}
 
-	return &SimpleSlice{Items: slice}
+	newSlice := SimpleSlice(slice)
+
+	return &newSlice
 }
 
 func (it *SimpleSlice) ConcatNewStrings(items ...string) []string {
@@ -652,7 +651,7 @@ func (it *SimpleSlice) ConcatNewStrings(items ...string) []string {
 		it.Length()+len(items),
 	)
 
-	slice = append(slice, it.Items...)
+	slice = append(slice, *it...)
 	slice = append(slice, items...)
 
 	return slice
@@ -660,14 +659,13 @@ func (it *SimpleSlice) ConcatNewStrings(items ...string) []string {
 
 func (it *SimpleSlice) ConcatNew(items ...string) *SimpleSlice {
 	concatNew := it.ConcatNewStrings(items...)
+	slice := SimpleSlice(concatNew)
 
-	return &SimpleSlice{
-		concatNew,
-	}
+	return &slice
 }
 
 func (it *SimpleSlice) ToCollection(isClone bool) *Collection {
-	return New.Collection.StringsOptions(isClone, it.Items)
+	return New.Collection.StringsOptions(isClone, *it)
 }
 
 func (it *SimpleSlice) CsvStrings() []string {
@@ -677,7 +675,7 @@ func (it *SimpleSlice) CsvStrings() []string {
 
 	newSlice := make([]string, it.Length())
 
-	for i, item := range it.Items {
+	for i, item := range *it {
 		newSlice[i] = fmt.Sprintf(
 			constants.SprintDoubleQuoteFormat,
 			item,
@@ -704,15 +702,15 @@ func (it *SimpleSlice) JoinWith(
 		return ""
 	}
 
-	return joiner + strings.Join(it.Items, joiner)
+	return joiner + strings.Join(*it, joiner)
 }
 
 func (it SimpleSlice) JsonModel() []string {
-	return it.Items
+	return it
 }
 
 func (it *SimpleSlice) Sort() *SimpleSlice {
-	sort.Strings(it.Items)
+	sort.Strings(*it)
 
 	return it
 }
@@ -725,7 +723,7 @@ func (it *SimpleSlice) Reverse() *SimpleSlice {
 	}
 
 	if length == 2 {
-		it.Items[0], it.Items[1] = it.Items[1], it.Items[0]
+		(*it)[0], (*it)[1] = (*it)[1], (*it)[0]
 
 		return it
 	}
@@ -734,9 +732,9 @@ func (it *SimpleSlice) Reverse() *SimpleSlice {
 	lastIndex := length - 1
 
 	for i := 0; i < mid; i++ {
-		first := it.Items[i]
-		it.Items[i] = it.Items[lastIndex-i]
-		it.Items[lastIndex-i] = first
+		first := (*it)[i]
+		(*it)[i] = (*it)[lastIndex-i]
+		(*it)[lastIndex-i] = first
 	}
 
 	return it
@@ -757,7 +755,7 @@ func (it *SimpleSlice) UnmarshalJSON(
 	err := json.Unmarshal(rawBytes, &dataModel)
 
 	if err == nil {
-		it.Items = dataModel
+		*it = dataModel
 	}
 
 	return err
@@ -836,7 +834,7 @@ func (it *SimpleSlice) Clear() *SimpleSlice {
 		return nil
 	}
 
-	it.Items = it.Items[:0]
+	*it = (*it)[:0]
 
 	return it
 }
@@ -847,16 +845,14 @@ func (it *SimpleSlice) Dispose() {
 	}
 
 	it.Clear()
-	it.Items = nil
+	*it = nil
 }
 
 func (it SimpleSlice) Clone(isDeepClone bool) SimpleSlice {
-	return SimpleSlice{
-		Items: CloneSliceIf(
-			isDeepClone,
-			it.Items...,
-		),
-	}
+	return CloneSliceIf(
+		isDeepClone,
+		it...,
+	)
 }
 
 func (it *SimpleSlice) ClonePtr(isDeepClone bool) *SimpleSlice {
@@ -947,14 +943,14 @@ func (it SimpleSlice) IsUnorderedEqual(
 
 	return it.IsUnorderedEqualRaw(
 		isClone,
-		rightSlice.Items...,
+		*rightSlice...,
 	)
 }
 
 // IsEqualByFunc
 //
 //	checks comparison by the given function.
-func (it SimpleSlice) IsEqualByFunc(
+func (it *SimpleSlice) IsEqualByFunc(
 	isMatchCheckerFunc func(index int, left, right string) (isMatch bool),
 	rightLines ...string,
 ) bool {
@@ -967,7 +963,7 @@ func (it SimpleSlice) IsEqualByFunc(
 	}
 
 	for i, rightLine := range rightLines {
-		leftLine := it.Items[i]
+		leftLine := (*it)[i]
 
 		if !isMatchCheckerFunc(i, leftLine, rightLine) {
 			return false
@@ -981,7 +977,7 @@ func (it SimpleSlice) IsEqualByFunc(
 //
 //	first splits the line and then takes
 //	lines and process same as EqualByFunc
-func (it SimpleSlice) IsEqualByFuncLinesSplit(
+func (it *SimpleSlice) IsEqualByFuncLinesSplit(
 	isTrim bool,
 	splitter string,
 	rightLine string,
@@ -997,7 +993,7 @@ func (it SimpleSlice) IsEqualByFuncLinesSplit(
 		return true
 	}
 
-	for i, curLeftLine := range it.Items {
+	for i, curLeftLine := range *it {
 		curRightLine := rightLines[i]
 
 		if isTrim {
@@ -1025,12 +1021,12 @@ func (it *SimpleSlice) DistinctDiffRaw(
 	}
 
 	if it != nil && rightLines == nil {
-		return it.Items
+		return *it
 	}
 
 	return New.
 		Hashset.
-		Strings(it.Items).
+		Strings(*it).
 		DistinctDiffLinesRaw(rightLines...)
 }
 
@@ -1069,17 +1065,17 @@ func (it *SimpleSlice) DistinctDiff(
 	}
 
 	if it == nil && rightSlice != nil {
-		return rightSlice.Items
+		return *rightSlice
 	}
 
 	if it != nil && rightSlice == nil {
-		return it.Items
+		return *it
 	}
 
 	return New.
 		Hashset.
-		Strings(it.Items).
-		DistinctDiffLinesRaw(rightSlice.Items...)
+		Strings(*it).
+		DistinctDiffLinesRaw(*rightSlice...)
 }
 
 func (it *SimpleSlice) Serialize() ([]byte, error) {
@@ -1091,9 +1087,9 @@ func (it *SimpleSlice) Deserialize(toPtr interface{}) (parsingErr error) {
 }
 
 func (it *SimpleSlice) SafeStrings() []string {
-	if it == nil || it.Items == nil {
+	if it == nil || *it == nil {
 		return []string{}
 	}
 
-	return it.Items
+	return *it
 }

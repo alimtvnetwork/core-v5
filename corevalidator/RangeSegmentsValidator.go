@@ -34,7 +34,7 @@ func (it *RangeSegmentsValidator) Validators() HeaderSliceValidators {
 		expectedSegments := segment.ExpectedLines
 		start := segment.RangeInt.Start
 		end := segment.RangeInt.End
-		actualSegments := it.actual.Items[start:end]
+		actualSegments := it.actual.Strings()[start:end]
 		totalItems := end - start + 1
 		header := fmt.Sprintf(
 			"%s - validate for range %d to %d (total: %d lines)",
