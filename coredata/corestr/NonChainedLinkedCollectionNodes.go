@@ -45,7 +45,8 @@ func (receiver *NonChainedLinkedCollectionNodes) Adds(
 	for i := range nodes {
 		*receiver.items = append(
 			*receiver.items,
-			nodes[i])
+			nodes[i],
+		)
 	}
 
 	return receiver
