@@ -1,7 +1,7 @@
 package corestr
 
 type NonChainedLinkedCollectionNodes struct {
-	items             *[]*LinkedCollectionNode
+	items             []*LinkedCollectionNode
 	isChainingApplied bool
 }
 
@@ -11,7 +11,7 @@ func NewNonChainedLinkedCollectionNodes(
 	items := make([]*LinkedCollectionNode, 0, capacity)
 
 	return &NonChainedLinkedCollectionNodes{
-		items: &items,
+		items: items,
 	}
 }
 
@@ -19,20 +19,20 @@ func (it *NonChainedLinkedCollectionNodes) IsChainingApplied() bool {
 	return it.isChainingApplied
 }
 
-func (it *NonChainedLinkedCollectionNodes) Items() *[]*LinkedCollectionNode {
+func (it *NonChainedLinkedCollectionNodes) Items() []*LinkedCollectionNode {
 	return it.items
 }
 
 func (it *NonChainedLinkedCollectionNodes) Length() int {
-	if it.items == nil {
+	if it == nil {
 		return 0
 	}
 
-	return len(*it.items)
+	return len(it.items)
 }
 
 func (it *NonChainedLinkedCollectionNodes) IsEmpty() bool {
-	return it.items == nil || len(*it.items) == 0
+	return it.items == nil || len(it.items) == 0
 }
 
 func (it *NonChainedLinkedCollectionNodes) Adds(
@@ -43,8 +43,8 @@ func (it *NonChainedLinkedCollectionNodes) Adds(
 	}
 
 	for i := range nodes {
-		*it.items = append(
-			*it.items,
+		it.items = append(
+			it.items,
 			nodes[i],
 		)
 	}
@@ -57,7 +57,7 @@ func (it *NonChainedLinkedCollectionNodes) HasItems() bool {
 }
 
 func (it *NonChainedLinkedCollectionNodes) First() *LinkedCollectionNode {
-	return (*it.items)[0]
+	return it.items[0]
 }
 
 func (it *NonChainedLinkedCollectionNodes) FirstOrDefault() *LinkedCollectionNode {
@@ -65,11 +65,11 @@ func (it *NonChainedLinkedCollectionNodes) FirstOrDefault() *LinkedCollectionNod
 		return nil
 	}
 
-	return (*it.items)[0]
+	return it.items[0]
 }
 
 func (it *NonChainedLinkedCollectionNodes) Last() *LinkedCollectionNode {
-	return (*it.items)[it.Length()-1]
+	return it.items[it.Length()-1]
 }
 
 func (it *NonChainedLinkedCollectionNodes) LastOrDefault() *LinkedCollectionNode {
@@ -77,7 +77,7 @@ func (it *NonChainedLinkedCollectionNodes) LastOrDefault() *LinkedCollectionNode
 		return nil
 	}
 
-	return (*it.items)[it.Length()-1]
+	return it.items[it.Length()-1]
 }
 
 // ApplyChaining Warning Mutates data inside.
@@ -88,12 +88,12 @@ func (it *NonChainedLinkedCollectionNodes) ApplyChaining() *NonChainedLinkedColl
 	}
 
 	it.isChainingApplied = true
-	for i, node := range *it.items {
+	for i, node := range it.items {
 		if i+1 >= length {
 			break
 		}
 
-		nextNode := (*it.items)[i+1]
+		nextNode := it.items[i+1]
 		node.next = nextNode
 	}
 
@@ -112,14 +112,14 @@ func (it *NonChainedLinkedCollectionNodes) ToChainedNodes() *[]*LinkedCollection
 		return &list
 	}
 
-	for i, node := range *it.items {
+	for i, node := range it.items {
 		if i+1 >= length {
 			break
 		}
 
 		curNode := node.Clone()
 		list = append(list, curNode)
-		nextNode := (*it.items)[i+1]
+		nextNode := it.items[i+1]
 		nextNodeClone := nextNode.Clone()
 		curNode.next = nextNodeClone
 		list = append(list, nextNodeClone)
