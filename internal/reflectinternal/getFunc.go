@@ -7,6 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
 )
 
 type getFunc struct{}
@@ -25,7 +26,7 @@ func (it getFunc) RunTime(i interface{}) *runtime.Func {
 	return runtime.FuncForPC(rv.Pointer())
 }
 
-// GetFuncFullName
+// FullName
 //
 // Get the function name, passing non function may result panic
 func (it getFunc) FullName(i interface{}) string {
@@ -106,4 +107,130 @@ func (it getFunc) All(fullFuncName string) (fullMethodName, packageName, methodN
 	packageName, methodName = stringslice.FirstLastDefault(splitsByDot)
 
 	return it.fixFinalFuncName(fullFuncName), packageName, it.fixFinalFuncName(methodName)
+}
+
+func (it getFunc) GetMethod(
+	methodName string,
+	i interface{},
+) *reflect.Method {
+	if len(methodName) == 0 || Is.Null(i) {
+		return nil
+	}
+
+	valStruct := Looper.ReducePointerRv(
+		reflect.ValueOf(i),
+		defaultPointerReduction,
+	)
+
+	if valStruct.IsInvalid() {
+		return nil
+	}
+
+	return it.GetMethodRv(
+		methodName,
+		&valStruct.FinalReflectVal,
+	)
+}
+
+func (it getFunc) GetMethodRv(
+	methodName string,
+	rv *reflect.Value,
+) *reflect.Method {
+	if len(methodName) == 0 || Is.Null(rv) {
+		return nil
+	}
+
+	structType := rv.Type()
+
+	method, isFound := structType.MethodByName(methodName)
+
+	if isFound {
+		return &method
+	}
+
+	return nil
+}
+
+func (it getFunc) GetMethods(
+	i interface{},
+) []reflect.Method {
+	if Is.Null(i) {
+		return []reflect.Method{}
+	}
+
+	list := make([]reflect.Method, 0, 10)
+
+	_ := Looper.MethodsFor(
+		i,
+		func(totalMethodsCount int, method *reflectmodel.MethodProcessor) (err error) {
+			if method != nil {
+				list = append(list, method.ReflectMethod)
+			}
+
+			return nil
+		},
+	)
+
+	return list
+}
+
+func (it getFunc) GetMethodsRv(
+	rv reflect.Value,
+) []reflect.Method {
+	list := make([]reflect.Method, 0, 4)
+
+	_ := Looper.MethodsForRv(
+		rv,
+		func(totalMethodsCount int, method *reflectmodel.MethodProcessor) (err error) {
+			if method != nil {
+				list = append(list, method.ReflectMethod)
+			}
+
+			return nil
+		},
+	)
+
+	return list
+}
+
+func (it getFunc) GetMethodsNames(
+	i interface{},
+) []string {
+	if Is.Null(i) {
+		return []string{}
+	}
+
+	list, _ := Looper.MethodNamesRv(
+		reflect.ValueOf(i),
+	)
+
+	return list
+}
+
+func (it getFunc) GetMethodsMap(
+	i interface{},
+) map[string]*reflect.Method {
+	if Is.Null(i) {
+		return map[string]*reflect.Method{}
+	}
+
+	mapList, _ := Looper.MethodsMap(i)
+
+	return mapList
+}
+
+func (it getFunc) GetMethodsMapRv(
+	rv reflect.Value,
+) map[string]*reflect.Method {
+	mapList, _ := Looper.MethodsMapRv(rv)
+
+	return mapList
+}
+
+func (it getFunc) GetMethodProcessorsMap(
+	rv reflect.Value,
+) map[string]*reflect.Method {
+	mapList, _ := Looper.MethodsMapRv(rv)
+
+	return mapList
 }

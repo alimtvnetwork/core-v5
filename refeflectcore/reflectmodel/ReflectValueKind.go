@@ -22,7 +22,7 @@ func InvalidReflectValueKindModel(err string) *ReflectValueKind {
 }
 
 func (it *ReflectValueKind) IsInvalid() bool {
-	return it == nil || !it.IsValid
+	return it == nil || !it.IsValid || it.HasError()
 }
 
 func (it *ReflectValueKind) HasError() bool {

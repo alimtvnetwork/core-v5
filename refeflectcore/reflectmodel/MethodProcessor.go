@@ -45,18 +45,13 @@ func (it *MethodProcessor) Invoke(
 	return reflectValuesToInterfaces(rvs)
 }
 
-func (it *MethodProcessor) GetFirstResponseOfInvoke(
-	args ...interface{},
-) (
+func (it *MethodProcessor) GetFirstResponseOfInvoke(args ...interface{}) (
 	firstResponse interface{},
 ) {
 	return it.GetResponseOfIndexFromInvoke(0, args...)
 }
 
-func (it *MethodProcessor) GetResponseOfIndexFromInvoke(
-	index int,
-	args ...interface{},
-) (
+func (it *MethodProcessor) GetResponseOfIndexFromInvoke(index int, args ...interface{}) (
 	firstResponse interface{},
 ) {
 	rvs := it.ReflectMethod.Func.Call(argsReflectValues(args))

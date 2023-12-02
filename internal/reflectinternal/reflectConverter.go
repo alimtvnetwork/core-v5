@@ -7,7 +7,7 @@ import (
 	"unsafe"
 
 	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/internal/reflectmodel"
+	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
 )
 
 type reflectConverter struct{}
