@@ -336,7 +336,8 @@ func (it *LinkedCollections) AddStrings(
 
 	collection := New.Collection.StringsOptions(
 		false,
-		stringsItems)
+		stringsItems,
+	)
 
 	return it.Add(collection)
 }
@@ -485,7 +486,7 @@ func (it *LinkedCollections) AddCollectionToNode(
 	)
 }
 
-func (it *LinkedCollections) GetNextNodes(count int) *[]*LinkedCollectionNode {
+func (it *LinkedCollections) GetNextNodes(count int) []*LinkedCollectionNode {
 	counter := 0
 
 	return it.Filter(
@@ -504,7 +505,7 @@ func (it *LinkedCollections) GetNextNodes(count int) *[]*LinkedCollectionNode {
 	)
 }
 
-func (it *LinkedCollections) GetAllLinkedNodes() *[]*LinkedCollectionNode {
+func (it *LinkedCollections) GetAllLinkedNodes() []*LinkedCollectionNode {
 	return it.Filter(
 		func(
 			arg *LinkedCollectionFilterParameter,
@@ -572,12 +573,12 @@ func (it *LinkedCollections) Loop(
 
 func (it *LinkedCollections) Filter(
 	filter LinkedCollectionFilter,
-) *[]*LinkedCollectionNode {
+) []*LinkedCollectionNode {
 	length := it.Length()
 	list := make([]*LinkedCollectionNode, 0, length)
 
 	if length == 0 {
-		return &list
+		return list
 	}
 
 	node := it.head
@@ -593,7 +594,7 @@ func (it *LinkedCollections) Filter(
 	}
 
 	if result.IsBreak {
-		return &list
+		return list
 	}
 
 	index := 1
@@ -612,13 +613,13 @@ func (it *LinkedCollections) Filter(
 		}
 
 		if result2.IsBreak {
-			return &list
+			return list
 		}
 
 		index++
 	}
 
-	return &list
+	return list
 }
 
 func (it *LinkedCollections) FilterAsCollection(
@@ -627,13 +628,13 @@ func (it *LinkedCollections) FilterAsCollection(
 ) *Collection {
 	items := it.Filter(filter)
 
-	if len(*items) == 0 {
+	if len(items) == 0 {
 		return New.Collection.Empty()
 	}
 
 	allLength := 0
 
-	for _, node := range *items {
+	for _, node := range items {
 		if node != nil && node.Element != nil {
 			allLength += node.Element.Length()
 		}
@@ -641,7 +642,7 @@ func (it *LinkedCollections) FilterAsCollection(
 
 	collection := New.Collection.Cap(allLength + additionalCapacity)
 
-	for _, node := range *items {
+	for _, node := range items {
 		if node == nil || node.Element == nil {
 			continue
 		}
@@ -654,15 +655,15 @@ func (it *LinkedCollections) FilterAsCollection(
 
 func (it *LinkedCollections) FilterAsCollections(
 	filter LinkedCollectionFilter,
-) *[]*Collection {
+) []*Collection {
 	items := it.Filter(filter)
-	collections := make([]*Collection, len(*items))
+	collections := make([]*Collection, len(items))
 
-	for i := range *items {
-		collections[i] = (*items)[i].Element
+	for i := range items {
+		collections[i] = items[i].Element
 	}
 
-	return &collections
+	return collections
 }
 
 func (it *LinkedCollections) RemoveNodeByIndex(
@@ -1314,38 +1315,38 @@ func (it *LinkedCollections) ToCollectionsOfCollection(
 	return collection
 }
 
-func (it *LinkedCollections) ItemsOfItems() *[]*[]string {
+func (it *LinkedCollections) ItemsOfItems() [][]string {
 	length := it.Length()
-	itemsOfItems := make([]*[]string, length)
+	itemsOfItems := make([][]string, length)
 
 	if length == 0 {
-		return &itemsOfItems
+		return itemsOfItems
 	}
 
 	nodes := it.GetAllLinkedNodes()
 
-	for i, node := range *nodes {
-		itemsOfItems[i] = &node.Element.items
+	for i, node := range nodes {
+		itemsOfItems[i] = node.Element.items
 	}
 
-	return &itemsOfItems
+	return itemsOfItems
 }
 
-func (it *LinkedCollections) ItemsOfItemsCollection() *[]*Collection {
+func (it *LinkedCollections) ItemsOfItemsCollection() []*Collection {
 	length := it.Length()
 	itemsOfItems := make([]*Collection, length)
 
 	if length == 0 {
-		return &itemsOfItems
+		return itemsOfItems
 	}
 
 	nodes := it.GetAllLinkedNodes()
 
-	for i, node := range *nodes {
+	for i, node := range nodes {
 		itemsOfItems[i] = node.Element
 	}
 
-	return &itemsOfItems
+	return itemsOfItems
 }
 
 // ListPtr must return slice.
