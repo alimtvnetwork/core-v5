@@ -1,6 +1,8 @@
 package args
 
-import "gitlab.com/auk-go/core/internal/reflectinternal"
+import (
+	"gitlab.com/auk-go/core/internal/reflectinternal"
+)
 
 var (
 	rvToInterfacesFunc = reflectinternal.Converter.ReflectValuesToInterfaces

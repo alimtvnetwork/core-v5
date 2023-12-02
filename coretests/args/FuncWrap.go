@@ -57,6 +57,23 @@ func NewFuncWrap(anyFunc interface{}) *FuncWrap {
 	}
 }
 
+func NewFuncWrapMaps(anyFunctions ...interface{}) map[string]*FuncWrap {
+	if len(anyFunctions) == 0 {
+		return map[string]*FuncWrap{}
+	}
+
+	newMap := make(map[string]*FuncWrap, len(anyFunctions))
+
+	for _, function := range anyFunctions {
+		v := NewFuncWrap(function)
+		if v.IsValid() {
+			newMap[v.FuncName()] = v
+		}
+	}
+
+	return newMap
+}
+
 func (it FuncWrap) FuncName() string {
 	return it.Name
 }
@@ -67,6 +84,10 @@ func (it *FuncWrap) HasValidFunc() bool {
 
 func (it *FuncWrap) IsInvalid() bool {
 	return it == nil || it.isInvalid || !it.HasValidFunc()
+}
+
+func (it *FuncWrap) IsValid() bool {
+	return !it.IsInvalid()
 }
 
 // ArgsCount returns -1 on invalid
