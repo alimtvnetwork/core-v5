@@ -160,7 +160,7 @@ func (it getFunc) GetMethods(
 
 	list := make([]reflect.Method, 0, 10)
 
-	_ := Looper.MethodsFor(
+	_ = Looper.MethodsFor(
 		i,
 		func(totalMethodsCount int, method *reflectmodel.MethodProcessor) (err error) {
 			if method != nil {
@@ -179,7 +179,7 @@ func (it getFunc) GetMethodsRv(
 ) []reflect.Method {
 	list := make([]reflect.Method, 0, 4)
 
-	_ := Looper.MethodsForRv(
+	_ = Looper.MethodsForRv(
 		rv,
 		func(totalMethodsCount int, method *reflectmodel.MethodProcessor) (err error) {
 			if method != nil {
