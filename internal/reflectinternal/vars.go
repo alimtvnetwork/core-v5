@@ -10,6 +10,7 @@ var (
 	GetFunc                        = getFunc{}
 	Is                             = isChecker{}
 	ReflectGetter                  = reflectGetter{}
+	ReflectType                    = reflectTypeConverter{}
 	ReflectGetterUsingReflectValue = reflectGetUsingReflectValue{}
 
 	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition

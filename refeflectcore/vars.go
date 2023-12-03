@@ -16,6 +16,7 @@ var (
 	TypeNames                      = reflectinternal.TypeNames
 	TypeNamesString                = reflectinternal.TypeNamesString
 	TypeNamesReferenceString       = reflectinternal.TypeNamesReferenceString
+	ReflectType                    = reflectinternal.ReflectType
 	ReflectGetter                  = reflectinternal.ReflectGetter
 	ReflectGetterUsingReflectValue = reflectinternal.ReflectGetterUsingReflectValue
 
