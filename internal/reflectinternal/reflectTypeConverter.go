@@ -9,7 +9,7 @@ import (
 
 type reflectTypeConverter struct{}
 
-func (it reflectConverter) SafeTypeName(any interface{}) string {
+func (it reflectConverter) SafeName(any interface{}) string {
 	rt := reflect.TypeOf(any)
 
 	if Is.Null(rt) {
@@ -24,7 +24,7 @@ func (it reflectConverter) SafeTypeNameOfSliceOrSingle(
 	any interface{},
 ) string {
 	if isSingle {
-		return it.SafeTypeName(any)
+		return it.SafeName(any)
 	}
 
 	return it.SliceFirstItemTypeName(any)
@@ -47,12 +47,12 @@ func (it reflectConverter) SliceFirstItemTypeName(slice interface{}) string {
 	return rt.Elem().String()
 }
 
-func (it reflectConverter) TypeNamesStringUsingReflectType(
+func (it reflectConverter) NamesStringUsingReflectType(
 	isFullName bool,
 	reflectTypes ...reflect.Type,
 ) string {
 	return strings.Join(
-		it.TypeNamesUsingReflectType(isFullName, reflectTypes...),
+		it.NamesUsingReflectType(isFullName, reflectTypes...),
 		constants.CommaSpace,
 	)
 }
@@ -67,7 +67,7 @@ func (it reflectConverter) TypeNamesString(
 	)
 }
 
-func (it reflectConverter) TypeNamesUsingReflectType(
+func (it reflectConverter) NamesUsingReflectType(
 	isFullName bool,
 	reflectTypes ...reflect.Type,
 ) []string {
@@ -88,7 +88,7 @@ func (it reflectConverter) TypeNamesUsingReflectType(
 	return slice
 }
 
-func (it reflectConverter) TypeNamesReferenceString(
+func (it reflectConverter) NamesReferenceString(
 	isFullName bool,
 	anyItems ...interface{},
 ) string {
