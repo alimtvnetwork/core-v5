@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"sort"
 
+	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
@@ -26,7 +27,7 @@ func (it mapConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 
 	if reflectVal.Kind() != reflect.Map {
 		return []string{},
-			fmt.Errorf("reflection is not map but %s", reflectVal.String())
+			it.notAMapErr(reflectVal)
 	}
 
 	mapKeys := reflectVal.MapKeys()
@@ -38,13 +39,21 @@ func (it mapConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 		keyAsString, isString := keyAny.(string)
 
 		if !isString {
-			return keys, fmt.Errorf("not string type : %T", keyAny)
+			return keys, it.notStringErr(keyAny)
 		}
 
 		keys[i] = keyAsString
 	}
 
 	return keys, nil
+}
+
+func (it mapConverter) notStringErr(keyAny any) error {
+	return fmt.Errorf("not string type : %T", keyAny)
+}
+
+func (it mapConverter) notAMapErr(reflectVal reflect.Value) error {
+	return fmt.Errorf("reflection is not map but %s", reflectVal.String())
 }
 
 // ToKeysStrings
@@ -177,4 +186,59 @@ func (it mapConverter) ToSortedStringsMust(any interface{}) []string {
 	sort.Strings(keys)
 
 	return keys
+}
+
+// ToMapStringAnyRv
+//
+//	expectation : map[key:interface{}]interface{} to map[string]interface{}
+func (it mapConverter) ToMapStringAnyRv(
+	reflectVal reflect.Value,
+) (map[string]interface{}, error) {
+	if reflectVal.Kind() == reflect.Ptr {
+		return it.ToMapStringAnyRv(
+			reflect.Indirect(reflectVal),
+		)
+	}
+
+	if reflectVal.Kind() != reflect.Map {
+		return map[string]interface{}{},
+			it.notAMapErr(reflectVal)
+	}
+
+	mapKeys := reflectVal.MapKeys()
+	newMap := make(
+		map[string]interface{},
+		reflectVal.Len()+1,
+	)
+
+	for _, key := range mapKeys {
+		value := reflectVal.MapIndex(key)
+		keyAny := key.Interface()
+		var keyAsString string
+
+		keyAsString, isString := keyAny.(string)
+		if isString {
+			newMap[keyAsString] = value.Interface()
+			continue
+		}
+
+		keyAsString = fmt.Sprintf(
+			constants.SprintValueFormat,
+			keyAny,
+		)
+		newMap[keyAsString] = value.Interface()
+	}
+
+	return newMap, nil
+}
+
+// ToMapStringAny
+//
+//	expectation : map[key:interface{}]interface{} to map[string]interface{}
+func (it mapConverter) ToMapStringAny(
+	i interface{},
+) (map[string]interface{}, error) {
+	if Is.Null(i) {
+		return map[string]interface{}{}, nil
+	}
 }
