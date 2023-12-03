@@ -453,7 +453,9 @@ func (it *AnyCollection) AddAnySliceFromSingleItem(
 		return it
 	}
 
-	items := AnySliceValToInterfacesAsync(sliceList)
+	items := reflectinternal.
+		SliceConverter.
+		ToAnyItemsAsync(sliceList)
 
 	return it.AddMany(items...)
 }
