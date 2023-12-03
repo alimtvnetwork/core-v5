@@ -24,7 +24,7 @@ func (it anyTo) SerializedJsonResult(
 	if reflectinternal.Is.Null(fromAny) {
 		return &Result{
 			Error:    errors.New("nil object given"),
-			TypeName: reflectinternal.SafeTypeName(fromAny),
+			TypeName: reflectinternal.ReflectType.SafeName(fromAny),
 		}
 	}
 

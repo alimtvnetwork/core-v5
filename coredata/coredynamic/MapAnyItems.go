@@ -205,7 +205,7 @@ func (it *MapAnyItems) GetUsingUnmarshallAt(
 	if err != nil {
 		ref := errcore.VarTwoNoType(
 			"key", key,
-			"type", TypeName(valInf),
+			"type", getTypeNameFunc(valInf),
 		)
 
 		return errcore.MarshallingFailedType.ErrorRefOnly(ref)
@@ -216,8 +216,8 @@ func (it *MapAnyItems) GetUsingUnmarshallAt(
 	if unmarshalErr != nil {
 		ref := errcore.VarThreeNoType(
 			"key", key,
-			"StoreType", TypeName(valInf),
-			"RequestedType", TypeName(unmarshalRef),
+			"StoreType", getTypeNameFunc(valInf),
+			"RequestedType", getTypeNameFunc(unmarshalRef),
 		)
 
 		return errcore.UnMarshallingFailedType.ErrorRefOnly(ref)
@@ -279,7 +279,7 @@ func (it *MapAnyItems) GetItemRef(
 	if referenceOut == nil {
 		reference := errcore.VarTwoNoType(
 			"key", key,
-			"referenceOutType", TypeName(referenceOut),
+			"referenceOutType", getTypeNameFunc(referenceOut),
 		)
 
 		return errcore.
@@ -296,7 +296,7 @@ func (it *MapAnyItems) GetItemRef(
 	if outInfRv.Kind() != reflect.Ptr {
 		reference := errcore.VarTwoNoType(
 			"key", key,
-			"referenceOutType", TypeName(referenceOut),
+			"referenceOutType", getTypeNameFunc(referenceOut),
 		)
 
 		return errcore.
@@ -310,8 +310,8 @@ func (it *MapAnyItems) GetItemRef(
 	if outInfRv.IsNil() || foundItemRv.IsNil() {
 		reference := errcore.VarThreeNoType(
 			"key", key,
-			"referenceOutType", TypeName(referenceOut),
-			"foundItemType", TypeName(valInf),
+			"referenceOutType", getTypeNameFunc(referenceOut),
+			"foundItemType", getTypeNameFunc(valInf),
 		)
 
 		return errcore.
@@ -354,8 +354,8 @@ func (it *MapAnyItems) GetItemRef(
 
 	reference := errcore.VarThreeNoType(
 		"key", key,
-		"referenceOutType", TypeName(referenceOut),
-		"foundItemType", TypeName(valInf),
+		"referenceOutType", getTypeNameFunc(referenceOut),
+		"foundItemType", getTypeNameFunc(valInf),
 	)
 
 	return errcore.
@@ -684,7 +684,7 @@ func (it *MapAnyItems) JsonResultOfKey(
 	return corejson.
 		Empty.
 		ResultPtrWithErr(
-			reflectinternal.TypeName(it),
+			getTypeNameFunc(it),
 			err,
 		)
 }

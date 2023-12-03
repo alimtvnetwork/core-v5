@@ -29,7 +29,7 @@ func CastTo(
 			sliceErr,
 			errcore.UnsupportedType.Combine(
 				"none matches, current type:"+currentRfType.String(),
-				TypeNamesStringUsingReflectType(true, acceptedTypes...),
+				getTypeNamesUsingReflectFunc(true, acceptedTypes...),
 			),
 		)
 	}

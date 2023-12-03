@@ -126,7 +126,7 @@ func (it anyItemConverter) ToStrings(
 
 	reflectVal := reflect.ValueOf(anyItem)
 
-	anyItems := reflectinternal.ReflectValToInterfaces(
+	anyItems := reflectinternal.Converter.ReflectValToInterfaces(
 		isSkipOnNil,
 		reflectVal,
 	)
@@ -230,7 +230,7 @@ func (it anyItemConverter) ToAnyItems(
 
 	reflectVal := reflect.ValueOf(anyItem)
 
-	return reflectinternal.ReflectValToInterfaces(
+	return reflectinternal.Converter.ReflectValToInterfaces(
 		isSkipOnNil,
 		reflectVal,
 	)
@@ -246,7 +246,7 @@ func (it anyItemConverter) ToNonNullItems(
 
 	reflectVal := reflect.ValueOf(anyItem)
 
-	return reflectinternal.ReflectValToInterfaces(
+	return reflectinternal.Converter.ReflectValToInterfaces(
 		isSkipOnNil,
 		reflectVal,
 	)

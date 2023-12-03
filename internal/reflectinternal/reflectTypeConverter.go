@@ -9,7 +9,7 @@ import (
 
 type reflectTypeConverter struct{}
 
-func (it reflectConverter) SafeName(any interface{}) string {
+func (it reflectTypeConverter) SafeName(any interface{}) string {
 	rt := reflect.TypeOf(any)
 
 	if Is.Null(rt) {
@@ -19,7 +19,7 @@ func (it reflectConverter) SafeName(any interface{}) string {
 	return rt.String()
 }
 
-func (it reflectConverter) SafeTypeNameOfSliceOrSingle(
+func (it reflectTypeConverter) SafeTypeNameOfSliceOrSingle(
 	isSingle bool,
 	any interface{},
 ) string {
@@ -33,7 +33,7 @@ func (it reflectConverter) SafeTypeNameOfSliceOrSingle(
 // SliceFirstItemTypeName
 //
 // Gets slice element type name, reduce ptr slice as well.
-func (it reflectConverter) SliceFirstItemTypeName(slice interface{}) string {
+func (it reflectTypeConverter) SliceFirstItemTypeName(slice interface{}) string {
 	rt := reflect.TypeOf(slice)
 
 	if Is.Null(rt) {
@@ -47,7 +47,7 @@ func (it reflectConverter) SliceFirstItemTypeName(slice interface{}) string {
 	return rt.Elem().String()
 }
 
-func (it reflectConverter) NamesStringUsingReflectType(
+func (it reflectTypeConverter) NamesStringUsingReflectType(
 	isFullName bool,
 	reflectTypes ...reflect.Type,
 ) string {
@@ -61,7 +61,7 @@ func (it reflectConverter) NamesStringUsingReflectType(
 	)
 }
 
-func (it reflectConverter) TypeNamesString(
+func (it reflectTypeConverter) TypeNamesString(
 	isFullName bool,
 	anyItems ...interface{},
 ) string {
@@ -75,7 +75,7 @@ func (it reflectConverter) TypeNamesString(
 	)
 }
 
-func (it reflectConverter) NamesUsingReflectType(
+func (it reflectTypeConverter) NamesUsingReflectType(
 	isFullName bool,
 	reflectTypes ...reflect.Type,
 ) []string {
@@ -100,7 +100,7 @@ func (it reflectConverter) NamesUsingReflectType(
 	return slice
 }
 
-func (it reflectConverter) NamesReferenceString(
+func (it reflectTypeConverter) NamesReferenceString(
 	isFullName bool,
 	anyItems ...interface{},
 ) string {
@@ -114,7 +114,7 @@ func (it reflectConverter) NamesReferenceString(
 	)
 }
 
-func (it reflectConverter) Names(
+func (it reflectTypeConverter) Names(
 	isFullName bool,
 	anyItems ...interface{},
 ) []string {
@@ -139,7 +139,7 @@ func (it reflectConverter) Names(
 	return slice
 }
 
-func (it reflectConverter) Name(any interface{}) string {
+func (it reflectTypeConverter) Name(any interface{}) string {
 	rf := reflect.TypeOf(any)
 
 	if rf == nil {
