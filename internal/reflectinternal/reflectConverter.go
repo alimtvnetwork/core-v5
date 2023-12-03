@@ -216,7 +216,7 @@ func (it reflectConverter) ReflectValToInterfaces(
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ReflectValToInterfaces(
 			isSkipOnNil,
-			reflect.Indirect(reflect.ValueOf(reflectVal)),
+			reflect.Indirect(reflectVal),
 		)
 	}
 
@@ -259,7 +259,7 @@ func (it reflectConverter) ReflectValToInterfacesAsync(
 ) []interface{} {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ReflectValToInterfacesAsync(
-			reflect.Indirect(reflect.ValueOf(reflectVal)),
+			reflect.Indirect(reflectVal),
 		)
 	}
 
@@ -310,7 +310,7 @@ func (it reflectConverter) ReflectValToInterfacesUsingProcessor(
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ReflectValToInterfaces(
 			isSkipOnNil,
-			reflect.Indirect(reflect.ValueOf(reflectVal)),
+			reflect.Indirect(reflectVal),
 		)
 	}
 

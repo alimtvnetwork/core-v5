@@ -13,7 +13,7 @@ type sliceConverter struct{}
 func (it sliceConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ToStringsRv(
-			reflect.Indirect(reflect.ValueOf(reflectVal)),
+			reflect.Indirect(reflectVal),
 		)
 	}
 
@@ -150,4 +150,16 @@ func (it sliceConverter) ToStringsRvUsingSimpleProcessor(
 	}
 
 	return slice, nil
+}
+
+func (it sliceConverter) ToAnyItemsAsync(
+	slice interface{},
+) []interface{} {
+	if slice == nil {
+		return []interface{}{}
+	}
+
+	return Converter.ReflectValToInterfacesAsync(
+		reflect.ValueOf(slice),
+	)
 }
