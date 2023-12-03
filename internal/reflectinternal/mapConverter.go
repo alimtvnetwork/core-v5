@@ -1,27 +1,32 @@
 package reflectinternal
 
 import (
+	"fmt"
 	"reflect"
 	"sort"
 
-	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
 type mapConverter struct{}
 
-// MapKeysStringSlice
+func (it mapConverter) Length(i interface{}) int {
+	return SliceConverter.Length(i)
+}
+
+// ToStringsRv
 //
 //	expectation : map[key:string]...value don't care.
-func MapKeysStringSlice(reflectVal reflect.Value) ([]string, error) {
+func (it mapConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
-		return MapKeysStringSlice(
-			reflect.Indirect(reflect.ValueOf(reflectVal)),
+		return it.ToStringsRv(
+			reflect.Indirect(reflectVal),
 		)
 	}
 
 	if reflectVal.Kind() != reflect.Map {
 		return []string{},
-			errcore.TypeMismatchType.Error("Reflection is not Map", reflectVal)
+			fmt.Errorf("reflection is not map but %s", reflectVal.String())
 	}
 
 	mapKeys := reflectVal.MapKeys()
@@ -33,7 +38,7 @@ func MapKeysStringSlice(reflectVal reflect.Value) ([]string, error) {
 		keyAsString, isString := keyAny.(string)
 
 		if !isString {
-			return keys, errcore.TypeMismatchType.Error("Not string type", keyAny)
+			return keys, fmt.Errorf("not string type : %T", keyAny)
 		}
 
 		keys[i] = keyAsString
@@ -42,19 +47,95 @@ func MapKeysStringSlice(reflectVal reflect.Value) ([]string, error) {
 	return keys, nil
 }
 
-// MapKeysStringSliceAny
+// ToKeysStrings
 //
-//	expectation : map[key:string]don't care values
-func MapKeysStringSliceAny(any interface{}) ([]string, error) {
-	reflectVal := reflect.ValueOf(any)
-
-	return MapKeysStringSlice(reflectVal)
+//	expectation : map[key:string]...value don't care.
+func (it mapConverter) ToKeysStrings(i interface{}) ([]string, error) {
+	return it.ToStrings(i)
 }
 
-func MapKeysStringSliceAnyMust(any interface{}) []string {
+// ToValuesAny
+//
+//	expectation : map[...]...value don't care.
+func (it mapConverter) ToValuesAny(i interface{}) ([]interface{}, error) {
+	if Is.Null(i) {
+		return []interface{}{}, nil
+	}
+
+	rv := reflect.ValueOf(i)
+
+	var list []interface{}
+
+	err := Looper.MapForRv(
+		rv, func(total int, index int, key, v interface{}) (err error) {
+			list = append(list, v)
+
+			return nil
+		},
+	)
+
+	return list, err
+}
+
+// ToKeysAny
+//
+//	expectation : map[...]...value don't care.
+func (it mapConverter) ToKeysAny(i interface{}) ([]interface{}, error) {
+	if Is.Null(i) {
+		return []interface{}{}, nil
+	}
+
+	rv := reflect.ValueOf(i)
+
+	var list []interface{}
+
+	err := Looper.MapForRv(
+		rv, func(total int, index int, key, v interface{}) (err error) {
+			list = append(list, key)
+
+			return nil
+		},
+	)
+
+	return list, err
+}
+
+// ToKeysValuesAny
+//
+//	expectation : map[string]...value don't care.
+func (it mapConverter) ToKeysValuesAny(i interface{}) (keys []string, values []interface{}, err error) {
+	if Is.Null(i) {
+		return []string{}, []interface{}{}, nil
+	}
+
+	rv := reflect.ValueOf(i)
+	toStringFunc := convertinteranl.AnyTo.SmartString
+
+	err = Looper.MapForRv(
+		rv, func(total int, index int, key, v interface{}) (err error) {
+			keys = append(keys, toStringFunc(key))
+			values = append(values, v)
+
+			return nil
+		},
+	)
+
+	return keys, values, err
+}
+
+// ToStrings
+//
+//	expectation : map[key:string]don't care values
+func (it mapConverter) ToStrings(any interface{}) ([]string, error) {
 	reflectVal := reflect.ValueOf(any)
 
-	mapKeys, err := MapKeysStringSlice(reflectVal)
+	return it.ToStringsRv(reflectVal)
+}
+
+func (it mapConverter) ToStringsMust(any interface{}) []string {
+	reflectVal := reflect.ValueOf(any)
+
+	mapKeys, err := it.ToStringsRv(reflectVal)
 
 	if err != nil {
 		panic(err)
@@ -63,10 +144,10 @@ func MapKeysStringSliceAnyMust(any interface{}) []string {
 	return mapKeys
 }
 
-func MapKeysStringSliceAnySorted(any interface{}) ([]string, error) {
+func (it mapConverter) ToSortedStrings(any interface{}) ([]string, error) {
 	reflectVal := reflect.ValueOf(any)
 
-	keys, err := MapKeysStringSlice(reflectVal)
+	keys, err := it.ToStringsRv(reflectVal)
 
 	if err != nil {
 		return keys, err
@@ -77,10 +158,10 @@ func MapKeysStringSliceAnySorted(any interface{}) ([]string, error) {
 	return keys, nil
 }
 
-func MapKeysStringSliceAnySortedMust(any interface{}) []string {
+func (it mapConverter) ToSortedStringsMust(any interface{}) []string {
 	reflectVal := reflect.ValueOf(any)
 
-	keys := MapKeysStringSliceAnyMust(reflectVal)
+	keys := it.ToStringsMust(reflectVal)
 	sort.Strings(keys)
 
 	return keys

@@ -321,7 +321,7 @@ func (it *looper) MapForRv(
 		total int,
 		index int,
 		key,
-		item interface{},
+		value interface{},
 	) (err error),
 ) error {
 	valueRvWrap := it.ReducePointerRv(rv, defaultPointerReduction)

@@ -5,10 +5,28 @@ import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 type sliceConverter struct{}
+
+func (it sliceConverter) Length(i interface{}) int {
+	if Is.Null(i) {
+		return 0
+	}
+
+	reflectVal := reflect.ValueOf(i)
+
+	k := reflectVal.Kind()
+	isSliceOrArray := k == reflect.Slice ||
+		k == reflect.Array ||
+		k == reflect.Map
+
+	if isSliceOrArray {
+		return reflectVal.Len()
+	}
+
+	return 0
+}
 
 func (it sliceConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
@@ -23,7 +41,7 @@ func (it sliceConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error)
 
 	if !isSliceOrArray {
 		return []string{},
-			errcore.TypeMismatchType.Error("Reflection is not Slice or Array", reflectVal)
+			fmt.Errorf("reflection is not a slice nor array but %s", reflectVal.String())
 	}
 
 	length := reflectVal.Len()
@@ -62,6 +80,7 @@ func (it sliceConverter) ToStringsMust(any interface{}) []string {
 
 	return items
 }
+
 func (it sliceConverter) ToStringsRvUsingProcessor(
 	reflectVal reflect.Value,
 	processor func(index int, item interface{}) (result string, isTake, isBreak bool),
@@ -79,7 +98,7 @@ func (it sliceConverter) ToStringsRvUsingProcessor(
 
 	if !isSliceOrArray {
 		return []string{},
-			errcore.TypeMismatchType.Error("Reflection is not Slice or Array", reflectVal)
+			fmt.Errorf("reflection is not a slice nor array but %s", reflectVal.String())
 	}
 
 	length := reflectVal.Len()
@@ -125,9 +144,7 @@ func (it sliceConverter) ToStringsRvUsingSimpleProcessor(
 
 	if !isSliceOrArray {
 		return []string{},
-			errcore.TypeMismatchType.Error(
-				"Reflection is not Slice or Array", reflectVal,
-			)
+			fmt.Errorf("reflection is not a slice nor array but %s", reflectVal.String())
 	}
 
 	length := reflectVal.Len()
