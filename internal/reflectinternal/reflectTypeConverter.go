@@ -51,6 +51,10 @@ func (it reflectConverter) NamesStringUsingReflectType(
 	isFullName bool,
 	reflectTypes ...reflect.Type,
 ) string {
+	if len(reflectTypes) == 0 {
+		return ""
+	}
+
 	return strings.Join(
 		it.NamesUsingReflectType(isFullName, reflectTypes...),
 		constants.CommaSpace,
@@ -61,6 +65,10 @@ func (it reflectConverter) TypeNamesString(
 	isFullName bool,
 	anyItems ...interface{},
 ) string {
+	if len(anyItems) == 0 {
+		return ""
+	}
+
 	return strings.Join(
 		TypeNames(isFullName, anyItems...),
 		constants.CommaSpace,
@@ -71,6 +79,10 @@ func (it reflectConverter) NamesUsingReflectType(
 	isFullName bool,
 	reflectTypes ...reflect.Type,
 ) []string {
+	if len(reflectTypes) == 0 {
+		return []string{}
+	}
+
 	slice := make([]string, len(reflectTypes))
 
 	if isFullName {
@@ -92,6 +104,10 @@ func (it reflectConverter) NamesReferenceString(
 	isFullName bool,
 	anyItems ...interface{},
 ) string {
+	if len(anyItems) == 0 {
+		return ""
+	}
+
 	return "Reference (Types): " + strings.Join(
 		TypeNames(isFullName, anyItems...),
 		constants.CommaSpace,
@@ -102,6 +118,10 @@ func (it reflectConverter) Names(
 	isFullName bool,
 	anyItems ...interface{},
 ) []string {
+	if len(anyItems) == 0 {
+		return []string{}
+	}
+
 	slice := make([]string, len(anyItems))
 
 	if isFullName {
