@@ -13,6 +13,7 @@ var (
 	ReflectType                    = reflectTypeConverter{}
 	ReflectGetterUsingReflectValue = reflectGetUsingReflectValue{}
 	SliceConverter                 = sliceConverter{}
+	MapConverter                   = mapConverter{}
 
 	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition
 	prependWithSpacesFunc = convertinteranl.Util.String.PrependWithSpacesDefault
