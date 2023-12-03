@@ -163,7 +163,7 @@ func (it *LinkedCollections) IsEmptyLock() bool {
 }
 
 func (it *LinkedCollections) IsEmpty() bool {
-	return it.head == nil || it.length == 0
+	return it == nil || it.head == nil || it.length == 0
 }
 
 func (it *LinkedCollections) HasItems() bool {
@@ -1349,11 +1349,28 @@ func (it *LinkedCollections) ItemsOfItemsCollection() []*Collection {
 	return itemsOfItems
 }
 
+func (it *LinkedCollections) SimpleSlice() *SimpleSlice {
+	list := SimpleSlice(it.List())
+
+	return &list
+}
+
 // ListPtr must return slice.
 func (it *LinkedCollections) ListPtr() *[]string {
+	if it.IsEmpty() {
+		return &[]string{}
+	}
+
 	return it.
 		ToCollection(constants.ArbitraryCapacity5).
 		ListPtr()
+}
+
+// List must return slice.
+func (it *LinkedCollections) List() []string {
+	list := it.ListPtr()
+
+	return *list
 }
 
 func (it *LinkedCollections) String() string {
@@ -1376,7 +1393,7 @@ func (it *LinkedCollections) StringLock() string {
 
 	return commonJoiner +
 		strings.Join(
-			*it.ListPtr(),
+			it.List(),
 			commonJoiner,
 		)
 }
