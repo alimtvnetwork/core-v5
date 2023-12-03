@@ -1,4 +1,4 @@
-package coredynamic
+package reflectinternal
 
 import (
 	"reflect"
@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type reflectGetUsingReflectValue struct{}
@@ -248,7 +247,7 @@ func (it reflectGetUsingReflectValue) NullFieldsMap(
 	for i := 0; i < structNumFields; i++ {
 		fieldValue = structValue.Field(i)
 
-		if reflectinternal.Is.NullRv(fieldValue) {
+		if Is.NullRv(fieldValue) {
 			fieldType = structType.Field(i)
 			hashset[fieldType.Name] = true
 		}
@@ -297,7 +296,7 @@ func (it reflectGetUsingReflectValue) NullOrZeroFieldsMap(
 	for i := 0; i < structNumFields; i++ {
 		fieldValue = structValue.Field(i)
 
-		if reflectinternal.Is.ZeroRv(fieldValue) {
+		if Is.ZeroRv(fieldValue) {
 			fieldType = structType.Field(i)
 			hashset[fieldType.Name] = true
 		}

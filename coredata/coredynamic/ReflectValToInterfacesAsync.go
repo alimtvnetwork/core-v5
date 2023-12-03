@@ -9,6 +9,7 @@ import (
 func ReflectValToInterfacesAsync(
 	reflectVal reflect.Value,
 ) []interface{} {
-	return reflectinternal.ReflectValToInterfacesAsync(
-		reflectVal)
+	return reflectinternal.Converter.ReflectValToInterfacesAsync(
+		reflectVal,
+	)
 }

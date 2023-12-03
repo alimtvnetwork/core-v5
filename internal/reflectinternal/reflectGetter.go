@@ -1,10 +1,9 @@
-package coredynamic
+package reflectinternal
 
 import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type reflectGetter struct{}
@@ -18,7 +17,7 @@ type reflectGetter struct{}
 func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
 	map[string]interface{}, error,
 ) {
-	if reflectinternal.Is.Null(anyItem) {
+	if Is.Null(anyItem) {
 		return map[string]interface{}{},
 			errcore.
 				NullResultType.
@@ -44,7 +43,7 @@ func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
 func (it reflectGetter) FieldNameWithValuesMap(anyItem interface{}) (
 	map[string]interface{}, error,
 ) {
-	if reflectinternal.Is.Null(anyItem) {
+	if Is.Null(anyItem) {
 		return map[string]interface{}{},
 			errcore.
 				NullResultType.
@@ -67,7 +66,7 @@ func (it reflectGetter) FieldNamesMap(
 ) (
 	map[string]bool, error,
 ) {
-	if reflectinternal.Is.Null(anyItem) {
+	if Is.Null(anyItem) {
 		return map[string]bool{},
 			errcore.
 				NullResultType.
@@ -88,7 +87,7 @@ func (it reflectGetter) FieldNamesMap(
 func (it reflectGetter) StructFieldsMap(
 	anyItem interface{},
 ) map[string]reflect.StructField {
-	if reflectinternal.Is.Null(anyItem) {
+	if Is.Null(anyItem) {
 		return map[string]reflect.StructField{}
 	}
 
@@ -104,7 +103,7 @@ func (it reflectGetter) StructFieldsMap(
 func (it reflectGetter) NullFieldsMap(
 	anyItem interface{},
 ) map[string]bool {
-	if reflectinternal.Is.Null(anyItem) {
+	if Is.Null(anyItem) {
 		return map[string]bool{}
 	}
 
@@ -121,7 +120,7 @@ func (it reflectGetter) NullFieldsMap(
 func (it reflectGetter) NullOrZeroFieldsMap(
 	anyItem interface{},
 ) map[string]bool {
-	if reflectinternal.Is.Null(anyItem) {
+	if Is.Null(anyItem) {
 		return map[string]bool{}
 	}
 

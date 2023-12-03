@@ -11,8 +11,9 @@ func ReflectValToInterfacesUsingProcessor(
 	processorFunc func(item interface{}) (result interface{}, isTake, isBreak bool),
 	reflectVal reflect.Value,
 ) []interface{} {
-	return reflectinternal.ReflectValToInterfacesUsingProcessor(
+	return reflectinternal.Converter.ReflectValToInterfacesUsingProcessor(
 		isSkipOnNil,
 		processorFunc,
-		reflectVal)
+		reflectVal,
+	)
 }

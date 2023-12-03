@@ -3,6 +3,7 @@ package reflectinternal
 import (
 	"errors"
 	"reflect"
+	"strings"
 	"unsafe"
 
 	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
@@ -246,6 +247,123 @@ func (it *looper) MethodsForRv(
 	reducer := it.ReducePointerRvDefault(rv)
 
 	return it.loopBaseMethods(reducer.FinalReflectVal, processor)
+}
+
+func (it *looper) Slice(
+	i interface{},
+	processor func(
+		total int,
+		index int,
+		item interface{},
+	) (err error),
+) error {
+	if Is.Null(i) {
+		return nil
+	}
+
+	toRv := reflect.ValueOf(i)
+
+	return it.SliceForRv(toRv, processor)
+}
+
+func (it *looper) SliceForRv(
+	rv reflect.Value,
+	processor func(
+		total int,
+		index int,
+		item interface{},
+	) (err error),
+) error {
+	valueRvWrap := it.ReducePointerRv(rv, defaultPointerReduction)
+
+	if valueRvWrap.HasError() {
+		return valueRvWrap.Error
+	}
+
+	valueRv := valueRvWrap.FinalReflectVal
+
+	k := valueRv.Kind()
+	isSliceOrArray := k == reflect.Slice ||
+		k == reflect.Array
+
+	if !isSliceOrArray {
+		return errors.New("given item is not a slice nor an array")
+	}
+
+	length := valueRv.Len()
+
+	if length == 0 {
+		return nil
+	}
+
+	var errSlice []string
+
+	for i := 0; i < length; i++ {
+		err := processor(length, i, valueRv.Index(i))
+
+		if err != nil {
+			errSlice = append(errSlice, err.Error())
+		}
+	}
+
+	if len(errSlice) == 0 {
+		return nil
+	}
+
+	toMsg := strings.Join(errSlice, "\n")
+
+	return errors.New(toMsg)
+}
+
+func (it *looper) MapForRv(
+	rv reflect.Value,
+	processor func(
+		total int,
+		index int,
+		key,
+		item interface{},
+	) (err error),
+) error {
+	valueRvWrap := it.ReducePointerRv(rv, defaultPointerReduction)
+
+	if valueRvWrap.HasError() {
+		return valueRvWrap.Error
+	}
+
+	valueRv := valueRvWrap.FinalReflectVal
+
+	k := valueRv.Kind()
+	isMap := k == reflect.Map
+
+	if !isMap {
+		return errors.New("given item is not a map")
+	}
+
+	mapKeys := valueRv.MapKeys()
+	length := len(mapKeys)
+
+	if length == 0 {
+		return nil
+	}
+
+	var errSlice []string
+
+	for i, key := range mapKeys {
+		value := valueRv.MapIndex(key)
+		err := processor(length, i, key, value)
+
+		if err != nil {
+			errSlice = append(errSlice, err.Error())
+		}
+	}
+
+	if len(errSlice) == 0 {
+		return nil
+	}
+
+	toMsg := strings.Join(errSlice, "\n")
+
+	return errors.New(toMsg)
 }
 
 func (it *looper) MethodsMapRv(

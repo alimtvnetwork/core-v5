@@ -205,12 +205,16 @@ func (it reflectConverter) ReducePointerRvDefaultToType(
 	return nil
 }
 
-func ReflectValToInterfaces(
+// ReflectValToInterfaces
+//
+// Assuming passing reflect val is an array or slice
+// loop using reflection and returns the interfaces slice
+func (it reflectConverter) ReflectValToInterfaces(
 	isSkipOnNil bool,
 	reflectVal reflect.Value,
 ) []interface{} {
 	if reflectVal.Kind() == reflect.Ptr {
-		return ReflectValToInterfaces(
+		return it.ReflectValToInterfaces(
 			isSkipOnNil,
 			reflect.Indirect(reflect.ValueOf(reflectVal)),
 		)
@@ -250,11 +254,11 @@ func ReflectValToInterfaces(
 	return slice
 }
 
-func ReflectValToInterfacesAsync(
+func (it reflectConverter) ReflectValToInterfacesAsync(
 	reflectVal reflect.Value,
 ) []interface{} {
 	if reflectVal.Kind() == reflect.Ptr {
-		return ReflectValToInterfacesAsync(
+		return it.ReflectValToInterfacesAsync(
 			reflect.Indirect(reflect.ValueOf(reflectVal)),
 		)
 	}
@@ -298,13 +302,13 @@ func ReflectValToInterfacesAsync(
 	return slice
 }
 
-func ReflectValToInterfacesUsingProcessor(
+func (it reflectConverter) ReflectValToInterfacesUsingProcessor(
 	isSkipOnNil bool,
 	processorFunc func(item interface{}) (result interface{}, isTake, isBreak bool),
 	reflectVal reflect.Value,
 ) []interface{} {
 	if reflectVal.Kind() == reflect.Ptr {
-		return ReflectValToInterfaces(
+		return it.ReflectValToInterfaces(
 			isSkipOnNil,
 			reflect.Indirect(reflect.ValueOf(reflectVal)),
 		)
@@ -353,7 +357,7 @@ func ReflectValToInterfacesUsingProcessor(
 	return slice
 }
 
-func ReflectInterfaceVal(any interface{}) interface{} {
+func (it reflectConverter) ReflectInterfaceVal(any interface{}) interface{} {
 	rVal := reflect.ValueOf(any)
 
 	if rVal.Kind() == reflect.Ptr {
@@ -363,7 +367,7 @@ func ReflectInterfaceVal(any interface{}) interface{} {
 	return rVal.Interface()
 }
 
-func SafeTypeName(any interface{}) string {
+func (it reflectConverter) SafeTypeName(any interface{}) string {
 	rt := reflect.TypeOf(any)
 
 	if Is.Null(rt) {
@@ -373,21 +377,21 @@ func SafeTypeName(any interface{}) string {
 	return rt.String()
 }
 
-func SafeTypeNameOfSliceOrSingle(
+func (it reflectConverter) SafeTypeNameOfSliceOrSingle(
 	isSingle bool,
 	any interface{},
 ) string {
 	if isSingle {
-		return SafeTypeName(any)
+		return it.SafeTypeName(any)
 	}
 
-	return SafeSliceToTypeName(any)
+	return it.SafeSliceToTypeName(any)
 }
 
 // SafeSliceToTypeName
 //
 // Gets slice element type name, reduce ptr slice as well.
-func SafeSliceToTypeName(slice interface{}) string {
+func (it reflectConverter) SafeSliceToTypeName(slice interface{}) string {
 	rt := reflect.TypeOf(slice)
 
 	if Is.Null(rt) {
