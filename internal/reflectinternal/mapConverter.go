@@ -127,6 +127,10 @@ func (it mapConverter) ToKeysValuesAny(i interface{}) (keys []string, values []i
 //
 //	expectation : map[key:string]don't care values
 func (it mapConverter) ToStrings(any interface{}) ([]string, error) {
+	if Is.Null(any) {
+		return []string{}, nil
+	}
+
 	reflectVal := reflect.ValueOf(any)
 
 	return it.ToStringsRv(reflectVal)
@@ -145,6 +149,10 @@ func (it mapConverter) ToStringsMust(any interface{}) []string {
 }
 
 func (it mapConverter) ToSortedStrings(any interface{}) ([]string, error) {
+	if Is.Null(any) {
+		return []string{}, nil
+	}
+
 	reflectVal := reflect.ValueOf(any)
 
 	keys, err := it.ToStringsRv(reflectVal)
@@ -159,6 +167,10 @@ func (it mapConverter) ToSortedStrings(any interface{}) ([]string, error) {
 }
 
 func (it mapConverter) ToSortedStringsMust(any interface{}) []string {
+	if Is.Null(any) {
+		return []string{}
+	}
+
 	reflectVal := reflect.ValueOf(any)
 
 	keys := it.ToStringsMust(reflectVal)
