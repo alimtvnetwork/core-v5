@@ -19,6 +19,7 @@ var (
 	ReflectType                    = reflectinternal.ReflectType
 	ReflectGetter                  = reflectinternal.ReflectGetter
 	ReflectGetterUsingReflectValue = reflectinternal.ReflectGetterUsingReflectValue
+	SliceConverter                 = reflectinternal.SliceConverter
 
 	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition
 	prependWithSpacesFunc = convertinteranl.Util.String.PrependWithSpacesDefault

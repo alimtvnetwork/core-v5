@@ -10,9 +10,9 @@ import (
 
 type sliceConverter struct{}
 
-func (it sliceConverter) ToStrings(reflectVal reflect.Value) ([]string, error) {
+func (it sliceConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
-		return SliceItemsAsStrings(
+		return it.ToStringsRv(
 			reflect.Indirect(reflect.ValueOf(reflectVal)),
 		)
 	}
@@ -45,16 +45,16 @@ func (it sliceConverter) ToStrings(reflectVal reflect.Value) ([]string, error) {
 	return slice, nil
 }
 
-func SliceItemsAsStringsAny(any interface{}) ([]string, error) {
+func (it sliceConverter) ToStrings(any interface{}) ([]string, error) {
 	reflectVal := reflect.ValueOf(any)
 
-	return SliceItemsAsStrings(reflectVal)
+	return it.ToStringsRv(reflectVal)
 }
 
-func SliceItemsAsStringsAnyMust(any interface{}) []string {
+func (it sliceConverter) ToStringsMust(any interface{}) []string {
 	reflectVal := reflect.ValueOf(any)
 
-	items, err := SliceItemsAsStrings(reflectVal)
+	items, err := it.ToStringsRv(reflectVal)
 
 	if err != nil {
 		panic(err)
@@ -62,13 +62,14 @@ func SliceItemsAsStringsAnyMust(any interface{}) []string {
 
 	return items
 }
-func SliceItemsProcessorAsStrings(
+func (it sliceConverter) ToStringsRvUsingProcessor(
 	reflectVal reflect.Value,
 	processor func(index int, item interface{}) (result string, isTake, isBreak bool),
 ) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
-		return SliceItemsAsStrings(
-			reflect.Indirect(reflect.ValueOf(reflectVal)),
+		return it.ToStringsRvUsingProcessor(
+			reflect.Indirect(reflectVal),
+			processor,
 		)
 	}
 
@@ -105,14 +106,16 @@ func SliceItemsProcessorAsStrings(
 	return slice, nil
 }
 
-func SliceItemsSimpleProcessorAsStrings(
+func (it sliceConverter) ToStringsRvUsingSimpleProcessor(
 	reflectVal reflect.Value,
 	isSkipEmpty bool,
 	processor func(index int, item interface{}) (result string),
 ) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
-		return SliceItemsAsStrings(
-			reflect.Indirect(reflect.ValueOf(reflectVal)),
+		return it.ToStringsRvUsingSimpleProcessor(
+			reflect.Indirect(reflectVal),
+			isSkipEmpty,
+			processor,
 		)
 	}
 
