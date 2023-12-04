@@ -30,12 +30,12 @@ func (it newFuncWrapCreator) Default(anyFunc interface{}) *FuncWrap {
 	}
 
 	// valid
-	fullName, funcName := reflectinternal.
+	fullName, nameOnly := reflectinternal.
 		GetFunc.
 		FullNameWithName(anyFunc)
 
 	return &FuncWrap{
-		Name:      funcName,
+		Name:      nameOnly,
 		FullName:  fullName,
 		Func:      anyFunc,
 		isInvalid: false,

@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
 )
 
@@ -104,9 +103,24 @@ func (it getFunc) All(fullFuncName string) (fullMethodName, packageName, methodN
 	}
 
 	splitsByDot := strings.Split(fullFuncName, constants.Dot)
-	packageName, methodName = stringslice.FirstLastDefault(splitsByDot)
+	packageName, methodName = it.firstLastDefault(splitsByDot)
 
 	return it.fixFinalFuncName(fullFuncName), packageName, it.fixFinalFuncName(methodName)
+}
+
+func (it getFunc) firstLastDefault(slice []string) (first, last string) {
+	length := len(slice)
+
+	if length == 0 {
+		return constants.EmptyString, constants.EmptyString
+	}
+
+	if length == 1 {
+		return slice[0], constants.EmptyString
+	}
+
+	// length >= 2
+	return slice[0], slice[length-1]
 }
 
 func (it getFunc) GetMethod(

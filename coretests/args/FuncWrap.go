@@ -37,6 +37,22 @@ func (it *FuncWrap) IsValid() bool {
 	return !it.IsInvalid()
 }
 
+func (it *FuncWrap) PkgPath() string {
+	if it.IsInvalid() {
+		return ""
+	}
+
+	return it.rvType.PkgPath()
+}
+
+func (it *FuncWrap) PkgName() string {
+	if it.IsInvalid() {
+		return ""
+	}
+
+	return reflectinternal.Utils.PkgName(it.rvType)
+}
+
 // ArgsCount returns -1 on invalid
 func (it *FuncWrap) ArgsCount() int {
 	if it.IsInvalid() {

@@ -142,6 +142,21 @@ func (it reflectUtils) VerifyReflectTypes(
 	return false, errors.New(finalErrMessage)
 }
 
+func (it reflectUtils) PkgName(
+	i interface{},
+) string {
+	return it.PkgNameRt(reflect.TypeOf(i))
+}
+
+func (it reflectUtils) PkgNameRt(
+	r reflect.Type,
+) string {
+	pkgPath := r.PkgPath()
+	_, pkgName, _ := GetFunc.All(pkgPath)
+
+	return pkgName
+}
+
 func (it reflectUtils) IsReflectTypeMatch(expectedType, givenType reflect.Type) (isOkay bool, err error) {
 	if expectedType == givenType {
 		return true, nil

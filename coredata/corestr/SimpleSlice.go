@@ -362,6 +362,39 @@ func (it *SimpleSlice) Strings() []string {
 	return *it
 }
 
+func (it *SimpleSlice) WrapDoubleQuote() SimpleSlice {
+	return it.Transpile(
+		func(s string) string {
+			return fmt.Sprintf("\"%s\"", s)
+		},
+	)
+}
+
+func (it *SimpleSlice) Transpile(
+	fmtFunc func(s string) string,
+) SimpleSlice {
+	if it.IsEmpty() {
+		return []string{}
+	}
+
+	newSlice := make([]string, it.Length())
+
+	for i, s := range *it {
+		newSlice[i] = fmtFunc(s)
+	}
+
+	return newSlice
+}
+
+func (it *SimpleSlice) TranspileJoin(
+	fmtFunc func(s string) string,
+	sep string,
+) string {
+	toTranspile := it.Transpile(fmtFunc)
+
+	return toTranspile.Join(sep)
+}
+
 func (it *SimpleSlice) Hashset() *Hashset {
 	return New.Hashset.Strings(*it)
 }
@@ -423,7 +456,7 @@ func (it *SimpleSlice) JoinCsvLine() string {
 	return strings.Join(it.CsvStrings(), constants.CommaUnixNewLine)
 }
 
-func (it *SimpleSlice) EachItemSplitBy(splitBy string) (splitItemsOnly []string) {
+func (it *SimpleSlice) EachItemSplitBy(splitBy string) (splitItemsOnly SimpleSlice) {
 	slice := make([]string, 0, it.Length()*constants.Capacity3)
 
 	for _, item := range *it {
