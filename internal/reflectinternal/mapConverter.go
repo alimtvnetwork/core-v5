@@ -241,4 +241,8 @@ func (it mapConverter) ToMapStringAny(
 	if Is.Null(i) {
 		return map[string]interface{}{}, nil
 	}
+
+	return it.ToMapStringAnyRv(
+		reflect.ValueOf(i),
+	)
 }

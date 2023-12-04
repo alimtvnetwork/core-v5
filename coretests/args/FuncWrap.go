@@ -21,59 +21,6 @@ type FuncWrap struct {
 	outArgsTypes     []reflect.Type `json:"-"`
 }
 
-func NewFuncWrap(anyFunc interface{}) *FuncWrap {
-	if reflectinternal.Is.Null(anyFunc) {
-		return &FuncWrap{
-			Func:      anyFunc,
-			isInvalid: true,
-		}
-	}
-
-	typeOf := reflect.TypeOf(anyFunc)
-	kind := typeOf.Kind()
-
-	if kind != reflect.Func {
-		// invalid
-
-		return &FuncWrap{
-			Func:      anyFunc,
-			isInvalid: true,
-			rvType:    typeOf,
-		}
-	}
-
-	// valid
-	fullName, funcName := reflectinternal.
-		GetFunc.
-		FullNameWithName(anyFunc)
-
-	return &FuncWrap{
-		Name:      funcName,
-		FullName:  fullName,
-		Func:      anyFunc,
-		isInvalid: false,
-		rvType:    typeOf,
-		rv:        reflect.ValueOf(anyFunc),
-	}
-}
-
-func NewFuncWrapMaps(anyFunctions ...interface{}) map[string]*FuncWrap {
-	if len(anyFunctions) == 0 {
-		return map[string]*FuncWrap{}
-	}
-
-	newMap := make(map[string]*FuncWrap, len(anyFunctions))
-
-	for _, function := range anyFunctions {
-		v := NewFuncWrap(function)
-		if v.IsValid() {
-			newMap[v.FuncName()] = v
-		}
-	}
-
-	return newMap
-}
-
 func (it FuncWrap) FuncName() string {
 	return it.Name
 }

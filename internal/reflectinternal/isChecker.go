@@ -194,3 +194,57 @@ func (it isChecker) ZeroRv(rv reflect.Value) bool {
 
 	return rv.Interface() == z.Interface()
 }
+
+func (it isChecker) IsStructImplementedBy(structObj, interfaceObj interface{}) bool {
+	structRv := reflect.TypeOf(structObj)
+	iRv := reflect.TypeOf(interfaceObj)
+
+	return it.IsStructImplementedByRv(structRv, iRv)
+}
+
+func (it isChecker) IsStructImplementedByRv(structRv, interfaceRv reflect.Type) bool {
+	// TypeOf trick found at https://groups.google.com/forum/#!topic/golang-nuts/qgJy_H2GysY
+	return structRv.Implements(interfaceRv.Elem())
+}
+
+func (it isChecker) IsStruct(structObj interface{}) bool {
+	structRv := reflect.ValueOf(structObj)
+	reducePtr := Looper.ReducePointerRvDefault(structRv)
+
+	if reducePtr.IsValid {
+		return reducePtr.Kind == reflect.Struct
+	}
+
+	return false
+}
+
+func (it isChecker) IsStructRv(structRv reflect.Value) bool {
+	reducePtr := Looper.ReducePointerRvDefault(structRv)
+
+	if reducePtr.IsValid {
+		return reducePtr.Kind == reflect.Struct
+	}
+
+	return false
+}
+
+func (it isChecker) IsInterface(i interface{}) bool {
+	iRv := reflect.ValueOf(i)
+	reducePtr := Looper.ReducePointerRvDefault(iRv)
+
+	if reducePtr.IsValid {
+		return reducePtr.Kind == reflect.Interface
+	}
+
+	return false
+}
+
+func (it isChecker) IsInterfaceRv(iRv reflect.Value) bool {
+	reducePtr := Looper.ReducePointerRvDefault(iRv)
+
+	if reducePtr.IsValid {
+		return reducePtr.Kind == reflect.Interface
+	}
+
+	return false
+}
