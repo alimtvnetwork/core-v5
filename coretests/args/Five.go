@@ -20,6 +20,26 @@ type Five struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *Five) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *Five) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *Five) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *Five) FourthItem() interface{} {
+	return it.Fourth
+}
+
+func (it *Five) FifthItem() interface{} {
+	return it.Fifth
+}
+
 func (it *Five) ArgTwo() Two {
 	return Two{
 		First:  it.First,

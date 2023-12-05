@@ -346,6 +346,76 @@ func (it *SimpleSlice) IsEmpty() bool {
 	return it == nil || it.Length() == 0
 }
 
+func (it *SimpleSlice) IsContains(item string) bool {
+	if it.IsEmpty() {
+		return false
+	}
+
+	slice := *it
+
+	for _, s := range slice {
+		if s == item {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it *SimpleSlice) IsContainsFunc(
+	searchingItem string,
+	isSearchFunc func(item, searching string) bool,
+) bool {
+	if it.IsEmpty() {
+		return false
+	}
+
+	slice := *it
+
+	for _, s := range slice {
+		if isSearchFunc(s, searchingItem) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it *SimpleSlice) IndexOfFunc(
+	searchingItem string,
+	isSearchFunc func(item, searching string) bool,
+) int {
+	if it.IsEmpty() {
+		return constants.InvalidIndex
+	}
+
+	slice := *it
+
+	for i, s := range slice {
+		if isSearchFunc(s, searchingItem) {
+			return i
+		}
+	}
+
+	return constants.InvalidIndex
+}
+
+func (it *SimpleSlice) IndexOf(item string) int {
+	if it.IsEmpty() {
+		return constants.InvalidIndex
+	}
+
+	slice := *it
+
+	for i, s := range slice {
+		if s == item {
+			return i
+		}
+	}
+
+	return constants.InvalidIndex
+}
+
 func (it *SimpleSlice) HasAnyItem() bool {
 	return !it.IsEmpty()
 }
@@ -362,7 +432,7 @@ func (it *SimpleSlice) Strings() []string {
 	return *it
 }
 
-func (it *SimpleSlice) WrapDoubleQuote() SimpleSlice {
+func (it *SimpleSlice) WrapDoubleQuote() *SimpleSlice {
 	return it.Transpile(
 		func(s string) string {
 			return fmt.Sprintf("\"%s\"", s)
@@ -370,11 +440,19 @@ func (it *SimpleSlice) WrapDoubleQuote() SimpleSlice {
 	)
 }
 
+func (it *SimpleSlice) WrapSingleQuote() *SimpleSlice {
+	return it.Transpile(
+		func(s string) string {
+			return fmt.Sprintf("'%s'", s)
+		},
+	)
+}
+
 func (it *SimpleSlice) Transpile(
 	fmtFunc func(s string) string,
-) SimpleSlice {
+) *SimpleSlice {
 	if it.IsEmpty() {
-		return []string{}
+		return it.emptySimpleSlice()
 	}
 
 	newSlice := make([]string, it.Length())
@@ -383,7 +461,19 @@ func (it *SimpleSlice) Transpile(
 		newSlice[i] = fmtFunc(s)
 	}
 
-	return newSlice
+	return it.convertToSimpleSlice(newSlice)
+}
+
+func (it *SimpleSlice) emptySimpleSlice() *SimpleSlice {
+	list := SimpleSlice([]string{})
+
+	return &list
+}
+
+func (it *SimpleSlice) convertToSimpleSlice(list []string) *SimpleSlice {
+	output := SimpleSlice(list)
+
+	return &output
 }
 
 func (it *SimpleSlice) TranspileJoin(
@@ -456,7 +546,7 @@ func (it *SimpleSlice) JoinCsvLine() string {
 	return strings.Join(it.CsvStrings(), constants.CommaUnixNewLine)
 }
 
-func (it *SimpleSlice) EachItemSplitBy(splitBy string) (splitItemsOnly SimpleSlice) {
+func (it *SimpleSlice) EachItemSplitBy(splitBy string) (splitItemsOnly *SimpleSlice) {
 	slice := make([]string, 0, it.Length()*constants.Capacity3)
 
 	for _, item := range *it {
@@ -465,7 +555,7 @@ func (it *SimpleSlice) EachItemSplitBy(splitBy string) (splitItemsOnly SimpleSli
 		slice = append(slice, splitItems...)
 	}
 
-	return slice
+	return it.convertToSimpleSlice(slice)
 }
 
 func (it *SimpleSlice) PrependJoin(
@@ -707,8 +797,9 @@ func (it *SimpleSlice) CsvStrings() []string {
 	}
 
 	newSlice := make([]string, it.Length())
+	slice := *it
 
-	for i, item := range *it {
+	for i, item := range slice {
 		newSlice[i] = fmt.Sprintf(
 			constants.SprintDoubleQuoteFormat,
 			item,
@@ -1120,7 +1211,7 @@ func (it *SimpleSlice) Deserialize(toPtr interface{}) (parsingErr error) {
 }
 
 func (it *SimpleSlice) SafeStrings() []string {
-	if it == nil || *it == nil {
+	if it.IsEmpty() {
 		return []string{}
 	}
 

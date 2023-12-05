@@ -21,6 +21,26 @@ type FiveFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *FiveFunc) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *FiveFunc) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *FiveFunc) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *FiveFunc) FourthItem() interface{} {
+	return it.Fourth
+}
+
+func (it *FiveFunc) FifthItem() interface{} {
+	return it.Fifth
+}
+
 func (it *FiveFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
@@ -78,7 +98,7 @@ func (it *FiveFunc) GetFuncName() string {
 }
 
 func (it *FiveFunc) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *FiveFunc) Invoke(args ...interface{}) (

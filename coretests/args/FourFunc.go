@@ -20,6 +20,22 @@ type FourFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *FourFunc) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *FourFunc) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *FourFunc) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *FourFunc) FourthItem() interface{} {
+	return it.Fourth
+}
+
 func (it *FourFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
@@ -73,7 +89,7 @@ func (it *FourFunc) GetFuncName() string {
 }
 
 func (it *FourFunc) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *FourFunc) Invoke(args ...interface{}) (

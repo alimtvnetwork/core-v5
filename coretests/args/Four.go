@@ -16,6 +16,22 @@ type Four struct {
 	Expect interface{} `json:",omitempty"`
 }
 
+func (it *Four) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *Four) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *Four) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *Four) FourthItem() interface{} {
+	return it.Fourth
+}
+
 func (it *Four) ArgTwo() Two {
 	return Two{
 		First:  it.First,

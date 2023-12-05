@@ -9,7 +9,7 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type ArgSix struct {
+type Six struct {
 	First    interface{} `json:",omitempty"`
 	Second   interface{} `json:",omitempty"`
 	Third    interface{} `json:",omitempty"`
@@ -21,14 +21,38 @@ type ArgSix struct {
 	toString corestr.SimpleStringOnce
 }
 
-func (it ArgSix) ArgTwo() Two {
+func (it *Six) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *Six) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *Six) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *Six) FourthItem() interface{} {
+	return it.Fourth
+}
+
+func (it *Six) FifthItem() interface{} {
+	return it.Fifth
+}
+
+func (it *Six) SixthItem() interface{} {
+	return it.Sixth
+}
+
+func (it Six) ArgTwo() Two {
 	return Two{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it ArgSix) ArgThree() Three {
+func (it Six) ArgThree() Three {
 	return Three{
 		First:  it.First,
 		Second: it.Second,
@@ -36,7 +60,7 @@ func (it ArgSix) ArgThree() Three {
 	}
 }
 
-func (it ArgSix) ArgFour() Four {
+func (it Six) ArgFour() Four {
 	return Four{
 		First:  it.First,
 		Second: it.Second,
@@ -45,7 +69,7 @@ func (it ArgSix) ArgFour() Four {
 	}
 }
 
-func (it ArgSix) ArgFive() Five {
+func (it Six) ArgFive() Five {
 	return Five{
 		First:  it.First,
 		Second: it.Second,
@@ -54,35 +78,35 @@ func (it ArgSix) ArgFive() Five {
 	}
 }
 
-func (it *ArgSix) HasFirst() bool {
+func (it *Six) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *ArgSix) HasSecond() bool {
+func (it *Six) HasSecond() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
-func (it *ArgSix) HasThird() bool {
+func (it *Six) HasThird() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
-func (it *ArgSix) HasFourth() bool {
+func (it *Six) HasFourth() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
-func (it *ArgSix) HasFifth() bool {
+func (it *Six) HasFifth() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Fifth)
 }
 
-func (it *ArgSix) HasSixth() bool {
+func (it *Six) HasSixth() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Sixth)
 }
 
-func (it *ArgSix) HasExpect() bool {
+func (it *Six) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it ArgSix) Slice() []interface{} {
+func (it Six) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -122,7 +146,7 @@ func (it ArgSix) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it ArgSix) GetByIndex(index int) interface{} {
+func (it Six) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -132,7 +156,7 @@ func (it ArgSix) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it ArgSix) String() string {
+func (it Six) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -145,7 +169,7 @@ func (it ArgSix) String() string {
 
 	toFinalString := fmt.Sprintf(
 		selfToStringFmt,
-		"ArgSix",
+		"Six",
 		strings.Join(args, constants.CommaSpace),
 	)
 

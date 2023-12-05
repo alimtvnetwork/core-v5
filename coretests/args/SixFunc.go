@@ -22,6 +22,30 @@ type SixFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *SixFunc) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *SixFunc) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *SixFunc) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *SixFunc) FourthItem() interface{} {
+	return it.Fourth
+}
+
+func (it *SixFunc) FifthItem() interface{} {
+	return it.Fifth
+}
+
+func (it *SixFunc) SixthItem() interface{} {
+	return it.Sixth
+}
+
 func (it *SixFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
@@ -92,7 +116,7 @@ func (it *SixFunc) GetFuncName() string {
 }
 
 func (it *SixFunc) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *SixFunc) Invoke(args ...interface{}) (

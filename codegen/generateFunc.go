@@ -53,6 +53,14 @@ func (it GenerateFunc) toFunWrap() *args.FuncWrap {
 		Default(it.Func)
 }
 
-func (it GenerateFunc) generateActLines() interface{} {
+func (it GenerateFunc) generateActLines() []string {
 
+}
+
+func (it GenerateFunc) generateActMethod() []string {
+	switch v := it.ArrangeInputs.(type) {
+	case args.Map:
+		return "input."
+
+	}
 }
