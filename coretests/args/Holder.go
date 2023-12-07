@@ -29,6 +29,34 @@ type Holder struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *Holder) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *Holder) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *Holder) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *Holder) FourthItem() interface{} {
+	return it.Fourth
+}
+
+func (it *Holder) FifthItem() interface{} {
+	return it.Fifth
+}
+
+func (it *Holder) SixthItem() interface{} {
+	return it.Sixth
+}
+
+func (it *Holder) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *Holder) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
@@ -99,7 +127,7 @@ func (it *Holder) GetFuncName() string {
 }
 
 func (it *Holder) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *Holder) Invoke(args ...interface{}) (

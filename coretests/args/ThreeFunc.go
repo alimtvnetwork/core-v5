@@ -19,6 +19,22 @@ type ThreeFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *ThreeFunc) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *ThreeFunc) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *ThreeFunc) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *ThreeFunc) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *ThreeFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
@@ -55,7 +71,7 @@ func (it *ThreeFunc) HasExpect() bool {
 }
 
 func (it *ThreeFunc) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *ThreeFunc) Invoke(args ...interface{}) (

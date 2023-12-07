@@ -17,6 +17,34 @@ type Dynamic struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *Dynamic) FirstItem() interface{} {
+	return it.Params.FirstItem()
+}
+
+func (it *Dynamic) SecondItem() interface{} {
+	return it.Params.SecondItem()
+}
+
+func (it *Dynamic) ThirdItem() interface{} {
+	return it.Params.ThirdItem()
+}
+
+func (it *Dynamic) FourthItem() interface{} {
+	return it.Params.FourthItem()
+}
+
+func (it *Dynamic) FifthItem() interface{} {
+	return it.Params.FifthItem()
+}
+
+func (it *Dynamic) SixthItem() interface{} {
+	return it.Params.SixthItem()
+}
+
+func (it *Dynamic) Expected() interface{} {
+	return it.Expect
+}
+
 // HasDefined
 //
 // Confirms that key is present and defined.

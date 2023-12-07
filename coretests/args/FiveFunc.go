@@ -41,6 +41,10 @@ func (it *FiveFunc) FifthItem() interface{} {
 	return it.Fifth
 }
 
+func (it *FiveFunc) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *FiveFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,

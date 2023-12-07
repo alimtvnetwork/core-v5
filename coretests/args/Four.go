@@ -32,6 +32,10 @@ func (it *Four) FourthItem() interface{} {
 	return it.Fourth
 }
 
+func (it *Four) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *Four) ArgTwo() Two {
 	return Two{
 		First:  it.First,

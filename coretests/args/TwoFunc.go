@@ -18,6 +18,18 @@ type TwoFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *TwoFunc) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *TwoFunc) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *TwoFunc) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *TwoFunc) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
@@ -46,7 +58,7 @@ func (it *TwoFunc) GetFuncName() string {
 }
 
 func (it *TwoFunc) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *TwoFunc) Invoke(args ...interface{}) (

@@ -17,6 +17,18 @@ type Two struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *Two) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *Two) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *Two) Expected() interface{} {
+	return it.Expect
+}
+
 func (it Two) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,

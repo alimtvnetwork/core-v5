@@ -162,27 +162,27 @@ func (it Map) Arrange() interface{} {
 	return it.GetDirectLower("arrange")
 }
 
-func (it Map) First() interface{} {
+func (it Map) FirstItem() interface{} {
 	return it.GetFirstOfNames("first", "f1", "p1", "1")
 }
 
-func (it Map) Second() interface{} {
+func (it Map) SecondItem() interface{} {
 	return it.GetFirstOfNames("second", "f2", "p2", "2")
 }
 
-func (it Map) Third() interface{} {
+func (it Map) ThirdItem() interface{} {
 	return it.GetFirstOfNames("third", "f3", "p3", "3")
 }
 
-func (it Map) Fourth() interface{} {
+func (it Map) FourthItem() interface{} {
 	return it.GetFirstOfNames("fourth", "f4", "p4", "4")
 }
 
-func (it Map) Fifth() interface{} {
+func (it Map) FifthItem() interface{} {
 	return it.GetFirstOfNames("fifth", "f5", "p5", "5")
 }
 
-func (it Map) Sixth() interface{} {
+func (it Map) SixthItem() interface{} {
 	return it.GetFirstOfNames("sixth", "f6", "p6", "6")
 }
 
@@ -239,7 +239,7 @@ func (it Map) WorkFuncName() string {
 }
 
 func (it Map) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc())
+	return NewFuncWrap.Default(it.WorkFunc())
 }
 
 func (it Map) Invoke(args ...interface{}) (

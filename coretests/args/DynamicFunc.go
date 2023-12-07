@@ -18,6 +18,34 @@ type DynamicFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *DynamicFunc) FirstItem() interface{} {
+	return it.Params.FirstItem()
+}
+
+func (it *DynamicFunc) SecondItem() interface{} {
+	return it.Params.SecondItem()
+}
+
+func (it *DynamicFunc) ThirdItem() interface{} {
+	return it.Params.ThirdItem()
+}
+
+func (it *DynamicFunc) FourthItem() interface{} {
+	return it.Params.FourthItem()
+}
+
+func (it *DynamicFunc) FifthItem() interface{} {
+	return it.Params.FifthItem()
+}
+
+func (it *DynamicFunc) SixthItem() interface{} {
+	return it.Params.SixthItem()
+}
+
+func (it *DynamicFunc) Expected() interface{} {
+	return it.Expect
+}
+
 // HasDefined
 //
 // Confirms that key is present and defined.
@@ -203,7 +231,7 @@ func (it *DynamicFunc) GetFuncName() string {
 }
 
 func (it *DynamicFunc) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *DynamicFunc) Invoke(args ...interface{}) (

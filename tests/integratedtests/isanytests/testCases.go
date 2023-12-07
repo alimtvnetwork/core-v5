@@ -528,7 +528,7 @@ var (
 					"1 : true (20, 20)",
 					"2 : true (-11, -11)",
 					"3 : true (\"alim is equal\", \"alim is equal\")",
-					"4 : true ({\"First\":\"1\",\"Second\":\"alim\"}, {\"First\":\"1\",\"Second\":\"alim\"})",
+					"4 : true ({\"FirstItem\":\"1\",\"SecondItem\":\"alim\"}, {\"FirstItem\":\"1\",\"SecondItem\":\"alim\"})",
 					"5 : true (, )",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,

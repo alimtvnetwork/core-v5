@@ -17,6 +17,14 @@ type OneFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *OneFunc) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *OneFunc) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *OneFunc) ArgTwo() OneFunc {
 	return OneFunc{
 		First:    it.First,
@@ -42,7 +50,7 @@ func (it *OneFunc) GetFuncName() string {
 }
 
 func (it *OneFunc) FuncWrap() *FuncWrap {
-	return NewFuncWrap(it.WorkFunc)
+	return NewFuncWrap.Default(it.WorkFunc)
 }
 
 func (it *OneFunc) Invoke(args ...interface{}) (

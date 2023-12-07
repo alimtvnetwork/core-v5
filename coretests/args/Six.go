@@ -45,6 +45,10 @@ func (it *Six) SixthItem() interface{} {
 	return it.Sixth
 }
 
+func (it *Six) Expected() interface{} {
+	return it.Expect
+}
+
 func (it Six) ArgTwo() Two {
 	return Two{
 		First:  it.First,

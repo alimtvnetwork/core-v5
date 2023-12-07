@@ -18,6 +18,22 @@ type Three struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *Three) FirstItem() interface{} {
+	return it.First
+}
+
+func (it *Three) SecondItem() interface{} {
+	return it.Second
+}
+
+func (it *Three) ThirdItem() interface{} {
+	return it.Third
+}
+
+func (it *Three) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *Three) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,

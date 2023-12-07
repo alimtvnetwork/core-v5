@@ -17,6 +17,18 @@ type LeftRight struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *LeftRight) FirstItem() interface{} {
+	return it.Left
+}
+
+func (it *LeftRight) SecondItem() interface{} {
+	return it.Right
+}
+
+func (it *LeftRight) Expected() interface{} {
+	return it.Expect
+}
+
 func (it *LeftRight) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.Left,

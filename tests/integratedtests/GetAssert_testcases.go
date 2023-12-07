@@ -156,7 +156,7 @@ var (
 			ExpectedInput: []string{
 				"    #alim",
 				"    ---",
-				"    {\"key\":{\"First\":[\"line alim 1\",\"line alim 2\"],\"Expect\":\"alim expect\"}}",
+				"    {\"key\":{\"FirstItem\":[\"line alim 1\",\"line alim 2\"],\"Expect\":\"alim expect\"}}",
 				"    any lines",
 				"    1",
 				"    255",
@@ -179,7 +179,7 @@ var (
 			},
 			ExpectedInput: []string{
 				"    {",
-				"      \"First\": [",
+				"      \"FirstItem\": [",
 				"        \"line alim 1\",",
 				"        \"line alim 2\"",
 				"      ],",
