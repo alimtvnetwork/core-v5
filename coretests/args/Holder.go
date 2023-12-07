@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -296,4 +297,8 @@ func (it *Holder) String() string {
 	)
 
 	return it.toString.GetSetOnce(toFinalString)
+}
+
+func (it Holder) AsSixthParameter() coreinterface.SixthParameter {
+	return &it
 }

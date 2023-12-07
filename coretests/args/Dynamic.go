@@ -17,6 +17,42 @@ type Dynamic struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *Dynamic) HasFirst() bool {
+	return it.Params.HasFirst()
+}
+
+func (it *Dynamic) GetByIndex(index int) interface{} {
+	return it.Params.GetByIndex(index)
+}
+
+func (it *Dynamic) HasFunc() bool {
+	return it.Params.HasFunc()
+}
+
+func (it *Dynamic) GetFuncName() string {
+	return it.Params.GetFuncName()
+}
+
+func (it *Dynamic) Invoke(args ...interface{}) (results []interface{}, processingErr error) {
+	return it.Params.Invoke(args...)
+}
+
+func (it *Dynamic) InvokeMust(args ...interface{}) []interface{} {
+	return it.Params.InvokeMust(args...)
+}
+
+func (it *Dynamic) InvokeWithValidArgs() (results []interface{}, processingErr error) {
+	return it.Params.InvokeWithValidArgs()
+}
+
+func (it *Dynamic) InvokeArgs(names ...string) (results []interface{}, processingErr error) {
+	return it.Params.InvokeArgs(names...)
+}
+
+func (it *Dynamic) FuncWrap() *FuncWrap {
+	return it.Params.FuncWrap()
+}
+
 func (it *Dynamic) FirstItem() interface{} {
 	return it.Params.FirstItem()
 }
@@ -314,4 +350,8 @@ func (it *Dynamic) String() string {
 	)
 
 	return it.toString.GetSetOnce(toFinalString)
+}
+
+func (it Dynamic) AsArgsMapper() ArgsMapper {
+	return &it
 }

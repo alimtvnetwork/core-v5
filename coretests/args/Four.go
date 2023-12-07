@@ -5,15 +5,19 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type Four struct {
-	First  interface{} `json:",omitempty"`
-	Second interface{} `json:",omitempty"`
-	Third  interface{} `json:",omitempty"`
-	Fourth interface{} `json:",omitempty"`
-	Expect interface{} `json:",omitempty"`
+	First    interface{} `json:",omitempty"`
+	Second   interface{} `json:",omitempty"`
+	Third    interface{} `json:",omitempty"`
+	Fourth   interface{} `json:",omitempty"`
+	Expect   interface{} `json:",omitempty"`
+	toSlice  *[]interface{}
+	toString corestr.SimpleStringOnce
 }
 
 func (it *Four) FirstItem() interface{} {
@@ -115,6 +119,48 @@ func (it *Four) Args(upTo int) []interface{} {
 	return args
 }
 
+func (it *Four) Slice() []interface{} {
+	if it.toSlice != nil {
+		return *it.toSlice
+	}
+
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
+	}
+
+	if it.HasFourth() {
+		args = append(args, it.Fourth)
+	}
+
+	if it.HasExpect() {
+		args = append(args, it.Expect)
+	}
+
+	it.toSlice = &args
+
+	return *it.toSlice
+}
+
+func (it *Four) GetByIndex(index int) interface{} {
+	slice := it.Slice()
+
+	if len(slice)-1 < index {
+		return nil
+	}
+
+	return slice[index]
+}
+
 func (it *Four) String() string {
 	var args []string
 
@@ -143,4 +189,8 @@ func (it *Four) String() string {
 		"Four",
 		strings.Join(args, constants.CommaSpace),
 	)
+}
+
+func (it Four) AsFourParameter() coreinterface.FourthParameter {
+	return &it
 }

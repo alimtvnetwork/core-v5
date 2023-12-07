@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -208,4 +209,8 @@ func (it *Five) String() string {
 	)
 
 	return it.toString.GetSetOnce(toFinalString)
+}
+
+func (it Five) AsFifthParameter() coreinterface.FifthParameter {
+	return &it
 }

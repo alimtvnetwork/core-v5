@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -160,6 +161,66 @@ func (it Six) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
+func (it *Six) ValidArgs() []interface{} {
+	var args []interface{}
+
+	if it.HasFirst() {
+		args = append(args, it.First)
+	}
+
+	if it.HasSecond() {
+		args = append(args, it.Second)
+	}
+
+	if it.HasThird() {
+		args = append(args, it.Third)
+	}
+
+	if it.HasFourth() {
+		args = append(args, it.Fourth)
+	}
+
+	if it.HasFifth() {
+		args = append(args, it.Fifth)
+	}
+
+	if it.HasSixth() {
+		args = append(args, it.Sixth)
+	}
+
+	return args
+}
+
+func (it *Six) Args(upTo int) []interface{} {
+	var args []interface{}
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	if upTo >= 3 {
+		args = append(args, it.Third)
+	}
+
+	if upTo >= 4 {
+		args = append(args, it.Fourth)
+	}
+
+	if upTo >= 5 {
+		args = append(args, it.Fifth)
+	}
+
+	if upTo >= 6 {
+		args = append(args, it.Sixth)
+	}
+
+	return args
+}
+
 func (it Six) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
@@ -178,4 +239,8 @@ func (it Six) String() string {
 	)
 
 	return it.toString.GetSetOnce(toFinalString)
+}
+
+func (it Six) AsSixthParameter() coreinterface.SixthParameter {
+	return &it
 }

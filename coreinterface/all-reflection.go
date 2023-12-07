@@ -273,11 +273,22 @@ type FuncParameter interface {
 	InvokeWithValidArgs() (
 		results []interface{}, processingErr error,
 	)
+	ValidArgsGetter
+	fmt.Stringer
+}
+
+type FuncByIndexParameter interface {
+	FuncParameter
 	InvokeArgs(upTo int) (
 		results []interface{}, processingErr error,
 	)
-	ValidArgsGetter
-	fmt.Stringer
+}
+
+type FuncByNameParameter interface {
+	FuncParameter
+	InvokeArgs(names ...string) (
+		results []interface{}, processingErr error,
+	)
 }
 
 type TwoParameter interface {

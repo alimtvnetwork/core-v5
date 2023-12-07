@@ -14,6 +14,46 @@ import (
 
 type Map map[string]interface{}
 
+func (it Map) Expected() interface{} {
+	return it.GetFirstOfNames(
+		"expected",
+		"expects",
+		"expect",
+	)
+}
+
+func (it Map) HasFirst() bool {
+	return reflectinternal.Is.Defined(it.FirstItem())
+}
+
+func (it Map) HasExpect() bool {
+	return reflectinternal.Is.Defined(it.Expected())
+}
+
+func (it Map) GetByIndex(index int) interface{} {
+	slice := it.Slice()
+
+	if len(slice)-1 < index {
+		return nil
+	}
+
+	return slice[index]
+}
+
+func (it Map) HasFunc() bool {
+	return reflectinternal.Is.Defined(it.FuncWrap())
+}
+
+func (it Map) GetFuncName() string {
+	funcWrap := it.FuncWrap()
+
+	if funcWrap != nil {
+		return funcWrap.Name
+	}
+
+	return ""
+}
+
 // HasDefined
 //
 // Confirms that key is present and defined.
@@ -429,4 +469,8 @@ func (it Map) String() string {
 	)
 
 	return toFinalString
+}
+
+func (it Map) AsArgsMapper() ArgsMapper {
+	return &it
 }

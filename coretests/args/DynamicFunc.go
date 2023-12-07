@@ -18,6 +18,20 @@ type DynamicFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *DynamicFunc) HasFirst() bool {
+	return reflectinternal.Is.Defined(it.FirstItem())
+}
+
+func (it *DynamicFunc) GetByIndex(index int) interface{} {
+	slice := it.Slice()
+
+	if len(slice)-1 < index {
+		return nil
+	}
+
+	return slice[index]
+}
+
 func (it *DynamicFunc) FirstItem() interface{} {
 	return it.Params.FirstItem()
 }
@@ -332,4 +346,8 @@ func (it DynamicFunc) String() string {
 	)
 
 	return it.toString.GetSetOnce(toFinalString)
+}
+
+func (it DynamicFunc) AsArgsMapper() ArgsMapper {
+	return &it
 }

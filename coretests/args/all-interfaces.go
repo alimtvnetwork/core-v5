@@ -2,45 +2,64 @@ package args
 
 import "gitlab.com/auk-go/core/coreinterface"
 
-type name interface {
-}
-
 type FuncWrapGetter interface {
 	FuncWrap() *FuncWrap
 }
 
+type FuncNumber interface {
+	coreinterface.FuncByIndexParameter
+	FuncWrapGetter
+}
+
+type FuncNamer interface {
+	coreinterface.FuncByNameParameter
+	FuncWrapGetter
+}
+
 type OneFuncParameter interface {
 	coreinterface.OneParameter
-	coreinterface.FuncParameter
-	FuncWrapGetter
+	FuncNumber
 }
 
 type TowFuncParameter interface {
+	OneFuncParameter
 	coreinterface.TwoParameter
-	coreinterface.FuncParameter
-	FuncWrapGetter
+	FuncNumber
 }
 
 type ThreeFuncParameter interface {
+	TowFuncParameter
 	coreinterface.ThreeParameter
-	coreinterface.FuncParameter
-	FuncWrapGetter
+	FuncNumber
 }
 
 type FourthFuncParameter interface {
+	ThreeFuncParameter
 	coreinterface.FourthParameter
-	coreinterface.FuncParameter
-	FuncWrapGetter
+	FuncNumber
 }
 
 type FifthFuncParameter interface {
+	FourthFuncParameter
 	coreinterface.FifthParameter
-	coreinterface.FuncParameter
-	FuncWrapGetter
+	FuncNumber
 }
 
 type SixthFuncParameter interface {
+	FifthFuncParameter
 	coreinterface.SixthParameter
-	coreinterface.FuncParameter
-	FuncWrapGetter
+	FuncNumber
+}
+
+type ArgsMapper interface {
+	coreinterface.FirstItemGetter
+	coreinterface.ExpectGetter
+	HasFirst() bool
+	coreinterface.HasExpectChecker
+	coreinterface.ValidArgsGetter
+	coreinterface.SliceGetter
+	coreinterface.ByIndexGetter
+	coreinterface.UptoSixthItemGetter
+
+	FuncNamer
 }
