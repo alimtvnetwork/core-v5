@@ -16,6 +16,13 @@ func (it newFuncWrapCreator) Default(anyFunc interface{}) *FuncWrap {
 		}
 	}
 
+	switch v := anyFunc.(type) {
+	case *FuncWrap:
+		return v
+	case FuncWrapGetter:
+		return v.FuncWrap()
+	}
+
 	typeOf := reflect.TypeOf(anyFunc)
 	kind := typeOf.Kind()
 

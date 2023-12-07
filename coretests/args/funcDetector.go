@@ -8,7 +8,11 @@ func (it funcDetector) GetFuncWrap(i interface{}) *FuncWrap {
 		return v.FuncWrap()
 	case *FuncWrap:
 		return v
-	case OneFunc, TwoFunc, ThreeFunc:
+	case FuncWrapGetter:
 		return v.FuncWrap()
+	case ArgsMapper:
+		return v.FuncWrap()
+	default:
+		return NewFuncWrap.Default(i)
 	}
 }

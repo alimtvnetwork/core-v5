@@ -8,4 +8,5 @@ var (
 	rvToInterfacesFunc = reflectinternal.Converter.ReflectValuesToInterfaces
 	argsToRvFunc       = reflectinternal.Converter.ArgsToReflectValues
 	NewFuncWrap        = newFuncWrapCreator{}
+	FuncDetector       = funcDetector{}
 )
