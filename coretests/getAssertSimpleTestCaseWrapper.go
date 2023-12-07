@@ -76,6 +76,6 @@ func GetAssertMessage(testCaseMessenger TestCaseMessenger, counter int) string {
 func GetTestHeader(testCaseMessenger TestCaseMessenger) string {
 	return fmt.Sprintf(
 		"CompareMethod : [%s]",
-		testCaseMessenger.FuncName(),
+		testCaseMessenger.GetFuncName(),
 	)
 }

@@ -239,3 +239,7 @@ func (it FourFunc) String() string {
 
 	return it.toString.GetSetOnce(toFinalString)
 }
+
+func (it FourFunc) AsFourthFuncParameter() FourthFuncParameter {
+	return &it
+}

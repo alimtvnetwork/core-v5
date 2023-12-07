@@ -290,3 +290,7 @@ func (it SixFunc) String() string {
 
 	return it.toString.GetSetOnce(toFinalString)
 }
+
+func (it SixFunc) AsSixthFuncParameter() SixthFuncParameter {
+	return &it
+}

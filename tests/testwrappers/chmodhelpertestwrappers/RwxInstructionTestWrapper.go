@@ -24,7 +24,7 @@ func (it *RwxInstructionTestWrapper) SetActual(actual interface{}) {
 	it.actual = actual
 }
 
-func (it *RwxInstructionTestWrapper) FuncName() string {
+func (it *RwxInstructionTestWrapper) GetFuncName() string {
 	return it.TestFuncName.Value()
 }
 

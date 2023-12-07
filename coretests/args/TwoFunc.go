@@ -188,3 +188,7 @@ func (it *TwoFunc) LeftRight() LeftRight {
 		Expect: it.Expect,
 	}
 }
+
+func (it TwoFunc) AsTowFuncParameter() TowFuncParameter {
+	return &it
+}

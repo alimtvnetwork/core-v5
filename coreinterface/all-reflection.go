@@ -1,9 +1,12 @@
 package coreinterface
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 type FuncNameGetter interface {
-	FuncName() string
+	GetFuncName() string
 }
 
 type PkgPathGetter interface {
@@ -16,6 +19,10 @@ type PkgNameGetter interface {
 
 type HasValidFuncChecker interface {
 	HasValidFunc() bool
+}
+
+type HasFuncChecker interface {
+	HasFunc() bool
 }
 
 type ArgsCountGetter interface {
@@ -129,7 +136,68 @@ type InvokeFirstAndErrorGetter interface {
 	) (firstResponse interface{}, funcErr, processingErr error)
 }
 
-type FuncWrapContracts interface {
+type FirstItemGetter interface {
+	FirstItem() interface{}
+}
+
+type SecondItemGetter interface {
+	SecondItem() interface{}
+}
+
+type ThirdItemGetter interface {
+	ThirdItem() interface{}
+}
+
+type FourthItemGetter interface {
+	FourthItem() interface{}
+}
+
+type FifthItemGetter interface {
+	FifthItem() interface{}
+}
+
+type SixthItemGetter interface {
+	SixthItem() interface{}
+}
+
+type ExpectGetter interface {
+	Expected() interface{}
+}
+
+type ArrangeGetter interface {
+	Arrange() interface{}
+}
+
+type ActualGetter interface {
+	Actual() interface{}
+}
+
+type UptoSecondItemGetter interface {
+	FirstItemGetter
+	SecondItemGetter
+}
+
+type UptoThirdItemGetter interface {
+	UptoSecondItemGetter
+	ThirdItemGetter
+}
+
+type UptoFourthItemGetter interface {
+	UptoThirdItemGetter
+	FourthItemGetter
+}
+
+type UptoFifthItemGetter interface {
+	UptoFourthItemGetter
+	FifthItemGetter
+}
+
+type UptoSixthItemGetter interface {
+	UptoFifthItemGetter
+	SixthItemGetter
+}
+
+type FuncWrapContractsBinder interface {
 	FuncNameGetter
 	PkgPathGetter
 	PkgNameGetter
@@ -164,37 +232,75 @@ type FuncWrapContracts interface {
 	InvokeFirstAndErrorGetter
 }
 
-type FuncWrapContracts interface {
+type SliceGetter interface {
+	Slice() []interface{}
+}
+
+type ArgsUptoGetter interface {
+	Args(upTo int) []interface{}
+}
+
+type ValidArgsGetter interface {
+	ValidArgs() []interface{}
+}
+
+type HasExpectChecker interface {
+	HasExpect() bool
+}
+
+type ByIndexGetter interface {
+	GetByIndex(index int) interface{}
+}
+
+type OneParameter interface {
+	FirstItemGetter
+	ExpectGetter
+
+	HasFirst() bool
+	HasExpectChecker
+
+	ValidArgsGetter
+	ArgsUptoGetter
+	SliceGetter
+	ByIndexGetter
+}
+
+type FuncParameter interface {
+	HasFuncChecker
 	FuncNameGetter
-	PkgPathGetter
-	PkgNameGetter
-	HasValidFuncChecker
-	IsValidChecker
-	IsInvalidChecker
-	ArgsCountGetter
-	ArgsLengthGetter
-	ReturnLengthGetter
-	IsPublicMethodGetter
-	IsPrivateMethodGetter
-	TypeGetter
-	OutArgsTypesGetter
-	InArgsTypesGetter
-	InArgsTypesNamesGetter
-	InArgsVerifier
-	OutArgsVerifier
-	InArgsRvVerifier
-	OutArgsRvVerifier
-	VoidCallNoReturner
-	MustBeValidater
-	PrivateValidationErrorGetter
-
-	MustInvoker
 	ReflectInvoker
-	VoidCaller
-	ValidateMethodArgsGetter
+	MustInvoker
+	InvokeWithValidArgs() (
+		results []interface{}, processingErr error,
+	)
+	InvokeArgs(upTo int) (
+		results []interface{}, processingErr error,
+	)
+	ValidArgsGetter
+	fmt.Stringer
+}
 
-	FirstResponseOfInvokeGetter
-	InvokeResultOfIndexGetter
-	InvokeErrorGetter
-	InvokeFirstAndErrorGetter
+type TwoParameter interface {
+	OneParameter
+	UptoSecondItemGetter
+}
+
+type ThreeParameter interface {
+	TwoParameter
+	UptoThirdItemGetter
+}
+
+type FourthParameter interface {
+	ThreeParameter
+	UptoFourthItemGetter
+}
+
+type FifthParameter interface {
+	FourthParameter
+	UptoFifthItemGetter
+}
+
+type SixthParameter interface {
+	FifthParameter
+	UptoSixthItemGetter
 }

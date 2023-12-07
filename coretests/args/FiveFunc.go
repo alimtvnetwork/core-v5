@@ -260,3 +260,7 @@ func (it FiveFunc) String() string {
 
 	return it.toString.GetSetOnce(toFinalString)
 }
+
+func (it FiveFunc) AsFifthFuncParameter() FifthFuncParameter {
+	return &it
+}

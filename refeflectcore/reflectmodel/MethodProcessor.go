@@ -20,7 +20,7 @@ func (it *MethodProcessor) HasValidFunc() bool {
 	return it != nil
 }
 
-func (it *MethodProcessor) FuncName() string {
+func (it *MethodProcessor) GetFuncName() string {
 	return it.Name
 }
 
@@ -146,7 +146,7 @@ func (it *MethodProcessor) InvokeFirstAndError(
 	if len(results) <= 1 {
 		return results,
 			nil,
-			errors.New(it.FuncName() + " doesn't return at least 2 return args")
+			errors.New(it.GetFuncName() + " doesn't return at least 2 return args")
 	}
 
 	first := results[0]

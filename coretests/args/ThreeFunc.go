@@ -66,6 +66,10 @@ func (it *ThreeFunc) HasFunc() bool {
 	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
+func (it *ThreeFunc) GetFuncName() string {
+	return reflectinternal.GetFunc.Name(it.WorkFunc)
+}
+
 func (it *ThreeFunc) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
@@ -208,4 +212,8 @@ func (it *ThreeFunc) LeftRight() LeftRight {
 		Right:  it.Second,
 		Expect: it.Expect,
 	}
+}
+
+func (it ThreeFunc) AsThreeFuncParameter() ThreeFuncParameter {
+	return &it
 }

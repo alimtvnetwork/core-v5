@@ -168,3 +168,7 @@ func (it *OneFunc) LeftRight() LeftRight {
 		Expect: it.Expect,
 	}
 }
+
+func (it OneFunc) AsOneFuncParameter() OneFuncParameter {
+	return &it
+}

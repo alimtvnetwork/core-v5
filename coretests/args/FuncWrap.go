@@ -21,7 +21,7 @@ type FuncWrap struct {
 	outArgsTypes     []reflect.Type `json:"-"`
 }
 
-func (it FuncWrap) FuncName() string {
+func (it FuncWrap) GetFuncName() string {
 	return it.Name
 }
 
@@ -378,7 +378,7 @@ func (it *FuncWrap) InvokeFirstAndError(
 	if len(results) <= 1 {
 		return results,
 			nil,
-			errors.New(it.FuncName() + " doesn't return at least 2 return args")
+			errors.New(it.GetFuncName() + " doesn't return at least 2 return args")
 	}
 
 	first := results[0]

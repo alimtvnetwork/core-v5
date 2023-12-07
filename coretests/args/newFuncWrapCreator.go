@@ -66,7 +66,7 @@ func (it newFuncWrapCreator) Map(
 		v := it.Default(function)
 
 		if v.IsValid() {
-			newMap[v.FuncName()] = v
+			newMap[v.GetFuncName()] = v
 		}
 	}
 
