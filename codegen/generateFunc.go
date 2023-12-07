@@ -1,6 +1,7 @@
 package codegen
 
 import (
+	"errors"
 	"reflect"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
@@ -57,10 +58,41 @@ func (it GenerateFunc) generateActLines() []string {
 
 }
 
-func (it GenerateFunc) generateActMethod() []string {
-	switch v := it.ArrangeInputs.(type) {
-	case args.Map:
-		return "input."
+func (it GenerateFunc) generateFmtJoin() string {
+	return "   %d : "
+}
 
+func (it GenerateFunc) getFuncName() (string, error) {
+	funcWrap := it.toFunWrap()
+
+	if funcWrap.IsInvalid() {
+		return "", errors.New("func wrap is invalid - func name")
 	}
+
+	return funcWrap.GetFuncName(), nil
+}
+
+func (it GenerateFunc) getReturnArgs() (*corestr.SimpleSlice, error) {
+	funcWrap := it.toFunWrap()
+
+	if funcWrap.IsInvalid() {
+		return it.emptySlice(), errors.New("func wrap is invalid - return args")
+	}
+
+	length := funcWrap.ReturnLength()
+	slice := corestr.New.SimpleSlice.Cap(length)
+
+	if length == 1 {
+		return slice.Add("result"), nil
+	}
+
+	for i := 0; i < length; i++ {
+		slice.AppendFmt("result%d", i+1)
+	}
+
+	return slice, nil
+}
+
+func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
+	return corestr.Empty.SimpleSlice()
 }

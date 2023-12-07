@@ -21,7 +21,11 @@ type FuncWrap struct {
 	outArgsTypes     []reflect.Type `json:"-"`
 }
 
-func (it FuncWrap) GetFuncName() string {
+func (it *FuncWrap) GetFuncName() string {
+	if it == nil {
+		return ""
+	}
+
 	return it.Name
 }
 

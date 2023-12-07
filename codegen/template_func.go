@@ -8,6 +8,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/args"
 
 	$newPackages
 )
@@ -23,10 +24,13 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 			New.
 			SimpleSlice.
 			Cap($linesPossible)
+		$actArgsSetup
 
 		// Act
-		$outputs := $actMethod($actArgs)
+		actFunc$FuncName := args.FuncDetector.GetFuncWrap(input)
+		$returnArgs := actFunc$FuncName($actArgs)
 
+		actualSlice.Add("$FuncName($valueActArgs) ->")
 		actualSlice.AppendFmt(
 			"$fmtJoin",
 			$fmtOutputs...
