@@ -4,12 +4,15 @@ import (
 	"errors"
 	"reflect"
 
+	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/iserror"
 )
 
@@ -28,15 +31,16 @@ type GenerateFunc struct {
 }
 
 func (it GenerateFunc) Generate() error {
+	codeOutput := it.GenerateCodeOutput()
 
-	return nil
+	return codeOutput.Write().CompiledError()
 }
 
-func (it GenerateFunc) GenerateCodeCode() *CodeOutput {
+func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	toWrap := it.toFunWrap()
 
 	if toWrap.IsInvalid() {
-		return toWrap.InvalidError()
+		return NewCodeOutput.Invalid(toWrap.InvalidError())
 	}
 
 	pkgName := it.testPkgName(toWrap)
@@ -47,31 +51,43 @@ func (it GenerateFunc) GenerateCodeCode() *CodeOutput {
 	inArgs, inArgsErr := it.inArgs()
 
 	if iserror.Defined(inArgsErr) {
-		return inArgsErr
+		return NewCodeOutput.Invalid(inArgsErr)
 	}
 
 	outArgs, outArgsErr := it.outArgs()
 
 	if iserror.Defined(outArgsErr) {
-		return outArgsErr
+		return NewCodeOutput.Invalid(outArgsErr)
 	}
+
+	funcName := toWrap.GetFuncName()
 
 	fmtOutputs, fmtErr := it.generateFmtOutputs(
 		fmtJoiner,
-		toWrap.GetFuncName(),
+		funcName,
 		"",
 		outArgs,
 		inArgs,
 	)
 
 	if iserror.Defined(fmtErr) {
-		return fmtErr
+		return NewCodeOutput.Invalid(fmtErr)
 	}
 
-	_ = map[string]string{
-		"$packageName":   pkgName,
-		"$fmtJoin":       it.generateFmtJoin(),
-		"$newPackages":   newPackagesLines,
+	packagesTemplate := map[string]string{
+		"$packageName": pkgName,
+		"$fmtJoin":     it.generateFmtJoin(),
+		"$newPackages": newPackagesLines,
+	}
+
+	packageHeader := stringutil.
+		ReplaceTemplate.
+		DirectKeyUsingMap(
+			testPkgHeaderTemplate,
+			packagesTemplate,
+		)
+
+	funcTemplateReplacer := map[string]string{
 		"$ArrangeType":   firstArrangeTypeName,
 		"$linesPossible": "100",
 		"$actArgsSetup":  actLines.JoinLine(),
@@ -80,7 +96,26 @@ func (it GenerateFunc) GenerateCodeCode() *CodeOutput {
 		"$fmtOutputs":    fmtOutputs.Join(fmtJoiner),
 	}
 
-	return nil
+	unitTest := stringutil.
+		ReplaceTemplate.
+		DirectKeyUsingMap(
+			funcTemplate,
+			funcTemplateReplacer,
+		)
+
+	finalUnitTest := stringslice.JoinWith(
+		constants.NewLineUnix,
+		packageHeader,
+		unitTest,
+	)
+
+	return &CodeOutput{
+		UnitTest:   finalUnitTest,
+		TestCase:   "",
+		StructName: "",
+		FuncName:   funcName,
+		FileWriter: chmodhelper.New.SimpleFileReaderWriter.Default(it.GeneratePath),
+	}
 }
 
 func (it GenerateFunc) firstArrangeTypeName() string {
