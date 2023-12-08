@@ -4,4 +4,5 @@ import "gitlab.com/auk-go/core/constants"
 
 const (
 	ArgsJoiner = constants.CommaSpace
+	fmtJoiner  = constants.CommaUnixNewLine
 )
