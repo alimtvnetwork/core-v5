@@ -29,12 +29,28 @@ func (it *FuncWrap) GetFuncName() string {
 	return it.Name
 }
 
+func (it *FuncWrap) GetPascalCaseFuncName() string {
+	if it == nil {
+		return ""
+	}
+
+	return reflectinternal.
+		GetFunc.
+		PublicFuncName(it.Name)
+}
+
 func (it *FuncWrap) HasValidFunc() bool {
-	return it != nil && !it.isInvalid && reflectinternal.Is.Func(it.Func)
+	return it != nil &&
+		!it.isInvalid &&
+		it.rv.IsValid() &&
+		reflectinternal.Is.Func(it.Func)
 }
 
 func (it *FuncWrap) IsInvalid() bool {
-	return it == nil || it.isInvalid || !it.HasValidFunc()
+	return it == nil ||
+		it.isInvalid ||
+		!it.rv.IsValid() ||
+		!it.HasValidFunc()
 }
 
 func (it *FuncWrap) IsValid() bool {
@@ -219,13 +235,13 @@ func (it *FuncWrap) OutArgsVerifyRv(args []reflect.Type) (isOkay bool, err error
 func (it *FuncWrap) VoidCallNoReturn(
 	args ...interface{},
 ) (processingErr error) {
-	it.mustBeValid()
+	it.MustBeValid()
 	_, err := it.Invoke(args)
 
 	return err
 }
 
-func (it *FuncWrap) mustBeValid() {
+func (it *FuncWrap) MustBeValid() {
 	if it == nil {
 		panic("cannot execute on nil func-wrap")
 	}
@@ -235,7 +251,7 @@ func (it *FuncWrap) mustBeValid() {
 	}
 }
 
-func (it *FuncWrap) validationError() error {
+func (it *FuncWrap) ValidationError() error {
 	if it == nil {
 		return errors.New("cannot execute on nil func-wrap")
 	}
@@ -268,7 +284,7 @@ func (it *FuncWrap) InvokeMust(
 func (it *FuncWrap) Invoke(
 	args ...interface{},
 ) (results []interface{}, processingErr error) {
-	firstErr := it.validationError()
+	firstErr := it.ValidationError()
 
 	if firstErr != nil {
 		return nil, firstErr
@@ -460,4 +476,24 @@ func (it *FuncWrap) IsEqual(
 	// but can be false as well
 
 	return true
+}
+
+func (it *FuncWrap) InvalidError() error {
+	if it == nil {
+		return errors.New("func-wrap is nil")
+	}
+
+	if !it.rv.IsValid() {
+		return errors.New("reflect value is invalid")
+	}
+
+	if !it.HasValidFunc() {
+		return errors.New("func-wrap request doesn't hold a valid func reflect")
+	}
+
+	return nil
+}
+
+func (it FuncWrap) AsFuncWrapper() FuncWrapper {
+	return &it
 }

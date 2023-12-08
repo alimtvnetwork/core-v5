@@ -10,6 +10,7 @@ import (
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/iserror"
 )
 
 type GenerateFunc struct {
@@ -27,20 +28,56 @@ type GenerateFunc struct {
 }
 
 func (it GenerateFunc) Generate() error {
+
+	return nil
+}
+
+func (it GenerateFunc) GenerateCode() error {
 	toWrap := it.toFunWrap()
+
+	if toWrap.IsInvalid() {
+		return toWrap.InvalidError()
+	}
 
 	pkgName := it.testPkgName(toWrap)
 	newPackagesLines := it.allPackages(toWrap)
 	firstArrangeTypeName := it.firstArrangeTypeName()
 
 	actLines := it.generateActLines()
+	inArgs, inArgsErr := it.inArgs()
 
-	_ := map[string]string{
+	if iserror.Defined(inArgsErr) {
+		return inArgsErr
+	}
+
+	outArgs, outArgsErr := it.outArgs()
+
+	if iserror.Defined(outArgsErr) {
+		return outArgsErr
+	}
+
+	fmtOutputs, fmtErr := it.generateFmtOutputs(
+		fmtJoiner,
+		toWrap.GetFuncName(),
+		"",
+		outArgs,
+		inArgs,
+	)
+
+	if iserror.Defined(fmtErr) {
+		return fmtErr
+	}
+
+	_ = map[string]string{
 		"$packageName":   pkgName,
 		"$fmtJoin":       it.generateFmtJoin(),
 		"$newPackages":   newPackagesLines,
 		"$ArrangeType":   firstArrangeTypeName,
 		"$linesPossible": "100",
+		"$actArgsSetup":  actLines.JoinLine(),
+		"$inArgs":        inArgs.Join(ArgsJoiner),
+		"$outArgs":       outArgs.Join(ArgsJoiner),
+		"$fmtOutputs":    fmtOutputs.Join(fmtJoiner),
 	}
 
 	return nil
@@ -119,8 +156,8 @@ func (it GenerateFunc) toFunWrap() *args.FuncWrap {
 		Default(it.Func)
 }
 
-func (it GenerateFunc) generateActLines() []string {
-
+func (it GenerateFunc) generateActLines() *corestr.SimpleSlice {
+	return nil
 }
 
 func (it GenerateFunc) generateFmtJoin() string {
@@ -155,7 +192,11 @@ func (it GenerateFunc) generateFmtOutputs(
 		return slice, nil
 	}
 
-	return slice, it.FmtType.OnlySupportedMsgErr()
+	return slice, it.FmtType.OnlySupportedMsgErr(
+		"only supported",
+		fmtcodegentype.Default.Name(),
+		fmtcodegentype.WithFunction.Name(),
+	)
 }
 
 func (it GenerateFunc) getFuncName() (string, error) {

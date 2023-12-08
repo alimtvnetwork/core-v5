@@ -84,11 +84,7 @@ type VoidCallNoReturner interface {
 }
 
 type MustBeValidater interface {
-	mustBeValid()
-}
-
-type PrivateValidationErrorGetter interface {
-	validationError() error
+	MustBeValid()
 }
 
 type MustInvoker interface {
@@ -219,7 +215,7 @@ type FuncWrapContractsBinder interface {
 	OutArgsRvVerifier
 	VoidCallNoReturner
 	MustBeValidater
-	PrivateValidationErrorGetter
+	ValidationErrorGetter
 
 	MustInvoker
 	ReflectInvoker

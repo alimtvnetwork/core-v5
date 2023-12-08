@@ -28,9 +28,8 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 
 		// Act
 		actFunc$FuncName := args.FuncDetector.GetFuncWrap(input)
-		$returnArgs := actFunc$FuncName($actArgs)
+		$outArgs := actFunc$FuncName($inArgs)
 
-		actualSlice.Add("$FuncName($valueActArgs) ->")
 		actualSlice.AppendFmt(
 			"$fmtJoin",
 			$fmtOutputs,

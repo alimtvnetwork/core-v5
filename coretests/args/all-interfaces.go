@@ -63,3 +63,14 @@ type ArgsMapper interface {
 
 	FuncNamer
 }
+
+type FuncWrapper interface {
+	coreinterface.FuncWrapContractsBinder
+	InvalidError() error
+	IsEqual(
+		another *FuncWrap,
+	) bool
+	IsNotEqual(
+		another *FuncWrap,
+	) bool
+}
