@@ -248,3 +248,22 @@ func (it getFunc) GetMethodProcessorsMap(
 
 	return mapList
 }
+
+func (it getFunc) PublicFuncName(
+	name string,
+) string {
+	if len(name) == 0 {
+		return ""
+	}
+
+	allRunes := []rune(name)
+	firstChar := allRunes[0]
+	firstCharStr := string(firstChar)
+	firstCharUpper := strings.ToUpper(firstCharStr)
+
+	if len(allRunes) == 1 {
+		return firstCharUpper
+	}
+
+	return firstCharUpper + string(allRunes[1:])
+}
