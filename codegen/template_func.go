@@ -33,7 +33,7 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 		actualSlice.Add("$FuncName($valueActArgs) ->")
 		actualSlice.AppendFmt(
 			"$fmtJoin",
-			$fmtOutputs...
+			$fmtOutputs,
 		)
 
 		finalActLines := actualSlice.Strings()

@@ -26,6 +26,8 @@ type BaseTestCase struct {
 	ArrangeInput    interface{}    `json:",omitempty"` // preparing input, initial input
 	ActualInput     interface{}    `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
 	ExpectedInput   interface{}    `json:",omitempty"` // expectation set from the test
+	Additional      interface{}    `json:",omitempty"` // additional input to do
+	CustomFormat    string         `json:",omitempty"` // custom format for the test case
 	VerifyTypeOf    *VerifyTypeOf  `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
 	Parameters      *args.Holder   `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the Holder.
 	IsEnable        issetter.Value `json:",omitempty"` // Only false makes it disabled.
