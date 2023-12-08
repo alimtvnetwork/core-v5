@@ -32,7 +32,7 @@ func (it GenerateFunc) Generate() error {
 	return nil
 }
 
-func (it GenerateFunc) GenerateCode() error {
+func (it GenerateFunc) GenerateCodeCode() *CodeOutput {
 	toWrap := it.toFunWrap()
 
 	if toWrap.IsInvalid() {

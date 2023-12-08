@@ -13,6 +13,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
 type SimpleFileReaderWriter struct {
@@ -95,7 +96,54 @@ func (it SimpleFileReaderWriter) Write(allBytes []byte) error {
 		true,
 		it.ParentDir,
 		it.FilePath,
-		allBytes)
+		allBytes,
+	)
+
+	if err == nil {
+		return nil
+	}
+
+	return it.errorWrap(err)
+}
+
+func (it SimpleFileReaderWriter) WritePath(
+	filePath string, allBytes []byte,
+) error {
+	parentDir := pathinternal.ParentDir(filePath)
+
+	err := SimpleFileWriter.FileWriter.All(
+		it.ChmodDir,
+		it.ChmodFile,
+		it.IsMustChmodApplyOnFile,
+		it.IsApplyChmodOnMismatch,
+		true,
+		parentDir,
+		filePath,
+		allBytes,
+	)
+
+	if err == nil {
+		return nil
+	}
+
+	return it.errorWrap(err)
+}
+
+func (it SimpleFileReaderWriter) WriteRelativePath(
+	relPath string, allBytes []byte,
+) error {
+	finalPath := pathinternal.Join(it.ParentDir, relPath)
+
+	err := SimpleFileWriter.FileWriter.All(
+		it.ChmodDir,
+		it.ChmodFile,
+		it.IsMustChmodApplyOnFile,
+		it.IsApplyChmodOnMismatch,
+		true,
+		it.ParentDir,
+		finalPath,
+		allBytes,
+	)
 
 	if err == nil {
 		return nil
@@ -106,7 +154,8 @@ func (it SimpleFileReaderWriter) Write(allBytes []byte) error {
 
 func (it SimpleFileReaderWriter) InitializeDefaultNew() (newRw *SimpleFileReaderWriter) {
 	return New.SimpleFileReaderWriter.Default(
-		it.FilePath)
+		it.FilePath,
+	)
 }
 
 func (it SimpleFileReaderWriter) NewPath(
@@ -115,7 +164,8 @@ func (it SimpleFileReaderWriter) NewPath(
 	return New.SimpleFileReaderWriter.Path(
 		it.ChmodDir,
 		it.ChmodFile,
-		newLocation)
+		newLocation,
+	)
 }
 
 func (it SimpleFileReaderWriter) NewPathJoin(
@@ -123,15 +173,18 @@ func (it SimpleFileReaderWriter) NewPathJoin(
 ) (newRw *SimpleFileReaderWriter) {
 	joined := strings.Join(
 		newLocationsFromParentDir,
-		constants.ForwardSlash)
+		constants.ForwardSlash,
+	)
 	newLocation := filepath.Join(
 		it.ParentDir,
-		joined)
+		joined,
+	)
 
 	return New.SimpleFileReaderWriter.Path(
 		it.ChmodDir,
 		it.ChmodFile,
-		newLocation)
+		newLocation,
+	)
 }
 
 func (it SimpleFileReaderWriter) WriteString(content string) error {
@@ -143,7 +196,8 @@ func (it SimpleFileReaderWriter) WriteString(content string) error {
 		true,
 		it.ParentDir,
 		it.FilePath,
-		[]byte(content))
+		[]byte(content),
+	)
 
 	if err == nil {
 		return nil
@@ -177,7 +231,8 @@ func (it SimpleFileReaderWriter) WriteAny(
 			it.ChmodFile,
 			it.ParentDir,
 			it.FilePath,
-			anyItem)
+			anyItem,
+		)
 
 	if err == nil {
 		return nil
@@ -307,7 +362,8 @@ func (it SimpleFileReaderWriter) ReadWrite(
 ) error {
 	return it.GetSet(
 		readToPtr,
-		onInvalidGenerateFunc)
+		onInvalidGenerateFunc,
+	)
 }
 
 func (it SimpleFileReaderWriter) ReadWriteLock(
@@ -316,7 +372,8 @@ func (it SimpleFileReaderWriter) ReadWriteLock(
 ) error {
 	return it.GetSetLock(
 		readToPtr,
-		onInvalidGenerateFunc)
+		onInvalidGenerateFunc,
+	)
 }
 
 func (it SimpleFileReaderWriter) GetSetLock(
@@ -327,7 +384,8 @@ func (it SimpleFileReaderWriter) GetSetLock(
 	defer SimpleFileWriter.Unlock()
 
 	return it.GetSet(
-		toPtr, onInvalidGenerateFunc)
+		toPtr, onInvalidGenerateFunc,
+	)
 }
 
 func (it SimpleFileReaderWriter) GetSet(
@@ -360,7 +418,8 @@ func (it SimpleFileReaderWriter) CacheGetSet(
 ) error {
 	return it.GetSet(
 		toPtr,
-		onInvalidGenerateFunc)
+		onInvalidGenerateFunc,
+	)
 }
 
 func (it SimpleFileReaderWriter) CacheGetSetLock(
@@ -369,7 +428,8 @@ func (it SimpleFileReaderWriter) CacheGetSetLock(
 ) error {
 	return it.GetSetLock(
 		toPtr,
-		onInvalidGenerateFunc)
+		onInvalidGenerateFunc,
+	)
 }
 
 // Deserialize
@@ -487,7 +547,8 @@ func (it SimpleFileReaderWriter) getOnExist(toPtr interface{}) error {
 
 	return corejson.Deserialize.UsingBytes(
 		allBytes,
-		toPtr)
+		toPtr,
+	)
 }
 
 func (it SimpleFileReaderWriter) String() string {
@@ -536,7 +597,8 @@ func (it SimpleFileReaderWriter) MarshalJSON() ([]byte, error) {
 func (it *SimpleFileReaderWriter) UnmarshalJSON(jsonBytes []byte) error {
 	var model simpleFileReaderWriterModel
 	err := corejson.Deserialize.UsingBytes(
-		jsonBytes, &model)
+		jsonBytes, &model,
+	)
 
 	if err == nil {
 		// success

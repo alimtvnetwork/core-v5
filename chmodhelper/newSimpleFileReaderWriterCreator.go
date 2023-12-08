@@ -53,8 +53,8 @@ func (it newSimpleFileReaderWriterCreator) All(
 		ChmodFile:              chmodFile,
 		ParentDir:              absParentDir,
 		FilePath:               absFilePath,
-		IsMustChmodApplyOnFile: true,
-		IsApplyChmodOnMismatch: true,
+		IsMustChmodApplyOnFile: isApplyChmodMust,
+		IsApplyChmodOnMismatch: isApplyOnMismatch,
 	}
 }
 
