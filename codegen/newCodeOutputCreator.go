@@ -9,23 +9,29 @@ import (
 type newCodeOutputCreator struct{}
 
 func (it newCodeOutputCreator) Default(
+	structName, funcName,
 	unit, testCase string,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
 ) *CodeOutput {
 	return &CodeOutput{
 		UnitTest:   unit,
 		TestCase:   testCase,
+		StructName: structName,
+		FuncName:   funcName,
 		FileWriter: fileWriter,
 	}
 }
 
 func (it newCodeOutputCreator) All(
+	structName, funcName,
 	unit, testCase string,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
 ) *CodeOutput {
 	return &CodeOutput{
 		UnitTest:   unit,
 		TestCase:   testCase,
+		StructName: structName,
+		FuncName:   funcName,
 		FileWriter: fileWriter,
 	}
 }
