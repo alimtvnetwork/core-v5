@@ -15,7 +15,7 @@ type unitTestGenerator struct{}
 
 func (it unitTestGenerator) Generate() {
 	generateFunc := codegen.GenerateFunc{
-		Func:         reflectinternal.GetFunc.PublicFuncName,
+		Func:         reflectinternal.GetFunc.PascalFuncName,
 		GenerateType: codegentype.Simple,
 		FmtType:      fmtcodegentype.Default,
 		TestCases: []coretestcases.CaseV1{

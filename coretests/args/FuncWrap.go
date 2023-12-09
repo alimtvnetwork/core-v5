@@ -37,7 +37,7 @@ func (it *FuncWrap) GetPascalCaseFuncName() string {
 
 	return reflectinternal.
 		GetFunc.
-		PublicFuncName(it.Name)
+		PascalFuncName(it.Name)
 }
 
 func (it *FuncWrap) HasValidFunc() bool {
@@ -89,7 +89,9 @@ func (it *FuncWrap) FuncDirectInvokeName() string {
 		return it.funcDirectInvokeName
 	}
 
-	it.funcDirectInvokeName = reflectinternal.GetFunc.FuncDirectInvokeNameUsingFullName(it.FullName)
+	it.funcDirectInvokeName = reflectinternal.
+		GetFunc.
+		FuncDirectInvokeNameUsingFullName(it.FullName)
 
 	return it.funcDirectInvokeName
 }

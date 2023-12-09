@@ -123,7 +123,15 @@ func (it getFunc) FuncDirectInvokeNameUsingFullName(fullName string) string {
 	)
 
 	if forwardSlashFoundIndex > -1 {
-		return fullName[forwardSlashFoundIndex+1:]
+		invokeName := fullName[forwardSlashFoundIndex+1:]
+
+		splits := strings.Split(invokeName, ".")
+
+		for i, split := range splits {
+			splits[i] = it.PascalFuncName(split)
+		}
+
+		return strings.Join(splits, ".")
 	}
 
 	return fullName
@@ -270,7 +278,7 @@ func (it getFunc) GetMethodProcessorsMap(
 	return mapList
 }
 
-func (it getFunc) PublicFuncName(
+func (it getFunc) PascalFuncName(
 	name string,
 ) string {
 	if len(name) == 0 {

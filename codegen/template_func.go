@@ -27,7 +27,7 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 		$actArgsSetup
 
 		// Act
-		actFunc$FuncName := $directFuncInvoke(input)
+		actFunc$FuncName := $directFuncInvoke
 		$outArgs := actFunc$FuncName($inArgs)
 
 		actualSlice.AppendFmt(

@@ -20,6 +20,7 @@ import (
 
 type GenerateFunc struct {
 	Func                    interface{}
+	FuncOverrideCall        string
 	GenerateType            codegentype.Variant
 	FmtType                 fmtcodegentype.Variant
 	TestCases               []coretestcases.CaseV1
@@ -111,6 +112,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	finalUnitTest := stringslice.JoinWith(
 		constants.NewLineUnix,
 		packageHeader,
+		"",
 		unitTest,
 		"",
 	)
@@ -342,5 +344,9 @@ func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
 }
 
 func (it GenerateFunc) directFuncInvoke() string {
+	if len(it.FuncOverrideCall) > 0 {
+		return it.FuncOverrideCall
+	}
+
 	return it.toFunWrap().FuncDirectInvokeName()
 }
