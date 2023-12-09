@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type newSimpleSliceCreator struct{}
@@ -87,6 +88,30 @@ func (it *newSimpleSliceCreator) SpreadStrings(
 	lines ...string,
 ) *SimpleSlice {
 	return it.Strings(lines)
+}
+
+func (it *newSimpleSliceCreator) Hashset(
+	hashset *Hashset,
+) *SimpleSlice {
+	if hashset.IsEmpty() {
+		return it.Empty()
+	}
+
+	return it.Strings(hashset.List())
+}
+
+func (it *newSimpleSliceCreator) Map(
+	i interface{},
+) *SimpleSlice {
+	keys, _ := reflectinternal.
+		MapConverter.
+		ToKeysStrings(i)
+
+	if len(keys) == 0 {
+		return it.Empty()
+	}
+
+	return it.Strings(keys)
 }
 
 func (it *newSimpleSliceCreator) Create(

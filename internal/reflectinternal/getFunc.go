@@ -35,7 +35,7 @@ func (it getFunc) FullName(i interface{}) string {
 		return ""
 	}
 
-	return f.Name()
+	return it.fixFinalFuncName(f.Name())
 }
 
 func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
@@ -47,7 +47,7 @@ func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
 
 	_, _, funcNameOnly := it.All(fullName)
 
-	return it.fixFinalFuncName(fullName), it.fixFinalFuncName(funcNameOnly)
+	return fullName, it.fixFinalFuncName(funcNameOnly)
 }
 
 func (it getFunc) Name(i interface{}) string {
@@ -106,6 +106,27 @@ func (it getFunc) All(fullFuncName string) (fullMethodName, packageName, methodN
 	packageName, methodName = it.firstLastDefault(splitsByDot)
 
 	return it.fixFinalFuncName(fullFuncName), packageName, it.fixFinalFuncName(methodName)
+}
+
+func (it getFunc) FuncDirectInvokeName(i interface{}) string {
+	return it.FuncDirectInvokeNameUsingFullName(it.FullName(i))
+}
+
+func (it getFunc) FuncDirectInvokeNameUsingFullName(fullName string) string {
+	if len(fullName) == 0 {
+		return ""
+	}
+
+	forwardSlashFoundIndex := strings.LastIndexByte(
+		fullName,
+		constants.ForwardChar,
+	)
+
+	if forwardSlashFoundIndex > -1 {
+		return fullName[forwardSlashFoundIndex+1:]
+	}
+
+	return fullName
 }
 
 func (it getFunc) firstLastDefault(slice []string) (first, last string) {

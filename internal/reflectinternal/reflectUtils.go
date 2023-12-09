@@ -142,7 +142,7 @@ func (it reflectUtils) VerifyReflectTypes(
 	return false, errors.New(finalErrMessage)
 }
 
-func (it reflectUtils) PkgName(
+func (it reflectUtils) PkgNameOnly(
 	i interface{},
 ) string {
 	fullName := GetFunc.FullName(i)

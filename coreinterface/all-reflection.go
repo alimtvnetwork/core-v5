@@ -14,7 +14,7 @@ type PkgPathGetter interface {
 }
 
 type PkgNameGetter interface {
-	PkgName() string
+	PkgNameOnly() string
 }
 
 type HasValidFuncChecker interface {

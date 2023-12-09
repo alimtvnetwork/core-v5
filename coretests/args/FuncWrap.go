@@ -10,15 +10,16 @@ import (
 )
 
 type FuncWrap struct {
-	Name             string         `json:",omitempty"`
-	FullName         string         `json:",omitempty"`
-	Func             interface{}    `json:"-"`
-	isInvalid        bool           `json:"IsInvalid,omitempty"`
-	rvType           reflect.Type   `json:"-"`
-	rv               reflect.Value  `json:"-"`
-	inArgsTypesNames []string       `json:"-"`
-	inArgsTypes      []reflect.Type `json:"-"`
-	outArgsTypes     []reflect.Type `json:"-"`
+	Name                              string         `json:",omitempty"`
+	FullName                          string         `json:",omitempty"`
+	Func                              interface{}    `json:"-"`
+	isInvalid                         bool           `json:"IsInvalid,omitempty"`
+	rvType                            reflect.Type   `json:"-"`
+	rv                                reflect.Value  `json:"-"`
+	inArgsTypesNames                  []string       `json:"-"`
+	inArgsTypes                       []reflect.Type `json:"-"`
+	outArgsTypes                      []reflect.Type `json:"-"`
+	pkgNameOnly, funcDirectInvokeName string
 }
 
 func (it *FuncWrap) GetFuncName() string {
@@ -65,12 +66,32 @@ func (it *FuncWrap) PkgPath() string {
 	return it.rvType.PkgPath()
 }
 
-func (it *FuncWrap) PkgName() string {
+func (it *FuncWrap) PkgNameOnly() string {
 	if it.IsInvalid() {
 		return ""
 	}
 
-	return reflectinternal.Utils.PkgName(it.Func)
+	if len(it.pkgNameOnly) > 0 {
+		return it.pkgNameOnly
+	}
+
+	it.pkgNameOnly = reflectinternal.Utils.PkgNameOnly(it.Func)
+
+	return it.pkgNameOnly
+}
+
+func (it *FuncWrap) FuncDirectInvokeName() string {
+	if it.IsInvalid() {
+		return ""
+	}
+
+	if len(it.funcDirectInvokeName) > 0 {
+		return it.funcDirectInvokeName
+	}
+
+	it.funcDirectInvokeName = reflectinternal.GetFunc.FuncDirectInvokeNameUsingFullName(it.FullName)
+
+	return it.funcDirectInvokeName
 }
 
 // ArgsCount returns -1 on invalid

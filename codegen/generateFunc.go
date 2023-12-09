@@ -14,6 +14,7 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/internal/pathinternal"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/iserror"
 )
 
@@ -28,6 +29,7 @@ type GenerateFunc struct {
 	IsGenerateSeparateCases bool
 	IsIncludeFunction       bool
 	IsOverwrite             bool
+	funcWrap                *args.FuncWrap
 }
 
 func (it GenerateFunc) Generate() error {
@@ -82,7 +84,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 
 	packageHeader := stringutil.
 		ReplaceTemplate.
-		DirectKeyUsingMap(
+		DirectKeyUsingMapTrim(
 			testPkgHeaderTemplate,
 			packagesTemplate,
 		)
@@ -96,12 +98,12 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		"$outArgs":          outArgs.Join(ArgsJoiner),
 		"$fmtJoin":          it.generateFmtJoin(),
 		"$fmtOutputs":       fmtOutputs.Join(fmtJoiner),
-		"$directFuncInvoke": it.directFuncInvoke(funcName),
+		"$directFuncInvoke": it.directFuncInvoke(),
 	}
 
 	unitTest := stringutil.
 		ReplaceTemplate.
-		DirectKeyUsingMap(
+		DirectKeyUsingMapTrim(
 			funcTemplate,
 			funcTemplateReplacer,
 		)
@@ -110,6 +112,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		constants.NewLineUnix,
 		packageHeader,
 		unitTest,
+		"",
 	)
 
 	return &CodeOutput{
@@ -159,9 +162,7 @@ func (it GenerateFunc) allPackages(toWrap *args.FuncWrap) string {
 	newPackages := corestr.
 		New.
 		SimpleSlice.
-		SpreadStrings(
-			arrangePkgPaths...,
-		).
+		Hashset(arrangePkgPaths).
 		Add(toWrap.PkgPath()).
 		WrapDoubleQuote()
 
@@ -185,35 +186,50 @@ func (it GenerateFunc) firstArrangeType() *reflect.Type {
 func (it GenerateFunc) arrangeReflectTypes() []reflect.Type {
 	var results []reflect.Type
 
+	reducerFunc := reflectinternal.Looper.ReducePointerDefault
+
 	for _, testCase := range it.TestCases {
+		r := reducerFunc(testCase)
+
+		if r.IsInvalid() {
+			continue
+		}
+
 		results = append(
 			results,
-			reflect.TypeOf(testCase.ArrangeInput),
+			r.FinalReflectVal.Type(),
 		)
 	}
 
 	return results
 }
 
-func (it GenerateFunc) arrangePackages() []string {
+func (it GenerateFunc) arrangePackages() *corestr.Hashset {
 	allReflectTypes := it.arrangeReflectTypes()
 
-	var pks []string
+	pks := corestr.New.Hashset.Cap(len(allReflectTypes))
+
 	for _, reflectType := range allReflectTypes {
-		pks = append(pks, reflectType.PkgPath())
+		pks.Add(reflectType.PkgPath())
 	}
 
 	return pks
 }
 
 func (it GenerateFunc) testPkgName(toWrap *args.FuncWrap) string {
-	return toWrap.PkgName() + "tests"
+	return toWrap.PkgNameOnly() + "tests"
 }
 
 func (it GenerateFunc) toFunWrap() *args.FuncWrap {
-	return args.
+	if it.funcWrap != nil {
+		return it.funcWrap
+	}
+
+	it.funcWrap = args.
 		NewFuncWrap.
 		Default(it.Func)
+
+	return it.funcWrap
 }
 
 func (it GenerateFunc) generateActLines() *corestr.SimpleSlice {
@@ -325,6 +341,6 @@ func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
 	return corestr.Empty.SimpleSlice()
 }
 
-func (it GenerateFunc) directFuncInvoke(funcName string) string {
-
+func (it GenerateFunc) directFuncInvoke() string {
+	return it.toFunWrap().FuncDirectInvokeName()
 }
