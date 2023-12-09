@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -18,6 +17,10 @@ type Four struct {
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
+}
+
+func (it *Four) ArgsCount() int {
+	return 4
 }
 
 func (it *Four) FirstItem() interface{} {
@@ -191,6 +194,6 @@ func (it *Four) String() string {
 	)
 }
 
-func (it Four) AsFourParameter() coreinterface.FourthParameter {
+func (it Four) AsFourParameter() FourthParameter {
 	return &it
 }

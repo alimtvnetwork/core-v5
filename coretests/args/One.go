@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -121,6 +120,6 @@ func (it *One) LeftRight() LeftRight {
 	}
 }
 
-func (it One) AsOneParameter() coreinterface.OneParameter {
+func (it One) AsOneParameter() OneParameter {
 	return &it
 }

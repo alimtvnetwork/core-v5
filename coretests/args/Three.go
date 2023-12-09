@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -17,6 +16,10 @@ type Three struct {
 	Expect   interface{} `json:",omitempty"`
 	toSlice  *[]interface{}
 	toString corestr.SimpleStringOnce
+}
+
+func (it *Three) ArgsCount() int {
+	return 3
 }
 
 func (it *Three) FirstItem() interface{} {
@@ -168,6 +171,6 @@ func (it *Three) LeftRight() LeftRight {
 	}
 }
 
-func (it Three) AsOneParameter() coreinterface.ThreeParameter {
+func (it Three) AsThreeParameter() ThreeParameter {
 	return &it
 }

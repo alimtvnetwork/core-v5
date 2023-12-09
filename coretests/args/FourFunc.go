@@ -20,6 +20,10 @@ type FourFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *FourFunc) ArgsCount() int {
+	return 4
+}
+
 func (it *FourFunc) FirstItem() interface{} {
 	return it.First
 }

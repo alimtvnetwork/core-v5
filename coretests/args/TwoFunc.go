@@ -18,6 +18,10 @@ type TwoFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *TwoFunc) ArgsCount() int {
+	return 2
+}
+
 func (it *TwoFunc) FirstItem() interface{} {
 	return it.First
 }
@@ -189,6 +193,6 @@ func (it *TwoFunc) LeftRight() LeftRight {
 	}
 }
 
-func (it TwoFunc) AsTowFuncParameter() TwoFuncParameter {
+func (it TwoFunc) AsTwoFuncParameter() TwoFuncParameter {
 	return &it
 }
