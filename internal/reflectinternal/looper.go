@@ -168,7 +168,7 @@ func (it *looper) ReducePointerRv(
 		}
 	}
 
-	if !structValue.IsValid() || structValueKind != reflect.Struct {
+	if !structValue.IsValid() || structValueKind == reflect.Ptr || structValueKind == reflect.Interface {
 		return reflectmodel.InvalidReflectValueKindModel(
 			"invalid ref value or could not reach in level limit",
 		)

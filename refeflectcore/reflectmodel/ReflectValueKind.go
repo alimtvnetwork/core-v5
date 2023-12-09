@@ -40,3 +40,11 @@ func (it *ReflectValueKind) ActualInstance() interface{} {
 
 	return it.FinalReflectVal.Interface()
 }
+
+func (it *ReflectValueKind) PkgPath() string {
+	if it == nil || !it.IsValid {
+		return ""
+	}
+
+	return it.FinalReflectVal.Type().PkgPath()
+}

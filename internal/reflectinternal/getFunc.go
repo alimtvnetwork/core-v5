@@ -128,6 +128,11 @@ func (it getFunc) FuncDirectInvokeNameUsingFullName(fullName string) string {
 		splits := strings.Split(invokeName, ".")
 
 		for i, split := range splits {
+			// first pkg name
+			if i == 0 {
+				continue
+			}
+
 			splits[i] = it.PascalFuncName(split)
 		}
 
@@ -295,4 +300,35 @@ func (it getFunc) PascalFuncName(
 	}
 
 	return firstCharUpper + string(allRunes[1:])
+}
+
+func (it getFunc) GetPkgPath(i interface{}) interface{} {
+	f := it.FullName(i)
+
+	return it.GetPkgPathFullName(f)
+}
+
+func (it getFunc) GetPkgPathFullName(fullName string) string {
+	if len(fullName) == 0 {
+		return ""
+	}
+
+	forwardSlashFoundIndex := strings.LastIndexByte(
+		fullName,
+		constants.ForwardChar,
+	)
+
+	if forwardSlashFoundIndex <= -1 {
+		return fullName
+	}
+
+	left := fullName[:forwardSlashFoundIndex]
+	right := fullName[forwardSlashFoundIndex+1:]
+	splits := strings.Split(right, ".")
+
+	if len(splits) == 0 {
+		return left
+	}
+
+	return left + constants.ForwardSlash + splits[0]
 }

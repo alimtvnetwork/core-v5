@@ -10,16 +10,18 @@ import (
 )
 
 type FuncWrap struct {
-	Name                              string         `json:",omitempty"`
-	FullName                          string         `json:",omitempty"`
-	Func                              interface{}    `json:"-"`
-	isInvalid                         bool           `json:"IsInvalid,omitempty"`
-	rvType                            reflect.Type   `json:"-"`
-	rv                                reflect.Value  `json:"-"`
-	inArgsTypesNames                  []string       `json:"-"`
-	inArgsTypes                       []reflect.Type `json:"-"`
-	outArgsTypes                      []reflect.Type `json:"-"`
-	pkgNameOnly, funcDirectInvokeName string
+	Name                 string         `json:",omitempty"`
+	FullName             string         `json:",omitempty"`
+	Func                 interface{}    `json:"-"`
+	isInvalid            bool           `json:"IsInvalid,omitempty"`
+	rvType               reflect.Type   `json:"-"`
+	rv                   reflect.Value  `json:"-"`
+	inArgsTypesNames     []string       `json:"-"`
+	inArgsTypes          []reflect.Type `json:"-"`
+	outArgsTypes         []reflect.Type `json:"-"`
+	pkgNameOnly          string
+	funcDirectInvokeName string
+	pkgPath              string
 }
 
 func (it *FuncWrap) GetFuncName() string {
@@ -63,7 +65,15 @@ func (it *FuncWrap) PkgPath() string {
 		return ""
 	}
 
-	return it.rvType.PkgPath()
+	if len(it.pkgPath) > 0 {
+		return it.pkgPath
+	}
+
+	it.pkgPath = reflectinternal.
+		GetFunc.
+		GetPkgPathFullName(it.FullName)
+
+	return it.pkgPath
 }
 
 func (it *FuncWrap) PkgNameOnly() string {
@@ -439,6 +449,12 @@ func (it *FuncWrap) IsNotEqual(
 	another *FuncWrap,
 ) bool {
 	return !it.IsEqual(another)
+}
+
+func (it *FuncWrap) IsEqualValue(
+	another FuncWrap,
+) bool {
+	return it.IsEqual(&another)
 }
 
 // IsEqual
