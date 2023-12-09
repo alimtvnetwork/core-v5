@@ -10,6 +10,7 @@ import (
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 // CaseV1
@@ -27,6 +28,10 @@ func (it CaseV1) Input() interface{} {
 
 func (it CaseV1) Expected() interface{} {
 	return it.ExpectedInput
+}
+
+func (it CaseV1) ArrangeTypeName() string {
+	return reflectinternal.TypeName(it.ArrangeInput)
 }
 
 // Actual

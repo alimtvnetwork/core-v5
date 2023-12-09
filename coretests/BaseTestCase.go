@@ -40,6 +40,10 @@ func (it *BaseTestCase) CaseTitle() string {
 	return it.Title
 }
 
+func (it *BaseTestCase) ArrangeTypeName() string {
+	return reflectinternal.TypeName(it.ArrangeInput)
+}
+
 func (it *BaseTestCase) TypesValidationMustPasses(t *testing.T) {
 	err := it.TypeValidationError()
 

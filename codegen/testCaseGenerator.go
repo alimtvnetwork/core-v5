@@ -1,10 +1,13 @@
 package codegen
 
 import (
+	"fmt"
+
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/iserror"
 )
 
 type testCaseGenerator struct {
@@ -17,6 +20,10 @@ func (it testCaseGenerator) Compile() (string, error) {
 	return "", nil
 }
 
+func (it testCaseGenerator) FuncWrap() *args.FuncWrap {
+	return it.baseGenerator.FuncWrap()
+}
+
 func (it testCaseGenerator) caseItems() *corestr.SimpleSlice {
 	testCases := it.baseGenerator.Cases()
 
@@ -26,20 +33,36 @@ func (it testCaseGenerator) caseItems() *corestr.SimpleSlice {
 }
 
 func (it testCaseGenerator) SingleArrange(
-	index int,
+	_ int,
 	caseV1 coretestcases.CaseV1,
-) string {
+) (string, error) {
+	arrangeSetup, err := it.arrangeSetup(caseV1)
+
+	if iserror.Defined(err) {
+		return "", err
+	}
+
+	it.expectedLines(caseV1)
+
 	replacerMap := map[string]string{
-		vars.Title:         "",
-		vars.ArrangeType:   "",
-		vars.ArrangeSetup:  "",
+		vars.Title:         caseV1.Title,
+		vars.ArrangeType:   caseV1.ArrangeTypeName(),
+		vars.ArrangeSetup:  arrangeSetup,
 		vars.ExpectedLines: "",
 	}
 
-	it.arrangeSetup(caseV1)
 }
 
-func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) string {
+func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) {
+	casted, isOkay := caseV1.ArrangeInput.(args.ArgBaseContractsBinder)
+
+	if isOkay {
+		args := casted.ValidArgs()
+		results, err := it.FuncWrap().Invoke(args...)
+	}
+}
+
+func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 
 	switch v := caseV1.ArrangeInput.(type) {
@@ -56,22 +79,18 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) string {
 			)
 		}
 
-		slice.AppendFmt(
+		slice.AppendFmtIf(
+			v.HasExpect(),
 			argSingleTemplate,
 			vars.expect,
 			v.Expected(),
 		)
 
-		slice.AppendFmt(
+		slice.AppendFmtIf(
+			v.HasFunc(),
 			argSingleTemplate,
 			vars.workFunc,
 			v.GetFuncName(),
-		)
-
-		slice.AppendFmt(
-			argSingleTemplate,
-			vars.expect,
-			v.Expected(),
 		)
 	case args.ArgBaseContractsBinder:
 		argsCount := v.ArgsCount()
@@ -86,10 +105,19 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) string {
 			)
 		}
 
-		slice.AppendFmt(
+		slice.AppendFmtIf(
+			v.HasExpect(),
 			argSingleTemplate,
 			vars.expect,
 			v.Expected(),
 		)
+	default:
+		return "", fmt.Errorf(
+			"test cases only support from arg.One ... arg.Six and func versions, given %T",
+			v,
+		)
+
 	}
+
+	return slice.JoinCsvLine(), nil
 }
