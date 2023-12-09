@@ -10,13 +10,12 @@ import (
 type Variant byte
 
 const (
-	Invalid Variant = iota
-	SimpleType
+	Simple Variant = iota
 	MultipleArranges
 )
 
-func (it Variant) IsSimpleType() bool {
-	return it == SimpleType
+func (it Variant) IsSimple() bool {
+	return it == Simple
 }
 
 func (it Variant) IsMultipleArranges() bool {

@@ -77,7 +77,7 @@ func (it StackTrace) FileWithLine() FileWithLine {
 
 // FullFilePath
 //
-// Returns the full file path
+// Returns the full file reflectPath
 func (it StackTrace) FullFilePath() string {
 	return it.FilePath
 }

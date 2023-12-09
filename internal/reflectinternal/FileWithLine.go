@@ -8,7 +8,7 @@ import (
 )
 
 type FileWithLine struct {
-	FilePath string // absolute file path
+	FilePath string // absolute file reflectPath
 	Line     int    // line number
 }
 

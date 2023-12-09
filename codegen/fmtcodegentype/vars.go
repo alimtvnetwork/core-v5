@@ -2,14 +2,13 @@ package fmtcodegentype
 
 import (
 	"gitlab.com/auk-go/core/coreimpl/enumimpl"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 var (
-	ranges = map[byte]string{
-		Default.ValueByte():       "Default",
-		WithFunction.ValueByte():  "WithFunction",
-		WithFuncError.ValueByte(): "WithFuncError",
+	ranges = [...]string{
+		Default:       "Default",
+		WithFunction:  "WithFunction",
+		WithFuncError: "WithFuncError",
 	}
 
 	rangesFmt = map[Variant]string{
@@ -18,8 +17,8 @@ var (
 		WithFuncError: "%d : %s - %s",
 	}
 
-	basicEnumImpl = enumimpl.New.BasicByte.CreateUsingMap(
-		reflectinternal.TypeName(Default),
-		ranges,
+	basicEnumImpl = enumimpl.New.BasicByte.DefaultAllCases(
+		Default,
+		ranges[:],
 	)
 )

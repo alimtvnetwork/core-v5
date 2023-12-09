@@ -48,7 +48,7 @@ func (it mapConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 	return keys, nil
 }
 
-func (it mapConverter) notStringErr(keyAny any) error {
+func (it mapConverter) notStringErr(keyAny interface{}) error {
 	return fmt.Errorf("not string type : %T", keyAny)
 }
 

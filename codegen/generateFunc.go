@@ -125,6 +125,7 @@ func (it GenerateFunc) fileWriter() *chmodhelper.SimpleFileReaderWriter {
 		Options(
 			true,
 			true,
+			true,
 			it.GeneratePath,
 		)
 }
