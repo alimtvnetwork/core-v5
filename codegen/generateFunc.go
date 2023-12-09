@@ -46,9 +46,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(toWrap.InvalidError())
 	}
 
-	testPkgName := it.testPkgName(toWrap)
-	newPackagesLines := it.allPackages(toWrap)
-	firstArrangeTypeName := it.firstArrangeTypeName()
+	testPkgName, packageHeader := it.packageHeader(toWrap)
 
 	actLines := it.generateActLines()
 	inArgs, inArgsErr := it.inArgs()
@@ -64,7 +62,6 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	}
 
 	funcName := toWrap.GetFuncName()
-
 	fmtOutputs, fmtErr := it.generateFmtOutputs(
 		fmtJoiner,
 		funcName,
@@ -77,18 +74,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(fmtErr)
 	}
 
-	packagesTemplate := map[string]string{
-		"$packageName": testPkgName,
-		"$fmtJoin":     it.generateFmtJoin(),
-		"$newPackages": newPackagesLines,
-	}
-
-	packageHeader := stringutil.
-		ReplaceTemplate.
-		DirectKeyUsingMapTrim(
-			testPkgHeaderTemplate,
-			packagesTemplate,
-		)
+	firstArrangeTypeName := it.firstArrangeTypeName()
 
 	funcTemplateReplacer := map[string]string{
 		"$FuncName":         funcName,
@@ -124,6 +110,25 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		FuncName:   funcName,
 		FileWriter: it.fileWriter(testPkgName),
 	}
+}
+
+func (it GenerateFunc) packageHeader(toWrap *args.FuncWrap) (string, string) {
+	testPkgName := it.testPkgName(toWrap)
+	newPackagesLines := it.allPackages(toWrap)
+	packagesTemplate := map[string]string{
+		"$packageName": testPkgName,
+		"$fmtJoin":     it.generateFmtJoin(),
+		"$newPackages": newPackagesLines,
+	}
+
+	packageHeader := stringutil.
+		ReplaceTemplate.
+		DirectKeyUsingMapTrim(
+			testPkgHeaderTemplate,
+			packagesTemplate,
+		)
+
+	return testPkgName, packageHeader
 }
 
 func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.SimpleFileReaderWriter {
