@@ -17,6 +17,22 @@ type Dynamic struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *Dynamic) ArgsCount() int {
+	if it == nil {
+		return 0
+	}
+
+	return it.Params.ArgsCount()
+}
+
+func (it *Dynamic) GetWorkFunc() interface{} {
+	if it == nil {
+		return nil
+	}
+
+	return it.Params.WorkFunc()
+}
+
 func (it *Dynamic) HasFirst() bool {
 	return it.Params.HasFirst()
 }
