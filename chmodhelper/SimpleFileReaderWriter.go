@@ -162,14 +162,17 @@ func (it SimpleFileReaderWriter) WriteRelativePath(
 
 func (it SimpleFileReaderWriter) InitializeDefaultNew() (newRw *SimpleFileReaderWriter) {
 	return New.SimpleFileReaderWriter.Default(
+		it.IsRemoveBeforeWrite,
 		it.FilePath,
 	)
 }
 
 func (it SimpleFileReaderWriter) NewPath(
+	isRemoveBeforeWrite bool,
 	newLocation string,
 ) (newRw *SimpleFileReaderWriter) {
 	return New.SimpleFileReaderWriter.Path(
+		isRemoveBeforeWrite,
 		it.ChmodDir,
 		it.ChmodFile,
 		newLocation,
@@ -177,6 +180,7 @@ func (it SimpleFileReaderWriter) NewPath(
 }
 
 func (it SimpleFileReaderWriter) NewPathJoin(
+	isRemoveBeforeWrite bool,
 	newLocationsFromParentDir ...string,
 ) (newRw *SimpleFileReaderWriter) {
 	joined := strings.Join(
@@ -189,6 +193,7 @@ func (it SimpleFileReaderWriter) NewPathJoin(
 	)
 
 	return New.SimpleFileReaderWriter.Path(
+		isRemoveBeforeWrite,
 		it.ChmodDir,
 		it.ChmodFile,
 		newLocation,
