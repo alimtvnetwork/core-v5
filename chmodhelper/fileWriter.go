@@ -28,6 +28,7 @@ type fileWriter struct {
 func (it fileWriter) AllLock(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
+	isCleanBeforeWrite,
 	isApplyChmodMust,
 	isApplyChmodOnMismatch bool, // only apply for file, dir will not be applied if already created
 	isCreateDirOnRequired bool,
@@ -41,6 +42,7 @@ func (it fileWriter) AllLock(
 	return it.All(
 		chmodDir,
 		chmodFile,
+		isCleanBeforeWrite,
 		isApplyChmodMust,
 		isApplyChmodOnMismatch,
 		isCreateDirOnRequired,
@@ -67,6 +69,7 @@ func (it fileWriter) AllLock(
 func (it fileWriter) All(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
+	isCleanBeforeWrite,
 	isApplyChmodMust,
 	isApplyChmodOnMismatch bool, // only apply for file, dir will not be applied if already created
 	isCreateDirOnRequired bool,
@@ -84,6 +87,18 @@ func (it fileWriter) All(
 		return dirErr
 	}
 
+	var cleanUpErr error
+
+	if isCleanBeforeWrite {
+		cleanUpErr = it.CleanBeforeRemove(
+			writingFilePath,
+		)
+	}
+
+	if cleanUpErr != nil {
+		return cleanUpErr
+	}
+
 	err := os.WriteFile(
 		writingFilePath,
 		contentsBytes,
@@ -92,9 +107,9 @@ func (it fileWriter) All(
 
 	if err != nil {
 		return errors.New(
-			"file writing failed" +
+			"writing failed " +
 				"filePath : " + writingFilePath +
-				"contents : " + corejson.BytesToString(contentsBytes) +
+				", contents : " + corejson.BytesToString(contentsBytes) +
 				", chmod file :" + chmodFile.String() + ", " +
 				", chmod dir :" + chmodDir.String() + ", " +
 				err.Error(),
@@ -116,6 +131,21 @@ func (it fileWriter) All(
 	return ChmodApply.Default(chmodFile, writingFilePath)
 }
 
+func (it fileWriter) CleanBeforeRemove(removePath string) error {
+	err := os.RemoveAll(removePath)
+
+	if err != nil {
+		return errors.New(
+			"clean up / remove failed " +
+				"filePath : " + removePath +
+				", " +
+				err.Error(),
+		)
+	}
+
+	return nil
+}
+
 func (it fileWriter) ParentDir(filePath string) string {
 	return pathinternal.ParentDir(filePath)
 }
@@ -131,6 +161,7 @@ func (it fileWriter) Chmod(
 	return it.All(
 		chmodDir,
 		chmodFile,
+		true,
 		true,
 		true,
 		true,
@@ -150,6 +181,7 @@ func (it fileWriter) ChmodFile(
 	return it.All(
 		dirDefaultChmod,
 		chmodFile,
+		true,
 		true,
 		true,
 		true,

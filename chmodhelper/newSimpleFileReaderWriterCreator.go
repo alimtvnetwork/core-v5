@@ -2,8 +2,8 @@ package chmodhelper
 
 import (
 	"os"
-	"path"
-	"path/filepath"
+
+	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
 type newSimpleFileReaderWriterCreator struct{}
@@ -58,9 +58,26 @@ func (it newSimpleFileReaderWriterCreator) All(
 	}
 }
 
+func (it newSimpleFileReaderWriterCreator) Options(
+	isApplyChmodMust bool,
+	isApplyOnMismatch bool,
+	absFilePath string,
+) *SimpleFileReaderWriter {
+	parentDir := pathinternal.ParentDir(absFilePath)
+
+	return &SimpleFileReaderWriter{
+		ChmodDir:               dirDefaultChmod,
+		ChmodFile:              fileDefaultChmod,
+		ParentDir:              parentDir,
+		FilePath:               absFilePath,
+		IsMustChmodApplyOnFile: isApplyChmodMust,
+		IsApplyChmodOnMismatch: isApplyOnMismatch,
+	}
+}
+
 // CreateClean
 //
-//	Applies path.Clean() to relative actual path from relative(cmd/..) or (.) path
+//	Applies pathinternal.Clean() to relative actual path from relative(cmd/..) or (.) path
 //	then create the reader, writer.
 //
 // Arguments:
@@ -75,8 +92,8 @@ func (it newSimpleFileReaderWriterCreator) CreateClean(
 	parentDir,
 	filePath string,
 ) *SimpleFileReaderWriter {
-	parentDir = path.Clean(parentDir)
-	filePath = path.Clean(filePath)
+	parentDir = pathinternal.Clean(parentDir)
+	filePath = pathinternal.Clean(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:               chmodDir,
@@ -101,7 +118,7 @@ func (it newSimpleFileReaderWriterCreator) CreateClean(
 func (it newSimpleFileReaderWriterCreator) Default(
 	absFilePath string,
 ) *SimpleFileReaderWriter {
-	parentDir := filepath.Dir(absFilePath)
+	parentDir := pathinternal.ParentDir(absFilePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:               dirDefaultChmod,
@@ -115,7 +132,7 @@ func (it newSimpleFileReaderWriterCreator) Default(
 
 // DefaultCleanPath
 //
-//	Applies path.Clean() to relative actual path from relative(cmd/..) or (.) path
+//	Applies pathinternal.Clean() to relative actual path from relative(cmd/..) or (.) path
 //	then create the reader, writer.
 //
 //	applies default chmod dir - 0755
@@ -129,8 +146,8 @@ func (it newSimpleFileReaderWriterCreator) Default(
 func (it newSimpleFileReaderWriterCreator) DefaultCleanPath(
 	filePath string,
 ) *SimpleFileReaderWriter {
-	filePath = path.Clean(filePath)
-	parentDir := filepath.Dir(filePath)
+	filePath = pathinternal.Clean(filePath)
+	parentDir := pathinternal.ParentDir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:               dirDefaultChmod,
@@ -154,7 +171,7 @@ func (it newSimpleFileReaderWriterCreator) Path(
 	chmodFile os.FileMode,
 	absFilePath string,
 ) *SimpleFileReaderWriter {
-	parentDir := filepath.Dir(absFilePath)
+	parentDir := pathinternal.ParentDir(absFilePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:               chmodDir,
@@ -173,10 +190,10 @@ func (it newSimpleFileReaderWriterCreator) PathCondition(
 	filePath string,
 ) *SimpleFileReaderWriter {
 	if isApplyClean {
-		filePath = path.Clean(filePath)
+		filePath = pathinternal.Clean(filePath)
 	}
 
-	parentDir := filepath.Dir(filePath)
+	parentDir := pathinternal.ParentDir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:               chmodDir,
@@ -195,7 +212,7 @@ func (it newSimpleFileReaderWriterCreator) PathDirDefaultChmod(
 	chmodFile os.FileMode,
 	filePath string,
 ) *SimpleFileReaderWriter {
-	parentDir := filepath.Dir(filePath)
+	parentDir := pathinternal.ParentDir(filePath)
 
 	return &SimpleFileReaderWriter{
 		ChmodDir:               dirDefaultChmod,

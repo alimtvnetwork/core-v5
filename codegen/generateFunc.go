@@ -114,8 +114,19 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		TestCase:   "",
 		StructName: "",
 		FuncName:   funcName,
-		FileWriter: chmodhelper.New.SimpleFileReaderWriter.Default(it.GeneratePath),
+		FileWriter: it.fileWriter(),
 	}
+}
+
+func (it GenerateFunc) fileWriter() *chmodhelper.SimpleFileReaderWriter {
+	return chmodhelper.
+		New.
+		SimpleFileReaderWriter.
+		Options(
+			true,
+			true,
+			it.GeneratePath,
+		)
 }
 
 func (it GenerateFunc) firstArrangeTypeName() string {

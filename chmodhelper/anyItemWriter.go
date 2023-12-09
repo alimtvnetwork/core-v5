@@ -14,6 +14,7 @@ import (
 type anyItemWriter struct{}
 
 func (it anyItemWriter) ChmodLock(
+	isCleanBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	parentDir,
@@ -24,11 +25,13 @@ func (it anyItemWriter) ChmodLock(
 	defer globalMutex.Unlock()
 
 	return it.Chmod(
+		isCleanBeforeWrite,
 		chmodDir,
 		chmodFile,
 		parentDir,
 		writingFilePath,
-		anyItem)
+		anyItem,
+	)
 }
 
 // Chmod
@@ -42,6 +45,7 @@ func (it anyItemWriter) ChmodLock(
 // writingFilePath:
 //   - is a full path to the actual file where to write contents
 func (it anyItemWriter) Chmod(
+	isCleanBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	parentDir,
@@ -54,12 +58,14 @@ func (it anyItemWriter) Chmod(
 		return fileWriter{}.All(
 			chmodDir,
 			chmodFile,
+			isCleanBeforeWrite,
 			true,
 			true,
 			true,
 			parentDir,
 			writingFilePath,
-			jsonBytes)
+			jsonBytes,
+		)
 	}
 
 	var typeName, anyString string
@@ -69,18 +75,20 @@ func (it anyItemWriter) Chmod(
 		typeName = reflect.TypeOf(anyItem).String()
 		anyString = fmt.Sprintf(
 			constants.SprintValueFormat,
-			anyItem)
+			anyItem,
+		)
 	}
 
 	// has err
 	return errors.New(
 		"json convert failed," +
-			"filePath : " + writingFilePath +
-			"AnyType : " + typeName +
-			"AnyItem(String) : " + anyString +
+			", filePath : " + writingFilePath +
+			", AnyType : " + typeName +
+			", AnyItem(String) : " + anyString +
 			", chmodFile :" + chmodFile.String() + ", " +
 			", chmodDir :" + chmodDir.String() + ", " +
-			err.Error())
+			err.Error(),
+	)
 }
 
 // DefaultLock
@@ -91,6 +99,7 @@ func (it anyItemWriter) Chmod(
 // writingFilePath:
 //   - is a full path to the actual file where to write contents
 func (it anyItemWriter) DefaultLock(
+	isCleanBeforeWrite bool,
 	writingFilePath string,
 	anyItem interface{},
 ) error {
@@ -98,19 +107,24 @@ func (it anyItemWriter) DefaultLock(
 	defer globalMutex.Unlock()
 
 	return it.Default(
-		writingFilePath, anyItem)
+		isCleanBeforeWrite,
+		writingFilePath,
+		anyItem,
+	)
 }
 
 // Default
 //
 //	Applies default chmod (for dir - 0755, for file - 0644)
 func (it anyItemWriter) Default(
+	isCleanBeforeWrite bool,
 	writingFilePath string,
 	anyItem interface{},
 ) error {
 	parentDir := filepath.Dir(writingFilePath)
 
 	return it.Chmod(
+		isCleanBeforeWrite,
 		dirDefaultChmod,
 		fileDefaultChmod,
 		parentDir,
