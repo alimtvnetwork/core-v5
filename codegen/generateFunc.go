@@ -111,14 +111,14 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	}
 
 	funcTemplateReplacer := map[string]string{
-		unitTestVars.FuncName:         funcName,
-		unitTestVars.ArrangeType:      firstArrangeTypeName,
-		unitTestVars.LinesPossible:    totalSliceLength,
-		unitTestVars.InArgs:           inArgs.Join(ArgsJoiner),
-		unitTestVars.OutArgs:          outArgs.Join(ArgsJoiner),
-		unitTestVars.FmtJoin:          it.generateFmtJoin(),
-		unitTestVars.FmtOutputs:       fmtOutputs.Join(fmtJoiner),
-		unitTestVars.DirectFuncInvoke: it.DirectFuncInvokeName(),
+		vars.FuncName:         funcName,
+		vars.ArrangeType:      firstArrangeTypeName,
+		vars.LinesPossible:    totalSliceLength,
+		vars.InArgs:           inArgs.Join(ArgsJoiner),
+		vars.OutArgs:          outArgs.Join(ArgsJoiner),
+		vars.FmtJoin:          it.generateFmtJoin(),
+		vars.FmtOutputs:       fmtOutputs.Join(fmtJoiner),
+		vars.DirectFuncInvoke: it.DirectFuncInvokeName(),
 	}
 
 	unitTests, unitErr := it.UnitTests(
@@ -171,14 +171,14 @@ func (it GenerateFunc) UnitTests(
 		fmtOutputs, fmtErr := it.generateFmtOutputs(
 			fmtJoiner,
 			funcName,
-			unitTestVars.inputExpectedVar,
+			vars.inputExpectedVar,
 			outArgs,
 			inArgs,
 		)
 
-		tempMap[unitTestVars.FmtOutputs] = fmtOutputs.Join(fmtJoiner)
-		tempMap[unitTestVars.Behaviour] = behaviour
-		tempMap[unitTestVars.TestCaseName] = it.TestCaseName(
+		tempMap[vars.FmtOutputs] = fmtOutputs.Join(fmtJoiner)
+		tempMap[vars.Behaviour] = behaviour
+		tempMap[vars.TestCaseName] = it.TestCaseName(
 			totalBehaviours,
 			funcName,
 			behaviour,

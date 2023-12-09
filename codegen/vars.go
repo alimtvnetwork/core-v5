@@ -7,7 +7,7 @@ import (
 var (
 	NewCodeOutput = newCodeOutputCreator{}
 
-	unitTestVars = unitVariables{
+	vars = unitVariables{
 		PackageName:      "$packageName",
 		NewPackages:      "$newPackages",
 		FuncName:         "$FuncName",
@@ -25,6 +25,10 @@ var (
 		ArrangeSetup:     "$arrangeSetup",
 		ExpectedLines:    "$expectedLines",
 		inputExpectedVar: "input.Expect",
+	}
+
+	argsTemplatesMap = map[int]string{
+		"": "",
 	}
 
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase

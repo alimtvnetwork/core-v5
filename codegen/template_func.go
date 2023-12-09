@@ -1,6 +1,7 @@
 package codegen
 
-const testPkgHeaderTemplate = `
+const (
+	testPkgHeaderTemplate = `
 package $packageName
 
 import (
@@ -14,7 +15,7 @@ import (
 )
 `
 
-const funcTemplate = `
+	funcTemplate = `
 func Test_$FuncName_$Behaviour(t *testing.T) {
 	for caseIndex, testCase := range $testCaseName {
 		// Arrange
@@ -48,13 +49,13 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 }
 `
 
-const testCasesTemplate = `
+	testCasesTemplate = `
 	$testCaseName = []coretestcases.CaseV1{
 		$caseItem
 	}
 `
 
-const testCaseItemTemplate = `
+	testCaseItemTemplate = `
 		{
 			Title: $title,
 			ArrangeInput: $arrangeType {
@@ -66,3 +67,4 @@ const testCaseItemTemplate = `
 			VerifyTypeOf: coretests.NewVerifyTypeOf($arrangeType),
 		},
 `
+)
