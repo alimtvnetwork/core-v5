@@ -1,6 +1,10 @@
 package args
 
-import "gitlab.com/auk-go/core/coreinterface"
+import (
+	"fmt"
+
+	"gitlab.com/auk-go/core/coreinterface"
+)
 
 type FuncWrapGetter interface {
 	FuncWrap() *FuncWrap
@@ -16,19 +20,30 @@ type FuncNamer interface {
 	FuncWrapGetter
 }
 
-type OneFuncParameter interface {
+type OneParameter interface {
+	ArgBaseContractsBinder
 	coreinterface.OneParameter
+}
+
+type OneFuncParameter interface {
+	ArgFuncContractsBinder
+	OneParameter
 	FuncNumber
 }
 
-type TowFuncParameter interface {
-	OneFuncParameter
+type TwoParameter interface {
+	ArgBaseContractsBinder
 	coreinterface.TwoParameter
+}
+
+type TwoFuncParameter interface {
+	OneFuncParameter
+	TwoParameter
 	FuncNumber
 }
 
 type ThreeFuncParameter interface {
-	TowFuncParameter
+	TwoFuncParameter
 	coreinterface.ThreeParameter
 	FuncNumber
 }
@@ -73,4 +88,24 @@ type FuncWrapper interface {
 	IsNotEqual(
 		another *FuncWrap,
 	) bool
+}
+
+type ArgBaseContractsBinder interface {
+	coreinterface.FirstItemGetter
+	coreinterface.ExpectGetter
+	HasFirst() bool
+
+	coreinterface.HasExpectChecker
+	coreinterface.ValidArgsGetter
+	coreinterface.SliceGetter
+	coreinterface.ByIndexGetter
+
+	coreinterface.ArgsCountGetter
+
+	fmt.Stringer
+}
+
+type ArgFuncContractsBinder interface {
+	ArgBaseContractsBinder
+	FuncNumber
 }

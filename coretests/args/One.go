@@ -60,6 +60,10 @@ func (it *One) Args(upTo int) []interface{} {
 	return args
 }
 
+func (it *One) ArgsCount() int {
+	return 1
+}
+
 func (it *One) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice

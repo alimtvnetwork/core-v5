@@ -189,6 +189,6 @@ func (it *TwoFunc) LeftRight() LeftRight {
 	}
 }
 
-func (it TwoFunc) AsTowFuncParameter() TowFuncParameter {
+func (it TwoFunc) AsTowFuncParameter() TwoFuncParameter {
 	return &it
 }

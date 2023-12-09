@@ -255,6 +255,8 @@ type OneParameter interface {
 	HasFirst() bool
 	HasExpectChecker
 
+	ArgsCountGetter
+
 	ValidArgsGetter
 	ArgsUptoGetter
 	SliceGetter

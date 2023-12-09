@@ -97,6 +97,10 @@ func (it *OneFunc) ValidArgs() []interface{} {
 	return args
 }
 
+func (it *OneFunc) ArgsCount() int {
+	return 1
+}
+
 func (it *OneFunc) Args(upTo int) []interface{} {
 	var args []interface{}
 

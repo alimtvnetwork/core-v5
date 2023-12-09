@@ -30,7 +30,7 @@ func (it *Two) Expected() interface{} {
 	return it.Expect
 }
 
-func (it Two) ArgTwo() TwoFunc {
+func (it *Two) ArgTwo() TwoFunc {
 	return TwoFunc{
 		First:  it.First,
 		Second: it.Second,
@@ -49,7 +49,7 @@ func (it *Two) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it Two) ValidArgs() []interface{} {
+func (it *Two) ValidArgs() []interface{} {
 	var args []interface{}
 
 	if it.HasFirst() {
@@ -63,7 +63,11 @@ func (it Two) ValidArgs() []interface{} {
 	return args
 }
 
-func (it Two) Args(upTo int) []interface{} {
+func (it *Two) ArgsCount() int {
+	return 1
+}
+
+func (it *Two) Args(upTo int) []interface{} {
 	var args []interface{}
 
 	if upTo >= 1 {
@@ -77,7 +81,7 @@ func (it Two) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it Two) Slice() []interface{} {
+func (it *Two) Slice() []interface{} {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
@@ -101,7 +105,7 @@ func (it Two) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it Two) GetByIndex(index int) interface{} {
+func (it *Two) GetByIndex(index int) interface{} {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -111,7 +115,7 @@ func (it Two) GetByIndex(index int) interface{} {
 	return slice[index]
 }
 
-func (it Two) String() string {
+func (it *Two) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -131,7 +135,7 @@ func (it Two) String() string {
 	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it Two) LeftRight() LeftRight {
+func (it *Two) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Right:  it.Second,
@@ -140,5 +144,5 @@ func (it Two) LeftRight() LeftRight {
 }
 
 func (it Two) AsOneParameter() coreinterface.TwoParameter {
-	return &it
+	return it
 }
