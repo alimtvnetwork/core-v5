@@ -64,19 +64,31 @@ type FourthFuncParameter interface {
 	FuncNumber
 }
 
+type FifthParameter interface {
+	FourthParameter
+	coreinterface.FifthParameter
+}
+
 type FifthFuncParameter interface {
 	FourthFuncParameter
-	coreinterface.FifthParameter
+	FifthParameter
 	FuncNumber
+}
+
+type SixthParameter interface {
+	FifthParameter
+	coreinterface.SixthParameter
 }
 
 type SixthFuncParameter interface {
 	FifthFuncParameter
-	coreinterface.SixthParameter
+	SixthParameter
 	FuncNumber
 }
 
 type ArgsMapper interface {
+	ArgBaseContractsBinder
+
 	coreinterface.FirstItemGetter
 	coreinterface.ExpectGetter
 	HasFirst() bool
@@ -118,4 +130,9 @@ type ArgBaseContractsBinder interface {
 type ArgFuncContractsBinder interface {
 	ArgBaseContractsBinder
 	FuncNumber
+}
+
+type ArgFuncNameContractsBinder interface {
+	ArgBaseContractsBinder
+	FuncNamer
 }
