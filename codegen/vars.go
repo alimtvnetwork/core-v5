@@ -1,21 +1,11 @@
 package codegen
 
 import (
-	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
 var (
-	NewCodeOutput  = newCodeOutputCreator{}
-	indexByNameMap = map[int]string{
-		coreindexes.First:   "First",
-		coreindexes.Second:  "Second",
-		coreindexes.Third:   "Third",
-		coreindexes.Fourth:  "Fourth",
-		coreindexes.Fifth:   "Fifth",
-		coreindexes.Sixth:   "Sixth",
-		coreindexes.Seventh: "Seventh",
-	}
+	NewCodeOutput = newCodeOutputCreator{}
 
 	unitTestVars = unitVariables{
 		PackageName:      "$packageName",
@@ -31,6 +21,9 @@ var (
 		Behaviour:        "$Behaviour",
 		TestCaseName:     "$testCaseName",
 		DirectFuncInvoke: "$directFuncInvoke",
+		Title:            "$title",
+		ArrangeSetup:     "$arrangeSetup",
+		ExpectedLines:    "$expectedLines",
 		inputExpectedVar: "input.Expect",
 	}
 

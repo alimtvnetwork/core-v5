@@ -489,6 +489,14 @@ func (it GenerateFunc) StructName() string {
 	return reflectinternal.TypeName(it.Struct)
 }
 
-func (it GenerateFunc) TestCasesCompiled() string {
-	return ""
+func (it GenerateFunc) TestCasesCompiled() (string, error) {
+	caseGenerator := testCaseGenerator{
+		baseGenerator: it.AsBaseGenerator(),
+	}
+
+	return caseGenerator.Compile()
+}
+
+func (it GenerateFunc) AsBaseGenerator() BaseGenerator {
+	return it
 }

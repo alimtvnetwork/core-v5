@@ -14,5 +14,8 @@ type unitVariables struct {
 	Behaviour        string
 	TestCaseName     string
 	DirectFuncInvoke string
+	Title            string
+	ArrangeSetup     string
+	ExpectedLines    string
 	inputExpectedVar string
 }
