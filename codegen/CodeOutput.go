@@ -18,7 +18,7 @@ type CodeOutput struct {
 func (it *CodeOutput) IsValid() bool {
 	return it != nil &&
 		it.Error == nil &&
-		it.UnitTest != "" &&
+		it.UnitTest != "" ||
 		it.TestCase != ""
 }
 
