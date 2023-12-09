@@ -89,7 +89,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(inArgsErr)
 	}
 
-	outArgs, outArgsErr := it.outArgs()
+	outArgs, outArgsErr := it.OutArgs()
 
 	if iserror.Defined(outArgsErr) {
 		return NewCodeOutput.Invalid(outArgsErr)
@@ -164,7 +164,7 @@ func (it GenerateFunc) UnitTests(
 		return testsSlice, errors.New("must set behaviours it cannot be empty")
 	}
 
-	funcName := it.funcName()
+	funcName := it.FuncName()
 
 	for _, behaviour := range it.Behaviours {
 		fmtOutputs, fmtErr := it.generateFmtOutputs(
@@ -391,7 +391,7 @@ func (it GenerateFunc) generateFmtOutputs(
 	)
 }
 
-func (it GenerateFunc) funcName() string {
+func (it GenerateFunc) FuncName() string {
 	funcWrap := it.FuncWrap()
 
 	if funcWrap.IsInvalid() {
@@ -401,13 +401,13 @@ func (it GenerateFunc) funcName() string {
 	return funcWrap.GetFuncName()
 }
 
-// outArgs
+// OutArgs
 //
 //	Aka returns Args
 //
 // - if one then return "result" only
 // - Or else, result1, result2 ...
-func (it GenerateFunc) outArgs() (*corestr.SimpleSlice, error) {
+func (it GenerateFunc) OutArgs() (*corestr.SimpleSlice, error) {
 	funcWrap := it.FuncWrap()
 
 	if funcWrap.IsInvalid() {
