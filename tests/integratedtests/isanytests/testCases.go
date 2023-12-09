@@ -21,7 +21,6 @@ var (
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
-
 	oneFuncTypeVerification = &coretests.VerifyTypeOf{
 		ArrangeInput:  reflect.TypeOf([]args.OneFunc{}),
 		ActualInput:   reflect.TypeOf([]string{}),
@@ -29,6 +28,7 @@ var (
 	}
 
 	interfaceArrayTypeVerification = &coretests.VerifyTypeOf{
+
 		ArrangeInput:  reflect.TypeOf([][]interface{}{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),

@@ -24,7 +24,6 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 			New.
 			SimpleSlice.
 			Cap($linesPossible)
-		$actArgsSetup
 
 		// Act
 		actFunc$FuncName := $directFuncInvoke
@@ -47,4 +46,23 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 		)
 	}
 }
+`
+
+const testCasesTemplate = `
+	$testCaseName = []coretestcases.CaseV1{
+		$caseItem
+	}
+`
+
+const testCaseItemTemplate = `
+		{
+			Title: $title,
+			ArrangeInput: $arrangeType {
+				$arrangeSetup
+			},
+			ExpectedInput: []string{
+				$expectedLines,
+			},
+			VerifyTypeOf: coretests.NewVerifyTypeOf($arrangeType),
+		},
 `

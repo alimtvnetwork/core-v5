@@ -36,6 +36,38 @@ type GenerateFunc struct {
 	funcWrap                *args.FuncWrap
 }
 
+func (it GenerateFunc) Function() interface{} {
+	return it.Func
+}
+
+func (it GenerateFunc) CurStruct() interface{} {
+	return it.Struct
+}
+
+func (it GenerateFunc) GenType() codegentype.Variant {
+	return it.GenerateType
+}
+
+func (it GenerateFunc) JoinFormatType() fmtcodegentype.Variant {
+	return it.FmtType
+}
+
+func (it GenerateFunc) Cases() []coretestcases.CaseV1 {
+	return it.TestCases
+}
+
+func (it GenerateFunc) CurBehaviours() corestr.SimpleSlice {
+	return it.Behaviours
+}
+
+func (it GenerateFunc) CurFuncOverrideCall() interface{} {
+	return it.FuncOverrideCall
+}
+
+func (it GenerateFunc) IsFunctionInclude() bool {
+	return it.IsIncludeFunction
+}
+
 func (it GenerateFunc) Generate() error {
 	codeOutput := it.GenerateCodeOutput()
 
@@ -43,15 +75,14 @@ func (it GenerateFunc) Generate() error {
 }
 
 func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
-	toWrap := it.toFunWrap()
+	toWrap := it.FuncWrap()
 
 	if toWrap.IsInvalid() {
 		return NewCodeOutput.Invalid(toWrap.InvalidError())
 	}
 
-	testPkgName, packageHeader := it.packageHeader(toWrap)
+	testPkgName, packageHeader := it.PackageHeader()
 
-	actLines := it.generateActLines()
 	inArgs, inArgsErr := it.inArgs()
 
 	if iserror.Defined(inArgsErr) {
@@ -65,7 +96,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	}
 
 	funcName := toWrap.GetFuncName()
-	firstArrangeTypeName := it.firstArrangeTypeName()
+	firstArrangeTypeName := it.FirstArrangeTypeName()
 	fmtOutputs, fmtErr := it.generateFmtOutputs(
 		fmtJoiner,
 		funcName,
@@ -82,7 +113,6 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		unitTestVars.FuncName:         funcName,
 		unitTestVars.ArrangeType:      firstArrangeTypeName,
 		unitTestVars.LinesPossible:    totalSliceLength,
-		unitTestVars.ActArgsSetup:     actLines.JoinLine(),
 		unitTestVars.InArgs:           inArgs.Join(ArgsJoiner),
 		unitTestVars.OutArgs:          outArgs.Join(ArgsJoiner),
 		unitTestVars.FmtJoin:          it.generateFmtJoin(),
@@ -90,7 +120,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		unitTestVars.DirectFuncInvoke: it.directFuncInvoke(),
 	}
 
-	unitTests, unitErr := it.unitTests(
+	unitTests, unitErr := it.UnitTests(
 		inArgs,
 		outArgs,
 		funcTemplateReplacer,
@@ -112,14 +142,14 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 
 	return &CodeOutput{
 		UnitTest:   finalUnitTest,
-		TestCase:   "",
+		TestCase:   testCaseCompiled.JoinLine(),
 		StructName: it.structName(),
 		FuncName:   funcName,
 		FileWriter: it.fileWriter(testPkgName),
 	}
 }
 
-func (it GenerateFunc) unitTests(
+func (it GenerateFunc) UnitTests(
 	inArgs,
 	outArgs *corestr.SimpleSlice,
 	tempMap map[string]string,
@@ -147,7 +177,7 @@ func (it GenerateFunc) unitTests(
 
 		tempMap[unitTestVars.FmtOutputs] = fmtOutputs.Join(fmtJoiner)
 		tempMap[unitTestVars.Behaviour] = behaviour
-		tempMap[unitTestVars.TestCaseName] = it.testCaseName(
+		tempMap[unitTestVars.TestCaseName] = it.TestCaseName(
 			totalBehaviours,
 			funcName,
 			behaviour,
@@ -170,7 +200,7 @@ func (it GenerateFunc) unitTests(
 	return testsSlice, nil
 }
 
-func (it GenerateFunc) testCaseName(
+func (it GenerateFunc) TestCaseName(
 	totalBehaviours int,
 	funcName,
 	behaviour string,
@@ -193,15 +223,15 @@ func (it GenerateFunc) testCaseName(
 	)
 }
 
-func (it GenerateFunc) packageHeader(toWrap *args.FuncWrap) (string, string) {
-	testPkgName := it.testPkgName(toWrap)
-	newPackagesLines := it.allPackages(toWrap)
+func (it GenerateFunc) PackageHeader() (testPkgName string, packageHeader string) {
+	testPkgName = it.TestPkgName()
+	newPackagesLines := it.AllPackages()
 	packagesTemplate := map[string]string{
 		"$packageName": testPkgName,
 		"$newPackages": newPackagesLines,
 	}
 
-	packageHeader := stringutil.
+	packageHeader = stringutil.
 		ReplaceTemplate.
 		DirectKeyUsingMapTrim(
 			testPkgHeaderTemplate,
@@ -233,8 +263,8 @@ func (it GenerateFunc) unitTestRootPath(unitTestPackageName string) string {
 	)
 }
 
-func (it GenerateFunc) firstArrangeTypeName() string {
-	rt := it.firstArrangeType()
+func (it GenerateFunc) FirstArrangeTypeName() string {
+	rt := it.FirstArrangeType()
 
 	if rt == nil {
 		return constants.NilAngelBracket
@@ -243,14 +273,14 @@ func (it GenerateFunc) firstArrangeTypeName() string {
 	return (*rt).String()
 }
 
-func (it GenerateFunc) allPackages(toWrap *args.FuncWrap) string {
-	arrangePkgPaths := it.arrangePackages()
+func (it GenerateFunc) AllPackages() string {
+	arrangePkgPaths := it.ArrangePackages()
 
 	newPackages := corestr.
 		New.
 		SimpleSlice.
 		Hashset(arrangePkgPaths).
-		Add(toWrap.PkgPath()).
+		Add(it.FuncWrap().PkgPath()).
 		WrapDoubleQuote()
 
 	newPackagesLines := newPackages.JoinLine()
@@ -258,7 +288,7 @@ func (it GenerateFunc) allPackages(toWrap *args.FuncWrap) string {
 	return newPackagesLines
 }
 
-func (it GenerateFunc) firstArrangeType() *reflect.Type {
+func (it GenerateFunc) FirstArrangeType() *reflect.Type {
 	if len(it.TestCases) == 0 {
 		return nil
 	}
@@ -270,7 +300,7 @@ func (it GenerateFunc) firstArrangeType() *reflect.Type {
 	return &rt
 }
 
-func (it GenerateFunc) arrangeReflectTypes() []reflect.Type {
+func (it GenerateFunc) ArrangeReflectTypes() []reflect.Type {
 	var results []reflect.Type
 
 	reducerFunc := reflectinternal.Looper.ReducePointerDefault
@@ -291,8 +321,8 @@ func (it GenerateFunc) arrangeReflectTypes() []reflect.Type {
 	return results
 }
 
-func (it GenerateFunc) arrangePackages() *corestr.Hashset {
-	allReflectTypes := it.arrangeReflectTypes()
+func (it GenerateFunc) ArrangePackages() *corestr.Hashset {
+	allReflectTypes := it.ArrangeReflectTypes()
 
 	pks := corestr.New.Hashset.Cap(len(allReflectTypes))
 
@@ -303,11 +333,11 @@ func (it GenerateFunc) arrangePackages() *corestr.Hashset {
 	return pks
 }
 
-func (it GenerateFunc) testPkgName(toWrap *args.FuncWrap) string {
-	return toWrap.PkgNameOnly() + "tests"
+func (it GenerateFunc) TestPkgName() string {
+	return it.FuncWrap().PkgNameOnly() + "tests"
 }
 
-func (it GenerateFunc) toFunWrap() *args.FuncWrap {
+func (it GenerateFunc) FuncWrap() *args.FuncWrap {
 	if it.funcWrap != nil {
 		return it.funcWrap
 	}
@@ -362,7 +392,7 @@ func (it GenerateFunc) generateFmtOutputs(
 }
 
 func (it GenerateFunc) funcName() string {
-	funcWrap := it.toFunWrap()
+	funcWrap := it.FuncWrap()
 
 	if funcWrap.IsInvalid() {
 		return ""
@@ -378,7 +408,7 @@ func (it GenerateFunc) funcName() string {
 // - if one then return "result" only
 // - Or else, result1, result2 ...
 func (it GenerateFunc) outArgs() (*corestr.SimpleSlice, error) {
-	funcWrap := it.toFunWrap()
+	funcWrap := it.FuncWrap()
 
 	if funcWrap.IsInvalid() {
 		return it.emptySlice(), errors.New("func wrap is invalid - return args")
@@ -403,7 +433,7 @@ func (it GenerateFunc) outArgs() (*corestr.SimpleSlice, error) {
 // - if one then return "result" only
 // - Or else, result1, result2 ...
 func (it GenerateFunc) inArgs() (*corestr.SimpleSlice, error) {
-	funcWrap := it.toFunWrap()
+	funcWrap := it.FuncWrap()
 
 	if funcWrap.IsInvalid() {
 		return it.emptySlice(), errors.New("func wrap is invalid - return args")
@@ -444,7 +474,7 @@ func (it GenerateFunc) directFuncInvoke() string {
 		return it.FuncOverrideCall
 	}
 
-	return it.toFunWrap().FuncDirectInvokeName()
+	return it.FuncWrap().FuncDirectInvokeName()
 }
 
 func (it GenerateFunc) structName() string {
