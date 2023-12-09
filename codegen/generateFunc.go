@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 
 	"gitlab.com/auk-go/core/chmodhelper"
@@ -78,7 +79,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	funcTemplateReplacer := map[string]string{
 		"$FuncName":         funcName,
 		"$ArrangeType":      firstArrangeTypeName,
-		"$linesPossible":    "100",
+		"$linesPossible":    totalSliceLength,
 		"$actArgsSetup":     actLines.JoinLine(),
 		"$inArgs":           inArgs.Join(ArgsJoiner),
 		"$outArgs":          outArgs.Join(ArgsJoiner),
@@ -87,7 +88,15 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		"$directFuncInvoke": it.directFuncInvoke(),
 	}
 
-	unitTests := it.unitTests(funcTemplateReplacer)
+	unitTests, unitErr := it.unitTests(
+		inArgs,
+		outArgs,
+		funcTemplateReplacer,
+	)
+
+	if iserror.Defined(unitErr) {
+		return NewCodeOutput.Invalid(unitErr)
+	}
 
 	finalUnitTest := stringslice.JoinWith(
 		constants.NewLineUnix,
@@ -107,30 +116,73 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 }
 
 func (it GenerateFunc) unitTests(
-	outArgs,
-	inArgs *corestr.SimpleSlice,
-	funcTemplateReplacer map[string]string,
+	inArgs,
+	outArgs *corestr.SimpleSlice,
+	tempMap map[string]string,
 ) (*corestr.SimpleSlice, error) {
-	fmtOutputs, fmtErr := it.generateFmtOutputs(
-		fmtJoiner,
-		it.funcName(),
-		"",
-		outArgs,
-		inArgs,
-	)
-	funcTemplateReplacer[]
+	totalBehaviours := len(it.Behaviours)
+	testsSlice := corestr.
+		New.
+		SimpleSlice.
+		Cap(totalBehaviours)
 
-	if iserror.Defined(fmtErr) {
-		return nil, fmtErr
+	if totalBehaviours == 0 {
+		return testsSlice, errors.New("must set behaviours it cannot be empty")
 	}
 
-	unitTest := stringutil.
-		ReplaceTemplate.
-		DirectKeyUsingMapTrim(
-			funcTemplate,
-			funcTemplateReplacer,
+	funcName := it.funcName()
+
+	for _, behaviour := range it.Behaviours {
+		fmtOutputs, fmtErr := it.generateFmtOutputs(
+			fmtJoiner,
+			funcName,
+			unitTestVars.inputExpectedVar,
+			outArgs,
+			inArgs,
 		)
-	return unitTest
+
+		tempMap[unitTestVars.FmtOutputs] = fmtOutputs.Join(fmtJoiner)
+		tempMap[unitTestVars.Behaviour] = behaviour
+		tempMap[unitTestVars.TestCaseName] = it.testCaseName(
+			totalBehaviours,
+			funcName,
+			behaviour,
+		)
+
+		if iserror.Defined(fmtErr) {
+			return testsSlice, fmtErr
+		}
+
+		unitTest := stringutil.
+			ReplaceTemplate.
+			DirectKeyUsingMapTrim(
+				funcTemplate,
+				tempMap,
+			)
+
+		testsSlice.Add(unitTest)
+	}
+
+	return testsSlice, nil
+}
+
+func (it GenerateFunc) testCaseName(
+	totalBehaviours int,
+	funcName,
+	behaviour string,
+) string {
+	if totalBehaviours == 1 {
+		return fmt.Sprintf(
+			"%sTestCases",
+			funcName,
+		)
+	}
+
+	return fmt.Sprintf(
+		"%sTestCases%s",
+		funcName,
+		pascalCaseFunc(behaviour),
+	)
 }
 
 func (it GenerateFunc) packageHeader(toWrap *args.FuncWrap) (string, string) {

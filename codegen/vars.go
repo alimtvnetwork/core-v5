@@ -1,6 +1,9 @@
 package codegen
 
-import "gitlab.com/auk-go/core/coreindexes"
+import (
+	"gitlab.com/auk-go/core/coreindexes"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
+)
 
 var (
 	NewCodeOutput  = newCodeOutputCreator{}
@@ -25,6 +28,11 @@ var (
 		OutArgs:          "$outArgs",
 		FmtJoin:          "$fmtJoin",
 		FmtOutputs:       "$fmtOutputs",
+		Behaviour:        "$Behaviour",
+		TestCaseName:     "$testCaseName",
 		DirectFuncInvoke: "$directFuncInvoke",
+		inputExpectedVar: "input.Expect",
 	}
+
+	pascalCaseFunc = reflectinternal.GetFunc.PascalFuncName
 )

@@ -11,5 +11,8 @@ type unitVariables struct {
 	OutArgs          string
 	FmtJoin          string
 	FmtOutputs       string
+	Behaviour        string
+	TestCaseName     string
 	DirectFuncInvoke string
+	inputExpectedVar string
 }
