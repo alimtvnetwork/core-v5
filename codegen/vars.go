@@ -2,7 +2,7 @@ package codegen
 
 import (
 	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
 var (
@@ -34,5 +34,6 @@ var (
 		inputExpectedVar: "input.Expect",
 	}
 
-	pascalCaseFunc = reflectinternal.GetFunc.PascalFuncName
+	pascalCaseFunc = convertinteranl.Util.String.PascalCase
+	camelCaseFunc  = convertinteranl.Util.String.CamelCase
 )

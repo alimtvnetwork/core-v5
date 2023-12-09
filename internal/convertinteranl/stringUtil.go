@@ -69,3 +69,41 @@ func (it stringUtil) IndexToPosition(
 		)
 	}
 }
+
+func (it stringUtil) PascalCase(
+	name string,
+) string {
+	if len(name) == 0 {
+		return ""
+	}
+
+	allRunes := []rune(name)
+	firstChar := allRunes[0]
+	firstCharStr := string(firstChar)
+	firstCharUpper := strings.ToUpper(firstCharStr)
+
+	if len(allRunes) == 1 {
+		return firstCharUpper
+	}
+
+	return firstCharUpper + string(allRunes[1:])
+}
+
+func (it stringUtil) CamelCase(
+	name string,
+) string {
+	if len(name) == 0 {
+		return ""
+	}
+
+	allRunes := []rune(name)
+	firstChar := allRunes[0]
+	firstCharStr := string(firstChar)
+	firstCharLower := strings.ToLower(firstCharStr)
+
+	if len(allRunes) == 1 {
+		return firstCharLower
+	}
+
+	return firstCharLower + string(allRunes[1:])
+}

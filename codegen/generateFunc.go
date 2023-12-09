@@ -77,15 +77,15 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	}
 
 	funcTemplateReplacer := map[string]string{
-		"$FuncName":         funcName,
-		"$ArrangeType":      firstArrangeTypeName,
-		"$linesPossible":    totalSliceLength,
-		"$actArgsSetup":     actLines.JoinLine(),
-		"$inArgs":           inArgs.Join(ArgsJoiner),
-		"$outArgs":          outArgs.Join(ArgsJoiner),
-		"$fmtJoin":          it.generateFmtJoin(),
-		"$fmtOutputs":       fmtOutputs.Join(fmtJoiner),
-		"$directFuncInvoke": it.directFuncInvoke(),
+		unitTestVars.FuncName:         funcName,
+		unitTestVars.ArrangeType:      firstArrangeTypeName,
+		unitTestVars.LinesPossible:    totalSliceLength,
+		unitTestVars.ActArgsSetup:     actLines.JoinLine(),
+		unitTestVars.InArgs:           inArgs.Join(ArgsJoiner),
+		unitTestVars.OutArgs:          outArgs.Join(ArgsJoiner),
+		unitTestVars.FmtJoin:          it.generateFmtJoin(),
+		unitTestVars.FmtOutputs:       fmtOutputs.Join(fmtJoiner),
+		unitTestVars.DirectFuncInvoke: it.directFuncInvoke(),
 	}
 
 	unitTests, unitErr := it.unitTests(
@@ -98,7 +98,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(unitErr)
 	}
 
-	finalUnitTest := stringslice.JoinWith(
+	finalUnitTest := stringslice.Joins(
 		constants.NewLineUnix,
 		packageHeader,
 		"",
@@ -172,16 +172,20 @@ func (it GenerateFunc) testCaseName(
 	behaviour string,
 ) string {
 	if totalBehaviours == 1 {
-		return fmt.Sprintf(
-			"%sTestCases",
-			funcName,
+		return camelCaseFunc(
+			fmt.Sprintf(
+				"%sTestCases",
+				funcName,
+			),
 		)
 	}
 
-	return fmt.Sprintf(
-		"%sTestCases%s",
-		funcName,
-		pascalCaseFunc(behaviour),
+	return camelCaseFunc(
+		fmt.Sprintf(
+			"%sTestCases%s",
+			funcName,
+			pascalCaseFunc(behaviour),
+		),
 	)
 }
 
