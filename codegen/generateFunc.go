@@ -16,11 +16,13 @@ import (
 	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/internal/pathinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/iserror"
 )
 
 type GenerateFunc struct {
 	Func                    interface{}
+	Struct                  interface{}
 	FuncOverrideCall        string
 	GenerateType            codegentype.Variant
 	FmtType                 fmtcodegentype.Variant
@@ -106,10 +108,12 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		"",
 	)
 
+	testCaseCompiled := it.testCasesCompiled()
+
 	return &CodeOutput{
 		UnitTest:   finalUnitTest,
 		TestCase:   "",
-		StructName: "",
+		StructName: it.structName(),
 		FuncName:   funcName,
 		FileWriter: it.fileWriter(testPkgName),
 	}
@@ -441,4 +445,16 @@ func (it GenerateFunc) directFuncInvoke() string {
 	}
 
 	return it.toFunWrap().FuncDirectInvokeName()
+}
+
+func (it GenerateFunc) structName() string {
+	if isany.Null(it.Struct) {
+		return ""
+	}
+
+	return reflectinternal.TypeName(it.Struct)
+}
+
+func (it GenerateFunc) testCasesCompiled() *corestr.SimpleSlice {
+
 }
