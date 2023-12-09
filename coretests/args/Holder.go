@@ -30,6 +30,10 @@ type Holder struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *Holder) ArgsCount() int {
+	return 7
+}
+
 func (it *Holder) FirstItem() interface{} {
 	return it.First
 }

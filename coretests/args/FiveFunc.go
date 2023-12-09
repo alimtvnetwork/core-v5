@@ -21,6 +21,10 @@ type FiveFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *FiveFunc) ArgsCount() int {
+	return 5
+}
+
 func (it *FiveFunc) FirstItem() interface{} {
 	return it.First
 }

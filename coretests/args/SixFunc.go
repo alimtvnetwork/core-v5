@@ -22,6 +22,10 @@ type SixFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *SixFunc) ArgsCount() int {
+	return 6
+}
+
 func (it *SixFunc) FirstItem() interface{} {
 	return it.First
 }

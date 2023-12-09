@@ -14,6 +14,26 @@ import (
 
 type Map map[string]interface{}
 
+func (it Map) ArgsCount() int {
+	l := it.Length()
+
+	var count int
+
+	if it.HasExpect() {
+		count++
+	}
+
+	if it.HasFunc() {
+		count++
+	}
+
+	return l - count
+}
+
+func (it Map) Length() int {
+	return len(it)
+}
+
 func (it Map) Expected() interface{} {
 	return it.GetFirstOfNames(
 		"expected",
