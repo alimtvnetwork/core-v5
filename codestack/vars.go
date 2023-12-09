@@ -1,6 +1,8 @@
 package codestack
 
-import "gitlab.com/auk-go/core/internal/reflectinternal"
+import (
+	"gitlab.com/auk-go/core/internal/reflectinternal"
+)
 
 var (
 	NameOf   = currentNameOf{}

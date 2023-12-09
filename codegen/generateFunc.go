@@ -333,15 +333,27 @@ func (it GenerateFunc) inArgs() (*corestr.SimpleSlice, error) {
 	length := funcWrap.ArgsCount()
 	slice := corestr.New.SimpleSlice.Cap(length)
 
+	if length == 0 {
+		return slice, nil
+	}
+
 	if length == 1 {
-		return slice.Add("result"), nil
+		return slice.Add(it.variableName("input", 0)), nil
 	}
 
 	for i := 0; i < length; i++ {
-		slice.AppendFmt("result%d", i+1)
+		slice.Add(it.variableName("input", i))
 	}
 
 	return slice, nil
+}
+
+func (it GenerateFunc) variableName(parentVar string, index int) string {
+	return parentVar + "." + it.indexByName(index)
+}
+
+func (it GenerateFunc) indexByName(index int) string {
+	return indexByNameMap[index]
 }
 
 func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
