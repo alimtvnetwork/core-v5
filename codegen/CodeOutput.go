@@ -82,6 +82,7 @@ func (it *CodeOutput) WriteUnitTestFile() error {
 	filePath := it.unitTestFileName()
 
 	return it.FileWriter.WriteRelativePath(
+		it.FileWriter.IsRemoveBeforeWrite,
 		filePath,
 		[]byte(it.UnitTest),
 	)
@@ -91,6 +92,7 @@ func (it *CodeOutput) WriteTestCaseFile() error {
 	filePath := it.testCaseFileName()
 
 	return it.FileWriter.WriteRelativePath(
+		it.FileWriter.IsRemoveBeforeWrite,
 		filePath,
 		[]byte(it.UnitTest),
 	)

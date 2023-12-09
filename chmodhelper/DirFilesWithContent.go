@@ -70,6 +70,7 @@ func (it *DirFilesWithContent) Create(
 		)
 
 		err := fileCreatorFunc(
+			isRemoveBeforeCreate,
 			it.DirFileMode,
 			file.FileMode,
 			compiledPath,
