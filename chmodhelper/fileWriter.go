@@ -28,7 +28,7 @@ type fileWriter struct {
 func (it fileWriter) AllLock(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
-	isCleanBeforeWrite,
+	isRemoveBeforeWrite,
 	isApplyChmodMust,
 	isApplyChmodOnMismatch bool, // only apply for file, dir will not be applied if already created
 	isCreateDirOnRequired bool,
@@ -42,7 +42,7 @@ func (it fileWriter) AllLock(
 	return it.All(
 		chmodDir,
 		chmodFile,
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		isApplyChmodMust,
 		isApplyChmodOnMismatch,
 		isCreateDirOnRequired,
@@ -69,7 +69,7 @@ func (it fileWriter) AllLock(
 func (it fileWriter) All(
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
-	isCleanBeforeWrite,
+	isRemoveBeforeWrite,
 	isApplyChmodMust,
 	isApplyChmodOnMismatch bool, // only apply for file, dir will not be applied if already created
 	isCreateDirOnRequired bool,
@@ -87,13 +87,10 @@ func (it fileWriter) All(
 		return dirErr
 	}
 
-	var cleanUpErr error
-
-	if isCleanBeforeWrite {
-		cleanUpErr = it.CleanBeforeRemove(
-			writingFilePath,
-		)
-	}
+	cleanUpErr := it.RemoveIf(
+		isRemoveBeforeWrite,
+		writingFilePath,
+	)
 
 	if cleanUpErr != nil {
 		return cleanUpErr
@@ -131,12 +128,12 @@ func (it fileWriter) All(
 	return ChmodApply.Default(chmodFile, writingFilePath)
 }
 
-func (it fileWriter) CleanBeforeRemove(removePath string) error {
+func (it fileWriter) Remove(removePath string) error {
 	err := os.RemoveAll(removePath)
 
 	if err != nil {
 		return errors.New(
-			"clean up / remove failed " +
+			"clean up or remove failed " +
 				"filePath : " + removePath +
 				", " +
 				err.Error(),
@@ -146,11 +143,27 @@ func (it fileWriter) CleanBeforeRemove(removePath string) error {
 	return nil
 }
 
+func (it fileWriter) RemoveIf(
+	isRemove bool,
+	removePath string,
+) error {
+	if !isRemove {
+		return nil
+	}
+
+	if !pathinternal.IsPathExists(removePath) {
+		return nil
+	}
+
+	return it.Remove(removePath)
+}
+
 func (it fileWriter) ParentDir(filePath string) string {
 	return pathinternal.ParentDir(filePath)
 }
 
 func (it fileWriter) Chmod(
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	filePath string,
@@ -161,7 +174,7 @@ func (it fileWriter) Chmod(
 	return it.All(
 		chmodDir,
 		chmodFile,
-		true,
+		isRemoveBeforeWrite,
 		true,
 		true,
 		true,
@@ -172,6 +185,7 @@ func (it fileWriter) Chmod(
 }
 
 func (it fileWriter) ChmodFile(
+	isRemoveBeforeWrite bool,
 	chmodFile os.FileMode,
 	filePath string,
 	contentsBytes []byte,
@@ -181,7 +195,7 @@ func (it fileWriter) ChmodFile(
 	return it.All(
 		dirDefaultChmod,
 		chmodFile,
-		true,
+		isRemoveBeforeWrite,
 		true,
 		true,
 		true,

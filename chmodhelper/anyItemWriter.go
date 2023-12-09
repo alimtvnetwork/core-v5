@@ -14,7 +14,7 @@ import (
 type anyItemWriter struct{}
 
 func (it anyItemWriter) ChmodLock(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	parentDir,
@@ -25,7 +25,7 @@ func (it anyItemWriter) ChmodLock(
 	defer globalMutex.Unlock()
 
 	return it.Chmod(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		chmodDir,
 		chmodFile,
 		parentDir,
@@ -45,7 +45,7 @@ func (it anyItemWriter) ChmodLock(
 // writingFilePath:
 //   - is a full path to the actual file where to write contents
 func (it anyItemWriter) Chmod(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	parentDir,
@@ -58,7 +58,7 @@ func (it anyItemWriter) Chmod(
 		return fileWriter{}.All(
 			chmodDir,
 			chmodFile,
-			isCleanBeforeWrite,
+			isRemoveBeforeWrite,
 			true,
 			true,
 			true,
@@ -99,7 +99,7 @@ func (it anyItemWriter) Chmod(
 // writingFilePath:
 //   - is a full path to the actual file where to write contents
 func (it anyItemWriter) DefaultLock(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	writingFilePath string,
 	anyItem interface{},
 ) error {
@@ -107,7 +107,7 @@ func (it anyItemWriter) DefaultLock(
 	defer globalMutex.Unlock()
 
 	return it.Default(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		writingFilePath,
 		anyItem,
 	)
@@ -117,14 +117,14 @@ func (it anyItemWriter) DefaultLock(
 //
 //	Applies default chmod (for dir - 0755, for file - 0644)
 func (it anyItemWriter) Default(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	writingFilePath string,
 	anyItem interface{},
 ) error {
 	parentDir := filepath.Dir(writingFilePath)
 
 	return it.Chmod(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		dirDefaultChmod,
 		fileDefaultChmod,
 		parentDir,

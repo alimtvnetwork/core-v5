@@ -12,7 +12,7 @@ type fileBytesWriter struct{}
 //
 // Create dir safely if required.
 func (it fileBytesWriter) WithDirChmodLock(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	writingFilePath string,
@@ -22,7 +22,7 @@ func (it fileBytesWriter) WithDirChmodLock(
 	defer globalMutex.Unlock()
 
 	return it.WithDirChmod(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		chmodDir,
 		chmodFile,
 		writingFilePath,
@@ -34,7 +34,7 @@ func (it fileBytesWriter) WithDirChmodLock(
 //
 // Create dir safely if required.
 func (it fileBytesWriter) WithDirChmod(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	writingFilePath string,
@@ -45,7 +45,7 @@ func (it fileBytesWriter) WithDirChmod(
 	return fileWriter{}.All(
 		chmodDir,
 		chmodFile,
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		true,
 		true,
 		true,
@@ -59,7 +59,7 @@ func (it fileBytesWriter) WithDirChmod(
 //
 // Create dir safely if required.
 func (it fileBytesWriter) Chmod(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	writingFilePath string,
@@ -70,7 +70,7 @@ func (it fileBytesWriter) Chmod(
 	return fileWriter{}.All(
 		chmodDir,
 		chmodFile,
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		true,
 		true,
 		true,
@@ -81,7 +81,7 @@ func (it fileBytesWriter) Chmod(
 }
 
 func (it fileBytesWriter) WithDirLock(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	writingFilePath string,
 	contentsBytes []byte,
 ) error {
@@ -89,7 +89,7 @@ func (it fileBytesWriter) WithDirLock(
 	defer globalMutex.Unlock()
 
 	return it.WithDir(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		writingFilePath,
 		contentsBytes,
 	)
@@ -99,12 +99,12 @@ func (it fileBytesWriter) WithDirLock(
 //
 //	Applies default chmod (for dir - 0755, for file - 0644)
 func (it fileBytesWriter) WithDir(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	writingFilePath string,
 	contentsBytes []byte,
 ) error {
 	return it.WithDirChmod(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		dirDefaultChmod,
 		fileDefaultChmod,
 		writingFilePath,
@@ -116,12 +116,12 @@ func (it fileBytesWriter) WithDir(
 //
 //	Applies default chmod (for dir - 0755, for file - 0644)
 func (it fileBytesWriter) Default(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	writingFilePath string,
 	contentsBytes []byte,
 ) error {
 	return it.WithDirChmod(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		dirDefaultChmod,
 		fileDefaultChmod,
 		writingFilePath,

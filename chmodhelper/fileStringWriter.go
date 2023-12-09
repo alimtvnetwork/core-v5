@@ -15,7 +15,7 @@ type fileStringWriter struct{}
 // writingFilePath:
 //   - is a full path to the actual file where to write contents
 func (it fileStringWriter) All(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	isApplyChmodMust,
@@ -28,7 +28,7 @@ func (it fileStringWriter) All(
 	return fileWriter{}.All(
 		chmodDir,
 		chmodFile,
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		isApplyChmodMust,
 		isApplyChmodOnMismatch,
 		isCreateDirOnRequired,
@@ -39,7 +39,7 @@ func (it fileStringWriter) All(
 }
 
 func (it fileStringWriter) DefaultLock(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	writingFilePath string,
 	content string,
 ) error {
@@ -47,7 +47,7 @@ func (it fileStringWriter) DefaultLock(
 	defer globalMutex.Unlock()
 
 	return it.Default(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		writingFilePath,
 		content,
 	)
@@ -57,26 +57,26 @@ func (it fileStringWriter) DefaultLock(
 //
 //	Applies default chmod (for dir - 0755, for file - 0644)
 func (it fileStringWriter) Default(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	writingFilePath string,
 	content string,
 ) error {
 	return fileWriter{}.Bytes.Default(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		writingFilePath,
 		[]byte(content),
 	)
 }
 
 func (it fileStringWriter) Chmod(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	writingFilePath string,
 	content string,
 ) error {
 	return fileWriter{}.Bytes.WithDirChmod(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		chmodDir,
 		chmodFile,
 		writingFilePath,
@@ -85,7 +85,7 @@ func (it fileStringWriter) Chmod(
 }
 
 func (it fileStringWriter) ChmodLock(
-	isCleanBeforeWrite bool,
+	isRemoveBeforeWrite bool,
 	chmodDir os.FileMode,
 	chmodFile os.FileMode,
 	writingFilePath string,
@@ -95,7 +95,7 @@ func (it fileStringWriter) ChmodLock(
 	defer globalMutex.Unlock()
 
 	return fileWriter{}.Bytes.WithDirChmod(
-		isCleanBeforeWrite,
+		isRemoveBeforeWrite,
 		chmodDir,
 		chmodFile,
 		writingFilePath,

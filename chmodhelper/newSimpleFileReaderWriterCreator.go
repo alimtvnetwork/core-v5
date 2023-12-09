@@ -17,6 +17,7 @@ type newSimpleFileReaderWriterCreator struct{}
 //     it doesn't have to be relative to absFilePath but can be relative.
 //   - absFilePath  : absolute file path
 func (it newSimpleFileReaderWriterCreator) Create(
+	isRemoveBeforeWrite bool,
 	chmodDir,
 	chmodFile os.FileMode,
 	absParentDir,
@@ -27,6 +28,7 @@ func (it newSimpleFileReaderWriterCreator) Create(
 		ChmodFile:              chmodFile,
 		ParentDir:              absParentDir,
 		FilePath:               absFilePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: true,
 		IsApplyChmodOnMismatch: true,
 	}
@@ -43,6 +45,7 @@ func (it newSimpleFileReaderWriterCreator) Create(
 func (it newSimpleFileReaderWriterCreator) All(
 	chmodDir,
 	chmodFile os.FileMode,
+	isRemoveBeforeWrite bool,
 	isApplyChmodMust bool,
 	isApplyOnMismatch bool,
 	absParentDir,
@@ -53,12 +56,14 @@ func (it newSimpleFileReaderWriterCreator) All(
 		ChmodFile:              chmodFile,
 		ParentDir:              absParentDir,
 		FilePath:               absFilePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: isApplyChmodMust,
 		IsApplyChmodOnMismatch: isApplyOnMismatch,
 	}
 }
 
 func (it newSimpleFileReaderWriterCreator) Options(
+	isRemoveBeforeWrite bool,
 	isApplyChmodMust bool,
 	isApplyOnMismatch bool,
 	absFilePath string,
@@ -70,6 +75,7 @@ func (it newSimpleFileReaderWriterCreator) Options(
 		ChmodFile:              fileDefaultChmod,
 		ParentDir:              parentDir,
 		FilePath:               absFilePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: isApplyChmodMust,
 		IsApplyChmodOnMismatch: isApplyOnMismatch,
 	}
@@ -87,6 +93,7 @@ func (it newSimpleFileReaderWriterCreator) Options(
 //     it doesn't have to be relative to absFilePath but can be relative.
 //   - filePath  : absolute file path after clean or else will not work
 func (it newSimpleFileReaderWriterCreator) CreateClean(
+	isRemoveBeforeWrite bool,
 	chmodDir,
 	chmodFile os.FileMode,
 	parentDir,
@@ -100,6 +107,7 @@ func (it newSimpleFileReaderWriterCreator) CreateClean(
 		ChmodFile:              chmodFile,
 		ParentDir:              parentDir,
 		FilePath:               filePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: true,
 		IsApplyChmodOnMismatch: true,
 	}
@@ -116,6 +124,7 @@ func (it newSimpleFileReaderWriterCreator) CreateClean(
 //   - absParentDir : absolute parentDir will be from parent of absFilePath
 //   - absFilePath  : absolute file path
 func (it newSimpleFileReaderWriterCreator) Default(
+	isRemoveBeforeWrite bool,
 	absFilePath string,
 ) *SimpleFileReaderWriter {
 	parentDir := pathinternal.ParentDir(absFilePath)
@@ -125,6 +134,7 @@ func (it newSimpleFileReaderWriterCreator) Default(
 		ChmodFile:              fileDefaultChmod,
 		ParentDir:              parentDir,
 		FilePath:               absFilePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: true,
 		IsApplyChmodOnMismatch: true,
 	}
@@ -144,6 +154,7 @@ func (it newSimpleFileReaderWriterCreator) Default(
 //   - absFilePath  : absolute file path after clean.
 //   - absParentDir : absolute parentDir will be from parent of absFilePath after clean
 func (it newSimpleFileReaderWriterCreator) DefaultCleanPath(
+	isRemoveBeforeWrite bool,
 	filePath string,
 ) *SimpleFileReaderWriter {
 	filePath = pathinternal.Clean(filePath)
@@ -154,6 +165,7 @@ func (it newSimpleFileReaderWriterCreator) DefaultCleanPath(
 		ChmodFile:              fileDefaultChmod,
 		ParentDir:              parentDir,
 		FilePath:               filePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: true,
 		IsApplyChmodOnMismatch: true,
 	}
@@ -167,6 +179,7 @@ func (it newSimpleFileReaderWriterCreator) DefaultCleanPath(
 //   - absFilePath  : absolute file path.
 //   - parentDir    : will be extracted from absFilePath.
 func (it newSimpleFileReaderWriterCreator) Path(
+	isRemoveBeforeWrite bool,
 	chmodDir,
 	chmodFile os.FileMode,
 	absFilePath string,
@@ -178,18 +191,20 @@ func (it newSimpleFileReaderWriterCreator) Path(
 		ChmodFile:              chmodFile,
 		ParentDir:              parentDir,
 		FilePath:               absFilePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: true,
 		IsApplyChmodOnMismatch: true,
 	}
 }
 
 func (it newSimpleFileReaderWriterCreator) PathCondition(
-	isApplyClean bool,
+	isRemoveBeforeWrite bool,
+	isApplyPathClean bool,
 	chmodDir,
 	chmodFile os.FileMode,
 	filePath string,
 ) *SimpleFileReaderWriter {
-	if isApplyClean {
+	if isApplyPathClean {
 		filePath = pathinternal.Clean(filePath)
 	}
 
@@ -200,6 +215,7 @@ func (it newSimpleFileReaderWriterCreator) PathCondition(
 		ChmodFile:              chmodFile,
 		ParentDir:              parentDir,
 		FilePath:               filePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: true,
 		IsApplyChmodOnMismatch: true,
 	}
@@ -209,6 +225,7 @@ func (it newSimpleFileReaderWriterCreator) PathCondition(
 //
 //	dir will be applied with default chmod - 0755
 func (it newSimpleFileReaderWriterCreator) PathDirDefaultChmod(
+	isRemoveBeforeWrite bool,
 	chmodFile os.FileMode,
 	filePath string,
 ) *SimpleFileReaderWriter {
@@ -219,6 +236,7 @@ func (it newSimpleFileReaderWriterCreator) PathDirDefaultChmod(
 		ChmodFile:              chmodFile,
 		ParentDir:              parentDir,
 		FilePath:               filePath,
+		IsRemoveBeforeWrite:    isRemoveBeforeWrite,
 		IsMustChmodApplyOnFile: true,
 		IsApplyChmodOnMismatch: true,
 	}

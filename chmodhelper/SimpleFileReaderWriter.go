@@ -20,6 +20,7 @@ type SimpleFileReaderWriter struct {
 	ChmodDir, ChmodFile    os.FileMode
 	ParentDir              string // full path to the parent dir
 	FilePath               string // full path to the actual file to write to or read from.
+	IsRemoveBeforeWrite    bool   // if true then removes only if the file exist
 	IsMustChmodApplyOnFile bool
 	IsApplyChmodOnMismatch bool
 }
@@ -91,6 +92,7 @@ func (it SimpleFileReaderWriter) Write(allBytes []byte) error {
 	err := SimpleFileWriter.FileWriter.All(
 		it.ChmodDir,
 		it.ChmodFile,
+		it.IsRemoveBeforeWrite,
 		it.IsMustChmodApplyOnFile,
 		it.IsApplyChmodOnMismatch,
 		true,
@@ -107,13 +109,16 @@ func (it SimpleFileReaderWriter) Write(allBytes []byte) error {
 }
 
 func (it SimpleFileReaderWriter) WritePath(
-	filePath string, allBytes []byte,
+	isRemoveBeforeWrite bool,
+	filePath string,
+	allBytes []byte,
 ) error {
 	parentDir := pathinternal.ParentDir(filePath)
 
 	err := SimpleFileWriter.FileWriter.All(
 		it.ChmodDir,
 		it.ChmodFile,
+		isRemoveBeforeWrite,
 		it.IsMustChmodApplyOnFile,
 		it.IsApplyChmodOnMismatch,
 		true,
@@ -130,13 +135,16 @@ func (it SimpleFileReaderWriter) WritePath(
 }
 
 func (it SimpleFileReaderWriter) WriteRelativePath(
-	relPath string, allBytes []byte,
+	isRemoveBeforeWrite bool,
+	relPath string,
+	allBytes []byte,
 ) error {
 	finalPath := pathinternal.Join(it.ParentDir, relPath)
 
 	err := SimpleFileWriter.FileWriter.All(
 		it.ChmodDir,
 		it.ChmodFile,
+		isRemoveBeforeWrite,
 		it.IsMustChmodApplyOnFile,
 		it.IsApplyChmodOnMismatch,
 		true,
@@ -191,6 +199,7 @@ func (it SimpleFileReaderWriter) WriteString(content string) error {
 	err := SimpleFileWriter.FileWriter.All(
 		it.ChmodDir,
 		it.ChmodFile,
+		it.IsRemoveBeforeWrite,
 		it.IsMustChmodApplyOnFile,
 		it.IsApplyChmodOnMismatch,
 		true,
@@ -227,6 +236,7 @@ func (it SimpleFileReaderWriter) WriteAny(
 		FileWriter.
 		Any.
 		Chmod(
+			it.IsRemoveBeforeWrite,
 			it.ChmodDir,
 			it.ChmodFile,
 			it.ParentDir,
