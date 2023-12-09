@@ -14,6 +14,10 @@ import (
 
 type Map map[string]interface{}
 
+func (it Map) GetWorkFunc() interface{} {
+	return it.WorkFunc()
+}
+
 func (it Map) ArgsCount() int {
 	l := it.Length()
 

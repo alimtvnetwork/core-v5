@@ -19,6 +19,10 @@ type ThreeFunc struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *ThreeFunc) GetWorkFunc() interface{} {
+	return it.WorkFunc
+}
+
 func (it *ThreeFunc) ArgsCount() int {
 	return 3
 }

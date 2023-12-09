@@ -67,4 +67,6 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 			VerifyTypeOf: coretests.NewVerifyTypeOf($arrangeType),
 		},
 `
+
+	argSingleTemplate = "%s : %s"
 )

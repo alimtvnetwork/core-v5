@@ -24,11 +24,9 @@ var (
 		Title:            "$title",
 		ArrangeSetup:     "$arrangeSetup",
 		ExpectedLines:    "$expectedLines",
+		workFunc:         "WorkFunc",
+		expect:           "Expect",
 		inputExpectedVar: "input.Expect",
-	}
-
-	argsTemplatesMap = map[int]string{
-		"": "",
 	}
 
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase

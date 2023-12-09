@@ -18,6 +18,26 @@ type DynamicFunc struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *DynamicFunc) ArgsCount() int {
+	if it == nil {
+		return 0
+	}
+
+	return it.Params.ArgsCount()
+}
+
+func (it *DynamicFunc) GetWorkFunc() interface{} {
+	return it.WorkFunc
+}
+
+func (it *DynamicFunc) Length() int {
+	if it == nil {
+		return 0
+	}
+
+	return len(it.Params)
+}
+
 func (it *DynamicFunc) HasFirst() bool {
 	return reflectinternal.Is.Defined(it.FirstItem())
 }

@@ -11,11 +11,13 @@ type FuncWrapGetter interface {
 }
 
 type FuncNumber interface {
+	GetWorkFunc() interface{}
 	coreinterface.FuncByIndexParameter
 	FuncWrapGetter
 }
 
 type FuncNamer interface {
+	GetWorkFunc() interface{}
 	coreinterface.FuncByNameParameter
 	FuncWrapGetter
 }
