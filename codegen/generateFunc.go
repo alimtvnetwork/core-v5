@@ -11,6 +11,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coredata/stringslice"
+	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
@@ -83,7 +84,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 
 	testPkgName, packageHeader := it.PackageHeader()
 
-	inArgs, inArgsErr := it.inArgs()
+	inArgs, inArgsErr := it.InArgs()
 
 	if iserror.Defined(inArgsErr) {
 		return NewCodeOutput.Invalid(inArgsErr)
@@ -117,7 +118,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		unitTestVars.OutArgs:          outArgs.Join(ArgsJoiner),
 		unitTestVars.FmtJoin:          it.generateFmtJoin(),
 		unitTestVars.FmtOutputs:       fmtOutputs.Join(fmtJoiner),
-		unitTestVars.DirectFuncInvoke: it.directFuncInvoke(),
+		unitTestVars.DirectFuncInvoke: it.DirectFuncInvokeName(),
 	}
 
 	unitTests, unitErr := it.UnitTests(
@@ -138,12 +139,12 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		"",
 	)
 
-	testCaseCompiled := it.testCasesCompiled()
+	testCaseCompiled := it.TestCasesCompiled()
 
 	return &CodeOutput{
 		UnitTest:   finalUnitTest,
-		TestCase:   testCaseCompiled.JoinLine(),
-		StructName: it.structName(),
+		TestCase:   testCaseCompiled,
+		StructName: it.StructName(),
 		FuncName:   funcName,
 		FileWriter: it.fileWriter(testPkgName),
 	}
@@ -428,11 +429,11 @@ func (it GenerateFunc) OutArgs() (*corestr.SimpleSlice, error) {
 	return slice, nil
 }
 
-// inArgs
+// InArgs
 //
 // - if one then return "result" only
 // - Or else, result1, result2 ...
-func (it GenerateFunc) inArgs() (*corestr.SimpleSlice, error) {
+func (it GenerateFunc) InArgs() (*corestr.SimpleSlice, error) {
 	funcWrap := it.FuncWrap()
 
 	if funcWrap.IsInvalid() {
@@ -447,29 +448,32 @@ func (it GenerateFunc) inArgs() (*corestr.SimpleSlice, error) {
 	}
 
 	if length == 1 {
-		return slice.Add(it.variableName("input", 0)), nil
+		return slice.Add(it.VariableName("input", 0)), nil
 	}
 
 	for i := 0; i < length; i++ {
-		slice.Add(it.variableName("input", i))
+		slice.Add(it.VariableName("input", i))
 	}
 
 	return slice, nil
 }
 
-func (it GenerateFunc) variableName(parentVar string, index int) string {
+// VariableName
+//
+// variable.First or variable.Second ... based on index.
+func (it GenerateFunc) VariableName(parentVar string, index int) string {
 	return parentVar + "." + it.indexByName(index)
 }
 
 func (it GenerateFunc) indexByName(index int) string {
-	return indexByNameMap[index]
+	return coreindexes.NameByIndex(index)
 }
 
 func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
 	return corestr.Empty.SimpleSlice()
 }
 
-func (it GenerateFunc) directFuncInvoke() string {
+func (it GenerateFunc) DirectFuncInvokeName() string {
 	if len(it.FuncOverrideCall) > 0 {
 		return it.FuncOverrideCall
 	}
@@ -477,7 +481,7 @@ func (it GenerateFunc) directFuncInvoke() string {
 	return it.FuncWrap().FuncDirectInvokeName()
 }
 
-func (it GenerateFunc) structName() string {
+func (it GenerateFunc) StructName() string {
 	if isany.Null(it.Struct) {
 		return ""
 	}
@@ -485,6 +489,6 @@ func (it GenerateFunc) structName() string {
 	return reflectinternal.TypeName(it.Struct)
 }
 
-func (it GenerateFunc) testCasesCompiled() *corestr.SimpleSlice {
-
+func (it GenerateFunc) TestCasesCompiled() string {
+	return ""
 }

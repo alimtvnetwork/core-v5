@@ -41,4 +41,14 @@ type BaseGenerator interface {
 	TestPkgName() string
 	FuncWrap() *args.FuncWrap
 	FuncName() string
+
+	OutArgs() (*corestr.SimpleSlice, error)
+	InArgs() (*corestr.SimpleSlice, error)
+
+	VariableName(parentVar string, index int) string
+	DirectFuncInvokeName() string
+
+	StructName() string
+
+	TestCasesCompiled() string
 }
