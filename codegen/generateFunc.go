@@ -96,7 +96,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		"$outArgs":          outArgs.Join(ArgsJoiner),
 		"$fmtJoin":          it.generateFmtJoin(),
 		"$fmtOutputs":       fmtOutputs.Join(fmtJoiner),
-		"$directFuncInvoke": "",
+		"$directFuncInvoke": it.directFuncInvoke(funcName),
 	}
 
 	unitTest := stringutil.
@@ -323,4 +323,8 @@ func (it GenerateFunc) inArgs() (*corestr.SimpleSlice, error) {
 
 func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
 	return corestr.Empty.SimpleSlice()
+}
+
+func (it GenerateFunc) directFuncInvoke(funcName string) string {
+
 }
