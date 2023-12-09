@@ -42,15 +42,25 @@ type TwoFuncParameter interface {
 	FuncNumber
 }
 
+type ThreeParameter interface {
+	TwoParameter
+	coreinterface.ThreeParameter
+}
+
 type ThreeFuncParameter interface {
 	TwoFuncParameter
-	coreinterface.ThreeParameter
+	ThreeParameter
 	FuncNumber
+}
+
+type FourthParameter interface {
+	ThreeParameter
+	coreinterface.FourthParameter
 }
 
 type FourthFuncParameter interface {
 	ThreeFuncParameter
-	coreinterface.FourthParameter
+	FourthParameter
 	FuncNumber
 }
 
