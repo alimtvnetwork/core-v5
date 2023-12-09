@@ -5,11 +5,26 @@ import "gitlab.com/auk-go/core/coreindexes"
 var (
 	NewCodeOutput  = newCodeOutputCreator{}
 	indexByNameMap = map[int]string{
-		coreindexes.First:  "First",
-		coreindexes.Second: "Second",
-		coreindexes.Third:  "Third",
-		coreindexes.Fourth: "Fourth",
-		coreindexes.Fifth:  "Fifth",
-		coreindexes.Sixth:  "Sixth",
+		coreindexes.First:   "First",
+		coreindexes.Second:  "Second",
+		coreindexes.Third:   "Third",
+		coreindexes.Fourth:  "Fourth",
+		coreindexes.Fifth:   "Fifth",
+		coreindexes.Sixth:   "Sixth",
+		coreindexes.Seventh: "Seventh",
+	}
+
+	unitTestVars = unitVariables{
+		PackageName:      "$packageName",
+		NewPackages:      "$newPackages",
+		FuncName:         "$FuncName",
+		ArrangeType:      "$ArrangeType",
+		LinesPossible:    "$linesPossible",
+		ActArgsSetup:     "$actArgsSetup",
+		InArgs:           "$inArgs",
+		OutArgs:          "$outArgs",
+		FmtJoin:          "$fmtJoin",
+		FmtOutputs:       "$fmtOutputs",
+		DirectFuncInvoke: "$directFuncInvoke",
 	}
 )

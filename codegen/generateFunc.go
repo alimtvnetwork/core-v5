@@ -62,6 +62,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	}
 
 	funcName := toWrap.GetFuncName()
+	firstArrangeTypeName := it.firstArrangeTypeName()
 	fmtOutputs, fmtErr := it.generateFmtOutputs(
 		fmtJoiner,
 		funcName,
@@ -73,8 +74,6 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	if iserror.Defined(fmtErr) {
 		return NewCodeOutput.Invalid(fmtErr)
 	}
-
-	firstArrangeTypeName := it.firstArrangeTypeName()
 
 	funcTemplateReplacer := map[string]string{
 		"$FuncName":         funcName,
@@ -88,18 +87,13 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		"$directFuncInvoke": it.directFuncInvoke(),
 	}
 
-	unitTest := stringutil.
-		ReplaceTemplate.
-		DirectKeyUsingMapTrim(
-			funcTemplate,
-			funcTemplateReplacer,
-		)
+	unitTests := it.unitTests(funcTemplateReplacer)
 
 	finalUnitTest := stringslice.JoinWith(
 		constants.NewLineUnix,
 		packageHeader,
 		"",
-		unitTest,
+		unitTests.JoinLine(),
 		"",
 	)
 
@@ -112,12 +106,38 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	}
 }
 
+func (it GenerateFunc) unitTests(
+	outArgs,
+	inArgs *corestr.SimpleSlice,
+	funcTemplateReplacer map[string]string,
+) (*corestr.SimpleSlice, error) {
+	fmtOutputs, fmtErr := it.generateFmtOutputs(
+		fmtJoiner,
+		it.funcName(),
+		"",
+		outArgs,
+		inArgs,
+	)
+	funcTemplateReplacer[]
+
+	if iserror.Defined(fmtErr) {
+		return nil, fmtErr
+	}
+
+	unitTest := stringutil.
+		ReplaceTemplate.
+		DirectKeyUsingMapTrim(
+			funcTemplate,
+			funcTemplateReplacer,
+		)
+	return unitTest
+}
+
 func (it GenerateFunc) packageHeader(toWrap *args.FuncWrap) (string, string) {
 	testPkgName := it.testPkgName(toWrap)
 	newPackagesLines := it.allPackages(toWrap)
 	packagesTemplate := map[string]string{
 		"$packageName": testPkgName,
-		"$fmtJoin":     it.generateFmtJoin(),
 		"$newPackages": newPackagesLines,
 	}
 
@@ -254,7 +274,6 @@ func (it GenerateFunc) generateFmtOutputs(
 	outArs, inArgs *corestr.SimpleSlice,
 ) (*corestr.SimpleSlice, error) {
 	slice := corestr.New.SimpleSlice.Cap(20)
-	slice.Add("caseIndex")
 
 	switch it.FmtType {
 	case fmtcodegentype.Default: // "%d : %s -> %s",
@@ -282,14 +301,14 @@ func (it GenerateFunc) generateFmtOutputs(
 	)
 }
 
-func (it GenerateFunc) getFuncName() (string, error) {
+func (it GenerateFunc) funcName() string {
 	funcWrap := it.toFunWrap()
 
 	if funcWrap.IsInvalid() {
-		return "", errors.New("func wrap is invalid - func name")
+		return ""
 	}
 
-	return funcWrap.GetFuncName(), nil
+	return funcWrap.GetFuncName()
 }
 
 // outArgs

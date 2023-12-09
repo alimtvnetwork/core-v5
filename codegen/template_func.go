@@ -32,6 +32,7 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 
 		actualSlice.AppendFmt(
 			"$fmtJoin",
+			caseIndex,
 			$fmtOutputs,
 		)
 
