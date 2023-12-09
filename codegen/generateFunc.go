@@ -13,6 +13,7 @@ import (
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/core/internal/pathinternal"
 	"gitlab.com/auk-go/core/iserror"
 )
 
@@ -22,8 +23,7 @@ type GenerateFunc struct {
 	FmtType                 fmtcodegentype.Variant
 	TestCases               []coretestcases.CaseV1
 	Behaviours              corestr.SimpleSlice
-	Repo                    string
-	GeneratePath            string
+	UnitTestRootPath        string
 	OverridingTestPkgName   string
 	IsGenerateSeparateCases bool
 	IsIncludeFunction       bool
@@ -43,7 +43,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(toWrap.InvalidError())
 	}
 
-	pkgName := it.testPkgName(toWrap)
+	testPkgName := it.testPkgName(toWrap)
 	newPackagesLines := it.allPackages(toWrap)
 	firstArrangeTypeName := it.firstArrangeTypeName()
 
@@ -75,7 +75,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	}
 
 	packagesTemplate := map[string]string{
-		"$packageName": pkgName,
+		"$packageName": testPkgName,
 		"$fmtJoin":     it.generateFmtJoin(),
 		"$newPackages": newPackagesLines,
 	}
@@ -114,11 +114,17 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		TestCase:   "",
 		StructName: "",
 		FuncName:   funcName,
-		FileWriter: it.fileWriter(),
+		FileWriter: it.fileWriter(testPkgName),
 	}
 }
 
-func (it GenerateFunc) fileWriter() *chmodhelper.SimpleFileReaderWriter {
+func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.SimpleFileReaderWriter {
+	finalUnitTestPath := pathinternal.Join(
+		it.UnitTestRootPath,
+		unitTestPackageName,
+		"x.go",
+	)
+
 	return chmodhelper.
 		New.
 		SimpleFileReaderWriter.
@@ -126,7 +132,7 @@ func (it GenerateFunc) fileWriter() *chmodhelper.SimpleFileReaderWriter {
 			true,
 			true,
 			true,
-			it.GeneratePath,
+			finalUnitTestPath,
 		)
 }
 

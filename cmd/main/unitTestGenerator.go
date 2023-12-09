@@ -34,11 +34,12 @@ func (it unitTestGenerator) Generate() {
 				IsValidateError: false,
 			},
 		},
-		Behaviours:              nil,
-		Repo:                    codestack.Dir.RepoDir(),
-		GeneratePath:            codestack.Dir.CurDirJoin("unit-test"),
+		Behaviours: []string{
+			"Verification",
+		},
+		UnitTestRootPath:        codestack.Dir.CurDirJoin("unit-test"),
 		IsGenerateSeparateCases: false,
-		IsIncludeFunction:       false,
+		IsIncludeFunction:       true,
 		IsOverwrite:             true,
 	}
 
