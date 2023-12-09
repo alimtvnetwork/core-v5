@@ -88,12 +88,15 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		)
 
 	funcTemplateReplacer := map[string]string{
-		"$ArrangeType":   firstArrangeTypeName,
-		"$linesPossible": "100",
-		"$actArgsSetup":  actLines.JoinLine(),
-		"$inArgs":        inArgs.Join(ArgsJoiner),
-		"$outArgs":       outArgs.Join(ArgsJoiner),
-		"$fmtOutputs":    fmtOutputs.Join(fmtJoiner),
+		"$FuncName":         funcName,
+		"$ArrangeType":      firstArrangeTypeName,
+		"$linesPossible":    "100",
+		"$actArgsSetup":     actLines.JoinLine(),
+		"$inArgs":           inArgs.Join(ArgsJoiner),
+		"$outArgs":          outArgs.Join(ArgsJoiner),
+		"$fmtJoin":          it.generateFmtJoin(),
+		"$fmtOutputs":       fmtOutputs.Join(fmtJoiner),
+		"$directFuncInvoke": "",
 	}
 
 	unitTest := stringutil.
@@ -119,11 +122,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 }
 
 func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.SimpleFileReaderWriter {
-	finalUnitTestPath := pathinternal.Join(
-		it.UnitTestRootPath,
-		unitTestPackageName,
-		"x.go",
-	)
+	finalUnitTestPath := it.unitTestRootPath(unitTestPackageName)
 
 	return chmodhelper.
 		New.
@@ -134,6 +133,14 @@ func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.Simpl
 			true,
 			finalUnitTestPath,
 		)
+}
+
+func (it GenerateFunc) unitTestRootPath(unitTestPackageName string) string {
+	return pathinternal.Join(
+		it.UnitTestRootPath,
+		unitTestPackageName,
+		"x.go",
+	)
 }
 
 func (it GenerateFunc) firstArrangeTypeName() string {

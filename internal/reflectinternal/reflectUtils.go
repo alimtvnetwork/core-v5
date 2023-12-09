@@ -145,16 +145,18 @@ func (it reflectUtils) VerifyReflectTypes(
 func (it reflectUtils) PkgName(
 	i interface{},
 ) string {
-	return it.PkgNameRt(reflect.TypeOf(i))
+	fullName := GetFunc.FullName(i)
+	_, pkgName, _ := GetFunc.All(fullName)
+
+	return GetFunc.fixFinalFuncName(pkgName)
 }
 
-func (it reflectUtils) PkgNameRt(
-	r reflect.Type,
+func (it reflectUtils) FullNameToPkgName(
+	fullName string,
 ) string {
-	pkgPath := r.PkgPath()
-	_, pkgName, _ := GetFunc.All(pkgPath)
+	_, pkgName, _ := GetFunc.All(fullName)
 
-	return pkgName
+	return GetFunc.fixFinalFuncName(pkgName)
 }
 
 func (it reflectUtils) IsReflectTypeMatch(expectedType, givenType reflect.Type) (isOkay bool, err error) {

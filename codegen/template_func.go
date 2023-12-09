@@ -12,7 +12,6 @@ import (
 
 	$newPackages
 )
-
 `
 
 const funcTemplate = `
@@ -28,7 +27,7 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 		$actArgsSetup
 
 		// Act
-		actFunc$FuncName := args.FuncDetector.GetFuncWrap(input)
+		actFunc$FuncName := $directFuncInvoke(input)
 		$outArgs := actFunc$FuncName($inArgs)
 
 		actualSlice.AppendFmt(

@@ -47,7 +47,7 @@ func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
 
 	_, _, funcNameOnly := it.All(fullName)
 
-	return fullName, it.fixFinalFuncName(funcNameOnly)
+	return it.fixFinalFuncName(fullName), it.fixFinalFuncName(funcNameOnly)
 }
 
 func (it getFunc) Name(i interface{}) string {

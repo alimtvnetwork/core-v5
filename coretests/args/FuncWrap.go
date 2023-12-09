@@ -70,7 +70,7 @@ func (it *FuncWrap) PkgName() string {
 		return ""
 	}
 
-	return reflectinternal.Utils.PkgName(it.rvType)
+	return reflectinternal.Utils.PkgName(it.Func)
 }
 
 // ArgsCount returns -1 on invalid
