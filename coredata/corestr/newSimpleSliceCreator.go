@@ -16,6 +16,12 @@ func (it *newSimpleSliceCreator) Cap(capacity int) *SimpleSlice {
 	return it.Strings(slice)
 }
 
+func (it *newSimpleSliceCreator) ByLen(i interface{}) *SimpleSlice {
+	length := reflectinternal.SliceConverter.Length(i)
+
+	return it.Cap(length)
+}
+
 // Default
 //
 //	Capacity 10

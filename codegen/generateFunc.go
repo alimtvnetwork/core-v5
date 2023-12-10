@@ -139,13 +139,14 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		"",
 	)
 
-	testCaseCompiled := it.TestCasesCompiled()
+	testCaseCompiled, testCaseErr := it.TestCasesCompiled()
 
 	return &CodeOutput{
 		UnitTest:   finalUnitTest,
 		TestCase:   testCaseCompiled,
 		StructName: it.StructName(),
 		FuncName:   funcName,
+		Error:      testCaseErr,
 		FileWriter: it.fileWriter(testPkgName),
 	}
 }

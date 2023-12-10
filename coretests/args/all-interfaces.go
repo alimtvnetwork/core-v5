@@ -114,10 +114,14 @@ type FuncWrapper interface {
 	) bool
 }
 
+type HasFirstChecker interface {
+	HasFirst() bool
+}
+
 type ArgBaseContractsBinder interface {
 	coreinterface.FirstItemGetter
 	coreinterface.ExpectGetter
-	HasFirst() bool
+	HasFirstChecker
 
 	coreinterface.HasExpectChecker
 	coreinterface.ValidArgsGetter

@@ -366,3 +366,73 @@ func (it reflectConverter) ReflectInterfaceVal(any interface{}) interface{} {
 
 	return rVal.Interface()
 }
+
+func (it reflectConverter) ToPointerRv(
+	any interface{},
+) *reflect.Value {
+	if any == nil {
+		return nil
+	}
+
+	rv := reflect.ValueOf(any)
+	newRv := it.ReflectValueToPointerReflectValue(rv)
+
+	return &newRv
+}
+
+func (it reflectConverter) ToPointer(
+	any interface{},
+) interface{} {
+	if any == nil {
+		return any
+	}
+
+	rv := reflect.ValueOf(any)
+	newRv := it.ReflectValueToPointerReflectValue(rv)
+
+	return newRv.Interface()
+}
+
+func (it reflectConverter) StructToMatchInterface(
+	myStructOrPtrStruct, targetingInterface interface{},
+) (result interface{}, isOkay bool) {
+	if myStructOrPtrStruct == nil || targetingInterface == nil {
+		return nil, false
+	}
+
+	if Is.IsStructImplementedBy(myStructOrPtrStruct, targetingInterface) {
+		return myStructOrPtrStruct, true
+	}
+
+	rv := reflect.ValueOf(myStructOrPtrStruct)
+	newRv := it.ReflectValueToPointerReflectValue(rv)
+	newVal := newRv.Interface()
+
+	if Is.IsStructImplementedBy(newVal, targetingInterface) {
+		return newVal, true
+	}
+
+	return myStructOrPtrStruct, false
+}
+
+func (it reflectConverter) StructToMatchInterfaceDirect(
+	myStructOrPtrStruct, targetingInterface interface{},
+) interface{} {
+	if myStructOrPtrStruct == nil || targetingInterface == nil {
+		return nil
+	}
+
+	if Is.IsStructImplementedBy(myStructOrPtrStruct, targetingInterface) {
+		return myStructOrPtrStruct
+	}
+
+	rv := reflect.ValueOf(myStructOrPtrStruct)
+	newRv := it.ReflectValueToPointerReflectValue(rv)
+	newVal := newRv.Interface()
+
+	if Is.IsStructImplementedBy(newVal, targetingInterface) {
+		return newVal
+	}
+
+	return nil
+}

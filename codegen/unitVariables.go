@@ -17,6 +17,7 @@ type unitVariables struct {
 	Title            string
 	ArrangeSetup     string
 	ExpectedLines    string
+	CaseItem         string
 	workFunc         string
 	expect           string
 	inputExpectedVar string

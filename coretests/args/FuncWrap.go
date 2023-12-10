@@ -6,7 +6,10 @@ import (
 	"reflect"
 	"strings"
 
+	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"gitlab.com/auk-go/core/internal/trydo"
 )
 
 type FuncWrap struct {
@@ -317,6 +320,13 @@ func (it *FuncWrap) InvokeMust(
 func (it *FuncWrap) Invoke(
 	args ...interface{},
 ) (results []interface{}, processingErr error) {
+	return it.InvokeSkip(codestack.Skip1, args...)
+}
+
+func (it *FuncWrap) InvokeSkip(
+	skipStack int,
+	args ...interface{},
+) (results []interface{}, processingErr error) {
 	firstErr := it.ValidationError()
 
 	if firstErr != nil {
@@ -330,7 +340,24 @@ func (it *FuncWrap) Invoke(
 	}
 
 	rvs := argsToRvFunc(args)
-	resultsRawValues := it.rv.Call(rvs)
+	var resultsRawValues []reflect.Value
+	exception := trydo.WrapPanic(
+		func() {
+			resultsRawValues = it.rv.Call(rvs)
+		},
+	)
+
+	if exception != nil {
+		toMsg := convertinteranl.AnyTo.SmartString(exception)
+		finalError := fmt.Errorf(
+			"%s - func invoke failed\nstack-trace:%s\nerr:%s",
+			it.GetFuncName(),
+			reflectinternal.CodeStack.StacksString(codestack.Skip1+skipStack),
+			toMsg,
+		)
+
+		return rvToInterfacesFunc(resultsRawValues), finalError
+	}
 
 	return rvToInterfacesFunc(resultsRawValues), nil
 }

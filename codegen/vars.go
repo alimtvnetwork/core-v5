@@ -24,6 +24,7 @@ var (
 		Title:            "$title",
 		ArrangeSetup:     "$arrangeSetup",
 		ExpectedLines:    "$expectedLines",
+		CaseItem:         "$caseItem",
 		workFunc:         "WorkFunc",
 		expect:           "Expect",
 		inputExpectedVar: "input.Expect",

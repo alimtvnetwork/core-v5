@@ -3,6 +3,7 @@ package reflectmodel
 import (
 	"errors"
 	"reflect"
+	"unsafe"
 )
 
 type ReflectValueKind struct {
@@ -47,4 +48,34 @@ func (it *ReflectValueKind) PkgPath() string {
 	}
 
 	return it.FinalReflectVal.Type().PkgPath()
+}
+
+func (it *ReflectValueKind) PointerRv() *reflect.Value {
+	if it == nil {
+		return nil
+	}
+
+	if !it.IsValid {
+		return &it.FinalReflectVal
+	}
+
+	rv := it.FinalReflectVal
+
+	toInterface := rv.Interface()
+	toPointer := &toInterface
+	unsafePtr := unsafe.Pointer(&toPointer)
+
+	newRv := reflect.NewAt(rv.Type(), unsafePtr)
+
+	return &newRv
+}
+
+func (it *ReflectValueKind) PointerInterface() interface{} {
+	rv := it.PointerRv()
+
+	if rv == nil {
+		return nil
+	}
+
+	return rv.Interface()
 }
