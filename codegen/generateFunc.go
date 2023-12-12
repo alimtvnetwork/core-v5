@@ -65,7 +65,7 @@ func (it GenerateFunc) CurFuncOverrideCall() interface{} {
 	return it.FuncOverrideCall
 }
 
-func (it GenerateFunc) IsFunctionInclude() bool {
+func (it GenerateFunc) IsFunctionIncluded() bool {
 	return it.IsIncludeFunction
 }
 

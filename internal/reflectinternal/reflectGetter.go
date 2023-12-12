@@ -1,9 +1,9 @@
 package reflectinternal
 
 import (
+	"errors"
+	"fmt"
 	"reflect"
-
-	"gitlab.com/auk-go/core/errcore"
 )
 
 type reflectGetter struct{}
@@ -19,11 +19,7 @@ func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
 ) {
 	if Is.Null(anyItem) {
 		return map[string]interface{}{},
-			errcore.
-				NullResultType.
-				ErrorNoRefs(
-					"null given to expand map[name]value, failed",
-				)
+			errors.New("null given to expand map[name]value, failed")
 	}
 
 	return ReflectGetterUsingReflectValue.PublicValuesMapStruct(
@@ -41,20 +37,20 @@ func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
 //
 // However, this one will be slower in performance than PublicValuesMapStruct.
 func (it reflectGetter) FieldNameWithValuesMap(anyItem interface{}) (
-	map[string]interface{}, error,
+	r map[string]interface{}, error error,
 ) {
 	if Is.Null(anyItem) {
 		return map[string]interface{}{},
-			errcore.
-				NullResultType.
-				ErrorNoRefs(
-					"null given to expand map[name]value, failed",
-				)
+			it.nullError(r)
 	}
 
 	return ReflectGetterUsingReflectValue.FieldNameWithValuesMap(
 		reflect.ValueOf(anyItem),
 	)
+}
+
+func (it reflectGetter) nullError(i interface{}) error {
+	return fmt.Errorf("null given to expand %T, failed", i)
 }
 
 // FieldNamesMap
@@ -64,15 +60,11 @@ func (it reflectGetter) FieldNameWithValuesMap(anyItem interface{}) (
 func (it reflectGetter) FieldNamesMap(
 	anyItem interface{},
 ) (
-	map[string]bool, error,
+	r map[string]bool, err error,
 ) {
 	if Is.Null(anyItem) {
 		return map[string]bool{},
-			errcore.
-				NullResultType.
-				ErrorNoRefs(
-					"null given to expand map[name]bool, failed",
-				)
+			it.nullError(r)
 	}
 
 	return ReflectGetterUsingReflectValue.FieldNamesMap(

@@ -1,6 +1,11 @@
 package errcore
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+
+	"gitlab.com/auk-go/core/internal/reflectinternal"
+)
 
 func ConcatMessageWithErr(
 	errMessage string,
@@ -10,5 +15,23 @@ func ConcatMessageWithErr(
 		return nil
 	}
 
-	return errors.New(errMessage + err.Error())
+	return errors.New(errMessage + " " + err.Error())
+}
+
+func ConcatMessageWithErrWithStackTrace(
+	errMessage string,
+	err error,
+) error {
+	if err == nil {
+		return nil
+	}
+
+	fullMessage := fmt.Sprintf(
+		"%s %s\nStack Trace:\n%s",
+		errMessage,
+		err.Error(),
+		reflectinternal.CodeStack.StacksString(1),
+	)
+
+	return errors.New(fullMessage)
 }

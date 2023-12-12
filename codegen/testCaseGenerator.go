@@ -179,8 +179,9 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 
-	switch v := caseV1.ArrangeInput.(type) {
-	case args.ArgFuncContractsBinder:
+	switch casted := caseV1.ArrangeInput.(type) {
+	case args.AsArgFuncContractsBinder:
+		v := casted.AsArgFuncContractsBinder()
 		argsCount := v.ArgsCount()
 
 		for i := 0; i < argsCount; i++ {
@@ -206,7 +207,8 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, e
 			vars.workFunc,
 			v.GetFuncName(),
 		)
-	case args.ArgBaseContractsBinder:
+	case args.AsArgBaseContractsBinder:
+		v := casted.AsArgBaseContractsBinder()
 		argsCount := v.ArgsCount()
 
 		for i := 0; i < argsCount; i++ {
@@ -228,7 +230,7 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, e
 	default:
 		return "", fmt.Errorf(
 			"test cases only support from arg.One ... arg.Six and func versions, given %T",
-			v,
+			casted,
 		)
 
 	}

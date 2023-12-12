@@ -247,3 +247,7 @@ func (it Six) String() string {
 func (it Six) AsSixthParameter() SixthParameter {
 	return &it
 }
+
+func (it Six) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

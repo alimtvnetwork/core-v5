@@ -19,7 +19,7 @@ type BaseGenerator interface {
 	Cases() []coretestcases.CaseV1
 	CurBehavioursGetter
 	CurFuncOverrideCall() interface{}
-	IsFunctionInclude() bool
+	IsFunctionIncluded() bool
 	Generate() error
 	GenerateCodeOutput() *CodeOutput
 	UnitTests(
