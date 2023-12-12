@@ -26,7 +26,7 @@ var (
 		ArrangeSetup:     "$arrangeSetup",
 		ExpectedLines:    "$expectedLines",
 		CaseItem:         "$caseItem",
-
+		TestCases:        "$testCases",
 		workFunc:         "WorkFunc",
 		expect:           "Expect",
 		inputExpectedVar: "input.Expect",

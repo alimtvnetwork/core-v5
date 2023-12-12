@@ -34,6 +34,7 @@ type GenerateFunc struct {
 	IsGenerateSeparateCases bool
 	IsIncludeFunction       bool
 	IsOverwrite             bool
+	packageHeader           corestr.SimpleStringOnce
 	funcWrap                *args.FuncWrap
 }
 
@@ -225,6 +226,11 @@ func (it GenerateFunc) TestCaseName(
 
 func (it GenerateFunc) PackageHeader() (testPkgName string, packageHeader string) {
 	testPkgName = it.TestPkgName()
+
+	if it.packageHeader.IsDefined() {
+		return testPkgName, it.packageHeader.String()
+	}
+
 	newPackagesLines := it.AllPackages()
 	packagesTemplate := map[string]string{
 		"$packageName": testPkgName,
@@ -238,7 +244,7 @@ func (it GenerateFunc) PackageHeader() (testPkgName string, packageHeader string
 			packagesTemplate,
 		)
 
-	return testPkgName, packageHeader
+	return testPkgName, it.packageHeader.GetSetOnce(packageHeader)
 }
 
 func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.SimpleFileReaderWriter {

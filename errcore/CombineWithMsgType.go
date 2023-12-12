@@ -18,4 +18,6 @@ func CombineWithMsgType(
 		constants.Space +
 		otherMsg +
 		getReferenceMessage(reference)
+
+	return StackEnhance.MsgSkip(1, msg)
 }

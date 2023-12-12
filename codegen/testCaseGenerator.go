@@ -6,6 +6,7 @@ import (
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
@@ -20,6 +21,9 @@ type testCaseGenerator struct {
 }
 
 func (it testCaseGenerator) CurBehaviours() corestr.SimpleSlice {
+	return it.baseGenerator.CurBehaviours()
+}
+func (it testCaseGenerator) PackagesHeader() corestr.SimpleSlice {
 	return it.baseGenerator.CurBehaviours()
 }
 
@@ -41,11 +45,28 @@ func (it testCaseGenerator) Compile() (string, error) {
 	}
 
 	if testCasesSlice.Length() == 0 {
-		return "", errcore.InvalidEmptyValueType.Error("no testcases generated for the ")
+		return "", errcore.InvalidEmptyValueType.Error(
+			"no testcases generated for the behaviour",
+			behaviours,
+		)
 	}
 
 	allCompiledTestCases := testCasesSlice.Join(
-		constants.DoubleNewLine,
+		"\n\n\t",
+	)
+
+	replacerMap := map[string]string{
+		vars.TestCases: allCompiledTestCases,
+	}
+
+	caseOutputWithVar := it.ReplaceTemplate(
+		fullTestCaseFileTemplate,
+		replacerMap,
+	)
+
+	stringslice.Joins(
+		"\n",
+		it,
 	)
 
 	return testCasesSlice.Join(constants.DoubleNewLine), nil

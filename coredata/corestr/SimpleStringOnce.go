@@ -29,6 +29,10 @@ func (it *SimpleStringOnce) IsInitialized() bool {
 	return it.isInitialize
 }
 
+func (it *SimpleStringOnce) IsDefined() bool {
+	return it.isInitialize
+}
+
 // IsUninitialized
 //
 // not initialized yet
@@ -224,7 +228,8 @@ func (it *SimpleStringOnce) Uint16() (val uint16, isInRange bool) {
 	toUint16, isInRange := it.WithinRange(
 		true,
 		constants.Zero,
-		math.MaxUint16)
+		math.MaxUint16,
+	)
 
 	return uint16(toUint16), isInRange
 }
@@ -233,7 +238,8 @@ func (it *SimpleStringOnce) Uint32() (val uint32, isInRange bool) {
 	converted, isInRange := it.WithinRange(
 		true,
 		constants.Zero,
-		math.MaxInt)
+		math.MaxInt,
+	)
 
 	return uint32(converted), isInRange
 }
@@ -244,7 +250,8 @@ func (it *SimpleStringOnce) WithinRangeDefault(
 	return it.WithinRange(
 		true,
 		min,
-		max)
+		max,
+	)
 }
 
 func (it *SimpleStringOnce) WithinRange(
@@ -521,7 +528,8 @@ func (it *SimpleStringOnce) RegexFindAllStringsWithFlag(
 	}
 
 	items := regexp.FindAllString(
-		it.value, n)
+		it.value, n,
+	)
 
 	return items, len(items) > 0
 }
@@ -563,7 +571,8 @@ func (it *SimpleStringOnce) SplitLeftRight(
 	splits := strings.SplitN(
 		it.String(),
 		sep,
-		expectedLeftRightLength)
+		expectedLeftRightLength,
+	)
 
 	length := len(splits)
 	first := splits[coreindexes.First]
@@ -580,7 +589,8 @@ func (it *SimpleStringOnce) SplitLeftRightTrim(
 ) (left, right string) {
 	splits := strings.SplitN(
 		it.String(), sep,
-		expectedLeftRightLength)
+		expectedLeftRightLength,
+	)
 
 	length := len(splits)
 	first := splits[coreindexes.First]
@@ -700,7 +710,8 @@ func (it *SimpleStringOnce) UnmarshalJSON(
 ) error {
 	var dataModel SimpleStringOnceModel
 	err := corejson.Deserialize.UsingBytes(
-		jsonBytes, &dataModel)
+		jsonBytes, &dataModel,
+	)
 
 	if err == nil {
 		it.value = dataModel.Value
