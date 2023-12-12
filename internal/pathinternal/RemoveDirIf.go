@@ -1,9 +1,8 @@
 package pathinternal
 
 import (
+	"fmt"
 	"os"
-
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func RemoveDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) error {
@@ -14,8 +13,7 @@ func RemoveDirIf(isRemoveAllDirBeforeCreate bool, dir string, funcName string) e
 	}
 
 	if removeErr != nil {
-		return errcore.PathMeaningfulError(
-			errcore.PathCreateFailedType,
+		return pathMeaningfulError(
 			funcName,
 			removeErr,
 			dir,
@@ -59,4 +57,25 @@ func RemoveDirMustSimple(dir string) {
 	if removeErr != nil {
 		panic(removeErr)
 	}
+}
+
+func pathMeaningfulError(
+	funcName string,
+	err error,
+	location string,
+) error {
+	if err == nil {
+		return nil
+	}
+
+	errMsg := err.Error() +
+		", location: [" + location + "]"
+
+	return fmt.Errorf(
+		"%s - %s %s, location: [%s]",
+		funcName,
+		errMsg,
+		err.Error(),
+		location,
+	)
 }

@@ -1,11 +1,11 @@
 package reflectinternal
 
 import (
+	"fmt"
 	"reflect"
 	"unsafe"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 type reflectGetUsingReflectValue struct{}
@@ -20,10 +20,7 @@ func (it reflectGetUsingReflectValue) PublicValuesMapStruct(structValue reflect.
 	map[string]interface{}, error,
 ) {
 	if structValue.Kind() != reflect.Struct {
-		return nil, errcore.Expected.ReflectButFound(
-			reflect.Struct,
-			structValue.Kind(),
-		)
+		return nil, it.expectReflectButFoundError(structValue)
 	}
 
 	structType := structValue.Type()
@@ -43,6 +40,13 @@ func (it reflectGetUsingReflectValue) PublicValuesMapStruct(structValue reflect.
 	}
 
 	return fieldToValueMap, nil
+}
+
+func (it reflectGetUsingReflectValue) expectReflectButFoundError(structValue reflect.Value) error {
+	return fmt.Errorf(
+		"expected [%v] but found [%v] as actual",
+		reflect.Struct.String(), structValue.String(),
+	)
 }
 
 // FieldNameWithTypeMap
@@ -147,10 +151,7 @@ func (it reflectGetUsingReflectValue) FieldNamesMap(
 	}
 
 	if !structValue.IsValid() || structValueKind != reflect.Struct {
-		return map[string]bool{},
-			errcore.Expected.ReflectButFound(
-				reflect.Struct, structValueKind,
-			)
+		return map[string]bool{}, it.expectReflectButFoundError(structValue)
 	}
 
 	structType := structValue.Type()
