@@ -54,7 +54,7 @@ func (it RawErrCollection) AddMsgErrStackTrace(msg string, err error) {
 
 	fullMessage := fmt.Sprintf(
 		"%s - %s %s\n\n%s",
-		reflectinternal.CodeStack.New(2).MethodName,
+		reflectinternal.CodeStack.MethodName(2),
 		msg,
 		err.Error(),
 		reflectinternal.CodeStack.StacksStringDefault(2),
