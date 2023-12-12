@@ -208,6 +208,34 @@ func (it *FuncWrap) GetInArgsTypes() []reflect.Type {
 	return slice
 }
 
+func (it *FuncWrap) GetInArgsMap() Map {
+	if it.IsInvalid() {
+		return []reflect.Type{}
+	}
+
+	argsCount := it.ArgsCount()
+
+	if argsCount == 0 {
+		return []reflect.Type{}
+	}
+
+	if len(it.inArgsTypes) == argsCount {
+		return it.inArgsTypes
+	}
+
+	// https://go.dev/play/p/dpIspUFfbu0
+	mainType := it.rvType
+	slice := make([]reflect.Type, 0, argsCount)
+
+	for i := 0; i < argsCount; i++ {
+		slice = append(slice, mainType.In(i))
+	}
+
+	it.inArgsTypes = slice
+
+	return slice
+}
+
 func (it *FuncWrap) GetInArgsTypesNames() []string {
 	if it.IsInvalid() {
 		return []string{}
