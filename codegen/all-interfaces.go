@@ -37,7 +37,7 @@ type BaseGenerator interface {
 	AllPackages() string
 	FirstArrangeType() *reflect.Type
 	ArrangeReflectTypes() []reflect.Type
-
+	FirstTestCaseGetter
 	ArrangePackages() *corestr.Hashset
 	TestPkgName() string
 	FuncWrap() *args.FuncWrap
@@ -61,6 +61,10 @@ type VariableNameGetter interface {
 
 type StructNameGetter interface {
 	StructName() string
+}
+
+type FirstTestCaseGetter interface {
+	FirstTestCase() *coretestcases.CaseV1
 }
 
 type ArgsInner interface {

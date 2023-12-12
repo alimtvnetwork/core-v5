@@ -27,6 +27,7 @@ var (
 		ExpectedLines:    "$expectedLines",
 		CaseItem:         "$caseItem",
 		TestCases:        "$testCases",
+		VerifyTypeOf:     "$VerifyTypeOf",
 		workFunc:         "WorkFunc",
 		expect:           "Expect",
 		inputExpectedVar: "input.Expect",

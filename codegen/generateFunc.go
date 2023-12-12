@@ -14,6 +14,7 @@ import (
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/pathinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
@@ -267,13 +268,21 @@ func (it GenerateFunc) unitTestRootPath(unitTestPackageName string) string {
 }
 
 func (it GenerateFunc) FirstArrangeTypeName() string {
-	rt := it.FirstArrangeType()
-
-	if rt == nil {
-		return constants.NilAngelBracket
+	if len(it.TestCases) == 0 {
+		return ""
 	}
 
-	return (*rt).String()
+	return convertinteranl.AnyTo.TypeName(
+		it.TestCases[0].ArrangeInput,
+	)
+}
+
+func (it GenerateFunc) FirstTestCase() *coretestcases.CaseV1 {
+	if len(it.TestCases) == 0 {
+		return nil
+	}
+
+	return &it.TestCases[0]
 }
 
 func (it GenerateFunc) AllPackages() string {

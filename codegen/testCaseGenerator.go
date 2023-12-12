@@ -169,8 +169,9 @@ func (it testCaseGenerator) SingleArrange(
 	}
 
 	replacerMap := map[string]string{
-		vars.Title:         caseV1.Title,
+		vars.Title:         simplewrap.WithDoubleQuote(caseV1.Title),
 		vars.ArrangeType:   caseV1.ArrangeTypeName(),
+		vars.VerifyTypeOf:  it.VerifyTypeOf(),
 		vars.ArrangeSetup:  arrangeSetup,
 		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(",\n\t\t\t\t"),
 	}
@@ -275,7 +276,6 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, e
 			"test cases only support from arg.One ... arg.Six and func versions, given %T",
 			casted,
 		)
-
 	}
 
 	return slice.Join(",\n\t\t\t\t"), nil
@@ -295,4 +295,29 @@ func (it testCaseGenerator) property(argBinder args.ArgBaseContractsBinder, i in
 	}
 
 	return convertinteranl.AnyTo.FullPropertyString(p)
+}
+
+func (it testCaseGenerator) VerifyTypeOf() string {
+	caseV1 := it.baseGenerator.FirstTestCase()
+
+	if caseV1 == nil {
+		return "nil"
+	}
+
+	switch casted := caseV1.ActualInput.(type) {
+	case string:
+		return simplewrap.WithDoubleQuote("")
+	case args.String:
+		return casted.String() // be direct
+	case bool, int, int32, int64,
+		float64, float32, byte,
+		int8, uint16, uint32,
+		uint64:
+		return convertinteranl.AnyTo.String(casted)
+	}
+
+	return fmt.Sprintf(
+		"%T{}",
+		caseV1.ArrangeInput,
+	)
 }

@@ -19,6 +19,7 @@ type unitVariables struct {
 	ExpectedLines    string
 	CaseItem         string
 	TestCases        string
+	VerifyTypeOf     string
 	workFunc         string
 	expect           string
 	inputExpectedVar string

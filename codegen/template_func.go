@@ -65,12 +65,12 @@ var (
 		{
 			Title: $title,
 			ArrangeInput: $ArrangeType {
-				$arrangeSetup
+				$arrangeSetup,
 			},
 			ExpectedInput: []string{
 				$expectedLines,
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf($ArrangeType),
+			VerifyTypeOf: coretests.NewVerifyTypeOf($VerifyTypeOf),
 		},
 `
 
