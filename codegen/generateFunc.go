@@ -361,7 +361,7 @@ func (it GenerateFunc) FuncWrap() *args.FuncWrap {
 	return it.funcWrap
 }
 
-func (it GenerateFunc) generateActLines() *corestr.SimpleSlice {
+func (it GenerateFunc) generateVariablesSetup() *corestr.SimpleSlice {
 	return nil
 }
 

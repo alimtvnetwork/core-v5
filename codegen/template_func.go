@@ -25,6 +25,7 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 			New.
 			SimpleSlice.
 			Cap($linesPossible)
+		$variablesSetup
 
 		// Act
 		actFunc$FuncName := $directFuncInvoke
