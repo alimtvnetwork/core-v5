@@ -27,6 +27,17 @@ func (it anyTo) String(anyItem interface{}) string {
 	)
 }
 
+func (it anyTo) FullPropertyString(anyItem interface{}) string {
+	if anyItem == nil {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		constants.SprintFullPropertyNameValueFormat,
+		anyItem,
+	)
+}
+
 // SmartString
 //
 //   - If nil return ""

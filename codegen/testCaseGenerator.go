@@ -2,7 +2,6 @@ package codegen
 
 import (
 	"fmt"
-	"reflect"
 
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coredata/corestr"
@@ -14,6 +13,7 @@ import (
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/iserror"
+	"gitlab.com/auk-go/core/simplewrap"
 )
 
 type testCaseGenerator struct {
@@ -278,12 +278,21 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, e
 
 	}
 
-	return slice.JoinCsvLine(), nil
+	return slice.Join(",\n\t\t\t\t"), nil
 }
 
-func (it testCaseGenerator) property(v args.ArgBaseContractsBinder, i int) interface{} {
-	p := v.GetByIndex(i)
-	rv := reflect.ValueOf(p)
+func (it testCaseGenerator) property(argBinder args.ArgBaseContractsBinder, i int) interface{} {
+	p := argBinder.GetByIndex(i)
 
-	if reflectinternal.Is.IsStructImplementedBy(p)
+	switch casted := p.(type) {
+	case string:
+		return simplewrap.WithDoubleQuote(casted)
+	case bool, int, int32, int64,
+		float64, float32, byte,
+		int8, uint16, uint32,
+		uint64, args.String:
+		return casted
+	}
+
+	return convertinteranl.AnyTo.FullPropertyString(p)
 }

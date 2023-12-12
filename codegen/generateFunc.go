@@ -14,7 +14,6 @@ import (
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/internal/pathinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
@@ -237,12 +236,10 @@ func (it GenerateFunc) PackageHeader() (testPkgName string, packageHeader string
 		"$newPackages": newPackagesLines,
 	}
 
-	packageHeader = stringutil.
-		ReplaceTemplate.
-		DirectKeyUsingMapTrim(
-			testPkgHeaderTemplate,
-			packagesTemplate,
-		)
+	packageHeader = it.ReplaceTemplate(
+		testPkgHeaderTemplate,
+		packagesTemplate,
+	)
 
 	return testPkgName, it.packageHeader.GetSetOnce(packageHeader)
 }
@@ -265,7 +262,7 @@ func (it GenerateFunc) unitTestRootPath(unitTestPackageName string) string {
 	return pathinternal.Join(
 		it.UnitTestRootPath,
 		unitTestPackageName,
-		"x.go",
+		"x.go", // we are writing to the parent dir
 	)
 }
 
