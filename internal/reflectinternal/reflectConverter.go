@@ -415,13 +415,12 @@ func (it reflectConverter) StructToMatchInterface(
 	return myStructOrPtrStruct, false
 }
 
+// StructToMatchInterfaceDirect
+//
+// Doesn't work, remove it
 func (it reflectConverter) StructToMatchInterfaceDirect(
 	myStructOrPtrStruct, targetingInterface interface{},
 ) interface{} {
-	if myStructOrPtrStruct == nil || targetingInterface == nil {
-		return nil
-	}
-
 	if Is.IsStructImplementedBy(myStructOrPtrStruct, targetingInterface) {
 		return myStructOrPtrStruct
 	}

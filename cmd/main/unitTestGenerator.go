@@ -20,8 +20,11 @@ func (it unitTestGenerator) Generate() {
 		FmtType:      fmtcodegentype.Default,
 		TestCases: []coretestcases.CaseV1{
 			{
-				Title:           "Some",
-				ArrangeInput:    []args.One{},
+				Title: "Some",
+				ArrangeInput: args.One{
+					First:  "someName",
+					Expect: nil,
+				},
 				ActualInput:     nil,
 				ExpectedInput:   nil,
 				Additional:      nil,

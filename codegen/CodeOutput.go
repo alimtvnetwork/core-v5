@@ -94,7 +94,7 @@ func (it *CodeOutput) WriteTestCaseFile() error {
 	return it.FileWriter.WriteRelativePath(
 		it.FileWriter.IsRemoveBeforeWrite,
 		filePath,
-		[]byte(it.UnitTest),
+		[]byte(it.TestCase),
 	)
 }
 

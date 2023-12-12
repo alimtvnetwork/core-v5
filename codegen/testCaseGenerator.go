@@ -1,7 +1,6 @@
 package codegen
 
 import (
-	"errors"
 	"fmt"
 
 	"gitlab.com/auk-go/core/codestack"
@@ -51,7 +50,10 @@ func (it testCaseGenerator) fullTestCase(
 	allCases, err := it.caseItems()
 
 	if iserror.Defined(err) {
-		return "", errcore.ConcatMessageWithErrWithStackTrace("failed for behaviour "+behaviour, err)
+		return "", errcore.
+			ConcatMessageWithErrWithStackTrace(
+				"failed for behaviour "+behaviour, err,
+			)
 	}
 
 	replacerMap := map[string]string{
@@ -149,17 +151,22 @@ func (it testCaseGenerator) SingleArrange(
 }
 
 func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr.SimpleSlice, error) {
+	var x args.AsArgBaseContractsBinder
+
 	arrange := caseV1.ArrangeInput
-	casted, isOkay := reflectinternal.Converter.StructToMatchInterfaceDirect(
-		arrange,
-		(args.ArgBaseContractsBinder)(nil),
-	).(args.ArgBaseContractsBinder)
+	casted, isOkay := arrange.(args.AsArgBaseContractsBinder)
 
 	if !isOkay {
-		return nil, errors.New("cannot cast caseV1.ArrangeInput to args.ArgBaseContractsBinder")
+		return nil, errcore.Expected.But(
+			"cannot cast caseV1.ArrangeInput to args.AsArgBaseContractsBinder",
+			reflectinternal.TypeName(x),
+			reflectinternal.TypeName(arrange),
+		)
 	}
 
-	validArgs := casted.ValidArgs()
+	validArgs := casted.
+		AsArgBaseContractsBinder().
+		ValidArgs()
 	results, err := it.
 		FuncWrap().
 		InvokeSkip(
@@ -168,7 +175,10 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 		)
 
 	if iserror.Defined(err) {
-		return nil, err
+		return nil, errcore.
+			ConcatMessageWithErr(
+				"provide args properly in the definition of Generate,\n", err,
+			)
 	}
 
 	slice := corestr.New.SimpleSlice.Cap(2)
