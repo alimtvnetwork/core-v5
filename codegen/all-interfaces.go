@@ -6,6 +6,7 @@ import (
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
@@ -16,7 +17,7 @@ type BaseGenerator interface {
 	GenType() codegentype.Variant
 	JoinFormatType() fmtcodegentype.Variant
 	Cases() []coretestcases.CaseV1
-	CurBehaviours() corestr.SimpleSlice
+	CurBehavioursGetter
 	CurFuncOverrideCall() interface{}
 	IsFunctionInclude() bool
 	Generate() error
@@ -40,15 +41,36 @@ type BaseGenerator interface {
 	ArrangePackages() *corestr.Hashset
 	TestPkgName() string
 	FuncWrap() *args.FuncWrap
-	FuncName() string
 
-	OutArgs() (*corestr.SimpleSlice, error)
-	InArgs() (*corestr.SimpleSlice, error)
+	coreinterface.DirectFuncNameGetter
 
-	VariableName(parentVar string, index int) string
+	ArgsOutter
+	ArgsInner
+
+	VariableNameGetter
 	DirectFuncInvokeName() string
 
-	StructName() string
+	StructNameGetter
 
-	TestCasesCompiled() string
+	coreinterface.TestCasesCompiler
+}
+
+type VariableNameGetter interface {
+	VariableName(parentVar string, index int) string
+}
+
+type StructNameGetter interface {
+	StructName() string
+}
+
+type ArgsInner interface {
+	InArgs() (*corestr.SimpleSlice, error)
+}
+
+type ArgsOutter interface {
+	OutArgs() (*corestr.SimpleSlice, error)
+}
+
+type CurBehavioursGetter interface {
+	CurBehaviours() corestr.SimpleSlice
 }

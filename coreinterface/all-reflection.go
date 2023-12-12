@@ -313,3 +313,19 @@ type SixthParameter interface {
 	FifthParameter
 	UptoSixthItemGetter
 }
+
+type DirectFuncNameGetter interface {
+	FuncName() string
+}
+
+type CompileStringWithError interface {
+	Compile() (string, error)
+}
+
+type TemplateReplacer interface {
+	ReplaceTemplate(format string, replacerMap map[string]string) string
+}
+
+type TestCasesCompiler interface {
+	TestCasesCompiled() (string, error)
+}

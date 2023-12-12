@@ -5,11 +5,12 @@ import (
 	"fmt"
 
 	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/coreutils/stringutil"
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/iserror"
@@ -19,32 +20,51 @@ type testCaseGenerator struct {
 	baseGenerator BaseGenerator
 }
 
-func (it testCaseGenerator) Compile() (string, error) {
-	return it.fullTestCase()
+func (it testCaseGenerator) CurBehaviours() corestr.SimpleSlice {
+	return it.baseGenerator.CurBehaviours()
 }
 
-func (it testCaseGenerator) fullTestCase(totalBehaviourCount int, behaviour string) (string, error) {
+func (it testCaseGenerator) Compile() (string, error) {
+	behaviours := it.CurBehaviours()
+	totalBehaviours := len(behaviours)
+	slice := corestr.New.SimpleSlice.Cap(totalBehaviours)
+
+	for _, behaviour := range behaviours {
+		caseOutput, err := it.fullTestCase(
+			totalBehaviours, behaviour,
+		)
+
+		if iserror.Defined(err) {
+			return "", err
+		}
+
+		slice.Add(caseOutput)
+	}
+
+	return slice.Join(constants.DoubleNewLine), nil
+}
+
+func (it testCaseGenerator) fullTestCase(
+	totalBehaviourCount int,
+	behaviour string,
+) (string, error) {
 	allCases, err := it.caseItems()
 
 	if iserror.Defined(err) {
-		return "", err
+		return "", errcore.ConcatMessageWithErr("failed for behaviour "+behaviour, err)
 	}
 
 	replacerMap := map[string]string{
-		vars.TestCaseName:  it.testCaseName(),
-		vars.ArrangeType:   it.ar,
-		vars.ArrangeSetup:  arrangeSetup,
-		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(",\n\t\t\t\t"),
+		vars.TestCaseName: it.testCaseName(totalBehaviourCount, behaviour),
+		vars.CaseItem:     allCases.Join("\n\t\t"),
 	}
 
-	caseOutput := stringutil.
-		ReplaceTemplate.
-		DirectKeyUsingMapTrim(
-			fullTestCaseTemplate,
-			replacerMap,
-		)
+	caseOutput := it.ReplaceTemplate(
+		fullTestCaseTemplate,
+		replacerMap,
+	)
 
-	return "", nil
+	return caseOutput, nil
 }
 
 func (it testCaseGenerator) FuncWrap() *args.FuncWrap {
@@ -55,16 +75,15 @@ func (it testCaseGenerator) FuncName() string {
 	return it.baseGenerator.FuncName()
 }
 
-func (it testCaseGenerator) testCaseName() string {
-	bG := it.baseGenerator
-	behaviours := bG.CurBehaviours()
-	total := len(behaviours)
-	it.baseGenerator.TestCaseName(
-		total,
-		bG.FuncName(),
+func (it testCaseGenerator) testCaseName(
+	totalBehaviour int,
+	behaviourName string,
+) string {
+	return it.baseGenerator.TestCaseName(
+		totalBehaviour,
+		it.FuncName(),
+		behaviourName,
 	)
-
-	return ""
 }
 
 func (it testCaseGenerator) caseItems() (*corestr.SimpleSlice, error) {
@@ -82,6 +101,20 @@ func (it testCaseGenerator) caseItems() (*corestr.SimpleSlice, error) {
 	}
 
 	return slice, nil
+}
+
+func (it testCaseGenerator) ReplaceTemplate(
+	format string,
+	replacerMap map[string]string,
+) string {
+	if len(format) == 0 {
+		return ""
+	}
+
+	return templateReplacerFunc(
+		format,
+		replacerMap,
+	)
 }
 
 func (it testCaseGenerator) SingleArrange(
@@ -107,12 +140,10 @@ func (it testCaseGenerator) SingleArrange(
 		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(",\n\t\t\t\t"),
 	}
 
-	caseOutput := stringutil.
-		ReplaceTemplate.
-		DirectKeyUsingMapTrim(
-			testCaseItemTemplate,
-			replacerMap,
-		)
+	caseOutput := it.ReplaceTemplate(
+		testCaseItemTemplate,
+		replacerMap,
+	)
 
 	return caseOutput, nil
 }

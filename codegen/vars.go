@@ -1,6 +1,7 @@
 package codegen
 
 import (
+	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
@@ -29,6 +30,10 @@ var (
 		expect:           "Expect",
 		inputExpectedVar: "input.Expect",
 	}
+
+	templateReplacerFunc = stringutil.
+				ReplaceTemplate.
+				DirectKeyUsingMapTrim
 
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase
 	camelCaseFunc  = convertinteranl.Util.String.CamelCase

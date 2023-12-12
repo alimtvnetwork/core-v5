@@ -189,12 +189,10 @@ func (it GenerateFunc) UnitTests(
 			return testsSlice, fmtErr
 		}
 
-		unitTest := stringutil.
-			ReplaceTemplate.
-			DirectKeyUsingMapTrim(
-				funcTemplate,
-				tempMap,
-			)
+		unitTest := it.ReplaceTemplate(
+			funcTemplate,
+			tempMap,
+		)
 
 		testsSlice.Add(unitTest)
 	}
@@ -488,6 +486,20 @@ func (it GenerateFunc) StructName() string {
 	}
 
 	return reflectinternal.TypeName(it.Struct)
+}
+
+func (it GenerateFunc) ReplaceTemplate(
+	format string,
+	replacerMap map[string]string,
+) string {
+	if len(format) == 0 {
+		return ""
+	}
+
+	return templateReplacerFunc(
+		format,
+		replacerMap,
+	)
 }
 
 func (it GenerateFunc) TestCasesCompiled() (string, error) {
