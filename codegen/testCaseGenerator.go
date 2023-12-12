@@ -126,11 +126,12 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 		return nil, errors.New("cannot cast caseV1.ArrangeInput to args.ArgBaseContractsBinder")
 	}
 
-	args := casted.ValidArgs()
+	validArgs := casted.ValidArgs()
 	results, err := it.
 		FuncWrap().
 		InvokeSkip(
-			codestack.Skip1, args...,
+		codestack.Skip1,
+		validArgs...,
 		)
 
 	if iserror.Defined(err) {
