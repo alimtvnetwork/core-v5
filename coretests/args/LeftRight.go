@@ -17,6 +17,10 @@ type LeftRight struct {
 	toString corestr.SimpleStringOnce
 }
 
+func (it *LeftRight) ArgsCount() int {
+	return 2
+}
+
 func (it *LeftRight) FirstItem() interface{} {
 	return it.Left
 }
@@ -144,4 +148,12 @@ func (it *LeftRight) Clone() LeftRight {
 		Right:  it.Right,
 		Expect: it.Expect,
 	}
+}
+
+func (it LeftRight) AsTwoParameter() TwoParameter {
+	return &it
+}
+
+func (it LeftRight) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
 }

@@ -200,3 +200,11 @@ func (it *TwoFunc) LeftRight() LeftRight {
 func (it TwoFunc) AsTwoFuncParameter() TwoFuncParameter {
 	return &it
 }
+
+func (it TwoFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+	return &it
+}
+
+func (it TwoFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

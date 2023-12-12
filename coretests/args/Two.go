@@ -145,3 +145,7 @@ func (it *Two) LeftRight() LeftRight {
 func (it Two) AsTwoParameter() TwoParameter {
 	return &it
 }
+
+func (it Two) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

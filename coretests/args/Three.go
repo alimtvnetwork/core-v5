@@ -174,3 +174,7 @@ func (it *Three) LeftRight() LeftRight {
 func (it Three) AsThreeParameter() ThreeParameter {
 	return &it
 }
+
+func (it Three) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

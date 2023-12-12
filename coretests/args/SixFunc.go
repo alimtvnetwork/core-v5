@@ -302,3 +302,11 @@ func (it SixFunc) String() string {
 func (it SixFunc) AsSixthFuncParameter() SixthFuncParameter {
 	return &it
 }
+
+func (it SixFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+	return &it
+}
+
+func (it SixFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}
