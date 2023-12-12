@@ -57,6 +57,7 @@ func (it isChecker) Func(item interface{}) bool {
 
 	return it.FuncTypeOf(typeOf)
 }
+
 func (it isChecker) SliceOrArray(item interface{}) bool {
 	if item == nil {
 		return true
@@ -215,19 +216,7 @@ func (it isChecker) ZeroRv(rv reflect.Value) bool {
 	return rv.Interface() == z.Interface()
 }
 
-func (it isChecker) IsStructImplementedBy(structObj, interfaceObj interface{}) bool {
-	structRv := reflect.TypeOf(structObj)
-	iRv := reflect.TypeOf(interfaceObj)
-
-	return it.IsStructImplementedByRv(structRv, iRv)
-}
-
-func (it isChecker) IsStructImplementedByRv(structRv, interfaceRv reflect.Type) bool {
-	// TypeOf trick found at https://groups.google.com/forum/#!topic/golang-nuts/qgJy_H2GysY
-	return structRv.Implements(interfaceRv.Elem())
-}
-
-func (it isChecker) IsStruct(structObj interface{}) bool {
+func (it isChecker) Struct(structObj interface{}) bool {
 	structRv := reflect.ValueOf(structObj)
 	reducePtr := Looper.ReducePointerRvDefault(structRv)
 
@@ -238,7 +227,7 @@ func (it isChecker) IsStruct(structObj interface{}) bool {
 	return false
 }
 
-func (it isChecker) IsStructRv(structRv reflect.Value) bool {
+func (it isChecker) StructRv(structRv reflect.Value) bool {
 	reducePtr := Looper.ReducePointerRvDefault(structRv)
 
 	if reducePtr.IsValid {
@@ -248,7 +237,7 @@ func (it isChecker) IsStructRv(structRv reflect.Value) bool {
 	return false
 }
 
-func (it isChecker) IsInterface(i interface{}) bool {
+func (it isChecker) Interface(i interface{}) bool {
 	iRv := reflect.ValueOf(i)
 	reducePtr := Looper.ReducePointerRvDefault(iRv)
 
@@ -259,7 +248,7 @@ func (it isChecker) IsInterface(i interface{}) bool {
 	return false
 }
 
-func (it isChecker) IsInterfaceRv(iRv reflect.Value) bool {
+func (it isChecker) InterfaceRv(iRv reflect.Value) bool {
 	reducePtr := Looper.ReducePointerRvDefault(iRv)
 
 	if reducePtr.IsValid {

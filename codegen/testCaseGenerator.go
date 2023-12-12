@@ -2,9 +2,9 @@ package codegen
 
 import (
 	"fmt"
+	"reflect"
 
 	"gitlab.com/auk-go/core/codestack"
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/coreindexes"
@@ -23,8 +23,10 @@ type testCaseGenerator struct {
 func (it testCaseGenerator) CurBehaviours() corestr.SimpleSlice {
 	return it.baseGenerator.CurBehaviours()
 }
-func (it testCaseGenerator) PackagesHeader() corestr.SimpleSlice {
-	return it.baseGenerator.CurBehaviours()
+func (it testCaseGenerator) PackagesHeader() string {
+	_, packagesHeader := it.baseGenerator.PackageHeader()
+
+	return packagesHeader
 }
 
 func (it testCaseGenerator) Compile() (string, error) {
@@ -64,12 +66,14 @@ func (it testCaseGenerator) Compile() (string, error) {
 		replacerMap,
 	)
 
-	stringslice.Joins(
+	final := stringslice.Joins(
 		"\n",
-		it,
+		it.PackagesHeader(),
+		"",
+		caseOutputWithVar,
 	)
 
-	return testCasesSlice.Join(constants.DoubleNewLine), nil
+	return final, nil
 }
 
 func (it testCaseGenerator) fullTestCase(
@@ -256,7 +260,7 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, e
 			slice.AppendFmt(
 				argSingleTemplate,
 				name,
-				v.GetByIndex(i),
+				it.property(v, i),
 			)
 		}
 
@@ -275,4 +279,11 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, e
 	}
 
 	return slice.JoinCsvLine(), nil
+}
+
+func (it testCaseGenerator) property(v args.ArgBaseContractsBinder, i int) interface{} {
+	p := v.GetByIndex(i)
+	rv := reflect.ValueOf(p)
+
+	if reflectinternal.Is.IsStructImplementedBy(p)
 }
