@@ -55,16 +55,22 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 	}
 `
 
+	fullTestCaseFileTemplate = `
+var (
+	$testCases
+)
+`
+
 	testCaseItemTemplate = `
 		{
 			Title: $title,
-			ArrangeInput: $arrangeType {
+			ArrangeInput: $ArrangeType {
 				$arrangeSetup
 			},
 			ExpectedInput: []string{
 				$expectedLines,
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf($arrangeType),
+			VerifyTypeOf: coretests.NewVerifyTypeOf($ArrangeType),
 		},
 `
 

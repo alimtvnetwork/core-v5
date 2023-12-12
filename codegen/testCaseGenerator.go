@@ -26,7 +26,7 @@ func (it testCaseGenerator) CurBehaviours() corestr.SimpleSlice {
 func (it testCaseGenerator) Compile() (string, error) {
 	behaviours := it.CurBehaviours()
 	totalBehaviours := len(behaviours)
-	slice := corestr.New.SimpleSlice.Cap(totalBehaviours)
+	testCasesSlice := corestr.New.SimpleSlice.Cap(totalBehaviours)
 
 	for _, behaviour := range behaviours {
 		caseOutput, err := it.fullTestCase(
@@ -37,10 +37,18 @@ func (it testCaseGenerator) Compile() (string, error) {
 			return "", err
 		}
 
-		slice.Add(caseOutput)
+		testCasesSlice.Add(caseOutput)
 	}
 
-	return slice.Join(constants.DoubleNewLine), nil
+	if testCasesSlice.Length() == 0 {
+		return "", errcore.InvalidEmptyValueType.Error("no testcases generated for the ")
+	}
+
+	allCompiledTestCases := testCasesSlice.Join(
+		constants.DoubleNewLine,
+	)
+
+	return testCasesSlice.Join(constants.DoubleNewLine), nil
 }
 
 func (it testCaseGenerator) fullTestCase(
@@ -183,7 +191,7 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 
 	slice := corestr.New.SimpleSlice.Cap(2)
 
-	return slice.Add(convertinteranl.AnyTo.SmartString(results)), nil
+	return slice.Adds(convertinteranl.AnyTo.Strings(results)...), nil
 }
 
 func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, error) {

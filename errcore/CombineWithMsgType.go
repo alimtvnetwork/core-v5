@@ -14,7 +14,7 @@ func CombineWithMsgType(
 			getReferenceMessage(reference)
 	}
 
-	return genericMsg.String() +
+	msg := genericMsg.String() +
 		constants.Space +
 		otherMsg +
 		getReferenceMessage(reference)

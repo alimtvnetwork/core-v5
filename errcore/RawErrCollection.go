@@ -24,11 +24,7 @@ func (it RawErrCollection) AddMsgStackTrace(message string) {
 		return
 	}
 
-	fullMessage := fmt.Sprintf(
-		"%s\n\n%s",
-		message,
-		reflectinternal.CodeStack.StacksStringDefault(2),
-	)
+	fullMessage := StackEnhance.MsgSkip(1, message)
 
 	it.AddString(fullMessage)
 }
@@ -38,11 +34,7 @@ func (it RawErrCollection) AddStackTrace(err error) {
 		return
 	}
 
-	fullMessage := fmt.Sprintf(
-		"%s\n\n%s",
-		err.Error(),
-		reflectinternal.CodeStack.StacksStringDefault(2),
-	)
+	fullMessage := StackEnhance.MsgSkip(1, err.Error())
 
 	it.AddString(fullMessage)
 }
@@ -52,13 +44,7 @@ func (it RawErrCollection) AddMsgErrStackTrace(msg string, err error) {
 		return
 	}
 
-	fullMessage := fmt.Sprintf(
-		"%s - %s %s\n\n%s",
-		reflectinternal.CodeStack.MethodName(1),
-		msg,
-		err.Error(),
-		reflectinternal.CodeStack.StacksStringDefault(2),
-	)
+	fullMessage := StackEnhance.MsgErrorSkip(1, msg, err)
 
 	it.AddString(fullMessage)
 }
@@ -68,12 +54,7 @@ func (it RawErrCollection) AddMethodName(msg string) {
 		return
 	}
 
-	fullMessage := fmt.Sprintf(
-		"%s - %s\n\n%s",
-		reflectinternal.CodeStack.MethodName(1),
-		msg,
-		reflectinternal.CodeStack.StacksStringDefault(2),
-	)
+	fullMessage := StackEnhance.MsgSkip(1, msg)
 
 	it.AddString(fullMessage)
 }
@@ -89,12 +70,7 @@ func (it RawErrCollection) AddMessages(
 		messages, constants.Space,
 	)
 
-	fullMessage := fmt.Sprintf(
-		"%s - %s\n  - %s",
-		reflectinternal.CodeStack.MethodName(1),
-		compiled,
-		reflectinternal.CodeStack.SingleStack(2),
-	)
+	fullMessage := StackEnhance.MsgSkip(1, compiled)
 
 	it.AddString(fullMessage)
 }
@@ -108,11 +84,9 @@ func (it RawErrCollection) AddErrorWithMessage(
 	}
 
 	finalErr := ConcatMessageWithErr(message, err)
-	fullMessage := fmt.Sprintf(
-		"%s - %s\n  - %s",
-		reflectinternal.CodeStack.MethodName(1),
+	fullMessage := StackEnhance.MsgSkip(
+		1,
 		finalErr.Error(),
-		reflectinternal.CodeStack.SingleStack(2),
 	)
 
 	it.AddMsg(fullMessage)
@@ -182,7 +156,7 @@ func (it RawErrCollection) Fmt(format string, v ...interface{}) {
 		v...,
 	)
 
-	it.AddString(message)
+	it.AddString(StackEnhance.MsgSkip(1, message))
 }
 
 func (it RawErrCollection) FmtIf(
