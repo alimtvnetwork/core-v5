@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type RawErrCollection struct {
@@ -18,6 +19,50 @@ func (it RawErrCollection) AddMsg(message string) {
 	it.AddString(message)
 }
 
+func (it RawErrCollection) AddMsgStackTrace(message string) {
+	if len(message) == 0 {
+		return
+	}
+
+	fullMessage := fmt.Sprintf(
+		"%s\n\n%s",
+		message,
+		reflectinternal.CodeStack.StacksStringDefault(2),
+	)
+
+	it.AddString(fullMessage)
+}
+
+func (it RawErrCollection) AddStackTrace(err error) {
+	if err == nil {
+		return
+	}
+
+	fullMessage := fmt.Sprintf(
+		"%s\n\n%s",
+		err.Error(),
+		reflectinternal.CodeStack.StacksStringDefault(2),
+	)
+
+	it.AddString(fullMessage)
+}
+
+func (it RawErrCollection) AddMsgErrStackTrace(msg string, err error) {
+	if err == nil {
+		return
+	}
+
+	fullMessage := fmt.Sprintf(
+		"%s - %s %s\n\n%s",
+		reflectinternal.CodeStack.New(2).MethodName,
+		msg,
+		err.Error(),
+		reflectinternal.CodeStack.StacksStringDefault(2),
+	)
+
+	it.AddString(fullMessage)
+}
+
 func (it RawErrCollection) AddMessages(
 	messages ...string,
 ) {
@@ -26,7 +71,8 @@ func (it RawErrCollection) AddMessages(
 	}
 
 	compiled := strings.Join(
-		messages, constants.Space)
+		messages, constants.Space,
+	)
 
 	it.AddString(compiled)
 }
@@ -42,6 +88,38 @@ func (it RawErrCollection) AddErrorWithMessage(
 	it.Add(ConcatMessageWithErr(message, err))
 }
 
+func (it RawErrCollection) AddIf(
+	isAdd bool,
+	message string,
+) {
+	if !isAdd {
+		return
+	}
+
+	it.Add(errors.New(message))
+}
+
+func (it RawErrCollection) AddFunc(
+	errFunc func() error,
+) {
+	if errFunc == nil {
+		return
+	}
+
+	it.Add(errFunc())
+}
+
+func (it RawErrCollection) AddFuncIf(
+	isAdd bool,
+	errFunc func() error,
+) {
+	if errFunc == nil || !isAdd {
+		return
+	}
+
+	it.Add(errFunc())
+}
+
 func (it RawErrCollection) AddErrorWithMessageRef(
 	err error,
 	message string,
@@ -55,11 +133,13 @@ func (it RawErrCollection) AddErrorWithMessageRef(
 	if reference != nil {
 		referenceString = fmt.Sprintf(
 			constants.ReferenceWrapFormat,
-			referenceString)
+			referenceString,
+		)
 	}
 
 	it.AddErrorWithMessage(
-		ConcatMessageWithErr(message, err), referenceString)
+		ConcatMessageWithErr(message, err), referenceString,
+	)
 }
 
 func (it RawErrCollection) Fmt(format string, v ...interface{}) {
@@ -69,7 +149,8 @@ func (it RawErrCollection) Fmt(format string, v ...interface{}) {
 
 	message := fmt.Sprintf(
 		format,
-		v...)
+		v...,
+	)
 
 	it.AddString(message)
 }
@@ -93,7 +174,8 @@ func (it RawErrCollection) References(
 	referencesCompiled := fmt.Sprintf(
 		constants.MessageReferenceWrapFormat,
 		message,
-		v)
+		v,
+	)
 
 	it.AddString(referencesCompiled)
 }
@@ -147,13 +229,15 @@ func (it RawErrCollection) ReflectSetTo(toPtr interface{}) error {
 	case RawErrCollection:
 		return FailedToConvertType.Error(
 			"cannot convert to value type for RawErrCollection!",
-			toPtr)
+			toPtr,
+		)
 	case *RawErrCollection:
 		if v == nil {
 			return FailedToConvertType.
 				Error(
 					"cannot convert to value type for RawErrCollection to nil ptr!",
-					toPtr)
+					toPtr,
+				)
 		}
 
 		*v = it
@@ -164,7 +248,8 @@ func (it RawErrCollection) ReflectSetTo(toPtr interface{}) error {
 	return NotSupportedType.
 		Error(
 			"RawErrCollection.ReflectSetTo is not supported for other than ptr same time.",
-			toPtr)
+			toPtr,
+		)
 }
 
 func (it RawErrCollection) HandleError() {
@@ -203,7 +288,8 @@ func (it RawErrCollection) HandleErrorWithRefs(
 		fmt.Sprintf(
 			keyValFormat,
 			refVar,
-			refVal)
+			refVal,
+		)
 
 	panic(newMessage + reference + constants.DefaultLine + it.String())
 }
@@ -221,10 +307,14 @@ func (it RawErrCollection) FullString() string {
 }
 
 func (it RawErrCollection) FullStringWithTraces() string {
-	return it.String()
+	return it.CompiledStackTracesString()
 }
 
 func (it RawErrCollection) FullStringWithTracesIf(isStackTraces bool) string {
+	if isStackTraces {
+		return it.FullStringWithTraces()
+	}
+
 	return it.String()
 }
 
@@ -233,11 +323,25 @@ func (it RawErrCollection) ReferencesCompiledString() string {
 }
 
 func (it RawErrCollection) CompiledErrorWithStackTraces() error {
-	return it.CompiledError()
+	if it.IsEmpty() {
+		return nil
+	}
+
+	return errors.New(it.CompiledStackTracesString())
 }
 
 func (it RawErrCollection) CompiledStackTracesString() string {
-	return it.String()
+	if it.IsEmpty() {
+		return ""
+	}
+
+	fullMessage := fmt.Sprintf(
+		"%s\n\n%s",
+		it.String(),
+		reflectinternal.CodeStack.StacksStringDefault(2),
+	)
+
+	return fullMessage
 }
 
 func (it RawErrCollection) FullStringSplitByNewLine() []string {
@@ -304,7 +408,11 @@ func (it RawErrCollection) Log() {
 }
 
 func (it RawErrCollection) LogWithTraces() {
-	it.Log()
+	if it.IsEmpty() {
+		return
+	}
+
+	log.Println(it.CompiledErrorWithStackTraces())
 }
 
 func (it RawErrCollection) LogFatal() {
@@ -316,7 +424,11 @@ func (it RawErrCollection) LogFatal() {
 }
 
 func (it RawErrCollection) LogFatalWithTraces() {
-	it.LogFatal()
+	if it.IsEmpty() {
+		return
+	}
+
+	log.Fatalln(it.CompiledErrorWithStackTraces())
 }
 
 func (it RawErrCollection) LogIf(isLog bool) {
@@ -398,7 +510,8 @@ func (it *RawErrCollection) AddWithTraceRef(
 
 	it.Items = append(
 		it.Items,
-		ErrorWithTracesRefToError(err, traces, referenceItem))
+		ErrorWithTracesRefToError(err, traces, referenceItem),
+	)
 }
 
 func (it *RawErrCollection) AddWithCompiledTraceRef(
@@ -413,11 +526,13 @@ func (it *RawErrCollection) AddWithCompiledTraceRef(
 	compiledErr := ErrorWithCompiledTraceRefToError(
 		err,
 		compiledTrace,
-		referenceItem)
+		referenceItem,
+	)
 
 	it.Items = append(
 		it.Items,
-		compiledErr)
+		compiledErr,
+	)
 }
 
 func (it *RawErrCollection) AddWithRef(
@@ -430,11 +545,13 @@ func (it *RawErrCollection) AddWithRef(
 
 	compiledErr := ErrorWithRefToError(
 		err,
-		referenceItem)
+		referenceItem,
+	)
 
 	it.Items = append(
 		it.Items,
-		compiledErr)
+		compiledErr,
+	)
 }
 
 func (it *RawErrCollection) Adds(
@@ -451,7 +568,8 @@ func (it *RawErrCollection) Adds(
 
 		it.Items = append(
 			it.Items,
-			err)
+			err,
+		)
 	}
 }
 
@@ -467,7 +585,8 @@ func (it *RawErrCollection) AddString(
 
 	it.Items = append(
 		it.Items,
-		errors.New(message))
+		errors.New(message),
+	)
 }
 
 func (it *RawErrCollection) AddStringSliceAsErr(
@@ -596,7 +715,8 @@ func (it RawErrCollection) StringUsingJoiner(joiner string) string {
 
 	return strings.Join(
 		it.Strings(),
-		joiner)
+		joiner,
+	)
 }
 
 func (it RawErrCollection) StringUsingJoinerAdditional(joiner, additionalMessage string) string {
@@ -606,7 +726,8 @@ func (it RawErrCollection) StringUsingJoinerAdditional(joiner, additionalMessage
 
 	return strings.Join(
 		it.Strings(),
-		joiner) + additionalMessage
+		joiner,
+	) + additionalMessage
 }
 
 func (it RawErrCollection) String() string {
@@ -644,7 +765,8 @@ func (it RawErrCollection) CompiledErrorUsingJoinerAdditionalMessage(joiner, add
 
 	toString := it.StringUsingJoinerAdditional(
 		joiner,
-		additionalMessage)
+		additionalMessage,
+	)
 
 	return errors.New(toString)
 }
@@ -657,7 +779,8 @@ func (it RawErrCollection) CompiledErrorUsingStackTraces(joiner string, stackTra
 	return ErrorWithTracesRefToError(
 		it.CompiledErrorUsingJoiner(joiner),
 		stackTraces,
-		nil)
+		nil,
+	)
 }
 
 func (it RawErrCollection) StringWithAdditionalMessage(additionalMessage string) string {
