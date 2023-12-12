@@ -194,6 +194,10 @@ func (it *Four) String() string {
 	)
 }
 
-func (it Four) AsFourParameter() FourthParameter {
+func (it Four) AsFourParameter() FourParameter {
+	return &it
+}
+
+func (it Four) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

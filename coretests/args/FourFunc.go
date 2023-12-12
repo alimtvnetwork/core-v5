@@ -248,6 +248,14 @@ func (it FourFunc) String() string {
 	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it FourFunc) AsFourthFuncParameter() FourthFuncParameter {
+func (it FourFunc) AsFourFuncParameter() FourFuncParameter {
+	return &it
+}
+
+func (it FourFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+	return &it
+}
+
+func (it FourFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

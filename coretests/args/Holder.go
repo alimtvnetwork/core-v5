@@ -30,6 +30,10 @@ type Holder struct {
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
+func (it *Holder) GetWorkFunc() interface{} {
+	return it.WorkFunc
+}
+
 func (it *Holder) ArgsCount() int {
 	return 7
 }
@@ -304,5 +308,9 @@ func (it *Holder) String() string {
 }
 
 func (it Holder) AsSixthParameter() coreinterface.SixthParameter {
+	return &it
+}
+
+func (it Holder) AsArgFuncContractsBinder() ArgFuncContractsBinder {
 	return &it
 }

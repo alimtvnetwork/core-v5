@@ -20,6 +20,10 @@ type testCaseGenerator struct {
 }
 
 func (it testCaseGenerator) Compile() (string, error) {
+	return it.fullTestCase()
+}
+
+func (it testCaseGenerator) fullTestCase(totalBehaviourCount int, behaviour string) (string, error) {
 	allCases, err := it.caseItems()
 
 	if iserror.Defined(err) {
@@ -27,8 +31,8 @@ func (it testCaseGenerator) Compile() (string, error) {
 	}
 
 	replacerMap := map[string]string{
-		vars.TestCaseName:  caseV1.Title,
-		vars.ArrangeType:   caseV1.ArrangeTypeName(),
+		vars.TestCaseName:  it.testCaseName(),
+		vars.ArrangeType:   it.ar,
 		vars.ArrangeSetup:  arrangeSetup,
 		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(",\n\t\t\t\t"),
 	}
@@ -36,7 +40,7 @@ func (it testCaseGenerator) Compile() (string, error) {
 	caseOutput := stringutil.
 		ReplaceTemplate.
 		DirectKeyUsingMapTrim(
-			testCaseItemTemplate,
+			fullTestCaseTemplate,
 			replacerMap,
 		)
 
@@ -60,9 +64,7 @@ func (it testCaseGenerator) testCaseName() string {
 		bG.FuncName(),
 	)
 
-	return it.baseGenerator.TestCaseName(
-		len(it.),
-	)
+	return ""
 }
 
 func (it testCaseGenerator) caseItems() (*corestr.SimpleSlice, error) {
@@ -130,8 +132,8 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 	results, err := it.
 		FuncWrap().
 		InvokeSkip(
-		codestack.Skip1,
-		validArgs...,
+			codestack.Skip1,
+			validArgs...,
 		)
 
 	if iserror.Defined(err) {

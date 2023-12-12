@@ -24,17 +24,20 @@ type FuncNamer interface {
 
 type OneParameter interface {
 	ArgBaseContractsBinder
+	AsArgBaseContractsBinder
 	coreinterface.OneParameter
 }
 
 type OneFuncParameter interface {
 	ArgFuncContractsBinder
+	AsArgFuncContractsBinder
 	OneParameter
 	FuncNumber
 }
 
 type TwoParameter interface {
 	ArgBaseContractsBinder
+	OneParameter
 	coreinterface.TwoParameter
 }
 
@@ -55,24 +58,24 @@ type ThreeFuncParameter interface {
 	FuncNumber
 }
 
-type FourthParameter interface {
+type FourParameter interface {
 	ThreeParameter
 	coreinterface.FourthParameter
 }
 
-type FourthFuncParameter interface {
+type FourFuncParameter interface {
 	ThreeFuncParameter
-	FourthParameter
+	FourParameter
 	FuncNumber
 }
 
 type FifthParameter interface {
-	FourthParameter
+	FourParameter
 	coreinterface.FifthParameter
 }
 
 type FifthFuncParameter interface {
-	FourthFuncParameter
+	FourFuncParameter
 	FifthParameter
 	FuncNumber
 }
@@ -138,7 +141,67 @@ type ArgFuncContractsBinder interface {
 	FuncNumber
 }
 
+type AsArgBaseContractsBinder interface {
+	AsArgBaseContractsBinder() ArgBaseContractsBinder
+}
+
+type AsArgFuncContractsBinder interface {
+	AsArgFuncContractsBinder() ArgFuncContractsBinder
+}
+
 type ArgFuncNameContractsBinder interface {
 	ArgBaseContractsBinder
 	FuncNamer
+}
+
+type AsArgFuncNameContractsBinder interface {
+	AsArgFuncNameContractsBinder() ArgFuncNameContractsBinder
+}
+
+type AsOneFuncParameter interface {
+	AsOneFuncParameter() OneFuncParameter
+}
+
+type AsTwoFuncParameter interface {
+	AsTwoFuncParameter() TwoFuncParameter
+}
+
+type AsThreeFuncParameter interface {
+	AsThreeFuncParameter() ThreeFuncParameter
+}
+
+type AsFourFuncParameter interface {
+	AsFourFuncParameter() FourFuncParameter
+}
+
+type AsFifthFuncParameter interface {
+	AsFifthFuncParameter() FifthFuncParameter
+}
+
+type AsSixthFuncParameter interface {
+	AsSixthFuncParameter() SixthFuncParameter
+}
+
+type AsOneParameter interface {
+	AsOneParameter() OneParameter
+}
+
+type AsTwoParameter interface {
+	AsTwoParameter() TwoParameter
+}
+
+type AsThreeParameter interface {
+	AsThreeParameter() ThreeParameter
+}
+
+type AsFourParameter interface {
+	AsFourParameter() FourParameter
+}
+
+type AsFifthParameter interface {
+	AsFifthParameter() FifthParameter
+}
+
+type AsSixthParameter interface {
+	AsSixthParameter() SixthParameter
 }

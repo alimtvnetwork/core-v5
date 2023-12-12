@@ -57,6 +57,15 @@ func (it isChecker) Func(item interface{}) bool {
 
 	return it.FuncTypeOf(typeOf)
 }
+func (it isChecker) SliceOrArray(item interface{}) bool {
+	if item == nil {
+		return true
+	}
+
+	typeOf := reflect.TypeOf(item)
+
+	return it.FuncTypeOf(typeOf)
+}
 
 func (it isChecker) NotFunc(item interface{}) bool {
 	if item == nil {
@@ -71,6 +80,17 @@ func (it isChecker) FuncTypeOf(typeOf reflect.Type) bool {
 
 	switch kind {
 	case reflect.Func:
+		return true
+	}
+
+	return false
+}
+
+func (it isChecker) SliceOrArrayOf(typeOf reflect.Type) bool {
+	kind := typeOf.Kind()
+
+	switch kind {
+	case reflect.Slice, reflect.Array:
 		return true
 	}
 

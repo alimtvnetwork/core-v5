@@ -180,3 +180,11 @@ func (it *OneFunc) LeftRight() LeftRight {
 func (it OneFunc) AsOneFuncParameter() OneFuncParameter {
 	return &it
 }
+
+func (it OneFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+	return &it
+}
+
+func (it OneFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

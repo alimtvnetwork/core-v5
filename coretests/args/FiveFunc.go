@@ -272,3 +272,11 @@ func (it FiveFunc) String() string {
 func (it FiveFunc) AsFifthFuncParameter() FifthFuncParameter {
 	return &it
 }
+
+func (it FiveFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+	return &it
+}
+
+func (it FiveFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

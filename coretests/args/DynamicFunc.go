@@ -371,3 +371,11 @@ func (it DynamicFunc) String() string {
 func (it DynamicFunc) AsArgsMapper() ArgsMapper {
 	return &it
 }
+
+func (it DynamicFunc) AsArgFuncNameContractsBinder() ArgFuncNameContractsBinder {
+	return &it
+}
+
+func (it DynamicFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

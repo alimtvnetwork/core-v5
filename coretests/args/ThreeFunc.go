@@ -225,3 +225,11 @@ func (it *ThreeFunc) LeftRight() LeftRight {
 func (it ThreeFunc) AsThreeFuncParameter() ThreeFuncParameter {
 	return &it
 }
+
+func (it ThreeFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+	return &it
+}
+
+func (it ThreeFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

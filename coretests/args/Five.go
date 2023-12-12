@@ -217,3 +217,7 @@ func (it *Five) String() string {
 func (it Five) AsFifthParameter() FifthParameter {
 	return &it
 }
+
+func (it Five) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

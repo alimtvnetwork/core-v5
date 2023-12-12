@@ -123,3 +123,7 @@ func (it *One) LeftRight() LeftRight {
 func (it One) AsOneParameter() OneParameter {
 	return &it
 }
+
+func (it One) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

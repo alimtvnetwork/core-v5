@@ -49,7 +49,7 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 }
 `
 
-	testCasesTemplate = `
+	fullTestCaseTemplate = `
 	$testCaseName = []coretestcases.CaseV1{
 		$caseItem
 	}
