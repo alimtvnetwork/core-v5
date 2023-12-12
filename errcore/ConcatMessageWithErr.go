@@ -27,10 +27,10 @@ func ConcatMessageWithErrWithStackTrace(
 	}
 
 	fullMessage := fmt.Sprintf(
-		"%s %s\nStack Trace:\n%s",
+		"%s %s\n%s",
 		errMessage,
 		err.Error(),
-		reflectinternal.CodeStack.StacksString(1),
+		reflectinternal.CodeStack.StacksStringDefault(2),
 	)
 
 	return errors.New(fullMessage)

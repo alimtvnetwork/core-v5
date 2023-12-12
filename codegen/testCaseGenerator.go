@@ -51,7 +51,7 @@ func (it testCaseGenerator) fullTestCase(
 	allCases, err := it.caseItems()
 
 	if iserror.Defined(err) {
-		return "", errcore.ConcatMessageWithErr("failed for behaviour "+behaviour, err)
+		return "", errcore.ConcatMessageWithErrWithStackTrace("failed for behaviour "+behaviour, err)
 	}
 
 	replacerMap := map[string]string{

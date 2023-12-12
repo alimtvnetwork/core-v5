@@ -102,7 +102,7 @@ func (it codeStack) NewFileWithLines(skipStack, count int) []FileWithLine {
 	lines := make([]FileWithLine, 0, count)
 
 	for i := 0; i < count; i++ {
-		_, file, line, isOkay := runtime.Caller(skipStack + defaultInternalSkip)
+		_, file, line, isOkay := runtime.Caller(skipStack + defaultInternalSkip + i)
 
 		if !isOkay {
 			return lines
@@ -168,7 +168,15 @@ func (it codeStack) StacksStrings(skipStack int) []string {
 }
 
 func (it codeStack) StacksString(skipStack int) string {
-	lines := it.StacksStrings(skipStack + defaultStackCount)
+	lines := it.StacksStrings(skipStack + defaultInternalSkip)
 
 	return strings.Join(lines, constants.NewLineUnix)
+}
+
+func (it codeStack) StacksStringDefault(skipStack int) string {
+	lines := it.StacksStrings(skipStack + defaultInternalSkip)
+
+	joinedLines := strings.Join(lines, "\n  - ")
+
+	return fmt.Sprintf("Stack-Trace:\n  - %s", joinedLines)
 }
