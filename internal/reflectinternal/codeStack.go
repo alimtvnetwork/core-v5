@@ -147,9 +147,16 @@ func (it codeStack) NewStacks(skipStack, count int) []StackTrace {
 }
 
 func (it codeStack) StacksStrings(skipStack int) []string {
+	return it.StacksStringsCount(
+		skipStack+defaultInternalSkip,
+		defaultStackCount,
+	)
+}
+
+func (it codeStack) StacksStringsCount(skipStack, count int) []string {
 	fileWithLines := it.NewFileWithLines(
 		skipStack,
-		defaultStackCount,
+		count,
 	)
 
 	lines := make([]string, 0, len(fileWithLines))
@@ -174,9 +181,26 @@ func (it codeStack) StacksString(skipStack int) string {
 }
 
 func (it codeStack) StacksStringDefault(skipStack int) string {
-	lines := it.StacksStrings(skipStack + defaultInternalSkip)
+	return it.StacksStringCount(
+		skipStack+defaultInternalSkip,
+		defaultStackCount,
+	)
+}
+
+func (it codeStack) StacksStringCount(skipStack, count int) string {
+	lines := it.StacksStringsCount(skipStack+defaultInternalSkip, count)
 
 	joinedLines := strings.Join(lines, "\n  - ")
 
 	return fmt.Sprintf("Stack-Trace:\n  - %s", joinedLines)
+}
+
+func (it codeStack) SingleStack(skipStack int) string {
+	lines := it.StacksStringsCount(skipStack+defaultInternalSkip, 1)
+
+	if len(lines) > 0 {
+		return lines[0]
+	}
+
+	return ""
 }

@@ -54,9 +54,24 @@ func (it RawErrCollection) AddMsgErrStackTrace(msg string, err error) {
 
 	fullMessage := fmt.Sprintf(
 		"%s - %s %s\n\n%s",
-		reflectinternal.CodeStack.MethodName(2),
+		reflectinternal.CodeStack.MethodName(1),
 		msg,
 		err.Error(),
+		reflectinternal.CodeStack.StacksStringDefault(2),
+	)
+
+	it.AddString(fullMessage)
+}
+
+func (it RawErrCollection) AddMethodName(msg string) {
+	if len(msg) == 0 {
+		return
+	}
+
+	fullMessage := fmt.Sprintf(
+		"%s - %s\n\n%s",
+		reflectinternal.CodeStack.MethodName(1),
+		msg,
 		reflectinternal.CodeStack.StacksStringDefault(2),
 	)
 
@@ -74,7 +89,14 @@ func (it RawErrCollection) AddMessages(
 		messages, constants.Space,
 	)
 
-	it.AddString(compiled)
+	fullMessage := fmt.Sprintf(
+		"%s - %s\n  - %s",
+		reflectinternal.CodeStack.MethodName(1),
+		compiled,
+		reflectinternal.CodeStack.SingleStack(2),
+	)
+
+	it.AddString(fullMessage)
 }
 
 func (it RawErrCollection) AddErrorWithMessage(
@@ -85,7 +107,15 @@ func (it RawErrCollection) AddErrorWithMessage(
 		return
 	}
 
-	it.Add(ConcatMessageWithErr(message, err))
+	finalErr := ConcatMessageWithErr(message, err)
+	fullMessage := fmt.Sprintf(
+		"%s - %s\n  - %s",
+		reflectinternal.CodeStack.MethodName(1),
+		finalErr.Error(),
+		reflectinternal.CodeStack.SingleStack(2),
+	)
+
+	it.AddMsg(fullMessage)
 }
 
 func (it RawErrCollection) AddIf(
