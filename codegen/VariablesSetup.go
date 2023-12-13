@@ -8,9 +8,9 @@ import (
 )
 
 type variablesSetup struct {
-	inArgsNames  *corestr.SimpleSlice
-	outArgsNames *corestr.SimpleSlice
-	setupLines   *corestr.SimpleSlice
+	inArgsNames  corestr.SimpleSlice
+	outArgsNames corestr.SimpleSlice
+	setupLines   corestr.SimpleSlice
 	inArgsTypes  []reflect.Type
 	funcWrap     *args.FuncWrap
 }
