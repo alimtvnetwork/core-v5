@@ -65,6 +65,18 @@ func (it anyTo) SmartString(anyItem interface{}) string {
 		return toStr
 	}
 
+	toNamer, isNamer := anyItem.(Namer)
+
+	if isNamer {
+		return toNamer.Name()
+	}
+
+	toStringer, isStringer := anyItem.(fmt.Stringer)
+
+	if isStringer {
+		return toStringer.String()
+	}
+
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
 		anyItem,

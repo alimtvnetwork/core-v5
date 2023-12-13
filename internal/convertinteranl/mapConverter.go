@@ -2,6 +2,7 @@ package convertinteranl
 
 import (
 	"fmt"
+	"reflect"
 	"sort"
 	"strconv"
 
@@ -53,6 +54,12 @@ func (it mapConverter) Keys(
 
 		return keys, nil
 	case map[interface{}]string:
+		for key := range v {
+			keys = append(keys, AnyTo.SmartString(key))
+		}
+
+		return keys, nil
+	case map[reflect.Type]string:
 		for key := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 		}

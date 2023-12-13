@@ -51,9 +51,9 @@ func (it unitTestGenerator) Generate() {
 	}
 
 	wrap := args.NewFuncWrap.Single(curFunc)
-	toMap := wrap.GetInArgsMap()
+	inArsgTypes := wrap.GetInArgsTypes()
 
-	fmt.Println(toMap.SortedKeys())
+	fmt.Println(inArsgTypes)
 
 	err := generateFunc.Generate()
 
