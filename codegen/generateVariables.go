@@ -11,9 +11,7 @@ func (it generateVariables) FuncWrap() *args.FuncWrap {
 }
 
 func (it generateVariables) Generate() variablesSetup {
-	funcWrap := it.FuncWrap()
+	// funcWrap := it.FuncWrap()
 
-	for i, i2 := range collection {
-
-	}
+	return variablesSetup{}
 }

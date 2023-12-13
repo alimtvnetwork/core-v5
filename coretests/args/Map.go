@@ -163,7 +163,7 @@ func (it Map) SortedKeys() ([]string, error) {
 
 	return convertinteranl.
 		Map.
-		SortedKeys(it)
+		SortedKeys(it.Raw())
 }
 
 func (it Map) SortedKeysMust() []string {
@@ -358,6 +358,10 @@ func (it Map) ValidArgs() []interface{} {
 	return args
 }
 
+func (it Map) Raw() map[string]interface{} {
+	return it
+}
+
 func (it Map) Args(names ...string) []interface{} {
 	var args []interface{}
 
@@ -446,7 +450,7 @@ func (it Map) GetAsAnyItems(name string) (items []interface{}, isValid bool) {
 func (it Map) Slice() []interface{} {
 	var slice []interface{}
 
-	keys, err := converters.Map.SortedKeys(it)
+	keys, err := converters.Map.SortedKeys(it.Raw())
 
 	if err != nil {
 		panic(err)

@@ -26,7 +26,7 @@ func (it *emptyCreator) KeyValuePair() *KeyValuePair {
 
 func (it *emptyCreator) KeyValueCollection() *KeyValueCollection {
 	return &KeyValueCollection{
-		KeyValuePairs: []*KeyValuePair{},
+		KeyValuePairs: []KeyValuePair{},
 	}
 }
 

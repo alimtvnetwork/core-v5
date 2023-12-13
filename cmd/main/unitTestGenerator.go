@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"gitlab.com/auk-go/core/codegen"
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
@@ -14,8 +16,10 @@ import (
 type unitTestGenerator struct{}
 
 func (it unitTestGenerator) Generate() {
+	curFunc := reflectinternal.GetFunc.PascalFuncName
+
 	generateFunc := codegen.GenerateFunc{
-		Func:         reflectinternal.GetFunc.PascalFuncName,
+		Func:         curFunc,
 		GenerateType: codegentype.Simple,
 		FmtType:      fmtcodegentype.Default,
 		TestCases: []coretestcases.CaseV1{
@@ -46,7 +50,10 @@ func (it unitTestGenerator) Generate() {
 		IsOverwrite:             true,
 	}
 
-	args.NewFuncWrap.Map()
+	wrap := args.NewFuncWrap.Single(curFunc)
+	toMap := wrap.GetInArgsMap()
+
+	fmt.Println(toMap.SortedKeys())
 
 	err := generateFunc.Generate()
 
