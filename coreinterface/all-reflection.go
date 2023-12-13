@@ -217,6 +217,17 @@ type FuncWrapContractsBinder interface {
 	MustBeValidater
 	ValidationErrorGetter
 
+	GetInArgsTypesNames() []string
+	GetOutArgsTypesNames() []string
+	OutArgNames() []string
+	InArgNames() []string
+	OutArgsCount() int
+	InArgsCount() int
+	ArgsCount() int
+	PkgNameOnly() string
+	GetPascalCaseFuncName() string
+	GetFuncName() string
+
 	MustInvoker
 	ReflectInvoker
 	VoidCaller

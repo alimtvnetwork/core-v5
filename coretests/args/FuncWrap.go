@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/internal/trydo"
@@ -27,6 +28,9 @@ type FuncWrap struct {
 	pkgPath              string
 	inArgsMap            Map
 	outArgsMap           Map
+	inArgsNames          []string
+	outArgsTypesNames    []string
+	outArgsNames         []string
 }
 
 func (it *FuncWrap) GetFuncName() string {
@@ -42,9 +46,7 @@ func (it *FuncWrap) GetPascalCaseFuncName() string {
 		return ""
 	}
 
-	return reflectinternal.
-		GetFunc.
-		PascalFuncName(it.Name)
+	return pascalCaseFunc(it.Name)
 }
 
 func (it *FuncWrap) HasValidFunc() bool {
@@ -120,6 +122,22 @@ func (it *FuncWrap) ArgsCount() int {
 	// https://stackoverflow.com/a/47626214
 
 	return it.rvType.NumIn()
+}
+
+// InArgsCount returns -1 on invalid, aka ArgsCount
+func (it *FuncWrap) InArgsCount() int {
+	return it.ArgsCount()
+}
+
+// OutArgsCount refers to the return arguments length, aka ReturnLength
+func (it *FuncWrap) OutArgsCount() int {
+	if it.IsInvalid() {
+		return -1
+	}
+
+	// https://stackoverflow.com/a/47626214
+
+	return it.rvType.NumOut()
 }
 
 // ArgsLength is an Alias for ArgsCount
@@ -210,33 +228,86 @@ func (it *FuncWrap) GetInArgsTypes() []reflect.Type {
 	return slice
 }
 
-func (it *FuncWrap) GetInArgsMap() Map {
-	if it.IsInvalid() {
-		return Empty.Map()
+func (it *FuncWrap) InArgNames() []string {
+	if it.InArgsCount() <= 0 {
+		return []string{}
 	}
 
-	argsCount := it.ArgsCount()
+	count := it.InArgsCount()
 
-	if argsCount == 0 {
-		return Empty.Map()
+	if len(it.inArgsNames) == count {
+		return it.inArgsNames
 	}
 
-	if len(it.inArgsMap) == argsCount {
-		return it.inArgsMap
+	allTypesNames := it.GetInArgsTypesNames()
+	toSlice := corestr.
+		New.
+		SimpleSlice.ByLen(allTypesNames)
+
+	// generate
+	switch count {
+	case 1:
+		firstType := pascalCaseFunc(allTypesNames[0])
+		toSlice.Add(inArgNamePrefix + firstType)
+
+		break
+	default:
+		for i, cTypeName := range allTypesNames {
+			cTypeNamePascal := pascalCaseFunc(cTypeName)
+
+			toSlice.AppendFmt(
+				"%s%s%d",
+				inArgNamePrefix,
+				cTypeNamePascal,
+				i,
+			)
+		}
 	}
 
-	// https://go.dev/play/p/dpIspUFfbu0
-	mainType := it.rvType
-	toMap := make(map[string]interface{}, argsCount)
+	it.inArgsNames = toSlice.Strings()
 
-	for i := 0; i < argsCount; i++ {
-		cType := mainType.In(i)
-		toMap[cType.Name()] = cType
+	return it.inArgsNames
+}
+
+func (it *FuncWrap) OutArgNames() []string {
+	if it.OutArgsCount() <= 0 {
+		return []string{}
 	}
 
-	it.inArgsMap = toMap
+	count := it.OutArgsCount()
 
-	return toMap
+	if len(it.outArgsNames) == count {
+		return it.outArgsNames
+	}
+
+	allTypesNames := it.GetOutArgsTypesNames()
+	toSlice := corestr.
+		New.
+		SimpleSlice.ByLen(allTypesNames)
+
+	// generate
+	switch count {
+	case 1:
+		firstType := pascalCaseFunc(allTypesNames[0])
+		toSlice.Add(outArgNamePrefix + firstType)
+
+		break
+	default:
+		for i, cTypeName := range allTypesNames {
+			cTypeNamePascal := pascalCaseFunc(cTypeName)
+
+			toSlice.AppendFmt(
+				"%s%s%d",
+				outArgNamePrefix,
+				cTypeNamePascal,
+				i,
+			)
+		}
+	}
+
+	it.outArgsNames = toSlice.Strings()
+
+	return it.outArgsNames
 }
 
 func (it *FuncWrap) GetInArgsTypesNames() []string {
@@ -263,6 +334,34 @@ func (it *FuncWrap) GetInArgsTypesNames() []string {
 	}
 
 	it.inArgsTypesNames = slice
+
+	return slice
+}
+
+func (it *FuncWrap) GetOutArgsTypesNames() []string {
+	if it.IsInvalid() {
+		return []string{}
+	}
+
+	argsCount := it.OutArgsCount()
+
+	if argsCount == 0 {
+		return []string{}
+	}
+
+	if len(it.outArgsTypesNames) == argsCount {
+		return it.outArgsTypesNames
+	}
+
+	// https://go.dev/play/p/dpIspUFfbu0
+	mainType := it.rvType
+	slice := make([]string, 0, argsCount)
+
+	for i := 0; i < argsCount; i++ {
+		slice = append(slice, mainType.Out(i).Name())
+	}
+
+	it.outArgsTypesNames = slice
 
 	return slice
 }

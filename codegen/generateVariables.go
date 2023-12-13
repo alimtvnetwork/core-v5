@@ -11,7 +11,13 @@ func (it generateVariables) FuncWrap() *args.FuncWrap {
 }
 
 func (it generateVariables) Generate() variablesSetup {
-	// funcWrap := it.FuncWrap()
+	funcWrap := it.FuncWrap()
 
-	return variablesSetup{}
+	return variablesSetup{
+		inArgsNames:  funcWrap.InArgNames(),
+		outArgsNames: nil,
+		setupLines:   nil,
+		inArgsTypes:  nil,
+		funcWrap:     nil,
+	}
 }

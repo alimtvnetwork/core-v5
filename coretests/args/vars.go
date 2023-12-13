@@ -7,7 +7,10 @@ import (
 var (
 	rvToInterfacesFunc = reflectinternal.Converter.ReflectValuesToInterfaces
 	argsToRvFunc       = reflectinternal.Converter.ArgsToReflectValues
-	NewFuncWrap        = newFuncWrapCreator{}
-	FuncDetector       = funcDetector{}
-	Empty              = emptyCreator{}
+	pascalCaseFunc     = reflectinternal.
+				GetFunc.
+				PascalFuncName
+	NewFuncWrap  = newFuncWrapCreator{}
+	FuncDetector = funcDetector{}
+	Empty        = emptyCreator{}
 )

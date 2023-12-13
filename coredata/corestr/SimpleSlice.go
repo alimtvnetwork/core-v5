@@ -432,6 +432,10 @@ func (it *SimpleSlice) Strings() []string {
 	return *it
 }
 
+func (it *SimpleSlice) List() []string {
+	return *it
+}
+
 func (it *SimpleSlice) WrapDoubleQuote() *SimpleSlice {
 	return it.Transpile(
 		func(s string) string {

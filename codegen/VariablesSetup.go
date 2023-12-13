@@ -8,11 +8,9 @@ import (
 )
 
 type variablesSetup struct {
-	inArgsOrder             *corestr.SimpleSlice
-	outArgsOrder            *corestr.SimpleSlice
-	reassignedVariableNames *corestr.SimpleSlice
-	setupLines              *corestr.SimpleSlice
-	inArgs                  args.Map // left arg name, right type
-	inArgsTypes             []reflect.Type
-	funcWrap                *args.FuncWrap
+	inArgsNames  *corestr.SimpleSlice
+	outArgsNames *corestr.SimpleSlice
+	setupLines   *corestr.SimpleSlice
+	inArgsTypes  []reflect.Type
+	funcWrap     *args.FuncWrap
 }
