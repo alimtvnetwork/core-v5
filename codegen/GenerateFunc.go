@@ -118,7 +118,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		vars.LinesPossible:    totalSliceLength,
 		vars.InArgs:           inArgs.Join(ArgsJoiner),
 		vars.OutArgs:          outArgs.Join(ArgsJoiner),
-		vars.FmtJoin:          it.generateFmtJoin(),
+		vars.FmtJoin:          it.FmtJoin(),
 		vars.FmtOutputs:       fmtOutputs.Join(fmtJoiner),
 		vars.DirectFuncInvoke: it.DirectFuncInvokeName(),
 	}
@@ -369,7 +369,7 @@ func (it GenerateFunc) generateVariablesSetup() *corestr.SimpleSlice {
 	return nil
 }
 
-func (it GenerateFunc) generateFmtJoin() string {
+func (it GenerateFunc) FmtJoin() string {
 	return it.FmtType.Fmt()
 }
 

@@ -23,6 +23,7 @@ type BaseGenerator interface {
 	Generate() error
 	GenerateCodeOutput() *CodeOutput
 	GetOptimizePackageHeader(code string) string
+	FmtJoin() string
 	UnitTests(
 		inArgs,
 		outArgs *corestr.SimpleSlice,

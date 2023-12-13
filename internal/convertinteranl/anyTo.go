@@ -325,7 +325,7 @@ func (it anyTo) Strings(
 	}
 }
 
-// Strings
+// String
 //
 //	This function will display complex objects to simpler form
 //	for the integration testing validation and expectations.
@@ -343,7 +343,7 @@ func (it anyTo) Strings(
 //  10. byte to []string
 //  11. bool to []string
 //  12. any to PrettyJSON
-func (it anyTo) StringW(
+func (it anyTo) String(
 	any interface{},
 ) string {
 	v := it.Strings(any)

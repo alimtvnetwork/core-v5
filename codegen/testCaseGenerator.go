@@ -214,8 +214,17 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 	}
 
 	slice := corestr.New.SimpleSlice.Cap(2)
+	inArgsString := convertinteranl.AnyTo.String(validArgs)
+	resultsToString := convertinteranl.AnyTo.String(results)
 
-	return slice.Adds(convertinteranl.AnyTo.Strings(results)...), nil
+	slice.AppendFmt(
+		it.baseGenerator.FmtJoin(),
+		0,
+		inArgsString,
+		resultsToString,
+	)
+
+	return slice, nil
 }
 
 func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, error) {
