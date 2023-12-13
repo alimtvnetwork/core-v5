@@ -520,7 +520,7 @@ func (it *GenerateFunc) VariablesSetup() *variablesSetup {
 		return it.setupVariable
 	}
 
-	generator := generateVariables{
+	generator := variablesGenerator{
 		baseGenerator: it.AsBaseGenerator(),
 	}
 

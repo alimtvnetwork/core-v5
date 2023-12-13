@@ -8,15 +8,15 @@ import (
 	"gitlab.com/auk-go/core/coretests/args"
 )
 
-type generateVariables struct {
+type variablesGenerator struct {
 	baseGenerator BaseGenerator
 }
 
-func (it generateVariables) FuncWrap() *args.FuncWrap {
+func (it variablesGenerator) FuncWrap() *args.FuncWrap {
 	return it.baseGenerator.FuncWrap()
 }
 
-func (it generateVariables) Generate() variablesSetup {
+func (it variablesGenerator) Generate() variablesSetup {
 	funcWrap := it.FuncWrap()
 	inArgsNames := funcWrap.InArgNames()
 	inArgsTypes := funcWrap.GetInArgsTypes()
@@ -30,7 +30,7 @@ func (it generateVariables) Generate() variablesSetup {
 	}
 }
 
-func (it generateVariables) SetupLines(inArgNames []string, inArgsTypes []reflect.Type) corestr.SimpleSlice {
+func (it variablesGenerator) SetupLines(inArgNames []string, inArgsTypes []reflect.Type) corestr.SimpleSlice {
 	if len(inArgNames) == 0 {
 		return []string{}
 	}
