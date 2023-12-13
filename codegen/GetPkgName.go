@@ -8,7 +8,8 @@ import (
 // GetPkgName
 //
 // fullImportLine - "gitlab.com/auk-go/core/internal/reflectinternal"
-//   - returns
+//
+// # returns
 //   - prefix : gitlab.com/auk-go/core/internal/
 //   - pkgName : reflectinternal
 func GetPkgName(fullImportLine string) (prefix, pkgName string) {
