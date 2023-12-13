@@ -5,6 +5,8 @@ import (
 
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/iserror"
 )
 
 type CodeOutput struct {
@@ -40,6 +42,32 @@ func (it *CodeOutput) ErrorString() string {
 	}
 
 	return it.Error.Error()
+}
+
+func (it *CodeOutput) FormatCode(code string) (string, error) {
+	if it.HasError() {
+		return code, it.Error
+	}
+
+	s, err := convertinteranl.CodeFormatter.Golang(code)
+
+	return s, errcore.StackEnhance.Error(err)
+}
+
+func (it *CodeOutput) FormatUnitTest() (string, error) {
+	if it.HasUnitTest() {
+		return it.FormatCode(it.UnitTest)
+	}
+
+	return "", it.Error
+}
+
+func (it *CodeOutput) FormatTestCase() (string, error) {
+	if it.HasTestCase() {
+		return it.FormatCode(it.TestCase)
+	}
+
+	return "", it.Error
 }
 
 func (it *CodeOutput) HasUnitTest() bool {
@@ -80,21 +108,31 @@ func (it *CodeOutput) Write() errcore.RawErrCollection {
 
 func (it *CodeOutput) WriteUnitTestFile() error {
 	filePath := it.unitTestFileName()
+	code, err := it.FormatUnitTest()
+
+	if iserror.Defined(err) {
+		return err
+	}
 
 	return it.FileWriter.WriteRelativePath(
 		it.FileWriter.IsRemoveBeforeWrite,
 		filePath,
-		[]byte(it.UnitTest),
+		[]byte(code),
 	)
 }
 
 func (it *CodeOutput) WriteTestCaseFile() error {
 	filePath := it.testCaseFileName()
+	code, err := it.FormatTestCase()
+
+	if iserror.Defined(err) {
+		return err
+	}
 
 	return it.FileWriter.WriteRelativePath(
 		it.FileWriter.IsRemoveBeforeWrite,
 		filePath,
-		[]byte(it.TestCase),
+		[]byte(code),
 	)
 }
 
