@@ -46,6 +46,8 @@ func (it unitTestGenerator) Generate() {
 		IsOverwrite:             true,
 	}
 
+	args.NewFuncWrap.Map()
+
 	err := generateFunc.Generate()
 
 	errcore.HandleErr(err)

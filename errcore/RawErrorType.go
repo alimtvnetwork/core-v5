@@ -26,6 +26,7 @@ const (
 	InvalidValueType                           RawErrorType = "Invalid : value cannot process it."
 	InvalidCharType                            RawErrorType = "Invalid : character cannot process it."
 	InvalidArgumentsType                       RawErrorType = "Invalid : arguments or argument cannot process it."
+	NotFound                                   RawErrorType = "not found"
 	InvalidAnyPathEmptyType                    RawErrorType = "Invalid : any of the given path was empty, thus cannot process it."
 	UnsupportedOperatingSystemType             RawErrorType = "Unsupported : given operating system is not supported by the executable or system!"
 	UnsupportedArchitectureType                RawErrorType = "Unsupported : given operating system architecture is not supported by the executable or system!"

@@ -9,4 +9,5 @@ var (
 	argsToRvFunc       = reflectinternal.Converter.ArgsToReflectValues
 	NewFuncWrap        = newFuncWrapCreator{}
 	FuncDetector       = funcDetector{}
+	Empty              = emptyCreator{}
 )

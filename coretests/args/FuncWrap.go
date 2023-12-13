@@ -25,6 +25,8 @@ type FuncWrap struct {
 	pkgNameOnly          string
 	funcDirectInvokeName string
 	pkgPath              string
+	inArgsMap            Map
+	outArgsMap           Map
 }
 
 func (it *FuncWrap) GetFuncName() string {
@@ -210,30 +212,31 @@ func (it *FuncWrap) GetInArgsTypes() []reflect.Type {
 
 func (it *FuncWrap) GetInArgsMap() Map {
 	if it.IsInvalid() {
-		return []reflect.Type{}
+		return Empty.Map()
 	}
 
 	argsCount := it.ArgsCount()
 
 	if argsCount == 0 {
-		return []reflect.Type{}
+		return Empty.Map()
 	}
 
-	if len(it.inArgsTypes) == argsCount {
-		return it.inArgsTypes
+	if len(it.inArgsMap) == argsCount {
+		return it.inArgsMap
 	}
 
 	// https://go.dev/play/p/dpIspUFfbu0
 	mainType := it.rvType
-	slice := make([]reflect.Type, 0, argsCount)
+	toMap := make(map[string]interface{}, argsCount)
 
 	for i := 0; i < argsCount; i++ {
-		slice = append(slice, mainType.In(i))
+		cType := mainType.In(i)
+		toMap[cType.Name()] = cType
 	}
 
-	it.inArgsTypes = slice
+	it.inArgsMap = toMap
 
-	return slice
+	return toMap
 }
 
 func (it *FuncWrap) GetInArgsTypesNames() []string {

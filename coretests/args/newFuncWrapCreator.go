@@ -100,3 +100,24 @@ func (it newFuncWrapCreator) Many(
 
 	return slice
 }
+
+func (it newFuncWrapCreator) StructToMap(
+	i interface{},
+) map[string]*FuncWrap {
+	if len(anyFunctions) == 0 {
+		return []*FuncWrap{}
+	}
+
+	slice := make(
+		[]*FuncWrap,
+		len(anyFunctions),
+	)
+
+	for i, function := range anyFunctions {
+		v := it.Default(function)
+
+		slice[i] = v
+	}
+
+	return slice
+}
