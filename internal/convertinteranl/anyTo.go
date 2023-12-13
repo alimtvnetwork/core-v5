@@ -12,11 +12,11 @@ import (
 
 type anyTo struct{}
 
-// String
+// ValueString
 //
 // If nil then returns ""
 // Or, returns %v of the value given.
-func (it anyTo) String(anyItem interface{}) string {
+func (it anyTo) ValueString(anyItem interface{}) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -298,7 +298,7 @@ func (it anyTo) Strings(
 		for key, value := range v {
 			lines[index] = fmt.Sprintf(
 				"%s : %s",
-				it.String(key),
+				it.ValueString(key),
 				value,
 			)
 
@@ -323,4 +323,30 @@ func (it anyTo) Strings(
 	default:
 		return it.PrettyJsonLines(any)
 	}
+}
+
+// Strings
+//
+//	This function will display complex objects to simpler form
+//	for the integration testing validation and expectations.
+//
+// # Steps:
+//  01. string to []string
+//  02. []string to as is.
+//  03. []interface{} to []string
+//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
+//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
+//  06. map[string]string (fmt - %s : %s)") to []string
+//  07. map[string]int (fmt - %s : %d)") to []string
+//  08. map[int]string (fmt - %d : %s)") to []string
+//  09. int to []string
+//  10. byte to []string
+//  11. bool to []string
+//  12. any to PrettyJSON
+func (it anyTo) StringW(
+	any interface{},
+) string {
+	v := it.Strings(any)
+
+	return strings.Join(v, constants.NewLineUnix)
 }
