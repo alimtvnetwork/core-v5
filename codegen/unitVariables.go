@@ -20,6 +20,7 @@ type unitVariables struct {
 	CaseItem         string
 	TestCases        string
 	VerifyTypeOf     string
+	VariablesSetup   string
 	workFunc         string
 	expect           string
 	inputExpectedVar string

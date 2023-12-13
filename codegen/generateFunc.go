@@ -36,6 +36,7 @@ type GenerateFunc struct {
 	IsOverwrite             bool
 	packageHeader           corestr.SimpleStringOnce
 	funcWrap                *args.FuncWrap
+	setupVariable           *variablesSetup
 }
 
 func (it GenerateFunc) Function() interface{} {
@@ -185,7 +186,7 @@ func (it GenerateFunc) UnitTests(
 			funcName,
 			behaviour,
 		)
-
+		tempMap[vars.VariablesSetup] = it.CompiledVariablesSetup()
 		if iserror.Defined(fmtErr) {
 			return testsSlice, fmtErr
 		}
@@ -458,15 +459,7 @@ func (it GenerateFunc) InArgs() (*corestr.SimpleSlice, error) {
 		return slice, nil
 	}
 
-	if length == 1 {
-		return slice.Add(it.VariableName("input", 0)), nil
-	}
-
-	for i := 0; i < length; i++ {
-		slice.Add(it.VariableName("input", i))
-	}
-
-	return slice, nil
+	return &it.VariablesSetup().inArgsNames, nil
 }
 
 // VariableName
@@ -520,6 +513,25 @@ func (it GenerateFunc) TestCasesCompiled() (string, error) {
 	}
 
 	return caseGenerator.Compile()
+}
+
+func (it *GenerateFunc) VariablesSetup() *variablesSetup {
+	if it.setupVariable != nil {
+		return it.setupVariable
+	}
+
+	generator := generateVariables{
+		baseGenerator: it.AsBaseGenerator(),
+	}
+
+	vs := generator.Generate()
+	it.setupVariable = &vs
+
+	return it.setupVariable
+}
+
+func (it GenerateFunc) CompiledVariablesSetup() string {
+	return it.VariablesSetup().CompiledSetupLine()
 }
 
 func (it GenerateFunc) AsBaseGenerator() BaseGenerator {

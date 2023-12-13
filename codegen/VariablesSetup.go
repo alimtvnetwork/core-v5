@@ -14,3 +14,11 @@ type variablesSetup struct {
 	inArgsTypes  []reflect.Type
 	funcWrap     *args.FuncWrap
 }
+
+func (it variablesSetup) CompiledSetupLine() string {
+	if it.setupLines.Length() == 0 {
+		return ""
+	}
+
+	return it.setupLines.Join("\n\t\t")
+}
