@@ -311,7 +311,7 @@ func (it testCaseGenerator) VerifyTypeOf() string {
 		float64, float32, byte,
 		int8, uint16, uint32,
 		uint64:
-		return convertinteranl.AnyTo.String(casted)
+		return convertinteranl.AnyTo.ValueString(casted)
 	}
 
 	return fmt.Sprintf(
