@@ -1,6 +1,8 @@
 package codegen
 
 import (
+	"reflect"
+
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
@@ -17,17 +19,18 @@ func (it generateVariables) FuncWrap() *args.FuncWrap {
 func (it generateVariables) Generate() variablesSetup {
 	funcWrap := it.FuncWrap()
 	inArgsNames := funcWrap.InArgNames()
+	inArgsTypes := funcWrap.GetInArgsTypes()
 
 	return variablesSetup{
 		inArgsNames:  inArgsNames,
 		outArgsNames: funcWrap.OutArgNames(),
-		setupLines:   it.SetupLines(inArgsNames),
-		inArgsTypes:  funcWrap.GetInArgsTypes(),
+		setupLines:   it.SetupLines(inArgsNames, inArgsTypes),
+		inArgsTypes:  inArgsTypes,
 		funcWrap:     funcWrap,
 	}
 }
 
-func (it generateVariables) SetupLines(inArgNames []string) corestr.SimpleSlice {
+func (it generateVariables) SetupLines(inArgNames []string, inArgsTypes []reflect.Type) corestr.SimpleSlice {
 	if len(inArgNames) == 0 {
 		return []string{}
 	}
@@ -41,10 +44,11 @@ func (it generateVariables) SetupLines(inArgNames []string) corestr.SimpleSlice 
 		rightName := coreindexes.NameByIndex(i)
 
 		toSlice.AppendFmt(
-			"%s := %s.%s",
+			"%s := %s.%s.(%s)",
 			name,
 			"input",
 			rightName,
+			inArgsTypes[i].String(),
 		)
 	}
 
