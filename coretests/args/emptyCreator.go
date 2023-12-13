@@ -11,3 +11,7 @@ func (it emptyCreator) FuncWrap() *FuncWrap {
 		isInvalid: true,
 	}
 }
+
+func (it emptyCreator) FuncMap() FuncMap {
+	return map[string]FuncWrap{}
+}

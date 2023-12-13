@@ -3,7 +3,9 @@ package args
 import (
 	"reflect"
 
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"gitlab.com/auk-go/core/iserror"
 )
 
 type newFuncWrapCreator struct{}
@@ -57,15 +59,21 @@ func (it newFuncWrapCreator) Single(
 	return it.Default(anyFunc)
 }
 
+func (it newFuncWrapCreator) Invalid() *FuncWrap {
+	return &FuncWrap{
+		isInvalid: true,
+	}
+}
+
 func (it newFuncWrapCreator) Map(
 	anyFunctions ...interface{},
-) map[string]*FuncWrap {
+) FuncMap {
 	if len(anyFunctions) == 0 {
-		return map[string]*FuncWrap{}
+		return map[string]FuncWrap{}
 	}
 
 	newMap := make(
-		map[string]*FuncWrap,
+		map[string]FuncWrap,
 		len(anyFunctions),
 	)
 
@@ -73,7 +81,7 @@ func (it newFuncWrapCreator) Map(
 		v := it.Default(function)
 
 		if v.IsValid() {
-			newMap[v.GetFuncName()] = v
+			newMap[v.GetFuncName()] = *v
 		}
 	}
 
@@ -101,23 +109,51 @@ func (it newFuncWrapCreator) Many(
 	return slice
 }
 
+func (it newFuncWrapCreator) MethodToFunc(
+	m *reflect.Method,
+) (*FuncWrap, error) {
+	if m == nil {
+		return it.Invalid(), errcore.CannotBeNilType.ErrorNoRefs("m * method cannot be nil")
+	}
+
+	name := m.Name
+	fullName := m.PkgPath + name
+
+	return &FuncWrap{
+		Name:      name,
+		FullName:  fullName,
+		Func:      m.Func.Interface(),
+		isInvalid: false,
+		rvType:    m.Func.Type(),
+		rv:        m.Func,
+	}, nil
+}
+
 func (it newFuncWrapCreator) StructToMap(
 	i interface{},
-) map[string]*FuncWrap {
-	if len(anyFunctions) == 0 {
-		return []*FuncWrap{}
+) (FuncMap, error) {
+	methods, err := reflectinternal.Looper.MethodsMap(i)
+
+	if iserror.Defined(err) {
+		return Empty.FuncMap(), err
 	}
 
-	slice := make(
-		[]*FuncWrap,
-		len(anyFunctions),
+	newMap := make(
+		map[string]FuncWrap,
+		len(methods),
 	)
 
-	for i, function := range anyFunctions {
-		v := it.Default(function)
+	var rawErr errcore.RawErrCollection
 
-		slice[i] = v
+	for index, method := range methods {
+		v, nErr := it.MethodToFunc(method)
+
+		rawErr.Add(nErr)
+
+		if v.IsValid() {
+			newMap[index] = *v
+		}
 	}
 
-	return slice
+	return newMap, rawErr.CompiledErrorWithStackTraces()
 }
