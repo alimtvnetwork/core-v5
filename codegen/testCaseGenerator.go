@@ -23,10 +23,8 @@ type testCaseGenerator struct {
 func (it testCaseGenerator) CurBehaviours() corestr.SimpleSlice {
 	return it.baseGenerator.CurBehaviours()
 }
-func (it testCaseGenerator) PackagesHeader() string {
-	_, packagesHeader := it.baseGenerator.PackageHeader()
-
-	return packagesHeader
+func (it testCaseGenerator) PackagesHeader(code string) string {
+	return it.baseGenerator.GetOptimizePackageHeader(code)
 }
 
 func (it testCaseGenerator) Compile() (string, error) {
@@ -68,7 +66,7 @@ func (it testCaseGenerator) Compile() (string, error) {
 
 	final := stringslice.Joins(
 		"\n",
-		it.PackagesHeader(),
+		it.PackagesHeader(caseOutputWithVar),
 		"",
 		caseOutputWithVar,
 	)

@@ -11,6 +11,10 @@ import (
 type newSimpleSliceCreator struct{}
 
 func (it *newSimpleSliceCreator) Cap(capacity int) *SimpleSlice {
+	if capacity <= 0 {
+		capacity = 0
+	}
+
 	slice := make([]string, 0, capacity)
 
 	return it.Strings(slice)
@@ -88,6 +92,23 @@ func (it *newSimpleSliceCreator) Lines(
 	lines ...string,
 ) *SimpleSlice {
 	return it.Strings(lines)
+}
+
+func (it *newSimpleSliceCreator) Split(
+	combined string,
+	sep string,
+) *SimpleSlice {
+	return it.Strings(strings.Split(combined, sep))
+}
+
+func (it *newSimpleSliceCreator) SplitLines(
+	combined string,
+) *SimpleSlice {
+	return it.Strings(
+		strings.Split(
+			combined, constants.NewLineUnix,
+		),
+	)
 }
 
 func (it *newSimpleSliceCreator) SpreadStrings(

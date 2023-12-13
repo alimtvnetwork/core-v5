@@ -1185,6 +1185,49 @@ func (it *SimpleSlice) AddedRemovedLinesDiff(
 
 }
 
+func (it *SimpleSlice) RemoveIndexes(
+	indexes ...int,
+) (newSlice *SimpleSlice, err error) {
+	if it.IsEmpty() {
+		return Empty.SimpleSlice(), fmt.Errorf(
+			"cannot remove indexes(%+v) from an empty slice",
+			indexes,
+		)
+	}
+
+	length := it.Length() - len(indexes)
+	if length <= 0 {
+		length = 0
+	}
+
+	newSlice = New.SimpleSlice.Cap(length)
+
+	indexMap := make(map[int]bool, len(indexes))
+	for _, index := range indexes {
+		indexMap[index] = true
+	}
+
+	for i, s := range *it {
+		if indexMap[i] {
+			delete(indexMap, i)
+
+			continue
+		}
+
+		newSlice.Add(s)
+	}
+
+	if len(indexMap) > 0 {
+		err = fmt.Errorf(
+			"cannot remove indexes(%+v) from the slice (%+v)",
+			indexMap,
+			*it,
+		)
+	}
+
+	return newSlice, err
+}
+
 func (it *SimpleSlice) DistinctDiff(
 	rightSlice *SimpleSlice,
 ) []string {

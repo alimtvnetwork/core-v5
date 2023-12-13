@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"strings"
 
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/codegen/codegentype"
@@ -14,6 +15,7 @@ import (
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/pathinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
@@ -84,8 +86,6 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(toWrap.InvalidError())
 	}
 
-	testPkgName, packageHeader := it.PackageHeader()
-
 	inArgs, inArgsErr := it.InArgs()
 
 	if iserror.Defined(inArgsErr) {
@@ -133,11 +133,14 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(unitErr)
 	}
 
+	unitTestCode := unitTests.JoinLine()
+	optimizeHeaderBasedOnCode := it.GetOptimizePackageHeader(unitTestCode)
+
 	finalUnitTest := stringslice.Joins(
 		constants.NewLineUnix,
-		packageHeader,
+		optimizeHeaderBasedOnCode,
 		"",
-		unitTests.JoinLine(),
+		unitTestCode,
 		"",
 	)
 
@@ -149,7 +152,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		StructName: it.StructName(),
 		FuncName:   funcName,
 		Error:      testCaseErr,
-		FileWriter: it.fileWriter(testPkgName),
+		FileWriter: it.fileWriter(it.TestPkgName()),
 	}
 }
 
@@ -536,4 +539,42 @@ func (it GenerateFunc) CompiledVariablesSetup() string {
 
 func (it GenerateFunc) AsBaseGenerator() BaseGenerator {
 	return it
+}
+
+func (it GenerateFunc) GetOptimizePackageHeader(code string) string {
+	_, packageHeader := it.PackageHeader()
+
+	headerLines := corestr.New.SimpleSlice.SplitLines(packageHeader)
+	isImportStarted := false
+	var removeIndexes []int
+
+	for i, h := range headerLines.List() {
+		h = strings.TrimSpace(h)
+		if !isImportStarted && strings.HasPrefix(h, "import") {
+			isImportStarted = true
+
+			continue
+		}
+
+		if !isImportStarted {
+			continue
+		}
+
+		if h == ")" || h == "" {
+			continue
+		}
+
+		// after import
+		_, pkgName := GetPkgName(h)
+		pkgNameNext := pkgName + "."
+
+		if !strings.Contains(code, pkgNameNext) {
+			removeIndexes = append(removeIndexes, i)
+		}
+	}
+
+	lines, err := headerLines.RemoveIndexes(removeIndexes...)
+	errcore.HandleErr(err)
+
+	return lines.JoinLine()
 }

@@ -22,6 +22,7 @@ type BaseGenerator interface {
 	IsFunctionIncluded() bool
 	Generate() error
 	GenerateCodeOutput() *CodeOutput
+	GetOptimizePackageHeader(code string) string
 	UnitTests(
 		inArgs,
 		outArgs *corestr.SimpleSlice,
