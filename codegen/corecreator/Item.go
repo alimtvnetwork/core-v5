@@ -50,6 +50,10 @@ func (it Item) HasIndex(i int) bool {
 	return len(it.Possibilities)-1 >= i
 }
 
+func (it Item) IsBoolean() bool {
+	return reflectinternal.Is.Boolean(it.Value)
+}
+
 func (it Item) IsPrimitiveType() bool {
 	return reflectinternal.Is.Primitive(it.Value)
 }
@@ -59,7 +63,7 @@ func (it Item) IsNumber() bool {
 }
 
 func (it Item) IsString() bool {
-	return reflectinternal.Is.Number(it.Value)
+	return reflectinternal.Is.String(it.Value)
 }
 
 func (it Item) IsPointer() bool {

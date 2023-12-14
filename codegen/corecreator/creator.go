@@ -18,3 +18,11 @@ func (it newCreator) Create(i interface{}) interface{} {
 func (it newCreator) CreateByType(rt reflect.Type) interface{} {
 	return nil
 }
+
+func (it newCreator) CreateByTypeName(name string) interface{} {
+	return nil
+}
+
+func (it newCreator) CreateByFunc(typeName string, index int) interface{} {
+	return nil
+}
