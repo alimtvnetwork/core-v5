@@ -205,7 +205,7 @@ func (it *Dynamic) IsPrimitive() bool {
 
 // IsNumber true if float (any), byte, int (any), uint(any)
 func (it *Dynamic) IsNumber() bool {
-	return reflectinternal.Is.Number(it.ReflectKind())
+	return reflectinternal.Is.NumberKind(it.ReflectKind())
 }
 
 func (it *Dynamic) IntDefault(defaultInt int) (val int, isSuccess bool) {

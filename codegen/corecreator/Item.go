@@ -54,6 +54,10 @@ func (it Item) IsPrimitiveType() bool {
 	return reflectinternal.Is.Primitive(it.Value)
 }
 
+func (it Item) IsNumber() bool {
+	return reflectinternal.Is.NumberKind(it.Value)
+}
+
 func (it Item) CreateByFunc(i int) interface{} {
 	if it.CreatorFunc == nil {
 		return nil
