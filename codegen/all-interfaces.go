@@ -22,7 +22,7 @@ type BaseGenerator interface {
 	GetOverrides() OverridingNames
 	IsFunctionIncluded() bool
 	Generate() error
-	GenerateCodeOutput() *CodeOutput
+	GenerateCodeOutput() *AllCodeOutput
 	FmtJoin() string
 	UnitTests(
 		inArgs,
@@ -52,8 +52,13 @@ type BaseGenerator interface {
 	DirectFuncInvokeName() string
 
 	StructNameGetter
+	NewGoCode(codes ...string) *GoCode
 
-	coreinterface.TestCasesCompiler
+	TestCasesCompiler
+}
+
+type TestCasesCompiler interface {
+	TestCasesCompiled() (*GoCode, error)
 }
 
 type VariableNameGetter interface {

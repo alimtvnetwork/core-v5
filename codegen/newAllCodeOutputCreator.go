@@ -6,14 +6,14 @@ import (
 	"gitlab.com/auk-go/core/chmodhelper"
 )
 
-type newCodeOutputCreator struct{}
+type newAllCodeOutputCreator struct{}
 
-func (it newCodeOutputCreator) Default(
-	structName, funcName,
-	unit, testCase string,
+func (it newAllCodeOutputCreator) Default(
+	structName, funcName string,
+	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
-) *CodeOutput {
-	return &CodeOutput{
+) *AllCodeOutput {
+	return &AllCodeOutput{
 		UnitTest:   unit,
 		TestCase:   testCase,
 		StructName: structName,
@@ -22,12 +22,12 @@ func (it newCodeOutputCreator) Default(
 	}
 }
 
-func (it newCodeOutputCreator) All(
-	structName, funcName,
-	unit, testCase string,
+func (it newAllCodeOutputCreator) All(
+	structName, funcName string,
+	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
-) *CodeOutput {
-	return &CodeOutput{
+) *AllCodeOutput {
+	return &AllCodeOutput{
 		UnitTest:   unit,
 		TestCase:   testCase,
 		StructName: structName,
@@ -36,18 +36,18 @@ func (it newCodeOutputCreator) All(
 	}
 }
 
-func (it newCodeOutputCreator) Invalid(
+func (it newAllCodeOutputCreator) Invalid(
 	err error,
-) *CodeOutput {
-	return &CodeOutput{
+) *AllCodeOutput {
+	return &AllCodeOutput{
 		Error: err,
 	}
 }
 
-func (it newCodeOutputCreator) InvalidMsg(
+func (it newAllCodeOutputCreator) InvalidMsg(
 	msg string,
-) *CodeOutput {
-	return &CodeOutput{
+) *AllCodeOutput {
+	return &AllCodeOutput{
 		Error: errors.New(msg),
 	}
 }

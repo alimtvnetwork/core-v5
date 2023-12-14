@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
@@ -23,11 +22,12 @@ type testCaseGenerator struct {
 func (it testCaseGenerator) GetBehaviours() corestr.SimpleSlice {
 	return it.baseGenerator.GetBehaviours()
 }
-func (it testCaseGenerator) PackagesHeader(code string) string {
-	return it.baseGenerator.GetOptimizePackageHeader(code)
+
+func (it testCaseGenerator) NewCode(codes ...string) *GoCode {
+	return it.baseGenerator.NewGoCode(codes...)
 }
 
-func (it testCaseGenerator) Compile() (string, error) {
+func (it testCaseGenerator) Compile() (*GoCode, error) {
 	behaviours := it.GetBehaviours()
 	totalBehaviours := len(behaviours)
 	testCasesSlice := corestr.New.SimpleSlice.Cap(totalBehaviours)
@@ -38,14 +38,14 @@ func (it testCaseGenerator) Compile() (string, error) {
 		)
 
 		if iserror.Defined(err) {
-			return "", err
+			return it.NewCode(), err
 		}
 
 		testCasesSlice.Add(caseOutput)
 	}
 
 	if testCasesSlice.Length() == 0 {
-		return "", errcore.InvalidEmptyValueType.Error(
+		return it.NewCode(), errcore.InvalidEmptyValueType.Error(
 			"no testcases generated for the behaviour",
 			behaviours,
 		)
@@ -64,12 +64,7 @@ func (it testCaseGenerator) Compile() (string, error) {
 		replacerMap,
 	)
 
-	final := stringslice.Joins(
-		"\n",
-		it.PackagesHeader(caseOutputWithVar),
-		"",
-		caseOutputWithVar,
-	)
+	final := it.baseGenerator.NewGoCode(caseOutputWithVar)
 
 	return final, nil
 }

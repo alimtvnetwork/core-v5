@@ -79,7 +79,7 @@ func (it GenerateFunc) Generate() error {
 	return codeOutput.Write().CompiledError()
 }
 
-func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
+func (it GenerateFunc) GenerateCodeOutput() *AllCodeOutput {
 	toWrap := it.FuncWrap()
 
 	if toWrap.IsInvalid() {
@@ -137,7 +137,7 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 	testCaseCompiled, testCaseErr := it.TestCasesCompiled()
 	testCasesCode := it.NewGoCode(testCaseCompiled)
 
-	return &CodeOutput{
+	return &AllCodeOutput{
 		UnitTest:   unitTestCode,
 		TestCase:   testCasesCode,
 		StructName: it.StructName(),
@@ -498,7 +498,7 @@ func (it GenerateFunc) ReplaceTemplate(
 	)
 }
 
-func (it GenerateFunc) TestCasesCompiled() (string, error) {
+func (it GenerateFunc) TestCasesCompiled() (*GoCode, error) {
 	caseGenerator := testCaseGenerator{
 		baseGenerator: it.AsBaseGenerator(),
 	}

@@ -14,6 +14,14 @@ func (it newGoCodeCreator) Create(
 	}
 }
 
+func (it newGoCodeCreator) Empty() *GoCode {
+	return &GoCode{
+		Codes:       corestr.New.SimpleSlice.Empty(),
+		Packages:    corestr.New.Hashset.Empty(),
+		TestPkgName: "",
+	}
+}
+
 func (it newGoCodeCreator) All(
 	testPkgName string,
 	allImports *corestr.Hashset,

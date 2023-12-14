@@ -336,7 +336,3 @@ type CompileStringWithError interface {
 type TemplateReplacer interface {
 	ReplaceTemplate(format string, replacerMap map[string]string) string
 }
-
-type TestCasesCompiler interface {
-	TestCasesCompiled() (string, error)
-}
