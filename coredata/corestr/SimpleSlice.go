@@ -437,19 +437,19 @@ func (it *SimpleSlice) List() []string {
 }
 
 func (it *SimpleSlice) WrapDoubleQuote() *SimpleSlice {
-	return it.Transpile(
-		func(s string) string {
-			return fmt.Sprintf("\"%s\"", s)
-		},
-	)
+	return it.Transpile(StringUtils.WrapDouble)
 }
 
 func (it *SimpleSlice) WrapSingleQuote() *SimpleSlice {
-	return it.Transpile(
-		func(s string) string {
-			return fmt.Sprintf("'%s'", s)
-		},
-	)
+	return it.Transpile(StringUtils.WrapSingle)
+}
+
+func (it *SimpleSlice) WrapDoubleQuoteIfMissing() *SimpleSlice {
+	return it.Transpile(StringUtils.WrapDoubleIfMissing)
+}
+
+func (it *SimpleSlice) WrapSingleQuoteIfMissing() *SimpleSlice {
+	return it.Transpile(StringUtils.WrapSingleIfMissing)
 }
 
 func (it *SimpleSlice) Transpile(

@@ -8,6 +8,13 @@ import (
 var (
 	NewCodeOutput = newCodeOutputCreator{}
 
+	defaultPackages = []string{
+		"testing",
+		"gitlab.com/auk-go/core/coredata/corestr",
+		"gitlab.com/auk-go/core/coretests",
+		"gitlab.com/auk-go/core/coretests/args",
+	}
+
 	vars = unitVariables{
 		PackageName:      "$packageName",
 		NewPackages:      "$newPackages",

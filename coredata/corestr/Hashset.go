@@ -1394,3 +1394,33 @@ func (it *Hashset) Serialize() ([]byte, error) {
 func (it *Hashset) Deserialize(toPtr interface{}) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }
+
+func (it *Hashset) WrapDoubleQuote() *Hashset {
+	return it.Transpile(StringUtils.WrapDouble)
+}
+
+func (it *Hashset) WrapDoubleQuoteIfMissing() *Hashset {
+	return it.Transpile(StringUtils.WrapDoubleIfMissing)
+}
+
+func (it *Hashset) WrapSingleQuote() *Hashset {
+	return it.Transpile(StringUtils.WrapSingle)
+}
+
+func (it *Hashset) WrapSingleQuoteIfMissing() *Hashset {
+	return it.Transpile(StringUtils.WrapSingleIfMissing)
+}
+
+func (it *Hashset) Transpile(
+	fmtFunc func(s string) string,
+) *Hashset {
+	if it.IsEmpty() {
+		return Empty.Hashset()
+	}
+
+	for k, v := range it.items {
+		it.items[fmtFunc(k)] = v
+	}
+
+	return it
+}

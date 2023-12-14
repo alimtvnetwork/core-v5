@@ -1,5 +1,8 @@
 package codegen
 
+import "gitlab.com/auk-go/core/coredata/corestr"
+
 type GeneratedCode struct {
-	Packages, Header string
+	Code     string
+	Packages corestr.SimpleSlice
 }

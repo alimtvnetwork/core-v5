@@ -372,10 +372,6 @@ func (it GenerateFunc) FuncWrap() *args.FuncWrap {
 	return it.funcWrap
 }
 
-func (it GenerateFunc) generateVariablesSetup() *corestr.SimpleSlice {
-	return nil
-}
-
 func (it GenerateFunc) FmtJoin() string {
 	return it.FmtType.Fmt()
 }

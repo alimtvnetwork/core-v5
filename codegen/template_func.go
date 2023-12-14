@@ -5,12 +5,6 @@ const (
 package $packageName
 
 import (
-	"testing"
-
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/args"
-
 	$newPackages
 )
 `
