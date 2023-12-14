@@ -19,6 +19,10 @@ func (it Item) Create() interface{} {
 	return it.Value
 }
 
+func (it Item) SliceRequest() interface{} {
+	return it.Value
+}
+
 func (it Item) CreateRandom() interface{} {
 	rndIndex := rand.Intn(it.Length())
 
