@@ -3,13 +3,19 @@ package corecreator
 import (
 	"sync"
 
-	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 var (
-	locker                     = sync.Mutex{}
-	creatorsMap                = map[string]Creator{}
-	defaultCreatorMap args.Map = map[string]interface{}{
-		"",
+	locker            = sync.Mutex{}
+	creatorsMap       = map[string]Creator{}
+	defaultCreatorMap = map[string]Item{
+		"string": {
+			Value:         "",
+			Possibilities: []string{},
+			CreatorFunc:   nil,
+		},
 	}
+
+	getLenReflectFunc = reflectinternal.SliceConverter.Length
 )

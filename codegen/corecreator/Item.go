@@ -2,14 +2,17 @@ package corecreator
 
 import (
 	"math/rand"
+	"reflect"
 
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type Item struct {
-	Value         interface{}
-	Possibilities []interface{}
-	CreatorFunc   func(i Item, index int) interface{}
+	Value           interface{}
+	Possibilities   interface{}
+	CreatorFunc     func(i Item, index int) interface{}
+	rvPossibilities *reflect.Value
+	length          int
 }
 
 func (it Item) Create() interface{} {
@@ -24,7 +27,7 @@ func (it Item) CreateRandom() interface{} {
 
 func (it Item) CreateByIndex(i int) interface{} {
 	if it.HasIndex(i) {
-		return it.Possibilities[i]
+		return it.At(i)
 	}
 
 	return nil
@@ -32,22 +35,46 @@ func (it Item) CreateByIndex(i int) interface{} {
 
 func (it Item) CreateBySafeIndexDefault(i int) interface{} {
 	if it.HasIndex(i) {
-		return it.Possibilities[i]
+		return it.At(i)
 	}
 
 	return it.Value
 }
 
-func (it Item) Length() int {
-	return len(it.Possibilities)
+func (it *Item) Length() int {
+	if it.Possibilities == nil {
+		return 0
+	}
+
+	if it.length > 0 {
+		return it.length
+	}
+
+	it.length = getLenReflectFunc(it.Possibilities)
+
+	return it.length
+}
+
+func (it *Item) PossibilitiesRv() reflect.Value {
+	if it.rvPossibilities != nil {
+		return *it.rvPossibilities
+	}
+
+	*it.rvPossibilities = reflect.ValueOf(it.Possibilities)
+
+	return *it.rvPossibilities
+}
+
+func (it Item) At(index int) interface{} {
+	return it.PossibilitiesRv().Index(index)
 }
 
 func (it Item) Count() int {
-	return len(it.Possibilities)
+	return it.Length()
 }
 
 func (it Item) HasIndex(i int) bool {
-	return len(it.Possibilities)-1 >= i
+	return it.Length()-1 >= i
 }
 
 func (it Item) IsBoolean() bool {
