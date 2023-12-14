@@ -149,11 +149,11 @@ func (it isChecker) Number(kind reflect.Kind) bool {
 	}
 }
 
-// Primitive
+// PrimitiveKind
 //
 // function returns true if the kind passed to it is one of the
 // primitive types (boolean, int, uint, float, string)
-func (it isChecker) Primitive(kind reflect.Kind) bool {
+func (it isChecker) PrimitiveKind(kind reflect.Kind) bool {
 	switch kind {
 	case
 		reflect.Bool,

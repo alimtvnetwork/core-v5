@@ -200,7 +200,7 @@ func (it *Dynamic) IsStructStringNullOrEmptyOrWhitespace() bool {
 }
 
 func (it *Dynamic) IsPrimitive() bool {
-	return reflectinternal.Is.Primitive(it.ReflectKind())
+	return reflectinternal.Is.PrimitiveKind(it.ReflectKind())
 }
 
 // IsNumber true if float (any), byte, int (any), uint(any)

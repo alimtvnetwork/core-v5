@@ -21,7 +21,7 @@ func (it Item) CreateByIndex(i int) interface{} {
 }
 
 func (it Item) IsPrimitiveType() bool {
-	return reflectinternal.Is.Primitive()
+	return reflectinternal.Is.PrimitiveKind()
 }
 
 func (it Item) CreateByFunc(i int) interface{} {
