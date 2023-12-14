@@ -26,13 +26,12 @@ import (
 type GenerateFunc struct {
 	Func                    interface{}
 	Struct                  interface{}
-	FuncOverrideCall        string
 	GenerateType            codegentype.Variant
 	FmtType                 fmtcodegentype.Variant
 	TestCases               []coretestcases.CaseV1
 	Behaviours              corestr.SimpleSlice
+	OverridingNames         OverridingNames
 	UnitTestRootPath        string
-	OverridingTestPkgName   string
 	IsGenerateSeparateCases bool
 	IsIncludeFunction       bool
 	IsOverwrite             bool
@@ -45,7 +44,7 @@ func (it GenerateFunc) Function() interface{} {
 	return it.Func
 }
 
-func (it GenerateFunc) CurStruct() interface{} {
+func (it GenerateFunc) GetStruct() interface{} {
 	return it.Struct
 }
 
@@ -61,12 +60,12 @@ func (it GenerateFunc) Cases() []coretestcases.CaseV1 {
 	return it.TestCases
 }
 
-func (it GenerateFunc) CurBehaviours() corestr.SimpleSlice {
+func (it GenerateFunc) GetBehaviours() corestr.SimpleSlice {
 	return it.Behaviours
 }
 
-func (it GenerateFunc) CurFuncOverrideCall() interface{} {
-	return it.FuncOverrideCall
+func (it GenerateFunc) OverrideFuncCall() string {
+	return it.OverridingNames.FuncCall
 }
 
 func (it GenerateFunc) IsFunctionIncluded() bool {
@@ -350,6 +349,10 @@ func (it GenerateFunc) ArrangePackages() *corestr.Hashset {
 }
 
 func (it GenerateFunc) TestPkgName() string {
+	if it.OverridingNames.HasTestPkgName() {
+		return it.OverridingNames.TestPkgName
+	}
+
 	return it.FuncWrap().PkgNameOnly() + "tests"
 }
 
@@ -481,8 +484,8 @@ func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
 }
 
 func (it GenerateFunc) DirectFuncInvokeName() string {
-	if len(it.FuncOverrideCall) > 0 {
-		return it.FuncOverrideCall
+	if len(it.OverridingNames.FuncCall) > 0 {
+		return it.OverridingNames.FuncCall
 	}
 
 	return it.FuncWrap().FuncDirectInvokeName()

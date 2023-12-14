@@ -18,7 +18,8 @@ type BaseGenerator interface {
 	JoinFormatType() fmtcodegentype.Variant
 	Cases() []coretestcases.CaseV1
 	CurBehavioursGetter
-	CurFuncOverrideCall() interface{}
+	CurFuncOverrideCall() string
+	GetOverrides() OverridingNames
 	IsFunctionIncluded() bool
 	Generate() error
 	GenerateCodeOutput() *CodeOutput
