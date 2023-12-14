@@ -58,7 +58,7 @@ type BaseGenerator interface {
 }
 
 type TestCasesCompiler interface {
-	TestCasesCompiled() (*GoCode, error)
+	TestCasesCompiledCode() (*GoCode, error)
 }
 
 type VariableNameGetter interface {

@@ -5,7 +5,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
-
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 

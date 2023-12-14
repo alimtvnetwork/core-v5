@@ -83,19 +83,19 @@ func (it GenerateFunc) GenerateCodeOutput() *AllCodeOutput {
 	toWrap := it.FuncWrap()
 
 	if toWrap.IsInvalid() {
-		return NewCodeOutput.Invalid(toWrap.InvalidError())
+		return NewAllCode.Invalid(toWrap.InvalidError())
 	}
 
 	inArgs, inArgsErr := it.InArgs()
 
 	if iserror.Defined(inArgsErr) {
-		return NewCodeOutput.Invalid(inArgsErr)
+		return NewAllCode.Invalid(inArgsErr)
 	}
 
 	outArgs, outArgsErr := it.OutArgs()
 
 	if iserror.Defined(outArgsErr) {
-		return NewCodeOutput.Invalid(outArgsErr)
+		return NewAllCode.Invalid(outArgsErr)
 	}
 
 	funcName := toWrap.GetFuncName()
@@ -109,7 +109,7 @@ func (it GenerateFunc) GenerateCodeOutput() *AllCodeOutput {
 	)
 
 	if iserror.Defined(fmtErr) {
-		return NewCodeOutput.Invalid(fmtErr)
+		return NewAllCode.Invalid(fmtErr)
 	}
 
 	funcTemplateReplacer := map[string]string{
@@ -130,16 +130,15 @@ func (it GenerateFunc) GenerateCodeOutput() *AllCodeOutput {
 	)
 
 	if iserror.Defined(unitErr) {
-		return NewCodeOutput.Invalid(unitErr)
+		return NewAllCode.Invalid(unitErr)
 	}
 
 	unitTestCode := it.NewGoCode(unitTests.JoinLine())
-	testCaseCompiled, testCaseErr := it.TestCasesCompiled()
-	testCasesCode := it.NewGoCode(testCaseCompiled)
+	testCaseCompiled, testCaseErr := it.TestCasesCompiledCode()
 
 	return &AllCodeOutput{
 		UnitTest:   unitTestCode,
-		TestCase:   testCasesCode,
+		TestCase:   testCaseCompiled,
 		StructName: it.StructName(),
 		FuncName:   funcName,
 		Error:      testCaseErr,
@@ -498,7 +497,7 @@ func (it GenerateFunc) ReplaceTemplate(
 	)
 }
 
-func (it GenerateFunc) TestCasesCompiled() (*GoCode, error) {
+func (it GenerateFunc) TestCasesCompiledCode() (*GoCode, error) {
 	caseGenerator := testCaseGenerator{
 		baseGenerator: it.AsBaseGenerator(),
 	}
