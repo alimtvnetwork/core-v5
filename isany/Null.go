@@ -4,7 +4,7 @@ import "reflect"
 
 // Null
 //
-// Returns true for any nil given
+// # Returns true for any nil given
 //
 // Reference : https://stackoverflow.com/a/43896204
 func Null(item interface{}) bool {
