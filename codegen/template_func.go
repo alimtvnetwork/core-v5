@@ -8,7 +8,6 @@ import (
 	$newPackages
 )
 `
-
 	funcTemplate = `
 func Test_$FuncName_$Behaviour(t *testing.T) {
 	for caseIndex, testCase := range $testCaseName {
