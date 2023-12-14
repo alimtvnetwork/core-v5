@@ -5,13 +5,12 @@ import (
 
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/iserror"
 )
 
 type CodeOutput struct {
-	UnitTest             string
-	TestCase             string
+	UnitTest             GeneratedCode
+	TestCase             GeneratedCode
 	StructName, FuncName string
 	Error                error
 	FileWriter           *chmodhelper.SimpleFileReaderWriter
@@ -20,8 +19,8 @@ type CodeOutput struct {
 func (it *CodeOutput) IsValid() bool {
 	return it != nil &&
 		it.Error == nil &&
-		it.UnitTest != "" ||
-		it.TestCase != ""
+		it.UnitTest.IsCodeDefined() ||
+		it.TestCase.IsCodeDefined()
 }
 
 func (it *CodeOutput) IsInvalid() bool {
@@ -44,40 +43,14 @@ func (it *CodeOutput) ErrorString() string {
 	return it.Error.Error()
 }
 
-func (it *CodeOutput) FormatCode(code string) (string, error) {
-	if it.HasError() {
-		return code, it.Error
-	}
-
-	s, err := convertinteranl.CodeFormatter.Golang(code)
-
-	return s, errcore.StackEnhance.Error(err)
-}
-
-func (it *CodeOutput) FormatUnitTest() (string, error) {
-	if it.HasUnitTest() {
-		return it.FormatCode(it.UnitTest)
-	}
-
-	return "", it.Error
-}
-
-func (it *CodeOutput) FormatTestCase() (string, error) {
-	if it.HasTestCase() {
-		return it.FormatCode(it.TestCase)
-	}
-
-	return "", it.Error
-}
-
 func (it *CodeOutput) HasUnitTest() bool {
 	return it != nil &&
-		it.UnitTest != ""
+		it.UnitTest.IsCodeDefined()
 }
 
 func (it *CodeOutput) HasTestCase() bool {
 	return it != nil &&
-		it.TestCase != ""
+		it.TestCase.IsCodeDefined()
 }
 
 func (it *CodeOutput) Write() errcore.RawErrCollection {
@@ -108,7 +81,7 @@ func (it *CodeOutput) Write() errcore.RawErrCollection {
 
 func (it *CodeOutput) WriteUnitTestFile() error {
 	filePath := it.unitTestFileName()
-	code, err := it.FormatUnitTest()
+	code, err := it.UnitTest.CompileFullCode()
 
 	if iserror.Defined(err) {
 		return err
@@ -123,7 +96,7 @@ func (it *CodeOutput) WriteUnitTestFile() error {
 
 func (it *CodeOutput) WriteTestCaseFile() error {
 	filePath := it.testCaseFileName()
-	code, err := it.FormatTestCase()
+	code, err := it.TestCase.CompileFullCode()
 
 	if iserror.Defined(err) {
 		return err
