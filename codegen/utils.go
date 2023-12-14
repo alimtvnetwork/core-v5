@@ -40,26 +40,9 @@ func (it utils) GetOptimizePackageImports(
 	headerPackages *corestr.Hashset,
 ) *corestr.Hashset {
 	headerLines := headerPackages.SimpleSlice()
-	// isImportStarted := false
 	var removeIndexes []int
 
 	for i, h := range headerLines.List() {
-		// h = strings.TrimSpace(h)
-		// if !isImportStarted && strings.HasPrefix(h, "import") {
-		// 	isImportStarted = true
-		//
-		// 	continue
-		// }
-		//
-		// if !isImportStarted {
-		// 	continue
-		// }
-		//
-		// if h == ")" || h == "" {
-		// 	continue
-		// }
-
-		// after import
 		_, pkgName := GetPkgName(h)
 		pkgNameNext := pkgName + "."
 
