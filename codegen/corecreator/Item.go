@@ -4,12 +4,14 @@ import (
 	"math/rand"
 	"reflect"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type Item struct {
 	Value           interface{}
 	Possibilities   interface{}
+	StringOutput    args.String
 	CreatorFunc     func(i Item, index int) interface{}
 	rvPossibilities *reflect.Value
 	length          int
