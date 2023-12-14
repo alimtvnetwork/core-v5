@@ -13,12 +13,12 @@ import (
 
 type BaseGenerator interface {
 	Function() interface{}
-	CurStruct() interface{}
+	GetStruct() interface{}
 	GenType() codegentype.Variant
 	JoinFormatType() fmtcodegentype.Variant
 	Cases() []coretestcases.CaseV1
-	CurBehavioursGetter
-	CurFuncOverrideCall() string
+	GetBehavioursGetter
+	OverrideFuncCall() string
 	GetOverrides() OverridingNames
 	IsFunctionIncluded() bool
 	Generate() error
@@ -78,6 +78,6 @@ type ArgsOutter interface {
 	OutArgs() (*corestr.SimpleSlice, error)
 }
 
-type CurBehavioursGetter interface {
-	CurBehaviours() corestr.SimpleSlice
+type GetBehavioursGetter interface {
+	GetBehaviours() corestr.SimpleSlice
 }

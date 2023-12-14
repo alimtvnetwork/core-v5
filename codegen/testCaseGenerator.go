@@ -20,15 +20,15 @@ type testCaseGenerator struct {
 	baseGenerator BaseGenerator
 }
 
-func (it testCaseGenerator) CurBehaviours() corestr.SimpleSlice {
-	return it.baseGenerator.CurBehaviours()
+func (it testCaseGenerator) GetBehaviours() corestr.SimpleSlice {
+	return it.baseGenerator.GetBehaviours()
 }
 func (it testCaseGenerator) PackagesHeader(code string) string {
 	return it.baseGenerator.GetOptimizePackageHeader(code)
 }
 
 func (it testCaseGenerator) Compile() (string, error) {
-	behaviours := it.CurBehaviours()
+	behaviours := it.GetBehaviours()
 	totalBehaviours := len(behaviours)
 	testCasesSlice := corestr.New.SimpleSlice.Cap(totalBehaviours)
 

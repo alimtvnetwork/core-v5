@@ -40,6 +40,10 @@ type GenerateFunc struct {
 	setupVariable           *variablesSetup
 }
 
+func (it GenerateFunc) GetOverrides() OverridingNames {
+	return it.OverridingNames
+}
+
 func (it GenerateFunc) Function() interface{} {
 	return it.Func
 }
