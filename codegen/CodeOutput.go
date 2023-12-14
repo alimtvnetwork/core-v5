@@ -9,8 +9,8 @@ import (
 )
 
 type CodeOutput struct {
-	UnitTest             GeneratedCode
-	TestCase             GeneratedCode
+	UnitTest             GoCode
+	TestCase             GoCode
 	StructName, FuncName string
 	Error                error
 	FileWriter           *chmodhelper.SimpleFileReaderWriter

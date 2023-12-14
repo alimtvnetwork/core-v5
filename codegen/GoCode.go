@@ -10,13 +10,13 @@ import (
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
-type GeneratedCode struct {
+type GoCode struct {
 	Codes       *corestr.SimpleSlice
 	Packages    *corestr.Hashset
 	TestPkgName string
 }
 
-func (it *GeneratedCode) AddPackages(packages ...string) *GeneratedCode {
+func (it *GoCode) AddPackages(packages ...string) *GoCode {
 	if len(packages) == 0 {
 		return it
 	}
@@ -30,7 +30,7 @@ func (it *GeneratedCode) AddPackages(packages ...string) *GeneratedCode {
 	return it
 }
 
-func (it *GeneratedCode) AddCode(codes ...string) *GeneratedCode {
+func (it *GoCode) AddCode(codes ...string) *GoCode {
 	if len(codes) == 0 {
 		return it
 	}
@@ -48,7 +48,7 @@ func (it *GeneratedCode) AddCode(codes ...string) *GeneratedCode {
 	return it
 }
 
-func (it *GeneratedCode) IsCodeDefined() bool {
+func (it *GoCode) IsCodeDefined() bool {
 	if it == nil {
 		return false
 	}
@@ -56,7 +56,7 @@ func (it *GeneratedCode) IsCodeDefined() bool {
 	return it.Codes.HasAnyItem()
 }
 
-func (it *GeneratedCode) JoinCode() string {
+func (it *GoCode) JoinCode() string {
 	if it == nil {
 		return ""
 	}
@@ -64,7 +64,7 @@ func (it *GeneratedCode) JoinCode() string {
 	return it.Codes.JoinLine()
 }
 
-func (it *GeneratedCode) OptimizeImports(fullCode string) (organizedImports *corestr.Hashset) {
+func (it *GoCode) OptimizeImports(fullCode string) (organizedImports *corestr.Hashset) {
 	if it == nil {
 		return corestr.Empty.Hashset()
 	}
@@ -79,11 +79,11 @@ func (it *GeneratedCode) OptimizeImports(fullCode string) (organizedImports *cor
 	return it.Packages
 }
 
-func (it *GeneratedCode) addDefaultPackages() *GeneratedCode {
+func (it *GoCode) addDefaultPackages() *GoCode {
 	return it.AddPackages(defaultPackages...)
 }
 
-func (it *GeneratedCode) CompileImports(fullCode string) string {
+func (it *GoCode) CompileImports(fullCode string) string {
 	if it == nil {
 		return ""
 	}
@@ -103,7 +103,7 @@ func (it *GeneratedCode) CompileImports(fullCode string) string {
 	return packageHeader
 }
 
-func (it *GeneratedCode) CompileFullCode() (string, error) {
+func (it *GoCode) CompileFullCode() (string, error) {
 	if it == nil {
 		return "", nil
 	}
@@ -122,7 +122,7 @@ func (it *GeneratedCode) CompileFullCode() (string, error) {
 	return it.FormatCode(finalCode)
 }
 
-func (it *GeneratedCode) FormatCode(code string) (string, error) {
+func (it *GoCode) FormatCode(code string) (string, error) {
 	s, err := convertinteranl.CodeFormatter.Golang(code)
 
 	return s, errcore.StackEnhance.Error(err)

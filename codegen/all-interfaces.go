@@ -35,9 +35,8 @@ type BaseGenerator interface {
 		funcName,
 		behaviour string,
 	) string
-	PackageHeader() (testPkgName string, packageHeader string)
 	FirstArrangeTypeName() string
-	AllPackages() string
+	AllPackages() *corestr.Hashset
 	FirstArrangeType() *reflect.Type
 	ArrangeReflectTypes() []reflect.Type
 	FirstTestCaseGetter

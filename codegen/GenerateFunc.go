@@ -19,6 +19,7 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/iserror"
+	"gitlab.com/auk-go/core/simplewrap"
 )
 
 type GenerateFunc struct {
@@ -229,26 +230,27 @@ func (it GenerateFunc) TestCaseName(
 	)
 }
 
-func (it GenerateFunc) PackageHeader() (testPkgName string, packageHeader string) {
-	testPkgName = it.TestPkgName()
-
-	if it.packageHeader.IsDefined() {
-		return testPkgName, it.packageHeader.String()
-	}
-
-	newPackagesLines := it.AllPackages()
-	packagesTemplate := map[string]string{
-		"$packageName": testPkgName,
-		"$newPackages": newPackagesLines,
-	}
-
-	packageHeader = it.ReplaceTemplate(
-		testPkgHeaderTemplate,
-		packagesTemplate,
-	)
-
-	return testPkgName, it.packageHeader.GetSetOnce(packageHeader)
-}
+//
+// func (it GenerateFunc) PackageHeader() (testPkgName string, packageHeader string) {
+// 	testPkgName = it.TestPkgName()
+//
+// 	if it.packageHeader.IsDefined() {
+// 		return testPkgName, it.packageHeader.String()
+// 	}
+//
+// 	newPackagesLines := it.AllPackages()
+// 	packagesTemplate := map[string]string{
+// 		"$packageName": testPkgName,
+// 		"$newPackages": newPackagesLines,
+// 	}
+//
+// 	packageHeader = it.ReplaceTemplate(
+// 		testPkgHeaderTemplate,
+// 		packagesTemplate,
+// 	)
+//
+// 	return testPkgName, it.packageHeader.GetSetOnce(packageHeader)
+// }
 
 func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.SimpleFileReaderWriter {
 	finalUnitTestPath := it.unitTestRootPath(unitTestPackageName)
@@ -290,19 +292,15 @@ func (it GenerateFunc) FirstTestCase() *coretestcases.CaseV1 {
 	return &it.TestCases[0]
 }
 
-func (it GenerateFunc) AllPackages() string {
+func (it GenerateFunc) AllPackages() *corestr.Hashset {
 	arrangePkgPaths := it.ArrangePackages()
 
-	newPackages := corestr.
-		New.
-		SimpleSlice.
-		Hashset(arrangePkgPaths).
-		Add(it.FuncWrap().PkgPath()).
-		WrapDoubleQuote()
+	newPackages := Utils.AllPackages(
+		it.FuncWrap().PkgPath(),
+		arrangePkgPaths.List()...,
+	)
 
-	newPackagesLines := newPackages.JoinLine()
-
-	return newPackagesLines
+	return newPackages
 }
 
 func (it GenerateFunc) FirstArrangeType() *reflect.Type {
@@ -344,7 +342,7 @@ func (it GenerateFunc) ArrangePackages() *corestr.Hashset {
 	pks := corestr.New.Hashset.Cap(len(allReflectTypes))
 
 	for _, reflectType := range allReflectTypes {
-		pks.Add(reflectType.PkgPath())
+		pks.Add(simplewrap.WithDoubleQuote(reflectType.PkgPath()))
 	}
 
 	return pks
@@ -535,6 +533,10 @@ func (it *GenerateFunc) VariablesSetup() *variablesSetup {
 }
 
 func (it GenerateFunc) CompiledVariablesSetup() string {
+	return it.VariablesSetup().CompiledSetupLine()
+}
+
+func (it GenerateFunc) GeneratedCode() string {
 	return it.VariablesSetup().CompiledSetupLine()
 }
 
