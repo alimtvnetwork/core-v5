@@ -45,6 +45,8 @@ var (
 				ReplaceTemplate.
 				DirectKeyUsingMapTrim
 
+	Utils = utils{}
+
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase
 	camelCaseFunc  = convertinteranl.Util.String.CamelCase
 )

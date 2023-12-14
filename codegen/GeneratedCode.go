@@ -1,6 +1,10 @@
 package codegen
 
-import "gitlab.com/auk-go/core/coredata/corestr"
+import (
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coredata/stringslice"
+)
 
 type GeneratedCode struct {
 	Codes       *corestr.SimpleSlice
@@ -32,4 +36,68 @@ func (it *GeneratedCode) AddCode(codes ...string) *GeneratedCode {
 	}
 
 	return it
+}
+
+func (it *GeneratedCode) JoinCode() string {
+	if it == nil {
+		return ""
+	}
+
+	return it.Codes.JoinLine()
+}
+
+func (it *GeneratedCode) OptimizeImports(fullCode string) (organizedImports *corestr.Hashset) {
+	if it == nil {
+		return corestr.Empty.Hashset()
+	}
+
+	it.addDefaultPackages()
+
+	it.Packages = Utils.GetOptimizePackageImports(
+		fullCode,
+		it.Packages,
+	)
+
+	return it.Packages
+}
+
+func (it *GeneratedCode) addDefaultPackages() *GeneratedCode {
+	return it.AddPackages(defaultPackages...)
+}
+
+func (it *GeneratedCode) CompileImports(fullCode string) string {
+	if it == nil {
+		return ""
+	}
+
+	it.OptimizeImports(fullCode)
+
+	packagesTemplate := map[string]string{
+		"$packageName": it.TestPkgName,
+		"$newPackages": it.Packages.JoinLine(),
+	}
+
+	packageHeader := Utils.ReplaceTemplate(
+		testPkgHeaderTemplate,
+		packagesTemplate,
+	)
+
+	return packageHeader
+}
+
+func (it *GeneratedCode) CompileFullCode() string {
+	if it == nil {
+		return ""
+	}
+
+	fullCode := it.JoinCode()
+	compiledImports := it.CompileImports(fullCode)
+
+	return stringslice.Joins(
+		constants.NewLineUnix,
+		compiledImports,
+		"",
+		fullCode,
+		"",
+	)
 }

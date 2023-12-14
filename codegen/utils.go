@@ -32,29 +32,32 @@ func (it utils) AllPackages(
 	return newPackages
 }
 
-func (it utils) GetOptimizePackageHeaders(
+// GetOptimizePackageImports
+//
+// Removes unused packages
+func (it utils) GetOptimizePackageImports(
 	code string,
 	headerPackages *corestr.Hashset,
 ) *corestr.Hashset {
 	headerLines := headerPackages.SimpleSlice()
-	isImportStarted := false
+	// isImportStarted := false
 	var removeIndexes []int
 
 	for i, h := range headerLines.List() {
-		h = strings.TrimSpace(h)
-		if !isImportStarted && strings.HasPrefix(h, "import") {
-			isImportStarted = true
-
-			continue
-		}
-
-		if !isImportStarted {
-			continue
-		}
-
-		if h == ")" || h == "" {
-			continue
-		}
+		// h = strings.TrimSpace(h)
+		// if !isImportStarted && strings.HasPrefix(h, "import") {
+		// 	isImportStarted = true
+		//
+		// 	continue
+		// }
+		//
+		// if !isImportStarted {
+		// 	continue
+		// }
+		//
+		// if h == ")" || h == "" {
+		// 	continue
+		// }
 
 		// after import
 		_, pkgName := GetPkgName(h)
@@ -69,4 +72,18 @@ func (it utils) GetOptimizePackageHeaders(
 	errcore.HandleErr(err)
 
 	return corestr.New.Hashset.Strings(lines.List())
+}
+
+func (it utils) ReplaceTemplate(
+	format string,
+	replacerMap map[string]string,
+) string {
+	if len(format) == 0 {
+		return ""
+	}
+
+	return templateReplacerFunc(
+		format,
+		replacerMap,
+	)
 }

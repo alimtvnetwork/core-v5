@@ -1434,3 +1434,7 @@ func (it *Hashset) Transpile(
 
 	return it
 }
+
+func (it *Hashset) JoinLine() string {
+	return it.Join("\n")
+}
