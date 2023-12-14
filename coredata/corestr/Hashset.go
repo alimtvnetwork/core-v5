@@ -763,6 +763,16 @@ func (it *Hashset) Lines() []string {
 	return it.List()
 }
 
+func (it *Hashset) SimpleSlice() *SimpleSlice {
+	if it.IsEmpty() {
+		return Empty.SimpleSlice()
+	}
+
+	var list SimpleSlice = it.List()
+
+	return &list
+}
+
 // GetFilteredItems must return slice.
 func (it *Hashset) GetFilteredItems(
 	filter IsStringFilter,

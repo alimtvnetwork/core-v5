@@ -1,7 +1,10 @@
 package codegen
 
 import (
+	"strings"
+
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
@@ -27,4 +30,43 @@ func (it utils) AllPackages(
 		WrapDoubleQuote()
 
 	return newPackages
+}
+
+func (it utils) GetOptimizePackageHeaders(
+	code string,
+	headerPackages *corestr.Hashset,
+) *corestr.Hashset {
+	headerLines := headerPackages.SimpleSlice()
+	isImportStarted := false
+	var removeIndexes []int
+
+	for i, h := range headerLines.List() {
+		h = strings.TrimSpace(h)
+		if !isImportStarted && strings.HasPrefix(h, "import") {
+			isImportStarted = true
+
+			continue
+		}
+
+		if !isImportStarted {
+			continue
+		}
+
+		if h == ")" || h == "" {
+			continue
+		}
+
+		// after import
+		_, pkgName := GetPkgName(h)
+		pkgNameNext := pkgName + "."
+
+		if !strings.Contains(code, pkgNameNext) {
+			removeIndexes = append(removeIndexes, i)
+		}
+	}
+
+	lines, err := headerLines.RemoveIndexes(removeIndexes...)
+	errcore.HandleErr(err)
+
+	return corestr.New.Hashset.Strings(lines.List())
 }
