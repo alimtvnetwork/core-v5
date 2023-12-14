@@ -130,6 +130,30 @@ func (it isChecker) NullRv(rv reflect.Value) bool {
 	}
 }
 
+func (it isChecker) Number(i interface{}) bool {
+	k := reflect.ValueOf(i)
+
+	return it.NumberKind(k.Kind())
+}
+
+func (it isChecker) String(i interface{}) bool {
+	k := reflect.ValueOf(i)
+
+	return k.Kind() == reflect.String
+}
+
+func (it isChecker) Pointer(i interface{}) bool {
+	k := reflect.ValueOf(i)
+
+	return k.Kind() == reflect.Ptr
+}
+
+func (it isChecker) Function(i interface{}) bool {
+	k := reflect.ValueOf(i)
+
+	return k.Kind() == reflect.Func
+}
+
 // NumberKind
 //
 // function returns true if the kind passed to it is one of the

@@ -55,7 +55,31 @@ func (it Item) IsPrimitiveType() bool {
 }
 
 func (it Item) IsNumber() bool {
-	return reflectinternal.Is.NumberKind(it.Value)
+	return reflectinternal.Is.Number(it.Value)
+}
+
+func (it Item) IsString() bool {
+	return reflectinternal.Is.Number(it.Value)
+}
+
+func (it Item) IsPointer() bool {
+	return reflectinternal.Is.Pointer(it.Value)
+}
+
+func (it Item) IsSliceOrArray() bool {
+	return reflectinternal.Is.SliceOrArray(it.Value)
+}
+
+func (it Item) IsStruct() bool {
+	return reflectinternal.Is.Struct(it.Value)
+}
+
+func (it Item) IsFunc() bool {
+	return reflectinternal.Is.Function(it.Value)
+}
+
+func (it Item) IsZero() bool {
+	return reflectinternal.Is.Zero(it.Value)
 }
 
 func (it Item) CreateByFunc(i int) interface{} {
