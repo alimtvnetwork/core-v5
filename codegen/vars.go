@@ -6,8 +6,8 @@ import (
 )
 
 var (
-	NewCodeOutput    = newCodeOutputCreator{}
-	NewGeneratedCode = newGoCodeCreator{}
+	NewCodeOutput = newCodeOutputCreator{}
+	NewGoCode     = newGoCodeCreator{}
 
 	defaultPackages = []string{
 		"testing",

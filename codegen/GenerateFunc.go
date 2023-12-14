@@ -8,9 +8,7 @@ import (
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
@@ -135,22 +133,13 @@ func (it GenerateFunc) GenerateCodeOutput() *CodeOutput {
 		return NewCodeOutput.Invalid(unitErr)
 	}
 
-	unitTestCode := unitTests.JoinLine()
-	optimizeHeaderBasedOnCode := it.GetOptimizePackageHeader(unitTestCode)
-
-	finalUnitTest := stringslice.Joins(
-		constants.NewLineUnix,
-		optimizeHeaderBasedOnCode,
-		"",
-		unitTestCode,
-		"",
-	)
-
+	unitTestCode := it.NewGoCode(unitTests.JoinLine())
 	testCaseCompiled, testCaseErr := it.TestCasesCompiled()
+	testCasesCode := it.NewGoCode(testCaseCompiled)
 
 	return &CodeOutput{
-		UnitTest:   finalUnitTest,
-		TestCase:   testCaseCompiled,
+		UnitTest:   unitTestCode,
+		TestCase:   testCasesCode,
 		StructName: it.StructName(),
 		FuncName:   funcName,
 		Error:      testCaseErr,
@@ -536,8 +525,8 @@ func (it GenerateFunc) CompiledVariablesSetup() string {
 	return it.VariablesSetup().CompiledSetupLine()
 }
 
-func (it GenerateFunc) GeneratedCode() string {
-	return it.VariablesSetup().CompiledSetupLine()
+func (it GenerateFunc) NewGoCode(codes ...string) *GoCode {
+	return NewGoCode.Create(it, codes...)
 }
 
 func (it GenerateFunc) AsBaseGenerator() BaseGenerator {

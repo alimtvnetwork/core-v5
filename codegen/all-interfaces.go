@@ -23,7 +23,6 @@ type BaseGenerator interface {
 	IsFunctionIncluded() bool
 	Generate() error
 	GenerateCodeOutput() *CodeOutput
-	GetOptimizePackageHeader(code string) string
 	FmtJoin() string
 	UnitTests(
 		inArgs,
