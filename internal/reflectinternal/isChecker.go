@@ -149,6 +149,12 @@ func (it isChecker) Number(kind reflect.Kind) bool {
 	}
 }
 
+func (it isChecker) Primitive(i interface{}) bool {
+	k := reflect.ValueOf(i)
+
+	return it.PrimitiveKind(k.Kind())
+}
+
 // PrimitiveKind
 //
 // function returns true if the kind passed to it is one of the
