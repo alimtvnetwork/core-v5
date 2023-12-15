@@ -60,7 +60,7 @@ func (it stackTraceEnhance) MsgSkip(skip int, msg string) string {
 		return msg
 	}
 
-	toTrace := it.trace(skip)
+	toTrace := it.trace(skip + 1)
 
 	if len(toTrace) == 0 {
 		return fmt.Sprintf(
@@ -71,11 +71,11 @@ func (it stackTraceEnhance) MsgSkip(skip int, msg string) string {
 	}
 
 	fullMessage := fmt.Sprintf(
-		"%s - %s\n %s \n  - %s",
+		"%s - %s\n %s: \n  - %s",
 		it.methodName(skip+1),
 		msg,
 		constants.StackTrace,
-		it.trace(skip+1),
+		toTrace,
 	)
 
 	return fullMessage
@@ -104,7 +104,7 @@ func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string
 		return compiledMsg
 	}
 
-	toTrace := it.trace(skip)
+	toTrace := it.trace(skip + 1)
 
 	if len(toTrace) == 0 {
 		return fmt.Sprintf(
@@ -115,11 +115,11 @@ func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string
 	}
 
 	fullMessage := fmt.Sprintf(
-		"%s - %s\n %s \n  - %s",
+		"%s - %s\n %s: \n  - %s",
 		it.methodName(skip+1),
 		msg,
 		constants.StackTrace,
-		it.trace(skip+1),
+		toTrace,
 	)
 
 	return fullMessage
