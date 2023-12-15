@@ -246,7 +246,7 @@ func (it GenerateFunc) internalFileWriter(unitTestPackageName string) *chmodhelp
 		New.
 		SimpleFileReaderWriter.
 		Options(
-			true,
+			it.Options.IsOverwrite,
 			true,
 			true,
 			finalUnitTestPath,
