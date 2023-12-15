@@ -59,6 +59,7 @@ type BaseGenerator interface {
 
 	TestCasesCompiler
 }
+
 type TestCasesCompiler interface {
 	TestCasesCompiledCode() (*GoCode, error)
 }

@@ -3,6 +3,7 @@ package chmodhelper
 type simpleFileWriter struct {
 	CreateDir  dirCreator
 	FileWriter fileWriter
+	FileReader fileReader
 }
 
 func (it simpleFileWriter) Lock() {
