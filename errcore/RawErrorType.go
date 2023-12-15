@@ -59,6 +59,7 @@ const (
 	EmptyArrayType                             RawErrorType = "Empty array, which is unexpected."
 	EmptyItemsType                             RawErrorType = "Empty items, which is unexpected."
 	PathErrorType                              RawErrorType = "Path error, which is unexpected."
+	PathExist                                  RawErrorType = "file path exist but expect to be missing or clear"
 	PathRemoveFailedType                       RawErrorType = "Path remove failed."
 	PathCreateFailedType                       RawErrorType = "Path create failed."
 	FileCloseFailedType                        RawErrorType = "File close failed."

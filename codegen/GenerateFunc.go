@@ -260,6 +260,10 @@ func (it GenerateFunc) unitTestRootPath(unitTestPackageName string) string {
 	)
 }
 
+func (it GenerateFunc) TestRootPath() string {
+	return it.unitTestRootPath(it.TestPkgName())
+}
+
 func (it GenerateFunc) FirstArrangeTypeName() string {
 	if len(it.TestCases) == 0 {
 		return ""
@@ -520,6 +524,24 @@ func (it *GenerateFunc) VariablesSetup() *variablesSetup {
 
 func (it GenerateFunc) CompiledVariablesSetup() string {
 	return it.VariablesSetup().CompiledSetupLine()
+}
+
+func (it GenerateFunc) TestRootDir() string {
+	return pathinternal.ParentDir(it.TestRootPath())
+}
+
+func (it GenerateFunc) SuccessMessage() string {
+	return fmt.Sprintf(
+		"Created tests successfully at %s",
+		it.TestRootDir(),
+	)
+}
+
+func (it GenerateFunc) FailedMessage() string {
+	return fmt.Sprintf(
+		"Tried to create tests at %s, but failed",
+		it.TestRootDir(),
+	)
 }
 
 func (it GenerateFunc) NewGoCode(codes ...string) *GoCode {

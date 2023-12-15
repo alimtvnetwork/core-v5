@@ -79,8 +79,13 @@ func (it *FinalCode) Write() errcore.RawErrCollection {
 	return rawErrCollection
 }
 
+func (it *FinalCode) fileExistError(filePath string) error {
+	return errcore.PathMeaningfulError(errcore.PathExist)
+}
+
 func (it *FinalCode) WriteUnitTestFile() error {
 	filePath := it.unitTestFileName()
+
 	code, err := it.UnitTest.CompileFullCode()
 
 	if iserror.Defined(err) {

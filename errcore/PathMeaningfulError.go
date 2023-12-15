@@ -1,8 +1,9 @@
 package errcore
 
+import "gitlab.com/auk-go/core/internal/reflectinternal"
+
 func PathMeaningfulError(
 	rawErrType RawErrorType,
-	funcName string,
 	err error,
 	location string,
 ) error {
@@ -10,10 +11,13 @@ func PathMeaningfulError(
 		return nil
 	}
 
+	reflectinternal.GetFunc.FullName()
+
 	errMsg := err.Error() +
 		", location: [" + location + "]"
 
 	return rawErrType.Error(
 		funcName,
-		errMsg)
+		errMsg,
+	)
 }

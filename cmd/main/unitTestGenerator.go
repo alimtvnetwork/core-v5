@@ -52,12 +52,9 @@ func (it unitTestGenerator) Generate() {
 		},
 	}
 
-	wrap := args.NewFuncWrap.Single(curFunc)
-	inArsgTypes := wrap.GetInArgsTypes()
-
-	fmt.Println(inArsgTypes)
-
 	err := generateFunc.Generate()
 
 	errcore.HandleErr(err)
+
+	fmt.Println(generateFunc.SuccessMessage())
 }
