@@ -55,10 +55,9 @@ type BaseGenerator interface {
 	FileWriter() *chmodhelper.SimpleFileReaderWriter
 
 	StructNameGetter
-	New.GoCode
-(codes ...string) *GoCode
+	NewGoCode(codes ...string) *GoCode
 
-TestCasesCompiler
+	TestCasesCompiler
 }
 type TestCasesCompiler interface {
 	TestCasesCompiledCode() (*GoCode, error)

@@ -131,7 +131,7 @@ func (it GenerateFunc) GenerateCodeOutput() *FinalCode {
 		return New.FinalCode.Invalid(unitErr)
 	}
 
-	unitTestCode := it.New.GoCode(unitTests.JoinLine())
+	unitTestCode := it.NewGoCode(unitTests.JoinLine())
 	testCaseCompiled, testCaseErr := it.TestCasesCompiledCode()
 
 	return &FinalCode{
@@ -553,7 +553,7 @@ func (it GenerateFunc) FailedMessage() string {
 	)
 }
 
-func (it GenerateFunc) New.GoCode(codes ...string) *GoCode {
+func (it GenerateFunc) NewGoCode(codes ...string) *GoCode {
 	return New.GoCode.Create(it, codes...)
 }
 
