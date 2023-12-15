@@ -79,7 +79,7 @@ func (it GenerateFunc) Generate() error {
 	return codeOutput.Write().CompiledError()
 }
 
-func (it GenerateFunc) GenerateCodeOutput() *AllCodeOutput {
+func (it GenerateFunc) GenerateCodeOutput() *FinalCode {
 	toWrap := it.FuncWrap()
 
 	if toWrap.IsInvalid() {
@@ -136,7 +136,7 @@ func (it GenerateFunc) GenerateCodeOutput() *AllCodeOutput {
 	unitTestCode := it.NewGoCode(unitTests.JoinLine())
 	testCaseCompiled, testCaseErr := it.TestCasesCompiledCode()
 
-	return &AllCodeOutput{
+	return &FinalCode{
 		UnitTest:   unitTestCode,
 		TestCase:   testCaseCompiled,
 		StructName: it.StructName(),

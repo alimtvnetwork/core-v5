@@ -22,7 +22,7 @@ type BaseGenerator interface {
 	GetOverrides() OverridingNames
 	IsFunctionIncluded() bool
 	Generate() error
-	GenerateCodeOutput() *AllCodeOutput
+	GenerateCodeOutput() *FinalCode
 	FmtJoin() string
 	UnitTests(
 		inArgs,

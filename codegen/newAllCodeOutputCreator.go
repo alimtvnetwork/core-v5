@@ -12,8 +12,8 @@ func (it newAllCodeOutputCreator) Default(
 	structName, funcName string,
 	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
-) *AllCodeOutput {
-	return &AllCodeOutput{
+) *FinalCode {
+	return &FinalCode{
 		UnitTest:   unit,
 		TestCase:   testCase,
 		StructName: structName,
@@ -26,8 +26,8 @@ func (it newAllCodeOutputCreator) All(
 	structName, funcName string,
 	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
-) *AllCodeOutput {
-	return &AllCodeOutput{
+) *FinalCode {
+	return &FinalCode{
 		UnitTest:   unit,
 		TestCase:   testCase,
 		StructName: structName,
@@ -38,16 +38,16 @@ func (it newAllCodeOutputCreator) All(
 
 func (it newAllCodeOutputCreator) Invalid(
 	err error,
-) *AllCodeOutput {
-	return &AllCodeOutput{
+) *FinalCode {
+	return &FinalCode{
 		Error: err,
 	}
 }
 
 func (it newAllCodeOutputCreator) InvalidMsg(
 	msg string,
-) *AllCodeOutput {
-	return &AllCodeOutput{
+) *FinalCode {
+	return &FinalCode{
 		Error: errors.New(msg),
 	}
 }

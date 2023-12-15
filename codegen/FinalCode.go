@@ -8,7 +8,7 @@ import (
 	"gitlab.com/auk-go/core/iserror"
 )
 
-type AllCodeOutput struct {
+type FinalCode struct {
 	UnitTest             *GoCode
 	TestCase             *GoCode
 	StructName, FuncName string
@@ -16,26 +16,26 @@ type AllCodeOutput struct {
 	FileWriter           *chmodhelper.SimpleFileReaderWriter
 }
 
-func (it *AllCodeOutput) IsValid() bool {
+func (it *FinalCode) IsValid() bool {
 	return it != nil &&
 		it.Error == nil &&
 		it.UnitTest.IsCodeDefined() ||
 		it.TestCase.IsCodeDefined()
 }
 
-func (it *AllCodeOutput) IsInvalid() bool {
+func (it *FinalCode) IsInvalid() bool {
 	return !it.IsValid()
 }
 
-func (it *AllCodeOutput) HasError() bool {
+func (it *FinalCode) HasError() bool {
 	return it != nil && it.Error != nil
 }
 
-func (it *AllCodeOutput) IsEmptyError() bool {
+func (it *FinalCode) IsEmptyError() bool {
 	return it == nil && it.Error == nil
 }
 
-func (it *AllCodeOutput) ErrorString() string {
+func (it *FinalCode) ErrorString() string {
 	if it.IsEmptyError() {
 		return ""
 	}
@@ -43,17 +43,17 @@ func (it *AllCodeOutput) ErrorString() string {
 	return it.Error.Error()
 }
 
-func (it *AllCodeOutput) HasUnitTest() bool {
+func (it *FinalCode) HasUnitTest() bool {
 	return it != nil &&
 		it.UnitTest.IsCodeDefined()
 }
 
-func (it *AllCodeOutput) HasTestCase() bool {
+func (it *FinalCode) HasTestCase() bool {
 	return it != nil &&
 		it.TestCase.IsCodeDefined()
 }
 
-func (it *AllCodeOutput) Write() errcore.RawErrCollection {
+func (it *FinalCode) Write() errcore.RawErrCollection {
 	var rawErrCollection errcore.RawErrCollection
 
 	if it == nil {
@@ -79,7 +79,7 @@ func (it *AllCodeOutput) Write() errcore.RawErrCollection {
 	return rawErrCollection
 }
 
-func (it *AllCodeOutput) WriteUnitTestFile() error {
+func (it *FinalCode) WriteUnitTestFile() error {
 	filePath := it.unitTestFileName()
 	code, err := it.UnitTest.CompileFullCode()
 
@@ -94,7 +94,7 @@ func (it *AllCodeOutput) WriteUnitTestFile() error {
 	)
 }
 
-func (it *AllCodeOutput) WriteTestCaseFile() error {
+func (it *FinalCode) WriteTestCaseFile() error {
 	filePath := it.testCaseFileName()
 	code, err := it.TestCase.CompileFullCode()
 
@@ -109,7 +109,7 @@ func (it *AllCodeOutput) WriteTestCaseFile() error {
 	)
 }
 
-func (it *AllCodeOutput) unitTestFileName() string {
+func (it *FinalCode) unitTestFileName() string {
 	if len(it.StructName) == 0 {
 		return fmt.Sprintf(
 			"%s_test.go",
@@ -124,7 +124,7 @@ func (it *AllCodeOutput) unitTestFileName() string {
 	)
 }
 
-func (it *AllCodeOutput) testCaseFileName() string {
+func (it *FinalCode) testCaseFileName() string {
 	if len(it.StructName) == 0 {
 		return fmt.Sprintf(
 			"%s_testcases.go",
