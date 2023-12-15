@@ -21,20 +21,18 @@ import (
 )
 
 type GenerateFunc struct {
-	Func                 interface{}
-	Struct               interface{}
-	GenerateType         codegentype.Variant
-	FmtType              fmtcodegentype.Variant
-	TestCases            []coretestcases.CaseV1
-	Behaviours           corestr.SimpleSlice
-	OverridingNames      OverridingNames
-	UnitTestRootPath     string
-	IsGenerateInSameFile bool
-	IsIncludeFunction    bool
-	IsOverwrite          bool
-	packageHeader        corestr.SimpleStringOnce
-	funcWrap             *args.FuncWrap
-	setupVariable        *variablesSetup
+	Func             interface{}
+	Struct           interface{}
+	GenerateType     codegentype.Variant
+	FmtType          fmtcodegentype.Variant
+	TestCases        []coretestcases.CaseV1
+	Behaviours       corestr.SimpleSlice
+	OverridingNames  OverridingNames
+	UnitTestRootPath string
+	Options          Options
+	packageHeader    corestr.SimpleStringOnce
+	funcWrap         *args.FuncWrap
+	setupVariable    *variablesSetup
 }
 
 func (it GenerateFunc) GetOverrides() OverridingNames {
@@ -70,7 +68,7 @@ func (it GenerateFunc) OverrideFuncCall() string {
 }
 
 func (it GenerateFunc) IsFunctionIncluded() bool {
-	return it.IsIncludeFunction
+	return it.Options.IsIncludeFunction
 }
 
 func (it GenerateFunc) Generate() error {

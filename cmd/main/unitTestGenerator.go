@@ -44,10 +44,12 @@ func (it unitTestGenerator) Generate() {
 		Behaviours: []string{
 			"Verification",
 		},
-		UnitTestRootPath:        codestack.Dir.CurDirJoin("unit-test"),
-		IsGenerateSeparateCases: false,
-		IsIncludeFunction:       true,
-		IsOverwrite:             true,
+		UnitTestRootPath: codestack.Dir.CurDirJoin("unit-test"),
+		Options: codegen.Options{
+			IsGenerateInSameFile: true,
+			IsIncludeFunction:    false,
+			IsOverwrite:          false,
+		},
 	}
 
 	wrap := args.NewFuncWrap.Single(curFunc)

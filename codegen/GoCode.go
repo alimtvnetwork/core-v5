@@ -16,7 +16,19 @@ type GoCode struct {
 	testPkgName string
 }
 
-func (it *GoCode) AddPackages(packages ...string) *GoCode {
+func (it *GoCode) Codes() *corestr.SimpleSlice {
+	return it.codes
+}
+
+func (it *GoCode) Imports() *corestr.Hashset {
+	return it.imports
+}
+
+func (it *GoCode) TestPkgName() string {
+	return it.testPkgName
+}
+
+func (it *GoCode) AddImports(packages ...string) *GoCode {
 	if len(packages) == 0 {
 		return it
 	}
@@ -30,12 +42,30 @@ func (it *GoCode) AddPackages(packages ...string) *GoCode {
 	return it
 }
 
-func (it *GoCode) AddCode(codes ...string) *GoCode {
+func (it *GoCode) AddCodes(codes ...string) *GoCode {
 	if len(codes) == 0 {
 		return it
 	}
 
 	for _, code := range codes {
+		trimmedCode := strings.TrimSpace(code)
+
+		if trimmedCode == "" {
+			continue
+		}
+
+		it.codes.Add(trimmedCode)
+	}
+
+	return it
+}
+
+func (it *GoCode) AddCodesSlice(codes *corestr.SimpleSlice) *GoCode {
+	if codes.IsEmpty() {
+		return it
+	}
+
+	for _, code := range *codes {
 		trimmedCode := strings.TrimSpace(code)
 
 		if trimmedCode == "" {
@@ -80,7 +110,7 @@ func (it *GoCode) OptimizeImports(fullCode string) (organizedImports *corestr.Ha
 }
 
 func (it *GoCode) addDefaultPackages() *GoCode {
-	return it.AddPackages(defaultPackages...)
+	return it.AddImports(defaultPackages...)
 }
 
 func (it *GoCode) CompileImports(fullCode string) string {
@@ -101,6 +131,27 @@ func (it *GoCode) CompileImports(fullCode string) string {
 	)
 
 	return packageHeader
+}
+
+func (it *GoCode) Concat(goCodes ...*GoCode) *GoCode {
+	if it == nil {
+		return NewGoCode.Empty()
+	}
+
+	return NewGoCode.SameTestPackageMerge(
+		it,
+		goCodes...,
+	)
+}
+
+func (it *GoCode) Dispose() {
+	if it == nil {
+		return
+	}
+
+	it.codes.Dispose()
+	it.imports.Dispose()
+	it.testPkgName = ""
 }
 
 func (it *GoCode) CompileFullCode() (string, error) {

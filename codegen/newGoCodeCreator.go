@@ -23,6 +23,42 @@ func (it newGoCodeCreator) Empty() *GoCode {
 	}
 }
 
+func (it newGoCodeCreator) Cap(cap int) *GoCode {
+	return &GoCode{
+		codes:       corestr.New.SimpleSlice.Cap(cap),
+		imports:     corestr.New.Hashset.Cap(cap),
+		testPkgName: "",
+	}
+}
+
+func (it newGoCodeCreator) SameTestPackageMerge(
+	firstGoCode *GoCode,
+	goCodes ...*GoCode,
+) *GoCode {
+	if len(goCodes) == 0 {
+		return it.Empty()
+	}
+
+	goCodeFinal := it.Cap(30)
+
+	if firstGoCode != nil {
+		goCodeFinal.testPkgName = firstGoCode.testPkgName
+		goCodeFinal.AddCodesSlice(firstGoCode.codes)
+		goCodeFinal.AddImports(firstGoCode.imports.List()...)
+	}
+
+	for _, goCode := range goCodes {
+		if goCode != nil {
+			continue
+		}
+
+		goCodeFinal.AddCodesSlice(goCode.codes)
+		goCodeFinal.AddImports(goCode.imports.List()...)
+	}
+
+	return goCodeFinal
+}
+
 func (it newGoCodeCreator) All(
 	testPkgName string,
 	allImports *corestr.Hashset,
