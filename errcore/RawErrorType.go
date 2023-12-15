@@ -201,6 +201,12 @@ func (it RawErrorType) Error(otherMsg string, reference interface{}) error {
 	return StackEnhance.MsgToErrSkip(1, msg)
 }
 
+func (it RawErrorType) ErrorSkip(skipStack int, otherMsg string, reference interface{}) error {
+	msg := CombineWithMsgType(it, otherMsg, reference)
+
+	return StackEnhance.MsgToErrSkip(1+skipStack, msg)
+}
+
 func (it RawErrorType) Fmt(
 	format string,
 	v ...interface{},

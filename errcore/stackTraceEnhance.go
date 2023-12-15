@@ -86,7 +86,7 @@ func (it stackTraceEnhance) methodName(skip int) string {
 }
 
 func (it stackTraceEnhance) trace(skip int) string {
-	return reflectinternal.CodeStack.SingleStack(2 + skip)
+	return reflectinternal.CodeStack.SingleStack(3 + skip)
 }
 
 func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string {

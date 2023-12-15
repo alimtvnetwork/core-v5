@@ -97,7 +97,8 @@ func (it *FinalCode) fileExistError(fileName string) error {
 	if pathinternal.IsPathExists(filePath) {
 		return errcore.
 			PathExist.
-			Error(
+			ErrorSkip(
+				2,
 				"choose overwrite option to overwrite over existing files",
 				filePath,
 			)
