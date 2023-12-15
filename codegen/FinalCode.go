@@ -105,8 +105,8 @@ func (it *FinalCode) fileExistError(filePath string) error {
 }
 
 func (it *FinalCode) WriteUnitTestFile() error {
-	filePath := it.unitTestFileName()
-	fileErr := it.fileExistError(filePath)
+	fileName := it.unitTestFileName()
+	fileErr := it.fileExistError(fileName)
 
 	if fileErr != nil {
 		return fileErr
@@ -120,14 +120,14 @@ func (it *FinalCode) WriteUnitTestFile() error {
 
 	return it.FileWriter.WriteRelativePath(
 		it.FileWriter.IsRemoveBeforeWrite,
-		filePath,
+		fileName,
 		[]byte(code),
 	)
 }
 
 func (it *FinalCode) WriteTestCaseFile() error {
-	filePath := it.testCaseFileName()
-	fileErr := it.fileExistError(filePath)
+	fileName := it.testCaseFileName()
+	fileErr := it.fileExistError(fileName)
 
 	if fileErr != nil {
 		return fileErr
@@ -141,7 +141,7 @@ func (it *FinalCode) WriteTestCaseFile() error {
 
 	return it.FileWriter.WriteRelativePath(
 		it.FileWriter.IsRemoveBeforeWrite,
-		filePath,
+		fileName,
 		[]byte(code),
 	)
 }
@@ -181,8 +181,8 @@ func (it *FinalCode) WriteInSameFile() error {
 		return nil
 	}
 
-	filePath := it.unitTestFileName()
-	fileErr := it.fileExistError(filePath)
+	fileName := it.unitTestFileName()
+	fileErr := it.fileExistError(fileName)
 
 	if fileErr != nil {
 		return fileErr
@@ -198,7 +198,7 @@ func (it *FinalCode) WriteInSameFile() error {
 
 	return it.FileWriter.WriteRelativePath(
 		it.FileWriter.IsRemoveBeforeWrite,
-		filePath,
+		fileName,
 		[]byte(code),
 	)
 }
