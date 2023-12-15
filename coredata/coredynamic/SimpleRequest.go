@@ -72,7 +72,7 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 		return nil
 	}
 
-	typeMismatchMessage := errcore.combineWithMsgTypeNoStack(
+	typeMismatchMessage := errcore.CombineWithMsgTypeNoStack(
 		errcore.TypeMismatchType,
 		"Current type - ["+receiver.ReflectTypeName()+"], expected type",
 		typeMatch,

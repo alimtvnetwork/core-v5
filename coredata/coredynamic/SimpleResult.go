@@ -64,10 +64,11 @@ func (it *SimpleResult) GetErrorOnTypeMismatch(
 		return nil
 	}
 
-	typeMismatchMessage := errcore.CombineWithMsgType(
+	typeMismatchMessage := errcore.CombineWithMsgTypeNoStack(
 		errcore.TypeMismatchType,
 		"Current type - ["+it.ReflectTypeName()+"], expected type",
-		typeMatch) + constants.NewLineUnix
+		typeMatch,
+	) + constants.NewLineUnix
 
 	if !isIncludeInvalidMessage {
 		return errors.New(typeMismatchMessage)
