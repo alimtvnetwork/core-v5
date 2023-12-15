@@ -25,9 +25,15 @@ func (it unitTestGenerator) Generate() {
 		TestCases: []coretestcases.CaseV1{
 			{
 				Title: "Some",
-				ArrangeInput: args.One{
-					First:  "someName",
-					Expect: nil,
+				ArrangeInput: []args.One{
+					{
+						First:  "someName",
+						Expect: nil,
+					},
+					{
+						First:  "someName 2",
+						Expect: nil,
+					},
 				},
 				ActualInput:     nil,
 				ExpectedInput:   nil,

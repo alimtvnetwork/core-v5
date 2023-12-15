@@ -249,8 +249,6 @@ func (it *FuncWrap) InArgNames() []string {
 	case 1:
 		firstType := pascalCaseFunc(allTypesNames[0])
 		toSlice.Add(inArgNamePrefix + firstType)
-
-		break
 	default:
 		for i, cTypeName := range allTypesNames {
 			cTypeNamePascal := pascalCaseFunc(cTypeName)
@@ -290,8 +288,6 @@ func (it *FuncWrap) OutArgNames() []string {
 	case 1:
 		firstType := pascalCaseFunc(allTypesNames[0])
 		toSlice.Add(outArgNamePrefix + firstType)
-
-		break
 	default:
 		for i, cTypeName := range allTypesNames {
 			cTypeNamePascal := pascalCaseFunc(cTypeName)
