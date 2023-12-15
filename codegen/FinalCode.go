@@ -206,8 +206,8 @@ func (it *FinalCode) WriteInSameFile() error {
 
 func (it *FinalCode) compiledGoCode() *GoCode {
 	if it.Options.IsWriteTestCasesFirst {
-		return it.TestCase.Concat(it.UnitTest)
+		return it.TestCase.Append(it.UnitTest)
 	}
 
-	return it.UnitTest.Concat(it.TestCase)
+	return it.UnitTest.Append(it.TestCase)
 }

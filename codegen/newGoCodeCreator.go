@@ -56,7 +56,7 @@ func (it newGoCodeCreator) SameTestPackageMerge(
 	}
 
 	for _, goCode := range goCodes {
-		if goCode != nil {
+		if goCode == nil {
 			continue
 		}
 

@@ -4,7 +4,9 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -41,3 +43,18 @@ func Test_PascalFuncName_Verification(t *testing.T) {
 		)
 	}
 }
+
+var (
+	pascalFuncNameTestCases = []coretestcases.CaseV1{
+		{
+			Title: "Some",
+			ArrangeInput: args.One{
+				First: "someName",
+			},
+			ExpectedInput: []string{
+				"0 : someName -> SomeName",
+			},
+			VerifyTypeOf: coretests.NewVerifyTypeOf(args.One{}),
+		},
+	}
+)

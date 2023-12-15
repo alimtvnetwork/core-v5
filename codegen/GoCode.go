@@ -161,7 +161,7 @@ func (it *GoCode) Append(goCodes ...*GoCode) *GoCode {
 	}
 
 	for _, goCode := range goCodes {
-		if goCode != nil {
+		if goCode == nil {
 			continue
 		}
 
