@@ -742,7 +742,7 @@ func (it *RawErrCollection) String() string {
 	return it.StringUsingJoiner(constants.NewLineUnix)
 }
 
-func (it *RawErrCollection) CompiledError() error {
+func (it RawErrCollection) CompiledError() error {
 	if it.IsEmpty() {
 		return nil
 	}

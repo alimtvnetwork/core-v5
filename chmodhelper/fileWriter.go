@@ -78,7 +78,7 @@ func (it fileWriter) All(
 	writingFilePath string,
 	contentsBytes []byte,
 ) error {
-	dirErr := dirCreator{}.If(
+	dirErr := internalDirCreator.If(
 		isCreateDirOnRequired,
 		chmodDir,
 		parentDirPath,

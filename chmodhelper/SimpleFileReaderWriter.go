@@ -1,7 +1,6 @@
 package chmodhelper
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -131,7 +130,7 @@ func (it SimpleFileReaderWriter) WritePath(
 		return nil
 	}
 
-	return it.errorWrap(err)
+	return it.errorWrapFilePath(err, filePath)
 }
 
 func (it SimpleFileReaderWriter) WriteRelativePath(
@@ -157,7 +156,7 @@ func (it SimpleFileReaderWriter) WriteRelativePath(
 		return nil
 	}
 
-	return it.errorWrap(err)
+	return it.errorWrapFilePath(err, finalPath)
 }
 
 func (it SimpleFileReaderWriter) InitializeDefaultNew() (newRw *SimpleFileReaderWriter) {
@@ -225,13 +224,36 @@ func (it SimpleFileReaderWriter) errorWrap(err error) error {
 		return nil
 	}
 
-	message := fmt.Sprintf(
-		"err: %s simple-reader-writer: %s",
-		err.Error(),
-		it.String(),
+	return it.errorWrapFilePath(err, it.FilePath)
+}
+
+func (it *SimpleFileReaderWriter) name() string {
+	if it == nil {
+		return ""
+	}
+
+	return "simple-reader-writer"
+}
+
+func (it SimpleFileReaderWriter) errorWrapFilePath(
+	err error,
+	filePath string,
+) error {
+	if err == nil {
+		return nil
+	}
+
+	msg := err.Error()
+	toString := it.StringFilePath(filePath)
+
+	finalErr := fmt.Errorf(
+		"%s\n\n%s:%s",
+		msg,
+		it.name(),
+		toString,
 	)
 
-	return errors.New(message)
+	return finalErr
 }
 
 func (it SimpleFileReaderWriter) WriteAny(
@@ -566,14 +588,21 @@ func (it SimpleFileReaderWriter) getOnExist(toPtr interface{}) error {
 	)
 }
 
+func (it SimpleFileReaderWriter) StringFilePath(filePath string) string {
+	return fmt.Sprintf(
+		"\n      file : %s\n"+
+			"    parent : %s\n"+
+			" chmodFile : %s\n"+
+			"  chmodDir : %s\n",
+		filePath,
+		it.ParentDir,
+		it.ChmodFile,
+		it.ChmodDir,
+	)
+}
+
 func (it SimpleFileReaderWriter) String() string {
-	jsonString, err := json.Marshal(it)
-
-	if err != nil {
-		return err.Error()
-	}
-
-	return string(jsonString)
+	return it.StringFilePath(it.FilePath)
 }
 
 func (it SimpleFileReaderWriter) Clone() SimpleFileReaderWriter {
