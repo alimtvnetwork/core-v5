@@ -60,6 +60,7 @@ const (
 	EmptyItemsType                             RawErrorType = "Empty items, which is unexpected."
 	PathErrorType                              RawErrorType = "Path error, which is unexpected."
 	PathExist                                  RawErrorType = "file path exist but expect to be missing or clear"
+	ParsingFailed                              RawErrorType = "parsing failed"
 	PathRemoveFailedType                       RawErrorType = "Path remove failed."
 	PathCreateFailedType                       RawErrorType = "Path create failed."
 	FileCloseFailedType                        RawErrorType = "File close failed."
@@ -314,12 +315,13 @@ func (it RawErrorType) MsgCsvRefError(
 	csvReferenceItems ...interface{},
 ) error {
 	msg := it.MsgCsvRef(otherMsg, csvReferenceItems...)
+	msg = StackEnhance.MsgSkip(1, msg)
 
 	return errors.New(msg)
 }
 
 func (it RawErrorType) ErrorRefOnly(reference interface{}) error {
-	msg := CombineWithMsgTypeNoStack(it, constants.EmptyString, reference)
+	msg := CombineWithMsgTypeStackTrace(it, constants.EmptyString, reference)
 
 	return errors.New(msg)
 }
@@ -331,22 +333,24 @@ func (it RawErrorType) Expecting(expecting, actual interface{}) error {
 		actual,
 	)
 
+	msg = StackEnhance.MsgSkip(1, msg)
+
 	return errors.New(msg)
 }
 
 func (it RawErrorType) NoRef(otherMsg string) string {
 	if otherMsg == "" {
-		return it.String()
+		return StackEnhance.MsgSkip(1, it.String())
 	}
 
-	msg := CombineWithMsgTypeNoStack(it, otherMsg, nil)
+	msg := CombineWithMsgTypeStackTrace(it, otherMsg, nil)
 
 	return msg
 }
 
 func (it RawErrorType) ErrorNoRefs(otherMsg string) error {
 	if otherMsg == "" {
-		return errors.New(it.String())
+		return StackEnhance.MsgToErrSkip(1, it.String())
 	}
 
 	msg := CombineWithMsgTypeNoStack(it, otherMsg, nil)

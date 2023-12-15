@@ -319,7 +319,7 @@ func (it testCaseGenerator) testCaseArrangeInputWrite(caseV1 coretestcases.CaseV
 				it.writeTestCaseForProperty(v),
 			)
 		}
-	case []args.One, []args.OneFunc, []args.TwoFunc:
+	case []args.One:
 
 	case []interface{}:
 		for _, v := range casted {
