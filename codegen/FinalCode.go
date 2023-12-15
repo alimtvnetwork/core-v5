@@ -70,6 +70,12 @@ func (it *FinalCode) Write() errcore.RawErrCollection {
 		return rawErrCollection
 	}
 
+	if it.Options.IsGenerateInSameFile {
+		rawErrCollection.AddFunc(it.WriteInSameFile)
+
+		return rawErrCollection
+	}
+
 	if it.HasUnitTest() {
 		rawErrCollection.Add(it.WriteUnitTestFile())
 	}
@@ -168,4 +174,39 @@ func (it *FinalCode) testCaseFileName() string {
 		it.StructName,
 		it.FuncName,
 	)
+}
+
+func (it *FinalCode) WriteInSameFile() error {
+	if !it.Options.IsGenerateInSameFile {
+		return nil
+	}
+
+	filePath := it.unitTestFileName()
+	fileErr := it.fileExistError(filePath)
+
+	if fileErr != nil {
+		return fileErr
+	}
+
+	finalGoCode := it.compiledGoCode()
+
+	code, err := finalGoCode.CompileFullCode()
+
+	if iserror.Defined(err) {
+		return err
+	}
+
+	return it.FileWriter.WriteRelativePath(
+		it.FileWriter.IsRemoveBeforeWrite,
+		filePath,
+		[]byte(code),
+	)
+}
+
+func (it *FinalCode) compiledGoCode() *GoCode {
+	if it.Options.IsWriteTestCasesFirst {
+		return it.TestCase.Concat(it.UnitTest)
+	}
+
+	return it.UnitTest.Concat(it.TestCase)
 }
