@@ -5,20 +5,21 @@ import "gitlab.com/auk-go/core/coredata/corestr"
 type newGoCodeCreator struct{}
 
 func (it newGoCodeCreator) Create(
-	generator BaseGenerator, codes ...string,
+	generator BaseGenerator,
+	codes ...string,
 ) *GoCode {
 	return &GoCode{
-		Codes:       corestr.New.SimpleSlice.Strings(codes),
-		Packages:    generator.AllPackages(),
-		TestPkgName: generator.TestPkgName(),
+		codes:       corestr.New.SimpleSlice.Strings(codes),
+		imports:     generator.AllPackages(),
+		testPkgName: generator.TestPkgName(),
 	}
 }
 
 func (it newGoCodeCreator) Empty() *GoCode {
 	return &GoCode{
-		Codes:       corestr.New.SimpleSlice.Empty(),
-		Packages:    corestr.New.Hashset.Empty(),
-		TestPkgName: "",
+		codes:       corestr.New.SimpleSlice.Empty(),
+		imports:     corestr.New.Hashset.Empty(),
+		testPkgName: "",
 	}
 }
 
@@ -28,8 +29,8 @@ func (it newGoCodeCreator) All(
 	codes ...string,
 ) *GoCode {
 	return &GoCode{
-		Codes:       corestr.New.SimpleSlice.Strings(codes),
-		Packages:    allImports,
-		TestPkgName: testPkgName,
+		codes:       corestr.New.SimpleSlice.Strings(codes),
+		imports:     allImports,
+		testPkgName: testPkgName,
 	}
 }

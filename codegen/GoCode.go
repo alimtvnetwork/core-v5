@@ -11,9 +11,9 @@ import (
 )
 
 type GoCode struct {
-	Codes       *corestr.SimpleSlice
-	Packages    *corestr.Hashset
-	TestPkgName string
+	codes       *corestr.SimpleSlice
+	imports     *corestr.Hashset
+	testPkgName string
 }
 
 func (it *GoCode) AddPackages(packages ...string) *GoCode {
@@ -24,7 +24,7 @@ func (it *GoCode) AddPackages(packages ...string) *GoCode {
 	for _, pkg := range packages {
 		pkg = corestr.StringUtils.WrapDoubleIfMissing(pkg)
 
-		it.Packages.Add(pkg)
+		it.imports.Add(pkg)
 	}
 
 	return it
@@ -42,7 +42,7 @@ func (it *GoCode) AddCode(codes ...string) *GoCode {
 			continue
 		}
 
-		it.Codes.Add(trimmedCode)
+		it.codes.Add(trimmedCode)
 	}
 
 	return it
@@ -53,7 +53,7 @@ func (it *GoCode) IsCodeDefined() bool {
 		return false
 	}
 
-	return it.Codes.HasAnyItem()
+	return it.codes.HasAnyItem()
 }
 
 func (it *GoCode) JoinCode() string {
@@ -61,7 +61,7 @@ func (it *GoCode) JoinCode() string {
 		return ""
 	}
 
-	return it.Codes.JoinLine()
+	return it.codes.JoinLine()
 }
 
 func (it *GoCode) OptimizeImports(fullCode string) (organizedImports *corestr.Hashset) {
@@ -71,12 +71,12 @@ func (it *GoCode) OptimizeImports(fullCode string) (organizedImports *corestr.Ha
 
 	it.addDefaultPackages()
 
-	it.Packages = Utils.GetOptimizePackageImports(
+	it.imports = Utils.GetOptimizePackageImports(
 		fullCode,
-		it.Packages,
+		it.imports,
 	)
 
-	return it.Packages
+	return it.imports
 }
 
 func (it *GoCode) addDefaultPackages() *GoCode {
@@ -91,8 +91,8 @@ func (it *GoCode) CompileImports(fullCode string) string {
 	it.OptimizeImports(fullCode)
 
 	packagesTemplate := map[string]string{
-		"$packageName": it.TestPkgName,
-		"$newPackages": it.Packages.JoinLine(),
+		"$packageName": it.testPkgName,
+		"$newPackages": it.imports.JoinLine(),
 	}
 
 	packageHeader := Utils.ReplaceTemplate(

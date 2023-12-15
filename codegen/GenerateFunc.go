@@ -220,7 +220,7 @@ func (it GenerateFunc) TestCaseName(
 
 //
 // func (it GenerateFunc) PackageHeader() (testPkgName string, packageHeader string) {
-// 	testPkgName = it.TestPkgName()
+// 	testPkgName = it.testPkgName()
 //
 // 	if it.packageHeader.IsDefined() {
 // 		return testPkgName, it.packageHeader.String()

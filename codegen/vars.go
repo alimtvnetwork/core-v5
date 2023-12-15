@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	NewAllCode = newAllCodeOutputCreator{}
+	NewAllCode = newFinalCodeCreator{}
 	NewGoCode  = newGoCodeCreator{}
 
 	defaultPackages = []string{

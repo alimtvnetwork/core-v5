@@ -6,9 +6,9 @@ import (
 	"gitlab.com/auk-go/core/chmodhelper"
 )
 
-type newAllCodeOutputCreator struct{}
+type newFinalCodeCreator struct{}
 
-func (it newAllCodeOutputCreator) Default(
+func (it newFinalCodeCreator) Default(
 	structName, funcName string,
 	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
@@ -22,7 +22,7 @@ func (it newAllCodeOutputCreator) Default(
 	}
 }
 
-func (it newAllCodeOutputCreator) All(
+func (it newFinalCodeCreator) All(
 	structName, funcName string,
 	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
@@ -36,7 +36,7 @@ func (it newAllCodeOutputCreator) All(
 	}
 }
 
-func (it newAllCodeOutputCreator) Invalid(
+func (it newFinalCodeCreator) Invalid(
 	err error,
 ) *FinalCode {
 	return &FinalCode{
@@ -44,7 +44,7 @@ func (it newAllCodeOutputCreator) Invalid(
 	}
 }
 
-func (it newAllCodeOutputCreator) InvalidMsg(
+func (it newFinalCodeCreator) InvalidMsg(
 	msg string,
 ) *FinalCode {
 	return &FinalCode{
