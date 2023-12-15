@@ -23,11 +23,11 @@ func (it newGoCodeCreator) Empty() *GoCode {
 	}
 }
 
-func (it newGoCodeCreator) Cap(cap int) *GoCode {
+func (it newGoCodeCreator) Cap(testPkg string, cap int) *GoCode {
 	return &GoCode{
 		codes:       corestr.New.SimpleSlice.Cap(cap),
 		imports:     corestr.New.Hashset.Cap(cap),
-		testPkgName: "",
+		testPkgName: testPkg,
 	}
 }
 
@@ -39,10 +39,12 @@ func (it newGoCodeCreator) SameTestPackageMerge(
 		return it.Empty()
 	}
 
-	goCodeFinal := it.Cap(30)
+	goCodeFinal := it.Cap(
+		firstGoCode.testPkgName,
+		20,
+	)
 
 	if firstGoCode != nil {
-		goCodeFinal.testPkgName = firstGoCode.testPkgName
 		goCodeFinal.AddCodesSlice(firstGoCode.codes)
 		goCodeFinal.AddImports(firstGoCode.imports.List()...)
 	}

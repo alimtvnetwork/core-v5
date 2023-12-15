@@ -48,7 +48,7 @@ func (it unitTestGenerator) Generate() {
 		Options: codegen.Options{
 			IsGenerateInSameFile: true,
 			IsIncludeFunction:    false,
-			IsOverwrite:          false,
+			IsOverwrite:          true,
 		},
 	}
 
