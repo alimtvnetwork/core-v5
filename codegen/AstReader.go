@@ -1,9 +1,11 @@
 package codegen
 
 import (
+	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"strings"
 
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/coretests/args"
@@ -125,16 +127,16 @@ func (it *AstReader) SubstringByNode(n ast.Node) (string, error) {
 	return it.fullCode[start:end], nil
 }
 
-func (it *AstReader) NodesMap() (args.Map, error) {
+func (it *AstReader) NodesMap() (map[string]args.Map, error) {
 	node, err := it.Initialize()
 
 	if iserror.Defined(err) {
-		return args.Map{}, err
+		return map[string]args.Map{}, err
 	}
 
 	// okay
 	// Collect the struct types in this slice.
-	curMap := make(map[string]interface{}, 100)
+	curMap := make(map[string]args.Map, 30)
 	var rawErrSlice errcore.RawErrCollection
 
 	// Use the Inspect function to walk AST looking for struct
@@ -147,10 +149,22 @@ func (it *AstReader) NodesMap() (args.Map, error) {
 
 			toString, subsErr := it.SubstringByNode(n)
 
-			rawErrSlice.Add(subsErr)
+			if subsErr != nil {
+				rawErrSlice.Add(subsErr)
 
-			if subsErr == nil {
-				curMap[toString] = n
+				return true
+			}
+
+			typeName := fmt.Sprintf("%T", n)
+			typeName = strings.ReplaceAll(typeName, "->", "")
+
+			m, isFound := curMap[typeName]
+
+			if isFound {
+				m[toString] = n
+			} else {
+				curMap[typeName] = make(map[string]interface{}, 100)
+				curMap[typeName][toString] = n
 			}
 
 			return true
@@ -160,6 +174,65 @@ func (it *AstReader) NodesMap() (args.Map, error) {
 	return curMap, rawErrSlice.CompiledError()
 }
 
+func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
+	node, err := it.Initialize()
+
+	if iserror.Defined(err) {
+		return map[string]args.Map{}, err
+	}
+
+	// okay
+	// Collect the struct types in this slice.
+	curMap := make(map[string]args.Map, 30)
+	var rawErrSlice errcore.RawErrCollection
+
+	// Use the Inspect function to walk AST looking for struct
+	// type nodes.
+	ast.Inspect(
+		node, func(n ast.Node) bool {
+			if n == nil {
+				return true
+			}
+
+			toString, subsErr := it.SubstringByNode(n)
+
+			if subsErr != nil {
+				rawErrSlice.Add(subsErr)
+
+				return true
+			}
+
+			typeName := it.TypeName(n)
+
+			m, isFound := curMap[typeName]
+
+			if isFound {
+				m[toString] = n
+			} else {
+				curMap[typeName] = make(map[string]interface{}, 100)
+				curMap[typeName][toString] = n
+			}
+
+			return true
+		},
+	)
+
+	return curMap, rawErrSlice.CompiledError()
+}
+
+func (it *AstReader) TypeName(n ast.Node) string {
+	typeName := fmt.Sprintf("%T", n)
+
+	if len(typeName) > 3 {
+		return typeName[1 : len(typeName)-2]
+	}
+
+	return typeName
+}
+
+func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
+
+}
 func (it *AstReader) StructTypes() ([]*ast.StructType, error) {
 	node, err := it.Initialize()
 
