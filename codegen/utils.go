@@ -5,17 +5,16 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
 
 type utils struct{}
 
 func (it utils) PascalCase(s string) string {
-	return convertinteranl.Util.String.PascalCase(s)
+	return pascalCaseFunc(s)
 }
 
 func (it utils) CamelCase(s string) string {
-	return convertinteranl.Util.String.CamelCase(s)
+	return camelCaseFunc(s)
 }
 
 func (it utils) AllPackages(

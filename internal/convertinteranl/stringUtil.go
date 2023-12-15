@@ -77,6 +77,22 @@ func (it stringUtil) PascalCase(
 		return ""
 	}
 
+	lines := strings.Split(name, "_")
+
+	for i, s := range lines {
+		lines[i] = it.pascalCaseWord(s)
+	}
+
+	return strings.Join(lines, "")
+}
+
+func (it stringUtil) pascalCaseWord(
+	name string,
+) string {
+	if len(name) == 0 {
+		return ""
+	}
+
 	allRunes := []rune(name)
 	firstChar := allRunes[0]
 	firstCharStr := string(firstChar)
@@ -90,6 +106,22 @@ func (it stringUtil) PascalCase(
 }
 
 func (it stringUtil) CamelCase(
+	name string,
+) string {
+	if len(name) == 0 {
+		return ""
+	}
+
+	lines := strings.Split(name, "_")
+
+	for i, s := range lines {
+		lines[i] = it.camelCaseWord(s)
+	}
+
+	return strings.Join(lines, "")
+}
+
+func (it stringUtil) camelCaseWord(
 	name string,
 ) string {
 	if len(name) == 0 {

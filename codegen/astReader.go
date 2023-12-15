@@ -18,6 +18,10 @@ type astReader struct {
 }
 
 func (it *astReader) Initialize() (*ast.File, error) {
+	if it.fileSet != nil {
+		return it.node, it.parseErr
+	}
+
 	fileSet := token.NewFileSet()
 
 	node, err := parser.ParseFile(
@@ -63,7 +67,8 @@ func (it *astReader) Config() *packages.Config {
 func (it *astReader) AllPackages() ([]*packages.Package, error) {
 	loadConfig := it.Config()
 	imports, loadErr := packages.Load(
-		loadConfig, "syscall",
+		loadConfig,
+		"syscall",
 	)
 
 	return imports, loadErr
