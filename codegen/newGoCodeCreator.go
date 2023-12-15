@@ -8,27 +8,33 @@ func (it newGoCodeCreator) Create(
 	generator BaseGenerator,
 	codes ...string,
 ) *GoCode {
-	return &GoCode{
+	goCode := &GoCode{
 		codes:       corestr.New.SimpleSlice.Strings(codes),
 		imports:     generator.AllPackages(),
 		testPkgName: generator.TestPkgName(),
 	}
+
+	return goCode.addDefaultPackages()
 }
 
 func (it newGoCodeCreator) Empty() *GoCode {
-	return &GoCode{
+	goCode := &GoCode{
 		codes:       corestr.New.SimpleSlice.Empty(),
 		imports:     corestr.New.Hashset.Empty(),
 		testPkgName: "",
 	}
+
+	return goCode.addDefaultPackages()
 }
 
 func (it newGoCodeCreator) Cap(testPkg string, cap int) *GoCode {
-	return &GoCode{
+	goCode := &GoCode{
 		codes:       corestr.New.SimpleSlice.Cap(cap),
 		imports:     corestr.New.Hashset.Cap(cap),
 		testPkgName: testPkg,
 	}
+
+	return goCode.addDefaultPackages()
 }
 
 func (it newGoCodeCreator) SameTestPackageMerge(

@@ -12,9 +12,10 @@ import (
 )
 
 type GoCode struct {
-	codes       *corestr.SimpleSlice
-	imports     *corestr.Hashset
-	testPkgName string
+	codes                 *corestr.SimpleSlice
+	imports               *corestr.Hashset
+	testPkgName           string
+	isDefaultPackageAdded bool
 }
 
 func (it *GoCode) Codes() *corestr.SimpleSlice {
@@ -111,7 +112,14 @@ func (it *GoCode) OptimizeImports(fullCode string) (organizedImports *corestr.Ha
 }
 
 func (it *GoCode) addDefaultPackages() *GoCode {
-	return it.AddImports(defaultPackages...)
+	if it.isDefaultPackageAdded {
+		return it
+	}
+
+	it.AddImports(defaultPackages...)
+	it.isDefaultPackageAdded = true
+
+	return it
 }
 
 func (it *GoCode) CompileImports(fullCode string) string {
