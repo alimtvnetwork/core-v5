@@ -72,10 +72,11 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 		return nil
 	}
 
-	typeMismatchMessage := errcore.CombineWithMsgType(
+	typeMismatchMessage := errcore.combineWithMsgTypeNoStack(
 		errcore.TypeMismatchType,
 		"Current type - ["+receiver.ReflectTypeName()+"], expected type",
-		typeMatch) + constants.NewLineUnix
+		typeMatch,
+	) + constants.NewLineUnix
 
 	if !isIncludeInvalidMessage {
 		return errors.New(typeMismatchMessage)
@@ -91,7 +92,8 @@ func (receiver *SimpleRequest) IsReflectKind(checkingKind reflect.Kind) bool {
 func (receiver *SimpleRequest) IsPointer() bool {
 	if receiver.isPointer.IsUninitialized() {
 		receiver.isPointer = issetter.GetBool(
-			receiver.IsReflectKind(reflect.Ptr))
+			receiver.IsReflectKind(reflect.Ptr),
+		)
 	}
 
 	return receiver.isPointer.IsTrue()

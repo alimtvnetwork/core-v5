@@ -4,7 +4,21 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func CombineWithMsgType(
+func CombineWithMsgTypeStackTrace(
+	genericMsg RawErrorType,
+	otherMsg string,
+	reference interface{},
+) string {
+	msg := CombineWithMsgTypeNoStack(
+		genericMsg,
+		otherMsg,
+		reference,
+	)
+
+	return StackEnhance.MsgSkip(1, msg)
+}
+
+func CombineWithMsgTypeNoStack(
 	genericMsg RawErrorType,
 	otherMsg string,
 	reference interface{},
@@ -19,5 +33,5 @@ func CombineWithMsgType(
 		otherMsg +
 		getReferenceMessage(reference)
 
-	return StackEnhance.MsgSkip(1, msg)
+	return msg
 }

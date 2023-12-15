@@ -132,7 +132,7 @@ func (it RawErrorType) CombineWithAnother(
 	reference interface{},
 ) RawErrorType {
 	return RawErrorType(
-		CombineWithMsgType(
+		CombineWithMsgTypeNoStack(
 			it,
 			otherMsg+constants.NewLineUnix+another.String(),
 			reference,
@@ -143,14 +143,14 @@ func (it RawErrorType) CombineWithAnother(
 func (it RawErrorType) Combine(
 	otherMsg string, reference interface{},
 ) string {
-	return CombineWithMsgType(it, otherMsg, reference)
+	return CombineWithMsgTypeNoStack(it, otherMsg, reference)
 }
 
 func (it RawErrorType) TypesAttach(
 	otherMsg string,
 	reflectionTypes ...interface{},
 ) string {
-	return CombineWithMsgType(
+	return CombineWithMsgTypeNoStack(
 		it,
 		otherMsg,
 		typesNamesString(
@@ -178,7 +178,7 @@ func (it RawErrorType) SrcDestination(
 		destinationName, destinationValue,
 	)
 
-	return CombineWithMsgType(it, otherMsg, reference)
+	return CombineWithMsgTypeNoStack(it, otherMsg, reference)
 }
 
 func (it RawErrorType) SrcDestinationErr(
@@ -196,13 +196,13 @@ func (it RawErrorType) SrcDestinationErr(
 }
 
 func (it RawErrorType) Error(otherMsg string, reference interface{}) error {
-	msg := CombineWithMsgType(it, otherMsg, reference)
+	msg := CombineWithMsgTypeNoStack(it, otherMsg, reference)
 
 	return StackEnhance.MsgToErrSkip(1, msg)
 }
 
 func (it RawErrorType) ErrorSkip(skipStack int, otherMsg string, reference interface{}) error {
-	msg := CombineWithMsgType(it, otherMsg, reference)
+	msg := CombineWithMsgTypeNoStack(it, otherMsg, reference)
 
 	return StackEnhance.MsgToErrSkip(1+skipStack, msg)
 }
@@ -220,7 +220,7 @@ func (it RawErrorType) Fmt(
 		v...,
 	)
 
-	msg := CombineWithMsgType(it, compiledMessage, nil)
+	msg := CombineWithMsgTypeNoStack(it, compiledMessage, nil)
 
 	return StackEnhance.MsgToErrSkip(1, msg)
 }
@@ -319,7 +319,7 @@ func (it RawErrorType) MsgCsvRefError(
 }
 
 func (it RawErrorType) ErrorRefOnly(reference interface{}) error {
-	msg := CombineWithMsgType(it, constants.EmptyString, reference)
+	msg := CombineWithMsgTypeNoStack(it, constants.EmptyString, reference)
 
 	return errors.New(msg)
 }
@@ -339,7 +339,7 @@ func (it RawErrorType) NoRef(otherMsg string) string {
 		return it.String()
 	}
 
-	msg := CombineWithMsgType(it, otherMsg, nil)
+	msg := CombineWithMsgTypeNoStack(it, otherMsg, nil)
 
 	return msg
 }
@@ -349,7 +349,7 @@ func (it RawErrorType) ErrorNoRefs(otherMsg string) error {
 		return errors.New(it.String())
 	}
 
-	msg := CombineWithMsgType(it, otherMsg, nil)
+	msg := CombineWithMsgTypeNoStack(it, otherMsg, nil)
 
 	return StackEnhance.MsgToErrSkip(1, msg)
 }
