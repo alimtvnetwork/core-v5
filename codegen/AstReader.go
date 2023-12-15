@@ -5,7 +5,6 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
-	"strings"
 
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/coretests/args"
@@ -155,9 +154,7 @@ func (it *AstReader) NodesMap() (map[string]args.Map, error) {
 				return true
 			}
 
-			typeName := fmt.Sprintf("%T", n)
-			typeName = strings.ReplaceAll(typeName, "->", "")
-
+			typeName := it.TypeName(n)
 			m, isFound := curMap[typeName]
 
 			if isFound {
@@ -202,15 +199,25 @@ func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
 				return true
 			}
 
-			typeName := it.TypeName(n)
+			recursive := recursiveRunner{
+				maxTry:          30,
+				SubstringByNode: it.SubstringByNode,
+			}
 
+			typeName := it.TypeName(n)
 			m, isFound := curMap[typeName]
 
 			if isFound {
-				m[toString] = n
+				m[toString] = make(map[string]interface{})
+				toMap := m[toString].(map[string]interface{})
+
+				recursive.recursiveMapEntry(rawErrSlice, toMap, n)
 			} else {
 				curMap[typeName] = make(map[string]interface{}, 100)
-				curMap[typeName][toString] = n
+				curMap[typeName][toString] = make(map[string]interface{}, 100)
+				toMap := curMap[typeName][toString].(map[string]interface{})
+
+				recursive.recursiveMapEntry(rawErrSlice, toMap, n)
 			}
 
 			return true
@@ -230,9 +237,6 @@ func (it *AstReader) TypeName(n ast.Node) string {
 	return typeName
 }
 
-func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
-
-}
 func (it *AstReader) StructTypes() ([]*ast.StructType, error) {
 	node, err := it.Initialize()
 
