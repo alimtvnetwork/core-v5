@@ -140,7 +140,8 @@ func (it GenerateFunc) GenerateCodeOutput() *FinalCode {
 		StructName: it.StructName(),
 		FuncName:   funcName,
 		Error:      testCaseErr,
-		FileWriter: it.fileWriter(it.TestPkgName()),
+		FileWriter: it.internalFileWriter(it.TestPkgName()),
+		Options:    it.Options,
 	}
 }
 
@@ -238,7 +239,7 @@ func (it GenerateFunc) TestCaseName(
 // 	return testPkgName, it.packageHeader.GetSetOnce(packageHeader)
 // }
 
-func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.SimpleFileReaderWriter {
+func (it GenerateFunc) internalFileWriter(unitTestPackageName string) *chmodhelper.SimpleFileReaderWriter {
 	finalUnitTestPath := it.unitTestRootPath(unitTestPackageName)
 
 	return chmodhelper.
@@ -250,6 +251,10 @@ func (it GenerateFunc) fileWriter(unitTestPackageName string) *chmodhelper.Simpl
 			true,
 			finalUnitTestPath,
 		)
+}
+
+func (it GenerateFunc) FileWriter() *chmodhelper.SimpleFileReaderWriter {
+	return it.internalFileWriter(it.TestPkgName())
 }
 
 func (it GenerateFunc) unitTestRootPath(unitTestPackageName string) string {

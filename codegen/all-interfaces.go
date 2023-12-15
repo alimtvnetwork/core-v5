@@ -3,6 +3,7 @@ package codegen
 import (
 	"reflect"
 
+	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/coredata/corestr"
@@ -50,6 +51,8 @@ type BaseGenerator interface {
 
 	VariableNameGetter
 	DirectFuncInvokeName() string
+
+	FileWriter() *chmodhelper.SimpleFileReaderWriter
 
 	StructNameGetter
 	NewGoCode(codes ...string) *GoCode

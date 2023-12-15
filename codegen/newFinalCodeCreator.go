@@ -20,12 +20,13 @@ func (it newFinalCodeCreator) Default(
 		StructName: structName,
 		FuncName:   funcName,
 		FileWriter: fileWriter,
-		Options: options,
+		Options:    options,
 	}
 }
 
 func (it newFinalCodeCreator) UsingGeneratorFunc(
 	generateFunc BaseGenerator,
+	unit, testCase *GoCode,
 	options Options,
 ) *FinalCode {
 	return &FinalCode{
@@ -33,7 +34,7 @@ func (it newFinalCodeCreator) UsingGeneratorFunc(
 		TestCase:   testCase,
 		StructName: generateFunc.StructName(),
 		FuncName:   generateFunc.FuncName(),
-		FileWriter: generateFunc.,
+		FileWriter: generateFunc.FileWriter(),
 		Options:    options,
 	}
 }
@@ -50,7 +51,7 @@ func (it newFinalCodeCreator) All(
 		StructName: structName,
 		FuncName:   funcName,
 		FileWriter: fileWriter,
-		Options: options,
+		Options:    options,
 	}
 }
 
