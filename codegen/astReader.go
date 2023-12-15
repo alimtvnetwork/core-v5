@@ -54,7 +54,7 @@ func (it *astReader) InitializeMust() *ast.File {
 
 func (it *astReader) Config() *packages.Config {
 	loadConfig := new(packages.Config)
-	loadConfig.Mode = packages.NeedSyntax | packages.NeedTypes | packages.NeedTypesInfo
+	loadConfig.Mode = globalLoadMode
 	loadConfig.Fset = token.NewFileSet()
 
 	return loadConfig
