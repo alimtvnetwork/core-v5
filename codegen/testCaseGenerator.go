@@ -11,6 +11,7 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/iserror"
 	"gitlab.com/auk-go/core/simplewrap"
 )
@@ -149,7 +150,7 @@ func (it testCaseGenerator) SingleArrange(
 	_ int,
 	caseV1 coretestcases.CaseV1,
 ) (string, error) {
-	arrangeSetup, err := it.arrangeSetup(caseV1)
+	testCaseArrangeInput, err := it.testCaseArrangeInputWrite(caseV1)
 
 	if iserror.Defined(err) {
 		return "", err
@@ -165,7 +166,7 @@ func (it testCaseGenerator) SingleArrange(
 		vars.Title:         simplewrap.WithDoubleQuote(caseV1.Title),
 		vars.ArrangeType:   caseV1.ArrangeTypeName(),
 		vars.VerifyTypeOf:  it.VerifyTypeOf(),
-		vars.ArrangeSetup:  arrangeSetup,
+		vars.ArrangeSetup:  testCaseArrangeInput,
 		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(",\n\t\t\t\t"),
 	}
 
@@ -222,8 +223,12 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 	return slice, nil
 }
 
-func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, error) {
+func (it testCaseGenerator) testCaseArrangeInputWrite(caseV1 coretestcases.CaseV1) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
+
+	if isany.Null(caseV1.ArrangeInput) {
+		return "", nil
+	}
 
 	switch casted := caseV1.ArrangeInput.(type) {
 	case args.AsArgFuncContractsBinder:
@@ -273,27 +278,89 @@ func (it testCaseGenerator) arrangeSetup(caseV1 coretestcases.CaseV1) (string, e
 			vars.expect,
 			v.Expected(),
 		)
-	default:
-		return "", fmt.Errorf(
-			"test cases only support from arg.One ... arg.Six and func versions, given %T",
+	case string:
+		slice.AppendFmt(
+			"\"%s\",",
 			casted,
 		)
+	case args.String:
+		slice.AppendFmt(
+			"%s,",
+			casted,
+		)
+	case []string:
+		for _, item := range casted {
+			slice.AppendFmt(
+				"\"%s\",",
+				item,
+			)
+		}
+	case map[string]string:
+		for k, v := range casted {
+			slice.AppendFmt(
+				"\"%s\" : \"%s\",",
+				k,
+				v,
+			)
+		}
+	case map[string]interface{}:
+		for k, v := range casted {
+			slice.AppendFmt(
+				"\"%s\" : %s,",
+				k,
+				it.writeTestCaseForProperty(v),
+			)
+		}
+	case args.Map:
+		for k, v := range casted {
+			slice.AppendFmt(
+				"\"%s\" : %s,",
+				k,
+				it.writeTestCaseForProperty(v),
+			)
+		}
+	case []args.One, []args.OneFunc, []args.TwoFunc:
+
+	case []interface{}:
+		for _, v := range casted {
+			slice.AppendFmt(
+				"%s,",
+				it.writeTestCaseForProperty(v),
+			)
+		}
+	case interface{}:
+		slice.AppendFmt(
+			"%s,",
+			it.writeTestCaseForProperty(casted),
+		)
 	}
+
+	return "", fmt.Errorf(
+		"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
+		"[]string, map[string]string, []interface{}",
+		caseV1.ArrangeInput,
+	)
 
 	return slice.Join(",\n\t\t\t\t"), nil
 }
 
-func (it testCaseGenerator) property(argBinder args.ArgBaseContractsBinder, i int) interface{} {
+func (it testCaseGenerator) property(argBinder args.ArgBaseContractsBinder, i int) string {
 	p := argBinder.GetByIndex(i)
 
+	return it.writeTestCaseForProperty(p)
+}
+
+func (it testCaseGenerator) writeTestCaseForProperty(p interface{}) string {
 	switch casted := p.(type) {
 	case string:
 		return simplewrap.WithDoubleQuote(casted)
 	case bool, int, int32, int64,
 		float64, float32, byte,
 		int8, uint16, uint32,
-		uint64, args.String:
-		return casted
+		uint64:
+		return fmt.Sprintf("%d", casted)
+	case args.String:
+		return fmt.Sprintf("%s", casted)
 	}
 
 	return convertinteranl.AnyTo.FullPropertyString(p)
