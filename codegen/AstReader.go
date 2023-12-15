@@ -115,6 +115,10 @@ func (it *AstReader) SubstringByNode(n ast.Node) (string, error) {
 		return "", it.parseErr
 	}
 
+	if n == nil {
+		return "", errcore.FailedToParseType.ErrorNoRefs("node is nil")
+	}
+
 	start := n.Pos() - 1
 	end := n.End() - 1
 
@@ -137,6 +141,10 @@ func (it *AstReader) NodesMap() (args.Map, error) {
 	// type nodes.
 	ast.Inspect(
 		node, func(n ast.Node) bool {
+			if n == nil {
+				return true
+			}
+
 			toString, subsErr := it.SubstringByNode(n)
 
 			rawErrSlice.Add(subsErr)

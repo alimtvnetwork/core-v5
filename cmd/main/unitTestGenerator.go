@@ -83,7 +83,10 @@ func (it unitTestGenerator) AstChecker() {
 	structTypes, err := astReader.StructTypes()
 	errcore.HandleErr(err)
 
+	firstNode, _ := astReader.SubstringByNode(structTypes[0])
+
 	fmt.Println(node.Decls)
 	fmt.Println(nodesMap)
 	fmt.Println(structTypes)
+	fmt.Println(firstNode)
 }
