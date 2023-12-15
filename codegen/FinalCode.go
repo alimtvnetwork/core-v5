@@ -5,6 +5,7 @@ import (
 
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/pathinternal"
 	"gitlab.com/auk-go/core/iserror"
 )
 
@@ -14,6 +15,7 @@ type FinalCode struct {
 	StructName, FuncName string
 	Error                error
 	FileWriter           *chmodhelper.SimpleFileReaderWriter
+	Options              Options
 }
 
 func (it *FinalCode) IsValid() bool {
@@ -80,11 +82,29 @@ func (it *FinalCode) Write() errcore.RawErrCollection {
 }
 
 func (it *FinalCode) fileExistError(filePath string) error {
-	return errcore.PathMeaningfulError(errcore.PathExist)
+	if it.Options.IsOverwrite {
+		return nil
+	}
+
+	if pathinternal.IsPathExists(filePath) {
+		return errcore.
+			PathExist.
+			Error(
+				"choose overwrite option to overwrite over existing files",
+				filePath,
+			)
+	}
+
+	return nil
 }
 
 func (it *FinalCode) WriteUnitTestFile() error {
 	filePath := it.unitTestFileName()
+	fileErr := it.fileExistError(filePath)
+
+	if fileErr != nil {
+		return fileErr
+	}
 
 	code, err := it.UnitTest.CompileFullCode()
 
@@ -101,6 +121,12 @@ func (it *FinalCode) WriteUnitTestFile() error {
 
 func (it *FinalCode) WriteTestCaseFile() error {
 	filePath := it.testCaseFileName()
+	fileErr := it.fileExistError(filePath)
+
+	if fileErr != nil {
+		return fileErr
+	}
+
 	code, err := it.TestCase.CompileFullCode()
 
 	if iserror.Defined(err) {

@@ -6,3 +6,7 @@ type Options struct {
 	IsIncludeFunction     bool
 	IsOverwrite           bool
 }
+
+func (it Options) IsOverwriteNoSupported() bool {
+	return !it.IsOverwrite
+}

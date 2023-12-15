@@ -11,7 +11,9 @@ func PathMeaningfulError(
 		return nil
 	}
 
-	reflectinternal.GetFunc.FullName()
+	funcName := reflectinternal.
+		GetFunc.
+		NameOnlyByStack(1)
 
 	errMsg := err.Error() +
 		", location: [" + location + "]"

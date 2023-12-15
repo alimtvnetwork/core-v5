@@ -66,6 +66,10 @@ func (it getFunc) NameOnly(i interface{}) string {
 	return it.fixFinalFuncName(funcNameOnly)
 }
 
+func (it getFunc) NameOnlyByStack(stackSkip int) string {
+	return CodeStack.MethodName(stackSkip + defaultInternalSkip)
+}
+
 func (it getFunc) fixFinalFuncName(funcNameOnly string) string {
 	if strings.HasSuffix(funcNameOnly, "-fm") {
 		return funcNameOnly[:len(funcNameOnly)-3]
