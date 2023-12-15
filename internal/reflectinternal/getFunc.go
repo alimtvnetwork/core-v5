@@ -50,7 +50,7 @@ func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
 	return fullName, it.fixFinalFuncName(funcNameOnly)
 }
 
-func (it getFunc) Name(i interface{}) string {
+func (it getFunc) NameOnly(i interface{}) string {
 	if Is.Null(i) {
 		return ""
 	}
