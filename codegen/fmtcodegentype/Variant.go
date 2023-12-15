@@ -87,8 +87,14 @@ func (it Variant) Format(format string) (compiled string) {
 }
 
 // Fmt - comes from rangesFmt
-func (it Variant) Fmt() (generateFmt string) {
-	return rangesFmt[it]
+func (it Variant) Fmt(hasLoop bool) (generateFmt string) {
+	toFmt := rangesFmt[it]
+
+	if hasLoop {
+		return "%d - " + toFmt
+	}
+
+	return toFmt
 }
 
 func (it Variant) IsEnumEqual(enum enuminf.BasicEnumer) bool {

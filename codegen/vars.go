@@ -1,6 +1,7 @@
 package codegen
 
 import (
+	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
 )
@@ -48,6 +49,11 @@ var (
 				DirectKeyUsingMapTrim
 
 	Utils = utils{}
+
+	functionTemplatesMap = [...]string{
+		codegentype.Simple:           funcTemplate,
+		codegentype.MultipleArranges: loopFuncTemplate,
+	}
 
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase
 	camelCaseFunc  = convertinteranl.Util.String.CamelCase

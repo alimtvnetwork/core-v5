@@ -43,6 +43,44 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 }
 `
 
+	loopFuncTemplate = `
+func Test_$FuncName_$Behaviour(t *testing.T) {
+	for caseIndex, testCase := range $testCaseName {
+		// Arrange
+		inputs := testCase.
+			ArrangeInput.($ArrangeType)
+		actualSlice := corestr.
+			New.
+			SimpleSlice.
+			Cap($linesPossible)
+
+		// Act
+		for i, input := range inputs {
+			$variablesSetup
+
+			actFunc$FuncName := $directFuncInvoke
+			$outArgs := actFunc$FuncName($inArgs)
+	
+			actualSlice.AppendFmt(
+				"$fmtJoin",
+				caseIndex,
+				i,
+				$fmtOutputs,
+			)
+		}
+
+		finalActLines := actualSlice.Strings()
+		actualSlice.Dispose()
+
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			finalActLines...,
+		)
+	}
+}
+`
 	fullTestCaseTemplate = `
 	$testCaseName = []coretestcases.CaseV1{
 		$caseItem

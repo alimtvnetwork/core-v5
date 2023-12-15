@@ -184,7 +184,7 @@ func (it GenerateFunc) UnitTests(
 		}
 
 		unitTest := it.ReplaceTemplate(
-			funcTemplate,
+			it.FuncTemplatedCode(),
 			tempMap,
 		)
 
@@ -192,6 +192,10 @@ func (it GenerateFunc) UnitTests(
 	}
 
 	return testsSlice, nil
+}
+
+func (it GenerateFunc) FuncTemplatedCode() string {
+	return functionTemplatesMap[it.GenerateType]
 }
 
 func (it GenerateFunc) TestCaseName(
@@ -288,7 +292,7 @@ func (it GenerateFunc) FirstTestCase() *coretestcases.CaseV1 {
 }
 
 func (it GenerateFunc) AllPackages() *corestr.Hashset {
-	arrangePkgPaths := it.ArrangePackages()
+	arrangePkgPaths := it.ArrangeImports()
 
 	newPackages := Utils.AllPackages(
 		it.FuncWrap().PkgPath(),
@@ -331,7 +335,7 @@ func (it GenerateFunc) ArrangeReflectTypes() []reflect.Type {
 	return results
 }
 
-func (it GenerateFunc) ArrangePackages() *corestr.Hashset {
+func (it GenerateFunc) ArrangeImports() *corestr.Hashset {
 	allReflectTypes := it.ArrangeReflectTypes()
 
 	pks := corestr.New.Hashset.Cap(len(allReflectTypes))
@@ -364,7 +368,7 @@ func (it GenerateFunc) FuncWrap() *args.FuncWrap {
 }
 
 func (it GenerateFunc) FmtJoin() string {
-	return it.FmtType.Fmt()
+	return it.FmtType.Fmt(it.GenerateType.IsMultipleArranges())
 }
 
 func (it GenerateFunc) generateFmtOutputs(

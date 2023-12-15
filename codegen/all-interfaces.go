@@ -40,7 +40,7 @@ type BaseGenerator interface {
 	FirstArrangeType() *reflect.Type
 	ArrangeReflectTypes() []reflect.Type
 	FirstTestCaseGetter
-	ArrangePackages() *corestr.Hashset
+	ArrangeImports() *corestr.Hashset
 	TestPkgName() string
 	FuncWrap() *args.FuncWrap
 
