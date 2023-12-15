@@ -1,6 +1,7 @@
 package codegen
 
 import (
+	"sort"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -119,10 +120,12 @@ func (it *GoCode) CompileImports(fullCode string) string {
 	}
 
 	it.OptimizeImports(fullCode)
+	allImports := it.imports.List()
+	sort.Strings(allImports)
 
 	packagesTemplate := map[string]string{
 		"$packageName": it.testPkgName,
-		"$newPackages": it.imports.JoinLine(),
+		"$newPackages": strings.Join(allImports, "\n\t"),
 	}
 
 	packageHeader := Utils.ReplaceTemplate(
@@ -142,6 +145,23 @@ func (it *GoCode) Concat(goCodes ...*GoCode) *GoCode {
 		it,
 		goCodes...,
 	)
+}
+
+func (it *GoCode) Append(goCodes ...*GoCode) *GoCode {
+	if it == nil {
+		return NewGoCode.Empty()
+	}
+
+	for _, goCode := range goCodes {
+		if goCode != nil {
+			continue
+		}
+
+		it.AddImports(goCode.imports.List()...)
+		it.AddCodesSlice(goCode.codes)
+	}
+
+	return it
 }
 
 func (it *GoCode) Dispose() {

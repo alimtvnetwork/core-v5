@@ -54,8 +54,8 @@ func (it newGoCodeCreator) SameTestPackageMerge(
 			continue
 		}
 
-		goCodeFinal.AddCodesSlice(goCode.codes)
 		goCodeFinal.AddImports(goCode.imports.List()...)
+		goCodeFinal.AddCodesSlice(goCode.codes)
 	}
 
 	return goCodeFinal
