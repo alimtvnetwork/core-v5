@@ -65,3 +65,17 @@ func (it unitTestGenerator) Generate() {
 
 	fmt.Println(generateFunc.SuccessMessage())
 }
+
+func (it unitTestGenerator) curFile() string {
+	return codestack.File.CurrentFilePath()
+}
+
+func (it unitTestGenerator) AstChecker() {
+	astReader := codegen.New.AstReader.FilePath(it.curFile())
+
+	node, err := astReader.Initialize()
+
+	errcore.HandleErr(err)
+
+	fmt.Println(node.Decls)
+}

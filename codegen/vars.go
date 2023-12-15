@@ -8,8 +8,7 @@ import (
 )
 
 var (
-	NewAllCode = newFinalCodeCreator{}
-	NewGoCode  = newGoCodeCreator{}
+	New = newCreator{}
 
 	defaultPackages = []string{
 		"\"testing\"",

@@ -9,15 +9,16 @@ import (
 	"golang.org/x/tools/go/packages"
 )
 
-type astReader struct {
+type AstReader struct {
 	filePath string
 	src      any
 	node     *ast.File
 	parseErr error
 	fileSet  *token.FileSet
+	mode     parser.Mode
 }
 
-func (it *astReader) Initialize() (*ast.File, error) {
+func (it *AstReader) Initialize() (*ast.File, error) {
 	if it.fileSet != nil {
 		return it.node, it.parseErr
 	}
@@ -28,7 +29,7 @@ func (it *astReader) Initialize() (*ast.File, error) {
 		fileSet,
 		it.filePath,
 		it.src,
-		parser.AllErrors,
+		it.mode,
 	)
 
 	it.fileSet = fileSet
@@ -48,7 +49,7 @@ func (it *astReader) Initialize() (*ast.File, error) {
 	return node, err
 }
 
-func (it *astReader) InitializeMust() *ast.File {
+func (it *AstReader) InitializeMust() *ast.File {
 	node, err := it.Initialize()
 
 	errcore.HandleErr(err)
@@ -56,7 +57,7 @@ func (it *astReader) InitializeMust() *ast.File {
 	return node
 }
 
-func (it *astReader) Config() *packages.Config {
+func (it *AstReader) Config() *packages.Config {
 	loadConfig := new(packages.Config)
 	loadConfig.Mode = globalLoadMode
 	loadConfig.Fset = token.NewFileSet()
@@ -64,7 +65,7 @@ func (it *astReader) Config() *packages.Config {
 	return loadConfig
 }
 
-func (it *astReader) AllPackages() ([]*packages.Package, error) {
+func (it *AstReader) AllPackages() ([]*packages.Package, error) {
 	loadConfig := it.Config()
 	imports, loadErr := packages.Load(
 		loadConfig,

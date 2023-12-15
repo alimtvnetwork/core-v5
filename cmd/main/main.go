@@ -64,5 +64,8 @@ func main() {
 	// lazyRegExTester01()
 	// fmt.Println(bytetype.New(1).StringValue())
 
-	unitTestGenerator{}.Generate()
+	gen := unitTestGenerator{}
+	gen.AstChecker()
+
+	gen.Generate()
 }

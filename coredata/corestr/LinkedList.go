@@ -400,12 +400,12 @@ func (it *LinkedList) Loop(
 
 func (it *LinkedList) Filter(
 	filter LinkedListFilter,
-) *[]*LinkedListNode {
+) []*LinkedListNode {
 	length := it.Length()
 	list := make([]*LinkedListNode, 0, length)
 
 	if length == 0 {
-		return &list
+		return list
 	}
 
 	node := it.head
@@ -420,7 +420,7 @@ func (it *LinkedList) Filter(
 	}
 
 	if result.IsBreak {
-		return &list
+		return list
 	}
 
 	index := 1
@@ -439,13 +439,13 @@ func (it *LinkedList) Filter(
 		}
 
 		if result2.IsBreak {
-			return &list
+			return list
 		}
 
 		index++
 	}
 
-	return &list
+	return list
 }
 
 func (it *LinkedList) RemoveNodeByElementValue(
@@ -855,7 +855,7 @@ func (it *LinkedList) SafePointerIndexAtUsingDefaultLock(
 	return it.SafePointerIndexAtUsingDefault(index, defaultString)
 }
 
-func (it *LinkedList) GetNextNodes(count int) *[]*LinkedListNode {
+func (it *LinkedList) GetNextNodes(count int) []*LinkedListNode {
 	counter := 0
 
 	return it.Filter(
@@ -872,7 +872,7 @@ func (it *LinkedList) GetNextNodes(count int) *[]*LinkedListNode {
 	)
 }
 
-func (it *LinkedList) GetAllLinkedNodes() *[]*LinkedListNode {
+func (it *LinkedList) GetAllLinkedNodes() []*LinkedListNode {
 	return it.Filter(
 		func(
 			arg *LinkedListFilterParameter,
