@@ -86,7 +86,7 @@ func (it unitTestGenerator) AstChecker() {
 	firstNode, _ := astReader.SubstringByNode(structTypes[0])
 
 	fmt.Println(node.Decls)
-	fmt.Println(nodesMap)
+	fmt.Println(nodesMap.String())
 	fmt.Println(structTypes)
 	fmt.Println(firstNode)
 }

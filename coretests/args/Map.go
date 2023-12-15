@@ -486,6 +486,7 @@ func (it Map) String() string {
 				line,
 			)
 		},
+		args...,
 	)
 
 	sort.Strings(toLines)
