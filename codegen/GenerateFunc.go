@@ -81,19 +81,19 @@ func (it GenerateFunc) GenerateCodeOutput() *FinalCode {
 	toWrap := it.FuncWrap()
 
 	if toWrap.IsInvalid() {
-		return NewAllCode.Invalid(toWrap.InvalidError())
+		return New.FinalCode.Invalid(toWrap.InvalidError())
 	}
 
 	inArgs, inArgsErr := it.InArgs()
 
 	if iserror.Defined(inArgsErr) {
-		return NewAllCode.Invalid(inArgsErr)
+		return New.FinalCode.Invalid(inArgsErr)
 	}
 
 	outArgs, outArgsErr := it.OutArgs()
 
 	if iserror.Defined(outArgsErr) {
-		return NewAllCode.Invalid(outArgsErr)
+		return New.FinalCode.Invalid(outArgsErr)
 	}
 
 	funcName := toWrap.GetFuncName()
@@ -107,7 +107,7 @@ func (it GenerateFunc) GenerateCodeOutput() *FinalCode {
 	)
 
 	if iserror.Defined(fmtErr) {
-		return NewAllCode.Invalid(fmtErr)
+		return New.FinalCode.Invalid(fmtErr)
 	}
 
 	funcTemplateReplacer := map[string]string{
@@ -128,10 +128,10 @@ func (it GenerateFunc) GenerateCodeOutput() *FinalCode {
 	)
 
 	if iserror.Defined(unitErr) {
-		return NewAllCode.Invalid(unitErr)
+		return New.FinalCode.Invalid(unitErr)
 	}
 
-	unitTestCode := it.NewGoCode(unitTests.JoinLine())
+	unitTestCode := it.New.GoCode(unitTests.JoinLine())
 	testCaseCompiled, testCaseErr := it.TestCasesCompiledCode()
 
 	return &FinalCode{
@@ -553,8 +553,8 @@ func (it GenerateFunc) FailedMessage() string {
 	)
 }
 
-func (it GenerateFunc) NewGoCode(codes ...string) *GoCode {
-	return NewGoCode.Create(it, codes...)
+func (it GenerateFunc) New.GoCode(codes ...string) *GoCode {
+	return New.GoCode.Create(it, codes...)
 }
 
 func (it GenerateFunc) AsBaseGenerator() BaseGenerator {

@@ -10,7 +10,7 @@ type newAstReaderCreator struct{}
 // Create
 //
 // src is usually a string Golang code.
-func (it newAstReaderCreator) Create(filePath string, src any) *AstReader {
+func (it newAstReaderCreator) Create(filePath string, src interface{}) *AstReader {
 	return &AstReader{
 		filePath: path.Clean(filePath),
 		src:      src,
@@ -20,7 +20,7 @@ func (it newAstReaderCreator) Create(filePath string, src any) *AstReader {
 
 func (it newAstReaderCreator) All(
 	filePath string,
-	src any,
+	src interface{},
 	mode parser.Mode,
 ) *AstReader {
 	return &AstReader{
@@ -33,7 +33,7 @@ func (it newAstReaderCreator) All(
 // Src
 //
 // src is usually a string Golang code.
-func (it newAstReaderCreator) Src(src any) *AstReader {
+func (it newAstReaderCreator) Src(src interface{}) *AstReader {
 	return &AstReader{
 		src:  src,
 		mode: parser.AllErrors,

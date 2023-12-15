@@ -11,7 +11,7 @@ import (
 
 type AstReader struct {
 	filePath string
-	src      any
+	src      interface{}
 	node     *ast.File
 	parseErr error
 	fileSet  *token.FileSet

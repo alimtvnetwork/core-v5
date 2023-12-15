@@ -25,7 +25,7 @@ func (it testCaseGenerator) GetBehaviours() corestr.SimpleSlice {
 }
 
 func (it testCaseGenerator) NewCode(codes ...string) *GoCode {
-	return it.baseGenerator.NewGoCode(codes...)
+	return it.baseGenerator.New.GoCode(codes...)
 }
 
 func (it testCaseGenerator) Compile() (*GoCode, error) {
@@ -65,7 +65,7 @@ func (it testCaseGenerator) Compile() (*GoCode, error) {
 		replacerMap,
 	)
 
-	final := it.baseGenerator.NewGoCode(caseOutputWithVar)
+	final := it.baseGenerator.New.GoCode(caseOutputWithVar)
 
 	return final, nil
 }

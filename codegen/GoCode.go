@@ -146,10 +146,10 @@ func (it *GoCode) CompileImports(fullCode string) string {
 
 func (it *GoCode) Concat(goCodes ...*GoCode) *GoCode {
 	if it == nil {
-		return NewGoCode.Empty()
+		return New.GoCode.Empty()
 	}
 
-	return NewGoCode.SameTestPackageMerge(
+	return New.GoCode.SameTestPackageMerge(
 		it,
 		goCodes...,
 	)
@@ -157,7 +157,7 @@ func (it *GoCode) Concat(goCodes ...*GoCode) *GoCode {
 
 func (it *GoCode) Append(goCodes ...*GoCode) *GoCode {
 	if it == nil {
-		return NewGoCode.Empty()
+		return New.GoCode.Empty()
 	}
 
 	for _, goCode := range goCodes {
