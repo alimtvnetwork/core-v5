@@ -10,6 +10,21 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
+var (
+	pascalFuncNameTestCases = []coretestcases.CaseV1{
+		{
+			Title: "Some",
+			ArrangeInput: args.One{
+				First: "someName",
+			},
+			ExpectedInput: []string{
+				"0 : someName -> SomeName",
+			},
+			VerifyTypeOf: coretests.NewVerifyTypeOf(args.One{}),
+		},
+	}
+)
+
 func Test_PascalFuncName_Verification(t *testing.T) {
 	for caseIndex, testCase := range pascalFuncNameTestCases {
 		// Arrange
@@ -43,18 +58,3 @@ func Test_PascalFuncName_Verification(t *testing.T) {
 		)
 	}
 }
-
-var (
-	pascalFuncNameTestCases = []coretestcases.CaseV1{
-		{
-			Title: "Some",
-			ArrangeInput: args.One{
-				First: "someName",
-			},
-			ExpectedInput: []string{
-				"0 : someName -> SomeName",
-			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf(args.One{}),
-		},
-	}
-)

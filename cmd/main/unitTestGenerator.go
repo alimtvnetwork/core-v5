@@ -46,9 +46,10 @@ func (it unitTestGenerator) Generate() {
 		},
 		UnitTestRootPath: codestack.Dir.CurDirJoin("unit-test"),
 		Options: codegen.Options{
-			IsGenerateInSameFile: true,
-			IsIncludeFunction:    false,
-			IsOverwrite:          true,
+			IsGenerateInSameFile:  true,
+			IsWriteTestCasesFirst: true,
+			IsIncludeFunction:     false,
+			IsOverwrite:           true,
 		},
 	}
 

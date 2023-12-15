@@ -10,10 +10,10 @@ var (
 	NewGoCode  = newGoCodeCreator{}
 
 	defaultPackages = []string{
-		"testing",
-		"gitlab.com/auk-go/core/coredata/corestr",
-		"gitlab.com/auk-go/core/coretests",
-		"gitlab.com/auk-go/core/coretests/args",
+		"\"testing\"",
+		"\"gitlab.com/auk-go/core/coredata/corestr\"",
+		"\"gitlab.com/auk-go/core/coretests\"",
+		"\"gitlab.com/auk-go/core/coretests/args\"",
 	}
 
 	vars = unitVariables{
