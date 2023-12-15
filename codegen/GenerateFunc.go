@@ -167,7 +167,7 @@ func (it GenerateFunc) UnitTests(
 		fmtOutputs, fmtErr := it.generateFmtOutputs(
 			fmtJoiner,
 			funcName,
-			vars.inputExpectedVar,
+			vars.inputExpected,
 			outArgs,
 			inArgs,
 		)

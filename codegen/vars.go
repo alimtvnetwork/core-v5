@@ -39,7 +39,8 @@ var (
 		VariablesSetup:   "$variablesSetup",
 		workFunc:         "WorkFunc",
 		expect:           "Expect",
-		inputExpectedVar: "input.Expect",
+		inputExpected:    "input.Expect",
+		inputPrefix:      "input",
 	}
 
 	templateReplacerFunc = stringutil.

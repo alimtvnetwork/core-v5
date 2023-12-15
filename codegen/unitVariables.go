@@ -23,5 +23,6 @@ type unitVariables struct {
 	VariablesSetup   string
 	workFunc         string
 	expect           string
-	inputExpectedVar string
+	inputExpected    string
+	inputPrefix      string
 }

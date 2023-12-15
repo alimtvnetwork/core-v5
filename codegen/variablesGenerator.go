@@ -24,13 +24,21 @@ func (it variablesGenerator) Generate() variablesSetup {
 	return variablesSetup{
 		inArgsNames:  inArgsNames,
 		outArgsNames: funcWrap.OutArgNames(),
-		setupLines:   it.SetupLines(inArgsNames, inArgsTypes),
-		inArgsTypes:  inArgsTypes,
-		funcWrap:     funcWrap,
+		setupLines: it.SetupLines(
+			vars.inputPrefix,
+			inArgsNames,
+			inArgsTypes,
+		),
+		inArgsTypes: inArgsTypes,
+		funcWrap:    funcWrap,
 	}
 }
 
-func (it variablesGenerator) SetupLines(inArgNames []string, inArgsTypes []reflect.Type) corestr.SimpleSlice {
+func (it variablesGenerator) SetupLines(
+	parentVariableName string,
+	inArgNames []string,
+	inArgsTypes []reflect.Type,
+) corestr.SimpleSlice {
 	if len(inArgNames) == 0 {
 		return []string{}
 	}
@@ -46,7 +54,7 @@ func (it variablesGenerator) SetupLines(inArgNames []string, inArgsTypes []refle
 		toSlice.AppendFmt(
 			"%s := %s.%s.(%s)",
 			name,
-			"input",
+			parentVariableName,
 			rightName,
 			inArgsTypes[i].String(),
 		)
