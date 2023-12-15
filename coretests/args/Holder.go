@@ -132,7 +132,7 @@ func (it *Holder) HasExpect() bool {
 }
 
 func (it *Holder) GetFuncName() string {
-	return reflectinternal.GetFunc.Name(it.WorkFunc)
+	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
 func (it *Holder) FuncWrap() *FuncWrap {

@@ -10,7 +10,7 @@ import (
 func someFunctionV1(arg1, arg2, arg3 string) string {
 	return fmt.Sprintf(
 		"%s => called with (%s, %s, %s) - some new stuff",
-		reflectinternal.GetFunc.Name(someFunctionV1),
+		reflectinternal.GetFunc.NameOnly(someFunctionV1),
 		arg1,
 		arg2,
 		arg3,
@@ -20,7 +20,7 @@ func someFunctionV1(arg1, arg2, arg3 string) string {
 func someFunctionV2(arg1, arg2 string) (string, error) {
 	leftPart := fmt.Sprintf(
 		"%s => called with (%s, %s) - (string, error)",
-		reflectinternal.GetFunc.Name(someFunctionV2),
+		reflectinternal.GetFunc.NameOnly(someFunctionV2),
 		arg1,
 		arg2,
 	)
@@ -31,7 +31,7 @@ func someFunctionV2(arg1, arg2 string) (string, error) {
 func someFunctionV3(arg1, arg2 string) (int, string, error) {
 	middlePart := fmt.Sprintf(
 		"%s => called with (%s, %s) - (int, string, error)",
-		reflectinternal.GetFunc.Name(someFunctionV3),
+		reflectinternal.GetFunc.NameOnly(someFunctionV3),
 		arg1,
 		arg2,
 	)

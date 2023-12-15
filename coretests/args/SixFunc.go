@@ -124,7 +124,7 @@ func (it *SixFunc) HasExpect() bool {
 }
 
 func (it *SixFunc) GetFuncName() string {
-	return reflectinternal.GetFunc.Name(it.WorkFunc)
+	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
 func (it *SixFunc) FuncWrap() *FuncWrap {

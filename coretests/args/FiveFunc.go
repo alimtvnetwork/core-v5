@@ -106,7 +106,7 @@ func (it *FiveFunc) HasExpect() bool {
 }
 
 func (it *FiveFunc) GetFuncName() string {
-	return reflectinternal.GetFunc.Name(it.WorkFunc)
+	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
 func (it *FiveFunc) FuncWrap() *FuncWrap {

@@ -75,7 +75,7 @@ func (it *ThreeFunc) HasFunc() bool {
 }
 
 func (it *ThreeFunc) GetFuncName() string {
-	return reflectinternal.GetFunc.Name(it.WorkFunc)
+	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
 func (it *ThreeFunc) HasExpect() bool {

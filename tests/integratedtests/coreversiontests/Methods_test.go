@@ -30,7 +30,7 @@ func Test_TwoParams_Method_Verification(t *testing.T) {
 			s := input.Second.(int)
 			third := input.Third.(bool)
 			theFunc := input.Fourth.(func(major, x int) bool)
-			funcName := reflectinternal.GetFunc.Name(theFunc)
+			funcName := reflectinternal.GetFunc.NameOnly(theFunc)
 
 			isMatch := theFunc(f, s)
 
@@ -80,7 +80,7 @@ func Test_ThreeParams_Method_Verification(t *testing.T) {
 			third := input.Third.(int)
 			fourth := input.Fourth.(bool)
 			theFunc := input.Fifth.(func(major, x, y int) bool)
-			funcName := reflectinternal.GetFunc.Name(theFunc)
+			funcName := reflectinternal.GetFunc.NameOnly(theFunc)
 
 			isMatch := theFunc(f, s, third)
 

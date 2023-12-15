@@ -62,7 +62,7 @@ func (it *TwoFunc) HasExpect() bool {
 }
 
 func (it *TwoFunc) GetFuncName() string {
-	return reflectinternal.GetFunc.Name(it.WorkFunc)
+	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
 func (it *TwoFunc) FuncWrap() *FuncWrap {

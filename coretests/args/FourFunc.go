@@ -97,7 +97,7 @@ func (it *FourFunc) HasExpect() bool {
 }
 
 func (it *FourFunc) GetFuncName() string {
-	return reflectinternal.GetFunc.Name(it.WorkFunc)
+	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
 func (it *FourFunc) FuncWrap() *FuncWrap {
