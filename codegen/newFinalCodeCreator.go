@@ -12,6 +12,7 @@ func (it newFinalCodeCreator) Default(
 	structName, funcName string,
 	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
+	options Options,
 ) *FinalCode {
 	return &FinalCode{
 		UnitTest:   unit,
@@ -19,6 +20,21 @@ func (it newFinalCodeCreator) Default(
 		StructName: structName,
 		FuncName:   funcName,
 		FileWriter: fileWriter,
+		Options: options,
+	}
+}
+
+func (it newFinalCodeCreator) UsingGeneratorFunc(
+	generateFunc BaseGenerator,
+	options Options,
+) *FinalCode {
+	return &FinalCode{
+		UnitTest:   unit,
+		TestCase:   testCase,
+		StructName: generateFunc.StructName(),
+		FuncName:   generateFunc.FuncName(),
+		FileWriter: generateFunc.,
+		Options:    options,
 	}
 }
 
@@ -26,6 +42,7 @@ func (it newFinalCodeCreator) All(
 	structName, funcName string,
 	unit, testCase *GoCode,
 	fileWriter *chmodhelper.SimpleFileReaderWriter,
+	options Options,
 ) *FinalCode {
 	return &FinalCode{
 		UnitTest:   unit,
@@ -33,6 +50,7 @@ func (it newFinalCodeCreator) All(
 		StructName: structName,
 		FuncName:   funcName,
 		FileWriter: fileWriter,
+		Options: options,
 	}
 }
 
