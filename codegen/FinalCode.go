@@ -87,10 +87,12 @@ func (it *FinalCode) Write() errcore.RawErrCollection {
 	return rawErrCollection
 }
 
-func (it *FinalCode) fileExistError(filePath string) error {
+func (it *FinalCode) fileExistError(fileName string) error {
 	if it.Options.IsOverwrite {
 		return nil
 	}
+
+	filePath := it.FileWriter.JoinRelPath(fileName)
 
 	if pathinternal.IsPathExists(filePath) {
 		return errcore.

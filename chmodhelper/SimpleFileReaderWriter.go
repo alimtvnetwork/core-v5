@@ -133,6 +133,14 @@ func (it SimpleFileReaderWriter) WritePath(
 	return it.errorWrapFilePath(err, filePath)
 }
 
+func (it SimpleFileReaderWriter) JoinRelPath(relPath string) string {
+	if len(relPath) == 0 {
+		return path.Clean(it.ParentDir)
+	}
+
+	return pathinternal.Join(it.ParentDir, relPath)
+}
+
 func (it SimpleFileReaderWriter) WriteRelativePath(
 	isRemoveBeforeWrite bool,
 	relPath string,

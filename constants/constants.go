@@ -492,4 +492,5 @@ const (
 	UnknownStringType                        = "Unknown type.String"
 	PayloadsFieldName                        = "Payloads"
 	NewLineBulletWithSpaceIndent             = "\n    - "
+	StackTrace                               = "Stack-Trace"
 )

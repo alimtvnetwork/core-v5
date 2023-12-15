@@ -192,7 +192,11 @@ func (it codeStack) StacksStringCount(skipStack, count int) string {
 
 	joinedLines := strings.Join(lines, "\n  - ")
 
-	return fmt.Sprintf("Stack-Trace:\n  - %s", joinedLines)
+	return fmt.Sprintf(
+		"%s :\n  - %s",
+		constants.StackTrace,
+		joinedLines,
+	)
 }
 
 func (it codeStack) SingleStack(skipStack int) string {

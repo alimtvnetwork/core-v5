@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -55,14 +56,15 @@ func (it stackTraceEnhance) MsgSkip(skip int, msg string) string {
 		return ""
 	}
 
-	if strings.Contains(msg, "Stack-Trace") {
+	if strings.Contains(msg, constants.StackTrace) {
 		return msg
 	}
 
 	fullMessage := fmt.Sprintf(
-		"%s - %s\n  - %s",
+		"%s - %s\n %s  - %s",
 		reflectinternal.CodeStack.MethodName(1+skip),
 		msg,
+		constants.StackTrace,
 		reflectinternal.CodeStack.SingleStack(2+skip),
 	)
 
@@ -80,7 +82,7 @@ func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string
 		err,
 	)
 
-	if strings.Contains(compiledMsg, "Stack-Trace") {
+	if strings.Contains(msg, constants.StackTrace) {
 		return compiledMsg
 	}
 
