@@ -15,11 +15,11 @@ type RawErrCollection struct {
 	Items []error
 }
 
-func (it RawErrCollection) AddMsg(message string) {
+func (it *RawErrCollection) AddMsg(message string) {
 	it.AddString(message)
 }
 
-func (it RawErrCollection) AddMsgStackTrace(message string) {
+func (it *RawErrCollection) AddMsgStackTrace(message string) {
 	if len(message) == 0 {
 		return
 	}
@@ -29,7 +29,7 @@ func (it RawErrCollection) AddMsgStackTrace(message string) {
 	it.AddString(fullMessage)
 }
 
-func (it RawErrCollection) AddStackTrace(err error) {
+func (it *RawErrCollection) AddStackTrace(err error) {
 	if err == nil {
 		return
 	}
@@ -39,7 +39,7 @@ func (it RawErrCollection) AddStackTrace(err error) {
 	it.AddString(fullMessage)
 }
 
-func (it RawErrCollection) AddMsgErrStackTrace(msg string, err error) {
+func (it *RawErrCollection) AddMsgErrStackTrace(msg string, err error) {
 	if err == nil {
 		return
 	}
@@ -49,7 +49,7 @@ func (it RawErrCollection) AddMsgErrStackTrace(msg string, err error) {
 	it.AddString(fullMessage)
 }
 
-func (it RawErrCollection) AddMethodName(msg string) {
+func (it *RawErrCollection) AddMethodName(msg string) {
 	if len(msg) == 0 {
 		return
 	}
@@ -59,7 +59,7 @@ func (it RawErrCollection) AddMethodName(msg string) {
 	it.AddString(fullMessage)
 }
 
-func (it RawErrCollection) AddMessages(
+func (it *RawErrCollection) AddMessages(
 	messages ...string,
 ) {
 	if len(messages) == 0 {
@@ -75,7 +75,7 @@ func (it RawErrCollection) AddMessages(
 	it.AddString(fullMessage)
 }
 
-func (it RawErrCollection) AddErrorWithMessage(
+func (it *RawErrCollection) AddErrorWithMessage(
 	err error,
 	message string,
 ) {
@@ -92,7 +92,7 @@ func (it RawErrCollection) AddErrorWithMessage(
 	it.AddMsg(fullMessage)
 }
 
-func (it RawErrCollection) AddIf(
+func (it *RawErrCollection) AddIf(
 	isAdd bool,
 	message string,
 ) {
@@ -103,7 +103,7 @@ func (it RawErrCollection) AddIf(
 	it.Add(errors.New(message))
 }
 
-func (it RawErrCollection) AddFunc(
+func (it *RawErrCollection) AddFunc(
 	errFunc func() error,
 ) {
 	if errFunc == nil {
@@ -113,7 +113,7 @@ func (it RawErrCollection) AddFunc(
 	it.Add(errFunc())
 }
 
-func (it RawErrCollection) AddFuncIf(
+func (it *RawErrCollection) AddFuncIf(
 	isAdd bool,
 	errFunc func() error,
 ) {
@@ -124,7 +124,7 @@ func (it RawErrCollection) AddFuncIf(
 	it.Add(errFunc())
 }
 
-func (it RawErrCollection) AddErrorWithMessageRef(
+func (it *RawErrCollection) AddErrorWithMessageRef(
 	err error,
 	message string,
 	reference interface{},
@@ -146,7 +146,7 @@ func (it RawErrCollection) AddErrorWithMessageRef(
 	)
 }
 
-func (it RawErrCollection) Fmt(format string, v ...interface{}) {
+func (it *RawErrCollection) Fmt(format string, v ...interface{}) {
 	if format == "" && len(v) == 0 {
 		return
 	}
@@ -159,7 +159,7 @@ func (it RawErrCollection) Fmt(format string, v ...interface{}) {
 	it.AddString(StackEnhance.MsgSkip(1, message))
 }
 
-func (it RawErrCollection) FmtIf(
+func (it *RawErrCollection) FmtIf(
 	isAdd bool,
 	format string,
 	v ...interface{},
@@ -171,7 +171,7 @@ func (it RawErrCollection) FmtIf(
 	it.Fmt(format, v...)
 }
 
-func (it RawErrCollection) References(
+func (it *RawErrCollection) References(
 	message string,
 	v ...interface{},
 ) {
@@ -184,7 +184,7 @@ func (it RawErrCollection) References(
 	it.AddString(referencesCompiled)
 }
 
-func (it RawErrCollection) MustBeSafe() {
+func (it *RawErrCollection) MustBeSafe() {
 	if it.IsEmpty() {
 		return
 	}
@@ -192,15 +192,15 @@ func (it RawErrCollection) MustBeSafe() {
 	panic(it.CompiledError())
 }
 
-func (it RawErrCollection) HasAnyIssues() bool {
+func (it *RawErrCollection) HasAnyIssues() bool {
 	return !it.IsEmpty()
 }
 
-func (it RawErrCollection) IsDefined() bool {
+func (it *RawErrCollection) IsDefined() bool {
 	return !it.IsEmpty()
 }
 
-func (it RawErrCollection) CompiledJsonErrorWithStackTraces() error {
+func (it *RawErrCollection) CompiledJsonErrorWithStackTraces() error {
 	allBytes, err := it.MarshalJSON()
 
 	if err == nil {
@@ -210,7 +210,7 @@ func (it RawErrCollection) CompiledJsonErrorWithStackTraces() error {
 	return ConcatMessageWithErr(string(allBytes), err)
 }
 
-func (it RawErrCollection) CompiledJsonStringWithStackTraces() (jsonString string) {
+func (it *RawErrCollection) CompiledJsonStringWithStackTraces() (jsonString string) {
 	err := it.CompiledJsonErrorWithStackTraces()
 
 	if err == nil {
@@ -220,15 +220,15 @@ func (it RawErrCollection) CompiledJsonStringWithStackTraces() (jsonString strin
 	return err.Error()
 }
 
-func (it RawErrCollection) MustBeEmptyError() {
+func (it *RawErrCollection) MustBeEmptyError() {
 	it.MustBeSafe()
 }
 
-func (it RawErrCollection) IsCollectionType() bool {
+func (it *RawErrCollection) IsCollectionType() bool {
 	return true
 }
 
-func (it RawErrCollection) ReflectSetTo(toPtr interface{}) error {
+func (it *RawErrCollection) ReflectSetTo(toPtr interface{}) error {
 	switch v := toPtr.(type) {
 	case RawErrCollection:
 		return FailedToConvertType.Error(
@@ -244,7 +244,7 @@ func (it RawErrCollection) ReflectSetTo(toPtr interface{}) error {
 				)
 		}
 
-		*v = it
+		v = it
 
 		return nil
 	}
@@ -256,7 +256,7 @@ func (it RawErrCollection) ReflectSetTo(toPtr interface{}) error {
 		)
 }
 
-func (it RawErrCollection) HandleError() {
+func (it *RawErrCollection) HandleError() {
 	if it.IsEmpty() {
 		return
 	}
@@ -272,15 +272,15 @@ func (it *RawErrCollection) IsAnyNull() bool {
 	return it == nil || it.Items == nil
 }
 
-func (it RawErrCollection) ErrorString() string {
+func (it *RawErrCollection) ErrorString() string {
 	return it.String()
 }
 
-func (it RawErrCollection) Compile() string {
+func (it *RawErrCollection) Compile() string {
 	return it.String()
 }
 
-func (it RawErrCollection) HandleErrorWithRefs(
+func (it *RawErrCollection) HandleErrorWithRefs(
 	newMessage string,
 	refVar, refVal interface{},
 ) {
@@ -298,7 +298,7 @@ func (it RawErrCollection) HandleErrorWithRefs(
 	panic(newMessage + reference + constants.DefaultLine + it.String())
 }
 
-func (it RawErrCollection) HandleErrorWithMsg(newMessage string) {
+func (it *RawErrCollection) HandleErrorWithMsg(newMessage string) {
 	if it.IsEmpty() {
 		return
 	}
@@ -306,15 +306,15 @@ func (it RawErrCollection) HandleErrorWithMsg(newMessage string) {
 	panic(newMessage + constants.DefaultLine + it.String())
 }
 
-func (it RawErrCollection) FullString() string {
+func (it *RawErrCollection) FullString() string {
 	return it.String()
 }
 
-func (it RawErrCollection) FullStringWithTraces() string {
+func (it *RawErrCollection) FullStringWithTraces() string {
 	return it.CompiledStackTracesString()
 }
 
-func (it RawErrCollection) FullStringWithTracesIf(isStackTraces bool) string {
+func (it *RawErrCollection) FullStringWithTracesIf(isStackTraces bool) string {
 	if isStackTraces {
 		return it.FullStringWithTraces()
 	}
@@ -322,11 +322,11 @@ func (it RawErrCollection) FullStringWithTracesIf(isStackTraces bool) string {
 	return it.String()
 }
 
-func (it RawErrCollection) ReferencesCompiledString() string {
+func (it *RawErrCollection) ReferencesCompiledString() string {
 	return it.String()
 }
 
-func (it RawErrCollection) CompiledErrorWithStackTraces() error {
+func (it *RawErrCollection) CompiledErrorWithStackTraces() error {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -334,7 +334,7 @@ func (it RawErrCollection) CompiledErrorWithStackTraces() error {
 	return errors.New(it.CompiledStackTracesString())
 }
 
-func (it RawErrCollection) CompiledStackTracesString() string {
+func (it *RawErrCollection) CompiledStackTracesString() string {
 	if it.IsEmpty() {
 		return ""
 	}
@@ -348,15 +348,15 @@ func (it RawErrCollection) CompiledStackTracesString() string {
 	return fullMessage
 }
 
-func (it RawErrCollection) FullStringSplitByNewLine() []string {
+func (it *RawErrCollection) FullStringSplitByNewLine() []string {
 	return it.Strings()
 }
 
-func (it RawErrCollection) FullStringWithoutReferences() string {
+func (it *RawErrCollection) FullStringWithoutReferences() string {
 	return it.String()
 }
 
-func (it RawErrCollection) SerializeWithoutTraces() ([]byte, error) {
+func (it *RawErrCollection) SerializeWithoutTraces() ([]byte, error) {
 	if it.IsEmpty() {
 		return nil, nil
 	}
@@ -364,7 +364,7 @@ func (it RawErrCollection) SerializeWithoutTraces() ([]byte, error) {
 	return json.Marshal(it.Items)
 }
 
-func (it RawErrCollection) Serialize() ([]byte, error) {
+func (it *RawErrCollection) Serialize() ([]byte, error) {
 	if it.IsEmpty() {
 		return nil, nil
 	}
@@ -372,7 +372,7 @@ func (it RawErrCollection) Serialize() ([]byte, error) {
 	return json.Marshal(it.Items)
 }
 
-func (it RawErrCollection) SerializeMust() []byte {
+func (it *RawErrCollection) SerializeMust() []byte {
 	rawBytes, err := it.Serialize()
 
 	MustBeEmpty(err)
@@ -380,7 +380,7 @@ func (it RawErrCollection) SerializeMust() []byte {
 	return rawBytes
 }
 
-func (it RawErrCollection) MarshalJSON() ([]byte, error) {
+func (it *RawErrCollection) MarshalJSON() ([]byte, error) {
 	if it.IsEmpty() {
 		return nil, nil
 	}
@@ -388,7 +388,7 @@ func (it RawErrCollection) MarshalJSON() ([]byte, error) {
 	return json.Marshal(it.Items)
 }
 
-func (it RawErrCollection) UnmarshalJSON(data []byte) error {
+func (it *RawErrCollection) UnmarshalJSON(data []byte) error {
 	var errItems []error
 	err := json.Unmarshal(data, &errItems)
 
@@ -399,11 +399,11 @@ func (it RawErrCollection) UnmarshalJSON(data []byte) error {
 	return err
 }
 
-func (it RawErrCollection) Value() error {
+func (it *RawErrCollection) Value() error {
 	return it.CompiledError()
 }
 
-func (it RawErrCollection) Log() {
+func (it *RawErrCollection) Log() {
 	if it.IsEmpty() {
 		return
 	}
@@ -411,7 +411,7 @@ func (it RawErrCollection) Log() {
 	fmt.Println(it.String())
 }
 
-func (it RawErrCollection) LogWithTraces() {
+func (it *RawErrCollection) LogWithTraces() {
 	if it.IsEmpty() {
 		return
 	}
@@ -419,7 +419,7 @@ func (it RawErrCollection) LogWithTraces() {
 	log.Println(it.CompiledErrorWithStackTraces())
 }
 
-func (it RawErrCollection) LogFatal() {
+func (it *RawErrCollection) LogFatal() {
 	if it.IsEmpty() {
 		return
 	}
@@ -427,7 +427,7 @@ func (it RawErrCollection) LogFatal() {
 	log.Fatalln(it.String())
 }
 
-func (it RawErrCollection) LogFatalWithTraces() {
+func (it *RawErrCollection) LogFatalWithTraces() {
 	if it.IsEmpty() {
 		return
 	}
@@ -435,17 +435,17 @@ func (it RawErrCollection) LogFatalWithTraces() {
 	log.Fatalln(it.CompiledErrorWithStackTraces())
 }
 
-func (it RawErrCollection) LogIf(isLog bool) {
+func (it *RawErrCollection) LogIf(isLog bool) {
 	if isLog {
 		it.LogFatal()
 	}
 }
 
-func (it RawErrCollection) AddErrors(errs ...error) {
+func (it *RawErrCollection) AddErrors(errs ...error) {
 	it.Adds(errs...)
 }
 
-func (it RawErrCollection) ConditionalAddError(isAdd bool, err error) {
+func (it *RawErrCollection) ConditionalAddError(isAdd bool, err error) {
 	if !isAdd {
 		return
 	}
@@ -457,7 +457,7 @@ func (it RawErrCollection) CountStateChangeTracker() CountStateChangeTracker {
 	return NewCountStateChangeTracker(&it)
 }
 
-func (it RawErrCollection) IsErrorsCollected(
+func (it *RawErrCollection) IsErrorsCollected(
 	errorsItems ...error,
 ) bool {
 	count := it.Length()
@@ -467,19 +467,19 @@ func (it RawErrCollection) IsErrorsCollected(
 	return count != it.Length()
 }
 
-func (it RawErrCollection) IsValid() bool {
+func (it *RawErrCollection) IsValid() bool {
 	return it.IsEmpty()
 }
 
-func (it RawErrCollection) IsSuccess() bool {
+func (it *RawErrCollection) IsSuccess() bool {
 	return it.IsEmpty()
 }
 
-func (it RawErrCollection) IsFailed() bool {
+func (it *RawErrCollection) IsFailed() bool {
 	return !it.IsEmpty()
 }
 
-func (it RawErrCollection) IsInvalid() bool {
+func (it *RawErrCollection) IsInvalid() bool {
 	return !it.IsEmpty()
 }
 
@@ -698,7 +698,7 @@ func (it *RawErrCollection) Dispose() {
 	it.Items = nil
 }
 
-func (it RawErrCollection) Strings() []string {
+func (it *RawErrCollection) Strings() []string {
 	if it.IsEmpty() {
 		return []string{}
 	}
@@ -712,7 +712,7 @@ func (it RawErrCollection) Strings() []string {
 	return slice
 }
 
-func (it RawErrCollection) StringUsingJoiner(joiner string) string {
+func (it *RawErrCollection) StringUsingJoiner(joiner string) string {
 	if it.IsEmpty() {
 		return ""
 	}
@@ -723,7 +723,7 @@ func (it RawErrCollection) StringUsingJoiner(joiner string) string {
 	)
 }
 
-func (it RawErrCollection) StringUsingJoinerAdditional(joiner, additionalMessage string) string {
+func (it *RawErrCollection) StringUsingJoinerAdditional(joiner, additionalMessage string) string {
 	if it.IsEmpty() {
 		return ""
 	}
@@ -734,7 +734,7 @@ func (it RawErrCollection) StringUsingJoinerAdditional(joiner, additionalMessage
 	) + additionalMessage
 }
 
-func (it RawErrCollection) String() string {
+func (it *RawErrCollection) String() string {
 	if it.IsEmpty() {
 		return ""
 	}
@@ -742,7 +742,7 @@ func (it RawErrCollection) String() string {
 	return it.StringUsingJoiner(constants.NewLineUnix)
 }
 
-func (it RawErrCollection) CompiledError() error {
+func (it *RawErrCollection) CompiledError() error {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -752,7 +752,7 @@ func (it RawErrCollection) CompiledError() error {
 	return errors.New(toString)
 }
 
-func (it RawErrCollection) CompiledErrorUsingJoiner(joiner string) error {
+func (it *RawErrCollection) CompiledErrorUsingJoiner(joiner string) error {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -762,7 +762,7 @@ func (it RawErrCollection) CompiledErrorUsingJoiner(joiner string) error {
 	return errors.New(toString)
 }
 
-func (it RawErrCollection) CompiledErrorUsingJoinerAdditionalMessage(joiner, additionalMessage string) error {
+func (it *RawErrCollection) CompiledErrorUsingJoinerAdditionalMessage(joiner, additionalMessage string) error {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -775,7 +775,7 @@ func (it RawErrCollection) CompiledErrorUsingJoinerAdditionalMessage(joiner, add
 	return errors.New(toString)
 }
 
-func (it RawErrCollection) CompiledErrorUsingStackTraces(joiner string, stackTraces []string) error {
+func (it *RawErrCollection) CompiledErrorUsingStackTraces(joiner string, stackTraces []string) error {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -787,7 +787,7 @@ func (it RawErrCollection) CompiledErrorUsingStackTraces(joiner string, stackTra
 	)
 }
 
-func (it RawErrCollection) StringWithAdditionalMessage(additionalMessage string) string {
+func (it *RawErrCollection) StringWithAdditionalMessage(additionalMessage string) string {
 	if it.IsEmpty() {
 		return ""
 	}
