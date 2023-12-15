@@ -36,13 +36,20 @@ func (it *AstReader) Initialize() (*ast.File, error) {
 		it.mode,
 	)
 
+	var fileErr error
+
 	it.fileSet = fileSet
 	it.node = node
-	it.fullCode = chmodhelper.SimpleFileWriter.FileWriter.
+	it.fullCode, fileErr = chmodhelper.
+		SimpleFileWriter.
+		FileReader.
+		Read(it.filePath)
+
+	combineErr := errcore.MergeErrors(err, fileErr)
 
 	if err != nil {
 		finalErr := errcore.ParsingFailed.MsgCsvRefError(
-			err.Error(),
+			combineErr.Error(),
 			it.filePath,
 		)
 
@@ -52,6 +59,22 @@ func (it *AstReader) Initialize() (*ast.File, error) {
 	}
 
 	return node, err
+}
+
+func (it *AstReader) HasError() bool {
+	return it != nil && it.parseErr != nil
+}
+
+func (it *AstReader) IsEmptyError() bool {
+	return it == nil || it.parseErr == nil
+}
+
+func (it *AstReader) IsValid() bool {
+	return it != nil && it.parseErr == nil
+}
+
+func (it *AstReader) IsInvalid() bool {
+	return !it.IsValid()
 }
 
 func (it *AstReader) InitializeMust() *ast.File {
@@ -80,6 +103,24 @@ func (it *AstReader) AllPackages() ([]*packages.Package, error) {
 	return imports, loadErr
 }
 
+func (it *AstReader) Substring(start, end int) (string, error) {
+	if it.HasError() {
+		return "", it.parseErr
+	}
+
+	return it.fullCode[start:end], nil
+}
+func (it *AstReader) SubstringByNode(n ast.Node) (string, error) {
+	if it.HasError() {
+		return "", it.parseErr
+	}
+
+	start := n.Pos() - 1
+	end := n.End() - 1
+
+	return it.fullCode[start:end], nil
+}
+
 func (it *AstReader) NodesMap() (args.Map, error) {
 	node, err := it.Initialize()
 
@@ -90,16 +131,49 @@ func (it *AstReader) NodesMap() (args.Map, error) {
 	// okay
 	// Collect the struct types in this slice.
 	curMap := make(map[string]interface{}, 100)
+	var rawErrSlice errcore.RawErrCollection
 
 	// Use the Inspect function to walk AST looking for struct
 	// type nodes.
 	ast.Inspect(
 		node, func(n ast.Node) bool {
-			start := n.Pos() - 1
-			end := n.End() - 1
+			toString, subsErr := it.SubstringByNode(n)
 
-			curMap[n.]
+			rawErrSlice.Add(subsErr)
 
-return true
-})
+			if subsErr == nil {
+				curMap[toString] = n
+			}
+
+			return true
+		},
+	)
+
+	return curMap, rawErrSlice.CompiledError()
+}
+
+func (it *AstReader) StructTypes() ([]*ast.StructType, error) {
+	node, err := it.Initialize()
+
+	if iserror.Defined(err) {
+		return nil, err
+	}
+
+	// okay
+	var rawErrSlice errcore.RawErrCollection
+	var structTypes []*ast.StructType
+
+	// Use the Inspect function to walk AST looking for struct
+	// type nodes.
+	ast.Inspect(
+		node, func(n ast.Node) bool {
+			if x, isOkay := n.(*ast.StructType); isOkay {
+				structTypes = append(structTypes, x)
+			}
+
+			return true
+		},
+	)
+
+	return structTypes, rawErrSlice.CompiledError()
 }
