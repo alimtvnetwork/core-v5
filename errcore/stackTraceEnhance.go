@@ -64,14 +64,14 @@ func (it stackTraceEnhance) MsgSkip(skip int, msg string) string {
 
 	if len(toTrace) == 0 {
 		return fmt.Sprintf(
-			"%s - %s",
+			combineMsgWithErrorFormat,
 			it.methodName(skip+1),
 			msg,
 		)
 	}
 
 	fullMessage := fmt.Sprintf(
-		"%s - %s\n %s: \n  - %s",
+		stackEnhanceFormat,
 		it.methodName(skip+1),
 		msg,
 		constants.StackTrace,
@@ -86,7 +86,7 @@ func (it stackTraceEnhance) methodName(skip int) string {
 }
 
 func (it stackTraceEnhance) trace(skip int) string {
-	return reflectinternal.CodeStack.SingleStack(2 + skip)
+	return reflectinternal.CodeStack.StacksStringCount(2+skip, 4)
 }
 
 func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string {
@@ -108,14 +108,14 @@ func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string
 
 	if len(toTrace) == 0 {
 		return fmt.Sprintf(
-			"%s - %s",
+			combineMsgWithErrorFormat,
 			it.methodName(skip+1),
 			msg,
 		)
 	}
 
 	fullMessage := fmt.Sprintf(
-		"%s - %s\n %s: \n  - %s",
+		stackEnhanceFormat,
 		it.methodName(skip+1),
 		msg,
 		constants.StackTrace,

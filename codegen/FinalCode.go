@@ -98,7 +98,7 @@ func (it *FinalCode) fileExistError(fileName string) error {
 		return errcore.
 			PathExist.
 			Error(
-				"choose overwrite option to overwrite over existing files",
+				"\nchoose overwrite option to overwrite over existing files.",
 				filePath,
 			)
 	}
@@ -191,7 +191,6 @@ func (it *FinalCode) WriteInSameFile() error {
 	}
 
 	finalGoCode := it.compiledGoCode()
-
 	code, err := finalGoCode.CompileFullCode()
 
 	if iserror.Defined(err) {

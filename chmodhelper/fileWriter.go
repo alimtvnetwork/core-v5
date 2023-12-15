@@ -2,7 +2,6 @@ package chmodhelper
 
 import (
 	"errors"
-	"fmt"
 	"os"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
@@ -95,13 +94,6 @@ func (it fileWriter) All(
 
 	if cleanUpErr != nil {
 		return cleanUpErr
-	}
-
-	if IsPathExists(writingFilePath) {
-		return fmt.Errorf(
-			"file already exist, cannot overwrite to existing file, location : %s",
-			writingFilePath,
-		)
 	}
 
 	err := os.WriteFile(
