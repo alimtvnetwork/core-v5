@@ -14,5 +14,5 @@ type AstFunction struct {
 	ReceiverStruct *AstElem
 	Comments       *AstElem
 	Type           *ast.FuncType
-	FuncArg        *AstFuncArg
+	FuncArg        *RootFuncArgs
 }

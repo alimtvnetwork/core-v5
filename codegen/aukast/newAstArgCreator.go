@@ -5,30 +5,13 @@ import (
 	"strings"
 )
 
-type AstFuncArg struct {
-	Parent          *AstElem
-	FuncType        *ast.FuncType
-	Params, Results *AstElem
-	InArgs, OutArgs []Arg
-}
+type newAstArgCreator struct{}
 
-type Arg struct {
-	Name, TypeName        string
-	NameIdent             *ast.Ident
-	TypeExpr              ast.Expr
-	TypeIdent             *ast.Ident
-	Comment               *ast.CommentGroup
-	IsPointerType         bool
-	IsArray               bool
-	IsArrayPointerElement bool
-	Code                  string
-}
-
-func NewAstFuncArg(
+func (it newAstArgCreator) Root(
 	parent *AstElem,
 	fullCode string,
 	f *ast.FuncType,
-) *AstFuncArg {
+) *RootFuncArgs {
 	if f == nil {
 		return nil
 	}
@@ -45,46 +28,67 @@ func NewAstFuncArg(
 		f.Results,
 	)
 
-	var inArgs, outArgs []Arg
+	var inArgs, outArgs []Param
 
 	for _, field := range inParams.FieldsList() {
-		toArgs := NewAstArgs(fullCode, field)
+		toArgs := it.Params(fullCode, field)
 		inArgs = append(inArgs, toArgs...)
 	}
 
 	for _, field := range outParams.FieldsList() {
-		toArgs := NewAstArgs(fullCode, field)
+		toArgs := it.Params(fullCode, field)
 		outArgs = append(outArgs, toArgs...)
 	}
 
-	return &AstFuncArg{
+	code := astUtil.NodeToStringSafe(fullCode, f)
+
+	return &RootFuncArgs{
 		Parent:   parent,
 		FuncType: f,
 		Params:   inParams,
 		Results:  outParams,
 		InArgs:   inArgs,
 		OutArgs:  outArgs,
+		Code:     code,
 	}
 }
 
-func NewAstArgs(
-	code string,
-	f *ast.Field,
-) []Arg {
-	if f == nil {
-		return []Arg{}
+func (it newAstArgCreator) ParamsUsingFieldsList(
+	fullCode string,
+	fieldsList []*ast.Field,
+) []Param {
+	if len(fieldsList) == 0 || fullCode == "" {
+		return []Param{}
 	}
 
-	var args []Arg
-	subCode := astUtil.NodeToStringSafe(code, f)
+	var toParams []Param
+
+	for _, field := range fieldsList {
+		toArgs := it.Params(fullCode, field)
+		toParams = append(toParams, toArgs...)
+	}
+
+	return toParams
+}
+
+func (it newAstArgCreator) Params(
+	fullCode string,
+	f *ast.Field,
+) []Param {
+	if f == nil {
+		return []Param{}
+	}
+
+	var args []Param
+	subCode := astUtil.NodeToStringSafe(fullCode, f)
 
 	for _, ident := range f.Names {
 		typeIdent := astUtil.ExprToIdent(f.Type)
-		typeName, _ := astUtil.NodeToString(code, f.Type)
+		typeName, _ := astUtil.NodeToString(fullCode, f.Type)
 		isArray := astUtil.HasAnyPrefix(typeName, "[]", "*[]")
 		isArrayPointerElement := astUtil.HasAnyPrefix(typeName, "*[]*", "[]*")
 
-		a := Arg{
+		a := Param{
 			Name:                  ident.Name,
 			TypeName:              typeName,
 			NameIdent:             ident,
