@@ -5,7 +5,6 @@ import (
 	"go/parser"
 	"go/token"
 
-	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/iserror"
@@ -15,50 +14,10 @@ import (
 type AstReader struct {
 	filePath string
 	src      interface{}
-	node     *ast.File
+	astFile  *ast.File
 	fullCode string
-	parseErr error
 	fileSet  *token.FileSet
 	mode     parser.Mode
-}
-
-func (it *AstReader) Initialize() (*ast.File, error) {
-	if it.fileSet != nil {
-		return it.node, it.parseErr
-	}
-
-	fileSet := token.NewFileSet()
-
-	node, err := parser.ParseFile(
-		fileSet,
-		it.filePath,
-		it.src,
-		it.mode,
-	)
-
-	var fileErr error
-
-	it.fileSet = fileSet
-	it.node = node
-	it.fullCode, fileErr = chmodhelper.
-		SimpleFileWriter.
-		FileReader.
-		Read(it.filePath)
-
-	combineErr := errcore.MergeErrors(err, fileErr)
-
-	if err != nil {
-		finalErr := errcore.ParsingFailed.MsgCsvRefError(
-			combineErr.Error(),
-			it.filePath,
-		)
-
-		it.parseErr = finalErr
-
-		return node, finalErr
-	}
-
-	return node, err
 }
 
 func (it *AstReader) FullCode() (string, error) {
@@ -128,7 +87,7 @@ func (it *AstReader) SubstringByNode(n ast.Node) (string, error) {
 	}
 
 	if n == nil {
-		return "", errcore.FailedToParseType.ErrorNoRefs("node is nil")
+		return "", errcore.FailedToParseType.ErrorNoRefs("astFile is nil")
 	}
 
 	start := n.Pos() - 1

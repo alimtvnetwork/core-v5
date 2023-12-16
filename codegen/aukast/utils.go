@@ -3,6 +3,8 @@ package aukast
 import (
 	"fmt"
 	"go/ast"
+	"go/printer"
+	"go/token"
 	"strings"
 
 	"gitlab.com/auk-go/core/errcore"
@@ -41,6 +43,13 @@ func (it *utils) NodeToStringSafe(fullCode string, n ast.Node) string {
 	code, _ := it.NodeToString(fullCode, n)
 
 	return code
+}
+
+func (it *utils) AstFileToCode(fSet *token.FileSet, file *ast.File) (string, error) {
+	myWriter := &BytesWriter{}
+	err := printer.Fprint(myWriter, fSet, file)
+
+	return myWriter.String(), err
 }
 
 func (it *utils) IdentifiersToString(fullCode string, identifiers []*ast.Ident) string {

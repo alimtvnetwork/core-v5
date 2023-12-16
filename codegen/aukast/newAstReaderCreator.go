@@ -2,7 +2,13 @@ package aukast
 
 import (
 	"go/parser"
+	"go/printer"
+	"go/token"
+	"log"
+	"os"
 	"path"
+
+	"gitlab.com/auk-go/core/chmodhelper"
 )
 
 type newAstReaderCreator struct{}
@@ -10,34 +16,77 @@ type newAstReaderCreator struct{}
 // Create
 //
 // src is usually a string Golang code.
-func (it newAstReaderCreator) Create(filePath string, src interface{}) *AstReader {
-	return &AstReader{
-		filePath: path.Clean(filePath),
-		src:      src,
-		mode:     parser.AllErrors,
-	}
+func (it newAstReaderCreator) Create(filePath string, src interface{}) (*AstReader, error) {
+	currentMode := parser.AllErrors
+
+	return it.All(filePath, src, currentMode)
 }
 
 func (it newAstReaderCreator) All(
 	filePath string,
 	src interface{},
 	mode parser.Mode,
-) *AstReader {
+) (*AstReader, error) {
+	fileSet := token.NewFileSet()
+	node, err := parser.ParseFile(
+		fileSet,
+		filePath,
+		src,
+		mode,
+	)
+
+	if err != nil {
+		return &AstReader{
+			filePath: filePath,
+			src:      src,
+			mode:     mode,
+		}, err
+	}
+
+	fullCode, fileErr := chmodhelper.
+		SimpleFileWriter.
+		FileReader.
+		Read(filePath)
+
 	return &AstReader{
 		filePath: path.Clean(filePath),
 		src:      src,
+		astFile:  node,
+		fullCode: fullCode,
+		fileSet:  fileSet,
 		mode:     mode,
-	}
+	}, fileErr
 }
 
 // Src
 //
 // src is usually a string Golang code.
-func (it newAstReaderCreator) Src(src interface{}) *AstReader {
-	return &AstReader{
-		src:  src,
-		mode: parser.AllErrors,
+func (it newAstReaderCreator) Src(src interface{}, mode parser.Mode) (*AstReader, error) {
+	fileSet := token.NewFileSet()
+	astFile, err := parser.ParseFile(
+		fileSet,
+		"",
+		src,
+		mode,
+	)
+
+	if err != nil {
+		return &AstReader{
+			src:  src,
+			mode: mode,
+		}, err
 	}
+
+	fullCode := astUtil.AstFileToCode(fileSet, astFile)
+
+
+	return &AstReader{
+		src:      src,
+		astFile:  astFile,
+		fullCode: astUtil.NodeToStringSafe(),
+		fileSet:  fileSet,
+		mode:     mode,
+	}, errcore.
 }
 
 func (it newAstReaderCreator) FilePath(filePath string) *AstReader {
