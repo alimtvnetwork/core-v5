@@ -139,18 +139,14 @@ func (it *AstElem) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *As
 	return it.childNodes
 }
 
-func (it *AstElem) Functions() *AstCollection {
+func (it *AstElem) Functions() *AstFuncCollection {
 	if it.IsEmpty() {
 		return nil
 	}
 
-	if it.childNodes != nil {
-		return it.childNodes
-	}
-
 	creatorFunc := New.AstElem.CreateByParent
 	fullCode := it.FullCode()
-	var slice []AstElem
+	funcMap := make(map[string]AstFunction, 10)
 	var rawErr errcore.RawErrCollection
 
 	ast.Inspect(
@@ -159,12 +155,21 @@ func (it *AstElem) Functions() *AstCollection {
 				return true
 			}
 
+			// https://prnt.sc/eQZm-iCDdj-H
 			elem, err := creatorFunc(it, fullCode, n)
 			rawErr.Add(err)
-			isTake, isBreak := filter(elem)
 
-			if err == nil && isTake {
-				slice = append(slice, *elem)
+			if err == nil {
+				astFunc := AstFunction{
+					Name:       "",
+					StructName: "",
+					IsAttached: false,
+					IsPublic:   false,
+					IsPrivate:  false,
+					Parent:     nil,
+					InArgs:     nil,
+					OutArgs:    nil,
+				}
 			}
 
 			if isBreak {
