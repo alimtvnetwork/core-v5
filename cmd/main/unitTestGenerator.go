@@ -86,6 +86,13 @@ func (it unitTestGenerator) AstChecker() {
 
 	firstNode, _ := astReader.SubstringByNode(structTypes[0])
 
+	for key := range nodesMap {
+		fmt.Printf("%s,\n", key)
+	}
+
+	fmt.Println()
+	fmt.Println()
+
 	fmt.Println(node.Decls)
 	fmt.Println(nodesMap)
 	fmt.Println(structTypes)

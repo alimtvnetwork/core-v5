@@ -7,24 +7,20 @@ import (
 
 type AstElem struct {
 	Parent                *AstElem
-	RealNode              interface{}
-	Path                  *ast.BasicLit
 	Name                  string
 	TypeName              string
 	Code                  string
 	NameIdentifier        *ast.Ident
 	ParentTypeName        string // https://prnt.sc/ZffPQKPrAh7m
 	InnerTypeName         string // https://prnt.sc/OKbh4Q5JahXr
-	GenericNode           ast.Node
+	Node                  ast.Node
 	parentType, innerType reflect.Type
 	properties            map[string]bool
 	childNodes            []AstElem
 }
 
 func (it *AstElem) IsEmpty() bool {
-	return it == nil ||
-		it.GenericNode == nil ||
-		it.RealNode == nil
+	return it == nil || it.Node == nil
 }
 
 func (it *AstElem) IsInvalid() bool {
@@ -37,7 +33,7 @@ func (it *AstElem) IsValid() bool {
 
 func (it *AstElem) ChildNodes() []AstElem {
 	ast.Inspect(
-		it.GenericNode, func(n ast.Node) bool {
+		it.Node, func(n ast.Node) bool {
 			if n == nil {
 				return true
 			}
@@ -46,4 +42,5 @@ func (it *AstElem) ChildNodes() []AstElem {
 		},
 	)
 
+	return nil
 }

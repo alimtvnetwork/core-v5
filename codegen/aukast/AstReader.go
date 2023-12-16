@@ -1,7 +1,6 @@
 package aukast
 
 import (
-	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -228,9 +227,7 @@ func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
 }
 
 func (it *AstReader) TypeName(n ast.Node) string {
-	typeName := fmt.Sprintf("%T", n)
-
-	return typeName
+	return astUtil.TypeName(n)
 }
 
 func (it *AstReader) StructTypes() ([]*ast.StructType, error) {
