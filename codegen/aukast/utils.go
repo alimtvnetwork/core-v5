@@ -96,6 +96,10 @@ func (it utils) Name(fullCode string, n ast.Node) string {
 		return v.Name
 	case *ast.BasicLit:
 		return v.Kind.String()
+	case *ast.FuncDecl:
+		return it.NodeToStringSafe(fullCode, v.Name)
+	case *ast.FuncType:
+		return it.FieldsListToString(fullCode, v.Results)
 	case *ast.SelectorExpr:
 		return it.NodeToStringSafe(fullCode, v.X)
 	case *ast.KeyValueExpr:
