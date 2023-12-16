@@ -4,6 +4,7 @@ import "go/ast"
 
 type AstFunction struct {
 	Name           string
+	StructVarName  string
 	StructName     string
 	IsAttached     bool
 	IsPublic       bool

@@ -4,6 +4,7 @@ import (
 	"go/ast"
 
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/isany"
 )
 
 type newAstElemCreator struct{}
@@ -13,7 +14,7 @@ func (it newAstElemCreator) Create(
 	fullCode string,
 	node ast.Node,
 ) (*AstElem, error) {
-	if node == nil {
+	if isany.Null(node) {
 		return nil, errcore.FailedToParseType.ErrorNoRefs("node is nil")
 	}
 
@@ -43,7 +44,7 @@ func (it newAstElemCreator) CreateByParent(
 	fullCode string,
 	node ast.Node,
 ) (*AstElem, error) {
-	if node == nil {
+	if isany.Null(node) {
 		return nil, errcore.FailedToParseType.ErrorNoRefs("node is nil")
 	}
 
@@ -66,7 +67,7 @@ func (it newAstElemCreator) CreateByParent(
 }
 
 func (it newAstElemCreator) CreateByAstReader(astReader *AstReader, node ast.Node) (*AstElem, error) {
-	if node == nil {
+	if isany.Null(node) {
 		return nil, errcore.FailedToParseType.ErrorNoRefs("node is nil")
 	}
 

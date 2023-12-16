@@ -7,6 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/isany"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -231,7 +232,7 @@ func (it *AstReader) ChildNodes() *AstCollection {
 
 	ast.Inspect(
 		it.AstFile(), func(n ast.Node) bool {
-			if n == nil {
+			if isany.Null(n) {
 				return true
 			}
 
@@ -274,7 +275,7 @@ func (it *AstReader) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *
 
 	ast.Inspect(
 		it.AstFile(), func(n ast.Node) bool {
-			if n == nil {
+			if isany.Null(n) {
 				return true
 			}
 
@@ -319,7 +320,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 
 	ast.Inspect(
 		it.AstFile(), func(n ast.Node) bool {
-			if n == nil {
+			if isany.Null(n) {
 				return true
 			}
 
@@ -341,6 +342,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 
 				astFunc := AstFunction{
 					Name:           name,
+					StructVarName:  "",
 					StructName:     StructName,
 					IsAttached:     false,
 					IsPublic:       true,
@@ -350,6 +352,8 @@ func (it *AstReader) Functions() *AstFuncCollection {
 					ReceiverStruct: structX,
 					Comments:       comments,
 					Type:           toFunc.Type,
+					InArgs:         nil,
+					OutArgs:        nil,
 				}
 
 				funcMap[name] = astFunc

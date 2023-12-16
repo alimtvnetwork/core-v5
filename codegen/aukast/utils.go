@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/isany"
 )
 
 type utils struct{}
@@ -17,7 +18,7 @@ func (it utils) TypeName(n ast.Node) string {
 }
 
 func (it *utils) NodeToString(fullCode string, n ast.Node) (string, error) {
-	if n == nil {
+	if isany.Null(n) {
 		return "", errcore.FailedToParseType.ErrorNoRefs("node is nil")
 	}
 
@@ -43,7 +44,7 @@ func (it *utils) NodeToString(fullCode string, n ast.Node) (string, error) {
 }
 
 func (it *utils) NodeToStringSafe(fullCode string, n ast.Node) string {
-	if n == nil {
+	if isany.Null(n) {
 		return ""
 	}
 
@@ -92,13 +93,13 @@ func (it *utils) FieldsListToString(fieldsList *ast.FieldList) string {
 		slice = append(slice, it.IdentifiersToString(field.Names))
 	}
 
-	toStr := strings.Join(slice, "; ")
+	toStr := strings.Join(slice, ",")
 
-	return fmt.Sprintf("[]%s", toStr)
+	return fmt.Sprintf("%s", toStr)
 }
 
-func (it utils) Name(fullCode string, n ast.Node) string {
-	if n == nil {
+func (it utils) Name(fullCode string, n interface{}) string {
+	if isany.Null(n) {
 		return ""
 	}
 
@@ -119,11 +120,40 @@ func (it utils) Name(fullCode string, n ast.Node) string {
 		return it.IdentifiersToString(v.Names)
 	case *ast.FieldList:
 		return it.FieldsListToString(v)
-
-	case *ast.ExprStmt, *ast.RangeStmt, *ast.CompositeLit:
+	case *ast.Object:
+		return it.ObjectToString(fullCode, v)
+	case ast.Node:
 		// https://prnt.sc/48i_Cuko_J5r
 
 		return it.NodeToStringSafe(fullCode, v)
+	}
+
+	return ""
+}
+
+func (it utils) NodeTypeName(fullCode string, n ast.Node) string {
+	if isany.Null(n) {
+		return ""
+	}
+
+	switch v := n.(type) {
+	case *ast.Ident:
+		switch casted := v.Obj.Type.(type) {
+		case *ast.Ident:
+			return casted.Name
+		}
+
+		return it.Name(fullCode, v.Obj)
+	case *ast.FuncType:
+		return it.FieldsListToString(v.Results)
+	case *ast.SelectorExpr:
+		return it.NodeToStringSafe(fullCode, v.X)
+	case *ast.KeyValueExpr:
+		return it.NodeToStringSafe(fullCode, v.Value)
+	case *ast.Field:
+		return it.IdentifiersToString(v.Names)
+	case *ast.FieldList:
+		return it.FieldsListToString(v)
 	}
 
 	return ""
@@ -141,6 +171,10 @@ func (it utils) Kind(fullCode string, n ast.Node) string {
 }
 
 func (it utils) ToIdent(n ast.Node) *ast.Ident {
+	if isany.Null(n) {
+		return nil
+	}
+
 	switch v := n.(type) {
 	case *ast.Ident:
 		return v
@@ -163,4 +197,25 @@ func (it utils) ToIdent(n ast.Node) *ast.Ident {
 	}
 
 	return nil
+}
+
+func (it utils) IdentNameTypeName(code string, v *ast.Ident) (name, typeName string) {
+	if v == nil {
+		return "", ""
+	}
+
+	switch casted := v.Obj.Type.(type) {
+	case *ast.Ident:
+		return v.Name, casted.Name
+	}
+
+	return v.Name, it.Name(code, v.Obj)
+}
+
+func (it utils) ObjectToString(code string, v *ast.Object) string {
+	if v == nil {
+		return ""
+	}
+
+	return it.NodeToStringSafe(code, v)
 }
