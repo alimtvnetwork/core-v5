@@ -8,7 +8,11 @@ import (
 
 type newAstElemCreator struct{}
 
-func (it newAstElemCreator) Create(fullCode string, node ast.Node) (*AstElem, error) {
+func (it newAstElemCreator) Create(
+	astReader *AstReader,
+	fullCode string,
+	node ast.Node,
+) (*AstElem, error) {
 	if node == nil {
 		return nil, errcore.FailedToParseType.ErrorNoRefs("node is nil")
 	}
@@ -19,13 +23,45 @@ func (it newAstElemCreator) Create(fullCode string, node ast.Node) (*AstElem, er
 	identifier := astUtil.ToIdent(node)
 
 	return &AstElem{
-		Node:           node,
+		astReader:      astReader,
 		Name:           name,
 		TypeName:       typeName,
 		Code:           code,
 		NameIdentifier: identifier,
 		ParentTypeName: "",
 		InnerTypeName:  "",
+		Node:           node,
+		parentType:     nil,
+		innerType:      nil,
+		properties:     nil,
+		childNodes:     nil,
+	}, nil
+}
+
+func (it newAstElemCreator) CreateByParent(
+	parent *AstElem,
+	fullCode string,
+	node ast.Node,
+) (*AstElem, error) {
+	if node == nil {
+		return nil, errcore.FailedToParseType.ErrorNoRefs("node is nil")
+	}
+
+	code, _ := astUtil.NodeToString(fullCode, node)
+	typeName := astUtil.TypeName(node)
+	name := astUtil.Name(fullCode, node)
+	identifier := astUtil.ToIdent(node)
+
+	return &AstElem{
+		astReader:      parent.AstReader(),
+		Parent:         parent,
+		Name:           name,
+		TypeName:       typeName,
+		Code:           code,
+		NameIdentifier: identifier,
+		ParentTypeName: "",
+		InnerTypeName:  "",
+		Node:           node,
 	}, nil
 }
 
@@ -38,9 +74,15 @@ func (it newAstElemCreator) CreateByAstReader(astReader *AstReader, node ast.Nod
 		return nil, errcore.FailedToParseType.ErrorNoRefs("astReader is nil")
 	}
 
-	if astReader.HasError() {
-		return nil, errcore.FailedToParseType.ErrorNoRefs("astReader has error : " + astReader.parseErr.Error())
+	fullCode, err := astReader.FullCode()
+
+	if err != nil {
+		return nil, err
 	}
 
-	return it.Create(astReader.fullCode, node)
+	return it.Create(
+		astReader,
+		fullCode,
+		node,
+	)
 }

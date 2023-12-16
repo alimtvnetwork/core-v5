@@ -7,7 +7,6 @@ import (
 
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/iserror"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -20,40 +19,32 @@ type AstReader struct {
 	mode     parser.Mode
 }
 
+func (it *AstReader) AstFile() *ast.File {
+	if it.IsInvalid() {
+		return nil
+	}
+
+	return it.astFile
+}
+
 func (it *AstReader) FullCode() (string, error) {
 	if it == nil {
 		return "", errcore.CannotBeNilType.ErrorRefOnly(it)
 	}
 
-	if it.HasError() {
-		return "", it.parseErr
-	}
-
 	return it.fullCode, nil
 }
 
-func (it *AstReader) HasError() bool {
-	return it != nil && it.parseErr != nil
-}
-
-func (it *AstReader) IsEmptyError() bool {
-	return it == nil || it.parseErr == nil
-}
-
 func (it *AstReader) IsValid() bool {
-	return it != nil && it.parseErr == nil
+	return it != nil && len(it.fullCode) > 0 || it.astFile == nil
+}
+
+func (it *AstReader) IsEmpty() bool {
+	return it == nil || len(it.fullCode) == 0 || it.astFile == nil
 }
 
 func (it *AstReader) IsInvalid() bool {
 	return !it.IsValid()
-}
-
-func (it *AstReader) InitializeMust() *ast.File {
-	node, err := it.Initialize()
-
-	errcore.HandleErr(err)
-
-	return node
 }
 
 func (it *AstReader) Config() *packages.Config {
@@ -75,17 +66,9 @@ func (it *AstReader) AllPackages() ([]*packages.Package, error) {
 }
 
 func (it *AstReader) Substring(start, end int) (string, error) {
-	if it.HasError() {
-		return "", it.parseErr
-	}
-
 	return it.fullCode[start:end], nil
 }
 func (it *AstReader) SubstringByNode(n ast.Node) (string, error) {
-	if it.HasError() {
-		return "", it.parseErr
-	}
-
 	if n == nil {
 		return "", errcore.FailedToParseType.ErrorNoRefs("astFile is nil")
 	}
@@ -97,21 +80,17 @@ func (it *AstReader) SubstringByNode(n ast.Node) (string, error) {
 }
 
 func (it *AstReader) NodesMap() (map[string]args.Map, error) {
-	node, err := it.Initialize()
-
-	if iserror.Defined(err) {
-		return map[string]args.Map{}, err
+	if it.IsInvalid() {
+		return map[string]args.Map{}, it.invalidErr()
 	}
 
-	// okay
-	// Collect the struct types in this slice.
 	curMap := make(map[string]args.Map, 30)
 	var rawErrSlice errcore.RawErrCollection
 
 	// Use the Inspect function to walk AST looking for struct
 	// type nodes.
 	ast.Inspect(
-		node, func(n ast.Node) bool {
+		it.AstFile(), func(n ast.Node) bool {
 			if n == nil {
 				return true
 			}
@@ -141,11 +120,21 @@ func (it *AstReader) NodesMap() (map[string]args.Map, error) {
 	return curMap, rawErrSlice.CompiledError()
 }
 
-func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
-	node, err := it.Initialize()
+func (it *AstReader) invalidErr() error {
+	if it.IsInvalid() {
+		return nil
+	}
 
-	if iserror.Defined(err) {
-		return map[string]args.Map{}, err
+	return errcore.
+		InvalidEmptyValueType.
+		ErrorNoRefs(
+			"invalid ast, either nil, full code empty or astFile is nil",
+		)
+}
+
+func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
+	if it.IsInvalid() {
+		return map[string]args.Map{}, it.invalidErr()
 	}
 
 	// okay
@@ -156,7 +145,7 @@ func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
 	// Use the Inspect function to walk AST looking for struct
 	// type nodes.
 	ast.Inspect(
-		node, func(n ast.Node) bool {
+		it.AstFile(), func(n ast.Node) bool {
 			if n == nil {
 				return true
 			}
@@ -202,10 +191,8 @@ func (it *AstReader) TypeName(n ast.Node) string {
 }
 
 func (it *AstReader) StructTypes() ([]*ast.StructType, error) {
-	node, err := it.Initialize()
-
-	if iserror.Defined(err) {
-		return nil, err
+	if it.IsInvalid() {
+		return []*ast.StructType{}, it.invalidErr()
 	}
 
 	// okay
@@ -215,7 +202,7 @@ func (it *AstReader) StructTypes() ([]*ast.StructType, error) {
 	// Use the Inspect function to walk AST looking for struct
 	// type nodes.
 	ast.Inspect(
-		node, func(n ast.Node) bool {
+		it.AstFile(), func(n ast.Node) bool {
 			if x, isOkay := n.(*ast.StructType); isOkay {
 				structTypes = append(structTypes, x)
 			}

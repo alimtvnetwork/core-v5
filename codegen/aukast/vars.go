@@ -4,6 +4,6 @@ import "golang.org/x/tools/go/packages"
 
 var (
 	globalLoadMode = packages.NeedSyntax | packages.NeedTypes | packages.NeedTypesInfo
-	New            = newAstReaderCreator{}
+	New            = newCreator{}
 	astUtil        = utils{}
 )
