@@ -230,10 +230,6 @@ func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
 func (it *AstReader) TypeName(n ast.Node) string {
 	typeName := fmt.Sprintf("%T", n)
 
-	if len(typeName) > 3 {
-		return typeName[1 : len(typeName)-1]
-	}
-
 	return typeName
 }
 

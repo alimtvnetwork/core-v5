@@ -17,14 +17,24 @@ type AstElem struct {
 	InnerTypeName         string // https://prnt.sc/OKbh4Q5JahXr
 	GenericNode           ast.Node
 	parentType, innerType reflect.Type
-	IsFunction            bool
-	IsIdent               bool
-	IsStatement           bool
-	IsExpression          bool
-	IsBlock               bool
-	HasParent             bool
+	properties            map[string]bool
+	childNodes            []AstElem
 }
 
-func (it AstElem) name() {
+func (it *AstElem) IsEmpty() bool {
+	return it == nil ||
+		it.GenericNode == nil ||
+		it.RealNode == nil
+}
+
+func (it *AstElem) IsInvalid() bool {
+	return it.IsEmpty()
+}
+
+func (it *AstElem) IsValid() bool {
+	return !it.IsEmpty()
+}
+
+func (it *AstElem) name() {
 
 }
