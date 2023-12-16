@@ -145,6 +145,7 @@ func (it *AstElem) Functions() *AstFuncCollection {
 	}
 
 	creatorFunc := New.AstElem.CreateByParent
+	nameGetterFunc := astUtil.Name
 	fullCode := it.FullCode()
 	funcMap := make(map[string]AstFunction, 10)
 	var rawErr errcore.RawErrCollection
@@ -155,37 +156,47 @@ func (it *AstElem) Functions() *AstFuncCollection {
 				return true
 			}
 
+			toFunc, isOkay := n.(*ast.FuncDecl)
+
+			if !isOkay {
+				return true
+			}
+
 			// https://prnt.sc/eQZm-iCDdj-H
 			elem, err := creatorFunc(it, fullCode, n)
 			rawErr.Add(err)
 
 			if err == nil {
-				astFunc := AstFunction{
-					Name:       "",
-					StructName: "",
-					IsAttached: false,
-					IsPublic:   false,
-					IsPrivate:  false,
-					Parent:     nil,
-					InArgs:     nil,
-					OutArgs:    nil,
-				}
-			}
+				name := nameGetterFunc(fullCode, toFunc)
+				StructName := nameGetterFunc(fullCode, toFunc.Recv)
+				structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
+				comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
 
-			if isBreak {
-				return false
+				astFunc := AstFunction{
+					Name:           name,
+					StructName:     StructName,
+					IsAttached:     false,
+					IsPublic:       true,
+					IsPrivate:      false,
+					FieldsCount:    toFunc.Recv.NumFields(),
+					Parent:         elem,
+					ReceiverStruct: structX,
+					Comments:       comments,
+					Type:           toFunc.Type,
+				}
+
+				funcMap[name] = astFunc
 			}
 
 			return true
 		},
 	)
 
-	collection := &AstCollection{
-		Parent:     it,
-		childNodes: slice,
+	collection := &AstFuncCollection{
+		Names:  nil,
+		Map:    funcMap,
+		Parent: it,
 	}
 
-	it.childNodes = collection
-
-	return it.childNodes
+	return collection
 }

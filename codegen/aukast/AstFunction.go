@@ -1,12 +1,18 @@
 package aukast
 
+import "go/ast"
+
 type AstFunction struct {
-	Name       string
-	StructName string
-	IsAttached bool
-	IsPublic   bool
-	IsPrivate  bool
-	Parent     *AstElem
-	InArgs     []AstElem
-	OutArgs    []AstElem
+	Name           string
+	StructName     string
+	IsAttached     bool
+	IsPublic       bool
+	IsPrivate      bool
+	FieldsCount    int
+	Parent         *AstElem
+	ReceiverStruct *AstElem
+	Comments       *AstElem
+	Type           *ast.FuncType
+	InArgs         []AstElem
+	OutArgs        []AstElem
 }

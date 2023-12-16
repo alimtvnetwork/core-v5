@@ -52,7 +52,7 @@ func (it *utils) AstFileToCode(fSet *token.FileSet, file *ast.File) (string, err
 	return myWriter.String(), errcore.StackEnhance.Error(err)
 }
 
-func (it *utils) IdentifiersToString(fullCode string, identifiers []*ast.Ident) string {
+func (it *utils) IdentifiersToString(identifiers []*ast.Ident) string {
 	if len(identifiers) == 0 {
 		return ""
 	}
@@ -64,13 +64,13 @@ func (it *utils) IdentifiersToString(fullCode string, identifiers []*ast.Ident) 
 			continue
 		}
 
-		slice = append(slice, it.NodeToStringSafe(fullCode, identifier))
+		slice = append(slice, identifier.Name)
 	}
 
 	return strings.Join(slice, ", ")
 }
 
-func (it *utils) FieldsListToString(fullCode string, fieldsList *ast.FieldList) string {
+func (it *utils) FieldsListToString(fieldsList *ast.FieldList) string {
 	if fieldsList == nil || len(fieldsList.List) == 0 {
 		return ""
 	}
@@ -82,7 +82,7 @@ func (it *utils) FieldsListToString(fullCode string, fieldsList *ast.FieldList) 
 			continue
 		}
 
-		slice = append(slice, it.IdentifiersToString(fullCode, field.Names))
+		slice = append(slice, it.IdentifiersToString(field.Names))
 	}
 
 	toStr := strings.Join(slice, "; ")
@@ -99,15 +99,15 @@ func (it utils) Name(fullCode string, n ast.Node) string {
 	case *ast.FuncDecl:
 		return it.NodeToStringSafe(fullCode, v.Name)
 	case *ast.FuncType:
-		return it.FieldsListToString(fullCode, v.Results)
+		return it.FieldsListToString(v.Results)
 	case *ast.SelectorExpr:
 		return it.NodeToStringSafe(fullCode, v.X)
 	case *ast.KeyValueExpr:
 		return it.NodeToStringSafe(fullCode, v.Key)
 	case *ast.Field:
-		return it.IdentifiersToString(fullCode, v.Names)
+		return it.IdentifiersToString(v.Names)
 	case *ast.FieldList:
-		return it.FieldsListToString(fullCode, v)
+		return it.FieldsListToString(v)
 
 	case *ast.ExprStmt, *ast.RangeStmt, *ast.CompositeLit:
 		// https://prnt.sc/48i_Cuko_J5r
