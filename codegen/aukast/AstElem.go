@@ -184,6 +184,7 @@ func (it *AstElem) Functions() *AstFuncCollection {
 
 				astFunc := AstFunction{
 					Name:           name,
+					StructVarName:  "",
 					StructName:     StructName,
 					IsAttached:     false,
 					IsPublic:       true,
@@ -193,6 +194,7 @@ func (it *AstElem) Functions() *AstFuncCollection {
 					ReceiverStruct: structX,
 					Comments:       comments,
 					Type:           toFunc.Type,
+					FuncArg:        nil,
 				}
 
 				funcMap[name] = astFunc

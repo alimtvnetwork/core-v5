@@ -14,6 +14,5 @@ type AstFunction struct {
 	ReceiverStruct *AstElem
 	Comments       *AstElem
 	Type           *ast.FuncType
-	InArgs         []AstElem
-	OutArgs        []AstElem
+	FuncArg        *AstFuncArg
 }

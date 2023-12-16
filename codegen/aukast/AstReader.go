@@ -332,34 +332,36 @@ func (it *AstReader) Functions() *AstFuncCollection {
 			}
 
 			// https://prnt.sc/eQZm-iCDdj-H
-			elem, err := creatorFunc(it, fullCode, n)
+			parentElem, err := creatorFunc(it, fullCode, n)
 			rawErr.Add(err)
 
-			if err == nil {
-				name := nameGetterFunc(fullCode, toFunc)
-				StructName := nameGetterFunc(fullCode, toFunc.Recv)
-				StructTypeName := nodeTypeNameGetterFunc(fullCode, toFunc.Recv)
-				structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
-				comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
-
-				astFunc := AstFunction{
-					Name:           name,
-					StructVarName:  StructName,
-					StructName:     StructTypeName,
-					IsAttached:     false,
-					IsPublic:       true,
-					IsPrivate:      false,
-					FieldsCount:    toFunc.Recv.NumFields(),
-					Parent:         elem,
-					ReceiverStruct: structX,
-					Comments:       comments,
-					Type:           toFunc.Type,
-					InArgs:         nil,
-					OutArgs:        nil,
-				}
-
-				funcMap[name] = astFunc
+			if err != nil {
+				return true
 			}
+
+			name := nameGetterFunc(fullCode, toFunc)
+			StructName := nameGetterFunc(fullCode, toFunc.Recv)
+			StructTypeName := nodeTypeNameGetterFunc(fullCode, toFunc.Recv)
+			structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
+			comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
+			funcArgs := NewAstFuncArg(parentElem, fullCode, toFunc.Type)
+
+			astFunc := AstFunction{
+				Name:           name,
+				StructVarName:  StructName,
+				StructName:     StructTypeName,
+				IsAttached:     false,
+				IsPublic:       true,
+				IsPrivate:      false,
+				FieldsCount:    toFunc.Recv.NumFields(),
+				Parent:         parentElem,
+				ReceiverStruct: structX,
+				Comments:       comments,
+				Type:           toFunc.Type,
+				FuncArg:        funcArgs,
+			}
+
+			funcMap[name] = astFunc
 
 			return true
 		},
