@@ -2,13 +2,11 @@ package aukast
 
 import (
 	"go/parser"
-	"go/printer"
 	"go/token"
-	"log"
-	"os"
 	"path"
 
 	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/internal/pathinternal"
 )
 
 type newAstReaderCreator struct{}
@@ -77,21 +75,21 @@ func (it newAstReaderCreator) Src(src interface{}, mode parser.Mode) (*AstReader
 		}, err
 	}
 
-	fullCode := astUtil.AstFileToCode(fileSet, astFile)
-
+	fullCode, astErr := astUtil.AstFileToCode(fileSet, astFile)
 
 	return &AstReader{
 		src:      src,
 		astFile:  astFile,
-		fullCode: astUtil.NodeToStringSafe(),
+		fullCode: fullCode,
 		fileSet:  fileSet,
 		mode:     mode,
-	}, errcore.
+	}, astErr
 }
 
-func (it newAstReaderCreator) FilePath(filePath string) *AstReader {
-	return &AstReader{
-		filePath: path.Clean(filePath),
-		mode:     parser.AllErrors,
-	}
+func (it newAstReaderCreator) FilePath(filePath string) (*AstReader, error) {
+	return it.All(
+		pathinternal.Clean(filePath),
+		nil,
+		parser.AllErrors,
+	)
 }

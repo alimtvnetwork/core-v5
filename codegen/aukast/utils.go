@@ -49,7 +49,7 @@ func (it *utils) AstFileToCode(fSet *token.FileSet, file *ast.File) (string, err
 	myWriter := &BytesWriter{}
 	err := printer.Fprint(myWriter, fSet, file)
 
-	return myWriter.String(), err
+	return myWriter.String(), errcore.StackEnhance.Error(err)
 }
 
 func (it *utils) IdentifiersToString(fullCode string, identifiers []*ast.Ident) string {
