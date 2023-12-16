@@ -1,6 +1,9 @@
 package aukast
 
-import "go/ast"
+import (
+	"go/ast"
+	"strings"
+)
 
 type AstFuncArg struct {
 	Parent          *AstElem
@@ -14,6 +17,8 @@ type Arg struct {
 	NameIdent      *ast.Ident
 	TypeExpr       *ast.Ident
 	Comment        *ast.CommentGroup
+	IsPointerType  bool
+	Code           string
 }
 
 func NewAstFuncArg(
@@ -40,13 +45,13 @@ func NewAstFuncArg(
 	var inArgs, outArgs []Arg
 
 	for _, field := range inParams.FieldsList() {
-		toArgs := NewAstArgs(field)
+		toArgs := NewAstArgs(fullCode, field)
 		inArgs = append(inArgs, toArgs...)
 	}
 
 	for _, field := range outParams.FieldsList() {
-		toArgs := NewAstArgs(field)
-		outArgs = append(inArgs, toArgs...)
+		toArgs := NewAstArgs(fullCode, field)
+		outArgs = append(outArgs, toArgs...)
 	}
 
 	return &AstFuncArg{
@@ -60,6 +65,7 @@ func NewAstFuncArg(
 }
 
 func NewAstArgs(
+	code string,
 	f *ast.Field,
 ) []Arg {
 	if f == nil {
@@ -67,16 +73,20 @@ func NewAstArgs(
 	}
 
 	var args []Arg
+	subCode := astUtil.NodeToStringSafe(code, f)
 
 	for _, ident := range f.Names {
-		typeIdent := f.Type.(*ast.Ident)
+		typeIdent := astUtil.ExprToIdent(f.Type)
+		typeName, _ := astUtil.NodeToString(code, f.Type)
 
 		a := Arg{
-			Name:      ident.Name,
-			TypeName:  typeIdent.Name,
-			NameIdent: ident,
-			TypeExpr:  typeIdent,
-			Comment:   f.Comment,
+			Name:          ident.Name,
+			TypeName:      typeName,
+			NameIdent:     ident,
+			TypeExpr:      typeIdent,
+			Comment:       f.Comment,
+			IsPointerType: strings.HasPrefix(typeName, "*"),
+			Code:          subCode,
 		}
 
 		args = append(args, a)

@@ -232,6 +232,8 @@ func (it utils) ExprToString(code string, expr ast.Expr) string {
 	switch v := expr.(type) {
 	case *ast.Ident:
 		return v.Name
+	case *ast.StarExpr:
+		return it.ExprToStringDirect(v.X)
 	}
 
 	return it.NodeToStringSafe(code, expr)
@@ -245,7 +247,30 @@ func (it utils) ExprToStringDirect(expr ast.Expr) string {
 	switch v := expr.(type) {
 	case *ast.Ident:
 		return v.Name
+	case *ast.StarExpr:
+		return it.ExprToStringDirect(v.X)
+	case *ast.ArrayType:
+		// https://prnt.sc/kUiAu-WAzU42
+		return it.ExprToStringDirect(v.Elt)
 	}
 
 	return ""
+}
+
+func (it utils) ExprToIdent(expr ast.Expr) *ast.Ident {
+	if isany.Null(expr) {
+		return nil
+	}
+
+	switch v := expr.(type) {
+	case *ast.Ident:
+		return v
+	case *ast.StarExpr:
+		return it.ExprToIdent(v.X)
+	case *ast.ArrayType:
+		// https://prnt.sc/kUiAu-WAzU42
+		return it.ExprToIdent(v.Elt)
+	}
+
+	return nil
 }
