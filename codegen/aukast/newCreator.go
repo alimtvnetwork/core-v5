@@ -1,6 +1,7 @@
 package aukast
 
 type newCreator struct {
-	AstReader newAstReaderCreator
-	AstElem   newAstElemCreator
+	AstReader  newAstReaderCreator
+	AstElem    newAstElemCreator
+	ArgsParams newArgsParamsCreator
 }

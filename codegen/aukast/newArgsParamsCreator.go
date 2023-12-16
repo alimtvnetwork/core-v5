@@ -5,9 +5,9 @@ import (
 	"strings"
 )
 
-type newAstArgCreator struct{}
+type newArgsParamsCreator struct{}
 
-func (it newAstArgCreator) Root(
+func (it newArgsParamsCreator) Root(
 	parent *AstElem,
 	fullCode string,
 	f *ast.FuncType,
@@ -53,7 +53,7 @@ func (it newAstArgCreator) Root(
 	}
 }
 
-func (it newAstArgCreator) ParamsUsingFieldsList(
+func (it newArgsParamsCreator) ParamsUsingFieldsList(
 	fullCode string,
 	fieldsList []*ast.Field,
 ) []Param {
@@ -71,7 +71,7 @@ func (it newAstArgCreator) ParamsUsingFieldsList(
 	return toParams
 }
 
-func (it newAstArgCreator) Params(
+func (it newArgsParamsCreator) Params(
 	fullCode string,
 	f *ast.Field,
 ) []Param {
