@@ -20,6 +20,7 @@ type AstElem struct {
 	parentType, innerType reflect.Type
 	properties            map[string]bool
 	childNodes            *AstCollection
+	astFuncCollection     *AstFuncCollection
 }
 
 func (it *AstElem) IsFieldList() bool {
@@ -149,68 +150,23 @@ func (it *AstElem) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *As
 	return it.childNodes
 }
 
-func (it *AstElem) Functions() *AstFuncCollection {
+func (it *AstElem) Functions() (*AstFuncCollection, error) {
 	if it.IsEmpty() {
-		return nil
+		return nil, nil
 	}
 
-	creatorFunc := New.AstElem.CreateByParent
-	nameGetterFunc := astUtil.Name
-	fullCode := it.FullCode()
-	funcMap := make(map[string]AstFunction, 10)
-	var rawErr errcore.RawErrCollection
+	if it.astFuncCollection != nil {
+		return it.astFuncCollection, nil
+	}
 
-	ast.Inspect(
-		it.Node, func(n ast.Node) bool {
-			if n == nil {
-				return true
-			}
-
-			toFunc, isOkay := n.(*ast.FuncDecl)
-
-			if !isOkay {
-				return true
-			}
-
-			// https://prnt.sc/eQZm-iCDdj-H
-			elem, err := creatorFunc(it, fullCode, n)
-			rawErr.Add(err)
-
-			if err == nil {
-				name := nameGetterFunc(fullCode, toFunc)
-				StructName := nameGetterFunc(fullCode, toFunc.Recv)
-				structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
-				comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
-
-				astFunc := AstFunction{
-					Name:           name,
-					StructVarName:  "",
-					StructName:     StructName,
-					IsAttached:     false,
-					IsPublic:       true,
-					IsPrivate:      false,
-					FieldsCount:    toFunc.Recv.NumFields(),
-					Parent:         elem,
-					ReceiverStruct: structX,
-					Comments:       comments,
-					Type:           toFunc.Type,
-					FuncArg:        nil,
-				}
-
-				funcMap[name] = astFunc
-			}
-
-			return true
-		},
+	astFuncCollection, err := New.AstFuncCollection.Create(
+		it.AstReader(),
+		it.Node,
 	)
 
-	collection := &AstFuncCollection{
-		Names:  nil,
-		Map:    funcMap,
-		Parent: it,
-	}
+	it.astFuncCollection = astFuncCollection
 
-	return collection
+	return astFuncCollection, err
 }
 
 func (it *AstElem) FieldsList() []*ast.Field {

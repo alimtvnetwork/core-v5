@@ -12,13 +12,14 @@ import (
 )
 
 type AstReader struct {
-	filePath   string
-	src        interface{}
-	astFile    *ast.File
-	fullCode   string
-	fileSet    *token.FileSet
-	mode       parser.Mode
-	childNodes *AstCollection
+	filePath          string
+	src               interface{}
+	astFile           *ast.File
+	fullCode          string
+	fileSet           *token.FileSet
+	mode              parser.Mode
+	childNodes        *AstCollection
+	astFuncCollection *AstFuncCollection
 }
 
 func (it *AstReader) AstFile() *ast.File {
@@ -307,9 +308,13 @@ func (it *AstReader) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *
 	return it.childNodes
 }
 
-func (it *AstReader) Functions() *AstFuncCollection {
+func (it *AstReader) Functions() (*AstFuncCollection, error) {
 	if it.IsEmpty() {
-		return nil
+		return nil, nil
+	}
+
+	if it.astFuncCollection != nil {
+		return it.astFuncCollection, nil
 	}
 
 	astFuncCollection, err := New.AstFuncCollection.Create(
@@ -317,7 +322,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 		it.AstFile(),
 	)
 
-	errcore.HandleErr(err)
+	it.astFuncCollection = astFuncCollection
 
-	return astFuncCollection
+	return astFuncCollection, err
 }
