@@ -312,71 +312,12 @@ func (it *AstReader) Functions() *AstFuncCollection {
 		return nil
 	}
 
-	creatorFunc := New.AstElem.Create
-	nameGetterFunc := astUtil.Name
-	argsRootCreatorFunc := New.ArgsParams.Root
-	nodeTypeNameGetterFunc := astUtil.NodeTypeName
-	nodeToStringFunc := astUtil.NodeToStringSafe
-	fullCode, _ := it.FullCode()
-	funcMap := make(map[string]AstFunction, 10)
-	var rawErr errcore.RawErrCollection
-
-	ast.Inspect(
-		it.AstFile(), func(n ast.Node) bool {
-			if isany.Null(n) {
-				return true
-			}
-
-			toFunc, isOkay := n.(*ast.FuncDecl)
-
-			if !isOkay || toFunc == nil {
-				return true
-			}
-
-			// https://prnt.sc/eQZm-iCDdj-H
-			parentElem, err := creatorFunc(it, fullCode, n)
-			rawErr.Add(err)
-
-			if err != nil {
-				return true
-			}
-
-			name := nameGetterFunc(fullCode, toFunc)
-			StructName := nameGetterFunc(fullCode, toFunc.Recv)
-			StructTypeName := nodeTypeNameGetterFunc(fullCode, toFunc.Recv)
-			structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
-			comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
-			funcArgs := argsRootCreatorFunc(parentElem, fullCode, toFunc.Type)
-
-			astFunc := AstFunction{
-				Name:           name,
-				StructVarName:  StructName,
-				StructName:     StructTypeName,
-				IsAttached:     false,
-				IsPublic:       true,
-				IsPrivate:      false,
-				FieldsCount:    toFunc.Recv.NumFields(),
-				Parent:         parentElem,
-				ReceiverStruct: structX,
-				Comments:       comments,
-				Type:           toFunc.Type,
-				FuncArg:        funcArgs,
-				Code:           nodeToStringFunc(fullCode, n),
-			}
-
-			funcMap[name] = astFunc
-
-			return true
-		},
+	astFuncCollection, err := New.AstFuncCollection.Create(
+		it,
+		it.AstFile(),
 	)
 
-	parent, _ := creatorFunc(it, fullCode, it.AstFile())
+	errcore.HandleErr(err)
 
-	collection := &AstFuncCollection{
-		Names:  nil,
-		Map:    funcMap,
-		Parent: parent,
-	}
-
-	return collection
+	return astFuncCollection
 }
