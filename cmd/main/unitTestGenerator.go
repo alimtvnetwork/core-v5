@@ -72,9 +72,7 @@ func (it unitTestGenerator) curFile() string {
 }
 
 func (it unitTestGenerator) AstChecker() {
-	astReader := aukast.New.FilePath(it.curFile())
-
-	node, err := astReader.Initialize()
+	astReader, err := aukast.New.AstReader.FilePath(it.curFile())
 
 	errcore.HandleErr(err)
 
@@ -93,7 +91,6 @@ func (it unitTestGenerator) AstChecker() {
 	fmt.Println()
 	fmt.Println()
 
-	fmt.Println(node.Decls)
 	fmt.Println(nodesMap)
 	fmt.Println(structTypes)
 	fmt.Println(firstNode)
