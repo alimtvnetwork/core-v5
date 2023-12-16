@@ -4,7 +4,6 @@ import (
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"golang.org/x/tools/go/packages"
 )
 
 var (
@@ -54,8 +53,6 @@ var (
 		codegentype.Simple:           funcTemplate,
 		codegentype.MultipleArranges: loopFuncTemplate,
 	}
-
-	globalLoadMode = packages.NeedSyntax | packages.NeedTypes | packages.NeedTypesInfo
 
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase
 	camelCaseFunc  = convertinteranl.Util.String.CamelCase

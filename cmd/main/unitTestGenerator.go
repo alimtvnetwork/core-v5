@@ -78,7 +78,7 @@ func (it unitTestGenerator) AstChecker() {
 
 	errcore.HandleErr(err)
 
-	nodesMap, err := astReader.NestedNodesMap()
+	nodesMap, err := astReader.NodesMap()
 	errcore.HandleErr(err)
 
 	structTypes, err := astReader.StructTypes()
@@ -87,7 +87,7 @@ func (it unitTestGenerator) AstChecker() {
 	firstNode, _ := astReader.SubstringByNode(structTypes[0])
 
 	fmt.Println(node.Decls)
-	fmt.Println(corejson.Serialize.ToPrettyStringIncludingErr(nodesMap))
+	fmt.Println(corejson.Serialize.Pretty(nodesMap))
 	fmt.Println(structTypes)
 	fmt.Println(firstNode)
 }

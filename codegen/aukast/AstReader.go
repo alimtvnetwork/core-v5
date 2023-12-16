@@ -1,4 +1,4 @@
-package codegen
+package aukast
 
 import (
 	"fmt"
@@ -160,7 +160,7 @@ func (it *AstReader) NodesMap() (map[string]args.Map, error) {
 			if isFound {
 				m[toString] = n
 			} else {
-				curMap[typeName] = make(map[string]interface{}, 100)
+				curMap[typeName] = map[string]interface{}{}
 				curMap[typeName][toString] = n
 			}
 
