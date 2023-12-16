@@ -77,6 +77,12 @@ func (it unitTestGenerator) DummyFunc(someVar1, someVar2 *[]string, x *unitTestG
 	return "", "", nil
 }
 
+func DummyFuncX(someVar1, someVar2 *[]string, x *unitTestGenerator) (
+	r1, r2 string, ix *unitTestGenerator,
+) {
+	return "", "", nil
+}
+
 func (it unitTestGenerator) AstChecker() {
 	astReader, err := aukast.New.AstReader.FilePath(it.curFile())
 
@@ -92,7 +98,8 @@ func (it unitTestGenerator) AstChecker() {
 
 	fmt.Println()
 	fmt.Println()
-	functions := astReader.Functions()
+	functions, err := astReader.Functions()
+	errcore.HandleErr(err)
 
 	fmt.Println(functions)
 	// fmt.Println(structTypes)
