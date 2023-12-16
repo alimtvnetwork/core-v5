@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	"gitlab.com/auk-go/core/codegen"
+	"gitlab.com/auk-go/core/codegen/aukast"
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/codestack"
-	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
@@ -72,7 +72,7 @@ func (it unitTestGenerator) curFile() string {
 }
 
 func (it unitTestGenerator) AstChecker() {
-	astReader := codegen.New.AstReader.FilePath(it.curFile())
+	astReader := aukast.New.FilePath(it.curFile())
 
 	node, err := astReader.Initialize()
 
@@ -87,7 +87,7 @@ func (it unitTestGenerator) AstChecker() {
 	firstNode, _ := astReader.SubstringByNode(structTypes[0])
 
 	fmt.Println(node.Decls)
-	fmt.Println(corejson.Serialize.Pretty(nodesMap))
+	fmt.Println(nodesMap)
 	fmt.Println(structTypes)
 	fmt.Println(firstNode)
 }
