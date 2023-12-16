@@ -325,7 +325,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 
 			toFunc, isOkay := n.(*ast.FuncDecl)
 
-			if !isOkay && toFunc != nil {
+			if !isOkay || toFunc == nil {
 				return true
 			}
 
