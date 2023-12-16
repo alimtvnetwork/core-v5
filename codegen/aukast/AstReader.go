@@ -61,6 +61,18 @@ func (it *AstReader) Initialize() (*ast.File, error) {
 	return node, err
 }
 
+func (it *AstReader) FullCode() (string, error) {
+	if it == nil {
+		return "", errcore.CannotBeNilType.ErrorRefOnly(it)
+	}
+
+	if it.HasError() {
+		return "", it.parseErr
+	}
+
+	return it.fullCode, nil
+}
+
 func (it *AstReader) HasError() bool {
 	return it != nil && it.parseErr != nil
 }

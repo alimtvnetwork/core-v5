@@ -6,6 +6,7 @@ import (
 )
 
 type AstElem struct {
+	fullCode              string
 	Parent                *AstElem
 	Name                  string
 	TypeName              string
