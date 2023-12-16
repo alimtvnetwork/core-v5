@@ -15,4 +15,5 @@ type AstFunction struct {
 	Comments       *AstElem
 	Type           *ast.FuncType
 	FuncArg        *RootFuncArgs
+	Code           string
 }
