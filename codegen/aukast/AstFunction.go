@@ -17,3 +17,11 @@ type AstFunction struct {
 	FuncArg        *RootFuncArgs
 	Code           string
 }
+
+func (it *AstFunction) IsValid() bool {
+	return !it.IsInvalid()
+}
+
+func (it *AstFunction) IsInvalid() bool {
+	return it == nil || it.Name == "" || it.Type == nil
+}
