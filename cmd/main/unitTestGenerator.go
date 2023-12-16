@@ -71,6 +71,12 @@ func (it unitTestGenerator) curFile() string {
 	return codestack.File.CurrentFilePath()
 }
 
+func (it unitTestGenerator) DummyFunc(someVar1, someVar2 *[]string, x *unitTestGenerator) (
+	r1, r2 string, ix *unitTestGenerator,
+) {
+	return "", "", nil
+}
+
 func (it unitTestGenerator) AstChecker() {
 	astReader, err := aukast.New.AstReader.FilePath(it.curFile())
 

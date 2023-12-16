@@ -22,6 +22,16 @@ type AstElem struct {
 	childNodes            *AstCollection
 }
 
+func (it *AstElem) IsFieldList() bool {
+	if it.IsEmpty() {
+		return false
+	}
+
+	_, isOkay := it.Node.(*ast.FieldList)
+
+	return isOkay
+}
+
 func (it *AstElem) IsEmpty() bool {
 	return it == nil ||
 		it.Node == nil ||
@@ -142,6 +152,68 @@ func (it *AstElem) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *As
 func (it *AstElem) Functions() *AstFuncCollection {
 	if it.IsEmpty() {
 		return nil
+	}
+
+	creatorFunc := New.AstElem.CreateByParent
+	nameGetterFunc := astUtil.Name
+	fullCode := it.FullCode()
+	funcMap := make(map[string]AstFunction, 10)
+	var rawErr errcore.RawErrCollection
+
+	ast.Inspect(
+		it.Node, func(n ast.Node) bool {
+			if n == nil {
+				return true
+			}
+
+			toFunc, isOkay := n.(*ast.FuncDecl)
+
+			if !isOkay {
+				return true
+			}
+
+			// https://prnt.sc/eQZm-iCDdj-H
+			elem, err := creatorFunc(it, fullCode, n)
+			rawErr.Add(err)
+
+			if err == nil {
+				name := nameGetterFunc(fullCode, toFunc)
+				StructName := nameGetterFunc(fullCode, toFunc.Recv)
+				structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
+				comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
+
+				astFunc := AstFunction{
+					Name:           name,
+					StructName:     StructName,
+					IsAttached:     false,
+					IsPublic:       true,
+					IsPrivate:      false,
+					FieldsCount:    toFunc.Recv.NumFields(),
+					Parent:         elem,
+					ReceiverStruct: structX,
+					Comments:       comments,
+					Type:           toFunc.Type,
+				}
+
+				funcMap[name] = astFunc
+			}
+
+			return true
+		},
+	)
+
+	collection := &AstFuncCollection{
+		Names:  nil,
+		Map:    funcMap,
+		Parent: it,
+	}
+
+	return collection
+}
+
+func (it *AstElem) FieldsList() []*ast.FieldList {
+	if it.IsEmpty() || !it.IsFieldList() {
+		return []*ast.FieldList{}
 	}
 
 	creatorFunc := New.AstElem.CreateByParent

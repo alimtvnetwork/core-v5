@@ -159,9 +159,11 @@ func (it utils) NodeTypeName(fullCode string, n ast.Node) string {
 		switch casted := v.Obj.Type.(type) {
 		case *ast.Ident:
 			return casted.Name
+		case *ast.Expr:
+			return it.ExprToString(fullCode, *casted)
 		}
 
-		return it.Name(fullCode, v.Obj)
+		return it.Name(fullCode, v.Obj.Type.(ast.Node))
 	case *ast.KeyValueExpr:
 		return it.NodeToStringSafe(fullCode, v.Value)
 	case *ast.Field:
