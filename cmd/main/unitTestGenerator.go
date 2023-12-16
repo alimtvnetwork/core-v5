@@ -76,22 +76,19 @@ func (it unitTestGenerator) AstChecker() {
 
 	errcore.HandleErr(err)
 
-	nodesMap, err := astReader.NodesMap()
-	errcore.HandleErr(err)
-
-	structTypes, err := astReader.StructTypes()
-	errcore.HandleErr(err)
-
-	firstNode, _ := astReader.SubstringByNode(structTypes[0])
-
-	for key := range nodesMap {
-		fmt.Printf("%s,\n", key)
-	}
+	// nodesMap, err := astReader.NodesMap()
+	// errcore.HandleErr(err)
+	//
+	// structTypes, err := astReader.StructTypes()
+	// errcore.HandleErr(err)
+	//
+	// firstNode, _ := astReader.SubstringByNode(structTypes[0])
 
 	fmt.Println()
 	fmt.Println()
+	functions := astReader.Functions()
 
-	fmt.Println(nodesMap)
-	fmt.Println(structTypes)
-	fmt.Println(firstNode)
+	fmt.Println(functions)
+	// fmt.Println(structTypes)
+	// fmt.Println(firstNode)
 }

@@ -11,12 +11,13 @@ import (
 )
 
 type AstReader struct {
-	filePath string
-	src      interface{}
-	astFile  *ast.File
-	fullCode string
-	fileSet  *token.FileSet
-	mode     parser.Mode
+	filePath   string
+	src        interface{}
+	astFile    *ast.File
+	fullCode   string
+	fileSet    *token.FileSet
+	mode       parser.Mode
+	childNodes *AstCollection
 }
 
 func (it *AstReader) AstFile() *ast.File {
@@ -212,4 +213,159 @@ func (it *AstReader) StructTypes() ([]*ast.StructType, error) {
 	)
 
 	return structTypes, rawErrSlice.CompiledError()
+}
+
+func (it *AstReader) ChildNodes() *AstCollection {
+	if it.IsEmpty() {
+		return nil
+	}
+
+	if it.childNodes != nil {
+		return it.childNodes
+	}
+
+	creatorFunc := New.AstElem.Create
+	fullCode, _ := it.FullCode()
+	var slice []AstElem
+	var rawErr errcore.RawErrCollection
+
+	ast.Inspect(
+		it.AstFile(), func(n ast.Node) bool {
+			if n == nil {
+				return true
+			}
+
+			elem, err := creatorFunc(it, fullCode, n)
+			rawErr.Add(err)
+
+			if err == nil {
+				slice = append(slice, *elem)
+			}
+
+			return true
+		},
+	)
+
+	parent, _ := creatorFunc(it, fullCode, it.AstFile())
+
+	collection := &AstCollection{
+		Parent:     parent,
+		childNodes: slice,
+	}
+
+	it.childNodes = collection
+
+	return it.childNodes
+}
+
+func (it *AstReader) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *AstCollection {
+	if it.IsEmpty() {
+		return nil
+	}
+
+	if it.childNodes != nil {
+		return it.childNodes
+	}
+
+	creatorFunc := New.AstElem.Create
+	fullCode, _ := it.FullCode()
+	var slice []AstElem
+	var rawErr errcore.RawErrCollection
+
+	ast.Inspect(
+		it.AstFile(), func(n ast.Node) bool {
+			if n == nil {
+				return true
+			}
+
+			elem, err := creatorFunc(it, fullCode, n)
+			rawErr.Add(err)
+			isTake, isBreak := filter(elem)
+
+			if err == nil && isTake {
+				slice = append(slice, *elem)
+			}
+
+			if isBreak {
+				return false
+			}
+
+			return true
+		},
+	)
+
+	parent, _ := creatorFunc(it, fullCode, it.AstFile())
+
+	collection := &AstCollection{
+		Parent:     parent,
+		childNodes: slice,
+	}
+
+	it.childNodes = collection
+
+	return it.childNodes
+}
+
+func (it *AstReader) Functions() *AstFuncCollection {
+	if it.IsEmpty() {
+		return nil
+	}
+
+	creatorFunc := New.AstElem.Create
+	nameGetterFunc := astUtil.Name
+	fullCode, _ := it.FullCode()
+	funcMap := make(map[string]AstFunction, 10)
+	var rawErr errcore.RawErrCollection
+
+	ast.Inspect(
+		it.AstFile(), func(n ast.Node) bool {
+			if n == nil {
+				return true
+			}
+
+			toFunc, isOkay := n.(*ast.FuncDecl)
+
+			if !isOkay && toFunc != nil {
+				return true
+			}
+
+			// https://prnt.sc/eQZm-iCDdj-H
+			elem, err := creatorFunc(it, fullCode, n)
+			rawErr.Add(err)
+
+			if err == nil {
+				name := nameGetterFunc(fullCode, toFunc)
+				StructName := nameGetterFunc(fullCode, toFunc.Recv)
+				structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
+				comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
+
+				astFunc := AstFunction{
+					Name:           name,
+					StructName:     StructName,
+					IsAttached:     false,
+					IsPublic:       true,
+					IsPrivate:      false,
+					FieldsCount:    toFunc.Recv.NumFields(),
+					Parent:         elem,
+					ReceiverStruct: structX,
+					Comments:       comments,
+					Type:           toFunc.Type,
+				}
+
+				funcMap[name] = astFunc
+			}
+
+			return true
+		},
+	)
+
+	parent, _ := creatorFunc(it, fullCode, it.AstFile())
+
+	collection := &AstFuncCollection{
+		Names:  nil,
+		Map:    funcMap,
+		Parent: parent,
+	}
+
+	return collection
 }

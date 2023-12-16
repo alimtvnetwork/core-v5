@@ -25,14 +25,17 @@ func (it *utils) NodeToString(fullCode string, n ast.Node) (string, error) {
 		return "", errcore.FailedToParseType.ErrorNoRefs("full code cannot be empty")
 	}
 
-	start := int(n.Pos() - 1)
-	end := int(n.End() - 1)
+	pos := n.Pos()
+	end := n.End()
+
+	start := pos - 1
+	end = end - 1
 
 	if start < 0 {
 		return fullCode[:end], errcore.FailedToParseType.ErrorNoRefs("start cannot be less than 0")
 	}
 
-	if end > len(fullCode) {
+	if int(end) > len(fullCode) {
 		return fullCode, errcore.FailedToParseType.ErrorNoRefs("end cannot be larger than full len")
 	}
 
@@ -40,6 +43,10 @@ func (it *utils) NodeToString(fullCode string, n ast.Node) (string, error) {
 }
 
 func (it *utils) NodeToStringSafe(fullCode string, n ast.Node) string {
+	if n == nil {
+		return ""
+	}
+
 	code, _ := it.NodeToString(fullCode, n)
 
 	return code
@@ -91,6 +98,10 @@ func (it *utils) FieldsListToString(fieldsList *ast.FieldList) string {
 }
 
 func (it utils) Name(fullCode string, n ast.Node) string {
+	if n == nil {
+		return ""
+	}
+
 	switch v := n.(type) {
 	case *ast.Ident:
 		return v.Name
@@ -148,7 +159,7 @@ func (it utils) ToIdent(n ast.Node) *ast.Ident {
 			return nil
 		}
 
-		return v.List[0].Names[1]
+		return v.List[0].Names[0]
 	}
 
 	return nil
