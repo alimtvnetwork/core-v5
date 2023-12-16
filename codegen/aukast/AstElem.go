@@ -35,6 +35,15 @@ func (it *AstElem) IsValid() bool {
 	return !it.IsEmpty()
 }
 
-func (it *AstElem) name() {
+func (it *AstElem) ChildNodes() []AstElem {
+	ast.Inspect(
+		it.GenericNode, func(n ast.Node) bool {
+			if n == nil {
+				return true
+			}
+
+			return true
+		},
+	)
 
 }
