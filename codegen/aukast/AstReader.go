@@ -316,7 +316,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 	nameGetterFunc := astUtil.Name
 	argsRootCreatorFunc := New.ArgsParams.Root
 	nodeTypeNameGetterFunc := astUtil.NodeTypeName
-	nodeTostringFunc := astUtil.NodeToStringSafe
+	nodeToStringFunc := astUtil.NodeToStringSafe
 	fullCode, _ := it.FullCode()
 	funcMap := make(map[string]AstFunction, 10)
 	var rawErr errcore.RawErrCollection
@@ -361,7 +361,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 				Comments:       comments,
 				Type:           toFunc.Type,
 				FuncArg:        funcArgs,
-				Code:           nodeTostringFunc(fullCode, n),
+				Code:           nodeToStringFunc(fullCode, n),
 			}
 
 			funcMap[name] = astFunc
