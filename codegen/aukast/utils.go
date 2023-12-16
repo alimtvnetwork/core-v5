@@ -223,15 +223,7 @@ func (it utils) IdentNameTypeName(code string, v *ast.Ident) (name, typeName str
 		return v.Name, casted.Name
 	}
 
-	return v.Name, it.Name(code, v.Obj)
-}
-
-func (it utils) ObjectToString(code string, v *ast.Object) string {
-	if v == nil {
-		return ""
-	}
-
-	return ""
+	return v.Name, it.Name(code, v.Obj.Type.(ast.Node))
 }
 
 func (it utils) ExprToString(code string, expr ast.Expr) string {
