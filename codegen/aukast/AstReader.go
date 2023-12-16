@@ -314,7 +314,9 @@ func (it *AstReader) Functions() *AstFuncCollection {
 
 	creatorFunc := New.AstElem.Create
 	nameGetterFunc := astUtil.Name
+	argsRootCreatorFunc := New.ArgsParams.Root
 	nodeTypeNameGetterFunc := astUtil.NodeTypeName
+	nodeTostringFunc := astUtil.NodeToStringSafe
 	fullCode, _ := it.FullCode()
 	funcMap := make(map[string]AstFunction, 10)
 	var rawErr errcore.RawErrCollection
@@ -344,7 +346,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 			StructTypeName := nodeTypeNameGetterFunc(fullCode, toFunc.Recv)
 			structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
 			comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
-			funcArgs := NewAstFuncArg(parentElem, fullCode, toFunc.Type)
+			funcArgs := argsRootCreatorFunc(parentElem, fullCode, toFunc.Type)
 
 			astFunc := AstFunction{
 				Name:           name,
@@ -359,6 +361,7 @@ func (it *AstReader) Functions() *AstFuncCollection {
 				Comments:       comments,
 				Type:           toFunc.Type,
 				FuncArg:        funcArgs,
+				Code:           nodeTostringFunc(fullCode, n),
 			}
 
 			funcMap[name] = astFunc
