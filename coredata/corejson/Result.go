@@ -29,7 +29,8 @@ func (it *Result) Map() map[string]string {
 
 	newMap := make(
 		map[string]string,
-		constants.Capacity3)
+		constants.Capacity3,
+	)
 
 	if len(it.Bytes) > 0 {
 		newMap[bytesFieldName] = it.JsonString()
@@ -160,7 +161,8 @@ func (it *Result) PrettyJsonBuffer(prefix, indent string) (*bytes.Buffer, error)
 		&prettyJSON,
 		it.Bytes,
 		prefix,
-		indent)
+		indent,
+	)
 
 	return &prettyJSON, err
 }
@@ -172,7 +174,8 @@ func (it *Result) PrettyJsonString() string {
 
 	prettyJSON, err := it.PrettyJsonBuffer(
 		constants.EmptyString,
-		constants.Tab)
+		prettyIndent,
+	)
 
 	if err != nil {
 		return ""
@@ -251,7 +254,8 @@ func (it Result) String() string {
 
 	toString := fmt.Sprintf(
 		constants.SprintValueFormat,
-		currentMap)
+		currentMap,
+	)
 
 	currentMap = nil
 
@@ -372,7 +376,8 @@ func (it *Result) MeaningfulError() error {
 		FailedToParseType.
 		Error(
 			errcore.ToString(it.Error)+", type:"+it.TypeName+", payload:",
-			it.safeJsonStringInternal())
+			it.safeJsonStringInternal(),
+		)
 }
 
 func (it *Result) safeJsonStringInternal() string {
@@ -562,7 +567,8 @@ func (it *Result) Unmarshal(
 			UnMarshallingFailedType.
 			Error(
 				"cannot unmarshal null json result, to pointer type",
-				reflectinternal.TypeName(anyPointer))
+				reflectinternal.TypeName(anyPointer),
+			)
 	}
 
 	if it.HasError() {
@@ -573,7 +579,8 @@ func (it *Result) Unmarshal(
 				"src":     it.TypeName,
 				"dst":     reflectinternal.TypeName(anyPointer),
 				"payload": it.safeJsonStringInternal(),
-			})
+			},
+		)
 
 		return errcore.
 			UnMarshallingFailedType.
@@ -582,7 +589,8 @@ func (it *Result) Unmarshal(
 
 	err := json.Unmarshal(
 		it.Bytes,
-		anyPointer)
+		anyPointer,
+	)
 
 	if err == nil {
 		return nil
@@ -596,7 +604,8 @@ func (it *Result) Unmarshal(
 			"src":     it.TypeName,
 			"dst":     reflectinternal.TypeName(anyPointer),
 			"payload": it.safeJsonStringInternal(),
-		})
+		},
+	)
 
 	return errcore.
 		UnMarshallingFailedType.
@@ -681,7 +690,8 @@ func (it *Result) UnmarshalSkipExistingIssues(
 			"src":     it.TypeName,
 			"dst":     reflectinternal.TypeName(toPointer),
 			"payload": it.safeJsonStringInternal(),
-		})
+		},
+	)
 
 	return errcore.
 		UnMarshallingFailedType.
@@ -730,7 +740,8 @@ func (it *Result) ParseInjectUsingJson(
 	jsonResultIn *Result,
 ) (*Result, error) {
 	err := jsonResultIn.Unmarshal(
-		it)
+		it,
+	)
 
 	if err != nil {
 		return Empty.ResultPtrWithErr(it.TypeName, err), err
@@ -744,7 +755,8 @@ func (it *Result) ParseInjectUsingJsonMust(
 	jsonResultIn *Result,
 ) *Result {
 	result, err := it.ParseInjectUsingJson(
-		jsonResultIn)
+		jsonResultIn,
+	)
 
 	if err != nil {
 		panic(err)
@@ -826,7 +838,8 @@ func (it *Result) CombineErrorWithRefString(references ...string) string {
 	return fmt.Sprintf(
 		constants.MessageReferenceWrapFormat,
 		it.Error.Error(),
-		csv)
+		csv,
+	)
 }
 
 func (it *Result) CombineErrorWithRefError(references ...string) error {
@@ -835,7 +848,8 @@ func (it *Result) CombineErrorWithRefError(references ...string) error {
 	}
 
 	errorString := it.CombineErrorWithRefString(
-		references...)
+		references...,
+	)
 
 	return errors.New(errorString)
 }
@@ -902,14 +916,16 @@ func (it Result) Clone(isDeepClone bool) Result {
 		return NewResult.Create(
 			[]byte{},
 			it.CloneError(),
-			it.TypeName)
+			it.TypeName,
+		)
 	}
 
 	if !isDeepClone || it.Length() == 0 {
 		return NewResult.Create(
 			it.Bytes,
 			it.CloneError(),
-			it.TypeName)
+			it.TypeName,
+		)
 	}
 
 	newBytes := make([]byte, it.Length())
@@ -918,7 +934,8 @@ func (it Result) Clone(isDeepClone bool) Result {
 	return NewResult.Create(
 		newBytes,
 		it.CloneError(),
-		it.TypeName)
+		it.TypeName,
+	)
 }
 
 func (it Result) AsJsonContractsBinder() JsonContractsBinder {

@@ -3,6 +3,7 @@ package corejson
 import (
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/jsoninternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -18,6 +19,7 @@ var (
 	NewMapResults           = newMapResultsCreator{}
 	CastAny                 = castingAny{}
 	AnyTo                   = anyTo{}
+	Pretty                  = jsoninternal.Pretty
 	StaticJsonError         = errcore.
 				EmptyResultCannotMakeJsonType.
 				ErrorNoRefs(constants.EmptyString)

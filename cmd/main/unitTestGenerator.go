@@ -7,6 +7,7 @@ import (
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
@@ -86,7 +87,7 @@ func (it unitTestGenerator) AstChecker() {
 	firstNode, _ := astReader.SubstringByNode(structTypes[0])
 
 	fmt.Println(node.Decls)
-	fmt.Println(nodesMap)
+	fmt.Println(corejson.Serialize.ToPrettyStringIncludingErr(nodesMap))
 	fmt.Println(structTypes)
 	fmt.Println(firstNode)
 }

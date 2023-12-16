@@ -20,9 +20,11 @@ func (it serializerLogic) Apply(
 	anyItem interface{},
 ) *Result {
 	jsonBytes, err := json.Marshal(
-		anyItem)
+		anyItem,
+	)
 	typeName := reflectinternal.TypeName(
-		anyItem)
+		anyItem,
+	)
 
 	if err != nil {
 		return &Result{
@@ -30,7 +32,8 @@ func (it serializerLogic) Apply(
 			Error: errcore.
 				MarshallingFailedType.Error(
 				err.Error(),
-				typeName),
+				typeName,
+			),
 			TypeName: typeName,
 		}
 	}
@@ -100,15 +103,18 @@ func (it serializerLogic) UsingAnyPtr(
 	anyItem interface{},
 ) *Result {
 	jsonBytes, err := json.Marshal(
-		anyItem)
+		anyItem,
+	)
 	typeName := reflectinternal.TypeName(
-		anyItem)
+		anyItem,
+	)
 
 	if err != nil {
 		finalErr := errcore.
 			MarshallingFailedType.Error(
 			err.Error(),
-			typeName)
+			typeName,
+		)
 
 		return &Result{
 			Bytes:    jsonBytes,
@@ -282,4 +288,10 @@ func (it serializerLogic) ToPrettyStringIncludingErr(
 	result := it.Apply(anyItem)
 
 	return result.PrettyJsonStringOrErrString()
+}
+
+func (it serializerLogic) Pretty(
+	anyItem interface{},
+) string {
+	return anyToDirectPrettierFunc(anyItem)
 }
