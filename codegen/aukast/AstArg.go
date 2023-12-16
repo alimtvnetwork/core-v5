@@ -25,7 +25,7 @@ func NewAstFuncArg(
 		return nil
 	}
 
-	p, _ := New.AstElem.CreateByParent(
+	inParams, _ := New.AstElem.CreateByParent(
 		parent,
 		fullCode,
 		f.Params,
@@ -39,16 +39,42 @@ func NewAstFuncArg(
 
 	var inArgs, outArgs []Arg
 
-	for i, i := range p {
+	for i, field := range inParams.FieldsList() {
 
 	}
 
 	return &AstFuncArg{
 		Parent:   nil,
 		FuncType: nil,
-		Params:   p,
+		Params:   inParams,
 		Results:  r,
 		InArgs:   nil,
 		OutArgs:  nil,
 	}
+}
+
+func NewAstArgs(
+	f *ast.Field,
+) []Arg {
+	if f == nil {
+		return []Arg{}
+	}
+
+	var args []Arg
+
+	for _, ident := range f.Names {
+		typeIdent := f.Type.(*ast.Ident)
+
+		a := Arg{
+			Name:      ident.Name,
+			TypeName:  typeIdent.Name,
+			NameIdent: ident,
+			TypeExpr:  typeIdent,
+			Comment:   f.Comment,
+		}
+
+		args = append(args, a)
+	}
+
+	return args
 }

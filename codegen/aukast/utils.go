@@ -236,3 +236,16 @@ func (it utils) ExprToString(code string, expr ast.Expr) string {
 
 	return it.NodeToStringSafe(code, expr)
 }
+
+func (it utils) ExprToStringDirect(expr ast.Expr) string {
+	if isany.Null(expr) {
+		return ""
+	}
+
+	switch v := expr.(type) {
+	case *ast.Ident:
+		return v.Name
+	}
+
+	return ""
+}
