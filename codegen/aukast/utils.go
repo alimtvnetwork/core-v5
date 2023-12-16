@@ -274,3 +274,17 @@ func (it utils) ExprToIdent(expr ast.Expr) *ast.Ident {
 
 	return nil
 }
+
+func (it utils) HasAnyPrefix(s string, prefixes ...string) bool {
+	if len(s) == 0 || len(prefixes) == 0 {
+		return false
+	}
+
+	for _, prefix := range prefixes {
+		if strings.HasPrefix(s, prefix) {
+			return true
+		}
+	}
+
+	return false
+}

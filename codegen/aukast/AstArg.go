@@ -13,12 +13,15 @@ type AstFuncArg struct {
 }
 
 type Arg struct {
-	Name, TypeName string
-	NameIdent      *ast.Ident
-	TypeExpr       *ast.Ident
-	Comment        *ast.CommentGroup
-	IsPointerType  bool
-	Code           string
+	Name, TypeName        string
+	NameIdent             *ast.Ident
+	TypeExpr              ast.Expr
+	TypeIdent             *ast.Ident
+	Comment               *ast.CommentGroup
+	IsPointerType         bool
+	IsArray               bool
+	IsArrayPointerElement bool
+	Code                  string
 }
 
 func NewAstFuncArg(
@@ -78,15 +81,20 @@ func NewAstArgs(
 	for _, ident := range f.Names {
 		typeIdent := astUtil.ExprToIdent(f.Type)
 		typeName, _ := astUtil.NodeToString(code, f.Type)
+		isArray := astUtil.HasAnyPrefix(typeName, "[]", "*[]")
+		isArrayPointerElement := astUtil.HasAnyPrefix(typeName, "*[]*", "[]*")
 
 		a := Arg{
-			Name:          ident.Name,
-			TypeName:      typeName,
-			NameIdent:     ident,
-			TypeExpr:      typeIdent,
-			Comment:       f.Comment,
-			IsPointerType: strings.HasPrefix(typeName, "*"),
-			Code:          subCode,
+			Name:                  ident.Name,
+			TypeName:              typeName,
+			NameIdent:             ident,
+			TypeExpr:              f.Type,
+			TypeIdent:             typeIdent,
+			Comment:               f.Comment,
+			IsPointerType:         strings.HasPrefix(typeName, "*"),
+			IsArray:               isArray,
+			IsArrayPointerElement: isArrayPointerElement,
+			Code:                  subCode,
 		}
 
 		args = append(args, a)
