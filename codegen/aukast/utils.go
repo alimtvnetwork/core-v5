@@ -98,7 +98,27 @@ func (it *utils) FieldsListToString(fieldsList *ast.FieldList) string {
 	return fmt.Sprintf("%s", toStr)
 }
 
-func (it utils) Name(fullCode string, n interface{}) string {
+func (it *utils) TypesNamesOfFieldList(code string, fieldsList *ast.FieldList) string {
+	if fieldsList == nil || len(fieldsList.List) == 0 {
+		return ""
+	}
+
+	var slice []string
+
+	for _, field := range fieldsList.List {
+		if field == nil {
+			continue
+		}
+
+		slice = append(slice, it.ExprToString(code, field.Type))
+	}
+
+	toStr := strings.Join(slice, ",")
+
+	return fmt.Sprintf("%s", toStr)
+}
+
+func (it utils) Name(fullCode string, n ast.Node) string {
 	if isany.Null(n) {
 		return ""
 	}
@@ -120,8 +140,6 @@ func (it utils) Name(fullCode string, n interface{}) string {
 		return it.IdentifiersToString(v.Names)
 	case *ast.FieldList:
 		return it.FieldsListToString(v)
-	case *ast.Object:
-		return it.ObjectToString(fullCode, v)
 	case ast.Node:
 		// https://prnt.sc/48i_Cuko_J5r
 
@@ -144,16 +162,12 @@ func (it utils) NodeTypeName(fullCode string, n ast.Node) string {
 		}
 
 		return it.Name(fullCode, v.Obj)
-	case *ast.FuncType:
-		return it.FieldsListToString(v.Results)
-	case *ast.SelectorExpr:
-		return it.NodeToStringSafe(fullCode, v.X)
 	case *ast.KeyValueExpr:
 		return it.NodeToStringSafe(fullCode, v.Value)
 	case *ast.Field:
-		return it.IdentifiersToString(v.Names)
+		return it.ExprToString(fullCode, v.Type)
 	case *ast.FieldList:
-		return it.FieldsListToString(v)
+		return it.TypesNamesOfFieldList(fullCode, v)
 	}
 
 	return ""
@@ -217,5 +231,14 @@ func (it utils) ObjectToString(code string, v *ast.Object) string {
 		return ""
 	}
 
-	return it.NodeToStringSafe(code, v)
+	return ""
+}
+
+func (it utils) ExprToString(code string, expr ast.Expr) string {
+	switch v := expr.(type) {
+	case *ast.Ident:
+		return v.Name
+	}
+
+	return it.NodeToStringSafe(code, expr)
 }
