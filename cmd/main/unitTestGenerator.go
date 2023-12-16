@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go/ast"
 
 	"gitlab.com/auk-go/core/codegen"
 	"gitlab.com/auk-go/core/codegen/aukast"
@@ -102,6 +103,26 @@ func (it unitTestGenerator) AstChecker() {
 	errcore.HandleErr(err)
 
 	fmt.Println(functions)
+
+	c := astReader.Filter(
+		func(elem *aukast.AstElem) (isTake, isBreak bool) {
+			v, isOkay := elem.Node.(*ast.CompositeLit)
+
+			if !isOkay {
+				return false, false
+			}
+
+			_, isokay := v.Elts[0].(*ast.KeyValueExpr)
+
+			if !isokay {
+				return false, false
+			}
+
+			return true, false
+		},
+	)
+
+	fmt.Println(c)
 	// fmt.Println(structTypes)
 	// fmt.Println(firstNode)
 }
