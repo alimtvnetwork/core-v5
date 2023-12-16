@@ -211,64 +211,16 @@ func (it *AstElem) Functions() *AstFuncCollection {
 	return collection
 }
 
-func (it *AstElem) FieldsList() []*ast.FieldList {
+func (it *AstElem) FieldsList() []*ast.Field {
 	if it.IsEmpty() || !it.IsFieldList() {
-		return []*ast.FieldList{}
+		return []*ast.Field{}
 	}
 
-	creatorFunc := New.AstElem.CreateByParent
-	nameGetterFunc := astUtil.Name
-	fullCode := it.FullCode()
-	funcMap := make(map[string]AstFunction, 10)
-	var rawErr errcore.RawErrCollection
+	fieldsList, isOkay := it.Node.(*ast.FieldList)
 
-	ast.Inspect(
-		it.Node, func(n ast.Node) bool {
-			if n == nil {
-				return true
-			}
-
-			toFunc, isOkay := n.(*ast.FuncDecl)
-
-			if !isOkay {
-				return true
-			}
-
-			// https://prnt.sc/eQZm-iCDdj-H
-			elem, err := creatorFunc(it, fullCode, n)
-			rawErr.Add(err)
-
-			if err == nil {
-				name := nameGetterFunc(fullCode, toFunc)
-				StructName := nameGetterFunc(fullCode, toFunc.Recv)
-				structX, _ := creatorFunc(it, fullCode, toFunc.Recv)
-				comments, _ := creatorFunc(it, fullCode, toFunc.Doc)
-
-				astFunc := AstFunction{
-					Name:           name,
-					StructName:     StructName,
-					IsAttached:     false,
-					IsPublic:       true,
-					IsPrivate:      false,
-					FieldsCount:    toFunc.Recv.NumFields(),
-					Parent:         elem,
-					ReceiverStruct: structX,
-					Comments:       comments,
-					Type:           toFunc.Type,
-				}
-
-				funcMap[name] = astFunc
-			}
-
-			return true
-		},
-	)
-
-	collection := &AstFuncCollection{
-		Names:  nil,
-		Map:    funcMap,
-		Parent: it,
+	if isOkay {
+		return fieldsList.List
 	}
 
-	return collection
+	return nil
 }
