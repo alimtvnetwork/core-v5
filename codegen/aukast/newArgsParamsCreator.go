@@ -11,7 +11,7 @@ func (it newArgsParamsCreator) Root(
 	parent *AstElem,
 	fullCode string,
 	f *ast.FuncType,
-) *RootFuncArgs {
+) *AstFuncArgsRoot {
 	if f == nil {
 		return nil
 	}
@@ -28,7 +28,7 @@ func (it newArgsParamsCreator) Root(
 		f.Results,
 	)
 
-	var inArgs, outArgs []Param
+	var inArgs, outArgs []AstParam
 
 	for _, field := range inParams.FieldsList() {
 		toArgs := it.Params(fullCode, field)
@@ -42,7 +42,7 @@ func (it newArgsParamsCreator) Root(
 
 	code := astUtil.NodeToStringSafe(fullCode, f)
 
-	return &RootFuncArgs{
+	return &AstFuncArgsRoot{
 		Parent:   parent,
 		FuncType: f,
 		Params:   inParams,
@@ -56,12 +56,12 @@ func (it newArgsParamsCreator) Root(
 func (it newArgsParamsCreator) ParamsUsingFieldsList(
 	fullCode string,
 	fieldsList []*ast.Field,
-) []Param {
+) []AstParam {
 	if len(fieldsList) == 0 || fullCode == "" {
-		return []Param{}
+		return []AstParam{}
 	}
 
-	var toParams []Param
+	var toParams []AstParam
 
 	for _, field := range fieldsList {
 		toArgs := it.Params(fullCode, field)
@@ -74,12 +74,12 @@ func (it newArgsParamsCreator) ParamsUsingFieldsList(
 func (it newArgsParamsCreator) Params(
 	fullCode string,
 	f *ast.Field,
-) []Param {
+) []AstParam {
 	if f == nil {
-		return []Param{}
+		return []AstParam{}
 	}
 
-	var args []Param
+	var args []AstParam
 	subCode := astUtil.NodeToStringSafe(fullCode, f)
 
 	for _, ident := range f.Names {
@@ -88,7 +88,7 @@ func (it newArgsParamsCreator) Params(
 		isArray := astUtil.HasAnyPrefix(typeName, "[]", "*[]")
 		isArrayPointerElement := astUtil.HasAnyPrefix(typeName, "*[]*", "[]*")
 
-		a := Param{
+		a := AstParam{
 			Name:                  ident.Name,
 			TypeName:              typeName,
 			NameIdent:             ident,

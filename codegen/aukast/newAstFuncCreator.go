@@ -48,7 +48,7 @@ func (it newAstFunctionCreator) Create(
 		IsAttached:     len(StructTypeName) > 0,
 		IsPublic:       true,
 		IsPrivate:      false,
-		FieldsCount:    toFunc.Recv.NumFields(),
+		ReceiverCount:  toFunc.Recv.NumFields(),
 		Parent:         parentElem,
 		ReceiverStruct: receiver,
 		Comments:       comments,

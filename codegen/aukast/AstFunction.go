@@ -10,12 +10,12 @@ type AstFunction struct {
 	IsAttached     bool
 	IsPublic       bool
 	IsPrivate      bool
-	FieldsCount    int
+	ReceiverCount  int
 	Parent         *AstElem
 	ReceiverStruct *AstElem
 	Comments       *AstElem
 	Type           *ast.FuncType
-	FuncArg        *RootFuncArgs
+	FuncArg        *AstFuncArgsRoot
 	Code           string
 }
 

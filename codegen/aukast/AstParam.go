@@ -2,7 +2,7 @@ package aukast
 
 import "go/ast"
 
-type Param struct {
+type AstParam struct {
 	Name, TypeName        string
 	NameIdent             *ast.Ident
 	TypeExpr              ast.Expr

@@ -4,34 +4,34 @@ import (
 	"go/ast"
 )
 
-type RootFuncArgs struct {
+type AstFuncArgsRoot struct {
 	Parent          *AstElem
 	FuncType        *ast.FuncType
 	Params, Results *AstElem
-	InArgs, OutArgs []Param
+	InArgs, OutArgs []AstParam
 	Code            string
 }
 
-func (it *RootFuncArgs) IsValid() bool {
+func (it *AstFuncArgsRoot) IsValid() bool {
 	return !it.IsInvalid()
 }
 
-func (it *RootFuncArgs) IsInvalid() bool {
+func (it *AstFuncArgsRoot) IsInvalid() bool {
 	return it == nil || it.FuncType == nil
 }
 
-func (it *RootFuncArgs) HasInArgs() bool {
+func (it *AstFuncArgsRoot) HasInArgs() bool {
 	return it.IsValid() && len(it.InArgs) > 0
 }
 
-func (it *RootFuncArgs) HasOutArgs() bool {
+func (it *AstFuncArgsRoot) HasOutArgs() bool {
 	return it.IsValid() && len(it.OutArgs) > 0
 }
 
-func (it *RootFuncArgs) IsEmptyInArgs() bool {
+func (it *AstFuncArgsRoot) IsEmptyInArgs() bool {
 	return !it.HasInArgs()
 }
 
-func (it *RootFuncArgs) IsEmptyOutArgs() bool {
+func (it *AstFuncArgsRoot) IsEmptyOutArgs() bool {
 	return !it.HasOutArgs()
 }
