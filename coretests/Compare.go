@@ -46,7 +46,7 @@ func (it *Compare) SortedString() string {
 
 func (it *Compare) GetPrintMessage(index int) string {
 	return fmt.Sprintf(
-		"\n\tIndex:%d\n\tString Contains:%s\n\tString Processed:%s",
+		"\n\tIndex:%d\n\tString IsContains:%s\n\tString Processed:%s",
 		index,
 		it.StringContains,
 		it.SortedString(),

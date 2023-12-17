@@ -36,6 +36,17 @@ func (it *AstFuncArgsRoot) IsEmptyOutArgs() bool {
 	return !it.HasOutArgs()
 }
 
-func (it *AstFuncArgsRoot) String() any {
+func (it *AstFuncArgsRoot) String() string {
+	if it.IsEmpty() {
+		return ""
+	}
 
+	return it.Code
+}
+
+func (it *AstFuncArgsRoot) IsEmpty() bool {
+	return it == nil ||
+		it.Parent == nil ||
+		it.IsEmptyInArgs() &&
+			it.IsEmptyOutArgs()
 }

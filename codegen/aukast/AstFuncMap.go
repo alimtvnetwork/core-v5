@@ -68,7 +68,7 @@ func (it AstFuncMap) Get(name string) *AstFunction {
 	return nil
 }
 
-func (it *AstFuncMap) Contains(name string) bool {
+func (it *AstFuncMap) IsContains(name string) bool {
 	if it.IsEmpty() {
 		return false
 	}

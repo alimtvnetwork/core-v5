@@ -182,7 +182,8 @@ func (it Variant) UnmarshallEnumToValue(
 ) (byte, error) {
 	return BasicEnumImpl.UnmarshallToValue(
 		isMappedToDefault,
-		jsonUnmarshallingValue)
+		jsonUnmarshallingValue,
+	)
 }
 
 func (it Variant) String() string {
@@ -265,7 +266,8 @@ func (it Variant) MarshalJSON() ([]byte, error) {
 
 func (it *Variant) UnmarshalJSON(data []byte) error {
 	rawScriptType, err := BasicEnumImpl.UnmarshallToValue(
-		isMappedToDefault, data)
+		isMappedToDefault, data,
+	)
 
 	if err == nil {
 		*it = Variant(rawScriptType)
@@ -305,7 +307,7 @@ func (it *Variant) RangesByte() []byte {
 //	EndsWith:      isEndsWithFunc,
 //	Anywhere:      isAnywhereFunc,
 //	AnyChars:      isAnyCharsFunc,
-//	Contains:      isAnywhereFunc,
+//	IsContains:      isAnywhereFunc,
 //	Regex:         isRegexFunc,
 //	NotEqual:      isNotEqualFunc,
 //	NotStartsWith: isNotStartsWithFunc,
@@ -324,7 +326,8 @@ func (it Variant) DynamicCompare(
 	return isDynamicCompareFunc(
 		lineNumber,
 		content,
-		it)
+		it,
+	)
 }
 
 // IsCompareSuccess
@@ -342,7 +345,8 @@ func (it Variant) IsCompareSuccess(
 	return it.IsLineCompareFunc()(
 		content,
 		search,
-		isIgnoreCase)
+		isIgnoreCase,
+	)
 }
 
 func (it Variant) VerifyMessage(
@@ -370,13 +374,15 @@ func (it Variant) VerifyMessage(
 		return errcore.ExpectingNotEqualSimpleNoType(
 			"CompareMethod \""+it.Name()+"\" - {negative} match failed "+isIgnoreCaseString,
 			search,
-			content)
+			content,
+		)
 	}
 
 	return errcore.ExpectingSimpleNoType(
 		"CompareMethod \""+it.Name()+"\" - match failed "+isIgnoreCaseString,
 		search,
-		content)
+		content,
+	)
 }
 
 func (it Variant) VerifyError(
@@ -426,7 +432,8 @@ func (it *Variant) IsCompareSuccessCaseSensitive(content, search string) bool {
 	return it.IsLineCompareFunc()(
 		content,
 		search,
-		false)
+		false,
+	)
 }
 
 // IsCompareSuccessNonCaseSensitive for
@@ -436,7 +443,8 @@ func (it *Variant) IsCompareSuccessNonCaseSensitive(content, search string) bool
 	return it.IsLineCompareFunc()(
 		content,
 		search,
-		true)
+		true,
+	)
 }
 
 func (it Variant) EnumType() enuminf.EnumTyper {

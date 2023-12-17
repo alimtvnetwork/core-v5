@@ -1,7 +1,7 @@
 package msgformats
 
 const (
-	// LogFormat Contains name-value using %+v, %v for only value.
+	// LogFormat IsContains name-value using %+v, %v for only value.
 	//
 	// Expectations : %+v
 	// Actual: %+v

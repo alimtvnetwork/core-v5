@@ -11,7 +11,7 @@ var (
 		EndsWith:      "EndsWith",
 		Anywhere:      "Anywhere",
 		AnyChars:      "AnyChars",
-		Contains:      "Contains",
+		Contains:      "IsContains",
 		Regex:         "Regex",
 		NotEqual:      "NotEqual",
 		NotStartsWith: "NotStartsWith",
@@ -27,7 +27,8 @@ var (
 			BasicByte.
 			Default(
 			Equal,
-			stringRanges[:])
+			stringRanges[:],
+		)
 
 	rangesMap = map[Variant]IsLineCompareFunc{
 		Equal:         isEqualFunc,
