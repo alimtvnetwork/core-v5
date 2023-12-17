@@ -78,8 +78,8 @@ func (it *AstFuncCollection) FuncNamesWithTypeStrings() corestr.SimpleSlice {
 
 	for _, name := range *it.Names {
 		slice.AppendFmt(
-			" - Name: %s - %s\n"+
-				name,
+			" - Func: %s \n  - %s \n",
+			name,
 			it.GetFunc(name).DefCode,
 		)
 	}
@@ -94,5 +94,5 @@ func (it *AstFuncCollection) String() string {
 
 	funcNames := it.FuncNamesWithTypeStrings()
 
-	return "AstFuncCollection: {\n" + funcNames.Join("\n - ") + "}"
+	return "AstFuncCollection: {\n" + funcNames.JoinLine() + "}"
 }

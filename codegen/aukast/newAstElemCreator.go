@@ -29,12 +29,7 @@ func (it newAstElemCreator) Create(
 		TypeName:       typeName,
 		Code:           code,
 		NameIdentifier: identifier,
-		ParentTypeName: "",
-		InnerTypeName:  "",
 		Node:           node,
-		parentType:     nil,
-		innerType:      nil,
-		properties:     nil,
 		childNodes:     nil,
 	}, nil
 }
@@ -60,8 +55,6 @@ func (it newAstElemCreator) CreateByParent(
 		TypeName:       typeName,
 		Code:           code,
 		NameIdentifier: identifier,
-		ParentTypeName: "",
-		InnerTypeName:  "",
 		Node:           node,
 	}, nil
 }

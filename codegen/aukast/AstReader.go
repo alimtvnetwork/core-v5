@@ -46,6 +46,51 @@ func (it *AstReader) SafeFullCode() string {
 	return it.fullCode
 }
 
+func (it *AstReader) Filter(
+	filter func(elem *AstElem) (isTake bool),
+) *AstCollection {
+	if it.IsInvalid() {
+		return nil
+	}
+
+	creatorFunc := New.AstElem.Create
+	fullCode, codeErr := it.FullCode()
+
+	if codeErr != nil {
+		return nil
+	}
+
+	var slice []AstElem
+	var rawErr errcore.RawErrCollection
+
+	ast.Inspect(
+		it.AstFile(), func(n ast.Node) bool {
+			if isany.Null(n) {
+				return true
+			}
+
+			elem, err := creatorFunc(it, fullCode, n)
+			rawErr.Add(err)
+			isTake := filter(elem)
+
+			if err == nil && isTake {
+				slice = append(slice, *elem)
+			}
+
+			return true
+		},
+	)
+
+	parent, _ := creatorFunc(it, fullCode, it.AstFile())
+
+	collection := &AstCollection{
+		Parent:     parent,
+		childNodes: slice,
+	}
+
+	return collection
+}
+
 func (it *AstReader) IsValid() bool {
 	return it != nil && len(it.fullCode) > 0 || it.astFile == nil
 }
