@@ -186,16 +186,16 @@ func (it *AstElem) String() string {
 
 	if it.Name == "" {
 		return fmt.Sprintf(
-			" - Type: %s,\n"+
-				"   Code (20) : `%s`",
+			"Type: %s,\n"+
+				"  Code (20) : `%s`",
 			it.TypeName,
 			it.CodeTakeMax(20),
 		)
 	}
 
 	return fmt.Sprintf(
-		" - Name: %s, Type: %s,\n"+
-			"   Code (20) : `%s`",
+		"Name: %s, Type: %s,\n"+
+			"  Code (20) : `%s`",
 		it.Name,
 		it.TypeName,
 		it.CodeTakeMax(20),

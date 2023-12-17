@@ -50,7 +50,8 @@ func (it *AstCollection) RawChildNodesStrings() corestr.SimpleSlice {
 	slice := corestr.New.SimpleSlice.ByLen(it.childNodes)
 
 	for _, elem := range it.RawChildNodes() {
-		slice.Add(elem.String())
+		slice.AddSplit("- "+elem.String(), "\n")
+		slice.Add("")
 	}
 
 	return slice.NonPtr()
@@ -64,16 +65,16 @@ func (it AstCollection) String() string {
 	slice := it.RawChildNodesStrings()
 	toJoin := slice.TranspileJoin(
 		func(s string) string {
-			return "    " + s
-		}, "\n",
+			return "  " + s
+		}, "\n  ",
 	)
 
 	toStr := fmt.Sprintf(
-		"\n    Parent:\n"+
-			"    %s\n\n"+
-			"    Childs:%d\n"+
-			"    Childs:\n"+
-			"      %s",
+		"\n  Parent:\n"+
+			"  %s\n\n"+
+			"  Childs:%d\n"+
+			"  Childs:\n"+
+			"  %s",
 		it.Parent.String(),
 		slice.Count(),
 		toJoin,

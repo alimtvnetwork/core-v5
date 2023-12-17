@@ -21,6 +21,19 @@ func (it *SimpleSlice) Add(
 	return it
 }
 
+func (it *SimpleSlice) AddSplit(
+	item string,
+	sep string,
+) *SimpleSlice {
+	lines := strings.Split(item, sep)
+
+	for _, line := range lines {
+		*it = append(*it, line)
+	}
+
+	return it
+}
+
 func (it *SimpleSlice) AddIf(
 	isAdd bool,
 	item string,
