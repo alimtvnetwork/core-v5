@@ -42,16 +42,18 @@ func (it *AstCollection) RawChildNodes() []AstElem {
 	return it.childNodes
 }
 
-func (it *AstCollection) RawChildNodesString() corestr.SimpleSlice {
+func (it *AstCollection) RawChildNodesStrings() corestr.SimpleSlice {
 	if it.IsEmpty() {
 		return []string{}
 	}
 
 	slice := corestr.New.SimpleSlice.ByLen(it.childNodes)
 
-	for i, elem := range it.RawChildNodes() {
+	for _, elem := range it.RawChildNodes() {
 		slice.Add(elem.String())
 	}
+
+	return slice.NonPtr()
 }
 
 func (it AstCollection) String() string {
@@ -59,14 +61,16 @@ func (it AstCollection) String() string {
 		return ""
 	}
 
+	slice := it.RawChildNodesStrings()
+	toJoin := slice.Join("  - ")
+
 	return fmt.Sprintf(
-		"Parent:%s" +
-			"Childs:%d" +
-			"Parent:%s" +
-			"Parent:%s" +
-			"Parent:%s" +
-			"Parent:%s" +
-			"Parent:%s" +
-			"Parent:%s" +,
+		"Parent:%s"+
+			"Childs:%d"+
+			"Childs:\n"+
+			"  - %s",
+		it.Parent.String(),
+		slice.Count(),
+		toJoin,
 	)
 }
