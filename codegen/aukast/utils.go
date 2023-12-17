@@ -141,6 +141,8 @@ func (it utils) Name(fullCode string, n ast.Node) string {
 		return it.IdentifiersToString(v.Names)
 	case *ast.FieldList:
 		return it.FieldsListToString(v)
+	case *ast.File, *ast.CompositeLit, *ast.BlockStmt:
+		return ""
 	case ast.Node:
 		// https://prnt.sc/48i_Cuko_J5r
 

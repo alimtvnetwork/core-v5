@@ -94,5 +94,5 @@ func (it *AstFuncCollection) String() string {
 
 	funcNames := it.FuncNamesWithTypeStrings()
 
-	return "AstFuncCollection: {\n" + funcNames.JoinLine() + "}"
+	return "AstFuncCollection {\n" + funcNames.JoinLine() + "\n}"
 }

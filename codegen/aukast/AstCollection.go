@@ -62,15 +62,22 @@ func (it AstCollection) String() string {
 	}
 
 	slice := it.RawChildNodesStrings()
-	toJoin := slice.Join("  - ")
+	toJoin := slice.TranspileJoin(
+		func(s string) string {
+			return "    " + s
+		}, "\n",
+	)
 
-	return fmt.Sprintf(
-		"Parent:%s"+
-			"Childs:%d"+
-			"Childs:\n"+
-			"  - %s",
+	toStr := fmt.Sprintf(
+		"\n    Parent:\n"+
+			"    %s\n\n"+
+			"    Childs:%d\n"+
+			"    Childs:\n"+
+			"      %s",
 		it.Parent.String(),
 		slice.Count(),
 		toJoin,
 	)
+
+	return fmt.Sprintf("AstCollection {\n%s\n}", toStr)
 }
