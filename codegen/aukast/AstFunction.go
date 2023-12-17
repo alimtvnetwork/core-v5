@@ -1,6 +1,9 @@
 package aukast
 
-import "go/ast"
+import (
+	"fmt"
+	"go/ast"
+)
 
 type AstFunction struct {
 	AstReader      *AstReader
@@ -16,6 +19,7 @@ type AstFunction struct {
 	Comments       *AstElem
 	Type           *ast.FuncType
 	FuncArg        *AstFuncArgsRoot
+	Node           *ast.FuncDecl
 	DefCode, Code  string
 }
 
@@ -53,4 +57,50 @@ func (it *AstFunction) IsAttachToStructOf(structName string) bool {
 	}
 
 	return it.StructName == structName
+}
+
+func (it AstFunction) String() string {
+	if it.IsInvalid() {
+		return ""
+	}
+
+	fields := fmt.Sprintf(
+		""+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n"+
+			"%s:%s\n",
+		"Name", it.DisplayName(),
+		"Code", it.DefCode,
+		"IsPublic", it.IsPublic,
+		"Args", it.FuncArg.String(),
+		"Args", it.ChildNodes().,
+	)
+}
+
+func (it *AstFunction) DisplayName() string {
+	if it == nil {
+		return ""
+	}
+
+	if it.IsAttached {
+		return fmt.Sprintf("%s.%s", it.StructName, it.Name)
+	}
+
+	return it.Name
+}
+
+func (it *AstFunction) ChildNodes() *AstCollection {
+	return AstFilter{
+		AstReader:  it.AstReader,
+		ParentNode: it.Node,
+		Node:       it.Node,
+		fullCode:   it.AstReader.SafeFullCode(),
+	}.ChildNodes()
 }

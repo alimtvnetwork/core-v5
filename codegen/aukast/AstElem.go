@@ -14,8 +14,6 @@ type AstElem struct {
 	TypeName              string
 	Code                  string
 	NameIdentifier        *ast.Ident
-	ParentTypeName        string // https://prnt.sc/ZffPQKPrAh7m
-	InnerTypeName         string // https://prnt.sc/OKbh4Q5JahXr
 	Node                  ast.Node
 	parentType, innerType reflect.Type
 	properties            map[string]bool

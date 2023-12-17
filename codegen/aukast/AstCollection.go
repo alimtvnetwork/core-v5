@@ -1,5 +1,7 @@
 package aukast
 
+import "fmt"
+
 type AstCollection struct {
 	Parent     *AstElem
 	childNodes []AstElem
@@ -28,10 +30,27 @@ func (it *AstCollection) FullCode() string {
 	return it.Parent.FullCode()
 }
 
-func (it *AstCollection) ChildNodes() []AstElem {
+func (it *AstCollection) RawChildNodes() []AstElem {
 	if it.IsEmpty() {
 		return []AstElem{}
 	}
 
 	return it.childNodes
+}
+
+func (it AstCollection) String() string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		"Parent:%s" +
+			"Childs:%d" +
+			"Parent:%s" +
+			"Parent:%s" +
+			"Parent:%s" +
+			"Parent:%s" +
+			"Parent:%s" +
+			"Parent:%s" +,
+	)
 }

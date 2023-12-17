@@ -38,6 +38,14 @@ func (it *AstReader) FullCode() (string, error) {
 	return it.fullCode, nil
 }
 
+func (it *AstReader) SafeFullCode() string {
+	if it == nil {
+		return ""
+	}
+
+	return it.fullCode
+}
+
 func (it *AstReader) IsValid() bool {
 	return it != nil && len(it.fullCode) > 0 || it.astFile == nil
 }

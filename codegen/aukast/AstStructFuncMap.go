@@ -72,6 +72,30 @@ func (it *AstStructFuncMap) Adds(astFunctions ...*AstFunction) *AstStructFuncMap
 	return it
 }
 
+func (it *AstStructFuncMap) AddsAstStructFuncMaps(
+	astStructFuncMap ...*AstStructFuncMap,
+) *AstStructFuncMap {
+	if it.IsEmpty() {
+		it = new(AstStructFuncMap)
+	}
+
+	if len(astStructFuncMap) == 0 {
+		return it
+	}
+
+	for _, astStructMap := range astStructFuncMap {
+		if astStructMap == nil || astStructMap.IsEmpty() {
+			continue
+		}
+
+		allFunctions := astStructMap.AllFunctions()
+
+		it.AddsValues(allFunctions...)
+	}
+
+	return it
+}
+
 func (it *AstStructFuncMap) AddsFuncMap(astFuncMaps ...*AstFuncMap) *AstStructFuncMap {
 	if it.IsEmpty() {
 		it = new(AstStructFuncMap)
@@ -239,11 +263,11 @@ func (it AstStructFuncMap) String() string {
 
 	slice := corestr.New.SimpleSlice.ByLen(it)
 
-	for s, function := range it {
+	for s, funcMap := range it {
 		slice.AppendFmt(
 			"\"%s\":%s",
 			s,
-			function.DefCode,
+			funcMap.String(),
 		)
 	}
 

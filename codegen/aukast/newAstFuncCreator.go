@@ -61,6 +61,7 @@ func (it newAstFunctionCreator) Create(
 		Comments:       comments,
 		Type:           toFunc.Type,
 		FuncArg:        funcArgs,
+		Node:           toFunc,
 		DefCode:        funcTypeCode,
 		Code:           astUtil.NodeToStringSafe(fullCode, n),
 	}, nil

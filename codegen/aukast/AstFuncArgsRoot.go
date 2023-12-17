@@ -35,3 +35,7 @@ func (it *AstFuncArgsRoot) IsEmptyInArgs() bool {
 func (it *AstFuncArgsRoot) IsEmptyOutArgs() bool {
 	return !it.HasOutArgs()
 }
+
+func (it *AstFuncArgsRoot) String() any {
+
+}

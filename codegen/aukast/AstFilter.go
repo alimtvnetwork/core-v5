@@ -230,6 +230,15 @@ func (it AstFilter) FieldLists() *AstCollection {
 	)
 }
 
+func (it AstFilter) ChildNodes() *AstCollection {
+	return it.Filter(
+		it.Node,
+		func(elem *AstElem) (isTake, isBreak bool) {
+			return true, false
+		},
+	)
+}
+
 func (it *AstFilter) FullCode() string {
 	if it.IsEmpty() {
 		return ""
