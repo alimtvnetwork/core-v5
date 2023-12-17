@@ -20,6 +20,10 @@ func (it newAstFunctionCreator) Create(
 		return nil, nil
 	}
 
+	if astReader == nil || len(fullCode) == 0 {
+		return nil, nil
+	}
+
 	toFunc, isOkay := n.(*ast.FuncDecl)
 
 	if !isOkay || toFunc == nil {
