@@ -1,6 +1,10 @@
 package aukast
 
-import "fmt"
+import (
+	"fmt"
+
+	"gitlab.com/auk-go/core/coredata/corestr"
+)
 
 type AstCollection struct {
 	Parent     *AstElem
@@ -36,6 +40,18 @@ func (it *AstCollection) RawChildNodes() []AstElem {
 	}
 
 	return it.childNodes
+}
+
+func (it *AstCollection) RawChildNodesString() corestr.SimpleSlice {
+	if it.IsEmpty() {
+		return []string{}
+	}
+
+	slice := corestr.New.SimpleSlice.ByLen(it.childNodes)
+
+	for i, elem := range it.RawChildNodes() {
+		slice.Add(elem.String())
+	}
 }
 
 func (it AstCollection) String() string {

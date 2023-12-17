@@ -1,24 +1,22 @@
 package aukast
 
 import (
+	"fmt"
 	"go/ast"
-	"reflect"
 
 	"gitlab.com/auk-go/core/errcore"
 )
 
 type AstElem struct {
-	astReader             *AstReader
-	Parent                *AstElem
-	Name                  string
-	TypeName              string
-	Code                  string
-	NameIdentifier        *ast.Ident
-	Node                  ast.Node
-	parentType, innerType reflect.Type
-	properties            map[string]bool
-	childNodes            *AstCollection
-	astFuncCollection     *AstFuncCollection
+	astReader         *AstReader
+	Parent            *AstElem
+	Name              string
+	TypeName          string
+	Code              string
+	NameIdentifier    *ast.Ident
+	Node              ast.Node
+	childNodes        *AstCollection
+	astFuncCollection *AstFuncCollection
 }
 
 func (it *AstElem) IsFieldList() bool {
@@ -179,4 +177,27 @@ func (it *AstElem) FieldsList() []*ast.Field {
 	}
 
 	return nil
+}
+
+func (it *AstElem) String() string {
+	if it == nil || it.IsInvalid() {
+		return ""
+	}
+
+	return fmt.Sprintf(
+		" - Name: %s, Type: %s, Code (20) : %s",
+		it.Name, it.TypeName, it.CodeTakeMax(20),
+	)
+}
+
+func (it *AstElem) CodeTakeMax(charsCount int) string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	if len(it.Code) > charsCount {
+		return it.Code[:charsCount]
+	}
+
+	return it.Code
 }
