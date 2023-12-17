@@ -43,6 +43,7 @@ func (it newAstFunctionCreator) Create(
 	receiver, _ := New.AstElem.Create(astReader, fullCode, toFunc.Recv)
 	comments, _ := New.AstElem.Create(astReader, fullCode, toFunc.Doc)
 	funcArgs := New.ArgsParams.Root(parentElem, fullCode, toFunc.Type)
+	funcTypeCode := astUtil.NodeToStringSafe(fullCode, toFunc.Type)
 	isPublic := astUtil.IsPublicFuncByName(name)
 	isPrivate := len(name) > 0 && !isPublic
 
@@ -60,6 +61,7 @@ func (it newAstFunctionCreator) Create(
 		Comments:       comments,
 		Type:           toFunc.Type,
 		FuncArg:        funcArgs,
+		DefCode:        funcTypeCode,
 		Code:           astUtil.NodeToStringSafe(fullCode, n),
 	}, nil
 }

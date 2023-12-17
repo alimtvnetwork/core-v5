@@ -1,17 +1,25 @@
 package aukast
 
+import (
+	"gitlab.com/auk-go/core/coredata/corestr"
+)
+
 type AstFuncMap map[string]AstFunction
 
-func (it AstFuncMap) IsEmpty() bool {
-	return it == nil || len(it) == 0
+func (it *AstFuncMap) IsEmpty() bool {
+	return it == nil || len(*it) == 0
 }
 
-func (it AstFuncMap) HasAnyItem() bool {
-	return it != nil && len(it) > 0
+func (it *AstFuncMap) HasAnyItem() bool {
+	return it != nil && len(*it) > 0
 }
 
-func (it AstFuncMap) Length() int {
-	return len(it)
+func (it *AstFuncMap) Length() int {
+	if it.IsEmpty() {
+		return 0
+	}
+
+	return len(*it)
 }
 
 func (it *AstFuncMap) AddsValues(astFunctions ...AstFunction) *AstFuncMap {
@@ -31,7 +39,7 @@ func (it *AstFuncMap) AddsValues(astFunctions ...AstFunction) *AstFuncMap {
 }
 
 func (it *AstFuncMap) Adds(astFunctions ...*AstFunction) *AstFuncMap {
-	if it == nil {
+	if it.IsEmpty() {
 		it = new(AstFuncMap)
 	}
 
@@ -60,12 +68,12 @@ func (it AstFuncMap) Get(name string) *AstFunction {
 	return nil
 }
 
-func (it AstFuncMap) Contains(name string) bool {
+func (it *AstFuncMap) Contains(name string) bool {
 	if it.IsEmpty() {
 		return false
 	}
 
-	_, has := it[name]
+	_, has := (*it)[name]
 
 	return has
 }
@@ -78,6 +86,42 @@ func (it AstFuncMap) IsMissing(name string) bool {
 	_, has := it[name]
 
 	return !has
+}
+
+func (it *AstFuncMap) AllFunctions() []AstFunction {
+	var slice []AstFunction
+
+	if it.IsEmpty() {
+		return slice
+	}
+
+	for _, f := range *it {
+		slice = append(slice, f)
+	}
+
+	return slice
+}
+
+func (it *AstFuncMap) FuncNames() *corestr.SimpleSlice {
+	if it.IsEmpty() {
+		return corestr.Empty.SimpleSlice()
+	}
+
+	slice := corestr.New.SimpleSlice.ByLen(*it)
+
+	for key := range *it {
+		slice.Add(key)
+	}
+
+	return slice
+}
+
+func (it *AstFuncMap) SortedFuncNames() *corestr.SimpleSlice {
+	slice := it.FuncNames()
+
+	slice.Sort()
+
+	return slice
 }
 
 func (it AstFuncMap) StructFunctions() map[string]AstFuncMap {
@@ -123,4 +167,22 @@ func (it AstFuncMap) StructFunc(structName string) AstFuncMap {
 	}
 
 	return newMap
+}
+
+func (it AstFuncMap) String() string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	slice := corestr.New.SimpleSlice.ByLen(it)
+
+	for s, function := range it {
+		slice.AppendFmt(
+			"\"%s\":%s",
+			s,
+			function.DefCode,
+		)
+	}
+
+	return slice.JoinCsvLine()
 }

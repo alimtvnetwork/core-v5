@@ -16,7 +16,7 @@ type AstFunction struct {
 	Comments       *AstElem
 	Type           *ast.FuncType
 	FuncArg        *AstFuncArgsRoot
-	Code           string
+	DefCode, Code  string
 }
 
 func (it *AstFunction) IsNotAttached() bool {
