@@ -260,54 +260,6 @@ func (it *AstReader) ChildNodes() *AstCollection {
 	return it.childNodes
 }
 
-func (it *AstReader) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *AstCollection {
-	if it.IsEmpty() {
-		return nil
-	}
-
-	if it.childNodes != nil {
-		return it.childNodes
-	}
-
-	creatorFunc := New.AstElem.Create
-	fullCode, _ := it.FullCode()
-	var slice []AstElem
-	var rawErr errcore.RawErrCollection
-
-	ast.Inspect(
-		it.AstFile(), func(n ast.Node) bool {
-			if isany.Null(n) {
-				return true
-			}
-
-			elem, err := creatorFunc(it, fullCode, n)
-			rawErr.Add(err)
-			isTake, isBreak := filter(elem)
-
-			if err == nil && isTake {
-				slice = append(slice, *elem)
-			}
-
-			if isBreak {
-				return false
-			}
-
-			return true
-		},
-	)
-
-	parent, _ := creatorFunc(it, fullCode, it.AstFile())
-
-	collection := &AstCollection{
-		Parent:     parent,
-		childNodes: slice,
-	}
-
-	it.childNodes = collection
-
-	return it.childNodes
-}
-
 func (it *AstReader) Functions() (*AstFuncCollection, error) {
 	if it.IsEmpty() {
 		return nil, nil

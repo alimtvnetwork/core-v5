@@ -18,7 +18,12 @@ func (it newAstFuncCollectionCreator) Create(
 		return nil, nil
 	}
 
-	fullCode, _ := astReader.FullCode()
+	fullCode, codeErr := astReader.FullCode()
+
+	if codeErr != nil {
+		return nil, codeErr
+	}
+
 	funcMap := make(map[string]AstFunction, 10)
 	astFuncCreator := New.AstFunction.Create
 	var rawErr errcore.RawErrCollection

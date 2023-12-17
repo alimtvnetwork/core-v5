@@ -72,7 +72,7 @@ func (it newAstElemCreator) CreateByAstReader(astReader *AstReader, node ast.Nod
 	}
 
 	if astReader == nil {
-		return nil, errcore.FailedToParseType.ErrorNoRefs("astReader is nil")
+		return nil, errcore.FailedToParseType.ErrorNoRefs("AstReader is nil")
 	}
 
 	fullCode, err := astReader.FullCode()

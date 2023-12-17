@@ -3,6 +3,7 @@ package aukast
 import "go/ast"
 
 type AstFunction struct {
+	AstReader      *AstReader
 	Name           string
 	StructVarName  string
 	StructName     string
