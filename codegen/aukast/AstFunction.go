@@ -19,6 +19,10 @@ type AstFunction struct {
 	Code           string
 }
 
+func (it *AstFunction) IsNotAttached() bool {
+	return it.IsValid() && !it.IsAttached
+}
+
 func (it *AstFunction) IsValid() bool {
 	return !it.IsInvalid()
 }
@@ -41,4 +45,12 @@ func (it *AstFunction) IsEmptyInArgs() bool {
 
 func (it *AstFunction) IsEmptyOutArgs() bool {
 	return !it.HasOutArgs()
+}
+
+func (it *AstFunction) IsAttachToStructOf(structName string) bool {
+	if it.IsInvalid() {
+		return false
+	}
+
+	return it.StructName == structName
 }
