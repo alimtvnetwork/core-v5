@@ -69,8 +69,6 @@ func (it AstFunction) String() string {
 			"%s:%s\n"+
 			"%s:%x\n"+
 			"%s:%s\n"+
-			"%s:%s\n"+
-			"%s:%s\n"+
 			"%s:%s\n",
 		"Name", it.DisplayName(),
 		"Code", it.DefCode,
@@ -78,6 +76,8 @@ func (it AstFunction) String() string {
 		"Args", it.FuncArg.String(),
 		"Childs", it.ChildNodes().String(),
 	)
+
+	return "AstFunction: {\n" + fields + "\n}"
 }
 
 func (it *AstFunction) DisplayName() string {
