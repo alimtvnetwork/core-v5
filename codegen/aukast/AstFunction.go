@@ -65,13 +65,9 @@ func (it AstFunction) String() string {
 	}
 
 	fields := fmt.Sprintf(
-		""+
+		"%s:%s\n"+
 			"%s:%s\n"+
-			"%s:%s\n"+
-			"%s:%s\n"+
-			"%s:%s\n"+
-			"%s:%s\n"+
-			"%s:%s\n"+
+			"%s:%x\n"+
 			"%s:%s\n"+
 			"%s:%s\n"+
 			"%s:%s\n"+
@@ -80,7 +76,7 @@ func (it AstFunction) String() string {
 		"Code", it.DefCode,
 		"IsPublic", it.IsPublic,
 		"Args", it.FuncArg.String(),
-		"Args", it.ChildNodes().,
+		"Childs", it.ChildNodes().String(),
 	)
 }
 
