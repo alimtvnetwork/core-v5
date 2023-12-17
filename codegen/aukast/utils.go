@@ -6,6 +6,7 @@ import (
 	"go/printer"
 	"go/token"
 	"strings"
+	"unicode"
 
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/isany"
@@ -287,4 +288,20 @@ func (it utils) HasAnyPrefix(s string, prefixes ...string) bool {
 	}
 
 	return false
+}
+
+func (it utils) IsPublicFuncByName(s string) bool {
+	if len(s) == 0 {
+		return false
+	}
+
+	return unicode.IsUpper(rune(s[0]))
+}
+
+func (it utils) IsPrivateFuncByName(s string) bool {
+	if len(s) == 0 {
+		return false
+	}
+
+	return unicode.IsLower(rune(s[0]))
 }

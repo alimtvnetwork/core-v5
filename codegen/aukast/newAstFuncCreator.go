@@ -39,6 +39,8 @@ func (it newAstFunctionCreator) Create(
 	receiver, _ := New.AstElem.Create(astReader, fullCode, toFunc.Recv)
 	comments, _ := New.AstElem.Create(astReader, fullCode, toFunc.Doc)
 	funcArgs := New.ArgsParams.Root(parentElem, fullCode, toFunc.Type)
+	isPublic := astUtil.IsPublicFuncByName(name)
+	isPrivate := len(name) > 0 && !isPublic
 
 	return &AstFunction{
 		AstReader:      astReader,
@@ -46,8 +48,8 @@ func (it newAstFunctionCreator) Create(
 		StructVarName:  StructName,
 		StructName:     StructTypeName,
 		IsAttached:     len(StructTypeName) > 0,
-		IsPublic:       true,
-		IsPrivate:      false,
+		IsPublic:       isPublic,
+		IsPrivate:      isPrivate,
 		ReceiverCount:  toFunc.Recv.NumFields(),
 		Parent:         parentElem,
 		ReceiverStruct: receiver,
