@@ -3,9 +3,10 @@ package aukast
 import "gitlab.com/auk-go/core/coredata/corestr"
 
 type AstFuncCollection struct {
-	Names  *corestr.SimpleSlice
-	Map    AstFuncMap
-	Parent *AstElem
+	Names         *corestr.SimpleSlice
+	Map           AstFuncMap
+	Parent        *AstElem
+	structFuncMap *AstStructFuncMap
 }
 
 func (it *AstFuncCollection) IsEmpty() bool {
@@ -28,6 +29,30 @@ func (it *AstFuncCollection) Count() int {
 	return len(it.Map)
 }
 
+func (it *AstFuncCollection) StructFuncMap() *AstStructFuncMap {
+	if it.IsEmpty() {
+		return new(AstStructFuncMap)
+	}
+
+	if it.structFuncMap != nil {
+		return it.structFuncMap
+	}
+
+	m := it.Map.StructFunctions()
+	it.structFuncMap = &m
+
+	return it.structFuncMap
+}
+
+func (it *AstFuncCollection) StructFuncMapOf(structName string) *AstFuncMap {
+	if it.IsEmpty() {
+		return new(AstFuncMap)
+	}
+
+	m := it.Map.StructFunc(structName)
+
+	return &m
+}
 func (it *AstFuncCollection) GetFunc(name string) *AstFunction {
 	if it.IsEmpty() {
 		return nil
@@ -44,19 +69,30 @@ func (it *AstFuncCollection) IsContains(name string) bool {
 	return it.Map.IsContains(name)
 }
 
+func (it *AstFuncCollection) FuncNamesWithTypeStrings() corestr.SimpleSlice {
+	if it.IsEmpty() {
+		return []string{}
+	}
+
+	slice := corestr.New.SimpleSlice.Cap(len(it.Map))
+
+	for _, name := range *it.Names {
+		slice.AppendFmt(
+			" - Name: %s - %s\n"+
+				name,
+			it.GetFunc(name).DefCode,
+		)
+	}
+
+	return slice.NonPtr()
+}
+
 func (it *AstFuncCollection) String() string {
 	if it.IsEmpty() {
 		return ""
 	}
 
-	slice := corestr.New.SimpleSlice.Cap(len(it.Map))
+	funcNames := it.FuncNamesWithTypeStrings()
 
-	for i, name := range *it.Names {
-		slice.AppendFmt(
-			"%s:%s\n"+
-				"  - %s",
-			"Func Name",
-			name,
-		)
-	}
+	return "AstFuncCollection: {\n" + funcNames.Join("\n - ") + "}"
 }

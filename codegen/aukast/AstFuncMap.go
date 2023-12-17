@@ -124,7 +124,7 @@ func (it *AstFuncMap) SortedFuncNames() *corestr.SimpleSlice {
 	return slice
 }
 
-func (it AstFuncMap) StructFunctions() map[string]AstFuncMap {
+func (it AstFuncMap) StructFunctions() AstStructFuncMap {
 	if it.IsEmpty() {
 		return map[string]AstFuncMap{}
 	}
