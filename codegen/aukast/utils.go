@@ -8,7 +8,6 @@ import (
 	"strings"
 	"unicode"
 
-	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/isany"
 )
@@ -314,13 +313,9 @@ func (it utils) MaxSubstringTrimSpaces(s string, charsCount int) string {
 		return ""
 	}
 
-	if len(s) > charsCount {
-		finalCode := stringutil.ReplaceTemplate.ReplaceWhiteSpacesToSingle(
-			s,
-		)
+	finalCode := replaceToSingleSpaceFunc(
+		s,
+	)
 
-		return stringutil.SafeSubstringEnds(finalCode, charsCount)
-	}
-
-	return s
+	return substringEndsFunc(finalCode, charsCount)
 }
