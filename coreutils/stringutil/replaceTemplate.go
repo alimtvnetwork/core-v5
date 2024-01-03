@@ -3,6 +3,7 @@ package stringutil
 import (
 	"fmt"
 	"strings"
+	"unicode"
 
 	"gitlab.com/auk-go/core/constants"
 )
@@ -184,15 +185,61 @@ func (it *replaceTemplate) DirectKeyUsingMapTrim(
 	return strings.TrimSpace(result)
 }
 
+// ReplaceWhiteSpaces
+//
+// Give "  some  nothing    \t" -> "somenothing"
 func (it *replaceTemplate) ReplaceWhiteSpaces(
 	textContainsWhitespaces string,
 ) string {
-	result := it.DirectKeyUsingKeyVal(
-		textContainsWhitespaces,
-		WhitespaceReplacerKeyValues...,
-	)
+	trimmedText := strings.TrimSpace(textContainsWhitespaces)
 
-	return strings.TrimSpace(result)
+	if len(trimmedText) == 0 {
+		return trimmedText
+	}
+
+	var sb strings.Builder
+	sb.Grow(len(trimmedText))
+
+	for _, r := range trimmedText {
+		if unicode.IsSpace(r) {
+			continue
+		}
+
+		sb.WriteRune(r)
+	}
+
+	return sb.String()
+}
+
+// ReplaceWhiteSpacesToSingle
+//
+// Give "  some  nothing    \t" -> "some nothing"
+func (it *replaceTemplate) ReplaceWhiteSpacesToSingle(
+	textContainsWhitespaces string,
+) string {
+	trimmedText := strings.TrimSpace(textContainsWhitespaces)
+
+	if len(trimmedText) == 0 {
+		return trimmedText
+	}
+
+	var sb strings.Builder
+	sb.Grow(len(trimmedText))
+	hasSpaceAlready := false
+	isSpace := false
+
+	for _, r := range trimmedText {
+		isSpace = unicode.IsSpace(r)
+		if isSpace && hasSpaceAlready {
+			continue
+		}
+
+		sb.WriteRune(r)
+
+		hasSpaceAlready = isSpace
+	}
+
+	return sb.String()
 }
 
 func (it *replaceTemplate) CurlyKeyUsingMap(

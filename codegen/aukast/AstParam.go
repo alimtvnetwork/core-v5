@@ -13,3 +13,15 @@ type AstParam struct {
 	IsArrayPointerElement bool
 	Code                  string
 }
+
+func (it *AstParam) CodeTakeMax(charsCount int) string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	return astUtil.MaxSubstringTrimSpaces(it.Code, charsCount)
+}
+
+func (it *AstParam) IsEmpty() bool {
+	return it == nil || it.TypeIdent == nil || it.NameIdent == nil
+}

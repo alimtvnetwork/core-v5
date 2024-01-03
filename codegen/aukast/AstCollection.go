@@ -2,6 +2,7 @@ package aukast
 
 import (
 	"fmt"
+	"reflect"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
 )
@@ -55,6 +56,48 @@ func (it *AstCollection) RawChildNodesStrings() corestr.SimpleSlice {
 	}
 
 	return slice.NonPtr()
+}
+
+// Filter
+//
+// It will only filter the child nodes (flat - not nested) that returns true in the filter function.
+func (it *AstCollection) Filter(isFilterFunc AstWithBreakFilterFunc) *AstCollection {
+	if it.IsEmpty() {
+		return nil
+	}
+
+	var slice []AstElem
+
+	for _, elem := range it.childNodes {
+		isTake, isBreak := isFilterFunc(&elem)
+
+		if isTake {
+			slice = append(slice, elem)
+		}
+
+		if isBreak {
+			break
+		}
+	}
+
+	return &AstCollection{
+		Parent:     it.Parent,
+		childNodes: slice,
+	}
+}
+
+func (it *AstCollection) FilterMatchTypesOf(
+	typeMatches ...reflect.Type,
+) *AstCollection {
+	return it.Filter(
+		func(elem *AstElem) (isTake, isBreak bool) {
+			if elem.IsAnyNodeTypeMatches(typeMatches...) {
+				return true, false
+			}
+
+			return false, false
+		},
+	)
 }
 
 func (it AstCollection) String() string {

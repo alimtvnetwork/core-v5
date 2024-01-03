@@ -3,6 +3,7 @@ package aukast
 import (
 	"fmt"
 	"go/ast"
+	"reflect"
 )
 
 type AstFunction struct {
@@ -99,4 +100,43 @@ func (it *AstFunction) ChildNodes() *AstCollection {
 		Node:       it.Node,
 		fullCode:   it.AstReader.SafeFullCode(),
 	}.ChildNodes()
+}
+
+func (it *AstFunction) Filter(
+	filterFunc AstWithBreakFilterFunc,
+) *AstCollection {
+	astFilter := AstFilter{
+		AstReader:  it.AstReader,
+		ParentNode: it.Node,
+		Node:       it.Node,
+		fullCode:   it.AstReader.SafeFullCode(),
+	}
+
+	return astFilter.Filter(it.Node, filterFunc)
+}
+
+func (it *AstFunction) ChildOf(
+	typeMatches ...reflect.Type,
+) *AstCollection {
+	return it.Filter(
+		func(elem *AstElem) (isTake, isBreak bool) {
+			if elem.IsAnyNodeTypeMatches(typeMatches...) {
+				return true, false
+			}
+
+			return false, false
+		},
+	)
+}
+
+func (it *AstFunction) CodeTakeMax(charsCount int) string {
+	if it.IsEmpty() {
+		return ""
+	}
+
+	return astUtil.MaxSubstringTrimSpaces(it.Code, charsCount)
+}
+
+func (it *AstFunction) IsEmpty() bool {
+	return it == nil || it.Node == nil
 }

@@ -16,7 +16,7 @@ type AstFilter struct {
 
 func (it *AstFilter) Filter(
 	node ast.Node,
-	filter func(elem *AstElem) (isTake, isBreak bool),
+	filter AstWithBreakFilterFunc,
 ) *AstCollection {
 	if isany.Null(node) {
 		return nil

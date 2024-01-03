@@ -3,8 +3,8 @@ package aukast
 import (
 	"fmt"
 	"go/ast"
+	"reflect"
 
-	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/errcore"
 )
 
@@ -101,7 +101,7 @@ func (it *AstElem) ChildNodes() *AstCollection {
 	return it.childNodes
 }
 
-func (it *AstElem) Filter(filter func(elem *AstElem) (isTake, isBreak bool)) *AstCollection {
+func (it *AstElem) Filter(filter AstWithBreakFilterFunc) *AstCollection {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -208,13 +208,44 @@ func (it *AstElem) CodeTakeMax(charsCount int) string {
 		return ""
 	}
 
-	if len(it.Code) > charsCount {
-		finalCode := stringutil.ReplaceTemplate.ReplaceWhiteSpaces(
-			it.Code,
-		)
+	return astUtil.MaxSubstringTrimSpaces(it.Code, charsCount)
+}
 
-		return stringutil.SafeSubstringEnds(finalCode, charsCount)
+// IsAnyNodeTypeMatches
+//
+//   - given nothing given returns true if and only if it is valid node (Not IsEmpty)
+//   - if IsEmpty then always returns false
+//   - if any type matches with current node type then returns true
+func (it *AstElem) IsAnyNodeTypeMatches(matches ...reflect.Type) bool {
+	if it.IsEmpty() {
+		return false
 	}
 
-	return it.Code
+	if len(matches) == 0 {
+		return true
+	}
+
+	currMatchType := reflect.TypeOf(it.Node)
+
+	for _, match := range matches {
+		if currMatchType == match {
+			return true
+		}
+	}
+
+	return false
+}
+
+func (it *AstElem) ChildOf(
+	typeMatches ...reflect.Type,
+) *AstCollection {
+	return it.Filter(
+		func(elem *AstElem) (isTake, isBreak bool) {
+			if elem.IsAnyNodeTypeMatches(typeMatches...) {
+				return true, false
+			}
+
+			return false, false
+		},
+	)
 }
