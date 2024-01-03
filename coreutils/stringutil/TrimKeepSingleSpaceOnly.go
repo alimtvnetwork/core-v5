@@ -24,7 +24,7 @@ func ReplaceWhiteSpacesToSingle(
 
 	for _, r := range trimmedText {
 		isSpace = unicode.IsSpace(r)
-		if r == '\n' || r == '\v' || r == '\f' || r == '\r' || isSpace && hasSpaceAlready {
+		if r == '\n' || r == '\f' || r == '\t' || r == '\r' || isSpace && hasSpaceAlready {
 			continue
 		}
 
