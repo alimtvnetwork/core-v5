@@ -1,5 +1,27 @@
 package stringutil
 
 var (
-	ReplaceTemplate = replaceTemplate{}
+	ReplaceTemplate       = replaceTemplate{}
+	WhiteSpaceReplacerMap = []KeyValReplacer{
+		{
+			Key:   "\t",
+			Value: "",
+		},
+		{
+			Key:   "\n",
+			Value: "",
+		},
+		{
+			Key:   "\r",
+			Value: "",
+		},
+		{
+			Key:   "  ",
+			Value: "",
+		},
+		{
+			Key:   " ",
+			Value: "",
+		},
+	}
 )

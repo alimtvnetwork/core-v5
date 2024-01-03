@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go/ast"
 
+	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/errcore"
 )
 
@@ -198,7 +199,7 @@ func (it *AstElem) String() string {
 			"  Code (20) : `%s`",
 		it.Name,
 		it.TypeName,
-		it.CodeTakeMax(20),
+		it.CodeTakeMax(40),
 	)
 }
 
@@ -208,7 +209,11 @@ func (it *AstElem) CodeTakeMax(charsCount int) string {
 	}
 
 	if len(it.Code) > charsCount {
-		return it.Code[:charsCount]
+		finalCode := stringutil.ReplaceTemplate.ReplaceWhiteSpaces(
+			it.Code,
+		)
+
+		return stringutil.SafeSubstringEnds(finalCode, charsCount)
 	}
 
 	return it.Code

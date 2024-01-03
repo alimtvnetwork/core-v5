@@ -156,11 +156,36 @@ func (it *replaceTemplate) DirectKeyUsingMap(
 	)
 }
 
+func (it *replaceTemplate) DirectKeyUsingKeyVal(
+	format string, // key-text...
+	keyValues ...KeyValReplacer,
+) string {
+	if len(keyValues) == 0 || len(format) == 0 {
+		return format
+	}
+
+	for _, pair := range keyValues {
+		format = strings.ReplaceAll(
+			format,
+			pair.Key,
+			pair.Value,
+		)
+	}
+}
+
 func (it *replaceTemplate) DirectKeyUsingMapTrim(
 	format string, // key-text...
 	mapToReplace map[string]string,
 ) string {
 	result := it.DirectKeyUsingMap(format, mapToReplace)
+
+	return strings.TrimSpace(result)
+}
+
+func (it *replaceTemplate) ReplaceWhiteSpaces(
+	textContainsWhitespaces string,
+) string {
+	result := it.DirectKeyUsingMap(textContainsWhitespaces, WhiteSpaceReplacerMap)
 
 	return strings.TrimSpace(result)
 }

@@ -106,19 +106,12 @@ func (it unitTestGenerator) AstChecker() {
 
 	c := astReader.Filter(
 		func(elem *aukast.AstElem) (isTake bool) {
-			v, isOkay := elem.Node.(*ast.CompositeLit)
-
-			if !isOkay {
-				return false
+			switch elem.Node.(type) {
+			case *ast.CompositeLit, *ast.KeyValueExpr:
+				return true
 			}
 
-			_, isokay := v.Elts[0].(*ast.KeyValueExpr)
-
-			if !isokay {
-				return false
-			}
-
-			return true
+			return false
 		},
 	)
 
