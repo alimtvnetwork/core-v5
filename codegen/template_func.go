@@ -107,7 +107,7 @@ var (
 `
 
 	typeWithCompiledItemsTemplate = `
-	$typename{
+	$typename {
 		$toCompiled
 	}
 `

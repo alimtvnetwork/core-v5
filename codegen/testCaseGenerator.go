@@ -151,7 +151,7 @@ func (it testCaseGenerator) SingleArrange(
 	_ int,
 	caseV1 coretestcases.CaseV1,
 ) (string, error) {
-	testCaseArrangeInput, err := it.testCaseArrangeInputWrite(caseV1)
+	testCaseArrangeInput, err := it.testCaseArrangeInputWrite(caseV1.ArrangeInput)
 
 	if iserror.Defined(err) {
 		return "", err
@@ -168,7 +168,7 @@ func (it testCaseGenerator) SingleArrange(
 		vars.ArrangeType:   caseV1.ArrangeTypeName(),
 		vars.VerifyTypeOf:  it.VerifyTypeOf(),
 		vars.ArrangeSetup:  testCaseArrangeInput,
-		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(",\n\t\t\t\t"),
+		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(linerJoiner),
 	}
 
 	caseOutput := it.ReplaceTemplate(
@@ -349,7 +349,7 @@ func (it testCaseGenerator) testCaseArrangeInputWrite(arrangeInput interface{}) 
 		)
 	}
 
-	return slice.Join(",\n\t\t\t\t"), nil
+	return slice.Join(linerJoiner), nil
 }
 
 func (it testCaseGenerator) handleForArrayOrSliceArrange(
@@ -373,7 +373,7 @@ func (it testCaseGenerator) handleForArrayOrSliceArrange(
 		},
 	)
 
-	toCompiled := slice.Join(",\n\t\t\t\t")
+	toCompiled := slice.Join(linerJoiner)
 	typeName := reflectinternal.ReflectType.NameUsingFmt(arrangeInput)
 	replacerMap := map[string]string{
 		vars.TypeName:   toCompiled,

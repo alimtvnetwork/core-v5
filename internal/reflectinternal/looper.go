@@ -158,8 +158,6 @@ func (it *looper) ReducePointerRv(
 
 	// reducing ****ToValue to ToValue
 	for structValueKind == reflect.Ptr ||
-		structValueKind == reflect.Slice ||
-		structValueKind == reflect.Array ||
 		structValueKind == reflect.Interface {
 		// mutating dangerous code
 		structValue = structValue.Elem()

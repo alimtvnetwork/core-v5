@@ -7,4 +7,5 @@ const (
 	fmtJoiner        = constants.CommaUnixNewLine
 	totalSliceLength = "40"
 	newLine          = constants.NewLineUnix
+	linerJoiner      = ",\n\t\t\t\t"
 )
