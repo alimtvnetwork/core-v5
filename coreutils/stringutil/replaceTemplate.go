@@ -171,6 +171,8 @@ func (it *replaceTemplate) DirectKeyUsingKeyVal(
 			pair.Value,
 		)
 	}
+
+	return format
 }
 
 func (it *replaceTemplate) DirectKeyUsingMapTrim(
@@ -185,7 +187,10 @@ func (it *replaceTemplate) DirectKeyUsingMapTrim(
 func (it *replaceTemplate) ReplaceWhiteSpaces(
 	textContainsWhitespaces string,
 ) string {
-	result := it.DirectKeyUsingMap(textContainsWhitespaces, WhiteSpaceReplacerMap)
+	result := it.DirectKeyUsingKeyVal(
+		textContainsWhitespaces,
+		WhitespaceReplacerKeyValues...,
+	)
 
 	return strings.TrimSpace(result)
 }
