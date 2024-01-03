@@ -1,6 +1,7 @@
 package reflectinternal
 
 import (
+	"fmt"
 	"reflect"
 	"strings"
 
@@ -147,4 +148,8 @@ func (it reflectTypeConverter) Name(any interface{}) string {
 	}
 
 	return rf.String()
+}
+
+func (it reflectTypeConverter) NameUsingFmt(any interface{}) string {
+	return fmt.Sprintf(constants.SprintTypeFormat, any)
 }

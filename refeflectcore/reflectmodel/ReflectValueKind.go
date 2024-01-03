@@ -70,6 +70,16 @@ func (it *ReflectValueKind) PointerRv() *reflect.Value {
 	return &newRv
 }
 
+func (it *ReflectValueKind) TypeName() string {
+	if it == nil || !it.IsValid {
+		return ""
+	}
+
+	rv := it.FinalReflectVal
+
+	return rv.String()
+}
+
 func (it *ReflectValueKind) PointerInterface() interface{} {
 	rv := it.PointerRv()
 

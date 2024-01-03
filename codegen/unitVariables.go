@@ -21,6 +21,8 @@ type unitVariables struct {
 	TestCases        string
 	VerifyTypeOf     string
 	VariablesSetup   string
+	ToCompiled       string
+	TypeName         string
 	workFunc         string
 	expect           string
 	inputExpected    string

@@ -106,5 +106,10 @@ var (
 		},
 `
 
+	typeWithCompiledItemsTemplate = `
+	$typename{
+		$toCompiled
+	}
+`
 	argSingleTemplate = "%s : %s"
 )

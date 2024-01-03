@@ -37,6 +37,8 @@ var (
 		TestCases:        "$testCases",
 		VerifyTypeOf:     "$VerifyTypeOf",
 		VariablesSetup:   "$variablesSetup",
+		ToCompiled:       "$toCompiled",
+		TypeName:         "$typename",
 		workFunc:         "WorkFunc",
 		expect:           "Expect",
 		inputExpected:    "input.Expect",

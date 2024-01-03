@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"fmt"
+	"reflect"
 
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coredata/corestr"
@@ -223,14 +224,14 @@ func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr
 	return slice, nil
 }
 
-func (it testCaseGenerator) testCaseArrangeInputWrite(caseV1 coretestcases.CaseV1) (string, error) {
+func (it testCaseGenerator) testCaseArrangeInputWrite(arrangeInput interface{}) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 
-	if isany.Null(caseV1.ArrangeInput) {
+	if isany.Null(arrangeInput) {
 		return "", nil
 	}
 
-	switch casted := caseV1.ArrangeInput.(type) {
+	switch casted := arrangeInput.(type) {
 	case args.AsArgFuncContractsBinder:
 		v := casted.AsArgFuncContractsBinder()
 		argsCount := v.ArgsCount()
@@ -319,8 +320,6 @@ func (it testCaseGenerator) testCaseArrangeInputWrite(caseV1 coretestcases.CaseV
 				it.writeTestCaseForProperty(v),
 			)
 		}
-	case []args.One:
-
 	case []interface{}:
 		for _, v := range casted {
 			slice.AppendFmt(
@@ -335,13 +334,58 @@ func (it testCaseGenerator) testCaseArrangeInputWrite(caseV1 coretestcases.CaseV
 		)
 	}
 
-	return "", fmt.Errorf(
-		"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
-		"[]string, map[string]string, []interface{}",
-		caseV1.ArrangeInput,
-	)
+	rt := reflect.TypeOf(arrangeInput)
+
+	// array or slice
+	if rt.Kind() == reflect.Array || rt.Kind() == reflect.Slice {
+		return it.handleForArrayOrSliceArrange(arrangeInput, slice)
+	}
+
+	if slice.IsEmpty() {
+		return "", fmt.Errorf(
+			"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
+			"[]string, map[string]string, []interface{}",
+			arrangeInput,
+		)
+	}
 
 	return slice.Join(",\n\t\t\t\t"), nil
+}
+
+func (it testCaseGenerator) handleForArrayOrSliceArrange(
+	arrangeInput interface{},
+	slice *corestr.SimpleSlice,
+) (string, error) {
+	compiledErr := reflectinternal.Looper.Slice(
+		arrangeInput,
+		func(total int, index int, item interface{}) (err error) {
+			expand, expandError := it.testCaseArrangeInputWrite(item)
+
+			if expandError != nil {
+				return expandError
+			}
+
+			slice.Append(
+				expand,
+			)
+
+			return
+		},
+	)
+
+	toCompiled := slice.Join(",\n\t\t\t\t")
+	typeName := reflectinternal.ReflectType.NameUsingFmt(arrangeInput)
+	replacerMap := map[string]string{
+		vars.TypeName:   toCompiled,
+		vars.ToCompiled: typeName,
+	}
+
+	finalOutput := it.ReplaceTemplate(
+		typeWithCompiledItemsTemplate,
+		replacerMap,
+	)
+
+	return finalOutput, compiledErr
 }
 
 func (it testCaseGenerator) property(argBinder args.ArgBaseContractsBinder, i int) string {
