@@ -16,42 +16,48 @@ var (
 			Title: "Some",
 			ArrangeInput: []args.One{
 				{
-					First: "someName",
+					First:  "someName",
+					Expect: some expect,
 				},
 				{
 					First: "someName 2",
 				},
 			},
 			ExpectedInput: []string{
-				"0 : someName -> SomeName",
-				"1 : someName 2 -> SomeName 2",
+				"0 - %!d(string=someName) : SomeName -> %!s(MISSING)",
+				"1 - %!d(string=someName 2) : SomeName 2 -> %!s(MISSING)",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},
 	}
 )
-
 func Test_PascalFuncName_Verification(t *testing.T) {
 	for caseIndex, testCase := range pascalFuncNameTestCases {
 		// Arrange
-		input := testCase.
+		inputs := testCase.
 			ArrangeInput.([]args.One)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
 			Cap(40)
-		inArgString := input.First.(string)
+		actFuncPascalFuncName := reflectinternal.
+			GetFunc.
+			PascalFuncName
 
 		// Act
-		actFuncPascalFuncName := reflectinternal.GetFunc.PascalFuncName
-		result := actFuncPascalFuncName(inArgString)
+		for i, input := range inputs {
+			inArgString := input.First.(string)
 
-		actualSlice.AppendFmt(
-			"%d : %s -> %s",
-			caseIndex,
-			inArgString,
-			result,
-		)
+			result := actFuncPascalFuncName(inArgString)
+
+			actualSlice.AppendFmt(
+				"%d - %d : %s -> %s",
+				caseIndex,
+				i,
+				inArgString,
+				result,
+			)
+		}
 
 		finalActLines := actualSlice.Strings()
 		actualSlice.Dispose()

@@ -69,3 +69,15 @@ func (it utils) ReplaceTemplate(
 		replacerMap,
 	)
 }
+
+func (it utils) ChainEachLine(
+	code string,
+) string {
+	if len(code) == 0 {
+		return ""
+	}
+
+	slice := corestr.New.SimpleSlice.Split(code, ".")
+
+	return slice.Join(".\n\t\t\t")
+}

@@ -53,12 +53,12 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 			New.
 			SimpleSlice.
 			Cap($linesPossible)
+		actFunc$FuncName := $directFuncInvoke
 
 		// Act
 		for i, input := range inputs {
 			$variablesSetup
 
-			actFunc$FuncName := $directFuncInvoke
 			$outArgs := actFunc$FuncName($inArgs)
 	
 			actualSlice.AppendFmt(

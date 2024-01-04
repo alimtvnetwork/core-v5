@@ -21,18 +21,19 @@ import (
 )
 
 type GenerateFunc struct {
-	Func             interface{}
-	Struct           interface{}
-	GenerateType     codegentype.Variant
-	FmtType          fmtcodegentype.Variant
-	TestCases        []coretestcases.CaseV1
-	Behaviours       corestr.SimpleSlice
-	OverridingNames  OverridingNames
-	UnitTestRootPath string
-	Options          Options
-	packageHeader    corestr.SimpleStringOnce
-	funcWrap         *args.FuncWrap
-	setupVariable    *variablesSetup
+	Func                 interface{}
+	Struct               interface{}
+	GenerateType         codegentype.Variant
+	FmtType              fmtcodegentype.Variant
+	TestCases            []coretestcases.CaseV1
+	Behaviours           corestr.SimpleSlice
+	OverridingNames      OverridingNames
+	UnitTestRootPath     string
+	Options              Options
+	packageHeader        corestr.SimpleStringOnce
+	funcWrap             *args.FuncWrap
+	setupVariable        *variablesSetup
+	directFuncInvokeName string
 }
 
 func (it GenerateFunc) GetOverrides() OverridingNames {
@@ -498,12 +499,22 @@ func (it GenerateFunc) emptySlice() *corestr.SimpleSlice {
 	return corestr.Empty.SimpleSlice()
 }
 
-func (it GenerateFunc) DirectFuncInvokeName() string {
-	if len(it.OverridingNames.FuncCall) > 0 {
-		return it.OverridingNames.FuncCall
+func (it *GenerateFunc) DirectFuncInvokeName() string {
+	if len(it.directFuncInvokeName) > 0 {
+		return it.directFuncInvokeName
 	}
 
-	return it.FuncWrap().FuncDirectInvokeName()
+	if len(it.OverridingNames.FuncCall) > 0 {
+		it.directFuncInvokeName = Utils.ChainEachLine(
+			it.OverridingNames.FuncCall,
+		)
+	} else {
+		it.directFuncInvokeName = Utils.ChainEachLine(
+			it.FuncWrap().FuncDirectInvokeName(),
+		)
+	}
+
+	return it.directFuncInvokeName
 }
 
 func (it GenerateFunc) StructName() string {
@@ -574,9 +585,9 @@ func (it GenerateFunc) FailedMessage() string {
 }
 
 func (it GenerateFunc) NewGoCode(codes ...string) *GoCode {
-	return New.GoCode.Create(it, codes...)
+	return New.GoCode.Create(it.AsBaseGenerator(), codes...)
 }
 
 func (it GenerateFunc) AsBaseGenerator() BaseGenerator {
-	return it
+	return &it
 }
