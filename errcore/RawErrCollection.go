@@ -146,6 +146,28 @@ func (it *RawErrCollection) AddErrorWithMessageRef(
 	)
 }
 
+func (it *RawErrCollection) AddFmt(
+	err error,
+	format string, v ...interface{},
+) {
+	if err == nil {
+		return
+	}
+
+	message := fmt.Sprintf(
+		format,
+		v...,
+	)
+
+	final := fmt.Sprintf(
+		"%s: %s",
+		err.Error(),
+		message,
+	)
+
+	it.AddString(StackEnhance.MsgSkip(1, final))
+}
+
 func (it *RawErrCollection) Fmt(format string, v ...interface{}) {
 	if format == "" && len(v) == 0 {
 		return

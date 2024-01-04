@@ -308,14 +308,15 @@ func (it anyTo) Strings(
 		sort.Strings(lines)
 
 		return lines
-	case int:
+	case int, int32, int64,
+		uint8,
+		uint16, uint32, uint64,
+		float32, float64:
 		return []string{
-			strconv.Itoa(v),
+			fmt.Sprintf("%d", v),
 		}
-	case byte:
-		return []string{
-			strconv.Itoa(int(v)),
-		}
+	case fmt.Stringer:
+		return strings.Split(v.String(), constants.NewLineUnix)
 	case bool:
 		return []string{
 			strconv.FormatBool(v),
@@ -346,7 +347,31 @@ func (it anyTo) Strings(
 func (it anyTo) String(
 	any interface{},
 ) string {
-	v := it.Strings(any)
+	switch v := any.(type) {
+	case string:
+		return v
+	case *string:
+		if v == nil {
+			return ""
+		}
 
-	return strings.Join(v, constants.NewLineUnix)
+		return *v
+	case error:
+		if v == nil {
+			return ""
+		}
+
+		return v.Error()
+	case int, int32, int64,
+		uint8,
+		uint16, uint32, uint64,
+		float32, float64:
+		return fmt.Sprintf("%d", v)
+	case bool:
+		return strconv.FormatBool(v)
+	}
+
+	toLines := it.Strings(any)
+
+	return strings.Join(toLines, constants.NewLineUnix)
 }

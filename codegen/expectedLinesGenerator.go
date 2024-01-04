@@ -98,6 +98,13 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				casted,
 			)
 
+			rawErrCollection.AddFmt(
+				err,
+				"At: %d, item: %s",
+				i,
+				itemString,
+			)
+
 			it.expectedLinesAppendSingleInToSlice(
 				slice,
 				itemString,
