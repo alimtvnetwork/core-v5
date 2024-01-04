@@ -244,7 +244,7 @@ func (it expectedLinesGenerator) appendToSlice(
 
 	slice.AppendFmt(
 		it.baseGenerator.FmtJoin(),
-		0,
+		slice.Count(),
 		inArgsString,
 		resultsToString,
 	)
@@ -262,7 +262,7 @@ func (it expectedLinesGenerator) appendSingleInToSlice(
 
 	slice.AppendFmt(
 		it.baseGenerator.FmtJoin(),
-		0,
+		slice.Count(),
 		inArgsString,
 		resultsToString,
 	)
