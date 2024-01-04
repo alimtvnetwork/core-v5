@@ -17,6 +17,7 @@ type arrangeInputGenerator struct {
 	baseGenerator BaseGenerator
 }
 
+func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, error) {}
 func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 
@@ -131,7 +132,7 @@ func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, erro
 
 	// array or slice
 	if rt.Kind() == reflect.Array || rt.Kind() == reflect.Slice {
-		return it.handleForArrayOrSliceArrange(arrangeInput, slice)
+		return it.recursiveGenerateSlice(slice, arrangeInput)
 	}
 
 	if slice.IsEmpty() {
@@ -145,9 +146,9 @@ func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, erro
 	return slice.Join(linerJoiner), nil
 }
 
-func (it arrangeInputGenerator) handleForArrayOrSliceArrange(
-	arrangeInput interface{},
+func (it arrangeInputGenerator) recursiveGenerateSlice(
 	slice *corestr.SimpleSlice,
+	arrangeInput interface{},
 ) (string, error) {
 	compiledErr := reflectinternal.Looper.Slice(
 		arrangeInput,

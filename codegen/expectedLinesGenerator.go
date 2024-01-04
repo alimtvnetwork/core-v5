@@ -167,7 +167,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 
 	// array or slice
 	if rt.Kind() == reflect.Array || rt.Kind() == reflect.Slice {
-		return it.handleForArrayOrSliceArrange(slice, arrangeInput)
+		return it.recursiveGenerateSlice(slice, arrangeInput)
 	}
 
 	if slice.IsEmpty() {
@@ -181,7 +181,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	return nil
 }
 
-func (it expectedLinesGenerator) handleForArrayOrSliceArrange(
+func (it expectedLinesGenerator) recursiveGenerateSlice(
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
 ) error {
