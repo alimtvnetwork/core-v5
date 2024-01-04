@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreinterface"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
@@ -53,8 +52,8 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	var rawErrCollection errcore.RawErrCollection
 
 	switch casted := arrangeInput.(type) {
-	case coreinterface.ValidArgsGetter:
-		validArgs := casted.ValidArgs()
+	case args.AsArgBaseContractsBinder:
+		validArgs := casted.AsArgBaseContractsBinder().ValidArgs()
 		results, err := funcWrap.InvokeSkip(
 			codestack.Skip1,
 			validArgs...,
@@ -208,7 +207,7 @@ func (it expectedLinesGenerator) handleForArrayOrSliceArrange(
 		return nil
 	}
 
-	_ = reflectinternal.Looper.SlicePtr(
+	_ = reflectinternal.Looper.Slice(
 		arrangeInput,
 		func(total int, index int, item interface{}) (err error) {
 			expandError := it.expectedLinesUsingArrange(slice, item)

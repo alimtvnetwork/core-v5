@@ -289,36 +289,6 @@ func (it *looper) Slice(
 	return it.SliceForRv(toRv, processor)
 }
 
-// SlicePtr
-//
-//	processes each item (as a pointer if not already) in the provided slice using the given processor function.
-//
-// Parameters:
-//   - i: expect a slice or array
-//   - processor: a function that takes the following parameters:
-//   - total: the total number of elements in the slice or array.
-//   - index: the index of the current element being processed.
-//   - item: the current element being processed.
-//
-// Returns:
-//   - error: if any error occurs during processing, it will be returned.
-func (it *looper) SlicePtr(
-	i interface{},
-	processor func(
-		total int,
-		index int,
-		item interface{},
-	) (err error),
-) error {
-	if Is.Null(i) {
-		return nil
-	}
-
-	toRv := reflect.ValueOf(i)
-
-	return it.SlicePtrForRv(toRv, processor)
-}
-
 // SliceForRv iterates over a slice or array and applies a processing function to each element.
 //
 // The function takes the following parameters:
@@ -368,68 +338,6 @@ func (it *looper) SliceForRv(
 	for i := 0; i < length; i++ {
 		elem := valueRv.Index(i)
 		err := processor(length, i, elem.Interface())
-
-		if err != nil {
-			errSlice = append(errSlice, err.Error())
-		}
-	}
-
-	if len(errSlice) == 0 {
-		return nil
-	}
-
-	toMsg := strings.Join(errSlice, "\n")
-
-	return errors.New(toMsg)
-}
-
-// SlicePtrForRv
-//
-// Convert each item to pointer and pass it to the processor
-func (it *looper) SlicePtrForRv(
-	rv reflect.Value,
-	processor func(
-		total int,
-		index int,
-		item interface{},
-	) (err error),
-) error {
-	valueRvWrap := it.ReducePointerRv(
-		rv,
-		defaultPointerReduction,
-	)
-
-	if valueRvWrap.HasError() {
-		return valueRvWrap.Error
-	}
-
-	valueRv := valueRvWrap.FinalReflectVal
-
-	k := valueRv.Kind()
-	isSliceOrArray := k == reflect.Slice ||
-		k == reflect.Array
-
-	if !isSliceOrArray {
-		return errors.New("given item is not a slice nor an array")
-	}
-
-	length := valueRv.Len()
-
-	if length == 0 {
-		return nil
-	}
-
-	var errSlice []string
-	var err error
-
-	for i := 0; i < length; i++ {
-		elem := valueRv.Index(i)
-		x := elem.Interface()
-		if reflect.Ptr != elem.Kind() {
-			err = processor(length, i, &x)
-		} else {
-			err = processor(length, i, x)
-		}
 
 		if err != nil {
 			errSlice = append(errSlice, err.Error())
