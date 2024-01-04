@@ -43,12 +43,7 @@ func (it arrangeInputGenerator) Generate(
 			)
 		}
 
-		slice.AppendFmtIf(
-			v.HasExpect(),
-			argSingleTemplate,
-			vars.expect,
-			v.Expected(),
-		)
+		it.addExpect(slice, v)
 
 		slice.AppendFmtIf(
 			v.HasFunc(),
@@ -70,12 +65,7 @@ func (it arrangeInputGenerator) Generate(
 			)
 		}
 
-		slice.AppendFmtIf(
-			v.HasExpect(),
-			argSingleTemplate,
-			vars.expect,
-			v.Expected(),
-		)
+		it.addExpect(slice, v)
 	case string:
 		slice.AppendFmt(
 			"\"%s\",",
@@ -154,6 +144,20 @@ func (it arrangeInputGenerator) Generate(
 	}
 
 	return slice.Join(linerJoiner), nil
+}
+
+func (it arrangeInputGenerator) addExpect(
+	slice *corestr.SimpleSlice, v args.ArgBaseContractsBinder,
+) *corestr.SimpleSlice {
+	if !v.HasExpect() {
+		return slice
+	}
+
+	return slice.AppendFmt(
+		argSingleTemplate,
+		vars.expect,
+		it.writeTestCaseForProperty(v.Expected()),
+	)
 }
 
 func (it arrangeInputGenerator) recursiveGenerateSlice(

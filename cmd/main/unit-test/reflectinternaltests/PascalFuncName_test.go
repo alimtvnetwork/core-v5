@@ -17,7 +17,7 @@ var (
 			ArrangeInput: []args.One{
 				{
 					First:  "someName",
-					Expect: some expect,
+					Expect: "some expect",
 				},
 				{
 					First: "someName 2",
@@ -31,6 +31,7 @@ var (
 		},
 	}
 )
+
 func Test_PascalFuncName_Verification(t *testing.T) {
 	for caseIndex, testCase := range pascalFuncNameTestCases {
 		// Arrange
