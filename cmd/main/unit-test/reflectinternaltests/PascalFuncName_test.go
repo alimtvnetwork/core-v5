@@ -14,22 +14,34 @@ var (
 	pascalFuncNameTestCases = []coretestcases.CaseV1{
 		{
 			Title: "Some",
-			ArrangeInput: args.One{
+			ArrangeInput: []args.One{
+				[]args.One{
+					{
+						First: "someName", Expect: interface{}(nil), toSlice: (*[]interface{})(nil),
+						toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
+										}, {
+						First: "someName 2", Expect: interface{}(nil), toSlice: (*[]interface{})(nil),
+						toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
+										},
+				},,
 				First: "someName",
+				First: "someName 2"{
+			[]args.One
+			},
 			},
 			ExpectedInput: []string{
 				"0 : someName -> SomeName",
+				"0 : someName 2 -> SomeName 2",
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf(args.One{}),
+			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},
 	}
 )
-
 func Test_PascalFuncName_Verification(t *testing.T) {
 	for caseIndex, testCase := range pascalFuncNameTestCases {
 		// Arrange
 		input := testCase.
-			ArrangeInput.(args.One)
+			ArrangeInput.([]args.One)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

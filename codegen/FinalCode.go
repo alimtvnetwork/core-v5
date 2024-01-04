@@ -116,15 +116,13 @@ func (it *FinalCode) WriteUnitTestFile() error {
 
 	code, err := it.UnitTest.CompileFullCode()
 
-	if iserror.Defined(err) {
-		return err
-	}
-
-	return it.FileWriter.WriteRelativePath(
+	writeErr := it.FileWriter.WriteRelativePath(
 		it.FileWriter.IsRemoveBeforeWrite,
 		fileName,
 		[]byte(code),
 	)
+
+	return errcore.MergeErrors(err, writeErr)
 }
 
 func (it *FinalCode) WriteTestCaseFile() error {
