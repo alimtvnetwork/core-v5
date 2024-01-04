@@ -147,7 +147,8 @@ func (it arrangeInputGenerator) Generate(
 }
 
 func (it arrangeInputGenerator) addExpect(
-	slice *corestr.SimpleSlice, v args.ArgBaseContractsBinder,
+	slice *corestr.SimpleSlice,
+	v args.ArgBaseContractsBinder,
 ) *corestr.SimpleSlice {
 	if !v.HasExpect() {
 		return slice
