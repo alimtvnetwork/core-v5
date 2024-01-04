@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
@@ -180,55 +179,21 @@ func (it testCaseGenerator) SingleArrange(
 }
 
 func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr.SimpleSlice, error) {
-	var x args.AsArgBaseContractsBinder
-
 	arrange := caseV1.ArrangeInput
 	casted, isOkay := arrange.(args.AsArgBaseContractsBinder)
 
 	if !isOkay {
-		return nil, errcore.Expected.But(
-			"cannot cast caseV1.ArrangeInput to args.AsArgBaseContractsBinder",
-			reflectinternal.TypeName(x),
-			reflectinternal.TypeName(arrange),
-		)
+		return it.expectedLinesForOther(caseV1)
 	}
 
-	validArgs := casted.
-		AsArgBaseContractsBinder().
-		ValidArgs()
-	results, err := it.
-		FuncWrap().
-		InvokeSkip(
-			codestack.Skip1,
-			validArgs...,
-		)
-
-	if iserror.Defined(err) {
-		return nil, errcore.
-			ConcatMessageWithErr(
-				"provide args properly in the definition of Generate,\n", err,
-			)
-	}
-
-	slice := corestr.New.SimpleSlice.Cap(2)
-	inArgsString := convertinteranl.AnyTo.String(validArgs)
-	resultsToString := convertinteranl.AnyTo.String(results)
-
-	slice.AppendFmt(
-		it.baseGenerator.FmtJoin(),
-		0,
-		inArgsString,
-		resultsToString,
-	)
-
-	return slice, nil
+	return it.expectedLinesUsingArrange(casted)
 }
 
 func (it testCaseGenerator) testCaseArrangeInputWrite(arrangeInput interface{}) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 
 	if isany.Null(arrangeInput) {
-		return "", nil
+		return "nil", nil
 	}
 
 	switch casted := arrangeInput.(type) {

@@ -362,6 +362,22 @@ func (it *FuncWrap) GetOutArgsTypesNames() []string {
 	return slice
 }
 
+func (it *FuncWrap) IsInTypeMatches(args ...interface{}) (isOkay bool) {
+	toTypes := reflectinternal.Converter.InterfacesToTypes(args)
+
+	isOkay, _ = it.InArgsVerifyRv(toTypes)
+
+	return isOkay
+}
+
+func (it *FuncWrap) IsOutTypeMatches(outArgs ...interface{}) (isOkay bool) {
+	toTypes := reflectinternal.Converter.InterfacesToTypes(outArgs)
+
+	isOkay, _ = it.OutArgsVerifyRv(toTypes)
+
+	return isOkay
+}
+
 func (it *FuncWrap) VerifyInArgs(args []interface{}) (isOkay bool, err error) {
 	toTypes := reflectinternal.Converter.InterfacesToTypes(args)
 

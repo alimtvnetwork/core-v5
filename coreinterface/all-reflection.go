@@ -61,6 +61,14 @@ type InArgsTypesNamesGetter interface {
 	GetInArgsTypesNames() []string
 }
 
+type IsInTypeMatchesChecker interface {
+	IsInTypeMatches(args ...interface{}) (isOkay bool)
+}
+
+type IsOutTypeMatchesChecker interface {
+	IsOutTypeMatches(outArgs ...interface{}) (isOkay bool)
+}
+
 type InArgsVerifier interface {
 	VerifyInArgs(args []interface{}) (isOkay bool, err error)
 }
