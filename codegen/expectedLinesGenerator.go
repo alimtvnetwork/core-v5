@@ -229,7 +229,7 @@ func (it expectedLinesGenerator) recursiveGenerateSlice(
 func (it expectedLinesGenerator) enhanceError(err error) error {
 	return errcore.
 		ConcatMessageWithErrWithStackTrace(
-			"provide args properly in the definition of Generate (to get run the func and get the expected Lines),\n",
+			"expected lines - provide args properly in the definition of Generate (to get run the func and get the expected Lines),\n",
 			err,
 		)
 }
@@ -241,9 +241,10 @@ func (it expectedLinesGenerator) appendToSlice(
 ) *corestr.SimpleSlice {
 	inArgsString := convertinteranl.AnyTo.String(inArgs)
 	resultsToString := convertinteranl.AnyTo.String(outArgs)
+	joinFormat := it.baseGenerator.FmtJoin()
 
 	slice.AppendFmt(
-		it.baseGenerator.FmtJoin(),
+		joinFormat,
 		slice.Count(),
 		inArgsString,
 		resultsToString,
@@ -259,9 +260,10 @@ func (it expectedLinesGenerator) appendSingleInToSlice(
 ) *corestr.SimpleSlice {
 	inArgsString := convertinteranl.AnyTo.String(inArgs)
 	resultsToString := convertinteranl.AnyTo.String(outArgs)
+	joinFormat := it.baseGenerator.FmtJoin()
 
 	slice.AppendFmt(
-		it.baseGenerator.FmtJoin(),
+		joinFormat,
 		slice.Count(),
 		inArgsString,
 		resultsToString,
@@ -269,18 +271,3 @@ func (it expectedLinesGenerator) appendSingleInToSlice(
 
 	return slice
 }
-
-//
-// func (it expectedLinesGenerator) ReplaceTemplate(
-// 	format string,
-// 	replacerMap map[string]string,
-// ) string {
-// 	if len(format) == 0 {
-// 		return ""
-// 	}
-//
-// 	return templateReplacerFunc(
-// 		format,
-// 		replacerMap,
-// 	)
-// }
