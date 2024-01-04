@@ -29,8 +29,15 @@ func (it expectedLinesGenerator) FuncName() string {
 	return it.baseGenerator.FuncName()
 }
 
-func (it expectedLinesGenerator) Generate() *corestr.SimpleSlice {
+func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
+	slice := corestr.New.SimpleSlice.Cap(10)
 
+	_, err := it.expectedLinesUsingArrange(
+		slice,
+		it.caseV1.ArrangeInput,
+	)
+
+	return slice, err
 }
 
 func (it expectedLinesGenerator) expectedLinesUsingArrange(
@@ -169,11 +176,11 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 
 	// array or slice
 	if rt.Kind() == reflect.Array || rt.Kind() == reflect.Slice {
-		return it.handleForArrayOrSliceArrange(arrangeInput, slice)
+		return it.handleForArrayOrSliceArrange(slice, arrangeInput)
 	}
 
 	if slice.IsEmpty() {
-		return "", fmt.Errorf(
+		return slice, fmt.Errorf(
 			"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
 			"[]string, map[string]string, []interface{}",
 			arrangeInput,
@@ -183,40 +190,47 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	return slice, nil
 }
 
-func (it testCaseGenerator) handleForArrayOrSliceArrange(
-	arrangeInput interface{},
+func (it expectedLinesGenerator) handleForArrayOrSliceArrange(
 	slice *corestr.SimpleSlice,
-) (string, error) {
-	compiledErr := reflectinternal.Looper.Slice(
+	arrangeInput interface{},
+) (*corestr.SimpleSlice, error) {
+	funcWrap := it.FuncWrap()
+	var rawErrCollection errcore.RawErrCollection
+
+	if funcWrap.IsInTypeMatches(arrangeInput) {
+		results, err := funcWrap.InvokeSkip(
+			codestack.Skip1,
+			arrangeInput,
+		)
+
+		if iserror.Defined(err) {
+			return it.enhanceError(err)
+		}
+
+		return it.appendSingleInToSlice(
+			slice,
+			arrangeInput,
+			results,
+		), nil
+	}
+
+	_ = reflectinternal.Looper.Slice(
 		arrangeInput,
 		func(total int, index int, item interface{}) (err error) {
-			expand, expandError := it.testCaseArrangeInputWrite(item)
+			_, expandError := it.expectedLinesUsingArrange(slice, item)
 
-			if expandError != nil {
-				return expandError
-			}
-
-			slice.Append(
-				expand,
+			rawErrCollection.AddFmt(
+				expandError,
+				"At: %d, item: %+v",
+				index,
+				item,
 			)
 
-			return
+			return nil
 		},
 	)
 
-	toCompiled := slice.Join(linerJoiner)
-	typeName := reflectinternal.ReflectType.NameUsingFmt(arrangeInput)
-	replacerMap := map[string]string{
-		vars.TypeName:   toCompiled,
-		vars.ToCompiled: typeName,
-	}
-
-	finalOutput := it.ReplaceTemplate(
-		typeWithCompiledItemsTemplate,
-		replacerMap,
-	)
-
-	return finalOutput, compiledErr
+	return slice, rawErrCollection.CompiledError()
 }
 
 func (it expectedLinesGenerator) enhanceError(err error) (*corestr.SimpleSlice, error) {
@@ -263,13 +277,17 @@ func (it expectedLinesGenerator) appendSingleInToSlice(
 	return slice
 }
 
-func (it expectedLinesGenerator) expectedLinesForOther(
-	caseV1 coretestcases.CaseV1,
-) (*corestr.SimpleSlice, error) {
-
-	return nil, errcore.Expected.But(
-		"cannot cast caseV1.ArrangeInput to args.AsArgBaseContractsBinder",
-		reflectinternal.TypeName(x),
-		reflectinternal.TypeName(arrange),
-	)
-}
+//
+// func (it expectedLinesGenerator) ReplaceTemplate(
+// 	format string,
+// 	replacerMap map[string]string,
+// ) string {
+// 	if len(format) == 0 {
+// 		return ""
+// 	}
+//
+// 	return templateReplacerFunc(
+// 		format,
+// 		replacerMap,
+// 	)
+// }

@@ -179,14 +179,12 @@ func (it testCaseGenerator) SingleArrange(
 }
 
 func (it testCaseGenerator) expectedLines(caseV1 coretestcases.CaseV1) (*corestr.SimpleSlice, error) {
-	arrange := caseV1.ArrangeInput
-	casted, isOkay := arrange.(args.AsArgBaseContractsBinder)
-
-	if !isOkay {
-		return it.expectedLinesForOther(caseV1)
+	expectedLinesGen := expectedLinesGenerator{
+		caseV1:        caseV1,
+		baseGenerator: it.baseGenerator,
 	}
 
-	return it.expectedLinesUsingArrange(casted)
+	return expectedLinesGen.Generate()
 }
 
 func (it testCaseGenerator) testCaseArrangeInputWrite(arrangeInput interface{}) (string, error) {
