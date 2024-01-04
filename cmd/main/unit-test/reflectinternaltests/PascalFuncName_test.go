@@ -24,8 +24,8 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				"0 - %!d(string=someName) : SomeName -> %!s(MISSING)",
-				"1 - %!d(string=someName 2) : SomeName 2 -> %!s(MISSING)",
+				"0 : someName -> SomeName",
+				"1 : someName 2 -> SomeName 2",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},

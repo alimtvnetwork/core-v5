@@ -377,6 +377,17 @@ func (it GenerateFunc) FmtJoin() string {
 	return it.FmtType.Fmt(it.GenerateType.IsMultipleArranges())
 }
 
+func (it GenerateFunc) FmtJoinNoCondition() string {
+	return it.FmtType.Fmt(false)
+}
+
+// HasInnerLoop checks if the GenerateFunc has an inner loop.
+//
+// It returns a boolean indicating whether the GenerateType has multiple arranges.
+func (it GenerateFunc) HasInnerLoop() bool {
+	return it.GenerateType.IsMultipleArranges()
+}
+
 // generateFmtOutputs generates the formatted outputs based on the given joiner, function name, expected output,
 // and input and output arguments. It returns a *corestr.SimpleSlice containing the formatted outputs and an error, if any.
 //

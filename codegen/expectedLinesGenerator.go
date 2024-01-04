@@ -31,6 +31,7 @@ func (it expectedLinesGenerator) FuncName() string {
 func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 	err := it.expectedLinesUsingArrange(
+		0,
 		slice,
 		it.caseV1.ArrangeInput,
 	)
@@ -39,6 +40,7 @@ func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
 }
 
 func (it expectedLinesGenerator) expectedLinesUsingArrange(
+	caseIndex int,
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
 ) error {
@@ -53,7 +55,9 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 
 	switch casted := arrangeInput.(type) {
 	case args.AsArgBaseContractsBinder:
-		validArgs := casted.AsArgBaseContractsBinder().ValidArgs()
+		validArgs := casted.
+			AsArgBaseContractsBinder().
+			ValidArgs()
 		results, err := funcWrap.InvokeSkip(
 			codestack.Skip1,
 			validArgs...,
@@ -150,6 +154,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 		for i, item := range casted {
 			// add to slice if matches
 			err := it.expectedLinesUsingArrange(
+				caseIndex,
 				slice,
 				item,
 			)
@@ -210,7 +215,11 @@ func (it expectedLinesGenerator) recursiveGenerateSlice(
 	_ = reflectinternal.Looper.Slice(
 		arrangeInput,
 		func(total int, index int, item interface{}) (err error) {
-			expandError := it.expectedLinesUsingArrange(slice, item)
+			expandError := it.expectedLinesUsingArrange(
+				index,
+				slice,
+				item,
+			)
 
 			rawErrCollection.AddFmt(
 				expandError,
@@ -235,6 +244,7 @@ func (it expectedLinesGenerator) enhanceError(err error) error {
 }
 
 func (it expectedLinesGenerator) appendToSlice(
+	caseIndex int,
 	slice *corestr.SimpleSlice,
 	inArgs []interface{},
 	outArgs []interface{},
@@ -242,6 +252,17 @@ func (it expectedLinesGenerator) appendToSlice(
 	inArgsString := convertinteranl.AnyTo.String(inArgs)
 	resultsToString := convertinteranl.AnyTo.String(outArgs)
 	joinFormat := it.baseGenerator.FmtJoin()
+	hasLoop := it.baseGenerator.HasInnerLoop()
+
+	if hasLoop {
+		slice.AppendFmt(
+			joinFormat,
+			caseIndex,
+			slice.Count(),
+			inArgsString,
+			resultsToString,
+		)
+	}
 
 	slice.AppendFmt(
 		joinFormat,
