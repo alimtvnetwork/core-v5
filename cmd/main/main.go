@@ -65,7 +65,7 @@ func main() {
 	// fmt.Println(bytetype.New(1).StringValue())
 
 	gen := unitTestGenerator{}
-	gen.AstChecker()
+	// gen.AstChecker()
 
 	gen.Generate()
 }

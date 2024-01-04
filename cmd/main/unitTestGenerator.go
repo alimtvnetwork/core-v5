@@ -22,7 +22,7 @@ func (it unitTestGenerator) Generate() {
 
 	generateFunc := codegen.GenerateFunc{
 		Func:         curFunc,
-		GenerateType: codegentype.Simple,
+		GenerateType: codegentype.MultipleArranges,
 		FmtType:      fmtcodegentype.Default,
 		TestCases: []coretestcases.CaseV1{
 			{
@@ -30,7 +30,7 @@ func (it unitTestGenerator) Generate() {
 				ArrangeInput: []args.One{
 					{
 						First:  "someName",
-						Expect: nil,
+						Expect: "some expect",
 					},
 					{
 						First:  "someName 2",
@@ -115,7 +115,7 @@ func (it unitTestGenerator) AstChecker() {
 		},
 	)
 
-	fmt.Println(c)
+	// fmt.Println(c)
 	// fmt.Println(structTypes)
 	// fmt.Println(firstNode)
 }
