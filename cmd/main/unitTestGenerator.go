@@ -115,7 +115,7 @@ func (it unitTestGenerator) AstChecker() {
 		},
 	)
 
-	// fmt.Println(c)
+	fmt.Println(c)
 	// fmt.Println(structTypes)
 	// fmt.Println(firstNode)
 }
