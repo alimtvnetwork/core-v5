@@ -126,6 +126,20 @@ func (it reflectConverter) ReflectValueToPointerReflectValue(
 	return reflect.NewAt(rv.Type(), unsafePtr)
 }
 
+func (it reflectConverter) ToPtrRvIfNotAlready(
+	rv reflect.Value,
+) reflect.Value {
+	if rv.Kind() == reflect.Ptr {
+		return rv
+	}
+
+	toInterface := rv.Interface()
+	toPointer := &toInterface
+	unsafePtr := unsafe.Pointer(&toPointer)
+
+	return reflect.NewAt(rv.Type(), unsafePtr)
+}
+
 // ReducePointer
 //
 // anyItem must be a struct or pointer to struct

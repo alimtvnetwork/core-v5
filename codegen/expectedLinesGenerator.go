@@ -31,8 +31,7 @@ func (it expectedLinesGenerator) FuncName() string {
 
 func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
-
-	_, err := it.expectedLinesUsingArrange(
+	err := it.expectedLinesUsingArrange(
 		slice,
 		it.caseV1.ArrangeInput,
 	)
@@ -43,9 +42,11 @@ func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
 func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
-) (*corestr.SimpleSlice, error) {
+) error {
 	if isany.Null(arrangeInput) {
-		return slice.Add("nil"), nil
+		slice.Add("nil")
+
+		return nil
 	}
 
 	funcWrap := it.FuncWrap()
@@ -63,11 +64,13 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 			return it.enhanceError(err)
 		}
 
-		return it.appendToSlice(
+		it.appendToSlice(
 			slice,
 			validArgs,
 			results,
-		), nil
+		)
+
+		return nil
 	case string, map[string]string, map[string]interface{}:
 		// TODO for the Map
 		results, err := funcWrap.InvokeSkip(
@@ -79,11 +82,13 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 			return it.enhanceError(err)
 		}
 
-		return it.appendSingleInToSlice(
+		it.appendSingleInToSlice(
 			slice,
 			casted,
 			results,
-		), nil
+		)
+
+		return nil
 	case []string:
 		if funcWrap.IsInTypeMatches(casted) {
 			results, err := funcWrap.InvokeSkip(
@@ -95,11 +100,13 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				return it.enhanceError(err)
 			}
 
-			return it.appendSingleInToSlice(
+			it.appendSingleInToSlice(
 				slice,
 				casted,
 				results,
-			), nil
+			)
+
+			return nil
 		}
 
 		for i, itemString := range casted {
@@ -122,9 +129,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 			)
 		}
 	case []interface{}:
-		isInterfaceTypeExpected, _ := funcWrap.VerifyInArgs(casted)
-
-		if isInterfaceTypeExpected {
+		if funcWrap.IsInTypeMatches(casted) {
 			results, err := funcWrap.InvokeSkip(
 				codestack.Skip1,
 				casted,
@@ -134,16 +139,18 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				return it.enhanceError(err)
 			}
 
-			return it.appendToSlice(
+			it.appendToSlice(
 				slice,
 				casted,
 				results,
-			), nil
+			)
+
+			return nil
 		}
 
 		for i, item := range casted {
 			// add to slice if matches
-			_, err := it.expectedLinesUsingArrange(
+			err := it.expectedLinesUsingArrange(
 				slice,
 				item,
 			)
@@ -155,21 +162,6 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				item,
 			)
 		}
-	case interface{}:
-		results, err := funcWrap.InvokeSkip(
-			codestack.Skip1,
-			casted,
-		)
-
-		if iserror.Defined(err) {
-			return it.enhanceError(err)
-		}
-
-		return it.appendSingleInToSlice(
-			slice,
-			casted,
-			results,
-		), nil
 	}
 
 	rt := reflect.TypeOf(arrangeInput)
@@ -180,20 +172,20 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	}
 
 	if slice.IsEmpty() {
-		return slice, fmt.Errorf(
+		return fmt.Errorf(
 			"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
 			"[]string, map[string]string, []interface{}",
 			arrangeInput,
 		)
 	}
 
-	return slice, nil
+	return nil
 }
 
 func (it expectedLinesGenerator) handleForArrayOrSliceArrange(
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
-) (*corestr.SimpleSlice, error) {
+) error {
 	funcWrap := it.FuncWrap()
 	var rawErrCollection errcore.RawErrCollection
 
@@ -207,17 +199,19 @@ func (it expectedLinesGenerator) handleForArrayOrSliceArrange(
 			return it.enhanceError(err)
 		}
 
-		return it.appendSingleInToSlice(
+		it.appendSingleInToSlice(
 			slice,
 			arrangeInput,
 			results,
-		), nil
+		)
+
+		return nil
 	}
 
-	_ = reflectinternal.Looper.Slice(
+	_ = reflectinternal.Looper.SlicePtr(
 		arrangeInput,
 		func(total int, index int, item interface{}) (err error) {
-			_, expandError := it.expectedLinesUsingArrange(slice, item)
+			expandError := it.expectedLinesUsingArrange(slice, item)
 
 			rawErrCollection.AddFmt(
 				expandError,
@@ -230,11 +224,11 @@ func (it expectedLinesGenerator) handleForArrayOrSliceArrange(
 		},
 	)
 
-	return slice, rawErrCollection.CompiledError()
+	return rawErrCollection.CompiledError()
 }
 
-func (it expectedLinesGenerator) enhanceError(err error) (*corestr.SimpleSlice, error) {
-	return nil, errcore.
+func (it expectedLinesGenerator) enhanceError(err error) error {
+	return errcore.
 		ConcatMessageWithErrWithStackTrace(
 			"provide args properly in the definition of Generate (to get run the func and get the expected Lines),\n",
 			err,

@@ -221,6 +221,18 @@ func (it *looper) MethodNamesRv(
 	return methodNames, nil
 }
 
+// MethodsForRv loops through the methods of a reflect.Value and processes each method using a given function.
+//
+// It takes in the reflect.Value to be processed (rv), and a function (processor) that accepts the total number of methods and a MethodProcessor struct representing each method, and returns an error if any.
+// The MethodProcessor struct contains information about the method being processed.
+//
+// This function first converts the reflect.Value to a pointer reflect.Value using the ToPointerReflectValueRv method, and if there is an error during the conversion, it returns the error.
+// It then calls the loopBaseMethods method passing the pointer reflect.Value and the given processor function to process the methods.
+//
+// After that, it reduces the pointer reflect.Value to a non-pointer reflect.Value using the ReducePointerRvDefault method, and calls the loopBaseMethods method again passing the reduced reflect.Value and the given processor function to process the methods.
+//
+// If there is any error during the processing of the methods, it returns the error.
+// Otherwise, it returns nil.
 func (it *looper) MethodsForRv(
 	rv reflect.Value,
 	processor func(
@@ -250,6 +262,16 @@ func (it *looper) MethodsForRv(
 	return it.loopBaseMethods(reducer.FinalReflectVal, processor)
 }
 
+// Slice processes each item in the provided slice using the given processor function.
+//
+// Parameters:
+//   - i: the slice to be processed.
+//   - processor: the function that will be called for each item in the slice.
+//     It receives the total number of items, the current index, and the item itself.
+//     It should return an error if any error occurs during processing.
+//
+// Returns:
+//   - error: if any error occurs during processing, it will be returned.
 func (it *looper) Slice(
 	i interface{},
 	processor func(
@@ -267,6 +289,50 @@ func (it *looper) Slice(
 	return it.SliceForRv(toRv, processor)
 }
 
+// SlicePtr
+//
+//	processes each item (as a pointer if not already) in the provided slice using the given processor function.
+//
+// Parameters:
+//   - i: expect a slice or array
+//   - processor: a function that takes the following parameters:
+//   - total: the total number of elements in the slice or array.
+//   - index: the index of the current element being processed.
+//   - item: the current element being processed.
+//
+// Returns:
+//   - error: if any error occurs during processing, it will be returned.
+func (it *looper) SlicePtr(
+	i interface{},
+	processor func(
+		total int,
+		index int,
+		item interface{},
+	) (err error),
+) error {
+	if Is.Null(i) {
+		return nil
+	}
+
+	toRv := reflect.ValueOf(i)
+
+	return it.SlicePtrForRv(toRv, processor)
+}
+
+// SliceForRv iterates over a slice or array and applies a processing function to each element.
+//
+// The function takes the following parameters:
+// - rv: a reflect.Value representing the slice or array to iterate over.
+// - processor: a function that takes the following parameters:
+//   - total: the total number of elements in the slice or array.
+//   - index: the index of the current element being processed.
+//   - item: the current element being processed.
+//
+// The processor function should return an error if any error occurs during processing.
+//
+// The function returns an error if the given item is not a slice nor an array.
+// It returns nil if the item is empty or if no errors occur during processing.
+// Otherwise, it returns an error containing the concatenated error messages from the processor function.
 func (it *looper) SliceForRv(
 	rv reflect.Value,
 	processor func(
@@ -300,7 +366,70 @@ func (it *looper) SliceForRv(
 	var errSlice []string
 
 	for i := 0; i < length; i++ {
-		err := processor(length, i, valueRv.Index(i))
+		elem := valueRv.Index(i)
+		err := processor(length, i, elem.Interface())
+
+		if err != nil {
+			errSlice = append(errSlice, err.Error())
+		}
+	}
+
+	if len(errSlice) == 0 {
+		return nil
+	}
+
+	toMsg := strings.Join(errSlice, "\n")
+
+	return errors.New(toMsg)
+}
+
+// SlicePtrForRv
+//
+// Convert each item to pointer and pass it to the processor
+func (it *looper) SlicePtrForRv(
+	rv reflect.Value,
+	processor func(
+		total int,
+		index int,
+		item interface{},
+	) (err error),
+) error {
+	valueRvWrap := it.ReducePointerRv(
+		rv,
+		defaultPointerReduction,
+	)
+
+	if valueRvWrap.HasError() {
+		return valueRvWrap.Error
+	}
+
+	valueRv := valueRvWrap.FinalReflectVal
+
+	k := valueRv.Kind()
+	isSliceOrArray := k == reflect.Slice ||
+		k == reflect.Array
+
+	if !isSliceOrArray {
+		return errors.New("given item is not a slice nor an array")
+	}
+
+	length := valueRv.Len()
+
+	if length == 0 {
+		return nil
+	}
+
+	var errSlice []string
+	var err error
+
+	for i := 0; i < length; i++ {
+		elem := valueRv.Index(i)
+		x := elem.Interface()
+		if reflect.Ptr != elem.Kind() {
+			err = processor(length, i, &x)
+		} else {
+			err = processor(length, i, x)
+		}
 
 		if err != nil {
 			errSlice = append(errSlice, err.Error())
@@ -351,7 +480,7 @@ func (it *looper) MapForRv(
 
 	for i, key := range mapKeys {
 		value := valueRv.MapIndex(key)
-		err := processor(length, i, key, value)
+		err := processor(length, i, key, value.Interface())
 
 		if err != nil {
 			errSlice = append(errSlice, err.Error())
