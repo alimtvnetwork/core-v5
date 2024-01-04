@@ -1,6 +1,9 @@
 package convertinteranl
 
-import "go/format"
+import (
+	"fmt"
+	"go/format"
+)
 
 type codeFormatter struct{}
 
@@ -18,6 +21,10 @@ func (it codeFormatter) Golang(code string) (string, error) {
 	}
 
 	formattedCode, err := format.Source([]byte(code))
+
+	if err != nil {
+		return string(formattedCode), fmt.Errorf("%s\nSource: %s", err, code)
+	}
 
 	return string(formattedCode), err
 }
