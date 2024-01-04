@@ -367,10 +367,30 @@ func (it GenerateFunc) FuncWrap() *args.FuncWrap {
 	return it.funcWrap
 }
 
+// FmtJoin
+//
+//	https://prnt.sc/Susd-5ZPdDvp
+//
+//	returns the AppendFmt format string inside the unit test
 func (it GenerateFunc) FmtJoin() string {
 	return it.FmtType.Fmt(it.GenerateType.IsMultipleArranges())
 }
 
+// generateFmtOutputs generates the formatted outputs based on the given joiner, function name, expected output,
+// and input and output arguments. It returns a *corestr.SimpleSlice containing the formatted outputs and an error, if any.
+//
+// Parameters:
+//   - joiner: The string used to join the arguments.
+//   - funcName: The name of the function.
+//   - expected: The expected output.
+//   - outArs: A *corestr.SimpleSlice containing the output arguments.
+//   - inArgs: A *corestr.SimpleSlice containing the input arguments.
+//
+// Returns:
+//   - https://prnt.sc/rFtWpwFxFnVm
+//   - Generates each comma single line join for the AppendFmt(format, allItems....)
+//   - The function will generate allItems as it comes from args
+//   - error: An error, if any.
 func (it GenerateFunc) generateFmtOutputs(
 	joiner string,
 	funcName string,

@@ -10,8 +10,8 @@ import (
 type Variant byte
 
 const (
-	Simple Variant = iota
-	MultipleArranges
+	Simple           Variant = iota
+	MultipleArranges         // loopFuncTemplate
 )
 
 func (it Variant) IsSimple() bool {
