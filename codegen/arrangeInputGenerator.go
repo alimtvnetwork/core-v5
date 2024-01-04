@@ -1,0 +1,218 @@
+package codegen
+
+import (
+	"fmt"
+	"reflect"
+
+	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coreindexes"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"gitlab.com/auk-go/core/isany"
+	"gitlab.com/auk-go/core/simplewrap"
+)
+
+type arrangeInputGenerator struct {
+	baseGenerator BaseGenerator
+}
+
+func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, error) {
+	slice := corestr.New.SimpleSlice.Cap(10)
+
+	if isany.Null(arrangeInput) {
+		return "nil", nil
+	}
+
+	switch casted := arrangeInput.(type) {
+	case args.AsArgFuncContractsBinder:
+		v := casted.AsArgFuncContractsBinder()
+		argsCount := v.ArgsCount()
+
+		for i := 0; i < argsCount; i++ {
+			name := coreindexes.NameByIndex(i)
+
+			slice.AppendFmt(
+				argSingleTemplate,
+				name,
+				v.GetByIndex(i),
+			)
+		}
+
+		slice.AppendFmtIf(
+			v.HasExpect(),
+			argSingleTemplate,
+			vars.expect,
+			v.Expected(),
+		)
+
+		slice.AppendFmtIf(
+			v.HasFunc(),
+			argSingleTemplate,
+			vars.workFunc,
+			v.GetFuncName(),
+		)
+	case args.AsArgBaseContractsBinder:
+		v := casted.AsArgBaseContractsBinder()
+		argsCount := v.ArgsCount()
+
+		for i := 0; i < argsCount; i++ {
+			name := coreindexes.NameByIndex(i)
+
+			slice.AppendFmt(
+				argSingleTemplate,
+				name,
+				it.property(v, i),
+			)
+		}
+
+		slice.AppendFmtIf(
+			v.HasExpect(),
+			argSingleTemplate,
+			vars.expect,
+			v.Expected(),
+		)
+	case string:
+		slice.AppendFmt(
+			"\"%s\",",
+			casted,
+		)
+	case args.String:
+		slice.AppendFmt(
+			"%s,",
+			casted,
+		)
+	case []string:
+		for _, item := range casted {
+			slice.AppendFmt(
+				"\"%s\",",
+				item,
+			)
+		}
+	case map[string]string:
+		for k, v := range casted {
+			slice.AppendFmt(
+				"\"%s\" : \"%s\",",
+				k,
+				v,
+			)
+		}
+	case map[string]interface{}:
+		for k, v := range casted {
+			slice.AppendFmt(
+				"\"%s\" : %s,",
+				k,
+				it.writeTestCaseForProperty(v),
+			)
+		}
+	case args.Map:
+		for k, v := range casted {
+			slice.AppendFmt(
+				"\"%s\" : %s,",
+				k,
+				it.writeTestCaseForProperty(v),
+			)
+		}
+	case []interface{}:
+		for _, v := range casted {
+			slice.AppendFmt(
+				"%s,",
+				it.writeTestCaseForProperty(v),
+			)
+		}
+	case interface{}:
+		slice.AppendFmt(
+			"%s,",
+			it.writeTestCaseForProperty(casted),
+		)
+	}
+
+	rt := reflect.TypeOf(arrangeInput)
+
+	// array or slice
+	if rt.Kind() == reflect.Array || rt.Kind() == reflect.Slice {
+		return it.handleForArrayOrSliceArrange(arrangeInput, slice)
+	}
+
+	if slice.IsEmpty() {
+		return "", fmt.Errorf(
+			"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
+			"[]string, map[string]string, []interface{}",
+			arrangeInput,
+		)
+	}
+
+	return slice.Join(linerJoiner), nil
+}
+
+func (it arrangeInputGenerator) handleForArrayOrSliceArrange(
+	arrangeInput interface{},
+	slice *corestr.SimpleSlice,
+) (string, error) {
+	compiledErr := reflectinternal.Looper.Slice(
+		arrangeInput,
+		func(total int, index int, item interface{}) (err error) {
+			expand, expandError := it.Generate(item)
+
+			if expandError != nil {
+				return expandError
+			}
+
+			slice.Append(
+				expand,
+			)
+
+			return
+		},
+	)
+
+	toCompiled := slice.Join(linerJoiner)
+	typeName := reflectinternal.ReflectType.NameUsingFmt(arrangeInput)
+	replacerMap := map[string]string{
+		vars.TypeName:   toCompiled,
+		vars.ToCompiled: typeName,
+	}
+
+	finalOutput := it.ReplaceTemplate(
+		typeWithCompiledItemsTemplate,
+		replacerMap,
+	)
+
+	return finalOutput, compiledErr
+}
+
+func (it arrangeInputGenerator) property(argBinder args.ArgBaseContractsBinder, i int) string {
+	p := argBinder.GetByIndex(i)
+
+	return it.writeTestCaseForProperty(p)
+}
+
+func (it arrangeInputGenerator) writeTestCaseForProperty(p interface{}) string {
+	switch casted := p.(type) {
+	case string:
+		return simplewrap.WithDoubleQuote(casted)
+	case bool, int, int32, int64,
+		float64, float32, byte,
+		int8, uint16, uint32,
+		uint64:
+		return fmt.Sprintf("%d", casted)
+	case args.String:
+		return fmt.Sprintf("%s", casted)
+	}
+
+	return convertinteranl.AnyTo.FullPropertyString(p)
+}
+
+func (it arrangeInputGenerator) ReplaceTemplate(
+	format string,
+	replacerMap map[string]string,
+) string {
+	if len(format) == 0 {
+		return ""
+	}
+
+	return templateReplacerFunc(
+		format,
+		replacerMap,
+	)
+}
