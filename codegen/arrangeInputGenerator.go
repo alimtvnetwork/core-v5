@@ -3,6 +3,7 @@ package codegen
 import (
 	"fmt"
 	"reflect"
+	"strings"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coreindexes"
@@ -17,8 +18,10 @@ type arrangeInputGenerator struct {
 	baseGenerator BaseGenerator
 }
 
-func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, error) {}
-func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, error) {
+func (it arrangeInputGenerator) Generate(
+	// isSubRequest bool,
+	arrangeInput interface{},
+) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 
 	if isany.Null(arrangeInput) {
@@ -122,6 +125,13 @@ func (it arrangeInputGenerator) Generate(arrangeInput interface{}) (string, erro
 			)
 		}
 	case interface{}:
+		rt := reflect.TypeOf(arrangeInput)
+
+		// array or slice
+		if rt.Kind() == reflect.Array || rt.Kind() == reflect.Slice {
+			return it.recursiveGenerateSlice(slice, arrangeInput)
+		}
+
 		slice.AppendFmt(
 			"%s,",
 			it.writeTestCaseForProperty(casted),
@@ -150,36 +160,36 @@ func (it arrangeInputGenerator) recursiveGenerateSlice(
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
 ) (string, error) {
+	trimedTemplate := strings.TrimSpace(curlyOutputTemplate)
+
 	compiledErr := reflectinternal.Looper.Slice(
 		arrangeInput,
 		func(total int, index int, item interface{}) (err error) {
 			expand, expandError := it.Generate(item)
 
-			if expandError != nil {
-				return expandError
-			}
-
-			slice.Append(
-				expand,
+			slice.AppendFmtIf(
+				expandError == nil,
+				trimedTemplate,
+				strings.TrimSpace(expand),
 			)
 
-			return
+			return expandError
 		},
 	)
 
-	toCompiled := slice.Join(linerJoiner)
-	typeName := reflectinternal.ReflectType.NameUsingFmt(arrangeInput)
-	replacerMap := map[string]string{
-		vars.TypeName:   toCompiled,
-		vars.ToCompiled: typeName,
-	}
+	toCompiled := slice.Join(",\n")
+	// typeName := reflectinternal.ReflectType.NameUsingFmt(arrangeInput)
+	// replacerMap := map[string]string{
+	// 	vars.TypeName:   typeName,
+	// 	vars.ToCompiled: toCompiled,
+	// }
+	//
+	// finalOutput := it.ReplaceTemplate(
+	// 	typeWithCompiledItemsTemplate,
+	// 	replacerMap,
+	// )
 
-	finalOutput := it.ReplaceTemplate(
-		typeWithCompiledItemsTemplate,
-		replacerMap,
-	)
-
-	return finalOutput, compiledErr
+	return toCompiled, compiledErr
 }
 
 func (it arrangeInputGenerator) property(argBinder args.ArgBaseContractsBinder, i int) string {

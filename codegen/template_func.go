@@ -108,8 +108,15 @@ var (
 
 	typeWithCompiledItemsTemplate = `
 	$typename {
-		$toCompiled
+		$toCompiled,
 	}
 `
+
+	curlyOutputTemplate = `
+{
+	%s,
+}
+`
+
 	argSingleTemplate = "%s : %s"
 )

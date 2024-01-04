@@ -15,19 +15,12 @@ var (
 		{
 			Title: "Some",
 			ArrangeInput: []args.One{
-				[]args.One{
-					{
-						First: "someName", Expect: interface{}(nil), toSlice: (*[]interface{})(nil),
-						toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
-										}, {
-						First: "someName 2", Expect: interface{}(nil), toSlice: (*[]interface{})(nil),
-						toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
-										},
-				},,
-				First: "someName",
-				First: "someName 2"{
-			[]args.One
-			},
+				{
+					First: "someName",
+				},
+				{
+					First: "someName 2",
+				},
 			},
 			ExpectedInput: []string{
 				"0 : someName -> SomeName",
@@ -37,6 +30,7 @@ var (
 		},
 	}
 )
+
 func Test_PascalFuncName_Verification(t *testing.T) {
 	for caseIndex, testCase := range pascalFuncNameTestCases {
 		// Arrange
