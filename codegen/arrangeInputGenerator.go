@@ -185,7 +185,10 @@ func (it arrangeInputGenerator) recursiveGenerateSlice(
 	return toCompiled, compiledErr
 }
 
-func (it arrangeInputGenerator) property(argBinder args.ArgBaseContractsBinder, i int) string {
+func (it arrangeInputGenerator) property(
+	argBinder args.ArgBaseContractsBinder,
+	i int,
+) string {
 	p := argBinder.GetByIndex(i)
 
 	return Printer.WriteProperty(p)
