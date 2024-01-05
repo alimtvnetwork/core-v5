@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
+	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
@@ -52,6 +53,26 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	var rawErrCollection errcore.RawErrCollection
 
 	switch casted := arrangeInput.(type) {
+	case args.AsArgFuncNameContractsBinder:
+		argsFunc := casted.AsArgFuncNameContractsBinder()
+		validArgs := argsFunc.ValidArgs()
+		results, err := funcWrap.InvokeSkip(
+			codestack.Skip1,
+			validArgs...,
+		)
+
+		if iserror.Defined(err) {
+			return it.enhanceError(err)
+		}
+
+		it.appendToSlice(
+			slice,
+			validArgs,
+			results,
+			argsFunc.Expected(),
+		)
+
+		return nil
 	case args.AsArgBaseContractsBinder:
 		validArgs := casted.
 			AsArgBaseContractsBinder().
@@ -65,7 +86,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 			return it.enhanceError(err)
 		}
 
-		it.appendToSlice(
+		it.appendToSliceNoExpect(
 			slice,
 			validArgs,
 			results,
@@ -83,7 +104,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 			return it.enhanceError(err)
 		}
 
-		it.appendSingleInToSlice(
+		it.appendSingleInToSliceNoExpect(
 			slice,
 			casted,
 			results,
@@ -101,7 +122,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				return it.enhanceError(err)
 			}
 
-			it.appendSingleInToSlice(
+			it.appendSingleInToSliceNoExpect(
 				slice,
 				casted,
 				results,
@@ -123,7 +144,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				itemString,
 			)
 
-			it.appendSingleInToSlice(
+			it.appendSingleInToSliceNoExpect(
 				slice,
 				itemString,
 				results,
@@ -140,7 +161,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				return it.enhanceError(err)
 			}
 
-			it.appendToSlice(
+			it.appendToSliceNoExpect(
 				slice,
 				casted,
 				results,
@@ -200,7 +221,7 @@ func (it expectedLinesGenerator) recursiveGenerateSlice(
 			return it.enhanceError(err)
 		}
 
-		it.appendSingleInToSlice(
+		it.appendSingleInToSliceNoExpect(
 			slice,
 			arrangeInput,
 			results,
@@ -243,36 +264,67 @@ func (it expectedLinesGenerator) appendToSlice(
 	slice *corestr.SimpleSlice,
 	inArgs []interface{},
 	outArgs []interface{},
-) *corestr.SimpleSlice {
+	expect interface{},
+) {
 	inArgsString := convertinteranl.AnyTo.String(inArgs)
 	resultsToString := convertinteranl.AnyTo.String(outArgs)
 	joinFormat := it.baseGenerator.FmtJoin()
 
-	slice.AppendFmt(
-		joinFormat,
-		slice.Count(),
-		inArgsString,
-		resultsToString,
-	)
+	switch it.baseGenerator.JoinFormatType() {
+	case fmtcodegentype.Default:
+		slice.AppendFmt(
+			joinFormat,
+			slice.Count(),
+			inArgsString,
+			resultsToString,
+		)
+	case fmtcodegentype.WithExpect:
+		slice.AppendFmt(
+			joinFormat,
+			slice.Count(),
+			inArgsString,
+			resultsToString,
+			Printer.WriteProperty(expect),
+		)
+	}
+}
 
-	return slice
+func (it expectedLinesGenerator) appendToSliceNoExpect(
+	slice *corestr.SimpleSlice,
+	inArgs []interface{},
+	outArgs []interface{},
+) {
+	it.appendToSlice(
+		slice,
+		inArgs,
+		outArgs,
+		nil,
+	)
 }
 
 func (it expectedLinesGenerator) appendSingleInToSlice(
 	slice *corestr.SimpleSlice,
 	inArgs interface{},
 	outArgs []interface{},
-) *corestr.SimpleSlice {
-	inArgsString := convertinteranl.AnyTo.String(inArgs)
-	resultsToString := convertinteranl.AnyTo.String(outArgs)
-	joinFormat := it.baseGenerator.FmtJoin()
-
-	slice.AppendFmt(
-		joinFormat,
-		slice.Count(),
-		inArgsString,
-		resultsToString,
+	expect interface{},
+) {
+	it.appendToSlice(
+		slice,
+		[]interface{}{inArgs},
+		outArgs,
+		expect,
 	)
+}
 
-	return slice
+func (it expectedLinesGenerator) appendSingleInToSliceNoExpect(
+	slice *corestr.SimpleSlice,
+	inArgs interface{},
+	outArgs []interface{},
+) {
+	it.appendToSlice(
+		slice,
+		[]interface{}{inArgs},
+		outArgs,
+		nil,
+	)
 }

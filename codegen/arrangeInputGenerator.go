@@ -8,10 +8,8 @@ import (
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
-	"gitlab.com/auk-go/core/simplewrap"
 )
 
 type arrangeInputGenerator struct {
@@ -200,23 +198,11 @@ func (it arrangeInputGenerator) recursiveGenerateSlice(
 func (it arrangeInputGenerator) property(argBinder args.ArgBaseContractsBinder, i int) string {
 	p := argBinder.GetByIndex(i)
 
-	return it.writeTestCaseForProperty(p)
+	return Printer.WriteProperty(p)
 }
 
 func (it arrangeInputGenerator) writeTestCaseForProperty(p interface{}) string {
-	switch casted := p.(type) {
-	case string:
-		return simplewrap.WithDoubleQuote(casted)
-	case bool, int, int32, int64,
-		float64, float32, byte,
-		int8, uint16, uint32,
-		uint64:
-		return fmt.Sprintf("%d", casted)
-	case args.String:
-		return fmt.Sprintf("%s", casted)
-	}
-
-	return convertinteranl.AnyTo.FullPropertyString(p)
+	return Printer.WriteProperty(p)
 }
 
 func (it arrangeInputGenerator) ReplaceTemplate(

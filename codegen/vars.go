@@ -58,4 +58,6 @@ var (
 
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase
 	camelCaseFunc  = convertinteranl.Util.String.CamelCase
+
+	Printer = printer{}
 )
