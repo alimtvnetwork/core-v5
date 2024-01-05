@@ -46,14 +46,14 @@ func Test_PascalFuncName_Verification(t *testing.T) {
 			PascalFuncName
 
 		// Act
-		for _, input := range inputs {
+		for i, input := range inputs {
 			inArgString := input.First.(string)
 
 			result := actFuncPascalFuncName(inArgString)
 
 			actualSlice.AppendFmt(
 				"%d : %s -> %s",
-				caseIndex,
+				i,
 				inArgString,
 				result,
 			)
