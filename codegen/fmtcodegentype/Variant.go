@@ -87,12 +87,8 @@ func (it Variant) Format(format string) (compiled string) {
 }
 
 // Fmt - comes from rangesFmt
-func (it Variant) Fmt(hasLoop bool) (generateFmt string) {
+func (it Variant) Fmt() (generateFmt string) {
 	toFmt := rangesFmt[it]
-
-	// if hasLoop {
-	// 	return "%d - " + toFmt
-	// }
 
 	return toFmt
 }

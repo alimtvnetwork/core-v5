@@ -374,11 +374,11 @@ func (it GenerateFunc) FuncWrap() *args.FuncWrap {
 //
 //	returns the AppendFmt format string inside the unit test
 func (it GenerateFunc) FmtJoin() string {
-	return it.FmtType.Fmt(it.GenerateType.IsMultipleArranges())
+	return it.FmtType.Fmt()
 }
 
-func (it GenerateFunc) FmtJoinNoCondition() string {
-	return it.FmtType.Fmt(false)
+func (it GenerateFunc) FmtJoinConditional(options FmtOptions) string {
+	currentFmt := it.FmtType.Fmt()
 }
 
 // HasInnerLoop checks if the GenerateFunc has an inner loop.

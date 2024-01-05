@@ -12,6 +12,12 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
+type FmtOptions struct {
+	HasExpect bool
+	BaseArgs  args.AsArgBaseContractsBinder
+	FuncArgs  args.ArgFuncContractsBinder
+}
+
 type BaseGenerator interface {
 	Function() interface{}
 	GetStruct() interface{}
@@ -25,7 +31,7 @@ type BaseGenerator interface {
 	Generate() error
 	GenerateCodeOutput() *FinalCode
 	FmtJoin() string
-	FmtJoinNoCondition() string
+	FmtJoinConditional(options FmtOptions) string
 	// HasInnerLoop checks if the GenerateFunc has an inner loop.
 	//
 	// It returns a boolean indicating whether the GenerateType has multiple arranges.
