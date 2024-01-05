@@ -173,7 +173,7 @@ func (it arrangeInputGenerator) recursiveGenerateSlice(
 			slice.AppendFmtIf(
 				expandError == nil,
 				trimmedTemplate,
-				strings.TrimSpace(expand),
+				expand,
 			)
 
 			return expandError
