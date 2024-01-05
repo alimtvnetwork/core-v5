@@ -349,13 +349,17 @@ func (it RawErrorType) NoRef(otherMsg string) string {
 }
 
 func (it RawErrorType) ErrorNoRefs(otherMsg string) error {
+	return it.ErrorNoRefsSkip(1, otherMsg)
+}
+
+func (it RawErrorType) ErrorNoRefsSkip(stack int, otherMsg string) error {
 	if otherMsg == "" {
-		return StackEnhance.MsgToErrSkip(1, it.String())
+		return StackEnhance.MsgToErrSkip(1+stack, it.String())
 	}
 
 	msg := CombineWithMsgTypeNoStack(it, otherMsg, nil)
 
-	return StackEnhance.MsgToErrSkip(1, msg)
+	return StackEnhance.MsgToErrSkip(1+stack, msg)
 }
 
 func (it RawErrorType) HandleUsingPanic(otherMsg string, reference interface{}) {

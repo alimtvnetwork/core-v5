@@ -36,6 +36,10 @@ type GenerateFunc struct {
 	directFuncInvokeName string
 }
 
+func (it GenerateFunc) FmtJoinConditional(options FmtOptions) string {
+	panic("implement me")
+}
+
 func (it GenerateFunc) GetOverrides() OverridingNames {
 	return it.OverridingNames
 }

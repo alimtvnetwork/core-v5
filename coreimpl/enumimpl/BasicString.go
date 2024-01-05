@@ -131,7 +131,8 @@ func (it BasicString) GetValueByName(name string) (string, error) {
 
 	wrapped := fmt.Sprintf(
 		constants.SprintDoubleQuoteFormat,
-		name)
+		name,
+	)
 
 	_, isFoundByWrapped := it.jsonDoubleQuoteNameToValueHashMap[wrapped]
 
@@ -143,7 +144,8 @@ func (it BasicString) GetValueByName(name string) (string, error) {
 	return constants.EmptyString, enumUnmarshallingMappingFailedError(
 		it.TypeName(),
 		name,
-		it.RangeNamesCsv())
+		it.RangeNamesCsv(),
+	)
 }
 
 func (it BasicString) IsValidRange(value string) bool {
@@ -154,8 +156,10 @@ func (it BasicString) OnlySupportedErr(
 	supportedNames ...string,
 ) error {
 	return OnlySupportedErr(
+		defaultStackSkipForSpecificMethod,
 		it.StringRanges(),
-		supportedNames...)
+		supportedNames...,
+	)
 }
 
 func (it BasicString) OnlySupportedMsgErr(
@@ -164,7 +168,8 @@ func (it BasicString) OnlySupportedMsgErr(
 ) error {
 	return errcore.ConcatMessageWithErr(
 		errMessage,
-		it.OnlySupportedErr(supportedNames...))
+		it.OnlySupportedErr(supportedNames...),
+	)
 }
 
 func (it BasicString) AppendPrependJoinValue(

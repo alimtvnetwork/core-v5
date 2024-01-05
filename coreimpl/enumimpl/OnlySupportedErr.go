@@ -6,6 +6,7 @@ import (
 )
 
 func OnlySupportedErr(
+	skipStack int,
 	allNames []string,
 	supportedNames ...string,
 ) error {
@@ -15,23 +16,28 @@ func OnlySupportedErr(
 
 	unsupportedNames := UnsupportedNames(
 		allNames,
-		supportedNames...)
+		supportedNames...,
+	)
 
 	if len(unsupportedNames) == 0 {
 		return nil
 	}
 
 	supportedCsv := csvinternal.StringsToStringDefault(
-		supportedNames...)
+		supportedNames...,
+	)
 
 	unsupportedCsv := csvinternal.StringsToStringDefault(
-		unsupportedNames...)
+		unsupportedNames...,
+	)
 
 	supportedMsg := "Only supported (" + supportedCsv + ")"
-	unsupportedMsg := "Unsupported (" + unsupportedCsv + ")"
+	unsupportedMsg := ". Unsupported (" + unsupportedCsv + ")"
 
 	return errcore.
 		RangesOnlySupportedType.
-		ErrorNoRefs(
-			supportedMsg + unsupportedMsg)
+		ErrorNoRefsSkip(
+			skipStack,
+			supportedMsg+unsupportedMsg,
+		)
 }

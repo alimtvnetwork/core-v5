@@ -23,7 +23,7 @@ func (it unitTestGenerator) Generate() {
 	generateFunc := codegen.GenerateFunc{
 		Func:         curFunc,
 		GenerateType: codegentype.MultipleArranges,
-		FmtType:      fmtcodegentype.Default,
+		FmtType:      fmtcodegentype.WithExpect,
 		TestCases: []coretestcases.CaseV1{
 			{
 				Title: "Some",
