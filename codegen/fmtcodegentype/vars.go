@@ -6,15 +6,17 @@ import (
 
 var (
 	ranges = [...]string{
-		Default:         "Default",
-		WithExpectation: "WithExpectation",
-		WithFuncError:   "WithFuncError",
+		Default:        "Default",
+		WithExpect:     "WithExpect",
+		WithFuncExpect: "WithFuncExpect",
+		WithFuncError:  "WithFuncError",
 	}
 
 	rangesFmt = map[Variant]string{
-		Default:         "%d : %s -> %s",
-		WithExpectation: "%d : %s(%s) -> %s | %s",
-		WithFuncError:   "%d : %s - %s",
+		Default:        "%d : %s -> %s",
+		WithExpect:     "%d : %s -> %s | %s",
+		WithFuncExpect: "%d : %s(%s) -> %s | %s",
+		WithFuncError:  "%d : %s - %s",
 	}
 
 	basicEnumImpl = enumimpl.New.BasicByte.DefaultAllCases(

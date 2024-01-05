@@ -377,10 +377,6 @@ func (it GenerateFunc) FmtJoin() string {
 	return it.FmtType.Fmt()
 }
 
-func (it GenerateFunc) FmtJoinConditional(options FmtOptions) string {
-	currentFmt := it.FmtType.Fmt()
-}
-
 // HasInnerLoop checks if the GenerateFunc has an inner loop.
 //
 // It returns a boolean indicating whether the GenerateType has multiple arranges.
@@ -419,7 +415,7 @@ func (it GenerateFunc) generateFmtOutputs(
 		slice.Add(outArgsString)
 
 		return slice, nil
-	case fmtcodegentype.WithExpectation: // "%d : %s(%s) -> %s | %s",
+	case fmtcodegentype.WithFuncExpect: // "%d : %s(%s) -> %s | %s",
 		outArgsString := outArs.Join(joiner)
 		inArgsString := inArgs.Join(joiner)
 		slice.Add(funcName)
@@ -433,7 +429,7 @@ func (it GenerateFunc) generateFmtOutputs(
 	return slice, it.FmtType.OnlySupportedMsgErr(
 		"only supported",
 		fmtcodegentype.Default.Name(),
-		fmtcodegentype.WithExpectation.Name(),
+		fmtcodegentype.WithFuncExpect.Name(),
 	)
 }
 
