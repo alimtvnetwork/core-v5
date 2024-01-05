@@ -74,9 +74,8 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 
 		return nil
 	case args.AsArgBaseContractsBinder:
-		validArgs := casted.
-			AsArgBaseContractsBinder().
-			ValidArgs()
+		argsBasic := casted.AsArgBaseContractsBinder()
+		validArgs := argsBasic.ValidArgs()
 		results, err := funcWrap.InvokeSkip(
 			codestack.Skip1,
 			validArgs...,
@@ -86,10 +85,11 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 			return it.enhanceError(err)
 		}
 
-		it.appendToSliceNoExpect(
+		it.appendToSlice(
 			slice,
 			validArgs,
 			results,
+			argsBasic.Expected(),
 		)
 
 		return nil
@@ -277,6 +277,7 @@ func (it expectedLinesGenerator) appendToSlice(
 			slice.Count(),
 			inArgsString,
 			resultsToString,
+			"somethingX",
 		)
 	case fmtcodegentype.WithExpect:
 		slice.AppendFmt(
@@ -285,6 +286,7 @@ func (it expectedLinesGenerator) appendToSlice(
 			inArgsString,
 			resultsToString,
 			Printer.WriteProperty(expect),
+			"somethingX",
 		)
 	}
 }
@@ -304,13 +306,13 @@ func (it expectedLinesGenerator) appendToSliceNoExpect(
 
 func (it expectedLinesGenerator) appendSingleInToSlice(
 	slice *corestr.SimpleSlice,
-	inArgs interface{},
+	inArg interface{},
 	outArgs []interface{},
 	expect interface{},
 ) {
 	it.appendToSlice(
 		slice,
-		[]interface{}{inArgs},
+		[]interface{}{inArg},
 		outArgs,
 		expect,
 	)
@@ -318,12 +320,12 @@ func (it expectedLinesGenerator) appendSingleInToSlice(
 
 func (it expectedLinesGenerator) appendSingleInToSliceNoExpect(
 	slice *corestr.SimpleSlice,
-	inArgs interface{},
+	inArg interface{},
 	outArgs []interface{},
 ) {
-	it.appendToSlice(
+	it.appendSingleInToSlice(
 		slice,
-		[]interface{}{inArgs},
+		inArg,
 		outArgs,
 		nil,
 	)
