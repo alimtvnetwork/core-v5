@@ -163,7 +163,7 @@ func (it arrangeInputGenerator) recursiveGenerateSlice(
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
 ) (string, error) {
-	trimedTemplate := strings.TrimSpace(curlyOutputTemplate)
+	trimmedTemplate := strings.TrimSpace(curlyOutputTemplate)
 
 	compiledErr := reflectinternal.Looper.Slice(
 		arrangeInput,
@@ -172,7 +172,7 @@ func (it arrangeInputGenerator) recursiveGenerateSlice(
 
 			slice.AppendFmtIf(
 				expandError == nil,
-				trimedTemplate,
+				trimmedTemplate,
 				strings.TrimSpace(expand),
 			)
 
