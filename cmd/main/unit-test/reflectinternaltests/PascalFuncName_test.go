@@ -24,8 +24,8 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				"0 : someName -> SomeName",
-				"1 : someName 2 -> SomeName 2",
+				"0 : someName -> SomeName | nil",
+				"1 : someName 2 -> SomeName 2 | nil",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},
@@ -52,10 +52,11 @@ func Test_PascalFuncName_Verification(t *testing.T) {
 			result := actFuncPascalFuncName(inArgString)
 
 			actualSlice.AppendFmt(
-				"%d : %s -> %s",
+				"%d : %s -> %s | %s",
 				i,
 				inArgString,
 				result,
+				input.Expect,
 			)
 		}
 

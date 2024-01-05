@@ -415,13 +415,24 @@ func (it GenerateFunc) generateFmtOutputs(
 	case fmtcodegentype.Default: // "%d : %s -> %s",
 		outArgsString := outArs.Join(joiner)
 		inArgsString := inArgs.Join(joiner)
+
 		slice.Add(inArgsString)
 		slice.Add(outArgsString)
+
+		return slice, nil
+	case fmtcodegentype.WithExpect: // %d : %s -> %s | %s,
+		outArgsString := outArs.Join(joiner)
+		inArgsString := inArgs.Join(joiner)
+
+		slice.Add(inArgsString)
+		slice.Add(outArgsString)
+		slice.Add(expected)
 
 		return slice, nil
 	case fmtcodegentype.WithFuncExpect: // "%d : %s(%s) -> %s | %s",
 		outArgsString := outArs.Join(joiner)
 		inArgsString := inArgs.Join(joiner)
+
 		slice.Add(funcName)
 		slice.Add(inArgsString)
 		slice.Add(outArgsString)
@@ -433,6 +444,7 @@ func (it GenerateFunc) generateFmtOutputs(
 	return slice, it.FmtType.OnlySupportedMsgErr(
 		"only supported",
 		fmtcodegentype.Default.Name(),
+		fmtcodegentype.WithExpect.Name(),
 		fmtcodegentype.WithFuncExpect.Name(),
 	)
 }
