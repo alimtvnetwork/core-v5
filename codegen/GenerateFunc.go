@@ -419,7 +419,7 @@ func (it GenerateFunc) generateFmtOutputs(
 		slice.Add(outArgsString)
 
 		return slice, nil
-	case fmtcodegentype.WithFunction: // "%d : %s(%s) -> %s | %s",
+	case fmtcodegentype.WithExpectation: // "%d : %s(%s) -> %s | %s",
 		outArgsString := outArs.Join(joiner)
 		inArgsString := inArgs.Join(joiner)
 		slice.Add(funcName)
@@ -433,7 +433,7 @@ func (it GenerateFunc) generateFmtOutputs(
 	return slice, it.FmtType.OnlySupportedMsgErr(
 		"only supported",
 		fmtcodegentype.Default.Name(),
-		fmtcodegentype.WithFunction.Name(),
+		fmtcodegentype.WithExpectation.Name(),
 	)
 }
 

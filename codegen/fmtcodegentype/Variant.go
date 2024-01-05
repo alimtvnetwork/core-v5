@@ -11,7 +11,7 @@ type Variant byte
 
 const (
 	Default Variant = iota
-	WithFunction
+	WithExpectation
 	WithFuncError
 )
 
@@ -20,7 +20,7 @@ func (it Variant) IsDefault() bool {
 }
 
 func (it Variant) IsWithFunction() bool {
-	return it == WithFunction
+	return it == WithExpectation
 }
 
 func (it Variant) IsWithFuncError() bool {
