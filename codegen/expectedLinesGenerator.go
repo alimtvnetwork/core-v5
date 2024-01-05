@@ -247,16 +247,6 @@ func (it expectedLinesGenerator) appendToSlice(
 	inArgsString := convertinteranl.AnyTo.String(inArgs)
 	resultsToString := convertinteranl.AnyTo.String(outArgs)
 	joinFormat := it.baseGenerator.FmtJoin()
-	hasLoop := it.baseGenerator.HasInnerLoop()
-
-	if hasLoop {
-		slice.AppendFmt(
-			joinFormat,
-			slice.Count(),
-			inArgsString,
-			resultsToString,
-		)
-	}
 
 	slice.AppendFmt(
 		joinFormat,

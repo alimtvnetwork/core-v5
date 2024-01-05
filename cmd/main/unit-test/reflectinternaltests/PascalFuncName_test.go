@@ -25,9 +25,7 @@ var (
 			},
 			ExpectedInput: []string{
 				"0 : someName -> SomeName",
-				"1 : someName -> SomeName",
-				"2 : someName 2 -> SomeName 2",
-				"3 : someName 2 -> SomeName 2",
+				"1 : someName 2 -> SomeName 2",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},
