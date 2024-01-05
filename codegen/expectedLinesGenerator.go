@@ -31,7 +31,6 @@ func (it expectedLinesGenerator) FuncName() string {
 func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 	err := it.expectedLinesUsingArrange(
-		0,
 		slice,
 		it.caseV1.ArrangeInput,
 	)
@@ -40,7 +39,6 @@ func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
 }
 
 func (it expectedLinesGenerator) expectedLinesUsingArrange(
-	caseIndex int,
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
 ) error {
@@ -154,7 +152,6 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 		for i, item := range casted {
 			// add to slice if matches
 			err := it.expectedLinesUsingArrange(
-				caseIndex,
 				slice,
 				item,
 			)
@@ -216,7 +213,6 @@ func (it expectedLinesGenerator) recursiveGenerateSlice(
 		arrangeInput,
 		func(total int, index int, item interface{}) (err error) {
 			expandError := it.expectedLinesUsingArrange(
-				index,
 				slice,
 				item,
 			)
@@ -244,7 +240,6 @@ func (it expectedLinesGenerator) enhanceError(err error) error {
 }
 
 func (it expectedLinesGenerator) appendToSlice(
-	caseIndex int,
 	slice *corestr.SimpleSlice,
 	inArgs []interface{},
 	outArgs []interface{},
@@ -257,7 +252,6 @@ func (it expectedLinesGenerator) appendToSlice(
 	if hasLoop {
 		slice.AppendFmt(
 			joinFormat,
-			caseIndex,
 			slice.Count(),
 			inArgsString,
 			resultsToString,

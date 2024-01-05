@@ -56,7 +56,7 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 		actFunc$FuncName := $directFuncInvoke
 
 		// Act
-		for i, input := range inputs {
+		for _, input := range inputs {
 			$variablesSetup
 
 			$outArgs := actFunc$FuncName($inArgs)
@@ -64,7 +64,6 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 			actualSlice.AppendFmt(
 				"$fmtJoin",
 				caseIndex,
-				i,
 				$fmtOutputs,
 			)
 		}

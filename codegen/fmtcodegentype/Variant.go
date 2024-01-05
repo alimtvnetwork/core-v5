@@ -90,9 +90,9 @@ func (it Variant) Format(format string) (compiled string) {
 func (it Variant) Fmt(hasLoop bool) (generateFmt string) {
 	toFmt := rangesFmt[it]
 
-	if hasLoop {
-		return "%d - " + toFmt
-	}
+	// if hasLoop {
+	// 	return "%d - " + toFmt
+	// }
 
 	return toFmt
 }
