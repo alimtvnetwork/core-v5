@@ -181,16 +181,6 @@ func (it arrangeInputGenerator) recursiveGenerateSlice(
 	)
 
 	toCompiled := slice.Join(",\n")
-	// typeName := reflectinternal.ReflectType.NameUsingFmt(arrangeInput)
-	// replacerMap := map[string]string{
-	// 	vars.TypeName:   typeName,
-	// 	vars.ToCompiled: toCompiled,
-	// }
-	//
-	// finalOutput := it.ReplaceTemplate(
-	// 	typeWithCompiledItemsTemplate,
-	// 	replacerMap,
-	// )
 
 	return toCompiled, compiledErr
 }
