@@ -28,5 +28,6 @@ func (it printer) WriteProperty(p interface{}) string {
 		return fmt.Sprintf("%s", casted)
 	}
 
+	// TODO fix this for https://prnt.sc/SNvDVD9KBDs7
 	return convertinteranl.AnyTo.FullPropertyString(p)
 }
