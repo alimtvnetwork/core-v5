@@ -37,7 +37,7 @@ func (it arrangeInputGenerator) Generate(
 			slice.AppendFmt(
 				argSingleTemplate,
 				name,
-				v.GetByIndex(i),
+				it.property(v, i),
 			)
 		}
 
