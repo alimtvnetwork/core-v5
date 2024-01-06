@@ -24,8 +24,8 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				"0 : someName -> SomeName | nil",
-				"1 : someName 2 -> SomeName 2 | nil",
+				"0 : someName -> SomeName | some expect",
+				"1 : someName 2 -> SomeName 2",
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},

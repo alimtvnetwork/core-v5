@@ -260,6 +260,13 @@ func (it expectedLinesGenerator) enhanceError(err error) error {
 		)
 }
 
+// appendToSlice
+//
+// responsible for appending to slice and
+// most importantly it appends a single line
+// into the coretests.BaseTestCase .ExpectedInput
+//
+// https://prnt.sc/rfpO2zDUaPMd
 func (it expectedLinesGenerator) appendToSlice(
 	slice *corestr.SimpleSlice,
 	inArgs []interface{},
@@ -277,16 +284,25 @@ func (it expectedLinesGenerator) appendToSlice(
 			slice.Count(),
 			inArgsString,
 			resultsToString,
-			"somethingX",
 		)
 	case fmtcodegentype.WithExpect:
+		if isany.Null(expect) {
+			slice.AppendFmt(
+				fmtcodegentype.Default.Fmt(),
+				slice.Count(),
+				inArgsString,
+				resultsToString,
+			)
+
+			return
+		}
+
 		slice.AppendFmt(
 			joinFormat,
 			slice.Count(),
 			inArgsString,
 			resultsToString,
-			Printer.WriteProperty(expect),
-			"somethingX",
+			expect,
 		)
 	}
 }

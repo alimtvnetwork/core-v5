@@ -23,7 +23,7 @@ func (it codeFormatter) Golang(code string) (string, error) {
 	formattedCode, err := format.Source([]byte(code))
 
 	if err != nil {
-		return string(formattedCode), fmt.Errorf("%s\nSource: %s", err, code)
+		return code, fmt.Errorf("%s\nSource: %s", err, code)
 	}
 
 	return string(formattedCode), err
