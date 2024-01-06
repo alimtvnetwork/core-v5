@@ -31,7 +31,6 @@ type BaseGenerator interface {
 	Generate() error
 	GenerateCodeOutput() *FinalCode
 	FmtJoin() string
-	FmtJoinConditional(options FmtOptions) string
 	// HasInnerLoop checks if the GenerateFunc has an inner loop.
 	//
 	// It returns a boolean indicating whether the GenerateType has multiple arranges.

@@ -36,10 +36,6 @@ type GenerateFunc struct {
 	directFuncInvokeName string
 }
 
-func (it GenerateFunc) FmtJoinConditional(options FmtOptions) string {
-	panic("implement me")
-}
-
 func (it GenerateFunc) GetOverrides() OverridingNames {
 	return it.OverridingNames
 }
@@ -298,9 +294,10 @@ func (it GenerateFunc) FirstTestCase() *coretestcases.CaseV1 {
 
 func (it GenerateFunc) AllPackages() *corestr.Hashset {
 	arrangePkgPaths := it.ArrangeImports()
+	funcPkgPath := it.FuncWrap().PkgPath()
 
 	newPackages := Utils.AllPackages(
-		it.FuncWrap().PkgPath(),
+		funcPkgPath,
 		arrangePkgPaths.List()...,
 	)
 

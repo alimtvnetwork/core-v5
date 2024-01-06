@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go/ast"
 
+	"gitlab.com/auk-go/core/cmd/main/samplefunc"
 	"gitlab.com/auk-go/core/codegen"
 	"gitlab.com/auk-go/core/codegen/aukast"
 	"gitlab.com/auk-go/core/codegen/codegentype"
@@ -17,17 +18,11 @@ import (
 
 type unitTestGenerator struct{}
 
-type AlimStruct struct {
-	First     string
-	LeftRight args.LeftRight
-	Draft     coretests.DraftType
-}
-
 func (it unitTestGenerator) Generate() {
-	curFunc := it.SampleFunc
+	curFunc := samplefunc.MyFunc
 
 	/**
-	func (it unitTestGenerator) SampleFunc(
+	func (it unitTestGenerator) samplefunc(
 		x int,
 		arg1, arg2 string,
 		alim *AlimStruct,
@@ -36,6 +31,7 @@ func (it unitTestGenerator) Generate() {
 	*/
 	generateFunc := codegen.GenerateFunc{
 		Func:         curFunc,
+		Struct:       nil,
 		GenerateType: codegentype.MultipleArranges,
 		FmtType:      fmtcodegentype.WithExpect,
 		TestCases: []coretestcases.CaseV1{
@@ -49,7 +45,7 @@ func (it unitTestGenerator) Generate() {
 						First:  1,
 						Second: "alim 1",
 						Third:  "alim 2",
-						Fourth: &AlimStruct{
+						Fourth: &samplefunc.AlimStruct{
 							First: "alim 1",
 							LeftRight: args.LeftRight{
 								Left:   "l",
@@ -60,7 +56,7 @@ func (it unitTestGenerator) Generate() {
 								SampleString1: "alim 1",
 							},
 						},
-						Fifth: []AlimStruct{
+						Fifth: []samplefunc.AlimStruct{
 							{
 								First: "alim 2",
 								LeftRight: args.LeftRight{
@@ -85,6 +81,10 @@ func (it unitTestGenerator) Generate() {
 		Behaviours: []string{
 			"Verification",
 		},
+		OverridingNames: codegen.OverridingNames{
+			TestPkgName: "",
+			FuncCall:    "",
+		},
 		UnitTestRootPath: codestack.Dir.CurDirJoin("unit-test"),
 		Options: codegen.Options{
 			IsGenerateInSameFile:  true,
@@ -99,21 +99,6 @@ func (it unitTestGenerator) Generate() {
 	errcore.HandleErr(err)
 
 	fmt.Println(generateFunc.SuccessMessage())
-}
-
-func (it unitTestGenerator) SampleFunc(
-	x int,
-	arg1, arg2 string,
-	alim *AlimStruct,
-	alim2 []AlimStruct,
-) (r1 string, r2 int, r3 **AlimStruct) {
-	toAlim := &AlimStruct{
-		First:     "someName - " + alim.First + alim2[0].First,
-		LeftRight: alim.LeftRight,
-		Draft:     alim2[0].Draft,
-	}
-
-	return arg1 + " " + arg2 + "-> Processed", x + 1, &toAlim
 }
 
 func (it unitTestGenerator) curFile() string {

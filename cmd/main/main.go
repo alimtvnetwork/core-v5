@@ -1,5 +1,9 @@
 package main
 
+var (
+	Generator = unitTestGenerator{}
+)
+
 func main() {
 	// x := corestr.SimpleSlice{Items: []string{"a", "b"}}
 	// result := x.Json()
@@ -64,8 +68,7 @@ func main() {
 	// lazyRegExTester01()
 	// fmt.Println(bytetype.New(1).StringValue())
 
-	gen := unitTestGenerator{}
 	// gen.AstChecker()
 
-	gen.Generate()
+	Generator.Generate()
 }
