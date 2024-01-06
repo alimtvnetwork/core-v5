@@ -120,10 +120,12 @@ func (it arrangeInputGenerator) Generate(
 			return it.recursiveGenerateSlice(slice, arrangeInput)
 		}
 
-		slice.AppendFmt(
-			"%s,",
-			it.writeTestCaseForProperty(casted),
-		)
+		if rt.Kind() == reflect.Interface {
+			slice.AppendFmt(
+				"%s,",
+				it.writeTestCaseForProperty(casted),
+			)
+		}
 	}
 
 	rt := reflect.TypeOf(arrangeInput)
