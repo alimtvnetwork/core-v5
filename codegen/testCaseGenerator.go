@@ -172,7 +172,7 @@ func (it testCaseGenerator) SingleArrange(
 		vars.ArrangeType:   caseV1.ArrangeTypeName(),
 		vars.VerifyTypeOf:  it.VerifyTypeOf(),
 		vars.ArrangeSetup:  testCaseArrangeInput,
-		vars.ExpectedLines: expectedLines.WrapDoubleQuote().Join(linerJoiner),
+		vars.ExpectedLines: expectedLines.WrapTildaQuote().Join(linerJoiner),
 	}
 
 	caseOutput := it.ReplaceTemplate(

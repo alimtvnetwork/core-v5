@@ -6,11 +6,11 @@ import (
 
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/iserror"
@@ -273,8 +273,8 @@ func (it expectedLinesGenerator) appendToSlice(
 	outArgs []interface{},
 	expect interface{},
 ) {
-	inArgsString := convertinteranl.AnyTo.String(inArgs)
-	resultsToString := convertinteranl.AnyTo.String(outArgs)
+	inArgsString := converters.AnyTo.SmartStringsOf(inArgs...)
+	resultsToString := converters.AnyTo.SmartStringsOf(outArgs...)
 	joinFormat := it.baseGenerator.FmtJoin()
 
 	switch it.baseGenerator.JoinFormatType() {

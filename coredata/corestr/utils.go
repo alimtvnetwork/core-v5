@@ -35,3 +35,7 @@ func (it utils) WrapDouble(s string) string {
 func (it utils) WrapSingle(s string) string {
 	return fmt.Sprintf("'%s'", s)
 }
+
+func (it utils) WrapTilda(s string) string {
+	return fmt.Sprintf("`%s`", s)
+}

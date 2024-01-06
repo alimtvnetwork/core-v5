@@ -457,6 +457,10 @@ func (it *SimpleSlice) WrapSingleQuote() *SimpleSlice {
 	return it.Transpile(StringUtils.WrapSingle)
 }
 
+func (it *SimpleSlice) WrapTildaQuote() *SimpleSlice {
+	return it.Transpile(StringUtils.WrapTilda)
+}
+
 func (it *SimpleSlice) WrapDoubleQuoteIfMissing() *SimpleSlice {
 	return it.Transpile(StringUtils.WrapDoubleIfMissing)
 }
