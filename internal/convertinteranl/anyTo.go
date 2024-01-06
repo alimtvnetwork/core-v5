@@ -59,22 +59,39 @@ func (it anyTo) SmartString(anyItem interface{}) string {
 		return ""
 	}
 
-	toStr, isSuccess := anyItem.(string)
+	switch v := anyItem.(type) {
+	case string:
+		return v
+	case Namer:
+		return v.Name()
+	case fmt.Stringer:
+		return v.String()
+	case error:
+		if v == nil {
+			return ""
+		}
 
-	if isSuccess {
-		return toStr
-	}
+		return v.Error()
+	case []string:
+		return strings.Join(
+			v,
+			constants.NewLineUnix,
+		)
+	case []interface{}:
+		if len(v) == 0 {
+			return ""
+		}
 
-	toNamer, isNamer := anyItem.(Namer)
+		var slice []string
 
-	if isNamer {
-		return toNamer.Name()
-	}
+		for _, elem := range v {
+			slice = append(slice, it.SmartString(elem))
+		}
 
-	toStringer, isStringer := anyItem.(fmt.Stringer)
-
-	if isStringer {
-		return toStringer.String()
+		return strings.Join(
+			slice,
+			",",
+		)
 	}
 
 	return fmt.Sprintf(
@@ -96,8 +113,11 @@ func (it anyTo) SmartJson(anyItem interface{}) string {
 		)
 	case string:
 		return v
-	case int, int32, byte, int64, float64, float32, bool:
-		return it.SmartString(v)
+	case int, int32, byte, int64, float64, float32, bool, uint, uint32, uint64:
+		return fmt.Sprintf(
+			constants.SprintValueFormat,
+			anyItem,
+		)
 	case error:
 		if v == nil {
 			return ""

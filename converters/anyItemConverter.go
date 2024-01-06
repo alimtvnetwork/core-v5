@@ -401,3 +401,31 @@ func (it anyItemConverter) SmartString(anyItem interface{}) string {
 
 	return convertinteranl.AnyTo.SmartString(anyItem)
 }
+
+func (it anyItemConverter) SmartStringsJoiner(
+	joiner string,
+	any ...interface{},
+) string {
+	if len(any) == 0 {
+		return ""
+	}
+
+	slice := make([]string, len(any))
+	converterFunc := convertinteranl.AnyTo.SmartJson
+
+	for i, elem := range any {
+		slice[i] = converterFunc(elem)
+	}
+
+	return strings.Join(slice, joiner)
+}
+
+func (it anyItemConverter) SmartStringsOf(
+	any ...interface{},
+) string {
+	if len(any) == 0 {
+		return ""
+	}
+
+	return it.SmartStringsJoiner(", ", any...)
+}
