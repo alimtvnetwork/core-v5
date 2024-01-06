@@ -354,7 +354,7 @@ func (it *FuncWrap) GetOutArgsTypesNames() []string {
 	slice := make([]string, 0, argsCount)
 
 	for i := 0; i < argsCount; i++ {
-		slice = append(slice, mainType.Out(i).Name())
+		slice = append(slice, mainType.Out(i).String())
 	}
 
 	it.outArgsTypesNames = slice
