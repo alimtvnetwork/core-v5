@@ -4,6 +4,10 @@ import (
 	"reflect"
 )
 
+// TypeName
+//
+// isFullName:
+//   - for array pointer it will still output []Type, *typeName
 func TypeName(any interface{}) string {
 	rfType := reflect.TypeOf(any)
 

@@ -2,6 +2,15 @@ package reflectinternal
 
 import "reflect"
 
+// TypeNames
+//
+// isFullName:
+//   - Generates : reflect.TypeOf(item).String()
+//   - for array pointer it will still output []Type, *typeName
+//
+// Or else,
+//   - reflect.TypeOf(item).Name()
+//   - for array, pointer it will become empty string.
 func TypeNames(
 	isFullName bool,
 	anyItems ...interface{},
