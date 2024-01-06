@@ -81,3 +81,17 @@ func (it utils) ChainEachLine(
 
 	return slice.Join(".\n\t\t\t")
 }
+
+func (it utils) ParametersJoin(
+	slice *corestr.SimpleSlice,
+) string {
+	if slice.IsEmpty() {
+		return ""
+	}
+
+	if slice.Length() <= 2 {
+		return slice.Join(ArgsJoiner)
+	}
+
+	return slice.Join(ArgsJoinerEachLine)
+}

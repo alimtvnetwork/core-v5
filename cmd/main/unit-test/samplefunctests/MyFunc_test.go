@@ -65,22 +65,34 @@ func Test_MyFunc_Verification(t *testing.T) {
 
 		// Act
 		for i, input := range inputs {
-			inArgInt0 := input.First.(int)
-			inArgString1 := input.Second.(string)
-			inArgString2 := input.Third.(string)
-			inArgPtrAlimStruct3 := input.Fourth.(*samplefunc.AlimStruct)
-			inArgSliceAlimStruct4 := input.Fifth.([]samplefunc.AlimStruct)
+			inArgInt1 := input.First.(int)
+			inArgString2 := input.Second.(string)
+			inArgString3 := input.Third.(string)
+			inArgPtrAlimStruct4 := input.Fourth.(*samplefunc.AlimStruct)
+			inArgSliceAlimStruct5 := input.Fifth.([]samplefunc.AlimStruct)
 
 			allInArgsCompiled := converters.AnyTo.SmartStringsOf(
-				inArgInt0, inArgString1, inArgString2, inArgPtrAlimStruct3, inArgSliceAlimStruct4,
+				inArgInt1,
+				inArgString2,
+				inArgString3,
+				inArgPtrAlimStruct4,
+				inArgSliceAlimStruct5,
 			)
 
-			result1, result2, result3 := actFuncMyFunc(
-				inArgInt0, inArgString1, inArgString2, inArgPtrAlimStruct3, inArgSliceAlimStruct4,
+			result1,
+				result2,
+				result3 := actFuncMyFunc(
+				inArgInt1,
+				inArgString2,
+				inArgString3,
+				inArgPtrAlimStruct4,
+				inArgSliceAlimStruct5,
 			)
 
 			allOutArgsCompiled := converters.AnyTo.SmartStringsOf(
-				result1, result2, result3,
+				result1,
+				result2,
+				result3,
 			)
 
 			actualSlice.AppendFmt(

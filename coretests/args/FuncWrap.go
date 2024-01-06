@@ -259,7 +259,7 @@ func (it *FuncWrap) InArgNames() []string {
 				"%s%s%d",
 				inArgNamePrefix,
 				cTypeNamePascal,
-				i,
+				i+1,
 			)
 		}
 	}
