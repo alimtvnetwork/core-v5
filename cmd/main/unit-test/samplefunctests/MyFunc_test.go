@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/cmd/main/samplefunc"
+	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/args"
@@ -98,7 +99,15 @@ func Test_MyFunc_Verification(t *testing.T) {
 				inArgString1,
 				inArgString2,
 				inArgPtrAlimStruct3,
-				inArgSliceAlimStruct4
+				inArgSliceAlimStruct4,
+			)
+
+			allInArgsCompiled := converters.AnyTo.SmartStringsOf(
+				inArgInt0,
+				inArgString1,
+				inArgString2,
+				inArgPtrAlimStruct3,
+				inArgSliceAlimStruct4,
 			)
 
 			actualSlice.AppendFmt(
