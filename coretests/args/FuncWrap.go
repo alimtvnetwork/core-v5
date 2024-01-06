@@ -269,6 +269,44 @@ func (it *FuncWrap) InArgNames() []string {
 	return it.inArgsNames
 }
 
+func (it *FuncWrap) InArgNamesEachLine() corestr.SimpleSlice {
+	inArgs := it.InArgNames()
+
+	if len(inArgs) <= 1 {
+		return inArgs
+	}
+
+	toSlice := corestr.
+		New.
+		SimpleSlice.Cap(len(inArgs) + 2)
+
+	toSlice.Add("\n")
+	for _, arg := range inArgs {
+		toSlice.Add(arg + "\n")
+	}
+
+	return toSlice.Strings()
+}
+
+func (it *FuncWrap) OutArgNamesEachLine() corestr.SimpleSlice {
+	outArgs := it.OutArgNames()
+
+	if len(outArgs) <= 1 {
+		return outArgs
+	}
+
+	toSlice := corestr.
+		New.
+		SimpleSlice.Cap(len(outArgs) + 2)
+
+	toSlice.Add("\n")
+	for _, arg := range outArgs {
+		toSlice.Add(arg + "\n")
+	}
+
+	return toSlice.Strings()
+}
+
 func (it *FuncWrap) OutArgNames() []string {
 	if it.OutArgsCount() <= 0 {
 		return []string{}

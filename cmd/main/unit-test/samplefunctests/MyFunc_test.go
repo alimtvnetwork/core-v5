@@ -76,11 +76,7 @@ func Test_MyFunc_Verification(t *testing.T) {
 			)
 
 			result1, result2, result3 := actFuncMyFunc(
-				inArgInt0,
-				inArgString1,
-				inArgString2,
-				inArgPtrAlimStruct3,
-				inArgSliceAlimStruct4,
+				inArgInt0, inArgString1, inArgString2, inArgPtrAlimStruct3, inArgSliceAlimStruct4,
 			)
 
 			allOutArgsCompiled := converters.AnyTo.SmartStringsOf(
