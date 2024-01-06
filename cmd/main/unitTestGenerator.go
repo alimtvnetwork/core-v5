@@ -9,16 +9,22 @@ import (
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/codestack"
+	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type unitTestGenerator struct{}
 
+type AlimStruct struct {
+	First     string
+	LeftRight args.LeftRight
+	Draft     coretests.DraftType
+}
+
 func (it unitTestGenerator) Generate() {
-	curFunc := reflectinternal.GetFunc.PascalFuncName
+	curFunc := it.SampleFunc
 
 	generateFunc := codegen.GenerateFunc{
 		Func:         curFunc,
@@ -60,6 +66,21 @@ func (it unitTestGenerator) Generate() {
 	errcore.HandleErr(err)
 
 	fmt.Println(generateFunc.SuccessMessage())
+}
+
+func (it unitTestGenerator) SampleFunc(
+	x int,
+	arg1, arg2 string,
+	alim *AlimStruct,
+	alim2 AlimStruct,
+) (r1 string, r2 int, r3 **AlimStruct) {
+	toAlim := &AlimStruct{
+		First:     "someName - " + alim.First + alim2.First,
+		LeftRight: alim.LeftRight,
+		Draft:     alim2.Draft,
+	}
+
+	return arg1 + " " + arg2 + "-> Processed", x + 1, &toAlim
 }
 
 func (it unitTestGenerator) curFile() string {
