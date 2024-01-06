@@ -244,14 +244,16 @@ func (it *FuncWrap) InArgNames() []string {
 		New.
 		SimpleSlice.ByLen(allTypesNames)
 
+	convertFunc := reflectinternal.TypeNameToValidVariableName
+
 	// generate
 	switch count {
 	case 1:
 		firstType := pascalCaseFunc(allTypesNames[0])
-		toSlice.Add(inArgNamePrefix + firstType)
+		toSlice.Add(inArgNamePrefix + convertFunc(firstType))
 	default:
 		for i, cTypeName := range allTypesNames {
-			cTypeNamePascal := pascalCaseFunc(cTypeName)
+			cTypeNamePascal := pascalCaseFunc(convertFunc(cTypeName))
 
 			toSlice.AppendFmt(
 				"%s%s%d",

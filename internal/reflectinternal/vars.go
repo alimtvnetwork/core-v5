@@ -20,4 +20,8 @@ var (
 	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition
 	prependWithSpacesFunc = convertinteranl.Util.String.PrependWithSpacesDefault
 	repoDir               *string // will be updated, dangerous but this is the way for this now
+	typeReplacerMap       = map[string]string{
+		"*":  "Ptr",
+		"[]": "Slice",
+	}
 )

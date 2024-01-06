@@ -44,7 +44,7 @@ var (
 			},
 			ExpectedInput: []string{
 				"0 : 1
-				alim, 1
+				alim 1
 				alim 2
 			{
 				"First":"alim 1", "LeftRight":{
@@ -73,7 +73,6 @@ var (
 		},
 	}
 )
-
 func Test_MyFunc_Verification(t *testing.T) {
 	for caseIndex, testCase := range myFuncTestCases {
 		// Arrange
@@ -91,17 +90,16 @@ func Test_MyFunc_Verification(t *testing.T) {
 			inArgInt0 := input.First.(int)
 			inArgString1 := input.Second.(string)
 			inArgString2 := input.Third.(string)
-			inArg * samplefunc.AlimStruct3 := input.Fourth.(*samplefunc.AlimStruct)
-			inArg[]
-			samplefunc.AlimStruct4 := input.Fifth.([]samplefunc.AlimStruct)
+			inArgPtrAlimStruct3 := input.Fourth.(*samplefunc.AlimStruct)
+			inArgSliceAlimStruct4 := input.Fifth.([]samplefunc.AlimStruct)
 
 			result1, result2, result3 := actFuncMyFunc(
 				inArgInt0,
 				inArgString1,
 				inArgString2,
-				inArg*samplefunc.AlimStruct3,
-				inArg[]
-			samplefunc.AlimStruct4)
+				inArgPtrAlimStruct3,
+				inArgSliceAlimStruct4
+			)
 
 			actualSlice.AppendFmt(
 				"%d : %s -> %s | %s",
@@ -109,14 +107,13 @@ func Test_MyFunc_Verification(t *testing.T) {
 				inArgInt0,
 				inArgString1,
 				inArgString2,
-				inArg*samplefunc.AlimStruct3,
-				inArg[]
-			samplefunc.AlimStruct4,
+				inArgPtrAlimStruct3,
+				inArgSliceAlimStruct4,
 				result1,
 				result2,
 				result3,
 				input.Expect,
-		)
+			)
 		}
 
 		finalActLines := actualSlice.Strings()
