@@ -86,14 +86,8 @@ func Test_MyFunc_Verification(t *testing.T) {
 			actualSlice.AppendFmt(
 				"%d : %s -> %s | %s",
 				i,
-				inArgInt0,
-				inArgString1,
-				inArgString2,
-				inArgPtrAlimStruct3,
-				inArgSliceAlimStruct4,
-				result1,
-				result2,
-				result3,
+				allInArgsCompiled,
+				allOutArgsCompiled,
 				input.Expect,
 			)
 		}

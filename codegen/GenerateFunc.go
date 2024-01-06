@@ -396,7 +396,7 @@ func (it GenerateFunc) HasInnerLoop() bool {
 //   - inArgs: A *corestr.SimpleSlice containing the input arguments.
 //
 // Returns:
-//   - https://prnt.sc/rFtWpwFxFnVm
+//   - https://prnt.sc/rFtWpwFxFnVm, https://prnt.sc/9a3wEshInxJv
 //   - Generates each comma single line join for the AppendFmt(format, allItems....)
 //   - The function will generate allItems as it comes from args
 //   - error: An error, if any.
@@ -410,29 +410,29 @@ func (it GenerateFunc) generateFmtOutputs(
 
 	switch it.FmtType {
 	case fmtcodegentype.Default: // "%d : %s -> %s",
-		outArgsString := outArs.Join(joiner)
-		inArgsString := inArgs.Join(joiner)
+		// outArgsString := outArs.Join(joiner)
+		// inArgsString := inArgs.Join(joiner)
 
-		slice.Add(inArgsString)
-		slice.Add(outArgsString)
+		slice.Add(vars.allInArgsCompiled)
+		slice.Add(vars.allOutArgsCompiled)
 
 		return slice, nil
 	case fmtcodegentype.WithExpect: // %d : %s -> %s | %s,
-		outArgsString := outArs.Join(joiner)
-		inArgsString := inArgs.Join(joiner)
+		// outArgsString := outArs.Join(joiner)
+		// inArgsString := inArgs.Join(joiner)
 
-		slice.Add(inArgsString)
-		slice.Add(outArgsString)
+		slice.Add(vars.allInArgsCompiled)
+		slice.Add(vars.allOutArgsCompiled)
 		slice.Add(expected)
 
 		return slice, nil
 	case fmtcodegentype.WithFuncExpect: // "%d : %s(%s) -> %s | %s",
-		outArgsString := outArs.Join(joiner)
-		inArgsString := inArgs.Join(joiner)
+		// outArgsString := outArs.Join(joiner)
+		// inArgsString := inArgs.Join(joiner)
 
 		slice.Add(funcName)
-		slice.Add(inArgsString)
-		slice.Add(outArgsString)
+		slice.Add(vars.allInArgsCompiled)
+		slice.Add(vars.allOutArgsCompiled)
 		slice.Add(expected)
 
 		return slice, nil
