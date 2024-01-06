@@ -17,9 +17,9 @@ var (
 			Title: "Some",
 			ArrangeInput: []args.Five{
 				{
-					First: 1,
+					First:  1,
 					Second: "alim 1",
-					Third: "alim 2",
+					Third:  "alim 2",
 					Fourth: &samplefunc.AlimStruct{
 						First: "alim 1", LeftRight: args.LeftRight{
 							Left: "l", Right: "r", Expect: "e", toSlice: (*[]interface{})(nil),
@@ -32,13 +32,13 @@ var (
 					Fifth: []samplefunc.AlimStruct{
 						{
 							First: "alim 2", LeftRight: args.LeftRight{
-							Left: "a2-l", Right: "a2-r", Expect: "a2-e", toSlice: (*[]interface{})(nil),
-							toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
-						}, Draft: coretests.DraftType{
-							SampleString1: "alim 2", SampleString2: "", SampleInteger: 0, Lines: []string(nil),
-							RawBytes: []uint8(nil), f1String: "", f2Integer: 0,
-													},
-												},
+								Left: "a2-l", Right: "a2-r", Expect: "a2-e", toSlice: (*[]interface{})(nil),
+								toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
+							}, Draft: coretests.DraftType{
+								SampleString1: "alim 2", SampleString2: "", SampleInteger: 0, Lines: []string(nil),
+								RawBytes: []uint8(nil), f1String: "", f2Integer: 0,
+							},
+						},
 					},
 					Expect: "some expect",
 				},
@@ -50,6 +50,7 @@ var (
 		},
 	}
 )
+
 func Test_MyFunc_Verification(t *testing.T) {
 	for caseIndex, testCase := range myFuncTestCases {
 		// Arrange
@@ -71,7 +72,8 @@ func Test_MyFunc_Verification(t *testing.T) {
 			inArgSliceAlimStruct4 := input.Fifth.([]samplefunc.AlimStruct)
 
 			allInArgsCompiled := converters.AnyTo.SmartStringsOf(
-			$allInArgsSpread,)
+				inArgInt0, inArgString1, inArgString2, inArgPtrAlimStruct3, inArgSliceAlimStruct4,
+			)
 
 			result1, result2, result3 := actFuncMyFunc(
 				inArgInt0,
@@ -82,7 +84,8 @@ func Test_MyFunc_Verification(t *testing.T) {
 			)
 
 			allOutArgsCompiled := converters.AnyTo.SmartStringsOf(
-			$allOutArgsSpread,)
+				result1, result2, result3,
+			)
 
 			actualSlice.AppendFmt(
 				"%d : %s -> %s | %s",

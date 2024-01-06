@@ -60,12 +60,13 @@ func Test_$FuncName_$Behaviour(t *testing.T) {
 			$variablesSetup
 
 			allInArgsCompiled := converters.AnyTo.SmartStringsOf(
-				$allInArgsSpread,)
+				$inArgs,)
 
-			$outArgs := actFunc$FuncName($inArgs,)
+			$outArgs := actFunc$FuncName(
+				$inArgs,)
 
 			allOutArgsCompiled := converters.AnyTo.SmartStringsOf(
-				$allOutArgsSpread,)
+				$outArgs,)
 	
 			actualSlice.AppendFmt(
 				"$fmtJoin",
