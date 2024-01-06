@@ -326,7 +326,7 @@ func (it *FuncWrap) GetInArgsTypesNames() []string {
 	slice := make([]string, 0, argsCount)
 
 	for i := 0; i < argsCount; i++ {
-		slice = append(slice, mainType.In(i).Name())
+		slice = append(slice, mainType.In(i).String())
 	}
 
 	it.inArgsTypesNames = slice

@@ -33,14 +33,18 @@ func (it unitTestGenerator) Generate() {
 		TestCases: []coretestcases.CaseV1{
 			{
 				Title: "Some",
-				ArrangeInput: []args.One{
+				ArrangeInput: []args.Five{
 					{
-						First:  "someName",
+						First: "in 1 - first - ",
+						Second: args.LeftRight{
+							Left:   "l",
+							Right:  "r",
+							Expect: "e",
+						},
+						Third:  nil,
+						Fourth: nil,
+						Fifth:  nil,
 						Expect: "some expect",
-					},
-					{
-						First:  "someName 2",
-						Expect: nil,
 					},
 				},
 				CustomFormat:    "",
