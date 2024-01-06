@@ -26,6 +26,14 @@ type AlimStruct struct {
 func (it unitTestGenerator) Generate() {
 	curFunc := it.SampleFunc
 
+	/**
+	func (it unitTestGenerator) SampleFunc(
+		x int,
+		arg1, arg2 string,
+		alim *AlimStruct,
+		alim2 []AlimStruct,
+	) (r1 string, r2 int, r3 **AlimStruct) {
+	*/
 	generateFunc := codegen.GenerateFunc{
 		Func:         curFunc,
 		GenerateType: codegentype.MultipleArranges,
@@ -33,22 +41,40 @@ func (it unitTestGenerator) Generate() {
 		TestCases: []coretestcases.CaseV1{
 			{
 				Title: "Some",
-				ArrangeInput: []args.One{
-					{
-						First: "x",
-					},
+				ArrangeInput: []args.Five{
 					// {
-					// 	First: "in 1 - first - ",
-					// 	Second: args.LeftRight{
-					// 		Left:   "l",
-					// 		Right:  "r",
-					// 		Expect: "e",
-					// 	},
-					// 	Third:  nil,
-					// 	Fourth: nil,
-					// 	Fifth:  nil,
-					// 	Expect: "some expect",
+					// 	First: "x",
 					// },
+					{
+						First:  1,
+						Second: "alim 1",
+						Third:  "alim 2",
+						Fourth: &AlimStruct{
+							First: "alim 1",
+							LeftRight: args.LeftRight{
+								Left:   "l",
+								Right:  "r",
+								Expect: "e",
+							},
+							Draft: coretests.DraftType{
+								SampleString1: "alim 1",
+							},
+						},
+						Fifth: []AlimStruct{
+							{
+								First: "alim 2",
+								LeftRight: args.LeftRight{
+									Left:   "a2-l",
+									Right:  "a2-r",
+									Expect: "a2-e",
+								},
+								Draft: coretests.DraftType{
+									SampleString1: "alim 2",
+								},
+							},
+						},
+						Expect: "some expect",
+					},
 				},
 				CustomFormat:    "",
 				HasError:        false,
@@ -79,12 +105,12 @@ func (it unitTestGenerator) SampleFunc(
 	x int,
 	arg1, arg2 string,
 	alim *AlimStruct,
-	alim2 AlimStruct,
+	alim2 []AlimStruct,
 ) (r1 string, r2 int, r3 **AlimStruct) {
 	toAlim := &AlimStruct{
-		First:     "someName - " + alim.First + alim2.First,
+		First:     "someName - " + alim.First + alim2[0].First,
 		LeftRight: alim.LeftRight,
-		Draft:     alim2.Draft,
+		Draft:     alim2[0].Draft,
 	}
 
 	return arg1 + " " + arg2 + "-> Processed", x + 1, &toAlim
