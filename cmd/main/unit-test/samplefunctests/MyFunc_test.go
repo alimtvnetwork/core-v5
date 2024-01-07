@@ -27,7 +27,7 @@ var (
 							Right:  "r",
 							Expect: "e",
 						},
-						Draft: coretests.DraftType{
+						Draft: &coretests.DraftType{
 							SampleString1: "alim 1",
 							SampleString2: "",
 							SampleInteger: 0,
@@ -35,7 +35,7 @@ var (
 							RawBytes:      nil,
 						},
 					},
-					Fifth: []samplefunc.AlimStruct{
+					Fifth: &[]*samplefunc.AlimStruct{
 						{
 							First: "alim 2",
 							LeftRight: args.LeftRight{
@@ -43,7 +43,7 @@ var (
 								Right:  "a2-r",
 								Expect: "a2-e",
 							},
-							Draft: coretests.DraftType{
+							Draft: &coretests.DraftType{
 								SampleString1: "alim 2",
 								SampleString2: "",
 								SampleInteger: 0,
@@ -56,7 +56,7 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				`0 : 1, alim 1, alim 2, {"First":"alim 1","LeftRight":{"Left":"l","Right":"r","Expect":"e"},"Draft":{"SampleString1":"alim 1","SampleString2":"","SampleInteger":0,"Lines":null,"RawBytes":null}}, [{"First":"alim 2","LeftRight":{"Left":"a2-l","Right":"a2-r","Expect":"a2-e"},"Draft":{"SampleString1":"alim 2","SampleString2":"","SampleInteger":0,"Lines":null,"RawBytes":null}}] -> alim 1 alim 2-> Processed, 2, {"First":"someName - alim 1alim 2","LeftRight":{"Left":"l","Right":"r","Expect":"e"},"Draft":{"SampleString1":"alim 2","SampleString2":"","SampleInteger":0,"Lines":null,"RawBytes":null}} | some expect`,
+				`0 : 1, alim 1, alim 2, {"First":"alim 1","LeftRight":{"Left":"l","Right":"r","Expect":"e"},"Draft":{"SampleString1":"alim 1","SampleString2":"","SampleInteger":0,"Lines":null,"RawBytes":null}}, [{"First":"alim 2","LeftRight":{"Left":"a2-l","Right":"a2-r","Expect":"a2-e"},"Draft":{"SampleString1":"alim 2","SampleString2":"","SampleInteger":0,"Lines":null,"RawBytes":null}}] -> alim 1 alim 2-> Processed, 2, [{"First":"someName - alim 1alim 2","LeftRight":{"Left":"l","Right":"r","Expect":"e"},"Draft":{"SampleString1":"alim 2","SampleString2":"","SampleInteger":0,"Lines":null,"RawBytes":null}}] | some expect`,
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.Five{}),
 		},
@@ -81,14 +81,14 @@ func Test_MyFunc_Verification(t *testing.T) {
 			inArgString2 := input.Second.(string)
 			inArgString3 := input.Third.(string)
 			inArgPtrAlimStruct4 := input.Fourth.(*samplefunc.AlimStruct)
-			inArgSliceAlimStruct5 := input.Fifth.([]samplefunc.AlimStruct)
+			inArgPtrSlicePtrAlimStruct5 := input.Fifth.(*[]*samplefunc.AlimStruct)
 
 			allInArgsCompiled := converters.AnyTo.SmartStringsOf(
 				inArgInt1,
 				inArgString2,
 				inArgString3,
 				inArgPtrAlimStruct4,
-				inArgSliceAlimStruct5,
+				inArgPtrSlicePtrAlimStruct5,
 			)
 
 			result1,
@@ -98,7 +98,7 @@ func Test_MyFunc_Verification(t *testing.T) {
 				inArgString2,
 				inArgString3,
 				inArgPtrAlimStruct4,
-				inArgSliceAlimStruct5,
+				inArgPtrSlicePtrAlimStruct5,
 			)
 
 			allOutArgsCompiled := converters.AnyTo.SmartStringsOf(
