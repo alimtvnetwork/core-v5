@@ -52,11 +52,11 @@ func (it unitTestGenerator) Generate() {
 								Right:  "r",
 								Expect: "e",
 							},
-							Draft: coretests.DraftType{
+							Draft: &coretests.DraftType{
 								SampleString1: "alim 1",
 							},
 						},
-						Fifth: []samplefunc.AlimStruct{
+						Fifth: &[]*samplefunc.AlimStruct{
 							{
 								First: "alim 2",
 								LeftRight: args.LeftRight{
@@ -64,7 +64,7 @@ func (it unitTestGenerator) Generate() {
 									Right:  "a2-r",
 									Expect: "a2-e",
 								},
-								Draft: coretests.DraftType{
+								Draft: &coretests.DraftType{
 									SampleString1: "alim 2",
 								},
 							},

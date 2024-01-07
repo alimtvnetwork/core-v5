@@ -8,20 +8,20 @@ import (
 type AlimStruct struct {
 	First     string
 	LeftRight args.LeftRight
-	Draft     coretests.DraftType
+	Draft     *coretests.DraftType
 }
 
 func MyFunc(
 	x int,
 	arg1, arg2 string,
 	alim *AlimStruct,
-	alim2 []AlimStruct,
-) (r1 string, r2 int, r3 **AlimStruct) {
+	alim2 *[]*AlimStruct,
+) (r1 string, r2 int, r3 *[]**AlimStruct) {
 	toAlim := &AlimStruct{
-		First:     "someName - " + alim.First + alim2[0].First,
+		First:     "someName - " + alim.First + (*alim2)[0].First,
 		LeftRight: alim.LeftRight,
-		Draft:     alim2[0].Draft,
+		Draft:     (*alim2)[0].Draft,
 	}
 
-	return arg1 + " " + arg2 + "-> Processed", x + 1, &toAlim
+	return arg1 + " " + arg2 + "-> Processed", x + 1, &[]**AlimStruct{&toAlim}
 }
