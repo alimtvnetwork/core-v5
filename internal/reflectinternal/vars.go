@@ -24,4 +24,6 @@ var (
 		"*":  "Ptr",
 		"[]": "Slice",
 	}
+
+	PropertyWriter = propertyWriter{}
 )

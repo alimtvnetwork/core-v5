@@ -194,11 +194,11 @@ func (it arrangeInputGenerator) property(
 ) string {
 	p := argBinder.GetByIndex(i)
 
-	return Printer.WriteProperty(p)
+	return PropertyWriter.WriteProperty(p)
 }
 
 func (it arrangeInputGenerator) writeTestCaseForProperty(p interface{}) string {
-	return Printer.WriteProperty(p)
+	return PropertyWriter.WriteProperty(p)
 }
 
 func (it arrangeInputGenerator) ReplaceTemplate(

@@ -1,21 +1,21 @@
-package codegen
+package reflectinternal
 
 import (
 	"fmt"
 	"reflect"
 	"strings"
 
+	"gitlab.com/auk-go/core/codegen"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
-type printer struct{}
+type propertyWriter struct{}
 
-func (it printer) WriteProperty(p interface{}) string {
+func (it propertyWriter) WriteProperty(p interface{}) string {
 	if isany.Null(p) {
 		return "nil"
 	}
@@ -23,7 +23,7 @@ func (it printer) WriteProperty(p interface{}) string {
 	return it.WritePropertyOptions(false, p)
 }
 
-func (it printer) WritePropertyOptions(
+func (it propertyWriter) WritePropertyOptions(
 	isSubRequest bool,
 	p interface{},
 ) string {
@@ -60,7 +60,7 @@ func (it printer) WritePropertyOptions(
 	return convertinteranl.AnyTo.FullPropertyString(p)
 }
 
-func (it printer) WritePointerRv(
+func (it propertyWriter) WritePointerRv(
 	isSubRequest bool,
 	rv reflect.Value,
 ) string {
@@ -74,12 +74,12 @@ func (it printer) WritePointerRv(
 	return fmt.Sprintf("&%s", expandProperties)
 }
 
-func (it printer) WriteArrayOrSlice(
+func (it propertyWriter) WriteArrayOrSlice(
 	isSubRequest bool,
 	p interface{},
 ) string {
 	var slice corestr.SimpleSlice
-	_ = reflectinternal.Looper.Slice(
+	_ = Looper.Slice(
 		p,
 		func(total int, index int, item interface{}) (err error) {
 			expand := it.WriteProperty(item)
@@ -90,12 +90,12 @@ func (it printer) WriteArrayOrSlice(
 		},
 	)
 
-	toJoined := slice.Join(ArgsJoinerEachLineTab)
+	toJoined := slice.Join(codegen.ArgsJoinerEachLineTab)
 
 	return fmt.Sprintf("%T {\n\t%s,\n}", p, toJoined)
 }
 
-func (it printer) WriteStruct(p interface{}) string {
+func (it propertyWriter) WriteStruct(p interface{}) string {
 	if isany.Null(p) {
 		return "nil"
 	}

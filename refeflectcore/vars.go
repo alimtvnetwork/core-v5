@@ -21,7 +21,7 @@ var (
 	ReflectGetterUsingReflectValue = reflectinternal.ReflectGetterUsingReflectValue
 	SliceConverter                 = reflectinternal.SliceConverter
 	MapConverter                   = reflectinternal.MapConverter
-
-	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition
-	prependWithSpacesFunc = convertinteranl.Util.String.PrependWithSpacesDefault
+	PropertyWriter                 = reflectinternal.PropertyWriter
+	indexToPositionFunc            = convertinteranl.Util.String.IndexToPosition
+	prependWithSpacesFunc          = convertinteranl.Util.String.PrependWithSpacesDefault
 )
