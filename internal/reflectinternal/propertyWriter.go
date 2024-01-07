@@ -54,10 +54,34 @@ func (it propertyWriter) WritePropertyOptions(
 		return it.WriteArrayOrSlice(isSubRequest, p)
 	case reflect.Ptr:
 		return it.WritePointerRv(isSubRequest, rv)
+	case reflect.Map:
+		return it.WriteMap(isSubRequest, p)
 	}
 
 	// TODO fix this for https://prnt.sc/SNvDVD9KBDs7
 	return convertinteranl.AnyTo.FullPropertyString(p)
+}
+
+func (it propertyWriter) WriteMap(
+	isSubRequest bool,
+	p interface{},
+) string {
+	var slice corestr.SimpleSlice
+	_ = Looper.Map(
+		p,
+		func(total int, index int, key interface{}, value interface{}) (err error) {
+			expandKey := it.WriteProperty(key)
+			expandValue := it.WriteProperty(value)
+
+			slice.AppendFmt("%s: %s", expandKey, expandValue)
+
+			return nil
+		},
+	)
+
+	toJoined := slice.Join(codegen.ArgsJoinerEachLineTab)
+
+	return fmt.Sprintf("%T {\n\t%s,\n}", p, toJoined)
 }
 
 func (it propertyWriter) WritePointerRv(

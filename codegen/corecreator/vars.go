@@ -1,6 +1,7 @@
 package corecreator
 
 import (
+	"reflect"
 	"sync"
 
 	"gitlab.com/auk-go/core/internal/reflectinternal"
@@ -9,8 +10,8 @@ import (
 var (
 	locker            = sync.Mutex{}
 	creatorsMap       = map[string]Creator{}
-	defaultCreatorMap = map[string]Item{
-		"string": {
+	defaultCreatorMap = map[reflect.Type]Item{
+		reflect.TypeOf(""): {
 			Value: "some line input as a draft string to test out",
 			Possibilities: []string{
 				"",
@@ -36,7 +37,7 @@ var (
 			},
 			StringOutput: "\"some line input as a draft string to test out\"",
 		},
-		"email": {
+		reflect.TypeOf("alim@me.com"): {
 			Value: "alim@me.com",
 			Possibilities: []string{
 				"",
@@ -49,7 +50,7 @@ var (
 			},
 			StringOutput: "\"alim@me.com\"",
 		},
-		"valid-email": {
+		reflect.TypeOf("alim@valid-email.com"): {
 			Value: "alim@me.com",
 			Possibilities: []string{
 				"",
@@ -60,7 +61,7 @@ var (
 			},
 			StringOutput: "\"alim@valid-email.com\"",
 		},
-		"[]string": {
+		reflect.TypeOf([]string{}): {
 			Value: []string{
 				"",
 				"line 1",
@@ -98,7 +99,7 @@ var (
 				"line 5",
 			}`,
 		},
-		"uint": {
+		reflect.TypeOf(uint(0)): {
 			Value: uint(1),
 			Possibilities: []uint{
 				0,
@@ -108,7 +109,7 @@ var (
 				6,
 			},
 		},
-		"uint8": {
+		reflect.TypeOf(uint8(0)): {
 			Value: uint8(255),
 			Possibilities: []uint8{
 				0,
@@ -118,7 +119,7 @@ var (
 				255,
 			},
 		},
-		"uint16": {
+		reflect.TypeOf(uint16(0)): {
 			Value: uint16(255),
 			Possibilities: []uint16{
 				0,
@@ -129,7 +130,7 @@ var (
 				32000,
 			},
 		},
-		"uint32": {
+		reflect.TypeOf(uint32(0)): {
 			Value: uint32(255),
 			Possibilities: []uint32{
 				0,
@@ -138,7 +139,7 @@ var (
 				3,
 			},
 		},
-		"uint64": {
+		reflect.TypeOf(uint64(0)): {
 			Value: uint64(255),
 			Possibilities: []uint64{
 				-2,
@@ -148,7 +149,7 @@ var (
 				2,
 			},
 		},
-		"int": {
+		reflect.TypeOf(int(0)): {
 			Value: 1,
 			Possibilities: []int{
 				-1,
@@ -161,7 +162,7 @@ var (
 				6,
 			},
 		},
-		"int16": {
+		reflect.TypeOf(int16(0)): {
 			Value: int16(1),
 			Possibilities: []int16{
 				-3,
@@ -173,7 +174,7 @@ var (
 				15000,
 			},
 		},
-		"int32": {
+		reflect.TypeOf(int32(0)): {
 			Value: int32(1),
 			Possibilities: []int32{
 				-3,
@@ -185,7 +186,7 @@ var (
 				15000,
 			},
 		},
-		"int64": {
+		reflect.TypeOf(int64(0)): {
 			Value: int64(1),
 			Possibilities: []int64{
 				-3,
@@ -199,11 +200,11 @@ var (
 				7,
 			},
 		},
-		"rune": {
+		reflect.TypeOf(rune(0)): {
 			Value:         []rune("a")[0],
 			Possibilities: []rune("some-runes"),
 		},
-		"float32": {
+		reflect.TypeOf(float32(0)): {
 			Value: float32(1),
 			Possibilities: []float32{
 				-1.0,
@@ -214,7 +215,7 @@ var (
 				2.0,
 			},
 		},
-		"float64": {
+		reflect.TypeOf(float64(0)): {
 			Value: float64(1),
 			Possibilities: []float64{
 				-1.0,
@@ -225,7 +226,7 @@ var (
 				2.0,
 			},
 		},
-		"map[string]string": {
+		reflect.TypeOf(map[string]string{}): {
 			Value: map[string]string{
 				"some-key1": "value-1",
 				"some-key2": "value-2",

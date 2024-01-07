@@ -353,6 +353,22 @@ func (it *looper) SliceForRv(
 	return errors.New(toMsg)
 }
 
+func (it *looper) Map(
+	elemMap interface{},
+	processor func(
+		total int,
+		index int,
+		key,
+		value interface{},
+	) (err error),
+) error {
+	if Is.Null(elemMap) {
+		return nil
+	}
+
+	return it.MapForRv(reflect.ValueOf(elemMap), processor)
+}
+
 func (it *looper) MapForRv(
 	rv reflect.Value,
 	processor func(
