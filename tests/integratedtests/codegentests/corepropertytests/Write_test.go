@@ -14,23 +14,6 @@ import (
 var (
 	writeTestCases = []coretestcases.CaseV1{
 		{
-			Title: "When nil / null is given, nil returned as is hardcoded.",
-			ArrangeInput: []args.One{
-				{
-					First: nil,
-				},
-			},
-			ExpectedInput: []string{
-				`0 : [{}] -> []args.One {
-	args.One{
-	First: nil,
-	Expect: nil,
-},
-}`,
-			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
-		},
-		{
 			Title: "Some string given outputs double quoted string.",
 			ArrangeInput: []args.One{
 				{

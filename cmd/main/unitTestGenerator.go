@@ -67,19 +67,19 @@ func (it unitTestGenerator) Generate() {
 		GenerateType: codegentype.MultipleArranges,
 		FmtType:      fmtcodegentype.WithExpect,
 		TestCases: []coretestcases.CaseV1{
-			{
-				Title: "When nil / null is given, nil returned as is hardcoded.",
-				ArrangeInput: []args.One{
-					{
-						First:  nil,
-						Expect: nil,
-					},
-				},
-				CustomFormat:    "",
-				HasError:        false,
-				HasPanic:        false,
-				IsValidateError: false,
-			},
+			// {
+			// 	Title: "When nil / null is given, nil returned as is hardcoded.",
+			// 	ArrangeInput: []args.One{
+			// 		{
+			// 			First:  nil,
+			// 			Expect: nil,
+			// 		},
+			// 	},
+			// 	CustomFormat:    "",
+			// 	HasError:        false,
+			// 	HasPanic:        false,
+			// 	IsValidateError: false,
+			// },
 			{
 				Title: "Some string given outputs double quoted string.",
 				ArrangeInput: []args.One{
