@@ -38,7 +38,7 @@ func (it propertyWriter) WritePropertyOptions(
 		float64, float32, byte,
 		int8, uint16, uint32,
 		uint64:
-		return fmt.Sprintf("%d", casted)
+		return fmt.Sprintf("%v", casted)
 	case args.String:
 		return fmt.Sprintf("%s", casted)
 	}

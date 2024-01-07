@@ -164,6 +164,10 @@ func (it reflectUtils) IsReflectTypeMatch(expectedType, givenType reflect.Type) 
 		return true, nil
 	}
 
+	if expectedType.String() == "interface {}" {
+		return true, nil
+	}
+
 	errMsg := fmt.Sprintf(
 		"Expected Type (%s) != (%s) Given Type",
 		expectedType.Name(),

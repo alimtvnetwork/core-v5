@@ -182,9 +182,9 @@ func (it unitTestGenerator) Generate() {
 		},
 		OverridingNames: codegen.OverridingNames{
 			TestPkgName: "",
-			FuncCall:    "",
+			FuncCall:    "coreproperty.Writer.Write",
 		},
-		UnitTestRootPath: codestack.Dir.RepoDirJoin("tests/integrationtests"),
+		UnitTestRootPath: codestack.Dir.RepoDirJoin("tests/integratedtests/codegentests"),
 		Options: codegen.Options{
 			IsGenerateInSameFile:  true,
 			IsWriteTestCasesFirst: true,

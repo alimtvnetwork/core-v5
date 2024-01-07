@@ -32,6 +32,11 @@ func TypeNameToValidVariableName(currentTypeName string) (validVarName string) {
 				continue
 			}
 
+			if c == '{' && firstPart[i+1] == '}' {
+				i++
+				continue
+			}
+
 			_, has := typeReplacerMap[string(c)]
 			if has {
 				leftPartSb.WriteString(typeReplacerMap[string(c)])
@@ -58,6 +63,11 @@ func TypeNameToValidVariableName(currentTypeName string) (validVarName string) {
 			i++
 			sb.WriteString(typeReplacerMap["[]"])
 
+			continue
+		}
+
+		if currentChar == '{' && currentTypeName[i+1] == '}' {
+			i++
 			continue
 		}
 
