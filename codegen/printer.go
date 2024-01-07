@@ -90,9 +90,9 @@ func (it printer) WriteArrayOrSlice(
 		},
 	)
 
-	toJoined := slice.Join(ArgsJoinerEachLine)
+	toJoined := slice.Join(ArgsJoinerEachLineTab)
 
-	return fmt.Sprintf("%T {\n\t%s}\n", p, toJoined)
+	return fmt.Sprintf("%T {\n\t%s,\n}", p, toJoined)
 }
 
 func (it printer) WriteStruct(p interface{}) string {
