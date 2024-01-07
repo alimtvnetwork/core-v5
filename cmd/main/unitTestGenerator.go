@@ -7,19 +7,19 @@ import (
 	"gitlab.com/auk-go/core/codegen"
 	"gitlab.com/auk-go/core/codegen/aukast"
 	"gitlab.com/auk-go/core/codegen/codegentype"
+	"gitlab.com/auk-go/core/codegen/coreproperty"
 	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type unitTestGenerator struct{}
 
 func (it unitTestGenerator) Generate() {
-	curFunc := reflectinternal.PropertyWriter.WriteProperty
+	curFunc := coreproperty.Writer.Write
 
 	/**
 	func (it unitTestGenerator) samplefunc(

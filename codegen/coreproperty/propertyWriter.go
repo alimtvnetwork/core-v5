@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"strings"
 
-	"gitlab.com/auk-go/core/codegen"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
@@ -80,7 +79,7 @@ func (it propertyWriter) WriteMap(
 		},
 	)
 
-	toJoined := slice.Join(codegen.ArgsJoinerEachLineTab)
+	toJoined := slice.Join(ArgsJoinerEachLineTab)
 
 	return fmt.Sprintf("%T {\n\t%s,\n}", p, toJoined)
 }
@@ -115,7 +114,7 @@ func (it propertyWriter) WriteArrayOrSlice(
 		},
 	)
 
-	toJoined := slice.Join(codegen.ArgsJoinerEachLineTab)
+	toJoined := slice.Join(ArgsJoinerEachLineTab)
 
 	return fmt.Sprintf("%T {\n\t%s,\n}", p, toJoined)
 }
