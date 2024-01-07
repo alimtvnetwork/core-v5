@@ -20,6 +20,17 @@ func (it printer) WriteProperty(p interface{}) string {
 		return "nil"
 	}
 
+	return it.WritePropertyOptions(false, p)
+}
+
+func (it printer) WritePropertyOptions(
+	isSubRequest bool,
+	p interface{},
+) string {
+	if isany.Null(p) {
+		return "nil"
+	}
+
 	switch casted := p.(type) {
 	case string:
 		return simplewrap.WithDoubleQuote(casted)
@@ -34,38 +45,54 @@ func (it printer) WriteProperty(p interface{}) string {
 
 	rv := reflect.ValueOf(p)
 	t := rv.Type()
-	switch t.Kind() {
+	kind := t.Kind()
+
+	switch kind {
 	case reflect.Struct:
 		return it.WriteStruct(p)
 	case reflect.Slice, reflect.Array:
-		var slice corestr.SimpleSlice
-		_ = reflectinternal.Looper.SliceForRv(
-			rv,
-			func(total int, index int, item interface{}) (err error) {
-				expand := it.WriteProperty(item)
-
-				slice.Add(expand)
-
-				return nil
-			},
-		)
-
-		toJoined := slice.Join(ArgsJoinerEachLine)
-
-		return fmt.Sprintf("%T {\n\t%s\n}\n", p, toJoined)
+		return it.WriteArrayOrSlice(isSubRequest, p)
 	case reflect.Ptr:
-		if isany.Null(rv.Interface()) {
-			return "nil"
-		}
-
-		elem := rv.Elem().Interface()
-		expandProperties := it.WriteProperty(elem)
-
-		return fmt.Sprintf("&%s", expandProperties)
+		return it.WritePointerRv(isSubRequest, rv)
 	}
 
 	// TODO fix this for https://prnt.sc/SNvDVD9KBDs7
 	return convertinteranl.AnyTo.FullPropertyString(p)
+}
+
+func (it printer) WritePointerRv(
+	isSubRequest bool,
+	rv reflect.Value,
+) string {
+	if isany.Null(rv.Interface()) {
+		return "nil"
+	}
+
+	elem := rv.Elem().Interface()
+	expandProperties := it.WriteProperty(elem)
+
+	return fmt.Sprintf("&%s", expandProperties)
+}
+
+func (it printer) WriteArrayOrSlice(
+	isSubRequest bool,
+	p interface{},
+) string {
+	var slice corestr.SimpleSlice
+	_ = reflectinternal.Looper.Slice(
+		p,
+		func(total int, index int, item interface{}) (err error) {
+			expand := it.WriteProperty(item)
+
+			slice.Add(expand)
+
+			return nil
+		},
+	)
+
+	toJoined := slice.Join(ArgsJoinerEachLine)
+
+	return fmt.Sprintf("%T {\n\t%s}\n", p, toJoined)
 }
 
 func (it printer) WriteStruct(p interface{}) string {
@@ -80,37 +107,22 @@ func (it printer) WriteStruct(p interface{}) string {
 
 	for i := 0; i < v.NumField(); i++ {
 		f := v.Field(i)
-		if f.CanInterface() { // check if field is exported
-			switch f.Type().Kind() {
-			case reflect.Struct:
-				sb.WriteString(
-					fmt.Sprintf(
-						"\t%s: %s,\n",
-						t.Field(i).Name,
-						it.WriteStruct(f.Interface()),
-					),
-				)
-			case reflect.Ptr:
-				if isany.Null(f.Interface()) {
-					sb.WriteString(
-						fmt.Sprintf(
-							"\t%s: nil,\n",
-							t.Field(i).Name,
-						),
-					)
 
-					continue
-				}
-			}
-
-			sb.WriteString(
-				fmt.Sprintf(
-					"\t%s: %s,\n",
-					t.Field(i).Name,
-					it.WriteProperty(f.Interface()),
-				),
-			)
+		if !f.CanInterface() {
+			// cannot export
+			continue
 		}
+
+		fieldName := t.Field(i).Name
+		fValue := f.Interface()
+
+		sb.WriteString(
+			fmt.Sprintf(
+				"\t%s: %s,\n",
+				fieldName,
+				it.WriteProperty(fValue),
+			),
+		)
 	}
 
 	sb.WriteString("}")

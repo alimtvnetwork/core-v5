@@ -34,6 +34,7 @@ func (it arrangeInputGenerator) Generate(
 		for i := 0; i < argsCount; i++ {
 			name := coreindexes.NameByIndex(i)
 
+			fmt.Println("Property Name :", name)
 			slice.AppendFmt(
 				argSingleTemplate,
 				name,
