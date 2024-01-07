@@ -208,27 +208,27 @@ func (it expectedLinesGenerator) recursiveGenerateSlice(
 	slice *corestr.SimpleSlice,
 	arrangeInput interface{},
 ) error {
-	funcWrap := it.FuncWrap()
+	// funcWrap := it.FuncWrap()
 	var rawErrCollection errcore.RawErrCollection
-
-	if funcWrap.IsInTypeMatches(arrangeInput) {
-		results, err := funcWrap.InvokeSkip(
-			codestack.Skip1,
-			arrangeInput,
-		)
-
-		if iserror.Defined(err) {
-			return it.enhanceError(err)
-		}
-
-		it.appendSingleInToSliceNoExpect(
-			slice,
-			arrangeInput,
-			results,
-		)
-
-		return nil
-	}
+	//
+	// if funcWrap.IsInTypeMatches(arrangeInput) {
+	// 	results, err := funcWrap.InvokeSkip(
+	// 		codestack.Skip1,
+	// 		arrangeInput,
+	// 	)
+	//
+	// 	if iserror.Defined(err) {
+	// 		return it.enhanceError(err)
+	// 	}
+	//
+	// 	it.appendSingleInToSliceNoExpect(
+	// 		slice,
+	// 		arrangeInput,
+	// 		results,
+	// 	)
+	//
+	// 	return nil
+	// }
 
 	_ = reflectinternal.Looper.Slice(
 		arrangeInput,

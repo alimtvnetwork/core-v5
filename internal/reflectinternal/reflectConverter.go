@@ -58,6 +58,10 @@ func (it reflectConverter) ReflectValueToAnyValue(rv reflect.Value) interface{} 
 	switch k {
 	case reflect.Ptr, reflect.Interface:
 		return rv.Elem().Interface()
+	case reflect.String:
+		return rv.String()
+	case reflect.Int:
+		return rv.Int()
 	default:
 		return rv.Interface()
 	}

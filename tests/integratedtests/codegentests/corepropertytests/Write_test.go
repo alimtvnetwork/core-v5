@@ -22,12 +22,7 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				`0 : [{"First":"some string","Expect":"some string"}] -> []args.One {
-	args.One{
-	First: "some string",
-	Expect: "some string",
-},
-}`,
+				`0 : some string -> "some string" | some string`,
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},
@@ -68,43 +63,31 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				`0 : [{"First":["some val 1","some val 2","some val 3"]},{"First":[-1,5,10,255,1500]},{"First":"AAUK/2Q="},{"First":[true,false,true]}] -> []args.One {
-	args.One{
-	First: []string {
+				`0 : some val 1
+some val 2
+some val 3 -> []string {
 	"some val 1", 
 	"some val 2", 
 	"some val 3",
-},
-	Expect: nil,
-}, 
-	args.One{
-	First: []int {
+}`,
+				`1 : [-1,5,10,255,1500] -> []int {
 	-1, 
 	5, 
 	10, 
 	255, 
 	1500,
-},
-	Expect: nil,
-}, 
-	args.One{
-	First: []uint8 {
+}`,
+				`2 : "AAUK/2Q=" -> []uint8 {
 	0, 
 	5, 
 	10, 
 	255, 
 	100,
-},
-	Expect: nil,
-}, 
-	args.One{
-	First: []bool {
+}`,
+				`3 : [true,false,true] -> []bool {
 	true, 
 	false, 
 	true,
-},
-	Expect: nil,
-},
 }`,
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
@@ -135,9 +118,7 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				`0 : [{"First":{"SampleString1":"sample 1","SampleString2":"sample 2","SampleInteger":-59,"Lines":["hello 1","hello 2"],"RawBytes":"cmVhbGx5ICE="}}] -> []args.One {
-	args.One{
-	First: &coretests.DraftType{
+				`0 : {"SampleString1":"sample 1","SampleString2":"sample 2","SampleInteger":-59,"Lines":["hello 1","hello 2"],"RawBytes":"cmVhbGx5ICE="} -> &coretests.DraftType{
 	SampleString1: "sample 1",
 	SampleString2: "sample 2",
 	SampleInteger: -59,
@@ -154,9 +135,6 @@ var (
 	121, 
 	32, 
 	33,
-},
-},
-	Expect: nil,
 },
 }`,
 			},
@@ -192,9 +170,7 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				`0 : [{"First":{"SampleString1":"sample 1 Ptr","SampleString2":"sample 2 Ptr","SampleInteger":-59,"Lines":["hello 1 Ptr","hello 2 Ptr"],"RawBytes":"cmVhbGx5ICEgUHRy"}}] -> []args.One {
-	args.One{
-	First: &coretests.DraftType{
+				`0 : {"SampleString1":"sample 1 Ptr","SampleString2":"sample 2 Ptr","SampleInteger":-59,"Lines":["hello 1 Ptr","hello 2 Ptr"],"RawBytes":"cmVhbGx5ICEgUHRy"} -> &coretests.DraftType{
 	SampleString1: "sample 1 Ptr",
 	SampleString2: "sample 2 Ptr",
 	SampleInteger: -59,
@@ -215,9 +191,6 @@ var (
 	80, 
 	116, 
 	114,
-},
-},
-	Expect: nil,
 },
 }`,
 			},
@@ -256,11 +229,10 @@ func Test_Write_Verification(t *testing.T) {
 			)
 
 			actualSlice.AppendFmt(
-				"%d : %s -> %s | %s",
+				"%d : %s -> %s",
 				i,
 				allInArgsCompiled,
 				allOutArgsCompiled,
-				input.Expect,
 			)
 		}
 
