@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"strings"
 
+	"gitlab.com/auk-go/core/codegen/coreproperty"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
@@ -194,11 +195,11 @@ func (it arrangeInputGenerator) property(
 ) string {
 	p := argBinder.GetByIndex(i)
 
-	return PropertyWriter.WriteProperty(p)
+	return coreproperty.Writer.Write(p)
 }
 
 func (it arrangeInputGenerator) writeTestCaseForProperty(p interface{}) string {
-	return PropertyWriter.WriteProperty(p)
+	return coreproperty.Writer.Write(p)
 }
 
 func (it arrangeInputGenerator) ReplaceTemplate(

@@ -4,7 +4,6 @@ import (
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 var (
@@ -62,7 +61,6 @@ var (
 		codegentype.MultipleArranges: loopFuncTemplate,
 	}
 
-	PropertyWriter = reflectinternal.PropertyWriter
 	pascalCaseFunc = convertinteranl.Util.String.PascalCase
 	camelCaseFunc  = convertinteranl.Util.String.CamelCase
 )

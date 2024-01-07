@@ -1,6 +1,8 @@
 package reflectinternal
 
-import "gitlab.com/auk-go/core/internal/convertinteranl"
+import (
+	"gitlab.com/auk-go/core/internal/convertinteranl"
+)
 
 var (
 	Converter = reflectConverter{}
@@ -24,6 +26,4 @@ var (
 		"*":  "Ptr",
 		"[]": "Slice",
 	}
-
-	PropertyWriter = propertyWriter{}
 )

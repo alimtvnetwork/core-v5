@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"go/ast"
 
-	"gitlab.com/auk-go/core/cmd/main/samplefunc"
 	"gitlab.com/auk-go/core/codegen"
 	"gitlab.com/auk-go/core/codegen/aukast"
 	"gitlab.com/auk-go/core/codegen/codegentype"
@@ -14,12 +13,13 @@ import (
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
 type unitTestGenerator struct{}
 
 func (it unitTestGenerator) Generate() {
-	curFunc := samplefunc.MyFunc
+	curFunc := reflectinternal.PropertyWriter.WriteProperty
 
 	/**
 	func (it unitTestGenerator) samplefunc(
@@ -28,20 +28,8 @@ func (it unitTestGenerator) Generate() {
 		alim *AlimStruct,
 		alim2 []AlimStruct,
 	) (r1 string, r2 int, r3 **AlimStruct) {
-	*/
-	generateFunc := codegen.GenerateFunc{
-		Func:         curFunc,
-		Struct:       nil,
-		GenerateType: codegentype.MultipleArranges,
-		FmtType:      fmtcodegentype.WithExpect,
-		TestCases: []coretestcases.CaseV1{
-			{
-				Title: "Some",
-				ArrangeInput: []args.Five{
-					// {
-					// 	First: "x",
-					// },
-					{
+
+	{
 						First:  1,
 						Second: "alim 1",
 						Third:  "alim 2",
@@ -72,6 +60,117 @@ func (it unitTestGenerator) Generate() {
 						Expect: "some expect",
 					},
 				},
+	*/
+	generateFunc := codegen.GenerateFunc{
+		Func:         curFunc,
+		Struct:       nil,
+		GenerateType: codegentype.MultipleArranges,
+		FmtType:      fmtcodegentype.WithExpect,
+		TestCases: []coretestcases.CaseV1{
+			{
+				Title: "When nil / null is given, nil returned as is hardcoded.",
+				ArrangeInput: []args.One{
+					{
+						First:  nil,
+						Expect: nil,
+					},
+				},
+				CustomFormat:    "",
+				HasError:        false,
+				HasPanic:        false,
+				IsValidateError: false,
+			},
+			{
+				Title: "Some string given outputs double quoted string.",
+				ArrangeInput: []args.One{
+					{
+						First:  "some string",
+						Expect: "some string",
+					},
+				},
+				CustomFormat:    "",
+				HasError:        false,
+				HasPanic:        false,
+				IsValidateError: false,
+			},
+			{
+				Title: "Slice of string ,int, bytes, boolean outputs in similar fashion",
+				ArrangeInput: []args.One{
+					{
+						First: []string{
+							"some val 1",
+							"some val 2",
+							"some val 3",
+						},
+					},
+					{
+						First: []int{
+							-1,
+							5,
+							10,
+							255,
+							1500,
+						},
+					},
+					{
+						First: []byte{
+							0,
+							5,
+							10,
+							255,
+							100,
+						},
+					},
+					{
+						First: []bool{
+							true,
+							false,
+							true,
+						},
+					},
+				},
+				CustomFormat:    "",
+				HasError:        false,
+				HasPanic:        false,
+				IsValidateError: false,
+			},
+			{
+				Title: "Struct with slice, etc outputs as it was given.",
+				ArrangeInput: []args.One{
+					{
+						First: &coretests.DraftType{
+							SampleString1: "sample 1",
+							SampleString2: "sample 2",
+							SampleInteger: -59,
+							Lines: []string{
+								"hello 1",
+								"hello 2",
+							},
+							RawBytes: []byte("really !"),
+						},
+					},
+				},
+				CustomFormat:    "",
+				HasError:        false,
+				HasPanic:        false,
+				IsValidateError: false,
+			},
+			{
+				Title: "Pointer struct with slice, etc outputs as it was given.",
+				ArrangeInput: []args.One{
+					{
+						First: &coretests.DraftType{
+							SampleString1: "sample 1 Ptr",
+							SampleString2: "sample 2 Ptr",
+							SampleInteger: -59,
+							Lines: []string{
+								"hello 1 Ptr",
+								"hello 2 Ptr",
+							},
+							RawBytes: []byte("really ! Ptr"),
+						},
+					},
+				},
 				CustomFormat:    "",
 				HasError:        false,
 				HasPanic:        false,
@@ -85,7 +184,7 @@ func (it unitTestGenerator) Generate() {
 			TestPkgName: "",
 			FuncCall:    "",
 		},
-		UnitTestRootPath: codestack.Dir.CurDirJoin("unit-test"),
+		UnitTestRootPath: codestack.Dir.RepoDirJoin("tests/integrationtests"),
 		Options: codegen.Options{
 			IsGenerateInSameFile:  true,
 			IsWriteTestCasesFirst: true,

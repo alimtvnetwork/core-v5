@@ -1,4 +1,4 @@
-package reflectinternal
+package coreproperty
 
 import (
 	"fmt"
@@ -9,13 +9,14 @@ import (
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/simplewrap"
 )
 
 type propertyWriter struct{}
 
-func (it propertyWriter) WriteProperty(p interface{}) string {
+func (it propertyWriter) Write(p interface{}) string {
 	if isany.Null(p) {
 		return "nil"
 	}
@@ -67,11 +68,11 @@ func (it propertyWriter) WriteMap(
 	p interface{},
 ) string {
 	var slice corestr.SimpleSlice
-	_ = Looper.Map(
+	_ = reflectinternal.Looper.Map(
 		p,
 		func(total int, index int, key interface{}, value interface{}) (err error) {
-			expandKey := it.WriteProperty(key)
-			expandValue := it.WriteProperty(value)
+			expandKey := it.Write(key)
+			expandValue := it.Write(value)
 
 			slice.AppendFmt("%s: %s", expandKey, expandValue)
 
@@ -93,7 +94,7 @@ func (it propertyWriter) WritePointerRv(
 	}
 
 	elem := rv.Elem().Interface()
-	expandProperties := it.WriteProperty(elem)
+	expandProperties := it.Write(elem)
 
 	return fmt.Sprintf("&%s", expandProperties)
 }
@@ -103,10 +104,10 @@ func (it propertyWriter) WriteArrayOrSlice(
 	p interface{},
 ) string {
 	var slice corestr.SimpleSlice
-	_ = Looper.Slice(
+	_ = reflectinternal.Looper.Slice(
 		p,
 		func(total int, index int, item interface{}) (err error) {
-			expand := it.WriteProperty(item)
+			expand := it.Write(item)
 
 			slice.Add(expand)
 
@@ -144,7 +145,7 @@ func (it propertyWriter) WriteStruct(p interface{}) string {
 			fmt.Sprintf(
 				"\t%s: %s,\n",
 				fieldName,
-				it.WriteProperty(fValue),
+				it.Write(fValue),
 			),
 		)
 	}
