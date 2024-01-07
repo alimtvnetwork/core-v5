@@ -21,25 +21,50 @@ var (
 					Second: "alim 1",
 					Third:  "alim 2",
 					Fourth: &samplefunc.AlimStruct{
-						First: "alim 1", LeftRight: args.LeftRight{
-							Left: "l", Right: "r", Expect: "e", toSlice: (*[]interface{})(nil),
-							toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
-						}, Draft: coretests.DraftType{
-							SampleString1: "alim 1", SampleString2: "", SampleInteger: 0, Lines: []string(nil),
-							RawBytes: []uint8(nil), f1String: "", f2Integer: 0,
+						First: "alim 1",
+						LeftRight: args.LeftRight{
+							Left:   "l",
+							Right:  "r",
+							Expect: "e",
+						},
+						Draft: coretests.DraftType{
+							SampleString1: "alim 1",
+							SampleString2: "",
+							SampleInteger: 0,
+							Lines:         nil,
+							RawBytes:      nil,
 						},
 					},
 					Fifth: []samplefunc.AlimStruct{
 						{
-							First: "alim 2", LeftRight: args.LeftRight{
-								Left: "a2-l", Right: "a2-r", Expect: "a2-e", toSlice: (*[]interface{})(nil),
-								toString: corestr.SimpleStringOnce{value: "", isInitialize: false},
-							}, Draft: coretests.DraftType{
-								SampleString1: "alim 2", SampleString2: "", SampleInteger: 0, Lines: []string(nil),
-								RawBytes: []uint8(nil), f1String: "", f2Integer: 0,
+							First: "alim 2",
+							LeftRight: args.LeftRight{
+								Left:   "a2-l",
+								Right:  "a2-r",
+								Expect: "a2-e",
 							},
-						},
+							LeftRight: args.LeftRight{
+								Left:   "a2-l",
+								Right:  "a2-r",
+								Expect: "a2-e",
+							},
+							Draft: coretests.DraftType{
+								SampleString1: "alim 2",
+								SampleString2: "",
+								SampleInteger: 0,
+								Lines:         nil,
+								RawBytes:      nil,
+							},
+							Draft: coretests.DraftType{
+								SampleString1: "alim 2",
+								SampleString2: "",
+														SampleInteger: 0,
+														Lines:         nil,
+														RawBytes:      nil,
+													},
+												},
 					},
+					,
 					Expect: "some expect",
 				},
 			},

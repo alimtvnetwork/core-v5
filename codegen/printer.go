@@ -5,8 +5,10 @@ import (
 	"reflect"
 	"strings"
 
+	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/simplewrap"
 )
@@ -30,11 +32,36 @@ func (it printer) WriteProperty(p interface{}) string {
 		return fmt.Sprintf("%s", casted)
 	}
 
-	v := reflect.ValueOf(p)
-	t := v.Type()
-
-	if t.Kind() == reflect.Struct {
+	rv := reflect.ValueOf(p)
+	t := rv.Type()
+	switch t.Kind() {
+	case reflect.Struct:
 		return it.WriteStruct(p)
+	case reflect.Slice, reflect.Array:
+		var slice corestr.SimpleSlice
+		_ = reflectinternal.Looper.SliceForRv(
+			rv,
+			func(total int, index int, item interface{}) (err error) {
+				expand := it.WriteProperty(item)
+
+				slice.Add(expand)
+
+				return nil
+			},
+		)
+
+		toJoined := slice.Join(ArgsJoinerEachLine)
+
+		return fmt.Sprintf("%T {\n\t%s\n}\n", p, toJoined)
+	case reflect.Ptr:
+		if isany.Null(rv.Interface()) {
+			return "nil"
+		}
+
+		elem := rv.Elem().Interface()
+		expandProperties := it.WriteProperty(elem)
+
+		return fmt.Sprintf("&%s", expandProperties)
 	}
 
 	// TODO fix this for https://prnt.sc/SNvDVD9KBDs7
@@ -49,16 +76,38 @@ func (it printer) WriteStruct(p interface{}) string {
 	v := reflect.ValueOf(p)
 	t := v.Type()
 	var sb strings.Builder
-	sb.WriteString(t.Name() + "{\n")
+	sb.WriteString(t.String() + "{\n")
 
 	for i := 0; i < v.NumField(); i++ {
 		f := v.Field(i)
 		if f.CanInterface() { // check if field is exported
+			switch f.Type().Kind() {
+			case reflect.Struct:
+				sb.WriteString(
+					fmt.Sprintf(
+						"\t%s: %s,\n",
+						t.Field(i).Name,
+						it.WriteStruct(f.Interface()),
+					),
+				)
+			case reflect.Ptr:
+				if isany.Null(f.Interface()) {
+					sb.WriteString(
+						fmt.Sprintf(
+							"\t%s: nil,\n",
+							t.Field(i).Name,
+						),
+					)
+
+					continue
+				}
+			}
+
 			sb.WriteString(
 				fmt.Sprintf(
-					"\t%s: %v,\n",
+					"\t%s: %s,\n",
 					t.Field(i).Name,
-					f.Interface(),
+					it.WriteProperty(f.Interface()),
 				),
 			)
 		}
