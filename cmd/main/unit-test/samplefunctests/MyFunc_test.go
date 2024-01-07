@@ -79,7 +79,6 @@ func Test_MyFunc_Verification(t *testing.T) {
 				inArgSliceAlimStruct5,
 			)
 
-			// TODO fix this indenting issue
 			result1,
 				result2,
 				result3 := actFuncMyFunc(
