@@ -461,6 +461,8 @@ Detailed architecture and conventions documentation for AI agents and contributo
 | Code Review Report | [`/spec/01-app/15-code-review-report.md`](/spec/01-app/15-code-review-report.md) |
 | **Testing Guidelines** | [`/spec/01-app/16-testing-guidelines.md`](/spec/01-app/16-testing-guidelines.md) |
 | **Coding Guidelines** | [`/spec/01-app/17-coding-guidelines.md`](/spec/01-app/17-coding-guidelines.md) |
+| **Code Strengths Review** | [`/spec/01-app/19-code-strengths.md`](/spec/01-app/19-code-strengths.md) |
+| **Improvement Plan** | [`/spec/01-app/20-improvement-plan.md`](/spec/01-app/20-improvement-plan.md) |
 | Known Issues | [`/spec/13-app-issues/`](/spec/13-app-issues/) |
 
 ## Acknowledgement
