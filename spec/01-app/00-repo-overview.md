@@ -72,7 +72,7 @@ core.go                  ← root package: slice/map factory helpers
 
 | Tool | Version |
 |------|---------|
-| Go   | 1.17.8 (current; upgrade planned — see `11-go-modernization.md`) |
+| Go   | **1.22+** |
 | Git  | ≥ 2.29 |
 
 ### Common Commands

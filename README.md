@@ -1,443 +1,327 @@
-# `Core` Intro
+# `core` — Go Utility Framework
 
-![Use Package logo](assets/core-250.png)
+![Core logo](assets/core-250.png)
 
-All common core infrastructure and constants combined package.
+The foundational shared package for the **auk-go** ecosystem. It provides reusable primitives, data structures, interfaces, converters, validators, file-system helpers, and testing utilities that keep all downstream Go packages DRY and consistent.
 
-## Git Clone
-
-`git clone https://gitlab.com/auk-go/core.git`
+## Quick Start
 
 ### Prerequisites
 
-- Update git to latest 2.29
-- Update or install the latest of Go 1.22+
-- Either add your ssh key to your gitlab account
-- Or, use your access token to clone it.
+| Tool | Version |
+|------|---------|
+| Go   | **1.22+** |
+| Git  | ≥ 2.29 |
 
-## Installation
+### Install
 
-`go get gitlab.com/auk-go/core`
-
-## Why `core?`
-
-It makes our other go-packages DRY and concise. It was the first package in the auk-go ecosystem that is core of
-everything.
-
-It was first designed for constants, later it got enhanced with:
-
-- [codestack](/codestack)
-    - very powerful to deal with codestack
-- chmodhelper
-- [enums](/enums)
-    - base logic for generating stuff
-- coresort
-    - sorting functionalities
-- [coremath](/coremath)
-    - deals with integer, ..., all type - min, max
-- coretests
-    - deals with basic functionality for test
-- [corevalidator](/corevalidator)
-    - [LineValidator](/corevalidator/LineValidator.go)
-        - Deals with validation
-        - Helps to do integration tests
-- [coreversion](/coreversion/Version.go) - deals with all kinds of versioning stuff.
-    - deals with version (major, minor, patch -- data type)
-- [regexnew](/regexnew)
-    - [LazyRegex](/regexnew/LazyRegex.go) - doesn't compile until needed but only once (lock / non lock)
-    - [CreateLock](/regexnew/CreateLock.go) - Create Lazy lock in a loop or running process.
-    - [Create](/regexnew/Create.go) - Create - use create to get lazyregex when created in global vars
-- converters (move from type to type)
-- [corecsv](/corecsv)
-- [errorcore](/errcore)
-- coreutils
-    - [stringutil](/coreutils/stringutil)
-        - [AnyToTypeString](/coreutils/stringutil/AnyToTypeString.go)
-        - [AnyToString](/coreutils/stringutil/AnyToString.go)
-        - [ClonePtr](/coreutils/stringutil/ClonePtr.go)
-        - [FirstChar](/coreutils/stringutil/FirstChar.go)
-        - [IsAnyEndsWith](/coreutils/stringutil/IsAnyEndsWith.go)
-        - [IsAnyStartsWith](/coreutils/stringutil/IsAnyStartsWith.go)
-        - [IsBlank](/coreutils/stringutil/IsBlank.go)
-        - [IsBlankPtr](/coreutils/stringutil/IsBlankPtr.go)
-        - [IsContains](/coreutils/stringutil/IsContains.go)
-        - [IsContainsPtr](/coreutils/stringutil/IsContainsPtr.go)
-        - [IsContainsPtrSimple](/coreutils/stringutil/IsContainsPtrSimple.go)
-        - [IsDefined](/coreutils/stringutil/IsDefined.go)
-        - [IsDefinedPtr](/coreutils/stringutil/IsDefinedPtr.go)
-        - [IsEmpty](/coreutils/stringutil/IsEmpty.go)
-        - [IsEmptyOrWhitespace](/coreutils/stringutil/IsEmptyOrWhitespace.go)
-        - [IsEmptyOrWhitespacePtr](/coreutils/stringutil/IsEmptyOrWhitespacePtr.go)
-        - [IsEmptyPtr](/coreutils/stringutil/IsEmptyPtr.go)
-        - [IsEnds](/coreutils/stringutil/IsEnds.go)
-        - [IsEndsChar](/coreutils/stringutil/IsEndsChar.go)
-        - [IsEndsRune](/coreutils/stringutil/IsEndsRune.go)
-        - [IsEndsWith](/coreutils/stringutil/IsEndsWith.go)
-        - [IsNotEmpty](/coreutils/stringutil/IsNotEmpty.go)
-        - [IsNullOrEmptyPtr](/coreutils/stringutil/IsNullOrEmptyPtr.go)
-        - [IsStarts](/coreutils/stringutil/IsStarts.go)
-        - [IsStartsAndEndsWithChar](/coreutils/stringutil/IsStartsAndEndsChar.go)
-        - [IsStartsAndEndsWith](/coreutils/stringutil/IsStartsAndEndsWith.go)
-        - [IsStartsChar](/coreutils/stringutil/IsStartsChar.go)
-        - [IsEndsRune](/coreutils/stringutil/IsEndsRune.go)
-        - [IsStartsWith](/coreutils/stringutil/IsStartsWith.go)
-        - [MaskLine](/coreutils/stringutil/MaskLine.go)
-        - [MaskLines](/coreutils/stringutil/MaskLines.go)
-        - [MaskTrimLine](/coreutils/stringutil/MaskTrimLine.go)
-        - [MaskTrimLines](/coreutils/stringutil/MaskTrimLines.go)
-        - [RemoveMany](/coreutils/stringutil/RemoveMany.go)
-        - [RemoveManuBySplitting](/coreutils/stringutil/RemoveManyBySplitting.go)
-        - [SafeClonePtr](/coreutils/stringutil/SafeClonePtr.go)
-        - [SafeSubstring](/coreutils/stringutil/SafeSubstring.go)
-        - [SafeSubstringEnds](/coreutils/stringutil/SafeSubstringEnds.go)
-        - [SafeSubstringStarts](/coreutils/stringutil/SafeSubstringStarts.go)
-        - [SplitContentsByWhitespaceConditions](/coreutils/stringutil/SplitContentsByWhitespaceConditions.go)
-        - [SplitFirstLast](/coreutils/stringutil/SplitFirstLast.go)
-        - [SplitLeftRight](/coreutils/stringutil/SplitLeftRight.go)
-        - [SplitLeftRightsTrims](/coreutils/stringutil/SplitLeftRightsTrims.go)
-        - [SplitLeftRightTrimmed](/coreutils/stringutil/SplitLeftRightTrimmed.go)
-        - [SplitLeftRightType](/coreutils/stringutil/SplitLeftRightType.go)
-        - [SplitLeftRightTypeTrimmed](/coreutils/stringutil/SplitLeftRightTypeTrimmed.go)
-        - [ToBool](/coreutils/stringutil/ToBool.go)
-        - [ToByte](/coreutils/stringutil/ToByte.go)
-        - [ToByteDefault](/coreutils/stringutil/ToByteDefault.go)
-        - [ToInt](/coreutils/stringutil/ToInt.go)
-        - [ToInt8](/coreutils/stringutil/ToInt8.go)
-        - [ToInt8Def](/coreutils/stringutil/ToInt8Def.go)
-        - [ToInt16](/coreutils/stringutil/ToInt16.go)
-        - [ToInt16Default](/coreutils/stringutil/ToInt16Default.go)
-        - [ToInt32](/coreutils/stringutil/ToInt32.go)
-        - [ToInt32Def](/coreutils/stringutil/ToInt32Def.go)
-        - [ToIntDef](/coreutils/stringutil/ToIntDef.go)
-        - [ToIntDefault](/coreutils/stringutil/ToIntDefault.go)
-        - [ToIntUsingRegexMatch](/coreutils/stringutil/ToIntUsingRegexMatch.go)
-        - [ToUint16Default](/coreutils/stringutil/ToUint16Default.go)
-        - [ToUint32Default](/coreutils/stringutil/ToUint32Default.go)
-        - [ReplaceTemplate](/coreutils/stringutil/replaceTemplate.go)
-            - CurlyOne
-            - Curly
-            - CurlyTwo
-            - DirectOne
-            - DirectTwoItem
-            - CurlyTwoItem
-            - DirectKeyUsingMap
-            - CurlyKeyUsingMap
-            - UsingMapOptions
-            - UsingNamerMapOptions
-            - UsingStringerMapOptions
-            - UsingWrappedTemplate
-            - UsingBracketsWrappedTemplate
-            - UsingQuotesWrappedTemplate
-            - UsingValueTemplate
-            - UsingValueWithFieldsTemplate
-- [issetter.value](/issetter/Value.go) - 4 Valued Booleans, instead using bool* use this.
-    - 4 Valued Booleans
-        - One Approach
-            - Uninitialized
-            - True
-            - False
-            - Wildcard / Any
-        - Or,
-            - Uninitialized
-            - Set
-            - Unset
-            - Wildcard / Any
-- [coredata](/coredata)
-    - [coreapi](/coredata/coreapi)
-    - [coredynamic](/coredata/coredynamic) - dynamic data type
-        - [AnyCollection](/coredata/coredynamic/AnyCollection.go) - deals with collection of interface means any
-        - AnySliceValToInterfacesAsync
-        - AnyToReflectVal
-        - AnyTypeMapToMapStringAny
-        - BytesConverter
-        - CastedResult
-        - CastTo
-        - Dynamic
-        - DynamicCollection
-        - DynamicStatus
-        - [funcs](/coredata/coredynamic/funcs.go) - smart converter functions
-        - IsAnyTypesOf
-        - KeyVal
-        - KeyValCollection
-        - LeftRight
-        - LengthOfReflect
-        - MapAnyItemsDiff
-        - MapAsKeyValSlice
-        - MapKeysStringSlice
-        - MapKeysStringSliceAnyMust
-        - MapKeysStringSliceAnySorted
-        - MapKeysStringSliceAnySortedMust
-        - MustBeAcceptedTypes
-        - NotAcceptedTypesErr
-        - PonterOrNonPointer
-        - PointerOrNonPointerUsingReflectValue
-        - ReflectInterfaceVal
-        - ReflectKindValidation
-        - ReflectSetFromTo
-        - ReflectTypeValidation
-        - ReflectValToInterfaces
-        - ReflectValToInterfacesAsync
-        - ReflectValToInterfacesUsingProcessor
-        - SafeTypeName
-        - SafeZeroSet
-        - SimpleRequest
-        - SimpleResult
-        - SliceItemsAsStrings
-        - SliceItemsAsStringsAny
-        - SliceItemsAsStringsAnyMust
-        - SliceItemsProcessorAsStrings
-        - SliceItemsSimpleProcessorAsStrings
-        - Type
-        - TypeMustBeSame
-        - TypeName
-        - TypeNames
-        - TypeNamesReferenceString
-        - TypeNamesString
-        - TypeNamesStringUsingReflectType
-        - TypeNamesUsingReflectType
-        - TypeNotEqualErr
-        - TypeSameStatus
-        - TypeIndexOf
-        - TypeStatus
-        - ValueStatus
-        - ZeroSet
-        - ZeroSetAny
-    - [corejson](/coredata/corejson)
-        - Result
-        - ResultCollection
-        - [SerializerLogic (corejson.Serialize.Method)](/coredata/corejson/serializerLogic.go)
-            - corejson.Serialize.StringsApply
-            - corejson.Serialize.Apply
-            - corejson.Serialize.FromBytes
-            - corejson.Serialize.FromStrings
-            - corejson.Serialize.FromStringsSpread
-            - corejson.Serialize.FromString
-            - corejson.Serialize.FromInteger
-            - corejson.Serialize.FromInteger64
-            - corejson.Serialize.FromBool
-            - corejson.Serialize.FromIntegers
-            - corejson.Serialize.FromStringer
-            - corejson.Serialize.UsingAnyPtr
-            - corejson.Serialize.UsingAny
-            - corejson.Serialize.Raw
-            - corejson.Serialize.Marshal
-            - corejson.Serialize.ApplyMust
-            - corejson.Serialize.ToBytesMust
-            - corejson.Serialize.ToSafeBytesMust
-            - corejson.Serialize.ToSafeBytesSwallowErr
-            - corejson.Serialize.ToBytesSwallowErr
-            - corejson.Serialize.ToBytesErr
-            - corejson.Serialize.ToString
-            - corejson.Serialize.ToStringMust
-            - corejson.Serialize.ToStringErr
-            - corejson.Serialize.ToPrettyStringErr
-            - corejson.Serialize.ToPrettyStringIncludingErr
-        - [DeserializerLogic (corejson.Deserialize.Method)](/coredata/corejson/deserializerLogic.go)
-            - corejson.Deserialize.StringsApply
-            - corejson.Deserialize.Apply
-            - corejson.Deserialize.UsingStringPtr
-            - corejson.Deserialize.UsingError
-            - corejson.Deserialize.UsingErrorWhichJsonResult
-            - corejson.Deserialize.UsingResult
-            - corejson.Deserialize.ApplyMust
-            - corejson.Deserialize.UsingString
-            - corejson.Deserialize.FromString
-            - corejson.Deserialize.FromTo
-            - corejson.Deserialize.MapAnyToPointer
-            - corejson.Deserialize.UsingStringOption
-            - corejson.Deserialize.UsingStringIgnoreEmpty
-            - corejson.Deserialize.UsingBytes
-            - corejson.Deserialize.UsingBytesPointerMust
-            - corejson.Deserialize.UsingBytesIf
-            - corejson.Deserialize.UsingBytesPointerIf
-            - corejson.Deserialize.UsingBytesPointer
-            - corejson.Deserialize.UsingBytesMust
-            - corejson.Deserialize.UsingSafeBytesMust
-            - corejson.Deserialize.AnyToFieldsMap
-            - corejson.Deserialize.UsingSerializerTo
-            - corejson.Deserialize.UsingSerializerFuncTo
-            - corejson.Deserialize.UsingDeserializerToOption
-            - corejson.Deserialize.UsingDeserializerDefined
-            - corejson.Deserialize.UsingDeserializerFuncDefined
-            - corejson.Deserialize.UsingJsonerToAny
-    - [coreonce - data which generate once](/coredata/coreonce)
-    - [corepayload - deals with enhance payloads](/coredata/corepayload)
-    - [corerange - works with ranges](/coredata/corerange)
-    - [ostype](/ostype)
-    - corestr - string related core functionalities and data-types
-        - hashmap
-        - hashset - lock features for `map[string]bool`
-        - Collection - List like C# / ArrayList like Java - enhance APIs
-        - CollectionsOfCollection
-        - LinkedList
-        - HashDiff
-        - CloneSlice
-        - CharCollectionMap - `map[byte]*Collection`
-        - HashsetsCollection
-        - KeyValueCollection
-        - LeftRight - Left, Right string
-        - LeftMiddleRight
-        - SimpleStringOnce
-        - ValidValue
-        - ValidValues
-        - ValueStatus
-        - AnyToString
-
-## Examples Json - Deserializer
-
-```go=
-    type Example struct {
-		A       string
-		B       int
-		SomeMap map[string]string
-	}
-
-	exampleFrom := &Example{
-		A:       "Something",
-		B:       1,
-		SomeMap: map[string]string{},
-	}
-
-	exampleTo := &Example{}
-
-	err := corejson.Deserialize.FromTo(
-		exampleFrom,
-		exampleTo)
-		
-	// exampleTo will be a copy of public fields From exampleFrom
-	// exampleFrom := &Example{
-	// 	A:       "Something",
-	// 	B:       1,
-	// 	SomeMap: map[string]string{},
-	// }
+```bash
+go get gitlab.com/auk-go/core
 ```
+
+### Clone
+
+```bash
+git clone https://gitlab.com/auk-go/core.git
+```
+
+### Build & Test
+
+```bash
+make                  # build and run default CLI
+make build            # compile binary to build/cli
+make run-tests        # run integration tests
+make run-server       # start server entrypoint
+make run-client       # start client entrypoint
+make run-sample       # run sample/demo
+```
+
+## What This Framework Provides
+
+| Category | Packages | What You Get |
+|----------|----------|-------------|
+| **Ternary helpers** | `conditional/` | Generic `If[T]`, `IfFunc[T]`, `IfSlice[T]` — replaces missing ternary operator |
+| **Data structures** | `coredata/corestr/` | `Collection`, `Hashmap`, `Hashset`, `LinkedList`, `SimpleSlice` |
+| **JSON** | `coredata/corejson/` | `Serialize.*`, `Deserialize.*` — full JSON pipeline |
+| **Error building** | `errcore/` | Stack-traced errors, merge, expectations, Gherkins-style messages |
+| **File permissions** | `chmodhelper/` | Parse, verify, and apply chmod on files and directories |
+| **Interfaces** | `coreinterface/` | 100+ canonical interface contracts (`*Getter`, `*Checker`, `*Binder`) |
+| **Converters** | `converters/` | Type conversions: strings ↔ bytes, maps, pointers |
+| **Testing** | `coretests/` | Assertion helpers, `FuncWrap`, `CaseV1` for AAA-pattern tests |
+| **Regex** | `regexnew/` | `LazyRegex` — compiles only on first use, with optional locking |
+| **Validators** | `corevalidator/` | Line, slice, text, and range validators |
+| **Sorting** | `coresort/` | Quick sort for strings and integers |
+| **Math** | `coremath/` | Min/Max for all numeric types |
+| **Versioning** | `coreversion/` | Semantic version data type (major.minor.patch) |
+| **Constants** | `constants/` | OS line separators, empty values, capacity defaults |
+| **Generics** | `core.go`, `generic.go` | `EmptySlicePtr[T]`, `SlicePtrByCapacity[T]`, `EmptyMapPtr[K,V]` |
+
+## Design Philosophy
+
+1. **One file per function** — each public function lives in its own `.go` file, named after the function.
+2. **Struct-as-namespace** — related operations are grouped on unexported struct types exposed via package-level `var` (e.g., `corejson.Serialize.ToString()`).
+3. **Interface-first** — all contracts are defined in `coreinterface/` using Go's `-er` suffix convention (e.g., `NameGetter`, `Csver`, `Serializer`).
+4. **Zero-nil safety** — functions return empty slices/maps instead of nil wherever possible.
+5. **Generics where clear** — generic versions (`If[T]`, `EmptySlicePtr[T]`) exist alongside backward-compatible type-specific wrappers.
 
 ## Examples
 
-```go=
-// substituting functions as ternary operator
-fmt.Println(conditional.Int(true, 2, 7)) // 2
-fmt.Println(conditional.Int(false, 2, 7)) // 7
+### Conditional (Ternary) Helpers
 
-// making collection from array of strings
-stringValues := []string{"hello", "world", "something"}
-collectionPtr1 := corestr.NewCollectionPtrUsingStrings(&stringValues, constants.Zero)
-fmt.Println(collectionPtr1)
-/* outputs:
-   - hello
-   - world
-   - something
-*/
+```go
+import "gitlab.com/auk-go/core/conditional"
 
-// different methods of collection
-fmt.Println(collectionPtr1.Length()) // 3
-fmt.Println(collectionPtr1.IsEmpty()) // false
+// Generic (Go 1.22+)
+result := conditional.If[int](true, 2, 7)          // 2
+name := conditional.If[string](len(s) > 0, s, "default")
 
-// adding more element including empty string
-collectionPtr2 := collectionPtr1.AddsLock("else")
-fmt.Println(collectionPtr2.Length()) // 4
+// With lazy evaluation
+val := conditional.IfFunc[string](expensive, func() string {
+    return computeValue()
+}, func() string {
+    return "fallback"
+})
 
-// checking equality
-fmt.Println(collectionPtr1.IsEqualsPtr(collectionPtr2)) // true
-
-// creating CharCollectionMap using collection
-sampleMap := collectionPtr1.CharCollectionPtrMap()
-fmt.Println(sampleMap)
-
-// methods on CharCollectionMap
-fmt.Println(sampleMap.Length()) // 4
-fmt.Println(sampleMap.AllLengthsSum()) // 4
-fmt.Println(sampleMap.Clear()) // prints: # Summary of `*corestr.CharCollectionMap`, Length ("0") - Sequence `1`
-otherMap := sampleMap.Add("another")
-fmt.Println(otherMap)
-/* prints:
-   # Summary of `*corestr.CharCollectionMap`, Length ("1") - Sequence `1`
-         1 . `a` has `1` items.
-   ## Items of `a`
-         - another
-*/
-
-// declaring an empty hashset of length 2 and calling methods on it
-newHashSet := corestr.NewHashset(2)
-fmt.Println(newHashSet.Length()) // 2
-fmt.Println(newHashSet.IsEmpty()) // true
-fmt.Println(newHashSet.Items()) // &map[]
-
-// adding items to hashset
-strPtr := "new"
-newHashSet.AddPtr(&strPtr)
-fmt.Println(newHashSet.Items()) // &map[new:true]
-
-// adding map to hashset
-newHashSet.AddItemsMap(&map[string]bool{"hi": true, "no": false})
-fmt.Println(newHashSet.Items()) // &map[hi:true new:true]
-
-// math operations: getting the larger/smaller value from two given values
-fmt.Println(coremath.MaxByte('e', 'i')) // 105 which represents 'i' in ASCII
-fmt.Println(coremath.MinByte(23, 5))    // 5
-
-// initializing issetter value
-isSetterValue := issetter.False // initializing as false
-fmt.Println(isSetterValue.HasInitialized()) // true
-fmt.Println(isSetterValue.Value()) // 2
-fmt.Println(isSetterValue.IsPositive()) // false
-
-// sorting strings
-fruits := []string{"banana", "mango", "apple"}
-fmt.Println(strsort.Quick(&fruits)) // &[apple banana mango]
-fmt.Println(strsort.QuickDsc(&fruits)) // &[mango banana apple]
-
-// converting pointer strings to strings
-mile := "mile"
-km := "km"
-measures := []*string{&mile, &km}
-fmt.Println(converters.PointerStringsToStrings(&measures)) // &[mile km]
-fmt.Printf("Type %T", converters.PointerStringsToStrings(&measures)) // Type *[]string
-
-// comparing two int arays
-Values := []int{1, 2, 3, 4}
-OtherValues := []int{5, 6, 7, 8}
-fmt.Println(corecompare.IntArray(Values, OtherValues)) // false
+// Legacy type-specific (still works, deprecated)
+result := conditional.Int(true, 2, 7)   // 2
 ```
+
+### Generic Slice/Map Factories
+
+```go
+import "gitlab.com/auk-go/core"
+
+ints := core.EmptySlicePtr[int]()            // *[]int
+strs := core.SlicePtrByLength[string](10)    // *[]string with len=10
+m := core.EmptyMapPtr[string, int]()          // *map[string]int
+```
+
+### JSON Serialize / Deserialize
+
+```go
+import "gitlab.com/auk-go/core/coredata/corejson"
+
+type Example struct {
+    A       string
+    B       int
+    SomeMap map[string]string
+}
+
+from := &Example{A: "hello", B: 42, SomeMap: map[string]string{}}
+to := &Example{}
+
+err := corejson.Deserialize.FromTo(from, to)
+// to is now a deep copy of from's public fields
+
+jsonStr, err := corejson.Serialize.ToString(from)
+// jsonStr = `{"A":"hello","B":42,"SomeMap":{}}`
+```
+
+### String Collections
+
+```go
+import (
+    "gitlab.com/auk-go/core/coredata/corestr"
+    "gitlab.com/auk-go/core/constants"
+)
+
+values := []string{"hello", "world", "something"}
+collection := corestr.NewCollectionPtrUsingStrings(&values, constants.Zero)
+
+fmt.Println(collection.Length())  // 3
+fmt.Println(collection.IsEmpty()) // false
+
+collection.AddsLock("else")
+fmt.Println(collection.Length())  // 4
+```
+
+### Hashset
+
+```go
+import "gitlab.com/auk-go/core/coredata/corestr"
+
+hs := corestr.NewHashset(2)
+hs.Add("alpha")
+hs.Add("beta")
+fmt.Println(hs.Length()) // 2
+fmt.Println(hs.Has("alpha")) // true
+```
+
+### Error Construction
+
+```go
+import "gitlab.com/auk-go/core/errcore"
+
+// Rich error with stack trace
+err := errcore.Expected.Error("config file", "/etc/app.conf")
+
+// Merge multiple errors
+combined := errcore.MergeErrors(err1, err2)
+```
+
+### Regex (Lazy Compiled)
+
+```go
+import "gitlab.com/auk-go/core/regexnew"
+
+// Compiles only on first Match/Find call
+lazy := regexnew.Create.New(`\d+`)
+matched := lazy.IsMatch("abc123") // true, compiled once
+```
+
+### Sorting
+
+```go
+import "gitlab.com/auk-go/core/coresort/strsort"
+
+fruits := []string{"banana", "mango", "apple"}
+strsort.Quick(&fruits)    // [apple banana mango]
+strsort.QuickDsc(&fruits) // [mango banana apple]
+```
+
+### 4-Valued Boolean (issetter)
+
+```go
+import "gitlab.com/auk-go/core/issetter"
+
+val := issetter.False
+fmt.Println(val.HasInitialized()) // true
+fmt.Println(val.IsPositive())     // false
+
+val2 := issetter.Uninitialized
+fmt.Println(val2.HasInitialized()) // false
+```
+
+### File Permissions (chmodhelper)
+
+```go
+import "gitlab.com/auk-go/core/chmodhelper"
+
+// Parse rwx string
+rwx := chmodhelper.ExpandCharRwx("rwxr-xr--")
+// Verify file permissions
+isValid := chmodhelper.ChmodVerify.IsFileHasRwx(path, expectedRwx)
+```
+
+### CSV Formatting
+
+```go
+import "gitlab.com/auk-go/core/corecsv"
+
+// Any type implementing Csver interface gets CSV output
+line := corecsv.DefaultCsv(myStruct) // "field1,field2,field3"
+```
+
+## Unit Test Pattern
+
+This project follows the **Arrange-Act-Assert (AAA)** pattern using `coretests.GetAssert`:
+
+```go
+import (
+    "testing"
+    "gitlab.com/auk-go/core/coretests"
+)
+
+func Test_MyFunction_ShouldReturnExpected(t *testing.T) {
+    // Arrange
+    input := "test"
+    expected := "TEST"
+
+    // Act
+    result := strings.ToUpper(input)
+
+    // Assert
+    assert := coretests.GetAssert(t)
+    assert.ShouldEqual(result, expected)
+}
+```
+
+For table-driven tests, use `coretestcases.CaseV1`:
+
+```go
+import "gitlab.com/auk-go/core/coretests/coretestcases"
+
+cases := []coretestcases.CaseV1{
+    {Title: "empty input returns empty", ArrangeInput: []args.One{{First: ""}}},
+    {Title: "non-empty returns processed", ArrangeInput: []args.One{{First: "hello"}}},
+}
+
+for i, tc := range cases {
+    // arrange, act, assert using tc...
+}
+```
+
+## Interface Conventions
+
+All interfaces in `coreinterface/` follow Go's `-er` suffix convention:
+
+| Pattern | Example | Purpose |
+|---------|---------|---------|
+| `*Getter` | `NameGetter`, `ValueGetter` | Read a single value |
+| `*Checker` | `HasErrorChecker`, `IsEmptyChecker` | Boolean state check |
+| `*Binder` | `ContractsBinder` | Compose multiple interfaces |
+| `*er` | `Csver`, `Serializer`, `Stringer` | Action performer |
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `go get` fails with auth error | Add SSH key to GitLab or use access token: `git config url."https://oauth2:TOKEN@gitlab.com".insteadOf "https://gitlab.com"` |
+| `go mod tidy` reports version conflicts | Ensure `go.mod` specifies `go 1.22` and run `go mod tidy` |
+| Tests fail after clone | Run `make run-tests` — some tests require the full module graph |
+| Import path has typo | Known: `convertinteranl` → `convertinternal`, `refeflectcore` → `reflectcore` (being fixed) |
+
+## Project Structure
+
+For a complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/01-folder-map.md).
+
+Key directories:
+
+```
+core.go / generic.go    ← root package with generic slice/map factories
+conditional/            ← generic ternary helpers (If[T], IfFunc[T])
+coredata/               ← data structures (corestr, corejson, coredynamic)
+coreinterface/          ← 100+ canonical interface contracts
+errcore/                ← rich error construction
+chmodhelper/            ← file permission utilities
+coretests/              ← testing helpers and assertion wrappers
+```
+
+## Specification Docs
+
+Detailed architecture and conventions documentation for AI agents and contributors:
+
+| Document | Path |
+|----------|------|
+| Repository Overview | [`/spec/01-app/00-repo-overview.md`](/spec/01-app/00-repo-overview.md) |
+| Folder Map | [`/spec/01-app/01-folder-map.md`](/spec/01-app/01-folder-map.md) |
+| Per-Folder Specs | [`/spec/01-app/folders/`](/spec/01-app/folders/) |
+| Codegen Deprecation Plan | [`/spec/01-app/10-codegen-deprecation-plan.md`](/spec/01-app/10-codegen-deprecation-plan.md) |
+| Go Modernization Plan | [`/spec/01-app/11-go-modernization.md`](/spec/01-app/11-go-modernization.md) |
+| CMD Entrypoints | [`/spec/01-app/12-cmd-entrypoints.md`](/spec/01-app/12-cmd-entrypoints.md) |
+| Testing Patterns | [`/spec/01-app/13-testing-patterns.md`](/spec/01-app/13-testing-patterns.md) |
+| Interface Conventions | [`/spec/01-app/14-core-interface-conventions.md`](/spec/01-app/14-core-interface-conventions.md) |
+| Code Review Report | [`/spec/01-app/15-code-review-report.md`](/spec/01-app/15-code-review-report.md) |
+| Known Issues | [`/spec/13-app-issues/`](/spec/13-app-issues/) |
 
 ## Acknowledgement
 
-Any other packages used
+External packages used:
 
-## Links
+- [`github.com/smartystreets/goconvey`](https://github.com/smartystreets/goconvey) — BDD-style testing
+- [`github.com/smarty/assertions`](https://github.com/smarty/assertions) — assertion library
+- [`golang.org/x/tools`](https://pkg.go.dev/golang.org/x/tools) — Go tooling support
 
-- [go - Calling a method on a nil struct pointer doesn't panic.](https://t.ly/aTp0)
-- [Array of pointers to JSON - Stack Overflow](https://stackoverflow.com/questions/28101966/array-of-pointers-to-json)
-- [Json Parsing of Array Pointers](https://play.golang.org/p/zTuMLBgGWk)
-- [Go Slice Tricks Cheat Sheet
-  ](https://ueokande.github.io/go-slice-tricks/)
-- [SliceTricks · golang/go Wiki
-  ](https://github.com/golang/go/wiki/SliceTricks)
-- [ueokande/go-slice-tricks: Cheat Sheet for Go Slice Tricks](https://github.com/ueokande/go-slice-tricks)
-- [Quick Sort in Go (Golang) - golangprograms.com](https://t.ly/pDyj)
-    - [Sorting using golang lib](https://play.golang.org/p/sJ8a464USeV)
-    - [Pointer Strings Sort](https://play.golang.org/p/8V8YYdQrO6q)
-- [Golang Array process issue without copying (!Important)](https://play.golang.org/p/GvdJMPmCStz)
-- [Linked List | Set 2 (Inserting a node) - GeeksforGeeks](https://t.ly/MMaY)
-- [Go Data Structures: Linked List](https://t.ly/QLLy)
-- [System info](https://github.com/zcalusic/sysinfo)
-  -[Stackoverflow Centos detect](https://stackoverflow.com/a/65207574)
+## Reference Links
 
-### Regex Patterns
-
-#### Path RegEx Patterns
-
-* [java - Regex pattern to validate Linux folder path - Stack Overflow](https://stackoverflow.com/questions/55069650/regex-pattern-to-validate-linux-folder-path/55070259)
-* [regex - What is the most correct regular expression for a UNIX file path? - Stack Overflow](https://stackoverflow.com/questions/537772/what-is-the-most-correct-regular-expression-for-a-unix-file-path)
-* [java - Regular expression to validate windows and linux path with extension - Stack Overflow](https://stackoverflow.com/questions/44289075/regular-expression-to-validate-windows-and-linux-path-with-extension)
-* [javascript - Regex windows path validator - Stack Overflow](https://stackoverflow.com/questions/51494579/regex-windows-path-validator/51504254)
-* [Path Regex fix for all OS](https://t.ly/1JuS)
+- [Go Slice Tricks Cheat Sheet](https://ueokande.github.io/go-slice-tricks/)
+- [SliceTricks · golang/go Wiki](https://github.com/golang/go/wiki/SliceTricks)
+- [Calling a method on a nil struct pointer](https://t.ly/aTp0)
+- [Array of pointers to JSON](https://stackoverflow.com/questions/28101966/array-of-pointers-to-json)
 
 ## Issues
 
-- [Create your issues](https://gitlab.com/auk-go/core/-/issues)
-
-## Notes
+- [Create an issue](https://gitlab.com/auk-go/core/-/issues)
 
 ## Contributors
 
@@ -445,4 +329,4 @@ Any other packages used
 
 ## License
 
-[MIT License](/LICENSE)
+See [LICENSE](LICENSE).
