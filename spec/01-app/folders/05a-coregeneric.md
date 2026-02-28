@@ -14,6 +14,66 @@ Generic data structures package providing type-parameterized versions of all cor
 6. **LinkedListNode[T]** — Generic linked list node with chain traversal.
 7. **Type Aliases** — Pre-defined aliases for all common primitive types (e.g., `StringCollection`, `IntHashset`, `StringStringHashmap`).
 8. **Generic Functions** — Cross-type transformations: `MapCollection`, `FlatMapCollection`, `ReduceCollection`, `GroupByCollection`, `Distinct`, `ContainsItem`, `IndexOfItem`.
+9. **Ordered Constraint Functions** (`orderedfuncs.go`) — Functions requiring `cmp.Ordered` for sorting, min/max, clamping, and sum across all data structures.
+
+## Ordered Constraint Functions
+
+Package-level functions in `orderedfuncs.go` require `cmp.Ordered` type constraints. They are organized by data structure:
+
+### Collection[T cmp.Ordered]
+
+| Function | Description |
+|----------|-------------|
+| `SortCollection(col)` | In-place ascending sort |
+| `SortCollectionDesc(col)` | In-place descending sort |
+| `MinCollection(col)` | Minimum element (panics on empty) |
+| `MaxCollection(col)` | Maximum element (panics on empty) |
+| `MinCollectionOrDefault(col, def)` | Minimum or default if empty |
+| `MaxCollectionOrDefault(col, def)` | Maximum or default if empty |
+| `IsSortedCollection(col)` | Check if ascending sorted |
+| `SumCollection(col)` | Sum all elements |
+| `ClampCollection(col, min, max)` | Clamp all values to `[min, max]` |
+
+### Hashset[T cmp.Ordered]
+
+| Function | Description |
+|----------|-------------|
+| `SortedListHashset(hs)` | Items as sorted ascending slice |
+| `SortedListDescHashset(hs)` | Items as sorted descending slice |
+| `SortedCollectionHashset(hs)` | Items as sorted `Collection[T]` |
+| `MinHashset(hs)` | Minimum element (panics on empty) |
+| `MaxHashset(hs)` | Maximum element (panics on empty) |
+| `MinHashsetOrDefault(hs, def)` | Minimum or default if empty |
+| `MaxHashsetOrDefault(hs, def)` | Maximum or default if empty |
+
+### Hashmap — Key-Ordered [K cmp.Ordered, V any]
+
+| Function | Description |
+|----------|-------------|
+| `SortedKeysHashmap(hm)` | Keys sorted ascending |
+| `SortedKeysDescHashmap(hm)` | Keys sorted descending |
+| `MinKeyHashmap(hm)` | Minimum key (panics on empty) |
+| `MaxKeyHashmap(hm)` | Maximum key (panics on empty) |
+| `MinKeyHashmapOrDefault(hm, def)` | Minimum key or default if empty |
+| `MaxKeyHashmapOrDefault(hm, def)` | Maximum key or default if empty |
+
+### Hashmap — Value-Ordered [K comparable, V cmp.Ordered]
+
+| Function | Description |
+|----------|-------------|
+| `SortedValuesHashmap(hm)` | Values sorted ascending |
+| `MinValueHashmap(hm)` | Minimum value (panics on empty) |
+| `MaxValueHashmap(hm)` | Maximum value (panics on empty) |
+| `MinValueHashmapOrDefault(hm, def)` | Minimum value or default if empty |
+| `MaxValueHashmapOrDefault(hm, def)` | Maximum value or default if empty |
+
+### SimpleSlice[T cmp.Ordered]
+
+| Function | Description |
+|----------|-------------|
+| `SortSimpleSlice(ss)` | In-place ascending sort |
+| `MinSimpleSlice(ss)` | Minimum element (panics on empty) |
+| `MaxSimpleSlice(ss)` | Maximum element (panics on empty) |
 
 ## Relationship to corestr
 
@@ -106,7 +166,9 @@ coredata/coregeneric/
 ├── LinkedList.go                  # LinkedList[T] type + methods
 ├── LinkedListNode.go              # LinkedListNode[T] type + methods
 ├── types.go                       # Type aliases for all primitives
-└── funcs.go                       # Generic cross-type functions
+├── funcs.go                       # Generic cross-type functions
+├── orderedfuncs.go                # cmp.Ordered constraint functions (Sort, Min, Max, Sum, Clamp)
+├── comparablefuncs.go             # comparable constraint functions (ContainsAll, Distinct, ToHashset)
 ```
 
 ## How to Extend Safely
