@@ -211,3 +211,86 @@ func Test_NewCreator_Generic_Items_Single_Verification(t *testing.T) {
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
+
+// ==========================================
+// Test: New.Collection.Generic.From nil slice
+// ==========================================
+
+func Test_NewCreator_Generic_From_Nil_Verification(t *testing.T) {
+	for caseIndex, testCase := range newCreatorGenericFromNilTestCases {
+		// Arrange — nil slice
+
+		// Act
+		col := coredynamic.New.Collection.Generic.From(nil)
+		actLines := []string{
+			fmt.Sprintf("%d", col.Length()),
+			fmt.Sprintf("%v", col.IsEmpty()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: New.Collection.Generic.Cap large capacity
+// ==========================================
+
+func Test_NewCreator_Generic_Cap_Large_Verification(t *testing.T) {
+	for caseIndex, testCase := range newCreatorGenericCapLargeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		capacity := input.GetAsIntDefault("capacity", 0)
+
+		// Act
+		col := coredynamic.New.Collection.Generic.Cap(capacity)
+		actLines := []string{
+			fmt.Sprintf("%d", col.Length()),
+			fmt.Sprintf("%v", col.IsEmpty()),
+			fmt.Sprintf("%d", col.Capacity()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: New.Collection.Generic.Items no args
+// ==========================================
+
+func Test_NewCreator_Generic_Items_NoArgs_Verification(t *testing.T) {
+	for caseIndex, testCase := range newCreatorGenericItemsNoArgsTestCases {
+		// Arrange — no args
+
+		// Act
+		col := coredynamic.New.Collection.Generic.Items()
+		actLines := []string{
+			fmt.Sprintf("%d", col.Length()),
+			fmt.Sprintf("%v", col.IsEmpty()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: New.Collection.Generic.Clone nil slice
+// ==========================================
+
+func Test_NewCreator_Generic_Clone_Nil_Verification(t *testing.T) {
+	for caseIndex, testCase := range newCreatorGenericCloneNilTestCases {
+		// Arrange — nil slice
+
+		// Act
+		col := coredynamic.New.Collection.Generic.Clone(nil)
+		actLines := []string{
+			fmt.Sprintf("%d", col.Length()),
+			fmt.Sprintf("%v", col.IsEmpty()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
