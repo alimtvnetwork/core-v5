@@ -1687,9 +1687,9 @@ func (it *Collection) GetHashsetPlusHasAll(items []string) (*Hashset, bool) {
 	return hashset, hashset.HasAllStrings(items)
 }
 
-// IsContainsAllPtr nil will return false.
-func (it *Collection) IsContainsAllPtr(items *[]string) bool {
-	if items == nil {
+// IsContainsAllSlice returns false if the slice is empty or any item is missing.
+func (it *Collection) IsContainsAllSlice(items []string) bool {
+	if len(items) == 0 {
 		return false
 	}
 
@@ -1697,7 +1697,7 @@ func (it *Collection) IsContainsAllPtr(items *[]string) bool {
 		return false
 	}
 
-	for _, item := range *items {
+	for _, item := range items {
 		if !it.IsContainsPtr(&item) {
 			return false
 		}
@@ -1712,7 +1712,7 @@ func (it *Collection) IsContainsAll(items ...string) bool {
 		return false
 	}
 
-	return it.IsContainsAllPtr(&items)
+	return it.IsContainsAllSlice(items)
 }
 
 // IsContainsAllLock nil will return false.
@@ -1724,7 +1724,7 @@ func (it *Collection) IsContainsAllLock(items ...string) bool {
 		return false
 	}
 
-	return it.IsContainsAllPtr(&items)
+	return it.IsContainsAllSlice(items)
 }
 
 func (it *Collection) New(
@@ -1749,7 +1749,7 @@ func (it *Collection) AddNonEmptyStrings(
 	}
 
 	return it.
-		AddNonEmptyStringsPtr(&slice)
+		AddNonEmptyStringsSlice(slice)
 }
 
 func (it *Collection) AddFuncResult(
@@ -1772,16 +1772,16 @@ func (it *Collection) AddFuncResult(
 	return it
 }
 
-func (it *Collection) AddNonEmptyStringsPtr(
-	slice *[]string,
+func (it *Collection) AddNonEmptyStringsSlice(
+	slice []string,
 ) *Collection {
-	if slice == nil || len(*slice) == 0 {
+	if len(slice) == 0 {
 		return it
 	}
 
 	items := it.items
 
-	for _, addingItem := range *slice {
+	for _, addingItem := range slice {
 		items = append(items, addingItem)
 	}
 
@@ -1791,11 +1791,11 @@ func (it *Collection) AddNonEmptyStringsPtr(
 }
 
 func (it *Collection) AddStringsByFuncChecking(
-	slice *[]string,
+	slice []string,
 	isIntegrityOkay func(line string) bool,
 ) *Collection {
 
-	for _, item := range *slice {
+	for _, item := range slice {
 		if isIntegrityOkay(item) {
 			it.Add(item)
 		}
