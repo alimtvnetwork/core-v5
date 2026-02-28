@@ -23,11 +23,11 @@ func coreDynamicMapAnyItems() {
 
 	fmt.Println(errcore.MessageNameValues(
 		"current message",
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "name1",
 			Value: "nil",
 		},
-		namevalue.Instance{
+		namevalue.StringAny{
 			Name:  "name2",
 			Value: 2,
 		}))

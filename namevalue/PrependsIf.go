@@ -2,9 +2,9 @@ package namevalue
 
 func PrependsIf(
 	isAdd bool,
-	nameValues []Instance,
-	prependingItems ...Instance,
-) []Instance {
+	nameValues []StringAny,
+	prependingItems ...StringAny,
+) []StringAny {
 	if !isAdd || len(prependingItems) == 0 {
 		return nameValues
 	}

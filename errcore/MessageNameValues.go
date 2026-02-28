@@ -8,7 +8,7 @@ import (
 
 func MessageNameValues(
 	message string,
-	nameValues ...namevalue.Instance,
+	nameValues ...namevalue.StringAny,
 ) string {
 	if len(nameValues) == 0 {
 		return message

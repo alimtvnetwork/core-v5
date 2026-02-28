@@ -10,12 +10,12 @@ import (
 )
 
 type NameValuesCollection struct {
-	Items        []Instance `json:"Items,omitempty"`
+	Items        []StringAny `json:"Items,omitempty"`
 	lazyToString *string
 }
 
 func NewNameValuesCollection(capacity int) *NameValuesCollection {
-	slice := make([]Instance, 0, capacity)
+	slice := make([]StringAny, 0, capacity)
 
 	return &NameValuesCollection{
 		Items: slice,
@@ -28,7 +28,7 @@ func NewCollection() *NameValuesCollection {
 
 func NewNewNameValuesCollectionUsing(
 	isClone bool,
-	items ...Instance,
+	items ...StringAny,
 ) *NameValuesCollection {
 	if items == nil {
 		return EmptyNameValuesCollection()
@@ -50,7 +50,7 @@ func EmptyNameValuesCollection() *NameValuesCollection {
 }
 
 func (it *NameValuesCollection) Add(
-	item Instance,
+	item StringAny,
 ) *NameValuesCollection {
 	it.InvalidateLazyString()
 	it.Items = append(it.Items, item)
@@ -59,7 +59,7 @@ func (it *NameValuesCollection) Add(
 }
 
 func (it *NameValuesCollection) Adds(
-	items ...Instance,
+	items ...StringAny,
 ) *NameValuesCollection {
 	if len(items) == 0 {
 		return it
@@ -74,7 +74,7 @@ func (it *NameValuesCollection) Adds(
 }
 
 func (it *NameValuesCollection) Append(
-	items ...Instance,
+	items ...StringAny,
 ) *NameValuesCollection {
 	if len(items) == 0 {
 		return it
@@ -90,7 +90,7 @@ func (it *NameValuesCollection) Append(
 
 func (it *NameValuesCollection) AppendIf(
 	isAppend bool,
-	items ...Instance,
+	items ...StringAny,
 ) *NameValuesCollection {
 	if !isAppend || len(items) == 0 {
 		return it
@@ -105,7 +105,7 @@ func (it *NameValuesCollection) AppendIf(
 }
 
 func (it *NameValuesCollection) Prepend(
-	items ...Instance,
+	items ...StringAny,
 ) *NameValuesCollection {
 	if len(items) == 0 {
 		return it
@@ -121,7 +121,7 @@ func (it *NameValuesCollection) Prepend(
 
 func (it *NameValuesCollection) PrependIf(
 	isPrepend bool,
-	items ...Instance,
+	items ...StringAny,
 ) *NameValuesCollection {
 	if !isPrepend || len(items) == 0 {
 		return it
@@ -137,7 +137,7 @@ func (it *NameValuesCollection) PrependIf(
 
 func (it *NameValuesCollection) PrependUsingFuncIf(
 	isPrepend bool,
-	itemsGetterFunc func() []Instance,
+	itemsGetterFunc func() []StringAny,
 ) *NameValuesCollection {
 	if !isPrepend || itemsGetterFunc == nil {
 		return it
@@ -153,7 +153,7 @@ func (it *NameValuesCollection) PrependUsingFuncIf(
 
 func (it *NameValuesCollection) AppendUsingFuncIf(
 	isAppend bool,
-	itemsGetterFunc func() []Instance,
+	itemsGetterFunc func() []StringAny,
 ) *NameValuesCollection {
 	if !isAppend || itemsGetterFunc == nil {
 		return it
@@ -170,8 +170,8 @@ func (it *NameValuesCollection) AppendUsingFuncIf(
 
 func (it *NameValuesCollection) AppendPrependIf(
 	isAppendOrPrepend bool,
-	prependItems []Instance,
-	appendItems []Instance,
+	prependItems []StringAny,
+	appendItems []StringAny,
 ) *NameValuesCollection {
 	if !isAppendOrPrepend {
 		return it
@@ -195,7 +195,7 @@ func (it *NameValuesCollection) AppendPrependIf(
 }
 
 func (it *NameValuesCollection) AddsPtr(
-	items ...*Instance,
+	items ...*StringAny,
 ) *NameValuesCollection {
 	if len(items) == 0 {
 		return it
@@ -242,7 +242,7 @@ func (it *NameValuesCollection) CompiledLazyString() string {
 }
 
 func (it *NameValuesCollection) ConcatNew(
-	additionalItems ...Instance,
+	additionalItems ...StringAny,
 ) *NameValuesCollection {
 	cloned := it.Clone()
 
@@ -250,7 +250,7 @@ func (it *NameValuesCollection) ConcatNew(
 }
 
 func (it *NameValuesCollection) ConcatNewPtr(
-	additionalItems ...*Instance,
+	additionalItems ...*StringAny,
 ) *NameValuesCollection {
 	cloned := it.Clone()
 
@@ -260,7 +260,7 @@ func (it *NameValuesCollection) ConcatNewPtr(
 
 func (it *NameValuesCollection) AddsIf(
 	isAdd bool,
-	items ...Instance,
+	items ...StringAny,
 ) *NameValuesCollection {
 	if !isAdd {
 		return it
@@ -355,7 +355,7 @@ func (it *NameValuesCollection) IsEqual(another *NameValuesCollection) bool {
 	return it.IsEqualItems(another.Items...)
 }
 
-func (it *NameValuesCollection) IsEqualItems(lines ...Instance) bool {
+func (it *NameValuesCollection) IsEqualItems(lines ...StringAny) bool {
 	if it == nil && lines == nil {
 		return true
 	}
@@ -453,7 +453,7 @@ func (it *NameValuesCollection) Clear() *NameValuesCollection {
 
 	go clearFunc()
 
-	it.Items = []Instance{}
+	it.Items = []StringAny{}
 	it.lazyToString = nil
 
 	return it
