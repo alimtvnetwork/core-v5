@@ -137,8 +137,8 @@ func (it SliceToMapConverter) LineProcessorMapStringIntegerOptions(
 }
 
 func (it SliceToMapConverter) LineProcessorMapStringAnyTrim(
-	processorFunc func(line string) (key string, val interface{}),
-) map[string]interface{} {
+	processorFunc func(line string) (key string, val any),
+) map[string]any {
 	return it.LineProcessorMapStringAnyOptions(
 		true,
 		processorFunc)
@@ -146,14 +146,14 @@ func (it SliceToMapConverter) LineProcessorMapStringAnyTrim(
 
 func (it SliceToMapConverter) LineProcessorMapStringAnyOptions(
 	isTrimBefore bool,
-	processorFunc func(line string) (key string, val interface{}),
-) map[string]interface{} {
+	processorFunc func(line string) (key string, val any),
+) map[string]any {
 	length := it.Length()
 	if processorFunc == nil || length == 0 {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
-	newMap := make(map[string]interface{}, length+1)
+	newMap := make(map[string]any, length+1)
 
 	if isTrimBefore {
 		for _, line := range it {

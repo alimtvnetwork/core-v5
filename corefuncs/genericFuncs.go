@@ -1,7 +1,7 @@
 package corefuncs
 
 // Generic function types — type-safe versions of the any-based func types.
-// These allow callers to work with concrete types instead of interface{},
+// These allow callers to work with concrete types instead of any,
 // eliminating the need for type assertions at call sites.
 //
 // Each generic type mirrors a corresponding any-based type in funcs.go:

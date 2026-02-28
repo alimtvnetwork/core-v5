@@ -6,7 +6,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func convAnyValToString(val interface{}) string {
+func convAnyValToString(val any) string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
 		val)
