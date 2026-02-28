@@ -456,6 +456,7 @@ Detailed architecture and conventions documentation for AI agents and contributo
 | Go Modernization Plan | [`/spec/01-app/11-go-modernization.md`](/spec/01-app/11-go-modernization.md) |
 | CMD Entrypoints | [`/spec/01-app/12-cmd-entrypoints.md`](/spec/01-app/12-cmd-entrypoints.md) |
 | Testing Patterns | [`/spec/01-app/13-testing-patterns.md`](/spec/01-app/13-testing-patterns.md) |
+| **newCreator Convention** | [`/spec/01-app/18-new-creator-convention.md`](/spec/01-app/18-new-creator-convention.md) |
 | Interface Conventions | [`/spec/01-app/14-core-interface-conventions.md`](/spec/01-app/14-core-interface-conventions.md) |
 | Code Review Report | [`/spec/01-app/15-code-review-report.md`](/spec/01-app/15-code-review-report.md) |
 | **Testing Guidelines** | [`/spec/01-app/16-testing-guidelines.md`](/spec/01-app/16-testing-guidelines.md) |
