@@ -41,6 +41,7 @@ func (it MapStringAnyDiff) AllKeysSorted() []string {
 		it.Length())
 
 	index := 0
+
 	for key := range it {
 		allKeys[index] = key
 		index++
@@ -160,6 +161,7 @@ func (it *MapStringAnyDiff) DiffRaw(
 	}
 
 	leftMap := *it
+
 	for rightKey, rightAnyVal := range rightMap {
 		_, hasDiff := diffMap[rightKey]
 

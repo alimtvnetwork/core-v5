@@ -490,6 +490,7 @@ func (it *MapAnyItems) GetPagedCollection(
 	}
 
 	wg.Add(pagesPossibleCeiling)
+
 	for i := 1; i <= pagesPossibleCeiling; i++ {
 		go addPagedItemsFunc(i)
 	}

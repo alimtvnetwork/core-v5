@@ -24,6 +24,7 @@ func SafeIndexRanges(
 	}
 
 	index := -1
+
 	for i := startIndexIncluding; i <= endIndexIncluding; i++ {
 		index++
 

@@ -10,6 +10,7 @@ func Distinct[T comparable](col *Collection[T]) *Collection[T] {
 
 	seen := make(map[T]bool, col.Length())
 	result := NewCollection[T](col.Length())
+
 	for _, item := range col.items {
 		if !seen[item] {
 			seen[item] = true
@@ -38,6 +39,7 @@ func DistinctCount[T comparable](col *Collection[T]) int {
 	}
 
 	seen := make(map[T]bool, col.Length())
+
 	for _, item := range col.items {
 		seen[item] = true
 	}

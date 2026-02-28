@@ -187,6 +187,7 @@ func (it *Collection[T]) FilterLock(
 	it.Unlock()
 
 	result := NewCollection[T](len(copied) / 2)
+
 	for _, item := range copied {
 		if predicate(item) {
 			result.items = append(result.items, item)
@@ -201,6 +202,7 @@ func (it *Collection[T]) StringsLock() []string {
 	defer it.Unlock()
 
 	slice := make([]string, len(it.items))
+
 	for i, item := range it.items {
 		slice[i] = fmt.Sprintf("%v", item)
 	}

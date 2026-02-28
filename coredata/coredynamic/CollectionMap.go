@@ -16,9 +16,11 @@ func Map[T any, U any](
 	}
 
 	result := NewCollection[U](source.Length())
+
 	for _, item := range source.items {
 		result.items = append(result.items, transform(item))
 	}
+
 	return result
 }
 
@@ -36,9 +38,11 @@ func FlatMap[T any, U any](
 	}
 
 	result := NewCollection[U](source.Length())
+
 	for _, item := range source.items {
 		result.items = append(result.items, transform(item)...)
 	}
+
 	return result
 }
 
@@ -57,8 +61,10 @@ func Reduce[T any, U any](
 	}
 
 	result := initial
+
 	for _, item := range source.items {
 		result = reducer(result, item)
 	}
+
 	return result
 }

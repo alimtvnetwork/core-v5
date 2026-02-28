@@ -51,6 +51,7 @@ func LastIndexOf[T comparable](col *Collection[T], item T) int {
 // Count returns the number of occurrences of item in the collection.
 func Count[T comparable](col *Collection[T], item T) int {
 	n := 0
+
 	for _, v := range col.items {
 		if v == item {
 			n++

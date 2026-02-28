@@ -46,6 +46,7 @@ func (it *HashsetsCollection) StringsList() []string {
 	}
 
 	completeLength := 0
+
 	for _, hashset := range it.items {
 		completeLength += hashset.Length()
 	}
