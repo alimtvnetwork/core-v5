@@ -11,8 +11,8 @@ coreapi/
 ├── TypedResponse.go               # Generic: TypedResponse[T]   (→ GenericResponse)
 ├── TypedResponseResult.go         # Generic: TypedResponseResult[T] (→ GenericResponseResult)
 ├── TypedSimpleGenericRequest.go   # Generic: TypedSimpleGenericRequest[T]
-├── GenericRequestIn.go            # Legacy:  GenericRequestIn   (any-based)
-├── GenericResponse.go             # Legacy:  GenericResponse    (any-based)
+├── GenericRequestIn.go            # Type alias: GenericRequestIn = TypedRequestIn[any]
+├── GenericResponse.go             # Type alias: GenericResponse = TypedResponse[any]
 ├── GenericResponseResult.go       # Legacy:  GenericResponseResult
 ├── SimpleGenericRequest.go        # Legacy:  SimpleGenericRequest
 ├── InvalidGenericResponseResult.go # Invalid factory for GenericResponseResult
@@ -30,10 +30,10 @@ coreapi/
 ## Type Hierarchy
 
 ```
-Generic (type-safe, recommended)              Legacy (any-based, backward compat)
-──────────────────────────────                ──────────────────────────────────
-TypedRequestIn[T]                             GenericRequestIn
-  ├─ .Request T                                 └─ .Request any
+Generic (type-safe, recommended)              Legacy (type aliases / backward compat)
+──────────────────────────────                ──────────────────────────────────────
+TypedRequestIn[T]                             GenericRequestIn = TypedRequestIn[any]
+  ├─ .Request T
   ├─ .Attribute *RequestAttribute
   ├─ .Clone()
   └─ .ToGenericRequestIn()
@@ -43,8 +43,8 @@ TypedRequest[T]                               SimpleGenericRequest
   ├─ .ToSimpleGenericRequest()
   └─ .ToTypedSimpleGenericRequest()
 
-TypedResponse[T]                              GenericResponse
-  ├─ .Response T                                └─ .Response any
+TypedResponse[T]                              GenericResponse = TypedResponse[any]
+  ├─ .Response T
   ├─ .TypedResponseResult()
   ├─ .GenericResponseResult()
   └─ .ToGenericResponse()
@@ -66,12 +66,12 @@ TypedResponseResult[T]                        GenericResponseResult
 | `TypedResponseResult[T]` | Strongly-typed response result |
 | `TypedSimpleGenericRequest[T]` | Request wrapping `TypedSimpleRequest[T]` |
 
-### Legacy (Dynamic)
+### Legacy (Type Aliases & Dynamic)
 
 | Type | Description |
 |------|-------------|
-| `GenericRequestIn` | Request with `any` payload |
-| `GenericResponse` | Response with `any` payload |
+| `GenericRequestIn` | **Type alias** for `TypedRequestIn[any]` — fully interchangeable, deprecated |
+| `GenericResponse` | **Type alias** for `TypedResponse[any]` — fully interchangeable, deprecated |
 | `SimpleGenericRequest` | Request wrapping `*coredynamic.SimpleRequest` |
 | `GenericResponseResult` | Response wrapping `*coredynamic.SimpleResult` |
 
