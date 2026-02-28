@@ -66,9 +66,19 @@ func Test_TypedSimpleGenericRequest_Validity_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		nilRequest, _ := input.GetAsBool("nilRequest")
+		invalidAttribute, _ := input.GetAsBool("invalidAttribute")
+		nilAttribute, _ := input.GetAsBool("nilAttribute")
 
 		var req *coreapi.TypedSimpleGenericRequest[string]
-		attr := &coreapi.RequestAttribute{IsValid: true}
+
+		var attr *coreapi.RequestAttribute
+		if nilAttribute {
+			attr = nil
+		} else if invalidAttribute {
+			attr = &coreapi.RequestAttribute{IsValid: false}
+		} else {
+			attr = &coreapi.RequestAttribute{IsValid: true}
+		}
 
 		if nilRequest {
 			req = &coreapi.TypedSimpleGenericRequest[string]{

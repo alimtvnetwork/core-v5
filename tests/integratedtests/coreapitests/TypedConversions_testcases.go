@@ -70,6 +70,42 @@ var typedSimpleGenericRequestValidityTestCases = []coretestcases.CaseV1{
 			"true",
 		},
 	},
+	{
+		Title: "TypedSimpleGenericRequest with invalid attribute but valid request reports IsInvalid",
+		ArrangeInput: args.Map{
+			"when":             "given invalid attribute and valid request",
+			"payload":          "data",
+			"invalidAttribute": true,
+		},
+		ExpectedInput: []string{
+			"false",
+			"true",
+		},
+	},
+	{
+		Title: "TypedSimpleGenericRequest with nil attribute but valid request reports IsInvalid",
+		ArrangeInput: args.Map{
+			"when":          "given nil attribute and valid request",
+			"payload":       "data",
+			"nilAttribute":  true,
+		},
+		ExpectedInput: []string{
+			"false",
+			"true",
+		},
+	},
+	{
+		Title: "TypedSimpleGenericRequest with invalid attribute and nil request reports IsInvalid",
+		ArrangeInput: args.Map{
+			"when":             "given invalid attribute and nil request",
+			"nilRequest":       true,
+			"invalidAttribute": true,
+		},
+		ExpectedInput: []string{
+			"false",
+			"true",
+		},
+	},
 }
 
 // ==========================================
