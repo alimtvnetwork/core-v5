@@ -2,7 +2,7 @@ package simplewrap
 
 func SquareWrapIf(
 	isSquareWrap bool,
-	source interface{},
+	source any,
 ) string {
 	if !isSquareWrap {
 		return toString(source)

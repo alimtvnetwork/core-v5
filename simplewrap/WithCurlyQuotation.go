@@ -11,7 +11,7 @@ import (
 //
 // Example : {\"%v\"}
 func WithCurlyQuotation(
-	source interface{},
+	source any,
 ) string {
 	toStr := convertinternal.
 		AnyTo.

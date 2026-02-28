@@ -4,8 +4,8 @@ import "strings"
 
 func PrependAppendAnyItemsToStringSkipOnNil(
 	joiner string,
-	prependItem, appendItem interface{},
-	anyItems ...interface{},
+	prependItem, appendItem any,
+	anyItems ...any,
 ) string {
 	slice := PrependAppendAnyItemsToStringsSkipOnNil(
 		prependItem,

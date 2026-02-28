@@ -14,7 +14,7 @@ import (
 func TitleQuotationMeta(
 	title,
 	value,
-	meta interface{},
+	meta any,
 ) string {
 	return fmt.Sprintf(
 		constants.QuotationTitleMetaWrapFormat,

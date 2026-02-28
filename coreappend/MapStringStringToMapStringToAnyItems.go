@@ -9,7 +9,7 @@ import (
 func MapStringStringAppendMapStringToAnyItems(
 	isSkipEmpty bool,
 	mainMap map[string]string,
-	appendMapItems map[string]interface{},
+	appendMapItems map[string]any,
 ) map[string]string {
 	if len(appendMapItems) == 0 {
 		return mainMap

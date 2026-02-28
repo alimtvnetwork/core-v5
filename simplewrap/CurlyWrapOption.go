@@ -6,7 +6,7 @@ import (
 
 func CurlyWrapOption(
 	isSkipIfExists bool,
-	source interface{},
+	source any,
 ) string {
 	toStr := convertinternal.
 		AnyTo.

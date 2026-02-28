@@ -7,7 +7,7 @@ import (
 )
 
 func TitleSquare(
-	title, value interface{},
+	title, value any,
 ) string {
 	return fmt.Sprintf(
 		constants.SquareTitleWrapFormat,

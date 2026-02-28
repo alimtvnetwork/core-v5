@@ -9,7 +9,7 @@ import (
 
 func MsgCsvItems(
 	msg string,
-	csvItems ...interface{},
+	csvItems ...any,
 ) string {
 	csvString := csvinternal.AnyItemsToStringDefault(
 		csvItems...)

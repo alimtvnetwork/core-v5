@@ -493,7 +493,7 @@ func (it *Info) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *Info) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *Info) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }
 
@@ -576,7 +576,7 @@ func (it *Info) LazyMapWithPayload(
 }
 
 func (it *Info) MapWithPayloadAsAny(
-	payloadsAny interface{},
+	payloadsAny any,
 ) map[string]string {
 	compiledMap := it.Map()
 
@@ -598,7 +598,7 @@ func (it *Info) MapWithPayloadAsAny(
 }
 
 func (it *Info) LazyMapWithPayloadAsAny(
-	payloadsAny interface{},
+	payloadsAny any,
 ) map[string]string {
 	compiledMap := it.LazyMap()
 

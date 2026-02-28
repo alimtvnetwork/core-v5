@@ -57,7 +57,7 @@ func NewSliceValidatorUsingErr(
 }
 
 func NewSliceValidatorUsingAny(
-	anyValActual interface{},
+	anyValActual any,
 	compareLinesContentExpected string,
 	isTrimLineCompare,
 	isNonEmptyWhitespace,

@@ -10,7 +10,7 @@ import (
 //
 // [\"%v\"]
 func WithBracketsQuotation(
-	source interface{},
+	source any,
 ) string {
 	return fmt.Sprintf(
 		constants.BracketQuotationWrapFormat,

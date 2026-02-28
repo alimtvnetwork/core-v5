@@ -2,7 +2,7 @@ package corecmp
 
 import "gitlab.com/auk-go/core/corecomparator"
 
-func AnyItem(left, right interface{}) corecomparator.Compare {
+func AnyItem(left, right any) corecomparator.Compare {
 	if left == nil && right == nil {
 		return corecomparator.Equal
 	}

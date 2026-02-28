@@ -7,7 +7,7 @@ import (
 )
 
 func TitleCurlyWrap(
-	title, value interface{},
+	title, value any,
 ) string {
 	return fmt.Sprintf(
 		constants.CurlyTitleWrapFormat,

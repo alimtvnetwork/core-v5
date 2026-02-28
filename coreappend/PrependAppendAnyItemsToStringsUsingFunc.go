@@ -2,9 +2,9 @@ package coreappend
 
 func PrependAppendAnyItemsToStringsUsingFunc(
 	isSkipEmptyString bool,
-	compilerFunc func(item interface{}) string,
-	prependItem, appendItem interface{},
-	anyItems ...interface{},
+	compilerFunc func(item any) string,
+	prependItem, appendItem any,
+	anyItems ...any,
 ) []string {
 	slice := make([]string, 0, len(anyItems)+3)
 

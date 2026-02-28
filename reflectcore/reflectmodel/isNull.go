@@ -2,7 +2,7 @@ package reflectmodel
 
 import "reflect"
 
-func isNull(item interface{}) bool {
+func isNull(item any) bool {
 	if item == nil {
 		return true
 	}

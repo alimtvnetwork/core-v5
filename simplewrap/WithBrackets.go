@@ -10,7 +10,7 @@ import (
 //
 // [%v]
 func WithBrackets(
-	source interface{},
+	source any,
 ) string {
 	toStr := toString(source)
 	
