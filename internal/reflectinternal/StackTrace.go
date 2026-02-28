@@ -124,7 +124,7 @@ func (it StackTrace) JsonModel() StackTrace {
 	return it
 }
 
-func (it StackTrace) JsonModelAny() interface{} {
+func (it StackTrace) JsonModelAny() any {
 	return it.JsonModel()
 }
 

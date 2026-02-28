@@ -8,8 +8,8 @@ import (
 //
 // isFullName:
 //   - for array pointer it will still output []Type, *typeName
-func TypeName(any interface{}) string {
-	rfType := reflect.TypeOf(any)
+func TypeName(anyItem any) string {
+	rfType := reflect.TypeOf(anyItem)
 
 	if rfType == nil {
 		return ""

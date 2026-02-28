@@ -8,7 +8,7 @@ import (
 
 func TypeNamesReferenceString(
 	isFullName bool,
-	anyItems ...interface{},
+	anyItems ...any,
 ) string {
 	return "Reference (Types): " + strings.Join(
 		TypeNames(isFullName, anyItems...),

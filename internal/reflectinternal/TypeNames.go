@@ -13,7 +13,7 @@ import "reflect"
 //   - for array, pointer it will become empty string.
 func TypeNames(
 	isFullName bool,
-	anyItems ...interface{},
+	anyItems ...any,
 ) []string {
 	slice := make([]string, len(anyItems))
 

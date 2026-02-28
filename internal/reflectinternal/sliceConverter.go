@@ -9,7 +9,7 @@ import (
 
 type sliceConverter struct{}
 
-func (it sliceConverter) Length(i interface{}) int {
+func (it sliceConverter) Length(i any) int {
 	if Is.Null(i) {
 		return 0
 	}
@@ -63,14 +63,14 @@ func (it sliceConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error)
 	return slice, nil
 }
 
-func (it sliceConverter) ToStrings(any interface{}) ([]string, error) {
-	reflectVal := reflect.ValueOf(any)
+func (it sliceConverter) ToStrings(anyItem any) ([]string, error) {
+	reflectVal := reflect.ValueOf(anyItem)
 
 	return it.ToStringsRv(reflectVal)
 }
 
-func (it sliceConverter) ToStringsMust(any interface{}) []string {
-	reflectVal := reflect.ValueOf(any)
+func (it sliceConverter) ToStringsMust(anyItem any) []string {
+	reflectVal := reflect.ValueOf(anyItem)
 
 	items, err := it.ToStringsRv(reflectVal)
 
@@ -83,7 +83,7 @@ func (it sliceConverter) ToStringsMust(any interface{}) []string {
 
 func (it sliceConverter) ToStringsRvUsingProcessor(
 	reflectVal reflect.Value,
-	processor func(index int, item interface{}) (result string, isTake, isBreak bool),
+	processor func(index int, item any) (result string, isTake, isBreak bool),
 ) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ToStringsRvUsingProcessor(
@@ -128,7 +128,7 @@ func (it sliceConverter) ToStringsRvUsingProcessor(
 func (it sliceConverter) ToStringsRvUsingSimpleProcessor(
 	reflectVal reflect.Value,
 	isSkipEmpty bool,
-	processor func(index int, item interface{}) (result string),
+	processor func(index int, item any) (result string),
 ) ([]string, error) {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ToStringsRvUsingSimpleProcessor(
@@ -170,10 +170,10 @@ func (it sliceConverter) ToStringsRvUsingSimpleProcessor(
 }
 
 func (it sliceConverter) ToAnyItemsAsync(
-	slice interface{},
-) []interface{} {
+	slice any,
+) []any {
 	if slice == nil {
-		return []interface{}{}
+		return []any{}
 	}
 
 	return Converter.ReflectValToInterfacesAsync(
