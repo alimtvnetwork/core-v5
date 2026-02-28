@@ -33,6 +33,24 @@ var maxIntTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{"-3"},
 	},
+	{
+		Title: "MaxInt with zero and positive",
+		ArrangeInput: args.Map{
+			"when": "given 0 and 10",
+			"a":    0,
+			"b":    10,
+		},
+		ExpectedInput: []string{"10"},
+	},
+	{
+		Title: "MaxInt with zero and negative",
+		ArrangeInput: args.Map{
+			"when": "given 0 and -5",
+			"a":    0,
+			"b":    -5,
+		},
+		ExpectedInput: []string{"0"},
+	},
 }
 
 var minIntTestCases = []coretestcases.CaseV1{
@@ -53,5 +71,197 @@ var minIntTestCases = []coretestcases.CaseV1{
 			"b":    5,
 		},
 		ExpectedInput: []string{"5"},
+	},
+	{
+		Title: "MinInt with zero and negative",
+		ArrangeInput: args.Map{
+			"when": "given 0 and -3",
+			"a":    0,
+			"b":    -3,
+		},
+		ExpectedInput: []string{"-3"},
+	},
+}
+
+var maxByteTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MaxByte returns larger byte",
+		ArrangeInput: args.Map{
+			"when": "given 10 and 200",
+			"a":    10,
+			"b":    200,
+		},
+		ExpectedInput: []string{"200"},
+	},
+	{
+		Title: "MaxByte returns equal when same",
+		ArrangeInput: args.Map{
+			"when": "given 128 and 128",
+			"a":    128,
+			"b":    128,
+		},
+		ExpectedInput: []string{"128"},
+	},
+	{
+		Title: "MaxByte with zero",
+		ArrangeInput: args.Map{
+			"when": "given 0 and 255",
+			"a":    0,
+			"b":    255,
+		},
+		ExpectedInput: []string{"255"},
+	},
+}
+
+var minByteTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinByte returns smaller byte",
+		ArrangeInput: args.Map{
+			"when": "given 10 and 200",
+			"a":    10,
+			"b":    200,
+		},
+		ExpectedInput: []string{"10"},
+	},
+	{
+		Title: "MinByte with zero",
+		ArrangeInput: args.Map{
+			"when": "given 0 and 100",
+			"a":    0,
+			"b":    100,
+		},
+		ExpectedInput: []string{"0"},
+	},
+}
+
+var integerWithinToByteTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IntegerWithin.ToByte true for 0",
+		ArrangeInput: args.Map{
+			"when":  "given 0",
+			"value": 0,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerWithin.ToByte true for 255",
+		ArrangeInput: args.Map{
+			"when":  "given 255",
+			"value": 255,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerWithin.ToByte false for 256",
+		ArrangeInput: args.Map{
+			"when":  "given 256",
+			"value": 256,
+		},
+		ExpectedInput: []string{"false"},
+	},
+	{
+		Title: "IntegerWithin.ToByte false for -1",
+		ArrangeInput: args.Map{
+			"when":  "given -1",
+			"value": -1,
+		},
+		ExpectedInput: []string{"false"},
+	},
+}
+
+var integerWithinToInt8TestCases = []coretestcases.CaseV1{
+	{
+		Title: "IntegerWithin.ToInt8 true for 0",
+		ArrangeInput: args.Map{
+			"when":  "given 0",
+			"value": 0,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerWithin.ToInt8 true for 127",
+		ArrangeInput: args.Map{
+			"when":  "given 127",
+			"value": 127,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerWithin.ToInt8 true for -128",
+		ArrangeInput: args.Map{
+			"when":  "given -128",
+			"value": -128,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerWithin.ToInt8 false for 128",
+		ArrangeInput: args.Map{
+			"when":  "given 128",
+			"value": 128,
+		},
+		ExpectedInput: []string{"false"},
+	},
+	{
+		Title: "IntegerWithin.ToInt8 false for -129",
+		ArrangeInput: args.Map{
+			"when":  "given -129",
+			"value": -129,
+		},
+		ExpectedInput: []string{"false"},
+	},
+}
+
+var integerOutOfRangeToByteTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IntegerOutOfRange.ToByte false for 0 (in range)",
+		ArrangeInput: args.Map{
+			"when":  "given 0",
+			"value": 0,
+		},
+		ExpectedInput: []string{"false"},
+	},
+	{
+		Title: "IntegerOutOfRange.ToByte true for 256 (out of range)",
+		ArrangeInput: args.Map{
+			"when":  "given 256",
+			"value": 256,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerOutOfRange.ToByte true for -1 (out of range)",
+		ArrangeInput: args.Map{
+			"when":  "given -1",
+			"value": -1,
+		},
+		ExpectedInput: []string{"true"},
+	},
+}
+
+var integerWithinToInt16TestCases = []coretestcases.CaseV1{
+	{
+		Title: "IntegerWithin.ToInt16 true for 0",
+		ArrangeInput: args.Map{
+			"when":  "given 0",
+			"value": 0,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerWithin.ToInt16 true for 32767",
+		ArrangeInput: args.Map{
+			"when":  "given max int16",
+			"value": 32767,
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "IntegerWithin.ToInt16 false for 32768",
+		ArrangeInput: args.Map{
+			"when":  "given max int16 + 1",
+			"value": 32768,
+		},
+		ExpectedInput: []string{"false"},
 	},
 }
