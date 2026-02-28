@@ -4,6 +4,55 @@
 
 The `conditional` package provides generic ternary expressions, nil-safe defaults, conditional function execution, and batch function runners for Go. It replaces verbose `if/else` blocks with concise, type-safe one-liners.
 
+## Typed Convenience Wrappers (`typed_*.go`)
+
+For common primitive types, typed wrappers eliminate the need to specify type parameters:
+
+```go
+result := conditional.IfInt(isTrue, 2, 7)                          // no type param needed
+name   := conditional.IfFuncString(ok, trueFunc, falseFunc)        // lazy evaluation
+val    := conditional.IfTrueFuncInt(ok, func() int { return 42 })  // evaluate only on true
+items  := conditional.IfSliceString(ok, listA, listB)              // slice ternary
+ptr    := conditional.IfPtrInt(ok, &a, &b)                         // pointer ternary
+defVal := conditional.NilDefFloat64(ptr, 3.14)                     // nil-safe default
+defPtr := conditional.NilDefPtrString(ptr, "fallback")             // nil-safe pointer default
+```
+
+### Available Typed Wrappers
+
+Each type has the following functions (using `Int` as example):
+
+| Function | Description |
+|----------|-------------|
+| `IfInt(cond, t, f)` | Ternary for `int` values |
+| `IfFuncInt(cond, tF, fF)` | Lazy-evaluated ternary |
+| `IfTrueFuncInt(cond, tF)` | Evaluate only when true |
+| `IfSliceInt(cond, t, f)` | Slice ternary |
+| `IfSlicePtrInt(cond, t, f)` | Pointer-to-slice ternary |
+| `IfSlicePtrFuncInt(cond, tF, fF)` | Lazy pointer-to-slice ternary |
+| `IfPtrInt(cond, t, f)` | Pointer ternary |
+| `NilDefInt*` | Nil-safe default (where available) |
+| `NilDefPtrInt(ptr, def)` | Nil-safe pointer default |
+
+### Supported Types
+
+| File | Types | NilDef Available |
+|------|-------|------------------|
+| `typed_bool.go` | `bool` | `NilDefPtrBool` only (NilDef conflicts with deprecated) |
+| `typed_int.go` | `int` | `NilDefPtrInt` only (NilDef conflicts with deprecated) |
+| `typed_int8.go` | `int8` | Both `NilDefInt8` and `NilDefPtrInt8` |
+| `typed_int16.go` | `int16` | Both `NilDefInt16` and `NilDefPtrInt16` |
+| `typed_int32.go` | `int32` | Both `NilDefInt32` and `NilDefPtrInt32` |
+| `typed_int64.go` | `int64` | Both `NilDefInt64` and `NilDefPtrInt64` |
+| `typed_float32.go` | `float32` | Both `NilDefFloat32` and `NilDefPtrFloat32` |
+| `typed_float64.go` | `float64` | Both `NilDefFloat64` and `NilDefPtrFloat64` |
+| `typed_string.go` | `string` | Both `NilDefString` and `NilDefPtrString` |
+| `typed_byte.go` | `byte` | `NilDefPtrByte` only (NilDef conflicts with deprecated) |
+
+> **Note**: For `bool`, `int`, and `byte`, `NilDef<Type>` is omitted because
+> deprecated functions with the same name but different signatures already exist.
+> Use `NilDef[bool](ptr, defVal)` directly for those types.
+
 ## Core Generic Functions (`generic.go`)
 
 ### Ternary Helpers
@@ -117,6 +166,7 @@ Retained for backward compatibility — use generic equivalents instead:
 | File | Responsibility |
 |------|---------------|
 | `generic.go` | All generic functions (`If`, `IfFunc`, `NilDef`, etc.) |
+| `typed_bool.go` ... `typed_byte.go` | Typed convenience wrappers for 10 primitive types |
 | `funcs.go` | Internal helper functions |
 | `Bool.go`, `String.go`, `Int.go`, `Byte.go` | Deprecated per-type ternaries |
 | `Booleans.go`, `Strings.go`, `Integers.go`, `Bytes.go` | Deprecated slice ternaries |
