@@ -1246,8 +1246,10 @@ func (it *LinkedCollections) AddCollections(
 	return it
 }
 
+// Deprecated: Use ToStrings instead.
 func (it *LinkedCollections) ToStringsPtr() *[]string {
-	return it.ToCollectionSimple().ListPtr()
+	list := it.ToStrings()
+	return &list
 }
 
 func (it *LinkedCollections) ToStrings() []string {
@@ -1355,22 +1357,21 @@ func (it *LinkedCollections) SimpleSlice() *SimpleSlice {
 	return &list
 }
 
-// ListPtr must return slice.
+// Deprecated: Use List instead.
 func (it *LinkedCollections) ListPtr() *[]string {
-	if it.IsEmpty() {
-		return &[]string{}
-	}
-
-	return it.
-		ToCollection(constants.ArbitraryCapacity5).
-		ListPtr()
+	list := it.List()
+	return &list
 }
 
 // List must return slice.
 func (it *LinkedCollections) List() []string {
-	list := it.ListPtr()
+	if it.IsEmpty() {
+		return []string{}
+	}
 
-	return *list
+	return it.
+		ToCollection(constants.ArbitraryCapacity5).
+		List()
 }
 
 func (it *LinkedCollections) String() string {
@@ -1401,7 +1402,7 @@ func (it *LinkedCollections) StringLock() string {
 func (it *LinkedCollections) Join(
 	separator string,
 ) string {
-	return strings.Join(*it.ListPtr(), separator)
+	return strings.Join(it.List(), separator)
 }
 
 func (it *LinkedCollections) Joins(

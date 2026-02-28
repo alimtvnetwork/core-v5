@@ -339,10 +339,10 @@ func (it *LinkedList) AddCollectionToNode(
 	node *LinkedListNode,
 	collection *Collection,
 ) *LinkedList {
-	return it.AddStringsPtrToNode(
+	return it.AddStringsToNode(
 		isSkipOnNull,
 		node,
-		collection.ListPtr(),
+		collection.List(),
 	)
 }
 
@@ -652,13 +652,13 @@ func (it *LinkedList) RemoveNode(
 	return it.Loop(processor)
 }
 
-// AddStringsPtrToNode iSkipOnNil
-func (it *LinkedList) AddStringsPtrToNode(
+// AddStringsToNode adds items to the linked list after the given node.
+func (it *LinkedList) AddStringsToNode(
 	isSkipOnNull bool,
 	node *LinkedListNode,
-	items *[]string,
+	items []string,
 ) *LinkedList {
-	if items == nil || node == nil && isSkipOnNull {
+	if len(items) == 0 || node == nil && isSkipOnNull {
 		return it
 	}
 
@@ -671,26 +671,22 @@ func (it *LinkedList) AddStringsPtrToNode(
 			)
 	}
 
-	length := len(*items)
-
-	if length == 0 {
-		return it
-	}
+	length := len(items)
 
 	if length == 1 {
-		it.AddAfterNode(node, (*items)[0])
+		it.AddAfterNode(node, items[0])
 
 		return it
 	}
 
 	finalHead := &LinkedListNode{
-		Element: (*items)[0],
+		Element: items[0],
 		next:    nil,
 	}
 
 	nextNode := finalHead
 
-	for _, item := range (*items)[1:] {
+	for _, item := range items[1:] {
 		nextNode = nextNode.AddNext(it, item)
 	}
 
@@ -701,6 +697,19 @@ func (it *LinkedList) AddStringsPtrToNode(
 	it.incrementLength()
 
 	return it
+}
+
+// Deprecated: Use AddStringsToNode instead.
+func (it *LinkedList) AddStringsPtrToNode(
+	isSkipOnNull bool,
+	node *LinkedListNode,
+	items *[]string,
+) *LinkedList {
+	if items == nil {
+		return it
+	}
+
+	return it.AddStringsToNode(isSkipOnNull, node, *items)
 }
 
 func (it *LinkedList) AddAfterNode(
@@ -958,14 +967,22 @@ func (it *LinkedList) List() []string {
 	return list
 }
 
-// ListPtr must return slice.
+// Deprecated: Use List instead.
 func (it *LinkedList) ListPtr() *[]string {
 	list := it.List()
 
 	return &list
 }
 
-// ListPtrLock must return slice.
+// ListLock returns the list with mutex protection.
+func (it *LinkedList) ListLock() []string {
+	it.Lock()
+	defer it.Unlock()
+
+	return it.List()
+}
+
+// Deprecated: Use ListLock instead.
 func (it *LinkedList) ListPtrLock() *[]string {
 	it.Lock()
 	defer it.Unlock()
@@ -995,7 +1012,7 @@ func (it *LinkedList) StringLock() string {
 
 	return commonJoiner +
 		strings.Join(
-			*it.ListPtr(),
+			it.List(),
 			commonJoiner,
 		)
 }
@@ -1003,7 +1020,7 @@ func (it *LinkedList) StringLock() string {
 func (it *LinkedList) Join(
 	separator string,
 ) string {
-	return strings.Join(*it.ListPtr(), separator)
+	return strings.Join(it.List(), separator)
 }
 
 func (it *LinkedList) JoinLock(
@@ -1012,7 +1029,7 @@ func (it *LinkedList) JoinLock(
 	it.Lock()
 	defer it.Unlock()
 
-	return strings.Join(*it.ListPtr(), separator)
+	return strings.Join(it.List(), separator)
 }
 
 func (it *LinkedList) Joins(
