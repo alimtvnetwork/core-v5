@@ -435,12 +435,12 @@ strsort.QuickDsc(&fruits) // [mango banana apple]
 ```go
 import "gitlab.com/auk-go/core/issetter"
 
-val := issetter.False
-fmt.Println(val.HasInitialized()) // true
-fmt.Println(val.IsPositive())     // false
+status := issetter.False
+fmt.Println(status.HasInitialized()) // true
+fmt.Println(status.IsPositive())     // false
 
-val2 := issetter.Uninitialized
-fmt.Println(val2.HasInitialized()) // false
+uninitializedStatus := issetter.Uninitialized
+fmt.Println(uninitializedStatus.HasInitialized()) // false
 ```
 
 ### File Permissions (chmodhelper)
@@ -558,21 +558,276 @@ All interfaces in `coreinterface/` follow Go's `-er` suffix convention:
 
 ## Project Structure
 
-For a complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/01-folder-map.md).
-
-Key directories:
-
 ```
-core.go / generic.go    ← root package with generic slice/map factories
-conditional/            ← generic ternary helpers (If[T], IfFunc[T])
-coredata/               ← data structures (corestr, corejson, coredynamic, corepayload)
-coreinterface/          ← 100+ canonical interface contracts
-coretaskinfo/           ← task metadata (Info, ExcludingOptions)
-errcore/                ← rich error construction
-chmodhelper/            ← file permission utilities
-coretests/              ← testing helpers and assertion wrappers
-tests/integratedtests/  ← all unit/integration tests (per-package subdirs)
+core/
+├── core.go, generic.go          # Root package — generic slice/map factories
+├── makefile                     # Build, test, run targets
+├── go.mod / go.sum              # Go module definition (Go 1.24+)
+│
+├── conditional/                 # Generic ternary helpers (If[T], IfFunc[T], IfSlice[T])
+├── constants/                   # OS line separators, empty values, capacity defaults
+├── converters/                  # Type conversions: strings ↔ bytes, maps, pointers
+│
+├── coredata/                    # Data structures & serialization
+│   ├── coreapi/                 #   API request/response types (Generic + Typed[T])
+│   ├── coredynamic/             #   Dynamic type wrappers, Collection[T], SimpleRequest
+│   ├── coregeneric/             #   Generic Collection, Hashset, Hashmap, LinkedList
+│   ├── corejson/                #   JSON serialize/deserialize pipeline
+│   ├── corepayload/             #   PayloadWrapper — structured data transport
+│   ├── corestr/                 #   String Collection, Hashset, Hashmap, ValidValue
+│   ├── coreonce/                #   Lazy-evaluated cached values (StringOnce, IntegerOnce)
+│   ├── corerange/               #   Range types (int, byte)
+│   └── stringslice/             #   Slice utilities for []string
+│
+├── coreinterface/               # 100+ canonical interface contracts
+│   ├── enuminf/                 #   Enum interfaces
+│   ├── errcoreinf/              #   Error wrapper interfaces
+│   ├── serializerinf/           #   Serializer/deserializer interfaces
+│   └── baseactioninf/           #   Action/execution interfaces
+│
+├── corefuncs/                   # Function type definitions (generic + legacy)
+├── coretaskinfo/                # Task metadata (Info, ExcludingOptions)
+├── corevalidator/               # Line, slice, text, range validators
+├── coreversion/                 # Semantic versioning (major.minor.patch)
+├── coremath/                    # Min/Max for all numeric types
+├── coresort/                    # Quick sort for strings and integers
+├── corecsv/                     # CSV formatting utilities
+│
+├── errcore/                     # Rich error construction with stack traces
+├── chmodhelper/                  # File permission parsing and verification
+├── regexnew/                    # Lazy-compiled regex with thread-safe caching
+├── issetter/                    # 6-valued boolean (Uninitialized/True/False/Unset/Set/Wildcard)
+│
+├── coretests/                   # Testing helpers, FuncWrap, assertion wrappers
+│   ├── args/                    #   FuncWrap argument types (OneFunc, TwoFunc, etc.)
+│   └── coretestcases/           #   CaseV1 test case definitions
+│
+├── tests/integratedtests/       # All unit/integration tests (per-package subdirs)
+│
+├── internal/                    # Internal packages (not importable externally)
+│   ├── convertinternal/         #   Low-level type conversion
+│   ├── reflectinternal/         #   Reflection helpers
+│   └── strutilinternal/         #   String utility internals
+│
+├── codegen/                     # ⚠️ DEPRECATED — test boilerplate generation
+├── cmd/                         # CLI entrypoints (main, server, client, sample)
+│
+├── spec/                        # Architecture docs, coding guidelines, issue tracking
+│   ├── 01-app/                  #   Core specs and conventions
+│   └── 13-app-issues/           #   Known issues and improvement backlog
+│
+└── assets/                      # Logo and static assets
 ```
+
+For the complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/01-folder-map.md).
+
+---
+
+## Core Funcs — Function Type Definitions
+
+The `corefuncs/` package defines reusable function signatures — both legacy `any`-based and generic typed versions:
+
+```go
+import "gitlab.com/auk-go/core/corefuncs"
+
+// Legacy function types (any-based)
+var exec corefuncs.ExecFunc = func() { fmt.Println("executed") }
+var check corefuncs.IsBooleanFunc = func() bool { return true }
+var transform corefuncs.InOutFunc = func(input any) any {
+    return strings.ToUpper(input.(string))
+}
+
+// Generic function types (type-safe, Go 1.24+)
+var typedTransform corefuncs.InOutFuncOf[string, string] = func(input string) string {
+    return strings.ToUpper(input)
+}
+
+var serialize corefuncs.SerializeOutputFuncOf[MyStruct] = func(input MyStruct) ([]byte, error) {
+    return json.Marshal(input)
+}
+
+// Use in higher-order functions
+func processAll[T any](items []T, fn corefuncs.InOutFuncOf[T, T]) []T {
+    results := make([]T, len(items))
+
+    for i, item := range items {
+        results[i] = fn(item)
+    }
+
+    return results
+}
+```
+
+---
+
+## Core API — Typed Request/Response
+
+The `coredata/coreapi/` package provides both dynamic (`any`-based) and strongly-typed (`[T]`) API types:
+
+```go
+import "gitlab.com/auk-go/core/coredata/coreapi"
+
+// --- Typed (Generic) API — compile-time type safety ---
+
+// Strongly typed request
+type UserCreateInput struct {
+    Name  string
+    Email string
+}
+
+req := coreapi.NewTypedRequestIn[UserCreateInput](
+    &coreapi.RequestAttribute{
+        Url:          "/api/users",
+        ResourceName: "User",
+        ActionName:   "Create",
+        IsValid:      true,
+    },
+    UserCreateInput{Name: "Alice", Email: "alice@example.com"},
+)
+
+// Access is fully typed — no assertions needed
+fmt.Println(req.Request.Name)  // "Alice"
+fmt.Println(req.Request.Email) // "alice@example.com"
+
+// Strongly typed response
+type UserOutput struct {
+    ID   int
+    Name string
+}
+
+resp := coreapi.NewTypedResponse[UserOutput](
+    &coreapi.ResponseAttribute{IsValid: true, HttpCode: 200},
+    UserOutput{ID: 1, Name: "Alice"},
+)
+fmt.Println(resp.Response.ID) // 1
+
+// Clone (deep copy)
+clone := req.Clone()
+
+// Convert to legacy dynamic type for backward compatibility
+legacyReq := req.ToGenericRequestIn()
+
+// --- Legacy Dynamic API (still supported) ---
+dynamicReq := &coreapi.GenericRequestIn{
+    Attribute: &coreapi.RequestAttribute{IsValid: true},
+    Request:   map[string]string{"key": "value"}, // any type
+}
+```
+
+---
+
+## JSON — Comprehensive Examples
+
+```go
+import "gitlab.com/auk-go/core/coredata/corejson"
+
+// --- Serialization ---
+type User struct {
+    Name  string `json:"name"`
+    Age   int    `json:"age"`
+    Email string `json:"email,omitempty"`
+}
+
+user := User{Name: "Alice", Age: 30}
+
+// To JSON string
+jsonStr, err := corejson.Serialize.ToString(user)
+// `{"name":"Alice","age":30}`
+
+// To JSON bytes
+jsonBytes, err := corejson.Serialize.Raw(user)
+
+// Pretty print
+result := corejson.NewPtr(user)
+pretty := result.PrettyJsonString()
+
+// --- Deserialization ---
+var restored User
+err = corejson.Deserialize.UsingBytes(jsonBytes, &restored)
+
+// Deep copy via JSON round-trip
+source := User{Name: "Bob", Age: 25}
+target := User{}
+err = corejson.Deserialize.FromTo(source, &target)
+
+// --- Result type (wraps bytes + error) ---
+result = corejson.NewPtr(user)
+fmt.Println(result.HasError())         // false
+fmt.Println(result.HasIssuesOrEmpty()) // false
+bytes := result.SafeValues()           // []byte — safe, never nil
+
+// Error handling
+invalidResult := corejson.New(make(chan int)) // can't serialize channels
+fmt.Println(invalidResult.HasError())         // true
+fmt.Println(invalidResult.ErrorString())      // marshaling error message
+```
+
+---
+
+## Testing Library — coretests
+
+The `coretests/` package provides assertion helpers and test-case structures for the **AAA pattern**:
+
+```go
+import (
+    "testing"
+    "gitlab.com/auk-go/core/coretests"
+    "gitlab.com/auk-go/core/coretests/coretestcases"
+    "gitlab.com/auk-go/core/coretests/args"
+)
+
+// === Test Cases (in _testcases.go) ===
+var uppercaseTestCases = []coretestcases.CaseV1{
+    {
+        Title: "converts lowercase to uppercase",
+        ArrangeInput: args.Map{
+            "actual": "hello",
+            "expect": "HELLO",
+        },
+        ExpectedInput: []string{"HELLO"},
+    },
+    {
+        Title: "handles empty string",
+        ArrangeInput: args.Map{
+            "actual": "",
+            "expect": "",
+        },
+        ExpectedInput: []string{""},
+    },
+}
+
+// === Test Runner (in _test.go) ===
+func Test_ToUpper(t *testing.T) {
+    for caseIndex, tc := range uppercaseTestCases {
+        // Arrange
+        input := tc.ArrangeInput.(args.Map)
+        actual := input["actual"].(string)
+
+        // Act
+        result := strings.ToUpper(actual)
+
+        // Assert
+        lines := coretests.GetAssert.ToStrings(result)
+        tc.ShouldBeEqual(t, caseIndex, lines...)
+    }
+}
+
+// === FuncWrap — reflection-based test wrappers ===
+// Wraps a function for automatic input/output assertion
+wrap := args.NewOneFunc(
+    myFunc,                        // function under test
+    "expected output",             // expected result
+)
+fmt.Println(wrap.WorkFunc)         // the function reference
+fmt.Println(wrap.Expect)           // "expected output"
+
+// === GetAs* assertion helpers ===
+assert := coretests.GetAssert
+lines := assert.ToStrings(result)       // any → []string for comparison
+str := assert.ToString(result)          // any → string
+```
+
+---
 
 ## Specification Docs
 
@@ -618,7 +873,11 @@ External packages used:
 ## Contributors
 
 - [Md. Alim Ul Karim](https://www.google.com/search?q=Alim+Ul+Karim)
+- [Rise Up Asia](https://riseup-asia.com) (2026)
+  - [Facebook](https://www.facebook.com/riseupasia.talent/)
+  - [LinkedIn](https://www.linkedin.com/company/105304484/)
+  - [YouTube](https://www.youtube.com/@riseup-asia)
 
 ## License
 
-See [LICENSE](LICENSE).
+MIT License — Copyright (c) 2020–2026. See [LICENSE](LICENSE).
