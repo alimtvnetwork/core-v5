@@ -10,8 +10,8 @@ import (
 
 type reflectTypeConverter struct{}
 
-func (it reflectTypeConverter) SafeName(any interface{}) string {
-	rt := reflect.TypeOf(any)
+func (it reflectTypeConverter) SafeName(anyItem any) string {
+	rt := reflect.TypeOf(anyItem)
 
 	if Is.Null(rt) {
 		return ""
@@ -22,19 +22,19 @@ func (it reflectTypeConverter) SafeName(any interface{}) string {
 
 func (it reflectTypeConverter) SafeTypeNameOfSliceOrSingle(
 	isSingle bool,
-	any interface{},
+	anyItem any,
 ) string {
 	if isSingle {
-		return it.SafeName(any)
+		return it.SafeName(anyItem)
 	}
 
-	return it.SliceFirstItemTypeName(any)
+	return it.SliceFirstItemTypeName(anyItem)
 }
 
 // SliceFirstItemTypeName
 //
 // Gets slice element type name, reduce ptr slice as well.
-func (it reflectTypeConverter) SliceFirstItemTypeName(slice interface{}) string {
+func (it reflectTypeConverter) SliceFirstItemTypeName(slice any) string {
 	rt := reflect.TypeOf(slice)
 
 	if Is.Null(rt) {
@@ -64,7 +64,7 @@ func (it reflectTypeConverter) NamesStringUsingReflectType(
 
 func (it reflectTypeConverter) TypeNamesString(
 	isFullName bool,
-	anyItems ...interface{},
+	anyItems ...any,
 ) string {
 	if len(anyItems) == 0 {
 		return ""
@@ -103,7 +103,7 @@ func (it reflectTypeConverter) NamesUsingReflectType(
 
 func (it reflectTypeConverter) NamesReferenceString(
 	isFullName bool,
-	anyItems ...interface{},
+	anyItems ...any,
 ) string {
 	if len(anyItems) == 0 {
 		return ""
@@ -117,7 +117,7 @@ func (it reflectTypeConverter) NamesReferenceString(
 
 func (it reflectTypeConverter) Names(
 	isFullName bool,
-	anyItems ...interface{},
+	anyItems ...any,
 ) []string {
 	if len(anyItems) == 0 {
 		return []string{}
@@ -140,8 +140,8 @@ func (it reflectTypeConverter) Names(
 	return slice
 }
 
-func (it reflectTypeConverter) Name(any interface{}) string {
-	rf := reflect.TypeOf(any)
+func (it reflectTypeConverter) Name(anyItem any) string {
+	rf := reflect.TypeOf(anyItem)
 
 	if rf == nil {
 		return ""
@@ -150,6 +150,6 @@ func (it reflectTypeConverter) Name(any interface{}) string {
 	return rf.String()
 }
 
-func (it reflectTypeConverter) NameUsingFmt(any interface{}) string {
-	return fmt.Sprintf(constants.SprintTypeFormat, any)
+func (it reflectTypeConverter) NameUsingFmt(anyItem any) string {
+	return fmt.Sprintf(constants.SprintTypeFormat, anyItem)
 }

@@ -11,7 +11,7 @@ import (
 
 type getFunc struct{}
 
-func (it getFunc) RunTime(i interface{}) *runtime.Func {
+func (it getFunc) RunTime(i any) *runtime.Func {
 	if Is.Null(i) {
 		return nil
 	}
@@ -28,7 +28,7 @@ func (it getFunc) RunTime(i interface{}) *runtime.Func {
 // FullName
 //
 // Get the function name, passing non function may result panic
-func (it getFunc) FullName(i interface{}) string {
+func (it getFunc) FullName(i any) string {
 	f := it.RunTime(i)
 
 	if f == nil {
@@ -38,7 +38,7 @@ func (it getFunc) FullName(i interface{}) string {
 	return it.fixFinalFuncName(f.Name())
 }
 
-func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
+func (it getFunc) FullNameWithName(i any) (fullName, name string) {
 	fullName = it.FullName(i)
 
 	if len(fullName) == 0 {
@@ -50,7 +50,7 @@ func (it getFunc) FullNameWithName(i interface{}) (fullName, name string) {
 	return fullName, it.fixFinalFuncName(funcNameOnly)
 }
 
-func (it getFunc) NameOnly(i interface{}) string {
+func (it getFunc) NameOnly(i any) string {
 	if Is.Null(i) {
 		return ""
 	}
@@ -78,6 +78,11 @@ func (it getFunc) fixFinalFuncName(funcNameOnly string) string {
 	return funcNameOnly
 }
 
+// All
+//
+//	fullMethodName : gitlab.com/gitlab-org/gitlab-test/cmd/gdk-test/cmd.glob..func1
+//	packageName    : cmd
+//	methodName     : glob..func1
 func (it getFunc) All(fullFuncName string) (fullMethodName, packageName, methodName string) {
 	if fullFuncName == "" {
 		return "", "", ""
@@ -112,7 +117,7 @@ func (it getFunc) All(fullFuncName string) (fullMethodName, packageName, methodN
 	return it.fixFinalFuncName(fullFuncName), packageName, it.fixFinalFuncName(methodName)
 }
 
-func (it getFunc) FuncDirectInvokeName(i interface{}) string {
+func (it getFunc) FuncDirectInvokeName(i any) string {
 	return it.FuncDirectInvokeNameUsingFullName(it.FullName(i))
 }
 
@@ -163,7 +168,7 @@ func (it getFunc) firstLastDefault(slice []string) (first, last string) {
 
 func (it getFunc) GetMethod(
 	methodName string,
-	i interface{},
+	i any,
 ) *reflect.Method {
 	if len(methodName) == 0 || Is.Null(i) {
 		return nil
@@ -204,7 +209,7 @@ func (it getFunc) GetMethodRv(
 }
 
 func (it getFunc) GetMethods(
-	i interface{},
+	i any,
 ) []reflect.Method {
 	if Is.Null(i) {
 		return []reflect.Method{}
@@ -246,7 +251,7 @@ func (it getFunc) GetMethodsRv(
 }
 
 func (it getFunc) GetMethodsNames(
-	i interface{},
+	i any,
 ) []string {
 	if Is.Null(i) {
 		return []string{}
@@ -260,7 +265,7 @@ func (it getFunc) GetMethodsNames(
 }
 
 func (it getFunc) GetMethodsMap(
-	i interface{},
+	i any,
 ) map[string]*reflect.Method {
 	if Is.Null(i) {
 		return map[string]*reflect.Method{}
@@ -306,7 +311,7 @@ func (it getFunc) PascalFuncName(
 	return firstCharUpper + string(allRunes[1:])
 }
 
-func (it getFunc) GetPkgPath(i interface{}) interface{} {
+func (it getFunc) GetPkgPath(i any) any {
 	f := it.FullName(i)
 
 	return it.GetPkgPathFullName(f)

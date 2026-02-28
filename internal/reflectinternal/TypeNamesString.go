@@ -11,7 +11,7 @@ import (
 // Multiple type names as csv using TypeNames
 func TypeNamesString(
 	isFullName bool,
-	anyItems ...interface{},
+	anyItems ...any,
 ) string {
 	return strings.Join(
 		TypeNames(isFullName, anyItems...),

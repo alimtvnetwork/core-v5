@@ -10,15 +10,15 @@ type reflectGetter struct{}
 
 // PublicValuesMapStruct
 //
-//	returns structs fields map[string]Interface{}
-//	map[string:fieldName]Interface{}:PublicValue
+//	returns structs fields map[string]any
+//	map[string:fieldName]any:PublicValue
 //
 //	Only public values will be collected into map values
-func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
-	map[string]interface{}, error,
+func (it reflectGetter) PublicValuesMapStruct(anyItem any) (
+	map[string]any, error,
 ) {
 	if Is.Null(anyItem) {
-		return map[string]interface{}{},
+		return map[string]any{},
 			errors.New("null given to expand map[name]value, failed")
 	}
 
@@ -29,18 +29,18 @@ func (it reflectGetter) PublicValuesMapStruct(anyItem interface{}) (
 
 // FieldNameWithValuesMap
 //
-//	returns structs fields map[string]Interface{}
+//	returns structs fields map[string]any
 //	map[string:fieldName]reflect.Type:fieldType
 //
 //	unlike PublicValuesMapStruct to map it collects
 //	all fields with values including the private ones.
 //
 // However, this one will be slower in performance than PublicValuesMapStruct.
-func (it reflectGetter) FieldNameWithValuesMap(anyItem interface{}) (
-	r map[string]interface{}, error error,
+func (it reflectGetter) FieldNameWithValuesMap(anyItem any) (
+	r map[string]any, error error,
 ) {
 	if Is.Null(anyItem) {
-		return map[string]interface{}{},
+		return map[string]any{},
 			it.nullError(r)
 	}
 
@@ -49,7 +49,7 @@ func (it reflectGetter) FieldNameWithValuesMap(anyItem interface{}) (
 	)
 }
 
-func (it reflectGetter) nullError(i interface{}) error {
+func (it reflectGetter) nullError(i any) error {
 	return fmt.Errorf("null given to expand %T, failed", i)
 }
 
@@ -58,7 +58,7 @@ func (it reflectGetter) nullError(i interface{}) error {
 //	returns structs fields map[string]bool names
 //	map[string:fieldName]bool:exists
 func (it reflectGetter) FieldNamesMap(
-	anyItem interface{},
+	anyItem any,
 ) (
 	r map[string]bool, err error,
 ) {
@@ -77,7 +77,7 @@ func (it reflectGetter) FieldNamesMap(
 //	returns structs all fields (public, private) map[string]reflect.StructField
 //	map[string:fieldName]reflect.StructField:StructField
 func (it reflectGetter) StructFieldsMap(
-	anyItem interface{},
+	anyItem any,
 ) map[string]reflect.StructField {
 	if Is.Null(anyItem) {
 		return map[string]reflect.StructField{}
@@ -93,7 +93,7 @@ func (it reflectGetter) StructFieldsMap(
 //	returns structs all fields (public, private) map[string]bool
 //	null fields map only
 func (it reflectGetter) NullFieldsMap(
-	anyItem interface{},
+	anyItem any,
 ) map[string]bool {
 	if Is.Null(anyItem) {
 		return map[string]bool{}
@@ -110,7 +110,7 @@ func (it reflectGetter) NullFieldsMap(
 //	returns structs all fields (public, private) map[string]bool
 //	null or zero fields map only
 func (it reflectGetter) NullOrZeroFieldsMap(
-	anyItem interface{},
+	anyItem any,
 ) map[string]bool {
 	if Is.Null(anyItem) {
 		return map[string]bool{}

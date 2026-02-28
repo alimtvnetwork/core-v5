@@ -12,12 +12,12 @@ type reflectGetUsingReflectValue struct{}
 
 // PublicValuesMapStruct
 //
-//	returns structs fields map[string]Interface{}
-//	map[string:fieldName]Interface{}:PublicValue
+//	returns structs fields map[string]any
+//	map[string:fieldName]any:PublicValue
 //
 //	Only public values will be collected into map values
 func (it reflectGetUsingReflectValue) PublicValuesMapStruct(structValue reflect.Value) (
-	map[string]interface{}, error,
+	map[string]any, error,
 ) {
 	if structValue.Kind() != reflect.Struct {
 		return nil, it.expectReflectButFoundError(structValue)
@@ -25,7 +25,7 @@ func (it reflectGetUsingReflectValue) PublicValuesMapStruct(structValue reflect.
 
 	structType := structValue.Type()
 	structNumFields := structType.NumField()
-	fieldToValueMap := make(map[string]interface{}, structNumFields)
+	fieldToValueMap := make(map[string]any, structNumFields)
 
 	for i := 0; i < structNumFields; i++ {
 		fieldStruct := structType.Field(i)
@@ -51,7 +51,7 @@ func (it reflectGetUsingReflectValue) expectReflectButFoundError(structValue ref
 
 // FieldNameWithTypeMap
 //
-//	returns structs fields map[string]Interface{}
+//	returns structs fields map[string]any
 //	map[string:fieldName]reflect.Type:fieldType
 //
 //	Only public values will be collected into map values
@@ -62,7 +62,6 @@ func (it reflectGetUsingReflectValue) FieldNameWithTypeMap(
 	structValueKind := structValue.Kind()
 
 	for structValueKind == reflect.Ptr || structValueKind == reflect.Interface {
-		// mutating dangerous code
 		structValue = structValue.Elem()
 		structValueKind = structValue.Kind()
 	}
@@ -92,8 +91,8 @@ func (it reflectGetUsingReflectValue) FieldNameWithTypeMap(
 
 // FieldNameWithValuesMap
 //
-//	returns structs all fields (public, private) map[string]Interface{}
-//	map[string:fieldName]interface{}:fieldValuePublicOrPrivate
+//	returns structs all fields (public, private) map[string]any
+//	map[string:fieldName]any:fieldValuePublicOrPrivate
 //
 //	unlike PublicValuesMapStruct to map it collects
 //	all fields with values including the private ones.
@@ -102,17 +101,16 @@ func (it reflectGetUsingReflectValue) FieldNameWithTypeMap(
 func (it reflectGetUsingReflectValue) FieldNameWithValuesMap(
 	structValue reflect.Value,
 ) (
-	map[string]interface{}, error,
+	map[string]any, error,
 ) {
 	structType := structValue.Type()
 	structNumFields := structType.NumField()
-	fieldToValueMap := make(map[string]interface{}, structNumFields)
+	fieldToValueMap := make(map[string]any, structNumFields)
 
 	// structValue is not addressable, create a temporary copy
 	if !structValue.CanAddr() {
 		newType := reflect.New(structType).Elem()
 		newType.Set(structValue)
-		// structValue is now addressable
 		structValue = newType
 	}
 
@@ -145,7 +143,6 @@ func (it reflectGetUsingReflectValue) FieldNamesMap(
 	structValueKind := structValue.Kind()
 
 	for structValueKind == reflect.Ptr || structValueKind == reflect.Interface {
-		// mutating dangerous code
 		structValue = structValue.Elem()
 		structValueKind = structValue.Kind()
 	}
@@ -180,7 +177,6 @@ func (it reflectGetUsingReflectValue) StructFieldsMap(
 	structValueKind := structValue.Kind()
 
 	for structValueKind == reflect.Ptr || structValueKind == reflect.Interface {
-		// mutating dangerous code
 		structValue = structValue.Elem()
 		structValueKind = structValue.Kind()
 	}
@@ -221,9 +217,7 @@ func (it reflectGetUsingReflectValue) NullFieldsMap(
 	hasLevel := level > constants.InvalidIndex
 	structValue := reflectVal
 
-	// reducing ****ToValue to ToValue
 	for structValueKind == reflect.Ptr || structValueKind == reflect.Interface {
-		// mutating dangerous code
 		structValue = structValue.Elem()
 		structValueKind = structValue.Kind()
 
@@ -270,9 +264,7 @@ func (it reflectGetUsingReflectValue) NullOrZeroFieldsMap(
 	hasLevel := level > constants.InvalidIndex
 	structValue := reflectVal
 
-	// reducing ****ToValue to ToValue
 	for structValueKind == reflect.Ptr || structValueKind == reflect.Interface {
-		// mutating dangerous code
 		structValue = structValue.Elem()
 		structValueKind = structValue.Kind()
 

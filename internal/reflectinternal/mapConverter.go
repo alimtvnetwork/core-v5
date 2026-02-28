@@ -11,7 +11,7 @@ import (
 
 type mapConverter struct{}
 
-func (it mapConverter) Length(i interface{}) int {
+func (it mapConverter) Length(i any) int {
 	return SliceConverter.Length(i)
 }
 
@@ -48,7 +48,7 @@ func (it mapConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 	return keys, nil
 }
 
-func (it mapConverter) notStringErr(keyAny interface{}) error {
+func (it mapConverter) notStringErr(keyAny any) error {
 	return fmt.Errorf("not string type : %T", keyAny)
 }
 
@@ -59,24 +59,24 @@ func (it mapConverter) notAMapErr(reflectVal reflect.Value) error {
 // ToKeysStrings
 //
 //	expectation : map[key:string]...value don't care.
-func (it mapConverter) ToKeysStrings(i interface{}) ([]string, error) {
+func (it mapConverter) ToKeysStrings(i any) ([]string, error) {
 	return it.ToStrings(i)
 }
 
 // ToValuesAny
 //
 //	expectation : map[...]...value don't care.
-func (it mapConverter) ToValuesAny(i interface{}) ([]interface{}, error) {
+func (it mapConverter) ToValuesAny(i any) ([]any, error) {
 	if Is.Null(i) {
-		return []interface{}{}, nil
+		return []any{}, nil
 	}
 
 	rv := reflect.ValueOf(i)
 
-	var list []interface{}
+	var list []any
 
 	err := Looper.MapForRv(
-		rv, func(total int, index int, key, v interface{}) (err error) {
+		rv, func(total int, index int, key, v any) (err error) {
 			list = append(list, v)
 
 			return nil
@@ -89,17 +89,17 @@ func (it mapConverter) ToValuesAny(i interface{}) ([]interface{}, error) {
 // ToKeysAny
 //
 //	expectation : map[...]...value don't care.
-func (it mapConverter) ToKeysAny(i interface{}) ([]interface{}, error) {
+func (it mapConverter) ToKeysAny(i any) ([]any, error) {
 	if Is.Null(i) {
-		return []interface{}{}, nil
+		return []any{}, nil
 	}
 
 	rv := reflect.ValueOf(i)
 
-	var list []interface{}
+	var list []any
 
 	err := Looper.MapForRv(
-		rv, func(total int, index int, key, v interface{}) (err error) {
+		rv, func(total int, index int, key, v any) (err error) {
 			list = append(list, key)
 
 			return nil
@@ -112,16 +112,16 @@ func (it mapConverter) ToKeysAny(i interface{}) ([]interface{}, error) {
 // ToKeysValuesAny
 //
 //	expectation : map[string]...value don't care.
-func (it mapConverter) ToKeysValuesAny(i interface{}) (keys []string, values []interface{}, err error) {
+func (it mapConverter) ToKeysValuesAny(i any) (keys []string, values []any, err error) {
 	if Is.Null(i) {
-		return []string{}, []interface{}{}, nil
+		return []string{}, []any{}, nil
 	}
 
 	rv := reflect.ValueOf(i)
 	toStringFunc := convertinternal.AnyTo.SmartString
 
 	err = Looper.MapForRv(
-		rv, func(total int, index int, key, v interface{}) (err error) {
+		rv, func(total int, index int, key, v any) (err error) {
 			keys = append(keys, toStringFunc(key))
 			values = append(values, v)
 
@@ -135,18 +135,18 @@ func (it mapConverter) ToKeysValuesAny(i interface{}) (keys []string, values []i
 // ToStrings
 //
 //	expectation : map[key:string]don't care values
-func (it mapConverter) ToStrings(any interface{}) ([]string, error) {
-	if Is.Null(any) {
+func (it mapConverter) ToStrings(anyItem any) ([]string, error) {
+	if Is.Null(anyItem) {
 		return []string{}, nil
 	}
 
-	reflectVal := reflect.ValueOf(any)
+	reflectVal := reflect.ValueOf(anyItem)
 
 	return it.ToStringsRv(reflectVal)
 }
 
-func (it mapConverter) ToStringsMust(any interface{}) []string {
-	reflectVal := reflect.ValueOf(any)
+func (it mapConverter) ToStringsMust(anyItem any) []string {
+	reflectVal := reflect.ValueOf(anyItem)
 
 	mapKeys, err := it.ToStringsRv(reflectVal)
 
@@ -157,12 +157,12 @@ func (it mapConverter) ToStringsMust(any interface{}) []string {
 	return mapKeys
 }
 
-func (it mapConverter) ToSortedStrings(any interface{}) ([]string, error) {
-	if Is.Null(any) {
+func (it mapConverter) ToSortedStrings(anyItem any) ([]string, error) {
+	if Is.Null(anyItem) {
 		return []string{}, nil
 	}
 
-	reflectVal := reflect.ValueOf(any)
+	reflectVal := reflect.ValueOf(anyItem)
 
 	keys, err := it.ToStringsRv(reflectVal)
 
@@ -175,12 +175,12 @@ func (it mapConverter) ToSortedStrings(any interface{}) ([]string, error) {
 	return keys, nil
 }
 
-func (it mapConverter) ToSortedStringsMust(any interface{}) []string {
-	if Is.Null(any) {
+func (it mapConverter) ToSortedStringsMust(anyItem any) []string {
+	if Is.Null(anyItem) {
 		return []string{}
 	}
 
-	reflectVal := reflect.ValueOf(any)
+	reflectVal := reflect.ValueOf(anyItem)
 
 	keys := it.ToStringsMust(reflectVal)
 	sort.Strings(keys)
@@ -190,10 +190,10 @@ func (it mapConverter) ToSortedStringsMust(any interface{}) []string {
 
 // ToMapStringAnyRv
 //
-//	expectation : map[key:interface{}]interface{} to map[string]interface{}
+//	expectation : map[key:any]any to map[string]any
 func (it mapConverter) ToMapStringAnyRv(
 	reflectVal reflect.Value,
-) (map[string]interface{}, error) {
+) (map[string]any, error) {
 	if reflectVal.Kind() == reflect.Ptr {
 		return it.ToMapStringAnyRv(
 			reflect.Indirect(reflectVal),
@@ -201,13 +201,13 @@ func (it mapConverter) ToMapStringAnyRv(
 	}
 
 	if reflectVal.Kind() != reflect.Map {
-		return map[string]interface{}{},
+		return map[string]any{},
 			it.notAMapErr(reflectVal)
 	}
 
 	mapKeys := reflectVal.MapKeys()
 	newMap := make(
-		map[string]interface{},
+		map[string]any,
 		reflectVal.Len()+1,
 	)
 
@@ -234,12 +234,12 @@ func (it mapConverter) ToMapStringAnyRv(
 
 // ToMapStringAny
 //
-//	expectation : map[key:interface{}]interface{} to map[string]interface{}
+//	expectation : map[key:any]any to map[string]any
 func (it mapConverter) ToMapStringAny(
-	i interface{},
-) (map[string]interface{}, error) {
+	i any,
+) (map[string]any, error) {
 	if Is.Null(i) {
-		return map[string]interface{}{}, nil
+		return map[string]any{}, nil
 	}
 
 	return it.ToMapStringAnyRv(

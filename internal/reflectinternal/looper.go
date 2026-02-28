@@ -12,7 +12,7 @@ import (
 type looper struct{}
 
 func (it *looper) FieldsFor(
-	anyItem interface{},
+	anyItem any,
 	processor func(currentField *reflectmodel.FieldProcessor) (err error),
 ) error {
 	rv := reflect.ValueOf(anyItem)
@@ -54,7 +54,7 @@ func (it *looper) FieldsForRv(
 }
 
 func (it *looper) FieldNames(
-	anyStruct interface{},
+	anyStruct any,
 ) (fieldNames []string, err error) {
 	rv := reflect.ValueOf(anyStruct)
 
@@ -83,7 +83,7 @@ func (it *looper) FieldNamesRv(
 }
 
 func (it *looper) FieldsMap(
-	anyItem interface{},
+	anyItem any,
 ) (resultsMap map[string]*reflect.StructField, err error) {
 	rv := reflect.ValueOf(anyItem)
 
@@ -116,7 +116,7 @@ func (it *looper) FieldsMapRv(
 }
 
 func (it *looper) MethodsMap(
-	anyItem interface{},
+	anyItem any,
 ) (resultsMap map[string]*reflect.Method, err error) {
 	rv := reflect.ValueOf(anyItem)
 
@@ -127,14 +127,14 @@ func (it *looper) MethodsMap(
 //
 //	level -1 means all levels (****...) to Non pointer
 func (it *looper) ReducePointer(
-	anyItem interface{},
+	anyItem any,
 	level int,
 ) *reflectmodel.ReflectValueKind {
 	return it.ReducePointerRv(reflect.ValueOf(anyItem), level)
 }
 
 func (it *looper) ReducePointerDefault(
-	anyItem interface{},
+	anyItem any,
 ) *reflectmodel.ReflectValueKind {
 	return it.ReducePointerRv(reflect.ValueOf(anyItem), defaultPointerReduction)
 }
@@ -185,7 +185,7 @@ func (it *looper) ReducePointerRv(
 }
 
 func (it *looper) MethodsFor(
-	anyItem interface{},
+	anyItem any,
 	processor func(
 		totalMethodsCount int,
 		method *reflectmodel.MethodProcessor,
@@ -222,17 +222,6 @@ func (it *looper) MethodNamesRv(
 }
 
 // MethodsForRv loops through the methods of a reflect.Value and processes each method using a given function.
-//
-// It takes in the reflect.Value to be processed (rv), and a function (processor) that accepts the total number of methods and a MethodProcessor struct representing each method, and returns an error if any.
-// The MethodProcessor struct contains information about the method being processed.
-//
-// This function first converts the reflect.Value to a pointer reflect.Value using the ToPointerReflectValueRv method, and if there is an error during the conversion, it returns the error.
-// It then calls the loopBaseMethods method passing the pointer reflect.Value and the given processor function to process the methods.
-//
-// After that, it reduces the pointer reflect.Value to a non-pointer reflect.Value using the ReducePointerRvDefault method, and calls the loopBaseMethods method again passing the reduced reflect.Value and the given processor function to process the methods.
-//
-// If there is any error during the processing of the methods, it returns the error.
-// Otherwise, it returns nil.
 func (it *looper) MethodsForRv(
 	rv reflect.Value,
 	processor func(
@@ -241,9 +230,6 @@ func (it *looper) MethodsForRv(
 	) (err error),
 ) error {
 	// valid
-	// https://stackoverflow.com/q/598defaultPointerReduction1642
-	// https://prnt.sc/kmkTmVmO2cPH
-	// Pointer connected method and non pointer connect methods will be different
 	ptrRv, conErr := it.ToPointerReflectValueRv(rv)
 
 	if conErr != nil {
@@ -263,21 +249,12 @@ func (it *looper) MethodsForRv(
 }
 
 // Slice processes each item in the provided slice using the given processor function.
-//
-// Parameters:
-//   - i: the slice to be processed.
-//   - processor: the function that will be called for each item in the slice.
-//     It receives the total number of items, the current index, and the item itself.
-//     It should return an error if any error occurs during processing.
-//
-// Returns:
-//   - error: if any error occurs during processing, it will be returned.
 func (it *looper) Slice(
-	i interface{},
+	i any,
 	processor func(
 		total int,
 		index int,
-		item interface{},
+		item any,
 	) (err error),
 ) error {
 	if Is.Null(i) {
@@ -290,25 +267,12 @@ func (it *looper) Slice(
 }
 
 // SliceForRv iterates over a slice or array and applies a processing function to each element.
-//
-// The function takes the following parameters:
-// - rv: a reflect.Value representing the slice or array to iterate over.
-// - processor: a function that takes the following parameters:
-//   - total: the total number of elements in the slice or array.
-//   - index: the index of the current element being processed.
-//   - item: the current element being processed.
-//
-// The processor function should return an error if any error occurs during processing.
-//
-// The function returns an error if the given item is not a slice nor an array.
-// It returns nil if the item is empty or if no errors occur during processing.
-// Otherwise, it returns an error containing the concatenated error messages from the processor function.
 func (it *looper) SliceForRv(
 	rv reflect.Value,
 	processor func(
 		total int,
 		index int,
-		item interface{},
+		item any,
 	) (err error),
 ) error {
 	valueRvWrap := it.ReducePointerRv(rv, defaultPointerReduction)
@@ -354,12 +318,12 @@ func (it *looper) SliceForRv(
 }
 
 func (it *looper) Map(
-	elemMap interface{},
+	elemMap any,
 	processor func(
 		total int,
 		index int,
 		key,
-		value interface{},
+		value any,
 	) (err error),
 ) error {
 	if Is.Null(elemMap) {
@@ -375,7 +339,7 @@ func (it *looper) MapForRv(
 		total int,
 		index int,
 		key,
-		value interface{},
+		value any,
 	) (err error),
 ) error {
 	valueRvWrap := it.ReducePointerRv(rv, defaultPointerReduction)
@@ -423,10 +387,6 @@ func (it *looper) MapForRv(
 func (it *looper) MethodsMapRv(
 	rv reflect.Value,
 ) (map[string]*reflect.Method, error) {
-	// valid
-	// https://stackoverflow.com/q/598defaultPointerReduction1642
-	// https://prnt.sc/kmkTmVmO2cPH
-	// Pointer connected method and non pointer connect methods will be different
 	ptrRv, conErr := it.ToPointerReflectValueRv(rv)
 
 	if conErr != nil {
@@ -453,13 +413,9 @@ func (it *looper) MethodsMapRv(
 //
 // anyItem must be a struct or pointer to struct
 func (it *looper) ToPointerReflectValue(
-	anyItem interface{},
+	anyItem any,
 ) (reflect.Value, error) {
-	// valid
-	// https://stackoverflow.com/q/598defaultPointerReduction1642
-	// https://prnt.sc/kmkTmVmO2cPH
-	// Pointer connected method and non pointer connect methods will be different
-	rv := reflect.ValueOf(anyItem) // can be a pointer or non pointer
+	rv := reflect.ValueOf(anyItem)
 
 	return it.ToPointerReflectValueRv(rv)
 }
@@ -470,10 +426,6 @@ func (it *looper) ToPointerReflectValue(
 func (it *looper) ToPointerReflectValueRv(
 	rv reflect.Value,
 ) (reflect.Value, error) {
-	// valid
-	// https://stackoverflow.com/q/598defaultPointerReduction1642
-	// https://prnt.sc/kmkTmVmO2cPH
-	// Pointer connected method and non pointer connect methods will be different
 	k := rv.Kind()
 	switch k {
 	case reflect.Ptr:
@@ -500,10 +452,6 @@ func (it *looper) loopBaseMethods(
 		method *reflectmodel.MethodProcessor,
 	) (err error),
 ) error {
-	// valid
-	// https://stackoverflow.com/q/598defaultPointerReduction1642
-	// https://prnt.sc/kmkTmVmO2cPH
-	// Pointer connected method and non pointer connect methods will be different
 	structType := rv.Type()
 	methodsCount := rv.NumMethod()
 
@@ -532,10 +480,6 @@ func (it *looper) loopBaseMethods(
 func (it *looper) baseMethodsMap(
 	rv reflect.Value, // can be a pointer or non pointer
 ) map[string]*reflect.Method {
-	// valid
-	// https://stackoverflow.com/q/598defaultPointerReduction1642
-	// https://prnt.sc/kmkTmVmO2cPH
-	// Pointer connected method and non pointer connect methods will be different
 	structType := rv.Type()
 	methodsCount := rv.NumMethod()
 	methodsMap := make(
