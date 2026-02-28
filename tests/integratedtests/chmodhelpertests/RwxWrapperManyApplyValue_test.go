@@ -40,9 +40,9 @@ func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
 		)
 
 		// Act
-		err2 := rwxWrapper.ApplyLinuxChmodOnMany(condition, paths...)
+		applyErr := rwxWrapper.ApplyLinuxChmodOnMany(condition, paths...)
 		errcore.SimpleHandleErr(
-			err2,
+			applyErr,
 			"rwxWrapper.ApplyLinuxChmodOnMany failed",
 		)
 

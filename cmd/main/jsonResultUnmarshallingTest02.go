@@ -17,32 +17,32 @@ func jsonResultUnmarshallingTest02() {
 
 	var emptyMapResult2 coredynamic.MapAnyItems
 
-	err2 := jsonResult.Unmarshal(emptyMapResult2)
-	fmt.Println("err2:", err2)
+	unmarshalValueErr := jsonResult.Unmarshal(emptyMapResult2)
+	fmt.Println("unmarshalValueErr:", unmarshalValueErr)
 	fmt.Println(emptyMapResult2)
 
 	var emptyMapResult3 coredynamic.MapAnyItems
 
-	err3 := jsonResult.Unmarshal(&emptyMapResult3)
-	fmt.Println("err3:", err3)
+	unmarshalPtrErr := jsonResult.Unmarshal(&emptyMapResult3)
+	fmt.Println("unmarshalPtrErr:", unmarshalPtrErr)
 	fmt.Println(emptyMapResult3)
 
-	err4 := emptyMapResult3.JsonParseSelfInject(jsonResult)
-	fmt.Println("err4:", err4)
+	selfInjectErr := emptyMapResult3.JsonParseSelfInject(jsonResult)
+	fmt.Println("selfInjectErr:", selfInjectErr)
 	fmt.Println("emptyMapResult3:", emptyMapResult3)
 
-	err5 := emptyMapResult3.JsonParseSelfInject(nil)
-	fmt.Println("err5:", err5)
+	selfInjectNilErr := emptyMapResult3.JsonParseSelfInject(nil)
+	fmt.Println("selfInjectNilErr:", selfInjectNilErr)
 	fmt.Println("emptyMapResult3:", emptyMapResult3)
 
-	err6 := emptyMapResult.JsonParseSelfInject(jsonResult)
-	fmt.Println("nil emptyMapResult err6:", err6)
+	nilMapInjectErr := emptyMapResult.JsonParseSelfInject(jsonResult)
+	fmt.Println("nil emptyMapResult nilMapInjectErr:", nilMapInjectErr)
 
 	jsonResult = nil
-	err7 := jsonResult.Unmarshal(&emptyMapResult3)
-	fmt.Println("json Result nil, err7:", err7)
+	nilJsonUnmarshalErr := jsonResult.Unmarshal(&emptyMapResult3)
+	fmt.Println("json Result nil, nilJsonUnmarshalErr:", nilJsonUnmarshalErr)
 
 	jsonResult = nil
-	err8 := jsonResult.Unmarshal(emptyMapResult)
-	fmt.Println("json Result, object nil, err8:", err8)
+	nilBothUnmarshalErr := jsonResult.Unmarshal(emptyMapResult)
+	fmt.Println("json Result, object nil, nilBothUnmarshalErr:", nilBothUnmarshalErr)
 }

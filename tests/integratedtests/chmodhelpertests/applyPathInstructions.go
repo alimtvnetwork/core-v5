@@ -16,10 +16,10 @@ func applyPathInstructions(
 	errcore.SimpleHandleErr(err, "applyPathInstructions")
 
 	for _, createPath := range testCase.CreatePaths {
-		err2 := executors.ApplyOnPaths(createPath.GetPaths())
+		applyErr := executors.ApplyOnPaths(createPath.GetPaths())
 
-		if err2 != nil {
-			return err2
+		if applyErr != nil {
+			return applyErr
 		}
 	}
 

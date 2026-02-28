@@ -120,9 +120,9 @@ func (it stringTo) IntegerMust(
 func (it stringTo) IntegerDefault(
 	input string,
 ) int {
-	value, err2 := strconv.Atoi(input)
+	value, parseErr := strconv.Atoi(input)
 
-	if err2 != nil {
+	if parseErr != nil {
 		return constants.Zero
 	}
 
@@ -132,12 +132,12 @@ func (it stringTo) IntegerDefault(
 func (it stringTo) Integer(
 	input string,
 ) (value int, err error) {
-	value, err2 := strconv.Atoi(input)
+	value, parseErr := strconv.Atoi(input)
 
-	if err2 != nil {
+	if parseErr != nil {
 		reference := input +
 			constants.NewLineUnix +
-			err2.Error()
+			parseErr.Error()
 
 		return constants.Zero, errcore.ParsingFailedType.Error(
 			errcore.FailedToConvertType.String(),
@@ -149,10 +149,10 @@ func (it stringTo) Integer(
 }
 
 func (it stringTo) Float64Must(input string) float64 {
-	value, err2 := it.Float64(input)
+	value, floatErr := it.Float64(input)
 
-	if err2 != nil {
-		panic(err2)
+	if floatErr != nil {
+		panic(floatErr)
 	}
 
 	return value
@@ -161,9 +161,9 @@ func (it stringTo) Float64Must(input string) float64 {
 func (it stringTo) Float64Default(
 	input string, defaultFloat64 float64,
 ) (value float64, isSuccess bool) {
-	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
+	value, parseErr := strconv.ParseFloat(input, bitsize.Of64)
 
-	if err2 != nil {
+	if parseErr != nil {
 		return defaultFloat64, false
 	}
 
@@ -173,9 +173,9 @@ func (it stringTo) Float64Default(
 func (it stringTo) Float64Conditional(
 	input string, defaultFloat64 float64,
 ) (value float64, isSuccess bool) {
-	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
+	value, parseErr := strconv.ParseFloat(input, bitsize.Of64)
 
-	if err2 != nil {
+	if parseErr != nil {
 		return defaultFloat64, false
 	}
 
@@ -183,12 +183,12 @@ func (it stringTo) Float64Conditional(
 }
 
 func (it stringTo) Float64(input string) (value float64, err error) {
-	value, err2 := strconv.ParseFloat(input, bitsize.Of64)
+	value, parseErr := strconv.ParseFloat(input, bitsize.Of64)
 
-	if err2 != nil {
+	if parseErr != nil {
 		reference := input +
 			constants.NewLineUnix +
-			err2.Error()
+			parseErr.Error()
 
 		return constants.Zero, errcore.
 			ParsingFailedType.Error(

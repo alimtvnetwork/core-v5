@@ -15,9 +15,9 @@ func linuxApplyRecursivePathInstructions(
 	errcore.SimpleHandleErr(err, "linuxApplyRecursivePathInstructions")
 
 	for _, createPath := range testCase.CreatePaths {
-		err2 := executors.ApplyOnPath(createPath.Dir)
-		if err2 != nil {
-			return err2
+		applyErr := executors.ApplyOnPath(createPath.Dir)
+		if applyErr != nil {
+			return applyErr
 		}
 	}
 
