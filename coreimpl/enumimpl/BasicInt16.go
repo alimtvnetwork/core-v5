@@ -91,7 +91,7 @@ func (it BasicInt16) GetStringValue(input int16) string {
 
 func (it BasicInt16) ExpectingEnumValueError(
 	rawString string,
-	expectedEnum interface{},
+	expectedEnum any,
 ) error {
 	expectedEnumName := it.ToName(expectedEnum)
 	expectedValue := it.GetValueByString(expectedEnumName)
@@ -163,7 +163,7 @@ func (it BasicInt16) AppendPrependJoinNamer(
 		appendVal.Name()
 }
 
-func (it BasicInt16) ToNumberString(valueInRawFormat interface{}) string {
+func (it BasicInt16) ToNumberString(valueInRawFormat any) string {
 	return fmt.Sprintf(constants.SprintValueFormat, valueInRawFormat)
 }
 

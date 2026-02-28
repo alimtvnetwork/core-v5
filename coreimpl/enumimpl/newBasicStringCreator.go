@@ -20,7 +20,7 @@ func (it newBasicStringCreator) Create(
 }
 
 func (it newBasicStringCreator) CreateDefault(
-	firstItem interface{},
+	firstItem any,
 	actualRangesNames []string,
 ) *BasicString {
 	typeName := reflect.TypeOf(firstItem).String()
@@ -34,7 +34,7 @@ func (it newBasicStringCreator) CreateDefault(
 
 func (it newBasicStringCreator) CreateUsingSlicePlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	actualRangesNames []string,
 	aliasingMap map[string]string,
 ) *BasicString {
@@ -52,7 +52,7 @@ func (it newBasicStringCreator) CreateUsingSlicePlusAliasMapOptions(
 
 func (it newBasicStringCreator) CreateUsingMapPlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	actualRangesNames []string,
 	aliasingMap map[string]string,
 ) *BasicString {
@@ -70,7 +70,7 @@ func (it newBasicStringCreator) CreateUsingMapPlusAliasMapOptions(
 
 func (it newBasicStringCreator) UsingFirstItemSliceCaseOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicString {
 	return it.CreateUsingMapPlusAliasMapOptions(
@@ -84,7 +84,7 @@ func (it newBasicStringCreator) UsingFirstItemSliceCaseOptions(
 //
 //	Includes both cases upper, lower case unmarshalling
 func (it newBasicStringCreator) UsingFirstItemSliceAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicString {
 	return it.CreateUsingMapPlusAliasMapOptions(

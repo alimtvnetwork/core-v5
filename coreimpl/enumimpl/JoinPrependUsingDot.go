@@ -5,8 +5,8 @@ import (
 )
 
 func JoinPrependUsingDot(
-	prepend interface{},
-	anyItems ...interface{},
+	prepend any,
+	anyItems ...any,
 ) string {
 	return PrependJoin(
 		constants.Dot,

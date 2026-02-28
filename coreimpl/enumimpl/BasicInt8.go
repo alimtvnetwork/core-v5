@@ -88,7 +88,7 @@ func (it BasicInt8) GetValueByName(name string) (int8, error) {
 
 func (it BasicInt8) ExpectingEnumValueError(
 	rawString string,
-	expectedEnum interface{},
+	expectedEnum any,
 ) error {
 	expectedEnumName := it.ToName(expectedEnum)
 	expectedValue := it.GetValueByString(expectedEnumName)
@@ -166,7 +166,7 @@ func (it BasicInt8) AppendPrependJoinNamer(
 		appendVal.Name()
 }
 
-func (it BasicInt8) ToNumberString(valueInRawFormat interface{}) string {
+func (it BasicInt8) ToNumberString(valueInRawFormat any) string {
 	return fmt.Sprintf(constants.SprintValueFormat, valueInRawFormat)
 }
 

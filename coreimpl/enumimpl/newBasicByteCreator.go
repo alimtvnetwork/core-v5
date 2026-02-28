@@ -58,7 +58,7 @@ func (it newBasicByteCreator) CreateUsingMapPlusAliasMap(
 
 func (it newBasicByteCreator) CreateUsingSlicePlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	names []string,
 	aliasingMap map[string]byte,
 ) *BasicByte {
@@ -78,7 +78,7 @@ func (it newBasicByteCreator) CreateUsingSlicePlusAliasMapOptions(
 
 func (it newBasicByteCreator) CreateUsingMapPlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	actualRangesMap map[byte]string,
 	aliasingMap map[string]byte,
 ) *BasicByte {
@@ -162,7 +162,7 @@ func (it newBasicByteCreator) CreateUsingAliasMap(
 }
 
 func (it newBasicByteCreator) UsingFirstItemSliceAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]byte,
 ) *BasicByte {
@@ -174,7 +174,7 @@ func (it newBasicByteCreator) UsingFirstItemSliceAliasMap(
 
 func (it newBasicByteCreator) UsingFirstItemSliceCaseOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicByte {
 	return it.CreateUsingSlicePlusAliasMapOptions(
@@ -188,7 +188,7 @@ func (it newBasicByteCreator) UsingFirstItemSliceCaseOptions(
 //
 //	Includes both cases upper, lower case unmarshalling
 func (it newBasicByteCreator) UsingFirstItemSliceAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicByte {
 	return it.CreateUsingSlicePlusAliasMapOptions(
@@ -233,7 +233,7 @@ func (it newBasicByteCreator) UsingTypeSlice(
 }
 
 func (it newBasicByteCreator) Default(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicByte {
 	return it.UsingTypeSliceAliasMap(
@@ -244,7 +244,7 @@ func (it newBasicByteCreator) Default(
 }
 
 func (it newBasicByteCreator) DefaultWithAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]byte,
 ) *BasicByte {
@@ -259,7 +259,7 @@ func (it newBasicByteCreator) DefaultWithAliasMap(
 //
 //	includes both lowercase and uppercase parsing.
 func (it newBasicByteCreator) DefaultAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicByte {
 	return it.CreateUsingSlicePlusAliasMapOptions(
@@ -274,7 +274,7 @@ func (it newBasicByteCreator) DefaultAllCases(
 //
 //	includes both lowercase and uppercase parsing.
 func (it newBasicByteCreator) DefaultWithAliasMapAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]byte,
 ) *BasicByte {

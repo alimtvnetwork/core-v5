@@ -7,7 +7,7 @@ import (
 )
 
 func NameWithValue(
-	value interface{},
+	value any,
 ) string {
 	return fmt.Sprintf(
 		constants.EnumNameValueFormat,

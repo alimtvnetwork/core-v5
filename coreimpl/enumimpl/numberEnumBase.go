@@ -13,17 +13,17 @@ import (
 )
 
 type numberEnumBase struct {
-	actualValueRanges      interface{}
+	actualValueRanges      any
 	stringRanges           []string
 	rangesCsvString        coreonce.StringOnce
 	rangesInvalidMessage   coreonce.StringOnce
 	invalidError           coreonce.ErrorOnce
 	integerEnumRangesOnce  coreonce.IntegersOnce
 	typeName               string
-	minAny, maxAny         interface{}
+	minAny, maxAny         any
 	minStr, maxStr         string
 	keyAnyValues           []KeyAnyVal
-	rangesDynamicMap       map[string]interface{}
+	rangesDynamicMap       map[string]any
 	rangesIntegerStringMap map[int]string
 }
 
@@ -34,9 +34,9 @@ type numberEnumBase struct {
 //	Lengths must match stringRanges and actualRangesAnyType
 func newNumberEnumBase(
 	typeName string,
-	actualRangesAnyType interface{},
+	actualRangesAnyType any,
 	nameRanges []string,
-	min, max interface{},
+	min, max any,
 ) numberEnumBase {
 	if nameRanges == nil {
 		errcore.MeaningfulErrorHandle(
@@ -123,7 +123,7 @@ func newNumberEnumBase(
 	}
 }
 
-func (it numberEnumBase) MinMaxAny() (min, max interface{}) {
+func (it numberEnumBase) MinMaxAny() (min, max any) {
 	return it.minAny, it.maxAny
 }
 
@@ -193,13 +193,13 @@ func (it numberEnumBase) Count() int {
 	return len(it.StringRanges())
 }
 
-func (it *numberEnumBase) RangesDynamicMap() map[string]interface{} {
+func (it *numberEnumBase) RangesDynamicMap() map[string]any {
 	if it.rangesDynamicMap != nil {
 		return it.rangesDynamicMap
 	}
 
 	newMap := make(
-		map[string]interface{},
+		map[string]any,
 		len(it.stringRanges)+1,
 	)
 
@@ -217,7 +217,7 @@ func (it *numberEnumBase) DynamicMap() DynamicMap {
 }
 
 func (it *numberEnumBase) notFoundJsonBytesError(
-	currentValueInf interface{},
+	currentValueInf any,
 ) error {
 	compiledMessage := fmt.Sprintf(
 		currentValueNotFoundInJsonMapFormat,
@@ -312,7 +312,7 @@ func (it numberEnumBase) TypeName() string {
 // Make sure non ptr is called +
 // String should also be attached with non ptr.
 func (it numberEnumBase) NameWithValueOption(
-	value interface{},
+	value any,
 	isIncludeQuotation bool,
 ) string {
 	if isIncludeQuotation {
@@ -333,13 +333,13 @@ func (it numberEnumBase) NameWithValueOption(
 // Make sure non ptr is called +
 // String should also be attached with non ptr.
 func (it numberEnumBase) NameWithValue(
-	value interface{},
+	value any,
 ) string {
 	return NameWithValue(value)
 }
 
 func (it numberEnumBase) ValueString(
-	value interface{},
+	value any,
 ) string {
 	return fmt.Sprintf(
 		constants.SprintNumberFormat,
@@ -364,7 +364,7 @@ func (it numberEnumBase) ValueString(
 //   - {value}     : represents value string
 func (it numberEnumBase) Format(
 	format string,
-	value interface{},
+	value any,
 ) string {
 	return Format(
 		it.TypeName(),
@@ -402,12 +402,12 @@ func (it numberEnumBase) NamesHashset() map[string]bool {
 	return toHashset(it.StringRanges()...)
 }
 
-func (it numberEnumBase) JsonString(input interface{}) string {
+func (it numberEnumBase) JsonString(input any) string {
 	return it.ToEnumString(input)
 }
 
 func (it numberEnumBase) ToEnumString(
-	input interface{},
+	input any,
 ) string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
@@ -416,7 +416,7 @@ func (it numberEnumBase) ToEnumString(
 }
 
 func (it numberEnumBase) ToName(
-	input interface{},
+	input any,
 ) string {
 	return fmt.Sprintf(
 		constants.SprintValueFormat,

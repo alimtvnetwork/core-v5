@@ -115,7 +115,7 @@ func (it newBasicInt16Creator) CreateUsingAliasMap(
 
 func (it newBasicInt16Creator) CreateUsingSlicePlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	names []string,
 	aliasingMap map[string]int16,
 ) *BasicInt16 {
@@ -135,7 +135,7 @@ func (it newBasicInt16Creator) CreateUsingSlicePlusAliasMapOptions(
 
 func (it newBasicInt16Creator) CreateUsingMapPlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	actualRangesMap map[int16]string,
 	aliasingMap map[string]int16,
 ) *BasicInt16 {
@@ -152,7 +152,7 @@ func (it newBasicInt16Creator) CreateUsingMapPlusAliasMapOptions(
 }
 
 func (it newBasicInt16Creator) UsingFirstItemSliceAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int16,
 ) *BasicInt16 {
@@ -197,7 +197,7 @@ func (it newBasicInt16Creator) UsingTypeSlice(
 }
 
 func (it newBasicInt16Creator) Default(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicInt16 {
 	return it.UsingTypeSliceAliasMap(
@@ -208,7 +208,7 @@ func (it newBasicInt16Creator) Default(
 }
 
 func (it newBasicInt16Creator) DefaultWithAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int16,
 ) *BasicInt16 {
@@ -223,7 +223,7 @@ func (it newBasicInt16Creator) DefaultWithAliasMap(
 //
 //	includes both lowercase and uppercase parsing.
 func (it newBasicInt16Creator) DefaultAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicInt16 {
 	return it.CreateUsingSlicePlusAliasMapOptions(
@@ -238,7 +238,7 @@ func (it newBasicInt16Creator) DefaultAllCases(
 //
 //	includes both lowercase and uppercase parsing.
 func (it newBasicInt16Creator) DefaultWithAliasMapAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int16,
 ) *BasicInt16 {

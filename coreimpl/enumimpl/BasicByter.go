@@ -37,7 +37,7 @@ type BasicByter interface {
 		appendVal, prependVal toNamer,
 	) string
 	ToNumberString(
-		valueInRawFormat interface{},
+		valueInRawFormat any,
 	) string
 	// UnmarshallToValue
 	//
