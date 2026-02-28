@@ -11,11 +11,11 @@ import (
 )
 
 func coreDynamicMapAnyItems() {
-	fmt.Println(errcore.VarTwoNoType("s1", "ss", "s2", 2))
-	fmt.Println(errcore.MessageVarTwo("current message", "s1", "ss", "s2", 2))
+	fmt.Println(errcore.VarTwoNoType("varName", "ss", "varCount", 2))
+	fmt.Println(errcore.MessageVarTwo("current message", "varName", "ss", "varCount", 2))
 	fmt.Println(errcore.MessageVarMap(
 		"current message",
-		map[string]interface{}{
+		map[string]any{
 			"key1": 1,
 			"key2": 1,
 			"key3": "",
@@ -46,38 +46,38 @@ func coreDynamicMapAnyItems() {
 	mapAnyItems.Add("alim-something8", collection)
 	mapAnyItems.Add("alim-something9", collection)
 
-	splittedItems := mapAnyItems.GetPagedCollection(2)
+	pagedItems := mapAnyItems.GetPagedCollection(2)
 
-	for _, splittedItem := range splittedItems {
-		fmt.Println(splittedItem.AllKeys())
+	for _, pagedItem := range pagedItems {
+		fmt.Println(pagedItem.AllKeys())
 	}
 
 	jsonResult := mapAnyItems.JsonPtr()
-	emptyCollection4 := corestr.Empty.Collection()
-	mapAnyItems.GetItemRef("alim-something3", emptyCollection4)
-	fmt.Println("4", emptyCollection4)
+	targetCollection := corestr.Empty.Collection()
+	mapAnyItems.GetItemRef("alim-something3", targetCollection)
+	fmt.Println("4", targetCollection)
 
 	emptyMapAnyItems := coredynamic.EmptyMapAnyItems()
-	emptyCollection3 := corestr.Empty.Collection()
-	req := corejson.KeyAny{
+	deserializedCollection := corestr.Empty.Collection()
+	keyAnyRequest := corejson.KeyAny{
 		Key:    "alim-something3",
-		AnyInf: emptyCollection3,
+		AnyInf: deserializedCollection,
 	}
 
-	err := emptyMapAnyItems.JsonParseSelfInject(jsonResult)
+	parseErr := emptyMapAnyItems.JsonParseSelfInject(jsonResult)
 	newJsonResult := emptyMapAnyItems.Json()
-	fmt.Println(err)
+	fmt.Println(parseErr)
 	collectionJsonResult := emptyMapAnyItems.JsonResultOfKey("alim-something")
 
-	err2 := emptyMapAnyItems.GetManyItemsRefs(req)
-	fmt.Println("alim-something3, err:", err2)
-	fmt.Println("\"alim-something3\":", req.AnyInf)
-	fmt.Println("\"alim-something3\":", emptyCollection3)
+	manyItemsErr := emptyMapAnyItems.GetManyItemsRefs(keyAnyRequest)
+	fmt.Println("alim-something3, err:", manyItemsErr)
+	fmt.Println("\"alim-something3\":", keyAnyRequest.AnyInf)
+	fmt.Println("\"alim-something3\":", deserializedCollection)
 
-	err3 := emptyMapAnyItems.GetUsingUnmarshallManyAt(req)
-	fmt.Println("alim-something3, err:", err3)
-	fmt.Println("\"alim-something3\":", req.AnyInf)
-	fmt.Println("\"alim-something3\":", emptyCollection3)
+	unmarshalErr := emptyMapAnyItems.GetUsingUnmarshallManyAt(keyAnyRequest)
+	fmt.Println("alim-something3, err:", unmarshalErr)
+	fmt.Println("\"alim-something3\":", keyAnyRequest.AnyInf)
+	fmt.Println("\"alim-something3\":", deserializedCollection)
 
 	fmt.Println(jsonResult.JsonString())
 	fmt.Println(newJsonResult.JsonString())
@@ -90,6 +90,6 @@ func coreDynamicMapAnyItems() {
 	fmt.Println(mapAnyItems)
 
 	anyCollection := coredynamic.NewAnyCollection(10)
-	anyCollection.AddAnySliceFromSingleItem(splittedItems[0].AllKeys())
+	anyCollection.AddAnySliceFromSingleItem(pagedItems[0].AllKeys())
 	fmt.Println(anyCollection)
 }
