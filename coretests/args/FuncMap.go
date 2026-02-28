@@ -55,7 +55,7 @@ func (it FuncMap) Get(name string) *FuncWrap {
 	return nil
 }
 
-func (it *FuncMap) Add(i interface{}) *FuncMap {
+func (it *FuncMap) Add(i any) *FuncMap {
 	if it == nil {
 		*it = map[string]FuncWrap{}
 	}
@@ -69,7 +69,7 @@ func (it *FuncMap) Add(i interface{}) *FuncMap {
 	return it
 }
 
-func (it *FuncMap) Adds(iFunctions ...interface{}) *FuncMap {
+func (it *FuncMap) Adds(iFunctions ...any) *FuncMap {
 	if it == nil {
 		*it = map[string]FuncWrap{}
 	}
@@ -85,7 +85,7 @@ func (it *FuncMap) Adds(iFunctions ...interface{}) *FuncMap {
 	return it
 }
 
-func (it *FuncMap) AddStructFunctions(iStructs ...interface{}) error {
+func (it *FuncMap) AddStructFunctions(iStructs ...any) error {
 	if it == nil {
 		*it = map[string]FuncWrap{}
 	}
@@ -256,7 +256,7 @@ func (it FuncMap) GetInArgsTypesNames(name string) []string {
 	return f.GetInArgsTypesNames()
 }
 
-func (it FuncMap) VerifyInArgs(name string, args []interface{}) (isOkay bool, err error) {
+func (it FuncMap) VerifyInArgs(name string, args []any) (isOkay bool, err error) {
 	f := it.Get(name)
 
 	if f == nil {
@@ -266,7 +266,7 @@ func (it FuncMap) VerifyInArgs(name string, args []interface{}) (isOkay bool, er
 	return f.VerifyInArgs(args)
 }
 
-func (it FuncMap) VerifyOutArgs(name string, args []interface{}) (isOkay bool, err error) {
+func (it FuncMap) VerifyOutArgs(name string, args []any) (isOkay bool, err error) {
 	f := it.Get(name)
 
 	if f == nil {
@@ -298,7 +298,7 @@ func (it FuncMap) OutArgsVerifyRv(name string, args []reflect.Type) (isOkay bool
 
 func (it FuncMap) VoidCallNoReturn(
 	name string,
-	args ...interface{},
+	args ...any,
 ) (processingErr error) {
 	f := it.Get(name)
 
@@ -331,8 +331,8 @@ func (it FuncMap) ValidationError(name string) error {
 
 func (it FuncMap) InvokeMust(
 	name string,
-	args ...interface{},
-) []interface{} {
+	args ...any,
+) []any {
 	results, err := it.Invoke(name, args...)
 
 	if err != nil {
@@ -344,30 +344,30 @@ func (it FuncMap) InvokeMust(
 
 func (it FuncMap) Invoke(
 	name string,
-	args ...interface{},
-) (results []interface{}, processingErr error) {
+	args ...any,
+) (results []any, processingErr error) {
 	return it.InvokeSkip(codestack.Skip1, name, args...)
 }
 
 func (it FuncMap) InvokeSkip(
 	skipStack int,
 	name string,
-	args ...interface{},
-) (results []interface{}, processingErr error) {
+	args ...any,
+) (results []any, processingErr error) {
 	f := it.Get(name)
 
 	if f == nil {
-		return []interface{}{}, it.notFoundErr(name)
+		return []any{}, it.notFoundErr(name)
 	}
 
 	return f.InvokeSkip(skipStack+1, args)
 }
 
-func (it FuncMap) VoidCall(name string) ([]interface{}, error) {
+func (it FuncMap) VoidCall(name string) ([]any, error) {
 	return it.Invoke(name)
 }
 
-func (it FuncMap) ValidateMethodArgs(name string, args []interface{}) error {
+func (it FuncMap) ValidateMethodArgs(name string, args []any) error {
 	f := it.Get(name)
 
 	if f == nil {
@@ -379,8 +379,8 @@ func (it FuncMap) ValidateMethodArgs(name string, args []interface{}) error {
 
 func (it FuncMap) GetFirstResponseOfInvoke(
 	name string,
-	args ...interface{},
-) (firstResponse interface{}, err error) {
+	args ...any,
+) (firstResponse any, err error) {
 	result, err := it.InvokeResultOfIndex(name, 0, args...)
 
 	if err != nil {
@@ -393,8 +393,8 @@ func (it FuncMap) GetFirstResponseOfInvoke(
 func (it FuncMap) InvokeResultOfIndex(
 	name string,
 	index int,
-	args ...interface{},
-) (firstResponse interface{}, err error) {
+	args ...any,
+) (firstResponse any, err error) {
 	f := it.Get(name)
 
 	if f == nil {
@@ -406,7 +406,7 @@ func (it FuncMap) InvokeResultOfIndex(
 
 func (it FuncMap) InvokeError(
 	name string,
-	args ...interface{},
+	args ...any,
 ) (funcErr, processingErr error) {
 	result, err := it.GetFirstResponseOfInvoke(name, args...)
 
@@ -422,8 +422,8 @@ func (it FuncMap) InvokeError(
 //	useful for method which looks like ReflectMethod() (soemthing, error)
 func (it FuncMap) InvokeFirstAndError(
 	name string,
-	args ...interface{},
-) (firstResponse interface{}, funcErr, processingErr error) {
+	args ...any,
+) (firstResponse any, funcErr, processingErr error) {
 	f := it.Get(name)
 
 	if f == nil {

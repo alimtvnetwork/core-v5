@@ -38,7 +38,7 @@ type LinkedCollectionProcessorParameter struct {
 
 type OnCompleteCharCollectionMap func(charCollection *CharCollectionMap)
 type OnCompleteLinkedCollections func(linkedCollections *LinkedCollections)
-type AnyToCollectionProcessor func(any interface{}, index int) *Collection
+type AnyToCollectionProcessor func(any any, index int) *Collection
 type OnCompleteCharHashsetMap func(charHashset *CharHashsetMap)
 type IsStringFilter func(str string, index int) (result string, isKeep bool, isBreak bool)
 type IsKeyAnyValueFilter func(pair KeyAnyValuePair) (result string, isKeep bool, isBreak bool)

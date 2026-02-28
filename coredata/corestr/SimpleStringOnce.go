@@ -697,7 +697,7 @@ func (it *SimpleStringOnce) JsonModel() SimpleStringOnceModel {
 	}
 }
 
-func (it *SimpleStringOnce) JsonModelAny() interface{} {
+func (it *SimpleStringOnce) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -785,6 +785,6 @@ func (it *SimpleStringOnce) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *SimpleStringOnce) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *SimpleStringOnce) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

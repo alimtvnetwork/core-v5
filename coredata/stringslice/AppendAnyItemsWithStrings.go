@@ -10,7 +10,7 @@ func AppendAnyItemsWithStrings(
 	isClone,
 	isSkipOnEmpty bool,
 	mainSlice []string,
-	appendingItems ...interface{},
+	appendingItems ...any,
 ) []string {
 	slice := CloneIf(
 		isClone,

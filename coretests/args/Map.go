@@ -12,9 +12,9 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type Map map[string]interface{}
+type Map map[string]any
 
-func (it Map) GetWorkFunc() interface{} {
+func (it Map) GetWorkFunc() any {
 	return it.WorkFunc()
 }
 
@@ -38,7 +38,7 @@ func (it Map) Length() int {
 	return len(it)
 }
 
-func (it Map) Expected() interface{} {
+func (it Map) Expected() any {
 	return it.GetFirstOfNames(
 		"expected",
 		"expects",
@@ -54,7 +54,7 @@ func (it Map) HasExpect() bool {
 	return reflectinternal.Is.Defined(it.Expected())
 }
 
-func (it Map) GetByIndex(index int) interface{} {
+func (it Map) GetByIndex(index int) any {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
@@ -176,15 +176,15 @@ func (it Map) SortedKeysMust() []string {
 	return sortedKeys
 }
 
-func (it Map) When() (item interface{}) {
+func (it Map) When() (item any) {
 	return it["when"]
 }
 
-func (it Map) Title() (item interface{}) {
+func (it Map) Title() (item any) {
 	return it["title"]
 }
 
-func (it Map) Get(name string) (item interface{}, isValid bool) {
+func (it Map) Get(name string) (item any, isValid bool) {
 	if it == nil {
 		return nil, false
 	}
@@ -198,13 +198,13 @@ func (it Map) Get(name string) (item interface{}, isValid bool) {
 	return nil, false
 }
 
-func (it Map) GetLowerCase(name string) (item interface{}, isValid bool) {
+func (it Map) GetLowerCase(name string) (item any, isValid bool) {
 	lower := strings.ToLower(name)
 
 	return it.Get(lower)
 }
 
-func (it Map) GetDirectLower(name string) interface{} {
+func (it Map) GetDirectLower(name string) any {
 	x, has := it[strings.ToLower(name)]
 
 	if has {
@@ -214,51 +214,51 @@ func (it Map) GetDirectLower(name string) interface{} {
 	return nil
 }
 
-func (it Map) Expect() interface{} {
+func (it Map) Expect() any {
 	return it.GetDirectLower("expect")
 }
 
-func (it Map) Actual() interface{} {
+func (it Map) Actual() any {
 	return it.GetDirectLower("actual")
 }
 
-func (it Map) Arrange() interface{} {
+func (it Map) Arrange() any {
 	return it.GetDirectLower("arrange")
 }
 
-func (it Map) FirstItem() interface{} {
+func (it Map) FirstItem() any {
 	return it.GetFirstOfNames("first", "f1", "p1", "1")
 }
 
-func (it Map) SecondItem() interface{} {
+func (it Map) SecondItem() any {
 	return it.GetFirstOfNames("second", "f2", "p2", "2")
 }
 
-func (it Map) ThirdItem() interface{} {
+func (it Map) ThirdItem() any {
 	return it.GetFirstOfNames("third", "f3", "p3", "3")
 }
 
-func (it Map) FourthItem() interface{} {
+func (it Map) FourthItem() any {
 	return it.GetFirstOfNames("fourth", "f4", "p4", "4")
 }
 
-func (it Map) FifthItem() interface{} {
+func (it Map) FifthItem() any {
 	return it.GetFirstOfNames("fifth", "f5", "p5", "5")
 }
 
-func (it Map) SixthItem() interface{} {
+func (it Map) SixthItem() any {
 	return it.GetFirstOfNames("sixth", "f6", "p6", "6")
 }
 
-func (it Map) Seventh() interface{} {
+func (it Map) Seventh() any {
 	return it.GetFirstOfNames("seventh", "f7", "p7", "7")
 }
 
-func (it Map) SetActual(actual interface{}) {
+func (it Map) SetActual(actual any) {
 	it["actual"] = actual
 }
 
-func (it Map) WorkFunc() interface{} {
+func (it Map) WorkFunc() any {
 	return it.GetFirstOfNames(
 		"func",
 		"work.func",
@@ -266,7 +266,7 @@ func (it Map) WorkFunc() interface{} {
 	)
 }
 
-func (it Map) GetFirstOfNames(names ...string) interface{} {
+func (it Map) GetFirstOfNames(names ...string) any {
 	if len(names) == 0 {
 		return nil
 	}
@@ -306,13 +306,13 @@ func (it Map) FuncWrap() *FuncWrap {
 	return NewFuncWrap.Default(it.WorkFunc())
 }
 
-func (it Map) Invoke(args ...interface{}) (
-	results []interface{}, processingErr error,
+func (it Map) Invoke(args ...any) (
+	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it Map) InvokeMust(args ...interface{}) (results []interface{}) {
+func (it Map) InvokeMust(args ...any) (results []any) {
 	results, err := it.FuncWrap().Invoke(args...)
 
 	if err != nil {
@@ -323,7 +323,7 @@ func (it Map) InvokeMust(args ...interface{}) (results []interface{}) {
 }
 
 func (it Map) InvokeWithValidArgs() (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.ValidArgs()
@@ -332,7 +332,7 @@ func (it Map) InvokeWithValidArgs() (
 }
 
 func (it Map) InvokeArgs(names ...string) (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.Args(names...)
@@ -340,8 +340,8 @@ func (it Map) InvokeArgs(names ...string) (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it Map) ValidArgs() []interface{} {
-	var args []interface{}
+func (it Map) ValidArgs() []any {
+	var args []any
 
 	keys, _ := it.SortedKeys()
 	isDefined := reflectinternal.Is.Defined
@@ -358,12 +358,12 @@ func (it Map) ValidArgs() []interface{} {
 	return args
 }
 
-func (it Map) Raw() map[string]interface{} {
+func (it Map) Raw() map[string]any {
 	return it
 }
 
-func (it Map) Args(names ...string) []interface{} {
-	var args []interface{}
+func (it Map) Args(names ...string) []any {
+	var args []any
 
 	for _, key := range names {
 		val := it[key]
@@ -435,20 +435,20 @@ func (it Map) GetAsStrings(name string) (items []string, isValid bool) {
 	return conv, isValid
 }
 
-func (it Map) GetAsAnyItems(name string) (items []interface{}, isValid bool) {
+func (it Map) GetAsAnyItems(name string) (items []any, isValid bool) {
 	i, isValid := it.Get(name)
 
 	if !isValid {
-		return []interface{}{}, false
+		return []any{}, false
 	}
 
-	conv, isValid := i.([]interface{})
+	conv, isValid := i.([]any)
 
 	return conv, isValid
 }
 
-func (it Map) Slice() []interface{} {
-	var slice []interface{}
+func (it Map) Slice() []any {
+	var slice []any
 
 	keys, err := converters.Map.SortedKeys(it.Raw())
 

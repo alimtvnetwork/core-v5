@@ -6,7 +6,7 @@ import (
 )
 
 type LeftRight struct {
-	Left, Right interface{}
+	Left, Right any
 }
 
 func (it *LeftRight) IsEmpty() bool {
@@ -40,13 +40,13 @@ func (it *LeftRight) IsRightEmpty() bool {
 }
 
 func (it *LeftRight) LeftReflectSet(
-	toPointerOrBytesPointer interface{},
+	toPointerOrBytesPointer any,
 ) error {
 	return ReflectSetFromTo(it.Left, toPointerOrBytesPointer)
 }
 
 func (it *LeftRight) RightReflectSet(
-	toPointerOrBytesPointer interface{},
+	toPointerOrBytesPointer any,
 ) error {
 	return ReflectSetFromTo(it.Right, toPointerOrBytesPointer)
 }

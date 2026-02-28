@@ -5,9 +5,9 @@ import "gitlab.com/auk-go/core/constants"
 func AppendStringsWithAnyItems(
 	isClone,
 	isSkipOnEmpty bool,
-	mainSlice []interface{},
+	mainSlice []any,
 	appendingItems ...string,
-) []interface{} {
+) []any {
 	slice := AnyItemsCloneIf(
 		isClone,
 		len(appendingItems)+constants.Capacity2,
