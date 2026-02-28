@@ -9,29 +9,29 @@ import (
 )
 
 type Item struct {
-	Value           interface{}
-	Possibilities   interface{}
+	Value           any
+	Possibilities   any
 	StringOutput    args.String
-	CreatorFunc     func(i Item, index int) interface{}
+	CreatorFunc     func(i Item, index int) any
 	rvPossibilities *reflect.Value
 	length          int
 }
 
-func (it Item) Create() interface{} {
+func (it Item) Create() any {
 	return it.Value
 }
 
-func (it Item) SliceRequest() interface{} {
+func (it Item) SliceRequest() any {
 	return it.Value
 }
 
-func (it Item) CreateRandom() interface{} {
+func (it Item) CreateRandom() any {
 	rndIndex := rand.Intn(it.Length())
 
 	return it.CreateByIndex(rndIndex)
 }
 
-func (it Item) CreateByIndex(i int) interface{} {
+func (it Item) CreateByIndex(i int) any {
 	if it.HasIndex(i) {
 		return it.At(i)
 	}
@@ -39,7 +39,7 @@ func (it Item) CreateByIndex(i int) interface{} {
 	return nil
 }
 
-func (it Item) CreateBySafeIndexDefault(i int) interface{} {
+func (it Item) CreateBySafeIndexDefault(i int) any {
 	if it.HasIndex(i) {
 		return it.At(i)
 	}
@@ -71,7 +71,7 @@ func (it *Item) PossibilitiesRv() reflect.Value {
 	return *it.rvPossibilities
 }
 
-func (it Item) At(index int) interface{} {
+func (it Item) At(index int) any {
 	return it.PossibilitiesRv().Index(index)
 }
 
@@ -119,7 +119,7 @@ func (it Item) IsZero() bool {
 	return reflectinternal.Is.Zero(it.Value)
 }
 
-func (it Item) CreateByFunc(i int) interface{} {
+func (it Item) CreateByFunc(i int) any {
 	if it.CreatorFunc == nil {
 		return nil
 	}

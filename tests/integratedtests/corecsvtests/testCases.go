@@ -15,7 +15,7 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 	arrangeInterfaceArrayTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+		ArrangeInput:  reflect.TypeOf([]any{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -31,7 +31,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
 					"On all true options, it will look like format: '%s', eg. '%s', '%s', '%s'...",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					1,
 					2,
 					"alim",
@@ -73,7 +73,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
 					"It will look like format: \"%s\", eg. \"%s\", \"%s\", \"%s\"...",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					1,
 					2,
 					"alim",
@@ -115,7 +115,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given strings will be displayed as csv. " +
 					"It will look like format: %s, eg. %s, %s, %s...",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					1,
 					2,
 					"alim",
@@ -310,7 +310,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given items types will be converted into string with a single quote.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					coretests.SomeString{
 						Value: "some value",
 					},
@@ -340,7 +340,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given items types will be converted into string with a double quote.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					coretests.SomeString{
 						Value: "some value",
 					},
@@ -370,7 +370,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Given items types will be converted into string without any quote.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					coretests.SomeString{
 						Value: "some value",
 					},

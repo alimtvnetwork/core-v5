@@ -45,8 +45,8 @@ func (it *recursiveRunner) recursiveMapEntry(
 	m, isFound := curMap[typeName]
 
 	if isFound {
-		m.(map[string]interface{})[toString] = make(map[string]interface{})
-		toMap := m.(map[string]interface{})[toString].(map[string]interface{})
+		m.(map[string]any)[toString] = make(map[string]any)
+		toMap := m.(map[string]any)[toString].(map[string]any)
 
 		ast.Inspect(
 			n, func(node ast.Node) bool {
@@ -68,10 +68,10 @@ func (it *recursiveRunner) recursiveMapEntry(
 			},
 		)
 	} else {
-		curMap[typeName] = make(map[string]interface{})
-		toMap := curMap[typeName].(map[string]interface{})
-		toMap[toString] = make(map[string]interface{})
-		toMap = toMap[toString].(map[string]interface{})
+		curMap[typeName] = make(map[string]any)
+		toMap := curMap[typeName].(map[string]any)
+		toMap[toString] = make(map[string]any)
+		toMap = toMap[toString].(map[string]any)
 		ast.Inspect(
 			n, func(node ast.Node) bool {
 				if it.maxTry <= 0 {

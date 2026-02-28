@@ -13,7 +13,7 @@ func Test_DefinedAnyOf_Verification(t *testing.T) {
 	for caseIndex, testCase := range definedAnyOfTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([][]interface{})
+			ArrangeInput.([][]any)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

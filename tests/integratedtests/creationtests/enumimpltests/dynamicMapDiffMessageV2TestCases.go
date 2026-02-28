@@ -10,12 +10,12 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map diff string compiled must be same",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+					Left: map[string]any{
 						"exist":                        1,
 						"not-exist-in-right":           3,
 						"exist-in-left-right-diff-val": 5,
 					},
-					Right: map[string]interface{}{
+					Right: map[string]any{
 						"exist":                        1,
 						"not-exist-in-left":            2,
 						"exist-in-left-right-diff-val": 6,
@@ -58,12 +58,12 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map diff - no changes",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+					Left: map[string]any{
 						"a":  1,
 						"b":  3,
 						"cl": 5,
 					},
-					Right: map[string]interface{}{
+					Right: map[string]any{
 						"a":  1,
 						"b":  3,
 						"cl": 5,
@@ -84,12 +84,12 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map diff - right hand key missing - cl int 5",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+					Left: map[string]any{
 						"a":  1,
 						"b":  3,
 						"cl": 5,
 					},
-					Right: map[string]interface{}{
+					Right: map[string]any{
 						"a": 1,
 						"b": 3,
 					},
@@ -121,11 +121,11 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map diff - left hand key missing - cl {left, right}",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+					Left: map[string]any{
 						"a": 1,
 						"b": 3,
 					},
-					Right: map[string]interface{}{
+					Right: map[string]any{
 						"a":  1,
 						"b":  3,
 						"cl": 5,
@@ -158,11 +158,11 @@ var dynamicMapDiffMessageTestCasesV2 = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map diff - left cl - key missing",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+					Left: map[string]any{
 						"a": 1,
 						"b": 3,
 					},
-					Right: map[string]interface{}{
+					Right: map[string]any{
 						"a":  1,
 						"b":  3,
 						"cl": 5,

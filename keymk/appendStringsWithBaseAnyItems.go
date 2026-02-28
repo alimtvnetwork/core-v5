@@ -2,9 +2,9 @@ package keymk
 
 func appendStringsWithBaseAnyItems(
 	isSkipOnEmpty bool,
-	mainSlice []interface{},
+	mainSlice []any,
 	appendingItems []string,
-) []interface{} {
+) []any {
 	if len(appendingItems) == 0 {
 		return mainSlice
 	}

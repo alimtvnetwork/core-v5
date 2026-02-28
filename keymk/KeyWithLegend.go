@@ -183,7 +183,7 @@ func (it *KeyWithLegend) appendLegendNameValue(
 //
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) Group(group interface{}) string {
+func (it *KeyWithLegend) Group(group any) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		GroupId: fmt.Sprintf(
@@ -233,7 +233,7 @@ func (it *KeyWithLegend) GroupString(group string) string {
 //
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) UpToGroup(group interface{}) string {
+func (it *KeyWithLegend) UpToGroup(group any) string {
 	request := KeyLegendCompileRequest{
 		GroupId: fmt.Sprintf(constants.SprintValueFormat, group),
 	}
@@ -279,7 +279,7 @@ func (it *KeyWithLegend) UpToGroupString(group string) string {
 //
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) ItemWithoutUser(item interface{}) string {
+func (it *KeyWithLegend) ItemWithoutUser(item any) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		GroupId:   it.groupName,
@@ -304,7 +304,7 @@ func (it *KeyWithLegend) ItemWithoutUser(item interface{}) string {
 //
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) ItemWithoutUserGroup(item interface{}) string {
+func (it *KeyWithLegend) ItemWithoutUserGroup(item any) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		ItemId:    fmt.Sprintf(constants.SprintValueFormat, item),
@@ -328,7 +328,7 @@ func (it *KeyWithLegend) ItemWithoutUserGroup(item interface{}) string {
 //
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) ItemWithoutUserStateGroup(item interface{}) string {
+func (it *KeyWithLegend) ItemWithoutUserStateGroup(item any) string {
 	request := KeyLegendCompileRequest{
 		ItemId: fmt.Sprintf(constants.SprintValueFormat, item),
 	}
@@ -378,7 +378,7 @@ func (it *KeyWithLegend) ItemEnumByte(item enuminf.ByteEnumNamer) string {
 //
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
-func (it *KeyWithLegend) Item(item interface{}) string {
+func (it *KeyWithLegend) Item(item any) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
 		GroupId:   it.groupName,
@@ -590,7 +590,7 @@ func (it *KeyWithLegend) GroupUserString(
 }
 
 func (it *KeyWithLegend) GroupUser(
-	group, user interface{},
+	group, user any,
 ) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
@@ -649,7 +649,7 @@ func (it *KeyWithLegend) GroupUserByte(
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
 func (it *KeyWithLegend) GroupUserItem(
-	group, user, item interface{},
+	group, user, item any,
 ) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
@@ -662,7 +662,7 @@ func (it *KeyWithLegend) GroupUserItem(
 }
 
 func (it *KeyWithLegend) GroupStateUserItem(
-	group, state, user, item interface{},
+	group, state, user, item any,
 ) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, state),
@@ -690,7 +690,7 @@ func (it *KeyWithLegend) GroupStateUserItem(
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
 func (it *KeyWithLegend) StateUserItem(
-	state, user, item interface{},
+	state, user, item any,
 ) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, state),
@@ -718,7 +718,7 @@ func (it *KeyWithLegend) StateUserItem(
 // Conditions apply:
 //   - if Option.IsSkipEmptyEntry then empty input wil be ignored.
 func (it *KeyWithLegend) StateUser(
-	state, user interface{},
+	state, user any,
 ) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, state),
@@ -768,7 +768,7 @@ func (it *KeyWithLegend) GroupUserItemInt(
 }
 
 func (it *KeyWithLegend) GroupItem(
-	group, item interface{},
+	group, item any,
 ) string {
 	request := KeyLegendCompileRequest{
 		StateName: it.stateName,
@@ -780,7 +780,7 @@ func (it *KeyWithLegend) GroupItem(
 }
 
 func (it *KeyWithLegend) StateItem(
-	stateName, item interface{},
+	stateName, item any,
 ) string {
 	request := KeyLegendCompileRequest{
 		StateName: fmt.Sprintf(constants.SprintValueFormat, stateName),

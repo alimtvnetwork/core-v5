@@ -13,7 +13,7 @@ import (
 
 type AstReader struct {
 	filePath          string
-	src               interface{}
+	src               any
 	astFile           *ast.File
 	fullCode          string
 	fileSet           *token.FileSet
@@ -165,7 +165,7 @@ func (it *AstReader) NodesMap() (map[string]args.Map, error) {
 			if isFound {
 				m[toString] = n
 			} else {
-				curMap[typeName] = map[string]interface{}{}
+				curMap[typeName] = map[string]any{}
 				curMap[typeName][toString] = n
 			}
 
@@ -223,14 +223,14 @@ func (it *AstReader) NestedNodesMap() (map[string]args.Map, error) {
 			m, isFound := curMap[typeName]
 
 			if isFound {
-				m[toString] = make(map[string]interface{})
-				toMap := m[toString].(map[string]interface{})
+				m[toString] = make(map[string]any)
+				toMap := m[toString].(map[string]any)
 
 				recursive.recursiveMapEntry(rawErrSlice, toMap, n)
 			} else {
-				curMap[typeName] = make(map[string]interface{}, 100)
-				curMap[typeName][toString] = make(map[string]interface{}, 100)
-				toMap := curMap[typeName][toString].(map[string]interface{})
+				curMap[typeName] = make(map[string]any, 100)
+				curMap[typeName][toString] = make(map[string]any, 100)
+				toMap := curMap[typeName][toString].(map[string]any)
 
 				recursive.recursiveMapEntry(rawErrSlice, toMap, n)
 			}
