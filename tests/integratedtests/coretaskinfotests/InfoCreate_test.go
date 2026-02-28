@@ -9,29 +9,19 @@ import (
 )
 
 // ==========================================
-// Test: Info Creation
+// Test: Info.Default creation
 // ==========================================
 
-func Test_Info_Create_Verification(t *testing.T) {
-	for caseIndex, testCase := range infoCreateTestCases {
+func Test_Info_Default_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoDefaultTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		nameStr, _ := input.GetAsString("name")
 		descStr, _ := input.GetAsString("desc")
 		urlStr, _ := input.GetAsString("url")
-		examples, _ := input.GetAsStrings("examples")
-		noExamples := input.GetDirectLower("noExamples")
 
 		// Act
-		var info *coretaskinfo.Info
-		if len(examples) > 0 {
-			info = coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr, examples...)
-		} else if noExamples == true {
-			info = coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr)
-		} else {
-			info = coretaskinfo.New.Info.Default(nameStr, descStr, urlStr)
-		}
-
+		info := coretaskinfo.New.Info.Default(nameStr, descStr, urlStr)
 		actLines := []string{
 			info.SafeName(),
 			info.SafeDescription(),
@@ -40,60 +30,34 @@ func Test_Info_Create_Verification(t *testing.T) {
 			fmt.Sprintf("%v", info.IsDefined()),
 		}
 
-		if len(examples) > 0 || noExamples == true {
-			actLines = append(actLines,
-				fmt.Sprintf("%v", info.HasExamples()),
-				fmt.Sprintf("%d", len(info.Examples)),
-			)
-		}
-
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
 // ==========================================
-// Test: Nil Safety
+// Test: Info.Examples with examples
 // ==========================================
 
-func Test_Info_NilSafety_Verification(t *testing.T) {
-	for caseIndex, testCase := range infoNilSafetyTestCases {
+func Test_Info_ExamplesWithItems_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoExamplesWithItemsTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-		var info *coretaskinfo.Info // nil
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
+		examples, _ := input.GetAsStrings("examples")
 
 		// Act
-		var actLines []string
-
-		switch method {
-		case "SafeName":
-			actLines = []string{info.SafeName()}
-		case "SafeDescription":
-			actLines = []string{info.SafeDescription()}
-		case "SafeUrl":
-			actLines = []string{info.SafeUrl()}
-		case "SafeHintUrl":
-			actLines = []string{info.SafeHintUrl()}
-		case "SafeErrorUrl":
-			actLines = []string{info.SafeErrorUrl()}
-		case "SafeExampleUrl":
-			actLines = []string{info.SafeExampleUrl()}
-		case "NullCheck":
-			actLines = []string{
-				fmt.Sprintf("%v", info.IsNull()),
-				fmt.Sprintf("%v", info.IsDefined()),
-			}
-		case "EmptyCheck":
-			actLines = []string{
-				fmt.Sprintf("%v", info.IsEmpty()),
-				fmt.Sprintf("%v", info.HasAnyItem()),
-			}
-		case "ClonePtr":
-			cloned := info.ClonePtr()
-			actLines = []string{fmt.Sprintf("%v", cloned == nil)}
-		case "PrettyJsonString":
-			actLines = []string{info.PrettyJsonString()}
+		info := coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr, examples...)
+		actLines := []string{
+			info.SafeName(),
+			info.SafeDescription(),
+			info.SafeUrl(),
+			fmt.Sprintf("%v", info.IsNull()),
+			fmt.Sprintf("%v", info.IsDefined()),
+			fmt.Sprintf("%v", info.HasExamples()),
+			fmt.Sprintf("%d", len(info.Examples)),
 		}
 
 		// Assert
@@ -102,64 +66,27 @@ func Test_Info_NilSafety_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Secure Mode
+// Test: Info.Examples with no examples
 // ==========================================
 
-func Test_Info_SecureMode_Verification(t *testing.T) {
-	for caseIndex, testCase := range infoSecureModeTestCases {
+func Test_Info_ExamplesEmpty_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoExamplesEmptyTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		setSecureVal := input.GetDirectLower("setSecure")
-		existingVal := input.GetDirectLower("existing")
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
 
-		var actLines []string
-
-		if setSecureVal == true && existingVal != true {
-			// Act — SetSecure on nil
-			var nilInfo *coretaskinfo.Info
-			result := nilInfo.SetSecure()
-			actLines = []string{
-				fmt.Sprintf("%v", result.IsSecure()),
-				fmt.Sprintf("%v", result.IsPlainText()),
-			}
-		} else if setSecureVal == true && existingVal == true {
-			// Act — SetSecure on existing plain info
-			nameStr, _ := input.GetAsString("name")
-			info := coretaskinfo.New.Info.Plain.Default(nameStr, "d", "u")
-			info.SetSecure()
-			actLines = []string{
-				fmt.Sprintf("%v", info.IsSecure()),
-				fmt.Sprintf("%v", info.IsPlainText()),
-				info.SafeName(),
-			}
-		} else {
-			// Act — Secure creator
-			nameStr, _ := input.GetAsString("name")
-			descStr, _ := input.GetAsString("desc")
-			urlStr, _ := input.GetAsString("url")
-			examples, _ := input.GetAsStrings("examples")
-
-			if len(examples) > 0 {
-				info := coretaskinfo.New.Info.Secure.NameDescUrlExamples(
-					nameStr, descStr, urlStr, examples...)
-				actLines = []string{
-					info.SafeName(),
-					fmt.Sprintf("%v", info.IsSecure()),
-					fmt.Sprintf("%v", info.IsPlainText()),
-					fmt.Sprintf("%v", info.IsExcludePayload()),
-					fmt.Sprintf("%d", len(info.Examples)),
-				}
-			} else {
-				info := coretaskinfo.New.Info.Secure.Default(nameStr, descStr, urlStr)
-				actLines = []string{
-					info.SafeName(),
-					info.SafeDescription(),
-					info.SafeUrl(),
-					fmt.Sprintf("%v", info.IsSecure()),
-					fmt.Sprintf("%v", info.IsPlainText()),
-					fmt.Sprintf("%v", info.IsExcludePayload()),
-				}
-			}
+		// Act
+		info := coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr)
+		actLines := []string{
+			info.SafeName(),
+			info.SafeDescription(),
+			info.SafeUrl(),
+			fmt.Sprintf("%v", info.IsNull()),
+			fmt.Sprintf("%v", info.IsDefined()),
+			fmt.Sprintf("%v", info.HasExamples()),
+			fmt.Sprintf("%d", len(info.Examples)),
 		}
 
 		// Assert
@@ -168,59 +95,203 @@ func Test_Info_SecureMode_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Plain Mode
+// Test: Nil info — SafeName
 // ==========================================
 
-func Test_Info_PlainMode_Verification(t *testing.T) {
-	for caseIndex, testCase := range infoPlainModeTestCases {
+func Test_Info_Nil_SafeName_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilSafeNameTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{info.SafeName()}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — SafeDescription
+// ==========================================
+
+func Test_Info_Nil_SafeDescription_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilSafeDescriptionTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{info.SafeDescription()}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — SafeUrl
+// ==========================================
+
+func Test_Info_Nil_SafeUrl_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilSafeUrlTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{info.SafeUrl()}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — SafeHintUrl
+// ==========================================
+
+func Test_Info_Nil_SafeHintUrl_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilSafeHintUrlTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{info.SafeHintUrl()}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — SafeErrorUrl
+// ==========================================
+
+func Test_Info_Nil_SafeErrorUrl_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilSafeErrorUrlTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{info.SafeErrorUrl()}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — SafeExampleUrl
+// ==========================================
+
+func Test_Info_Nil_SafeExampleUrl_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilSafeExampleUrlTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{info.SafeExampleUrl()}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — NullCheck
+// ==========================================
+
+func Test_Info_Nil_NullCheck_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilNullCheckTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%v", info.IsNull()),
+			fmt.Sprintf("%v", info.IsDefined()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — EmptyCheck
+// ==========================================
+
+func Test_Info_Nil_EmptyCheck_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilEmptyCheckTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%v", info.IsEmpty()),
+			fmt.Sprintf("%v", info.HasAnyItem()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — ClonePtr
+// ==========================================
+
+func Test_Info_Nil_ClonePtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilClonePtrTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		cloned := info.ClonePtr()
+		actLines := []string{fmt.Sprintf("%v", cloned == nil)}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Nil info — PrettyJsonString
+// ==========================================
+
+func Test_Info_Nil_PrettyJsonString_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoNilPrettyJsonTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		actLines := []string{info.PrettyJsonString()}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Secure.Default creation
+// ==========================================
+
+func Test_Info_SecureDefault_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSecureDefaultTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		setPlainVal := input.GetDirectLower("setPlain")
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
 
-		var actLines []string
-
-		if setPlainVal == true {
-			// Act — SetPlain on nil
-			var nilInfo *coretaskinfo.Info
-			result := nilInfo.SetPlain()
-			actLines = []string{
-				fmt.Sprintf("%v", result.IsSecure()),
-				fmt.Sprintf("%v", result.IsPlainText()),
-			}
-		} else {
-			nameStr, _ := input.GetAsString("name")
-			descStr, _ := input.GetAsString("desc")
-			urlStr, _ := input.GetAsString("url")
-			hintUrl, _ := input.GetAsString("hintUrl")
-			errorUrl, _ := input.GetAsString("errorUrl")
-			examples, _ := input.GetAsStrings("examples")
-
-			if hintUrl != "" {
-				// Act — AllUrlExamples
-				info := coretaskinfo.New.Info.Plain.AllUrlExamples(
-					nameStr, descStr, urlStr, hintUrl, errorUrl, examples...)
-				actLines = []string{
-					info.SafeName(),
-					info.SafeDescription(),
-					info.SafeUrl(),
-					info.SafeHintUrl(),
-					info.SafeErrorUrl(),
-					fmt.Sprintf("%v", info.IsSecure()),
-					fmt.Sprintf("%v", info.IsPlainText()),
-					fmt.Sprintf("%d", len(info.Examples)),
-				}
-			} else {
-				// Act — Default
-				info := coretaskinfo.New.Info.Plain.Default(nameStr, descStr, urlStr)
-				actLines = []string{
-					info.SafeName(),
-					info.SafeDescription(),
-					info.SafeUrl(),
-					fmt.Sprintf("%v", info.IsSecure()),
-					fmt.Sprintf("%v", info.IsPlainText()),
-					fmt.Sprintf("%v", info.IsIncludePayloads()),
-				}
-			}
+		// Act
+		info := coretaskinfo.New.Info.Secure.Default(nameStr, descStr, urlStr)
+		actLines := []string{
+			info.SafeName(),
+			info.SafeDescription(),
+			info.SafeUrl(),
+			fmt.Sprintf("%v", info.IsSecure()),
+			fmt.Sprintf("%v", info.IsPlainText()),
+			fmt.Sprintf("%v", info.IsExcludePayload()),
 		}
 
 		// Assert
@@ -229,11 +300,113 @@ func Test_Info_PlainMode_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: JSON Serialization Round-Trip
+// Test: Secure.NameDescUrlExamples creation
 // ==========================================
 
-func Test_Info_Serialize_Verification(t *testing.T) {
-	for caseIndex, testCase := range infoSerializeTestCases {
+func Test_Info_SecureExamples_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSecureExamplesTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
+		examples, _ := input.GetAsStrings("examples")
+
+		// Act
+		info := coretaskinfo.New.Info.Secure.NameDescUrlExamples(
+			nameStr, descStr, urlStr, examples...)
+		actLines := []string{
+			info.SafeName(),
+			fmt.Sprintf("%v", info.IsSecure()),
+			fmt.Sprintf("%v", info.IsPlainText()),
+			fmt.Sprintf("%v", info.IsExcludePayload()),
+			fmt.Sprintf("%d", len(info.Examples)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: SetSecure on nil
+// ==========================================
+
+func Test_Info_SetSecureOnNil_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSetSecureOnNilTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		result := info.SetSecure()
+		actLines := []string{
+			fmt.Sprintf("%v", result.IsSecure()),
+			fmt.Sprintf("%v", result.IsPlainText()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: SetSecure on existing plain info
+// ==========================================
+
+func Test_Info_SetSecureOnExisting_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSetSecureOnExistingTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		nameStr, _ := input.GetAsString("name")
+
+		// Act
+		info := coretaskinfo.New.Info.Plain.Default(nameStr, "d", "u")
+		info.SetSecure()
+		actLines := []string{
+			fmt.Sprintf("%v", info.IsSecure()),
+			fmt.Sprintf("%v", info.IsPlainText()),
+			info.SafeName(),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Plain.Default creation
+// ==========================================
+
+func Test_Info_PlainDefault_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoPlainDefaultTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
+
+		// Act
+		info := coretaskinfo.New.Info.Plain.Default(nameStr, descStr, urlStr)
+		actLines := []string{
+			info.SafeName(),
+			info.SafeDescription(),
+			info.SafeUrl(),
+			fmt.Sprintf("%v", info.IsSecure()),
+			fmt.Sprintf("%v", info.IsPlainText()),
+			fmt.Sprintf("%v", info.IsIncludePayloads()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Plain.AllUrlExamples creation
+// ==========================================
+
+func Test_Info_PlainAllUrlExamples_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoPlainAllUrlExamplesTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		nameStr, _ := input.GetAsString("name")
@@ -241,55 +414,161 @@ func Test_Info_Serialize_Verification(t *testing.T) {
 		urlStr, _ := input.GetAsString("url")
 		hintUrl, _ := input.GetAsString("hintUrl")
 		errorUrl, _ := input.GetAsString("errorUrl")
-		isSecure := input.GetDirectLower("isSecure")
 		examples, _ := input.GetAsStrings("examples")
 
-		// Act — create original
-		var original *coretaskinfo.Info
-		switch {
-		case isSecure == true:
-			original = coretaskinfo.New.Info.Secure.Default(nameStr, descStr, urlStr)
-		case len(examples) > 0:
-			original = coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr, examples...)
-		case hintUrl != "":
-			original = coretaskinfo.New.Info.Plain.AllUrl(nameStr, descStr, urlStr, hintUrl, errorUrl)
-		default:
-			original = coretaskinfo.New.Info.Default(nameStr, descStr, urlStr)
+		// Act
+		info := coretaskinfo.New.Info.Plain.AllUrlExamples(
+			nameStr, descStr, urlStr, hintUrl, errorUrl, examples...)
+		actLines := []string{
+			info.SafeName(),
+			info.SafeDescription(),
+			info.SafeUrl(),
+			info.SafeHintUrl(),
+			info.SafeErrorUrl(),
+			fmt.Sprintf("%v", info.IsSecure()),
+			fmt.Sprintf("%v", info.IsPlainText()),
+			fmt.Sprintf("%d", len(info.Examples)),
 		}
 
-		// Act — serialize then deserialize
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: SetPlain on nil
+// ==========================================
+
+func Test_Info_SetPlainOnNil_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSetPlainOnNilTestCases {
+		// Arrange
+		var info *coretaskinfo.Info
+
+		// Act
+		result := info.SetPlain()
+		actLines := []string{
+			fmt.Sprintf("%v", result.IsSecure()),
+			fmt.Sprintf("%v", result.IsPlainText()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Serialize Default round-trip
+// ==========================================
+
+func Test_Info_SerializeDefault_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSerializeDefaultTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
+
+		// Act
+		original := coretaskinfo.New.Info.Default(nameStr, descStr, urlStr)
 		jsonBytes := original.JsonPtr().Bytes
 		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
-		noErr := err == nil
+		actLines := []string{
+			deserialized.SafeName(),
+			deserialized.SafeDescription(),
+			deserialized.SafeUrl(),
+			fmt.Sprintf("%v", err == nil),
+			fmt.Sprintf("%v", deserialized.IsSecure()),
+		}
 
-		var actLines []string
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
 
-		switch {
-		case len(examples) > 0:
-			actLines = []string{
-				deserialized.SafeName(),
-				fmt.Sprintf("%v", noErr),
-				fmt.Sprintf("%d", len(deserialized.Examples)),
-			}
-			for _, ex := range deserialized.Examples {
-				actLines = append(actLines, ex)
-			}
-		case hintUrl != "":
-			actLines = []string{
-				deserialized.SafeName(),
-				deserialized.SafeUrl(),
-				deserialized.SafeHintUrl(),
-				deserialized.SafeErrorUrl(),
-				fmt.Sprintf("%v", noErr),
-			}
-		default:
-			actLines = []string{
-				deserialized.SafeName(),
-				deserialized.SafeDescription(),
-				deserialized.SafeUrl(),
-				fmt.Sprintf("%v", noErr),
-				fmt.Sprintf("%v", deserialized.IsSecure()),
-			}
+// ==========================================
+// Test: Serialize Secure round-trip
+// ==========================================
+
+func Test_Info_SerializeSecure_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSerializeSecureTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
+
+		// Act
+		original := coretaskinfo.New.Info.Secure.Default(nameStr, descStr, urlStr)
+		jsonBytes := original.JsonPtr().Bytes
+		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
+		actLines := []string{
+			deserialized.SafeName(),
+			deserialized.SafeDescription(),
+			deserialized.SafeUrl(),
+			fmt.Sprintf("%v", err == nil),
+			fmt.Sprintf("%v", deserialized.IsSecure()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Serialize with examples round-trip
+// ==========================================
+
+func Test_Info_SerializeExamples_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSerializeExamplesTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
+		examples, _ := input.GetAsStrings("examples")
+
+		// Act
+		original := coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr, examples...)
+		jsonBytes := original.JsonPtr().Bytes
+		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
+		actLines := []string{
+			deserialized.SafeName(),
+			fmt.Sprintf("%v", err == nil),
+			fmt.Sprintf("%d", len(deserialized.Examples)),
+		}
+		for _, ex := range deserialized.Examples {
+			actLines = append(actLines, ex)
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Serialize with all URLs round-trip
+// ==========================================
+
+func Test_Info_SerializeAllUrls_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoSerializeAllUrlsTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		nameStr, _ := input.GetAsString("name")
+		descStr, _ := input.GetAsString("desc")
+		urlStr, _ := input.GetAsString("url")
+		hintUrl, _ := input.GetAsString("hintUrl")
+		errorUrl, _ := input.GetAsString("errorUrl")
+
+		// Act
+		original := coretaskinfo.New.Info.Plain.AllUrl(nameStr, descStr, urlStr, hintUrl, errorUrl)
+		jsonBytes := original.JsonPtr().Bytes
+		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
+		actLines := []string{
+			deserialized.SafeName(),
+			deserialized.SafeUrl(),
+			deserialized.SafeHintUrl(),
+			deserialized.SafeErrorUrl(),
+			fmt.Sprintf("%v", err == nil),
 		}
 
 		// Assert
@@ -315,7 +594,7 @@ func Test_Info_Clone_Verification(t *testing.T) {
 		cloned := original.Clone()
 		cloned.RootName = newName
 
-		// Assert — original should NOT be mutated
+		// Assert
 		testCase.ShouldBeEqual(
 			t,
 			caseIndex,
@@ -327,26 +606,43 @@ func Test_Info_Clone_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Field Has/IsEmpty Checks
+// Test: Field checks — populated
 // ==========================================
 
-func Test_Info_FieldChecks_Verification(t *testing.T) {
-	for caseIndex, testCase := range infoFieldCheckTestCases {
+func Test_Info_FieldChecks_Populated_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoFieldCheckPopulatedTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		isEmpty := input.GetDirectLower("empty")
+		info := coretaskinfo.New.Info.Secure.AllUrlExamples(
+			"name", "desc",
+			"url", "hint", "err",
+			"ex1", "ex2",
+		)
+		info.SingleExample = "single"
 
-		var info *coretaskinfo.Info
-		if isEmpty == true {
-			info = &coretaskinfo.Info{}
-		} else {
-			info = coretaskinfo.New.Info.Secure.AllUrlExamples(
-				"name", "desc",
-				"url", "hint", "err",
-				"ex1", "ex2",
-			)
-			info.SingleExample = "single"
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%v", info.HasRootName()),
+			fmt.Sprintf("%v", info.HasDescription()),
+			fmt.Sprintf("%v", info.HasUrl()),
+			fmt.Sprintf("%v", info.HasHintUrl()),
+			fmt.Sprintf("%v", info.HasErrorUrl()),
+			fmt.Sprintf("%v", info.HasExamples()),
+			fmt.Sprintf("%v", info.HasChainingExample()),
 		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Test: Field checks — empty
+// ==========================================
+
+func Test_Info_FieldChecks_Empty_Verification(t *testing.T) {
+	for caseIndex, testCase := range infoFieldCheckEmptyTestCases {
+		// Arrange
+		info := &coretaskinfo.Info{}
 
 		// Act
 		actLines := []string{
