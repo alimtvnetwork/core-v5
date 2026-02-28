@@ -15,7 +15,7 @@ import (
 func AnyItemsToCsvStrings(
 	isIncludeQuote,
 	isIncludeSingleQuote bool, // disable this will give double quote
-	references ...interface{},
+	references ...any,
 ) []string {
 	if len(references) == 0 {
 		return []string{}

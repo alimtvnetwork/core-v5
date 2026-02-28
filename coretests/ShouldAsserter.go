@@ -16,7 +16,7 @@ type ShouldBeSimpleAsserter interface {
 		caseIndex int,
 		t *testing.T,
 		assert convey.Assertion,
-		actual interface{},
+		actual any,
 	)
 }
 
@@ -24,7 +24,7 @@ type ShouldBeEqualAsserter interface {
 	ShouldBeEqual(
 		caseIndex int,
 		t *testing.T,
-		actual interface{},
+		actual any,
 	)
 }
 
@@ -40,7 +40,7 @@ type ShouldContainsAsserter interface {
 	ShouldContains(
 		caseIndex int,
 		t *testing.T,
-		actual interface{},
+		actual any,
 	)
 }
 
@@ -50,9 +50,9 @@ type V2ShouldBeExplicitAsserter interface {
 		caseIndex int,
 		t *testing.T,
 		title string,
-		actual interface{},
+		actual any,
 		assert convey.Assertion,
-		expected interface{},
+		expected any,
 	)
 }
 
@@ -61,9 +61,9 @@ type V1ShouldBeExplicitAsserter interface {
 		caseIndex int,
 		t *testing.T,
 		title string,
-		actual interface{},
+		actual any,
 		assert convey.Assertion,
-		expected interface{},
+		expected any,
 	)
 }
 

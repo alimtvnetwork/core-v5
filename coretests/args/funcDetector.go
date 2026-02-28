@@ -2,7 +2,7 @@ package args
 
 type funcDetector struct{}
 
-func (it funcDetector) GetFuncWrap(i interface{}) *FuncWrap {
+func (it funcDetector) GetFuncWrap(i any) *FuncWrap {
 	switch v := i.(type) {
 	case Map:
 		return v.FuncWrap()

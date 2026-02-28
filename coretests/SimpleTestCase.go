@@ -15,10 +15,10 @@ import (
 //   - ActualInput : Input for the act method
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 type SimpleTestCase struct {
-	Title         string      `json:",omitempty"` // consider as header
-	ArrangeInput  interface{} `json:",omitempty"` // preparing input, initial input
-	ActualInput   interface{} `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
-	ExpectedInput interface{} `json:",omitempty"` // expectation set from the test
+	Title         string   `json:",omitempty"` // consider as header
+	ArrangeInput  any      `json:",omitempty"` // preparing input, initial input
+	ActualInput   any      `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
+	ExpectedInput any      `json:",omitempty"` // expectation set from the test
 	Params        args.Map
 }
 
@@ -35,11 +35,11 @@ func (it SimpleTestCase) ArrangeString() string {
 }
 
 // Input returns ArrangeInput
-func (it SimpleTestCase) Input() interface{} {
+func (it SimpleTestCase) Input() any {
 	return it.ArrangeInput
 }
 
-func (it SimpleTestCase) Expected() interface{} {
+func (it SimpleTestCase) Expected() any {
 	return it.ExpectedInput
 }
 
@@ -47,7 +47,7 @@ func (it SimpleTestCase) ExpectedString() string {
 	return GetAssert.ToString(it.ExpectedInput)
 }
 
-func (it SimpleTestCase) Actual() interface{} {
+func (it SimpleTestCase) Actual() any {
 	return it.ActualInput
 }
 
@@ -55,7 +55,7 @@ func (it SimpleTestCase) ActualString() string {
 	return GetAssert.ToString(it.ActualInput)
 }
 
-func (it SimpleTestCase) SetActual(actual interface{}) {
+func (it SimpleTestCase) SetActual(actual any) {
 	it.ActualInput = actual
 }
 
@@ -85,7 +85,7 @@ func (it SimpleTestCase) noPrintAssert(
 	caseIndex int,
 	t *testing.T,
 	assert convey.Assertion,
-	actual interface{},
+	actual any,
 ) {
 	toTile := it.FormTitle(caseIndex)
 
@@ -122,7 +122,7 @@ func (it SimpleTestCase) CustomTitle(caseIndex int, title string) string {
 func (it SimpleTestCase) ShouldBeEqual(
 	caseIndex int,
 	t *testing.T,
-	actual interface{},
+	actual any,
 ) {
 	it.SetActual(actual)
 
@@ -156,7 +156,7 @@ func (it SimpleTestCase) ShouldHaveNoError(
 func (it SimpleTestCase) ShouldContains(
 	caseIndex int,
 	t *testing.T,
-	actual interface{},
+	actual any,
 ) {
 	it.SetActual(actual)
 
@@ -174,7 +174,7 @@ func (it SimpleTestCase) ShouldBe(
 	caseIndex int,
 	t *testing.T,
 	assert convey.Assertion,
-	actual interface{},
+	actual any,
 ) {
 	it.SetActual(actual)
 
@@ -192,9 +192,9 @@ func (it SimpleTestCase) ShouldBeExplicit(
 	caseIndex int,
 	t *testing.T,
 	title string,
-	actual interface{},
+	actual any,
 	assert convey.Assertion,
-	expected interface{},
+	expected any,
 ) {
 	it.SetActual(actual)
 	headerTitle := it.CustomTitle(caseIndex, title)

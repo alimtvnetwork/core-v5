@@ -11,9 +11,9 @@ func GetSearchTermExpectationMessage(
 	header string,
 	expectationMessage string,
 	lineProcessingIndex int,
-	actual interface{},
-	expected interface{},
-	additionalInfo interface{}, // can be nil
+	actual any,
+	expected any,
+	additionalInfo any, // can be nil
 ) string {
 	if additionalInfo == nil {
 		return fmt.Sprintf(

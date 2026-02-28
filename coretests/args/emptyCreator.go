@@ -3,7 +3,7 @@ package args
 type emptyCreator struct{}
 
 func (it emptyCreator) Map() Map {
-	return map[string]interface{}{}
+	return map[string]any{}
 }
 
 func (it emptyCreator) FuncWrap() *FuncWrap {

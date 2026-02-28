@@ -1,6 +1,6 @@
 package coretests
 
-func AnyToDraftType(anyItem interface{}) *DraftType {
+func AnyToDraftType(anyItem any) *DraftType {
 	switch expectedAs := anyItem.(type) {
 	case DraftType:
 		return &expectedAs
