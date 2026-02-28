@@ -124,6 +124,64 @@ See the full guide: **[newCreator Convention](/spec/01-app/18-new-creator-conven
 
 ---
 
+## Conditional Formatting & Readability
+
+### Prefer Positive Conditions
+
+Use **positive** boolean variables (`isInvalid`, `isEmpty`, `hasError`) rather than negating a variable inline (`!isValid`, `!isEmpty`). This improves readability and makes intent explicit.
+
+```go
+// ✅ Good: Positive condition via renamed variable
+items, isValid := input.GetAsStrings("items")
+isInvalid := !isValid
+
+if isInvalid {
+    errcore.HandleErrMessage("GetAsStrings 'items' failed")
+}
+
+// ❌ Bad: Negation inline
+items, isValid := input.GetAsStrings("items")
+if !isValid {
+    errcore.HandleErrMessage("GetAsStrings 'items' failed")
+}
+```
+
+**Exception**: When the variable is used only once and the meaning is obvious (e.g. `if !ok {`), inline negation is acceptable.
+
+### Blank Line Rules for `if` Blocks
+
+1. **Before `if`**: Always insert a blank line before `if` when preceded by a line of code or a closing `}` (unless that `}` immediately closes an outer block).
+2. **After `}`**: Insert a blank line after `}` only if the next line is **not** another `}` closing a parent block.
+
+```go
+// ✅ Good: Spacing
+items, isValid := input.GetAsStrings("items")
+isInvalid := !isValid
+
+if isInvalid {
+    errcore.HandleErrMessage("GetAsStrings 'items' failed")
+}
+
+search, isValid := input.GetAsString("search")
+
+if !isValid {
+    errcore.HandleErrMessage("GetAsString 'search' failed")
+}
+
+// ❌ Bad: No breathing room
+items, isValid := input.GetAsStrings("items")
+isInvalid := !isValid
+if isInvalid {
+    errcore.HandleErrMessage("GetAsStrings 'items' failed")
+}
+search, isValid := input.GetAsString("search")
+if !isValid {
+    errcore.HandleErrMessage("GetAsString 'search' failed")
+}
+```
+
+---
+
 ## Related Docs
 
 - [Design Philosophy](/spec/01-app/00-repo-overview.md)
