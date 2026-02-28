@@ -155,3 +155,73 @@ var newCreatorGenericItemsSingleTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+// ==========================================
+// Negative/Edge — Generic Collection: From nil
+// ==========================================
+
+var newCreatorGenericFromNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Generic.From with nil slice creates empty collection",
+		ArrangeInput: args.Map{
+			"when": "given nil slice",
+		},
+		ExpectedInput: []string{
+			"0",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// Negative/Edge — Generic Collection: Cap large
+// ==========================================
+
+var newCreatorGenericCapLargeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Generic.Cap with large capacity allocates without error",
+		ArrangeInput: args.Map{
+			"when":     "given capacity 1000000",
+			"capacity": 1000000,
+		},
+		ExpectedInput: []string{
+			"0",
+			"true",
+			"1000000",
+		},
+	},
+}
+
+// ==========================================
+// Negative/Edge — Generic Collection: Items no args
+// ==========================================
+
+var newCreatorGenericItemsNoArgsTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Generic.Items with no arguments creates empty collection",
+		ArrangeInput: args.Map{
+			"when": "given zero variadic args",
+		},
+		ExpectedInput: []string{
+			"0",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// Negative/Edge — Generic Collection: Clone nil
+// ==========================================
+
+var newCreatorGenericCloneNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "New.Collection.Generic.Clone with nil slice creates empty collection",
+		ArrangeInput: args.Map{
+			"when": "given nil slice to clone",
+		},
+		ExpectedInput: []string{
+			"0",
+			"true",
+		},
+	},
+}
