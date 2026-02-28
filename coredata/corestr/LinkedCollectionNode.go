@@ -277,7 +277,8 @@ func (it *LinkedCollectionNode) String() string {
 	return it.Element.String()
 }
 
-func (it *LinkedCollectionNode) ListPtr() *[]string {
+// List returns all elements from this node onwards as a string slice.
+func (it *LinkedCollectionNode) List() []string {
 	list := make([]string, 0, constants.ArbitraryCapacity100)
 
 	node := it
@@ -289,24 +290,25 @@ func (it *LinkedCollectionNode) ListPtr() *[]string {
 		list = append(list, node.Element.List()...)
 	}
 
+	return list
+}
+
+// Deprecated: Use List instead.
+func (it *LinkedCollectionNode) ListPtr() *[]string {
+	list := it.List()
 	return &list
 }
 
-func (it *LinkedCollectionNode) Join(separator string) *string {
-	list := it.ListPtr()
-	toString := strings.Join(*list, separator)
-
-	return &toString
+func (it *LinkedCollectionNode) Join(separator string) string {
+	list := it.List()
+	return strings.Join(list, separator)
 }
 
-func (it *LinkedCollectionNode) StringListPtr(header string) *string {
-	finalString := header +
-		*it.Join(commonJoiner)
-
-	return &finalString
+func (it *LinkedCollectionNode) StringList(header string) string {
+	return header + it.Join(commonJoiner)
 }
 
 func (it *LinkedCollectionNode) Print(header string) {
-	finalString := it.StringListPtr(header)
+	finalString := it.StringList(header)
 	fmt.Println(finalString)
 }
