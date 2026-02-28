@@ -7,6 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -84,7 +85,10 @@ func Test_Generic_Collection_LengthLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range genericLengthLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsAnySlice("items")
+		items, isValid := input.GetAsAnyItems("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.Any.From(items)
@@ -143,7 +147,10 @@ func Test_Generic_Collection_ItemsLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range genericItemsLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsAnySlice("items")
+		items, isValid := input.GetAsAnyItems("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.Any.From(items)
@@ -169,7 +176,10 @@ func Test_Generic_Collection_ClearLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range genericClearLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsAnySlice("items")
+		items, isValid := input.GetAsAnyItems("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.Any.From(items)
@@ -192,8 +202,14 @@ func Test_Generic_Collection_AddCollectionLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range genericAddCollectionLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		first, _ := input.GetAsAnySlice("first")
-		second, _ := input.GetAsAnySlice("second")
+		first, isValid := input.GetAsAnyItems("first")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsAnyItems 'first' failed")
+		}
+		second, isValid := input.GetAsAnyItems("second")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsAnyItems 'second' failed")
+		}
 
 		// Act
 		col1 := coredynamic.New.Collection.Any.From(first)
@@ -218,7 +234,10 @@ func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range genericFilterLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsAnySlice("items")
+		items, isValid := input.GetAsAnyItems("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
+		}
 		col := coredynamic.New.Collection.Any.From(items)
 
 		// Act — filter strings starting with "a" or "d"
