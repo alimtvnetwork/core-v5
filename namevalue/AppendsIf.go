@@ -2,9 +2,9 @@ package namevalue
 
 func AppendsIf(
 	isAdd bool,
-	nameValues []Instance,
-	appendingItems ...Instance,
-) []Instance {
+	nameValues []StringAny,
+	appendingItems ...StringAny,
+) []StringAny {
 	if !isAdd || len(appendingItems) == 0 {
 		return nameValues
 	}

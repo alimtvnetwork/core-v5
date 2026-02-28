@@ -8,7 +8,7 @@ import (
 )
 
 func VarNameValues(
-	nameValues ...namevalue.Instance,
+	nameValues ...namevalue.StringAny,
 ) string {
 	if len(nameValues) == 0 {
 		return ""

@@ -7,16 +7,16 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-type Instance struct {
-	Name  string
-	Value interface{}
+type Instance[K comparable, V any] struct {
+	Name  K
+	Value V
 }
 
-func (it *Instance) IsNull() bool {
+func (it *Instance[K, V]) IsNull() bool {
 	return it == nil
 }
 
-func (it Instance) String() string {
+func (it Instance[K, V]) String() string {
 	if it.IsNull() {
 		return constants.EmptyString
 	}
@@ -27,7 +27,7 @@ func (it Instance) String() string {
 		it.Value)
 }
 
-func (it Instance) JsonString() string {
+func (it Instance[K, V]) JsonString() string {
 	if it.IsNull() {
 		return constants.EmptyString
 	}
@@ -41,11 +41,14 @@ func (it Instance) JsonString() string {
 	return string(rawBytes)
 }
 
-func (it *Instance) Dispose() {
+func (it *Instance[K, V]) Dispose() {
 	if it == nil {
 		return
 	}
 
-	it.Name = constants.EmptyString
-	it.Value = nil
+	var zeroK K
+	var zeroV V
+
+	it.Name = zeroK
+	it.Value = zeroV
 }
