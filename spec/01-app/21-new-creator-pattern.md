@@ -26,9 +26,15 @@ New (root aggregator)
 │   │   ├── Clone(items)
 │   │   └── LenCap(len, cap)
 │   ├── Int (type creator)
+│   │   │   ├── Empty()
+│   │   │   ├── Cap(n)
+│   │   │   └── ...
+│   ├── Any (type creator — Collection[any])
 │   │   ├── Empty()
 │   │   ├── Cap(n)
-│   │   └── ...
+│   │   ├── From(items)
+│   │   ├── Clone(items)
+│   │   └── Items(items...)
 │   └── AnyMap (type creator)
 │       └── ...
 ├── Info (sub-creator: another domain)
@@ -150,6 +156,47 @@ type newCollectionCreator struct {
 
 This eliminates massive code duplication while preserving full IDE discoverability.
 
+### 6. Any Creator (coredynamic convention)
+
+In `coredynamic`, the `Any` field provides a concrete `Collection[any]` creator using a dedicated struct — **not** the generic `typedCollectionCreator[T]`:
+
+```go
+// newAnyCollectionCreator.go
+type newAnyCollectionCreator struct{}
+
+func (it newAnyCollectionCreator) Empty(zero ...any) *Collection[any] {
+    return EmptyCollection[any]()
+}
+
+func (it newAnyCollectionCreator) Cap(capacity int) *Collection[any] {
+    return NewCollection[any](capacity)
+}
+
+func (it newAnyCollectionCreator) From(items []any) *Collection[any] {
+    return CollectionFrom[any](items)
+}
+
+func (it newAnyCollectionCreator) Clone(items []any) *Collection[any] {
+    return CollectionClone[any](items)
+}
+
+func (it newAnyCollectionCreator) Items(items ...any) *Collection[any] {
+    return CollectionFrom[any](items)
+}
+```
+
+```go
+// newCollectionCreator.go (coredynamic)
+type newCollectionCreator struct {
+    Any       newAnyCollectionCreator      // Collection[any] — concrete
+    String    newStringCollectionCreator   // Collection[string]
+    Int       newIntCollectionCreator      // Collection[int]
+    // ...
+}
+```
+
+> **Naming convention:** The field is named `Any` (not `Generic`) because it creates a concrete `Collection[any]`. The term "Generic" is reserved for the true parameterized `typedCollectionCreator[T]` in `coregeneric`.
+
 ## Standard Factory Methods
 
 Every type creator should implement these methods where applicable:
@@ -177,6 +224,7 @@ col := coredynamic.EmptyIntCollection()
 // After (New Creator pattern)
 col := coredynamic.New.Collection.String.Cap(10)
 col := coredynamic.New.Collection.Int.Empty()
+col := coredynamic.New.Collection.Any.From(existingSlice)
 col := coredynamic.New.Collection.AnyMap.From(existingSlice)
 col := coredynamic.New.Collection.Float64.Items(1.0, 2.5, 3.7)
 ```
