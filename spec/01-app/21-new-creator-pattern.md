@@ -103,6 +103,53 @@ func (it newStringCollectionCreator) Clone(items []string) *StringCollection {
 }
 ```
 
+### 5. Generic Typed Creator (coregeneric innovation)
+
+When a package uses Go generics, a **single generic struct** replaces all per-type creator files:
+
+```go
+// typedCollectionCreator.go — ONE definition covers ALL types
+type typedCollectionCreator[T any] struct{}
+
+func (it typedCollectionCreator[T]) Empty() *Collection[T] {
+    return EmptyCollection[T]()
+}
+
+func (it typedCollectionCreator[T]) Cap(capacity int) *Collection[T] {
+    return NewCollection[T](capacity)
+}
+
+func (it typedCollectionCreator[T]) From(items []T) *Collection[T] {
+    return CollectionFrom[T](items)
+}
+
+func (it typedCollectionCreator[T]) Clone(items []T) *Collection[T] {
+    return CollectionClone[T](items)
+}
+
+func (it typedCollectionCreator[T]) Items(items ...T) *Collection[T] {
+    return CollectionFrom[T](items)
+}
+```
+
+The sub-creator then instantiates it per primitive type via struct fields:
+
+```go
+// newCollectionCreator.go
+type newCollectionCreator struct {
+    String  typedCollectionCreator[string]
+    Int     typedCollectionCreator[int]
+    Int64   typedCollectionCreator[int64]
+    Float64 typedCollectionCreator[float64]
+    Byte    typedCollectionCreator[byte]
+    Bool    typedCollectionCreator[bool]
+    Any     typedCollectionCreator[any]
+    // ... all 16 primitive types
+}
+```
+
+This eliminates massive code duplication while preserving full IDE discoverability.
+
 ## Standard Factory Methods
 
 Every type creator should implement these methods where applicable:
@@ -132,6 +179,29 @@ col := coredynamic.New.Collection.String.Cap(10)
 col := coredynamic.New.Collection.Int.Empty()
 col := coredynamic.New.Collection.AnyMap.From(existingSlice)
 col := coredynamic.New.Collection.Float64.Items(1.0, 2.5, 3.7)
+```
+
+### Generic Collection Creation (coregeneric)
+
+```go
+// Collection — works for any primitive type
+col := coregeneric.New.Collection.String.Cap(10)
+col := coregeneric.New.Collection.Int.Items(1, 2, 3)
+col := coregeneric.New.Collection.Float64.From(existingSlice)
+
+// Hashset
+set := coregeneric.New.Hashset.String.Items("a", "b", "c")
+set := coregeneric.New.Hashset.Int.Cap(100)
+
+// Hashmap
+hm := coregeneric.New.Hashmap.StringString.Cap(20)
+hm := coregeneric.New.Hashmap.StringAny.From(existingMap)
+
+// SimpleSlice
+ss := coregeneric.New.SimpleSlice.Int.Items(1, 2, 3)
+
+// LinkedList
+ll := coregeneric.New.LinkedList.String.Items("a", "b", "c")
 ```
 
 ### String Utilities (corestr)
