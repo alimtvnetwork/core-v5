@@ -1,0 +1,53 @@
+package coreversiontests
+
+import (
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+)
+
+var versionCompareTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Equal versions return Equal",
+		ArrangeInput: args.Map{
+			"when":  "given equal versions",
+			"left":  "v0.0.1",
+			"right": "v0.0.1",
+		},
+		ExpectedInput: []string{
+			"Equal",
+		},
+	},
+	{
+		Title: "Left major greater returns LeftGreatest",
+		ArrangeInput: args.Map{
+			"when":  "given left major version greater",
+			"left":  "v3.0",
+			"right": "v0.2.1",
+		},
+		ExpectedInput: []string{
+			"LeftGreatest",
+		},
+	},
+	{
+		Title: "Left minor less returns RightGreatest",
+		ArrangeInput: args.Map{
+			"when":  "given left minor version less",
+			"left":  "v0.0.2",
+			"right": "v0.2.1",
+		},
+		ExpectedInput: []string{
+			"RightGreatest",
+		},
+	},
+	{
+		Title: "Same major with zero-padded returns Equal",
+		ArrangeInput: args.Map{
+			"when":  "given v4 vs v4.0",
+			"left":  "v4",
+			"right": "v4.0",
+		},
+		ExpectedInput: []string{
+			"Equal",
+		},
+	},
+}
