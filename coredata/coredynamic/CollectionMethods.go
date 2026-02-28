@@ -154,23 +154,7 @@ func (it *Collection[T]) ContainsFunc(
 	return it.IndexOfFunc(predicate) >= 0
 }
 
-// --- Transform ---
-
-// Map transforms each item using the given function, returning a new collection.
-func Map[T any, R any](
-	source *Collection[T],
-	transform func(T) R,
-) *Collection[R] {
-	if source == nil || source.IsEmpty() {
-		return EmptyCollection[R]()
-	}
-
-	result := NewCollection[R](source.Length())
-	for _, item := range source.items {
-		result.items = append(result.items, transform(item))
-	}
-	return result
-}
+// Note: Map, FlatMap, and Reduce are defined in CollectionMap.go
 
 // --- String Helpers ---
 
