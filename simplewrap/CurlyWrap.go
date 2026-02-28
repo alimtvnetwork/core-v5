@@ -8,7 +8,7 @@ import (
 )
 
 func CurlyWrap(
-	source interface{},
+	source any,
 ) string {
 	toStr := convertinternal.
 		AnyTo.

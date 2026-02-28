@@ -11,7 +11,7 @@ import (
 //
 // {%v}
 func WithCurly(
-	source interface{},
+	source any,
 ) string {
 	toStr := convertinternal.
 		AnyTo.

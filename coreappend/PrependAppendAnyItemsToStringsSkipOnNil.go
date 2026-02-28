@@ -7,8 +7,8 @@ import (
 )
 
 func PrependAppendAnyItemsToStringsSkipOnNil(
-	prependItem, appendItem interface{},
-	anyItems ...interface{},
+	prependItem, appendItem any,
+	anyItems ...any,
 ) []string {
 	slice := make([]string, 0, len(anyItems)+3)
 

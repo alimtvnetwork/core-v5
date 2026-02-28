@@ -14,7 +14,7 @@ import (
 func TitleCurlyMeta(
 	title,
 	value,
-	meta interface{},
+	meta any,
 ) string {
 	return fmt.Sprintf(
 		constants.CurlyTitleMetaWrapFormat,

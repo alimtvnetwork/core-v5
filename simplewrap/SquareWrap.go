@@ -7,7 +7,7 @@ import (
 )
 
 func SquareWrap(
-	source interface{},
+	source any,
 ) string {
 	return fmt.Sprintf(
 		constants.SquareWrapFormat,

@@ -2,7 +2,7 @@ package simplewrap
 
 func ParenthesisWrapIf(
 	isSquareWrap bool,
-	source interface{},
+	source any,
 ) string {
 	if !isSquareWrap {
 		return toString(source)

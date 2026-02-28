@@ -176,9 +176,9 @@ func (it reflectConverter) ReducePointerRv(
 //
 // Default means level 3 at max
 func (it reflectConverter) ReducePointerDefault(
-	anyItem interface{},
+	anyItem any,
 ) *reflectmodel.ReflectValueKind {
-	return it.ReducePointerDefault(anyItem)
+	return it.ReducePointer(anyItem, 3)
 }
 
 // ReducePointerRvDefault

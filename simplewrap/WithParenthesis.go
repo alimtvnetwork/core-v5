@@ -10,7 +10,7 @@ import (
 //
 // (%v)
 func WithParenthesis(
-	source interface{},
+	source any,
 ) string {
 	return fmt.Sprintf(
 		constants.ParenthesisWrapFormat,
