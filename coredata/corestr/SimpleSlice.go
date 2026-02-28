@@ -76,7 +76,7 @@ func (it *SimpleSlice) Append(
 //	Skips empty format + values
 func (it *SimpleSlice) AppendFmt(
 	format string,
-	v ...interface{},
+	v ...any,
 ) *SimpleSlice {
 	if format == "" && len(v) == 0 {
 		return it
@@ -96,7 +96,7 @@ func (it *SimpleSlice) AppendFmt(
 func (it *SimpleSlice) AppendFmtIf(
 	isAppend bool,
 	format string,
-	v ...interface{},
+	v ...any,
 ) *SimpleSlice {
 	if !isAppend || format == "" && len(v) == 0 {
 		return it
@@ -115,7 +115,7 @@ func (it *SimpleSlice) AppendFmtIf(
 //	Adds Title : value (constants.TitleValueFormat)
 func (it *SimpleSlice) AddAsTitleValue(
 	title string,
-	value interface{},
+	value any,
 ) *SimpleSlice {
 	*it = append(
 		*it,
@@ -130,7 +130,7 @@ func (it *SimpleSlice) AddAsTitleValue(
 //	Adds Title: {value} (constants.CurlyTitleWrapFormat)
 func (it *SimpleSlice) AddAsCurlyTitleWrap(
 	title string,
-	value interface{},
+	value any,
 ) *SimpleSlice {
 	*it = append(
 		*it,
@@ -146,7 +146,7 @@ func (it *SimpleSlice) AddAsCurlyTitleWrap(
 func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
 	isAppend bool,
 	title string,
-	value interface{},
+	value any,
 ) *SimpleSlice {
 	if !isAppend {
 		return it
@@ -167,7 +167,7 @@ func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
 func (it *SimpleSlice) AddAsTitleValueIf(
 	isAppend bool,
 	title string,
-	value interface{},
+	value any,
 ) *SimpleSlice {
 	if !isAppend {
 		return it
@@ -194,7 +194,7 @@ func (it *SimpleSlice) InsertAt(
 
 func (it *SimpleSlice) AddStruct(
 	isIncludeFieldName bool,
-	anyStruct interface{},
+	anyStruct any,
 ) *SimpleSlice {
 	if anyStruct == nil {
 		return it
@@ -210,7 +210,7 @@ func (it *SimpleSlice) AddStruct(
 
 func (it *SimpleSlice) AddPointer(
 	isIncludeFieldName bool,
-	anyPtr interface{},
+	anyPtr any,
 ) *SimpleSlice {
 	if anyPtr == nil {
 		return it
@@ -260,7 +260,7 @@ func (it *SimpleSlice) AsError(joiner string) error {
 	return errors.New(errStr)
 }
 
-func (it *SimpleSlice) FirstDynamic() interface{} {
+func (it *SimpleSlice) FirstDynamic() any {
 	return (*it)[0]
 }
 
@@ -268,7 +268,7 @@ func (it *SimpleSlice) First() string {
 	return (*it)[0]
 }
 
-func (it *SimpleSlice) LastDynamic() interface{} {
+func (it *SimpleSlice) LastDynamic() any {
 	return (*it)[it.LastIndex()]
 }
 
@@ -276,7 +276,7 @@ func (it *SimpleSlice) Last() string {
 	return (*it)[it.LastIndex()]
 }
 
-func (it *SimpleSlice) FirstOrDefaultDynamic() interface{} {
+func (it *SimpleSlice) FirstOrDefaultDynamic() any {
 	return it.FirstOrDefault()
 }
 
@@ -288,7 +288,7 @@ func (it *SimpleSlice) FirstOrDefault() string {
 	return it.First()
 }
 
-func (it *SimpleSlice) LastOrDefaultDynamic() interface{} {
+func (it *SimpleSlice) LastOrDefaultDynamic() any {
 	return it.LastOrDefault()
 }
 
@@ -300,7 +300,7 @@ func (it *SimpleSlice) LastOrDefault() string {
 	return it.Last()
 }
 
-func (it *SimpleSlice) SkipDynamic(skippingItemsCount int) interface{} {
+func (it *SimpleSlice) SkipDynamic(skippingItemsCount int) any {
 	return (*it)[skippingItemsCount:]
 }
 
@@ -308,7 +308,7 @@ func (it *SimpleSlice) Skip(skippingItemsCount int) []string {
 	return (*it)[skippingItemsCount:]
 }
 
-func (it *SimpleSlice) TakeDynamic(takeDynamicItems int) interface{} {
+func (it *SimpleSlice) TakeDynamic(takeDynamicItems int) any {
 	return (*it)[:takeDynamicItems]
 }
 
@@ -316,7 +316,7 @@ func (it *SimpleSlice) Take(takeDynamicItems int) []string {
 	return (*it)[:takeDynamicItems]
 }
 
-func (it *SimpleSlice) LimitDynamic(limit int) interface{} {
+func (it *SimpleSlice) LimitDynamic(limit int) any {
 	return it.Take(limit)
 }
 
@@ -885,7 +885,7 @@ func (it *SimpleSlice) Reverse() *SimpleSlice {
 	return it
 }
 
-func (it SimpleSlice) JsonModelAny() interface{} {
+func (it SimpleSlice) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1270,7 +1270,7 @@ func (it *SimpleSlice) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *SimpleSlice) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *SimpleSlice) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }
 

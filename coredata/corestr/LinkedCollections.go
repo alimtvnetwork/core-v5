@@ -224,7 +224,7 @@ func (it *LinkedCollections) AddsUsingProcessorAsyncOnComplete(
 	onComplete OnCompleteLinkedCollections,
 	processor AnyToCollectionProcessor,
 	isSkipOnNil bool,
-	anys ...interface{},
+	anys ...any,
 ) *LinkedCollections {
 	go func() {
 		it.Lock()
@@ -256,7 +256,7 @@ func (it *LinkedCollections) AddsUsingProcessorAsync(
 	wg *sync.WaitGroup,
 	processor AnyToCollectionProcessor,
 	isSkipOnNil bool,
-	anys ...interface{},
+	anys ...any,
 ) *LinkedCollections {
 	go func() {
 		it.Lock()
@@ -1426,7 +1426,7 @@ func (it *LinkedCollections) JsonModel() []string {
 	return it.ToCollection(0).JsonModel()
 }
 
-func (it *LinkedCollections) JsonModelAny() interface{} {
+func (it *LinkedCollections) JsonModelAny() any {
 	return it.JsonModel()
 }
 
