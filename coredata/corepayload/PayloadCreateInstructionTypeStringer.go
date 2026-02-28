@@ -7,7 +7,7 @@ type PayloadCreateInstructionTypeStringer struct {
 	TaskTypeNameStringer fmt.Stringer
 	CategoryNameStringer fmt.Stringer
 	HasManyRecords       bool
-	Payloads             interface{} // for any type no need to entity type it will be collected by reflection.
+	Payloads             any // for any type no need to entity type it will be collected by reflection.
 	Attributes           *Attributes
 }
 

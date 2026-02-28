@@ -52,3 +52,56 @@ func Test_ErrCore_MergeErrors_Verification(t *testing.T) {
 		)
 	}
 }
+
+func Test_ErrType_ErrorNoRefs_Verification(t *testing.T) {
+	for caseIndex, testCase := range errTypeErrorNoRefsTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		message, _ := input.GetAsString("message")
+		errType := errcore.BytesAreNilOrEmptyType
+
+		// Act
+		result := errType.ErrorNoRefs(message)
+		hasError := fmt.Sprintf("%v", result != nil)
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, hasError)
+	}
+}
+
+func Test_ErrType_Error_Verification(t *testing.T) {
+	for caseIndex, testCase := range errTypeErrorTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		message, _ := input.GetAsString("message")
+		ref, _ := input.GetAsString("ref")
+		errType := errcore.BytesAreNilOrEmptyType
+
+		// Act
+		result := errType.Error(message, ref)
+
+		// Assert
+		testCase.ShouldBeRegex(t, caseIndex, result)
+	}
+}
+
+func Test_MustBeEmpty_NilError_DoesNotPanic(t *testing.T) {
+	// Should not panic
+	errcore.MustBeEmpty(nil)
+}
+
+func Test_MustBeEmpty_WithError_Panics(t *testing.T) {
+	defer func() {
+		recovered := recover()
+		if recovered == nil {
+			t.Error("Expected panic but did not get one")
+		}
+	}()
+
+	errcore.MustBeEmpty(errors.New("must fail"))
+}
+
+func Test_HandleErr_NilError_DoesNotPanic(t *testing.T) {
+	// Should not panic
+	errcore.HandleErr(nil)
+}
