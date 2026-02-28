@@ -10,6 +10,8 @@
 | Phase 4 | ✅ Done | Special module docs and conventions |
 | Phase 5 | ✅ Done | Codegen deprecation and Go modernization plan |
 | Phase 6 | ✅ Done | Code review report and improvement backlog |
+| Phase 7 | ✅ Done | Package-level README docs |
+| Phase 8 | ✅ Done | Code review fixes (return types, typos, README accuracy) |
 
 ---
 
@@ -50,21 +52,15 @@
 
 ---
 
-## Phase 3: README Upgrades 🔲
+## Phase 3: README Upgrades ✅
 
 **Goal**: Rewrite root README with quick start, examples, and spec links.
 
-**Inputs**: Current README.md, spec docs
-**Outputs**: Updated `/README.md`
-
 **Acceptance Criteria**:
-- [ ] README has end-to-end onboarding
-- [ ] README includes modern examples
-- [ ] README points to spec docs
-- [ ] Prerequisites updated to modern Go
-
-**Open Questions**:
-- Should the README maintain backward-compatible examples for Go 1.17?
+- [x] README has end-to-end onboarding
+- [x] README includes modern examples
+- [x] README points to spec docs
+- [x] Prerequisites updated to modern Go
 
 ---
 
@@ -113,27 +109,62 @@
 
 ---
 
+## Phase 7: Package-Level README Docs ✅
+
+**Goal**: Create comprehensive README.md files for core packages with usage examples.
+
+**Outputs**:
+- `coredata/corejson/README.md` ✅
+- `coredata/coreapi/README.md` ✅
+- `corefuncs/README.md` ✅
+- Verified `coredata/coredynamic/README.md` ✅ (pre-existing)
+- Verified `coredata/corepayload/README.md` ✅ (pre-existing)
+
+**Acceptance Criteria**:
+- [x] Each README has accurate folder tree
+- [x] Each README has usage examples
+- [x] All method names and return types verified against source
+
+---
+
+## Phase 8: Code Review Fixes ✅
+
+**Goal**: Fix issues found during README review and code modernization.
+
+**Outputs**:
+- Migrated `*[]string` → `[]string` return types in Hashset, Collection, CharHashsetMap ✅
+- Fixed README examples: `Serialize.ToString` signature, `MapResults` API, wrapper constructors ✅
+- Added missing files to folder trees in corejson and coreapi READMEs ✅
+- Added deprecation notices to `*Ptr()` methods with direct-return alternatives ✅
+
+**Acceptance Criteria**:
+- [x] All README examples compile-correct
+- [x] Folder trees match actual directory contents
+- [x] Return type modernization complete for string collections
+
+---
+
 ## Prioritized Backlog
 
 | Priority | Task | Spec Reference |
 |----------|------|---------------|
-| 🔴 High | Upgrade Go to 1.22+ | `11-go-modernization.md` |
-| 🔴 High | Replace `interface{}` → `any` project-wide | `11-go-modernization.md` |
-| 🟡 Medium | Rewrite root README | `spec/13-app-issues/docs/01-readme-outdated.md` |
-| 🟡 Medium | Fix `convertinteranl` typo | `spec/13-app-issues/golang/01-convertinteranl-typo.md` |
-| 🟡 Medium | Fix `refeflectcore` typo | `spec/13-app-issues/golang/02-refeflectcore-typo.md` |
+| 🔴 High | Complete `interface{}` → `any` in `coreinterface/` (569 matches) | `20-improvement-plan.md` |
+| 🟡 Medium | Split `Attributes.go` (768 lines) | `20-improvement-plan.md` Phase 5 |
+| 🟡 Medium | Split `Dynamic.go` (674 lines) | `20-improvement-plan.md` Phase 5 |
+| 🟡 Medium | Split `Info.go` (646 lines) | `20-improvement-plan.md` Phase 5 |
+| 🟡 Medium | Split `BaseTestCase.go` (435 lines) | `20-improvement-plan.md` Phase 5 |
 | 🟡 Medium | Add generics to `conditional/` | `11-go-modernization.md` |
-| 🟡 Medium | Add generics to `core.go` | `11-go-modernization.md` |
 | 🟡 Medium | Deprecate codegen | `10-codegen-deprecation-plan.md` |
-| 🟢 Low | Add missing unit tests | `spec/13-app-issues/testing/01-missing-unit-tests.md` |
-| 🟢 Low | Create per-package READMEs | `spec/13-app-issues/docs/02-missing-package-docs.md` |
+| 🟡 Medium | Create READMEs for coregeneric, corestr, coreonce, corerange, stringslice | `13-app-issues/docs/02-missing-package-docs.md` |
+| 🟡 Medium | Value receiver migration (ongoing) | `20-improvement-plan.md` Phase 6 |
+| 🟢 Low | Add missing unit tests (P1-P3 packages) | `20-improvement-plan.md` Phase 4 |
 | 🟢 Low | Remove codegen completely | `10-codegen-deprecation-plan.md` |
 
 ## Next Task Selection
 
-Pick your next task from the backlog above. Recommended order:
+Recommended order:
 
-1. **Start with Phase 3** — Rewrite root README (improves onboarding immediately).
-2. **Then Go upgrade** — Unlocks all generics work.
-3. **Then generics** — Reduces codebase size significantly.
-4. **Then codegen removal** — Simplifies maintenance.
+1. **`coreinterface/` `any` migration** — Largest remaining modernization surface (569 matches).
+2. **File splitting** — Reduces cognitive load on large files.
+3. **Remaining package READMEs** — Completes documentation coverage.
+4. **Codegen deprecation** — Simplifies maintenance.
