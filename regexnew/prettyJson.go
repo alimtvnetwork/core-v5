@@ -12,7 +12,7 @@ import (
 // Warning:
 //
 //	swallows error
-func prettyJson(anyItem interface{}) string {
+func prettyJson(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}

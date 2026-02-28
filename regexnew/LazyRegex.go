@@ -102,7 +102,7 @@ func (it *LazyRegex) OnRequiredCompiled() error {
 }
 
 func (it *LazyRegex) OnRequiredCompiledMust() {
-	err := it.CompileMust()
+	err := it.OnRequiredCompiled()
 
 	if err != nil {
 		panic(err)
@@ -165,7 +165,7 @@ func (it *LazyRegex) FullString() (detail string) {
 	isCompiled := it.IsCompiled()
 	compiledErr := it.CompiledError()
 
-	newMap := map[string]interface{}{
+	newMap := map[string]any{
 		"pattern":      it.Pattern(),
 		"isCompiled":   isCompiled,
 		"isApplicable": isApplicable,

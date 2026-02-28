@@ -279,14 +279,145 @@ sliceErr := errcore.SliceToError([]string{"issue 1", "issue 2"})
 err = errcore.CannotBeNilOrEmptyType.ErrorNoRefs("user input")
 ```
 
-### Regex (Lazy Compiled)
+### Regex (Lazy Compiled) — `regexnew/`
+
+The `regexnew` package provides thread-safe, lazy-compiled regular expressions with caching. Patterns compile only on first use and are stored in a global map for reuse.
+
+#### Creating Regex — Lock vs No-Lock
 
 ```go
 import "gitlab.com/auk-go/core/regexnew"
 
-// Compiles only on first Match/Find call
-lazy := regexnew.Create.New(`\d+`)
-matched := lazy.IsMatch("abc123") // true, compiled once
+// --- Package-level vars (init time, no goroutine contention) ---
+// Use New.Lazy — no mutex lock needed at init
+var digitRegex = regexnew.New.Lazy(`\d+`)
+var emailRegex = regexnew.New.Lazy(`[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`)
+
+// --- Inside methods/goroutines (concurrent access) ---
+// Use New.LazyLock — mutex-protected for thread safety
+func validateInput(input string) bool {
+    lazy := regexnew.New.LazyLock(`^[a-z]+\d+$`)
+    return lazy.IsMatch(input)
+}
+```
+
+#### Matching & Validation
+
+```go
+lazy := regexnew.New.LazyLock(`\d+`)
+
+// Simple match
+lazy.IsMatch("abc123")          // true
+lazy.IsMatch("no digits")       // false
+lazy.IsFailedMatch("abc123")    // false (inverse of IsMatch)
+
+// Byte matching
+lazy.IsMatchBytes([]byte("abc123"))        // true
+lazy.IsFailedMatchBytes([]byte("letters")) // true
+
+// First submatch extraction
+lazy2 := regexnew.New.LazyLock(`(\d+)`)
+match, invalid := lazy2.FirstMatchLine("abc 123 def 456")
+// match = "123", invalid = false
+
+// Match with error return (for validation pipelines)
+err := lazy.MatchError("abc123") // nil (matched)
+err = lazy.MatchError("letters") // error with descriptive message
+```
+
+#### Compile Control
+
+```go
+lazy := regexnew.New.LazyLock(`\d+`)
+
+// Explicit compile (returns cached after first call)
+regex, err := lazy.Compile()
+
+// Panic on compile failure
+regex = lazy.CompileMust()
+
+// State inspection
+lazy.IsCompiled()   // true after first Compile/Match
+lazy.IsApplicable() // true if pattern is valid and compiled
+lazy.IsDefined()    // true if pattern is non-empty with compiler
+lazy.HasError()     // true if compile failed
+lazy.HasAnyIssues() // true if nil, undefined, or compile error
+lazy.Pattern()      // returns the raw pattern string
+lazy.String()       // same as Pattern()
+```
+
+#### Package-Level Functions (Lock = thread-safe)
+
+```go
+// Direct create (cached in global map)
+regex, err := regexnew.Create(`\d+`)          // no lock, use in var init
+regex, err = regexnew.CreateLock(`\d+`)        // with lock, use in methods
+regex = regexnew.CreateMust(`\d+`)             // panics on error
+
+// Conditional locking
+regex, err = regexnew.CreateLockIf(true, `\d+`)
+regex = regexnew.CreateMustLockIf(true, `\d+`)
+
+// Create with applicability check
+regex, err, isApplicable := regexnew.CreateApplicableLock(`\d+`)
+
+// Quick match (creates regex + matches in one call)
+regexnew.IsMatchLock(`\d+`, "abc123")   // true
+regexnew.IsMatchFailed(`\d+`, "abc123") // false
+
+// Match with error (for validation)
+err = regexnew.MatchError(`^hello$`, "hello")     // nil
+err = regexnew.MatchErrorLock(`^hello$`, "world")  // error
+
+// Custom match function
+err = regexnew.MatchUsingFuncErrorLock(
+    `\d+`, "abc123",
+    func(re *regexp.Regexp, term string) bool {
+        return re.MatchString(term)
+    },
+)
+
+// Custom match + custom error
+err = regexnew.MatchUsingCustomizeErrorFuncLock(
+    `\d+`, "abc123",
+    func(re *regexp.Regexp, term string) bool {
+        return re.MatchString(term)
+    },
+    func(pattern, term string, err error, re *regexp.Regexp) error {
+        return fmt.Errorf("custom: %s failed on %s", pattern, term)
+    },
+)
+```
+
+#### Multi-Pattern Creation
+
+```go
+// Create two patterns atomically (single lock)
+first, second := regexnew.New.LazyRegex.TwoLock(`\d+`, `[a-z]+`)
+first.IsMatch("42")    // true
+second.IsMatch("abc")  // true
+
+// Create many patterns atomically
+patterns := regexnew.New.LazyRegex.ManyUsingLock(`\d+`, `[a-z]+`, `\w+`)
+patterns[`\d+`].IsMatch("123") // true
+
+// Get all cached patterns
+allPatterns := regexnew.New.LazyRegex.AllPatternsMap()
+
+// Conditional lock
+lazy := regexnew.New.LazyRegex.NewLockIf(true, `\d+`)
+```
+
+#### Pre-compiled Regex Constants
+
+```go
+import "gitlab.com/auk-go/core/regexnew"
+
+// Ready-to-use lazy regex for common patterns
+regexnew.WhitespaceFinderRegex.IsMatch("hello world")          // true
+regexnew.DollarIdentifierRegex.IsMatch("$MY_VAR")              // true
+regexnew.PrettyNameRegex.IsMatch("John Doe")                   // true
+regexnew.FirstNumberAnyWhereCheckerRegex.IsMatch("version 42") // true
 ```
 
 ### Sorting

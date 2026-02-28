@@ -18,14 +18,14 @@ func (it *lazyRegexMap) IsEmptyLock() bool {
 }
 
 func (it *lazyRegexMap) HasAnyItem() bool {
-	return it == nil || len(it.items) > 0
+	return it != nil && len(it.items) > 0
 }
 
 func (it *lazyRegexMap) HasAnyItemLock() bool {
 	lazyRegexLock.Lock()
 	defer lazyRegexLock.Unlock()
 
-	return it == nil || len(it.items) > 0
+	return it != nil && len(it.items) > 0
 }
 
 func (it *lazyRegexMap) Length() int {
