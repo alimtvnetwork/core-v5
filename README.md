@@ -619,6 +619,29 @@ core/
 └── assets/                      # Logo and static assets
 ```
 
+### Package READMEs
+
+Each major package has its own README with detailed type hierarchies, usage examples, and method references:
+
+| Package | README |
+|---------|--------|
+| `coredata/coreapi/` | [`coreapi/README.md`](/coredata/coreapi/README.md) — Typed API request/response, type alias migration |
+| `coredata/coredynamic/` | [`coredynamic/README.md`](/coredata/coredynamic/README.md) — Dynamic wrappers, Collection[T], TypedSimpleRequest/Result |
+| `coredata/coregeneric/` | [`coregeneric/README.md`](/coredata/coregeneric/README.md) — Generic Collection, Hashset, Hashmap, LinkedList |
+| `coredata/corejson/` | [`corejson/README.md`](/coredata/corejson/README.md) — JSON serialization pipeline |
+| `coredata/corepayload/` | [`corepayload/README.md`](/coredata/corepayload/README.md) — PayloadWrapper, TypedPayloadWrapper[T], Attributes |
+| `coredata/corestr/` | [`corestr/README.md`](/coredata/corestr/README.md) — String Collection, Hashmap, Hashset, ValidValue |
+| `coredata/coreonce/` | [`coreonce/README.md`](/coredata/coreonce/README.md) — Lazy-evaluated cached values |
+| `coredata/corerange/` | [`corerange/README.md`](/coredata/corerange/README.md) — Range types (int, byte) |
+| `coredata/stringslice/` | [`stringslice/README.md`](/coredata/stringslice/README.md) — Slice utilities for []string |
+| `coreinterface/` | [`coreinterface/README.md`](/coreinterface/README.md) — Interface contracts |
+| `corefuncs/` | [`corefuncs/README.md`](/corefuncs/README.md) — Function type definitions & wrappers |
+| `coretaskinfo/` | [`coretaskinfo/README.md`](/coretaskinfo/README.md) — Task metadata |
+| `regexnew/` | [`regexnew/README.md`](/regexnew/README.md) — Lazy-compiled regex |
+| `issetter/` | [`issetter/README.md`](/issetter/README.md) — Multi-valued boolean |
+| `errcore/` | [`errcore/README.md`](/errcore/README.md) — Error construction |
+| `chmodhelper/` | [`chmodhelper/README.md`](/chmodhelper/README.md) — File permissions |
+
 For the complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/01-folder-map.md).
 
 ---
