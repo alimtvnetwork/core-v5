@@ -1,17 +1,43 @@
 # Command Line Interfaces
 
-All command line interfaces should be placed in here.
+All CLI entry-points are located under `cmd/`. Each sub-directory contains a `package main`.
 
-For example, if we need to test specific items we may create `/cmd/testingelement/name.go` and package name needs to
-be `main`
+## Available Commands
 
-From the root of the folder, running `make` should compiled `cmd/main/main.go` to `bin/main` executable.
+| Directory | Make Target | Description |
+|-----------|-------------|-------------|
+| `cmd/main/` | `make` or `make run-main` | Default package functionality testing |
+| `cmd/server/` | `make run-server` | Server runner |
+| `cmd/client/` | `make run-client` | Client runner |
+| `cmd/sample/` | `make run-sample` | Sample/demo runner |
 
-For different command line interfaces we may have to create different target labels.
+## Building
+
+```bash
+make build          # builds cmd/main/ → ./build/cli
+make build-run      # build and run immediately
+```
+
+## Creating a New Command
+
+1. Create a new directory: `cmd/mycommand/`
+2. Create `cmd/mycommand/main.go` with `package main`
+3. Add a make target to the root `makefile`:
+   ```makefile
+   run-mycommand:
+       go run cmd/mycommand/*.go
+   ```
+
+## Testing
+
+```bash
+make run-tests      # runs tests/ directory
+```
 
 ## Links
 
-## Notes
+- [Spec: CMD Entrypoints](/spec/01-app/12-cmd-entrypoints.md)
+- [Spec: Repo Overview](/spec/01-app/00-repo-overview.md)
 
 ## Contributors
 
