@@ -28,8 +28,8 @@ type MetaAttributesWithoutTileStacker interface {
 	Hex(hexValues []byte) MetaAttributesWithoutTileStacker
 	RawJson(rawJsonBytes []byte) MetaAttributesWithoutTileStacker
 	Error(err error) MetaAttributesWithoutTileStacker
-	MapAny(mapAny map[string]interface{}) MetaAttributesWithoutTileStacker
-	MapIntegerAny(mapAny map[int]interface{}) MetaAttributesWithoutTileStacker
+	MapAny(mapAny map[string]any) MetaAttributesWithoutTileStacker
+	MapIntegerAny(mapAny map[int]any) MetaAttributesWithoutTileStacker
 
 	JsonResult(json *corejson.Result) MetaAttributesWithoutTileStacker
 	JsonResultItems(jsons ...*corejson.Result) MetaAttributesWithoutTileStacker
@@ -86,16 +86,16 @@ type MetaAttributesWithoutTileStacker interface {
 	// OnlyAnyItems
 	//
 	//  Convert any values to json
-	OnlyAnyItems(values ...interface{}) MetaAttributesWithoutTileStacker
+	OnlyAnyItems(values ...any) MetaAttributesWithoutTileStacker
 
 	// OnlyAnyItemsString
 	//
 	//  Convert any values to string
-	OnlyAnyItemsString(values ...interface{}) MetaAttributesWithoutTileStacker
+	OnlyAnyItemsString(values ...any) MetaAttributesWithoutTileStacker
 	// OnlyAnyItemsJson
 	//
 	//  Convert any values to json then compile
-	OnlyAnyItemsJson(values ...interface{}) MetaAttributesWithoutTileStacker
+	OnlyAnyItemsJson(values ...any) MetaAttributesWithoutTileStacker
 
 	Bool(isResult bool) MetaAttributesWithoutTileStacker
 	Booleans(isResults ...bool) MetaAttributesWithoutTileStacker
@@ -103,22 +103,22 @@ type MetaAttributesWithoutTileStacker interface {
 	// Any
 	//
 	//  Convert any item to json
-	Any(anyItem interface{}) MetaAttributesWithoutTileStacker
+	Any(anyItem any) MetaAttributesWithoutTileStacker
 	// AnyIf
 	//
 	//  Convert any item to json
-	AnyIf(isLog bool, anyItem interface{}) MetaAttributesWithoutTileStacker
+	AnyIf(isLog bool, anyItem any) MetaAttributesWithoutTileStacker
 	// AnyItems
 	//
 	//  Convert any item to json
-	AnyItems(anyItems ...interface{}) MetaAttributesWithoutTileStacker
+	AnyItems(anyItems ...any) MetaAttributesWithoutTileStacker
 	// AnyItemsIf
 	//
 	//  Convert any item to json
-	AnyItemsIf(isLog bool, anyItems ...interface{}) MetaAttributesWithoutTileStacker
+	AnyItemsIf(isLog bool, anyItems ...any) MetaAttributesWithoutTileStacker
 
-	AnyItemsJson(title string, anyItems ...interface{}) MetaAttributesWithoutTileStacker
-	AnyItemsString(title string, anyItems ...interface{}) MetaAttributesWithoutTileStacker
+	AnyItemsJson(title string, anyItems ...any) MetaAttributesWithoutTileStacker
+	AnyItemsString(title string, anyItems ...any) MetaAttributesWithoutTileStacker
 
 	Jsoner(jsoner corejson.Jsoner) MetaAttributesWithoutTileStacker
 	Jsoners(jsoners ...corejson.Jsoner) MetaAttributesWithoutTileStacker
@@ -142,8 +142,8 @@ type MetaAttributesWithoutTileStacker interface {
 
 	Int(i int) MetaAttributesWithoutTileStacker
 	Integers(integerItems ...int) MetaAttributesWithoutTileStacker
-	Fmt(format string, v ...interface{}) MetaAttributesWithoutTileStacker
-	FmtIf(isLog bool, format string, v ...interface{}) MetaAttributesWithoutTileStacker
+	Fmt(format string, v ...any) MetaAttributesWithoutTileStacker
+	FmtIf(isLog bool, format string, v ...any) MetaAttributesWithoutTileStacker
 
 	RawPayloadsGetter(payloadsGetter RawPayloadsGetter) MetaAttributesWithoutTileStacker
 	RawPayloadsGetterIf(isLog bool, payloadsGetter RawPayloadsGetter) MetaAttributesWithoutTileStacker
@@ -152,11 +152,11 @@ type MetaAttributesWithoutTileStacker interface {
 	ConcatNew(others ...MetaAttributesWithoutTileStacker) MetaAttributesWithoutTileStacker
 	coreinterface.Clearer
 
-	Items() map[string]interface{}
+	Items() map[string]any
 
 	GetAsStrings() []string
 	HasKey(name string) bool
-	GetVal(keyName string) (val interface{})
+	GetVal(keyName string) (val any)
 
 	MetaAttributesCompiler
 	coreinterface.StandardSlicerContractsBinder

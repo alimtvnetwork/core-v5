@@ -13,7 +13,7 @@ type TaskEntityDefiner interface {
 
 	coreinterface.ReflectSetter
 	Deserialize(
-		anyPointer interface{},
+		anyPointer any,
 	) error
 
 	corejson.Jsoner

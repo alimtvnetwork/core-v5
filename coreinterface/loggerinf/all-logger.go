@@ -30,18 +30,18 @@ type LogDefinerWriter interface {
 }
 
 type LogTypeWriter interface {
-	LogTypeWrite(logType string, v ...interface{}) error
-	LogTypeWriteMust(logType string, v ...interface{})
+	LogTypeWrite(logType string, v ...any) error
+	LogTypeWriteMust(logType string, v ...any)
 
 	LogTypeWriteStackSkip(
 		stackSkipIndex int,
 		logType string,
-		v ...interface{},
+		v ...any,
 	) error
 
 	LogTypeWriteStackSkipMust(
 		stackSkipIndex int,
 		logType string,
-		v ...interface{},
+		v ...any,
 	)
 }

@@ -60,7 +60,7 @@ type GenericSubscriber interface {
 	MapAnySubscriberFunc(
 		subscriberFunc func(
 			category coreinterface.CategoryRevealer,
-			mapAny map[string]interface{},
+			mapAny map[string]any,
 		),
 	) *sync.WaitGroup
 
@@ -84,7 +84,7 @@ type GenericSubscriber interface {
 	OnVerbose() GenericSubscriber
 
 	OnFlag(name, value string) GenericSubscriber
-	OnAnyFlag(name string, value interface{}) GenericSubscriber
+	OnAnyFlag(name string, value any) GenericSubscriber
 	OnFlagEnabled(name string) GenericSubscriber
 	OnFlagDisabled(name string) GenericSubscriber
 	StackSkip(index int) GenericSubscriber
@@ -255,11 +255,11 @@ type GenericPublisher interface {
 
 	AnyItem(
 		categoryName string,
-		anyItem interface{},
+		anyItem any,
 	) GenericPublisher
 
 	AnyItemDirect(
-		anyItem interface{},
+		anyItem any,
 	) GenericPublisher
 
 	BytesDirect(
@@ -297,24 +297,24 @@ type GenericPublisher interface {
 
 	LogTyperAnyItem(
 		logTyper enuminf.LoggerTyper,
-		anyItem interface{},
+		anyItem any,
 	) GenericPublisher
 
 	Fmt(
 		format string,
-		v ...interface{},
+		v ...any,
 	) GenericPublisher
 
 	FilterFmt(
 		filter,
 		format string,
-		v ...interface{},
+		v ...any,
 	) GenericPublisher
 
 	LogTyperAnyItemCategory(
 		logTyper enuminf.LoggerTyper,
 		categoryName string,
-		anyItem interface{},
+		anyItem any,
 	) GenericPublisher
 
 	Success() LogTyperPublisher
@@ -399,11 +399,11 @@ type LogTyperPublisher interface {
 
 	AnyItem(
 		categoryName string,
-		anyItem interface{},
+		anyItem any,
 	) LogTyperPublisher
 
 	AnyItemDirect(
-		anyItem interface{},
+		anyItem any,
 	) LogTyperPublisher
 
 	BytesDirect(
@@ -441,23 +441,23 @@ type LogTyperPublisher interface {
 
 	FilterAnyItem(
 		filterText string,
-		anyItem interface{},
+		anyItem any,
 	) LogTyperPublisher
 
 	FilterCategoryAnyItem(
 		filterText, categoryName string,
-		anyItem interface{},
+		anyItem any,
 	) LogTyperPublisher
 
 	Fmt(
 		format string,
-		v ...interface{},
+		v ...any,
 	) LogTyperPublisher
 
 	FilterFmt(
 		filter,
 		format string,
-		v ...interface{},
+		v ...any,
 	) LogTyperPublisher
 
 	Hashmap(

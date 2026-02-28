@@ -13,8 +13,8 @@ type AttrPersistentLogger interface {
 	IsDbLogger() bool
 	IsFileLogger() bool
 
-	DynamicConfig() interface{}
-	ConfigReflectSetTo(toPointer interface{}) error
+	DynamicConfig() any
+	ConfigReflectSetTo(toPointer any) error
 
 	// PersistentLoggerTyper
 	//

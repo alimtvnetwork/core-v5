@@ -52,14 +52,14 @@ type MetaAttributesStacker interface {
 		result serializerinf.JsonResulter,
 	) MetaAttributesStacker
 
-	MapIntegerAny(title string, mapAny map[int]interface{}) MetaAttributesStacker
+	MapIntegerAny(title string, mapAny map[int]any) MetaAttributesStacker
 	Meta(title string, metaAttr MetaAttributesCompiler) MetaAttributesStacker
 
 	MapBool(title string, mapInt map[string]bool) MetaAttributesStacker
 	MapInt(title string, mapInt map[string]int) MetaAttributesStacker
-	MapAnyAny(title string, mapAny map[interface{}]interface{}) MetaAttributesStacker
-	MapAny(title string, mapAny map[string]interface{}) MetaAttributesStacker
-	MapIntAny(title string, mapAny map[int]interface{}) MetaAttributesStacker
+	MapAnyAny(title string, mapAny map[any]any) MetaAttributesStacker
+	MapAny(title string, mapAny map[string]any) MetaAttributesStacker
+	MapIntAny(title string, mapAny map[int]any) MetaAttributesStacker
 	MapIntString(title string, mapAny map[int]string) MetaAttributesStacker
 	MapJsonResult(title string, mapAny map[string]corejson.Result) MetaAttributesStacker
 
@@ -132,16 +132,16 @@ type MetaAttributesStacker interface {
 		result serializerinf.JsonResulter,
 	) MetaAttributesStacker
 
-	OnlyAny(anyItem interface{}) MetaAttributesStacker
-	OnlyAnyItems(values ...interface{}) MetaAttributesStacker
+	OnlyAny(anyItem any) MetaAttributesStacker
+	OnlyAnyItems(values ...any) MetaAttributesStacker
 	OnlyMetaAttr(metaAttr MetaAttributesCompiler) MetaAttributesStacker
-	OnlyAnyIf(isLog bool, anyItem interface{}) MetaAttributesStacker
-	OnlyAnyItemsIf(isLog bool, anyItems ...interface{}) MetaAttributesStacker
+	OnlyAnyIf(isLog bool, anyItem any) MetaAttributesStacker
+	OnlyAnyItemsIf(isLog bool, anyItems ...any) MetaAttributesStacker
 
 	OnlyMapBool(mapInt map[string]bool) MetaAttributesStacker
 	OnlyMapInt(mapInt map[string]int) MetaAttributesStacker
-	OnlyMapAny(mapAny map[string]interface{}) MetaAttributesStacker
-	OnlyMapIntAny(mapAny map[int]interface{}) MetaAttributesStacker
+	OnlyMapAny(mapAny map[string]any) MetaAttributesStacker
+	OnlyMapIntAny(mapAny map[int]any) MetaAttributesStacker
 	OnlyMapIntString(mapAny map[int]string) MetaAttributesStacker
 	OnlyMapJsonResult(mapAny map[string]corejson.Result) MetaAttributesStacker
 
@@ -151,7 +151,7 @@ type MetaAttributesStacker interface {
 	Bool(title string, isResult bool) MetaAttributesStacker
 	Booleans(title string, isResults ...bool) MetaAttributesStacker
 
-	Any(title string, anyItem interface{}) MetaAttributesStacker
+	Any(title string, anyItem any) MetaAttributesStacker
 
 	Jsoner(jsoner corejson.Jsoner) MetaAttributesStacker
 	Jsoners(jsoners ...corejson.Jsoner) MetaAttributesStacker
@@ -175,11 +175,11 @@ type MetaAttributesStacker interface {
 
 	Int(key string, i int) MetaAttributesStacker
 	Integers(key string, integerItems ...int) MetaAttributesStacker
-	Fmt(title, format string, v ...interface{}) MetaAttributesStacker
-	FmtIf(isLog bool, title, format string, v ...interface{}) MetaAttributesStacker
+	Fmt(title, format string, v ...any) MetaAttributesStacker
+	FmtIf(isLog bool, title, format string, v ...any) MetaAttributesStacker
 
-	OnlyFmt(format string, v ...interface{}) MetaAttributesStacker
-	OnlyFmtIf(isLog bool, format string, v ...interface{}) MetaAttributesStacker
+	OnlyFmt(format string, v ...any) MetaAttributesStacker
+	OnlyFmtIf(isLog bool, format string, v ...any) MetaAttributesStacker
 
 	RawPayloadsGetter(payloadsGetter RawPayloadsGetter) MetaAttributesStacker
 	RawPayloadsGetterTitle(title string, payloadsGetter RawPayloadsGetter) MetaAttributesStacker
@@ -189,11 +189,11 @@ type MetaAttributesStacker interface {
 	ConcatNew(others ...MetaAttributesStacker) MetaAttributesStacker
 	coreinterface.Clearer
 
-	Items() map[string]interface{}
+	Items() map[string]any
 
 	GetAsStrings() []string
 	HasKey(name string) bool
-	GetVal(keyName string) (val interface{})
+	GetVal(keyName string) (val any)
 
 	MetaAttributesCompiler
 	coreinterface.StandardSlicerContractsBinder

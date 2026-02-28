@@ -14,7 +14,7 @@ type ConditionalStandardLogger interface {
 	OnStacktrace() SingleLogger
 
 	OnFlag(name, value string) StandardLogger
-	OnAnyFlag(name string, value interface{}) StandardLogger
+	OnAnyFlag(name string, value any) StandardLogger
 	OnFunc(isLoggerFunc func(logger StandardLogger) bool) StandardLogger
 	OnFlagEnabled(name string) StandardLogger
 	OnFlagDisabled(name string) StandardLogger

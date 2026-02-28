@@ -63,9 +63,9 @@ type SingleLogger interface {
 
 	MapBool(title string, mapInt map[string]bool) SingleLogger
 	MapInt(title string, mapInt map[string]int) SingleLogger
-	MapAnyAny(title string, mapAny map[interface{}]interface{}) SingleLogger
-	MapAny(title string, mapAny map[string]interface{}) SingleLogger
-	MapIntAny(title string, mapAny map[int]interface{}) SingleLogger
+	MapAnyAny(title string, mapAny map[any]any) SingleLogger
+	MapAny(title string, mapAny map[string]any) SingleLogger
+	MapIntAny(title string, mapAny map[int]any) SingleLogger
 	MapIntString(title string, mapAny map[int]string) SingleLogger
 	MapJsonResult(title string, mapAny map[string]corejson.Result) SingleLogger
 
@@ -117,19 +117,19 @@ type SingleLogger interface {
 	OnlyRawJson(rawBytes []byte) SingleLogger
 	OnlyBytesErr(rawBytes []byte, err error) SingleLogger
 
-	OnlyAny(anyItem interface{}) SingleLogger
-	OnlyAnyItems(values ...interface{}) SingleLogger
-	OnlyAnyIf(isLog bool, anyItem interface{}) SingleLogger
-	OnlyAnyItemsIf(isLog bool, anyItems ...interface{}) SingleLogger
+	OnlyAny(anyItem any) SingleLogger
+	OnlyAnyItems(values ...any) SingleLogger
+	OnlyAnyIf(isLog bool, anyItem any) SingleLogger
+	OnlyAnyItemsIf(isLog bool, anyItems ...any) SingleLogger
 
 	Bool(title string, isResult bool) SingleLogger
 	Booleans(title string, isResults ...bool) SingleLogger
 
 	OnlyMapBool(mapInt map[string]bool) SingleLogger
 	OnlyMapInt(mapInt map[string]int) SingleLogger
-	OnlyMapAny(mapAny map[string]interface{}) SingleLogger
-	OnlyMapAnyAny(mapAny map[interface{}]interface{}) SingleLogger
-	OnlyMapIntAny(mapAny map[int]interface{}) SingleLogger
+	OnlyMapAny(mapAny map[string]any) SingleLogger
+	OnlyMapAnyAny(mapAny map[any]any) SingleLogger
+	OnlyMapIntAny(mapAny map[int]any) SingleLogger
 	OnlyMapIntString(mapAny map[int]string) SingleLogger
 	OnlyMapJsonResult(mapAny map[string]corejson.Result) SingleLogger
 
@@ -148,11 +148,11 @@ type SingleLogger interface {
 		result serializerinf.JsonResulter,
 	) SingleLogger
 
-	AnyJsonLog(anyItem interface{}) SingleLogger
-	Any(anyItem interface{}) SingleLogger
-	AnyIf(isLog bool, anyItem interface{}) SingleLogger
-	AnyItems(anyItems ...interface{}) SingleLogger
-	AnyItemsIf(isLog bool, anyItems ...interface{}) SingleLogger
+	AnyJsonLog(anyItem any) SingleLogger
+	Any(anyItem any) SingleLogger
+	AnyIf(isLog bool, anyItem any) SingleLogger
+	AnyItems(anyItems ...any) SingleLogger
+	AnyItemsIf(isLog bool, anyItems ...any) SingleLogger
 
 	OnlyJson(json *corejson.Result) SingleLogger
 	OnlyJsons(jsons ...*corejson.Result) SingleLogger
@@ -178,9 +178,9 @@ type SingleLogger interface {
 	Int(title string, i int) SingleLogger
 	Integers(title string, integerItems ...int) SingleLogger
 
-	FmtIf(isLog bool, format string, v ...interface{}) SingleLogger
-	Fmt(format string, v ...interface{}) SingleLogger
-	AttrFmt(title string, attrFormat string, attrValues ...interface{}) SingleLogger
+	FmtIf(isLog bool, format string, v ...any) SingleLogger
+	Fmt(format string, v ...any) SingleLogger
+	AttrFmt(title string, attrFormat string, attrValues ...any) SingleLogger
 
 	RawPayloadsGetter(payloadsGetter RawPayloadsGetter) SingleLogger
 	RawPayloadsGetterTitle(title string, payloadsGetter RawPayloadsGetter) SingleLogger

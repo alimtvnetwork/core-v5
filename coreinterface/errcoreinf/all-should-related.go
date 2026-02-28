@@ -10,8 +10,8 @@ import (
 
 type ShouldBeMessager interface {
 	Title() string
-	Actual() interface{}
-	Expected() interface{}
+	Actual() any
+	Expected() any
 	GenericErrorCompiler
 
 	IsTitleEqual(title string) bool
@@ -31,7 +31,7 @@ type ShouldBeChainCollectionDefiner interface {
 type AnyShouldBer interface {
 	AnyShouldBe(
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) BaseErrorOrCollectionWrapper
 }
 
@@ -179,8 +179,8 @@ type errorShouldBer interface {
 type ShouldBeChainer interface {
 	On(isCollect bool) ShouldBeChainer
 	OnString(actual, expected string) ShouldBeChainer
-	OnNull(anyItem interface{}) ShouldBeChainer
-	OnDefined(anyItem interface{}) ShouldBeChainer
+	OnNull(anyItem any) ShouldBeChainer
+	OnDefined(anyItem any) ShouldBeChainer
 
 	IsCompleted() bool
 	IsFrozen() bool
@@ -296,7 +296,7 @@ type ShouldBeChainer interface {
 
 	PointerShouldBe(
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) ShouldBeChainer
 
 	IntegerShouldBe(
@@ -363,85 +363,85 @@ type ShouldBeChainer interface {
 
 	MapStringAnyShouldBe(
 		title string,
-		actual, expected map[string]interface{},
+		actual, expected map[string]any,
 	) ShouldBeChainer
 
 	Error() errorShouldBer
 
 	ShouldBe(
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) ShouldBeChainer
 
 	ShouldBeOn(
 		isCollect bool,
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) ShouldBeChainer
 
 	ShouldBeRegardlessOn(
 		isCollect bool,
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) ShouldBeChainer
 
 	ShouldBeOption(
 		isRegardless bool,
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) ShouldBeChainer
 
 	ShouldBeOptionOn(
 		isCollect bool,
 		isRegardless bool,
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) ShouldBeChainer
 
 	ShouldBeRegardless(
 		title string,
-		actual, expected interface{},
+		actual, expected any,
 	) ShouldBeChainer
 
 	ShouldBeUsingFunc(
 		title string,
-		actual, expected interface{},
-		compareFunc func(actual, expected interface{}) (isMatch bool),
+		actual, expected any,
+		compareFunc func(actual, expected any) (isMatch bool),
 	) ShouldBeChainer
 
 	ShouldBeHaveNoPanicFunc(
 		title string,
-		actual, expected interface{},
-		recoverPanicCompareFunc func(actual, expected interface{}) (isMatch bool),
+		actual, expected any,
+		recoverPanicCompareFunc func(actual, expected any) (isMatch bool),
 	) ShouldBeChainer
 
 	ShouldBeDefined(
 		title string,
-		actual interface{},
+		actual any,
 	) ShouldBeChainer
 
 	ManyShouldBeDefined(
 		title string,
-		actualItems ...interface{},
+		actualItems ...any,
 	) ShouldBeChainer
 
 	ShouldBeNull(
 		title string,
-		actual interface{},
+		actual any,
 	) ShouldBeChainer
 
 	PointerShouldBeNull(
 		title string,
-		actual interface{},
+		actual any,
 	) ShouldBeChainer
 
-	Equal(actual, expected interface{}) ShouldBeChainer
+	Equal(actual, expected any) ShouldBeChainer
 	EqualFunc(
-		actual, expected interface{},
-		compareFunc func(actual, expected interface{}) (isMatch bool),
+		actual, expected any,
+		compareFunc func(actual, expected any) (isMatch bool),
 	) ShouldBeChainer
-	EqualOption(isRegardless bool, actual, expected interface{}) ShouldBeChainer
-	EqualRegardless(actual, expected interface{}) ShouldBeChainer
+	EqualOption(isRegardless bool, actual, expected any) ShouldBeChainer
+	EqualRegardless(actual, expected any) ShouldBeChainer
 
 	Checker(title string) checkerShouldBer
 	Str(title string) stringShouldBer

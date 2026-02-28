@@ -39,7 +39,7 @@ type (
 	)
 	AnyItemSubscribeFunc func(
 		categoryRevealer coreinterface.CategoryRevealer,
-		anyItem interface{},
+		anyItem any,
 	)
 
 	StringSubscribeFunc func(
@@ -71,7 +71,7 @@ type (
 	)
 
 	DirectAnyItemSubscribeFunc func(
-		anyItem interface{},
+		anyItem any,
 	)
 
 	DirectJsonResultSubscribeFunc func(
@@ -113,8 +113,8 @@ type (
 	CompletionFunc                      func(subscriptionRecorder SubscriptionRecorder)
 	StartEndSubscriptionFunc            func(isStart bool, subscriptionRecorder SubscriptionRecorder)
 	SimpleCompletionFunc                func(communicate CommunicateModeler)
-	CategoryNameAnyItemSubscriptionFunc func(categoryName string, anyItem interface{})
-	FilterAnyItemSubscriptionFunc       func(filter string, anyItem interface{})
+	CategoryNameAnyItemSubscriptionFunc func(categoryName string, anyItem any)
+	FilterAnyItemSubscriptionFunc       func(filter string, anyItem any)
 	FilterBytesSubscriptionFunc         func(filter string, rawBytes []byte)
 	MatcherFunc                         func() (isMatch bool)
 )
