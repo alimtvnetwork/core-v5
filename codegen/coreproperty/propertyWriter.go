@@ -7,7 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
 	"gitlab.com/auk-go/core/simplewrap"
@@ -59,7 +59,7 @@ func (it propertyWriter) WritePropertyOptions(
 	}
 
 	// TODO fix this for https://prnt.sc/SNvDVD9KBDs7
-	return convertinteranl.AnyTo.FullPropertyString(p)
+	return convertinternal.AnyTo.FullPropertyString(p)
 }
 
 func (it propertyWriter) WriteMap(
