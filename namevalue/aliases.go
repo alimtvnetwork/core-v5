@@ -15,3 +15,15 @@ type StringMapAny = Instance[string, map[string]any]
 
 // StringMapString represents a name-value pair with a string key and map[string]string value.
 type StringMapString = Instance[string, map[string]string]
+
+// StringStringCollection is a Collection of StringString items.
+type StringStringCollection = Collection[string, string]
+
+// StringIntCollection is a Collection of StringInt items.
+type StringIntCollection = Collection[string, int]
+
+// StringMapAnyCollection is a Collection of StringMapAny items.
+type StringMapAnyCollection = Collection[string, map[string]any]
+
+// StringMapStringCollection is a Collection of StringMapString items.
+type StringMapStringCollection = Collection[string, map[string]string]
