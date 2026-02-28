@@ -123,3 +123,154 @@ func ClampCollection[T cmp.Ordered](source *Collection[T], minVal, maxVal T) *Co
 
 	return source
 }
+
+// =============================================================================
+// Ordered constraint functions for Hashset[T]
+// =============================================================================
+
+// SortedListHashset returns the hashset items as a sorted ascending slice.
+func SortedListHashset[T cmp.Ordered](source *Hashset[T]) []T {
+	list := source.List()
+	slices.Sort(list)
+
+	return list
+}
+
+// SortedListDescHashset returns the hashset items as a sorted descending slice.
+func SortedListDescHashset[T cmp.Ordered](source *Hashset[T]) []T {
+	list := source.List()
+	slices.SortFunc(list, func(a, b T) int {
+		return cmp.Compare(b, a)
+	})
+
+	return list
+}
+
+// MinHashset returns the minimum element in a Hashset[T].
+// Panics on empty hashset.
+func MinHashset[T cmp.Ordered](source *Hashset[T]) T {
+	return slices.Min(source.List())
+}
+
+// MaxHashset returns the maximum element in a Hashset[T].
+// Panics on empty hashset.
+func MaxHashset[T cmp.Ordered](source *Hashset[T]) T {
+	return slices.Max(source.List())
+}
+
+// MinHashsetOrDefault returns the minimum element, or defVal if empty.
+func MinHashsetOrDefault[T cmp.Ordered](source *Hashset[T], defVal T) T {
+	if source.IsEmpty() {
+		return defVal
+	}
+
+	return slices.Min(source.List())
+}
+
+// MaxHashsetOrDefault returns the maximum element, or defVal if empty.
+func MaxHashsetOrDefault[T cmp.Ordered](source *Hashset[T], defVal T) T {
+	if source.IsEmpty() {
+		return defVal
+	}
+
+	return slices.Max(source.List())
+}
+
+// SortedCollectionHashset returns the hashset as a sorted Collection[T].
+func SortedCollectionHashset[T cmp.Ordered](source *Hashset[T]) *Collection[T] {
+	sorted := SortedListHashset(source)
+
+	return CollectionFrom[T](sorted)
+}
+
+// =============================================================================
+// Ordered constraint functions for Hashmap[K, V]
+// =============================================================================
+
+// SortedKeysHashmap returns all keys sorted in ascending order.
+// Requires K to be cmp.Ordered.
+func SortedKeysHashmap[K cmp.Ordered, V any](source *Hashmap[K, V]) []K {
+	keys := source.Keys()
+	slices.Sort(keys)
+
+	return keys
+}
+
+// SortedKeysDescHashmap returns all keys sorted in descending order.
+func SortedKeysDescHashmap[K cmp.Ordered, V any](source *Hashmap[K, V]) []K {
+	keys := source.Keys()
+	slices.SortFunc(keys, func(a, b K) int {
+		return cmp.Compare(b, a)
+	})
+
+	return keys
+}
+
+// MinKeyHashmap returns the minimum key.
+// Panics on empty hashmap.
+func MinKeyHashmap[K cmp.Ordered, V any](source *Hashmap[K, V]) K {
+	return slices.Min(source.Keys())
+}
+
+// MaxKeyHashmap returns the maximum key.
+// Panics on empty hashmap.
+func MaxKeyHashmap[K cmp.Ordered, V any](source *Hashmap[K, V]) K {
+	return slices.Max(source.Keys())
+}
+
+// MinKeyHashmapOrDefault returns the minimum key, or defVal if empty.
+func MinKeyHashmapOrDefault[K cmp.Ordered, V any](source *Hashmap[K, V], defVal K) K {
+	if source.IsEmpty() {
+		return defVal
+	}
+
+	return slices.Min(source.Keys())
+}
+
+// MaxKeyHashmapOrDefault returns the maximum key, or defVal if empty.
+func MaxKeyHashmapOrDefault[K cmp.Ordered, V any](source *Hashmap[K, V], defVal K) K {
+	if source.IsEmpty() {
+		return defVal
+	}
+
+	return slices.Max(source.Keys())
+}
+
+// SortedValuesHashmap returns all values sorted in ascending order.
+// Requires V to be cmp.Ordered.
+func SortedValuesHashmap[K comparable, V cmp.Ordered](source *Hashmap[K, V]) []V {
+	values := source.Values()
+	slices.Sort(values)
+
+	return values
+}
+
+// MinValueHashmap returns the minimum value.
+// Requires V to be cmp.Ordered. Panics on empty hashmap.
+func MinValueHashmap[K comparable, V cmp.Ordered](source *Hashmap[K, V]) V {
+	return slices.Min(source.Values())
+}
+
+// MaxValueHashmap returns the maximum value.
+// Requires V to be cmp.Ordered. Panics on empty hashmap.
+func MaxValueHashmap[K comparable, V cmp.Ordered](source *Hashmap[K, V]) V {
+	return slices.Max(source.Values())
+}
+
+// MinValueHashmapOrDefault returns the minimum value, or defVal if empty.
+func MinValueHashmapOrDefault[K comparable, V cmp.Ordered](source *Hashmap[K, V], defVal V) V {
+	if source.IsEmpty() {
+		return defVal
+	}
+
+	return slices.Min(source.Values())
+}
+
+// MaxValueHashmapOrDefault returns the maximum value, or defVal if empty.
+func MaxValueHashmapOrDefault[K comparable, V cmp.Ordered](source *Hashmap[K, V], defVal V) V {
+	if source.IsEmpty() {
+		return defVal
+	}
+
+	return slices.Max(source.Values())
+}
