@@ -11,7 +11,7 @@ package corefuncs
 //	wrapper := corefuncs.New.LegacyInOutErr("transform", myFunc)
 //	wrapper := corefuncs.New.LegacyResultDelegating("unmarshal", myFunc)
 //
-//	// Generic wrappers via package-level constructors (preferred)
+//	// Generic wrappers via package-level constructors
 //	wrapper := corefuncs.NewInOutErrWrapper[string, int]("parse", myFunc)
 //	wrapper := corefuncs.NewInOutWrapper[string, int]("convert", myFunc)
 //	wrapper := corefuncs.NewInActionErrWrapper[string]("validate", myFunc)
@@ -21,35 +21,6 @@ var New = &newFuncCreator{}
 
 // newFuncCreator is the root aggregator for function wrapper creation.
 type newFuncCreator struct{}
-
-// =============================================================================
-// Generic Typed Wrapper Creators
-// =============================================================================
-
-// InOutErr creates a generic InOutErrFuncWrapperOf[TIn, TOut].
-func (it *newFuncCreator) InOutErr() inOutErrCreator {
-	return inOutErrCreator{}
-}
-
-// ResultDelegating creates a generic ResultDelegatingFuncWrapperOf[T].
-func (it *newFuncCreator) ResultDelegating() resultDelegatingCreator {
-	return resultDelegatingCreator{}
-}
-
-// InActionErr creates a generic InActionReturnsErrFuncWrapperOf[TIn].
-func (it *newFuncCreator) InActionErr() inActionErrCreator {
-	return inActionErrCreator{}
-}
-
-// InOut creates a generic InOutFuncWrapperOf[TIn, TOut].
-func (it *newFuncCreator) InOut() inOutCreator {
-	return inOutCreator{}
-}
-
-// Serialize creates a generic SerializeOutputFuncWrapperOf[TIn].
-func (it *newFuncCreator) Serialize() serializeCreator {
-	return serializeCreator{}
-}
 
 // =============================================================================
 // Legacy (any-based) Wrapper Creators
@@ -111,15 +82,10 @@ func (it *newFuncCreator) LegacyResultDelegating(
 }
 
 // =============================================================================
-// Sub-creators for generic wrappers (needed because Go can't infer type params
-// on struct constructors — these enable: New.InOutErr().Of("name", fn))
+// Generic Wrapper Constructors (package-level, type-parameterized)
 // =============================================================================
 
-type inOutErrCreator struct{}
-
-// Of creates a InOutErrFuncWrapperOf[TIn, TOut].
-// Usage: corefuncs.New.InOutErr().Of("name", fn) — note: requires explicit type params at call site.
-// Prefer NewInOutErrWrapper[TIn, TOut]("name", fn) for cleaner syntax.
+// NewInOutErrWrapper creates a InOutErrFuncWrapperOf[TIn, TOut].
 func NewInOutErrWrapper[TIn any, TOut any](
 	name string,
 	action InOutErrFuncOf[TIn, TOut],
@@ -129,8 +95,6 @@ func NewInOutErrWrapper[TIn any, TOut any](
 		Action: action,
 	}
 }
-
-type resultDelegatingCreator struct{}
 
 // NewResultDelegatingWrapper creates a ResultDelegatingFuncWrapperOf[T].
 func NewResultDelegatingWrapper[T any](
@@ -143,8 +107,6 @@ func NewResultDelegatingWrapper[T any](
 	}
 }
 
-type inActionErrCreator struct{}
-
 // NewInActionErrWrapper creates an InActionReturnsErrFuncWrapperOf[TIn].
 func NewInActionErrWrapper[TIn any](
 	name string,
@@ -156,8 +118,6 @@ func NewInActionErrWrapper[TIn any](
 	}
 }
 
-type inOutCreator struct{}
-
 // NewInOutWrapper creates an InOutFuncWrapperOf[TIn, TOut].
 func NewInOutWrapper[TIn any, TOut any](
 	name string,
@@ -168,8 +128,6 @@ func NewInOutWrapper[TIn any, TOut any](
 		Action: action,
 	}
 }
-
-type serializeCreator struct{}
 
 // NewSerializeWrapper creates a SerializeOutputFuncWrapperOf[TIn].
 func NewSerializeWrapper[TIn any](
