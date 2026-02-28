@@ -1,5 +1,5 @@
 package coreinterface
 
 type MustReflectToSetter interface {
-	ReflectSetToMust(toPointer interface{})
+	ReflectSetToMust(toPointer any)
 }

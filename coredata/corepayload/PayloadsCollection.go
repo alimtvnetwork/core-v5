@@ -141,7 +141,7 @@ func (it *PayloadsCollection) InsertAt(
 	return it
 }
 
-func (it *PayloadsCollection) FirstDynamic() interface{} {
+func (it *PayloadsCollection) FirstDynamic() any {
 	return it.Items[0]
 }
 
@@ -149,7 +149,7 @@ func (it *PayloadsCollection) First() *PayloadWrapper {
 	return it.Items[0]
 }
 
-func (it *PayloadsCollection) LastDynamic() interface{} {
+func (it *PayloadsCollection) LastDynamic() any {
 	return it.Items[it.LastIndex()]
 }
 
@@ -157,7 +157,7 @@ func (it *PayloadsCollection) Last() *PayloadWrapper {
 	return it.Items[it.LastIndex()]
 }
 
-func (it *PayloadsCollection) FirstOrDefaultDynamic() interface{} {
+func (it *PayloadsCollection) FirstOrDefaultDynamic() any {
 	return it.FirstOrDefault()
 }
 
@@ -169,7 +169,7 @@ func (it *PayloadsCollection) FirstOrDefault() *PayloadWrapper {
 	return it.First()
 }
 
-func (it *PayloadsCollection) LastOrDefaultDynamic() interface{} {
+func (it *PayloadsCollection) LastOrDefaultDynamic() any {
 	return it.LastOrDefault()
 }
 
@@ -181,7 +181,7 @@ func (it *PayloadsCollection) LastOrDefault() *PayloadWrapper {
 	return it.Last()
 }
 
-func (it *PayloadsCollection) SkipDynamic(skippingItemsCount int) interface{} {
+func (it *PayloadsCollection) SkipDynamic(skippingItemsCount int) any {
 	return it.Items[skippingItemsCount:]
 }
 
@@ -195,7 +195,7 @@ func (it *PayloadsCollection) SkipCollection(skippingItemsCount int) *PayloadsCo
 	}
 }
 
-func (it *PayloadsCollection) TakeDynamic(takeDynamicItems int) interface{} {
+func (it *PayloadsCollection) TakeDynamic(takeDynamicItems int) any {
 	return it.Items[:takeDynamicItems]
 }
 
@@ -224,7 +224,7 @@ func (it *PayloadsCollection) SafeLimitCollection(limit int) *PayloadsCollection
 	}
 }
 
-func (it *PayloadsCollection) LimitDynamic(limit int) interface{} {
+func (it *PayloadsCollection) LimitDynamic(limit int) any {
 	return it.Take(limit)
 }
 

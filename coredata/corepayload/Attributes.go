@@ -96,7 +96,7 @@ func (it *Attributes) AddNewStringKeyValueOnly(key, value string) (isAdded bool)
 }
 
 func (it *Attributes) AddNewAnyKeyValueOnly(
-	key string, value interface{},
+	key string, value any,
 ) (isAdded bool) {
 	if it == nil || it.AnyKeyValuePairs == nil {
 		return false
@@ -119,7 +119,7 @@ func (it *Attributes) GetStringKeyValue(
 
 func (it *Attributes) GetAnyKeyValue(
 	key string,
-) (valueAny interface{}, isFound bool) {
+) (valueAny any, isFound bool) {
 	if it == nil || it.KeyValuePairs == nil {
 		return nil, false
 	}
@@ -129,7 +129,7 @@ func (it *Attributes) GetAnyKeyValue(
 
 func (it *Attributes) AnyKeyReflectSetTo(
 	key string,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if it == nil || it.KeyValuePairs == nil {
 		return errcore.
@@ -147,7 +147,7 @@ func (it *Attributes) HandleError() {
 }
 
 func (it *Attributes) ReflectSetTo(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	return coredynamic.ReflectSetFromTo(it, toPointer)
 }
@@ -186,9 +186,9 @@ func (it *Attributes) PayloadsJsonResult() *corejson.Result {
 		it.DynamicPayloads)
 }
 
-func (it *Attributes) AnyKeyValMap() map[string]interface{} {
+func (it *Attributes) AnyKeyValMap() map[string]any {
 	if it.IsEmpty() {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	return it.AnyKeyValuePairs.Items
@@ -299,7 +299,7 @@ func (it *Attributes) MustBeEmptyError() {
 // be in json format and toPtr
 // should match reflection types
 func (it *Attributes) BasicErrorDeserializedTo(
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if it.IsEmptyError() {
 		return nil
@@ -313,7 +313,7 @@ func (it *Attributes) BasicErrorDeserializedTo(
 }
 
 func (it *Attributes) DeserializeDynamicPayloads(
-	toPtr interface{},
+	toPtr any,
 ) error {
 	return corejson.
 		Deserialize.
@@ -354,7 +354,7 @@ func (it *Attributes) DeserializeDynamicPayloadsToPayloadWrappersCollection() (
 }
 
 func (it *Attributes) DeserializeDynamicPayloadsMust(
-	toPtr interface{},
+	toPtr any,
 ) {
 	corejson.Deserialize.
 		UsingBytesMust(
@@ -506,7 +506,7 @@ func (it *Attributes) HasDynamicPayloads() bool {
 }
 
 func (it *Attributes) DynamicPayloadsDeserialize(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) error {
 	if it == nil {
 		return defaulterr.AttributeNull
@@ -518,7 +518,7 @@ func (it *Attributes) DynamicPayloadsDeserialize(
 }
 
 func (it *Attributes) DynamicPayloadsDeserializeMust(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) {
 	err := corejson.Deserialize.UsingBytes(
 		it.DynamicPayloads,
@@ -539,7 +539,7 @@ func (it *Attributes) AddOrUpdateString(
 
 func (it *Attributes) AddOrUpdateAnyItem(
 	key string,
-	anyItem interface{},
+	anyItem any,
 ) (isNewlyAdded bool) {
 	return it.
 		AnyKeyValuePairs.
@@ -550,7 +550,7 @@ func (it *Attributes) JsonModel() *Attributes {
 	return it
 }
 
-func (it *Attributes) JsonModelAny() interface{} {
+func (it *Attributes) JsonModelAny() any {
 	return it.JsonModel()
 }
 

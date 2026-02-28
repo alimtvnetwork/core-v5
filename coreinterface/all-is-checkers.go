@@ -7,9 +7,9 @@ import (
 )
 
 type IsReflectionTypeChecker interface {
-	IsManyReflectionOfType(typeOf reflect.Type, dynamicItems ...interface{}) bool
-	IsReflectionOfType(dynamic interface{}, typeOf reflect.Type) bool
-	IsReflectionOfTypeName(dynamic interface{}, typeOfName string) bool
+	IsManyReflectionOfType(typeOf reflect.Type, dynamicItems ...any) bool
+	IsReflectionOfType(dynamic any, typeOf reflect.Type) bool
+	IsReflectionOfTypeName(dynamic any, typeOfName string) bool
 }
 
 type EmptyChecker interface {
@@ -18,9 +18,71 @@ type EmptyChecker interface {
 }
 
 type DynamicDataHasChecker interface {
-	HasDynamic(searchItem interface{}) bool
-	HasDynamicAll(searchTerms ...interface{}) bool
-	HasDynamicAny(searchTerms ...interface{}) bool
+	HasDynamic(searchItem any) bool
+	HasDynamicAll(searchTerms ...any) bool
+	HasDynamicAny(searchTerms ...any) bool
+}
+
+type AllKeysStringer interface {
+	AllKeysString() string
+}
+
+type AllKeysSortedStringer interface {
+	AllKeysSortedString() string
+}
+
+type HasKeyChecker interface {
+	HasKey(key string) bool
+}
+
+type HasAnyItemChecker interface {
+	HasAnyItem() bool
+}
+
+type CoreDefiner interface {
+	String() string
+	StringSafe() string
+}
+
+type StringCompiler interface {
+	Compile() string
+	CompileSafe() string
+}
+
+type IfStringCompiler interface {
+	CompileIf(condition bool) string
+}
+
+type Compiler interface {
+	Compile() any
+}
+
+type FmtCompiler interface {
+	CompileFmt(format string, args ...any) string
+}
+
+type Committer interface {
+	Commit()
+}
+
+type BytesCompiler interface {
+	CompileBytes() []byte
+}
+
+type BytesCompilerIf interface {
+	CompileBytesIf(condition bool) []byte
+}
+
+type MustBytesCompiler interface {
+	CompileBytesMust() []byte
+}
+
+type Disposer interface {
+	Dispose()
+}
+
+type StringFinalizer interface {
+	StringFinalize() string
 }
 
 type BooleanChecker interface {
@@ -43,13 +105,9 @@ type StringHasAnyChecker interface {
 }
 
 type RangeValidateChecker interface {
-	// RangesInvalidMessage get invalid message
 	RangesInvalidMessage() string
-	// RangesInvalidErr get invalid message error
 	RangesInvalidErr() error
-	// IsValidRange Is with in the range as expected.
 	IsValidRange() bool
-	// IsInvalidRange Is out of the ranges expected.
 	IsInvalidRange() bool
 }
 
@@ -85,17 +143,7 @@ type StringIsAnyOfChecker interface {
 	IsAnyOf(value string, checkingItems ...string) bool
 }
 
-// IsAnyNullChecker
-//
-// Returns true if self is null or values is null
-// Values have to be null to have true return.
-// False: Any empty slice will return false.
 type IsAnyNullChecker interface {
-	// IsAnyNull
-	//
-	// Returns true if self is null or values is null
-	// Values have to be null to have true return.
-	// False: Any empty slice will return false.
 	IsAnyNull() bool
 }
 
@@ -112,29 +160,28 @@ type IsByteValueValidChecker interface {
 }
 
 type IsDynamicContainsChecker interface {
-	IsDynamicContains(item interface{}) bool
+	IsDynamicContains(item any) bool
 }
 
 type IsDynamicContainsInCollectionChecker interface {
-	IsDynamicContainsInCollection(collection, item interface{}) bool
+	IsDynamicContainsInCollection(collection, item any) bool
 }
 
 type IsDynamicItemValidChecker interface {
-	IsDynamicItemValid(item interface{}) bool
-	IsDynamicItemsValid(items ...interface{}) bool
+	IsDynamicItemValid(item any) bool
+	IsDynamicItemsValid(items ...any) bool
 }
 
 type IsDynamicNullChecker interface {
-	// IsDynamicNull may check using reflection that data is nil.
-	IsDynamicNull(dynamic interface{}) bool
+	IsDynamicNull(dynamic any) bool
 }
 
 type IsDynamicValidRangeUsingArgsChecker interface {
-	IsDynamicValidRange(val, max, min interface{}) bool
+	IsDynamicValidRange(val, max, min any) bool
 }
 
 type IsDynamicValueValidChecker interface {
-	IsDynamicValueValid(value interface{}) bool
+	IsDynamicValueValid(value any) bool
 }
 
 type IsEmptyChecker interface {
@@ -154,7 +201,6 @@ type IsEmptyOrWhitespaceChecker interface {
 }
 
 type IsFailedChecker interface {
-	// IsFailed has error or any other issues, or alias for HasIssues or HasError
 	IsFailed() bool
 }
 
@@ -191,7 +237,6 @@ type IsIntValidRangeUsingArgsChecker interface {
 }
 
 type IsValidChecker interface {
-	// IsValid similar or alias for IsSuccessChecker
 	IsValid() bool
 }
 
@@ -200,27 +245,22 @@ type IsInvalidChecker interface {
 }
 
 type IsInvalidValueByteChecker interface {
-	// IsInvalidValue delegates and acts as !IsWithinRange(value)
 	IsInvalidValue(value byte) bool
 }
 
 type IsInvalidValueInt8Checker interface {
-	// IsInvalidValue delegates and acts as !IsWithinRange(value)
 	IsInvalidValue(value int8) bool
 }
 
 type IsInvalidValueInt16Checker interface {
-	// IsInvalidValue delegates and acts as !IsWithinRange(value)
 	IsInvalidValue(value int16) bool
 }
 
 type IsInvalidValueInt32Checker interface {
-	// IsInvalidValue delegates and acts as !IsWithinRange(value)
 	IsInvalidValue(value int32) bool
 }
 
 type IsInvalidValueIntChecker interface {
-	// IsInvalidValue delegates and acts as !IsWithinRange(value)
 	IsInvalidValue(value int) bool
 }
 
@@ -265,7 +305,6 @@ type IsStringValidRangeUsingArgsChecker interface {
 }
 
 type IsSuccessChecker interface {
-	// IsSuccess No error
 	IsSuccess() bool
 }
 
@@ -276,37 +315,22 @@ type IsSuccessValidator interface {
 }
 
 type IsWithinRangeByteChecker interface {
-	// IsWithinRange r.Min >= value && value <= r.Max
-	//
-	// Or, r.Start >= value && value <= r.End
 	IsWithinRange(value byte) bool
 }
 
 type IsWithinRangeInt8Checker interface {
-	// IsWithinRange r.Min >= value && value <= r.Max
-	//
-	// Or, r.Start >= value && value <= r.End
 	IsWithinRange(value int8) bool
 }
 
 type IsWithinRangeInt16Checker interface {
-	// IsWithinRange r.Min >= value && value <= r.Max
-	//
-	// Or, r.Start >= value && value <= r.End
 	IsWithinRange(value int16) bool
 }
 
 type IsWithinRangeInt32Checker interface {
-	// IsWithinRange r.Min >= value && value <= r.Max
-	//
-	// Or, r.Start >= value && value <= r.End
 	IsWithinRange(value int32) bool
 }
 
 type IsWithinRangeIntChecker interface {
-	// IsWithinRange r.Min >= value && value <= r.Max
-	//
-	// Or, r.Start >= value && value <= r.End
 	IsWithinRange(value int) bool
 }
 

@@ -4,6 +4,6 @@ type ErrorRefMessageHandler interface {
 	HandleErrorWithRefs(
 		newMessage string,
 		refVar,
-		refVal interface{},
+		refVal any,
 	)
 }

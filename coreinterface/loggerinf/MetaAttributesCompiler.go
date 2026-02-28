@@ -17,11 +17,11 @@ type MetaAttributesCompiler interface {
 	//
 	// logs and clears
 	Committer
-	CompileAnyTo(toPointer interface{}) error
-	CompileAny() interface{}
+	CompileAnyTo(toPointer any) error
+	CompileAny() any
 	CompileStacks() []string
 	ReflectSetter
-	CompileMap() map[string]interface{}
+	CompileMap() map[string]any
 	CompileToJsonResult() *corejson.Result
 
 	CompiledAsBasicErr(
