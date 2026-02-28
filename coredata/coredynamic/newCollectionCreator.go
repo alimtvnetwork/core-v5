@@ -6,9 +6,9 @@ package coredynamic
 //
 //	coredynamic.New.Collection.String.Cap(10)
 //	coredynamic.New.Collection.Int.Empty()
-//	coredynamic.New.Collection.AnyMap.From(items)
+//	coredynamic.New.Collection.Any.From(items)
 type newCollectionCreator struct {
-	Generic   newGenericCollectionCreator
+	Any       newAnyCollectionCreator
 	String    newStringCollectionCreator
 	Int       newIntCollectionCreator
 	Int64     newInt64CollectionCreator

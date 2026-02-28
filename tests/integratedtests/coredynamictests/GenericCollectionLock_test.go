@@ -10,7 +10,7 @@ import (
 )
 
 // ==========================================
-// Test: Generic AddLock — concurrent safety
+// Test: Any AddLock — concurrent safety
 // ==========================================
 
 func Test_Generic_Collection_AddLock_Verification(t *testing.T) {
@@ -18,7 +18,7 @@ func Test_Generic_Collection_AddLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		count := input.GetAsIntDefault("count", 100)
-		col := coredynamic.New.Collection.Generic.Empty()
+		col := coredynamic.New.Collection.Any.Empty()
 
 		// Act
 		wg := sync.WaitGroup{}
@@ -41,7 +41,7 @@ func Test_Generic_Collection_AddLock_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic AddsLock — concurrent safety
+// Test: Any AddsLock — concurrent safety
 // ==========================================
 
 func Test_Generic_Collection_AddsLock_Verification(t *testing.T) {
@@ -50,7 +50,7 @@ func Test_Generic_Collection_AddsLock_Verification(t *testing.T) {
 		input := testCase.ArrangeInput.(args.Map)
 		count := input.GetAsIntDefault("count", 50)
 		batch := input.GetAsIntDefault("batch", 3)
-		col := coredynamic.New.Collection.Generic.Empty()
+		col := coredynamic.New.Collection.Any.Empty()
 
 		// Act
 		wg := sync.WaitGroup{}
@@ -77,7 +77,7 @@ func Test_Generic_Collection_AddsLock_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic LengthLock
+// Test: Any LengthLock
 // ==========================================
 
 func Test_Generic_Collection_LengthLock_Verification(t *testing.T) {
@@ -87,7 +87,7 @@ func Test_Generic_Collection_LengthLock_Verification(t *testing.T) {
 		items, _ := input.GetAsAnySlice("items")
 
 		// Act
-		col := coredynamic.New.Collection.Generic.From(items)
+		col := coredynamic.New.Collection.Any.From(items)
 		actLines := []string{
 			fmt.Sprintf("%d", col.LengthLock()),
 		}
@@ -98,7 +98,7 @@ func Test_Generic_Collection_LengthLock_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic IsEmptyLock — empty
+// Test: Any IsEmptyLock — empty
 // ==========================================
 
 func Test_Generic_Collection_IsEmptyLock_Empty_Verification(t *testing.T) {
@@ -106,7 +106,7 @@ func Test_Generic_Collection_IsEmptyLock_Empty_Verification(t *testing.T) {
 		// Arrange — empty collection
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Empty()
+		col := coredynamic.New.Collection.Any.Empty()
 		actLines := []string{
 			fmt.Sprintf("%v", col.IsEmptyLock()),
 		}
@@ -117,7 +117,7 @@ func Test_Generic_Collection_IsEmptyLock_Empty_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic IsEmptyLock — non-empty
+// Test: Any IsEmptyLock — non-empty
 // ==========================================
 
 func Test_Generic_Collection_IsEmptyLock_NonEmpty_Verification(t *testing.T) {
@@ -125,7 +125,7 @@ func Test_Generic_Collection_IsEmptyLock_NonEmpty_Verification(t *testing.T) {
 		// Arrange
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Items("x")
+		col := coredynamic.New.Collection.Any.Items("x")
 		actLines := []string{
 			fmt.Sprintf("%v", col.IsEmptyLock()),
 		}
@@ -136,7 +136,7 @@ func Test_Generic_Collection_IsEmptyLock_NonEmpty_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic ItemsLock — returns independent copy
+// Test: Any ItemsLock — returns independent copy
 // ==========================================
 
 func Test_Generic_Collection_ItemsLock_Verification(t *testing.T) {
@@ -146,7 +146,7 @@ func Test_Generic_Collection_ItemsLock_Verification(t *testing.T) {
 		items, _ := input.GetAsAnySlice("items")
 
 		// Act
-		col := coredynamic.New.Collection.Generic.From(items)
+		col := coredynamic.New.Collection.Any.From(items)
 		copied := col.ItemsLock()
 		copied = append(copied, "mutated")
 		actLines := []string{
@@ -162,7 +162,7 @@ func Test_Generic_Collection_ItemsLock_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic ClearLock
+// Test: Any ClearLock
 // ==========================================
 
 func Test_Generic_Collection_ClearLock_Verification(t *testing.T) {
@@ -172,7 +172,7 @@ func Test_Generic_Collection_ClearLock_Verification(t *testing.T) {
 		items, _ := input.GetAsAnySlice("items")
 
 		// Act
-		col := coredynamic.New.Collection.Generic.From(items)
+		col := coredynamic.New.Collection.Any.From(items)
 		col.ClearLock()
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
@@ -185,7 +185,7 @@ func Test_Generic_Collection_ClearLock_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic AddCollectionLock
+// Test: Any AddCollectionLock
 // ==========================================
 
 func Test_Generic_Collection_AddCollectionLock_Verification(t *testing.T) {
@@ -196,8 +196,8 @@ func Test_Generic_Collection_AddCollectionLock_Verification(t *testing.T) {
 		second, _ := input.GetAsAnySlice("second")
 
 		// Act
-		col1 := coredynamic.New.Collection.Generic.From(first)
-		col2 := coredynamic.New.Collection.Generic.From(second)
+		col1 := coredynamic.New.Collection.Any.From(first)
+		col2 := coredynamic.New.Collection.Any.From(second)
 		col1.AddCollectionLock(col2)
 		actLines := []string{
 			fmt.Sprintf("%d", col1.Length()),
@@ -211,7 +211,7 @@ func Test_Generic_Collection_AddCollectionLock_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic FilterLock — concurrent safety
+// Test: Any FilterLock — concurrent safety
 // ==========================================
 
 func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
@@ -219,7 +219,7 @@ func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, _ := input.GetAsAnySlice("items")
-		col := coredynamic.New.Collection.Generic.From(items)
+		col := coredynamic.New.Collection.Any.From(items)
 
 		// Act — filter strings starting with "a" or "d"
 		wg := sync.WaitGroup{}
@@ -252,7 +252,7 @@ func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: Generic LoopLock — concurrent safety
+// Test: Any LoopLock — concurrent safety
 // ==========================================
 
 func Test_Generic_Collection_LoopLock_Verification(t *testing.T) {
@@ -260,7 +260,7 @@ func Test_Generic_Collection_LoopLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		count := input.GetAsIntDefault("count", 50)
-		col := coredynamic.New.Collection.Generic.Empty()
+		col := coredynamic.New.Collection.Any.Empty()
 		for i := 0; i < count; i++ {
 			col.Add(fmt.Sprintf("item-%d", i))
 		}
