@@ -69,7 +69,6 @@ type IdentifierGetter interface {
 }
 
 type InvalidMessageGetter interface {
-	// InvalidMessage get invalid message
 	InvalidMessage() string
 }
 
@@ -99,8 +98,7 @@ type AnyAttributesGetter interface {
 
 // DynamicPageItemsGetter Paging items related methods
 type DynamicPageItemsGetter interface {
-	// GetDynamicPagedItems returns items for the paged collection.
-	GetDynamicPagedItems(perPageItems int, pageIndex int) interface{}
+	GetDynamicPagedItems(perPageItems int, pageIndex int) any
 }
 
 type IntRangeLengthGetter interface {
@@ -117,7 +115,6 @@ type InvalidDirectErrorGetter interface {
 }
 
 type InvalidErrorGetter interface {
-	// InvalidError get invalid message error
 	InvalidError() error
 }
 
@@ -173,20 +170,12 @@ type ValidationMessageGetter interface {
 	ValidationMessage() string
 }
 
-// ValidationErrorGetter
-//
-//	Returns validation related error
-//	only
 type ValidationErrorGetter interface {
-	// ValidationError
-	//
-	//  Returns validation related error
-	//  only
 	ValidationError() error
 }
 
 type ValueAnyItemGetter interface {
-	Value() interface{}
+	Value() any
 }
 
 type ValueByteGetter interface {
@@ -206,7 +195,7 @@ type ValueFloat64Getter interface {
 }
 
 type ValueGetter interface {
-	ValueDynamic() interface{}
+	ValueDynamic() any
 }
 
 type ValueInt16Getter interface {
@@ -226,7 +215,7 @@ type ValueIntegerGetter interface {
 }
 
 type ValueReflectSetter interface {
-	ValueReflectSet(setterPtr interface{}) error
+	ValueReflectSet(setterPtr any) error
 }
 
 type ValueStringGetter interface {
@@ -254,7 +243,7 @@ type JsonErrorBytesGetter interface {
 }
 
 type MapStringAnyGetter interface {
-	MapStringAny() map[string]interface{}
+	MapStringAny() map[string]any
 }
 
 type MapStringStringGetter interface {
@@ -274,11 +263,11 @@ type VariableNameStringGetter interface {
 }
 
 type VariableNameAnyGetter interface {
-	VariableNameAny() interface{}
+	VariableNameAny() any
 }
 
 type ValueAnyGetter interface {
-	ValueAny() interface{}
+	ValueAny() any
 }
 
 type ExplicitValueStringGetter interface {

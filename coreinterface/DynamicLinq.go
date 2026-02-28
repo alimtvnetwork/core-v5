@@ -5,14 +5,14 @@ import "gitlab.com/auk-go/core/internal/internalinterface"
 type DynamicLinq interface {
 	CountGetter
 	LengthGetter
-	FirstDynamic() interface{}
-	LastDynamic() interface{}
-	FirstOrDefaultDynamic() interface{}
-	LastOrDefaultDynamic() interface{}
-	SkipDynamic(skippingItemsCount int) interface{}
-	TakeDynamic(takeDynamicItems int) interface{}
+	FirstDynamic() any
+	LastDynamic() any
+	FirstOrDefaultDynamic() any
+	LastOrDefaultDynamic() any
+	SkipDynamic(skippingItemsCount int) any
+	TakeDynamic(takeDynamicItems int) any
 	// LimitDynamic alias for TakeDynamic
-	LimitDynamic(limit int) interface{}
+	LimitDynamic(limit int) any
 }
 
 type DyanmicLinqer interface {

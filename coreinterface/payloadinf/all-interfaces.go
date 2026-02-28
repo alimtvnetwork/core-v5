@@ -16,7 +16,7 @@ type AttributesBinder interface {
 
 	Payloads() []byte
 	Capacity() int
-	AnyKeyValMap() map[string]interface{}
+	AnyKeyValMap() map[string]any
 	Hashmap() map[string]string
 	CompiledError() error
 	HasError() bool
@@ -27,7 +27,7 @@ type AttributesBinder interface {
 	HandleErr()
 
 	DeserializeDynamicPayloads(
-		toPtr interface{},
+		toPtr any,
 	) error
 	IsEmptyError() bool
 	DynamicBytesLength() int
@@ -40,20 +40,20 @@ type AttributesBinder interface {
 	HasAnyKeyValuePairs() bool
 	HasDynamicPayloads() bool
 	DynamicPayloadsDeserialize(
-		unmarshallingPointer interface{},
+		unmarshallingPointer any,
 	) error
 	DynamicPayloadsDeserializeMust(
-		unmarshallingPointer interface{},
+		unmarshallingPointer any,
 	)
 	AddOrUpdateString(
 		key, value string,
 	) (isNewlyAdded bool)
 	AddOrUpdateAnyItem(
 		key string,
-		anyItem interface{},
+		anyItem any,
 	) (isNewlyAdded bool)
 	String() string
-	JsonModelAny() interface{}
+	JsonModelAny() any
 	SetBasicErr(
 		basicErr errcoreinf.BasicErrWrapper,
 	) AttributesBinder
@@ -67,11 +67,11 @@ type AttributesBinder interface {
 	HasAnyKey(key string) bool
 
 	AddNewStringKeyValueOnly(key, value string) (isAdded bool)
-	AddNewAnyKeyValueOnly(key string, value interface{}) (isAdded bool)
+	AddNewAnyKeyValueOnly(key string, value any) (isAdded bool)
 
 	GetStringKeyValue(key string) (value string, isFound bool)
-	GetAnyKeyValue(key string) (valueAny interface{}, isFound bool)
-	AnyKeyReflectSetTo(key string, toPtr interface{}) error
+	GetAnyKeyValue(key string) (valueAny any, isFound bool)
+	AnyKeyReflectSetTo(key string, toPtr any) error
 
 	corejson.Jsoner
 	coreinterface.ErrorHandler
@@ -87,9 +87,9 @@ type PayloadsBinder interface {
 	DynamicPayloads() []byte
 	SetDynamicPayloads(payloads []byte) error
 
-	AnyAttributes() interface{}
+	AnyAttributes() any
 	ReflectSetAttributes(
-		toPointer interface{},
+		toPointer any,
 	) error
 	AttrAsBinder() AttributesBinder
 
@@ -100,7 +100,7 @@ type PayloadsBinder interface {
 		entity entityinf.StandardTaskEntityDefiner,
 	) bool
 	ValueReflectSet(
-		setterPtr interface{},
+		setterPtr any,
 	) error
 	Serialize() ([]byte, error)
 	SerializeMust() []byte
@@ -108,7 +108,7 @@ type PayloadsBinder interface {
 	InitializeAttributesOnNull() AttributesBinder
 
 	Username() string
-	Value() interface{}
+	Value() any
 	Error() error
 	BasicError() errcoreinf.BasicErrWrapper
 
@@ -144,20 +144,20 @@ type PayloadsBinder interface {
 	IdentifierInteger() int
 	IdentifierUnsignedInteger() uint
 	Deserialize(
-		unmarshallingPointer interface{},
+		unmarshallingPointer any,
 	) error
 	DeserializeMust(
-		unmarshallingPointer interface{},
+		unmarshallingPointer any,
 	)
 	PayloadDeserialize(
-		unmarshallingPointer interface{},
+		unmarshallingPointer any,
 	) error
 	PayloadDeserializeMust(
-		unmarshallingPointer interface{},
+		unmarshallingPointer any,
 	)
 
 	PayloadDeserializeToPayloadBinder() (PayloadsBinder, error)
-	JsonModelAny() interface{}
+	JsonModelAny() any
 
 	All() (id, name, entity, category string, dynamicPayloads []byte)
 	AllSafe() (id, name, entity, category string, dynamicPayloads []byte)
@@ -208,7 +208,7 @@ type PayloadPropertiesDefiner interface {
 	SetManyRecordFlag()
 
 	DynamicPayloads() []byte
-	DynamicPayloadsDeserializedTo(toPtr interface{}) error
+	DynamicPayloadsDeserializedTo(toPtr any) error
 	SetDynamicPayloads(dynamicPayloads []byte) error
 	SetDynamicPayloadsMust(dynamicPayloads []byte)
 

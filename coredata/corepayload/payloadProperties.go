@@ -20,7 +20,7 @@ func (it *payloadProperties) BasicError() errcoreinf.BasicErrWrapper {
 	return it.payloadWrapper.BasicError()
 }
 
-func (it *payloadProperties) ReflectSetTo(toPointer interface{}) error {
+func (it *payloadProperties) ReflectSetTo(toPointer any) error {
 	return coredynamic.ReflectSetFromTo(it.payloadWrapper, toPointer)
 }
 
@@ -122,7 +122,7 @@ func (it *payloadProperties) SetDynamicPayloads(dynamicPayloads []byte) error {
 	return nil
 }
 
-func (it *payloadProperties) DynamicPayloadsDeserializedTo(toPtr interface{}) error {
+func (it *payloadProperties) DynamicPayloadsDeserializedTo(toPtr any) error {
 	return it.payloadWrapper.Deserialize(toPtr)
 }
 

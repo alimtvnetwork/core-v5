@@ -18,7 +18,7 @@ type KeyAnyValueDefiner interface {
 	ValueAnyGetter
 	ExplicitValueStringGetter
 	IsVariableNameEqual(name string) bool
-	IsAnyValueEqual(right interface{}) bool
+	IsAnyValueEqual(right any) bool
 	IsEqualKeyAnyValueDefiner(right KeyAnyValueDefiner) bool
 
 	CoreDefiner
@@ -57,8 +57,8 @@ type KeyAnyValuesCollectionDefiner interface {
 	StringsGetter
 	MapStringAnyGetter
 	HasKeyChecker
-	ValueOfKey(key string) (valInf interface{})
-	ValueOfKeys(keys ...string) (valuesAnyItems []interface{})
+	ValueOfKey(key string) (valInf any)
+	ValueOfKeys(keys ...string) (valuesAnyItems []any)
 
 	IsEqualKeyAnyValuesCollectionDefiner(
 		right KeyAnyValuesCollectionDefiner,

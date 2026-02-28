@@ -205,7 +205,7 @@ func (it *PayloadWrapper) SetPayloadDynamic(
 // - error to Result
 // - AnyItem
 func (it *PayloadWrapper) SetPayloadDynamicAny(
-	dynamicPayloadAny interface{},
+	dynamicPayloadAny any,
 ) (*PayloadWrapper, error) {
 	if it == nil {
 		it.InitializeAttributesOnNull()
@@ -297,7 +297,7 @@ func (it *PayloadWrapper) HandleError() {
 }
 
 func (it *PayloadWrapper) ReflectSetTo(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	return coredynamic.ReflectSetFromTo(
 		it,
@@ -305,12 +305,12 @@ func (it *PayloadWrapper) ReflectSetTo(
 	)
 }
 
-func (it *PayloadWrapper) AnyAttributes() interface{} {
+func (it *PayloadWrapper) AnyAttributes() any {
 	return it.Attributes
 }
 
 func (it *PayloadWrapper) ReflectSetAttributes(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	return coredynamic.ReflectSetFromTo(
 		it.Attributes,
@@ -339,7 +339,7 @@ func (it *PayloadWrapper) IsStandardTaskEntityEqual(
 }
 
 func (it *PayloadWrapper) ValueReflectSet(
-	setterPtr interface{},
+	setterPtr any,
 ) error {
 	return coredynamic.ReflectSetFromTo(
 		it.Payloads,
@@ -372,7 +372,7 @@ func (it *PayloadWrapper) Username() string {
 	return virtualUser.Name
 }
 
-func (it *PayloadWrapper) Value() interface{} {
+func (it *PayloadWrapper) Value() any {
 	return it.Payloads
 }
 
@@ -577,7 +577,7 @@ func (it *PayloadWrapper) BytesConverter() *coredynamic.BytesConverter {
 }
 
 func (it *PayloadWrapper) Deserialize(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) error {
 	return corejson.
 		Deserialize.
@@ -588,7 +588,7 @@ func (it *PayloadWrapper) Deserialize(
 }
 
 func (it *PayloadWrapper) DeserializeMust(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) {
 	corejson.
 		Deserialize.
@@ -599,7 +599,7 @@ func (it *PayloadWrapper) DeserializeMust(
 }
 
 func (it *PayloadWrapper) PayloadDeserialize(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) error {
 	return corejson.Deserialize.UsingBytes(
 		it.Payloads,
@@ -608,7 +608,7 @@ func (it *PayloadWrapper) PayloadDeserialize(
 }
 
 func (it *PayloadWrapper) PayloadDeserializeMust(
-	unmarshallingPointer interface{},
+	unmarshallingPointer any,
 ) {
 	err := corejson.
 		Deserialize.
@@ -656,7 +656,7 @@ func (it *PayloadWrapper) JsonModel() PayloadWrapper {
 	return it.NonPtr()
 }
 
-func (it *PayloadWrapper) JsonModelAny() interface{} {
+func (it *PayloadWrapper) JsonModelAny() any {
 	return it.JsonModel()
 }
 
