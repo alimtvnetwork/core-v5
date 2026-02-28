@@ -3,9 +3,9 @@ package errcore
 import "fmt"
 
 func EnumRangeNotMeet(
-	rangeStart interface{},
-	rangeEnd interface{},
-	wholeRange interface{},
+	rangeStart any,
+	rangeEnd any,
+	wholeRange any,
 ) string {
 	rangeStr := ""
 

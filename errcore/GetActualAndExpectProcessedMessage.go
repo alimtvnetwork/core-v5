@@ -8,10 +8,10 @@ import (
 
 func GetActualAndExpectProcessedMessage(
 	counter int,
-	actual interface{},
-	expected interface{},
-	actualProcessed interface{},
-	expectedProcessed interface{},
+	actual any,
+	expected any,
+	actualProcessed any,
+	expectedProcessed any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.PrintActualAndExpectedProcessedFormat,

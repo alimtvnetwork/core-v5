@@ -8,7 +8,7 @@ func MeaningfulErrorWithData(
 	rawErrType RawErrorType,
 	funcName string,
 	err error,
-	data interface{},
+	data any,
 ) error {
 	if err == nil {
 		return nil

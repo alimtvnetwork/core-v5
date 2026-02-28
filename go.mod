@@ -1,6 +1,6 @@
 module gitlab.com/auk-go/core
 
-go 1.17.8
+go 1.22
 
 require (
 	github.com/smarty/assertions v1.15.1

@@ -7,7 +7,7 @@ import (
 )
 
 func GetWhenActualAndExpectProcessedMessage(
-	actual interface{},
+	actual any,
 	expectationMessageDef *ExpectationMessageDef,
 ) string {
 	return fmt.Sprintf(

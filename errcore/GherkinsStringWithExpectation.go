@@ -13,7 +13,7 @@ func GherkinsStringWithExpectation(
 	when,
 	then,
 	actual,
-	expectation interface{},
+	expectation any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.SimpleGherkinsWithExpectationFormat,

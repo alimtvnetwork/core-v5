@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ErrorWithRef(err error, reference interface{}) string {
+func ErrorWithRef(err error, reference any) string {
 	if err == nil {
 		return ""
 	}

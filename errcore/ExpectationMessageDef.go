@@ -12,9 +12,9 @@ type ExpectationMessageDef struct {
 	FuncName          string
 	TestCaseName      string
 	When              string
-	Expected          interface{}
-	ActualProcessed   interface{}
-	ExpectedProcessed interface{}
+	Expected          any
+	ActualProcessed   any
+	ExpectedProcessed any
 	IsNonWhiteSort    bool
 	expectedString    *string
 }
@@ -49,7 +49,7 @@ func (it ExpectationMessageDef) ExpectedString() string {
 	return it.ExpectedSafeString()
 }
 
-func (it ExpectationMessageDef) ToString(actual interface{}) string {
+func (it ExpectationMessageDef) ToString(actual any) string {
 	return GetWhenActualAndExpectProcessedMessage(
 		actual,
 		&it)
@@ -57,7 +57,7 @@ func (it ExpectationMessageDef) ToString(actual interface{}) string {
 
 func (it ExpectationMessageDef) PrintIf(
 	isPrint bool,
-	actual interface{},
+	actual any,
 ) {
 	if !isPrint {
 		return
@@ -69,14 +69,14 @@ func (it ExpectationMessageDef) PrintIf(
 func (it ExpectationMessageDef) PrintIfFailed(
 	isPrintOnFail,
 	isFailed bool,
-	actual interface{},
+	actual any,
 ) {
 	if isPrintOnFail && isFailed {
 		it.Print(actual)
 	}
 }
 
-func (it ExpectationMessageDef) Print(actual interface{}) {
+func (it ExpectationMessageDef) Print(actual any) {
 	msg := MsgHeaderPlusEnding(
 		it.When,
 		it.ToString(actual))

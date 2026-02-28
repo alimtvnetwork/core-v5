@@ -11,7 +11,7 @@ All common core infrastructure and constants combined package.
 ### Prerequisites
 
 - Update git to latest 2.29
-- Update or install the latest of Go 1.17.8
+- Update or install the latest of Go 1.22+
 - Either add your ssh key to your gitlab account
 - Or, use your access token to clone it.
 

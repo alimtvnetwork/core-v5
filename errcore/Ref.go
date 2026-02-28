@@ -6,7 +6,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func Ref(reference interface{}) string {
+func Ref(reference any) string {
 	if reference == nil {
 		return ""
 	}

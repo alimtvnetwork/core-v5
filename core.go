@@ -1,7 +1,7 @@
 package core
 
-func EmptyAnysPtr() *[]interface{} {
-	return &([]interface{}{})
+func EmptyAnysPtr() *[]any {
+	return &([]any{})
 }
 
 func EmptyFloat32Ptr() *[]float32 {

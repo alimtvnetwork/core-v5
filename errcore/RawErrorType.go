@@ -130,7 +130,7 @@ func (it RawErrorType) String() string {
 func (it RawErrorType) CombineWithAnother(
 	another RawErrorType,
 	otherMsg string,
-	reference interface{},
+	reference any,
 ) RawErrorType {
 	return RawErrorType(
 		CombineWithMsgTypeNoStack(
@@ -142,14 +142,14 @@ func (it RawErrorType) CombineWithAnother(
 }
 
 func (it RawErrorType) Combine(
-	otherMsg string, reference interface{},
+	otherMsg string, reference any,
 ) string {
 	return CombineWithMsgTypeNoStack(it, otherMsg, reference)
 }
 
 func (it RawErrorType) TypesAttach(
 	otherMsg string,
-	reflectionTypes ...interface{},
+	reflectionTypes ...any,
 ) string {
 	return CombineWithMsgTypeNoStack(
 		it,
@@ -162,7 +162,7 @@ func (it RawErrorType) TypesAttach(
 
 func (it RawErrorType) TypesAttachErr(
 	otherMsg string,
-	reflectionTypes ...interface{},
+	reflectionTypes ...any,
 ) error {
 	message := it.TypesAttach(otherMsg, reflectionTypes...)
 
@@ -171,8 +171,8 @@ func (it RawErrorType) TypesAttachErr(
 
 func (it RawErrorType) SrcDestination(
 	otherMsg string,
-	srcName string, srcValue interface{},
-	destinationName string, destinationValue interface{},
+	srcName string, srcValue any,
+	destinationName string, destinationValue any,
 ) string {
 	reference := VarTwoNoType(
 		srcName, srcValue,
@@ -184,8 +184,8 @@ func (it RawErrorType) SrcDestination(
 
 func (it RawErrorType) SrcDestinationErr(
 	otherMsg string,
-	srcName string, srcValue interface{},
-	destinationName string, destinationValue interface{},
+	srcName string, srcValue any,
+	destinationName string, destinationValue any,
 ) error {
 	wholeMessage := it.SrcDestination(
 		otherMsg,
@@ -196,13 +196,13 @@ func (it RawErrorType) SrcDestinationErr(
 	return errors.New(wholeMessage)
 }
 
-func (it RawErrorType) Error(otherMsg string, reference interface{}) error {
+func (it RawErrorType) Error(otherMsg string, reference any) error {
 	msg := CombineWithMsgTypeNoStack(it, otherMsg, reference)
 
 	return StackEnhance.MsgToErrSkip(1, msg)
 }
 
-func (it RawErrorType) ErrorSkip(skipStack int, otherMsg string, reference interface{}) error {
+func (it RawErrorType) ErrorSkip(skipStack int, otherMsg string, reference any) error {
 	msg := CombineWithMsgTypeNoStack(it, otherMsg, reference)
 
 	return StackEnhance.MsgToErrSkip(1+skipStack, msg)
@@ -210,7 +210,7 @@ func (it RawErrorType) ErrorSkip(skipStack int, otherMsg string, reference inter
 
 func (it RawErrorType) Fmt(
 	format string,
-	v ...interface{},
+	v ...any,
 ) error {
 	if format == "" && len(v) == 0 {
 		return it.ErrorRefOnly(nil)
@@ -229,7 +229,7 @@ func (it RawErrorType) Fmt(
 func (it RawErrorType) FmtIf(
 	isError bool,
 	format string,
-	v ...interface{},
+	v ...any,
 ) error {
 	if !isError {
 		return nil
@@ -262,7 +262,7 @@ func (it RawErrorType) MergeErrorWithMessage(
 func (it RawErrorType) MergeErrorWithMessageRef(
 	err error,
 	message string,
-	reference interface{},
+	reference any,
 ) error {
 	if err == nil {
 		return nil
@@ -273,7 +273,7 @@ func (it RawErrorType) MergeErrorWithMessageRef(
 
 func (it RawErrorType) MergeErrorWithRef(
 	err error,
-	reference interface{},
+	reference any,
 ) error {
 	if err == nil {
 		return nil
@@ -284,7 +284,7 @@ func (it RawErrorType) MergeErrorWithRef(
 
 func (it RawErrorType) MsgCsvRef(
 	otherMsg string,
-	csvReferenceItems ...interface{},
+	csvReferenceItems ...any,
 ) string {
 	if len(csvReferenceItems) == 0 {
 		return it.NoRef(otherMsg)
@@ -312,7 +312,7 @@ func (it RawErrorType) MsgCsvRef(
 
 func (it RawErrorType) MsgCsvRefError(
 	otherMsg string,
-	csvReferenceItems ...interface{},
+	csvReferenceItems ...any,
 ) error {
 	msg := it.MsgCsvRef(otherMsg, csvReferenceItems...)
 	msg = StackEnhance.MsgSkip(1, msg)
@@ -320,13 +320,13 @@ func (it RawErrorType) MsgCsvRefError(
 	return errors.New(msg)
 }
 
-func (it RawErrorType) ErrorRefOnly(reference interface{}) error {
+func (it RawErrorType) ErrorRefOnly(reference any) error {
 	msg := CombineWithMsgTypeStackTrace(it, constants.EmptyString, reference)
 
 	return errors.New(msg)
 }
 
-func (it RawErrorType) Expecting(expecting, actual interface{}) error {
+func (it RawErrorType) Expecting(expecting, actual any) error {
 	msg := Expecting(
 		it.String(),
 		expecting,
@@ -362,7 +362,7 @@ func (it RawErrorType) ErrorNoRefsSkip(stack int, otherMsg string) error {
 	return StackEnhance.MsgToErrSkip(1+stack, msg)
 }
 
-func (it RawErrorType) HandleUsingPanic(otherMsg string, reference interface{}) {
+func (it RawErrorType) HandleUsingPanic(otherMsg string, reference any) {
 	msg := it.Combine(otherMsg, reference)
 
 	panic(msg)

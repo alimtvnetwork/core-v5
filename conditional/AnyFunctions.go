@@ -3,12 +3,12 @@ package conditional
 func AnyFunctions(
 	isTrue bool,
 	trueValueFunctions, falseValueFunctions []func() (
-		result interface{},
+		result any,
 		isTake,
 		isBreak bool,
 	),
 ) []func() (
-	result interface{},
+	result any,
 	isTake,
 	isBreak bool,
 ) {

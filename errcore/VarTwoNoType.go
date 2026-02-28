@@ -2,9 +2,9 @@ package errcore
 
 func VarTwoNoType(
 	var1 string,
-	val1 interface{},
+	val1 any,
 	var2 string,
-	val2 interface{},
+	val2 any,
 ) string {
 	return VarTwo(
 		false,

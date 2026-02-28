@@ -2,8 +2,8 @@ package strutilinternal
 
 import "reflect"
 
-func ReflectInterfaceVal(any interface{}) interface{} {
-	rVal := reflect.ValueOf(any)
+func ReflectInterfaceVal(item any) any {
+	rVal := reflect.ValueOf(item)
 
 	if rVal.Kind() != reflect.Ptr {
 		return rVal.Interface()

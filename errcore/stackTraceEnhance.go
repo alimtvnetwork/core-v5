@@ -33,7 +33,7 @@ func (it stackTraceEnhance) MsgToErrSkip(skip int, msg string) error {
 	return errors.New(it.MsgSkip(1+skip, msg))
 }
 
-func (it stackTraceEnhance) FmtSkip(skip int, format string, v ...interface{}) error {
+func (it stackTraceEnhance) FmtSkip(skip int, format string, v ...any) error {
 	if len(format) == 0 {
 		return nil
 	}

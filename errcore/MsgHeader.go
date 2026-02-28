@@ -7,7 +7,7 @@ import (
 )
 
 func MsgHeader(
-	items ...interface{},
+	items ...any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.MsgHeaderFormat,

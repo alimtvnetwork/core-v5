@@ -5,7 +5,7 @@ import "fmt"
 func ExpectingNotEqualSimpleNoType(
 	title,
 	wasExpecting,
-	actual interface{},
+	actual any,
 ) string {
 	return fmt.Sprintf(
 		expectingNotMatchingSimpleNoTypeMessageFormat,

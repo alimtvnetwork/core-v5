@@ -3,7 +3,7 @@ WindowsBinariesDirectory = bin
 MainDirectory = cmd/main
 ConfigDirectory = ./configs
 ConfigDirectoryForWindows = configs
-GoVersion=v1.17.8
+GoVersion=v1.22
 MyApp=cli
 
 .PHONY: clean lint changelog snapshot release

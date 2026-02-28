@@ -3,7 +3,7 @@ package errcore
 import "fmt"
 
 func VarMapStrings(
-	mappedItems map[string]interface{},
+	mappedItems map[string]any,
 ) []string {
 	if len(mappedItems) == 0 {
 		return []string{}

@@ -127,7 +127,7 @@ func (it *RawErrCollection) AddFuncIf(
 func (it *RawErrCollection) AddErrorWithMessageRef(
 	err error,
 	message string,
-	reference interface{},
+	reference any,
 ) {
 	if err == nil {
 		return
@@ -148,7 +148,7 @@ func (it *RawErrCollection) AddErrorWithMessageRef(
 
 func (it *RawErrCollection) AddFmt(
 	err error,
-	format string, v ...interface{},
+	format string, v ...any,
 ) {
 	if err == nil {
 		return
@@ -168,7 +168,7 @@ func (it *RawErrCollection) AddFmt(
 	it.AddString(StackEnhance.MsgSkip(1, final))
 }
 
-func (it *RawErrCollection) Fmt(format string, v ...interface{}) {
+func (it *RawErrCollection) Fmt(format string, v ...any) {
 	if format == "" && len(v) == 0 {
 		return
 	}
@@ -184,7 +184,7 @@ func (it *RawErrCollection) Fmt(format string, v ...interface{}) {
 func (it *RawErrCollection) FmtIf(
 	isAdd bool,
 	format string,
-	v ...interface{},
+	v ...any,
 ) {
 	if !isAdd {
 		return
@@ -195,7 +195,7 @@ func (it *RawErrCollection) FmtIf(
 
 func (it *RawErrCollection) References(
 	message string,
-	v ...interface{},
+	v ...any,
 ) {
 	referencesCompiled := fmt.Sprintf(
 		constants.MessageReferenceWrapFormat,
@@ -250,7 +250,7 @@ func (it *RawErrCollection) IsCollectionType() bool {
 	return true
 }
 
-func (it *RawErrCollection) ReflectSetTo(toPtr interface{}) error {
+func (it *RawErrCollection) ReflectSetTo(toPtr any) error {
 	switch v := toPtr.(type) {
 	case RawErrCollection:
 		return FailedToConvertType.Error(
@@ -304,7 +304,7 @@ func (it *RawErrCollection) Compile() string {
 
 func (it *RawErrCollection) HandleErrorWithRefs(
 	newMessage string,
-	refVar, refVal interface{},
+	refVar, refVal any,
 ) {
 	if it.IsEmpty() {
 		return
@@ -528,7 +528,7 @@ func (it *RawErrCollection) AddError(err error) {
 func (it *RawErrCollection) AddWithTraceRef(
 	err error,
 	traces []string,
-	referenceItem interface{},
+	referenceItem any,
 ) {
 	if err == nil {
 		return
@@ -543,7 +543,7 @@ func (it *RawErrCollection) AddWithTraceRef(
 func (it *RawErrCollection) AddWithCompiledTraceRef(
 	err error,
 	compiledTrace string,
-	referenceItem interface{},
+	referenceItem any,
 ) {
 	if err == nil {
 		return
@@ -563,7 +563,7 @@ func (it *RawErrCollection) AddWithCompiledTraceRef(
 
 func (it *RawErrCollection) AddWithRef(
 	err error,
-	referenceItem interface{},
+	referenceItem any,
 ) {
 	if err == nil {
 		return

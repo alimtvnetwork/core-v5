@@ -9,7 +9,7 @@ import (
 func SourceDestinationErr(
 	isIncludeType bool,
 	srcVal,
-	destinationVal interface{},
+	destinationVal any,
 ) error {
 	message := VarTwo(
 		isIncludeType,
