@@ -113,7 +113,7 @@ func (it newBasicInt32Creator) CreateUsingAliasMap(
 }
 
 func (it newBasicInt32Creator) UsingFirstItemSliceAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int32,
 ) *BasicInt32 {
@@ -158,7 +158,7 @@ func (it newBasicInt32Creator) UsingTypeSlice(
 }
 
 func (it newBasicInt32Creator) Default(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicInt32 {
 	return it.UsingTypeSliceAliasMap(
@@ -169,7 +169,7 @@ func (it newBasicInt32Creator) Default(
 }
 
 func (it newBasicInt32Creator) DefaultWithAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int32,
 ) *BasicInt32 {

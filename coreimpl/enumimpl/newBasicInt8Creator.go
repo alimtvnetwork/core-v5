@@ -115,7 +115,7 @@ func (it newBasicInt8Creator) CreateUsingAliasMap(
 
 func (it newBasicInt8Creator) CreateUsingSlicePlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	names []string,
 	aliasingMap map[string]int8,
 ) *BasicInt8 {
@@ -135,7 +135,7 @@ func (it newBasicInt8Creator) CreateUsingSlicePlusAliasMapOptions(
 
 func (it newBasicInt8Creator) CreateUsingMapPlusAliasMapOptions(
 	isIncludeUppercaseLowercase bool, // lowercase, uppercase all
-	firstItem interface{},
+	firstItem any,
 	actualRangesMap map[int8]string,
 	aliasingMap map[string]int8,
 ) *BasicInt8 {
@@ -152,7 +152,7 @@ func (it newBasicInt8Creator) CreateUsingMapPlusAliasMapOptions(
 }
 
 func (it newBasicInt8Creator) UsingFirstItemSliceAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int8,
 ) *BasicInt8 {
@@ -197,7 +197,7 @@ func (it newBasicInt8Creator) UsingTypeSlice(
 }
 
 func (it newBasicInt8Creator) Default(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicInt8 {
 	return it.UsingTypeSliceAliasMap(
@@ -208,7 +208,7 @@ func (it newBasicInt8Creator) Default(
 }
 
 func (it newBasicInt8Creator) DefaultWithAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int8,
 ) *BasicInt8 {
@@ -223,7 +223,7 @@ func (it newBasicInt8Creator) DefaultWithAliasMap(
 //
 //	includes both lowercase and uppercase parsing.
 func (it newBasicInt8Creator) DefaultAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicInt8 {
 	return it.CreateUsingSlicePlusAliasMapOptions(
@@ -238,7 +238,7 @@ func (it newBasicInt8Creator) DefaultAllCases(
 //
 //	includes both lowercase and uppercase parsing.
 func (it newBasicInt8Creator) DefaultWithAliasMapAllCases(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]int8,
 ) *BasicInt8 {

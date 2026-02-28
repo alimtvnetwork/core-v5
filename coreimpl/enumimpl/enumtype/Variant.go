@@ -40,7 +40,7 @@ func (it Variant) RangeNamesCsv() string {
 		rangesMap[:]...)
 }
 
-func (it Variant) MinMaxAny() (min, max interface{}) {
+func (it Variant) MinMaxAny() (min, max any) {
 	return Invalid, String
 }
 
@@ -60,8 +60,8 @@ func (it Variant) MinInt() int {
 	return Invalid.ValueInt()
 }
 
-func (it Variant) RangesDynamicMap() map[string]interface{} {
-	newMap := make(map[string]interface{}, len(stringToVariantMap))
+func (it Variant) RangesDynamicMap() map[string]any {
+	newMap := make(map[string]any, len(stringToVariantMap))
 
 	for s, variant := range stringToVariantMap {
 		newMap[s] = variant.Value()

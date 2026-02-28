@@ -104,7 +104,7 @@ func (it newBasicUInt16Creator) CreateUsingAliasMap(
 }
 
 func (it newBasicUInt16Creator) UsingFirstItemSliceAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]uint16,
 ) *BasicUInt16 {
@@ -149,7 +149,7 @@ func (it newBasicUInt16Creator) UsingTypeSlice(
 }
 
 func (it newBasicUInt16Creator) Default(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 ) *BasicUInt16 {
 	return it.UsingTypeSliceAliasMap(
@@ -160,7 +160,7 @@ func (it newBasicUInt16Creator) Default(
 }
 
 func (it newBasicUInt16Creator) DefaultWithAliasMap(
-	firstItem interface{},
+	firstItem any,
 	indexedSliceWithValues []string,
 	aliasingMap map[string]uint16,
 ) *BasicUInt16 {
