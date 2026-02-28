@@ -15,5 +15,5 @@ func CreateApplicableLock(regularExpressionPattern string) (
 
 	regex, err := Create(regularExpressionPattern)
 
-	return regex, err, err != nil && regEx != nil
+	return regex, err, err == nil && regex != nil
 }
