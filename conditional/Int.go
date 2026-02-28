@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use If[int] instead.
 func Int(
 	isTrue bool,
 	trueValue, falseValue int,
 ) int {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return If[int](isTrue, trueValue, falseValue)
 }

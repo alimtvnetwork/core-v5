@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfSlicePtr[string] instead.
 func StringsPtr(
 	isTrue bool,
 	trueValue, falseValue *[]string,
 ) *[]string {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return IfSlicePtr[string](isTrue, trueValue, falseValue)
 }

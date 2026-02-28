@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfTrueFunc[[]string] instead.
 func StringsTrueFunc(
 	isTrue bool,
 	trueValueFunc func() []string,
 ) []string {
-	if !isTrue {
-		return []string{}
-	}
-
-	return trueValueFunc()
+	return IfTrueFunc[[]string](isTrue, trueValueFunc)
 }

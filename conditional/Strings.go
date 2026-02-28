@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfSlice[string] instead.
 func Strings(
 	isTrue bool,
 	trueValue, falseValue []string,
 ) []string {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return IfSlice[string](isTrue, trueValue, falseValue)
 }

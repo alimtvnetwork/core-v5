@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfSlice[byte] instead.
 func Bytes(
 	isTrue bool,
 	trueValue, falseValue []byte,
 ) []byte {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return IfSlice[byte](isTrue, trueValue, falseValue)
 }

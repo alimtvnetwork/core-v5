@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfSlice[bool] instead.
 func Booleans(
 	isTrue bool,
 	trueValue, falseValue []bool,
 ) []bool {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return IfSlice[bool](isTrue, trueValue, falseValue)
 }

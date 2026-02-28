@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfSlicePtrFunc[int] instead.
 func IntegersPtrFunc(
 	isTrue bool,
 	trueValueFunc, falseValueFunc func() *[]int,
 ) *[]int {
-	if isTrue {
-		return trueValueFunc()
-	}
-
-	return falseValueFunc()
+	return IfSlicePtrFunc[int](isTrue, trueValueFunc, falseValueFunc)
 }

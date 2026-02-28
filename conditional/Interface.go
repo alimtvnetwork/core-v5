@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use If[any] instead.
 func Interface(
 	isTrue bool,
 	trueValue, falseValue any,
 ) any {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return If[any](isTrue, trueValue, falseValue)
 }
