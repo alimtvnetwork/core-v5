@@ -11,25 +11,25 @@ import (
 )
 
 type AnyOnce struct {
-	innerData       interface{}
-	initializerFunc func() interface{}
+	innerData       any
+	initializerFunc func() any
 	compiledString  *string
 	isInitialized   bool
 }
 
-func NewAnyOnce(initializerFunc func() interface{}) AnyOnce {
+func NewAnyOnce(initializerFunc func() any) AnyOnce {
 	return AnyOnce{
 		initializerFunc: initializerFunc,
 	}
 }
 
-func NewAnyOncePtr(initializerFunc func() interface{}) *AnyOnce {
+func NewAnyOncePtr(initializerFunc func() any) *AnyOnce {
 	return &AnyOnce{
 		initializerFunc: initializerFunc,
 	}
 }
 
-func (it *AnyOnce) Value() interface{} {
+func (it *AnyOnce) Value() any {
 	if it.isInitialized {
 		return it.innerData
 	}
@@ -40,7 +40,7 @@ func (it *AnyOnce) Value() interface{} {
 	return it.innerData
 }
 
-func (it *AnyOnce) Execute() interface{} {
+func (it *AnyOnce) Execute() any {
 	return it.Value()
 }
 
@@ -123,11 +123,11 @@ func (it *AnyOnce) CastValueHashmapMap() (
 }
 
 func (it *AnyOnce) CastValueMapStringAnyMap() (
-	valueMap map[string]interface{},
+	valueMap map[string]any,
 	isSuccess bool,
 ) {
 	valInf := it.Execute()
-	toStrings, isSuccess := valInf.(map[string]interface{})
+	toStrings, isSuccess := valInf.(map[string]any)
 
 	return toStrings, isSuccess
 }
@@ -142,7 +142,7 @@ func (it *AnyOnce) CastValueBytes() (
 	return toStrings, isSuccess
 }
 
-func (it *AnyOnce) ValueOnly() interface{} {
+func (it *AnyOnce) ValueOnly() any {
 	return it.Value()
 }
 
@@ -170,7 +170,7 @@ func (it *AnyOnce) String() string {
 	return fmt.Sprintf(constants.SprintValueFormat, it.Value())
 }
 
-func (it *AnyOnce) Deserialize(toPtr interface{}) error {
+func (it *AnyOnce) Deserialize(toPtr any) error {
 	allBytes, err := it.Serialize()
 
 	if err != nil {

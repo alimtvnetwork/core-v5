@@ -34,7 +34,7 @@ func (it *BaseRange) BaseRangeClone() *BaseRange {
 	}
 }
 
-func (it *BaseRange) String(start, end interface{}) string {
+func (it *BaseRange) String(start, end any) string {
 	format := constants.SprintValueFormat +
 		it.Separator +
 		constants.SprintValueFormat

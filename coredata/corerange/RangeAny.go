@@ -4,8 +4,8 @@ import "gitlab.com/auk-go/core/internal/strutilinternal"
 
 type RangeAny struct {
 	*BaseRange
-	RawInput   interface{}
-	Start, End interface{}
+	RawInput   any
+	Start, End any
 }
 
 func (r *RangeAny) RawInputString() string {

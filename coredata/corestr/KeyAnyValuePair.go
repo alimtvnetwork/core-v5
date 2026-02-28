@@ -12,7 +12,7 @@ import (
 type KeyAnyValuePair struct {
 	Key         string
 	valueString SimpleStringOnce
-	Value       interface{}
+	Value       any
 }
 
 func (it *KeyAnyValuePair) KeyName() string {
@@ -23,7 +23,7 @@ func (it *KeyAnyValuePair) VariableName() string {
 	return it.Key
 }
 
-func (it *KeyAnyValuePair) ValueAny() interface{} {
+func (it *KeyAnyValuePair) ValueAny() any {
 	return it.Value
 }
 

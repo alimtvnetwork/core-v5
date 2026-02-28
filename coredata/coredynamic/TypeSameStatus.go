@@ -7,7 +7,7 @@ import (
 )
 
 func TypeSameStatus(
-	left, right interface{},
+	left, right any,
 ) TypeStatus {
 	leftType := reflect.TypeOf(left)
 	rightType := reflect.TypeOf(right)

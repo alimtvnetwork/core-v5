@@ -566,7 +566,7 @@ func (it *Collection) resizeForItems(
 
 func (it *Collection) resizeForAnys(
 	multiplier int,
-	items []interface{},
+	items []any,
 ) *Collection {
 	if len(items) == 0 {
 		return it
@@ -1073,7 +1073,7 @@ func (it *Collection) AppendCollections(
 
 // AppendAnysLock Continue on nil
 func (it *Collection) AppendAnysLock(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if len(anyItems) == 0 {
 		return it
@@ -1088,7 +1088,7 @@ func (it *Collection) AppendAnysLock(
 
 // AppendAnys Continue on nil
 func (it *Collection) AppendAnys(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if len(anyItems) == 0 {
 		return it
@@ -1121,7 +1121,7 @@ func (it *Collection) AppendAnys(
 // AppendAnysUsingFilter Skip on nil
 func (it *Collection) AppendAnysUsingFilter(
 	filter IsStringFilter,
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if len(anyItems) == 0 {
 		return it
@@ -1164,7 +1164,7 @@ func (it *Collection) AppendAnysUsingFilter(
 // AppendAnysUsingFilterLock Skip on nil
 func (it *Collection) AppendAnysUsingFilterLock(
 	filter IsStringFilter,
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if anyItems == nil {
 		return it
@@ -1204,7 +1204,7 @@ func (it *Collection) AppendAnysUsingFilterLock(
 
 // AppendNonEmptyAnys Continue on nil
 func (it *Collection) AppendNonEmptyAnys(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Collection {
 	if anyItems == nil {
 		return it
@@ -2046,7 +2046,7 @@ func (it *Collection) JsonModel() []string {
 	return it.items
 }
 
-func (it *Collection) JsonModelAny() interface{} {
+func (it *Collection) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -2144,7 +2144,7 @@ func (it *Collection) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *Collection) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *Collection) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }
 

@@ -1053,7 +1053,7 @@ func (it *LinkedList) JsonModel() []string {
 	return it.ToCollection(0).JsonModel()
 }
 
-func (it *LinkedList) JsonModelAny() interface{} {
+func (it *LinkedList) JsonModelAny() any {
 	return it.JsonModel()
 }
 

@@ -14,7 +14,7 @@ import (
 //
 // Warning :
 //   - Must be set as a pointer any.
-func ZeroSetAny(anyItem interface{}) {
+func ZeroSetAny(anyItem any) {
 	if reflectinternal.Is.Null(anyItem) {
 		return
 	}
