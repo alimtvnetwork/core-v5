@@ -8,12 +8,12 @@ type ResultDelegatingFuncWrapper struct {
 }
 
 func (it ResultDelegatingFuncWrapper) Exec(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	return it.Action(toPointer)
 }
 
-func (it ResultDelegatingFuncWrapper) AsActionFunc(toPointer interface{}) ActionFunc {
+func (it ResultDelegatingFuncWrapper) AsActionFunc(toPointer any) ActionFunc {
 	return func() {
 		actionReturnsErrFunc := it.AsActionReturnsErrorFunc(toPointer)
 		errcore.HandleErr(actionReturnsErrFunc())
@@ -21,7 +21,7 @@ func (it ResultDelegatingFuncWrapper) AsActionFunc(toPointer interface{}) Action
 }
 
 func (it ResultDelegatingFuncWrapper) AsActionReturnsErrorFunc(
-	toPointer interface{},
+	toPointer any,
 ) ActionReturnsErrorFunc {
 	return func() error {
 		err := it.Action(toPointer)
