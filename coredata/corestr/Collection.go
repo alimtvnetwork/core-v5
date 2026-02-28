@@ -1518,10 +1518,17 @@ func (it *Collection) NonEmptyItems() []string {
 	return stringslice.NonEmptySlice(it.items)
 }
 
+// Deprecated: Use NonEmptyItems instead.
 func (it *Collection) NonEmptyItemsPtr() *[]string {
 	return stringslice.NonEmptySlicePtr(&it.items)
 }
 
+// NonEmptyItemsOrNonWhitespace returns items that are non-empty and non-whitespace.
+func (it *Collection) NonEmptyItemsOrNonWhitespace() []string {
+	return stringslice.NonWhitespace(it.items)
+}
+
+// Deprecated: Use NonEmptyItemsOrNonWhitespace instead.
 func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() *[]string {
 	return stringslice.NonWhitespacePtr(&it.items)
 }
@@ -1531,7 +1538,8 @@ func (it *Collection) Items() []string {
 	return it.items
 }
 
-// ListPtr direct return pointer
+
+// Deprecated: Use List or Items instead.
 func (it *Collection) ListPtr() *[]string {
 	return &it.items
 }
