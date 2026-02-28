@@ -6,26 +6,28 @@
 .DESCRIPTION
     Usage: ./run.ps1 <command>
 
-    Commands:
-        T     | test          Run all tests (verbose)
-        TP    | test-pkg      Run tests for a specific package: ./run.ps1 TP regexnewtests
-        TC    | test-cover    Run tests with coverage report
-        TI    | test-int      Run integrated tests only
-        R     | run           Run the main application
-        B     | build         Build the binary
-        BR    | build-run     Build then run
-        F     | fmt           Format all Go files
-        L     | lint          Run go vet on all packages
-        V     | vet           Run go vet
-        TY    | tidy          Run go mod tidy
-        C     | clean         Clean build artifacts
-        H     | help          Show this help
+    Commands (uppercase shorthands OR hyphen-lowercase):
+        T   | -t   | test          Run all tests (verbose)
+        TP  | -tp  | test-pkg      Run tests for a specific package: ./run.ps1 TP regexnewtests
+        TC  | -tc  | test-cover    Run tests with coverage
+        TI  | -ti  | test-int      Run integrated tests only
+        GC  | -gc  | goconvey      Launch GoConvey (browser test runner)
+        R   | -r   | run           Run the main application
+        B   | -b   | build         Build the binary
+        BR  | -br  | build-run     Build then run
+        F   | -f   | fmt           Format all Go files
+        L   | -l   | lint          Run go vet on all packages
+        V   | -v   | vet           Run go vet
+        TY  | -ty  | tidy          Run go mod tidy
+        C   | -c   | clean         Clean build artifacts
+        H   | -h   | help          Show this help
 
 .EXAMPLE
     ./run.ps1 T
-    ./run.ps1 test
+    ./run.ps1 -t
     ./run.ps1 TP regexnewtests
-    ./run.ps1 TC
+    ./run.ps1 -tp regexnewtests
+    ./run.ps1 -gc
 #>
 
 param(
@@ -260,6 +262,32 @@ function Invoke-Tidy {
     Write-Success "Tidy complete"
 }
 
+function Invoke-GoConvey {
+    Write-Header "Launching GoConvey"
+
+    # Check if goconvey is installed
+    $gcPath = Get-Command goconvey -ErrorAction SilentlyContinue
+    if (-not $gcPath) {
+        Write-Host "  GoConvey not found. Installing..." -ForegroundColor Yellow
+        go install github.com/smartystreets/goconvey@latest
+        if ($LASTEXITCODE -ne 0) {
+            Write-Fail "Failed to install GoConvey"
+            return
+        }
+        Write-Success "GoConvey installed"
+    }
+
+    $port = if ($Args -and $Args[0]) { $Args[0] } else { "8080" }
+    Write-Host "  Starting GoConvey on http://localhost:$port" -ForegroundColor Yellow
+    Write-Host "  Press Ctrl+C to stop" -ForegroundColor Gray
+
+    Push-Location tests
+    try {
+        goconvey -port $port
+    }
+    finally { Pop-Location }
+}
+
 function Invoke-Clean {
     Write-Header "Cleaning build artifacts"
     if (Test-Path build) { Remove-Item -Recurse -Force build }
@@ -272,47 +300,52 @@ function Show-Help {
     Write-Host "  Project Runner — ./run.ps1 <command>" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "  Testing:" -ForegroundColor Yellow
-    Write-Host "    T   | test          Run all tests (verbose)"
-    Write-Host "    TP  | test-pkg      Run tests for a specific package"
-    Write-Host "    TC  | test-cover    Run tests with coverage"
-    Write-Host "    TI  | test-int      Run integrated tests only"
+    Write-Host "    T   | -t   | test          Run all tests (verbose)"
+    Write-Host "    TP  | -tp  | test-pkg      Run tests for a specific package"
+    Write-Host "    TC  | -tc  | test-cover    Run tests with coverage"
+    Write-Host "    TI  | -ti  | test-int      Run integrated tests only"
+    Write-Host "    GC  | -gc  | goconvey      Launch GoConvey (browser test runner)"
     Write-Host ""
     Write-Host "  Build & Run:" -ForegroundColor Yellow
-    Write-Host "    R   | run           Run the main application"
-    Write-Host "    B   | build         Build the binary"
-    Write-Host "    BR  | build-run     Build then run"
+    Write-Host "    R   | -r   | run           Run the main application"
+    Write-Host "    B   | -b   | build         Build the binary"
+    Write-Host "    BR  | -br  | build-run     Build then run"
     Write-Host ""
     Write-Host "  Code Quality:" -ForegroundColor Yellow
-    Write-Host "    F   | fmt           Format all Go files"
-    Write-Host "    L   | lint          Run go vet"
-    Write-Host "    V   | vet           Run go vet"
-    Write-Host "    TY  | tidy          Run go mod tidy"
+    Write-Host "    F   | -f   | fmt           Format all Go files"
+    Write-Host "    L   | -l   | lint          Run go vet"
+    Write-Host "    V   | -v   | vet           Run go vet"
+    Write-Host "    TY  | -ty  | tidy          Run go mod tidy"
     Write-Host ""
     Write-Host "  Other:" -ForegroundColor Yellow
-    Write-Host "    C   | clean         Clean build artifacts"
-    Write-Host "    H   | help          Show this help"
+    Write-Host "    C   | -c   | clean         Clean build artifacts"
+    Write-Host "    H   | -h   | help          Show this help"
     Write-Host ""
     Write-Host "  Examples:" -ForegroundColor Gray
     Write-Host "    ./run.ps1 T"
+    Write-Host "    ./run.ps1 -t"
     Write-Host "    ./run.ps1 TP regexnewtests"
-    Write-Host "    ./run.ps1 TC"
+    Write-Host "    ./run.ps1 -tp regexnewtests"
+    Write-Host "    ./run.ps1 -gc"
+    Write-Host "    ./run.ps1 -gc 9090          (custom port)"
     Write-Host ""
 }
 
 # -- Dispatch --
 switch ($Command.ToLower()) {
-    { $_ -in "t", "test" }        { Invoke-AllTests }
-    { $_ -in "tp", "test-pkg" }   { Invoke-PackageTests $Args[0] }
-    { $_ -in "tc", "test-cover" } { Invoke-TestCoverage }
-    { $_ -in "ti", "test-int" }   { Invoke-IntegratedTests }
-    { $_ -in "r", "run" }         { Invoke-RunMain }
-    { $_ -in "b", "build" }       { Invoke-Build }
-    { $_ -in "br", "build-run" }  { Invoke-BuildRun }
-    { $_ -in "f", "fmt" }         { Invoke-Format }
-    { $_ -in "l", "lint", "v", "vet" } { Invoke-Vet }
-    { $_ -in "ty", "tidy" }       { Invoke-Tidy }
-    { $_ -in "c", "clean" }       { Invoke-Clean }
-    { $_ -in "h", "help", "" }    { Show-Help }
+    { $_ -in "t", "-t", "test" }              { Invoke-AllTests }
+    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $Args[0] }
+    { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
+    { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
+    { $_ -in "gc", "-gc", "goconvey" }        { Invoke-GoConvey }
+    { $_ -in "r", "-r", "run" }               { Invoke-RunMain }
+    { $_ -in "b", "-b", "build" }             { Invoke-Build }
+    { $_ -in "br", "-br", "build-run" }       { Invoke-BuildRun }
+    { $_ -in "f", "-f", "fmt" }               { Invoke-Format }
+    { $_ -in "l", "-l", "lint", "v", "-v", "vet" } { Invoke-Vet }
+    { $_ -in "ty", "-ty", "tidy" }            { Invoke-Tidy }
+    { $_ -in "c", "-c", "clean" }             { Invoke-Clean }
+    { $_ -in "h", "-h", "help", "" }          { Show-Help }
     default {
         Write-Fail "Unknown command: '$Command'"
         Show-Help

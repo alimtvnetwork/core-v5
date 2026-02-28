@@ -5,6 +5,7 @@ ConfigDirectory = ./configs
 ConfigDirectoryForWindows = configs
 GoVersion=v1.24
 MyApp=cli
+GOCONVEY_PORT ?= 8080
 
 .PHONY: clean lint changelog snapshot release
 .PHONY: build
@@ -67,6 +68,15 @@ run-tests:
 
 run-all-tests:
 	go test -v ./...
+
+run-pkg-tests:
+	@echo "Usage: make run-pkg-tests PKG=<package>"
+	cd tests && go test -v ./integratedtests/$(PKG)/...
+
+goconvey:
+	@which goconvey > /dev/null 2>&1 || (echo "Installing GoConvey..." && go install github.com/smartystreets/goconvey@latest)
+	@echo "Starting GoConvey on http://localhost:$(GOCONVEY_PORT)"
+	cd tests && goconvey -port $(GOCONVEY_PORT)
 
 vet:
 	go vet ./...
