@@ -3,11 +3,11 @@ package loggerinf
 type LoggerStackSkip interface {
 	FatalStackSkip(
 		stackSkipIndex int,
-		args ...interface{},
+		args ...any,
 	)
 	ErrorStackSkip(
 		stackSkipIndex int,
-		args ...interface{},
+		args ...any,
 	)
 
 	// ErrorUsingError
@@ -23,31 +23,31 @@ type LoggerStackSkip interface {
 		err error,
 	)
 
-	ErrorIf(isLog bool, args ...interface{})
+	ErrorIf(isLog bool, args ...any)
 	DebugFmtIf(
 		isLog bool,
 		formatter string,
-		args ...interface{},
+		args ...any,
 	)
 	DebugFmtStackSkip(
 		stackSkipIndex int,
 		format string,
-		args ...interface{},
+		args ...any,
 	)
 
-	DebugIf(isLog bool, args ...interface{}) // Debug logs a message at Debug level.
+	DebugIf(isLog bool, args ...any) // Debug logs a message at Debug level.
 	DebugStackSkip(
 		stackSkipIndex int,
-		args ...interface{},
+		args ...any,
 	)
 
 	DebugIncludingStackTracesIf(
 		isLog bool,
 		stackSkipIndex int,
-		args ...interface{},
+		args ...any,
 	)
 	DebugIncludingStackTraces(
 		stackSkipIndex int,
-		args ...interface{},
+		args ...any,
 	)
 }

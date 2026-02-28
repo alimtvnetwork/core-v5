@@ -152,25 +152,25 @@ type IsEmptyJsonChecker interface {
 
 type Deserializer interface {
 	Deserialize(
-		anyPointer interface{},
+		anyPointer any,
 	) error
 }
 
 type MustDeserializer interface {
 	DeserializeMust(
-		anyPointer interface{},
+		anyPointer any,
 	)
 }
 
 type MustUnmarshaler interface {
 	UnmarshalMust(
-		anyPointer interface{},
+		anyPointer any,
 	)
 }
 
 type Unmarshaler interface {
 	Unmarshal(
-		anyPointer interface{},
+		anyPointer any,
 	) error
 }
 

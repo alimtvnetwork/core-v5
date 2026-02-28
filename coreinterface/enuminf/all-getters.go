@@ -62,7 +62,7 @@ type RangesIntegerStringMapGetter interface {
 }
 
 type RangesDynamicMapGetter interface {
-	RangesDynamicMap() map[string]interface{}
+	RangesDynamicMap() map[string]any
 }
 
 type IntegerEnumRangesGetter interface {

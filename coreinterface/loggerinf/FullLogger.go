@@ -30,7 +30,7 @@ type FullLogger interface {
 		levelType enuminf.LogLevelTyper,
 		title string,
 		attr string,
-		model interface{},
+		model any,
 	)
 
 	LogAll(
