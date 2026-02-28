@@ -9,7 +9,7 @@ import (
 
 type differCheckerImpl struct{}
 
-func (it *differCheckerImpl) GetSingleDiffResult(isLeft bool, l, r interface{}) interface{} {
+func (it *differCheckerImpl) GetSingleDiffResult(isLeft bool, l, r any) any {
 	if isLeft {
 		return l
 	}
@@ -17,10 +17,10 @@ func (it *differCheckerImpl) GetSingleDiffResult(isLeft bool, l, r interface{}) 
 	return r
 }
 
-func (it *differCheckerImpl) GetResultOnKeyMissingInRightExistInLeft(lKey string, lVal interface{}) interface{} {
+func (it *differCheckerImpl) GetResultOnKeyMissingInRightExistInLeft(lKey string, lVal any) any {
 	return lVal
 }
-func (it *differCheckerImpl) IsEqual(isRegardlessType bool, l, r interface{}) bool {
+func (it *differCheckerImpl) IsEqual(isRegardlessType bool, l, r any) bool {
 	if isRegardlessType {
 		leftString := fmt.Sprintf(
 			constants.SprintPropertyNameValueFormat,

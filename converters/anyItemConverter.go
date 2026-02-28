@@ -17,62 +17,62 @@ type anyItemConverter struct{}
 
 func (it anyItemConverter) ToString(
 	isIncludeFullName bool,
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return ""
 	}
 
 	if isIncludeFullName {
 		return fmt.Sprintf(
 			constants.SprintFullPropertyNameValueFormat,
-			any,
+			anyVal,
 		)
 	}
 
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		any,
+		anyVal,
 	)
 }
 
 func (it anyItemConverter) String(
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return ""
 	}
 
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		any,
+		anyVal,
 	)
 }
 
 func (it anyItemConverter) FullString(
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return ""
 	}
 
 	return fmt.Sprintf(
 		constants.SprintPropertyNameValueFormat,
-		any,
+		anyVal,
 	)
 }
 
 func (it anyItemConverter) StringWithType(
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return ""
 	}
 
 	return fmt.Sprintf(
 		constants.SprintPropertyValueWithTypeFormat,
-		any,
-		any,
+		anyVal,
+		anyVal,
 	)
 }
 
@@ -80,20 +80,20 @@ func (it anyItemConverter) StringWithType(
 //
 //	warning : on error swallows it
 func (it anyItemConverter) ToSafeSerializedString(
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return ""
 	}
 
-	switch casted := any.(type) {
+	switch casted := anyVal.(type) {
 	case []byte:
 		return BytesTo.String(casted)
 	case *[]byte:
 		return BytesTo.PtrString(casted)
 	}
 
-	allBytes, _ := json.Marshal(any)
+	allBytes, _ := json.Marshal(anyVal)
 
 	return BytesTo.String(allBytes)
 }
@@ -104,10 +104,10 @@ func (it anyItemConverter) ToSafeSerializedString(
 //
 //	warning : on error swallows it
 func (it anyItemConverter) ToSafeSerializedStringSprintValue(
-	any interface{},
+	anyVal any,
 ) string {
 	value := it.ToSafeSerializedString(
-		any,
+		anyVal,
 	)
 
 	return fmt.Sprintf(
@@ -118,7 +118,7 @@ func (it anyItemConverter) ToSafeSerializedStringSprintValue(
 
 func (it anyItemConverter) ToStrings(
 	isSkipOnNil bool,
-	anyItem interface{},
+	anyItem any,
 ) []string {
 	if isSkipOnNil && anyItem == nil {
 		return []string{}
@@ -136,14 +136,14 @@ func (it anyItemConverter) ToStrings(
 
 func (it anyItemConverter) ToStringsUsingProcessor(
 	isSkipOnNil bool,
-	processor func(index int, in interface{}) (out string, isTake, isBreak bool),
-	any interface{},
+	processor func(index int, in any) (out string, isTake, isBreak bool),
+	anyVal any,
 ) []string {
-	if any == nil {
+	if anyVal == nil {
 		return []string{}
 	}
 
-	anyItems := it.ToAnyItems(isSkipOnNil, any)
+	anyItems := it.ToAnyItems(isSkipOnNil, anyVal)
 	slice := make([]string, 0, len(anyItems))
 
 	if len(anyItems) == 0 {
@@ -167,14 +167,14 @@ func (it anyItemConverter) ToStringsUsingProcessor(
 
 func (it anyItemConverter) ToStringsUsingSimpleProcessor(
 	isSkipOnNil bool,
-	simpleProcessor func(index int, in interface{}) (out string),
-	any interface{},
+	simpleProcessor func(index int, in any) (out string),
+	anyVal any,
 ) []string {
-	if any == nil {
+	if anyVal == nil {
 		return []string{}
 	}
 
-	anyItems := it.ToAnyItems(isSkipOnNil, any)
+	anyItems := it.ToAnyItems(isSkipOnNil, anyVal)
 	slice := make([]string, len(anyItems))
 
 	if len(anyItems) == 0 {
@@ -191,41 +191,41 @@ func (it anyItemConverter) ToStringsUsingSimpleProcessor(
 }
 
 func (it anyItemConverter) ToValueString(
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return ""
 	}
 
 	return fmt.Sprintf(
 		constants.SprintValueFormat,
-		any,
+		anyVal,
 	)
 }
 
 func (it anyItemConverter) ToValueStringWithType(
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return fmt.Sprintf(
 			constants.SprintNilValueTypeInParenthesisFormat,
-			any,
+			anyVal,
 		)
 	}
 
 	return fmt.Sprintf(
 		constants.SprintValueWithTypeFormat,
-		any,
-		any,
+		anyVal,
+		anyVal,
 	)
 }
 
 func (it anyItemConverter) ToAnyItems(
 	isSkipOnNil bool,
-	anyItem interface{},
-) []interface{} {
+	anyItem any,
+) []any {
 	if isSkipOnNil && anyItem == nil {
-		return []interface{}{}
+		return []any{}
 	}
 
 	reflectVal := reflect.ValueOf(anyItem)
@@ -238,10 +238,10 @@ func (it anyItemConverter) ToAnyItems(
 
 func (it anyItemConverter) ToNonNullItems(
 	isSkipOnNil bool,
-	anyItem interface{},
-) []interface{} {
+	anyItem any,
+) []any {
 	if isSkipOnNil && anyItem == nil || reflectinternal.Is.Null(anyItem) {
-		return []interface{}{}
+		return []any{}
 	}
 
 	reflectVal := reflect.ValueOf(anyItem)
@@ -253,7 +253,7 @@ func (it anyItemConverter) ToNonNullItems(
 }
 
 func (it anyItemConverter) ItemsToStringsSkipOnNil(
-	anyItems ...interface{},
+	anyItems ...any,
 ) []string {
 	return coreappend.PrependAppendAnyItemsToStringsSkipOnNil(
 		nil,
@@ -264,7 +264,7 @@ func (it anyItemConverter) ItemsToStringsSkipOnNil(
 
 func (it anyItemConverter) ItemsJoin(
 	joiner string,
-	anyItems ...interface{},
+	anyItems ...any,
 ) string {
 	if anyItems == nil {
 		return constants.EmptyString
@@ -278,7 +278,7 @@ func (it anyItemConverter) ItemsJoin(
 func (it anyItemConverter) ToItemsThenJoin(
 	isSkipOnNil bool,
 	joiner string,
-	anySlice interface{},
+	anySlice any,
 ) string {
 	if anySlice == nil {
 		return constants.EmptyString
@@ -296,15 +296,15 @@ func (it anyItemConverter) ToItemsThenJoin(
 }
 
 func (it anyItemConverter) ToFullNameValueString(
-	any interface{},
+	anyVal any,
 ) string {
-	if any == nil {
+	if anyVal == nil {
 		return ""
 	}
 
 	return fmt.Sprintf(
 		constants.SprintFullPropertyNameValueFormat,
-		any,
+		anyVal,
 	)
 }
 
@@ -314,7 +314,7 @@ func (it anyItemConverter) ToFullNameValueString(
 //
 //	swallows error
 func (it anyItemConverter) ToPrettyJson(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	if anyItem == nil {
 		return ""
@@ -347,7 +347,7 @@ func (it anyItemConverter) ToPrettyJson(
 //   - For rest of the cases, convert to json using Marshal and then returns the bytes
 //
 // Panic if json marshal has error.
-func (it anyItemConverter) Bytes(anyItem interface{}) []byte {
+func (it anyItemConverter) Bytes(anyItem any) []byte {
 	switch expectedAs := anyItem.(type) {
 	case []byte:
 		if expectedAs == nil {
@@ -378,7 +378,7 @@ func (it anyItemConverter) Bytes(anyItem interface{}) []byte {
 //
 // If nil then returns ""
 // Or, returns %v of the value given.
-func (it anyItemConverter) ValueString(anyItem interface{}) string {
+func (it anyItemConverter) ValueString(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -394,7 +394,7 @@ func (it anyItemConverter) ValueString(anyItem interface{}) string {
 //   - If nil return ""
 //   - If string return just returns
 //   - Or, else return %v of value
-func (it anyItemConverter) SmartString(anyItem interface{}) string {
+func (it anyItemConverter) SmartString(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -404,16 +404,16 @@ func (it anyItemConverter) SmartString(anyItem interface{}) string {
 
 func (it anyItemConverter) SmartStringsJoiner(
 	joiner string,
-	any ...interface{},
+	anyItems ...any,
 ) string {
-	if len(any) == 0 {
+	if len(anyItems) == 0 {
 		return ""
 	}
 
-	slice := make([]string, len(any))
+	slice := make([]string, len(anyItems))
 	converterFunc := convertinternal.AnyTo.SmartJson
 
-	for i, elem := range any {
+	for i, elem := range anyItems {
 		slice[i] = converterFunc(elem)
 	}
 
@@ -421,11 +421,11 @@ func (it anyItemConverter) SmartStringsJoiner(
 }
 
 func (it anyItemConverter) SmartStringsOf(
-	any ...interface{},
+	anyItems ...any,
 ) string {
-	if len(any) == 0 {
+	if len(anyItems) == 0 {
 		return ""
 	}
 
-	return it.SmartStringsJoiner(", ", any...)
+	return it.SmartStringsJoiner(", ", anyItems...)
 }

@@ -2,7 +2,7 @@ package enumimpl
 
 import "reflect"
 
-func KeyAnyValues(names []string, values interface{}) []KeyAnyVal {
+func KeyAnyValues(names []string, values any) []KeyAnyVal {
 	if len(names) == 0 {
 		return []KeyAnyVal{}
 	}

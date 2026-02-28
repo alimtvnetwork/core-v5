@@ -8,7 +8,7 @@ import (
 
 func AnyToStringUsing(
 	isIncludeFields bool,
-	any interface{},
+	any any,
 ) string {
 	if any == nil {
 		return ""

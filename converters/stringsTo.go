@@ -125,9 +125,9 @@ func (it stringsTo) MapStringIntegerUsingFunc(
 //	Skips if empty after trim
 func (it stringsTo) MapStringAnyUsingFunc(
 	isTrimBefore bool,
-	processorFunc func(line string) (key string, val interface{}),
+	processorFunc func(line string) (key string, val any),
 	lines ...string,
-) map[string]interface{} {
+) map[string]any {
 	return strutilinternal.
 		SliceToMapConverter(lines).
 		LineProcessorMapStringAnyOptions(

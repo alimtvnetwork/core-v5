@@ -9,7 +9,7 @@ import (
 )
 
 type DiffLeftRight struct {
-	Left, Right interface{}
+	Left, Right any
 }
 
 func (it *DiffLeftRight) Types() (l, r reflect.Type) {

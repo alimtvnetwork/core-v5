@@ -7,7 +7,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func ConvEnumAnyValToInteger(val interface{}) int {
+func ConvEnumAnyValToInteger(val any) int {
 	_, isStr := val.(string)
 
 	if isStr {

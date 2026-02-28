@@ -13,19 +13,19 @@ import (
 	"gitlab.com/auk-go/core/internal/msgcreator"
 )
 
-type DynamicMap map[string]interface{}
+type DynamicMap map[string]any
 
-func (it DynamicMap) AddOrUpdate(key string, val interface{}) (isAddNewly bool) {
+func (it DynamicMap) AddOrUpdate(key string, val any) (isAddNewly bool) {
 	_, isAlreadyExist := it[key]
 	it[key] = val
 
 	return !isAlreadyExist
 }
 
-func (it *DynamicMap) Set(key string, val interface{}) (isAddNewly bool) {
+func (it *DynamicMap) Set(key string, val any) (isAddNewly bool) {
 	if it == nil {
 		// mutating because it is part of
-		*it = make(map[string]interface{}, constants.Capacity5)
+		*it = make(map[string]any, constants.Capacity5)
 	}
 
 	_, isAlreadyExist := (*it)[key]
@@ -37,10 +37,10 @@ func (it *DynamicMap) Set(key string, val interface{}) (isAddNewly bool) {
 // AddNewOnly
 //
 //	Don't update existing
-func (it *DynamicMap) AddNewOnly(key string, val interface{}) (isAdded bool) {
+func (it *DynamicMap) AddNewOnly(key string, val any) (isAdded bool) {
 	if it == nil {
 		// mutating because it is part of
-		*it = make(map[string]interface{}, constants.Capacity5)
+		*it = make(map[string]any, constants.Capacity5)
 	}
 
 	_, isAlreadyExist := (*it)[key]
@@ -226,7 +226,7 @@ func (it DynamicMap) SortedKeyAnyValues() (
 	return keyAnyValues
 }
 
-func (it DynamicMap) First() (key string, valInf interface{}) {
+func (it DynamicMap) First() (key string, valInf any) {
 	for key, valInf = range it {
 		return key, valInf
 	}
@@ -316,7 +316,7 @@ func (it *DynamicMap) IsMismatch(
 
 func (it *DynamicMap) IsRawMismatch(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	return !it.IsRawEqual(isRegardlessType, rightMap)
 }
@@ -345,7 +345,7 @@ func (it *DynamicMap) IsEqual(
 
 func (it *DynamicMap) IsRawEqual(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	if it == nil && rightMap == nil {
 		return true
@@ -378,13 +378,13 @@ func (it *DynamicMap) IsRawEqual(
 	return true
 }
 
-func (it DynamicMap) Raw() map[string]interface{} {
+func (it DynamicMap) Raw() map[string]any {
 	return it
 }
 
 func (it *DynamicMap) DiffRaw(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) DynamicMap {
 	diffMap := it.DiffRawUsingDifferChecker(
 		DefaultDiffCheckerImpl,
@@ -398,10 +398,10 @@ func (it *DynamicMap) DiffRaw(
 func (it *DynamicMap) DiffRawUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) DynamicMap {
 	if it == nil && rightMap == nil {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	if it == nil && rightMap != nil {
@@ -414,7 +414,7 @@ func (it *DynamicMap) DiffRawUsingDifferChecker(
 
 	length := it.Length() / 3
 	diffMap := make(
-		map[string]interface{},
+		map[string]any,
 		length,
 	)
 
@@ -497,23 +497,23 @@ func (it *DynamicMap) DiffRawUsingDifferChecker(
 func (it *DynamicMap) DiffRawLeftRightUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (lDiff, rDiff DynamicMap) {
 	if it == nil && rightMap == nil {
-		return map[string]interface{}{}, map[string]interface{}{}
+		return map[string]any{}, map[string]any{}
 	}
 
 	if it == nil && rightMap != nil {
-		return rightMap, map[string]interface{}{}
+		return rightMap, map[string]any{}
 	}
 
 	if it != nil && rightMap == nil {
-		return *it, map[string]interface{}{}
+		return *it, map[string]any{}
 	}
 
 	length := it.Length() / 3
 	rDiff = make(
-		map[string]interface{},
+		map[string]any,
 		length,
 	)
 
@@ -547,11 +547,11 @@ func (it *DynamicMap) DiffRawLeftRightUsingDifferChecker(
 	// no changes so far and count matches
 	// means there is are no changes.
 	if len(rDiff) == 0 && it.Length() == len(rightMap) {
-		return map[string]interface{}{}, rDiff
+		return map[string]any{}, rDiff
 	}
 
 	lDiff = make(
-		map[string]interface{},
+		map[string]any,
 		length,
 	)
 
@@ -589,7 +589,7 @@ func (it *DynamicMap) DiffRawLeftRightUsingDifferChecker(
 
 func (it *DynamicMap) DiffJsonMessage(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	diffMap := it.DiffRaw(isRegardlessType, rightMap)
 
@@ -603,7 +603,7 @@ func (it *DynamicMap) DiffJsonMessage(
 func (it *DynamicMap) DiffJsonMessageUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	diffMap := it.DiffRawUsingDifferChecker(
 		differChecker,
@@ -620,7 +620,7 @@ func (it *DynamicMap) DiffJsonMessageUsingDifferChecker(
 
 func (it *DynamicMap) DiffJsonMessageLeftRight(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	return it.DiffJsonMessageLeftRightUsingDifferChecker(
 		DefaultDiffCheckerImpl,
@@ -632,7 +632,7 @@ func (it *DynamicMap) DiffJsonMessageLeftRight(
 func (it *DynamicMap) DiffJsonMessageLeftRightUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	lDiff, rDiff := it.DiffRawLeftRightUsingDifferChecker(
 		differChecker,
@@ -677,7 +677,7 @@ func (it *DynamicMap) ShouldDiffMessageUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	diffMessage := it.DiffJsonMessageUsingDifferChecker(
 		differChecker,
@@ -700,7 +700,7 @@ func (it *DynamicMap) ShouldDiffLeftRightMessageUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	diffMessage := it.DiffJsonMessageLeftRightUsingDifferChecker(
 		differChecker,
@@ -722,7 +722,7 @@ func (it *DynamicMap) ShouldDiffLeftRightMessageUsingDifferChecker(
 func (it *DynamicMap) ShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	diffMessage := it.DiffJsonMessage(
 		isRegardlessType,
@@ -743,7 +743,7 @@ func (it *DynamicMap) ShouldDiffMessage(
 func (it *DynamicMap) LogShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (diffMessage string) {
 	diffMessage = it.ShouldDiffMessage(
 		isRegardlessType,
@@ -763,7 +763,7 @@ func (it *DynamicMap) LogShouldDiffMessage(
 func (it *DynamicMap) LogShouldDiffLeftRightMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (diffMessage string) {
 	return it.LogShouldDiffLeftRightMessageUsingDifferChecker(
 		DefaultDiffCheckerImpl,
@@ -777,7 +777,7 @@ func (it *DynamicMap) LogShouldDiffMessageUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (diffMessage string) {
 	diffMessage = it.ShouldDiffMessageUsingDifferChecker(
 		differChecker,
@@ -799,7 +799,7 @@ func (it *DynamicMap) LogShouldDiffLeftRightMessageUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (diffMessage string) {
 	diffMessage = it.ShouldDiffLeftRightMessageUsingDifferChecker(
 		differChecker,
@@ -819,7 +819,7 @@ func (it *DynamicMap) LogShouldDiffLeftRightMessageUsingDifferChecker(
 
 func (it *DynamicMap) ExpectingMessage(
 	title string,
-	expected map[string]interface{},
+	expected map[string]any,
 ) string {
 	expectedMap := DynamicMap(expected)
 	actualMapString := it.String()
@@ -841,7 +841,7 @@ func (it *DynamicMap) ExpectingMessage(
 
 func (it *DynamicMap) LogExpectingMessage(
 	title string,
-	expected map[string]interface{},
+	expected map[string]any,
 ) {
 	expectingMessage := it.ExpectingMessage(title, expected)
 
@@ -855,7 +855,7 @@ func (it *DynamicMap) LogExpectingMessage(
 func (it *DynamicMap) isNotEqual(
 	isRegardlessType bool,
 	left,
-	right interface{},
+	right any,
 ) bool {
 	if isRegardlessType {
 		leftString := fmt.Sprintf(
@@ -876,7 +876,7 @@ func (it *DynamicMap) isNotEqual(
 func (it *DynamicMap) isEqualSingle(
 	isRegardlessType bool,
 	left,
-	right interface{},
+	right any,
 ) bool {
 	if isRegardlessType {
 		leftString := fmt.Sprintf(
@@ -895,7 +895,7 @@ func (it *DynamicMap) isEqualSingle(
 }
 
 func (it *DynamicMap) IsKeysEqualOnly(
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	if it == nil && rightMap == nil {
 		return true
@@ -922,7 +922,7 @@ func (it *DynamicMap) IsKeysEqualOnly(
 
 func (it DynamicMap) KeyValue(
 	key string,
-) (val interface{}, isFound bool) {
+) (val any, isFound bool) {
 	val, isFound = it[key]
 
 	return val, isFound
@@ -1010,7 +1010,7 @@ func (it DynamicMap) KeyValueByte(
 
 func (it *DynamicMap) Add(
 	key string,
-	valInf interface{},
+	valInf any,
 ) *DynamicMap {
 	(*it)[key] = valInf
 
@@ -1409,11 +1409,11 @@ func (it DynamicMap) ConcatNew(
 	another DynamicMap,
 ) DynamicMap {
 	if it.IsEmpty() && another.IsEmpty() {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	var newMap DynamicMap = make(
-		map[string]interface{},
+		map[string]any,
 		it.Length()+another.Length()+1,
 	)
 
@@ -1462,7 +1462,7 @@ func (it DynamicMap) Strings() []string {
 }
 
 func (it DynamicMap) StringsUsingFmt(
-	formatter func(index int, key string, val interface{}) string,
+	formatter func(index int, key string, val any) string,
 ) []string {
 	if it.IsEmpty() {
 		return []string{}

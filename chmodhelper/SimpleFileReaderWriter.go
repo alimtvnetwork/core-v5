@@ -265,7 +265,7 @@ func (it SimpleFileReaderWriter) errorWrapFilePath(
 }
 
 func (it SimpleFileReaderWriter) WriteAny(
-	anyItem interface{},
+	anyItem any,
 ) error {
 	err := SimpleFileWriter.
 		FileWriter.
@@ -287,7 +287,7 @@ func (it SimpleFileReaderWriter) WriteAny(
 }
 
 func (it SimpleFileReaderWriter) WriteAnyLock(
-	anyItem interface{},
+	anyItem any,
 ) error {
 	SimpleFileWriter.Lock()
 	defer SimpleFileWriter.Unlock()
@@ -386,7 +386,7 @@ func (it SimpleFileReaderWriter) ReadOnExistLock() ([]byte, error) {
 	return it.ReadOnExist()
 }
 
-func (it SimpleFileReaderWriter) Get(toPtr interface{}) error {
+func (it SimpleFileReaderWriter) Get(toPtr any) error {
 	if it.IsExist() {
 		return it.getOnExist(toPtr)
 	}
@@ -394,7 +394,7 @@ func (it SimpleFileReaderWriter) Get(toPtr interface{}) error {
 	return it.errorWrap(errors.New("cannot read cache, save first, file not exist: " + it.FilePath))
 }
 
-func (it SimpleFileReaderWriter) GetLock(toPtr interface{}) error {
+func (it SimpleFileReaderWriter) GetLock(toPtr any) error {
 	SimpleFileWriter.Lock()
 	defer SimpleFileWriter.Unlock()
 
@@ -402,8 +402,8 @@ func (it SimpleFileReaderWriter) GetLock(toPtr interface{}) error {
 }
 
 func (it SimpleFileReaderWriter) ReadWrite(
-	readToPtr interface{},
-	onInvalidGenerateFunc func() (interface{}, error),
+	readToPtr any,
+	onInvalidGenerateFunc func() (any, error),
 ) error {
 	return it.GetSet(
 		readToPtr,
@@ -412,8 +412,8 @@ func (it SimpleFileReaderWriter) ReadWrite(
 }
 
 func (it SimpleFileReaderWriter) ReadWriteLock(
-	readToPtr interface{},
-	onInvalidGenerateFunc func() (interface{}, error),
+	readToPtr any,
+	onInvalidGenerateFunc func() (any, error),
 ) error {
 	return it.GetSetLock(
 		readToPtr,
@@ -422,8 +422,8 @@ func (it SimpleFileReaderWriter) ReadWriteLock(
 }
 
 func (it SimpleFileReaderWriter) GetSetLock(
-	toPtr interface{},
-	onInvalidGenerateFunc func() (interface{}, error),
+	toPtr any,
+	onInvalidGenerateFunc func() (any, error),
 ) error {
 	SimpleFileWriter.Lock()
 	defer SimpleFileWriter.Unlock()
@@ -434,8 +434,8 @@ func (it SimpleFileReaderWriter) GetSetLock(
 }
 
 func (it SimpleFileReaderWriter) GetSet(
-	toPtr interface{},
-	onInvalidGenerateFunc func() (interface{}, error),
+	toPtr any,
+	onInvalidGenerateFunc func() (any, error),
 ) error {
 	readErr := it.Get(toPtr)
 	if readErr != nil {
@@ -458,8 +458,8 @@ func (it SimpleFileReaderWriter) GetSet(
 }
 
 func (it SimpleFileReaderWriter) CacheGetSet(
-	toPtr interface{},
-	onInvalidGenerateFunc func() (interface{}, error),
+	toPtr any,
+	onInvalidGenerateFunc func() (any, error),
 ) error {
 	return it.GetSet(
 		toPtr,
@@ -468,8 +468,8 @@ func (it SimpleFileReaderWriter) CacheGetSet(
 }
 
 func (it SimpleFileReaderWriter) CacheGetSetLock(
-	toPtr interface{},
-	onInvalidGenerateFunc func() (interface{}, error),
+	toPtr any,
+	onInvalidGenerateFunc func() (any, error),
 ) error {
 	return it.GetSetLock(
 		toPtr,
@@ -481,7 +481,7 @@ func (it SimpleFileReaderWriter) CacheGetSetLock(
 //
 //	alias for Get
 func (it SimpleFileReaderWriter) Deserialize(
-	toPtr interface{},
+	toPtr any,
 ) error {
 	return it.Get(toPtr)
 }
@@ -490,7 +490,7 @@ func (it SimpleFileReaderWriter) Deserialize(
 //
 //	alias for Get
 func (it SimpleFileReaderWriter) DeserializeLock(
-	toPtr interface{},
+	toPtr any,
 ) error {
 	return it.GetLock(toPtr)
 }
@@ -512,11 +512,11 @@ func (it SimpleFileReaderWriter) SerializeLock() ([]byte, error) {
 // Set
 //
 //	alias for WriteAny
-func (it SimpleFileReaderWriter) Set(toPtr interface{}) error {
+func (it SimpleFileReaderWriter) Set(toPtr any) error {
 	return it.WriteAny(toPtr)
 }
 
-func (it SimpleFileReaderWriter) SetLock(toPtr interface{}) error {
+func (it SimpleFileReaderWriter) SetLock(toPtr any) error {
 	return it.WriteAnyLock(toPtr)
 }
 
@@ -583,7 +583,7 @@ func (it SimpleFileReaderWriter) RemoveDirOnExist() error {
 	return it.ExpireParentDir()
 }
 
-func (it SimpleFileReaderWriter) getOnExist(toPtr interface{}) error {
+func (it SimpleFileReaderWriter) getOnExist(toPtr any) error {
 	allBytes, err := it.Read()
 
 	if err != nil {

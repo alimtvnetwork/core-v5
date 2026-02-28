@@ -20,7 +20,7 @@ func AnyItemsToCsvString(
 	joiner string,
 	isIncludeQuote,
 	isIncludeSingleQuote bool,
-	references ...interface{},
+	references ...any,
 ) string {
 	if len(references) == 0 {
 		return constants.EmptyString

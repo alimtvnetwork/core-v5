@@ -8,14 +8,14 @@ import (
 
 type KeyAnyVal struct {
 	Key      string
-	AnyValue interface{}
+	AnyValue any
 }
 
 func (it KeyAnyVal) KeyString() string {
 	return it.Key
 }
 
-func (it KeyAnyVal) AnyVal() interface{} {
+func (it KeyAnyVal) AnyVal() any {
 	return it.AnyValue
 }
 

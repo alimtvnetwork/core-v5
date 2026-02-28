@@ -6,7 +6,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func AnyToFieldNameString(any interface{}) string {
+func AnyToFieldNameString(any any) string {
 	if any == nil {
 		return ""
 	}
