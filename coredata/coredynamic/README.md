@@ -10,15 +10,31 @@ coredynamic/
 ├── TypedSimpleRequest.go        # Generic: TypedSimpleRequest[T]  (→ SimpleRequest)
 ├── TypedSimpleResult.go         # Generic: TypedSimpleResult[T]   (→ SimpleResult)
 ├── Dynamic.go                   # Legacy:  Dynamic                (any-based, reflection)
+├── DynamicGetters.go            # Dynamic read-only accessors, type checks, value extraction
+├── DynamicReflect.go            # Dynamic reflection ops, loops, filters, conversion
+├── DynamicJson.go               # Dynamic JSON serialization/deserialization
+├── DynamicStatus.go             # Dynamic status helpers
 ├── SimpleRequest.go             # Legacy:  SimpleRequest          (any-based)
 ├── SimpleResult.go              # Legacy:  SimpleResult           (any-based)
 ├── Collection.go                # Generic: Collection[T]          (thread-safe list)
+├── CollectionMethods.go         # Collection mutators, clone, capacity, reorder, search
+├── CollectionMap.go             # Package-level Map, FlatMap, Reduce
+├── CollectionDistinct.go        # Package-level Distinct, Unique, DistinctCount, IsDistinct
+├── CollectionSort.go            # SortFunc, SortAsc/Desc, IsSorted (cmp.Ordered)
+├── CollectionGroupBy.go         # GroupBy operations
+├── CollectionLock.go            # Mutex-protected method variants
+├── CollectionSearch.go          # Search and query methods
+├── CollectionTypes.go           # Type-specific collection helpers
 ├── DynamicCollection.go         # Legacy:  DynamicCollection
 ├── AnyCollection.go             # Legacy:  AnyCollection
 ├── KeyVal.go                    # Dynamic key-value pair
+├── KeyValCollection.go          # Collection of KeyVal
 ├── LeftRight.go                 # Left/Right pair wrapper
 ├── MapAnyItems.go               # Dynamic map with paging
-└── newCreator.go                # New Creator pattern
+├── CastTo.go / CastedResult.go  # Type casting utilities
+├── ReflectSetFromTo.go          # Reflection-based assignment
+├── newCreator.go                # New Creator pattern
+└── vars.go                      # Package-level variables (New)
 ```
 
 ## Type Hierarchy
@@ -27,29 +43,34 @@ coredynamic/
 Generic (type-safe, recommended)              Legacy (any-based, backward compat)
 ──────────────────────────────                ──────────────────────────────────
 TypedDynamic[T]                               Dynamic
-  ├─ .Data() T                                  └─ .Data() any
-  ├─ .GetAs*(String/Int/Int64/Float64/Bool/Bytes/Strings)
+  ├─ .Data() / .Value() T                       └─ .Data() / .Value() any
+  ├─ .GetAs*(String/Int/Int64/Uint/Float64/Float32/Bool/Bytes/Strings)
   ├─ .Value*(String/Int/Int64/Bool)
-  ├─ .Json() / .JsonPtr() / .JsonBytes()
-  ├─ .MarshalJSON() / .UnmarshalJSON()
+  ├─ .Json() / .JsonPtr() / .JsonResult() / .JsonBytes() / .JsonString()
+  ├─ .MarshalJSON() / .UnmarshalJSON() / .ValueMarshal()
   ├─ .Bytes() / .Deserialize()
-  ├─ .ClonePtr() / .NonPtr() / .Ptr()
+  ├─ .Clone() / .ClonePtr() / .NonPtr() / .Ptr()
+  ├─ .JsonModel() / .JsonModelAny()
   └─ .ToDynamic()
 
 TypedSimpleRequest[T]                         SimpleRequest
-  ├─ .Data() / .Request() / .Value() T          └─ .Data() any
+  ├─ .Data() / .Request() / .Value() T          └─ .Request() / .Value() any
   ├─ .GetAs*(String/Int/Int64/Float64/Float32/Bool/Bytes/Strings)
-  ├─ .InvalidError() / .Message()
-  ├─ .Json() / .JsonPtr() / .MarshalJSON()
+  ├─ .InvalidError() / .Message() / .String()
+  ├─ .Json() / .JsonPtr() / .JsonBytes() / .JsonResult()
+  ├─ .MarshalJSON() / .JsonModel() / .JsonModelAny()
+  ├─ .Clone()
   ├─ .ToTypedDynamic() / .ToDynamic()
   └─ .ToSimpleRequest()
 
 TypedSimpleResult[T]                          SimpleResult
-  ├─ .Data() / .Result() T                      └─ .Result any
+  ├─ .Data() / .Result() T                      └─ .Result any (field)
   ├─ .GetAs*(String/Int/Int64/Float64/Bool/Bytes/Strings)
-  ├─ .InvalidError() / .Message()
-  ├─ .Json() / .JsonPtr() / .MarshalJSON()
-  ├─ .ClonePtr() / .ToTypedDynamic()
+  ├─ .InvalidError() / .Message() / .String()
+  ├─ .Json() / .JsonPtr() / .JsonBytes() / .JsonResult()
+  ├─ .MarshalJSON() / .JsonModel() / .JsonModelAny()
+  ├─ .Clone() / .ClonePtr()
+  ├─ .ToTypedDynamic() / .ToDynamic()
   └─ .ToSimpleResult()
 ```
 
@@ -63,15 +84,19 @@ import "gitlab.com/auk-go/core/coredata/coredynamic"
 // Create a typed dynamic value
 d := coredynamic.NewTypedDynamic[string]("hello", true)
 fmt.Println(d.Data())    // "hello" (typed as string)
+fmt.Println(d.Value())   // "hello" (alias for Data)
 fmt.Println(d.IsValid()) // true
 
 // GetAs* type assertion helpers
 str, ok := d.GetAsString()     // "hello", true
 num, ok := d.GetAsInt()        // 0, false
+uid, ok := d.GetAsUint()       // 0, false
+f32, ok := d.GetAsFloat32()    // 0, false
 
 // Value* convenience methods
 fmt.Println(d.ValueString())   // "hello"
 fmt.Println(d.ValueInt())      // -1 (InvalidValue)
+fmt.Println(d.ValueInt64())    // -1 (InvalidValue)
 fmt.Println(d.ValueBool())     // false
 
 // JSON operations
@@ -124,6 +149,9 @@ num, ok := req.GetAsInt64()
 jsonResult := req.Json()
 jsonBytes, err := req.JsonBytes()
 
+// Clone
+cloned := req.Clone()
+
 // Conversions
 typedDynamic := req.ToTypedDynamic()
 legacyDynamic := req.ToDynamic()
@@ -153,11 +181,13 @@ fmt.Println(invalidResult.Message())   // "user not found"
 err := invalidResult.InvalidError()    // errors.New("user not found")
 
 // Clone
-clone := result.ClonePtr()
+clone := result.Clone()
+clonePtr := result.ClonePtr()
 
 // Conversions
 legacyResult := result.ToSimpleResult()
 typedDynamic := result.ToTypedDynamic()
+legacyDynamic := result.ToDynamic()
 ```
 
 ### Collection[T] — Generic Collections
@@ -171,18 +201,35 @@ col.Add("world")
 fmt.Println(col.Length())  // 2
 fmt.Println(col.First())  // "hello"
 
-// Map, Filter, Reduce
-mapped := coredynamic.Map[string, int](col, func(s string) int {
+// Map, FlatMap, Reduce (package-level generic functions)
+mapped := coredynamic.Map(col, func(s string) int {
     return len(s)
 })
 
-reduced := coredynamic.Reduce[string, string](col, "", func(acc, item string) string {
+reduced := coredynamic.Reduce(col, "", func(acc, item string) string {
     return acc + item
 })
 
-// Distinct, Sort, Reverse
+flattened := coredynamic.FlatMap(col, func(s string) []rune {
+    return []rune(s)
+})
+
+// Distinct (requires comparable T)
+distinct := coredynamic.Distinct(col)
+count := coredynamic.DistinctCount(col)
+
+// Sort (requires cmp.Ordered T)
+coredynamic.SortAsc(col)
+coredynamic.SortDesc(col)
+sorted := coredynamic.SortedAsc(col)  // non-mutating
+
+// Sort with custom comparator (any T)
+col.SortFunc(func(a, b string) bool { return a < b })
+
+// Reverse, Filter, Clone
 col.Reverse()
-distinct := coredynamic.Distinct[string](col)
+filtered := col.Filter(func(s string) bool { return len(s) > 3 })
+cloned := col.Clone()
 ```
 
 ### Dynamic — Legacy Wrapper
@@ -198,6 +245,17 @@ d.IsMap()
 d.IsSliceOrArray()
 d.IsPrimitive()
 d.IsNumber()
+d.IsPointer()
+d.IsStringType()
+d.IsStruct()
+
+// Value extraction
+d.ValueString()
+d.ValueInt()
+d.ValueInt64()
+d.ValueBool()
+d.ValueStrings()
+rawBytes, ok := d.Bytes()
 ```
 
 ## Related Docs
