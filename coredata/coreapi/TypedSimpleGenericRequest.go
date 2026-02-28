@@ -102,39 +102,3 @@ func (it *TypedSimpleGenericRequest[T]) Clone() *TypedSimpleGenericRequest[T] {
 	}
 }
 
-// ToSimpleGenericRequest converts to the non-generic SimpleGenericRequest
-// for backward compatibility.
-func (it *TypedSimpleGenericRequest[T]) ToSimpleGenericRequest() *SimpleGenericRequest {
-	if it == nil {
-		return nil
-	}
-
-	var simpleReq *coredynamic.SimpleRequest
-	if it.Request != nil {
-		simpleReq = it.Request.ToSimpleRequest()
-	}
-
-	return &SimpleGenericRequest{
-		Attribute: it.Attribute,
-		Request:   simpleReq,
-	}
-}
-
-// ToGenericRequestIn converts to GenericRequestIn (TypedRequestIn[any]) for backward compatibility.
-//
-// Deprecated: GenericRequestIn is now a type alias for TypedRequestIn[any].
-func (it *TypedSimpleGenericRequest[T]) ToGenericRequestIn() *GenericRequestIn {
-	if it == nil {
-		return nil
-	}
-
-	var requestData any
-	if it.Request != nil {
-		requestData = it.Request.Data()
-	}
-
-	return &GenericRequestIn{
-		Attribute: it.Attribute,
-		Request:   requestData,
-	}
-}

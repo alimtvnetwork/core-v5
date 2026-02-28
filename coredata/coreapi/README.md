@@ -1,24 +1,18 @@
 # coreapi — Typed API Request/Response
 
-Package `coreapi` provides structured request and response types for API communication. It includes both **legacy dynamic** (`any`-based) and **modern generic** (`[T]`-based) types.
+Package `coreapi` provides structured request and response types for API communication using **generic** (`[T]`-based) types for compile-time type safety.
 
 ## Architecture
 
 ```
 coreapi/
-├── TypedRequestIn.go              # Generic: TypedRequestIn[T]  (→ GenericRequestIn)
-├── TypedRequest.go                # Generic: TypedRequest[T]    (→ SimpleGenericRequest)
-├── TypedResponse.go               # Generic: TypedResponse[T]   (→ GenericResponse)
-├── TypedResponseResult.go         # Generic: TypedResponseResult[T] (→ GenericResponseResult)
-├── TypedSimpleGenericRequest.go   # Generic: TypedSimpleGenericRequest[T]
-├── GenericRequestIn.go            # Type alias: GenericRequestIn = TypedRequestIn[any]
-├── GenericResponse.go             # Type alias: GenericResponse = TypedResponse[any]
-├── GenericResponseResult.go       # Type alias: GenericResponseResult = TypedResponseResult[*SimpleResult]
-├── SimpleGenericRequest.go        # Type alias: SimpleGenericRequest = TypedRequest[*SimpleRequest]
-├── InvalidGenericResponseResult.go # Invalid factory for GenericResponseResult
+├── TypedRequestIn.go              # TypedRequestIn[T] — generic incoming request
+├── TypedRequest.go                # TypedRequest[T] — generic request wrapper
+├── TypedResponse.go               # TypedResponse[T] — generic response
+├── TypedResponseResult.go         # TypedResponseResult[T] — generic response result
+├── TypedSimpleGenericRequest.go   # TypedSimpleGenericRequest[T] — wraps TypedSimpleRequest[T]
 ├── InvalidRequestAttribute.go     # Invalid factory for RequestAttribute
 ├── InvalidResponseAttribute.go    # Invalid factory for ResponseAttribute
-├── InvalidSimpleGenericRequest.go  # Invalid factory for SimpleGenericRequest
 ├── RequestAttribute.go            # URL, host, resource, action, auth, search, paging
 ├── ResponseAttribute.go           # HTTP code/method, count, validity, steps, debug
 ├── SearchRequest.go               # Search term + match mode flags
@@ -30,54 +24,47 @@ coreapi/
 ## Type Hierarchy
 
 ```
-Generic (type-safe, recommended)              Legacy (type aliases / backward compat)
-──────────────────────────────                ──────────────────────────────────────
-TypedRequestIn[T]                             GenericRequestIn = TypedRequestIn[any]
+TypedRequestIn[T]
   ├─ .Request T
   ├─ .Attribute *RequestAttribute
   ├─ .Clone()
-  └─ .ToGenericRequestIn()
+  └─ .TypedSimpleGenericRequest(isValid, msg)
 
-TypedRequest[T]                               SimpleGenericRequest = TypedRequest[*SimpleRequest]
+TypedRequest[T]
   ├─ .Request T
   ├─ .Clone()
-  ├─ .ToGenericRequestIn()
-  ├─ .ToSimpleGenericRequest()
-  └─ .ToTypedSimpleGenericRequest()
+  └─ .ToTypedSimpleGenericRequest(isValid, msg)
 
-TypedResponse[T]                              GenericResponse = TypedResponse[any]
+TypedResponse[T]
   ├─ .Response T
-  ├─ .TypedResponseResult()
-  ├─ .GenericResponseResult()
-  └─ .ToGenericResponse()
+  ├─ .Clone()
+  └─ .TypedResponseResult()
 
-TypedResponseResult[T]                        GenericResponseResult = TypedResponseResult[*SimpleResult]
+TypedResponseResult[T]
   ├─ .Response T
   ├─ .Clone() / .ClonePtr()
   ├─ .IsValid() / .IsInvalid() / .Message()
-  └─ .ToGenericResponseResult() / .ToGenericResponse()
+  └─ .ToTypedResponse()
+
+TypedSimpleGenericRequest[T]
+  ├─ .Attribute *RequestAttribute
+  ├─ .Request *TypedSimpleRequest[T]
+  ├─ .IsValid() / .IsInvalid()
+  ├─ .Data() / .Message() / .InvalidError()
+  └─ .Clone()
 ```
 
 ## Types
 
-### Generic (Typed) — Recommended
+### Generic (Typed)
 
 | Type | Description |
 |------|-------------|
 | `TypedRequestIn[T]` | Strongly-typed incoming request with `T` payload |
 | `TypedRequest[T]` | Strongly-typed request wrapping `T` directly |
 | `TypedResponse[T]` | Strongly-typed response with `T` payload |
-| `TypedResponseResult[T]` | Strongly-typed response result |
-| `TypedSimpleGenericRequest[T]` | Request wrapping `TypedSimpleRequest[T]` |
-
-### Legacy (Type Aliases & Dynamic)
-
-| Type | Description |
-|------|-------------|
-| `GenericRequestIn` | **Type alias** for `TypedRequestIn[any]` — fully interchangeable, deprecated |
-| `GenericResponse` | **Type alias** for `TypedResponse[any]` — fully interchangeable, deprecated |
-| `SimpleGenericRequest` | **Type alias** for `TypedRequest[*coredynamic.SimpleRequest]` — fully interchangeable, deprecated |
-| `GenericResponseResult` | **Type alias** for `TypedResponseResult[*coredynamic.SimpleResult]` — fully interchangeable, deprecated |
+| `TypedResponseResult[T]` | Strongly-typed response result with validity/message |
+| `TypedSimpleGenericRequest[T]` | Request wrapping `TypedSimpleRequest[T]` with validation |
 
 ### Supporting Types
 
@@ -91,7 +78,7 @@ TypedResponseResult[T]                        GenericResponseResult = TypedRespo
 
 ## Usage
 
-### Generic Request/Response (Recommended)
+### Generic Request/Response
 
 ```go
 import "gitlab.com/auk-go/core/coredata/coreapi"
@@ -132,8 +119,8 @@ fmt.Println(resp.Response.Name) // "Alice"
 // Clone
 clone := req.Clone()
 
-// Backward compatibility
-legacyReq := req.ToGenericRequestIn()
+// Convert to TypedSimpleGenericRequest
+typedSimpleReq := req.TypedSimpleGenericRequest(true, "")
 ```
 
 ### Invalid Requests/Responses
@@ -141,21 +128,6 @@ legacyReq := req.ToGenericRequestIn()
 ```go
 invalidReq := coreapi.InvalidTypedRequestIn[UserInput](nil)
 invalidResp := coreapi.InvalidTypedResponse[UserOutput](nil)
-```
-
-### Converting Between Generic and Legacy
-
-```go
-// Generic → Legacy
-legacyReq := typedReq.ToGenericRequestIn()
-legacyResp := typedResp.ToGenericResponse()
-legacyResult := typedResp.GenericResponseResult()
-
-// Generic → SimpleGenericRequest (wraps in SimpleRequest)
-simpleReq := typedReq.ToSimpleGenericRequest(true, "")
-
-// Generic → TypedSimpleGenericRequest (wraps in TypedSimpleRequest[T])
-typedSimpleReq := typedReq.ToTypedSimpleGenericRequest(true, "")
 ```
 
 ### Pagination & Search

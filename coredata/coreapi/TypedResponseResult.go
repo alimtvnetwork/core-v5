@@ -2,9 +2,9 @@ package coreapi
 
 import "gitlab.com/auk-go/core/constants"
 
-// TypedResponseResult is the generic version of GenericResponseResult.
+// TypedResponseResult is the generic response result type.
 //
-// T represents the strongly-typed response data, replacing the dynamic SimpleResult wrapper.
+// T represents the strongly-typed response data.
 //
 // Usage:
 //
@@ -77,29 +77,6 @@ func (it *TypedResponseResult[T]) ClonePtr() *TypedResponseResult[T] {
 	cloned := it.Clone()
 
 	return &cloned
-}
-
-// ToGenericResponseResult converts to the legacy GenericResponseResult.
-func (it *TypedResponseResult[T]) ToGenericResponseResult() *GenericResponseResult {
-	if it == nil {
-		return nil
-	}
-
-	return InvalidGenericResponseResult(it.Attribute)
-}
-
-// ToGenericResponse converts to GenericResponse (TypedResponse[any]) for backward compatibility.
-//
-// Deprecated: GenericResponse is now a type alias for TypedResponse[any].
-func (it *TypedResponseResult[T]) ToGenericResponse() *GenericResponse {
-	if it == nil {
-		return nil
-	}
-
-	return &GenericResponse{
-		Attribute: it.Attribute,
-		Response:  it.Response,
-	}
 }
 
 // ToTypedResponse converts to TypedResponse[T].

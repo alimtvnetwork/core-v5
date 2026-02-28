@@ -1,14 +1,10 @@
 package coreapi
 
-import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-)
+import "gitlab.com/auk-go/core/constants"
 
 // TypedResponse is the generic API response type.
 //
 // T represents the strongly-typed response payload.
-// When T is `any`, this is equivalent to the legacy GenericResponse.
 //
 // Usage:
 //
@@ -64,21 +60,5 @@ func (it *TypedResponse[T]) TypedResponseResult() *TypedResponseResult[T] {
 	return &TypedResponseResult[T]{
 		Attribute: it.Attribute,
 		Response:  it.Response,
-	}
-}
-
-// GenericResponseResult converts to the legacy GenericResponseResult
-// by wrapping the response in a coredynamic.SimpleResult.
-func (it *TypedResponse[T]) GenericResponseResult() *GenericResponseResult {
-	if it == nil {
-		return nil
-	}
-
-	return &GenericResponseResult{
-		Attribute: it.Attribute,
-		Response: coredynamic.NewSimpleResult(
-			it.Response,
-			it.Attribute.IsValid,
-			it.Attribute.Message),
 	}
 }
