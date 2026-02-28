@@ -7,6 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -86,7 +87,10 @@ func Test_Map_StringToInt_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringToIntTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
@@ -111,7 +115,10 @@ func Test_FlatMap_Verification(t *testing.T) {
 	for caseIndex, testCase := range flatMapTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
@@ -205,7 +212,10 @@ func Test_Reduce_Concat_Verification(t *testing.T) {
 	for caseIndex, testCase := range reduceConcatTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)

@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -59,7 +60,10 @@ func Test_NewCreator_String_From_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorStringFromTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
@@ -83,7 +87,10 @@ func Test_NewCreator_String_Clone_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorStringCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
@@ -106,7 +113,10 @@ func Test_NewCreator_String_Items_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorStringItemsTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Items(items...)
@@ -174,7 +184,10 @@ func Test_Collection_AddIf_True_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionAddIfTrueTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		item, _ := input.GetAsString("item")
+		item, isValid := input.GetAsString("item")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsString 'item' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
@@ -218,8 +231,14 @@ func Test_Collection_AddCollection_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionAddCollectionTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		first, _ := input.GetAsStrings("first")
-		second, _ := input.GetAsStrings("second")
+		first, isValid := input.GetAsStrings("first")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'first' failed")
+		}
+		second, isValid := input.GetAsStrings("second")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'second' failed")
+		}
 
 		// Act
 		col1 := coredynamic.New.Collection.String.From(first)
@@ -244,7 +263,10 @@ func Test_Collection_AddCollection_Nil_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionAddCollectionNilTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		first, _ := input.GetAsStrings("first")
+		first, isValid := input.GetAsStrings("first")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'first' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(first)
@@ -267,7 +289,10 @@ func Test_Collection_Clone_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		original := coredynamic.New.Collection.String.From(items)
@@ -293,7 +318,10 @@ func Test_Collection_Reverse_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionReverseTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
@@ -334,8 +362,14 @@ func Test_Collection_ConcatNew_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionConcatNewTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		original, _ := input.GetAsStrings("original")
-		adding, _ := input.GetAsStrings("adding")
+		original, isValid := input.GetAsStrings("original")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'original' failed")
+		}
+		adding, isValid := input.GetAsStrings("adding")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'adding' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(original)

@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -16,7 +17,10 @@ func Test_SortAsc_String_Verification(t *testing.T) {
 	for caseIndex, testCase := range sortAscStringTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
@@ -36,7 +40,10 @@ func Test_SortDesc_String_Verification(t *testing.T) {
 	for caseIndex, testCase := range sortDescStringTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
@@ -102,7 +109,10 @@ func Test_SortedAsc_NonMutating_Verification(t *testing.T) {
 	for caseIndex, testCase := range sortedAscNonMutatingTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		original := coredynamic.New.Collection.String.Clone(items)
@@ -143,7 +153,10 @@ func Test_SortAsc_Single_Verification(t *testing.T) {
 	for caseIndex, testCase := range sortSingleTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
@@ -208,7 +221,10 @@ func Test_SortFunc_Custom_Verification(t *testing.T) {
 	for caseIndex, testCase := range sortFuncCustomTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)

@@ -7,6 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -84,7 +85,10 @@ func Test_Collection_LengthLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionLengthLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
@@ -143,7 +147,10 @@ func Test_Collection_ItemsLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionItemsLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
@@ -169,7 +176,10 @@ func Test_Collection_ClearLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionClearLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
@@ -192,8 +202,14 @@ func Test_Collection_AddCollectionLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionAddCollectionLockTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		first, _ := input.GetAsStrings("first")
-		second, _ := input.GetAsStrings("second")
+		first, isValid := input.GetAsStrings("first")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'first' failed")
+		}
+		second, isValid := input.GetAsStrings("second")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'second' failed")
+		}
 
 		// Act
 		col1 := coredynamic.New.Collection.String.From(first)

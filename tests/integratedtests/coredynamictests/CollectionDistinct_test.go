@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -15,7 +16,10 @@ import (
 func Test_Collection_Distinct_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionDistinctTestCases {
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		col := coredynamic.New.Collection.String.From(items)
 		result := coredynamic.Distinct(col)
@@ -38,7 +42,10 @@ func Test_Collection_Distinct_Verification(t *testing.T) {
 func Test_Collection_DistinctCount_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionDistinctCountTestCases {
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		col := coredynamic.New.Collection.String.From(items)
 		actLines := []string{
@@ -56,7 +63,10 @@ func Test_Collection_DistinctCount_Verification(t *testing.T) {
 func Test_Collection_IsDistinct_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionIsDistinctTestCases {
 		input := testCase.ArrangeInput.(args.Map)
-		items, _ := input.GetAsStrings("items")
+		items, isValid := input.GetAsStrings("items")
+		if !isValid {
+			errcore.HandleErrMessage("GetAsStrings 'items' failed")
+		}
 
 		col := coredynamic.New.Collection.String.From(items)
 		actLines := []string{
