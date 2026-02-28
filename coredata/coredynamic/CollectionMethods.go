@@ -108,6 +108,7 @@ func (it *Collection[T]) Reverse() *Collection[T] {
 
 	lastIndex := length - 1
 	mid := length / 2
+
 	for i := 0; i < mid; i++ {
 		it.items[i], it.items[lastIndex-i] =
 			it.items[lastIndex-i], it.items[i]
@@ -170,6 +171,7 @@ func (it *Collection[T]) SafeAt(index int) T {
 // SprintItems returns a string slice where each item is formatted via fmt.Sprintf.
 func (it *Collection[T]) SprintItems(format string) []string {
 	slice := make([]string, it.Length())
+
 	for i, item := range it.items {
 		slice[i] = fmt.Sprintf(format, item)
 	}

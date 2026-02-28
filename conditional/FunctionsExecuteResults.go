@@ -38,6 +38,7 @@ func executeFunctions[T any](
 	}
 
 	results := make([]T, 0, len(functions))
+
 	for _, curFunc := range functions {
 		if curFunc == nil {
 			continue

@@ -15,6 +15,7 @@ func GroupBy[T any, K comparable](
 	}
 
 	result := make(map[K]*Collection[T])
+
 	for _, item := range source.items {
 		key := keyFunc(item)
 		col, exists := result[key]
@@ -51,6 +52,7 @@ func GroupByCount[T any, K comparable](
 	}
 
 	result := make(map[K]int)
+
 	for _, item := range source.items {
 		result[keyFunc(item)]++
 	}

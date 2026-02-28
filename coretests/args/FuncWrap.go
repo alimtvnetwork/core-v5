@@ -132,6 +132,7 @@ func (it *FuncWrap) InArgNames() []string {
 	allTypesNames := it.GetInArgsTypesNames()
 	toSlice := corestr.New.SimpleSlice.ByLen(allTypesNames)
 	convertFunc := reflectinternal.TypeNameToValidVariableName
+
 	switch count {
 	case 1:
 		firstType := pascalCaseFunc(allTypesNames[0])

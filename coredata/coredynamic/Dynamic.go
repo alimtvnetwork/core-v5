@@ -355,6 +355,7 @@ func (it *Dynamic) LoopMap(
 	rv := *it.ReflectValue()
 	mapIterator := rv.MapRange()
 	index := 0
+
 	for mapIterator.Next() {
 		k := mapIterator.Key()
 		v := mapIterator.Value()

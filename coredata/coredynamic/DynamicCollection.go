@@ -386,6 +386,7 @@ func (it *DynamicCollection) AddAnySliceFromSingleItem(
 	items := reflectinternal.
 		SliceConverter.
 		ToAnyItemsAsync(sliceList)
+
 	for _, item := range items {
 		it.items = append(
 			it.items,
@@ -519,6 +520,7 @@ func (it *DynamicCollection) GetPagedCollection(
 	}
 
 	wg.Add(pagesPossibleCeiling)
+
 	for i := 1; i <= pagesPossibleCeiling; i++ {
 		go addPagedItemsFunc(i)
 	}
