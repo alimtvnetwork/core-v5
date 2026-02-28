@@ -7,11 +7,11 @@ import (
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 func Test_Reflection_Types_Verification(t *testing.T) {
-	toStringFunc := convertinteranl.AnyTo.SmartString
+	toStringFunc := convertinternal.AnyTo.SmartString
 	for caseIndex, testCase := range reflectionTypesTestCases {
 		// Arrange
 		inputs := testCase.

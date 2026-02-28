@@ -6,7 +6,7 @@ import (
 	"strings"
 	"unsafe"
 
-	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
+	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
 )
 
 type looper struct{}

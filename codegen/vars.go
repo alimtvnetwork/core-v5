@@ -3,7 +3,7 @@ package codegen
 import (
 	"gitlab.com/auk-go/core/codegen/codegentype"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 var (
@@ -61,6 +61,6 @@ var (
 		codegentype.MultipleArranges: loopFuncTemplate,
 	}
 
-	pascalCaseFunc = convertinteranl.Util.String.PascalCase
-	camelCaseFunc  = convertinteranl.Util.String.CamelCase
+	pascalCaseFunc = convertinternal.Util.String.PascalCase
+	camelCaseFunc  = convertinternal.Util.String.CamelCase
 )

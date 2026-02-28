@@ -4,13 +4,13 @@ import (
 	"fmt"
 	
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 func CurlyWrap(
 	source interface{},
 ) string {
-	toStr := convertinteranl.
+	toStr := convertinternal.
 		AnyTo.
 		SmartString(source)
 	

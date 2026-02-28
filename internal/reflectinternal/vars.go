@@ -1,7 +1,7 @@
 package reflectinternal
 
 import (
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 var (
@@ -19,8 +19,8 @@ var (
 	MapConverter                   = mapConverter{}
 	Path                           = reflectPath{}
 
-	indexToPositionFunc   = convertinteranl.Util.String.IndexToPosition
-	prependWithSpacesFunc = convertinteranl.Util.String.PrependWithSpacesDefault
+	indexToPositionFunc   = convertinternal.Util.String.IndexToPosition
+	prependWithSpacesFunc = convertinternal.Util.String.PrependWithSpacesDefault
 	repoDir               *string // will be updated, dangerous but this is the way for this now
 	typeReplacerMap       = map[string]string{
 		"*":  "Ptr",

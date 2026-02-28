@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 type MinMaxInt64 struct {
@@ -168,7 +168,7 @@ func (it *MinMaxInt64) RangesExcept(exceptItems ...int) []int64 {
 	length := it.RangeLength()
 	start := it.Min
 	slice := make([]int64, 0, length)
-	toHashmap := convertinteranl.
+	toHashmap := convertinternal.
 		Integers.
 		ToMapBool(exceptItems...)
 

@@ -1,7 +1,7 @@
-package refeflectcore
+package reflectcore
 
 import (
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -21,6 +21,6 @@ var (
 	ReflectGetterUsingReflectValue = reflectinternal.ReflectGetterUsingReflectValue
 	SliceConverter                 = reflectinternal.SliceConverter
 	MapConverter                   = reflectinternal.MapConverter
-	indexToPositionFunc            = convertinteranl.Util.String.IndexToPosition
-	prependWithSpacesFunc          = convertinteranl.Util.String.PrependWithSpacesDefault
+	indexToPositionFunc            = convertinternal.Util.String.IndexToPosition
+	prependWithSpacesFunc          = convertinternal.Util.String.PrependWithSpacesDefault
 )

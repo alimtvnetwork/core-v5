@@ -1,14 +1,14 @@
 package simplewrap
 
 import (
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 func CurlyWrapOption(
 	isSkipIfExists bool,
 	source interface{},
 ) string {
-	toStr := convertinteranl.
+	toStr := convertinternal.
 		AnyTo.
 		SmartString(source)
 	

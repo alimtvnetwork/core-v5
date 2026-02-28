@@ -1,4 +1,4 @@
-package convertinteranl
+package convertinternal
 
 var (
 	Integers      = integersConverter{}

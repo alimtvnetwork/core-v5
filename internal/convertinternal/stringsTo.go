@@ -1,4 +1,4 @@
-package convertinteranl
+package convertinternal
 
 import (
 	"fmt"
@@ -7,9 +7,6 @@ import (
 
 type stringsTo struct{}
 
-// WithSpaces
-//
-// Generates lines with space given in the count.
 func (it stringsTo) WithSpaces(spaceCount int, lines ...string) []string {
 	if len(lines) == 0 {
 		return []string{}

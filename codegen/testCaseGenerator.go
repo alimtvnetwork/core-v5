@@ -7,7 +7,7 @@ import (
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/iserror"
 	"gitlab.com/auk-go/core/simplewrap"
 )
@@ -199,7 +199,7 @@ func (it testCaseGenerator) VerifyTypeOf() string {
 		float64, float32, byte,
 		int8, uint16, uint32,
 		uint64:
-		return convertinteranl.AnyTo.ValueString(casted)
+		return convertinternal.AnyTo.ValueString(casted)
 	}
 
 	return fmt.Sprintf(

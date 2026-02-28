@@ -7,7 +7,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/internal/msgcreator"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
@@ -161,7 +161,7 @@ func (it Map) SortedKeys() ([]string, error) {
 		return []string{}, nil
 	}
 
-	return convertinteranl.
+	return convertinternal.
 		Map.
 		SortedKeys(it.Raw())
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 // WithCurlyQuotation
@@ -13,7 +13,7 @@ import (
 func WithCurlyQuotation(
 	source interface{},
 ) string {
-	toStr := convertinteranl.
+	toStr := convertinternal.
 		AnyTo.
 		SmartString(source)
 	

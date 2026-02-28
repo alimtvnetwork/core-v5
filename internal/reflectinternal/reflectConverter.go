@@ -6,8 +6,8 @@ import (
 	"sync"
 	"unsafe"
 
-	"gitlab.com/auk-go/core/internal/convertinteranl"
-	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
+	"gitlab.com/auk-go/core/internal/convertinternal"
+	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
 )
 
 type reflectConverter struct{}
@@ -110,7 +110,7 @@ func (it reflectConverter) InterfacesToTypesNamesWithValues(items []interface{})
 			"%d. %s [value: %s]",
 			i,
 			toType.Name(),
-			convertinteranl.AnyTo.SmartString(item),
+			convertinternal.AnyTo.SmartString(item),
 		)
 
 		output = append(output, compiledString)

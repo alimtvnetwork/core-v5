@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/refeflectcore/reflectmodel"
+	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
 )
 
 type getFunc struct{}
