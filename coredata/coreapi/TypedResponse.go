@@ -62,3 +62,30 @@ func (it *TypedResponse[T]) ToGenericResponse() *GenericResponse {
 		Response:  it.Response,
 	}
 }
+
+// TypedResponseResult converts to a TypedResponseResult[T].
+//
+// This mirrors GenericResponse.GenericResponseResult().
+func (it *TypedResponse[T]) TypedResponseResult() *TypedResponseResult[T] {
+	if it == nil {
+		return nil
+	}
+
+	return &TypedResponseResult[T]{
+		Attribute: it.Attribute,
+		Response:  it.Response,
+	}
+}
+
+// GenericResponseResult converts to the legacy GenericResponseResult.
+//
+// This mirrors GenericResponse.GenericResponseResult() for backward compatibility.
+func (it *TypedResponse[T]) GenericResponseResult() *GenericResponseResult {
+	if it == nil {
+		return nil
+	}
+
+	generic := it.ToGenericResponse()
+
+	return generic.GenericResponseResult()
+}

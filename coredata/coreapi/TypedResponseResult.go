@@ -39,6 +39,27 @@ func InvalidTypedResponseResult[T any](
 	}
 }
 
+// IsValid returns true if the attribute is present and valid.
+func (it *TypedResponseResult[T]) IsValid() bool {
+	return it != nil &&
+		it.Attribute != nil &&
+		it.Attribute.IsValid
+}
+
+// IsInvalid returns true if the result is invalid.
+func (it *TypedResponseResult[T]) IsInvalid() bool {
+	return !it.IsValid()
+}
+
+// Message returns the attribute message, or empty string if nil.
+func (it *TypedResponseResult[T]) Message() string {
+	if it == nil || it.Attribute == nil {
+		return constants.EmptyString
+	}
+
+	return it.Attribute.Message
+}
+
 // Clone returns a deep copy of the TypedResponseResult.
 func (it TypedResponseResult[T]) Clone() TypedResponseResult[T] {
 	return TypedResponseResult[T]{
@@ -56,4 +77,37 @@ func (it *TypedResponseResult[T]) ClonePtr() *TypedResponseResult[T] {
 	cloned := it.Clone()
 
 	return &cloned
+}
+
+// ToGenericResponseResult converts to the legacy GenericResponseResult.
+func (it *TypedResponseResult[T]) ToGenericResponseResult() *GenericResponseResult {
+	if it == nil {
+		return nil
+	}
+
+	return InvalidGenericResponseResult(it.Attribute)
+}
+
+// ToGenericResponse converts to the legacy GenericResponse.
+func (it *TypedResponseResult[T]) ToGenericResponse() *GenericResponse {
+	if it == nil {
+		return nil
+	}
+
+	return &GenericResponse{
+		Attribute: it.Attribute,
+		Response:  it.Response,
+	}
+}
+
+// ToTypedResponse converts to TypedResponse[T].
+func (it *TypedResponseResult[T]) ToTypedResponse() *TypedResponse[T] {
+	if it == nil {
+		return nil
+	}
+
+	return &TypedResponse[T]{
+		Attribute: it.Attribute,
+		Response:  it.Response,
+	}
 }
