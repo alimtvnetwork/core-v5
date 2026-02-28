@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use If[string] instead.
 func String(
 	isTrue bool,
 	trueValue, falseValue string,
 ) string {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return If[string](isTrue, trueValue, falseValue)
 }

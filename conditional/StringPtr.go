@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfPtr[string] instead.
 func StringPtr(
 	isTrue bool,
 	trueValue, falseValue *string,
 ) *string {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return IfPtr[string](isTrue, trueValue, falseValue)
 }

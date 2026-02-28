@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfSlice[int] instead.
 func Integers(
 	isTrue bool,
 	trueValue, falseValue []int,
 ) []int {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return IfSlice[int](isTrue, trueValue, falseValue)
 }

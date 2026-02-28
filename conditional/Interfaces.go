@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfSlice[any] instead.
 func Interfaces(
 	isTrue bool,
 	trueValue, falseValue []any,
 ) []any {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
+	return IfSlice[any](isTrue, trueValue, falseValue)
 }

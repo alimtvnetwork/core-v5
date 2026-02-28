@@ -1,12 +1,9 @@
 package conditional
 
+// Deprecated: Use IfTrueFunc[bool] instead.
 func BooleanTrueFunc(
 	isTrue bool,
 	trueValueFunc func() bool,
 ) bool {
-	if !isTrue {
-		return false
-	}
-
-	return trueValueFunc()
+	return IfTrueFunc[bool](isTrue, trueValueFunc)
 }
