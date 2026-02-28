@@ -1,0 +1,131 @@
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+
+linters:
+  enable:
+    # Naming & style
+    - revive
+    - stylecheck
+    - predeclared
+    - unconvert
+    - wastedassign
+    - misspell
+
+    # Bug detection
+    - govet
+    - staticcheck
+    - errcheck
+    - ineffassign
+    - typecheck
+
+  disable:
+    - deadcode
+    - structcheck
+    - varcheck
+
+linters-settings:
+  revive:
+    severity: warning
+    confidence: 0.8
+    rules:
+      # Reject numbered variable names: err1, val2, v3, etc.
+      - name: var-naming
+        severity: warning
+        disabled: false
+        arguments:
+          - [] # AllowList
+          - [] # DenyList
+
+      # Flag single-letter variable names outside of short scopes
+      - name: argument-limit
+        severity: warning
+        disabled: true
+
+      # Enforce receiver naming consistency
+      - name: receiver-naming
+        severity: warning
+        disabled: false
+
+      # Reject bare returns in named-result functions
+      - name: bare-return
+        severity: warning
+        disabled: false
+
+      # Flag unnecessary else blocks
+      - name: superfluous-else
+        severity: warning
+        disabled: false
+
+      # Reject interface{} — enforce any
+      - name: use-any
+        severity: error
+        disabled: false
+
+      # Reject context.Context not being the first parameter
+      - name: context-as-argument
+        severity: warning
+        disabled: false
+
+      # Flag unexported return types from exported functions
+      - name: unexported-return
+        severity: warning
+        disabled: false
+
+      # Reject package-level comments missing
+      - name: package-comments
+        severity: warning
+        disabled: true # enable when ready
+
+      # Flag unused function parameters
+      - name: unused-parameter
+        severity: warning
+        disabled: false
+
+      # Reject empty blocks
+      - name: empty-block
+        severity: warning
+        disabled: false
+
+      # Flag if-return pattern (if err != nil { return err } return nil)
+      - name: if-return
+        severity: warning
+        disabled: false
+
+      # Reject redefining built-in identifiers
+      - name: redefines-builtin-id
+        severity: error
+        disabled: false
+
+  stylecheck:
+    checks:
+      - "all"
+      - "-ST1000" # package comments — disable until ready
+      - "-ST1003" # allow non-standard naming for now (gradual migration)
+
+  misspell:
+    locale: US
+
+issues:
+  exclude-rules:
+    # Allow interface{} in test helpers and generated code
+    - path: _test\.go
+      linters:
+        - revive
+      text: "use-any"
+
+    # Allow longer functions in test files
+    - path: _test\.go
+      linters:
+        - revive
+      text: "function-length"
+
+    # Exclude cmd/main/ from strict naming (scratch/demo files)
+    - path: cmd/main/
+      linters:
+        - revive
+      text: "var-naming"
+
+  max-issues-per-linter: 50
+  max-same-issues: 10
+  new: false
