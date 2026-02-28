@@ -25,3 +25,8 @@ type newSimpleSliceCreator struct {
 	Bool    typedSimpleSliceCreator[bool]
 	Any     typedSimpleSliceCreator[any]
 }
+
+// newSimpleSliceCreatorNote:
+// SimpleSlice uses [T any] constraint because it wraps a raw []T.
+// For ordered operations (Sort, Min, Max), use the package-level
+// SortSimpleSlice[T cmp.Ordered]() functions.
