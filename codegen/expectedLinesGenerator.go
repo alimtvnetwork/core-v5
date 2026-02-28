@@ -41,7 +41,7 @@ func (it expectedLinesGenerator) Generate() (*corestr.SimpleSlice, error) {
 
 func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	slice *corestr.SimpleSlice,
-	arrangeInput interface{},
+	arrangeInput any,
 ) error {
 	if isany.Null(arrangeInput) {
 		slice.Add("nil")
@@ -93,7 +93,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 		)
 
 		return nil
-	case string, map[string]string, map[string]interface{}:
+	case string, map[string]string, map[string]any:
 		// TODO for the Map
 		results, err := funcWrap.InvokeSkip(
 			codestack.Skip1,
@@ -150,7 +150,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 				results,
 			)
 		}
-	case []interface{}:
+	case []any:
 		if funcWrap.IsInTypeMatches(casted) {
 			results, err := funcWrap.InvokeSkip(
 				codestack.Skip1,
@@ -196,7 +196,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 	if slice.IsEmpty() {
 		return fmt.Errorf(
 			"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
-			"[]string, map[string]string, []interface{}",
+			"[]string, map[string]string, []any",
 			arrangeInput,
 		)
 	}
@@ -206,7 +206,7 @@ func (it expectedLinesGenerator) expectedLinesUsingArrange(
 
 func (it expectedLinesGenerator) recursiveGenerateSlice(
 	slice *corestr.SimpleSlice,
-	arrangeInput interface{},
+	arrangeInput any,
 ) error {
 	// funcWrap := it.FuncWrap()
 	var rawErrCollection errcore.RawErrCollection
@@ -232,7 +232,7 @@ func (it expectedLinesGenerator) recursiveGenerateSlice(
 
 	_ = reflectinternal.Looper.Slice(
 		arrangeInput,
-		func(total int, index int, item interface{}) (err error) {
+		func(total int, index int, item any) (err error) {
 			expandError := it.expectedLinesUsingArrange(
 				slice,
 				item,
@@ -269,9 +269,9 @@ func (it expectedLinesGenerator) enhanceError(err error) error {
 // https://prnt.sc/rfpO2zDUaPMd
 func (it expectedLinesGenerator) appendToSlice(
 	slice *corestr.SimpleSlice,
-	inArgs []interface{},
-	outArgs []interface{},
-	expect interface{},
+	inArgs []any,
+	outArgs []any,
+	expect any,
 ) {
 	inArgsString := converters.AnyTo.SmartStringsOf(inArgs...)
 	resultsToString := converters.AnyTo.SmartStringsOf(outArgs...)
@@ -309,8 +309,8 @@ func (it expectedLinesGenerator) appendToSlice(
 
 func (it expectedLinesGenerator) appendToSliceNoExpect(
 	slice *corestr.SimpleSlice,
-	inArgs []interface{},
-	outArgs []interface{},
+	inArgs []any,
+	outArgs []any,
 ) {
 	it.appendToSlice(
 		slice,
@@ -322,13 +322,13 @@ func (it expectedLinesGenerator) appendToSliceNoExpect(
 
 func (it expectedLinesGenerator) appendSingleInToSlice(
 	slice *corestr.SimpleSlice,
-	inArg interface{},
-	outArgs []interface{},
-	expect interface{},
+	inArg any,
+	outArgs []any,
+	expect any,
 ) {
 	it.appendToSlice(
 		slice,
-		[]interface{}{inArg},
+		[]any{inArg},
 		outArgs,
 		expect,
 	)
@@ -336,8 +336,8 @@ func (it expectedLinesGenerator) appendSingleInToSlice(
 
 func (it expectedLinesGenerator) appendSingleInToSliceNoExpect(
 	slice *corestr.SimpleSlice,
-	inArg interface{},
-	outArgs []interface{},
+	inArg any,
+	outArgs []any,
 ) {
 	it.appendSingleInToSlice(
 		slice,

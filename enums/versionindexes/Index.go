@@ -36,7 +36,7 @@ func (it Index) IntegerEnumRanges() []int {
 	return BasicEnumImpl.IntegerEnumRanges()
 }
 
-func (it Index) MinMaxAny() (min, max interface{}) {
+func (it Index) MinMaxAny() (min, max any) {
 	return BasicEnumImpl.MinMaxAny()
 }
 
@@ -56,7 +56,7 @@ func (it Index) MinInt() int {
 	return BasicEnumImpl.MinInt()
 }
 
-func (it Index) RangesDynamicMap() map[string]interface{} {
+func (it Index) RangesDynamicMap() map[string]any {
 	return BasicEnumImpl.RangesDynamicMap()
 }
 

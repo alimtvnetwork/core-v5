@@ -19,7 +19,7 @@ type arrangeInputGenerator struct {
 
 func (it arrangeInputGenerator) Generate(
 	// isSubRequest bool,
-	arrangeInput interface{},
+	arrangeInput any,
 ) (string, error) {
 	slice := corestr.New.SimpleSlice.Cap(10)
 
@@ -91,7 +91,7 @@ func (it arrangeInputGenerator) Generate(
 				v,
 			)
 		}
-	case map[string]interface{}:
+	case map[string]any:
 		for k, v := range casted {
 			slice.AppendFmt(
 				"\"%s\" : %s,",
@@ -107,14 +107,14 @@ func (it arrangeInputGenerator) Generate(
 				it.writeTestCaseForProperty(v),
 			)
 		}
-	case []interface{}:
+	case []any:
 		for _, v := range casted {
 			slice.AppendFmt(
 				"%s,",
 				it.writeTestCaseForProperty(v),
 			)
 		}
-	case interface{}:
+	case any:
 		rt := reflect.TypeOf(arrangeInput)
 
 		// array or slice
@@ -140,7 +140,7 @@ func (it arrangeInputGenerator) Generate(
 	if slice.IsEmpty() {
 		return "", fmt.Errorf(
 			"test cases only support from arg.One ... arg.Six and func versions (+ %s), given %T",
-			"[]string, map[string]string, []interface{}",
+			"[]string, map[string]string, []any",
 			arrangeInput,
 		)
 	}
@@ -165,13 +165,13 @@ func (it arrangeInputGenerator) addExpect(
 
 func (it arrangeInputGenerator) recursiveGenerateSlice(
 	slice *corestr.SimpleSlice,
-	arrangeInput interface{},
+	arrangeInput any,
 ) (string, error) {
 	trimmedTemplate := strings.TrimSpace(curlyOutputTemplate)
 
 	compiledErr := reflectinternal.Looper.Slice(
 		arrangeInput,
-		func(total int, index int, item interface{}) (err error) {
+		func(total int, index int, item any) (err error) {
 			expand, expandError := it.Generate(item)
 
 			slice.AppendFmtIf(
@@ -198,7 +198,7 @@ func (it arrangeInputGenerator) property(
 	return coreproperty.Writer.Write(p)
 }
 
-func (it arrangeInputGenerator) writeTestCaseForProperty(p interface{}) string {
+func (it arrangeInputGenerator) writeTestCaseForProperty(p any) string {
 	return coreproperty.Writer.Write(p)
 }
 

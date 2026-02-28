@@ -2,7 +2,7 @@ package corecmp
 
 import "gitlab.com/auk-go/core/corecomparator"
 
-// AnyItem compares two interface{} values for equality using Go's built-in == operator.
+// AnyItem compares two any values for equality using Go's built-in == operator.
 //
 // Comparison logic (evaluated in order):
 //  1. Both nil           → Equal

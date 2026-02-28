@@ -49,7 +49,7 @@ func (it Variation) IntegerEnumRanges() []int {
 	return basicEnumImplOsType.IntegerEnumRanges()
 }
 
-func (it Variation) MinMaxAny() (min, max interface{}) {
+func (it Variation) MinMaxAny() (min, max any) {
 	return basicEnumImplOsType.MinMaxAny()
 }
 
@@ -69,7 +69,7 @@ func (it Variation) MinInt() int {
 	return basicEnumImplOsType.MinInt()
 }
 
-func (it Variation) RangesDynamicMap() map[string]interface{} {
+func (it Variation) RangesDynamicMap() map[string]any {
 	return basicEnumImplOsType.RangesDynamicMap()
 }
 

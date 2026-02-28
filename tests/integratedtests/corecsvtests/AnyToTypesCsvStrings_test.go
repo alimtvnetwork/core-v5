@@ -10,7 +10,7 @@ import (
 func Test_AnyToTypesCsvStrings_SingleQuote_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyToTypesCsvStringsSingleQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 
 		// Act
 		finalActLines := corecsv.AnyToTypesCsvStrings(
@@ -34,7 +34,7 @@ func Test_AnyToTypesCsvStrings_SingleQuote_Verification(t *testing.T) {
 func Test_AnyToTypesCsvStrings_DoubleQuote_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyToTypesCsvStringsDoubleQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 
 		// Act
 		finalActLines := corecsv.AnyToTypesCsvStrings(
@@ -58,7 +58,7 @@ func Test_AnyToTypesCsvStrings_DoubleQuote_Verification(t *testing.T) {
 func Test_AnyToTypesCsvStrings_NoQuote_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyToTypesCsvStringsNoQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 
 		// Act
 		finalActLines := corecsv.AnyToTypesCsvStrings(

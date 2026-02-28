@@ -15,7 +15,7 @@ import (
 
 type propertyWriter struct{}
 
-func (it propertyWriter) Write(p interface{}) string {
+func (it propertyWriter) Write(p any) string {
 	if isany.Null(p) {
 		return "nil"
 	}
@@ -25,7 +25,7 @@ func (it propertyWriter) Write(p interface{}) string {
 
 func (it propertyWriter) WritePropertyOptions(
 	isSubRequest bool,
-	p interface{},
+	p any,
 ) string {
 	if isany.Null(p) {
 		return "nil"
@@ -64,12 +64,12 @@ func (it propertyWriter) WritePropertyOptions(
 
 func (it propertyWriter) WriteMap(
 	isSubRequest bool,
-	p interface{},
+	p any,
 ) string {
 	var slice corestr.SimpleSlice
 	_ = reflectinternal.Looper.Map(
 		p,
-		func(total int, index int, key interface{}, value interface{}) (err error) {
+		func(total int, index int, key any, value any) (err error) {
 			expandKey := it.Write(key)
 			expandValue := it.Write(value)
 
@@ -100,12 +100,12 @@ func (it propertyWriter) WritePointerRv(
 
 func (it propertyWriter) WriteArrayOrSlice(
 	isSubRequest bool,
-	p interface{},
+	p any,
 ) string {
 	var slice corestr.SimpleSlice
 	_ = reflectinternal.Looper.Slice(
 		p,
-		func(total int, index int, item interface{}) (err error) {
+		func(total int, index int, item any) (err error) {
 			expand := it.Write(item)
 
 			slice.Add(expand)
@@ -119,7 +119,7 @@ func (it propertyWriter) WriteArrayOrSlice(
 	return fmt.Sprintf("%T {\n\t%s,\n}", p, toJoined)
 }
 
-func (it propertyWriter) WriteStruct(p interface{}) string {
+func (it propertyWriter) WriteStruct(p any) string {
 	if isany.Null(p) {
 		return "nil"
 	}

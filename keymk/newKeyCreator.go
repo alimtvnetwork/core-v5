@@ -22,7 +22,7 @@ func (it *newKeyCreator) Create(
 
 func (it *newKeyCreator) PathTemplate(
 	root string,
-	starterKeyChains ...interface{},
+	starterKeyChains ...any,
 ) *Key {
 	return it.All(
 		CurlyBracePathJoinerOption,
@@ -31,7 +31,7 @@ func (it *newKeyCreator) PathTemplate(
 }
 
 func (it *newKeyCreator) PathTemplateDefault(
-	starterKeyChains ...interface{},
+	starterKeyChains ...any,
 ) *Key {
 	return it.All(
 		CurlyBracePathJoinerOption,
@@ -61,7 +61,7 @@ func (it *newKeyCreator) PathTemplatePrefixRelativeIdFileDefault() *Key {
 func (it *newKeyCreator) All(
 	option *Option,
 	main string,
-	starterKeyChains ...interface{},
+	starterKeyChains ...any,
 ) *Key {
 	slice := make([]string, 0, len(starterKeyChains)+DefaultCap)
 
@@ -123,7 +123,7 @@ func (it *newKeyCreator) StringsWithOptions(
 
 func (it *newKeyCreator) Parenthesis(
 	main string,
-	starterKeyChains ...interface{},
+	starterKeyChains ...any,
 ) *Key {
 	return it.All(
 		ParenthesisJoinerOption,
@@ -143,7 +143,7 @@ func (it *newKeyCreator) ParenthesisStrings(
 
 func (it *newKeyCreator) Curly(
 	main string,
-	starterKeyChains ...interface{},
+	starterKeyChains ...any,
 ) *Key {
 	return it.All(
 		CurlyBraceJoinerOption,
@@ -163,7 +163,7 @@ func (it *newKeyCreator) CurlyStrings(
 
 func (it *newKeyCreator) SquareBrackets(
 	main string,
-	starterKeyChains ...interface{},
+	starterKeyChains ...any,
 ) *Key {
 	return it.All(
 		BracketJoinerOption,
@@ -183,7 +183,7 @@ func (it *newKeyCreator) SquareBracketsStrings(
 
 func (it *newKeyCreator) Default(
 	main string,
-	starterKeyChains ...interface{},
+	starterKeyChains ...any,
 ) *Key {
 	return it.All(
 		JoinerOption,
