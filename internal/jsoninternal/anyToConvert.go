@@ -4,7 +4,7 @@ import "encoding/json"
 
 type anyToConvert struct{}
 
-func (it anyToConvert) SafeString(anyItem interface{}) string {
+func (it anyToConvert) SafeString(anyItem any) string {
 	s, _ := it.String(anyItem)
 
 	return s
@@ -14,7 +14,7 @@ func (it anyToConvert) SafeString(anyItem interface{}) string {
 //
 // It is not pretty JSON
 func (it anyToConvert) String(
-	anyItem interface{},
+	anyItem any,
 ) (string, error) {
 	b, err := json.Marshal(anyItem)
 
@@ -27,7 +27,7 @@ func (it anyToConvert) String(
 
 func (it anyToConvert) PrettyString(
 	prefix string,
-	anyItem interface{},
+	anyItem any,
 ) (string, error) {
 	b, err := json.Marshal(anyItem)
 
@@ -41,7 +41,7 @@ func (it anyToConvert) PrettyString(
 func (it anyToConvert) PrettyStringIndent(
 	prefix,
 	curIndent string,
-	anyItem interface{},
+	anyItem any,
 ) (string, error) {
 	b, err := json.Marshal(anyItem)
 
@@ -54,7 +54,7 @@ func (it anyToConvert) PrettyStringIndent(
 
 func (it anyToConvert) SafePrettyString(
 	prefix string,
-	anyItem interface{},
+	anyItem any,
 ) string {
 	b, err := json.Marshal(anyItem)
 
@@ -66,7 +66,7 @@ func (it anyToConvert) SafePrettyString(
 }
 
 func (it anyToConvert) PrettyStringDefault(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	b, err := json.Marshal(anyItem)
 
@@ -78,7 +78,7 @@ func (it anyToConvert) PrettyStringDefault(
 }
 
 func (it anyToConvert) PrettyStringDefaultMust(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	b, err := json.Marshal(anyItem)
 

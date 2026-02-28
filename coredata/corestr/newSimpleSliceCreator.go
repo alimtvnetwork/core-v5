@@ -20,7 +20,7 @@ func (it *newSimpleSliceCreator) Cap(capacity int) *SimpleSlice {
 	return it.Strings(slice)
 }
 
-func (it *newSimpleSliceCreator) ByLen(i interface{}) *SimpleSlice {
+func (it *newSimpleSliceCreator) ByLen(i any) *SimpleSlice {
 	length := reflectinternal.SliceConverter.Length(i)
 
 	return it.Cap(length)
@@ -128,7 +128,7 @@ func (it *newSimpleSliceCreator) Hashset(
 }
 
 func (it *newSimpleSliceCreator) Map(
-	i interface{},
+	i any,
 ) *SimpleSlice {
 	keys, _ := reflectinternal.
 		MapConverter.

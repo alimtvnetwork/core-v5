@@ -29,7 +29,7 @@ func (it newUserCreator) Deserialize(
 }
 
 func (it newUserCreator) CastOrDeserializeFrom(
-	anyItem interface{},
+	anyItem any,
 ) (*User, error) {
 	if isany.Null(anyItem) {
 		return nil, errcore.

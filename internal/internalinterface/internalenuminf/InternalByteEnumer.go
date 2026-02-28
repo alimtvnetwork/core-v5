@@ -3,7 +3,7 @@ package internalenuminf
 type InternalByteEnumer interface {
 	AllNameValues() []string
 	IntegerEnumRanges() []int
-	RangesDynamicMap() map[string]interface{}
+	RangesDynamicMap() map[string]any
 	Format(format string) (compiled string)
 	IsNameEqual(name string) bool
 	IsByteValueEqual(value byte) bool

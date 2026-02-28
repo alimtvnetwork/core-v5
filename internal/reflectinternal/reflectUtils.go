@@ -21,13 +21,13 @@ func (it reflectUtils) MaxLimit(currentLength, maxCapacity int) int {
 	return currentLength
 }
 
-func (it reflectUtils) AppendArgs(appendingItem interface{}, args []interface{}) []interface{} {
+func (it reflectUtils) AppendArgs(appendingItem any, args []any) []any {
 	if len(args) == 0 {
-		return []interface{}{appendingItem}
+		return []any{appendingItem}
 	}
 
 	list := make(
-		[]interface{},
+		[]any,
 		len(args)+1,
 	)
 
@@ -40,7 +40,7 @@ func (it reflectUtils) AppendArgs(appendingItem interface{}, args []interface{})
 	return list
 }
 
-func (it reflectUtils) VerifyReflectTypesAny(left, right []interface{}) (isOkay bool, err error) {
+func (it reflectUtils) VerifyReflectTypesAny(left, right []any) (isOkay bool, err error) {
 	leftLen := len(left)
 	rightLen := len(right)
 
@@ -143,7 +143,7 @@ func (it reflectUtils) VerifyReflectTypes(
 }
 
 func (it reflectUtils) PkgNameOnly(
-	i interface{},
+	i any,
 ) string {
 	fullName := GetFunc.FullName(i)
 	_, pkgName, _ := GetFunc.All(fullName)
@@ -177,7 +177,7 @@ func (it reflectUtils) IsReflectTypeMatch(expectedType, givenType reflect.Type) 
 	return false, errors.New(errMsg)
 }
 
-func (it reflectUtils) IsReflectTypeMatchAny(expected, given interface{}) (isOkay bool, err error) {
+func (it reflectUtils) IsReflectTypeMatchAny(expected, given any) (isOkay bool, err error) {
 	ex := reflect.TypeOf(expected)
 	gi := reflect.TypeOf(given)
 

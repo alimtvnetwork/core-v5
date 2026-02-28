@@ -35,7 +35,7 @@ import (
 //   - Method document screenshot    : https://prnt.sc/26dmf5g
 func ReflectSetFromTo(
 	from,
-	toPointer interface{},
+	toPointer any,
 ) error {
 	isLeftNull, isRightNull := isany.NullLeftRight(
 		from,

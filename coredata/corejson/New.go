@@ -7,7 +7,7 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-func New(anyItem interface{}) Result {
+func New(anyItem any) Result {
 	jsonBytes, err := json.Marshal(anyItem)
 	typeName := reflectinternal.TypeName(anyItem)
 

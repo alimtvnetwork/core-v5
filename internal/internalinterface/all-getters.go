@@ -54,15 +54,15 @@ type ErrorGetter interface {
 }
 
 type AnyValueGetter interface {
-	Value() interface{}
+	Value() any
 }
 
 type AnyAttributesGetter interface {
-	AnyAttributes() interface{}
+	AnyAttributes() any
 }
 
 type AnyAttributesReflectSetter interface {
-	ReflectSetAttributes(toPointer interface{}) error
+	ReflectSetAttributes(toPointer any) error
 }
 
 type RawPayloadsGetter interface {
@@ -79,7 +79,7 @@ type ValueIntegerGetter interface {
 }
 
 type ValueReflectSetter interface {
-	ValueReflectSet(setterPtr interface{}) error
+	ValueReflectSet(setterPtr any) error
 }
 
 type ValueStringGetter interface {
@@ -133,7 +133,7 @@ type FullStringWithTracesIfGetter interface {
 }
 
 type JsonModelAnyGetter interface {
-	JsonModelAny() interface{}
+	JsonModelAny() any
 }
 
 type CompiledErrorGetter interface {

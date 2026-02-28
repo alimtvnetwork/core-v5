@@ -31,7 +31,7 @@ func NewBytesConverterUsingJsonResult(
 }
 
 func (it BytesConverter) Deserialize(
-	deserializePointer interface{},
+	deserializePointer any,
 ) error {
 	return corejson.
 		Deserialize.
@@ -39,7 +39,7 @@ func (it BytesConverter) Deserialize(
 }
 
 func (it BytesConverter) DeserializeMust(
-	deserializePointer interface{},
+	deserializePointer any,
 ) {
 	corejson.
 		Deserialize.

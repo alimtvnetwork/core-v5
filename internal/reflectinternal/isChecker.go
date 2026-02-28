@@ -4,7 +4,7 @@ import "reflect"
 
 type isChecker struct{}
 
-func (it isChecker) Conclusive(left, right interface{}) (isEqual, isConclusive bool) {
+func (it isChecker) Conclusive(left, right any) (isEqual, isConclusive bool) {
 	if left == right {
 		return true, true
 	}
@@ -38,7 +38,7 @@ func (it isChecker) Conclusive(left, right interface{}) (isEqual, isConclusive b
 	return false, false
 }
 
-func (it isChecker) AnyEqual(left, right interface{}) bool {
+func (it isChecker) AnyEqual(left, right any) bool {
 	isEqual, isConclusive := it.Conclusive(left, right)
 
 	if isConclusive {
@@ -48,7 +48,7 @@ func (it isChecker) AnyEqual(left, right interface{}) bool {
 	return reflect.DeepEqual(left, right)
 }
 
-func (it isChecker) Func(item interface{}) bool {
+func (it isChecker) Func(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -58,7 +58,7 @@ func (it isChecker) Func(item interface{}) bool {
 	return it.FuncTypeOf(typeOf)
 }
 
-func (it isChecker) SliceOrArray(item interface{}) bool {
+func (it isChecker) SliceOrArray(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -68,7 +68,7 @@ func (it isChecker) SliceOrArray(item interface{}) bool {
 	return it.FuncTypeOf(typeOf)
 }
 
-func (it isChecker) NotFunc(item interface{}) bool {
+func (it isChecker) NotFunc(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -98,15 +98,15 @@ func (it isChecker) SliceOrArrayOf(typeOf reflect.Type) bool {
 	return false
 }
 
-func (it isChecker) NotNull(item interface{}) bool {
+func (it isChecker) NotNull(item any) bool {
 	return !it.Null(item)
 }
 
-func (it isChecker) Defined(item interface{}) bool {
+func (it isChecker) Defined(item any) bool {
 	return !it.Null(item)
 }
 
-func (it isChecker) Null(item interface{}) bool {
+func (it isChecker) Null(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -130,25 +130,25 @@ func (it isChecker) NullRv(rv reflect.Value) bool {
 	}
 }
 
-func (it isChecker) Number(i interface{}) bool {
+func (it isChecker) Number(i any) bool {
 	k := reflect.ValueOf(i)
 
 	return it.NumberKind(k.Kind())
 }
 
-func (it isChecker) String(i interface{}) bool {
+func (it isChecker) String(i any) bool {
 	k := reflect.ValueOf(i)
 
 	return k.Kind() == reflect.String
 }
 
-func (it isChecker) Pointer(i interface{}) bool {
+func (it isChecker) Pointer(i any) bool {
 	k := reflect.ValueOf(i)
 
 	return k.Kind() == reflect.Ptr
 }
 
-func (it isChecker) Function(i interface{}) bool {
+func (it isChecker) Function(i any) bool {
 	k := reflect.ValueOf(i)
 
 	return k.Kind() == reflect.Func
@@ -173,13 +173,13 @@ func (it isChecker) NumberKind(kind reflect.Kind) bool {
 	}
 }
 
-func (it isChecker) Primitive(i interface{}) bool {
+func (it isChecker) Primitive(i any) bool {
 	k := reflect.ValueOf(i)
 
 	return it.PrimitiveKind(k.Kind())
 }
 
-func (it isChecker) Boolean(i interface{}) bool {
+func (it isChecker) Boolean(i any) bool {
 	k := reflect.ValueOf(i)
 
 	return k.Kind() == reflect.Bool
@@ -211,7 +211,7 @@ func (it isChecker) PrimitiveKind(kind reflect.Kind) bool {
 //
 // Reference:
 //   - Stackoverflow Example : https://stackoverflow.com/a/23555352
-func (it isChecker) Zero(anyItem interface{}) bool {
+func (it isChecker) Zero(anyItem any) bool {
 	if it.Null(anyItem) {
 		return true
 	}
@@ -252,7 +252,7 @@ func (it isChecker) ZeroRv(rv reflect.Value) bool {
 	return rv.Interface() == z.Interface()
 }
 
-func (it isChecker) Struct(structObj interface{}) bool {
+func (it isChecker) Struct(structObj any) bool {
 	structRv := reflect.ValueOf(structObj)
 	reducePtr := Looper.ReducePointerRvDefault(structRv)
 
@@ -273,7 +273,7 @@ func (it isChecker) StructRv(structRv reflect.Value) bool {
 	return false
 }
 
-func (it isChecker) Interface(i interface{}) bool {
+func (it isChecker) Interface(i any) bool {
 	iRv := reflect.ValueOf(i)
 	reducePtr := Looper.ReducePointerRvDefault(iRv)
 
