@@ -7,7 +7,7 @@ import (
 	"gitlab.com/auk-go/core/internal/mapdiffinternal"
 )
 
-type MapAnyItemDiff map[string]interface{}
+type MapAnyItemDiff map[string]any
 
 func (it *MapAnyItemDiff) Length() int {
 	if it == nil {
@@ -35,7 +35,7 @@ func (it MapAnyItemDiff) AllKeysSorted() []string {
 
 func (it *MapAnyItemDiff) IsRawEqual(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	differ := mapdiffinternal.
 		MapStringAnyDiff(it.Raw())
@@ -48,14 +48,14 @@ func (it *MapAnyItemDiff) IsRawEqual(
 
 func (it *MapAnyItemDiff) HashmapDiffUsingRaw(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) MapAnyItemDiff {
 	diffMap := it.DiffRaw(
 		isRegardlessType,
 		rightMap)
 
 	if len(diffMap) == 0 {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	return diffMap
@@ -69,7 +69,7 @@ func (it *MapAnyItemDiff) MapAnyItems() *MapAnyItems {
 
 func (it *MapAnyItemDiff) HasAnyChanges(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) bool {
 	return !it.IsRawEqual(
 		isRegardlessType,
@@ -82,8 +82,8 @@ func (it *MapAnyItemDiff) RawMapDiffer() mapdiffinternal.MapStringAnyDiff {
 
 func (it *MapAnyItemDiff) DiffRaw(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
-) map[string]interface{} {
+	rightMap map[string]any,
+) map[string]any {
 	differ := mapdiffinternal.
 		MapStringAnyDiff(it.Raw())
 
@@ -95,7 +95,7 @@ func (it *MapAnyItemDiff) DiffRaw(
 
 func (it *MapAnyItemDiff) DiffJsonMessage(
 	isRegardlessType bool,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	differ := mapdiffinternal.
 		MapStringAnyDiff(it.Raw())
@@ -106,7 +106,7 @@ func (it *MapAnyItemDiff) DiffJsonMessage(
 }
 
 func (it *MapAnyItemDiff) ToStringsSliceOfDiffMap(
-	diffMap map[string]interface{},
+	diffMap map[string]any,
 ) (diffSlice []string) {
 	differ := mapdiffinternal.
 		MapStringAnyDiff(it.Raw())
@@ -118,7 +118,7 @@ func (it *MapAnyItemDiff) ToStringsSliceOfDiffMap(
 func (it *MapAnyItemDiff) ShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) string {
 	differ := mapdiffinternal.
 		MapStringAnyDiff(it.Raw())
@@ -132,7 +132,7 @@ func (it *MapAnyItemDiff) ShouldDiffMessage(
 func (it *MapAnyItemDiff) LogShouldDiffMessage(
 	isRegardlessType bool,
 	title string,
-	rightMap map[string]interface{},
+	rightMap map[string]any,
 ) (diffMessage string) {
 	differ := mapdiffinternal.
 		MapStringAnyDiff(it.Raw())
@@ -143,9 +143,9 @@ func (it *MapAnyItemDiff) LogShouldDiffMessage(
 		rightMap)
 }
 
-func (it *MapAnyItemDiff) Raw() map[string]interface{} {
+func (it *MapAnyItemDiff) Raw() map[string]any {
 	if it == nil {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	return *it
@@ -153,10 +153,10 @@ func (it *MapAnyItemDiff) Raw() map[string]interface{} {
 
 func (it *MapAnyItemDiff) Clear() MapAnyItemDiff {
 	if it == nil {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
-	*it = map[string]interface{}{}
+	*it = map[string]any{}
 
 	return *it
 }

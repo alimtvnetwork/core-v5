@@ -8,7 +8,7 @@ import (
 )
 
 func TypeNotEqualErr(
-	left, right interface{},
+	left, right any,
 ) error {
 	leftRt := reflect.TypeOf(left)
 	rightRt := reflect.TypeOf(right)

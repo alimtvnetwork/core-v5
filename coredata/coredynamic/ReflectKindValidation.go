@@ -8,7 +8,7 @@ import (
 
 func ReflectKindValidation(
 	expectedKind reflect.Kind,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	actualKind := reflect.
 		ValueOf(anyItem).

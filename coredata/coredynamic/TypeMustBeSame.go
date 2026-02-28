@@ -1,7 +1,7 @@
 package coredynamic
 
 func TypeMustBeSame(
-	left, right interface{},
+	left, right any,
 ) {
 	err := TypeNotEqualErr(left, right)
 

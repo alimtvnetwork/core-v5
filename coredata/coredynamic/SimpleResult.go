@@ -11,7 +11,7 @@ import (
 
 type SimpleResult struct {
 	Dynamic
-	Result  interface{}
+	Result  any
 	Message string
 	err     error
 }
@@ -35,7 +35,7 @@ func InvalidSimpleResult(
 }
 
 func NewSimpleResultValid(
-	result interface{},
+	result any,
 ) *SimpleResult {
 	return &SimpleResult{
 		Result:  result,
@@ -45,7 +45,7 @@ func NewSimpleResultValid(
 }
 
 func NewSimpleResult(
-	result interface{},
+	result any,
 	isValid bool,
 	invalidMessage string,
 ) *SimpleResult {

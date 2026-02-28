@@ -7,7 +7,7 @@ import (
 )
 
 func MustBeAcceptedTypes(
-	input interface{},
+	input any,
 	acceptedTypes ...reflect.Type,
 ) {
 	err := NotAcceptedTypesErr(

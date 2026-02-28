@@ -3,7 +3,7 @@ package coredynamic
 import "reflect"
 
 type CastedResult struct {
-	Casted                         interface{}
+	Casted                         any
 	SourceReflectType              reflect.Type
 	SourceKind                     reflect.Kind
 	Error                          error

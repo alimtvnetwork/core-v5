@@ -2,6 +2,6 @@ package coredynamic
 
 import "reflect"
 
-func AnyToReflectVal(any interface{}) reflect.Value {
-	return reflect.ValueOf(any)
+func AnyToReflectVal(item any) reflect.Value {
+	return reflect.ValueOf(item)
 }

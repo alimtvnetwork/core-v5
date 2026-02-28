@@ -33,7 +33,7 @@ func InvalidSimpleRequest(
 }
 
 func NewSimpleRequest(
-	request interface{},
+	request any,
 	isValid bool,
 	message string,
 ) *SimpleRequest {
@@ -44,7 +44,7 @@ func NewSimpleRequest(
 }
 
 func NewSimpleRequestValid(
-	request interface{},
+	request any,
 ) *SimpleRequest {
 	return &SimpleRequest{
 		Dynamic: NewDynamic(request, true),
@@ -56,11 +56,11 @@ func (receiver *SimpleRequest) Message() string {
 	return receiver.message
 }
 
-func (receiver *SimpleRequest) Request() interface{} {
+func (receiver *SimpleRequest) Request() any {
 	return receiver.Dynamic.Data()
 }
 
-func (receiver *SimpleRequest) Value() interface{} {
+func (receiver *SimpleRequest) Value() any {
 	return receiver.Dynamic.Data()
 }
 
