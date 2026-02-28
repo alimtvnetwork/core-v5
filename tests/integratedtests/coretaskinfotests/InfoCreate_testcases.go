@@ -6,10 +6,10 @@ import (
 )
 
 // ==========================================
-// Info Creation — Default, Examples
+// Info.Default creation
 // ==========================================
 
-var infoCreateTestCases = []coretestcases.CaseV1{
+var infoDefaultTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Info.Default creates info with name, desc, url",
 		ArrangeInput: args.Map{
@@ -26,6 +26,13 @@ var infoCreateTestCases = []coretestcases.CaseV1{
 			"true",
 		},
 	},
+}
+
+// ==========================================
+// Info.Examples with items
+// ==========================================
+
+var infoExamplesWithItemsTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Info.Examples creates info with examples",
 		ArrangeInput: args.Map{
@@ -45,14 +52,20 @@ var infoCreateTestCases = []coretestcases.CaseV1{
 			"2",
 		},
 	},
+}
+
+// ==========================================
+// Info.Examples with no examples
+// ==========================================
+
+var infoExamplesEmptyTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Info.Examples with no examples has empty slice",
 		ArrangeInput: args.Map{
-			"when":       "given info with no examples",
-			"name":       "no-ex name",
-			"desc":       "no-ex desc",
-			"url":        "no-ex url",
-			"noExamples": true,
+			"when": "given info with no examples",
+			"name": "no-ex name",
+			"desc": "no-ex desc",
+			"url":  "no-ex url",
 		},
 		ExpectedInput: []string{
 			"no-ex name",
@@ -67,95 +80,112 @@ var infoCreateTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
-// Nil Safety
+// Nil Safety — one case per method
 // ==========================================
 
-var infoNilSafetyTestCases = []coretestcases.CaseV1{
+var infoNilSafeNameTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info SafeName returns empty",
 		ArrangeInput: args.Map{
-			"when":   "given nil info",
-			"method": "SafeName",
+			"when": "given nil info",
 		},
 		ExpectedInput: []string{""},
 	},
+}
+
+var infoNilSafeDescriptionTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info SafeDescription returns empty",
 		ArrangeInput: args.Map{
-			"when":   "given nil info",
-			"method": "SafeDescription",
+			"when": "given nil info",
 		},
 		ExpectedInput: []string{""},
 	},
+}
+
+var infoNilSafeUrlTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info SafeUrl returns empty",
 		ArrangeInput: args.Map{
-			"when":   "given nil info",
-			"method": "SafeUrl",
+			"when": "given nil info",
 		},
 		ExpectedInput: []string{""},
 	},
+}
+
+var infoNilSafeHintUrlTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info SafeHintUrl returns empty",
 		ArrangeInput: args.Map{
-			"when":   "given nil info",
-			"method": "SafeHintUrl",
+			"when": "given nil info",
 		},
 		ExpectedInput: []string{""},
 	},
+}
+
+var infoNilSafeErrorUrlTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info SafeErrorUrl returns empty",
 		ArrangeInput: args.Map{
-			"when":   "given nil info",
-			"method": "SafeErrorUrl",
+			"when": "given nil info",
 		},
 		ExpectedInput: []string{""},
 	},
+}
+
+var infoNilSafeExampleUrlTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info SafeExampleUrl returns empty",
 		ArrangeInput: args.Map{
-			"when":   "given nil info",
-			"method": "SafeExampleUrl",
+			"when": "given nil info",
 		},
 		ExpectedInput: []string{""},
 	},
+}
+
+var infoNilNullCheckTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info IsNull returns true, IsDefined returns false",
 		ArrangeInput: args.Map{
-			"when":   "given nil info for null check",
-			"method": "NullCheck",
+			"when": "given nil info for null check",
 		},
 		ExpectedInput: []string{
 			"true",
 			"false",
 		},
 	},
+}
+
+var infoNilEmptyCheckTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info IsEmpty returns true, HasAnyItem returns false",
 		ArrangeInput: args.Map{
-			"when":   "given nil info for empty check",
-			"method": "EmptyCheck",
+			"when": "given nil info for empty check",
 		},
 		ExpectedInput: []string{
 			"true",
 			"false",
 		},
 	},
+}
+
+var infoNilClonePtrTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info ClonePtr returns nil",
 		ArrangeInput: args.Map{
-			"when":   "given nil info for clone",
-			"method": "ClonePtr",
+			"when": "given nil info for clone",
 		},
 		ExpectedInput: []string{
 			"true",
 		},
 	},
+}
+
+var infoNilPrettyJsonTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Nil info PrettyJsonString returns empty",
 		ArrangeInput: args.Map{
-			"when":   "given nil info for json",
-			"method": "PrettyJsonString",
+			"when": "given nil info for json",
 		},
 		ExpectedInput: []string{
 			"",
@@ -164,10 +194,10 @@ var infoNilSafetyTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
-// Secure Mode
+// Secure Mode — separate cases
 // ==========================================
 
-var infoSecureModeTestCases = []coretestcases.CaseV1{
+var infoSecureDefaultTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Info.Secure.Default creates secure info",
 		ArrangeInput: args.Map{
@@ -185,6 +215,9 @@ var infoSecureModeTestCases = []coretestcases.CaseV1{
 			"true",
 		},
 	},
+}
+
+var infoSecureExamplesTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Info.Secure.NameDescUrlExamples has secure flag and examples",
 		ArrangeInput: args.Map{
@@ -202,24 +235,27 @@ var infoSecureModeTestCases = []coretestcases.CaseV1{
 			"3",
 		},
 	},
+}
+
+var infoSetSecureOnNilTestCases = []coretestcases.CaseV1{
 	{
 		Title: "SetSecure on nil returns new secure info",
 		ArrangeInput: args.Map{
-			"when":      "given nil info with SetSecure",
-			"setSecure": true,
+			"when": "given nil info with SetSecure",
 		},
 		ExpectedInput: []string{
 			"true",
 			"false",
 		},
 	},
+}
+
+var infoSetSecureOnExistingTestCases = []coretestcases.CaseV1{
 	{
 		Title: "SetSecure on existing info mutates to secure",
 		ArrangeInput: args.Map{
-			"when":      "given plain info then SetSecure",
-			"name":      "was-plain",
-			"setSecure": true,
-			"existing":  true,
+			"when": "given plain info then SetSecure",
+			"name": "was-plain",
 		},
 		ExpectedInput: []string{
 			"true",
@@ -230,10 +266,10 @@ var infoSecureModeTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
-// Plain Mode
+// Plain Mode — separate cases
 // ==========================================
 
-var infoPlainModeTestCases = []coretestcases.CaseV1{
+var infoPlainDefaultTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Info.Plain.Default creates plain info",
 		ArrangeInput: args.Map{
@@ -251,6 +287,9 @@ var infoPlainModeTestCases = []coretestcases.CaseV1{
 			"true",
 		},
 	},
+}
+
+var infoPlainAllUrlExamplesTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Info.Plain.AllUrlExamples populates all fields",
 		ArrangeInput: args.Map{
@@ -273,11 +312,13 @@ var infoPlainModeTestCases = []coretestcases.CaseV1{
 			"1",
 		},
 	},
+}
+
+var infoSetPlainOnNilTestCases = []coretestcases.CaseV1{
 	{
 		Title: "SetPlain on nil returns new plain info",
 		ArrangeInput: args.Map{
-			"when":     "given nil info with SetPlain",
-			"setPlain": true,
+			"when": "given nil info with SetPlain",
 		},
 		ExpectedInput: []string{
 			"false",
@@ -287,10 +328,10 @@ var infoPlainModeTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
-// JSON Serialization Round-Trip
+// JSON Serialization — separate cases
 // ==========================================
 
-var infoSerializeTestCases = []coretestcases.CaseV1{
+var infoSerializeDefaultTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Default info serializes and deserializes correctly",
 		ArrangeInput: args.Map{
@@ -307,14 +348,16 @@ var infoSerializeTestCases = []coretestcases.CaseV1{
 			"false",
 		},
 	},
+}
+
+var infoSerializeSecureTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Secure info preserves secure flag through serialization",
 		ArrangeInput: args.Map{
-			"when":     "given secure info round-trip",
-			"name":     "sec-rt-name",
-			"desc":     "sec-rt-desc",
-			"url":      "sec-rt-url",
-			"isSecure": true,
+			"when": "given secure info round-trip",
+			"name": "sec-rt-name",
+			"desc": "sec-rt-desc",
+			"url":  "sec-rt-url",
 		},
 		ExpectedInput: []string{
 			"sec-rt-name",
@@ -324,6 +367,9 @@ var infoSerializeTestCases = []coretestcases.CaseV1{
 			"true",
 		},
 	},
+}
+
+var infoSerializeExamplesTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Info with examples preserves examples through serialization",
 		ArrangeInput: args.Map{
@@ -341,6 +387,9 @@ var infoSerializeTestCases = []coretestcases.CaseV1{
 			"cmd2 --other",
 		},
 	},
+}
+
+var infoSerializeAllUrlsTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Info with all URLs preserves through serialization",
 		ArrangeInput: args.Map{
@@ -369,11 +418,11 @@ var infoCloneTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Clone preserves all fields independently",
 		ArrangeInput: args.Map{
-			"when":     "given cloned info with mutation",
-			"name":     "original",
-			"desc":     "original-desc",
-			"url":      "original-url",
-			"newName":  "mutated",
+			"when":    "given cloned info with mutation",
+			"name":    "original",
+			"desc":    "original-desc",
+			"url":     "original-url",
+			"newName": "mutated",
 		},
 		ExpectedInput: []string{
 			"original",
@@ -384,10 +433,10 @@ var infoCloneTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
-// Has/IsEmpty field checks
+// Field checks — populated vs empty
 // ==========================================
 
-var infoFieldCheckTestCases = []coretestcases.CaseV1{
+var infoFieldCheckPopulatedTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Info with all fields populated — Has checks return true",
 		ArrangeInput: args.Map{
@@ -403,11 +452,13 @@ var infoFieldCheckTestCases = []coretestcases.CaseV1{
 			"true",
 		},
 	},
+}
+
+var infoFieldCheckEmptyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Empty info — Has checks return false, IsEmpty checks return true",
+		Title: "Empty info — Has checks return false",
 		ArrangeInput: args.Map{
-			"when":  "given empty info",
-			"empty": true,
+			"when": "given empty info",
 		},
 		ExpectedInput: []string{
 			"false",
