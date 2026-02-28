@@ -577,3 +577,318 @@ func Test_MinMax_SimpleSlice_Verification(t *testing.T) {
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
+
+// ==========================================================================
+// EDGE CASE TESTS
+// ==========================================================================
+
+// ==========================================
+// Edge: SortCollection — empty
+// ==========================================
+
+func Test_SortCollection_Empty_Verification(t *testing.T) {
+	for caseIndex, testCase := range sortCollectionEmptyTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		col := coregeneric.New.Collection.Int.Items(items...)
+		coregeneric.SortCollection(col)
+		actLines := []string{
+			fmt.Sprintf("%d", col.Length()),
+			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: SortCollection — negative numbers
+// ==========================================
+
+func Test_SortCollection_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range sortCollectionNegativeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		col := coregeneric.New.Collection.Int.Items(items...)
+		coregeneric.SortCollection(col)
+		actLines := []string{
+			fmt.Sprintf("%d", col.Length()),
+			fmt.Sprintf("%d", col.First()),
+			fmt.Sprintf("%d", col.Last()),
+			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: MinCollection / MaxCollection — negative
+// ==========================================
+
+func Test_MinMax_Collection_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range minMaxCollectionNegativeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		col := coregeneric.New.Collection.Int.Items(items...)
+		actLines := []string{
+			fmt.Sprintf("%d", coregeneric.MinCollection(col)),
+			fmt.Sprintf("%d", coregeneric.MaxCollection(col)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: SumCollection — negative
+// ==========================================
+
+func Test_SumCollection_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range sumCollectionNegativeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		col := coregeneric.New.Collection.Int.Items(items...)
+		actLines := []string{
+			fmt.Sprintf("%d", coregeneric.SumCollection(col)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: ClampCollection — negative range
+// ==========================================
+
+func Test_ClampCollection_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range clampCollectionNegativeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		col := coregeneric.New.Collection.Int.Items(items...)
+		coregeneric.ClampCollection(col, -5, -1)
+		actLines := make([]string, col.Length())
+		for i := 0; i < col.Length(); i++ {
+			actLines[i] = fmt.Sprintf("%d", col.GetAt(i))
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: IsSortedCollection — single and empty
+// ==========================================
+
+func Test_IsSortedCollection_Edge_Verification(t *testing.T) {
+	for caseIndex, testCase := range isSortedCollectionEdgeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		col := coregeneric.New.Collection.Int.Items(items...)
+		actLines := []string{
+			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: SortedListHashset — single element
+// ==========================================
+
+func Test_SortedListHashset_Single_Verification(t *testing.T) {
+	for caseIndex, testCase := range sortedListHashsetSingleTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		hs := coregeneric.New.Hashset.Int.From(items)
+		sorted := coregeneric.SortedListHashset(hs)
+		actLines := []string{
+			fmt.Sprintf("%d", len(sorted)),
+			fmt.Sprintf("%d", sorted[0]),
+			fmt.Sprintf("%d", sorted[len(sorted)-1]),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: MinHashset / MaxHashset — single element
+// ==========================================
+
+func Test_MinMax_Hashset_Single_Verification(t *testing.T) {
+	for caseIndex, testCase := range minMaxHashsetSingleTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		hs := coregeneric.New.Hashset.Int.From(items)
+		actLines := []string{
+			fmt.Sprintf("%d", coregeneric.MinHashset(hs)),
+			fmt.Sprintf("%d", coregeneric.MaxHashset(hs)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: MinHashset / MaxHashset — negative numbers
+// ==========================================
+
+func Test_MinMax_Hashset_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range minMaxHashsetNegativeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		hs := coregeneric.New.Hashset.Int.From(items)
+		actLines := []string{
+			fmt.Sprintf("%d", coregeneric.MinHashset(hs)),
+			fmt.Sprintf("%d", coregeneric.MaxHashset(hs)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: SortedListHashset — negative numbers
+// ==========================================
+
+func Test_SortedListHashset_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range sortedListHashsetNegativeTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		items := input["items"].([]int)
+
+		// Act
+		hs := coregeneric.New.Hashset.Int.From(items)
+		sorted := coregeneric.SortedListHashset(hs)
+		actLines := []string{
+			fmt.Sprintf("%d", len(sorted)),
+			fmt.Sprintf("%d", sorted[0]),
+			fmt.Sprintf("%d", sorted[len(sorted)-1]),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: Hashmap — single entry
+// ==========================================
+
+func Test_SortedKeysHashmap_Single_Verification(t *testing.T) {
+	for caseIndex, testCase := range sortedKeysHashmapSingleTestCases {
+		// Arrange
+		hm := coregeneric.New.Hashmap.StringInt.Cap(1)
+		hm.Set("only", 99)
+
+		// Act
+		sortedKeys := coregeneric.SortedKeysHashmap(hm)
+		actLines := []string{
+			fmt.Sprintf("%d", len(sortedKeys)),
+			sortedKeys[0],
+			sortedKeys[len(sortedKeys)-1],
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+func Test_MinMaxKey_Hashmap_Single_Verification(t *testing.T) {
+	for caseIndex, testCase := range minMaxKeyHashmapSingleTestCases {
+		// Arrange
+		hm := coregeneric.New.Hashmap.StringInt.Cap(1)
+		hm.Set("only", 99)
+
+		// Act
+		actLines := []string{
+			coregeneric.MinKeyHashmap(hm),
+			coregeneric.MaxKeyHashmap(hm),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
+// Edge: Hashmap — negative values
+// ==========================================
+
+func Test_MinMaxValue_Hashmap_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range minMaxValueHashmapNegativeTestCases {
+		// Arrange
+		hm := coregeneric.New.Hashmap.StringInt.Cap(3)
+		hm.Set("alpha", -20)
+		hm.Set("beta", 5)
+		hm.Set("gamma", -3)
+
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%d", coregeneric.MinValueHashmap(hm)),
+			fmt.Sprintf("%d", coregeneric.MaxValueHashmap(hm)),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+func Test_SortedValuesHashmap_Negative_Verification(t *testing.T) {
+	for caseIndex, testCase := range sortedValuesHashmapNegativeTestCases {
+		// Arrange
+		hm := coregeneric.New.Hashmap.StringInt.Cap(3)
+		hm.Set("alpha", -20)
+		hm.Set("beta", 5)
+		hm.Set("gamma", -3)
+
+		// Act
+		sortedVals := coregeneric.SortedValuesHashmap(hm)
+		actLines := []string{
+			fmt.Sprintf("%d", len(sortedVals)),
+			fmt.Sprintf("%d", sortedVals[0]),
+			fmt.Sprintf("%d", sortedVals[len(sortedVals)-1]),
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}

@@ -487,3 +487,285 @@ var minMaxSimpleSliceTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+// ==========================================================================
+// EDGE CASES: Empty collections, single elements, negative numbers
+// ==========================================================================
+
+// ==========================================
+// Edge: SortCollection — empty
+// ==========================================
+
+var sortCollectionEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortCollection on empty collection produces empty",
+		ArrangeInput: args.Map{
+			"when":  "given empty int collection",
+			"items": []int{},
+		},
+		ExpectedInput: []string{
+			"0",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// Edge: SortCollection — negative numbers
+// ==========================================
+
+var sortCollectionNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortCollection sorts negative numbers correctly",
+		ArrangeInput: args.Map{
+			"when":  "given collection with negative and positive values",
+			"items": []int{3, -5, 0, -1, 7, -10},
+		},
+		ExpectedInput: []string{
+			"6",
+			"-10",
+			"7",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// Edge: MinCollection / MaxCollection — negative numbers
+// ==========================================
+
+var minMaxCollectionNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinCollection and MaxCollection with all negative values",
+		ArrangeInput: args.Map{
+			"when":  "given collection with only negative values",
+			"items": []int{-3, -7, -1, -9, -5},
+		},
+		ExpectedInput: []string{
+			"-9",
+			"-1",
+		},
+	},
+	{
+		Title: "MinCollection and MaxCollection with mixed positive and negative",
+		ArrangeInput: args.Map{
+			"when":  "given collection with mixed signs",
+			"items": []int{-100, 0, 50, -25, 100},
+		},
+		ExpectedInput: []string{
+			"-100",
+			"100",
+		},
+	},
+}
+
+// ==========================================
+// Edge: SumCollection — negative numbers
+// ==========================================
+
+var sumCollectionNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SumCollection with negative numbers",
+		ArrangeInput: args.Map{
+			"when":  "given collection with negative values",
+			"items": []int{-5, 10, -3, 8, -10},
+		},
+		ExpectedInput: []string{
+			"0",
+		},
+	},
+	{
+		Title: "SumCollection with all negative numbers",
+		ArrangeInput: args.Map{
+			"when":  "given collection with all negative values",
+			"items": []int{-1, -2, -3},
+		},
+		ExpectedInput: []string{
+			"-6",
+		},
+	},
+}
+
+// ==========================================
+// Edge: ClampCollection — negative range
+// ==========================================
+
+var clampCollectionNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "ClampCollection with negative range",
+		ArrangeInput: args.Map{
+			"when":  "given ints clamped to [-5, -1]",
+			"items": []int{-10, -3, 0, -1, -7},
+		},
+		ExpectedInput: []string{
+			"-5",
+			"-3",
+			"-1",
+			"-1",
+			"-5",
+		},
+	},
+}
+
+// ==========================================
+// Edge: IsSortedCollection — single and empty
+// ==========================================
+
+var isSortedCollectionEdgeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IsSortedCollection true for empty collection",
+		ArrangeInput: args.Map{
+			"when":  "given empty collection",
+			"items": []int{},
+		},
+		ExpectedInput: []string{
+			"true",
+		},
+	},
+	{
+		Title: "IsSortedCollection true for single element",
+		ArrangeInput: args.Map{
+			"when":  "given single-element collection",
+			"items": []int{99},
+		},
+		ExpectedInput: []string{
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// Edge: SortedListHashset — single element
+// ==========================================
+
+var sortedListHashsetSingleTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedListHashset with single element",
+		ArrangeInput: args.Map{
+			"when":  "given hashset with single item",
+			"items": []int{42},
+		},
+		ExpectedInput: []string{
+			"1",
+			"42",
+			"42",
+		},
+	},
+}
+
+// ==========================================
+// Edge: MinHashset / MaxHashset — single element
+// ==========================================
+
+var minMaxHashsetSingleTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinHashset and MaxHashset on single-element hashset",
+		ArrangeInput: args.Map{
+			"when":  "given hashset with one item",
+			"items": []int{7},
+		},
+		ExpectedInput: []string{
+			"7",
+			"7",
+		},
+	},
+}
+
+// ==========================================
+// Edge: MinHashset / MaxHashset — negative numbers
+// ==========================================
+
+var minMaxHashsetNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinHashset and MaxHashset with negative numbers",
+		ArrangeInput: args.Map{
+			"when":  "given hashset with negative values",
+			"items": []int{-3, -7, 0, 5, -1},
+		},
+		ExpectedInput: []string{
+			"-7",
+			"5",
+		},
+	},
+}
+
+// ==========================================
+// Edge: SortedListHashset — negative numbers
+// ==========================================
+
+var sortedListHashsetNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedListHashset with negative numbers sorts correctly",
+		ArrangeInput: args.Map{
+			"when":  "given hashset with mixed signs",
+			"items": []int{3, -2, 0, -5, 1},
+		},
+		ExpectedInput: []string{
+			"5",
+			"-5",
+			"3",
+		},
+	},
+}
+
+// ==========================================
+// Edge: Hashmap — single entry
+// ==========================================
+
+var sortedKeysHashmapSingleTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedKeysHashmap with single entry",
+		ArrangeInput: args.Map{
+			"when": "given hashmap with one key-value pair",
+		},
+		ExpectedInput: []string{
+			"1",
+			"only",
+			"only",
+		},
+	},
+}
+
+var minMaxKeyHashmapSingleTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinKeyHashmap and MaxKeyHashmap on single-entry hashmap",
+		ArrangeInput: args.Map{
+			"when": "given hashmap with one entry",
+		},
+		ExpectedInput: []string{
+			"only",
+			"only",
+		},
+	},
+}
+
+// ==========================================
+// Edge: Hashmap — negative values
+// ==========================================
+
+var minMaxValueHashmapNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinValueHashmap and MaxValueHashmap with negative values",
+		ArrangeInput: args.Map{
+			"when": "given hashmap with negative integer values",
+		},
+		ExpectedInput: []string{
+			"-20",
+			"5",
+		},
+	},
+}
+
+var sortedValuesHashmapNegativeTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedValuesHashmap with negative values sorts correctly",
+		ArrangeInput: args.Map{
+			"when": "given hashmap with mixed sign values",
+		},
+		ExpectedInput: []string{
+			"3",
+			"-20",
+			"5",
+		},
+	},
+}
