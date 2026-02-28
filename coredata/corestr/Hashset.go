@@ -776,9 +776,9 @@ func (it *Hashset) SimpleSlice() *SimpleSlice {
 // GetFilteredItems must return slice.
 func (it *Hashset) GetFilteredItems(
 	filter IsStringFilter,
-) *[]string {
+) []string {
 	if it.IsEmpty() {
-		return &([]string{})
+		return []string{}
 	}
 
 	filteredList := make(
@@ -802,11 +802,11 @@ func (it *Hashset) GetFilteredItems(
 		)
 
 		if isBreak {
-			return &filteredList
+			return filteredList
 		}
 	}
 
-	return &filteredList
+	return filteredList
 }
 
 // GetFilteredCollection must return items.

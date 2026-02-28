@@ -1467,10 +1467,18 @@ func (it *Collection) FilterPtr(filterPtr IsStringPointerFilter) *[]*string {
 	return &list
 }
 
-// NonEmptyListPtr must return a slice
+// NonEmptyListPtr returns non-empty items as a slice.
+//
+// Deprecated: Use NonEmptyList instead.
 func (it *Collection) NonEmptyListPtr() *[]string {
+	list := it.NonEmptyList()
+	return &list
+}
+
+// NonEmptyList returns all non-empty string items.
+func (it *Collection) NonEmptyList() []string {
 	if it.IsEmpty() {
-		return &([]string{})
+		return []string{}
 	}
 
 	list := make([]string, 0, it.Length())
@@ -1483,7 +1491,7 @@ func (it *Collection) NonEmptyListPtr() *[]string {
 		list = append(list, element)
 	}
 
-	return &list
+	return list
 }
 
 func (it *Collection) HashsetAsIs() *Hashset {
@@ -1592,13 +1600,14 @@ func (it *Collection) HasAll(items ...string) bool {
 }
 
 // SortedListAsc Creates new doesn't modify current collection
-func (it *Collection) SortedListAsc() *[]string {
+func (it *Collection) SortedListAsc() []string {
 	if it.IsEmpty() {
-		return &[]string{}
+		return []string{}
 	}
 
-	list := &(it.items)
-	sort.Strings(*list)
+	list := make([]string, len(it.items))
+	copy(list, it.items)
+	sort.Strings(list)
 
 	return list
 }
@@ -1629,11 +1638,12 @@ func (it *Collection) SortedAscLock() *Collection {
 }
 
 // SortedListDsc Creates new one.
-func (it *Collection) SortedListDsc() *[]string {
+func (it *Collection) SortedListDsc() []string {
 	list := it.SortedListAsc()
-	stringslice.InPlaceReverse(
-		&it.items,
-	)
+	// reverse in place
+	for i, j := 0, len(list)-1; i < j; i, j = i+1, j-1 {
+		list[i], list[j] = list[j], list[i]
+	}
 
 	return list
 }
@@ -1814,11 +1824,12 @@ func (it *Collection) MergeSlicesOfSlice(slices ...[]string) *Collection {
 // It is like set A - B
 // Set A = this collection
 // Set B = itemsCollection given in parameters.
-func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]string {
+func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) []string {
 	if itemsCollection == nil || itemsCollection.IsEmpty() {
-		newItems := it.items
+		newItems := make([]string, len(it.items))
+		copy(newItems, it.items)
 
-		return &newItems
+		return newItems
 	}
 
 	finalList := make(
@@ -1838,7 +1849,7 @@ func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]str
 		)
 	}
 
-	return &finalList
+	return finalList
 }
 
 // GetAllExcept Get all items except the mentioned ones.
@@ -1846,11 +1857,12 @@ func (it *Collection) GetAllExceptCollection(itemsCollection *Collection) *[]str
 // It is like set A - B
 // Set A = this collection
 // Set B = items given in parameters.
-func (it *Collection) GetAllExcept(items []string) *[]string {
+func (it *Collection) GetAllExcept(items []string) []string {
 	if items == nil {
-		newItems := it.items
+		newItems := make([]string, len(it.items))
+		copy(newItems, it.items)
 
-		return &newItems
+		return newItems
 	}
 
 	newCollection := New.Collection.StringsOptions(

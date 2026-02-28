@@ -261,7 +261,7 @@ func (it *CharHashsetMap) StringLock() string {
 	)
 }
 
-func (it *CharHashsetMap) List() *[]string {
+func (it *CharHashsetMap) List() []string {
 	list := make([]string, it.AllLengthsSum())
 
 	i := 0
@@ -272,25 +272,20 @@ func (it *CharHashsetMap) List() *[]string {
 		}
 	}
 
-	return &list
+	return list
 }
 
-func (it *CharHashsetMap) SortedListAsc() *[]string {
+func (it *CharHashsetMap) SortedListAsc() []string {
 	list := it.List()
-	sort.Strings(*list)
+	sort.Strings(list)
 
 	return list
 }
 
-func (it *CharHashsetMap) SortedListDsc() *[]string {
+func (it *CharHashsetMap) SortedListDsc() []string {
 	list := it.SortedListAsc()
-	length := len(*list)
-	mid := length / 2
-
-	for i := 0; i < mid; i++ {
-		temp := (*list)[i]
-		(*list)[i] = (*list)[length-1-i]
-		(*list)[length-1-i] = temp
+	for i, j := 0, len(list)-1; i < j; i, j = i+1, j-1 {
+		list[i], list[j] = list[j], list[i]
 	}
 
 	return list
