@@ -17,7 +17,9 @@ func Test_Collection_Distinct_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionDistinctTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -43,7 +45,9 @@ func Test_Collection_DistinctCount_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionDistinctCountTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -64,7 +68,9 @@ func Test_Collection_IsDistinct_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionIsDistinctTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 

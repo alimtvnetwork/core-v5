@@ -17,10 +17,14 @@ func Test_Collection_Contains_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionContainsTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
+
 		search, isValid := input.GetAsString("search")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsString 'search' failed")
 		}
@@ -42,10 +46,14 @@ func Test_Collection_IndexOf_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionIndexOfTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
+
 		search, isValid := input.GetAsString("search")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsString 'search' failed")
 		}
@@ -67,10 +75,14 @@ func Test_Collection_HasAll_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionHasAllTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
+
 		search, isValid := input.GetAsStrings("search")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'search' failed")
 		}
@@ -92,10 +104,14 @@ func Test_Collection_LastIndexOf_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionLastIndexOfTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
+
 		search, isValid := input.GetAsString("search")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsString 'search' failed")
 		}
@@ -117,10 +133,14 @@ func Test_Collection_Count_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionCountTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
+
 		search, isValid := input.GetAsString("search")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsString 'search' failed")
 		}

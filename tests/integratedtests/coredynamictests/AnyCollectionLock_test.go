@@ -86,7 +86,9 @@ func Test_Generic_Collection_LengthLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
 
@@ -148,7 +150,9 @@ func Test_Generic_Collection_ItemsLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
 
@@ -177,7 +181,9 @@ func Test_Generic_Collection_ClearLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
 
@@ -203,10 +209,14 @@ func Test_Generic_Collection_AddCollectionLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		first, isValid := input.GetAsAnyItems("first")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsAnyItems 'first' failed")
 		}
+
 		second, isValid := input.GetAsAnyItems("second")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsAnyItems 'second' failed")
 		}
@@ -235,9 +245,12 @@ func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
+
 		col := coredynamic.New.Collection.Any.From(items)
 
 		// Act — filter strings starting with "a" or "d"
@@ -252,9 +265,11 @@ func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
 
 		filtered := col.FilterLock(func(item any) bool {
 			s, ok := item.(string)
+
 			if !ok {
 				return false
 			}
+
 			return len(s) > 0 && (s[0] == 'a' || s[0] == 'd')
 		})
 		wg.Wait()
