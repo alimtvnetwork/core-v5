@@ -51,15 +51,116 @@ function Write-Fail([string]$msg) {
     Write-Host "  ✗ $msg" -ForegroundColor Red
 }
 
+# -- Test Log Directory --
+$TestLogDir = Join-Path $PSScriptRoot "data" "test-logs"
+
+function Ensure-TestLogDir {
+    if (-not (Test-Path $TestLogDir)) {
+        New-Item -ItemType Directory -Path $TestLogDir -Force | Out-Null
+    }
+}
+
+function Write-TestLogs([string[]]$rawOutput) {
+    Ensure-TestLogDir
+
+    $passingFile = Join-Path $TestLogDir "passing-tests.txt"
+    $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $passing = [System.Collections.Generic.List[string]]::new()
+    $failing = [System.Collections.Generic.List[string]]::new()
+
+    # Track current test context for capturing failure details
+    $currentTest = ""
+    $currentBlock = [System.Collections.Generic.List[string]]::new()
+    $isFailing = $false
+
+    foreach ($line in $rawOutput) {
+        if ($line -match "^=== RUN\s+(.+)$") {
+            # Flush previous block if it was a failure
+            if ($isFailing -and $currentTest) {
+                $failing.Add("FAIL: $currentTest")
+                foreach ($detail in $currentBlock) {
+                    $failing.Add("  $detail")
+                }
+                $failing.Add("")
+            }
+            $currentTest = $Matches[1].Trim()
+            $currentBlock.Clear()
+            $isFailing = $false
+        }
+        elseif ($line -match "^\s*--- PASS:\s+(.+?)\s+\(") {
+            $testName = $Matches[1].Trim()
+            $passing.Add($testName)
+            $currentTest = ""
+            $currentBlock.Clear()
+            $isFailing = $false
+        }
+        elseif ($line -match "^\s*--- FAIL:\s+(.+?)\s+\(") {
+            $testName = $Matches[1].Trim()
+            $currentTest = $testName
+            $isFailing = $true
+        }
+        else {
+            if ($currentTest) {
+                $currentBlock.Add($line)
+            }
+        }
+    }
+
+    # Flush last block
+    if ($isFailing -and $currentTest) {
+        $failing.Add("FAIL: $currentTest")
+        foreach ($detail in $currentBlock) {
+            $failing.Add("  $detail")
+        }
+        $failing.Add("")
+    }
+
+    # Write passing tests
+    $passingContent = @("# Passing Tests — $timestamp", "# Count: $($passing.Count)", "")
+    $passingContent += $passing
+    Set-Content -Path $passingFile -Value ($passingContent -join "`n") -Encoding UTF8
+
+    # Write failing tests
+    $failingContent = @("# Failing Tests — $timestamp", "# Count: $($failing.Where({ $_ -match '^FAIL:' }).Count)", "")
+    $failingContent += $failing
+    Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
+
+    $failCount = $failing.Where({ $_ -match '^FAIL:' }).Count
+    $passCount = $passing.Count
+
+    Write-Host ""
+    if ($passCount -gt 0) { Write-Success "$passCount passing test(s) → $passingFile" }
+    if ($failCount -gt 0) { Write-Fail "$failCount failing test(s) → $failingFile" }
+    elseif ($failCount -eq 0) { Write-Success "No failing tests" }
+}
+
+function Invoke-GoTestAndLog([string]$testArgs) {
+    $output = & go test -v -count=1 $testArgs 2>&1 | ForEach-Object { $_.ToString() }
+    $exitCode = $LASTEXITCODE
+
+    # Print to console
+    $output | ForEach-Object { Write-Host $_ }
+
+    # Write logs
+    Write-TestLogs $output
+
+    return $exitCode
+}
+
 # -- Commands --
 
 function Invoke-AllTests {
     Write-Header "Running all tests"
     Push-Location tests
     try {
-        go test -v -count=1 ./...
-        if ($LASTEXITCODE -eq 0) { Write-Success "All tests passed" }
-        else { Write-Fail "Some tests failed (exit code: $LASTEXITCODE)" }
+        $output = & go test -v -count=1 ./... 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
+        if ($exitCode -eq 0) { Write-Success "All tests passed" }
+        else { Write-Fail "Some tests failed (exit code: $exitCode)" }
     }
     finally { Pop-Location }
 }
@@ -77,9 +178,12 @@ function Invoke-PackageTests([string]$pkg) {
     Write-Header "Running tests for package: $pkg"
     Push-Location tests
     try {
-        go test -v -count=1 "./integratedtests/$pkg/..."
-        if ($LASTEXITCODE -eq 0) { Write-Success "Package tests passed" }
-        else { Write-Fail "Package tests failed (exit code: $LASTEXITCODE)" }
+        $output = & go test -v -count=1 "./integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
+        if ($exitCode -eq 0) { Write-Success "Package tests passed" }
+        else { Write-Fail "Package tests failed (exit code: $exitCode)" }
     }
     finally { Pop-Location }
 }
@@ -88,7 +192,10 @@ function Invoke-TestCoverage {
     Write-Header "Running tests with coverage"
     Push-Location tests
     try {
-        go test -v -count=1 -coverprofile=coverage.out ./...
+        $output = & go test -v -count=1 -coverprofile=coverage.out ./... 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
         if (Test-Path coverage.out) {
             go tool cover -func=coverage.out
             Write-Success "Coverage report generated: tests/coverage.out"
@@ -102,9 +209,12 @@ function Invoke-IntegratedTests {
     Write-Header "Running integrated tests only"
     Push-Location tests
     try {
-        go test -v -count=1 ./integratedtests/...
-        if ($LASTEXITCODE -eq 0) { Write-Success "Integrated tests passed" }
-        else { Write-Fail "Integrated tests failed (exit code: $LASTEXITCODE)" }
+        $output = & go test -v -count=1 ./integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
+        if ($exitCode -eq 0) { Write-Success "Integrated tests passed" }
+        else { Write-Fail "Integrated tests failed (exit code: $exitCode)" }
     }
     finally { Pop-Location }
 }
