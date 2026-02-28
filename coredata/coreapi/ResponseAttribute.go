@@ -9,8 +9,8 @@ type ResponseAttribute struct {
 	Count                 int
 	HasAnyRecord          bool
 	NextPageRequestUrl    string
-	StepsPerformed        *[]string `json:"StepsPerformed,omitempty"`
-	DebugInfos            *[]string `json:"DebugInfos,omitempty"`
+	StepsPerformed        []string `json:"StepsPerformed,omitempty"`
+	DebugInfos            []string `json:"DebugInfos,omitempty"`
 	HttpCode              int
 	HttpMethod            reqtype.Request
 	IsValid               bool
@@ -22,13 +22,25 @@ func (receiver *ResponseAttribute) Clone() *ResponseAttribute {
 		return nil
 	}
 
+	var steps []string
+	if len(receiver.StepsPerformed) > 0 {
+		steps = make([]string, len(receiver.StepsPerformed))
+		copy(steps, receiver.StepsPerformed)
+	}
+
+	var debugs []string
+	if len(receiver.DebugInfos) > 0 {
+		debugs = make([]string, len(receiver.DebugInfos))
+		copy(debugs, receiver.DebugInfos)
+	}
+
 	return &ResponseAttribute{
 		ResponseOfRequestType: receiver.ResponseOfRequestType,
 		Count:                 receiver.Count,
 		HasAnyRecord:          receiver.HasAnyRecord,
 		NextPageRequestUrl:    receiver.NextPageRequestUrl,
-		StepsPerformed:        receiver.StepsPerformed,
-		DebugInfos:            receiver.DebugInfos,
+		StepsPerformed:        steps,
+		DebugInfos:            debugs,
 		HttpCode:              receiver.HttpCode,
 		HttpMethod:            receiver.HttpMethod,
 		IsValid:               receiver.IsValid,

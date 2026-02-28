@@ -14,7 +14,7 @@ import (
 
 type ValidValue struct {
 	Value      string
-	valueBytes *[]byte
+	valueBytes []byte
 	IsValid    bool
 	Message    string
 }
@@ -82,17 +82,18 @@ func InvalidValidValue(message string) *ValidValue {
 }
 
 func (it *ValidValue) ValueBytesOnce() []byte {
-	return *it.ValueBytesOncePtr()
-}
-
-func (it *ValidValue) ValueBytesOncePtr() *[]byte {
 	if it.valueBytes == nil {
-		valueBytes := []byte(it.Value)
-
-		it.valueBytes = &valueBytes
+		it.valueBytes = []byte(it.Value)
 	}
 
 	return it.valueBytes
+}
+
+// Deprecated: Use ValueBytesOnce() instead. Returns []byte directly.
+func (it *ValidValue) ValueBytesOncePtr() *[]byte {
+	bytes := it.ValueBytesOnce()
+
+	return &bytes
 }
 
 func (it *ValidValue) IsEmpty() bool {
