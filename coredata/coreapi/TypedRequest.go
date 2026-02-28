@@ -1,5 +1,7 @@
 package coreapi
 
+import "gitlab.com/auk-go/core/coredata/coredynamic"
+
 // TypedRequest is the generic version of SimpleGenericRequest.
 //
 // T represents the strongly-typed request payload, providing compile-time safety
@@ -50,9 +52,7 @@ func (it *TypedRequest[T]) Clone() *TypedRequest[T] {
 	}
 }
 
-// ToSimpleGenericRequest converts to the non-generic SimpleGenericRequest for backward compatibility.
-//
-// Note: This wraps the typed request in a coredynamic.SimpleRequest via Dynamic.
+// ToGenericRequestIn converts to GenericRequestIn for backward compatibility.
 func (it *TypedRequest[T]) ToGenericRequestIn() *GenericRequestIn {
 	if it == nil {
 		return nil
@@ -61,5 +61,43 @@ func (it *TypedRequest[T]) ToGenericRequestIn() *GenericRequestIn {
 	return &GenericRequestIn{
 		Attribute: it.Attribute,
 		Request:   it.Request,
+	}
+}
+
+// ToSimpleGenericRequest converts to the legacy SimpleGenericRequest
+// by wrapping the typed request in a coredynamic.SimpleRequest.
+func (it *TypedRequest[T]) ToSimpleGenericRequest(
+	isValid bool,
+	invalidMessage string,
+) *SimpleGenericRequest {
+	if it == nil {
+		return nil
+	}
+
+	return &SimpleGenericRequest{
+		Attribute: it.Attribute,
+		Request: coredynamic.NewSimpleRequest(
+			it.Request,
+			isValid,
+			invalidMessage),
+	}
+}
+
+// ToTypedSimpleGenericRequest converts to TypedSimpleGenericRequest[T]
+// by wrapping the typed request in a TypedSimpleRequest[T].
+func (it *TypedRequest[T]) ToTypedSimpleGenericRequest(
+	isValid bool,
+	invalidMessage string,
+) *TypedSimpleGenericRequest[T] {
+	if it == nil {
+		return nil
+	}
+
+	return &TypedSimpleGenericRequest[T]{
+		Attribute: it.Attribute,
+		Request: coredynamic.NewTypedSimpleRequest[T](
+			it.Request,
+			isValid,
+			invalidMessage),
 	}
 }
