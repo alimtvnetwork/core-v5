@@ -1,21 +1,19 @@
 package corepayload
 
-import (
-	"fmt"
-	"math"
-	"strings"
-	"sync"
-
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
-)
-
+// PayloadsCollection is a collection of PayloadWrapper pointers.
+//
+// Getters and query methods are in PayloadsCollectionGetters.go.
+// Filter and search methods are in PayloadsCollectionFilter.go.
+// Paging methods are in PayloadsCollectionPaging.go.
+// JSON serialization and string methods are in PayloadsCollectionJson.go.
+// Mutation methods (Add, Remove, Clone, etc.) are below.
 type PayloadsCollection struct {
 	Items []*PayloadWrapper
 }
+
+// =============================================================================
+// Mutation — Add
+// =============================================================================
 
 func (it *PayloadsCollection) Add(
 	payloadWrapper PayloadWrapper,
@@ -103,23 +101,6 @@ func (it *PayloadsCollection) AddsOptions(
 	return it
 }
 
-func (it *PayloadsCollection) ConcatNew(
-	additionalItems ...PayloadWrapper,
-) *PayloadsCollection {
-	cloned := it.Clone()
-
-	return cloned.Adds(additionalItems...)
-}
-
-func (it *PayloadsCollection) ConcatNewPtr(
-	additionalItemsPtr ...*PayloadWrapper,
-) *PayloadsCollection {
-	cloned := it.Clone()
-
-	return cloned.AddsPtr(
-		additionalItemsPtr...)
-}
-
 func (it *PayloadsCollection) AddsIf(
 	isAdd bool,
 	payloadWrappers ...PayloadWrapper,
@@ -141,418 +122,25 @@ func (it *PayloadsCollection) InsertAt(
 	return it
 }
 
-func (it *PayloadsCollection) FirstDynamic() any {
-	return it.Items[0]
-}
+// =============================================================================
+// Mutation — Concat, Reverse, Clone
+// =============================================================================
 
-func (it *PayloadsCollection) First() *PayloadWrapper {
-	return it.Items[0]
-}
-
-func (it *PayloadsCollection) LastDynamic() any {
-	return it.Items[it.LastIndex()]
-}
-
-func (it *PayloadsCollection) Last() *PayloadWrapper {
-	return it.Items[it.LastIndex()]
-}
-
-func (it *PayloadsCollection) FirstOrDefaultDynamic() any {
-	return it.FirstOrDefault()
-}
-
-func (it *PayloadsCollection) FirstOrDefault() *PayloadWrapper {
-	if it.IsEmpty() {
-		return nil
-	}
-
-	return it.First()
-}
-
-func (it *PayloadsCollection) LastOrDefaultDynamic() any {
-	return it.LastOrDefault()
-}
-
-func (it *PayloadsCollection) LastOrDefault() *PayloadWrapper {
-	if it.IsEmpty() {
-		return nil
-	}
-
-	return it.Last()
-}
-
-func (it *PayloadsCollection) SkipDynamic(skippingItemsCount int) any {
-	return it.Items[skippingItemsCount:]
-}
-
-func (it *PayloadsCollection) Skip(skippingItemsCount int) []*PayloadWrapper {
-	return it.Items[skippingItemsCount:]
-}
-
-func (it *PayloadsCollection) SkipCollection(skippingItemsCount int) *PayloadsCollection {
-	return &PayloadsCollection{
-		Items: it.Items[skippingItemsCount:],
-	}
-}
-
-func (it *PayloadsCollection) TakeDynamic(takeDynamicItems int) any {
-	return it.Items[:takeDynamicItems]
-}
-
-func (it *PayloadsCollection) Take(takeDynamicItems int) []*PayloadWrapper {
-	return it.Items[:takeDynamicItems]
-}
-
-func (it *PayloadsCollection) TakeCollection(takeDynamicItems int) *PayloadsCollection {
-	return &PayloadsCollection{
-		Items: it.Items[:takeDynamicItems],
-	}
-}
-
-func (it *PayloadsCollection) LimitCollection(limit int) *PayloadsCollection {
-	return &PayloadsCollection{
-		Items: it.Items[:limit],
-	}
-}
-
-func (it *PayloadsCollection) SafeLimitCollection(limit int) *PayloadsCollection {
-	limit = defaultcapacity.
-		MaxLimit(it.Length(), limit)
-
-	return &PayloadsCollection{
-		Items: it.Items[:limit],
-	}
-}
-
-func (it *PayloadsCollection) LimitDynamic(limit int) any {
-	return it.Take(limit)
-}
-
-func (it *PayloadsCollection) Limit(limit int) []*PayloadWrapper {
-	return it.Take(limit)
-}
-
-func (it *PayloadsCollection) GetPagesSize(
-	eachPageSize int,
-) int {
-	length := it.Length()
-
-	pagesPossibleFloat := float64(length) / float64(eachPageSize)
-	pagesPossibleCeiling := int(math.Ceil(pagesPossibleFloat))
-
-	return pagesPossibleCeiling
-}
-
-func (it *PayloadsCollection) GetPagedCollection(
-	eachPageSize int,
-) []*PayloadsCollection {
-	length := it.Length()
-
-	if length < eachPageSize {
-		return []*PayloadsCollection{
-			it,
-		}
-	}
-
-	pagesPossibleFloat := float64(length) / float64(eachPageSize)
-	pagesPossibleCeiling := int(math.Ceil(pagesPossibleFloat))
-	collectionOfCollection := make([]*PayloadsCollection, pagesPossibleCeiling)
-
-	wg := sync.WaitGroup{}
-	addPagedItemsFunc := func(oneBasedPageIndex int) {
-		pagedCollection := it.GetSinglePageCollection(
-			eachPageSize,
-			oneBasedPageIndex,
-		)
-
-		collectionOfCollection[oneBasedPageIndex-1] = pagedCollection
-
-		wg.Done()
-	}
-
-	wg.Add(pagesPossibleCeiling)
-	for i := 1; i <= pagesPossibleCeiling; i++ {
-		go addPagedItemsFunc(i)
-	}
-
-	wg.Wait()
-
-	return collectionOfCollection
-}
-
-// GetSinglePageCollection PageIndex is one based index. Should be above or equal 1
-func (it *PayloadsCollection) GetSinglePageCollection(
-	eachPageSize int,
-	pageIndex int,
+func (it *PayloadsCollection) ConcatNew(
+	additionalItems ...PayloadWrapper,
 ) *PayloadsCollection {
-	length := it.Length()
+	cloned := it.Clone()
 
-	if length < eachPageSize {
-		return it
-	}
-
-	/**
-	 * eachPageItems = 10
-	 * pageIndex = 4
-	 * skipItems = 10 * (4 - 1) = 30
-	 */
-	skipItems := eachPageSize * (pageIndex - 1)
-	if skipItems < 0 {
-		errcore.
-			CannotBeNegativeIndexType.
-			HandleUsingPanic(
-				"pageIndex cannot be negative or zero.",
-				pageIndex)
-	}
-
-	endingIndex := skipItems + eachPageSize
-
-	if endingIndex > length {
-		endingIndex = length
-	}
-
-	list := it.Items[skipItems:endingIndex]
-
-	return New.
-		PayloadsCollection.
-		UsingWrappers(list...)
+	return cloned.Adds(additionalItems...)
 }
 
-func (it *PayloadsCollection) Length() int {
-	if it == nil {
-		return 0
-	}
-
-	return len(it.Items)
-}
-
-func (it *PayloadsCollection) Count() int {
-	return it.Length()
-}
-
-func (it *PayloadsCollection) IsEmpty() bool {
-	return it.Length() == 0
-}
-
-func (it *PayloadsCollection) HasAnyItem() bool {
-	return !it.IsEmpty()
-}
-
-func (it *PayloadsCollection) LastIndex() int {
-	return it.Length() - 1
-}
-
-func (it *PayloadsCollection) HasIndex(index int) bool {
-	return it.LastIndex() >= index
-}
-
-func (it *PayloadsCollection) Strings() []string {
-	list := make([]string, it.Length())
-
-	for i, item := range it.Items {
-		list[i] = item.String()
-	}
-
-	return list
-}
-
-func (it *PayloadsCollection) Filter(
-	filterFunc FilterFunc,
-) []*PayloadWrapper {
-	list := make(
-		[]*PayloadWrapper, 0, it.Length())
-
-	for _, item := range it.Items {
-		isTake, isBreak := filterFunc(item)
-
-		if isTake {
-			list = append(list, item)
-		}
-
-		if isBreak {
-			return list
-		}
-	}
-
-	return list
-}
-
-func (it *PayloadsCollection) FilterWithLimit(
-	limit int,
-	filterFunc FilterFunc,
-) []*PayloadWrapper {
-	length := defaultcapacity.MaxLimit(
-		it.Length(),
-		limit)
-	list := make(
-		[]*PayloadWrapper,
-		0,
-		length)
-
-	collectedItems := 0
-	for _, item := range it.Items {
-		isTake, isBreak := filterFunc(item)
-
-		if isTake {
-			list = append(list, item)
-			collectedItems++
-		}
-
-		if isBreak {
-			return list
-		}
-
-		if collectedItems >= length {
-			return list
-		}
-	}
-
-	return list
-}
-
-func (it *PayloadsCollection) FirstByFilter(
-	findByFunc func(payloadWrapper *PayloadWrapper) (isFound bool),
-) *PayloadWrapper {
-	items := it.Filter(func(payloadWrapper *PayloadWrapper) (isTake, isBreak bool) {
-		isTake = findByFunc(payloadWrapper)
-
-		return isTake, isTake
-	})
-
-	if len(items) > 0 {
-		return items[0]
-	}
-
-	return nil
-}
-
-func (it *PayloadsCollection) FirstById(
-	id string,
-) *PayloadWrapper {
-	return it.FirstByFilter(func(payloadWrapper *PayloadWrapper) (isFound bool) {
-		return payloadWrapper.IsIdentifier(id)
-	})
-}
-
-func (it *PayloadsCollection) FirstByCategory(
-	category string,
-) *PayloadWrapper {
-	return it.FirstByFilter(func(payloadWrapper *PayloadWrapper) (isFound bool) {
-		return payloadWrapper.IsCategory(category)
-	})
-}
-
-func (it *PayloadsCollection) FirstByTaskType(
-	taskType string,
-) *PayloadWrapper {
-	return it.FirstByFilter(func(payloadWrapper *PayloadWrapper) (isFound bool) {
-		return payloadWrapper.IsTaskTypeName(taskType)
-	})
-}
-
-func (it *PayloadsCollection) FirstByEntityType(
-	entityType string,
-) *PayloadWrapper {
-	return it.FirstByFilter(func(payloadWrapper *PayloadWrapper) (isFound bool) {
-		return payloadWrapper.IsEntityType(entityType)
-	})
-}
-
-func (it *PayloadsCollection) FilterCollection(
-	filterFunc FilterFunc,
+func (it *PayloadsCollection) ConcatNewPtr(
+	additionalItemsPtr ...*PayloadWrapper,
 ) *PayloadsCollection {
-	list := it.Filter(filterFunc)
+	cloned := it.Clone()
 
-	collection := New.PayloadsCollection.UsingWrappers(
-		list...)
-
-	return collection
-}
-
-func (it *PayloadsCollection) SkipFilterCollection(
-	skipFilterFunc SkipFilterFunc,
-) *PayloadsCollection {
-	list := make(
-		[]*PayloadWrapper,
-		0,
-		it.Length())
-
-	for _, item := range it.Items {
-		isSkip, isBreak := skipFilterFunc(item)
-
-		if !isSkip {
-			list = append(list, item)
-		}
-
-		if isBreak {
-			break
-		}
-	}
-
-	return New.
-		PayloadsCollection.
-		UsingWrappers(list...)
-}
-
-func (it *PayloadsCollection) FilterCollectionByIds(
-	ids ...string,
-) *PayloadsCollection {
-	idsHashmap := corestr.
-		New.
-		Hashset.
-		Strings(ids)
-
-	return it.FilterCollection(func(payloadWrapper *PayloadWrapper) (isTake, isBreak bool) {
-		return idsHashmap.Has(payloadWrapper.Identifier), false
-	})
-}
-
-func (it *PayloadsCollection) FilterNameCollection(
-	name string,
-) *PayloadsCollection {
-	return it.FilterCollection(func(payloadWrapper *PayloadWrapper) (isTake, isBreak bool) {
-		return payloadWrapper.Name == name, false
-	})
-}
-
-func (it *PayloadsCollection) FilterCategoryCollection(
-	categoryName string,
-) *PayloadsCollection {
-	return it.FilterCollection(func(payloadWrapper *PayloadWrapper) (isTake, isBreak bool) {
-		return payloadWrapper.CategoryName == categoryName, false
-	})
-}
-
-func (it *PayloadsCollection) FilterEntityTypeCollection(
-	entityTypeName string,
-) *PayloadsCollection {
-	return it.FilterCollection(func(payloadWrapper *PayloadWrapper) (isTake, isBreak bool) {
-		return payloadWrapper.EntityType == entityTypeName, false
-	})
-}
-
-func (it *PayloadsCollection) FilterTaskTypeCollection(
-	taskType string,
-) *PayloadsCollection {
-	return it.FilterCollection(func(payloadWrapper *PayloadWrapper) (isTake, isBreak bool) {
-		return payloadWrapper.TaskTypeName == taskType, false
-	})
-}
-
-func (it *PayloadsCollection) StringsUsingFmt(formatter Formatter) []string {
-	list := make([]string, it.Length())
-
-	for i := range it.Items {
-		list[i] = formatter(it.Items[i])
-	}
-
-	return list
-}
-
-func (it *PayloadsCollection) JoinUsingFmt(formatter Formatter, joiner string) string {
-	lines := it.StringsUsingFmt(formatter)
-
-	return strings.Join(lines, joiner)
+	return cloned.AddsPtr(
+		additionalItemsPtr...)
 }
 
 func (it *PayloadsCollection) Reverse() *PayloadsCollection {
@@ -579,167 +167,25 @@ func (it *PayloadsCollection) Reverse() *PayloadsCollection {
 	return it
 }
 
-func (it *PayloadsCollection) JsonStrings() []string {
-	list := make([]string, it.Length())
+func (it PayloadsCollection) Clone() PayloadsCollection {
+	list := New.PayloadsCollection.UsingCap(it.Length())
 
-	for i, item := range it.Items {
-		list[i] = item.JsonString()
+	return *list.AddsPtr(it.Items...)
+}
+
+func (it *PayloadsCollection) ClonePtr() *PayloadsCollection {
+	if it == nil {
+		return nil
 	}
 
-	return list
+	list := New.PayloadsCollection.UsingCap(it.Length())
+
+	return list.AddsPtr(it.Items...)
 }
 
-func (it *PayloadsCollection) JoinJsonStrings(joiner string) string {
-	return strings.Join(it.JsonStrings(), joiner)
-}
-
-func (it *PayloadsCollection) Join(joiner string) string {
-	return strings.Join(it.Strings(), joiner)
-}
-
-func (it *PayloadsCollection) JoinCsv() string {
-	return strings.Join(it.CsvStrings(), constants.Comma)
-}
-
-func (it *PayloadsCollection) JoinCsvLine() string {
-	return strings.Join(it.CsvStrings(), constants.CommaUnixNewLine)
-}
-
-func (it *PayloadsCollection) IsEqual(another *PayloadsCollection) bool {
-	if it == nil && another == nil {
-		return true
-	}
-
-	if it == nil || another == nil {
-		return false
-	}
-
-	if it.Length() != another.Length() {
-		return false
-	}
-
-	return it.IsEqualItems(another.Items...)
-}
-
-func (it *PayloadsCollection) IsEqualItems(lines ...*PayloadWrapper) bool {
-	if it == nil && lines == nil {
-		return true
-	}
-
-	if it == nil || lines == nil {
-		return false
-	}
-
-	if it.Length() != len(lines) {
-		return false
-	}
-
-	for i, item := range it.Items {
-		anotherItem := lines[i]
-
-		if !item.IsEqual(anotherItem) {
-			return false
-		}
-	}
-
-	return true
-}
-
-func (it *PayloadsCollection) JsonString() string {
-	if it.IsEmpty() {
-		return constants.EmptyString
-	}
-
-	return it.JsonPtr().JsonString()
-}
-
-func (it *PayloadsCollection) String() string {
-	if it.IsEmpty() {
-		return constants.EmptyString
-	}
-
-	return it.JsonPtr().JsonString()
-}
-
-func (it *PayloadsCollection) PrettyJsonString() string {
-	if it.IsEmpty() {
-		return constants.EmptyString
-	}
-
-	return it.JsonPtr().PrettyJsonString()
-}
-
-func (it *PayloadsCollection) CsvStrings() []string {
-	if it.IsEmpty() {
-		return []string{}
-	}
-
-	newSlice := make([]string, it.Length())
-
-	for i, item := range it.Items {
-		newSlice[i] = fmt.Sprintf(
-			constants.SprintDoubleQuoteFormat,
-			item.String())
-	}
-
-	return newSlice
-}
-
-func (it PayloadsCollection) Json() corejson.Result {
-	return corejson.New(it)
-}
-
-func (it PayloadsCollection) JsonPtr() *corejson.Result {
-	return corejson.NewPtr(it)
-}
-
-func (it *PayloadsCollection) ParseInjectUsingJson(
-	jsonResult *corejson.Result,
-) (*PayloadsCollection, error) {
-	err := jsonResult.Unmarshal(it)
-
-	if err != nil {
-		return Empty.PayloadsCollection(), err
-	}
-
-	return it, nil
-}
-
-// ParseInjectUsingJsonMust Panic if error
-func (it *PayloadsCollection) ParseInjectUsingJsonMust(
-	jsonResult *corejson.Result,
-) *PayloadsCollection {
-	hashSet, err := it.
-		ParseInjectUsingJson(jsonResult)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return hashSet
-}
-
-func (it *PayloadsCollection) AsJsonContractsBinder() corejson.JsonContractsBinder {
-	return it
-}
-
-func (it *PayloadsCollection) AsJsoner() corejson.Jsoner {
-	return it
-}
-
-func (it *PayloadsCollection) JsonParseSelfInject(
-	jsonResult *corejson.Result,
-) error {
-	_, err := it.ParseInjectUsingJson(
-		jsonResult,
-	)
-
-	return err
-}
-
-func (it *PayloadsCollection) AsJsonParseSelfInjector() corejson.JsonParseSelfInjector {
-	return it
-}
+// =============================================================================
+// Mutation — Clear, Dispose
+// =============================================================================
 
 func (it *PayloadsCollection) Clear() *PayloadsCollection {
 	if it == nil {
@@ -767,20 +213,4 @@ func (it *PayloadsCollection) Dispose() {
 
 	it.Clear()
 	it.Items = nil
-}
-
-func (it PayloadsCollection) Clone() PayloadsCollection {
-	list := New.PayloadsCollection.UsingCap(it.Length())
-
-	return *list.AddsPtr(it.Items...)
-}
-
-func (it *PayloadsCollection) ClonePtr() *PayloadsCollection {
-	if it == nil {
-		return nil
-	}
-
-	list := New.PayloadsCollection.UsingCap(it.Length())
-
-	return list.AddsPtr(it.Items...)
 }
