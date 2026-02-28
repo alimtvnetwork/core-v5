@@ -148,6 +148,36 @@ if !isValid {
 
 **Exception**: When the variable is used only once and the meaning is obvious (e.g. `if !ok {`), inline negation is acceptable.
 
+### Blank Line Before `return`
+
+Always insert a blank line before a `return` statement when it is preceded by a line of code. This visually separates the function's exit point from its logic.
+
+```go
+// ✅ Good: Blank line before return
+result := compute(input)
+
+return result
+
+// ✅ Good: Early return guard (no blank line needed after opening `{`)
+func (it Info) Name() string {
+    if it.IsEmpty() {
+        return ""
+    }
+
+    return it.RootName
+}
+
+// ❌ Bad: No blank line before return
+result := compute(input)
+return result
+```
+
+**Exception**: Single-line function bodies do not need a blank line before `return`:
+
+```go
+func (it Info) Name() string { return it.RootName }
+```
+
 ### Blank Line Rules for Control Flow Blocks
 
 These rules apply uniformly to **all** control flow statements: `if`, `for`, `switch`, `select`, and `range`.
@@ -165,9 +195,10 @@ if isInvalid {
     errcore.HandleErrMessage("GetAsStrings 'items' failed")
 }
 
-search, isValid := input.GetAsString("search")
+search, hasSearch := input.GetAsString("search")
+isSearchMissing := !hasSearch
 
-if !isValid {
+if isSearchMissing {
     errcore.HandleErrMessage("GetAsString 'search' failed")
 }
 
@@ -222,8 +253,8 @@ isInvalid := !isValid
 if isInvalid {
     errcore.HandleErrMessage("GetAsStrings 'items' failed")
 }
-search, isValid := input.GetAsString("search")
-if !isValid {
+search, hasSearch := input.GetAsString("search")
+if !hasSearch {
     errcore.HandleErrMessage("GetAsString 'search' failed")
 }
 for i := 0; i < len(items); i++ {
