@@ -440,7 +440,7 @@ func (it *PayloadWrapper) IsName(name string) bool {
 }
 
 func (it *PayloadWrapper) IsIdentifier(id string) bool {
-	return it != nil && it.Name == id
+	return it != nil && it.Identifier == id
 }
 
 func (it *PayloadWrapper) IsTaskTypeName(taskType string) bool {
@@ -707,32 +707,7 @@ func (it *PayloadWrapper) JsonParseSelfInject(
 	return err
 }
 
-func (it *PayloadWrapper) PayloadsString() string {
-	if it.IsEmpty() || len(it.Payloads) == 0 {
-		return ""
-	}
-
-	return string(it.Payloads)
-}
-
-func (it *PayloadWrapper) PayloadsPrettyString() string {
-	if it.IsEmpty() || len(it.Payloads) == 0 {
-		return ""
-	}
-
-	return corejson.BytesToPrettyString(it.Payloads)
-}
-
-func (it *PayloadWrapper) PayloadsJsonResult() *corejson.Result {
-	if it.IsEmpty() || len(it.Payloads) == 0 {
-		return corejson.Empty.ResultPtr()
-	}
-
-	return corejson.NewResult.UsingTypeBytesPtr(
-		attributesTypeName,
-		it.Payloads,
-	)
-}
+// PayloadsString, PayloadsPrettyString, PayloadsJsonResult moved to PayloadWrapperGetters.go and PayloadWrapperJson.go
 
 func (it *PayloadWrapper) Clear() {
 	if it == nil {

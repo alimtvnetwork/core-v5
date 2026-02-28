@@ -13,7 +13,7 @@ import (
 type newAttributesCreator struct{}
 
 func (it newAttributesCreator) CastOrDeserializeFrom(
-	anyItem interface{},
+	anyItem any,
 ) (*Attributes, error) {
 	if isany.Null(anyItem) {
 		return nil, errcore.
@@ -145,7 +145,7 @@ func (it newAttributesCreator) AllAny(
 	keyValues *corestr.Hashmap,
 	anyKeyValues *coredynamic.MapAnyItems,
 	pagingInfo *PagingInfo,
-	anyItem interface{},
+	anyItem any,
 ) (*Attributes, error) {
 	jsonResult := corejson.
 		Serialize.
@@ -162,7 +162,7 @@ func (it newAttributesCreator) AllAny(
 
 func (it newAttributesCreator) PageInfoAny(
 	pagingInfo *PagingInfo,
-	anyItem interface{},
+	anyItem any,
 ) (*Attributes, error) {
 	jsonResult := corejson.
 		Serialize.
@@ -208,7 +208,7 @@ func (it newAttributesCreator) UsingAuthInfo(
 
 func (it newAttributesCreator) UsingDynamicPayloadAny(
 	authInfo *AuthInfo,
-	anyItem interface{},
+	anyItem any,
 ) (*Attributes, error) {
 	jsonResult := corejson.
 		Serialize.

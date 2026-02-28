@@ -63,3 +63,47 @@ var errMergeTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+var errTypeErrorNoRefsTestCases = []coretestcases.CaseV1{
+	{
+		Title: "ErrorNoRefs with message returns non-nil error",
+		ArrangeInput: args.Map{
+			"when":    "given a message",
+			"message": "something broke",
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "ErrorNoRefs with empty message returns non-nil error",
+		ArrangeInput: args.Map{
+			"when":    "given empty message",
+			"message": "",
+		},
+		ExpectedInput: []string{"true"},
+	},
+}
+
+var errTypeErrorTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Error with message and ref includes both",
+		ArrangeInput: args.Map{
+			"when":    "given message and ref",
+			"message": "parsing failed",
+			"ref":     "line-42",
+		},
+		ExpectedInput: []string{
+			".*parsing failed.*line-42.*",
+		},
+	},
+	{
+		Title: "Error with empty ref includes message",
+		ArrangeInput: args.Map{
+			"when":    "given message only",
+			"message": "some error",
+			"ref":     "",
+		},
+		ExpectedInput: []string{
+			".*some error.*",
+		},
+	},
+}

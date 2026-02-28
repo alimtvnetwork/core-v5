@@ -257,3 +257,81 @@ var stringToIntegerDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"0"},
 	},
 }
+
+var stringToBoolTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Bool parses 'true' string",
+		ArrangeInput: args.Map{
+			"when":  "given true string",
+			"input": "true",
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "Bool parses 'false' string",
+		ArrangeInput: args.Map{
+			"when":  "given false string",
+			"input": "false",
+		},
+		ExpectedInput: []string{"false"},
+	},
+	{
+		Title: "Bool returns false on invalid",
+		ArrangeInput: args.Map{
+			"when":  "given non-bool string",
+			"input": "maybe",
+		},
+		ExpectedInput: []string{"false"},
+	},
+	{
+		Title: "Bool parses '1' as true",
+		ArrangeInput: args.Map{
+			"when":  "given 1 string",
+			"input": "1",
+		},
+		ExpectedInput: []string{"true"},
+	},
+	{
+		Title: "Bool parses '0' as false",
+		ArrangeInput: args.Map{
+			"when":  "given 0 string",
+			"input": "0",
+		},
+		ExpectedInput: []string{"false"},
+	},
+}
+
+var stringToUnsignedIntegerTestCases = []coretestcases.CaseV1{
+	{
+		Title: "UnsignedInteger parses valid unsigned",
+		ArrangeInput: args.Map{
+			"when":  "given valid unsigned",
+			"input": "42",
+		},
+		ExpectedInput: []string{"42", "false"},
+	},
+	{
+		Title: "UnsignedInteger fails on negative",
+		ArrangeInput: args.Map{
+			"when":  "given negative string",
+			"input": "-5",
+		},
+		ExpectedInput: []string{"0", "true"},
+	},
+	{
+		Title: "UnsignedInteger parses zero",
+		ArrangeInput: args.Map{
+			"when":  "given zero",
+			"input": "0",
+		},
+		ExpectedInput: []string{"0", "false"},
+	},
+	{
+		Title: "UnsignedInteger fails on non-numeric",
+		ArrangeInput: args.Map{
+			"when":  "given non-numeric",
+			"input": "abc",
+		},
+		ExpectedInput: []string{"0", "true"},
+	},
+}
