@@ -10,22 +10,22 @@ import (
 )
 
 type OneFunc struct {
-	First    interface{}              `json:",omitempty"`
-	WorkFunc interface{}              `json:"-,omitempty"`
-	Expect   interface{}              `json:",omitempty"`
-	toSlice  *[]interface{}           `json:"-"`
+	First    any                      `json:",omitempty"`
+	WorkFunc any                      `json:"-,omitempty"`
+	Expect   any                      `json:",omitempty"`
+	toSlice  *[]any                   `json:"-"`
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *OneFunc) GetWorkFunc() interface{} {
+func (it *OneFunc) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
-func (it *OneFunc) FirstItem() interface{} {
+func (it *OneFunc) FirstItem() any {
 	return it.First
 }
 
-func (it *OneFunc) Expected() interface{} {
+func (it *OneFunc) Expected() any {
 	return it.Expect
 }
 
@@ -57,13 +57,13 @@ func (it *OneFunc) FuncWrap() *FuncWrap {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *OneFunc) Invoke(args ...interface{}) (
-	results []interface{}, processingErr error,
+func (it *OneFunc) Invoke(args ...any) (
+	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *OneFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+func (it *OneFunc) InvokeMust(args ...any) (results []any) {
 	results, err := it.FuncWrap().Invoke(args...)
 
 	if err != nil {
@@ -74,7 +74,7 @@ func (it *OneFunc) InvokeMust(args ...interface{}) (results []interface{}) {
 }
 
 func (it *OneFunc) InvokeWithValidArgs() (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.ValidArgs()
@@ -83,7 +83,7 @@ func (it *OneFunc) InvokeWithValidArgs() (
 }
 
 func (it *OneFunc) InvokeArgs(upTo int) (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.Args(upTo)
@@ -91,8 +91,8 @@ func (it *OneFunc) InvokeArgs(upTo int) (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it *OneFunc) ValidArgs() []interface{} {
-	var args []interface{}
+func (it *OneFunc) ValidArgs() []any {
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -105,8 +105,8 @@ func (it *OneFunc) ArgsCount() int {
 	return 1
 }
 
-func (it *OneFunc) Args(upTo int) []interface{} {
-	var args []interface{}
+func (it *OneFunc) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -115,12 +115,12 @@ func (it *OneFunc) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *OneFunc) Slice() []interface{} {
+func (it *OneFunc) Slice() []any {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -139,7 +139,7 @@ func (it *OneFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it *OneFunc) GetByIndex(index int) interface{} {
+func (it *OneFunc) GetByIndex(index int) any {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {

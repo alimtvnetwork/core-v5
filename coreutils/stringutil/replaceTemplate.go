@@ -12,7 +12,7 @@ type replaceTemplate struct{}
 
 func (it *replaceTemplate) CurlyOne(
 	format string, // {key}-text...
-	firstKey string, firstValue interface{},
+	firstKey string, firstValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -48,8 +48,8 @@ func (it *replaceTemplate) Curly(
 
 func (it *replaceTemplate) CurlyTwo(
 	format string, // {key}-text...
-	firstKey string, firstValue interface{},
-	secondKey string, secondValue interface{},
+	firstKey string, firstValue any,
+	secondKey string, secondValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -73,7 +73,7 @@ func (it *replaceTemplate) CurlyTwo(
 
 func (it *replaceTemplate) DirectOne(
 	format string, // key-text...
-	firstKey string, firstValue interface{},
+	firstKey string, firstValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -91,8 +91,8 @@ func (it *replaceTemplate) DirectOne(
 
 func (it *replaceTemplate) DirectTwoItem(
 	format string, // key-text...
-	firstKey string, firstValue interface{},
-	secondKey string, secondValue interface{},
+	firstKey string, firstValue any,
+	secondKey string, secondValue any,
 ) string {
 	if len(format) == 0 {
 		return format
@@ -116,8 +116,8 @@ func (it *replaceTemplate) DirectTwoItem(
 
 func (it *replaceTemplate) CurlyTwoItem(
 	format string, // {key}-text...
-	firstKey string, firstValue interface{},
-	secondKey string, secondValue interface{},
+	firstKey string, firstValue any,
+	secondKey string, secondValue any,
 ) string {
 	if len(format) == 0 {
 		return format

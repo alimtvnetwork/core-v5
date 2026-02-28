@@ -6,6 +6,6 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func AnyToTypeString(any interface{}) string {
+func AnyToTypeString(any any) string {
 	return fmt.Sprintf(constants.SprintTypeFormat, any)
 }

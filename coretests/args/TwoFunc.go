@@ -10,15 +10,15 @@ import (
 )
 
 type TwoFunc struct {
-	First    interface{}              `json:",omitempty"`
-	Second   interface{}              `json:",omitempty"`
-	WorkFunc interface{}              `json:"-"`
-	Expect   interface{}              `json:",omitempty"`
-	toSlice  *[]interface{}           `json:"-"`
+	First    any                      `json:",omitempty"`
+	Second   any                      `json:",omitempty"`
+	WorkFunc any                      `json:"-"`
+	Expect   any                      `json:",omitempty"`
+	toSlice  *[]any                   `json:"-"`
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *TwoFunc) GetWorkFunc() interface{} {
+func (it *TwoFunc) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
@@ -26,15 +26,15 @@ func (it *TwoFunc) ArgsCount() int {
 	return 2
 }
 
-func (it *TwoFunc) FirstItem() interface{} {
+func (it *TwoFunc) FirstItem() any {
 	return it.First
 }
 
-func (it *TwoFunc) SecondItem() interface{} {
+func (it *TwoFunc) SecondItem() any {
 	return it.Second
 }
 
-func (it *TwoFunc) Expected() interface{} {
+func (it *TwoFunc) Expected() any {
 	return it.Expect
 }
 
@@ -69,13 +69,13 @@ func (it *TwoFunc) FuncWrap() *FuncWrap {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *TwoFunc) Invoke(args ...interface{}) (
-	results []interface{}, processingErr error,
+func (it *TwoFunc) Invoke(args ...any) (
+	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *TwoFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+func (it *TwoFunc) InvokeMust(args ...any) (results []any) {
 	results, err := it.FuncWrap().Invoke(args...)
 
 	if err != nil {
@@ -86,7 +86,7 @@ func (it *TwoFunc) InvokeMust(args ...interface{}) (results []interface{}) {
 }
 
 func (it *TwoFunc) InvokeWithValidArgs() (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.ValidArgs()
@@ -95,7 +95,7 @@ func (it *TwoFunc) InvokeWithValidArgs() (
 }
 
 func (it *TwoFunc) InvokeArgs(upTo int) (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.Args(upTo)
@@ -103,8 +103,8 @@ func (it *TwoFunc) InvokeArgs(upTo int) (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it *TwoFunc) ValidArgs() []interface{} {
-	var args []interface{}
+func (it *TwoFunc) ValidArgs() []any {
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -117,8 +117,8 @@ func (it *TwoFunc) ValidArgs() []interface{} {
 	return args
 }
 
-func (it *TwoFunc) Args(upTo int) []interface{} {
-	var args []interface{}
+func (it *TwoFunc) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -131,12 +131,12 @@ func (it *TwoFunc) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *TwoFunc) Slice() []interface{} {
+func (it *TwoFunc) Slice() []any {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -159,7 +159,7 @@ func (it *TwoFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it *TwoFunc) GetByIndex(index int) interface{} {
+func (it *TwoFunc) GetByIndex(index int) any {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
