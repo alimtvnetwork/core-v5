@@ -1,7 +1,7 @@
 package isany
 
 func DeepEqualAllItems(
-	items ...interface{},
+	items ...any,
 ) (isAllEqual bool) {
 	length := len(items)
 

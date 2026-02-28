@@ -10,7 +10,7 @@ import (
 // Function
 //
 // Returns false for nil, struct, anything else
-func Function(item interface{}) (isFunc bool, name string) {
+func Function(item any) (isFunc bool, name string) {
 	if reflectinternal.Is.Null(item) {
 		return false, ""
 	}

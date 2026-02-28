@@ -1,6 +1,6 @@
 package isany
 
-func DefinedAnyOf(anyItems ...interface{}) bool {
+func DefinedAnyOf(anyItems ...any) bool {
 	if len(anyItems) == 0 {
 		return false
 	}

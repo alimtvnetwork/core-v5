@@ -19,7 +19,7 @@ func (it anyItemWriter) ChmodLock(
 	chmodFile os.FileMode,
 	parentDir,
 	writingFilePath string,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	globalMutex.Lock()
 	defer globalMutex.Unlock()
@@ -50,7 +50,7 @@ func (it anyItemWriter) Chmod(
 	chmodFile os.FileMode,
 	parentDir,
 	writingFilePath string,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	jsonBytes, err := json.Marshal(anyItem)
 
@@ -101,7 +101,7 @@ func (it anyItemWriter) Chmod(
 func (it anyItemWriter) DefaultLock(
 	isRemoveBeforeWrite bool,
 	writingFilePath string,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	globalMutex.Lock()
 	defer globalMutex.Unlock()
@@ -119,7 +119,7 @@ func (it anyItemWriter) DefaultLock(
 func (it anyItemWriter) Default(
 	isRemoveBeforeWrite bool,
 	writingFilePath string,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	parentDir := filepath.Dir(writingFilePath)
 

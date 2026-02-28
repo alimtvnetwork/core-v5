@@ -137,7 +137,7 @@ func (it Trace) JsonModel() Trace {
 	return it
 }
 
-func (it *Trace) JsonModelAny() interface{} {
+func (it *Trace) JsonModelAny() any {
 	return it.JsonModel()
 }
 

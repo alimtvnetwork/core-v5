@@ -238,7 +238,7 @@ func (it *TraceCollection) InsertAt(index int, item Trace) *TraceCollection {
 	return it
 }
 
-func (it *TraceCollection) FirstDynamic() interface{} {
+func (it *TraceCollection) FirstDynamic() any {
 	return it.Items[0]
 }
 
@@ -246,7 +246,7 @@ func (it *TraceCollection) First() Trace {
 	return it.Items[0]
 }
 
-func (it *TraceCollection) LastDynamic() interface{} {
+func (it *TraceCollection) LastDynamic() any {
 	return it.Items[it.LastIndex()]
 }
 
@@ -254,7 +254,7 @@ func (it *TraceCollection) Last() Trace {
 	return it.Items[it.LastIndex()]
 }
 
-func (it *TraceCollection) FirstOrDefaultDynamic() interface{} {
+func (it *TraceCollection) FirstOrDefaultDynamic() any {
 	return it.FirstOrDefault()
 }
 
@@ -268,7 +268,7 @@ func (it *TraceCollection) FirstOrDefault() *Trace {
 	return &first
 }
 
-func (it *TraceCollection) LastOrDefaultDynamic() interface{} {
+func (it *TraceCollection) LastOrDefaultDynamic() any {
 	return it.LastOrDefault()
 }
 
@@ -282,7 +282,7 @@ func (it *TraceCollection) LastOrDefault() *Trace {
 	return &last
 }
 
-func (it *TraceCollection) SkipDynamic(skippingItemsCount int) interface{} {
+func (it *TraceCollection) SkipDynamic(skippingItemsCount int) any {
 	return it.Items[skippingItemsCount:]
 }
 
@@ -296,7 +296,7 @@ func (it *TraceCollection) SkipCollection(skippingItemsCount int) *TraceCollecti
 	}
 }
 
-func (it *TraceCollection) TakeDynamic(takeDynamicItems int) interface{} {
+func (it *TraceCollection) TakeDynamic(takeDynamicItems int) any {
 	return it.Items[:takeDynamicItems]
 }
 
@@ -325,7 +325,7 @@ func (it *TraceCollection) SafeLimitCollection(limit int) *TraceCollection {
 	}
 }
 
-func (it *TraceCollection) LimitDynamic(limit int) interface{} {
+func (it *TraceCollection) LimitDynamic(limit int) any {
 	return it.Take(limit)
 }
 
@@ -849,7 +849,7 @@ func (it TraceCollection) JsonModel() []Trace {
 	return it.Items
 }
 
-func (it TraceCollection) JsonModelAny() interface{} {
+func (it TraceCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

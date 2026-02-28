@@ -2,7 +2,7 @@ package isany
 
 func NullLeftRight(
 	leftAnyItem,
-	rightAnyItem interface{},
+	rightAnyItem any,
 ) (
 	isLeftNull, isRightNull bool,
 ) {
