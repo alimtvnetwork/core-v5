@@ -4,29 +4,82 @@
 
 The `conditional` package provides generic ternary expressions, nil-safe defaults, conditional function execution, and batch function runners for Go. It replaces verbose `if/else` blocks with concise, type-safe one-liners.
 
-## Core Generic Functions
+## Core Generic Functions (`generic.go`)
 
 ### Ternary Helpers
 
 ```go
-result := conditional.If[int](isTrue, 2, 7)              // generic ternary
-name   := conditional.IfFunc[string](ok, trueFunc, falseFunc)  // lazy evaluation
-val    := conditional.IfTrueFunc[int](ok, func() int { ... })  // evaluate only on true
-items  := conditional.IfSlice[string](ok, listA, listB)        // slice ternary
-ptr    := conditional.IfPtr[int](ok, &a, &b)                   // pointer ternary
+result := conditional.If[int](isTrue, 2, 7)                    // generic ternary
+name   := conditional.IfFunc[string](ok, trueFunc, falseFunc)   // lazy evaluation
+val    := conditional.IfTrueFunc[int](ok, func() int { ... })   // evaluate only on true
+items  := conditional.IfSlice[string](ok, listA, listB)         // slice ternary
+ptr    := conditional.IfPtr[int](ok, &a, &b)                    // pointer ternary
 ```
 
 ### Nil-Safe Defaults
 
 ```go
-val := conditional.NilDef[int](ptr, 42)       // dereference or default
-p   := conditional.NilDefPtr[string](ptr, "x") // return pointer or pointer-to-default
+val := conditional.NilDef[int](ptr, 42)         // dereference or default
+p   := conditional.NilDefPtr[string](ptr, "x")  // return pointer or pointer-to-default
 res := conditional.NilCheck(maybeNil, onNil, onNonNil)  // any-typed nil branch
+```
+
+## Batch Function Execution
+
+### Void Functions (`VoidFunctions.go`)
+
+Execute a sequence of void functions. Uses `isTake` / `isBreak` semantics to control collection and short-circuiting.
+
+```go
+conditional.VoidFunctions(fn1, fn2, fn3)
+```
+
+### Result Functions (`Functions.go`, `FunctionsExecuteResults.go`)
+
+Execute functions and collect results:
+
+```go
+results := conditional.Functions(fn1, fn2, fn3)             // collect []T results
+results := conditional.FunctionsExecuteResults(fn1, fn2)    // with isTake/isBreak control
+```
+
+### Error Functions (`ErrorFunc.go`, `ErrorFunctionsExecuteResults.go`)
+
+Execute error-returning functions with aggregation:
+
+```go
+err := conditional.ErrorFunc(fn1, fn2, fn3)                           // aggregate errors
+results, err := conditional.ErrorFunctionsExecuteResults(fn1, fn2)    // results + error
+```
+
+Errors are aggregated via `errcore.SliceToError` with index metadata for debugging.
+
+### Typed Error Functions (`TypedErrorFunctionsExecuteResults.go`)
+
+Execute functions returning `(T, error)` with aggregation:
+
+```go
+results, err := conditional.TypedErrorFunctionsExecuteResults(fn1, fn2)
+```
+
+### Any Functions (`AnyFunctions.go`, `AnyFunctionsExecuteResults.go`)
+
+Execute functions returning `any`:
+
+```go
+results := conditional.AnyFunctions(fn1, fn2)
+```
+
+## Conditional Setters (`Setter.go`, `SetterDefault.go`)
+
+```go
+conditional.Setter(isApply, &target, value)              // set if condition true
+conditional.SetterDefault(isApply, &target, value, def)  // set value or default
 ```
 
 ## Legacy Per-Type Functions (Deprecated)
 
-The following are retained for backward compatibility but should be replaced with generics:
+Retained for backward compatibility — use generic equivalents instead:
 
 | Deprecated | Replacement |
 |-----------|-------------|
@@ -38,38 +91,62 @@ The following are retained for backward compatibility but should be replaced wit
 | `Integers(cond, t, f)` | `IfSlice[int](cond, t, f)` |
 | `Strings(cond, t, f)` | `IfSlice[string](cond, t, f)` |
 | `BoolFunc(cond, tF, fF)` | `IfFunc[bool](cond, tF, fF)` |
+| `StringFunc(cond, tF, fF)` | `IfFunc[string](cond, tF, fF)` |
 | `StringTrueFunc(cond, tF)` | `IfTrueFunc[string](cond, tF)` |
+| `BooleanTrueFunc(cond, tF)` | `IfTrueFunc[bool](cond, tF)` |
+| `BytesTrueFunc(cond, tF)` | `IfTrueFunc[[]byte](cond, tF)` |
 | `NilDefStr(ptr, def)` | `NilDef[string](ptr, def)` |
 | `NilDefInt(ptr, def)` | `NilDef[int](ptr, def)` |
 | `NilDefBool(ptr, def)` | `NilDef[bool](ptr, def)` |
 | `NilDefByte(ptr, def)` | `NilDef[byte](ptr, def)` |
+| `InterfaceFunc(cond, tF, fF)` | `IfFunc[any](cond, tF, fF)` |
 
-## Batch Function Execution
+### Deprecated Pointer/Slice Variants
 
-| Function | Description |
-|----------|-------------|
-| `VoidFunctions(fns...)` | Execute all void functions sequentially |
-| `Functions(fns...)` | Execute all, collect results |
-| `AnyFunctions(fns...)` | Execute all, collect `any` results |
-| `ErrorFunc(fns...)` | Execute all, collect errors |
-
-## Setter Utilities
-
-| Function | Description |
-|----------|-------------|
-| `Setter(cond, target, value)` | Set target to value if condition is true |
-| `SetterDefault(cond, target, value, def)` | Set value or default based on condition |
+| Deprecated | Replacement |
+|-----------|-------------|
+| `StringPtr(cond, t, f)` | `IfPtr[string](cond, t, f)` |
+| `IntegersPtr(cond, t, f)` | `IfSlice[int](cond, t, f)` |
+| `StringsPtr(cond, t, f)` | `IfSlice[string](cond, t, f)` |
+| `BytesPtr(cond, t, f)` | `IfSlice[byte](cond, t, f)` |
+| `BooleansPtr(cond, t, f)` | `IfSlice[bool](cond, t, f)` |
+| `InterfacesPtr(cond, t, f)` | `IfSlice[any](cond, t, f)` |
 
 ## File Organization
 
 | File | Responsibility |
 |------|---------------|
 | `generic.go` | All generic functions (`If`, `IfFunc`, `NilDef`, etc.) |
-| `Bool.go`, `String.go`, `Int.go`, etc. | Deprecated per-type ternaries |
-| `NilDef*.go`, `NilCheck.go` | Nil-safe default helpers |
-| `*Functions*.go` | Batch function execution |
-| `Setter*.go` | Conditional setters |
+| `funcs.go` | Internal helper functions |
+| `Bool.go`, `String.go`, `Int.go`, `Byte.go` | Deprecated per-type ternaries |
+| `Booleans.go`, `Strings.go`, `Integers.go`, `Bytes.go` | Deprecated slice ternaries |
+| `*Ptr.go` | Deprecated pointer variants |
+| `*TrueFunc.go` | Deprecated true-only function variants |
+| `*Func.go` | Deprecated function-based ternaries |
+| `NilDef*.go`, `NilCheck.go`, `DefOnNil.go` | Nil-safe default helpers |
+| `VoidFunctions.go` | Void batch execution |
+| `Functions.go`, `FunctionsExecuteResults.go` | Result batch execution |
+| `ErrorFunc.go`, `ErrorFunctionsExecuteResults.go` | Error batch execution |
+| `TypedErrorFunctionsExecuteResults.go` | Typed error batch execution |
+| `AnyFunctions.go`, `AnyFunctionsExecuteResults.go` | Any-typed batch execution |
+| `Setter.go`, `SetterDefault.go` | Conditional setters |
+| `BoolByOrder.go`, `BoolFunctionsByOrder.go` | Order-based boolean helpers |
+| `StringsIndexVal.go`, `StringDefault.go` | String utility helpers |
+| `ErrorFunctionResult.go` | Error function result type |
+| `executeErrorFunctions.go`, `executeVoidFunctions.go` | Internal execution logic |
 
-## Contributors
+## Key Patterns
 
-## Issues for Future Reference
+- **`isTake` / `isBreak`**: Control flags for batch execution — `isTake` determines whether a result is collected, `isBreak` halts execution.
+- **Error aggregation**: All errors from batch execution are merged via `errcore.SliceToError` with index metadata appended for debugging.
+- **Generic-first**: New code should use the generic functions (`If[T]`, `NilDef[T]`). Per-type wrappers exist only for backward compatibility.
+
+## How to Extend Safely
+
+- **New generic helper**: Add to `generic.go`.
+- **New batch execution variant**: Create a dedicated file following the `*FunctionsExecuteResults.go` naming convention.
+- **New type-specific function**: **Don't** — use the generic equivalent instead.
+
+## Related Docs
+
+- [Repo Overview](../spec/01-app/00-repo-overview.md)
