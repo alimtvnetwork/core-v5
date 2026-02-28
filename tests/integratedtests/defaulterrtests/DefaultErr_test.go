@@ -23,6 +23,22 @@ func Test_DefaultErr_Verification(t *testing.T) {
 			err = defaulterr.UnMarshalling
 		case "OutOfRange":
 			err = defaulterr.OutOfRange
+		case "CannotProcessNilOrEmpty":
+			err = defaulterr.CannotProcessNilOrEmpty
+		case "NegativeDataCannotProcess":
+			err = defaulterr.NegativeDataCannotProcess
+		case "NilResult":
+			err = defaulterr.NilResult
+		case "UnexpectedValue":
+			err = defaulterr.UnexpectedValue
+		case "CannotRemoveFromEmptyCollection":
+			err = defaulterr.CannotRemoveFromEmptyCollection
+		case "MarshallingFailedDueToNilOrEmpty":
+			err = defaulterr.MarshallingFailedDueToNilOrEmpty
+		case "UnmarshallingFailedDueToNilOrEmpty":
+			err = defaulterr.UnmarshallingFailedDueToNilOrEmpty
+		case "KeyNotExistInMap":
+			err = defaulterr.KeyNotExistInMap
 		}
 
 		isNotNil := fmt.Sprintf("%v", err != nil)

@@ -14,9 +14,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "yes",
 			"falseValue": "no",
 		},
-		ExpectedInput: []string{
-			"yes",
-		},
+		ExpectedInput: []string{"yes"},
 	},
 	{
 		Title: "If false returns falseValue string",
@@ -26,9 +24,37 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "yes",
 			"falseValue": "no",
 		},
-		ExpectedInput: []string{
-			"no",
+		ExpectedInput: []string{"no"},
+	},
+	{
+		Title: "If true with empty strings returns empty trueValue",
+		ArrangeInput: args.Map{
+			"when":       "given true with empty trueValue",
+			"isTrue":     true,
+			"trueValue":  "",
+			"falseValue": "fallback",
 		},
+		ExpectedInput: []string{""},
+	},
+	{
+		Title: "If false with empty falseValue returns empty",
+		ArrangeInput: args.Map{
+			"when":       "given false with empty falseValue",
+			"isTrue":     false,
+			"trueValue":  "something",
+			"falseValue": "",
+		},
+		ExpectedInput: []string{""},
+	},
+	{
+		Title: "If true with same values returns that value",
+		ArrangeInput: args.Map{
+			"when":       "given true with identical values",
+			"isTrue":     true,
+			"trueValue":  "same",
+			"falseValue": "same",
+		},
+		ExpectedInput: []string{"same"},
 	},
 }
 
@@ -41,9 +67,7 @@ var ifIntTestCases = []coretestcases.CaseV1{
 			"trueValue":  10,
 			"falseValue": 20,
 		},
-		ExpectedInput: []string{
-			"10",
-		},
+		ExpectedInput: []string{"10"},
 	},
 	{
 		Title: "If false returns falseValue int",
@@ -53,9 +77,27 @@ var ifIntTestCases = []coretestcases.CaseV1{
 			"trueValue":  10,
 			"falseValue": 20,
 		},
-		ExpectedInput: []string{
-			"20",
+		ExpectedInput: []string{"20"},
+	},
+	{
+		Title: "If true with zero returns zero",
+		ArrangeInput: args.Map{
+			"when":       "given true with zero trueValue",
+			"isTrue":     true,
+			"trueValue":  0,
+			"falseValue": 99,
 		},
+		ExpectedInput: []string{"0"},
+	},
+	{
+		Title: "If false with negative returns negative",
+		ArrangeInput: args.Map{
+			"when":       "given false with negative falseValue",
+			"isTrue":     false,
+			"trueValue":  100,
+			"falseValue": -42,
+		},
+		ExpectedInput: []string{"-42"},
 	},
 }
 
@@ -67,9 +109,7 @@ var nilDefTestCases = []coretestcases.CaseV1{
 			"isNil":  true,
 			"defVal": "default",
 		},
-		ExpectedInput: []string{
-			"default",
-		},
+		ExpectedInput: []string{"default"},
 	},
 	{
 		Title: "NilDef with non-nil pointer returns value",
@@ -79,8 +119,128 @@ var nilDefTestCases = []coretestcases.CaseV1{
 			"value":  "actual",
 			"defVal": "default",
 		},
-		ExpectedInput: []string{
-			"actual",
+		ExpectedInput: []string{"actual"},
+	},
+	{
+		Title: "NilDef with empty string pointer returns empty",
+		ArrangeInput: args.Map{
+			"when":   "given non-nil pointer to empty string",
+			"isNil":  false,
+			"value":  "",
+			"defVal": "fallback",
 		},
+		ExpectedInput: []string{""},
+	},
+}
+
+var ifFuncStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfFunc true evaluates trueFunc only",
+		ArrangeInput: args.Map{
+			"when":       "given true condition with funcs",
+			"isTrue":     true,
+			"trueValue":  "from-true-func",
+			"falseValue": "from-false-func",
+		},
+		ExpectedInput: []string{"from-true-func"},
+	},
+	{
+		Title: "IfFunc false evaluates falseFunc only",
+		ArrangeInput: args.Map{
+			"when":       "given false condition with funcs",
+			"isTrue":     false,
+			"trueValue":  "from-true-func",
+			"falseValue": "from-false-func",
+		},
+		ExpectedInput: []string{"from-false-func"},
+	},
+}
+
+var ifTrueFuncStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfTrueFunc true returns trueFunc result",
+		ArrangeInput: args.Map{
+			"when":      "given true condition",
+			"isTrue":    true,
+			"trueValue": "computed",
+		},
+		ExpectedInput: []string{"computed"},
+	},
+	{
+		Title: "IfTrueFunc false returns zero value",
+		ArrangeInput: args.Map{
+			"when":      "given false condition",
+			"isTrue":    false,
+			"trueValue": "computed",
+		},
+		ExpectedInput: []string{""},
+	},
+}
+
+var ifSliceTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSlice true returns trueSlice",
+		ArrangeInput: args.Map{
+			"when":       "given true condition",
+			"isTrue":     true,
+			"trueValue":  []string{"a", "b"},
+			"falseValue": []string{"x", "y"},
+		},
+		ExpectedInput: []string{"2", "a"},
+	},
+	{
+		Title: "IfSlice false returns falseSlice",
+		ArrangeInput: args.Map{
+			"when":       "given false condition",
+			"isTrue":     false,
+			"trueValue":  []string{"a", "b"},
+			"falseValue": []string{"x", "y", "z"},
+		},
+		ExpectedInput: []string{"3", "x"},
+	},
+}
+
+var nilCheckTestCases = []coretestcases.CaseV1{
+	{
+		Title: "NilCheck returns onNil when input is nil",
+		ArrangeInput: args.Map{
+			"when":     "given nil input",
+			"isNil":    true,
+			"onNil":    "nil-result",
+			"onNonNil": "non-nil-result",
+		},
+		ExpectedInput: []string{"nil-result"},
+	},
+	{
+		Title: "NilCheck returns onNonNil when input is not nil",
+		ArrangeInput: args.Map{
+			"when":     "given non-nil input",
+			"isNil":    false,
+			"onNil":    "nil-result",
+			"onNonNil": "non-nil-result",
+		},
+		ExpectedInput: []string{"non-nil-result"},
+	},
+}
+
+var defOnNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "DefOnNil returns default when input is nil",
+		ArrangeInput: args.Map{
+			"when":     "given nil input",
+			"isNil":    true,
+			"onNonNil": "default-val",
+		},
+		ExpectedInput: []string{"default-val"},
+	},
+	{
+		Title: "DefOnNil returns input when input is not nil",
+		ArrangeInput: args.Map{
+			"when":     "given non-nil input",
+			"isNil":    false,
+			"value":    "actual-val",
+			"onNonNil": "default-val",
+		},
+		ExpectedInput: []string{"actual-val"},
 	},
 }
