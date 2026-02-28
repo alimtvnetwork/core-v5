@@ -44,7 +44,7 @@ func (it *Key) Length() int {
 	return len(it.keyChains)
 }
 
-func (it *Key) AppendChain(items ...interface{}) *Key {
+func (it *Key) AppendChain(items ...any) *Key {
 	if it.IsComplete() {
 		// panic
 		errcore.CannotModifyCompleteResourceType.HandleUsingPanic(
@@ -87,7 +87,7 @@ func (it *Key) CompileKeys(
 	}
 
 	newSlice := make(
-		[]interface{},
+		[]any,
 		0,
 		it.Length()+
 			defaultcapacity.PredictiveDefaultSmall(len(keys)))
@@ -177,7 +177,7 @@ func (it *Key) IsComplete() bool {
 }
 
 func (it *Key) Finalized(
-	items ...interface{},
+	items ...any,
 ) *Key {
 	it.AppendChain(items...)
 	compiled := it.rootCompile(it.option.Joiner)
@@ -188,7 +188,7 @@ func (it *Key) Finalized(
 
 func (it *Key) rootCompile(
 	joiner string,
-	items ...interface{},
+	items ...any,
 ) string {
 	if it.IsComplete() {
 		return it.onCompleteCompileInternal(joiner, items)
@@ -226,7 +226,7 @@ func (it *Key) rootCompileUsingStrings(
 
 func (it *Key) onCompleteCompileInternal(
 	joiner string,
-	items []interface{},
+	items []any,
 ) string {
 	if len(items) == 0 {
 		return *it.compiledChain
@@ -299,7 +299,7 @@ func (it *Key) CompileReplaceCurlyKeyMap(
 // Keys will be converted to {Key} then replaced
 func (it *Key) CompileReplaceCurlyKeyMapUsingItems(
 	mapToReplace map[string]string,
-	additionalItems ...interface{},
+	additionalItems ...any,
 ) string {
 	return it.CompileReplaceMapUsingItemsOption(
 		true,
@@ -310,7 +310,7 @@ func (it *Key) CompileReplaceCurlyKeyMapUsingItems(
 func (it *Key) CompileReplaceMapUsingItemsOption(
 	isConvKeysToCurlyBraceKeys bool, // conv key to {key} before replace
 	mapToReplace map[string]string,
-	additionalItems ...interface{},
+	additionalItems ...any,
 ) string {
 	format := it.Compile(additionalItems...)
 
@@ -372,7 +372,7 @@ func (it *Key) ConcatNewUsingKeys(
 }
 
 func (it *Key) ClonePtr(
-	newAppendingChains ...interface{},
+	newAppendingChains ...any,
 ) *Key {
 	if it == nil {
 		return nil
@@ -422,7 +422,7 @@ func (it *Key) CompileDefault() string {
 }
 
 func (it *Key) Compile(
-	items ...interface{},
+	items ...any,
 ) string {
 	return it.rootCompile(
 		it.option.Joiner,
@@ -439,14 +439,14 @@ func (it *Key) CompileStrings(
 
 func (it *Key) JoinUsingJoiner(
 	joiner string,
-	items ...interface{},
+	items ...any,
 ) string {
 	return it.rootCompile(joiner, items...)
 }
 
 func (it *Key) JoinUsingOption(
 	tempOption *Option,
-	items ...interface{},
+	items ...any,
 ) string {
 	temp2 := it.option
 	it.option = tempOption
@@ -472,7 +472,7 @@ func (it *Key) KeyCompiled() string {
 	return it.Compile()
 }
 
-func (it *Key) compileCompleteAdditional(joiner string, items ...interface{}) string {
+func (it *Key) compileCompleteAdditional(joiner string, items ...any) string {
 	if len(items) == 0 {
 		return constants.EmptyString
 	}
@@ -515,7 +515,7 @@ func (it *Key) JsonModel() keyModel {
 	}
 }
 
-func (it *Key) JsonModelAny() interface{} {
+func (it *Key) JsonModelAny() any {
 	return it.JsonModel()
 }
 

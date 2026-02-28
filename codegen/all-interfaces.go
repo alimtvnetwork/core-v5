@@ -19,8 +19,8 @@ type FmtOptions struct {
 }
 
 type BaseGenerator interface {
-	Function() interface{}
-	GetStruct() interface{}
+	Function() any
+	GetStruct() any
 	GenType() codegentype.Variant
 	JoinFormatType() fmtcodegentype.Variant
 	Cases() []coretestcases.CaseV1

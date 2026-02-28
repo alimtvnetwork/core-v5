@@ -10,7 +10,7 @@ import (
 func nullTesting01() {
 	var ex error
 	var inx *int
-	items := []interface{}{
+	items := []any{
 		nil,
 		errors.New(""),
 		ex,

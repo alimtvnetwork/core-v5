@@ -12,7 +12,7 @@ func Test_Null_Verification(t *testing.T) {
 	for caseIndex, testCase := range nullTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]interface{})
+			ArrangeInput.([]any)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

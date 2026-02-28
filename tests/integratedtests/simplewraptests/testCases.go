@@ -364,9 +364,9 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Title curly value should look like - " +
 					"format: %s: (%s) - eg. title: (csv values, ...).",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					"my title", // title
-					[]interface{}{
+					[]any{
 						1,
 						"some csv string",
 						"some \"value\"",
@@ -377,7 +377,7 @@ var (
 					"my title (\"1\", \"some csv string\", \"some \"value\"\", \"to curly {no}\")",
 				},
 				VerifyTypeOf: &coretests.VerifyTypeOf{
-					ArrangeInput:  reflect.TypeOf([]interface{}{}),
+					ArrangeInput:  reflect.TypeOf([]any{}),
 					ActualInput:   reflect.TypeOf([]string{}),
 					ExpectedInput: reflect.TypeOf([]string{}),
 				},
@@ -388,9 +388,9 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Title curly value should look like - " +
 					"format : %s: (%s) - eg. title: (csv values, ...).",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					"my title", // title
-					[]interface{}{
+					[]any{
 						1,
 						5,
 						9,
@@ -406,7 +406,7 @@ var (
 					"my title (\"1\", \"5\", \"9\", \"\", \"<nil>\", \"5-25\")",
 				},
 				VerifyTypeOf: &coretests.VerifyTypeOf{
-					ArrangeInput:  reflect.TypeOf([]interface{}{}),
+					ArrangeInput:  reflect.TypeOf([]any{}),
 					ActualInput:   reflect.TypeOf([]string{}),
 					ExpectedInput: reflect.TypeOf([]string{}),
 				},

@@ -8,7 +8,7 @@ import (
 
 func curlyWrapIf(
 	isCurly bool,
-	source interface{},
+	source any,
 ) string {
 	if !isCurly {
 		return fmt.Sprintf(

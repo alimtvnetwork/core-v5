@@ -214,7 +214,7 @@ func Test_Write_Verification(t *testing.T) {
 
 		// Act
 		for i, input := range inputs {
-			inArgInterface := input.First.(interface{})
+			inArgInterface := input.First.(any)
 
 			allInArgsCompiled := converters.AnyTo.SmartStringsOf(
 				inArgInterface,

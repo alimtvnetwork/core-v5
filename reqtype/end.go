@@ -2,7 +2,7 @@ package reqtype
 
 func end(
 	reqs []Request,
-) interface{} {
+) any {
 	if len(reqs) == 0 {
 		return nil
 	}
