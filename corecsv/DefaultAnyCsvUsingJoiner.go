@@ -4,7 +4,7 @@ import "strings"
 
 func DefaultAnyCsvUsingJoiner(
 	joiner string,
-	references ...interface{},
+	references ...any,
 ) string {
 	csvItems := AnyItemsToCsvStrings(
 		true,

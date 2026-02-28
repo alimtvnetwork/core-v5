@@ -35,7 +35,7 @@ func (it DraftType) NonPtr() DraftType {
 	return it
 }
 
-func (it *DraftType) PtrOrNonPtr(isPtr bool) interface{} {
+func (it *DraftType) PtrOrNonPtr(isPtr bool) any {
 	if it == nil {
 		return nil
 	}

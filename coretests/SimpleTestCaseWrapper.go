@@ -2,8 +2,8 @@ package coretests
 
 type SimpleTestCaseWrapper interface {
 	CaseTitle() string
-	Input() interface{}
-	Expected() interface{}
-	Actual() interface{}
-	SetActual(actual interface{})
+	Input() any
+	Expected() any
+	Actual() any
+	SetActual(actual any)
 }

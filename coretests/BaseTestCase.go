@@ -23,10 +23,10 @@ import (
 //   - Will verify type using VerifyTypeOf
 type BaseTestCase struct {
 	Title           string         `json:",omitempty"` // consider as header
-	ArrangeInput    interface{}    `json:",omitempty"` // preparing input, initial input
-	ActualInput     interface{}    `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
-	ExpectedInput   interface{}    `json:",omitempty"` // expectation set from the test
-	Additional      interface{}    `json:",omitempty"` // additional input to do
+	ArrangeInput    any            `json:",omitempty"` // preparing input, initial input
+	ActualInput     any            `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
+	ExpectedInput   any            `json:",omitempty"` // expectation set from the test
+	Additional      any            `json:",omitempty"` // additional input to do
 	CustomFormat    string         `json:",omitempty"` // custom format for the test case
 	VerifyTypeOf    *VerifyTypeOf  `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
 	Parameters      *args.Holder   `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the Holder.
@@ -70,7 +70,7 @@ func (it *BaseTestCase) IsInvalidParameters() bool {
 	return it == nil || it.Parameters == nil
 }
 
-func (it *BaseTestCase) FirstParam() interface{} {
+func (it *BaseTestCase) FirstParam() any {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -78,7 +78,7 @@ func (it *BaseTestCase) FirstParam() interface{} {
 	return it.Parameters.First
 }
 
-func (it *BaseTestCase) SecondParam() interface{} {
+func (it *BaseTestCase) SecondParam() any {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -86,7 +86,7 @@ func (it *BaseTestCase) SecondParam() interface{} {
 	return it.Parameters.Second
 }
 
-func (it *BaseTestCase) ThirdParam() interface{} {
+func (it *BaseTestCase) ThirdParam() any {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -94,7 +94,7 @@ func (it *BaseTestCase) ThirdParam() interface{} {
 	return it.Parameters.Third
 }
 
-func (it *BaseTestCase) FourthParam() interface{} {
+func (it *BaseTestCase) FourthParam() any {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -102,7 +102,7 @@ func (it *BaseTestCase) FourthParam() interface{} {
 	return it.Parameters.Fourth
 }
 
-func (it *BaseTestCase) FifthParam() interface{} {
+func (it *BaseTestCase) FifthParam() any {
 	if it.IsInvalidParameters() {
 		return nil
 	}
@@ -110,9 +110,9 @@ func (it *BaseTestCase) FifthParam() interface{} {
 	return it.Parameters.Fifth
 }
 
-func (it *BaseTestCase) HashmapParam() (hasMapItem bool, hashMap map[string]interface{}) {
+func (it *BaseTestCase) HashmapParam() (hasMapItem bool, hashMap map[string]any) {
 	if it.IsInvalidParameters() {
-		return false, map[string]interface{}{}
+		return false, map[string]any{}
 	}
 
 	hashMap = it.Parameters.Hashmap
@@ -211,11 +211,11 @@ func (it *BaseTestCase) ArrangeString() string {
 }
 
 // Input returns ArrangeInput
-func (it *BaseTestCase) Input() interface{} {
+func (it *BaseTestCase) Input() any {
 	return it.ArrangeInput
 }
 
-func (it *BaseTestCase) Expected() interface{} {
+func (it *BaseTestCase) Expected() any {
 	return it.ExpectedInput
 }
 
@@ -226,7 +226,7 @@ func (it *BaseTestCase) ExpectedString() string {
 	)
 }
 
-func (it *BaseTestCase) Actual() interface{} {
+func (it *BaseTestCase) Actual() any {
 	return it.ActualInput
 }
 
@@ -245,7 +245,7 @@ func (it *BaseTestCase) ActualString() string {
 	)
 }
 
-func (it *BaseTestCase) SetActual(actual interface{}) {
+func (it *BaseTestCase) SetActual(actual any) {
 	it.ActualInput = actual
 }
 
@@ -290,7 +290,7 @@ func (it *BaseTestCase) ShouldBe(
 	caseIndex int,
 	t *testing.T,
 	assert convey.Assertion,
-	actual interface{},
+	actual any,
 ) {
 	if it.IsEnable.IsFalse() {
 		it.noPrintAssert(caseIndex, t, assert, actual)
@@ -313,7 +313,7 @@ func (it *BaseTestCase) noPrintAssert(
 	caseIndex int,
 	t *testing.T,
 	assert convey.Assertion,
-	actual interface{},
+	actual any,
 ) {
 	toTile := it.FormTitle(caseIndex)
 
@@ -352,9 +352,9 @@ func (it *BaseTestCase) ShouldBeExplicit(
 	caseIndex int,
 	t *testing.T,
 	title string,
-	actual interface{},
+	actual any,
 	assert convey.Assertion,
-	expected interface{},
+	expected any,
 ) {
 	if it.IsEnable.IsFalse() {
 		it.noPrintAssert(caseIndex, t, assert, actual)

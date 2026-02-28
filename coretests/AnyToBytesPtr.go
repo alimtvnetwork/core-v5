@@ -1,6 +1,6 @@
 package coretests
 
-func AnyToBytesPtr(anyItem interface{}) *[]byte {
+func AnyToBytesPtr(anyItem any) *[]byte {
 	toBytes := AnyToBytes(anyItem)
 
 	return &toBytes

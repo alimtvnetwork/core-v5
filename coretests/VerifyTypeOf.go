@@ -20,7 +20,7 @@ type VerifyTypeOf struct {
 	ExpectedInput reflect.Type   // Verify type for the BaseTestCase.ExpectedInput
 }
 
-func NewVerifyTypeOf(arrange interface{}) *VerifyTypeOf {
+func NewVerifyTypeOf(arrange any) *VerifyTypeOf {
 	return &VerifyTypeOf{
 		IsVerify:      issetter.True,
 		ArrangeInput:  reflect.TypeOf(arrange),

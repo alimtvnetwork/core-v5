@@ -12,7 +12,7 @@ func (it printMessage) FailedExpected(
 	isFailed bool,
 	when,
 	actual,
-	expected interface{},
+	expected any,
 	counter int,
 ) {
 	if isFailed {
@@ -25,13 +25,13 @@ func (it printMessage) FailedExpected(
 // PrintNameValue
 //
 // Print using msgformats.PrintValuesFormat
-func (it printMessage) NameValue(header string, any interface{}) {
-	toString := ToStringNameValues(any)
+func (it printMessage) NameValue(header string, anyItem any) {
+	toString := ToStringNameValues(anyItem)
 
 	fmt.Printf(
 		msgformats.PrintValuesFormat,
 		header,
-		any,
+		anyItem,
 		toString,
 	)
 }
@@ -39,13 +39,13 @@ func (it printMessage) NameValue(header string, any interface{}) {
 // PrintValue
 //
 // Print values using msgformats.PrintValuesFormat
-func (it printMessage) Value(header string, any interface{}) {
-	toString := ToStringValues(any)
+func (it printMessage) Value(header string, anyItem any) {
+	toString := ToStringValues(anyItem)
 
 	fmt.Printf(
 		msgformats.PrintValuesFormat,
 		header,
-		any,
+		anyItem,
 		toString,
 	)
 }

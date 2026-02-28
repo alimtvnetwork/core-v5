@@ -10,17 +10,17 @@ import (
 )
 
 type One struct {
-	First    interface{}              `json:",omitempty"`
-	Expect   interface{}              `json:",omitempty"`
-	toSlice  *[]interface{}           `json:"-"`
+	First    any              `json:",omitempty"`
+	Expect   any              `json:",omitempty"`
+	toSlice  *[]any           `json:"-"`
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *One) FirstItem() interface{} {
+func (it *One) FirstItem() any {
 	return it.First
 }
 
-func (it *One) Expected() interface{} {
+func (it *One) Expected() any {
 	return it.Expect
 }
 
@@ -39,8 +39,8 @@ func (it *One) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *One) ValidArgs() []interface{} {
-	var args []interface{}
+func (it *One) ValidArgs() []any {
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -49,8 +49,8 @@ func (it *One) ValidArgs() []interface{} {
 	return args
 }
 
-func (it *One) Args(upTo int) []interface{} {
-	var args []interface{}
+func (it *One) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -63,12 +63,12 @@ func (it *One) ArgsCount() int {
 	return 1
 }
 
-func (it *One) Slice() []interface{} {
+func (it *One) Slice() []any {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -83,7 +83,7 @@ func (it *One) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it *One) GetByIndex(index int) interface{} {
+func (it *One) GetByIndex(index int) any {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {

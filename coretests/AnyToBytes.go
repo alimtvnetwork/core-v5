@@ -11,7 +11,7 @@ import "encoding/json"
 //   - For rest of the cases, convert to json using Marshal and then returns the bytes
 //
 // Panic if json marshal has error.
-func AnyToBytes(anyItem interface{}) []byte {
+func AnyToBytes(anyItem any) []byte {
 	switch expectedAs := anyItem.(type) {
 	case []byte:
 		if expectedAs == nil {

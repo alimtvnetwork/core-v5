@@ -22,7 +22,7 @@ type getAssert struct {
 func (it getAssert) Quick(
 	when,
 	actual,
-	expected interface{},
+	expected any,
 	counter int,
 ) string {
 	return msgcreator.Assert.Quick(
@@ -76,9 +76,9 @@ func (it getAssert) SortedArrayNoPrint(
 // # Steps:
 //  01. string to []string
 //  02. []string to as is.
-//  03. []interface{} to []string
-//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
-//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
+//  03. []any to []string
+//  04. map[string]any (fmt - "%s : SmartJson(%s)") to []string
+//  05. map[any]any (fmt - SmartJson("%s) : SmartJson(%s)") to []string
 //  06. map[string]string (fmt - %s : %s)") to []string
 //  07. map[string]int (fmt - %s : %d)") to []string
 //  08. map[int]string (fmt - %d : %s)") to []string
@@ -87,18 +87,18 @@ func (it getAssert) SortedArrayNoPrint(
 //  11. bool to []string
 //  12. any to PrettyJSON
 func (it getAssert) ToStrings(
-	any interface{},
+	anyItem any,
 ) []string {
-	return convertinteranl.AnyTo.Strings(any)
+	return convertinternal.AnyTo.Strings(anyItem)
 }
 
 func (it getAssert) ToStringsWithSpace(
 	spaceCount int,
-	any interface{},
+	anyItem any,
 ) []string {
 	return msgcreator.Assert.ToStringsWithSpace(
 		spaceCount,
-		any,
+		anyItem,
 	)
 }
 
@@ -185,9 +185,9 @@ func (it getAssert) ToQuoteLines(
 //	{spaces} "line 3",
 func (it getAssert) AnyToDoubleQuoteLines(
 	spaceCount int,
-	anyItem interface{},
+	anyItem any,
 ) []string {
-	lines := convertinteranl.AnyTo.Strings(anyItem)
+	lines := convertinternal.AnyTo.Strings(anyItem)
 
 	return it.ToQuoteLines(
 		spaceCount,
@@ -216,24 +216,24 @@ func (it getAssert) ConvertLinesToDoubleQuoteThenString(
 // and then adds a space prefix (using ConvertLinesToDoubleQuoteThenString)
 func (it getAssert) AnyToStringDoubleQuoteLine(
 	spaceCount int,
-	anyItem interface{},
+	anyItem any,
 ) string {
-	lines := convertinteranl.AnyTo.Strings(anyItem)
+	lines := convertinternal.AnyTo.Strings(anyItem)
 
 	return it.ConvertLinesToDoubleQuoteThenString(spaceCount, lines)
 }
 
 func (it getAssert) ToString(
-	anyItem interface{},
+	anyItem any,
 ) string {
-	lines := convertinteranl.AnyTo.Strings(anyItem)
+	lines := convertinternal.AnyTo.Strings(anyItem)
 
 	return strings.Join(lines, constants.NewLineUnix)
 }
 
 func LogOnFail(
 	isPass bool,
-	expected, actual interface{},
+	expected, actual any,
 ) {
 	if isPass {
 		return
@@ -243,21 +243,21 @@ func LogOnFail(
 	fmt.Println(logMessage)
 }
 
-func ToStringValues(any interface{}) string {
-	if any == nil {
+func ToStringValues(anyItem any) string {
+	if anyItem == nil {
 		return constants.NilAngelBracket
 	}
 
-	return fmt.Sprintf(constants.SprintValueFormat, any)
+	return fmt.Sprintf(constants.SprintValueFormat, anyItem)
 }
 
-func ToStringNameValues(any interface{}) string {
-	if any == nil {
+func ToStringNameValues(anyItem any) string {
+	if anyItem == nil {
 		return constants.NilAngelBracket
 	}
 
 	return fmt.Sprintf(
 		constants.SprintFullPropertyNameValueFormat,
-		any,
+		anyItem,
 	)
 }

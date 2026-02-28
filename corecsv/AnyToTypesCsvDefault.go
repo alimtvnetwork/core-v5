@@ -15,7 +15,7 @@ import (
 //   - isIncludeQuote && !isIncludeSingleQuote = "'%v'" will be added
 //   - !isIncludeQuote && !isIncludeSingleQuote = %v will be added
 func AnyToTypesCsvDefault(
-	references ...interface{},
+	references ...any,
 ) string {
 	toSlice := AnyToTypesCsvStrings(
 		false,
