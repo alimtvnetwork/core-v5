@@ -14,7 +14,7 @@ type newAstReaderCreator struct{}
 // Create
 //
 // src is usually a string Golang code.
-func (it newAstReaderCreator) Create(filePath string, src interface{}) (*AstReader, error) {
+func (it newAstReaderCreator) Create(filePath string, src any) (*AstReader, error) {
 	currentMode := parser.AllErrors
 
 	return it.All(filePath, src, currentMode)
@@ -22,7 +22,7 @@ func (it newAstReaderCreator) Create(filePath string, src interface{}) (*AstRead
 
 func (it newAstReaderCreator) All(
 	filePath string,
-	src interface{},
+	src any,
 	mode parser.Mode,
 ) (*AstReader, error) {
 	fileSet := token.NewFileSet()
@@ -59,7 +59,7 @@ func (it newAstReaderCreator) All(
 // Src
 //
 // src is usually a string Golang code.
-func (it newAstReaderCreator) Src(src interface{}, mode parser.Mode) (*AstReader, error) {
+func (it newAstReaderCreator) Src(src any, mode parser.Mode) (*AstReader, error) {
 	fileSet := token.NewFileSet()
 	astFile, err := parser.ParseFile(
 		fileSet,

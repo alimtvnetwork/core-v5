@@ -9,7 +9,7 @@ import (
 func appendAnyItemsWithBaseStrings(
 	isSkipEmpty bool,
 	mainSlice []string,
-	appendingItems []interface{},
+	appendingItems []any,
 ) []string {
 	if len(appendingItems) == 0 {
 		return mainSlice

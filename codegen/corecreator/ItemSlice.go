@@ -1,6 +1,6 @@
 package corecreator
 
-// type ItemSlice interface{}
+// type ItemSlice any
 //
 // func (it ItemSlice) Name() {
 //

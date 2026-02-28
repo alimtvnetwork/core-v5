@@ -13,11 +13,11 @@ type Creator struct {
 	scopeMap  args.Map
 }
 
-func (it newCreator) Create(i interface{}) interface{} {
+func (it newCreator) Create(i any) any {
 	return nil
 }
 
-func (it newCreator) CreateByType(rt reflect.Type) interface{} {
+func (it newCreator) CreateByType(rt reflect.Type) any {
 	// Switch on the kind of the type
 	switch rt.Kind() {
 	case reflect.Bool:
@@ -109,10 +109,10 @@ func (it newCreator) CreateByType(rt reflect.Type) interface{} {
 	}
 }
 
-func (it newCreator) CreateByTypeName(name string) interface{} {
+func (it newCreator) CreateByTypeName(name string) any {
 	return nil
 }
 
-func (it newCreator) CreateByFunc(typeName string, index int) interface{} {
+func (it newCreator) CreateByFunc(typeName string, index int) any {
 	return nil
 }

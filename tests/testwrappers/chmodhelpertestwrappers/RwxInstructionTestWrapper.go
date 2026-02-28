@@ -13,14 +13,14 @@ type RwxInstructionTestWrapper struct {
 	CreatePaths     []chmodhelper.DirFilesWithRwxPermission
 	TestFuncName    coretests.TestFuncName
 	WhatIsExpected  chmodins.RwxOwnerGroupOther
-	actual          interface{}
+	actual          any
 }
 
-func (it *RwxInstructionTestWrapper) Actual() interface{} {
+func (it *RwxInstructionTestWrapper) Actual() any {
 	return it.actual
 }
 
-func (it *RwxInstructionTestWrapper) SetActual(actual interface{}) {
+func (it *RwxInstructionTestWrapper) SetActual(actual any) {
 	it.actual = actual
 }
 
@@ -28,11 +28,11 @@ func (it *RwxInstructionTestWrapper) GetFuncName() string {
 	return it.TestFuncName.Value()
 }
 
-func (it *RwxInstructionTestWrapper) Value() interface{} {
+func (it *RwxInstructionTestWrapper) Value() any {
 	return it
 }
 
-func (it *RwxInstructionTestWrapper) Expected() interface{} {
+func (it *RwxInstructionTestWrapper) Expected() any {
 	return it.WhatIsExpected
 }
 

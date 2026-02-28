@@ -6,7 +6,7 @@ import (
 	"gitlab.com/auk-go/core/isany"
 )
 
-func NullPrinter(index int, item interface{}) {
+func NullPrinter(index int, item any) {
 	fmt.Println(
 		index, "- {(defined, isnull, ==nil, %T} == ",
 		isany.Defined(item),

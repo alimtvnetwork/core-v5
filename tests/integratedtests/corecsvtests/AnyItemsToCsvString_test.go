@@ -12,7 +12,7 @@ import (
 func Test_AnyItemsToCsvString_All_True_SingleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringSingleQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
@@ -40,7 +40,7 @@ func Test_AnyItemsToCsvString_All_True_SingleQuotation_Verification(t *testing.T
 func Test_AnyItemsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringDoubleQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
@@ -69,7 +69,7 @@ func Test_AnyItemsToCsvString_DoubleQuotation_Verification(t *testing.T) {
 func Test_AnyItemsToCsvString_NoQuotation_Verification(t *testing.T) {
 	for caseIndex, testCase := range anyItemsToCsvStringNoQuoteTestCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]interface{})
+		inputs := testCase.ArrangeInput.([]any)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act

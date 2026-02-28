@@ -87,7 +87,7 @@ func (it Value) IntegerEnumRanges() []int {
 	return integerRanges
 }
 
-func (it Value) MinMaxAny() (min, max interface{}) {
+func (it Value) MinMaxAny() (min, max any) {
 	return Min(), Max()
 }
 
@@ -107,7 +107,7 @@ func (it Value) MinInt() int {
 	return Min().ValueInt()
 }
 
-func (it Value) RangesDynamicMap() map[string]interface{} {
+func (it Value) RangesDynamicMap() map[string]any {
 	return dynamicRangesMap
 }
 

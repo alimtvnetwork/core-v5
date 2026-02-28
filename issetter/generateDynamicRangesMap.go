@@ -1,7 +1,7 @@
 package issetter
 
-func generateDynamicRangesMap() map[string]interface{} {
-	newMap := make(map[string]interface{}, len(valuesNames))
+func generateDynamicRangesMap() map[string]any {
+	newMap := make(map[string]any, len(valuesNames))
 
 	for i, name := range valuesNames {
 		newMap[name] = i

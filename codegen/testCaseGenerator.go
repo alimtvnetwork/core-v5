@@ -208,7 +208,7 @@ func (it testCaseGenerator) VerifyTypeOf() string {
 	)
 }
 
-func (it testCaseGenerator) generateArrangeInput(arrangeInput interface{}) (string, error) {
+func (it testCaseGenerator) generateArrangeInput(arrangeInput any) (string, error) {
 	return arrangeInputGenerator{
 		baseGenerator: it.baseGenerator,
 	}.Generate(arrangeInput)

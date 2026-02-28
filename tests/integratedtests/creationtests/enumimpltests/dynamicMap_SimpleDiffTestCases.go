@@ -11,12 +11,12 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map simple diff [someKey2] mismatch verify",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+				Left: map[string]any{
 						"someKey":  1,
 						"someKey2": 2,
 						"someKey3": 3,
 					},
-					Right: map[string]interface{}{
+				Right: map[string]any{
 						"someKey":  1,
 						"someKey2": 4,
 						"someKey3": 3,
@@ -56,12 +56,12 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map simple diff [someKey2], [someKey4] mismatch verify",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+				Left: map[string]any{
 						"someKey":  1,
 						"someKey2": 2,
 						"someKey3": 3,
 					},
-					Right: map[string]interface{}{
+				Right: map[string]any{
 						"someKey":  1,
 						"someKey4": 4,
 						"someKey3": 3,
@@ -101,13 +101,13 @@ var dynamicMapSimpleDiffTestCases = []EnumImplDynamicMapTestWrapper{
 			Title: "Dynamic map simple diff [someKey2], [someKey4] mismatch verify",
 			ArrangeInput: LeftRightDynamicMapWithDefaultChecker{
 				LeftRightDynamicMap: LeftRightDynamicMap{
-					Left: map[string]interface{}{
+					Left: map[string]any{
 						"someKey":  1,
 						"someKey2": 2,
 						"someKey4": 4,
 						"someKey3": 3,
 					},
-					Right: map[string]interface{}{
+					Right: map[string]any{
 						"someKey":  1,
 						"someKey2": 2,
 						"someKey4": 4,

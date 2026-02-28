@@ -4,7 +4,7 @@ import "gitlab.com/auk-go/core/constants"
 
 func start(
 	reqs []Request,
-) interface{} {
+) any {
 	if len(reqs) == 0 {
 		return nil
 	}

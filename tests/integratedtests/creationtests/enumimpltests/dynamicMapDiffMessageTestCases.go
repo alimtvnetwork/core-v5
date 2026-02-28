@@ -9,12 +9,12 @@ var dynamicMapDiffMessageTestCases = []EnumImplDynamicMapTestWrapper{
 		BaseTestCase: coretests.BaseTestCase{
 			Title: "Dynamic map diff string compiled must be same",
 			ArrangeInput: LeftRightDynamicMap{
-				Left: map[string]interface{}{
+				Left: map[string]any{
 					"exist":                        1,
 					"not-exist-in-right":           3,
 					"exist-in-left-right-diff-val": 5,
 				},
-				Right: map[string]interface{}{
+				Right: map[string]any{
 					"exist":                        1,
 					"not-exist-in-left":            2,
 					"exist-in-left-right-diff-val": 6,

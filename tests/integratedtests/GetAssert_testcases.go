@@ -129,10 +129,10 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "given []interface{} in any parameter with 4 spaces",
+			Title: "given []any in any parameter with 4 spaces",
 			ArrangeInput: args.Map{
 				"spaceCount": 4,
-				"any": []interface{}{
+				"any": []any{
 					"#alim",
 					"---",
 					args.Map{
@@ -276,10 +276,10 @@ var (
 			},
 		},
 		{
-			Title: "AnyToDoubleQuoteLines []interface{} any array provide nice lines",
+			Title: "AnyToDoubleQuoteLines []any any array provide nice lines",
 			Parameters: &args.Holder{
 				First: 4,
-				Second: []interface{}{
+				Second: []any{
 					"line 1",
 					2,
 					args.Map{

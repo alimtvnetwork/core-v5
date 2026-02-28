@@ -21,8 +21,8 @@ import (
 )
 
 type GenerateFunc struct {
-	Func                 interface{}
-	Struct               interface{}
+	Func                 any
+	Struct               any
 	GenerateType         codegentype.Variant
 	FmtType              fmtcodegentype.Variant
 	TestCases            []coretestcases.CaseV1
@@ -40,11 +40,11 @@ func (it GenerateFunc) GetOverrides() OverridingNames {
 	return it.OverridingNames
 }
 
-func (it GenerateFunc) Function() interface{} {
+func (it GenerateFunc) Function() any {
 	return it.Func
 }
 
-func (it GenerateFunc) GetStruct() interface{} {
+func (it GenerateFunc) GetStruct() any {
 	return it.Struct
 }
 

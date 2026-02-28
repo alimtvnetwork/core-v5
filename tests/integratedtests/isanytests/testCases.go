@@ -11,7 +11,7 @@ import (
 
 var (
 	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]interface{}{}),
+		ArrangeInput:  reflect.TypeOf([]any{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -29,7 +29,7 @@ var (
 
 	interfaceArrayTypeVerification = &coretests.VerifyTypeOf{
 
-		ArrangeInput:  reflect.TypeOf([][]interface{}{}),
+		ArrangeInput:  reflect.TypeOf([][]any{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -40,7 +40,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "null tests - all nulls will be returned as null, don't panic.",
-				ArrangeInput: []interface{}{
+			ArrangeInput: []any{
 					nil,
 					&args.Two{},
 					someNull,
@@ -66,7 +66,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if all cases are null, will return false.",
-				ArrangeInput: []interface{}{
+			ArrangeInput: []any{
 					nil,
 					&args.Two{},
 					someNull,
@@ -84,7 +84,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "all are null, will return true.",
-				ArrangeInput: []interface{}{
+			ArrangeInput: []any{
 					nil,
 					someNull,
 					someNull,
@@ -103,7 +103,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result true, because one is nil.",
-				ArrangeInput: []interface{}{
+			ArrangeInput: []any{
 					&args.Two{},
 					1,
 					2,
@@ -120,7 +120,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result true, because one is nil.",
-				ArrangeInput: []interface{}{
+			ArrangeInput: []any{
 					nil,
 					someNull,
 					someNull,
@@ -136,7 +136,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result false, because none is nil.",
-				ArrangeInput: []interface{}{
+			ArrangeInput: []any{
 					1,
 					2,
 					"",
@@ -155,7 +155,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "defined items test cases - only true if defined (not null) ones will be true.",
-				ArrangeInput: []interface{}{
+				ArrangeInput: []any{
 					&args.Two{},
 					1,
 					nil,
@@ -318,7 +318,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if all are defined (not null) - DefinedAllOf.",
-				ArrangeInput: [][]interface{}{
+			ArrangeInput: [][]any{
 					{
 						1,
 						2,
@@ -356,7 +356,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any is defined (not null) - DefinedAnyOf.",
-				ArrangeInput: [][]interface{}{
+				ArrangeInput: [][]any{
 					{
 						1,
 						2,

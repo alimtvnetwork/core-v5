@@ -7,7 +7,7 @@ import (
 type Map map[string]args.Map
 
 //
-// func (it Map) Set(k, k2, k3 string, v interface{}) Map {
+// func (it Map) Set(k, k2, k3 string, v any) Map {
 // 	finalMap := it.GetSetMap(k, k2)
 //
 // 	finalMap[k3] = v
