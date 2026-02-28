@@ -7,7 +7,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 type RangeInt struct {
@@ -177,7 +177,7 @@ func (it *RangeInt) RangesExcept(exceptItems ...int) []int {
 	length := it.RangeLength()
 	start := it.Start
 	slice := make([]int, 0, length)
-	toHashmap := convertinteranl.
+	toHashmap := convertinternal.
 		Integers.
 		ToMapBool(exceptItems...)
 

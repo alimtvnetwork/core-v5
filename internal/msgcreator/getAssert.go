@@ -24,9 +24,9 @@ func (it getAssert) Quick(
 	return fmt.Sprintf(
 		msgformats.QuickIndexInputActualExpectedMessageFormat,
 		counter,
-		convertinteranl.AnyTo.SmartString(when),
-		convertinteranl.AnyTo.SmartString(actual),
-		convertinteranl.AnyTo.SmartString(expected),
+	convertinternal.AnyTo.SmartString(when),
+		convertinternal.AnyTo.SmartString(actual),
+		convertinternal.AnyTo.SmartString(expected),
 	)
 }
 
@@ -89,11 +89,11 @@ func (it getAssert) SortedArrayNoPrint(
 //  10. byte to []string
 //  11. bool to []string
 //
-// See also convertinteranl.AnyTo.Strings
+// See also convertinternal.AnyTo.Strings
 func (it getAssert) ToStrings(
 	any interface{},
 ) []string {
-	return convertinteranl.AnyTo.Strings(any)
+	return convertinternal.AnyTo.Strings(any)
 }
 
 // ToStringsWithSpace
@@ -115,12 +115,12 @@ func (it getAssert) ToStrings(
 //  10. byte to []string
 //  11. bool to []string
 //
-// See also convertinteranl.AnyTo.Strings
+// See also convertinternal.AnyTo.Strings
 func (it getAssert) ToStringsWithSpace(
 	spacePrefixCount int,
 	any interface{},
 ) []string {
-	lines := convertinteranl.AnyTo.Strings(any)
+	lines := convertinternal.AnyTo.Strings(any)
 
 	return it.StringsToWithSpaceLines(
 		spacePrefixCount,
@@ -138,7 +138,7 @@ func (it getAssert) ToStringWithSpace(
 	spacePrefixCount int,
 	any interface{},
 ) string {
-	lines := convertinteranl.AnyTo.Strings(any)
+	lines := convertinternal.AnyTo.Strings(any)
 
 	withSpace := it.StringsToWithSpaceLines(
 		spacePrefixCount,

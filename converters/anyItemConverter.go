@@ -9,7 +9,7 @@ import (
 
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coreappend"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -399,7 +399,7 @@ func (it anyItemConverter) SmartString(anyItem interface{}) string {
 		return ""
 	}
 
-	return convertinteranl.AnyTo.SmartString(anyItem)
+	return convertinternal.AnyTo.SmartString(anyItem)
 }
 
 func (it anyItemConverter) SmartStringsJoiner(
@@ -411,7 +411,7 @@ func (it anyItemConverter) SmartStringsJoiner(
 	}
 
 	slice := make([]string, len(any))
-	converterFunc := convertinteranl.AnyTo.SmartJson
+	converterFunc := convertinternal.AnyTo.SmartJson
 
 	for i, elem := range any {
 		slice[i] = converterFunc(elem)
