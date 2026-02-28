@@ -52,7 +52,10 @@ func (it *TypedRequest[T]) Clone() *TypedRequest[T] {
 	}
 }
 
-// ToGenericRequestIn converts to GenericRequestIn for backward compatibility.
+// ToGenericRequestIn converts to GenericRequestIn (TypedRequestIn[any]) for backward compatibility.
+//
+// Deprecated: GenericRequestIn is now a type alias for TypedRequestIn[any].
+// This method is retained for source compatibility.
 func (it *TypedRequest[T]) ToGenericRequestIn() *GenericRequestIn {
 	if it == nil {
 		return nil

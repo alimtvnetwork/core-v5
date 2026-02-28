@@ -120,7 +120,9 @@ func (it *TypedSimpleGenericRequest[T]) ToSimpleGenericRequest() *SimpleGenericR
 	}
 }
 
-// ToGenericRequestIn converts to GenericRequestIn for backward compatibility.
+// ToGenericRequestIn converts to GenericRequestIn (TypedRequestIn[any]) for backward compatibility.
+//
+// Deprecated: GenericRequestIn is now a type alias for TypedRequestIn[any].
 func (it *TypedSimpleGenericRequest[T]) ToGenericRequestIn() *GenericRequestIn {
 	if it == nil {
 		return nil

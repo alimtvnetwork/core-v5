@@ -88,7 +88,9 @@ func (it *TypedResponseResult[T]) ToGenericResponseResult() *GenericResponseResu
 	return InvalidGenericResponseResult(it.Attribute)
 }
 
-// ToGenericResponse converts to the legacy GenericResponse.
+// ToGenericResponse converts to GenericResponse (TypedResponse[any]) for backward compatibility.
+//
+// Deprecated: GenericResponse is now a type alias for TypedResponse[any].
 func (it *TypedResponseResult[T]) ToGenericResponse() *GenericResponse {
 	if it == nil {
 		return nil
