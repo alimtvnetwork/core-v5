@@ -13,13 +13,18 @@ coreapi/
 ├── TypedSimpleGenericRequest.go   # Generic: TypedSimpleGenericRequest[T]
 ├── GenericRequestIn.go            # Legacy:  GenericRequestIn   (any-based)
 ├── GenericResponse.go             # Legacy:  GenericResponse    (any-based)
-├── SimpleGenericRequest.go        # Legacy:  SimpleGenericRequest
 ├── GenericResponseResult.go       # Legacy:  GenericResponseResult
+├── SimpleGenericRequest.go        # Legacy:  SimpleGenericRequest
+├── InvalidGenericResponseResult.go # Invalid factory for GenericResponseResult
+├── InvalidRequestAttribute.go     # Invalid factory for RequestAttribute
+├── InvalidResponseAttribute.go    # Invalid factory for ResponseAttribute
+├── InvalidSimpleGenericRequest.go  # Invalid factory for SimpleGenericRequest
 ├── RequestAttribute.go            # URL, host, resource, action, auth, search, paging
 ├── ResponseAttribute.go           # HTTP code/method, count, validity, steps, debug
 ├── SearchRequest.go               # Search term + match mode flags
 ├── PageRequest.go                 # Page size + index for pagination
-└── PayloadsRequestIn.go           # Raw byte payload request
+├── PayloadsRequestIn.go           # Raw byte payload request
+└── README.md
 ```
 
 ## Type Hierarchy

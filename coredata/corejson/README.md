@@ -9,6 +9,8 @@ corejson/
 ├── vars.go                        # Package-level singletons: Serialize, Deserialize, CastAny, etc.
 ├── serializerLogic.go             # Serialize.* — any → JSON bytes/string/Result
 ├── deserializerLogic.go           # Deserialize.* — JSON → Go types
+├── deserializeFromBytesTo.go      # Deserialize.BytesTo.* — bytes → typed results
+├── deserializeFromResultTo.go     # Deserialize.ResultTo.* — Result → typed results
 ├── castingAny.go                  # CastAny.* — any-to-any via JSON round-trip
 ├── anyTo.go                       # AnyTo.* — any → Result conversion
 ├── Result.go                      # Result type: bytes + error + type name
@@ -18,12 +20,32 @@ corejson/
 ├── MapResults.go                  # MapResults: map[string]Result
 ├── New.go / NewPtr.go             # Quick constructors: New(val), NewPtr(val)
 ├── newResultCreator.go            # NewResult.* — advanced Result factories
+├── newMapResultsCreator.go        # NewMapResults.* — MapResults factories
+├── newBytesCollectionCreator.go   # BytesCollection factories
+├── newResultsCollectionCreator.go # ResultsCollection factories
+├── newResultsPtrCollectionCreator.go # ResultsPtrCollection factories
 ├── emptyCreator.go                # Empty.* — zero-value factories
+├── consts.go                      # Package constants
 ├── funcs.go                       # Standalone helpers: BytesToPrettyString, etc.
+├── BytesCloneIf.go                # Conditional byte cloning
+├── BytesDeepClone.go              # Deep clone for byte slices
+├── BytesToString.go               # Byte-to-string conversion
 ├── KeyAny.go                      # Key-value pair with any value
 ├── KeyWithJsoner.go               # Key-value pair with Jsoner interface
 ├── KeyWithResult.go               # Key-value pair with Result
-└── all-interfaces.go              # Jsoner, SimpleJsoner, JsonStringer, etc.
+├── all-interfaces.go              # Jsoner, SimpleJsoner, JsonStringer, etc.
+├── JsonAnyModeler.go              # JsonAnyModeler interface
+├── JsonContractsBinder.go         # JsonContractsBinder interface
+├── JsonMarshaller.go              # JsonMarshaller interface
+├── JsonParseSelfInjector.go       # JsonParseSelfInjector interface
+├── JsonString.go                  # JsonString helper
+├── JsonStringBinder.go            # JsonStringBinder interface
+├── JsonStringOrErrMsg.go          # JsonStringOrErrMsg helper
+├── JsonStringer.go                # JsonStringer interface
+├── Jsoner.go                      # Jsoner interface
+├── PrettyJsonStringer.go          # PrettyJsonStringer interface
+├── SimpleJsonBinder.go            # SimpleJsonBinder interface
+└── SimpleJsoner.go                # SimpleJsoner interface
 ```
 
 ## Core Types
@@ -64,9 +86,12 @@ type User struct {
 
 user := User{Name: "Alice", Age: 30}
 
-// To JSON string
-jsonStr, err := corejson.Serialize.ToString(user)
+// To JSON string (returns string only, no error — logs on failure)
+jsonStr := corejson.Serialize.ToString(user)
 // `{"name":"Alice","age":30}`
+
+// To JSON string with error
+jsonStr, err := corejson.Serialize.ToStringErr(user)
 
 // To JSON bytes
 jsonBytes, err := corejson.Serialize.Raw(user)
@@ -74,8 +99,8 @@ jsonBytes, err := corejson.Serialize.Raw(user)
 // To Result (bytes + error in one object)
 result := corejson.New(user)
 
-// Using any value
-result = corejson.Serialize.UsingAny(user)
+// Using any value (returns Result, not *Result)
+resultVal := corejson.Serialize.UsingAny(user)
 ```
 
 ### Deserialization
@@ -138,13 +163,13 @@ err = result.Deserialize(&another)
 ### MapResults — Named Result Collection
 
 ```go
-mapResults := corejson.New.MapResults.Empty()
-mapResults.Set("user", corejson.New(user))
-mapResults.Set("config", corejson.New(config))
+mapResults := corejson.NewMapResults.Empty()
+mapResults.AddSkipOnNil("user", corejson.NewPtr(user))
+mapResults.AddSkipOnNil("config", corejson.NewPtr(config))
 
 // Retrieve
-result, has := mapResults.Get("user")
-allKeys := mapResults.Keys()
+result := mapResults.GetByKey("user")    // *Result or nil
+allKeys := mapResults.AllKeys()           // []string
 errStrings := mapResults.GetErrorsStrings()
 ```
 

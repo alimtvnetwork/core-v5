@@ -91,16 +91,21 @@ func processAll[T, U any](items []T, fn corefuncs.InOutFuncOf[T, U]) []U {
 ### Named Function Wrappers
 
 ```go
-// Wrap a function with a name for tracing
-wrapper := corefuncs.New.InOutErrFuncWrapperOf[string, int](
+// Package-level generic constructors (preferred — clean type inference)
+wrapper := corefuncs.NewInOutErrWrapper[string, int](
     "parseAge",
     func(s string) (int, error) {
         return strconv.Atoi(s)
     },
 )
 
-fmt.Println(wrapper.Name)         // "parseAge"
-result, err := wrapper.Func("25") // 25, nil
+fmt.Println(wrapper.Name)           // "parseAge"
+result, err := wrapper.Action("25") // 25, nil
+
+// Legacy (any-based) wrappers via New creator
+legacyWrapper := corefuncs.New.ActionErr("cleanup", func() error {
+    return os.Remove("/tmp/file")
+})
 ```
 
 ### Legacy Function Types
