@@ -9,7 +9,7 @@ import (
 // AnyToStringNameField
 //
 //	Returns string names and values using (%+v)
-func AnyToStringNameField(any interface{}) string {
+func AnyToStringNameField(any any) string {
 	if any == nil {
 		return ""
 	}

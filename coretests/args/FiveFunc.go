@@ -10,18 +10,18 @@ import (
 )
 
 type FiveFunc struct {
-	First    interface{}              `json:",omitempty"`
-	Second   interface{}              `json:",omitempty"`
-	Third    interface{}              `json:",omitempty"`
-	Fourth   interface{}              `json:",omitempty"`
-	Fifth    interface{}              `json:",omitempty"`
-	WorkFunc interface{}              `json:"-"`
-	Expect   interface{}              `json:",omitempty"`
-	toSlice  *[]interface{}           `json:"-"`
+	First    any                      `json:",omitempty"`
+	Second   any                      `json:",omitempty"`
+	Third    any                      `json:",omitempty"`
+	Fourth   any                      `json:",omitempty"`
+	Fifth    any                      `json:",omitempty"`
+	WorkFunc any                      `json:"-"`
+	Expect   any                      `json:",omitempty"`
+	toSlice  *[]any                   `json:"-"`
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *FiveFunc) GetWorkFunc() interface{} {
+func (it *FiveFunc) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
@@ -29,27 +29,27 @@ func (it *FiveFunc) ArgsCount() int {
 	return 5
 }
 
-func (it *FiveFunc) FirstItem() interface{} {
+func (it *FiveFunc) FirstItem() any {
 	return it.First
 }
 
-func (it *FiveFunc) SecondItem() interface{} {
+func (it *FiveFunc) SecondItem() any {
 	return it.Second
 }
 
-func (it *FiveFunc) ThirdItem() interface{} {
+func (it *FiveFunc) ThirdItem() any {
 	return it.Third
 }
 
-func (it *FiveFunc) FourthItem() interface{} {
+func (it *FiveFunc) FourthItem() any {
 	return it.Fourth
 }
 
-func (it *FiveFunc) FifthItem() interface{} {
+func (it *FiveFunc) FifthItem() any {
 	return it.Fifth
 }
 
-func (it *FiveFunc) Expected() interface{} {
+func (it *FiveFunc) Expected() any {
 	return it.Expect
 }
 
@@ -113,13 +113,13 @@ func (it *FiveFunc) FuncWrap() *FuncWrap {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *FiveFunc) Invoke(args ...interface{}) (
-	results []interface{}, processingErr error,
+func (it *FiveFunc) Invoke(args ...any) (
+	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *FiveFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+func (it *FiveFunc) InvokeMust(args ...any) (results []any) {
 	results, err := it.FuncWrap().Invoke(args...)
 
 	if err != nil {
@@ -130,7 +130,7 @@ func (it *FiveFunc) InvokeMust(args ...interface{}) (results []interface{}) {
 }
 
 func (it *FiveFunc) InvokeWithValidArgs() (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.ValidArgs()
@@ -139,7 +139,7 @@ func (it *FiveFunc) InvokeWithValidArgs() (
 }
 
 func (it *FiveFunc) InvokeArgs(upTo int) (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.Args(upTo)
@@ -147,8 +147,8 @@ func (it *FiveFunc) InvokeArgs(upTo int) (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it *FiveFunc) ValidArgs() []interface{} {
-	var args []interface{}
+func (it *FiveFunc) ValidArgs() []any {
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -173,8 +173,8 @@ func (it *FiveFunc) ValidArgs() []interface{} {
 	return args
 }
 
-func (it *FiveFunc) Args(upTo int) []interface{} {
-	var args []interface{}
+func (it *FiveFunc) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -199,12 +199,12 @@ func (it *FiveFunc) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *FiveFunc) Slice() []interface{} {
+func (it *FiveFunc) Slice() []any {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -239,7 +239,7 @@ func (it *FiveFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it *FiveFunc) GetByIndex(index int) interface{} {
+func (it *FiveFunc) GetByIndex(index int) any {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {

@@ -10,17 +10,17 @@ import (
 )
 
 type FourFunc struct {
-	First    interface{} `json:",omitempty"`
-	Second   interface{} `json:",omitempty"`
-	Third    interface{} `json:",omitempty"`
-	Fourth   interface{} `json:",omitempty"`
-	WorkFunc interface{} `json:",omitempty"`
-	Expect   interface{} `json:",omitempty"`
-	toSlice  *[]interface{}
+	First    any                      `json:",omitempty"`
+	Second   any                      `json:",omitempty"`
+	Third    any                      `json:",omitempty"`
+	Fourth   any                      `json:",omitempty"`
+	WorkFunc any                      `json:",omitempty"`
+	Expect   any                      `json:",omitempty"`
+	toSlice  *[]any
 	toString corestr.SimpleStringOnce
 }
 
-func (it *FourFunc) GetWorkFunc() interface{} {
+func (it *FourFunc) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
@@ -28,23 +28,23 @@ func (it *FourFunc) ArgsCount() int {
 	return 4
 }
 
-func (it *FourFunc) FirstItem() interface{} {
+func (it *FourFunc) FirstItem() any {
 	return it.First
 }
 
-func (it *FourFunc) SecondItem() interface{} {
+func (it *FourFunc) SecondItem() any {
 	return it.Second
 }
 
-func (it *FourFunc) ThirdItem() interface{} {
+func (it *FourFunc) ThirdItem() any {
 	return it.Third
 }
 
-func (it *FourFunc) FourthItem() interface{} {
+func (it *FourFunc) FourthItem() any {
 	return it.Fourth
 }
 
-func (it *FourFunc) Expected() interface{} {
+func (it *FourFunc) Expected() any {
 	return it.Expect
 }
 
@@ -104,13 +104,13 @@ func (it *FourFunc) FuncWrap() *FuncWrap {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *FourFunc) Invoke(args ...interface{}) (
-	results []interface{}, processingErr error,
+func (it *FourFunc) Invoke(args ...any) (
+	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *FourFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+func (it *FourFunc) InvokeMust(args ...any) (results []any) {
 	results, err := it.FuncWrap().Invoke(args...)
 
 	if err != nil {
@@ -121,7 +121,7 @@ func (it *FourFunc) InvokeMust(args ...interface{}) (results []interface{}) {
 }
 
 func (it *FourFunc) InvokeWithValidArgs() (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.ValidArgs()
@@ -130,7 +130,7 @@ func (it *FourFunc) InvokeWithValidArgs() (
 }
 
 func (it *FourFunc) InvokeArgs(upTo int) (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.Args(upTo)
@@ -138,8 +138,8 @@ func (it *FourFunc) InvokeArgs(upTo int) (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it *FourFunc) ValidArgs() []interface{} {
-	var args []interface{}
+func (it *FourFunc) ValidArgs() []any {
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -160,8 +160,8 @@ func (it *FourFunc) ValidArgs() []interface{} {
 	return args
 }
 
-func (it *FourFunc) Args(upTo int) []interface{} {
-	var args []interface{}
+func (it *FourFunc) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -182,12 +182,12 @@ func (it *FourFunc) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *FourFunc) Slice() []interface{} {
+func (it *FourFunc) Slice() []any {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -218,7 +218,7 @@ func (it *FourFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it *FourFunc) GetByIndex(index int) interface{} {
+func (it *FourFunc) GetByIndex(index int) any {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {

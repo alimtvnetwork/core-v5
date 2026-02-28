@@ -10,16 +10,16 @@ import (
 )
 
 type ThreeFunc struct {
-	First    interface{}              `json:",omitempty"`
-	Second   interface{}              `json:",omitempty"`
-	Third    interface{}              `json:",omitempty"`
-	WorkFunc interface{}              `json:"-"`
-	Expect   interface{}              `json:",omitempty"`
-	toSlice  *[]interface{}           `json:"-"`
+	First    any                      `json:",omitempty"`
+	Second   any                      `json:",omitempty"`
+	Third    any                      `json:",omitempty"`
+	WorkFunc any                      `json:"-"`
+	Expect   any                      `json:",omitempty"`
+	toSlice  *[]any                   `json:"-"`
 	toString corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *ThreeFunc) GetWorkFunc() interface{} {
+func (it *ThreeFunc) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
@@ -27,19 +27,19 @@ func (it *ThreeFunc) ArgsCount() int {
 	return 3
 }
 
-func (it *ThreeFunc) FirstItem() interface{} {
+func (it *ThreeFunc) FirstItem() any {
 	return it.First
 }
 
-func (it *ThreeFunc) SecondItem() interface{} {
+func (it *ThreeFunc) SecondItem() any {
 	return it.Second
 }
 
-func (it *ThreeFunc) ThirdItem() interface{} {
+func (it *ThreeFunc) ThirdItem() any {
 	return it.Third
 }
 
-func (it *ThreeFunc) Expected() interface{} {
+func (it *ThreeFunc) Expected() any {
 	return it.Expect
 }
 
@@ -86,13 +86,13 @@ func (it *ThreeFunc) FuncWrap() *FuncWrap {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *ThreeFunc) Invoke(args ...interface{}) (
-	results []interface{}, processingErr error,
+func (it *ThreeFunc) Invoke(args ...any) (
+	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *ThreeFunc) InvokeMust(args ...interface{}) (results []interface{}) {
+func (it *ThreeFunc) InvokeMust(args ...any) (results []any) {
 	results, err := it.FuncWrap().Invoke(args...)
 
 	if err != nil {
@@ -103,7 +103,7 @@ func (it *ThreeFunc) InvokeMust(args ...interface{}) (results []interface{}) {
 }
 
 func (it *ThreeFunc) InvokeWithValidArgs() (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.ValidArgs()
@@ -112,7 +112,7 @@ func (it *ThreeFunc) InvokeWithValidArgs() (
 }
 
 func (it *ThreeFunc) InvokeArgs(upTo int) (
-	results []interface{}, processingErr error,
+	results []any, processingErr error,
 ) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.Args(upTo)
@@ -120,8 +120,8 @@ func (it *ThreeFunc) InvokeArgs(upTo int) (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it *ThreeFunc) ValidArgs() []interface{} {
-	var args []interface{}
+func (it *ThreeFunc) ValidArgs() []any {
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -138,8 +138,8 @@ func (it *ThreeFunc) ValidArgs() []interface{} {
 	return args
 }
 
-func (it *ThreeFunc) Args(upTo int) []interface{} {
-	var args []interface{}
+func (it *ThreeFunc) Args(upTo int) []any {
+	var args []any
 
 	if upTo >= 1 {
 		args = append(args, it.First)
@@ -156,12 +156,12 @@ func (it *ThreeFunc) Args(upTo int) []interface{} {
 	return args
 }
 
-func (it *ThreeFunc) Slice() []interface{} {
+func (it *ThreeFunc) Slice() []any {
 	if it.toSlice != nil {
 		return *it.toSlice
 	}
 
-	var args []interface{}
+	var args []any
 
 	if it.HasFirst() {
 		args = append(args, it.First)
@@ -184,7 +184,7 @@ func (it *ThreeFunc) Slice() []interface{} {
 	return *it.toSlice
 }
 
-func (it *ThreeFunc) GetByIndex(index int) interface{} {
+func (it *ThreeFunc) GetByIndex(index int) any {
 	slice := it.Slice()
 
 	if len(slice)-1 < index {
