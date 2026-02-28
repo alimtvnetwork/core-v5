@@ -92,8 +92,42 @@ Follow Go's `-er` suffix convention:
 
 ---
 
+## The `newCreator` Convention (Hierarchical Factory Pattern)
+
+This is the **most important architectural pattern** in the codebase. Instead of flat `NewX()` functions, we decompose object creation into a tree of small factory structs exposed via a package-level `var New`:
+
+```go
+// vars.go
+var New = newCreator{}
+
+// newCreator.go — root aggregator
+type newCreator struct {
+    Widget newWidgetCreator
+    Config newConfigCreator
+}
+
+// newWidgetCreator.go — one file per sub-creator
+type newWidgetCreator struct{}
+
+func (it newWidgetCreator) Empty() *Widget {
+    return &Widget{Items: []string{}}
+}
+
+func (it newWidgetCreator) Create(name string) *Widget {
+    return &Widget{Name: name, Items: []string{}}
+}
+```
+
+**Usage**: `mypkg.New.Widget.Empty()` — IDE autocomplete guides users through the tree.
+
+See the full guide: **[newCreator Convention](/spec/01-app/18-new-creator-convention.md)**
+
+---
+
 ## Related Docs
 
 - [Design Philosophy](/spec/01-app/00-repo-overview.md)
 - [Interface Conventions](/spec/01-app/14-core-interface-conventions.md)
 - [Go Modernization Plan](/spec/01-app/11-go-modernization.md)
+- [newCreator Convention](/spec/01-app/18-new-creator-convention.md)
+- [Testing Guidelines](/spec/01-app/16-testing-guidelines.md)
