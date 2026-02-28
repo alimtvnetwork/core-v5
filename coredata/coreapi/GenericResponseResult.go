@@ -1,28 +1,13 @@
 package coreapi
 
-import (
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-)
+import "gitlab.com/auk-go/core/coredata/coredynamic"
 
-type GenericResponseResult struct {
-	Attribute *ResponseAttribute        `json:"Attribute,omitempty"`
-	Response  *coredynamic.SimpleResult `json:"Response,omitempty"`
-}
-
-func (it GenericResponseResult) Clone() GenericResponseResult {
-	return GenericResponseResult{
-		Attribute: it.Attribute.Clone(),
-		Response:  it.Response.ClonePtr(),
-	}
-}
-
-func (it *GenericResponseResult) ClonePtr() *GenericResponseResult {
-	if it == nil {
-		return nil
-	}
-
-	return &GenericResponseResult{
-		Attribute: it.Attribute.Clone(),
-		Response:  it.Response.ClonePtr(),
-	}
-}
+// GenericResponseResult is a type alias for TypedResponseResult[*coredynamic.SimpleResult].
+//
+// It wraps a *coredynamic.SimpleResult response with a *ResponseAttribute.
+// As a type alias, it inherits all TypedResponseResult methods: Clone, ClonePtr,
+// IsValid, IsInvalid, Message, ToGenericResponseResult, ToGenericResponse, ToTypedResponse.
+//
+// Deprecated: Use TypedResponseResult[T] with a concrete type for compile-time safety.
+// GenericResponseResult remains for backward compatibility.
+type GenericResponseResult = TypedResponseResult[*coredynamic.SimpleResult]
