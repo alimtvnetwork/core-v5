@@ -1,14 +1,14 @@
 package isany
 
 func DefinedItems(
-	anyItems ...interface{},
-) (isAllDefined bool, definedItems []interface{}) {
+	anyItems ...any,
+) (isAllDefined bool, definedItems []any) {
 	if len(anyItems) == 0 {
 		return false, nil
 	}
 
 	isAllDefined = true
-	definedItems = make([]interface{}, 0, len(anyItems))
+	definedItems = make([]any, 0, len(anyItems))
 
 	for _, anyItem := range anyItems {
 		if Null(anyItem) {

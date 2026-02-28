@@ -6,10 +6,10 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func AnyToString(any interface{}) string {
-	if any == nil {
+func AnyToString(anyItem any) string {
+	if anyItem == nil {
 		return ""
 	}
 
-	return fmt.Sprintf(constants.SprintValueFormat, any)
+	return fmt.Sprintf(constants.SprintValueFormat, anyItem)
 }

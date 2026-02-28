@@ -5,7 +5,7 @@ import (
 )
 
 func DeepEqual(
-	left, right interface{},
+	left, right any,
 ) (isEqual bool) {
 	return reflectinternal.Is.AnyEqual(left, right)
 }

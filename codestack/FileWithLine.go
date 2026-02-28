@@ -50,7 +50,7 @@ func (it FileWithLine) JsonModel() FileWithLine {
 	return it
 }
 
-func (it *FileWithLine) JsonModelAny() interface{} {
+func (it *FileWithLine) JsonModelAny() any {
 	return it.JsonModel()
 }
 

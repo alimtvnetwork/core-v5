@@ -1,6 +1,6 @@
 package isany
 
-func AnyNull(anyItems ...interface{}) bool {
+func AnyNull(anyItems ...any) bool {
 	if len(anyItems) == 0 {
 		return true
 	}

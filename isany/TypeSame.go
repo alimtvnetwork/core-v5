@@ -5,7 +5,7 @@ import (
 )
 
 func TypeSame(
-	left, right interface{},
+	left, right any,
 ) bool {
 	leftRt := reflect.TypeOf(left)
 	rightRt := reflect.TypeOf(right)

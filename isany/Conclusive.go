@@ -10,7 +10,7 @@ import (
 //   - either left OR right is null not equal.
 //   - if both are defined and same pointer equal.
 //   - if both are defined not pointer inconclusive.
-func Conclusive(left, right interface{}) (isEqual, isConclusive bool) {
+func Conclusive(left, right any) (isEqual, isConclusive bool) {
 	if left == right {
 		return true, true
 	}
