@@ -1,49 +1,53 @@
-# regexnew — Lazy Regex Package
+# regexnew — Lazy-Compiled Regex
 
-## Overview
+Package `regexnew` provides a **lazy-loaded, thread-safe** regex compilation system using the [New Creator Pattern](../spec/01-app/21-new-creator-pattern.md). Patterns are compiled only once, cached globally, and safe for concurrent use. All methods handle nil `*LazyRegex` receivers gracefully without panicking.
 
-The `regexnew` package provides a **lazy-loaded, thread-safe** regex compilation system using the [New Creator Pattern](../spec/01-app/21-new-creator-pattern.md). It ensures regex patterns are compiled only once, cached globally, and safe for concurrent use.
+## Architecture
 
-## Specs
-
-- [New Creator Pattern](../spec/01-app/21-new-creator-pattern.md)
-- [Regex Implementation Details](../spec/01-app/) *(see architecture docs)*
-
-## Quick Start
-
-### Creating a LazyRegex
-
-```go
-// From package-level vars (non-locking, for init-time use)
-var emailRegex = regexnew.New.Lazy(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
-
-// From inside methods (locking, for runtime use)
-func validateInput(input string) bool {
-    regex := regexnew.New.LazyLock(`^\d{3}-\d{4}$`)
-    return regex.IsMatch(input)
-}
+```
+regexnew/
+├── vars.go                              # Package-level singletons: New, regexMaps, lazyRegexOnceMap
+├── newCreator.go                        # New.* — Lazy, LazyLock, Default, DefaultLock entry points
+├── newLazyRegexCreator.go               # New.LazyRegex.* — TwoLock, ManyUsingLock batch creators
+├── LazyRegex.go                         # LazyRegex struct: lazy-compiled, cached, nil-safe
+├── lazyRegexMap.go                      # Global pattern → *LazyRegex cache with mutex
+├── funcs.go                             # Standalone helpers
+├── Create.go                            # Create(pattern) — direct compilation
+├── CreateLock.go                        # CreateLock(pattern) — locked compilation
+├── CreateLockIf.go                      # CreateLockIf(bool, pattern) — conditional lock
+├── CreateApplicableLock.go              # CreateApplicableLock — compile + applicability check
+├── CreateMust.go                        # CreateMust — panics on error
+├── CreateMustLockIf.go                  # CreateMustLockIf — conditional lock, panics on error
+├── NewMustLock.go                       # NewMustLock — locked LazyRegex, panics on error
+├── IsMatchLock.go                       # IsMatchLock — one-shot locked match
+├── IsMatchFailed.go                     # IsMatchFailed — negated match
+├── MatchError.go                        # MatchError — match with error return
+├── MatchErrorLock.go                    # MatchErrorLock — locked match with error
+├── MatchUsingFuncErrorLock.go           # MatchUsingFuncErrorLock — custom match function
+├── MatchUsingCustomizeErrorFuncLock.go  # MatchUsingCustomizeErrorFuncLock — custom error func
+├── regExMatchValidationError.go         # Match validation error type
+├── regexes-compiled.go                  # Pre-compiled common patterns
+├── prettyJson.go                        # JSON pretty-print for LazyRegex
+└── README.md
 ```
 
-### Using the New Creator
+## New Creator Structure
 
-The `regexnew.New` variable provides the entry point:
-
-```go
-// LazyRegex — lazy-compiled, cached, thread-safe
-regex := regexnew.New.Lazy("pattern")           // for var declarations
-regex := regexnew.New.LazyLock("pattern")        // for method-internal use
-
-// Multiple patterns at once (locked)
-first, second := regexnew.New.LazyRegex.TwoLock("pattern1", "pattern2")
-allMap := regexnew.New.LazyRegex.ManyUsingLock("p1", "p2", "p3")
-
-// Direct compilation (standard regexp)
-compiled, err := regexnew.New.Default("pattern")
-compiled, err := regexnew.New.DefaultLock("pattern")
-compiled, err := regexnew.New.DefaultLockIf(isLock, "pattern")
-
-// Applicability check (compile + check in one call)
-regex, err, isApplicable := regexnew.New.DefaultApplicableLock("pattern")
+```
+regexnew.New (newCreator)
+├── Lazy(pattern)              → *LazyRegex (var-level, no lock)
+├── LazyLock(pattern)          → *LazyRegex (method-level, locked)
+├── Default(pattern)           → (*regexp.Regexp, error)
+├── DefaultLock(pattern)       → (*regexp.Regexp, error)
+├── DefaultLockIf(bool, str)   → (*regexp.Regexp, error)
+├── DefaultApplicableLock(str) → (*regexp.Regexp, error, bool)
+└── LazyRegex (newLazyRegexCreator)
+    ├── New(pattern)           → *LazyRegex
+    ├── NewLock(pattern)       → *LazyRegex
+    ├── NewLockIf(bool, str)   → *LazyRegex
+    ├── TwoLock(p1, p2)        → (first, second *LazyRegex)
+    ├── ManyUsingLock(ps...)   → map[string]*LazyRegex
+    └── AllPatternsMap()       → map[string]*LazyRegex
 ```
 
 ## LazyRegex Methods
@@ -93,33 +97,30 @@ regex, err, isApplicable := regexnew.New.DefaultApplicableLock("pattern")
 | `Error()` | Returns compilation error (alias for OnRequiredCompiled) |
 | `CompiledError()` | Same as Error |
 
-## New Creator Structure
-
-```
-regexnew.New (newCreator)
-├── Lazy(pattern)              → *LazyRegex (var-level, no lock)
-├── LazyLock(pattern)          → *LazyRegex (method-level, locked)
-├── Default(pattern)           → (*regexp.Regexp, error)
-├── DefaultLock(pattern)       → (*regexp.Regexp, error)
-├── DefaultLockIf(bool, str)   → (*regexp.Regexp, error)
-├── DefaultApplicableLock(str) → (*regexp.Regexp, error, bool)
-└── LazyRegex (newLazyRegexCreator)
-    ├── New(pattern)           → *LazyRegex
-    ├── NewLock(pattern)       → *LazyRegex
-    ├── NewLockIf(bool, str)   → *LazyRegex
-    ├── TwoLock(p1, p2)        → (first, second *LazyRegex)
-    ├── ManyUsingLock(ps...)   → map[string]*LazyRegex
-    └── AllPatternsMap()       → map[string]*LazyRegex
-```
-
 ## Thread Safety
 
-- **`Lazy` / `New`**: No mutex; use only at package-level `var` declarations where Go guarantees single-goroutine init.
-- **`LazyLock` / `NewLock`**: Uses `sync.Mutex`; safe for concurrent method calls.
-- **`TwoLock` / `ManyUsingLock`**: Batch creation under a single lock for efficiency.
-- **Pattern caching**: All LazyRegex instances are stored in a global `lazyRegexMap` to ensure each pattern is compiled at most once.
+| Creator | Lock | When to Use |
+|---------|------|-------------|
+| `Lazy` / `New` | None | Package-level `var` declarations only (Go guarantees single-goroutine init) |
+| `LazyLock` / `NewLock` | `sync.Mutex` | Inside methods — safe for concurrent calls |
+| `TwoLock` / `ManyUsingLock` | Single `sync.Mutex` | Batch creation under one lock for efficiency |
 
-## Examples
+All `LazyRegex` instances are stored in a global `lazyRegexMap` to ensure each pattern is compiled at most once.
+
+## Usage
+
+### Creating a LazyRegex
+
+```go
+// From package-level vars (non-locking, for init-time use)
+var emailRegex = regexnew.New.Lazy(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+
+// From inside methods (locking, for runtime use)
+func validateInput(input string) bool {
+    regex := regexnew.New.LazyLock(`^\d{3}-\d{4}$`)
+    return regex.IsMatch(input)
+}
+```
 
 ### Email Validation
 
@@ -136,11 +137,11 @@ func IsValidEmail(email string) bool {
 ```go
 func MatchDynamic(pattern, input string) (bool, error) {
     regex := regexnew.New.LazyLock(pattern)
-    
+
     if regex.HasError() {
         return false, regex.Error()
     }
-    
+
     return regex.IsMatch(input), nil
 }
 ```
@@ -160,10 +161,13 @@ func MatchAny(input string) bool {
             return true
         }
     }
+
     return false
 }
 ```
 
-## Contributors
+## Related Docs
 
-## Issues for Future Reference
+- [New Creator Pattern](/spec/01-app/21-new-creator-pattern.md)
+- [Coding Guidelines](/spec/01-app/17-coding-guidelines.md)
+- [Folder Spec](/spec/01-app/folders/10-remaining-packages.md)
