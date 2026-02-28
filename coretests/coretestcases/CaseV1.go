@@ -2,6 +2,7 @@ package coretestcases
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 
 	"github.com/smarty/assertions/should"
@@ -57,22 +58,22 @@ func (it CaseV1) SetExpected(expected any) {
 	it.ExpectedInput = expected
 }
 
-// VerifyTypeOf
+// VerifyTypeOfMatch
 //
 // Will verify type using reflect.TypeOf
-func (it CaseV1) VerifyTypeOf(
+func (it CaseV1) VerifyTypeOfMatch(
 	t *testing.T,
 	caseIndex int,
 	actual any,
 ) {
 	baseCase := it.AsBaseTestCase()
 
-	if baseCase.SkipVerifyType {
+	if baseCase.IsTypeInvalidOrSkipVerify() {
 		return
 	}
 
-	expectedType := reflectinternal.TypeOf(it.ExpectedInput)
-	actualType := reflectinternal.TypeOf(actual)
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
 
 	title := fmt.Sprintf(
 		typeVerifyTitleFormat,
@@ -98,12 +99,12 @@ func (it CaseV1) VerifyTypeOfMust(
 ) {
 	baseCase := it.AsBaseTestCase()
 
-	if baseCase.SkipVerifyType {
+	if baseCase.IsTypeInvalidOrSkipVerify() {
 		return
 	}
 
-	expectedType := reflectinternal.TypeOf(it.ExpectedInput)
-	actualType := reflectinternal.TypeOf(actual)
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
 
 	title := fmt.Sprintf(
 		typeVerifyTitleFormat,
@@ -129,12 +130,12 @@ func (it CaseV1) VerifyType(
 ) {
 	baseCase := it.AsBaseTestCase()
 
-	if baseCase.SkipVerifyType {
+	if baseCase.IsTypeInvalidOrSkipVerify() {
 		return
 	}
 
-	expectedType := reflectinternal.Type(it.ExpectedInput)
-	actualType := reflectinternal.Type(actual)
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
 
 	title := fmt.Sprintf(
 		typeVerifyTitleFormat,
@@ -160,12 +161,12 @@ func (it CaseV1) VerifyTypeMust(
 ) {
 	baseCase := it.AsBaseTestCase()
 
-	if baseCase.SkipVerifyType {
+	if baseCase.IsTypeInvalidOrSkipVerify() {
 		return
 	}
 
-	expectedType := reflectinternal.Type(it.ExpectedInput)
-	actualType := reflectinternal.Type(actual)
+	expectedType := reflect.TypeOf(it.ExpectedInput)
+	actualType := reflect.TypeOf(actual)
 
 	title := fmt.Sprintf(
 		typeVerifyTitleFormat,
