@@ -30,17 +30,17 @@ func executeErrorFunctions(functions []func() error) error {
 
 func executeAnyFunctions(
 	functions []func() (
-		result interface{},
+		result any,
 		isTake,
 		isBreak bool,
 	),
-) []interface{} {
+) []any {
 	if len(functions) == 0 {
 		return nil
 	}
 
 	results := make(
-		[]interface{},
+		[]any,
 		constants.Zero,
 		len(functions))
 	for _, curFunc := range functions {

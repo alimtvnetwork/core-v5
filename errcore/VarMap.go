@@ -7,7 +7,7 @@ import (
 )
 
 func VarMap(
-	mappedItems map[string]interface{},
+	mappedItems map[string]any,
 ) string {
 	if len(mappedItems) == 0 {
 		return ""

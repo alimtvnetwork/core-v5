@@ -3,7 +3,7 @@ package errcore
 func ErrorWithTracesRefToError(
 	err error,
 	traces []string,
-	reference interface{},
+	reference any,
 ) error {
 	if err == nil {
 		return nil

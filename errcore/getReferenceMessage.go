@@ -3,7 +3,7 @@ package errcore
 import "fmt"
 
 func getReferenceMessage(
-	reference interface{},
+	reference any,
 ) string {
 	if reference == nil {
 		return ""

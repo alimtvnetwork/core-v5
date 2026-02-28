@@ -5,7 +5,7 @@ import "gitlab.com/auk-go/core/constants"
 func SourceDestination(
 	isIncludeType bool,
 	srcVal,
-	destinationVal interface{},
+	destinationVal any,
 ) string {
 	return VarTwo(
 		isIncludeType,

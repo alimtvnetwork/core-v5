@@ -7,9 +7,9 @@ import (
 func VarTwo(
 	isIncludeType bool,
 	var1 string,
-	val1 interface{},
+	val1 any,
 	var2 string,
-	val2 interface{},
+	val2 any,
 ) string {
 	if isIncludeType {
 		return fmt.Sprintf(

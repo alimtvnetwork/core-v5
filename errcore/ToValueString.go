@@ -6,7 +6,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func ToValueString(reference interface{}) string {
+func ToValueString(reference any) string {
 	return fmt.Sprintf(
 		constants.SprintPropertyNameValueFormat,
 		reference)

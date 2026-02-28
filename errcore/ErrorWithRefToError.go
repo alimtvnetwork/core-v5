@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-func ErrorWithRefToError(err error, reference interface{}) error {
+func ErrorWithRefToError(err error, reference any) error {
 	if err == nil {
 		return nil
 	}

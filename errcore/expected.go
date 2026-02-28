@@ -9,9 +9,9 @@ import (
 type expected struct{}
 
 func (it expected) But(
-	title interface{},
+	title any,
 	wasExpecting,
-	actualReceived interface{},
+	actualReceived any,
 ) error {
 	return ExpectingErrorSimpleNoType(
 		title,
@@ -20,9 +20,9 @@ func (it expected) But(
 }
 
 func (it expected) ButFoundAsMsg(
-	title interface{},
+	title any,
 	wasExpecting,
-	actualReceived interface{},
+	actualReceived any,
 ) string {
 	return ExpectingSimpleNoType(
 		title,
@@ -31,9 +31,9 @@ func (it expected) ButFoundAsMsg(
 }
 
 func (it expected) ButFoundWithTypeAsMsg(
-	title interface{},
+	title any,
 	wasExpecting,
-	actualReceived interface{},
+	actualReceived any,
 ) string {
 	return ExpectingSimple(
 		title,
@@ -42,9 +42,9 @@ func (it expected) ButFoundWithTypeAsMsg(
 }
 
 func (it expected) ButUsingType(
-	title interface{},
+	title any,
 	wasExpecting,
-	actualReceived interface{},
+	actualReceived any,
 ) error {
 	return errors.New(ExpectingSimple(
 		title,

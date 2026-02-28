@@ -4,7 +4,7 @@ import "gitlab.com/auk-go/core/constants"
 
 func SourceDestinationNoType(
 	srcVal,
-	destinationVal interface{},
+	destinationVal any,
 ) string {
 	return VarTwo(
 		false,

@@ -56,5 +56,5 @@ type ReflectSetter interface {
 	// Reference:
 	//  - Reflection String Set Example : https://go.dev/play/p/fySLYuOvoRK.go?download=true
 	//  - Method document screenshot    : https://prnt.sc/26dmf5g
-	ReflectSetTo(toPointer interface{}) error
+	ReflectSetTo(toPointer any) error
 }

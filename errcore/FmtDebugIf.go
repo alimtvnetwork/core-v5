@@ -5,7 +5,7 @@ import "fmt"
 func FmtDebugIf(
 	isDebug bool,
 	format string,
-	items ...interface{},
+	items ...any,
 ) {
 	if !isDebug {
 		return

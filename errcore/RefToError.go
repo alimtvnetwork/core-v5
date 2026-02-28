@@ -7,7 +7,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func RefToError(reference interface{}) error {
+func RefToError(reference any) error {
 	if reference == nil {
 		return nil
 	}

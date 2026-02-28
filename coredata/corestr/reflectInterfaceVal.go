@@ -2,8 +2,8 @@ package corestr
 
 import "reflect"
 
-func reflectInterfaceVal(any interface{}) interface{} {
-	rVal := reflect.ValueOf(any)
+func reflectInterfaceVal(item any) any {
+	rVal := reflect.ValueOf(item)
 
 	if rVal.Kind() != reflect.Ptr {
 		return rVal.Interface()

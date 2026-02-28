@@ -5,9 +5,9 @@ import "fmt"
 func MessageVarTwo(
 	message string,
 	var1 string,
-	val1 interface{},
+	val1 any,
 	var2 string,
-	val2 interface{},
+	val2 any,
 ) string {
 	return fmt.Sprintf(
 		messageVar2Format,

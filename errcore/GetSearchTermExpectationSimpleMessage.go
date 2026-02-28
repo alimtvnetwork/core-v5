@@ -10,8 +10,8 @@ func GetSearchTermExpectationSimpleMessage(
 	counter int,
 	expectationErrorMessage string,
 	processingIndex int,
-	contentProcessed interface{},
-	searchTermProcessed interface{},
+	contentProcessed any,
+	searchTermProcessed any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.PrintHeaderForSearchActualAndExpectedProcessedSimpleFormat,

@@ -7,7 +7,7 @@ import (
 )
 
 func MsgHeaderPlusEnding(
-	header, message interface{},
+	header, message any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.MsgHeaderPlusEndingFormat,

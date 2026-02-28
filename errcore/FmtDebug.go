@@ -4,14 +4,14 @@ import "fmt"
 
 func FmtDebug(
 	format string,
-	items ...interface{},
+	items ...any,
 ) {
 	fmt.Printf(format, items...)
 }
 
 func ValidPrint(
 	isValid bool,
-	items ...interface{},
+	items ...any,
 ) {
 	if isValid {
 		fmt.Print(items...)
@@ -20,7 +20,7 @@ func ValidPrint(
 
 func FailedPrint(
 	isFailed bool,
-	items ...interface{},
+	items ...any,
 ) {
 	if isFailed {
 		fmt.Print(items...)

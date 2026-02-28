@@ -8,7 +8,7 @@ import (
 )
 
 func typesNamesString(
-	anyItems ...interface{},
+	anyItems ...any,
 ) string {
 	slice := make([]string, len(anyItems))
 

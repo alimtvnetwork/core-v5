@@ -62,19 +62,19 @@ type InArgsTypesNamesGetter interface {
 }
 
 type IsInTypeMatchesChecker interface {
-	IsInTypeMatches(args ...interface{}) (isOkay bool)
+	IsInTypeMatches(args ...any) (isOkay bool)
 }
 
 type IsOutTypeMatchesChecker interface {
-	IsOutTypeMatches(outArgs ...interface{}) (isOkay bool)
+	IsOutTypeMatches(outArgs ...any) (isOkay bool)
 }
 
 type InArgsVerifier interface {
-	VerifyInArgs(args []interface{}) (isOkay bool, err error)
+	VerifyInArgs(args []any) (isOkay bool, err error)
 }
 
 type OutArgsVerifier interface {
-	VerifyOutArgs(args []interface{}) (isOkay bool, err error)
+	VerifyOutArgs(args []any) (isOkay bool, err error)
 }
 
 type InArgsRvVerifier interface {
@@ -87,7 +87,7 @@ type OutArgsRvVerifier interface {
 
 type VoidCallNoReturner interface {
 	VoidCallNoReturn(
-		args ...interface{},
+		args ...any,
 	) (processingErr error)
 }
 
@@ -97,83 +97,83 @@ type MustBeValidater interface {
 
 type MustInvoker interface {
 	InvokeMust(
-		args ...interface{},
-	) []interface{}
+		args ...any,
+	) []any
 }
 
 type ReflectInvoker interface {
 	Invoke(
-		args ...interface{},
-	) (results []interface{}, processingErr error)
+		args ...any,
+	) (results []any, processingErr error)
 }
 
 type VoidCaller interface {
-	VoidCall() ([]interface{}, error)
+	VoidCall() ([]any, error)
 }
 
 type ValidateMethodArgsGetter interface {
-	ValidateMethodArgs(args []interface{}) error
+	ValidateMethodArgs(args []any) error
 }
 
 type FirstResponseOfInvokeGetter interface {
 	GetFirstResponseOfInvoke(
-		args ...interface{},
-	) (firstResponse interface{}, err error)
+		args ...any,
+	) (firstResponse any, err error)
 }
 
 type InvokeResultOfIndexGetter interface {
 	InvokeResultOfIndex(
 		index int,
-		args ...interface{},
-	) (firstResponse interface{}, err error)
+		args ...any,
+	) (firstResponse any, err error)
 }
 
 type InvokeErrorGetter interface {
 	InvokeError(
-		args ...interface{},
+		args ...any,
 	) (funcErr, processingErr error)
 }
 
 type InvokeFirstAndErrorGetter interface {
 	InvokeFirstAndError(
-		args ...interface{},
-	) (firstResponse interface{}, funcErr, processingErr error)
+		args ...any,
+	) (firstResponse any, funcErr, processingErr error)
 }
 
 type FirstItemGetter interface {
-	FirstItem() interface{}
+	FirstItem() any
 }
 
 type SecondItemGetter interface {
-	SecondItem() interface{}
+	SecondItem() any
 }
 
 type ThirdItemGetter interface {
-	ThirdItem() interface{}
+	ThirdItem() any
 }
 
 type FourthItemGetter interface {
-	FourthItem() interface{}
+	FourthItem() any
 }
 
 type FifthItemGetter interface {
-	FifthItem() interface{}
+	FifthItem() any
 }
 
 type SixthItemGetter interface {
-	SixthItem() interface{}
+	SixthItem() any
 }
 
 type ExpectGetter interface {
-	Expected() interface{}
+	Expected() any
 }
 
 type ArrangeGetter interface {
-	Arrange() interface{}
+	Arrange() any
 }
 
 type ActualGetter interface {
-	Actual() interface{}
+	Actual() any
 }
 
 type UptoSecondItemGetter interface {
@@ -248,15 +248,15 @@ type FuncWrapContractsBinder interface {
 }
 
 type SliceGetter interface {
-	Slice() []interface{}
+	Slice() []any
 }
 
 type ArgsUptoGetter interface {
-	Args(upTo int) []interface{}
+	Args(upTo int) []any
 }
 
 type ValidArgsGetter interface {
-	ValidArgs() []interface{}
+	ValidArgs() []any
 }
 
 type HasExpectChecker interface {
@@ -264,7 +264,7 @@ type HasExpectChecker interface {
 }
 
 type ByIndexGetter interface {
-	GetByIndex(index int) interface{}
+	GetByIndex(index int) any
 }
 
 type OneParameter interface {
@@ -288,7 +288,7 @@ type FuncParameter interface {
 	ReflectInvoker
 	MustInvoker
 	InvokeWithValidArgs() (
-		results []interface{}, processingErr error,
+		results []any, processingErr error,
 	)
 	ValidArgsGetter
 	fmt.Stringer
@@ -297,14 +297,14 @@ type FuncParameter interface {
 type FuncByIndexParameter interface {
 	FuncParameter
 	InvokeArgs(upTo int) (
-		results []interface{}, processingErr error,
+		results []any, processingErr error,
 	)
 }
 
 type FuncByNameParameter interface {
 	FuncParameter
 	InvokeArgs(names ...string) (
-		results []interface{}, processingErr error,
+		results []any, processingErr error,
 	)
 }
 

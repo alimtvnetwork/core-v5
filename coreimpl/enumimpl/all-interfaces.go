@@ -39,7 +39,7 @@ type formatter interface {
 }
 
 type DifferChecker interface {
-	GetSingleDiffResult(isLeft bool, l, r interface{}) interface{}
-	GetResultOnKeyMissingInRightExistInLeft(lKey string, lVal interface{}) interface{}
-	IsEqual(isRegardless bool, l, r interface{}) bool
+	GetSingleDiffResult(isLeft bool, l, r any) any
+	GetResultOnKeyMissingInRightExistInLeft(lKey string, lVal any) any
+	IsEqual(isRegardless bool, l, r any) bool
 }

@@ -7,7 +7,7 @@ import (
 func CombineWithMsgTypeStackTrace(
 	genericMsg RawErrorType,
 	otherMsg string,
-	reference interface{},
+	reference any,
 ) string {
 	msg := CombineWithMsgTypeNoStack(
 		genericMsg,
@@ -21,7 +21,7 @@ func CombineWithMsgTypeStackTrace(
 func CombineWithMsgTypeNoStack(
 	genericMsg RawErrorType,
 	otherMsg string,
-	reference interface{},
+	reference any,
 ) string {
 	if otherMsg == "" {
 		return genericMsg.String() +

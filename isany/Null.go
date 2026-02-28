@@ -7,7 +7,7 @@ import "reflect"
 // # Returns true for any nil given
 //
 // Reference : https://stackoverflow.com/a/43896204
-func Null(item interface{}) bool {
+func Null(item any) bool {
 	if item == nil {
 		return true
 	}

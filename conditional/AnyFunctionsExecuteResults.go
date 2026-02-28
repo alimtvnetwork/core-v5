@@ -3,11 +3,11 @@ package conditional
 func AnyFunctionsExecuteResults(
 	isTrue bool,
 	trueValueFunctions, falseValueFunctions []func() (
-		result interface{},
+		result any,
 		isTake,
 		isBreak bool,
 	),
-) []interface{} {
+) []any {
 	if isTrue {
 		return executeAnyFunctions(trueValueFunctions)
 	}

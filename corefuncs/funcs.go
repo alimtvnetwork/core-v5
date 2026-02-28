@@ -14,11 +14,11 @@ type (
 	ActionFunc                  func()
 	IsApplyFunc                 func() (isSuccess bool)
 	IsBooleanFunc               func() bool
-	InOutFunc                   func(input interface{}) (output interface{})
-	InOutErrFunc                func(input interface{}) (output interface{}, err error)
-	SerializeOutputFunc         func(input interface{}) (serializedBytes []byte, err error)
+	InOutFunc                   func(input any) (output any)
+	InOutErrFunc                func(input any) (output any, err error)
+	SerializeOutputFunc         func(input any) (serializedBytes []byte, err error)
 	SerializerVoidFunc          func() (serializedBytes []byte, err error)
-	InActionReturnsErrFunc      func(input interface{}) (err error)
+	InActionReturnsErrFunc      func(input any) (err error)
 	NamedActionFunc             func(name string)
 	ActionReturnsErrorFunc      func() error
 	IsSuccessFunc               func() (isSuccess bool)
@@ -26,7 +26,7 @@ type (
 	// ResultDelegatingFunc
 	//
 	// resultDelegatedTo can be unmarshal or marshal or reflect set
-	ResultDelegatingFunc           func(resultDelegatedTo interface{}) error
+	ResultDelegatingFunc           func(resultDelegatedTo any) error
 	NextReturnErrWrapperFunc       func(nextAction ActionReturnsErrorFunc) error
 	NextVoidActionFunc             func(nextAction ExecFunc)
 	PayloadProcessorFunc           func(payloads []byte) (err error)

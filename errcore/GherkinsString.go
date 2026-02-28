@@ -11,7 +11,7 @@ func GherkinsString(
 	feature,
 	given,
 	when,
-	then interface{},
+	then any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.SimpleGherkinsFormat,

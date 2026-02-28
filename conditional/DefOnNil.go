@@ -1,9 +1,9 @@
 package conditional
 
 func DefOnNil(
-	canBeEmpty interface{},
-	onNonNil interface{},
-) interface{} {
+	canBeEmpty any,
+	onNonNil any,
+) any {
 	if canBeEmpty == nil {
 		return onNonNil
 	}

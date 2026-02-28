@@ -1,10 +1,10 @@
 package conditional
 
 func NilCheck(
-	canBeEmpty interface{},
-	onNil interface{},
-	onNonNil interface{},
-) interface{} {
+	canBeEmpty any,
+	onNil any,
+	onNonNil any,
+) any {
 	if canBeEmpty == nil {
 		return onNil
 	}

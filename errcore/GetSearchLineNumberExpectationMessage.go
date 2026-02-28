@@ -10,9 +10,9 @@ func GetSearchLineNumberExpectationMessage(
 	counter int,
 	lineNumberExpect int,
 	lineNumberActualContent int,
-	content interface{},
-	searchTerm interface{},
-	additionalInfo interface{},
+	content any,
+	searchTerm any,
+	additionalInfo any,
 ) string {
 	return fmt.Sprintf(
 		msgformats.PrintSearchLineNumberDidntMatchFormat,

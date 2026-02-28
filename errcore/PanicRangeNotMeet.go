@@ -8,9 +8,9 @@ import (
 
 func PanicRangeNotMeet(
 	otherMsg string,
-	rangeStart interface{},
-	rangeEnd interface{},
-	wholeRange interface{},
+	rangeStart any,
+	rangeEnd any,
+	wholeRange any,
 ) string {
 	rangeStr := ""
 

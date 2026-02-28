@@ -7,7 +7,7 @@ import "fmt"
 // returns
 //
 //	"%s - Expect [\"%v\"] != [\"%v\"] Left"
-func ExpectingSimpleNoType(title, wasExpecting, actual interface{}) string {
+func ExpectingSimpleNoType(title, wasExpecting, actual any) string {
 	return fmt.Sprintf(
 		expectingSimpleNoTypeMessageFormat,
 		title,

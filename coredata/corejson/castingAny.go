@@ -11,7 +11,7 @@ type castingAny struct{}
 
 func (it castingAny) FromToDefault(
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	return it.FromToOption(
 		true,
@@ -22,7 +22,7 @@ func (it castingAny) FromToDefault(
 
 func (it castingAny) FromToReflection(
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	return it.FromToOption(
 		true,
@@ -50,7 +50,7 @@ func (it castingAny) FromToReflection(
 func (it castingAny) FromToOption(
 	isUseReflection bool,
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	err, isApplicable := it.reflectionCasting(
 		isUseReflection,
@@ -135,8 +135,8 @@ func (it castingAny) FromToOption(
 //	todo refactor return err
 func (it castingAny) reflectionCasting(
 	isUseReflection bool,
-	fromAny interface{},
-	castedToPtr interface{},
+	fromAny any,
+	castedToPtr any,
 ) (err error, isApplicable bool) {
 	if !isUseReflection {
 		return nil, false
@@ -189,7 +189,7 @@ func (it castingAny) reflectionCasting(
 
 func (it castingAny) OrDeserializeTo(
 	fromAny,
-	castedToPtr interface{},
+	castedToPtr any,
 ) (failedOrDeserialized error) {
 	return it.FromToDefault(fromAny, castedToPtr)
 }

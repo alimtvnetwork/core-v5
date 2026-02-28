@@ -2,8 +2,8 @@ package conditional
 
 func Interface(
 	isTrue bool,
-	trueValue, falseValue interface{},
-) interface{} {
+	trueValue, falseValue any,
+) any {
 	if isTrue {
 		return trueValue
 	}
