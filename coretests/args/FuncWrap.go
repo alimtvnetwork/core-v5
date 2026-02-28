@@ -8,7 +8,7 @@ import (
 
 	"gitlab.com/auk-go/core/codestack"
 	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/internal/trydo"
 )
@@ -530,7 +530,7 @@ func (it *FuncWrap) InvokeSkip(
 	)
 
 	if exception != nil {
-		toMsg := convertinteranl.AnyTo.SmartString(exception)
+		toMsg := convertinternal.AnyTo.SmartString(exception)
 		finalError := fmt.Errorf(
 			"%s - func invoke failed\nstack-trace:%s\nerr:%s",
 			it.GetFuncName(),

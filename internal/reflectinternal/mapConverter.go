@@ -6,7 +6,7 @@ import (
 	"sort"
 
 	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 type mapConverter struct{}
@@ -118,7 +118,7 @@ func (it mapConverter) ToKeysValuesAny(i interface{}) (keys []string, values []i
 	}
 
 	rv := reflect.ValueOf(i)
-	toStringFunc := convertinteranl.AnyTo.SmartString
+	toStringFunc := convertinternal.AnyTo.SmartString
 
 	err = Looper.MapForRv(
 		rv, func(total int, index int, key, v interface{}) (err error) {

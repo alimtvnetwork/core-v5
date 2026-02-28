@@ -8,7 +8,7 @@ import (
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 type GoCode struct {
@@ -202,7 +202,7 @@ func (it *GoCode) CompileFullCode() (string, error) {
 }
 
 func (it *GoCode) FormatCode(code string) (string, error) {
-	s, err := convertinteranl.CodeFormatter.Golang(code)
+	s, err := convertinternal.CodeFormatter.Golang(code)
 
 	return s, errcore.StackEnhance.Error(err)
 }

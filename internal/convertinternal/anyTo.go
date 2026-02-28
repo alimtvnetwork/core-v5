@@ -1,4 +1,4 @@
-package convertinteranl
+package convertinternal
 
 import (
 	"fmt"
@@ -12,11 +12,7 @@ import (
 
 type anyTo struct{}
 
-// ValueString
-//
-// If nil then returns ""
-// Or, returns %v of the value given.
-func (it anyTo) ValueString(anyItem interface{}) string {
+func (it anyTo) ValueString(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -27,7 +23,7 @@ func (it anyTo) ValueString(anyItem interface{}) string {
 	)
 }
 
-func (it anyTo) FullPropertyString(anyItem interface{}) string {
+func (it anyTo) FullPropertyString(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -38,7 +34,7 @@ func (it anyTo) FullPropertyString(anyItem interface{}) string {
 	)
 }
 
-func (it anyTo) TypeName(anyItem interface{}) string {
+func (it anyTo) TypeName(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -49,12 +45,7 @@ func (it anyTo) TypeName(anyItem interface{}) string {
 	)
 }
 
-// SmartString
-//
-//   - If nil return ""
-//   - If string return just returns
-//   - Or, else return %v of value
-func (it anyTo) SmartString(anyItem interface{}) string {
+func (it anyTo) SmartString(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -77,7 +68,7 @@ func (it anyTo) SmartString(anyItem interface{}) string {
 			v,
 			constants.NewLineUnix,
 		)
-	case []interface{}:
+	case []any:
 		if len(v) == 0 {
 			return ""
 		}
@@ -100,7 +91,7 @@ func (it anyTo) SmartString(anyItem interface{}) string {
 	)
 }
 
-func (it anyTo) SmartJson(anyItem interface{}) string {
+func (it anyTo) SmartJson(anyItem any) string {
 	if anyItem == nil {
 		return ""
 	}
@@ -133,7 +124,7 @@ func (it anyTo) SmartJson(anyItem interface{}) string {
 	}
 }
 
-func (it anyTo) SmartPrettyJsonLines(anyItem interface{}) []string {
+func (it anyTo) SmartPrettyJsonLines(anyItem any) []string {
 	if anyItem == nil {
 		return []string{}
 	}
@@ -152,7 +143,7 @@ func (it anyTo) SmartPrettyJsonLines(anyItem interface{}) []string {
 	}
 }
 
-func (it anyTo) PrettyJsonLines(anyItem interface{}) []string {
+func (it anyTo) PrettyJsonLines(anyItem any) []string {
 	if anyItem == nil {
 		return []string{}
 	}
@@ -167,28 +158,10 @@ func (it anyTo) PrettyJsonLines(anyItem interface{}) []string {
 	)
 }
 
-// Strings
-//
-//	This function will display complex objects to simpler form
-//	for the integration testing validation and expectations.
-//
-// # Steps:
-//  01. string to []string
-//  02. []string to as is.
-//  03. []interface{} to []string
-//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
-//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
-//  06. map[string]string (fmt - %s : %s)") to []string
-//  07. map[string]int (fmt - %s : %d)") to []string
-//  08. map[int]string (fmt - %d : %s)") to []string
-//  09. int to []string
-//  10. byte to []string
-//  11. bool to []string
-//  12. any to PrettyJSON
 func (it anyTo) Strings(
-	any interface{},
+	item any,
 ) []string {
-	switch v := any.(type) {
+	switch v := item.(type) {
 	case string:
 		if v == "" {
 			return []string{}
@@ -209,7 +182,7 @@ func (it anyTo) Strings(
 		)
 	case []string:
 		return v
-	case []interface{}:
+	case []any:
 		if len(v) == 0 {
 			return []string{}
 		}
@@ -222,7 +195,7 @@ func (it anyTo) Strings(
 
 		return lines
 
-	case map[string]interface{}:
+	case map[string]any:
 		if len(v) == 0 {
 			return []string{}
 		}
@@ -243,7 +216,7 @@ func (it anyTo) Strings(
 		sort.Strings(lines)
 
 		return lines
-	case map[interface{}]interface{}:
+	case map[any]any:
 		if len(v) == 0 {
 			return []string{}
 		}
@@ -342,32 +315,14 @@ func (it anyTo) Strings(
 			strconv.FormatBool(v),
 		}
 	default:
-		return it.PrettyJsonLines(any)
+		return it.PrettyJsonLines(item)
 	}
 }
 
-// String
-//
-//	This function will display complex objects to simpler form
-//	for the integration testing validation and expectations.
-//
-// # Steps:
-//  01. string to []string
-//  02. []string to as is.
-//  03. []interface{} to []string
-//  04. map[string]interface{} (fmt - "%s : SmartJson(%s)") to []string
-//  05. map[interface{}]interface{} (fmt - SmartJson("%s) : SmartJson(%s)") to []string
-//  06. map[string]string (fmt - %s : %s)") to []string
-//  07. map[string]int (fmt - %s : %d)") to []string
-//  08. map[int]string (fmt - %d : %s)") to []string
-//  09. int to []string
-//  10. byte to []string
-//  11. bool to []string
-//  12. any to PrettyJSON
 func (it anyTo) String(
-	any interface{},
+	item any,
 ) string {
-	switch v := any.(type) {
+	switch v := item.(type) {
 	case string:
 		return v
 	case *string:
@@ -391,7 +346,7 @@ func (it anyTo) String(
 		return strconv.FormatBool(v)
 	}
 
-	toLines := it.Strings(any)
+	toLines := it.Strings(item)
 
 	return strings.Join(toLines, constants.NewLineUnix)
 }

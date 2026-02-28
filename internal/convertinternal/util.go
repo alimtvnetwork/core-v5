@@ -1,4 +1,4 @@
-package convertinteranl
+package convertinternal
 
 type util struct {
 	Strings stringsUtil

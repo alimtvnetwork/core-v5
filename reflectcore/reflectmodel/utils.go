@@ -6,20 +6,17 @@ import (
 	"reflect"
 	"strings"
 
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 )
 
 type rvUtils struct{}
 
-func (it rvUtils) ArgsToReflectValues(args []interface{}) []reflect.Value {
+func (it rvUtils) ArgsToReflectValues(args []any) []reflect.Value {
 	if len(args) == 0 {
 		return []reflect.Value{}
 	}
 
-	list := make(
-		[]reflect.Value,
-		len(args),
-	)
+	list := make([]reflect.Value, len(args))
 
 	for i, arg := range args {
 		list[i] = reflect.ValueOf(arg)
@@ -30,15 +27,12 @@ func (it rvUtils) ArgsToReflectValues(args []interface{}) []reflect.Value {
 
 func (it rvUtils) ReflectValuesToInterfaces(
 	reflectValues []reflect.Value,
-) []interface{} {
+) []any {
 	if len(reflectValues) == 0 {
-		return []interface{}{}
+		return []any{}
 	}
 
-	list := make(
-		[]interface{},
-		len(reflectValues),
-	)
+	list := make([]any, len(reflectValues))
 
 	for i, rv := range reflectValues {
 		list[i] = it.ReflectValueToAnyValue(rv)
@@ -47,7 +41,7 @@ func (it rvUtils) ReflectValuesToInterfaces(
 	return list
 }
 
-func (it rvUtils) ReflectValueToAnyValue(rv reflect.Value) interface{} {
+func (it rvUtils) ReflectValueToAnyValue(rv reflect.Value) any {
 	if it.IsNull(rv) {
 		return nil
 	}
@@ -62,7 +56,7 @@ func (it rvUtils) ReflectValueToAnyValue(rv reflect.Value) interface{} {
 	}
 }
 
-func (it rvUtils) IsNull(item interface{}) bool {
+func (it rvUtils) IsNull(item any) bool {
 	if item == nil {
 		return true
 	}
@@ -77,7 +71,7 @@ func (it rvUtils) IsNull(item interface{}) bool {
 	}
 }
 
-func (it rvUtils) InterfacesToTypesNamesWithValues(items []interface{}) []string {
+func (it rvUtils) InterfacesToTypesNamesWithValues(items []any) []string {
 	if len(items) == 0 {
 		return []string{}
 	}
@@ -90,7 +84,7 @@ func (it rvUtils) InterfacesToTypesNamesWithValues(items []interface{}) []string
 			"%d. %s [value: %s]",
 			i,
 			toType.Name(),
-			convertinteranl.AnyTo.SmartString(item),
+			convertinternal.AnyTo.SmartString(item),
 		)
 
 		output = append(output, compiledString)
@@ -100,7 +94,7 @@ func (it rvUtils) InterfacesToTypesNamesWithValues(items []interface{}) []string
 	return output
 }
 
-func (it rvUtils) InterfacesToTypes(items []interface{}) []reflect.Type {
+func (it rvUtils) InterfacesToTypes(items []any) []reflect.Type {
 	if len(items) == 0 {
 		return []reflect.Type{}
 	}
@@ -192,24 +186,14 @@ func (it rvUtils) IsReflectTypeMatch(expectedType, givenType reflect.Type) (isOk
 	return false, errors.New(errMsg)
 }
 
-func (it rvUtils) IsReflectTypeMatchAny(expected, given interface{}) (isOkay bool, err error) {
+func (it rvUtils) IsReflectTypeMatchAny(expected, given any) (isOkay bool, err error) {
 	ex := reflect.TypeOf(expected)
 	gi := reflect.TypeOf(given)
 
 	return it.IsReflectTypeMatch(ex, gi)
 }
 
-// IndexToPosition
-//
-// Index to position format
-//
-//   - Index 0 => Position => 1st
-//   - Index 1 => Position => 2nd
-//   - Index 3 => Position => 3rd
-//   - Index Rest => Position => %dth
-func (it rvUtils) IndexToPosition(
-	index int,
-) string {
+func (it rvUtils) IndexToPosition(index int) string {
 	position := index + 1
 
 	switch position {
@@ -220,10 +204,7 @@ func (it rvUtils) IndexToPosition(
 	case 3:
 		return "3rd"
 	default:
-		return fmt.Sprintf(
-			"%dth",
-			position,
-		)
+		return fmt.Sprintf("%dth", position)
 	}
 }
 
@@ -236,24 +217,13 @@ func (it rvUtils) PrependWithSpaces(
 	var newSlice []string
 
 	if prependingLinesSpaceCount > 0 {
-		prependingLines = it.
-			WithSpaces(
-				prependingLinesSpaceCount,
-				prependingLines...,
-			)
+		prependingLines = it.WithSpaces(prependingLinesSpaceCount, prependingLines...)
 	}
 
-	newSlice = append(
-		newSlice,
-		prependingLines...,
-	)
+	newSlice = append(newSlice, prependingLines...)
 
 	if spaceCountLines > 0 {
-		existingLines = it.
-			WithSpaces(
-				spaceCountLines,
-				existingLines...,
-			)
+		existingLines = it.WithSpaces(spaceCountLines, existingLines...)
 	}
 
 	newSlice = append(newSlice, existingLines...)
@@ -267,17 +237,10 @@ func (it rvUtils) WithSpaces(spaceCount int, lines ...string) []string {
 	}
 
 	newLines := make([]string, len(lines))
-	prefix := strings.Repeat(
-		" ",
-		spaceCount,
-	)
+	prefix := strings.Repeat(" ", spaceCount)
 
 	for i, line := range lines {
-		newLines[i] = fmt.Sprintf(
-			"%s%s",
-			prefix,
-			line,
-		)
+		newLines[i] = fmt.Sprintf("%s%s", prefix, line)
 	}
 
 	return newLines

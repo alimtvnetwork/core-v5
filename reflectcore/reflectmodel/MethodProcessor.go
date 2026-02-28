@@ -16,6 +16,11 @@ type MethodProcessor struct {
 	outArgsTypes     []reflect.Type `json:"-"`
 }
 
+var (
+	util              = rvUtils{}
+	newLineSpaceIndent = "\n    - "
+)
+
 func (it *MethodProcessor) HasValidFunc() bool {
 	return it != nil
 }
@@ -32,27 +37,17 @@ func (it *MethodProcessor) Func() *reflect.Value {
 	if it.IsInvalid() {
 		return nil
 	}
-
 	return &it.ReflectMethod.Func
 }
 
-// ArgsCount is same as ArgsLength
-//
-// Reference:
-//
-//	https://stackoverflow.com/a/47626214
 func (it *MethodProcessor) ArgsCount() int {
 	return it.ReflectMethod.Type.NumIn()
 }
 
-// ReturnLength refers to the return arguments length
 func (it *MethodProcessor) ReturnLength() int {
 	if it.IsInvalid() {
 		return -1
 	}
-
-	// https://stackoverflow.com/a/47626214
-
 	return it.GetType().NumOut()
 }
 
@@ -64,26 +59,20 @@ func (it *MethodProcessor) IsPrivateMethod() bool {
 	return it != nil && it.ReflectMethod.PkgPath != ""
 }
 
-// ArgsLength
-//
-// https://stackoverflow.com/a/47626214
-// It is same as ArgsCount
 func (it *MethodProcessor) ArgsLength() int {
 	return it.ReflectMethod.Type.NumIn()
 }
 
-func (it *MethodProcessor) Invoke(args ...interface{}) (
-	responses []interface{},
+func (it *MethodProcessor) Invoke(args ...any) (
+	responses []any,
 	err error,
 ) {
 	firstErr := it.validationError()
-
 	if firstErr != nil {
 		return nil, firstErr
 	}
 
 	argsValidationErr := it.ValidateMethodArgs(args)
-
 	if argsValidationErr != nil {
 		return nil, argsValidationErr
 	}
@@ -95,50 +84,40 @@ func (it *MethodProcessor) Invoke(args ...interface{}) (
 }
 
 func (it *MethodProcessor) GetFirstResponseOfInvoke(
-	args ...interface{},
-) (firstResponse interface{}, err error) {
+	args ...any,
+) (firstResponse any, err error) {
 	result, err := it.InvokeResultOfIndex(0, args...)
-
 	if err != nil {
 		return nil, err
 	}
-
 	return result, err
 }
 
 func (it *MethodProcessor) InvokeResultOfIndex(
 	index int,
-	args ...interface{},
-) (firstResponse interface{}, err error) {
+	args ...any,
+) (firstResponse any, err error) {
 	results, err := it.Invoke(args...)
-
 	if err != nil {
 		return nil, err
 	}
-
 	return results[index], err
 }
 
 func (it *MethodProcessor) InvokeError(
-	args ...interface{},
+	args ...any,
 ) (funcErr, processingErr error) {
 	result, err := it.GetFirstResponseOfInvoke(args...)
-
 	if err != nil {
 		return nil, err
 	}
-
 	return result.(error), err
 }
 
-// InvokeFirstAndError
-//
-//	useful for method which looks like ReflectMethod() (soemthing, error)
 func (it *MethodProcessor) InvokeFirstAndError(
-	args ...interface{},
-) (firstResponse interface{}, funcErr, processingErr error) {
+	args ...any,
+) (firstResponse any, funcErr, processingErr error) {
 	results, processingErr := it.Invoke(args...)
-
 	if processingErr != nil {
 		return nil, nil, processingErr
 	}
@@ -155,73 +134,45 @@ func (it *MethodProcessor) InvokeFirstAndError(
 	return first, second, processingErr
 }
 
-// IsNotEqual
-//
-// Based on predication.
-//
-// Warning: it can be wrong as well
-func (it *MethodProcessor) IsNotEqual(
-	another *MethodProcessor,
-) bool {
+func (it *MethodProcessor) IsNotEqual(another *MethodProcessor) bool {
 	return !it.IsEqual(another)
 }
 
-// IsEqual
-//
-// Based on predication.
-//
-// Warning: it can be wrong as well
-func (it *MethodProcessor) IsEqual(
-	another *MethodProcessor,
-) bool {
+func (it *MethodProcessor) IsEqual(another *MethodProcessor) bool {
 	if it == nil && another == nil {
 		return true
 	}
-
 	if it == nil || another == nil {
 		return false
 	}
-
 	if it == another {
 		return true
 	}
-
 	if it.IsInvalid() != another.IsInvalid() {
 		return false
 	}
-
 	if it.Name != it.Name {
 		return false
 	}
-
-	// can be skipped,
-	// because name also refers to public or private
 	if it.IsPublicMethod() != it.IsPublicMethod() {
 		return false
 	}
-
 	if it.ArgsCount() != it.ArgsCount() {
 		return false
 	}
-
 	if it.ReturnLength() != it.ReturnLength() {
 		return false
 	}
 
 	isInArgsOkay, _ := it.InArgsVerifyRv(another.GetInArgsTypes())
-
 	if !isInArgsOkay {
 		return false
 	}
 
 	isOutArgsOkay, _ := it.OutArgsVerifyRv(another.GetOutArgsTypes())
-
 	if !isOutArgsOkay {
 		return false
 	}
-
-	// most probably true,
-	// but can be false as well
 
 	return true
 }
@@ -230,7 +181,6 @@ func (it *MethodProcessor) GetType() reflect.Type {
 	if it.IsInvalid() {
 		return nil
 	}
-
 	return it.ReflectMethod.Type
 }
 
@@ -240,7 +190,6 @@ func (it *MethodProcessor) GetOutArgsTypes() []reflect.Type {
 	}
 
 	argsOutCount := it.ReturnLength()
-
 	if argsOutCount == 0 {
 		return []reflect.Type{}
 	}
@@ -249,16 +198,13 @@ func (it *MethodProcessor) GetOutArgsTypes() []reflect.Type {
 		return it.outArgsTypes
 	}
 
-	// https://go.dev/play/p/dpIspUFfbu0
 	mainType := it.GetType()
 	slice := make([]reflect.Type, 0, argsOutCount)
-
 	for i := 0; i < argsOutCount; i++ {
 		slice = append(slice, mainType.Out(i))
 	}
 
 	it.outArgsTypes = slice
-
 	return slice
 }
 
@@ -268,7 +214,6 @@ func (it *MethodProcessor) GetInArgsTypes() []reflect.Type {
 	}
 
 	argsCount := it.ArgsCount()
-
 	if argsCount == 0 {
 		return []reflect.Type{}
 	}
@@ -277,16 +222,13 @@ func (it *MethodProcessor) GetInArgsTypes() []reflect.Type {
 		return it.inArgsTypes
 	}
 
-	// https://go.dev/play/p/dpIspUFfbu0
 	mainType := it.GetType()
 	slice := make([]reflect.Type, 0, argsCount)
-
 	for i := 0; i < argsCount; i++ {
 		slice = append(slice, mainType.In(i))
 	}
 
 	it.inArgsTypes = slice
-
 	return slice
 }
 
@@ -296,7 +238,6 @@ func (it *MethodProcessor) GetInArgsTypesNames() []string {
 	}
 
 	argsCount := it.ArgsCount()
-
 	if argsCount == 0 {
 		return []string{}
 	}
@@ -305,16 +246,13 @@ func (it *MethodProcessor) GetInArgsTypesNames() []string {
 		return it.inArgsTypesNames
 	}
 
-	// https://go.dev/play/p/dpIspUFfbu0
 	mainType := it.GetType()
 	slice := make([]string, 0, argsCount)
-
 	for i := 0; i < argsCount; i++ {
 		slice = append(slice, mainType.In(i).String())
 	}
 
 	it.inArgsTypesNames = slice
-
 	return slice
 }
 
@@ -336,7 +274,7 @@ func (it *MethodProcessor) validationError() error {
 	return nil
 }
 
-func (it *MethodProcessor) ValidateMethodArgs(args []interface{}) error {
+func (it *MethodProcessor) ValidateMethodArgs(args []any) error {
 	expectedCount := it.ArgsCount()
 	given := len(args)
 
@@ -345,14 +283,13 @@ func (it *MethodProcessor) ValidateMethodArgs(args []interface{}) error {
 	}
 
 	_, err := it.VerifyInArgs(args)
-
 	return err
 }
 
 func (it *MethodProcessor) argsCountMismatchErrorMessage(
 	expectedCount int,
 	given int,
-	args []interface{},
+	args []any,
 ) string {
 	expectedTypes := it.GetInArgsTypesNames()
 	expectedToNames := strings.Join(expectedTypes, newLineSpaceIndent)
@@ -376,32 +313,20 @@ func (it *MethodProcessor) argsCountMismatchErrorMessage(
 	)
 }
 
-func (it *MethodProcessor) VerifyInArgs(args []interface{}) (isOkay bool, err error) {
+func (it *MethodProcessor) VerifyInArgs(args []any) (isOkay bool, err error) {
 	toTypes := util.InterfacesToTypes(args)
-
 	return it.InArgsVerifyRv(toTypes)
 }
 
-func (it *MethodProcessor) VerifyOutArgs(args []interface{}) (isOkay bool, err error) {
+func (it *MethodProcessor) VerifyOutArgs(args []any) (isOkay bool, err error) {
 	toTypes := util.InterfacesToTypes(args)
-
 	return it.OutArgsVerifyRv(toTypes)
 }
 
 func (it *MethodProcessor) InArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
-	return util.
-		VerifyReflectTypes(
-			it.Name,
-			it.GetInArgsTypes(),
-			args,
-		)
+	return util.VerifyReflectTypes(it.Name, it.GetInArgsTypes(), args)
 }
 
 func (it *MethodProcessor) OutArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
-	return util.
-		VerifyReflectTypes(
-			it.Name,
-			it.GetOutArgsTypes(),
-			args,
-		)
+	return util.VerifyReflectTypes(it.Name, it.GetOutArgsTypes(), args)
 }

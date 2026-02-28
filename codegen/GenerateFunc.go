@@ -12,7 +12,7 @@ import (
 	"gitlab.com/auk-go/core/coreindexes"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/internal/convertinteranl"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/internal/pathinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 	"gitlab.com/auk-go/core/isany"
@@ -279,7 +279,7 @@ func (it GenerateFunc) FirstArrangeTypeName() string {
 		return ""
 	}
 
-	return convertinteranl.AnyTo.TypeName(
+	return convertinternal.AnyTo.TypeName(
 		it.TestCases[0].ArrangeInput,
 	)
 }

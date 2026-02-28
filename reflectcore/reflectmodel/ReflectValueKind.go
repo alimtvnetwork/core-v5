@@ -34,7 +34,7 @@ func (it *ReflectValueKind) IsEmptyError() bool {
 	return it == nil || it.Error == nil
 }
 
-func (it *ReflectValueKind) ActualInstance() interface{} {
+func (it *ReflectValueKind) ActualInstance() any {
 	if it == nil {
 		return nil
 	}
@@ -80,7 +80,7 @@ func (it *ReflectValueKind) TypeName() string {
 	return rv.String()
 }
 
-func (it *ReflectValueKind) PointerInterface() interface{} {
+func (it *ReflectValueKind) PointerInterface() any {
 	rv := it.PointerRv()
 
 	if rv == nil {

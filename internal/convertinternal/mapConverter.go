@@ -1,4 +1,4 @@
-package convertinteranl
+package convertinternal
 
 import (
 	"fmt"
@@ -12,58 +12,48 @@ import (
 type mapConverter struct{}
 
 func (it mapConverter) Keys(
-	anyMap interface{},
+	anyMap any,
 ) (keys []string, err error) {
 	switch v := anyMap.(type) {
 	case map[string]string:
 		for key := range v {
 			keys = append(keys, key)
 		}
-
 		return keys, nil
-	case map[string]interface{}:
+	case map[string]any:
 		for key := range v {
 			keys = append(keys, key)
 		}
-
 		return keys, nil
-
-	case map[int]interface{}:
+	case map[int]any:
 		for key := range v {
 			keys = append(keys, strconv.Itoa(key))
 		}
-
 		return keys, nil
 	case map[int]string:
 		for key := range v {
 			keys = append(keys, strconv.Itoa(key))
 		}
-
 		return keys, nil
-	case map[float64]interface{}:
+	case map[float64]any:
 		for key := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 		}
-
 		return keys, nil
-
-	case map[interface{}]interface{}:
+	case map[any]any:
 		for key := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 		}
-
 		return keys, nil
-	case map[interface{}]string:
+	case map[any]string:
 		for key := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 		}
-
 		return keys, nil
 	case map[reflect.Type]string:
 		for key := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 		}
-
 		return keys, nil
 	default:
 		return keys, fmt.Errorf(
@@ -74,7 +64,7 @@ func (it mapConverter) Keys(
 }
 
 func (it mapConverter) KeysValues(
-	anyMap interface{},
+	anyMap any,
 ) (keys, values []string, err error) {
 	switch v := anyMap.(type) {
 	case map[string]string:
@@ -82,55 +72,42 @@ func (it mapConverter) KeysValues(
 			keys = append(keys, key)
 			values = append(values, value)
 		}
-
 		return keys, values, nil
-	case map[string]interface{}:
+	case map[string]any:
 		for key, value := range v {
 			keys = append(keys, key)
-			values = append(
-				values,
-				AnyTo.SmartString(value),
-			)
+			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return keys, values, nil
-	case map[int]interface{}:
+	case map[int]any:
 		for key, value := range v {
 			keys = append(keys, strconv.Itoa(key))
-			values = append(
-				values,
-				AnyTo.SmartString(value),
-			)
+			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return keys, values, nil
 	case map[int]string:
 		for key, value := range v {
 			keys = append(keys, strconv.Itoa(key))
 			values = append(values, value)
 		}
-
 		return keys, values, nil
-	case map[float64]interface{}:
+	case map[float64]any:
 		for key, value := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return keys, values, nil
-	case map[interface{}]interface{}:
+	case map[any]any:
 		for key, value := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return keys, values, nil
-	case map[interface{}]string:
+	case map[any]string:
 		for key, value := range v {
 			keys = append(keys, AnyTo.SmartString(key))
 			values = append(values, value)
 		}
-
 		return keys, values, nil
 	default:
 		return keys, values, fmt.Errorf(
@@ -141,97 +118,77 @@ func (it mapConverter) KeysValues(
 }
 
 func (it mapConverter) SortedKeys(
-	anyMap interface{},
+	anyMap any,
 ) (sortedKeys []string, err error) {
 	keys, err := it.Keys(anyMap)
-
 	if err != nil || len(keys) <= 1 {
 		return keys, err
 	}
-
 	sort.Strings(keys)
-
 	return keys, err
 }
 
 func (it mapConverter) SortedKeysValues(
-	anyMap interface{},
+	anyMap any,
 ) (keys, values []string, err error) {
 	keys, values, err = it.KeysValues(anyMap)
-
 	if err != nil {
 		return keys, values, err
 	}
-
-	// okay
 	toMap := make(map[string]string, len(keys))
-
 	for i, key := range keys {
 		toMap[key] = values[i]
 	}
-
 	sort.Strings(keys)
-
 	for i, key := range keys {
 		values[i] = toMap[key]
 	}
-
 	return keys, values, err
 }
 
 func (it mapConverter) Values(
-	anyMap interface{},
+	anyMap any,
 ) (values []string, err error) {
 	switch casted := anyMap.(type) {
 	case map[string]string:
 		for _, value := range casted {
 			values = append(values, value)
 		}
-
 		return values, nil
-	case map[string]interface{}:
+	case map[string]any:
 		for _, value := range casted {
 			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return values, nil
-
-	case map[int]interface{}:
+	case map[int]any:
 		for _, value := range casted {
 			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return values, nil
 	case map[string]int:
 		for _, value := range casted {
 			values = append(values, strconv.Itoa(value))
 		}
-
 		return values, nil
 	case map[int]string:
 		for _, value := range casted {
 			values = append(values, value)
 		}
-
 		return values, nil
-	case map[float64]interface{}:
+	case map[float64]any:
 		for _, value := range casted {
 			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return values, nil
-
-	case map[interface{}]interface{}:
+	case map[any]any:
 		for _, value := range casted {
 			values = append(values, AnyTo.SmartString(value))
 		}
-
 		return values, nil
-	case map[interface{}]string:
+	case map[any]string:
 		for _, value := range casted {
 			values = append(values, value)
 		}
-
 		return values, nil
 	default:
 		return values, fmt.Errorf(
@@ -243,7 +200,7 @@ func (it mapConverter) Values(
 
 func (it mapConverter) StringAnyToStringString(
 	isSkipEmpty bool,
-	additionalMapItems map[string]interface{},
+	additionalMapItems map[string]any,
 ) map[string]string {
 	if len(additionalMapItems) == 0 {
 		return map[string]string{}
@@ -269,8 +226,8 @@ func (it mapConverter) StringAnyToStringString(
 
 func (it mapConverter) CombineMapStringAny(
 	isSkipEmpty bool,
-	mainMap map[string]interface{},
-	additionalMapItems map[string]interface{},
+	mainMap map[string]any,
+	additionalMapItems map[string]any,
 ) map[string]string {
 	if len(mainMap) == 0 && len(additionalMapItems) == 0 {
 		return map[string]string{}
