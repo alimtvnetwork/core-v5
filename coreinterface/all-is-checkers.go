@@ -23,31 +23,6 @@ type DynamicDataHasChecker interface {
 	HasDynamicAny(searchTerms ...any) bool
 }
 
-type AllKeysStringer interface {
-	AllKeysString() string
-}
-
-type AllKeysSortedStringer interface {
-	AllKeysSortedString() string
-}
-
-type HasKeyChecker interface {
-	HasKey(key string) bool
-}
-
-type HasAnyItemChecker interface {
-	HasAnyItem() bool
-}
-
-type CoreDefiner interface {
-	String() string
-	StringSafe() string
-}
-
-type StringCompiler interface {
-	Compile() string
-	CompileSafe() string
-}
 
 type IfStringCompiler interface {
 	CompileIf(condition bool) string
@@ -77,9 +52,6 @@ type MustBytesCompiler interface {
 	CompileBytesMust() []byte
 }
 
-type Disposer interface {
-	Dispose()
-}
 
 type StringFinalizer interface {
 	StringFinalize() string
