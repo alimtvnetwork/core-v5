@@ -6,7 +6,7 @@
 |-------|--------|-------------|
 | Phase 1 | ✅ Done | Repository scan and folder map draft |
 | Phase 2 | ✅ Done | Per-folder spec docs |
-| Phase 3 | 🔲 Todo | README upgrades (root README rewrite) |
+| Phase 3 | ✅ Done | README upgrades (root README rewrite) |
 | Phase 4 | ✅ Done | Special module docs and conventions |
 | Phase 5 | ✅ Done | Codegen deprecation and Go modernization plan |
 | Phase 6 | ✅ Done | Code review report and improvement backlog |
