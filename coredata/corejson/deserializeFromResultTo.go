@@ -78,7 +78,7 @@ func (it deserializeFromResultTo) StringsMust(
 
 func (it deserializeFromResultTo) MapAnyItem(
 	jsonResult *Result,
-) (mapAnyItem map[string]interface{}, err error) {
+) (mapAnyItem map[string]any, err error) {
 	err = jsonResult.Deserialize(
 		&mapAnyItem)
 
@@ -87,7 +87,7 @@ func (it deserializeFromResultTo) MapAnyItem(
 
 func (it deserializeFromResultTo) MapAnyItemMust(
 	jsonResult *Result,
-) (mapAnyItem map[string]interface{}) {
+) (mapAnyItem map[string]any) {
 	err := jsonResult.Deserialize(
 		&mapAnyItem)
 

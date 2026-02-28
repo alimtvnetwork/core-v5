@@ -146,7 +146,7 @@ func (it *MapResults) GetErrorsAsSingle() error {
 
 func (it *MapResults) Unmarshal(
 	key string,
-	any interface{},
+	any any,
 ) error {
 	result, has := it.Items[key]
 
@@ -168,14 +168,14 @@ func (it *MapResults) Unmarshal(
 
 func (it *MapResults) Deserialize(
 	key string,
-	any interface{},
+	any any,
 ) error {
 	return it.Unmarshal(key, any)
 }
 
 func (it *MapResults) DeserializeMust(
 	key string,
-	any interface{},
+	any any,
 ) *MapResults {
 	err := it.Unmarshal(key, any)
 	errcore.MustBeEmpty(err)
@@ -225,7 +225,7 @@ func (it *MapResults) UnmarshalManySafe(
 
 func (it *MapResults) SafeUnmarshal(
 	key string,
-	any interface{},
+	any any,
 ) error {
 	result, has := it.Items[key]
 
@@ -239,7 +239,7 @@ func (it *MapResults) SafeUnmarshal(
 
 func (it *MapResults) SafeDeserialize(
 	key string,
-	any interface{},
+	any any,
 ) error {
 	return it.SafeUnmarshal(
 		key,
@@ -248,7 +248,7 @@ func (it *MapResults) SafeDeserialize(
 
 func (it *MapResults) SafeDeserializeMust(
 	key string,
-	any interface{},
+	any any,
 ) *MapResults {
 	err := it.SafeUnmarshal(
 		key,
@@ -291,7 +291,7 @@ func (it *MapResults) AddPtr(
 // AddAny returns error if any during marshalling it.
 func (it *MapResults) AddAny(
 	key string,
-	item interface{},
+	item any,
 ) error {
 	if item == nil {
 		return errcore.MarshallingFailedType.Error(
@@ -314,7 +314,7 @@ func (it *MapResults) AddAny(
 // AddAnySkipOnNil returns error if any during marshalling it.
 func (it *MapResults) AddAnySkipOnNil(
 	key string,
-	item interface{},
+	item any,
 ) error {
 	if item == nil {
 		return nil
@@ -333,7 +333,7 @@ func (it *MapResults) AddAnySkipOnNil(
 
 func (it *MapResults) AddAnyNonEmptyNonError(
 	key string,
-	item interface{},
+	item any,
 ) *MapResults {
 	if item == nil {
 		return it
@@ -346,7 +346,7 @@ func (it *MapResults) AddAnyNonEmptyNonError(
 
 func (it *MapResults) AddAnyNonEmpty(
 	key string,
-	item interface{},
+	item any,
 ) *MapResults {
 	if item == nil {
 		return it
@@ -477,7 +477,7 @@ func (it *MapResults) AddMapResults(
 }
 
 func (it *MapResults) AddMapAnyItems(
-	addOrUpdateMap map[string]interface{},
+	addOrUpdateMap map[string]any,
 ) *MapResults {
 	if len(addOrUpdateMap) == 0 {
 		return it
@@ -800,7 +800,7 @@ func (it *MapResults) JsonModel() *MapResults {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *MapResults) JsonModelAny() interface{} {
+func (it *MapResults) JsonModelAny() any {
 	return it.JsonModel()
 }
 

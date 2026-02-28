@@ -84,7 +84,7 @@ func (it newResultsPtrCollectionCreator) Default() *ResultsPtrCollection {
 
 func (it newResultsPtrCollectionCreator) AnyItemsPlusCap(
 	capacity int,
-	anyItems ...interface{},
+	anyItems ...any,
 ) *ResultsPtrCollection {
 	length := capacity + len(anyItems)
 
@@ -99,7 +99,7 @@ func (it newResultsPtrCollectionCreator) AnyItemsPlusCap(
 }
 
 func (it newResultsPtrCollectionCreator) AnyItems(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *ResultsPtrCollection {
 	return it.AnyItemsPlusCap(
 		0,

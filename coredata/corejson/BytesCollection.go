@@ -173,7 +173,7 @@ func (it *BytesCollection) JsonResultAt(
 
 func (it *BytesCollection) UnmarshalAt(
 	index int,
-	any interface{},
+	any any,
 ) error {
 	rawBytes := it.Items[index]
 
@@ -282,7 +282,7 @@ func (it *BytesCollection) InjectIntoSameIndex(
 
 // UnmarshalIntoSameIndex any nil skip
 func (it *BytesCollection) UnmarshalIntoSameIndex(
-	anys ...interface{},
+	anys ...any,
 ) (
 	errListPtr []error,
 	hasAnyError bool,
@@ -400,7 +400,7 @@ func (it *BytesCollection) Adds(
 }
 
 func (it *BytesCollection) AddAnyItems(
-	anyItems ...interface{},
+	anyItems ...any,
 ) error {
 	if len(anyItems) == 0 {
 		return nil
@@ -471,7 +471,7 @@ func (it *BytesCollection) AddsPtr(
 }
 
 func (it *BytesCollection) AddAny(
-	any interface{},
+	any any,
 ) error {
 	result := New(any)
 
@@ -665,7 +665,7 @@ func (it *BytesCollection) JsonModel() [][]byte {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *BytesCollection) JsonModelAny() interface{} {
+func (it *BytesCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

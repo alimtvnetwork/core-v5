@@ -208,7 +208,7 @@ func (it *ResultsPtrCollection) GetErrorsAsSingle() error {
 
 func (it *ResultsPtrCollection) UnmarshalAt(
 	index int,
-	any interface{},
+	any any,
 ) error {
 	result := it.Items[index]
 
@@ -284,7 +284,7 @@ func (it *ResultsPtrCollection) InjectIntoSameIndex(
 
 // UnmarshalIntoSameIndex any nil skip
 func (it *ResultsPtrCollection) UnmarshalIntoSameIndex(
-	anys ...interface{},
+	anys ...any,
 ) (
 	errListPtr []error,
 	hasAnyError bool,
@@ -437,7 +437,7 @@ func (it *ResultsPtrCollection) Adds(
 }
 
 func (it *ResultsPtrCollection) AddAny(
-	any interface{},
+	any any,
 ) *ResultsPtrCollection {
 	if any == nil {
 		return it
@@ -452,7 +452,7 @@ func (it *ResultsPtrCollection) AddAny(
 
 // AddAnyItems Skip on nil
 func (it *ResultsPtrCollection) AddAnyItems(
-	anys ...interface{},
+	anys ...any,
 ) *ResultsPtrCollection {
 	if anys == nil {
 		return it
@@ -701,7 +701,7 @@ func (it *ResultsPtrCollection) JsonModel() *ResultsPtrCollection {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *ResultsPtrCollection) JsonModelAny() interface{} {
+func (it *ResultsPtrCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

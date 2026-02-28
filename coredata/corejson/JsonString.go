@@ -1,6 +1,6 @@
 package corejson
 
-func JsonString(anyItem interface{}) (jsonString string, err error) {
+func JsonString(anyItem any) (jsonString string, err error) {
 	jsonResult := New(anyItem)
 
 	jsonString = jsonResult.JsonString()

@@ -119,7 +119,7 @@ func (it deserializeFromBytesTo) StringMust(
 
 func (it deserializeFromBytesTo) MapAnyItem(
 	rawBytes []byte,
-) (mapAnyItem map[string]interface{}, err error) {
+) (mapAnyItem map[string]any, err error) {
 	err = Deserialize.UsingBytes(rawBytes, &mapAnyItem)
 
 	return mapAnyItem, err
@@ -127,7 +127,7 @@ func (it deserializeFromBytesTo) MapAnyItem(
 
 func (it deserializeFromBytesTo) MapAnyItemMust(
 	rawBytes []byte,
-) (mapAnyItem map[string]interface{}) {
+) (mapAnyItem map[string]any) {
 	err := Deserialize.UsingBytes(
 		rawBytes,
 		&mapAnyItem)
