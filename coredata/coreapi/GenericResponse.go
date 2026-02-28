@@ -7,7 +7,7 @@ import (
 
 type GenericResponse struct {
 	Attribute *ResponseAttribute `json:"Attribute,omitempty"`
-	Response  interface{}        `json:"Response,omitempty"`
+	Response  any                `json:"Response,omitempty"`
 }
 
 func InvalidGenericResponse(attr *ResponseAttribute) *GenericResponse {
@@ -34,7 +34,7 @@ func (it *GenericResponse) GenericResponseResult() *GenericResponseResult {
 	}
 }
 
-// Clone Cannot copy interface, just putting response in response field.
+// Clone returns a deep copy. Response is copied by reference since any cannot be deep-cloned.
 func (it *GenericResponse) Clone() *GenericResponse {
 	if it == nil {
 		return nil
