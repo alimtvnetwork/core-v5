@@ -22,4 +22,5 @@ type newHashsetCreator struct {
 	Float32 typedHashsetCreator[float32]
 	Float64 typedHashsetCreator[float64]
 	Byte    typedHashsetCreator[byte]
+	Bool    typedHashsetCreator[bool]
 }

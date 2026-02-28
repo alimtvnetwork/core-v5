@@ -1,7 +1,45 @@
 package coregeneric
 
 // =============================================================================
-// Collection type aliases for common primitive types
+// Generic Foundation Types
+// =============================================================================
+//
+// The coregeneric package is built on five generic base types.
+// ALL specialized type aliases below are derived FROM these generics.
+//
+// Base Types:
+//
+//	Collection[T any]          — thread-safe slice-backed list
+//	Hashset[T comparable]      — thread-safe set (map[T]bool)
+//	Hashmap[K comparable, V any] — thread-safe map wrapper
+//	SimpleSlice[T any]         — lightweight typed slice wrapper
+//	LinkedList[T any]          — singly-linked list with head/tail
+//
+// Constraint Hierarchy (most restrictive first):
+//
+//	cmp.Ordered  ⊂  comparable  ⊂  any
+//	├── int, int8..64, uint, uint8..64, float32, float64, string
+//	│
+//	comparable
+//	├── all Ordered types + bool + byte + structs (if all fields comparable)
+//	│
+//	any
+//	├── all comparable types + slices, maps, funcs, interfaces
+//
+// Usage:
+//
+//	// Generic (custom types):
+//	col := coregeneric.NewCollection[MyStruct](10)
+//
+//	// Typed shorthand (primitives):
+//	col := coregeneric.New.Collection.String.Cap(10)
+//
+//	// Type alias:
+//	var col coregeneric.StringCollection
+//
+
+// =============================================================================
+// Collection[T any] — type aliases for common primitives
 // =============================================================================
 
 type StringCollection = Collection[string]
@@ -22,7 +60,7 @@ type BoolCollection = Collection[bool]
 type AnyCollection = Collection[any]
 
 // =============================================================================
-// Hashset type aliases for common primitive types
+// Hashset[T comparable] — type aliases for common primitives
 // =============================================================================
 
 type StringHashset = Hashset[string]
@@ -39,9 +77,10 @@ type Uint64Hashset = Hashset[uint64]
 type Float32Hashset = Hashset[float32]
 type Float64Hashset = Hashset[float64]
 type ByteHashset = Hashset[byte]
+type BoolHashset = Hashset[bool]
 
 // =============================================================================
-// Hashmap type aliases for common key-value combinations
+// Hashmap[K comparable, V any] — type aliases for common key-value combinations
 // =============================================================================
 
 type StringStringHashmap = Hashmap[string, string]
@@ -53,9 +92,12 @@ type StringAnyHashmap = Hashmap[string, any]
 type IntStringHashmap = Hashmap[int, string]
 type IntIntHashmap = Hashmap[int, int]
 type IntAnyHashmap = Hashmap[int, any]
+type IntBoolHashmap = Hashmap[int, bool]
+type Int64StringHashmap = Hashmap[int64, string]
+type Int64AnyHashmap = Hashmap[int64, any]
 
 // =============================================================================
-// SimpleSlice type aliases for common primitive types
+// SimpleSlice[T any] — type aliases for common primitives
 // =============================================================================
 
 type StringSimpleSlice = SimpleSlice[string]
@@ -65,6 +107,10 @@ type Int16SimpleSlice = SimpleSlice[int16]
 type Int32SimpleSlice = SimpleSlice[int32]
 type Int64SimpleSlice = SimpleSlice[int64]
 type UintSimpleSlice = SimpleSlice[uint]
+type Uint8SimpleSlice = SimpleSlice[uint8]
+type Uint16SimpleSlice = SimpleSlice[uint16]
+type Uint32SimpleSlice = SimpleSlice[uint32]
+type Uint64SimpleSlice = SimpleSlice[uint64]
 type Float32SimpleSlice = SimpleSlice[float32]
 type Float64SimpleSlice = SimpleSlice[float64]
 type ByteSimpleSlice = SimpleSlice[byte]
@@ -72,11 +118,22 @@ type BoolSimpleSlice = SimpleSlice[bool]
 type AnySimpleSlice = SimpleSlice[any]
 
 // =============================================================================
-// LinkedList type aliases for common primitive types
+// LinkedList[T any] — type aliases for common primitives
 // =============================================================================
 
 type StringLinkedList = LinkedList[string]
 type IntLinkedList = LinkedList[int]
+type Int8LinkedList = LinkedList[int8]
+type Int16LinkedList = LinkedList[int16]
+type Int32LinkedList = LinkedList[int32]
 type Int64LinkedList = LinkedList[int64]
+type UintLinkedList = LinkedList[uint]
+type Uint8LinkedList = LinkedList[uint8]
+type Uint16LinkedList = LinkedList[uint16]
+type Uint32LinkedList = LinkedList[uint32]
+type Uint64LinkedList = LinkedList[uint64]
+type Float32LinkedList = LinkedList[float32]
 type Float64LinkedList = LinkedList[float64]
+type ByteLinkedList = LinkedList[byte]
+type BoolLinkedList = LinkedList[bool]
 type AnyLinkedList = LinkedList[any]
