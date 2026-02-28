@@ -3,7 +3,7 @@ WindowsBinariesDirectory = bin
 MainDirectory = cmd/main
 ConfigDirectory = ./configs
 ConfigDirectoryForWindows = configs
-GoVersion=v1.22
+GoVersion=v1.24
 MyApp=cli
 
 .PHONY: clean lint changelog snapshot release
@@ -13,18 +13,30 @@ MyApp=cli
 target: run-main
 all: run-main
 
-EXECUTABLES = git go pwd
-K := $(foreach exec,$(EXECUTABLES),\
-        $(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH")))
+# Cross-platform executable check
+UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
+ifeq ($(UNAME_S),Windows)
+    SHELL := cmd.exe
+    RM = del /Q
+    MKDIR = mkdir
+    SEP = \\
+else
+    RM = rm -f
+    MKDIR = mkdir -p
+    SEP = /
+endif
 
-GoPathX=$(shell echo $GOPATH)
-VERSION ?= $(shell git describe --tags `git rev-list --tags --max-count=1`)
+EXECUTABLES = git go
+K := $(foreach exec,$(EXECUTABLES),\
+        $(if $(shell which $(exec) 2>/dev/null || where $(exec) 2>nul),some string,$(error "No $(exec) in PATH")))
+
+VERSION ?= $(shell git describe --tags `git rev-list --tags --max-count=1` 2>/dev/null || echo "v0.0.0")
 BINARY = cli
 MAIN = main.go
 
 BUILDDIR = build
-GITREV = $(shell git rev-parse --short HEAD)
-BUILDTIME = $(shell date +'%FT%TZ%z')
+GITREV = $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
+BUILDTIME = $(shell date +'%FT%TZ%z' 2>/dev/null || echo "unknown")
 GO_BUILDER_VERSION=latest
 
 run-main:
@@ -39,19 +51,38 @@ run-client:
 run-sample:
 	go run cmd/sample/*.go
 
-build: export-current-binaries
-	go build -o $(shell pwd)/$(BUILDDIR)/$(BINARY) $(shell pwd)/$(MainDirectory)/*.go
+build:
+	@$(MKDIR) $(BUILDDIR)
+	go build -o $(BUILDDIR)$(SEP)$(BINARY) ./$(MainDirectory)/...
 	@echo "Build $(BINARY) done."
-	@echo "Run \"$(shell pwd)/$(BUILDDIR)/$(BINARY)\" to start $(BINARY)."
+	@echo "Run \"$(BUILDDIR)$(SEP)$(BINARY)\" to start $(BINARY)."
 
 run:
-	$(shell pwd)/$(BUILDDIR)/$(BINARY)
+	./$(BUILDDIR)/$(BINARY)
 
 build-run: build run
 
+run-tests:
+	cd tests && go test -v ./...
+
+run-all-tests:
+	go test -v ./...
+
+vet:
+	go vet ./...
+
+fmt:
+	gofmt -w -s .
+
+tidy:
+	go mod tidy
+
+clean:
+	$(RM) -r $(BUILDDIR)
+
 run-linux-docker:
-	cd scripts && sudo chmod +x ./docker-run-linux.sh
-	cd scripts && sudo sh ./docker-run-linux.sh
+	cd scripts && chmod +x ./docker-run-linux.sh
+	cd scripts && sh ./docker-run-linux.sh
 
 run-direct:
 	"$(BinariesDirectory)/main"
@@ -59,18 +90,15 @@ run-direct:
 linux-run:
 	cd "$(BinariesDirectory)" && ./main
 
-run-tests:
-	cd tests && go test -v
-	
 cat-ssh:
 	cat ~/.ssh/id_rsa.pub
 
 ssh-sample:
 	echo "ssh-keygen -t rsa -b 4096 -C 'Your email'"
-	
+
 modify-authorized-keys:
 	sudo vim ~/.ssh/authorized_keys
-	
+
 git-clean-get:
 	git reset --hard
 	git clean -df
@@ -84,7 +112,7 @@ run-docker-build-windows:
 	./bin/cli-windows-amd64.exe
 
 export-private-key:
-	export PRIVATE_KEY=$(cat ~/.ssh/id_rsa | base64)
+	export PRIVATE_KEY=$$(cat ~/.ssh/id_rsa | base64)
 
 export-go-version:
 	export GO_BUILDER_VERSION=$(GoVersion)
@@ -101,21 +129,21 @@ changelog:
 	git-chglog $(VERSION) > CHANGELOG.md
 
 debug: all-exports
-    # Example : https://t.ly/pJiQ, https://t.ly/JEjg, https://t.ly/5Rre, https://goreleaser.com/install/
+	# Example : https://t.ly/pJiQ, https://t.ly/JEjg, https://t.ly/5Rre, https://goreleaser.com/install/
 	docker run --rm --privileged \
-    		-e PRIVATE_KEY=$(PRIVATE_KEY) \
-    		-v $PWD:/usr/src/$(MyApp) \
-    		-v $GOPATH:/go \
-    		-v /var/run/docker.sock:/var/run/docker.sock \
-    		-w /usr/src/$(MyApp) \
-    		ghcr.io/gythialy/golang-cross:$(GO_BUILDER_VERSION) --snapshot --rm-dist
+		-e PRIVATE_KEY=$(PRIVATE_KEY) \
+		-v $$PWD:/usr/src/$(MyApp) \
+		-v $$GOPATH:/go \
+		-v /var/run/docker.sock:/var/run/docker.sock \
+		-w /usr/src/$(MyApp) \
+		ghcr.io/gythialy/golang-cross:$(GO_BUILDER_VERSION) --snapshot --rm-dist
 
 basic-snapshot:
-	cd scripts && sudo chmod +x ./docker-deploy.sh
-	cd scripts && sudo sh ./docker-deploy.sh
+	cd scripts && chmod +x ./docker-deploy.sh
+	cd scripts && sh ./docker-deploy.sh
 
 snapshot: all-exports
-    # Example : https://t.ly/pJiQ, https://t.ly/JEjg, https://t.ly/5Rre
+	# Example : https://t.ly/pJiQ, https://t.ly/JEjg, https://t.ly/5Rre
 	docker run --rm -it --privileged \
 		-e PRIVATE_KEY=$(PRIVATE_KEY) \
 		-v $(CURDIR):/usr/src/myapp \
