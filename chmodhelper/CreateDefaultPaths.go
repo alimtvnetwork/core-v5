@@ -9,12 +9,12 @@ func CreateDirFilesWithRwxPermissions(
 	}
 
 	for _, pathCreate := range dirFilesWithRwxPermissions {
-		err2 := CreateDirFilesWithRwxPermission(
+		createErr := CreateDirFilesWithRwxPermission(
 			isRemoveAllDirBeforeCreate,
 			&pathCreate)
 
-		if err2 != nil {
-			return err2
+		if createErr != nil {
+			return createErr
 		}
 	}
 

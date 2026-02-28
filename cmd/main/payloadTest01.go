@@ -62,11 +62,11 @@ func payloadTest01() {
 	println(payload2.JsonPtr().PrettyJsonString())
 	println(payload2.BytesConverter().SafeCastString())
 
-	payload3, err3 := corepayload.New.PayloadWrapper.Create(
+	payload3, createErr := corepayload.New.PayloadWrapper.Create(
 		"name3",
 		"id3", "taskname3", "category3", jsResult.Bytes)
 
-	errcore.HandleErr(err3)
+	errcore.HandleErr(createErr)
 	println(payload3.JsonPtr().PrettyJsonString())
 	println(payload3.DeserializePayloadsToPayloadWrapperMust().JsonPtr().PrettyJsonString())
 	pay4, err := payload3.ClonePtr(true)

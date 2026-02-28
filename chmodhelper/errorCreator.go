@@ -8,9 +8,9 @@ import (
 type errorCreator struct{}
 
 func (it errorCreator) dirError(dirPath string, err error) error {
-	err2 := it.notDirError(dirPath)
-	if err2 != nil {
-		return err2
+	notDirErr := it.notDirError(dirPath)
+	if notDirErr != nil {
+		return notDirErr
 	}
 
 	// has err

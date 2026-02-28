@@ -9,7 +9,7 @@ func MeaningfulErrorHandle(
 		return
 	}
 
-	err2 := MeaningfulError(rawErrType, funcName, err)
+	meaningfulErr := MeaningfulError(rawErrType, funcName, err)
 
-	panic(err2)
+	panic(meaningfulErr)
 }

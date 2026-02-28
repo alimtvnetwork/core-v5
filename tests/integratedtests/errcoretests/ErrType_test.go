@@ -35,13 +35,13 @@ func Test_ErrCore_MergeErrors_Verification(t *testing.T) {
 		input := testCase.ArrangeInput.(args.Map)
 		hasError := input.GetDirectLower("hasError")
 
-		var err1, err2 error
+		var primaryErr, secondaryErr error
 		if hasError == true {
-			err1 = errors.New("test error")
+			primaryErr = errors.New("test error")
 		}
 
 		// Act
-		merged := errcore.MergeErrors(err1, err2)
+		merged := errcore.MergeErrors(primaryErr, secondaryErr)
 		isNil := fmt.Sprintf("%v", merged == nil)
 
 		// Assert

@@ -34,14 +34,14 @@ func NewRwxVariableWrapper(partialRwx string) (*RwxVariableWrapper, error) {
 	owner := fullRwxWithWildcard[1:4]
 	group := fullRwxWithWildcard[4:7]
 	other := fullRwxWithWildcard[7:10]
-	ownerAttr, err := ParseRwxToVarAttribute(owner)
-	groupAttr, err2 := ParseRwxToVarAttribute(group)
-	otherAttr, err3 := ParseRwxToVarAttribute(other)
+	ownerAttr, ownerErr := ParseRwxToVarAttribute(owner)
+	groupAttr, groupErr := ParseRwxToVarAttribute(group)
+	otherAttr, otherErr := ParseRwxToVarAttribute(other)
 
 	mergedErr := errcore.MergeErrors(
-		err,
-		err2,
-		err3)
+		ownerErr,
+		groupErr,
+		otherErr)
 
 	if mergedErr != nil {
 		return nil, mergedErr
