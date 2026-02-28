@@ -11,8 +11,8 @@ import (
 )
 
 type KeyVal struct {
-	Key   interface{}
-	Value interface{}
+	Key   any
+	Value any
 }
 
 func (it *KeyVal) KeyDynamic() Dynamic {
@@ -109,7 +109,7 @@ func (it *KeyVal) ValueInt64() int64 {
 
 func (it *KeyVal) CastKeyVal(
 	keyToPointer,
-	valueToPointer interface{},
+	valueToPointer any,
 ) error {
 	if it == nil {
 		return errcore.
@@ -127,7 +127,7 @@ func (it *KeyVal) CastKeyVal(
 }
 
 func (it *KeyVal) ReflectSetKey(
-	keyToPointer interface{},
+	keyToPointer any,
 ) error {
 	if it == nil {
 		return errcore.
@@ -192,7 +192,7 @@ func (it *KeyVal) ValueString() string {
 	)
 }
 
-func (it *KeyVal) KeyReflectSet(toPointer interface{}) error {
+func (it *KeyVal) KeyReflectSet(toPointer any) error {
 	if it == nil {
 		return errcore.
 			CannotBeNilOrEmptyType.
@@ -202,7 +202,7 @@ func (it *KeyVal) KeyReflectSet(toPointer interface{}) error {
 	return ReflectSetFromTo(it.Key, toPointer)
 }
 
-func (it *KeyVal) ValueReflectSet(toPointer interface{}) error {
+func (it *KeyVal) ValueReflectSet(toPointer any) error {
 	if it == nil {
 		return errcore.
 			CannotBeNilOrEmptyType.
@@ -212,7 +212,7 @@ func (it *KeyVal) ValueReflectSet(toPointer interface{}) error {
 	return ReflectSetFromTo(it.Value, toPointer)
 }
 
-func (it *KeyVal) ReflectSetTo(toPointer interface{}) error {
+func (it *KeyVal) ReflectSetTo(toPointer any) error {
 	if it == nil {
 		return errcore.
 			CannotBeNilOrEmptyType.
@@ -222,16 +222,16 @@ func (it *KeyVal) ReflectSetTo(toPointer interface{}) error {
 	return ReflectSetFromTo(it.Value, toPointer)
 }
 
-func (it *KeyVal) ReflectSetToMust(toPointer interface{}) {
+func (it *KeyVal) ReflectSetToMust(toPointer any) {
 	err := it.ReflectSetTo(toPointer)
 	errcore.MustBeEmpty(err)
 }
 
-func (it KeyVal) JsonModel() interface{} {
+func (it KeyVal) JsonModel() any {
 	return it
 }
 
-func (it KeyVal) JsonModelAny() interface{} {
+func (it KeyVal) JsonModelAny() any {
 	return it.JsonModel()
 }
 

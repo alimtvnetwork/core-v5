@@ -106,7 +106,7 @@ func (it *KeyValCollection) MapAnyItems() *MapAnyItems {
 		return EmptyMapAnyItems()
 	}
 
-	mapItems := make(map[string]interface{}, it.Length())
+	mapItems := make(map[string]any, it.Length())
 	for _, keyVal := range it.items {
 		mapItems[keyVal.KeyString()] = keyVal.Value
 	}
@@ -274,12 +274,12 @@ func (it *KeyValCollection) AllKeysSorted() []string {
 	return keys
 }
 
-func (it *KeyValCollection) AllValues() []interface{} {
+func (it *KeyValCollection) AllValues() []any {
 	if it.IsEmpty() {
-		return []interface{}{}
+		return []any{}
 	}
 
-	values := make([]interface{}, it.Length())
+	values := make([]any, it.Length())
 
 	for i, result := range it.items {
 		values[i] = result.Value
@@ -294,11 +294,11 @@ func (it *KeyValCollection) String() string {
 		it.items)
 }
 
-func (it KeyValCollection) JsonModel() interface{} {
+func (it KeyValCollection) JsonModel() any {
 	return it
 }
 
-func (it KeyValCollection) JsonModelAny() interface{} {
+func (it KeyValCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

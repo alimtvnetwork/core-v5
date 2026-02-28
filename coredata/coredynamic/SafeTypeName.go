@@ -2,8 +2,8 @@ package coredynamic
 
 import "reflect"
 
-func SafeTypeName(any interface{}) string {
-	rf := reflect.TypeOf(any)
+func SafeTypeName(item any) string {
+	rf := reflect.TypeOf(item)
 
 	if rf == nil {
 		return ""

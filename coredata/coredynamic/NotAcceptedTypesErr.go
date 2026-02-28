@@ -7,7 +7,7 @@ import (
 )
 
 func NotAcceptedTypesErr(
-	input interface{},
+	input any,
 	acceptedTypes ...reflect.Type,
 ) error {
 	currentRv := reflect.TypeOf(input)

@@ -9,7 +9,7 @@ import (
 func ReflectTypeValidation(
 	isNotNullExpected bool,
 	expectedType reflect.Type,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	if isNotNullExpected && anyItem == nil {
 		return errcore.ExpectingErrorSimpleNoType(

@@ -10,7 +10,7 @@ import (
 
 func CastTo(
 	isOutputPointer bool,
-	input interface{},
+	input any,
 	acceptedTypes ...reflect.Type,
 ) CastedResult {
 	currentRfType := reflect.TypeOf(input)
@@ -41,9 +41,6 @@ func CastTo(
 	hasNonPointerIssue := isNull && isOutNonPointer
 
 	if hasNonPointerIssue {
-		// has issue
-		// cannot non pointer a nil pointer
-		// will panic
 		sliceErr = append(
 			sliceErr,
 			errcore.
@@ -55,7 +52,6 @@ func CastTo(
 				),
 		)
 
-		// ending process
 		return CastedResult{
 			Casted:                 nil,
 			SourceReflectType:      currentRfType,

@@ -19,7 +19,7 @@ import (
 )
 
 type Dynamic struct {
-	innerData       interface{}
+	innerData       any
 	isValid         bool
 	reflectType     reflect.Type
 	reflectVal      *reflect.Value
@@ -41,20 +41,20 @@ func InvalidDynamicPtr() *Dynamic {
 }
 
 func NewDynamicValid(
-	data interface{},
+	data any,
 ) Dynamic {
 	return *NewDynamicPtr(data, true)
 }
 
 func NewDynamic(
-	data interface{},
+	data any,
 	isValid bool,
 ) Dynamic {
 	return *NewDynamicPtr(data, isValid)
 }
 
 func NewDynamicPtr(
-	data interface{},
+	data any,
 	isValid bool,
 ) *Dynamic {
 	return &Dynamic{
@@ -77,11 +77,11 @@ func NewDynamicPtr(
 	}
 }
 
-func (it *Dynamic) Data() interface{} {
+func (it *Dynamic) Data() any {
 	return it.innerData
 }
 
-func (it *Dynamic) Value() interface{} {
+func (it *Dynamic) Value() any {
 	return it.innerData
 }
 
@@ -149,15 +149,15 @@ func (it *Dynamic) ItemReflectValueUsingIndex(index int) reflect.Value {
 	return it.ReflectValue().Index(index)
 }
 
-func (it *Dynamic) ItemReflectValueUsingKey(key interface{}) reflect.Value {
+func (it *Dynamic) ItemReflectValueUsingKey(key any) reflect.Value {
 	return it.ReflectValue().MapIndex(reflect.ValueOf(key))
 }
 
-func (it *Dynamic) ItemUsingIndex(index int) interface{} {
+func (it *Dynamic) ItemUsingIndex(index int) any {
 	return it.ReflectValue().Index(index).Interface()
 }
 
-func (it *Dynamic) ItemUsingKey(key interface{}) interface{} {
+func (it *Dynamic) ItemUsingKey(key any) any {
 	return it.ReflectValue().MapIndex(reflect.ValueOf(key)).Interface()
 }
 
@@ -289,7 +289,7 @@ func (it *Dynamic) IsInvalid() bool {
 }
 
 func (it *Dynamic) Loop(
-	loopProcessorFunc func(index int, item interface{}) (isBreak bool),
+	loopProcessorFunc func(index int, item any) (isBreak bool),
 ) (isCalled bool) {
 	if it.IsInvalid() || it.IsNull() || it.Length() <= 0 {
 		return false
@@ -346,7 +346,7 @@ func (it *Dynamic) FilterAsDynamicCollection(
 }
 
 func (it *Dynamic) LoopMap(
-	mapLoopProcessorFunc func(index int, key, value interface{}) (isBreak bool),
+	mapLoopProcessorFunc func(index int, key, value any) (isBreak bool),
 ) (isCalled bool) {
 	if it.IsInvalid() || it.IsNull() || it.Length() <= 0 {
 		return false
@@ -402,7 +402,7 @@ func (it *Dynamic) Bytes() (rawBytes []byte, isSuccess bool) {
 	return rawBytes, err != nil
 }
 
-func (it *Dynamic) ReflectSetTo(toPointer interface{}) error {
+func (it *Dynamic) ReflectSetTo(toPointer any) error {
 	if it == nil {
 		return defaulterr.NilResult
 	}
@@ -479,11 +479,11 @@ func (it *Dynamic) UnmarshalJSON(data []byte) error {
 	return err
 }
 
-func (it *Dynamic) JsonModel() interface{} {
+func (it *Dynamic) JsonModel() any {
 	return it.innerData
 }
 
-func (it *Dynamic) JsonModelAny() interface{} {
+func (it *Dynamic) JsonModelAny() any {
 	return it.JsonModel()
 }
 

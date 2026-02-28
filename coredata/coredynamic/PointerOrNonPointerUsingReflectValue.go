@@ -5,7 +5,7 @@ import "reflect"
 func PointerOrNonPointerUsingReflectValue(
 	isPointerOutput bool,
 	rv reflect.Value,
-) (output interface{}, finalReflectVal reflect.Value) {
+) (output any, finalReflectVal reflect.Value) {
 	k := rv.Kind()
 
 	if !isPointerOutput && (k == reflect.Ptr || k == reflect.Interface) {
