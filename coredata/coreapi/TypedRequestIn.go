@@ -5,7 +5,6 @@ import "gitlab.com/auk-go/core/coredata/coredynamic"
 // TypedRequestIn is the generic API request type.
 //
 // T represents the strongly-typed request payload.
-// When T is `any`, this is equivalent to the legacy GenericRequestIn.
 //
 // Usage:
 //
@@ -65,25 +64,6 @@ func (it *TypedRequestIn[T]) TypedSimpleGenericRequest(
 	return &TypedSimpleGenericRequest[T]{
 		Attribute: it.Attribute,
 		Request: coredynamic.NewTypedSimpleRequest[T](
-			it.Request,
-			isValid,
-			invalidMessage),
-	}
-}
-
-// SimpleGenericRequest converts to the legacy SimpleGenericRequest
-// by wrapping the request in a coredynamic.SimpleRequest.
-func (it *TypedRequestIn[T]) SimpleGenericRequest(
-	isValid bool,
-	invalidMessage string,
-) *SimpleGenericRequest {
-	if it == nil {
-		return nil
-	}
-
-	return &SimpleGenericRequest{
-		Attribute: it.Attribute,
-		Request: coredynamic.NewSimpleRequest(
 			it.Request,
 			isValid,
 			invalidMessage),

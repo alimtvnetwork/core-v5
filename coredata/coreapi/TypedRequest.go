@@ -2,10 +2,9 @@ package coreapi
 
 import "gitlab.com/auk-go/core/coredata/coredynamic"
 
-// TypedRequest is the generic version of SimpleGenericRequest.
+// TypedRequest is the generic request type.
 //
-// T represents the strongly-typed request payload, providing compile-time safety
-// instead of the dynamic SimpleRequest wrapper.
+// T represents the strongly-typed request payload, providing compile-time safety.
 //
 // Usage:
 //
@@ -49,40 +48,6 @@ func (it *TypedRequest[T]) Clone() *TypedRequest[T] {
 	return &TypedRequest[T]{
 		Attribute: it.Attribute.Clone(),
 		Request:   it.Request,
-	}
-}
-
-// ToGenericRequestIn converts to GenericRequestIn (TypedRequestIn[any]) for backward compatibility.
-//
-// Deprecated: GenericRequestIn is now a type alias for TypedRequestIn[any].
-// This method is retained for source compatibility.
-func (it *TypedRequest[T]) ToGenericRequestIn() *GenericRequestIn {
-	if it == nil {
-		return nil
-	}
-
-	return &GenericRequestIn{
-		Attribute: it.Attribute,
-		Request:   it.Request,
-	}
-}
-
-// ToSimpleGenericRequest converts to the legacy SimpleGenericRequest
-// by wrapping the typed request in a coredynamic.SimpleRequest.
-func (it *TypedRequest[T]) ToSimpleGenericRequest(
-	isValid bool,
-	invalidMessage string,
-) *SimpleGenericRequest {
-	if it == nil {
-		return nil
-	}
-
-	return &SimpleGenericRequest{
-		Attribute: it.Attribute,
-		Request: coredynamic.NewSimpleRequest(
-			it.Request,
-			isValid,
-			invalidMessage),
 	}
 }
 

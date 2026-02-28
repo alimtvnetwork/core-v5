@@ -134,55 +134,6 @@ var typedSimpleGenericRequestCloneNilTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
-// TypedSimpleGenericRequest — ToSimpleGenericRequest
-// ==========================================
-
-var typedSimpleGenericRequestToLegacyTestCases = []coretestcases.CaseV1{
-	{
-		Title: "ToSimpleGenericRequest converts typed to legacy SimpleGenericRequest",
-		ArrangeInput: args.Map{
-			"when":    "given valid typed request",
-			"payload": "convert-me",
-		},
-		ExpectedInput: []string{
-			"true",
-			"true",
-			"true",
-		},
-	},
-}
-
-var typedSimpleGenericRequestToLegacyNilTestCases = []coretestcases.CaseV1{
-	{
-		Title: "ToSimpleGenericRequest on nil returns nil",
-		ArrangeInput: args.Map{
-			"when": "given nil request",
-		},
-		ExpectedInput: []string{
-			"true",
-		},
-	},
-}
-
-// ==========================================
-// TypedSimpleGenericRequest — ToGenericRequestIn
-// ==========================================
-
-var typedSimpleGenericRequestToGenericRequestInTestCases = []coretestcases.CaseV1{
-	{
-		Title: "ToGenericRequestIn converts typed to GenericRequestIn",
-		ArrangeInput: args.Map{
-			"when":    "given valid typed request",
-			"payload": "generic-payload",
-		},
-		ExpectedInput: []string{
-			"true",
-			"generic-payload",
-		},
-	},
-}
-
-// ==========================================
 // TypedRequestIn — TypedSimpleGenericRequest conversion
 // ==========================================
 
@@ -275,35 +226,3 @@ var typedResponseToTypedResponseResultNilTestCases = []coretestcases.CaseV1{
 	},
 }
 
-// ==========================================
-// TypedResponse — GenericResponseResult conversion
-// ==========================================
-
-var typedResponseToGenericResponseResultTestCases = []coretestcases.CaseV1{
-	{
-		Title: "TypedResponse.GenericResponseResult wraps in SimpleResult correctly",
-		ArrangeInput: args.Map{
-			"when":     "given valid typed response",
-			"response": "legacy-output",
-			"message":  "ok",
-		},
-		ExpectedInput: []string{
-			"true",
-			"true",
-			"true",
-			"ok",
-		},
-	},
-}
-
-var typedResponseToGenericResponseResultNilTestCases = []coretestcases.CaseV1{
-	{
-		Title: "TypedResponse.GenericResponseResult on nil returns nil",
-		ArrangeInput: args.Map{
-			"when": "given nil response",
-		},
-		ExpectedInput: []string{
-			"true",
-		},
-	},
-}

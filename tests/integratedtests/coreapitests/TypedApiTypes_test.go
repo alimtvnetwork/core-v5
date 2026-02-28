@@ -214,23 +214,24 @@ func Test_InvalidTypedResponseResult_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: GenericResponse alias
+// Test: TypedResponseResult ClonePtr
 // ==========================================
 
-func Test_GenericResponse_Alias_Verification(t *testing.T) {
-	for caseIndex, testCase := range genericResponseAliasTestCases {
+func Test_TypedResponseResult_ClonePtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range typedResponseResultCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		response, _ := input.GetAsString("response")
 
 		attr := &coreapi.ResponseAttribute{IsValid: true}
+		result := coreapi.NewTypedResponseResult[string](attr, response)
 
-		// Act — using GenericResponse which is TypedResponse[any]
-		resp := coreapi.NewTypedResponse[any](attr, response)
-		var gr *coreapi.GenericResponse = resp // type alias assignment
+		// Act
+		cloned := result.ClonePtr()
 		actLines := []string{
-			fmt.Sprintf("%v", gr.Response),
-			fmt.Sprintf("%v", gr.Attribute.IsValid),
+			cloned.Response,
+			fmt.Sprintf("%v", cloned.IsValid()),
+			fmt.Sprintf("%v", cloned != result),
 		}
 
 		// Assert
@@ -239,114 +240,18 @@ func Test_GenericResponse_Alias_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: GenericRequestIn alias
+// Test: TypedResponseResult ClonePtr nil
 // ==========================================
 
-func Test_GenericRequestIn_Alias_Verification(t *testing.T) {
-	for caseIndex, testCase := range genericRequestInAliasTestCases {
+func Test_TypedResponseResult_ClonePtr_Nil_Verification(t *testing.T) {
+	for caseIndex, testCase := range typedResponseResultCloneNilTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		payload, _ := input.GetAsString("payload")
-
-		attr := &coreapi.RequestAttribute{IsValid: true}
-
-		// Act — using GenericRequestIn which is TypedRequestIn[any]
-		req := coreapi.NewTypedRequestIn[any](attr, payload)
-		var gr *coreapi.GenericRequestIn = req // type alias assignment
-		actLines := []string{
-			fmt.Sprintf("%v", gr.Request),
-			fmt.Sprintf("%v", gr.Attribute.IsValid),
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
-}
-
-// ==========================================
-// Test: InvalidGenericResponse
-// ==========================================
-
-func Test_InvalidGenericResponse_Verification(t *testing.T) {
-	for caseIndex, testCase := range invalidGenericResponseTestCases {
-		// Arrange — nil attribute
+		var result *coreapi.TypedResponseResult[string]
 
 		// Act
-		resp := coreapi.InvalidGenericResponse(nil)
+		cloned := result.ClonePtr()
 		actLines := []string{
-			fmt.Sprintf("%v", resp.Attribute.IsValid),
-			fmt.Sprintf("%v", resp.Attribute != nil),
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
-}
-
-// ==========================================
-// Test: InvalidGenericRequestIn
-// ==========================================
-
-func Test_InvalidGenericRequestIn_Verification(t *testing.T) {
-	for caseIndex, testCase := range invalidGenericRequestInTestCases {
-		// Arrange — nil attribute
-
-		// Act
-		req := coreapi.InvalidGenericRequestIn(nil)
-		actLines := []string{
-			fmt.Sprintf("%v", req.Attribute.IsValid),
-			fmt.Sprintf("%v", req.Attribute != nil),
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
-}
-
-// ==========================================
-// Test: GenericResponseResult conversion
-// ==========================================
-
-func Test_GenericResponseResult_Conversion_Verification(t *testing.T) {
-	for caseIndex, testCase := range genericResponseResultConversionTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		response, _ := input.GetAsString("response")
-		message, _ := input.GetAsString("message")
-
-		attr := &coreapi.ResponseAttribute{IsValid: true, Message: message}
-
-		// Act
-		resp := coreapi.NewTypedResponse[string](attr, response)
-		grr := resp.GenericResponseResult()
-		actLines := []string{
-			fmt.Sprintf("%v", grr.Attribute.IsValid),
-			fmt.Sprintf("%v", grr.Response != nil),
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
-}
-
-// ==========================================
-// Test: SimpleGenericRequest conversion
-// ==========================================
-
-func Test_SimpleGenericRequest_Conversion_Verification(t *testing.T) {
-	for caseIndex, testCase := range simpleGenericRequestConversionTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		payload, _ := input.GetAsString("payload")
-
-		attr := &coreapi.RequestAttribute{IsValid: true}
-
-		// Act
-		req := coreapi.NewTypedRequestIn[string](attr, payload)
-		sgr := req.SimpleGenericRequest(true, "")
-		actLines := []string{
-			fmt.Sprintf("%v", sgr.Attribute.IsValid),
-			fmt.Sprintf("%v", sgr.Request != nil),
+			fmt.Sprintf("%v", cloned == nil),
 		}
 
 		// Assert
