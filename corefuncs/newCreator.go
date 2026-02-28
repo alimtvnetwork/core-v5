@@ -4,15 +4,19 @@ package corefuncs
 //
 // Usage:
 //
-//	// Create wrappers via the New creator
-//	wrapper := corefuncs.New.InOutErr("transform", myFunc)
-//	wrapper := corefuncs.New.ResultDelegating("unmarshal", myFunc)
-//	wrapper := corefuncs.New.InActionErr("validate", myFunc)
-//	wrapper := corefuncs.New.InOut("convert", myFunc)
+//	// Legacy wrappers via New creator
 //	wrapper := corefuncs.New.ActionErr("cleanup", myFunc)
 //	wrapper := corefuncs.New.IsSuccess("check", myFunc)
 //	wrapper := corefuncs.New.NamedAction("log", myFunc)
-//	wrapper := corefuncs.New.Serialize("marshal", myFunc)
+//	wrapper := corefuncs.New.LegacyInOutErr("transform", myFunc)
+//	wrapper := corefuncs.New.LegacyResultDelegating("unmarshal", myFunc)
+//
+//	// Generic wrappers via package-level constructors (preferred)
+//	wrapper := corefuncs.NewInOutErrWrapper[string, int]("parse", myFunc)
+//	wrapper := corefuncs.NewInOutWrapper[string, int]("convert", myFunc)
+//	wrapper := corefuncs.NewInActionErrWrapper[string]("validate", myFunc)
+//	wrapper := corefuncs.NewResultDelegatingWrapper[*MyStruct]("unmarshal", myFunc)
+//	wrapper := corefuncs.NewSerializeWrapper[MyStruct]("marshal", myFunc)
 var New = &newFuncCreator{}
 
 // newFuncCreator is the root aggregator for function wrapper creation.
