@@ -61,7 +61,9 @@ func Test_NewCreator_String_From_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -88,7 +90,9 @@ func Test_NewCreator_String_Clone_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -114,7 +118,9 @@ func Test_NewCreator_String_Items_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -185,7 +191,9 @@ func Test_Collection_AddIf_True_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		item, isValid := input.GetAsString("item")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsString 'item' failed")
 		}
 
@@ -232,10 +240,14 @@ func Test_Collection_AddCollection_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		first, isValid := input.GetAsStrings("first")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'first' failed")
 		}
+
 		second, isValid := input.GetAsStrings("second")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'second' failed")
 		}
@@ -264,7 +276,9 @@ func Test_Collection_AddCollection_Nil_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		first, isValid := input.GetAsStrings("first")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'first' failed")
 		}
 
@@ -290,7 +304,9 @@ func Test_Collection_Clone_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -319,7 +335,9 @@ func Test_Collection_Reverse_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -363,10 +381,14 @@ func Test_Collection_ConcatNew_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		original, isValid := input.GetAsStrings("original")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'original' failed")
 		}
+
 		adding, isValid := input.GetAsStrings("adding")
+
 		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'adding' failed")
 		}

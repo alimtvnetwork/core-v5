@@ -103,7 +103,9 @@ func (it *Dynamic) GetLowerCase(name string) (item any, isValid bool) {
 
 func (it *Dynamic) GetDirectLower(name string) any {
 	x, has := it.Params[strings.ToLower(name)]
+
 	if has { return x }
+
 	return nil
 }
 
@@ -113,46 +115,64 @@ func (it *Dynamic) Arrange() any { return it.GetDirectLower("arrange") }
 func (it *Dynamic) Get(name string) (item any, isValid bool) {
 	if it == nil { return nil, false }
 	item, has := it.Params[name]
+
 	if has { return item, reflectinternal.Is.Defined(item) }
+
 	return nil, false
 }
 
 func (it *Dynamic) GetAsInt(name string) (item int, isValid bool) {
 	i, isValid := it.Get(name)
-	if !isValid { return 0, false }
+	isInvalid := !isValid
+
+	if isInvalid { return 0, false }
+
 	conv, isValid := i.(int)
 	return conv, isValid
 }
 
 func (it *Dynamic) GetAsIntDefault(name string, defaultVal int) (item int) {
 	v, isValid := it.GetAsInt(name)
+
 	if isValid { return v }
+
 	return defaultVal
 }
 
 func (it *Dynamic) GetAsString(name string) (item string, isValid bool) {
 	i, isValid := it.Get(name)
-	if !isValid { return "", false }
+	isInvalid := !isValid
+
+	if isInvalid { return "", false }
+
 	conv, isValid := i.(string)
 	return conv, isValid
 }
 
 func (it *Dynamic) GetAsStringDefault(name string) (item string) {
 	v, isValid := it.GetAsString(name)
+
 	if isValid { return v }
+
 	return ""
 }
 
 func (it *Dynamic) GetAsStrings(name string) (items []string, isValid bool) {
 	i, isValid := it.Get(name)
-	if !isValid { return []string{}, false }
+	isInvalid := !isValid
+
+	if isInvalid { return []string{}, false }
+
 	conv, isValid := i.([]string)
 	return conv, isValid
 }
 
 func (it *Dynamic) GetAsAnyItems(name string) (items []any, isValid bool) {
 	i, isValid := it.Get(name)
-	if !isValid { return []any{}, false }
+	isInvalid := !isValid
+
+	if isInvalid { return []any{}, false }
+
 	conv, isValid := i.([]any)
 	return conv, isValid
 }

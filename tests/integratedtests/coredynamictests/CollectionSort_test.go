@@ -18,7 +18,9 @@ func Test_SortAsc_String_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -41,7 +43,9 @@ func Test_SortDesc_String_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -110,7 +114,9 @@ func Test_SortedAsc_NonMutating_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -154,7 +160,9 @@ func Test_SortAsc_Single_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -222,7 +230,9 @@ func Test_SortFunc_Custom_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		if !isValid {
+		isInvalid := !isValid
+
+		if isInvalid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
