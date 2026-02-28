@@ -146,3 +146,39 @@ var genericAddCollectionLockTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+// ==========================================
+// Generic FilterLock
+// ==========================================
+
+var genericFilterLockTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Generic FilterLock filters items thread-safely",
+		ArrangeInput: args.Map{
+			"when":  "given concurrent reads while filtering generic collection",
+			"items": []any{"alpha", "beta", "gamma", "delta"},
+		},
+		ExpectedInput: []string{
+			"2",
+			"alpha",
+			"delta",
+		},
+	},
+}
+
+// ==========================================
+// Generic LoopLock
+// ==========================================
+
+var genericLoopLockTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Generic LoopLock iterates over snapshot thread-safely",
+		ArrangeInput: args.Map{
+			"when":  "given concurrent writes during LoopLock on generic collection",
+			"count": 50,
+		},
+		ExpectedInput: []string{
+			"50",
+		},
+	},
+}
