@@ -7,5 +7,5 @@ import (
 )
 
 func GetFunc(i any) *runtime.Func {
-	return reflectinternal.GetFunc(i)
+	return reflectinternal.GetFunc.RunTime(i)
 }
