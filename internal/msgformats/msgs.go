@@ -139,4 +139,48 @@ const (
 		"\n============================>"
 
 	LinePrinterFormat = "%#v,"
+
+	// IsEqualMessageFormat — When, Actual, Expected
+	IsEqualMessageFormat = "IsEqual >\n" +
+		"   When: %s,\n" +
+		" Actual: %s,\n" +
+		"   Want: %s"
+
+	// IsNotEqualMessageFormat — When, Actual, Expected
+	IsNotEqualMessageFormat = "IsNotEqual >\n" +
+		"   When: %s,\n" +
+		" Actual: %s,\n" +
+		"   Want: %s"
+
+	// IsTrueMessageFormat — When, Actual
+	IsTrueMessageFormat = "IsTrue >\n" +
+		"   When: %s,\n" +
+		" Actual: %s"
+
+	// IsFalseMessageFormat — When, Actual
+	IsFalseMessageFormat = "IsFalse >\n" +
+		"   When: %s,\n" +
+		" Actual: %s"
+
+	// IsNilMessageFormat — When, Actual
+	IsNilMessageFormat = "IsNil >\n" +
+		"   When: %s,\n" +
+		" Actual: %s"
+
+	// IsNotNilMessageFormat — When, Actual
+	IsNotNilMessageFormat = "IsNotNil >\n" +
+		"   When: %s,\n" +
+		" Actual: %s"
+
+	// ShouldBeMessageFormat — Title, Actual, Expected
+	ShouldBeMessageFormat = "ShouldBe >\n" +
+		"  Title: %s,\n" +
+		" Actual: %s,\n" +
+		"   Want: %s"
+
+	// ShouldNotBeMessageFormat — Title, Actual, Expected
+	ShouldNotBeMessageFormat = "ShouldNotBe >\n" +
+		"  Title: %s,\n" +
+		" Actual: %s,\n" +
+		"   Want: %s"
 )
