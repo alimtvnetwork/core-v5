@@ -15,7 +15,7 @@ type deserializerLogic struct {
 
 func (it deserializerLogic) Apply(
 	jsonResult *Result,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	return jsonResult.Unmarshal(
 		toPtr)
@@ -23,7 +23,7 @@ func (it deserializerLogic) Apply(
 
 func (it deserializerLogic) UsingStringPtr(
 	jsonString *string,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if jsonString == nil {
 		return it.UsingBytes(
@@ -38,7 +38,7 @@ func (it deserializerLogic) UsingStringPtr(
 
 func (it deserializerLogic) UsingError(
 	errInJsonFormat error,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if errInJsonFormat == nil {
 		return nil
@@ -54,7 +54,7 @@ func (it deserializerLogic) UsingError(
 //	given error is in json format for json result
 func (it deserializerLogic) UsingErrorWhichJsonResult(
 	errInJsonResultJson error,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if errInJsonResultJson == nil {
 		return nil
@@ -69,7 +69,7 @@ func (it deserializerLogic) UsingErrorWhichJsonResult(
 
 func (it deserializerLogic) UsingResult(
 	jsonResult *Result,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	return jsonResult.Unmarshal(
 		toPtr)
@@ -77,7 +77,7 @@ func (it deserializerLogic) UsingResult(
 
 func (it deserializerLogic) ApplyMust(
 	jsonResult *Result,
-	toPtr interface{},
+	toPtr any,
 ) {
 	err := jsonResult.Unmarshal(
 		toPtr)
@@ -89,7 +89,7 @@ func (it deserializerLogic) ApplyMust(
 
 func (it deserializerLogic) UsingString(
 	jsonString string,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	return it.UsingBytes(
 		[]byte(jsonString),
@@ -98,7 +98,7 @@ func (it deserializerLogic) UsingString(
 
 func (it deserializerLogic) FromString(
 	jsonString string,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	return it.UsingBytes(
 		[]byte(jsonString),
@@ -107,7 +107,7 @@ func (it deserializerLogic) FromString(
 
 func (it deserializerLogic) FromStringMust(
 	jsonString string,
-	toPtr interface{},
+	toPtr any,
 ) {
 	err := it.UsingBytes(
 		[]byte(jsonString),
@@ -135,8 +135,8 @@ func (it deserializerLogic) FromStringMust(
 //   - serializerFunc
 //   - error to string then cast from json string then to actual unmarshal
 func (it deserializerLogic) FromTo(
-	fromAny interface{},
-	toPtr interface{},
+	fromAny any,
+	toPtr any,
 ) error {
 	return CastAny.FromToDefault(
 		fromAny,
@@ -145,8 +145,8 @@ func (it deserializerLogic) FromTo(
 
 func (it deserializerLogic) MapAnyToPointer(
 	isSkipOnEmpty bool,
-	currentItemMap map[string]interface{},
-	toPtr interface{},
+	currentItemMap map[string]any,
+	toPtr any,
 ) error {
 	if isSkipOnEmpty && len(currentItemMap) == 0 {
 		return nil
@@ -164,7 +164,7 @@ func (it deserializerLogic) MapAnyToPointer(
 func (it deserializerLogic) UsingStringOption(
 	isIgnoreEmptyString bool,
 	jsonString string,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if isIgnoreEmptyString && jsonString == "" {
 		return nil
@@ -177,7 +177,7 @@ func (it deserializerLogic) UsingStringOption(
 
 func (it deserializerLogic) UsingStringIgnoreEmpty(
 	jsonString string,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if jsonString == "" {
 		return nil
@@ -193,7 +193,7 @@ func (it deserializerLogic) UsingStringIgnoreEmpty(
 // json.Unmarshal bytes to object
 func (it deserializerLogic) UsingBytes(
 	rawBytes []byte,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	err := json.Unmarshal(
 		rawBytes,
@@ -211,7 +211,7 @@ func (it deserializerLogic) UsingBytes(
 	// has error
 	compiledMessage := errcore.MessageVarMap(
 		"json unmarshal failed",
-		map[string]interface{}{
+		map[string]any{
 			"err":     err,
 			"dst":     reflectinternal.TypeName(toPtr),
 			"payload": payloadString,
@@ -225,7 +225,7 @@ func (it deserializerLogic) UsingBytes(
 
 func (it deserializerLogic) UsingBytesPointerMust(
 	rawBytesPointer *[]byte,
-	toPtr interface{},
+	toPtr any,
 ) {
 	err := it.UsingBytesPointer(
 		rawBytesPointer,
@@ -239,7 +239,7 @@ func (it deserializerLogic) UsingBytesPointerMust(
 func (it deserializerLogic) UsingBytesIf(
 	isDeserialize bool,
 	rawBytes []byte,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if !isDeserialize {
 		return nil
@@ -253,7 +253,7 @@ func (it deserializerLogic) UsingBytesIf(
 func (it deserializerLogic) UsingBytesPointerIf(
 	isDeserialize bool,
 	rawBytesPointer *[]byte,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if !isDeserialize {
 		return nil
@@ -266,7 +266,7 @@ func (it deserializerLogic) UsingBytesPointerIf(
 
 func (it deserializerLogic) UsingBytesPointer(
 	rawBytesPointer *[]byte,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if rawBytesPointer == nil || *rawBytesPointer == nil {
 		reference := errcore.VarTwoNoType(
@@ -287,7 +287,7 @@ func (it deserializerLogic) UsingBytesPointer(
 
 func (it deserializerLogic) UsingBytesMust(
 	rawBytes []byte,
-	toPtr interface{},
+	toPtr any,
 ) {
 	err := it.UsingBytes(
 		rawBytes,
@@ -300,7 +300,7 @@ func (it deserializerLogic) UsingBytesMust(
 
 func (it deserializerLogic) UsingSafeBytesMust(
 	rawBytes []byte,
-	toPtr interface{},
+	toPtr any,
 ) {
 	if len(rawBytes) == 0 {
 		return
@@ -314,8 +314,8 @@ func (it deserializerLogic) UsingSafeBytesMust(
 }
 
 func (it deserializerLogic) AnyToFieldsMap(
-	anyItem interface{},
-) (map[string]interface{}, error) {
+	anyItem any,
+) (map[string]any, error) {
 	jsonResult := New(anyItem)
 
 	return jsonResult.DeserializedFieldsToMap()
@@ -323,7 +323,7 @@ func (it deserializerLogic) AnyToFieldsMap(
 
 func (it deserializerLogic) UsingSerializerTo(
 	serializer bytesSerializer,
-	toPtr interface{},
+	toPtr any,
 ) (parsingErr error) {
 	jsonResult := NewResult.UsingSerializer(
 		serializer)
@@ -333,7 +333,7 @@ func (it deserializerLogic) UsingSerializerTo(
 
 func (it deserializerLogic) UsingSerializerFuncTo(
 	serializerFunc func() ([]byte, error),
-	toPtr interface{},
+	toPtr any,
 ) (parsingErr error) {
 	jsonResult := NewResult.UsingSerializerFunc(
 		serializerFunc)
@@ -344,7 +344,7 @@ func (it deserializerLogic) UsingSerializerFuncTo(
 func (it deserializerLogic) UsingDeserializerToOption(
 	isSkipOnDeserializerNull bool,
 	deserializer bytesDeserializer,
-	toPtr interface{},
+	toPtr any,
 ) (parsingErr error) {
 	if isSkipOnDeserializerNull && deserializer == nil {
 		return nil
@@ -366,7 +366,7 @@ func (it deserializerLogic) UsingDeserializerToOption(
 // only deserialize if deserializer is not null.
 func (it deserializerLogic) UsingDeserializerDefined(
 	deserializer bytesDeserializer,
-	toPtr interface{},
+	toPtr any,
 ) (parsingErr error) {
 	return it.UsingDeserializerToOption(
 		true,
@@ -380,8 +380,8 @@ func (it deserializerLogic) UsingDeserializerDefined(
 //
 // only deserialize if deserializer is not null.
 func (it deserializerLogic) UsingDeserializerFuncDefined(
-	deserializerFunc func(toPtr interface{}) error,
-	toPtr interface{},
+	deserializerFunc func(toPtr any) error,
+	toPtr any,
 ) (parsingErr error) {
 	if deserializerFunc == nil {
 		return errcore.CannotBeNilType.ErrorNoRefs(
@@ -395,7 +395,7 @@ func (it deserializerLogic) UsingDeserializerFuncDefined(
 func (it deserializerLogic) UsingJsonerToAny(
 	isSkipOnNullJsoner bool,
 	jsoner Jsoner,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if isSkipOnNullJsoner && jsoner == nil {
 		return nil
@@ -415,7 +415,7 @@ func (it deserializerLogic) UsingJsonerToAny(
 func (it deserializerLogic) UsingJsonerToAnyMust(
 	isSkipOnNullJsoner bool,
 	jsoner Jsoner,
-	toPtr interface{},
+	toPtr any,
 ) error {
 	if isSkipOnNullJsoner && jsoner == nil {
 		return nil

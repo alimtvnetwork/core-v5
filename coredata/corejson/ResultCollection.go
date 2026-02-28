@@ -208,7 +208,7 @@ func (it *ResultsCollection) GetErrorsAsSingle() error {
 
 func (it *ResultsCollection) UnmarshalAt(
 	index int,
-	any interface{},
+	any any,
 ) error {
 	result := it.Items[index]
 
@@ -268,7 +268,7 @@ func (it *ResultsCollection) InjectIntoSameIndex(
 
 // UnmarshalIntoSameIndex any nil skip
 func (it *ResultsCollection) UnmarshalIntoSameIndex(
-	anys ...interface{},
+	anys ...any,
 ) (
 	errListPtr []error,
 	hasAnyError bool,
@@ -473,7 +473,7 @@ func (it *ResultsCollection) AddsPtr(
 }
 
 func (it *ResultsCollection) AddAny(
-	any interface{},
+	any any,
 ) *ResultsCollection {
 	if any == nil {
 		return it
@@ -488,7 +488,7 @@ func (it *ResultsCollection) AddAny(
 
 // AddAnyItems Skip on nil
 func (it *ResultsCollection) AddAnyItems(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *ResultsCollection {
 	if anyItems == nil {
 		return it
@@ -511,7 +511,7 @@ func (it *ResultsCollection) AddAnyItems(
 //
 //	Skip on nil
 func (it *ResultsCollection) AddAnyItemsSlice(
-	anyItems []interface{},
+	anyItems []any,
 ) *ResultsCollection {
 	if anyItems == nil {
 		return it
@@ -739,7 +739,7 @@ func (it *ResultsCollection) JsonModel() *ResultsCollection {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *ResultsCollection) JsonModelAny() interface{} {
+func (it *ResultsCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

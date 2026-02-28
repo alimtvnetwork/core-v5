@@ -48,11 +48,11 @@ func (it *Result) Map() map[string]string {
 }
 
 func (it *Result) DeserializedFieldsToMap() (
-	fieldsMap map[string]interface{},
+	fieldsMap map[string]any,
 	parsingErr error,
 ) {
 	if it == nil || len(it.Bytes) == 0 {
-		return map[string]interface{}{}, nil
+		return map[string]any{}, nil
 	}
 
 	parsingErr = it.Deserialize(fieldsMap)
@@ -65,7 +65,7 @@ func (it *Result) DeserializedFieldsToMap() (
 // Warning:
 //   - Swallows the error
 func (it *Result) SafeDeserializedFieldsToMap() (
-	fieldsMap map[string]interface{},
+	fieldsMap map[string]any,
 ) {
 	fieldsMap, _ = it.DeserializedFieldsToMap()
 
@@ -528,7 +528,7 @@ func (it *Result) InjectInto(
 //
 // Same as Unmarshal, just alias
 func (it *Result) Deserialize(
-	anyPointer interface{},
+	anyPointer any,
 ) error {
 	return it.Unmarshal(anyPointer)
 }
@@ -537,7 +537,7 @@ func (it *Result) Deserialize(
 //
 // Same as UnmarshalMust, just alias
 func (it *Result) DeserializeMust(
-	anyPointer interface{},
+	anyPointer any,
 ) {
 	err := it.Unmarshal(anyPointer)
 
@@ -547,7 +547,7 @@ func (it *Result) DeserializeMust(
 }
 
 func (it *Result) UnmarshalMust(
-	anyPointer interface{},
+	anyPointer any,
 ) {
 	err := it.Unmarshal(anyPointer)
 
@@ -560,7 +560,7 @@ func (it *Result) UnmarshalMust(
 //
 //	deserializes current safe bytes to given pointer
 func (it *Result) Unmarshal(
-	anyPointer interface{},
+	anyPointer any,
 ) error {
 	if it == nil {
 		return errcore.
@@ -574,7 +574,7 @@ func (it *Result) Unmarshal(
 	if it.HasError() {
 		compiledMessage := errcore.MessageVarMap(
 			"json unmarshal failed with existing error",
-			map[string]interface{}{
+			map[string]any{
 				"err":     it.ErrorString(),
 				"src":     it.TypeName,
 				"dst":     reflectinternal.TypeName(anyPointer),
@@ -599,7 +599,7 @@ func (it *Result) Unmarshal(
 	// unmarshal caught error
 	compiledMessage := errcore.MessageVarMap(
 		"json unmarshal failed",
-		map[string]interface{}{
+		map[string]any{
 			"err":     it.ErrorString(),
 			"src":     it.TypeName,
 			"dst":     reflectinternal.TypeName(anyPointer),
@@ -670,7 +670,7 @@ func (it *Result) SerializeMust() []byte {
 //
 // Ignores and returns nil if HasIssuesOrEmpty satisfied
 func (it *Result) UnmarshalSkipExistingIssues(
-	toPointer interface{},
+	toPointer any,
 ) error {
 	if it.HasIssuesOrEmpty() {
 		return nil
@@ -685,7 +685,7 @@ func (it *Result) UnmarshalSkipExistingIssues(
 	// unmarshal caught error
 	compiledMessage := errcore.MessageVarMap(
 		"json unmarshal failed",
-		map[string]interface{}{
+		map[string]any{
 			"err":     err,
 			"src":     it.TypeName,
 			"dst":     reflectinternal.TypeName(toPointer),
@@ -717,7 +717,7 @@ func (it *Result) JsonModel() Result {
 }
 
 //goland:noinspection GoLinterLocal
-func (it *Result) JsonModelAny() interface{} {
+func (it *Result) JsonModelAny() any {
 	return it.JsonModel()
 }
 

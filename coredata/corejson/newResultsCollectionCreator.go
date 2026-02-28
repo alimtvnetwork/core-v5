@@ -81,7 +81,7 @@ func (it newResultsCollectionCreator) UsingCap(
 }
 
 func (it newResultsCollectionCreator) AnyItems(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *ResultsCollection {
 	list := make(
 		[]Result,
@@ -98,7 +98,7 @@ func (it newResultsCollectionCreator) AnyItems(
 
 func (it newResultsCollectionCreator) AnyItemsPlusCap(
 	addCapacity int,
-	anyItems ...interface{},
+	anyItems ...any,
 ) *ResultsCollection {
 	length := addCapacity
 

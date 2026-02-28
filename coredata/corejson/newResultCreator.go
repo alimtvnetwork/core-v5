@@ -357,13 +357,13 @@ func (it newResultCreator) PtrUsingBytesPtr(
 //
 //	if already in JsonResult then returns it
 func (it newResultCreator) CastingAny(
-	castingAnyToJsonResultPtr interface{},
+	castingAnyToJsonResultPtr any,
 ) *Result {
 	return AnyTo.SerializedJsonResult(castingAnyToJsonResultPtr)
 }
 
 func (it newResultCreator) Any(
-	anyItem interface{},
+	anyItem any,
 ) Result {
 	jsonBytes, err := json.Marshal(anyItem)
 	typeName := reflectinternal.TypeName(anyItem)
@@ -386,7 +386,7 @@ func (it newResultCreator) Any(
 }
 
 func (it newResultCreator) AnyPtr(
-	anyItem interface{},
+	anyItem any,
 ) *Result {
 	jsonBytes, err := json.Marshal(anyItem)
 	typeName := reflectinternal.TypeName(anyItem)
@@ -457,13 +457,13 @@ func (it newResultCreator) TypeNameBytes(typeName string) *Result {
 }
 
 func (it newResultCreator) Many(
-	anyItems ...interface{},
+	anyItems ...any,
 ) *Result {
 	return it.AnyPtr(anyItems)
 }
 
 func (it newResultCreator) Serialize(
-	anyItem interface{},
+	anyItem any,
 ) *Result {
 	jsonBytes, err := json.Marshal(anyItem)
 	typeName := reflectinternal.TypeName(anyItem)
@@ -486,7 +486,7 @@ func (it newResultCreator) Serialize(
 }
 
 func (it newResultCreator) Marshal(
-	anyItem interface{},
+	anyItem any,
 ) *Result {
 	jsonBytes, err := json.Marshal(anyItem)
 	typeName := reflectinternal.TypeName(anyItem)
@@ -561,7 +561,7 @@ func (it newResultCreator) UsingJsoner(
 //   - bytesSerializer
 //   - anyItem
 func (it newResultCreator) AnyToCastingResult(
-	anyItem interface{},
+	anyItem any,
 ) *Result {
 	return AnyTo.SerializedJsonResult(anyItem)
 }

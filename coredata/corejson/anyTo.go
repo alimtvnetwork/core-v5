@@ -19,7 +19,7 @@ type anyTo struct{}
 //	- error to Result
 //	- AnyItem
 func (it anyTo) SerializedJsonResult(
-	fromAny interface{},
+	fromAny any,
 ) *Result {
 	if reflectinternal.Is.Null(fromAny) {
 		return &Result{
@@ -68,7 +68,7 @@ func (it anyTo) SerializedJsonResult(
 }
 
 func (it anyTo) SerializedRaw(
-	fromAny interface{},
+	fromAny any,
 ) (allBytes []byte, err error) {
 	return it.SerializedJsonResult(fromAny).Raw()
 }
@@ -83,7 +83,7 @@ func (it anyTo) SerializedRaw(
 //   - bytesSerializer
 //   - anyItem
 func (it anyTo) SerializedString(
-	fromAny interface{},
+	fromAny any,
 ) (serializedString string, err error) {
 	jsonResult := it.SerializedJsonResult(fromAny)
 
@@ -108,7 +108,7 @@ func (it anyTo) SerializedString(
 //
 //	swallows error, important data convert must not go into this.
 func (it anyTo) SerializedSafeString(
-	fromAny interface{},
+	fromAny any,
 ) (serializedString string) {
 	jsonResult := it.SerializedJsonResult(fromAny)
 
@@ -120,7 +120,7 @@ func (it anyTo) SerializedSafeString(
 }
 
 func (it anyTo) SerializedStringMust(
-	fromAny interface{},
+	fromAny any,
 ) (serializedString string) {
 	jsonResult := it.SerializedJsonResult(fromAny)
 	jsonResult.MustBeSafe()
@@ -132,7 +132,7 @@ func (it anyTo) SerializedStringMust(
 //
 //	warning : swallows error
 func (it anyTo) SafeJsonString(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	jsonResult := New(anyItem)
 
@@ -140,7 +140,7 @@ func (it anyTo) SafeJsonString(
 }
 
 func (it anyTo) PrettyStringWithError(
-	anyItem interface{},
+	anyItem any,
 ) (string, error) {
 	switch casted := anyItem.(type) {
 	case string:
@@ -170,7 +170,7 @@ func (it anyTo) PrettyStringWithError(
 //
 //	warning : swallows error
 func (it anyTo) SafeJsonPrettyString(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	switch casted := anyItem.(type) {
 	case string:
@@ -189,7 +189,7 @@ func (it anyTo) SafeJsonPrettyString(
 }
 
 func (it anyTo) JsonString(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	switch casted := anyItem.(type) {
 	case string:
@@ -208,7 +208,7 @@ func (it anyTo) JsonString(
 }
 
 func (it anyTo) JsonStringWithErr(
-	anyItem interface{},
+	anyItem any,
 ) (jsonString string, parsingErr error) {
 	switch casted := anyItem.(type) {
 	case string:
@@ -235,7 +235,7 @@ func (it anyTo) JsonStringWithErr(
 }
 
 func (it anyTo) JsonStringMust(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	jsonStr, err := it.JsonStringWithErr(anyItem)
 
@@ -247,7 +247,7 @@ func (it anyTo) JsonStringMust(
 }
 
 func (it anyTo) PrettyStringMust(
-	anyItem interface{},
+	anyItem any,
 ) string {
 	jsonPretty, err := it.JsonStringWithErr(
 		anyItem,
@@ -272,8 +272,8 @@ func (it anyTo) UsingSerializer(
 //
 //	usages json to bytes then use json to create fields map
 func (it anyTo) SerializedFieldsMap(
-	anyItem interface{},
-) (fieldsMap map[string]interface{}, parsingErr error) {
+	anyItem any,
+) (fieldsMap map[string]any, parsingErr error) {
 	return it.SerializedJsonResult(anyItem).
 		DeserializedFieldsToMap()
 }

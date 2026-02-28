@@ -182,7 +182,7 @@ func (it newMapResultsCreator) UsingMap(
 
 func (it newMapResultsCreator) UsingMapAnyItemsPlusCap(
 	addCapacity int,
-	mapAnyItems map[string]interface{},
+	mapAnyItems map[string]any,
 ) *MapResults {
 	if len(mapAnyItems) == 0 {
 		return it.UsingCap(addCapacity)
@@ -196,7 +196,7 @@ func (it newMapResultsCreator) UsingMapAnyItemsPlusCap(
 }
 
 func (it newMapResultsCreator) UsingMapAnyItems(
-	mapAnyItems map[string]interface{},
+	mapAnyItems map[string]any,
 ) *MapResults {
 	return it.UsingMapAnyItemsPlusCap(
 		0,
