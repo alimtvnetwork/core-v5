@@ -9,7 +9,7 @@ import (
 )
 
 // ==========================================
-// Test: New.Collection.Generic.Empty
+// Test: New.Collection.Any.Empty
 // ==========================================
 
 func Test_NewCreator_Generic_Empty_Verification(t *testing.T) {
@@ -17,7 +17,7 @@ func Test_NewCreator_Generic_Empty_Verification(t *testing.T) {
 		// Arrange — no input needed
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Empty()
+		col := coredynamic.New.Collection.Any.Empty()
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -29,7 +29,7 @@ func Test_NewCreator_Generic_Empty_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Cap
+// Test: New.Collection.Any.Cap
 // ==========================================
 
 func Test_NewCreator_Generic_Cap_Verification(t *testing.T) {
@@ -39,7 +39,7 @@ func Test_NewCreator_Generic_Cap_Verification(t *testing.T) {
 		capacity := input.GetAsIntDefault("capacity", 0)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Cap(capacity)
+		col := coredynamic.New.Collection.Any.Cap(capacity)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -52,7 +52,7 @@ func Test_NewCreator_Generic_Cap_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Cap zero
+// Test: New.Collection.Any.Cap zero
 // ==========================================
 
 func Test_NewCreator_Generic_Cap_Zero_Verification(t *testing.T) {
@@ -62,7 +62,7 @@ func Test_NewCreator_Generic_Cap_Zero_Verification(t *testing.T) {
 		capacity := input.GetAsIntDefault("capacity", 0)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Cap(capacity)
+		col := coredynamic.New.Collection.Any.Cap(capacity)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -74,7 +74,7 @@ func Test_NewCreator_Generic_Cap_Zero_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.From
+// Test: New.Collection.Any.From
 // ==========================================
 
 func Test_NewCreator_Generic_From_Verification(t *testing.T) {
@@ -84,7 +84,7 @@ func Test_NewCreator_Generic_From_Verification(t *testing.T) {
 		items := input["items"].([]any)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.From(items)
+		col := coredynamic.New.Collection.Any.From(items)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -98,7 +98,7 @@ func Test_NewCreator_Generic_From_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.From empty
+// Test: New.Collection.Any.From empty
 // ==========================================
 
 func Test_NewCreator_Generic_From_Empty_Verification(t *testing.T) {
@@ -108,7 +108,7 @@ func Test_NewCreator_Generic_From_Empty_Verification(t *testing.T) {
 		items := input["items"].([]any)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.From(items)
+		col := coredynamic.New.Collection.Any.From(items)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -120,7 +120,7 @@ func Test_NewCreator_Generic_From_Empty_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Clone
+// Test: New.Collection.Any.Clone
 // ==========================================
 
 func Test_NewCreator_Generic_Clone_Verification(t *testing.T) {
@@ -130,7 +130,7 @@ func Test_NewCreator_Generic_Clone_Verification(t *testing.T) {
 		items := input["items"].([]any)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Clone(items)
+		col := coredynamic.New.Collection.Any.Clone(items)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.First()),
@@ -143,7 +143,7 @@ func Test_NewCreator_Generic_Clone_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Clone mutation independence
+// Test: New.Collection.Any.Clone mutation independence
 // ==========================================
 
 func Test_NewCreator_Generic_Clone_Mutation_Verification(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_NewCreator_Generic_Clone_Mutation_Verification(t *testing.T) {
 
 		// Act
 		original := items
-		col := coredynamic.New.Collection.Generic.Clone(items)
+		col := coredynamic.New.Collection.Any.Clone(items)
 		col.Add("mutated")
 		actLines := []string{
 			fmt.Sprintf("%d", len(original)),
@@ -167,7 +167,7 @@ func Test_NewCreator_Generic_Clone_Mutation_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Items
+// Test: New.Collection.Any.Items
 // ==========================================
 
 func Test_NewCreator_Generic_Items_Verification(t *testing.T) {
@@ -177,7 +177,7 @@ func Test_NewCreator_Generic_Items_Verification(t *testing.T) {
 		items := input["items"].([]any)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Items(items...)
+		col := coredynamic.New.Collection.Any.Items(items...)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.First()),
@@ -190,7 +190,7 @@ func Test_NewCreator_Generic_Items_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Items single
+// Test: New.Collection.Any.Items single
 // ==========================================
 
 func Test_NewCreator_Generic_Items_Single_Verification(t *testing.T) {
@@ -200,7 +200,7 @@ func Test_NewCreator_Generic_Items_Single_Verification(t *testing.T) {
 		items := input["items"].([]any)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Items(items...)
+		col := coredynamic.New.Collection.Any.Items(items...)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.First()),
@@ -213,7 +213,7 @@ func Test_NewCreator_Generic_Items_Single_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.From nil slice
+// Test: New.Collection.Any.From nil slice
 // ==========================================
 
 func Test_NewCreator_Generic_From_Nil_Verification(t *testing.T) {
@@ -221,7 +221,7 @@ func Test_NewCreator_Generic_From_Nil_Verification(t *testing.T) {
 		// Arrange — nil slice
 
 		// Act
-		col := coredynamic.New.Collection.Generic.From(nil)
+		col := coredynamic.New.Collection.Any.From(nil)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -233,7 +233,7 @@ func Test_NewCreator_Generic_From_Nil_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Cap large capacity
+// Test: New.Collection.Any.Cap large capacity
 // ==========================================
 
 func Test_NewCreator_Generic_Cap_Large_Verification(t *testing.T) {
@@ -243,7 +243,7 @@ func Test_NewCreator_Generic_Cap_Large_Verification(t *testing.T) {
 		capacity := input.GetAsIntDefault("capacity", 0)
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Cap(capacity)
+		col := coredynamic.New.Collection.Any.Cap(capacity)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -256,7 +256,7 @@ func Test_NewCreator_Generic_Cap_Large_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Items no args
+// Test: New.Collection.Any.Items no args
 // ==========================================
 
 func Test_NewCreator_Generic_Items_NoArgs_Verification(t *testing.T) {
@@ -264,7 +264,7 @@ func Test_NewCreator_Generic_Items_NoArgs_Verification(t *testing.T) {
 		// Arrange — no args
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Items()
+		col := coredynamic.New.Collection.Any.Items()
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
@@ -276,7 +276,7 @@ func Test_NewCreator_Generic_Items_NoArgs_Verification(t *testing.T) {
 }
 
 // ==========================================
-// Test: New.Collection.Generic.Clone nil slice
+// Test: New.Collection.Any.Clone nil slice
 // ==========================================
 
 func Test_NewCreator_Generic_Clone_Nil_Verification(t *testing.T) {
@@ -284,7 +284,7 @@ func Test_NewCreator_Generic_Clone_Nil_Verification(t *testing.T) {
 		// Arrange — nil slice
 
 		// Act
-		col := coredynamic.New.Collection.Generic.Clone(nil)
+		col := coredynamic.New.Collection.Any.Clone(nil)
 		actLines := []string{
 			fmt.Sprintf("%d", col.Length()),
 			fmt.Sprintf("%v", col.IsEmpty()),
