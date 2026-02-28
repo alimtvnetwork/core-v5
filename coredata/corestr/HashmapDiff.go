@@ -31,13 +31,13 @@ func (it HashmapDiff) AllKeysSorted() []string {
 	return mapdiffinternal.HashmapDiff(it.Raw()).AllKeysSorted()
 }
 
-func (it *HashmapDiff) MapAnyItems() map[string]interface{} {
+func (it *HashmapDiff) MapAnyItems() map[string]any {
 	if it == nil || len(*it) == 0 {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	newMap := make(
-		map[string]interface{},
+		map[string]any,
 		it.Length()+1)
 
 	for name, value := range *it {
@@ -147,6 +147,6 @@ func (it *HashmapDiff) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it.Raw())
 }
 
-func (it *HashmapDiff) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *HashmapDiff) Deserialize(toPtr any) (parsingErr error) {
 	return corejson.NewPtr(it.Raw()).Deserialize(toPtr)
 }

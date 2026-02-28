@@ -207,7 +207,7 @@ func (it *CollectionsOfCollection) JsonModel() CollectionsOfCollectionModel {
 	}
 }
 
-func (it *CollectionsOfCollection) JsonModelAny() interface{} {
+func (it *CollectionsOfCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

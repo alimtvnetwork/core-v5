@@ -1075,7 +1075,7 @@ func (it *CharHashsetMap) JsonModel() *CharHashsetDataModel {
 	}
 }
 
-func (it *CharHashsetMap) JsonModelAny() interface{} {
+func (it *CharHashsetMap) JsonModelAny() any {
 	return it.JsonModel()
 }
 

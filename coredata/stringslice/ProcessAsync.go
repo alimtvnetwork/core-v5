@@ -3,8 +3,8 @@ package stringslice
 import "sync"
 
 func ProcessAsync(
-	processor func(index int, item interface{}) string,
-	items ...interface{},
+	processor func(index int, item any) string,
+	items ...any,
 ) []string {
 	if len(items) == 0 {
 		return []string{}
@@ -14,7 +14,7 @@ func ProcessAsync(
 
 	wg := sync.WaitGroup{}
 
-	singleProcessorFunc := func(index int, item interface{}) {
+	singleProcessorFunc := func(index int, item any) {
 		list[index] = processor(index, item)
 
 		wg.Done()

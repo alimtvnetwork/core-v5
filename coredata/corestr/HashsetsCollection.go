@@ -265,7 +265,7 @@ func (it *HashsetsCollection) JsonModel() *HashsetsCollectionDataModel {
 	return NewHashsetsCollectionDataModelUsing(it)
 }
 
-func (it *HashsetsCollection) JsonModelAny() interface{} {
+func (it *HashsetsCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -376,6 +376,6 @@ func (it *HashsetsCollection) AsJsonMarshaller() corejson.JsonMarshaller {
 	return it
 }
 
-func (it HashsetsCollection) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it HashsetsCollection) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

@@ -95,7 +95,7 @@ func (it *Hashmap) AddOrUpdateKeyStrValFloat64(
 
 func (it *Hashmap) AddOrUpdateKeyStrValAny(
 	key string,
-	val interface{},
+	val any,
 ) *Hashmap {
 	it.items[key] = fmt.Sprintf(constants.SprintValueFormat, val)
 	it.hasMapUpdated = true
@@ -1103,7 +1103,7 @@ func (it *Hashmap) JsonModel() map[string]string {
 	return it.items
 }
 
-func (it *Hashmap) JsonModelAny() interface{} {
+func (it *Hashmap) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1277,6 +1277,6 @@ func (it *Hashmap) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *Hashmap) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *Hashmap) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

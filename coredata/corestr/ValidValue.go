@@ -22,7 +22,7 @@ type ValidValue struct {
 func NewValidValueUsingAny(
 	isIncludeFieldName bool,
 	isValid bool,
-	any interface{},
+	any any,
 ) *ValidValue {
 	toString := AnyToString(
 		isIncludeFieldName,
@@ -40,7 +40,7 @@ func NewValidValueUsingAny(
 //	IsValid to false on nil or Empty string
 func NewValidValueUsingAnyAutoValid(
 	isIncludeFieldName bool,
-	any interface{},
+	any any,
 ) *ValidValue {
 	toString := AnyToString(
 		isIncludeFieldName,
@@ -404,6 +404,6 @@ func (it *ValidValue) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *ValidValue) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *ValidValue) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

@@ -450,7 +450,7 @@ func (it *KeyValueCollection) JsonModel() []KeyValuePair {
 	return it.KeyValuePairs
 }
 
-func (it *KeyValueCollection) JsonModelAny() interface{} {
+func (it *KeyValueCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -544,6 +544,6 @@ func (it *KeyValueCollection) Dispose() {
 	it.Clear()
 }
 
-func (it *KeyValueCollection) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *KeyValueCollection) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }

@@ -18,7 +18,7 @@ import (
 )
 
 type AnyCollection struct {
-	items []interface{}
+	items []any
 }
 
 func EmptyAnyCollection() *AnyCollection {
@@ -26,18 +26,18 @@ func EmptyAnyCollection() *AnyCollection {
 }
 
 func NewAnyCollection(capacity int) *AnyCollection {
-	slice := make([]interface{}, 0, capacity)
+	slice := make([]any, 0, capacity)
 
 	return &AnyCollection{items: slice}
 }
 
-func (it *AnyCollection) At(index int) interface{} {
+func (it *AnyCollection) At(index int) any {
 	return it.items[index]
 }
 
 func (it *AnyCollection) ReflectSetAt(
 	index int,
-	toPointerOrBytesSet interface{},
+	toPointerOrBytesSet any,
 ) error {
 	item := it.items[index]
 
@@ -48,9 +48,9 @@ func (it *AnyCollection) AtAsDynamic(index int) Dynamic {
 	return NewDynamic(it.items[index], true)
 }
 
-func (it *AnyCollection) Items() []interface{} {
+func (it *AnyCollection) Items() []any {
 	if it.IsEmpty() {
-		return []interface{}{}
+		return []any{}
 	}
 
 	return it.items
@@ -80,27 +80,27 @@ func (it *AnyCollection) DynamicCollection() *DynamicCollection {
 	}
 }
 
-func (it *AnyCollection) FirstDynamic() interface{} {
+func (it *AnyCollection) FirstDynamic() any {
 	return it.items[0]
 }
 
-func (it *AnyCollection) First() interface{} {
+func (it *AnyCollection) First() any {
 	return it.items[0]
 }
 
-func (it *AnyCollection) LastDynamic() interface{} {
+func (it *AnyCollection) LastDynamic() any {
 	return it.items[it.LastIndex()]
 }
 
-func (it *AnyCollection) Last() interface{} {
+func (it *AnyCollection) Last() any {
 	return it.items[it.LastIndex()]
 }
 
-func (it *AnyCollection) FirstOrDefaultDynamic() interface{} {
+func (it *AnyCollection) FirstOrDefaultDynamic() any {
 	return it.FirstOrDefault()
 }
 
-func (it *AnyCollection) FirstOrDefault() interface{} {
+func (it *AnyCollection) FirstOrDefault() any {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -108,11 +108,11 @@ func (it *AnyCollection) FirstOrDefault() interface{} {
 	return it.First()
 }
 
-func (it *AnyCollection) LastOrDefaultDynamic() interface{} {
+func (it *AnyCollection) LastOrDefaultDynamic() any {
 	return it.LastOrDefault()
 }
 
-func (it *AnyCollection) LastOrDefault() interface{} {
+func (it *AnyCollection) LastOrDefault() any {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -120,11 +120,11 @@ func (it *AnyCollection) LastOrDefault() interface{} {
 	return it.Last()
 }
 
-func (it *AnyCollection) SkipDynamic(skippingItemsCount int) interface{} {
+func (it *AnyCollection) SkipDynamic(skippingItemsCount int) any {
 	return it.items[skippingItemsCount:]
 }
 
-func (it *AnyCollection) Skip(skippingItemsCount int) []interface{} {
+func (it *AnyCollection) Skip(skippingItemsCount int) []any {
 	return it.items[skippingItemsCount:]
 }
 
@@ -134,11 +134,11 @@ func (it *AnyCollection) SkipCollection(skippingItemsCount int) *AnyCollection {
 	}
 }
 
-func (it *AnyCollection) TakeDynamic(takeDynamicItems int) interface{} {
+func (it *AnyCollection) TakeDynamic(takeDynamicItems int) any {
 	return it.items[:takeDynamicItems]
 }
 
-func (it *AnyCollection) Take(takeDynamicItems int) []interface{} {
+func (it *AnyCollection) Take(takeDynamicItems int) []any {
 	return it.items[:takeDynamicItems]
 }
 
@@ -163,11 +163,11 @@ func (it *AnyCollection) SafeLimitCollection(limit int) *AnyCollection {
 	}
 }
 
-func (it *AnyCollection) LimitDynamic(limit int) interface{} {
+func (it *AnyCollection) LimitDynamic(limit int) any {
 	return it.Take(limit)
 }
 
-func (it *AnyCollection) Limit(limit int) []interface{} {
+func (it *AnyCollection) Limit(limit int) []any {
 	return it.Take(limit)
 }
 
@@ -238,7 +238,7 @@ func (it *AnyCollection) RemoveAt(index int) (isSuccess bool) {
 
 func (it *AnyCollection) Loop(
 	isRunAsync bool,
-	loopProcessorFunc func(index int, item interface{}) (isBreak bool), // break will not work on async
+	loopProcessorFunc func(index int, item any) (isBreak bool), // break will not work on async
 ) *AnyCollection {
 	if it.IsEmpty() {
 		return it
@@ -324,7 +324,7 @@ func (it *AnyCollection) LoopDynamic(
 	return it
 }
 
-func (it *AnyCollection) AddAny(anyItem interface{}, isValid bool) *AnyCollection {
+func (it *AnyCollection) AddAny(anyItem any, isValid bool) *AnyCollection {
 	it.items = append(
 		it.items,
 		NewDynamic(anyItem, isValid),
@@ -337,7 +337,7 @@ func (it *AnyCollection) AddAnyItemsWithTypeValidation(
 	isContinueOnError,
 	isNullNotAllowed bool,
 	expectedType reflect.Type,
-	anyItems ...interface{},
+	anyItems ...any,
 ) error {
 	if len(anyItems) == 0 {
 		return nil
@@ -379,7 +379,7 @@ func (it *AnyCollection) AddAnyItemsWithTypeValidation(
 func (it *AnyCollection) AddAnyWithTypeValidation(
 	isNullNotAllowed bool,
 	expectedType reflect.Type,
-	anyItem interface{},
+	anyItem any,
 ) error {
 	err := ReflectTypeValidation(
 		isNullNotAllowed,
@@ -399,7 +399,7 @@ func (it *AnyCollection) AddAnyWithTypeValidation(
 	return nil
 }
 
-func (it *AnyCollection) AddNonNull(anyItem interface{}) *AnyCollection {
+func (it *AnyCollection) AddNonNull(anyItem any) *AnyCollection {
 	if anyItem == nil {
 		return it
 	}
@@ -412,7 +412,7 @@ func (it *AnyCollection) AddNonNull(anyItem interface{}) *AnyCollection {
 	return it
 }
 
-func (it *AnyCollection) AddNonNullDynamic(anyItem interface{}, isValid bool) *AnyCollection {
+func (it *AnyCollection) AddNonNullDynamic(anyItem any, isValid bool) *AnyCollection {
 	if anyItem == nil {
 		return it
 	}
@@ -425,7 +425,7 @@ func (it *AnyCollection) AddNonNullDynamic(anyItem interface{}, isValid bool) *A
 	return it
 }
 
-func (it *AnyCollection) AddAnyManyDynamic(anyItems ...interface{}) *AnyCollection {
+func (it *AnyCollection) AddAnyManyDynamic(anyItems ...any) *AnyCollection {
 	if anyItems == nil {
 		return it
 	}
@@ -440,14 +440,14 @@ func (it *AnyCollection) AddAnyManyDynamic(anyItems ...interface{}) *AnyCollecti
 	return it
 }
 
-func (it *AnyCollection) Add(anyItem interface{}) *AnyCollection {
+func (it *AnyCollection) Add(anyItem any) *AnyCollection {
 	it.items = append(it.items, anyItem)
 
 	return it
 }
 
 func (it *AnyCollection) AddAnySliceFromSingleItem(
-	sliceList interface{},
+	sliceList any,
 ) *AnyCollection {
 	if sliceList == nil {
 		return it
@@ -460,7 +460,7 @@ func (it *AnyCollection) AddAnySliceFromSingleItem(
 	return it.AddMany(items...)
 }
 
-func (it *AnyCollection) AddMany(anyItems ...interface{}) *AnyCollection {
+func (it *AnyCollection) AddMany(anyItems ...any) *AnyCollection {
 	if anyItems == nil {
 		return it
 	}
@@ -503,7 +503,7 @@ func (it *AnyCollection) MarshalJSON() ([]byte, error) {
 }
 
 func (it *AnyCollection) UnmarshalJSON(data []byte) error {
-	var dataModelItems []interface{}
+	var dataModelItems []any
 	err := json.Unmarshal(data, &dataModelItems)
 
 	if err == nil {
@@ -634,11 +634,11 @@ func (it *AnyCollection) GetSinglePageCollection(
 	}
 }
 
-func (it *AnyCollection) JsonModel() []interface{} {
+func (it *AnyCollection) JsonModel() []any {
 	return it.items
 }
 
-func (it *AnyCollection) JsonModelAny() interface{} {
+func (it *AnyCollection) JsonModelAny() any {
 	return it.JsonModel()
 }
 

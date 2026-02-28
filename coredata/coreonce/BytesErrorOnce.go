@@ -150,7 +150,7 @@ func (it *BytesErrorOnce) Execute() ([]byte, error) {
 }
 
 func (it *BytesErrorOnce) Deserialize(
-	toPtr interface{},
+	toPtr any,
 ) error {
 	rawBytes, err := it.Value()
 	var valString string
@@ -193,7 +193,7 @@ func (it *BytesErrorOnce) Deserialize(
 }
 
 func (it *BytesErrorOnce) DeserializeMust(
-	toPtr interface{},
+	toPtr any,
 ) {
 	err := it.Deserialize(toPtr)
 

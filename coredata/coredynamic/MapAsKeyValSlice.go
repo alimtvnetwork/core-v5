@@ -8,7 +8,7 @@ import (
 
 // MapAsKeyValSlice
 //
-//	expectation : map[key:interface{}]interface{}
+//	expectation : map[key:any]any
 func MapAsKeyValSlice(reflectVal reflect.Value) (*KeyValCollection, error) {
 	if reflectVal.Kind() == reflect.Ptr {
 		return MapAsKeyValSlice(

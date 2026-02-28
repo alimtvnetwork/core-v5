@@ -1001,7 +1001,7 @@ func (it *CharCollectionMap) JsonModel() *CharCollectionDataModel {
 	}
 }
 
-func (it *CharCollectionMap) JsonModelAny() interface{} {
+func (it *CharCollectionMap) JsonModelAny() any {
 	return it.JsonModel()
 }
 

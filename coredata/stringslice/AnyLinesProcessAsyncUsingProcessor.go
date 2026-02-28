@@ -8,8 +8,8 @@ import (
 )
 
 func AnyLinesProcessAsyncUsingProcessor(
-	lines interface{},
-	lineProcessor func(index int, lineIn interface{}) (lineOut string),
+	lines any,
+	lineProcessor func(index int, lineIn any) (lineOut string),
 ) []string {
 	if lines == nil {
 		return []string{}
@@ -36,7 +36,7 @@ func AnyLinesProcessAsyncUsingProcessor(
 
 	wg.Add(length)
 
-	asyncProcessor := func(index int, lineIn interface{}) {
+	asyncProcessor := func(index int, lineIn any) {
 		slice[index] = lineProcessor(index, lineIn)
 
 		wg.Done()

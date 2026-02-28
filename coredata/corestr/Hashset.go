@@ -531,7 +531,7 @@ func (it *Hashset) AddCollections(
 
 func (it *Hashset) AddsAnyUsingFilter(
 	filter IsStringFilter,
-	anys ...interface{},
+	anys ...any,
 ) *Hashset {
 	if anys == nil {
 		return it
@@ -560,7 +560,7 @@ func (it *Hashset) AddsAnyUsingFilter(
 
 func (it *Hashset) AddsAnyUsingFilterLock(
 	filter IsStringFilter,
-	anys ...interface{},
+	anys ...any,
 ) *Hashset {
 	if anys == nil {
 		return it
@@ -945,13 +945,13 @@ func (it *Hashset) List() []string {
 	return *it.ListPtr()
 }
 
-func (it *Hashset) MapStringAny() map[string]interface{} {
+func (it *Hashset) MapStringAny() map[string]any {
 	if it.IsEmpty() {
-		return map[string]interface{}{}
+		return map[string]any{}
 	}
 
 	newMap := make(
-		map[string]interface{},
+		map[string]any,
 		it.Length()+1,
 	)
 
@@ -1216,7 +1216,7 @@ func (it Hashset) JsonModel() map[string]bool {
 }
 
 //goland:noinspection GoLinterLocal
-func (it Hashset) JsonModelAny() interface{} {
+func (it Hashset) JsonModelAny() any {
 	return it.JsonModel()
 }
 
@@ -1401,7 +1401,7 @@ func (it *Hashset) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
 
-func (it *Hashset) Deserialize(toPtr interface{}) (parsingErr error) {
+func (it *Hashset) Deserialize(toPtr any) (parsingErr error) {
 	return it.JsonPtr().Deserialize(toPtr)
 }
 

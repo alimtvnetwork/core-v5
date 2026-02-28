@@ -11,20 +11,20 @@ import (
 )
 
 type AnyErrorOnce struct {
-	innerData       interface{}
+	innerData       any
 	err             error
-	initializerFunc func() (interface{}, error)
+	initializerFunc func() (any, error)
 	compiledString  *string
 	isInitialized   bool
 }
 
-func NewAnyErrorOnce(initializerFunc func() (interface{}, error)) AnyErrorOnce {
+func NewAnyErrorOnce(initializerFunc func() (any, error)) AnyErrorOnce {
 	return AnyErrorOnce{
 		initializerFunc: initializerFunc,
 	}
 }
 
-func NewAnyErrorOncePtr(initializerFunc func() (interface{}, error)) *AnyErrorOnce {
+func NewAnyErrorOncePtr(initializerFunc func() (any, error)) *AnyErrorOnce {
 	return &AnyErrorOnce{
 		initializerFunc: initializerFunc,
 	}
@@ -94,15 +94,15 @@ func (it *AnyErrorOnce) IsFailed() bool {
 	return !it.IsEmptyError()
 }
 
-func (it *AnyErrorOnce) ValueWithError() (interface{}, error) {
+func (it *AnyErrorOnce) ValueWithError() (any, error) {
 	return it.Value()
 }
 
-func (it *AnyErrorOnce) Execute() (interface{}, error) {
+func (it *AnyErrorOnce) Execute() (any, error) {
 	return it.Value()
 }
 
-func (it *AnyErrorOnce) ExecuteMust() interface{} {
+func (it *AnyErrorOnce) ExecuteMust() any {
 	val, err := it.Value()
 
 	if err != nil {
@@ -112,7 +112,7 @@ func (it *AnyErrorOnce) ExecuteMust() interface{} {
 	return val
 }
 
-func (it *AnyErrorOnce) ValueMust() interface{} {
+func (it *AnyErrorOnce) ValueMust() any {
 	val, err := it.Value()
 
 	if err != nil {
@@ -122,7 +122,7 @@ func (it *AnyErrorOnce) ValueMust() interface{} {
 	return val
 }
 
-func (it *AnyErrorOnce) Value() (interface{}, error) {
+func (it *AnyErrorOnce) Value() (any, error) {
 	if it.isInitialized {
 		return it.innerData, it.err
 	}
@@ -221,12 +221,12 @@ func (it *AnyErrorOnce) CastValueHashmapMap() (
 }
 
 func (it *AnyErrorOnce) CastValueMapStringAnyMap() (
-	valueMap map[string]interface{},
+	valueMap map[string]any,
 	err error,
 	isSuccess bool,
 ) {
 	valInf, err := it.Execute()
-	toStrings, isSuccess := valInf.(map[string]interface{})
+	toStrings, isSuccess := valInf.(map[string]any)
 
 	return toStrings, err, isSuccess
 }
@@ -242,7 +242,7 @@ func (it *AnyErrorOnce) CastValueBytes() (
 	return toStrings, err, isSuccess
 }
 
-func (it *AnyErrorOnce) ValueOnly() interface{} {
+func (it *AnyErrorOnce) ValueOnly() any {
 	if it.isInitialized {
 		return it.innerData
 	}
@@ -278,7 +278,7 @@ func (it *AnyErrorOnce) String() string {
 		it.ValueOnly())
 }
 
-func (it *AnyErrorOnce) Deserialize(toPtr interface{}) error {
+func (it *AnyErrorOnce) Deserialize(toPtr any) error {
 	allBytes, err := it.Serialize()
 
 	if err != nil {
