@@ -2,9 +2,10 @@ package coreapi
 
 import "gitlab.com/auk-go/core/coredata/coredynamic"
 
-// TypedRequestIn is the generic version of GenericRequestIn.
+// TypedRequestIn is the generic API request type.
 //
-// T represents the strongly-typed request payload, replacing the dynamic interface{} field.
+// T represents the strongly-typed request payload.
+// When T is `any`, this is equivalent to the legacy GenericRequestIn.
 //
 // Usage:
 //
@@ -51,22 +52,8 @@ func (it *TypedRequestIn[T]) Clone() *TypedRequestIn[T] {
 	}
 }
 
-// ToGenericRequestIn converts to the non-generic GenericRequestIn for backward compatibility.
-func (it *TypedRequestIn[T]) ToGenericRequestIn() *GenericRequestIn {
-	if it == nil {
-		return nil
-	}
-
-	return &GenericRequestIn{
-		Attribute: it.Attribute,
-		Request:   it.Request,
-	}
-}
-
 // TypedSimpleGenericRequest converts to a TypedSimpleGenericRequest[T]
 // by wrapping the request in a TypedSimpleRequest.
-//
-// This mirrors GenericRequestIn.SimpleGenericRequest().
 func (it *TypedRequestIn[T]) TypedSimpleGenericRequest(
 	isValid bool,
 	invalidMessage string,
@@ -84,9 +71,8 @@ func (it *TypedRequestIn[T]) TypedSimpleGenericRequest(
 	}
 }
 
-// SimpleGenericRequest converts to the legacy SimpleGenericRequest.
-//
-// This mirrors GenericRequestIn.SimpleGenericRequest() for backward compatibility.
+// SimpleGenericRequest converts to the legacy SimpleGenericRequest
+// by wrapping the request in a coredynamic.SimpleRequest.
 func (it *TypedRequestIn[T]) SimpleGenericRequest(
 	isValid bool,
 	invalidMessage string,

@@ -1,10 +1,14 @@
 package coreapi
 
-import "gitlab.com/auk-go/core/constants"
+import (
+	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/coredynamic"
+)
 
-// TypedResponse is the generic version of GenericResponse.
+// TypedResponse is the generic API response type.
 //
-// T represents the strongly-typed response payload, replacing the dynamic interface{} field.
+// T represents the strongly-typed response payload.
+// When T is `any`, this is equivalent to the legacy GenericResponse.
 //
 // Usage:
 //
@@ -51,21 +55,7 @@ func (it *TypedResponse[T]) Clone() *TypedResponse[T] {
 	}
 }
 
-// ToGenericResponse converts to the non-generic GenericResponse for backward compatibility.
-func (it *TypedResponse[T]) ToGenericResponse() *GenericResponse {
-	if it == nil {
-		return nil
-	}
-
-	return &GenericResponse{
-		Attribute: it.Attribute,
-		Response:  it.Response,
-	}
-}
-
 // TypedResponseResult converts to a TypedResponseResult[T].
-//
-// This mirrors GenericResponse.GenericResponseResult().
 func (it *TypedResponse[T]) TypedResponseResult() *TypedResponseResult[T] {
 	if it == nil {
 		return nil
@@ -77,15 +67,18 @@ func (it *TypedResponse[T]) TypedResponseResult() *TypedResponseResult[T] {
 	}
 }
 
-// GenericResponseResult converts to the legacy GenericResponseResult.
-//
-// This mirrors GenericResponse.GenericResponseResult() for backward compatibility.
+// GenericResponseResult converts to the legacy GenericResponseResult
+// by wrapping the response in a coredynamic.SimpleResult.
 func (it *TypedResponse[T]) GenericResponseResult() *GenericResponseResult {
 	if it == nil {
 		return nil
 	}
 
-	generic := it.ToGenericResponse()
-
-	return generic.GenericResponseResult()
+	return &GenericResponseResult{
+		Attribute: it.Attribute,
+		Response: coredynamic.NewSimpleResult(
+			it.Response,
+			it.Attribute.IsValid,
+			it.Attribute.Message),
+	}
 }
