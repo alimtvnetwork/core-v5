@@ -4,7 +4,7 @@ import "gitlab.com/auk-go/core/coredata/coredynamic"
 
 type GenericRequestIn struct {
 	Attribute *RequestAttribute `json:"Attribute,omitempty"`
-	Request   interface{}       `json:"Request,omitempty"`
+	Request   any               `json:"Request,omitempty"`
 }
 
 func InvalidGenericRequestIn(
@@ -28,6 +28,9 @@ func (it *GenericRequestIn) SimpleGenericRequest(
 	}
 }
 
+// Clone returns a deep copy of GenericRequestIn.
+//
+// Note: The Request field is copied by reference since any cannot be deep-cloned generically.
 func (it *GenericRequestIn) Clone() *GenericRequestIn {
 	if it == nil {
 		return nil
@@ -35,6 +38,6 @@ func (it *GenericRequestIn) Clone() *GenericRequestIn {
 
 	return &GenericRequestIn{
 		Attribute: it.Attribute.Clone(),
-		Request:   it.Clone(),
+		Request:   it.Request,
 	}
 }
