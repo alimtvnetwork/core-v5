@@ -11,7 +11,7 @@ import (
 
 // TypedDynamic is a generic, strongly-typed wrapper around a value of type T.
 //
-// Unlike Dynamic (which wraps interface{}), TypedDynamic[T] provides
+// Unlike Dynamic (which wraps any), TypedDynamic[T] provides
 // compile-time type safety and eliminates the need for type assertions.
 //
 // Usage:

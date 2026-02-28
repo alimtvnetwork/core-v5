@@ -11,7 +11,7 @@ import (
 
 // TypedSimpleResult is the generic version of SimpleResult.
 //
-// Unlike SimpleResult (which embeds Dynamic and wraps interface{}),
+// Unlike SimpleResult (which embeds Dynamic and wraps any),
 // TypedSimpleResult[T] provides compile-time type safety for the result payload.
 //
 // Usage:
