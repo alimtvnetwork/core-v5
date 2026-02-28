@@ -148,13 +148,16 @@ if !isValid {
 
 **Exception**: When the variable is used only once and the meaning is obvious (e.g. `if !ok {`), inline negation is acceptable.
 
-### Blank Line Rules for `if` Blocks
+### Blank Line Rules for Control Flow Blocks
 
-1. **Before `if`**: Always insert a blank line before `if` when preceded by a line of code or a closing `}` (unless that `}` immediately closes an outer block).
+These rules apply uniformly to **all** control flow statements: `if`, `for`, `switch`, `select`, and `range`.
+
+1. **Before the statement**: Always insert a blank line before a control flow statement when preceded by a line of code or a closing `}` (unless that `}` immediately closes an outer block).
 2. **After `}`**: Insert a blank line after `}` only if the next line is **not** another `}` closing a parent block.
+3. **Consecutive control flow**: When two control flow blocks appear back-to-back with no intervening code, a single blank line separates them.
 
 ```go
-// ✅ Good: Spacing
+// ✅ Good: Spacing around if
 items, isValid := input.GetAsStrings("items")
 isInvalid := !isValid
 
@@ -166,6 +169,51 @@ search, isValid := input.GetAsString("search")
 
 if !isValid {
     errcore.HandleErrMessage("GetAsString 'search' failed")
+}
+
+// ✅ Good: Spacing around for
+col := coredynamic.New.Collection.String.From(items)
+
+for i := 0; i < col.Length(); i++ {
+    process(col.SafeAt(i))
+}
+
+result := col.First()
+
+// ✅ Good: Spacing around switch
+kind := reflect.TypeOf(value).Kind()
+
+switch kind {
+case reflect.String:
+    handleString(value)
+case reflect.Int:
+    handleInt(value)
+default:
+    handleOther(value)
+}
+
+// ✅ Good: Spacing around select
+timeout := time.After(5 * time.Second)
+
+select {
+case msg := <-ch:
+    process(msg)
+case <-timeout:
+    return ErrTimeout
+}
+
+// ✅ Good: Spacing around range
+names := []string{"a", "b", "c"}
+
+for _, name := range names {
+    fmt.Println(name)
+}
+
+// ✅ Good: No blank line before closing parent }
+for _, item := range items {
+    if item == "" {
+        continue
+    }
 }
 
 // ❌ Bad: No breathing room
@@ -177,6 +225,9 @@ if isInvalid {
 search, isValid := input.GetAsString("search")
 if !isValid {
     errcore.HandleErrMessage("GetAsString 'search' failed")
+}
+for i := 0; i < len(items); i++ {
+    process(items[i])
 }
 ```
 
