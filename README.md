@@ -623,39 +623,37 @@ For the complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/0
 
 ---
 
-## Core Funcs — Function Type Definitions
+## Core Funcs — Function Type Definitions & Wrappers
 
-The `corefuncs/` package defines reusable function signatures — both legacy `any`-based and generic typed versions:
+The `corefuncs/` package defines reusable function signatures and structural wrappers — generic `[T]` types first, with `any`-based legacy types for backward compatibility. See the **[full corefuncs README](/corefuncs/README.md)** for complete documentation.
 
 ```go
 import "gitlab.com/auk-go/core/corefuncs"
 
-// Legacy function types (any-based)
-var exec corefuncs.ExecFunc = func() { fmt.Println("executed") }
-var check corefuncs.IsBooleanFunc = func() bool { return true }
-var transform corefuncs.InOutFunc = func(input any) any {
-    return strings.ToUpper(input.(string))
+// Generic function types (type-safe, recommended)
+var transform corefuncs.InOutFuncOf[string, int] = func(s string) int {
+    return len(s)
 }
 
-// Generic function types (type-safe, Go 1.24+)
-var typedTransform corefuncs.InOutFuncOf[string, string] = func(input string) string {
-    return strings.ToUpper(input)
-}
+// Generic wrappers — named error reporting + ActionFunc conversion
+wrapper := corefuncs.NewInOutErrWrapper[string, int](
+    "parse-age",
+    func(s string) (int, error) { return strconv.Atoi(s) },
+)
 
-var serialize corefuncs.SerializeOutputFuncOf[MyStruct] = func(input MyStruct) ([]byte, error) {
-    return json.Marshal(input)
-}
+age, err := wrapper.Exec("25")           // strongly typed
+errFn := wrapper.AsActionReturnsErrorFunc("25") // convert to ActionReturnsErrorFunc
+legacy := wrapper.ToLegacy()              // backward compatible InOutErrFuncWrapper
 
-// Use in higher-order functions
-func processAll[T any](items []T, fn corefuncs.InOutFuncOf[T, T]) []T {
-    results := make([]T, len(items))
+// ResultDelegatingFuncWrapperOf[T] — typed unmarshal/reflect targets
+unmarshalWrapper := corefuncs.NewResultDelegatingWrapper[*User](
+    "json-unmarshal",
+    func(target *User) error { return json.Unmarshal(data, target) },
+)
 
-    for i, item := range items {
-        results[i] = fn(item)
-    }
-
-    return results
-}
+// Legacy wrappers via New creator
+actionWrapper := corefuncs.New.ActionErr("cleanup", cleanupFunc)
+successWrapper := corefuncs.New.IsSuccess("healthcheck", pingFunc)
 ```
 
 ---
