@@ -1,0 +1,309 @@
+package coreapitests
+
+import (
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+)
+
+// ==========================================
+// TypedSimpleGenericRequest — New
+// ==========================================
+
+var typedSimpleGenericRequestNewTestCases = []coretestcases.CaseV1{
+	{
+		Title: "NewTypedSimpleGenericRequest creates valid request with typed data",
+		ArrangeInput: args.Map{
+			"when":    "given valid attribute and typed simple request",
+			"payload": "hello-world",
+		},
+		ExpectedInput: []string{
+			"true",
+			"true",
+			"hello-world",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedSimpleGenericRequest — Invalid
+// ==========================================
+
+var typedSimpleGenericRequestInvalidTestCases = []coretestcases.CaseV1{
+	{
+		Title: "InvalidTypedSimpleGenericRequest creates invalid with nil request",
+		ArrangeInput: args.Map{
+			"when": "given nil attribute",
+		},
+		ExpectedInput: []string{
+			"false",
+			"true",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedSimpleGenericRequest — IsValid / IsInvalid
+// ==========================================
+
+var typedSimpleGenericRequestValidityTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Valid TypedSimpleGenericRequest reports IsValid true",
+		ArrangeInput: args.Map{
+			"when":    "given valid attribute and valid request",
+			"payload": "data",
+		},
+		ExpectedInput: []string{
+			"true",
+			"false",
+		},
+	},
+	{
+		Title: "TypedSimpleGenericRequest with nil request reports IsInvalid",
+		ArrangeInput: args.Map{
+			"when":       "given valid attribute but nil request",
+			"nilRequest": true,
+		},
+		ExpectedInput: []string{
+			"false",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedSimpleGenericRequest — Message / InvalidError
+// ==========================================
+
+var typedSimpleGenericRequestMessageTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Message returns request message from underlying TypedSimpleRequest",
+		ArrangeInput: args.Map{
+			"when":    "given request with message",
+			"payload": "data",
+			"message": "validation failed",
+		},
+		ExpectedInput: []string{
+			"validation failed",
+			"false",
+		},
+	},
+	{
+		Title: "Message returns empty string when request is nil",
+		ArrangeInput: args.Map{
+			"when":       "given nil request",
+			"nilRequest": true,
+		},
+		ExpectedInput: []string{
+			"",
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedSimpleGenericRequest — Clone
+// ==========================================
+
+var typedSimpleGenericRequestCloneTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Clone creates independent copy of TypedSimpleGenericRequest",
+		ArrangeInput: args.Map{
+			"when":    "given valid request",
+			"payload": "clone-me",
+		},
+		ExpectedInput: []string{
+			"clone-me",
+			"true",
+			"true",
+		},
+	},
+}
+
+var typedSimpleGenericRequestCloneNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Clone on nil TypedSimpleGenericRequest returns nil",
+		ArrangeInput: args.Map{
+			"when": "given nil request",
+		},
+		ExpectedInput: []string{
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedSimpleGenericRequest — ToSimpleGenericRequest
+// ==========================================
+
+var typedSimpleGenericRequestToLegacyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "ToSimpleGenericRequest converts typed to legacy SimpleGenericRequest",
+		ArrangeInput: args.Map{
+			"when":    "given valid typed request",
+			"payload": "convert-me",
+		},
+		ExpectedInput: []string{
+			"true",
+			"true",
+			"true",
+		},
+	},
+}
+
+var typedSimpleGenericRequestToLegacyNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "ToSimpleGenericRequest on nil returns nil",
+		ArrangeInput: args.Map{
+			"when": "given nil request",
+		},
+		ExpectedInput: []string{
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedSimpleGenericRequest — ToGenericRequestIn
+// ==========================================
+
+var typedSimpleGenericRequestToGenericRequestInTestCases = []coretestcases.CaseV1{
+	{
+		Title: "ToGenericRequestIn converts typed to GenericRequestIn",
+		ArrangeInput: args.Map{
+			"when":    "given valid typed request",
+			"payload": "generic-payload",
+		},
+		ExpectedInput: []string{
+			"true",
+			"generic-payload",
+		},
+	},
+}
+
+// ==========================================
+// TypedRequestIn — TypedSimpleGenericRequest conversion
+// ==========================================
+
+var typedRequestInToTypedSimpleGenericTestCases = []coretestcases.CaseV1{
+	{
+		Title: "TypedRequestIn.TypedSimpleGenericRequest creates valid conversion",
+		ArrangeInput: args.Map{
+			"when":    "given valid typed request in",
+			"payload": "wrapped-data",
+		},
+		ExpectedInput: []string{
+			"true",
+			"wrapped-data",
+			"true",
+			"",
+		},
+	},
+	{
+		Title: "TypedRequestIn.TypedSimpleGenericRequest with invalid message",
+		ArrangeInput: args.Map{
+			"when":    "given request with invalid flag",
+			"payload": "bad-data",
+			"isValid": false,
+			"message": "input rejected",
+		},
+		ExpectedInput: []string{
+			"false",
+			"bad-data",
+			"false",
+			"input rejected",
+		},
+	},
+}
+
+var typedRequestInToTypedSimpleGenericNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "TypedRequestIn.TypedSimpleGenericRequest on nil returns nil",
+		ArrangeInput: args.Map{
+			"when": "given nil request",
+		},
+		ExpectedInput: []string{
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedResponse — TypedResponseResult conversion
+// ==========================================
+
+var typedResponseToTypedResponseResultTestCases = []coretestcases.CaseV1{
+	{
+		Title: "TypedResponse.TypedResponseResult creates valid result",
+		ArrangeInput: args.Map{
+			"when":     "given valid typed response",
+			"response": "result-data",
+			"message":  "success",
+		},
+		ExpectedInput: []string{
+			"result-data",
+			"true",
+			"success",
+		},
+	},
+	{
+		Title: "TypedResponse.TypedResponseResult preserves invalid state",
+		ArrangeInput: args.Map{
+			"when":     "given invalid typed response",
+			"response": "error-data",
+			"isValid":  false,
+			"message":  "failed",
+		},
+		ExpectedInput: []string{
+			"error-data",
+			"false",
+			"failed",
+		},
+	},
+}
+
+var typedResponseToTypedResponseResultNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "TypedResponse.TypedResponseResult on nil returns nil",
+		ArrangeInput: args.Map{
+			"when": "given nil response",
+		},
+		ExpectedInput: []string{
+			"true",
+		},
+	},
+}
+
+// ==========================================
+// TypedResponse — GenericResponseResult conversion
+// ==========================================
+
+var typedResponseToGenericResponseResultTestCases = []coretestcases.CaseV1{
+	{
+		Title: "TypedResponse.GenericResponseResult wraps in SimpleResult correctly",
+		ArrangeInput: args.Map{
+			"when":     "given valid typed response",
+			"response": "legacy-output",
+			"message":  "ok",
+		},
+		ExpectedInput: []string{
+			"true",
+			"true",
+			"true",
+			"ok",
+		},
+	},
+}
+
+var typedResponseToGenericResponseResultNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "TypedResponse.GenericResponseResult on nil returns nil",
+		ArrangeInput: args.Map{
+			"when": "given nil response",
+		},
+		ExpectedInput: []string{
+			"true",
+		},
+	},
+}
