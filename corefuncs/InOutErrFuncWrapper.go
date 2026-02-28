@@ -8,12 +8,12 @@ type InOutErrFuncWrapper struct {
 }
 
 func (it InOutErrFuncWrapper) Exec(
-	input interface{},
-) (output interface{}, err error) {
+	input any,
+) (output any, err error) {
 	return it.Action(input)
 }
 
-func (it InOutErrFuncWrapper) AsActionFunc(input interface{}) ActionFunc {
+func (it InOutErrFuncWrapper) AsActionFunc(input any) ActionFunc {
 	return func() {
 		errcore.MustBeEmpty(
 			it.AsActionReturnsErrorFunc(input)())
@@ -21,7 +21,7 @@ func (it InOutErrFuncWrapper) AsActionFunc(input interface{}) ActionFunc {
 }
 
 func (it InOutErrFuncWrapper) AsActionReturnsErrorFunc(
-	input interface{},
+	input any,
 ) ActionReturnsErrorFunc {
 	return func() error {
 		_, err := it.Action(input)
