@@ -225,6 +225,44 @@ var sortedListHashsetTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
+// Hashset ordered: SortedListDescHashset
+// ==========================================
+
+var sortedListDescHashsetTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedListDescHashset returns items in descending order",
+		ArrangeInput: args.Map{
+			"when":  "given int hashset with unordered items",
+			"items": []int{5, 3, 1, 4, 2},
+		},
+		ExpectedInput: []string{
+			"5",
+			"5",
+			"1",
+		},
+	},
+}
+
+// ==========================================
+// Hashset ordered: SortedCollectionHashset
+// ==========================================
+
+var sortedCollectionHashsetTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedCollectionHashset returns sorted collection",
+		ArrangeInput: args.Map{
+			"when":  "given int hashset with unordered items",
+			"items": []int{5, 3, 1, 4, 2},
+		},
+		ExpectedInput: []string{
+			"5",
+			"1",
+			"5",
+		},
+	},
+}
+
+// ==========================================
 // Hashset ordered: MinHashset / MaxHashset
 // ==========================================
 
@@ -255,6 +293,20 @@ var minMaxHashsetOrDefaultTestCases = []coretestcases.CaseV1{
 	},
 }
 
+var minMaxHashsetOrDefaultNonEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinHashsetOrDefault returns values for non-empty hashset",
+		ArrangeInput: args.Map{
+			"when":  "given non-empty int hashset with default -1",
+			"items": []int{3, 1, 4},
+		},
+		ExpectedInput: []string{
+			"1",
+			"4",
+		},
+	},
+}
+
 // ==========================================
 // Hashmap ordered: SortedKeysHashmap
 // ==========================================
@@ -269,6 +321,24 @@ var sortedKeysHashmapTestCases = []coretestcases.CaseV1{
 			"3",
 			"alpha",
 			"gamma",
+		},
+	},
+}
+
+// ==========================================
+// Hashmap ordered: SortedKeysDescHashmap
+// ==========================================
+
+var sortedKeysDescHashmapTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedKeysDescHashmap returns keys in descending order",
+		ArrangeInput: args.Map{
+			"when": "given string-int hashmap with unordered keys",
+		},
+		ExpectedInput: []string{
+			"3",
+			"gamma",
+			"alpha",
 		},
 	},
 }
@@ -291,6 +361,54 @@ var minMaxKeyHashmapTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
+// Hashmap ordered: MinKeyHashmapOrDefault / MaxKeyHashmapOrDefault
+// ==========================================
+
+var minMaxKeyHashmapOrDefaultEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinKeyHashmapOrDefault returns default on empty",
+		ArrangeInput: args.Map{
+			"when": "given empty string-int hashmap with default 'none'",
+		},
+		ExpectedInput: []string{
+			"none",
+			"none",
+		},
+	},
+}
+
+var minMaxKeyHashmapOrDefaultNonEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinKeyHashmapOrDefault returns values for non-empty hashmap",
+		ArrangeInput: args.Map{
+			"when": "given non-empty string-int hashmap with default 'none'",
+		},
+		ExpectedInput: []string{
+			"alpha",
+			"gamma",
+		},
+	},
+}
+
+// ==========================================
+// Hashmap ordered: SortedValuesHashmap
+// ==========================================
+
+var sortedValuesHashmapTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SortedValuesHashmap returns values in ascending order",
+		ArrangeInput: args.Map{
+			"when": "given string-int hashmap with numeric values",
+		},
+		ExpectedInput: []string{
+			"3",
+			"1",
+			"30",
+		},
+	},
+}
+
+// ==========================================
 // Hashmap ordered: MinValueHashmap / MaxValueHashmap
 // ==========================================
 
@@ -299,6 +417,36 @@ var minMaxValueHashmapTestCases = []coretestcases.CaseV1{
 		Title: "MinValueHashmap and MaxValueHashmap return correct values",
 		ArrangeInput: args.Map{
 			"when": "given string-int hashmap with numeric values",
+		},
+		ExpectedInput: []string{
+			"1",
+			"30",
+		},
+	},
+}
+
+// ==========================================
+// Hashmap ordered: MinValueHashmapOrDefault / MaxValueHashmapOrDefault
+// ==========================================
+
+var minMaxValueHashmapOrDefaultEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinValueHashmapOrDefault returns default on empty",
+		ArrangeInput: args.Map{
+			"when": "given empty hashmap with default -1",
+		},
+		ExpectedInput: []string{
+			"-1",
+			"-1",
+		},
+	},
+}
+
+var minMaxValueHashmapOrDefaultNonEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "MinValueHashmapOrDefault returns values for non-empty",
+		ArrangeInput: args.Map{
+			"when": "given non-empty string-int hashmap with default -1",
 		},
 		ExpectedInput: []string{
 			"1",
