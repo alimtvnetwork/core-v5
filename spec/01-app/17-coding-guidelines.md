@@ -264,6 +264,45 @@ for i := 0; i < len(items); i++ {
 
 ---
 
+## Variable Naming Conventions
+
+### Avoid Numbered Suffixes
+
+Do **not** use numbered variable names like `val1`, `val2`, `var1`, `var2`. Use descriptive names that convey meaning.
+
+```go
+// ✅ Good: Descriptive parameter names
+func VarTwo(
+    isIncludeType bool,
+    firstName string,
+    firstValue any,
+    secondName string,
+    secondValue any,
+) string { ... }
+
+// ❌ Bad: Numbered suffixes
+func VarTwo(
+    isIncludeType bool,
+    var1 string,
+    val1 any,
+    var2 string,
+    val2 any,
+) string { ... }
+```
+
+### Naming Guidelines
+
+| Pattern | Good | Bad |
+|---------|------|-----|
+| Loop variables | `item`, `name`, `key` | `v`, `x`, `tmp` |
+| Boolean flags | `isValid`, `hasError` | `ok2`, `flag` |
+| Positional params | `firstName`, `secondValue` | `val1`, `val2` |
+| Iterators | `index`, `offset` | `i2`, `j2` |
+
+**Exception**: Single-letter variables are acceptable in very short scopes (e.g., `i` in a `for` loop, `k`/`v` in a map range).
+
+---
+
 ## Related Docs
 
 - [Design Philosophy](/spec/01-app/00-repo-overview.md)
