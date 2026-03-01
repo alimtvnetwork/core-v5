@@ -30,10 +30,10 @@ func (it getAssert) Quick(
 	)
 }
 
-// SortedMessage
+// IsEqualMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.IsEqualMessageFormat
 func (it getAssert) IsEqualMessage(
 	when any,
 	actual any,
@@ -50,7 +50,7 @@ func (it getAssert) IsEqualMessage(
 // IsNotEqualMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.IsNotEqualMessageFormat
 func (it getAssert) IsNotEqualMessage(
 	when any,
 	actual any,
@@ -67,7 +67,7 @@ func (it getAssert) IsNotEqualMessage(
 // IsTrueMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.IsTrueMessageFormat
 func (it getAssert) IsTrueMessage(
 	when any,
 	actual any,
@@ -82,7 +82,7 @@ func (it getAssert) IsTrueMessage(
 // IsFalseMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.IsFalseMessageFormat
 func (it getAssert) IsFalseMessage(
 	when any,
 	actual any,
@@ -97,7 +97,7 @@ func (it getAssert) IsFalseMessage(
 // IsNilMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.IsNilMessageFormat
 func (it getAssert) IsNilMessage(
 	when any,
 	actual any,
@@ -112,7 +112,7 @@ func (it getAssert) IsNilMessage(
 // IsNotNilMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.IsNotNilMessageFormat
 func (it getAssert) IsNotNilMessage(
 	when any,
 	actual any,
@@ -124,10 +124,10 @@ func (it getAssert) IsNotNilMessage(
 	)
 }
 
-// SortedMessage
+// ShouldBeMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.ShouldBeMessageFormat
 func (it getAssert) ShouldBeMessage(
 	title string,
 	actual any,
@@ -141,10 +141,10 @@ func (it getAssert) ShouldBeMessage(
 	)
 }
 
-// SortedMessage
+// ShouldNotBeMessage
 //
 // Gives generic and consistent
-// test message using msgformats.QuickIndexInputActualExpectedMessageFormat
+// test message using msgformats.ShouldNotBeMessageFormat
 func (it getAssert) ShouldNotBeMessage(
 	title string,
 	actual any,
