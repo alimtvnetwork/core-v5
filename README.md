@@ -662,8 +662,8 @@ Each major package has its own README with detailed type hierarchies, usage exam
 | `constants/` | [`README.md`](/constants/README.md) — Shared constants & capacity values |
 | `converters/` | [`README.md`](/converters/README.md) — Type conversion utilities |
 | `corefuncs/` | [`README.md`](/corefuncs/README.md) — Function type definitions & wrappers |
-| `coretaskinfo/` | [`README.md`](/coretaskinfo/README.md) — Task metadata |
-| `corevalidator/` | [`README.md`](/corevalidator/README.md) — Line, slice, text, range validators |
+| `coretaskinfo/` | [`README.md`](/coretaskinfo/README.md) — Task metadata container |
+| `corevalidator/` | [`README.md`](/corevalidator/README.md) — Text, line & slice validators |
 | `coremath/` | [`README.md`](/coremath/README.md) — Min/Max for all numeric types |
 | `coresort/` | [`README.md`](/coresort/README.md) — Quick sort for strings and integers |
 
@@ -681,7 +681,7 @@ Each major package has its own README with detailed type hierarchies, usage exam
 |---------|--------|
 | `chmodhelper/` | [`README.md`](/chmodhelper/README.md) — File permission management |
 | `regexnew/` | [`README.md`](/regexnew/README.md) — Lazy-compiled regex |
-| `issetter/` | [`README.md`](/issetter/README.md) — Multi-valued boolean |
+| `issetter/` | [`README.md`](/issetter/README.md) — Multi-valued boolean enum |
 
 #### Testing
 
