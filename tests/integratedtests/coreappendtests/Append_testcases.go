@@ -27,6 +27,7 @@ var prependAppendTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"2",
+			"middle",
 			"end",
 		},
 	},

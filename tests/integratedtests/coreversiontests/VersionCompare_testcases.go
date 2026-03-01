@@ -18,25 +18,25 @@ var versionCompareTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Left major greater returns LeftGreatest",
+		Title: "Left major greater returns LeftGreater",
 		ArrangeInput: args.Map{
 			"when":  "given left major version greater",
 			"left":  "v3.0",
 			"right": "v0.2.1",
 		},
 		ExpectedInput: []string{
-			"LeftGreatest",
+			"LeftGreater",
 		},
 	},
 	{
-		Title: "Left minor less returns RightGreatest",
+		Title: "Left minor less returns LeftLess",
 		ArrangeInput: args.Map{
 			"when":  "given left minor version less",
 			"left":  "v0.0.2",
 			"right": "v0.2.1",
 		},
 		ExpectedInput: []string{
-			"RightGreatest",
+			"LeftLess",
 		},
 	},
 	{

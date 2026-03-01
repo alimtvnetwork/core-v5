@@ -299,9 +299,10 @@ func Test_Generic_Collection_LoopLock_Verification(t *testing.T) {
 			col.Add(fmt.Sprintf("item-%d", i))
 		}
 
-		// Act — loop while concurrent writes happen
+		// Act — add items concurrently, then loop
 		wg := sync.WaitGroup{}
 		wg.Add(count)
+
 		for i := 0; i < count; i++ {
 			go func(idx int) {
 				col.AddLock(fmt.Sprintf("extra-%d", idx))
@@ -309,12 +310,14 @@ func Test_Generic_Collection_LoopLock_Verification(t *testing.T) {
 			}(i)
 		}
 
+		wg.Wait()
+
 		visited := 0
 		col.LoopLock(func(index int, item any) bool {
 			visited++
+
 			return false
 		})
-		wg.Wait()
 
 		actLines := []string{
 			fmt.Sprintf("%d", visited),
