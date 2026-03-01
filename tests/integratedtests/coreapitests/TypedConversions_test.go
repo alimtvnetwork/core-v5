@@ -136,6 +136,36 @@ func Test_TypedSimpleGenericRequest_Message_Verification(t *testing.T) {
 }
 
 // ==========================================
+// Test: TypedSimpleGenericRequest Nil Receiver Edge Cases
+// ==========================================
+
+func Test_TypedSimpleGenericRequest_NilReceiver_Verification(t *testing.T) {
+	for caseIndex, testCase := range typedSimpleGenericRequestNilReceiverTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		method, _ := input.GetAsString("method")
+		var req *coreapi.TypedSimpleGenericRequest[string]
+
+		// Act
+		var actLines []string
+
+		switch method {
+		case "IsValid":
+			actLines = []string{fmt.Sprintf("%v", req.IsValid())}
+		case "IsInvalid":
+			actLines = []string{fmt.Sprintf("%v", req.IsInvalid())}
+		case "Message":
+			actLines = []string{req.Message()}
+		case "InvalidError":
+			actLines = []string{fmt.Sprintf("%v", req.InvalidError() == nil)}
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
 // Test: TypedSimpleGenericRequest Clone
 // ==========================================
 
