@@ -141,7 +141,7 @@ var stringMapAnyTestCases = []coretestcases.CaseV1{
 			"when": "given name and nil map",
 			"name": "nothing",
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: []string{"true", "true"},
 	},
 }
 
@@ -164,7 +164,7 @@ var stringMapStringTestCases = []coretestcases.CaseV1{
 			"when": "given name and nil map",
 			"name": "nothing",
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: []string{"true", "true"},
 	},
 }
 

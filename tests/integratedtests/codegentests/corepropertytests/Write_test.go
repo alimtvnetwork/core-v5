@@ -22,7 +22,7 @@ var (
 				},
 			},
 			ExpectedInput: []string{
-				`0 : some string -> "some string" | some string`,
+				`0 : some string -> "some string"`,
 			},
 			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
 		},

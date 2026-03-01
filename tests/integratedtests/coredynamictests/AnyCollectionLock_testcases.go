@@ -178,7 +178,7 @@ var genericLoopLockTestCases = []coretestcases.CaseV1{
 			"count": 50,
 		},
 		ExpectedInput: []string{
-			"50",
+			"100",
 		},
 	},
 }

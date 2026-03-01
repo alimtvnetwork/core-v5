@@ -2,6 +2,7 @@ package convertinternal
 
 import (
 	"fmt"
+	"reflect"
 	"sort"
 	"strconv"
 	"strings"
@@ -54,8 +55,16 @@ func (it anyTo) SmartString(anyItem any) string {
 	case string:
 		return v
 	case Namer:
+		if isNilPointer(anyItem) {
+			return ""
+		}
+
 		return v.Name()
 	case fmt.Stringer:
+		if isNilPointer(anyItem) {
+			return ""
+		}
+
 		return v.String()
 	case error:
 		if v == nil {
@@ -349,4 +358,10 @@ func (it anyTo) String(
 	toLines := it.Strings(item)
 
 	return strings.Join(toLines, constants.NewLineUnix)
+}
+
+func isNilPointer(item any) bool {
+	rv := reflect.ValueOf(item)
+
+	return rv.Kind() == reflect.Ptr && rv.IsNil()
 }

@@ -7,7 +7,7 @@ func BytesDeepClone(
 		return []byte{}
 	}
 
-	newBytes := make([]byte, 0, len(inputBytes))
+	newBytes := make([]byte, len(inputBytes))
 	copy(newBytes, inputBytes)
 
 	return newBytes
