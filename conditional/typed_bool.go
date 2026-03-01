@@ -32,20 +32,23 @@ func IfSliceBool(
 	return IfSlice[bool](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrBool is a typed convenience wrapper for IfSlicePtr[bool].
+// Deprecated: Use IfSliceBool instead.
 func IfSlicePtrBool(
 	isTrue bool,
-	trueValue, falseValue *[]bool,
-) *[]bool {
-	return IfSlicePtr[bool](isTrue, trueValue, falseValue)
+	trueValue, falseValue []bool,
+) []bool {
+	return IfSlice[bool](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFuncBool is a typed convenience wrapper for IfSlicePtrFunc[bool].
+// Deprecated: Use IfSlice[bool] with func wrappers instead.
 func IfSlicePtrFuncBool(
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]bool,
-) *[]bool {
-	return IfSlicePtrFunc[bool](isTrue, trueValueFunc, falseValueFunc)
+	trueValueFunc, falseValueFunc func() []bool,
+) []bool {
+	if isTrue {
+		return trueValueFunc()
+	}
+	return falseValueFunc()
 }
 
 // IfPtrBool is a typed convenience wrapper for IfPtr[bool].

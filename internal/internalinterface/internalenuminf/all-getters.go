@@ -39,7 +39,7 @@ type TypeNameWithRangeNamesCsvGetter interface {
 }
 
 type StringRangesGetter interface {
-	StringRangesPtr() *[]string
+	StringRangesPtr() []string
 	StringRanges() []string
 }
 

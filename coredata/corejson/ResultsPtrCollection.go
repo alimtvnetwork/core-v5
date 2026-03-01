@@ -186,10 +186,9 @@ func (it *ResultsPtrCollection) GetErrorsStrings() []string {
 	return errStrList
 }
 
-func (it *ResultsPtrCollection) GetErrorsStringsPtr() *[]string {
-	errStrList := it.GetErrorsStrings()
-
-	return &errStrList
+// Deprecated: Use GetErrorsStrings instead.
+func (it *ResultsPtrCollection) GetErrorsStringsPtr() []string {
+	return it.GetErrorsStrings()
 }
 
 func (it *ResultsPtrCollection) GetErrorsAsSingleString() string {
@@ -567,10 +566,9 @@ func (it *ResultsPtrCollection) GetStrings() []string {
 	return list
 }
 
-func (it *ResultsPtrCollection) GetStringsPtr() *[]string {
-	list := it.GetStrings()
-
-	return &list
+// Deprecated: Use GetStrings instead.
+func (it *ResultsPtrCollection) GetStringsPtr() []string {
+	return it.GetStrings()
 }
 
 // AddJsoners skip on nil

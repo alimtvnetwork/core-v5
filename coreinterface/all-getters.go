@@ -7,7 +7,7 @@ import (
 )
 
 type StringRangesGetter interface {
-	StringRangesPtr() *[]string
+	StringRangesPtr() []string
 	StringRanges() []string
 }
 
@@ -135,7 +135,7 @@ type SafeBytesGetter interface {
 }
 
 type SafeBytesPointerGetter interface {
-	SafeBytesPtr() *[]byte
+	SafeBytesPtr() []byte
 }
 
 type StringRangeNamesCsvGetter interface {

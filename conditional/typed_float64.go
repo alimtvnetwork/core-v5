@@ -32,20 +32,23 @@ func IfSliceFloat64(
 	return IfSlice[float64](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFloat64 is a typed convenience wrapper for IfSlicePtr[float64].
+// Deprecated: Use IfSliceFloat64 instead.
 func IfSlicePtrFloat64(
 	isTrue bool,
-	trueValue, falseValue *[]float64,
-) *[]float64 {
-	return IfSlicePtr[float64](isTrue, trueValue, falseValue)
+	trueValue, falseValue []float64,
+) []float64 {
+	return IfSlice[float64](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFuncFloat64 is a typed convenience wrapper for IfSlicePtrFunc[float64].
+// Deprecated: Use IfSlice[float64] with func wrappers instead.
 func IfSlicePtrFuncFloat64(
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]float64,
-) *[]float64 {
-	return IfSlicePtrFunc[float64](isTrue, trueValueFunc, falseValueFunc)
+	trueValueFunc, falseValueFunc func() []float64,
+) []float64 {
+	if isTrue {
+		return trueValueFunc()
+	}
+	return falseValueFunc()
 }
 
 // IfPtrFloat64 is a typed convenience wrapper for IfPtr[float64].

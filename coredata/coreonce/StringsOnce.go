@@ -60,10 +60,9 @@ func (it *StringsOnce) Values() []string {
 	return it.Value()
 }
 
-func (it *StringsOnce) ValuesPtr() *[]string {
-	values := it.Value()
-
-	return &values
+// Deprecated: Use Values instead.
+func (it *StringsOnce) ValuesPtr() []string {
+	return it.Value()
 }
 
 func (it *StringsOnce) Value() []string {

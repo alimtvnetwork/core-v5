@@ -203,7 +203,8 @@ func (it *AnyCollection) HasIndex(index int) bool {
 	return it.LastIndex() >= index
 }
 
-func (it *AnyCollection) ListStringsPtr(isIncludeFieldName bool) *[]string {
+// Deprecated: Use ListStrings instead.
+func (it *AnyCollection) ListStringsPtr(isIncludeFieldName bool) []string {
 	slice := make([]string, constants.Zero, it.Length()+1)
 
 	for _, anyItem := range it.items {
@@ -215,7 +216,7 @@ func (it *AnyCollection) ListStringsPtr(isIncludeFieldName bool) *[]string {
 		slice = append(slice, str)
 	}
 
-	return &slice
+	return slice
 }
 
 func (it *AnyCollection) ListStrings(isIncludeFieldName bool) []string {

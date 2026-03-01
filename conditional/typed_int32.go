@@ -32,20 +32,23 @@ func IfSliceInt32(
 	return IfSlice[int32](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrInt32 is a typed convenience wrapper for IfSlicePtr[int32].
+// Deprecated: Use IfSliceInt32 instead.
 func IfSlicePtrInt32(
 	isTrue bool,
-	trueValue, falseValue *[]int32,
-) *[]int32 {
-	return IfSlicePtr[int32](isTrue, trueValue, falseValue)
+	trueValue, falseValue []int32,
+) []int32 {
+	return IfSlice[int32](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFuncInt32 is a typed convenience wrapper for IfSlicePtrFunc[int32].
+// Deprecated: Use IfSlice[int32] with func wrappers instead.
 func IfSlicePtrFuncInt32(
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]int32,
-) *[]int32 {
-	return IfSlicePtrFunc[int32](isTrue, trueValueFunc, falseValueFunc)
+	trueValueFunc, falseValueFunc func() []int32,
+) []int32 {
+	if isTrue {
+		return trueValueFunc()
+	}
+	return falseValueFunc()
 }
 
 // IfPtrInt32 is a typed convenience wrapper for IfPtr[int32].

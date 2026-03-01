@@ -1,28 +1,38 @@
 package core
 
-// EmptySlicePtr returns a pointer to an empty slice of type T.
-// It replaces EmptyAnysPtr, EmptyFloat32Ptr, EmptyFloat64Ptr,
-// EmptyBoolsPtr, EmptyIntsPtr, EmptyBytePtr, EmptyStringsPtr,
-// EmptyPointerStringsPtr and similar per-type functions.
+// EmptySlice returns an empty slice of type T.
 //
 // Usage:
 //
-//	ints := core.EmptySlicePtr[int]()       // returns *[]int
-//	strs := core.EmptySlicePtr[string]()    // returns *[]string
+//	ints := core.EmptySlice[int]()       // returns []int
+//	strs := core.EmptySlice[string]()    // returns []string
+func EmptySlice[T any]() []T {
+	return make([]T, 0)
+}
+
+// SliceByLength returns a zero-valued slice of type T with the given length.
+func SliceByLength[T any](length int) []T {
+	return make([]T, length)
+}
+
+// SliceByCapacity returns a slice of type T with the given length and capacity.
+func SliceByCapacity[T any](length, cap int) []T {
+	return make([]T, length, cap)
+}
+
+// Deprecated: Use EmptySlice instead.
 func EmptySlicePtr[T any]() *[]T {
 	s := make([]T, 0)
 	return &s
 }
 
-// SlicePtrByLength returns a pointer to a zero-valued slice of type T with the given length.
-// It replaces StringsPtrByLength and similar per-type functions.
+// Deprecated: Use SliceByLength instead.
 func SlicePtrByLength[T any](length int) *[]T {
 	s := make([]T, length)
 	return &s
 }
 
-// SlicePtrByCapacity returns a pointer to a slice of type T with the given length and capacity.
-// It replaces StringsPtrByCapacity, PointerStringsPtrByCapacity and similar per-type functions.
+// Deprecated: Use SliceByCapacity instead.
 func SlicePtrByCapacity[T any](length, cap int) *[]T {
 	s := make([]T, length, cap)
 	return &s

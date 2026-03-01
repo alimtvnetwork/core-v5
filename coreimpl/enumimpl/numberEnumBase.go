@@ -386,8 +386,8 @@ func (it *numberEnumBase) RangesInvalidErr() error {
 	return it.invalidError.Value()
 }
 
-func (it numberEnumBase) StringRangesPtr() *[]string {
-	return &it.stringRanges
+func (it numberEnumBase) StringRangesPtr() []string {
+	return it.stringRanges
 }
 
 func (it numberEnumBase) StringRanges() []string {

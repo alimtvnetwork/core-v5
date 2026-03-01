@@ -896,12 +896,8 @@ func (it *LinkedList) GetAllLinkedNodes() []*LinkedListNode {
 }
 
 // AddPointerStringsPtr skip on nil, add to back
-func (it *LinkedList) AddPointerStringsPtr(items *[]*string) *LinkedList {
-	if items == nil {
-		return it
-	}
-
-	for _, item := range *items {
+func (it *LinkedList) AddPointerStringsPtr(items []*string) *LinkedList {
+	for _, item := range items {
 		if item == nil {
 			continue
 		}

@@ -30,5 +30,5 @@ func GetFilesChmodRwxFullMap(
 		hashmap.AddOrUpdate(filePath, fileMode.String())
 	}
 
-	return hashmap, errcore.SliceErrorDefault(&sliceErr)
+	return hashmap, errcore.SliceErrorDefault(sliceErr)
 }

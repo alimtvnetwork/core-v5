@@ -582,9 +582,9 @@ func (it *Hashmap) HasWithLock(key string) bool {
 // GetKeysFilteredItems must return slice.
 func (it *Hashmap) GetKeysFilteredItems(
 	filter IsStringFilter,
-) *[]string {
+) []string {
 	if it.IsEmpty() {
-		return &([]string{})
+		return []string{}
 	}
 
 	filteredList := make(
@@ -609,11 +609,11 @@ func (it *Hashmap) GetKeysFilteredItems(
 		)
 
 		if isBreak {
-			return &filteredList
+			return filteredList
 		}
 	}
 
-	return &filteredList
+	return filteredList
 }
 
 // GetKeysFilteredCollection must return items.
@@ -1170,7 +1170,7 @@ func (it *Hashmap) ToDefaultError() error {
 	)
 }
 
-func (it *Hashmap) KeyValStringLines() *[]string {
+func (it *Hashmap) KeyValStringLines() []string {
 	return it.ToStringsUsingCompiler(
 		func(key, val string) string {
 			return key + constants.HyphenAngelRight + val
@@ -1205,12 +1205,12 @@ func (it *Hashmap) ToStringsUsingCompiler(
 		key,
 		val string,
 	) string,
-) *[]string {
+) []string {
 	length := it.Length()
 	slice := make([]string, length)
 
 	if length == 0 {
-		return &slice
+		return slice
 	}
 
 	index := 0
@@ -1221,7 +1221,7 @@ func (it *Hashmap) ToStringsUsingCompiler(
 		index++
 	}
 
-	return &slice
+	return slice
 }
 
 func (it *Hashmap) AsJsoner() corejson.Jsoner {

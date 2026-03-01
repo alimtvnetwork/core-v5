@@ -32,20 +32,23 @@ func IfSliceInt8(
 	return IfSlice[int8](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrInt8 is a typed convenience wrapper for IfSlicePtr[int8].
+// Deprecated: Use IfSliceInt8 instead.
 func IfSlicePtrInt8(
 	isTrue bool,
-	trueValue, falseValue *[]int8,
-) *[]int8 {
-	return IfSlicePtr[int8](isTrue, trueValue, falseValue)
+	trueValue, falseValue []int8,
+) []int8 {
+	return IfSlice[int8](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFuncInt8 is a typed convenience wrapper for IfSlicePtrFunc[int8].
+// Deprecated: Use IfSlice[int8] with func wrappers instead.
 func IfSlicePtrFuncInt8(
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]int8,
-) *[]int8 {
-	return IfSlicePtrFunc[int8](isTrue, trueValueFunc, falseValueFunc)
+	trueValueFunc, falseValueFunc func() []int8,
+) []int8 {
+	if isTrue {
+		return trueValueFunc()
+	}
+	return falseValueFunc()
 }
 
 // IfPtrInt8 is a typed convenience wrapper for IfPtr[int8].

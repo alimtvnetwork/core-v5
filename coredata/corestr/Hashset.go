@@ -304,20 +304,16 @@ func (it *Hashset) AddFuncErr(
 }
 
 func (it *Hashset) AddStringsPtrWgLock(
-	keys *[]string, wg *sync.WaitGroup,
+	keys []string, wg *sync.WaitGroup,
 ) *Hashset {
-	if keys == nil {
-		return it
-	}
-
-	length := len(*keys)
+	length := len(keys)
 
 	if length > it.length || length > constants.ArbitraryCapacity100 {
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
 	it.Lock()
-	for _, key := range *keys {
+	for _, key := range keys {
 		it.items[key] = true
 	}
 
@@ -979,24 +975,25 @@ func (it *Hashset) JoinSorted(joiner string) string {
 
 func (it *Hashset) ListPtrSortedAsc() []string {
 	list := it.ListPtr()
-	sort.Strings(*list)
+	sort.Strings(list)
 
-	return *list
+	return list
 }
 
 func (it *Hashset) ListPtrSortedDsc() []string {
 	list := it.ListPtr()
-	sort.Strings(*list)
+	sort.Strings(list)
 
-	return *stringslice.InPlaceReverse(list)
+	return *stringslice.InPlaceReverse(&list)
 }
 
-func (it *Hashset) ListPtr() *[]string {
+// Deprecated: Use List instead.
+func (it *Hashset) ListPtr() []string {
 	if it.hasMapUpdated || it.cachedList == nil {
 		it.setCached()
 	}
 
-	return &it.cachedList
+	return it.cachedList
 }
 
 func (it *Hashset) Clear() *Hashset {

@@ -290,12 +290,13 @@ func (it *Result) SafeValues() []byte {
 	return it.Bytes
 }
 
-func (it *Result) SafeValuesPtr() *[]byte {
+// Deprecated: Use SafeValues instead.
+func (it *Result) SafeValuesPtr() []byte {
 	if it.HasIssuesOrEmpty() {
-		return &[]byte{}
+		return []byte{}
 	}
 
-	return &it.Bytes
+	return it.Bytes
 }
 
 func (it *Result) Raw() ([]byte, error) {
