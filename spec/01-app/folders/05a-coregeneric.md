@@ -13,8 +13,51 @@ Generic data structures package providing type-parameterized versions of all cor
 5. **LinkedList[T]** — Generic singly-linked list with head/tail pointers, embedded mutex, and full traversal support.
 6. **LinkedListNode[T]** — Generic linked list node with chain traversal.
 7. **Type Aliases** — Pre-defined aliases for all common primitive types (e.g., `StringCollection`, `IntHashset`, `StringStringHashmap`).
-8. **Generic Functions** — Cross-type transformations: `MapCollection`, `FlatMapCollection`, `ReduceCollection`, `GroupByCollection`, `Distinct`, `ContainsItem`, `IndexOfItem`.
-9. **Ordered Constraint Functions** (`orderedfuncs.go`) — Functions requiring `cmp.Ordered` for sorting, min/max, clamping, and sum across all data structures.
+8. **Generic Functions** (`funcs.go`) — Cross-type transformations requiring `any`: `MapCollection`, `FlatMapCollection`, `ReduceCollection`, `GroupByCollection`, `ContainsFunc`, `IndexOfFunc`, `MapSimpleSlice`.
+9. **Comparable Constraint Functions** (`comparablefuncs.go`) — Equality-based operations requiring `comparable`: `ContainsAll`, `ContainsAny`, `RemoveItem`, `RemoveAllItems`, `ToHashset`, `DistinctSimpleSlice`, `ContainsSimpleSliceItem`.
+10. **Ordered Constraint Functions** (`orderedfuncs.go`) — Functions requiring `cmp.Ordered` for sorting, min/max, clamping, and sum across all data structures.
+
+## Comparable Constraint Functions
+
+Package-level functions in `comparablefuncs.go` require `comparable` type constraints. They provide equality-based operations without custom predicates.
+
+### Collection[T comparable]
+
+| Function | Description |
+|----------|-------------|
+| `ContainsAll(col, items...)` | True if collection contains all given items |
+| `ContainsAny(col, items...)` | True if collection contains any given item |
+| `RemoveItem(col, item)` | Remove first occurrence; returns `true` if found |
+| `RemoveAllItems(col, item)` | Remove all occurrences; returns count removed |
+| `ToHashset(col)` | Convert `Collection[T]` → `Hashset[T]` |
+
+### SimpleSlice[T comparable]
+
+| Function | Description |
+|----------|-------------|
+| `DistinctSimpleSlice(ss)` | New slice with duplicates removed |
+| `ContainsSimpleSliceItem(ss, item)` | Check if item exists |
+
+### Usage Examples
+
+```go
+col := coregeneric.New.Collection.Int.Items(1, 2, 3, 2, 1)
+
+// Check membership
+coregeneric.ContainsAll(col, 1, 3)   // true
+coregeneric.ContainsAny(col, 5, 3)   // true
+
+// Remove
+coregeneric.RemoveItem(col, 2)       // true, removes first 2
+coregeneric.RemoveAllItems(col, 1)   // 2 (removed both 1s)
+
+// Convert to set
+set := coregeneric.ToHashset(col)    // Hashset[int]{3}
+
+// SimpleSlice dedup
+ss := coregeneric.New.SimpleSlice.String.Items("a", "b", "a")
+unique := coregeneric.DistinctSimpleSlice(ss) // ["a", "b"]
+```
 
 ## Ordered Constraint Functions
 
