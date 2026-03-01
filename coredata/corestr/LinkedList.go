@@ -981,7 +981,7 @@ func (it *LinkedList) ListPtrLock() []string {
 	it.Lock()
 	defer it.Unlock()
 
-	return it.ListPtr()
+	return it.List()
 }
 
 func (it *LinkedList) String() string {

@@ -938,7 +938,11 @@ func (it *Hashset) Items() map[string]bool {
 }
 
 func (it *Hashset) List() []string {
-	return it.ListPtr()
+	if it.hasMapUpdated || it.cachedList == nil {
+		it.setCached()
+	}
+
+	return it.cachedList
 }
 
 func (it *Hashset) MapStringAny() map[string]any {
@@ -967,21 +971,21 @@ func (it *Hashset) JoinSorted(joiner string) string {
 		return constants.EmptyString
 	}
 
-	list := it.ListPtr()
+	list := it.List()
 	sort.Strings(list)
 
 	return strings.Join(list, joiner)
 }
 
 func (it *Hashset) ListPtrSortedAsc() []string {
-	list := it.ListPtr()
+	list := it.List()
 	sort.Strings(list)
 
 	return list
 }
 
 func (it *Hashset) ListPtrSortedDsc() []string {
-	list := it.ListPtr()
+	list := it.List()
 	sort.Strings(list)
 
 	return *stringslice.InPlaceReverse(&list)
@@ -989,11 +993,7 @@ func (it *Hashset) ListPtrSortedDsc() []string {
 
 // Deprecated: Use List instead.
 func (it *Hashset) ListPtr() []string {
-	if it.hasMapUpdated || it.cachedList == nil {
-		it.setCached()
-	}
-
-	return it.cachedList
+	return it.List()
 }
 
 func (it *Hashset) Clear() *Hashset {
@@ -1023,7 +1023,7 @@ func (it *Hashset) Dispose() {
 func (it *Hashset) ListCopyLock() []string {
 	it.Lock()
 	defer it.Unlock()
-	cloned := it.ListPtr()
+	cloned := it.List()
 
 	return cloned
 }
@@ -1174,7 +1174,7 @@ func (it *Hashset) StringLock() string {
 
 	return commonJoiner +
 		strings.Join(
-			it.ListPtr(),
+			it.List(),
 			commonJoiner,
 		)
 }
@@ -1182,14 +1182,14 @@ func (it *Hashset) StringLock() string {
 func (it Hashset) Join(
 	joiner string,
 ) string {
-	return strings.Join(it.ListPtr(), joiner)
+	return strings.Join(it.List(), joiner)
 }
 
 func (it Hashset) NonEmptyJoins(
 	joiner string,
 ) string {
 	return stringslice.NonEmptyJoinPtr(
-		it.ListPtr(),
+		it.List(),
 		joiner,
 	)
 }
@@ -1198,7 +1198,7 @@ func (it Hashset) NonWhitespaceJoins(
 	joiner string,
 ) string {
 	return stringslice.NonWhitespaceJoinPtr(
-		it.ListPtr(),
+		it.List(),
 		joiner,
 	)
 }

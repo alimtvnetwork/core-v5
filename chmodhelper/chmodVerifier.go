@@ -412,7 +412,7 @@ func (it chmodVerifier) PathsUsingRwxFull(
 		slice.AddIf(err != nil, err.Error())
 	}
 
-	return errcore.SliceErrorDefault(slice.ListPtr())
+	return errcore.SliceErrorDefault(slice.List())
 }
 
 // UsingHashmap
