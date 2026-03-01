@@ -86,7 +86,7 @@ type User struct {
 
 user := User{Name: "Alice", Age: 30}
 
-// To JSON string (returns string only, no error — logs on failure)
+// To JSON string (returns string only — on failure, error message is returned as string)
 jsonStr := corejson.Serialize.ToString(user)
 // `{"name":"Alice","age":30}`
 
@@ -151,8 +151,9 @@ bytes = result.SafeBytes()             // alias for SafeValues
 jsonStr := result.JsonString()         // string
 pretty := result.PrettyJsonString()    // formatted string
 
-// Error handling
-result.HandleError() // logs error if present
+// Error handling — panics if result has issues or is empty
+result.HandleError()
+result.MustBeSafe()               // alias for HandleError
 err := result.MeaningfulError()        // nil if no error, error otherwise
 
 // Unmarshal from result
