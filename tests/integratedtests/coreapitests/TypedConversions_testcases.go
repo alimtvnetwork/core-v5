@@ -186,6 +186,60 @@ var typedSimpleGenericRequestNilReceiverTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================
+// TypedSimpleGenericRequest — Invalid Underlying Request Edge Cases
+// ==========================================
+
+var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Valid attribute with invalid underlying request reports IsValid false",
+		ArrangeInput: args.Map{
+			"when":    "given valid attribute and invalid underlying TypedSimpleRequest",
+			"payload": "some-data",
+			"message": "validation failed",
+		},
+		ExpectedInput: []string{
+			"false",
+			"true",
+		},
+	},
+	{
+		Title: "Valid attribute with invalid underlying request returns message",
+		ArrangeInput: args.Map{
+			"when":    "given valid attribute and invalid underlying TypedSimpleRequest with message",
+			"payload": "some-data",
+			"message": "field is required",
+		},
+		ExpectedInput: []string{
+			"field is required",
+		},
+	},
+	{
+		Title: "Valid attribute with invalid underlying request returns non-nil InvalidError",
+		ArrangeInput: args.Map{
+			"when":    "given valid attribute and invalid underlying TypedSimpleRequest with error message",
+			"payload": "some-data",
+			"message": "input rejected",
+		},
+		ExpectedInput: []string{
+			"false",
+			"input rejected",
+		},
+	},
+	{
+		Title: "Valid attribute with invalid underlying request and empty message returns nil InvalidError",
+		ArrangeInput: args.Map{
+			"when":    "given valid attribute and invalid underlying TypedSimpleRequest with empty message",
+			"payload": "some-data",
+			"message": "",
+		},
+		ExpectedInput: []string{
+			"true",
+			"",
+		},
+	},
+}
+
+// ==========================================
 // TypedSimpleGenericRequest — Clone
 // ==========================================
 
