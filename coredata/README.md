@@ -32,7 +32,7 @@ coredata/
 | [`coregeneric/`](./coregeneric/) | Generic data structures: `Collection[T]`, `Hashset[T]`, `Hashmap[K,V]`, `SimpleSlice[T]`, `LinkedList[T]` | [README](./coregeneric/README.md) |
 | [`corestr/`](./corestr/) | String-specialized collections with Join, EqualFold, Trim, Split, and 16+ types | [README](./corestr/README.md) |
 | [`corejson/`](./corejson/) | JSON serialization/deserialization with builder patterns (`Serialize.*`, `Deserialize.*`) | [README](./corejson/README.md) |
-| [`coredynamic/`](./coredynamic/) | Reflection-based dynamic data manipulation, type checking, casting | — |
+| [`coredynamic/`](./coredynamic/) | Reflection-based dynamic data manipulation, type checking, casting | [README](./coredynamic/README.md) |
 | [`coreonce/`](./coreonce/) | Compute-once lazy value holders for all common types | [README](./coreonce/README.md) |
 | [`corepayload/`](./corepayload/) | Enhanced payload structures | [README](./corepayload/README.md) |
 | [`corerange/`](./corerange/) | Range data types, min/max bounds, and boundary validation | [README](./corerange/README.md) |
