@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfSlice[int] instead.
+// Deprecated: Use IfSliceInt instead.
 func Integers(
 	isTrue bool,
 	trueValue, falseValue []int,

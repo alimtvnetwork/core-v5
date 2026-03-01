@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfPtr[string] instead.
+// Deprecated: Use IfPtrString instead.
 func StringPtr(
 	isTrue bool,
 	trueValue, falseValue *string,

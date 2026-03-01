@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use If[string] instead.
+// Deprecated: Use IfString instead.
 func String(
 	isTrue bool,
 	trueValue, falseValue string,
