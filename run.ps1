@@ -11,6 +11,7 @@
         TP  | -tp  | test-pkg      Run tests for a specific package: ./run.ps1 TP regexnewtests
         TC  | -tc  | test-cover    Run tests with coverage
         TI  | -ti  | test-int      Run integrated tests only
+        TF  | -tf  | test-fail     Show last failing tests log
         GC  | -gc  | goconvey      Launch GoConvey (browser test runner)
         R   | -r   | run           Run the main application
         B   | -b   | build         Build the binary
@@ -295,6 +296,26 @@ function Invoke-Clean {
     Write-Success "Clean complete"
 }
 
+function Invoke-ShowFailLog {
+    $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+    if (-not (Test-Path $failingFile)) {
+        Write-Header "No failing tests log found"
+        Write-Host "  Run tests first: ./run.ps1 T" -ForegroundColor Yellow
+        return
+    }
+
+    Write-Header "Last Failing Tests"
+    $content = Get-Content $failingFile -Raw
+    if ($content -match '# Count: 0') {
+        Write-Success "No failing tests in last run"
+    }
+    else {
+        Write-Host $content
+    }
+    Write-Host ""
+    Write-Host "  Log file: $failingFile" -ForegroundColor Gray
+}
+
 function Show-Help {
     Write-Host ""
     Write-Host "  Project Runner — ./run.ps1 <command>" -ForegroundColor Cyan
@@ -304,6 +325,7 @@ function Show-Help {
     Write-Host "    TP  | -tp  | test-pkg      Run tests for a specific package"
     Write-Host "    TC  | -tc  | test-cover    Run tests with coverage"
     Write-Host "    TI  | -ti  | test-int      Run integrated tests only"
+    Write-Host "    TF  | -tf  | test-fail     Show last failing tests log"
     Write-Host "    GC  | -gc  | goconvey      Launch GoConvey (browser test runner)"
     Write-Host ""
     Write-Host "  Build & Run:" -ForegroundColor Yellow
@@ -337,6 +359,7 @@ switch ($Command.ToLower()) {
     { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $Args[0] }
     { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
     { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
+    { $_ -in "tf", "-tf", "test-fail" }       { Invoke-ShowFailLog }
     { $_ -in "gc", "-gc", "goconvey" }        { Invoke-GoConvey }
     { $_ -in "r", "-r", "run" }               { Invoke-RunMain }
     { $_ -in "b", "-b", "build" }             { Invoke-Build }
