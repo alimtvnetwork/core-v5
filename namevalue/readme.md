@@ -10,7 +10,7 @@ Package `namevalue` provides a generic `Instance[K comparable, V any]` model for
 namevalue/
 ├── Instance.go                # Instance[K, V] — generic name-value pair
 ├── Collection.go              # Collection[K, V] — ordered collection with add/prepend/clone/join
-├── NameValuesCollection.go    # NameValuesCollection (= Collection[string, any]) — backward-compatible alias
+├── NameValuesCollection.go    # NameValuesCollection alias + legacy factory functions
 ├── AppendsIf.go               # AppendsIf[K, V] — conditional append to slice
 ├── PrependsIf.go              # PrependsIf[K, V] — conditional prepend to slice
 ├── aliases.go                 # Type aliases: StringAny, StringString, StringInt, etc.
@@ -106,7 +106,7 @@ An ordered collection of `Instance[K, V]` items with lazy string caching.
 
 ## Type Aliases
 
-### Instance Aliases
+### Instance Aliases (in `aliases.go`)
 
 | Alias | Expands To |
 |-------|------------|
@@ -116,24 +116,24 @@ An ordered collection of `Instance[K, V]` items with lazy string caching.
 | `StringMapAny` | `Instance[string, map[string]any]` |
 | `StringMapString` | `Instance[string, map[string]string]` |
 
-### Collection Aliases
+### Collection Aliases (in `aliases.go`)
 
 | Alias | Expands To |
 |-------|------------|
-| `NameValuesCollection` | `Collection[string, any]` |
 | `StringStringCollection` | `Collection[string, string]` |
 | `StringIntCollection` | `Collection[string, int]` |
 | `StringMapAnyCollection` | `Collection[string, map[string]any]` |
 | `StringMapStringCollection` | `Collection[string, map[string]string]` |
 
-### Legacy Factory Functions
+### Legacy Alias & Factories (in `NameValuesCollection.go`)
 
-| Function | Description |
-|----------|-------------|
+| Item | Description |
+|------|-------------|
+| `NameValuesCollection` | Type alias for `Collection[string, any]` |
 | `NewNameValuesCollection(capacity)` | `Collection[string, any]` with capacity |
-| `NewCollection()` | `Collection[string, any]` with default capacity |
+| `NewCollection()` | `Collection[string, any]` with default capacity (5) |
 | `EmptyNameValuesCollection()` | Empty `Collection[string, any]` |
-| `NewNewNameValuesCollectionUsing(isClone, ...items)` | From existing items |
+| `NewNewNameValuesCollectionUsing(isClone, ...StringAny)` | From existing items (note: name has double `New` — likely a typo preserved for backward compatibility) |
 
 ## Usage
 
@@ -152,6 +152,10 @@ col := namevalue.NewGenericCollectionDefault[string, string]()
 col.Add(namevalue.StringString{Name: "host", Value: "localhost"})
 col.Add(namevalue.StringString{Name: "port", Value: "8080"})
 fmt.Println(col.JoinCsv()) // "host: localhost","port: 8080"
+
+// Legacy alias
+legacy := namevalue.NewCollection()
+legacy.Add(namevalue.StringAny{Name: "env", Value: "prod"})
 ```
 
 ## How to Extend Safely
