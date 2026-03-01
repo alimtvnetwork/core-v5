@@ -184,7 +184,8 @@ func (it *DynamicCollection) HasIndex(index int) bool {
 	return it.LastIndex() >= index
 }
 
-func (it *DynamicCollection) ListStringsPtr() *[]string {
+// Deprecated: Use ListStrings instead.
+func (it *DynamicCollection) ListStringsPtr() []string {
 	slice := make([]string, constants.Zero, it.Length()+1)
 
 	for _, dynamic := range it.items {
@@ -193,11 +194,11 @@ func (it *DynamicCollection) ListStringsPtr() *[]string {
 		slice = append(slice, str)
 	}
 
-	return &slice
+	return slice
 }
 
 func (it *DynamicCollection) ListStrings() []string {
-	return *it.ListStringsPtr()
+	return it.ListStringsPtr()
 }
 
 func (it *DynamicCollection) RemoveAt(index int) (isSuccess bool) {

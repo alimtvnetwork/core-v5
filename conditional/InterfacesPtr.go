@@ -1,9 +1,9 @@
 package conditional
 
-// Deprecated: Use IfSlicePtr[any] instead.
+// Deprecated: Use IfSlice[any] instead.
 func InterfacesPtr(
 	isTrue bool,
-	trueValue, falseValue *[]any,
-) *[]any {
-	return IfSlicePtr[any](isTrue, trueValue, falseValue)
+	trueValue, falseValue []any,
+) []any {
+	return IfSlice[any](isTrue, trueValue, falseValue)
 }

@@ -32,20 +32,23 @@ func IfSliceString(
 	return IfSlice[string](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrString is a typed convenience wrapper for IfSlicePtr[string].
+// Deprecated: Use IfSliceString instead.
 func IfSlicePtrString(
 	isTrue bool,
-	trueValue, falseValue *[]string,
-) *[]string {
-	return IfSlicePtr[string](isTrue, trueValue, falseValue)
+	trueValue, falseValue []string,
+) []string {
+	return IfSlice[string](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFuncString is a typed convenience wrapper for IfSlicePtrFunc[string].
+// Deprecated: Use IfSlice[string] with func wrappers instead.
 func IfSlicePtrFuncString(
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]string,
-) *[]string {
-	return IfSlicePtrFunc[string](isTrue, trueValueFunc, falseValueFunc)
+	trueValueFunc, falseValueFunc func() []string,
+) []string {
+	if isTrue {
+		return trueValueFunc()
+	}
+	return falseValueFunc()
 }
 
 // IfPtrString is a typed convenience wrapper for IfPtr[string].

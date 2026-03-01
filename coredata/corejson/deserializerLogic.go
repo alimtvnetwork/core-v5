@@ -224,7 +224,7 @@ func (it deserializerLogic) UsingBytes(
 }
 
 func (it deserializerLogic) UsingBytesPointerMust(
-	rawBytesPointer *[]byte,
+	rawBytesPointer []byte,
 	toPtr any,
 ) {
 	err := it.UsingBytesPointer(
@@ -252,7 +252,7 @@ func (it deserializerLogic) UsingBytesIf(
 
 func (it deserializerLogic) UsingBytesPointerIf(
 	isDeserialize bool,
-	rawBytesPointer *[]byte,
+	rawBytesPointer []byte,
 	toPtr any,
 ) error {
 	if !isDeserialize {
@@ -265,10 +265,10 @@ func (it deserializerLogic) UsingBytesPointerIf(
 }
 
 func (it deserializerLogic) UsingBytesPointer(
-	rawBytesPointer *[]byte,
+	rawBytesPointer []byte,
 	toPtr any,
 ) error {
-	if rawBytesPointer == nil || *rawBytesPointer == nil {
+	if rawBytesPointer == nil || len(rawBytesPointer) == 0 {
 		reference := errcore.VarTwoNoType(
 			"rawBytesPointer", constants.NilAngelBracket,
 			"To Reference Type", reflectinternal.TypeName(toPtr))
@@ -281,7 +281,7 @@ func (it deserializerLogic) UsingBytesPointer(
 	}
 
 	return it.UsingBytes(
-		*rawBytesPointer,
+		rawBytesPointer,
 		toPtr)
 }
 

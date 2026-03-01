@@ -304,12 +304,12 @@ func (it *Collection) ConcatNew(
 }
 
 func (it *Collection) ToError(sep string) error {
-	return errcore.SliceError(sep, &it.items)
+	return errcore.SliceError(sep, it.items)
 }
 
 func (it *Collection) ToDefaultError() error {
 	return errcore.SliceError(
-		constants.NewLineUnix, &it.items,
+		constants.NewLineUnix, it.items,
 	)
 }
 
@@ -1519,8 +1519,8 @@ func (it *Collection) NonEmptyItems() []string {
 }
 
 // Deprecated: Use NonEmptyItems instead.
-func (it *Collection) NonEmptyItemsPtr() *[]string {
-	return stringslice.NonEmptySlicePtr(&it.items)
+func (it *Collection) NonEmptyItemsPtr() []string {
+	return stringslice.NonEmptySlicePtr(it.items)
 }
 
 // NonEmptyItemsOrNonWhitespace returns items that are non-empty and non-whitespace.
@@ -1529,8 +1529,8 @@ func (it *Collection) NonEmptyItemsOrNonWhitespace() []string {
 }
 
 // Deprecated: Use NonEmptyItemsOrNonWhitespace instead.
-func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() *[]string {
-	return stringslice.NonWhitespacePtr(&it.items)
+func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() []string {
+	return stringslice.NonWhitespacePtr(it.items)
 }
 
 // Items direct return pointer
@@ -1540,8 +1540,8 @@ func (it *Collection) Items() []string {
 
 
 // Deprecated: Use List or Items instead.
-func (it *Collection) ListPtr() *[]string {
-	return &it.items
+func (it *Collection) ListPtr() []string {
+	return it.items
 }
 
 // ListCopyPtrLock returns a copy of the items
@@ -2028,7 +2028,7 @@ func (it *Collection) NonEmptyJoins(
 	joiner string,
 ) string {
 	return stringslice.NonEmptyJoinPtr(
-		&it.items,
+		it.items,
 		joiner,
 	)
 }
@@ -2037,7 +2037,7 @@ func (it *Collection) NonWhitespaceJoins(
 	joiner string,
 ) string {
 	return stringslice.NonWhitespaceJoinPtr(
-		&it.items,
+		it.items,
 		joiner,
 	)
 }

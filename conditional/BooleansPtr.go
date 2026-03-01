@@ -1,9 +1,9 @@
 package conditional
 
-// Deprecated: Use IfSlicePtr[bool] instead.
+// Deprecated: Use IfSlice[bool] instead.
 func BooleansPtr(
 	isTrue bool,
-	trueValue, falseValue *[]bool,
-) *[]bool {
-	return IfSlicePtr[bool](isTrue, trueValue, falseValue)
+	trueValue, falseValue []bool,
+) []bool {
+	return IfSlice[bool](isTrue, trueValue, falseValue)
 }

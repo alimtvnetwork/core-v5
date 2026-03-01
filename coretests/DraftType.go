@@ -188,10 +188,8 @@ func (it DraftType) JsonBytes() []byte {
 	return rawBytes
 }
 
-func (it DraftType) JsonBytesPtr() *[]byte {
-	jsonBytes := it.JsonBytes()
-
-	return &jsonBytes
+func (it DraftType) JsonBytesPtr() []byte {
+	return it.JsonBytes()
 }
 
 func (it DraftType) Clone() DraftType {

@@ -124,10 +124,9 @@ func (it *MapResults) GetErrorsStrings() []string {
 	return errStrList
 }
 
-func (it *MapResults) GetErrorsStringsPtr() *[]string {
-	errStrList := it.GetErrorsStrings()
-
-	return &errStrList
+// Deprecated: Use GetErrorsStrings instead.
+func (it *MapResults) GetErrorsStringsPtr() []string {
+	return it.GetErrorsStrings()
 }
 
 func (it *MapResults) GetErrorsAsSingleString() string {
@@ -571,10 +570,9 @@ func (it *MapResults) GetStrings() []string {
 	return list
 }
 
-func (it *MapResults) GetStringsPtr() *[]string {
-	stringsItems := it.GetStrings()
-
-	return &stringsItems
+// Deprecated: Use GetStrings instead.
+func (it *MapResults) GetStringsPtr() []string {
+	return it.GetStrings()
 }
 
 // AddJsoner skip on nil

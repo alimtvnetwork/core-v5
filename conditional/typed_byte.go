@@ -32,20 +32,23 @@ func IfSliceByte(
 	return IfSlice[byte](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrByte is a typed convenience wrapper for IfSlicePtr[byte].
+// Deprecated: Use IfSliceByte instead.
 func IfSlicePtrByte(
 	isTrue bool,
-	trueValue, falseValue *[]byte,
-) *[]byte {
-	return IfSlicePtr[byte](isTrue, trueValue, falseValue)
+	trueValue, falseValue []byte,
+) []byte {
+	return IfSlice[byte](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFuncByte is a typed convenience wrapper for IfSlicePtrFunc[byte].
+// Deprecated: Use IfSlice[byte] with func wrappers instead.
 func IfSlicePtrFuncByte(
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]byte,
-) *[]byte {
-	return IfSlicePtrFunc[byte](isTrue, trueValueFunc, falseValueFunc)
+	trueValueFunc, falseValueFunc func() []byte,
+) []byte {
+	if isTrue {
+		return trueValueFunc()
+	}
+	return falseValueFunc()
 }
 
 // IfPtrByte is a typed convenience wrapper for IfPtr[byte].

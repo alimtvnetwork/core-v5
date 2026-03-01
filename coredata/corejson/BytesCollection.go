@@ -325,11 +325,12 @@ func (it *BytesCollection) GetAtSafe(
 	return nil
 }
 
+// Deprecated: Use GetAtSafe instead.
 func (it *BytesCollection) GetAtSafePtr(
 	index int,
-) *[]byte {
+) []byte {
 	if index > constants.InvalidNotFoundCase && index <= it.Length()-1 {
-		return &it.Items[index]
+		return it.Items[index]
 	}
 
 	return nil
@@ -356,15 +357,15 @@ func (it *BytesCollection) GetAtSafeUsingLength(
 }
 
 func (it *BytesCollection) AddPtr(
-	rawBytes *[]byte,
+	rawBytes []byte,
 ) *BytesCollection {
-	if rawBytes == nil || len(*rawBytes) == 0 {
+	if len(rawBytes) == 0 {
 		return it
 	}
 
 	it.Items = append(
 		it.Items,
-		*rawBytes)
+		rawBytes)
 
 	return it
 }
@@ -539,10 +540,9 @@ func (it *BytesCollection) Strings() []string {
 	return list
 }
 
-func (it *BytesCollection) StringsPtr() *[]string {
-	list := it.Strings()
-
-	return &list
+// Deprecated: Use Strings instead.
+func (it *BytesCollection) StringsPtr() []string {
+	return it.Strings()
 }
 
 // AddJsoners skip on nil

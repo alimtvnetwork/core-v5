@@ -6,16 +6,11 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func NonWhitespaceJoinPtr(slice *[]string, joiner string) string {
-	if slice == nil {
+// Deprecated: Use NonWhitespaceJoin instead.
+func NonWhitespaceJoinPtr(slice []string, joiner string) string {
+	if len(slice) == 0 {
 		return constants.EmptyString
 	}
 
-	length := len(*slice)
-
-	if length == 0 {
-		return constants.EmptyString
-	}
-
-	return strings.Join(*NonWhitespacePtr(slice), joiner)
+	return strings.Join(NonWhitespacePtr(slice), joiner)
 }

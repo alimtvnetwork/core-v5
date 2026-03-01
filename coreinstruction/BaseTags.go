@@ -12,12 +12,13 @@ type BaseTags struct {
 	Tags        []string `json:"Tags,omitempty"`
 }
 
-func NewTagsPtr(tags *[]string) *BaseTags {
-	if tags == nil || len(*tags) == 0 {
+// Deprecated: Use NewTags instead.
+func NewTagsPtr(tags []string) *BaseTags {
+	if len(tags) == 0 {
 		return NewTags(nil)
 	}
 
-	return NewTags(*tags)
+	return NewTags(tags)
 }
 
 func NewTags(tags []string) *BaseTags {

@@ -1,13 +1,12 @@
 package strutilinternal
 
+// Deprecated: Use NonWhitespaceSlice instead.
 func NonWhitespaceSlicePtr(
-	slice *[]string,
-) *[]string {
-	if slice == nil || *slice == nil {
-		return &[]string{}
+	slice []string,
+) []string {
+	if len(slice) == 0 {
+		return []string{}
 	}
 
-	nonPtrSlice := NonWhitespaceSlice(*slice)
-
-	return &nonPtrSlice
+	return NonWhitespaceSlice(slice)
 }

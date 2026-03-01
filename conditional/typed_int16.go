@@ -32,20 +32,23 @@ func IfSliceInt16(
 	return IfSlice[int16](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrInt16 is a typed convenience wrapper for IfSlicePtr[int16].
+// Deprecated: Use IfSliceInt16 instead.
 func IfSlicePtrInt16(
 	isTrue bool,
-	trueValue, falseValue *[]int16,
-) *[]int16 {
-	return IfSlicePtr[int16](isTrue, trueValue, falseValue)
+	trueValue, falseValue []int16,
+) []int16 {
+	return IfSlice[int16](isTrue, trueValue, falseValue)
 }
 
-// IfSlicePtrFuncInt16 is a typed convenience wrapper for IfSlicePtrFunc[int16].
+// Deprecated: Use IfSlice[int16] with func wrappers instead.
 func IfSlicePtrFuncInt16(
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]int16,
-) *[]int16 {
-	return IfSlicePtrFunc[int16](isTrue, trueValueFunc, falseValueFunc)
+	trueValueFunc, falseValueFunc func() []int16,
+) []int16 {
+	if isTrue {
+		return trueValueFunc()
+	}
+	return falseValueFunc()
 }
 
 // IfPtrInt16 is a typed convenience wrapper for IfPtr[int16].

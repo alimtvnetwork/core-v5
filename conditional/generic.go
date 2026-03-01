@@ -58,12 +58,11 @@ func IfSlice[T any](
 	return falseValue
 }
 
-// IfSlicePtr is a generic ternary for pointer-to-slice types.
-// It replaces the per-type IntegersPtr, BooleansPtr, StringsPtr, InterfacesPtr, BytesPtr functions.
+// Deprecated: Use IfSlice instead.
 func IfSlicePtr[T any](
 	isTrue bool,
-	trueValue, falseValue *[]T,
-) *[]T {
+	trueValue, falseValue []T,
+) []T {
 	if isTrue {
 		return trueValue
 	}
@@ -71,12 +70,11 @@ func IfSlicePtr[T any](
 	return falseValue
 }
 
-// IfSlicePtrFunc evaluates the appropriate function and returns a pointer to a slice.
-// It replaces IntegersPtrFunc and similar per-type functions.
+// Deprecated: Use IfSlice with func wrappers instead.
 func IfSlicePtrFunc[T any](
 	isTrue bool,
-	trueValueFunc, falseValueFunc func() *[]T,
-) *[]T {
+	trueValueFunc, falseValueFunc func() []T,
+) []T {
 	if isTrue {
 		return trueValueFunc()
 	}

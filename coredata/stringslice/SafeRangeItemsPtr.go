@@ -1,14 +1,13 @@
 package stringslice
 
+// Deprecated: Use SafeRangeItems instead.
 func SafeRangeItemsPtr(
-	slice *[]string,
+	slice []string,
 	start, end int,
-) *[]string {
-	if slice == nil || *slice == nil {
-		return &[]string{}
+) []string {
+	if len(slice) == 0 {
+		return []string{}
 	}
 
-	results := SafeRangeItems(*slice, start, end)
-
-	return &results
+	return SafeRangeItems(slice, start, end)
 }

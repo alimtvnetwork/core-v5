@@ -212,7 +212,8 @@ func (it Variant) JsonString() string {
 	return basicEnumImpl.JsonString(it)
 }
 
-func (it Variant) StringRangesPtr() *[]string {
+// Deprecated: Use StringRanges instead.
+func (it Variant) StringRangesPtr() []string {
 	return basicEnumImpl.StringRangesPtr()
 }
 

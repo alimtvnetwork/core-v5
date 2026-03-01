@@ -2,10 +2,11 @@ package stringslice
 
 import "gitlab.com/auk-go/core/constants"
 
-func FirstLastDefaultPtr(slice *[]string) (first, last string) {
-	if slice == nil {
+// Deprecated: Use FirstLastDefault instead.
+func FirstLastDefaultPtr(slice []string) (first, last string) {
+	if len(slice) == 0 {
 		return constants.EmptyString, constants.EmptyString
 	}
 
-	return FirstLastDefault(*slice)
+	return FirstLastDefault(slice)
 }

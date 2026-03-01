@@ -1,9 +1,9 @@
 package conditional
 
-// Deprecated: Use IfSlicePtr[byte] instead.
+// Deprecated: Use IfSlice[byte] instead.
 func BytesPtr(
 	isTrue bool,
-	trueValue, falseValue *[]byte,
-) *[]byte {
-	return IfSlicePtr[byte](isTrue, trueValue, falseValue)
+	trueValue, falseValue []byte,
+) []byte {
+	return IfSlice[byte](isTrue, trueValue, falseValue)
 }

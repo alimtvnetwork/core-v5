@@ -1,5 +1,6 @@
 package stringslice
 
-func IsEmptyPtr(slice *[]string) bool {
-	return slice == nil || len(*slice) == 0
+// Deprecated: Use IsEmpty instead.
+func IsEmptyPtr(slice []string) bool {
+	return len(slice) == 0
 }

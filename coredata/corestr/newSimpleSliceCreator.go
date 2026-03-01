@@ -155,29 +155,31 @@ func (it *newSimpleSliceCreator) Strings(
 	return &slice
 }
 
+// Deprecated: Use Strings instead.
 func (it *newSimpleSliceCreator) StringsPtr(
-	lines *[]string,
+	lines []string,
 ) *SimpleSlice {
-	if lines == nil || len(*lines) == 0 {
+	if len(lines) == 0 {
 		return it.Empty()
 	}
 
-	return it.Strings(*lines)
+	return it.Strings(lines)
 }
 
+// Deprecated: Use Strings or StringsClone instead.
 func (it *newSimpleSliceCreator) StringsOptions(
 	isClone bool,
-	lines *[]string,
+	lines []string,
 ) *SimpleSlice {
-	if lines == nil || len(*lines) == 0 {
+	if len(lines) == 0 {
 		return it.Empty()
 	}
 
 	if !isClone {
-		return it.Strings(*lines)
+		return it.Strings(lines)
 	}
 
-	return it.StringsClone(*lines)
+	return it.StringsClone(lines)
 }
 
 func (it *newSimpleSliceCreator) StringsClone(

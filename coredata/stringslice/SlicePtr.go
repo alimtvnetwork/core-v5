@@ -1,11 +1,10 @@
 package stringslice
 
-// SlicePtr on nil or empty makes new  &[]string{}
-// else makes a pointer to self and returns
-func SlicePtr(slice []string) (slicePtr *[]string) {
+// Deprecated: No longer needed - slices are used directly.
+func SlicePtr(slice []string) []string {
 	if len(slice) == 0 {
-		return &[]string{}
+		return []string{}
 	}
 
-	return &slice
+	return slice
 }

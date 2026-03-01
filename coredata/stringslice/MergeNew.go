@@ -4,7 +4,7 @@ import (
 	"gitlab.com/auk-go/core/constants"
 )
 
-func MergeNew(firstSlice []string, additionalItems ...string) *[]string {
+func MergeNew(firstSlice []string, additionalItems ...string) []string {
 	sliceLength := len(firstSlice)
 	additionalItemsLength := len(additionalItems)
 
@@ -21,5 +21,5 @@ func MergeNew(firstSlice []string, additionalItems ...string) *[]string {
 		newSlice = append(newSlice, additionalItems...)
 	}
 
-	return &newSlice
+	return newSlice
 }
