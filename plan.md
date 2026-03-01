@@ -149,9 +149,9 @@
 | Priority | Task | Spec Reference |
 |----------|------|---------------|
 | 🔴 High | Complete `interface{}` → `any` in `coreinterface/` (569 matches) | `20-improvement-plan.md` |
-| 🟡 Medium | Split `Attributes.go` (768 lines) | `20-improvement-plan.md` Phase 5 |
-| 🟡 Medium | Split `Dynamic.go` (674 lines) | `20-improvement-plan.md` Phase 5 |
-| 🟡 Medium | Split `Info.go` (646 lines) | `20-improvement-plan.md` Phase 5 |
+| ✅ Done | Split `Attributes.go` — already split (Getters/Setters/Json) | `20-improvement-plan.md` Phase 5 |
+| ✅ Done | Split `Dynamic.go` — already split (Getters/Reflect/Json) | `20-improvement-plan.md` Phase 5 |
+| ✅ Done | Split `Info.go` (646→4 files: Info/Getters/Json/Map) | `20-improvement-plan.md` Phase 5 |
 | 🟡 Medium | Split `BaseTestCase.go` (435 lines) | `20-improvement-plan.md` Phase 5 |
 | 🟡 Medium | Add generics to `conditional/` | `11-go-modernization.md` |
 | 🟡 Medium | Deprecate codegen | `10-codegen-deprecation-plan.md` |
