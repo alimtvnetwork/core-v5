@@ -63,5 +63,5 @@ if result.IsInconclusive() {
 ## Related Docs
 
 - [Repo Overview](../00-repo-overview.md)
-- [corecmp Readme](../../corecmp/Readme.md)
+- [corecmp readme](../../corecmp/readme.md)
 - [corecomparator spec](./10-remaining-packages.md)
