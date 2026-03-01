@@ -55,7 +55,7 @@ func (it *HashsetsCollection) StringsList() []string {
 	index := 0
 
 	for _, hashset := range it.items {
-		for _, item := range *hashset.ListPtr() {
+		for _, item := range hashset.ListPtr() {
 			stringsList[index] = item
 			index++
 		}

@@ -938,7 +938,7 @@ func (it *Hashset) Items() map[string]bool {
 }
 
 func (it *Hashset) List() []string {
-	return *it.ListPtr()
+	return it.ListPtr()
 }
 
 func (it *Hashset) MapStringAny() map[string]any {
@@ -968,9 +968,9 @@ func (it *Hashset) JoinSorted(joiner string) string {
 	}
 
 	list := it.ListPtr()
-	sort.Strings(*list)
+	sort.Strings(list)
 
-	return strings.Join(*list, joiner)
+	return strings.Join(list, joiner)
 }
 
 func (it *Hashset) ListPtrSortedAsc() []string {
@@ -1023,7 +1023,7 @@ func (it *Hashset) Dispose() {
 func (it *Hashset) ListCopyLock() []string {
 	it.Lock()
 	defer it.Unlock()
-	cloned := *it.ListPtr()
+	cloned := it.ListPtr()
 
 	return cloned
 }
@@ -1174,7 +1174,7 @@ func (it *Hashset) StringLock() string {
 
 	return commonJoiner +
 		strings.Join(
-			*it.ListPtr(),
+			it.ListPtr(),
 			commonJoiner,
 		)
 }
@@ -1182,7 +1182,7 @@ func (it *Hashset) StringLock() string {
 func (it Hashset) Join(
 	joiner string,
 ) string {
-	return strings.Join(*it.ListPtr(), joiner)
+	return strings.Join(it.ListPtr(), joiner)
 }
 
 func (it Hashset) NonEmptyJoins(
