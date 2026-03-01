@@ -304,9 +304,8 @@ func (linkedListNode *LinkedListNode) List() []string {
 }
 
 // Deprecated: Use List instead.
-func (linkedListNode *LinkedListNode) ListPtr() *[]string {
-	list := linkedListNode.List()
-	return &list
+func (linkedListNode *LinkedListNode) ListPtr() []string {
+	return linkedListNode.List()
 }
 
 func (linkedListNode *LinkedListNode) Join(separator string) string {
