@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfSlice[string] instead.
+// Deprecated: Use IfSliceString instead.
 func Strings(
 	isTrue bool,
 	trueValue, falseValue []string,

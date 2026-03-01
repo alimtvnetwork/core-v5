@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfTrueFunc[[]byte] instead.
+// Deprecated: Use IfTrueFuncBytes instead.
 func BytesTrueFunc(
 	isTrue bool,
 	trueValueFunc func() []byte,

@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfSlice[any] instead.
+// Deprecated: Use IfSliceAny instead.
 func InterfacesPtr(
 	isTrue bool,
 	trueValue, falseValue []any,

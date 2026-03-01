@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfSlice[byte] instead.
+// Deprecated: Use IfSliceByte instead.
 func Bytes(
 	isTrue bool,
 	trueValue, falseValue []byte,

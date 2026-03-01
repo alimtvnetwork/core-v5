@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfSlice[bool] instead.
+// Deprecated: Use IfSliceBool instead.
 func BooleansPtr(
 	isTrue bool,
 	trueValue, falseValue []bool,

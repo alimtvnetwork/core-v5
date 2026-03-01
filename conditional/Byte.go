@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use If[byte] instead.
+// Deprecated: Use IfByte instead.
 func Byte(
 	isTrue bool,
 	trueValue, falseValue byte,

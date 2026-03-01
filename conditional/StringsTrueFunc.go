@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfTrueFunc[[]string] instead.
+// Deprecated: Use IfTrueFuncStrings instead.
 func StringsTrueFunc(
 	isTrue bool,
 	trueValueFunc func() []string,

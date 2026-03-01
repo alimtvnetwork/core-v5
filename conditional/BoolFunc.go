@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfFunc[bool] instead.
+// Deprecated: Use IfFuncBool instead.
 func BoolFunc(
 	isTrue bool,
 	trueValueFunc, falseValueFunc func() bool,

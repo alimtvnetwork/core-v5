@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use IfFunc[any] instead.
+// Deprecated: Use IfFuncAny instead.
 func InterfaceFunc(
 	isTrue bool,
 	trueValueFunc, falseValueFunc func() any,

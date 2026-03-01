@@ -1,6 +1,6 @@
 package conditional
 
-// Deprecated: Use If[int] instead.
+// Deprecated: Use IfInt instead.
 func Int(
 	isTrue bool,
 	trueValue, falseValue int,
