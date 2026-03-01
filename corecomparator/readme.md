@@ -81,14 +81,7 @@ A `byte`-backed enum representing the result of comparing two values.
 | `RangeNamesCsv()` | `string` | CSV of all range names with indexes |
 | `CsvStrings(...Compare)` | `[]string` | Slice of `NameValue()` for given values |
 | `CsvString(...Compare)` | `string` | Joined CSV of `NameValue()` for given values |
-| `OnlySupportedErr(msg, ...Compare)` | `error` | Error if value not in supported set (with message) |
-| `OnlySupportedDirectErr(...Compare)` | `error` | Error if value not in supported set |
-
-### Validation
-
-| Method | Returns | Description |
-|--------|---------|-------------|
-| `OnlySupportedErr(message, ...Compare)` | `error` | Returns error if current value is not in the supported set; nil otherwise |
+| `OnlySupportedErr(msg, ...Compare)` | `error` | Returns error if current value is not in the supported set; nil otherwise |
 | `OnlySupportedDirectErr(...Compare)` | `error` | Same without message prefix |
 
 ## Supporting Types
@@ -163,7 +156,7 @@ err := result.OnlySupportedErr("sort direction", corecomparator.LeftGreater, cor
 
 ## Related Docs
 
-- [corecmp Readme](../corecmp/Readme.md)
-- [anycmp Readme](../anycmp/README.md)
+- [corecmp readme](../corecmp/readme.md)
+- [anycmp readme](../anycmp/readme.md)
 - [Comparison & Sorting spec](../spec/01-app/folders/10-remaining-packages.md)
 - [Folder Map](../spec/01-app/01-folder-map.md)

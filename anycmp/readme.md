@@ -50,14 +50,28 @@ if result.IsInconclusive() {
 }
 ```
 
+## Architecture
+
+```
+anycmp/
+├── Cmp.go        # Single Cmp function — the package's only export
+└── readme.md
+```
+
 ## File Organization
 
 | File | Purpose |
 |------|---------|
 | `Cmp.go` | Single `Cmp` function — the package's only export |
 
+## How to Extend Safely
+
+- **New comparison depth**: Add a separate function (e.g., `DeepCmp`) rather than modifying `Cmp` — callers rely on its lightweight, no-reflection guarantee.
+- **New return states**: Coordinate with `corecomparator.Compare` enum — do not add package-local result types.
+- **Type-specific fast paths**: Add as separate functions (e.g., `CmpString`) that short-circuit before falling back to `Cmp`.
+
 ## Related Docs
 
-- [corecomparator Readme](../corecomparator/Readme.md)
-- [corecmp Readme](../corecmp/Readme.md)
+- [corecomparator readme](../corecomparator/readme.md)
+- [corecmp readme](../corecmp/readme.md)
 - [Comparison & Sorting spec](../spec/01-app/folders/10-remaining-packages.md)

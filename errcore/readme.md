@@ -222,6 +222,6 @@ Package `errcore` provides a comprehensive toolkit for creating, combining, form
 
 ## Related Docs
 
-- [errcore Folder Spec](/spec/01-app/folders/06-errcore.md)
-- [errcoreinf Readme](/coreinterface/errcoreinf/README.md)
-- [Coding Guidelines](/spec/01-app/17-coding-guidelines.md)
+- [errcore Folder Spec](../spec/01-app/folders/06-errcore.md)
+- [errcoreinf readme](../coreinterface/errcoreinf/readme.md)
+- [Coding Guidelines](../spec/01-app/17-coding-guidelines.md)

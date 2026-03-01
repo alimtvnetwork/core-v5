@@ -97,5 +97,5 @@ if anyResult.IsEqual() {
 
 ## Related Docs
 
-- [corecomparator Readme](../corecomparator/Readme.md)
-- [Comparison & Sorting spec](../../spec/01-app/folders/10-remaining-packages.md)
+- [corecomparator readme](../corecomparator/readme.md)
+- [Comparison & Sorting spec](../spec/01-app/folders/10-remaining-packages.md)
