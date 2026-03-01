@@ -71,6 +71,37 @@ groups := coregeneric.GroupByCollection(items, func(item T) K { ... })
 unique := coregeneric.Distinct(collection)
 ```
 
+## Comparable Constraint Functions (comparablefuncs.go)
+
+Functions requiring `T comparable` provide equality-based operations without custom predicates:
+
+| Function | Target | Description |
+|----------|--------|-------------|
+| `ContainsAll(col, items...)` | `Collection[T]` | True if collection contains all given items |
+| `ContainsAny(col, items...)` | `Collection[T]` | True if collection contains any given item |
+| `RemoveItem(col, item)` | `Collection[T]` | Remove first occurrence; returns `true` if found |
+| `RemoveAllItems(col, item)` | `Collection[T]` | Remove all occurrences; returns count removed |
+| `ToHashset(col)` | `Collection[T]` | Convert `Collection[T]` → `Hashset[T]` |
+| `DistinctSimpleSlice(ss)` | `SimpleSlice[T]` | New slice with duplicates removed |
+| `ContainsSimpleSliceItem(ss, item)` | `SimpleSlice[T]` | Check if item exists |
+
+```go
+col := coregeneric.New.Collection.Int.Items(1, 2, 3, 2, 1)
+coregeneric.ContainsAll(col, 1, 3)            // true
+coregeneric.RemoveItem(col, 2)                // true (first 2 removed)
+set := coregeneric.ToHashset(col)             // Hashset[int]
+unique := coregeneric.DistinctSimpleSlice(ss) // dedup
+```
+
+## Constraint Hierarchy
+
+```
+cmp.Ordered  ⊂  comparable  ⊂  any
+├── Sort, Min, Max, Sum, Clamp     (orderedfuncs.go)
+├── ContainsAll, Distinct, ToHashset (comparablefuncs.go)
+└── Map, FlatMap, Reduce, GroupBy    (funcs.go)
+```
+
 ## Migration Path: corestr → coregeneric
 
 `corestr` retains its public API for backward compatibility. String-specific methods (Join, EqualFold, Trim, Split, etc.) remain in `corestr`. Common operations can internally delegate to `coregeneric`:
