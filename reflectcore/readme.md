@@ -19,7 +19,7 @@ reflectcore/
 └── readme.md
 ```
 
-## Exported Variables
+## Exported Variables (Public API)
 
 | Variable | Source | Description |
 |----------|--------|-------------|
@@ -38,6 +38,8 @@ reflectcore/
 | `ReflectGetterUsingReflectValue` | `reflectinternal` | Getter from `reflect.Value` |
 | `SliceConverter` | `reflectinternal` | Slice reflection and conversion |
 | `MapConverter` | `reflectinternal` | Map reflection and conversion |
+
+> **Note**: Two unexported variables (`indexToPositionFunc`, `prependWithSpacesFunc`) delegate to `convertinternal.Util.String` for internal use only.
 
 ## reflectmodel Sub-Package
 
@@ -82,6 +84,16 @@ type FieldProcessor struct {
 | `IsFieldType(reflect.Type)` | Type match check |
 | `IsFieldKind(reflect.Kind)` | Kind match check |
 
+### MethodProcessor
+
+```go
+type MethodProcessor struct {
+    Name   string
+    Index  int
+    Method reflect.Method
+}
+```
+
 ### rvUtils
 
 | Method | Description |
@@ -108,15 +120,20 @@ type FieldProcessor struct {
 import "gitlab.com/auk-go/core/reflectcore"
 
 // Type name extraction
-name := reflectcore.TypeName(myStruct)
+name := reflectcore.TypeName.OfAny(myStruct)
 
-// Null checking
+// Null checking via Is predicates
 if reflectcore.Is.Null(someInterface) {
     // handle nil
 }
 
 // Slice conversion
-strings, err := reflectcore.SliceConverter.ToStrings(anySlice)
+converted := reflectcore.SliceConverter.ToStrings(anySlice)
+
+// Iterate struct fields
+reflectcore.Looper.StructFields(myStruct, func(fp reflectmodel.FieldProcessor) {
+    fmt.Println(fp.Name, fp.FieldType)
+})
 ```
 
 ## How to Extend Safely
