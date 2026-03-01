@@ -623,24 +623,77 @@ core/
 
 Each major package has its own README with detailed type hierarchies, usage examples, and method references:
 
+#### Data Structures & Serialization (`coredata/`)
+
 | Package | README |
 |---------|--------|
-| `coredata/coreapi/` | [`coreapi/README.md`](/coredata/coreapi/README.md) — Typed API request/response, type alias migration |
-| `coredata/coredynamic/` | [`coredynamic/README.md`](/coredata/coredynamic/README.md) — Dynamic wrappers, Collection[T], TypedSimpleRequest/Result |
-| `coredata/coregeneric/` | [`coregeneric/README.md`](/coredata/coregeneric/README.md) — Generic Collection, Hashset, Hashmap, LinkedList |
-| `coredata/corejson/` | [`corejson/README.md`](/coredata/corejson/README.md) — JSON serialization pipeline |
-| `coredata/corepayload/` | [`corepayload/README.md`](/coredata/corepayload/README.md) — PayloadWrapper, TypedPayloadWrapper[T], Attributes |
-| `coredata/corestr/` | [`corestr/README.md`](/coredata/corestr/README.md) — String Collection, Hashmap, Hashset, ValidValue |
-| `coredata/coreonce/` | [`coreonce/README.md`](/coredata/coreonce/README.md) — Lazy-evaluated cached values |
-| `coredata/corerange/` | [`corerange/README.md`](/coredata/corerange/README.md) — Range types (int, byte) |
-| `coredata/stringslice/` | [`stringslice/README.md`](/coredata/stringslice/README.md) — Slice utilities for []string |
-| `coreinterface/` | [`coreinterface/README.md`](/coreinterface/README.md) — Interface contracts |
-| `corefuncs/` | [`corefuncs/README.md`](/corefuncs/README.md) — Function type definitions & wrappers |
-| `coretaskinfo/` | [`coretaskinfo/README.md`](/coretaskinfo/README.md) — Task metadata |
-| `regexnew/` | [`regexnew/README.md`](/regexnew/README.md) — Lazy-compiled regex |
-| `issetter/` | [`issetter/README.md`](/issetter/README.md) — Multi-valued boolean |
-| `errcore/` | [`errcore/README.md`](/errcore/README.md) — Error construction |
-| `chmodhelper/` | [`chmodhelper/README.md`](/chmodhelper/README.md) — File permissions |
+| `coredata/` | [`README.md`](/coredata/README.md) — Umbrella index for all data sub-packages |
+| `coredata/coregeneric/` | [`README.md`](/coredata/coregeneric/README.md) — Generic Collection, Hashset, Hashmap, LinkedList |
+| `coredata/corestr/` | [`README.md`](/coredata/corestr/README.md) — String Collection, Hashmap, Hashset, ValidValue |
+| `coredata/corejson/` | [`README.md`](/coredata/corejson/README.md) — JSON serialization pipeline |
+| `coredata/coredynamic/` | [`README.md`](/coredata/coredynamic/README.md) — Dynamic wrappers, Collection[T], TypedSimpleRequest/Result |
+| `coredata/corepayload/` | [`README.md`](/coredata/corepayload/README.md) — PayloadWrapper, TypedPayloadWrapper[T], Attributes |
+| `coredata/coreapi/` | [`README.md`](/coredata/coreapi/README.md) — Typed API request/response |
+| `coredata/coreonce/` | [`README.md`](/coredata/coreonce/README.md) — Lazy-evaluated cached values |
+| `coredata/corerange/` | [`README.md`](/coredata/corerange/README.md) — Range types (int, byte) |
+| `coredata/stringslice/` | [`README.md`](/coredata/stringslice/README.md) — Slice utilities for []string |
+
+#### Interfaces & Contracts (`coreinterface/`)
+
+| Package | README |
+|---------|--------|
+| `coreinterface/` | [`README.md`](/coreinterface/README.md) — Shared interface contracts |
+| `coreinterface/enuminf/` | [`README.md`](/coreinterface/enuminf/README.md) — Enum interface contracts |
+| `coreinterface/errcoreinf/` | [`README.md`](/coreinterface/errcoreinf/README.md) — Error core interface contracts |
+| `coreinterface/loggerinf/` | [`README.md`](/coreinterface/loggerinf/README.md) — Logger interface contracts |
+| `coreinterface/serializerinf/` | [`README.md`](/coreinterface/serializerinf/README.md) — Serializer interface contracts |
+
+#### Implementations (`coreimpl/`)
+
+| Package | README |
+|---------|--------|
+| `coreimpl/` | [`README.md`](/coreimpl/README.md) — Core implementations (enumimpl) |
+
+#### Utilities & Helpers
+
+| Package | README |
+|---------|--------|
+| `conditional/` | [`README.md`](/conditional/README.md) — Generic ternary & nil-safe helpers |
+| `constants/` | [`README.md`](/constants/README.md) — Shared constants & capacity values |
+| `converters/` | [`README.md`](/converters/README.md) — Type conversion utilities |
+| `corefuncs/` | [`README.md`](/corefuncs/README.md) — Function type definitions & wrappers |
+| `coretaskinfo/` | [`README.md`](/coretaskinfo/README.md) — Task metadata |
+| `corevalidator/` | [`README.md`](/corevalidator/README.md) — Line, slice, text, range validators |
+| `coremath/` | [`README.md`](/coremath/README.md) — Min/Max for all numeric types |
+| `coresort/` | [`README.md`](/coresort/README.md) — Quick sort for strings and integers |
+
+#### Error Handling & Comparison
+
+| Package | README |
+|---------|--------|
+| `errcore/` | [`README.md`](/errcore/README.md) — Error construction & formatting |
+| `anycmp/` | [`README.md`](/anycmp/README.md) — Any-type quick comparison |
+| `isany/` | [`README.md`](/isany/README.md) — Reflection-based type & null checking |
+
+#### System & I/O
+
+| Package | README |
+|---------|--------|
+| `chmodhelper/` | [`README.md`](/chmodhelper/README.md) — File permission management |
+| `regexnew/` | [`README.md`](/regexnew/README.md) — Lazy-compiled regex |
+| `issetter/` | [`README.md`](/issetter/README.md) — Multi-valued boolean |
+
+#### Testing
+
+| Package | README |
+|---------|--------|
+| `coretests/` | [`README.md`](/coretests/README.md) — Test utilities & assertions |
+
+#### CLI
+
+| Package | README |
+|---------|--------|
+| `cmd/` | [`README.md`](/cmd/README.md) — CLI entrypoints |
 
 For the complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/01-folder-map.md).
 
@@ -870,6 +923,8 @@ Detailed architecture and conventions documentation for AI agents and contributo
 | **Coding Guidelines** | [`/spec/01-app/17-coding-guidelines.md`](/spec/01-app/17-coding-guidelines.md) |
 | **Code Strengths Review** | [`/spec/01-app/19-code-strengths.md`](/spec/01-app/19-code-strengths.md) |
 | **Improvement Plan** | [`/spec/01-app/20-improvement-plan.md`](/spec/01-app/20-improvement-plan.md) |
+| **newCreator Pattern** | [`/spec/01-app/21-new-creator-pattern.md`](/spec/01-app/21-new-creator-pattern.md) |
+| **coregeneric Architecture** | [`/spec/01-app/22-coregeneric-architecture.md`](/spec/01-app/22-coregeneric-architecture.md) |
 | Known Issues | [`/spec/13-app-issues/`](/spec/13-app-issues/) |
 
 ## Acknowledgement
