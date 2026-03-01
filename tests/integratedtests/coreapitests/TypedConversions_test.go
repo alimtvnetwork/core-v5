@@ -166,6 +166,51 @@ func Test_TypedSimpleGenericRequest_NilReceiver_Verification(t *testing.T) {
 }
 
 // ==========================================
+// Test: TypedSimpleGenericRequest Invalid Underlying Request Edge Cases
+// ==========================================
+
+func Test_TypedSimpleGenericRequest_InvalidUnderlying_Verification(t *testing.T) {
+	for caseIndex, testCase := range typedSimpleGenericRequestInvalidUnderlyingTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		payload, _ := input.GetAsString("payload")
+		message, _ := input.GetAsString("message")
+
+		attr := &coreapi.RequestAttribute{IsValid: true}
+		simpleReq := coredynamic.NewTypedSimpleRequest[string](payload, false, message)
+		req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
+
+		// Act
+		var actLines []string
+
+		switch testCase.Title {
+		case "Valid attribute with invalid underlying request reports IsValid false":
+			actLines = []string{
+				fmt.Sprintf("%v", req.IsValid()),
+				fmt.Sprintf("%v", req.IsInvalid()),
+			}
+		case "Valid attribute with invalid underlying request returns message":
+			actLines = []string{
+				req.Message(),
+			}
+		case "Valid attribute with invalid underlying request returns non-nil InvalidError":
+			actLines = []string{
+				fmt.Sprintf("%v", req.InvalidError() == nil),
+				req.InvalidError().Error(),
+			}
+		case "Valid attribute with invalid underlying request and empty message returns nil InvalidError":
+			actLines = []string{
+				fmt.Sprintf("%v", req.InvalidError() == nil),
+				req.Message(),
+			}
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// ==========================================
 // Test: TypedSimpleGenericRequest Clone
 // ==========================================
 
