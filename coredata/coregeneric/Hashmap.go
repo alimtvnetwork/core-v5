@@ -287,7 +287,9 @@ func (it *Hashmap[K, V]) IsEquals(other *Hashmap[K, V]) bool {
 	}
 
 	for k := range it.items {
-		if !other.Has(k) {
+		isMissing := !other.Has(k)
+
+		if isMissing {
 			return false
 		}
 	}
