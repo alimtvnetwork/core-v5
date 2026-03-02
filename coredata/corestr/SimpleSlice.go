@@ -306,6 +306,10 @@ func (it *SimpleSlice) LastOrDefault() string {
 }
 
 func (it *SimpleSlice) SkipDynamic(skippingItemsCount int) any {
+	if skippingItemsCount >= it.Length() {
+		return []string{}
+	}
+
 	return (*it)[skippingItemsCount:]
 }
 
@@ -318,6 +322,10 @@ func (it *SimpleSlice) Skip(skippingItemsCount int) []string {
 }
 
 func (it *SimpleSlice) TakeDynamic(takeDynamicItems int) any {
+	if takeDynamicItems >= it.Length() {
+		return *it
+	}
+
 	return (*it)[:takeDynamicItems]
 }
 

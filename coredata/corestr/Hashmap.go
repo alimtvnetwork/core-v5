@@ -877,13 +877,17 @@ func (it *Hashmap) setCached() {
 	it.cachedList = list
 }
 
-// ValuesToLower CreateUsingAliasMap a new items with all lower strings
+// Deprecated: Use KeysToLower instead.
 func (it *Hashmap) ValuesToLower() *Hashmap {
+	return it.KeysToLower()
+}
+
+// KeysToLower creates a new hashmap with all keys lowercased.
+func (it *Hashmap) KeysToLower() *Hashmap {
 	newMap := make(map[string]string, it.Length())
 
-	var toLower string
 	for key, value := range it.items {
-		toLower = strings.ToLower(key)
+		toLower := strings.ToLower(key)
 		newMap[toLower] = value
 	}
 
