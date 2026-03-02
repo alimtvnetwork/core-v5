@@ -73,7 +73,9 @@ func GroupByCollection[T any, K comparable](
 		key := keyFunc(item)
 
 		col, exists := result[key]
-		if !exists {
+		isNewGroup := !exists
+
+		if isNewGroup {
 			col = EmptyCollection[T]()
 			result[key] = col
 		}

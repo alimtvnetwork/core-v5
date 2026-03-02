@@ -152,7 +152,9 @@ func (it *Collection) IsEqualsWithSensitive(
 	}
 
 	for i, leftVal := range leftItems {
-		if !strings.EqualFold(leftVal, rightItems[i]) {
+		isDifferent := !strings.EqualFold(leftVal, rightItems[i])
+
+		if isDifferent {
 			return false
 		}
 	}
@@ -256,7 +258,9 @@ func (it *Collection) AddIf(
 	isAdd bool,
 	addingString string,
 ) *Collection {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -317,7 +321,9 @@ func (it *Collection) AddIfMany(
 	isAdd bool,
 	addingStrings ...string,
 ) *Collection {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -504,7 +510,9 @@ func (it *Collection) resizeForHashmaps(
 		length += hashmap.Length()
 	}
 
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 
@@ -533,7 +541,9 @@ func (it *Collection) resizeForCollections(
 		length += hashmap.Length()
 	}
 
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 
@@ -553,7 +563,9 @@ func (it *Collection) resizeForItems(
 	}
 
 	length := len(items)
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 
@@ -573,7 +585,9 @@ func (it *Collection) resizeForAnys(
 	}
 
 	length := len(items)
-	if !it.isResizeRequired(length) {
+	isNoResizeNeeded := !it.isResizeRequired(length)
+
+	if isNoResizeNeeded {
 		return it
 	}
 

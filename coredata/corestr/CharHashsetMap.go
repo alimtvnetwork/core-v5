@@ -292,7 +292,9 @@ func (it *CharHashsetMap) SortedListDsc() []string {
 }
 
 func (it *CharHashsetMap) Print(isPrint bool) {
-	if !isPrint {
+	isSkipPrint := !isPrint
+
+	if isSkipPrint {
 		return
 	}
 
@@ -302,7 +304,9 @@ func (it *CharHashsetMap) Print(isPrint bool) {
 }
 
 func (it *CharHashsetMap) PrintLock(isPrint bool) {
-	if !isPrint {
+	isSkipPrint := !isPrint
+
+	if isSkipPrint {
 		return
 	}
 
@@ -567,12 +571,15 @@ func (it *CharHashsetMap) IsEquals(
 
 	for key, hashset := range leftMap {
 		rHashset, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
-		if !rHashset.IsEquals(hashset) {
+		isDifferent := !rHashset.IsEquals(hashset)
+
+		if isDifferent {
 			return false
 		}
 	}

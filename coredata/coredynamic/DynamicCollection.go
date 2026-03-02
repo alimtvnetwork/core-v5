@@ -202,7 +202,9 @@ func (it *DynamicCollection) ListStrings() []string {
 }
 
 func (it *DynamicCollection) RemoveAt(index int) (isSuccess bool) {
-	if !it.HasIndex(index) {
+	isInvalidIndex := !it.HasIndex(index)
+
+	if isInvalidIndex {
 		return false
 	}
 

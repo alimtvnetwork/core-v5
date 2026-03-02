@@ -80,7 +80,9 @@ func (it *Collection[T]) AddCollectionsLock(others ...*Collection[T]) *Collectio
 
 // AddIfLock appends an item only when isAdd is true, with mutex protection.
 func (it *Collection[T]) AddIfLock(isAdd bool, item T) *Collection[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -96,7 +98,9 @@ func (it *Collection[T]) RemoveAtLock(index int) bool {
 	it.Lock()
 	defer it.Unlock()
 
-	if !it.HasIndex(index) {
+	isInvalidIndex := !it.HasIndex(index)
+
+	if isInvalidIndex {
 		return false
 	}
 	it.items = append(it.items[:index], it.items[index+1:]...)

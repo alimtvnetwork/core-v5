@@ -105,7 +105,9 @@ func (it *PayloadsCollection) AddsIf(
 	isAdd bool,
 	payloadWrappers ...PayloadWrapper,
 ) *PayloadsCollection {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 

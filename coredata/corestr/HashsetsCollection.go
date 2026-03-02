@@ -252,8 +252,9 @@ func (it *HashsetsCollection) IsEqualPtr(another *HashsetsCollection) bool {
 
 	for i, hashset := range it.items {
 		anotherHashset := another.items[i]
+		isDifferent := !hashset.IsEquals(anotherHashset)
 
-		if !hashset.IsEquals(anotherHashset) {
+		if isDifferent {
 			return false
 		}
 	}

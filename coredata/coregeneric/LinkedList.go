@@ -120,7 +120,9 @@ func (it *LinkedList[T]) AddSlice(items []T) *LinkedList[T] {
 
 // AddIf appends the item only if the condition is true.
 func (it *LinkedList[T]) AddIf(isAdd bool, item T) *LinkedList[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -129,7 +131,9 @@ func (it *LinkedList[T]) AddIf(isAdd bool, item T) *LinkedList[T] {
 
 // AddsIf appends items only if the condition is true.
 func (it *LinkedList[T]) AddsIf(isAdd bool, items ...T) *LinkedList[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 

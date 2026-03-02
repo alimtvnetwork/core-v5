@@ -231,7 +231,9 @@ func (it *within) RangeInteger(
 		return input, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return input, false
 	}
 
@@ -258,7 +260,9 @@ func (it *within) RangeByte(
 		return byte(input), true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return constants.Zero, false
 	}
 
@@ -303,7 +307,9 @@ func (it *within) RangeFloat(
 		return input, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return input, false
 	}
 
@@ -323,7 +329,9 @@ func (it *within) RangeFloat64(
 		return input, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return input, false
 	}
 

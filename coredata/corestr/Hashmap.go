@@ -490,8 +490,9 @@ func (it *Hashmap) HasLock(key string) bool {
 func (it *Hashmap) HasAllStrings(keys ...string) bool {
 	for _, key := range keys {
 		_, isFound := it.items[key]
+		isMissing := !isFound
 
-		if !isFound {
+		if isMissing {
 			// not found
 			return false
 		}
@@ -531,8 +532,9 @@ func (it *Hashmap) HasAllCollectionItems(
 func (it *Hashmap) HasAll(keys ...string) bool {
 	for _, key := range keys {
 		_, isFound := it.items[key]
+		isMissing := !isFound
 
-		if !isFound {
+		if isMissing {
 			// not found
 			return false
 		}
@@ -589,7 +591,9 @@ func (it *Hashmap) GetKeysFilteredItems(
 			filter(key, i)
 
 		i++
-		if !isKeep {
+		isSkip := !isKeep
+
+		if isSkip {
 			continue
 		}
 
@@ -624,8 +628,9 @@ func (it *Hashmap) GetKeysFilteredCollection(
 	for key := range it.items {
 		result, isKeep, isBreak := filter(key, i)
 		i++
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 

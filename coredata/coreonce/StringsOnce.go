@@ -107,7 +107,9 @@ func (it *StringsOnce) IsEmpty() bool {
 
 func (it *StringsOnce) HasAll(searchTerms ...string) bool {
 	for _, term := range searchTerms {
-		if !it.IsContains(term) {
+		isMissing := !it.IsContains(term)
+
+		if isMissing {
 			return false
 		}
 	}

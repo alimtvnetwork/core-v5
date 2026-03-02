@@ -254,7 +254,9 @@ func (it *Hashset) AddNonEmptyWhitespace(str string) *Hashset {
 }
 
 func (it *Hashset) AddIf(isAdd bool, addingString string) *Hashset {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -265,7 +267,9 @@ func (it *Hashset) AddIfMany(
 	isAdd bool,
 	addingStrings ...string,
 ) *Hashset {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -350,7 +354,9 @@ func (it *Hashset) AddItemsMap(
 	}
 
 	for k, isEnabled := range itemsMap {
-		if !isEnabled {
+		isDisabled := !isEnabled
+
+		if isDisabled {
 			continue
 		}
 
@@ -775,8 +781,9 @@ func (it *Hashset) GetFilteredItems(
 	for key := range it.items {
 		result, isKeep, isBreak := filter(key, i)
 		i++
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -811,8 +818,9 @@ func (it *Hashset) GetFilteredCollection(
 	for key := range it.items {
 		result, isKeep, isBreak := filter(key, i)
 		i++
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 

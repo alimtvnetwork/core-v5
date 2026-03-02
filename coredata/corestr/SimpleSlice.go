@@ -38,7 +38,9 @@ func (it *SimpleSlice) AddIf(
 	isAdd bool,
 	item string,
 ) *SimpleSlice {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -148,7 +150,9 @@ func (it *SimpleSlice) AddAsCurlyTitleWrapIf(
 	title string,
 	value any,
 ) *SimpleSlice {
-	if !isAppend {
+	isSkip := !isAppend
+
+	if isSkip {
 		return it
 	}
 
@@ -169,7 +173,9 @@ func (it *SimpleSlice) AddAsTitleValueIf(
 	title string,
 	value any,
 ) *SimpleSlice {
-	if !isAppend {
+	isSkip := !isAppend
+
+	if isSkip {
 		return it
 	}
 
@@ -233,7 +239,9 @@ func (it *SimpleSlice) AddsIf(
 	isAdd bool,
 	items ...string,
 ) *SimpleSlice {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 

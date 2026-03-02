@@ -78,7 +78,9 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 		typeMatch,
 	) + constants.NewLineUnix
 
-	if !isIncludeInvalidMessage {
+	isExcludeMessage := !isIncludeInvalidMessage
+
+	if isExcludeMessage {
 		return errors.New(typeMismatchMessage)
 	}
 

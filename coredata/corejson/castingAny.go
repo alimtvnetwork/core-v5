@@ -138,7 +138,9 @@ func (it castingAny) reflectionCasting(
 	fromAny any,
 	castedToPtr any,
 ) (err error, isApplicable bool) {
-	if !isUseReflection {
+	isSkipReflection := !isUseReflection
+
+	if isSkipReflection {
 		return nil, false
 	}
 
@@ -160,19 +162,25 @@ func (it castingAny) reflectionCasting(
 
 	isRightPtr := rightType.Kind() == reflect.Ptr
 
-	if !isRightPtr {
+	isNotPtr := !isRightPtr
+
+	if isNotPtr {
 		return nil, false
 	}
 
 	isLeftDefined := reflectinternal.Is.Defined(fromAny)
 
-	if !isLeftDefined {
+	isLeftUndefined := !isLeftDefined
+
+	if isLeftUndefined {
 		return nil, false
 	}
 
 	isRightDefined := reflectinternal.Is.Defined(castedToPtr)
 
-	if !isRightDefined {
+	isRightUndefined := !isRightDefined
+
+	if isRightUndefined {
 		return nil, false
 	}
 

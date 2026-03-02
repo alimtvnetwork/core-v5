@@ -268,7 +268,9 @@ func (it *SimpleStringOnce) WithinRange(
 		return toInt, true
 	}
 
-	if !isUsageMinMaxBoundary {
+	isNoBoundary := !isUsageMinMaxBoundary
+
+	if isNoBoundary {
 		return toInt, false
 	}
 

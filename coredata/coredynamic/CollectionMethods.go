@@ -10,7 +10,9 @@ import (
 
 // AddIf appends an item only when isAdd is true.
 func (it *Collection[T]) AddIf(isAdd bool, item T) *Collection[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 	it.items = append(it.items, item)
@@ -161,7 +163,9 @@ func (it *Collection[T]) ContainsFunc(
 
 // SafeAt returns the item at index, or the zero value if index is out of range.
 func (it *Collection[T]) SafeAt(index int) T {
-	if !it.HasIndex(index) {
+	isInvalidIndex := !it.HasIndex(index)
+
+	if isInvalidIndex {
 		var zero T
 		return zero
 	}

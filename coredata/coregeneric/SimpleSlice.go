@@ -45,7 +45,9 @@ func (it *SimpleSlice[T]) Add(item T) *SimpleSlice[T] {
 
 // AddIf appends the item only if the condition is true.
 func (it *SimpleSlice[T]) AddIf(isAdd bool, item T) *SimpleSlice[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -78,7 +80,9 @@ func (it *SimpleSlice[T]) AddSlice(items []T) *SimpleSlice[T] {
 
 // AddsIf appends items only if the condition is true.
 func (it *SimpleSlice[T]) AddsIf(isAdd bool, items ...T) *SimpleSlice[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 

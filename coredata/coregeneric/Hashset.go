@@ -87,8 +87,9 @@ func (it *Hashset[T]) Add(key T) *Hashset[T] {
 // AddBool adds an item and returns true if it already existed.
 func (it *Hashset[T]) AddBool(key T) (isExist bool) {
 	_, has := it.items[key]
+	isNew := !has
 
-	if !has {
+	if isNew {
 		it.items[key] = true
 	}
 
@@ -137,7 +138,9 @@ func (it *Hashset[T]) AddSliceLock(keys []T) *Hashset[T] {
 
 // AddIf adds the item only if the condition is true.
 func (it *Hashset[T]) AddIf(isAdd bool, key T) *Hashset[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -146,7 +149,9 @@ func (it *Hashset[T]) AddIf(isAdd bool, key T) *Hashset[T] {
 
 // AddIfMany adds items only if the condition is true.
 func (it *Hashset[T]) AddIfMany(isAdd bool, keys ...T) *Hashset[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -201,7 +206,9 @@ func (it *Hashset[T]) ContainsLock(key T) bool {
 // HasAll returns true if all keys exist in the set.
 func (it *Hashset[T]) HasAll(keys ...T) bool {
 	for _, key := range keys {
-		if !it.Has(key) {
+		isMissing := !it.Has(key)
+
+		if isMissing {
 			return false
 		}
 	}

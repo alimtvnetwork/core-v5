@@ -166,7 +166,9 @@ func (it *LinkedList) AddItemsMap(itemsMap map[string]bool) *LinkedList {
 	}
 
 	for key, isAdd := range itemsMap {
-		if !isAdd {
+		isSkip := !isAdd
+
+		if isSkip {
 			continue
 		}
 
@@ -251,7 +253,9 @@ func (it *LinkedList) AddNonEmptyWhitespace(item string) *LinkedList {
 }
 
 func (it *LinkedList) AddIf(isAdd bool, item string) *LinkedList {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -262,7 +266,9 @@ func (it *LinkedList) AddsIf(
 	isAdd bool,
 	addingStrings ...string,
 ) *LinkedList {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -501,7 +507,9 @@ func (it *LinkedList) RemoveNodeByIndex(
 	) (isBreak bool) {
 		hasIndex := removingIndex == arg.Index
 
-		if !hasIndex {
+		isNotFound := !hasIndex
+
+		if isNotFound {
 			return false
 		}
 
