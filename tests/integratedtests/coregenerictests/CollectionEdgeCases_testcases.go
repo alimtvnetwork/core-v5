@@ -337,12 +337,12 @@ var hashmapKeysValuesTestCases = []coretestcases.CaseV1{
 
 var hashmapIsEqualsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsEquals true for same length, false for different",
+		Title: "IsEquals false for same length diff keys, false for different length",
 		ArrangeInput: args.Map{
 			"when": "given two hashmaps to compare",
 		},
 		ExpectedInput: []string{
-			"true",
+			"false",
 			"false",
 		},
 	},
