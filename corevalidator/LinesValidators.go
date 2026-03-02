@@ -39,7 +39,7 @@ func (it *LinesValidators) Length() int {
 }
 
 func (it *LinesValidators) Count() int {
-	return it.LastIndex()
+	return it.Length()
 }
 
 func (it *LinesValidators) IsEmpty() bool {
