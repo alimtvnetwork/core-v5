@@ -4,44 +4,68 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/coregeneric"
 	"gitlab.com/auk-go/core/internal/strutilinternal"
 )
 
+// LeftMiddleRight is a string-specialized three-value container.
+// It embeds coregeneric.Triple[string, string, string] for core logic
+// and adds string-specific convenience methods.
 type LeftMiddleRight struct {
-	LeftRight
-	Middle string
+	coregeneric.Triple[string, string, string]
 }
 
 func InvalidLeftMiddleRightNoMessage() *LeftMiddleRight {
 	return &LeftMiddleRight{
-		LeftRight: LeftRight{
-			Left:    constants.EmptyString,
-			Right:   constants.EmptyString,
-			IsValid: false,
-			Message: constants.EmptyString,
-		},
-		Middle: constants.EmptyString,
+		Triple: *coregeneric.InvalidTripleNoMessage[string, string, string](),
 	}
 }
 
 func InvalidLeftMiddleRight(message string) *LeftMiddleRight {
 	return &LeftMiddleRight{
-		LeftRight: LeftRight{
-			Left:    constants.EmptyString,
-			Right:   constants.EmptyString,
-			IsValid: false,
-			Message: message,
-		},
-		Middle: constants.EmptyString,
+		Triple: *coregeneric.InvalidTriple[string, string, string](message),
 	}
+}
+
+// NewLeftMiddleRight creates a valid LeftMiddleRight from three strings.
+func NewLeftMiddleRight(left, middle, right string) *LeftMiddleRight {
+	return &LeftMiddleRight{
+		Triple: *coregeneric.NewTriple(left, middle, right),
+	}
+}
+
+// --- String-specific methods ---
+
+func (it *LeftMiddleRight) LeftBytes() []byte {
+	return []byte(it.Left)
+}
+
+func (it *LeftMiddleRight) RightBytes() []byte {
+	return []byte(it.Right)
+}
+
+func (it *LeftMiddleRight) MiddleBytes() []byte {
+	return []byte(it.Middle)
+}
+
+func (it *LeftMiddleRight) LeftTrim() string {
+	return strings.TrimSpace(it.Left)
+}
+
+func (it *LeftMiddleRight) RightTrim() string {
+	return strings.TrimSpace(it.Right)
 }
 
 func (it *LeftMiddleRight) MiddleTrim() string {
 	return strings.TrimSpace(it.Middle)
 }
 
-func (it *LeftMiddleRight) MiddleBytes() []byte {
-	return []byte(it.Middle)
+func (it *LeftMiddleRight) IsLeftEmpty() bool {
+	return it.Left == ""
+}
+
+func (it *LeftMiddleRight) IsRightEmpty() bool {
+	return it.Right == ""
 }
 
 func (it *LeftMiddleRight) IsMiddleEmpty() bool {
@@ -52,8 +76,32 @@ func (it *LeftMiddleRight) IsMiddleWhitespace() bool {
 	return strutilinternal.IsEmptyOrWhitespace(it.Middle)
 }
 
+func (it *LeftMiddleRight) IsLeftWhitespace() bool {
+	return strutilinternal.IsEmptyOrWhitespace(it.Left)
+}
+
+func (it *LeftMiddleRight) IsRightWhitespace() bool {
+	return strutilinternal.IsEmptyOrWhitespace(it.Right)
+}
+
+func (it *LeftMiddleRight) HasValidNonEmptyLeft() bool {
+	return it.IsValid && !it.IsLeftEmpty()
+}
+
+func (it *LeftMiddleRight) HasValidNonEmptyRight() bool {
+	return it.IsValid && !it.IsRightEmpty()
+}
+
 func (it *LeftMiddleRight) HasValidNonEmptyMiddle() bool {
 	return it.IsValid && !it.IsMiddleEmpty()
+}
+
+func (it *LeftMiddleRight) HasValidNonWhitespaceLeft() bool {
+	return it.IsValid && !it.IsLeftWhitespace()
+}
+
+func (it *LeftMiddleRight) HasValidNonWhitespaceRight() bool {
+	return it.IsValid && !it.IsRightWhitespace()
 }
 
 func (it *LeftMiddleRight) HasValidNonWhitespaceMiddle() bool {
@@ -78,10 +126,24 @@ func (it *LeftMiddleRight) IsAll(left, mid, right string) bool {
 		it.Middle == mid
 }
 
+func (it *LeftMiddleRight) Is(left, right string) bool {
+	return it.Left == left && it.Right == right
+}
+
 func (it *LeftMiddleRight) Clone() *LeftMiddleRight {
 	return &LeftMiddleRight{
-		LeftRight: *it.LeftRight.Clone(),
-		Middle:    it.Middle,
+		Triple: *it.Triple.Clone(),
+	}
+}
+
+func (it *LeftMiddleRight) ToLeftRight() *LeftRight {
+	return &LeftRight{
+		Pair: coregeneric.Pair[string, string]{
+			Left:    it.Left,
+			Right:   it.Right,
+			IsValid: it.IsValid,
+			Message: it.Message + constants.EmptyString,
+		},
 	}
 }
 
@@ -90,8 +152,7 @@ func (it *LeftMiddleRight) Clear() {
 		return
 	}
 
-	it.LeftRight.Clear()
-	it.Middle = ""
+	it.Triple.Clear()
 }
 
 func (it *LeftMiddleRight) Dispose() {
