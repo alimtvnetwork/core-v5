@@ -229,9 +229,11 @@ func (it *Hashset) Add(key string) *Hashset {
 
 func (it *Hashset) AddBool(key string) (isExist bool) {
 	_, has := it.items[key]
+	isNew := !has
 
-	if !has {
+	if isNew {
 		it.items[key] = true
+		it.hasMapUpdated = true
 	}
 
 	return has
