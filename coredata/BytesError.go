@@ -30,10 +30,10 @@ func (it *BytesError) StringPtr() *string {
 		return it.toString
 	}
 
-	if it.toString == nil && it.HasBytes() {
+	if it.HasBytes() {
 		jsonString := string(it.Bytes)
 		it.toString = &jsonString
-	} else if it.toString == nil {
+	} else {
 		emptyStr := ""
 		it.toString = &emptyStr
 	}

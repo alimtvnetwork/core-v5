@@ -9,7 +9,7 @@ func GetPagingInfo(request PagingRequest) PagingInfo {
 		return PagingInfo{
 			PageIndex:        request.PageIndex,
 			SkipItems:        0,
-			EndingLength:     request.EachPageSize,
+			EndingLength:     length,
 			IsPagingPossible: false,
 		}
 	}
