@@ -4,7 +4,9 @@ func SquareWrapIf(
 	isSquareWrap bool,
 	source any,
 ) string {
-	if !isSquareWrap {
+	isSkipWrap := !isSquareWrap
+
+	if isSkipWrap {
 		return toString(source)
 	}
 	

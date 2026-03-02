@@ -104,7 +104,9 @@ func (it codeStack) NewFileWithLines(skipStack, count int) []FileWithLine {
 	for i := 0; i < count; i++ {
 		_, file, line, isOkay := runtime.Caller(skipStack + defaultInternalSkip + i)
 
-		if !isOkay {
+		isCallerFailed := !isOkay
+
+		if isCallerFailed {
 			return lines
 		}
 

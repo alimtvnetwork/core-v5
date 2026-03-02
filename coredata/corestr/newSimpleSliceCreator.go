@@ -76,7 +76,9 @@ func (it *newSimpleSliceCreator) UsingLines(
 		return it.Empty()
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return it.Strings(lines)
 	}
 
@@ -175,7 +177,9 @@ func (it *newSimpleSliceCreator) StringsOptions(
 		return it.Empty()
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return it.Strings(lines)
 	}
 
@@ -202,7 +206,9 @@ func (it *newSimpleSliceCreator) Direct(
 		return it.Empty()
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return it.Strings(lines)
 	}
 

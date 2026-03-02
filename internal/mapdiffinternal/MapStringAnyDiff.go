@@ -87,8 +87,9 @@ func (it *MapStringAnyDiff) IsRawEqual(
 
 	for key, leftValInf := range *it {
 		rightValInf, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
@@ -141,8 +142,9 @@ func (it *MapStringAnyDiff) DiffRaw(
 
 	for key, leftValInf := range *it {
 		rightValInf, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[key] = leftValInf
 
 			continue
@@ -172,8 +174,9 @@ func (it *MapStringAnyDiff) DiffRaw(
 		}
 
 		leftVal, has := leftMap[rightKey]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[rightKey] = rightAnyVal
 
 			continue

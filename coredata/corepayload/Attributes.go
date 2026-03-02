@@ -47,21 +47,29 @@ func (it *Attributes) IsEqual(attributes *Attributes) bool {
 		return false
 	}
 
-	if !it.PagingInfo.IsEqual(attributes.PagingInfo) {
+	isPagingDifferent := !it.PagingInfo.IsEqual(attributes.PagingInfo)
+
+	if isPagingDifferent {
 		return false
 	}
 
-	if !it.KeyValuePairs.IsEqualPtr(attributes.KeyValuePairs) {
+	isKeyValuesDifferent := !it.KeyValuePairs.IsEqualPtr(attributes.KeyValuePairs)
+
+	if isKeyValuesDifferent {
 		return false
 	}
 
-	if !bytes.Equal(
+	isDynamicPayloadsDifferent := !bytes.Equal(
 		it.DynamicPayloads,
-		attributes.DynamicPayloads) {
+		attributes.DynamicPayloads)
+
+	if isDynamicPayloadsDifferent {
 		return false
 	}
 
-	if !it.AnyKeyValuePairs.IsEqual(attributes.AnyKeyValuePairs) {
+	isAnyKeyValuesDifferent := !it.AnyKeyValuePairs.IsEqual(attributes.AnyKeyValuePairs)
+
+	if isAnyKeyValuesDifferent {
 		return false
 	}
 

@@ -27,7 +27,9 @@ func (it chmodApplier) OnMismatchOption(
 	fileMode os.FileMode,
 	location string,
 ) error {
-	if !isApply {
+	isSkipApply := !isApply
+
+	if isSkipApply {
 		return nil
 	}
 
@@ -87,7 +89,9 @@ func (it chmodApplier) ApplyIf(
 	fileMode os.FileMode,
 	location string,
 ) error {
-	if !isApply {
+	isSkipApply := !isApply
+
+	if isSkipApply {
 		return nil
 	}
 

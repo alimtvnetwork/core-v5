@@ -38,7 +38,9 @@ func (it mapConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error) {
 		keyAny := key.Interface()
 		keyAsString, isString := keyAny.(string)
 
-		if !isString {
+		isNotString := !isString
+
+		if isNotString {
 			return keys, it.notStringErr(keyAny)
 		}
 

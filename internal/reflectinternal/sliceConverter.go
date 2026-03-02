@@ -39,7 +39,9 @@ func (it sliceConverter) ToStringsRv(reflectVal reflect.Value) ([]string, error)
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
 		return []string{},
 			fmt.Errorf("reflection is not a slice nor array but %s", reflectVal.String())
 	}
@@ -96,7 +98,9 @@ func (it sliceConverter) ToStringsRvUsingProcessor(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
 		return []string{},
 			fmt.Errorf("reflection is not a slice nor array but %s", reflectVal.String())
 	}
@@ -142,7 +146,9 @@ func (it sliceConverter) ToStringsRvUsingSimpleProcessor(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
 		return []string{},
 			fmt.Errorf("reflection is not a slice nor array but %s", reflectVal.String())
 	}

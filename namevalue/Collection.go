@@ -44,7 +44,9 @@ func NewGenericCollectionUsing[K comparable, V any](
 		return EmptyGenericCollection[K, V]()
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return &Collection[K, V]{
 			Items: items,
 		}
@@ -179,7 +181,9 @@ func (it *Collection[K, V]) AppendPrependIf(
 	prependItems []Instance[K, V],
 	appendItems []Instance[K, V],
 ) *Collection[K, V] {
-	if !isAppendOrPrepend {
+	isSkip := !isAppendOrPrepend
+
+	if isSkip {
 		return it
 	}
 
@@ -268,7 +272,9 @@ func (it *Collection[K, V]) AddsIf(
 	isAdd bool,
 	items ...Instance[K, V],
 ) *Collection[K, V] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 

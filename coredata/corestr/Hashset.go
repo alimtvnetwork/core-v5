@@ -1313,8 +1313,9 @@ func (it *Hashset) DistinctDiffLinesRaw(
 
 	for _, rightItem := range rightLines {
 		_, has := it.items[rightItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffLines = append(diffLines, rightItem)
 		}
 	}
@@ -1325,8 +1326,9 @@ func (it *Hashset) DistinctDiffLinesRaw(
 
 	for leftItem := range it.items {
 		_, has := rightHashset[leftItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffLines = append(diffLines, leftItem)
 		}
 	}
@@ -1351,7 +1353,9 @@ func (it *Hashset) DistinctDiffLines(
 		return map[string]bool{}
 	}
 
-	if !isLeftEmpty && len(rightLines) == 0 {
+	isLeftNotEmpty := !isLeftEmpty
+
+	if isLeftNotEmpty && len(rightLines) == 0 {
 		return it.Items()
 	}
 
@@ -1366,8 +1370,9 @@ func (it *Hashset) DistinctDiffLines(
 
 	for _, rightItem := range rightLines {
 		_, has := it.items[rightItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[rightItem] = true
 		}
 	}
@@ -1378,8 +1383,9 @@ func (it *Hashset) DistinctDiffLines(
 
 	for leftItem := range it.items {
 		_, has := rightHashset[leftItem]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[leftItem] = true
 		}
 	}

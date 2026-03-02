@@ -17,7 +17,9 @@ func ContainsAll[T comparable](
 	}
 
 	for _, item := range items {
-		if !ContainsItem(source, item) {
+		isMissing := !ContainsItem(source, item)
+
+		if isMissing {
 			return false
 		}
 	}

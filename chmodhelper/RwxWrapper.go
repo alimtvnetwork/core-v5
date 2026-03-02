@@ -273,7 +273,9 @@ func (it *RwxWrapper) ApplyChmodOptions(
 	isSkipOnInvalid bool,
 	location string,
 ) error {
-	if !isApply {
+	isSkipApply := !isApply
+
+	if isSkipApply {
 		return nil
 	}
 

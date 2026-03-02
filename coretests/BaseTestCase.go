@@ -386,7 +386,9 @@ func (it *BaseTestCase) ShouldBeExplicit(
 		},
 	)
 
-	if !isValidateType {
+	isSkipTypeValidation := !isValidateType
+
+	if isSkipTypeValidation {
 		return
 	}
 

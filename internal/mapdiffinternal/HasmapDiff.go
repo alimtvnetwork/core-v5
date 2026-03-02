@@ -67,8 +67,9 @@ func (it *HashmapDiff) IsRawEqual(
 
 	for key, leftValString := range *it {
 		rightValString, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
@@ -117,8 +118,9 @@ func (it *HashmapDiff) DiffRaw(
 
 	for key, leftValString := range *it {
 		rightValString, has := rightMap[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[key] = leftValString
 
 			continue
@@ -144,8 +146,9 @@ func (it *HashmapDiff) DiffRaw(
 		}
 
 		leftValStr, has := leftMap[rightKey]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			diffMap[rightKey] = rightStr
 
 			continue

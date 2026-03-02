@@ -167,8 +167,9 @@ func GroupTypedPayloads[T any, K comparable](
 	for _, item := range source.items {
 		key := keyFunc(item)
 		group, exists := result[key]
+		isNewGroup := !exists
 
-		if !exists {
+		if isNewGroup {
 			group = EmptyTypedPayloadCollection[T]()
 			result[key] = group
 		}
@@ -250,7 +251,9 @@ func AllTypedPayloads[T any](
 	}
 
 	for _, item := range source.items {
-		if !predicate(item) {
+		isFailed := !predicate(item)
+
+		if isFailed {
 			return false
 		}
 	}

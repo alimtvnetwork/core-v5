@@ -7,11 +7,13 @@ func CloneIf(
 	additionalCap int,
 	slice []string,
 ) (newSlice []string) {
-	if slice == nil && !isClone {
+	isSkipClone := !isClone
+
+	if slice == nil && isSkipClone {
 		return []string{}
 	}
 
-	if !isClone {
+	if isSkipClone {
 		return slice
 	}
 

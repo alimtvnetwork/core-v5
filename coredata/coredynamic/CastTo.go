@@ -23,7 +23,9 @@ func CastTo(
 		acceptedTypes...,
 	)
 
-	if !isMatchingAcceptedType {
+	isNoMatch := !isMatchingAcceptedType
+
+	if isNoMatch {
 		// not matching
 		sliceErr = append(
 			sliceErr,
