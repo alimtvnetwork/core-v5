@@ -343,3 +343,138 @@ func Test_HasIndex_Negative_Regression(t *testing.T) {
 		tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", col.HasIndex(-1)))
 	}
 }
+
+// ==========================================================================
+// Test: Hashmap.Clear nil safety — regression for nil panic
+// ==========================================================================
+
+func Test_Hashmap_Clear_NilSafety_Regression(t *testing.T) {
+	// Case 0: nil receiver
+	{
+		tc := hashmapClearNilTestCases[0]
+		var hm *corestr.Hashmap
+		result := hm.Clear()
+		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", result == nil))
+	}
+
+	// Case 1: populated hashmap clears to empty
+	{
+		tc := hashmapClearNilTestCases[1]
+		hm := corestr.New.Hashmap.Empty()
+		hm.Set("a", "1")
+		hm.Set("b", "2")
+		hm.Clear()
+		tc.ShouldBeEqual(t, 1,
+			fmt.Sprintf("%d", hm.Length()),
+			fmt.Sprintf("%v", hm.IsEmpty()),
+		)
+	}
+
+	// Case 2: chainability after Clear
+	{
+		tc := hashmapClearNilTestCases[2]
+		hm := corestr.New.Hashmap.Empty()
+		hm.Set("x", "old")
+		hm.Clear().Set("y", "new")
+		tc.ShouldBeEqual(t, 2,
+			fmt.Sprintf("%d", hm.Length()),
+			fmt.Sprintf("%d", len(hm.ValuesList())),
+		)
+	}
+}
+
+// ==========================================================================
+// Test: Hashset.AddBool cache invalidation — regression for stale cache
+// ==========================================================================
+
+func Test_Hashset_AddBool_CacheInvalidation_Regression(t *testing.T) {
+	// Case 0: new item invalidates cache
+	{
+		tc := hashsetAddBoolCacheTestCases[0]
+		hs := corestr.New.Hashset.Empty()
+		isExist := hs.AddBool("hello")
+		// Force cache rebuild by calling Items
+		items := hs.Items()
+		tc.ShouldBeEqual(t, 0,
+			fmt.Sprintf("%v", isExist),
+			fmt.Sprintf("%d", len(items)),
+			fmt.Sprintf("%v", hs.Has("hello")),
+		)
+	}
+
+	// Case 1: existing item returns true, no length change
+	{
+		tc := hashsetAddBoolCacheTestCases[1]
+		hs := corestr.New.Hashset.Empty()
+		hs.Add("hello")
+		isExist := hs.AddBool("hello")
+		tc.ShouldBeEqual(t, 1,
+			fmt.Sprintf("%v", isExist),
+			fmt.Sprintf("%d", hs.Length()),
+		)
+	}
+
+	// Case 2: multiple new items all reflected in Items()
+	{
+		tc := hashsetAddBoolCacheTestCases[2]
+		hs := corestr.New.Hashset.Empty()
+		hs.AddBool("a")
+		hs.AddBool("b")
+		hs.AddBool("c")
+		tc.ShouldBeEqual(t, 2,
+			fmt.Sprintf("%d", hs.Length()),
+			fmt.Sprintf("%v", hs.Has("a")),
+			fmt.Sprintf("%v", hs.Has("b")),
+			fmt.Sprintf("%v", hs.Has("c")),
+		)
+	}
+}
+
+// ==========================================================================
+// Test: Hashmap.AddOrUpdateCollection length mismatch — regression
+// ==========================================================================
+
+func Test_Hashmap_AddOrUpdateCollection_LengthMismatch_Regression(t *testing.T) {
+	// Case 0: mismatched lengths
+	{
+		tc := hashmapAddOrUpdateCollectionMismatchTestCases[0]
+		hm := corestr.New.Hashmap.Empty()
+		keys := corestr.New.Collection.Strings([]string{"k1", "k2", "k3"})
+		values := corestr.New.Collection.Strings([]string{"v1", "v2"})
+		hm.AddOrUpdateCollection(keys, values)
+		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", hm.Length()))
+	}
+
+	// Case 1: equal lengths adds all
+	{
+		tc := hashmapAddOrUpdateCollectionMismatchTestCases[1]
+		hm := corestr.New.Hashmap.Empty()
+		keys := corestr.New.Collection.Strings([]string{"k1", "k2"})
+		values := corestr.New.Collection.Strings([]string{"v1", "v2"})
+		hm.AddOrUpdateCollection(keys, values)
+		tc.ShouldBeEqual(t, 1,
+			fmt.Sprintf("%d", hm.Length()),
+			hm.Get("k1"),
+			hm.Get("k2"),
+		)
+	}
+
+	// Case 2: nil keys
+	{
+		tc := hashmapAddOrUpdateCollectionMismatchTestCases[2]
+		hm := corestr.New.Hashmap.Empty()
+		values := corestr.New.Collection.Strings([]string{"v1"})
+		hm.AddOrUpdateCollection(nil, values)
+		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%d", hm.Length()))
+	}
+
+	// Case 3: empty keys
+	{
+		tc := hashmapAddOrUpdateCollectionMismatchTestCases[3]
+		hm := corestr.New.Hashmap.Empty()
+		keys := corestr.New.Collection.Empty()
+		values := corestr.New.Collection.Strings([]string{"v1"})
+		hm.AddOrUpdateCollection(keys, values)
+		tc.ShouldBeEqual(t, 3, fmt.Sprintf("%d", hm.Length()))
+	}
+}
