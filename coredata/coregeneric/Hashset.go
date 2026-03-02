@@ -8,10 +8,7 @@ import (
 // Hashset is a generic set backed by map[T]bool with embedded mutex.
 // It generalizes corestr.Hashset from string-only to any comparable type T.
 type Hashset[T comparable] struct {
-	hasMapUpdated bool
-	isEmptySet    bool
-	length        int
-	items         map[T]bool
+	items map[T]bool
 	sync.Mutex
 }
 
@@ -23,10 +20,7 @@ func EmptyHashset[T comparable]() *Hashset[T] {
 // NewHashset creates a Hashset[T] with pre-allocated capacity.
 func NewHashset[T comparable](capacity int) *Hashset[T] {
 	return &Hashset[T]{
-		items:         make(map[T]bool, capacity),
-		hasMapUpdated: false,
-		length:        capacity,
-		isEmptySet:    true,
+		items: make(map[T]bool, capacity),
 	}
 }
 
@@ -38,33 +32,19 @@ func HashsetFrom[T comparable](items []T) *Hashset[T] {
 		hs.items[item] = true
 	}
 
-	hs.hasMapUpdated = true
-
 	return hs
 }
 
 // HashsetFromMap creates a Hashset[T] from an existing map.
 func HashsetFromMap[T comparable](itemsMap map[T]bool) *Hashset[T] {
-	length := len(itemsMap)
-
 	return &Hashset[T]{
-		items:      itemsMap,
-		length:     length,
-		isEmptySet: length == 0,
+		items: itemsMap,
 	}
 }
 
 // IsEmpty returns true if the hashset has no items.
 func (it *Hashset[T]) IsEmpty() bool {
-	if it == nil {
-		return true
-	}
-
-	if it.hasMapUpdated {
-		it.isEmptySet = len(it.items) == 0
-	}
-
-	return it.isEmptySet
+	return it == nil || len(it.items) == 0
 }
 
 // HasItems returns true if the hashset has at least one item.
@@ -100,7 +80,6 @@ func (it *Hashset[T]) LengthLock() int {
 // Add adds an item to the set.
 func (it *Hashset[T]) Add(key T) *Hashset[T] {
 	it.items[key] = true
-	it.hasMapUpdated = true
 
 	return it
 }
@@ -111,7 +90,6 @@ func (it *Hashset[T]) AddBool(key T) (isExist bool) {
 
 	if !has {
 		it.items[key] = true
-		it.hasMapUpdated = true
 	}
 
 	return has
@@ -123,8 +101,6 @@ func (it *Hashset[T]) AddLock(key T) *Hashset[T] {
 	it.items[key] = true
 	it.Unlock()
 
-	it.hasMapUpdated = true
-
 	return it
 }
 
@@ -134,8 +110,6 @@ func (it *Hashset[T]) Adds(keys ...T) *Hashset[T] {
 		it.items[key] = true
 	}
 
-	it.hasMapUpdated = true
-
 	return it
 }
 
@@ -144,8 +118,6 @@ func (it *Hashset[T]) AddSlice(keys []T) *Hashset[T] {
 	for _, key := range keys {
 		it.items[key] = true
 	}
-
-	it.hasMapUpdated = true
 
 	return it
 }
@@ -159,8 +131,6 @@ func (it *Hashset[T]) AddSliceLock(keys []T) *Hashset[T] {
 	}
 
 	it.Unlock()
-
-	it.hasMapUpdated = true
 
 	return it
 }
@@ -193,8 +163,6 @@ func (it *Hashset[T]) AddHashsetItems(other *Hashset[T]) *Hashset[T] {
 		it.items[k] = true
 	}
 
-	it.hasMapUpdated = true
-
 	return it
 }
 
@@ -205,8 +173,6 @@ func (it *Hashset[T]) AddItemsMap(itemsMap map[T]bool) *Hashset[T] {
 			it.items[k] = true
 		}
 	}
-
-	it.hasMapUpdated = true
 
 	return it
 }
@@ -260,7 +226,6 @@ func (it *Hashset[T]) Remove(key T) bool {
 
 	if existed {
 		delete(it.items, key)
-		it.hasMapUpdated = true
 	}
 
 	return existed

@@ -12,6 +12,10 @@ func ContainsAll[T comparable](
 	source *Collection[T],
 	items ...T,
 ) bool {
+	if source == nil {
+		return false
+	}
+
 	for _, item := range items {
 		if !ContainsItem(source, item) {
 			return false
@@ -26,6 +30,10 @@ func ContainsAny[T comparable](
 	source *Collection[T],
 	items ...T,
 ) bool {
+	if source == nil {
+		return false
+	}
+
 	for _, item := range items {
 		if ContainsItem(source, item) {
 			return true
@@ -40,6 +48,10 @@ func RemoveItem[T comparable](
 	source *Collection[T],
 	item T,
 ) bool {
+	if source == nil {
+		return false
+	}
+
 	index := IndexOfItem(source, item)
 	if index < 0 {
 		return false
@@ -53,6 +65,10 @@ func RemoveAllItems[T comparable](
 	source *Collection[T],
 	item T,
 ) int {
+	if source == nil {
+		return 0
+	}
+
 	removed := 0
 	newItems := make([]T, 0, source.Length())
 
@@ -74,6 +90,10 @@ func RemoveAllItems[T comparable](
 func ToHashset[T comparable](
 	source *Collection[T],
 ) *Hashset[T] {
+	if source == nil {
+		return EmptyHashset[T]()
+	}
+
 	return HashsetFrom[T](source.items)
 }
 
@@ -81,6 +101,10 @@ func ToHashset[T comparable](
 func DistinctSimpleSlice[T comparable](
 	source *SimpleSlice[T],
 ) *SimpleSlice[T] {
+	if source == nil {
+		return EmptySimpleSlice[T]()
+	}
+
 	seen := make(map[T]bool)
 	result := EmptySimpleSlice[T]()
 
@@ -99,6 +123,10 @@ func ContainsSimpleSliceItem[T comparable](
 	source *SimpleSlice[T],
 	item T,
 ) bool {
+	if source == nil {
+		return false
+	}
+
 	for _, existing := range *source {
 		if existing == item {
 			return true

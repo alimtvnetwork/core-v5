@@ -8,10 +8,7 @@ import (
 // Hashmap is a generic map wrapper with embedded mutex for thread safety.
 // It generalizes corestr.Hashmap from map[string]string to map[K]V.
 type Hashmap[K comparable, V any] struct {
-	hasMapUpdated bool
-	isEmptySet    bool
-	length        int
-	items         map[K]V
+	items map[K]V
 	sync.Mutex
 }
 
@@ -23,21 +20,14 @@ func EmptyHashmap[K comparable, V any]() *Hashmap[K, V] {
 // NewHashmap creates a Hashmap[K, V] with pre-allocated capacity.
 func NewHashmap[K comparable, V any](capacity int) *Hashmap[K, V] {
 	return &Hashmap[K, V]{
-		items:         make(map[K]V, capacity),
-		hasMapUpdated: false,
-		length:        capacity,
-		isEmptySet:    true,
+		items: make(map[K]V, capacity),
 	}
 }
 
 // HashmapFrom creates a Hashmap[K, V] from an existing map (no copy).
 func HashmapFrom[K comparable, V any](items map[K]V) *Hashmap[K, V] {
-	length := len(items)
-
 	return &Hashmap[K, V]{
-		items:      items,
-		length:     length,
-		isEmptySet: length == 0,
+		items: items,
 	}
 }
 
@@ -49,22 +39,11 @@ func HashmapClone[K comparable, V any](items map[K]V) *Hashmap[K, V] {
 		hm.items[k] = v
 	}
 
-	hm.hasMapUpdated = true
-
 	return hm
 }
 
-// IsEmpty returns true if the hashmap has no items.
 func (it *Hashmap[K, V]) IsEmpty() bool {
-	if it == nil {
-		return true
-	}
-
-	if it.hasMapUpdated {
-		it.isEmptySet = len(it.items) == 0
-	}
-
-	return it.isEmptySet
+	return it == nil || len(it.items) == 0
 }
 
 // HasItems returns true if the hashmap has at least one item.
@@ -101,7 +80,6 @@ func (it *Hashmap[K, V]) LengthLock() int {
 func (it *Hashmap[K, V]) Set(key K, val V) (isAddedNewly bool) {
 	_, isAlreadyExist := it.items[key]
 	it.items[key] = val
-	it.hasMapUpdated = true
 
 	return !isAlreadyExist
 }
@@ -112,7 +90,6 @@ func (it *Hashmap[K, V]) SetLock(key K, val V) *Hashmap[K, V] {
 	defer it.Unlock()
 
 	it.items[key] = val
-	it.hasMapUpdated = true
 
 	return it
 }
@@ -176,7 +153,6 @@ func (it *Hashmap[K, V]) Remove(key K) bool {
 
 	if existed {
 		delete(it.items, key)
-		it.hasMapUpdated = true
 	}
 
 	return existed
@@ -200,8 +176,6 @@ func (it *Hashmap[K, V]) AddOrUpdateMap(itemsMap map[K]V) *Hashmap[K, V] {
 		it.items[k] = v
 	}
 
-	it.hasMapUpdated = true
-
 	return it
 }
 
@@ -214,8 +188,6 @@ func (it *Hashmap[K, V]) AddOrUpdateHashmap(other *Hashmap[K, V]) *Hashmap[K, V]
 	for k, v := range other.items {
 		it.items[k] = v
 	}
-
-	it.hasMapUpdated = true
 
 	return it
 }
@@ -310,7 +282,17 @@ func (it *Hashmap[K, V]) IsEquals(other *Hashmap[K, V]) bool {
 		return true
 	}
 
-	return it.Length() == other.Length()
+	if it.Length() != other.Length() {
+		return false
+	}
+
+	for k := range it.items {
+		if !other.Has(k) {
+			return false
+		}
+	}
+
+	return true
 }
 
 // String returns a string representation.

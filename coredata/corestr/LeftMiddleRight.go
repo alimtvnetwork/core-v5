@@ -3,7 +3,6 @@ package corestr
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 	"gitlab.com/auk-go/core/internal/strutilinternal"
 )
@@ -142,7 +141,7 @@ func (it *LeftMiddleRight) ToLeftRight() *LeftRight {
 			Left:    it.Left,
 			Right:   it.Right,
 			IsValid: it.IsValid,
-			Message: it.Message + constants.EmptyString,
+			Message: it.Message,
 		},
 	}
 }

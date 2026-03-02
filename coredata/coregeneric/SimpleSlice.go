@@ -188,6 +188,10 @@ func (it *SimpleSlice[T]) Items() []T {
 
 // InsertAt inserts an item at the given index.
 func (it *SimpleSlice[T]) InsertAt(index int, item T) *SimpleSlice[T] {
+	if index < 0 || index > it.Length() {
+		return it
+	}
+
 	s := *it
 	s = append(s[:index+1], s[index:]...)
 	s[index] = item
