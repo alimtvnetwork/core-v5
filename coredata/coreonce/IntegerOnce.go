@@ -3,12 +3,13 @@ package coreonce
 import (
 	"encoding/json"
 	"strconv"
+	"sync"
 )
 
 type IntegerOnce struct {
 	innerData       int
 	initializerFunc func() int
-	isInitialized   bool
+	once            sync.Once
 }
 
 func NewIntegerOnce(initializerFunc func() int) IntegerOnce {
@@ -28,18 +29,14 @@ func (it *IntegerOnce) MarshalJSON() ([]byte, error) {
 }
 
 func (it *IntegerOnce) UnmarshalJSON(data []byte) error {
-	it.isInitialized = true
-
+	it.once.Do(func() {})
 	return json.Unmarshal(data, &it.innerData)
 }
 
 func (it *IntegerOnce) Value() int {
-	if it.isInitialized {
-		return it.innerData
-	}
-
-	it.innerData = it.initializerFunc()
-	it.isInitialized = true
+	it.once.Do(func() {
+		it.innerData = it.initializerFunc()
+	})
 
 	return it.innerData
 }
