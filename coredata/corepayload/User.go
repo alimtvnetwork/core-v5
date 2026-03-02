@@ -18,7 +18,7 @@ type User struct {
 // IdentifierInteger
 //
 // Invalid value returns constants.InvalidValue
-func (it *User) IdentifierInteger() int {
+func (it User) IdentifierInteger() int {
 	if it.Identifier == "" {
 		return constants.InvalidValue
 	}
@@ -34,7 +34,7 @@ func (it *User) IdentifierInteger() int {
 // IdentifierUnsignedInteger
 //
 // Invalid value returns constants.Zero
-func (it *User) IdentifierUnsignedInteger() uint {
+func (it User) IdentifierUnsignedInteger() uint {
 	idInt := it.IdentifierInteger()
 
 	if idInt < 0 {

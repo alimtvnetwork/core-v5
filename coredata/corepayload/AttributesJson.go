@@ -26,38 +26,38 @@ func (it *Attributes) PayloadsJsonResult() *corejson.Result {
 		it.DynamicPayloads)
 }
 
-func (it *Attributes) JsonString() string {
+func (it Attributes) JsonString() string {
 	return it.JsonPtr().JsonString()
 }
 
-func (it *Attributes) JsonStringMust() string {
+func (it Attributes) JsonStringMust() string {
 	jsonResult := it.JsonPtr()
 	jsonResult.MustBeSafe()
 
 	return jsonResult.JsonString()
 }
 
-func (it *Attributes) String() string {
+func (it Attributes) String() string {
 	return it.JsonString()
 }
 
-func (it *Attributes) PrettyJsonString() string {
+func (it Attributes) PrettyJsonString() string {
 	return it.JsonPtr().PrettyJsonString()
 }
 
-func (it *Attributes) Json() corejson.Result {
+func (it Attributes) Json() corejson.Result {
 	return corejson.New(it)
 }
 
-func (it *Attributes) JsonPtr() *corejson.Result {
+func (it Attributes) JsonPtr() *corejson.Result {
 	return corejson.NewPtr(it)
 }
 
-func (it *Attributes) JsonModel() *Attributes {
+func (it Attributes) JsonModel() Attributes {
 	return it
 }
 
-func (it *Attributes) JsonModelAny() any {
+func (it Attributes) JsonModelAny() any {
 	return it.JsonModel()
 }
 
