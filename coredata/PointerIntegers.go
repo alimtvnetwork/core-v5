@@ -20,4 +20,6 @@ func (p PointerIntegers) Less(i, j int) bool {
 
 	return *p[i] < *p[j]
 }
-func (p PointerIntegers) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+
+func (p PointerIntegers) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
+
