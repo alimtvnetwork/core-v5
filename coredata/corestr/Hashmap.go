@@ -376,7 +376,7 @@ func (it *Hashmap) ConcatNew(
 			continue
 		}
 
-		length += h.length
+		length += h.Length()
 	}
 
 	newHashmap := New.Hashmap.UsingMapOptions(
