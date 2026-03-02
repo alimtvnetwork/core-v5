@@ -19,16 +19,22 @@ func UnsafeBytesToStringWithErr(unsafeBytes []byte) (string, error) {
 //
 // # Returns string arrays from unsafe bytes pointer
 //
-// May panic on conversion if the bytes were not in unsafe pointer.
-//
-// Expressions:
-// - return (*[] string)(unsafe.Pointer(allBytes))
+// Deprecated: This function is fundamentally broken — it reinterprets
+// []byte (1-byte elements) as []string (16-byte elements) via unsafe.Pointer,
+// producing corrupted memory reads. Do not use.
+// Use a proper loop conversion instead.
 func UnsafeBytesToStrings(unsafeBytes *[]byte) *[]string {
 	if unsafeBytes == nil || *unsafeBytes == nil {
 		return nil
 	}
 
-	return (*[]string)(unsafe.Pointer(unsafeBytes))
+	raw := *unsafeBytes
+	results := make([]string, len(raw))
+	for i, b := range raw {
+		results[i] = string(b)
+	}
+
+	return &results
 }
 
 func UnsafeBytesToStringPtr(unsafeBytes []byte) *string {

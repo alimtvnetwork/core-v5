@@ -170,16 +170,13 @@ func (it stringTo) Float64Default(
 	return value, true
 }
 
+// Float64Conditional
+//
+// Deprecated: Identical to Float64Default. Use Float64Default instead.
 func (it stringTo) Float64Conditional(
 	input string, defaultFloat64 float64,
 ) (value float64, isSuccess bool) {
-	value, parseErr := strconv.ParseFloat(input, bitsize.Of64)
-
-	if parseErr != nil {
-		return defaultFloat64, false
-	}
-
-	return value, true
+	return it.Float64Default(input, defaultFloat64)
 }
 
 func (it stringTo) Float64(input string) (value float64, err error) {
