@@ -270,7 +270,9 @@ func (it *RwxInstructionExecutor) ApplyOnPathsPtr(locations *[]string) error {
 		rwxInstruction.
 		IsContinueOnError
 
-	if !isContinueOnError {
+	isStopOnError := !isContinueOnError
+
+	if isStopOnError {
 		return it.applyOnPaths(locations)
 	}
 

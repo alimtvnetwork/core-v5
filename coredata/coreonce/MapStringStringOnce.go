@@ -289,8 +289,9 @@ func (it *MapStringStringOnce) IsEqual(rightMap map[string]string) bool {
 
 	for leftKey, leftVal := range currentItems {
 		rightVal, hasRight := rightMap[leftKey]
+		isMissing := !hasRight
 
-		if !hasRight {
+		if isMissing {
 			return false
 		}
 

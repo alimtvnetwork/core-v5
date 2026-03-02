@@ -85,8 +85,9 @@ func (it *MapAnyItems) ReflectSetTo(
 	toPointerOrBytes any,
 ) error {
 	valInf, has := it.Items[key]
+	isMissing := !has
 
-	if !has {
+	if isMissing {
 		return errcore.ErrorWithRefToError(
 			defaulterr.KeyNotExistInMap,
 			it.AllKeysSorted(),
@@ -193,8 +194,9 @@ func (it *MapAnyItems) GetUsingUnmarshallAt(
 	unmarshalRef any,
 ) error {
 	valInf, has := it.Items[key]
+	isMissing := !has
 
-	if !has {
+	if isMissing {
 		return errcore.
 			KeyNotExistInMapType.
 			ErrorRefOnly(key)
@@ -269,8 +271,9 @@ func (it *MapAnyItems) GetItemRef(
 	referenceOut any,
 ) error {
 	valInf, has := it.Items[key]
+	isMissing := !has
 
-	if !has {
+	if isMissing {
 		return errcore.
 			KeyNotExistInMapType.
 			Error("key", key)
@@ -532,8 +535,9 @@ func (it *MapAnyItems) AddMapResultOption(
 	// no override
 	for key, result := range mapResults {
 		_, isFound := it.Items[key]
+		isMissing := !isFound
 
-		if !isFound {
+		if isMissing {
 			continue
 		}
 
@@ -1061,13 +1065,16 @@ func (it *MapAnyItems) IsEqualRaw(
 
 	for key := range it.Items {
 		rightElem, has := rightMappedItems[key]
+		isMissing := !has
 
-		if !has {
+		if isMissing {
 			return false
 		}
 
 		leftElem := it.Items[key]
-		if !reflectinternal.Is.AnyEqual(leftElem, rightElem) {
+		isDifferent := !reflectinternal.Is.AnyEqual(leftElem, rightElem)
+
+		if isDifferent {
 			return false
 		}
 	}

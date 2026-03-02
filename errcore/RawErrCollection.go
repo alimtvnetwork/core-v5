@@ -96,7 +96,9 @@ func (it *RawErrCollection) AddIf(
 	isAdd bool,
 	message string,
 ) {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return
 	}
 
@@ -186,7 +188,9 @@ func (it *RawErrCollection) FmtIf(
 	format string,
 	v ...any,
 ) {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return
 	}
 
@@ -468,7 +472,9 @@ func (it *RawErrCollection) AddErrors(errs ...error) {
 }
 
 func (it *RawErrCollection) ConditionalAddError(isAdd bool, err error) {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return
 	}
 

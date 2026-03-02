@@ -372,7 +372,9 @@ func (it newRwxWrapperCreator) UsingExistingFileSkipInvalidFile(
 ) (rwxWrapper *RwxWrapper, isInvalidFile bool) {
 	existingChmod, isInvalidFile := GetExistingChmodOfValidFile(filePath)
 
-	if !isInvalidFile {
+	isValidFile := !isInvalidFile
+
+	if isValidFile {
 		// valid
 		return it.UsingFileModePtr(existingChmod), isInvalidFile
 	}

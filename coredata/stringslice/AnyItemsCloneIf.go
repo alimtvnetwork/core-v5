@@ -5,11 +5,13 @@ func AnyItemsCloneIf(
 	additionalCap int,
 	slice []any,
 ) (newSlice []any) {
-	if slice == nil && !isClone {
+	isSkipClone := !isClone
+
+	if slice == nil && isSkipClone {
 		return []any{}
 	}
 
-	if !isClone {
+	if isSkipClone {
 		return slice
 	}
 

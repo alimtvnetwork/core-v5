@@ -1005,11 +1005,13 @@ func (it *Collection) RemoveItemsIndexesPtr(
 	indexesLength := len(indexes)
 	hasPossibleError := length == 0 && indexesLength > 0
 
-	if hasPossibleError && !isIgnoreRemoveError {
+	isValidateErrors := !isIgnoreRemoveError
+
+	if hasPossibleError && isValidateErrors {
 		panic(errcore.CannotRemoveIndexesFromEmptyCollectionType)
 	}
 
-	if !isIgnoreRemoveError {
+	if isValidateErrors {
 		errcore.PanicOnIndexOutOfRange(length, indexes)
 	}
 
@@ -1157,8 +1159,9 @@ func (it *Collection) AppendAnysUsingFilter(
 		)
 
 		result, isKeep, isBreak := filter(anyStr, i)
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -1196,8 +1199,9 @@ func (it *Collection) AppendAnysUsingFilterLock(
 
 		anyStr := fmt.Sprintf(constants.SprintValueFormat, any)
 		result, isKeep, isBreak := filter(anyStr, i)
+		isSkip := !isKeep
 
-		if !isKeep {
+		if isSkip {
 			continue
 		}
 
@@ -1613,7 +1617,9 @@ func (it *Collection) HasAll(items ...string) bool {
 	}
 
 	for _, element := range items {
-		if !it.IsContainsPtr(&element) {
+		isMissing := !it.IsContainsPtr(&element)
+
+		if isMissing {
 			return false
 		}
 	}
@@ -1720,7 +1726,9 @@ func (it *Collection) IsContainsAllSlice(items []string) bool {
 	}
 
 	for _, item := range items {
-		if !it.IsContainsPtr(&item) {
+		isMissing := !it.IsContainsPtr(&item)
+
+		if isMissing {
 			return false
 		}
 	}

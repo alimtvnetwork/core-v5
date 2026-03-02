@@ -258,7 +258,9 @@ func (it newBasicStringCreator) generateUppercaseLowercaseAliasMap(
 	names []string,
 	aliasingMap map[string]string,
 ) map[string]string {
-	if !isIncludeUppercaseLowercase {
+	isSkipUpperLower := !isIncludeUppercaseLowercase
+
+	if isSkipUpperLower {
 		return aliasingMap
 	}
 

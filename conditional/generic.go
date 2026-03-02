@@ -37,8 +37,11 @@ func IfTrueFunc[T any](
 	isTrue bool,
 	trueValueFunc func() T,
 ) T {
-	if !isTrue {
+	isFalse := !isTrue
+
+	if isFalse {
 		var zero T
+
 		return zero
 	}
 

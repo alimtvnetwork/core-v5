@@ -233,7 +233,9 @@ func (it RawErrorType) FmtIf(
 	format string,
 	v ...any,
 ) error {
-	if !isError {
+	isNoError := !isError
+
+	if isNoError {
 		return nil
 	}
 

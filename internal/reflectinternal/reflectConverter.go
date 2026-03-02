@@ -242,7 +242,9 @@ func (it reflectConverter) ReflectValToInterfaces(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
 		return []any{}
 	}
 
@@ -285,7 +287,9 @@ func (it reflectConverter) ReflectValToInterfacesAsync(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
 		return []any{}
 	}
 
@@ -336,7 +340,9 @@ func (it reflectConverter) ReflectValToInterfacesUsingProcessor(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
 		return []any{}
 	}
 

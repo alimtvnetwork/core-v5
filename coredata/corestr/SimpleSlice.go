@@ -1139,7 +1139,9 @@ func (it *SimpleSlice) IsEqualByFunc(
 	for i, rightLine := range rightLines {
 		leftLine := (*it)[i]
 
-		if !isMatchCheckerFunc(i, leftLine, rightLine) {
+		isMismatch := !isMatchCheckerFunc(i, leftLine, rightLine)
+
+		if isMismatch {
 			return false
 		}
 	}
@@ -1175,7 +1177,9 @@ func (it *SimpleSlice) IsEqualByFuncLinesSplit(
 			curRightLine = strings.TrimSpace(curRightLine)
 		}
 
-		if !isMatchCheckerFunc(i, curLeftLine, curRightLine) {
+		isMismatch := !isMatchCheckerFunc(i, curLeftLine, curRightLine)
+
+		if isMismatch {
 			return false
 		}
 	}

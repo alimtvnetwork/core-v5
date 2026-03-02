@@ -70,7 +70,9 @@ func (it *SimpleResult) GetErrorOnTypeMismatch(
 		typeMatch,
 	) + constants.NewLineUnix
 
-	if !isIncludeInvalidMessage {
+	isExcludeMessage := !isIncludeInvalidMessage
+
+	if isExcludeMessage {
 		return errors.New(typeMismatchMessage)
 	}
 

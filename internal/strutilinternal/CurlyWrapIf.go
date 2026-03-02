@@ -10,7 +10,9 @@ func CurlyWrapIf(
 	isCurly bool,
 	source any,
 ) string {
-	if !isCurly {
+	isNoCurly := !isCurly
+
+	if isNoCurly {
 		return fmt.Sprintf(
 			constants.SprintValueFormat,
 			source)

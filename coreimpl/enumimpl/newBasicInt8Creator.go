@@ -255,7 +255,9 @@ func (it newBasicInt8Creator) generateUppercaseLowercaseAliasMap(
 	rangesMap map[int8]string,
 	aliasingMap map[string]int8,
 ) map[string]int8 {
-	if !isIncludeUppercaseLowercase {
+	isSkipUpperLower := !isIncludeUppercaseLowercase
+
+	if isSkipUpperLower {
 		return aliasingMap
 	}
 

@@ -287,7 +287,9 @@ func (it *looper) SliceForRv(
 	isSliceOrArray := k == reflect.Slice ||
 		k == reflect.Array
 
-	if !isSliceOrArray {
+	isNotSliceOrArray := !isSliceOrArray
+
+	if isNotSliceOrArray {
 		return errors.New("given item is not a slice nor an array")
 	}
 
@@ -353,7 +355,9 @@ func (it *looper) MapForRv(
 	k := valueRv.Kind()
 	isMap := k == reflect.Map
 
-	if !isMap {
+	isNotMap := !isMap
+
+	if isNotMap {
 		return errors.New("given item is not a map")
 	}
 

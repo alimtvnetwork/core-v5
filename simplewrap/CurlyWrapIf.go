@@ -10,7 +10,9 @@ func CurlyWrapIf(
 	isCurly bool,
 	source any,
 ) string {
-	if !isCurly {
+	isNoCurly := !isCurly
+
+	if isNoCurly {
 		return toString(source)
 	}
 	

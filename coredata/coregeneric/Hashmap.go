@@ -104,7 +104,9 @@ func (it *Hashmap[K, V]) Get(key K) (V, bool) {
 // GetOrDefault returns the value for the key, or a default value if not found.
 func (it *Hashmap[K, V]) GetOrDefault(key K, defaultVal V) V {
 	val, found := it.items[key]
-	if !found {
+	isMissing := !found
+
+	if isMissing {
 		return defaultVal
 	}
 

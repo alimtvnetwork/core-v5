@@ -314,7 +314,9 @@ func (it *LinkedList[T]) IndexAt(index int) *LinkedListNode[T] {
 	node := it.head
 
 	for i := 0; i < index; i++ {
-		if !node.HasNext() {
+		isEndOfList := !node.HasNext()
+
+		if isEndOfList {
 			return nil
 		}
 

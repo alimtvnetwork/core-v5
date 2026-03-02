@@ -241,7 +241,9 @@ func (it deserializerLogic) UsingBytesIf(
 	rawBytes []byte,
 	toPtr any,
 ) error {
-	if !isDeserialize {
+	isSkipDeserialize := !isDeserialize
+
+	if isSkipDeserialize {
 		return nil
 	}
 
@@ -255,7 +257,9 @@ func (it deserializerLogic) UsingBytesPointerIf(
 	rawBytesPointer []byte,
 	toPtr any,
 ) error {
-	if !isDeserialize {
+	isSkipDeserialize := !isDeserialize
+
+	if isSkipDeserialize {
 		return nil
 	}
 

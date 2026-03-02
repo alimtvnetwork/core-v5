@@ -22,7 +22,9 @@ func (it newTraceCollection) Using(
 		return it.Empty()
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return &TraceCollection{
 			traces,
 		}

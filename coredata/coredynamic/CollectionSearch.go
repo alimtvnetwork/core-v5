@@ -31,7 +31,9 @@ func HasAll[T comparable](col *Collection[T], items ...T) bool {
 	}
 
 	for _, item := range items {
-		if !Contains(col, item) {
+		isMissing := !Contains(col, item)
+
+		if isMissing {
 			return false
 		}
 	}

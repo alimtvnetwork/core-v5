@@ -11,7 +11,9 @@ func ProcessOptionAsync(
 
 	list := ProcessAsync(processor, items...)
 
-	if !isSkipOnNil {
+	isReturnAll := !isSkipOnNil
+
+	if isReturnAll {
 		return list
 	}
 
