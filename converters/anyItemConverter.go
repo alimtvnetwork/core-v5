@@ -240,7 +240,7 @@ func (it anyItemConverter) ToNonNullItems(
 	isSkipOnNil bool,
 	anyItem any,
 ) []any {
-	if isSkipOnNil && anyItem == nil || reflectinternal.Is.Null(anyItem) {
+	if isSkipOnNil && (anyItem == nil || reflectinternal.Is.Null(anyItem)) {
 		return []any{}
 	}
 

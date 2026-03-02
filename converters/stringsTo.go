@@ -214,7 +214,7 @@ func (it stringsTo) IntegersWithDefaults(
 	defaultInt int,
 	lines ...string,
 ) *coreconverted.Integers {
-	results := make([]int, 0, len(lines))
+	results := make([]int, len(lines))
 	var errMessages []string
 
 	for i, v := range lines {
@@ -513,7 +513,11 @@ func (it stringsTo) PtrOfPtrToPtrStrings(pointerStringOfArray *[]*string) *[]str
 	newArray := make([]string, len(*pointerStringOfArray))
 
 	for i, value := range *pointerStringOfArray {
-		newArray[i] = *value
+		if value == nil {
+			newArray[i] = ""
+		} else {
+			newArray[i] = *value
+		}
 	}
 
 	return &newArray
@@ -539,15 +543,12 @@ func (it stringsTo) CloneIf(
 	isClone bool,
 	items ...string,
 ) []string {
-	if len(items) == 0 || isClone {
+	if len(items) == 0 || !isClone {
 		return items
 	}
 
 	newArray := make([]string, len(items))
-
-	for i, value := range items {
-		newArray[i] = value
-	}
+	copy(newArray, items)
 
 	return newArray
 }
