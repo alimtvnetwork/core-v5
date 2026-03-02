@@ -112,6 +112,40 @@ Migrate read-only methods from pointer to value receivers, package by package:
 
 ---
 
+## Phase 7: Expert Code Review Fixes ✅ COMPLETE
+
+> Identified via comprehensive code review — 16 findings across 4 sub-phases.
+
+### 7.1 Critical Bugs ✅
+
+- [x] `coreinstruction/BaseRequestIds.go` — Inverted nil guard in `RequestIdsLength()` caused panic on nil receiver — **FIXED**
+- [x] `ostype/Variation.go` — `IsOpenBsd()` compared against `NetBsd` instead of `OpenBsd` — **FIXED**
+- [x] `reqtype/RangesInBetween.go` — Off-by-one: `i < endVal` excluded last element, changed to `i <= endVal` — **FIXED**
+- [x] `coreindexes/HasIndexPlusRemoveIndex.go` — `RemoveIndex` mutated local slice copy; changed to `*[]int` — **FIXED**
+
+### 7.2 Code Quality & Style ✅
+
+- [x] `coreinstruction/BaseTypeDotFilter.go` — Value receiver on `GetDotSplitTypes()` made caching a no-op; changed to pointer receiver — **FIXED**
+- [x] `coreinstruction/SourceDestination.go`, `FromTo.go`, `Rename.go` — Removed unreachable `IsNull()` checks on value receivers — **FIXED**
+- [x] `coreinstruction/SourceDestination.go`, `FromTo.go`, `Rename.go` — Fixed `form` → `from` typo in `SetFromName` — **FIXED**
+- [x] `coreinstruction/LineIdentifier.go` — Missing parentheses in `IsDeleteLineRequest()` caused wrong operator precedence — **FIXED**
+- [x] `coreappend/PrependAppendAnyItemsToStringsUsingFunc.go` — Collapsed redundant `if/else-if` into single condition — **FIXED**
+- [x] `reqtype/start.go`, `end.go` — Removed unnecessary parentheses — **FIXED**
+- [x] `coreinstruction/BaseIdentifier.go`, `BaseUsername.go`, `BaseDisplay.go` — Removed trailing blank lines — **FIXED**
+
+### 7.3 Design Improvements ✅
+
+- [x] `coreinstruction/BaseContinueOnError.go` — Consolidated into `BaseIsContinueOnError.go`, deleted redundant type — **FIXED**
+- [x] `reqtype/start.go`, `end.go` — Changed return type from `any` to `*Request` for type safety — **FIXED**
+- [x] `coreinstruction/BaseRequestIds.go` — `NewRequestIds` now returns `[]IdentifierWithIsGlobal` instead of `*[]IdentifierWithIsGlobal` — **FIXED**
+- [x] `coreinstruction/ById.go` vs `BaseIdentifier.go` — Kept both: different JSON tags (`omitempty` vs not) are intentional — **NO CHANGE (by design)**
+
+### 7.4 Minor Cleanup ✅
+
+- [x] `defaulterr/defaulterr.go` — `MarshallingFailedDueToNilOrEmpty` used wrong error type (`UnMarshallingFailedType`); changed to `MarshallingFailedType` — **FIXED**
+
+---
+
 ## Summary Timeline
 
 | Phase | Focus | Sessions | Status |
@@ -122,16 +156,19 @@ Migrate read-only methods from pointer to value receivers, package by package:
 | 4 | Test coverage | 8-10 | ✅ P0 Complete |
 | 5 | File splitting | 2-3 | 🔄 Started |
 | 6 | Value receivers | Ongoing | 🔄 Started |
+| 7 | Expert code review fixes | 1 | ✅ Complete |
 
 ## Remaining Work
 
 ### `interface{}` → `any` Migration
+
 - `coreinterface/` — 569 matches in 27 files (largest remaining surface)
 - `coredata/coredynamic/Dynamic.go` — ~20 matches
 - Various other packages with scattered usage
 
 ### File Splitting
+
 - `Attributes.go` (768 lines)
-- `Dynamic.go` (674 lines)  
+- `Dynamic.go` (674 lines)
 - `Info.go` (646 lines)
 - `BaseTestCase.go` (435 lines)
