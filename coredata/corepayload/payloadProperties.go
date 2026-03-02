@@ -16,7 +16,7 @@ func (it *payloadProperties) SetBasicError(basicError errcoreinf.BasicErrWrapper
 	it.payloadWrapper.Attributes.SetBasicErr(basicError)
 }
 
-func (it *payloadProperties) BasicError() errcoreinf.BasicErrWrapper {
+func (it payloadProperties) BasicError() errcoreinf.BasicErrWrapper {
 	return it.payloadWrapper.BasicError()
 }
 
@@ -46,11 +46,11 @@ func (it *payloadProperties) SetNameMust(name string) {
 	it.payloadWrapper.Name = name
 }
 
-func (it *payloadProperties) IdInteger() int {
+func (it payloadProperties) IdInteger() int {
 	return it.payloadWrapper.IdInteger()
 }
 
-func (it *payloadProperties) IdUnsignedInteger() uint {
+func (it payloadProperties) IdUnsignedInteger() uint {
 	return it.payloadWrapper.IdentifierUnsignedInteger()
 }
 
@@ -96,7 +96,7 @@ func (it *payloadProperties) SetEntityTypeMust(entityName string) {
 	it.payloadWrapper.EntityType = entityName
 }
 
-func (it *payloadProperties) HasManyRecord() bool {
+func (it payloadProperties) HasManyRecord() bool {
 	return it.payloadWrapper.HasManyRecords
 }
 

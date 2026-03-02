@@ -14,7 +14,7 @@ type SessionInfo struct {
 // IdentifierInteger
 //
 // Invalid value returns constants.InvalidValue
-func (it *SessionInfo) IdentifierInteger() int {
+func (it SessionInfo) IdentifierInteger() int {
 	if it.Id == "" {
 		return constants.InvalidValue
 	}
@@ -30,7 +30,7 @@ func (it *SessionInfo) IdentifierInteger() int {
 // IdentifierUnsignedInteger
 //
 // Invalid value returns constants.Zero
-func (it *SessionInfo) IdentifierUnsignedInteger() uint {
+func (it SessionInfo) IdentifierUnsignedInteger() uint {
 	idInt := it.IdentifierInteger()
 
 	if idInt < 0 {

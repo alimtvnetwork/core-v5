@@ -150,7 +150,7 @@ func (it *PayloadWrapper) PayloadDeserializeToPayloadBinder() (payloadinf.Payloa
 	return it.DeserializePayloadsToPayloadWrapper()
 }
 
-func (it *PayloadWrapper) All() (id, name, entity, category string, dynamicPayloads []byte) {
+func (it PayloadWrapper) All() (id, name, entity, category string, dynamicPayloads []byte) {
 	return it.Identifier, it.Name, it.EntityType, it.CategoryName, it.Payloads
 }
 
@@ -162,23 +162,23 @@ func (it *PayloadWrapper) AllSafe() (id, name, entity, category string, dynamicP
 	return it.All()
 }
 
-func (it *PayloadWrapper) PayloadName() string {
+func (it PayloadWrapper) PayloadName() string {
 	return it.Name
 }
 
-func (it *PayloadWrapper) PayloadCategory() string {
+func (it PayloadWrapper) PayloadCategory() string {
 	return it.CategoryName
 }
 
-func (it *PayloadWrapper) PayloadTaskType() string {
+func (it PayloadWrapper) PayloadTaskType() string {
 	return it.TaskTypeName
 }
 
-func (it *PayloadWrapper) PayloadEntityType() string {
+func (it PayloadWrapper) PayloadEntityType() string {
 	return it.EntityType
 }
 
-func (it *PayloadWrapper) PayloadDynamic() []byte {
+func (it PayloadWrapper) PayloadDynamic() []byte {
 	return it.Payloads
 }
 
@@ -373,7 +373,7 @@ func (it *PayloadWrapper) Username() string {
 	return virtualUser.Name
 }
 
-func (it *PayloadWrapper) Value() any {
+func (it PayloadWrapper) Value() any {
 	return it.Payloads
 }
 
@@ -657,11 +657,11 @@ func (it *PayloadWrapper) DeserializePayloadsToPayloadWrapperMust() (
 	return rs
 }
 
-func (it *PayloadWrapper) JsonModel() PayloadWrapper {
-	return it.NonPtr()
+func (it PayloadWrapper) JsonModel() PayloadWrapper {
+	return it
 }
 
-func (it *PayloadWrapper) JsonModelAny() any {
+func (it PayloadWrapper) JsonModelAny() any {
 	return it.JsonModel()
 }
 
