@@ -179,6 +179,99 @@ func Test_StringCompare_Regex_NoMatch(t *testing.T) {
 	})
 }
 
+// --- VerifyError ---
+
+func Test_StringCompare_VerifyError_EqualMatch_NoError(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareEqual("hello", "hello")
+
+	// Act
+	err := sc.VerifyError()
+
+	// Assert
+	convey.Convey("VerifyError - equal match should return nil error", t, func() {
+		convey.So(err, should.BeNil)
+	})
+}
+
+func Test_StringCompare_VerifyError_EqualMismatch_ReturnsError(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareEqual("hello", "world")
+
+	// Act
+	err := sc.VerifyError()
+
+	// Assert
+	convey.Convey("VerifyError - equal mismatch should return error", t, func() {
+		convey.So(err, should.NotBeNil)
+	})
+}
+
+func Test_StringCompare_VerifyError_ContainsMismatch_ReturnsError(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareContains(false, "xyz", "hello world")
+
+	// Act
+	err := sc.VerifyError()
+
+	// Assert
+	convey.Convey("VerifyError - contains mismatch should return error", t, func() {
+		convey.So(err, should.NotBeNil)
+	})
+}
+
+func Test_StringCompare_VerifyError_ValidRegex_Match_NoError(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "12345")
+
+	// Act
+	err := sc.VerifyError()
+
+	// Assert
+	convey.Convey("VerifyError - valid regex match should return nil error", t, func() {
+		convey.So(err, should.BeNil)
+	})
+}
+
+func Test_StringCompare_VerifyError_ValidRegex_NoMatch_ReturnsError(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "hello")
+
+	// Act
+	err := sc.VerifyError()
+
+	// Assert
+	convey.Convey("VerifyError - valid regex no match should return error", t, func() {
+		convey.So(err, should.NotBeNil)
+	})
+}
+
+func Test_StringCompare_VerifyError_InvalidRegex_ReturnsError(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareRegex(`[invalid(`, "content")
+
+	// Act
+	err := sc.VerifyError()
+
+	// Assert
+	convey.Convey("VerifyError - invalid regex pattern should return error", t, func() {
+		convey.So(err, should.NotBeNil)
+	})
+}
+
+func Test_StringCompare_VerifyError_NilReceiver_NoError(t *testing.T) {
+	// Arrange
+	var sc *coreinstruction.StringCompare
+
+	// Act
+	err := sc.VerifyError()
+
+	// Assert
+	convey.Convey("VerifyError - nil receiver should return nil error", t, func() {
+		convey.So(err, should.BeNil)
+	})
+}
+
 // --- Nil receiver ---
 
 func Test_StringCompare_NilReceiver_IsMatch(t *testing.T) {
