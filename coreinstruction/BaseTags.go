@@ -45,7 +45,7 @@ func (it BaseTags) IsTagsEmpty() bool {
 	return it.TagsLength() == 0
 }
 
-func (it BaseTags) TagsHashset() *corestr.Hashset {
+func (it *BaseTags) TagsHashset() *corestr.Hashset {
 	if it.tagsHashset != nil {
 		return it.tagsHashset
 	}

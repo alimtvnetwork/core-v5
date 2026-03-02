@@ -31,10 +31,6 @@ func (it *NameListCollection) Length() int {
 }
 
 func (it NameListCollection) String() string {
-	if it.IsNull() {
-		return ""
-	}
-
 	return corejson.
 		Serialize.
 		ToString(it)

@@ -27,10 +27,6 @@ func (it *NameList) HasName() bool {
 }
 
 func (it NameList) String() string {
-	if it.IsNull() {
-		return ""
-	}
-
 	return corejson.
 		Serialize.
 		ToString(it)

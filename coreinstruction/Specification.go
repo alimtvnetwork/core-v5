@@ -58,6 +58,13 @@ func NewSpecification(
 }
 
 func (r *Specification) Clone() *Specification {
+	if r == nil {
+		return nil
+	}
+
+	clonedTags := make([]string, len(r.Tags))
+	copy(clonedTags, r.Tags)
+
 	return &Specification{
 		BaseIdDisplayType: BaseIdDisplayType{
 			BaseIdentifier: BaseIdentifier{r.Id},
@@ -65,7 +72,7 @@ func (r *Specification) Clone() *Specification {
 			BaseType:       BaseType{r.Type},
 		},
 		BaseTags: BaseTags{
-			Tags: r.Tags,
+			Tags: clonedTags,
 		},
 		BaseIsGlobal: BaseIsGlobal{r.IsGlobal},
 	}
