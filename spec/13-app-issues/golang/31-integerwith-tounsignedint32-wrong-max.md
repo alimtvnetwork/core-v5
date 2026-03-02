@@ -1,6 +1,6 @@
 # Issue: integerWithin.ToUnsignedInt32() Wrong Max Constant
 
-## Status: 🔴 OPEN
+## Status: ✅ RESOLVED
 
 ## Phase: 8.1 — Critical Bugs
 
