@@ -72,7 +72,7 @@ func (it *Attributes) HasIssuesOrEmpty() bool {
 }
 
 func (it *Attributes) IsSafeValid() bool {
-	return it.HasIssuesOrEmpty()
+	return !it.HasIssuesOrEmpty()
 }
 
 func (it *Attributes) HasAnyItem() bool {

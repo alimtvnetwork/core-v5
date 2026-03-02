@@ -21,12 +21,12 @@ func (it *LeftRight) HasAnyItem() bool {
 
 func (it *LeftRight) HasLeft() bool {
 	return it != nil &&
-		reflectinternal.Is.Null(it.Left)
+		!reflectinternal.Is.Null(it.Left)
 }
 
 func (it *LeftRight) HasRight() bool {
 	return it != nil &&
-		reflectinternal.Is.Null(it.Right)
+		!reflectinternal.Is.Null(it.Right)
 }
 
 func (it *LeftRight) IsLeftEmpty() bool {
