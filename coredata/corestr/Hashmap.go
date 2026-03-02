@@ -271,6 +271,12 @@ func (it *Hashmap) AddOrUpdateCollection(
 		return it
 	}
 
+	isLengthMismatch := keys.Length() != values.Length()
+
+	if isLengthMismatch {
+		return it
+	}
+
 	for i, element := range keys.items {
 		it.items[element] = values.items[i]
 	}
@@ -1175,12 +1181,15 @@ func (it *Hashmap) KeyValStringLines() []string {
 
 func (it *Hashmap) Clear() *Hashmap {
 	if it == nil {
-		return it
+		return nil
 	}
 
-	it.items = nil
 	it.items = map[string]string{}
-	it.cachedList = it.cachedList[:0]
+
+	if it.cachedList != nil {
+		it.cachedList = it.cachedList[:0]
+	}
+
 	it.hasMapUpdated = true
 
 	return it
