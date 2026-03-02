@@ -6,6 +6,7 @@ import (
 )
 
 var getPagesSizeTestCases = []coretestcases.CaseV1{
+	// === Positive cases ===
 	{
 		Title: "GetPagesSize returns 1 for exact fit",
 		ArrangeInput: args.Map{
@@ -33,9 +34,77 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{"3"},
 	},
+	{
+		Title: "GetPagesSize returns 1 for single item",
+		ArrangeInput: args.Map{
+			"when":         "given 1 item with page size 10",
+			"eachPageSize": 10,
+			"totalLength":  1,
+		},
+		ExpectedInput: []string{"1"},
+	},
+	{
+		Title: "GetPagesSize returns 10 for 100 items page 10",
+		ArrangeInput: args.Map{
+			"when":         "given 100 items with page size 10",
+			"eachPageSize": 10,
+			"totalLength":  100,
+		},
+		ExpectedInput: []string{"10"},
+	},
+	{
+		Title: "GetPagesSize returns 1 for page size 1 and 1 item",
+		ArrangeInput: args.Map{
+			"when":         "given 1 item with page size 1",
+			"eachPageSize": 1,
+			"totalLength":  1,
+		},
+		ExpectedInput: []string{"1"},
+	},
+	{
+		Title: "GetPagesSize returns 5 for page size 1 and 5 items",
+		ArrangeInput: args.Map{
+			"when":         "given 5 items with page size 1",
+			"eachPageSize": 1,
+			"totalLength":  5,
+		},
+		ExpectedInput: []string{"5"},
+	},
+
+	// === Boundary / edge cases ===
+	{
+		Title: "GetPagesSize returns 0 for zero total length",
+		ArrangeInput: args.Map{
+			"when":         "given 0 items",
+			"eachPageSize": 10,
+			"totalLength":  0,
+		},
+		ExpectedInput: []string{"0"},
+	},
+
+	// === Negative / guard cases ===
+	{
+		Title: "GetPagesSize returns 0 for zero page size",
+		ArrangeInput: args.Map{
+			"when":         "given page size 0 (division by zero guard)",
+			"eachPageSize": 0,
+			"totalLength":  25,
+		},
+		ExpectedInput: []string{"0"},
+	},
+	{
+		Title: "GetPagesSize returns 0 for negative page size",
+		ArrangeInput: args.Map{
+			"when":         "given negative page size",
+			"eachPageSize": -5,
+			"totalLength":  25,
+		},
+		ExpectedInput: []string{"0"},
+	},
 }
 
 var getPagingInfoTestCases = []coretestcases.CaseV1{
+	// === Positive: standard paging ===
 	{
 		Title: "GetPagingInfo returns correct skip and ending for page 2",
 		ArrangeInput: args.Map{
@@ -52,6 +121,68 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
+		Title: "GetPagingInfo page 1 starts at 0",
+		ArrangeInput: args.Map{
+			"when":         "given page 1 with page size 10 and 25 items",
+			"length":       25,
+			"pageIndex":    1,
+			"eachPageSize": 10,
+		},
+		ExpectedInput: []string{
+			"1",
+			"0",
+			"10",
+			"true",
+		},
+	},
+	{
+		Title: "GetPagingInfo last page ending is clamped to length",
+		ArrangeInput: args.Map{
+			"when":         "given page 3 with page size 10 and 25 items",
+			"length":       25,
+			"pageIndex":    3,
+			"eachPageSize": 10,
+		},
+		ExpectedInput: []string{
+			"3",
+			"20",
+			"25",
+			"true",
+		},
+	},
+	{
+		Title: "GetPagingInfo exact fit page ending equals length",
+		ArrangeInput: args.Map{
+			"when":         "given page 2 with page size 10 and 20 items",
+			"length":       20,
+			"pageIndex":    2,
+			"eachPageSize": 10,
+		},
+		ExpectedInput: []string{
+			"2",
+			"10",
+			"20",
+			"true",
+		},
+	},
+	{
+		Title: "GetPagingInfo page size 1 single element pages",
+		ArrangeInput: args.Map{
+			"when":         "given page 3 with page size 1 and 5 items",
+			"length":       5,
+			"pageIndex":    3,
+			"eachPageSize": 1,
+		},
+		ExpectedInput: []string{
+			"3",
+			"2",
+			"3",
+			"true",
+		},
+	},
+
+	// === Boundary: not pageable (length < eachPageSize) ===
+	{
 		Title: "GetPagingInfo returns not possible when length < page size",
 		ArrangeInput: args.Map{
 			"when":         "given 5 items with page size 10",
@@ -62,8 +193,55 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{
 			"1",
 			"0",
-			"10",
+			"5",
 			"false",
+		},
+	},
+	{
+		Title: "GetPagingInfo returns not possible for zero length",
+		ArrangeInput: args.Map{
+			"when":         "given 0 items with page size 10",
+			"length":       0,
+			"pageIndex":    1,
+			"eachPageSize": 10,
+		},
+		ExpectedInput: []string{
+			"1",
+			"0",
+			"0",
+			"false",
+		},
+	},
+	{
+		Title: "GetPagingInfo returns not possible for 1 item page size 5",
+		ArrangeInput: args.Map{
+			"when":         "given 1 item with page size 5",
+			"length":       1,
+			"pageIndex":    1,
+			"eachPageSize": 5,
+		},
+		ExpectedInput: []string{
+			"1",
+			"0",
+			"1",
+			"false",
+		},
+	},
+
+	// === Boundary: exact fit (length == eachPageSize) ===
+	{
+		Title: "GetPagingInfo exact fit length equals page size",
+		ArrangeInput: args.Map{
+			"when":         "given 10 items with page size 10",
+			"length":       10,
+			"pageIndex":    1,
+			"eachPageSize": 10,
+		},
+		ExpectedInput: []string{
+			"1",
+			"0",
+			"10",
+			"true",
 		},
 	},
 }
