@@ -74,3 +74,23 @@ func NilDefPtrInt32(
 ) *int32 {
 	return NilDefPtr[int32](valuePointer, defVal)
 }
+
+// NilDerefInt32 is a typed convenience wrapper for NilDeref[int32].
+func NilDerefInt32(valuePointer *int32) int32 {
+	return NilDeref[int32](valuePointer)
+}
+
+// NilDerefPtrInt32 is a typed convenience wrapper for NilDerefPtr[int32].
+func NilDerefPtrInt32(valuePointer *int32) *int32 {
+	return NilDerefPtr[int32](valuePointer)
+}
+
+// NilValInt32 is a typed convenience wrapper for NilVal[int32].
+func NilValInt32(valuePointer *int32, onNil, onNonNil int32) int32 {
+	return NilVal[int32](valuePointer, onNil, onNonNil)
+}
+
+// NilValPtrInt32 is a typed convenience wrapper for NilValPtr[int32].
+func NilValPtrInt32(valuePointer *int32, onNil, onNonNil int32) *int32 {
+	return NilValPtr[int32](valuePointer, onNil, onNonNil)
+}

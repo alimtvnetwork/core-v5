@@ -74,3 +74,23 @@ func NilDefPtrFloat64(
 ) *float64 {
 	return NilDefPtr[float64](valuePointer, defVal)
 }
+
+// NilDerefFloat64 is a typed convenience wrapper for NilDeref[float64].
+func NilDerefFloat64(valuePointer *float64) float64 {
+	return NilDeref[float64](valuePointer)
+}
+
+// NilDerefPtrFloat64 is a typed convenience wrapper for NilDerefPtr[float64].
+func NilDerefPtrFloat64(valuePointer *float64) *float64 {
+	return NilDerefPtr[float64](valuePointer)
+}
+
+// NilValFloat64 is a typed convenience wrapper for NilVal[float64].
+func NilValFloat64(valuePointer *float64, onNil, onNonNil float64) float64 {
+	return NilVal[float64](valuePointer, onNil, onNonNil)
+}
+
+// NilValPtrFloat64 is a typed convenience wrapper for NilValPtr[float64].
+func NilValPtrFloat64(valuePointer *float64, onNil, onNonNil float64) *float64 {
+	return NilValPtr[float64](valuePointer, onNil, onNonNil)
+}

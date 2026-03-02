@@ -69,3 +69,23 @@ func NilDefPtrBool(
 ) *bool {
 	return NilDefPtr[bool](valuePointer, defVal)
 }
+
+// NilDerefBool is a typed convenience wrapper for NilDeref[bool].
+func NilDerefBool(valuePointer *bool) bool {
+	return NilDeref[bool](valuePointer)
+}
+
+// NilDerefPtrBool is a typed convenience wrapper for NilDerefPtr[bool].
+func NilDerefPtrBool(valuePointer *bool) *bool {
+	return NilDerefPtr[bool](valuePointer)
+}
+
+// NilValBool is a typed convenience wrapper for NilVal[bool].
+func NilValBool(valuePointer *bool, onNil, onNonNil bool) bool {
+	return NilVal[bool](valuePointer, onNil, onNonNil)
+}
+
+// NilValPtrBool is a typed convenience wrapper for NilValPtr[bool].
+func NilValPtrBool(valuePointer *bool, onNil, onNonNil bool) *bool {
+	return NilValPtr[bool](valuePointer, onNil, onNonNil)
+}
