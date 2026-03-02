@@ -210,7 +210,7 @@ Added **30 test cases** across 4 new files covering all split constructors:
 | 3 | Generic Payload/Dynamic helpers | 2 | ✅ Complete |
 | 4 | Test coverage | 8-10 | ✅ P0 Complete |
 | 5 | File splitting | 2-3 | ✅ Complete |
-| 6 | Value receivers | Ongoing | 🔄 Started |
+| 6 | Value receivers | Ongoing | 🔄 In Progress |
 | 7 | Expert code review fixes | 1 | ✅ Complete |
 | 8 | Deep quality sweep | 1 | ✅ Complete |
 
@@ -223,3 +223,11 @@ All `interface{}` references have been migrated to `any` across the entire codeb
 ### File Splitting ✅ COMPLETE
 
 All large files have been split into focused, single-responsibility files. See Phase 5 above.
+
+### Phase 6: Value Receivers — In Progress
+
+**`issetter/`** ✅ Already uses value receivers for all read-only methods (4 pointer methods are correctly mutating: `GetSetBoolOnInvalid`, `GetSetBoolOnInvalidFunc`, `LazyEvaluateBool`, `LazyEvaluateSet`, `UnmarshalJSON`).
+
+**`coreversion/Version.go`** ✅ Migrated 35 read-only methods from `*Version` to `Version` value receivers. Methods that require nil-safety guards (`VersionDisplay`, `CompiledVersion`, `HasMajor`, `IsMajorInvalid`, `IsEmptyOrInvalid`, `ClonePtr`, etc.) remain as pointer receivers.
+
+**Bug fix**: `AllValidVersionValues()` had infinite recursion (called itself instead of `AllVersionValues()`). Fixed.
