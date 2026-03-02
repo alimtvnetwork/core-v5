@@ -18,7 +18,7 @@ var (
 				"Reference data given as : ")
 
 	MarshallingFailedDueToNilOrEmpty = errcore.
-						UnMarshallingFailedType.
+						MarshallingFailedType.
 						ErrorNoRefs("Cannot marshal to serialize data because of nil or empty object.")
 
 	UnmarshallingFailedDueToNilOrEmpty = errcore.
