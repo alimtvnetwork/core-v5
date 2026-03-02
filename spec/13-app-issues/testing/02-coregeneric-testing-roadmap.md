@@ -57,19 +57,28 @@ This document outlines the phased plan for achieving full test coverage across a
 
 ---
 
-## Phase 2b — 🔲 Pair & Triple Extended Coverage
+## Phase 2b — ✅ Completed: Pair & Triple Extended Coverage
 
-| Function | Cases Needed | Coverage Targets |
-|---|---|---|
-| `Pair.IsEqual` with mixed types | 3+ | int pair, any pair, mixed validity |
-| `Pair.HasMessage` | 2+ | with message, without |
-| `Pair.IsInvalid` | 3+ | valid, invalid, nil receiver |
-| `Pair.String()` | 2+ | valid, nil |
-| `Triple.IsEqual` | 4+ | equal, different middle, nil, both nil |
-| `Triple.HasMessage` | 2+ | with message, without |
-| `Triple.IsInvalid` | 3+ | valid, invalid, nil |
-| `New.Pair` full coverage | 5+ | all typed creators (StringInt64, StringFloat64, StringBool, IntInt, IntString) |
-| `New.Triple` full coverage | 3+ | all typed creators (StringIntString, StringAnyAny) |
+### Tests Added (`PairTripleExtended_testcases.go` / `PairTripleExtended_test.go`)
+
+- **Pair.IsEqual extended** — 6 cases: same values diff validity, different right, both invalid zero, Pair[int,int] same/diff, Pair[string,int] mixed
+- **Pair.HasMessage** — 4 cases: no message, with message, whitespace-only, nil receiver
+- **Pair.IsInvalid** — 3 cases: valid, invalid, nil receiver
+- **Pair.String** — 4 cases: valid string pair, invalid zero, nil, Pair[string,int]
+- **Pair.NewPairWithMessage** — 2 cases: valid with msg, invalid with error
+- **Pair.Dispose** — 1 case: resets same as Clear
+- **Pair nil Clear** — 1 case: no panic on nil receiver
+- **Triple.IsEqual extended** — 5 cases: same, diff validity, diff middle, both nil, nil vs non-nil
+- **Triple.HasMessage** — 3 cases: no msg, with msg, nil
+- **Triple.IsInvalid** — 3 cases: valid, invalid, nil
+- **Triple.String** — 3 cases: valid, invalid zero, nil
+- **Triple.NewTripleWithMessage** — 2 cases: valid, invalid
+- **Triple.Dispose** — 1 case: resets same as Clear
+- **Triple nil Clear** — 1 case: no panic on nil receiver
+- **New.Pair all shortcuts** — 7 creators: StringInt64, StringFloat64, StringBool, StringAny, IntInt, IntString, InvalidAny
+- **New.Triple all shortcuts** — 3 creators: StringIntString, StringAnyAny, InvalidAny
+
+**Total: 49 new test cases across 18 test functions**
 
 ---
 
