@@ -216,15 +216,10 @@ Added **30 test cases** across 4 new files covering all split constructors:
 
 ## Remaining Work
 
-### `interface{}` → `any` Migration
+### `interface{}` → `any` Migration ✅ COMPLETE
 
-- `coreinterface/` — 569 matches in 27 files (largest remaining surface)
-- `coredata/coredynamic/Dynamic.go` — ~20 matches
-- Various other packages with scattered usage
+All `interface{}` references have been migrated to `any` across the entire codebase — zero matches remain.
 
-### File Splitting
+### File Splitting ✅ COMPLETE
 
-- `Attributes.go` (768 lines)
-- `Dynamic.go` (674 lines)
-- `Info.go` (646 lines)
-- `BaseTestCase.go` (435 lines)
+All large files have been split into focused, single-responsibility files. See Phase 5 above.
