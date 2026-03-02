@@ -98,6 +98,10 @@ func (it *KeyValCollection) AddManyPtr(
 }
 
 func (it *KeyValCollection) Items() []KeyVal {
+	if it == nil {
+		return nil
+	}
+
 	return it.items
 }
 
@@ -289,6 +293,10 @@ func (it *KeyValCollection) AllValues() []any {
 }
 
 func (it *KeyValCollection) String() string {
+	if it == nil {
+		return ""
+	}
+
 	return fmt.Sprintf(
 		constants.SprintPropertyNameValueFormat,
 		it.items)

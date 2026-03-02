@@ -39,10 +39,18 @@ func (it FromTo) ToName() string {
 }
 
 func (it *FromTo) SetFromName(from string) {
+	if it == nil {
+		return
+	}
+
 	it.From = from
 }
 
 func (it *FromTo) SetToName(to string) {
+	if it == nil {
+		return
+	}
+
 	it.To = to
 }
 

@@ -105,6 +105,10 @@ func (it *Attributes) ReflectSetTo(
 func (it *Attributes) AddOrUpdateString(
 	key, value string,
 ) (isNewlyAdded bool) {
+	if it == nil || it.KeyValuePairs == nil {
+		return false
+	}
+
 	return it.
 		KeyValuePairs.
 		AddOrUpdate(key, value)
@@ -114,6 +118,10 @@ func (it *Attributes) AddOrUpdateAnyItem(
 	key string,
 	anyItem any,
 ) (isNewlyAdded bool) {
+	if it == nil || it.AnyKeyValuePairs == nil {
+		return false
+	}
+
 	return it.
 		AnyKeyValuePairs.
 		Add(key, anyItem)
@@ -146,5 +154,9 @@ func (it *Attributes) Clear() {
 }
 
 func (it *Attributes) Dispose() {
+	if it == nil {
+		return
+	}
+
 	it.Clear()
 }

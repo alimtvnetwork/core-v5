@@ -39,10 +39,18 @@ func (it SourceDestination) ToName() string {
 }
 
 func (it *SourceDestination) SetFromName(from string) {
+	if it == nil {
+		return
+	}
+
 	it.Source = from
 }
 
 func (it *SourceDestination) SetToName(to string) {
+	if it == nil {
+		return
+	}
+
 	it.Destination = to
 }
 

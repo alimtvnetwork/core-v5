@@ -75,6 +75,10 @@ func (it *MapAnyItems) HasAnyItem() bool {
 }
 
 func (it *MapAnyItems) HasKey(key string) bool {
+	if it == nil {
+		return false
+	}
+
 	_, has := it.Items[key]
 
 	return has
