@@ -58,10 +58,18 @@ func (it Rename) ToName() string {
 }
 
 func (it *Rename) SetFromName(from string) {
+	if it == nil {
+		return
+	}
+
 	it.Existing = from
 }
 
 func (it *Rename) SetToName(to string) {
+	if it == nil {
+		return
+	}
+
 	it.New = to
 }
 

@@ -42,31 +42,59 @@ func (it *LeftRight) IsRightEmpty() bool {
 func (it *LeftRight) LeftReflectSet(
 	toPointerOrBytesPointer any,
 ) error {
+	if it == nil {
+		return nil
+	}
+
 	return ReflectSetFromTo(it.Left, toPointerOrBytesPointer)
 }
 
 func (it *LeftRight) RightReflectSet(
 	toPointerOrBytesPointer any,
 ) error {
+	if it == nil {
+		return nil
+	}
+
 	return ReflectSetFromTo(it.Right, toPointerOrBytesPointer)
 }
 
 func (it *LeftRight) DeserializeLeft() *corejson.Result {
+	if it == nil {
+		return nil
+	}
+
 	return corejson.NewPtr(it.Left)
 }
 
 func (it *LeftRight) DeserializeRight() *corejson.Result {
+	if it == nil {
+		return nil
+	}
+
 	return corejson.NewPtr(it.Right)
 }
 
 func (it *LeftRight) LeftToDynamic() *Dynamic {
+	if it == nil {
+		return nil
+	}
+
 	return NewDynamicPtr(it.Left, true)
 }
 
 func (it *LeftRight) RightToDynamic() *Dynamic {
+	if it == nil {
+		return nil
+	}
+
 	return NewDynamicPtr(it.Right, true)
 }
 
 func (it *LeftRight) TypeStatus() TypeStatus {
+	if it == nil {
+		return TypeSameStatus(nil, nil)
+	}
+
 	return TypeSameStatus(it.Left, it.Right)
 }

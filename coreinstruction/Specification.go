@@ -79,6 +79,10 @@ func (r *Specification) Clone() *Specification {
 }
 
 func (r *Specification) FlatSpecification() *FlatSpecification {
+	if r == nil {
+		return nil
+	}
+
 	if r.flatSpec != nil {
 		return r.flatSpec
 	}
