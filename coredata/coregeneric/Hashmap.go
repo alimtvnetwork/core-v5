@@ -149,13 +149,13 @@ func (it *Hashmap[K, V]) IsKeyMissing(key K) bool {
 
 // Remove deletes a key from the map. Returns true if it existed.
 func (it *Hashmap[K, V]) Remove(key K) bool {
-	_, existed := it.items[key]
+	_, isExisted := it.items[key]
 
-	if existed {
+	if isExisted {
 		delete(it.items, key)
 	}
 
-	return existed
+	return isExisted
 }
 
 // RemoveLock removes a key with mutex protection.
