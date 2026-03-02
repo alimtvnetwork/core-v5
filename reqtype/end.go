@@ -2,10 +2,11 @@ package reqtype
 
 func end(
 	reqs []Request,
-) any {
+) *Request {
 	if len(reqs) == 0 {
 		return nil
 	}
 
-	return reqs[len(reqs)-1]
+	r := reqs[len(reqs)-1]
+	return &r
 }

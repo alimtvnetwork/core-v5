@@ -11,7 +11,7 @@ func NewBaseRequestIds(
 	ids ...string,
 ) *BaseRequestIds {
 	return &BaseRequestIds{
-		RequestIds: *NewRequestIds(
+		RequestIds: NewRequestIds(
 			isGlobal,
 			ids...),
 	}
@@ -20,10 +20,10 @@ func NewBaseRequestIds(
 func NewRequestIds(
 	isGlobal bool,
 	ids ...string,
-) *[]IdentifierWithIsGlobal {
+) []IdentifierWithIsGlobal {
 	slice := make([]IdentifierWithIsGlobal, len(ids))
 	if len(ids) == 0 {
-		return &slice
+	return slice
 	}
 
 	for i, id := range ids {
@@ -33,7 +33,7 @@ func NewRequestIds(
 		}
 	}
 
-	return &slice
+	return slice
 }
 
 func NewRequestId(
