@@ -731,7 +731,7 @@ func (it *LinkedCollections) RemoveNodeByIndexes(
 
 	nonChainedNodes := it.Filter(
 		func(arg *LinkedCollectionFilterParameter) *LinkedCollectionFilterResult {
-			hasIndex := coreindexes.HasIndexPlusRemoveIndex(removingIndexes, arg.Index)
+			hasIndex := coreindexes.HasIndexPlusRemoveIndex(&removingIndexes, arg.Index)
 			if hasIndex {
 				// remove
 				return &LinkedCollectionFilterResult{

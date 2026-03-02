@@ -12,7 +12,7 @@ func RangesInBetween(
 		length)
 
 	index := 0
-	for i := startVal; i < endVal; i++ {
+	for i := startVal; i <= endVal; i++ {
 		slice[index] = Request(i)
 		index++
 	}

@@ -32,7 +32,7 @@ coreindexes/
 |---|---|---|
 | `Of` | `([]int, int) int` | Index-of for int slices; returns `-1` if not found |
 | `HasIndex` | `([]int, int) bool` | True if value exists in the slice |
-| `HasIndexPlusRemoveIndex` | `([]int, int) bool` | Check + mutate-remove the value from the slice |
+| `HasIndexPlusRemoveIndex` | `(*[]int, int) bool` | Check + mutate-remove the value from the slice |
 | `IsInvalidIndex` | `(int) bool` | True if index ≤ `constants.InvalidIndex` |
 | `IsWithinIndexRange` | `(int, int) bool` | True if `index ≤ length-1` |
 | `LastIndex` | `(int) int` | Returns `length - 1` |

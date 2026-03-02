@@ -47,7 +47,7 @@ func NewRequestId(
 }
 
 func (b *BaseRequestIds) RequestIdsLength() int {
-	if b != nil && b.RequestIds != nil {
+	if b == nil || b.RequestIds == nil {
 		return constants.Zero
 	}
 
