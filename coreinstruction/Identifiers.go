@@ -50,6 +50,10 @@ func NewIdentifiers(
 }
 
 func (it *Identifiers) Length() int {
+	if it == nil {
+		return 0
+	}
+
 	return len(it.Ids)
 }
 
@@ -76,9 +80,9 @@ func (it *Identifiers) GetById(id string) *BaseIdentifier {
 		return nil
 	}
 
-	for _, baseIdentifier := range it.Ids {
-		if baseIdentifier.Id == id {
-			return &baseIdentifier
+	for i := range it.Ids {
+		if it.Ids[i].Id == id {
+			return &it.Ids[i]
 		}
 	}
 

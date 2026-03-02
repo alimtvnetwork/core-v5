@@ -43,6 +43,10 @@ func NewIdentifiersWithGlobals(
 }
 
 func (receiver *IdentifiersWithGlobals) Length() int {
+	if receiver == nil {
+		return 0
+	}
+
 	return len(receiver.IdentifierWithIsGlobals)
 }
 
@@ -69,9 +73,9 @@ func (receiver *IdentifiersWithGlobals) GetById(id string) *IdentifierWithIsGlob
 		return nil
 	}
 
-	for _, identifierWithIsGlobal := range receiver.IdentifierWithIsGlobals {
-		if identifierWithIsGlobal.Id == id {
-			return &identifierWithIsGlobal
+	for i := range receiver.IdentifierWithIsGlobals {
+		if receiver.IdentifierWithIsGlobals[i].Id == id {
+			return &receiver.IdentifierWithIsGlobals[i]
 		}
 	}
 
