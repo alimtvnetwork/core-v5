@@ -159,14 +159,14 @@ func NilValPtr[T any](
 	return &onNonNil
 }
 
-// NilDeref dereferences a pointer, returning the zero value of T if nil.
+// ValueOrZero dereferences a pointer, returning the zero value of T if nil.
 // It replaces NilDefBool, NilDefByte, NilDefInt, NilDefStr (zero-default variants).
 //
 // Usage:
 //
-//	active := conditional.NilDeref[bool](flagPtr)   // false if nil
-//	name := conditional.NilDeref[string](namePtr)   // "" if nil
-func NilDeref[T any](
+//	active := conditional.ValueOrZero[bool](flagPtr)   // false if nil
+//	name := conditional.ValueOrZero[string](namePtr)   // "" if nil
+func ValueOrZero[T any](
 	valuePointer *T,
 ) T {
 	if valuePointer == nil {
@@ -177,13 +177,18 @@ func NilDeref[T any](
 	return *valuePointer
 }
 
-// NilDerefPtr returns the pointer itself if non-nil, otherwise a pointer to the zero value.
+// Deprecated: Use ValueOrZero instead.
+func NilDeref[T any](valuePointer *T) T {
+	return ValueOrZero[T](valuePointer)
+}
+
+// PtrOrZero returns the pointer itself if non-nil, otherwise a pointer to the zero value.
 // It replaces NilDefBoolPtr, NilDefBytePtr, NilDefIntPtr, NilDefStrPtr.
 //
 // Usage:
 //
-//	ptr := conditional.NilDerefPtr[int](intPtr) // guaranteed non-nil
-func NilDerefPtr[T any](
+//	ptr := conditional.PtrOrZero[int](intPtr) // guaranteed non-nil
+func PtrOrZero[T any](
 	valuePointer *T,
 ) *T {
 	if valuePointer == nil {
@@ -192,4 +197,9 @@ func NilDerefPtr[T any](
 	}
 
 	return valuePointer
+}
+
+// Deprecated: Use PtrOrZero instead.
+func NilDerefPtr[T any](valuePointer *T) *T {
+	return PtrOrZero[T](valuePointer)
 }

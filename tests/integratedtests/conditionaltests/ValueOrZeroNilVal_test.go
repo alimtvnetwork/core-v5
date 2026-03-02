@@ -8,8 +8,8 @@ import (
 	"gitlab.com/auk-go/core/coretests/args"
 )
 
-func Test_NilDeref_String_Verification(t *testing.T) {
-	for caseIndex, testCase := range nilDerefStringTestCases {
+func Test_ValueOrZero_String_Verification(t *testing.T) {
+	for caseIndex, testCase := range valueOrZeroStringTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNilVal, _ := input.Get("isNil")
@@ -22,15 +22,15 @@ func Test_NilDeref_String_Verification(t *testing.T) {
 			ptr = &val
 		}
 
-		result := conditional.NilDeref[string](ptr)
+		result := conditional.ValueOrZero[string](ptr)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
-func Test_NilDeref_Int_Verification(t *testing.T) {
-	for caseIndex, testCase := range nilDerefIntTestCases {
+func Test_ValueOrZero_Int_Verification(t *testing.T) {
+	for caseIndex, testCase := range valueOrZeroIntTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNilVal, _ := input.Get("isNil")
@@ -43,15 +43,15 @@ func Test_NilDeref_Int_Verification(t *testing.T) {
 			ptr = &val
 		}
 
-		result := conditional.NilDeref[int](ptr)
+		result := conditional.ValueOrZero[int](ptr)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
 	}
 }
 
-func Test_NilDeref_Bool_Verification(t *testing.T) {
-	for caseIndex, testCase := range nilDerefBoolTestCases {
+func Test_ValueOrZero_Bool_Verification(t *testing.T) {
+	for caseIndex, testCase := range valueOrZeroBoolTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNilVal, _ := input.Get("isNil")
@@ -65,15 +65,15 @@ func Test_NilDeref_Bool_Verification(t *testing.T) {
 			ptr = &boolVal
 		}
 
-		result := conditional.NilDeref[bool](ptr)
+		result := conditional.ValueOrZero[bool](ptr)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
 	}
 }
 
-func Test_NilDerefPtr_String_Verification(t *testing.T) {
-	for caseIndex, testCase := range nilDerefPtrStringTestCases {
+func Test_PtrOrZero_String_Verification(t *testing.T) {
+	for caseIndex, testCase := range ptrOrZeroStringTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNilVal, _ := input.Get("isNil")
@@ -86,7 +86,7 @@ func Test_NilDerefPtr_String_Verification(t *testing.T) {
 			ptr = &val
 		}
 
-		result := conditional.NilDerefPtr[string](ptr)
+		result := conditional.PtrOrZero[string](ptr)
 		isNotNil := fmt.Sprintf("%v", result != nil)
 		derefVal := *result
 
@@ -95,8 +95,8 @@ func Test_NilDerefPtr_String_Verification(t *testing.T) {
 	}
 }
 
-func Test_NilDerefPtr_Int_Verification(t *testing.T) {
-	for caseIndex, testCase := range nilDerefPtrIntTestCases {
+func Test_PtrOrZero_Int_Verification(t *testing.T) {
+	for caseIndex, testCase := range ptrOrZeroIntTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNilVal, _ := input.Get("isNil")
@@ -109,7 +109,7 @@ func Test_NilDerefPtr_Int_Verification(t *testing.T) {
 			ptr = &val
 		}
 
-		result := conditional.NilDerefPtr[int](ptr)
+		result := conditional.PtrOrZero[int](ptr)
 		isNotNil := fmt.Sprintf("%v", result != nil)
 		derefVal := fmt.Sprintf("%v", *result)
 

@@ -70,14 +70,24 @@ func NilDefPtrByte(
 	return NilDefPtr[byte](valuePointer, defVal)
 }
 
-// NilDerefByte is a typed convenience wrapper for NilDeref[byte].
-func NilDerefByte(valuePointer *byte) byte {
-	return NilDeref[byte](valuePointer)
+// ValueOrZeroByte is a typed convenience wrapper for ValueOrZero[byte].
+func ValueOrZeroByte(valuePointer *byte) byte {
+	return ValueOrZero[byte](valuePointer)
 }
 
-// NilDerefPtrByte is a typed convenience wrapper for NilDerefPtr[byte].
+// PtrOrZeroByte is a typed convenience wrapper for PtrOrZero[byte].
+func PtrOrZeroByte(valuePointer *byte) *byte {
+	return PtrOrZero[byte](valuePointer)
+}
+
+// Deprecated: Use ValueOrZeroByte instead.
+func NilDerefByte(valuePointer *byte) byte {
+	return ValueOrZero[byte](valuePointer)
+}
+
+// Deprecated: Use PtrOrZeroByte instead.
 func NilDerefPtrByte(valuePointer *byte) *byte {
-	return NilDerefPtr[byte](valuePointer)
+	return PtrOrZero[byte](valuePointer)
 }
 
 // NilValByte is a typed convenience wrapper for NilVal[byte].

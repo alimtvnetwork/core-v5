@@ -1,17 +1,17 @@
 package conditional
 
-// Deprecated: Use NilDeref[string] instead.
+// Deprecated: Use ValueOrZero[string] instead.
 func NilDefStr(
 	strPtr *string,
 ) string {
-	return NilDeref[string](strPtr)
+	return ValueOrZero[string](strPtr)
 }
 
-// Deprecated: Use NilDerefPtr[string] instead.
+// Deprecated: Use PtrOrZero[string] instead.
 func NilDefStrPtr(
 	strPtr *string,
 ) *string {
-	return NilDerefPtr[string](strPtr)
+	return PtrOrZero[string](strPtr)
 }
 
 // Deprecated: Use NilVal[string] instead.

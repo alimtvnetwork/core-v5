@@ -5,9 +5,9 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-var nilDerefStringTestCases = []coretestcases.CaseV1{
+var valueOrZeroStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "NilDeref with nil string pointer returns empty string",
+		Title: "ValueOrZero with nil string pointer returns empty string",
 		ArrangeInput: args.Map{
 			"when":  "given nil string pointer",
 			"isNil": true,
@@ -15,7 +15,7 @@ var nilDerefStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{""},
 	},
 	{
-		Title: "NilDeref with non-nil string pointer returns value",
+		Title: "ValueOrZero with non-nil string pointer returns value",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil string pointer",
 			"isNil": false,
@@ -24,7 +24,7 @@ var nilDerefStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"hello"},
 	},
 	{
-		Title: "NilDeref with non-nil empty string pointer returns empty",
+		Title: "ValueOrZero with non-nil empty string pointer returns empty",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil pointer to empty string",
 			"isNil": false,
@@ -34,9 +34,9 @@ var nilDerefStringTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var nilDerefIntTestCases = []coretestcases.CaseV1{
+var valueOrZeroIntTestCases = []coretestcases.CaseV1{
 	{
-		Title: "NilDeref with nil int pointer returns 0",
+		Title: "ValueOrZero with nil int pointer returns 0",
 		ArrangeInput: args.Map{
 			"when":  "given nil int pointer",
 			"isNil": true,
@@ -44,7 +44,7 @@ var nilDerefIntTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"0"},
 	},
 	{
-		Title: "NilDeref with non-nil int pointer returns value",
+		Title: "ValueOrZero with non-nil int pointer returns value",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil int pointer",
 			"isNil": false,
@@ -53,7 +53,7 @@ var nilDerefIntTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"42"},
 	},
 	{
-		Title: "NilDeref with non-nil zero int pointer returns 0",
+		Title: "ValueOrZero with non-nil zero int pointer returns 0",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil pointer to zero",
 			"isNil": false,
@@ -62,7 +62,7 @@ var nilDerefIntTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"0"},
 	},
 	{
-		Title: "NilDeref with non-nil negative int returns negative",
+		Title: "ValueOrZero with non-nil negative int returns negative",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil pointer to negative",
 			"isNil": false,
@@ -72,9 +72,9 @@ var nilDerefIntTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var nilDerefBoolTestCases = []coretestcases.CaseV1{
+var valueOrZeroBoolTestCases = []coretestcases.CaseV1{
 	{
-		Title: "NilDeref with nil bool pointer returns false",
+		Title: "ValueOrZero with nil bool pointer returns false",
 		ArrangeInput: args.Map{
 			"when":  "given nil bool pointer",
 			"isNil": true,
@@ -82,7 +82,7 @@ var nilDerefBoolTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"false"},
 	},
 	{
-		Title: "NilDeref with non-nil true bool pointer returns true",
+		Title: "ValueOrZero with non-nil true bool pointer returns true",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil true pointer",
 			"isNil": false,
@@ -91,7 +91,7 @@ var nilDerefBoolTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"true"},
 	},
 	{
-		Title: "NilDeref with non-nil false bool pointer returns false",
+		Title: "ValueOrZero with non-nil false bool pointer returns false",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil false pointer",
 			"isNil": false,
@@ -101,9 +101,9 @@ var nilDerefBoolTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var nilDerefPtrStringTestCases = []coretestcases.CaseV1{
+var ptrOrZeroStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "NilDerefPtr with nil string pointer returns pointer to empty",
+		Title: "PtrOrZero with nil string pointer returns pointer to empty",
 		ArrangeInput: args.Map{
 			"when":  "given nil string pointer",
 			"isNil": true,
@@ -111,7 +111,7 @@ var nilDerefPtrStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"true", ""},
 	},
 	{
-		Title: "NilDerefPtr with non-nil string pointer returns same value",
+		Title: "PtrOrZero with non-nil string pointer returns same value",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil string pointer",
 			"isNil": false,
@@ -121,9 +121,9 @@ var nilDerefPtrStringTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var nilDerefPtrIntTestCases = []coretestcases.CaseV1{
+var ptrOrZeroIntTestCases = []coretestcases.CaseV1{
 	{
-		Title: "NilDerefPtr with nil int pointer returns pointer to 0",
+		Title: "PtrOrZero with nil int pointer returns pointer to 0",
 		ArrangeInput: args.Map{
 			"when":  "given nil int pointer",
 			"isNil": true,
@@ -131,7 +131,7 @@ var nilDerefPtrIntTestCases = []coretestcases.CaseV1{
 		ExpectedInput: []string{"true", "0"},
 	},
 	{
-		Title: "NilDerefPtr with non-nil int pointer returns same value",
+		Title: "PtrOrZero with non-nil int pointer returns same value",
 		ArrangeInput: args.Map{
 			"when":  "given non-nil int pointer",
 			"isNil": false,

@@ -1,17 +1,17 @@
 package conditional
 
-// Deprecated: Use NilDeref[int] instead.
+// Deprecated: Use ValueOrZero[int] instead.
 func NilDefInt(
 	valuePointer *int,
 ) int {
-	return NilDeref[int](valuePointer)
+	return ValueOrZero[int](valuePointer)
 }
 
-// Deprecated: Use NilDerefPtr[int] instead.
+// Deprecated: Use PtrOrZero[int] instead.
 func NilDefIntPtr(
 	valuePointer *int,
 ) *int {
-	return NilDerefPtr[int](valuePointer)
+	return PtrOrZero[int](valuePointer)
 }
 
 // Deprecated: Use NilDef[int] instead.
