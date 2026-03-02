@@ -157,13 +157,13 @@ Negative index or index > length will cause a runtime panic with no meaningful e
 | # | Issue | Severity | Status |
 |---|-------|----------|--------|
 | 1 | `SplitLeftRightTypeTrimmed` broken struct literal | 🔴 Critical | ✅ Fixed |
-| 2 | `Hashmap.IsEquals` only checks length | 🟡 Medium | 📋 Documented |
-| 3 | `NewHashset`/`NewHashmap` sets length to capacity | 🟡 Medium | 📋 Documented |
-| 4 | `Hashset.IsEmpty` stale caching logic | 🟡 Medium | 📋 Documented |
-| 5 | `LeftMiddleRight.ToLeftRight` no-op concatenation | 🟡 Low | 📋 Documented |
-| 6 | `Pair.IsEqual` uses fmt.Sprintf | 🟢 Performance | 📋 Documented |
-| 7 | Missing nil guards on generic functions | 🟢 Safety | 📋 Documented |
-| 8 | `SimpleSlice.InsertAt` no bounds check | 🟢 Safety | 📋 Documented |
+| 2 | `Hashmap.IsEquals` only checks length | 🟡 Medium | ✅ Fixed — now checks key membership |
+| 3 | `NewHashset`/`NewHashmap` sets length to capacity | 🟡 Medium | ✅ Fixed — removed `length` field entirely |
+| 4 | `Hashset.IsEmpty` stale caching logic | 🟡 Medium | ✅ Fixed — removed broken caching, uses `len()` directly |
+| 5 | `LeftMiddleRight.ToLeftRight` no-op concatenation | 🟡 Low | ✅ Fixed — removed `+ constants.EmptyString` |
+| 6 | `Pair.IsEqual` uses fmt.Sprintf | 🟢 Performance | 📋 Documented (trade-off accepted) |
+| 7 | Missing nil guards on generic functions | 🟢 Safety | ✅ Fixed — 20+ functions guarded |
+| 8 | `SimpleSlice.InsertAt` no bounds check | 🟢 Safety | ✅ Fixed — bounds check added |
 
 ## Related Docs
 

@@ -15,6 +15,10 @@ import (
 // SortCollection sorts a Collection[T] in ascending order (in-place).
 // Requires T to be cmp.Ordered.
 func SortCollection[T cmp.Ordered](source *Collection[T]) *Collection[T] {
+	if source == nil {
+		return nil
+	}
+
 	slices.Sort(source.items)
 
 	return source
@@ -22,6 +26,10 @@ func SortCollection[T cmp.Ordered](source *Collection[T]) *Collection[T] {
 
 // SortCollectionDesc sorts a Collection[T] in descending order (in-place).
 func SortCollectionDesc[T cmp.Ordered](source *Collection[T]) *Collection[T] {
+	if source == nil {
+		return nil
+	}
+
 	slices.SortFunc(source.items, func(a, b T) int {
 		return cmp.Compare(b, a)
 	})
@@ -61,6 +69,10 @@ func MaxCollectionOrDefault[T cmp.Ordered](source *Collection[T], defVal T) T {
 
 // IsSortedCollection returns true if the collection is sorted in ascending order.
 func IsSortedCollection[T cmp.Ordered](source *Collection[T]) bool {
+	if source == nil {
+		return true
+	}
+
 	return slices.IsSorted(source.items)
 }
 
@@ -97,6 +109,10 @@ func MaxSimpleSlice[T cmp.Ordered](source *SimpleSlice[T]) T {
 func SumCollection[T cmp.Ordered](source *Collection[T]) T {
 	var sum T
 
+	if source == nil {
+		return sum
+	}
+
 	for _, item := range source.items {
 		sum += item
 	}
@@ -117,6 +133,10 @@ func SumSimpleSlice[T cmp.Ordered](source *SimpleSlice[T]) T {
 
 // ClampCollection clamps all values in the collection to [min, max].
 func ClampCollection[T cmp.Ordered](source *Collection[T], minVal, maxVal T) *Collection[T] {
+	if source == nil {
+		return nil
+	}
+
 	for i, item := range source.items {
 		source.items[i] = max(minVal, min(maxVal, item))
 	}

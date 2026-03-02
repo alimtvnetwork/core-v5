@@ -7,7 +7,7 @@ func MapCollection[T any, U any](
 	source *Collection[T],
 	mapper func(T) U,
 ) *Collection[U] {
-	if source.IsEmpty() {
+	if source == nil || source.IsEmpty() {
 		return EmptyCollection[U]()
 	}
 
@@ -25,7 +25,7 @@ func FlatMapCollection[T any, U any](
 	source *Collection[T],
 	mapper func(T) []U,
 ) *Collection[U] {
-	if source.IsEmpty() {
+	if source == nil || source.IsEmpty() {
 		return EmptyCollection[U]()
 	}
 
@@ -45,6 +45,10 @@ func ReduceCollection[T any, U any](
 	initial U,
 	reducer func(accumulator U, item T) U,
 ) U {
+	if source == nil {
+		return initial
+	}
+
 	result := initial
 
 	for _, item := range source.items {
@@ -60,6 +64,10 @@ func GroupByCollection[T any, K comparable](
 	keyFunc func(T) K,
 ) map[K]*Collection[T] {
 	result := make(map[K]*Collection[T])
+
+	if source == nil {
+		return result
+	}
 
 	for _, item := range source.items {
 		key := keyFunc(item)
@@ -82,6 +90,10 @@ func ContainsFunc[T any](
 	source *Collection[T],
 	predicate func(T) bool,
 ) bool {
+	if source == nil {
+		return false
+	}
+
 	for _, item := range source.items {
 		if predicate(item) {
 			return true
@@ -96,6 +108,10 @@ func IndexOfFunc[T any](
 	source *Collection[T],
 	predicate func(T) bool,
 ) int {
+	if source == nil {
+		return -1
+	}
+
 	for i, item := range source.items {
 		if predicate(item) {
 			return i
@@ -110,6 +126,10 @@ func ContainsItem[T comparable](
 	source *Collection[T],
 	item T,
 ) bool {
+	if source == nil {
+		return false
+	}
+
 	for _, existing := range source.items {
 		if existing == item {
 			return true
@@ -124,6 +144,10 @@ func IndexOfItem[T comparable](
 	source *Collection[T],
 	item T,
 ) int {
+	if source == nil {
+		return -1
+	}
+
 	for i, existing := range source.items {
 		if existing == item {
 			return i
@@ -138,6 +162,10 @@ func IndexOfItem[T comparable](
 func Distinct[T comparable](
 	source *Collection[T],
 ) *Collection[T] {
+	if source == nil {
+		return EmptyCollection[T]()
+	}
+
 	seen := make(map[T]bool)
 	result := EmptyCollection[T]()
 
@@ -156,7 +184,7 @@ func MapSimpleSlice[T any, U any](
 	source *SimpleSlice[T],
 	mapper func(T) U,
 ) *SimpleSlice[U] {
-	if source.IsEmpty() {
+	if source == nil || source.IsEmpty() {
 		return EmptySimpleSlice[U]()
 	}
 
