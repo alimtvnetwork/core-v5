@@ -1,6 +1,6 @@
 # Testing Roadmap — Comprehensive Coverage Plan
 
-## Status: 🟡 IN PROGRESS (Phase 2 complete)
+## Status: 🟡 IN PROGRESS (Phase 3 complete)
 
 ## Summary
 
@@ -82,20 +82,32 @@ This document outlines the phased plan for achieving full test coverage across a
 
 ---
 
-## Phase 3 — 🔲 Collection[T] Full Branch Coverage
+## Phase 3 — ✅ Completed: Collection[T] Full Branch Coverage
 
-| Function | Current Cases | Target Cases | Key Gaps |
-|---|---|---|---|
-| `Add/Adds/AddSlice` | ~3 | 8+ | AddIf false, AddIfMany, AddFunc, AddCollection nil |
-| `RemoveAt` | 0 | 4+ | valid index, negative index, out-of-bounds, single item |
-| `First/Last/FirstOrDefault/LastOrDefault` | ~2 | 6+ | empty collection panic, SafeAt OOB, SafeAt valid |
-| `Skip/Take` | 0 | 4+ | skip all, take more than length, zero, normal |
-| `ForEach/ForEachBreak` | 0 | 3+ | full iteration, early break, empty |
-| `Filter/CountFunc` | ~1 | 4+ | no match, all match, empty, predicate |
-| `Clone` | ~1 | 3+ | empty, populated, nil |
-| `SortFunc/Reverse` | 0 | 4+ | sort ascending/descending, reverse, single element |
-| `ConcatNew` | 0 | 3+ | empty + items, items + empty, both populated |
-| `Lock variants` | ~1 | 4+ | AddLock, AddsLock, LengthLock, IsEmptyLock |
+### Tests Added (`CollectionBranch_testcases.go` / `CollectionBranch_test.go`)
+
+- **ForEach** — 2 cases: all items visited with indices, empty collection
+- **ForEachBreak** — 2 cases: early break, full traversal
+- **SortFunc** — 3 cases: ascending, descending, single element
+- **AddIfMany** — 2 cases: true adds all, false adds nothing
+- **AddFunc** — 1 case: appends function result
+- **AddCollections** — 2 cases: merge multiple, skip empty
+- **Clone empty** — 1 case: empty returns empty
+- **Skip/Take boundary** — 3 cases: skip all, take > length, skip 0 / take 0
+- **Filter edge** — 3 cases: no match, all match, empty collection
+- **CountFunc edge** — 2 cases: no match, empty collection
+- **String output** — 2 cases: populated, empty
+- **Lock variants** — 1 case: AddLock, AddsLock, LengthLock, IsEmptyLock
+- **Metadata methods** — 2 cases: HasAnyItem, HasItems, HasIndex, LastIndex, Count on populated/empty
+- **RemoveAt single** — 1 case: single item leaves empty
+- **AddCollection empty** — 1 case: adding empty does not change length
+- **CollectionLenCap** — 1 case: pre-set length and capacity
+- **Hashmap.IsEquals updated** — 6 cases: same keys, same-length-diff-keys (now false), diff length, both nil, nil vs non-nil, same pointer
+
+### Also Fixed
+- Updated old `hashmapIsEqualsTestCases` expectation: same-length-different-keys now correctly expects `false`
+
+**Total: 34 new test cases across 20 test functions**
 
 ---
 
