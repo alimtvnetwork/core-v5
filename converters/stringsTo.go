@@ -385,7 +385,7 @@ func (it stringsTo) BytesWithDefaults(
 			continue
 		}
 
-		if vInt > constants.MaxUnit8AsInt {
+		if vInt < 0 || vInt > constants.MaxUnit8AsInt {
 			msg := defaulterr.CannotConvertStringToByte.Error() +
 				constants.CommaRawValueColonSpace +
 				v +
@@ -532,6 +532,9 @@ func (it stringsTo) PtrOfPtrToMapStringBool(inputArray *[]*string) map[string]bo
 	hashset := make(map[string]bool, length)
 
 	for _, s := range *inputArray {
+		if s == nil {
+			continue
+		}
 		sC := *s
 		hashset[sC] = true
 	}
