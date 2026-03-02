@@ -1,6 +1,6 @@
-# Testing Roadmap — coregeneric Comprehensive Coverage Plan
+# Testing Roadmap — Comprehensive Coverage Plan
 
-## Status: 🟡 IN PROGRESS
+## Status: 🟡 IN PROGRESS (Phase 2 complete)
 
 ## Summary
 
@@ -31,7 +31,33 @@ This document outlines the phased plan for achieving full test coverage across a
 
 ---
 
-## Phase 2 — 🔲 Pair & Triple Extended Coverage
+## Phase 2 — ✅ Completed: Regression Tests for Fixed Functions
+
+### 2.1 converters Package (`tests/integratedtests/converterstests/`)
+
+- **Added:** `IntegersWithDefaults` — 5 cases (all valid, mixed valid/invalid, empty, all invalid, negatives)
+- **Added:** `BytesWithDefaults` — 5 cases (valid bytes, >255 overflow, negative, non-numeric, empty)
+- **Added:** `CloneIf` — 3 cases (clone true, clone false, empty input)
+- **Added:** `PtrOfPtrToPtrStrings` — 4 cases (valid, nil entries, nil outer, nil inner)
+- **Added:** `PtrOfPtrToMapStringBool` — 4 cases (valid, nil entries skipped, nil input, empty)
+- **Added:** `ToNonNullItems` — 3 cases (nil with skip, valid slice, nil without skip)
+
+### 2.2 stringslice Package (`tests/integratedtests/stringslicetests/`)
+
+- **Added:** `CloneIf` — 4 cases (clone with extra cap, return original, nil + false, nil + true)
+- **Added:** `AnyItemsCloneIf` — 2 cases (clone true, return original)
+
+### 2.3 PayloadsCollection Paging Edge Cases (`tests/integratedtests/corepayloadtests/`)
+
+- **Added:** `GetPagedCollection` — 4 edge cases (single item, page size 1, exact count, oversized page)
+- **Added:** `GetSinglePageCollection` — 2 edge cases (middle page, page size 1)
+- **Added:** `GetPagedCollectionWithInfo` — 2 edge cases (single item metadata, exact division metadata)
+- **Added:** `GetPagesSize` — 2 edge cases (page size 1, single item)
+- **Added:** `PagingWithInfo_Empty` — 1 case (empty collection with info)
+
+---
+
+## Phase 2b — 🔲 Pair & Triple Extended Coverage
 
 | Function | Cases Needed | Coverage Targets |
 |---|---|---|

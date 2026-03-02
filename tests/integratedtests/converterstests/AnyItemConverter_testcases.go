@@ -1,0 +1,40 @@
+package converterstests
+
+import (
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+)
+
+// =============================================================================
+// ToNonNullItems
+// =============================================================================
+
+var toNonNullItemsTestCases = []coretestcases.CaseV1{
+	{
+		Title: "ToNonNullItems returns empty for nil input when skipOnNil",
+		ArrangeInput: args.Map{
+			"when":        "given nil input with isSkipOnNil true",
+			"isSkipOnNil": true,
+			"input":       nil,
+		},
+		ExpectedInput: []string{"0"},
+	},
+	{
+		Title: "ToNonNullItems converts valid slice",
+		ArrangeInput: args.Map{
+			"when":        "given valid string slice",
+			"isSkipOnNil": false,
+			"input":       []any{"hello", "world"},
+		},
+		ExpectedInput: []string{"2", "hello", "world"},
+	},
+	{
+		Title: "ToNonNullItems returns empty for nil input when not skipOnNil",
+		ArrangeInput: args.Map{
+			"when":        "given nil input with isSkipOnNil false - should still return empty for nil reflect",
+			"isSkipOnNil": true,
+			"input":       nil,
+		},
+		ExpectedInput: []string{"0"},
+	},
+}
