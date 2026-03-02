@@ -10,11 +10,7 @@ func PrependAppendAnyItemsToStringsUsingFunc(
 
 	prependString := compilerFunc(prependItem)
 
-	if isSkipEmptyString && prependString != "" {
-		slice = append(
-			slice,
-			prependString)
-	} else if !isSkipEmptyString {
+	if !isSkipEmptyString || prependString != "" {
 		slice = append(
 			slice,
 			prependString)
@@ -38,11 +34,7 @@ func PrependAppendAnyItemsToStringsUsingFunc(
 
 	appendString := compilerFunc(appendItem)
 
-	if isSkipEmptyString && appendString != "" {
-		slice = append(
-			slice,
-			appendString)
-	} else if !isSkipEmptyString {
+	if !isSkipEmptyString || appendString != "" {
 		slice = append(
 			slice,
 			appendString)

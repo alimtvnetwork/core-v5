@@ -19,7 +19,6 @@ func (receiver BaseDisplay) IsDisplayCaseInsensitive(display string) bool {
 
 func (receiver BaseDisplay) IsDisplayContains(displayContains string) bool {
 	return strings.Contains(receiver.Display, displayContains)
-
 }
 
 func (receiver BaseDisplay) IsDisplayRegexMatches(regex *regexp.Regexp) bool {

@@ -28,8 +28,8 @@ func (it *LineIdentifier) IsNewLineRequest() bool {
 
 func (it *LineIdentifier) IsDeleteLineRequest() bool {
 	return it.HasLineNumber() &&
-		it.LineModifyAs.IsDelete() ||
-		it.LineModifyAs.IsDrop()
+		(it.LineModifyAs.IsDelete() ||
+			it.LineModifyAs.IsDrop())
 }
 
 func (it *LineIdentifier) IsModifyLineRequest() bool {

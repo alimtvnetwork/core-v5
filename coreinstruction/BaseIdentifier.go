@@ -37,7 +37,6 @@ func (identifier *BaseIdentifier) IsIdCaseInsensitive(idInsensitive string) bool
 
 func (identifier *BaseIdentifier) IsIdContains(idContains string) bool {
 	return strings.Contains(identifier.Id, idContains)
-
 }
 
 func (identifier *BaseIdentifier) IsIdRegexMatches(regex *regexp.Regexp) bool {
