@@ -17,8 +17,6 @@ func (it *newHashsetCreator) Cap(length int) *Hashset {
 	return &Hashset{
 		items:         hashset,
 		hasMapUpdated: false,
-		length:        length,
-		isEmptySet:    true,
 	}
 }
 
@@ -150,9 +148,8 @@ func (it *newHashsetCreator) UsingMapOption(
 	}
 
 	return &Hashset{
-		items:      itemsMap,
-		length:     length,
-		isEmptySet: length == constants.Zero,
+		items:         itemsMap,
+		hasMapUpdated: true,
 	}
 }
 

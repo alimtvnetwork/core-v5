@@ -17,23 +17,13 @@ import (
 
 type Hashset struct {
 	hasMapUpdated bool
-	isEmptySet    bool
-	length        int
 	items         map[string]bool
 	cachedList    []string
 	sync.Mutex
 }
 
 func (it *Hashset) IsEmpty() bool {
-	if it == nil {
-		return true
-	}
-
-	if it.hasMapUpdated {
-		it.isEmptySet = len(it.items) == 0
-	}
-
-	return it.isEmptySet
+	return it == nil || len(it.items) == 0
 }
 
 func (it *Hashset) HasItems() bool {
@@ -254,7 +244,7 @@ func (it *Hashset) AddNonEmpty(str string) *Hashset {
 		return it
 	}
 
-	return it
+	return it.Add(str)
 }
 
 func (it *Hashset) AddNonEmptyWhitespace(str string) *Hashset {
@@ -308,7 +298,7 @@ func (it *Hashset) AddStringsPtrWgLock(
 ) *Hashset {
 	length := len(keys)
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
@@ -334,7 +324,7 @@ func (it *Hashset) AddHashsetItems(
 
 	length := hashsetAdd.Length()
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacities(length*2, constants.ArbitraryCapacity100)
 	}
 
@@ -357,7 +347,7 @@ func (it *Hashset) AddItemsMap(
 
 	length := len(itemsMap)
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacities(length*2, constants.ArbitraryCapacity100)
 	}
 
@@ -386,7 +376,7 @@ func (it *Hashset) AddItemsMapWgLock(
 
 	length := len(*itemsMap)
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
@@ -417,7 +407,7 @@ func (it *Hashset) AddHashsetWgLock(
 
 	length := hashsetAdd.LengthLock()
 
-	if length > it.length || length > constants.ArbitraryCapacity100 {
+	if length > len(it.items) || length > constants.ArbitraryCapacity100 {
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
@@ -1062,15 +1052,11 @@ func (it *Hashset) ToLowerSet() *Hashset {
 }
 
 func (it *Hashset) Length() int {
-	if it == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
-	if it.hasMapUpdated {
-		it.length = len(it.items)
-	}
-
-	return it.length
+	return len(it.items)
 }
 
 func (it *Hashset) LengthLock() int {
@@ -1227,9 +1213,8 @@ func (it *Hashset) UnmarshalJSON(data []byte) error {
 
 	if err == nil {
 		it.items = dataModelItems
-		it.length = -1
 		it.hasMapUpdated = true
-		it.isEmptySet = false
+		it.cachedList = nil
 	}
 
 	return err

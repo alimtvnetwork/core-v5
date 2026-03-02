@@ -17,8 +17,6 @@ func (it *newHashmapCreator) Cap(length int) *Hashmap {
 	return &Hashmap{
 		items:         hashset,
 		hasMapUpdated: false,
-		length:        length,
-		isEmptySet:    true,
 	}
 }
 
@@ -84,9 +82,8 @@ func (it *newHashmapCreator) UsingMap(
 	length := len(itemsMap)
 
 	return &Hashmap{
-		items:      itemsMap,
-		length:     length,
-		isEmptySet: length == constants.Zero,
+		items:         itemsMap,
+		hasMapUpdated: true,
 	}
 }
 
@@ -111,9 +108,8 @@ func (it *newHashmapCreator) UsingMapOptions(
 
 	// no clone
 	return &Hashmap{
-		items:      itemsMap,
-		length:     length,
-		isEmptySet: length == constants.Zero,
+		items:         itemsMap,
+		hasMapUpdated: true,
 	}
 }
 
