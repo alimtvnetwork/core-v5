@@ -7,10 +7,5 @@ import (
 func SplitLeftRightTypeTrimmed(s, separator string) *corestr.LeftRight {
 	left, right := SplitLeftRightTrimmed(s, separator)
 
-	return &corestr.LeftRight{
-		Left:    left,
-		Right:   right,
-		IsValid: right != "" && left != "",
-		Message: "",
-	}
+	return corestr.NewLeftRight(left, right)
 }
