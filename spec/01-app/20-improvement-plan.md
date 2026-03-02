@@ -146,6 +146,61 @@ Migrate read-only methods from pointer to value receivers, package by package:
 
 ---
 
+## Phase 8: Deep Quality Sweep ✅ COMPLETE
+
+> Systematic codebase-wide sweep covering inline negation refactoring, defensive fixes, and regression test coverage.
+
+### 8.1 Inline Negation Refactoring ✅
+
+Refactored **~190 inline negations** across **~45 files** to use named boolean variables:
+
+| Pass | Scope | Files | Fixes |
+|------|-------|-------|-------|
+| 1 | `coredata/` core types | 22 | ~65 |
+| 2 | `coredata/` remaining | 15 | ~30 |
+| 3 | `internal/`, `coreutils/`, other packages | 30+ | ~95 |
+
+**Pattern**: `if !condition {` → `isNegated := !condition` + `if isNegated {`
+
+**Packages covered**: `coredata/corestr/`, `coredata/coredynamic/`, `coredata/coregeneric/`, `coredata/corejson/`, `coredata/corepayload/`, `coredata/coreonce/`, `coredata/stringslice/`, `internal/reflectinternal/`, `internal/strutilinternal/`, `internal/mapdiffinternal/`, `coreutils/stringutil/`, `codestack/`, `simplewrap/`, `chmodhelper/`, `namevalue/`, `errcore/`, `conditional/`, `issetter/`, `coreimpl/enumimpl/`, `coretests/`
+
+**Remaining exceptions**: `coretests/args/Map.go` — `!ok` guard clauses in type-assertion getters are standard Go idiom and intentionally preserved.
+
+### 8.2 Low-Priority Bug Fixes ✅
+
+- [x] `coredata/corestr/Hashmap.Clear()` — Added nil receiver guard + nil check on `cachedList` before slicing — **FIXED**
+- [x] `coredata/corestr/Hashset.AddBool()` — Added `it.hasMapUpdated = true` when new item is added to invalidate cached data — **FIXED**
+- [x] `coredata/corestr/Hashmap.AddOrUpdateCollection()` — Added length mismatch guard returning early if `keys` and `values` have different lengths — **FIXED**
+
+### 8.3 Regression Tests ✅
+
+Added **10 regression test cases** for the three low-priority fixes:
+
+| Fix | Test Cases | Covers |
+|-----|-----------|--------|
+| `Hashmap.Clear` nil safety | 3 | nil receiver, populated clear, chainability |
+| `Hashset.AddBool` cache invalidation | 3 | new item cache rebuild, existing item no-op, multiple additions |
+| `AddOrUpdateCollection` length mismatch | 4 | mismatched lengths, equal lengths, nil keys, empty keys |
+
+### 8.4 PairFromSplit / TripleFromSplit Tests ✅
+
+Added **30 test cases** across 4 new files covering all split constructors:
+
+| Function | Cases |
+|----------|-------|
+| `PairFromSplit` | 7 (standard, no sep, empty, multi-sep, sep at start/end, multi-char) |
+| `PairFromSplitTrimmed` | 2 |
+| `PairFromSplitFull` | 3 |
+| `PairFromSplitFullTrimmed` | 2 |
+| `PairFromSlice` | 4 (two-element, single, empty, three-element) |
+| `TripleFromSplit` | 6 (standard, no sep, two parts, four parts, empty, multi-char) |
+| `TripleFromSplitTrimmed` | 1 |
+| `TripleFromSplitN` | 3 |
+| `TripleFromSplitNTrimmed` | 1 |
+| `TripleFromSlice` | 4 (three-element, empty, single, two-element) |
+
+---
+
 ## Summary Timeline
 
 | Phase | Focus | Sessions | Status |
@@ -157,6 +212,7 @@ Migrate read-only methods from pointer to value receivers, package by package:
 | 5 | File splitting | 2-3 | 🔄 Started |
 | 6 | Value receivers | Ongoing | 🔄 Started |
 | 7 | Expert code review fixes | 1 | ✅ Complete |
+| 8 | Deep quality sweep | 1 | ✅ Complete |
 
 ## Remaining Work
 
