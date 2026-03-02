@@ -59,7 +59,7 @@ func (it *Version) VersionDisplayMajor() string {
 	return VSymbol + strconv.Itoa(it.VersionMajor)
 }
 
-func (it *Version) VersionDisplayMajorMinor() string {
+func (it Version) VersionDisplayMajorMinor() string {
 	if it.IsMinorInvalid() {
 		return it.VersionDisplayMajor()
 	}
@@ -70,7 +70,7 @@ func (it *Version) VersionDisplayMajorMinor() string {
 		strconv.Itoa(it.VersionMinor)
 }
 
-func (it *Version) VersionDisplayMajorMinorPatch() string {
+func (it Version) VersionDisplayMajorMinorPatch() string {
 	if it.IsPatchInvalid() {
 		return it.VersionDisplayMajorMinor()
 	}
@@ -171,7 +171,7 @@ func (it *Version) IsBuildInvalidOrZero() bool {
 		it.VersionBuild == constants.Zero
 }
 
-func (it *Version) isInvalidOrEmptyAll() bool {
+func (it Version) isInvalidOrEmptyAll() bool {
 	return it.IsInvalid == true ||
 		it.IsMajorInvalidOrZero() &&
 			it.IsMinorInvalidOrZero() &&
@@ -202,7 +202,7 @@ func (it *Version) IsInvalidOrEmpty() bool {
 	return it.IsEmptyOrInvalid()
 }
 
-func (it *Version) IsVersionCompareNotEqual(
+func (it Version) IsVersionCompareNotEqual(
 	versionCompact string,
 ) bool {
 	return !it.IsVersionCompareEqual(
@@ -223,7 +223,7 @@ func (it *Version) IsVersionCompareEqual(
 	return it.VersionCompact == versionCompact
 }
 
-func (it *Version) ValueByIndex(
+func (it Version) ValueByIndex(
 	index versionindexes.Index,
 ) int {
 	switch index {
@@ -240,7 +240,7 @@ func (it *Version) ValueByIndex(
 	return InvalidVersionValue
 }
 
-func (it *Version) ValueByIndexes(
+func (it Version) ValueByIndexes(
 	indexes ...versionindexes.Index,
 ) []int {
 	slice := make([]int, len(indexes))
@@ -252,12 +252,12 @@ func (it *Version) ValueByIndexes(
 	return slice
 }
 
-func (it *Version) AllVersionValues() []int {
+func (it Version) AllVersionValues() []int {
 	return it.ValueByIndexes(versionindexes.AllVersionIndexes...)
 }
 
-func (it *Version) AllValidVersionValues() []int {
-	slice := it.AllValidVersionValues()
+func (it Version) AllValidVersionValues() []int {
+	slice := it.AllVersionValues()
 
 	for i, item := range slice {
 		if item == InvalidVersionValue {
@@ -268,16 +268,16 @@ func (it *Version) AllValidVersionValues() []int {
 	return slice
 }
 
-func (it *Version) Major(comparingMajor int) corecomparator.Compare {
+func (it Version) Major(comparingMajor int) corecomparator.Compare {
 	return corecmp.Integer(it.VersionMajor, comparingMajor)
 }
 
-func (it *Version) IsMajorAtLeast(comparingMajor int) bool {
+func (it Version) IsMajorAtLeast(comparingMajor int) bool {
 	return corecmp.Integer(it.VersionMajor, comparingMajor).
 		IsLeftGreaterOrGreaterEqualOrEqual()
 }
 
-func (it *Version) IsMajorStringAtLeast(comparingMajor string) bool {
+func (it Version) IsMajorStringAtLeast(comparingMajor string) bool {
 	// fine to swallow error
 	majorInt, _ := strconv.Atoi(comparingMajor)
 
@@ -288,7 +288,7 @@ func (it *Version) IsMajorStringAtLeast(comparingMajor string) bool {
 // IsMajorMinorAtLeast
 //
 // Current major version and minor is greater or equal to the given ones.
-func (it *Version) IsMajorMinorAtLeast(
+func (it Version) IsMajorMinorAtLeast(
 	major, minor int,
 ) bool {
 	return it.MajorMinor(major, minor).
@@ -298,14 +298,14 @@ func (it *Version) IsMajorMinorAtLeast(
 // IsMajorBuildAtLeast
 //
 // Current major version and build is greater or equal to the given ones.
-func (it *Version) IsMajorBuildAtLeast(
+func (it Version) IsMajorBuildAtLeast(
 	major, build int,
 ) bool {
 	return it.MajorBuild(major, build).
 		IsLeftGreaterEqualLogically()
 }
 
-func (it *Version) IsMajorMinorPatchAtLeast(
+func (it Version) IsMajorMinorPatchAtLeast(
 	major,
 	minor,
 	patch int,
@@ -320,7 +320,7 @@ func (it *Version) IsMajorMinorPatchAtLeast(
 		IsLeftGreaterOrGreaterEqualOrEqual()
 }
 
-func (it *Version) MajorMinor(
+func (it Version) MajorMinor(
 	major,
 	minor int,
 ) corecomparator.Compare {
@@ -341,7 +341,7 @@ func (it *Version) MajorMinor(
 	return corecomparator.Equal
 }
 
-func (it *Version) MajorMinorPatchBuildString(
+func (it Version) MajorMinorPatchBuildString(
 	major,
 	minor,
 	build,
@@ -360,7 +360,7 @@ func (it *Version) MajorMinorPatchBuildString(
 		buildInt)
 }
 
-func (it *Version) MajorBuildString(
+func (it Version) MajorBuildString(
 	major,
 	build string,
 ) corecomparator.Compare {
@@ -372,7 +372,7 @@ func (it *Version) MajorBuildString(
 		majorInt, buildInt)
 }
 
-func (it *Version) MajorBuild(
+func (it Version) MajorBuild(
 	major,
 	build int,
 ) corecomparator.Compare {
@@ -393,7 +393,7 @@ func (it *Version) MajorBuild(
 	return corecomparator.Equal
 }
 
-func (it *Version) Patch(
+func (it Version) Patch(
 	patch int,
 ) corecomparator.Compare {
 	patchCmp := corecmp.Integer(
@@ -406,7 +406,7 @@ func (it *Version) Patch(
 	return corecomparator.Equal
 }
 
-func (it *Version) MajorPatch(
+func (it Version) MajorPatch(
 	major,
 	patch int,
 ) corecomparator.Compare {
@@ -427,7 +427,7 @@ func (it *Version) MajorPatch(
 	return corecomparator.Equal
 }
 
-func (it *Version) Build(
+func (it Version) Build(
 	build int,
 ) corecomparator.Compare {
 	buildCmp := corecmp.Integer(
@@ -440,7 +440,7 @@ func (it *Version) Build(
 	return corecomparator.Equal
 }
 
-func (it *Version) MajorMinorPatch(
+func (it Version) MajorMinorPatch(
 	major,
 	minor,
 	patch int,
@@ -462,7 +462,7 @@ func (it *Version) MajorMinorPatch(
 	return corecomparator.Equal
 }
 
-func (it *Version) MajorMinorPatchBuild(
+func (it Version) MajorMinorPatchBuild(
 	major,
 	minor,
 	patch,
@@ -487,52 +487,52 @@ func (it *Version) MajorMinorPatchBuild(
 	return corecomparator.Equal
 }
 
-func (it *Version) Compare(
+func (it Version) Compare(
 	right *Version,
 ) corecomparator.Compare {
-	return Compare(it, right)
+	return Compare(&it, right)
 }
 
-func (it *Version) IsEqual(
+func (it Version) IsEqual(
 	right *Version,
 ) bool {
-	return Compare(it, right).IsEqual()
+	return Compare(&it, right).IsEqual()
 }
 
 // IsLeftLessThan it < right
-func (it *Version) IsLeftLessThan(
+func (it Version) IsLeftLessThan(
 	right *Version,
 ) bool {
-	return Compare(it, right).IsLeftLess()
+	return Compare(&it, right).IsLeftLess()
 }
 
 // IsLeftGreaterThan it > right
-func (it *Version) IsLeftGreaterThan(
+func (it Version) IsLeftGreaterThan(
 	right *Version,
 ) bool {
-	return Compare(it, right).IsLeftGreater()
+	return Compare(&it, right).IsLeftGreater()
 }
 
 // IsLeftLessThanOrEqual it <= right
-func (it *Version) IsLeftLessThanOrEqual(
+func (it Version) IsLeftLessThanOrEqual(
 	right *Version,
 ) bool {
-	return Compare(it, right).IsLeftLessOrLessEqualOrEqual()
+	return Compare(&it, right).IsLeftLessOrLessEqualOrEqual()
 }
 
 // IsLeftGreaterThanOrEqual it >= right
-func (it *Version) IsLeftGreaterThanOrEqual(
+func (it Version) IsLeftGreaterThanOrEqual(
 	right *Version,
 ) bool {
-	return Compare(it, right).
+	return Compare(&it, right).
 		IsLeftGreaterOrGreaterEqualOrEqual()
 }
 
-func (it *Version) IsExpectedComparison(
+func (it Version) IsExpectedComparison(
 	expectedComparison corecomparator.Compare,
 	right *Version,
 ) bool {
-	c := Compare(it, right)
+	c := Compare(&it, right)
 
 	return c.
 		IsCompareEqualLogically(expectedComparison)
@@ -545,7 +545,7 @@ func (it *Version) IsExpectedComparison(
 //	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
 //	@return bool
-func (it *Version) IsExpectedComparisonRawVersion(
+func (it Version) IsExpectedComparisonRawVersion(
 	expectedComparison corecomparator.Compare,
 	rightVersion string,
 ) bool {
@@ -561,7 +561,7 @@ func (it *Version) IsExpectedComparisonRawVersion(
 //	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
 //	@return bool
-func (it *Version) IsAtLeast(
+func (it Version) IsAtLeast(
 	rightVersion string,
 ) bool {
 	return it.IsExpectedComparison(
@@ -576,7 +576,7 @@ func (it *Version) IsAtLeast(
 //	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
 //	@return bool
-func (it *Version) IsEqualVersionString(
+func (it Version) IsEqualVersionString(
 	rightVersion string,
 ) bool {
 	return it.IsExpectedComparison(
@@ -591,7 +591,7 @@ func (it *Version) IsEqualVersionString(
 //	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
 //	@return bool
-func (it *Version) IsLowerVersionString(
+func (it Version) IsLowerVersionString(
 	rightVersion string,
 ) bool {
 	return it.IsExpectedComparison(
@@ -606,7 +606,7 @@ func (it *Version) IsLowerVersionString(
 //	@param rightVersion : can have "v0.0.0" or "0.0.0" or "v0.0.0.0" or "v0" or "v0.1"
 //
 //	@return bool
-func (it *Version) IsLowerEqualVersionString(
+func (it Version) IsLowerEqualVersionString(
 	rightVersion string,
 ) bool {
 	return it.IsExpectedComparison(
@@ -615,11 +615,11 @@ func (it *Version) IsLowerEqualVersionString(
 	)
 }
 
-func (it *Version) ComparisonValueIndexes(
+func (it Version) ComparisonValueIndexes(
 	right *Version,
 	indexes ...versionindexes.Index,
 ) corecomparator.Compare {
-	r, isApplicable := hasDeductUsingNilNess(it, right)
+	r, isApplicable := hasDeductUsingNilNess(&it, right)
 
 	if isApplicable {
 		return r
