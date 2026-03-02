@@ -5,30 +5,26 @@ import (
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coredata/coregeneric"
 	"gitlab.com/auk-go/core/internal/strutilinternal"
 )
 
+// LeftRight is a string-specialized two-value container.
+// It embeds coregeneric.Pair[string, string] for core logic
+// and adds string-specific convenience methods.
 type LeftRight struct {
-	Left, Right string
-	IsValid     bool
-	Message     string
+	coregeneric.Pair[string, string]
 }
 
 func InvalidLeftRightNoMessage() *LeftRight {
 	return &LeftRight{
-		Left:    constants.EmptyString,
-		Right:   constants.EmptyString,
-		IsValid: false,
-		Message: constants.EmptyString,
+		Pair: *coregeneric.InvalidPairNoMessage[string, string](),
 	}
 }
 
 func InvalidLeftRight(message string) *LeftRight {
 	return &LeftRight{
-		Left:    constants.EmptyString,
-		Right:   constants.EmptyString,
-		IsValid: false,
-		Message: message,
+		Pair: *coregeneric.InvalidPair[string, string](message),
 	}
 }
 
@@ -56,16 +52,20 @@ func LeftRightTrimmedUsingSlice(slice []string) *LeftRight {
 
 	if length == 1 {
 		return &LeftRight{
-			Left:    slice[constants.Zero],
-			Right:   constants.EmptyString,
-			IsValid: length == ExpectingLengthForLeftRight,
+			Pair: coregeneric.Pair[string, string]{
+				Left:    slice[constants.Zero],
+				Right:   constants.EmptyString,
+				IsValid: length == ExpectingLengthForLeftRight,
+			},
 		}
 	}
 
 	return &LeftRight{
-		Left:    strings.TrimSpace(slice[constants.Zero]),
-		Right:   strings.TrimSpace(slice[length-1]),
-		IsValid: length == ExpectingLengthForLeftRight,
+		Pair: coregeneric.Pair[string, string]{
+			Left:    strings.TrimSpace(slice[constants.Zero]),
+			Right:   strings.TrimSpace(slice[length-1]),
+			IsValid: length == ExpectingLengthForLeftRight,
+		},
 	}
 }
 
@@ -80,18 +80,31 @@ func LeftRightUsingSlice(slice []string) *LeftRight {
 
 	if length == 1 {
 		return &LeftRight{
-			Left:    slice[constants.Zero],
-			Right:   constants.EmptyString,
-			IsValid: length == ExpectingLengthForLeftRight,
+			Pair: coregeneric.Pair[string, string]{
+				Left:    slice[constants.Zero],
+				Right:   constants.EmptyString,
+				IsValid: length == ExpectingLengthForLeftRight,
+			},
 		}
 	}
 
 	return &LeftRight{
-		Left:    slice[constants.Zero],
-		Right:   slice[length-1],
-		IsValid: length == ExpectingLengthForLeftRight,
+		Pair: coregeneric.Pair[string, string]{
+			Left:    slice[constants.Zero],
+			Right:   slice[length-1],
+			IsValid: length == ExpectingLengthForLeftRight,
+		},
 	}
 }
+
+// NewLeftRight creates a valid LeftRight from two strings.
+func NewLeftRight(left, right string) *LeftRight {
+	return &LeftRight{
+		Pair: *coregeneric.NewPair(left, right),
+	}
+}
+
+// --- String-specific methods ---
 
 func (it *LeftRight) LeftBytes() []byte {
 	return []byte(it.Left)
@@ -202,10 +215,7 @@ func (it *LeftRight) IsEqual(another *LeftRight) bool {
 
 func (it *LeftRight) Clone() *LeftRight {
 	return &LeftRight{
-		Left:    it.Left,
-		Right:   it.Right,
-		IsValid: it.IsValid,
-		Message: it.Message,
+		Pair: *it.Pair.Clone(),
 	}
 }
 
@@ -214,10 +224,7 @@ func (it *LeftRight) Clear() {
 		return
 	}
 
-	it.Left = ""
-	it.Right = ""
-	it.IsValid = false
-	it.Message = ""
+	it.Pair.Clear()
 }
 
 func (it *LeftRight) Dispose() {
