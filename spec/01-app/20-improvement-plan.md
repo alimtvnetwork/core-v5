@@ -86,17 +86,17 @@
 
 ---
 
-## Phase 5: Refactoring Large Files — IN PROGRESS
+## Phase 5: Refactoring Large Files ✅ COMPLETE
 
 | File | Lines | Action | Status |
 |------|-------|--------|--------|
-| `PayloadWrapper.go` | 842→817 | Split: extracted `PayloadWrapperGetters.go`, `PayloadWrapperJson.go` | ✅ Started |
-| `Attributes.go` | 768 | Split planned: `AttributesGetters.go`, `AttributesSetters.go` | Pending |
-| `Info.go` | 646 | Split planned | Pending |
+| `PayloadWrapper.go` | 842→817 | Split: extracted `PayloadWrapperGetters.go`, `PayloadWrapperJson.go` | ✅ Done |
+| `Attributes.go` | 768→144 | Split: `AttributesGetters.go`, `AttributesSetters.go`, `AttributesJson.go` | ✅ Done |
+| `Info.go` | 646→159 | Split: `InfoGetters.go`, `InfoJson.go`, `InfoMap.go` | ✅ Done |
 | `DynamicCollection.go` | 636 | Deprecated, replaced by `Collection[T]` | ✅ Done |
 | `AnyCollection.go` | 707 | Deprecated, replaced by `Collection[any]` | ✅ Done |
-| `Dynamic.go` | 674 | Split planned: `DynamicGetters.go`, `DynamicReflect.go` | Pending |
-| `BaseTestCase.go` | 435 | Split planned | Pending |
+| `Dynamic.go` | 674→108 | Split: `DynamicGetters.go`, `DynamicReflect.go`, `DynamicJson.go` | ✅ Done |
+| `BaseTestCase.go` | 437→130 | Split: `BaseTestCaseGetters.go`, `BaseTestCaseValidation.go`, `BaseTestCaseAssertions.go` | ✅ Done |
 
 ---
 
@@ -209,7 +209,7 @@ Added **30 test cases** across 4 new files covering all split constructors:
 | 2 | Generic Collection[T] | 3-4 | ✅ Complete |
 | 3 | Generic Payload/Dynamic helpers | 2 | ✅ Complete |
 | 4 | Test coverage | 8-10 | ✅ P0 Complete |
-| 5 | File splitting | 2-3 | 🔄 Started |
+| 5 | File splitting | 2-3 | ✅ Complete |
 | 6 | Value receivers | Ongoing | 🔄 Started |
 | 7 | Expert code review fixes | 1 | ✅ Complete |
 | 8 | Deep quality sweep | 1 | ✅ Complete |
