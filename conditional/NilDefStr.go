@@ -1,39 +1,30 @@
 package conditional
 
-import "gitlab.com/auk-go/core/constants"
-
+// Deprecated: Use NilDeref[string] instead.
 func NilDefStr(
 	strPtr *string,
 ) string {
-	if strPtr == nil {
-		return constants.EmptyString
-	}
-
-	return *strPtr
+	return NilDeref[string](strPtr)
 }
 
+// Deprecated: Use NilDerefPtr[string] instead.
 func NilDefStrPtr(
 	strPtr *string,
 ) *string {
-	if strPtr == nil {
-		return constants.EmptyStringPtr
-	}
-
-	return strPtr
+	return NilDerefPtr[string](strPtr)
 }
 
+// Deprecated: Use NilVal[string] instead.
 func NilStr(
 	strPtr *string,
 	onNil string,
 	onNonNil string,
 ) string {
-	if strPtr == nil {
-		return onNil
-	}
-
-	return onNonNil
+	return NilVal[string](strPtr, onNil, onNonNil)
 }
 
+// NilOrEmptyStr checks for both nil and empty string.
+// No generic replacement — string-specific behavior.
 func NilOrEmptyStr(
 	strPtr *string,
 	onNilOrEmpty string,
@@ -46,6 +37,8 @@ func NilOrEmptyStr(
 	return onNonNilOrNonEmpty
 }
 
+// NilOrEmptyStrPtr checks for both nil and empty string, returns pointer.
+// No generic replacement — string-specific behavior.
 func NilOrEmptyStrPtr(
 	strPtr *string,
 	onNilOrEmpty string,

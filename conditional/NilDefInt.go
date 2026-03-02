@@ -1,34 +1,23 @@
 package conditional
 
-import "gitlab.com/auk-go/core/constants"
-
+// Deprecated: Use NilDeref[int] instead.
 func NilDefInt(
 	valuePointer *int,
 ) int {
-	if valuePointer == nil {
-		return constants.Zero
-	}
-
-	return *valuePointer
+	return NilDeref[int](valuePointer)
 }
 
+// Deprecated: Use NilDerefPtr[int] instead.
 func NilDefIntPtr(
 	valuePointer *int,
 ) *int {
-	if valuePointer == nil {
-		return constants.ZeroPtr
-	}
-
-	return valuePointer
+	return NilDerefPtr[int](valuePointer)
 }
 
+// Deprecated: Use NilDef[int] instead.
 func NilDefValInt(
 	valuePointer *int,
 	defVal int,
 ) int {
-	if valuePointer == nil {
-		return defVal
-	}
-
-	return *valuePointer
+	return NilDef[int](valuePointer, defVal)
 }
