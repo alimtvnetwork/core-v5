@@ -120,3 +120,73 @@ func IfPtr[T any](
 
 	return falseValue
 }
+
+// NilVal returns onNil if the pointer is nil, otherwise onNonNil.
+// Unlike NilDef, it does NOT dereference the pointer — it chooses between two provided values.
+//
+// It replaces NilStr, NilCheck, and similar per-type nil-conditional functions.
+//
+// Usage:
+//
+//	label := conditional.NilVal[string](namePtr, "(unknown)", "has name")
+func NilVal[T any](
+	valuePointer *T,
+	onNil, onNonNil T,
+) T {
+	if valuePointer == nil {
+		return onNil
+	}
+
+	return onNonNil
+}
+
+// NilValPtr is like NilVal but returns a pointer to the chosen value.
+//
+// Usage:
+//
+//	labelPtr := conditional.NilValPtr[string](namePtr, "(unknown)", "has name")
+func NilValPtr[T any](
+	valuePointer *T,
+	onNil, onNonNil T,
+) *T {
+	if valuePointer == nil {
+		return &onNil
+	}
+
+	return &onNonNil
+}
+
+// NilDeref dereferences a pointer, returning the zero value of T if nil.
+// It replaces NilDefBool, NilDefByte, NilDefInt, NilDefStr (zero-default variants).
+//
+// Usage:
+//
+//	active := conditional.NilDeref[bool](flagPtr)   // false if nil
+//	name := conditional.NilDeref[string](namePtr)   // "" if nil
+func NilDeref[T any](
+	valuePointer *T,
+) T {
+	if valuePointer == nil {
+		var zero T
+		return zero
+	}
+
+	return *valuePointer
+}
+
+// NilDerefPtr returns the pointer itself if non-nil, otherwise a pointer to the zero value.
+// It replaces NilDefBoolPtr, NilDefBytePtr, NilDefIntPtr, NilDefStrPtr.
+//
+// Usage:
+//
+//	ptr := conditional.NilDerefPtr[int](intPtr) // guaranteed non-nil
+func NilDerefPtr[T any](
+	valuePointer *T,
+) *T {
+	if valuePointer == nil {
+		var zero T
+		return &zero
+	}
+
+	return valuePointer
+}

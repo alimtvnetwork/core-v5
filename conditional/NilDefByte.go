@@ -1,45 +1,31 @@
 package conditional
 
-import "gitlab.com/auk-go/core/constants"
-
+// Deprecated: Use NilDeref[byte] instead.
 func NilDefByte(
 	valuePointer *byte,
 ) byte {
-	if valuePointer == nil {
-		return constants.Zero
-	}
-
-	return *valuePointer
+	return NilDeref[byte](valuePointer)
 }
 
+// Deprecated: Use NilDerefPtr[byte] instead.
 func NilDefBytePtr(
 	valuePointer *byte,
 ) *byte {
-	if valuePointer == nil {
-		return constants.ZeroBytePtr
-	}
-
-	return valuePointer
+	return NilDerefPtr[byte](valuePointer)
 }
 
+// Deprecated: Use NilDef[byte] instead.
 func NilByteVal(
 	valuePointer *byte,
 	defVal byte,
 ) byte {
-	if valuePointer == nil {
-		return defVal
-	}
-
-	return *valuePointer
+	return NilDef[byte](valuePointer, defVal)
 }
 
+// Deprecated: Use NilDefPtr[byte] instead.
 func NilByteValPtr(
 	valuePointer *byte,
 	defVal byte,
 ) *byte {
-	if valuePointer == nil {
-		return &defVal
-	}
-
-	return valuePointer
+	return NilDefPtr[byte](valuePointer, defVal)
 }

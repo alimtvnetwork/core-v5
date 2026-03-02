@@ -1,45 +1,31 @@
 package conditional
 
-import "gitlab.com/auk-go/core/constants"
-
+// Deprecated: Use NilDeref[bool] instead.
 func NilDefBool(
 	valuePointer *bool,
 ) bool {
-	if valuePointer == nil {
-		return false
-	}
-
-	return *valuePointer
+	return NilDeref[bool](valuePointer)
 }
 
+// Deprecated: Use NilDerefPtr[bool] instead.
 func NilDefBoolPtr(
 	valuePointer *bool,
 ) *bool {
-	if valuePointer == nil {
-		return constants.FalseBoolPtr
-	}
-
-	return valuePointer
+	return NilDerefPtr[bool](valuePointer)
 }
 
+// Deprecated: Use NilDef[bool] instead.
 func NilBoolVal(
 	valuePointer *bool,
 	defVal bool,
 ) bool {
-	if valuePointer == nil {
-		return defVal
-	}
-
-	return *valuePointer
+	return NilDef[bool](valuePointer, defVal)
 }
 
+// Deprecated: Use NilDefPtr[bool] instead.
 func NilBoolValPtr(
 	valuePointer *bool,
 	defVal bool,
 ) *bool {
-	if valuePointer == nil {
-		return &defVal
-	}
-
-	return valuePointer
+	return NilDefPtr[bool](valuePointer, defVal)
 }
