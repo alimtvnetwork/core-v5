@@ -203,9 +203,8 @@ func (it *Hashset) AddWithWgLock(
 ) *Hashset {
 	it.Lock()
 	it.items[key] = true
-	it.Unlock()
-
 	it.hasMapUpdated = true
+	it.Unlock()
 
 	group.Done()
 
@@ -215,9 +214,8 @@ func (it *Hashset) AddWithWgLock(
 func (it *Hashset) AddPtrLock(key *string) *Hashset {
 	it.Lock()
 	it.items[*key] = true
-	it.Unlock()
-
 	it.hasMapUpdated = true
+	it.Unlock()
 
 	return it
 }
@@ -307,10 +305,10 @@ func (it *Hashset) AddStringsPtrWgLock(
 		it.items[key] = true
 	}
 
-	it.Unlock()
-	wg.Done()
-
 	it.hasMapUpdated = true
+	it.Unlock()
+
+	wg.Done()
 
 	return it
 }
@@ -380,19 +378,21 @@ func (it *Hashset) AddItemsMapWgLock(
 		it.AddCapacitiesLock(length*2, constants.ArbitraryCapacity100)
 	}
 
+	it.Lock()
 	for k, isEnabled := range *itemsMap {
-		if !isEnabled {
+		isDisabled := !isEnabled
+
+		if isDisabled {
 			continue
 		}
 
-		it.Lock()
 		it.items[k] = true
-		it.Unlock()
 	}
 
-	wg.Done()
-
 	it.hasMapUpdated = true
+	it.Unlock()
+
+	wg.Done()
 
 	return it
 }
@@ -416,10 +416,10 @@ func (it *Hashset) AddHashsetWgLock(
 		it.items[k] = true
 	}
 
-	it.Unlock()
-	wg.Done()
-
 	it.hasMapUpdated = true
+	it.Unlock()
+
+	wg.Done()
 
 	return it
 }
@@ -456,9 +456,8 @@ func (it *Hashset) AddStringsLock(keys []string) *Hashset {
 		it.items[key] = true
 	}
 
-	it.Unlock()
-
 	it.hasMapUpdated = true
+	it.Unlock()
 
 	return it
 }
@@ -567,9 +566,8 @@ func (it *Hashset) AddsAnyUsingFilterLock(
 		if isKeep {
 			it.Lock()
 			it.items[result] = true
-			it.Unlock()
-
 			it.hasMapUpdated = true
+			it.Unlock()
 		}
 
 		if isBreak {
