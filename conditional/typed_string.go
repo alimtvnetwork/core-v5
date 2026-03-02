@@ -77,14 +77,24 @@ func NilDefPtrString(
 	return NilDefPtr[string](valuePointer, defVal)
 }
 
-// NilDerefString is a typed convenience wrapper for NilDeref[string].
-func NilDerefString(valuePointer *string) string {
-	return NilDeref[string](valuePointer)
+// ValueOrZeroString is a typed convenience wrapper for ValueOrZero[string].
+func ValueOrZeroString(valuePointer *string) string {
+	return ValueOrZero[string](valuePointer)
 }
 
-// NilDerefPtrString is a typed convenience wrapper for NilDerefPtr[string].
+// PtrOrZeroString is a typed convenience wrapper for PtrOrZero[string].
+func PtrOrZeroString(valuePointer *string) *string {
+	return PtrOrZero[string](valuePointer)
+}
+
+// Deprecated: Use ValueOrZeroString instead.
+func NilDerefString(valuePointer *string) string {
+	return ValueOrZero[string](valuePointer)
+}
+
+// Deprecated: Use PtrOrZeroString instead.
 func NilDerefPtrString(valuePointer *string) *string {
-	return NilDerefPtr[string](valuePointer)
+	return PtrOrZero[string](valuePointer)
 }
 
 // NilValString is a typed convenience wrapper for NilVal[string].

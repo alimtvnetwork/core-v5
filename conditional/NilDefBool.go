@@ -1,17 +1,17 @@
 package conditional
 
-// Deprecated: Use NilDeref[bool] instead.
+// Deprecated: Use ValueOrZero[bool] instead.
 func NilDefBool(
 	valuePointer *bool,
 ) bool {
-	return NilDeref[bool](valuePointer)
+	return ValueOrZero[bool](valuePointer)
 }
 
-// Deprecated: Use NilDerefPtr[bool] instead.
+// Deprecated: Use PtrOrZero[bool] instead.
 func NilDefBoolPtr(
 	valuePointer *bool,
 ) *bool {
-	return NilDerefPtr[bool](valuePointer)
+	return PtrOrZero[bool](valuePointer)
 }
 
 // Deprecated: Use NilDef[bool] instead.

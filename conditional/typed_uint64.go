@@ -56,14 +56,24 @@ func NilDefPtrUint64(
 	return NilDefPtr[uint64](valuePointer, defVal)
 }
 
-// NilDerefUint64 is a typed convenience wrapper for NilDeref[uint64].
-func NilDerefUint64(valuePointer *uint64) uint64 {
-	return NilDeref[uint64](valuePointer)
+// ValueOrZeroUint64 is a typed convenience wrapper for ValueOrZero[uint64].
+func ValueOrZeroUint64(valuePointer *uint64) uint64 {
+	return ValueOrZero[uint64](valuePointer)
 }
 
-// NilDerefPtrUint64 is a typed convenience wrapper for NilDerefPtr[uint64].
+// PtrOrZeroUint64 is a typed convenience wrapper for PtrOrZero[uint64].
+func PtrOrZeroUint64(valuePointer *uint64) *uint64 {
+	return PtrOrZero[uint64](valuePointer)
+}
+
+// Deprecated: Use ValueOrZeroUint64 instead.
+func NilDerefUint64(valuePointer *uint64) uint64 {
+	return ValueOrZero[uint64](valuePointer)
+}
+
+// Deprecated: Use PtrOrZeroUint64 instead.
 func NilDerefPtrUint64(valuePointer *uint64) *uint64 {
-	return NilDerefPtr[uint64](valuePointer)
+	return PtrOrZero[uint64](valuePointer)
 }
 
 // NilValUint64 is a typed convenience wrapper for NilVal[uint64].

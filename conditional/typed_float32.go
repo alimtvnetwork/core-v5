@@ -75,14 +75,24 @@ func NilDefPtrFloat32(
 	return NilDefPtr[float32](valuePointer, defVal)
 }
 
-// NilDerefFloat32 is a typed convenience wrapper for NilDeref[float32].
-func NilDerefFloat32(valuePointer *float32) float32 {
-	return NilDeref[float32](valuePointer)
+// ValueOrZeroFloat32 is a typed convenience wrapper for ValueOrZero[float32].
+func ValueOrZeroFloat32(valuePointer *float32) float32 {
+	return ValueOrZero[float32](valuePointer)
 }
 
-// NilDerefPtrFloat32 is a typed convenience wrapper for NilDerefPtr[float32].
+// PtrOrZeroFloat32 is a typed convenience wrapper for PtrOrZero[float32].
+func PtrOrZeroFloat32(valuePointer *float32) *float32 {
+	return PtrOrZero[float32](valuePointer)
+}
+
+// Deprecated: Use ValueOrZeroFloat32 instead.
+func NilDerefFloat32(valuePointer *float32) float32 {
+	return ValueOrZero[float32](valuePointer)
+}
+
+// Deprecated: Use PtrOrZeroFloat32 instead.
 func NilDerefPtrFloat32(valuePointer *float32) *float32 {
-	return NilDerefPtr[float32](valuePointer)
+	return PtrOrZero[float32](valuePointer)
 }
 
 // NilValFloat32 is a typed convenience wrapper for NilVal[float32].

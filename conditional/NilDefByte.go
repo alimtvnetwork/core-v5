@@ -1,17 +1,17 @@
 package conditional
 
-// Deprecated: Use NilDeref[byte] instead.
+// Deprecated: Use ValueOrZero[byte] instead.
 func NilDefByte(
 	valuePointer *byte,
 ) byte {
-	return NilDeref[byte](valuePointer)
+	return ValueOrZero[byte](valuePointer)
 }
 
-// Deprecated: Use NilDerefPtr[byte] instead.
+// Deprecated: Use PtrOrZero[byte] instead.
 func NilDefBytePtr(
 	valuePointer *byte,
 ) *byte {
-	return NilDerefPtr[byte](valuePointer)
+	return PtrOrZero[byte](valuePointer)
 }
 
 // Deprecated: Use NilDef[byte] instead.

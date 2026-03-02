@@ -70,14 +70,24 @@ func NilDefPtrInt(
 	return NilDefPtr[int](valuePointer, defVal)
 }
 
-// NilDerefInt is a typed convenience wrapper for NilDeref[int].
-func NilDerefInt(valuePointer *int) int {
-	return NilDeref[int](valuePointer)
+// ValueOrZeroInt is a typed convenience wrapper for ValueOrZero[int].
+func ValueOrZeroInt(valuePointer *int) int {
+	return ValueOrZero[int](valuePointer)
 }
 
-// NilDerefPtrInt is a typed convenience wrapper for NilDerefPtr[int].
+// PtrOrZeroInt is a typed convenience wrapper for PtrOrZero[int].
+func PtrOrZeroInt(valuePointer *int) *int {
+	return PtrOrZero[int](valuePointer)
+}
+
+// Deprecated: Use ValueOrZeroInt instead.
+func NilDerefInt(valuePointer *int) int {
+	return ValueOrZero[int](valuePointer)
+}
+
+// Deprecated: Use PtrOrZeroInt instead.
 func NilDerefPtrInt(valuePointer *int) *int {
-	return NilDerefPtr[int](valuePointer)
+	return PtrOrZero[int](valuePointer)
 }
 
 // NilValInt is a typed convenience wrapper for NilVal[int].

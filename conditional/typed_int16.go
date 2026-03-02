@@ -75,14 +75,24 @@ func NilDefPtrInt16(
 	return NilDefPtr[int16](valuePointer, defVal)
 }
 
-// NilDerefInt16 is a typed convenience wrapper for NilDeref[int16].
-func NilDerefInt16(valuePointer *int16) int16 {
-	return NilDeref[int16](valuePointer)
+// ValueOrZeroInt16 is a typed convenience wrapper for ValueOrZero[int16].
+func ValueOrZeroInt16(valuePointer *int16) int16 {
+	return ValueOrZero[int16](valuePointer)
 }
 
-// NilDerefPtrInt16 is a typed convenience wrapper for NilDerefPtr[int16].
+// PtrOrZeroInt16 is a typed convenience wrapper for PtrOrZero[int16].
+func PtrOrZeroInt16(valuePointer *int16) *int16 {
+	return PtrOrZero[int16](valuePointer)
+}
+
+// Deprecated: Use ValueOrZeroInt16 instead.
+func NilDerefInt16(valuePointer *int16) int16 {
+	return ValueOrZero[int16](valuePointer)
+}
+
+// Deprecated: Use PtrOrZeroInt16 instead.
 func NilDerefPtrInt16(valuePointer *int16) *int16 {
-	return NilDerefPtr[int16](valuePointer)
+	return PtrOrZero[int16](valuePointer)
 }
 
 // NilValInt16 is a typed convenience wrapper for NilVal[int16].

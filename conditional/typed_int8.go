@@ -75,14 +75,24 @@ func NilDefPtrInt8(
 	return NilDefPtr[int8](valuePointer, defVal)
 }
 
-// NilDerefInt8 is a typed convenience wrapper for NilDeref[int8].
-func NilDerefInt8(valuePointer *int8) int8 {
-	return NilDeref[int8](valuePointer)
+// ValueOrZeroInt8 is a typed convenience wrapper for ValueOrZero[int8].
+func ValueOrZeroInt8(valuePointer *int8) int8 {
+	return ValueOrZero[int8](valuePointer)
 }
 
-// NilDerefPtrInt8 is a typed convenience wrapper for NilDerefPtr[int8].
+// PtrOrZeroInt8 is a typed convenience wrapper for PtrOrZero[int8].
+func PtrOrZeroInt8(valuePointer *int8) *int8 {
+	return PtrOrZero[int8](valuePointer)
+}
+
+// Deprecated: Use ValueOrZeroInt8 instead.
+func NilDerefInt8(valuePointer *int8) int8 {
+	return ValueOrZero[int8](valuePointer)
+}
+
+// Deprecated: Use PtrOrZeroInt8 instead.
 func NilDerefPtrInt8(valuePointer *int8) *int8 {
-	return NilDerefPtr[int8](valuePointer)
+	return PtrOrZero[int8](valuePointer)
 }
 
 // NilValInt8 is a typed convenience wrapper for NilVal[int8].
