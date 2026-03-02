@@ -553,7 +553,7 @@ func (it *LinkedList) RemoveNodeByIndexes(
 		func(
 			arg *LinkedListFilterParameter,
 		) *LinkedListFilterResult {
-			hasIndex := coreindexes.HasIndexPlusRemoveIndex(removingIndexesCopy, arg.Index)
+			hasIndex := coreindexes.HasIndexPlusRemoveIndex(&removingIndexesCopy, arg.Index)
 			if hasIndex {
 				// remove
 				return &LinkedListFilterResult{

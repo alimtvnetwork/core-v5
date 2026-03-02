@@ -235,7 +235,7 @@ func (it Variation) IsNetBsd() bool {
 }
 
 func (it Variation) IsOpenBsd() bool {
-	return it == NetBsd
+	return it == OpenBsd
 }
 
 func (it Variation) IsDragonFly() bool {
