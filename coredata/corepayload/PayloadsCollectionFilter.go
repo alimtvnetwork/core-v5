@@ -130,8 +130,9 @@ func (it *PayloadsCollection) SkipFilterCollection(
 
 	for _, item := range it.Items {
 		isSkip, isBreak := skipFilterFunc(item)
+		isInclude := !isSkip
 
-		if !isSkip {
+		if isInclude {
 			list = append(list, item)
 		}
 

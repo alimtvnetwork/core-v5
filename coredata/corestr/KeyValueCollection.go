@@ -205,7 +205,9 @@ func (it *KeyValueCollection) AddIf(
 	isAdd bool,
 	key, val string,
 ) *KeyValueCollection {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 

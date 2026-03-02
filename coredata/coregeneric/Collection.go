@@ -158,7 +158,9 @@ func (it *Collection[T]) AddSlice(items []T) *Collection[T] {
 
 // AddIf appends the item only if the condition is true.
 func (it *Collection[T]) AddIf(isAdd bool, item T) *Collection[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 
@@ -169,7 +171,9 @@ func (it *Collection[T]) AddIf(isAdd bool, item T) *Collection[T] {
 
 // AddIfMany appends items only if the condition is true.
 func (it *Collection[T]) AddIfMany(isAdd bool, items ...T) *Collection[T] {
-	if !isAdd {
+	isSkip := !isAdd
+
+	if isSkip {
 		return it
 	}
 

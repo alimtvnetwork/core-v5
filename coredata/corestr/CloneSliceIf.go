@@ -8,7 +8,9 @@ func CloneSliceIf(
 		return []string{}
 	}
 
-	if !isClone {
+	isSkipClone := !isClone
+
+	if isSkipClone {
 		return sourceItems
 	}
 

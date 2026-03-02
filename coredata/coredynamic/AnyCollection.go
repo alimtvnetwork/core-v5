@@ -224,7 +224,9 @@ func (it *AnyCollection) ListStrings(isIncludeFieldName bool) []string {
 }
 
 func (it *AnyCollection) RemoveAt(index int) (isSuccess bool) {
-	if !it.HasIndex(index) {
+	isInvalidIndex := !it.HasIndex(index)
+
+	if isInvalidIndex {
 		return false
 	}
 

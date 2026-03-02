@@ -330,8 +330,9 @@ func (it *PayloadWrapper) IsStandardTaskEntityEqual(
 	entity entityinf.StandardTaskEntityDefiner,
 ) bool {
 	another, isSuccess := entity.(*PayloadWrapper)
+	isCastFailed := !isSuccess
 
-	if !isSuccess {
+	if isCastFailed {
 		return false
 	}
 
@@ -420,11 +421,15 @@ func (it *PayloadWrapper) IsEqual(right *PayloadWrapper) bool {
 		return false
 	}
 
-	if !bytes.Equal(it.Payloads, right.Payloads) {
+	isPayloadsDifferent := !bytes.Equal(it.Payloads, right.Payloads)
+
+	if isPayloadsDifferent {
 		return false
 	}
 
-	if !it.Attributes.IsEqual(right.Attributes) {
+	isAttrDifferent := !it.Attributes.IsEqual(right.Attributes)
+
+	if isAttrDifferent {
 		return false
 	}
 

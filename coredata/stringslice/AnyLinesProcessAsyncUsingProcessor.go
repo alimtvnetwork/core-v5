@@ -20,7 +20,9 @@ func AnyLinesProcessAsyncUsingProcessor(
 	isArrayOrSlice := kind == reflect.Slice ||
 		kind == reflect.Array
 
-	if !isArrayOrSlice {
+	isNotSliceOrArray := !isArrayOrSlice
+
+	if isNotSliceOrArray {
 		return []string{}
 	}
 

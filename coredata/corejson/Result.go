@@ -813,7 +813,9 @@ func (it *Result) IsEqualPtr(another *Result) bool {
 		return false
 	}
 
-	if !it.IsErrorEqual(another.Error) {
+	isErrorDifferent := !it.IsErrorEqual(another.Error)
+
+	if isErrorDifferent {
 		return false
 	}
 
@@ -860,7 +862,9 @@ func (it Result) IsEqual(another Result) bool {
 		return false
 	}
 
-	if !it.IsErrorEqual(another.Error) {
+	isErrorDifferent := !it.IsErrorEqual(another.Error)
+
+	if isErrorDifferent {
 		return false
 	}
 

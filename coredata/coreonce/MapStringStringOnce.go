@@ -129,7 +129,9 @@ func (it *MapStringStringOnce) IsEmpty() bool {
 
 func (it *MapStringStringOnce) HasAll(searchTerms ...string) bool {
 	for _, term := range searchTerms {
-		if !it.IsContains(term) {
+		isMissing := !it.IsContains(term)
+
+		if isMissing {
 			return false
 		}
 	}

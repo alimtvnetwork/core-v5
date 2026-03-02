@@ -195,7 +195,9 @@ func (it *Collection[T]) AddNonNil(item *T) *Collection[T] {
 
 // RemoveAt removes the item at the given index. Returns false if index is invalid.
 func (it *Collection[T]) RemoveAt(index int) bool {
-	if !it.HasIndex(index) {
+	isInvalidIndex := !it.HasIndex(index)
+
+	if isInvalidIndex {
 		return false
 	}
 	it.items = append(it.items[:index], it.items[index+1:]...)

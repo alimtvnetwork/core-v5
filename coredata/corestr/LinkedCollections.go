@@ -683,7 +683,9 @@ func (it *LinkedCollections) RemoveNodeByIndex(
 	) (isBreak bool) {
 		hasIndex := removingIndex == arg.Index
 
-		if !hasIndex {
+		isNotFound := !hasIndex
+
+		if isNotFound {
 			return false
 		}
 

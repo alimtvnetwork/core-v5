@@ -184,8 +184,9 @@ func (it *PayloadsCollection) IsEqualItems(lines ...*PayloadWrapper) bool {
 
 	for i, item := range it.Items {
 		anotherItem := lines[i]
+		isDifferent := !item.IsEqual(anotherItem)
 
-		if !item.IsEqual(anotherItem) {
+		if isDifferent {
 			return false
 		}
 	}
