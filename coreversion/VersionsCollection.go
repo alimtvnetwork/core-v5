@@ -89,7 +89,7 @@ func (it *VersionsCollection) HasIndex(index int) bool {
 	return it.LastIndex() >= index
 }
 
-func (it *VersionsCollection) VersionCompactStrings() []string {
+func (it VersionsCollection) VersionCompactStrings() []string {
 	if it.IsEmpty() {
 		return []string{}
 	}
@@ -103,7 +103,7 @@ func (it *VersionsCollection) VersionCompactStrings() []string {
 	return slice
 }
 
-func (it *VersionsCollection) VersionsStrings() []string {
+func (it VersionsCollection) VersionsStrings() []string {
 	if it.IsEmpty() {
 		return []string{}
 	}
@@ -117,7 +117,7 @@ func (it *VersionsCollection) VersionsStrings() []string {
 	return slice
 }
 
-func (it *VersionsCollection) IndexOf(
+func (it VersionsCollection) IndexOf(
 	versionString string,
 ) int {
 	lookupVersion := New.Create(versionString)
@@ -131,7 +131,7 @@ func (it *VersionsCollection) IndexOf(
 	return constants.InvalidValue
 }
 
-func (it *VersionsCollection) IsContainsVersion(
+func (it VersionsCollection) IsContainsVersion(
 	versionString string,
 ) bool {
 	return it.IndexOf(versionString) > constants.InvalidValue
@@ -163,15 +163,15 @@ func (it *VersionsCollection) IsEqual(
 	return true
 }
 
-func (it *VersionsCollection) String() string {
+func (it VersionsCollection) String() string {
 	return strings.Join(it.VersionsStrings(), constants.NewLineUnix)
 }
 
-func (it *VersionsCollection) Json() corejson.Result {
+func (it VersionsCollection) Json() corejson.Result {
 	return corejson.New(it)
 }
 
-func (it *VersionsCollection) JsonPtr() *corejson.Result {
+func (it VersionsCollection) JsonPtr() *corejson.Result {
 	return corejson.NewPtr(it)
 }
 
