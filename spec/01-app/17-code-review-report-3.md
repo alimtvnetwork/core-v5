@@ -1,5 +1,7 @@
 # Code Review Report #3
 
+## Status: ✅ ALL ISSUES RESOLVED
+
 ## Summary
 
 After completing all fixes from report #2 and expanding test coverage for `coregeneric`, this review focuses on the remaining `corestr` package (string-specialized data structures) and cross-cutting concerns. The `coregeneric` package is now in good shape; the `corestr` package still carries the same categories of bugs that were previously fixed in `coregeneric`.
@@ -189,19 +191,20 @@ newMap[toLower] = value         // value kept as-is
 
 ## Summary Table
 
-| # | Type | Severity | File | Issue |
-|---|------|----------|------|-------|
-| 1 | Bug | Critical | `corestr/Hashset.go:252` | `AddNonEmpty` never adds |
-| 2 | Bug | Critical | `corestr/SimpleSlice.go:184` | `InsertAt` doesn't persist + no bounds |
-| 3 | Bug | Critical | `corestr/Collection.go:61` | `RemoveAt` inverted guard |
-| 4 | Bug | High | `corestr/Hashset.go + Hashmap.go` | Broken caching (`IsEmpty` wrong on fresh) |
-| 5 | Bug | Medium | `corestr/Hashmap.go:672` | `ItemsCopyLock` not copying |
-| 6 | Bug | Medium | `corestr/Hashmap.go:389` | `ConcatNew` uses stale `h.length` |
-| 7 | CQ | Low | `corestr/SimpleSlice.go:307` | `Skip/Take` no bounds protection |
-| 8 | CQ | Low | `corestr/SimpleSlice.go:440` | `HasIndex` accepts negatives |
-| 9 | CQ | Low | `corestr/Collection.go:43` | `HasIndex` accepts negatives |
-| 10 | Doc | Info | `corestr/Hashmap.go:889` | `ValuesToLower` lowercases keys not values |
-| 11 | Doc | Info | `internal/convertinteranl/` | Package typo still on disk |
+| # | Type | Severity | File | Issue | Status |
+|---|------|----------|------|-------|--------|
+| 1 | Bug | Critical | `corestr/Hashset.go:252` | `AddNonEmpty` never adds | ✅ Fixed |
+| 2 | Bug | Critical | `corestr/SimpleSlice.go:184` | `InsertAt` doesn't persist + no bounds | ✅ Fixed |
+| 3 | Bug | Critical | `corestr/Collection.go:61` | `RemoveAt` inverted guard | ✅ Fixed |
+| 4 | Bug | High | `corestr/Hashset.go + Hashmap.go` | Broken caching (`IsEmpty` wrong on fresh) | ✅ Fixed |
+| 5 | Bug | Medium | `corestr/Hashmap.go:672` | `ItemsCopyLock` not copying | ✅ Fixed |
+| 6 | Bug | Medium | `corestr/Hashmap.go:389` | `ConcatNew` uses stale `h.length` | ✅ Fixed (field removed) |
+| 7 | CQ | Low | `corestr/SimpleSlice.go:307` | `Skip/Take` no bounds protection | ✅ Fixed |
+| 8 | CQ | Low | `corestr/SimpleSlice.go:440` | `HasIndex` accepts negatives | ✅ Fixed |
+| 9 | CQ | Low | `corestr/Collection.go:43` | `HasIndex` accepts negatives | ✅ Fixed |
+| 10 | Doc | Info | `corestr/Hashmap.go:889` | `ValuesToLower` lowercases keys not values | Noted |
+| 11 | Doc | Info | `internal/convertinteranl/` | Package typo still on disk | Noted |
+| 12 | Bug | Critical | `corestr/Hashmap.go:968` | `IsEqualPtr` inverted comparison (`!(result != value)`) | ✅ Fixed |
 
 ## Comparison with Previous Reviews
 

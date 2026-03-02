@@ -185,9 +185,14 @@ func (it *SimpleSlice) InsertAt(
 	index int,
 	item string,
 ) *SimpleSlice {
-	slice := *it
-	slice = append(slice[:index+1], slice[index:]...)
-	slice[index] = item
+	if index < 0 || index > it.Length() {
+		return it
+	}
+
+	s := *it
+	s = append(s[:index+1], s[index:]...)
+	s[index] = item
+	*it = s
 
 	return it
 }
@@ -305,6 +310,10 @@ func (it *SimpleSlice) SkipDynamic(skippingItemsCount int) any {
 }
 
 func (it *SimpleSlice) Skip(skippingItemsCount int) []string {
+	if skippingItemsCount >= it.Length() {
+		return []string{}
+	}
+
 	return (*it)[skippingItemsCount:]
 }
 
@@ -313,6 +322,10 @@ func (it *SimpleSlice) TakeDynamic(takeDynamicItems int) any {
 }
 
 func (it *SimpleSlice) Take(takeDynamicItems int) []string {
+	if takeDynamicItems >= it.Length() {
+		return *it
+	}
+
 	return (*it)[:takeDynamicItems]
 }
 
@@ -438,7 +451,7 @@ func (it *SimpleSlice) LastIndex() int {
 }
 
 func (it *SimpleSlice) HasIndex(index int) bool {
-	return it.LastIndex() >= index
+	return index >= 0 && it.LastIndex() >= index
 }
 
 func (it *SimpleSlice) Strings() []string {

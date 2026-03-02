@@ -41,7 +41,7 @@ func (it *Collection) LastIndex() int {
 }
 
 func (it *Collection) HasIndex(index int) bool {
-	return it.LastIndex() >= index
+	return index >= 0 && it.LastIndex() >= index
 }
 
 func (it *Collection) ListStringsPtr() []string {
@@ -58,7 +58,7 @@ func (it *Collection) StringJSON() string {
 
 func (it *Collection) RemoveAt(index int) (isSuccess bool) {
 	length := it.Length()
-	if length-1 > index {
+	if index < 0 || index >= length {
 		return false
 	}
 

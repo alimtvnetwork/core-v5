@@ -15,23 +15,13 @@ import (
 
 type Hashmap struct {
 	hasMapUpdated bool
-	isEmptySet    bool
-	length        int
 	items         map[string]string
 	cachedList    []string
 	sync.Mutex
 }
 
 func (it *Hashmap) IsEmpty() bool {
-	if it == nil {
-		return true
-	}
-
-	if it.hasMapUpdated {
-		it.isEmptySet = len(it.items) == 0
-	}
-
-	return it.isEmptySet
+	return it == nil || len(it.items) == 0
 }
 
 func (it *Hashmap) HasItems() bool {
@@ -671,12 +661,14 @@ func (it *Hashmap) SafeItems() map[string]string {
 //goland:noinspection GoLinterLocal
 func (it *Hashmap) ItemsCopyLock() *map[string]string {
 	it.Lock()
+	defer it.Unlock()
 
-	copiedItemsMap := &it.items
+	copiedMap := make(map[string]string, len(it.items))
+	for k, v := range it.items {
+		copiedMap[k] = v
+	}
 
-	it.Unlock()
-
-	return copiedItemsMap
+	return &copiedMap
 }
 
 func (it *Hashmap) ValuesCollection() *Collection {
@@ -903,15 +895,11 @@ func (it *Hashmap) ValuesToLower() *Hashmap {
 }
 
 func (it *Hashmap) Length() int {
-	if it == nil {
+	if it == nil || it.items == nil {
 		return 0
 	}
 
-	if it.hasMapUpdated || it.length < 0 {
-		it.length = len(it.items)
-	}
-
-	return it.length
+	return len(it.items)
 }
 
 func (it *Hashmap) LengthLock() int {
@@ -965,7 +953,7 @@ func (it *Hashmap) IsEqualPtr(another *Hashmap) bool {
 	for key, value := range it.items {
 		result, has := another.items[key]
 
-		if !has || !(result != value) {
+		if !has || result != value {
 			return false
 		}
 	}
@@ -1117,9 +1105,7 @@ func (it *Hashmap) UnmarshalJSON(data []byte) error {
 
 	if err == nil {
 		it.items = dataModelItems
-		it.length = len(it.items)
-		it.hasMapUpdated = false
-		it.isEmptySet = it.length == 0
+		it.hasMapUpdated = true
 		it.cachedList = nil
 	}
 
