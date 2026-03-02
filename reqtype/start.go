@@ -9,5 +9,5 @@ func start(
 		return nil
 	}
 
-	return (reqs)[constants.Zero]
+	return reqs[constants.Zero]
 }

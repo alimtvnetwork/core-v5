@@ -24,10 +24,6 @@ func (it *FromTo) IsToEmpty() bool {
 }
 
 func (it FromTo) String() string {
-	if it.IsNull() {
-		return "FromTo null!"
-	}
-
 	return fmt.Sprintf(
 		constants.FromToFormat,
 		it.From,
@@ -42,8 +38,8 @@ func (it FromTo) ToName() string {
 	return it.To
 }
 
-func (it *FromTo) SetFromName(form string) {
-	it.From = form
+func (it *FromTo) SetFromName(from string) {
+	it.From = from
 }
 
 func (it *FromTo) SetToName(to string) {

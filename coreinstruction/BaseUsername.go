@@ -37,7 +37,6 @@ func (it *BaseUsername) IsUsernameCaseInsensitive(usernameInsensitive string) bo
 
 func (it *BaseUsername) IsUsernameContains(usernameContains string) bool {
 	return strings.Contains(it.Username, usernameContains)
-
 }
 
 func (it *BaseUsername) IsUsernameRegexMatches(regex *regexp.Regexp) bool {

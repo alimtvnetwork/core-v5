@@ -7,5 +7,5 @@ func end(
 		return nil
 	}
 
-	return (reqs)[len(reqs)-1]
+	return reqs[len(reqs)-1]
 }

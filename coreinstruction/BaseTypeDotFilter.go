@@ -11,7 +11,7 @@ type BaseTypeDotFilter struct {
 	TypeDotFilter   string `json:"TypeDotFilter"`
 }
 
-func (receiver BaseTypeDotFilter) GetDotSplitTypes() []string {
+func (receiver *BaseTypeDotFilter) GetDotSplitTypes() []string {
 	if receiver.splitDotFilters != nil {
 		return receiver.splitDotFilters
 	}

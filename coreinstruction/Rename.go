@@ -24,10 +24,6 @@ func (it *Rename) IsNewEmpty() bool {
 }
 
 func (it Rename) String() string {
-	if it.IsNull() {
-		return "Rename null!"
-	}
-
 	return fmt.Sprintf(
 		constants.RenameFormat,
 		it.Existing,
@@ -61,8 +57,8 @@ func (it Rename) ToName() string {
 	return it.New
 }
 
-func (it *Rename) SetFromName(form string) {
-	it.Existing = form
+func (it *Rename) SetFromName(from string) {
+	it.Existing = from
 }
 
 func (it *Rename) SetToName(to string) {
