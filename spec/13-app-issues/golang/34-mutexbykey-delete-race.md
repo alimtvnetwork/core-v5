@@ -1,6 +1,6 @@
 # Issue: mutexbykey.Delete() Race Condition on Locked Mutex
 
-## Status: 🟡 OPEN (Design)
+## Status: ✅ RESOLVED (Documented)
 
 ## Phase: 8.2 — Code Quality
 

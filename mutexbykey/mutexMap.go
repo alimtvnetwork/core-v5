@@ -37,6 +37,13 @@ func Get(key string) *sync.Mutex {
 	return newMutex
 }
 
+// Delete removes the mutex for the given key from the registry.
+//
+// WARNING: The caller MUST ensure no other goroutine currently holds or is
+// waiting on the mutex for this key. Deleting a mutex while it is in use
+// will cause a race condition — a new mutex may be created for the same key
+// via Get(), allowing two goroutines to operate concurrently on the same
+// logical key.
 func Delete(key string) bool {
 	globalMutex.Lock()
 	defer globalMutex.Unlock()
