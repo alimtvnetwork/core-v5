@@ -168,3 +168,64 @@ var hasIndexNegativeTestCases = []coretestcases.CaseV1{
 		WantLines: []string{"false"},
 	},
 }
+
+// ==========================================================================
+// Hashmap.Clear nil safety — regression for nil panic
+// ==========================================================================
+
+var hashmapClearNilTestCases = []coretestcases.CaseV1{
+	{
+		Name:      "Clear on nil Hashmap returns nil without panic",
+		WantLines: []string{"true"},
+	},
+	{
+		Name:      "Clear on populated Hashmap resets to empty",
+		WantLines: []string{"0", "true"},
+	},
+	{
+		Name:      "Clear preserves chainability",
+		WantLines: []string{"0", "1"},
+	},
+}
+
+// ==========================================================================
+// Hashset.AddBool cache invalidation — regression for stale cache
+// ==========================================================================
+
+var hashsetAddBoolCacheTestCases = []coretestcases.CaseV1{
+	{
+		Name:      "AddBool new item invalidates cache and Items reflects it",
+		WantLines: []string{"false", "1", "true"},
+	},
+	{
+		Name:      "AddBool existing item does not change length",
+		WantLines: []string{"true", "1"},
+	},
+	{
+		Name:      "AddBool multiple new items all appear in Items",
+		WantLines: []string{"3", "true", "true", "true"},
+	},
+}
+
+// ==========================================================================
+// Hashmap.AddOrUpdateCollection length mismatch — regression for silent corruption
+// ==========================================================================
+
+var hashmapAddOrUpdateCollectionMismatchTestCases = []coretestcases.CaseV1{
+	{
+		Name:      "Mismatched lengths returns unchanged hashmap",
+		WantLines: []string{"0"},
+	},
+	{
+		Name:      "Equal lengths adds all pairs",
+		WantLines: []string{"2", "v1", "v2"},
+	},
+	{
+		Name:      "Nil keys returns unchanged",
+		WantLines: []string{"0"},
+	},
+	{
+		Name:      "Empty keys returns unchanged",
+		WantLines: []string{"0"},
+	},
+}
