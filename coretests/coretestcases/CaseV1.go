@@ -11,6 +11,7 @@ import (
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/internal/convertinternal"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
@@ -31,24 +32,24 @@ func (it CaseV1) Expected() any {
 	return it.ExpectedInput
 }
 
-// expectedLines normalizes ExpectedInput to []string.
+// ExpectedLines normalizes ExpectedInput to []string.
 //
-// If ExpectedInput is a single string, it wraps it into []string{s}.
-// If ExpectedInput is already []string, it returns as-is.
-// This allows test cases with a single expected value to use
-// ExpectedInput: "value" instead of ExpectedInput: []string{"value"}.
-func (it CaseV1) expectedLines() []string {
-	switch v := it.ExpectedInput.(type) {
-	case string:
-		return []string{v}
-	case []string:
-		return v
-	default:
-		panic(fmt.Sprintf(
-			"CaseV1.expectedLines: ExpectedInput must be string or []string, got %T",
-			it.ExpectedInput,
-		))
-	}
+// Supported types:
+//   - string        → []string{s}
+//   - []string      → as-is
+//   - int           → []string{strconv.Itoa(v)}
+//   - []int         → each element converted via strconv.Itoa
+//   - bool          → []string{"true"} or []string{"false"}
+//   - []bool        → each element converted via strconv.FormatBool
+//   - byte          → []string{strconv.Itoa(int(v))}
+//   - []any         → each element converted via fmt.Sprintf
+//   - map[string]any, map[string]string, map[string]int, etc.
+//   - any other     → delegates to convertinternal.AnyTo.Strings (PrettyJSON fallback)
+//
+// This allows test cases to use any reasonable type for ExpectedInput
+// while still producing []string for line-based assertion comparison.
+func (it CaseV1) ExpectedLines() []string {
+	return convertinternal.AnyTo.Strings(it.ExpectedInput)
 }
 
 func (it CaseV1) ArrangeTypeName() string {
@@ -248,7 +249,7 @@ func (it CaseV1) SliceValidatorCondition(
 		Condition:     condition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.expectedLines(),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	return sliceValidator
@@ -265,7 +266,7 @@ func (it CaseV1) VerifyAll(
 		Condition:     corevalidator.DefaultDisabledCoreCondition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.expectedLines(),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	finalErr := it.VerifyAllSliceValidator(
@@ -290,7 +291,7 @@ func (it CaseV1) VerifyAllCondition(
 		Condition:     condition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.expectedLines(),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	finalErr := it.VerifyAllSliceValidator(
@@ -314,7 +315,7 @@ func (it CaseV1) VerifyFirst(
 		Condition:     corevalidator.DefaultTrimCoreCondition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.expectedLines(),
+		ExpectedLines: it.ExpectedLines(),
 	}
 
 	param := corevalidator.Parameter{
