@@ -21,7 +21,7 @@ Testing utilities, assertion wrappers, and test-case structures for the auk-go e
 | `SimpleTestCase.go` | Test case with input/expected |
 | `BaseTestCaseWrapper.go` | Base wrapper for test cases |
 | `args/` | `FuncWrap`, `Map` — function reflection and argument handling |
-| `coretestcases/` | `CaseV1` test case structure |
+| `coretestcases/` | `CaseV1` test case structure, `GenericGherkins` (proposed) |
 
 ## Testing Pattern (Dominant Style)
 

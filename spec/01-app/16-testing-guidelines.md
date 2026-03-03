@@ -26,6 +26,7 @@
 - [Anti-Patterns (Banned)](#anti-patterns-banned)
 - [Complete Examples](#complete-examples)
 - [Checklist for New Tests](#checklist-for-new-tests)
+- [Future: GenericGherkins Proposal](#future-genericgherkins-proposal)
 - [Future: CaseV2 Proposal](#future-casev2-proposal)
 - [Related Docs](#related-docs)
 
@@ -1219,6 +1220,127 @@ When adding tests for a new package:
 - [ ] Handle `args.Map` getter errors (never ignore the `bool` return)
 - [ ] One test function per scenario — no branching in test bodies
 - [ ] Run `make run-tests` to verify
+
+---
+
+## Future: GenericGherkins Proposal
+
+The existing `SimpleGherkins` struct uses all-string fields (`Feature`, `Given`, `When`, `Then`, `Expect`, `Actual`), which lacks type safety and forces callers to convert everything to strings. Many test cases (e.g., regex tests) extract typed values like `pattern`, `input`, `isMatch` from `args.Map` — losing compile-time checks and IDE discoverability.
+
+### Problem
+
+```go
+// Current — untyped args.Map, easy to misspell keys, no compile-time safety
+ArrangeInput: args.Map{
+    "when":    "given an invalid regex pattern",
+    "pattern": "[invalid",
+    "input":   "anything",
+    "isMatch": false,  // bool stored as any
+},
+```
+
+### Solution: GenericGherkins[TInput, TExpect]
+
+A generic struct that provides typed fields for common test case properties while keeping an optional `ExtraArgs` map for dynamic overflow:
+
+```go
+// GenericGherkins — typed test case representation
+//
+// Use this when you want compile-time type safety for Input/Expected fields
+// instead of extracting values from args.Map at runtime.
+//
+// TInput  — type of the test input (e.g., string for regex pattern)
+// TExpect — type of the expected result (e.g., bool for IsMatch)
+type GenericGherkins[TInput, TExpect any] struct {
+    Title      string       // Test case header / scenario name
+    Feature    string       // Feature being tested
+    Given      string       // Precondition
+    When       string       // Scenario description
+    Then       string       // Expected outcome description
+    Input      TInput       // Typed input value
+    Expected   TExpect      // Typed expected value
+    Actual     TExpect      // Typed actual value (set after Act phase)
+    IsMatching bool         // Whether a match is expected (for validation tests)
+    ExtraArgs  args.Map     // Optional dynamic key-value pairs for overflow
+}
+```
+
+### Type Aliases
+
+```go
+// AnyGherkins — all-any version for maximum flexibility
+type AnyGherkins = GenericGherkins[any, any]
+
+// SimpleGherkins — backward-compatible all-string version (existing struct unchanged)
+// Note: SimpleGherkins remains as the legacy struct for backward compatibility.
+// New tests should prefer GenericGherkins with concrete types.
+```
+
+### Key Methods
+
+```go
+// IsFailedToMatch — inverse of IsMatching.
+// Use when validating that a mismatch is expected.
+func (it *GenericGherkins[TInput, TExpect]) IsFailedToMatch() bool
+
+// ShouldBeEqual — assert actLines match expectedLines using the struct's Title.
+func (it *GenericGherkins[TInput, TExpect]) ShouldBeEqual(
+    t *testing.T, caseIndex int, actLines []string, expectedLines []string,
+)
+
+// CompareWith — structural comparison against another GenericGherkins.
+// Returns whether they are equal and a diff string on mismatch.
+func (it *GenericGherkins[TInput, TExpect]) CompareWith(
+    other *GenericGherkins[TInput, TExpect],
+) (isEqual bool, diff string)
+
+// String / ToString — formatted printing with Gherkins layout.
+func (it *GenericGherkins[TInput, TExpect]) String() string
+func (it *GenericGherkins[TInput, TExpect]) ToString(testIndex int) string
+
+// FullString — verbose representation including all fields for debugging.
+func (it *GenericGherkins[TInput, TExpect]) FullString() string
+```
+
+### Usage Example — Regex Matching
+
+```go
+// _testcases.go — typed, self-documenting, searchable
+var lazyRegexInvalidPatternTestCase = GenericGherkins[string, bool]{
+    Title:      "Invalid regex pattern has error",
+    When:       "given an invalid regex pattern",
+    Input:      "[invalid",
+    Expected:   false,
+    IsMatching: false,
+}
+
+// _test.go
+func Test_LazyRegex_InvalidPattern(t *testing.T) {
+    tc := lazyRegexInvalidPatternTestCase
+
+    // Arrange
+    regex := regexnew.New.Lazy(tc.Input)
+
+    // Act
+    result := regex.IsMatch("anything")
+
+    // Assert
+    tc.ShouldBeEqual(t, 0,
+        fmt.Sprintf("%v", result),
+        fmt.Sprintf("%v", tc.Expected),
+    )
+}
+```
+
+### Migration Path
+
+| From | To |
+|---|---|
+| `SimpleGherkins` (all string) | Stays as-is — backward compatible |
+| `args.Map` with typed keys | `GenericGherkins[ConcreteInput, ConcreteExpect]` |
+| `args.Map` with mixed types | `AnyGherkins` (all-any) with `ExtraArgs` for overflow |
+
+This is a **proposal only** — `SimpleGherkins` remains unchanged. `GenericGherkins` will be implemented in `coretests/coretestcases/` alongside `CaseV1`.
 
 ---
 
