@@ -272,7 +272,12 @@ func (it *Collection[T]) Filter(
 // --- Paging ---
 
 // GetPagesSize returns the number of pages for the given page size.
+// Returns 0 if eachPageSize is zero or negative.
 func (it *Collection[T]) GetPagesSize(eachPageSize int) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	return int(math.Ceil(float64(it.Length()) / float64(eachPageSize)))
 }
 
