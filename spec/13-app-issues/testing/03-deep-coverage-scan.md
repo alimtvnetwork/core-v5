@@ -153,12 +153,18 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | `Hashset.Add/AddBool/Has/HasAll/HasAny/Remove/IsEquals` | MEDIUM | String hashset with caching (bug 42) | ✅ DONE (~60 tests) |
 | `Hashmap.Set/Get/Has/HasAll/HasAny/Remove/IsEqualPtr/KeysToLower` | MEDIUM | String hashmap with caching (bug 42) | ✅ DONE (~55 tests) |
 
-#### 7. `corevalidator` — Validation Logic
+#### 7. `corevalidator` — Validation Logic ✅ DONE
 
-| Function / Method | Risk | Why | Test Cases Needed |
+| Function / Method | Risk | Why | Status |
 |---|---|---|---|
-| `LinesValidators` | MEDIUM | Multi-line validation with error aggregation | All pass, one fails, empty lines |
-| Range validators | MEDIUM | Boundary checks | At boundary, below, above |
+| `LineNumber` (HasLineNumber, IsMatch, VerifyError) | LOW | Line matching with -1 skip | ✅ DONE (~12 tests) |
+| `Condition` (IsSplitByWhitespace, presets) | LOW | Flag combination logic | ✅ DONE (~9 tests) |
+| `TextValidator` (IsMatch, IsMatchMany, Verify*, caching) | HIGH | Core text comparison engine | ✅ DONE (~25 tests) |
+| `TextValidators` (collection, IsMatch, Verify*, Dispose) | MEDIUM | Multi-validator orchestration | ✅ DONE (~18 tests) |
+| `LineValidator` (IsMatch, IsMatchMany, VerifyError, VerifyMany) | MEDIUM | Line+text combined validation | ✅ DONE (~12 tests) |
+| `BaseLinesValidators` + `LinesValidators` | MEDIUM | Multi-line validation, nil guards | ✅ DONE (~18 tests) |
+| `SliceValidator` (IsValid, Verify*, Dispose, helpers) | HIGH | Slice-level comparison engine | ✅ DONE (~30 tests) |
+| `BaseValidatorCoreCondition` | LOW | Lazy condition defaults | ✅ DONE (~2 tests) |
 
 #### 8. `errcore` — Error Construction
 
@@ -230,8 +236,8 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | 2 | `coredynamic` Dynamic/CastedResult | ~10 | ✅ DONE |
 | 2 | `coregeneric` LinkedList/Hashmap/Hashset/funcs | ~175 | ✅ DONE |
 | 2 | `corestr` Hashset/Hashmap | ~115 | ✅ DONE |
-| 2 | `corevalidator` validators | ~8 | TODO |
+| 2 | `corevalidator` validators | ~126 | ✅ DONE |
 | 3 | `stringslice` utilities | ~40 | ✅ DONE |
 | 3 | `reflectcore` facade exports | ~12 | ✅ DONE |
 | 3 | `coreappend` assembly functions | ~20 | ✅ DONE |
-| **Total** | | **~670** | **Phase 1+2+3 complete (except corevalidator)** |
+| **Total** | | **~788** | **All phases complete ✅** |
