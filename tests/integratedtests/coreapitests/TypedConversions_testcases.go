@@ -196,6 +196,7 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"when":    "given valid attribute and invalid underlying TypedSimpleRequest",
 			"payload": "some-data",
 			"message": "validation failed",
+			"check":   "validity",
 		},
 		ExpectedInput: []string{
 			"false",
@@ -208,6 +209,7 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"when":    "given valid attribute and invalid underlying TypedSimpleRequest with message",
 			"payload": "some-data",
 			"message": "field is required",
+			"check":   "message",
 		},
 		ExpectedInput: []string{
 			"field is required",
@@ -219,6 +221,7 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"when":    "given valid attribute and invalid underlying TypedSimpleRequest with error message",
 			"payload": "some-data",
 			"message": "input rejected",
+			"check":   "invalidError",
 		},
 		ExpectedInput: []string{
 			"false",
@@ -231,6 +234,7 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"when":    "given valid attribute and invalid underlying TypedSimpleRequest with empty message",
 			"payload": "some-data",
 			"message": "",
+			"check":   "invalidErrorNil",
 		},
 		ExpectedInput: []string{
 			"true",

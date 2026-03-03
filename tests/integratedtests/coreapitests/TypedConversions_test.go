@@ -7,7 +7,6 @@ import (
 	"gitlab.com/auk-go/core/coredata/coreapi"
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -136,150 +135,79 @@ func Test_TypedSimpleGenericRequest_Message(t *testing.T) {
 }
 
 // ==========================================
-// Test: TypedSimpleGenericRequest Nil Receiver — IsValid
+// Test: TypedSimpleGenericRequest Nil Receiver
 // ==========================================
 
-func Test_TypedSimpleGenericRequest_NilReceiver_IsValid(t *testing.T) {
-	// Arrange
-	var req *coreapi.TypedSimpleGenericRequest[string]
+func Test_TypedSimpleGenericRequest_NilReceiver(t *testing.T) {
+	for caseIndex, tc := range typedSimpleGenericRequestNilReceiverTestCases {
+		// Arrange
+		var req *coreapi.TypedSimpleGenericRequest[string]
 
-	// Act
-	actLines := []string{fmt.Sprintf("%v", req.IsValid())}
-	expectedLines := []string{"false"}
+		input := tc.ArrangeInput.(args.Map)
+		method, _ := input.GetAsString("method")
 
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver IsValid returns false", actLines, expectedLines)
-}
+		// Act
+		var actLines []string
 
-// ==========================================
-// Test: TypedSimpleGenericRequest Nil Receiver — IsInvalid
-// ==========================================
+		switch method {
+		case "IsValid":
+			actLines = []string{fmt.Sprintf("%v", req.IsValid())}
+		case "IsInvalid":
+			actLines = []string{fmt.Sprintf("%v", req.IsInvalid())}
+		case "Message":
+			actLines = []string{req.Message()}
+		case "InvalidError":
+			actLines = []string{fmt.Sprintf("%v", req.InvalidError() == nil)}
+		}
 
-func Test_TypedSimpleGenericRequest_NilReceiver_IsInvalid(t *testing.T) {
-	// Arrange
-	var req *coreapi.TypedSimpleGenericRequest[string]
-
-	// Act
-	actLines := []string{fmt.Sprintf("%v", req.IsInvalid())}
-	expectedLines := []string{"true"}
-
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver IsInvalid returns true", actLines, expectedLines)
-}
-
-// ==========================================
-// Test: TypedSimpleGenericRequest Nil Receiver — Message
-// ==========================================
-
-func Test_TypedSimpleGenericRequest_NilReceiver_Message(t *testing.T) {
-	// Arrange
-	var req *coreapi.TypedSimpleGenericRequest[string]
-
-	// Act
-	actLines := []string{req.Message()}
-	expectedLines := []string{""}
-
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver Message returns empty string", actLines, expectedLines)
-}
-
-// ==========================================
-// Test: TypedSimpleGenericRequest Nil Receiver — InvalidError
-// ==========================================
-
-func Test_TypedSimpleGenericRequest_NilReceiver_InvalidError(t *testing.T) {
-	// Arrange
-	var req *coreapi.TypedSimpleGenericRequest[string]
-
-	// Act
-	actLines := []string{fmt.Sprintf("%v", req.InvalidError() == nil)}
-	expectedLines := []string{"true"}
-
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver InvalidError returns nil", actLines, expectedLines)
-}
-
-// ==========================================
-// Test: TypedSimpleGenericRequest Invalid Underlying — IsValid/IsInvalid
-// ==========================================
-
-func Test_TypedSimpleGenericRequest_InvalidUnderlying_Validity(t *testing.T) {
-	// Arrange
-	attr := &coreapi.RequestAttribute{IsValid: true}
-	simpleReq := coredynamic.NewTypedSimpleRequest[string]("some-data", false, "validation failed")
-	req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
-
-	// Act
-	actLines := []string{
-		fmt.Sprintf("%v", req.IsValid()),
-		fmt.Sprintf("%v", req.IsInvalid()),
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
-	expectedLines := []string{"false", "true"}
-
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Valid attribute with invalid underlying request reports IsValid false", actLines, expectedLines)
 }
 
 // ==========================================
-// Test: TypedSimpleGenericRequest Invalid Underlying — Message
+// Test: TypedSimpleGenericRequest Invalid Underlying
 // ==========================================
 
-func Test_TypedSimpleGenericRequest_InvalidUnderlying_Message(t *testing.T) {
-	// Arrange
-	attr := &coreapi.RequestAttribute{IsValid: true}
-	simpleReq := coredynamic.NewTypedSimpleRequest[string]("some-data", false, "field is required")
-	req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
+func Test_TypedSimpleGenericRequest_InvalidUnderlying(t *testing.T) {
+	for caseIndex, tc := range typedSimpleGenericRequestInvalidUnderlyingTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		payload, _ := input.GetAsString("payload")
+		message, _ := input.GetAsString("message")
+		check, _ := input.GetAsString("check")
 
-	// Act
-	actLines := []string{req.Message()}
-	expectedLines := []string{"field is required"}
+		attr := &coreapi.RequestAttribute{IsValid: true}
+		simpleReq := coredynamic.NewTypedSimpleRequest[string](payload, false, message)
+		req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
 
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Valid attribute with invalid underlying request returns message", actLines, expectedLines)
-}
+		// Act
+		var actLines []string
 
-// ==========================================
-// Test: TypedSimpleGenericRequest Invalid Underlying — InvalidError non-nil
-// ==========================================
+		switch check {
+		case "validity":
+			actLines = []string{
+				fmt.Sprintf("%v", req.IsValid()),
+				fmt.Sprintf("%v", req.IsInvalid()),
+			}
+		case "message":
+			actLines = []string{req.Message()}
+		case "invalidError":
+			actLines = []string{
+				fmt.Sprintf("%v", req.InvalidError() == nil),
+				req.InvalidError().Error(),
+			}
+		case "invalidErrorNil":
+			actLines = []string{
+				fmt.Sprintf("%v", req.InvalidError() == nil),
+				req.Message(),
+			}
+		}
 
-func Test_TypedSimpleGenericRequest_InvalidUnderlying_InvalidError(t *testing.T) {
-	// Arrange
-	attr := &coreapi.RequestAttribute{IsValid: true}
-	simpleReq := coredynamic.NewTypedSimpleRequest[string]("some-data", false, "input rejected")
-	req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
-
-	// Act
-	actLines := []string{
-		fmt.Sprintf("%v", req.InvalidError() == nil),
-		req.InvalidError().Error(),
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
-	expectedLines := []string{"false", "input rejected"}
-
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Valid attribute with invalid underlying request returns non-nil InvalidError", actLines, expectedLines)
 }
-
-// ==========================================
-// Test: TypedSimpleGenericRequest Invalid Underlying — empty message nil error
-// ==========================================
-
-func Test_TypedSimpleGenericRequest_InvalidUnderlying_EmptyMessage(t *testing.T) {
-	// Arrange
-	attr := &coreapi.RequestAttribute{IsValid: true}
-	simpleReq := coredynamic.NewTypedSimpleRequest[string]("some-data", false, "")
-	req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
-
-	// Act
-	actLines := []string{
-		fmt.Sprintf("%v", req.InvalidError() == nil),
-		req.Message(),
-	}
-	expectedLines := []string{"true", ""}
-
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Valid attribute with invalid underlying request and empty message returns nil InvalidError", actLines, expectedLines)
-}
-
 // ==========================================
 // Test: TypedSimpleGenericRequest Clone
 // ==========================================
@@ -308,16 +236,17 @@ func Test_TypedSimpleGenericRequest_Clone(t *testing.T) {
 }
 
 func Test_TypedSimpleGenericRequest_Clone_Nil(t *testing.T) {
-	// Arrange
-	var req *coreapi.TypedSimpleGenericRequest[string]
+	for caseIndex, tc := range typedSimpleGenericRequestCloneNilTestCases {
+		// Arrange
+		var req *coreapi.TypedSimpleGenericRequest[string]
 
-	// Act
-	cloned := req.Clone()
-	actLines := []string{fmt.Sprintf("%v", cloned == nil)}
-	expectedLines := []string{"true"}
+		// Act
+		cloned := req.Clone()
+		actLines := []string{fmt.Sprintf("%v", cloned == nil)}
 
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "Clone on nil TypedSimpleGenericRequest returns nil", actLines, expectedLines)
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // ==========================================
@@ -358,16 +287,17 @@ func Test_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
 }
 
 func Test_TypedRequestIn_TypedSimpleGenericRequest_Nil(t *testing.T) {
-	// Arrange
-	var reqIn *coreapi.TypedRequestIn[string]
+	for caseIndex, tc := range typedRequestInToTypedSimpleGenericNilTestCases {
+		// Arrange
+		var reqIn *coreapi.TypedRequestIn[string]
 
-	// Act
-	result := reqIn.TypedSimpleGenericRequest(true, "")
-	actLines := []string{fmt.Sprintf("%v", result == nil)}
-	expectedLines := []string{"true"}
+		// Act
+		result := reqIn.TypedSimpleGenericRequest(true, "")
+		actLines := []string{fmt.Sprintf("%v", result == nil)}
 
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "TypedRequestIn.TypedSimpleGenericRequest on nil returns nil", actLines, expectedLines)
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // ==========================================
@@ -403,14 +333,15 @@ func Test_TypedResponse_TypedResponseResult(t *testing.T) {
 }
 
 func Test_TypedResponse_TypedResponseResult_Nil(t *testing.T) {
-	// Arrange
-	var resp *coreapi.TypedResponse[string]
+	for caseIndex, tc := range typedResponseToTypedResponseResultNilTestCases {
+		// Arrange
+		var resp *coreapi.TypedResponse[string]
 
-	// Act
-	result := resp.TypedResponseResult()
-	actLines := []string{fmt.Sprintf("%v", result == nil)}
-	expectedLines := []string{"true"}
+		// Act
+		result := resp.TypedResponseResult()
+		actLines := []string{fmt.Sprintf("%v", result == nil)}
 
-	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, "TypedResponse.TypedResponseResult on nil returns nil", actLines, expectedLines)
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
