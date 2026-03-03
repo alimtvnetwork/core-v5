@@ -272,6 +272,99 @@ func Test_StringCompare_VerifyError_NilReceiver_NoError(t *testing.T) {
 	})
 }
 
+// --- IsMatchFailed (inversion logic) ---
+
+func Test_StringCompare_IsMatchFailed_EqualMatch_ReturnsFalse(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareEqual("hello", "hello")
+
+	// Act
+	result := sc.IsMatchFailed()
+
+	// Assert
+	convey.Convey("IsMatchFailed - equal match should return false", t, func() {
+		convey.So(result, should.BeFalse)
+	})
+}
+
+func Test_StringCompare_IsMatchFailed_EqualMismatch_ReturnsTrue(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareEqual("hello", "world")
+
+	// Act
+	result := sc.IsMatchFailed()
+
+	// Assert
+	convey.Convey("IsMatchFailed - equal mismatch should return true", t, func() {
+		convey.So(result, should.BeTrue)
+	})
+}
+
+func Test_StringCompare_IsMatchFailed_ContainsMatch_ReturnsFalse(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareContains(false, "world", "hello world")
+
+	// Act
+	result := sc.IsMatchFailed()
+
+	// Assert
+	convey.Convey("IsMatchFailed - contains match should return false", t, func() {
+		convey.So(result, should.BeFalse)
+	})
+}
+
+func Test_StringCompare_IsMatchFailed_ContainsMismatch_ReturnsTrue(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareContains(false, "xyz", "hello world")
+
+	// Act
+	result := sc.IsMatchFailed()
+
+	// Assert
+	convey.Convey("IsMatchFailed - contains mismatch should return true", t, func() {
+		convey.So(result, should.BeTrue)
+	})
+}
+
+func Test_StringCompare_IsMatchFailed_RegexMatch_ReturnsFalse(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "12345")
+
+	// Act
+	result := sc.IsMatchFailed()
+
+	// Assert
+	convey.Convey("IsMatchFailed - regex match should return false", t, func() {
+		convey.So(result, should.BeFalse)
+	})
+}
+
+func Test_StringCompare_IsMatchFailed_RegexNoMatch_ReturnsTrue(t *testing.T) {
+	// Arrange
+	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "hello")
+
+	// Act
+	result := sc.IsMatchFailed()
+
+	// Assert
+	convey.Convey("IsMatchFailed - regex no match should return true", t, func() {
+		convey.So(result, should.BeTrue)
+	})
+}
+
+func Test_StringCompare_IsMatchFailed_NilReceiver_ReturnsFalse(t *testing.T) {
+	// Arrange
+	var sc *coreinstruction.StringCompare
+
+	// Act
+	result := sc.IsMatchFailed()
+
+	// Assert
+	convey.Convey("IsMatchFailed - nil receiver should return false (inverted vacuous truth)", t, func() {
+		convey.So(result, should.BeFalse)
+	})
+}
+
 // --- Nil receiver ---
 
 func Test_StringCompare_NilReceiver_IsMatch(t *testing.T) {
