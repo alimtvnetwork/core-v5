@@ -1,17 +1,7 @@
 package isanytests
 
 import (
-	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/tests/testwrappers/stringstestwrapper"
 )
 
-type testWrapper struct {
-	coretests.BaseTestCase
-}
-
-func (it testWrapper) Arrange() []string {
-	return it.ArrangeInput.([]string)
-}
-
-func (it testWrapper) Expected() []string {
-	return it.ExpectedInput.([]string)
-}
+type testWrapper = stringstestwrapper.StringsTestWrapper
