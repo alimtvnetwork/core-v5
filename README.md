@@ -430,18 +430,63 @@ strsort.Quick(&fruits)    // [apple banana mango]
 strsort.QuickDsc(&fruits) // [mango banana apple]
 ```
 
-### 4-Valued Boolean (issetter)
+### 6-Valued Boolean (`issetter`)
+
+The [`issetter`](/issetter/) package provides a byte-backed boolean type with **6 states** for lazy evaluation, deferred decisions, and wildcard matching — going beyond Go's native `true`/`false`.
+
+| Constant | Byte Value | Meaning | Use Case |
+|----------|-----------|---------|----------|
+| `Uninitialized` | `0` | Not yet evaluated | Lazy fields, deferred config |
+| `True` | `1` | Positive / yes / on | Standard boolean true |
+| `False` | `2` | Negative / no / off | Standard boolean false |
+| `Unset` | `3` | Explicitly cleared | User removed a setting |
+| `Set` | `4` | Explicitly assigned | User confirmed a setting |
+| `Wildcard` | `5` | Match anything | Filters, search patterns |
+
+**Logical grouping:**
+- **Positive** (`IsOn`/`IsAccept`/`IsSuccess`): `True`, `Set`
+- **Negative** (`IsOff`/`IsReject`/`IsFailed`): `False`, `Unset`
+- **Indeterminate** (`IsAsk`/`IsSkip`): `Uninitialized`, `Wildcard`
 
 ```go
 import "gitlab.com/auk-go/core/issetter"
 
-status := issetter.False
+// Basic state checks
+status := issetter.True
 fmt.Println(status.HasInitialized()) // true
-fmt.Println(status.IsPositive())     // false
+fmt.Println(status.IsOn())           // true  (True or Set)
+fmt.Println(status.IsOff())          // false
 
-uninitializedStatus := issetter.Uninitialized
-fmt.Println(uninitializedStatus.HasInitialized()) // false
+// Uninitialized = "not yet decided"
+pending := issetter.Uninitialized
+fmt.Println(pending.HasInitialized())    // false
+fmt.Println(pending.IsUndefinedLogically()) // true
+
+// Wildcard = "accept anything"
+filter := issetter.Wildcard
+fmt.Println(filter.WildcardApply(false)) // false (passes through input)
+fmt.Println(filter.IsWildcardOrBool(true)) // true (wildcard always true)
+
+// Lazy evaluation — only runs func on first call
+var lazyFlag issetter.Value // starts as Uninitialized (0)
+called := lazyFlag.LazyEvaluateBool(func() {
+    fmt.Println("computed!")  // prints only once
+})
+fmt.Println(called)          // true
+fmt.Println(lazyFlag.IsTrue()) // true
+
+// Convert between boolean ↔ set/unset semantics
+v := issetter.True
+fmt.Println(v.ToSetUnsetValue()) // Set
+s := issetter.Set
+fmt.Println(s.ToBooleanValue())  // True
+
+// Ternary byte mapping
+result := issetter.True.ToByteCondition(1, 0, 255)
+fmt.Println(result) // 1
 ```
+
+See [`issetter/Value.go`](/issetter/Value.go) for all methods and [`issetter/README.md`](/issetter/README.md) for the full API reference.
 
 ### File Permissions (chmodhelper)
 
