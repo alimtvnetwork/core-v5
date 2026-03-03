@@ -150,27 +150,34 @@ func Test_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 	}
 }
 
-func Test_TypedPayloadWrapper_NilAndInvalid(t *testing.T) {
-	for caseIndex, testCase := range typedWrapperNilAndInvalidTestCases {
-		input := testCase.ArrangeInput.(args.Map)
-		when, _ := input.GetAsString("when")
+func Test_TypedPayloadWrapper_NilWrapper(t *testing.T) {
+	tc := typedWrapperNilAndInvalidTestCases[0]
 
-		var hasError bool
+	// Act
+	_, err := corepayload.NewTypedPayloadWrapper[testProduct](nil)
 
-		switch when {
-		case "passing nil wrapper":
-			_, err := corepayload.NewTypedPayloadWrapper[testProduct](nil)
-			hasError = err != nil
-		case "passing invalid json":
-			invalidBytes, _ := input.GetAsString("bytes")
-			_, err := corepayload.TypedPayloadWrapperDeserialize[testProduct]([]byte(invalidBytes))
-			hasError = err != nil
-		}
+	actLines := []string{fmt.Sprintf("%v", err != nil)}
+	expectedLines := tc.ExpectedInput.([]string)
 
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", hasError),
-		)
-	}
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, expectedLines)
+}
+
+func Test_TypedPayloadWrapper_InvalidJson(t *testing.T) {
+	tc := typedWrapperNilAndInvalidTestCases[1]
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	invalidBytes, _ := input.GetAsString("bytes")
+
+	// Act
+	_, err := corepayload.TypedPayloadWrapperDeserialize[testProduct]([]byte(invalidBytes))
+
+	actLines := []string{fmt.Sprintf("%v", err != nil)}
+	expectedLines := tc.ExpectedInput.([]string)
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, expectedLines)
 }
 
 func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
@@ -180,12 +187,14 @@ func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
 		count := input.GetDirectLower("count").(int)
 
 		wrappers := make([]*corepayload.TypedPayloadWrapper[testProduct], 0, count)
+
 		for i := 0; i < count; i++ {
 			product := testProduct{
 				SKU:   fmt.Sprintf("SKU-%d", i),
 				Title: fmt.Sprintf("item-%d", i),
 				Price: float64(i) * 10.0,
 			}
+
 			typed, createErr := corepayload.TypedPayloadWrapperNameIdRecord[testProduct](
 				fmt.Sprintf("item-%d", i),
 				fmt.Sprintf("id-%d", i),
@@ -197,9 +206,11 @@ func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
 
 		// Serialize all to JSON array
 		payloadWrappers := make([]*corepayload.PayloadWrapper, len(wrappers))
+
 		for i, w := range wrappers {
 			payloadWrappers[i] = w.ToPayloadWrapper()
 		}
+
 		jsonSlice := corejson.Serialize.Apply(payloadWrappers)
 		jsonSlice.HandleError()
 
@@ -208,6 +219,7 @@ func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
 		errcore.HandleErr(deserializeErr)
 
 		results := []string{fmt.Sprintf("%d", len(deserialized))}
+
 		for _, item := range deserialized {
 			results = append(results, item.Data().Title)
 		}
@@ -253,6 +265,7 @@ func Test_TypedPayloadWrapper_MetadataAccessors(t *testing.T) {
 	}
 
 	payloadsStr := typed.PayloadsString()
+
 	if payloadsStr == "" {
 		t.Error("Expected non-empty PayloadsString")
 	}
@@ -266,16 +279,19 @@ func Test_TypedPayloadWrapper_TypedDataJson(t *testing.T) {
 	errcore.HandleErr(err)
 
 	dataJson := typed.TypedDataJson()
+
 	if dataJson.IsEmpty() {
 		t.Error("Expected non-empty TypedDataJson result")
 	}
 
 	dataJsonPtr := typed.TypedDataJsonPtr()
+
 	if dataJsonPtr == nil || dataJsonPtr.IsEmpty() {
 		t.Error("Expected non-empty TypedDataJsonPtr result")
 	}
 
 	jsonBytes, jsonErr := typed.TypedDataJsonBytes()
+
 	if jsonErr != nil || len(jsonBytes) == 0 {
 		t.Error("Expected non-empty TypedDataJsonBytes")
 	}
