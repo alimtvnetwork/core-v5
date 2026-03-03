@@ -1,9 +1,8 @@
 package corejsontests
 
 import (
+	"fmt"
 	"testing"
-
-	"github.com/smartystreets/goconvey/convey"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coreutils/stringutil"
@@ -34,7 +33,13 @@ func Test_FromTo(t *testing.T) {
 	to := stringutil.AnyToStringNameField(exampleTo)
 	from := stringutil.AnyToStringNameField(exampleFrom)
 
-	convey.Convey("corejson.Deserializer.FromTo - should matches from to casting", t, func() {
-		convey.So(to, convey.ShouldEqual, from)
-	})
+	// Assert
+	actLines := []string{fmt.Sprintf("%v", to == from)}
+	expected := []string{"true"}
+
+	errcore.PrintLineDiff(0, "corejson.Deserializer.FromTo - should match from to casting", actLines, expected)
+
+	if to != from {
+		t.Errorf("corejson.Deserializer.FromTo: got %q, want %q", to, from)
+	}
 }
