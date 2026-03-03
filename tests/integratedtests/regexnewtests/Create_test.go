@@ -72,18 +72,14 @@ func Test_IsMatchFailed_Verification(t *testing.T) {
 // ==========================================================================
 
 func Test_MatchError_Match(t *testing.T) {
-	tc := matchErrorTestCases[0]
-
+	tc := matchErrorMatchTestCase
 	err := regexnew.MatchError("^hello$", "hello")
-
 	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
 }
 
 func Test_MatchError_Mismatch(t *testing.T) {
-	tc := matchErrorTestCases[1]
-
+	tc := matchErrorMismatchTestCase
 	err := regexnew.MatchError("^\\d+$", "abc")
-
 	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
 }
 
@@ -92,17 +88,13 @@ func Test_MatchError_Mismatch(t *testing.T) {
 // ==========================================================================
 
 func Test_MatchErrorLock_Match(t *testing.T) {
-	tc := matchErrorTestCases[2]
-
+	tc := matchErrorLockMatchTestCase
 	err := regexnew.MatchErrorLock("world", "hello world")
-
 	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
 }
 
 func Test_MatchErrorLock_Mismatch(t *testing.T) {
-	tc := matchErrorTestCases[3]
-
+	tc := matchErrorLockMismatchTestCase
 	err := regexnew.MatchErrorLock("^xyz$", "abc")
-
 	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
 }

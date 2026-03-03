@@ -13,7 +13,7 @@ import (
 // ==========================================================================
 
 func Test_Hashmap_Empty(t *testing.T) {
-	tc := hashmapEmptyTestCases[0]
+	tc := hashmapEmptyTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
 	actLines := []string{
@@ -30,7 +30,7 @@ func Test_Hashmap_Empty(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_New(t *testing.T) {
-	tc := hashmapNewTestCases[0]
+	tc := hashmapNewTestCase
 	hm := coregeneric.NewHashmap[string, int](10)
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
@@ -43,7 +43,7 @@ func Test_Hashmap_New(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_From(t *testing.T) {
-	tc := hashmapFromTestCases[0]
+	tc := hashmapFromTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 
 	actLines := []string{
@@ -59,7 +59,7 @@ func Test_Hashmap_From(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_CloneFunc(t *testing.T) {
-	tc := hashmapCloneFuncTestCases[0]
+	tc := hashmapCloneFuncTestCase
 	orig := coregeneric.HashmapFrom(map[string]int{"k": 1})
 	cloned := coregeneric.HashmapClone(orig.Map())
 	cloned.Set("k", 99)
@@ -80,7 +80,7 @@ func Test_Hashmap_CloneFunc(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_SetNew(t *testing.T) {
-	tc := hashmapSetNewTestCases[0]
+	tc := hashmapSetNewTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 	isNew := hm.Set("key", 42)
 
@@ -93,7 +93,7 @@ func Test_Hashmap_SetNew(t *testing.T) {
 }
 
 func Test_Hashmap_SetExisting(t *testing.T) {
-	tc := hashmapSetExistingTestCases[0]
+	tc := hashmapSetExistingTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"key": 1})
 	isNew := hm.Set("key", 2)
 	val, _ := hm.Get("key")
@@ -111,7 +111,7 @@ func Test_Hashmap_SetExisting(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_GetFound(t *testing.T) {
-	tc := hashmapGetFoundTestCases[0]
+	tc := hashmapGetFoundTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"k": 42})
 	val, found := hm.Get("k")
 
@@ -124,7 +124,7 @@ func Test_Hashmap_GetFound(t *testing.T) {
 }
 
 func Test_Hashmap_GetNotFound(t *testing.T) {
-	tc := hashmapGetNotFoundTestCases[0]
+	tc := hashmapGetNotFoundTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 	val, found := hm.Get("missing")
 
@@ -141,7 +141,7 @@ func Test_Hashmap_GetNotFound(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_GetOrDefaultMissing(t *testing.T) {
-	tc := hashmapGetOrDefaultMissingTestCases[0]
+	tc := hashmapGetOrDefaultMissingTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
 	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
@@ -150,7 +150,7 @@ func Test_Hashmap_GetOrDefaultMissing(t *testing.T) {
 }
 
 func Test_Hashmap_GetOrDefaultFound(t *testing.T) {
-	tc := hashmapGetOrDefaultFoundTestCases[0]
+	tc := hashmapGetOrDefaultFoundTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"x": 5})
 
 	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
@@ -163,7 +163,7 @@ func Test_Hashmap_GetOrDefaultFound(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_Has(t *testing.T) {
-	tc := hashmapHasTestCases[0]
+	tc := hashmapHasTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 
 	actLines := []string{
@@ -176,7 +176,7 @@ func Test_Hashmap_Has(t *testing.T) {
 }
 
 func Test_Hashmap_IsKeyMissing(t *testing.T) {
-	tc := hashmapIsKeyMissingTestCases[0]
+	tc := hashmapIsKeyMissingTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsKeyMissing("x"))}
@@ -189,7 +189,7 @@ func Test_Hashmap_IsKeyMissing(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_RemoveExisting(t *testing.T) {
-	tc := hashmapRemoveExistingTestCases[0]
+	tc := hashmapRemoveExistingTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"k": 1})
 	existed := hm.Remove("k")
 
@@ -202,7 +202,7 @@ func Test_Hashmap_RemoveExisting(t *testing.T) {
 }
 
 func Test_Hashmap_RemoveMissing(t *testing.T) {
-	tc := hashmapRemoveMissingTestCases[0]
+	tc := hashmapRemoveMissingTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
 	actLines := []string{fmt.Sprintf("%v", hm.Remove("x"))}
@@ -343,7 +343,7 @@ func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_CloneMethod(t *testing.T) {
-	tc := hashmapCloneMethodTestCases[0]
+	tc := hashmapCloneMethodTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"k": 1})
 	cloned := hm.Clone()
 	cloned.Set("k", 99)
@@ -420,7 +420,7 @@ func Test_Hashmap_IsEquals_SamePointer(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_ForEach(t *testing.T) {
-	tc := hashmapForEachTestCases[0]
+	tc := hashmapForEachTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 	count := 0
 	hm.ForEach(func(_ string, _ int) { count++ })
@@ -431,7 +431,7 @@ func Test_Hashmap_ForEach(t *testing.T) {
 }
 
 func Test_Hashmap_ForEachBreak(t *testing.T) {
-	tc := hashmapForEachBreakTestCases[0]
+	tc := hashmapForEachBreakTestCase
 	hm := coregeneric.HashmapFrom(map[int]int{1: 1, 2: 2, 3: 3})
 	count := 0
 	hm.ForEachBreak(func(_ int, _ int) bool { count++; return count >= 2 })
@@ -446,7 +446,7 @@ func Test_Hashmap_ForEachBreak(t *testing.T) {
 // ==========================================================================
 
 func Test_Hashmap_String(t *testing.T) {
-	tc := hashmapStringTestCases[0]
+	tc := hashmapStringTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 
 	actLines := []string{fmt.Sprintf("%v", hm.String() != "")}

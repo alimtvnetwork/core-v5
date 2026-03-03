@@ -11,7 +11,7 @@ import (
 func Test_LinuxApplyRecursiveOnPath_Unix(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
-	for caseIndex, testCase := range linuxApplyRecursiveOnPathTestCases {
+	for caseIndex, testCase := range []coretestcases.CaseV1{linuxApplyRecursiveOnPathTestCase} {
 		// Arrange
 		wrapper := testCase.ArrangeInput.(chmodhelpertestwrappers.RwxInstructionTestWrapper)
 		chmodhelper.CreateDirFilesWithRwxPermissionsMust(

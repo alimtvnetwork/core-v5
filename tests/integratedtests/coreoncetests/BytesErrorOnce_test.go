@@ -104,7 +104,7 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 // =============================================================================
 
 func Test_BytesErrorOnce_Execute(t *testing.T) {
-	tc := bytesErrorOnceAccessTestCases[0]
+	tc := bytesErrorOnceExecuteTestCase
 
 	// Arrange
 	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
@@ -129,7 +129,7 @@ func Test_BytesErrorOnce_Execute(t *testing.T) {
 // =============================================================================
 
 func Test_BytesErrorOnce_ValueOnly(t *testing.T) {
-	tc := bytesErrorOnceAccessTestCases[1]
+	tc := bytesErrorOnceValueOnlyTestCase
 
 	// Arrange
 	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
@@ -151,7 +151,7 @@ func Test_BytesErrorOnce_ValueOnly(t *testing.T) {
 // =============================================================================
 
 func Test_BytesErrorOnce_ValueWithError(t *testing.T) {
-	tc := bytesErrorOnceAccessTestCases[2]
+	tc := bytesErrorOnceValueWithErrorTestCase
 
 	// Arrange
 	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
@@ -316,7 +316,7 @@ func Test_BytesErrorOnce_Deserialize(t *testing.T) {
 // =============================================================================
 
 func Test_BytesErrorOnce_MarshalJSON(t *testing.T) {
-	tc := bytesErrorOnceSerializationTestCases[0]
+	tc := bytesErrorOnceMarshalJSONTestCase
 
 	// Arrange
 	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
@@ -341,7 +341,7 @@ func Test_BytesErrorOnce_MarshalJSON(t *testing.T) {
 // =============================================================================
 
 func Test_BytesErrorOnce_Serialize(t *testing.T) {
-	tc := bytesErrorOnceSerializationTestCases[1]
+	tc := bytesErrorOnceSerializeTestCase
 
 	// Arrange
 	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {

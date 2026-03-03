@@ -53,39 +53,40 @@ var stringIntCollectionTestCases = []coretestcases.CaseV1{
 
 // region Collection Prepend/Append tests
 
-var collectionPrependAppendTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: Prepend adds items to front",
-		ArrangeInput: args.Map{
-			"when": "prepend 1 item to 2-item collection",
-			"op":   "prepend",
-		},
-		ExpectedInput: []string{"3", "prepended"},
+var collectionPrependTestCase = coretestcases.CaseV1{
+	Title: "Positive: Prepend adds items to front",
+	ArrangeInput: args.Map{
+		"when": "prepend 1 item to 2-item collection",
+		"op":   "prepend",
 	},
-	{
-		Title: "Positive: Append adds items to back",
-		ArrangeInput: args.Map{
-			"when": "append 1 item to 2-item collection",
-			"op":   "append",
-		},
-		ExpectedInput: []string{"3", "appended"},
+	ExpectedInput: []string{"3", "prepended"},
+}
+
+var collectionAppendTestCase = coretestcases.CaseV1{
+	Title: "Positive: Append adds items to back",
+	ArrangeInput: args.Map{
+		"when": "append 1 item to 2-item collection",
+		"op":   "append",
 	},
-	{
-		Title: "Negative: PrependIf with false skips",
-		ArrangeInput: args.Map{
-			"when": "prepend with false condition",
-			"op":   "prependif-false",
-		},
-		ExpectedInput: []string{"2", "original-0"},
+	ExpectedInput: []string{"3", "appended"},
+}
+
+var collectionPrependIfFalseTestCase = coretestcases.CaseV1{
+	Title: "Negative: PrependIf with false skips",
+	ArrangeInput: args.Map{
+		"when": "prepend with false condition",
+		"op":   "prependif-false",
 	},
-	{
-		Title: "Negative: AppendIf with false skips",
-		ArrangeInput: args.Map{
-			"when": "append with false condition",
-			"op":   "appendif-false",
-		},
-		ExpectedInput: []string{"2", "original-0"},
+	ExpectedInput: []string{"2", "original-0"},
+}
+
+var collectionAppendIfFalseTestCase = coretestcases.CaseV1{
+	Title: "Negative: AppendIf with false skips",
+	ArrangeInput: args.Map{
+		"when": "append with false condition",
+		"op":   "appendif-false",
 	},
+	ExpectedInput: []string{"2", "original-0"},
 }
 
 // endregion
@@ -113,39 +114,40 @@ var collectionCloneNilTestCase = coretestcases.CaseV1{
 
 // region Collection IsEqualByString tests
 
-var collectionIsEqualTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: Same items are equal",
-		ArrangeInput: args.Map{
-			"when": "two identical collections",
-			"case": "equal",
-		},
-		ExpectedInput: "true",
+var collectionIsEqualEqualTestCase = coretestcases.CaseV1{
+	Title: "Positive: Same items are equal",
+	ArrangeInput: args.Map{
+		"when": "two identical collections",
+		"case": "equal",
 	},
-	{
-		Title: "Negative: Different items are not equal",
-		ArrangeInput: args.Map{
-			"when": "two different collections",
-			"case": "notequal",
-		},
-		ExpectedInput: "false",
+	ExpectedInput: "true",
+}
+
+var collectionIsEqualNotEqualTestCase = coretestcases.CaseV1{
+	Title: "Negative: Different items are not equal",
+	ArrangeInput: args.Map{
+		"when": "two different collections",
+		"case": "notequal",
 	},
-	{
-		Title: "Negative: Different lengths are not equal",
-		ArrangeInput: args.Map{
-			"when": "collections with different lengths",
-			"case": "difflength",
-		},
-		ExpectedInput: "false",
+	ExpectedInput: "false",
+}
+
+var collectionIsEqualDiffLengthTestCase = coretestcases.CaseV1{
+	Title: "Negative: Different lengths are not equal",
+	ArrangeInput: args.Map{
+		"when": "collections with different lengths",
+		"case": "difflength",
 	},
-	{
-		Title: "Negative: Both nil are equal",
-		ArrangeInput: args.Map{
-			"when": "both nil collections",
-			"case": "bothnils",
-		},
-		ExpectedInput: "true",
+	ExpectedInput: "false",
+}
+
+var collectionIsEqualBothNilsTestCase = coretestcases.CaseV1{
+	Title: "Negative: Both nil are equal",
+	ArrangeInput: args.Map{
+		"when": "both nil collections",
+		"case": "bothnils",
 	},
+	ExpectedInput: "true",
 }
 
 // endregion

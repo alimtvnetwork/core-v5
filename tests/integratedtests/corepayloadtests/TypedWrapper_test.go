@@ -38,7 +38,7 @@ func Test_TypedPayloadWrapper_Deserialization(t *testing.T) {
 		input := testCase.ArrangeInput.(args.Map)
 		typed := createTypedProduct(input)
 
-		// Act — serialize then deserialize
+		// Act
 		serialized, serializeErr := typed.Serialize()
 		errcore.HandleErr(serializeErr)
 
@@ -64,7 +64,7 @@ func Test_TypedPayloadWrapper_RoundTrip(t *testing.T) {
 		input := testCase.ArrangeInput.(args.Map)
 		original := createTypedProduct(input)
 
-		// Act — full round trip: create → serialize → deserialize → verify
+		// Act
 		jsonResult := original.JsonPtr()
 		restored, restoreErr := corepayload.TypedPayloadWrapperDeserializeUsingJsonResult[testProduct](jsonResult)
 		errcore.HandleErr(restoreErr)
@@ -88,7 +88,7 @@ func Test_TypedPayloadWrapper_DeepClone(t *testing.T) {
 		input := testCase.ArrangeInput.(args.Map)
 		original := createTypedProduct(input)
 
-		// Act — clone then mutate clone
+		// Act
 		cloned, cloneErr := original.ClonePtr(true)
 		errcore.HandleErr(cloneErr)
 
@@ -103,7 +103,7 @@ func Test_TypedPayloadWrapper_DeepClone(t *testing.T) {
 		originalData := original.Data()
 		clonedData := cloned.Data()
 
-		// Assert — original unchanged, clone mutated
+		// Assert
 		testCase.ShouldBeEqual(t, caseIndex,
 			original.Name(),
 			original.Identifier(),
@@ -124,7 +124,7 @@ func Test_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 		newTitle, _ := input.GetAsString("new_title")
 		newPrice := input.GetDirectLower("new_price").(float64)
 
-		// Act — update data
+		// Act
 		updatedProduct := testProduct{
 			SKU:   typed.Data().SKU,
 			Title: newTitle,
@@ -133,7 +133,6 @@ func Test_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 		setErr := typed.SetTypedData(updatedProduct)
 		errcore.HandleErr(setErr)
 
-		// Verify raw payloads also updated by re-parsing
 		reparsed, reparseErr := corepayload.NewTypedPayloadWrapper[testProduct](typed.ToPayloadWrapper())
 		errcore.HandleErr(reparseErr)
 
@@ -151,7 +150,7 @@ func Test_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 }
 
 func Test_TypedPayloadWrapper_NilWrapper(t *testing.T) {
-	tc := typedWrapperNilAndInvalidTestCases[0]
+	tc := typedWrapperNilTestCase
 
 	// Act
 	_, err := corepayload.NewTypedPayloadWrapper[testProduct](nil)
@@ -164,7 +163,7 @@ func Test_TypedPayloadWrapper_NilWrapper(t *testing.T) {
 }
 
 func Test_TypedPayloadWrapper_InvalidJson(t *testing.T) {
-	tc := typedWrapperNilAndInvalidTestCases[1]
+	tc := typedWrapperInvalidJsonTestCase
 
 	// Arrange
 	input := tc.ArrangeInput.(args.Map)
@@ -204,7 +203,6 @@ func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
 			wrappers = append(wrappers, typed)
 		}
 
-		// Serialize all to JSON array
 		payloadWrappers := make([]*corepayload.PayloadWrapper, len(wrappers))
 
 		for i, w := range wrappers {

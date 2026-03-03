@@ -71,7 +71,7 @@ func Test_StringIntCollection_Verification(t *testing.T) {
 // ==========================================================================
 
 func Test_Collection_Prepend(t *testing.T) {
-	tc := collectionPrependAppendTestCases[0]
+	tc := collectionPrependTestCase
 
 	col := namevalue.NewGenericCollectionDefault[string, string]()
 	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
@@ -92,7 +92,7 @@ func Test_Collection_Prepend(t *testing.T) {
 // ==========================================================================
 
 func Test_Collection_Append(t *testing.T) {
-	tc := collectionPrependAppendTestCases[1]
+	tc := collectionAppendTestCase
 
 	col := namevalue.NewGenericCollectionDefault[string, string]()
 	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
@@ -113,7 +113,7 @@ func Test_Collection_Append(t *testing.T) {
 // ==========================================================================
 
 func Test_Collection_PrependIfFalse(t *testing.T) {
-	tc := collectionPrependAppendTestCases[2]
+	tc := collectionPrependIfFalseTestCase
 
 	col := namevalue.NewGenericCollectionDefault[string, string]()
 	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
@@ -134,7 +134,7 @@ func Test_Collection_PrependIfFalse(t *testing.T) {
 // ==========================================================================
 
 func Test_Collection_AppendIfFalse(t *testing.T) {
-	tc := collectionPrependAppendTestCases[3]
+	tc := collectionAppendIfFalseTestCase
 
 	col := namevalue.NewGenericCollectionDefault[string, string]()
 	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
@@ -206,7 +206,7 @@ func Test_CollectionClone_NilReceiver(t *testing.T) {
 // ==========================================================================
 
 func Test_CollectionIsEqual_Equal(t *testing.T) {
-	tc := collectionIsEqualTestCases[0]
+	tc := collectionIsEqualEqualTestCase
 
 	a := namevalue.NewGenericCollectionDefault[string, int]()
 	a.Add(namevalue.StringInt{Name: "x", Value: 1})
@@ -221,7 +221,7 @@ func Test_CollectionIsEqual_Equal(t *testing.T) {
 // ==========================================================================
 
 func Test_CollectionIsEqual_NotEqual(t *testing.T) {
-	tc := collectionIsEqualTestCases[1]
+	tc := collectionIsEqualNotEqualTestCase
 
 	a := namevalue.NewGenericCollectionDefault[string, int]()
 	a.Add(namevalue.StringInt{Name: "x", Value: 1})
@@ -236,7 +236,7 @@ func Test_CollectionIsEqual_NotEqual(t *testing.T) {
 // ==========================================================================
 
 func Test_CollectionIsEqual_DiffLength(t *testing.T) {
-	tc := collectionIsEqualTestCases[2]
+	tc := collectionIsEqualDiffLengthTestCase
 
 	a := namevalue.NewGenericCollectionDefault[string, int]()
 	a.Add(namevalue.StringInt{Name: "x", Value: 1})
@@ -252,7 +252,7 @@ func Test_CollectionIsEqual_DiffLength(t *testing.T) {
 // ==========================================================================
 
 func Test_CollectionIsEqual_BothNils(t *testing.T) {
-	tc := collectionIsEqualTestCases[3]
+	tc := collectionIsEqualBothNilsTestCase
 
 	var a *namevalue.StringIntCollection
 	var b *namevalue.StringIntCollection
