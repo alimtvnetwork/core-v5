@@ -1,7 +1,7 @@
 package stringcompareas
 
-// isNotGlobFunc is the inversion of isGlobFunc.
-var isNotGlobFunc = func(
+// IsNonGlobFunc is the inversion of isGlobFunc.
+var IsNonGlobFunc = func(
 	contentLine,
 	globPattern string,
 	isIgnoreCase bool,

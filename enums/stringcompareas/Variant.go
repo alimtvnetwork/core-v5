@@ -326,7 +326,7 @@ func (it *Variant) RangesByte() []byte {
 //	NotAnyChars:   isNotAnyCharsFunc,
 //	NotMatchRegex: isNotMatchRegex,
 //	Glob:          isGlobFunc,
-//	NotGlob:       isNotGlobFunc,
+//	NotGlob:       IsNonGlobFunc,
 func (it Variant) IsLineCompareFunc() IsLineCompareFunc {
 	return rangesMap[it]
 }

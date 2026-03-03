@@ -47,7 +47,7 @@ var (
 		NotAnyChars:   isNotAnyCharsFunc,
 		NotMatchRegex: isNotMatchRegex,
 		Glob:          isGlobFunc,
-		NotGlob:       isNotGlobFunc,
+		NotGlob:       IsNonGlobFunc,
 	}
 
 	negativeCases = []Variant{
