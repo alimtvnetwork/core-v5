@@ -11,49 +11,6 @@ import (
 )
 
 // ==========================================
-// Helper: printValidatorDiffOnFail
-//
-// Prints line-by-line diff when a SliceValidator
-// verification fails, so console shows exactly
-// which lines diverged and at what line number.
-// ==========================================
-
-func printSliceValidatorDiffOnFail(
-	t *testing.T,
-	caseIndex int,
-	header string,
-	actual []string,
-	expected []string,
-	err error,
-) {
-	t.Helper()
-
-	if err == nil {
-		return
-	}
-
-	errcore.PrintLineDiff(caseIndex, header, actual, expected)
-	t.Errorf("Case %d (%s) failed:\n%v", caseIndex, header, err)
-}
-
-func printLineDiffOnMismatch(
-	t *testing.T,
-	caseIndex int,
-	header string,
-	actual []string,
-	expected []string,
-) {
-	t.Helper()
-
-	if !errcore.LineDiffHasMismatch(actual, expected) {
-		return
-	}
-
-	errcore.PrintLineDiff(caseIndex, header, actual, expected)
-	t.Errorf("Case %d (%s): lines do not match. See diff above.", caseIndex, header)
-}
-
-// ==========================================
 // SliceValidator — AllVerifyError with diff
 // ==========================================
 
