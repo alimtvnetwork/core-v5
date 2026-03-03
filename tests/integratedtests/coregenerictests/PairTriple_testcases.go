@@ -16,12 +16,7 @@ var pairNewValidTestCases = []coretestcases.CaseV1{
 			"left":  "key",
 			"right": "value",
 		},
-		WantLines: []string{
-			"key",
-			"value",
-			"true",
-			"",
-		},
+		WantLines: []string{"key", "value", "true", ""},
 	},
 	{
 		Name: "Pair[string,string] empty strings valid",
@@ -29,12 +24,7 @@ var pairNewValidTestCases = []coretestcases.CaseV1{
 			"left":  "",
 			"right": "",
 		},
-		WantLines: []string{
-			"",
-			"",
-			"true",
-			"",
-		},
+		WantLines: []string{"", "", "true", ""},
 	},
 }
 
@@ -48,24 +38,14 @@ var pairInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"message": "something went wrong",
 		},
-		WantLines: []string{
-			"",
-			"",
-			"false",
-			"something went wrong",
-		},
+		WantLines: []string{"", "", "false", "something went wrong"},
 	},
 	{
 		Name: "InvalidPairNoMessage",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
-		WantLines: []string{
-			"",
-			"",
-			"false",
-			"",
-		},
+		WantLines: []string{"", "", "false", ""},
 	},
 }
 
@@ -80,12 +60,7 @@ var pairCloneTestCases = []coretestcases.CaseV1{
 			"left":  "original-left",
 			"right": "original-right",
 		},
-		WantLines: []string{
-			"original-left",
-			"original-right",
-			"true",
-			"mutated-left",
-		},
+		WantLines: []string{"original-left", "original-right", "true", "mutated-left"},
 	},
 }
 
@@ -95,11 +70,9 @@ var pairCloneTestCases = []coretestcases.CaseV1{
 
 var pairNilCloneTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Nil pair clone returns nil",
+		Name:         "Nil pair clone returns nil",
 		ArrangeInput: args.Map{},
-		WantLines: []string{
-			"true",
-		},
+		WantLines:    []string{"true"},
 	},
 }
 
@@ -107,44 +80,37 @@ var pairNilCloneTestCases = []coretestcases.CaseV1{
 // Pair — IsEqual
 // ==========================================
 
-var pairIsEqualTestCases = []coretestcases.CaseV1{
-	{
-		Name: "Equal pairs",
-		ArrangeInput: args.Map{
-			"left":  "a",
-			"right": "b",
-		},
-		WantLines: []string{
-			"true",
-		},
+var pairIsEqualSameTestCase = coretestcases.CaseV1{
+	Name: "Equal pairs",
+	ArrangeInput: args.Map{
+		"left":  "a",
+		"right": "b",
 	},
-	{
-		Name: "Unequal pairs - different left",
-		ArrangeInput: args.Map{
-			"left":  "a",
-			"right": "b",
-		},
-		WantLines: []string{
-			"false",
-		},
+	WantLines: []string{"true"},
+}
+
+var pairIsEqualDiffLeftTestCase = coretestcases.CaseV1{
+	Name: "Unequal pairs - different left",
+	ArrangeInput: args.Map{
+		"left":  "a",
+		"right": "b",
 	},
-	{
-		Name: "Nil vs non-nil",
-		ArrangeInput: args.Map{
-			"left":  "a",
-			"right": "b",
-		},
-		WantLines: []string{
-			"false",
-		},
+	WantLines: []string{"false"},
+}
+
+var pairIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
+	Name: "Nil vs non-nil",
+	ArrangeInput: args.Map{
+		"left":  "a",
+		"right": "b",
 	},
-	{
-		Name: "Both nil",
-		ArrangeInput: args.Map{},
-		WantLines: []string{
-			"true",
-		},
-	},
+	WantLines: []string{"false"},
+}
+
+var pairIsEqualBothNilTestCase = coretestcases.CaseV1{
+	Name:         "Both nil",
+	ArrangeInput: args.Map{},
+	WantLines:    []string{"true"},
 }
 
 // ==========================================
@@ -158,10 +124,7 @@ var pairValuesTestCases = []coretestcases.CaseV1{
 			"left":  "hello",
 			"right": "world",
 		},
-		WantLines: []string{
-			"hello",
-			"world",
-		},
+		WantLines: []string{"hello", "world"},
 	},
 }
 
@@ -177,13 +140,7 @@ var tripleNewValidTestCases = []coretestcases.CaseV1{
 			"middle": "b",
 			"right":  "c",
 		},
-		WantLines: []string{
-			"a",
-			"b",
-			"c",
-			"true",
-			"",
-		},
+		WantLines: []string{"a", "b", "c", "true", ""},
 	},
 }
 
@@ -197,26 +154,14 @@ var tripleInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"message": "bad input",
 		},
-		WantLines: []string{
-			"",
-			"",
-			"",
-			"false",
-			"bad input",
-		},
+		WantLines: []string{"", "", "", "false", "bad input"},
 	},
 	{
 		Name: "InvalidTripleNoMessage",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
-		WantLines: []string{
-			"",
-			"",
-			"",
-			"false",
-			"",
-		},
+		WantLines: []string{"", "", "", "false", ""},
 	},
 }
 
@@ -232,13 +177,7 @@ var tripleCloneTestCases = []coretestcases.CaseV1{
 			"middle": "M",
 			"right":  "R",
 		},
-		WantLines: []string{
-			"L",
-			"M",
-			"R",
-			"true",
-			"mutated",
-		},
+		WantLines: []string{"L", "M", "R", "true", "mutated"},
 	},
 }
 
@@ -248,11 +187,9 @@ var tripleCloneTestCases = []coretestcases.CaseV1{
 
 var tripleNilCloneTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Nil triple clone returns nil",
+		Name:         "Nil triple clone returns nil",
 		ArrangeInput: args.Map{},
-		WantLines: []string{
-			"true",
-		},
+		WantLines:    []string{"true"},
 	},
 }
 
@@ -268,11 +205,7 @@ var tripleValuesTestCases = []coretestcases.CaseV1{
 			"middle": "y",
 			"right":  "z",
 		},
-		WantLines: []string{
-			"x",
-			"y",
-			"z",
-		},
+		WantLines: []string{"x", "y", "z"},
 	},
 }
 
@@ -287,12 +220,7 @@ var pairClearTestCases = []coretestcases.CaseV1{
 			"left":  "non-empty",
 			"right": "non-empty",
 		},
-		WantLines: []string{
-			"",
-			"",
-			"false",
-			"",
-		},
+		WantLines: []string{"", "", "false", ""},
 	},
 }
 
@@ -308,12 +236,6 @@ var tripleClearTestCases = []coretestcases.CaseV1{
 			"middle": "non-empty",
 			"right":  "non-empty",
 		},
-		WantLines: []string{
-			"",
-			"",
-			"",
-			"false",
-			"",
-		},
+		WantLines: []string{"", "", "", "false", ""},
 	},
 }

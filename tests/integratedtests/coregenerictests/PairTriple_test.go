@@ -100,8 +100,6 @@ func Test_Pair_Clone_Independence(t *testing.T) {
 
 func Test_Pair_Nil_Clone(t *testing.T) {
 	for caseIndex, testCase := range pairNilCloneTestCases {
-		// Arrange — nil pair
-
 		// Act
 		var pair *coregeneric.Pair[string, string]
 		cloned := pair.Clone()
@@ -119,46 +117,36 @@ func Test_Pair_Nil_Clone(t *testing.T) {
 // Test: Pair — IsEqual
 // ==========================================
 
-func Test_Pair_IsEqual(t *testing.T) {
-	// Case 0: Equal pairs
-	{
-		testCase := pairIsEqualTestCases[0]
-		input := testCase.ArrangeInput.(args.Map)
-		left, _ := input.GetAsString("left")
-		right, _ := input.GetAsString("right")
+func Test_Pair_IsEqual_Same(t *testing.T) {
+	tc := pairIsEqualSameTestCase
+	input := tc.ArrangeInput.(args.Map)
+	left, _ := input.GetAsString("left")
+	right, _ := input.GetAsString("right")
 
-		a := coregeneric.NewPair(left, right)
-		b := coregeneric.NewPair(left, right)
-		actLines := []string{fmt.Sprintf("%v", a.IsEqual(b))}
-		testCase.ShouldBeEqual(t, 0, actLines...)
-	}
+	a := coregeneric.NewPair(left, right)
+	b := coregeneric.NewPair(left, right)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 1: Unequal - different left
-	{
-		testCase := pairIsEqualTestCases[1]
-		a := coregeneric.NewPair("a", "b")
-		b := coregeneric.NewPair("x", "b")
-		actLines := []string{fmt.Sprintf("%v", a.IsEqual(b))}
-		testCase.ShouldBeEqual(t, 1, actLines...)
-	}
+func Test_Pair_IsEqual_DiffLeft(t *testing.T) {
+	tc := pairIsEqualDiffLeftTestCase
+	a := coregeneric.NewPair("a", "b")
+	b := coregeneric.NewPair("x", "b")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 2: Nil vs non-nil
-	{
-		testCase := pairIsEqualTestCases[2]
-		a := coregeneric.NewPair("a", "b")
-		var b *coregeneric.Pair[string, string]
-		actLines := []string{fmt.Sprintf("%v", a.IsEqual(b))}
-		testCase.ShouldBeEqual(t, 2, actLines...)
-	}
+func Test_Pair_IsEqual_NilVsNonNil(t *testing.T) {
+	tc := pairIsEqualNilVsNonNilTestCase
+	a := coregeneric.NewPair("a", "b")
+	var b *coregeneric.Pair[string, string]
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 3: Both nil
-	{
-		testCase := pairIsEqualTestCases[3]
-		var a *coregeneric.Pair[string, string]
-		var b *coregeneric.Pair[string, string]
-		actLines := []string{fmt.Sprintf("%v", a.IsEqual(b))}
-		testCase.ShouldBeEqual(t, 3, actLines...)
-	}
+func Test_Pair_IsEqual_BothNil(t *testing.T) {
+	tc := pairIsEqualBothNilTestCase
+	var a *coregeneric.Pair[string, string]
+	var b *coregeneric.Pair[string, string]
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 // ==========================================

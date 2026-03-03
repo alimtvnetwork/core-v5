@@ -11,316 +11,261 @@ import (
 // Test: Pair — IsEqual extended edge cases
 // ==========================================================================
 
-func Test_Pair_IsEqual_Extended(t *testing.T) {
-	// Case 0: same values, different validity
-	{
-		tc := pairIsEqualExtendedTestCases[0]
-		a := coregeneric.NewPair("x", "y")
-		b := coregeneric.NewPairWithMessage("x", "y", false, "")
-		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Pair_IsEqual_SameValuesDiffValidity(t *testing.T) {
+	tc := pairIsEqualSameValuesDiffValidityTestCase
+	a := coregeneric.NewPair("x", "y")
+	b := coregeneric.NewPairWithMessage("x", "y", false, "")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 1: different right values
-	{
-		tc := pairIsEqualExtendedTestCases[1]
-		a := coregeneric.NewPair("x", "y")
-		b := coregeneric.NewPair("x", "z")
-		tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Pair_IsEqual_DiffRight(t *testing.T) {
+	tc := pairIsEqualDiffRightTestCase
+	a := coregeneric.NewPair("x", "y")
+	b := coregeneric.NewPair("x", "z")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 2: both invalid with same zero values
-	{
-		tc := pairIsEqualExtendedTestCases[2]
-		a := coregeneric.InvalidPairNoMessage[string, string]()
-		b := coregeneric.InvalidPairNoMessage[string, string]()
-		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Pair_IsEqual_BothInvalidZero(t *testing.T) {
+	tc := pairIsEqualBothInvalidZeroTestCase
+	a := coregeneric.InvalidPairNoMessage[string, string]()
+	b := coregeneric.InvalidPairNoMessage[string, string]()
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 3: Pair[int,int] same values
-	{
-		tc := pairIsEqualExtendedTestCases[3]
-		a := coregeneric.NewPair(10, 20)
-		b := coregeneric.NewPair(10, 20)
-		tc.ShouldBeEqual(t, 3, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Pair_IsEqual_IntSame(t *testing.T) {
+	tc := pairIsEqualIntSameTestCase
+	a := coregeneric.NewPair(10, 20)
+	b := coregeneric.NewPair(10, 20)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 4: Pair[int,int] different values
-	{
-		tc := pairIsEqualExtendedTestCases[4]
-		a := coregeneric.NewPair(10, 20)
-		b := coregeneric.NewPair(10, 30)
-		tc.ShouldBeEqual(t, 4, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Pair_IsEqual_IntDiff(t *testing.T) {
+	tc := pairIsEqualIntDiffTestCase
+	a := coregeneric.NewPair(10, 20)
+	b := coregeneric.NewPair(10, 30)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 5: Pair[string,int] mixed types
-	{
-		tc := pairIsEqualExtendedTestCases[5]
-		a := coregeneric.NewPair("key", 42)
-		b := coregeneric.NewPair("key", 42)
-		tc.ShouldBeEqual(t, 5, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Pair_IsEqual_MixedTypes(t *testing.T) {
+	tc := pairIsEqualMixedTypesTestCase
+	a := coregeneric.NewPair("key", 42)
+	b := coregeneric.NewPair("key", 42)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 // ==========================================================================
 // Test: Pair — HasMessage edge cases
 // ==========================================================================
 
-func Test_Pair_HasMessage(t *testing.T) {
-	// Case 0: valid pair, no message
-	{
-		tc := pairHasMessageTestCases[0]
-		p := coregeneric.NewPair("a", "b")
-		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
-	}
+func Test_Pair_HasMessage_ValidNoMsg(t *testing.T) {
+	tc := pairHasMessageValidNoMsgTestCase
+	p := coregeneric.NewPair("a", "b")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
+}
 
-	// Case 1: invalid pair with message
-	{
-		tc := pairHasMessageTestCases[1]
-		p := coregeneric.InvalidPair[string, string]("error")
-		tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", p.HasMessage()))
-	}
+func Test_Pair_HasMessage_InvalidWithMsg(t *testing.T) {
+	tc := pairHasMessageInvalidWithMsgTestCase
+	p := coregeneric.InvalidPair[string, string]("error")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
+}
 
-	// Case 2: whitespace-only message
-	{
-		tc := pairHasMessageTestCases[2]
-		p := coregeneric.NewPairWithMessage("a", "b", true, "   ")
-		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%v", p.HasMessage()))
-	}
+func Test_Pair_HasMessage_Whitespace(t *testing.T) {
+	tc := pairHasMessageWhitespaceTestCase
+	p := coregeneric.NewPairWithMessage("a", "b", true, "   ")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
+}
 
-	// Case 3: nil pair
-	{
-		tc := pairHasMessageTestCases[3]
-		var p *coregeneric.Pair[string, string]
-		tc.ShouldBeEqual(t, 3, fmt.Sprintf("%v", p.HasMessage()))
-	}
+func Test_Pair_HasMessage_Nil(t *testing.T) {
+	tc := pairHasMessageNilTestCase
+	var p *coregeneric.Pair[string, string]
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
 }
 
 // ==========================================================================
 // Test: Pair — IsInvalid edge cases
 // ==========================================================================
 
-func Test_Pair_IsInvalid(t *testing.T) {
-	// Case 0: valid pair
-	{
-		tc := pairIsInvalidTestCases[0]
-		p := coregeneric.NewPair("a", "b")
-		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.IsInvalid()))
-	}
+func Test_Pair_IsInvalid_Valid(t *testing.T) {
+	tc := pairIsInvalidValidTestCase
+	p := coregeneric.NewPair("a", "b")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.IsInvalid()))
+}
 
-	// Case 1: invalid pair
-	{
-		tc := pairIsInvalidTestCases[1]
-		p := coregeneric.InvalidPairNoMessage[string, string]()
-		tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", p.IsInvalid()))
-	}
+func Test_Pair_IsInvalid_Invalid(t *testing.T) {
+	tc := pairIsInvalidInvalidTestCase
+	p := coregeneric.InvalidPairNoMessage[string, string]()
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.IsInvalid()))
+}
 
-	// Case 2: nil pair
-	{
-		tc := pairIsInvalidTestCases[2]
-		var p *coregeneric.Pair[string, string]
-		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%v", p.IsInvalid()))
-	}
+func Test_Pair_IsInvalid_Nil(t *testing.T) {
+	tc := pairIsInvalidNilTestCase
+	var p *coregeneric.Pair[string, string]
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.IsInvalid()))
 }
 
 // ==========================================================================
 // Test: Pair — String output
 // ==========================================================================
 
-func Test_Pair_String(t *testing.T) {
-	// Case 0: valid Pair[string,string]
-	{
-		tc := pairStringTestCases[0]
-		p := coregeneric.NewPair("hello", "world")
-		tc.ShouldBeEqual(t, 0, p.String())
-	}
+func Test_Pair_String_Valid(t *testing.T) {
+	tc := pairStringValidTestCase
+	p := coregeneric.NewPair("hello", "world")
+	tc.ShouldBeEqual(t, 0, p.String())
+}
 
-	// Case 1: invalid with zero values
-	{
-		tc := pairStringTestCases[1]
-		p := coregeneric.InvalidPairNoMessage[string, string]()
-		tc.ShouldBeEqual(t, 1, p.String())
-	}
+func Test_Pair_String_InvalidZero(t *testing.T) {
+	tc := pairStringInvalidZeroTestCase
+	p := coregeneric.InvalidPairNoMessage[string, string]()
+	tc.ShouldBeEqual(t, 0, p.String())
+}
 
-	// Case 2: nil pair
-	{
-		tc := pairStringTestCases[2]
-		var p *coregeneric.Pair[string, string]
-		tc.ShouldBeEqual(t, 2, p.String())
-	}
+func Test_Pair_String_Nil(t *testing.T) {
+	tc := pairStringNilTestCase
+	var p *coregeneric.Pair[string, string]
+	tc.ShouldBeEqual(t, 0, p.String())
+}
 
-	// Case 3: Pair[string,int]
-	{
-		tc := pairStringTestCases[3]
-		p := coregeneric.NewPair("key", 42)
-		tc.ShouldBeEqual(t, 3, p.String())
-	}
+func Test_Pair_String_MixedType(t *testing.T) {
+	tc := pairStringMixedTypeTestCase
+	p := coregeneric.NewPair("key", 42)
+	tc.ShouldBeEqual(t, 0, p.String())
 }
 
 // ==========================================================================
 // Test: Triple — IsEqual extended edge cases
 // ==========================================================================
 
-func Test_Triple_IsEqual_Extended(t *testing.T) {
-	// Case 0: same values same validity
-	{
-		tc := tripleIsEqualExtendedTestCases[0]
-		a := coregeneric.NewTriple("a", "b", "c")
-		b := coregeneric.NewTriple("a", "b", "c")
-		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Triple_IsEqual_Same(t *testing.T) {
+	tc := tripleIsEqualSameTestCase
+	a := coregeneric.NewTriple("a", "b", "c")
+	b := coregeneric.NewTriple("a", "b", "c")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 1: same values different validity
-	{
-		tc := tripleIsEqualExtendedTestCases[1]
-		a := coregeneric.NewTriple("a", "b", "c")
-		b := coregeneric.NewTripleWithMessage("a", "b", "c", false, "")
-		tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Triple_IsEqual_DiffValidity(t *testing.T) {
+	tc := tripleIsEqualDiffValidityTestCase
+	a := coregeneric.NewTriple("a", "b", "c")
+	b := coregeneric.NewTripleWithMessage("a", "b", "c", false, "")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 2: different middle
-	{
-		tc := tripleIsEqualExtendedTestCases[2]
-		a := coregeneric.NewTriple("a", "b", "c")
-		b := coregeneric.NewTriple("a", "X", "c")
-		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Triple_IsEqual_DiffMiddle(t *testing.T) {
+	tc := tripleIsEqualDiffMiddleTestCase
+	a := coregeneric.NewTriple("a", "b", "c")
+	b := coregeneric.NewTriple("a", "X", "c")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 3: both nil
-	{
-		tc := tripleIsEqualExtendedTestCases[3]
-		var a *coregeneric.Triple[string, string, string]
-		var b *coregeneric.Triple[string, string, string]
-		tc.ShouldBeEqual(t, 3, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Triple_IsEqual_BothNil(t *testing.T) {
+	tc := tripleIsEqualBothNilTestCase
+	var a *coregeneric.Triple[string, string, string]
+	var b *coregeneric.Triple[string, string, string]
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+}
 
-	// Case 4: nil vs non-nil
-	{
-		tc := tripleIsEqualExtendedTestCases[4]
-		var a *coregeneric.Triple[string, string, string]
-		b := coregeneric.NewTriple("a", "b", "c")
-		tc.ShouldBeEqual(t, 4, fmt.Sprintf("%v", a.IsEqual(b)))
-	}
+func Test_Triple_IsEqual_NilVsNonNil(t *testing.T) {
+	tc := tripleIsEqualNilVsNonNilTestCase
+	var a *coregeneric.Triple[string, string, string]
+	b := coregeneric.NewTriple("a", "b", "c")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 // ==========================================================================
 // Test: Triple — HasMessage edge cases
 // ==========================================================================
 
-func Test_Triple_HasMessage(t *testing.T) {
-	// Case 0: valid, no message
-	{
-		tc := tripleHasMessageTestCases[0]
-		tr := coregeneric.NewTriple("a", "b", "c")
-		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.HasMessage()))
-	}
+func Test_Triple_HasMessage_ValidNoMsg(t *testing.T) {
+	tc := tripleHasMessageValidNoMsgTestCase
+	tr := coregeneric.NewTriple("a", "b", "c")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.HasMessage()))
+}
 
-	// Case 1: invalid with message
-	{
-		tc := tripleHasMessageTestCases[1]
-		tr := coregeneric.InvalidTriple[string, string, string]("err")
-		tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", tr.HasMessage()))
-	}
+func Test_Triple_HasMessage_InvalidWithMsg(t *testing.T) {
+	tc := tripleHasMessageInvalidWithMsgTestCase
+	tr := coregeneric.InvalidTriple[string, string, string]("err")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.HasMessage()))
+}
 
-	// Case 2: nil triple
-	{
-		tc := tripleHasMessageTestCases[2]
-		var tr *coregeneric.Triple[string, string, string]
-		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%v", tr.HasMessage()))
-	}
+func Test_Triple_HasMessage_Nil(t *testing.T) {
+	tc := tripleHasMessageNilTestCase
+	var tr *coregeneric.Triple[string, string, string]
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.HasMessage()))
 }
 
 // ==========================================================================
 // Test: Triple — IsInvalid edge cases
 // ==========================================================================
 
-func Test_Triple_IsInvalid(t *testing.T) {
-	// Case 0: valid
-	{
-		tc := tripleIsInvalidTestCases[0]
-		tr := coregeneric.NewTriple("a", "b", "c")
-		tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.IsInvalid()))
-	}
+func Test_Triple_IsInvalid_Valid(t *testing.T) {
+	tc := tripleIsInvalidValidTestCase
+	tr := coregeneric.NewTriple("a", "b", "c")
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.IsInvalid()))
+}
 
-	// Case 1: invalid
-	{
-		tc := tripleIsInvalidTestCases[1]
-		tr := coregeneric.InvalidTripleNoMessage[string, string, string]()
-		tc.ShouldBeEqual(t, 1, fmt.Sprintf("%v", tr.IsInvalid()))
-	}
+func Test_Triple_IsInvalid_Invalid(t *testing.T) {
+	tc := tripleIsInvalidInvalidTestCase
+	tr := coregeneric.InvalidTripleNoMessage[string, string, string]()
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.IsInvalid()))
+}
 
-	// Case 2: nil
-	{
-		tc := tripleIsInvalidTestCases[2]
-		var tr *coregeneric.Triple[string, string, string]
-		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%v", tr.IsInvalid()))
-	}
+func Test_Triple_IsInvalid_Nil(t *testing.T) {
+	tc := tripleIsInvalidNilTestCase
+	var tr *coregeneric.Triple[string, string, string]
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.IsInvalid()))
 }
 
 // ==========================================================================
 // Test: Triple — String output
 // ==========================================================================
 
-func Test_Triple_String(t *testing.T) {
-	// Case 0: valid
-	{
-		tc := tripleStringTestCases[0]
-		tr := coregeneric.NewTriple("a", "b", "c")
-		tc.ShouldBeEqual(t, 0, tr.String())
-	}
+func Test_Triple_String_Valid(t *testing.T) {
+	tc := tripleStringValidTestCase
+	tr := coregeneric.NewTriple("a", "b", "c")
+	tc.ShouldBeEqual(t, 0, tr.String())
+}
 
-	// Case 1: invalid zero values
-	{
-		tc := tripleStringTestCases[1]
-		tr := coregeneric.InvalidTripleNoMessage[string, string, string]()
-		tc.ShouldBeEqual(t, 1, tr.String())
-	}
+func Test_Triple_String_InvalidZero(t *testing.T) {
+	tc := tripleStringInvalidZeroTestCase
+	tr := coregeneric.InvalidTripleNoMessage[string, string, string]()
+	tc.ShouldBeEqual(t, 0, tr.String())
+}
 
-	// Case 2: nil
-	{
-		tc := tripleStringTestCases[2]
-		var tr *coregeneric.Triple[string, string, string]
-		tc.ShouldBeEqual(t, 2, tr.String())
-	}
+func Test_Triple_String_Nil(t *testing.T) {
+	tc := tripleStringNilTestCase
+	var tr *coregeneric.Triple[string, string, string]
+	tc.ShouldBeEqual(t, 0, tr.String())
 }
 
 // ==========================================================================
 // Test: Pair — NewPairWithMessage
 // ==========================================================================
 
-func Test_Pair_NewPairWithMessage(t *testing.T) {
-	// Case 0: valid with message
-	{
-		tc := pairWithMessageTestCases[0]
-		p := coregeneric.NewPairWithMessage("hello", "world", true, "ok")
-		tc.ShouldBeEqual(t, 0, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
-	}
+func Test_Pair_NewPairWithMessage_Valid(t *testing.T) {
+	tc := pairWithMessageValidTestCase
+	p := coregeneric.NewPairWithMessage("hello", "world", true, "ok")
+	tc.ShouldBeEqual(t, 0, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
+}
 
-	// Case 1: invalid with error message
-	{
-		tc := pairWithMessageTestCases[1]
-		p := coregeneric.NewPairWithMessage("", "", false, "failed")
-		tc.ShouldBeEqual(t, 1, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
-	}
+func Test_Pair_NewPairWithMessage_Invalid(t *testing.T) {
+	tc := pairWithMessageInvalidTestCase
+	p := coregeneric.NewPairWithMessage("", "", false, "failed")
+	tc.ShouldBeEqual(t, 0, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
 }
 
 // ==========================================================================
 // Test: Triple — NewTripleWithMessage
 // ==========================================================================
 
-func Test_Triple_NewTripleWithMessage(t *testing.T) {
-	// Case 0: valid with message
-	{
-		tc := tripleWithMessageTestCases[0]
-		tr := coregeneric.NewTripleWithMessage("a", "b", "c", true, "success")
-		tc.ShouldBeEqual(t, 0, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
-	}
+func Test_Triple_NewTripleWithMessage_Valid(t *testing.T) {
+	tc := tripleWithMessageValidTestCase
+	tr := coregeneric.NewTripleWithMessage("a", "b", "c", true, "success")
+	tc.ShouldBeEqual(t, 0, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
+}
 
-	// Case 1: invalid with error
-	{
-		tc := tripleWithMessageTestCases[1]
-		tr := coregeneric.NewTripleWithMessage("", "", "", false, "error occurred")
-		tc.ShouldBeEqual(t, 1, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
-	}
+func Test_Triple_NewTripleWithMessage_Invalid(t *testing.T) {
+	tc := tripleWithMessageInvalidTestCase
+	tr := coregeneric.NewTripleWithMessage("", "", "", false, "error occurred")
+	tc.ShouldBeEqual(t, 0, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
 }
 
 // ==========================================================================
@@ -328,7 +273,7 @@ func Test_Triple_NewTripleWithMessage(t *testing.T) {
 // ==========================================================================
 
 func Test_Pair_Dispose(t *testing.T) {
-	tc := pairDisposeTestCases[0]
+	tc := pairDisposeTestCase
 	p := coregeneric.NewPairWithMessage("a", "b", true, "msg")
 	p.Dispose()
 	tc.ShouldBeEqual(t, 0, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
@@ -339,7 +284,7 @@ func Test_Pair_Dispose(t *testing.T) {
 // ==========================================================================
 
 func Test_Triple_Dispose(t *testing.T) {
-	tc := tripleDisposeTestCases[0]
+	tc := tripleDisposeTestCase
 	tr := coregeneric.NewTripleWithMessage("a", "b", "c", true, "msg")
 	tr.Dispose()
 	tc.ShouldBeEqual(t, 0, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
