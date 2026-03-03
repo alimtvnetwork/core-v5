@@ -10,6 +10,8 @@ import (
 )
 
 func Test_FromTo(t *testing.T) {
+	tc := deserializerFromToTestCase
+
 	type Example struct {
 		A       string
 		B       int
@@ -26,7 +28,8 @@ func Test_FromTo(t *testing.T) {
 
 	err := corejson.Deserialize.FromTo(
 		exampleFrom,
-		exampleTo)
+		exampleTo,
+	)
 
 	errcore.HandleErr(err)
 
@@ -35,7 +38,6 @@ func Test_FromTo(t *testing.T) {
 
 	// Assert
 	actLines := []string{fmt.Sprintf("%v", to == from)}
-	expected := []string{"true"}
 
-	errcore.AssertDiffOnMismatch(t, 0, "corejson.Deserializer.FromTo - should match from to casting", actLines, expected)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
