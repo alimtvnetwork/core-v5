@@ -129,10 +129,11 @@ func ReflectSetFromTo(
 
 	// case : From, To  : (*[]byte, otherType) -- try unmarshal, reflect
 	if isLeftPointerBytes {
+		bytesPtr := from.(*[]byte)
 		return corejson.
 			Deserialize.
 			UsingBytesPointer(
-				from.(*[]byte),
+				*bytesPtr,
 				toPointer,
 			)
 	}

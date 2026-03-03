@@ -220,7 +220,7 @@ func (it *AnyCollection) ListStringsPtr(isIncludeFieldName bool) []string {
 }
 
 func (it *AnyCollection) ListStrings(isIncludeFieldName bool) []string {
-	return *it.ListStringsPtr(isIncludeFieldName)
+	return it.ListStringsPtr(isIncludeFieldName)
 }
 
 func (it *AnyCollection) RemoveAt(index int) (isSuccess bool) {
