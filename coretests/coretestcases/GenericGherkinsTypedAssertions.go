@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// ShouldExpectedMatch asserts that the given bool result matches
+// ShouldExpectedMatch asserts that the given result matches
 // the Expected field value. Uses the typed Expected field directly
 // instead of converting to string lines.
 //
@@ -31,5 +31,21 @@ func (it *GenericGherkins[TInput, TExpect]) ShouldExpectedMatch(
 		title,
 		actual,
 		expected,
+	)
+}
+
+// ShouldExpectedMatchFirst asserts that the given result matches
+// the Expected field value using caseIndex=0. Use for named single
+// test cases (non-loop).
+func (it *GenericGherkins[TInput, TExpect]) ShouldExpectedMatchFirst(
+	t *testing.T,
+	result any,
+) {
+	t.Helper()
+
+	it.ShouldExpectedMatch(
+		t,
+		0,
+		result,
 	)
 }
