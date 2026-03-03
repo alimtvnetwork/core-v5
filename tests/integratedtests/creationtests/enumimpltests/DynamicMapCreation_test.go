@@ -31,6 +31,8 @@ func Test_DynamicMapCreationDiff(t *testing.T) {
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 
 		// Assert - verify both diff methods produce equal raw maps
+		// Note: This is a cross-validation of two dynamic outputs (actLines as expected).
+		// Cannot use CaseV1.ShouldBeEqual because the expected value is dynamic, not from ExpectedInput.
 		anotherLines := dynamicMapToSortedLines(enumimpl.DynamicMap(anotherDiff))
 		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title+" (both diff equal)", anotherLines, actLines)
 
