@@ -11,20 +11,20 @@ import (
 
 var pairNewValidTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Pair[string,string] valid",
+		Title: "Pair[string,string] valid",
 		ArrangeInput: args.Map{
 			"left":  "key",
 			"right": "value",
 		},
-		WantLines: []string{"key", "value", "true", ""},
+		ExpectedInput: []string{"key", "value", "true", ""},
 	},
 	{
-		Name: "Pair[string,string] empty strings valid",
+		Title: "Pair[string,string] empty strings valid",
 		ArrangeInput: args.Map{
 			"left":  "",
 			"right": "",
 		},
-		WantLines: []string{"", "", "true", ""},
+		ExpectedInput: []string{"", "", "true", ""},
 	},
 }
 
@@ -34,18 +34,18 @@ var pairNewValidTestCases = []coretestcases.CaseV1{
 
 var pairInvalidTestCases = []coretestcases.CaseV1{
 	{
-		Name: "InvalidPair with message",
+		Title: "InvalidPair with message",
 		ArrangeInput: args.Map{
 			"message": "something went wrong",
 		},
-		WantLines: []string{"", "", "false", "something went wrong"},
+		ExpectedInput: []string{"", "", "false", "something went wrong"},
 	},
 	{
-		Name: "InvalidPairNoMessage",
+		Title: "InvalidPairNoMessage",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
-		WantLines: []string{"", "", "false", ""},
+		ExpectedInput: []string{"", "", "false", ""},
 	},
 }
 
@@ -55,12 +55,12 @@ var pairInvalidTestCases = []coretestcases.CaseV1{
 
 var pairCloneTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Clone produces independent copy",
+		Title: "Clone produces independent copy",
 		ArrangeInput: args.Map{
 			"left":  "original-left",
 			"right": "original-right",
 		},
-		WantLines: []string{"original-left", "original-right", "true", "mutated-left"},
+		ExpectedInput: []string{"original-left", "original-right", "true", "mutated-left"},
 	},
 }
 
@@ -70,9 +70,9 @@ var pairCloneTestCases = []coretestcases.CaseV1{
 
 var pairNilCloneTestCases = []coretestcases.CaseV1{
 	{
-		Name:         "Nil pair clone returns nil",
-		ArrangeInput: args.Map{},
-		WantLines:    []string{"true"},
+		Title:         "Nil pair clone returns nil",
+		ArrangeInput:  args.Map{},
+		ExpectedInput: []string{"true"},
 	},
 }
 
@@ -81,36 +81,36 @@ var pairNilCloneTestCases = []coretestcases.CaseV1{
 // ==========================================
 
 var pairIsEqualSameTestCase = coretestcases.CaseV1{
-	Name: "Equal pairs",
+	Title: "Equal pairs",
 	ArrangeInput: args.Map{
 		"left":  "a",
 		"right": "b",
 	},
-	WantLines: []string{"true"},
+	ExpectedInput: []string{"true"},
 }
 
 var pairIsEqualDiffLeftTestCase = coretestcases.CaseV1{
-	Name: "Unequal pairs - different left",
+	Title: "Unequal pairs - different left",
 	ArrangeInput: args.Map{
 		"left":  "a",
 		"right": "b",
 	},
-	WantLines: []string{"false"},
+	ExpectedInput: []string{"false"},
 }
 
 var pairIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
-	Name: "Nil vs non-nil",
+	Title: "Nil vs non-nil",
 	ArrangeInput: args.Map{
 		"left":  "a",
 		"right": "b",
 	},
-	WantLines: []string{"false"},
+	ExpectedInput: []string{"false"},
 }
 
 var pairIsEqualBothNilTestCase = coretestcases.CaseV1{
-	Name:         "Both nil",
-	ArrangeInput: args.Map{},
-	WantLines:    []string{"true"},
+	Title:         "Both nil",
+	ArrangeInput:  args.Map{},
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================
@@ -119,12 +119,12 @@ var pairIsEqualBothNilTestCase = coretestcases.CaseV1{
 
 var pairValuesTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Values returns left and right",
+		Title: "Values returns left and right",
 		ArrangeInput: args.Map{
 			"left":  "hello",
 			"right": "world",
 		},
-		WantLines: []string{"hello", "world"},
+		ExpectedInput: []string{"hello", "world"},
 	},
 }
 
@@ -134,13 +134,13 @@ var pairValuesTestCases = []coretestcases.CaseV1{
 
 var tripleNewValidTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Triple[string,string,string] valid",
+		Title: "Triple[string,string,string] valid",
 		ArrangeInput: args.Map{
 			"left":   "a",
 			"middle": "b",
 			"right":  "c",
 		},
-		WantLines: []string{"a", "b", "c", "true", ""},
+		ExpectedInput: []string{"a", "b", "c", "true", ""},
 	},
 }
 
@@ -150,18 +150,18 @@ var tripleNewValidTestCases = []coretestcases.CaseV1{
 
 var tripleInvalidTestCases = []coretestcases.CaseV1{
 	{
-		Name: "InvalidTriple with message",
+		Title: "InvalidTriple with message",
 		ArrangeInput: args.Map{
 			"message": "bad input",
 		},
-		WantLines: []string{"", "", "", "false", "bad input"},
+		ExpectedInput: []string{"", "", "", "false", "bad input"},
 	},
 	{
-		Name: "InvalidTripleNoMessage",
+		Title: "InvalidTripleNoMessage",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
-		WantLines: []string{"", "", "", "false", ""},
+		ExpectedInput: []string{"", "", "", "false", ""},
 	},
 }
 
@@ -171,13 +171,13 @@ var tripleInvalidTestCases = []coretestcases.CaseV1{
 
 var tripleCloneTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Clone produces independent copy",
+		Title: "Clone produces independent copy",
 		ArrangeInput: args.Map{
 			"left":   "L",
 			"middle": "M",
 			"right":  "R",
 		},
-		WantLines: []string{"L", "M", "R", "true", "mutated"},
+		ExpectedInput: []string{"L", "M", "R", "true", "mutated"},
 	},
 }
 
@@ -187,9 +187,9 @@ var tripleCloneTestCases = []coretestcases.CaseV1{
 
 var tripleNilCloneTestCases = []coretestcases.CaseV1{
 	{
-		Name:         "Nil triple clone returns nil",
-		ArrangeInput: args.Map{},
-		WantLines:    []string{"true"},
+		Title:         "Nil triple clone returns nil",
+		ArrangeInput:  args.Map{},
+		ExpectedInput: []string{"true"},
 	},
 }
 
@@ -199,13 +199,13 @@ var tripleNilCloneTestCases = []coretestcases.CaseV1{
 
 var tripleValuesTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Values returns all three",
+		Title: "Values returns all three",
 		ArrangeInput: args.Map{
 			"left":   "x",
 			"middle": "y",
 			"right":  "z",
 		},
-		WantLines: []string{"x", "y", "z"},
+		ExpectedInput: []string{"x", "y", "z"},
 	},
 }
 
@@ -215,12 +215,12 @@ var tripleValuesTestCases = []coretestcases.CaseV1{
 
 var pairClearTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Clear resets to zero values",
+		Title: "Clear resets to zero values",
 		ArrangeInput: args.Map{
 			"left":  "non-empty",
 			"right": "non-empty",
 		},
-		WantLines: []string{"", "", "false", ""},
+		ExpectedInput: []string{"", "", "false", ""},
 	},
 }
 
@@ -230,12 +230,12 @@ var pairClearTestCases = []coretestcases.CaseV1{
 
 var tripleClearTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Clear resets to zero values",
+		Title: "Clear resets to zero values",
 		ArrangeInput: args.Map{
 			"left":   "non-empty",
 			"middle": "non-empty",
 			"right":  "non-empty",
 		},
-		WantLines: []string{"", "", "", "false", ""},
+		ExpectedInput: []string{"", "", "", "false", ""},
 	},
 }

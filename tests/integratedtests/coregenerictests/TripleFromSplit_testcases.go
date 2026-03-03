@@ -11,12 +11,12 @@ import (
 
 var tripleFromSplitTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Standard three-part split",
+		Title: "Standard three-part split",
 		ArrangeInput: args.Map{
 			"input": "a.b.c",
 			"sep":   ".",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b",
 			"c",
@@ -25,12 +25,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "No separator produces one part invalid",
+		Title: "No separator produces one part invalid",
 		ArrangeInput: args.Map{
 			"input": "nosep",
 			"sep":   ".",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"nosep",
 			"",
 			"",
@@ -39,12 +39,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Two parts only produces invalid triple",
+		Title: "Two parts only produces invalid triple",
 		ArrangeInput: args.Map{
 			"input": "a.b",
 			"sep":   ".",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"",
 			"b",
@@ -53,12 +53,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Four parts uses first second and last",
+		Title: "Four parts uses first second and last",
 		ArrangeInput: args.Map{
 			"input": "a.b.c.d",
 			"sep":   ".",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b",
 			"d",
@@ -67,12 +67,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Empty input produces one part invalid",
+		Title: "Empty input produces one part invalid",
 		ArrangeInput: args.Map{
 			"input": "",
 			"sep":   ".",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"",
 			"",
 			"",
@@ -81,12 +81,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Multi-char separator",
+		Title: "Multi-char separator",
 		ArrangeInput: args.Map{
 			"input": "x::y::z",
 			"sep":   "::",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"x",
 			"y",
 			"z",
@@ -102,12 +102,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 
 var tripleFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Trims whitespace from all three parts",
+		Title: "Trims whitespace from all three parts",
 		ArrangeInput: args.Map{
 			"input": "  a  .  b  .  c  ",
 			"sep":   ".",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b",
 			"c",
@@ -123,12 +123,12 @@ var tripleFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 
 var tripleFromSplitNTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Third part gets remainder after second separator",
+		Title: "Third part gets remainder after second separator",
 		ArrangeInput: args.Map{
 			"input": "a:b:c:d:e",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b",
 			"c:d:e",
@@ -137,12 +137,12 @@ var tripleFromSplitNTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Exactly three parts",
+		Title: "Exactly three parts",
 		ArrangeInput: args.Map{
 			"input": "x:y:z",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"x",
 			"y",
 			"z",
@@ -151,12 +151,12 @@ var tripleFromSplitNTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Two parts produces invalid",
+		Title: "Two parts produces invalid",
 		ArrangeInput: args.Map{
 			"input": "a:b",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"",
 			"b",
@@ -172,12 +172,12 @@ var tripleFromSplitNTestCases = []coretestcases.CaseV1{
 
 var tripleFromSplitNTrimmedTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Splits at most 3 with trimming",
+		Title: "Splits at most 3 with trimming",
 		ArrangeInput: args.Map{
 			"input": "  a  :  b  :  c : d : e  ",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b",
 			"c : d : e",
@@ -193,11 +193,11 @@ var tripleFromSplitNTrimmedTestCases = []coretestcases.CaseV1{
 
 var tripleFromSliceTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Three-element slice produces valid triple",
+		Title: "Three-element slice produces valid triple",
 		ArrangeInput: args.Map{
 			"parts": []string{"L", "M", "R"},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"L",
 			"M",
 			"R",
@@ -206,11 +206,11 @@ var tripleFromSliceTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Empty slice produces invalid triple",
+		Title: "Empty slice produces invalid triple",
 		ArrangeInput: args.Map{
 			"parts": []string{},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"",
 			"",
 			"",
@@ -219,11 +219,11 @@ var tripleFromSliceTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Single-element produces invalid",
+		Title: "Single-element produces invalid",
 		ArrangeInput: args.Map{
 			"parts": []string{"only"},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"only",
 			"",
 			"",
@@ -232,11 +232,11 @@ var tripleFromSliceTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Two-element produces invalid",
+		Title: "Two-element produces invalid",
 		ArrangeInput: args.Map{
 			"parts": []string{"a", "b"},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"",
 			"b",
