@@ -125,8 +125,7 @@ func Test_Value_Logic_Verification(t *testing.T) {
 		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 	}
 }
 
@@ -159,8 +158,7 @@ func Test_Value_GetSetBoolOnInvalid_Verification(t *testing.T) {
 		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 	}
 }
 
@@ -191,8 +189,7 @@ func Test_Value_LazyEvaluateBool_Verification(t *testing.T) {
 		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 	}
 }
 
@@ -223,7 +220,6 @@ func Test_Value_LazyEvaluateSet_Verification(t *testing.T) {
 		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 	}
 }

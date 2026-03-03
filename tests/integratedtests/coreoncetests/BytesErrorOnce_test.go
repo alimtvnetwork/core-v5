@@ -38,8 +38,7 @@ func Test_BytesErrorOnce_Core(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -68,8 +67,7 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 			expectedLines := tc.Case.ExpectedInput.([]string)
 
 			// Assert
-			errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-			tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+			errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 
 			continue
 		}
@@ -95,10 +93,9 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  CallCount: %d", callCount),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -139,8 +136,7 @@ func Test_BytesErrorOnce_Access(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -169,8 +165,7 @@ func Test_BytesErrorOnce_ErrorState(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -201,8 +196,7 @@ func Test_BytesErrorOnce_HasIssues(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -227,8 +221,7 @@ func Test_BytesErrorOnce_String(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -283,8 +276,7 @@ func Test_BytesErrorOnce_Deserialize(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -320,8 +312,7 @@ func Test_BytesErrorOnce_Serialization(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -350,8 +341,7 @@ func Test_BytesErrorOnce_SerializeMust(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -377,8 +367,7 @@ func Test_BytesErrorOnce_Lifecycle(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -406,8 +395,7 @@ func Test_BytesErrorOnce_IsInitialized(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }
 
@@ -432,7 +420,6 @@ func Test_BytesErrorOnce_Constructor(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
 	}
 }

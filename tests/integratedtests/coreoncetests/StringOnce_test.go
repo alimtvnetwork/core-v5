@@ -25,10 +25,9 @@ func Test_StringOnce_Core(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitValue: %q", tc.InitValue),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -57,10 +56,9 @@ func Test_StringOnce_Caching(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  CallCount: %d", callCount),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -101,10 +99,9 @@ func Test_StringOnce_Match(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitValue: %q, MatchArg: %q", tc.InitValue, tc.MatchArg),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -138,10 +135,9 @@ func Test_StringOnce_Split(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitValue: %q, Splitter: %q", tc.InitValue, tc.Splitter),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -162,9 +158,8 @@ func Test_StringOnce_Json(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitValue: %q, Error: %v", tc.InitValue, err),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
