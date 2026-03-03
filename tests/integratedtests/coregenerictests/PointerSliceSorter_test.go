@@ -29,24 +29,20 @@ func ptrSliceToStrings[T any](items []*T) []string {
 // Test: Ascending sort
 // ==========================================================================
 
-func Test_PointerSliceSorter_Asc(t *testing.T) {
-	// Case 0: int pointers
-	{
-		tc := ptrSorterAscTestCases[0]
-		items := []*int{intPtr(3), intPtr(1), intPtr(5), intPtr(2), intPtr(4)}
-		sorter := coregeneric.NewPointerSliceSorterAsc(items)
-		sorter.Sort()
-		tc.ShouldBeEqual(t, 0, ptrSliceToStrings(sorter.Items())...)
-	}
+func Test_PointerSliceSorter_Asc_Int(t *testing.T) {
+	tc := ptrSorterAscIntTestCase
+	items := []*int{intPtr(3), intPtr(1), intPtr(5), intPtr(2), intPtr(4)}
+	sorter := coregeneric.NewPointerSliceSorterAsc(items)
+	sorter.Sort()
+	tc.ShouldBeEqual(t, 0, ptrSliceToStrings(sorter.Items())...)
+}
 
-	// Case 1: string pointers
-	{
-		tc := ptrSorterAscTestCases[1]
-		items := []*string{strPtr("cherry"), strPtr("apple"), strPtr("banana")}
-		sorter := coregeneric.NewPointerSliceSorterAsc(items)
-		sorter.Sort()
-		tc.ShouldBeEqual(t, 1, ptrSliceToStrings(sorter.Items())...)
-	}
+func Test_PointerSliceSorter_Asc_String(t *testing.T) {
+	tc := ptrSorterAscStringTestCase
+	items := []*string{strPtr("cherry"), strPtr("apple"), strPtr("banana")}
+	sorter := coregeneric.NewPointerSliceSorterAsc(items)
+	sorter.Sort()
+	tc.ShouldBeEqual(t, 0, ptrSliceToStrings(sorter.Items())...)
 }
 
 // ==========================================================================
@@ -54,7 +50,7 @@ func Test_PointerSliceSorter_Asc(t *testing.T) {
 // ==========================================================================
 
 func Test_PointerSliceSorter_Desc(t *testing.T) {
-	tc := ptrSorterDescTestCases[0]
+	tc := ptrSorterDescIntTestCase
 	items := []*int{intPtr(3), intPtr(1), intPtr(5), intPtr(2), intPtr(4)}
 	sorter := coregeneric.NewPointerSliceSorterDesc(items)
 	sorter.Sort()
@@ -65,35 +61,30 @@ func Test_PointerSliceSorter_Desc(t *testing.T) {
 // Test: Nil handling
 // ==========================================================================
 
-func Test_PointerSliceSorter_NilHandling(t *testing.T) {
-	// Case 0: nils to end (default asc)
-	{
-		tc := ptrSorterNilHandlingTestCases[0]
-		items := []*int{nil, intPtr(3), intPtr(1), nil, intPtr(5)}
-		sorter := coregeneric.NewPointerSliceSorterAsc(items)
-		sorter.Sort()
-		tc.ShouldBeEqual(t, 0, ptrSliceToStrings(sorter.Items())...)
-	}
+func Test_PointerSliceSorter_NilsToEnd(t *testing.T) {
+	tc := ptrSorterNilsToEndTestCase
+	items := []*int{nil, intPtr(3), intPtr(1), nil, intPtr(5)}
+	sorter := coregeneric.NewPointerSliceSorterAsc(items)
+	sorter.Sort()
+	tc.ShouldBeEqual(t, 0, ptrSliceToStrings(sorter.Items())...)
+}
 
-	// Case 1: nilFirst=true
-	{
-		tc := ptrSorterNilHandlingTestCases[1]
-		items := []*int{intPtr(3), nil, intPtr(1), nil, intPtr(5)}
-		sorter := coregeneric.NewPointerSliceSorterFunc(items, func(a, b int) bool {
-			return a < b
-		}, true)
-		sorter.Sort()
-		tc.ShouldBeEqual(t, 1, ptrSliceToStrings(sorter.Items())...)
-	}
+func Test_PointerSliceSorter_NilFirst(t *testing.T) {
+	tc := ptrSorterNilFirstTestCase
+	items := []*int{intPtr(3), nil, intPtr(1), nil, intPtr(5)}
+	sorter := coregeneric.NewPointerSliceSorterFunc(items, func(a, b int) bool {
+		return a < b
+	}, true)
+	sorter.Sort()
+	tc.ShouldBeEqual(t, 0, ptrSliceToStrings(sorter.Items())...)
+}
 
-	// Case 2: all nils
-	{
-		tc := ptrSorterNilHandlingTestCases[2]
-		items := []*int{nil, nil, nil}
-		sorter := coregeneric.NewPointerSliceSorterAsc(items)
-		sorter.Sort()
-		tc.ShouldBeEqual(t, 2, ptrSliceToStrings(sorter.Items())...)
-	}
+func Test_PointerSliceSorter_AllNil(t *testing.T) {
+	tc := ptrSorterAllNilTestCase
+	items := []*int{nil, nil, nil}
+	sorter := coregeneric.NewPointerSliceSorterAsc(items)
+	sorter.Sort()
+	tc.ShouldBeEqual(t, 0, ptrSliceToStrings(sorter.Items())...)
 }
 
 // ==========================================================================
@@ -101,10 +92,9 @@ func Test_PointerSliceSorter_NilHandling(t *testing.T) {
 // ==========================================================================
 
 func Test_PointerSliceSorter_CustomLess(t *testing.T) {
-	tc := ptrSorterCustomLessTestCases[0]
+	tc := ptrSorterCustomLessTestCase
 	items := []*int{intPtr(1), intPtr(2), intPtr(3), intPtr(4), intPtr(5)}
 
-	// Sort by distance from 3 (ascending)
 	abs := func(x int) int {
 		if x < 0 {
 			return -x
@@ -124,7 +114,7 @@ func Test_PointerSliceSorter_CustomLess(t *testing.T) {
 // ==========================================================================
 
 func Test_PointerSliceSorter_Switch(t *testing.T) {
-	tc := ptrSorterSwitchTestCases[0]
+	tc := ptrSorterSwitchTestCase
 	items := []*int{intPtr(3), intPtr(1), intPtr(5), intPtr(2), intPtr(4)}
 
 	sorter := coregeneric.NewPointerSliceSorterAsc(items)
@@ -144,7 +134,7 @@ func Test_PointerSliceSorter_Switch(t *testing.T) {
 // ==========================================================================
 
 func Test_PointerSliceSorter_IsSorted(t *testing.T) {
-	tc := ptrSorterIsSortedTestCases[0]
+	tc := ptrSorterIsSortedTestCase
 	items := []*int{intPtr(3), intPtr(1), intPtr(5)}
 	sorter := coregeneric.NewPointerSliceSorterAsc(items)
 
@@ -156,41 +146,36 @@ func Test_PointerSliceSorter_IsSorted(t *testing.T) {
 }
 
 // ==========================================================================
-// Test: Edge cases (empty, single, nil slice)
+// Test: Edge cases
 // ==========================================================================
 
-func Test_PointerSliceSorter_Edge(t *testing.T) {
-	// Case 0: empty slice
-	{
-		tc := ptrSorterEdgeTestCases[0]
-		items := []*int{}
-		sorter := coregeneric.NewPointerSliceSorterAsc(items)
-		sorter.Sort()
-		tc.ShouldBeEqual(t, 0,
-			fmt.Sprintf("%d", sorter.Len()),
-			fmt.Sprintf("%v", sorter.IsSorted()),
-		)
-	}
+func Test_PointerSliceSorter_Empty(t *testing.T) {
+	tc := ptrSorterEmptyTestCase
+	items := []*int{}
+	sorter := coregeneric.NewPointerSliceSorterAsc(items)
+	sorter.Sort()
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", sorter.Len()),
+		fmt.Sprintf("%v", sorter.IsSorted()),
+	)
+}
 
-	// Case 1: single element
-	{
-		tc := ptrSorterEdgeTestCases[1]
-		items := []*int{intPtr(42)}
-		sorter := coregeneric.NewPointerSliceSorterAsc(items)
-		sorter.Sort()
-		tc.ShouldBeEqual(t, 1,
-			fmt.Sprintf("%d", sorter.Len()),
-			fmt.Sprintf("%v", sorter.IsSorted()),
-			ptrStr(sorter.Items()[0]),
-		)
-	}
+func Test_PointerSliceSorter_Single(t *testing.T) {
+	tc := ptrSorterSingleTestCase
+	items := []*int{intPtr(42)}
+	sorter := coregeneric.NewPointerSliceSorterAsc(items)
+	sorter.Sort()
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", sorter.Len()),
+		fmt.Sprintf("%v", sorter.IsSorted()),
+		ptrStr(sorter.Items()[0]),
+	)
+}
 
-	// Case 2: nil slice
-	{
-		tc := ptrSorterEdgeTestCases[2]
-		sorter := coregeneric.NewPointerSliceSorterAsc[int](nil)
-		tc.ShouldBeEqual(t, 2, fmt.Sprintf("%d", sorter.Len()))
-	}
+func Test_PointerSliceSorter_NilSlice(t *testing.T) {
+	tc := ptrSorterNilSliceTestCase
+	sorter := coregeneric.NewPointerSliceSorterAsc[int](nil)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", sorter.Len()))
 }
 
 // ==========================================================================
@@ -198,11 +183,10 @@ func Test_PointerSliceSorter_Edge(t *testing.T) {
 // ==========================================================================
 
 func Test_PointerSliceSorter_SetItems(t *testing.T) {
-	tc := ptrSorterSetItemsTestCases[0]
+	tc := ptrSorterSetItemsTestCase
 	sorter := coregeneric.NewPointerSliceSorterAsc([]*int{intPtr(5), intPtr(1)})
 	sorter.Sort()
 
-	// Replace items and re-sort
 	newItems := []*int{intPtr(30), intPtr(10), intPtr(20)}
 	sorter.SetItems(newItems).Sort()
 
@@ -219,7 +203,7 @@ func Test_PointerSliceSorter_SetItems(t *testing.T) {
 // ==========================================================================
 
 func Test_PointerSliceSorter_Chaining(t *testing.T) {
-	tc := ptrSorterChainingTestCases[0]
+	tc := ptrSorterChainingTestCase
 	items := []*int{intPtr(3), nil, intPtr(1), intPtr(5)}
 
 	sorter := coregeneric.NewPointerSliceSorterAsc(items)
