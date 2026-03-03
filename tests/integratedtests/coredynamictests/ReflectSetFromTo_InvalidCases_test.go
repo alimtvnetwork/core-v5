@@ -61,7 +61,7 @@ func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) 
 		actLines = append(actLines, fmt.Sprintf("%v", finalErr == nil))
 		expected = append(expected, "true")
 
-		errcore.PrintLineDiff(caseIndex, testCase.Header, actLines, expected)
+		errcore.PrintDiffOnMismatch(caseIndex, testCase.Header, actLines, expected)
 
 		for i, act := range actLines {
 			if act != expected[i] {

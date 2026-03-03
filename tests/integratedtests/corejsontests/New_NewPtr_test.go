@@ -73,7 +73,7 @@ func Test_New_NewPtr_Verification(t *testing.T) {
 		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

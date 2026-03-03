@@ -30,12 +30,12 @@ func Test_DynamicMapCreationDiff(t *testing.T) {
 		actLines := dynamicMapToSortedLines(diffMap)
 		expectedLines := tc.ExpectedInput.([]string)
 
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 
 		// Assert - verify both diff methods produce equal raw maps
 		anotherLines := dynamicMapToSortedLines(enumimpl.DynamicMap(anotherDiff))
-		errcore.PrintLineDiff(caseIndex, tc.Title+" (both diff equal)", anotherLines, actLines)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title+" (both diff equal)", anotherLines, actLines)
 
 		if len(actLines) != len(anotherLines) {
 			t.Errorf("[case %d] %s: both diff methods line count mismatch got %d, want %d",
@@ -61,7 +61,7 @@ func Test_DynamicMapCreationDiffMessage(t *testing.T) {
 
 		// Assert
 		expectedLines := tc.ExpectedInput.([]string)
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -88,7 +88,7 @@ func Test_DynamicMapCreationDiffMessageV2(t *testing.T) {
 
 		// Assert
 		expectedLines := tc.ExpectedInput.([]string)
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
