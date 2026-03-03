@@ -323,7 +323,7 @@ tc.ShouldBeEqualArgsFirst(
     lenAfter,
 )
 
-tc.ShouldExpectedMatchFirst(
+tc.ShouldMatchExpectedFirst(
     t,
     result,
 )
@@ -358,7 +358,7 @@ Available `*First` methods on `GenericGherkins`:
 | `ShouldBeEqualFirst(t, actLines, expectedLines)` | `ShouldBeEqual(t, 0, ...)` |
 | `ShouldBeEqualArgsFirst(t, actLines...)` | `ShouldBeEqualArgs(t, 0, ...)` |
 | `ShouldBeEqualUsingExpectedFirst(t, actLines)` | `ShouldBeEqualUsingExpected(t, 0, ...)` |
-| `ShouldExpectedMatchFirst(t, result)` | `ShouldExpectedMatch(t, 0, ...)` |
+| `ShouldMatchExpectedFirst(t, result)` | `ShouldMatchExpected(t, 0, ...)` |
 
 ## Variable Naming Conventions
 

@@ -17,7 +17,7 @@ func Test_GenericGherkins_IsFailedToMatch_WhenMatching(t *testing.T) {
 
 	// Assert
 
-	tc.ShouldExpectedMatchFirst(
+	tc.ShouldMatchExpectedFirst(
 		t,
 		result,
 	)
@@ -33,7 +33,7 @@ func Test_GenericGherkins_IsFailedToMatch_WhenNotMatching(t *testing.T) {
 
 	// Assert
 
-	tc.ShouldExpectedMatchFirst(
+	tc.ShouldMatchExpectedFirst(
 		t,
 		result,
 	)
@@ -51,7 +51,7 @@ func Test_GenericGherkins_CompareWith_Equal(t *testing.T) {
 
 	// Assert
 
-	tc.ShouldExpectedMatchFirst(
+	tc.ShouldMatchExpectedFirst(
 		t,
 		isEqual,
 	)
@@ -73,7 +73,7 @@ func Test_GenericGherkins_CompareWith_DiffTitle(t *testing.T) {
 
 	// Assert
 
-	tc.ShouldExpectedMatchFirst(
+	tc.ShouldMatchExpectedFirst(
 		t,
 		isEqual,
 	)
@@ -95,7 +95,7 @@ func Test_GenericGherkins_CompareWith_DiffInput(t *testing.T) {
 
 	// Assert
 
-	tc.ShouldExpectedMatchFirst(
+	tc.ShouldMatchExpectedFirst(
 		t,
 		isEqual,
 	)
@@ -117,7 +117,7 @@ func Test_GenericGherkins_CompareWith_BothNil(t *testing.T) {
 
 	// Assert
 
-	tc.ShouldExpectedMatchFirst(
+	tc.ShouldMatchExpectedFirst(
 		t,
 		isEqual,
 	)
@@ -139,7 +139,7 @@ func Test_GenericGherkins_CompareWith_OneNil(t *testing.T) {
 
 	// Assert
 
-	tc.ShouldExpectedMatchFirst(
+	tc.ShouldMatchExpectedFirst(
 		t,
 		isEqual,
 	)
