@@ -20,7 +20,7 @@ func PrintDiffOnMismatch(
 	expectedLines []string,
 	contextLines ...string,
 ) {
-	if !LineDiffHasMismatch(actLines, expectedLines) {
+	if !HasAnyMismatchOnLines(actLines, expectedLines) {
 		return
 	}
 

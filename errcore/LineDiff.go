@@ -143,8 +143,8 @@ func PrintLineDiff(
 	}
 }
 
-// LineDiffHasMismatch returns true if actual and expected differ in any way.
-func LineDiffHasMismatch(
+// HasAnyMismatchOnLines returns true if actual and expected differ in any way.
+func HasAnyMismatchOnLines(
 	actual []string,
 	expected []string,
 ) bool {
@@ -168,7 +168,7 @@ func PrintLineDiffOnFail(
 	actual []string,
 	expected []string,
 ) {
-	if LineDiffHasMismatch(actual, expected) {
+	if HasAnyMismatchOnLines(actual, expected) {
 		PrintLineDiff(caseIndex, header, actual, expected)
 	}
 }
