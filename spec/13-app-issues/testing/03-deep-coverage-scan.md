@@ -6,7 +6,7 @@
 
 ## Summary
 
-Cross-referenced all source packages against `tests/integratedtests/` directories. All phases of the deep coverage initiative are now complete, with **~870 new test cases** added across 3 phases covering every package with meaningful logic.
+Cross-referenced all source packages against `tests/integratedtests/` directories. All phases of the deep coverage initiative are now complete, with **~892 new test cases** added across 3 phases covering every package with meaningful logic.
 
 ### Coverage Status
 
@@ -166,14 +166,14 @@ Every package with meaningful logic now has integration tests. Only constant/for
 | `SimpleSliceValidator` (VerifyAll, VerifyFirst, VerifyUpto) | MEDIUM | Simplified slice validation | ✅ DONE (~6 tests) |
 | `BaseValidatorCoreCondition` | LOW | Lazy condition defaults | ✅ DONE (~2 tests) |
 
-#### 8. `errcore` — Error Construction
+#### 8. `errcore` — Error Construction ✅ DONE
 
-| Function / Method | Risk | Why | Test Cases Needed |
+| Function / Method | Risk | Why | Status |
 |---|---|---|---|
-| `MergeErrors` | MEDIUM | Nil handling in merge | Both nil, one nil, both have errors |
-| `SliceToError` | LOW | Empty slice, single, multiple |
-
-> Note: `errcore` already has tests in `errcoretests/`. The above are optional expansion candidates for future coverage improvement, not blocking the initiative completion.
+| `MergeErrors` | MEDIUM | Nil handling in merge | ✅ DONE (~7 tests) |
+| `SliceToError` / `SliceToErrorPtr` | LOW | Empty slice, single, multiple | ✅ DONE (~7 tests) |
+| `SliceErrorsToStrings` | LOW | Nil skip, mixed input | ✅ DONE (~3 tests) |
+| `MergeErrorsToString` / `MergeErrorsToStringDefault` | LOW | Joiner, nil skip | ✅ DONE (~5 tests) |
 
 ### Phase 3 — LOW PRIORITY ✅ DONE
 
@@ -226,7 +226,8 @@ Every package with meaningful logic now has integration tests. Only constant/for
 | 3 | `stringslice` utilities | ~40 | ✅ DONE |
 | 3 | `reflectcore` facade exports | ~12 | ✅ DONE |
 | 3 | `coreappend` assembly functions | ~20 | ✅ DONE |
-| **Total** | | **~870** | **✅ ALL COMPLETE** |
+| 2 | `errcore` error construction | ~22 | ✅ DONE |
+| **Total** | | **~892** | **✅ ALL COMPLETE** |
 
 ### Bugs Found & Fixed During Testing
 
