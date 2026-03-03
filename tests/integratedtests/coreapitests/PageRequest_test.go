@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coreapi"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_PageRequest_IsPageSizeEmpty(t *testing.T) {
@@ -16,11 +15,10 @@ func Test_PageRequest_IsPageSizeEmpty(t *testing.T) {
 		req := input["req"].(*coreapi.PageRequest)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", req.IsPageSizeEmpty())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", req.IsPageSizeEmpty())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -31,11 +29,10 @@ func Test_PageRequest_IsPageIndexEmpty(t *testing.T) {
 		req := input["req"].(*coreapi.PageRequest)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", req.IsPageIndexEmpty())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", req.IsPageIndexEmpty())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -46,11 +43,10 @@ func Test_PageRequest_HasPageSize(t *testing.T) {
 		req := input["req"].(*coreapi.PageRequest)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", req.HasPageSize())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", req.HasPageSize())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -61,11 +57,10 @@ func Test_PageRequest_HasPageIndex(t *testing.T) {
 		req := input["req"].(*coreapi.PageRequest)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", req.HasPageIndex())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", req.HasPageIndex())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -76,11 +71,10 @@ func Test_PageRequest_Clone_Nil(t *testing.T) {
 		req := input["req"].(*coreapi.PageRequest)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", req.Clone() == nil)}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", req.Clone() == nil)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -92,14 +86,12 @@ func Test_PageRequest_Clone_Fields(t *testing.T) {
 
 		// Act
 		clone := req.Clone()
-		actLines := []string{
-			fmt.Sprintf("%v", clone.PageSize),
-			fmt.Sprintf("%v", clone.PageIndex),
-		}
-		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex,
+			fmt.Sprintf("%v", clone.PageSize),
+			fmt.Sprintf("%v", clone.PageIndex),
+		)
 	}
 }
 
@@ -114,13 +106,10 @@ func Test_PageRequest_Clone_Independence(t *testing.T) {
 		clone.PageSize = 99
 		clone.PageIndex = 99
 
-		actLines := []string{
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", req.PageSize),
 			fmt.Sprintf("%v", req.PageIndex),
-		}
-		expectedLines := tc.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		)
 	}
 }

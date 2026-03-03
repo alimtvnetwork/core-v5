@@ -7,7 +7,6 @@ import (
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 var resultIsEmptyTestCases = []coretestcases.CaseV1{
@@ -23,10 +22,9 @@ func Test_Result_IsEmpty_Verification(t *testing.T) {
 		result := input["result"].(*corejson.Result)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", result.IsEmpty())}
-		expectedLines := tc.ExpectedInput.([]string)
+		actual := fmt.Sprintf("%v", result.IsEmpty())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actual)
 	}
 }

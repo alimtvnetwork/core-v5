@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func newErrorOnce(initError string) *coreonce.ErrorOnce {
@@ -27,8 +26,8 @@ func Test_ErrorOnce_Core(t *testing.T) {
 		// Arrange
 		once := newErrorOnce(tc.InitError)
 
-		// Act
-		actLines := []string{
+		// Act & Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", once.HasError()),
 			fmt.Sprintf("%v", once.IsValid()),
 			fmt.Sprintf("%v", once.IsSuccess()),
@@ -38,12 +37,6 @@ func Test_ErrorOnce_Core(t *testing.T) {
 			fmt.Sprintf("%v", once.HasAnyItem()),
 			fmt.Sprintf("%v", once.IsDefined()),
 			once.Message(),
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitError: %q", tc.InitError),
 		)
 	}
 }
@@ -64,17 +57,12 @@ func Test_ErrorOnce_Caching(t *testing.T) {
 		r2 := once.Value()
 		r3 := once.Value()
 
-		actLines := []string{
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
 			r1.Error(),
 			r2.Error(),
 			r3.Error(),
 			fmt.Sprintf("%d", callCount),
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  CallCount: %d", callCount),
 		)
 	}
 }
@@ -84,15 +72,9 @@ func Test_ErrorOnce_NullOrEmpty(t *testing.T) {
 		// Arrange
 		once := newErrorOnce(tc.InitError)
 
-		// Act
-		actLines := []string{
+		// Act & Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", once.IsNullOrEmpty()),
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitError: %q", tc.InitError),
 		)
 	}
 }
@@ -102,16 +84,10 @@ func Test_ErrorOnce_MessageEqual(t *testing.T) {
 		// Arrange
 		once := newErrorOnce(tc.InitError)
 
-		// Act
-		actLines := []string{
+		// Act & Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", once.IsMessageEqual(tc.MatchMsg)),
 			fmt.Sprintf("%v", once.IsMessageEqual("other")),
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitError: %q, MatchMsg: %q", tc.InitError, tc.MatchMsg),
 		)
 	}
 }
@@ -136,12 +112,8 @@ func Test_ErrorOnce_ConcatNew(t *testing.T) {
 			}
 		}
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitError: %q, ExtraMsg: %q, Result: %q", tc.InitError, tc.ExtraMsg, result),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -154,15 +126,10 @@ func Test_ErrorOnce_Json(t *testing.T) {
 		data, err := once.MarshalJSON()
 		noError := err == nil
 
-		actLines := []string{
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", noError),
 			string(data),
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitError: %q, Error: %v", tc.InitError, err),
 		)
 	}
 }
