@@ -1,4 +1,4 @@
-package errcorretests
+package errcoretests
 
 import (
 	"errors"

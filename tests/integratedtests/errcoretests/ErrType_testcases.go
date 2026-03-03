@@ -1,4 +1,4 @@
-package errcorretests
+package errcoretests
 
 import (
 	"gitlab.com/auk-go/core/coretests/args"
