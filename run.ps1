@@ -68,41 +68,60 @@ function Write-TestLogs([string[]]$rawOutput) {
 
     $passingFile = Join-Path $TestLogDir "passing-tests.txt"
     $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+    $rawFile     = Join-Path $TestLogDir "raw-output.txt"
 
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $passing = [System.Collections.Generic.List[string]]::new()
     $failing = [System.Collections.Generic.List[string]]::new()
 
-    # Track current test context for capturing failure details
-    $currentTest = ""
-    $currentBlock = [System.Collections.Generic.List[string]]::new()
-    $isFailing = $false
+    # Save raw output for debugging
+    Set-Content -Path $rawFile -Value ($rawOutput -join "`n") -Encoding UTF8
+
+    # Two-pass approach:
+    # Pass 1: Identify which tests passed and which failed
+    $failedNames = [System.Collections.Generic.HashSet[string]]::new()
+    $passedNames = [System.Collections.Generic.HashSet[string]]::new()
 
     foreach ($line in $rawOutput) {
+
+        if ($line -match "^\s*--- FAIL:\s+(.+?)\s+\(") {
+            $failedNames.Add($Matches[1].Trim()) | Out-Null
+        }
+        elseif ($line -match "^\s*--- PASS:\s+(.+?)\s+\(") {
+            $passedNames.Add($Matches[1].Trim()) | Out-Null
+        }
+    }
+
+    # Pass 2: Collect diagnostic details for failed tests
+    $currentTest = ""
+    $currentBlock = [System.Collections.Generic.List[string]]::new()
+
+    foreach ($line in $rawOutput) {
+
         if ($line -match "^=== RUN\s+(.+)$") {
-            # Flush previous block if it was a failure
-            if ($isFailing -and $currentTest) {
+            # Flush previous block if it was a failed test
+            if ($currentTest -and $failedNames.Contains($currentTest)) {
                 $failing.Add("FAIL: $currentTest")
+
                 foreach ($detail in $currentBlock) {
                     $failing.Add("  $detail")
                 }
+
                 $failing.Add("")
             }
+
             $currentTest = $Matches[1].Trim()
             $currentBlock.Clear()
-            $isFailing = $false
         }
         elseif ($line -match "^\s*--- PASS:\s+(.+?)\s+\(") {
-            $testName = $Matches[1].Trim()
-            $passing.Add($testName)
+            # Passing test — flush and reset
             $currentTest = ""
             $currentBlock.Clear()
-            $isFailing = $false
         }
         elseif ($line -match "^\s*--- FAIL:\s+(.+?)\s+\(") {
-            $testName = $Matches[1].Trim()
-            $currentTest = $testName
-            $isFailing = $true
+            # Don't reset currentTest — we want to keep the block
+            # that was accumulated between === RUN and --- FAIL.
+            # The block will be flushed at the next === RUN or at end.
         }
         else {
             if ($currentTest) {
@@ -112,12 +131,19 @@ function Write-TestLogs([string[]]$rawOutput) {
     }
 
     # Flush last block
-    if ($isFailing -and $currentTest) {
+    if ($currentTest -and $failedNames.Contains($currentTest)) {
         $failing.Add("FAIL: $currentTest")
+
         foreach ($detail in $currentBlock) {
             $failing.Add("  $detail")
         }
+
         $failing.Add("")
+    }
+
+    # Collect passing test names
+    foreach ($name in $passedNames) {
+        $passing.Add($name)
     }
 
     # Write passing tests
@@ -126,22 +152,42 @@ function Write-TestLogs([string[]]$rawOutput) {
     Set-Content -Path $passingFile -Value ($passingContent -join "`n") -Encoding UTF8
 
     # Write failing tests
-    $failingContent = @("# Failing Tests — $timestamp", "# Count: $($failing.Where({ $_ -match '^FAIL:' }).Count)", "")
+    $failCount = $failedNames.Count
+    $failingContent = @("# Failing Tests — $timestamp", "# Count: $failCount", "")
     $failingContent += $failing
+
+    # Also capture compilation errors (no === RUN lines at all)
+    $hasAnyRun = $rawOutput | Where-Object { $_ -match "^=== RUN" } | Select-Object -First 1
+
+    if (-not $hasAnyRun) {
+        $compileErrors = $rawOutput | Where-Object {
+            $_ -match "\.go:\d+:" -or $_ -match "^#\s+" -or $_ -match "FAIL\s+"
+        }
+
+        if ($compileErrors) {
+            $failingContent += @("", "# Compilation Errors:", "")
+            $failingContent += $compileErrors
+            $failCount = $failCount + 1
+        }
+    }
+
     Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
 
-    $failCount = $failing.Where({ $_ -match '^FAIL:' }).Count
     $passCount = $passing.Count
 
     Write-Host ""
     if ($passCount -gt 0) { Write-Success "$passCount passing test(s) → $passingFile" }
     if ($failCount -gt 0) { Write-Fail "$failCount failing test(s) → $failingFile" }
     elseif ($failCount -eq 0) { Write-Success "No failing tests" }
+    Write-Host "  Raw output → $rawFile" -ForegroundColor Gray
 }
 
 function Invoke-GoTestAndLog([string]$testArgs) {
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
     $output = & go test -v -count=1 $testArgs 2>&1 | ForEach-Object { $_.ToString() }
     $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $prevPref
 
     # Print to console
     $output | ForEach-Object { Write-Host $_ }
@@ -158,10 +204,15 @@ function Invoke-AllTests {
     Write-Header "Running all tests"
     Push-Location tests
     try {
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 ./... 2>&1 | ForEach-Object { $_.ToString() }
         $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
         $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
+
         if ($exitCode -eq 0) { Write-Success "All tests passed" }
         else { Write-Fail "Some tests failed (exit code: $exitCode)" }
     }
@@ -181,10 +232,15 @@ function Invoke-PackageTests([string]$pkg) {
     Write-Header "Running tests for package: $pkg"
     Push-Location tests
     try {
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 "./integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
         $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
         $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
+
         if ($exitCode -eq 0) { Write-Success "Package tests passed" }
         else { Write-Fail "Package tests failed (exit code: $exitCode)" }
     }
@@ -195,10 +251,15 @@ function Invoke-TestCoverage {
     Write-Header "Running tests with coverage"
     Push-Location tests
     try {
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 -coverprofile=coverage.out ./... 2>&1 | ForEach-Object { $_.ToString() }
         $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
         $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
+
         if (Test-Path coverage.out) {
             go tool cover -func=coverage.out
             Write-Success "Coverage report generated: tests/coverage.out"
@@ -212,10 +273,15 @@ function Invoke-IntegratedTests {
     Write-Header "Running integrated tests only"
     Push-Location tests
     try {
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 ./integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
         $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
         $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
+
         if ($exitCode -eq 0) { Write-Success "Integrated tests passed" }
         else { Write-Fail "Integrated tests failed (exit code: $exitCode)" }
     }
