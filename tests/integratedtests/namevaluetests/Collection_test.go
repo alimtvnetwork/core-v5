@@ -151,47 +151,54 @@ func Test_Collection_AppendIfFalse(t *testing.T) {
 }
 
 // ==========================================================================
-// Test: Clone
+// Test: Clone — valid collection
 // ==========================================================================
 
-func Test_CollectionClone_Verification(t *testing.T) {
-	for caseIndex, testCase := range collectionCloneTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		count, _ := input.Get("count")
-		countInt := count.(int)
+func Test_CollectionClone_Valid(t *testing.T) {
+	tc := collectionCloneValidTestCase
 
-		if countInt < 0 {
-			// nil clone test
-			var nilCol *namevalue.StringStringCollection
-			result := nilCol.ClonePtr()
-			isNil := fmt.Sprintf("%v", result == nil)
-			testCase.ShouldBeEqual(t, caseIndex, isNil)
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	count, _ := input.Get("count")
+	countInt := count.(int)
 
-			continue
-		}
+	// Act
+	col := namevalue.NewGenericCollectionDefault[string, string]()
 
-		// Act
-		col := namevalue.NewGenericCollectionDefault[string, string]()
-		for i := 0; i < countInt; i++ {
-			col.Add(namevalue.StringString{
-				Name:  fmt.Sprintf("k%d", i),
-				Value: fmt.Sprintf("v%d", i),
-			})
-		}
-
-		cloned := col.Clone()
-		sameLength := fmt.Sprintf("%d", cloned.Length())
-
-		col.Add(namevalue.StringString{Name: "extra", Value: "x"})
-		cloneUnchanged := fmt.Sprintf("%v", cloned.Length() == countInt)
-		isEqual := fmt.Sprintf("%v", cloned.IsEqualByString(
-			namevalue.NewGenericCollectionUsing[string, string](true, cloned.Items...),
-		))
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, sameLength, cloneUnchanged, isEqual)
+	for i := 0; i < countInt; i++ {
+		col.Add(namevalue.StringString{
+			Name:  fmt.Sprintf("k%d", i),
+			Value: fmt.Sprintf("v%d", i),
+		})
 	}
+
+	cloned := col.Clone()
+	sameLength := fmt.Sprintf("%d", cloned.Length())
+
+	col.Add(namevalue.StringString{Name: "extra", Value: "x"})
+	cloneUnchanged := fmt.Sprintf("%v", cloned.Length() == countInt)
+	isEqual := fmt.Sprintf("%v", cloned.IsEqualByString(
+		namevalue.NewGenericCollectionUsing[string, string](true, cloned.Items...),
+	))
+
+	// Assert
+	tc.ShouldBeEqual(t, 0, sameLength, cloneUnchanged, isEqual)
+}
+
+// ==========================================================================
+// Test: Clone — nil receiver
+// ==========================================================================
+
+func Test_CollectionClone_NilReceiver(t *testing.T) {
+	tc := collectionCloneNilTestCase
+
+	// Act
+	var nilCol *namevalue.StringStringCollection
+	result := nilCol.ClonePtr()
+	isNil := fmt.Sprintf("%v", result == nil)
+
+	// Assert
+	tc.ShouldBeEqual(t, 0, isNil)
 }
 
 // ==========================================================================

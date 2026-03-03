@@ -92,23 +92,21 @@ var collectionPrependAppendTestCases = []coretestcases.CaseV1{
 
 // region Collection Clone tests
 
-var collectionCloneTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: Clone produces independent copy",
-		ArrangeInput: args.Map{
-			"when":  "clone a 3-item collection",
-			"count": 3,
-		},
-		ExpectedInput: []string{"3", "true", "true"},
+var collectionCloneValidTestCase = coretestcases.CaseV1{
+	Title: "Positive: Clone produces independent copy",
+	ArrangeInput: args.Map{
+		"when":  "clone a 3-item collection",
+		"count": 3,
 	},
-	{
-		Title: "Negative: ClonePtr on nil returns nil",
-		ArrangeInput: args.Map{
-			"when":  "clone nil collection",
-			"count": -1,
-		},
-		ExpectedInput: []string{"true"},
+	ExpectedInput: []string{"3", "true", "true"},
+}
+
+var collectionCloneNilTestCase = coretestcases.CaseV1{
+	Title: "Negative: ClonePtr on nil returns nil",
+	ArrangeInput: args.Map{
+		"when": "clone nil collection",
 	},
+	ExpectedInput: []string{"true"},
 }
 
 // endregion
