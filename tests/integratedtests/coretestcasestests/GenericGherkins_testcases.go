@@ -1,6 +1,7 @@
 package coretestcasestests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -10,18 +11,14 @@ var isFailedToMatchWhenMatchingTestCase = coretestcases.StringBoolGherkins{
 	Title:      "IsFailedToMatch returns false when IsMatching is true",
 	When:       "IsMatching is true",
 	IsMatching: true,
-	ExpectedLines: []string{
-		"false",
-	},
+	Expected:   false,
 }
 
 var isFailedToMatchWhenNotMatchingTestCase = coretestcases.StringBoolGherkins{
 	Title:      "IsFailedToMatch returns true when IsMatching is false",
 	When:       "IsMatching is false",
 	IsMatching: false,
-	ExpectedLines: []string{
-		"true",
-	},
+	Expected:   true,
 }
 
 // --- CompareWith: equal ---
@@ -29,10 +26,18 @@ var isFailedToMatchWhenNotMatchingTestCase = coretestcases.StringBoolGherkins{
 var compareWithEqualTestCase = coretestcases.StringBoolGherkins{
 	Title:    "CompareWith returns true for identical structs",
 	When:     "two structs are identical",
-	Input:    "hello",
 	Expected: true,
+	ExtraArgs: args.Map{
+		"a": &coretestcases.StringBoolGherkins{
+			Title: "same",
+			Input: "hello",
+		},
+		"b": &coretestcases.StringBoolGherkins{
+			Title: "same",
+			Input: "hello",
+		},
+	},
 	ExpectedLines: []string{
-		"true",
 		"",
 	},
 }
@@ -42,10 +47,18 @@ var compareWithEqualTestCase = coretestcases.StringBoolGherkins{
 var compareWithDiffTitleTestCase = coretestcases.StringBoolGherkins{
 	Title:    "CompareWith returns false for different Title",
 	When:     "titles differ",
-	Input:    "hello",
-	Expected: true,
+	Expected: false,
+	ExtraArgs: args.Map{
+		"a": &coretestcases.StringBoolGherkins{
+			Title: "A",
+			Input: "hello",
+		},
+		"b": &coretestcases.StringBoolGherkins{
+			Title: "B",
+			Input: "hello",
+		},
+	},
 	ExpectedLines: []string{
-		"false",
 		`Title: "A" != "B"`,
 	},
 }
@@ -55,10 +68,18 @@ var compareWithDiffTitleTestCase = coretestcases.StringBoolGherkins{
 var compareWithDiffInputTestCase = coretestcases.StringBoolGherkins{
 	Title:    "CompareWith returns false for different Input",
 	When:     "inputs differ",
-	Input:    "alpha",
-	Expected: true,
+	Expected: false,
+	ExtraArgs: args.Map{
+		"a": &coretestcases.StringBoolGherkins{
+			Title: "same",
+			Input: "alpha",
+		},
+		"b": &coretestcases.StringBoolGherkins{
+			Title: "same",
+			Input: "beta",
+		},
+	},
 	ExpectedLines: []string{
-		"false",
 		"Input: alpha != beta",
 	},
 }
@@ -66,10 +87,13 @@ var compareWithDiffInputTestCase = coretestcases.StringBoolGherkins{
 // --- CompareWith: nil both ---
 
 var compareWithBothNilTestCase = coretestcases.StringBoolGherkins{
-	Title: "CompareWith returns true when both nil",
-	When:  "both pointers are nil",
+	Title:    "CompareWith returns true when both nil",
+	When:     "both pointers are nil",
+	Expected: true,
+	ExtraArgs: args.Map{
+		"bothNil": true,
+	},
 	ExpectedLines: []string{
-		"true",
 		"",
 	},
 }
@@ -77,10 +101,13 @@ var compareWithBothNilTestCase = coretestcases.StringBoolGherkins{
 // --- CompareWith: one nil ---
 
 var compareWithOneNilTestCase = coretestcases.StringBoolGherkins{
-	Title: "CompareWith returns false when one is nil",
-	When:  "only one pointer is nil",
+	Title:    "CompareWith returns false when one is nil",
+	When:     "only one pointer is nil",
+	Expected: false,
+	ExtraArgs: args.Map{
+		"a": &coretestcases.StringBoolGherkins{Title: "exists"},
+	},
 	ExpectedLines: []string{
-		"false",
 		"one side is nil",
 	},
 }
@@ -88,10 +115,22 @@ var compareWithOneNilTestCase = coretestcases.StringBoolGherkins{
 // --- FullString ---
 
 var fullStringBasicTestCase = coretestcases.StringBoolGherkins{
-	Title:    "FullString includes all fields",
-	When:     "struct has all fields populated",
-	Input:    "test-pattern",
-	Expected: true,
+	Title:      "FullString includes all fields",
+	When:       "struct has all fields populated",
+	IsMatching: true,
+	ExtraArgs: args.Map{
+		"subject": &coretestcases.StringBoolGherkins{
+			Title:      "FullString includes all fields",
+			Feature:    "regex",
+			Given:      "a valid pattern",
+			When:       "struct has all fields populated",
+			Then:       "output is formatted",
+			Input:      "test-pattern",
+			Expected:   true,
+			Actual:     false,
+			IsMatching: true,
+		},
+	},
 	ExpectedLines: []string{
 		"Title:      FullString includes all fields",
 		"Feature:    regex",
