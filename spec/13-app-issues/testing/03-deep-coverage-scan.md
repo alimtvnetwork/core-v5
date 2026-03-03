@@ -136,14 +136,22 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 
 ### Phase 2 — MEDIUM PRIORITY
 
-#### 6. `coredata/coregeneric` — Generic Collections
+#### 6. `coredata/coregeneric` — Generic Collections ✅ DONE
 
-| Function / Method | Risk | Why | Test Cases Needed |
+| Function / Method | Risk | Why | Status |
 |---|---|---|---|
-| `LinkedList.Add/Remove/Find` | MEDIUM | Linked list pointer manipulation | Empty list ops, single element, head/tail removal |
-| `Hashmap.Merge` | MEDIUM | Map merge with generics | Empty, overlapping keys |
-| `Hashset.Intersect/Union/Diff` | MEDIUM | Set operations | Empty sets, disjoint, overlapping |
-| `Collection.GroupBy` | MEDIUM | Grouping with key function | Empty, single group, multiple groups |
+| `LinkedList.Add/Remove/Find` | MEDIUM | Linked list pointer manipulation | ✅ DONE (~45 tests) |
+| `Hashmap.Set/Get/Merge/IsEquals/Clone` | MEDIUM | Map merge with generics | ✅ DONE (~45 tests) |
+| `Hashset.Add/Has/Remove/Resize/IsEquals` | MEDIUM | Set operations, nil guards | ✅ DONE (~55 tests) |
+| `Collection.GroupBy/Map/FlatMap/Reduce` | MEDIUM | Functional generic operations | ✅ DONE (~30 tests) |
+| `Hashset concurrency (Lock variants)` | MEDIUM | Thread-safety under contention | ✅ DONE (~5 tests) |
+
+#### 6b. `coredata/corestr` — String-Specific Collections ✅ DONE
+
+| Function / Method | Risk | Why | Status |
+|---|---|---|---|
+| `Hashset.Add/AddBool/Has/HasAll/HasAny/Remove/IsEquals` | MEDIUM | String hashset with caching (bug 42) | ✅ DONE (~60 tests) |
+| `Hashmap.Set/Get/Has/HasAll/HasAny/Remove/IsEqualPtr/KeysToLower` | MEDIUM | String hashmap with caching (bug 42) | ✅ DONE (~55 tests) |
 
 #### 7. `corevalidator` — Validation Logic
 
@@ -175,7 +183,8 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 3. ~~**`coredata/coreonce`** — lazy evaluation correctness (was only package with zero tests)~~ ✅ DONE (70 + 55 = 125 tests)
 4. ~~**`coreinstruction` IdentifiersWithGlobals + FromTo** — per existing roadmap~~ ✅ DONE (40 tests)
 5. **`coredata/coredynamic` Dynamic type system** — reflect-based operations
-6. **`coredata/coregeneric` LinkedList** — pointer manipulation edge cases
+6. ~~**`coredata/coregeneric` LinkedList/Hashmap/Hashset + funcs** — generic collection edge cases~~ ✅ DONE (~175 tests)
+7. ~~**`coredata/corestr` Hashset/Hashmap** — string-specific caching and bug 42 verification~~ ✅ DONE (~115 tests)
 
 ## Estimated Test Cases
 
@@ -192,8 +201,9 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 |---------|-----|-----|-----|
 | `coreonce` | `BytesErrorOnce.Deserialize` checked `err == nil` instead of `jsonUnmarshalErr != nil` (line 183), causing invalid JSON to silently return nil instead of a deserialize error | Changed condition to `if jsonUnmarshalErr == nil` so unmarshal failures correctly propagate | `coredata/coreonce/BytesErrorOnce.go:183` |
 | 1 | `coreinstruction` remaining | ~40 | ✅ DONE |
-| 2 | `coredynamic` Dynamic/CastedResult | ~10 | TODO |
-| 2 | `coregeneric` LinkedList/Hashmap | ~12 | TODO |
+| 2 | `coredynamic` Dynamic/CastedResult | ~10 | ✅ DONE |
+| 2 | `coregeneric` LinkedList/Hashmap/Hashset/funcs | ~175 | ✅ DONE |
+| 2 | `corestr` Hashset/Hashmap | ~115 | ✅ DONE |
 | 2 | `corevalidator` validators | ~8 | TODO |
 | 3 | Remaining low-priority | ~10 | TODO |
-| **Total** | | **~290** | **Phase 1 complete** |
+| **Total** | | **~608** | **Phase 1+2 nearly complete** |
