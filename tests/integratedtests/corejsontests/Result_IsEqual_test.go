@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_Result_IsEqual(t *testing.T) {
@@ -17,11 +16,10 @@ func Test_Result_IsEqual(t *testing.T) {
 		b := input["b"].(corejson.Result)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", a.IsEqual(b))}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", a.IsEqual(b))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -33,10 +31,9 @@ func Test_Result_IsEqualPtr(t *testing.T) {
 		b := input["bPtr"].(*corejson.Result)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", a.IsEqualPtr(b))}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", a.IsEqualPtr(b))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }

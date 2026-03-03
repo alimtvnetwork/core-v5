@@ -7,7 +7,6 @@ import (
 	"gitlab.com/auk-go/core/coreimpl/enumimpl"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_EnumByte_MinMax(t *testing.T) {
@@ -136,6 +135,5 @@ func assertEnumMinMax(
 	tc coretestcases.CaseV1,
 	actLines []string,
 ) {
-	expectedLines := tc.ExpectedInput.([]string)
-	errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+	tc.ShouldBeEqual(t, caseIndex, actLines...)
 }

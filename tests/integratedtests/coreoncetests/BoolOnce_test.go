@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_BoolOnce_Core(t *testing.T) {
@@ -14,19 +13,10 @@ func Test_BoolOnce_Core(t *testing.T) {
 		initVal := tc.InitValue
 		once := coreonce.NewBoolOncePtr(func() bool { return initVal })
 
-		// Act
-		val := once.Value()
-		str := once.String()
-
-		actLines := []string{
-			fmt.Sprintf("%v", val),
-			str,
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitValue: %v", tc.InitValue),
+		// Act & Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
+			fmt.Sprintf("%v", once.Value()),
+			once.String(),
 		)
 	}
 }
@@ -47,17 +37,12 @@ func Test_BoolOnce_Caching(t *testing.T) {
 		r2 := once.Value()
 		r3 := once.Value()
 
-		actLines := []string{
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", r1),
 			fmt.Sprintf("%v", r2),
 			fmt.Sprintf("%v", r3),
 			fmt.Sprintf("%d", callCount),
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitValue: %v, CallCount: %d", tc.InitValue, callCount),
 		)
 	}
 }
@@ -72,15 +57,10 @@ func Test_BoolOnce_Json(t *testing.T) {
 		data, err := once.MarshalJSON()
 		noError := err == nil
 
-		actLines := []string{
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", noError),
 			string(data),
-		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitValue: %v, Error: %v", tc.InitValue, err),
 		)
 	}
 }

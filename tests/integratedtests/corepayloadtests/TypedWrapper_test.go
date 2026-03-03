@@ -155,11 +155,8 @@ func Test_TypedPayloadWrapper_NilWrapper(t *testing.T) {
 	// Act
 	_, err := corepayload.NewTypedPayloadWrapper[testProduct](nil)
 
-	actLines := []string{fmt.Sprintf("%v", err != nil)}
-	expectedLines := tc.ExpectedInput.([]string)
-
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, expectedLines)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err != nil))
 }
 
 func Test_TypedPayloadWrapper_InvalidJson(t *testing.T) {
@@ -172,11 +169,8 @@ func Test_TypedPayloadWrapper_InvalidJson(t *testing.T) {
 	// Act
 	_, err := corepayload.TypedPayloadWrapperDeserialize[testProduct]([]byte(invalidBytes))
 
-	actLines := []string{fmt.Sprintf("%v", err != nil)}
-	expectedLines := tc.ExpectedInput.([]string)
-
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, expectedLines)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err != nil))
 }
 
 func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {

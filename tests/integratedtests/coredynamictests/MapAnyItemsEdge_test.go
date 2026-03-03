@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // getBool delegates to getBoolDefault (defined in Dynamic_test.go).
@@ -41,9 +40,8 @@ func Test_MapAnyItems_IsEqual(t *testing.T) {
 		// Act
 		result := left.IsEqual(right)
 
-		// Print diff on failure
+		// Diagnostic diff on failure
 		resultStr := fmt.Sprintf("%v", result)
-		expected := testCase.ExpectedInput.([]string)
 
 		diag := MapDiffDiagnostics{
 			CaseIndex: caseIndex,
@@ -51,7 +49,7 @@ func Test_MapAnyItems_IsEqual(t *testing.T) {
 			Left:      left,
 			Right:     right,
 		}
-		diag.PrintIfResultMismatch(resultStr, expected)
+		diag.PrintIfResultMismatch(resultStr, testCase.ExpectedInput)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, resultStr)
@@ -82,9 +80,8 @@ func Test_MapAnyItems_IsEqualRaw(t *testing.T) {
 		// Act
 		result := m.IsEqualRaw(rawMap)
 
-		// Print diff on failure
+		// Diagnostic diff on failure
 		resultStr := fmt.Sprintf("%v", result)
-		expected := testCase.ExpectedInput.([]string)
 
 		diag := MapDiffDiagnostics{
 			CaseIndex: caseIndex,
@@ -92,7 +89,7 @@ func Test_MapAnyItems_IsEqualRaw(t *testing.T) {
 			Left:      m,
 			RawMap:    rawMap,
 		}
-		diag.PrintIfResultMismatch(resultStr, expected)
+		diag.PrintIfResultMismatch(resultStr, testCase.ExpectedInput)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, resultStr)
@@ -144,9 +141,7 @@ func Test_MapAnyItems_ClonePtr(t *testing.T) {
 			}
 		}
 
-		// Print diff on failure
-		expected := testCase.ExpectedInput.([]string)
-
+		// Diagnostic diff on failure
 		diag := MapDiffDiagnostics{
 			CaseIndex: caseIndex,
 			Title:     testCase.Title,
@@ -154,7 +149,7 @@ func Test_MapAnyItems_ClonePtr(t *testing.T) {
 			Clone:     clone,
 			Error:     err,
 		}
-		diag.PrintIfMismatch(actLines, expected)
+		diag.PrintIfMismatch(actLines, testCase.ExpectedInput)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
@@ -186,9 +181,9 @@ func Test_MapAnyItems_EdgeCases(t *testing.T) {
 			isNew := m.Add(addKey, addValue)
 			actLines = append(actLines, fmt.Sprintf("%v", isNew))
 
-			expected := testCase.ExpectedInput.([]string)
-			if len(expected) > 1 {
-				if expected[1] == "new" || expected[1] == "old" {
+			expectedSlice, ok := testCase.ExpectedInput.([]string)
+			if ok && len(expectedSlice) > 1 {
+				if expectedSlice[1] == "new" || expectedSlice[1] == "old" {
 					val := m.GetValue(addKey)
 					actLines = append(actLines, fmt.Sprintf("%v", val))
 				} else {
@@ -203,15 +198,13 @@ func Test_MapAnyItems_EdgeCases(t *testing.T) {
 			actLines = append(actLines, fmt.Sprintf("%v", m.HasAnyItem()))
 		}
 
-		// Print diff on failure
-		expected := testCase.ExpectedInput.([]string)
-
+		// Diagnostic diff on failure
 		diag := MapDiffDiagnostics{
 			CaseIndex: caseIndex,
 			Title:     testCase.Title,
 			Left:      m,
 		}
-		diag.PrintIfMismatch(actLines, expected)
+		diag.PrintIfMismatch(actLines, testCase.ExpectedInput)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)

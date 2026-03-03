@@ -23,8 +23,13 @@ type MapDiffDiagnostics struct {
 // only when actual lines differ from expected lines.
 func (it MapDiffDiagnostics) PrintIfMismatch(
 	actLines []string,
-	expected []string,
+	expectedInput any,
 ) {
+	expected, ok := expectedInput.([]string)
+	if !ok {
+		return
+	}
+
 	errcore.PrintDiffOnMismatch(
 		it.CaseIndex,
 		it.Title,
@@ -38,9 +43,10 @@ func (it MapDiffDiagnostics) PrintIfMismatch(
 // for single-result comparisons (e.g., IsEqual, IsEqualRaw).
 func (it MapDiffDiagnostics) PrintIfResultMismatch(
 	resultStr string,
-	expected []string,
+	expectedInput any,
 ) {
-	if len(expected) == 0 || resultStr == expected[0] {
+	expected, ok := expectedInput.([]string)
+	if !ok || len(expected) == 0 || resultStr == expected[0] {
 		return
 	}
 

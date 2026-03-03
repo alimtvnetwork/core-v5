@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_AnyCollection_GetPagesSize_Verification(t *testing.T) {
@@ -22,14 +21,10 @@ func Test_AnyCollection_GetPagesSize_Verification(t *testing.T) {
 		}
 
 		// Act
-		result := collection.GetPagesSize(eachPageSize)
+		result := fmt.Sprintf("%v", collection.GetPagesSize(eachPageSize))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(
-			t, caseIndex, testCase.Title,
-			[]string{fmt.Sprintf("%v", result)},
-			testCase.ExpectedInput.([]string),
-		)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -46,14 +41,10 @@ func Test_DynamicCollection_GetPagesSize_Verification(t *testing.T) {
 		}
 
 		// Act
-		result := collection.GetPagesSize(eachPageSize)
+		result := fmt.Sprintf("%v", collection.GetPagesSize(eachPageSize))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(
-			t, caseIndex, testCase.Title,
-			[]string{fmt.Sprintf("%v", result)},
-			testCase.ExpectedInput.([]string),
-		)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -73,13 +64,9 @@ func Test_KeyValCollection_GetPagesSize_Verification(t *testing.T) {
 		}
 
 		// Act
-		result := collection.GetPagesSize(eachPageSize)
+		result := fmt.Sprintf("%v", collection.GetPagesSize(eachPageSize))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(
-			t, caseIndex, testCase.Title,
-			[]string{fmt.Sprintf("%v", result)},
-			testCase.ExpectedInput.([]string),
-		)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }

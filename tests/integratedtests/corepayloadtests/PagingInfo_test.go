@@ -75,18 +75,6 @@ func Test_PagingInfo_IsEqual_Verification(t *testing.T) {
 
 		// Assert
 		actual := fmt.Sprintf("%v", result)
-		expected := testCase.ExpectedInput.([]string)
-
-		if actual != expected[0] {
-			t.Errorf("Case %d [%s] FAILED: expected IsEqual=%s, got=%s%s",
-				caseIndex,
-				testCase.Title,
-				expected[0],
-				actual,
-				pagingInfoDiff("diff", left, right),
-			)
-		}
-
 		testCase.ShouldBeEqual(t, caseIndex, actual)
 	}
 }
@@ -115,26 +103,6 @@ func Test_PagingInfo_State_Verification(t *testing.T) {
 			fmt.Sprintf("%v", info.IsInvalidTotalItems()),
 		}
 
-		// Diff-style failure output
-		expected := testCase.ExpectedInput.([]string)
-		hasMismatch := false
-		for i, r := range results {
-			if i < len(expected) && r != expected[i] {
-				hasMismatch = true
-				break
-			}
-		}
-
-		if hasMismatch {
-			t.Errorf("Case %d [%s] FAILED%s\n  Actual:   %v\n  Expected: %v",
-				caseIndex,
-				testCase.Title,
-				pagingInfoStateString("input", info),
-				results,
-				expected,
-			)
-		}
-
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, results...)
 	}
@@ -150,33 +118,12 @@ func Test_PagingInfo_Clone_Verification(t *testing.T) {
 		clone := info.Clone()
 
 		// Assert
-		results := []string{
+		testCase.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", clone.TotalPages),
 			fmt.Sprintf("%v", clone.CurrentPageIndex),
 			fmt.Sprintf("%v", clone.PerPageItems),
 			fmt.Sprintf("%v", clone.TotalItems),
-		}
-
-		expected := testCase.ExpectedInput.([]string)
-		hasMismatch := false
-		for i, r := range results {
-			if i < len(expected) && r != expected[i] {
-				hasMismatch = true
-				break
-			}
-		}
-
-		if hasMismatch {
-			original := info
-			cloned := &clone
-			t.Errorf("Case %d [%s] FAILED%s",
-				caseIndex,
-				testCase.Title,
-				pagingInfoDiff("Clone", original, cloned),
-			)
-		}
-
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		)
 	}
 }
 
@@ -196,35 +143,15 @@ func Test_PagingInfo_ClonePtr_Verification(t *testing.T) {
 
 		// Assert
 		if isNil {
-			isResultNil := fmt.Sprintf("%v", result == nil)
-			testCase.ShouldBeEqual(t, caseIndex, isResultNil)
+			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result == nil))
 		} else {
-			results := []string{
+			testCase.ShouldBeEqual(t, caseIndex,
 				fmt.Sprintf("%v", result == nil),
 				fmt.Sprintf("%v", result.TotalPages),
 				fmt.Sprintf("%v", result.CurrentPageIndex),
 				fmt.Sprintf("%v", result.PerPageItems),
 				fmt.Sprintf("%v", result.TotalItems),
-			}
-
-			expected := testCase.ExpectedInput.([]string)
-			hasMismatch := false
-			for i, r := range results {
-				if i < len(expected) && r != expected[i] {
-					hasMismatch = true
-					break
-				}
-			}
-
-			if hasMismatch {
-				t.Errorf("Case %d [%s] FAILED%s",
-					caseIndex,
-					testCase.Title,
-					pagingInfoDiff("ClonePtr", info, result),
-				)
-			}
-
-			testCase.ShouldBeEqual(t, caseIndex, results...)
+			)
 		}
 	}
 }
