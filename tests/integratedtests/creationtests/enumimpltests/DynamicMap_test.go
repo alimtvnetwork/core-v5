@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_DynamicMapDiff1(t *testing.T) {
@@ -26,12 +26,22 @@ func Test_DynamicMapDiff1(t *testing.T) {
 			constants.NewLineUnix,
 		)
 
+		expectedLines := testCase.ExpectedInput.([]string)
+
 		// Assert
-		testCase.ShouldBe(
-			caseIndex,
-			t,
-			ShouldResemble,
-			actualLines,
-		)
+		errcore.PrintLineDiff(caseIndex, testCase.Title, actualLines, expectedLines)
+
+		if len(actualLines) != len(expectedLines) {
+			t.Errorf("[case %d] %s: line count mismatch got %d, want %d",
+				caseIndex, testCase.Title, len(actualLines), len(expectedLines))
+			continue
+		}
+
+		for i, act := range actualLines {
+			if act != expectedLines[i] {
+				t.Errorf("[case %d] %s: line %d got %q, want %q",
+					caseIndex, testCase.Title, i, act, expectedLines[i])
+			}
+		}
 	}
 }
