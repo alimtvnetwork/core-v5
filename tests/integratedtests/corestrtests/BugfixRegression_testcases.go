@@ -9,18 +9,18 @@ import (
 // ==========================================================================
 
 var hashsetAddNonEmptyAddsTestCase = coretestcases.CaseV1{
-	Name:      "AddNonEmpty with non-empty string adds item",
-	WantLines: []string{"1", "true"},
+	Title:         "AddNonEmpty with non-empty string adds item",
+	ExpectedInput: []string{"1", "true"},
 }
 
 var hashsetAddNonEmptySkipsEmptyTestCase = coretestcases.CaseV1{
-	Name:      "AddNonEmpty with empty string does not add",
-	WantLines: []string{"0"},
+	Title:         "AddNonEmpty with empty string does not add",
+	ExpectedInput: []string{"0"},
 }
 
 var hashsetAddNonEmptyChainedTestCase = coretestcases.CaseV1{
-	Name:      "AddNonEmpty chained adds multiple items",
-	WantLines: []string{"3", "true", "true", "true"},
+	Title:         "AddNonEmpty chained adds multiple items",
+	ExpectedInput: []string{"3", "true", "true", "true"},
 }
 
 // ==========================================================================
@@ -28,28 +28,28 @@ var hashsetAddNonEmptyChainedTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var simpleSliceInsertAtMiddleTestCase = coretestcases.CaseV1{
-	Name:      "InsertAt middle persists and shifts items",
-	WantLines: []string{"4", "a", "X", "b", "c"},
+	Title:         "InsertAt middle persists and shifts items",
+	ExpectedInput: []string{"4", "a", "X", "b", "c"},
 }
 
 var simpleSliceInsertAtPrependTestCase = coretestcases.CaseV1{
-	Name:      "InsertAt index 0 prepends",
-	WantLines: []string{"4", "X", "a", "b", "c"},
+	Title:         "InsertAt index 0 prepends",
+	ExpectedInput: []string{"4", "X", "a", "b", "c"},
 }
 
 var simpleSliceInsertAtAppendTestCase = coretestcases.CaseV1{
-	Name:      "InsertAt end appends",
-	WantLines: []string{"4", "a", "b", "c", "X"},
+	Title:         "InsertAt end appends",
+	ExpectedInput: []string{"4", "a", "b", "c", "X"},
 }
 
 var simpleSliceInsertAtNegativeTestCase = coretestcases.CaseV1{
-	Name:      "InsertAt negative index does nothing",
-	WantLines: []string{"3", "a", "b", "c"},
+	Title:         "InsertAt negative index does nothing",
+	ExpectedInput: []string{"3", "a", "b", "c"},
 }
 
 var simpleSliceInsertAtOutOfBoundsTestCase = coretestcases.CaseV1{
-	Name:      "InsertAt out-of-bounds index does nothing",
-	WantLines: []string{"3", "a", "b", "c"},
+	Title:         "InsertAt out-of-bounds index does nothing",
+	ExpectedInput: []string{"3", "a", "b", "c"},
 }
 
 // ==========================================================================
@@ -57,33 +57,33 @@ var simpleSliceInsertAtOutOfBoundsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionRemoveAtMiddleTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt valid middle index succeeds",
-	WantLines: []string{"true", "2"},
+	Title:         "RemoveAt valid middle index succeeds",
+	ExpectedInput: []string{"true", "2"},
 }
 
 var collectionRemoveAtFirstTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt index 0 succeeds",
-	WantLines: []string{"true", "2", "b"},
+	Title:         "RemoveAt index 0 succeeds",
+	ExpectedInput: []string{"true", "2", "b"},
 }
 
 var collectionRemoveAtLastTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt last index succeeds",
-	WantLines: []string{"true", "2", "b"},
+	Title:         "RemoveAt last index succeeds",
+	ExpectedInput: []string{"true", "2", "b"},
 }
 
 var collectionRemoveAtNegativeTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt negative index returns false",
-	WantLines: []string{"false", "3"},
+	Title:         "RemoveAt negative index returns false",
+	ExpectedInput: []string{"false", "3"},
 }
 
 var collectionRemoveAtOutOfBoundsTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt out-of-bounds returns false",
-	WantLines: []string{"false", "3"},
+	Title:         "RemoveAt out-of-bounds returns false",
+	ExpectedInput: []string{"false", "3"},
 }
 
 var collectionRemoveAtEmptyTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt on empty returns false",
-	WantLines: []string{"false", "0"},
+	Title:         "RemoveAt on empty returns false",
+	ExpectedInput: []string{"false", "0"},
 }
 
 // ==========================================================================
@@ -91,28 +91,28 @@ var collectionRemoveAtEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapIsEqualPtrSameTestCase = coretestcases.CaseV1{
-	Name:      "IsEqualPtr same keys same values → true",
-	WantLines: []string{"true"},
+	Title:         "IsEqualPtr same keys same values → true",
+	ExpectedInput: []string{"true"},
 }
 
 var hashmapIsEqualPtrDiffValTestCase = coretestcases.CaseV1{
-	Name:      "IsEqualPtr same keys different values → false",
-	WantLines: []string{"false"},
+	Title:         "IsEqualPtr same keys different values → false",
+	ExpectedInput: []string{"false"},
 }
 
 var hashmapIsEqualPtrDiffKeysTestCase = coretestcases.CaseV1{
-	Name:      "IsEqualPtr different keys → false",
-	WantLines: []string{"false"},
+	Title:         "IsEqualPtr different keys → false",
+	ExpectedInput: []string{"false"},
 }
 
 var hashmapIsEqualPtrBothEmptyTestCase = coretestcases.CaseV1{
-	Name:      "IsEqualPtr both empty → true",
-	WantLines: []string{"true"},
+	Title:         "IsEqualPtr both empty → true",
+	ExpectedInput: []string{"true"},
 }
 
 var hashmapIsEqualPtrNilVsNonNilTestCase = coretestcases.CaseV1{
-	Name:      "IsEqualPtr nil vs non-nil → false",
-	WantLines: []string{"false"},
+	Title:         "IsEqualPtr nil vs non-nil → false",
+	ExpectedInput: []string{"false"},
 }
 
 // ==========================================================================
@@ -120,23 +120,23 @@ var hashmapIsEqualPtrNilVsNonNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var cachingRemovalFreshHashsetTestCase = coretestcases.CaseV1{
-	Name:      "Fresh Hashset IsEmpty returns true, Length returns 0",
-	WantLines: []string{"true", "0"},
+	Title:         "Fresh Hashset IsEmpty returns true, Length returns 0",
+	ExpectedInput: []string{"true", "0"},
 }
 
 var cachingRemovalHashsetAfterAddTestCase = coretestcases.CaseV1{
-	Name:      "Hashset IsEmpty false after Add, Length correct",
-	WantLines: []string{"false", "2"},
+	Title:         "Hashset IsEmpty false after Add, Length correct",
+	ExpectedInput: []string{"false", "2"},
 }
 
 var cachingRemovalFreshHashmapTestCase = coretestcases.CaseV1{
-	Name:      "Fresh Hashmap IsEmpty returns true, Length returns 0",
-	WantLines: []string{"true", "0"},
+	Title:         "Fresh Hashmap IsEmpty returns true, Length returns 0",
+	ExpectedInput: []string{"true", "0"},
 }
 
 var cachingRemovalHashmapAfterSetTestCase = coretestcases.CaseV1{
-	Name:      "Hashmap IsEmpty false after Set, Length correct",
-	WantLines: []string{"false", "2"},
+	Title:         "Hashmap IsEmpty false after Set, Length correct",
+	ExpectedInput: []string{"false", "2"},
 }
 
 // ==========================================================================
@@ -144,23 +144,23 @@ var cachingRemovalHashmapAfterSetTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var simpleSliceSkipBeyondTestCase = coretestcases.CaseV1{
-	Name:      "Skip beyond length returns empty",
-	WantLines: []string{"0"},
+	Title:         "Skip beyond length returns empty",
+	ExpectedInput: []string{"0"},
 }
 
 var simpleSliceTakeBeyondTestCase = coretestcases.CaseV1{
-	Name:      "Take beyond length returns all",
-	WantLines: []string{"3"},
+	Title:         "Take beyond length returns all",
+	ExpectedInput: []string{"3"},
 }
 
 var simpleSliceSkipZeroTestCase = coretestcases.CaseV1{
-	Name:      "Skip 0 returns all",
-	WantLines: []string{"3"},
+	Title:         "Skip 0 returns all",
+	ExpectedInput: []string{"3"},
 }
 
 var simpleSliceTakeZeroTestCase = coretestcases.CaseV1{
-	Name:      "Take 0 returns empty",
-	WantLines: []string{"0"},
+	Title:         "Take 0 returns empty",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -168,13 +168,13 @@ var simpleSliceTakeZeroTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hasIndexNegativeSimpleSliceTestCase = coretestcases.CaseV1{
-	Name:      "SimpleSlice.HasIndex negative returns false",
-	WantLines: []string{"false"},
+	Title:         "SimpleSlice.HasIndex negative returns false",
+	ExpectedInput: []string{"false"},
 }
 
 var hasIndexNegativeCollectionTestCase = coretestcases.CaseV1{
-	Name:      "Collection.HasIndex negative returns false",
-	WantLines: []string{"false"},
+	Title:         "Collection.HasIndex negative returns false",
+	ExpectedInput: []string{"false"},
 }
 
 // ==========================================================================
@@ -182,18 +182,18 @@ var hasIndexNegativeCollectionTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapClearNilReceiverTestCase = coretestcases.CaseV1{
-	Name:      "Clear on nil Hashmap returns nil without panic",
-	WantLines: []string{"true"},
+	Title:         "Clear on nil Hashmap returns nil without panic",
+	ExpectedInput: []string{"true"},
 }
 
 var hashmapClearPopulatedTestCase = coretestcases.CaseV1{
-	Name:      "Clear on populated Hashmap resets to empty",
-	WantLines: []string{"0", "true"},
+	Title:         "Clear on populated Hashmap resets to empty",
+	ExpectedInput: []string{"0", "true"},
 }
 
 var hashmapClearChainableTestCase = coretestcases.CaseV1{
-	Name:      "Clear preserves chainability",
-	WantLines: []string{"0", "1"},
+	Title:         "Clear preserves chainability",
+	ExpectedInput: []string{"0", "1"},
 }
 
 // ==========================================================================
@@ -201,18 +201,18 @@ var hashmapClearChainableTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetAddBoolNewItemTestCase = coretestcases.CaseV1{
-	Name:      "AddBool new item invalidates cache and Items reflects it",
-	WantLines: []string{"false", "1", "true"},
+	Title:         "AddBool new item invalidates cache and Items reflects it",
+	ExpectedInput: []string{"false", "1", "true"},
 }
 
 var hashsetAddBoolExistingTestCase = coretestcases.CaseV1{
-	Name:      "AddBool existing item does not change length",
-	WantLines: []string{"true", "1"},
+	Title:         "AddBool existing item does not change length",
+	ExpectedInput: []string{"true", "1"},
 }
 
 var hashsetAddBoolMultipleTestCase = coretestcases.CaseV1{
-	Name:      "AddBool multiple new items all appear in Items",
-	WantLines: []string{"3", "true", "true", "true"},
+	Title:         "AddBool multiple new items all appear in Items",
+	ExpectedInput: []string{"3", "true", "true", "true"},
 }
 
 // ==========================================================================
@@ -220,21 +220,21 @@ var hashsetAddBoolMultipleTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapAddOrUpdateMismatchedTestCase = coretestcases.CaseV1{
-	Name:      "Mismatched lengths returns unchanged hashmap",
-	WantLines: []string{"0"},
+	Title:         "Mismatched lengths returns unchanged hashmap",
+	ExpectedInput: []string{"0"},
 }
 
 var hashmapAddOrUpdateEqualTestCase = coretestcases.CaseV1{
-	Name:      "Equal lengths adds all pairs",
-	WantLines: []string{"2", "v1", "v2"},
+	Title:         "Equal lengths adds all pairs",
+	ExpectedInput: []string{"2", "v1", "v2"},
 }
 
 var hashmapAddOrUpdateNilKeysTestCase = coretestcases.CaseV1{
-	Name:      "Nil keys returns unchanged",
-	WantLines: []string{"0"},
+	Title:         "Nil keys returns unchanged",
+	ExpectedInput: []string{"0"},
 }
 
 var hashmapAddOrUpdateEmptyKeysTestCase = coretestcases.CaseV1{
-	Name:      "Empty keys returns unchanged",
-	WantLines: []string{"0"},
+	Title:         "Empty keys returns unchanged",
+	ExpectedInput: []string{"0"},
 }
