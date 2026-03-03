@@ -1,7 +1,6 @@
 package errcore
 
 import (
-	"fmt"
 	"testing"
 )
 
