@@ -6,29 +6,58 @@ import (
 
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coreunique/intunique"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-func Test_IntUnique_Get_Verification(t *testing.T) {
-	for caseIndex, testCase := range intUniqueGetTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		isNilVal, _ := input.Get("isNil")
-		isNil := isNilVal == true
+func Test_IntUnique_Get_RemovesDuplicates(t *testing.T) {
+	tc := intUniqueGetRemovesDuplicatesTestCase
 
-		// Act
-		if isNil {
-			result := intunique.Get(nil)
-			isResultNil := fmt.Sprintf("%v", result == nil)
-			testCase.ShouldBeEqual(t, caseIndex, isResultNil)
-		} else {
-			inputVal, _ := input.Get("input")
-			slice := inputVal.([]int)
-			clone := make([]int, len(slice))
-			copy(clone, slice)
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	inputVal, _ := input.Get("input")
+	slice := inputVal.([]int)
+	clone := make([]int, len(slice))
+	copy(clone, slice)
 
-			result := intunique.Get(&clone)
-			length := fmt.Sprintf("%v", len(*result))
-			testCase.ShouldBeEqual(t, caseIndex, length)
-		}
+	// Act
+	result := intunique.Get(&clone)
+	actLines := []string{
+		fmt.Sprintf("%v", len(*result)),
 	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_IntUnique_Get_AlreadyUnique(t *testing.T) {
+	tc := intUniqueGetAlreadyUniqueTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	inputVal, _ := input.Get("input")
+	slice := inputVal.([]int)
+	clone := make([]int, len(slice))
+	copy(clone, slice)
+
+	// Act
+	result := intunique.Get(&clone)
+	actLines := []string{
+		fmt.Sprintf("%v", len(*result)),
+	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_IntUnique_Get_Nil(t *testing.T) {
+	tc := intUniqueGetNilTestCase
+
+	// Act
+	result := intunique.Get(nil)
+	actLines := []string{
+		fmt.Sprintf("%v", result == nil),
+	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
