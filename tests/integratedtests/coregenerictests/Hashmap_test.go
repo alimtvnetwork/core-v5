@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================================================
@@ -22,7 +21,7 @@ func Test_Hashmap_Empty(t *testing.T) {
 		fmt.Sprintf("%v", hm.HasItems()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -35,7 +34,7 @@ func Test_Hashmap_New(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -51,7 +50,7 @@ func Test_Hashmap_From(t *testing.T) {
 		fmt.Sprintf("%v", hm.Has("a")),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -72,7 +71,7 @@ func Test_Hashmap_CloneFunc(t *testing.T) {
 		fmt.Sprintf("%v", clonedVal),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -89,7 +88,7 @@ func Test_Hashmap_SetNew(t *testing.T) {
 		fmt.Sprintf("%v", hm.Length()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_SetExisting(t *testing.T) {
@@ -103,7 +102,7 @@ func Test_Hashmap_SetExisting(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -120,7 +119,7 @@ func Test_Hashmap_GetFound(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_GetNotFound(t *testing.T) {
@@ -133,7 +132,7 @@ func Test_Hashmap_GetNotFound(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -146,7 +145,7 @@ func Test_Hashmap_GetOrDefaultMissing(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_GetOrDefaultFound(t *testing.T) {
@@ -155,7 +154,7 @@ func Test_Hashmap_GetOrDefaultFound(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -172,7 +171,7 @@ func Test_Hashmap_Has(t *testing.T) {
 		fmt.Sprintf("%v", hm.IsKeyMissing("a")),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_IsKeyMissing(t *testing.T) {
@@ -181,7 +180,7 @@ func Test_Hashmap_IsKeyMissing(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsKeyMissing("x"))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -198,7 +197,7 @@ func Test_Hashmap_RemoveExisting(t *testing.T) {
 		fmt.Sprintf("%v", hm.IsEmpty()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_RemoveMissing(t *testing.T) {
@@ -207,7 +206,7 @@ func Test_Hashmap_RemoveMissing(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Remove("x"))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -220,7 +219,7 @@ func Test_Hashmap_Keys_NonEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_Keys_Empty(t *testing.T) {
@@ -229,7 +228,7 @@ func Test_Hashmap_Keys_Empty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -246,7 +245,7 @@ func Test_Hashmap_Values_NonEmpty(t *testing.T) {
 		fmt.Sprintf("%v", vals[0]),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_Values_Empty(t *testing.T) {
@@ -255,7 +254,7 @@ func Test_Hashmap_Values_Empty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(hm.Values()))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -273,7 +272,7 @@ func Test_Hashmap_AddOrUpdateMap_Merges(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_AddOrUpdateMap_EmptyNoop(t *testing.T) {
@@ -283,7 +282,7 @@ func Test_Hashmap_AddOrUpdateMap_EmptyNoop(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -297,7 +296,7 @@ func Test_Hashmap_AddOrUpdateHashmap_Merges(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_AddOrUpdateHashmap_NilNoop(t *testing.T) {
@@ -307,7 +306,7 @@ func Test_Hashmap_AddOrUpdateHashmap_NilNoop(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -325,7 +324,7 @@ func Test_Hashmap_ConcatNew_Merged(t *testing.T) {
 		fmt.Sprintf("%v", hm1.Length()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
@@ -335,7 +334,7 @@ func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", result.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -351,7 +350,7 @@ func Test_Hashmap_CloneMethod(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", origVal)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -365,7 +364,7 @@ func Test_Hashmap_IsEquals_SameContent(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_IsEquals_DifferentKeys(t *testing.T) {
@@ -375,7 +374,7 @@ func Test_Hashmap_IsEquals_DifferentKeys(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
@@ -385,7 +384,7 @@ func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
@@ -394,7 +393,7 @@ func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
@@ -403,7 +402,7 @@ func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(nil))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_IsEquals_SamePointer(t *testing.T) {
@@ -412,7 +411,7 @@ func Test_Hashmap_IsEquals_SamePointer(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(hm))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -427,7 +426,7 @@ func Test_Hashmap_ForEach(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", count)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_ForEachBreak(t *testing.T) {
@@ -438,7 +437,7 @@ func Test_Hashmap_ForEachBreak(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", count)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -451,7 +450,7 @@ func Test_Hashmap_String(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.String() != "")}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -464,7 +463,7 @@ func Test_Hashmap_NilReceiver_IsEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_NilReceiver_Length(t *testing.T) {
@@ -473,7 +472,7 @@ func Test_Hashmap_NilReceiver_Length(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Hashmap_NilReceiver_HasItems(t *testing.T) {
@@ -482,5 +481,5 @@ func Test_Hashmap_NilReceiver_HasItems(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.HasItems())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
