@@ -1,108 +1,122 @@
 # Test Coverage Audit: corejson, corepayload, coreinstruction
 
-## Date: 2026-03-02
+## Date: 2026-03-03 (updated)
 
 ## Summary
 
 | Package | Test Files | Test Cases | Source Files | Coverage Rating |
 |---------|-----------|------------|-------------|----------------|
-| `corejson` | 1 | 1 | 41 | 🔴 CRITICAL — nearly untested |
-| `corepayload` | 6 | ~55 | ~20 | 🟡 PARTIAL — core types tested, supporting types not |
-| `coreinstruction` | 1 | ~30 | 45 | 🟡 PARTIAL — Identifier/Specification covered, many types not |
+| `corejson` | 3 | ~18 | 41 | 🟡 PARTIAL — core constructors and Result methods covered |
+| `corepayload` | 7 | ~85 | ~20 | 🟢 GOOD — core types, paging, attributes, PagingInfo fully tested |
+| `coreinstruction` | 3 | ~55 | 45 | 🟡 PARTIAL — StringCompare, StringSearch, Identifier, Specification covered |
+| `coreapi` | 1 | 15 | ~5 | 🟢 GOOD — PageRequest fully tested |
 
 ---
 
-## corejson — 🔴 CRITICAL GAPS
+## corejson — 🟡 PARTIAL (previously 🔴 CRITICAL)
 
-### What IS tested (1 test)
-- `Deserialize.FromTo` — single positive case
+### What IS tested (~18 cases across 3 files)
+- ✅ `New` — valid struct, nil input, unmarshalable type (channel)
+- ✅ `NewPtr` — valid struct, nil input, unmarshalable type (channel)
+- ✅ `Result.Unmarshal` — valid, nil receiver, invalid bytes, error result
+- ✅ `Result.IsEmpty` — empty bytes, nil receiver, valid bytes
+- ✅ `Result.IsEqual` — equal, different content, both nil, one nil, same pointer
 
-### What is NOT tested (priority order)
+### What is NOT tested (remaining gaps)
 
 | Function/Area | Risk | Notes |
 |---|---|---|
-| `Result.Unmarshal` | HIGH | Used everywhere; nil receiver, nil target, invalid bytes untested |
-| `Result.IsEmpty` / `Result.HasError` | HIGH | Guard clause logic |
-| `Result.IsEqual` | MEDIUM | Equality comparison |
 | `Result.PrettyJsonStringOrErrString` | MEDIUM | Nil receiver path exists in cmd/main smoke tests |
-| `New` / `NewPtr` | HIGH | Core constructors; marshal failure path untested |
-| `Serialize.Apply` | HIGH | Used in PayloadWrapper tests but never directly tested |
+| `Serialize.Apply` | MEDIUM | Used in PayloadWrapper tests but never directly tested |
 | `BytesDeepClone` / `BytesCloneIf` | MEDIUM | Used in Attributes deep clone |
 | `MapResults` / `ResultCollection` / `ResultsPtrCollection` | MEDIUM | Collection types |
 | `anyTo` / `castingAny` | LOW | Internal helpers |
-| `deserializeFromBytesTo` / `deserializeFromResultTo` | HIGH | Core deserialization logic |
+| `deserializeFromBytesTo` / `deserializeFromResultTo` | LOW | Core logic covered indirectly via Unmarshal tests |
 
-### Recommended minimum (15 new test cases)
-1. `New` — valid struct, nil input, unmarshalable type (channel)
-2. `NewPtr` — same 3 cases
-3. `Result.Unmarshal` — valid, nil receiver, nil target, invalid bytes
-4. `Result.IsEmpty` — empty bytes, nil, valid
-5. `Result.IsEqual` — equal, different bytes, nil vs non-nil
+### Recommended next (8 new test cases)
+1. `Serialize.Apply` — valid struct, nil, unmarshalable type
+2. `BytesDeepClone` — valid bytes, empty, nil
+3. `Result.PrettyJsonStringOrErrString` — valid, error result
 
 ---
 
-## corepayload — 🟡 PARTIAL GAPS
+## corepayload — 🟢 GOOD (previously 🟡 PARTIAL)
 
-### What IS tested (~55 cases across 6 files)
-- `PayloadWrapper` — Create, DeserializeRoundtrip, Clone, DeserializeToMany (4 tests, 4 cases)
-- `TypedPayloadCollection` — Creation, Add, Filter, Map, Reduce, Group, Partition, AllData, ElementAccess, Any/All (10 tests, ~15 cases)
-- `TypedPayloadCollection` paging — GetPagesSize, GetSinglePageCollection, GetPagedCollection, GetPagedCollectionWithInfo + edge cases (8 tests, ~15 cases)
-- `TypedPayloadCollection` FlatMap — wrapper-level, data-level, empty, nil output, nil wrapper, deserialization failure, nil receiver (7 tests, ~7 cases)
-- `TypedPayloadWrapper` — Deserialization, RoundTrip, Clone, SetData, Nil/Invalid, DeserializeToMany (6 tests, ~10 cases)
+### What IS tested (~85 cases across 7 files)
+- ✅ `PayloadWrapper` — Create, DeserializeRoundtrip, Clone, DeserializeToMany (4 tests, 4 cases)
+- ✅ `TypedPayloadCollection` — Creation, Add, Filter, Map, Reduce, Group, Partition, AllData, ElementAccess, Any/All (~15 cases)
+- ✅ `TypedPayloadCollection` paging — GetPagesSize, GetSinglePageCollection, GetPagedCollection, GetPagedCollectionWithInfo + edge cases (~15 cases)
+- ✅ `TypedPayloadCollection` FlatMap — wrapper-level, data-level, empty, nil output, nil wrapper, deserialization failure, nil receiver (~7 cases)
+- ✅ `TypedPayloadWrapper` — Deserialization, RoundTrip, Clone, SetData, Nil/Invalid, DeserializeToMany (~10 cases)
+- ✅ `Attributes.IsEqual` — 6 cases (pointer identity, content equality, nil handling)
+- ✅ `Attributes.Clone` — 3 cases (deep clone independence, nil safety)
+- ✅ `Attributes.IsSafeValid` — 3 cases (regression for negation logic bug)
+- ✅ `AuthInfo.Clone` — 4 cases (deep copy of nested fields including Identifier)
+- ✅ `PagingInfo.IsEqual` — 8 cases (both nil, left nil, right nil, equal, each field differing)
+- ✅ `PagingInfo.ClonePtr` — 3 cases (nil, field copy, independence)
+- ✅ `PagingInfo.IsEmpty` — 3 cases (nil, zero, non-zero)
+- ✅ `PagingInfo.HasTotalPages` / `HasCurrentPageIndex` / `HasPerPageItems` / `HasTotalItems` — 8 cases (nil + positive)
+- ✅ `PagingInfo.IsInvalidTotalPages` / `IsInvalidCurrentPageIndex` / `IsInvalidPerPageItems` / `IsInvalidTotalItems` — 10 cases (nil, zero/negative, positive)
+- ✅ `PagingInfo.Clone` (value) — 2 cases (field copy, independence)
 
-### What is NOT tested
+### What is NOT tested (low priority)
 
 | Type/Area | Risk | Notes |
 |---|---|---|
-| `Attributes.IsEqual` | HIGH | Complex equality with 6 sub-comparisons; just fixed `IsSafeValid` bug here |
-| `Attributes.Clone` / `ClonePtr` / `deepClonePtr` | HIGH | Deep clone with error paths |
-| `Attributes` getters/setters | MEDIUM | ~20 accessor methods |
-| `AuthInfo` | MEDIUM | Just fixed missing `Identifier` in Clone |
-| `PagingInfo.IsEqual` / `ClonePtr` | MEDIUM | Used in Attributes.IsEqual |
+| `Attributes` getters/setters | LOW | ~20 accessor methods, straightforward |
 | `User` / `SessionInfo` | LOW | Simple structs |
-| `PayloadWrapper.IsEmpty` / `IsEmptyPayloads` | MEDIUM | Guard clause methods |
-
-### Recommended minimum (10 new test cases)
-1. `Attributes.IsEqual` — both nil, one nil, equal, different error, different paging, different KV
-2. `Attributes.Clone(true)` — deep clone independence verification
-3. `Attributes.IsSafeValid` — valid, invalid, nil (regression for Bug #3)
-4. `AuthInfo.Clone` — all fields including Identifier (regression for missing field bug)
+| `PayloadWrapper.IsEmpty` / `IsEmptyPayloads` | LOW | Guard clause methods |
 
 ---
 
-## coreinstruction — 🟡 PARTIAL GAPS
+## coreinstruction — 🟡 PARTIAL (improved)
 
-### What IS tested (~30 cases)
-- `BaseIdentifier` — 4 cases (positive, special chars, empty, whitespace)
-- `Identifiers` — Length (3), GetById (6), IndexOf (5), Clone (2), Add (2) = 18 cases
-- `Specification.Clone` — 2 table cases + nil safety + deep copy verification = 4 tests
-- `BaseTags` — 4 cases (all match, partial, empty-empty, empty-nonempty)
+### What IS tested (~55 cases across 3 files)
+- ✅ `BaseIdentifier` — 4 cases (positive, special chars, empty, whitespace)
+- ✅ `Identifiers` — Length (3), GetById (6), IndexOf (5), Clone (2), Add (2) = 18 cases
+- ✅ `Specification.Clone` — 2 table cases + nil safety + deep copy verification = 4 tests
+- ✅ `BaseTags` — 4 cases (all match, partial, empty-empty, empty-nonempty)
+- ✅ `StringCompare.IsMatch` — Equal (match, no-match, case-sensitive), Contains, StartsWith (match, no-match, ignore-case), EndsWith (match, no-match, ignore-case), Regex (match, no-match) = 12 cases
+- ✅ `StringCompare.IsMatchFailed` — Equal (match, mismatch), Contains (match, mismatch), Regex (match, no-match), nil receiver = 7 cases
+- ✅ `StringCompare.VerifyError` — Equal match/mismatch, Contains mismatch, Regex match/no-match, invalid regex, nil = 7 cases
+- ✅ `StringCompare` nil receiver — IsMatch vacuous truth = 1 case
+- ✅ `StringSearch.IsMatch` — Equal (match, no-match), Contains (match, no-match), nil receiver = 5 cases
+- ✅ `StringSearch.IsMatchFailed` — match, no-match, nil = 3 cases
+- ✅ `StringSearch.IsAllMatch` — all pass, one fails, empty contents = 3 cases
+- ✅ `StringSearch.IsAnyMatchFailed` — all match, one fails = 2 cases
+- ✅ `StringSearch.IsEmpty` / `IsExist` / `Has` — nil + non-nil = 2 cases
+- ✅ `StringSearch.VerifyError` — match, no-match, nil = 3 cases
 
 ### What is NOT tested
 
 | Type/Area | Risk | Notes |
 |---|---|---|
-| `IdentifiersWithGlobals` | HIGH | Listed in testing roadmap Phase 2; GetById, Length, Clone, Add |
+| `IdentifiersWithGlobals` | MEDIUM | Listed in testing roadmap Phase 2; GetById, Length, Clone, Add |
 | `FromTo` / `BaseFromTo` | MEDIUM | Used in Attributes; has ClonePtr |
-| `SourceDestination` | LOW | Simple struct |
-| `StringCompare` / `StringSearch` | MEDIUM | Comparison logic |
-| `NameList` / `NameListCollection` | MEDIUM | Collection with potential edge cases |
-| `NameRequests` / `NameRequestsCollection` | LOW | Request types |
-| `Rename` | LOW | Simple struct |
-| `FlatSpecification` | MEDIUM | Flattening logic |
-| `RequestSpecification` | LOW | Composition type |
+| `StringCompare` / `StringSearch` constructors | LOW | Covered indirectly |
+| `NameList` / `NameListCollection` | LOW | Collection with potential edge cases |
+| `FlatSpecification` | LOW | Flattening logic |
 
-### Recommended minimum (8 new test cases)
+### Recommended next (6 new test cases)
 1. `IdentifiersWithGlobals` — GetById found/not-found, Length, Clone, Add (per roadmap Phase 2)
 2. `FromTo.ClonePtr` — positive, nil receiver
-3. `StringCompare` — equal, not equal, case sensitivity
 
 ---
 
-## Priority Order for Implementation
+## coreapi — 🟢 GOOD (new)
 
-1. **corejson** `New`/`NewPtr`/`Result.Unmarshal` — highest risk, nearly zero coverage
-2. **corepayload** `Attributes.IsEqual`/`Clone`/`IsSafeValid` — regression prevention for 3 recent bugs
-3. **coreinstruction** `IdentifiersWithGlobals` — per testing roadmap Phase 2
-4. **corejson** remaining Result methods
-5. **corepayload** AuthInfo.Clone regression test
+### What IS tested (15 cases in 1 file)
+- ✅ `PageRequest.IsPageSizeEmpty` — nil, zero, negative, positive = 4 cases
+- ✅ `PageRequest.IsPageIndexEmpty` — nil, zero, positive = 3 cases
+- ✅ `PageRequest.HasPageSize` — nil, positive = 2 cases
+- ✅ `PageRequest.HasPageIndex` — nil, positive = 2 cases
+- ✅ `PageRequest.Clone` — nil, field copy, independence = 3 cases
+
+---
+
+## Priority Order for Remaining Implementation
+
+1. **coreinstruction** `IdentifiersWithGlobals` — per testing roadmap Phase 2
+2. **coreinstruction** `FromTo.ClonePtr` — regression prevention
+3. **corejson** `Serialize.Apply` / `BytesDeepClone` — direct coverage for shared utilities
+4. **corejson** `Result.PrettyJsonStringOrErrString` — error path coverage
