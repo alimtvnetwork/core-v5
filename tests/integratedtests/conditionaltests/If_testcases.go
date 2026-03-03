@@ -14,7 +14,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "yes",
 			"falseValue": "no",
 		},
-		ExpectedInput: []string{"yes"},
+		ExpectedInput: "yes",
 	},
 	{
 		Title: "If false returns falseValue string",
@@ -24,7 +24,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "yes",
 			"falseValue": "no",
 		},
-		ExpectedInput: []string{"no"},
+		ExpectedInput: "no",
 	},
 	{
 		Title: "If true with empty strings returns empty trueValue",
@@ -34,7 +34,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "",
 			"falseValue": "fallback",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "If false with empty falseValue returns empty",
@@ -44,7 +44,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "something",
 			"falseValue": "",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "If true with same values returns that value",
@@ -54,7 +54,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "same",
 			"falseValue": "same",
 		},
-		ExpectedInput: []string{"same"},
+		ExpectedInput: "same",
 	},
 }
 
@@ -67,7 +67,7 @@ var ifIntTestCases = []coretestcases.CaseV1{
 			"trueValue":  10,
 			"falseValue": 20,
 		},
-		ExpectedInput: []string{"10"},
+		ExpectedInput: "10",
 	},
 	{
 		Title: "If false returns falseValue int",
@@ -77,7 +77,7 @@ var ifIntTestCases = []coretestcases.CaseV1{
 			"trueValue":  10,
 			"falseValue": 20,
 		},
-		ExpectedInput: []string{"20"},
+		ExpectedInput: "20",
 	},
 	{
 		Title: "If true with zero returns zero",
@@ -87,7 +87,7 @@ var ifIntTestCases = []coretestcases.CaseV1{
 			"trueValue":  0,
 			"falseValue": 99,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "If false with negative returns negative",
@@ -97,7 +97,7 @@ var ifIntTestCases = []coretestcases.CaseV1{
 			"trueValue":  100,
 			"falseValue": -42,
 		},
-		ExpectedInput: []string{"-42"},
+		ExpectedInput: "-42",
 	},
 }
 
@@ -109,7 +109,7 @@ var nilDefTestCases = []coretestcases.CaseV1{
 			"isNil":  true,
 			"defVal": "default",
 		},
-		ExpectedInput: []string{"default"},
+		ExpectedInput: "default",
 	},
 	{
 		Title: "NilDef with non-nil pointer returns value",
@@ -119,7 +119,7 @@ var nilDefTestCases = []coretestcases.CaseV1{
 			"value":  "actual",
 			"defVal": "default",
 		},
-		ExpectedInput: []string{"actual"},
+		ExpectedInput: "actual",
 	},
 	{
 		Title: "NilDef with empty string pointer returns empty",
@@ -129,7 +129,7 @@ var nilDefTestCases = []coretestcases.CaseV1{
 			"value":  "",
 			"defVal": "fallback",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -142,7 +142,7 @@ var ifFuncStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "from-true-func",
 			"falseValue": "from-false-func",
 		},
-		ExpectedInput: []string{"from-true-func"},
+		ExpectedInput: "from-true-func",
 	},
 	{
 		Title: "IfFunc false evaluates falseFunc only",
@@ -152,7 +152,7 @@ var ifFuncStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "from-true-func",
 			"falseValue": "from-false-func",
 		},
-		ExpectedInput: []string{"from-false-func"},
+		ExpectedInput: "from-false-func",
 	},
 }
 
@@ -164,7 +164,7 @@ var ifTrueFuncStringTestCases = []coretestcases.CaseV1{
 			"isTrue":    true,
 			"trueValue": "computed",
 		},
-		ExpectedInput: []string{"computed"},
+		ExpectedInput: "computed",
 	},
 	{
 		Title: "IfTrueFunc false returns zero value",
@@ -173,7 +173,7 @@ var ifTrueFuncStringTestCases = []coretestcases.CaseV1{
 			"isTrue":    false,
 			"trueValue": "computed",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -209,7 +209,7 @@ var nilCheckTestCases = []coretestcases.CaseV1{
 			"onNil":    "nil-result",
 			"onNonNil": "non-nil-result",
 		},
-		ExpectedInput: []string{"nil-result"},
+		ExpectedInput: "nil-result",
 	},
 	{
 		Title: "NilCheck returns onNonNil when input is not nil",
@@ -219,7 +219,7 @@ var nilCheckTestCases = []coretestcases.CaseV1{
 			"onNil":    "nil-result",
 			"onNonNil": "non-nil-result",
 		},
-		ExpectedInput: []string{"non-nil-result"},
+		ExpectedInput: "non-nil-result",
 	},
 }
 
@@ -231,7 +231,7 @@ var defOnNilTestCases = []coretestcases.CaseV1{
 			"isNil":    true,
 			"onNonNil": "default-val",
 		},
-		ExpectedInput: []string{"default-val"},
+		ExpectedInput: "default-val",
 	},
 	{
 		Title: "DefOnNil returns input when input is not nil",
@@ -241,6 +241,6 @@ var defOnNilTestCases = []coretestcases.CaseV1{
 			"value":    "actual-val",
 			"onNonNil": "default-val",
 		},
-		ExpectedInput: []string{"actual-val"},
+		ExpectedInput: "actual-val",
 	},
 }

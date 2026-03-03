@@ -16,7 +16,7 @@ var collectionContainsTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b", "c"},
 			"search": "b",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Contains returns false for missing item",
@@ -24,7 +24,7 @@ var collectionContainsTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b", "c"},
 			"search": "z",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Contains returns false for empty collection",
@@ -32,7 +32,7 @@ var collectionContainsTestCases = []coretestcases.CaseV1{
 			"items":  []string{},
 			"search": "a",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -47,7 +47,7 @@ var collectionIndexOfTestCases = []coretestcases.CaseV1{
 			"items":  []string{"x", "y", "z"},
 			"search": "y",
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "IndexOf returns -1 for missing item",
@@ -55,7 +55,7 @@ var collectionIndexOfTestCases = []coretestcases.CaseV1{
 			"items":  []string{"x", "y", "z"},
 			"search": "w",
 		},
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 }
 
@@ -70,7 +70,7 @@ var collectionHasAllTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b", "c", "d"},
 			"search": []string{"b", "d"},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "HasAll returns false when one missing",
@@ -78,7 +78,7 @@ var collectionHasAllTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b"},
 			"search": []string{"a", "z"},
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -93,7 +93,7 @@ var collectionLastIndexOfTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b", "a", "c"},
 			"search": "a",
 		},
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 }
 
@@ -108,7 +108,7 @@ var collectionCountTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b", "a", "a", "c"},
 			"search": "a",
 		},
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title: "Count returns 0 for missing item",
@@ -116,6 +116,6 @@ var collectionCountTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b"},
 			"search": "z",
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }

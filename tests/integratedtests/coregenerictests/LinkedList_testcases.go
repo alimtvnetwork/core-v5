@@ -22,7 +22,7 @@ var linkedListFromTestCases = []coretestcases.CaseV1{
 	},
 	{
 		Title:         "LinkedListFrom empty slice",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -58,46 +58,46 @@ var linkedListAddFrontTestCases = []coretestcases.CaseV1{
 var linkedListAddsTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Adds multiple",
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 }
 
 var linkedListAddSliceTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "AddSlice appends",
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 }
 
 var linkedListAddIfTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "AddIf true adds",
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title:         "AddIf false skips",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
 var linkedListAddsIfTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "AddsIf false skips",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
 var linkedListAddFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "AddFunc adds result",
-		ExpectedInput: []string{"99"},
+		ExpectedInput: "99",
 	},
 }
 
 var linkedListPushTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Push aliases work",
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 }
 
@@ -108,22 +108,22 @@ var linkedListPushTestCases = []coretestcases.CaseV1{
 var linkedListFirstDefaultTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "FirstOrDefault empty returns zero",
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title:         "FirstOrDefault non-empty",
-		ExpectedInput: []string{"10"},
+		ExpectedInput: "10",
 	},
 }
 
 var linkedListLastDefaultTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "LastOrDefault empty returns zero",
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title:         "LastOrDefault non-empty",
-		ExpectedInput: []string{"20"},
+		ExpectedInput: "20",
 	},
 }
 
@@ -134,25 +134,25 @@ var linkedListLastDefaultTestCases = []coretestcases.CaseV1{
 var linkedListItemsTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Items returns all elements",
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title:         "Items empty returns empty",
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
 var linkedListCollectionTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Collection converts",
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 }
 
 var linkedListStringTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "String representation",
-		ExpectedInput: []string{"[1 2 3]"},
+		ExpectedInput: "[1 2 3]",
 	},
 }
 
@@ -167,12 +167,12 @@ var linkedListIndexAtValidTestCase = coretestcases.CaseV1{
 
 var linkedListIndexAtFirstTestCase = coretestcases.CaseV1{
 	Title:         "IndexAt first",
-	ExpectedInput: []string{"10"},
+	ExpectedInput: "10",
 }
 
 var linkedListIndexAtLastTestCase = coretestcases.CaseV1{
 	Title:         "IndexAt last",
-	ExpectedInput: []string{"30"},
+	ExpectedInput: "30",
 }
 
 var linkedListIndexAtOutOfBoundsTestCase = coretestcases.CaseV1{
@@ -182,7 +182,7 @@ var linkedListIndexAtOutOfBoundsTestCase = coretestcases.CaseV1{
 
 var linkedListIndexAtEmptyTestCase = coretestcases.CaseV1{
 	Title:         "IndexAt empty",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 // ==========================================================================
@@ -192,22 +192,22 @@ var linkedListIndexAtEmptyTestCase = coretestcases.CaseV1{
 var linkedListForEachTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "ForEach visits all",
-		ExpectedInput: []string{"6"},
+		ExpectedInput: "6",
 	},
 	{
 		Title:         "ForEach empty noop",
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
 var linkedListForEachBreakTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "ForEachBreak stops early",
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title:         "ForEachBreak first element",
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 }
 
@@ -236,15 +236,15 @@ var linkedListNodeNextTestCases = []coretestcases.CaseV1{
 var linkedListLockTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "LengthLock",
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 	{
 		Title:         "IsEmptyLock",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title:         "AddLock",
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 }
 
@@ -255,7 +255,7 @@ var linkedListLockTestCases = []coretestcases.CaseV1{
 var linkedListNilReceiverTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "IsEmpty nil receiver",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 

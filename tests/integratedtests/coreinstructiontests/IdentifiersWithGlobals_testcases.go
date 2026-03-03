@@ -10,17 +10,17 @@ import (
 
 var idsLengthEmptyTestCase = coretestcases.CaseV1{
 	Title:         "Length - empty returns 0",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0",
 }
 
 var idsLengthThreeItemsTestCase = coretestcases.CaseV1{
 	Title:         "Length - 3 items returns 3",
-	ExpectedInput: []string{"3"},
+	ExpectedInput: "3",
 }
 
 var idsLengthNilTestCase = coretestcases.CaseV1{
 	Title:         "Length - nil receiver returns 0",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0",
 }
 
 // ==========================================================================
@@ -34,12 +34,12 @@ var idsGetByIdFoundTestCase = coretestcases.CaseV1{
 
 var idsGetByIdMissingTestCase = coretestcases.CaseV1{
 	Title:         "GetById - missing returns nil",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 var idsGetByIdEmptyTestCase = coretestcases.CaseV1{
 	Title:         "GetById - empty id returns nil",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 // ==========================================================================
@@ -72,7 +72,7 @@ var idsAddSingleTestCase = coretestcases.CaseV1{
 
 var idsAddEmptyIdTestCase = coretestcases.CaseV1{
 	Title:         "Add - empty id ignored",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0",
 }
 
 var idsAddMultipleTestCase = coretestcases.CaseV1{
@@ -105,17 +105,17 @@ var idsIndexOfFoundTestCase = coretestcases.CaseV1{
 
 var idsIndexOfMissingTestCase = coretestcases.CaseV1{
 	Title:         "IndexOf - missing returns -1",
-	ExpectedInput: []string{"-1"},
+	ExpectedInput: "-1",
 }
 
 var idsIndexOfEmptyStringTestCase = coretestcases.CaseV1{
 	Title:         "IndexOf - empty string returns -1",
-	ExpectedInput: []string{"-1"},
+	ExpectedInput: "-1",
 }
 
 var idsIndexOfEmptyCollectionTestCase = coretestcases.CaseV1{
 	Title:         "IndexOf - empty collection returns -1",
-	ExpectedInput: []string{"-1"},
+	ExpectedInput: "-1",
 }
 
 // ==========================================================================
@@ -129,7 +129,7 @@ var idsAddsBatchTestCase = coretestcases.CaseV1{
 
 var idsAddsEmptyTestCase = coretestcases.CaseV1{
 	Title:         "Adds - empty ids no add",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0",
 }
 
 // ==========================================================================

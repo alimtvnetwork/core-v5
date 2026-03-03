@@ -13,9 +13,7 @@ var errTypeCombineTestCases = []coretestcases.CaseV1{
 			"message": "some 2",
 			"ref":     "alim-1",
 		},
-		ExpectedInput: []string{
-			".*some 2.*alim-1.*",
-		},
+		ExpectedInput: ".*some 2.*alim-1.*",
 	},
 	{
 		Title: "Combine with empty message keeps reference",
@@ -24,9 +22,7 @@ var errTypeCombineTestCases = []coretestcases.CaseV1{
 			"message": "",
 			"ref":     "alim-2 no msg",
 		},
-		ExpectedInput: []string{
-			".*alim-2 no msg.*",
-		},
+		ExpectedInput: ".*alim-2 no msg.*",
 	},
 	{
 		Title: "Combine with both empty returns type name only",
@@ -35,9 +31,7 @@ var errTypeCombineTestCases = []coretestcases.CaseV1{
 			"message": "",
 			"ref":     "",
 		},
-		ExpectedInput: []string{
-			".*BytesAreNilOrEmpty.*",
-		},
+		ExpectedInput: ".*BytesAreNilOrEmpty.*",
 	},
 }
 
@@ -48,9 +42,7 @@ var errMergeTestCases = []coretestcases.CaseV1{
 			"when":     "given both nil errors",
 			"hasError": false,
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "MergeErrors with one non-nil error returns error",
@@ -58,9 +50,7 @@ var errMergeTestCases = []coretestcases.CaseV1{
 			"when":     "given one real error",
 			"hasError": true,
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 }
 
@@ -71,7 +61,7 @@ var errTypeErrorNoRefsTestCases = []coretestcases.CaseV1{
 			"when":    "given a message",
 			"message": "something broke",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "ErrorNoRefs with empty message returns non-nil error",
@@ -79,7 +69,7 @@ var errTypeErrorNoRefsTestCases = []coretestcases.CaseV1{
 			"when":    "given empty message",
 			"message": "",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -91,9 +81,7 @@ var errTypeErrorTestCases = []coretestcases.CaseV1{
 			"message": "parsing failed",
 			"ref":     "line-42",
 		},
-		ExpectedInput: []string{
-			".*parsing failed.*line-42.*",
-		},
+		ExpectedInput: ".*parsing failed.*line-42.*",
 	},
 	{
 		Title: "Error with empty ref includes message",
@@ -102,8 +90,6 @@ var errTypeErrorTestCases = []coretestcases.CaseV1{
 			"message": "some error",
 			"ref":     "",
 		},
-		ExpectedInput: []string{
-			".*some error.*",
-		},
+		ExpectedInput: ".*some error.*",
 	},
 }

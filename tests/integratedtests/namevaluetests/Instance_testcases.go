@@ -17,7 +17,7 @@ var stringAnyStringTestCases = []coretestcases.CaseV1{
 			"name":  "host",
 			"value": "localhost",
 		},
-		ExpectedInput: []string{"host = localhost"},
+		ExpectedInput: "host = localhost",
 	},
 	{
 		Title: "Positive: StringAny with integer value",
@@ -26,7 +26,7 @@ var stringAnyStringTestCases = []coretestcases.CaseV1{
 			"name":  "port",
 			"value": 8080,
 		},
-		ExpectedInput: []string{"port = 8080"},
+		ExpectedInput: "port = 8080",
 	},
 	{
 		Title: "Negative: StringAny with empty name",
@@ -35,7 +35,7 @@ var stringAnyStringTestCases = []coretestcases.CaseV1{
 			"name":  "",
 			"value": "something",
 		},
-		ExpectedInput: []string{" = something"},
+		ExpectedInput: " = something",
 	},
 	{
 		Title: "Negative: StringAny with nil value",
@@ -44,7 +44,7 @@ var stringAnyStringTestCases = []coretestcases.CaseV1{
 			"name":  "key",
 			"value": nil,
 		},
-		ExpectedInput: []string{"key = <nil>"},
+		ExpectedInput: "key = <nil>",
 	},
 }
 
@@ -60,7 +60,7 @@ var stringStringTestCases = []coretestcases.CaseV1{
 			"name":  "env",
 			"value": "production",
 		},
-		ExpectedInput: []string{"env = production"},
+		ExpectedInput: "env = production",
 	},
 	{
 		Title: "Negative: StringString with empty value",
@@ -69,7 +69,7 @@ var stringStringTestCases = []coretestcases.CaseV1{
 			"name":  "env",
 			"value": "",
 		},
-		ExpectedInput: []string{"env = "},
+		ExpectedInput: "env = ",
 	},
 	{
 		Title: "Negative: StringString with both empty",
@@ -78,7 +78,7 @@ var stringStringTestCases = []coretestcases.CaseV1{
 			"name":  "",
 			"value": "",
 		},
-		ExpectedInput: []string{" = "},
+		ExpectedInput: " = ",
 	},
 }
 
@@ -94,7 +94,7 @@ var stringIntTestCases = []coretestcases.CaseV1{
 			"name":  "count",
 			"value": 42,
 		},
-		ExpectedInput: []string{"count = 42"},
+		ExpectedInput: "count = 42",
 	},
 	{
 		Title: "Positive: StringInt with zero",
@@ -103,7 +103,7 @@ var stringIntTestCases = []coretestcases.CaseV1{
 			"name":  "offset",
 			"value": 0,
 		},
-		ExpectedInput: []string{"offset = 0"},
+		ExpectedInput: "offset = 0",
 	},
 	{
 		Title: "Negative: StringInt with negative value",
@@ -112,7 +112,7 @@ var stringIntTestCases = []coretestcases.CaseV1{
 			"name":  "balance",
 			"value": -100,
 		},
-		ExpectedInput: []string{"balance = -100"},
+		ExpectedInput: "balance = -100",
 	},
 }
 
@@ -221,5 +221,5 @@ var chmodMessageNameValuesTestCase = coretestcases.CaseV1{
 
 var chmodVarNameValuesEmptyTestCase = coretestcases.CaseV1{
 	Title:         "Negative: Empty StringAny slice in VarNameValues returns empty",
-	ExpectedInput: []string{""},
+	ExpectedInput: "",
 }

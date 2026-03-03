@@ -13,7 +13,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 			"main":   "root",
 			"chains": []string{"sub", "item"},
 		},
-		ExpectedInput: []string{"root-sub-item"},
+		ExpectedInput: "root-sub-item",
 	},
 	{
 		Title: "Default key compiles with main only",
@@ -22,7 +22,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 			"main":   "solo",
 			"chains": []string{},
 		},
-		ExpectedInput: []string{"solo"},
+		ExpectedInput: "solo",
 	},
 	{
 		Title: "Default key compiles with single chain",
@@ -31,7 +31,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 			"main":   "app",
 			"chains": []string{"config"},
 		},
-		ExpectedInput: []string{"app-config"},
+		ExpectedInput: "app-config",
 	},
 	{
 		Title: "Default key compiles with multiple chains",
@@ -40,7 +40,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 			"main":   "a",
 			"chains": []string{"b", "c", "d", "e"},
 		},
-		ExpectedInput: []string{"a-b-c-d-e"},
+		ExpectedInput: "a-b-c-d-e",
 	},
 }
 
@@ -53,7 +53,7 @@ var keyAppendChainTestCases = []coretestcases.CaseV1{
 			"initial": []string{"a"},
 			"append":  []string{"b", "c"},
 		},
-		ExpectedInput: []string{"root-a-b-c"},
+		ExpectedInput: "root-a-b-c",
 	},
 }
 
@@ -78,7 +78,7 @@ var keyHasInChainsTestCases = []coretestcases.CaseV1{
 			"chains": []string{"sub", "item"},
 			"search": "sub",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "HasInChains false when item missing",
@@ -88,7 +88,7 @@ var keyHasInChainsTestCases = []coretestcases.CaseV1{
 			"chains": []string{"sub", "item"},
 			"search": "missing",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -112,7 +112,7 @@ var keyLengthTestCases = []coretestcases.CaseV1{
 			"main":   "root",
 			"chains": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title: "Length returns 0 for no chains",
@@ -121,7 +121,7 @@ var keyLengthTestCases = []coretestcases.CaseV1{
 			"main":   "root",
 			"chains": []string{},
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
@@ -133,7 +133,7 @@ var keyIsEmptyTestCases = []coretestcases.CaseV1{
 			"main":   "",
 			"chains": []string{},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEmpty false for non-empty main",
@@ -142,7 +142,7 @@ var keyIsEmptyTestCases = []coretestcases.CaseV1{
 			"main":   "root",
 			"chains": []string{},
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -155,6 +155,6 @@ var keyCompileWithAdditionalTestCases = []coretestcases.CaseV1{
 			"chains":     []string{"a"},
 			"additional": "extra",
 		},
-		ExpectedInput: []string{"root-a-extra"},
+		ExpectedInput: "root-a-extra",
 	},
 }

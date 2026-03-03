@@ -164,7 +164,7 @@ var identifiersIndexOfTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"a", "b", "c"},
 			"searchId": "b",
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "IndexOf returns 0 for first item",
@@ -173,7 +173,7 @@ var identifiersIndexOfTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"first", "second"},
 			"searchId": "first",
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 
 	// === Negative ===
@@ -184,7 +184,7 @@ var identifiersIndexOfTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"a", "b"},
 			"searchId": "missing",
 		},
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 	{
 		Title: "IndexOf returns -1 for empty search",
@@ -193,7 +193,7 @@ var identifiersIndexOfTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"a"},
 			"searchId": "",
 		},
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 	{
 		Title: "IndexOf returns -1 for empty collection",
@@ -202,7 +202,7 @@ var identifiersIndexOfTestCases = []coretestcases.CaseV1{
 			"ids":      []string{},
 			"searchId": "a",
 		},
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 }
 
@@ -224,7 +224,7 @@ var identifiersCloneTestCases = []coretestcases.CaseV1{
 			"when": "given empty identifiers",
 			"ids":  []string{},
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
