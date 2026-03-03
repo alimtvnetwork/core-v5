@@ -1,265 +1,274 @@
 package coreoncetests
 
 import (
-	"errors"
+	"fmt"
+	"strings"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // =============================================================================
-// BytesErrorOnce — Caching Behavior
+// BytesErrorOnce — Core
 // =============================================================================
 
-func Test_BytesErrorOnce_Value_CachesResult(t *testing.T) {
-	callCount := 0
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		callCount++
-		return []byte("cached"), nil
-	})
+func Test_BytesErrorOnce_Core(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceCoreTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		initErr := tc.InitErr
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, initErr
+		})
 
-	convey.Convey("BytesErrorOnce.Value caches — initializer runs exactly once", t, func() {
+		// Act
+		val, err := once.Value()
+		actLines := []string{
+			string(val),
+			fmt.Sprintf("%v", err == nil),
+			fmt.Sprintf("%v", once.Length()),
+			fmt.Sprintf("%v", once.HasAnyItem()),
+			fmt.Sprintf("%v", once.IsEmpty()),
+			fmt.Sprintf("%v", once.IsEmptyBytes()),
+			fmt.Sprintf("%v", once.IsBytesEmpty()),
+			fmt.Sprintf("%v", once.IsNull()),
+			fmt.Sprintf("%v", once.IsDefined()),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
+
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce Core Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// =============================================================================
+// BytesErrorOnce — Caching
+// =============================================================================
+
+func Test_BytesErrorOnce_Caching(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceCachingTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		initErr := tc.InitErr
+
+		if initErr != nil {
+			once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+				return initBytes, initErr
+			})
+
+			// Act
+			val, err := once.Value()
+			actLines := []string{
+				string(val),
+				fmt.Sprintf("%v", val == nil),
+				err.Error(),
+			}
+			expectedLines := tc.Case.ExpectedInput.([]string)
+
+			// Print diff on failure
+			if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+				fmt.Printf(
+					"\n=== BytesErrorOnce Caching Diff (Case %d: %s) ===\n",
+					caseIndex,
+					tc.Case.Title,
+				)
+
+				errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+				fmt.Println("=== End ===")
+			}
+
+			// Assert
+			tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+
+			continue
+		}
+
+		callCount := 0
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			callCount++
+
+			return initBytes, nil
+		})
+
+		// Act
 		r1, e1 := once.Value()
 		r2, e2 := once.Value()
 
-		convey.So(string(r1), should.Equal, "cached")
-		convey.So(string(r2), should.Equal, "cached")
-		convey.So(e1, should.BeNil)
-		convey.So(e2, should.BeNil)
-		convey.So(callCount, should.Equal, 1)
-	})
-}
+		actLines := []string{
+			string(r1),
+			string(r2),
+			fmt.Sprintf("%v", e1 == nil),
+			fmt.Sprintf("%v", e2 == nil),
+			fmt.Sprintf("%d", callCount),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-func Test_BytesErrorOnce_Value_CachesError(t *testing.T) {
-	testErr := errors.New("test error")
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, testErr
-	})
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce Caching Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+			fmt.Printf("  CallCount: %d\n", callCount)
 
-	convey.Convey("BytesErrorOnce.Value caches error", t, func() {
-		val, err := once.Value()
-		convey.So(val, should.BeNil)
-		convey.So(err, should.Equal, testErr)
-	})
-}
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-func Test_BytesErrorOnce_Execute_SameAsValue(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("exec"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.Execute returns same as Value", t, func() {
-		v1, _ := once.Execute()
-		v2, _ := once.Value()
-		convey.So(string(v1), should.Equal, string(v2))
-	})
-}
-
-func Test_BytesErrorOnce_ValueOnly(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("only"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.ValueOnly returns bytes without error", t, func() {
-		convey.So(string(once.ValueOnly()), should.Equal, "only")
-	})
-}
-
-func Test_BytesErrorOnce_ValueWithError(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("vwe"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.ValueWithError aliases Value", t, func() {
-		v, e := once.ValueWithError()
-		convey.So(string(v), should.Equal, "vwe")
-		convey.So(e, should.BeNil)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
-// BytesErrorOnce — Error State Queries
+// BytesErrorOnce — Access (Execute, ValueOnly, ValueWithError)
 // =============================================================================
 
-func Test_BytesErrorOnce_HasError_True(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, errors.New("fail")
-	})
+func Test_BytesErrorOnce_Access(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceAccessTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, nil
+		})
 
-	convey.Convey("BytesErrorOnce.HasError returns true on error", t, func() {
-		convey.So(once.HasError(), should.BeTrue)
-	})
-}
+		// Act
+		var actLines []string
 
-func Test_BytesErrorOnce_HasError_False(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("ok"), nil
-	})
+		switch caseIndex {
+		case 0: // Execute == Value
+			v1, _ := once.Execute()
+			v2, _ := once.Value()
+			actLines = []string{
+				fmt.Sprintf("%v", string(v1) == string(v2)),
+			}
+		case 1: // ValueOnly
+			actLines = []string{
+				string(once.ValueOnly()),
+			}
+		case 2: // ValueWithError
+			v, e := once.ValueWithError()
+			actLines = []string{
+				string(v),
+				fmt.Sprintf("%v", e == nil),
+			}
+		}
 
-	convey.Convey("BytesErrorOnce.HasError returns false on success", t, func() {
-		convey.So(once.HasError(), should.BeFalse)
-	})
-}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-func Test_BytesErrorOnce_IsEmptyError(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("ok"), nil
-	})
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce Access Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
 
-	convey.Convey("BytesErrorOnce.IsEmptyError returns true on no error", t, func() {
-		convey.So(once.IsEmptyError(), should.BeTrue)
-	})
-}
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-func Test_BytesErrorOnce_IsValid_IsSuccess(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("ok"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsValid and IsSuccess return true on no error", t, func() {
-		convey.So(once.IsValid(), should.BeTrue)
-		convey.So(once.IsSuccess(), should.BeTrue)
-	})
-}
-
-func Test_BytesErrorOnce_IsInvalid_IsFailed(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, errors.New("bad")
-	})
-
-	convey.Convey("BytesErrorOnce.IsInvalid and IsFailed return true on error", t, func() {
-		convey.So(once.IsInvalid(), should.BeTrue)
-		convey.So(once.IsFailed(), should.BeTrue)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
-// BytesErrorOnce — HasIssuesOrEmpty
+// BytesErrorOnce — Error State
 // =============================================================================
 
-func Test_BytesErrorOnce_HasIssuesOrEmpty_WithError(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("data"), errors.New("err")
-	})
+func Test_BytesErrorOnce_ErrorState(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceErrorStateTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		initErr := tc.InitErr
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, initErr
+		})
 
-	convey.Convey("BytesErrorOnce.HasIssuesOrEmpty true when error present", t, func() {
-		convey.So(once.HasIssuesOrEmpty(), should.BeTrue)
-	})
-}
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%v", once.HasError()),
+			fmt.Sprintf("%v", once.IsEmptyError()),
+			fmt.Sprintf("%v", once.IsValid()),
+			fmt.Sprintf("%v", once.IsSuccess()),
+			fmt.Sprintf("%v", once.IsInvalid()),
+			fmt.Sprintf("%v", once.IsFailed()),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-func Test_BytesErrorOnce_HasIssuesOrEmpty_EmptyBytes(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte{}, nil
-	})
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce ErrorState Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
 
-	convey.Convey("BytesErrorOnce.HasIssuesOrEmpty true when bytes empty", t, func() {
-		convey.So(once.HasIssuesOrEmpty(), should.BeTrue)
-	})
-}
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-func Test_BytesErrorOnce_HasIssuesOrEmpty_False(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("ok"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.HasIssuesOrEmpty false when data and no error", t, func() {
-		convey.So(once.HasIssuesOrEmpty(), should.BeFalse)
-	})
-}
-
-func Test_BytesErrorOnce_HasSafeItems(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("safe"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.HasSafeItems true when data and no error", t, func() {
-		convey.So(once.HasSafeItems(), should.BeTrue)
-	})
-}
-
-func Test_BytesErrorOnce_HasIssuesOrEmpty_NilReceiver(t *testing.T) {
-	var once *coreonce.BytesErrorOnce
-
-	convey.Convey("BytesErrorOnce.HasIssuesOrEmpty true on nil receiver", t, func() {
-		convey.So(once.HasIssuesOrEmpty(), should.BeTrue)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
-// BytesErrorOnce — Length, IsEmpty, IsNull, IsBytesEmpty
+// BytesErrorOnce — HasIssues
 // =============================================================================
 
-func Test_BytesErrorOnce_Length(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("abc"), nil
-	})
+func Test_BytesErrorOnce_HasIssues(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceHasIssuesTestCases {
+		// Arrange
+		var once *coreonce.BytesErrorOnce
 
-	convey.Convey("BytesErrorOnce.Length returns correct length", t, func() {
-		convey.So(once.Length(), should.Equal, 3)
-	})
-}
+		if tc.IsNilReceiver {
+			once = nil
+		} else {
+			initBytes := tc.InitBytes
+			initErr := tc.InitErr
+			once = coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+				return initBytes, initErr
+			})
+		}
 
-func Test_BytesErrorOnce_HasAnyItem(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("x"), nil
-	})
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%v", once.HasIssuesOrEmpty()),
+			fmt.Sprintf("%v", once.HasSafeItems()),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-	convey.Convey("BytesErrorOnce.HasAnyItem true for non-empty", t, func() {
-		convey.So(once.HasAnyItem(), should.BeTrue)
-	})
-}
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce HasIssues Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
 
-func Test_BytesErrorOnce_IsEmpty_BothNil(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, nil
-	})
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-	convey.Convey("BytesErrorOnce.IsEmpty true when nil bytes and nil error", t, func() {
-		convey.So(once.IsEmpty(), should.BeTrue)
-	})
-}
-
-func Test_BytesErrorOnce_IsEmptyBytes(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte{}, nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsEmptyBytes true for empty bytes", t, func() {
-		convey.So(once.IsEmptyBytes(), should.BeTrue)
-	})
-}
-
-func Test_BytesErrorOnce_IsBytesEmpty(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte{}, nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsBytesEmpty true for empty bytes", t, func() {
-		convey.So(once.IsBytesEmpty(), should.BeTrue)
-	})
-}
-
-func Test_BytesErrorOnce_IsNull(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsNull true when bytes nil", t, func() {
-		convey.So(once.IsNull(), should.BeTrue)
-	})
-}
-
-func Test_BytesErrorOnce_IsDefined(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("defined"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsDefined true for non-empty with no error", t, func() {
-		convey.So(once.IsDefined(), should.BeTrue)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
@@ -267,253 +276,305 @@ func Test_BytesErrorOnce_IsDefined(t *testing.T) {
 // =============================================================================
 
 func Test_BytesErrorOnce_String(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("str-val"), nil
-	})
+	for caseIndex, tc := range bytesErrorOnceStringTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, nil
+		})
 
-	convey.Convey("BytesErrorOnce.String returns string conversion", t, func() {
-		convey.So(once.String(), should.Equal, "str-val")
-	})
-}
+		// Act
+		actLines := []string{
+			once.String(),
+			fmt.Sprintf("%v", once.IsStringEmpty()),
+			fmt.Sprintf("%v", once.IsStringEmptyOrWhitespace()),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-func Test_BytesErrorOnce_String_Nil(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, nil
-	})
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce String Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
 
-	convey.Convey("BytesErrorOnce.String returns empty for nil bytes", t, func() {
-		convey.So(once.String(), should.BeEmpty)
-	})
-}
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-func Test_BytesErrorOnce_IsStringEmpty(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsStringEmpty true for nil bytes", t, func() {
-		convey.So(once.IsStringEmpty(), should.BeTrue)
-	})
-}
-
-func Test_BytesErrorOnce_IsStringEmptyOrWhitespace(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("   "), nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsStringEmptyOrWhitespace true for whitespace", t, func() {
-		convey.So(once.IsStringEmptyOrWhitespace(), should.BeTrue)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
 // BytesErrorOnce — Deserialize
 // =============================================================================
 
-func Test_BytesErrorOnce_Deserialize_Success(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte(`{"name":"test"}`), nil
-	})
+func Test_BytesErrorOnce_Deserialize(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceDeserializeTestCases {
+		// Arrange
+		initJson := tc.InitJson
+		initErr := tc.InitErr
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return []byte(initJson), initErr
+		})
 
-	convey.Convey("BytesErrorOnce.Deserialize succeeds with valid JSON", t, func() {
-		var result map[string]string
-		err := once.Deserialize(&result)
-		convey.So(err, should.BeNil)
-		convey.So(result["name"], should.Equal, "test")
-	})
-}
+		// Act
+		var actLines []string
 
-func Test_BytesErrorOnce_Deserialize_WithExistingError(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, errors.New("source error")
-	})
+		if tc.IsMust {
+			var result map[string]string
+			panicked := callPanics(func() { once.DeserializeMust(&result) })
+			actLines = []string{fmt.Sprintf("%v", panicked)}
 
-	convey.Convey("BytesErrorOnce.Deserialize returns error when source has error", t, func() {
-		var result map[string]string
-		err := once.Deserialize(&result)
-		convey.So(err, should.NotBeNil)
-		convey.So(err.Error(), should.ContainSubstring, "existing error cannot deserialize")
-		convey.So(err.Error(), should.ContainSubstring, "source error")
-	})
-}
+			if !panicked {
+				actLines = append(actLines, result["key"])
+			}
+		} else if initErr != nil {
+			var result map[string]string
+			err := once.Deserialize(&result)
+			actLines = []string{
+				fmt.Sprintf("%v", err != nil),
+				fmt.Sprintf("%v", strings.Contains(err.Error(), "existing error cannot deserialize")),
+				fmt.Sprintf("%v", strings.Contains(err.Error(), initErr.Error())),
+			}
+		} else if initJson == "not-json" {
+			var result map[string]string
+			err := once.Deserialize(&result)
+			actLines = []string{
+				fmt.Sprintf("%v", err != nil),
+				fmt.Sprintf("%v", strings.Contains(err.Error(), "deserialize failed")),
+			}
+		} else {
+			var result map[string]string
+			err := once.Deserialize(&result)
+			actLines = []string{
+				fmt.Sprintf("%v", err == nil),
+				result["name"],
+			}
+		}
 
-func Test_BytesErrorOnce_Deserialize_InvalidJSON(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte(`not-json`), nil
-	})
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-	convey.Convey("BytesErrorOnce.Deserialize with invalid JSON returns error", t, func() {
-		var result map[string]string
-		err := once.Deserialize(&result)
-		convey.So(err, should.NotBeNil)
-		convey.So(err.Error(), should.ContainSubstring, "deserialize failed")
-	})
-}
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce Deserialize Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
 
-func Test_BytesErrorOnce_DeserializeMust_Success(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte(`{"key":"val"}`), nil
-	})
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-	convey.Convey("BytesErrorOnce.DeserializeMust succeeds without panic", t, func() {
-		var result map[string]string
-		convey.So(func() { once.DeserializeMust(&result) }, should.NotPanic)
-		convey.So(result["key"], should.Equal, "val")
-	})
-}
-
-func Test_BytesErrorOnce_DeserializeMust_Panics(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, errors.New("must-fail")
-	})
-
-	convey.Convey("BytesErrorOnce.DeserializeMust panics on error", t, func() {
-		var result map[string]string
-		convey.So(func() { once.DeserializeMust(&result) }, should.Panic)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
-// BytesErrorOnce — JSON Serialization
+// BytesErrorOnce — Serialization
 // =============================================================================
 
-func Test_BytesErrorOnce_MarshalJSON(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte(`{"a":1}`), nil
-	})
+func Test_BytesErrorOnce_Serialization(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceSerializationTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, nil
+		})
 
-	convey.Convey("BytesErrorOnce.MarshalJSON returns bytes", t, func() {
-		data, err := once.MarshalJSON()
-		convey.So(err, should.BeNil)
-		convey.So(string(data), should.Equal, `{"a":1}`)
-	})
+		// Act
+		var actLines []string
+
+		if caseIndex == 0 {
+			data, err := once.MarshalJSON()
+			actLines = []string{
+				fmt.Sprintf("%v", err == nil),
+				string(data),
+			}
+		} else {
+			data, err := once.Serialize()
+			actLines = []string{
+				fmt.Sprintf("%v", err == nil),
+				string(data),
+			}
+		}
+
+		expectedLines := tc.Case.ExpectedInput.([]string)
+
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce Serialization Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
-func Test_BytesErrorOnce_Serialize(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("ser"), nil
-	})
+// =============================================================================
+// BytesErrorOnce — SerializeMust
+// =============================================================================
 
-	convey.Convey("BytesErrorOnce.Serialize returns bytes", t, func() {
-		data, err := once.Serialize()
-		convey.So(err, should.BeNil)
-		convey.So(string(data), should.Equal, "ser")
-	})
-}
+func Test_BytesErrorOnce_SerializeMust(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceSerializeMustTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		initErr := tc.InitErr
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, initErr
+		})
 
-func Test_BytesErrorOnce_SerializeMust_Success(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("must-ser"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.SerializeMust returns bytes without panic", t, func() {
+		// Act
 		var result []byte
-		convey.So(func() { result = once.SerializeMust() }, should.NotPanic)
-		convey.So(string(result), should.Equal, "must-ser")
-	})
-}
+		panicked := callPanics(func() { result = once.SerializeMust() })
+		actLines := []string{fmt.Sprintf("%v", panicked)}
 
-func Test_BytesErrorOnce_SerializeMust_Panics(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, errors.New("ser-fail")
-	})
+		if !panicked {
+			actLines = append(actLines, string(result))
+		}
 
-	convey.Convey("BytesErrorOnce.SerializeMust panics on error", t, func() {
-		convey.So(func() { once.SerializeMust() }, should.Panic)
-	})
+		expectedLines := tc.Case.ExpectedInput.([]string)
+
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce SerializeMust Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
-// BytesErrorOnce — HandleError / MustBeEmptyError / MustHaveSafeItems
+// BytesErrorOnce — Lifecycle (panic guards + IsInitialized)
 // =============================================================================
 
-func Test_BytesErrorOnce_HandleError_NoPanic(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("ok"), nil
-	})
+func Test_BytesErrorOnce_Lifecycle(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceLifecycleTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		initErr := tc.InitErr
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, initErr
+		})
 
-	convey.Convey("BytesErrorOnce.HandleError does not panic on success", t, func() {
-		convey.So(func() { once.HandleError() }, should.NotPanic)
-	})
-}
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%v", callPanics(func() { once.HandleError() })),
+			fmt.Sprintf("%v", callPanics(func() { once.MustBeEmptyError() })),
+			fmt.Sprintf("%v", callPanics(func() { once.MustHaveSafeItems() })),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-func Test_BytesErrorOnce_HandleError_Panics(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return nil, errors.New("handle-err")
-	})
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce Lifecycle Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
 
-	convey.Convey("BytesErrorOnce.HandleError panics on error", t, func() {
-		convey.So(func() { once.HandleError() }, should.Panic)
-	})
-}
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-func Test_BytesErrorOnce_MustBeEmptyError_NoPanic(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("ok"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.MustBeEmptyError does not panic on success", t, func() {
-		convey.So(func() { once.MustBeEmptyError() }, should.NotPanic)
-	})
-}
-
-func Test_BytesErrorOnce_MustHaveSafeItems_NoPanic(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("safe"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.MustHaveSafeItems does not panic with data", t, func() {
-		convey.So(func() { once.MustHaveSafeItems() }, should.NotPanic)
-	})
-}
-
-func Test_BytesErrorOnce_MustHaveSafeItems_PanicsEmpty(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte{}, nil
-	})
-
-	convey.Convey("BytesErrorOnce.MustHaveSafeItems panics when empty", t, func() {
-		convey.So(func() { once.MustHaveSafeItems() }, should.Panic)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
 // BytesErrorOnce — IsInitialized
 // =============================================================================
 
-func Test_BytesErrorOnce_IsInitialized_Before(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("x"), nil
-	})
+func Test_BytesErrorOnce_IsInitialized(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceInitializedTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+			return initBytes, nil
+		})
 
-	convey.Convey("BytesErrorOnce.IsInitialized false before Value call", t, func() {
-		convey.So(once.IsInitialized(), should.BeFalse)
-	})
-}
-
-func Test_BytesErrorOnce_IsInitialized_After(t *testing.T) {
-	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-		return []byte("x"), nil
-	})
-
-	convey.Convey("BytesErrorOnce.IsInitialized true after Value call", t, func() {
+		// Act
+		beforeInit := once.IsInitialized()
 		_, _ = once.Value()
-		convey.So(once.IsInitialized(), should.BeTrue)
-	})
+		afterInit := once.IsInitialized()
+
+		actLines := []string{
+			fmt.Sprintf("%v", beforeInit),
+			fmt.Sprintf("%v", afterInit),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
+
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce IsInitialized Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
-// BytesErrorOnce — Constructor variants
+// BytesErrorOnce — Constructor
 // =============================================================================
 
-func Test_BytesErrorOnce_NewBytesErrorOnce_Value(t *testing.T) {
-	once := coreonce.NewBytesErrorOnce(func() ([]byte, error) {
-		return []byte("val"), nil
-	})
+func Test_BytesErrorOnce_Constructor(t *testing.T) {
+	for caseIndex, tc := range bytesErrorOnceConstructorTestCases {
+		// Arrange
+		initBytes := tc.InitBytes
+		once := coreonce.NewBytesErrorOnce(func() ([]byte, error) {
+			return initBytes, nil
+		})
 
-	convey.Convey("NewBytesErrorOnce (value) works correctly", t, func() {
+		// Act
 		v, e := once.Value()
-		convey.So(string(v), should.Equal, "val")
-		convey.So(e, should.BeNil)
-	})
+		actLines := []string{
+			string(v),
+			fmt.Sprintf("%v", e == nil),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
+
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== BytesErrorOnce Constructor Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
