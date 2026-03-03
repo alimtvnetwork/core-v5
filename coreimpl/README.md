@@ -6,7 +6,7 @@ Package `coreimpl` provides concrete implementations of core interface contracts
 
 ```
 coreimpl/
-└── enumimpl/                              # Enum implementation engine
+└── enumimpl/                              # Enum implementation engine (see enumimpl/readme.md)
     ├── vars.go                            # Package singletons: New, DefaultDiffCheckerImpl, LeftRightDiffCheckerImpl
     ├── newCreator.go                      # New.* — factory for all enum types
     ├── newBasicByteCreator.go             # New.BasicByte.* — byte enum factory
@@ -76,15 +76,42 @@ stringEnum := enumimpl.New.BasicString.CreateUsingSlicePlusAliasMapOptions(
 )
 ```
 
-### Diff Checking
+### DifferChecker — Map Diff Strategy
+
+[`DifferChecker`](enumimpl/readme.md#differchecker-interface) is the strategy interface used by `DynamicMap` to control how value differences and missing keys are reported during map comparison.
 
 ```go
-// Compare two dynamic maps
-diff := enumimpl.LeftRightDiffCheckerImpl.Diff(leftMap, rightMap)
+type DifferChecker interface {
+    GetSingleDiffResult(isLeft bool, l, r any) any
+    GetResultOnKeyMissingInRightExistInLeft(lKey string, lVal any) any
+    IsEqual(isRegardless bool, l, r any) bool
+}
 ```
+
+Two built-in implementations are provided as package singletons:
+
+| Singleton | Behavior |
+|-----------|----------|
+| `DefaultDiffCheckerImpl` | Returns raw differing values; missing keys return left value as-is |
+| `LeftRightDiffCheckerImpl` | Returns `DiffLeftRight` JSON (e.g., `{"Left":5,"Right":6}`); missing keys include type annotation |
+
+```go
+// Compare two dynamic maps using left/right labeled diffs
+left := enumimpl.DynamicMap{"a": 1, "b": 3}
+right := map[string]any{"a": 1, "b": 4}
+
+diffMap := left.DiffRawUsingDifferChecker(
+    enumimpl.LeftRightDiffCheckerImpl,
+    true,
+    right,
+)
+```
+
+See [enumimpl/readme.md](enumimpl/readme.md) for full interface docs, custom implementation examples, and DynamicMap integration details.
 
 ## Related Docs
 
+- [enumimpl README](enumimpl/readme.md)
 - [Folder Spec](/spec/01-app/folders/10-remaining-packages.md)
 - [Coding Guidelines](/spec/01-app/17-coding-guidelines.md)
 - [New Creator Pattern](/spec/01-app/21-new-creator-pattern.md)
