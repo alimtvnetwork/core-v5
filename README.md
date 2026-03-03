@@ -529,7 +529,9 @@ results, err := conditional.TypedErrorFunctionsExecuteResults[string](
 
 ## Unit Test Pattern
 
-This project follows the **Arrange-Act-Assert (AAA)** pattern. See the full [Testing Guidelines](/spec/01-app/16-testing-guidelines.md) for comprehensive documentation.
+This project follows the **Arrange-Act-Assert (AAA)** pattern with `coretestcases.CaseV1`, GoConvey assertions, and `errcore.AssertDiffOnMismatch`.
+
+> 📖 **[Full Testing Guidelines](/spec/01-app/16-testing-guidelines.md)** — comprehensive reference covering all assertion methods, `args.Map` usage, named test case variables, `SliceValidator`, comparison modes (Equal/Contains/Regex/Sorted), custom test wrappers, panic testing, concurrency testing, anti-patterns, and a CaseV2 proposal.
 
 ### Quick Example
 
