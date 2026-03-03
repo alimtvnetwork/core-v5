@@ -6,7 +6,7 @@
 
 ## Summary
 
-Cross-referenced all source packages against `tests/integratedtests/` directories. All phases of the deep coverage initiative are now complete, with **~788 new test cases** added across 3 phases covering every package with meaningful logic.
+Cross-referenced all source packages against `tests/integratedtests/` directories. All phases of the deep coverage initiative are now complete, with **~870 new test cases** added across 3 phases covering every package with meaningful logic.
 
 ### Coverage Status
 
@@ -156,11 +156,14 @@ Every package with meaningful logic now has integration tests. Only constant/for
 |---|---|---|---|
 | `LineNumber` (HasLineNumber, IsMatch, VerifyError) | LOW | Line matching with -1 skip | ✅ DONE (~12 tests) |
 | `Condition` (IsSplitByWhitespace, presets) | LOW | Flag combination logic | ✅ DONE (~9 tests) |
-| `TextValidator` (IsMatch, IsMatchMany, Verify*, caching) | HIGH | Core text comparison engine | ✅ DONE (~25 tests) |
-| `TextValidators` (collection, IsMatch, Verify*, Dispose) | MEDIUM | Multi-validator orchestration | ✅ DONE (~18 tests) |
+| `Parameter` (IsIgnoreCase, defaults) | LOW | Parameter utility | ✅ DONE (~3 tests) |
+| `TextValidator` (IsMatch, IsMatchMany, Verify*, ToString, caching) | HIGH | Core text comparison engine | ✅ DONE (~35 tests) |
+| `TextValidators` (collection, IsMatch, Verify*, Dispose, routing) | MEDIUM | Multi-validator orchestration | ✅ DONE (~30 tests) |
 | `LineValidator` (IsMatch, IsMatchMany, VerifyError, VerifyMany) | MEDIUM | Line+text combined validation | ✅ DONE (~12 tests) |
-| `BaseLinesValidators` + `LinesValidators` | MEDIUM | Multi-line validation, nil guards | ✅ DONE (~18 tests) |
-| `SliceValidator` (IsValid, Verify*, Dispose, helpers) | HIGH | Slice-level comparison engine | ✅ DONE (~30 tests) |
+| `BaseLinesValidators` + `LinesValidators` (IsMatch, Verify*, nil guards) | MEDIUM | Multi-line validation, nil guards | ✅ DONE (~35 tests) |
+| `SliceValidator` (IsValid, Verify*, Dispose, helpers, caching) | HIGH | Slice-level comparison engine | ✅ DONE (~50 tests) |
+| `SliceValidators` (collection, IsMatch, VerifyAll, VerifyFirst) | MEDIUM | Multi-slice validation | ✅ DONE (~15 tests) |
+| `SimpleSliceValidator` (VerifyAll, VerifyFirst, VerifyUpto) | MEDIUM | Simplified slice validation | ✅ DONE (~6 tests) |
 | `BaseValidatorCoreCondition` | LOW | Lazy condition defaults | ✅ DONE (~2 tests) |
 
 #### 8. `errcore` — Error Construction
@@ -219,11 +222,11 @@ Every package with meaningful logic now has integration tests. Only constant/for
 | 2 | `coredynamic` Dynamic/CastedResult | ~10 | ✅ DONE |
 | 2 | `coregeneric` LinkedList/Hashmap/Hashset/funcs | ~175 | ✅ DONE |
 | 2 | `corestr` Hashset/Hashmap | ~115 | ✅ DONE |
-| 2 | `corevalidator` validators | ~126 | ✅ DONE |
+| 2 | `corevalidator` validators (expanded) | ~208 | ✅ DONE |
 | 3 | `stringslice` utilities | ~40 | ✅ DONE |
 | 3 | `reflectcore` facade exports | ~12 | ✅ DONE |
 | 3 | `coreappend` assembly functions | ~20 | ✅ DONE |
-| **Total** | | **~788** | **✅ ALL COMPLETE** |
+| **Total** | | **~870** | **✅ ALL COMPLETE** |
 
 ### Bugs Found & Fixed During Testing
 
