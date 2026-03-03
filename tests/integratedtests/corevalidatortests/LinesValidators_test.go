@@ -1,6 +1,7 @@
 package corevalidatortests
 
 import (
+	"strings"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
@@ -323,6 +324,76 @@ func Test_LinesValidators_AllVerifyError_Fail(t *testing.T) {
 	err := lv.AllVerifyError(params, items...)
 	if err == nil {
 		t.Error("mismatch should return error")
+	}
+}
+
+func Test_LineValidator_AllVerifyError_CollectsMultipleErrors(t *testing.T) {
+	// Arrange: validator expects "ok", but all 3 inputs are wrong
+	lv := corevalidator.LineValidator{
+		LineNumber: corevalidator.LineNumber{LineNumber: -1},
+		TextValidator: corevalidator.TextValidator{
+			Search:    "ok",
+			SearchAs:  stringcompareas.Equal,
+			Condition: corevalidator.DefaultDisabledCoreCondition,
+		},
+	}
+	params := &corevalidator.Parameter{
+		CaseIndex:       0,
+		IsCaseSensitive: true,
+	}
+	items := []corestr.TextWithLineNumber{
+		{Text: "bad1", LineNumber: 0},
+		{Text: "bad2", LineNumber: 1},
+		{Text: "bad3", LineNumber: 2},
+	}
+
+	// Act
+	err := lv.AllVerifyError(params, items...)
+
+	// Assert: error should be non-nil and contain all 3 failures
+	if err == nil {
+		t.Fatal("AllVerifyError should return error when all items fail")
+	}
+
+	errMsg := err.Error()
+	for _, expected := range []string{"bad1", "bad2", "bad3"} {
+		if !strings.Contains(errMsg, expected) {
+			t.Errorf("AllVerifyError should collect all errors, missing '%s' in:\n%s", expected, errMsg)
+		}
+	}
+}
+
+func Test_LineValidator_AllVerifyError_FirstFailOthersPass(t *testing.T) {
+	// Arrange: validator expects "ok", first fails, rest pass
+	lv := corevalidator.LineValidator{
+		LineNumber: corevalidator.LineNumber{LineNumber: -1},
+		TextValidator: corevalidator.TextValidator{
+			Search:    "ok",
+			SearchAs:  stringcompareas.Equal,
+			Condition: corevalidator.DefaultDisabledCoreCondition,
+		},
+	}
+	params := &corevalidator.Parameter{
+		CaseIndex:       0,
+		IsCaseSensitive: true,
+	}
+	items := []corestr.TextWithLineNumber{
+		{Text: "bad", LineNumber: 0},
+		{Text: "ok", LineNumber: 1},
+		{Text: "ok", LineNumber: 2},
+	}
+
+	// Act
+	err := lv.AllVerifyError(params, items...)
+
+	// Assert: should still report the one failure
+	if err == nil {
+		t.Fatal("AllVerifyError should return error when any item fails")
+	}
+
+	errMsg := err.Error()
+	if !strings.Contains(errMsg, "bad") {
+		t.Errorf("error should mention the failed content 'bad', got:\n%s", errMsg)
 	}
 }
 
