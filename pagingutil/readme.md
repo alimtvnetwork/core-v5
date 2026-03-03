@@ -34,14 +34,15 @@ type PagingRequest struct {
 
 ```go
 type PagingInfo struct {
-    PageIndex, SkipItems, EndingLength int
-    IsPagingPossible                   bool
+    PageIndex, SkipItems, EndingLength, TotalPages int
+    IsPagingPossible                               bool
 }
 ```
 
 - `PageIndex` — the resolved page index (may differ from request due to clamping)
 - `SkipItems` — offset to skip (`EachPageSize * (PageIndex - 1)`)
 - `EndingLength` — end index (clamped to `Length`)
+- `TotalPages` — total number of pages (`ceil(Length / EachPageSize)`)
 - `IsPagingPossible` — `false` if items fit in a single page or input is invalid
 
 ## Functions

@@ -11,7 +11,7 @@ package pagingutil
 func GetPagingInfo(request PagingRequest) PagingInfo {
 	// Guard: invalid page size
 	if isPageSizeInvalid(request.EachPageSize) {
-		return PagingInfo{}
+		return PagingInfo{TotalPages: 0}
 	}
 
 	length := request.Length
@@ -22,6 +22,7 @@ func GetPagingInfo(request PagingRequest) PagingInfo {
 			PageIndex:        0,
 			SkipItems:        0,
 			EndingLength:     0,
+			TotalPages:       0,
 			IsPagingPossible: false,
 		}
 	}
@@ -32,6 +33,7 @@ func GetPagingInfo(request PagingRequest) PagingInfo {
 			PageIndex:        1,
 			SkipItems:        0,
 			EndingLength:     length,
+			TotalPages:       1,
 			IsPagingPossible: false,
 		}
 	}
@@ -50,6 +52,7 @@ func GetPagingInfo(request PagingRequest) PagingInfo {
 		PageIndex:        pageIndex,
 		SkipItems:        skipItems,
 		EndingLength:     endingIndex,
+		TotalPages:       totalPages,
 		IsPagingPossible: true,
 	}
 }

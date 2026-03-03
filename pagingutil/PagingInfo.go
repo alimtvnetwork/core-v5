@@ -1,6 +1,6 @@
 package pagingutil
 
 type PagingInfo struct {
-	PageIndex, SkipItems, EndingLength int
-	IsPagingPossible                   bool
+	PageIndex, SkipItems, EndingLength, TotalPages int
+	IsPagingPossible                               bool
 }
