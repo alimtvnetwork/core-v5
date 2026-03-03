@@ -79,8 +79,6 @@ func (it *newHashmapCreator) KeyValuesStrings(
 func (it *newHashmapCreator) UsingMap(
 	itemsMap map[string]string,
 ) *Hashmap {
-	length := len(itemsMap)
-
 	return &Hashmap{
 		items:         itemsMap,
 		hasMapUpdated: true,
