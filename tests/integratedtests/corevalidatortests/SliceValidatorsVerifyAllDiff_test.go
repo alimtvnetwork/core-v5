@@ -9,7 +9,6 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 var sliceValidatorsVerifyAllDiffTestCases = []coretestcases.CaseV1{
@@ -152,9 +151,7 @@ func Test_SliceValidators_VerifyAll_DiffOutput_Verification(t *testing.T) {
 			}
 		}
 
-		expectedLines := testCase.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

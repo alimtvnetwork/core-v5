@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_BytesOnce_Core(t *testing.T) {
@@ -30,10 +29,9 @@ func Test_BytesOnce_Core(t *testing.T) {
 			fmt.Sprintf("%v", once.Length()),
 			fmt.Sprintf("%v", val == nil),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -60,12 +58,9 @@ func Test_BytesOnce_Caching(t *testing.T) {
 			fmt.Sprintf("%d", callCount),
 			fmt.Sprintf("%v", string(once.Execute()) == string(once.Value())),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  CallCount: %d", callCount),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -95,10 +90,8 @@ func Test_BytesOnce_JSON(t *testing.T) {
 			}
 		}
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -112,9 +105,8 @@ func Test_BytesOnce_Constructor(t *testing.T) {
 		actLines := []string{
 			string(once.Value()),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

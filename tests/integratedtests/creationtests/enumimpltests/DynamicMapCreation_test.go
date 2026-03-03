@@ -28,9 +28,7 @@ func Test_DynamicMapCreationDiff(t *testing.T) {
 
 		// Assert - verify both diffs produce sorted key:value lines
 		actLines := dynamicMapToSortedLines(diffMap)
-		expectedLines := tc.ExpectedInput.([]string)
-
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 
 		// Assert - verify both diff methods produce equal raw maps
 		anotherLines := dynamicMapToSortedLines(enumimpl.DynamicMap(anotherDiff))
@@ -59,8 +57,7 @@ func Test_DynamicMapCreationDiffMessage(t *testing.T) {
 		actLines := coretests.GetAssert.ToStrings(diffJsonMessage)
 
 		// Assert
-		expectedLines := tc.ExpectedInput.([]string)
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -85,8 +82,7 @@ func Test_DynamicMapCreationDiffMessageV2(t *testing.T) {
 		)
 
 		// Assert
-		expectedLines := tc.ExpectedInput.([]string)
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 

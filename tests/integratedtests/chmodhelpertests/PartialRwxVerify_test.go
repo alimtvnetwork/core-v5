@@ -20,13 +20,8 @@ func Test_PartialRwxVerify(t *testing.T) {
 
 		// Act
 		actual := rwx.IsEqualPartialRwxPartial(fullRwx)
-		actLines := []string{fmt.Sprintf("%v", actual)}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines,
-			fmt.Sprintf("  Input 1 (partial): %s", partialRwx),
-			fmt.Sprintf("  Input 2 (full):    %s", fullRwx),
-		)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", actual))
 	}
 }

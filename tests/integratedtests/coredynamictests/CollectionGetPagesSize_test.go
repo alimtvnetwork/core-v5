@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_Collection_GetPagesSize_Verification(t *testing.T) {
@@ -26,12 +25,6 @@ func Test_Collection_GetPagesSize_Verification(t *testing.T) {
 		result := collection.GetPagesSize(eachPageSize)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(
-			t,
-			caseIndex,
-			testCase.Title,
-			[]string{fmt.Sprintf("%v", result)},
-			testCase.ExpectedInput.([]string),
-		)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
 	}
 }

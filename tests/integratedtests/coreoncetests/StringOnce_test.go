@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_StringOnce_Core(t *testing.T) {
@@ -22,12 +21,9 @@ func Test_StringOnce_Core(t *testing.T) {
 			fmt.Sprintf("%v", once.IsEmpty()),
 			fmt.Sprintf("%v", once.IsEmptyOrWhitespace()),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitValue: %q", tc.InitValue),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -53,12 +49,9 @@ func Test_StringOnce_Caching(t *testing.T) {
 			r3,
 			fmt.Sprintf("%d", callCount),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  CallCount: %d", callCount),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -96,12 +89,8 @@ func Test_StringOnce_Match(t *testing.T) {
 			}
 		}
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitValue: %q, MatchArg: %q", tc.InitValue, tc.MatchArg),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -132,12 +121,8 @@ func Test_StringOnce_Split(t *testing.T) {
 			actLines = []string{left, right}
 		}
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitValue: %q, Splitter: %q", tc.InitValue, tc.Splitter),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -155,11 +140,8 @@ func Test_StringOnce_Json(t *testing.T) {
 			fmt.Sprintf("%v", noError),
 			string(data),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  InitValue: %q, Error: %v", tc.InitValue, err),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

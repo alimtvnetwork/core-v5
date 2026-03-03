@@ -7,7 +7,6 @@ import (
 	"gitlab.com/auk-go/core/coreimpl/enumimpl"
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_DynamicMapDiff1(t *testing.T) {
@@ -31,9 +30,7 @@ func Test_DynamicMapDiff1(t *testing.T) {
 			constants.NewLineUnix,
 		)
 
-		expectedLines := tc.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

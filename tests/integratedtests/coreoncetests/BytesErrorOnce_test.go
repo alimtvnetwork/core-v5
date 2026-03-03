@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // =============================================================================
@@ -35,10 +34,9 @@ func Test_BytesErrorOnce_Core(t *testing.T) {
 			fmt.Sprintf("%v", once.IsNull()),
 			fmt.Sprintf("%v", once.IsDefined()),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -64,10 +62,9 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 				fmt.Sprintf("%v", val == nil),
 				err.Error(),
 			}
-			expectedLines := tc.Case.ExpectedInput.([]string)
 
 			// Assert
-			errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+			tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 
 			continue
 		}
@@ -90,12 +87,9 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 			fmt.Sprintf("%v", e2 == nil),
 			fmt.Sprintf("%d", callCount),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
-			fmt.Sprintf("  CallCount: %d", callCount),
-		)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -118,10 +112,9 @@ func Test_BytesErrorOnce_Execute(t *testing.T) {
 	actLines := []string{
 		fmt.Sprintf("%v", string(v1) == string(v2)),
 	}
-	expectedLines := tc.Case.ExpectedInput.([]string)
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+	tc.Case.ShouldBeEqual(t, 0, actLines...)
 }
 
 // =============================================================================
@@ -140,10 +133,9 @@ func Test_BytesErrorOnce_ValueOnly(t *testing.T) {
 	actLines := []string{
 		string(once.ValueOnly()),
 	}
-	expectedLines := tc.Case.ExpectedInput.([]string)
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+	tc.Case.ShouldBeEqual(t, 0, actLines...)
 }
 
 // =============================================================================
@@ -165,10 +157,9 @@ func Test_BytesErrorOnce_ValueWithError(t *testing.T) {
 		string(v),
 		fmt.Sprintf("%v", e == nil),
 	}
-	expectedLines := tc.Case.ExpectedInput.([]string)
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+	tc.Case.ShouldBeEqual(t, 0, actLines...)
 }
 
 // =============================================================================
@@ -193,10 +184,9 @@ func Test_BytesErrorOnce_ErrorState(t *testing.T) {
 			fmt.Sprintf("%v", once.IsInvalid()),
 			fmt.Sprintf("%v", once.IsFailed()),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -224,10 +214,9 @@ func Test_BytesErrorOnce_HasIssues(t *testing.T) {
 			fmt.Sprintf("%v", once.HasIssuesOrEmpty()),
 			fmt.Sprintf("%v", once.HasSafeItems()),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -249,10 +238,9 @@ func Test_BytesErrorOnce_String(t *testing.T) {
 			fmt.Sprintf("%v", once.IsStringEmpty()),
 			fmt.Sprintf("%v", once.IsStringEmptyOrWhitespace()),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -304,10 +292,8 @@ func Test_BytesErrorOnce_Deserialize(t *testing.T) {
 			}
 		}
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -330,10 +316,9 @@ func Test_BytesErrorOnce_MarshalJSON(t *testing.T) {
 		fmt.Sprintf("%v", err == nil),
 		string(data),
 	}
-	expectedLines := tc.Case.ExpectedInput.([]string)
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+	tc.Case.ShouldBeEqual(t, 0, actLines...)
 }
 
 // =============================================================================
@@ -355,10 +340,9 @@ func Test_BytesErrorOnce_Serialize(t *testing.T) {
 		fmt.Sprintf("%v", err == nil),
 		string(data),
 	}
-	expectedLines := tc.Case.ExpectedInput.([]string)
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+	tc.Case.ShouldBeEqual(t, 0, actLines...)
 }
 
 // =============================================================================
@@ -383,10 +367,8 @@ func Test_BytesErrorOnce_SerializeMust(t *testing.T) {
 			actLines = append(actLines, string(result))
 		}
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -409,10 +391,9 @@ func Test_BytesErrorOnce_Lifecycle(t *testing.T) {
 			fmt.Sprintf("%v", callPanics(func() { once.MustBeEmptyError() })),
 			fmt.Sprintf("%v", callPanics(func() { once.MustHaveSafeItems() })),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -437,10 +418,9 @@ func Test_BytesErrorOnce_IsInitialized(t *testing.T) {
 			fmt.Sprintf("%v", beforeInit),
 			fmt.Sprintf("%v", afterInit),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -462,9 +442,8 @@ func Test_BytesErrorOnce_Constructor(t *testing.T) {
 			string(v),
 			fmt.Sprintf("%v", e == nil),
 		}
-		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
