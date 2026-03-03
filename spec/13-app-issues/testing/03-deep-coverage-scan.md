@@ -59,7 +59,7 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | `codestack` | ✅ | `codestacktests/` | Has tests |
 | `creation` | ✅ | `creationtests/` | Has tests |
 | `versionindexes` | ✅ | `versionindexestests/` | Has tests |
-| `coredata/coreonce` | ✅ | `coreoncetests/` | Has tests (added Phase 1) |
+| `coredata/coreonce` | ✅ | `coreoncetests/` | Has tests (Phase 1 + BytesOnce/BytesErrorOnce) |
 | `reflectcore` | ❌ | — | **NO TESTS** |
 | `constants` | ❌ | — | Constants only (no logic) |
 | `cmdconsts` | ❌ | — | Constants only |
@@ -101,7 +101,8 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | `StringOnce.Value()` | HIGH | Once-only lazy evaluation; concurrent safety | First call, second call returns cached, concurrent calls |
 | `BoolOnce.Value()` | HIGH | Same pattern | True result, false result, nil func |
 | `ErrorOnce.Value()` | HIGH | Error caching — must not retry on error | Error result cached, nil error cached |
-| `BytesErrorOnce.Value()` | MEDIUM | Combined bytes + error | Valid bytes, error path |
+| `BytesErrorOnce.Value()` | ✅ DONE | Combined bytes + error | Caching, Deserialize edge cases, HasIssuesOrEmpty, nil guards, state queries (~38 tests) |
+| `BytesOnce.Value()` | ✅ DONE | Lazy byte caching | Caching, nil initializer, Length, IsEmpty, JSON, String (~17 tests) |
 
 #### 3. `issetter` — 6-Value Boolean Logic
 
@@ -171,7 +172,7 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 
 1. ~~**`issetter` logic methods** — 6-value boolean has the most complex branching~~ ✅ DONE (45 tests)
 2. ~~**`coredata/coredynamic` LeftRight + MapAnyItems** — equality and clone with nil guards~~ ✅ DONE (40 tests)
-3. ~~**`coredata/coreonce`** — lazy evaluation correctness (was only package with zero tests)~~ ✅ DONE (70 tests)
+3. ~~**`coredata/coreonce`** — lazy evaluation correctness (was only package with zero tests)~~ ✅ DONE (70 + 55 = 125 tests)
 4. ~~**`coreinstruction` IdentifiersWithGlobals + FromTo** — per existing roadmap~~ ✅ DONE (40 tests)
 5. **`coredata/coredynamic` Dynamic type system** — reflect-based operations
 6. **`coredata/coregeneric` LinkedList** — pointer manipulation edge cases
@@ -182,10 +183,11 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 |-------|---------|-----------|--------|
 | 1 | `issetter` logic methods | ~45 | ✅ DONE |
 | 1 | `coredynamic` LeftRight/MapAnyItems | ~40 | ✅ DONE |
-| 1 | `coreonce` lazy evaluation | ~70 | ✅ DONE |
+| 1 | `coreonce` lazy evaluation (StringOnce/BoolOnce/ErrorOnce/IntegerOnce) | ~70 | ✅ DONE |
+| 1 | `coreonce` BytesOnce + BytesErrorOnce | ~55 | ✅ DONE |
 | 1 | `coreinstruction` remaining | ~40 | ✅ DONE |
 | 2 | `coredynamic` Dynamic/CastedResult | ~10 | TODO |
 | 2 | `coregeneric` LinkedList/Hashmap | ~12 | TODO |
 | 2 | `corevalidator` validators | ~8 | TODO |
 | 3 | Remaining low-priority | ~10 | TODO |
-| **Total** | | **~235** | **Phase 1 complete** |
+| **Total** | | **~290** | **Phase 1 complete** |
