@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/chmodhelper"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
 )
 
@@ -17,20 +17,25 @@ func assertSingleChmod(
 	expectedChmodRwxFullString string,
 ) {
 	fileChmodMap := createPath.GetFilesChmodMap()
+	caseIndex := 0
+
 	for filePath, chmodValueString := range fileChmodMap.Items() {
-		convey.Convey(testHeader, t, func() {
-			isEqual := chmodValueString == expectedChmodRwxFullString
+		tc := coretestcases.CaseV1{
+			Title:         testHeader,
+			ExpectedInput: []string{expectedChmodRwxFullString},
+		}
 
-			if !isEqual {
-				fmt.Println(
-					errcore.Expecting(
-						filePath,
-						expectedChmodRwxFullString,
-						chmodValueString))
+		if chmodValueString != expectedChmodRwxFullString {
+			fmt.Println(
+				errcore.Expecting(
+					filePath,
+					expectedChmodRwxFullString,
+					chmodValueString,
+				),
+			)
+		}
 
-			}
-
-			convey.So(isEqual, convey.ShouldBeTrue)
-		})
+		tc.ShouldBeEqual(t, caseIndex, chmodValueString)
+		caseIndex++
 	}
 }
