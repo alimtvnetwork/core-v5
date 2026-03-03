@@ -31,10 +31,9 @@ func Test_NewTypedSimpleGenericRequest(t *testing.T) {
 			req.Data(),
 			fmt.Sprintf("%v", req.Request != nil),
 		}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -51,10 +50,9 @@ func Test_InvalidTypedSimpleGenericRequest(t *testing.T) {
 			fmt.Sprintf("%v", req.Attribute != nil),
 			fmt.Sprintf("%v", req.Request == nil),
 		}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -98,10 +96,9 @@ func Test_TypedSimpleGenericRequest_Validity(t *testing.T) {
 			fmt.Sprintf("%v", req.IsValid()),
 			fmt.Sprintf("%v", req.IsInvalid()),
 		}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -132,10 +129,9 @@ func Test_TypedSimpleGenericRequest_Message(t *testing.T) {
 			req.Message(),
 			fmt.Sprintf("%v", req.InvalidError() == nil),
 		}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -305,10 +301,9 @@ func Test_TypedSimpleGenericRequest_Clone(t *testing.T) {
 			fmt.Sprintf("%v", cloned.IsValid()),
 			fmt.Sprintf("%v", cloned != req),
 		}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -356,10 +351,9 @@ func Test_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
 			fmt.Sprintf("%v", tsgr.Attribute.IsValid),
 			tsgr.Message(),
 		}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -402,10 +396,9 @@ func Test_TypedResponse_TypedResponseResult(t *testing.T) {
 			fmt.Sprintf("%v", result.IsValid()),
 			result.Message(),
 		}
-		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
