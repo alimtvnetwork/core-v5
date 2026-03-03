@@ -331,31 +331,56 @@ func Test_LinkedList_String(t *testing.T) {
 // Test: IndexAt
 // ==========================================================================
 
-func Test_LinkedList_IndexAt(t *testing.T) {
-	for caseIndex, tc := range linkedListIndexAtTestCases {
-		var actLines []string
+func Test_LinkedList_IndexAt_Valid(t *testing.T) {
+	tc := linkedListIndexAtValidTestCase
+	ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
+	node := ll.IndexAt(1)
 
-		switch caseIndex {
-		case 0: // valid
-			ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
-			node := ll.IndexAt(1)
-			actLines = []string{fmt.Sprintf("%v", node != nil), node.Element}
-		case 1: // first
-			ll := coregeneric.LinkedListFrom([]int{10, 20})
-			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(0).Element)}
-		case 2: // last
-			ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
-			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(2).Element)}
-		case 3: // oob
-			ll := coregeneric.LinkedListFrom([]int{1, 2})
-			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(5) == nil), fmt.Sprintf("%v", ll.IndexAt(-1) == nil)}
-		case 4: // empty
-			ll := coregeneric.EmptyLinkedList[int]()
-			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(0) == nil)}
-		}
-
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+	actLines := []string{
+		fmt.Sprintf("%v", node != nil),
+		node.Element,
 	}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_LinkedList_IndexAt_First(t *testing.T) {
+	tc := linkedListIndexAtFirstTestCase
+	ll := coregeneric.LinkedListFrom([]int{10, 20})
+
+	actLines := []string{fmt.Sprintf("%v", ll.IndexAt(0).Element)}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_LinkedList_IndexAt_Last(t *testing.T) {
+	tc := linkedListIndexAtLastTestCase
+	ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
+
+	actLines := []string{fmt.Sprintf("%v", ll.IndexAt(2).Element)}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
+	tc := linkedListIndexAtOutOfBoundsTestCase
+	ll := coregeneric.LinkedListFrom([]int{1, 2})
+
+	actLines := []string{
+		fmt.Sprintf("%v", ll.IndexAt(5) == nil),
+		fmt.Sprintf("%v", ll.IndexAt(-1) == nil),
+	}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_LinkedList_IndexAt_Empty(t *testing.T) {
+	tc := linkedListIndexAtEmptyTestCase
+	ll := coregeneric.EmptyLinkedList[int]()
+
+	actLines := []string{fmt.Sprintf("%v", ll.IndexAt(0) == nil)}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================================================
