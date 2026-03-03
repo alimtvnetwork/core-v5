@@ -73,6 +73,27 @@ func Test_Example(t *testing.T) {
 }
 ```
 
+## Future: GenericGherkins
+
+A typed generic version of `SimpleGherkins` is proposed to replace untyped `args.Map` patterns:
+
+```go
+type GenericGherkins[TInput, TExpect any] struct {
+    Title, Feature, Given, When, Then string
+    Input      TInput
+    Expected   TExpect
+    Actual     TExpect
+    IsMatching bool
+    ExtraArgs  args.Map
+}
+
+type AnyGherkins = GenericGherkins[any, any]
+```
+
+**Key methods:** `IsFailedToMatch()`, `ShouldBeEqual(t, idx, act, exp)`, `CompareWith(other)`, `String()`, `FullString()`.
+
+See [Testing Guidelines — GenericGherkins Proposal](/spec/01-app/16-testing-guidelines.md#future-genericgherkins-proposal) for full design.
+
 ## Contributors
 
 ## Issues for Future Reference
