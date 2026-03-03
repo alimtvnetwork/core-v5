@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/issetter"
 )
 
@@ -186,18 +185,12 @@ func Test_Value_LazyEvaluateBool(t *testing.T) {
 		// Act
 		result := v.LazyEvaluateBool(func() { called = true })
 
-		actLines := []string{
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", called),
 			fmt.Sprintf("%v", result),
-		}
-
-		if called {
-			actLines = append(actLines, fmt.Sprintf("%v", v.IsTrue()))
-		}
-
-		// Assert
-		expectedLines := tc.ExpectedInput.([]string)
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+			fmt.Sprintf("%v", v.IsTrue()),
+		)
 	}
 }
 
@@ -211,17 +204,11 @@ func Test_Value_LazyEvaluateSet(t *testing.T) {
 		// Act
 		result := v.LazyEvaluateSet(func() { called = true })
 
-		actLines := []string{
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", called),
 			fmt.Sprintf("%v", result),
-		}
-
-		if called {
-			actLines = append(actLines, fmt.Sprintf("%v", v.IsSet()))
-		}
-
-		// Assert
-		expectedLines := tc.ExpectedInput.([]string)
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+			fmt.Sprintf("%v", v.IsSet()),
+		)
 	}
 }

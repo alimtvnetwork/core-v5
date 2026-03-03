@@ -570,7 +570,7 @@ var lazyEvaluateBoolTestCases = []coretestcases.CaseV1{
 			"expectCalled": false,
 			"expectResult": false,
 		},
-		ExpectedInput: []string{"false", "false"},
+		ExpectedInput: []string{"false", "false", "true"},
 	},
 	{
 		Title: "LazyEvaluateBool - already False skips func",
@@ -579,7 +579,7 @@ var lazyEvaluateBoolTestCases = []coretestcases.CaseV1{
 			"expectCalled": false,
 			"expectResult": false,
 		},
-		ExpectedInput: []string{"false", "false"},
+		ExpectedInput: []string{"false", "false", "false"},
 	},
 }
 
@@ -604,7 +604,7 @@ var lazyEvaluateSetTestCases = []coretestcases.CaseV1{
 			"expectCalled": false,
 			"expectResult": false,
 		},
-		ExpectedInput: []string{"false", "false"},
+		ExpectedInput: []string{"false", "false", "true"},
 	},
 	{
 		Title: "LazyEvaluateSet - already Unset skips func",
@@ -613,6 +613,6 @@ var lazyEvaluateSetTestCases = []coretestcases.CaseV1{
 			"expectCalled": false,
 			"expectResult": false,
 		},
-		ExpectedInput: []string{"false", "false"},
+		ExpectedInput: []string{"false", "false", "false"},
 	},
 }
