@@ -12,7 +12,7 @@ var valueOrZeroStringTestCases = []coretestcases.CaseV1{
 			"when":  "given nil string pointer",
 			"isNil": true,
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 	{
 		Title: "ValueOrZero with non-nil string pointer returns value",
@@ -30,7 +30,7 @@ var valueOrZeroStringTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": "",
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 }
 

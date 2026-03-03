@@ -391,8 +391,8 @@ func Test_TextValidator_VerifySimpleError_NilReceiver(t *testing.T) {
 
 func Test_TextValidator_MethodName(t *testing.T) {
 	v := corevalidator.TextValidator{SearchAs: stringcompareas.Contains}
-	if v.MethodName() != "Contains" {
-		t.Errorf("expected 'Contains', got '%s'", v.MethodName())
+	if v.MethodName() != "IsContains" {
+		t.Errorf("expected 'IsContains', got '%s'", v.MethodName())
 	}
 }
 

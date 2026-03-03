@@ -110,7 +110,7 @@ func Test_SliceValidators_VerifyAll_DiffOutput_Verification(t *testing.T) {
 			actLines = []string{
 				fmt.Sprintf("%v", err != nil),
 				fmt.Sprintf("%v", strings.Contains(errStr, header)),
-				fmt.Sprintf("%v", strings.Contains(errStr, "a") && strings.Contains(errStr, "failed")),
+				fmt.Sprintf("%v", strings.Contains(errStr, "Actual-Processed: `\"a\"`")),
 				fmt.Sprintf("%v", strings.Contains(errStr, "x")),
 				fmt.Sprintf("%v", strings.Contains(errStr, "y")),
 			}

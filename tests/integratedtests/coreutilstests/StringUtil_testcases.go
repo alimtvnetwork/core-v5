@@ -139,7 +139,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   0,
 			"end":     5,
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 	{
 		Title: "SafeSubstring returns from start with -1 end",
@@ -169,7 +169,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   5,
 			"end":     10,
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 }
 
@@ -325,7 +325,7 @@ var removeManyTestCases = []coretestcases.CaseV1{
 			"content": "",
 			"removes": []string{"anything"},
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 	{
 		Title: "RemoveMany no match leaves content unchanged",
@@ -361,7 +361,7 @@ var replaceWhiteSpacesToSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given whitespace only",
 			"input": "   \t\n  ",
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 	{
 		Title: "ReplaceWhiteSpacesToSingle preserves single-spaced text",

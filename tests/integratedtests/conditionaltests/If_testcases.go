@@ -34,7 +34,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "",
 			"falseValue": "fallback",
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 	{
 		Title: "If false with empty falseValue returns empty",
@@ -44,7 +44,7 @@ var ifStringTestCases = []coretestcases.CaseV1{
 			"trueValue":  "something",
 			"falseValue": "",
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 	{
 		Title: "If true with same values returns that value",
@@ -173,7 +173,7 @@ var ifTrueFuncStringTestCases = []coretestcases.CaseV1{
 			"isTrue":    false,
 			"trueValue": "computed",
 		},
-		ExpectedInput: "",
+		ExpectedInput: []string{""},
 	},
 }
 
