@@ -484,6 +484,10 @@ func (it *DynamicCollection) JsonResultsPtrCollection() *corejson.ResultsPtrColl
 func (it *DynamicCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
