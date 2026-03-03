@@ -4,60 +4,38 @@ import (
 	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
 )
 
-func verifyDefaultErr(t *testing.T, caseIndex int, title string, err error) {
-	isNotNil := fmt.Sprintf("%v", err != nil)
-	hasMessage := fmt.Sprintf("%v", err != nil && err.Error() != "")
+func Test_DefaultErr_AllSentinels(t *testing.T) {
+	errorMap := map[string]error{
+		"Marshalling":                       defaulterr.Marshalling,
+		"UnMarshalling":                     defaulterr.UnMarshalling,
+		"OutOfRange":                        defaulterr.OutOfRange,
+		"CannotProcessNilOrEmpty":           defaulterr.CannotProcessNilOrEmpty,
+		"NegativeDataCannotProcess":         defaulterr.NegativeDataCannotProcess,
+		"NilResult":                         defaulterr.NilResult,
+		"UnexpectedValue":                   defaulterr.UnexpectedValue,
+		"CannotRemoveFromEmptyCollection":   defaulterr.CannotRemoveFromEmptyCollection,
+		"MarshallingFailedDueToNilOrEmpty":  defaulterr.MarshallingFailedDueToNilOrEmpty,
+		"UnmarshallingFailedDueToNilOrEmpty": defaulterr.UnmarshallingFailedDueToNilOrEmpty,
+		"KeyNotExistInMap":                  defaulterr.KeyNotExistInMap,
+	}
 
-	actLines := []string{isNotNil, hasMessage}
-	expectedLines := []string{"true", "true"}
+	for caseIndex, tc := range defaultErrorTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		errorName, _ := input.GetAsString("error")
+		err := errorMap[errorName]
 
-	errcore.AssertDiffOnMismatch(t, caseIndex, title, actLines, expectedLines)
-}
+		// Act
+		isNotNil := fmt.Sprintf("%v", err != nil)
+		hasMessage := fmt.Sprintf("%v", err != nil && err.Error() != "")
 
-func Test_DefaultErr_Marshalling(t *testing.T) {
-	verifyDefaultErr(t, 0, "Marshalling error is not nil", defaulterr.Marshalling)
-}
+		actLines := []string{isNotNil, hasMessage}
 
-func Test_DefaultErr_UnMarshalling(t *testing.T) {
-	verifyDefaultErr(t, 0, "UnMarshalling error is not nil", defaulterr.UnMarshalling)
-}
-
-func Test_DefaultErr_OutOfRange(t *testing.T) {
-	verifyDefaultErr(t, 0, "OutOfRange error is not nil", defaulterr.OutOfRange)
-}
-
-func Test_DefaultErr_CannotProcessNilOrEmpty(t *testing.T) {
-	verifyDefaultErr(t, 0, "CannotProcessNilOrEmpty error is not nil", defaulterr.CannotProcessNilOrEmpty)
-}
-
-func Test_DefaultErr_NegativeDataCannotProcess(t *testing.T) {
-	verifyDefaultErr(t, 0, "NegativeDataCannotProcess error is not nil", defaulterr.NegativeDataCannotProcess)
-}
-
-func Test_DefaultErr_NilResult(t *testing.T) {
-	verifyDefaultErr(t, 0, "NilResult error is not nil", defaulterr.NilResult)
-}
-
-func Test_DefaultErr_UnexpectedValue(t *testing.T) {
-	verifyDefaultErr(t, 0, "UnexpectedValue error is not nil", defaulterr.UnexpectedValue)
-}
-
-func Test_DefaultErr_CannotRemoveFromEmptyCollection(t *testing.T) {
-	verifyDefaultErr(t, 0, "CannotRemoveFromEmptyCollection error is not nil", defaulterr.CannotRemoveFromEmptyCollection)
-}
-
-func Test_DefaultErr_MarshallingFailedDueToNilOrEmpty(t *testing.T) {
-	verifyDefaultErr(t, 0, "MarshallingFailedDueToNilOrEmpty error is not nil", defaulterr.MarshallingFailedDueToNilOrEmpty)
-}
-
-func Test_DefaultErr_UnmarshallingFailedDueToNilOrEmpty(t *testing.T) {
-	verifyDefaultErr(t, 0, "UnmarshallingFailedDueToNilOrEmpty error is not nil", defaulterr.UnmarshallingFailedDueToNilOrEmpty)
-}
-
-func Test_DefaultErr_KeyNotExistInMap(t *testing.T) {
-	verifyDefaultErr(t, 0, "KeyNotExistInMap error is not nil", defaulterr.KeyNotExistInMap)
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }

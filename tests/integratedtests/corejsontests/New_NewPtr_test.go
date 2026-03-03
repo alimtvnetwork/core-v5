@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================================================
@@ -14,7 +13,7 @@ import (
 // ==========================================================================
 
 func Test_New_Valid(t *testing.T) {
-	tc := newValidTestCases[0]
+	tc := newValidTestCase
 	result := corejson.New(struct {
 		Name string
 		Age  int
@@ -27,7 +26,8 @@ func Test_New_Valid(t *testing.T) {
 		fmt.Sprintf("%v", result.TypeName != ""),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	// Assert
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -35,7 +35,7 @@ func Test_New_Valid(t *testing.T) {
 // ==========================================================================
 
 func Test_New_Nil(t *testing.T) {
-	tc := newNilTestCases[0]
+	tc := newNilTestCase
 	result := corejson.New(nil)
 
 	actLines := []string{
@@ -43,7 +43,8 @@ func Test_New_Nil(t *testing.T) {
 		string(result.Bytes),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	// Assert
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -51,7 +52,7 @@ func Test_New_Nil(t *testing.T) {
 // ==========================================================================
 
 func Test_New_Channel(t *testing.T) {
-	tc := newChannelTestCases[0]
+	tc := newChannelTestCase
 	result := corejson.New(make(chan int))
 
 	actLines := []string{
@@ -59,7 +60,8 @@ func Test_New_Channel(t *testing.T) {
 		fmt.Sprintf("%v", strings.Contains(result.Error.Error(), "marshal")),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	// Assert
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -67,7 +69,7 @@ func Test_New_Channel(t *testing.T) {
 // ==========================================================================
 
 func Test_NewPtr_Valid(t *testing.T) {
-	tc := newPtrValidTestCases[0]
+	tc := newPtrValidTestCase
 	result := corejson.NewPtr(struct {
 		Name string
 		Age  int
@@ -80,7 +82,8 @@ func Test_NewPtr_Valid(t *testing.T) {
 		fmt.Sprintf("%v", len(result.Bytes) > 0),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	// Assert
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -88,7 +91,7 @@ func Test_NewPtr_Valid(t *testing.T) {
 // ==========================================================================
 
 func Test_NewPtr_Nil(t *testing.T) {
-	tc := newPtrNilTestCases[0]
+	tc := newPtrNilTestCase
 	result := corejson.NewPtr(nil)
 
 	actLines := []string{
@@ -97,7 +100,8 @@ func Test_NewPtr_Nil(t *testing.T) {
 		string(result.Bytes),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	// Assert
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -105,7 +109,7 @@ func Test_NewPtr_Nil(t *testing.T) {
 // ==========================================================================
 
 func Test_NewPtr_Channel(t *testing.T) {
-	tc := newPtrChannelTestCases[0]
+	tc := newPtrChannelTestCase
 	result := corejson.NewPtr(make(chan string))
 
 	actLines := []string{
@@ -114,5 +118,6 @@ func Test_NewPtr_Channel(t *testing.T) {
 		fmt.Sprintf("%v", strings.Contains(result.Error.Error(), "marshal")),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	// Assert
+	tc.ShouldBeEqual(t, 0, actLines...)
 }

@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_Result_Unmarshal_Valid(t *testing.T) {
@@ -27,7 +26,7 @@ func Test_Result_Unmarshal_Valid(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Result_Unmarshal_NilReceiver(t *testing.T) {
@@ -46,7 +45,7 @@ func Test_Result_Unmarshal_NilReceiver(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Result_Unmarshal_InvalidBytes(t *testing.T) {
@@ -65,7 +64,7 @@ func Test_Result_Unmarshal_InvalidBytes(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Result_Unmarshal_ExistingError(t *testing.T) {
@@ -85,5 +84,5 @@ func Test_Result_Unmarshal_ExistingError(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }

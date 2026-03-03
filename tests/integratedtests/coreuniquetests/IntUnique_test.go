@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coreunique/intunique"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_IntUnique_Get_RemovesDuplicates(t *testing.T) {
@@ -26,7 +25,7 @@ func Test_IntUnique_Get_RemovesDuplicates(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_IntUnique_Get_AlreadyUnique(t *testing.T) {
@@ -46,7 +45,7 @@ func Test_IntUnique_Get_AlreadyUnique(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_IntUnique_Get_Nil(t *testing.T) {
@@ -59,5 +58,5 @@ func Test_IntUnique_Get_Nil(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
