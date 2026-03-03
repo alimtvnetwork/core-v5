@@ -2,16 +2,14 @@ package chmodhelpertests
 
 import (
 	"fmt"
-	"log"
 	"testing"
 
-	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_RwxCompileValue(t *testing.T) {
-	for _, testCase := range chmodhelpertestwrappers.RwxCompileValueTestCases {
+	for caseIndex, testCase := range rwxCompileValueTestCases {
 		// Arrange
 		existingRwxWrapper, _ :=
 			chmodhelper.ParseRwxOwnerGroupOtherToRwxVariableWrapper(
@@ -21,19 +19,10 @@ func Test_RwxCompileValue(t *testing.T) {
 			chmodhelper.ParseRwxOwnerGroupOtherToRwxVariableWrapper(
 				&testCase.Expected,
 			)
-		existing := testCase.Existing.ToString(false)
-		input := testCase.Input.ToString(false)
-		expected := testCase.Expected.ToString(false)
+
 		expectedFullRwx := expectedVariableWrapper.
 			ToCompileFixedPtr().
 			ToFullRwxValueString()
-
-		header := fmt.Sprintf(
-			"Existing [%s] Applied by [%s] should result [%s]",
-			existing,
-			input,
-			expected,
-		)
 
 		// Act
 		actualVarWrapper, _ :=
@@ -44,15 +33,39 @@ func Test_RwxCompileValue(t *testing.T) {
 			ToCompileWrapper(existingRwxWrapper.ToCompileFixedPtr())
 		actualFullRwx := actualRwxWrapper.ToFullRwxValueString()
 
-		// Assert
-		convey.Convey(
-			header, t, func() {
-				if actualFullRwx != expectedFullRwx {
-					log.Println(header)
-				}
+		actLines := []string{actualFullRwx}
+		expectedLines := []string{expectedFullRwx}
 
-				convey.So(actualFullRwx, convey.ShouldEqual, expectedFullRwx)
-			},
-		)
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== RwxCompileValue Diff (Case %d: %s) ===\n",
+				caseIndex,
+				testCase.Case.Title,
+			)
+
+			existing := testCase.Existing.ToString(false)
+			input := testCase.Input.ToString(false)
+			expected := testCase.Expected.ToString(false)
+
+			fmt.Printf("  Existing: %s\n", existing)
+			fmt.Printf("  Input:    %s\n", input)
+			fmt.Printf("  Expected: %s\n", expected)
+
+			errcore.PrintLineDiff(
+				caseIndex,
+				testCase.Case.Title,
+				actLines,
+				expectedLines,
+			)
+
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		caseV1 := testCase.Case
+		caseV1.ExpectedInput = expectedLines
+
+		caseV1.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
