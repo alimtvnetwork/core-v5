@@ -639,7 +639,7 @@ func (it *RwxWrapper) applyLinuxChmodRecursiveManyContinueOnError(
 		}
 	}
 
-	return errcore.SliceToErrorPtr(&errSlice)
+	return errcore.SliceToErrorPtr(errSlice)
 }
 
 func (it *RwxWrapper) applyLinuxChmodNonRecursiveManyContinueOnError(
@@ -659,7 +659,7 @@ func (it *RwxWrapper) applyLinuxChmodNonRecursiveManyContinueOnError(
 		}
 	}
 
-	return errcore.SliceToErrorPtr(&errSlice)
+	return errcore.SliceToErrorPtr(errSlice)
 }
 
 // IsEqualVarWrapper if rwxVariableWrapper nil then returns false
