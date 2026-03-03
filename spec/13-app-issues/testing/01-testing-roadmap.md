@@ -4,7 +4,7 @@
 
 ## Summary
 
-This document outlined the prioritized plan for achieving full integration test coverage across all packages. **All phases are now complete**, with ~788 new test cases added through the deep coverage scan initiative.
+This document outlined the prioritized plan for achieving full integration test coverage across all packages. **All phases are now complete**, with ~870 new test cases added through the deep coverage scan initiative.
 
 ---
 
@@ -54,7 +54,7 @@ This document outlined the prioritized plan for achieving full integration test 
 - `coreinstruction` — 40 tests (IdentifiersWithGlobals, FromTo)
 - `coregeneric` — 175 tests (LinkedList, Hashmap, Hashset, functional ops)
 - `corestr` — 115 tests (Hashset, Hashmap, bug 42 caching verification)
-- `corevalidator` — 126 tests (TextValidator, LineValidator, SliceValidator, LinesValidators)
+- `corevalidator` — 208 tests (Parameter, TextValidator, LineValidator, SliceValidator, SliceValidators, SimpleSliceValidator, LinesValidators, BaseLinesValidators)
 
 ---
 
@@ -95,7 +95,7 @@ The deep coverage scan initiative (documented in `03-deep-coverage-scan.md`) sys
 
 | Metric | Value |
 |--------|-------|
-| **New test cases added** | ~788 |
+| **New test cases added** | ~870 |
 | **Packages with logic covered** | 100% |
 | **Bugs found during testing** | 1 (`BytesErrorOnce.Deserialize` silent failure) |
 | **Phases completed** | 4/4 |
