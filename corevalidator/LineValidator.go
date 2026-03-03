@@ -151,7 +151,7 @@ func (it *LineValidator) AllVerifyError(
 		)
 
 		if err != nil {
-			return err
+			sliceErr = append(sliceErr, err.Error())
 		}
 	}
 
