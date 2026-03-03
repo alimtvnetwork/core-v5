@@ -1,106 +1,79 @@
 package corejsontests
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// Test_New_ValidStruct — New with a valid struct produces bytes and no error
-func Test_New_ValidStruct(t *testing.T) {
-	// Arrange
-	input := struct {
-		Name string
-		Age  int
-	}{Name: "Alice", Age: 30}
-
-	// Act
-	result := corejson.New(input)
-
-	// Assert
-	convey.Convey("New - valid struct should produce bytes and no error", t, func() {
-		convey.So(result.HasError(), should.BeFalse)
-		convey.So(result.IsEmpty(), should.BeFalse)
-		convey.So(len(result.Bytes), should.BeGreaterThan, 0)
-		convey.So(result.TypeName, should.NotBeEmpty)
-	})
+var newNewPtrTestCases = []coretestcases.CaseV1{
+	{Title: "New - valid struct produces bytes no error", ArrangeInput: args.Map{"case": "new-valid"}, ExpectedInput: []string{"false", "false", "true", "true"}},
+	{Title: "New - nil input produces null bytes", ArrangeInput: args.Map{"case": "new-nil"}, ExpectedInput: []string{"false", "null"}},
+	{Title: "New - channel produces error", ArrangeInput: args.Map{"case": "new-channel"}, ExpectedInput: []string{"true", "true"}},
+	{Title: "NewPtr - valid struct produces non-nil result", ArrangeInput: args.Map{"case": "newptr-valid"}, ExpectedInput: []string{"true", "false", "false", "true"}},
+	{Title: "NewPtr - nil input produces null bytes", ArrangeInput: args.Map{"case": "newptr-nil"}, ExpectedInput: []string{"true", "false", "null"}},
+	{Title: "NewPtr - channel produces error", ArrangeInput: args.Map{"case": "newptr-channel"}, ExpectedInput: []string{"true", "true", "true"}},
 }
 
-// Test_New_NilInput — New with nil input produces valid JSON "null"
-func Test_New_NilInput(t *testing.T) {
-	// Arrange / Act
-	result := corejson.New(nil)
+func Test_New_NewPtr_Verification(t *testing.T) {
+	for caseIndex, tc := range newNewPtrTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		caseType := input["case"].(string)
 
-	// Assert
-	convey.Convey("New - nil input should produce JSON null bytes without error", t, func() {
-		convey.So(result.HasError(), should.BeFalse)
-		convey.So(string(result.Bytes), should.Equal, "null")
-	})
-}
+		var actLines []string
 
-// Test_New_UnmarshalableType — New with a channel produces an error
-func Test_New_UnmarshalableType(t *testing.T) {
-	// Arrange
-	ch := make(chan int)
+		// Act
+		switch caseType {
+		case "new-valid":
+			result := corejson.New(struct {
+				Name string
+				Age  int
+			}{Name: "Alice", Age: 30})
+			actLines = []string{
+				fmt.Sprintf("%v", result.HasError()),
+				fmt.Sprintf("%v", result.IsEmpty()),
+				fmt.Sprintf("%v", len(result.Bytes) > 0),
+				fmt.Sprintf("%v", result.TypeName != ""),
+			}
+		case "new-nil":
+			result := corejson.New(nil)
+			actLines = []string{fmt.Sprintf("%v", result.HasError()), string(result.Bytes)}
+		case "new-channel":
+			result := corejson.New(make(chan int))
+			actLines = []string{fmt.Sprintf("%v", result.HasError()), fmt.Sprintf("%v", strings.Contains(result.Error.Error(), "marshal"))}
+		case "newptr-valid":
+			result := corejson.NewPtr(struct {
+				Name string
+				Age  int
+			}{Name: "Bob", Age: 25})
+			actLines = []string{
+				fmt.Sprintf("%v", result != nil),
+				fmt.Sprintf("%v", result.HasError()),
+				fmt.Sprintf("%v", result.IsEmpty()),
+				fmt.Sprintf("%v", len(result.Bytes) > 0),
+			}
+		case "newptr-nil":
+			result := corejson.NewPtr(nil)
+			actLines = []string{fmt.Sprintf("%v", result != nil), fmt.Sprintf("%v", result.HasError()), string(result.Bytes)}
+		case "newptr-channel":
+			result := corejson.NewPtr(make(chan string))
+			actLines = []string{
+				fmt.Sprintf("%v", result != nil),
+				fmt.Sprintf("%v", result.HasError()),
+				fmt.Sprintf("%v", strings.Contains(result.Error.Error(), "marshal")),
+			}
+		}
 
-	// Act
-	result := corejson.New(ch)
+		expectedLines := tc.ExpectedInput.([]string)
 
-	// Assert
-	convey.Convey("New - channel input should produce marshalling error", t, func() {
-		convey.So(result.HasError(), should.BeTrue)
-		convey.So(result.Error.Error(), should.ContainSubstring, "marshal")
-	})
-}
-
-// Test_NewPtr_ValidStruct — NewPtr with a valid struct produces pointer result
-func Test_NewPtr_ValidStruct(t *testing.T) {
-	// Arrange
-	input := struct {
-		Name string
-		Age  int
-	}{Name: "Bob", Age: 25}
-
-	// Act
-	result := corejson.NewPtr(input)
-
-	// Assert
-	convey.Convey("NewPtr - valid struct should produce non-nil result with bytes", t, func() {
-		convey.So(result, should.NotBeNil)
-		convey.So(result.HasError(), should.BeFalse)
-		convey.So(result.IsEmpty(), should.BeFalse)
-		convey.So(len(result.Bytes), should.BeGreaterThan, 0)
-	})
-}
-
-// Test_NewPtr_NilInput — NewPtr with nil produces JSON "null"
-func Test_NewPtr_NilInput(t *testing.T) {
-	// Arrange / Act
-	result := corejson.NewPtr(nil)
-
-	// Assert
-	convey.Convey("NewPtr - nil input should produce JSON null bytes without error", t, func() {
-		convey.So(result, should.NotBeNil)
-		convey.So(result.HasError(), should.BeFalse)
-		convey.So(string(result.Bytes), should.Equal, "null")
-	})
-}
-
-// Test_NewPtr_UnmarshalableType — NewPtr with a channel produces an error
-func Test_NewPtr_UnmarshalableType(t *testing.T) {
-	// Arrange
-	ch := make(chan string)
-
-	// Act
-	result := corejson.NewPtr(ch)
-
-	// Assert
-	convey.Convey("NewPtr - channel input should produce marshalling error", t, func() {
-		convey.So(result, should.NotBeNil)
-		convey.So(result.HasError(), should.BeTrue)
-		convey.So(result.Error.Error(), should.ContainSubstring, "marshal")
-	})
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }

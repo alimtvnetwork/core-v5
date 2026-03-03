@@ -1,85 +1,50 @@
 package corejsontests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// Test_Result_IsEqual_SameContent — IsEqual returns true for identical content
-func Test_Result_IsEqual_SameContent(t *testing.T) {
-	// Arrange
-	data := map[string]string{"key": "value"}
-	resultA := corejson.New(data)
-	resultB := corejson.New(data)
-
-	// Act
-	isEqual := resultA.IsEqual(resultB)
-
-	// Assert
-	convey.Convey("IsEqual - same content should return true", t, func() {
-		convey.So(isEqual, should.BeTrue)
-	})
+var resultIsEqualTestCases = []coretestcases.CaseV1{
+	{Title: "IsEqual - same content returns true", ArrangeInput: args.Map{"method": "IsEqual", "a": corejson.New(map[string]string{"key": "value"}), "b": corejson.New(map[string]string{"key": "value"})}, ExpectedInput: []string{"true"}},
+	{Title: "IsEqual - different content returns false", ArrangeInput: args.Map{"method": "IsEqual", "a": corejson.New(map[string]string{"key": "a"}), "b": corejson.New(map[string]string{"key": "b"})}, ExpectedInput: []string{"false"}},
+	{Title: "IsEqualPtr - both nil returns true", ArrangeInput: args.Map{"method": "IsEqualPtr", "aPtr": (*corejson.Result)(nil), "bPtr": (*corejson.Result)(nil)}, ExpectedInput: []string{"true"}},
+	{Title: "IsEqualPtr - one nil returns false", ArrangeInput: args.Map{"method": "IsEqualPtrOneNil", "aPtr": corejson.NewPtr(map[string]string{"k": "v"}), "bPtr": (*corejson.Result)(nil)}, ExpectedInput: []string{"false"}},
 }
 
-// Test_Result_IsEqual_DifferentContent — IsEqual returns false for different bytes
-func Test_Result_IsEqual_DifferentContent(t *testing.T) {
-	// Arrange
-	resultA := corejson.New(map[string]string{"key": "a"})
-	resultB := corejson.New(map[string]string{"key": "b"})
+func Test_Result_IsEqual_Verification(t *testing.T) {
+	for caseIndex, tc := range resultIsEqualTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		method := input["method"].(string)
 
-	// Act
-	isEqual := resultA.IsEqual(resultB)
+		var actLines []string
 
-	// Assert
-	convey.Convey("IsEqual - different content should return false", t, func() {
-		convey.So(isEqual, should.BeFalse)
-	})
-}
+		// Act
+		switch method {
+		case "IsEqual":
+			a := input["a"].(corejson.Result)
+			b := input["b"].(corejson.Result)
+			actLines = []string{fmt.Sprintf("%v", a.IsEqual(b))}
+		case "IsEqualPtr":
+			a := input["aPtr"].(*corejson.Result)
+			b := input["bPtr"].(*corejson.Result)
+			actLines = []string{fmt.Sprintf("%v", a.IsEqualPtr(b))}
+		case "IsEqualPtrOneNil":
+			a := input["aPtr"].(*corejson.Result)
+			b := input["bPtr"].(*corejson.Result)
+			actLines = []string{fmt.Sprintf("%v", a.IsEqualPtr(b))}
+		}
 
-// Test_Result_IsEqualPtr_BothNil — IsEqualPtr returns true when both nil
-func Test_Result_IsEqualPtr_BothNil(t *testing.T) {
-	// Arrange
-	var a *corejson.Result
-	var b *corejson.Result
+		expectedLines := tc.ExpectedInput.([]string)
 
-	// Act
-	isEqual := a.IsEqualPtr(b)
-
-	// Assert
-	convey.Convey("IsEqualPtr - both nil should return true", t, func() {
-		convey.So(isEqual, should.BeTrue)
-	})
-}
-
-// Test_Result_IsEqualPtr_OneNil — IsEqualPtr returns false when one is nil
-func Test_Result_IsEqualPtr_OneNil(t *testing.T) {
-	// Arrange
-	result := corejson.NewPtr(map[string]string{"k": "v"})
-	var nilResult *corejson.Result
-
-	// Act
-	isEqual := result.IsEqualPtr(nilResult)
-
-	// Assert
-	convey.Convey("IsEqualPtr - one nil should return false", t, func() {
-		convey.So(isEqual, should.BeFalse)
-	})
-}
-
-// Test_Result_IsEqualPtr_SamePointer — IsEqualPtr returns true for same pointer
-func Test_Result_IsEqualPtr_SamePointer(t *testing.T) {
-	// Arrange
-	result := corejson.NewPtr(map[string]string{"k": "v"})
-
-	// Act
-	isEqual := result.IsEqualPtr(result)
-
-	// Assert
-	convey.Convey("IsEqualPtr - same pointer should return true", t, func() {
-		convey.So(isEqual, should.BeTrue)
-	})
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }

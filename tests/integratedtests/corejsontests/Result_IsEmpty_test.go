@@ -1,52 +1,33 @@
 package corejsontests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// Test_Result_IsEmpty_EmptyBytes — IsEmpty returns true for empty bytes
-func Test_Result_IsEmpty_EmptyBytes(t *testing.T) {
-	// Arrange
-	result := corejson.NewResult.UsingBytes([]byte{})
-
-	// Act
-	isEmpty := result.IsEmpty()
-
-	// Assert
-	convey.Convey("IsEmpty - empty bytes should return true", t, func() {
-		convey.So(isEmpty, should.BeTrue)
-	})
+var resultIsEmptyTestCases = []coretestcases.CaseV1{
+	{Title: "IsEmpty - empty bytes returns true", ArrangeInput: args.Map{"result": corejson.NewResult.UsingBytes([]byte{})}, ExpectedInput: []string{"true"}},
+	{Title: "IsEmpty - nil receiver returns true", ArrangeInput: args.Map{"result": (*corejson.Result)(nil)}, ExpectedInput: []string{"true"}},
+	{Title: "IsEmpty - valid bytes returns false", ArrangeInput: args.Map{"result": func() *corejson.Result { r := corejson.New(map[string]string{"key": "value"}); return &r }()}, ExpectedInput: []string{"false"}},
 }
 
-// Test_Result_IsEmpty_NilReceiver — IsEmpty returns true for nil receiver
-func Test_Result_IsEmpty_NilReceiver(t *testing.T) {
-	// Arrange
-	var nilResult *corejson.Result
+func Test_Result_IsEmpty_Verification(t *testing.T) {
+	for caseIndex, tc := range resultIsEmptyTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		result := input["result"].(*corejson.Result)
 
-	// Act
-	isEmpty := nilResult.IsEmpty()
+		// Act
+		actLines := []string{fmt.Sprintf("%v", result.IsEmpty())}
+		expectedLines := tc.ExpectedInput.([]string)
 
-	// Assert
-	convey.Convey("IsEmpty - nil receiver should return true", t, func() {
-		convey.So(isEmpty, should.BeTrue)
-	})
-}
-
-// Test_Result_IsEmpty_ValidBytes — IsEmpty returns false for valid bytes
-func Test_Result_IsEmpty_ValidBytes(t *testing.T) {
-	// Arrange
-	result := corejson.New(map[string]string{"key": "value"})
-
-	// Act
-	isEmpty := result.IsEmpty()
-
-	// Assert
-	convey.Convey("IsEmpty - valid bytes should return false", t, func() {
-		convey.So(isEmpty, should.BeFalse)
-	})
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }

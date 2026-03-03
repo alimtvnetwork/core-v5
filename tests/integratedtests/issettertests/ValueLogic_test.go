@@ -1,443 +1,229 @@
 package issettertests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	convey "github.com/smartystreets/goconvey/convey"
-
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/issetter"
 )
 
 // =============================================================================
-// IsOnLogically / IsOffLogically — compound checks: IsInitialized() && trueMap/falseMap
+// Test Cases
 // =============================================================================
 
-func Test_Value_IsOnLogically_Uninitialized(t *testing.T) {
-	// Arrange & Act & Assert
-	convey.Convey("IsOnLogically - Uninitialized should return false", t, func() {
-		convey.So(issetter.Uninitialized.IsOnLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsOnLogically_True(t *testing.T) {
-	convey.Convey("IsOnLogically - True should return true", t, func() {
-		convey.So(issetter.True.IsOnLogically(), should.BeTrue)
-	})
-}
-
-func Test_Value_IsOnLogically_False(t *testing.T) {
-	convey.Convey("IsOnLogically - False should return false", t, func() {
-		convey.So(issetter.False.IsOnLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsOnLogically_Unset(t *testing.T) {
-	convey.Convey("IsOnLogically - Unset should return false", t, func() {
-		convey.So(issetter.Unset.IsOnLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsOnLogically_Set(t *testing.T) {
-	convey.Convey("IsOnLogically - Set should return true", t, func() {
-		convey.So(issetter.Set.IsOnLogically(), should.BeTrue)
-	})
-}
-
-func Test_Value_IsOnLogically_Wildcard(t *testing.T) {
-	convey.Convey("IsOnLogically - Wildcard should return false (not in trueMap)", t, func() {
-		convey.So(issetter.Wildcard.IsOnLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsOffLogically_Uninitialized(t *testing.T) {
-	convey.Convey("IsOffLogically - Uninitialized should return false (not initialized)", t, func() {
-		convey.So(issetter.Uninitialized.IsOffLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsOffLogically_True(t *testing.T) {
-	convey.Convey("IsOffLogically - True should return false", t, func() {
-		convey.So(issetter.True.IsOffLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsOffLogically_False(t *testing.T) {
-	convey.Convey("IsOffLogically - False should return true", t, func() {
-		convey.So(issetter.False.IsOffLogically(), should.BeTrue)
-	})
-}
-
-func Test_Value_IsOffLogically_Unset(t *testing.T) {
-	convey.Convey("IsOffLogically - Unset should return true", t, func() {
-		convey.So(issetter.Unset.IsOffLogically(), should.BeTrue)
-	})
-}
-
-func Test_Value_IsOffLogically_Set(t *testing.T) {
-	convey.Convey("IsOffLogically - Set should return false", t, func() {
-		convey.So(issetter.Set.IsOffLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsOffLogically_Wildcard(t *testing.T) {
-	convey.Convey("IsOffLogically - Wildcard should return false (not in falseMap)", t, func() {
-		convey.So(issetter.Wildcard.IsOffLogically(), should.BeFalse)
-	})
+var valueLogicTestCases = []coretestcases.CaseV1{
+	// IsOnLogically
+	{Title: "IsOnLogically - Uninitialized returns false", ArrangeInput: args.Map{"method": "IsOnLogically", "value": issetter.Uninitialized}, ExpectedInput: []string{"false"}},
+	{Title: "IsOnLogically - True returns true", ArrangeInput: args.Map{"method": "IsOnLogically", "value": issetter.True}, ExpectedInput: []string{"true"}},
+	{Title: "IsOnLogically - False returns false", ArrangeInput: args.Map{"method": "IsOnLogically", "value": issetter.False}, ExpectedInput: []string{"false"}},
+	{Title: "IsOnLogically - Unset returns false", ArrangeInput: args.Map{"method": "IsOnLogically", "value": issetter.Unset}, ExpectedInput: []string{"false"}},
+	{Title: "IsOnLogically - Set returns true", ArrangeInput: args.Map{"method": "IsOnLogically", "value": issetter.Set}, ExpectedInput: []string{"true"}},
+	{Title: "IsOnLogically - Wildcard returns false", ArrangeInput: args.Map{"method": "IsOnLogically", "value": issetter.Wildcard}, ExpectedInput: []string{"false"}},
+	// IsOffLogically
+	{Title: "IsOffLogically - Uninitialized returns false", ArrangeInput: args.Map{"method": "IsOffLogically", "value": issetter.Uninitialized}, ExpectedInput: []string{"false"}},
+	{Title: "IsOffLogically - True returns false", ArrangeInput: args.Map{"method": "IsOffLogically", "value": issetter.True}, ExpectedInput: []string{"false"}},
+	{Title: "IsOffLogically - False returns true", ArrangeInput: args.Map{"method": "IsOffLogically", "value": issetter.False}, ExpectedInput: []string{"true"}},
+	{Title: "IsOffLogically - Unset returns true", ArrangeInput: args.Map{"method": "IsOffLogically", "value": issetter.Unset}, ExpectedInput: []string{"true"}},
+	{Title: "IsOffLogically - Set returns false", ArrangeInput: args.Map{"method": "IsOffLogically", "value": issetter.Set}, ExpectedInput: []string{"false"}},
+	{Title: "IsOffLogically - Wildcard returns false", ArrangeInput: args.Map{"method": "IsOffLogically", "value": issetter.Wildcard}, ExpectedInput: []string{"false"}},
+	// WildcardApply
+	{Title: "WildcardApply - Wildcard passes through true", ArrangeInput: args.Map{"method": "WildcardApply", "value": issetter.Wildcard, "input": true}, ExpectedInput: []string{"true"}},
+	{Title: "WildcardApply - Wildcard passes through false", ArrangeInput: args.Map{"method": "WildcardApply", "value": issetter.Wildcard, "input": false}, ExpectedInput: []string{"false"}},
+	{Title: "WildcardApply - Uninitialized passes through true", ArrangeInput: args.Map{"method": "WildcardApply", "value": issetter.Uninitialized, "input": true}, ExpectedInput: []string{"true"}},
+	{Title: "WildcardApply - Unset passes through false", ArrangeInput: args.Map{"method": "WildcardApply", "value": issetter.Unset, "input": false}, ExpectedInput: []string{"false"}},
+	{Title: "WildcardApply - True ignores input returns true", ArrangeInput: args.Map{"method": "WildcardApply", "value": issetter.True, "input": false}, ExpectedInput: []string{"true"}},
+	{Title: "WildcardApply - False ignores input returns false", ArrangeInput: args.Map{"method": "WildcardApply", "value": issetter.False, "input": true}, ExpectedInput: []string{"false"}},
+	{Title: "WildcardApply - Set ignores input returns false", ArrangeInput: args.Map{"method": "WildcardApply", "value": issetter.Set, "input": true}, ExpectedInput: []string{"false"}},
+	// IsWildcardOrBool
+	{Title: "IsWildcardOrBool - Wildcard always true", ArrangeInput: args.Map{"method": "IsWildcardOrBool", "value": issetter.Wildcard, "input": false}, ExpectedInput: []string{"true"}},
+	{Title: "IsWildcardOrBool - True with true", ArrangeInput: args.Map{"method": "IsWildcardOrBool", "value": issetter.True, "input": true}, ExpectedInput: []string{"true"}},
+	{Title: "IsWildcardOrBool - False with false", ArrangeInput: args.Map{"method": "IsWildcardOrBool", "value": issetter.False, "input": false}, ExpectedInput: []string{"false"}},
+	// ToByteCondition
+	{Title: "ToByteCondition - True returns trueVal", ArrangeInput: args.Map{"method": "ToByteCondition", "value": issetter.True, "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"10"}},
+	{Title: "ToByteCondition - False returns falseVal", ArrangeInput: args.Map{"method": "ToByteCondition", "value": issetter.False, "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"20"}},
+	{Title: "ToByteCondition - Uninitialized returns invalid", ArrangeInput: args.Map{"method": "ToByteCondition", "value": issetter.Uninitialized, "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"255"}},
+	{Title: "ToByteCondition - Set returns invalid", ArrangeInput: args.Map{"method": "ToByteCondition", "value": issetter.Set, "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"255"}},
+	{Title: "ToByteCondition - Wildcard returns invalid", ArrangeInput: args.Map{"method": "ToByteCondition", "value": issetter.Wildcard, "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"255"}},
+	// ToByteConditionWithWildcard
+	{Title: "ToByteConditionWithWildcard - Wildcard returns wildcard byte", ArrangeInput: args.Map{"method": "ToByteConditionWithWildcard", "value": issetter.Wildcard, "wildcardVal": byte(99), "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"99"}},
+	{Title: "ToByteConditionWithWildcard - True returns trueVal", ArrangeInput: args.Map{"method": "ToByteConditionWithWildcard", "value": issetter.True, "wildcardVal": byte(99), "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"10"}},
+	{Title: "ToByteConditionWithWildcard - False returns falseVal", ArrangeInput: args.Map{"method": "ToByteConditionWithWildcard", "value": issetter.False, "wildcardVal": byte(99), "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"20"}},
+	{Title: "ToByteConditionWithWildcard - Uninitialized returns invalid", ArrangeInput: args.Map{"method": "ToByteConditionWithWildcard", "value": issetter.Uninitialized, "wildcardVal": byte(99), "trueVal": byte(10), "falseVal": byte(20), "invalidVal": byte(255)}, ExpectedInput: []string{"255"}},
+	// IsDefinedLogically
+	{Title: "IsDefinedLogically - Uninitialized false", ArrangeInput: args.Map{"method": "IsDefinedLogically", "value": issetter.Uninitialized}, ExpectedInput: []string{"false"}},
+	{Title: "IsDefinedLogically - True true", ArrangeInput: args.Map{"method": "IsDefinedLogically", "value": issetter.True}, ExpectedInput: []string{"true"}},
+	{Title: "IsDefinedLogically - False true", ArrangeInput: args.Map{"method": "IsDefinedLogically", "value": issetter.False}, ExpectedInput: []string{"true"}},
+	{Title: "IsDefinedLogically - Unset true", ArrangeInput: args.Map{"method": "IsDefinedLogically", "value": issetter.Unset}, ExpectedInput: []string{"true"}},
+	{Title: "IsDefinedLogically - Set true", ArrangeInput: args.Map{"method": "IsDefinedLogically", "value": issetter.Set}, ExpectedInput: []string{"true"}},
+	{Title: "IsDefinedLogically - Wildcard false", ArrangeInput: args.Map{"method": "IsDefinedLogically", "value": issetter.Wildcard}, ExpectedInput: []string{"false"}},
+	// IsUndefinedLogically
+	{Title: "IsUndefinedLogically - Uninitialized true", ArrangeInput: args.Map{"method": "IsUndefinedLogically", "value": issetter.Uninitialized}, ExpectedInput: []string{"true"}},
+	{Title: "IsUndefinedLogically - True false", ArrangeInput: args.Map{"method": "IsUndefinedLogically", "value": issetter.True}, ExpectedInput: []string{"false"}},
+	{Title: "IsUndefinedLogically - False false", ArrangeInput: args.Map{"method": "IsUndefinedLogically", "value": issetter.False}, ExpectedInput: []string{"false"}},
+	{Title: "IsUndefinedLogically - Unset false", ArrangeInput: args.Map{"method": "IsUndefinedLogically", "value": issetter.Unset}, ExpectedInput: []string{"false"}},
+	{Title: "IsUndefinedLogically - Set false", ArrangeInput: args.Map{"method": "IsUndefinedLogically", "value": issetter.Set}, ExpectedInput: []string{"false"}},
+	{Title: "IsUndefinedLogically - Wildcard true", ArrangeInput: args.Map{"method": "IsUndefinedLogically", "value": issetter.Wildcard}, ExpectedInput: []string{"true"}},
+	// IsPositive
+	{Title: "IsPositive - Uninitialized false", ArrangeInput: args.Map{"method": "IsPositive", "value": issetter.Uninitialized}, ExpectedInput: []string{"false"}},
+	{Title: "IsPositive - True true", ArrangeInput: args.Map{"method": "IsPositive", "value": issetter.True}, ExpectedInput: []string{"true"}},
+	{Title: "IsPositive - False false", ArrangeInput: args.Map{"method": "IsPositive", "value": issetter.False}, ExpectedInput: []string{"false"}},
+	{Title: "IsPositive - Unset false", ArrangeInput: args.Map{"method": "IsPositive", "value": issetter.Unset}, ExpectedInput: []string{"false"}},
+	{Title: "IsPositive - Set true", ArrangeInput: args.Map{"method": "IsPositive", "value": issetter.Set}, ExpectedInput: []string{"true"}},
+	{Title: "IsPositive - Wildcard false", ArrangeInput: args.Map{"method": "IsPositive", "value": issetter.Wildcard}, ExpectedInput: []string{"false"}},
+	// IsNegative
+	{Title: "IsNegative - Uninitialized true", ArrangeInput: args.Map{"method": "IsNegative", "value": issetter.Uninitialized}, ExpectedInput: []string{"true"}},
+	{Title: "IsNegative - True false", ArrangeInput: args.Map{"method": "IsNegative", "value": issetter.True}, ExpectedInput: []string{"false"}},
+	{Title: "IsNegative - False true", ArrangeInput: args.Map{"method": "IsNegative", "value": issetter.False}, ExpectedInput: []string{"true"}},
+	{Title: "IsNegative - Unset true", ArrangeInput: args.Map{"method": "IsNegative", "value": issetter.Unset}, ExpectedInput: []string{"true"}},
+	{Title: "IsNegative - Set false", ArrangeInput: args.Map{"method": "IsNegative", "value": issetter.Set}, ExpectedInput: []string{"false"}},
+	{Title: "IsNegative - Wildcard false", ArrangeInput: args.Map{"method": "IsNegative", "value": issetter.Wildcard}, ExpectedInput: []string{"false"}},
 }
 
 // =============================================================================
-// WildcardApply — wildcard/unset/uninit pass through input, others use IsTrue
+// Test Runner
 // =============================================================================
 
-func Test_Value_WildcardApply_Wildcard_True(t *testing.T) {
-	convey.Convey("WildcardApply - Wildcard passes through true", t, func() {
-		convey.So(issetter.Wildcard.WildcardApply(true), should.BeTrue)
-	})
-}
+func Test_Value_Logic_Verification(t *testing.T) {
+	for caseIndex, tc := range valueLogicTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		method := input["method"].(string)
+		value := input["value"].(issetter.Value)
 
-func Test_Value_WildcardApply_Wildcard_False(t *testing.T) {
-	convey.Convey("WildcardApply - Wildcard passes through false", t, func() {
-		convey.So(issetter.Wildcard.WildcardApply(false), should.BeFalse)
-	})
-}
+		var result string
 
-func Test_Value_WildcardApply_Uninitialized_True(t *testing.T) {
-	convey.Convey("WildcardApply - Uninitialized passes through true", t, func() {
-		convey.So(issetter.Uninitialized.WildcardApply(true), should.BeTrue)
-	})
-}
+		// Act
+		switch method {
+		case "IsOnLogically":
+			result = fmt.Sprintf("%v", value.IsOnLogically())
+		case "IsOffLogically":
+			result = fmt.Sprintf("%v", value.IsOffLogically())
+		case "WildcardApply":
+			result = fmt.Sprintf("%v", value.WildcardApply(input["input"].(bool)))
+		case "IsWildcardOrBool":
+			result = fmt.Sprintf("%v", value.IsWildcardOrBool(input["input"].(bool)))
+		case "ToByteCondition":
+			result = fmt.Sprintf("%v", value.ToByteCondition(input["trueVal"].(byte), input["falseVal"].(byte), input["invalidVal"].(byte)))
+		case "ToByteConditionWithWildcard":
+			result = fmt.Sprintf("%v", value.ToByteConditionWithWildcard(input["wildcardVal"].(byte), input["trueVal"].(byte), input["falseVal"].(byte), input["invalidVal"].(byte)))
+		case "IsDefinedLogically":
+			result = fmt.Sprintf("%v", value.IsDefinedLogically())
+		case "IsUndefinedLogically":
+			result = fmt.Sprintf("%v", value.IsUndefinedLogically())
+		case "IsPositive":
+			result = fmt.Sprintf("%v", value.IsPositive())
+		case "IsNegative":
+			result = fmt.Sprintf("%v", value.IsNegative())
+		default:
+			t.Fatalf("unknown method: %s", method)
+		}
 
-func Test_Value_WildcardApply_Unset_False(t *testing.T) {
-	convey.Convey("WildcardApply - Unset passes through false", t, func() {
-		convey.So(issetter.Unset.WildcardApply(false), should.BeFalse)
-	})
-}
+		actLines := []string{result}
+		expectedLines := tc.ExpectedInput.([]string)
 
-func Test_Value_WildcardApply_True_IgnoresInput(t *testing.T) {
-	convey.Convey("WildcardApply - True ignores input and returns true", t, func() {
-		convey.So(issetter.True.WildcardApply(false), should.BeTrue)
-	})
-}
-
-func Test_Value_WildcardApply_False_IgnoresInput(t *testing.T) {
-	convey.Convey("WildcardApply - False ignores input and returns false", t, func() {
-		convey.So(issetter.False.WildcardApply(true), should.BeFalse)
-	})
-}
-
-func Test_Value_WildcardApply_Set_IgnoresInput(t *testing.T) {
-	convey.Convey("WildcardApply - Set ignores input and returns false (Set != True)", t, func() {
-		convey.So(issetter.Set.WildcardApply(true), should.BeFalse)
-	})
-}
-
-// =============================================================================
-// IsWildcardOrBool — Wildcard short-circuits to true, others return isBool
-// =============================================================================
-
-func Test_Value_IsWildcardOrBool_Wildcard(t *testing.T) {
-	convey.Convey("IsWildcardOrBool - Wildcard always returns true", t, func() {
-		convey.So(issetter.Wildcard.IsWildcardOrBool(false), should.BeTrue)
-	})
-}
-
-func Test_Value_IsWildcardOrBool_True_WithTrue(t *testing.T) {
-	convey.Convey("IsWildcardOrBool - non-Wildcard returns isBool=true", t, func() {
-		convey.So(issetter.True.IsWildcardOrBool(true), should.BeTrue)
-	})
-}
-
-func Test_Value_IsWildcardOrBool_False_WithFalse(t *testing.T) {
-	convey.Convey("IsWildcardOrBool - non-Wildcard returns isBool=false", t, func() {
-		convey.So(issetter.False.IsWildcardOrBool(false), should.BeFalse)
-	})
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
 // =============================================================================
-// ToByteCondition — 3-way branch: True, False, other
+// Stateful tests (GetSetBoolOnInvalid, LazyEvaluateBool, LazyEvaluateSet)
 // =============================================================================
 
-func Test_Value_ToByteCondition_True(t *testing.T) {
-	convey.Convey("ToByteCondition - True returns trueVal", t, func() {
-		convey.So(issetter.True.ToByteCondition(10, 20, 255), should.Equal, byte(10))
-	})
+var getSetBoolTestCases = []coretestcases.CaseV1{
+	{Title: "GetSetBoolOnInvalid - already True returns true ignores setter", ArrangeInput: args.Map{"initial": issetter.True, "setter": false}, ExpectedInput: []string{"true", "true"}},
+	{Title: "GetSetBoolOnInvalid - already False returns false ignores setter", ArrangeInput: args.Map{"initial": issetter.False, "setter": true}, ExpectedInput: []string{"false", "true"}},
+	{Title: "GetSetBoolOnInvalid - Uninitialized with true sets True", ArrangeInput: args.Map{"initial": issetter.Uninitialized, "setter": true}, ExpectedInput: []string{"true", "true"}},
+	{Title: "GetSetBoolOnInvalid - Uninitialized with false sets False", ArrangeInput: args.Map{"initial": issetter.Uninitialized, "setter": false}, ExpectedInput: []string{"false", "true"}},
+	{Title: "GetSetBoolOnInvalid - Set triggers setter with true", ArrangeInput: args.Map{"initial": issetter.Set, "setter": true}, ExpectedInput: []string{"true", "true"}},
 }
 
-func Test_Value_ToByteCondition_False(t *testing.T) {
-	convey.Convey("ToByteCondition - False returns falseVal", t, func() {
-		convey.So(issetter.False.ToByteCondition(10, 20, 255), should.Equal, byte(20))
-	})
+func Test_Value_GetSetBoolOnInvalid_Verification(t *testing.T) {
+	for caseIndex, tc := range getSetBoolTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		v := input["initial"].(issetter.Value)
+		setter := input["setter"].(bool)
+
+		// Act
+		result := v.GetSetBoolOnInvalid(setter)
+
+		actLines := []string{
+			fmt.Sprintf("%v", result),
+			fmt.Sprintf("%v", v.IsTrue() || v.IsFalse()),
+		}
+		expectedLines := tc.ExpectedInput.([]string)
+
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
-func Test_Value_ToByteCondition_Uninitialized(t *testing.T) {
-	convey.Convey("ToByteCondition - Uninitialized returns invalid", t, func() {
-		convey.So(issetter.Uninitialized.ToByteCondition(10, 20, 255), should.Equal, byte(255))
-	})
+var lazyEvaluateBoolTestCases = []coretestcases.CaseV1{
+	{Title: "LazyEvaluateBool - Uninitialized calls func sets True", ArrangeInput: args.Map{"initial": issetter.Uninitialized, "expectCalled": true, "expectResult": true}, ExpectedInput: []string{"true", "true", "true"}},
+	{Title: "LazyEvaluateBool - already True skips func", ArrangeInput: args.Map{"initial": issetter.True, "expectCalled": false, "expectResult": false}, ExpectedInput: []string{"false", "false"}},
+	{Title: "LazyEvaluateBool - already False skips func", ArrangeInput: args.Map{"initial": issetter.False, "expectCalled": false, "expectResult": false}, ExpectedInput: []string{"false", "false"}},
 }
 
-func Test_Value_ToByteCondition_Set(t *testing.T) {
-	convey.Convey("ToByteCondition - Set returns invalid (not True/False)", t, func() {
-		convey.So(issetter.Set.ToByteCondition(10, 20, 255), should.Equal, byte(255))
-	})
+func Test_Value_LazyEvaluateBool_Verification(t *testing.T) {
+	for caseIndex, tc := range lazyEvaluateBoolTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		v := input["initial"].(issetter.Value)
+		called := false
+
+		// Act
+		result := v.LazyEvaluateBool(func() { called = true })
+
+		actLines := []string{
+			fmt.Sprintf("%v", called),
+			fmt.Sprintf("%v", result),
+		}
+		if called {
+			actLines = append(actLines, fmt.Sprintf("%v", v.IsTrue()))
+		}
+
+		expectedLines := tc.ExpectedInput.([]string)
+
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
-func Test_Value_ToByteCondition_Wildcard(t *testing.T) {
-	convey.Convey("ToByteCondition - Wildcard returns invalid", t, func() {
-		convey.So(issetter.Wildcard.ToByteCondition(10, 20, 255), should.Equal, byte(255))
-	})
+var lazyEvaluateSetTestCases = []coretestcases.CaseV1{
+	{Title: "LazyEvaluateSet - Uninitialized calls func sets Set", ArrangeInput: args.Map{"initial": issetter.Uninitialized, "expectCalled": true, "expectResult": true}, ExpectedInput: []string{"true", "true", "true"}},
+	{Title: "LazyEvaluateSet - already Set skips func", ArrangeInput: args.Map{"initial": issetter.Set, "expectCalled": false, "expectResult": false}, ExpectedInput: []string{"false", "false"}},
+	{Title: "LazyEvaluateSet - already Unset skips func", ArrangeInput: args.Map{"initial": issetter.Unset, "expectCalled": false, "expectResult": false}, ExpectedInput: []string{"false", "false"}},
 }
 
-// =============================================================================
-// ToByteConditionWithWildcard — 4-way branch: Wildcard, True, False, other
-// =============================================================================
+func Test_Value_LazyEvaluateSet_Verification(t *testing.T) {
+	for caseIndex, tc := range lazyEvaluateSetTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		v := input["initial"].(issetter.Value)
+		called := false
 
-func Test_Value_ToByteConditionWithWildcard_Wildcard(t *testing.T) {
-	convey.Convey("ToByteConditionWithWildcard - Wildcard returns wildcard byte", t, func() {
-		convey.So(issetter.Wildcard.ToByteConditionWithWildcard(99, 10, 20, 255), should.Equal, byte(99))
-	})
-}
+		// Act
+		result := v.LazyEvaluateSet(func() { called = true })
 
-func Test_Value_ToByteConditionWithWildcard_True(t *testing.T) {
-	convey.Convey("ToByteConditionWithWildcard - True returns trueVal", t, func() {
-		convey.So(issetter.True.ToByteConditionWithWildcard(99, 10, 20, 255), should.Equal, byte(10))
-	})
-}
+		actLines := []string{
+			fmt.Sprintf("%v", called),
+			fmt.Sprintf("%v", result),
+		}
+		if called {
+			actLines = append(actLines, fmt.Sprintf("%v", v.IsSet()))
+		}
 
-func Test_Value_ToByteConditionWithWildcard_False(t *testing.T) {
-	convey.Convey("ToByteConditionWithWildcard - False returns falseVal", t, func() {
-		convey.So(issetter.False.ToByteConditionWithWildcard(99, 10, 20, 255), should.Equal, byte(20))
-	})
-}
+		expectedLines := tc.ExpectedInput.([]string)
 
-func Test_Value_ToByteConditionWithWildcard_Uninitialized(t *testing.T) {
-	convey.Convey("ToByteConditionWithWildcard - Uninitialized returns invalid", t, func() {
-		convey.So(issetter.Uninitialized.ToByteConditionWithWildcard(99, 10, 20, 255), should.Equal, byte(255))
-	})
-}
-
-// =============================================================================
-// GetSetBoolOnInvalid — mutates receiver if not a defined boolean
-// =============================================================================
-
-func Test_Value_GetSetBoolOnInvalid_AlreadyTrue(t *testing.T) {
-	// Arrange
-	v := issetter.True
-
-	// Act
-	result := v.GetSetBoolOnInvalid(false)
-
-	// Assert
-	convey.Convey("GetSetBoolOnInvalid - already True returns true, ignores setter", t, func() {
-		convey.So(result, should.BeTrue)
-		convey.So(v.IsTrue(), should.BeTrue)
-	})
-}
-
-func Test_Value_GetSetBoolOnInvalid_AlreadyFalse(t *testing.T) {
-	// Arrange
-	v := issetter.False
-
-	// Act
-	result := v.GetSetBoolOnInvalid(true)
-
-	// Assert
-	convey.Convey("GetSetBoolOnInvalid - already False returns false, ignores setter", t, func() {
-		convey.So(result, should.BeFalse)
-		convey.So(v.IsFalse(), should.BeTrue)
-	})
-}
-
-func Test_Value_GetSetBoolOnInvalid_Uninitialized_SetsTrue(t *testing.T) {
-	// Arrange
-	v := issetter.Uninitialized
-
-	// Act
-	result := v.GetSetBoolOnInvalid(true)
-
-	// Assert
-	convey.Convey("GetSetBoolOnInvalid - Uninitialized with true sets to True", t, func() {
-		convey.So(result, should.BeTrue)
-		convey.So(v.IsTrue(), should.BeTrue)
-	})
-}
-
-func Test_Value_GetSetBoolOnInvalid_Uninitialized_SetsFalse(t *testing.T) {
-	// Arrange
-	v := issetter.Uninitialized
-
-	// Act
-	result := v.GetSetBoolOnInvalid(false)
-
-	// Assert
-	convey.Convey("GetSetBoolOnInvalid - Uninitialized with false sets to False", t, func() {
-		convey.So(result, should.BeFalse)
-		convey.So(v.IsFalse(), should.BeTrue)
-	})
-}
-
-func Test_Value_GetSetBoolOnInvalid_Set_SetsValue(t *testing.T) {
-	// Arrange
-	v := issetter.Set
-
-	// Act
-	result := v.GetSetBoolOnInvalid(true)
-
-	// Assert
-	convey.Convey("GetSetBoolOnInvalid - Set (not a defined boolean) triggers setter", t, func() {
-		convey.So(result, should.BeTrue)
-		convey.So(v.IsTrue(), should.BeTrue)
-	})
-}
-
-// =============================================================================
-// LazyEvaluateBool — executes func only on first call when not defined boolean
-// =============================================================================
-
-func Test_Value_LazyEvaluateBool_Uninitialized_CallsFunc(t *testing.T) {
-	// Arrange
-	v := issetter.Uninitialized
-	called := false
-
-	// Act
-	result := v.LazyEvaluateBool(func() { called = true })
-
-	// Assert
-	convey.Convey("LazyEvaluateBool - Uninitialized calls func and sets True", t, func() {
-		convey.So(called, should.BeTrue)
-		convey.So(result, should.BeTrue)
-		convey.So(v.IsTrue(), should.BeTrue)
-	})
-}
-
-func Test_Value_LazyEvaluateBool_AlreadyTrue_SkipsFunc(t *testing.T) {
-	// Arrange
-	v := issetter.True
-	called := false
-
-	// Act
-	result := v.LazyEvaluateBool(func() { called = true })
-
-	// Assert
-	convey.Convey("LazyEvaluateBool - already True skips func", t, func() {
-		convey.So(called, should.BeFalse)
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_Value_LazyEvaluateBool_AlreadyFalse_SkipsFunc(t *testing.T) {
-	// Arrange
-	v := issetter.False
-	called := false
-
-	// Act
-	result := v.LazyEvaluateBool(func() { called = true })
-
-	// Assert
-	convey.Convey("LazyEvaluateBool - already False skips func", t, func() {
-		convey.So(called, should.BeFalse)
-		convey.So(result, should.BeFalse)
-	})
-}
-
-// =============================================================================
-// LazyEvaluateSet — same as LazyEvaluateBool but for Set/Unset
-// =============================================================================
-
-func Test_Value_LazyEvaluateSet_Uninitialized_CallsFunc(t *testing.T) {
-	// Arrange
-	v := issetter.Uninitialized
-	called := false
-
-	// Act
-	result := v.LazyEvaluateSet(func() { called = true })
-
-	// Assert
-	convey.Convey("LazyEvaluateSet - Uninitialized calls func and sets Set", t, func() {
-		convey.So(called, should.BeTrue)
-		convey.So(result, should.BeTrue)
-		convey.So(v.IsSet(), should.BeTrue)
-	})
-}
-
-func Test_Value_LazyEvaluateSet_AlreadySet_SkipsFunc(t *testing.T) {
-	// Arrange
-	v := issetter.Set
-	called := false
-
-	// Act
-	result := v.LazyEvaluateSet(func() { called = true })
-
-	// Assert
-	convey.Convey("LazyEvaluateSet - already Set skips func", t, func() {
-		convey.So(called, should.BeFalse)
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_Value_LazyEvaluateSet_AlreadyUnset_SkipsFunc(t *testing.T) {
-	// Arrange
-	v := issetter.Unset
-	called := false
-
-	// Act
-	result := v.LazyEvaluateSet(func() { called = true })
-
-	// Assert
-	convey.Convey("LazyEvaluateSet - already Unset skips func", t, func() {
-		convey.So(called, should.BeFalse)
-		convey.So(result, should.BeFalse)
-	})
-}
-
-// =============================================================================
-// IsDefinedLogically / IsUndefinedLogically
-// =============================================================================
-
-func Test_Value_IsDefinedLogically_AllValues(t *testing.T) {
-	convey.Convey("IsDefinedLogically - covers all 6 values", t, func() {
-		convey.So(issetter.Uninitialized.IsDefinedLogically(), should.BeFalse)
-		convey.So(issetter.True.IsDefinedLogically(), should.BeTrue)
-		convey.So(issetter.False.IsDefinedLogically(), should.BeTrue)
-		convey.So(issetter.Unset.IsDefinedLogically(), should.BeTrue)
-		convey.So(issetter.Set.IsDefinedLogically(), should.BeTrue)
-		convey.So(issetter.Wildcard.IsDefinedLogically(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsUndefinedLogically_AllValues(t *testing.T) {
-	convey.Convey("IsUndefinedLogically - covers all 6 values", t, func() {
-		convey.So(issetter.Uninitialized.IsUndefinedLogically(), should.BeTrue)
-		convey.So(issetter.True.IsUndefinedLogically(), should.BeFalse)
-		convey.So(issetter.False.IsUndefinedLogically(), should.BeFalse)
-		convey.So(issetter.Unset.IsUndefinedLogically(), should.BeFalse)
-		convey.So(issetter.Set.IsUndefinedLogically(), should.BeFalse)
-		convey.So(issetter.Wildcard.IsUndefinedLogically(), should.BeTrue)
-	})
-}
-
-// =============================================================================
-// IsPositive / IsNegative
-// =============================================================================
-
-func Test_Value_IsPositive_AllValues(t *testing.T) {
-	convey.Convey("IsPositive - True and Set are positive", t, func() {
-		convey.So(issetter.Uninitialized.IsPositive(), should.BeFalse)
-		convey.So(issetter.True.IsPositive(), should.BeTrue)
-		convey.So(issetter.False.IsPositive(), should.BeFalse)
-		convey.So(issetter.Unset.IsPositive(), should.BeFalse)
-		convey.So(issetter.Set.IsPositive(), should.BeTrue)
-		convey.So(issetter.Wildcard.IsPositive(), should.BeFalse)
-	})
-}
-
-func Test_Value_IsNegative_AllValues(t *testing.T) {
-	convey.Convey("IsNegative - Uninitialized, False, Unset are negative", t, func() {
-		convey.So(issetter.Uninitialized.IsNegative(), should.BeTrue)
-		convey.So(issetter.True.IsNegative(), should.BeFalse)
-		convey.So(issetter.False.IsNegative(), should.BeTrue)
-		convey.So(issetter.Unset.IsNegative(), should.BeTrue)
-		convey.So(issetter.Set.IsNegative(), should.BeFalse)
-		convey.So(issetter.Wildcard.IsNegative(), should.BeFalse)
-	})
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }

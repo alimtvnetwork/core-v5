@@ -1,386 +1,231 @@
 package coregenerictests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coredata/coregeneric"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// =============================================================================
-// LinkedList — Constructors
-// =============================================================================
-
-func Test_LinkedList_Empty(t *testing.T) {
-	convey.Convey("EmptyLinkedList creates empty list", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		convey.So(ll.IsEmpty(), should.BeTrue)
-		convey.So(ll.Length(), should.Equal, 0)
-		convey.So(ll.HasItems(), should.BeFalse)
-	})
+var linkedListTestCases = []coretestcases.CaseV1{
+	// Constructors
+	{Title: "EmptyLinkedList creates empty list", ArrangeInput: args.Map{"case": "empty"}, ExpectedInput: []string{"true", "0", "false"}},
+	{Title: "LinkedListFrom creates from slice", ArrangeInput: args.Map{"case": "from"}, ExpectedInput: []string{"3", "a", "c"}},
+	{Title: "LinkedListFrom empty slice", ArrangeInput: args.Map{"case": "from-empty"}, ExpectedInput: []string{"true"}},
+	// Add
+	{Title: "Add single sets head and tail", ArrangeInput: args.Map{"case": "add-single"}, ExpectedInput: []string{"1", "42", "42"}},
+	{Title: "Add multiple appends to back", ArrangeInput: args.Map{"case": "add-multiple"}, ExpectedInput: []string{"1", "3", "3"}},
+	{Title: "AddFront prepends", ArrangeInput: args.Map{"case": "addfront"}, ExpectedInput: []string{"1", "3", "3"}},
+	{Title: "AddFront empty", ArrangeInput: args.Map{"case": "addfront-empty"}, ExpectedInput: []string{"first", "first", "1"}},
+	{Title: "Adds multiple", ArrangeInput: args.Map{"case": "adds"}, ExpectedInput: []string{"3"}},
+	{Title: "AddSlice appends", ArrangeInput: args.Map{"case": "addslice"}, ExpectedInput: []string{"2"}},
+	{Title: "AddIf true adds", ArrangeInput: args.Map{"case": "addif-true"}, ExpectedInput: []string{"1"}},
+	{Title: "AddIf false skips", ArrangeInput: args.Map{"case": "addif-false"}, ExpectedInput: []string{"true"}},
+	{Title: "AddsIf false skips", ArrangeInput: args.Map{"case": "addsif-false"}, ExpectedInput: []string{"true"}},
+	{Title: "AddFunc adds result", ArrangeInput: args.Map{"case": "addfunc"}, ExpectedInput: []string{"99"}},
+	{Title: "Push aliases work", ArrangeInput: args.Map{"case": "push"}, ExpectedInput: []string{"3"}},
+	// FirstOrDefault / LastOrDefault
+	{Title: "FirstOrDefault empty returns zero", ArrangeInput: args.Map{"case": "firstdefault-empty"}, ExpectedInput: []string{"0"}},
+	{Title: "LastOrDefault empty returns zero", ArrangeInput: args.Map{"case": "lastdefault-empty"}, ExpectedInput: []string{""}},
+	{Title: "FirstOrDefault non-empty", ArrangeInput: args.Map{"case": "firstdefault"}, ExpectedInput: []string{"10"}},
+	{Title: "LastOrDefault non-empty", ArrangeInput: args.Map{"case": "lastdefault"}, ExpectedInput: []string{"20"}},
+	// Items / Collection / String
+	{Title: "Items returns all elements", ArrangeInput: args.Map{"case": "items"}, ExpectedInput: []string{"3"}},
+	{Title: "Items empty returns empty", ArrangeInput: args.Map{"case": "items-empty"}, ExpectedInput: []string{"0"}},
+	{Title: "Collection converts", ArrangeInput: args.Map{"case": "collection"}, ExpectedInput: []string{"2"}},
+	{Title: "String representation", ArrangeInput: args.Map{"case": "string"}, ExpectedInput: []string{"[1 2 3]"}},
+	// IndexAt
+	{Title: "IndexAt valid returns node", ArrangeInput: args.Map{"case": "indexat-valid"}, ExpectedInput: []string{"true", "b"}},
+	{Title: "IndexAt first", ArrangeInput: args.Map{"case": "indexat-first"}, ExpectedInput: []string{"10"}},
+	{Title: "IndexAt last", ArrangeInput: args.Map{"case": "indexat-last"}, ExpectedInput: []string{"30"}},
+	{Title: "IndexAt out of bounds", ArrangeInput: args.Map{"case": "indexat-oob"}, ExpectedInput: []string{"true", "true"}},
+	{Title: "IndexAt empty", ArrangeInput: args.Map{"case": "indexat-empty"}, ExpectedInput: []string{"true"}},
+	// ForEach
+	{Title: "ForEach visits all", ArrangeInput: args.Map{"case": "foreach"}, ExpectedInput: []string{"6"}},
+	{Title: "ForEach empty noop", ArrangeInput: args.Map{"case": "foreach-empty"}, ExpectedInput: []string{"false"}},
+	{Title: "ForEachBreak stops early", ArrangeInput: args.Map{"case": "foreachbreak"}, ExpectedInput: []string{"3"}},
+	{Title: "ForEachBreak first element", ArrangeInput: args.Map{"case": "foreachbreak-first"}, ExpectedInput: []string{"1"}},
+	// Head / Tail
+	{Title: "Head/Tail nodes", ArrangeInput: args.Map{"case": "headtail"}, ExpectedInput: []string{"1", "3", "true", "false"}},
+	{Title: "Node.Next traverses", ArrangeInput: args.Map{"case": "node-next"}, ExpectedInput: []string{"10", "20", "30", "false"}},
+	// Lock variants
+	{Title: "LengthLock", ArrangeInput: args.Map{"case": "lengthlock"}, ExpectedInput: []string{"2"}},
+	{Title: "IsEmptyLock", ArrangeInput: args.Map{"case": "isemptylock"}, ExpectedInput: []string{"true"}},
+	{Title: "AddLock", ArrangeInput: args.Map{"case": "addlock"}, ExpectedInput: []string{"2"}},
+	// Nil receiver
+	{Title: "IsEmpty nil receiver", ArrangeInput: args.Map{"case": "isempty-nil"}, ExpectedInput: []string{"true"}},
+	// AppendNode
+	{Title: "AppendNode appends", ArrangeInput: args.Map{"case": "appendnode"}, ExpectedInput: []string{"3", "3"}},
+	{Title: "AppendNode empty", ArrangeInput: args.Map{"case": "appendnode-empty"}, ExpectedInput: []string{"1", "99"}},
 }
 
-func Test_LinkedList_From(t *testing.T) {
-	convey.Convey("LinkedListFrom creates list from slice", t, func() {
-		ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
-		convey.So(ll.Length(), should.Equal, 3)
-		convey.So(ll.First(), should.Equal, "a")
-		convey.So(ll.Last(), should.Equal, "c")
-	})
-}
+func Test_LinkedList_Verification(t *testing.T) {
+	for caseIndex, tc := range linkedListTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		caseType := input["case"].(string)
 
-func Test_LinkedList_From_Empty(t *testing.T) {
-	convey.Convey("LinkedListFrom with empty slice", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{})
-		convey.So(ll.IsEmpty(), should.BeTrue)
-	})
-}
+		var actLines []string
 
-// =============================================================================
-// LinkedList — Add / AddFront
-// =============================================================================
+		// Act
+		switch caseType {
+		case "empty":
+			ll := coregeneric.EmptyLinkedList[int]()
+			actLines = []string{fmt.Sprintf("%v", ll.IsEmpty()), fmt.Sprintf("%v", ll.Length()), fmt.Sprintf("%v", ll.HasItems())}
+		case "from":
+			ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
+			actLines = []string{fmt.Sprintf("%v", ll.Length()), ll.First(), ll.Last()}
+		case "from-empty":
+			ll := coregeneric.LinkedListFrom([]int{})
+			actLines = []string{fmt.Sprintf("%v", ll.IsEmpty())}
+		case "add-single":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.Add(42)
+			actLines = []string{fmt.Sprintf("%v", ll.Length()), fmt.Sprintf("%v", ll.First()), fmt.Sprintf("%v", ll.Last())}
+		case "add-multiple":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.Add(1).Add(2).Add(3)
+			actLines = []string{fmt.Sprintf("%v", ll.First()), fmt.Sprintf("%v", ll.Last()), fmt.Sprintf("%v", ll.Length())}
+		case "addfront":
+			ll := coregeneric.LinkedListFrom([]int{2, 3})
+			ll.AddFront(1)
+			actLines = []string{fmt.Sprintf("%v", ll.First()), fmt.Sprintf("%v", ll.Last()), fmt.Sprintf("%v", ll.Length())}
+		case "addfront-empty":
+			ll := coregeneric.EmptyLinkedList[string]()
+			ll.AddFront("first")
+			actLines = []string{ll.First(), ll.Last(), fmt.Sprintf("%v", ll.Length())}
+		case "adds":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.Adds(1, 2, 3)
+			actLines = []string{fmt.Sprintf("%v", ll.Length())}
+		case "addslice":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.AddSlice([]int{10, 20})
+			actLines = []string{fmt.Sprintf("%v", ll.Length())}
+		case "addif-true":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.AddIf(true, 5)
+			actLines = []string{fmt.Sprintf("%v", ll.Length())}
+		case "addif-false":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.AddIf(false, 5)
+			actLines = []string{fmt.Sprintf("%v", ll.IsEmpty())}
+		case "addsif-false":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.AddsIf(false, 1, 2, 3)
+			actLines = []string{fmt.Sprintf("%v", ll.IsEmpty())}
+		case "addfunc":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.AddFunc(func() int { return 99 })
+			actLines = []string{fmt.Sprintf("%v", ll.First())}
+		case "push":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.Push(1)
+			ll.PushBack(2)
+			ll.PushFront(0)
+			actLines = []string{fmt.Sprintf("%v", ll.Length())}
+		case "firstdefault-empty":
+			ll := coregeneric.EmptyLinkedList[int]()
+			actLines = []string{fmt.Sprintf("%v", ll.FirstOrDefault())}
+		case "lastdefault-empty":
+			ll := coregeneric.EmptyLinkedList[string]()
+			actLines = []string{ll.LastOrDefault()}
+		case "firstdefault":
+			ll := coregeneric.LinkedListFrom([]int{10, 20})
+			actLines = []string{fmt.Sprintf("%v", ll.FirstOrDefault())}
+		case "lastdefault":
+			ll := coregeneric.LinkedListFrom([]int{10, 20})
+			actLines = []string{fmt.Sprintf("%v", ll.LastOrDefault())}
+		case "items":
+			ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
+			actLines = []string{fmt.Sprintf("%v", len(ll.Items()))}
+		case "items-empty":
+			ll := coregeneric.EmptyLinkedList[int]()
+			actLines = []string{fmt.Sprintf("%v", len(ll.Items()))}
+		case "collection":
+			ll := coregeneric.LinkedListFrom([]int{1, 2})
+			actLines = []string{fmt.Sprintf("%v", ll.Collection().Length())}
+		case "string":
+			ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
+			actLines = []string{ll.String()}
+		case "indexat-valid":
+			ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
+			node := ll.IndexAt(1)
+			actLines = []string{fmt.Sprintf("%v", node != nil), node.Element}
+		case "indexat-first":
+			ll := coregeneric.LinkedListFrom([]int{10, 20})
+			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(0).Element)}
+		case "indexat-last":
+			ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
+			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(2).Element)}
+		case "indexat-oob":
+			ll := coregeneric.LinkedListFrom([]int{1, 2})
+			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(5) == nil), fmt.Sprintf("%v", ll.IndexAt(-1) == nil)}
+		case "indexat-empty":
+			ll := coregeneric.EmptyLinkedList[int]()
+			actLines = []string{fmt.Sprintf("%v", ll.IndexAt(0) == nil)}
+		case "foreach":
+			ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
+			sum := 0
+			ll.ForEach(func(_ int, item int) { sum += item })
+			actLines = []string{fmt.Sprintf("%v", sum)}
+		case "foreach-empty":
+			ll := coregeneric.EmptyLinkedList[int]()
+			called := false
+			ll.ForEach(func(_ int, _ int) { called = true })
+			actLines = []string{fmt.Sprintf("%v", called)}
+		case "foreachbreak":
+			ll := coregeneric.LinkedListFrom([]int{1, 2, 3, 4, 5})
+			count := 0
+			ll.ForEachBreak(func(_ int, item int) bool { count++; return item == 3 })
+			actLines = []string{fmt.Sprintf("%v", count)}
+		case "foreachbreak-first":
+			ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
+			count := 0
+			ll.ForEachBreak(func(_ int, _ int) bool { count++; return true })
+			actLines = []string{fmt.Sprintf("%v", count)}
+		case "headtail":
+			ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
+			actLines = []string{fmt.Sprintf("%v", ll.Head().Element), fmt.Sprintf("%v", ll.Tail().Element), fmt.Sprintf("%v", ll.Head().HasNext()), fmt.Sprintf("%v", ll.Tail().HasNext())}
+		case "node-next":
+			ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
+			n := ll.Head()
+			actLines = []string{fmt.Sprintf("%v", n.Element)}
+			n = n.Next()
+			actLines = append(actLines, fmt.Sprintf("%v", n.Element))
+			n = n.Next()
+			actLines = append(actLines, fmt.Sprintf("%v", n.Element), fmt.Sprintf("%v", n.HasNext()))
+		case "lengthlock":
+			ll := coregeneric.LinkedListFrom([]int{1, 2})
+			actLines = []string{fmt.Sprintf("%v", ll.LengthLock())}
+		case "isemptylock":
+			ll := coregeneric.EmptyLinkedList[int]()
+			actLines = []string{fmt.Sprintf("%v", ll.IsEmptyLock())}
+		case "addlock":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.AddLock(1)
+			ll.AddLock(2)
+			actLines = []string{fmt.Sprintf("%v", ll.Length())}
+		case "isempty-nil":
+			var ll *coregeneric.LinkedList[int]
+			actLines = []string{fmt.Sprintf("%v", ll.IsEmpty())}
+		case "appendnode":
+			ll := coregeneric.LinkedListFrom([]int{1, 2})
+			ll.AppendNode(&coregeneric.LinkedListNode[int]{Element: 3})
+			actLines = []string{fmt.Sprintf("%v", ll.Length()), fmt.Sprintf("%v", ll.Last())}
+		case "appendnode-empty":
+			ll := coregeneric.EmptyLinkedList[int]()
+			ll.AppendNode(&coregeneric.LinkedListNode[int]{Element: 99})
+			actLines = []string{fmt.Sprintf("%v", ll.Length()), fmt.Sprintf("%v", ll.First())}
+		}
 
-func Test_LinkedList_Add_Single(t *testing.T) {
-	convey.Convey("LinkedList.Add to empty list sets head and tail", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.Add(42)
-		convey.So(ll.Length(), should.Equal, 1)
-		convey.So(ll.First(), should.Equal, 42)
-		convey.So(ll.Last(), should.Equal, 42)
-	})
-}
+		expectedLines := tc.ExpectedInput.([]string)
 
-func Test_LinkedList_Add_Multiple(t *testing.T) {
-	convey.Convey("LinkedList.Add appends to back", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.Add(1).Add(2).Add(3)
-		convey.So(ll.First(), should.Equal, 1)
-		convey.So(ll.Last(), should.Equal, 3)
-		convey.So(ll.Length(), should.Equal, 3)
-	})
-}
-
-func Test_LinkedList_AddFront(t *testing.T) {
-	convey.Convey("LinkedList.AddFront prepends to front", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{2, 3})
-		ll.AddFront(1)
-		convey.So(ll.First(), should.Equal, 1)
-		convey.So(ll.Last(), should.Equal, 3)
-		convey.So(ll.Length(), should.Equal, 3)
-	})
-}
-
-func Test_LinkedList_AddFront_Empty(t *testing.T) {
-	convey.Convey("LinkedList.AddFront on empty list", t, func() {
-		ll := coregeneric.EmptyLinkedList[string]()
-		ll.AddFront("first")
-		convey.So(ll.First(), should.Equal, "first")
-		convey.So(ll.Last(), should.Equal, "first")
-		convey.So(ll.Length(), should.Equal, 1)
-	})
-}
-
-func Test_LinkedList_Adds(t *testing.T) {
-	convey.Convey("LinkedList.Adds appends multiple", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.Adds(1, 2, 3)
-		convey.So(ll.Length(), should.Equal, 3)
-		convey.So(ll.Items(), should.Resemble, []int{1, 2, 3})
-	})
-}
-
-func Test_LinkedList_AddSlice(t *testing.T) {
-	convey.Convey("LinkedList.AddSlice appends slice", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.AddSlice([]int{10, 20})
-		convey.So(ll.Length(), should.Equal, 2)
-	})
-}
-
-func Test_LinkedList_AddIf_True(t *testing.T) {
-	convey.Convey("LinkedList.AddIf adds when true", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.AddIf(true, 5)
-		convey.So(ll.Length(), should.Equal, 1)
-	})
-}
-
-func Test_LinkedList_AddIf_False(t *testing.T) {
-	convey.Convey("LinkedList.AddIf skips when false", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.AddIf(false, 5)
-		convey.So(ll.IsEmpty(), should.BeTrue)
-	})
-}
-
-func Test_LinkedList_AddsIf_False(t *testing.T) {
-	convey.Convey("LinkedList.AddsIf skips when false", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.AddsIf(false, 1, 2, 3)
-		convey.So(ll.IsEmpty(), should.BeTrue)
-	})
-}
-
-func Test_LinkedList_AddFunc(t *testing.T) {
-	convey.Convey("LinkedList.AddFunc adds function result", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.AddFunc(func() int { return 99 })
-		convey.So(ll.First(), should.Equal, 99)
-	})
-}
-
-func Test_LinkedList_PushBack_PushFront_Push(t *testing.T) {
-	convey.Convey("Push aliases work correctly", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.Push(1)
-		ll.PushBack(2)
-		ll.PushFront(0)
-		convey.So(ll.Items(), should.Resemble, []int{0, 1, 2})
-	})
-}
-
-// =============================================================================
-// LinkedList — FirstOrDefault / LastOrDefault
-// =============================================================================
-
-func Test_LinkedList_FirstOrDefault_Empty(t *testing.T) {
-	convey.Convey("LinkedList.FirstOrDefault returns zero on empty", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		convey.So(ll.FirstOrDefault(), should.Equal, 0)
-	})
-}
-
-func Test_LinkedList_LastOrDefault_Empty(t *testing.T) {
-	convey.Convey("LinkedList.LastOrDefault returns zero on empty", t, func() {
-		ll := coregeneric.EmptyLinkedList[string]()
-		convey.So(ll.LastOrDefault(), should.BeEmpty)
-	})
-}
-
-func Test_LinkedList_FirstOrDefault_NonEmpty(t *testing.T) {
-	convey.Convey("LinkedList.FirstOrDefault returns first element", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{10, 20})
-		convey.So(ll.FirstOrDefault(), should.Equal, 10)
-	})
-}
-
-func Test_LinkedList_LastOrDefault_NonEmpty(t *testing.T) {
-	convey.Convey("LinkedList.LastOrDefault returns last element", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{10, 20})
-		convey.So(ll.LastOrDefault(), should.Equal, 20)
-	})
-}
-
-// =============================================================================
-// LinkedList — Items / Collection / String
-// =============================================================================
-
-func Test_LinkedList_Items(t *testing.T) {
-	convey.Convey("LinkedList.Items returns all elements", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
-		convey.So(ll.Items(), should.Resemble, []int{1, 2, 3})
-	})
-}
-
-func Test_LinkedList_Items_Empty(t *testing.T) {
-	convey.Convey("LinkedList.Items returns empty slice on empty list", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		convey.So(ll.Items(), should.Resemble, []int{})
-	})
-}
-
-func Test_LinkedList_Collection(t *testing.T) {
-	convey.Convey("LinkedList.Collection converts to Collection", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2})
-		col := ll.Collection()
-		convey.So(col.Length(), should.Equal, 2)
-	})
-}
-
-func Test_LinkedList_String(t *testing.T) {
-	convey.Convey("LinkedList.String returns string representation", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
-		convey.So(ll.String(), should.Equal, "[1 2 3]")
-	})
-}
-
-// =============================================================================
-// LinkedList — IndexAt
-// =============================================================================
-
-func Test_LinkedList_IndexAt_Valid(t *testing.T) {
-	convey.Convey("LinkedList.IndexAt returns correct node", t, func() {
-		ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
-		node := ll.IndexAt(1)
-		convey.So(node, should.NotBeNil)
-		convey.So(node.Element, should.Equal, "b")
-	})
-}
-
-func Test_LinkedList_IndexAt_First(t *testing.T) {
-	convey.Convey("LinkedList.IndexAt(0) returns head", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{10, 20})
-		convey.So(ll.IndexAt(0).Element, should.Equal, 10)
-	})
-}
-
-func Test_LinkedList_IndexAt_Last(t *testing.T) {
-	convey.Convey("LinkedList.IndexAt(last) returns tail", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
-		convey.So(ll.IndexAt(2).Element, should.Equal, 30)
-	})
-}
-
-func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
-	convey.Convey("LinkedList.IndexAt returns nil for out of bounds", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2})
-		convey.So(ll.IndexAt(5), should.BeNil)
-		convey.So(ll.IndexAt(-1), should.BeNil)
-	})
-}
-
-func Test_LinkedList_IndexAt_Empty(t *testing.T) {
-	convey.Convey("LinkedList.IndexAt returns nil on empty list", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		convey.So(ll.IndexAt(0), should.BeNil)
-	})
-}
-
-// =============================================================================
-// LinkedList — ForEach / ForEachBreak
-// =============================================================================
-
-func Test_LinkedList_ForEach(t *testing.T) {
-	convey.Convey("LinkedList.ForEach visits all elements", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
-		sum := 0
-		ll.ForEach(func(index int, item int) {
-			sum += item
-		})
-		convey.So(sum, should.Equal, 6)
-	})
-}
-
-func Test_LinkedList_ForEach_Empty(t *testing.T) {
-	convey.Convey("LinkedList.ForEach does nothing on empty", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		called := false
-		ll.ForEach(func(index int, item int) { called = true })
-		convey.So(called, should.BeFalse)
-	})
-}
-
-func Test_LinkedList_ForEachBreak(t *testing.T) {
-	convey.Convey("LinkedList.ForEachBreak stops early", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2, 3, 4, 5})
-		count := 0
-		ll.ForEachBreak(func(index int, item int) bool {
-			count++
-			return item == 3
-		})
-		convey.So(count, should.Equal, 3)
-	})
-}
-
-func Test_LinkedList_ForEachBreak_FirstElement(t *testing.T) {
-	convey.Convey("LinkedList.ForEachBreak can break on first element", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
-		count := 0
-		ll.ForEachBreak(func(index int, item int) bool {
-			count++
-			return true
-		})
-		convey.So(count, should.Equal, 1)
-	})
-}
-
-// =============================================================================
-// LinkedList — Head / Tail nodes
-// =============================================================================
-
-func Test_LinkedList_Head_Tail_Nodes(t *testing.T) {
-	convey.Convey("LinkedList.Head and Tail return correct nodes", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
-		convey.So(ll.Head().Element, should.Equal, 1)
-		convey.So(ll.Tail().Element, should.Equal, 3)
-		convey.So(ll.Head().HasNext(), should.BeTrue)
-		convey.So(ll.Tail().HasNext(), should.BeFalse)
-	})
-}
-
-func Test_LinkedList_Node_Next(t *testing.T) {
-	convey.Convey("LinkedListNode.Next traverses correctly", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
-		node := ll.Head()
-		convey.So(node.Element, should.Equal, 10)
-		node = node.Next()
-		convey.So(node.Element, should.Equal, 20)
-		node = node.Next()
-		convey.So(node.Element, should.Equal, 30)
-		convey.So(node.HasNext(), should.BeFalse)
-	})
-}
-
-// =============================================================================
-// LinkedList — Lock variants
-// =============================================================================
-
-func Test_LinkedList_LengthLock(t *testing.T) {
-	convey.Convey("LinkedList.LengthLock returns correct length", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2})
-		convey.So(ll.LengthLock(), should.Equal, 2)
-	})
-}
-
-func Test_LinkedList_IsEmptyLock(t *testing.T) {
-	convey.Convey("LinkedList.IsEmptyLock returns true on empty", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		convey.So(ll.IsEmptyLock(), should.BeTrue)
-	})
-}
-
-func Test_LinkedList_AddLock(t *testing.T) {
-	convey.Convey("LinkedList.AddLock appends with mutex", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		ll.AddLock(1)
-		ll.AddLock(2)
-		convey.So(ll.Length(), should.Equal, 2)
-	})
-}
-
-// =============================================================================
-// LinkedList — Nil receiver guard
-// =============================================================================
-
-func Test_LinkedList_IsEmpty_NilReceiver(t *testing.T) {
-	convey.Convey("LinkedList.IsEmpty true on nil receiver", t, func() {
-		var ll *coregeneric.LinkedList[int]
-		convey.So(ll.IsEmpty(), should.BeTrue)
-	})
-}
-
-// =============================================================================
-// LinkedList — AppendNode / AppendChainOfNodes
-// =============================================================================
-
-func Test_LinkedList_AppendNode(t *testing.T) {
-	convey.Convey("LinkedList.AppendNode appends a node", t, func() {
-		ll := coregeneric.LinkedListFrom([]int{1, 2})
-		node := &coregeneric.LinkedListNode[int]{Element: 3}
-		ll.AppendNode(node)
-		convey.So(ll.Length(), should.Equal, 3)
-		convey.So(ll.Last(), should.Equal, 3)
-	})
-}
-
-func Test_LinkedList_AppendNode_Empty(t *testing.T) {
-	convey.Convey("LinkedList.AppendNode on empty list", t, func() {
-		ll := coregeneric.EmptyLinkedList[int]()
-		node := &coregeneric.LinkedListNode[int]{Element: 99}
-		ll.AppendNode(node)
-		convey.So(ll.Length(), should.Equal, 1)
-		convey.So(ll.First(), should.Equal, 99)
-	})
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
