@@ -83,6 +83,14 @@ Reflection-based type checking and conversion.
 - **Namers** (`all-namers.go`): Naming convention interfaces
 - **Key-Value** (`all-keyval-definer.go`): Key-value pair interfaces
 
+### Implementation-Level Interfaces
+
+Some interface contracts are defined alongside their implementations rather than in `coreinterface`:
+
+| Interface | Location | Purpose |
+|-----------|----------|---------|
+| [`DifferChecker`](/coreimpl/enumimpl/readme.md#differchecker-interface) | `coreimpl/enumimpl/` | Strategy interface for `DynamicMap` diff comparison — controls how value differences and missing keys are reported |
+
 ## Standalone Interface Files
 
 Single-purpose interfaces with dedicated files:
