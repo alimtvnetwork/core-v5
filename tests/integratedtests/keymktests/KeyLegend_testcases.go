@@ -36,7 +36,7 @@ var keyLegendUserStringWithoutStateTestCases = []coretestcases.CaseV1{
 			"state":   "stateName",
 			"user":    "mynewuser1",
 		},
-		ExpectedInput: []string{"cimux-main-myg-mynewuser1"},
+		ExpectedInput: "cimux-main-myg-mynewuser1",
 	},
 }
 
@@ -51,6 +51,6 @@ var keyLegendUpToStateTestCases = []coretestcases.CaseV1{
 			"state":   "stateName",
 			"user":    "my-user",
 		},
-		ExpectedInput: []string{"cimux-main-myg-stateName-my-user"},
+		ExpectedInput: "cimux-main-myg-stateName-my-user",
 	},
 }

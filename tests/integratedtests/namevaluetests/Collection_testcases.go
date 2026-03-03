@@ -106,7 +106,7 @@ var collectionCloneNilTestCase = coretestcases.CaseV1{
 	ArrangeInput: args.Map{
 		"when": "clone nil collection",
 	},
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 // endregion
@@ -117,34 +117,34 @@ var collectionIsEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Positive: Same items are equal",
 		ArrangeInput: args.Map{
-			"when":   "two identical collections",
-			"case":   "equal",
+			"when": "two identical collections",
+			"case": "equal",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Negative: Different items are not equal",
 		ArrangeInput: args.Map{
-			"when":   "two different collections",
-			"case":   "notequal",
+			"when": "two different collections",
+			"case": "notequal",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Negative: Different lengths are not equal",
 		ArrangeInput: args.Map{
-			"when":   "collections with different lengths",
-			"case":   "difflength",
+			"when": "collections with different lengths",
+			"case": "difflength",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Negative: Both nil are equal",
 		ArrangeInput: args.Map{
-			"when":   "both nil collections",
-			"case":   "bothnils",
+			"when": "both nil collections",
+			"case": "bothnils",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -182,7 +182,7 @@ var collectionDisposeTestCases = []coretestcases.CaseV1{
 			"when":  "dispose a 3-item collection",
 			"count": 3,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 

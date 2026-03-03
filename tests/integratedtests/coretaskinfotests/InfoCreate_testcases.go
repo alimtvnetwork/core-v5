@@ -89,7 +89,7 @@ var infoNilSafeNameTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -99,7 +99,7 @@ var infoNilSafeDescriptionTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -109,7 +109,7 @@ var infoNilSafeUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -119,7 +119,7 @@ var infoNilSafeHintUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -129,7 +129,7 @@ var infoNilSafeErrorUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -139,7 +139,7 @@ var infoNilSafeExampleUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -175,9 +175,7 @@ var infoNilClonePtrTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info for clone",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -187,9 +185,7 @@ var infoNilPrettyJsonTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info for json",
 		},
-		ExpectedInput: []string{
-			"",
-		},
+		ExpectedInput: "",
 	},
 }
 

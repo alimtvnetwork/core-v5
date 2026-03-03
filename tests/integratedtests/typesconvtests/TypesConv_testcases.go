@@ -12,7 +12,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given 'true'",
 			"input": "true",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "StringToBool returns true for 'yes'",
@@ -20,7 +20,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given 'yes'",
 			"input": "yes",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "StringToBool returns false for empty string",
@@ -28,7 +28,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given empty string",
 			"input": "",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "StringToBool returns false for 'no'",
@@ -36,7 +36,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given 'no'",
 			"input": "no",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -48,7 +48,7 @@ var intPtrToSimpleTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": 42,
 		},
-		ExpectedInput: []string{"42"},
+		ExpectedInput: "42",
 	},
 	{
 		Title: "IntPtrToSimple returns 0 for nil",
@@ -56,6 +56,6 @@ var intPtrToSimpleTestCases = []coretestcases.CaseV1{
 			"when":  "given nil int pointer",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
