@@ -342,12 +342,11 @@ func Test_BytesErrorOnce_Deserialize_InvalidJSON(t *testing.T) {
 		return []byte(`not-json`), nil
 	})
 
-	convey.Convey("BytesErrorOnce.Deserialize with invalid JSON", t, func() {
+	convey.Convey("BytesErrorOnce.Deserialize with invalid JSON returns error", t, func() {
 		var result map[string]string
-		// Note: Due to a bug in the source (checks err==nil instead of jsonUnmarshalErr!=nil),
-		// this actually returns nil. Testing actual behavior.
 		err := once.Deserialize(&result)
-		convey.So(err, should.BeNil) // reflects actual code behavior
+		convey.So(err, should.NotBeNil)
+		convey.So(err.Error(), should.ContainSubstring, "deserialize failed")
 	})
 }
 
