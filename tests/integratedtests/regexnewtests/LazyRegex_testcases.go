@@ -1,20 +1,21 @@
 package regexnewtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-var lazyRegexNewTestCases = []coretestcases.CaseV1{
+// ==========================================================================
+// New.Lazy / New.LazyLock — table-driven test cases
+// ==========================================================================
+
+var lazyRegexNewTestCases = []coretestcases.StringBoolGherkins{
 	{
-		Title: "New.Lazy with simple word pattern matches correctly",
-		ArrangeInput: args.Map{
-			"when":    "given a simple word pattern",
-			"pattern": "hello",
-			"input":   "hello world",
-			"isMatch": true,
-		},
-		ExpectedInput: []string{
+		Title:      "New.Lazy with simple word pattern matches correctly",
+		When:       "given a simple word pattern",
+		Input:      "hello",
+		IsMatching: true,
+		ExtraArgs:  map[string]any{"compareInput": "hello world"},
+		ExpectedLines: []string{
 			"hello",
 			"true",
 			"true",
@@ -23,14 +24,12 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.Lazy with digit pattern matches digits",
-		ArrangeInput: args.Map{
-			"when":    "given a digit pattern",
-			"pattern": "\\d+",
-			"input":   "abc123def",
-			"isMatch": true,
-		},
-		ExpectedInput: []string{
+		Title:      "New.Lazy with digit pattern matches digits",
+		When:       "given a digit pattern",
+		Input:      "\\d+",
+		IsMatching: true,
+		ExtraArgs:  map[string]any{"compareInput": "abc123def"},
+		ExpectedLines: []string{
 			"\\d+",
 			"true",
 			"true",
@@ -39,14 +38,12 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.Lazy with no-match input returns false",
-		ArrangeInput: args.Map{
-			"when":    "given input that does not match",
-			"pattern": "^\\d+$",
-			"input":   "abc",
-			"isMatch": false,
-		},
-		ExpectedInput: []string{
+		Title:      "New.Lazy with no-match input returns false",
+		When:       "given input that does not match",
+		Input:      "^\\d+$",
+		IsMatching: false,
+		ExtraArgs:  map[string]any{"compareInput": "abc"},
+		ExpectedLines: []string{
 			"^\\d+$",
 			"true",
 			"true",
@@ -55,14 +52,12 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.Lazy with invalid regex pattern has error",
-		ArrangeInput: args.Map{
-			"when":    "given an invalid regex pattern",
-			"pattern": "[invalid",
-			"input":   "anything",
-			"isMatch": false,
-		},
-		ExpectedInput: []string{
+		Title:      "New.Lazy with invalid regex pattern has error",
+		When:       "given an invalid regex pattern",
+		Input:      "[invalid",
+		IsMatching: false,
+		ExtraArgs:  map[string]any{"compareInput": "anything"},
+		ExpectedLines: []string{
 			"[invalid",
 			"true",
 			"false",
@@ -71,14 +66,12 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.Lazy with empty pattern matches everything",
-		ArrangeInput: args.Map{
-			"when":    "given an empty pattern",
-			"pattern": "",
-			"input":   "anything",
-			"isMatch": false,
-		},
-		ExpectedInput: []string{
+		Title:      "New.Lazy with empty pattern matches everything",
+		When:       "given an empty pattern",
+		Input:      "",
+		IsMatching: false,
+		ExtraArgs:  map[string]any{"compareInput": "anything"},
+		ExpectedLines: []string{
 			"",
 			"false",
 			"false",
@@ -88,16 +81,14 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var lazyRegexLockTestCases = []coretestcases.CaseV1{
+var lazyRegexLockTestCases = []coretestcases.StringBoolGherkins{
 	{
-		Title: "New.LazyLock with word pattern is thread-safe",
-		ArrangeInput: args.Map{
-			"when":    "given a word pattern via LazyLock",
-			"pattern": "world",
-			"input":   "hello world",
-			"isMatch": true,
-		},
-		ExpectedInput: []string{
+		Title:      "New.LazyLock with word pattern is thread-safe",
+		When:       "given a word pattern via LazyLock",
+		Input:      "world",
+		IsMatching: true,
+		ExtraArgs:  map[string]any{"compareInput": "hello world"},
+		ExpectedLines: []string{
 			"world",
 			"true",
 			"true",
@@ -106,14 +97,12 @@ var lazyRegexLockTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.LazyLock with email pattern matches email",
-		ArrangeInput: args.Map{
-			"when":    "given an email-like pattern",
-			"pattern": `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`,
-			"input":   "user@example.com",
-			"isMatch": true,
-		},
-		ExpectedInput: []string{
+		Title:      "New.LazyLock with email pattern matches email",
+		When:       "given an email-like pattern",
+		Input:      `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`,
+		IsMatching: true,
+		ExtraArgs:  map[string]any{"compareInput": "user@example.com"},
+		ExpectedLines: []string{
 			`[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`,
 			"true",
 			"true",
@@ -127,63 +116,61 @@ var lazyRegexLockTestCases = []coretestcases.CaseV1{
 // PatternMatch — named test cases
 // ==========================================================================
 
-var lazyRegexIsMatchFullDigitTestCase = coretestcases.CaseV1{
-	Title: "IsMatch returns true for full string digit match",
-	ArrangeInput: args.Map{
-		"when":    "given full string digit pattern",
-		"pattern": "^\\d+$",
-		"input":   "12345",
-	},
-	ExpectedInput: []string{
+var lazyRegexIsMatchFullDigitTestCase = coretestcases.StringBoolGherkins{
+	Title:      "IsMatch returns true for full string digit match",
+	When:       "given full string digit pattern",
+	Input:      "^\\d+$",
+	Expected:   true,
+	IsMatching: true,
+	ExtraArgs:  map[string]any{"compareInput": "12345"},
+	ExpectedLines: []string{
 		"true",
 	},
 }
 
-var lazyRegexIsMatchPartialMismatchTestCase = coretestcases.CaseV1{
-	Title: "IsMatch returns false for partial digit mismatch",
-	ArrangeInput: args.Map{
-		"when":    "given full string digit pattern with letters",
-		"pattern": "^\\d+$",
-		"input":   "123abc",
-	},
-	ExpectedInput: []string{
+var lazyRegexIsMatchPartialMismatchTestCase = coretestcases.StringBoolGherkins{
+	Title:      "IsMatch returns false for partial digit mismatch",
+	When:       "given full string digit pattern with letters",
+	Input:      "^\\d+$",
+	Expected:   false,
+	IsMatching: false,
+	ExtraArgs:  map[string]any{"compareInput": "123abc"},
+	ExpectedLines: []string{
 		"false",
 	},
 }
 
-var lazyRegexIsFailedMatchTestCase = coretestcases.CaseV1{
-	Title: "IsFailedMatch is inverse of IsMatch",
-	ArrangeInput: args.Map{
-		"when":    "given matching input to IsFailedMatch",
-		"pattern": "^hello$",
-		"input":   "hello",
-	},
-	ExpectedInput: []string{
+var lazyRegexIsFailedMatchTestCase = coretestcases.StringBoolGherkins{
+	Title:      "IsFailedMatch is inverse of IsMatch",
+	When:       "given matching input to IsFailedMatch",
+	Input:      "^hello$",
+	Expected:   false,
+	IsMatching: true,
+	ExtraArgs:  map[string]any{"compareInput": "hello"},
+	ExpectedLines: []string{
 		"false",
 	},
 }
 
-var lazyRegexFirstMatchLineFoundTestCase = coretestcases.CaseV1{
-	Title: "FirstMatchLine returns first submatch",
-	ArrangeInput: args.Map{
-		"when":    "given a pattern with capture group",
-		"pattern": "(\\d+)",
-		"input":   "abc 123 def 456",
-	},
-	ExpectedInput: []string{
+var lazyRegexFirstMatchLineFoundTestCase = coretestcases.StringGherkins{
+	Title:    "FirstMatchLine returns first submatch",
+	When:     "given a pattern with capture group",
+	Input:    "(\\d+)",
+	Expected: "123",
+	ExtraArgs: map[string]any{"compareInput": "abc 123 def 456"},
+	ExpectedLines: []string{
 		"123",
 		"false",
 	},
 }
 
-var lazyRegexFirstMatchLineNotFoundTestCase = coretestcases.CaseV1{
-	Title: "FirstMatchLine returns empty on no match",
-	ArrangeInput: args.Map{
-		"when":    "given a pattern that does not match",
-		"pattern": "(\\d+)",
-		"input":   "no digits here",
-	},
-	ExpectedInput: []string{
+var lazyRegexFirstMatchLineNotFoundTestCase = coretestcases.StringGherkins{
+	Title:    "FirstMatchLine returns empty on no match",
+	When:     "given a pattern that does not match",
+	Input:    "(\\d+)",
+	Expected: "",
+	ExtraArgs: map[string]any{"compareInput": "no digits here"},
+	ExpectedLines: []string{
 		"",
 		"true",
 	},

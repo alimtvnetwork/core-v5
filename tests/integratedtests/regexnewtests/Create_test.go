@@ -4,66 +4,55 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/regexnew"
 )
 
 func Test_Create_Verification(t *testing.T) {
 	for caseIndex, testCase := range createTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		pattern, _ := input.GetAsString("pattern")
+		pattern := testCase.Input
 
 		// Act
 		regex, err := regexnew.New.DefaultLock(pattern)
 		isCompiled := fmt.Sprintf("%v", regex != nil)
 		hasError := fmt.Sprintf("%v", err != nil)
 
+		actLines := []string{isCompiled, hasError}
+
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			isCompiled,
-			hasError,
-		)
+		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
 	}
 }
 
-func Test_IsMatchLock_Verification(t *testing.T) {
-	for caseIndex, testCase := range isMatchLockTestCases {
+func Test_Create_IsMatchLock_Verification(t *testing.T) {
+	for caseIndex, testCase := range createIsMatchLockTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		pattern, _ := input.GetAsString("pattern")
-		compareInput, _ := input.GetAsString("input")
+		pattern := testCase.Input
+		compareInput, _ := testCase.GetExtraAsString("compareInput")
 
 		// Act
 		isMatch := fmt.Sprintf("%v", regexnew.IsMatchLock(pattern, compareInput))
 
+		actLines := []string{isMatch}
+
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			isMatch,
-		)
+		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
 	}
 }
 
-func Test_IsMatchFailed_Verification(t *testing.T) {
-	for caseIndex, testCase := range isMatchFailedTestCases {
+func Test_Create_IsMatchFailed_Verification(t *testing.T) {
+	for caseIndex, testCase := range createIsMatchFailedTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		pattern, _ := input.GetAsString("pattern")
-		compareInput, _ := input.GetAsString("input")
+		pattern := testCase.Input
+		compareInput, _ := testCase.GetExtraAsString("compareInput")
 
 		// Act
 		isFailed := fmt.Sprintf("%v", regexnew.IsMatchFailed(pattern, compareInput))
 
+		actLines := []string{isFailed}
+
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			isFailed,
-		)
+		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
 	}
 }
 
@@ -73,14 +62,20 @@ func Test_IsMatchFailed_Verification(t *testing.T) {
 
 func Test_MatchError_Match(t *testing.T) {
 	tc := matchErrorMatchTestCase
-	err := regexnew.MatchError("^hello$", "hello")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
+	err := regexnew.MatchError(tc.Input, "hello")
+
+	actLines := []string{fmt.Sprintf("%v", err == nil)}
+
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
 
 func Test_MatchError_Mismatch(t *testing.T) {
 	tc := matchErrorMismatchTestCase
-	err := regexnew.MatchError("^\\d+$", "abc")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
+	err := regexnew.MatchError(tc.Input, "abc")
+
+	actLines := []string{fmt.Sprintf("%v", err == nil)}
+
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
 
 // ==========================================================================
@@ -89,12 +84,18 @@ func Test_MatchError_Mismatch(t *testing.T) {
 
 func Test_MatchErrorLock_Match(t *testing.T) {
 	tc := matchErrorLockMatchTestCase
-	err := regexnew.MatchErrorLock("world", "hello world")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
+	err := regexnew.MatchErrorLock(tc.Input, "hello world")
+
+	actLines := []string{fmt.Sprintf("%v", err == nil)}
+
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
 
 func Test_MatchErrorLock_Mismatch(t *testing.T) {
 	tc := matchErrorLockMismatchTestCase
-	err := regexnew.MatchErrorLock("^xyz$", "abc")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
+	err := regexnew.MatchErrorLock(tc.Input, "abc")
+
+	actLines := []string{fmt.Sprintf("%v", err == nil)}
+
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }

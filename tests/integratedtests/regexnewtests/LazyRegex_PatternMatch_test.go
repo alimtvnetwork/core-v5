@@ -13,20 +13,30 @@ import (
 
 func Test_LazyRegex_IsMatch_FullDigit(t *testing.T) {
 	tc := lazyRegexIsMatchFullDigitTestCase
-	lazyRegex := regexnew.New.LazyLock("^\\d+$")
 
-	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch("12345"))}
+	// Arrange
+	compareInput, _ := tc.GetExtraAsString("compareInput")
+	lazyRegex := regexnew.New.LazyLock(tc.Input)
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	// Act
+	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))}
+
+	// Assert
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
 
 func Test_LazyRegex_IsMatch_PartialMismatch(t *testing.T) {
 	tc := lazyRegexIsMatchPartialMismatchTestCase
-	lazyRegex := regexnew.New.LazyLock("^\\d+$")
 
-	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch("123abc"))}
+	// Arrange
+	compareInput, _ := tc.GetExtraAsString("compareInput")
+	lazyRegex := regexnew.New.LazyLock(tc.Input)
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	// Act
+	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))}
+
+	// Assert
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
 
 // ==========================================================================
@@ -35,11 +45,16 @@ func Test_LazyRegex_IsMatch_PartialMismatch(t *testing.T) {
 
 func Test_LazyRegex_IsFailedMatch(t *testing.T) {
 	tc := lazyRegexIsFailedMatchTestCase
-	lazyRegex := regexnew.New.LazyLock("^hello$")
 
-	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsFailedMatch("hello"))}
+	// Arrange
+	compareInput, _ := tc.GetExtraAsString("compareInput")
+	lazyRegex := regexnew.New.LazyLock(tc.Input)
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	// Act
+	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsFailedMatch(compareInput))}
+
+	// Assert
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
 
 // ==========================================================================
@@ -48,18 +63,30 @@ func Test_LazyRegex_IsFailedMatch(t *testing.T) {
 
 func Test_LazyRegex_FirstMatchLine_Found(t *testing.T) {
 	tc := lazyRegexFirstMatchLineFoundTestCase
-	lazyRegex := regexnew.New.LazyLock("(\\d+)")
 
-	firstMatch, isInvalid := lazyRegex.FirstMatchLine("abc 123 def 456")
+	// Arrange
+	compareInput, _ := tc.GetExtraAsString("compareInput")
+	lazyRegex := regexnew.New.LazyLock(tc.Input)
 
-	tc.ShouldBeEqual(t, 0, firstMatch, fmt.Sprintf("%v", isInvalid))
+	// Act
+	firstMatch, isInvalid := lazyRegex.FirstMatchLine(compareInput)
+	actLines := []string{firstMatch, fmt.Sprintf("%v", isInvalid)}
+
+	// Assert
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
 
 func Test_LazyRegex_FirstMatchLine_NotFound(t *testing.T) {
 	tc := lazyRegexFirstMatchLineNotFoundTestCase
-	lazyRegex := regexnew.New.LazyLock("(\\d+)")
 
-	firstMatch, isInvalid := lazyRegex.FirstMatchLine("no digits here")
+	// Arrange
+	compareInput, _ := tc.GetExtraAsString("compareInput")
+	lazyRegex := regexnew.New.LazyLock(tc.Input)
 
-	tc.ShouldBeEqual(t, 0, firstMatch, fmt.Sprintf("%v", isInvalid))
+	// Act
+	firstMatch, isInvalid := lazyRegex.FirstMatchLine(compareInput)
+	actLines := []string{firstMatch, fmt.Sprintf("%v", isInvalid)}
+
+	// Assert
+	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
 }
