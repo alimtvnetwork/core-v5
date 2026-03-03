@@ -36,3 +36,19 @@ func (it *GenericGherkins[TInput, TExpect]) GetExtraAsString(key string) (string
 
 	return it.ExtraArgs.GetAsString(key)
 }
+
+// GetExtraAsBool returns the bool value for a key in ExtraArgs.
+func (it *GenericGherkins[TInput, TExpect]) GetExtraAsBool(key string) (bool, bool) {
+	if it == nil || it.ExtraArgs == nil {
+		return false, false
+	}
+
+	val, has := it.ExtraArgs.Get(key)
+	if !has {
+		return false, false
+	}
+
+	b, ok := val.(bool)
+
+	return b, ok
+}
