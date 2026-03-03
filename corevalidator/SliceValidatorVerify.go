@@ -167,7 +167,22 @@ func (it *SliceValidator) AllVerifyErrorUptoLength(
 		}
 	}
 
-	if params.IsAttachUserInputs && len(sliceErr) > constants.Zero {
+	hasErrors := len(sliceErr) > constants.Zero
+
+	if hasErrors {
+		diffMsg := errcore.LineDiffToString(
+			params.CaseIndex,
+			params.Header,
+			it.ActualLines,
+			it.ExpectedLines,
+		)
+
+		if len(diffMsg) > 0 {
+			sliceErr = append(sliceErr, diffMsg)
+		}
+	}
+
+	if params.IsAttachUserInputs && hasErrors {
 		sliceErr = append(
 			sliceErr,
 			it.ActualInputWithExpectingMessage(
