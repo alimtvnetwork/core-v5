@@ -42,10 +42,9 @@ func Test_ErrorOnce_Core(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitError: %q", tc.InitError),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -74,10 +73,9 @@ func Test_ErrorOnce_Caching(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  CallCount: %d", callCount),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -93,10 +91,9 @@ func Test_ErrorOnce_NullOrEmpty(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitError: %q", tc.InitError),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -113,10 +110,9 @@ func Test_ErrorOnce_MessageEqual(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitError: %q, MatchMsg: %q", tc.InitError, tc.MatchMsg),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -143,10 +139,9 @@ func Test_ErrorOnce_ConcatNew(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitError: %q, ExtraMsg: %q, Result: %q", tc.InitError, tc.ExtraMsg, result),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -166,9 +161,8 @@ func Test_ErrorOnce_Json(t *testing.T) {
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
 			fmt.Sprintf("  InitError: %q, Error: %v", tc.InitError, err),
 		)
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

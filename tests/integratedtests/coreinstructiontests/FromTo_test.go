@@ -119,8 +119,7 @@ func Test_FromTo_Verification(t *testing.T) {
 		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
+		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 	}
 }
 
