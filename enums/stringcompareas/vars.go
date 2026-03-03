@@ -20,7 +20,7 @@ var (
 		NotAnyChars:   "NotAnyChars",
 		NotMatchRegex: "NotMatchRegex",
 		Glob:          "Glob",
-		NotGlob:       "NotGlob",
+		NonGlob:       "NonGlob",
 		Invalid:       "Invalid",
 	}
 
@@ -47,7 +47,7 @@ var (
 		NotAnyChars:   isNotAnyCharsFunc,
 		NotMatchRegex: isNotMatchRegex,
 		Glob:          isGlobFunc,
-		NotGlob:       IsNonGlobFunc,
+		NonGlob:       IsNonGlobFunc,
 	}
 
 	negativeCases = []Variant{
@@ -57,6 +57,6 @@ var (
 		NotContains,
 		NotAnyChars,
 		NotMatchRegex,
-		NotGlob,
+		NonGlob,
 	}
 )
