@@ -9,33 +9,33 @@ import (
 // ==========================================================================
 
 var collectionRemoveAtMiddleTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt middle index",
-	WantLines: []string{"true", "4", "1", "5"},
+	Title:         "RemoveAt middle index",
+	ExpectedInput: []string{"true", "4", "1", "5"},
 }
 
 var collectionRemoveAtFirstTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt first index",
-	WantLines: []string{"true", "4", "2", "5"},
+	Title:         "RemoveAt first index",
+	ExpectedInput: []string{"true", "4", "2", "5"},
 }
 
 var collectionRemoveAtLastTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt last index",
-	WantLines: []string{"true", "4", "1", "4"},
+	Title:         "RemoveAt last index",
+	ExpectedInput: []string{"true", "4", "1", "4"},
 }
 
 var collectionRemoveAtNegativeTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt negative index returns false",
-	WantLines: []string{"false", "5"},
+	Title:         "RemoveAt negative index returns false",
+	ExpectedInput: []string{"false", "5"},
 }
 
 var collectionRemoveAtOutOfBoundsTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt out-of-bounds index returns false",
-	WantLines: []string{"false", "5"},
+	Title:         "RemoveAt out-of-bounds index returns false",
+	ExpectedInput: []string{"false", "5"},
 }
 
 var collectionRemoveAtEmptyTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt on empty collection returns false",
-	WantLines: []string{"false", "0"},
+	Title:         "RemoveAt on empty collection returns false",
+	ExpectedInput: []string{"false", "0"},
 }
 
 // ==========================================================================
@@ -43,18 +43,18 @@ var collectionRemoveAtEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionReversePopulatedTestCase = coretestcases.CaseV1{
-	Name:      "Reverse populated collection",
-	WantLines: []string{"5", "4", "3", "2", "1"},
+	Title:         "Reverse populated collection",
+	ExpectedInput: []string{"5", "4", "3", "2", "1"},
 }
 
 var collectionReverseSingleTestCase = coretestcases.CaseV1{
-	Name:      "Reverse single element",
-	WantLines: []string{"42"},
+	Title:         "Reverse single element",
+	ExpectedInput: []string{"42"},
 }
 
 var collectionReverseEmptyTestCase = coretestcases.CaseV1{
-	Name:      "Reverse empty collection",
-	WantLines: []string{"0"},
+	Title:         "Reverse empty collection",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -62,23 +62,23 @@ var collectionReverseEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionFirstOrDefaultPopulatedTestCase = coretestcases.CaseV1{
-	Name:      "FirstOrDefault on populated returns first",
-	WantLines: []string{"10"},
+	Title:         "FirstOrDefault on populated returns first",
+	ExpectedInput: []string{"10"},
 }
 
 var collectionFirstOrDefaultEmptyTestCase = coretestcases.CaseV1{
-	Name:      "FirstOrDefault on empty returns zero",
-	WantLines: []string{"0"},
+	Title:         "FirstOrDefault on empty returns zero",
+	ExpectedInput: []string{"0"},
 }
 
 var collectionLastOrDefaultPopulatedTestCase = coretestcases.CaseV1{
-	Name:      "LastOrDefault on populated returns last",
-	WantLines: []string{"30"},
+	Title:         "LastOrDefault on populated returns last",
+	ExpectedInput: []string{"30"},
 }
 
 var collectionLastOrDefaultEmptyTestCase = coretestcases.CaseV1{
-	Name:      "LastOrDefault on empty returns zero",
-	WantLines: []string{"0"},
+	Title:         "LastOrDefault on empty returns zero",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -86,23 +86,23 @@ var collectionLastOrDefaultEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionSafeAtValidTestCase = coretestcases.CaseV1{
-	Name:      "SafeAt valid index returns item",
-	WantLines: []string{"20"},
+	Title:         "SafeAt valid index returns item",
+	ExpectedInput: []string{"20"},
 }
 
 var collectionSafeAtNegativeTestCase = coretestcases.CaseV1{
-	Name:      "SafeAt negative index returns zero",
-	WantLines: []string{"0"},
+	Title:         "SafeAt negative index returns zero",
+	ExpectedInput: []string{"0"},
 }
 
 var collectionSafeAtOutOfBoundsTestCase = coretestcases.CaseV1{
-	Name:      "SafeAt out-of-bounds returns zero",
-	WantLines: []string{"0"},
+	Title:         "SafeAt out-of-bounds returns zero",
+	ExpectedInput: []string{"0"},
 }
 
 var collectionSafeAtEmptyTestCase = coretestcases.CaseV1{
-	Name:      "SafeAt on empty returns zero",
-	WantLines: []string{"0"},
+	Title:         "SafeAt on empty returns zero",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -110,13 +110,13 @@ var collectionSafeAtEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionConcatNewPopulatedTestCase = coretestcases.CaseV1{
-	Name:      "ConcatNew creates new collection with appended items",
-	WantLines: []string{"5", "1", "5", "3"},
+	Title:         "ConcatNew creates new collection with appended items",
+	ExpectedInput: []string{"5", "1", "5", "3"},
 }
 
 var collectionConcatNewEmptyTestCase = coretestcases.CaseV1{
-	Name:      "ConcatNew on empty with items",
-	WantLines: []string{"2", "10", "20"},
+	Title:         "ConcatNew on empty with items",
+	ExpectedInput: []string{"2", "10", "20"},
 }
 
 // ==========================================================================
@@ -124,13 +124,13 @@ var collectionConcatNewEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddIfTrueTestCase = coretestcases.CaseV1{
-	Name:      "AddIf true adds item",
-	WantLines: []string{"1", "42"},
+	Title:         "AddIf true adds item",
+	ExpectedInput: []string{"1", "42"},
 }
 
 var collectionAddIfFalseTestCase = coretestcases.CaseV1{
-	Name:      "AddIf false does not add",
-	WantLines: []string{"0"},
+	Title:         "AddIf false does not add",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -138,8 +138,8 @@ var collectionAddIfFalseTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionForEachBreakEmptyTestCase = coretestcases.CaseV1{
-	Name:      "ForEachBreak on empty does nothing",
-	WantLines: []string{"0"},
+	Title:         "ForEachBreak on empty does nothing",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -147,13 +147,13 @@ var collectionForEachBreakEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddSlicePopulatedTestCase = coretestcases.CaseV1{
-	Name:      "AddSlice appends all items from slice",
-	WantLines: []string{"3", "10", "30"},
+	Title:         "AddSlice appends all items from slice",
+	ExpectedInput: []string{"3", "10", "30"},
 }
 
 var collectionAddSliceEmptyTestCase = coretestcases.CaseV1{
-	Name:      "AddSlice with empty slice does nothing",
-	WantLines: []string{"0"},
+	Title:         "AddSlice with empty slice does nothing",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -161,13 +161,13 @@ var collectionAddSliceEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionItemsSliceTestCase = coretestcases.CaseV1{
-	Name:      "Items returns underlying slice",
-	WantLines: []string{"3", "1"},
+	Title:         "Items returns underlying slice",
+	ExpectedInput: []string{"3", "1"},
 }
 
 var collectionItemsPtrTestCase = coretestcases.CaseV1{
-	Name:      "ItemsPtr returns non-nil pointer",
-	WantLines: []string{"true"},
+	Title:         "ItemsPtr returns non-nil pointer",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
@@ -175,6 +175,6 @@ var collectionItemsPtrTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionRemoveAtLockTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAtLock removes item thread-safely",
-	WantLines: []string{"true", "2"},
+	Title:         "RemoveAtLock removes item thread-safely",
+	ExpectedInput: []string{"true", "2"},
 }

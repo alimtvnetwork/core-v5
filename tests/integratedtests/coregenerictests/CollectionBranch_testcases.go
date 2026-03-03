@@ -10,13 +10,13 @@ import (
 // ==========================================================================
 
 var collectionForEachVisitsAllTestCase = coretestcases.CaseV1{
-	Name:      "ForEach visits all items with correct indices",
-	WantLines: []string{"5", "0:1", "4:5"},
+	Title:         "ForEach visits all items with correct indices",
+	ExpectedInput: []string{"5", "0:1", "4:5"},
 }
 
 var collectionForEachEmptyTestCase = coretestcases.CaseV1{
-	Name:      "ForEach on empty collection does nothing",
-	WantLines: []string{"0"},
+	Title:         "ForEach on empty collection does nothing",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -24,13 +24,13 @@ var collectionForEachEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionForEachBreakStopsTestCase = coretestcases.CaseV1{
-	Name:      "ForEachBreak stops at first match",
-	WantLines: []string{"2"},
+	Title:         "ForEachBreak stops at first match",
+	ExpectedInput: []string{"2"},
 }
 
 var collectionForEachBreakVisitsAllTestCase = coretestcases.CaseV1{
-	Name:      "ForEachBreak visits all if no break",
-	WantLines: []string{"5"},
+	Title:         "ForEachBreak visits all if no break",
+	ExpectedInput: []string{"5"},
 }
 
 // ==========================================================================
@@ -38,18 +38,18 @@ var collectionForEachBreakVisitsAllTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionSortFuncAscTestCase = coretestcases.CaseV1{
-	Name:      "SortFunc ascending",
-	WantLines: []string{"1", "5"},
+	Title:         "SortFunc ascending",
+	ExpectedInput: []string{"1", "5"},
 }
 
 var collectionSortFuncDescTestCase = coretestcases.CaseV1{
-	Name:      "SortFunc descending",
-	WantLines: []string{"5", "1"},
+	Title:         "SortFunc descending",
+	ExpectedInput: []string{"5", "1"},
 }
 
 var collectionSortFuncSingleTestCase = coretestcases.CaseV1{
-	Name:      "SortFunc single element",
-	WantLines: []string{"42", "42"},
+	Title:         "SortFunc single element",
+	ExpectedInput: []string{"42", "42"},
 }
 
 // ==========================================================================
@@ -57,13 +57,13 @@ var collectionSortFuncSingleTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddIfManyTrueTestCase = coretestcases.CaseV1{
-	Name:      "AddIfMany true adds all items",
-	WantLines: []string{"3", "10", "30"},
+	Title:         "AddIfMany true adds all items",
+	ExpectedInput: []string{"3", "10", "30"},
 }
 
 var collectionAddIfManyFalseTestCase = coretestcases.CaseV1{
-	Name:      "AddIfMany false adds nothing",
-	WantLines: []string{"0"},
+	Title:         "AddIfMany false adds nothing",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -71,8 +71,8 @@ var collectionAddIfManyFalseTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddFuncTestCase = coretestcases.CaseV1{
-	Name:      "AddFunc appends result of function",
-	WantLines: []string{"1", "42"},
+	Title:         "AddFunc appends result of function",
+	ExpectedInput: []string{"1", "42"},
 }
 
 // ==========================================================================
@@ -80,13 +80,13 @@ var collectionAddFuncTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddCollectionsMergeTestCase = coretestcases.CaseV1{
-	Name:      "AddCollections merges multiple collections",
-	WantLines: []string{"6", "1", "6"},
+	Title:         "AddCollections merges multiple collections",
+	ExpectedInput: []string{"6", "1", "6"},
 }
 
 var collectionAddCollectionsNilTestCase = coretestcases.CaseV1{
-	Name:      "AddCollections with nil collection skips it",
-	WantLines: []string{"3", "1", "3"},
+	Title:         "AddCollections with nil collection skips it",
+	ExpectedInput: []string{"3", "1", "3"},
 }
 
 // ==========================================================================
@@ -94,8 +94,8 @@ var collectionAddCollectionsNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionCloneEmptyTestCase = coretestcases.CaseV1{
-	Name:      "Clone empty returns empty",
-	WantLines: []string{"0", "true"},
+	Title:         "Clone empty returns empty",
+	ExpectedInput: []string{"0", "true"},
 }
 
 // ==========================================================================
@@ -103,18 +103,18 @@ var collectionCloneEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionSkipAllTestCase = coretestcases.CaseV1{
-	Name:      "Skip all returns empty",
-	WantLines: []string{"0"},
+	Title:         "Skip all returns empty",
+	ExpectedInput: []string{"0"},
 }
 
 var collectionTakeMoreTestCase = coretestcases.CaseV1{
-	Name:      "Take more than length returns all",
-	WantLines: []string{"3"},
+	Title:         "Take more than length returns all",
+	ExpectedInput: []string{"3"},
 }
 
 var collectionSkipZeroTakeZeroTestCase = coretestcases.CaseV1{
-	Name:      "Skip 0 returns all, Take 0 returns empty",
-	WantLines: []string{"3", "0"},
+	Title:         "Skip 0 returns all, Take 0 returns empty",
+	ExpectedInput: []string{"3", "0"},
 }
 
 // ==========================================================================
@@ -122,18 +122,18 @@ var collectionSkipZeroTakeZeroTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionFilterNoMatchTestCase = coretestcases.CaseV1{
-	Name:      "Filter no match returns empty",
-	WantLines: []string{"0", "true"},
+	Title:         "Filter no match returns empty",
+	ExpectedInput: []string{"0", "true"},
 }
 
 var collectionFilterAllMatchTestCase = coretestcases.CaseV1{
-	Name:      "Filter all match returns all",
-	WantLines: []string{"3"},
+	Title:         "Filter all match returns all",
+	ExpectedInput: []string{"3"},
 }
 
 var collectionFilterEmptyTestCase = coretestcases.CaseV1{
-	Name:      "Filter empty collection returns empty",
-	WantLines: []string{"0", "true"},
+	Title:         "Filter empty collection returns empty",
+	ExpectedInput: []string{"0", "true"},
 }
 
 // ==========================================================================
@@ -141,13 +141,13 @@ var collectionFilterEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionCountFuncNoMatchTestCase = coretestcases.CaseV1{
-	Name:      "CountFunc no match returns 0",
-	WantLines: []string{"0"},
+	Title:         "CountFunc no match returns 0",
+	ExpectedInput: []string{"0"},
 }
 
 var collectionCountFuncEmptyTestCase = coretestcases.CaseV1{
-	Name:      "CountFunc empty collection returns 0",
-	WantLines: []string{"0"},
+	Title:         "CountFunc empty collection returns 0",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -155,13 +155,13 @@ var collectionCountFuncEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionStringPopulatedTestCase = coretestcases.CaseV1{
-	Name:      "String formats collection",
-	WantLines: []string{"[1 2 3]"},
+	Title:         "String formats collection",
+	ExpectedInput: []string{"[1 2 3]"},
 }
 
 var collectionStringEmptyTestCase = coretestcases.CaseV1{
-	Name:      "String empty collection",
-	WantLines: []string{"[]"},
+	Title:         "String empty collection",
+	ExpectedInput: []string{"[]"},
 }
 
 // ==========================================================================
@@ -169,8 +169,8 @@ var collectionStringEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionLockVariantsTestCase = coretestcases.CaseV1{
-	Name:      "Lock variants work correctly",
-	WantLines: []string{"3", "false", "3"},
+	Title:         "Lock variants work correctly",
+	ExpectedInput: []string{"3", "false", "3"},
 }
 
 // ==========================================================================
@@ -178,13 +178,13 @@ var collectionLockVariantsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionMetadataPopulatedTestCase = coretestcases.CaseV1{
-	Name:      "Metadata methods on populated collection",
-	WantLines: []string{"true", "true", "true", "false", "2", "3"},
+	Title:         "Metadata methods on populated collection",
+	ExpectedInput: []string{"true", "true", "true", "false", "2", "3"},
 }
 
 var collectionMetadataEmptyTestCase = coretestcases.CaseV1{
-	Name:      "Metadata methods on empty collection",
-	WantLines: []string{"false", "false", "false", "-1", "0"},
+	Title:         "Metadata methods on empty collection",
+	ExpectedInput: []string{"false", "false", "false", "-1", "0"},
 }
 
 // ==========================================================================
@@ -192,8 +192,8 @@ var collectionMetadataEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionRemoveAtSingleTestCase = coretestcases.CaseV1{
-	Name:      "RemoveAt single item leaves empty collection",
-	WantLines: []string{"true", "0", "true"},
+	Title:         "RemoveAt single item leaves empty collection",
+	ExpectedInput: []string{"true", "0", "true"},
 }
 
 // ==========================================================================
@@ -201,8 +201,8 @@ var collectionRemoveAtSingleTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddCollectionEmptyTestCase = coretestcases.CaseV1{
-	Name:      "AddCollection with empty collection does not change length",
-	WantLines: []string{"3"},
+	Title:         "AddCollection with empty collection does not change length",
+	ExpectedInput: []string{"3"},
 }
 
 // ==========================================================================
@@ -210,33 +210,30 @@ var collectionAddCollectionEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapIsEqualsSameKeysTestCase = coretestcases.CaseV1{
-	Name:      "IsEquals same keys → true",
-	WantLines: []string{"true"},
+	Title:         "IsEquals same keys → true",
+	ExpectedInput: []string{"true"},
 }
 
 var hashmapIsEqualsDiffKeysTestCase = coretestcases.CaseV1{
-	Name:      "IsEquals same length different keys → false",
-	WantLines: []string{"false"},
+	Title:         "IsEquals same length different keys → false",
+	ExpectedInput: []string{"false"},
 }
 
 var hashmapIsEqualsDiffLengthTestCase = coretestcases.CaseV1{
-	Name:      "IsEquals different length → false",
-	WantLines: []string{"false"},
+	Title:         "IsEquals different length → false",
+	ExpectedInput: []string{"false"},
 }
 
-var hashmapIsEqualsBothNilTestCase = coretestcases.CaseV1{
-	Name:      "IsEquals both nil → true",
-	WantLines: []string{"true"},
-}
+// Removed: hashmapIsEqualsBothNilTestCase — declared in Hashmap_testcases.go
 
 var hashmapIsEqualsNilVsNonNilTestCase = coretestcases.CaseV1{
-	Name:      "IsEquals nil vs non-nil → false",
-	WantLines: []string{"false"},
+	Title:         "IsEquals nil vs non-nil → false",
+	ExpectedInput: []string{"false"},
 }
 
 var hashmapIsEqualsSamePtrTestCase = coretestcases.CaseV1{
-	Name:      "IsEquals same pointer → true",
-	WantLines: []string{"true"},
+	Title:         "IsEquals same pointer → true",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
@@ -244,7 +241,7 @@ var hashmapIsEqualsSamePtrTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionLenCapTestCase = coretestcases.CaseV1{
-	Name:         "CollectionLenCap creates with pre-set length and capacity",
-	ArrangeInput: args.Map{},
-	WantLines:    []string{"3", "10", "0"},
+	Title:         "CollectionLenCap creates with pre-set length and capacity",
+	ArrangeInput:  args.Map{},
+	ExpectedInput: []string{"3", "10", "0"},
 }
