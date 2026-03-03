@@ -100,44 +100,75 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 }
 
 // =============================================================================
-// BytesErrorOnce — Access (Execute, ValueOnly, ValueWithError)
+// BytesErrorOnce — Execute
 // =============================================================================
 
-func Test_BytesErrorOnce_Access(t *testing.T) {
-	for caseIndex, tc := range bytesErrorOnceAccessTestCases {
-		// Arrange
-		initBytes := tc.InitBytes
-		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-			return initBytes, nil
-		})
+func Test_BytesErrorOnce_Execute(t *testing.T) {
+	tc := bytesErrorOnceAccessTestCases[0]
 
-		// Act
-		var actLines []string
+	// Arrange
+	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+		return tc.InitBytes, nil
+	})
 
-		switch caseIndex {
-		case 0: // Execute == Value
-			v1, _ := once.Execute()
-			v2, _ := once.Value()
-			actLines = []string{
-				fmt.Sprintf("%v", string(v1) == string(v2)),
-			}
-		case 1: // ValueOnly
-			actLines = []string{
-				string(once.ValueOnly()),
-			}
-		case 2: // ValueWithError
-			v, e := once.ValueWithError()
-			actLines = []string{
-				string(v),
-				fmt.Sprintf("%v", e == nil),
-			}
-		}
+	// Act
+	v1, _ := once.Execute()
+	v2, _ := once.Value()
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+	actLines := []string{
+		fmt.Sprintf("%v", string(v1) == string(v2)),
 	}
+	expectedLines := tc.Case.ExpectedInput.([]string)
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+}
+
+// =============================================================================
+// BytesErrorOnce — ValueOnly
+// =============================================================================
+
+func Test_BytesErrorOnce_ValueOnly(t *testing.T) {
+	tc := bytesErrorOnceAccessTestCases[1]
+
+	// Arrange
+	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+		return tc.InitBytes, nil
+	})
+
+	// Act
+	actLines := []string{
+		string(once.ValueOnly()),
+	}
+	expectedLines := tc.Case.ExpectedInput.([]string)
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+}
+
+// =============================================================================
+// BytesErrorOnce — ValueWithError
+// =============================================================================
+
+func Test_BytesErrorOnce_ValueWithError(t *testing.T) {
+	tc := bytesErrorOnceAccessTestCases[2]
+
+	// Arrange
+	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+		return tc.InitBytes, nil
+	})
+
+	// Act
+	v, e := once.ValueWithError()
+
+	actLines := []string{
+		string(v),
+		fmt.Sprintf("%v", e == nil),
+	}
+	expectedLines := tc.Case.ExpectedInput.([]string)
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
 }
 
 // =============================================================================
@@ -281,39 +312,53 @@ func Test_BytesErrorOnce_Deserialize(t *testing.T) {
 }
 
 // =============================================================================
-// BytesErrorOnce — Serialization
+// BytesErrorOnce — MarshalJSON
 // =============================================================================
 
-func Test_BytesErrorOnce_Serialization(t *testing.T) {
-	for caseIndex, tc := range bytesErrorOnceSerializationTestCases {
-		// Arrange
-		initBytes := tc.InitBytes
-		once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
-			return initBytes, nil
-		})
+func Test_BytesErrorOnce_MarshalJSON(t *testing.T) {
+	tc := bytesErrorOnceSerializationTestCases[0]
 
-		// Act
-		var actLines []string
+	// Arrange
+	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+		return tc.InitBytes, nil
+	})
 
-		if caseIndex == 0 {
-			data, err := once.MarshalJSON()
-			actLines = []string{
-				fmt.Sprintf("%v", err == nil),
-				string(data),
-			}
-		} else {
-			data, err := once.Serialize()
-			actLines = []string{
-				fmt.Sprintf("%v", err == nil),
-				string(data),
-			}
-		}
+	// Act
+	data, err := once.MarshalJSON()
 
-		expectedLines := tc.Case.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+	actLines := []string{
+		fmt.Sprintf("%v", err == nil),
+		string(data),
 	}
+	expectedLines := tc.Case.ExpectedInput.([]string)
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+}
+
+// =============================================================================
+// BytesErrorOnce — Serialize
+// =============================================================================
+
+func Test_BytesErrorOnce_Serialize(t *testing.T) {
+	tc := bytesErrorOnceSerializationTestCases[1]
+
+	// Arrange
+	once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+		return tc.InitBytes, nil
+	})
+
+	// Act
+	data, err := once.Serialize()
+
+	actLines := []string{
+		fmt.Sprintf("%v", err == nil),
+		string(data),
+	}
+	expectedLines := tc.Case.ExpectedInput.([]string)
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
 }
 
 // =============================================================================
