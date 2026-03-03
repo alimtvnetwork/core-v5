@@ -16,11 +16,10 @@ func Test_Value_IsOnLogically(t *testing.T) {
 		value := input["value"].(issetter.Value)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.IsOnLogically())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.IsOnLogically())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -31,11 +30,10 @@ func Test_Value_IsOffLogically(t *testing.T) {
 		value := input["value"].(issetter.Value)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.IsOffLogically())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.IsOffLogically())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -47,11 +45,10 @@ func Test_Value_WildcardApply(t *testing.T) {
 		boolInput := input["input"].(bool)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.WildcardApply(boolInput))}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.WildcardApply(boolInput))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -63,11 +60,10 @@ func Test_Value_IsWildcardOrBool(t *testing.T) {
 		boolInput := input["input"].(bool)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.IsWildcardOrBool(boolInput))}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.IsWildcardOrBool(boolInput))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -81,11 +77,10 @@ func Test_Value_ToByteCondition(t *testing.T) {
 		invalidVal := input["invalidVal"].(byte)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.ToByteCondition(trueVal, falseVal, invalidVal))}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.ToByteCondition(trueVal, falseVal, invalidVal))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -100,11 +95,10 @@ func Test_Value_ToByteConditionWithWildcard(t *testing.T) {
 		invalidVal := input["invalidVal"].(byte)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.ToByteConditionWithWildcard(wildcardVal, trueVal, falseVal, invalidVal))}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.ToByteConditionWithWildcard(wildcardVal, trueVal, falseVal, invalidVal))
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -115,11 +109,10 @@ func Test_Value_IsDefinedLogically(t *testing.T) {
 		value := input["value"].(issetter.Value)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.IsDefinedLogically())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.IsDefinedLogically())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -130,11 +123,10 @@ func Test_Value_IsUndefinedLogically(t *testing.T) {
 		value := input["value"].(issetter.Value)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.IsUndefinedLogically())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.IsUndefinedLogically())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -145,11 +137,10 @@ func Test_Value_IsPositive(t *testing.T) {
 		value := input["value"].(issetter.Value)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.IsPositive())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.IsPositive())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -160,11 +151,10 @@ func Test_Value_IsNegative(t *testing.T) {
 		value := input["value"].(issetter.Value)
 
 		// Act
-		actLines := []string{fmt.Sprintf("%v", value.IsNegative())}
-		expectedLines := tc.ExpectedInput.([]string)
+		result := fmt.Sprintf("%v", value.IsNegative())
 
 		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -178,14 +168,11 @@ func Test_Value_GetSetBoolOnInvalid(t *testing.T) {
 		// Act
 		result := v.GetSetBoolOnInvalid(setter)
 
-		actLines := []string{
+		// Assert
+		tc.ShouldBeEqual(t, caseIndex,
 			fmt.Sprintf("%v", result),
 			fmt.Sprintf("%v", v.IsTrue() || v.IsFalse()),
-		}
-		expectedLines := tc.ExpectedInput.([]string)
-
-		// Assert
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
+		)
 	}
 }
 
@@ -208,9 +195,8 @@ func Test_Value_LazyEvaluateBool(t *testing.T) {
 			actLines = append(actLines, fmt.Sprintf("%v", v.IsTrue()))
 		}
 
-		expectedLines := tc.ExpectedInput.([]string)
-
 		// Assert
+		expectedLines := tc.ExpectedInput.([]string)
 		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 	}
 }
@@ -234,9 +220,8 @@ func Test_Value_LazyEvaluateSet(t *testing.T) {
 			actLines = append(actLines, fmt.Sprintf("%v", v.IsSet()))
 		}
 
-		expectedLines := tc.ExpectedInput.([]string)
-
 		// Assert
+		expectedLines := tc.ExpectedInput.([]string)
 		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 	}
 }
