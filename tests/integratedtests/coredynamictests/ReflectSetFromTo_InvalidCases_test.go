@@ -7,7 +7,6 @@ import (
 	"gitlab.com/auk-go/core/converters"
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/internal/trydo"
 	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
 )
@@ -61,7 +60,7 @@ func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) 
 		actLines = append(actLines, fmt.Sprintf("%v", finalErr == nil))
 		expected = append(expected, "true")
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Header, actLines, expected)
+		testCase.ShouldBeEqual(t, caseIndex, actLines, expected)
 	}
 }
 

@@ -1,8 +1,11 @@
 package coredynamictestwrappers
 
 import (
+	"testing"
+
 	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/corevalidator"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 type FromToTestWrapper struct {
@@ -48,6 +51,25 @@ func (it FromToTestWrapper) SetActual(actual any) {
 
 func (it FromToTestWrapper) Actual() any {
 	return it.actual
+}
+
+// ShouldBeEqual asserts actLines match expectedLines using
+// the wrapper's Header as the test title.
+func (it FromToTestWrapper) ShouldBeEqual(
+	t *testing.T,
+	caseIndex int,
+	actLines []string,
+	expectedLines []string,
+) {
+	t.Helper()
+
+	errcore.AssertDiffOnMismatch(
+		t,
+		caseIndex,
+		it.Header,
+		actLines,
+		expectedLines,
+	)
 }
 
 func (it FromToTestWrapper) AsSimpleTestCaseWrapper() coretests.SimpleTestCaseWrapper {
