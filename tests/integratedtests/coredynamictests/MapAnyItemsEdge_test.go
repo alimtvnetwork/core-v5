@@ -9,22 +9,10 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
-// ==========================================
-// Diff helper — prints map state on failure
-// ==========================================
-
+// getBool delegates to getBoolDefault (defined in Dynamic_test.go).
+// Kept as a short alias for readability in this file.
 func getBool(input args.Map, key string) bool {
-	v, ok := input[key]
-	if !ok {
-		return false
-	}
-
-	b, isBool := v.(bool)
-	if !isBool {
-		return false
-	}
-
-	return b
+	return getBoolDefault(input, key)
 }
 
 // ==========================================
