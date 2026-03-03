@@ -11,11 +11,8 @@ import (
 // This combines diagnostics and assertion into one call,
 // eliminating the need for a separate ShouldBeEqual invocation.
 //
-// It prints:
-//   - A header with case index and title
-//   - Optional context lines (e.g., "  InitValue: hello")
-//   - The standard line-by-line diff via PrintLineDiff
-//   - A footer closing the block
+// It delegates to PrintDiffOnMismatch for diagnostics output,
+// then marks the test as failed via t.Errorf.
 //
 // contextLines are printed as-is between the header and the diff.
 // Each context line should be pre-formatted (e.g., fmt.Sprintf("  Key: %v", val)).
@@ -33,18 +30,6 @@ func AssertDiffOnMismatch(
 		return
 	}
 
-	fmt.Printf(
-		"\n=== Diff (Case %d: %s) ===\n",
-		caseIndex,
-		title,
-	)
-
-	for _, line := range contextLines {
-		fmt.Println(line)
-	}
-
-	PrintLineDiff(caseIndex, title, actLines, expectedLines)
-	fmt.Println("=== End ===")
-
+	PrintDiffOnMismatch(caseIndex, title, actLines, expectedLines, contextLines...)
 	t.Errorf("Case %d (%s): actual lines do not match expected", caseIndex, title)
 }
