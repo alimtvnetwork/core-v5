@@ -1,101 +1,110 @@
 package enumimpltests
 
 import (
+	"fmt"
+	"sort"
 	"strings"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_DynamicMapCreationDiff(t *testing.T) {
-	for caseIndex, testCase := range dynamicMapDiffTestCases {
+	for caseIndex, tc := range dynamicMapDiffCaseV1TestCases {
 		// Arrange
-		arrangeInput := testCase.ArrangeAsLeftRightDynamicMap()
-		diffMap := arrangeInput.Left.DiffRaw(
-			true,
-			arrangeInput.Right,
-		)
-		mapAnyDiffer := coredynamic.MapAnyItemDiff(
-			arrangeInput.Left,
-		)
+		input := tc.ArrangeInput.(args.Map)
+		left := enumimpl.DynamicMap(input["left"].(enumimpl.DynamicMap))
+		right := enumimpl.DynamicMap(input["right"].(enumimpl.DynamicMap))
 
 		// Act
-		anotherDiff := mapAnyDiffer.
-			DiffRaw(
-				true,
-				arrangeInput.Right,
-			)
+		diffMap := left.DiffRaw(true, right)
+		mapAnyDiffer := coredynamic.MapAnyItemDiff(left)
+		anotherDiff := mapAnyDiffer.DiffRaw(true, right)
 
-		// Assert
-		testCase.ShouldBe(
-			caseIndex,
-			t,
-			ShouldResemble,
-			diffMap,
-		)
-		testCase.ShouldBeExplicit(
-			false,
-			caseIndex,
-			t,
-			"both diff should be equal",
-			diffMap.Raw(),
-			ShouldResemble,
-			anotherDiff,
-		)
+		// Assert - verify both diffs produce sorted key:value lines
+		actLines := dynamicMapToSortedLines(diffMap)
+		expectedLines := tc.ExpectedInput.([]string)
+
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+
+		// Assert - verify both diff methods produce equal raw maps
+		anotherLines := dynamicMapToSortedLines(enumimpl.DynamicMap(anotherDiff))
+		errcore.PrintLineDiff(caseIndex, tc.Title+" (both diff equal)", anotherLines, actLines)
+
+		if len(actLines) != len(anotherLines) {
+			t.Errorf("[case %d] %s: both diff methods line count mismatch got %d, want %d",
+				caseIndex, tc.Title, len(anotherLines), len(actLines))
+		}
 	}
 }
 
 func Test_DynamicMapCreationDiffMessage(t *testing.T) {
-	for caseIndex, testCase := range dynamicMapDiffMessageTestCases {
+	for caseIndex, tc := range dynamicMapDiffMessageCaseV1TestCases {
 		// Arrange
-		arrangeInput := testCase.ArrangeAsLeftRightDynamicMap()
+		input := tc.ArrangeInput.(args.Map)
+		left := enumimpl.DynamicMap(input["left"].(map[string]any))
+		right := input["right"].(map[string]any)
 
 		// Act
-		diffJsonMessage := arrangeInput.Left.ShouldDiffMessage(
+		diffJsonMessage := left.ShouldDiffMessage(
 			true,
-			testCase.CaseTitle(),
-			arrangeInput.Right,
+			tc.Title,
+			right,
 		)
-		lines := coretests.GetAssert.ToStrings(diffJsonMessage)
+		actLines := coretests.GetAssert.ToStrings(diffJsonMessage)
 
 		// Assert
-		testCase.ShouldBe(
-			caseIndex,
-			t,
-			ShouldResemble,
-			lines,
-		)
+		expectedLines := tc.ExpectedInput.([]string)
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
 func Test_DynamicMapCreationDiffMessageV2(t *testing.T) {
-	for caseIndex, testCase := range dynamicMapDiffMessageTestCasesV2 {
+	for caseIndex, tc := range dynamicMapDiffMessageV2CaseV1TestCases {
 		// Arrange
-		arrangeInput := testCase.ArrangeAsLeftRightDynamicMapWithDefaultChecker()
+		input := tc.ArrangeInput.(args.Map)
+		left := enumimpl.DynamicMap(input["left"].(map[string]any))
+		right := input["right"].(map[string]any)
+		checker := input["checker"].(enumimpl.DifferChecker)
 
 		// Act
-		diffJsonMessage := arrangeInput.
-			Left.
-			ShouldDiffLeftRightMessageUsingDifferChecker(
-				arrangeInput.DifferChecker,
-				true,
-				testCase.CaseTitle(),
-				arrangeInput.Right,
-			)
-		lines := strings.Split(
+		diffJsonMessage := left.ShouldDiffLeftRightMessageUsingDifferChecker(
+			checker,
+			true,
+			tc.Title,
+			right,
+		)
+		actLines := strings.Split(
 			diffJsonMessage,
 			constants.NewLineUnix,
 		)
 
 		// Assert
-		testCase.ShouldBe(
-			caseIndex,
-			t,
-			ShouldResemble,
-			lines,
-		)
+		expectedLines := tc.ExpectedInput.([]string)
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
+}
+
+func dynamicMapToSortedLines(dm enumimpl.DynamicMap) []string {
+	if dm.IsEmpty() {
+		return []string{}
+	}
+
+	keys := dm.AllKeysSorted()
+	sort.Strings(keys)
+
+	lines := make([]string, len(keys))
+	for i, k := range keys {
+		lines[i] = fmt.Sprintf("%s : %v", k, dm[k])
+	}
+
+	return lines
 }

@@ -4,44 +4,37 @@ import (
 	"strings"
 	"testing"
 
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
 	"gitlab.com/auk-go/core/constants"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_DynamicMapDiff1(t *testing.T) {
-	for caseIndex, testCase := range dynamicMapSimpleDiffTestCases {
+	for caseIndex, tc := range dynamicMapSimpleDiffCaseV1TestCases {
 		// Arrange
-		arrangeInput := testCase.ArrangeAsLeftRightDynamicMapWithDefaultChecker()
+		input := tc.ArrangeInput.(args.Map)
+		left := enumimpl.DynamicMap(input["left"].(map[string]any))
+		right := input["right"].(map[string]any)
+		checker := input["checker"].(enumimpl.DifferChecker)
 
 		// Act
-		diffJsonMessage := arrangeInput.Left.ShouldDiffLeftRightMessageUsingDifferChecker(
-			arrangeInput.DifferChecker,
+		diffJsonMessage := left.ShouldDiffLeftRightMessageUsingDifferChecker(
+			checker,
 			true,
-			testCase.CaseTitle(),
-			arrangeInput.Right,
+			tc.Title,
+			right,
 		)
 
-		actualLines := strings.Split(
+		actLines := strings.Split(
 			diffJsonMessage,
 			constants.NewLineUnix,
 		)
 
-		expectedLines := testCase.ExpectedInput.([]string)
+		expectedLines := tc.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, testCase.Title, actualLines, expectedLines)
-
-		if len(actualLines) != len(expectedLines) {
-			t.Errorf("[case %d] %s: line count mismatch got %d, want %d",
-				caseIndex, testCase.Title, len(actualLines), len(expectedLines))
-			continue
-		}
-
-		for i, act := range actualLines {
-			if act != expectedLines[i] {
-				t.Errorf("[case %d] %s: line %d got %q, want %q",
-					caseIndex, testCase.Title, i, act, expectedLines[i])
-			}
-		}
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
