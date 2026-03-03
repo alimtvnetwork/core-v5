@@ -39,13 +39,12 @@ func Test_LineValidator_VerifyError_LineAndTextMismatch_PrintsDiff(t *testing.T)
 		t.Fatal("expected error for line+text mismatch")
 	}
 
-	// Print diagnostic info with line numbers
-	fmt.Printf("\n--- LineValidator Diagnostic (Case %d: %s) ---\n", 0, params.Header)
-	fmt.Printf("  Expected line number: %d, Got: %d\n", 5, 10)
-	fmt.Printf("  Expected text: %q\n", "expected-text")
-	fmt.Printf("  Actual text:   %q\n", "actual-wrong-text")
-	fmt.Printf("  Error: %v\n", err)
-	fmt.Println("--- End Diagnostic ---")
+	diag := ValidatorDiffDiagnostics{
+		CaseIndex: 0,
+		Header:    params.Header,
+		Error:     err,
+	}
+	diag.PrintLineNumberMismatch(5, 10, "expected-text", "actual-wrong-text")
 }
 
 func Test_LineValidator_AllVerifyError_MultipleContents_PrintsDiff(t *testing.T) {
@@ -80,18 +79,14 @@ func Test_LineValidator_AllVerifyError_MultipleContents_PrintsDiff(t *testing.T)
 		t.Fatal("expected error for 3 mismatches")
 	}
 
-	// Enhanced diff printing with line numbers
-	fmt.Printf("\n=== LineValidator AllVerifyError Diff (Case %d) ===\n", 0)
-	for _, item := range items {
-		match := "OK"
-		if item.Text != "target" {
-			match = "MISMATCH"
-		}
-		fmt.Printf("  Line %3d [%s]: actual=%q, expected=%q\n",
-			item.LineNumber, match, item.Text, "target")
+	diag := ValidatorDiffDiagnostics{
+		CaseIndex: 0,
+		Header:    "LineValidator AllVerifyError Diff",
+		Error:     err,
 	}
-	fmt.Printf("  Error details: %v\n", err)
-	fmt.Println("=== End Diff ===")
+	diag.PrintLineMatchDiagnostics(items, func(text string) bool {
+		return text == "target"
+	}, "target")
 
 	errMsg := err.Error()
 	for _, expected := range []string{"wrong-1", "wrong-2", "wrong-3"} {
@@ -129,18 +124,14 @@ func Test_LineValidator_VerifyMany_CollectAll_PrintsDiff(t *testing.T) {
 		t.Fatal("expected errors for lines 1 and 3")
 	}
 
-	// Print line-by-line result with line numbers
-	fmt.Printf("\n=== VerifyMany (collectAll) Diff ===\n")
-	for _, item := range items {
-		containsOk := strings.Contains(item.Text, "ok")
-		status := "OK"
-		if !containsOk {
-			status = "FAIL"
-		}
-		fmt.Printf("  Line %3d [%s]: %q (searching for Contains 'ok')\n",
-			item.LineNumber, status, item.Text)
+	diag := ValidatorDiffDiagnostics{
+		CaseIndex: 0,
+		Header:    "VerifyMany (collectAll) Diff",
+		Error:     err,
 	}
-	fmt.Println("=== End ===")
+	diag.PrintLineMatchDiagnostics(items, func(text string) bool {
+		return strings.Contains(text, "ok")
+	}, "Contains 'ok'")
 
 	errMsg := err.Error()
 	if !strings.Contains(errMsg, "no match") {
@@ -175,24 +166,18 @@ func Test_LineValidator_VerifyFirstError_SpecificLineNumber_PrintsDiff(t *testin
 	}
 
 	err := v.VerifyFirstError(params, items...)
-	if err == nil {
-		// All items are checked; line 0 and 1 don't match line number 2
-		// so there should be an error on the first item
-		fmt.Printf("\n  Line number check: validator expects line 2\n")
-		for _, item := range items {
-			fmt.Printf("  Line %d: text=%q, lineMatch=%v\n",
-				item.LineNumber, item.Text, item.LineNumber == 2)
-		}
-	}
+
 	// The first item has LineNumber=0 but validator expects 2, so error
 	if err == nil {
 		t.Fatal("line 0 doesn't match expected line 2, should error")
 	}
 
-	fmt.Printf("\n--- Line number mismatch diagnostic ---\n")
-	fmt.Printf("  Validator expects line: 2\n")
-	fmt.Printf("  First content line: 0 (mismatch!)\n")
-	fmt.Printf("  Error: %v\n", err)
+	diag := ValidatorDiffDiagnostics{
+		CaseIndex: 0,
+		Header:    "Line number mismatch diagnostic",
+		Error:     err,
+	}
+	diag.PrintLineNumberMismatch(2, 0, "expected", items[0].Text)
 }
 
 // ==========================================
@@ -236,21 +221,12 @@ func Test_LinesValidators_AllVerifyError_MultiValidator_PrintsDiff(t *testing.T)
 		t.Fatal("expected errors: 'beta' not in line 0, 'alpha' not in line 1")
 	}
 
-	// Enhanced diagnostics
-	fmt.Printf("\n=== LinesValidators Multi-Validator Diff ===\n")
-	searches := []string{"alpha", "beta"}
-	for si, search := range searches {
-		fmt.Printf("  Validator %d (Contains '%s'):\n", si, search)
-		for _, item := range items {
-			match := strings.Contains(item.Text, search)
-			status := "OK"
-			if !match {
-				status = "FAIL"
-			}
-			fmt.Printf("    Line %3d [%s]: %q\n", item.LineNumber, status, item.Text)
-		}
+	diag := ValidatorDiffDiagnostics{
+		CaseIndex: 0,
+		Header:    "LinesValidators Multi-Validator Diff",
+		Error:     err,
 	}
-	fmt.Println("=== End ===")
+	diag.PrintMultiValidatorDiagnostics(items, []string{"alpha", "beta"})
 }
 
 func Test_LinesValidators_IsMatchText_Multiple_PrintsDiff(t *testing.T) {
@@ -281,12 +257,14 @@ func Test_LinesValidators_IsMatchText_Multiple_PrintsDiff(t *testing.T) {
 		t.Error("'world' is not in 'hello universe', should return false")
 	}
 
-	// Print which validators matched
-	fmt.Printf("\n--- IsMatchText Diagnostic ---\n")
-	fmt.Printf("  Text: %q\n", text)
-	fmt.Printf("  Validator 'hello' Contains: %v\n", strings.Contains(text, "hello"))
-	fmt.Printf("  Validator 'world' Contains: %v\n", strings.Contains(text, "world"))
-	fmt.Println("--- End ---")
+	diag := ValidatorDiffDiagnostics{
+		CaseIndex: 0,
+		Header:    "IsMatchText Diagnostic",
+	}
+	diag.PrintTextMatchDiagnostics(text, map[string]bool{
+		"hello": strings.Contains(text, "hello"),
+		"world": strings.Contains(text, "world"),
+	})
 }
 
 // ==========================================
