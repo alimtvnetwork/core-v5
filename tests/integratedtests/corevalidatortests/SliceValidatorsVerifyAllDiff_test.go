@@ -155,7 +155,7 @@ func Test_SliceValidators_VerifyAll_DiffOutput_Verification(t *testing.T) {
 		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, testCase.Title, actLines, expectedLines)
+		errcore.PrintDiffOnMismatch(caseIndex, testCase.Title, actLines, expectedLines)
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

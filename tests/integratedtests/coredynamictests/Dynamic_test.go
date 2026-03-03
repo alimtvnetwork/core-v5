@@ -73,7 +73,7 @@ func Test_Dynamic_Constructors_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -122,7 +122,7 @@ func Test_Dynamic_Clone_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -155,7 +155,7 @@ func Test_Dynamic_TypeChecks_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -211,7 +211,7 @@ func Test_Dynamic_IsStruct_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%v", checkRef.Call(&d))}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -230,7 +230,7 @@ func Test_Dynamic_Length_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%d", d.Length())}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -249,7 +249,7 @@ func Test_Dynamic_ValueInt_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%d", d.ValueInt())}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -268,7 +268,7 @@ func Test_Dynamic_ValueBool_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%v", d.ValueBool())}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -303,7 +303,7 @@ func Test_Dynamic_ValueString_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -330,7 +330,7 @@ func Test_Dynamic_ValueStrings_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -349,7 +349,7 @@ func Test_Dynamic_ValueUInt_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%d", d.ValueUInt())}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -368,7 +368,7 @@ func Test_Dynamic_ValueInt64_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%d", d.ValueInt64())}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -407,7 +407,7 @@ func Test_Dynamic_Bytes_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -431,7 +431,7 @@ func Test_Dynamic_IntDefault_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -457,7 +457,7 @@ func Test_Dynamic_ValueNullErr_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -495,7 +495,7 @@ func Test_Dynamic_Reflect_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -519,7 +519,7 @@ func Test_Dynamic_ReflectValue_Verification(t *testing.T) {
 	expected := []string{"true", "42"}
 
 	// Assert
-	errcore.PrintLineDiff(0, "ReflectValue returns cached reflect.Value", actLines, expected)
+	errcore.PrintDiffOnMismatch(0, "ReflectValue returns cached reflect.Value", actLines, expected)
 
 	if len(actLines) != len(expected) {
 		t.Fatalf("ReflectValue: expected %d lines, got %d", len(expected), len(actLines))
@@ -569,7 +569,7 @@ func Test_Dynamic_Loop_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -601,7 +601,7 @@ func Test_Dynamic_ItemAccess_Verification(t *testing.T) {
 		}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -621,7 +621,7 @@ func Test_Dynamic_StructStringNullOrEmpty_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%v", checkRef.Call(d))}
 
 		// Assert
-		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

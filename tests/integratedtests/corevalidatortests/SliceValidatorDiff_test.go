@@ -42,7 +42,7 @@ func Test_SliceValidator_AllVerifyError_MultiLineMismatch_WithDiff(t *testing.T)
 	}
 
 	// Print line-by-line diff for diagnostics
-	errcore.PrintLineDiff(0, params.Header, actual, expected)
+	errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 
 	errMsg := err.Error()
 	if !strings.Contains(errMsg, "bravo") {
@@ -77,7 +77,7 @@ func Test_SliceValidator_AllVerifyError_ExtraActualLines_WithDiff(t *testing.T) 
 	}
 
 	// Print diff showing extra line
-	errcore.PrintLineDiff(0, params.Header, actual, expected)
+	errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 	summary := errcore.SliceDiffSummary(actual, expected)
 	t.Logf("Diff summary: %s", summary)
 }
@@ -105,7 +105,7 @@ func Test_SliceValidator_AllVerifyError_MissingActualLines_WithDiff(t *testing.T
 		t.Fatal("expected error for missing actual lines")
 	}
 
-	errcore.PrintLineDiff(0, params.Header, actual, expected)
+	errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 }
 
 // ==========================================
@@ -135,7 +135,7 @@ func Test_SliceValidator_VerifyFirstError_StopsAtFirst_WithDiff(t *testing.T) {
 		t.Fatal("expected error")
 	}
 
-	errcore.PrintLineDiff(0, params.Header, actual, expected)
+	errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 
 	// VerifyFirst should mention line 1 mismatch
 	errMsg := err.Error()
@@ -165,7 +165,7 @@ func Test_SliceValidator_AllVerifyErrorTestCase_WithDiff(t *testing.T) {
 	}
 
 	// Also print our enhanced diff
-	errcore.PrintLineDiff(0, "TestCase with diff", actual, expected)
+	errcore.PrintDiffOnMismatch(0, "TestCase with diff", actual, expected)
 }
 
 // ==========================================
@@ -203,7 +203,7 @@ func Test_SliceValidator_AllVerifyError_Contains_MultiMismatch(t *testing.T) {
 		t.Fatal("expected error for line 1 mismatch")
 	}
 
-	errcore.PrintLineDiff(0, params.Header, actual, expected)
+	errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 
 	errMsg := err.Error()
 	if !strings.Contains(errMsg, "expected-missing") {
@@ -237,7 +237,7 @@ func Test_SliceValidator_AllVerifyError_Trim_WithDiff(t *testing.T) {
 		t.Fatal("expected error: world != universe after trim")
 	}
 
-	errcore.PrintLineDiff(0, params.Header, actual, expected)
+	errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 }
 
 // ==========================================
@@ -275,7 +275,7 @@ func Test_SliceValidator_AllVerifyError_Glob_WithDiff(t *testing.T) {
 		t.Fatal("expected error: data.csv doesn't match WRONG.csv glob")
 	}
 
-	errcore.PrintLineDiff(0, params.Header, actual, expected)
+	errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 }
 
 // ==========================================
@@ -301,7 +301,7 @@ func Test_SliceValidator_AllVerifyErrorExceptLast_WithDiff(t *testing.T) {
 
 	err := v.AllVerifyErrorExceptLast(params)
 	if err != nil {
-		errcore.PrintLineDiff(0, params.Header, actual, expected)
+		errcore.PrintDiffOnMismatch(0, params.Header, actual, expected)
 		t.Errorf("should pass when skipping last line: %v", err)
 	}
 }

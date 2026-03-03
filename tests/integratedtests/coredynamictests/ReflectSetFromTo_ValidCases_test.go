@@ -80,7 +80,7 @@ func Test_ReflectSetFromTo_ValidCases(t *testing.T) {
 			expected = append(expected, "true")
 		}
 
-		errcore.PrintLineDiff(caseIndex, testCase.Header, actLines, expected)
+		errcore.PrintDiffOnMismatch(caseIndex, testCase.Header, actLines, expected)
 
 		for i, act := range actLines {
 			if act != expected[i] {

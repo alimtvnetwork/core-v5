@@ -15,7 +15,7 @@ func Test_LeftRight_IsEmpty_Verification(t *testing.T) {
 	for caseIndex, tc := range leftRightIsEmptyTestCases {
 		actLines := []string{fmt.Sprintf("%v", tc.LR.IsEmpty())}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -28,7 +28,7 @@ func Test_LeftRight_HasLeft_Verification(t *testing.T) {
 	for caseIndex, tc := range leftRightHasLeftTestCases {
 		actLines := []string{fmt.Sprintf("%v", tc.LR.HasLeft())}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -41,7 +41,7 @@ func Test_LeftRight_HasRight_Verification(t *testing.T) {
 	for caseIndex, tc := range leftRightHasRightTestCases {
 		actLines := []string{fmt.Sprintf("%v", tc.LR.HasRight())}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -54,7 +54,7 @@ func Test_LeftRight_IsLeftEmpty_Verification(t *testing.T) {
 	for caseIndex, tc := range leftRightIsLeftEmptyTestCases {
 		actLines := []string{fmt.Sprintf("%v", tc.LR.IsLeftEmpty())}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -67,7 +67,7 @@ func Test_LeftRight_IsRightEmpty_Verification(t *testing.T) {
 	for caseIndex, tc := range leftRightIsRightEmptyTestCases {
 		actLines := []string{fmt.Sprintf("%v", tc.LR.IsRightEmpty())}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -90,7 +90,7 @@ func Test_LeftRight_DeserializeLeft_Verification(t *testing.T) {
 			}
 		}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -110,7 +110,7 @@ func Test_LeftRight_DeserializeRight_Verification(t *testing.T) {
 			actLines = []string{fmt.Sprintf("%v", result == nil)}
 		}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -124,7 +124,7 @@ func Test_LeftRight_TypeStatus_Verification(t *testing.T) {
 		status := tc.LR.TypeStatus()
 		actLines := []string{fmt.Sprintf("%v", status != nil)}
 
-		errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, tc.Case.ExpectedInput)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
