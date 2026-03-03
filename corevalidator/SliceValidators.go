@@ -8,6 +8,7 @@ import (
 	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 type SliceValidators struct {
@@ -72,7 +73,20 @@ func (it *SliceValidators) VerifyAll(
 	for _, sliceValidator := range it.Validators {
 		err := sliceValidator.AllVerifyError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	if errs.IsEmpty() {
@@ -118,7 +132,20 @@ func (it *SliceValidators) VerifyAllError(
 	for _, sliceValidator := range it.Validators {
 		err := sliceValidator.AllVerifyError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	header := params.Header
@@ -162,7 +189,20 @@ func (it *SliceValidators) VerifyAllErrorUsingActual(
 		sliceValidator.SetActual(actualLines)
 		err := sliceValidator.AllVerifyError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	header := params.Header
@@ -188,7 +228,20 @@ func (it *SliceValidators) VerifyFirst(
 	for _, sliceValidator := range it.Validators {
 		err := sliceValidator.VerifyFirstError(params)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	if errs.IsEmpty() {
@@ -225,7 +278,20 @@ func (it *SliceValidators) VerifyUpto(
 			params,
 			length)
 
-		errs.AddError(err)
+		if err != nil {
+			diffMsg := errcore.LineDiffToString(
+				params.CaseIndex,
+				params.Header,
+				sliceValidator.ActualLines,
+				sliceValidator.ExpectedLines,
+			)
+
+			errs.AddError(err)
+
+			if len(diffMsg) > 0 {
+				errs.Add(diffMsg)
+			}
+		}
 	}
 
 	if errs.IsEmpty() {
