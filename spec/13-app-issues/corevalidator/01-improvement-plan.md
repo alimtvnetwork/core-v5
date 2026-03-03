@@ -82,7 +82,7 @@ build/output-*/result.json           → matches any timestamped dir
 
 **Implementation steps:**
 
-1. Add `Glob` and `NotGlob` variants to `enums/stringcompareas/Variant.go`
+1. Add `Glob` and `NonGlob` variants to `enums/stringcompareas/Variant.go`
 2. Create `isGlobFunc.go` in `enums/stringcompareas/` using `filepath.Match` or a richer glob library
 3. Register in the function map
 4. No changes needed in `corevalidator` — it already delegates to `stringcompareas.IsCompareSuccess`

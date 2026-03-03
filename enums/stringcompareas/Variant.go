@@ -29,7 +29,7 @@ const (
 	NotAnyChars   // invert of AnyChars
 	NotMatchRegex // invert of Regex
 	Glob          // Glob/wildcard pattern matching using filepath.Match
-	NotGlob       // invert of Glob
+	NonGlob       // invert of Glob
 	Invalid
 )
 
@@ -266,8 +266,8 @@ func (it Variant) IsGlob() bool {
 	return it == Glob
 }
 
-func (it Variant) IsNotGlob() bool {
-	return it == NotGlob
+func (it Variant) IsNonGlob() bool {
+	return it == NonGlob
 }
 
 func (it Variant) MarshalJSON() ([]byte, error) {
@@ -326,7 +326,7 @@ func (it *Variant) RangesByte() []byte {
 //	NotAnyChars:   isNotAnyCharsFunc,
 //	NotMatchRegex: isNotMatchRegex,
 //	Glob:          isGlobFunc,
-//	NotGlob:       IsNonGlobFunc,
+//	NonGlob:       IsNonGlobFunc,
 func (it Variant) IsLineCompareFunc() IsLineCompareFunc {
 	return rangesMap[it]
 }
