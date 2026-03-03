@@ -28,6 +28,8 @@ const (
 	NotContains   // invert of Anywhere
 	NotAnyChars   // invert of AnyChars
 	NotMatchRegex // invert of Regex
+	Glob          // Glob/wildcard pattern matching using filepath.Match
+	NotGlob       // invert of Glob
 	Invalid
 )
 
@@ -260,6 +262,14 @@ func (it Variant) IsNotMatchRegex() bool {
 	return it == NotMatchRegex
 }
 
+func (it Variant) IsGlob() bool {
+	return it == Glob
+}
+
+func (it Variant) IsNotGlob() bool {
+	return it == NotGlob
+}
+
 func (it Variant) MarshalJSON() ([]byte, error) {
 	return BasicEnumImpl.ToEnumJsonBytes(it.ValueByte())
 }
@@ -307,7 +317,7 @@ func (it *Variant) RangesByte() []byte {
 //	EndsWith:      isEndsWithFunc,
 //	Anywhere:      isAnywhereFunc,
 //	AnyChars:      isAnyCharsFunc,
-//	IsContains:      isAnywhereFunc,
+//	IsContains:    isAnywhereFunc,
 //	Regex:         isRegexFunc,
 //	NotEqual:      isNotEqualFunc,
 //	NotStartsWith: isNotStartsWithFunc,
@@ -315,6 +325,8 @@ func (it *Variant) RangesByte() []byte {
 //	NotContains:   isNotContainsFunc,
 //	NotAnyChars:   isNotAnyCharsFunc,
 //	NotMatchRegex: isNotMatchRegex,
+//	Glob:          isGlobFunc,
+//	NotGlob:       isNotGlobFunc,
 func (it Variant) IsLineCompareFunc() IsLineCompareFunc {
 	return rangesMap[it]
 }
