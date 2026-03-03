@@ -67,31 +67,42 @@ func Test_IsMatchFailed_Verification(t *testing.T) {
 	}
 }
 
-func Test_MatchError_Verification(t *testing.T) {
-	for caseIndex, testCase := range matchErrorTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		pattern, _ := input.GetAsString("pattern")
-		compareInput, _ := input.GetAsString("input")
-		when := input.When()
+// ==========================================================================
+// Test: MatchError
+// ==========================================================================
 
-		// Act
-		var err error
-		switch {
-		case fmt.Sprintf("%v", when) == "given matching input to MatchErrorLock",
-			fmt.Sprintf("%v", when) == "given non-matching input to MatchErrorLock":
-			err = regexnew.MatchErrorLock(pattern, compareInput)
-		default:
-			err = regexnew.MatchError(pattern, compareInput)
-		}
+func Test_MatchError_Match(t *testing.T) {
+	tc := matchErrorTestCases[0]
 
-		isNoError := fmt.Sprintf("%v", err == nil)
+	err := regexnew.MatchError("^hello$", "hello")
 
-		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			isNoError,
-		)
-	}
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
+}
+
+func Test_MatchError_Mismatch(t *testing.T) {
+	tc := matchErrorTestCases[1]
+
+	err := regexnew.MatchError("^\\d+$", "abc")
+
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
+}
+
+// ==========================================================================
+// Test: MatchErrorLock
+// ==========================================================================
+
+func Test_MatchErrorLock_Match(t *testing.T) {
+	tc := matchErrorTestCases[2]
+
+	err := regexnew.MatchErrorLock("world", "hello world")
+
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
+}
+
+func Test_MatchErrorLock_Mismatch(t *testing.T) {
+	tc := matchErrorTestCases[3]
+
+	err := regexnew.MatchErrorLock("^xyz$", "abc")
+
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err == nil))
 }

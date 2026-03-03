@@ -4,46 +4,62 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/regexnew"
 )
 
-func Test_LazyRegex_PatternMatch_Verification(t *testing.T) {
-	for caseIndex, testCase := range lazyRegexPatternMatchTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		pattern, _ := input.GetAsString("pattern")
-		compareInput, _ := input.GetAsString("input")
-		when := input.When()
+// ==========================================================================
+// Test: IsMatch
+// ==========================================================================
 
-		// Act
-		lazyRegex := regexnew.New.LazyLock(pattern)
-		var actLines []string
+func Test_LazyRegex_IsMatch_FullDigit(t *testing.T) {
+	tc := lazyRegexPatternMatchTestCases[0]
+	lazyRegex := regexnew.New.LazyLock("^\\d+$")
 
-		switch {
-		case fmt.Sprintf("%v", when) == "given matching input to IsFailedMatch":
-			// IsFailedMatch test
-			isFailedMatch := fmt.Sprintf("%v", lazyRegex.IsFailedMatch(compareInput))
-			actLines = append(actLines, isFailedMatch)
+	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch("12345"))}
 
-		case fmt.Sprintf("%v", when) == "given a pattern with capture group",
-			fmt.Sprintf("%v", when) == "given a pattern that does not match":
-			// FirstMatchLine test
-			firstMatch, isInvalid := lazyRegex.FirstMatchLine(compareInput)
-			actLines = append(actLines, firstMatch)
-			actLines = append(actLines, fmt.Sprintf("%v", isInvalid))
+	tc.ShouldBeEqual(t, 0, actLines...)
+}
 
-		default:
-			// IsMatch test
-			isMatch := fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))
-			actLines = append(actLines, isMatch)
-		}
+func Test_LazyRegex_IsMatch_PartialMismatch(t *testing.T) {
+	tc := lazyRegexPatternMatchTestCases[1]
+	lazyRegex := regexnew.New.LazyLock("^\\d+$")
 
-		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			actLines...,
-		)
-	}
+	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch("123abc"))}
+
+	tc.ShouldBeEqual(t, 0, actLines...)
+}
+
+// ==========================================================================
+// Test: IsFailedMatch
+// ==========================================================================
+
+func Test_LazyRegex_IsFailedMatch(t *testing.T) {
+	tc := lazyRegexPatternMatchTestCases[2]
+	lazyRegex := regexnew.New.LazyLock("^hello$")
+
+	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsFailedMatch("hello"))}
+
+	tc.ShouldBeEqual(t, 0, actLines...)
+}
+
+// ==========================================================================
+// Test: FirstMatchLine
+// ==========================================================================
+
+func Test_LazyRegex_FirstMatchLine_Found(t *testing.T) {
+	tc := lazyRegexPatternMatchTestCases[3]
+	lazyRegex := regexnew.New.LazyLock("(\\d+)")
+
+	firstMatch, isInvalid := lazyRegex.FirstMatchLine("abc 123 def 456")
+
+	tc.ShouldBeEqual(t, 0, firstMatch, fmt.Sprintf("%v", isInvalid))
+}
+
+func Test_LazyRegex_FirstMatchLine_NotFound(t *testing.T) {
+	tc := lazyRegexPatternMatchTestCases[4]
+	lazyRegex := regexnew.New.LazyLock("(\\d+)")
+
+	firstMatch, isInvalid := lazyRegex.FirstMatchLine("no digits here")
+
+	tc.ShouldBeEqual(t, 0, firstMatch, fmt.Sprintf("%v", isInvalid))
 }

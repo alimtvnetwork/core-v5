@@ -9,7 +9,9 @@ import (
 	"gitlab.com/auk-go/core/namevalue"
 )
 
-// region StringStringCollection tests
+// ==========================================================================
+// Test: StringStringCollection
+// ==========================================================================
 
 func Test_StringStringCollection_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringStringCollectionTestCases {
@@ -35,9 +37,9 @@ func Test_StringStringCollection_Verification(t *testing.T) {
 	}
 }
 
-// endregion
-
-// region StringIntCollection tests
+// ==========================================================================
+// Test: StringIntCollection
+// ==========================================================================
 
 func Test_StringIntCollection_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringIntCollectionTestCases {
@@ -57,7 +59,6 @@ func Test_StringIntCollection_Verification(t *testing.T) {
 		length := fmt.Sprintf("%d", col.Length())
 		joined := col.Join(", ")
 		containsItem0 := fmt.Sprintf("%v", strings.Contains(joined, "item0"))
-		// For count > 1, join contains comma separator
 		containsComma := fmt.Sprintf("%v", strings.Contains(joined, ","))
 
 		// Assert
@@ -65,51 +66,93 @@ func Test_StringIntCollection_Verification(t *testing.T) {
 	}
 }
 
-// endregion
+// ==========================================================================
+// Test: Prepend
+// ==========================================================================
 
-// region Collection Prepend/Append tests
+func Test_Collection_Prepend(t *testing.T) {
+	tc := collectionPrependAppendTestCases[0]
 
-func Test_CollectionPrependAppend_Verification(t *testing.T) {
-	for caseIndex, testCase := range collectionPrependAppendTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		op, _ := input.GetAsString("op")
+	col := namevalue.NewGenericCollectionDefault[string, string]()
+	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
+	col.Add(namevalue.StringString{Name: "original-1", Value: "v1"})
 
-		col := namevalue.NewGenericCollectionDefault[string, string]()
-		col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
-		col.Add(namevalue.StringString{Name: "original-1", Value: "v1"})
+	// Act
+	col.Prepend(namevalue.StringString{Name: "prepended", Value: "vp"})
 
-		var length string
-		var firstItemName string
-
-		// Act
-		switch op {
-		case "prepend":
-			col.Prepend(namevalue.StringString{Name: "prepended", Value: "vp"})
-			length = fmt.Sprintf("%d", col.Length())
-			firstItemName = col.Items[0].Name
-		case "append":
-			col.Append(namevalue.StringString{Name: "appended", Value: "va"})
-			length = fmt.Sprintf("%d", col.Length())
-			firstItemName = col.Items[col.LastIndex()].Name
-		case "prependif-false":
-			col.PrependIf(false, namevalue.StringString{Name: "skipped", Value: "vs"})
-			length = fmt.Sprintf("%d", col.Length())
-			firstItemName = col.Items[0].Name
-		case "appendif-false":
-			col.AppendIf(false, namevalue.StringString{Name: "skipped", Value: "vs"})
-			length = fmt.Sprintf("%d", col.Length())
-			firstItemName = col.Items[0].Name
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, length, firstItemName)
-	}
+	// Assert
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", col.Length()),
+		col.Items[0].Name,
+	)
 }
 
-// endregion
+// ==========================================================================
+// Test: Append
+// ==========================================================================
 
-// region Collection Clone tests
+func Test_Collection_Append(t *testing.T) {
+	tc := collectionPrependAppendTestCases[1]
+
+	col := namevalue.NewGenericCollectionDefault[string, string]()
+	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
+	col.Add(namevalue.StringString{Name: "original-1", Value: "v1"})
+
+	// Act
+	col.Append(namevalue.StringString{Name: "appended", Value: "va"})
+
+	// Assert
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", col.Length()),
+		col.Items[col.LastIndex()].Name,
+	)
+}
+
+// ==========================================================================
+// Test: PrependIf false
+// ==========================================================================
+
+func Test_Collection_PrependIfFalse(t *testing.T) {
+	tc := collectionPrependAppendTestCases[2]
+
+	col := namevalue.NewGenericCollectionDefault[string, string]()
+	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
+	col.Add(namevalue.StringString{Name: "original-1", Value: "v1"})
+
+	// Act
+	col.PrependIf(false, namevalue.StringString{Name: "skipped", Value: "vs"})
+
+	// Assert
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", col.Length()),
+		col.Items[0].Name,
+	)
+}
+
+// ==========================================================================
+// Test: AppendIf false
+// ==========================================================================
+
+func Test_Collection_AppendIfFalse(t *testing.T) {
+	tc := collectionPrependAppendTestCases[3]
+
+	col := namevalue.NewGenericCollectionDefault[string, string]()
+	col.Add(namevalue.StringString{Name: "original-0", Value: "v0"})
+	col.Add(namevalue.StringString{Name: "original-1", Value: "v1"})
+
+	// Act
+	col.AppendIf(false, namevalue.StringString{Name: "skipped", Value: "vs"})
+
+	// Assert
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", col.Length()),
+		col.Items[0].Name,
+	)
+}
+
+// ==========================================================================
+// Test: Clone
+// ==========================================================================
 
 func Test_CollectionClone_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionCloneTestCases {
@@ -123,9 +166,8 @@ func Test_CollectionClone_Verification(t *testing.T) {
 			var nilCol *namevalue.StringStringCollection
 			result := nilCol.ClonePtr()
 			isNil := fmt.Sprintf("%v", result == nil)
-
-			// Assert
 			testCase.ShouldBeEqual(t, caseIndex, isNil)
+
 			continue
 		}
 
@@ -137,10 +179,10 @@ func Test_CollectionClone_Verification(t *testing.T) {
 				Value: fmt.Sprintf("v%d", i),
 			})
 		}
+
 		cloned := col.Clone()
 		sameLength := fmt.Sprintf("%d", cloned.Length())
 
-		// Modify original, verify clone is independent
 		col.Add(namevalue.StringString{Name: "extra", Value: "x"})
 		cloneUnchanged := fmt.Sprintf("%v", cloned.Length() == countInt)
 		isEqual := fmt.Sprintf("%v", cloned.IsEqualByString(
@@ -152,62 +194,75 @@ func Test_CollectionClone_Verification(t *testing.T) {
 	}
 }
 
-// endregion
+// ==========================================================================
+// Test: IsEqualByString — Equal
+// ==========================================================================
 
-// region Collection IsEqualByString tests
+func Test_CollectionIsEqual_Equal(t *testing.T) {
+	tc := collectionIsEqualTestCases[0]
 
-func Test_CollectionIsEqual_Verification(t *testing.T) {
-	for caseIndex, testCase := range collectionIsEqualTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		caseType, _ := input.GetAsString("case")
+	a := namevalue.NewGenericCollectionDefault[string, int]()
+	a.Add(namevalue.StringInt{Name: "x", Value: 1})
+	b := namevalue.NewGenericCollectionDefault[string, int]()
+	b.Add(namevalue.StringInt{Name: "x", Value: 1})
 
-		var result string
-
-		// Act
-		switch caseType {
-		case "equal":
-			a := namevalue.NewGenericCollectionDefault[string, int]()
-			a.Add(namevalue.StringInt{Name: "x", Value: 1})
-			b := namevalue.NewGenericCollectionDefault[string, int]()
-			b.Add(namevalue.StringInt{Name: "x", Value: 1})
-			result = fmt.Sprintf("%v", a.IsEqualByString(b))
-		case "notequal":
-			a := namevalue.NewGenericCollectionDefault[string, int]()
-			a.Add(namevalue.StringInt{Name: "x", Value: 1})
-			b := namevalue.NewGenericCollectionDefault[string, int]()
-			b.Add(namevalue.StringInt{Name: "x", Value: 99})
-			result = fmt.Sprintf("%v", a.IsEqualByString(b))
-		case "difflength":
-			a := namevalue.NewGenericCollectionDefault[string, int]()
-			a.Add(namevalue.StringInt{Name: "x", Value: 1})
-			b := namevalue.NewGenericCollectionDefault[string, int]()
-			b.Add(namevalue.StringInt{Name: "x", Value: 1})
-			b.Add(namevalue.StringInt{Name: "y", Value: 2})
-			result = fmt.Sprintf("%v", a.IsEqualByString(b))
-		case "bothnils":
-			var a *namevalue.StringIntCollection
-			var b *namevalue.StringIntCollection
-			result = fmt.Sprintf("%v", a.IsEqualByString(b))
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, result)
-	}
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqualByString(b)))
 }
 
-// endregion
+// ==========================================================================
+// Test: IsEqualByString — NotEqual
+// ==========================================================================
 
-// region Collection Error tests
+func Test_CollectionIsEqual_NotEqual(t *testing.T) {
+	tc := collectionIsEqualTestCases[1]
+
+	a := namevalue.NewGenericCollectionDefault[string, int]()
+	a.Add(namevalue.StringInt{Name: "x", Value: 1})
+	b := namevalue.NewGenericCollectionDefault[string, int]()
+	b.Add(namevalue.StringInt{Name: "x", Value: 99})
+
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqualByString(b)))
+}
+
+// ==========================================================================
+// Test: IsEqualByString — DiffLength
+// ==========================================================================
+
+func Test_CollectionIsEqual_DiffLength(t *testing.T) {
+	tc := collectionIsEqualTestCases[2]
+
+	a := namevalue.NewGenericCollectionDefault[string, int]()
+	a.Add(namevalue.StringInt{Name: "x", Value: 1})
+	b := namevalue.NewGenericCollectionDefault[string, int]()
+	b.Add(namevalue.StringInt{Name: "x", Value: 1})
+	b.Add(namevalue.StringInt{Name: "y", Value: 2})
+
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqualByString(b)))
+}
+
+// ==========================================================================
+// Test: IsEqualByString — BothNils
+// ==========================================================================
+
+func Test_CollectionIsEqual_BothNils(t *testing.T) {
+	tc := collectionIsEqualTestCases[3]
+
+	var a *namevalue.StringIntCollection
+	var b *namevalue.StringIntCollection
+
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqualByString(b)))
+}
+
+// ==========================================================================
+// Test: Error
+// ==========================================================================
 
 func Test_CollectionError_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionErrorTestCases {
-		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		count, _ := input.Get("count")
 		countInt := count.(int)
 
-		// Act
 		col := namevalue.NewGenericCollectionDefault[string, string]()
 		for i := 0; i < countInt; i++ {
 			col.Add(namevalue.StringString{
@@ -215,29 +270,26 @@ func Test_CollectionError_Verification(t *testing.T) {
 				Value: fmt.Sprintf("msg%d", i),
 			})
 		}
+
 		err := col.Error()
 		hasError := fmt.Sprintf("%v", err != nil)
-
 		errMsg := col.ErrorUsingMessage("failed:")
 		hasMsgError := fmt.Sprintf("%v", errMsg != nil)
 
-		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, hasError, hasMsgError)
 	}
 }
 
-// endregion
-
-// region Collection Dispose tests
+// ==========================================================================
+// Test: Dispose
+// ==========================================================================
 
 func Test_CollectionDispose_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionDisposeTestCases {
-		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		count, _ := input.Get("count")
 		countInt := count.(int)
 
-		// Act
 		col := namevalue.NewGenericCollectionDefault[string, string]()
 		for i := 0; i < countInt; i++ {
 			col.Add(namevalue.StringString{
@@ -245,28 +297,26 @@ func Test_CollectionDispose_Verification(t *testing.T) {
 				Value: fmt.Sprintf("v%d", i),
 			})
 		}
+
 		col.Dispose()
 		isNilItems := fmt.Sprintf("%v", col.Items == nil)
 
-		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, isNilItems)
 	}
 }
 
-// endregion
-
-// region Collection ConcatNew tests
+// ==========================================================================
+// Test: ConcatNew
+// ==========================================================================
 
 func Test_CollectionConcatNew_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionConcatNewTestCases {
-		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		original, _ := input.Get("original")
 		extra, _ := input.Get("extra")
 		originalInt := original.(int)
 		extraInt := extra.(int)
 
-		// Act
 		col := namevalue.NewGenericCollectionDefault[string, int]()
 		for i := 0; i < originalInt; i++ {
 			col.Add(namevalue.StringInt{Name: fmt.Sprintf("o%d", i), Value: i})
@@ -281,43 +331,38 @@ func Test_CollectionConcatNew_Verification(t *testing.T) {
 		newLength := fmt.Sprintf("%d", newCol.Length())
 		originalUnchanged := fmt.Sprintf("%d", col.Length())
 
-		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, newLength, originalUnchanged)
 	}
 }
 
-// endregion
-
-// region StringMapAnyCollection tests
+// ==========================================================================
+// Test: StringMapAnyCollection
+// ==========================================================================
 
 func Test_StringMapAnyCollection_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringMapAnyCollectionTestCases {
-		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		count, _ := input.Get("count")
 		countInt := count.(int)
 
-		// Act
 		col := namevalue.NewGenericCollectionDefault[string, map[string]any]()
 		for i := 0; i < countInt; i++ {
 			var mapVal map[string]any
 			if i == 0 && countInt == 1 {
-				// nil map case
 				mapVal = nil
 			} else {
 				mapVal = map[string]any{"key": i}
 			}
+
 			col.Add(namevalue.StringMapAny{
 				Name:  fmt.Sprintf("map%d", i),
 				Value: mapVal,
 			})
 		}
+
 		length := fmt.Sprintf("%d", col.Length())
 		hasItems := fmt.Sprintf("%v", col.HasAnyItem())
 
-		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, length, hasItems)
 	}
 }
-
-// endregion
