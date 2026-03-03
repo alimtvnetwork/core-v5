@@ -37,7 +37,14 @@
 ```
 coretests/                          # Test utility package
 ├── coretestcases/
-│   └── CaseV1.go                   # Primary test case structure
+│   ├── CaseV1.go                   # Primary test case structure
+│   ├── GenericGherkins.go          # Generic typed test case (Gherkin pattern)
+│   ├── GenericGherkinsAliases.go   # AnyGherkins, StringGherkins, StringBoolGherkins
+│   ├── GenericGherkinsAssertions.go # ShouldBeEqual, ShouldBeEqualUsingExpected
+│   ├── GenericGherkinsCompare.go   # CompareWith — structural diffing
+│   ├── GenericGherkinsFormatting.go # String, ToString, FullString
+│   ├── GenericGherkinsGetters.go   # IsFailedToMatch, HasExtraArgs, GetExtra
+│   └── GenericGherkinsTypedWrapper.go # TypedTestCaseWrapper implementation
 ├── args/
 │   ├── Map.go                      # Typed input map for test arrangements
 │   ├── FuncWrap.go                 # Function reflection wrapper
@@ -49,6 +56,9 @@ coretests/                          # Test utility package
 ├── BaseTestCaseGetters.go          # Input(), Expected(), FormTitle()
 ├── BaseTestCaseValidation.go       # TypeValidationError()
 ├── SimpleTestCase.go               # Lightweight test case (no type verification)
+├── SimpleTestCaseWrapper.go        # Legacy all-any test wrapper interface
+├── TypedTestCaseWrapper.go         # Generic-first typed interface
+├── TypedTestCaseWrapperContractsBinder.go # Generic contracts binder
 ├── ShouldAsserter.go               # Assertion interfaces
 ├── getAssert.go                    # GetAssert singleton — formatting & conversion
 └── vars.go                         # Package-level exports
@@ -159,15 +169,45 @@ type SimpleTestCase struct {
 }
 ```
 
+### Test Case Wrapper Interfaces
+
+#### TypedTestCaseWrapper[TInput, TExpect] (Generic-first — use this for new code)
+
+```go
+type TypedTestCaseWrapper[TInput, TExpect any] interface {
+    CaseTitle() string
+    TypedInput() TInput
+    TypedExpected() TExpect
+    TypedActual() TExpect
+    SetTypedActual(actual TExpect)
+}
+```
+
+`GenericGherkins[TInput, TExpect]` implements this interface.
+
+#### SimpleTestCaseWrapper (Legacy — backward compatible)
+
+```go
+type SimpleTestCaseWrapper interface {
+    CaseTitle() string
+    Input() any
+    Expected() any
+    Actual() any
+    SetActual(actual any)
+}
+```
+
+`CaseV1`, `BaseTestCase`, and `SimpleTestCase` implement this interface.
+
 ### Key Imports
 
 ```go
 import (
     "testing"
 
-    "gitlab.com/auk-go/core/coretests"              // GetAssert, BaseTestCase
+    "gitlab.com/auk-go/core/coretests"              // GetAssert, BaseTestCase, TypedTestCaseWrapper
     "gitlab.com/auk-go/core/coretests/args"          // Map, FuncWrap, Holder
-    "gitlab.com/auk-go/core/coretests/coretestcases" // CaseV1
+    "gitlab.com/auk-go/core/coretests/coretestcases" // CaseV1, GenericGherkins
     "gitlab.com/auk-go/core/errcore"                 // AssertDiffOnMismatch
 )
 ```
@@ -1279,6 +1319,14 @@ type AnyGherkins = GenericGherkins[any, any]
 ### Key Methods
 
 ```go
+// TypedTestCaseWrapper implementation — compile-time safe access
+func (it *GenericGherkins[TInput, TExpect]) CaseTitle() string
+func (it *GenericGherkins[TInput, TExpect]) TypedInput() TInput
+func (it *GenericGherkins[TInput, TExpect]) TypedExpected() TExpect
+func (it *GenericGherkins[TInput, TExpect]) TypedActual() TExpect
+func (it *GenericGherkins[TInput, TExpect]) SetTypedActual(actual TExpect)
+func (it *GenericGherkins[TInput, TExpect]) AsTypedTestCaseWrapper() coretests.TypedTestCaseWrapper[TInput, TExpect]
+
 // IsFailedToMatch — inverse of IsMatching.
 // Use when validating that a mismatch is expected.
 func (it *GenericGherkins[TInput, TExpect]) IsFailedToMatch() bool
@@ -1302,6 +1350,21 @@ func (it *GenericGherkins[TInput, TExpect]) ToString(testIndex int) string
 func (it *GenericGherkins[TInput, TExpect]) FullString() string
 ```
 
+### Interface Hierarchy
+
+```
+TypedTestCaseWrapper[TInput, TExpect]    (generic-first — new code)
+├── GenericGherkins[TInput, TExpect]      implements via GenericGherkinsTypedWrapper.go
+│   ├── AnyGherkins     = GenericGherkins[any, any]
+│   ├── StringGherkins  = GenericGherkins[string, string]
+│   └── StringBoolGherkins = GenericGherkins[string, bool]
+│
+SimpleTestCaseWrapper                     (legacy all-any — backward compatible)
+├── CaseV1                                implements via CaseV1.go
+├── BaseTestCase                          implements via BaseTestCase.go
+└── SimpleTestCase                        implements via SimpleTestCase.go
+```
+
 ### Usage Example — Regex Matching
 
 ```go
@@ -1319,15 +1382,16 @@ func Test_LazyRegex_InvalidPattern(t *testing.T) {
     tc := lazyRegexInvalidPatternTestCase
 
     // Arrange
-    regex := regexnew.New.Lazy(tc.Input)
+    regex := regexnew.New.Lazy(tc.TypedInput())
 
     // Act
     result := regex.IsMatch("anything")
+    tc.SetTypedActual(result)
 
     // Assert
     tc.ShouldBeEqual(t, 0,
-        fmt.Sprintf("%v", result),
-        fmt.Sprintf("%v", tc.Expected),
+        fmt.Sprintf("%v", tc.TypedActual()),
+        fmt.Sprintf("%v", tc.TypedExpected()),
     )
 }
 ```
@@ -1339,8 +1403,9 @@ func Test_LazyRegex_InvalidPattern(t *testing.T) {
 | `SimpleGherkins` (all string) | Stays as-is — backward compatible |
 | `args.Map` with typed keys | `GenericGherkins[ConcreteInput, ConcreteExpect]` |
 | `args.Map` with mixed types | `AnyGherkins` (all-any) with `ExtraArgs` for overflow |
+| `SimpleTestCaseWrapper` consumers | `TypedTestCaseWrapper[TInput, TExpect]` for new code |
 
-This is a **proposal only** — `SimpleGherkins` remains unchanged. `GenericGherkins` will be implemented in `coretests/coretestcases/` alongside `CaseV1`.
+`SimpleTestCaseWrapper` and `SimpleGherkins` remain unchanged. `TypedTestCaseWrapper` and `GenericGherkins` are implemented in `coretests/` alongside the legacy types.
 
 ---
 
