@@ -1,97 +1,142 @@
 package enumimpltests
 
 import (
+	"fmt"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/coreimpl/enumimpl/enumtype"
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-func Test_Enum(t *testing.T) {
-	for _, testCase := range enumTestCases {
-		Convey(
-			testCase.Header, t, func() {
-				switch testCase.EnumType {
-				case enumtype.Byte:
-					assertBasicByte(testCase)
-				case enumtype.Integer8:
-					assertBasicInteger8(testCase)
-				case enumtype.Integer16:
-					assertBasicInteger16(testCase)
-				case enumtype.Integer32:
-					assertBasicInteger32(testCase)
-				case enumtype.UnsignedInteger16:
-					assertBasicUnsignedInteger16(testCase)
-				case enumtype.String:
-					assertBasicString(testCase)
-				}
-			},
-		)
+func Test_EnumByte_MinMax(t *testing.T) {
+	for caseIndex, tc := range enumByteTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		enumMap := input["enum-map"].(enumimpl.DynamicMap)
+		enumImpl := enumMap.BasicByte("unknown type")
+
+		// Act
+		actualMin := enumImpl.Min()
+		actualMax := enumImpl.Max()
+		actLines := []string{
+			fmt.Sprintf("%v", actualMin),
+			fmt.Sprintf("%v", actualMax),
+		}
+
+		// Assert
+		assertEnumMinMax(t, caseIndex, tc, actLines)
 	}
 }
 
-func assertBasicString(testCase TestWrapper) {
-	// Arrange
-	enumImpl := testCase.EnumMap.BasicString("unknown type")
-	actualMin := enumImpl.Min()
-	actualMax := enumImpl.Max()
+func Test_EnumInt8_MinMax(t *testing.T) {
+	for caseIndex, tc := range enumInt8TestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		enumMap := input["enum-map"].(enumimpl.DynamicMap)
+		enumImpl := enumMap.BasicInt8("unknown type")
 
-	// Assert
-	So(actualMin, ShouldEqual, "")
-	So(actualMax, ShouldEqual, "Something2") // it depends on string max than number max
+		// Act
+		actualMin := enumImpl.Min()
+		actualMax := enumImpl.Max()
+		actLines := []string{
+			fmt.Sprintf("%v", actualMin),
+			fmt.Sprintf("%v", actualMax),
+		}
+
+		// Assert
+		assertEnumMinMax(t, caseIndex, tc, actLines)
+	}
 }
 
-func assertBasicUnsignedInteger16(testCase TestWrapper) {
-	// Arrange
-	enumImpl := testCase.EnumMap.BasicUInt16("unknown type")
-	actualMin := enumImpl.Min()
-	actualMax := enumImpl.Max()
+func Test_EnumInt16_MinMax(t *testing.T) {
+	for caseIndex, tc := range enumInt16TestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		enumMap := input["enum-map"].(enumimpl.DynamicMap)
+		enumImpl := enumMap.BasicInt16("unknown type")
 
-	// Assert
-	So(actualMin, ShouldEqual, testCase.ExpectedMinMax.Min)
-	So(actualMax, ShouldEqual, testCase.ExpectedMinMax.Max)
+		// Act
+		actualMin := enumImpl.Min()
+		actualMax := enumImpl.Max()
+		actLines := []string{
+			fmt.Sprintf("%v", actualMin),
+			fmt.Sprintf("%v", actualMax),
+		}
+
+		// Assert
+		assertEnumMinMax(t, caseIndex, tc, actLines)
+	}
 }
 
-func assertBasicInteger32(testCase TestWrapper) {
-	// Arrange
-	enumImplementation := testCase.EnumMap.BasicInt32("unknown type")
-	actualMin := enumImplementation.Min()
-	actualMax := enumImplementation.Max()
+func Test_EnumInt32_MinMax(t *testing.T) {
+	for caseIndex, tc := range enumInt32TestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		enumMap := input["enum-map"].(enumimpl.DynamicMap)
+		enumImpl := enumMap.BasicInt32("unknown type")
 
-	// Assert
-	So(actualMin, ShouldEqual, testCase.ExpectedMinMax.Min)
-	So(actualMax, ShouldEqual, testCase.ExpectedMinMax.Max)
+		// Act
+		actualMin := enumImpl.Min()
+		actualMax := enumImpl.Max()
+		actLines := []string{
+			fmt.Sprintf("%v", actualMin),
+			fmt.Sprintf("%v", actualMax),
+		}
+
+		// Assert
+		assertEnumMinMax(t, caseIndex, tc, actLines)
+	}
 }
 
-func assertBasicInteger16(testCase TestWrapper) {
-	// Arrange
-	enumImplementation := testCase.EnumMap.BasicInt16("unknown type")
-	actualMin := enumImplementation.Min()
-	actualMax := enumImplementation.Max()
+func Test_EnumUInt16_MinMax(t *testing.T) {
+	for caseIndex, tc := range enumUInt16TestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		enumMap := input["enum-map"].(enumimpl.DynamicMap)
+		enumImpl := enumMap.BasicUInt16("unknown type")
 
-	// Assert
-	So(actualMin, ShouldEqual, testCase.ExpectedMinMax.Min)
-	So(actualMax, ShouldEqual, testCase.ExpectedMinMax.Max)
+		// Act
+		actualMin := enumImpl.Min()
+		actualMax := enumImpl.Max()
+		actLines := []string{
+			fmt.Sprintf("%v", actualMin),
+			fmt.Sprintf("%v", actualMax),
+		}
+
+		// Assert
+		assertEnumMinMax(t, caseIndex, tc, actLines)
+	}
 }
 
-func assertBasicInteger8(testCase TestWrapper) {
-	// Arrange
-	enumImplementation := testCase.EnumMap.BasicInt8("unknown type")
-	actualMin := enumImplementation.Min()
-	actualMax := enumImplementation.Max()
+func Test_EnumString_MinMax(t *testing.T) {
+	for caseIndex, tc := range enumStringTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		enumMap := input["enum-map"].(enumimpl.DynamicMap)
+		enumImpl := enumMap.BasicString("unknown type")
 
-	// Assert
-	So(actualMin, ShouldEqual, testCase.ExpectedMinMax.Min)
-	So(actualMax, ShouldEqual, testCase.ExpectedMinMax.Max)
+		// Act
+		actualMin := enumImpl.Min()
+		actualMax := enumImpl.Max()
+		actLines := []string{
+			fmt.Sprintf("%v", actualMin),
+			fmt.Sprintf("%v", actualMax),
+		}
+
+		// Assert
+		assertEnumMinMax(t, caseIndex, tc, actLines)
+	}
 }
 
-func assertBasicByte(testCase TestWrapper) {
-	// Arrange
-	enumImplementation := testCase.EnumMap.BasicByte("unknown type")
-	actualMin := enumImplementation.Min()
-	actualMax := enumImplementation.Max()
-
-	// Assert
-	So(actualMin, ShouldEqual, testCase.ExpectedMinMax.Min)
-	So(actualMax, ShouldEqual, testCase.ExpectedMinMax.Max)
+func assertEnumMinMax(
+	t *testing.T,
+	caseIndex int,
+	tc coretestcases.CaseV1,
+	actLines []string,
+) {
+	expectedLines := tc.ExpectedInput.([]string)
+	errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+	tc.ShouldBeEqual(t, caseIndex, actLines...)
 }

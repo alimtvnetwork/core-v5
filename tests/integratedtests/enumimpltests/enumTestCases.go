@@ -1,98 +1,119 @@
 package enumimpltests
 
 import (
-	"gitlab.com/auk-go/core/coredata/corerange"
-	"gitlab.com/auk-go/core/coreimpl/enumimpl/enumtype"
+	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-var enumTestCases = []TestWrapper{
+var enumByteTestCases = []coretestcases.CaseV1{
 	{
-		Header: "Byte enum example min 0, max 10 -- generates min, max from given map[string]any and any as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: 0,
-			Max: 10,
+		Title: "Byte enum min 0, max 10 -- generates min, max from given map[string]any",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   0,
+				"A":         -2,
+				"B":         8,
+				"C":         5,
+				"Something": 10,
+			},
 		},
-		EnumMap: map[string]any{
-			"Invalid":   0,
-			"A":         -2,
-			"B":         8,
-			"C":         5,
-			"Something": 10,
+		ExpectedInput: []string{
+			"0",
+			"10",
 		},
-		EnumType: enumtype.Byte,
 	},
-	{
-		Header: "Integer8 enum example min -2, max 12 -- generates min, max from given map[string]any and any as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: -2,
-			Max: 12,
-		},
-		EnumMap: map[string]any{
-			"Invalid":   -2,
-			"A":         -2,
-			"B":         8,
-			"C":         5,
-			"Something": 12,
-		},
-		EnumType: enumtype.Integer8,
-	},
-	{
-		Header: "Integer16 enum example min -3, max 14 -- generates min, max from given map[string]any and any as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: -3,
-			Max: 14,
-		},
-		EnumMap: map[string]any{
-			"Invalid":   -3,
-			"A":         -2,
-			"B":         -3,
-			"C":         5,
-			"Something": 14,
-		},
-		EnumType: enumtype.Integer16,
-	},
-	{
-		Header: "Integer32 enum example min -4, max 15 -- generates min, max from given map[string]any and any as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: -4,
-			Max: 15,
-		},
-		EnumMap: map[string]any{
-			"Invalid":   -4,
-			"A":         -2,
-			"B":         -3,
-			"C":         5,
-			"Something": 15,
-		},
-		EnumType: enumtype.Integer16,
-	},
+}
 
+var enumInt8TestCases = []coretestcases.CaseV1{
 	{
-		Header: "UnsignedInteger16 enum example min 0, max 20 -- generates min, max from given map[string]any and any as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: 0,
-			Max: 20,
+		Title: "Integer8 enum min -2, max 12 -- generates min, max from given map[string]any",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   -2,
+				"A":         -2,
+				"B":         8,
+				"C":         5,
+				"Something": 12,
+			},
 		},
-		EnumMap: map[string]any{
-			"Invalid":    0,
-			"Something2": 15,
-			"B":          15,
-			"Something":  20,
+		ExpectedInput: []string{
+			"-2",
+			"12",
 		},
-		EnumType: enumtype.UnsignedInteger16,
 	},
+}
+
+var enumInt16TestCases = []coretestcases.CaseV1{
 	{
-		Header: "String enum example min 0, max 20 -- generates min, max from given map[string]any and any as ints",
-		ExpectedMinMax: corerange.MinMaxInt64{
-			Min: 0,
-			Max: 20,
+		Title: "Integer16 enum min -3, max 14 -- generates min, max from given map[string]any",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   -3,
+				"A":         -2,
+				"B":         -3,
+				"C":         5,
+				"Something": 14,
+			},
 		},
-		EnumMap: map[string]any{
-			"Invalid":    0,
-			"Something2": 15,
-			"B":          15,
-			"Something":  20,
+		ExpectedInput: []string{
+			"-3",
+			"14",
 		},
-		EnumType: enumtype.String,
+	},
+}
+
+var enumInt32TestCases = []coretestcases.CaseV1{
+	{
+		Title: "Integer32 enum min -4, max 15 -- generates min, max from given map[string]any",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":   -4,
+				"A":         -2,
+				"B":         -3,
+				"C":         5,
+				"Something": 15,
+			},
+		},
+		ExpectedInput: []string{
+			"-4",
+			"15",
+		},
+	},
+}
+
+var enumUInt16TestCases = []coretestcases.CaseV1{
+	{
+		Title: "UnsignedInteger16 enum min 0, max 20 -- generates min, max from given map[string]any",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":    0,
+				"Something2": 15,
+				"B":          15,
+				"Something":  20,
+			},
+		},
+		ExpectedInput: []string{
+			"0",
+			"20",
+		},
+	},
+}
+
+var enumStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "String enum min empty, max Something2 -- string max is lexicographic",
+		ArrangeInput: args.Map{
+			"enum-map": enumimpl.DynamicMap{
+				"Invalid":    0,
+				"Something2": 15,
+				"B":          15,
+				"Something":  20,
+			},
+		},
+		ExpectedInput: []string{
+			"",
+			"Something2",
+		},
 	},
 }
