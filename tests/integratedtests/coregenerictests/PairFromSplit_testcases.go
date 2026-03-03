@@ -11,12 +11,12 @@ import (
 
 var pairFromSplitTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Standard key=value split",
+		Title: "Standard key=value split",
 		ArrangeInput: args.Map{
 			"input": "key=value",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"key",
 			"value",
 			"true",
@@ -24,12 +24,12 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "No separator found produces invalid pair",
+		Title: "No separator found produces invalid pair",
 		ArrangeInput: args.Map{
 			"input": "noseparator",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"noseparator",
 			"",
 			"false",
@@ -37,12 +37,12 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Empty input produces invalid pair",
+		Title: "Empty input produces invalid pair",
 		ArrangeInput: args.Map{
 			"input": "",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"",
 			"",
 			"false",
@@ -50,12 +50,12 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Multiple separators takes first two parts only",
+		Title: "Multiple separators takes first two parts only",
 		ArrangeInput: args.Map{
 			"input": "a=b=c=d",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b=c=d",
 			"true",
@@ -63,12 +63,12 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Separator at start produces empty left",
+		Title: "Separator at start produces empty left",
 		ArrangeInput: args.Map{
 			"input": "=value",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"",
 			"value",
 			"true",
@@ -76,12 +76,12 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Separator at end produces empty right",
+		Title: "Separator at end produces empty right",
 		ArrangeInput: args.Map{
 			"input": "key=",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"key",
 			"",
 			"true",
@@ -89,12 +89,12 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Multi-char separator",
+		Title: "Multi-char separator",
 		ArrangeInput: args.Map{
 			"input": "hello::world",
 			"sep":   "::",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"hello",
 			"world",
 			"true",
@@ -109,12 +109,12 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 
 var pairFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Trims whitespace from both parts",
+		Title: "Trims whitespace from both parts",
 		ArrangeInput: args.Map{
 			"input": "  key  =  value  ",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"key",
 			"value",
 			"true",
@@ -122,12 +122,12 @@ var pairFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "No separator trims single part",
+		Title: "No separator trims single part",
 		ArrangeInput: args.Map{
 			"input": "  onlypart  ",
 			"sep":   "=",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"onlypart",
 			"",
 			"false",
@@ -142,12 +142,12 @@ var pairFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 
 var pairFromSplitFullTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Splits at first separator only, right gets remainder",
+		Title: "Splits at first separator only, right gets remainder",
 		ArrangeInput: args.Map{
 			"input": "a:b:c:d",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b:c:d",
 			"true",
@@ -155,12 +155,12 @@ var pairFromSplitFullTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "No separator produces invalid pair",
+		Title: "No separator produces invalid pair",
 		ArrangeInput: args.Map{
 			"input": "nosep",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"nosep",
 			"",
 			"false",
@@ -168,12 +168,12 @@ var pairFromSplitFullTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Separator at end produces empty right",
+		Title: "Separator at end produces empty right",
 		ArrangeInput: args.Map{
 			"input": "key:",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"key",
 			"",
 			"true",
@@ -188,12 +188,12 @@ var pairFromSplitFullTestCases = []coretestcases.CaseV1{
 
 var pairFromSplitFullTrimmedTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Splits at first separator with trimming",
+		Title: "Splits at first separator with trimming",
 		ArrangeInput: args.Map{
 			"input": "  a  :  b : c : d  ",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"a",
 			"b : c : d",
 			"true",
@@ -201,12 +201,12 @@ var pairFromSplitFullTrimmedTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "No separator trims and marks invalid",
+		Title: "No separator trims and marks invalid",
 		ArrangeInput: args.Map{
 			"input": "  nosep  ",
 			"sep":   ":",
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"nosep",
 			"",
 			"false",
@@ -221,11 +221,11 @@ var pairFromSplitFullTrimmedTestCases = []coretestcases.CaseV1{
 
 var pairFromSliceTestCases = []coretestcases.CaseV1{
 	{
-		Name: "Two-element slice produces valid pair",
+		Title: "Two-element slice produces valid pair",
 		ArrangeInput: args.Map{
 			"parts": []string{"left", "right"},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"left",
 			"right",
 			"true",
@@ -233,11 +233,11 @@ var pairFromSliceTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Single-element slice produces invalid pair",
+		Title: "Single-element slice produces invalid pair",
 		ArrangeInput: args.Map{
 			"parts": []string{"only"},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"only",
 			"",
 			"false",
@@ -245,11 +245,11 @@ var pairFromSliceTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Empty slice produces invalid pair",
+		Title: "Empty slice produces invalid pair",
 		ArrangeInput: args.Map{
 			"parts": []string{},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"",
 			"",
 			"false",
@@ -257,11 +257,11 @@ var pairFromSliceTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Name: "Three-element slice uses first and last",
+		Title: "Three-element slice uses first and last",
 		ArrangeInput: args.Map{
 			"parts": []string{"first", "middle", "last"},
 		},
-		WantLines: []string{
+		ExpectedInput: []string{
 			"first",
 			"last",
 			"true",
