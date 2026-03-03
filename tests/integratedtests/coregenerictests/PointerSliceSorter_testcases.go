@@ -9,13 +9,13 @@ import (
 // ==========================================================================
 
 var ptrSorterAscIntTestCase = coretestcases.CaseV1{
-	Name:      "Asc sort int pointers",
-	WantLines: []string{"1", "2", "3", "4", "5"},
+	Title:         "Asc sort int pointers",
+	ExpectedInput: []string{"1", "2", "3", "4", "5"},
 }
 
 var ptrSorterAscStringTestCase = coretestcases.CaseV1{
-	Name:      "Asc sort strings",
-	WantLines: []string{"apple", "banana", "cherry"},
+	Title:         "Asc sort strings",
+	ExpectedInput: []string{"apple", "banana", "cherry"},
 }
 
 // ==========================================================================
@@ -23,8 +23,8 @@ var ptrSorterAscStringTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterDescIntTestCase = coretestcases.CaseV1{
-	Name:      "Desc sort int pointers",
-	WantLines: []string{"5", "4", "3", "2", "1"},
+	Title:         "Desc sort int pointers",
+	ExpectedInput: []string{"5", "4", "3", "2", "1"},
 }
 
 // ==========================================================================
@@ -32,18 +32,18 @@ var ptrSorterDescIntTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterNilsToEndTestCase = coretestcases.CaseV1{
-	Name:      "Asc sort with nils pushed to end",
-	WantLines: []string{"1", "3", "5", "<nil>", "<nil>"},
+	Title:         "Asc sort with nils pushed to end",
+	ExpectedInput: []string{"1", "3", "5", "<nil>", "<nil>"},
 }
 
 var ptrSorterNilFirstTestCase = coretestcases.CaseV1{
-	Name:      "NilFirst=true pushes nils to beginning",
-	WantLines: []string{"<nil>", "<nil>", "1", "3", "5"},
+	Title:         "NilFirst=true pushes nils to beginning",
+	ExpectedInput: []string{"<nil>", "<nil>", "1", "3", "5"},
 }
 
 var ptrSorterAllNilTestCase = coretestcases.CaseV1{
-	Name:      "All nil slice stays stable",
-	WantLines: []string{"<nil>", "<nil>", "<nil>"},
+	Title:         "All nil slice stays stable",
+	ExpectedInput: []string{"<nil>", "<nil>", "<nil>"},
 }
 
 // ==========================================================================
@@ -51,8 +51,8 @@ var ptrSorterAllNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterCustomLessTestCase = coretestcases.CaseV1{
-	Name:      "Custom less: reverse absolute distance from 3",
-	WantLines: []string{"3", "2", "4", "1", "5"},
+	Title:         "Custom less: reverse absolute distance from 3",
+	ExpectedInput: []string{"3", "2", "4", "1", "5"},
 }
 
 // ==========================================================================
@@ -60,8 +60,8 @@ var ptrSorterCustomLessTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterSwitchTestCase = coretestcases.CaseV1{
-	Name:      "Sort asc then switch to desc and re-sort",
-	WantLines: []string{"1", "5", "5", "1"},
+	Title:         "Sort asc then switch to desc and re-sort",
+	ExpectedInput: []string{"1", "5", "5", "1"},
 }
 
 // ==========================================================================
@@ -69,8 +69,8 @@ var ptrSorterSwitchTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterIsSortedTestCase = coretestcases.CaseV1{
-	Name:      "IsSorted true after sort, false before",
-	WantLines: []string{"false", "true"},
+	Title:         "IsSorted true after sort, false before",
+	ExpectedInput: []string{"false", "true"},
 }
 
 // ==========================================================================
@@ -78,18 +78,18 @@ var ptrSorterIsSortedTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterEmptyTestCase = coretestcases.CaseV1{
-	Name:      "Empty slice: Len=0, IsSorted=true",
-	WantLines: []string{"0", "true"},
+	Title:         "Empty slice: Len=0, IsSorted=true",
+	ExpectedInput: []string{"0", "true"},
 }
 
 var ptrSorterSingleTestCase = coretestcases.CaseV1{
-	Name:      "Single element: IsSorted=true after sort",
-	WantLines: []string{"1", "true", "42"},
+	Title:         "Single element: IsSorted=true after sort",
+	ExpectedInput: []string{"1", "true", "42"},
 }
 
 var ptrSorterNilSliceTestCase = coretestcases.CaseV1{
-	Name:      "Nil items slice: Len=0",
-	WantLines: []string{"0"},
+	Title:         "Nil items slice: Len=0",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
@@ -97,8 +97,8 @@ var ptrSorterNilSliceTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterSetItemsTestCase = coretestcases.CaseV1{
-	Name:      "SetItems replaces slice and sorts new data",
-	WantLines: []string{"3", "10", "20", "30"},
+	Title:         "SetItems replaces slice and sorts new data",
+	ExpectedInput: []string{"3", "10", "20", "30"},
 }
 
 // ==========================================================================
@@ -106,6 +106,6 @@ var ptrSorterSetItemsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterChainingTestCase = coretestcases.CaseV1{
-	Name:      "Chained SetDesc.SetNilFirst.Sort produces correct order",
-	WantLines: []string{"<nil>", "5", "3", "1"},
+	Title:         "Chained SetDesc.SetNilFirst.Sort produces correct order",
+	ExpectedInput: []string{"<nil>", "5", "3", "1"},
 }
