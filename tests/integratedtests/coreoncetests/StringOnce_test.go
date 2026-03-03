@@ -2,6 +2,7 @@ package coreoncetests
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
@@ -23,20 +24,10 @@ func Test_StringOnce_Core(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== StringOnce Core Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitValue: %q\n", tc.InitValue)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitValue: %q", tc.InitValue),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -65,20 +56,10 @@ func Test_StringOnce_Caching(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== StringOnce Caching Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  CallCount: %d\n", callCount)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  CallCount: %d", callCount),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -119,20 +100,10 @@ func Test_StringOnce_Match(t *testing.T) {
 
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== StringOnce Match Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitValue: %q, MatchArg: %q\n", tc.InitValue, tc.MatchArg)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitValue: %q, MatchArg: %q", tc.InitValue, tc.MatchArg),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -166,20 +137,10 @@ func Test_StringOnce_Split(t *testing.T) {
 
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== StringOnce Split Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitValue: %q, Splitter: %q\n", tc.InitValue, tc.Splitter)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitValue: %q, Splitter: %q", tc.InitValue, tc.Splitter),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -200,20 +161,10 @@ func Test_StringOnce_Json(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== StringOnce JSON Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitValue: %q, Error: %v\n", tc.InitValue, err)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitValue: %q, Error: %v", tc.InitValue, err),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

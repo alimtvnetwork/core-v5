@@ -23,28 +23,11 @@ func Test_PartialRwxVerify(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%v", actual)}
 		expectedLines := testCase.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== PartialRwxVerify Diff (Case %d: %s) ===\n",
-				caseIndex,
-				testCase.Title,
-			)
-
-			fmt.Printf("  Input 1 (partial): %s\n", partialRwx)
-			fmt.Printf("  Input 2 (full):    %s\n", fullRwx)
-
-			errcore.PrintLineDiff(
-				caseIndex,
-				testCase.Title,
-				actLines,
-				expectedLines,
-			)
-
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, testCase.Title, actLines, expectedLines,
+			fmt.Sprintf("  Input 1 (partial): %s", partialRwx),
+			fmt.Sprintf("  Input 2 (full):    %s", fullRwx),
+		)
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
