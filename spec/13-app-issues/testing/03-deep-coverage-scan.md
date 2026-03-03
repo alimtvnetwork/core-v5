@@ -59,7 +59,7 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | `codestack` | ✅ | `codestacktests/` | Has tests |
 | `creation` | ✅ | `creationtests/` | Has tests |
 | `versionindexes` | ✅ | `versionindexestests/` | Has tests |
-| `coredata/coreonce` | ❌ | — | **NO TESTS** |
+| `coredata/coreonce` | ✅ | `coreoncetests/` | Has tests (added Phase 1) |
 | `reflectcore` | ❌ | — | **NO TESTS** |
 | `constants` | ❌ | — | Constants only (no logic) |
 | `cmdconsts` | ❌ | — | Constants only |
@@ -169,23 +169,23 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 
 ## Implementation Order
 
-1. **`issetter` logic methods** — 6-value boolean has the most complex branching (IsOnLogically, WildcardApply, LazyEvaluate*, GetSetBoolOnInvalid, ToByteCondition*)
-2. **`coredata/coredynamic` LeftRight + MapAnyItems** — equality and clone with nil guards
-3. **`coredata/coreonce`** — lazy evaluation correctness (only package with zero tests)
-4. **`coreinstruction` IdentifiersWithGlobals + FromTo** — per existing roadmap
+1. ~~**`issetter` logic methods** — 6-value boolean has the most complex branching~~ ✅ DONE (45 tests)
+2. ~~**`coredata/coredynamic` LeftRight + MapAnyItems** — equality and clone with nil guards~~ ✅ DONE (40 tests)
+3. ~~**`coredata/coreonce`** — lazy evaluation correctness (was only package with zero tests)~~ ✅ DONE (70 tests)
+4. ~~**`coreinstruction` IdentifiersWithGlobals + FromTo** — per existing roadmap~~ ✅ DONE (40 tests)
 5. **`coredata/coredynamic` Dynamic type system** — reflect-based operations
 6. **`coredata/coregeneric` LinkedList** — pointer manipulation edge cases
 
 ## Estimated Test Cases
 
-| Phase | Package | New Cases |
-|-------|---------|-----------|
-| 1 | `issetter` logic methods | ~25 |
-| 1 | `coredynamic` LeftRight/MapAnyItems | ~15 |
-| 1 | `coreonce` lazy evaluation | ~12 |
-| 1 | `coreinstruction` remaining | ~8 |
-| 2 | `coredynamic` Dynamic/CastedResult | ~10 |
-| 2 | `coregeneric` LinkedList/Hashmap | ~12 |
-| 2 | `corevalidator` validators | ~8 |
-| 3 | Remaining low-priority | ~10 |
-| **Total** | | **~100** |
+| Phase | Package | New Cases | Status |
+|-------|---------|-----------|--------|
+| 1 | `issetter` logic methods | ~45 | ✅ DONE |
+| 1 | `coredynamic` LeftRight/MapAnyItems | ~40 | ✅ DONE |
+| 1 | `coreonce` lazy evaluation | ~70 | ✅ DONE |
+| 1 | `coreinstruction` remaining | ~40 | ✅ DONE |
+| 2 | `coredynamic` Dynamic/CastedResult | ~10 | TODO |
+| 2 | `coregeneric` LinkedList/Hashmap | ~12 | TODO |
+| 2 | `corevalidator` validators | ~8 | TODO |
+| 3 | Remaining low-priority | ~10 | TODO |
+| **Total** | | **~235** | **Phase 1 complete** |
