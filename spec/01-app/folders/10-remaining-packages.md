@@ -76,7 +76,7 @@
 | `refeflectcore/` | Reflection helpers (note: **typo** — should be `reflectcore`) |
 | `reqtype/` | Request-type helpers |
 | `enums/` | Enum helpers (`stringcompareas`, `versionindexes`) |
-| `coreimpl/enumimpl/` | Concrete enum implementation |
+| `coreimpl/enumimpl/` | Concrete enum implementation, [`DifferChecker`](/coreimpl/enumimpl/readme.md#differchecker-interface) strategy interface |
 
 ## Related Docs
 
