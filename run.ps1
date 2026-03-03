@@ -162,6 +162,16 @@ function Write-TestLogs([string[]]$rawOutput) {
     # Write failing tests
     $failCount = $failedNames.Count
     $failingContent = @("# Failing Tests — $timestamp", "# Count: $failCount", "")
+
+    # Summary section: list failed test names first
+    if ($failCount -gt 0) {
+        $failingContent += "# ── Summary ──"
+        $sortedFailed = $failedNames | Sort-Object
+        foreach ($name in $sortedFailed) {
+            $failingContent += "  - $name"
+        }
+        $failingContent += @("", "# ── Details ──", "")
+    }
     $failingContent += $failing
 
     # Also capture compilation errors (no === RUN lines at all)
