@@ -137,6 +137,5 @@ func assertEnumMinMax(
 	actLines []string,
 ) {
 	expectedLines := tc.ExpectedInput.([]string)
-	errcore.PrintDiffOnMismatch(caseIndex, tc.Title, actLines, expectedLines)
-	tc.ShouldBeEqual(t, caseIndex, actLines...)
+	errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, expectedLines)
 }
