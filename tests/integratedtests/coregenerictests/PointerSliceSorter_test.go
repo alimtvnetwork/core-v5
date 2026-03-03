@@ -126,7 +126,12 @@ func Test_PointerSliceSorter_Switch(t *testing.T) {
 	firstAfterDesc := ptrStr(sorter.Items()[0])
 	lastAfterDesc := ptrStr(sorter.Items()[4])
 
-	tc.ShouldBeEqual(t, 0, firstAfterAsc, lastAfterAsc, firstAfterDesc, lastAfterDesc)
+	tc.ShouldBeEqual(t, 0,
+		firstAfterAsc,
+		lastAfterAsc,
+		firstAfterDesc,
+		lastAfterDesc,
+	)
 }
 
 // ==========================================================================
@@ -142,7 +147,10 @@ func Test_PointerSliceSorter_IsSorted(t *testing.T) {
 	sorter.Sort()
 	afterSort := fmt.Sprintf("%v", sorter.IsSorted())
 
-	tc.ShouldBeEqual(t, 0, beforeSort, afterSort)
+	tc.ShouldBeEqual(t, 0,
+		beforeSort,
+		afterSort,
+	)
 }
 
 // ==========================================================================

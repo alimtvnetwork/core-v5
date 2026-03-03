@@ -121,7 +121,10 @@ func Test_IfSlice_String_Verification(t *testing.T) {
 		first := result[0]
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, length, first)
+		testCase.ShouldBeEqual(t, caseIndex,
+			length,
+			first,
+		)
 	}
 }
 

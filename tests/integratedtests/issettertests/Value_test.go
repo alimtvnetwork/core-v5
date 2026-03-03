@@ -19,7 +19,10 @@ func Test_Value_New_Verification(t *testing.T) {
 		name := val.Name()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, hasErr, name)
+		testCase.ShouldBeEqual(t, caseIndex,
+			hasErr,
+			name,
+		)
 	}
 }
 
@@ -68,8 +71,15 @@ func Test_Value_BooleanLogic_Verification(t *testing.T) {
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex,
-			isOn, isOff, isTrue, isFalse,
-			isSet, isUnset, isValid, isWildcard)
+			isOn,
+			isOff,
+			isTrue,
+			isFalse,
+			isSet,
+			isUnset,
+			isValid,
+			isWildcard,
+		)
 	}
 }
 
@@ -97,7 +107,10 @@ func Test_Value_Conversions_Verification(t *testing.T) {
 		toSetUnset := input.ToSetUnsetValue().Name()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, toBool, toSetUnset)
+		testCase.ShouldBeEqual(t, caseIndex,
+			toBool,
+			toSetUnset,
+		)
 	}
 }
 

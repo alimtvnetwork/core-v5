@@ -74,21 +74,30 @@ func Test_Collection_SortFunc_Asc(t *testing.T) {
 	tc := collectionSortFuncAscTestCase
 	col := coregeneric.New.Collection.Int.Items(3, 1, 5, 2, 4)
 	col.SortFunc(func(a, b int) bool { return a < b })
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", col.First()), fmt.Sprintf("%d", col.Last()))
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", col.First()),
+		fmt.Sprintf("%d", col.Last()),
+	)
 }
 
 func Test_Collection_SortFunc_Desc(t *testing.T) {
 	tc := collectionSortFuncDescTestCase
 	col := coregeneric.New.Collection.Int.Items(3, 1, 5, 2, 4)
 	col.SortFunc(func(a, b int) bool { return a > b })
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", col.First()), fmt.Sprintf("%d", col.Last()))
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", col.First()),
+		fmt.Sprintf("%d", col.Last()),
+	)
 }
 
 func Test_Collection_SortFunc_Single(t *testing.T) {
 	tc := collectionSortFuncSingleTestCase
 	col := coregeneric.New.Collection.Int.Items(42)
 	col.SortFunc(func(a, b int) bool { return a < b })
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", col.First()), fmt.Sprintf("%d", col.Last()))
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%d", col.First()),
+		fmt.Sprintf("%d", col.Last()),
+	)
 }
 
 // ==========================================================================

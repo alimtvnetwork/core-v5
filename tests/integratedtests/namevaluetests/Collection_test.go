@@ -33,7 +33,11 @@ func Test_StringStringCollection_Verification(t *testing.T) {
 		hasAny := fmt.Sprintf("%v", col.HasAnyItem())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, length, isEmpty, hasAny)
+		testCase.ShouldBeEqual(t, caseIndex,
+			length,
+			isEmpty,
+			hasAny,
+		)
 	}
 }
 
@@ -62,7 +66,11 @@ func Test_StringIntCollection_Verification(t *testing.T) {
 		containsComma := fmt.Sprintf("%v", strings.Contains(joined, ","))
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, length, containsItem0, containsComma)
+		testCase.ShouldBeEqual(t, caseIndex,
+			length,
+			containsItem0,
+			containsComma,
+		)
 	}
 }
 
@@ -182,7 +190,11 @@ func Test_CollectionClone_Valid(t *testing.T) {
 	))
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, sameLength, cloneUnchanged, isEqual)
+	tc.ShouldBeEqual(t, 0,
+		sameLength,
+		cloneUnchanged,
+		isEqual,
+	)
 }
 
 // ==========================================================================
@@ -283,7 +295,10 @@ func Test_CollectionError_Verification(t *testing.T) {
 		errMsg := col.ErrorUsingMessage("failed:")
 		hasMsgError := fmt.Sprintf("%v", errMsg != nil)
 
-		testCase.ShouldBeEqual(t, caseIndex, hasError, hasMsgError)
+		testCase.ShouldBeEqual(t, caseIndex,
+			hasError,
+			hasMsgError,
+		)
 	}
 }
 
@@ -338,7 +353,10 @@ func Test_CollectionConcatNew_Verification(t *testing.T) {
 		newLength := fmt.Sprintf("%d", newCol.Length())
 		originalUnchanged := fmt.Sprintf("%d", col.Length())
 
-		testCase.ShouldBeEqual(t, caseIndex, newLength, originalUnchanged)
+		testCase.ShouldBeEqual(t, caseIndex,
+			newLength,
+			originalUnchanged,
+		)
 	}
 }
 
@@ -367,7 +385,10 @@ func Test_StringMapAnyCollection_WithValues(t *testing.T) {
 	hasItems := fmt.Sprintf("%v", col.HasAnyItem())
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, length, hasItems)
+	tc.ShouldBeEqual(t, 0,
+		length,
+		hasItems,
+	)
 }
 
 // ==========================================================================
@@ -395,5 +416,8 @@ func Test_StringMapAnyCollection_NilValue(t *testing.T) {
 	hasItems := fmt.Sprintf("%v", col.HasAnyItem())
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, length, hasItems)
+	tc.ShouldBeEqual(t, 0,
+		length,
+		hasItems,
+	)
 }

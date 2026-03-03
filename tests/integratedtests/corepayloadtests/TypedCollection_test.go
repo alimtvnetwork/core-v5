@@ -68,7 +68,10 @@ func Test_TypedPayloadCollection_Creation(t *testing.T) {
 		isEmpty := fmt.Sprintf("%v", collection.IsEmpty())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, length, isEmpty)
+		testCase.ShouldBeEqual(t, caseIndex,
+			length,
+			isEmpty,
+		)
 	}
 }
 
@@ -197,7 +200,11 @@ func Test_TypedPayloadCollection_GroupByCategory(t *testing.T) {
 		seniorCount := fmt.Sprintf("%d", groups["senior"].Length())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, groupCount, juniorCount, seniorCount)
+		testCase.ShouldBeEqual(t, caseIndex,
+			groupCount,
+			juniorCount,
+			seniorCount,
+		)
 	}
 }
 
@@ -250,7 +257,10 @@ func Test_TypedPayloadCollection_ElementAccess(t *testing.T) {
 		lastName := collection.Last().Data().Name
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, firstName, lastName)
+		testCase.ShouldBeEqual(t, caseIndex,
+			firstName,
+			lastName,
+		)
 	}
 }
 
