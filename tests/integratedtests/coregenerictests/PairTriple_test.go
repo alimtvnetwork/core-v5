@@ -125,28 +125,32 @@ func Test_Pair_IsEqual_Same(t *testing.T) {
 
 	a := coregeneric.NewPair(left, right)
 	b := coregeneric.NewPair(left, right)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_DiffLeft(t *testing.T) {
 	tc := pairIsEqualDiffLeftTestCase
 	a := coregeneric.NewPair("a", "b")
 	b := coregeneric.NewPair("x", "b")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_NilVsNonNil(t *testing.T) {
 	tc := pairIsEqualNilVsNonNilTestCase
 	a := coregeneric.NewPair("a", "b")
 	var b *coregeneric.Pair[string, string]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_BothNil(t *testing.T) {
 	tc := pairIsEqualBothNilTestCase
 	var a *coregeneric.Pair[string, string]
 	var b *coregeneric.Pair[string, string]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 // ==========================================

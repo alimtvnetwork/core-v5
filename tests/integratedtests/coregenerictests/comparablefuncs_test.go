@@ -28,7 +28,8 @@ func Test_ContainsAll_True(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_ContainsAll_False(t *testing.T) {
@@ -47,7 +48,8 @@ func Test_ContainsAll_False(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================
@@ -70,7 +72,8 @@ func Test_ContainsAny_True(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_ContainsAny_False(t *testing.T) {
@@ -89,7 +92,8 @@ func Test_ContainsAny_False(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================
@@ -113,7 +117,8 @@ func Test_RemoveItem_Found(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_RemoveItem_Missing(t *testing.T) {
@@ -133,7 +138,8 @@ func Test_RemoveItem_Missing(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================

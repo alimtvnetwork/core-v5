@@ -25,7 +25,8 @@ func Test_IntUnique_Get_RemovesDuplicates(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_IntUnique_Get_AlreadyUnique(t *testing.T) {
@@ -45,7 +46,8 @@ func Test_IntUnique_Get_AlreadyUnique(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_IntUnique_Get_Nil(t *testing.T) {
@@ -58,5 +60,6 @@ func Test_IntUnique_Get_Nil(t *testing.T) {
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
