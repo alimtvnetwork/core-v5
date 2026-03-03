@@ -1,20 +1,20 @@
 package corevalidatortests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 	"gitlab.com/auk-go/core/errcore"
 )
 
-func Test_TestValidators(t *testing.T) {
+func Test_TestValidators_Verification(t *testing.T) {
 	for caseIndex, testCase := range textValidatorsTestCases {
 		// Arrange
 		parameter := corevalidator.Parameter{
-			CaseIndex:                  constants.Zero, // fixing test case number here as it is fixed data
+			CaseIndex:                  constants.Zero,
 			Header:                     testCase.Header,
 			IsSkipCompareOnActualEmpty: testCase.IsSkipOnContentsEmpty,
 			IsAttachUserInputs:         true,
@@ -26,9 +26,7 @@ func Test_TestValidators(t *testing.T) {
 			testCase.ComparingLines...,
 		)
 
-		errorLines := errcore.ErrorToSplitLines(
-			err,
-		)
+		errorLines := errcore.ErrorToSplitLines(err)
 
 		sliceValidator := corevalidator.SliceValidator{
 			Condition:     corevalidator.DefaultDisabledCoreCondition,
@@ -46,23 +44,24 @@ func Test_TestValidators(t *testing.T) {
 		}
 
 		// Act
-		validationFinalError := sliceValidator.AllVerifyError(
-			&nextBaseParam,
-		)
-
+		validationFinalError := sliceValidator.AllVerifyError(&nextBaseParam)
 		isValid := validationFinalError == nil
 
 		// Assert
-		convey.Convey(
-			testCase.Header, t, func() {
-				errcore.PrintErrorWithTestIndex(
-					caseIndex,
-					testCase.Header,
-					validationFinalError,
-				)
+		actLines := []string{fmt.Sprintf("%v", isValid)}
+		expected := []string{"true"}
 
-				convey.So(isValid, convey.ShouldBeTrue)
-			},
-		)
+		errcore.PrintLineDiff(caseIndex, testCase.Header, actLines, expected)
+
+		if !isValid {
+			errcore.PrintErrorWithTestIndex(
+				caseIndex,
+				testCase.Header,
+				validationFinalError,
+			)
+
+			t.Errorf("[case %d] %s: validation failed: %v",
+				caseIndex, testCase.Header, validationFinalError)
+		}
 	}
 }
