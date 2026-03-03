@@ -337,6 +337,27 @@ func (it anyTo) Strings(
 		}
 
 		return lines
+	case []int64:
+		lines := make([]string, len(v))
+		for i, elem := range v {
+			lines[i] = strconv.FormatInt(elem, 10)
+		}
+
+		return lines
+	case []float64:
+		lines := make([]string, len(v))
+		for i, elem := range v {
+			lines[i] = strconv.FormatFloat(elem, 'f', -1, 64)
+		}
+
+		return lines
+	case []byte:
+		lines := make([]string, len(v))
+		for i, elem := range v {
+			lines[i] = strconv.Itoa(int(elem))
+		}
+
+		return lines
 	default:
 		return it.PrettyJsonLines(item)
 	}
