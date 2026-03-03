@@ -167,12 +167,38 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | `MergeErrors` | MEDIUM | Nil handling in merge | Both nil, one nil, both have errors |
 | `SliceToError` | LOW | Empty slice, single, multiple |
 
-### Phase 3 — LOW PRIORITY (simple logic, well-tested indirectly)
+### Phase 3 — LOW PRIORITY ✅ DONE
 
-- `coredata/stringslice` — many utility functions, most are straightforward
-- `reflectcore` — thin wrapper, low risk
-- `coreappend` — simple append operations
-- `constants` / `filemode` / `dtformats` — no logic, just values
+#### 9. `coredata/stringslice` — Utility Functions ✅ DONE
+
+| Function / Method | Risk | Why | Status |
+|---|---|---|---|
+| `Clone/CloneUsingCap` | LOW | Copy independence | ✅ DONE |
+| `FirstOrDefault/LastOrDefault` | LOW | Empty slice guards | ✅ DONE |
+| `SafeIndexAt` | LOW | Bounds checking | ✅ DONE |
+| `InPlaceReverse` | LOW | Nil/single/two/multi reversal | ✅ DONE |
+| `MergeNew` | LOW | Slice concatenation | ✅ DONE |
+| `NonEmptySlice/NonWhitespace` | LOW | Filtering | ✅ DONE |
+| `IsEmpty/HasAnyItem/SortIf` | LOW | Trivial logic | ✅ DONE |
+| `SafeRangeItems/ExpandByFunc` | LOW | Range/expand edge cases | ✅ DONE |
+
+#### 10. `reflectcore` — Facade Exports ✅ DONE
+
+| Function / Method | Risk | Why | Status |
+|---|---|---|---|
+| All 12 exported vars | LOW | Re-export initialization | ✅ DONE (~12 tests) |
+
+#### 11. `coreappend` — String Assembly ✅ DONE
+
+| Function / Method | Risk | Why | Status |
+|---|---|---|---|
+| `PrependAppendAnyItemsToStringsSkipOnNil` | LOW | Nil skip logic | ✅ DONE |
+| `AppendAnyItemsToStringSkipOnNil` | LOW | Join with nil skip | ✅ DONE |
+| `PrependAnyItemsToStringSkipOnNil` | LOW | Join with nil skip | ✅ DONE |
+| `PrependAppendAnyItemsToStringsUsingFunc` | LOW | Custom compiler with skip-empty | ✅ DONE |
+| `MapStringStringAppendMapStringToAnyItems` | LOW | Map merge with skip-empty | ✅ DONE |
+
+- `constants` / `filemode` / `dtformats` — no logic, just values (no tests needed)
 
 ---
 
@@ -205,5 +231,7 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | 2 | `coregeneric` LinkedList/Hashmap/Hashset/funcs | ~175 | ✅ DONE |
 | 2 | `corestr` Hashset/Hashmap | ~115 | ✅ DONE |
 | 2 | `corevalidator` validators | ~8 | TODO |
-| 3 | Remaining low-priority | ~10 | TODO |
-| **Total** | | **~608** | **Phase 1+2 nearly complete** |
+| 3 | `stringslice` utilities | ~40 | ✅ DONE |
+| 3 | `reflectcore` facade exports | ~12 | ✅ DONE |
+| 3 | `coreappend` assembly functions | ~20 | ✅ DONE |
+| **Total** | | **~670** | **Phase 1+2+3 complete (except corevalidator)** |
