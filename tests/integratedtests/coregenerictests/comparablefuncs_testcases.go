@@ -9,26 +9,27 @@ import (
 // ContainsAll
 // ==========================================
 
-var containsAllTestCases = []coretestcases.CaseV1{
-	{
-		Title: "ContainsAll true when all items present",
-		ArrangeInput: args.Map{
-			"when":  "given collection containing all search items",
-			"items": []int{1, 2, 3, 4, 5},
-		},
-		ExpectedInput: []string{
-			"true",
-		},
+var containsAllTrueTestCase = coretestcases.CaseV1{
+	Title: "ContainsAll true when all items present",
+	ArrangeInput: args.Map{
+		"when":        "given collection containing all search items",
+		"items":       []int{1, 2, 3, 4, 5},
+		"searchItems": []int{1, 3, 5},
 	},
-	{
-		Title: "ContainsAll false when item missing",
-		ArrangeInput: args.Map{
-			"when":  "given collection missing one search item",
-			"items": []int{1, 2, 3},
-		},
-		ExpectedInput: []string{
-			"false",
-		},
+	ExpectedInput: []string{
+		"true",
+	},
+}
+
+var containsAllFalseTestCase = coretestcases.CaseV1{
+	Title: "ContainsAll false when item missing",
+	ArrangeInput: args.Map{
+		"when":        "given collection missing one search item",
+		"items":       []int{1, 2, 3},
+		"searchItems": []int{1, 2, 99},
+	},
+	ExpectedInput: []string{
+		"false",
 	},
 }
 
@@ -36,26 +37,27 @@ var containsAllTestCases = []coretestcases.CaseV1{
 // ContainsAny
 // ==========================================
 
-var containsAnyTestCases = []coretestcases.CaseV1{
-	{
-		Title: "ContainsAny true when at least one present",
-		ArrangeInput: args.Map{
-			"when":  "given collection with one matching item",
-			"items": []int{1, 2, 3},
-		},
-		ExpectedInput: []string{
-			"true",
-		},
+var containsAnyTrueTestCase = coretestcases.CaseV1{
+	Title: "ContainsAny true when at least one present",
+	ArrangeInput: args.Map{
+		"when":        "given collection with one matching item",
+		"items":       []int{1, 2, 3},
+		"searchItems": []int{99, 3, 100},
 	},
-	{
-		Title: "ContainsAny false when none present",
-		ArrangeInput: args.Map{
-			"when":  "given collection with no matching items",
-			"items": []int{1, 2, 3},
-		},
-		ExpectedInput: []string{
-			"false",
-		},
+	ExpectedInput: []string{
+		"true",
+	},
+}
+
+var containsAnyFalseTestCase = coretestcases.CaseV1{
+	Title: "ContainsAny false when none present",
+	ArrangeInput: args.Map{
+		"when":        "given collection with no matching items",
+		"items":       []int{1, 2, 3},
+		"searchItems": []int{88, 99, 100},
+	},
+	ExpectedInput: []string{
+		"false",
 	},
 }
 
@@ -63,28 +65,29 @@ var containsAnyTestCases = []coretestcases.CaseV1{
 // RemoveItem
 // ==========================================
 
-var removeItemTestCases = []coretestcases.CaseV1{
-	{
-		Title: "RemoveItem removes first occurrence",
-		ArrangeInput: args.Map{
-			"when":  "given collection with duplicates, remove first 2",
-			"items": []int{1, 2, 3, 2, 4},
-		},
-		ExpectedInput: []string{
-			"true",
-			"4",
-		},
+var removeItemFoundTestCase = coretestcases.CaseV1{
+	Title: "RemoveItem removes first occurrence",
+	ArrangeInput: args.Map{
+		"when":       "given collection with duplicates, remove first 2",
+		"items":      []int{1, 2, 3, 2, 4},
+		"removeItem": 2,
 	},
-	{
-		Title: "RemoveItem returns false for missing item",
-		ArrangeInput: args.Map{
-			"when":  "given collection without target item",
-			"items": []int{1, 3, 5},
-		},
-		ExpectedInput: []string{
-			"false",
-			"3",
-		},
+	ExpectedInput: []string{
+		"true",
+		"4",
+	},
+}
+
+var removeItemMissingTestCase = coretestcases.CaseV1{
+	Title: "RemoveItem returns false for missing item",
+	ArrangeInput: args.Map{
+		"when":       "given collection without target item",
+		"items":      []int{1, 3, 5},
+		"removeItem": 99,
+	},
+	ExpectedInput: []string{
+		"false",
+		"3",
 	},
 }
 
