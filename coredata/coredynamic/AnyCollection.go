@@ -553,6 +553,10 @@ func (it *AnyCollection) JsonResultsPtrCollection() *corejson.ResultsPtrCollecti
 func (it *AnyCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
