@@ -1,4 +1,4 @@
-package argstests
+package coreflecttests
 
 import (
 	"testing"
