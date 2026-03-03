@@ -214,107 +214,128 @@ func Test_Hashmap_RemoveMissing(t *testing.T) {
 // Test: Keys
 // ==========================================================================
 
-func Test_Hashmap_Keys(t *testing.T) {
-	for caseIndex, tc := range hashmapKeysTestCases {
-		var actLines []string
+func Test_Hashmap_Keys_NonEmpty(t *testing.T) {
+	tc := hashmapKeysNonEmptyTestCase
+	hm := coregeneric.HashmapFrom(map[int]string{1: "a", 2: "b"})
 
-		if caseIndex == 0 {
-			hm := coregeneric.HashmapFrom(map[int]string{1: "a", 2: "b"})
-			actLines = []string{fmt.Sprintf("%v", len(hm.Keys()))}
-		} else {
-			hm := coregeneric.EmptyHashmap[int, string]()
-			actLines = []string{fmt.Sprintf("%v", len(hm.Keys()))}
-		}
+	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
-	}
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_Keys_Empty(t *testing.T) {
+	tc := hashmapKeysEmptyTestCase
+	hm := coregeneric.EmptyHashmap[int, string]()
+
+	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================================================
 // Test: Values
 // ==========================================================================
 
-func Test_Hashmap_Values(t *testing.T) {
-	for caseIndex, tc := range hashmapValuesTestCases {
-		var actLines []string
+func Test_Hashmap_Values_NonEmpty(t *testing.T) {
+	tc := hashmapValuesNonEmptyTestCase
+	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	vals := hm.Values()
 
-		if caseIndex == 0 {
-			hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
-			vals := hm.Values()
-			actLines = []string{fmt.Sprintf("%v", len(vals)), fmt.Sprintf("%v", vals[0])}
-		} else {
-			hm := coregeneric.EmptyHashmap[string, int]()
-			actLines = []string{fmt.Sprintf("%v", len(hm.Values()))}
-		}
-
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+	actLines := []string{
+		fmt.Sprintf("%v", len(vals)),
+		fmt.Sprintf("%v", vals[0]),
 	}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_Values_Empty(t *testing.T) {
+	tc := hashmapValuesEmptyTestCase
+	hm := coregeneric.EmptyHashmap[string, int]()
+
+	actLines := []string{fmt.Sprintf("%v", len(hm.Values()))}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================================================
 // Test: AddOrUpdateMap
 // ==========================================================================
 
-func Test_Hashmap_AddOrUpdateMap(t *testing.T) {
-	for caseIndex, tc := range hashmapAddOrUpdateMapTestCases {
-		hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
-		var actLines []string
+func Test_Hashmap_AddOrUpdateMap_Merges(t *testing.T) {
+	tc := hashmapAddOrUpdateMapMergesTestCase
+	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	hm.AddOrUpdateMap(map[string]int{"b": 2, "a": 10})
+	val, _ := hm.Get("a")
 
-		if caseIndex == 0 {
-			hm.AddOrUpdateMap(map[string]int{"b": 2, "a": 10})
-			val, _ := hm.Get("a")
-			actLines = []string{fmt.Sprintf("%v", hm.Length()), fmt.Sprintf("%v", val)}
-		} else {
-			hm.AddOrUpdateMap(map[string]int{})
-			actLines = []string{fmt.Sprintf("%v", hm.Length())}
-		}
-
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+	actLines := []string{
+		fmt.Sprintf("%v", hm.Length()),
+		fmt.Sprintf("%v", val),
 	}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_AddOrUpdateMap_EmptyNoop(t *testing.T) {
+	tc := hashmapAddOrUpdateMapEmptyNoopTestCase
+	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	hm.AddOrUpdateMap(map[string]int{})
+
+	actLines := []string{fmt.Sprintf("%v", hm.Length())}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================================================
 // Test: AddOrUpdateHashmap
 // ==========================================================================
 
-func Test_Hashmap_AddOrUpdateHashmap(t *testing.T) {
-	for caseIndex, tc := range hashmapAddOrUpdateHashmapTestCases {
-		hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
-		var actLines []string
+func Test_Hashmap_AddOrUpdateHashmap_Merges(t *testing.T) {
+	tc := hashmapAddOrUpdateHashmapMergesTestCase
+	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	hm.AddOrUpdateHashmap(coregeneric.HashmapFrom(map[string]int{"b": 2}))
 
-		if caseIndex == 0 {
-			hm.AddOrUpdateHashmap(coregeneric.HashmapFrom(map[string]int{"b": 2}))
-			actLines = []string{fmt.Sprintf("%v", hm.Length())}
-		} else {
-			hm.AddOrUpdateHashmap(nil)
-			actLines = []string{fmt.Sprintf("%v", hm.Length())}
-		}
+	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
-	}
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_AddOrUpdateHashmap_NilNoop(t *testing.T) {
+	tc := hashmapAddOrUpdateHashmapNilNoopTestCase
+	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	hm.AddOrUpdateHashmap(nil)
+
+	actLines := []string{fmt.Sprintf("%v", hm.Length())}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================================================
 // Test: ConcatNew
 // ==========================================================================
 
-func Test_Hashmap_ConcatNew(t *testing.T) {
-	for caseIndex, tc := range hashmapConcatNewTestCases {
-		var actLines []string
+func Test_Hashmap_ConcatNew_Merged(t *testing.T) {
+	tc := hashmapConcatNewMergedTestCase
+	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	hm2 := coregeneric.HashmapFrom(map[string]int{"b": 2})
+	result := hm1.ConcatNew(hm2)
 
-		if caseIndex == 0 {
-			hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
-			hm2 := coregeneric.HashmapFrom(map[string]int{"b": 2})
-			result := hm1.ConcatNew(hm2)
-			actLines = []string{fmt.Sprintf("%v", result.Length()), fmt.Sprintf("%v", hm1.Length())}
-		} else {
-			hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
-			result := hm.ConcatNew(nil)
-			actLines = []string{fmt.Sprintf("%v", result.Length())}
-		}
-
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+	actLines := []string{
+		fmt.Sprintf("%v", result.Length()),
+		fmt.Sprintf("%v", hm1.Length()),
 	}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
+	tc := hashmapConcatNewNilTestCase
+	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	result := hm.ConcatNew(nil)
+
+	actLines := []string{fmt.Sprintf("%v", result.Length())}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================================================
@@ -337,36 +358,61 @@ func Test_Hashmap_CloneMethod(t *testing.T) {
 // Test: IsEquals
 // ==========================================================================
 
-func Test_Hashmap_IsEquals(t *testing.T) {
-	for caseIndex, tc := range hashmapIsEqualsTestCases {
-		var actLines []string
+func Test_Hashmap_IsEquals_SameContent(t *testing.T) {
+	tc := hashmapIsEqualsSameContentTestCase
+	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
+	hm2 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 
-		switch caseIndex {
-		case 0:
-			hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
-			hm2 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
-			actLines = []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
-		case 1:
-			hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
-			hm2 := coregeneric.HashmapFrom(map[string]int{"b": 1})
-			actLines = []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
-		case 2:
-			hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
-			hm2 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
-			actLines = []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
-		case 3:
-			var hm1, hm2 *coregeneric.Hashmap[string, int]
-			actLines = []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
-		case 4:
-			hm := coregeneric.EmptyHashmap[string, int]()
-			actLines = []string{fmt.Sprintf("%v", hm.IsEquals(nil))}
-		case 5:
-			hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
-			actLines = []string{fmt.Sprintf("%v", hm.IsEquals(hm))}
-		}
+	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
-	}
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_IsEquals_DifferentKeys(t *testing.T) {
+	tc := hashmapIsEqualsDifferentKeysTestCase
+	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	hm2 := coregeneric.HashmapFrom(map[string]int{"b": 1})
+
+	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
+	tc := hashmapIsEqualsDifferentLengthTestCase
+	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
+	hm2 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
+
+	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
+	tc := hashmapIsEqualsBothNilTestCase
+	var hm1, hm2 *coregeneric.Hashmap[string, int]
+
+	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
+	tc := hashmapIsEqualsOneNilTestCase
+	hm := coregeneric.EmptyHashmap[string, int]()
+
+	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(nil))}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_IsEquals_SamePointer(t *testing.T) {
+	tc := hashmapIsEqualsSamePointerTestCase
+	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
+
+	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(hm))}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================================================
@@ -412,20 +458,29 @@ func Test_Hashmap_String(t *testing.T) {
 // Test: Nil receiver
 // ==========================================================================
 
-func Test_Hashmap_NilReceiver(t *testing.T) {
-	for caseIndex, tc := range hashmapNilReceiverTestCases {
-		var hm *coregeneric.Hashmap[string, int]
-		var actLines []string
+func Test_Hashmap_NilReceiver_IsEmpty(t *testing.T) {
+	tc := hashmapNilReceiverIsEmptyTestCase
+	var hm *coregeneric.Hashmap[string, int]
 
-		switch caseIndex {
-		case 0:
-			actLines = []string{fmt.Sprintf("%v", hm.IsEmpty())}
-		case 1:
-			actLines = []string{fmt.Sprintf("%v", hm.Length())}
-		case 2:
-			actLines = []string{fmt.Sprintf("%v", hm.HasItems())}
-		}
+	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
-	}
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_NilReceiver_Length(t *testing.T) {
+	tc := hashmapNilReceiverLengthTestCase
+	var hm *coregeneric.Hashmap[string, int]
+
+	actLines := []string{fmt.Sprintf("%v", hm.Length())}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_Hashmap_NilReceiver_HasItems(t *testing.T) {
+	tc := hashmapNilReceiverHasItemsTestCase
+	var hm *coregeneric.Hashmap[string, int]
+
+	actLines := []string{fmt.Sprintf("%v", hm.HasItems())}
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }

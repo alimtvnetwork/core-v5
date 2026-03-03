@@ -123,70 +123,69 @@ var hashmapRemoveMissingTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================================================
-// Keys / Values
+// Keys
 // ==========================================================================
 
-var hashmapKeysTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Keys returns all",
-		ExpectedInput: []string{"2"},
-	},
-	{
-		Title:         "Keys empty",
-		ExpectedInput: []string{"0"},
-	},
+var hashmapKeysNonEmptyTestCase = coretestcases.CaseV1{
+	Title:         "Keys returns all",
+	ExpectedInput: []string{"2"},
 }
 
-var hashmapValuesTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Values returns all",
-		ExpectedInput: []string{"1", "1"},
-	},
-	{
-		Title:         "Values empty",
-		ExpectedInput: []string{"0"},
-	},
+var hashmapKeysEmptyTestCase = coretestcases.CaseV1{
+	Title:         "Keys empty",
+	ExpectedInput: []string{"0"},
+}
+
+// ==========================================================================
+// Values
+// ==========================================================================
+
+var hashmapValuesNonEmptyTestCase = coretestcases.CaseV1{
+	Title:         "Values returns all",
+	ExpectedInput: []string{"1", "1"},
+}
+
+var hashmapValuesEmptyTestCase = coretestcases.CaseV1{
+	Title:         "Values empty",
+	ExpectedInput: []string{"0"},
 }
 
 // ==========================================================================
 // AddOrUpdate
 // ==========================================================================
 
-var hashmapAddOrUpdateMapTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "AddOrUpdateMap merges",
-		ExpectedInput: []string{"2", "10"},
-	},
-	{
-		Title:         "AddOrUpdateMap empty noop",
-		ExpectedInput: []string{"1"},
-	},
+var hashmapAddOrUpdateMapMergesTestCase = coretestcases.CaseV1{
+	Title:         "AddOrUpdateMap merges",
+	ExpectedInput: []string{"2", "10"},
 }
 
-var hashmapAddOrUpdateHashmapTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "AddOrUpdateHashmap merges",
-		ExpectedInput: []string{"2"},
-	},
-	{
-		Title:         "AddOrUpdateHashmap nil noop",
-		ExpectedInput: []string{"1"},
-	},
+var hashmapAddOrUpdateMapEmptyNoopTestCase = coretestcases.CaseV1{
+	Title:         "AddOrUpdateMap empty noop",
+	ExpectedInput: []string{"1"},
+}
+
+var hashmapAddOrUpdateHashmapMergesTestCase = coretestcases.CaseV1{
+	Title:         "AddOrUpdateHashmap merges",
+	ExpectedInput: []string{"2"},
+}
+
+var hashmapAddOrUpdateHashmapNilNoopTestCase = coretestcases.CaseV1{
+	Title:         "AddOrUpdateHashmap nil noop",
+	ExpectedInput: []string{"1"},
 }
 
 // ==========================================================================
 // ConcatNew
 // ==========================================================================
 
-var hashmapConcatNewTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "ConcatNew merged copy",
-		ExpectedInput: []string{"2", "1"},
-	},
-	{
-		Title:         "ConcatNew nil",
-		ExpectedInput: []string{"1"},
-	},
+var hashmapConcatNewMergedTestCase = coretestcases.CaseV1{
+	Title:         "ConcatNew merged copy",
+	ExpectedInput: []string{"2", "1"},
+}
+
+var hashmapConcatNewNilTestCase = coretestcases.CaseV1{
+	Title:         "ConcatNew nil",
+	ExpectedInput: []string{"1"},
 }
 
 // ==========================================================================
@@ -204,31 +203,34 @@ var hashmapCloneMethodTestCases = []coretestcases.CaseV1{
 // IsEquals
 // ==========================================================================
 
-var hashmapIsEqualsTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "IsEquals same content",
-		ExpectedInput: []string{"true"},
-	},
-	{
-		Title:         "IsEquals different keys",
-		ExpectedInput: []string{"false"},
-	},
-	{
-		Title:         "IsEquals different length",
-		ExpectedInput: []string{"false"},
-	},
-	{
-		Title:         "IsEquals both nil",
-		ExpectedInput: []string{"true"},
-	},
-	{
-		Title:         "IsEquals one nil",
-		ExpectedInput: []string{"false"},
-	},
-	{
-		Title:         "IsEquals same pointer",
-		ExpectedInput: []string{"true"},
-	},
+var hashmapIsEqualsSameContentTestCase = coretestcases.CaseV1{
+	Title:         "IsEquals same content",
+	ExpectedInput: []string{"true"},
+}
+
+var hashmapIsEqualsDifferentKeysTestCase = coretestcases.CaseV1{
+	Title:         "IsEquals different keys",
+	ExpectedInput: []string{"false"},
+}
+
+var hashmapIsEqualsDifferentLengthTestCase = coretestcases.CaseV1{
+	Title:         "IsEquals different length",
+	ExpectedInput: []string{"false"},
+}
+
+var hashmapIsEqualsBothNilTestCase = coretestcases.CaseV1{
+	Title:         "IsEquals both nil",
+	ExpectedInput: []string{"true"},
+}
+
+var hashmapIsEqualsOneNilTestCase = coretestcases.CaseV1{
+	Title:         "IsEquals one nil",
+	ExpectedInput: []string{"false"},
+}
+
+var hashmapIsEqualsSamePointerTestCase = coretestcases.CaseV1{
+	Title:         "IsEquals same pointer",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
@@ -264,17 +266,17 @@ var hashmapStringTestCases = []coretestcases.CaseV1{
 // Nil receiver
 // ==========================================================================
 
-var hashmapNilReceiverTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "IsEmpty nil receiver",
-		ExpectedInput: []string{"true"},
-	},
-	{
-		Title:         "Length nil receiver",
-		ExpectedInput: []string{"0"},
-	},
-	{
-		Title:         "HasItems nil receiver",
-		ExpectedInput: []string{"false"},
-	},
+var hashmapNilReceiverIsEmptyTestCase = coretestcases.CaseV1{
+	Title:         "IsEmpty nil receiver",
+	ExpectedInput: []string{"true"},
+}
+
+var hashmapNilReceiverLengthTestCase = coretestcases.CaseV1{
+	Title:         "Length nil receiver",
+	ExpectedInput: []string{"0"},
+}
+
+var hashmapNilReceiverHasItemsTestCase = coretestcases.CaseV1{
+	Title:         "HasItems nil receiver",
+	ExpectedInput: []string{"false"},
 }

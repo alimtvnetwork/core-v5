@@ -160,27 +160,29 @@ var linkedListStringTestCases = []coretestcases.CaseV1{
 // IndexAt
 // ==========================================================================
 
-var linkedListIndexAtTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "IndexAt valid returns node",
-		ExpectedInput: []string{"true", "b"},
-	},
-	{
-		Title:         "IndexAt first",
-		ExpectedInput: []string{"10"},
-	},
-	{
-		Title:         "IndexAt last",
-		ExpectedInput: []string{"30"},
-	},
-	{
-		Title:         "IndexAt out of bounds",
-		ExpectedInput: []string{"true", "true"},
-	},
-	{
-		Title:         "IndexAt empty",
-		ExpectedInput: []string{"true"},
-	},
+var linkedListIndexAtValidTestCase = coretestcases.CaseV1{
+	Title:         "IndexAt valid returns node",
+	ExpectedInput: []string{"true", "b"},
+}
+
+var linkedListIndexAtFirstTestCase = coretestcases.CaseV1{
+	Title:         "IndexAt first",
+	ExpectedInput: []string{"10"},
+}
+
+var linkedListIndexAtLastTestCase = coretestcases.CaseV1{
+	Title:         "IndexAt last",
+	ExpectedInput: []string{"30"},
+}
+
+var linkedListIndexAtOutOfBoundsTestCase = coretestcases.CaseV1{
+	Title:         "IndexAt out of bounds",
+	ExpectedInput: []string{"true", "true"},
+}
+
+var linkedListIndexAtEmptyTestCase = coretestcases.CaseV1{
+	Title:         "IndexAt empty",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
