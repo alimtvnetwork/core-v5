@@ -51,6 +51,6 @@ func Test_TestValidators_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%v", isValid)}
 		expected := []string{"true"}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Header, actLines, expected)
+		testCase.ShouldBeEqual(t, caseIndex, actLines, expected)
 	}
 }

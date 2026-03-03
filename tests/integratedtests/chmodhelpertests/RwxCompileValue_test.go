@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_RwxCompileValue(t *testing.T) {
@@ -36,11 +35,10 @@ func Test_RwxCompileValue(t *testing.T) {
 		actLines := []string{actualFullRwx}
 		expectedLines := []string{expectedFullRwx}
 
-		// Print diff on failure
-		errcore.AssertDiffOnMismatch(
+		// Assert
+		testCase.ShouldBeEqual(
 			t,
 			caseIndex,
-			testCase.Case.Title,
 			actLines,
 			expectedLines,
 			fmt.Sprintf("  Existing: %s", testCase.Existing.ToString(false)),
