@@ -10,7 +10,7 @@ import (
 )
 
 func Test_Result_Unmarshal_Valid(t *testing.T) {
-	tc := resultUnmarshalValidTestCases[0]
+	tc := resultUnmarshalValidTestCase
 
 	// Arrange
 	src := exampleStruct{Name: "Alice", Age: 30}
@@ -31,7 +31,7 @@ func Test_Result_Unmarshal_Valid(t *testing.T) {
 }
 
 func Test_Result_Unmarshal_NilReceiver(t *testing.T) {
-	tc := resultUnmarshalNilTestCases[0]
+	tc := resultUnmarshalNilTestCase
 
 	// Arrange
 	var nilResult *corejson.Result
@@ -50,7 +50,7 @@ func Test_Result_Unmarshal_NilReceiver(t *testing.T) {
 }
 
 func Test_Result_Unmarshal_InvalidBytes(t *testing.T) {
-	tc := resultUnmarshalInvalidTestCases[0]
+	tc := resultUnmarshalInvalidTestCase
 
 	// Arrange
 	result := corejson.NewResult.UsingBytesTypePtr([]byte(`{invalid-json`), "TestType")
@@ -69,7 +69,7 @@ func Test_Result_Unmarshal_InvalidBytes(t *testing.T) {
 }
 
 func Test_Result_Unmarshal_ExistingError(t *testing.T) {
-	tc := resultUnmarshalExistingErrorTestCases[0]
+	tc := resultUnmarshalExistingErrorTestCase
 
 	// Arrange
 	ch := make(chan int)
