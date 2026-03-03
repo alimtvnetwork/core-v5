@@ -1,7 +1,10 @@
 package corevalidatortestwrappers
 
 import (
+	"testing"
+
 	"gitlab.com/auk-go/core/corevalidator"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 type TextValidatorsWrapper struct {
@@ -13,4 +16,23 @@ type TextValidatorsWrapper struct {
 	IsSkipOnContentsEmpty bool
 	IsCaseSensitive       bool
 	ExpectationLines      []string
+}
+
+// ShouldBeEqual asserts actLines match expectedLines using
+// the wrapper's Header as the test title.
+func (it TextValidatorsWrapper) ShouldBeEqual(
+	t *testing.T,
+	caseIndex int,
+	actLines []string,
+	expectedLines []string,
+) {
+	t.Helper()
+
+	errcore.AssertDiffOnMismatch(
+		t,
+		caseIndex,
+		it.Header,
+		actLines,
+		expectedLines,
+	)
 }
