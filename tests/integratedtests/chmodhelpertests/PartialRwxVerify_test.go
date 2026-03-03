@@ -4,33 +4,47 @@ import (
 	"fmt"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/chmodhelper"
 	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 func Test_PartialRwxVerify(t *testing.T) {
-	for i, testCase := range chmodhelpertestwrappers.PartialRwxVerifyTestCases {
-		Convey(
-			testCase.Header, t, func() {
-				// Arrange
-				rwx, err := chmodhelper.NewRwxVariableWrapper(testCase.PartialRwxInput1)
-				errcore.SimpleHandleErr(err, "rwxVar create failed.")
+	for caseIndex, testCase := range partialRwxVerifyTestCases {
+		// Arrange
+		inputs := testCase.ArrangeInput.(map[string]string)
+		partialRwx := inputs["partialRwx"]
+		fullRwx := inputs["fullRwx"]
 
-				// Act
-				actual := rwx.IsEqualPartialRwxPartial(testCase.FullRwxVerifyInput2)
+		rwx, err := chmodhelper.NewRwxVariableWrapper(partialRwx)
+		errcore.SimpleHandleErr(err, "rwxVar create failed.")
 
-				// Assert
-				if actual != testCase.IsMatchesExpectation {
-					fmt.Println("Input 1 :", testCase.PartialRwxInput1)
-					fmt.Println("Input 2 :", testCase.FullRwxVerifyInput2)
-					fmt.Println(testCase.Header, " --- Failed. Index :", i)
-				}
+		// Act
+		actual := rwx.IsEqualPartialRwxPartial(fullRwx)
+		actLines := []string{fmt.Sprintf("%v", actual)}
+		expectedLines := testCase.ExpectedInput.([]string)
 
-				So(actual, ShouldEqual, testCase.IsMatchesExpectation)
-			},
-		)
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== PartialRwxVerify Diff (Case %d: %s) ===\n",
+				caseIndex,
+				testCase.Title,
+			)
+
+			fmt.Printf("  Input 1 (partial): %s\n", partialRwx)
+			fmt.Printf("  Input 2 (full):    %s\n", fullRwx)
+
+			errcore.PrintLineDiff(
+				caseIndex,
+				testCase.Title,
+				actLines,
+				expectedLines,
+			)
+
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
