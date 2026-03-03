@@ -6,11 +6,12 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/namevalue"
 )
 
-// region StringAny (backward-compat) tests
+// ==========================================================================
+// Test: StringAny.String
+// ==========================================================================
 
 func Test_StringAny_String_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringAnyStringTestCases {
@@ -31,9 +32,9 @@ func Test_StringAny_String_Verification(t *testing.T) {
 	}
 }
 
-// endregion
-
-// region StringString tests
+// ==========================================================================
+// Test: StringString.String
+// ==========================================================================
 
 func Test_StringString_String_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringStringTestCases {
@@ -54,9 +55,9 @@ func Test_StringString_String_Verification(t *testing.T) {
 	}
 }
 
-// endregion
-
-// region StringInt tests
+// ==========================================================================
+// Test: StringInt.String
+// ==========================================================================
 
 func Test_StringInt_String_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringIntTestCases {
@@ -78,145 +79,172 @@ func Test_StringInt_String_Verification(t *testing.T) {
 	}
 }
 
-// endregion
+// ==========================================================================
+// Test: StringMapAny.String
+// ==========================================================================
 
-// region StringMapAny tests
+func Test_StringMapAny_Populated(t *testing.T) {
+	tc := stringMapAnyTestCases[0]
 
-func Test_StringMapAny_String_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringMapAnyTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		name, _ := input.GetAsString("name")
-
-		var mapVal map[string]any
-		switch name {
-		case "config":
-			mapVal = map[string]any{"host": "localhost", "port": 8080}
-		case "empty":
-			mapVal = map[string]any{}
-		default:
-			mapVal = nil
-		}
-
-		// Act
-		instance := namevalue.StringMapAny{
-			Name:  name,
-			Value: mapVal,
-		}
-		result := instance.String()
-		isNotEmpty := fmt.Sprintf("%v", result != "")
-		hasName := fmt.Sprintf("%v", strings.Contains(result, name))
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isNotEmpty, hasName)
+	instance := namevalue.StringMapAny{
+		Name:  "config",
+		Value: map[string]any{"host": "localhost", "port": 8080},
 	}
+	result := instance.String()
+
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%v", result != ""),
+		fmt.Sprintf("%v", strings.Contains(result, "config")),
+	)
 }
 
-// endregion
+func Test_StringMapAny_Empty(t *testing.T) {
+	tc := stringMapAnyTestCases[1]
 
-// region StringMapString tests
-
-func Test_StringMapString_String_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringMapStringTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		name, _ := input.GetAsString("name")
-
-		var mapVal map[string]string
-		switch name {
-		case "headers":
-			mapVal = map[string]string{"Content-Type": "application/json"}
-		default:
-			mapVal = nil
-		}
-
-		// Act
-		instance := namevalue.StringMapString{
-			Name:  name,
-			Value: mapVal,
-		}
-		result := instance.String()
-		isNotEmpty := fmt.Sprintf("%v", result != "")
-		hasName := fmt.Sprintf("%v", strings.Contains(result, name))
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isNotEmpty, hasName)
+	instance := namevalue.StringMapAny{
+		Name:  "empty",
+		Value: map[string]any{},
 	}
+	result := instance.String()
+
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%v", result != ""),
+		fmt.Sprintf("%v", strings.Contains(result, "empty")),
+	)
 }
 
-// endregion
+func Test_StringMapAny_Nil(t *testing.T) {
+	tc := stringMapAnyTestCases[2]
 
-// region Dispose tests
-
-func Test_Generic_Dispose_Verification(t *testing.T) {
-	for caseIndex, testCase := range genericDisposeTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		typeStr, _ := input.GetAsString("type")
-		name, _ := input.GetAsString("name")
-
-		var resultName string
-		var resultValue string
-
-		// Act
-		switch typeStr {
-		case "stringany":
-			value, _ := input.Get("value")
-			inst := &namevalue.StringAny{Name: name, Value: value}
-			inst.Dispose()
-			resultName = inst.Name
-			resultValue = fmt.Sprintf("%v", inst.Value == nil)
-		case "stringstring":
-			value, _ := input.GetAsString("value")
-			inst := &namevalue.StringString{Name: name, Value: value}
-			inst.Dispose()
-			resultName = inst.Name
-			resultValue = inst.Value
-		case "stringint":
-			inst := &namevalue.StringInt{Name: name, Value: 42}
-			inst.Dispose()
-			resultName = inst.Name
-			resultValue = fmt.Sprintf("%d", inst.Value)
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, resultName, resultValue)
+	instance := namevalue.StringMapAny{
+		Name:  "nothing",
+		Value: nil,
 	}
+	result := instance.String()
+
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%v", result != ""),
+		fmt.Sprintf("%v", strings.Contains(result, "nothing")),
+	)
 }
 
-// endregion
+// ==========================================================================
+// Test: StringMapString.String
+// ==========================================================================
 
-// region JsonString tests
+func Test_StringMapString_Populated(t *testing.T) {
+	tc := stringMapStringTestCases[0]
 
-func Test_Generic_JsonString_Verification(t *testing.T) {
-	for caseIndex, testCase := range genericJsonStringTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		name, _ := input.GetAsString("name")
-		value, _ := input.Get("value")
-
-		// Act
-		var jsonStr string
-		switch value.(type) {
-		case int:
-			inst := namevalue.StringInt{Name: name, Value: value.(int)}
-			jsonStr = inst.JsonString()
-		default:
-			valStr, _ := value.(string)
-			inst := namevalue.StringAny{Name: name, Value: valStr}
-			jsonStr = inst.JsonString()
-		}
-		isNotEmpty := fmt.Sprintf("%v", jsonStr != "")
-		containsName := fmt.Sprintf("%v", strings.Contains(jsonStr, name))
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isNotEmpty, containsName)
+	instance := namevalue.StringMapString{
+		Name:  "headers",
+		Value: map[string]string{"Content-Type": "application/json"},
 	}
+	result := instance.String()
+
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%v", result != ""),
+		fmt.Sprintf("%v", strings.Contains(result, "headers")),
+	)
 }
 
-// endregion
+func Test_StringMapString_Nil(t *testing.T) {
+	tc := stringMapStringTestCases[1]
 
-// region Collection tests
+	instance := namevalue.StringMapString{
+		Name:  "nothing",
+		Value: nil,
+	}
+	result := instance.String()
+
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%v", result != ""),
+		fmt.Sprintf("%v", strings.Contains(result, "nothing")),
+	)
+}
+
+// ==========================================================================
+// Test: Dispose — StringAny
+// ==========================================================================
+
+func Test_Dispose_StringAny(t *testing.T) {
+	tc := genericDisposeTestCases[0]
+
+	inst := &namevalue.StringAny{Name: "key", Value: "val"}
+	inst.Dispose()
+
+	tc.ShouldBeEqual(t, 0,
+		inst.Name,
+		fmt.Sprintf("%v", inst.Value == nil),
+	)
+}
+
+// ==========================================================================
+// Test: Dispose — StringString
+// ==========================================================================
+
+func Test_Dispose_StringString(t *testing.T) {
+	tc := genericDisposeTestCases[1]
+
+	inst := &namevalue.StringString{Name: "key", Value: "val"}
+	inst.Dispose()
+
+	tc.ShouldBeEqual(t, 0,
+		inst.Name,
+		inst.Value,
+	)
+}
+
+// ==========================================================================
+// Test: Dispose — StringInt
+// ==========================================================================
+
+func Test_Dispose_StringInt(t *testing.T) {
+	tc := genericDisposeTestCases[2]
+
+	inst := &namevalue.StringInt{Name: "count", Value: 42}
+	inst.Dispose()
+
+	tc.ShouldBeEqual(t, 0,
+		inst.Name,
+		fmt.Sprintf("%d", inst.Value),
+	)
+}
+
+// ==========================================================================
+// Test: JsonString — StringAny
+// ==========================================================================
+
+func Test_JsonString_StringAny(t *testing.T) {
+	tc := genericJsonStringTestCases[0]
+
+	inst := namevalue.StringAny{Name: "server", Value: "api.example.com"}
+	jsonStr := inst.JsonString()
+
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%v", jsonStr != ""),
+		fmt.Sprintf("%v", strings.Contains(jsonStr, "server")),
+	)
+}
+
+// ==========================================================================
+// Test: JsonString — StringInt
+// ==========================================================================
+
+func Test_JsonString_StringInt(t *testing.T) {
+	tc := genericJsonStringTestCases[1]
+
+	inst := namevalue.StringInt{Name: "port", Value: 443}
+	jsonStr := inst.JsonString()
+
+	tc.ShouldBeEqual(t, 0,
+		fmt.Sprintf("%v", jsonStr != ""),
+		fmt.Sprintf("%v", strings.Contains(jsonStr, "port")),
+	)
+}
+
+// ==========================================================================
+// Test: Collection
+// ==========================================================================
 
 func Test_Collection_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionTestCases {
@@ -241,9 +269,9 @@ func Test_Collection_Verification(t *testing.T) {
 	}
 }
 
-// endregion
-
-// region Chmod integration tests
+// ==========================================================================
+// Test: Chmod integration
+// ==========================================================================
 
 func Test_Chmod_Integration_Verification(t *testing.T) {
 	for caseIndex, testCase := range chmodIntegrationTestCases {
@@ -253,10 +281,7 @@ func Test_Chmod_Integration_Verification(t *testing.T) {
 
 		// Act
 		if !hasName {
-			// Negative: empty slice test
-			result := errcore.VarNameValues()
-
-			// Assert
+			result := namevalue.VarNameValues()
 			testCase.ShouldBeEqual(t, caseIndex, result)
 			continue
 		}
@@ -270,23 +295,15 @@ func Test_Chmod_Integration_Verification(t *testing.T) {
 		}
 
 		if hasMessage && message != "" {
-			// MessageNameValues test
-			result := errcore.MessageNameValues(message, nv)
+			result := namevalue.MessageNameValues(message, nv)
 			containsMessage := fmt.Sprintf("%v", strings.Contains(result, message))
 			containsPath := fmt.Sprintf("%v", strings.Contains(result, path))
-
-			// Assert
 			testCase.ShouldBeEqual(t, caseIndex, containsMessage, containsPath)
 		} else {
-			// VarNameValues test
-			result := errcore.VarNameValues(nv)
+			result := namevalue.VarNameValues(nv)
 			isNotEmpty := fmt.Sprintf("%v", result != "")
 			containsPath := fmt.Sprintf("%v", strings.Contains(result, path))
-
-			// Assert
 			testCase.ShouldBeEqual(t, caseIndex, isNotEmpty, containsPath)
 		}
 	}
 }
-
-// endregion
