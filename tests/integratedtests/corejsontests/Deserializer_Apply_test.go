@@ -37,9 +37,5 @@ func Test_FromTo(t *testing.T) {
 	actLines := []string{fmt.Sprintf("%v", to == from)}
 	expected := []string{"true"}
 
-	errcore.PrintDiffOnMismatch(0, "corejson.Deserializer.FromTo - should match from to casting", actLines, expected)
-
-	if to != from {
-		t.Errorf("corejson.Deserializer.FromTo: got %q, want %q", to, from)
-	}
+	errcore.AssertDiffOnMismatch(t, 0, "corejson.Deserializer.FromTo - should match from to casting", actLines, expected)
 }
