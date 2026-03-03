@@ -1,321 +1,279 @@
 package coredynamictests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	convey "github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// =============================================================================
-// MapAnyItems — IsEqual
-// =============================================================================
+// ==========================================
+// Diff helper — prints map state on failure
+// ==========================================
 
-func Test_MapAnyItems_IsEqual_BothNil(t *testing.T) {
-	// Arrange
-	var left *coredynamic.MapAnyItems
-	var right *coredynamic.MapAnyItems
+func getBool(input args.Map, key string) bool {
+	v, ok := input[key]
+	if !ok {
+		return false
+	}
 
-	// Act
-	result := left.IsEqual(right)
+	b, isBool := v.(bool)
+	if !isBool {
+		return false
+	}
 
-	// Assert
-	convey.Convey("IsEqual - both nil should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
+	return b
 }
 
-func Test_MapAnyItems_IsEqual_LeftNil(t *testing.T) {
-	// Arrange
-	var left *coredynamic.MapAnyItems
-	right := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"k": "v"})
+func printMapDiffOnFail(
+	caseIndex int,
+	title string,
+	left *coredynamic.MapAnyItems,
+	right *coredynamic.MapAnyItems,
+) {
+	fmt.Printf("\n=== MapAnyItems Diff (Case %d: %s) ===\n", caseIndex, title)
 
-	// Act
-	result := left.IsEqual(right)
+	if left == nil {
+		fmt.Println("  Left:  <nil>")
+	} else {
+		fmt.Printf("  Left:  %s\n", left.String())
+		fmt.Printf("  Left keys:  %v\n", left.AllKeys())
+	}
 
-	// Assert
-	convey.Convey("IsEqual - left nil should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
+	if right == nil {
+		fmt.Println("  Right: <nil>")
+	} else {
+		fmt.Printf("  Right: %s\n", right.String())
+		fmt.Printf("  Right keys: %v\n", right.AllKeys())
+	}
+
+	// Print key-by-key diff if both exist
+	if left != nil && right != nil {
+		diffMsg := left.DiffJsonMessage(true, right.Items)
+		if len(diffMsg) > 0 {
+			fmt.Printf("  Diff:\n%s\n", diffMsg)
+		} else {
+			fmt.Println("  Diff: <no differences>")
+		}
+	}
+
+	fmt.Println("=== End Diff ===")
 }
 
-func Test_MapAnyItems_IsEqual_RightNil(t *testing.T) {
-	// Arrange
-	left := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"k": "v"})
+// ==========================================
+// IsEqual — table-driven
+// ==========================================
 
-	// Act
-	result := left.IsEqual(nil)
+func Test_MapAnyItems_IsEqual(t *testing.T) {
+	for caseIndex, testCase := range mapAnyItemsIsEqualTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftNil := getBool(input, "leftNil")
+		rightNil := getBool(input, "rightNil")
 
-	// Assert
-	convey.Convey("IsEqual - right nil should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
+		var left *coredynamic.MapAnyItems
+		var right *coredynamic.MapAnyItems
+
+		if !leftNil {
+			leftMap := input["leftMap"].(map[string]any)
+			left = coredynamic.NewMapAnyItemsUsingItems(leftMap)
+		}
+		if !rightNil {
+			rightMap := input["rightMap"].(map[string]any)
+			right = coredynamic.NewMapAnyItemsUsingItems(rightMap)
+		}
+
+		// Act
+		result := left.IsEqual(right)
+
+		// Print diff on failure
+		resultStr := fmt.Sprintf("%v", result)
+		expected := testCase.ExpectedInput.([]string)
+		if len(expected) > 0 && resultStr != expected[0] {
+			printMapDiffOnFail(caseIndex, testCase.Title, left, right)
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, resultStr)
+	}
 }
 
-func Test_MapAnyItems_IsEqual_SameContent(t *testing.T) {
-	// Arrange
-	left := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": "1", "b": "2"})
-	right := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": "1", "b": "2"})
+// ==========================================
+// IsEqualRaw — table-driven
+// ==========================================
 
-	// Act
-	result := left.IsEqual(right)
+func Test_MapAnyItems_IsEqualRaw(t *testing.T) {
+	for caseIndex, testCase := range mapAnyItemsIsEqualRawTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftNil := getBool(input, "leftNil")
 
-	// Assert
-	convey.Convey("IsEqual - same content should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
+		var m *coredynamic.MapAnyItems
+		if !leftNil {
+			leftMap := input["leftMap"].(map[string]any)
+			m = coredynamic.NewMapAnyItemsUsingItems(leftMap)
+		}
+
+		var rawMap map[string]any
+		if rm, ok := input["rightMap"]; ok {
+			rawMap = rm.(map[string]any)
+		}
+
+		// Act
+		result := m.IsEqualRaw(rawMap)
+
+		// Print diff on failure
+		resultStr := fmt.Sprintf("%v", result)
+		expected := testCase.ExpectedInput.([]string)
+		if len(expected) > 0 && resultStr != expected[0] {
+			fmt.Printf("\n--- IsEqualRaw Diff (Case %d: %s) ---\n", caseIndex, testCase.Title)
+			if m != nil {
+				fmt.Printf("  Receiver: %s\n", m.String())
+			} else {
+				fmt.Println("  Receiver: <nil>")
+			}
+			fmt.Printf("  RawMap:   %v\n", rawMap)
+			if m != nil && rawMap != nil {
+				fmt.Printf("  DiffJson: %s\n", m.DiffJsonMessage(true, rawMap))
+			}
+			fmt.Println("--- End ---")
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, resultStr)
+	}
 }
 
-func Test_MapAnyItems_IsEqual_DifferentValues(t *testing.T) {
-	// Arrange
-	left := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": "1"})
-	right := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": "2"})
+// ==========================================
+// ClonePtr — table-driven
+// ==========================================
 
-	// Act
-	result := left.IsEqual(right)
+func Test_MapAnyItems_ClonePtr(t *testing.T) {
+	for caseIndex, testCase := range mapAnyItemsClonePtrTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftNil := getBool(input, "leftNil")
+		addAfterClone := getBool(input, "addAfterClone")
 
-	// Assert
-	convey.Convey("IsEqual - different values should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
+		var m *coredynamic.MapAnyItems
+		if !leftNil {
+			leftMap := input["leftMap"].(map[string]any)
+			m = coredynamic.NewMapAnyItemsUsingItems(leftMap)
+		}
+
+		// Act
+		clone, err := m.ClonePtr()
+
+		var actLines []string
+
+		hasError := err != nil
+		cloneIsNil := clone == nil
+		actLines = append(actLines, fmt.Sprintf("%v", hasError))
+		actLines = append(actLines, fmt.Sprintf("%v", cloneIsNil))
+
+		if !cloneIsNil && !hasError {
+			actLines = append(actLines, fmt.Sprintf("%d", clone.Length()))
+
+			if addAfterClone {
+				clone.Add("new_key", "new_val")
+				actLines = append(actLines, fmt.Sprintf("%v", m.HasKey("new_key")))
+				actLines = append(actLines, fmt.Sprintf("%v", clone.HasKey("new_key")))
+			} else {
+				if _, ok := input["leftMap"]; ok {
+					leftMap := input["leftMap"].(map[string]any)
+					if _, has := leftMap["name"]; has {
+						actLines = append(actLines, fmt.Sprintf("%v", clone.HasKey("name")))
+						actLines = append(actLines, fmt.Sprintf("%v", clone.HasKey("age")))
+					}
+				}
+			}
+		}
+
+		// Print diff on failure
+		expected := testCase.ExpectedInput.([]string)
+		if errcore.LineDiffHasMismatch(actLines, expected) {
+			fmt.Printf("\n=== ClonePtr Diff (Case %d: %s) ===\n", caseIndex, testCase.Title)
+			if m != nil {
+				fmt.Printf("  Original: %s\n", m.String())
+			} else {
+				fmt.Println("  Original: <nil>")
+			}
+			if clone != nil {
+				fmt.Printf("  Clone:    %s\n", clone.String())
+			} else {
+				fmt.Println("  Clone:    <nil>")
+			}
+			if err != nil {
+				fmt.Printf("  Error:    %v\n", err)
+			}
+			errcore.PrintLineDiff(caseIndex, testCase.Title, actLines, expected)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
-func Test_MapAnyItems_IsEqual_DifferentKeys(t *testing.T) {
-	// Arrange
-	left := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": "1"})
-	right := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"b": "1"})
+// ==========================================
+// Edge cases — table-driven
+// ==========================================
 
-	// Act
-	result := left.IsEqual(right)
+func Test_MapAnyItems_EdgeCases(t *testing.T) {
+	for caseIndex, testCase := range mapAnyItemsEdgeCaseTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		leftNil := getBool(input, "leftNil")
 
-	// Assert
-	convey.Convey("IsEqual - different keys should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
+		var m *coredynamic.MapAnyItems
+		if !leftNil {
+			leftMap := input["leftMap"].(map[string]any)
+			m = coredynamic.NewMapAnyItemsUsingItems(leftMap)
+		}
 
-func Test_MapAnyItems_IsEqual_DifferentLengths(t *testing.T) {
-	// Arrange
-	left := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": "1"})
-	right := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": "1", "b": "2"})
+		var actLines []string
 
-	// Act
-	result := left.IsEqual(right)
+		// Act — branch by what the test case exercises
+		if key, ok := input["addKey"]; ok {
+			addKey := key.(string)
+			addValue := input["addValue"]
+			isNew := m.Add(addKey, addValue)
+			actLines = append(actLines, fmt.Sprintf("%v", isNew))
 
-	// Assert
-	convey.Convey("IsEqual - different lengths should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
+			expected := testCase.ExpectedInput.([]string)
+			if len(expected) > 1 {
+				if expected[1] == "new" || expected[1] == "old" {
+					val := m.GetValue(addKey)
+					actLines = append(actLines, fmt.Sprintf("%v", val))
+				} else {
+					actLines = append(actLines, fmt.Sprintf("%d", m.Length()))
+				}
+			}
+		} else if key, ok := input["key"]; ok {
+			actLines = append(actLines, fmt.Sprintf("%v", m.HasKey(key.(string))))
+		} else {
+			actLines = append(actLines, fmt.Sprintf("%d", m.Length()))
+			actLines = append(actLines, fmt.Sprintf("%v", m.IsEmpty()))
+			actLines = append(actLines, fmt.Sprintf("%v", m.HasAnyItem()))
+		}
 
-func Test_MapAnyItems_IsEqual_BothEmpty(t *testing.T) {
-	// Arrange
-	left := coredynamic.EmptyMapAnyItems()
-	right := coredynamic.EmptyMapAnyItems()
+		// Print diff on failure
+		expected := testCase.ExpectedInput.([]string)
+		if errcore.LineDiffHasMismatch(actLines, expected) {
+			fmt.Printf("\n=== EdgeCase Diff (Case %d: %s) ===\n", caseIndex, testCase.Title)
+			if m != nil {
+				fmt.Printf("  Map state: %s\n", m.String())
+				fmt.Printf("  Keys:      %v\n", m.AllKeys())
+			} else {
+				fmt.Println("  Map state: <nil>")
+			}
+			errcore.PrintLineDiff(caseIndex, testCase.Title, actLines, expected)
+			fmt.Println("=== End ===")
+		}
 
-	// Act
-	result := left.IsEqual(right)
-
-	// Assert
-	convey.Convey("IsEqual - both empty should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-// =============================================================================
-// MapAnyItems — IsEqualRaw
-// =============================================================================
-
-func Test_MapAnyItems_IsEqualRaw_NilReceiver(t *testing.T) {
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	result := m.IsEqualRaw(map[string]any{"k": "v"})
-
-	// Assert
-	convey.Convey("IsEqualRaw - nil receiver should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_MapAnyItems_IsEqualRaw_NilReceiverNilMap(t *testing.T) {
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	result := m.IsEqualRaw(nil)
-
-	// Assert
-	convey.Convey("IsEqualRaw - nil receiver nil map should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_MapAnyItems_IsEqualRaw_Match(t *testing.T) {
-	// Arrange
-	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"x": "y"})
-
-	// Act
-	result := m.IsEqualRaw(map[string]any{"x": "y"})
-
-	// Assert
-	convey.Convey("IsEqualRaw - matching map should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-// =============================================================================
-// MapAnyItems — ClonePtr
-// =============================================================================
-
-func Test_MapAnyItems_ClonePtr_NilReceiver(t *testing.T) {
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	clone, err := m.ClonePtr()
-
-	// Assert
-	convey.Convey("ClonePtr - nil receiver should return nil and error", t, func() {
-		convey.So(clone, should.BeNil)
-		convey.So(err, should.NotBeNil)
-	})
-}
-
-func Test_MapAnyItems_ClonePtr_ValidData(t *testing.T) {
-	// Arrange
-	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{
-		"name": "alice",
-		"age":  float64(30),
-	})
-
-	// Act
-	clone, err := m.ClonePtr()
-
-	// Assert
-	convey.Convey("ClonePtr - valid data should clone successfully", t, func() {
-		convey.So(err, should.BeNil)
-		convey.So(clone, should.NotBeNil)
-		convey.So(clone.Length(), should.Equal, 2)
-		convey.So(clone.HasKey("name"), should.BeTrue)
-		convey.So(clone.HasKey("age"), should.BeTrue)
-	})
-}
-
-func Test_MapAnyItems_ClonePtr_Independence(t *testing.T) {
-	// Arrange
-	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{
-		"key": "original",
-	})
-
-	// Act
-	clone, err := m.ClonePtr()
-	clone.Add("new_key", "new_val")
-
-	// Assert
-	convey.Convey("ClonePtr - modifying clone should not affect original", t, func() {
-		convey.So(err, should.BeNil)
-		convey.So(m.HasKey("new_key"), should.BeFalse)
-		convey.So(clone.HasKey("new_key"), should.BeTrue)
-	})
-}
-
-func Test_MapAnyItems_ClonePtr_EmptyMap(t *testing.T) {
-	// Arrange
-	m := coredynamic.EmptyMapAnyItems()
-
-	// Act
-	clone, err := m.ClonePtr()
-
-	// Assert
-	convey.Convey("ClonePtr - empty map should clone to empty", t, func() {
-		convey.So(err, should.BeNil)
-		convey.So(clone, should.NotBeNil)
-		convey.So(clone.Length(), should.Equal, 0)
-	})
-}
-
-// =============================================================================
-// MapAnyItems — Length / IsEmpty / HasAnyItem nil safety
-// =============================================================================
-
-func Test_MapAnyItems_Length_NilReceiver(t *testing.T) {
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act & Assert
-	convey.Convey("Length/IsEmpty/HasAnyItem - nil receiver safety", t, func() {
-		convey.So(m.Length(), should.Equal, 0)
-		convey.So(m.IsEmpty(), should.BeTrue)
-		convey.So(m.HasAnyItem(), should.BeFalse)
-	})
-}
-
-// =============================================================================
-// MapAnyItems — HasKey
-// =============================================================================
-
-func Test_MapAnyItems_HasKey_NilReceiver(t *testing.T) {
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act & Assert
-	convey.Convey("HasKey - nil receiver should return false", t, func() {
-		convey.So(m.HasKey("anything"), should.BeFalse)
-	})
-}
-
-func Test_MapAnyItems_HasKey_Exists(t *testing.T) {
-	// Arrange
-	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"key": "val"})
-
-	// Act & Assert
-	convey.Convey("HasKey - existing key should return true", t, func() {
-		convey.So(m.HasKey("key"), should.BeTrue)
-	})
-}
-
-func Test_MapAnyItems_HasKey_Missing(t *testing.T) {
-	// Arrange
-	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"key": "val"})
-
-	// Act & Assert
-	convey.Convey("HasKey - missing key should return false", t, func() {
-		convey.So(m.HasKey("nope"), should.BeFalse)
-	})
-}
-
-// =============================================================================
-// MapAnyItems — Add
-// =============================================================================
-
-func Test_MapAnyItems_Add_NewKey(t *testing.T) {
-	// Arrange
-	m := coredynamic.EmptyMapAnyItems()
-
-	// Act
-	isNew := m.Add("k", "v")
-
-	// Assert
-	convey.Convey("Add - new key should return true", t, func() {
-		convey.So(isNew, should.BeTrue)
-		convey.So(m.Length(), should.Equal, 1)
-	})
-}
-
-func Test_MapAnyItems_Add_ExistingKey(t *testing.T) {
-	// Arrange
-	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"k": "old"})
-
-	// Act
-	isNew := m.Add("k", "new")
-
-	// Assert
-	convey.Convey("Add - existing key should return false and overwrite", t, func() {
-		convey.So(isNew, should.BeFalse)
-		convey.So(m.GetValue("k"), should.Equal, "new")
-	})
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
