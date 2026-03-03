@@ -27,41 +27,6 @@ func getBool(input args.Map, key string) bool {
 	return b
 }
 
-func printMapDiffOnFail(
-	caseIndex int,
-	title string,
-	left *coredynamic.MapAnyItems,
-	right *coredynamic.MapAnyItems,
-) {
-	fmt.Printf("\n=== MapAnyItems Diff (Case %d: %s) ===\n", caseIndex, title)
-
-	if left == nil {
-		fmt.Println("  Left:  <nil>")
-	} else {
-		fmt.Printf("  Left:  %s\n", left.String())
-		fmt.Printf("  Left keys:  %v\n", left.AllKeys())
-	}
-
-	if right == nil {
-		fmt.Println("  Right: <nil>")
-	} else {
-		fmt.Printf("  Right: %s\n", right.String())
-		fmt.Printf("  Right keys: %v\n", right.AllKeys())
-	}
-
-	// Print key-by-key diff if both exist
-	if left != nil && right != nil {
-		diffMsg := left.DiffJsonMessage(true, right.Items)
-		if len(diffMsg) > 0 {
-			fmt.Printf("  Diff:\n%s\n", diffMsg)
-		} else {
-			fmt.Println("  Diff: <no differences>")
-		}
-	}
-
-	fmt.Println("=== End Diff ===")
-}
-
 // ==========================================
 // IsEqual — table-driven
 // ==========================================
@@ -91,9 +56,14 @@ func Test_MapAnyItems_IsEqual(t *testing.T) {
 		// Print diff on failure
 		resultStr := fmt.Sprintf("%v", result)
 		expected := testCase.ExpectedInput.([]string)
-		if len(expected) > 0 && resultStr != expected[0] {
-			printMapDiffOnFail(caseIndex, testCase.Title, left, right)
+
+		diag := MapDiffDiagnostics{
+			CaseIndex: caseIndex,
+			Title:     testCase.Title,
+			Left:      left,
+			Right:     right,
 		}
+		diag.PrintIfResultMismatch(resultStr, expected)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, resultStr)
@@ -127,19 +97,14 @@ func Test_MapAnyItems_IsEqualRaw(t *testing.T) {
 		// Print diff on failure
 		resultStr := fmt.Sprintf("%v", result)
 		expected := testCase.ExpectedInput.([]string)
-		if len(expected) > 0 && resultStr != expected[0] {
-			fmt.Printf("\n--- IsEqualRaw Diff (Case %d: %s) ---\n", caseIndex, testCase.Title)
-			if m != nil {
-				fmt.Printf("  Receiver: %s\n", m.String())
-			} else {
-				fmt.Println("  Receiver: <nil>")
-			}
-			fmt.Printf("  RawMap:   %v\n", rawMap)
-			if m != nil && rawMap != nil {
-				fmt.Printf("  DiffJson: %s\n", m.DiffJsonMessage(true, rawMap))
-			}
-			fmt.Println("--- End ---")
+
+		diag := MapDiffDiagnostics{
+			CaseIndex: caseIndex,
+			Title:     testCase.Title,
+			Left:      m,
+			RawMap:    rawMap,
 		}
+		diag.PrintIfResultMismatch(resultStr, expected)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, resultStr)
@@ -193,24 +158,15 @@ func Test_MapAnyItems_ClonePtr(t *testing.T) {
 
 		// Print diff on failure
 		expected := testCase.ExpectedInput.([]string)
-		if errcore.LineDiffHasMismatch(actLines, expected) {
-			fmt.Printf("\n=== ClonePtr Diff (Case %d: %s) ===\n", caseIndex, testCase.Title)
-			if m != nil {
-				fmt.Printf("  Original: %s\n", m.String())
-			} else {
-				fmt.Println("  Original: <nil>")
-			}
-			if clone != nil {
-				fmt.Printf("  Clone:    %s\n", clone.String())
-			} else {
-				fmt.Println("  Clone:    <nil>")
-			}
-			if err != nil {
-				fmt.Printf("  Error:    %v\n", err)
-			}
-			errcore.PrintLineDiff(caseIndex, testCase.Title, actLines, expected)
-			fmt.Println("=== End ===")
+
+		diag := MapDiffDiagnostics{
+			CaseIndex: caseIndex,
+			Title:     testCase.Title,
+			Left:      m,
+			Clone:     clone,
+			Error:     err,
 		}
+		diag.PrintIfMismatch(actLines, expected)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
@@ -261,17 +217,13 @@ func Test_MapAnyItems_EdgeCases(t *testing.T) {
 
 		// Print diff on failure
 		expected := testCase.ExpectedInput.([]string)
-		if errcore.LineDiffHasMismatch(actLines, expected) {
-			fmt.Printf("\n=== EdgeCase Diff (Case %d: %s) ===\n", caseIndex, testCase.Title)
-			if m != nil {
-				fmt.Printf("  Map state: %s\n", m.String())
-				fmt.Printf("  Keys:      %v\n", m.AllKeys())
-			} else {
-				fmt.Println("  Map state: <nil>")
-			}
-			errcore.PrintLineDiff(caseIndex, testCase.Title, actLines, expected)
-			fmt.Println("=== End ===")
+
+		diag := MapDiffDiagnostics{
+			CaseIndex: caseIndex,
+			Title:     testCase.Title,
+			Left:      m,
 		}
+		diag.PrintIfMismatch(actLines, expected)
 
 		// Assert
 		testCase.ShouldBeEqual(t, caseIndex, actLines...)
