@@ -9,33 +9,33 @@ import (
 // ==========================================================================
 
 var pairIsEqualSameValuesDiffValidityTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: same values, different validity → not equal",
-	WantLines: []string{"false"},
+	Title:         "IsEqual: same values, different validity → not equal",
+	ExpectedInput: []string{"false"},
 }
 
 var pairIsEqualDiffRightTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: different right values → not equal",
-	WantLines: []string{"false"},
+	Title:         "IsEqual: different right values → not equal",
+	ExpectedInput: []string{"false"},
 }
 
 var pairIsEqualBothInvalidZeroTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: both invalid with same zero values → equal",
-	WantLines: []string{"true"},
+	Title:         "IsEqual: both invalid with same zero values → equal",
+	ExpectedInput: []string{"true"},
 }
 
 var pairIsEqualIntSameTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: Pair[int,int] same values → equal",
-	WantLines: []string{"true"},
+	Title:         "IsEqual: Pair[int,int] same values → equal",
+	ExpectedInput: []string{"true"},
 }
 
 var pairIsEqualIntDiffTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: Pair[int,int] different values → not equal",
-	WantLines: []string{"false"},
+	Title:         "IsEqual: Pair[int,int] different values → not equal",
+	ExpectedInput: []string{"false"},
 }
 
 var pairIsEqualMixedTypesTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: Pair[string,int] mixed types → equal",
-	WantLines: []string{"true"},
+	Title:         "IsEqual: Pair[string,int] mixed types → equal",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
@@ -43,23 +43,23 @@ var pairIsEqualMixedTypesTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var pairHasMessageValidNoMsgTestCase = coretestcases.CaseV1{
-	Name:      "HasMessage: valid pair with no message → false",
-	WantLines: []string{"false"},
+	Title:         "HasMessage: valid pair with no message → false",
+	ExpectedInput: []string{"false"},
 }
 
 var pairHasMessageInvalidWithMsgTestCase = coretestcases.CaseV1{
-	Name:      "HasMessage: invalid pair with message → true",
-	WantLines: []string{"true"},
+	Title:         "HasMessage: invalid pair with message → true",
+	ExpectedInput: []string{"true"},
 }
 
 var pairHasMessageWhitespaceTestCase = coretestcases.CaseV1{
-	Name:      "HasMessage: pair with whitespace-only message → true",
-	WantLines: []string{"true"},
+	Title:         "HasMessage: pair with whitespace-only message → true",
+	ExpectedInput: []string{"true"},
 }
 
 var pairHasMessageNilTestCase = coretestcases.CaseV1{
-	Name:      "HasMessage: nil pair → false",
-	WantLines: []string{"false"},
+	Title:         "HasMessage: nil pair → false",
+	ExpectedInput: []string{"false"},
 }
 
 // ==========================================================================
@@ -67,18 +67,18 @@ var pairHasMessageNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var pairIsInvalidValidTestCase = coretestcases.CaseV1{
-	Name:      "IsInvalid: valid pair → false",
-	WantLines: []string{"false"},
+	Title:         "IsInvalid: valid pair → false",
+	ExpectedInput: []string{"false"},
 }
 
 var pairIsInvalidInvalidTestCase = coretestcases.CaseV1{
-	Name:      "IsInvalid: invalid pair → true",
-	WantLines: []string{"true"},
+	Title:         "IsInvalid: invalid pair → true",
+	ExpectedInput: []string{"true"},
 }
 
 var pairIsInvalidNilTestCase = coretestcases.CaseV1{
-	Name:      "IsInvalid: nil pair → true",
-	WantLines: []string{"true"},
+	Title:         "IsInvalid: nil pair → true",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
@@ -86,23 +86,23 @@ var pairIsInvalidNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var pairStringValidTestCase = coretestcases.CaseV1{
-	Name:      "String: valid Pair[string,string]",
-	WantLines: []string{"{Left: hello, Right: world, IsValid: true}"},
+	Title:         "String: valid Pair[string,string]",
+	ExpectedInput: []string{"{Left: hello, Right: world, IsValid: true}"},
 }
 
 var pairStringInvalidZeroTestCase = coretestcases.CaseV1{
-	Name:      "String: invalid Pair with zero values",
-	WantLines: []string{"{Left: , Right: , IsValid: false}"},
+	Title:         "String: invalid Pair with zero values",
+	ExpectedInput: []string{"{Left: , Right: , IsValid: false}"},
 }
 
 var pairStringNilTestCase = coretestcases.CaseV1{
-	Name:      "String: nil Pair → empty",
-	WantLines: []string{""},
+	Title:         "String: nil Pair → empty",
+	ExpectedInput: []string{""},
 }
 
 var pairStringMixedTypeTestCase = coretestcases.CaseV1{
-	Name:      "String: Pair[string,int]",
-	WantLines: []string{"{Left: key, Right: 42, IsValid: true}"},
+	Title:         "String: Pair[string,int]",
+	ExpectedInput: []string{"{Left: key, Right: 42, IsValid: true}"},
 }
 
 // ==========================================================================
@@ -110,28 +110,28 @@ var pairStringMixedTypeTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tripleIsEqualSameTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: same values same validity → equal",
-	WantLines: []string{"true"},
+	Title:         "IsEqual: same values same validity → equal",
+	ExpectedInput: []string{"true"},
 }
 
 var tripleIsEqualDiffValidityTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: same values different validity → not equal",
-	WantLines: []string{"false"},
+	Title:         "IsEqual: same values different validity → not equal",
+	ExpectedInput: []string{"false"},
 }
 
 var tripleIsEqualDiffMiddleTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: different middle → not equal",
-	WantLines: []string{"false"},
+	Title:         "IsEqual: different middle → not equal",
+	ExpectedInput: []string{"false"},
 }
 
 var tripleIsEqualBothNilTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: both nil → equal",
-	WantLines: []string{"true"},
+	Title:         "IsEqual: both nil → equal",
+	ExpectedInput: []string{"true"},
 }
 
 var tripleIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
-	Name:      "IsEqual: nil vs non-nil → not equal",
-	WantLines: []string{"false"},
+	Title:         "IsEqual: nil vs non-nil → not equal",
+	ExpectedInput: []string{"false"},
 }
 
 // ==========================================================================
@@ -139,18 +139,18 @@ var tripleIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tripleHasMessageValidNoMsgTestCase = coretestcases.CaseV1{
-	Name:      "HasMessage: valid triple no message → false",
-	WantLines: []string{"false"},
+	Title:         "HasMessage: valid triple no message → false",
+	ExpectedInput: []string{"false"},
 }
 
 var tripleHasMessageInvalidWithMsgTestCase = coretestcases.CaseV1{
-	Name:      "HasMessage: invalid triple with message → true",
-	WantLines: []string{"true"},
+	Title:         "HasMessage: invalid triple with message → true",
+	ExpectedInput: []string{"true"},
 }
 
 var tripleHasMessageNilTestCase = coretestcases.CaseV1{
-	Name:      "HasMessage: nil triple → false",
-	WantLines: []string{"false"},
+	Title:         "HasMessage: nil triple → false",
+	ExpectedInput: []string{"false"},
 }
 
 // ==========================================================================
@@ -158,18 +158,18 @@ var tripleHasMessageNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tripleIsInvalidValidTestCase = coretestcases.CaseV1{
-	Name:      "IsInvalid: valid triple → false",
-	WantLines: []string{"false"},
+	Title:         "IsInvalid: valid triple → false",
+	ExpectedInput: []string{"false"},
 }
 
 var tripleIsInvalidInvalidTestCase = coretestcases.CaseV1{
-	Name:      "IsInvalid: invalid triple → true",
-	WantLines: []string{"true"},
+	Title:         "IsInvalid: invalid triple → true",
+	ExpectedInput: []string{"true"},
 }
 
 var tripleIsInvalidNilTestCase = coretestcases.CaseV1{
-	Name:      "IsInvalid: nil triple → true",
-	WantLines: []string{"true"},
+	Title:         "IsInvalid: nil triple → true",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
@@ -177,18 +177,18 @@ var tripleIsInvalidNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tripleStringValidTestCase = coretestcases.CaseV1{
-	Name:      "String: valid Triple[string,string,string]",
-	WantLines: []string{"{Left: a, Middle: b, Right: c, IsValid: true}"},
+	Title:         "String: valid Triple[string,string,string]",
+	ExpectedInput: []string{"{Left: a, Middle: b, Right: c, IsValid: true}"},
 }
 
 var tripleStringInvalidZeroTestCase = coretestcases.CaseV1{
-	Name:      "String: invalid Triple with zero values",
-	WantLines: []string{"{Left: , Middle: , Right: , IsValid: false}"},
+	Title:         "String: invalid Triple with zero values",
+	ExpectedInput: []string{"{Left: , Middle: , Right: , IsValid: false}"},
 }
 
 var tripleStringNilTestCase = coretestcases.CaseV1{
-	Name:      "String: nil Triple → empty",
-	WantLines: []string{""},
+	Title:         "String: nil Triple → empty",
+	ExpectedInput: []string{""},
 }
 
 // ==========================================================================
@@ -196,13 +196,13 @@ var tripleStringNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var pairWithMessageValidTestCase = coretestcases.CaseV1{
-	Name:      "NewPairWithMessage valid with message",
-	WantLines: []string{"hello", "world", "true", "ok"},
+	Title:         "NewPairWithMessage valid with message",
+	ExpectedInput: []string{"hello", "world", "true", "ok"},
 }
 
 var pairWithMessageInvalidTestCase = coretestcases.CaseV1{
-	Name:      "NewPairWithMessage invalid with error message",
-	WantLines: []string{"", "", "false", "failed"},
+	Title:         "NewPairWithMessage invalid with error message",
+	ExpectedInput: []string{"", "", "false", "failed"},
 }
 
 // ==========================================================================
@@ -210,13 +210,13 @@ var pairWithMessageInvalidTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tripleWithMessageValidTestCase = coretestcases.CaseV1{
-	Name:      "NewTripleWithMessage valid with message",
-	WantLines: []string{"a", "b", "c", "true", "success"},
+	Title:         "NewTripleWithMessage valid with message",
+	ExpectedInput: []string{"a", "b", "c", "true", "success"},
 }
 
 var tripleWithMessageInvalidTestCase = coretestcases.CaseV1{
-	Name:      "NewTripleWithMessage invalid with error",
-	WantLines: []string{"", "", "", "false", "error occurred"},
+	Title:         "NewTripleWithMessage invalid with error",
+	ExpectedInput: []string{"", "", "", "false", "error occurred"},
 }
 
 // ==========================================================================
@@ -224,8 +224,8 @@ var tripleWithMessageInvalidTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var pairDisposeTestCase = coretestcases.CaseV1{
-	Name:      "Dispose resets pair same as Clear",
-	WantLines: []string{"", "", "false", ""},
+	Title:         "Dispose resets pair same as Clear",
+	ExpectedInput: []string{"", "", "false", ""},
 }
 
 // ==========================================================================
@@ -233,6 +233,6 @@ var pairDisposeTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tripleDisposeTestCase = coretestcases.CaseV1{
-	Name:      "Dispose resets triple same as Clear",
-	WantLines: []string{"", "", "", "false", ""},
+	Title:         "Dispose resets triple same as Clear",
+	ExpectedInput: []string{"", "", "", "false", ""},
 }

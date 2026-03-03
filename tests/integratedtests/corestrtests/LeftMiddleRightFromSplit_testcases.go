@@ -9,33 +9,33 @@ import (
 // ==========================================================================
 
 var leftMiddleRightFromSplitNormalTestCase = coretestcases.CaseV1{
-	Name:      "Normal three-part split",
-	WantLines: []string{"a", "b", "c", "true"},
+	Title:         "Normal three-part split",
+	ExpectedInput: []string{"a", "b", "c", "true"},
 }
 
 var leftMiddleRightFromSplitTwoPartsTestCase = coretestcases.CaseV1{
-	Name:      "Two parts only — middle empty, invalid",
-	WantLines: []string{"a", "", "b", "false"},
+	Title:         "Two parts only — middle empty, invalid",
+	ExpectedInput: []string{"a", "", "b", "false"},
 }
 
 var leftMiddleRightFromSplitSinglePartTestCase = coretestcases.CaseV1{
-	Name:      "Single part — no separator found",
-	WantLines: []string{"hello", "", "", "false"},
+	Title:         "Single part — no separator found",
+	ExpectedInput: []string{"hello", "", "", "false"},
 }
 
 var leftMiddleRightFromSplitFourPlusTestCase = coretestcases.CaseV1{
-	Name:      "Four+ parts — middle=second, right=last",
-	WantLines: []string{"a", "b", "d", "true"},
+	Title:         "Four+ parts — middle=second, right=last",
+	ExpectedInput: []string{"a", "b", "d", "true"},
 }
 
 var leftMiddleRightFromSplitEmptyTestCase = coretestcases.CaseV1{
-	Name:      "Empty input",
-	WantLines: []string{"", "", "", "false"},
+	Title:         "Empty input",
+	ExpectedInput: []string{"", "", "", "false"},
 }
 
 var leftMiddleRightFromSplitEdgesTestCase = coretestcases.CaseV1{
-	Name:      "Separator at edges",
-	WantLines: []string{"", "", "", "true"},
+	Title:         "Separator at edges",
+	ExpectedInput: []string{"", "", "", "true"},
 }
 
 // ==========================================================================
@@ -43,13 +43,13 @@ var leftMiddleRightFromSplitEdgesTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftMiddleRightFromSplitTrimmedAllTestCase = coretestcases.CaseV1{
-	Name:      "Trims whitespace from all three parts",
-	WantLines: []string{"a", "b", "c", "true"},
+	Title:         "Trims whitespace from all three parts",
+	ExpectedInput: []string{"a", "b", "c", "true"},
 }
 
 var leftMiddleRightFromSplitTrimmedTwoTestCase = coretestcases.CaseV1{
-	Name:      "Trims with two parts only",
-	WantLines: []string{"a", "", "b", "false"},
+	Title:         "Trims with two parts only",
+	ExpectedInput: []string{"a", "", "b", "false"},
 }
 
 // ==========================================================================
@@ -57,23 +57,23 @@ var leftMiddleRightFromSplitTrimmedTwoTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftMiddleRightFromSplitNRemainderTestCase = coretestcases.CaseV1{
-	Name:      "SplitN keeps remainder in right",
-	WantLines: []string{"a", "b", "c:d:e", "true"},
+	Title:         "SplitN keeps remainder in right",
+	ExpectedInput: []string{"a", "b", "c:d:e", "true"},
 }
 
 var leftMiddleRightFromSplitNExact3TestCase = coretestcases.CaseV1{
-	Name:      "SplitN with exactly 3 parts",
-	WantLines: []string{"a", "b", "c", "true"},
+	Title:         "SplitN with exactly 3 parts",
+	ExpectedInput: []string{"a", "b", "c", "true"},
 }
 
 var leftMiddleRightFromSplitNTwoOnlyTestCase = coretestcases.CaseV1{
-	Name:      "SplitN with 2 parts only",
-	WantLines: []string{"a", "", "b", "false"},
+	Title:         "SplitN with 2 parts only",
+	ExpectedInput: []string{"a", "", "b", "false"},
 }
 
 var leftMiddleRightFromSplitNMissingSepTestCase = coretestcases.CaseV1{
-	Name:      "SplitN missing separator",
-	WantLines: []string{"nosep", "", "", "false"},
+	Title:         "SplitN missing separator",
+	ExpectedInput: []string{"nosep", "", "", "false"},
 }
 
 // ==========================================================================
@@ -81,11 +81,11 @@ var leftMiddleRightFromSplitNMissingSepTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftMiddleRightFromSplitNTrimmedRemainderTestCase = coretestcases.CaseV1{
-	Name:      "SplitN trimmed keeps remainder trimmed",
-	WantLines: []string{"a", "b", "c : d : e", "true"},
+	Title:         "SplitN trimmed keeps remainder trimmed",
+	ExpectedInput: []string{"a", "b", "c : d : e", "true"},
 }
 
 var leftMiddleRightFromSplitNTrimmedTwoTestCase = coretestcases.CaseV1{
-	Name:      "SplitN trimmed with 2 parts",
-	WantLines: []string{"a", "", "b", "false"},
+	Title:         "SplitN trimmed with 2 parts",
+	ExpectedInput: []string{"a", "", "b", "false"},
 }
