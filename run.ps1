@@ -70,6 +70,11 @@ function Write-TestLogs([string[]]$rawOutput) {
     $failingFile = Join-Path $TestLogDir "failing-tests.txt"
     $rawFile     = Join-Path $TestLogDir "raw-output.txt"
 
+    # Clear previous log files before writing new results
+    @($passingFile, $failingFile, $rawFile) | ForEach-Object {
+        if (Test-Path $_) { Remove-Item $_ -Force }
+    }
+
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $passing = [System.Collections.Generic.List[string]]::new()
     $failing = [System.Collections.Generic.List[string]]::new()
@@ -119,12 +124,15 @@ function Write-TestLogs([string[]]$rawOutput) {
             $currentBlock.Clear()
         }
         elseif ($line -match "^\s*--- FAIL:\s+(.+?)\s+\(") {
-            # Don't reset currentTest — we want to keep the block
-            # that was accumulated between === RUN and --- FAIL.
-            # The block will be flushed at the next === RUN or at end.
+            # Capture the --- FAIL line itself as part of diagnostics
+            if ($currentTest) {
+                $currentBlock.Add($line)
+            }
         }
         else {
             if ($currentTest) {
+                # Keep all diagnostic lines: t.Errorf output, diff lines,
+                # assertion details (expected vs actual), file:line references
                 $currentBlock.Add($line)
             }
         }
@@ -200,8 +208,28 @@ function Invoke-GoTestAndLog([string]$testArgs) {
 
 # -- Commands --
 
+function Invoke-FetchLatest {
+    Write-Header "Fetching latest dependencies"
+    go mod tidy
+    if ($LASTEXITCODE -eq 0) { Write-Success "Dependencies up to date" }
+    else { Write-Fail "go mod tidy failed" }
+}
+
+function Open-FailingTestsIfAny {
+    $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+    if ((Test-Path $failingFile)) {
+        $content = Get-Content $failingFile -Raw
+        if ($content -and $content -notmatch '# Count: 0') {
+            Write-Host ""
+            Write-Host "  Opening failing tests log..." -ForegroundColor Yellow
+            Start-Process $failingFile
+        }
+    }
+}
+
 function Invoke-AllTests {
     Write-Header "Running all tests"
+    Invoke-FetchLatest
     Push-Location tests
     try {
         $prevPref = $ErrorActionPreference
@@ -217,6 +245,7 @@ function Invoke-AllTests {
         else { Write-Fail "Some tests failed (exit code: $exitCode)" }
     }
     finally { Pop-Location }
+    Open-FailingTestsIfAny
 }
 
 function Invoke-PackageTests([string]$pkg) {
@@ -230,6 +259,7 @@ function Invoke-PackageTests([string]$pkg) {
     }
 
     Write-Header "Running tests for package: $pkg"
+    Invoke-FetchLatest
     Push-Location tests
     try {
         $prevPref = $ErrorActionPreference
@@ -245,10 +275,12 @@ function Invoke-PackageTests([string]$pkg) {
         else { Write-Fail "Package tests failed (exit code: $exitCode)" }
     }
     finally { Pop-Location }
+    Open-FailingTestsIfAny
 }
 
 function Invoke-TestCoverage {
     Write-Header "Running tests with coverage"
+    Invoke-FetchLatest
     Push-Location tests
     try {
         $prevPref = $ErrorActionPreference
@@ -267,10 +299,12 @@ function Invoke-TestCoverage {
         }
     }
     finally { Pop-Location }
+    Open-FailingTestsIfAny
 }
 
 function Invoke-IntegratedTests {
     Write-Header "Running integrated tests only"
+    Invoke-FetchLatest
     Push-Location tests
     try {
         $prevPref = $ErrorActionPreference
@@ -286,6 +320,7 @@ function Invoke-IntegratedTests {
         else { Write-Fail "Integrated tests failed (exit code: $exitCode)" }
     }
     finally { Pop-Location }
+    Open-FailingTestsIfAny
 }
 
 function Invoke-RunMain {
