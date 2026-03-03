@@ -190,3 +190,124 @@ func Test_IdentifiersWithGlobals_Add_Multiple(t *testing.T) {
 		convey.So(third.IsGlobal, should.BeFalse)
 	})
 }
+
+// --- IsEmpty / HasAnyItem ---
+
+func Test_IdentifiersWithGlobals_IsEmpty_True(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.EmptyIdentifiersWithGlobals()
+
+	// Assert
+	convey.Convey("IsEmpty - empty collection should return true", t, func() {
+		convey.So(ids.IsEmpty(), should.BeTrue)
+		convey.So(ids.HasAnyItem(), should.BeFalse)
+	})
+}
+
+func Test_IdentifiersWithGlobals_IsEmpty_False(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.NewIdentifiersWithGlobals(true, "item")
+
+	// Assert
+	convey.Convey("IsEmpty - non-empty should return false", t, func() {
+		convey.So(ids.IsEmpty(), should.BeFalse)
+		convey.So(ids.HasAnyItem(), should.BeTrue)
+	})
+}
+
+// --- IndexOf ---
+
+func Test_IdentifiersWithGlobals_IndexOf_Found(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.NewIdentifiersWithGlobals(true, "a", "b", "c")
+
+	// Act & Assert
+	convey.Convey("IndexOf - existing id returns correct index", t, func() {
+		convey.So(ids.IndexOf("a"), should.Equal, 0)
+		convey.So(ids.IndexOf("b"), should.Equal, 1)
+		convey.So(ids.IndexOf("c"), should.Equal, 2)
+	})
+}
+
+func Test_IdentifiersWithGlobals_IndexOf_NotFound(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.NewIdentifiersWithGlobals(false, "x")
+
+	// Act
+	index := ids.IndexOf("missing")
+
+	// Assert
+	convey.Convey("IndexOf - missing id returns -1", t, func() {
+		convey.So(index, should.Equal, -1)
+	})
+}
+
+func Test_IdentifiersWithGlobals_IndexOf_EmptyId(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.NewIdentifiersWithGlobals(true, "a")
+
+	// Act
+	index := ids.IndexOf("")
+
+	// Assert
+	convey.Convey("IndexOf - empty string returns -1", t, func() {
+		convey.So(index, should.Equal, -1)
+	})
+}
+
+func Test_IdentifiersWithGlobals_IndexOf_EmptyCollection(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.EmptyIdentifiersWithGlobals()
+
+	// Act
+	index := ids.IndexOf("any")
+
+	// Assert
+	convey.Convey("IndexOf - empty collection returns -1", t, func() {
+		convey.So(index, should.Equal, -1)
+	})
+}
+
+// --- Adds ---
+
+func Test_IdentifiersWithGlobals_Adds_Multiple(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.EmptyIdentifiersWithGlobals()
+
+	// Act
+	ids.Adds(true, "one", "two", "three")
+
+	// Assert
+	convey.Convey("Adds - batch add should add all items", t, func() {
+		convey.So(ids.Length(), should.Equal, 3)
+		convey.So(ids.GetById("one"), should.NotBeNil)
+		convey.So(ids.GetById("two"), should.NotBeNil)
+		convey.So(ids.GetById("three"), should.NotBeNil)
+	})
+}
+
+func Test_IdentifiersWithGlobals_Adds_EmptyIds(t *testing.T) {
+	// Arrange
+	ids := coreinstruction.EmptyIdentifiersWithGlobals()
+
+	// Act
+	ids.Adds(true)
+
+	// Assert
+	convey.Convey("Adds - empty ids should not add anything", t, func() {
+		convey.So(ids.Length(), should.Equal, 0)
+	})
+}
+
+// --- NewIdentifiersWithGlobals edge cases ---
+
+func Test_IdentifiersWithGlobals_New_NoIds(t *testing.T) {
+	// Arrange & Act
+	ids := coreinstruction.NewIdentifiersWithGlobals(true)
+
+	// Assert
+	convey.Convey("New - no ids should create empty collection", t, func() {
+		convey.So(ids, should.NotBeNil)
+		convey.So(ids.Length(), should.Equal, 0)
+	})
+}
