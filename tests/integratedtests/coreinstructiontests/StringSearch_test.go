@@ -1,297 +1,132 @@
 package coreinstructiontests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	convey "github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coreinstruction"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// --- IsMatch ---
+func newStringSearchFromMap(input args.Map) *coreinstruction.StringSearch {
+	method, _ := input.GetAsString("method")
+	search, _ := input.GetAsString("search")
 
-func Test_StringSearch_IsMatch_Equal_Match(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
+	var compareMethod stringcompareas.Variant
+	switch method {
+	case "equal":
+		compareMethod = stringcompareas.Equal
+	case "contains":
+		compareMethod = stringcompareas.Contains
+	case "startsWith":
+		compareMethod = stringcompareas.StartsWith
+	case "endsWith":
+		compareMethod = stringcompareas.EndsWith
+	case "regex":
+		compareMethod = stringcompareas.Regex
+	default:
+		compareMethod = stringcompareas.Equal
 	}
 
-	// Act
-	result := ss.IsMatch("hello")
-
-	// Assert
-	convey.Convey("IsMatch - equal match should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_StringSearch_IsMatch_Equal_NoMatch(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
+	return &coreinstruction.StringSearch{
+		CompareMethod: compareMethod,
+		Search:        search,
 	}
-
-	// Act
-	result := ss.IsMatch("world")
-
-	// Assert
-	convey.Convey("IsMatch - equal no match should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
 }
 
-func Test_StringSearch_IsMatch_Contains_Match(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Contains,
-		Search:        "world",
+func Test_StringSearch_IsMatch_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringSearchIsMatchTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		ss := newStringSearchFromMap(input)
+		content, err := input.GetAsString("content")
+		errcore.HandleErrMessage("content required", err)
+
+		// Act
+		isMatch := ss.IsMatch(content)
+		isMatchFailed := ss.IsMatchFailed(content)
+
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			fmt.Sprintf("%v", isMatch),
+			fmt.Sprintf("%v", isMatchFailed),
+		)
 	}
-
-	// Act
-	result := ss.IsMatch("hello world")
-
-	// Assert
-	convey.Convey("IsMatch - contains match should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
 }
 
-func Test_StringSearch_IsMatch_Contains_NoMatch(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Contains,
-		Search:        "xyz",
+func Test_StringSearch_IsAllMatch_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringSearchIsAllMatchTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		ss := newStringSearchFromMap(input)
+		contents, err := input.GetAsStrings("contents")
+		errcore.HandleErrMessage("contents required", err)
+
+		// Act
+		isAllMatch := ss.IsAllMatch(contents...)
+		isAnyFailed := ss.IsAnyMatchFailed(contents...)
+
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			fmt.Sprintf("%v", isAllMatch),
+			fmt.Sprintf("%v", isAnyFailed),
+		)
 	}
-
-	// Act
-	result := ss.IsMatch("hello world")
-
-	// Assert
-	convey.Convey("IsMatch - contains no match should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
 }
 
-func Test_StringSearch_IsMatch_NilReceiver(t *testing.T) {
-	// Arrange
-	var ss *coreinstruction.StringSearch
+func Test_StringSearch_State_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringSearchStateTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isNil, _ := input.GetAsBool("isNil")
 
-	// Act
-	result := ss.IsMatch("anything")
+		var ss *coreinstruction.StringSearch
+		if !isNil {
+			ss = newStringSearchFromMap(input)
+		}
 
-	// Assert
-	convey.Convey("IsMatch - nil receiver should return true (vacuous truth)", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
+		// Act
+		isEmpty := ss.IsEmpty()
+		isExist := ss.IsExist()
+		has := ss.Has()
 
-// --- IsMatchFailed ---
-
-func Test_StringSearch_IsMatchFailed_Match_ReturnsFalse(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			fmt.Sprintf("%v", isEmpty),
+			fmt.Sprintf("%v", isExist),
+			fmt.Sprintf("%v", has),
+		)
 	}
-
-	// Act
-	result := ss.IsMatchFailed("hello")
-
-	// Assert
-	convey.Convey("IsMatchFailed - match should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
 }
 
-func Test_StringSearch_IsMatchFailed_NoMatch_ReturnsTrue(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
+func Test_StringSearch_VerifyError_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringSearchVerifyErrorTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isNil, _ := input.GetAsBool("isNil")
+		content, _ := input.GetAsString("content")
+
+		var ss *coreinstruction.StringSearch
+		if !isNil {
+			ss = newStringSearchFromMap(input)
+		}
+
+		// Act
+		err := ss.VerifyError(content)
+
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			fmt.Sprintf("%v", err != nil),
+		)
 	}
-
-	// Act
-	result := ss.IsMatchFailed("world")
-
-	// Assert
-	convey.Convey("IsMatchFailed - no match should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_StringSearch_IsMatchFailed_NilReceiver(t *testing.T) {
-	// Arrange
-	var ss *coreinstruction.StringSearch
-
-	// Act
-	result := ss.IsMatchFailed("anything")
-
-	// Assert
-	convey.Convey("IsMatchFailed - nil receiver should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-// --- IsAllMatch ---
-
-func Test_StringSearch_IsAllMatch_AllContentsMatch(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Contains,
-		Search:        "o",
-	}
-
-	// Act
-	result := ss.IsAllMatch("hello", "world", "foo")
-
-	// Assert
-	convey.Convey("IsAllMatch - all contents containing search should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_StringSearch_IsAllMatch_OneContentFails(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Contains,
-		Search:        "z",
-	}
-
-	// Act
-	result := ss.IsAllMatch("hello", "buzz", "world")
-
-	// Assert
-	convey.Convey("IsAllMatch - one failing content should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_StringSearch_IsAllMatch_EmptyContents(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
-	}
-
-	// Act
-	result := ss.IsAllMatch()
-
-	// Assert
-	convey.Convey("IsAllMatch - empty contents should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-// --- IsAnyMatchFailed ---
-
-func Test_StringSearch_IsAnyMatchFailed_AllMatch_ReturnsFalse(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Contains,
-		Search:        "o",
-	}
-
-	// Act
-	result := ss.IsAnyMatchFailed("hello", "world", "foo")
-
-	// Assert
-	convey.Convey("IsAnyMatchFailed - all matching should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_StringSearch_IsAnyMatchFailed_OneFails_ReturnsTrue(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
-	}
-
-	// Act
-	result := ss.IsAnyMatchFailed("hello", "world")
-
-	// Assert
-	convey.Convey("IsAnyMatchFailed - one failing should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-// --- IsEmpty / IsExist / Has ---
-
-func Test_StringSearch_IsEmpty_NilReceiver(t *testing.T) {
-	// Arrange
-	var ss *coreinstruction.StringSearch
-
-	// Act & Assert
-	convey.Convey("IsEmpty/IsExist/Has - nil receiver checks", t, func() {
-		convey.So(ss.IsEmpty(), should.BeTrue)
-		convey.So(ss.IsExist(), should.BeFalse)
-		convey.So(ss.Has(), should.BeFalse)
-	})
-}
-
-func Test_StringSearch_IsEmpty_NonNil(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "test",
-	}
-
-	// Act & Assert
-	convey.Convey("IsEmpty/IsExist/Has - non-nil receiver checks", t, func() {
-		convey.So(ss.IsEmpty(), should.BeFalse)
-		convey.So(ss.IsExist(), should.BeTrue)
-		convey.So(ss.Has(), should.BeTrue)
-	})
-}
-
-// --- VerifyError ---
-
-func Test_StringSearch_VerifyError_Match_NoError(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
-	}
-
-	// Act
-	err := ss.VerifyError("hello")
-
-	// Assert
-	convey.Convey("VerifyError - match should return nil", t, func() {
-		convey.So(err, should.BeNil)
-	})
-}
-
-func Test_StringSearch_VerifyError_NoMatch_ReturnsError(t *testing.T) {
-	// Arrange
-	ss := &coreinstruction.StringSearch{
-		CompareMethod: stringcompareas.Equal,
-		Search:        "hello",
-	}
-
-	// Act
-	err := ss.VerifyError("world")
-
-	// Assert
-	convey.Convey("VerifyError - no match should return error", t, func() {
-		convey.So(err, should.NotBeNil)
-	})
-}
-
-func Test_StringSearch_VerifyError_NilReceiver(t *testing.T) {
-	// Arrange
-	var ss *coreinstruction.StringSearch
-
-	// Act
-	err := ss.VerifyError("anything")
-
-	// Assert
-	convey.Convey("VerifyError - nil receiver should return nil", t, func() {
-		convey.So(err, should.BeNil)
-	})
 }

@@ -1,381 +1,108 @@
 package coreinstructiontests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coreinstruction"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// --- Equal match ---
+func newStringCompareFromMap(input args.Map) *coreinstruction.StringCompare {
+	method, _ := input.GetAsString("method")
+	search, _ := input.GetAsString("search")
+	content, _ := input.GetAsString("content")
+	isIgnoreCase, _ := input.GetAsBool("isIgnoreCase")
 
-func Test_StringCompare_Equal_Match(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEqual("hello", "hello")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare Equal - identical strings should match", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
+	switch method {
+	case "equal":
+		return coreinstruction.NewStringCompareEqual(search, content)
+	case "contains":
+		return coreinstruction.NewStringCompareContains(isIgnoreCase, search, content)
+	case "startsWith":
+		return coreinstruction.NewStringCompareStartsWith(isIgnoreCase, search, content)
+	case "endsWith":
+		return coreinstruction.NewStringCompareEndsWith(isIgnoreCase, search, content)
+	case "regex":
+		return coreinstruction.NewStringCompareRegex(search, content)
+	default:
+		return coreinstruction.NewStringCompare(
+			stringcompareas.Equal,
+			isIgnoreCase,
+			search,
+			content,
+		)
+	}
 }
 
-// --- Equal no match ---
+func Test_StringCompare_IsMatch_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringCompareIsMatchTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		sc := newStringCompareFromMap(input)
 
-func Test_StringCompare_Equal_NoMatch(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEqual("hello", "world")
+		// Act
+		isMatch := sc.IsMatch()
+		isMatchFailed := sc.IsMatchFailed()
 
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare Equal - different strings should not match", t, func() {
-		convey.So(isMatch, should.BeFalse)
-	})
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			fmt.Sprintf("%v", isMatch),
+			fmt.Sprintf("%v", isMatchFailed),
+		)
+	}
 }
 
-// --- Case sensitivity ---
+func Test_StringCompare_VerifyError_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringCompareVerifyErrorTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		sc := newStringCompareFromMap(input)
 
-func Test_StringCompare_CaseSensitive(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEqual("Hello", "hello")
+		// Act
+		err := sc.VerifyError()
 
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare Equal - case-sensitive should not match different cases", t, func() {
-		convey.So(isMatch, should.BeFalse)
-	})
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			fmt.Sprintf("%v", err != nil),
+		)
+	}
 }
 
-// --- Contains match ---
-
-func Test_StringCompare_Contains_Match(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareContains(false, "world", "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare Contains - substring should match", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
-}
-
-// --- StartsWith match ---
-
-func Test_StringCompare_StartsWith_Match(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareStartsWith(false, "hello", "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare StartsWith - matching prefix should match", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
-}
-
-func Test_StringCompare_StartsWith_NoMatch(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareStartsWith(false, "world", "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare StartsWith - non-prefix should not match", t, func() {
-		convey.So(isMatch, should.BeFalse)
-	})
-}
-
-func Test_StringCompare_StartsWith_IgnoreCase(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareStartsWith(true, "HELLO", "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare StartsWith - ignore case should match", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
-}
-
-// --- EndsWith match ---
-
-func Test_StringCompare_EndsWith_Match(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEndsWith(false, "world", "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare EndsWith - matching suffix should match", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
-}
-
-func Test_StringCompare_EndsWith_NoMatch(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEndsWith(false, "hello", "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare EndsWith - non-suffix should not match", t, func() {
-		convey.So(isMatch, should.BeFalse)
-	})
-}
-
-func Test_StringCompare_EndsWith_IgnoreCase(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEndsWith(true, "WORLD", "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare EndsWith - ignore case should match", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
-}
-
-// --- Regex match ---
-
-func Test_StringCompare_Regex_Match(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareRegex(`^hello\s\w+$`, "hello world")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare Regex - matching pattern should match", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
-}
-
-func Test_StringCompare_Regex_NoMatch(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "hello")
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare Regex - non-matching pattern should not match", t, func() {
-		convey.So(isMatch, should.BeFalse)
-	})
-}
-
-// --- VerifyError ---
-
-func Test_StringCompare_VerifyError_EqualMatch_NoError(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEqual("hello", "hello")
-
-	// Act
-	err := sc.VerifyError()
-
-	// Assert
-	convey.Convey("VerifyError - equal match should return nil error", t, func() {
-		convey.So(err, should.BeNil)
-	})
-}
-
-func Test_StringCompare_VerifyError_EqualMismatch_ReturnsError(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEqual("hello", "world")
-
-	// Act
-	err := sc.VerifyError()
-
-	// Assert
-	convey.Convey("VerifyError - equal mismatch should return error", t, func() {
-		convey.So(err, should.NotBeNil)
-	})
-}
-
-func Test_StringCompare_VerifyError_ContainsMismatch_ReturnsError(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareContains(false, "xyz", "hello world")
-
-	// Act
-	err := sc.VerifyError()
-
-	// Assert
-	convey.Convey("VerifyError - contains mismatch should return error", t, func() {
-		convey.So(err, should.NotBeNil)
-	})
-}
-
-func Test_StringCompare_VerifyError_ValidRegex_Match_NoError(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "12345")
-
-	// Act
-	err := sc.VerifyError()
-
-	// Assert
-	convey.Convey("VerifyError - valid regex match should return nil error", t, func() {
-		convey.So(err, should.BeNil)
-	})
-}
-
-func Test_StringCompare_VerifyError_ValidRegex_NoMatch_ReturnsError(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "hello")
-
-	// Act
-	err := sc.VerifyError()
-
-	// Assert
-	convey.Convey("VerifyError - valid regex no match should return error", t, func() {
-		convey.So(err, should.NotBeNil)
-	})
-}
-
-func Test_StringCompare_VerifyError_InvalidRegex_ReturnsError(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareRegex(`[invalid(`, "content")
-
-	// Act
-	err := sc.VerifyError()
-
-	// Assert
-	convey.Convey("VerifyError - invalid regex pattern should return error", t, func() {
-		convey.So(err, should.NotBeNil)
-	})
-}
-
-func Test_StringCompare_VerifyError_NilReceiver_NoError(t *testing.T) {
-	// Arrange
-	var sc *coreinstruction.StringCompare
-
-	// Act
-	err := sc.VerifyError()
-
-	// Assert
-	convey.Convey("VerifyError - nil receiver should return nil error", t, func() {
-		convey.So(err, should.BeNil)
-	})
-}
-
-// --- IsMatchFailed (inversion logic) ---
-
-func Test_StringCompare_IsMatchFailed_EqualMatch_ReturnsFalse(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEqual("hello", "hello")
-
-	// Act
-	result := sc.IsMatchFailed()
-
-	// Assert
-	convey.Convey("IsMatchFailed - equal match should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_StringCompare_IsMatchFailed_EqualMismatch_ReturnsTrue(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareEqual("hello", "world")
-
-	// Act
-	result := sc.IsMatchFailed()
-
-	// Assert
-	convey.Convey("IsMatchFailed - equal mismatch should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_StringCompare_IsMatchFailed_ContainsMatch_ReturnsFalse(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareContains(false, "world", "hello world")
-
-	// Act
-	result := sc.IsMatchFailed()
-
-	// Assert
-	convey.Convey("IsMatchFailed - contains match should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_StringCompare_IsMatchFailed_ContainsMismatch_ReturnsTrue(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareContains(false, "xyz", "hello world")
-
-	// Act
-	result := sc.IsMatchFailed()
-
-	// Assert
-	convey.Convey("IsMatchFailed - contains mismatch should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_StringCompare_IsMatchFailed_RegexMatch_ReturnsFalse(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "12345")
-
-	// Act
-	result := sc.IsMatchFailed()
-
-	// Assert
-	convey.Convey("IsMatchFailed - regex match should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_StringCompare_IsMatchFailed_RegexNoMatch_ReturnsTrue(t *testing.T) {
-	// Arrange
-	sc := coreinstruction.NewStringCompareRegex(`^\d+$`, "hello")
-
-	// Act
-	result := sc.IsMatchFailed()
-
-	// Assert
-	convey.Convey("IsMatchFailed - regex no match should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_StringCompare_IsMatchFailed_NilReceiver_ReturnsFalse(t *testing.T) {
-	// Arrange
-	var sc *coreinstruction.StringCompare
-
-	// Act
-	result := sc.IsMatchFailed()
-
-	// Assert
-	convey.Convey("IsMatchFailed - nil receiver should return false (inverted vacuous truth)", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-// --- Nil receiver ---
-
-func Test_StringCompare_NilReceiver_IsMatch(t *testing.T) {
-	// Arrange
-	var sc *coreinstruction.StringCompare
-
-	// Act
-	isMatch := sc.IsMatch()
-
-	// Assert
-	convey.Convey("StringCompare - nil receiver IsMatch should return true (vacuous truth)", t, func() {
-		convey.So(isMatch, should.BeTrue)
-	})
+func Test_StringCompare_NilReceiver_Verification(t *testing.T) {
+	for caseIndex, testCase := range stringCompareNilReceiverTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		methodName, err := input.GetAsString("method")
+		errcore.HandleErrMessage("method required", err)
+		var sc *coreinstruction.StringCompare
+
+		// Act
+		var result string
+		switch methodName {
+		case "IsMatch":
+			result = fmt.Sprintf("%v", sc.IsMatch())
+		case "IsMatchFailed":
+			result = fmt.Sprintf("%v", sc.IsMatchFailed())
+		case "IsInvalid":
+			result = fmt.Sprintf("%v", sc.IsInvalid())
+		case "IsDefined":
+			result = fmt.Sprintf("%v", sc.IsDefined())
+		case "VerifyError":
+			result = fmt.Sprintf("%v", sc.VerifyError() != nil)
+		}
+
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			result,
+		)
+	}
 }
