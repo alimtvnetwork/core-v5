@@ -180,7 +180,7 @@ func (it *BytesErrorOnce) Deserialize(
 
 	jsonUnmarshalErr := json.Unmarshal(rawBytes, toPtr)
 
-	if err == nil {
+	if jsonUnmarshalErr == nil {
 		return nil
 	}
 
