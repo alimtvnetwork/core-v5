@@ -309,6 +309,57 @@ verifyDefaultErr(t,
 
 ---
 
+## First-Item Assertion Convenience Methods
+
+When a test uses a **named single test case** (not a loop with `caseIndex`), use the `*First` assertion variants instead of passing a literal `0` for `caseIndex`. This eliminates magic numbers and improves readability.
+
+```go
+// ✅ Good: Named First variant — no magic 0
+tc.ShouldBeEqualArgsFirst(
+    t,
+    emptyBefore,
+    lenBefore,
+    emptyAfter,
+    lenAfter,
+)
+
+tc.ShouldExpectedMatchFirst(
+    t,
+    result,
+)
+
+tc.ShouldBeEqualUsingExpectedFirst(
+    t,
+    actLines,
+)
+
+// ❌ Bad: Magic 0 for non-loop test
+tc.ShouldBeEqualArgs(
+    t,
+    0,
+    emptyBefore,
+    lenBefore,
+)
+
+// ✅ Good: Explicit caseIndex in a loop — use the indexed variant
+for caseIndex, tc := range testCases {
+    tc.ShouldBeEqualArgs(
+        t,
+        caseIndex,
+        result,
+    )
+}
+```
+
+Available `*First` methods on `GenericGherkins`:
+
+| Method | Wraps |
+|--------|-------|
+| `ShouldBeEqualFirst(t, actLines, expectedLines)` | `ShouldBeEqual(t, 0, ...)` |
+| `ShouldBeEqualArgsFirst(t, actLines...)` | `ShouldBeEqualArgs(t, 0, ...)` |
+| `ShouldBeEqualUsingExpectedFirst(t, actLines)` | `ShouldBeEqualUsingExpected(t, 0, ...)` |
+| `ShouldExpectedMatchFirst(t, result)` | `ShouldExpectedMatch(t, 0, ...)` |
+
 ## Variable Naming Conventions
 
 ### Avoid Numbered Suffixes
