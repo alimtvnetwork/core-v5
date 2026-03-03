@@ -185,6 +185,12 @@ Cross-referenced all source packages against `tests/integratedtests/` directorie
 | 1 | `coredynamic` LeftRight/MapAnyItems | ~40 | ✅ DONE |
 | 1 | `coreonce` lazy evaluation (StringOnce/BoolOnce/ErrorOnce/IntegerOnce) | ~70 | ✅ DONE |
 | 1 | `coreonce` BytesOnce + BytesErrorOnce | ~55 | ✅ DONE |
+
+### Bugs Found & Fixed During Testing
+
+| Package | Bug | Fix | Ref |
+|---------|-----|-----|-----|
+| `coreonce` | `BytesErrorOnce.Deserialize` checked `err == nil` instead of `jsonUnmarshalErr != nil` (line 183), causing invalid JSON to silently return nil instead of a deserialize error | Changed condition to `if jsonUnmarshalErr == nil` so unmarshal failures correctly propagate | `coredata/coreonce/BytesErrorOnce.go:183` |
 | 1 | `coreinstruction` remaining | ~40 | ✅ DONE |
 | 2 | `coredynamic` Dynamic/CastedResult | ~10 | TODO |
 | 2 | `coregeneric` LinkedList/Hashmap | ~12 | TODO |
