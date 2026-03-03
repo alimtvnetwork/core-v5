@@ -1,41 +1,53 @@
 package pagingutil
 
-import "gitlab.com/auk-go/core/errcore"
-
+// GetPagingInfo calculates paging metadata from a PagingRequest.
+//
+// Validation rules:
+//   - Zero or negative EachPageSize → empty PagingInfo (no paging possible).
+//   - Zero Length → empty PagingInfo with PageIndex 0.
+//   - PageIndex below 1 → clamped to first page (1).
+//   - PageIndex above total pages → clamped to last page.
+//   - Length < EachPageSize → single page, IsPagingPossible = false.
 func GetPagingInfo(request PagingRequest) PagingInfo {
+	// Guard: invalid page size
+	if isPageSizeInvalid(request.EachPageSize) {
+		return PagingInfo{}
+	}
+
 	length := request.Length
 
-	if length < request.EachPageSize {
+	// Guard: no items
+	if isLengthEmpty(length) {
 		return PagingInfo{
-			PageIndex:        request.PageIndex,
+			PageIndex:        0,
+			SkipItems:        0,
+			EndingLength:     0,
+			IsPagingPossible: false,
+		}
+	}
+
+	// Guard: everything fits in one page
+	if isPagingNotPossible(length, request.EachPageSize) {
+		return PagingInfo{
+			PageIndex:        1,
 			SkipItems:        0,
 			EndingLength:     length,
 			IsPagingPossible: false,
 		}
 	}
 
-	/**
-	 * eachPageItems = 10
-	 * pageIndex = 4
-	 * skipItems = 10 * (4 - 1) = 30
-	 */
-	skipItems := request.EachPageSize * (request.PageIndex - 1)
-	if skipItems < 0 {
-		errcore.
-			CannotBeNegativeIndexType.
-			HandleUsingPanic(
-				"pageIndex cannot be negative or zero.",
-				request.PageIndex)
-	}
+	// Calculate total pages for clamping
+	totalPages := GetPagesSize(request.EachPageSize, length)
 
-	endingIndex := skipItems + request.EachPageSize
+	// Clamp page index to valid range
+	pageIndex := clampedPageIndex(request.PageIndex, totalPages)
 
-	if endingIndex > length {
-		endingIndex = length
-	}
+	// Calculate offsets
+	skipItems := calculateSkipItems(pageIndex, request.EachPageSize)
+	endingIndex := clampedEndingLength(skipItems+request.EachPageSize, length)
 
 	return PagingInfo{
-		PageIndex:        request.PageIndex,
+		PageIndex:        pageIndex,
 		SkipItems:        skipItems,
 		EndingLength:     endingIndex,
 		IsPagingPossible: true,
