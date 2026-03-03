@@ -302,5 +302,5 @@ func (it *RwxInstructionExecutor) applyOnPathsContinueOnError(locations *[]strin
 		}
 	}
 
-	return errcore.SliceToErrorPtr(&errorSlice)
+	return errcore.SliceToErrorPtr(errorSlice)
 }

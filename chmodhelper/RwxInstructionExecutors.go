@@ -162,7 +162,7 @@ func (it *RwxInstructionExecutors) ApplyOnPathsPtr(locations []string) error {
 	}
 
 	for _, executor := range *it.items {
-		err := executor.ApplyOnPathsPtr(locations)
+		err := executor.ApplyOnPathsPtr(&locations)
 
 		if err != nil {
 			return err

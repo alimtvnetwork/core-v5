@@ -1,11 +1,6 @@
 package coretestcases
 
-import (
-	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-)
 
 // IsFailedToMatch returns the inverse of IsMatching.
 //
