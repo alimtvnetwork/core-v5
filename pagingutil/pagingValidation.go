@@ -20,8 +20,8 @@ func isPageIndexAboveMaximum(pageIndex, totalPages int) bool {
 	return pageIndex > totalPages
 }
 
-// isPagingNotPossible returns true when item count fits within a single page.
-func isPagingNotPossible(length, eachPageSize int) bool {
+// isPagingOutOfRange returns true when item count fits within a single page.
+func isPagingOutOfRange(length, eachPageSize int) bool {
 	return length < eachPageSize
 }
 

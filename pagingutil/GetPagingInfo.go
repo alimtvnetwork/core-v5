@@ -28,7 +28,7 @@ func GetPagingInfo(request PagingRequest) PagingInfo {
 	}
 
 	// Guard: everything fits in one page
-	if isPagingNotPossible(length, request.EachPageSize) {
+	if isPagingOutOfRange(length, request.EachPageSize) {
 		return PagingInfo{
 			PageIndex:        1,
 			SkipItems:        0,

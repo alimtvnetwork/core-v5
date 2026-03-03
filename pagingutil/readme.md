@@ -127,7 +127,7 @@ The `pagingValidation.go` file provides focused predicate functions used by `Get
 | `isPageSizeInvalid(size)` | `size ≤ 0` |
 | `isPageIndexBelowMinimum(idx)` | `idx < 1` |
 | `isPageIndexAboveMaximum(idx, total)` | `idx > total` |
-| `isPagingNotPossible(len, size)` | `len < size` |
+| `isPagingOutOfRange(len, size)` | `len < size` |
 | `hasNoItems(length)` | `length == 0` |
 | `clampedPageIndex(idx, total)` | Clamps to `[1, totalPages]` |
 | `calculateSkipItems(idx, size)` | `size * (idx - 1)` |
