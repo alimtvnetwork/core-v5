@@ -36,8 +36,19 @@ param(
     [string]$Command = "help",
 
     [Parameter(Position = 1, ValueFromRemainingArguments)]
-    [string[]]$Args
+    [string[]]$ExtraArgs
 )
+
+# Normalize: if $Command was swallowed by PowerShell as a switch
+# (e.g. -gc parsed away), $Command will be "help" — detect via $PSBoundParameters.
+if (-not $PSBoundParameters.ContainsKey('Command')) {
+    # Check $MyInvocation.Line for the actual argument
+    $rawLine = $MyInvocation.Line
+    $match = [regex]::Match($rawLine, '(?i)run\.ps1\s+(-?\w[\w-]*)')
+    if ($match.Success) {
+        $Command = $match.Groups[1].Value
+    }
+}
 
 $ErrorActionPreference = "Stop"
 
@@ -389,7 +400,7 @@ function Invoke-GoConvey {
         Write-Success "GoConvey installed"
     }
 
-    $port = if ($Args -and $Args[0]) { $Args[0] } else { "8080" }
+    $port = if ($ExtraArgs -and $ExtraArgs[0]) { $ExtraArgs[0] } else { "8080" }
     Write-Host "  Starting GoConvey on http://localhost:$port" -ForegroundColor Yellow
     Write-Host "  Press Ctrl+C to stop" -ForegroundColor Gray
 
@@ -467,7 +478,7 @@ function Show-Help {
 # -- Dispatch --
 switch ($Command.ToLower()) {
     { $_ -in "t", "-t", "test" }              { Invoke-AllTests }
-    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $Args[0] }
+    { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $ExtraArgs[0] }
     { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
     { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
     { $_ -in "tf", "-tf", "test-fail" }       { Invoke-ShowFailLog }
