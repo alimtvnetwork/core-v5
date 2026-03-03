@@ -6,88 +6,135 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/errcore"
 )
 
 // ==========================================
 // Test: ContainsAll
 // ==========================================
 
-func Test_ContainsAll_Verification(t *testing.T) {
-	for caseIndex, testCase := range containsAllTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		items := input["items"].([]int)
+func Test_ContainsAll_True(t *testing.T) {
+	tc := containsAllTrueTestCase
 
-		// Act
-		col := coregeneric.New.Collection.Int.Items(items...)
-		var result bool
-		if caseIndex == 0 {
-			result = coregeneric.ContainsAll(col, 1, 3, 5)
-		} else {
-			result = coregeneric.ContainsAll(col, 1, 2, 99)
-		}
-		actLines := []string{
-			fmt.Sprintf("%v", result),
-		}
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
+	searchItems := input["searchItems"].([]int)
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	// Act
+	col := coregeneric.New.Collection.Int.Items(items...)
+	result := coregeneric.ContainsAll(col, searchItems...)
+	actLines := []string{
+		fmt.Sprintf("%v", result),
 	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_ContainsAll_False(t *testing.T) {
+	tc := containsAllFalseTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
+	searchItems := input["searchItems"].([]int)
+
+	// Act
+	col := coregeneric.New.Collection.Int.Items(items...)
+	result := coregeneric.ContainsAll(col, searchItems...)
+	actLines := []string{
+		fmt.Sprintf("%v", result),
+	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================
 // Test: ContainsAny
 // ==========================================
 
-func Test_ContainsAny_Verification(t *testing.T) {
-	for caseIndex, testCase := range containsAnyTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		items := input["items"].([]int)
+func Test_ContainsAny_True(t *testing.T) {
+	tc := containsAnyTrueTestCase
 
-		// Act
-		col := coregeneric.New.Collection.Int.Items(items...)
-		var result bool
-		if caseIndex == 0 {
-			result = coregeneric.ContainsAny(col, 99, 3, 100)
-		} else {
-			result = coregeneric.ContainsAny(col, 88, 99, 100)
-		}
-		actLines := []string{
-			fmt.Sprintf("%v", result),
-		}
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
+	searchItems := input["searchItems"].([]int)
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	// Act
+	col := coregeneric.New.Collection.Int.Items(items...)
+	result := coregeneric.ContainsAny(col, searchItems...)
+	actLines := []string{
+		fmt.Sprintf("%v", result),
 	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_ContainsAny_False(t *testing.T) {
+	tc := containsAnyFalseTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
+	searchItems := input["searchItems"].([]int)
+
+	// Act
+	col := coregeneric.New.Collection.Int.Items(items...)
+	result := coregeneric.ContainsAny(col, searchItems...)
+	actLines := []string{
+		fmt.Sprintf("%v", result),
+	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================
 // Test: RemoveItem
 // ==========================================
 
-func Test_RemoveItem_Verification(t *testing.T) {
-	for caseIndex, testCase := range removeItemTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		items := input["items"].([]int)
+func Test_RemoveItem_Found(t *testing.T) {
+	tc := removeItemFoundTestCase
 
-		// Act
-		col := coregeneric.New.Collection.Int.Items(items...)
-		var removed bool
-		if caseIndex == 0 {
-			removed = coregeneric.RemoveItem(col, 2)
-		} else {
-			removed = coregeneric.RemoveItem(col, 99)
-		}
-		actLines := []string{
-			fmt.Sprintf("%v", removed),
-			fmt.Sprintf("%d", col.Length()),
-		}
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
+	removeItem := input["removeItem"].(int)
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	// Act
+	col := coregeneric.New.Collection.Int.Items(items...)
+	removed := coregeneric.RemoveItem(col, removeItem)
+	actLines := []string{
+		fmt.Sprintf("%v", removed),
+		fmt.Sprintf("%d", col.Length()),
 	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+
+func Test_RemoveItem_Missing(t *testing.T) {
+	tc := removeItemMissingTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
+	removeItem := input["removeItem"].(int)
+
+	// Act
+	col := coregeneric.New.Collection.Int.Items(items...)
+	removed := coregeneric.RemoveItem(col, removeItem)
+	actLines := []string{
+		fmt.Sprintf("%v", removed),
+		fmt.Sprintf("%d", col.Length()),
+	}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
 }
 
 // ==========================================
