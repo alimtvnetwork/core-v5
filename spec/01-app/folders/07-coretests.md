@@ -19,9 +19,12 @@ Testing utilities, assertion wrappers, and test-case structures for the auk-go e
 | `vars.go` | `GetAssert` singleton |
 | `ShouldAsserter.go` | Assertion helpers using goconvey |
 | `SimpleTestCase.go` | Test case with input/expected |
+| `SimpleTestCaseWrapper.go` | Legacy all-any test wrapper interface |
+| `TypedTestCaseWrapper.go` | Generic-first typed test wrapper interface |
+| `TypedTestCaseWrapperContractsBinder.go` | Generic contracts binder |
 | `BaseTestCaseWrapper.go` | Base wrapper for test cases |
 | `args/` | `FuncWrap`, `Map` — function reflection and argument handling |
-| `coretestcases/` | `CaseV1` test case structure, `GenericGherkins` (proposed) |
+| `coretestcases/` | `CaseV1`, `GenericGherkins[TInput, TExpect]` — typed test case structures |
 
 ## Testing Pattern (Dominant Style)
 
