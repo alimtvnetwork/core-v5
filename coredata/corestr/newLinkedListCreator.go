@@ -20,7 +20,7 @@ func (it *newLinkedListCreator) PointerStringsPtr(
 	linkedList := it.Empty()
 
 	return linkedList.
-		AddPointerStringsPtr(stringItems)
+		AddPointerStringsPtr(*stringItems)
 }
 
 func (it *newLinkedListCreator) Strings(
