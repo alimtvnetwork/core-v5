@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/errcore"
 )
 
 // ==========================================
@@ -29,7 +28,7 @@ func Test_ContainsAll_True(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_ContainsAll_False(t *testing.T) {
@@ -48,7 +47,7 @@ func Test_ContainsAll_False(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================
@@ -71,7 +70,7 @@ func Test_ContainsAny_True(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_ContainsAny_False(t *testing.T) {
@@ -90,7 +89,7 @@ func Test_ContainsAny_False(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================
@@ -114,7 +113,7 @@ func Test_RemoveItem_Found(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_RemoveItem_Missing(t *testing.T) {
@@ -134,7 +133,7 @@ func Test_RemoveItem_Missing(t *testing.T) {
 	}
 
 	// Assert
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================
