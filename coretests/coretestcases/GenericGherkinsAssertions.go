@@ -33,6 +33,33 @@ func (it *GenericGherkins[TInput, TExpect]) ShouldBeEqual(
 	)
 }
 
+// ShouldBeEqualArgs asserts that individual string arguments match
+// ExpectedLines using the struct's Title as the test title.
+//
+// Each argument is treated as one line. This allows callers to
+// pass each value on its own line for readability:
+//
+//	tc.ShouldBeEqualArgs(
+//	    t,
+//	    caseIndex,
+//	    fmt.Sprintf("%v", called),
+//	    fmt.Sprintf("%v", result),
+//	)
+func (it *GenericGherkins[TInput, TExpect]) ShouldBeEqualArgs(
+	t *testing.T,
+	caseIndex int,
+	actLines ...string,
+) {
+	t.Helper()
+
+	it.ShouldBeEqual(
+		t,
+		caseIndex,
+		actLines,
+		it.ExpectedLines,
+	)
+}
+
 // ShouldBeEqualUsingExpected asserts that actLines match the struct's
 // own ExpectedLines field. Useful when expected values are defined
 // in the test case data itself.
@@ -43,5 +70,10 @@ func (it *GenericGherkins[TInput, TExpect]) ShouldBeEqualUsingExpected(
 ) {
 	t.Helper()
 
-	it.ShouldBeEqual(t, caseIndex, actLines, it.ExpectedLines)
+	it.ShouldBeEqual(
+		t,
+		caseIndex,
+		actLines,
+		it.ExpectedLines,
+	)
 }
