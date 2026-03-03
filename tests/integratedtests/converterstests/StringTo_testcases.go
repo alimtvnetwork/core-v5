@@ -63,7 +63,7 @@ var bytesToStringTestCases = []coretestcases.CaseV1{
 			"when":  "given valid byte slice",
 			"input": "hello",
 		},
-		ExpectedInput: []string{"hello"},
+		ExpectedInput: "hello",
 	},
 	{
 		Title: "BytesTo.String returns empty for empty bytes",
@@ -71,7 +71,7 @@ var bytesToStringTestCases = []coretestcases.CaseV1{
 			"when":  "given empty byte slice",
 			"input": "",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -199,7 +199,7 @@ var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 			"input": "test-data",
 			"isNil": false,
 		},
-		ExpectedInput: []string{"test-data"},
+		ExpectedInput: "test-data",
 	},
 	{
 		Title: "PtrString returns empty for nil pointer",
@@ -208,7 +208,7 @@ var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 			"input": "",
 			"isNil": true,
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -235,7 +235,7 @@ var stringsToHashsetTestCases = []coretestcases.CaseV1{
 			"when":  "given empty slice",
 			"input": []string{},
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
@@ -246,7 +246,7 @@ var stringToIntegerDefaultTestCases = []coretestcases.CaseV1{
 			"when":  "given valid number",
 			"input": "77",
 		},
-		ExpectedInput: []string{"77"},
+		ExpectedInput: "77",
 	},
 	{
 		Title: "IntegerDefault returns 0 on invalid",
@@ -254,7 +254,7 @@ var stringToIntegerDefaultTestCases = []coretestcases.CaseV1{
 			"when":  "given non-number",
 			"input": "nope",
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
@@ -265,7 +265,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given true string",
 			"input": "true",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Bool parses 'false' string",
@@ -273,7 +273,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given false string",
 			"input": "false",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Bool returns false on invalid",
@@ -281,7 +281,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given non-bool string",
 			"input": "maybe",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Bool parses '1' as true",
@@ -289,7 +289,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given 1 string",
 			"input": "1",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Bool parses '0' as false",
@@ -297,7 +297,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given 0 string",
 			"input": "0",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 

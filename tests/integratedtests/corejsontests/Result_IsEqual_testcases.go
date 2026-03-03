@@ -17,7 +17,7 @@ var resultIsEqualTestCases = []coretestcases.CaseV1{
 			"a": corejson.New(map[string]string{"key": "value"}),
 			"b": corejson.New(map[string]string{"key": "value"}),
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEqual - different content returns false",
@@ -25,7 +25,7 @@ var resultIsEqualTestCases = []coretestcases.CaseV1{
 			"a": corejson.New(map[string]string{"key": "a"}),
 			"b": corejson.New(map[string]string{"key": "b"}),
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -40,7 +40,7 @@ var resultIsEqualPtrTestCases = []coretestcases.CaseV1{
 			"aPtr": (*corejson.Result)(nil),
 			"bPtr": (*corejson.Result)(nil),
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEqualPtr - one nil returns false",
@@ -48,6 +48,6 @@ var resultIsEqualPtrTestCases = []coretestcases.CaseV1{
 			"aPtr": corejson.NewPtr(map[string]string{"k": "v"}),
 			"bPtr": (*corejson.Result)(nil),
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }

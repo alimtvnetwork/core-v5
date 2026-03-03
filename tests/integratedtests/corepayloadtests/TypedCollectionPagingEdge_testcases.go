@@ -150,7 +150,7 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 			"count":    5,
 			"pageSize": 1,
 		},
-		ExpectedInput: []string{"5"},
+		ExpectedInput: "5",
 	},
 	{
 		Title: "GetPagesSize with single item",
@@ -159,6 +159,6 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 			"count":    1,
 			"pageSize": 10,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 }

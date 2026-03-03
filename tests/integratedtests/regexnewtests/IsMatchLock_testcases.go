@@ -13,7 +13,7 @@ var isMatchLockTestCases = []coretestcases.CaseV1{
 			"pattern": "\\d+",
 			"input":   "123",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsMatchLock false for non-matching pattern",
@@ -22,7 +22,7 @@ var isMatchLockTestCases = []coretestcases.CaseV1{
 			"pattern": "^\\d+$",
 			"input":   "abc",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsMatchLock false for invalid pattern",
@@ -31,7 +31,7 @@ var isMatchLockTestCases = []coretestcases.CaseV1{
 			"pattern": "[bad",
 			"input":   "test",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsMatchLock true for email-like pattern",
@@ -40,7 +40,7 @@ var isMatchLockTestCases = []coretestcases.CaseV1{
 			"pattern": "^[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+$",
 			"input":   "user@example.com",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsMatchLock false for empty input with required pattern",
@@ -49,7 +49,7 @@ var isMatchLockTestCases = []coretestcases.CaseV1{
 			"pattern": "^\\d+$",
 			"input":   "",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -61,7 +61,7 @@ var isMatchFailedTestCases = []coretestcases.CaseV1{
 			"pattern": "\\d+",
 			"input":   "42",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsMatchFailed true when pattern does not match",
@@ -70,7 +70,7 @@ var isMatchFailedTestCases = []coretestcases.CaseV1{
 			"pattern": "^\\d+$",
 			"input":   "abc",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsMatchFailed true for invalid pattern",
@@ -79,7 +79,7 @@ var isMatchFailedTestCases = []coretestcases.CaseV1{
 			"pattern": "[bad",
 			"input":   "test",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -91,7 +91,7 @@ var lazyRegexIsMatchTestCases = []coretestcases.CaseV1{
 			"pattern": "^hello$",
 			"input":   "hello",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "LazyRegex.IsMatch false for non-matching input",
@@ -100,7 +100,7 @@ var lazyRegexIsMatchTestCases = []coretestcases.CaseV1{
 			"pattern": "^hello$",
 			"input":   "world",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -123,7 +123,7 @@ var lazyRegexIsFailedMatchTestCases = []coretestcases.CaseV1{
 			"pattern": "\\d+",
 			"input":   "123",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "LazyRegex.IsFailedMatch true when not matches",
@@ -132,7 +132,7 @@ var lazyRegexIsFailedMatchTestCases = []coretestcases.CaseV1{
 			"pattern": "^\\d+$",
 			"input":   "abc",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -143,7 +143,7 @@ var lazyRegexPatternStringTestCases = []coretestcases.CaseV1{
 			"when":    "given a pattern",
 			"pattern": "^test\\d+$",
 		},
-		ExpectedInput: []string{"^test\\d+$"},
+		ExpectedInput: "^test\\d+$",
 	},
 }
 
@@ -155,7 +155,7 @@ var lazyRegexMatchErrorTestCases = []coretestcases.CaseV1{
 			"pattern": "^hello$",
 			"input":   "hello",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "LazyRegex.MatchError returns error for non-matching",
@@ -164,6 +164,6 @@ var lazyRegexMatchErrorTestCases = []coretestcases.CaseV1{
 			"pattern": "^\\d+$",
 			"input":   "abc",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }

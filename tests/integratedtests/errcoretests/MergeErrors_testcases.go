@@ -16,7 +16,7 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 			"when":  "given nil slice",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "SliceToError - empty slice returns nil",
@@ -24,7 +24,7 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 			"when":  "given empty slice",
 			"input": []string{},
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "SliceToError - single item returns error with message",
@@ -57,7 +57,7 @@ var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 			"when":  "given nil slice",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "SliceToErrorPtr - empty slice returns nil",
@@ -65,7 +65,7 @@ var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 			"when":  "given empty slice",
 			"input": []string{},
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "SliceToErrorPtr - single item returns error",
@@ -90,7 +90,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"errors": []string{},
 			"nils":   0,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "MergeErrors - all nil returns nil",
@@ -99,7 +99,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"errors": []string{},
 			"nils":   3,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "MergeErrors - single error returns it",
@@ -138,7 +138,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"errors": []string{},
 			"nils":   1,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -154,7 +154,7 @@ var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 			"errors": []string{},
 			"nils":   0,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "SliceErrorsToStrings - all nil returns empty",
@@ -163,7 +163,7 @@ var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 			"errors": []string{},
 			"nils":   2,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "SliceErrorsToStrings - mixed returns non-nil only",
@@ -189,7 +189,7 @@ var mergeErrorsToStringTestCases = []coretestcases.CaseV1{
 			"errors": []string{},
 			"nils":   0,
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "MergeErrorsToString - joins with custom joiner",
@@ -199,7 +199,7 @@ var mergeErrorsToStringTestCases = []coretestcases.CaseV1{
 			"errors": []string{"x", "y"},
 			"nils":   0,
 		},
-		ExpectedInput: []string{"x | y"},
+		ExpectedInput: "x | y",
 	},
 	{
 		Title: "MergeErrorsToString - skips nil errors",
@@ -209,7 +209,7 @@ var mergeErrorsToStringTestCases = []coretestcases.CaseV1{
 			"errors": []string{"only"},
 			"nils":   2,
 		},
-		ExpectedInput: []string{"only"},
+		ExpectedInput: "only",
 	},
 }
 
@@ -225,7 +225,7 @@ var mergeErrorsToStringDefaultTestCases = []coretestcases.CaseV1{
 			"errors": []string{},
 			"nils":   0,
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "MergeErrorsToStringDefault - joins with space",
@@ -234,6 +234,6 @@ var mergeErrorsToStringDefaultTestCases = []coretestcases.CaseV1{
 			"errors": []string{"a", "b"},
 			"nils":   0,
 		},
-		ExpectedInput: []string{"a b"},
+		ExpectedInput: "a b",
 	},
 }

@@ -15,11 +15,11 @@ var mapCollectionTestCases = []coretestcases.CaseV1{
 	},
 	{
 		Title:         "MapCollection nil source",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title:         "MapCollection empty source",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -30,11 +30,11 @@ var mapCollectionTestCases = []coretestcases.CaseV1{
 var flatMapCollectionTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "FlatMapCollection flattens",
-		ExpectedInput: []string{"6"},
+		ExpectedInput: "6",
 	},
 	{
 		Title:         "FlatMapCollection nil",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -45,15 +45,15 @@ var flatMapCollectionTestCases = []coretestcases.CaseV1{
 var reduceCollectionTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "ReduceCollection sum",
-		ExpectedInput: []string{"10"},
+		ExpectedInput: "10",
 	},
 	{
 		Title:         "ReduceCollection nil returns initial",
-		ExpectedInput: []string{"99"},
+		ExpectedInput: "99",
 	},
 	{
 		Title:         "ReduceCollection string concat",
-		ExpectedInput: []string{"abc"},
+		ExpectedInput: "abc",
 	},
 }
 
@@ -68,7 +68,7 @@ var groupByCollectionTestCases = []coretestcases.CaseV1{
 	},
 	{
 		Title:         "GroupByCollection nil",
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
@@ -79,15 +79,15 @@ var groupByCollectionTestCases = []coretestcases.CaseV1{
 var containsFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "ContainsFunc found",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title:         "ContainsFunc not found",
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title:         "ContainsFunc nil",
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -98,15 +98,15 @@ var containsFuncTestCases = []coretestcases.CaseV1{
 var containsItemTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "ContainsItem found",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title:         "ContainsItem not found",
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title:         "ContainsItem nil",
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -117,15 +117,15 @@ var containsItemTestCases = []coretestcases.CaseV1{
 var indexOfFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "IndexOfFunc found",
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title:         "IndexOfFunc not found",
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 	{
 		Title:         "IndexOfFunc nil",
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 }
 
@@ -136,11 +136,11 @@ var indexOfFuncTestCases = []coretestcases.CaseV1{
 var indexOfItemTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "IndexOfItem found",
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 	{
 		Title:         "IndexOfItem not found",
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 }
 
@@ -151,15 +151,15 @@ var indexOfItemTestCases = []coretestcases.CaseV1{
 var distinctTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Distinct removes duplicates",
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title:         "Distinct nil",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title:         "Distinct no duplicates",
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 }
 
@@ -170,10 +170,10 @@ var distinctTestCases = []coretestcases.CaseV1{
 var mapSimpleSliceTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "MapSimpleSlice transforms",
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title:         "MapSimpleSlice nil",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }

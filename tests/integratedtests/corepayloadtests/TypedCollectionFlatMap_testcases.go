@@ -66,9 +66,7 @@ var flatMapEmptyCollectionTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
-		ExpectedInput: []string{
-			"0",
-		},
+		ExpectedInput: "0",
 	},
 }
 
@@ -82,9 +80,7 @@ var flatMapNoOutputTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "mapper returns nil for each item",
 		},
-		ExpectedInput: []string{
-			"0",
-		},
+		ExpectedInput: "0",
 	},
 }
 
@@ -117,9 +113,7 @@ var deserializationFailureTestCases = []coretestcases.CaseV1{
 			"valid_count":   2,
 			"invalid_count": 1,
 		},
-		ExpectedInput: []string{
-			"2",
-		},
+		ExpectedInput: "2",
 	},
 }
 
@@ -134,9 +128,7 @@ var collectionDeserializeInvalidTestCases = []coretestcases.CaseV1{
 			"when":  "passing invalid json bytes",
 			"bytes": "{{not-json-at-all",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 

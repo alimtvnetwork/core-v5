@@ -31,6 +31,26 @@ func (it CaseV1) Expected() any {
 	return it.ExpectedInput
 }
 
+// expectedLines normalizes ExpectedInput to []string.
+//
+// If ExpectedInput is a single string, it wraps it into []string{s}.
+// If ExpectedInput is already []string, it returns as-is.
+// This allows test cases with a single expected value to use
+// ExpectedInput: "value" instead of ExpectedInput: []string{"value"}.
+func (it CaseV1) expectedLines() []string {
+	switch v := it.ExpectedInput.(type) {
+	case string:
+		return []string{v}
+	case []string:
+		return v
+	default:
+		panic(fmt.Sprintf(
+			"CaseV1.expectedLines: ExpectedInput must be string or []string, got %T",
+			it.ExpectedInput,
+		))
+	}
+}
+
 func (it CaseV1) ArrangeTypeName() string {
 	return reflectinternal.TypeName(it.ArrangeInput)
 }
@@ -228,7 +248,7 @@ func (it CaseV1) SliceValidatorCondition(
 		Condition:     condition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.expectedLines(),
 	}
 
 	return sliceValidator
@@ -245,7 +265,7 @@ func (it CaseV1) VerifyAll(
 		Condition:     corevalidator.DefaultDisabledCoreCondition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.expectedLines(),
 	}
 
 	finalErr := it.VerifyAllSliceValidator(
@@ -270,7 +290,7 @@ func (it CaseV1) VerifyAllCondition(
 		Condition:     condition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.expectedLines(),
 	}
 
 	finalErr := it.VerifyAllSliceValidator(
@@ -294,7 +314,7 @@ func (it CaseV1) VerifyFirst(
 		Condition:     corevalidator.DefaultTrimCoreCondition,
 		CompareAs:     compareAs,
 		ActualLines:   actualElements,
-		ExpectedLines: it.ExpectedInput.([]string),
+		ExpectedLines: it.expectedLines(),
 	}
 
 	param := corevalidator.Parameter{

@@ -14,7 +14,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  10,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "GetPagesSize returns 2 for partial overflow",
@@ -23,7 +23,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  11,
 		},
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 	{
 		Title: "GetPagesSize returns 3 for 25 items page 10",
@@ -32,7 +32,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  25,
 		},
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title: "GetPagesSize returns 1 for single item",
@@ -41,7 +41,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  1,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "GetPagesSize returns 10 for 100 items page 10",
@@ -50,7 +50,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  100,
 		},
-		ExpectedInput: []string{"10"},
+		ExpectedInput: "10",
 	},
 	{
 		Title: "GetPagesSize returns 1 for page size 1 and 1 item",
@@ -59,7 +59,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 1,
 			"totalLength":  1,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "GetPagesSize returns 5 for page size 1 and 5 items",
@@ -68,7 +68,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 1,
 			"totalLength":  5,
 		},
-		ExpectedInput: []string{"5"},
+		ExpectedInput: "5",
 	},
 
 	// === Boundary / edge cases ===
@@ -79,7 +79,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  0,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 
 	// === Negative / guard cases ===
@@ -90,7 +90,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 0,
 			"totalLength":  25,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "GetPagesSize returns 0 for negative page size",
@@ -99,7 +99,7 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": -5,
 			"totalLength":  25,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 

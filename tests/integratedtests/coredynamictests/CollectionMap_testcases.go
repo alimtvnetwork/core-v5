@@ -116,9 +116,7 @@ var reduceSumTestCases = []coretestcases.CaseV1{
 			"when":  "given ints [10, 20, 30]",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: []string{
-			"60",
-		},
+		ExpectedInput: "60",
 	},
 }
 
@@ -129,9 +127,7 @@ var reduceEmptyTestCases = []coretestcases.CaseV1{
 			"when":    "given empty int collection",
 			"initial": 99,
 		},
-		ExpectedInput: []string{
-			"99",
-		},
+		ExpectedInput: "99",
 	},
 }
 
@@ -146,9 +142,7 @@ var reduceConcatTestCases = []coretestcases.CaseV1{
 			"when":  "given strings [a, b, c]",
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"a-b-c",
-		},
+		ExpectedInput: "a-b-c",
 	},
 }
 

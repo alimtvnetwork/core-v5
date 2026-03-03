@@ -16,28 +16,28 @@ var pageRequestIsPageSizeEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"req": (*coreapi.PageRequest)(nil),
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsPageSizeEmpty - zero returns true",
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageSize: 0, PageIndex: 1},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsPageSizeEmpty - negative returns true",
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageSize: -1},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsPageSizeEmpty - positive returns false",
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageSize: 10},
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -51,21 +51,21 @@ var pageRequestIsPageIndexEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"req": (*coreapi.PageRequest)(nil),
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsPageIndexEmpty - zero returns true",
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageIndex: 0, PageSize: 10},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsPageIndexEmpty - positive returns false",
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageIndex: 2},
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -79,14 +79,14 @@ var pageRequestHasPageSizeTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"req": (*coreapi.PageRequest)(nil),
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "HasPageSize - positive returns true",
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageSize: 25},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -100,14 +100,14 @@ var pageRequestHasPageIndexTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"req": (*coreapi.PageRequest)(nil),
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "HasPageIndex - positive returns true",
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageIndex: 3},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -121,7 +121,7 @@ var pageRequestCloneNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"req": (*coreapi.PageRequest)(nil),
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 

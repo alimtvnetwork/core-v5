@@ -63,12 +63,12 @@ var getBoolTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "GetBool(true) returns True",
 		ArrangeInput:  true,
-		ExpectedInput: []string{"True"},
+		ExpectedInput: "True",
 	},
 	{
 		Title:         "GetBool(false) returns False",
 		ArrangeInput:  false,
-		ExpectedInput: []string{"False"},
+		ExpectedInput: "False",
 	},
 }
 
@@ -76,12 +76,12 @@ var newBoolTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "NewBool(true) returns True",
 		ArrangeInput:  true,
-		ExpectedInput: []string{"True"},
+		ExpectedInput: "True",
 	},
 	{
 		Title:         "NewBool(false) returns False",
 		ArrangeInput:  false,
-		ExpectedInput: []string{"False"},
+		ExpectedInput: "False",
 	},
 }
 
@@ -142,27 +142,27 @@ var combinedBooleansTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "All true returns True",
 		ArrangeInput:  []bool{true, true, true},
-		ExpectedInput: []string{"True"},
+		ExpectedInput: "True",
 	},
 	{
 		Title:         "Any false returns False",
 		ArrangeInput:  []bool{true, false, true},
-		ExpectedInput: []string{"False"},
+		ExpectedInput: "False",
 	},
 	{
 		Title:         "Empty returns True",
 		ArrangeInput:  []bool{},
-		ExpectedInput: []string{"True"},
+		ExpectedInput: "True",
 	},
 	{
 		Title:         "Single true returns True",
 		ArrangeInput:  []bool{true},
-		ExpectedInput: []string{"True"},
+		ExpectedInput: "True",
 	},
 	{
 		Title:         "Single false returns False",
 		ArrangeInput:  []bool{false},
-		ExpectedInput: []string{"False"},
+		ExpectedInput: "False",
 	},
 }
 
@@ -205,17 +205,17 @@ var getSetTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "GetSet true returns trueValue",
 		ArrangeInput:  getSetInput{condition: true, trueVal: issetter.True, falseVal: issetter.False},
-		ExpectedInput: []string{"True"},
+		ExpectedInput: "True",
 	},
 	{
 		Title:         "GetSet false returns falseValue",
 		ArrangeInput:  getSetInput{condition: false, trueVal: issetter.True, falseVal: issetter.False},
-		ExpectedInput: []string{"False"},
+		ExpectedInput: "False",
 	},
 	{
 		Title:         "GetSet true with Set/Unset returns Set",
 		ArrangeInput:  getSetInput{condition: true, trueVal: issetter.Set, falseVal: issetter.Unset},
-		ExpectedInput: []string{"Set"},
+		ExpectedInput: "Set",
 	},
 }
 
@@ -223,21 +223,21 @@ var isOutOfRangeTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Value 0 (Uninitialized) is in range",
 		ArrangeInput:  byte(0),
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title:         "Value 5 (Wildcard/max) is in range",
 		ArrangeInput:  byte(5),
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title:         "Value 6 is out of range",
 		ArrangeInput:  byte(6),
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title:         "Value 255 is out of range",
 		ArrangeInput:  byte(255),
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }

@@ -18,7 +18,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"isLeftNil": true,
 			"isRightNil": true,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEqual - left nil right non-nil should return false",
@@ -28,7 +28,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"isRightNil": false,
 			"rightTotalPages": 5, "rightCurrentPageIndex": 1, "rightPerPageItems": 10, "rightTotalItems": 50,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsEqual - left non-nil right nil should return false",
@@ -38,7 +38,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"isRightNil": true,
 			"leftTotalPages": 5, "leftCurrentPageIndex": 1, "leftPerPageItems": 10, "leftTotalItems": 50,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsEqual - identical values should return true",
@@ -48,7 +48,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"leftTotalPages": 3, "leftCurrentPageIndex": 2, "leftPerPageItems": 10, "leftTotalItems": 25,
 			"rightTotalPages": 3, "rightCurrentPageIndex": 2, "rightPerPageItems": 10, "rightTotalItems": 25,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEqual - different TotalPages should return false",
@@ -58,7 +58,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"leftTotalPages": 3, "leftCurrentPageIndex": 2, "leftPerPageItems": 10, "leftTotalItems": 25,
 			"rightTotalPages": 5, "rightCurrentPageIndex": 2, "rightPerPageItems": 10, "rightTotalItems": 25,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsEqual - different CurrentPageIndex should return false",
@@ -68,7 +68,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"leftTotalPages": 3, "leftCurrentPageIndex": 1, "leftPerPageItems": 10, "leftTotalItems": 25,
 			"rightTotalPages": 3, "rightCurrentPageIndex": 2, "rightPerPageItems": 10, "rightTotalItems": 25,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsEqual - different PerPageItems should return false",
@@ -78,7 +78,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"leftTotalPages": 3, "leftCurrentPageIndex": 2, "leftPerPageItems": 10, "leftTotalItems": 25,
 			"rightTotalPages": 3, "rightCurrentPageIndex": 2, "rightPerPageItems": 20, "rightTotalItems": 25,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsEqual - different TotalItems should return false",
@@ -88,7 +88,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 			"leftTotalPages": 3, "leftCurrentPageIndex": 2, "leftPerPageItems": 10, "leftTotalItems": 25,
 			"rightTotalPages": 3, "rightCurrentPageIndex": 2, "rightPerPageItems": 10, "rightTotalItems": 30,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -222,7 +222,7 @@ var pagingInfoClonePtrTestCases = []coretestcases.CaseV1{
 			"when":  "given nil PagingInfo pointer",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "ClonePtr copies all fields",
