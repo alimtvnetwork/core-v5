@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
 )
 
@@ -43,7 +42,7 @@ func Test_ReflectSetFromTo_NullNull(t *testing.T) {
 
 	actLines, expected := assertReflectSetFromToBase(t, tc)
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+	tc.ShouldBeEqual(t, 0, actLines, expected)
 }
 
 // ==========================================================================
@@ -68,7 +67,7 @@ func Test_ReflectSetFromTo_PtrToPtr(t *testing.T) {
 	)
 	expected = append(expected, "true", "true")
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+	tc.ShouldBeEqual(t, 0, actLines, expected)
 }
 
 // ==========================================================================
@@ -93,7 +92,7 @@ func Test_ReflectSetFromTo_ValueToPtr(t *testing.T) {
 	)
 	expected = append(expected, "true", "true")
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+	tc.ShouldBeEqual(t, 0, actLines, expected)
 }
 
 // ==========================================================================
@@ -116,7 +115,7 @@ func Test_ReflectSetFromTo_BytesToDraft(t *testing.T) {
 	)
 	expected = append(expected, "true")
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+	tc.ShouldBeEqual(t, 0, actLines, expected)
 }
 
 // ==========================================================================
@@ -128,5 +127,5 @@ func Test_ReflectSetFromTo_DraftToBytes(t *testing.T) {
 
 	actLines, expected := assertReflectSetFromToBase(t, tc)
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+	tc.ShouldBeEqual(t, 0, actLines, expected)
 }
