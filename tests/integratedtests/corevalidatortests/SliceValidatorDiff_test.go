@@ -429,20 +429,20 @@ func Test_LineDiffToString_ContainsLineNumbers(t *testing.T) {
 	fmt.Print(result)
 }
 
-func Test_LineDiffHasMismatch_True(t *testing.T) {
-	if !errcore.LineDiffHasMismatch([]string{"a"}, []string{"b"}) {
+func Test_HasAnyMismatchOnLines_True(t *testing.T) {
+	if !errcore.HasAnyMismatchOnLines([]string{"a"}, []string{"b"}) {
 		t.Error("different content should be mismatch")
 	}
 }
 
-func Test_LineDiffHasMismatch_DifferentLength(t *testing.T) {
-	if !errcore.LineDiffHasMismatch([]string{"a"}, []string{"a", "b"}) {
+func Test_HasAnyMismatchOnLines_DifferentLength(t *testing.T) {
+	if !errcore.HasAnyMismatchOnLines([]string{"a"}, []string{"a", "b"}) {
 		t.Error("different length should be mismatch")
 	}
 }
 
-func Test_LineDiffHasMismatch_False(t *testing.T) {
-	if errcore.LineDiffHasMismatch([]string{"a", "b"}, []string{"a", "b"}) {
+func Test_HasAnyMismatchOnLines_False(t *testing.T) {
+	if errcore.HasAnyMismatchOnLines([]string{"a", "b"}, []string{"a", "b"}) {
 		t.Error("same content should not be mismatch")
 	}
 }

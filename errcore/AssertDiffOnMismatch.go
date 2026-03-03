@@ -26,7 +26,7 @@ func AssertDiffOnMismatch(
 ) {
 	t.Helper()
 
-	if !LineDiffHasMismatch(actLines, expectedLines) {
+	if !HasAnyMismatchOnLines(actLines, expectedLines) {
 		return
 	}
 
@@ -56,7 +56,7 @@ func AssertErrorDiffOnMismatch(
 		actLines = []string{}
 	}
 
-	if !LineDiffHasMismatch(actLines, expectedLines) {
+	if !HasAnyMismatchOnLines(actLines, expectedLines) {
 		return
 	}
 
