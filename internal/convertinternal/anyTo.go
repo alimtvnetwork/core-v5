@@ -323,6 +323,20 @@ func (it anyTo) Strings(
 		return []string{
 			strconv.FormatBool(v),
 		}
+	case []int:
+		lines := make([]string, len(v))
+		for i, elem := range v {
+			lines[i] = strconv.Itoa(elem)
+		}
+
+		return lines
+	case []bool:
+		lines := make([]string, len(v))
+		for i, elem := range v {
+			lines[i] = strconv.FormatBool(elem)
+		}
+
+		return lines
 	default:
 		return it.PrettyJsonLines(item)
 	}
