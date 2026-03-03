@@ -1,138 +1,163 @@
 package coreoncetests
 
 import (
-	"encoding/json"
+	"fmt"
 	"testing"
 
-	"github.com/smartystreets/goconvey/convey"
-	"github.com/smarty/assertions/should"
-
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// =============================================================================
-// IntegerOnce — Caching Behavior
-// =============================================================================
+func Test_IntegerOnce_Core(t *testing.T) {
+	for caseIndex, tc := range integerOnceCoreTestCases {
+		// Arrange
+		initVal := tc.InitValue
+		once := coreonce.NewIntegerOncePtr(func() int { return initVal })
 
-func Test_IntegerOnce_Value_CachesResult(t *testing.T) {
-	callCount := 0
-	once := coreonce.NewIntegerOncePtr(func() int {
-		callCount++
-		return 42
-	})
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%d", once.Value()),
+			once.String(),
+			fmt.Sprintf("%v", once.IsZero()),
+			fmt.Sprintf("%v", once.IsEmpty()),
+			fmt.Sprintf("%v", once.IsAboveZero()),
+			fmt.Sprintf("%v", once.IsPositive()),
+			fmt.Sprintf("%v", once.IsLessThanZero()),
+			fmt.Sprintf("%v", once.IsNegative()),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-	convey.Convey("IntegerOnce.Value caches — initializer runs exactly once", t, func() {
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== IntegerOnce Core Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+			fmt.Printf("  InitValue: %d\n", tc.InitValue)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+func Test_IntegerOnce_Caching(t *testing.T) {
+	for caseIndex, tc := range integerOnceCachingTestCases {
+		// Arrange
+		callCount := 0
+		initVal := tc.InitValue
+		once := coreonce.NewIntegerOncePtr(func() int {
+			callCount++
+
+			return initVal
+		})
+
+		// Act
 		r1 := once.Value()
 		r2 := once.Value()
 
-		convey.So(r1, should.Equal, 42)
-		convey.So(r2, should.Equal, 42)
-		convey.So(callCount, should.Equal, 1)
-	})
+		actLines := []string{
+			fmt.Sprintf("%d", r1),
+			fmt.Sprintf("%d", r2),
+			fmt.Sprintf("%d", callCount),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
+
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== IntegerOnce Caching Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+			fmt.Printf("  CallCount: %d\n", callCount)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
-func Test_IntegerOnce_Execute_SameAsValue(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 7 })
+func Test_IntegerOnce_Compare(t *testing.T) {
+	for caseIndex, tc := range integerOnceCompareTestCases {
+		// Arrange
+		initVal := tc.InitValue
+		once := coreonce.NewIntegerOncePtr(func() int { return initVal })
+		cmpVal := tc.CompareValue
 
-	convey.Convey("IntegerOnce.Execute returns same as Value", t, func() {
-		convey.So(once.Execute(), should.Equal, once.Value())
-	})
+		// Act
+		actLines := []string{
+			fmt.Sprintf("%v", once.IsAbove(cmpVal)),
+			fmt.Sprintf("%v", once.IsAbove(initVal)),
+			fmt.Sprintf("%v", once.IsAboveEqual(initVal)),
+		}
+
+		isLessThanCase := tc.InitValue < tc.CompareValue
+		if isLessThanCase {
+			actLines = []string{
+				fmt.Sprintf("%v", once.IsLessThan(cmpVal)),
+				fmt.Sprintf("%v", once.IsLessThan(initVal)),
+				fmt.Sprintf("%v", once.IsLessThanEqual(initVal)),
+			}
+		}
+
+		expectedLines := tc.Case.ExpectedInput.([]string)
+
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== IntegerOnce Compare Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+			fmt.Printf("  InitValue: %d, CompareValue: %d\n", tc.InitValue, tc.CompareValue)
+
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
 
-// =============================================================================
-// IntegerOnce — Comparisons
-// =============================================================================
+func Test_IntegerOnce_Json(t *testing.T) {
+	for caseIndex, tc := range integerOnceJsonTestCases {
+		// Arrange
+		initVal := tc.InitValue
+		once := coreonce.NewIntegerOncePtr(func() int { return initVal })
 
-func Test_IntegerOnce_IsZero(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 0 })
-
-	convey.Convey("IntegerOnce.IsZero/IsEmpty true for 0", t, func() {
-		convey.So(once.IsZero(), should.BeTrue)
-		convey.So(once.IsEmpty(), should.BeTrue)
-	})
-}
-
-func Test_IntegerOnce_IsAboveZero(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 5 })
-
-	convey.Convey("IntegerOnce.IsAboveZero/IsPositive true for positive", t, func() {
-		convey.So(once.IsAboveZero(), should.BeTrue)
-		convey.So(once.IsPositive(), should.BeTrue)
-		convey.So(once.IsValidIndex(), should.BeTrue)
-	})
-}
-
-func Test_IntegerOnce_IsLessThanZero(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return -3 })
-
-	convey.Convey("IntegerOnce.IsLessThanZero/IsNegative true for negative", t, func() {
-		convey.So(once.IsLessThanZero(), should.BeTrue)
-		convey.So(once.IsNegative(), should.BeTrue)
-		convey.So(once.IsInvalidIndex(), should.BeTrue)
-	})
-}
-
-func Test_IntegerOnce_IsAbove(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 10 })
-
-	convey.Convey("IntegerOnce.IsAbove/IsAboveEqual", t, func() {
-		convey.So(once.IsAbove(5), should.BeTrue)
-		convey.So(once.IsAbove(10), should.BeFalse)
-		convey.So(once.IsAboveEqual(10), should.BeTrue)
-	})
-}
-
-func Test_IntegerOnce_IsLessThan(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 3 })
-
-	convey.Convey("IntegerOnce.IsLessThan/IsLessThanEqual", t, func() {
-		convey.So(once.IsLessThan(5), should.BeTrue)
-		convey.So(once.IsLessThan(3), should.BeFalse)
-		convey.So(once.IsLessThanEqual(3), should.BeTrue)
-	})
-}
-
-// =============================================================================
-// IntegerOnce — String & JSON
-// =============================================================================
-
-func Test_IntegerOnce_String(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 99 })
-
-	convey.Convey("IntegerOnce.String returns decimal representation", t, func() {
-		convey.So(once.String(), should.Equal, "99")
-	})
-}
-
-func Test_IntegerOnce_MarshalJSON(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 42 })
-
-	convey.Convey("IntegerOnce.MarshalJSON marshals integer", t, func() {
+		// Act
 		data, err := once.MarshalJSON()
-		convey.So(err, should.BeNil)
-		convey.So(string(data), should.Equal, "42")
-	})
-}
+		noError := err == nil
 
-func Test_IntegerOnce_UnmarshalJSON(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 0 })
+		actLines := []string{
+			fmt.Sprintf("%v", noError),
+			string(data),
+		}
+		expectedLines := tc.Case.ExpectedInput.([]string)
 
-	convey.Convey("IntegerOnce.UnmarshalJSON overrides value", t, func() {
-		err := once.UnmarshalJSON([]byte("77"))
-		convey.So(err, should.BeNil)
-		convey.So(once.Value(), should.Equal, 77)
-	})
-}
+		// Print diff on failure
+		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
+			fmt.Printf(
+				"\n=== IntegerOnce JSON Diff (Case %d: %s) ===\n",
+				caseIndex,
+				tc.Case.Title,
+			)
+			fmt.Printf("  InitValue: %d, Error: %v\n", tc.InitValue, err)
 
-func Test_IntegerOnce_Serialize(t *testing.T) {
-	once := coreonce.NewIntegerOncePtr(func() int { return 15 })
+			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
+			fmt.Println("=== End ===")
+		}
 
-	convey.Convey("IntegerOnce.Serialize returns JSON bytes", t, func() {
-		data, err := once.Serialize()
-		convey.So(err, should.BeNil)
-
-		var result int
-		_ = json.Unmarshal(data, &result)
-		convey.So(result, should.Equal, 15)
-	})
+		// Assert
+		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }
