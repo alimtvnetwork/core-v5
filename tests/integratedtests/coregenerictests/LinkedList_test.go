@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================================================
@@ -22,7 +21,7 @@ func Test_LinkedList_Empty(t *testing.T) {
 		fmt.Sprintf("%v", ll.HasItems()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -39,7 +38,7 @@ func Test_LinkedList_FromSlice(t *testing.T) {
 		ll.Last(),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_FromEmptySlice(t *testing.T) {
@@ -48,7 +47,7 @@ func Test_LinkedList_FromEmptySlice(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IsEmpty())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -66,7 +65,7 @@ func Test_LinkedList_AddSingle(t *testing.T) {
 		fmt.Sprintf("%v", ll.Last()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_AddMultiple(t *testing.T) {
@@ -80,7 +79,7 @@ func Test_LinkedList_AddMultiple(t *testing.T) {
 		fmt.Sprintf("%v", ll.Length()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -98,7 +97,7 @@ func Test_LinkedList_AddFrontPrepends(t *testing.T) {
 		fmt.Sprintf("%v", ll.Length()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_AddFrontEmpty(t *testing.T) {
@@ -112,7 +111,7 @@ func Test_LinkedList_AddFrontEmpty(t *testing.T) {
 		fmt.Sprintf("%v", ll.Length()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -126,7 +125,7 @@ func Test_LinkedList_Adds(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -140,7 +139,7 @@ func Test_LinkedList_AddSlice(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -154,7 +153,7 @@ func Test_LinkedList_AddIfTrue(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_AddIfFalse(t *testing.T) {
@@ -164,7 +163,7 @@ func Test_LinkedList_AddIfFalse(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IsEmpty())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -178,7 +177,7 @@ func Test_LinkedList_AddsIf(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IsEmpty())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -192,7 +191,7 @@ func Test_LinkedList_AddFunc(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.First())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -208,7 +207,7 @@ func Test_LinkedList_Push(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -221,7 +220,7 @@ func Test_LinkedList_FirstOrDefaultEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.FirstOrDefault())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_FirstOrDefaultNonEmpty(t *testing.T) {
@@ -230,7 +229,7 @@ func Test_LinkedList_FirstOrDefaultNonEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.FirstOrDefault())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -243,7 +242,7 @@ func Test_LinkedList_LastOrDefaultEmpty(t *testing.T) {
 
 	actLines := []string{ll.LastOrDefault()}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_LastOrDefaultNonEmpty(t *testing.T) {
@@ -252,7 +251,7 @@ func Test_LinkedList_LastOrDefaultNonEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.LastOrDefault())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -265,7 +264,7 @@ func Test_LinkedList_ItemsAll(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(ll.Items()))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_ItemsEmpty(t *testing.T) {
@@ -274,7 +273,7 @@ func Test_LinkedList_ItemsEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(ll.Items()))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -287,7 +286,7 @@ func Test_LinkedList_Collection(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.Collection().Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -300,7 +299,7 @@ func Test_LinkedList_String(t *testing.T) {
 
 	actLines := []string{ll.String()}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -317,7 +316,7 @@ func Test_LinkedList_IndexAt_Valid(t *testing.T) {
 		node.Element,
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_IndexAt_First(t *testing.T) {
@@ -326,7 +325,7 @@ func Test_LinkedList_IndexAt_First(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IndexAt(0).Element)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_IndexAt_Last(t *testing.T) {
@@ -335,7 +334,7 @@ func Test_LinkedList_IndexAt_Last(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IndexAt(2).Element)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
@@ -347,7 +346,7 @@ func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
 		fmt.Sprintf("%v", ll.IndexAt(-1) == nil),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_IndexAt_Empty(t *testing.T) {
@@ -356,7 +355,7 @@ func Test_LinkedList_IndexAt_Empty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IndexAt(0) == nil)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -371,7 +370,7 @@ func Test_LinkedList_ForEachVisitsAll(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", sum)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_ForEachEmpty(t *testing.T) {
@@ -382,7 +381,7 @@ func Test_LinkedList_ForEachEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", called)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -397,7 +396,7 @@ func Test_LinkedList_ForEachBreakStopsEarly(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", count)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_ForEachBreakFirst(t *testing.T) {
@@ -408,7 +407,7 @@ func Test_LinkedList_ForEachBreakFirst(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", count)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -426,7 +425,7 @@ func Test_LinkedList_HeadTail(t *testing.T) {
 		fmt.Sprintf("%v", ll.Tail().HasNext()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_NodeNext(t *testing.T) {
@@ -440,7 +439,7 @@ func Test_LinkedList_NodeNext(t *testing.T) {
 	n = n.Next()
 	actLines = append(actLines, fmt.Sprintf("%v", n.Element), fmt.Sprintf("%v", n.HasNext()))
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -453,7 +452,7 @@ func Test_LinkedList_LengthLock(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.LengthLock())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_IsEmptyLock(t *testing.T) {
@@ -462,7 +461,7 @@ func Test_LinkedList_IsEmptyLock(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IsEmptyLock())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_AddLock(t *testing.T) {
@@ -473,7 +472,7 @@ func Test_LinkedList_AddLock(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.Length())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -486,7 +485,7 @@ func Test_LinkedList_NilReceiver(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ll.IsEmpty())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -503,7 +502,7 @@ func Test_LinkedList_AppendNodeAppends(t *testing.T) {
 		fmt.Sprintf("%v", ll.Last()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_LinkedList_AppendNodeEmpty(t *testing.T) {
@@ -516,5 +515,5 @@ func Test_LinkedList_AppendNodeEmpty(t *testing.T) {
 		fmt.Sprintf("%v", ll.First()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }

@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================================================
@@ -22,7 +21,7 @@ func Test_Dynamic_Constructor_NewDynamicValid(t *testing.T) {
 		fmt.Sprintf("%v", d.Value()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -38,7 +37,7 @@ func Test_Dynamic_Constructor_NewDynamic_Invalid(t *testing.T) {
 		fmt.Sprintf("%v", d.IsInvalid()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -54,7 +53,7 @@ func Test_Dynamic_Constructor_InvalidDynamic(t *testing.T) {
 		fmt.Sprintf("%v", d.IsNull()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -71,7 +70,7 @@ func Test_Dynamic_Constructor_InvalidDynamicPtr(t *testing.T) {
 		fmt.Sprintf("%v", d.IsNull()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -88,7 +87,7 @@ func Test_Dynamic_Constructor_NewDynamicPtr(t *testing.T) {
 		fmt.Sprintf("%v", d.Value()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -105,7 +104,7 @@ func Test_Dynamic_Clone(t *testing.T) {
 		fmt.Sprintf("%v", cloned.IsValid()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ClonePtr_NilReceiver(t *testing.T) {
@@ -114,7 +113,7 @@ func Test_Dynamic_ClonePtr_NilReceiver(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ClonePtr() == nil)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ClonePtr_Valid(t *testing.T) {
@@ -127,7 +126,7 @@ func Test_Dynamic_ClonePtr_Valid(t *testing.T) {
 		fmt.Sprintf("%v", cloned.Value()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_NonPtr(t *testing.T) {
@@ -136,7 +135,7 @@ func Test_Dynamic_NonPtr(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.NonPtr().Value())}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -152,7 +151,7 @@ func Test_Dynamic_DataValueEquality(t *testing.T) {
 		fmt.Sprintf("%v", d.Data() == d.Value()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -165,7 +164,7 @@ func Test_Dynamic_StringNonEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.String() != "")}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -179,7 +178,7 @@ func Test_Dynamic_IsPointer_WithPointerData(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", refIsPointer.Call(&d))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -193,7 +192,7 @@ func Test_Dynamic_TypeChecks_Verification(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", input.CheckRef.Call(d))}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -209,7 +208,7 @@ func Test_Dynamic_IsStruct_True(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", refIsStruct.Call(&d))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_IsStruct_False(t *testing.T) {
@@ -218,7 +217,7 @@ func Test_Dynamic_IsStruct_False(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", refIsStruct.Call(&d))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -232,7 +231,7 @@ func Test_Dynamic_Length_Verification(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%d", d.Length())}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -247,7 +246,7 @@ func Test_Dynamic_ValueInt_Verification(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%d", d.ValueInt())}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -262,7 +261,7 @@ func Test_Dynamic_ValueBool_Verification(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", d.ValueBool())}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -276,7 +275,7 @@ func Test_Dynamic_ValueString_Direct(t *testing.T) {
 
 	actLines := []string{d.ValueString()}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ValueString_NonString(t *testing.T) {
@@ -285,7 +284,7 @@ func Test_Dynamic_ValueString_NonString(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ValueString() != "")}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ValueString_Nil(t *testing.T) {
@@ -294,7 +293,7 @@ func Test_Dynamic_ValueString_Nil(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ValueString() == "")}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -307,7 +306,7 @@ func Test_Dynamic_ValueStrings_Slice(t *testing.T) {
 
 	actLines := d.ValueStrings()
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ValueStrings_NonSlice(t *testing.T) {
@@ -317,7 +316,7 @@ func Test_Dynamic_ValueStrings_NonSlice(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", result == nil)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -331,7 +330,7 @@ func Test_Dynamic_ValueUInt_Verification(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%d", d.ValueUInt())}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -346,7 +345,7 @@ func Test_Dynamic_ValueInt64_Verification(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%d", d.ValueInt64())}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 
@@ -364,7 +363,7 @@ func Test_Dynamic_Bytes_Valid(t *testing.T) {
 		string(raw),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_Bytes_NonBytes(t *testing.T) {
@@ -374,7 +373,7 @@ func Test_Dynamic_Bytes_NonBytes(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", ok)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_Bytes_NilReceiver(t *testing.T) {
@@ -387,7 +386,7 @@ func Test_Dynamic_Bytes_NilReceiver(t *testing.T) {
 		fmt.Sprintf("%v", ok),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -404,7 +403,7 @@ func Test_Dynamic_IntDefault_Valid(t *testing.T) {
 		fmt.Sprintf("%d", val),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_IntDefault_NilData(t *testing.T) {
@@ -417,7 +416,7 @@ func Test_Dynamic_IntDefault_NilData(t *testing.T) {
 		fmt.Sprintf("%d", val),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -430,7 +429,7 @@ func Test_Dynamic_ValueNullErr_NilReceiver(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ValueNullErr_NullData(t *testing.T) {
@@ -439,7 +438,7 @@ func Test_Dynamic_ValueNullErr_NullData(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ValueNullErr_ValidData(t *testing.T) {
@@ -448,7 +447,7 @@ func Test_Dynamic_ValueNullErr_ValidData(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -461,7 +460,7 @@ func Test_Dynamic_ReflectKind_String(t *testing.T) {
 
 	actLines := []string{d.ReflectKind().String()}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_ReflectKind_Int(t *testing.T) {
@@ -470,7 +469,7 @@ func Test_Dynamic_ReflectKind_Int(t *testing.T) {
 
 	actLines := []string{d.ReflectKind().String()}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -483,7 +482,7 @@ func Test_Dynamic_IsReflectKindMatch(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.IsReflectKind(reflect.String))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 func Test_Dynamic_IsReflectKindMismatch(t *testing.T) {
@@ -492,7 +491,7 @@ func Test_Dynamic_IsReflectKindMismatch(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.IsReflectKind(reflect.Int))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -505,7 +504,7 @@ func Test_Dynamic_ReflectTypeName(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ReflectTypeName() != "")}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -518,7 +517,7 @@ func Test_Dynamic_ReflectType(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ReflectType() == reflect.TypeOf(42))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -531,7 +530,7 @@ func Test_Dynamic_IsReflectTypeOf(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.IsReflectTypeOf(reflect.TypeOf("")))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -550,7 +549,7 @@ func Test_Dynamic_ReflectValue_Verification(t *testing.T) {
 		fmt.Sprintf("%d", rv1.Int()),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -569,7 +568,7 @@ func Test_Dynamic_Loop_Iterate(t *testing.T) {
 
 	actLines := append([]string{fmt.Sprintf("%v", called)}, collected...)
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -583,7 +582,7 @@ func Test_Dynamic_Loop_Invalid(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", called)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -602,7 +601,7 @@ func Test_Dynamic_Loop_Break(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%d", count)}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -618,7 +617,7 @@ func Test_Dynamic_ItemUsingIndex(t *testing.T) {
 		fmt.Sprintf("%v", d.ItemUsingIndex(1)),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -631,7 +630,7 @@ func Test_Dynamic_ItemUsingKey(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", d.ItemUsingKey("k"))}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================================================
@@ -645,7 +644,7 @@ func Test_Dynamic_StructStringNullOrEmpty_Verification(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", input.CheckRef.Call(d))}
 
-		errcore.AssertDiffOnMismatch(t, caseIndex, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
 

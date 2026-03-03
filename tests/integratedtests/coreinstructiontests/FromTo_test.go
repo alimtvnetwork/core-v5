@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coreinstruction"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -26,7 +25,7 @@ func Test_FromTo_ClonePtr(t *testing.T) {
 			cloned.To,
 		}
 
-		errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 0, actLines...)
 	}
 
 	// Case 1: nil receiver
@@ -38,7 +37,7 @@ func Test_FromTo_ClonePtr(t *testing.T) {
 			fmt.Sprintf("%v", nilFT.ClonePtr() == nil),
 		}
 
-		errcore.AssertDiffOnMismatch(t, 1, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 1, actLines...)
 	}
 }
 
@@ -53,7 +52,7 @@ func Test_FromTo_Clone(t *testing.T) {
 
 	actLines := []string{c.From, c.To}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================
@@ -68,7 +67,7 @@ func Test_FromTo_IsNull(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", nilFT.IsNull())}
 
-		errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 0, actLines...)
 	}
 
 	// Case 1: non-nil returns false
@@ -78,7 +77,7 @@ func Test_FromTo_IsNull(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", ft.IsNull())}
 
-		errcore.AssertDiffOnMismatch(t, 1, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 1, actLines...)
 	}
 }
 
@@ -94,7 +93,7 @@ func Test_FromTo_IsFromEmpty(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", ft.IsFromEmpty())}
 
-		errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 0, actLines...)
 	}
 
 	// Case 1: nil receiver returns true
@@ -104,7 +103,7 @@ func Test_FromTo_IsFromEmpty(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", nilFT.IsFromEmpty())}
 
-		errcore.AssertDiffOnMismatch(t, 1, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 1, actLines...)
 	}
 }
 
@@ -120,7 +119,7 @@ func Test_FromTo_IsToEmpty(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", ft.IsToEmpty())}
 
-		errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 0, actLines...)
 	}
 
 	// Case 1: non-empty returns false
@@ -130,7 +129,7 @@ func Test_FromTo_IsToEmpty(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", ft.IsToEmpty())}
 
-		errcore.AssertDiffOnMismatch(t, 1, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 1, actLines...)
 	}
 }
 
@@ -148,7 +147,7 @@ func Test_FromTo_String(t *testing.T) {
 		fmt.Sprintf("%v", strings.Contains(s, "beta")),
 	}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================
@@ -161,7 +160,7 @@ func Test_FromTo_Names(t *testing.T) {
 
 	actLines := []string{ft.FromName(), ft.ToName()}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================
@@ -177,7 +176,7 @@ func Test_FromTo_SetFromName(t *testing.T) {
 
 		actLines := []string{ft.From}
 
-		errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 0, actLines...)
 	}
 
 	// Case 1: nil receiver no panic
@@ -198,7 +197,7 @@ func Test_FromTo_SetFromName(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", !didPanic)}
 
-		errcore.AssertDiffOnMismatch(t, 1, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 1, actLines...)
 	}
 }
 
@@ -213,7 +212,7 @@ func Test_FromTo_SetToName(t *testing.T) {
 
 	actLines := []string{ft.To}
 
-	errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
 // ==========================================
@@ -233,7 +232,7 @@ func Test_FromTo_SourceDestination(t *testing.T) {
 			sd.Destination,
 		}
 
-		errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 0, actLines...)
 	}
 
 	// Case 1: nil returns nil
@@ -243,7 +242,7 @@ func Test_FromTo_SourceDestination(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", nilFT.SourceDestination() == nil)}
 
-		errcore.AssertDiffOnMismatch(t, 1, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 1, actLines...)
 	}
 }
 
@@ -264,7 +263,7 @@ func Test_FromTo_Rename(t *testing.T) {
 			rn.New,
 		}
 
-		errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 0, actLines...)
 	}
 
 	// Case 1: nil returns nil
@@ -274,6 +273,6 @@ func Test_FromTo_Rename(t *testing.T) {
 
 		actLines := []string{fmt.Sprintf("%v", nilFT.Rename() == nil)}
 
-		errcore.AssertDiffOnMismatch(t, 1, tc.Title, actLines, tc.ExpectedInput)
+		tc.ShouldBeEqual(t, 1, actLines...)
 	}
 }
