@@ -369,7 +369,12 @@ func Test_Hashset_LockIsEmptyLength(t *testing.T) {
 	hs.Adds(1, 2)
 	emptyAfter := fmt.Sprintf("%v", hs.IsEmptyLock())
 	lenAfter := fmt.Sprintf("%d", hs.LengthLock())
-	tc.ShouldBeEqual(t, 0, emptyBefore, lenBefore, emptyAfter, lenAfter)
+	tc.ShouldBeEqual(t, 0,
+		emptyBefore,
+		lenBefore,
+		emptyAfter,
+		lenAfter,
+	)
 }
 
 // ==========================================================================

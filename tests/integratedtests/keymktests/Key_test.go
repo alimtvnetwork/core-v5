@@ -58,7 +58,10 @@ func Test_Key_Finalized_Verification(t *testing.T) {
 		isComplete := fmt.Sprintf("%v", key.IsComplete())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, compiled, isComplete)
+		testCase.ShouldBeEqual(t, caseIndex,
+			compiled,
+			isComplete,
+		)
 	}
 }
 
@@ -93,7 +96,10 @@ func Test_Key_ClonePtr_Verification(t *testing.T) {
 		clonedCompiled := cloned.Compile()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, originalCompiled, clonedCompiled)
+		testCase.ShouldBeEqual(t, caseIndex,
+			originalCompiled,
+			clonedCompiled,
+		)
 	}
 }
 

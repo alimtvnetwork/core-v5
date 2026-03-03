@@ -48,7 +48,11 @@ func Test_Variation_Group_Verification(t *testing.T) {
 		isWindows := fmt.Sprintf("%v", group.IsWindows())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, groupName, isUnix, isWindows)
+		testCase.ShouldBeEqual(t, caseIndex,
+			groupName,
+			isUnix,
+			isWindows,
+		)
 	}
 }
 
@@ -64,6 +68,11 @@ func Test_Variation_Identity_Verification(t *testing.T) {
 		isValid := fmt.Sprintf("%v", input.IsValid())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isWindows, isLinux, isDarwin, isValid)
+		testCase.ShouldBeEqual(t, caseIndex,
+			isWindows,
+			isLinux,
+			isDarwin,
+			isValid,
+		)
 	}
 }

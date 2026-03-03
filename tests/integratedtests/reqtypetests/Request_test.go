@@ -19,7 +19,11 @@ func Test_Request_Identity_Verification(t *testing.T) {
 		isInvalid := fmt.Sprintf("%v", input.IsInvalid())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, name, isValid, isInvalid)
+		testCase.ShouldBeEqual(t, caseIndex,
+			name,
+			isValid,
+			isInvalid,
+		)
 	}
 }
 
@@ -35,7 +39,12 @@ func Test_Request_LogicalGroups_Verification(t *testing.T) {
 		isReadOrEdit := fmt.Sprintf("%v", input.IsReadOrEditLogically())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isCreate, isDrop, isCrud, isReadOrEdit)
+		testCase.ShouldBeEqual(t, caseIndex,
+			isCreate,
+			isDrop,
+			isCrud,
+			isReadOrEdit,
+		)
 	}
 }
 
@@ -52,6 +61,12 @@ func Test_Request_HttpMethods_Verification(t *testing.T) {
 		isPatch := fmt.Sprintf("%v", input.IsPatchHttp())
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isGet, isPost, isPut, isDelete, isPatch)
+		testCase.ShouldBeEqual(t, caseIndex,
+			isGet,
+			isPost,
+			isPut,
+			isDelete,
+			isPatch,
+		)
 	}
 }

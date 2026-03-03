@@ -91,7 +91,10 @@ func Test_PtrOrZero_String_Verification(t *testing.T) {
 		derefVal := *result
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isNotNil, derefVal)
+		testCase.ShouldBeEqual(t, caseIndex,
+			isNotNil,
+			derefVal,
+		)
 	}
 }
 
@@ -114,7 +117,10 @@ func Test_PtrOrZero_Int_Verification(t *testing.T) {
 		derefVal := fmt.Sprintf("%v", *result)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isNotNil, derefVal)
+		testCase.ShouldBeEqual(t, caseIndex,
+			isNotNil,
+			derefVal,
+		)
 	}
 }
 
@@ -185,6 +191,9 @@ func Test_NilValPtr_String_Verification(t *testing.T) {
 		derefVal := *result
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isNotNil, derefVal)
+		testCase.ShouldBeEqual(t, caseIndex,
+			isNotNil,
+			derefVal,
+		)
 	}
 }
