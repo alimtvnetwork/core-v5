@@ -21,7 +21,7 @@ func Test_Hashmap_Empty(t *testing.T) {
 		fmt.Sprintf("%v", hm.HasItems()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -34,7 +34,7 @@ func Test_Hashmap_New(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -50,7 +50,7 @@ func Test_Hashmap_From(t *testing.T) {
 		fmt.Sprintf("%v", hm.Has("a")),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -71,7 +71,7 @@ func Test_Hashmap_CloneFunc(t *testing.T) {
 		fmt.Sprintf("%v", clonedVal),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -88,7 +88,7 @@ func Test_Hashmap_SetNew(t *testing.T) {
 		fmt.Sprintf("%v", hm.Length()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_SetExisting(t *testing.T) {
@@ -102,7 +102,7 @@ func Test_Hashmap_SetExisting(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -119,7 +119,7 @@ func Test_Hashmap_GetFound(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_GetNotFound(t *testing.T) {
@@ -132,7 +132,7 @@ func Test_Hashmap_GetNotFound(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -145,7 +145,7 @@ func Test_Hashmap_GetOrDefaultMissing(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_GetOrDefaultFound(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_Hashmap_GetOrDefaultFound(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -171,7 +171,7 @@ func Test_Hashmap_Has(t *testing.T) {
 		fmt.Sprintf("%v", hm.IsKeyMissing("a")),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_IsKeyMissing(t *testing.T) {
@@ -180,7 +180,7 @@ func Test_Hashmap_IsKeyMissing(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsKeyMissing("x"))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -197,7 +197,7 @@ func Test_Hashmap_RemoveExisting(t *testing.T) {
 		fmt.Sprintf("%v", hm.IsEmpty()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_RemoveMissing(t *testing.T) {
@@ -206,7 +206,7 @@ func Test_Hashmap_RemoveMissing(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Remove("x"))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -219,7 +219,7 @@ func Test_Hashmap_Keys_NonEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_Keys_Empty(t *testing.T) {
@@ -228,7 +228,7 @@ func Test_Hashmap_Keys_Empty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -245,7 +245,7 @@ func Test_Hashmap_Values_NonEmpty(t *testing.T) {
 		fmt.Sprintf("%v", vals[0]),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_Values_Empty(t *testing.T) {
@@ -254,7 +254,7 @@ func Test_Hashmap_Values_Empty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", len(hm.Values()))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -272,7 +272,7 @@ func Test_Hashmap_AddOrUpdateMap_Merges(t *testing.T) {
 		fmt.Sprintf("%v", val),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_AddOrUpdateMap_EmptyNoop(t *testing.T) {
@@ -282,7 +282,7 @@ func Test_Hashmap_AddOrUpdateMap_EmptyNoop(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -296,7 +296,7 @@ func Test_Hashmap_AddOrUpdateHashmap_Merges(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_AddOrUpdateHashmap_NilNoop(t *testing.T) {
@@ -306,7 +306,7 @@ func Test_Hashmap_AddOrUpdateHashmap_NilNoop(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -324,7 +324,7 @@ func Test_Hashmap_ConcatNew_Merged(t *testing.T) {
 		fmt.Sprintf("%v", hm1.Length()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
@@ -334,7 +334,7 @@ func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", result.Length())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -350,7 +350,7 @@ func Test_Hashmap_CloneMethod(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", origVal)}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -364,7 +364,7 @@ func Test_Hashmap_IsEquals_SameContent(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_IsEquals_DifferentKeys(t *testing.T) {
@@ -374,7 +374,7 @@ func Test_Hashmap_IsEquals_DifferentKeys(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
@@ -384,7 +384,7 @@ func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
@@ -393,7 +393,7 @@ func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
@@ -402,7 +402,7 @@ func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(nil))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_IsEquals_SamePointer(t *testing.T) {
@@ -411,7 +411,7 @@ func Test_Hashmap_IsEquals_SamePointer(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(hm))}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -426,7 +426,7 @@ func Test_Hashmap_ForEach(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", count)}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_ForEachBreak(t *testing.T) {
@@ -437,7 +437,7 @@ func Test_Hashmap_ForEachBreak(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", count)}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -450,7 +450,7 @@ func Test_Hashmap_String(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.String() != "")}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 // ==========================================================================
@@ -463,7 +463,7 @@ func Test_Hashmap_NilReceiver_IsEmpty(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_NilReceiver_Length(t *testing.T) {
@@ -472,7 +472,7 @@ func Test_Hashmap_NilReceiver_Length(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.Length())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
 func Test_Hashmap_NilReceiver_HasItems(t *testing.T) {
@@ -481,5 +481,5 @@ func Test_Hashmap_NilReceiver_HasItems(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", hm.HasItems())}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualFirst(t, actLines...)
 }

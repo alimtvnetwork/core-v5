@@ -15,42 +15,48 @@ func Test_Pair_IsEqual_SameValuesDiffValidity(t *testing.T) {
 	tc := pairIsEqualSameValuesDiffValidityTestCase
 	a := coregeneric.NewPair("x", "y")
 	b := coregeneric.NewPairWithMessage("x", "y", false, "")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_DiffRight(t *testing.T) {
 	tc := pairIsEqualDiffRightTestCase
 	a := coregeneric.NewPair("x", "y")
 	b := coregeneric.NewPair("x", "z")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_BothInvalidZero(t *testing.T) {
 	tc := pairIsEqualBothInvalidZeroTestCase
 	a := coregeneric.InvalidPairNoMessage[string, string]()
 	b := coregeneric.InvalidPairNoMessage[string, string]()
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_IntSame(t *testing.T) {
 	tc := pairIsEqualIntSameTestCase
 	a := coregeneric.NewPair(10, 20)
 	b := coregeneric.NewPair(10, 20)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_IntDiff(t *testing.T) {
 	tc := pairIsEqualIntDiffTestCase
 	a := coregeneric.NewPair(10, 20)
 	b := coregeneric.NewPair(10, 30)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Pair_IsEqual_MixedTypes(t *testing.T) {
 	tc := pairIsEqualMixedTypesTestCase
 	a := coregeneric.NewPair("key", 42)
 	b := coregeneric.NewPair("key", 42)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 // ==========================================================================
@@ -60,25 +66,29 @@ func Test_Pair_IsEqual_MixedTypes(t *testing.T) {
 func Test_Pair_HasMessage_ValidNoMsg(t *testing.T) {
 	tc := pairHasMessageValidNoMsgTestCase
 	p := coregeneric.NewPair("a", "b")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", p.HasMessage()))
 }
 
 func Test_Pair_HasMessage_InvalidWithMsg(t *testing.T) {
 	tc := pairHasMessageInvalidWithMsgTestCase
 	p := coregeneric.InvalidPair[string, string]("error")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", p.HasMessage()))
 }
 
 func Test_Pair_HasMessage_Whitespace(t *testing.T) {
 	tc := pairHasMessageWhitespaceTestCase
 	p := coregeneric.NewPairWithMessage("a", "b", true, "   ")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", p.HasMessage()))
 }
 
 func Test_Pair_HasMessage_Nil(t *testing.T) {
 	tc := pairHasMessageNilTestCase
 	var p *coregeneric.Pair[string, string]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.HasMessage()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", p.HasMessage()))
 }
 
 // ==========================================================================
@@ -88,19 +98,22 @@ func Test_Pair_HasMessage_Nil(t *testing.T) {
 func Test_Pair_IsInvalid_Valid(t *testing.T) {
 	tc := pairIsInvalidValidTestCase
 	p := coregeneric.NewPair("a", "b")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.IsInvalid()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", p.IsInvalid()))
 }
 
 func Test_Pair_IsInvalid_Invalid(t *testing.T) {
 	tc := pairIsInvalidInvalidTestCase
 	p := coregeneric.InvalidPairNoMessage[string, string]()
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.IsInvalid()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", p.IsInvalid()))
 }
 
 func Test_Pair_IsInvalid_Nil(t *testing.T) {
 	tc := pairIsInvalidNilTestCase
 	var p *coregeneric.Pair[string, string]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", p.IsInvalid()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", p.IsInvalid()))
 }
 
 // ==========================================================================
@@ -110,25 +123,29 @@ func Test_Pair_IsInvalid_Nil(t *testing.T) {
 func Test_Pair_String_Valid(t *testing.T) {
 	tc := pairStringValidTestCase
 	p := coregeneric.NewPair("hello", "world")
-	tc.ShouldBeEqual(t, 0, p.String())
+
+	tc.ShouldBeEqualFirst(t, p.String())
 }
 
 func Test_Pair_String_InvalidZero(t *testing.T) {
 	tc := pairStringInvalidZeroTestCase
 	p := coregeneric.InvalidPairNoMessage[string, string]()
-	tc.ShouldBeEqual(t, 0, p.String())
+
+	tc.ShouldBeEqualFirst(t, p.String())
 }
 
 func Test_Pair_String_Nil(t *testing.T) {
 	tc := pairStringNilTestCase
 	var p *coregeneric.Pair[string, string]
-	tc.ShouldBeEqual(t, 0, p.String())
+
+	tc.ShouldBeEqualFirst(t, p.String())
 }
 
 func Test_Pair_String_MixedType(t *testing.T) {
 	tc := pairStringMixedTypeTestCase
 	p := coregeneric.NewPair("key", 42)
-	tc.ShouldBeEqual(t, 0, p.String())
+
+	tc.ShouldBeEqualFirst(t, p.String())
 }
 
 // ==========================================================================
@@ -139,35 +156,40 @@ func Test_Triple_IsEqual_Same(t *testing.T) {
 	tc := tripleIsEqualSameTestCase
 	a := coregeneric.NewTriple("a", "b", "c")
 	b := coregeneric.NewTriple("a", "b", "c")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Triple_IsEqual_DiffValidity(t *testing.T) {
 	tc := tripleIsEqualDiffValidityTestCase
 	a := coregeneric.NewTriple("a", "b", "c")
 	b := coregeneric.NewTripleWithMessage("a", "b", "c", false, "")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Triple_IsEqual_DiffMiddle(t *testing.T) {
 	tc := tripleIsEqualDiffMiddleTestCase
 	a := coregeneric.NewTriple("a", "b", "c")
 	b := coregeneric.NewTriple("a", "X", "c")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Triple_IsEqual_BothNil(t *testing.T) {
 	tc := tripleIsEqualBothNilTestCase
 	var a *coregeneric.Triple[string, string, string]
 	var b *coregeneric.Triple[string, string, string]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 func Test_Triple_IsEqual_NilVsNonNil(t *testing.T) {
 	tc := tripleIsEqualNilVsNonNilTestCase
 	var a *coregeneric.Triple[string, string, string]
 	b := coregeneric.NewTriple("a", "b", "c")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", a.IsEqual(b)))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEqual(b)))
 }
 
 // ==========================================================================
@@ -177,19 +199,22 @@ func Test_Triple_IsEqual_NilVsNonNil(t *testing.T) {
 func Test_Triple_HasMessage_ValidNoMsg(t *testing.T) {
 	tc := tripleHasMessageValidNoMsgTestCase
 	tr := coregeneric.NewTriple("a", "b", "c")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.HasMessage()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", tr.HasMessage()))
 }
 
 func Test_Triple_HasMessage_InvalidWithMsg(t *testing.T) {
 	tc := tripleHasMessageInvalidWithMsgTestCase
 	tr := coregeneric.InvalidTriple[string, string, string]("err")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.HasMessage()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", tr.HasMessage()))
 }
 
 func Test_Triple_HasMessage_Nil(t *testing.T) {
 	tc := tripleHasMessageNilTestCase
 	var tr *coregeneric.Triple[string, string, string]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.HasMessage()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", tr.HasMessage()))
 }
 
 // ==========================================================================
@@ -199,19 +224,22 @@ func Test_Triple_HasMessage_Nil(t *testing.T) {
 func Test_Triple_IsInvalid_Valid(t *testing.T) {
 	tc := tripleIsInvalidValidTestCase
 	tr := coregeneric.NewTriple("a", "b", "c")
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.IsInvalid()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", tr.IsInvalid()))
 }
 
 func Test_Triple_IsInvalid_Invalid(t *testing.T) {
 	tc := tripleIsInvalidInvalidTestCase
 	tr := coregeneric.InvalidTripleNoMessage[string, string, string]()
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.IsInvalid()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", tr.IsInvalid()))
 }
 
 func Test_Triple_IsInvalid_Nil(t *testing.T) {
 	tc := tripleIsInvalidNilTestCase
 	var tr *coregeneric.Triple[string, string, string]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", tr.IsInvalid()))
+
+	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", tr.IsInvalid()))
 }
 
 // ==========================================================================
@@ -221,19 +249,22 @@ func Test_Triple_IsInvalid_Nil(t *testing.T) {
 func Test_Triple_String_Valid(t *testing.T) {
 	tc := tripleStringValidTestCase
 	tr := coregeneric.NewTriple("a", "b", "c")
-	tc.ShouldBeEqual(t, 0, tr.String())
+
+	tc.ShouldBeEqualFirst(t, tr.String())
 }
 
 func Test_Triple_String_InvalidZero(t *testing.T) {
 	tc := tripleStringInvalidZeroTestCase
 	tr := coregeneric.InvalidTripleNoMessage[string, string, string]()
-	tc.ShouldBeEqual(t, 0, tr.String())
+
+	tc.ShouldBeEqualFirst(t, tr.String())
 }
 
 func Test_Triple_String_Nil(t *testing.T) {
 	tc := tripleStringNilTestCase
 	var tr *coregeneric.Triple[string, string, string]
-	tc.ShouldBeEqual(t, 0, tr.String())
+
+	tc.ShouldBeEqualFirst(t, tr.String())
 }
 
 // ==========================================================================
@@ -243,13 +274,15 @@ func Test_Triple_String_Nil(t *testing.T) {
 func Test_Pair_NewPairWithMessage_Valid(t *testing.T) {
 	tc := pairWithMessageValidTestCase
 	p := coregeneric.NewPairWithMessage("hello", "world", true, "ok")
-	tc.ShouldBeEqual(t, 0, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
+
+	tc.ShouldBeEqualFirst(t, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
 }
 
 func Test_Pair_NewPairWithMessage_Invalid(t *testing.T) {
 	tc := pairWithMessageInvalidTestCase
 	p := coregeneric.NewPairWithMessage("", "", false, "failed")
-	tc.ShouldBeEqual(t, 0, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
+
+	tc.ShouldBeEqualFirst(t, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
 }
 
 // ==========================================================================
@@ -259,13 +292,15 @@ func Test_Pair_NewPairWithMessage_Invalid(t *testing.T) {
 func Test_Triple_NewTripleWithMessage_Valid(t *testing.T) {
 	tc := tripleWithMessageValidTestCase
 	tr := coregeneric.NewTripleWithMessage("a", "b", "c", true, "success")
-	tc.ShouldBeEqual(t, 0, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
+
+	tc.ShouldBeEqualFirst(t, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
 }
 
 func Test_Triple_NewTripleWithMessage_Invalid(t *testing.T) {
 	tc := tripleWithMessageInvalidTestCase
 	tr := coregeneric.NewTripleWithMessage("", "", "", false, "error occurred")
-	tc.ShouldBeEqual(t, 0, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
+
+	tc.ShouldBeEqualFirst(t, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
 }
 
 // ==========================================================================
@@ -276,7 +311,8 @@ func Test_Pair_Dispose(t *testing.T) {
 	tc := pairDisposeTestCase
 	p := coregeneric.NewPairWithMessage("a", "b", true, "msg")
 	p.Dispose()
-	tc.ShouldBeEqual(t, 0, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
+
+	tc.ShouldBeEqualFirst(t, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
 }
 
 // ==========================================================================
@@ -287,7 +323,8 @@ func Test_Triple_Dispose(t *testing.T) {
 	tc := tripleDisposeTestCase
 	tr := coregeneric.NewTripleWithMessage("a", "b", "c", true, "msg")
 	tr.Dispose()
-	tc.ShouldBeEqual(t, 0, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
+
+	tc.ShouldBeEqualFirst(t, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
 }
 
 // ==========================================================================
