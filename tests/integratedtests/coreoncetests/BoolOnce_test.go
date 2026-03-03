@@ -24,20 +24,10 @@ func Test_BoolOnce_Core(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== BoolOnce Core Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitValue: %v\n", tc.InitValue)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitValue: %v", tc.InitValue),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -66,20 +56,10 @@ func Test_BoolOnce_Caching(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== BoolOnce Caching Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitValue: %v, CallCount: %d\n", tc.InitValue, callCount)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitValue: %v, CallCount: %d", tc.InitValue, callCount),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -100,20 +80,10 @@ func Test_BoolOnce_Json(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== BoolOnce JSON Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitValue: %v, Error: %v\n", tc.InitValue, err)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitValue: %v, Error: %v", tc.InitValue, err),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

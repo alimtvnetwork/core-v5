@@ -41,20 +41,10 @@ func Test_ErrorOnce_Core(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== ErrorOnce Core Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitError: %q\n", tc.InitError)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitError: %q", tc.InitError),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -83,20 +73,10 @@ func Test_ErrorOnce_Caching(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== ErrorOnce Caching Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  CallCount: %d\n", callCount)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  CallCount: %d", callCount),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -112,20 +92,10 @@ func Test_ErrorOnce_NullOrEmpty(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== ErrorOnce NullOrEmpty Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitError: %q\n", tc.InitError)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitError: %q", tc.InitError),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -142,20 +112,10 @@ func Test_ErrorOnce_MessageEqual(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== ErrorOnce MessageEqual Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitError: %q, MatchMsg: %q\n", tc.InitError, tc.MatchMsg)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitError: %q, MatchMsg: %q", tc.InitError, tc.MatchMsg),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -182,21 +142,10 @@ func Test_ErrorOnce_ConcatNew(t *testing.T) {
 
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== ErrorOnce ConcatNew Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitError: %q, ExtraMsg: %q, Result: %q\n",
-				tc.InitError, tc.ExtraMsg, result)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitError: %q, ExtraMsg: %q, Result: %q", tc.InitError, tc.ExtraMsg, result),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -216,20 +165,10 @@ func Test_ErrorOnce_Json(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== ErrorOnce JSON Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  InitError: %q, Error: %v\n", tc.InitError, err)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  InitError: %q, Error: %v", tc.InitError, err),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

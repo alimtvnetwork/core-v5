@@ -61,15 +61,13 @@ func Test_RwxWrapperManyApplyValue_Unix(t *testing.T) {
 			))
 
 			if !isEqual {
-				fmt.Printf(
-					"\n=== RwxWrapperManyApply Diff (Case %d: %s) ===\n",
+				errcore.PrintDiffOnMismatch(
 					caseIndex,
 					testCase.Case.Title,
+					[]string{chmodValueString},
+					[]string{expectation},
+					fmt.Sprintf("  File: %s", filePath),
 				)
-				fmt.Printf("  File:     %s\n", filePath)
-				fmt.Printf("  Expected: %s\n", expectation)
-				fmt.Printf("  Actual:   %s\n", chmodValueString)
-				fmt.Println("=== End ===")
 			}
 		}
 

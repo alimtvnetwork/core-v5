@@ -32,19 +32,8 @@ func Test_BytesOnce_Core(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== BytesOnce Core Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -74,20 +63,10 @@ func Test_BytesOnce_Caching(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== BytesOnce Caching Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-			fmt.Printf("  CallCount: %d\n", callCount)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines,
+			fmt.Sprintf("  CallCount: %d", callCount),
+		)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -120,19 +99,8 @@ func Test_BytesOnce_JSON(t *testing.T) {
 
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== BytesOnce JSON Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
@@ -149,19 +117,8 @@ func Test_BytesOnce_Constructor(t *testing.T) {
 		}
 		expectedLines := tc.Case.ExpectedInput.([]string)
 
-		// Print diff on failure
-		if errcore.LineDiffHasMismatch(actLines, expectedLines) {
-			fmt.Printf(
-				"\n=== BytesOnce Constructor Diff (Case %d: %s) ===\n",
-				caseIndex,
-				tc.Case.Title,
-			)
-
-			errcore.PrintLineDiff(caseIndex, tc.Case.Title, actLines, expectedLines)
-			fmt.Println("=== End ===")
-		}
-
 		// Assert
+		errcore.PrintDiffOnMismatch(caseIndex, tc.Case.Title, actLines, expectedLines)
 		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

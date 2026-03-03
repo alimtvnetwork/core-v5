@@ -25,17 +25,13 @@ func (it MapDiffDiagnostics) PrintIfMismatch(
 	actLines []string,
 	expected []string,
 ) {
-	if !errcore.LineDiffHasMismatch(actLines, expected) {
-		return
-	}
-
-	it.printHeader()
-	it.printLeftRight()
-	it.printRawMap()
-	it.printClone()
-	it.printError()
-	errcore.PrintLineDiff(it.CaseIndex, it.Title, actLines, expected)
-	it.printFooter()
+	errcore.PrintDiffOnMismatch(
+		it.CaseIndex,
+		it.Title,
+		actLines,
+		expected,
+		it.contextLines()...,
+	)
 }
 
 // PrintIfResultMismatch prints map diff diagnostics
@@ -48,50 +44,58 @@ func (it MapDiffDiagnostics) PrintIfResultMismatch(
 		return
 	}
 
-	it.printHeader()
-	it.printLeftRight()
-	it.printRawMap()
-	it.printJsonDiff()
-	it.printFooter()
-}
-
-func (it MapDiffDiagnostics) printHeader() {
-	fmt.Printf(
-		"\n=== MapDiff (Case %d: %s) ===\n",
+	errcore.PrintDiffOnMismatch(
 		it.CaseIndex,
 		it.Title,
+		[]string{resultStr},
+		expected,
+		it.contextLines()...,
 	)
 }
 
-func (it MapDiffDiagnostics) printFooter() {
-	fmt.Println("=== End ===")
-}
+// contextLines builds the diagnostic context for map comparisons.
+func (it MapDiffDiagnostics) contextLines() []string {
+	var lines []string
 
-func (it MapDiffDiagnostics) printLeftRight() {
+	// Left map
 	if it.Left == nil {
-		fmt.Println("  Left:  <nil>")
+		lines = append(lines, "  Left:  <nil>")
 	} else {
-		fmt.Printf("  Left:  %s\n", it.Left.String())
-		fmt.Printf("  Left keys:  %v\n", it.Left.AllKeys())
+		lines = append(lines,
+			fmt.Sprintf("  Left:  %s", it.Left.String()),
+			fmt.Sprintf("  Left keys:  %v", it.Left.AllKeys()),
+		)
 	}
 
-	if it.Right == nil && it.RawMap == nil {
-		fmt.Println("  Right: <nil>")
-	} else if it.Right != nil {
-		fmt.Printf("  Right: %s\n", it.Right.String())
-		fmt.Printf("  Right keys: %v\n", it.Right.AllKeys())
+	// Right map
+	if it.Right != nil {
+		lines = append(lines,
+			fmt.Sprintf("  Right: %s", it.Right.String()),
+			fmt.Sprintf("  Right keys: %v", it.Right.AllKeys()),
+		)
+	} else if it.RawMap != nil {
+		lines = append(lines, fmt.Sprintf("  RawMap: %v", it.RawMap))
 	}
+
+	// JSON diff
+	lines = append(lines, it.jsonDiffLine()...)
+
+	// Clone
+	if it.Clone != nil {
+		lines = append(lines, fmt.Sprintf("  Clone: %s", it.Clone.String()))
+	}
+
+	// Error
+	if it.Error != nil {
+		lines = append(lines, fmt.Sprintf("  Error: %v", it.Error))
+	}
+
+	return lines
 }
 
-func (it MapDiffDiagnostics) printRawMap() {
-	if it.RawMap != nil {
-		fmt.Printf("  RawMap: %v\n", it.RawMap)
-	}
-}
-
-func (it MapDiffDiagnostics) printJsonDiff() {
+func (it MapDiffDiagnostics) jsonDiffLine() []string {
 	if it.Left == nil {
-		return
+		return nil
 	}
 
 	var rightItems map[string]any
@@ -103,29 +107,13 @@ func (it MapDiffDiagnostics) printJsonDiff() {
 	}
 
 	if rightItems == nil {
-		return
+		return nil
 	}
 
 	diffMsg := it.Left.DiffJsonMessage(true, rightItems)
 	if len(diffMsg) > 0 {
-		fmt.Printf("  DiffJson: %s\n", diffMsg)
-	} else {
-		fmt.Println("  DiffJson: <no differences>")
-	}
-}
-
-func (it MapDiffDiagnostics) printClone() {
-	if it.Clone == nil {
-		return
+		return []string{fmt.Sprintf("  DiffJson: %s", diffMsg)}
 	}
 
-	fmt.Printf("  Clone: %s\n", it.Clone.String())
-}
-
-func (it MapDiffDiagnostics) printError() {
-	if it.Error == nil {
-		return
-	}
-
-	fmt.Printf("  Error: %v\n", it.Error)
+	return []string{"  DiffJson: <no differences>"}
 }
