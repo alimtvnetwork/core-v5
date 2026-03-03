@@ -51,17 +51,6 @@ func Test_TestValidators_Verification(t *testing.T) {
 		actLines := []string{fmt.Sprintf("%v", isValid)}
 		expected := []string{"true"}
 
-		errcore.PrintDiffOnMismatch(caseIndex, testCase.Header, actLines, expected)
-
-		if !isValid {
-			errcore.PrintErrorWithTestIndex(
-				caseIndex,
-				testCase.Header,
-				validationFinalError,
-			)
-
-			t.Errorf("[case %d] %s: validation failed: %v",
-				caseIndex, testCase.Header, validationFinalError)
-		}
+		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Header, actLines, expected)
 	}
 }

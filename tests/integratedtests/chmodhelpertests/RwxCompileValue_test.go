@@ -37,7 +37,8 @@ func Test_RwxCompileValue(t *testing.T) {
 		expectedLines := []string{expectedFullRwx}
 
 		// Print diff on failure
-		errcore.PrintDiffOnMismatch(
+		errcore.AssertDiffOnMismatch(
+			t,
 			caseIndex,
 			testCase.Case.Title,
 			actLines,
@@ -46,11 +47,5 @@ func Test_RwxCompileValue(t *testing.T) {
 			fmt.Sprintf("  Input:    %s", testCase.Input.ToString(false)),
 			fmt.Sprintf("  Expected: %s", testCase.Expected.ToString(false)),
 		)
-
-		// Assert
-		caseV1 := testCase.Case
-		caseV1.ExpectedInput = expectedLines
-
-		caseV1.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }

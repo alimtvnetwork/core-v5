@@ -26,9 +26,8 @@ func Test_Collection_GetPagesSize_Verification(t *testing.T) {
 		result := collection.GetPagesSize(eachPageSize)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
-
-		errcore.PrintDiffOnMismatch(
+		errcore.AssertDiffOnMismatch(
+			t,
 			caseIndex,
 			testCase.Title,
 			[]string{fmt.Sprintf("%v", result)},
