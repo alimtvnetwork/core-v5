@@ -229,11 +229,61 @@ function Invoke-GoTestAndLog([string]$testArgs) {
 
 # -- Commands --
 
+function Invoke-GitPull {
+    Write-Header "Pulling latest from remote"
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    git pull 2>&1 | ForEach-Object { Write-Host "  $_" -ForegroundColor Gray }
+    if ($LASTEXITCODE -eq 0) { Write-Success "Git pull complete" }
+    else { Write-Fail "git pull failed (continuing anyway)" }
+    $ErrorActionPreference = $prevPref
+}
+
 function Invoke-FetchLatest {
+    Invoke-GitPull
     Write-Header "Fetching latest dependencies"
     go mod tidy
     if ($LASTEXITCODE -eq 0) { Write-Success "Dependencies up to date" }
     else { Write-Fail "go mod tidy failed" }
+}
+
+function Invoke-BuildCheck([string]$buildPath) {
+    Write-Header "Build check: $buildPath"
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $output = & go build $buildPath 2>&1 | ForEach-Object { $_.ToString() }
+    $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $prevPref
+
+    if ($exitCode -ne 0) {
+        Write-Fail "Build failed — skipping tests"
+
+        Ensure-TestLogDir
+        $failingFile = Join-Path $TestLogDir "failing-tests.txt"
+        $rawFile     = Join-Path $TestLogDir "raw-output.txt"
+        $timestamp   = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+        $failingContent = @(
+            "# Failing Tests — $timestamp",
+            "# Count: 0",
+            "",
+            "# Build Failed — tests were NOT run",
+            "",
+            "# ── Build Errors ──",
+            ""
+        )
+        $failingContent += $output
+
+        Set-Content -Path $failingFile -Value ($failingContent -join "`n") -Encoding UTF8
+        Set-Content -Path $rawFile -Value ($output -join "`n") -Encoding UTF8
+
+        $output | ForEach-Object { Write-Host "  $_" -ForegroundColor Red }
+        Open-FailingTestsIfAny
+        return $false
+    }
+
+    Write-Success "Build OK"
+    return $true
 }
 
 function Open-FailingTestsIfAny {
@@ -253,6 +303,8 @@ function Invoke-AllTests {
     Invoke-FetchLatest
     Push-Location tests
     try {
+        if (-not (Invoke-BuildCheck "./...")) { return }
+
         $prevPref = $ErrorActionPreference
         $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 ./... 2>&1 | ForEach-Object { $_.ToString() }
@@ -283,6 +335,8 @@ function Invoke-PackageTests([string]$pkg) {
     Invoke-FetchLatest
     Push-Location tests
     try {
+        if (-not (Invoke-BuildCheck "./integratedtests/$pkg/...")) { return }
+
         $prevPref = $ErrorActionPreference
         $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 "./integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
@@ -304,6 +358,8 @@ function Invoke-TestCoverage {
     Invoke-FetchLatest
     Push-Location tests
     try {
+        if (-not (Invoke-BuildCheck "./...")) { return }
+
         $prevPref = $ErrorActionPreference
         $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 -coverprofile=coverage.out ./... 2>&1 | ForEach-Object { $_.ToString() }
@@ -328,6 +384,8 @@ function Invoke-IntegratedTests {
     Invoke-FetchLatest
     Push-Location tests
     try {
+        if (-not (Invoke-BuildCheck "./integratedtests/...")) { return }
+
         $prevPref = $ErrorActionPreference
         $ErrorActionPreference = "Continue"
         $output = & go test -v -count=1 ./integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
