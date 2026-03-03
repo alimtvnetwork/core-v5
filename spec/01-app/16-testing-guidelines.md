@@ -1,98 +1,162 @@
-# Testing Guidelines — How to Write Tests for `core`
+# Testing Guidelines — Comprehensive Reference
 
-> This document is the authoritative guide for writing unit and integration tests in the `core` repository.
-> Follow this exactly so that tests are consistent, readable, and maintainable across all packages.
+> **This document is the single source of truth** for writing integration tests in the `auk-go/core` repository.
+> Any AI agent, contributor, or reviewer must follow these patterns precisely.
 
 ## Table of Contents
 
-1. [Philosophy](#philosophy)
-2. [Directory Structure](#directory-structure)
-3. [File Naming Conventions](#file-naming-conventions)
-4. [Function Naming Conventions](#function-naming-conventions)
-5. [Core Testing Framework](#core-testing-framework)
-6. [Test Case Structure (CaseV1)](#test-case-structure-casev1)
-7. [Complete Example: Simple Package Test](#complete-example-simple-package-test)
-8. [Complete Example: With Custom Test Wrapper](#complete-example-with-custom-test-wrapper)
-9. [Assertion Methods Reference](#assertion-methods-reference)
-10. [Type Verification](#type-verification)
-11. [Error Testing Patterns](#error-testing-patterns)
-12. [Anti-Patterns](#anti-patterns)
-13. [Checklist for New Tests](#checklist-for-new-tests)
+- [Architecture Overview](#architecture-overview)
+- [File Organization](#file-organization)
+- [Test Case Structures](#test-case-structures)
+- [AAA Pattern (Arrange-Act-Assert)](#aaa-pattern-arrange-act-assert)
+- [Assertion Methods](#assertion-methods)
+- [Input Management (args.Map)](#input-management-argsmap)
+- [Named Test Case Variables](#named-test-case-variables)
+- [ExpectedInput Formats](#expectedinput-formats)
+- [SliceValidator and VerifyAll](#slicevalidator-and-verifyall)
+- [GoConvey Integration](#goconvey-integration)
+- [errcore.AssertDiffOnMismatch](#errcoreassertdiffonmismatch)
+- [Comparison Modes](#comparison-modes)
+- [Conditions (Trim, Sort)](#conditions-trim-sort)
+- [Type Verification](#type-verification)
+- [Error Testing Patterns](#error-testing-patterns)
+- [Panic Testing](#panic-testing)
+- [Concurrency Testing](#concurrency-testing)
+- [Custom Test Wrappers](#custom-test-wrappers)
+- [Anti-Patterns (Banned)](#anti-patterns-banned)
+- [Complete Examples](#complete-examples)
+- [Checklist for New Tests](#checklist-for-new-tests)
+- [Future: CaseV2 Proposal](#future-casev2-proposal)
+- [Related Docs](#related-docs)
 
 ---
 
-## Philosophy
-
-- **AAA (Arrange-Act-Assert)**: Every test follows this structure with explicit `// Arrange`, `// Act`, `// Assert` comments.
-- **Table-driven**: All test inputs are defined as `[]coretestcases.CaseV1` slices in separate `_testcases.go` files.
-- **Separation of data and logic**: Test data lives in `*_testcases.go`, test execution logic lives in `*_test.go`.
-- **String-line comparison**: Results are converted to `[]string` lines and compared line-by-line for readable diffs.
-- **Index-based tracking**: Every test loop passes `caseIndex` for precise failure identification.
-
----
-
-## Directory Structure
-
-All tests live under `tests/integratedtests/` in per-package subdirectories:
+## Architecture Overview
 
 ```
-tests/
-└── integratedtests/
-    ├── {package}tests/              ← one directory per package under test
-    │   ├── {Function}_test.go       ← test execution logic
-    │   ├── {Function}_testcases.go  ← test case data ([]CaseV1)
-    │   ├── testWrapper.go           ← optional: custom test wrapper struct
-    │   └── helpers.go               ← optional: shared test helpers
-    ├── GetAssert_Quick_test.go      ← root-level tests for coretests itself
-    └── GetAssert_testcases.go
+coretests/                          # Test utility package
+├── coretestcases/
+│   └── CaseV1.go                   # Primary test case structure
+├── args/
+│   ├── Map.go                      # Typed input map for test arrangements
+│   ├── FuncWrap.go                 # Function reflection wrapper
+│   ├── Holder.go                   # Multi-parameter holder
+│   ├── OneFunc.go .. SixFunc.go    # Typed function argument structs
+│   └── ...
+├── BaseTestCase.go                 # Root struct (Title, ArrangeInput, ExpectedInput, etc.)
+├── BaseTestCaseAssertions.go       # ShouldBe, ShouldBeExplicit (goconvey)
+├── BaseTestCaseGetters.go          # Input(), Expected(), FormTitle()
+├── BaseTestCaseValidation.go       # TypeValidationError()
+├── SimpleTestCase.go               # Lightweight test case (no type verification)
+├── ShouldAsserter.go               # Assertion interfaces
+├── getAssert.go                    # GetAssert singleton — formatting & conversion
+└── vars.go                         # Package-level exports
+
+errcore/
+└── AssertDiffOnMismatch.go         # Diff-based assertion (non-goconvey)
+
+tests/integratedtests/              # All test implementations
+├── {pkg}tests/
+│   ├── SomeFeature_test.go         # Test logic (linear, no branching)
+│   └── SomeFeature_testcases.go    # Test data (named variables)
 ```
 
-### Naming the directory
-
-- Package `chmodhelper` → directory `chmodhelpertests`
-- Package `coredata` → directory `coredatatests`
-- Package `simplewrap` → directory `simplewraptests`
-- Package `conditional` → directory `conditionaltests`
-
-**Rule**: `{packagename}tests` — always lowercase, always suffixed with `tests`.
-
 ---
 
-## File Naming Conventions
+## File Organization
 
-| File Type | Pattern | Example |
-|-----------|---------|---------|
-| Test logic | `{StructOrFunc}_test.go` | `DirFilesWithContent_test.go` |
-| Test cases | `{StructOrFunc}_testcases.go` | `DirFilesWithContent_testcases.go` |
-| Test wrapper | `{StructOrFunc}TestWrapper.go` | `EnumImplDynamicMapTestWrapper.go` |
-| Shared helpers | `helpers.go` or descriptive name | `pathInstructionsV3.go` |
+### Rule: Separate test data from test logic
 
-**Critical**: Test case data is NEVER inline in `_test.go` files. Always in separate `_testcases.go` files.
+| File Pattern | Contains | Example |
+|---|---|---|
+| `*_testcases.go` | Named `CaseV1` variables, custom wrapper structs | `Hashmap_testcases.go` |
+| `*_test.go` | `Test_*` functions with AAA structure | `Hashmap_test.go` |
 
----
+### Rule: One test function per scenario
 
-## Function Naming Conventions
+**NEVER** use switch/case, if/else, or index-based dispatching inside test functions. Each logical branch gets its own `Test_Type_Method_Scenario` function.
 
 ```go
-// Pattern: Test_{FunctionOrStructName}_{Behavior}_Verification
-func Test_GetAssert_Quick_Verification(t *testing.T) { ... }
+// ✅ CORRECT — one function per scenario
+func Test_Hashmap_GetFound(t *testing.T) { ... }
+func Test_Hashmap_GetNotFound(t *testing.T) { ... }
 
-// Pattern: Test_{StructName}_{MethodName}_Verification
-func Test_FuncWrap_Creation_Verification(t *testing.T) { ... }
-
-// Pattern: Test_{Action}_{Subject}
-func Test_DirFilesWithContent_CreateRead(t *testing.T) { ... }
+// ❌ BANNED — dispatching inside a test
+func Test_Hashmap_Get(t *testing.T) {
+    for _, tc := range cases {
+        if tc.ShouldFind {
+            // ...
+        } else {
+            // ...
+        }
+    }
+}
 ```
 
-**Rules**:
-- Always start with `Test_` (Go convention)
-- Use PascalCase for struct/function names
-- End with `_Verification` or a descriptive suffix
-- Underscores separate logical parts: `Test_{What}_{How}`
+### Rule: Package naming
+
+Test packages use the `{pkg}tests` suffix:
+
+```
+coredata/coregeneric/  →  tests/integratedtests/coregenerictests/
+coredata/corestr/      →  tests/integratedtests/corestrtests/
+errcore/               →  tests/integratedtests/errcoretests/
+chmodhelper/           →  tests/integratedtests/chmodhelpertests/
+```
+
+### Rule: File naming
+
+| File Type | Pattern | Example |
+|---|---|---|
+| Test logic | `{StructOrFunc}_test.go` | `PairFromSplit_test.go` |
+| Test cases | `{StructOrFunc}_testcases.go` | `PairFromSplit_testcases.go` |
+| Test wrapper | `{StructOrFunc}TestWrapper.go` | `RwxInstructionTestWrapper.go` |
+| Shared helpers | descriptive name | `pathInstructionsV3.go` |
 
 ---
 
-## Core Testing Framework
+## Test Case Structures
+
+### CaseV1 (Primary — use this)
+
+`CaseV1` is a type definition of `BaseTestCase` and is the standard test case structure:
+
+```go
+type CaseV1 coretests.BaseTestCase
+```
+
+#### BaseTestCase fields
+
+```go
+type BaseTestCase struct {
+    Title           string         // Test case header / description
+    ArrangeInput    any            // Preparation input (often args.Map)
+    ActualInput     any            // Dynamically set after Act phase via SetActual
+    ExpectedInput   any            // Expected result (string or []string)
+    Additional      any            // Extra context data
+    CustomFormat    string         // Custom output format
+    VerifyTypeOf    *VerifyTypeOf  // Optional type verification
+    Parameters      *args.Holder   // Extra parameters for complex tests
+    IsEnable        issetter.Value // Set to False to disable a test case
+    HasError        bool           // Whether error is expected
+    HasPanic        bool           // Whether panic is expected
+    IsValidateError bool           // Whether to validate error content
+}
+```
+
+### SimpleTestCase (Lightweight alternative)
+
+For simpler scenarios without type verification:
+
+```go
+type SimpleTestCase struct {
+    Title         string
+    ArrangeInput  any
+    ActualInput   any
+    ExpectedInput any
+    Params        args.Map
+}
+```
 
 ### Key Imports
 
@@ -101,277 +165,1042 @@ import (
     "testing"
 
     "gitlab.com/auk-go/core/coretests"              // GetAssert, BaseTestCase
-    "gitlab.com/auk-go/core/coretests/args"          // Map, One, ThreeFunc, Holder
+    "gitlab.com/auk-go/core/coretests/args"          // Map, FuncWrap, Holder
     "gitlab.com/auk-go/core/coretests/coretestcases" // CaseV1
-    "gitlab.com/auk-go/core/coredata/corestr"        // SimpleSlice for building output lines
+    "gitlab.com/auk-go/core/errcore"                 // AssertDiffOnMismatch
 )
 ```
 
-### Framework Components
-
-| Component | Purpose | Usage |
-|-----------|---------|-------|
-| `coretestcases.CaseV1` | Test case struct with Title, ArrangeInput, ExpectedInput | Define test data |
-| `coretests.GetAssert` | Assertion helper singleton | `GetAssert.ToStrings()`, `GetAssert.Quick()` |
-| `args.Map` | `map[string]any` with typed getters | `input.When()`, `input.Actual()`, `input.Expect()` |
-| `args.One` | Single-value holder with First, Second, Third | Simple struct inputs |
-| `args.ThreeFunc` | Function holder with 3 params + WorkFunc | Dynamic function invocation tests |
-| `coretests.BaseTestCase` | Base struct for custom test wrappers | Embed in custom wrappers |
-| `coretests.VerifyTypeOf` | Type verification for Arrange/Actual/Expected | Catches type mismatches |
-
 ---
 
-## Test Case Structure (CaseV1)
+## AAA Pattern (Arrange-Act-Assert)
+
+**Every test function MUST have three clearly labeled sections:**
 
 ```go
-type CaseV1 struct {
-    Title         string              // Human-readable test description
-    ArrangeInput  any                 // Input data (args.Map, args.One, custom struct, etc.)
-    ActualInput   any                 // Set during Act phase via SetActual()
-    ExpectedInput any                 // Expected output (usually []string)
-    VerifyTypeOf  *coretests.VerifyTypeOf  // Optional: type validation
-    IsEnable      issetter.Value      // Optional: set to issetter.False to skip
-    HasError      bool                // Optional: flag if error is expected
-    HasPanic      bool                // Optional: flag if panic is expected
+func Test_SomeType_SomeMethod_Scenario(t *testing.T) {
+    tc := someNamedTestCase
+
+    // Arrange
+    input := tc.ArrangeInput.(args.Map)
+    value, _ := input.GetAsString("key")
+
+    // Act
+    result := pkg.SomeMethod(value)
+
+    // Assert
+    tc.ShouldBeEqual(t, 0, result)
 }
 ```
 
-### Using `args.Map` for arrange input
+### Rules
+
+1. **Always write `// Arrange`, `// Act`, `// Assert` comments** — never skip them.
+2. **Arrange** sets up inputs from the test case.
+3. **Act** invokes exactly one function/method under test.
+4. **Assert** uses framework assertions — **never** raw `t.Error()` / `t.Fatal()`.
+
+---
+
+## Assertion Methods
+
+### Two Assertion Paradigms
+
+This project supports two assertion styles. Both are correct — choose based on context:
+
+| Style | When to Use | Method |
+|---|---|---|
+| **GoConvey (CaseV1)** | Most tests — structured BDD-style output | `tc.ShouldBeEqual(t, idx, actuals...)` |
+| **Diff-based (errcore)** | Custom wrappers, non-CaseV1 structs | `errcore.AssertDiffOnMismatch(t, idx, title, act, exp)` |
+
+### CaseV1 Assertion Methods (GoConvey-based)
+
+These are the primary assertion methods — they use GoConvey's `convey.Convey` and `convey.So` under the hood:
+
+| Method | Comparison | Use When |
+|---|---|---|
+| `ShouldBeEqual(t, idx, actuals...)` | Exact string equality | **Default choice** for most tests |
+| `ShouldBeTrimEqual(t, idx, actuals...)` | Trim whitespace, then equal | Output may have leading/trailing spaces |
+| `ShouldBeSortedEqual(t, idx, actuals...)` | Sort + trim, then equal | Order doesn't matter (e.g., map keys) |
+| `ShouldContains(t, idx, actuals...)` | Substring contains | Partial matching |
+| `ShouldStartsWith(t, idx, actuals...)` | Prefix match | Check beginning of output |
+| `ShouldEndsWith(t, idx, actuals...)` | Suffix match | Check ending of output |
+| `ShouldBeNotEqual(t, idx, actuals...)` | Not equal | Negative assertions |
+| `ShouldBeRegex(t, idx, actuals...)` | Regex match per line | Pattern-based validation |
+| `ShouldBeTrimRegex(t, idx, actuals...)` | Trim + regex | Trimmed pattern matching |
+| `ShouldHaveNoError(t, title, idx, err)` | Error is nil | Verify no error occurred |
+| `AssertDirectly(t, title, msg, idx, actual, assertion, expected)` | Any convey assertion | Custom assertions |
+
+#### ShouldBeEqual — primary usage
+
+```go
+func Test_Pair_FromSplit_Valid(t *testing.T) {
+    tc := pairFromSplitValidTestCase
+
+    // Arrange
+    input := tc.ArrangeInput.(args.Map)
+    str, _ := input.GetAsString("input")
+    sep, _ := input.GetAsString("sep")
+
+    // Act
+    pair := coregeneric.PairFromSplit(str, sep)
+
+    // Assert
+    tc.ShouldBeEqual(t, 0,
+        pair.Left,
+        pair.Right,
+        fmt.Sprintf("%v", pair.IsValid),
+    )
+}
+```
+
+#### ShouldBeSortedEqual — order-independent
+
+```go
+func Test_Hashmap_Keys_ReturnAll(t *testing.T) {
+    tc := hashmapKeysTestCase
+
+    // Arrange
+    hm := coregeneric.HashmapFrom(map[string]int{"b": 2, "a": 1})
+
+    // Act
+    keys := hm.Keys()
+
+    // Assert — map key order is non-deterministic
+    tc.ShouldBeSortedEqual(t, 0, keys...)
+}
+```
+
+#### ShouldContains — partial matching
+
+```go
+func Test_Error_ContainsContext(t *testing.T) {
+    tc := errorContextTestCase
+
+    // Act
+    err := someFunc()
+
+    // Assert
+    tc.ShouldContains(t, 0, err.Error())
+}
+```
+
+#### ShouldHaveNoError — nil error check via GoConvey
+
+```go
+tc.ShouldHaveNoError(t, "serialization step", 0, err)
+```
+
+#### AssertDirectly — custom convey.Assertion
+
+```go
+tc.AssertDirectly(
+    t,
+    "custom context",
+    "value should be positive",
+    caseIndex,
+    actualValue,
+    convey.ShouldBeGreaterThan,
+    0,
+)
+```
+
+### How ShouldBeEqual works internally
+
+Understanding the chain helps when debugging:
+
+```
+ShouldBeEqual(t, idx, actuals...)
+  → ShouldBe(t, idx, stringcompareas.Equal, actuals...)
+    → ShouldBeUsingCondition(t, idx, Equal, DefaultDisabledCondition, actuals...)
+      → VerifyAllCondition(idx, Equal, condition, actuals)
+        → SliceValidator{}.AllVerifyError(&Parameter{})
+      → convey.Convey(title, t, func() {
+            convey.So(validationError, should.BeNil)
+        })
+```
+
+Each actual element is compared 1:1 against its corresponding expected line.
+
+---
+
+## errcore.AssertDiffOnMismatch
+
+For tests using custom wrappers or when not using GoConvey assertion chains, use the diff-based assertion:
+
+```go
+func AssertDiffOnMismatch(
+    t *testing.T,
+    caseIndex int,
+    title string,
+    actLines []string,
+    expectedLines []string,     // can be any (normalizes string → []string)
+    contextLines ...string,     // optional diagnostic lines printed on failure
+)
+```
+
+### Basic usage
+
+```go
+func Test_LinkedList_Empty(t *testing.T) {
+    tc := linkedListEmptyTestCase
+    ll := coregeneric.EmptyLinkedList[int]()
+
+    // Act
+    actLines := []string{
+        fmt.Sprintf("%v", ll.IsEmpty()),
+        fmt.Sprintf("%v", ll.Length()),
+        fmt.Sprintf("%v", ll.HasItems()),
+    }
+
+    // Assert
+    errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, tc.ExpectedInput)
+}
+```
+
+### With context lines (extra diagnostics on failure)
+
+```go
+errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines,
+    fmt.Sprintf("  InitValue: %d", tc.InitValue),
+    fmt.Sprintf("  CompareValue: %d", tc.CompareValue),
+)
+```
+
+### Error-specific variant
+
+```go
+errcore.AssertErrorDiffOnMismatch(t, caseIndex, tc.Title, err, expectedLines)
+```
+
+---
+
+## Input Management (args.Map)
+
+`args.Map` is a `map[string]any` with typed accessors. Use it as `ArrangeInput` for structured test inputs.
+
+### Creating test cases with args.Map
+
+```go
+var myTestCase = coretestcases.CaseV1{
+    Title: "Positive: valid email is accepted",
+    ArrangeInput: args.Map{
+        "input":  "user@example.com",
+        "strict": true,
+    },
+    ExpectedInput: "true",
+}
+```
+
+### Accessing values — ALWAYS handle errors
+
+```go
+// Arrange
+input := tc.ArrangeInput.(args.Map)
+
+// String — returns (string, bool)
+email, valid := input.GetAsString("input")
+errcore.HandleErrMessage("input", !valid)  // panics if key missing/invalid
+
+// Int — returns (int, bool)
+count, valid := input.GetAsInt("count")
+
+// String with default (empty string if missing)
+name := input.GetAsStringDefault("name")
+
+// Int with default
+limit := input.GetAsIntDefault("limit", 10)
+
+// Direct access (no type safety, returns nil if missing)
+raw := input.GetDirectLower("key")
+
+// String slice
+parts, valid := input.GetAsStrings("parts")
+
+// Check existence before access
+if input.HasDefined("optional") { ... }
+if input.IsKeyMissing("key") { ... }
+```
+
+### Special keys in args.Map
+
+| Key | Accessor | Purpose |
+|---|---|---|
+| `"when"` | `input.When()` | Scenario description |
+| `"actual"` | `input.Actual()` | The value under test |
+| `"expect"` | `input.Expect()` | Expected outcome |
+| `"func"` | `input.WorkFunc()` | Function to invoke via reflection |
+| `"first"` / `"f1"` / `"p1"` | `input.FirstItem()` | Positional arg |
+| `"second"` / `"f2"` | `input.SecondItem()` | Positional arg |
+
+### Function invocation via args.Map
 
 ```go
 ArrangeInput: args.Map{
-    "when":   "given a valid name",
-    "actual": "hello",
-    "expect": "HELLO",
+    "func": myTargetFunction,
+    "p1":   "arg1",
+    "p2":   42,
 },
-```
 
-Access in test:
-```go
-input := testCase.ArrangeInput.(args.Map)
-when := input.When()          // "given a valid name"
-actual := input.Actual()      // "hello" (as any)
-expected := input.Expect()    // "HELLO" (as any)
-counter := input.GetAsIntDefault("counter", 0)
-```
-
-### Using `args.One` for struct inputs
-
-```go
-ArrangeInput: []args.One{
-    {First: someInstruction},
-},
-```
-
-### Using `args.ThreeFunc` for function testing
-
-```go
-ArrangeInput: args.ThreeFunc{
-    First:    "param1",
-    Second:   "param2",
-    Third:    "param3",
-    WorkFunc: myTargetFunction,
-},
+// In test:
+input := tc.ArrangeInput.(args.Map)
+results, err := input.InvokeWithValidArgs()
 ```
 
 ---
 
-## Complete Example: Simple Package Test
+## Named Test Case Variables
 
-### Step 1: Create test case file — `tests/integratedtests/conditionaltests/If_testcases.go`
+### Rule: NEVER use indexed slice access
 
 ```go
-package conditionaltests
+// ❌ BANNED — fragile, order-dependent
+var testCases = []coretestcases.CaseV1{...}
+tc := testCases[0]  // breaks when cases are reordered
 
-import (
-    "gitlab.com/auk-go/core/coretests/args"
-    "gitlab.com/auk-go/core/coretests/coretestcases"
-)
-
-var ifTestCases = []coretestcases.CaseV1{
-    {
-        Title: "If[string] - true condition returns trueValue",
-        ArrangeInput: args.Map{
-            "when":      "condition is true",
-            "condition": true,
-            "trueVal":   "yes",
-            "falseVal":  "no",
-        },
-        ExpectedInput: []string{
-            "yes",
-        },
-    },
-    {
-        Title: "If[string] - false condition returns falseValue",
-        ArrangeInput: args.Map{
-            "when":      "condition is false",
-            "condition": false,
-            "trueVal":   "yes",
-            "falseVal":  "no",
-        },
-        ExpectedInput: []string{
-            "no",
-        },
-    },
-}
+// ✅ CORRECT — resilient, self-documenting
+var hashmapGetFoundTestCase = coretestcases.CaseV1{...}
+tc := hashmapGetFoundTestCase
 ```
 
-### Step 2: Create test file — `tests/integratedtests/conditionaltests/If_test.go`
+### Naming convention
+
+```
+{lowerCamelType}{Method}{Scenario}TestCase
+
+Examples:
+  hashmapGetFoundTestCase
+  linkedListAddFrontEmptyTestCase
+  pairFromSplitValidTestCase
+  hashsetIsEqualsBothNilTestCase
+  bytesErrorOnceExecuteTestCase
+```
+
+### When loops are still appropriate
+
+Loops over **named slices** are fine when all cases share **identical test logic** (no branching):
 
 ```go
-package conditionaltests
+// ✅ OK — homogeneous cases, identical Arrange/Act/Assert paths
+var createTestCases = []coretestcases.CaseV1{
+    {Title: "Valid pattern", ArrangeInput: args.Map{"pattern": `\d+`}, ExpectedInput: []string{"true", "false"}},
+    {Title: "Invalid pattern", ArrangeInput: args.Map{"pattern": "[bad"}, ExpectedInput: []string{"false", "true"}},
+}
 
-import (
-    "testing"
-
-    "gitlab.com/auk-go/core/conditional"
-    "gitlab.com/auk-go/core/coretests"
-    "gitlab.com/auk-go/core/coretests/args"
-)
-
-func Test_If_Verification(t *testing.T) {
-    for caseIndex, testCase := range ifTestCases {
+func Test_Create_Verification(t *testing.T) {
+    for caseIndex, tc := range createTestCases {
         // Arrange
-        input := testCase.ArrangeInput.(args.Map)
-        condition := input["condition"].(bool)
-        trueVal := input["trueVal"].(string)
-        falseVal := input["falseVal"].(string)
-        toStringsConv := coretests.GetAssert.ToStrings
+        input := tc.ArrangeInput.(args.Map)
+        pattern, _ := input.GetAsString("pattern")
 
         // Act
-        result := conditional.If[string](condition, trueVal, falseVal)
+        regex, err := regexnew.New.DefaultLock(pattern)
 
         // Assert
-        actualLines := toStringsConv(result)
-        testCase.ShouldBeEqual(t, caseIndex, actualLines...)
+        tc.ShouldBeEqual(t, caseIndex,
+            fmt.Sprintf("%v", regex != nil),
+            fmt.Sprintf("%v", err != nil),
+        )
     }
 }
 ```
 
 ---
 
-## Complete Example: With Custom Test Wrapper
+## ExpectedInput Formats
 
-When the `ArrangeInput` needs type-safe casting, create a wrapper:
-
-### `tests/integratedtests/mypkgtests/MyTestWrapper.go`
+### Single string (preferred for single values)
 
 ```go
-package mypkgtests
+var myTestCase = coretestcases.CaseV1{
+    Title:         "Length returns 3",
+    ExpectedInput: "3",
+}
+```
 
-import (
-    "gitlab.com/auk-go/core/coretests"
-    "gitlab.com/auk-go/core/errcore"
+### String slice (for multi-line assertions)
+
+```go
+var myTestCase = coretestcases.CaseV1{
+    Title:         "Returns left, right, valid",
+    ExpectedInput: []string{"hello", "world", "true"},
+}
+```
+
+### How it works internally
+
+`CaseV1.expectedLines()` normalizes both formats to `[]string`:
+
+```go
+func (it CaseV1) expectedLines() []string {
+    switch v := it.ExpectedInput.(type) {
+    case string:
+        return []string{v}       // wraps single string
+    case []string:
+        return v                 // returns as-is
+    default:
+        panic("must be string or []string")
+    }
+}
+```
+
+### Rule: Match actual output to expected line-by-line
+
+Each actual element corresponds to one expected line:
+
+```go
+// Test case
+ExpectedInput: []string{"alice", "30", "true"},
+
+// Test assertion — each arg maps positionally
+tc.ShouldBeEqual(t, 0,
+    user.Name,                           // → "alice"
+    fmt.Sprintf("%d", user.Age),         // → "30"
+    fmt.Sprintf("%v", user.IsActive),    // → "true"
+)
+```
+
+---
+
+## SliceValidator and VerifyAll
+
+For advanced validation scenarios, `CaseV1` exposes a `SliceValidator` builder:
+
+```go
+// Create a validator with custom comparison mode
+validator := tc.SliceValidator(stringcompareas.Contains, actualLines)
+
+// Or with conditions (trim, sort)
+validator := tc.SliceValidatorCondition(
+    stringcompareas.Equal,
+    corevalidator.DefaultTrimCoreCondition,
+    actualLines,
 )
 
-type MyTestWrapper struct {
-    coretests.BaseTestCase
+// Verify and get error
+err := tc.VerifyAllSliceValidator(caseIndex, validator)
+```
+
+### VerifyAll / VerifyError (return error instead of asserting)
+
+```go
+// Returns error instead of calling convey.So
+err := tc.VerifyAllEqual(caseIndex, actuals...)
+
+// Combines value verification + type verification
+err := tc.VerifyError(caseIndex, stringcompareas.Equal, actuals...)
+
+// First-line-only verification (for partial checks)
+err := tc.VerifyFirst(caseIndex, stringcompareas.Equal, actuals)
+```
+
+---
+
+## GoConvey Integration
+
+All `ShouldBe*` methods use GoConvey's `convey.Convey` and `convey.So` internally. You should **never** call `convey.Convey` directly in test functions — let the assertion methods handle it.
+
+### Direct GoConvey (only for custom assertions)
+
+Use `AssertDirectly` if you need a custom `convey.Assertion`:
+
+```go
+tc.AssertDirectly(
+    t,
+    "additional context",
+    "assertion message",
+    caseIndex,
+    actualValue,
+    convey.ShouldBeGreaterThan,
+    expectedMinimum,
+)
+```
+
+---
+
+## Comparison Modes
+
+The `stringcompareas.Variant` enum controls how actual vs expected lines are compared:
+
+| Variant | Behavior | Method Shortcut |
+|---|---|---|
+| `Equal` | Exact string match | `ShouldBeEqual` |
+| `Contains` | Actual contains expected | `ShouldContains` |
+| `StartsWith` | Actual starts with expected | `ShouldStartsWith` |
+| `EndsWith` | Actual ends with expected | `ShouldEndsWith` |
+| `NotEqual` | Actual ≠ expected | `ShouldBeNotEqual` |
+| `Regex` | Expected is regex pattern | `ShouldBeRegex` |
+
+---
+
+## Conditions (Trim, Sort)
+
+Conditions preprocess actual/expected lines before comparison:
+
+| Condition | Effect | Method Shortcut |
+|---|---|---|
+| `DefaultDisabledCoreCondition` | No preprocessing (default) | `ShouldBeEqual` |
+| `DefaultTrimCoreCondition` | `strings.TrimSpace` on each line | `ShouldBeTrimEqual` |
+| `DefaultSortTrimCoreCondition` | Sort + trim both sides | `ShouldBeSortedEqual` |
+
+Custom condition via `ShouldBeUsingCondition`:
+
+```go
+tc.ShouldBeUsingCondition(
+    t, caseIndex,
+    stringcompareas.Equal,
+    corevalidator.DefaultTrimCoreCondition,
+    actuals...,
+)
+```
+
+---
+
+## Type Verification
+
+Optional automatic type checking via `VerifyTypeOf`:
+
+```go
+var myTestCase = coretestcases.CaseV1{
+    Title:         "Returns string result",
+    ExpectedInput: "hello",
+    VerifyTypeOf: &coretests.VerifyTypeOf{
+        ArrangeInput:  reflect.TypeOf(args.Map{}),
+        ActualInput:   reflect.TypeOf(""),
+        ExpectedInput: reflect.TypeOf(""),
+    },
+}
+```
+
+This automatically asserts that `ArrangeInput`, `ActualInput`, and `ExpectedInput` match the specified `reflect.Type` values after the test runs. Mismatches produce a clear error like `"Arrange Type Mismatch"`.
+
+---
+
+## Error Testing Patterns
+
+### Testing error existence
+
+```go
+var errorExpectedTestCase = coretestcases.CaseV1{
+    Title:         "Invalid input returns error",
+    ArrangeInput:  args.Map{"input": ""},
+    ExpectedInput: []string{"true"},
 }
 
-func (it MyTestWrapper) ArrangeAsMyInput() MyInput {
-    casted, isSuccess := it.ArrangeInput.(MyInput)
-    if !isSuccess {
-        errcore.HandleErrMessage("casting failed to MyInput")
-    }
-    return casted
+func Test_Validate_InvalidInput(t *testing.T) {
+    tc := errorExpectedTestCase
+
+    // Arrange
+    input := tc.ArrangeInput.(args.Map)
+    str, _ := input.GetAsString("input")
+
+    // Act
+    _, err := validate(str)
+
+    // Assert
+    tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err != nil))
+}
+```
+
+### Testing error message content
+
+```go
+var errorMessageTestCase = coretestcases.CaseV1{
+    Title:         "Error contains field name",
+    ExpectedInput: []string{"true", "true"},
+}
+
+func Test_Validate_ErrorContainsFieldName(t *testing.T) {
+    tc := errorMessageTestCase
+
+    // Act
+    _, err := validate("")
+
+    // Assert
+    tc.ShouldBeEqual(t, 0,
+        fmt.Sprintf("%v", err != nil),
+        fmt.Sprintf("%v", strings.Contains(err.Error(), "required")),
+    )
+}
+```
+
+### Using errcore.AssertErrorDiffOnMismatch
+
+Splits an error into lines and compares:
+
+```go
+errcore.AssertErrorDiffOnMismatch(t, caseIndex, tc.Title, err, expectedLines,
+    fmt.Sprintf("  Input: %s", inputValue),
+)
+```
+
+### ShouldHaveNoError (GoConvey nil check)
+
+```go
+tc.ShouldHaveNoError(t, "deserialization step", 0, err)
+```
+
+---
+
+## Panic Testing
+
+Use a helper function to catch panics:
+
+```go
+// Helper — define once per test package
+func callPanics(fn func()) (panicked bool) {
+    defer func() {
+        if r := recover(); r != nil {
+            panicked = true
+        }
+    }()
+    fn()
+    return false
 }
 ```
 
 ### Usage in test
 
 ```go
-func Test_MyFeature_Verification(t *testing.T) {
-    for caseIndex, testCase := range myTestCases {
-        // Arrange
-        input := testCase.ArrangeAsMyInput()
+var mustPanicTestCase = coretestcases.CaseV1{
+    Title:         "MustHaveSafeItems panics when empty",
+    ExpectedInput: "true",
+}
 
-        // Act
-        result := mypackage.DoSomething(input.Value)
+func Test_MustHaveSafeItems_PanicsWhenEmpty(t *testing.T) {
+    tc := mustPanicTestCase
 
-        // Assert
-        testCase.ShouldBeEqual(t, caseIndex, result...)
+    // Arrange
+    once := createEmptyOnce()
+
+    // Act
+    panicked := callPanics(func() { once.MustHaveSafeItems() })
+
+    // Assert
+    tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", panicked))
+}
+```
+
+### Panic with value capture
+
+```go
+func callPanicsWithValue(fn func()) (panicked bool, value any) {
+    defer func() {
+        if r := recover(); r != nil {
+            panicked = true
+            value = r
+        }
+    }()
+    fn()
+    return false, nil
+}
+```
+
+---
+
+## Concurrency Testing
+
+For thread-safe method tests (`*Lock` methods), use `sync.WaitGroup`:
+
+```go
+func Test_Hashset_AddLock_ConcurrentSafety(t *testing.T) {
+    const goroutines = 500
+    hs := coregeneric.NewHashset[int](goroutines)
+
+    wg := sync.WaitGroup{}
+    wg.Add(goroutines)
+
+    for i := 0; i < goroutines; i++ {
+        go func(idx int) {
+            hs.AddLock(idx)
+            wg.Done()
+        }(i)
+    }
+
+    wg.Wait()
+
+    got := hs.Length()
+    if got != goroutines {
+        t.Errorf("AddLock concurrent: expected %d items, got %d", goroutines, got)
+    }
+}
+```
+
+**Note:** Concurrency tests **may** use `t.Errorf` directly since they validate thread safety (no panics, correct final state) rather than functional output lines.
+
+### Mixed read/write concurrency
+
+```go
+func Test_Hashset_ContainsLock_ConcurrentReadsWrites(t *testing.T) {
+    const writers = 200
+    const readers = 200
+    hs := coregeneric.NewHashset[int](writers)
+
+    wg := sync.WaitGroup{}
+    wg.Add(writers + readers)
+
+    // Concurrent writers
+    for i := 0; i < writers; i++ {
+        go func(idx int) {
+            hs.AddLock(idx)
+            wg.Done()
+        }(i)
+    }
+
+    // Concurrent readers — must not panic
+    for i := 0; i < readers; i++ {
+        go func(idx int) {
+            _ = hs.ContainsLock(idx)
+            wg.Done()
+        }(i)
+    }
+
+    wg.Wait()
+
+    got := hs.Length()
+    if got != writers {
+        t.Errorf("Expected %d, got %d", writers, got)
     }
 }
 ```
 
 ---
 
-## Assertion Methods Reference
+## Custom Test Wrappers
 
-`CaseV1` provides these assertion methods:
+For domain-specific test data, wrap `CaseV1` in a custom struct:
 
-| Method | Comparison | Use When |
-|--------|-----------|----------|
-| `ShouldBeEqual(t, idx, lines...)` | Exact string equality | Default — most tests |
-| `ShouldBeTrimEqual(t, idx, lines...)` | Trim + equal | Whitespace-insensitive |
-| `ShouldBeSortedEqual(t, idx, lines...)` | Sort + trim + equal | Order doesn't matter |
-| `ShouldContains(t, idx, lines...)` | Contains check | Partial matching |
-| `ShouldStartsWith(t, idx, lines...)` | Starts-with check | Prefix matching |
-| `ShouldEndsWith(t, idx, lines...)` | Ends-with check | Suffix matching |
-| `ShouldBeNotEqual(t, idx, lines...)` | Not equal | Negative assertions |
-| `ShouldBeRegex(t, idx, lines...)` | Regex match per line | Pattern matching |
-| `ShouldBeTrimRegex(t, idx, lines...)` | Trim + regex | Pattern with whitespace |
-| `ShouldHaveNoError(t, title, idx, err)` | Error is nil | Error absence check |
-| `AssertDirectly(t, title, msg, idx, actual, assertion, expected)` | Any convey assertion | Custom assertions |
-
----
-
-## Type Verification
-
-Optional but recommended for catching type drift:
+### Defining the wrapper
 
 ```go
-import "reflect"
-
-VerifyTypeOf: &coretests.VerifyTypeOf{
-    ArrangeInput:  reflect.TypeOf(args.Map{}),
-    ActualInput:   reflect.TypeOf([]string{}),
-    ExpectedInput: reflect.TypeOf([]string{}),
-},
+// bytesErrorOnce_testcases.go
+type bytesErrorOnceTestCase struct {
+    Case          coretestcases.CaseV1
+    InitBytes     []byte
+    InitErr       error
+    IsNilReceiver bool
+}
 ```
 
-If set, CaseV1 automatically validates that ArrangeInput, ActualInput, and ExpectedInput match the declared types.
-
----
-
-## Error Testing Patterns
-
-### Expecting an error in output lines
+### Named test case with wrapper
 
 ```go
-{
-    Title: "nil function returns error",
-    ArrangeInput: args.ThreeFunc{
-        WorkFunc: nil,
+var bytesErrorOnceExecuteTestCase = bytesErrorOnceTestCase{
+    Case: coretestcases.CaseV1{
+        Title:         "Execute returns same as Value",
+        ExpectedInput: []string{"true"},
     },
-    ExpectedInput: []string{
-        "error : ",
-        "  func-wrap is invalid:",
-        "      given type: <nil>",
-    },
-    HasError: true,
-},
+    InitBytes: []byte("exec"),
+}
 ```
 
-### Asserting error is nil
+### Using the wrapper in a test
 
 ```go
-testCase.ShouldHaveNoError(t, "deserialization", caseIndex, err)
+func Test_BytesErrorOnce_Execute(t *testing.T) {
+    tc := bytesErrorOnceExecuteTestCase
+
+    // Arrange
+    once := coreonce.NewBytesErrorOncePtr(func() ([]byte, error) {
+        return tc.InitBytes, nil
+    })
+
+    // Act
+    v1, _ := once.Execute()
+    v2, _ := once.Value()
+
+    // Assert
+    actLines := []string{fmt.Sprintf("%v", string(v1) == string(v2))}
+    expectedLines := tc.Case.ExpectedInput.([]string)
+    errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines)
+}
+```
+
+### Looping over wrapper slices (homogeneous logic only)
+
+```go
+var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
+    {Case: coretestcases.CaseV1{Title: "abc", ExpectedInput: []string{...}}, InitBytes: []byte("abc")},
+    {Case: coretestcases.CaseV1{Title: "nil", ExpectedInput: []string{...}}, InitBytes: nil},
+}
+
+func Test_BytesErrorOnce_Core(t *testing.T) {
+    for caseIndex, tc := range bytesErrorOnceCoreTestCases {
+        // Arrange
+        once := createOnce(tc.InitBytes, tc.InitErr)
+
+        // Act
+        val, err := once.Value()
+        actLines := buildActLines(val, err, once)
+
+        // Assert
+        expectedLines := tc.Case.ExpectedInput.([]string)
+        errcore.AssertDiffOnMismatch(t, caseIndex, tc.Case.Title, actLines, expectedLines)
+    }
+}
 ```
 
 ---
 
-## Anti-Patterns
+## Anti-Patterns (Banned)
 
-| ❌ Don't | ✅ Do |
-|----------|-------|
-| Inline test data in `_test.go` | Separate `_testcases.go` file |
-| Skip `// Arrange` / `// Act` / `// Assert` comments | Always label AAA sections |
-| Omit `caseIndex` from assertions | Always pass `caseIndex` |
-| Use `t.Fatal()` directly | Use `ShouldBeEqual` or `GetAssert` |
-| Name test dir same as package | Suffix with `tests` (e.g., `chmodhelpertests`) |
-| Put test wrapper in `_test.go` | Separate `TestWrapper.go` file |
-| Hardcode expected strings inline | Define in `_testcases.go` var block |
+### ❌ Never use raw `t.Error` / `t.Fatal` / `t.Errorf` for functional tests
+
+```go
+// ❌ BANNED
+if result != expected {
+    t.Errorf("got %v, want %v", result, expected)
+}
+
+// ✅ USE INSTEAD
+tc.ShouldBeEqual(t, 0, result)
+// or
+errcore.AssertDiffOnMismatch(t, 0, tc.Title, actLines, expectedLines)
+```
+
+### ❌ Never inline test data in test functions
+
+```go
+// ❌ BANNED
+func Test_Something(t *testing.T) {
+    expected := "hello"
+    actual := doThing()
+    if actual != expected { t.Error("nope") }
+}
+
+// ✅ USE INSTEAD — data in _testcases.go file
+var somethingTestCase = coretestcases.CaseV1{
+    Title:         "Returns hello",
+    ExpectedInput: "hello",
+}
+```
+
+### ❌ Never use indexed slice access for test cases
+
+```go
+// ❌ BANNED
+tc := testCases[0]
+
+// ✅ USE INSTEAD
+tc := mySpecificTestCase
+```
+
+### ❌ Never ignore input getter errors
+
+```go
+// ❌ BANNED — silently fails, test passes incorrectly
+str, _ := input.GetAsString("key")
+
+// ✅ CORRECT — panics immediately on missing input
+str, valid := input.GetAsString("key")
+errcore.HandleErrMessage("key", !valid)
+```
+
+### ❌ Never branch inside test functions
+
+```go
+// ❌ BANNED
+if tc.HasError {
+    // different assertion path
+} else {
+    // another path
+}
+
+// ✅ CORRECT — separate test functions
+func Test_Method_WithError(t *testing.T) { ... }
+func Test_Method_WithoutError(t *testing.T) { ... }
+```
+
+### ❌ Never skip AAA comments
+
+```go
+// ❌ BANNED
+func Test_X(t *testing.T) {
+    tc := xTestCase
+    result := doX()
+    tc.ShouldBeEqual(t, 0, result)
+}
+
+// ✅ CORRECT — always label sections
+func Test_X(t *testing.T) {
+    tc := xTestCase
+
+    // Arrange
+    // (no setup needed)
+
+    // Act
+    result := doX()
+
+    // Assert
+    tc.ShouldBeEqual(t, 0, result)
+}
+```
+
+### ❌ Never call convey.Convey directly
+
+```go
+// ❌ BANNED — framework handles convey wrapping
+convey.Convey("my test", t, func() {
+    convey.So(actual, convey.ShouldEqual, expected)
+})
+
+// ✅ USE INSTEAD
+tc.ShouldBeEqual(t, 0, actual)
+```
+
+---
+
+## Complete Examples
+
+### Example 1: Named test cases with ShouldBeEqual
+
+```go
+// PairFromSplit_testcases.go
+package coregenerictests
+
+import (
+    "gitlab.com/auk-go/core/coretests/args"
+    "gitlab.com/auk-go/core/coretests/coretestcases"
+)
+
+var pairFromSplitValidTestCase = coretestcases.CaseV1{
+    Title: "PairFromSplit with dot separator",
+    ArrangeInput: args.Map{
+        "input": "key.value",
+        "sep":   ".",
+    },
+    ExpectedInput: []string{"key", "value", "true", ""},
+}
+
+var pairFromSplitMissingSepTestCase = coretestcases.CaseV1{
+    Title: "PairFromSplit without separator returns invalid",
+    ArrangeInput: args.Map{
+        "input": "noseparator",
+        "sep":   ".",
+    },
+    ExpectedInput: []string{"noseparator", "", "false", "separator not found"},
+}
+```
+
+```go
+// PairFromSplit_test.go
+package coregenerictests
+
+import (
+    "fmt"
+    "testing"
+
+    "gitlab.com/auk-go/core/coredata/coregeneric"
+    "gitlab.com/auk-go/core/coretests/args"
+    "gitlab.com/auk-go/core/errcore"
+)
+
+func Test_PairFromSplit_Valid(t *testing.T) {
+    tc := pairFromSplitValidTestCase
+
+    // Arrange
+    input := tc.ArrangeInput.(args.Map)
+    str, _ := input.GetAsString("input")
+    sep, _ := input.GetAsString("sep")
+
+    // Act
+    pair := coregeneric.PairFromSplit(str, sep)
+
+    // Assert
+    tc.ShouldBeEqual(t, 0,
+        pair.Left,
+        pair.Right,
+        fmt.Sprintf("%v", pair.IsValid),
+        pair.Message,
+    )
+}
+
+func Test_PairFromSplit_MissingSep(t *testing.T) {
+    tc := pairFromSplitMissingSepTestCase
+
+    // Arrange
+    input := tc.ArrangeInput.(args.Map)
+    str, _ := input.GetAsString("input")
+    sep, _ := input.GetAsString("sep")
+
+    // Act
+    pair := coregeneric.PairFromSplit(str, sep)
+
+    // Assert
+    tc.ShouldBeEqual(t, 0,
+        pair.Left,
+        pair.Right,
+        fmt.Sprintf("%v", pair.IsValid),
+        pair.Message,
+    )
+}
+```
+
+### Example 2: Using errcore.AssertDiffOnMismatch with custom wrapper
+
+```go
+// IntegerOnce_testcases.go
+type integerOnceTestCase struct {
+    Case         coretestcases.CaseV1
+    InitValue    int
+    CompareValue int
+}
+
+var integerOnceBasicTestCase = integerOnceTestCase{
+    Case: coretestcases.CaseV1{
+        Title:         "IntegerOnce returns initialized value",
+        ExpectedInput: []string{"42", "true"},
+    },
+    InitValue: 42,
+}
+```
+
+```go
+// IntegerOnce_test.go
+func Test_IntegerOnce_Basic(t *testing.T) {
+    tc := integerOnceBasicTestCase
+
+    // Arrange
+    once := coreonce.NewIntegerOncePtr(func() int { return tc.InitValue })
+
+    // Act
+    val := once.Value()
+
+    // Assert
+    actLines := []string{
+        fmt.Sprintf("%d", val),
+        fmt.Sprintf("%v", once.IsInitialized()),
+    }
+    expectedLines := tc.Case.ExpectedInput.([]string)
+    errcore.AssertDiffOnMismatch(t, 0, tc.Case.Title, actLines, expectedLines,
+        fmt.Sprintf("  InitValue: %d", tc.InitValue),
+    )
+}
+```
+
+### Example 3: Single-value ExpectedInput (string shorthand)
+
+```go
+// _testcases.go
+var linkedListCollectionTestCase = coretestcases.CaseV1{
+    Title:         "Collection converts",
+    ExpectedInput: "2",                 // single string, NOT []string{"2"}
+}
+
+// _test.go
+func Test_LinkedList_Collection(t *testing.T) {
+    tc := linkedListCollectionTestCase
+
+    // Arrange
+    ll := coregeneric.LinkedListFrom([]int{1, 2})
+
+    // Act
+    col := ll.Collection()
+
+    // Assert — ShouldBeEqual normalizes "2" → []string{"2"}
+    tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", col.Length()))
+}
+```
 
 ---
 
@@ -380,19 +1209,121 @@ testCase.ShouldHaveNoError(t, "deserialization", caseIndex, err)
 When adding tests for a new package:
 
 - [ ] Create directory: `tests/integratedtests/{package}tests/`
-- [ ] Create test cases file: `{Feature}_testcases.go` with `var {feature}TestCases = []coretestcases.CaseV1{...}`
-- [ ] Create test file: `{Feature}_test.go` with `func Test_{Feature}_Verification(t *testing.T)`
-- [ ] Follow AAA pattern with explicit comments
-- [ ] Pass `caseIndex` to all assertion calls
-- [ ] Use `coretests.GetAssert.ToStrings()` to convert results to comparable lines
-- [ ] Add `VerifyTypeOf` if the test has distinct input/output types
-- [ ] Create custom `TestWrapper` if ArrangeInput needs type-safe casting
+- [ ] Create test cases file: `{Feature}_testcases.go` with named variables
+- [ ] Create test file: `{Feature}_test.go` with individual `Test_` functions
+- [ ] Follow AAA pattern with explicit `// Arrange`, `// Act`, `// Assert` comments
+- [ ] Pass `caseIndex` to all assertion calls (use `0` for single-case tests)
+- [ ] Use named test case variables (never indexed slice access)
+- [ ] Use `string` for single-value expectations, `[]string` for multi-value
+- [ ] Use `ShouldBeEqual` or `errcore.AssertDiffOnMismatch` — never raw `t.Error`
+- [ ] Handle `args.Map` getter errors (never ignore the `bool` return)
+- [ ] One test function per scenario — no branching in test bodies
 - [ ] Run `make run-tests` to verify
+
+---
+
+## Future: CaseV2 Proposal
+
+The current `CaseV1` serves well for string-line-based comparison but has known limitations:
+
+### CaseV1 Limitations
+
+1. **String-only comparison** — all actual values must be converted to `string` via `fmt.Sprintf`.
+2. **No structured diff** — comparison is line-by-line strings, not typed values.
+3. **No built-in error expectation** — `HasError` field exists but isn't enforced automatically.
+4. **Manual ActualInput management** — `SetActual` must be called explicitly.
+5. **No subtest integration** — doesn't use `t.Run()` for Go's native subtest naming.
+
+### CaseV2 Ideas
+
+A potential `CaseV2` could address these:
+
+| Feature | CaseV1 | CaseV2 (Proposed) |
+|---|---|---|
+| Expected type | `any` (string or []string) | `ExpectedResult[T]` — typed generics |
+| Error handling | Manual `HasError` bool | `ExpectedError *ErrorExpectation` — auto-assert |
+| Comparison | String lines only | `reflect.DeepEqual` + typed diff |
+| Panic assertion | External helper required | `ExpectsPanic bool` — auto-recover |
+| Timeout | Not supported | `Timeout time.Duration` — deadline enforcement |
+| Subtest naming | Manual `caseIndex` | Auto `t.Run(tc.Title)` subtests |
+| Cleanup | Not supported | `Cleanup func()` — auto `t.Cleanup` |
+
+### Proposed CaseV2 structure
+
+```go
+type CaseV2[T any] struct {
+    Title          string
+    ArrangeInput   any
+    ExpectedResult T                    // Typed expected value — no fmt.Sprintf needed
+    ExpectedError  *ErrorExpectation    // nil = no error expected
+    ExpectsPanic   bool
+    Timeout        time.Duration
+    Cleanup        func()
+    Tags           []string             // for filtering: "unit", "integration", "slow"
+}
+
+type ErrorExpectation struct {
+    ShouldExist  bool
+    Contains     string          // substring match on error message
+    MatchesRegex string          // pattern match
+    IsType       reflect.Type    // typed error assertion (e.g., *os.PathError)
+}
+```
+
+### CaseV2 usage would look like
+
+```go
+var v2TestCase = coretestcases.CaseV2[int]{
+    Title:          "Length after 3 adds",
+    ExpectedResult: 3,
+}
+
+func Test_LinkedList_Length_V2(t *testing.T) {
+    tc := v2TestCase
+
+    // Arrange
+    ll := coregeneric.EmptyLinkedList[int]()
+    ll.Adds(1, 2, 3)
+
+    // Act
+    result := ll.Length()
+
+    // Assert — typed comparison, no fmt.Sprintf needed
+    tc.AssertEqual(t, result)
+}
+```
+
+### CaseV2 with error expectation
+
+```go
+var v2ErrorCase = coretestcases.CaseV2[*User]{
+    Title: "Invalid ID returns not-found error",
+    ExpectedError: &coretestcases.ErrorExpectation{
+        ShouldExist:  true,
+        Contains:     "not found",
+    },
+}
+
+func Test_FindUser_NotFound_V2(t *testing.T) {
+    tc := v2ErrorCase
+
+    // Act
+    result, err := findUser("invalid-id")
+
+    // Assert — auto-checks error existence + message content
+    tc.AssertResult(t, result, err)
+}
+```
+
+This is a **proposal only** — CaseV1 remains the standard until CaseV2 is implemented and validated.
 
 ---
 
 ## Related Docs
 
-- [Testing Patterns Overview](/spec/01-app/13-testing-patterns.md)
-- [coretests Folder Spec](/spec/01-app/folders/07-coretests.md)
-- [Missing Unit Tests Issue](/spec/13-app-issues/testing/01-missing-unit-tests.md)
+- [Folder Spec: coretests](/spec/01-app/folders/07-coretests.md)
+- [Testing Patterns (legacy summary)](/spec/01-app/13-testing-patterns.md)
+- [Coding Guidelines](/spec/01-app/17-coding-guidelines.md)
+- [Edge Case Coverage Audit](/spec/13-app-issues/testing/02-edge-case-coverage-audit.md)
+- [Deep Coverage Scan](/spec/13-app-issues/testing/03-deep-coverage-scan.md)
+- [GoConvey Migration Plan](/spec/13-app-issues/testing/04-goconvey-migration-plan.md)
