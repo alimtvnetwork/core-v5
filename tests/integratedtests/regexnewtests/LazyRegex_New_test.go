@@ -4,16 +4,14 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/regexnew"
 )
 
 func Test_New_Lazy_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexNewTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		pattern, _ := input.GetAsString("pattern")
-		compareInput, _ := input.GetAsString("input")
+		pattern := testCase.Input
+		compareInput, _ := testCase.GetExtraAsString("compareInput")
 
 		// Act
 		lazyRegex := regexnew.New.Lazy(pattern)
@@ -23,25 +21,24 @@ func Test_New_Lazy_Verification(t *testing.T) {
 		isMatch := fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))
 		isFailedMatch := fmt.Sprintf("%v", lazyRegex.IsFailedMatch(compareInput))
 
-		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
+		actLines := []string{
 			lazyRegex.Pattern(),
 			isDefined,
 			isApplicable,
 			isMatch,
 			isFailedMatch,
-		)
+		}
+
+		// Assert
+		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
 	}
 }
 
 func Test_New_LazyLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexLockTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		pattern, _ := input.GetAsString("pattern")
-		compareInput, _ := input.GetAsString("input")
+		pattern := testCase.Input
+		compareInput, _ := testCase.GetExtraAsString("compareInput")
 
 		// Act
 		lazyRegex := regexnew.New.LazyLock(pattern)
@@ -51,15 +48,15 @@ func Test_New_LazyLock_Verification(t *testing.T) {
 		isMatch := fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))
 		isFailedMatch := fmt.Sprintf("%v", lazyRegex.IsFailedMatch(compareInput))
 
-		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
+		actLines := []string{
 			lazyRegex.Pattern(),
 			isDefined,
 			isApplicable,
 			isMatch,
 			isFailedMatch,
-		)
+		}
+
+		// Assert
+		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
 	}
 }
