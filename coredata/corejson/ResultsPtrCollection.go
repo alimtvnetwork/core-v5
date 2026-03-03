@@ -607,9 +607,15 @@ func (it *ResultsPtrCollection) Ptr() *ResultsPtrCollection {
 	return it
 }
 
+// GetPagesSize returns the number of pages for the given page size.
+// Returns 0 if eachPageSize is zero or negative.
 func (it *ResultsPtrCollection) GetPagesSize(
 	eachPageSize int,
 ) int {
+	if eachPageSize <= 0 {
+		return 0
+	}
+
 	length := it.Length()
 
 	pagesPossibleFloat := float64(length) / float64(eachPageSize)
