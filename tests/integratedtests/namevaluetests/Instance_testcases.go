@@ -5,7 +5,9 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-// region StringAny (backward-compat) tests
+// ==========================================================================
+// StringAny tests
+// ==========================================================================
 
 var stringAnyStringTestCases = []coretestcases.CaseV1{
 	{
@@ -46,9 +48,9 @@ var stringAnyStringTestCases = []coretestcases.CaseV1{
 	},
 }
 
-// endregion
-
-// region StringString tests
+// ==========================================================================
+// StringString tests
+// ==========================================================================
 
 var stringStringTestCases = []coretestcases.CaseV1{
 	{
@@ -80,9 +82,9 @@ var stringStringTestCases = []coretestcases.CaseV1{
 	},
 }
 
-// endregion
-
-// region StringInt tests
+// ==========================================================================
+// StringInt tests
+// ==========================================================================
 
 var stringIntTestCases = []coretestcases.CaseV1{
 	{
@@ -114,125 +116,75 @@ var stringIntTestCases = []coretestcases.CaseV1{
 	},
 }
 
-// endregion
+// ==========================================================================
+// StringMapAny tests
+// ==========================================================================
 
-// region StringMapAny tests
-
-var stringMapAnyTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: StringMapAny with populated map",
-		ArrangeInput: args.Map{
-			"when": "given name and populated map",
-			"name": "config",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
-	{
-		Title: "Negative: StringMapAny with empty map",
-		ArrangeInput: args.Map{
-			"when": "given name and empty map",
-			"name": "empty",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
-	{
-		Title: "Negative: StringMapAny with nil map",
-		ArrangeInput: args.Map{
-			"when": "given name and nil map",
-			"name": "nothing",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
+var stringMapAnyPopulatedTestCase = coretestcases.CaseV1{
+	Title:         "Positive: StringMapAny with populated map",
+	ExpectedInput: []string{"true", "true"},
 }
 
-// endregion
-
-// region StringMapString tests
-
-var stringMapStringTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: StringMapString with populated map",
-		ArrangeInput: args.Map{
-			"when": "given name and string map",
-			"name": "headers",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
-	{
-		Title: "Negative: StringMapString with nil map",
-		ArrangeInput: args.Map{
-			"when": "given name and nil map",
-			"name": "nothing",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
+var stringMapAnyEmptyTestCase = coretestcases.CaseV1{
+	Title:         "Negative: StringMapAny with empty map",
+	ExpectedInput: []string{"true", "true"},
 }
 
-// endregion
-
-// region Dispose tests
-
-var genericDisposeTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: Dispose clears StringAny fields",
-		ArrangeInput: args.Map{
-			"when":  "given StringAny with data",
-			"type":  "stringany",
-			"name":  "key",
-			"value": "val",
-		},
-		ExpectedInput: []string{"", "true"},
-	},
-	{
-		Title: "Positive: Dispose clears StringString fields",
-		ArrangeInput: args.Map{
-			"when":  "given StringString with data",
-			"type":  "stringstring",
-			"name":  "key",
-			"value": "val",
-		},
-		ExpectedInput: []string{"", ""},
-	},
-	{
-		Title: "Positive: Dispose clears StringInt to zero",
-		ArrangeInput: args.Map{
-			"when":  "given StringInt with data",
-			"type":  "stringint",
-			"name":  "count",
-			"value": 42,
-		},
-		ExpectedInput: []string{"", "0"},
-	},
+var stringMapAnyNilTestCase = coretestcases.CaseV1{
+	Title:         "Negative: StringMapAny with nil map",
+	ExpectedInput: []string{"true", "true"},
 }
 
-// endregion
+// ==========================================================================
+// StringMapString tests
+// ==========================================================================
 
-// region JsonString tests
-
-var genericJsonStringTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: StringAny JsonString contains key",
-		ArrangeInput: args.Map{
-			"when":  "given valid StringAny",
-			"name":  "server",
-			"value": "api.example.com",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
-	{
-		Title: "Positive: StringInt JsonString contains number",
-		ArrangeInput: args.Map{
-			"when":  "given valid StringInt",
-			"name":  "port",
-			"value": 443,
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
+var stringMapStringPopulatedTestCase = coretestcases.CaseV1{
+	Title:         "Positive: StringMapString with populated map",
+	ExpectedInput: []string{"true", "true"},
 }
 
-// endregion
+var stringMapStringNilTestCase = coretestcases.CaseV1{
+	Title:         "Negative: StringMapString with nil map",
+	ExpectedInput: []string{"true", "true"},
+}
 
-// region Collection tests
+// ==========================================================================
+// Dispose tests
+// ==========================================================================
+
+var disposeStringAnyTestCase = coretestcases.CaseV1{
+	Title:         "Positive: Dispose clears StringAny fields",
+	ExpectedInput: []string{"", "true"},
+}
+
+var disposeStringStringTestCase = coretestcases.CaseV1{
+	Title:         "Positive: Dispose clears StringString fields",
+	ExpectedInput: []string{"", ""},
+}
+
+var disposeStringIntTestCase = coretestcases.CaseV1{
+	Title:         "Positive: Dispose clears StringInt to zero",
+	ExpectedInput: []string{"", "0"},
+}
+
+// ==========================================================================
+// JsonString tests
+// ==========================================================================
+
+var jsonStringStringAnyTestCase = coretestcases.CaseV1{
+	Title:         "Positive: StringAny JsonString contains key",
+	ExpectedInput: []string{"true", "true"},
+}
+
+var jsonStringStringIntTestCase = coretestcases.CaseV1{
+	Title:         "Positive: StringInt JsonString contains number",
+	ExpectedInput: []string{"true", "true"},
+}
+
+// ==========================================================================
+// Collection tests
+// ==========================================================================
 
 var collectionTestCases = []coretestcases.CaseV1{
 	{
@@ -253,37 +205,21 @@ var collectionTestCases = []coretestcases.CaseV1{
 	},
 }
 
-// endregion
+// ==========================================================================
+// Chmod integration tests
+// ==========================================================================
 
-// region Chmod integration tests
-
-var chmodIntegrationTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: StringAny works in errcore.VarNameValues",
-		ArrangeInput: args.Map{
-			"when": "given StringAny used in errcore formatting",
-			"name": "Location",
-			"path": "/tmp/test",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
-	{
-		Title: "Positive: StringAny works in errcore.MessageNameValues",
-		ArrangeInput: args.Map{
-			"when":    "given StringAny used in message formatting",
-			"message": "chmod verification failed",
-			"name":    "Path",
-			"path":    "/usr/local/bin",
-		},
-		ExpectedInput: []string{"true", "true"},
-	},
-	{
-		Title: "Negative: Empty StringAny slice in VarNameValues returns empty",
-		ArrangeInput: args.Map{
-			"when": "given no name values",
-		},
-		ExpectedInput: []string{""},
-	},
+var chmodVarNameValuesSingleTestCase = coretestcases.CaseV1{
+	Title:         "Positive: StringAny works in errcore.VarNameValues",
+	ExpectedInput: []string{"true", "true"},
 }
 
-// endregion
+var chmodMessageNameValuesTestCase = coretestcases.CaseV1{
+	Title:         "Positive: StringAny works in errcore.MessageNameValues",
+	ExpectedInput: []string{"true", "true"},
+}
+
+var chmodVarNameValuesEmptyTestCase = coretestcases.CaseV1{
+	Title:         "Negative: Empty StringAny slice in VarNameValues returns empty",
+	ExpectedInput: []string{""},
+}
