@@ -1,11 +1,12 @@
 package coredynamictests
 
 import (
+	"fmt"
 	"testing"
 
-	. "github.com/smartystreets/goconvey/convey"
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests"
+	"gitlab.com/auk-go/core/errcore"
 	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
 )
 
@@ -18,7 +19,7 @@ import (
 //   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
 //   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
 func Test_ReflectSetFromTo_ValidCases(t *testing.T) {
-	for _, testCase := range coredynamictestwrappers.ReflectSetFromToValidTestCases {
+	for caseIndex, testCase := range coredynamictestwrappers.ReflectSetFromToValidTestCases {
 		// Act
 		err := coredynamic.ReflectSetFromTo(
 			testCase.From,
@@ -32,49 +33,60 @@ func Test_ReflectSetFromTo_ValidCases(t *testing.T) {
 		testCase.SetActual(testCase.To)
 
 		// Assert
-		Convey(
-			testCase.CaseTitle(), t, func() {
-				So(err, ShouldBeNil)
-				typeStatus.MustBeSame()
-				switch convertedFrom := testCase.From.(type) {
-				case *coretests.DraftType:
-					toField := testCase.ToFieldToDraftType()
-					expectedField := testCase.ExpectedFieldToDraftType()
-					toFieldEqualErr := toField.
-						VerifyNotEqualExcludingInnerFieldsErr(
-							expectedField,
-						)
-					fromFieldEqualErr := convertedFrom.
-						VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+		actLines := []string{
+			fmt.Sprintf("%v", err == nil),
+			fmt.Sprintf("%v", typeStatus.IsSame()),
+		}
+		expected := []string{"true", "true"}
 
-					So(toFieldEqualErr, ShouldBeNil)
-					So(fromFieldEqualErr, ShouldBeNil)
+		switch convertedFrom := testCase.From.(type) {
+		case *coretests.DraftType:
+			toField := testCase.ToFieldToDraftType()
+			expectedField := testCase.ExpectedFieldToDraftType()
+			toFieldEqualErr := toField.
+				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+			fromFieldEqualErr := convertedFrom.
+				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
 
-				case coretests.DraftType:
-					toField := testCase.ToFieldToDraftType()
-					expectedField := testCase.ExpectedFieldToDraftType()
-					toFieldEqualErr := toField.
-						VerifyNotEqualExcludingInnerFieldsErr(
-							expectedField,
-						)
-					fromFieldEqualErr := convertedFrom.
-						VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+			actLines = append(actLines,
+				fmt.Sprintf("%v", toFieldEqualErr == nil),
+				fmt.Sprintf("%v", fromFieldEqualErr == nil),
+			)
+			expected = append(expected, "true", "true")
 
-					So(toFieldEqualErr, ShouldBeNil)
-					So(fromFieldEqualErr, ShouldBeNil)
+		case coretests.DraftType:
+			toField := testCase.ToFieldToDraftType()
+			expectedField := testCase.ExpectedFieldToDraftType()
+			toFieldEqualErr := toField.
+				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+			fromFieldEqualErr := convertedFrom.
+				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
 
-				case []byte, *[]byte:
-					// expecting unmarshalling to type
-					// From, To: ([]byte or *[]byte, otherType) -- try unmarshal, reflect
-					// To, Expected should be same
-					toField := testCase.ToFieldToDraftType()
-					toFieldEqualErr := toField.
-						VerifyNotEqualExcludingInnerFieldsErr(
-							testCase.ExpectedFieldToDraftType(),
-						)
-					So(toFieldEqualErr, ShouldBeNil)
-				}
-			},
-		)
+			actLines = append(actLines,
+				fmt.Sprintf("%v", toFieldEqualErr == nil),
+				fmt.Sprintf("%v", fromFieldEqualErr == nil),
+			)
+			expected = append(expected, "true", "true")
+
+		case []byte, *[]byte:
+			toField := testCase.ToFieldToDraftType()
+			toFieldEqualErr := toField.
+				VerifyNotEqualExcludingInnerFieldsErr(
+					testCase.ExpectedFieldToDraftType(),
+				)
+			actLines = append(actLines,
+				fmt.Sprintf("%v", toFieldEqualErr == nil),
+			)
+			expected = append(expected, "true")
+		}
+
+		errcore.PrintLineDiff(caseIndex, testCase.Header, actLines, expected)
+
+		for i, act := range actLines {
+			if act != expected[i] {
+				t.Errorf("[case %d] %s: line %d got %q, want %q",
+					caseIndex, testCase.Header, i, act, expected[i])
+			}
+		}
 	}
 }
