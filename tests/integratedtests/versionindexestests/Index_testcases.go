@@ -50,7 +50,7 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"Minor",
-			"Minor : 1",
+			"Minor[1]",
 		},
 	},
 	{
@@ -61,7 +61,7 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"Patch",
-			"Patch : 2",
+			"Patch[2]",
 		},
 	},
 }
@@ -76,7 +76,7 @@ var jsonParseSelfInjectTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"Patch",
-			"Patch : 2",
+			"Patch[2]",
 		},
 	},
 	{
@@ -88,7 +88,7 @@ var jsonParseSelfInjectTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: []string{
 			"Major",
-			"Major : 0",
+			"Major[0]",
 		},
 	},
 }

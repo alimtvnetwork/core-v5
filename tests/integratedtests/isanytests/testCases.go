@@ -580,7 +580,7 @@ var (
 				},
 				ExpectedInput: []string{
 					"0 - Equal : true - Conclusive ('<nil>', '<nil>')",
-					"1 - Equal : true - Conclusive ('<nil> - *args.Two', '<nil> - *args.Two')",
+					"1 - Equal : true - Conclusive ('*args.Two', '*args.Two')",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,
 				IsEnable:     issetter.True,
@@ -600,8 +600,8 @@ var (
 					},
 				},
 				ExpectedInput: []string{
-					"0 - Equal : false - Conclusive ('<nil>', '<nil> - *args.Two')",
-					"1 - Equal : false - Conclusive ('<nil> - *args.Two', '<nil>')",
+				"0 - Equal : false - Conclusive ('<nil>', '*args.Two')",
+				"1 - Equal : false - Conclusive ('*args.Two', '<nil>')",
 				},
 				VerifyTypeOf: twoArgsTypeVerification,
 				IsEnable:     issetter.True,

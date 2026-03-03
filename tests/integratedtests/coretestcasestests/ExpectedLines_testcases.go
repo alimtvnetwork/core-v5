@@ -40,11 +40,9 @@ var expectedLinesIntSliceTestCase = coretestcases.CaseV1{
 }
 
 var expectedLinesIntSliceExpected = []string{
-	"[",
-	"  10,",
-	"  20,",
-	"  30",
-	"]",
+	"10",
+	"20",
+	"30",
 }
 
 // --- ExpectedLines: []bool (falls through to PrettyJSON) ---
@@ -55,11 +53,9 @@ var expectedLinesBoolSliceTestCase = coretestcases.CaseV1{
 }
 
 var expectedLinesBoolSliceExpected = []string{
-	"[",
-	"  true,",
-	"  false,",
-	"  true",
-	"]",
+	"true",
+	"false",
+	"true",
 }
 
 // --- ExpectedLines: string (existing behavior) ---

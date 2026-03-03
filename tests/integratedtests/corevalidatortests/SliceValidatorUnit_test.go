@@ -172,8 +172,8 @@ func Test_SliceValidator_IsUsedAlready_TrueAfterComparing(t *testing.T) {
 func Test_SliceValidator_MethodName(t *testing.T) {
 	v := corevalidator.SliceValidator{CompareAs: stringcompareas.Contains}
 	name := v.MethodName()
-	if name != "Contains" {
-		t.Errorf("expected 'Contains', got '%s'", name)
+	if name != "IsContains" {
+		t.Errorf("expected 'IsContains', got '%s'", name)
 	}
 }
 

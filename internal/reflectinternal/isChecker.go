@@ -5,6 +5,14 @@ import "reflect"
 type isChecker struct{}
 
 func (it isChecker) Conclusive(left, right any) (isEqual, isConclusive bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			// uncomparable types (e.g. slices) - fall through to reflect
+			isEqual = false
+			isConclusive = false
+		}
+	}()
+
 	if left == right {
 		return true, true
 	}
