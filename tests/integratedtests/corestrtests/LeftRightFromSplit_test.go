@@ -14,42 +14,42 @@ import (
 func Test_LeftRightFromSplit(t *testing.T) {
 	// Case 0: Normal key=value split
 	{
-		tc := leftRightFromSplitTestCases[0]
+		tc := leftRightFromSplitNormalTestCase
 		lr := corestr.LeftRightFromSplit("key=value", "=")
 		tc.ShouldBeEqual(t, 0, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 1: Missing separator
 	{
-		tc := leftRightFromSplitTestCases[1]
+		tc := leftRightFromSplitMissingSepTestCase
 		lr := corestr.LeftRightFromSplit("no-separator-here", "=")
 		tc.ShouldBeEqual(t, 1, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 2: Empty input
 	{
-		tc := leftRightFromSplitTestCases[2]
+		tc := leftRightFromSplitEmptyTestCase
 		lr := corestr.LeftRightFromSplit("", "=")
 		tc.ShouldBeEqual(t, 2, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 3: Separator at start
 	{
-		tc := leftRightFromSplitTestCases[3]
+		tc := leftRightFromSplitSepAtStartTestCase
 		lr := corestr.LeftRightFromSplit("=value", "=")
 		tc.ShouldBeEqual(t, 3, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 4: Separator at end
 	{
-		tc := leftRightFromSplitTestCases[4]
+		tc := leftRightFromSplitSepAtEndTestCase
 		lr := corestr.LeftRightFromSplit("key=", "=")
 		tc.ShouldBeEqual(t, 4, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 5: Multiple separators
 	{
-		tc := leftRightFromSplitTestCases[5]
+		tc := leftRightFromSplitMultipleSepTestCase
 		lr := corestr.LeftRightFromSplit("a=b=c", "=")
 		tc.ShouldBeEqual(t, 5, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
@@ -62,21 +62,21 @@ func Test_LeftRightFromSplit(t *testing.T) {
 func Test_LeftRightFromSplitTrimmed(t *testing.T) {
 	// Case 0: Trims whitespace
 	{
-		tc := leftRightFromSplitTrimmedTestCases[0]
+		tc := leftRightFromSplitTrimmedTrimsTestCase
 		lr := corestr.LeftRightFromSplitTrimmed("  key  =  value  ", "=")
 		tc.ShouldBeEqual(t, 0, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 1: No separator
 	{
-		tc := leftRightFromSplitTrimmedTestCases[1]
+		tc := leftRightFromSplitTrimmedNoSepTestCase
 		lr := corestr.LeftRightFromSplitTrimmed("  hello  ", "=")
 		tc.ShouldBeEqual(t, 1, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 2: Whitespace-only parts
 	{
-		tc := leftRightFromSplitTrimmedTestCases[2]
+		tc := leftRightFromSplitTrimmedWhitespaceTestCase
 		lr := corestr.LeftRightFromSplitTrimmed("   =   ", "=")
 		tc.ShouldBeEqual(t, 2, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
@@ -89,21 +89,21 @@ func Test_LeftRightFromSplitTrimmed(t *testing.T) {
 func Test_LeftRightFromSplitFull(t *testing.T) {
 	// Case 0: Remainder in right
 	{
-		tc := leftRightFromSplitFullTestCases[0]
+		tc := leftRightFromSplitFullRemainderTestCase
 		lr := corestr.LeftRightFromSplitFull("a:b:c:d", ":")
 		tc.ShouldBeEqual(t, 0, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 1: Single separator
 	{
-		tc := leftRightFromSplitFullTestCases[1]
+		tc := leftRightFromSplitFullSingleSepTestCase
 		lr := corestr.LeftRightFromSplitFull("key:value", ":")
 		tc.ShouldBeEqual(t, 1, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 2: Missing separator
 	{
-		tc := leftRightFromSplitFullTestCases[2]
+		tc := leftRightFromSplitFullMissingSepTestCase
 		lr := corestr.LeftRightFromSplitFull("nosep", ":")
 		tc.ShouldBeEqual(t, 2, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
@@ -116,14 +116,14 @@ func Test_LeftRightFromSplitFull(t *testing.T) {
 func Test_LeftRightFromSplitFullTrimmed(t *testing.T) {
 	// Case 0: Remainder trimmed
 	{
-		tc := leftRightFromSplitFullTrimmedTestCases[0]
+		tc := leftRightFromSplitFullTrimmedRemainderTestCase
 		lr := corestr.LeftRightFromSplitFullTrimmed(" a : b : c : d ", ":")
 		tc.ShouldBeEqual(t, 0, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}
 
 	// Case 1: Missing separator trimmed
 	{
-		tc := leftRightFromSplitFullTrimmedTestCases[1]
+		tc := leftRightFromSplitFullTrimmedMissingSepTestCase
 		lr := corestr.LeftRightFromSplitFullTrimmed("  hello  ", ":")
 		tc.ShouldBeEqual(t, 1, lr.Left, lr.Right, fmt.Sprintf("%v", lr.IsValid))
 	}

@@ -9,10 +9,10 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Lazy with simple word pattern matches correctly",
 		ArrangeInput: args.Map{
-			"when":     "given a simple word pattern",
-			"pattern":  "hello",
-			"input":    "hello world",
-			"isMatch":  true,
+			"when":    "given a simple word pattern",
+			"pattern": "hello",
+			"input":   "hello world",
+			"isMatch": true,
 		},
 		ExpectedInput: []string{
 			"hello",
@@ -25,10 +25,10 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Lazy with digit pattern matches digits",
 		ArrangeInput: args.Map{
-			"when":     "given a digit pattern",
-			"pattern":  "\\d+",
-			"input":    "abc123def",
-			"isMatch":  true,
+			"when":    "given a digit pattern",
+			"pattern": "\\d+",
+			"input":   "abc123def",
+			"isMatch": true,
 		},
 		ExpectedInput: []string{
 			"\\d+",
@@ -41,10 +41,10 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Lazy with no-match input returns false",
 		ArrangeInput: args.Map{
-			"when":     "given input that does not match",
-			"pattern":  "^\\d+$",
-			"input":    "abc",
-			"isMatch":  false,
+			"when":    "given input that does not match",
+			"pattern": "^\\d+$",
+			"input":   "abc",
+			"isMatch": false,
 		},
 		ExpectedInput: []string{
 			"^\\d+$",
@@ -57,10 +57,10 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Lazy with invalid regex pattern has error",
 		ArrangeInput: args.Map{
-			"when":     "given an invalid regex pattern",
-			"pattern":  "[invalid",
-			"input":    "anything",
-			"isMatch":  false,
+			"when":    "given an invalid regex pattern",
+			"pattern": "[invalid",
+			"input":   "anything",
+			"isMatch": false,
 		},
 		ExpectedInput: []string{
 			"[invalid",
@@ -73,10 +73,10 @@ var lazyRegexNewTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.Lazy with empty pattern matches everything",
 		ArrangeInput: args.Map{
-			"when":     "given an empty pattern",
-			"pattern":  "",
-			"input":    "anything",
-			"isMatch":  false,
+			"when":    "given an empty pattern",
+			"pattern": "",
+			"input":   "anything",
+			"isMatch": false,
 		},
 		ExpectedInput: []string{
 			"",
@@ -92,10 +92,10 @@ var lazyRegexLockTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.LazyLock with word pattern is thread-safe",
 		ArrangeInput: args.Map{
-			"when":     "given a word pattern via LazyLock",
-			"pattern":  "world",
-			"input":    "hello world",
-			"isMatch":  true,
+			"when":    "given a word pattern via LazyLock",
+			"pattern": "world",
+			"input":   "hello world",
+			"isMatch": true,
 		},
 		ExpectedInput: []string{
 			"world",
@@ -108,10 +108,10 @@ var lazyRegexLockTestCases = []coretestcases.CaseV1{
 	{
 		Title: "New.LazyLock with email pattern matches email",
 		ArrangeInput: args.Map{
-			"when":     "given an email-like pattern",
-			"pattern":  `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`,
-			"input":    "user@example.com",
-			"isMatch":  true,
+			"when":    "given an email-like pattern",
+			"pattern": `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`,
+			"input":   "user@example.com",
+			"isMatch": true,
 		},
 		ExpectedInput: []string{
 			`[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`,
@@ -123,62 +123,68 @@ var lazyRegexLockTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var lazyRegexPatternMatchTestCases = []coretestcases.CaseV1{
-	{
-		Title: "IsMatch returns true for full string digit match",
-		ArrangeInput: args.Map{
-			"when":    "given full string digit pattern",
-			"pattern": "^\\d+$",
-			"input":   "12345",
-		},
-		ExpectedInput: []string{
-			"true",
-		},
+// ==========================================================================
+// PatternMatch — named test cases
+// ==========================================================================
+
+var lazyRegexIsMatchFullDigitTestCase = coretestcases.CaseV1{
+	Title: "IsMatch returns true for full string digit match",
+	ArrangeInput: args.Map{
+		"when":    "given full string digit pattern",
+		"pattern": "^\\d+$",
+		"input":   "12345",
 	},
-	{
-		Title: "IsMatch returns false for partial digit mismatch",
-		ArrangeInput: args.Map{
-			"when":    "given full string digit pattern with letters",
-			"pattern": "^\\d+$",
-			"input":   "123abc",
-		},
-		ExpectedInput: []string{
-			"false",
-		},
+	ExpectedInput: []string{
+		"true",
 	},
-	{
-		Title: "IsFailedMatch is inverse of IsMatch",
-		ArrangeInput: args.Map{
-			"when":    "given matching input to IsFailedMatch",
-			"pattern": "^hello$",
-			"input":   "hello",
-		},
-		ExpectedInput: []string{
-			"false",
-		},
+}
+
+var lazyRegexIsMatchPartialMismatchTestCase = coretestcases.CaseV1{
+	Title: "IsMatch returns false for partial digit mismatch",
+	ArrangeInput: args.Map{
+		"when":    "given full string digit pattern with letters",
+		"pattern": "^\\d+$",
+		"input":   "123abc",
 	},
-	{
-		Title: "FirstMatchLine returns first submatch",
-		ArrangeInput: args.Map{
-			"when":    "given a pattern with capture group",
-			"pattern": "(\\d+)",
-			"input":   "abc 123 def 456",
-		},
-		ExpectedInput: []string{
-			"123",
-			"false",
-		},
+	ExpectedInput: []string{
+		"false",
 	},
-	{
-		Title: "FirstMatchLine returns empty on no match",
-		ArrangeInput: args.Map{
-			"when":    "given a pattern that does not match",
-			"pattern": "(\\d+)",
-			"input":   "no digits here",
-		},
-		ExpectedInput: []string{
-			"",
-			"true",
-		},
+}
+
+var lazyRegexIsFailedMatchTestCase = coretestcases.CaseV1{
+	Title: "IsFailedMatch is inverse of IsMatch",
+	ArrangeInput: args.Map{
+		"when":    "given matching input to IsFailedMatch",
+		"pattern": "^hello$",
+		"input":   "hello",
+	},
+	ExpectedInput: []string{
+		"false",
+	},
+}
+
+var lazyRegexFirstMatchLineFoundTestCase = coretestcases.CaseV1{
+	Title: "FirstMatchLine returns first submatch",
+	ArrangeInput: args.Map{
+		"when":    "given a pattern with capture group",
+		"pattern": "(\\d+)",
+		"input":   "abc 123 def 456",
+	},
+	ExpectedInput: []string{
+		"123",
+		"false",
+	},
+}
+
+var lazyRegexFirstMatchLineNotFoundTestCase = coretestcases.CaseV1{
+	Title: "FirstMatchLine returns empty on no match",
+	ArrangeInput: args.Map{
+		"when":    "given a pattern that does not match",
+		"pattern": "(\\d+)",
+		"input":   "no digits here",
+	},
+	ExpectedInput: []string{
+		"",
+		"true",
 	},
 }
