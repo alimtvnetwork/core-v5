@@ -22,7 +22,11 @@ func Test_LazyRegex_IsMatch_FullDigit(t *testing.T) {
 	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))}
 
 	// Assert
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
 
 func Test_LazyRegex_IsMatch_PartialMismatch(t *testing.T) {
@@ -36,7 +40,11 @@ func Test_LazyRegex_IsMatch_PartialMismatch(t *testing.T) {
 	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))}
 
 	// Assert
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
 
 // ==========================================================================
@@ -54,7 +62,11 @@ func Test_LazyRegex_IsFailedMatch(t *testing.T) {
 	actLines := []string{fmt.Sprintf("%v", lazyRegex.IsFailedMatch(compareInput))}
 
 	// Assert
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
 
 // ==========================================================================
@@ -73,7 +85,11 @@ func Test_LazyRegex_FirstMatchLine_Found(t *testing.T) {
 	actLines := []string{firstMatch, fmt.Sprintf("%v", isInvalid)}
 
 	// Assert
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
 
 func Test_LazyRegex_FirstMatchLine_NotFound(t *testing.T) {
@@ -88,5 +104,9 @@ func Test_LazyRegex_FirstMatchLine_NotFound(t *testing.T) {
 	actLines := []string{firstMatch, fmt.Sprintf("%v", isInvalid)}
 
 	// Assert
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }

@@ -20,7 +20,12 @@ func Test_Create_Verification(t *testing.T) {
 		actLines := []string{isCompiled, hasError}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+
+		testCase.ShouldBeEqualUsingExpected(
+			t,
+			caseIndex,
+			actLines,
+		)
 	}
 }
 
@@ -36,7 +41,12 @@ func Test_Create_IsMatchLock_Verification(t *testing.T) {
 		actLines := []string{isMatch}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+
+		testCase.ShouldBeEqualUsingExpected(
+			t,
+			caseIndex,
+			actLines,
+		)
 	}
 }
 
@@ -52,7 +62,12 @@ func Test_Create_IsMatchFailed_Verification(t *testing.T) {
 		actLines := []string{isFailed}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+
+		testCase.ShouldBeEqualUsingExpected(
+			t,
+			caseIndex,
+			actLines,
+		)
 	}
 }
 
@@ -66,7 +81,10 @@ func Test_MatchError_Match(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", err == nil)}
 
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
 
 func Test_MatchError_Mismatch(t *testing.T) {
@@ -75,7 +93,10 @@ func Test_MatchError_Mismatch(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", err == nil)}
 
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
 
 // ==========================================================================
@@ -88,7 +109,10 @@ func Test_MatchErrorLock_Match(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", err == nil)}
 
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
 
 func Test_MatchErrorLock_Mismatch(t *testing.T) {
@@ -97,5 +121,8 @@ func Test_MatchErrorLock_Mismatch(t *testing.T) {
 
 	actLines := []string{fmt.Sprintf("%v", err == nil)}
 
-	tc.ShouldBeEqualUsingExpected(t, 0, actLines)
+	tc.ShouldBeEqualUsingExpectedFirst(
+		t,
+		actLines,
+	)
 }
