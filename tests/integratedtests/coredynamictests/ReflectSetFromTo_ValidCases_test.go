@@ -10,76 +10,123 @@ import (
 	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
 )
 
-// Test_ReflectSetFromTo_ValidCases
-//
-// Valid Inputs:
-//   - From, To: (null, null)                          -- do nothing
-//   - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
-//   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
-//   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
-//   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
-func Test_ReflectSetFromTo_ValidCases(t *testing.T) {
-	for caseIndex, testCase := range coredynamictestwrappers.ReflectSetFromToValidTestCases {
-		// Act
-		err := coredynamic.ReflectSetFromTo(
-			testCase.From,
-			testCase.To,
-		)
+// ==========================================================================
+// Helper: common base assertion for ReflectSetFromTo
+// ==========================================================================
 
-		typeStatus := coredynamic.TypeSameStatus(
-			testCase.To,
-			testCase.ExpectedValue,
-		)
-		testCase.SetActual(testCase.To)
+func assertReflectSetFromToBase(
+	t *testing.T,
+	tc coredynamictestwrappers.FromToTestWrapper,
+) (actLines, expected []string) {
+	t.Helper()
 
-		// Assert
-		actLines := []string{
-			fmt.Sprintf("%v", err == nil),
-			fmt.Sprintf("%v", typeStatus.IsSame()),
-		}
-		expected := []string{"true", "true"}
+	err := coredynamic.ReflectSetFromTo(tc.From, tc.To)
 
-		switch convertedFrom := testCase.From.(type) {
-		case *coretests.DraftType:
-			toField := testCase.ToFieldToDraftType()
-			expectedField := testCase.ExpectedFieldToDraftType()
-			toFieldEqualErr := toField.
-				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
-			fromFieldEqualErr := convertedFrom.
-				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+	typeStatus := coredynamic.TypeSameStatus(tc.To, tc.ExpectedValue)
+	tc.SetActual(tc.To)
 
-			actLines = append(actLines,
-				fmt.Sprintf("%v", toFieldEqualErr == nil),
-				fmt.Sprintf("%v", fromFieldEqualErr == nil),
-			)
-			expected = append(expected, "true", "true")
-
-		case coretests.DraftType:
-			toField := testCase.ToFieldToDraftType()
-			expectedField := testCase.ExpectedFieldToDraftType()
-			toFieldEqualErr := toField.
-				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
-			fromFieldEqualErr := convertedFrom.
-				VerifyNotEqualExcludingInnerFieldsErr(expectedField)
-
-			actLines = append(actLines,
-				fmt.Sprintf("%v", toFieldEqualErr == nil),
-				fmt.Sprintf("%v", fromFieldEqualErr == nil),
-			)
-			expected = append(expected, "true", "true")
-
-		case []byte, *[]byte:
-			toField := testCase.ToFieldToDraftType()
-			toFieldEqualErr := toField.
-				VerifyNotEqualExcludingInnerFieldsErr(
-					testCase.ExpectedFieldToDraftType(),
-				)
-			actLines = append(actLines,
-				fmt.Sprintf("%v", toFieldEqualErr == nil),
-			)
-			expected = append(expected, "true")
-		}
-
-		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Header, actLines, expected)
+	actLines = []string{
+		fmt.Sprintf("%v", err == nil),
+		fmt.Sprintf("%v", typeStatus.IsSame()),
 	}
+	expected = []string{"true", "true"}
+
+	return actLines, expected
+}
+
+// ==========================================================================
+// Test: (null, null) — do nothing
+// ==========================================================================
+
+func Test_ReflectSetFromTo_NullNull(t *testing.T) {
+	tc := coredynamictestwrappers.ReflectSetFromToValidNullNull
+
+	actLines, expected := assertReflectSetFromToBase(t, tc)
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+}
+
+// ==========================================================================
+// Test: (*DraftType, *DraftType) — pointer to pointer
+// ==========================================================================
+
+func Test_ReflectSetFromTo_PtrToPtr(t *testing.T) {
+	tc := coredynamictestwrappers.ReflectSetFromToValidPtrToPtr
+
+	actLines, expected := assertReflectSetFromToBase(t, tc)
+
+	// Additional DraftType field verification
+	convertedFrom := tc.From.(*coretests.DraftType)
+	toField := tc.ToFieldToDraftType()
+	expectedField := tc.ExpectedFieldToDraftType()
+	toFieldEqualErr := toField.VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+	fromFieldEqualErr := convertedFrom.VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+
+	actLines = append(actLines,
+		fmt.Sprintf("%v", toFieldEqualErr == nil),
+		fmt.Sprintf("%v", fromFieldEqualErr == nil),
+	)
+	expected = append(expected, "true", "true")
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+}
+
+// ==========================================================================
+// Test: (DraftType, *DraftType) — value to pointer
+// ==========================================================================
+
+func Test_ReflectSetFromTo_ValueToPtr(t *testing.T) {
+	tc := coredynamictestwrappers.ReflectSetFromToValidValueToPtr
+
+	actLines, expected := assertReflectSetFromToBase(t, tc)
+
+	// Additional DraftType field verification
+	convertedFrom := tc.From.(coretests.DraftType)
+	toField := tc.ToFieldToDraftType()
+	expectedField := tc.ExpectedFieldToDraftType()
+	toFieldEqualErr := toField.VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+	fromFieldEqualErr := convertedFrom.VerifyNotEqualExcludingInnerFieldsErr(expectedField)
+
+	actLines = append(actLines,
+		fmt.Sprintf("%v", toFieldEqualErr == nil),
+		fmt.Sprintf("%v", fromFieldEqualErr == nil),
+	)
+	expected = append(expected, "true", "true")
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+}
+
+// ==========================================================================
+// Test: (*[]byte, *DraftType) — bytes to draft type
+// ==========================================================================
+
+func Test_ReflectSetFromTo_BytesToDraft(t *testing.T) {
+	tc := coredynamictestwrappers.ReflectSetFromToValidBytesToDraft
+
+	actLines, expected := assertReflectSetFromToBase(t, tc)
+
+	// Additional field verification
+	toField := tc.ToFieldToDraftType()
+	toFieldEqualErr := toField.VerifyNotEqualExcludingInnerFieldsErr(
+		tc.ExpectedFieldToDraftType(),
+	)
+
+	actLines = append(actLines,
+		fmt.Sprintf("%v", toFieldEqualErr == nil),
+	)
+	expected = append(expected, "true")
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
+}
+
+// ==========================================================================
+// Test: (*[]byte, *[]byte) — draft to bytes
+// ==========================================================================
+
+func Test_ReflectSetFromTo_DraftToBytes(t *testing.T) {
+	tc := coredynamictestwrappers.ReflectSetFromToValidDraftToBytes
+
+	actLines, expected := assertReflectSetFromToBase(t, tc)
+
+	errcore.AssertDiffOnMismatch(t, 0, tc.Header, actLines, expected)
 }

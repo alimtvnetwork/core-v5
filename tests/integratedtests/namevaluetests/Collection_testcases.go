@@ -215,23 +215,27 @@ var collectionConcatNewTestCases = []coretestcases.CaseV1{
 
 // region StringMapAnyCollection tests
 
-var stringMapAnyCollectionTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Positive: StringMapAnyCollection stores map values",
-		ArrangeInput: args.Map{
-			"when":  "given 2 map items",
-			"count": 2,
+var stringMapAnyCollectionWithValuesTestCase = coretestcases.CaseV1{
+	Title: "Positive: StringMapAnyCollection stores map values",
+	ArrangeInput: args.Map{
+		"when": "given 2 map items",
+		"mapValues": []map[string]any{
+			{"key": 0},
+			{"key": 1},
 		},
-		ExpectedInput: []string{"2", "true"},
 	},
-	{
-		Title: "Negative: StringMapAnyCollection with nil map value",
-		ArrangeInput: args.Map{
-			"when":  "given item with nil map",
-			"count": 1,
+	ExpectedInput: []string{"2", "true"},
+}
+
+var stringMapAnyCollectionNilValueTestCase = coretestcases.CaseV1{
+	Title: "Negative: StringMapAnyCollection with nil map value",
+	ArrangeInput: args.Map{
+		"when": "given item with nil map",
+		"mapValues": []map[string]any{
+			nil,
 		},
-		ExpectedInput: []string{"1", "true"},
 	},
+	ExpectedInput: []string{"1", "true"},
 }
 
 // endregion

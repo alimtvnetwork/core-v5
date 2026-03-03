@@ -343,33 +343,57 @@ func Test_CollectionConcatNew_Verification(t *testing.T) {
 }
 
 // ==========================================================================
-// Test: StringMapAnyCollection
+// Test: StringMapAnyCollection — with values
 // ==========================================================================
 
-func Test_StringMapAnyCollection_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringMapAnyCollectionTestCases {
-		input := testCase.ArrangeInput.(args.Map)
-		count, _ := input.Get("count")
-		countInt := count.(int)
+func Test_StringMapAnyCollection_WithValues(t *testing.T) {
+	tc := stringMapAnyCollectionWithValuesTestCase
 
-		col := namevalue.NewGenericCollectionDefault[string, map[string]any]()
-		for i := 0; i < countInt; i++ {
-			var mapVal map[string]any
-			if i == 0 && countInt == 1 {
-				mapVal = nil
-			} else {
-				mapVal = map[string]any{"key": i}
-			}
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	mapValues := input["mapValues"].([]map[string]any)
 
-			col.Add(namevalue.StringMapAny{
-				Name:  fmt.Sprintf("map%d", i),
-				Value: mapVal,
-			})
-		}
+	// Act
+	col := namevalue.NewGenericCollectionDefault[string, map[string]any]()
 
-		length := fmt.Sprintf("%d", col.Length())
-		hasItems := fmt.Sprintf("%v", col.HasAnyItem())
-
-		testCase.ShouldBeEqual(t, caseIndex, length, hasItems)
+	for i, mapVal := range mapValues {
+		col.Add(namevalue.StringMapAny{
+			Name:  fmt.Sprintf("map%d", i),
+			Value: mapVal,
+		})
 	}
+
+	length := fmt.Sprintf("%d", col.Length())
+	hasItems := fmt.Sprintf("%v", col.HasAnyItem())
+
+	// Assert
+	tc.ShouldBeEqual(t, 0, length, hasItems)
+}
+
+// ==========================================================================
+// Test: StringMapAnyCollection — nil value
+// ==========================================================================
+
+func Test_StringMapAnyCollection_NilValue(t *testing.T) {
+	tc := stringMapAnyCollectionNilValueTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	mapValues := input["mapValues"].([]map[string]any)
+
+	// Act
+	col := namevalue.NewGenericCollectionDefault[string, map[string]any]()
+
+	for i, mapVal := range mapValues {
+		col.Add(namevalue.StringMapAny{
+			Name:  fmt.Sprintf("map%d", i),
+			Value: mapVal,
+		})
+	}
+
+	length := fmt.Sprintf("%d", col.Length())
+	hasItems := fmt.Sprintf("%v", col.HasAnyItem())
+
+	// Assert
+	tc.ShouldBeEqual(t, 0, length, hasItems)
 }
