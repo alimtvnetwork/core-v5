@@ -971,6 +971,9 @@ Detailed architecture and conventions documentation for AI agents and contributo
 | **newCreator Pattern** | [`/spec/01-app/21-new-creator-pattern.md`](/spec/01-app/21-new-creator-pattern.md) |
 | **coregeneric Architecture** | [`/spec/01-app/22-coregeneric-architecture.md`](/spec/01-app/22-coregeneric-architecture.md) |
 | Known Issues | [`/spec/13-app-issues/`](/spec/13-app-issues/) |
+| **Edge-Case Coverage Audit** | [`/spec/13-app-issues/testing/02-edge-case-coverage-audit.md`](/spec/13-app-issues/testing/02-edge-case-coverage-audit.md) |
+| **Deep Coverage Scan** | [`/spec/13-app-issues/testing/03-deep-coverage-scan.md`](/spec/13-app-issues/testing/03-deep-coverage-scan.md) |
+| **GoConvey Migration Plan** | [`/spec/13-app-issues/testing/04-goconvey-migration-plan.md`](/spec/13-app-issues/testing/04-goconvey-migration-plan.md) |
 
 ## Acknowledgement
 
