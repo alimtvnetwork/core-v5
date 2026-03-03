@@ -8,118 +8,90 @@ import (
 // Constructors
 // ==========================================================================
 
-var hashmapEmptyTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "EmptyHashmap creates empty",
-		ExpectedInput: []string{"true", "0", "false"},
-	},
+var hashmapEmptyTestCase = coretestcases.CaseV1{
+	Title:         "EmptyHashmap creates empty",
+	ExpectedInput: []string{"true", "0", "false"},
 }
 
-var hashmapNewTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "NewHashmap with capacity",
-		ExpectedInput: []string{"true"},
-	},
+var hashmapNewTestCase = coretestcases.CaseV1{
+	Title:         "NewHashmap with capacity",
+	ExpectedInput: []string{"true"},
 }
 
-var hashmapFromTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "HashmapFrom wraps map",
-		ExpectedInput: []string{"2", "true"},
-	},
+var hashmapFromTestCase = coretestcases.CaseV1{
+	Title:         "HashmapFrom wraps map",
+	ExpectedInput: []string{"2", "true"},
 }
 
-var hashmapCloneFuncTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "HashmapClone independence",
-		ExpectedInput: []string{"1", "99"},
-	},
+var hashmapCloneFuncTestCase = coretestcases.CaseV1{
+	Title:         "HashmapClone independence",
+	ExpectedInput: []string{"1", "99"},
 }
 
 // ==========================================================================
 // Set
 // ==========================================================================
 
-var hashmapSetNewTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Set new key returns true",
-		ExpectedInput: []string{"true", "1"},
-	},
+var hashmapSetNewTestCase = coretestcases.CaseV1{
+	Title:         "Set new key returns true",
+	ExpectedInput: []string{"true", "1"},
 }
 
-var hashmapSetExistingTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Set existing key returns false",
-		ExpectedInput: []string{"false", "2"},
-	},
+var hashmapSetExistingTestCase = coretestcases.CaseV1{
+	Title:         "Set existing key returns false",
+	ExpectedInput: []string{"false", "2"},
 }
 
 // ==========================================================================
 // Get
 // ==========================================================================
 
-var hashmapGetFoundTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Get found",
-		ExpectedInput: []string{"true", "42"},
-	},
+var hashmapGetFoundTestCase = coretestcases.CaseV1{
+	Title:         "Get found",
+	ExpectedInput: []string{"true", "42"},
 }
 
-var hashmapGetNotFoundTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Get not found",
-		ExpectedInput: []string{"false", "0"},
-	},
+var hashmapGetNotFoundTestCase = coretestcases.CaseV1{
+	Title:         "Get not found",
+	ExpectedInput: []string{"false", "0"},
 }
 
-var hashmapGetOrDefaultMissingTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "GetOrDefault missing returns default",
-		ExpectedInput: []string{"99"},
-	},
+var hashmapGetOrDefaultMissingTestCase = coretestcases.CaseV1{
+	Title:         "GetOrDefault missing returns default",
+	ExpectedInput: []string{"99"},
 }
 
-var hashmapGetOrDefaultFoundTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "GetOrDefault found returns value",
-		ExpectedInput: []string{"5"},
-	},
+var hashmapGetOrDefaultFoundTestCase = coretestcases.CaseV1{
+	Title:         "GetOrDefault found returns value",
+	ExpectedInput: []string{"5"},
 }
 
 // ==========================================================================
 // Has / Contains / IsKeyMissing
 // ==========================================================================
 
-var hashmapHasTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Has/Contains/IsKeyMissing",
-		ExpectedInput: []string{"true", "true", "false"},
-	},
+var hashmapHasTestCase = coretestcases.CaseV1{
+	Title:         "Has/Contains/IsKeyMissing",
+	ExpectedInput: []string{"true", "true", "false"},
 }
 
-var hashmapIsKeyMissingTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "IsKeyMissing true",
-		ExpectedInput: []string{"true"},
-	},
+var hashmapIsKeyMissingTestCase = coretestcases.CaseV1{
+	Title:         "IsKeyMissing true",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
 // Remove
 // ==========================================================================
 
-var hashmapRemoveExistingTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Remove existing",
-		ExpectedInput: []string{"true", "true"},
-	},
+var hashmapRemoveExistingTestCase = coretestcases.CaseV1{
+	Title:         "Remove existing",
+	ExpectedInput: []string{"true", "true"},
 }
 
-var hashmapRemoveMissingTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Remove missing",
-		ExpectedInput: []string{"false"},
-	},
+var hashmapRemoveMissingTestCase = coretestcases.CaseV1{
+	Title:         "Remove missing",
+	ExpectedInput: []string{"false"},
 }
 
 // ==========================================================================
@@ -192,11 +164,9 @@ var hashmapConcatNewNilTestCase = coretestcases.CaseV1{
 // Clone method
 // ==========================================================================
 
-var hashmapCloneMethodTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "Clone method independence",
-		ExpectedInput: []string{"1"},
-	},
+var hashmapCloneMethodTestCase = coretestcases.CaseV1{
+	Title:         "Clone method independence",
+	ExpectedInput: []string{"1"},
 }
 
 // ==========================================================================
@@ -237,29 +207,23 @@ var hashmapIsEqualsSamePointerTestCase = coretestcases.CaseV1{
 // ForEach
 // ==========================================================================
 
-var hashmapForEachTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "ForEach visits all",
-		ExpectedInput: []string{"2"},
-	},
+var hashmapForEachTestCase = coretestcases.CaseV1{
+	Title:         "ForEach visits all",
+	ExpectedInput: []string{"2"},
 }
 
-var hashmapForEachBreakTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "ForEachBreak stops early",
-		ExpectedInput: []string{"2"},
-	},
+var hashmapForEachBreakTestCase = coretestcases.CaseV1{
+	Title:         "ForEachBreak stops early",
+	ExpectedInput: []string{"2"},
 }
 
 // ==========================================================================
 // String
 // ==========================================================================
 
-var hashmapStringTestCases = []coretestcases.CaseV1{
-	{
-		Title:         "String not empty",
-		ExpectedInput: []string{"true"},
-	},
+var hashmapStringTestCase = coretestcases.CaseV1{
+	Title:         "String not empty",
+	ExpectedInput: []string{"true"},
 }
 
 // ==========================================================================
