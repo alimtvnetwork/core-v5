@@ -4,7 +4,7 @@
 
 ## Summary
 
-This document outlined the prioritized plan for achieving full integration test coverage across all packages. **All phases are now complete**, with ~870 new test cases added through the deep coverage scan initiative.
+This document outlined the prioritized plan for achieving full integration test coverage across all packages. **All phases are now complete**, with ~892 new test cases added through the deep coverage scan initiative.
 
 ---
 
@@ -95,7 +95,7 @@ The deep coverage scan initiative (documented in `03-deep-coverage-scan.md`) sys
 
 | Metric | Value |
 |--------|-------|
-| **New test cases added** | ~870 |
+| **New test cases added** | ~892 |
 | **Packages with logic covered** | 100% |
 | **Bugs found during testing** | 1 (`BytesErrorOnce.Deserialize` silent failure) |
 | **Phases completed** | 4/4 |
