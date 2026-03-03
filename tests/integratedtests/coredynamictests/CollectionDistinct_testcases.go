@@ -29,7 +29,7 @@ var collectionDistinctTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"items": []string{},
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
@@ -43,7 +43,7 @@ var collectionDistinctCountTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"items": []string{"a", "b", "a", "c", "b"},
 		},
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 }
 
@@ -57,13 +57,13 @@ var collectionIsDistinctTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsDistinct false for duplicates",
 		ArrangeInput: args.Map{
 			"items": []string{"a", "b", "a"},
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }

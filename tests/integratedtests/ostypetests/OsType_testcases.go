@@ -9,32 +9,32 @@ var getVariantTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "windows maps to Windows",
 		ArrangeInput:  "windows",
-		ExpectedInput: []string{"windows"},
+		ExpectedInput: "windows",
 	},
 	{
 		Title:         "linux maps to Linux",
 		ArrangeInput:  "linux",
-		ExpectedInput: []string{"linux"},
+		ExpectedInput: "linux",
 	},
 	{
 		Title:         "darwin maps to DarwinOrMacOs",
 		ArrangeInput:  "darwin",
-		ExpectedInput: []string{"darwin"},
+		ExpectedInput: "darwin",
 	},
 	{
 		Title:         "freebsd maps to FreeBsd",
 		ArrangeInput:  "freebsd",
-		ExpectedInput: []string{"freebsd"},
+		ExpectedInput: "freebsd",
 	},
 	{
 		Title:         "android maps to Android",
 		ArrangeInput:  "android",
-		ExpectedInput: []string{"android"},
+		ExpectedInput: "android",
 	},
 	{
 		Title:         "unknown string maps to Unknown",
 		ArrangeInput:  "totally_unknown_os",
-		ExpectedInput: []string{"unknown"},
+		ExpectedInput: "unknown",
 	},
 }
 
@@ -42,27 +42,27 @@ var getGroupTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "windows is WindowsGroup",
 		ArrangeInput:  "windows",
-		ExpectedInput: []string{"Windows"},
+		ExpectedInput: "Windows",
 	},
 	{
 		Title:         "linux is UnixGroup",
 		ArrangeInput:  "linux",
-		ExpectedInput: []string{"Unix"},
+		ExpectedInput: "Unix",
 	},
 	{
 		Title:         "darwin is UnixGroup",
 		ArrangeInput:  "darwin",
-		ExpectedInput: []string{"Unix"},
+		ExpectedInput: "Unix",
 	},
 	{
 		Title:         "android is AndroidGroup",
 		ArrangeInput:  "android",
-		ExpectedInput: []string{"Android"},
+		ExpectedInput: "Android",
 	},
 	{
 		Title:         "unknown returns InvalidGroup",
 		ArrangeInput:  "totally_unknown_os",
-		ExpectedInput: []string{"Invalid"},
+		ExpectedInput: "Invalid",
 	},
 }
 

@@ -16,9 +16,7 @@ var genericAddLockTestCases = []coretestcases.CaseV1{
 			"when":  "given concurrent AddLock calls on generic collection",
 			"count": 100,
 		},
-		ExpectedInput: []string{
-			"100",
-		},
+		ExpectedInput: "100",
 	},
 }
 
@@ -34,9 +32,7 @@ var genericAddsLockTestCases = []coretestcases.CaseV1{
 			"count": 50,
 			"batch": 3,
 		},
-		ExpectedInput: []string{
-			"150",
-		},
+		ExpectedInput: "150",
 	},
 }
 
@@ -51,9 +47,7 @@ var genericLengthLockTestCases = []coretestcases.CaseV1{
 			"when":  "given generic collection with items",
 			"items": []any{"x", 42, true},
 		},
-		ExpectedInput: []string{
-			"3",
-		},
+		ExpectedInput: "3",
 	},
 }
 
@@ -67,9 +61,7 @@ var genericIsEmptyLockEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty generic collection",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -83,9 +75,7 @@ var genericIsEmptyLockNonEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given non-empty generic collection",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 }
 
@@ -177,8 +167,6 @@ var genericLoopLockTestCases = []coretestcases.CaseV1{
 			"when":  "given concurrent writes during LoopLock on generic collection",
 			"count": 50,
 		},
-		ExpectedInput: []string{
-			"100",
-		},
+		ExpectedInput: "100",
 	},
 }

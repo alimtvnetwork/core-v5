@@ -29,7 +29,7 @@ var verifyPartialRwxLocationsTestCases = []coretestcases.CaseV1{
 			IsSkipOnInvalid:    true,
 			ExpectedPartialRwx: "-rwx",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "Missing Paths should have error with it's location!",

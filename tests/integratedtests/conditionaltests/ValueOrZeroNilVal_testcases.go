@@ -12,7 +12,7 @@ var valueOrZeroStringTestCases = []coretestcases.CaseV1{
 			"when":  "given nil string pointer",
 			"isNil": true,
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "ValueOrZero with non-nil string pointer returns value",
@@ -21,7 +21,7 @@ var valueOrZeroStringTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": "hello",
 		},
-		ExpectedInput: []string{"hello"},
+		ExpectedInput: "hello",
 	},
 	{
 		Title: "ValueOrZero with non-nil empty string pointer returns empty",
@@ -30,7 +30,7 @@ var valueOrZeroStringTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": "",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -41,7 +41,7 @@ var valueOrZeroIntTestCases = []coretestcases.CaseV1{
 			"when":  "given nil int pointer",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "ValueOrZero with non-nil int pointer returns value",
@@ -50,7 +50,7 @@ var valueOrZeroIntTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": 42,
 		},
-		ExpectedInput: []string{"42"},
+		ExpectedInput: "42",
 	},
 	{
 		Title: "ValueOrZero with non-nil zero int pointer returns 0",
@@ -59,7 +59,7 @@ var valueOrZeroIntTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": 0,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "ValueOrZero with non-nil negative int returns negative",
@@ -68,7 +68,7 @@ var valueOrZeroIntTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": -7,
 		},
-		ExpectedInput: []string{"-7"},
+		ExpectedInput: "-7",
 	},
 }
 
@@ -79,7 +79,7 @@ var valueOrZeroBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given nil bool pointer",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "ValueOrZero with non-nil true bool pointer returns true",
@@ -88,7 +88,7 @@ var valueOrZeroBoolTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": true,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "ValueOrZero with non-nil false bool pointer returns false",
@@ -97,7 +97,7 @@ var valueOrZeroBoolTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": false,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -150,7 +150,7 @@ var nilValStringTestCases = []coretestcases.CaseV1{
 			"onNil":    "was-nil",
 			"onNonNil": "was-set",
 		},
-		ExpectedInput: []string{"was-nil"},
+		ExpectedInput: "was-nil",
 	},
 	{
 		Title: "NilVal with non-nil pointer returns onNonNil",
@@ -161,7 +161,7 @@ var nilValStringTestCases = []coretestcases.CaseV1{
 			"onNil":    "was-nil",
 			"onNonNil": "was-set",
 		},
-		ExpectedInput: []string{"was-set"},
+		ExpectedInput: "was-set",
 	},
 	{
 		Title: "NilVal with non-nil empty string pointer returns onNonNil",
@@ -172,7 +172,7 @@ var nilValStringTestCases = []coretestcases.CaseV1{
 			"onNil":    "was-nil",
 			"onNonNil": "was-set",
 		},
-		ExpectedInput: []string{"was-set"},
+		ExpectedInput: "was-set",
 	},
 }
 
@@ -185,7 +185,7 @@ var nilValIntTestCases = []coretestcases.CaseV1{
 			"onNil":    -1,
 			"onNonNil": 1,
 		},
-		ExpectedInput: []string{"-1"},
+		ExpectedInput: "-1",
 	},
 	{
 		Title: "NilVal int with non-nil pointer returns onNonNil",
@@ -196,7 +196,7 @@ var nilValIntTestCases = []coretestcases.CaseV1{
 			"onNil":    -1,
 			"onNonNil": 1,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 }
 

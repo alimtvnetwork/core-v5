@@ -12,7 +12,7 @@ var isEmptyTestCases = []coretestcases.CaseV1{
 			"when":  "given empty string",
 			"input": "",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEmpty returns false for non-empty string",
@@ -20,7 +20,7 @@ var isEmptyTestCases = []coretestcases.CaseV1{
 			"when":  "given non-empty string",
 			"input": "hello",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsEmpty returns false for whitespace-only string",
@@ -28,7 +28,7 @@ var isEmptyTestCases = []coretestcases.CaseV1{
 			"when":  "given whitespace string",
 			"input": "   ",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -39,7 +39,7 @@ var isBlankTestCases = []coretestcases.CaseV1{
 			"when":  "given empty string",
 			"input": "",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsBlank returns true for whitespace only",
@@ -47,7 +47,7 @@ var isBlankTestCases = []coretestcases.CaseV1{
 			"when":  "given whitespace string",
 			"input": "   ",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsBlank returns false for non-blank string",
@@ -55,7 +55,7 @@ var isBlankTestCases = []coretestcases.CaseV1{
 			"when":  "given non-blank string",
 			"input": "hello",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsBlank returns true for tab and newline only",
@@ -63,7 +63,7 @@ var isBlankTestCases = []coretestcases.CaseV1{
 			"when":  "given tab and newline",
 			"input": "\t\n",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -74,7 +74,7 @@ var isEmptyOrWhitespaceTestCases = []coretestcases.CaseV1{
 			"when":  "given empty",
 			"input": "",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEmptyOrWhitespace true for single space",
@@ -82,7 +82,7 @@ var isEmptyOrWhitespaceTestCases = []coretestcases.CaseV1{
 			"when":  "given single space",
 			"input": " ",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEmptyOrWhitespace true for newline",
@@ -90,7 +90,7 @@ var isEmptyOrWhitespaceTestCases = []coretestcases.CaseV1{
 			"when":  "given newline",
 			"input": "\n",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEmptyOrWhitespace true for mixed whitespace",
@@ -98,7 +98,7 @@ var isEmptyOrWhitespaceTestCases = []coretestcases.CaseV1{
 			"when":  "given tabs and spaces",
 			"input": "  \t  ",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEmptyOrWhitespace false for content",
@@ -106,7 +106,7 @@ var isEmptyOrWhitespaceTestCases = []coretestcases.CaseV1{
 			"when":  "given actual content",
 			"input": " hello ",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -119,7 +119,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   -1,
 			"end":     -1,
 		},
-		ExpectedInput: []string{"hello world"},
+		ExpectedInput: "hello world",
 	},
 	{
 		Title: "SafeSubstring returns substring for valid range",
@@ -129,7 +129,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   0,
 			"end":     5,
 		},
-		ExpectedInput: []string{"hello"},
+		ExpectedInput: "hello",
 	},
 	{
 		Title: "SafeSubstring returns empty for empty input",
@@ -139,7 +139,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   0,
 			"end":     5,
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "SafeSubstring returns from start with -1 end",
@@ -149,7 +149,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   2,
 			"end":     -1,
 		},
-		ExpectedInput: []string{"llo"},
+		ExpectedInput: "llo",
 	},
 	{
 		Title: "SafeSubstring returns to end with -1 start",
@@ -159,7 +159,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   -1,
 			"end":     3,
 		},
-		ExpectedInput: []string{"hel"},
+		ExpectedInput: "hel",
 	},
 	{
 		Title: "SafeSubstring returns empty for out-of-range",
@@ -169,7 +169,7 @@ var safeSubstringTestCases = []coretestcases.CaseV1{
 			"start":   5,
 			"end":     10,
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -212,7 +212,7 @@ var isStartsWithTestCases = []coretestcases.CaseV1{
 			"startsWith":   "Hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsStartsWith fails on case mismatch when case-sensitive",
@@ -222,7 +222,7 @@ var isStartsWithTestCases = []coretestcases.CaseV1{
 			"startsWith":   "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsStartsWith matches case-insensitive",
@@ -232,7 +232,7 @@ var isStartsWithTestCases = []coretestcases.CaseV1{
 			"startsWith":   "hello",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsStartsWith returns true for empty prefix",
@@ -242,7 +242,7 @@ var isStartsWithTestCases = []coretestcases.CaseV1{
 			"startsWith":   "",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsStartsWith returns false when prefix longer than content",
@@ -252,7 +252,7 @@ var isStartsWithTestCases = []coretestcases.CaseV1{
 			"startsWith":   "Hello World",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -265,7 +265,7 @@ var isEndsWithTestCases = []coretestcases.CaseV1{
 			"endsWith":     "World",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEndsWith fails on case mismatch when case-sensitive",
@@ -275,7 +275,7 @@ var isEndsWithTestCases = []coretestcases.CaseV1{
 			"endsWith":     "world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "IsEndsWith matches case-insensitive",
@@ -285,7 +285,7 @@ var isEndsWithTestCases = []coretestcases.CaseV1{
 			"endsWith":     "world",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsEndsWith returns true for empty suffix",
@@ -295,7 +295,7 @@ var isEndsWithTestCases = []coretestcases.CaseV1{
 			"endsWith":     "",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -307,7 +307,7 @@ var removeManyTestCases = []coretestcases.CaseV1{
 			"content": "hello world",
 			"removes": []string{"world"},
 		},
-		ExpectedInput: []string{"hello "},
+		ExpectedInput: "hello ",
 	},
 	{
 		Title: "RemoveMany removes multiple patterns",
@@ -316,7 +316,7 @@ var removeManyTestCases = []coretestcases.CaseV1{
 			"content": "hello beautiful world",
 			"removes": []string{"beautiful ", "world"},
 		},
-		ExpectedInput: []string{"hello "},
+		ExpectedInput: "hello ",
 	},
 	{
 		Title: "RemoveMany returns same for empty content",
@@ -325,7 +325,7 @@ var removeManyTestCases = []coretestcases.CaseV1{
 			"content": "",
 			"removes": []string{"anything"},
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "RemoveMany no match leaves content unchanged",
@@ -334,7 +334,7 @@ var removeManyTestCases = []coretestcases.CaseV1{
 			"content": "hello",
 			"removes": []string{"xyz"},
 		},
-		ExpectedInput: []string{"hello"},
+		ExpectedInput: "hello",
 	},
 }
 
@@ -345,7 +345,7 @@ var replaceWhiteSpacesToSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given multiple spaces",
 			"input": "  some  nothing    ",
 		},
-		ExpectedInput: []string{"some nothing"},
+		ExpectedInput: "some nothing",
 	},
 	{
 		Title: "ReplaceWhiteSpacesToSingle removes tabs",
@@ -353,7 +353,7 @@ var replaceWhiteSpacesToSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given tabs in content",
 			"input": "hello\tworld",
 		},
-		ExpectedInput: []string{"helloworld"},
+		ExpectedInput: "helloworld",
 	},
 	{
 		Title: "ReplaceWhiteSpacesToSingle returns empty for whitespace only",
@@ -361,7 +361,7 @@ var replaceWhiteSpacesToSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given whitespace only",
 			"input": "   \t\n  ",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 	{
 		Title: "ReplaceWhiteSpacesToSingle preserves single-spaced text",
@@ -369,6 +369,6 @@ var replaceWhiteSpacesToSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given already single-spaced",
 			"input": "hello world",
 		},
-		ExpectedInput: []string{"hello world"},
+		ExpectedInput: "hello world",
 	},
 }

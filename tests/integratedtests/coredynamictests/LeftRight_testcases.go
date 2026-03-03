@@ -18,35 +18,35 @@ var leftRightIsEmptyTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsEmpty true on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsEmpty true when both nil",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: &coredynamic.LeftRight{Left: nil, Right: nil},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsEmpty false when has left",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		LR: &coredynamic.LeftRight{Left: "hello", Right: nil},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsEmpty false when has right",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		LR: &coredynamic.LeftRight{Left: nil, Right: 42},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsEmpty false when both set",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		LR: &coredynamic.LeftRight{Left: "a", Right: "b"},
 	},
@@ -60,14 +60,14 @@ var leftRightHasLeftTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasLeft false on nil receiver",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		LR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasLeft true when present",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: &coredynamic.LeftRight{Left: "hello"},
 	},
@@ -77,14 +77,14 @@ var leftRightHasRightTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasRight false on nil receiver",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		LR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasRight true when present",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: &coredynamic.LeftRight{Right: 42},
 	},
@@ -98,21 +98,21 @@ var leftRightIsLeftEmptyTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsLeftEmpty true on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsLeftEmpty true when nil left",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: &coredynamic.LeftRight{Left: nil, Right: "x"},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsLeftEmpty false when non-nil left",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		LR: &coredynamic.LeftRight{Left: "x"},
 	},
@@ -122,14 +122,14 @@ var leftRightIsRightEmptyTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsRightEmpty true on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsRightEmpty false when non-nil right",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		LR: &coredynamic.LeftRight{Right: "y"},
 	},
@@ -143,7 +143,7 @@ var leftRightDeserializeLeftTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "DeserializeLeft nil on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: nil,
 	},
@@ -160,7 +160,7 @@ var leftRightDeserializeRightTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "DeserializeRight nil on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: nil,
 	},
@@ -174,7 +174,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "TypeStatus not nil on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		LR: nil,
 	},

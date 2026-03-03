@@ -13,7 +13,7 @@ var hasIndexTestCases = []coretestcases.CaseV1{
 			"indexes": []int{1, 3, 5},
 			"current": 3,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "HasIndex returns false when index missing",
@@ -22,7 +22,7 @@ var hasIndexTestCases = []coretestcases.CaseV1{
 			"indexes": []int{1, 3, 5},
 			"current": 4,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
 
@@ -33,7 +33,7 @@ var lastIndexTestCases = []coretestcases.CaseV1{
 			"when":   "given length 5",
 			"length": 5,
 		},
-		ExpectedInput: []string{"4"},
+		ExpectedInput: "4",
 	},
 	{
 		Title: "LastIndex of length 1 is 0",
@@ -41,7 +41,7 @@ var lastIndexTestCases = []coretestcases.CaseV1{
 			"when":   "given length 1",
 			"length": 1,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 }
 
@@ -53,7 +53,7 @@ var isWithinIndexRangeTestCases = []coretestcases.CaseV1{
 			"index":  2,
 			"length": 5,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "IsWithinIndexRange false for out-of-range index",
@@ -62,6 +62,6 @@ var isWithinIndexRangeTestCases = []coretestcases.CaseV1{
 			"index":  5,
 			"length": 5,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }
