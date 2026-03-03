@@ -28,6 +28,7 @@ func newStringCompareFromMap(input args.Map) *coreinstruction.StringCompare {
 	case "regex":
 		return coreinstruction.NewStringCompareRegex(search, content)
 	default:
+
 		return coreinstruction.NewStringCompare(
 			stringcompareas.Equal,
 			isIgnoreCase,
@@ -37,27 +38,25 @@ func newStringCompareFromMap(input args.Map) *coreinstruction.StringCompare {
 	}
 }
 
-func Test_StringCompare_IsMatch_Verification(t *testing.T) {
+func Test_StringCompare_IsMatch(t *testing.T) {
 	for caseIndex, testCase := range stringCompareIsMatchTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		sc := newStringCompareFromMap(input)
 
 		// Act
-		isMatch := sc.IsMatch()
-		isMatchFailed := sc.IsMatchFailed()
+		actLines := []string{
+			fmt.Sprintf("%v", sc.IsMatch()),
+			fmt.Sprintf("%v", sc.IsMatchFailed()),
+		}
+		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", isMatch),
-			fmt.Sprintf("%v", isMatchFailed),
-		)
+		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
 	}
 }
 
-func Test_StringCompare_VerifyError_Verification(t *testing.T) {
+func Test_StringCompare_VerifyError(t *testing.T) {
 	for caseIndex, testCase := range stringCompareVerifyErrorTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -65,44 +64,74 @@ func Test_StringCompare_VerifyError_Verification(t *testing.T) {
 
 		// Act
 		err := sc.VerifyError()
+		actLines := []string{fmt.Sprintf("%v", err != nil)}
+		expectedLines := testCase.ExpectedInput.([]string)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", err != nil),
-		)
+		errcore.AssertDiffOnMismatch(t, caseIndex, testCase.Title, actLines, expectedLines)
 	}
 }
 
-func Test_StringCompare_NilReceiver_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringCompareNilReceiverTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		methodName, err := input.GetAsString("method")
-		errcore.HandleErrMessage("method required", err)
-		var sc *coreinstruction.StringCompare
+// ==========================================
+// Nil Receiver — per-method tests
+// ==========================================
 
-		// Act
-		var result string
-		switch methodName {
-		case "IsMatch":
-			result = fmt.Sprintf("%v", sc.IsMatch())
-		case "IsMatchFailed":
-			result = fmt.Sprintf("%v", sc.IsMatchFailed())
-		case "IsInvalid":
-			result = fmt.Sprintf("%v", sc.IsInvalid())
-		case "IsDefined":
-			result = fmt.Sprintf("%v", sc.IsDefined())
-		case "VerifyError":
-			result = fmt.Sprintf("%v", sc.VerifyError() != nil)
-		}
+func Test_StringCompare_NilReceiver_IsMatch(t *testing.T) {
+	// Arrange
+	var sc *coreinstruction.StringCompare
 
-		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			result,
-		)
-	}
+	// Act
+	actLines := []string{fmt.Sprintf("%v", sc.IsMatch())}
+	expectedLines := []string{"true"}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver - IsMatch returns true (vacuous truth)", actLines, expectedLines)
+}
+
+func Test_StringCompare_NilReceiver_IsMatchFailed(t *testing.T) {
+	// Arrange
+	var sc *coreinstruction.StringCompare
+
+	// Act
+	actLines := []string{fmt.Sprintf("%v", sc.IsMatchFailed())}
+	expectedLines := []string{"false"}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver - IsMatchFailed returns false", actLines, expectedLines)
+}
+
+func Test_StringCompare_NilReceiver_IsInvalid(t *testing.T) {
+	// Arrange
+	var sc *coreinstruction.StringCompare
+
+	// Act
+	actLines := []string{fmt.Sprintf("%v", sc.IsInvalid())}
+	expectedLines := []string{"true"}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver - IsInvalid returns true", actLines, expectedLines)
+}
+
+func Test_StringCompare_NilReceiver_IsDefined(t *testing.T) {
+	// Arrange
+	var sc *coreinstruction.StringCompare
+
+	// Act
+	actLines := []string{fmt.Sprintf("%v", sc.IsDefined())}
+	expectedLines := []string{"false"}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver - IsDefined returns false", actLines, expectedLines)
+}
+
+func Test_StringCompare_NilReceiver_VerifyError(t *testing.T) {
+	// Arrange
+	var sc *coreinstruction.StringCompare
+
+	// Act
+	actLines := []string{fmt.Sprintf("%v", sc.VerifyError() != nil)}
+	expectedLines := []string{"false"}
+
+	// Assert
+	errcore.AssertDiffOnMismatch(t, 0, "Nil receiver - VerifyError returns nil", actLines, expectedLines)
 }
