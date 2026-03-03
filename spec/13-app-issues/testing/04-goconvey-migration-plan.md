@@ -36,7 +36,7 @@ Repetitive boolean/value checks with clear grouping. Easy to table-drive.
 
 | # | File | Lines | Package | Notes |
 |---|------|-------|---------|-------|
-| 8 | `corevalidatortests/TestValidators_test.go` | 68 | corevalidatortests | Validator construction checks |
+| 8 | ~~`corevalidatortests/TestValidators_test.go`~~ | 68 | corevalidatortests | ✅ Migrated |
 | 9 | `corejsontests/Result_IsEqual_test.go` | 85 | corejsontests | Equality comparisons |
 | 10 | `simplewraptests/DoubleQuoteWrapElements_test.go` | 89 | simplewraptests | String wrapping output |
 | 11 | `enumimpltests/Enum_test.go` | 97 | enumimpltests | Enum value/string checks |
