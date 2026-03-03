@@ -264,6 +264,51 @@ for i := 0; i < len(items); i++ {
 
 ---
 
+## Function Call Argument Formatting
+
+When a function call has **multiple arguments**, each argument must be placed on its own line — including the first argument. The closing parenthesis sits on its own line, aligned with the function call indentation.
+
+```go
+// ✅ Good: Each argument on its own line, first argument on the next line
+verifyDefaultErr(
+    t,
+    0,
+    "NilResult error is not nil",
+    defaulterr.NilResult,
+)
+
+errcore.AssertDiffOnMismatch(
+    t,
+    caseIndex,
+    tc.Title,
+    actLines,
+    expectedLines,
+)
+
+req := coreapi.NewTypedSimpleGenericRequest[string](
+    attr,
+    simpleReq,
+)
+
+// ✅ Good: Single argument can stay on the same line
+Write-Success "All tests passed"
+fmt.Println(value)
+
+// ❌ Bad: Multiple arguments on the same line as function name
+verifyDefaultErr(t, 0, "NilResult error is not nil", defaulterr.NilResult)
+
+// ❌ Bad: First argument on the same line as function name
+verifyDefaultErr(t,
+    0,
+    "NilResult error is not nil",
+    defaulterr.NilResult,
+)
+```
+
+**Exception**: Single-argument calls or very short two-argument calls where both fit comfortably on one line (e.g., `fmt.Sprintf("%v", value)`).
+
+---
+
 ## Variable Naming Conventions
 
 ### Avoid Numbered Suffixes
