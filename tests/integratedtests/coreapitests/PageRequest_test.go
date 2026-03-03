@@ -1,207 +1,72 @@
 package coreapitests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	convey "github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coredata/coreapi"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// --- IsPageSizeEmpty ---
-
-func Test_PageRequest_IsPageSizeEmpty_NilReceiver(t *testing.T) {
-	// Arrange
-	var req *coreapi.PageRequest
-
-	// Act
-	result := req.IsPageSizeEmpty()
-
-	// Assert
-	convey.Convey("IsPageSizeEmpty - nil receiver should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
+var pageRequestTestCases = []coretestcases.CaseV1{
+	// IsPageSizeEmpty
+	{Title: "IsPageSizeEmpty - nil receiver returns true", ArrangeInput: args.Map{"method": "IsPageSizeEmpty", "req": (*coreapi.PageRequest)(nil)}, ExpectedInput: []string{"true"}},
+	{Title: "IsPageSizeEmpty - zero returns true", ArrangeInput: args.Map{"method": "IsPageSizeEmpty", "req": &coreapi.PageRequest{PageSize: 0, PageIndex: 1}}, ExpectedInput: []string{"true"}},
+	{Title: "IsPageSizeEmpty - negative returns true", ArrangeInput: args.Map{"method": "IsPageSizeEmpty", "req": &coreapi.PageRequest{PageSize: -1}}, ExpectedInput: []string{"true"}},
+	{Title: "IsPageSizeEmpty - positive returns false", ArrangeInput: args.Map{"method": "IsPageSizeEmpty", "req": &coreapi.PageRequest{PageSize: 10}}, ExpectedInput: []string{"false"}},
+	// IsPageIndexEmpty
+	{Title: "IsPageIndexEmpty - nil receiver returns true", ArrangeInput: args.Map{"method": "IsPageIndexEmpty", "req": (*coreapi.PageRequest)(nil)}, ExpectedInput: []string{"true"}},
+	{Title: "IsPageIndexEmpty - zero returns true", ArrangeInput: args.Map{"method": "IsPageIndexEmpty", "req": &coreapi.PageRequest{PageIndex: 0, PageSize: 10}}, ExpectedInput: []string{"true"}},
+	{Title: "IsPageIndexEmpty - positive returns false", ArrangeInput: args.Map{"method": "IsPageIndexEmpty", "req": &coreapi.PageRequest{PageIndex: 2}}, ExpectedInput: []string{"false"}},
+	// HasPageSize
+	{Title: "HasPageSize - nil receiver returns false", ArrangeInput: args.Map{"method": "HasPageSize", "req": (*coreapi.PageRequest)(nil)}, ExpectedInput: []string{"false"}},
+	{Title: "HasPageSize - positive returns true", ArrangeInput: args.Map{"method": "HasPageSize", "req": &coreapi.PageRequest{PageSize: 25}}, ExpectedInput: []string{"true"}},
+	// HasPageIndex
+	{Title: "HasPageIndex - nil receiver returns false", ArrangeInput: args.Map{"method": "HasPageIndex", "req": (*coreapi.PageRequest)(nil)}, ExpectedInput: []string{"false"}},
+	{Title: "HasPageIndex - positive returns true", ArrangeInput: args.Map{"method": "HasPageIndex", "req": &coreapi.PageRequest{PageIndex: 3}}, ExpectedInput: []string{"true"}},
+	// Clone
+	{Title: "Clone - nil receiver returns nil", ArrangeInput: args.Map{"method": "Clone", "req": (*coreapi.PageRequest)(nil)}, ExpectedInput: []string{"true"}},
+	{Title: "Clone - copies all fields", ArrangeInput: args.Map{"method": "CloneFields", "req": &coreapi.PageRequest{PageSize: 20, PageIndex: 5}}, ExpectedInput: []string{"20", "5"}},
+	{Title: "Clone - independence from original", ArrangeInput: args.Map{"method": "CloneIndependence", "req": &coreapi.PageRequest{PageSize: 20, PageIndex: 5}}, ExpectedInput: []string{"20", "5"}},
 }
 
-func Test_PageRequest_IsPageSizeEmpty_Zero(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageSize: 0, PageIndex: 1}
+func Test_PageRequest_Verification(t *testing.T) {
+	for caseIndex, tc := range pageRequestTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		method := input["method"].(string)
+		req := input["req"].(*coreapi.PageRequest)
 
-	// Act
-	result := req.IsPageSizeEmpty()
+		var actLines []string
 
-	// Assert
-	convey.Convey("IsPageSizeEmpty - zero should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
+		// Act
+		switch method {
+		case "IsPageSizeEmpty":
+			actLines = []string{fmt.Sprintf("%v", req.IsPageSizeEmpty())}
+		case "IsPageIndexEmpty":
+			actLines = []string{fmt.Sprintf("%v", req.IsPageIndexEmpty())}
+		case "HasPageSize":
+			actLines = []string{fmt.Sprintf("%v", req.HasPageSize())}
+		case "HasPageIndex":
+			actLines = []string{fmt.Sprintf("%v", req.HasPageIndex())}
+		case "Clone":
+			actLines = []string{fmt.Sprintf("%v", req.Clone() == nil)}
+		case "CloneFields":
+			clone := req.Clone()
+			actLines = []string{fmt.Sprintf("%v", clone.PageSize), fmt.Sprintf("%v", clone.PageIndex)}
+		case "CloneIndependence":
+			clone := req.Clone()
+			clone.PageSize = 99
+			clone.PageIndex = 99
+			actLines = []string{fmt.Sprintf("%v", req.PageSize), fmt.Sprintf("%v", req.PageIndex)}
+		}
 
-func Test_PageRequest_IsPageSizeEmpty_Negative(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageSize: -1}
+		expectedLines := tc.ExpectedInput.([]string)
 
-	// Act
-	result := req.IsPageSizeEmpty()
-
-	// Assert
-	convey.Convey("IsPageSizeEmpty - negative should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_PageRequest_IsPageSizeEmpty_Positive(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageSize: 10}
-
-	// Act
-	result := req.IsPageSizeEmpty()
-
-	// Assert
-	convey.Convey("IsPageSizeEmpty - positive should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-// --- IsPageIndexEmpty ---
-
-func Test_PageRequest_IsPageIndexEmpty_NilReceiver(t *testing.T) {
-	// Arrange
-	var req *coreapi.PageRequest
-
-	// Act
-	result := req.IsPageIndexEmpty()
-
-	// Assert
-	convey.Convey("IsPageIndexEmpty - nil receiver should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_PageRequest_IsPageIndexEmpty_Zero(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageIndex: 0, PageSize: 10}
-
-	// Act
-	result := req.IsPageIndexEmpty()
-
-	// Assert
-	convey.Convey("IsPageIndexEmpty - zero should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-func Test_PageRequest_IsPageIndexEmpty_Positive(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageIndex: 2}
-
-	// Act
-	result := req.IsPageIndexEmpty()
-
-	// Assert
-	convey.Convey("IsPageIndexEmpty - positive should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-// --- HasPageSize ---
-
-func Test_PageRequest_HasPageSize_NilReceiver(t *testing.T) {
-	// Arrange
-	var req *coreapi.PageRequest
-
-	// Act
-	result := req.HasPageSize()
-
-	// Assert
-	convey.Convey("HasPageSize - nil receiver should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_PageRequest_HasPageSize_Positive(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageSize: 25}
-
-	// Act
-	result := req.HasPageSize()
-
-	// Assert
-	convey.Convey("HasPageSize - positive should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-// --- HasPageIndex ---
-
-func Test_PageRequest_HasPageIndex_NilReceiver(t *testing.T) {
-	// Arrange
-	var req *coreapi.PageRequest
-
-	// Act
-	result := req.HasPageIndex()
-
-	// Assert
-	convey.Convey("HasPageIndex - nil receiver should return false", t, func() {
-		convey.So(result, should.BeFalse)
-	})
-}
-
-func Test_PageRequest_HasPageIndex_Positive(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageIndex: 3}
-
-	// Act
-	result := req.HasPageIndex()
-
-	// Assert
-	convey.Convey("HasPageIndex - positive should return true", t, func() {
-		convey.So(result, should.BeTrue)
-	})
-}
-
-// --- Clone ---
-
-func Test_PageRequest_Clone_NilReceiver(t *testing.T) {
-	// Arrange
-	var req *coreapi.PageRequest
-
-	// Act
-	result := req.Clone()
-
-	// Assert
-	convey.Convey("Clone - nil receiver should return nil", t, func() {
-		convey.So(result, should.BeNil)
-	})
-}
-
-func Test_PageRequest_Clone_CopiesAllFields(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageSize: 20, PageIndex: 5}
-
-	// Act
-	result := req.Clone()
-
-	// Assert
-	convey.Convey("Clone - should copy all fields", t, func() {
-		convey.So(result, should.NotBeNil)
-		convey.So(result.PageSize, should.Equal, 20)
-		convey.So(result.PageIndex, should.Equal, 5)
-	})
-}
-
-func Test_PageRequest_Clone_Independence(t *testing.T) {
-	// Arrange
-	req := &coreapi.PageRequest{PageSize: 20, PageIndex: 5}
-
-	// Act
-	clone := req.Clone()
-	clone.PageSize = 99
-	clone.PageIndex = 99
-
-	// Assert
-	convey.Convey("Clone - modifying clone should not affect original", t, func() {
-		convey.So(req.PageSize, should.Equal, 20)
-		convey.So(req.PageIndex, should.Equal, 5)
-	})
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
 }

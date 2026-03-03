@@ -1,247 +1,138 @@
 package coreinstructiontests
 
 import (
+	"fmt"
 	"testing"
 
-	"github.com/smarty/assertions/should"
-	"github.com/smartystreets/goconvey/convey"
-
 	"gitlab.com/auk-go/core/coreinstruction"
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/errcore"
 )
 
-// --- ClonePtr positive ---
+var fromToTestCases = []coretestcases.CaseV1{
+	{Title: "ClonePtr - copies From and To", ArrangeInput: args.Map{"case": "cloneptr-positive"}, ExpectedInput: []string{"true", "source", "destination"}},
+	{Title: "ClonePtr - nil receiver returns nil", ArrangeInput: args.Map{"case": "cloneptr-nil"}, ExpectedInput: []string{"true"}},
+	{Title: "Clone - copies values", ArrangeInput: args.Map{"case": "clone"}, ExpectedInput: []string{"a", "b"}},
+	{Title: "IsNull - nil returns true", ArrangeInput: args.Map{"case": "isnull-true"}, ExpectedInput: []string{"true"}},
+	{Title: "IsNull - non-nil returns false", ArrangeInput: args.Map{"case": "isnull-false"}, ExpectedInput: []string{"false"}},
+	{Title: "IsFromEmpty - empty From returns true", ArrangeInput: args.Map{"case": "isfromempty-true"}, ExpectedInput: []string{"true"}},
+	{Title: "IsFromEmpty - nil receiver returns true", ArrangeInput: args.Map{"case": "isfromempty-nil"}, ExpectedInput: []string{"true"}},
+	{Title: "IsToEmpty - empty To returns true", ArrangeInput: args.Map{"case": "istoempty-true"}, ExpectedInput: []string{"true"}},
+	{Title: "IsToEmpty - non-empty returns false", ArrangeInput: args.Map{"case": "istoempty-false"}, ExpectedInput: []string{"false"}},
+	{Title: "String - contains From and To", ArrangeInput: args.Map{"case": "string"}, ExpectedInput: []string{"true", "true"}},
+	{Title: "FromName/ToName return field values", ArrangeInput: args.Map{"case": "fromto-names"}, ExpectedInput: []string{"src", "dst"}},
+	{Title: "SetFromName - updates From", ArrangeInput: args.Map{"case": "setfromname"}, ExpectedInput: []string{"new"}},
+	{Title: "SetToName - updates To", ArrangeInput: args.Map{"case": "settoname"}, ExpectedInput: []string{"new"}},
+	{Title: "SetFromName - nil receiver no panic", ArrangeInput: args.Map{"case": "setfromname-nil"}, ExpectedInput: []string{"true"}},
+	{Title: "SourceDestination - maps From->Source To->Destination", ArrangeInput: args.Map{"case": "sourcedest"}, ExpectedInput: []string{"true", "src", "dst"}},
+	{Title: "SourceDestination - nil returns nil", ArrangeInput: args.Map{"case": "sourcedest-nil"}, ExpectedInput: []string{"true"}},
+	{Title: "Rename - maps From->Existing To->New", ArrangeInput: args.Map{"case": "rename"}, ExpectedInput: []string{"true", "old", "new"}},
+	{Title: "Rename - nil returns nil", ArrangeInput: args.Map{"case": "rename-nil"}, ExpectedInput: []string{"true"}},
+}
 
-func Test_FromTo_ClonePtr_Positive(t *testing.T) {
-	// Arrange
-	original := &coreinstruction.FromTo{
-		From: "source",
-		To:   "destination",
+func Test_FromTo_Verification(t *testing.T) {
+	for caseIndex, tc := range fromToTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		caseType := input["case"].(string)
+
+		var actLines []string
+
+		// Act
+		switch caseType {
+		case "cloneptr-positive":
+			orig := &coreinstruction.FromTo{From: "source", To: "destination"}
+			cloned := orig.ClonePtr()
+			actLines = []string{fmt.Sprintf("%v", cloned != nil), cloned.From, cloned.To}
+		case "cloneptr-nil":
+			var nilFT *coreinstruction.FromTo
+			actLines = []string{fmt.Sprintf("%v", nilFT.ClonePtr() == nil)}
+		case "clone":
+			orig := coreinstruction.FromTo{From: "a", To: "b"}
+			c := orig.Clone()
+			actLines = []string{c.From, c.To}
+		case "isnull-true":
+			var nilFT *coreinstruction.FromTo
+			actLines = []string{fmt.Sprintf("%v", nilFT.IsNull())}
+		case "isnull-false":
+			ft := &coreinstruction.FromTo{From: "x", To: "y"}
+			actLines = []string{fmt.Sprintf("%v", ft.IsNull())}
+		case "isfromempty-true":
+			ft := &coreinstruction.FromTo{From: "", To: "dest"}
+			actLines = []string{fmt.Sprintf("%v", ft.IsFromEmpty())}
+		case "isfromempty-nil":
+			var nilFT *coreinstruction.FromTo
+			actLines = []string{fmt.Sprintf("%v", nilFT.IsFromEmpty())}
+		case "istoempty-true":
+			ft := &coreinstruction.FromTo{From: "src", To: ""}
+			actLines = []string{fmt.Sprintf("%v", ft.IsToEmpty())}
+		case "istoempty-false":
+			ft := &coreinstruction.FromTo{From: "src", To: "dest"}
+			actLines = []string{fmt.Sprintf("%v", ft.IsToEmpty())}
+		case "string":
+			ft := coreinstruction.FromTo{From: "alpha", To: "beta"}
+			s := ft.String()
+			actLines = []string{
+				fmt.Sprintf("%v", len(s) > 0 && contains(s, "alpha")),
+				fmt.Sprintf("%v", contains(s, "beta")),
+			}
+		case "fromto-names":
+			ft := coreinstruction.FromTo{From: "src", To: "dst"}
+			actLines = []string{ft.FromName(), ft.ToName()}
+		case "setfromname":
+			ft := &coreinstruction.FromTo{From: "old", To: "t"}
+			ft.SetFromName("new")
+			actLines = []string{ft.From}
+		case "settoname":
+			ft := &coreinstruction.FromTo{From: "f", To: "old"}
+			ft.SetToName("new")
+			actLines = []string{ft.To}
+		case "setfromname-nil":
+			var nilFT *coreinstruction.FromTo
+			didPanic := false
+			func() {
+				defer func() {
+					if r := recover(); r != nil {
+						didPanic = true
+					}
+				}()
+				nilFT.SetFromName("x")
+			}()
+			actLines = []string{fmt.Sprintf("%v", !didPanic)}
+		case "sourcedest":
+			ft := &coreinstruction.FromTo{From: "src", To: "dst"}
+			sd := ft.SourceDestination()
+			actLines = []string{fmt.Sprintf("%v", sd != nil), sd.Source, sd.Destination}
+		case "sourcedest-nil":
+			var nilFT *coreinstruction.FromTo
+			actLines = []string{fmt.Sprintf("%v", nilFT.SourceDestination() == nil)}
+		case "rename":
+			ft := &coreinstruction.FromTo{From: "old", To: "new"}
+			rn := ft.Rename()
+			actLines = []string{fmt.Sprintf("%v", rn != nil), rn.Existing, rn.New}
+		case "rename-nil":
+			var nilFT *coreinstruction.FromTo
+			actLines = []string{fmt.Sprintf("%v", nilFT.Rename() == nil)}
+		}
+
+		expectedLines := tc.ExpectedInput.([]string)
+
+		// Assert
+		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, expectedLines)
+		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
-
-	// Act
-	cloned := original.ClonePtr()
-
-	// Assert
-	convey.Convey("ClonePtr - should copy From and To values", t, func() {
-		convey.So(cloned, should.NotBeNil)
-		convey.So(cloned.From, should.Equal, "source")
-		convey.So(cloned.To, should.Equal, "destination")
-		convey.So(cloned, should.NotPointTo, original)
-	})
 }
 
-// --- ClonePtr nil receiver ---
-
-func Test_FromTo_ClonePtr_NilReceiver(t *testing.T) {
-	// Arrange
-	var nilFromTo *coreinstruction.FromTo
-
-	// Act
-	cloned := nilFromTo.ClonePtr()
-
-	// Assert
-	convey.Convey("ClonePtr - nil receiver should return nil", t, func() {
-		convey.So(cloned, should.BeNil)
-	})
+func contains(s, substr string) bool {
+	return len(s) >= len(substr) && (s == substr || len(substr) == 0 || findSubstr(s, substr))
 }
 
-// --- Clone (value) ---
-
-func Test_FromTo_Clone_CopiesValues(t *testing.T) {
-	// Arrange
-	original := coreinstruction.FromTo{From: "a", To: "b"}
-
-	// Act
-	cloned := original.Clone()
-
-	// Assert
-	convey.Convey("Clone - value clone copies From and To", t, func() {
-		convey.So(cloned.From, should.Equal, "a")
-		convey.So(cloned.To, should.Equal, "b")
-	})
-}
-
-// --- IsNull ---
-
-func Test_FromTo_IsNull_True(t *testing.T) {
-	// Arrange
-	var nilFT *coreinstruction.FromTo
-
-	// Assert
-	convey.Convey("IsNull - nil receiver returns true", t, func() {
-		convey.So(nilFT.IsNull(), should.BeTrue)
-	})
-}
-
-func Test_FromTo_IsNull_False(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "x", To: "y"}
-
-	// Assert
-	convey.Convey("IsNull - non-nil receiver returns false", t, func() {
-		convey.So(ft.IsNull(), should.BeFalse)
-	})
-}
-
-// --- IsFromEmpty / IsToEmpty ---
-
-func Test_FromTo_IsFromEmpty_True(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "", To: "dest"}
-
-	// Assert
-	convey.Convey("IsFromEmpty - empty From returns true", t, func() {
-		convey.So(ft.IsFromEmpty(), should.BeTrue)
-	})
-}
-
-func Test_FromTo_IsFromEmpty_NilReceiver(t *testing.T) {
-	// Arrange
-	var nilFT *coreinstruction.FromTo
-
-	// Assert
-	convey.Convey("IsFromEmpty - nil receiver returns true", t, func() {
-		convey.So(nilFT.IsFromEmpty(), should.BeTrue)
-	})
-}
-
-func Test_FromTo_IsToEmpty_True(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "src", To: ""}
-
-	// Assert
-	convey.Convey("IsToEmpty - empty To returns true", t, func() {
-		convey.So(ft.IsToEmpty(), should.BeTrue)
-	})
-}
-
-func Test_FromTo_IsToEmpty_False(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "src", To: "dest"}
-
-	// Assert
-	convey.Convey("IsToEmpty - non-empty To returns false", t, func() {
-		convey.So(ft.IsToEmpty(), should.BeFalse)
-	})
-}
-
-// --- String ---
-
-func Test_FromTo_String(t *testing.T) {
-	// Arrange
-	ft := coreinstruction.FromTo{From: "alpha", To: "beta"}
-
-	// Act
-	result := ft.String()
-
-	// Assert
-	convey.Convey("String - should contain From and To values", t, func() {
-		convey.So(result, should.ContainSubstring, "alpha")
-		convey.So(result, should.ContainSubstring, "beta")
-	})
-}
-
-// --- FromName / ToName ---
-
-func Test_FromTo_FromName_ToName(t *testing.T) {
-	// Arrange
-	ft := coreinstruction.FromTo{From: "src", To: "dst"}
-
-	// Assert
-	convey.Convey("FromName/ToName return field values", t, func() {
-		convey.So(ft.FromName(), should.Equal, "src")
-		convey.So(ft.ToName(), should.Equal, "dst")
-	})
-}
-
-// --- SetFromName / SetToName ---
-
-func Test_FromTo_SetFromName(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "old", To: "t"}
-
-	// Act
-	ft.SetFromName("new")
-
-	// Assert
-	convey.Convey("SetFromName - updates From field", t, func() {
-		convey.So(ft.From, should.Equal, "new")
-	})
-}
-
-func Test_FromTo_SetToName(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "f", To: "old"}
-
-	// Act
-	ft.SetToName("new")
-
-	// Assert
-	convey.Convey("SetToName - updates To field", t, func() {
-		convey.So(ft.To, should.Equal, "new")
-	})
-}
-
-func Test_FromTo_SetFromName_NilReceiver(t *testing.T) {
-	// Arrange
-	var nilFT *coreinstruction.FromTo
-
-	// Act & Assert (should not panic)
-	convey.Convey("SetFromName - nil receiver should not panic", t, func() {
-		convey.So(func() { nilFT.SetFromName("x") }, should.NotPanic)
-	})
-}
-
-// --- SourceDestination ---
-
-func Test_FromTo_SourceDestination(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "src", To: "dst"}
-
-	// Act
-	sd := ft.SourceDestination()
-
-	// Assert
-	convey.Convey("SourceDestination - maps From->Source, To->Destination", t, func() {
-		convey.So(sd, should.NotBeNil)
-		convey.So(sd.Source, should.Equal, "src")
-		convey.So(sd.Destination, should.Equal, "dst")
-	})
-}
-
-func Test_FromTo_SourceDestination_NilReceiver(t *testing.T) {
-	// Arrange
-	var nilFT *coreinstruction.FromTo
-
-	// Assert
-	convey.Convey("SourceDestination - nil receiver returns nil", t, func() {
-		convey.So(nilFT.SourceDestination(), should.BeNil)
-	})
-}
-
-// --- Rename ---
-
-func Test_FromTo_Rename(t *testing.T) {
-	// Arrange
-	ft := &coreinstruction.FromTo{From: "old", To: "new"}
-
-	// Act
-	rn := ft.Rename()
-
-	// Assert
-	convey.Convey("Rename - maps From->Existing, To->New", t, func() {
-		convey.So(rn, should.NotBeNil)
-		convey.So(rn.Existing, should.Equal, "old")
-		convey.So(rn.New, should.Equal, "new")
-	})
-}
-
-func Test_FromTo_Rename_NilReceiver(t *testing.T) {
-	// Arrange
-	var nilFT *coreinstruction.FromTo
-
-	// Assert
-	convey.Convey("Rename - nil receiver returns nil", t, func() {
-		convey.So(nilFT.Rename(), should.BeNil)
-	})
+func findSubstr(s, sub string) bool {
+	for i := 0; i <= len(s)-len(sub); i++ {
+		if s[i:i+len(sub)] == sub {
+			return true
+		}
+	}
+	return false
 }
