@@ -7,7 +7,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/errcore"
 )
 
@@ -17,52 +16,63 @@ import (
 
 func Test_Dynamic_Constructors_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicConstructorTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		constructor, _ := input.GetAsString("constructor")
+		_ = input["constructorRef"] // ensures ref key exists
 
 		var actLines []string
 
-		switch constructor {
-		case "NewDynamicValid":
-			value, _ := input.GetAsString("value")
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{
-				fmt.Sprintf("%v", d.IsValid()),
-				fmt.Sprintf("%v", d.Value()),
+		if input.Has("constructorRef") {
+			ref := input["constructorRef"]
+
+			switch fn := ref.(type) {
+			case func(any) coredynamic.Dynamic:
+				// refNewDynamicValid
+				d := fn(input["inputData"])
+				actLines = []string{
+					fmt.Sprintf("%v", d.IsValid()),
+					fmt.Sprintf("%v", d.Value()),
+				}
+			case func(any, bool) coredynamic.Dynamic:
+				// refNewDynamic
+				isValid := input["isValid"].(bool)
+				d := fn(nil, isValid)
+				actLines = []string{
+					fmt.Sprintf("%v", d.IsValid()),
+					fmt.Sprintf("%v", d.IsInvalid()),
+				}
+			case func() coredynamic.Dynamic:
+				// refInvalidDynamic
+				d := fn()
+				actLines = []string{
+					fmt.Sprintf("%v", d.IsValid()),
+					fmt.Sprintf("%v", d.IsNull()),
+				}
+			case func() *coredynamic.Dynamic:
+				// refInvalidDynamicPtr
+				d := fn()
+				actLines = []string{
+					fmt.Sprintf("%v", d != nil),
+					fmt.Sprintf("%v", d.IsValid()),
+					fmt.Sprintf("%v", d.IsNull()),
+				}
+			case func(any, bool) *coredynamic.Dynamic:
+				// refNewDynamicPtr
+				isValid := input["isValid"].(bool)
+				d := fn(input["inputData"], isValid)
+				actLines = []string{
+					fmt.Sprintf("%v", d != nil),
+					fmt.Sprintf("%v", d.IsValid()),
+					fmt.Sprintf("%v", d.Value()),
+				}
+			default:
+				errcore.HandleErrMessage(
+					fmt.Sprintf("unknown constructor ref type: %T", ref),
+				)
 			}
-		case "NewDynamic":
-			isValid := input["isValid"].(bool)
-			d := coredynamic.NewDynamic(nil, isValid)
-			actLines = []string{
-				fmt.Sprintf("%v", d.IsValid()),
-				fmt.Sprintf("%v", d.IsInvalid()),
-			}
-		case "InvalidDynamic":
-			d := coredynamic.InvalidDynamic()
-			actLines = []string{
-				fmt.Sprintf("%v", d.IsValid()),
-				fmt.Sprintf("%v", d.IsNull()),
-			}
-		case "InvalidDynamicPtr":
-			d := coredynamic.InvalidDynamicPtr()
-			actLines = []string{
-				fmt.Sprintf("%v", d != nil),
-				fmt.Sprintf("%v", d.IsValid()),
-				fmt.Sprintf("%v", d.IsNull()),
-			}
-		case "NewDynamicPtr":
-			value := input["value"]
-			isValid := input["isValid"].(bool)
-			d := coredynamic.NewDynamicPtr(value, isValid)
-			actLines = []string{
-				fmt.Sprintf("%v", d != nil),
-				fmt.Sprintf("%v", d.IsValid()),
-				fmt.Sprintf("%v", d.Value()),
-			}
-		default:
-			errcore.HandleErrMessage("unknown constructor: " + constructor)
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -74,42 +84,44 @@ func Test_Dynamic_Constructors_Verification(t *testing.T) {
 
 func Test_Dynamic_Clone_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicCloneTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-		receiver, _ := input.GetAsString("receiver")
+		scenario, _ := input.GetAsString("scenario")
+		nilReceiver := getBoolDefault(input, "nilReceiver")
 
 		var actLines []string
 
-		switch method {
-		case "Clone":
-			value, _ := input.GetAsString("value")
-			original := coredynamic.NewDynamicValid(value)
+		switch scenario {
+		case "clone":
+			inputData, _ := input.GetAsString("inputData")
+			original := refNewDynamicValid(inputData)
 			cloned := original.Clone()
 			actLines = []string{
 				fmt.Sprintf("%v", cloned.Value()),
 				fmt.Sprintf("%v", cloned.IsValid()),
 			}
-		case "ClonePtr":
-			if receiver == "nil" {
+		case "clonePtr":
+			if nilReceiver {
 				var d *coredynamic.Dynamic
 				actLines = []string{fmt.Sprintf("%v", d.ClonePtr() == nil)}
 			} else {
-				value, _ := input.GetAsString("value")
-				original := coredynamic.NewDynamicPtr(value, true)
+				inputData, _ := input.GetAsString("inputData")
+				original := refNewDynamicPtr(inputData, true)
 				cloned := original.ClonePtr()
 				actLines = []string{
 					fmt.Sprintf("%v", cloned != nil),
 					fmt.Sprintf("%v", cloned.Value()),
 				}
 			}
-		case "NonPtr":
-			value, _ := input.GetAsString("value")
-			d := coredynamic.NewDynamicValid(value)
+		case "nonPtr":
+			inputData, _ := input.GetAsString("inputData")
+			d := refNewDynamicValid(inputData)
 			actLines = []string{fmt.Sprintf("%v", d.NonPtr().Value())}
 		default:
-			errcore.HandleErrMessage("unknown method: " + method)
+			errcore.HandleErrMessage("unknown clone scenario: " + scenario)
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -117,81 +129,61 @@ func Test_Dynamic_Clone_Verification(t *testing.T) {
 
 // ==========================================
 // Test: Type Checks
+//
+// Uses DynamicBoolMethodRef stored in "checkRef" key.
+// The method reference is compile-time safe — renaming the
+// method on *Dynamic causes a build error.
 // ==========================================
 
 func Test_Dynamic_TypeChecks_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicTypeCheckTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		check, _ := input.GetAsString("check")
 
 		var actLines []string
 
-		switch check {
-		case "DataValue":
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{
-				fmt.Sprintf("%v", d.Data()),
-				fmt.Sprintf("%v", d.Data() == d.Value()),
-			}
-		case "IsNull":
-			isValid, hasIsValid := input["isValid"]
-			if hasIsValid {
-				d := coredynamic.NewDynamic(nil, isValid.(bool))
-				actLines = []string{fmt.Sprintf("%v", d.IsNull())}
-			} else {
-				value, _ := input.GetAsString("value")
-				d := coredynamic.NewDynamicValid(value)
-				actLines = []string{fmt.Sprintf("%v", d.IsNull())}
-			}
-		case "String":
-			value, _ := input.GetAsString("value")
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{fmt.Sprintf("%v", d.String() != "")}
-		case "IsStringType":
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{fmt.Sprintf("%v", d.IsStringType())}
-		case "IsNumber":
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{fmt.Sprintf("%v", d.IsNumber())}
-		case "IsPrimitive":
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{fmt.Sprintf("%v", d.IsPrimitive())}
-		case "IsFunc":
-			d := coredynamic.NewDynamicValid(func() {})
-			actLines = []string{fmt.Sprintf("%v", d.IsFunc())}
-		case "IsSliceOrArray":
-			value, _ := input.GetAsString("value")
-			if value == "slice_int" {
-				d := coredynamic.NewDynamicValid([]int{1, 2, 3})
-				actLines = []string{fmt.Sprintf("%v", d.IsSliceOrArray())}
-			} else {
-				d := coredynamic.NewDynamicValid(value)
-				actLines = []string{fmt.Sprintf("%v", d.IsSliceOrArray())}
-			}
-		case "IsSliceOrArrayOrMap":
-			d := coredynamic.NewDynamicValid(map[string]int{"a": 1})
-			actLines = []string{fmt.Sprintf("%v", d.IsSliceOrArrayOrMap())}
-		case "IsMap":
-			d := coredynamic.NewDynamicValid(map[string]int{"x": 1})
-			actLines = []string{fmt.Sprintf("%v", d.IsMap())}
-		case "IsPointer":
-			val := 42
-			d := coredynamic.NewDynamicValid(&val)
-			actLines = []string{fmt.Sprintf("%v", d.IsPointer())}
-		case "IsValueType":
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{fmt.Sprintf("%v", d.IsValueType())}
-		default:
-			errcore.HandleErrMessage("unknown check: " + check)
+		scenario, hasScenario := input.GetAsString("scenario")
+
+		if hasScenario {
+			// Special cases that need custom setup
+			actLines = typeCheckSpecialScenario(scenario, input)
+		} else {
+			// Standard bool method ref check
+			checkRef := input["checkRef"].(DynamicBoolMethodRef)
+			d := createDynamicFromInput(input)
+			actLines = []string{fmt.Sprintf("%v", checkRef.Call(d))}
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
+	}
+}
+
+// typeCheckSpecialScenario handles type check cases that need
+// custom Dynamic creation (e.g., pointer wrapping, Data==Value).
+func typeCheckSpecialScenario(scenario string, input args.Map) []string {
+	switch scenario {
+	case "dataValue":
+		inputData := input["inputData"]
+		d := refNewDynamicValid(inputData)
+		return []string{
+			fmt.Sprintf("%v", d.Data()),
+			fmt.Sprintf("%v", d.Data() == d.Value()),
+		}
+	case "stringNonEmpty":
+		inputData, _ := input.GetAsString("inputData")
+		d := refNewDynamicValid(inputData)
+		return []string{fmt.Sprintf("%v", d.String() != "")}
+	case "pointer":
+		// Create a pointer value to verify IsPointer
+		val := 42
+		d := refNewDynamicValid(&val)
+		checkRef := input["checkRef"].(DynamicBoolMethodRef)
+		return []string{fmt.Sprintf("%v", checkRef.Call(&d))}
+	default:
+		errcore.HandleErrMessage("unknown typeCheck scenario: " + scenario)
+		return nil
 	}
 }
 
@@ -203,18 +195,22 @@ func Test_Dynamic_IsStruct_Verification(t *testing.T) {
 	type sample struct{ Name string }
 
 	for caseIndex, tc := range dynamicIsStructTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value := input["value"]
+		checkRef := input["checkRef"].(DynamicBoolMethodRef)
+		scenario, hasScenario := input.GetAsString("scenario")
 
 		var d coredynamic.Dynamic
-		if value == "struct" {
-			d = coredynamic.NewDynamicValid(sample{Name: "test"})
+		if hasScenario && scenario == "struct" {
+			d = refNewDynamicValid(sample{Name: "test"})
 		} else {
-			d = coredynamic.NewDynamicValid(value)
+			d = refNewDynamicValid(input["inputData"])
 		}
 
-		actLines := []string{fmt.Sprintf("%v", d.IsStruct())}
+		// Act
+		actLines := []string{fmt.Sprintf("%v", checkRef.Call(&d))}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -226,23 +222,14 @@ func Test_Dynamic_IsStruct_Verification(t *testing.T) {
 
 func Test_Dynamic_Length_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicLengthTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value, _ := input.GetAsString("value")
+		d := createDynamicFromInput(input)
 
-		var d coredynamic.Dynamic
-		switch value {
-		case "slice_int":
-			d = coredynamic.NewDynamicValid([]int{1, 2, 3})
-		case "nil":
-			d = coredynamic.NewDynamic(nil, false)
-		case "map_2":
-			d = coredynamic.NewDynamicValid(map[string]int{"a": 1, "b": 2})
-		default:
-			errcore.HandleErrMessage("unknown value: " + value)
-		}
-
+		// Act
 		actLines := []string{fmt.Sprintf("%d", d.Length())}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -254,12 +241,14 @@ func Test_Dynamic_Length_Verification(t *testing.T) {
 
 func Test_Dynamic_ValueInt_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicValueIntTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value := input["value"]
-		d := coredynamic.NewDynamicValid(value)
+		d := refNewDynamicValid(input["inputData"])
 
+		// Act
 		actLines := []string{fmt.Sprintf("%d", d.ValueInt())}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -271,12 +260,14 @@ func Test_Dynamic_ValueInt_Verification(t *testing.T) {
 
 func Test_Dynamic_ValueBool_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicValueBoolTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value := input["value"]
-		d := coredynamic.NewDynamicValid(value)
+		d := refNewDynamicValid(input["inputData"])
 
+		// Act
 		actLines := []string{fmt.Sprintf("%v", d.ValueBool())}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -288,23 +279,30 @@ func Test_Dynamic_ValueBool_Verification(t *testing.T) {
 
 func Test_Dynamic_ValueString_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicValueStringTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value, _ := input.GetAsString("value")
+		d := createDynamicFromInput(input)
 
+		// Act
 		var actLines []string
+		result := d.ValueString()
+
+		inputData := input["inputData"]
+		_, isString := inputData.(string)
 
 		switch {
-		case value == "nil":
-			d := coredynamic.NewDynamic(nil, true)
-			actLines = []string{fmt.Sprintf("%v", d.ValueString() == "")}
-		case value == "hello":
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{d.ValueString()}
+		case inputData == nil:
+			// nil data → check that result is empty
+			actLines = []string{fmt.Sprintf("%v", result == "")}
+		case isString && inputData.(string) == "hello":
+			// string data → return exact value
+			actLines = []string{result}
 		default:
-			d := coredynamic.NewDynamicValid(input["value"])
-			actLines = []string{fmt.Sprintf("%v", d.ValueString() != "")}
+			// non-string data → check that result is non-empty
+			actLines = []string{fmt.Sprintf("%v", result != "")}
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -316,20 +314,22 @@ func Test_Dynamic_ValueString_Verification(t *testing.T) {
 
 func Test_Dynamic_ValueStrings_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicValueStringsTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value, isStr := input.GetAsString("value")
+		d := refNewDynamicValid(input["inputData"])
 
+		// Act
 		var actLines []string
+		result := d.ValueStrings()
 
-		if isStr && value == "strings_ab" {
-			d := coredynamic.NewDynamicValid([]string{"a", "b"})
-			result := d.ValueStrings()
+		if result != nil {
 			actLines = result
 		} else {
-			d := coredynamic.NewDynamicValid(input["value"])
-			actLines = []string{fmt.Sprintf("%v", d.ValueStrings() == nil)}
+			// nil result → report as "true" (ValueStrings() == nil)
+			actLines = []string{fmt.Sprintf("%v", result == nil)}
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -341,12 +341,14 @@ func Test_Dynamic_ValueStrings_Verification(t *testing.T) {
 
 func Test_Dynamic_ValueUInt_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicValueUIntTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value := input["value"]
-		d := coredynamic.NewDynamicValid(value)
+		d := refNewDynamicValid(input["inputData"])
 
+		// Act
 		actLines := []string{fmt.Sprintf("%d", d.ValueUInt())}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -358,12 +360,14 @@ func Test_Dynamic_ValueUInt_Verification(t *testing.T) {
 
 func Test_Dynamic_ValueInt64_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicValueInt64TestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value := input["value"]
-		d := coredynamic.NewDynamicValid(value)
+		d := refNewDynamicValid(input["inputData"])
 
+		// Act
 		actLines := []string{fmt.Sprintf("%d", d.ValueInt64())}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -375,32 +379,34 @@ func Test_Dynamic_ValueInt64_Verification(t *testing.T) {
 
 func Test_Dynamic_Bytes_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicBytesTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		receiver, _ := input.GetAsString("receiver")
-		value, _ := input.GetAsString("value")
+		nilReceiver := getBoolDefault(input, "nilReceiver")
 
 		var actLines []string
 
-		if receiver == "nil" {
+		if nilReceiver {
+			// Test nil *Dynamic receiver safety
 			var d *coredynamic.Dynamic
 			raw, ok := d.Bytes()
 			actLines = []string{
 				fmt.Sprintf("%v", raw == nil),
 				fmt.Sprintf("%v", ok),
 			}
-		} else if value == "bytes_raw" {
-			d := coredynamic.NewDynamicValid([]byte("raw"))
-			raw, ok := d.Bytes()
-			actLines = []string{
-				fmt.Sprintf("%v", ok),
-				string(raw),
-			}
 		} else {
-			d := coredynamic.NewDynamicValid(value)
-			_, ok := d.Bytes()
-			actLines = []string{fmt.Sprintf("%v", ok)}
+			d := refNewDynamicValid(input["inputData"])
+			raw, ok := d.Bytes()
+			if ok {
+				actLines = []string{
+					fmt.Sprintf("%v", ok),
+					string(raw),
+				}
+			} else {
+				actLines = []string{fmt.Sprintf("%v", ok)}
+			}
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -412,29 +418,19 @@ func Test_Dynamic_Bytes_Verification(t *testing.T) {
 
 func Test_Dynamic_IntDefault_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicIntDefaultTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		defaultVal := input.GetAsIntDefault("defaultValue", 0)
+		d := createDynamicFromInput(input)
 
-		var actLines []string
-
-		valueStr, isStr := input.GetAsString("value")
-		if isStr && valueStr == "nil" {
-			d := coredynamic.NewDynamic(nil, true)
-			val, ok := d.IntDefault(defaultVal)
-			actLines = []string{
-				fmt.Sprintf("%v", ok),
-				fmt.Sprintf("%d", val),
-			}
-		} else {
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
-			val, ok := d.IntDefault(defaultVal)
-			actLines = []string{
-				fmt.Sprintf("%v", ok),
-				fmt.Sprintf("%d", val),
-			}
+		// Act
+		val, ok := d.IntDefault(defaultVal)
+		actLines := []string{
+			fmt.Sprintf("%v", ok),
+			fmt.Sprintf("%d", val),
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -446,23 +442,21 @@ func Test_Dynamic_IntDefault_Verification(t *testing.T) {
 
 func Test_Dynamic_ValueNullErr_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicValueNullErrTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		receiver, _ := input.GetAsString("receiver")
-		value, _ := input.GetAsString("value")
+		nilReceiver := getBoolDefault(input, "nilReceiver")
 
 		var actLines []string
 
-		if receiver == "nil" {
+		if nilReceiver {
 			var d *coredynamic.Dynamic
 			actLines = []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
-		} else if value == "nil" {
-			d := coredynamic.NewDynamic(nil, true)
-			actLines = []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
 		} else {
-			d := coredynamic.NewDynamicValid(value)
+			d := createDynamicFromInput(input)
 			actLines = []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -474,41 +468,33 @@ func Test_Dynamic_ValueNullErr_Verification(t *testing.T) {
 
 func Test_Dynamic_Reflect_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicReflectTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		check, _ := input.GetAsString("check")
+		scenario, _ := input.GetAsString("scenario")
+		d := refNewDynamicValid(input["inputData"])
 
 		var actLines []string
 
-		switch check {
-		case "ReflectKind":
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
+		switch scenario {
+		case "reflectKind":
 			actLines = []string{d.ReflectKind().String()}
-		case "IsReflectKind":
-			value, _ := input.GetAsString("value")
-			d := coredynamic.NewDynamicValid(value)
-			match := input["match"].(bool)
-			if match {
-				actLines = []string{fmt.Sprintf("%v", d.IsReflectKind(reflect.String))}
-			} else {
-				actLines = []string{fmt.Sprintf("%v", d.IsReflectKind(reflect.Int))}
-			}
-		case "ReflectTypeName":
-			value, _ := input.GetAsString("value")
-			d := coredynamic.NewDynamicValid(value)
+		case "isReflectKindMatch":
+			// Checks that string data matches reflect.String
+			actLines = []string{fmt.Sprintf("%v", d.IsReflectKind(reflect.String))}
+		case "isReflectKindMismatch":
+			// Checks that string data does NOT match reflect.Int
+			actLines = []string{fmt.Sprintf("%v", d.IsReflectKind(reflect.Int))}
+		case "reflectTypeName":
 			actLines = []string{fmt.Sprintf("%v", d.ReflectTypeName() != "")}
-		case "ReflectType":
-			value := input["value"]
-			d := coredynamic.NewDynamicValid(value)
-			actLines = []string{fmt.Sprintf("%v", d.ReflectType() == reflect.TypeOf(value))}
-		case "IsReflectTypeOf":
-			value, _ := input.GetAsString("value")
-			d := coredynamic.NewDynamicValid(value)
+		case "reflectType":
+			actLines = []string{fmt.Sprintf("%v", d.ReflectType() == reflect.TypeOf(input["inputData"]))}
+		case "isReflectTypeOf":
 			actLines = []string{fmt.Sprintf("%v", d.IsReflectTypeOf(reflect.TypeOf("")))}
 		default:
-			errcore.HandleErrMessage("unknown check: " + check)
+			errcore.HandleErrMessage("unknown reflect scenario: " + scenario)
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -519,7 +505,10 @@ func Test_Dynamic_Reflect_Verification(t *testing.T) {
 // ==========================================
 
 func Test_Dynamic_ReflectValue_Verification(t *testing.T) {
-	d := coredynamic.NewDynamicPtr(42, true)
+	// Arrange
+	d := refNewDynamicPtr(42, true)
+
+	// Act
 	rv1 := d.ReflectValue()
 	rv2 := d.ReflectValue()
 
@@ -529,13 +518,17 @@ func Test_Dynamic_ReflectValue_Verification(t *testing.T) {
 	}
 	expected := []string{"true", "42"}
 
+	// Assert
 	errcore.PrintLineDiff(0, "ReflectValue returns cached reflect.Value", actLines, expected)
 
-	tc := coretestcases.CaseV1{
-		Title:         "ReflectValue returns cached reflect.Value",
-		ExpectedInput: expected,
+	if len(actLines) != len(expected) {
+		t.Fatalf("ReflectValue: expected %d lines, got %d", len(expected), len(actLines))
 	}
-	tc.ShouldBeEqual(t, 0, actLines...)
+	for i := range actLines {
+		if actLines[i] != expected[i] {
+			t.Errorf("ReflectValue line %d: got %q, want %q", i, actLines[i], expected[i])
+		}
+	}
 }
 
 // ==========================================
@@ -544,6 +537,7 @@ func Test_Dynamic_ReflectValue_Verification(t *testing.T) {
 
 func Test_Dynamic_Loop_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicLoopTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		scenario, _ := input.GetAsString("scenario")
 
@@ -551,7 +545,7 @@ func Test_Dynamic_Loop_Verification(t *testing.T) {
 
 		switch scenario {
 		case "iterate":
-			d := coredynamic.NewDynamicValid([]string{"a", "b", "c"})
+			d := refNewDynamicValid([]string{"a", "b", "c"})
 			collected := make([]string, 0, 3)
 			called := d.Loop(func(index int, item any) bool {
 				collected = append(collected, item.(string))
@@ -559,21 +553,22 @@ func Test_Dynamic_Loop_Verification(t *testing.T) {
 			})
 			actLines = append([]string{fmt.Sprintf("%v", called)}, collected...)
 		case "invalid":
-			d := coredynamic.InvalidDynamicPtr()
+			d := refInvalidDynamicPtr()
 			called := d.Loop(func(index int, item any) bool { return false })
 			actLines = []string{fmt.Sprintf("%v", called)}
 		case "break":
-			d := coredynamic.NewDynamicValid([]int{1, 2, 3, 4})
+			d := refNewDynamicValid([]int{1, 2, 3, 4})
 			count := 0
 			d.Loop(func(index int, item any) bool {
 				count++
-				return index == 1
+				return index == 1 // break after second item
 			})
 			actLines = []string{fmt.Sprintf("%d", count)}
 		default:
-			errcore.HandleErrMessage("unknown scenario: " + scenario)
+			errcore.HandleErrMessage("unknown loop scenario: " + scenario)
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -585,25 +580,27 @@ func Test_Dynamic_Loop_Verification(t *testing.T) {
 
 func Test_Dynamic_ItemAccess_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicItemAccessTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
+		scenario, _ := input.GetAsString("scenario")
 
 		var actLines []string
 
-		switch method {
-		case "ItemUsingIndex":
-			d := coredynamic.NewDynamicValid([]string{"a", "b"})
+		switch scenario {
+		case "itemUsingIndex":
+			d := refNewDynamicValid([]string{"a", "b"})
 			actLines = []string{
 				fmt.Sprintf("%v", d.ItemUsingIndex(0)),
 				fmt.Sprintf("%v", d.ItemUsingIndex(1)),
 			}
-		case "ItemUsingKey":
-			d := coredynamic.NewDynamicValid(map[string]int{"k": 42})
+		case "itemUsingKey":
+			d := refNewDynamicValid(map[string]int{"k": 42})
 			actLines = []string{fmt.Sprintf("%v", d.ItemUsingKey("k"))}
 		default:
-			errcore.HandleErrMessage("unknown method: " + method)
+			errcore.HandleErrMessage("unknown itemAccess scenario: " + scenario)
 		}
 
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
@@ -615,19 +612,52 @@ func Test_Dynamic_ItemAccess_Verification(t *testing.T) {
 
 func Test_Dynamic_StructStringNullOrEmpty_Verification(t *testing.T) {
 	for caseIndex, tc := range dynamicStructStringNullOrEmptyTestCases {
+		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value, _ := input.GetAsString("value")
+		checkRef := input["checkRef"].(DynamicBoolMethodRef)
+		d := createDynamicFromInput(input)
 
-		var d coredynamic.Dynamic
-		if value == "nil" {
-			d = coredynamic.NewDynamic(nil, true)
-		} else {
-			d = coredynamic.NewDynamicValid(value)
-		}
+		// Act
+		actLines := []string{fmt.Sprintf("%v", checkRef.Call(d))}
 
-		actLines := []string{fmt.Sprintf("%v", d.IsStructStringNullOrEmpty())}
-
+		// Assert
 		errcore.PrintLineDiff(caseIndex, tc.Title, actLines, tc.ExpectedInput)
 		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
+}
+
+// =============================================================================
+// Helpers
+// =============================================================================
+
+// createDynamicFromInput creates a *Dynamic from the standard input keys.
+//   - "inputData": the actual Go value to wrap
+//   - "isValid": if present, uses NewDynamic(data, isValid); otherwise NewDynamicValid(data)
+//
+// Returns a pointer to allow nil-safe method calls.
+func createDynamicFromInput(input args.Map) *coredynamic.Dynamic {
+	inputData := input["inputData"]
+
+	if isValid, has := input["isValid"]; has {
+		d := refNewDynamic(inputData, isValid.(bool))
+		return &d
+	}
+
+	d := refNewDynamicValid(inputData)
+	return &d
+}
+
+// getBoolDefault returns the bool value for the given key, or false if missing.
+func getBoolDefault(input args.Map, key string) bool {
+	v, ok := input[key]
+	if !ok {
+		return false
+	}
+
+	b, isBool := v.(bool)
+	if !isBool {
+		return false
+	}
+
+	return b
 }
