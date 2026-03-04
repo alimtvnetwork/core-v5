@@ -1,90 +1,181 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type Four struct {
-	First    any `json:",omitempty"`
-	Second   any `json:",omitempty"`
-	Third    any `json:",omitempty"`
-	Fourth   any `json:",omitempty"`
-	Expect   any `json:",omitempty"`
-	toSlice  *[]any
-	toString corestr.SimpleStringOnce
+// Four holds four typed positional arguments plus an optional Expect field.
+//
+// Type parameters T1, T2, T3, T4 represent the types of First through Fourth.
+// Use FourAny (= Four[any, any, any, any]) for untyped usage.
+//
+// Example (typed):
+//
+//	arg := args.Four[string, int, bool, float64]{
+//	    First:  "hello",
+//	    Second: 42,
+//	    Third:  true,
+//	    Fourth: 3.14,
+//	}
+type Four[T1, T2, T3, T4 any] struct {
+	First         T1                       `json:",omitempty"`
+	Second        T2                       `json:",omitempty"`
+	Third         T3                       `json:",omitempty"`
+	Fourth        T4                       `json:",omitempty"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *Four) ArgsCount() int { return 4 }
-func (it *Four) FirstItem() any { return it.First }
-func (it *Four) SecondItem() any { return it.Second }
-func (it *Four) ThirdItem() any { return it.Third }
-func (it *Four) FourthItem() any { return it.Fourth }
-func (it *Four) Expected() any { return it.Expect }
-
-func (it *Four) ArgTwo() Two {
-	return Two{First: it.First, Second: it.Second}
+// ArgsCount returns the number of positional argument slots (always 4).
+func (it *Four[T1, T2, T3, T4]) ArgsCount() int {
+	return 4
 }
 
-func (it *Four) ArgThree() Three {
-	return Three{First: it.First, Second: it.Second, Third: it.Third}
+// FirstItem returns the First argument as any.
+func (it *Four[T1, T2, T3, T4]) FirstItem() any {
+	return it.First
 }
 
-func (it *Four) HasFirst() bool  { return it != nil && reflectinternal.Is.Defined(it.First) }
-func (it *Four) HasSecond() bool { return it != nil && reflectinternal.Is.Defined(it.Second) }
-func (it *Four) HasThird() bool  { return it != nil && reflectinternal.Is.Defined(it.Third) }
-func (it *Four) HasFourth() bool { return it != nil && reflectinternal.Is.Defined(it.Fourth) }
-func (it *Four) HasExpect() bool { return it != nil && reflectinternal.Is.Defined(it.Expect) }
+// SecondItem returns the Second argument as any.
+func (it *Four[T1, T2, T3, T4]) SecondItem() any {
+	return it.Second
+}
 
-func (it *Four) ValidArgs() []any {
+// ThirdItem returns the Third argument as any.
+func (it *Four[T1, T2, T3, T4]) ThirdItem() any {
+	return it.Third
+}
+
+// FourthItem returns the Fourth argument as any.
+func (it *Four[T1, T2, T3, T4]) FourthItem() any {
+	return it.Fourth
+}
+
+// Expected returns the expected value.
+func (it *Four[T1, T2, T3, T4]) Expected() any {
+	return it.Expect
+}
+
+// ArgTwo returns a Two with the first two arguments.
+func (it *Four[T1, T2, T3, T4]) ArgTwo() Two[T1, T2] {
+	return Two[T1, T2]{
+		First:  it.First,
+		Second: it.Second,
+	}
+}
+
+// ArgThree returns a Three with the first three arguments.
+func (it *Four[T1, T2, T3, T4]) ArgThree() Three[T1, T2, T3] {
+	return Three[T1, T2, T3]{
+		First:  it.First,
+		Second: it.Second,
+		Third:  it.Third,
+	}
+}
+
+// HasFirst checks whether the First argument is defined.
+func (it *Four[T1, T2, T3, T4]) HasFirst() bool {
+	return it != nil && reflectinternal.Is.Defined(it.First)
+}
+
+// HasSecond checks whether the Second argument is defined.
+func (it *Four[T1, T2, T3, T4]) HasSecond() bool {
+	return it != nil && reflectinternal.Is.Defined(it.Second)
+}
+
+// HasThird checks whether the Third argument is defined.
+func (it *Four[T1, T2, T3, T4]) HasThird() bool {
+	return it != nil && reflectinternal.Is.Defined(it.Third)
+}
+
+// HasFourth checks whether the Fourth argument is defined.
+func (it *Four[T1, T2, T3, T4]) HasFourth() bool {
+	return it != nil && reflectinternal.Is.Defined(it.Fourth)
+}
+
+// HasExpect checks whether the Expect field is defined.
+func (it *Four[T1, T2, T3, T4]) HasExpect() bool {
+	return it != nil && reflectinternal.Is.Defined(it.Expect)
+}
+
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *Four[T1, T2, T3, T4]) ValidArgs() []any {
 	var args []any
-	if it.HasFirst() { args = append(args, it.First) }
-	if it.HasSecond() { args = append(args, it.Second) }
-	if it.HasThird() { args = append(args, it.Third) }
-	if it.HasFourth() { args = append(args, it.Fourth) }
+
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+	args = appendIfDefined(args, it.Fourth)
+
 	return args
 }
 
-func (it *Four) Args(upTo int) []any {
+// Args returns positional arguments up to the given count.
+func (it *Four[T1, T2, T3, T4]) Args(upTo int) []any {
 	var args []any
-	if upTo >= 1 { args = append(args, it.First) }
-	if upTo >= 2 { args = append(args, it.Second) }
-	if upTo >= 3 { args = append(args, it.Third) }
-	if upTo >= 4 { args = append(args, it.Fourth) }
+
+	if upTo >= 1 {
+		args = append(args, it.First)
+	}
+
+	if upTo >= 2 {
+		args = append(args, it.Second)
+	}
+
+	if upTo >= 3 {
+		args = append(args, it.Third)
+	}
+
+	if upTo >= 4 {
+		args = append(args, it.Fourth)
+	}
+
 	return args
 }
 
-func (it *Four) Slice() []any {
-	if it.toSlice != nil { return *it.toSlice }
+// Slice returns all fields as a cached slice.
+func (it *Four[T1, T2, T3, T4]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
+	}
+
 	var args []any
-	if it.HasFirst() { args = append(args, it.First) }
-	if it.HasSecond() { args = append(args, it.Second) }
-	if it.HasThird() { args = append(args, it.Third) }
-	if it.HasFourth() { args = append(args, it.Fourth) }
-	if it.HasExpect() { args = append(args, it.Expect) }
-	it.toSlice = &args
-	return *it.toSlice
+
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+	args = appendIfDefined(args, it.Fourth)
+	args = appendIfDefined(args, it.Expect)
+
+	it.toSlice = args
+	it.isSliceCached = true
+
+	return it.toSlice
 }
 
-func (it *Four) GetByIndex(index int) any {
-	slice := it.Slice()
-	if len(slice)-1 < index { return nil }
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *Four[T1, T2, T3, T4]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it *Four) String() string {
-	var args []string
-	if it.HasFirst() { args = append(args, toString(it.First)) }
-	if it.HasSecond() { args = append(args, toString(it.Second)) }
-	if it.HasThird() { args = append(args, toString(it.Third)) }
-	if it.HasFourth() { args = append(args, toString(it.Fourth)) }
-	if it.HasExpect() { args = append(args, toString(it.Expect)) }
-	return fmt.Sprintf(selfToStringFmt, "Four", strings.Join(args, constants.CommaSpace))
+// String returns a formatted string representation.
+func (it Four[T1, T2, T3, T4]) String() string {
+	return buildToString(
+		"Four",
+		it.Slice(),
+		&it.toString,
+	)
 }
 
-func (it Four) AsFourParameter() FourParameter               { return &it }
-func (it Four) AsArgBaseContractsBinder() ArgBaseContractsBinder { return &it }
+// AsFourParameter returns the Four as a FourParameter interface.
+func (it Four[T1, T2, T3, T4]) AsFourParameter() FourParameter {
+	return &it
+}
+
+// AsArgBaseContractsBinder returns the Four as an ArgBaseContractsBinder interface.
+func (it Four[T1, T2, T3, T4]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+	return &it
+}

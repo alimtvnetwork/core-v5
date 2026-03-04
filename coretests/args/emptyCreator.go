@@ -20,3 +20,8 @@ func (it emptyCreator) FuncWrap() *FuncWrapAny {
 func (it emptyCreator) FuncMap() FuncMap {
 	return map[string]FuncWrapAny{}
 }
+
+// Holder returns an empty HolderAny.
+func (it emptyCreator) Holder() HolderAny {
+	return HolderAny{}
+}

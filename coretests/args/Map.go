@@ -401,7 +401,7 @@ func (it Map) WorkFuncName() string {
 // FuncWrap
 //
 //	Wraps the work function in a FuncWrap struct.
-func (it Map) FuncWrap() *FuncWrap {
+func (it Map) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc())
 }
 

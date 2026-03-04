@@ -1,55 +1,72 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type One struct {
-	First    any              `json:",omitempty"`
-	Expect   any              `json:",omitempty"`
-	toSlice  *[]any           `json:"-"`
-	toString corestr.SimpleStringOnce `json:"-"`
+// One holds a single typed positional argument plus an optional Expect field.
+//
+// Type parameter T1 represents the type of the First argument.
+// Use OneAny (= One[any]) for untyped usage.
+//
+// Example (typed):
+//
+//	arg := args.One[string]{
+//	    First:  "hello",
+//	    Expect: 42,
+//	}
+//
+// Example (untyped):
+//
+//	arg := args.OneAny{First: "hello", Expect: 42}
+type One[T1 any] struct {
+	First         T1                       `json:",omitempty"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *One) FirstItem() any {
+// FirstItem returns the First argument as any for interface compatibility.
+func (it *One[T1]) FirstItem() any {
 	return it.First
 }
 
-func (it *One) Expected() any {
+// Expected returns the expected value.
+func (it *One[T1]) Expected() any {
 	return it.Expect
 }
 
-func (it *One) ArgTwo() One {
-	return One{
+// ArgTwo returns a copy as an equivalent One (identity downcast).
+func (it *One[T1]) ArgTwo() One[T1] {
+	return One[T1]{
 		First:  it.First,
 		Expect: it.Expect,
 	}
 }
 
-func (it *One) HasFirst() bool {
+// HasFirst checks whether the First argument is defined (non-nil, non-zero).
+func (it *One[T1]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *One) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *One[T1]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *One) ValidArgs() []any {
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *One[T1]) ValidArgs() []any {
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
+	args = appendIfDefined(args, it.First)
 
 	return args
 }
 
-func (it *One) Args(upTo int) []any {
+// Args returns positional arguments up to the given count.
+func (it *One[T1]) Args(upTo int) []any {
 	var args []any
 
 	if upTo >= 1 {
@@ -59,71 +76,56 @@ func (it *One) Args(upTo int) []any {
 	return args
 }
 
-func (it *One) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 1).
+func (it *One[T1]) ArgsCount() int {
 	return 1
 }
 
-func (it *One) Slice() []any {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields (First + Expect) as a cached slice.
+func (it *One[T1]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Expect)
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
+	it.toSlice = args
+	it.isSliceCached = true
 
-	it.toSlice = &args
-
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *One) GetByIndex(index int) any {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *One[T1]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it One) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
+// String returns a formatted string representation of the One instance.
+func (it One[T1]) String() string {
+	return buildToString(
 		"One",
-		strings.Join(args, constants.CommaSpace),
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it *One) LeftRight() LeftRight {
+// LeftRight converts the One to a LeftRight with First as Left.
+func (it *One[T1]) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Expect: it.Expect,
 	}
 }
 
-func (it One) AsOneParameter() OneParameter {
+// AsOneParameter returns the One as a OneParameter interface.
+func (it One[T1]) AsOneParameter() OneParameter {
 	return &it
 }
 
-func (it One) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the One as an ArgBaseContractsBinder interface.
+func (it One[T1]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

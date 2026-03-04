@@ -1,111 +1,125 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type OneFunc struct {
-	First    any                      `json:",omitempty"`
-	WorkFunc any                      `json:"-,omitempty"`
-	Expect   any                      `json:",omitempty"`
-	toSlice  *[]any                   `json:"-"`
-	toString corestr.SimpleStringOnce `json:"-"`
+// OneFunc holds a single typed positional argument plus a WorkFunc for
+// dynamic function invocation and an optional Expect field.
+//
+// Type parameter T1 represents the type of the First argument.
+// The WorkFunc field is always any (for reflection-based invocation).
+// Use OneFuncAny (= OneFunc[any]) for untyped usage.
+//
+// Example (typed):
+//
+//	tc := args.OneFunc[string]{
+//	    First:    "hello",
+//	    WorkFunc: strings.ToUpper,
+//	    Expect:   "HELLO",
+//	}
+//	results, err := tc.InvokeWithValidArgs()
+type OneFunc[T1 any] struct {
+	First         T1                       `json:",omitempty"`
+	WorkFunc      any                      `json:"-,omitempty"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *OneFunc) GetWorkFunc() any {
+// GetWorkFunc returns the wrapped function value.
+func (it *OneFunc[T1]) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
-func (it *OneFunc) FirstItem() any {
+// FirstItem returns the First argument as any for interface compatibility.
+func (it *OneFunc[T1]) FirstItem() any {
 	return it.First
 }
 
-func (it *OneFunc) Expected() any {
+// Expected returns the expected value.
+func (it *OneFunc[T1]) Expected() any {
 	return it.Expect
 }
 
-func (it *OneFunc) ArgTwo() OneFunc {
-	return OneFunc{
+// ArgTwo returns a copy of this OneFunc.
+func (it *OneFunc[T1]) ArgTwo() OneFunc[T1] {
+	return OneFunc[T1]{
 		First:    it.First,
 		WorkFunc: it.WorkFunc,
 		Expect:   it.Expect,
 	}
 }
 
-func (it *OneFunc) HasFirst() bool {
+// HasFirst checks whether the First argument is defined.
+func (it *OneFunc[T1]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *OneFunc) HasFunc() bool {
+// HasFunc checks whether the WorkFunc is defined.
+func (it *OneFunc[T1]) HasFunc() bool {
 	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
-func (it *OneFunc) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *OneFunc[T1]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *OneFunc) GetFuncName() string {
+// GetFuncName returns the short name of the wrapped function.
+func (it *OneFunc[T1]) GetFuncName() string {
 	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
-func (it *OneFunc) FuncWrap() *FuncWrap {
+// FuncWrap wraps the WorkFunc in a FuncWrapAny for reflection-based invocation.
+func (it *OneFunc[T1]) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *OneFunc) Invoke(args ...any) (
+// Invoke dynamically calls the WorkFunc with the given arguments.
+func (it *OneFunc[T1]) Invoke(args ...any) (
 	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *OneFunc) InvokeMust(args ...any) (results []any) {
-	results, err := it.FuncWrap().Invoke(args...)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return results
+// InvokeMust invokes the WorkFunc, panicking on error.
+func (it *OneFunc[T1]) InvokeMust(args ...any) []any {
+	return invokeMustHelper(it.FuncWrap(), args...)
 }
 
-func (it *OneFunc) InvokeWithValidArgs() (
+// InvokeWithValidArgs invokes the WorkFunc with all defined positional arguments.
+func (it *OneFunc[T1]) InvokeWithValidArgs() (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.ValidArgs()
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.ValidArgs()...)
 }
 
-func (it *OneFunc) InvokeArgs(upTo int) (
+// InvokeArgs invokes the WorkFunc with positional arguments up to the given count.
+func (it *OneFunc[T1]) InvokeArgs(upTo int) (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.Args(upTo)
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.Args(upTo)...)
 }
 
-func (it *OneFunc) ValidArgs() []any {
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *OneFunc[T1]) ValidArgs() []any {
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
+	args = appendIfDefined(args, it.First)
 
 	return args
 }
 
-func (it *OneFunc) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 1).
+func (it *OneFunc[T1]) ArgsCount() int {
 	return 1
 }
 
-func (it *OneFunc) Args(upTo int) []any {
+// Args returns positional arguments up to the given count.
+func (it *OneFunc[T1]) Args(upTo int) []any {
 	var args []any
 
 	if upTo >= 1 {
@@ -115,61 +129,44 @@ func (it *OneFunc) Args(upTo int) []any {
 	return args
 }
 
-func (it *OneFunc) Slice() []any {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields (First + FuncName + Expect) as a cached slice.
+func (it *OneFunc[T1]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
+	args = appendIfDefined(args, it.First)
 
 	if it.HasFunc() {
 		args = append(args, it.GetFuncName())
 	}
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
+	args = appendIfDefined(args, it.Expect)
 
-	it.toSlice = &args
+	it.toSlice = args
+	it.isSliceCached = true
 
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *OneFunc) GetByIndex(index int) any {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *OneFunc[T1]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it OneFunc) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
+// String returns a formatted string representation.
+func (it OneFunc[T1]) String() string {
+	return buildToString(
 		"OneFunc",
-		strings.Join(args, constants.CommaSpace),
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it *OneFunc) LeftRight() LeftRight {
+// LeftRight converts to a LeftRight with First as Left, WorkFunc as Right.
+func (it *OneFunc[T1]) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Right:  it.WorkFunc,
@@ -177,14 +174,17 @@ func (it *OneFunc) LeftRight() LeftRight {
 	}
 }
 
-func (it OneFunc) AsOneFuncParameter() OneFuncParameter {
+// AsOneFuncParameter returns the OneFunc as a OneFuncParameter interface.
+func (it OneFunc[T1]) AsOneFuncParameter() OneFuncParameter {
 	return &it
 }
 
-func (it OneFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+// AsArgFuncContractsBinder returns the OneFunc as an ArgFuncContractsBinder interface.
+func (it OneFunc[T1]) AsArgFuncContractsBinder() ArgFuncContractsBinder {
 	return &it
 }
 
-func (it OneFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the OneFunc as an ArgBaseContractsBinder interface.
+func (it OneFunc[T1]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

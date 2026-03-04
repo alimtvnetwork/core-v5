@@ -1,144 +1,157 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type ThreeFunc struct {
-	First    any                      `json:",omitempty"`
-	Second   any                      `json:",omitempty"`
-	Third    any                      `json:",omitempty"`
-	WorkFunc any                      `json:"-"`
-	Expect   any                      `json:",omitempty"`
-	toSlice  *[]any                   `json:"-"`
-	toString corestr.SimpleStringOnce `json:"-"`
+// ThreeFunc holds three typed positional arguments plus a WorkFunc for
+// dynamic function invocation and an optional Expect field.
+//
+// Type parameters T1, T2, T3 represent the types of First, Second, Third.
+// Use ThreeFuncAny (= ThreeFunc[any, any, any]) for untyped usage.
+//
+// Example (typed):
+//
+//	tc := args.ThreeFunc[string, int, bool]{
+//	    First:    "hello",
+//	    Second:   42,
+//	    Third:    true,
+//	    WorkFunc: myFunc,
+//	    Expect:   "expected",
+//	}
+type ThreeFunc[T1, T2, T3 any] struct {
+	First         T1                       `json:",omitempty"`
+	Second        T2                       `json:",omitempty"`
+	Third         T3                       `json:",omitempty"`
+	WorkFunc      any                      `json:"-"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *ThreeFunc) GetWorkFunc() any {
+// GetWorkFunc returns the wrapped function value.
+func (it *ThreeFunc[T1, T2, T3]) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
-func (it *ThreeFunc) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 3).
+func (it *ThreeFunc[T1, T2, T3]) ArgsCount() int {
 	return 3
 }
 
-func (it *ThreeFunc) FirstItem() any {
+// FirstItem returns the First argument as any.
+func (it *ThreeFunc[T1, T2, T3]) FirstItem() any {
 	return it.First
 }
 
-func (it *ThreeFunc) SecondItem() any {
+// SecondItem returns the Second argument as any.
+func (it *ThreeFunc[T1, T2, T3]) SecondItem() any {
 	return it.Second
 }
 
-func (it *ThreeFunc) ThirdItem() any {
+// ThirdItem returns the Third argument as any.
+func (it *ThreeFunc[T1, T2, T3]) ThirdItem() any {
 	return it.Third
 }
 
-func (it *ThreeFunc) Expected() any {
+// Expected returns the expected value.
+func (it *ThreeFunc[T1, T2, T3]) Expected() any {
 	return it.Expect
 }
 
-func (it *ThreeFunc) ArgTwo() TwoFunc {
-	return TwoFunc{
+// ArgTwo returns a TwoFunc with the first two arguments.
+func (it *ThreeFunc[T1, T2, T3]) ArgTwo() TwoFunc[T1, T2] {
+	return TwoFunc[T1, T2]{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it *ThreeFunc) ArgThree() ThreeFunc {
-	return ThreeFunc{
+// ArgThree returns a copy of this ThreeFunc with positional args only.
+func (it *ThreeFunc[T1, T2, T3]) ArgThree() ThreeFunc[T1, T2, T3] {
+	return ThreeFunc[T1, T2, T3]{
 		First:  it.First,
 		Second: it.Second,
 		Third:  it.Third,
 	}
 }
 
-func (it *ThreeFunc) HasFirst() bool {
+// HasFirst checks whether the First argument is defined.
+func (it *ThreeFunc[T1, T2, T3]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *ThreeFunc) HasSecond() bool {
+// HasSecond checks whether the Second argument is defined.
+func (it *ThreeFunc[T1, T2, T3]) HasSecond() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
-func (it *ThreeFunc) HasThird() bool {
+// HasThird checks whether the Third argument is defined.
+func (it *ThreeFunc[T1, T2, T3]) HasThird() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
-func (it *ThreeFunc) HasFunc() bool {
+// HasFunc checks whether the WorkFunc is defined.
+func (it *ThreeFunc[T1, T2, T3]) HasFunc() bool {
 	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
-func (it *ThreeFunc) GetFuncName() string {
-	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
-}
-
-func (it *ThreeFunc) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *ThreeFunc[T1, T2, T3]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *ThreeFunc) FuncWrap() *FuncWrap {
+// GetFuncName returns the short name of the wrapped function.
+func (it *ThreeFunc[T1, T2, T3]) GetFuncName() string {
+	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
+}
+
+// FuncWrap wraps the WorkFunc in a FuncWrapAny for reflection-based invocation.
+func (it *ThreeFunc[T1, T2, T3]) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *ThreeFunc) Invoke(args ...any) (
+// Invoke dynamically calls the WorkFunc with the given arguments.
+func (it *ThreeFunc[T1, T2, T3]) Invoke(args ...any) (
 	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *ThreeFunc) InvokeMust(args ...any) (results []any) {
-	results, err := it.FuncWrap().Invoke(args...)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return results
+// InvokeMust invokes the WorkFunc, panicking on error.
+func (it *ThreeFunc[T1, T2, T3]) InvokeMust(args ...any) []any {
+	return invokeMustHelper(it.FuncWrap(), args...)
 }
 
-func (it *ThreeFunc) InvokeWithValidArgs() (
+// InvokeWithValidArgs invokes the WorkFunc with all defined positional arguments.
+func (it *ThreeFunc[T1, T2, T3]) InvokeWithValidArgs() (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.ValidArgs()
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.ValidArgs()...)
 }
 
-func (it *ThreeFunc) InvokeArgs(upTo int) (
+// InvokeArgs invokes the WorkFunc with positional arguments up to the given count.
+func (it *ThreeFunc[T1, T2, T3]) InvokeArgs(upTo int) (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.Args(upTo)
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.Args(upTo)...)
 }
 
-func (it *ThreeFunc) ValidArgs() []any {
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *ThreeFunc[T1, T2, T3]) ValidArgs() []any {
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
-
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
 
 	return args
 }
 
-func (it *ThreeFunc) Args(upTo int) []any {
+// Args returns positional arguments up to the given count.
+func (it *ThreeFunc[T1, T2, T3]) Args(upTo int) []any {
 	var args []any
 
 	if upTo >= 1 {
@@ -156,65 +169,46 @@ func (it *ThreeFunc) Args(upTo int) []any {
 	return args
 }
 
-func (it *ThreeFunc) Slice() []any {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields as a cached slice.
+func (it *ThreeFunc[T1, T2, T3]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+
+	if it.HasFunc() {
+		args = append(args, it.GetFuncName())
 	}
 
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
+	args = appendIfDefined(args, it.Expect)
 
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
+	it.toSlice = args
+	it.isSliceCached = true
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
-
-	it.toSlice = &args
-
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *ThreeFunc) GetByIndex(index int) any {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *ThreeFunc[T1, T2, T3]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it ThreeFunc) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
+// String returns a formatted string representation.
+func (it ThreeFunc[T1, T2, T3]) String() string {
+	return buildToString(
 		"ThreeFunc",
-		strings.Join(args, constants.CommaSpace),
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it *ThreeFunc) LeftRight() LeftRight {
+// LeftRight converts to a LeftRight with First as Left, Second as Right.
+func (it *ThreeFunc[T1, T2, T3]) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Right:  it.Second,
@@ -222,14 +216,17 @@ func (it *ThreeFunc) LeftRight() LeftRight {
 	}
 }
 
-func (it ThreeFunc) AsThreeFuncParameter() ThreeFuncParameter {
+// AsThreeFuncParameter returns the ThreeFunc as a ThreeFuncParameter interface.
+func (it ThreeFunc[T1, T2, T3]) AsThreeFuncParameter() ThreeFuncParameter {
 	return &it
 }
 
-func (it ThreeFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+// AsArgFuncContractsBinder returns the ThreeFunc as an ArgFuncContractsBinder interface.
+func (it ThreeFunc[T1, T2, T3]) AsArgFuncContractsBinder() ArgFuncContractsBinder {
 	return &it
 }
 
-func (it ThreeFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the ThreeFunc as an ArgBaseContractsBinder interface.
+func (it ThreeFunc[T1, T2, T3]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

@@ -1,70 +1,82 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type FourFunc struct {
-	First    any                      `json:",omitempty"`
-	Second   any                      `json:",omitempty"`
-	Third    any                      `json:",omitempty"`
-	Fourth   any                      `json:",omitempty"`
-	WorkFunc any                      `json:",omitempty"`
-	Expect   any                      `json:",omitempty"`
-	toSlice  *[]any
-	toString corestr.SimpleStringOnce
+// FourFunc holds four typed positional arguments plus a WorkFunc for
+// dynamic function invocation and an optional Expect field.
+//
+// Type parameters T1–T4 represent the types of First through Fourth.
+// Use FourFuncAny (= FourFunc[any, any, any, any]) for untyped usage.
+type FourFunc[T1, T2, T3, T4 any] struct {
+	First         T1                       `json:",omitempty"`
+	Second        T2                       `json:",omitempty"`
+	Third         T3                       `json:",omitempty"`
+	Fourth        T4                       `json:",omitempty"`
+	WorkFunc      any                      `json:"-"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *FourFunc) GetWorkFunc() any {
+// GetWorkFunc returns the wrapped function value.
+func (it *FourFunc[T1, T2, T3, T4]) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
-func (it *FourFunc) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 4).
+func (it *FourFunc[T1, T2, T3, T4]) ArgsCount() int {
 	return 4
 }
 
-func (it *FourFunc) FirstItem() any {
+// FirstItem returns the First argument as any.
+func (it *FourFunc[T1, T2, T3, T4]) FirstItem() any {
 	return it.First
 }
 
-func (it *FourFunc) SecondItem() any {
+// SecondItem returns the Second argument as any.
+func (it *FourFunc[T1, T2, T3, T4]) SecondItem() any {
 	return it.Second
 }
 
-func (it *FourFunc) ThirdItem() any {
+// ThirdItem returns the Third argument as any.
+func (it *FourFunc[T1, T2, T3, T4]) ThirdItem() any {
 	return it.Third
 }
 
-func (it *FourFunc) FourthItem() any {
+// FourthItem returns the Fourth argument as any.
+func (it *FourFunc[T1, T2, T3, T4]) FourthItem() any {
 	return it.Fourth
 }
 
-func (it *FourFunc) Expected() any {
+// Expected returns the expected value.
+func (it *FourFunc[T1, T2, T3, T4]) Expected() any {
 	return it.Expect
 }
 
-func (it *FourFunc) ArgTwo() TwoFunc {
-	return TwoFunc{
+// ArgTwo returns a TwoFunc with the first two arguments.
+func (it *FourFunc[T1, T2, T3, T4]) ArgTwo() TwoFunc[T1, T2] {
+	return TwoFunc[T1, T2]{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it *FourFunc) ArgThree() ThreeFunc {
-	return ThreeFunc{
+// ArgThree returns a ThreeFunc with the first three arguments.
+func (it *FourFunc[T1, T2, T3, T4]) ArgThree() ThreeFunc[T1, T2, T3] {
+	return ThreeFunc[T1, T2, T3]{
 		First:  it.First,
 		Second: it.Second,
 		Third:  it.Third,
 	}
 }
 
-func (it *FourFunc) ArgFour() FourFunc {
-	return FourFunc{
+// ArgFour returns a copy with all four positional args.
+func (it *FourFunc[T1, T2, T3, T4]) ArgFour() FourFunc[T1, T2, T3, T4] {
+	return FourFunc[T1, T2, T3, T4]{
 		First:  it.First,
 		Second: it.Second,
 		Third:  it.Third,
@@ -72,95 +84,86 @@ func (it *FourFunc) ArgFour() FourFunc {
 	}
 }
 
-func (it *FourFunc) HasFirst() bool {
+// HasFirst checks whether the First argument is defined.
+func (it *FourFunc[T1, T2, T3, T4]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *FourFunc) HasSecond() bool {
+// HasSecond checks whether the Second argument is defined.
+func (it *FourFunc[T1, T2, T3, T4]) HasSecond() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
-func (it *FourFunc) HasThird() bool {
+// HasThird checks whether the Third argument is defined.
+func (it *FourFunc[T1, T2, T3, T4]) HasThird() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
-func (it *FourFunc) HasFourth() bool {
+// HasFourth checks whether the Fourth argument is defined.
+func (it *FourFunc[T1, T2, T3, T4]) HasFourth() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
-func (it *FourFunc) HasFunc() bool {
+// HasFunc checks whether the WorkFunc is defined.
+func (it *FourFunc[T1, T2, T3, T4]) HasFunc() bool {
 	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
-func (it *FourFunc) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *FourFunc[T1, T2, T3, T4]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *FourFunc) GetFuncName() string {
+// GetFuncName returns the short name of the wrapped function.
+func (it *FourFunc[T1, T2, T3, T4]) GetFuncName() string {
 	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
-func (it *FourFunc) FuncWrap() *FuncWrap {
+// FuncWrap wraps the WorkFunc in a FuncWrapAny for reflection-based invocation.
+func (it *FourFunc[T1, T2, T3, T4]) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *FourFunc) Invoke(args ...any) (
+// Invoke dynamically calls the WorkFunc with the given arguments.
+func (it *FourFunc[T1, T2, T3, T4]) Invoke(args ...any) (
 	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *FourFunc) InvokeMust(args ...any) (results []any) {
-	results, err := it.FuncWrap().Invoke(args...)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return results
+// InvokeMust invokes the WorkFunc, panicking on error.
+func (it *FourFunc[T1, T2, T3, T4]) InvokeMust(args ...any) []any {
+	return invokeMustHelper(it.FuncWrap(), args...)
 }
 
-func (it *FourFunc) InvokeWithValidArgs() (
+// InvokeWithValidArgs invokes the WorkFunc with all defined positional arguments.
+func (it *FourFunc[T1, T2, T3, T4]) InvokeWithValidArgs() (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.ValidArgs()
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.ValidArgs()...)
 }
 
-func (it *FourFunc) InvokeArgs(upTo int) (
+// InvokeArgs invokes the WorkFunc with positional arguments up to the given count.
+func (it *FourFunc[T1, T2, T3, T4]) InvokeArgs(upTo int) (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.Args(upTo)
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.Args(upTo)...)
 }
 
-func (it *FourFunc) ValidArgs() []any {
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *FourFunc[T1, T2, T3, T4]) ValidArgs() []any {
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
-
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
-
-	if it.HasFourth() {
-		args = append(args, it.Fourth)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+	args = appendIfDefined(args, it.Fourth)
 
 	return args
 }
 
-func (it *FourFunc) Args(upTo int) []any {
+// Args returns positional arguments up to the given count.
+func (it *FourFunc[T1, T2, T3, T4]) Args(upTo int) []any {
 	var args []any
 
 	if upTo >= 1 {
@@ -182,80 +185,56 @@ func (it *FourFunc) Args(upTo int) []any {
 	return args
 }
 
-func (it *FourFunc) Slice() []any {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields as a cached slice.
+func (it *FourFunc[T1, T2, T3, T4]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
-
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
-
-	if it.HasFourth() {
-		args = append(args, it.Fourth)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+	args = appendIfDefined(args, it.Fourth)
 
 	if it.HasFunc() {
 		args = append(args, it.GetFuncName())
 	}
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
+	args = appendIfDefined(args, it.Expect)
 
-	it.toSlice = &args
+	it.toSlice = args
+	it.isSliceCached = true
 
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *FourFunc) GetByIndex(index int) any {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *FourFunc[T1, T2, T3, T4]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it FourFunc) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
+// String returns a formatted string representation.
+func (it FourFunc[T1, T2, T3, T4]) String() string {
+	return buildToString(
 		"FourFunc",
-		strings.Join(args, constants.CommaSpace),
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it FourFunc) AsFourFuncParameter() FourFuncParameter {
+// AsFourFuncParameter returns the FourFunc as a FourFuncParameter interface.
+func (it FourFunc[T1, T2, T3, T4]) AsFourFuncParameter() FourFuncParameter {
 	return &it
 }
 
-func (it FourFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+// AsArgFuncContractsBinder returns the FourFunc as an ArgFuncContractsBinder interface.
+func (it FourFunc[T1, T2, T3, T4]) AsArgFuncContractsBinder() ArgFuncContractsBinder {
 	return &it
 }
 
-func (it FourFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the FourFunc as an ArgBaseContractsBinder interface.
+func (it FourFunc[T1, T2, T3, T4]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }
