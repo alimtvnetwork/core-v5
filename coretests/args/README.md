@@ -15,18 +15,19 @@ args/
 │   ├── FuncWrapArgs.go            ← Argument introspection methods
 │   ├── FuncWrapInvoke.go          ← Dynamic invocation methods
 │   ├── FuncWrapValidation.go      ← Validation and error methods
+│   ├── FuncWrapTypedHelpers.go    ← Signature checkers + typed invoke helpers
 │   ├── newFuncWrapCreator.go      ← Factory methods (Default, Map, Many, etc.)
 │   ├── FuncMap.go                 ← Named map of function wrappers
 │   └── funcDetector.go            ← Function detection utilities
 ├── Map-Based Types
 │   ├── Map.go                     ← Key-value argument map
-│   ├── Dynamic.go                 ← Map-based dynamic holder
-│   └── DynamicFunc.go             ← Map-based dynamic holder with func
+│   ├── Dynamic.go                 ← Generic map-based dynamic holder (T = Expect type)
+│   └── DynamicFunc.go             ← Generic map-based dynamic holder (T = WorkFunc type)
 ├── Support
 │   ├── aliases.go                 ← *Any type aliases for backward compat
 │   ├── all-interfaces.go          ← Interface definitions
 │   ├── argsHelper.go              ← Shared unexported utilities
-│   ├── LeftRight.go               ← Two-item holder with Left/Right semantics
+│   ├── LeftRight.go               ← Generic two-item holder with Left/Right semantics
 │   ├── String.go                  ← String type helpers
 │   ├── emptyCreator.go            ← Empty value factories
 │   ├── toString.go                ← String conversion helper
@@ -46,9 +47,10 @@ args/
 | Legacy test code or mixed types | `OneAny`, `TwoAny`, `ThreeAny` | Backward-compatible, all fields `any` |
 | Need to invoke a function dynamically | `FuncWrap[T]` or `FuncWrapAny` | Reflection-based invocation + introspection |
 | Key-value based test parameters | `Map` | Flexible named access with typed getters |
-| Fully dynamic test with named params + func | `Dynamic` or `DynamicFunc` | Map-based args with function invocation |
+| Dynamic test with typed Expect | `Dynamic[T]` or `DynamicAny` | Map-based args with typed expected value |
+| Dynamic test with typed WorkFunc | `DynamicFunc[T]` or `DynamicFuncAny` | Map-based args with typed function |
 | Typed function holder with overflow params | `Holder[T]` | 6 slots + typed WorkFunc + Hashmap |
-| Comparing two values (expected vs actual) | `LeftRight` | Explicit Left/Right naming |
+| Comparing two values (expected vs actual) | `LeftRight[TLeft, TRight]` or `LeftRightAny` | Typed Left/Right naming |
 
 ### Typed vs Untyped
 
@@ -324,10 +326,12 @@ func Test_MaxInt(t *testing.T) {
 }
 ```
 
-## Dynamic / DynamicFunc
+## Dynamic[T] / DynamicFunc[T]
 
-Map-based dynamic holders for fully dynamic test scenarios. `DynamicFunc`
-extends `Dynamic` with function invocation support.
+Generic map-based argument holders for fully dynamic test scenarios.
+
+- **`Dynamic[T]`** — `T` parameterizes the `Expect` field. Use `DynamicAny` (`= Dynamic[any]`) for untyped usage.
+- **`DynamicFunc[T]`** — `T` parameterizes the `WorkFunc` field (following the `Holder[T]` pattern). Use `DynamicFuncAny` (`= DynamicFunc[any]`) for untyped usage.
 
 ### When to Use Dynamic Types
 
@@ -337,7 +341,8 @@ Use these when:
 - You need maximum flexibility at the cost of type safety
 
 ```go
-tc := args.Dynamic{
+// Typed Expect
+tc := args.Dynamic[string]{
     Params: args.Map{
         "first":  "hello",
         "second": 42,
@@ -345,8 +350,26 @@ tc := args.Dynamic{
     Expect: "expected",
 }
 
-// With function invocation
-tc := args.DynamicFunc{
+// Untyped (backward-compatible)
+tc := args.DynamicAny{
+    Params: args.Map{
+        "first":  "hello",
+        "second": 42,
+    },
+    Expect: 123,
+}
+
+// Typed WorkFunc
+tc := args.DynamicFunc[func(string) error]{
+    Params: args.Map{
+        "input": "test",
+    },
+    WorkFunc: myProcessor,
+    Expect:   nil,
+}
+
+// Untyped (backward-compatible)
+tc := args.DynamicFuncAny{
     Params: args.Map{
         "input": "test",
     },
@@ -356,6 +379,54 @@ tc := args.DynamicFunc{
 
 results, err := tc.InvokeWithValidArgs()
 ```
+
+### Dynamic Methods
+
+Both `Dynamic[T]` and `DynamicFunc[T]` delegate to their `Params` map and share
+the same rich method set including `Get`, `GetAsInt`, `GetAsString`, `HasDefined`,
+`HasDefinedAll`, `IsKeyInvalid`, `IsKeyMissing`, `ValidArgs`, `Invoke`, and more.
+
+`DynamicFunc[T]` additionally exposes `GetWorkFunc()`, `HasFunc()`, `GetFuncName()`,
+and `FuncWrap()` for typed function access.
+
+## LeftRight[TLeft, TRight]
+
+A generic two-item holder with Left/Right semantics, providing a semantic
+alternative to `Two` for cases where the directionality of arguments matters.
+
+### Type Parameters
+
+- `TLeft` — type of the Left field
+- `TRight` — type of the Right field
+- Use `LeftRightAny` (`= LeftRight[any, any]`) for untyped usage
+
+```go
+// Typed
+lr := args.LeftRight[string, int]{
+    Left:   "expected",
+    Right:  42,
+    Expect: true,
+}
+
+// Untyped (backward-compatible)
+lr := args.LeftRightAny{
+    Left:   someValue,
+    Right:  anotherValue,
+    Expect: "match",
+}
+```
+
+### LeftRight Methods
+
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `FirstItem()` / `SecondItem()` | `any` | Returns Left / Right as any |
+| `HasFirst()` / `HasSecond()` | `bool` | Checks if Left / Right is defined |
+| `HasLeft()` / `HasRight()` | `bool` | Semantic aliases for HasFirst / HasSecond |
+| `ArgTwo()` | `TwoFuncAny` | Converts to TwoFuncAny |
+| `Clone()` | `LeftRight[TLeft, TRight]` | Returns an independent typed copy |
+| `ValidArgs()` | `[]any` | All defined positional args |
+| `Slice()` | `[]any` | All fields as a cached slice |
 
 ## Generic Type Aliases
 
@@ -377,6 +448,9 @@ Every generic type has a corresponding `*Any` alias in `aliases.go`:
 | `FiveFunc[T1, T2, T3, T4, T5]` | `FiveFuncAny` | Five-arg with function |
 | `SixFunc[T1, T2, T3, T4, T5, T6]` | `SixFuncAny` | Six-arg with function |
 | `Holder[T]` | `HolderAny` | Flexible holder |
+| `LeftRight[TLeft, TRight]` | `LeftRightAny` | Two-item Left/Right holder |
+| `Dynamic[T]` | `DynamicAny` | Map-based dynamic holder |
+| `DynamicFunc[T]` | `DynamicFuncAny` | Map-based dynamic holder with func |
 
 > **Important**: These are type aliases (`=`), NOT new types. Go's `%T` reflection
 > output shows the base name (e.g., `args.Two`), not the alias name (`args.TwoAny`).
@@ -425,11 +499,17 @@ and better Go memory efficiency.
 
 In Func variants (OneFunc–SixFunc), the `WorkFunc` field remains `any`
 because it requires reflection-based invocation via `FuncWrapAny`.
-Only `Holder[T]` parameterizes WorkFunc with type `T` since it's the
-primary typed-function-holder pattern.
+`Holder[T]` and `DynamicFunc[T]` parameterize WorkFunc with type `T`
+for typed function holder patterns.
 
 In `FuncWrap[T]`, the `Func` field is typed as `T`, enabling both
 typed (`NewTypedFuncWrap`) and untyped (`NewFuncWrap.Default`) construction.
+
+`Dynamic[T]` parameterizes the `Expect` field with `T`, allowing
+typed expected values while keeping `Params` as a flexible `Map`.
+
+`LeftRight[TLeft, TRight]` parameterizes both the `Left` and `Right`
+fields independently, enabling typed comparisons between heterogeneous values.
 
 ## Related Docs
 
