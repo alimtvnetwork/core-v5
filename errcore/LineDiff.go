@@ -127,6 +127,22 @@ func LineDiffToString(
 		mismatchCount,
 	))
 
+	// Copy-paste ready section: show actual lines as Go []string{} block
+	sb.WriteString("\n=== Actual (copy-paste into ExpectedInput) ===\n")
+	sb.WriteString("[]string{\n")
+	for _, line := range actual {
+		sb.WriteString(fmt.Sprintf("\t%q,\n", line))
+	}
+	sb.WriteString("}\n")
+
+	sb.WriteString("\n=== Expected (current in test case) ===\n")
+	sb.WriteString("[]string{\n")
+	for _, line := range expected {
+		sb.WriteString(fmt.Sprintf("\t%q,\n", line))
+	}
+	sb.WriteString("}\n")
+	sb.WriteString("=== End Diff ===\n")
+
 	return sb.String()
 }
 

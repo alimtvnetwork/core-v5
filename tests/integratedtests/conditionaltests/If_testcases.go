@@ -129,7 +129,7 @@ var nilDefTestCases = []coretestcases.CaseV1{
 			"value":  "",
 			"defVal": "fallback",
 		},
-		ExpectedInput: "",
+	ExpectedInput: []string{""},
 	},
 }
 
