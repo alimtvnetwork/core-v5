@@ -36,7 +36,7 @@ func (it *WrappedErr) IsInvalidException() bool {
 	}
 
 	if it.HasThrown {
-		return it.Exception != nil
+		return it.Exception == nil
 	}
 
 	return true
