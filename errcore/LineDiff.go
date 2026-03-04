@@ -126,7 +126,7 @@ func LineDiffToString(
 		len(diffs),
 		mismatchCount,
 	))
-	sb.WriteString("=== End Diff ===
+	sb.WriteString("=== End Diff ===\n")
 
 	return sb.String()
 }
