@@ -5,7 +5,8 @@ import (
 	"fmt"
 )
 
-func (it *FuncWrap) MustBeValid() {
+// MustBeValid panics if the FuncWrap is nil or invalid.
+func (it *FuncWrap[T]) MustBeValid() {
 	if it == nil {
 		panic("cannot execute on nil func-wrap")
 	}
@@ -15,7 +16,9 @@ func (it *FuncWrap) MustBeValid() {
 	}
 }
 
-func (it *FuncWrap) ValidationError() error {
+// ValidationError returns an error if the FuncWrap is nil or invalid,
+// or nil if it is valid.
+func (it *FuncWrap[T]) ValidationError() error {
 	if it == nil {
 		return errors.New("cannot execute on nil func-wrap")
 	}
@@ -31,13 +34,19 @@ func (it *FuncWrap) ValidationError() error {
 	return nil
 }
 
-func (it *FuncWrap) ValidateMethodArgs(args []any) error {
+// ValidateMethodArgs validates that the given arguments match the
+// expected count and types of the wrapped function's parameters.
+func (it *FuncWrap[T]) ValidateMethodArgs(args []any) error {
 	expectedCount := it.ArgsCount()
 	given := len(args)
 
 	if given != expectedCount {
 		return errors.New(
-			it.argsCountMismatchErrorMessage(expectedCount, given, args),
+			it.argsCountMismatchErrorMessage(
+				expectedCount,
+				given,
+				args,
+			),
 		)
 	}
 
@@ -46,7 +55,9 @@ func (it *FuncWrap) ValidateMethodArgs(args []any) error {
 	return err
 }
 
-func (it *FuncWrap) InvalidError() error {
+// InvalidError returns a descriptive error explaining why the FuncWrap is invalid,
+// or nil if it is valid.
+func (it *FuncWrap[T]) InvalidError() error {
 	if it == nil {
 		return errors.New("func-wrap is nil")
 	}
