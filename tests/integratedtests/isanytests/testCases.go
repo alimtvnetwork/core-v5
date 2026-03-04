@@ -839,7 +839,7 @@ var (
 						WorkFunc: isany.FloatingPointType,
 					},
 					{
-						First:    args.Two{},
+						First:    args.TwoAny{},
 						WorkFunc: isany.FloatingPointType,
 					},
 					{
