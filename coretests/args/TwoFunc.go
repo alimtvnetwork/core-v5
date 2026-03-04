@@ -181,8 +181,8 @@ func (it TwoFunc[T1, T2]) String() string {
 }
 
 // LeftRight converts to a LeftRight.
-func (it *TwoFunc[T1, T2]) LeftRight() LeftRight {
-	return LeftRight{
+func (it *TwoFunc[T1, T2]) LeftRight() LeftRightAny {
+	return LeftRightAny{
 		Left:   it.First,
 		Right:  it.Second,
 		Expect: it.Expect,
