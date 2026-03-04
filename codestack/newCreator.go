@@ -36,5 +36,6 @@ func (it newCreator) Create(skipIndex int) Trace {
 		FilePath:          file,
 		Line:              line,
 		IsOkay:            isOkay,
+		IsSkippable:       isSkippablePackage(packageName),
 	}
 }

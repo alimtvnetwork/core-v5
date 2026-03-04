@@ -76,6 +76,10 @@ func (it *TraceCollection) AddsUsingSkip(
 			continue
 		}
 
+		if trace.IsSkippable {
+			continue
+		}
+
 		it.Items = append(
 			it.Items,
 			trace,
@@ -113,6 +117,10 @@ func (it *TraceCollection) AddsUsingSkipUsingFilter(
 		if isSkip && isBreakOnceInvalid {
 			return it
 		} else if isSkip {
+			continue
+		}
+
+		if trace.IsSkippable {
 			continue
 		}
 
