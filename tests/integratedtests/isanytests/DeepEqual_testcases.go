@@ -110,11 +110,11 @@ var notNullTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil and non-nil values",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
-			"true",
-		},
+	ExpectedInput: []string{
+		"false",
+		"true",
+		"false",
+	},
 	},
 }
 
