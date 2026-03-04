@@ -17,7 +17,7 @@ codestack/
 ├── stacksTo.go              # StacksTo.* — convenience converters (String, Bytes, JsonString)
 ├── fileGetter.go            # File.* — current file path/name from runtime
 ├── dirGetter.go             # Dir.* — current directory, repo root from runtime
-├── skippablePrefixes.go     # Go standard library prefix list + isSkippablePackage()
+├── skippablePrefixes.go     # Go standard library package map + isSkippablePackage()
 ├── funcs.go                 # FilterFunc, Formatter type aliases
 ├── consts.go                # Format strings, skip/take constants
 └── vars.go                  # Package-level singletons: NameOf, New, StacksTo, File, Dir
@@ -79,7 +79,7 @@ Traces originating from Go's standard library are automatically flagged as `IsSk
 ### How It Works
 
 1. **Detection** — When `New.Create(skipIndex)` builds a `Trace`, it calls `isSkippablePackage(packageName)` against the extracted package name.
-2. **Prefix list** — Defined in `skippablePrefixes.go`. Matches exact package names:
+2. **Map lookup** — Defined in `skippablePrefixes.go` as a `map[string]bool` for O(1) lookup. Matches exact package names:
 
    ```
    net, net/http, runtime, reflect, fmt, strings, strconv, os, io, sync,
