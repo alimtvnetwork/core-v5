@@ -90,7 +90,7 @@ func LineDiffToString(
 		switch d.Status {
 		case "  ":
 			sb.WriteString(fmt.Sprintf(
-				"  Line %3d [OK]: %q\n",
+				"  Line %3d [OK]: `%s`\n",
 				d.LineNumber,
 				d.Actual,
 			))
@@ -98,8 +98,8 @@ func LineDiffToString(
 			mismatchCount++
 			sb.WriteString(fmt.Sprintf(
 				"  Line %3d [MISMATCH]:\n"+
-					"           actual : %q\n"+
-					"         expected : %q\n",
+					"           actual : `%s`\n"+
+					"         expected : `%s`\n",
 				d.LineNumber,
 				d.Actual,
 				d.Expected,
@@ -107,14 +107,14 @@ func LineDiffToString(
 		case "+":
 			mismatchCount++
 			sb.WriteString(fmt.Sprintf(
-				"  Line %3d [EXTRA ACTUAL]: %q\n",
+				"  Line %3d [EXTRA ACTUAL]: `%s`\n",
 				d.LineNumber,
 				d.Actual,
 			))
 		case "-":
 			mismatchCount++
 			sb.WriteString(fmt.Sprintf(
-				"  Line %3d [MISSING EXPECTED]: %q\n",
+				"  Line %3d [MISSING EXPECTED]: `%s`\n",
 				d.LineNumber,
 				d.Expected,
 			))
