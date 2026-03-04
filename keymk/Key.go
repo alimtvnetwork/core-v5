@@ -448,12 +448,10 @@ func (it *Key) JoinUsingOption(
 	tempOption *Option,
 	items ...any,
 ) string {
-	temp2 := it.option
-	it.option = tempOption
-	compiled := it.Compile(items...)
-	it.option = temp2
+	cloned := it.ClonePtr()
+	cloned.option = tempOption
 
-	return compiled
+	return cloned.Compile(items...)
 }
 
 func (it *Key) String() string {
