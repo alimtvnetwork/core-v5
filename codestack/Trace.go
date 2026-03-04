@@ -17,6 +17,7 @@ type Trace struct {
 	FilePath    string
 	Line        int
 	IsOkay      bool
+	IsSkippable bool
 	message     corestr.SimpleStringOnce
 	shortString corestr.SimpleStringOnce
 }
@@ -153,6 +154,7 @@ func (it *Trace) Dispose() {
 	it.FilePath = constants.EmptyString
 	it.Line = constants.Zero
 	it.IsOkay = false
+	it.IsSkippable = false
 	it.message.Dispose()
 	it.shortString.Dispose()
 }
@@ -218,6 +220,7 @@ func (it Trace) Clone() Trace {
 		FilePath:          it.FilePath,
 		Line:              it.Line,
 		IsOkay:            it.IsOkay,
+		IsSkippable:       it.IsSkippable,
 	}
 }
 
