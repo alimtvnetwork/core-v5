@@ -270,12 +270,21 @@ func (it *FuncWrap) Invoke(args ...any) (results []any, processingErr error) {
 
 func (it *FuncWrap) InvokeSkip(skipStack int, args ...any) (results []any, processingErr error) {
 	firstErr := it.ValidationError()
-	if firstErr != nil { return nil, firstErr }
+
+	if firstErr != nil {
+		return nil, firstErr
+	}
+
 	argsValidationErr := it.ValidateMethodArgs(args)
-	if argsValidationErr != nil { return nil, argsValidationErr }
+
+	if argsValidationErr != nil {
+		return nil, argsValidationErr
+	}
+
 	rvs := argsToRvFunc(args)
 	var resultsRawValues []reflect.Value
 	exception := trydo.WrapPanic(func() { resultsRawValues = it.rv.Call(rvs) })
+
 	if exception != nil {
 		toMsg := convertinternal.AnyTo.SmartString(exception)
 		finalError := fmt.Errorf(
@@ -284,8 +293,10 @@ func (it *FuncWrap) InvokeSkip(skipStack int, args ...any) (results []any, proce
 			reflectinternal.CodeStack.StacksString(codestack.Skip1+skipStack),
 			toMsg,
 		)
+
 		return rvToInterfacesFunc(resultsRawValues), finalError
 	}
+
 	return rvToInterfacesFunc(resultsRawValues), nil
 }
 
