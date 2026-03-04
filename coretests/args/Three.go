@@ -153,8 +153,8 @@ func (it Three[T1, T2, T3]) String() string {
 }
 
 // LeftRight converts to a LeftRight with First as Left, Second as Right.
-func (it *Three[T1, T2, T3]) LeftRight() LeftRight {
-	return LeftRight{
+func (it *Three[T1, T2, T3]) LeftRight() LeftRightAny {
+	return LeftRightAny{
 		Left:   it.First,
 		Right:  it.Second,
 		Expect: it.Expect,

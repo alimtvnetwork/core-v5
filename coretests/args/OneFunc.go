@@ -166,8 +166,8 @@ func (it OneFunc[T1]) String() string {
 }
 
 // LeftRight converts to a LeftRight with First as Left, WorkFunc as Right.
-func (it *OneFunc[T1]) LeftRight() LeftRight {
-	return LeftRight{
+func (it *OneFunc[T1]) LeftRight() LeftRightAny {
+	return LeftRightAny{
 		Left:   it.First,
 		Right:  it.WorkFunc,
 		Expect: it.Expect,

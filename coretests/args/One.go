@@ -113,8 +113,8 @@ func (it One[T1]) String() string {
 }
 
 // LeftRight converts the One to a LeftRight with First as Left.
-func (it *One[T1]) LeftRight() LeftRight {
-	return LeftRight{
+func (it *One[T1]) LeftRight() LeftRightAny {
+	return LeftRightAny{
 		Left:   it.First,
 		Expect: it.Expect,
 	}
