@@ -146,7 +146,7 @@ func (it *SliceValidator) AllVerifyErrorUptoLength(
 	}
 
 	validators := it.ComparingValidators()
-	var sliceErr []string
+	hasErrors := false
 
 	for i, validator := range validators.Items[:lengthUpto] {
 		err := validator.VerifySimpleError(
@@ -156,10 +156,7 @@ func (it *SliceValidator) AllVerifyErrorUptoLength(
 		)
 
 		if err != nil {
-			sliceErr = append(
-				sliceErr,
-				err.Error(),
-			)
+			hasErrors = true
 		}
 
 		if isFirstOnly && err != nil {
@@ -167,22 +164,24 @@ func (it *SliceValidator) AllVerifyErrorUptoLength(
 		}
 	}
 
-	hasErrors := len(sliceErr) > constants.Zero
-
-	if hasErrors {
-		diffMsg := errcore.LineDiffToString(
-			params.CaseIndex,
-			params.Header,
-			it.ActualLines,
-			it.ExpectedLines,
-		)
-
-		if len(diffMsg) > 0 {
-			sliceErr = append(sliceErr, diffMsg)
-		}
+	if !hasErrors {
+		return nil
 	}
 
-	if params.IsAttachUserInputs && hasErrors {
+	var sliceErr []string
+
+	diffMsg := errcore.LineDiffToString(
+		params.CaseIndex,
+		params.Header,
+		it.ActualLines,
+		it.ExpectedLines,
+	)
+
+	if len(diffMsg) > 0 {
+		sliceErr = append(sliceErr, diffMsg)
+	}
+
+	if params.IsAttachUserInputs {
 		sliceErr = append(
 			sliceErr,
 			it.ActualInputWithExpectingMessage(
