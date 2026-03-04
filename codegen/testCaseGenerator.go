@@ -92,7 +92,7 @@ func (it testCaseGenerator) fullTestCase(
 	return caseOutput, nil
 }
 
-func (it testCaseGenerator) FuncWrap() *args.FuncWrap {
+func (it testCaseGenerator) FuncWrap() *args.FuncWrapAny {
 	return it.baseGenerator.FuncWrap()
 }
 

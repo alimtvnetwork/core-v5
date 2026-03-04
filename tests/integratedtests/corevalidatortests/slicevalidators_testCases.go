@@ -13,7 +13,7 @@ import (
 
 var (
 	arrangeArgsTwoTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Two{}),
+		ArrangeInput:  reflect.TypeOf([]args.TwoAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -22,7 +22,7 @@ var (
 		{
 			Case: coretestcases.CaseV1{
 				Title: "Diff check against invalid comparisons, it will contain all the diff Index 0 - 2",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: byte(2),
@@ -97,7 +97,7 @@ var (
 		{
 			Case: coretestcases.CaseV1{
 				Title: "Diff check against invalid comparisons, it will only contain the first diff Index 0.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: byte(2),

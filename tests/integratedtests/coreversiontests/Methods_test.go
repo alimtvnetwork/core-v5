@@ -12,7 +12,7 @@ func Test_TwoParams_Method_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionTwoParamsVerificationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Four)
+			ArrangeInput.([]args.FourAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -61,7 +61,7 @@ func Test_ThreeParams_Method_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionThreeParamsVerificationTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Five)
+			ArrangeInput.([]args.FiveAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

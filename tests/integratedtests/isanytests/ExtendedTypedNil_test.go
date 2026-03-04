@@ -88,7 +88,7 @@ func Test_Extended_DefinedBoth_TypedNil(t *testing.T) {
 	for caseIndex, testCase := range extendedDefinedBothTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -126,7 +126,7 @@ func Test_Extended_NullBoth_TypedNil(t *testing.T) {
 	for caseIndex, testCase := range extendedNullBothTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

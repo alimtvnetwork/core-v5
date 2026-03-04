@@ -12,7 +12,7 @@ type variablesGenerator struct {
 	baseGenerator BaseGenerator
 }
 
-func (it variablesGenerator) FuncWrap() *args.FuncWrap {
+func (it variablesGenerator) FuncWrap() *args.FuncWrapAny {
 	return it.baseGenerator.FuncWrap()
 }
 

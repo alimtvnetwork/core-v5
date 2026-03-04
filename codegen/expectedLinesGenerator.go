@@ -21,7 +21,7 @@ type expectedLinesGenerator struct {
 	baseGenerator BaseGenerator
 }
 
-func (it expectedLinesGenerator) FuncWrap() *args.FuncWrap {
+func (it expectedLinesGenerator) FuncWrap() *args.FuncWrapAny {
 	return it.baseGenerator.FuncWrap()
 }
 

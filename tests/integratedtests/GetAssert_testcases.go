@@ -136,7 +136,7 @@ var (
 					"#alim",
 					"---",
 					args.Map{
-						"key": args.One{
+						"key": args.OneAny{
 							First: []string{
 								"line alim 1",
 								"line alim 2",
@@ -148,7 +148,7 @@ var (
 					1,
 					255,
 					true,
-					args.One{
+					args.OneAny{
 						Expect: "alim expect",
 					},
 				},
@@ -169,7 +169,7 @@ var (
 			Title: "given args.One in any parameter with 4 spaces - does Pretty JSON with spaces",
 			ArrangeInput: args.Map{
 				"spaceCount": 4,
-				"any": args.One{
+				"any": args.OneAny{
 					First: []string{
 						"line alim 1",
 						"line alim 2",
@@ -218,7 +218,7 @@ var (
 	anyToDoubleQuoteLinesTestCases = []coretestcases.CaseV1{
 		{
 			Title: "AnyToDoubleQuoteLines verification test",
-			Parameters: &args.Holder{
+			Parameters: &args.HolderAny{
 				First: 4,
 				Second: []string{
 					"line 1",
@@ -240,7 +240,7 @@ var (
 		},
 		{
 			Title: "AnyToDoubleQuoteLines => nil given doesn't panic",
-			Parameters: &args.Holder{
+			Parameters: &args.HolderAny{
 				First:  4,
 				Second: nil,
 			},
@@ -248,7 +248,7 @@ var (
 		},
 		{
 			Title: "AnyToDoubleQuoteLines => empty slice returns valid result",
-			Parameters: &args.Holder{
+			Parameters: &args.HolderAny{
 				First:  4,
 				Second: []string{},
 			},
@@ -256,7 +256,7 @@ var (
 		},
 		{
 			Title: "AnyToDoubleQuoteLines => map[string]string provides concat line.",
-			Parameters: &args.Holder{
+			Parameters: &args.HolderAny{
 				First: 4,
 				Second: map[string]string{
 					"line 1": "some line 1",
@@ -272,7 +272,7 @@ var (
 		},
 		{
 			Title: "AnyToDoubleQuoteLines []any any array provide nice lines",
-			Parameters: &args.Holder{
+			Parameters: &args.HolderAny{
 				First: 4,
 				Second: []any{
 					"line 1",
@@ -302,7 +302,7 @@ var (
 	convertLinesToDoubleQuoteThenStringTestCases = []coretestcases.CaseV1{
 		{
 			Title: "ConvertLinesToDoubleQuoteThenString => convert []string to double quote string lines then to a single one",
-			Parameters: &args.Holder{
+			Parameters: &args.HolderAny{
 				First: 4,
 				Second: []string{
 					"line 1",
@@ -320,7 +320,7 @@ var (
 
 		{
 			Title: "ConvertLinesToDoubleQuoteThenString => convert []string - empty slice return simple empty string",
-			Parameters: &args.Holder{
+			Parameters: &args.HolderAny{
 				First:  4,
 				Second: []string{},
 			},

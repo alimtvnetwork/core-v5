@@ -16,7 +16,7 @@ func Test_SliceValidator(t *testing.T) {
 		// Arrange
 		inputs := testCase.
 			Case.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.
@@ -59,7 +59,7 @@ func Test_SliceValidator_FirstError(t *testing.T) {
 		// Arrange
 		inputs := testCase.
 			Case.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

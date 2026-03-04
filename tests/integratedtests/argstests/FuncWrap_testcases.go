@@ -10,7 +10,7 @@ import (
 
 var (
 	commonType = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf(args.ThreeFunc{}),
+		ArrangeInput:  reflect.TypeOf(args.ThreeFuncAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -18,7 +18,7 @@ var (
 	funWrapCreationTestCases = []coretestcases.CaseV1{
 		{
 			Title: "someFunctionV1 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				Third:    "f3",
@@ -31,7 +31,7 @@ var (
 		},
 		{
 			Title: "someFunctionV1 => Calls dynamically with less param (null), outputs error args count mismatch.",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				Third:    nil,
@@ -55,7 +55,7 @@ var (
 		},
 		{
 			Title: "someFunctionV1 => Calls dynamically with mismatch datatype for arg 2nd, it expects string but given int, outputs error",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
 				Third:    "f3",
@@ -70,7 +70,7 @@ var (
 		},
 		{
 			Title: "giving nil as a work func, doesn't panic but returns error.",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
 				Third:    "f3",
@@ -86,7 +86,7 @@ var (
 		},
 		{
 			Title: "giving (int) as a work func, doesn't panic but returns error.",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
 				Third:    "f3",
@@ -102,7 +102,7 @@ var (
 		},
 		{
 			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				WorkFunc: someFunctionV2,
@@ -115,7 +115,7 @@ var (
 		},
 		{
 			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				WorkFunc: someFunctionV2,
@@ -128,7 +128,7 @@ var (
 		},
 		{
 			Title: "someFunctionV3 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFunc{
+			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
 				WorkFunc: someFunctionV3,

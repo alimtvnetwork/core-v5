@@ -12,7 +12,7 @@ func Test_FuncWrap_Creation_Verification(t *testing.T) {
 	for caseIndex, testCase := range funWrapCreationTestCases {
 		// Arrange
 		input := testCase.
-			ArrangeInput.(args.ThreeFunc)
+			ArrangeInput.(args.ThreeFuncAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

@@ -12,7 +12,7 @@ import (
 func Test_Cmp_Verification(t *testing.T) {
 	for caseIndex, testCase := range testCases {
 		// Arrange
-		inputs := testCase.ArrangeInput.([]args.Two)
+		inputs := testCase.ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
