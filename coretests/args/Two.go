@@ -126,9 +126,9 @@ func (it *Two[T1, T2]) String() string {
 	)
 }
 
-// LeftRight converts the Two to a LeftRight.
-func (it *Two[T1, T2]) LeftRight() LeftRight {
-	return LeftRight{
+// LeftRight converts the Two to a LeftRightAny.
+func (it *Two[T1, T2]) LeftRight() LeftRightAny {
+	return LeftRightAny{
 		Left:   it.First,
 		Right:  it.Second,
 		Expect: it.Expect,
