@@ -59,7 +59,7 @@
 
 | Package | Purpose |
 |---------|---------|
-| `codestack/` | Runtime call-stack capture and trace formatting. Traces from Go standard library packages (e.g., `runtime`, `net`, `fmt`, `sync`, `reflect`) are automatically flagged as `IsSkippable` and filtered out at collection-creation time to reduce noise. The skippable package prefixes are defined in `skippablePrefixes.go`. |
+| `codestack/` | Runtime call-stack capture and trace formatting. Traces from Go standard library packages (e.g., `runtime`, `net`, `fmt`, `sync`, `reflect`) are automatically flagged as `IsSkippable` and filtered out at collection-creation time to reduce noise. The skippable packages are defined as a `map[string]bool` in `skippablePrefixes.go` for O(1) lookup. |
 | `coreappend/` | Append utilities |
 | `corefuncs/` | Function utilities |
 | `coreindexes/` | Index-to-name mapping (First, Second, Third…) |
