@@ -15,7 +15,7 @@ var (
 	writeTestCases = []coretestcases.CaseV1{
 		{
 			Title: "Some string given outputs double quoted string.",
-			ArrangeInput: []args.One{
+			ArrangeInput: []args.OneAny{
 				{
 					First:  "some string",
 					Expect: "some string",
@@ -24,11 +24,11 @@ var (
 			ExpectedInput: []string{
 				`0 : some string -> "some string"`,
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
+			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.OneAny{}),
 		},
 		{
 			Title: "Slice of string ,int, bytes, boolean outputs in similar fashion",
-			ArrangeInput: []args.One{
+			ArrangeInput: []args.OneAny{
 				{
 					First: []string{
 						"some val 1",
@@ -90,11 +90,11 @@ some val 3 -> []string {
 	true,
 }`,
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
+			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.OneAny{}),
 		},
 		{
 			Title: "Struct with slice, etc outputs as it was given.",
-			ArrangeInput: []args.One{
+			ArrangeInput: []args.OneAny{
 				{
 					First: &coretests.DraftType{
 						SampleString1: "sample 1",
@@ -138,11 +138,11 @@ some val 3 -> []string {
 },
 }`,
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
+			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.OneAny{}),
 		},
 		{
 			Title: "Pointer struct with slice, etc outputs as it was given.",
-			ArrangeInput: []args.One{
+			ArrangeInput: []args.OneAny{
 				{
 					First: &coretests.DraftType{
 						SampleString1: "sample 1 Ptr",
@@ -194,7 +194,7 @@ some val 3 -> []string {
 },
 }`,
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
+			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.OneAny{}),
 		},
 	}
 )
@@ -203,7 +203,7 @@ func Test_Write_Verification(t *testing.T) {
 	for caseIndex, testCase := range writeTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.One)
+			ArrangeInput.([]args.OneAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

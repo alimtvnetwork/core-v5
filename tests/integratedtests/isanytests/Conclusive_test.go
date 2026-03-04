@@ -15,7 +15,7 @@ func Test_Conclusive_Verification(t *testing.T) {
 	for caseIndex, testCase := range conclusiveTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

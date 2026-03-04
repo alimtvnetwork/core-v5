@@ -31,7 +31,7 @@ type GenerateFunc struct {
 	UnitTestRootPath     string
 	Options              Options
 	packageHeader        corestr.SimpleStringOnce
-	funcWrap             *args.FuncWrap
+	funcWrap             *args.FuncWrapAny
 	setupVariable        *variablesSetup
 	directFuncInvokeName string
 }
@@ -357,7 +357,7 @@ func (it GenerateFunc) TestPkgName() string {
 	return it.FuncWrap().PkgNameOnly() + "tests"
 }
 
-func (it GenerateFunc) FuncWrap() *args.FuncWrap {
+func (it GenerateFunc) FuncWrap() *args.FuncWrapAny {
 	if it.funcWrap != nil {
 		return it.funcWrap
 	}

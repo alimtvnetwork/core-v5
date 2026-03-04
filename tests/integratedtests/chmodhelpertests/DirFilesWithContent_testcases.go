@@ -10,7 +10,7 @@ var (
 	dirFilesWithContentCreateReadTestCases = []coretestcases.CaseV1{
 		{
 			Title: "DirFilesWithContent - testing any file reading - writing",
-			ArrangeInput: []args.One{
+			ArrangeInput: []args.OneAny{
 				{
 					First: pathInstructionsV3,
 				},
@@ -26,7 +26,7 @@ var (
 				"         0. some lines file - 3",
 				"         1. alim",
 			},
-			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.One{}),
+			VerifyTypeOf: coretests.NewVerifyTypeOf([]args.OneAny{}),
 		},
 	}
 )

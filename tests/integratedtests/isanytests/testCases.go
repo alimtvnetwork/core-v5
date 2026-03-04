@@ -17,12 +17,12 @@ var (
 	}
 
 	twoArgsTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Two{}),
+		ArrangeInput:  reflect.TypeOf([]args.TwoAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 	oneFuncTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.OneFunc{}),
+		ArrangeInput:  reflect.TypeOf([]args.OneFuncAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -34,7 +34,7 @@ var (
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
-	someNull *args.Two = nil
+	someNull *args.TwoAny = nil
 
 	nullTestCases = []testWrapper{
 		{
@@ -42,11 +42,11 @@ var (
 				Title: "null tests - all nulls will be returned as null, don't panic.",
 			ArrangeInput: []any{
 					nil,
-					&args.Two{},
+					&args.TwoAny{},
 					someNull,
 					1,
 					2,
-					args.Two{},
+					args.TwoAny{},
 				},
 				ExpectedInput: []string{
 					"0 : true (value: <nil>, type: <nil>)",
@@ -68,11 +68,11 @@ var (
 				Title: "Only true if all cases are null, will return false.",
 			ArrangeInput: []any{
 					nil,
-					&args.Two{},
+					&args.TwoAny{},
 					someNull,
 					1,
 					2,
-					args.Two{},
+					args.TwoAny{},
 				},
 				ExpectedInput: []string{
 					"0 : false (<nil>, *args.Two, *args.Two, int, int, args.Two)",
@@ -104,10 +104,10 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if any case is null, it will result true, because one is nil.",
 			ArrangeInput: []any{
-					&args.Two{},
+					&args.TwoAny{},
 					1,
 					2,
-					args.Two{},
+					args.TwoAny{},
 					someNull,
 				},
 				ExpectedInput: []string{
@@ -156,10 +156,10 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "defined items test cases - only true if defined (not null) ones will be true.",
 				ArrangeInput: []any{
-					&args.Two{},
+					&args.TwoAny{},
 					1,
 					nil,
-					args.Two{},
+					args.TwoAny{},
 					someNull,
 				},
 				ExpectedInput: []string{
@@ -179,7 +179,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both defined (not null) ones will be true.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -217,12 +217,12 @@ var (
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
+						First:  &args.TwoAny{},
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
-						Second: args.Two{},
+						First:  &args.TwoAny{},
+						Second: args.TwoAny{},
 					},
 				},
 				ExpectedInput: []string{
@@ -249,7 +249,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both are null (not defined). " +
 					"Kind of inverse of any defined.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -287,12 +287,12 @@ var (
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
+						First:  &args.TwoAny{},
 						Second: 2,
 					},
 					{
-						First:  &args.Two{},
-						Second: args.Two{},
+						First:  &args.TwoAny{},
+						Second: args.TwoAny{},
 					},
 				},
 				ExpectedInput: []string{
@@ -400,7 +400,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. Here all are null comparison.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -432,7 +432,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with null with non null.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: someNull,
@@ -464,7 +464,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with same type different values.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: 2,
@@ -491,7 +491,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting equal comparing with any value as long as both are equal in terms of bytes.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: "1",
@@ -509,18 +509,18 @@ var (
 						Second: "alim is equal",
 					},
 					{
-						First: &args.Two{
+						First: &args.TwoAny{
 							First:  "1",
 							Second: "alim",
 						},
-						Second: args.Two{
+						Second: args.TwoAny{
 							First:  "1",
 							Second: "alim",
 						},
 					},
 					{
-						First:  &args.Two{},
-						Second: args.Two{},
+						First:  &args.TwoAny{},
+						Second: args.TwoAny{},
 					},
 				},
 				ExpectedInput: []string{
@@ -539,7 +539,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Only true if both equal in terms of json bytes. " +
 					"Expecting not equal comparing with string with integer with same value.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: "1",
@@ -568,7 +568,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value same but data types are different.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,
@@ -589,7 +589,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value same but data types are different.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: someNull,
@@ -610,7 +610,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all equal and conclusive because value same and data type also same.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: 1,
@@ -641,7 +641,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Expect all not equal and inconclusive because value different and data type also same and non pointer.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: 5,
@@ -672,7 +672,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Same value different type results not equal and conclusive.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  1,
 						Second: byte(2),
@@ -701,13 +701,13 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Primitive types verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.PrimitiveType,
 					},
 					{
-						First:    args.Two{},
+						First:    args.TwoAny{},
 						WorkFunc: isany.PrimitiveType,
 					},
 					{
@@ -767,7 +767,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "NumberType : verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.NumberType,
@@ -833,7 +833,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "Floating : verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.FloatingPointType,
@@ -879,7 +879,7 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "PositiveIntegerType: verification test.",
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    uint(64),
 						WorkFunc: isany.PositiveIntegerType,
@@ -905,7 +905,7 @@ var (
 						WorkFunc: isany.PositiveIntegerType,
 					},
 					{
-						First:    args.OneFunc{},
+						First:    args.OneFuncAny{},
 						WorkFunc: isany.PositiveIntegerType,
 					},
 					{
@@ -950,16 +950,16 @@ var (
 		{
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "FuncOnly : function verification test.",
-				Parameters: &args.Holder{
+				Parameters: &args.HolderAny{
 					First: "isFunc",
 				},
-				ArrangeInput: []args.OneFunc{
+				ArrangeInput: []args.OneFuncAny{
 					{
 						First:    1,
 						WorkFunc: isany.FuncOnly,
 					},
 					{
-						First:    args.OneFunc{},
+						First:    args.OneFuncAny{},
 						WorkFunc: isany.FuncOnly,
 					},
 					{

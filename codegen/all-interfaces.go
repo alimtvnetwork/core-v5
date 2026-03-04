@@ -52,7 +52,7 @@ type BaseGenerator interface {
 	FirstTestCaseGetter
 	ArrangeImports() *corestr.Hashset
 	TestPkgName() string
-	FuncWrap() *args.FuncWrap
+	FuncWrap() *args.FuncWrapAny
 
 	coreinterface.DirectFuncNameGetter
 

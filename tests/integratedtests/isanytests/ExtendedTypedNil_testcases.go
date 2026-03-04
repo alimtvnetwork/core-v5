@@ -80,7 +80,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "DefinedBoth with typed-nil error, *int, and live error — " +
 					"migrated from nullTesting02.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: liveErrorX,
@@ -120,7 +120,7 @@ var (
 			BaseTestCase: coretests.BaseTestCase{
 				Title: "NullBoth with typed-nil error, *int, and live error — " +
 					"migrated from nullTesting02.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: liveErrorX,

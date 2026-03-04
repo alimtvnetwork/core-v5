@@ -18,13 +18,13 @@ var (
 	}
 
 	argsFourTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Four{}),
+		ArrangeInput:  reflect.TypeOf([]args.FourAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
 
 	argsFiveTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Five{}),
+		ArrangeInput:  reflect.TypeOf([]args.FiveAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -374,7 +374,7 @@ var (
 	versionTwoParamsVerificationTestCases = []testWrapper{
 		{
 			Title: "IsMajorBuildAtLeast - all matches the condition query.",
-			ArrangeInput: []args.Four{
+			ArrangeInput: []args.FourAny{
 				{
 					First:  5,    // major
 					Second: 5,    // build
@@ -412,7 +412,7 @@ var (
 		},
 		{
 			Title: "IsMajorMinorAtLeast - all matches the condition query.",
-			ArrangeInput: []args.Four{
+			ArrangeInput: []args.FourAny{
 				{
 					First:  5,    // major
 					Second: 8,    // minor
@@ -460,7 +460,7 @@ var (
 	versionThreeParamsVerificationTestCases = []testWrapper{
 		{
 			Title: "IsMajorMinorPatchAtLeast - all matches the condition query.",
-			ArrangeInput: []args.Five{
+			ArrangeInput: []args.FiveAny{
 				{
 					First:  5,    // major
 					Second: 5,    // build

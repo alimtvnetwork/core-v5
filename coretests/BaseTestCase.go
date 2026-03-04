@@ -28,7 +28,7 @@ type BaseTestCase struct {
 	Additional      any            `json:",omitempty"` // additional input to do
 	CustomFormat    string         `json:",omitempty"` // custom format for the test case
 	VerifyTypeOf    *VerifyTypeOf  `json:",omitempty"` // Setting this creates the verify auto, verifies ArrangeInput, ActualInput, ExpectedInput type
-	Parameters      *args.Holder   `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the Holder.
+	Parameters      *args.HolderAny `json:",omitempty"` // If Act function / or any function requires more parameters it can be defined in the Holder.
 	IsEnable        issetter.Value `json:",omitempty"` // Only false makes it disabled.
 	HasError        bool           `json:",omitempty"`
 	HasPanic        bool           `json:",omitempty"`

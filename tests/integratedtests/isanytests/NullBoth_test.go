@@ -14,7 +14,7 @@ func Test_NullBoth_Verification(t *testing.T) {
 	for caseIndex, testCase := range nullBothTestCases {
 		// Arrange
 		inputs := testCase.
-			ArrangeInput.([]args.Two)
+			ArrangeInput.([]args.TwoAny)
 		actualSlice := corestr.
 			New.
 			SimpleSlice.

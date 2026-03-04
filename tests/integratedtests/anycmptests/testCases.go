@@ -10,7 +10,7 @@ import (
 
 var (
 	arrangeTypeVerification = &coretests.VerifyTypeOf{
-		ArrangeInput:  reflect.TypeOf([]args.Two{}),
+		ArrangeInput:  reflect.TypeOf([]args.TwoAny{}),
 		ActualInput:   reflect.TypeOf([]string{}),
 		ExpectedInput: reflect.TypeOf([]string{}),
 	}
@@ -22,7 +22,7 @@ var (
 					"only Equal if both null or same pointer, " +
 					"NotEqual if one is null and another isn't." +
 					"On both not null it is inconclusive.",
-				ArrangeInput: []args.Two{
+				ArrangeInput: []args.TwoAny{
 					{
 						First:  nil,
 						Second: nil,

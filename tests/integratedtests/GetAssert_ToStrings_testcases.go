@@ -79,7 +79,7 @@ var (
 						"some line 2",
 					},
 				"line 6": []any{
-						args.One{
+						args.OneAny{
 							First:  "line 6.1 first",
 							Expect: "line 6.1 expect",
 						},
@@ -115,15 +115,15 @@ var (
 						"some line 2",
 					},
 					"line 6": []any{
-						args.One{
+						args.OneAny{
 							First:  "line 6.1 first",
 							Expect: "line 6.1 expect",
 						},
 						"some line 2",
 					},
-					args.One{
+					args.OneAny{
 						First: "line 7 - key",
-					}: args.One{
+					}: args.OneAny{
 						First:  "line 7 - value",
 						Expect: "line 7 - value.expect",
 					},
@@ -229,7 +229,7 @@ var (
 		{
 			Title: "giving args.One - converts to Smart JSON.",
 			ArrangeInput: args.Map{
-				"any": args.One{
+				"any": args.OneAny{
 					First: []string{
 						"line 1",
 						"line 2",

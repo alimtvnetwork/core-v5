@@ -67,7 +67,7 @@ func (it unitTestGenerator) Generate() {
 		TestCases: []coretestcases.CaseV1{
 			// {
 			// 	Title: "When nil / null is given, nil returned as is hardcoded.",
-			// 	ArrangeInput: []args.One{
+			// 	ArrangeInput: []args.OneAny{
 			// 		{
 			// 			First:  nil,
 			// 			Expect: nil,
@@ -80,7 +80,7 @@ func (it unitTestGenerator) Generate() {
 			// },
 			{
 				Title: "Some string given outputs double quoted string.",
-				ArrangeInput: []args.One{
+				ArrangeInput: []args.OneAny{
 					{
 						First:  "some string",
 						Expect: "some string",
@@ -93,7 +93,7 @@ func (it unitTestGenerator) Generate() {
 			},
 			{
 				Title: "Slice of string ,int, bytes, boolean outputs in similar fashion",
-				ArrangeInput: []args.One{
+				ArrangeInput: []args.OneAny{
 					{
 						First: []string{
 							"some val 1",
@@ -134,7 +134,7 @@ func (it unitTestGenerator) Generate() {
 			},
 			{
 				Title: "Struct with slice, etc outputs as it was given.",
-				ArrangeInput: []args.One{
+				ArrangeInput: []args.OneAny{
 					{
 						First: &coretests.DraftType{
 							SampleString1: "sample 1",
@@ -155,7 +155,7 @@ func (it unitTestGenerator) Generate() {
 			},
 			{
 				Title: "Pointer struct with slice, etc outputs as it was given.",
-				ArrangeInput: []args.One{
+				ArrangeInput: []args.OneAny{
 					{
 						First: &coretests.DraftType{
 							SampleString1: "sample 1 Ptr",
