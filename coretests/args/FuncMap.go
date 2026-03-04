@@ -9,24 +9,31 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type FuncMap map[string]FuncWrap
+// FuncMap is a named map of function names to their FuncWrapAny representations.
+// It provides batch function management, lookup, and invocation by name.
+type FuncMap map[string]FuncWrapAny
 
+// IsEmpty returns true if the map contains no entries.
 func (it FuncMap) IsEmpty() bool {
 	return len(it) == 0
 }
 
+// Length returns the number of entries in the map.
 func (it FuncMap) Length() int {
 	return len(it)
 }
 
+// Count is an alias for Length.
 func (it FuncMap) Count() int {
 	return len(it)
 }
 
+// HasAnyItem returns true if the map contains at least one entry.
 func (it FuncMap) HasAnyItem() bool {
 	return !it.IsEmpty()
 }
 
+// Has checks if a function with the given name exists in the map.
 func (it FuncMap) Has(name string) bool {
 	if it.IsEmpty() {
 		return false
@@ -37,11 +44,13 @@ func (it FuncMap) Has(name string) bool {
 	return isFound
 }
 
+// IsContains is an alias for Has.
 func (it FuncMap) IsContains(name string) bool {
 	return it.Has(name)
 }
 
-func (it FuncMap) Get(name string) *FuncWrap {
+// Get returns a pointer to the FuncWrapAny for the given name, or nil if not found.
+func (it FuncMap) Get(name string) *FuncWrapAny {
 	if it.IsEmpty() {
 		return nil
 	}
@@ -55,9 +64,10 @@ func (it FuncMap) Get(name string) *FuncWrap {
 	return nil
 }
 
+// Add wraps a function value and adds it to the map by its detected name.
 func (it *FuncMap) Add(i any) *FuncMap {
 	if it == nil {
-		*it = map[string]FuncWrap{}
+		*it = map[string]FuncWrapAny{}
 	}
 
 	v := NewFuncWrap.Single(i)
@@ -69,9 +79,10 @@ func (it *FuncMap) Add(i any) *FuncMap {
 	return it
 }
 
+// Adds wraps multiple function values and adds them to the map.
 func (it *FuncMap) Adds(iFunctions ...any) *FuncMap {
 	if it == nil {
-		*it = map[string]FuncWrap{}
+		*it = map[string]FuncWrapAny{}
 	}
 
 	if len(iFunctions) == 0 {
@@ -85,9 +96,10 @@ func (it *FuncMap) Adds(iFunctions ...any) *FuncMap {
 	return it
 }
 
+// AddStructFunctions extracts all public methods from structs and adds them to the map.
 func (it *FuncMap) AddStructFunctions(iStructs ...any) error {
 	if it == nil {
-		*it = map[string]FuncWrap{}
+		*it = map[string]FuncWrapAny{}
 	}
 
 	if len(iStructs) == 0 {
@@ -109,6 +121,7 @@ func (it *FuncMap) AddStructFunctions(iStructs ...any) error {
 	return nil
 }
 
+// GetPascalCaseFuncName returns the PascalCase version of the given function name.
 func (it FuncMap) GetPascalCaseFuncName(name string) string {
 	if len(it) == 0 {
 		return ""
@@ -119,6 +132,7 @@ func (it FuncMap) GetPascalCaseFuncName(name string) string {
 		PascalFuncName(name)
 }
 
+// IsValidFuncOf checks if the named function is valid and callable.
 func (it FuncMap) IsValidFuncOf(name string) bool {
 	f := it.Get(name)
 
@@ -129,6 +143,7 @@ func (it FuncMap) IsValidFuncOf(name string) bool {
 	return f.HasValidFunc()
 }
 
+// IsInvalidFunc checks if the named function is invalid or not found.
 func (it FuncMap) IsInvalidFunc(name string) bool {
 	f := it.Get(name)
 
@@ -139,6 +154,7 @@ func (it FuncMap) IsInvalidFunc(name string) bool {
 	return f.IsInvalid()
 }
 
+// PkgPath returns the package path of the named function.
 func (it FuncMap) PkgPath(name string) string {
 	f := it.Get(name)
 
@@ -149,6 +165,7 @@ func (it FuncMap) PkgPath(name string) string {
 	return f.PkgPath()
 }
 
+// PkgNameOnly returns the package name (without path) of the named function.
 func (it FuncMap) PkgNameOnly(name string) string {
 	f := it.Get(name)
 
@@ -159,6 +176,7 @@ func (it FuncMap) PkgNameOnly(name string) string {
 	return f.PkgNameOnly()
 }
 
+// FuncDirectInvokeName returns the direct invocation name of the named function.
 func (it FuncMap) FuncDirectInvokeName(name string) string {
 	f := it.Get(name)
 
@@ -169,7 +187,7 @@ func (it FuncMap) FuncDirectInvokeName(name string) string {
 	return f.FuncDirectInvokeName()
 }
 
-// ArgsCount returns -1 on invalid
+// ArgsCount returns the input argument count of the named function. Returns 0 if not found.
 func (it FuncMap) ArgsCount(name string) int {
 	f := it.Get(name)
 
@@ -180,12 +198,12 @@ func (it FuncMap) ArgsCount(name string) int {
 	return f.ArgsCount()
 }
 
-// ArgsLength is an Alias for ArgsCount
+// ArgsLength is an alias for ArgsCount.
 func (it FuncMap) ArgsLength(name string) int {
 	return it.ArgsCount(name)
 }
 
-// ReturnLength refers to the return arguments length
+// ReturnLength returns the return value count of the named function. Returns 0 if not found.
 func (it FuncMap) ReturnLength(name string) int {
 	f := it.Get(name)
 
@@ -196,6 +214,7 @@ func (it FuncMap) ReturnLength(name string) int {
 	return f.ReturnLength()
 }
 
+// IsPublicMethod checks if the named function is an exported method.
 func (it FuncMap) IsPublicMethod(name string) bool {
 	f := it.Get(name)
 
@@ -206,6 +225,7 @@ func (it FuncMap) IsPublicMethod(name string) bool {
 	return f.IsPublicMethod()
 }
 
+// IsPrivateMethod checks if the named function is an unexported method.
 func (it FuncMap) IsPrivateMethod(name string) bool {
 	f := it.Get(name)
 
@@ -216,6 +236,7 @@ func (it FuncMap) IsPrivateMethod(name string) bool {
 	return f.IsPrivateMethod()
 }
 
+// GetType returns the reflect.Type of the named function.
 func (it FuncMap) GetType(name string) reflect.Type {
 	f := it.Get(name)
 
@@ -226,6 +247,7 @@ func (it FuncMap) GetType(name string) reflect.Type {
 	return f.GetType()
 }
 
+// GetOutArgsTypes returns the output argument types of the named function.
 func (it FuncMap) GetOutArgsTypes(name string) []reflect.Type {
 	f := it.Get(name)
 
@@ -236,6 +258,7 @@ func (it FuncMap) GetOutArgsTypes(name string) []reflect.Type {
 	return f.GetOutArgsTypes()
 }
 
+// GetInArgsTypes returns the input argument types of the named function.
 func (it FuncMap) GetInArgsTypes(name string) []reflect.Type {
 	f := it.Get(name)
 
@@ -246,6 +269,7 @@ func (it FuncMap) GetInArgsTypes(name string) []reflect.Type {
 	return f.GetOutArgsTypes()
 }
 
+// GetInArgsTypesNames returns the string names of input argument types.
 func (it FuncMap) GetInArgsTypesNames(name string) []string {
 	f := it.Get(name)
 
@@ -256,7 +280,11 @@ func (it FuncMap) GetInArgsTypesNames(name string) []string {
 	return f.GetInArgsTypesNames()
 }
 
-func (it FuncMap) VerifyInArgs(name string, args []any) (isOkay bool, err error) {
+// VerifyInArgs verifies input argument types for the named function.
+func (it FuncMap) VerifyInArgs(
+	name string,
+	args []any,
+) (isOkay bool, err error) {
 	f := it.Get(name)
 
 	if f == nil {
@@ -266,7 +294,11 @@ func (it FuncMap) VerifyInArgs(name string, args []any) (isOkay bool, err error)
 	return f.VerifyInArgs(args)
 }
 
-func (it FuncMap) VerifyOutArgs(name string, args []any) (isOkay bool, err error) {
+// VerifyOutArgs verifies output argument types for the named function.
+func (it FuncMap) VerifyOutArgs(
+	name string,
+	args []any,
+) (isOkay bool, err error) {
 	f := it.Get(name)
 
 	if f == nil {
@@ -276,7 +308,11 @@ func (it FuncMap) VerifyOutArgs(name string, args []any) (isOkay bool, err error
 	return f.VerifyOutArgs(args)
 }
 
-func (it FuncMap) InArgsVerifyRv(name string, args []reflect.Type) (isOkay bool, err error) {
+// InArgsVerifyRv verifies input argument types using reflect.Type slices.
+func (it FuncMap) InArgsVerifyRv(
+	name string,
+	args []reflect.Type,
+) (isOkay bool, err error) {
 	f := it.Get(name)
 
 	if f == nil {
@@ -286,7 +322,11 @@ func (it FuncMap) InArgsVerifyRv(name string, args []reflect.Type) (isOkay bool,
 	return f.InArgsVerifyRv(args)
 }
 
-func (it FuncMap) OutArgsVerifyRv(name string, args []reflect.Type) (isOkay bool, err error) {
+// OutArgsVerifyRv verifies output argument types using reflect.Type slices.
+func (it FuncMap) OutArgsVerifyRv(
+	name string,
+	args []reflect.Type,
+) (isOkay bool, err error) {
 	f := it.Get(name)
 
 	if f == nil {
@@ -296,6 +336,7 @@ func (it FuncMap) OutArgsVerifyRv(name string, args []reflect.Type) (isOkay bool
 	return f.OutArgsVerifyRv(args)
 }
 
+// VoidCallNoReturn invokes the named function ignoring return values.
 func (it FuncMap) VoidCallNoReturn(
 	name string,
 	args ...any,
@@ -309,6 +350,7 @@ func (it FuncMap) VoidCallNoReturn(
 	return f.VoidCallNoReturn(args...)
 }
 
+// MustBeValid panics if the named function is not found or invalid.
 func (it FuncMap) MustBeValid(name string) {
 	f := it.Get(name)
 
@@ -319,6 +361,7 @@ func (it FuncMap) MustBeValid(name string) {
 	f.MustBeValid()
 }
 
+// ValidationError returns an error if the named function is not found or invalid.
 func (it FuncMap) ValidationError(name string) error {
 	f := it.Get(name)
 
@@ -329,6 +372,7 @@ func (it FuncMap) ValidationError(name string) error {
 	return f.ValidationError()
 }
 
+// InvokeMust invokes the named function, panicking on error.
 func (it FuncMap) InvokeMust(
 	name string,
 	args ...any,
@@ -342,6 +386,7 @@ func (it FuncMap) InvokeMust(
 	return results
 }
 
+// Invoke dynamically calls the named function with the given arguments.
 func (it FuncMap) Invoke(
 	name string,
 	args ...any,
@@ -349,6 +394,7 @@ func (it FuncMap) Invoke(
 	return it.InvokeSkip(codestack.Skip1, name, args...)
 }
 
+// InvokeSkip invokes the named function with a custom stack skip.
 func (it FuncMap) InvokeSkip(
 	skipStack int,
 	name string,
@@ -363,11 +409,16 @@ func (it FuncMap) InvokeSkip(
 	return f.InvokeSkip(skipStack+1, args)
 }
 
+// VoidCall invokes the named function with no arguments.
 func (it FuncMap) VoidCall(name string) ([]any, error) {
 	return it.Invoke(name)
 }
 
-func (it FuncMap) ValidateMethodArgs(name string, args []any) error {
+// ValidateMethodArgs validates argument types for the named function.
+func (it FuncMap) ValidateMethodArgs(
+	name string,
+	args []any,
+) error {
 	f := it.Get(name)
 
 	if f == nil {
@@ -377,6 +428,7 @@ func (it FuncMap) ValidateMethodArgs(name string, args []any) error {
 	return f.ValidateMethodArgs(args)
 }
 
+// GetFirstResponseOfInvoke invokes the named function and returns the first result.
 func (it FuncMap) GetFirstResponseOfInvoke(
 	name string,
 	args ...any,
@@ -390,6 +442,7 @@ func (it FuncMap) GetFirstResponseOfInvoke(
 	return result, err
 }
 
+// InvokeResultOfIndex invokes the named function and returns the result at the given index.
 func (it FuncMap) InvokeResultOfIndex(
 	name string,
 	index int,
@@ -404,6 +457,7 @@ func (it FuncMap) InvokeResultOfIndex(
 	return f.InvokeResultOfIndex(index, args...)
 }
 
+// InvokeError invokes the named function and returns the first result as an error.
 func (it FuncMap) InvokeError(
 	name string,
 	args ...any,
@@ -417,9 +471,7 @@ func (it FuncMap) InvokeError(
 	return result.(error), err
 }
 
-// InvokeFirstAndError
-//
-//	useful for method which looks like ReflectMethod() (soemthing, error)
+// InvokeFirstAndError invokes the named function and separates the first result from the error.
 func (it FuncMap) InvokeFirstAndError(
 	name string,
 	args ...any,
@@ -433,6 +485,7 @@ func (it FuncMap) InvokeFirstAndError(
 	return f.InvokeFirstAndError(args...)
 }
 
+// InvalidError returns an error if the map is empty.
 func (it FuncMap) InvalidError() error {
 	if it.IsEmpty() {
 		return errors.New("func-wrap map is empty")
@@ -441,6 +494,7 @@ func (it FuncMap) InvalidError() error {
 	return nil
 }
 
+// InvalidErrorByName returns an error if the map is empty or the named function is invalid.
 func (it FuncMap) InvalidErrorByName(name string) error {
 	if it.IsEmpty() {
 		return errors.New("func-wrap map is empty")

@@ -12,14 +12,16 @@ import (
 	"gitlab.com/auk-go/core/internal/trydo"
 )
 
-func (it *FuncWrap) VoidCallNoReturn(args ...any) (processingErr error) {
+// VoidCallNoReturn invokes the function ignoring return values.
+func (it *FuncWrap[T]) VoidCallNoReturn(args ...any) (processingErr error) {
 	it.MustBeValid()
 	_, err := it.Invoke(args)
 
 	return err
 }
 
-func (it *FuncWrap) InvokeMust(args ...any) []any {
+// InvokeMust invokes the function, panicking on error.
+func (it *FuncWrap[T]) InvokeMust(args ...any) []any {
 	results, err := it.Invoke(args...)
 
 	if err != nil {
@@ -29,11 +31,17 @@ func (it *FuncWrap) InvokeMust(args ...any) []any {
 	return results
 }
 
-func (it *FuncWrap) Invoke(args ...any) (results []any, processingErr error) {
+// Invoke dynamically calls the wrapped function with the given arguments.
+// Returns the results as []any and any processing error.
+func (it *FuncWrap[T]) Invoke(args ...any) (results []any, processingErr error) {
 	return it.InvokeSkip(codestack.Skip1, args...)
 }
 
-func (it *FuncWrap) InvokeSkip(skipStack int, args ...any) (results []any, processingErr error) {
+// InvokeSkip invokes the function with a custom stack skip for error reporting.
+func (it *FuncWrap[T]) InvokeSkip(
+	skipStack int,
+	args ...any,
+) (results []any, processingErr error) {
 	firstErr := it.ValidationError()
 
 	if firstErr != nil {
@@ -65,11 +73,13 @@ func (it *FuncWrap) InvokeSkip(skipStack int, args ...any) (results []any, proce
 	return rvToInterfacesFunc(resultsRawValues), nil
 }
 
-func (it *FuncWrap) VoidCall() ([]any, error) {
+// VoidCall invokes the function with no arguments.
+func (it *FuncWrap[T]) VoidCall() ([]any, error) {
 	return it.Invoke()
 }
 
-func (it *FuncWrap) GetFirstResponseOfInvoke(args ...any) (firstResponse any, err error) {
+// GetFirstResponseOfInvoke invokes the function and returns only the first result.
+func (it *FuncWrap[T]) GetFirstResponseOfInvoke(args ...any) (firstResponse any, err error) {
 	result, err := it.InvokeResultOfIndex(0, args...)
 
 	if err != nil {
@@ -79,7 +89,11 @@ func (it *FuncWrap) GetFirstResponseOfInvoke(args ...any) (firstResponse any, er
 	return result, err
 }
 
-func (it *FuncWrap) InvokeResultOfIndex(index int, args ...any) (firstResponse any, err error) {
+// InvokeResultOfIndex invokes the function and returns the result at the given index.
+func (it *FuncWrap[T]) InvokeResultOfIndex(
+	index int,
+	args ...any,
+) (firstResponse any, err error) {
 	results, err := it.Invoke(args...)
 
 	if err != nil {
@@ -89,7 +103,8 @@ func (it *FuncWrap) InvokeResultOfIndex(index int, args ...any) (firstResponse a
 	return results[index], err
 }
 
-func (it *FuncWrap) InvokeError(args ...any) (funcErr, processingErr error) {
+// InvokeError invokes the function and returns the first result as an error.
+func (it *FuncWrap[T]) InvokeError(args ...any) (funcErr, processingErr error) {
 	result, err := it.GetFirstResponseOfInvoke(args...)
 
 	if err != nil {
@@ -99,8 +114,11 @@ func (it *FuncWrap) InvokeError(args ...any) (funcErr, processingErr error) {
 	return result.(error), err
 }
 
-// InvokeFirstAndError useful for method which looks like ReflectMethod() (something, error)
-func (it *FuncWrap) InvokeFirstAndError(args ...any) (firstResponse any, funcErr, processingErr error) {
+// InvokeFirstAndError is useful for methods returning (something, error).
+// It invokes the function and separates the first result from the error result.
+func (it *FuncWrap[T]) InvokeFirstAndError(
+	args ...any,
+) (firstResponse any, funcErr, processingErr error) {
 	results, processingErr := it.Invoke(args...)
 
 	if processingErr != nil {
@@ -108,7 +126,9 @@ func (it *FuncWrap) InvokeFirstAndError(args ...any) (firstResponse any, funcErr
 	}
 
 	if len(results) <= 1 {
-		return results, nil, errors.New(it.GetFuncName() + " doesn't return at least 2 return args")
+		return results, nil, errors.New(
+			it.GetFuncName() + " doesn't return at least 2 return args",
+		)
 	}
 
 	first := results[0]
@@ -117,7 +137,8 @@ func (it *FuncWrap) InvokeFirstAndError(args ...any) (firstResponse any, funcErr
 	return first, second, processingErr
 }
 
-func (it *FuncWrap) argsCountMismatchErrorMessage(
+// argsCountMismatchErrorMessage builds a detailed error message for argument count mismatches.
+func (it *FuncWrap[T]) argsCountMismatchErrorMessage(
 	expectedCount int,
 	given int,
 	args []any,

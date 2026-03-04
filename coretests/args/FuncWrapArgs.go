@@ -7,7 +7,9 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-func (it *FuncWrap) ArgsCount() int {
+// ArgsCount returns the number of input arguments the wrapped function expects.
+// Returns -1 if the FuncWrap is invalid.
+func (it *FuncWrap[T]) ArgsCount() int {
 	if it.IsInvalid() {
 		return -1
 	}
@@ -15,11 +17,14 @@ func (it *FuncWrap) ArgsCount() int {
 	return it.rvType.NumIn()
 }
 
-func (it *FuncWrap) InArgsCount() int {
+// InArgsCount is an alias for ArgsCount.
+func (it *FuncWrap[T]) InArgsCount() int {
 	return it.ArgsCount()
 }
 
-func (it *FuncWrap) OutArgsCount() int {
+// OutArgsCount returns the number of return values from the wrapped function.
+// Returns -1 if the FuncWrap is invalid.
+func (it *FuncWrap[T]) OutArgsCount() int {
 	if it.IsInvalid() {
 		return -1
 	}
@@ -27,11 +32,14 @@ func (it *FuncWrap) OutArgsCount() int {
 	return it.rvType.NumOut()
 }
 
-func (it *FuncWrap) ArgsLength() int {
+// ArgsLength is an alias for ArgsCount.
+func (it *FuncWrap[T]) ArgsLength() int {
 	return it.ArgsCount()
 }
 
-func (it *FuncWrap) ReturnLength() int {
+// ReturnLength returns the number of return values.
+// Returns -1 if the FuncWrap is invalid.
+func (it *FuncWrap[T]) ReturnLength() int {
 	if it.IsInvalid() {
 		return -1
 	}
@@ -39,7 +47,8 @@ func (it *FuncWrap) ReturnLength() int {
 	return it.rvType.NumOut()
 }
 
-func (it *FuncWrap) GetOutArgsTypes() []reflect.Type {
+// GetOutArgsTypes returns the reflect.Type for each return value.
+func (it *FuncWrap[T]) GetOutArgsTypes() []reflect.Type {
 	if it.IsInvalid() {
 		return []reflect.Type{}
 	}
@@ -66,7 +75,8 @@ func (it *FuncWrap) GetOutArgsTypes() []reflect.Type {
 	return slice
 }
 
-func (it *FuncWrap) GetInArgsTypes() []reflect.Type {
+// GetInArgsTypes returns the reflect.Type for each input argument.
+func (it *FuncWrap[T]) GetInArgsTypes() []reflect.Type {
 	if it.IsInvalid() {
 		return []reflect.Type{}
 	}
@@ -93,7 +103,9 @@ func (it *FuncWrap) GetInArgsTypes() []reflect.Type {
 	return slice
 }
 
-func (it *FuncWrap) InArgNames() []string {
+// InArgNames returns generated variable names for each input argument,
+// derived from their type names.
+func (it *FuncWrap[T]) InArgNames() []string {
 	if it.InArgsCount() <= 0 {
 		return []string{}
 	}
@@ -115,7 +127,12 @@ func (it *FuncWrap) InArgNames() []string {
 	default:
 		for i, cTypeName := range allTypesNames {
 			cTypeNamePascal := pascalCaseFunc(convertFunc(cTypeName))
-			toSlice.AppendFmt("%s%s%d", inArgNamePrefix, cTypeNamePascal, i+1)
+			toSlice.AppendFmt(
+				"%s%s%d",
+				inArgNamePrefix,
+				cTypeNamePascal,
+				i+1,
+			)
 		}
 	}
 
@@ -124,7 +141,8 @@ func (it *FuncWrap) InArgNames() []string {
 	return it.inArgsNames
 }
 
-func (it *FuncWrap) InArgNamesEachLine() corestr.SimpleSlice {
+// InArgNamesEachLine returns the input argument names formatted one per line.
+func (it *FuncWrap[T]) InArgNamesEachLine() corestr.SimpleSlice {
 	inArgs := it.InArgNames()
 
 	if len(inArgs) <= 1 {
@@ -141,7 +159,8 @@ func (it *FuncWrap) InArgNamesEachLine() corestr.SimpleSlice {
 	return toSlice.Strings()
 }
 
-func (it *FuncWrap) OutArgNamesEachLine() corestr.SimpleSlice {
+// OutArgNamesEachLine returns the output argument names formatted one per line.
+func (it *FuncWrap[T]) OutArgNamesEachLine() corestr.SimpleSlice {
 	outArgs := it.OutArgNames()
 
 	if len(outArgs) <= 1 {
@@ -158,7 +177,9 @@ func (it *FuncWrap) OutArgNamesEachLine() corestr.SimpleSlice {
 	return toSlice.Strings()
 }
 
-func (it *FuncWrap) OutArgNames() []string {
+// OutArgNames returns generated variable names for each return value,
+// derived from their type names.
+func (it *FuncWrap[T]) OutArgNames() []string {
 	if it.OutArgsCount() <= 0 {
 		return []string{}
 	}
@@ -179,7 +200,12 @@ func (it *FuncWrap) OutArgNames() []string {
 	default:
 		for i, cTypeName := range allTypesNames {
 			cTypeNamePascal := pascalCaseFunc(cTypeName)
-			toSlice.AppendFmt("%s%s%d", outArgNamePrefix, cTypeNamePascal, i)
+			toSlice.AppendFmt(
+				"%s%s%d",
+				outArgNamePrefix,
+				cTypeNamePascal,
+				i,
+			)
 		}
 	}
 
@@ -188,7 +214,8 @@ func (it *FuncWrap) OutArgNames() []string {
 	return it.outArgsNames
 }
 
-func (it *FuncWrap) GetInArgsTypesNames() []string {
+// GetInArgsTypesNames returns the string representation of each input argument type.
+func (it *FuncWrap[T]) GetInArgsTypesNames() []string {
 	if it.IsInvalid() {
 		return []string{}
 	}
@@ -215,7 +242,8 @@ func (it *FuncWrap) GetInArgsTypesNames() []string {
 	return slice
 }
 
-func (it *FuncWrap) GetOutArgsTypesNames() []string {
+// GetOutArgsTypesNames returns the string representation of each return value type.
+func (it *FuncWrap[T]) GetOutArgsTypesNames() []string {
 	if it.IsInvalid() {
 		return []string{}
 	}
@@ -242,33 +270,40 @@ func (it *FuncWrap) GetOutArgsTypesNames() []string {
 	return slice
 }
 
-func (it *FuncWrap) IsInTypeMatches(args ...any) (isOkay bool) {
+// IsInTypeMatches checks whether the given arguments match the input types
+// of the wrapped function.
+func (it *FuncWrap[T]) IsInTypeMatches(args ...any) (isOkay bool) {
 	toTypes := reflectinternal.Converter.InterfacesToTypes(args)
 	isOkay, _ = it.InArgsVerifyRv(toTypes)
 
 	return isOkay
 }
 
-func (it *FuncWrap) IsOutTypeMatches(outArgs ...any) (isOkay bool) {
+// IsOutTypeMatches checks whether the given arguments match the output types
+// of the wrapped function.
+func (it *FuncWrap[T]) IsOutTypeMatches(outArgs ...any) (isOkay bool) {
 	toTypes := reflectinternal.Converter.InterfacesToTypes(outArgs)
 	isOkay, _ = it.OutArgsVerifyRv(toTypes)
 
 	return isOkay
 }
 
-func (it *FuncWrap) VerifyInArgs(args []any) (isOkay bool, err error) {
+// VerifyInArgs verifies that the given arguments match the input types.
+func (it *FuncWrap[T]) VerifyInArgs(args []any) (isOkay bool, err error) {
 	toTypes := reflectinternal.Converter.InterfacesToTypes(args)
 
 	return it.InArgsVerifyRv(toTypes)
 }
 
-func (it *FuncWrap) VerifyOutArgs(args []any) (isOkay bool, err error) {
+// VerifyOutArgs verifies that the given arguments match the output types.
+func (it *FuncWrap[T]) VerifyOutArgs(args []any) (isOkay bool, err error) {
 	toTypes := reflectinternal.Converter.InterfacesToTypes(args)
 
 	return it.OutArgsVerifyRv(toTypes)
 }
 
-func (it *FuncWrap) InArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
+// InArgsVerifyRv verifies input argument types using reflect.Type slices.
+func (it *FuncWrap[T]) InArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
 	return reflectinternal.Utils.VerifyReflectTypes(
 		it.Name,
 		it.GetInArgsTypes(),
@@ -276,7 +311,8 @@ func (it *FuncWrap) InArgsVerifyRv(args []reflect.Type) (isOkay bool, err error)
 	)
 }
 
-func (it *FuncWrap) OutArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
+// OutArgsVerifyRv verifies output argument types using reflect.Type slices.
+func (it *FuncWrap[T]) OutArgsVerifyRv(args []reflect.Type) (isOkay bool, err error) {
 	return reflectinternal.Utils.VerifyReflectTypes(
 		it.Name,
 		it.GetOutArgsTypes(),

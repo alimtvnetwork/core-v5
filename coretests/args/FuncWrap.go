@@ -6,10 +6,25 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type FuncWrap struct {
+// FuncWrap wraps a Go function value with reflection metadata for
+// dynamic invocation, argument validation, and introspection.
+//
+// Type parameter T represents the type of the wrapped function.
+// Use FuncWrapAny (= FuncWrap[any]) for untyped usage with reflection-based creation.
+//
+// Example (typed):
+//
+//	fw := args.NewTypedFuncWrap(myFunc)
+//	results, err := fw.Invoke("arg1", 42)
+//
+// Example (untyped, via creator):
+//
+//	fw := args.NewFuncWrap.Default(myFunc)
+//	results, err := fw.Invoke("arg1", 42)
+type FuncWrap[T any] struct {
 	Name                 string         `json:",omitempty"`
 	FullName             string         `json:",omitempty"`
-	Func                 any            `json:"-"`
+	Func                 T              `json:"-"`
 	isInvalid            bool           `json:"IsInvalid,omitempty"`
 	rvType               reflect.Type   `json:"-"`
 	rv                   reflect.Value  `json:"-"`
@@ -26,7 +41,49 @@ type FuncWrap struct {
 	outArgsNames         []string
 }
 
-func (it *FuncWrap) GetFuncName() string {
+// NewTypedFuncWrap creates a type-safe FuncWrap[T] from a typed function.
+// This is a package-level function because Go does not support generic methods
+// on non-generic receiver types.
+//
+// Example:
+//
+//	fw := args.NewTypedFuncWrap(func(s string) int { return len(s) })
+//	fmt.Println(fw.ArgsCount()) // 1
+func NewTypedFuncWrap[T any](fn T) *FuncWrap[T] {
+	anyFn := any(fn)
+
+	if reflectinternal.Is.Null(anyFn) {
+		return &FuncWrap[T]{
+			Func:      fn,
+			isInvalid: true,
+		}
+	}
+
+	typeOf := reflect.TypeOf(anyFn)
+	kind := typeOf.Kind()
+
+	if kind != reflect.Func {
+		return &FuncWrap[T]{
+			Func:      fn,
+			isInvalid: true,
+			rvType:    typeOf,
+		}
+	}
+
+	fullName, nameOnly := reflectinternal.GetFunc.FullNameWithName(anyFn)
+
+	return &FuncWrap[T]{
+		Name:      nameOnly,
+		FullName:  fullName,
+		Func:      fn,
+		isInvalid: false,
+		rvType:    typeOf,
+		rv:        reflect.ValueOf(anyFn),
+	}
+}
+
+// GetFuncName returns the short name of the wrapped function.
+func (it *FuncWrap[T]) GetFuncName() string {
 	if it == nil {
 		return ""
 	}
@@ -34,7 +91,8 @@ func (it *FuncWrap) GetFuncName() string {
 	return it.Name
 }
 
-func (it *FuncWrap) GetPascalCaseFuncName() string {
+// GetPascalCaseFuncName returns the function name in PascalCase format.
+func (it *FuncWrap[T]) GetPascalCaseFuncName() string {
 	if it == nil {
 		return ""
 	}
@@ -42,25 +100,30 @@ func (it *FuncWrap) GetPascalCaseFuncName() string {
 	return pascalCaseFunc(it.Name)
 }
 
-func (it *FuncWrap) HasValidFunc() bool {
+// HasValidFunc checks whether the FuncWrap holds a valid, callable function.
+func (it *FuncWrap[T]) HasValidFunc() bool {
 	return it != nil &&
 		!it.isInvalid &&
 		it.rv.IsValid() &&
 		reflectinternal.Is.Func(it.Func)
 }
 
-func (it *FuncWrap) IsInvalid() bool {
+// IsInvalid returns true if the FuncWrap is nil, marked invalid,
+// or does not hold a valid function reference.
+func (it *FuncWrap[T]) IsInvalid() bool {
 	return it == nil ||
 		it.isInvalid ||
 		!it.rv.IsValid() ||
 		!it.HasValidFunc()
 }
 
-func (it *FuncWrap) IsValid() bool {
+// IsValid returns true if the FuncWrap holds a valid, callable function.
+func (it *FuncWrap[T]) IsValid() bool {
 	return !it.IsInvalid()
 }
 
-func (it *FuncWrap) PkgPath() string {
+// PkgPath returns the full package path of the wrapped function.
+func (it *FuncWrap[T]) PkgPath() string {
 	if it.IsInvalid() {
 		return ""
 	}
@@ -74,7 +137,8 @@ func (it *FuncWrap) PkgPath() string {
 	return it.pkgPath
 }
 
-func (it *FuncWrap) PkgNameOnly() string {
+// PkgNameOnly returns only the package name (without path) of the wrapped function.
+func (it *FuncWrap[T]) PkgNameOnly() string {
 	if it.IsInvalid() {
 		return ""
 	}
@@ -88,7 +152,9 @@ func (it *FuncWrap) PkgNameOnly() string {
 	return it.pkgNameOnly
 }
 
-func (it *FuncWrap) FuncDirectInvokeName() string {
+// FuncDirectInvokeName returns the direct invocation name of the function,
+// suitable for code generation.
+func (it *FuncWrap[T]) FuncDirectInvokeName() string {
 	if it.IsInvalid() {
 		return ""
 	}
@@ -102,7 +168,8 @@ func (it *FuncWrap) FuncDirectInvokeName() string {
 	return it.funcDirectInvokeName
 }
 
-func (it *FuncWrap) GetType() reflect.Type {
+// GetType returns the reflect.Type of the wrapped function.
+func (it *FuncWrap[T]) GetType() reflect.Type {
 	if it.IsInvalid() {
 		return nil
 	}
@@ -110,23 +177,29 @@ func (it *FuncWrap) GetType() reflect.Type {
 	return it.rvType
 }
 
-func (it *FuncWrap) IsPublicMethod() bool {
+// IsPublicMethod returns true if the wrapped function is an exported method.
+func (it *FuncWrap[T]) IsPublicMethod() bool {
 	return it != nil && it.rvType.PkgPath() == ""
 }
 
-func (it *FuncWrap) IsPrivateMethod() bool {
+// IsPrivateMethod returns true if the wrapped function is an unexported method.
+func (it *FuncWrap[T]) IsPrivateMethod() bool {
 	return it != nil && it.rvType.PkgPath() != ""
 }
 
-func (it *FuncWrap) IsNotEqual(another *FuncWrap) bool {
+// IsNotEqual returns true if the two FuncWraps are not equal.
+func (it *FuncWrap[T]) IsNotEqual(another *FuncWrap[T]) bool {
 	return !it.IsEqual(another)
 }
 
-func (it *FuncWrap) IsEqualValue(another FuncWrap) bool {
+// IsEqualValue compares equality using a value (non-pointer) FuncWrap.
+func (it *FuncWrap[T]) IsEqualValue(another FuncWrap[T]) bool {
 	return it.IsEqual(&another)
 }
 
-func (it *FuncWrap) IsEqual(another *FuncWrap) bool {
+// IsEqual performs a deep equality check between two FuncWraps,
+// comparing validity, name, visibility, argument counts, and argument types.
+func (it *FuncWrap[T]) IsEqual(another *FuncWrap[T]) bool {
 	if it == nil && another == nil {
 		return true
 	}
@@ -143,19 +216,19 @@ func (it *FuncWrap) IsEqual(another *FuncWrap) bool {
 		return false
 	}
 
-	if it.Name != it.Name {
+	if it.Name != another.Name {
 		return false
 	}
 
-	if it.IsPublicMethod() != it.IsPublicMethod() {
+	if it.IsPublicMethod() != another.IsPublicMethod() {
 		return false
 	}
 
-	if it.ArgsCount() != it.ArgsCount() {
+	if it.ArgsCount() != another.ArgsCount() {
 		return false
 	}
 
-	if it.ReturnLength() != it.ReturnLength() {
+	if it.ReturnLength() != another.ReturnLength() {
 		return false
 	}
 
@@ -172,8 +245,4 @@ func (it *FuncWrap) IsEqual(another *FuncWrap) bool {
 	}
 
 	return true
-}
-
-func (it FuncWrap) AsFuncWrapper() FuncWrapper {
-	return &it
 }
