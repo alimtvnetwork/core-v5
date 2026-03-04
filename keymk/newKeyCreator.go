@@ -101,6 +101,25 @@ func (it *newKeyCreator) AllStrings(
 	return key
 }
 
+func (it *newKeyCreator) StringsWithOptions(
+	option *Option,
+	main string,
+	starterKeyChains ...string,
+) *Key {
+	slice := make([]string, 0, len(starterKeyChains)+DefaultCap)
+
+	key := &Key{
+		option:    option,
+		mainName:  main,
+		keyChains: slice,
+	}
+
+	if len(starterKeyChains) > 0 {
+		key.AppendChainStrings(starterKeyChains...)
+	}
+
+	return key
+}
 
 func (it *newKeyCreator) Parenthesis(
 	main string,
