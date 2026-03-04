@@ -10,15 +10,33 @@ import (
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type Dynamic struct {
+// Dynamic is a generic map-based argument holder with a typed Expect field.
+//
+// Type parameter T represents the type of the Expect field.
+// Use DynamicAny (= Dynamic[any]) for untyped usage.
+//
+// Example (typed):
+//
+//	d := args.Dynamic[string]{
+//	    Params: args.Map{"key": "value"},
+//	    Expect: "expected result",
+//	}
+//
+// Example (untyped):
+//
+//	d := args.DynamicAny{
+//	    Params: args.Map{"key": "value"},
+//	    Expect: 42,
+//	}
+type Dynamic[T any] struct {
 	Params        Map                      `json:",omitempty"`
-	Expect        any                      `json:",omitempty"`
+	Expect        T                        `json:",omitempty"`
 	toSlice       []any
 	isSliceCached bool
 	toString      corestr.SimpleStringOnce
 }
 
-func (it *Dynamic) ArgsCount() int {
+func (it *Dynamic[T]) ArgsCount() int {
 	if it == nil {
 		return 0
 	}
@@ -26,7 +44,7 @@ func (it *Dynamic) ArgsCount() int {
 	return it.Params.ArgsCount()
 }
 
-func (it *Dynamic) GetWorkFunc() any {
+func (it *Dynamic[T]) GetWorkFunc() any {
 	if it == nil {
 		return nil
 	}
@@ -34,78 +52,78 @@ func (it *Dynamic) GetWorkFunc() any {
 	return it.Params.WorkFunc()
 }
 
-func (it *Dynamic) HasFirst() bool {
+func (it *Dynamic[T]) HasFirst() bool {
 	return it.Params.HasFirst()
 }
 
-func (it *Dynamic) GetByIndex(index int) any {
+func (it *Dynamic[T]) GetByIndex(index int) any {
 	return it.Params.GetByIndex(index)
 }
 
-func (it *Dynamic) HasFunc() bool {
+func (it *Dynamic[T]) HasFunc() bool {
 	return it.Params.HasFunc()
 }
 
-func (it *Dynamic) GetFuncName() string {
+func (it *Dynamic[T]) GetFuncName() string {
 	return it.Params.GetFuncName()
 }
 
-func (it *Dynamic) Invoke(
+func (it *Dynamic[T]) Invoke(
 	args ...any,
 ) (results []any, processingErr error) {
 	return it.Params.Invoke(args...)
 }
 
-func (it *Dynamic) InvokeMust(args ...any) []any {
+func (it *Dynamic[T]) InvokeMust(args ...any) []any {
 	return it.Params.InvokeMust(args...)
 }
 
-func (it *Dynamic) InvokeWithValidArgs() (
+func (it *Dynamic[T]) InvokeWithValidArgs() (
 	results []any, processingErr error,
 ) {
 	return it.Params.InvokeWithValidArgs()
 }
 
-func (it *Dynamic) InvokeArgs(
+func (it *Dynamic[T]) InvokeArgs(
 	names ...string,
 ) (results []any, processingErr error) {
 	return it.Params.InvokeArgs(names...)
 }
 
-func (it *Dynamic) FuncWrap() *FuncWrapAny {
+func (it *Dynamic[T]) FuncWrap() *FuncWrapAny {
 	return it.Params.FuncWrap()
 }
 
-func (it *Dynamic) FirstItem() any {
+func (it *Dynamic[T]) FirstItem() any {
 	return it.Params.FirstItem()
 }
 
-func (it *Dynamic) SecondItem() any {
+func (it *Dynamic[T]) SecondItem() any {
 	return it.Params.SecondItem()
 }
 
-func (it *Dynamic) ThirdItem() any {
+func (it *Dynamic[T]) ThirdItem() any {
 	return it.Params.ThirdItem()
 }
 
-func (it *Dynamic) FourthItem() any {
+func (it *Dynamic[T]) FourthItem() any {
 	return it.Params.FourthItem()
 }
 
-func (it *Dynamic) FifthItem() any {
+func (it *Dynamic[T]) FifthItem() any {
 	return it.Params.FifthItem()
 }
 
-func (it *Dynamic) SixthItem() any {
+func (it *Dynamic[T]) SixthItem() any {
 	return it.Params.SixthItem()
 }
 
-func (it *Dynamic) Expected() any {
+func (it *Dynamic[T]) Expected() any {
 	return it.Expect
 }
 
 // HasDefined confirms that key is present and defined.
-func (it *Dynamic) HasDefined(name string) bool {
+func (it *Dynamic[T]) HasDefined(name string) bool {
 	if it == nil {
 		return false
 	}
@@ -117,7 +135,7 @@ func (it *Dynamic) HasDefined(name string) bool {
 }
 
 // Has confirms that key is present only.
-func (it *Dynamic) Has(name string) bool {
+func (it *Dynamic[T]) Has(name string) bool {
 	if it == nil {
 		return false
 	}
@@ -128,7 +146,7 @@ func (it *Dynamic) Has(name string) bool {
 }
 
 // HasDefinedAll confirms that key is present and defined.
-func (it *Dynamic) HasDefinedAll(names ...string) bool {
+func (it *Dynamic[T]) HasDefinedAll(names ...string) bool {
 	if it == nil || len(names) == 0 {
 		return false
 	}
@@ -143,7 +161,7 @@ func (it *Dynamic) HasDefinedAll(names ...string) bool {
 }
 
 // IsKeyInvalid confirms yes if key is missing or null.
-func (it *Dynamic) IsKeyInvalid(name string) bool {
+func (it *Dynamic[T]) IsKeyInvalid(name string) bool {
 	if it == nil {
 		return false
 	}
@@ -155,7 +173,7 @@ func (it *Dynamic) IsKeyInvalid(name string) bool {
 }
 
 // IsKeyMissing confirms yes if key is missing only.
-func (it *Dynamic) IsKeyMissing(name string) bool {
+func (it *Dynamic[T]) IsKeyMissing(name string) bool {
 	if it == nil {
 		return false
 	}
@@ -165,13 +183,13 @@ func (it *Dynamic) IsKeyMissing(name string) bool {
 	return !has
 }
 
-func (it *Dynamic) GetLowerCase(name string) (item any, isValid bool) {
+func (it *Dynamic[T]) GetLowerCase(name string) (item any, isValid bool) {
 	lower := strings.ToLower(name)
 
 	return it.Get(lower)
 }
 
-func (it *Dynamic) GetDirectLower(name string) any {
+func (it *Dynamic[T]) GetDirectLower(name string) any {
 	x, has := it.Params[strings.ToLower(name)]
 
 	if has {
@@ -181,15 +199,15 @@ func (it *Dynamic) GetDirectLower(name string) any {
 	return nil
 }
 
-func (it *Dynamic) Actual() any {
+func (it *Dynamic[T]) Actual() any {
 	return it.GetDirectLower("actual")
 }
 
-func (it *Dynamic) Arrange() any {
+func (it *Dynamic[T]) Arrange() any {
 	return it.GetDirectLower("arrange")
 }
 
-func (it *Dynamic) Get(name string) (item any, isValid bool) {
+func (it *Dynamic[T]) Get(name string) (item any, isValid bool) {
 	if it == nil {
 		return nil, false
 	}
@@ -203,7 +221,7 @@ func (it *Dynamic) Get(name string) (item any, isValid bool) {
 	return nil, false
 }
 
-func (it *Dynamic) GetAsInt(name string) (item int, isValid bool) {
+func (it *Dynamic[T]) GetAsInt(name string) (item int, isValid bool) {
 	i, isValid := it.Get(name)
 	isInvalid := !isValid
 
@@ -216,7 +234,7 @@ func (it *Dynamic) GetAsInt(name string) (item int, isValid bool) {
 	return conv, isValid
 }
 
-func (it *Dynamic) GetAsIntDefault(
+func (it *Dynamic[T]) GetAsIntDefault(
 	name string,
 	defaultVal int,
 ) (item int) {
@@ -229,7 +247,7 @@ func (it *Dynamic) GetAsIntDefault(
 	return defaultVal
 }
 
-func (it *Dynamic) GetAsString(name string) (item string, isValid bool) {
+func (it *Dynamic[T]) GetAsString(name string) (item string, isValid bool) {
 	i, isValid := it.Get(name)
 	isInvalid := !isValid
 
@@ -242,7 +260,7 @@ func (it *Dynamic) GetAsString(name string) (item string, isValid bool) {
 	return conv, isValid
 }
 
-func (it *Dynamic) GetAsStringDefault(name string) (item string) {
+func (it *Dynamic[T]) GetAsStringDefault(name string) (item string) {
 	v, isValid := it.GetAsString(name)
 
 	if isValid {
@@ -252,7 +270,7 @@ func (it *Dynamic) GetAsStringDefault(name string) (item string) {
 	return ""
 }
 
-func (it *Dynamic) GetAsStrings(name string) (items []string, isValid bool) {
+func (it *Dynamic[T]) GetAsStrings(name string) (items []string, isValid bool) {
 	i, isValid := it.Get(name)
 	isInvalid := !isValid
 
@@ -265,7 +283,7 @@ func (it *Dynamic) GetAsStrings(name string) (items []string, isValid bool) {
 	return conv, isValid
 }
 
-func (it *Dynamic) GetAsAnyItems(name string) (items []any, isValid bool) {
+func (it *Dynamic[T]) GetAsAnyItems(name string) (items []any, isValid bool) {
 	i, isValid := it.Get(name)
 	isInvalid := !isValid
 
@@ -278,12 +296,12 @@ func (it *Dynamic) GetAsAnyItems(name string) (items []any, isValid bool) {
 	return conv, isValid
 }
 
-func (it *Dynamic) HasExpect() bool {
+func (it *Dynamic[T]) HasExpect() bool {
 	return it != nil &&
 		reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *Dynamic) ValidArgs() []any {
+func (it *Dynamic[T]) ValidArgs() []any {
 	var args []any
 
 	keys := it.Params.SortedKeysMust()
@@ -301,7 +319,7 @@ func (it *Dynamic) ValidArgs() []any {
 	return args
 }
 
-func (it *Dynamic) Args(names ...string) []any {
+func (it *Dynamic[T]) Args(names ...string) []any {
 	var args []any
 
 	for _, key := range names {
@@ -312,7 +330,7 @@ func (it *Dynamic) Args(names ...string) []any {
 	return args
 }
 
-func (it *Dynamic) Slice() []any {
+func (it *Dynamic[T]) Slice() []any {
 	if it.isSliceCached {
 		return it.toSlice
 	}
@@ -343,7 +361,7 @@ func (it *Dynamic) Slice() []any {
 	return it.toSlice
 }
 
-func (it *Dynamic) String() string {
+func (it *Dynamic[T]) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
@@ -363,14 +381,14 @@ func (it *Dynamic) String() string {
 	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it Dynamic) AsArgsMapper() ArgsMapper {
+func (it Dynamic[T]) AsArgsMapper() ArgsMapper {
 	return &it
 }
 
-func (it Dynamic) AsArgFuncNameContractsBinder() ArgFuncNameContractsBinder {
+func (it Dynamic[T]) AsArgFuncNameContractsBinder() ArgFuncNameContractsBinder {
 	return &it
 }
 
-func (it Dynamic) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+func (it Dynamic[T]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

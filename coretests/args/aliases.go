@@ -53,3 +53,12 @@ type SixFuncAny = SixFunc[any, any, any, any, any, any]
 
 // HolderAny is the untyped version of Holder[T].
 type HolderAny = Holder[any]
+
+// LeftRightAny is the untyped version of LeftRight[TLeft, TRight].
+type LeftRightAny = LeftRight[any, any]
+
+// DynamicAny is the untyped version of Dynamic[T].
+type DynamicAny = Dynamic[any]
+
+// DynamicFuncAny is the untyped version of DynamicFunc[T].
+type DynamicFuncAny = DynamicFunc[any]
