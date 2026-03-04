@@ -1,10 +1,9 @@
 package corevalidator
 
 import (
-	"strings"
-
 	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // SliceValidator
@@ -64,9 +63,8 @@ func (it *SliceValidator) ActualLinesString() string {
 		return constants.EmptyString
 	}
 
-	return strings.Join(
+	return errcore.StringLinesToQuoteLinesToSingle(
 		it.ActualLines,
-		constants.NewLineUnix,
 	)
 }
 
@@ -75,9 +73,8 @@ func (it *SliceValidator) ExpectingLinesString() string {
 		return constants.EmptyString
 	}
 
-	return strings.Join(
+	return errcore.StringLinesToQuoteLinesToSingle(
 		it.ExpectedLines,
-		constants.NewLineUnix,
 	)
 }
 
