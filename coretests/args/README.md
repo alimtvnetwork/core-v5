@@ -34,7 +34,7 @@ tc := args.ThreeAny{
 
 ### Type Aliases (backward compatibility)
 
-Every generic type has a corresponding `*Any` alias:
+Every generic type has a corresponding `*Any` alias defined in `aliases.go`:
 
 | Generic Type | Any Alias |
 |---|---|
@@ -55,7 +55,8 @@ Every generic type has a corresponding `*Any` alias:
 
 ## Positional Types (One–Six)
 
-Hold 1–6 arguments plus an optional `Expect` field:
+Hold 1–6 arguments plus an optional `Expect` field. Each positional field
+is parameterized with its own type parameter:
 
 ```go
 // Three holds 3 typed positional arguments.
@@ -76,30 +77,31 @@ All positional types implement `ArgBaseContractsBinder`:
 - `Expected() any` — returns the expected value
 - `ValidArgs() []any` — collects all defined arguments
 - `Args(upTo int) []any` — collects arguments up to position N
-- `Slice() []any` — all fields as a cached slice
-- `GetByIndex(index int) any` — safe indexed access
-- `String() string` — formatted string representation
+- `Slice() []any` — all fields as a cached slice (no pointer-to-slice)
+- `GetByIndex(index int) any` — safe indexed access via helper
+- `String() string` — formatted string representation via helper
 - `ArgsCount() int` — number of positional slots (not counting Expect)
 
 ### Downcast Methods
 
-Convert to smaller arg types:
+Convert to smaller arg types while preserving type parameters:
 
 ```go
-three := args.ThreeAny{First: "a", Second: 1, Third: true}
-two := three.ArgTwo()   // Two[any, any]{First: "a", Second: 1}
+three := args.Three[string, int, bool]{First: "a", Second: 1, Third: true}
+two := three.ArgTwo()  // Two[string, int]{First: "a", Second: 1}
 ```
 
 ## Func Types (OneFunc–SixFunc)
 
-Same as positional types but include a `WorkFunc any` field for dynamic function invocation:
+Same as positional types but include a `WorkFunc any` field for dynamic function invocation.
+The positional arguments are typed, while WorkFunc remains `any` for reflection compatibility:
 
 ```go
-tc := args.ThreeFuncAny{
+tc := args.ThreeFunc[string, int, bool]{
     First:    "input1",
-    Second:   "input2",
-    Third:    "input3",
-    WorkFunc: myFunction,  // any callable
+    Second:   42,
+    Third:    true,
+    WorkFunc: myFunction,  // always any
     Expect:   "expected",
 }
 
@@ -111,13 +113,13 @@ results, err := tc.InvokeWithValidArgs()
 
 - `FuncWrap() *FuncWrapAny` — wraps WorkFunc for reflection
 - `Invoke(args ...any) ([]any, error)` — invoke with explicit args
-- `InvokeMust(args ...any) []any` — invoke, panic on error
+- `InvokeMust(args ...any) []any` — invoke, panic on error (via `invokeMustHelper`)
 - `InvokeWithValidArgs() ([]any, error)` — invoke with all defined positional args
 - `InvokeArgs(upTo int) ([]any, error)` — invoke with args up to position N
 
 ## FuncWrap[T]
 
-A generic reflection-based function wrapper:
+A generic reflection-based function wrapper where T is the function type:
 
 ```go
 // Typed construction
@@ -138,7 +140,9 @@ results, err := fw.Invoke("hello")
 
 ## Holder[T]
 
-A flexible 6-slot holder where `T` types the `WorkFunc` field:
+A flexible 6-slot holder where `T` types the `WorkFunc` field.
+Positional fields (First through Sixth) remain `any` for maximum flexibility.
+Includes a `Hashmap` for overflow parameters:
 
 ```go
 // Typed WorkFunc
@@ -151,6 +155,7 @@ h := args.Holder[func(string) error]{
 h := args.HolderAny{
     First:    "input",
     WorkFunc: myProcessor,
+    Hashmap:  args.Map{"extra": "value"},
 }
 ```
 
@@ -173,20 +178,38 @@ results, err := tc.InvokeWithValidArgs()
 
 ## Shared Helpers
 
-The package uses internal helper functions to reduce code duplication:
+The package uses internal helper functions (in `argsHelper.go`) to reduce code duplication:
 
 - `getByIndex(slice, index)` — safe indexed access
 - `buildToString(typeName, slice, cache)` — cached string formatting
 - `appendIfDefined(args, value)` — conditional append for defined values
 - `invokeMustHelper(fw, args...)` — invoke with panic on error
 
+## Design Decisions
+
+### Pointer-to-Slice Removal
+
+All types use `[]any` + `bool` flag for slice caching instead of `*[]any`.
+This follows the project's pointer optimization standards for simpler API
+and better Go memory efficiency.
+
+### WorkFunc Typing
+
+In Func variants (OneFunc–SixFunc), the `WorkFunc` field remains `any`
+because it requires reflection-based invocation via `FuncWrapAny`.
+Only `Holder[T]` parameterizes WorkFunc with type `T` since it's the
+primary typed-function-holder pattern.
+
+In `FuncWrap[T]`, the `Func` field is typed as `T`, enabling both
+typed (`NewTypedFuncWrap`) and untyped (`NewFuncWrap.Default`) construction.
+
 ## File Organization
 
 | File | Purpose |
 |---|---|
-| `One.go`–`Six.go` | Positional arg holders (generic) |
-| `OneFunc.go`–`SixFunc.go` | Func arg holders (generic) |
-| `Holder.go` | Flexible 6-slot + WorkFunc holder |
+| `One.go`–`Six.go` | Generic positional arg holders |
+| `OneFunc.go`–`SixFunc.go` | Generic func arg holders |
+| `Holder.go` | Generic flexible 6-slot + typed WorkFunc holder |
 | `FuncWrap.go` | Core generic function wrapper struct |
 | `FuncWrapArgs.go` | Argument introspection methods |
 | `FuncWrapInvoke.go` | Dynamic invocation methods |
@@ -195,7 +218,7 @@ The package uses internal helper functions to reduce code duplication:
 | `Map.go` | Key-value argument map |
 | `Dynamic.go` / `DynamicFunc.go` | Map-based dynamic holders |
 | `LeftRight.go` | Two-item holder with Left/Right semantics |
-| `aliases.go` | All `*Any` type aliases |
+| `aliases.go` | All `*Any` type aliases for backward compatibility |
 | `argsHelper.go` | Shared unexported utility functions |
 | `all-interfaces.go` | Interface definitions |
 | `consts.go` / `vars.go` | Package constants and variables |

@@ -14,8 +14,9 @@ type DynamicFunc struct {
 	Params   Map `json:",omitempty"`
 	WorkFunc any `json:",omitempty"`
 	Expect   any `json:",omitempty"`
-	toSlice  *[]any
-	toString corestr.SimpleStringOnce
+	toSlice       []any
+	isSliceCached bool
+	toString      corestr.SimpleStringOnce
 }
 
 func (it *DynamicFunc) ArgsCount() int {
@@ -264,7 +265,7 @@ func (it *DynamicFunc) GetFuncName() string {
 	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
-func (it *DynamicFunc) FuncWrap() *FuncWrap {
+func (it *DynamicFunc) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
@@ -311,8 +312,8 @@ func (it *DynamicFunc) Args(names ...string) []any {
 }
 
 func (it DynamicFunc) Slice() []any {
-	if it.toSlice != nil {
-		return *it.toSlice
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
 	var args []any
@@ -343,9 +344,10 @@ func (it DynamicFunc) Slice() []any {
 		args = append(args, it.Expect)
 	}
 
-	it.toSlice = &args
+	it.toSlice = args
+	it.isSliceCached = true
 
-	return *it.toSlice
+	return it.toSlice
 }
 
 func (it DynamicFunc) String() string {

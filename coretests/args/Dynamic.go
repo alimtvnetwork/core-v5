@@ -13,8 +13,9 @@ import (
 type Dynamic struct {
 	Params   Map  `json:",omitempty"`
 	Expect   any  `json:",omitempty"`
-	toSlice  *[]any
-	toString corestr.SimpleStringOnce
+	toSlice       []any
+	isSliceCached bool
+	toString      corestr.SimpleStringOnce
 }
 
 func (it *Dynamic) ArgsCount() int {
@@ -49,7 +50,7 @@ func (it *Dynamic) InvokeArgs(names ...string) (results []any, processingErr err
 	return it.Params.InvokeArgs(names...)
 }
 
-func (it *Dynamic) FuncWrap() *FuncWrap { return it.Params.FuncWrap() }
+func (it *Dynamic) FuncWrap() *FuncWrapAny { return it.Params.FuncWrap() }
 
 func (it *Dynamic) FirstItem() any  { return it.Params.FirstItem() }
 func (it *Dynamic) SecondItem() any { return it.Params.SecondItem() }
@@ -203,17 +204,31 @@ func (it *Dynamic) Args(names ...string) []any {
 }
 
 func (it *Dynamic) Slice() []any {
-	if it.toSlice != nil { return *it.toSlice }
+	if it.isSliceCached {
+		return it.toSlice
+	}
+
 	var args []any
+
 	keys, err := converters.Map.SortedKeys(it.Params)
-	if err != nil { panic(err) }
+
+	if err != nil {
+		panic(err)
+	}
+
 	for i, key := range keys {
 		value := it.Params[key]
 		args = append(args, fmt.Sprintf("%d. %s : %s", i, key, value))
 	}
-	if it.HasExpect() { args = append(args, it.Expect) }
-	it.toSlice = &args
-	return *it.toSlice
+
+	if it.HasExpect() {
+		args = append(args, it.Expect)
+	}
+
+	it.toSlice = args
+	it.isSliceCached = true
+
+	return it.toSlice
 }
 
 func (it *Dynamic) String() string {

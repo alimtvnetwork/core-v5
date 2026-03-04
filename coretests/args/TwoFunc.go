@@ -1,123 +1,135 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type TwoFunc struct {
-	First    any                      `json:",omitempty"`
-	Second   any                      `json:",omitempty"`
-	WorkFunc any                      `json:"-"`
-	Expect   any                      `json:",omitempty"`
-	toSlice  *[]any                   `json:"-"`
-	toString corestr.SimpleStringOnce `json:"-"`
+// TwoFunc holds two typed positional arguments plus a WorkFunc for
+// dynamic function invocation and an optional Expect field.
+//
+// Type parameters T1 and T2 represent the types of First and Second.
+// Use TwoFuncAny (= TwoFunc[any, any]) for untyped usage.
+//
+// Example (typed):
+//
+//	tc := args.TwoFunc[string, int]{
+//	    First:    "hello",
+//	    Second:   42,
+//	    WorkFunc: myFunc,
+//	    Expect:   "expected",
+//	}
+type TwoFunc[T1, T2 any] struct {
+	First         T1                       `json:",omitempty"`
+	Second        T2                       `json:",omitempty"`
+	WorkFunc      any                      `json:"-"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *TwoFunc) GetWorkFunc() any {
+// GetWorkFunc returns the wrapped function value.
+func (it *TwoFunc[T1, T2]) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
-func (it *TwoFunc) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 2).
+func (it *TwoFunc[T1, T2]) ArgsCount() int {
 	return 2
 }
 
-func (it *TwoFunc) FirstItem() any {
+// FirstItem returns the First argument as any.
+func (it *TwoFunc[T1, T2]) FirstItem() any {
 	return it.First
 }
 
-func (it *TwoFunc) SecondItem() any {
+// SecondItem returns the Second argument as any.
+func (it *TwoFunc[T1, T2]) SecondItem() any {
 	return it.Second
 }
 
-func (it *TwoFunc) Expected() any {
+// Expected returns the expected value.
+func (it *TwoFunc[T1, T2]) Expected() any {
 	return it.Expect
 }
 
-func (it *TwoFunc) ArgTwo() TwoFunc {
-	return TwoFunc{
+// ArgTwo returns a copy with First and Second only.
+func (it *TwoFunc[T1, T2]) ArgTwo() TwoFunc[T1, T2] {
+	return TwoFunc[T1, T2]{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it *TwoFunc) HasFirst() bool {
+// HasFirst checks whether the First argument is defined.
+func (it *TwoFunc[T1, T2]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *TwoFunc) HasSecond() bool {
+// HasSecond checks whether the Second argument is defined.
+func (it *TwoFunc[T1, T2]) HasSecond() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
-func (it *TwoFunc) HasFunc() bool {
+// HasFunc checks whether the WorkFunc is defined.
+func (it *TwoFunc[T1, T2]) HasFunc() bool {
 	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
-func (it *TwoFunc) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *TwoFunc[T1, T2]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *TwoFunc) GetFuncName() string {
+// GetFuncName returns the short name of the wrapped function.
+func (it *TwoFunc[T1, T2]) GetFuncName() string {
 	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
-func (it *TwoFunc) FuncWrap() *FuncWrap {
+// FuncWrap wraps the WorkFunc in a FuncWrapAny for reflection-based invocation.
+func (it *TwoFunc[T1, T2]) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *TwoFunc) Invoke(args ...any) (
+// Invoke dynamically calls the WorkFunc with the given arguments.
+func (it *TwoFunc[T1, T2]) Invoke(args ...any) (
 	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *TwoFunc) InvokeMust(args ...any) (results []any) {
-	results, err := it.FuncWrap().Invoke(args...)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return results
+// InvokeMust invokes the WorkFunc, panicking on error.
+func (it *TwoFunc[T1, T2]) InvokeMust(args ...any) []any {
+	return invokeMustHelper(it.FuncWrap(), args...)
 }
 
-func (it *TwoFunc) InvokeWithValidArgs() (
+// InvokeWithValidArgs invokes the WorkFunc with all defined positional arguments.
+func (it *TwoFunc[T1, T2]) InvokeWithValidArgs() (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.ValidArgs()
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.ValidArgs()...)
 }
 
-func (it *TwoFunc) InvokeArgs(upTo int) (
+// InvokeArgs invokes the WorkFunc with positional arguments up to the given count.
+func (it *TwoFunc[T1, T2]) InvokeArgs(upTo int) (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.Args(upTo)
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.Args(upTo)...)
 }
 
-func (it *TwoFunc) ValidArgs() []any {
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *TwoFunc[T1, T2]) ValidArgs() []any {
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
 
 	return args
 }
 
-func (it *TwoFunc) Args(upTo int) []any {
+// Args returns positional arguments up to the given count.
+func (it *TwoFunc[T1, T2]) Args(upTo int) []any {
 	var args []any
 
 	if upTo >= 1 {
@@ -131,65 +143,45 @@ func (it *TwoFunc) Args(upTo int) []any {
 	return args
 }
 
-func (it *TwoFunc) Slice() []any {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields as a cached slice.
+func (it *TwoFunc[T1, T2]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
 
 	if it.HasFunc() {
 		args = append(args, it.GetFuncName())
 	}
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
+	args = appendIfDefined(args, it.Expect)
 
-	it.toSlice = &args
+	it.toSlice = args
+	it.isSliceCached = true
 
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *TwoFunc) GetByIndex(index int) any {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *TwoFunc[T1, T2]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it TwoFunc) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
+// String returns a formatted string representation.
+func (it TwoFunc[T1, T2]) String() string {
+	return buildToString(
 		"TwoFunc",
-		strings.Join(args, constants.CommaSpace),
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it *TwoFunc) LeftRight() LeftRight {
+// LeftRight converts to a LeftRight.
+func (it *TwoFunc[T1, T2]) LeftRight() LeftRight {
 	return LeftRight{
 		Left:   it.First,
 		Right:  it.Second,
@@ -197,14 +189,17 @@ func (it *TwoFunc) LeftRight() LeftRight {
 	}
 }
 
-func (it TwoFunc) AsTwoFuncParameter() TwoFuncParameter {
+// AsTwoFuncParameter returns the TwoFunc as a TwoFuncParameter interface.
+func (it TwoFunc[T1, T2]) AsTwoFuncParameter() TwoFuncParameter {
 	return &it
 }
 
-func (it TwoFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+// AsArgFuncContractsBinder returns the TwoFunc as an ArgFuncContractsBinder interface.
+func (it TwoFunc[T1, T2]) AsArgFuncContractsBinder() ArgFuncContractsBinder {
 	return &it
 }
 
-func (it TwoFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the TwoFunc as an ArgBaseContractsBinder interface.
+func (it TwoFunc[T1, T2]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }

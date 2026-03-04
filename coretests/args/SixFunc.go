@@ -1,89 +1,94 @@
 package args
 
 import (
-	"fmt"
-	"strings"
-
-	"gitlab.com/auk-go/core/constants"
 	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
-type SixFunc struct {
-	First    any                      `json:",omitempty"`
-	Second   any                      `json:",omitempty"`
-	Third    any                      `json:",omitempty"`
-	Fourth   any                      `json:",omitempty"`
-	Fifth    any                      `json:",omitempty"`
-	Sixth    any                      `json:",omitempty"`
-	WorkFunc any                      `json:"-"`
-	Expect   any                      `json:",omitempty"`
-	toSlice  *[]any                   `json:"-"`
-	toString corestr.SimpleStringOnce `json:"-"`
+// SixFunc holds six typed positional arguments plus a WorkFunc for
+// dynamic function invocation and an optional Expect field.
+//
+// Type parameters T1–T6 represent the types of First through Sixth.
+// Use SixFuncAny (= SixFunc[any, any, any, any, any, any]) for untyped usage.
+type SixFunc[T1, T2, T3, T4, T5, T6 any] struct {
+	First         T1                       `json:",omitempty"`
+	Second        T2                       `json:",omitempty"`
+	Third         T3                       `json:",omitempty"`
+	Fourth        T4                       `json:",omitempty"`
+	Fifth         T5                       `json:",omitempty"`
+	Sixth         T6                       `json:",omitempty"`
+	WorkFunc      any                      `json:"-"`
+	Expect        any                      `json:",omitempty"`
+	toSlice       []any                    `json:"-"`
+	isSliceCached bool                     `json:"-"`
+	toString      corestr.SimpleStringOnce `json:"-"`
 }
 
-func (it *SixFunc) GetWorkFunc() any {
+// GetWorkFunc returns the wrapped function value.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) GetWorkFunc() any {
 	return it.WorkFunc
 }
 
-func (it *SixFunc) ArgsCount() int {
+// ArgsCount returns the number of positional argument slots (always 6).
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) ArgsCount() int {
 	return 6
 }
 
-func (it *SixFunc) FirstItem() any {
+// FirstItem returns the First argument as any.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) FirstItem() any {
 	return it.First
 }
 
-func (it *SixFunc) SecondItem() any {
+// SecondItem returns the Second argument as any.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) SecondItem() any {
 	return it.Second
 }
 
-func (it *SixFunc) ThirdItem() any {
+// ThirdItem returns the Third argument as any.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) ThirdItem() any {
 	return it.Third
 }
 
-func (it *SixFunc) FourthItem() any {
+// FourthItem returns the Fourth argument as any.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) FourthItem() any {
 	return it.Fourth
 }
 
-func (it *SixFunc) FifthItem() any {
+// FifthItem returns the Fifth argument as any.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) FifthItem() any {
 	return it.Fifth
 }
 
-func (it *SixFunc) SixthItem() any {
+// SixthItem returns the Sixth argument as any.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) SixthItem() any {
 	return it.Sixth
 }
 
-func (it *SixFunc) Expected() any {
+// Expected returns the expected value.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) Expected() any {
 	return it.Expect
 }
 
-func (it *SixFunc) ArgTwo() TwoFunc {
-	return TwoFunc{
+// ArgTwo returns a TwoFunc with the first two arguments.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) ArgTwo() TwoFunc[T1, T2] {
+	return TwoFunc[T1, T2]{
 		First:  it.First,
 		Second: it.Second,
 	}
 }
 
-func (it *SixFunc) ArgThree() ThreeFunc {
-	return ThreeFunc{
-		First:  it.First,
-		Second: it.Second,
-		Third:  it.Third,
-	}
-}
-
-func (it *SixFunc) ArgFour() FourFunc {
-	return FourFunc{
+// ArgThree returns a ThreeFunc with the first three arguments.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) ArgThree() ThreeFunc[T1, T2, T3] {
+	return ThreeFunc[T1, T2, T3]{
 		First:  it.First,
 		Second: it.Second,
 		Third:  it.Third,
-		Fourth: it.Fourth,
 	}
 }
 
-func (it *SixFunc) ArgFive() FiveFunc {
-	return FiveFunc{
+// ArgFour returns a FourFunc with the first four arguments.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) ArgFour() FourFunc[T1, T2, T3, T4] {
+	return FourFunc[T1, T2, T3, T4]{
 		First:  it.First,
 		Second: it.Second,
 		Third:  it.Third,
@@ -91,111 +96,109 @@ func (it *SixFunc) ArgFive() FiveFunc {
 	}
 }
 
-func (it *SixFunc) HasFirst() bool {
+// ArgFive returns a FiveFunc with the first five arguments.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) ArgFive() FiveFunc[T1, T2, T3, T4, T5] {
+	return FiveFunc[T1, T2, T3, T4, T5]{
+		First:  it.First,
+		Second: it.Second,
+		Third:  it.Third,
+		Fourth: it.Fourth,
+		Fifth:  it.Fifth,
+	}
+}
+
+// HasFirst checks whether the First argument is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasFirst() bool {
 	return it != nil && reflectinternal.Is.Defined(it.First)
 }
 
-func (it *SixFunc) HasSecond() bool {
+// HasSecond checks whether the Second argument is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasSecond() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Second)
 }
 
-func (it *SixFunc) HasThird() bool {
+// HasThird checks whether the Third argument is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasThird() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Third)
 }
 
-func (it *SixFunc) HasFourth() bool {
+// HasFourth checks whether the Fourth argument is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasFourth() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Fourth)
 }
 
-func (it *SixFunc) HasFifth() bool {
+// HasFifth checks whether the Fifth argument is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasFifth() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Fifth)
 }
 
-func (it *SixFunc) HasSixth() bool {
+// HasSixth checks whether the Sixth argument is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasSixth() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Sixth)
 }
 
-func (it *SixFunc) HasFunc() bool {
+// HasFunc checks whether the WorkFunc is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasFunc() bool {
 	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
 }
 
-func (it *SixFunc) HasExpect() bool {
+// HasExpect checks whether the Expect field is defined.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) HasExpect() bool {
 	return it != nil && reflectinternal.Is.Defined(it.Expect)
 }
 
-func (it *SixFunc) GetFuncName() string {
+// GetFuncName returns the short name of the wrapped function.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) GetFuncName() string {
 	return reflectinternal.GetFunc.NameOnly(it.WorkFunc)
 }
 
-func (it *SixFunc) FuncWrap() *FuncWrap {
+// FuncWrap wraps the WorkFunc in a FuncWrapAny for reflection-based invocation.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *SixFunc) Invoke(args ...any) (
+// Invoke dynamically calls the WorkFunc with the given arguments.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) Invoke(args ...any) (
 	results []any, processingErr error,
 ) {
 	return it.FuncWrap().Invoke(args...)
 }
 
-func (it *SixFunc) InvokeMust(args ...any) (results []any) {
-	results, err := it.FuncWrap().Invoke(args...)
-
-	if err != nil {
-		panic(err)
-	}
-
-	return results
+// InvokeMust invokes the WorkFunc, panicking on error.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) InvokeMust(args ...any) []any {
+	return invokeMustHelper(it.FuncWrap(), args...)
 }
 
-func (it *SixFunc) InvokeWithValidArgs() (
+// InvokeWithValidArgs invokes the WorkFunc with all defined positional arguments.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) InvokeWithValidArgs() (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.ValidArgs()
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.ValidArgs()...)
 }
 
-func (it *SixFunc) InvokeArgs(upTo int) (
+// InvokeArgs invokes the WorkFunc with positional arguments up to the given count.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) InvokeArgs(upTo int) (
 	results []any, processingErr error,
 ) {
-	funcWrap := it.FuncWrap()
-	validArgs := it.Args(upTo)
-
-	return funcWrap.Invoke(validArgs...)
+	return it.FuncWrap().Invoke(it.Args(upTo)...)
 }
 
-func (it *SixFunc) ValidArgs() []any {
+// ValidArgs returns all defined positional arguments as a slice.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) ValidArgs() []any {
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
-
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
-
-	if it.HasFourth() {
-		args = append(args, it.Fourth)
-	}
-
-	if it.HasFifth() {
-		args = append(args, it.Fifth)
-	}
-
-	if it.HasSixth() {
-		args = append(args, it.Sixth)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+	args = appendIfDefined(args, it.Fourth)
+	args = appendIfDefined(args, it.Fifth)
+	args = appendIfDefined(args, it.Sixth)
 
 	return args
 }
 
-func (it *SixFunc) Args(upTo int) []any {
+// Args returns positional arguments up to the given count.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) Args(upTo int) []any {
 	var args []any
 
 	if upTo >= 1 {
@@ -225,88 +228,58 @@ func (it *SixFunc) Args(upTo int) []any {
 	return args
 }
 
-func (it *SixFunc) Slice() []any {
-	if it.toSlice != nil {
-		return *it.toSlice
+// Slice returns all fields as a cached slice.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) Slice() []any {
+	if it.isSliceCached {
+		return it.toSlice
 	}
 
 	var args []any
 
-	if it.HasFirst() {
-		args = append(args, it.First)
-	}
-
-	if it.HasSecond() {
-		args = append(args, it.Second)
-	}
-
-	if it.HasThird() {
-		args = append(args, it.Third)
-	}
-
-	if it.HasFourth() {
-		args = append(args, it.Fourth)
-	}
-
-	if it.HasFifth() {
-		args = append(args, it.Fifth)
-	}
-
-	if it.HasSixth() {
-		args = append(args, it.Sixth)
-	}
+	args = appendIfDefined(args, it.First)
+	args = appendIfDefined(args, it.Second)
+	args = appendIfDefined(args, it.Third)
+	args = appendIfDefined(args, it.Fourth)
+	args = appendIfDefined(args, it.Fifth)
+	args = appendIfDefined(args, it.Sixth)
 
 	if it.HasFunc() {
 		args = append(args, it.GetFuncName())
 	}
 
-	if it.HasExpect() {
-		args = append(args, it.Expect)
-	}
+	args = appendIfDefined(args, it.Expect)
 
-	it.toSlice = &args
+	it.toSlice = args
+	it.isSliceCached = true
 
-	return *it.toSlice
+	return it.toSlice
 }
 
-func (it *SixFunc) GetByIndex(index int) any {
-	slice := it.Slice()
-
-	if len(slice)-1 < index {
-		return nil
-	}
-
-	return slice[index]
+// GetByIndex safely retrieves an item from the cached slice by index.
+func (it *SixFunc[T1, T2, T3, T4, T5, T6]) GetByIndex(index int) any {
+	return getByIndex(it.Slice(), index)
 }
 
-func (it SixFunc) String() string {
-	if it.toString.IsInitialized() {
-		return it.toString.String()
-	}
-
-	var args []string
-
-	for _, item := range it.Slice() {
-		args = append(args, toString(item))
-	}
-
-	toFinalString := fmt.Sprintf(
-		selfToStringFmt,
+// String returns a formatted string representation.
+func (it SixFunc[T1, T2, T3, T4, T5, T6]) String() string {
+	return buildToString(
 		"SixFunc",
-		strings.Join(args, constants.CommaSpace),
+		it.Slice(),
+		&it.toString,
 	)
-
-	return it.toString.GetSetOnce(toFinalString)
 }
 
-func (it SixFunc) AsSixthFuncParameter() SixthFuncParameter {
+// AsSixthFuncParameter returns the SixFunc as a SixthFuncParameter interface.
+func (it SixFunc[T1, T2, T3, T4, T5, T6]) AsSixthFuncParameter() SixthFuncParameter {
 	return &it
 }
 
-func (it SixFunc) AsArgFuncContractsBinder() ArgFuncContractsBinder {
+// AsArgFuncContractsBinder returns the SixFunc as an ArgFuncContractsBinder interface.
+func (it SixFunc[T1, T2, T3, T4, T5, T6]) AsArgFuncContractsBinder() ArgFuncContractsBinder {
 	return &it
 }
 
-func (it SixFunc) AsArgBaseContractsBinder() ArgBaseContractsBinder {
+// AsArgBaseContractsBinder returns the SixFunc as an ArgBaseContractsBinder interface.
+func (it SixFunc[T1, T2, T3, T4, T5, T6]) AsArgBaseContractsBinder() ArgBaseContractsBinder {
 	return &it
 }
