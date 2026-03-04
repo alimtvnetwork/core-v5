@@ -47,27 +47,32 @@ func (it *LeftRight) ArgTwo() TwoFuncAny {
 
 // HasFirst checks whether the Left field is defined.
 func (it *LeftRight) HasFirst() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Left)
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Left)
 }
 
 // HasSecond checks whether the Right field is defined.
 func (it *LeftRight) HasSecond() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Right)
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Right)
 }
 
 // HasLeft checks whether the Left field is defined (alias for HasFirst).
 func (it *LeftRight) HasLeft() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Left)
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Left)
 }
 
 // HasRight checks whether the Right field is defined (alias for HasSecond).
 func (it *LeftRight) HasRight() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Right)
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Right)
 }
 
 // HasExpect checks whether the Expect field is defined.
 func (it *LeftRight) HasExpect() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Expect)
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Expect)
 }
 
 // ValidArgs returns all defined positional arguments as a slice.

@@ -11,9 +11,9 @@ import (
 )
 
 type DynamicFunc struct {
-	Params   Map `json:",omitempty"`
-	WorkFunc any `json:",omitempty"`
-	Expect   any `json:",omitempty"`
+	Params        Map                      `json:",omitempty"`
+	WorkFunc      any                      `json:",omitempty"`
+	Expect        any                      `json:",omitempty"`
 	toSlice       []any
 	isSliceCached bool
 	toString      corestr.SimpleStringOnce
@@ -81,9 +81,7 @@ func (it *DynamicFunc) Expected() any {
 	return it.Expect
 }
 
-// HasDefined
-//
-// Confirms that key is present and defined.
+// HasDefined confirms that key is present and defined.
 func (it *DynamicFunc) HasDefined(name string) bool {
 	if it == nil {
 		return false
@@ -95,11 +93,9 @@ func (it *DynamicFunc) HasDefined(name string) bool {
 		reflectinternal.Is.Defined(item)
 }
 
-// Has
+// Has confirms that key is present only.
 //
-//	Confirms that key is present only.
-//
-//	Don't confirm not null.
+// Don't confirm not null.
 //
 // Use HasDefined to check not null.
 func (it *DynamicFunc) Has(name string) bool {
@@ -112,9 +108,7 @@ func (it *DynamicFunc) Has(name string) bool {
 	return has
 }
 
-// HasDefinedAll
-//
-// Confirms that key is present and defined.
+// HasDefinedAll confirms that key is present and defined.
 func (it *DynamicFunc) HasDefinedAll(names ...string) bool {
 	if it == nil || len(names) == 0 {
 		return false
@@ -126,14 +120,10 @@ func (it *DynamicFunc) HasDefinedAll(names ...string) bool {
 		}
 	}
 
-	// all defined
-
 	return true
 }
 
-// IsKeyInvalid
-//
-// confirms yes if key is missing or null
+// IsKeyInvalid confirms yes if key is missing or null.
 func (it *DynamicFunc) IsKeyInvalid(name string) bool {
 	if it == nil {
 		return false
@@ -145,9 +135,7 @@ func (it *DynamicFunc) IsKeyInvalid(name string) bool {
 		reflectinternal.Is.Null(item)
 }
 
-// IsKeyMissing
-//
-// confirms yes if key is missing  only.
+// IsKeyMissing confirms yes if key is missing only.
 // To check either missing or null use IsKeyInvalid.
 func (it *DynamicFunc) IsKeyMissing(name string) bool {
 	if it == nil {
@@ -207,8 +195,9 @@ func (it *DynamicFunc) Get(name string) (item any, isValid bool) {
 
 func (it *DynamicFunc) GetAsInt(name string) (item int, isValid bool) {
 	i, isValid := it.Get(name)
+	isInvalid := !isValid
 
-	if !isValid {
+	if isInvalid {
 		return 0, false
 	}
 
@@ -219,8 +208,9 @@ func (it *DynamicFunc) GetAsInt(name string) (item int, isValid bool) {
 
 func (it *DynamicFunc) GetAsString(name string) (item string, isValid bool) {
 	i, isValid := it.Get(name)
+	isInvalid := !isValid
 
-	if !isValid {
+	if isInvalid {
 		return "", false
 	}
 
@@ -231,8 +221,9 @@ func (it *DynamicFunc) GetAsString(name string) (item string, isValid bool) {
 
 func (it *DynamicFunc) GetAsStrings(name string) (items []string, isValid bool) {
 	i, isValid := it.Get(name)
+	isInvalid := !isValid
 
-	if !isValid {
+	if isInvalid {
 		return []string{}, false
 	}
 
@@ -243,8 +234,9 @@ func (it *DynamicFunc) GetAsStrings(name string) (items []string, isValid bool) 
 
 func (it *DynamicFunc) GetAsAnyItems(name string) (items []any, isValid bool) {
 	i, isValid := it.Get(name)
+	isInvalid := !isValid
 
-	if !isValid {
+	if isInvalid {
 		return []any{}, false
 	}
 
@@ -254,11 +246,13 @@ func (it *DynamicFunc) GetAsAnyItems(name string) (items []any, isValid bool) {
 }
 
 func (it *DynamicFunc) HasFunc() bool {
-	return it != nil && reflectinternal.Is.Defined(it.WorkFunc)
+	return it != nil &&
+		reflectinternal.Is.Defined(it.WorkFunc)
 }
 
 func (it *DynamicFunc) HasExpect() bool {
-	return it != nil && reflectinternal.Is.Defined(it.Expect)
+	return it != nil &&
+		reflectinternal.Is.Defined(it.Expect)
 }
 
 func (it *DynamicFunc) GetFuncName() string {
@@ -269,9 +263,9 @@ func (it *DynamicFunc) FuncWrap() *FuncWrapAny {
 	return NewFuncWrap.Default(it.WorkFunc)
 }
 
-func (it *DynamicFunc) Invoke(args ...any) (
-	results []any, processingErr error,
-) {
+func (it *DynamicFunc) Invoke(
+	args ...any,
+) (results []any, processingErr error) {
 	return it.FuncWrap().Invoke(args...)
 }
 
@@ -294,9 +288,9 @@ func (it *DynamicFunc) InvokeWithValidArgs() (
 	return funcWrap.Invoke(validArgs...)
 }
 
-func (it *DynamicFunc) InvokeArgs(names ...string) (
-	results []any, processingErr error,
-) {
+func (it *DynamicFunc) InvokeArgs(
+	names ...string,
+) (results []any, processingErr error) {
 	funcWrap := it.FuncWrap()
 	validArgs := it.Args(names...)
 
@@ -311,7 +305,7 @@ func (it *DynamicFunc) Args(names ...string) []any {
 	return it.Params.Args(names...)
 }
 
-func (it DynamicFunc) Slice() []any {
+func (it *DynamicFunc) Slice() []any {
 	if it.isSliceCached {
 		return it.toSlice
 	}
@@ -327,7 +321,8 @@ func (it DynamicFunc) Slice() []any {
 	for i, key := range keys {
 		value := it.Params[key]
 		args = append(
-			args, fmt.Sprintf(
+			args,
+			fmt.Sprintf(
 				"%d. %s : %s",
 				i,
 				key,
@@ -350,7 +345,7 @@ func (it DynamicFunc) Slice() []any {
 	return it.toSlice
 }
 
-func (it DynamicFunc) String() string {
+func (it *DynamicFunc) String() string {
 	if it.toString.IsInitialized() {
 		return it.toString.String()
 	}
