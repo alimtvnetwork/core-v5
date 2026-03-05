@@ -7,7 +7,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/stringslice"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // =============================================================================
@@ -18,11 +17,9 @@ func Test_StringSlice_CloneIf(t *testing.T) {
 	for caseIndex, testCase := range cloneIfTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isCloneRaw, cloneErr := input.Get("isClone")
-		errcore.HandleErrMessage("isClone", cloneErr)
+		isCloneRaw, _ := input.Get("isClone")
 		isClone := isCloneRaw.(bool)
-		additionalCapRaw, capErr := input.Get("additionalCap")
-		errcore.HandleErrMessage("additionalCap", capErr)
+		additionalCapRaw, _ := input.Get("additionalCap")
 		additionalCap := additionalCapRaw.(int)
 		isNilRaw, _ := input.Get("isNil")
 		isNil, _ := isNilRaw.(bool)
@@ -63,14 +60,11 @@ func Test_StringSlice_AnyItemsCloneIf(t *testing.T) {
 	for caseIndex, testCase := range anyItemsCloneIfTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isCloneRaw, cloneErr := input.Get("isClone")
-		errcore.HandleErrMessage("isClone", cloneErr)
+		isCloneRaw, _ := input.Get("isClone")
 		isClone := isCloneRaw.(bool)
-		additionalCapRaw, capErr := input.Get("additionalCap")
-		errcore.HandleErrMessage("additionalCap", capErr)
+		additionalCapRaw, _ := input.Get("additionalCap")
 		additionalCap := additionalCapRaw.(int)
-		inputRaw, inputErr := input.Get("input")
-		errcore.HandleErrMessage("input", inputErr)
+		inputRaw, _ := input.Get("input")
 		inputSlice := inputRaw.([]any)
 
 		// Act
