@@ -121,18 +121,27 @@ var stringIntTestCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var stringMapAnyPopulatedTestCase = coretestcases.CaseV1{
-	Title:         "Positive: StringMapAny with populated map",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Positive: StringMapAny with populated map",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // hasName
+		Second: "true", // hasMapValue
+	},
 }
 
 var stringMapAnyEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Negative: StringMapAny with empty map",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Negative: StringMapAny with empty map",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // hasName
+		Second: "true", // hasMapValue
+	},
 }
 
 var stringMapAnyNilTestCase = coretestcases.CaseV1{
-	Title:         "Negative: StringMapAny with nil map",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Negative: StringMapAny with nil map",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // hasName
+		Second: "true", // isNilValue
+	},
 }
 
 // ==========================================================================
@@ -140,13 +149,19 @@ var stringMapAnyNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var stringMapStringPopulatedTestCase = coretestcases.CaseV1{
-	Title:         "Positive: StringMapString with populated map",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Positive: StringMapString with populated map",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // hasName
+		Second: "true", // hasMapValue
+	},
 }
 
 var stringMapStringNilTestCase = coretestcases.CaseV1{
-	Title:         "Negative: StringMapString with nil map",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Negative: StringMapString with nil map",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // hasName
+		Second: "true", // isNilValue
+	},
 }
 
 // ==========================================================================
@@ -154,18 +169,27 @@ var stringMapStringNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var disposeStringAnyTestCase = coretestcases.CaseV1{
-	Title:         "Positive: Dispose clears StringAny fields",
-	ExpectedInput: []string{"", "true"},
+	Title: "Positive: Dispose clears StringAny fields",
+	ExpectedInput: args.Two[string, string]{
+		First:  "",     // disposedName
+		Second: "true", // isNilValue
+	},
 }
 
 var disposeStringStringTestCase = coretestcases.CaseV1{
-	Title:         "Positive: Dispose clears StringString fields",
-	ExpectedInput: []string{"", ""},
+	Title: "Positive: Dispose clears StringString fields",
+	ExpectedInput: args.Two[string, string]{
+		First:  "", // disposedName
+		Second: "", // disposedValue
+	},
 }
 
 var disposeStringIntTestCase = coretestcases.CaseV1{
-	Title:         "Positive: Dispose clears StringInt to zero",
-	ExpectedInput: []string{"", "0"},
+	Title: "Positive: Dispose clears StringInt to zero",
+	ExpectedInput: args.Two[string, string]{
+		First:  "", // disposedName
+		Second: "0", // disposedValue
+	},
 }
 
 // ==========================================================================
@@ -173,13 +197,19 @@ var disposeStringIntTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var jsonStringStringAnyTestCase = coretestcases.CaseV1{
-	Title:         "Positive: StringAny JsonString contains key",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Positive: StringAny JsonString contains key",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // isValidJson
+		Second: "true", // containsKey
+	},
 }
 
 var jsonStringStringIntTestCase = coretestcases.CaseV1{
-	Title:         "Positive: StringInt JsonString contains number",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Positive: StringInt JsonString contains number",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // isValidJson
+		Second: "true", // containsNumber
+	},
 }
 
 // ==========================================================================
@@ -193,7 +223,10 @@ var collectionTestCases = []coretestcases.CaseV1{
 			"when":  "given multiple StringAny items",
 			"count": 3,
 		},
-		ExpectedInput: []string{"3", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "3",     // length
+			Second: "false", // isEmpty
+		},
 	},
 	{
 		Title: "Negative: Empty collection returns length 0",
@@ -201,7 +234,10 @@ var collectionTestCases = []coretestcases.CaseV1{
 			"when":  "given no items",
 			"count": 0,
 		},
-		ExpectedInput: []string{"0", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "0",    // length
+			Second: "true", // isEmpty
+		},
 	},
 }
 
@@ -210,13 +246,19 @@ var collectionTestCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var chmodVarNameValuesSingleTestCase = coretestcases.CaseV1{
-	Title:         "Positive: StringAny works in errcore.VarNameValues",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Positive: StringAny works in errcore.VarNameValues",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // containsName
+		Second: "true", // containsValue
+	},
 }
 
 var chmodMessageNameValuesTestCase = coretestcases.CaseV1{
-	Title:         "Positive: StringAny works in errcore.MessageNameValues",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Positive: StringAny works in errcore.MessageNameValues",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // containsMessage
+		Second: "true", // containsNameValue
+	},
 }
 
 var chmodVarNameValuesEmptyTestCase = coretestcases.CaseV1{

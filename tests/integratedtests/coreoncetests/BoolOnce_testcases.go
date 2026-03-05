@@ -1,6 +1,7 @@
 package coreoncetests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -17,9 +18,9 @@ var boolOnceCoreTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BoolOnce true — Value returns true, String returns 'true'",
-			ExpectedInput: []string{
-				"true",
-				"true",
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // value
+				Second: "true", // stringRepresentation
 			},
 		},
 		InitValue: true,
@@ -27,9 +28,9 @@ var boolOnceCoreTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BoolOnce false — Value returns false, String returns 'false'",
-			ExpectedInput: []string{
-				"false",
-				"false",
+			ExpectedInput: args.Two[string, string]{
+				First:  "false", // value
+				Second: "false", // stringRepresentation
 			},
 		},
 		InitValue: false,
@@ -44,11 +45,11 @@ var boolOnceCachingTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BoolOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: []string{
-				"true",  // r1
-				"true",  // r2
-				"true",  // r3
-				"1",     // callCount
+			ExpectedInput: args.Four[string, string, string, string]{
+				First:  "true", // result1
+				Second: "true", // result2
+				Third:  "true", // result3
+				Fourth: "1",    // callCount
 			},
 		},
 		InitValue: true,
@@ -56,11 +57,11 @@ var boolOnceCachingTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BoolOnce.Value false — caches false, initializer runs once",
-			ExpectedInput: []string{
-				"false",
-				"false",
-				"false",
-				"1",
+			ExpectedInput: args.Four[string, string, string, string]{
+				First:  "false", // result1
+				Second: "false", // result2
+				Third:  "false", // result3
+				Fourth: "1",     // callCount
 			},
 		},
 		InitValue: false,
@@ -75,9 +76,9 @@ var boolOnceJsonTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BoolOnce true — MarshalJSON returns 'true'",
-			ExpectedInput: []string{
-				"true", // no error
-				"true", // marshaled value
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // noError
+				Second: "true", // marshaledValue
 			},
 		},
 		InitValue: true,
@@ -85,9 +86,9 @@ var boolOnceJsonTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BoolOnce false — MarshalJSON returns 'false'",
-			ExpectedInput: []string{
-				"true",  // no error
-				"false", // marshaled value
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // noError
+				Second: "false", // marshaledValue
 			},
 		},
 		InitValue: false,

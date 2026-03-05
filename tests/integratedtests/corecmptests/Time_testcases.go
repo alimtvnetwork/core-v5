@@ -18,9 +18,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 			"left":  baseTime,
 			"right": baseTime,
 		},
-		ExpectedInput: []string{
-			"Equal",
-		},
+		ExpectedInput: "Equal", // compareResult
 	},
 	{
 		Title: "Time returns LeftLess when left is before right",
@@ -29,9 +27,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 			"left":  baseTime,
 			"right": laterTime,
 		},
-		ExpectedInput: []string{
-			"LeftLess",
-		},
+		ExpectedInput: "LeftLess", // compareResult
 	},
 	{
 		Title: "Time returns LeftGreater when left is after right",
@@ -40,9 +36,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 			"left":  laterTime,
 			"right": baseTime,
 		},
-		ExpectedInput: []string{
-			"LeftGreater",
-		},
+		ExpectedInput: "LeftGreater", // compareResult
 	},
 	{
 		Title: "Time returns LeftGreater for small duration difference",
@@ -51,9 +45,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 			"left":  baseTime.Add(time.Duration(600000)),
 			"right": baseTime,
 		},
-		ExpectedInput: []string{
-			"LeftGreater",
-		},
+		ExpectedInput: "LeftGreater", // compareResult
 	},
 	{
 		Title: "Time returns LeftLess for small duration difference reverse",
@@ -62,8 +54,6 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 			"left":  baseTime,
 			"right": baseTime.Add(time.Duration(600000)),
 		},
-		ExpectedInput: []string{
-			"LeftLess",
-		},
+		ExpectedInput: "LeftLess", // compareResult
 	},
 }

@@ -15,7 +15,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.go",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 	{
 		Title: "Glob - star matches path segment",
@@ -25,7 +28,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "build-20260303/result.json",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 	{
 		Title: "Glob - question mark matches single char",
@@ -35,7 +41,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "fileA.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 	{
 		Title: "Glob - character class matches range",
@@ -45,7 +54,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "log5.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 	{
 		Title: "Glob - exact match without wildcards",
@@ -55,7 +67,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "exact.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 
 	// === Case insensitive ===
@@ -67,7 +82,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.go",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 	{
 		Title: "Glob - case sensitive rejects different casing",
@@ -77,7 +95,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.go",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isInverse
+		},
 	},
 
 	// === Negative: no match ===
@@ -89,7 +110,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.rs",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isInverse
+		},
 	},
 	{
 		Title: "Glob - question mark rejects multi-char",
@@ -99,7 +123,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "fileAB.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isInverse
+		},
 	},
 
 	// === Edge: invalid pattern ===
@@ -111,7 +138,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "anything",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isInverse
+		},
 	},
 
 	// === Edge: empty ===
@@ -123,7 +153,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 	{
 		Title: "Glob - star matches empty content",
@@ -133,7 +166,10 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 	{
 		Title: "Glob - star matches any content",
@@ -143,6 +179,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "anything-at-all",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isInverse
+		},
 	},
 }

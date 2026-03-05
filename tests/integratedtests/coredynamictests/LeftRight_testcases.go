@@ -2,6 +2,7 @@ package coredynamictests
 
 import (
 	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -149,8 +150,11 @@ var leftRightDeserializeLeftTestCases = []leftRightTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "DeserializeLeft valid data returns non-nil no error",
-			ExpectedInput: []string{"false", "false"},
+			Title: "DeserializeLeft valid data returns non-nil no error",
+			ExpectedInput: args.Two[string, string]{
+				First:  "false", // isNil
+				Second: "false", // hasError
+			},
 		},
 		LR: &coredynamic.LeftRight{Left: map[string]string{"key": "val"}},
 	},
