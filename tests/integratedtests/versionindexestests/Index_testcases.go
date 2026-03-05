@@ -12,9 +12,9 @@ var jsonRoundtripTestCases = []coretestcases.CaseV1{
 			"when":  "given Patch index",
 			"index": "Patch",
 		},
-		ExpectedInput: []string{
-			"Patch",
-			"2",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Patch", // indexName
+			Second: "2",     // indexValue
 		},
 	},
 	{
@@ -23,9 +23,9 @@ var jsonRoundtripTestCases = []coretestcases.CaseV1{
 			"when":  "given Major index",
 			"index": "Major",
 		},
-		ExpectedInput: []string{
-			"Major",
-			"0",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Major", // indexName
+			Second: "0",     // indexValue
 		},
 	},
 	{
@@ -34,9 +34,9 @@ var jsonRoundtripTestCases = []coretestcases.CaseV1{
 			"when":  "given Build index",
 			"index": "Build",
 		},
-		ExpectedInput: []string{
-			"Build",
-			"3",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Build", // indexName
+			Second: "3",     // indexValue
 		},
 	},
 }
@@ -48,9 +48,9 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 			"when":  "given Minor index",
 			"index": "Minor",
 		},
-		ExpectedInput: []string{
-			"Minor",
-			"Minor[1]",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Minor",    // name
+			Second: "Minor[1]", // nameValue
 		},
 	},
 	{
@@ -59,9 +59,9 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 			"when":  "given Patch index",
 			"index": "Patch",
 		},
-		ExpectedInput: []string{
-			"Patch",
-			"Patch[2]",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Patch",    // name
+			Second: "Patch[2]", // nameValue
 		},
 	},
 }
@@ -70,25 +70,25 @@ var jsonParseSelfInjectTestCases = []coretestcases.CaseV1{
 	{
 		Title: "JsonParseSelfInject overwrites Minor with Patch JSON",
 		ArrangeInput: args.Map{
-			"when":       "given Patch JSON injected into Minor",
-			"source":     "Patch",
-			"target":     "Minor",
+			"when":   "given Patch JSON injected into Minor",
+			"source": "Patch",
+			"target": "Minor",
 		},
-		ExpectedInput: []string{
-			"Patch",
-			"Patch[2]",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Patch",    // resultName
+			Second: "Patch[2]", // resultNameValue
 		},
 	},
 	{
 		Title: "JsonParseSelfInject overwrites Build with Major JSON",
 		ArrangeInput: args.Map{
-			"when":       "given Major JSON injected into Build",
-			"source":     "Major",
-			"target":     "Build",
+			"when":   "given Major JSON injected into Build",
+			"source": "Major",
+			"target": "Build",
 		},
-		ExpectedInput: []string{
-			"Major",
-			"Major[0]",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Major",    // resultName
+			Second: "Major[0]", // resultNameValue
 		},
 	},
 }

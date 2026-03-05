@@ -12,9 +12,7 @@ var getAndDeleteTestCases = []coretestcases.CaseV1{
 			"when": "given a new key",
 			"key":  "test-key-1",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Get returns same mutex for same key",
@@ -22,9 +20,7 @@ var getAndDeleteTestCases = []coretestcases.CaseV1{
 			"when": "given same key twice",
 			"key":  "test-key-same",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -35,9 +31,7 @@ var deleteTestCases = []coretestcases.CaseV1{
 			"when": "given existing key to delete",
 			"key":  "test-key-del",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Delete returns false for non-existing key",
@@ -45,8 +39,6 @@ var deleteTestCases = []coretestcases.CaseV1{
 			"when": "given non-existing key to delete",
 			"key":  "test-key-nonexistent",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 }
