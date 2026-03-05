@@ -1,6 +1,9 @@
 package coreoncetests
 
-import "gitlab.com/auk-go/core/coretests/coretestcases"
+import (
+	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+)
 
 // =============================================================================
 // BytesOnce — Wrapper
@@ -20,12 +23,12 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce 'hello' — Value, String, IsEmpty false, Length 5",
-			ExpectedInput: []string{
-				"hello", // string(Value)
-				"hello", // String
-				"false", // IsEmpty
-				"5",     // Length
-				"false", // Value == nil
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "hello", // stringOfValue
+				Second: "hello", // stringMethod
+				Third:  "false", // isEmpty
+				Fourth: "5",     // length
+				Fifth:  "false", // isNil
 			},
 		},
 		InitBytes: []byte("hello"),
@@ -33,12 +36,12 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce nil — IsEmpty true, Length 0, isNil true",
-			ExpectedInput: []string{
-				"",     // string(Value)
-				"",     // String
-				"true", // IsEmpty
-				"0",    // Length
-				"true", // Value == nil
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "",     // stringOfValue
+				Second: "",     // stringMethod
+				Third:  "true", // isEmpty
+				Fourth: "0",    // length
+				Fifth:  "true", // isNil
 			},
 		},
 		InitBytes: nil,
@@ -46,12 +49,12 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce empty — IsEmpty true, Length 0, not nil",
-			ExpectedInput: []string{
-				"",      // string(Value)
-				"",      // String
-				"true",  // IsEmpty
-				"0",     // Length
-				"false", // Value == nil (empty slice is not nil)
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "",      // stringOfValue
+				Second: "",      // stringMethod
+				Third:  "true",  // isEmpty
+				Fourth: "0",     // length
+				Fifth:  "false", // isNil (empty slice is not nil)
 			},
 		},
 		InitBytes: []byte{},
@@ -59,12 +62,12 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce nil initializer — Length 0, IsEmpty true",
-			ExpectedInput: []string{
-				"",     // string(Value)
-				"",     // String
-				"true", // IsEmpty
-				"0",    // Length
-				"true", // Value == nil
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "",     // stringOfValue
+				Second: "",     // stringMethod
+				Third:  "true", // isEmpty
+				Fourth: "0",    // length
+				Fifth:  "true", // isNil
 			},
 		},
 		UseNilInit: true,
@@ -72,12 +75,12 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce 'test-string' — String returns correct conversion",
-			ExpectedInput: []string{
-				"test-string",
-				"test-string",
-				"false",
-				"11",
-				"false",
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "test-string", // stringOfValue
+				Second: "test-string", // stringMethod
+				Third:  "false",       // isEmpty
+				Fourth: "11",          // length
+				Fifth:  "false",       // isNil
 			},
 		},
 		InitBytes: []byte("test-string"),
@@ -85,12 +88,12 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce 'x' — IsEmpty false",
-			ExpectedInput: []string{
-				"x",
-				"x",
-				"false",
-				"1",
-				"false",
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "x",     // stringOfValue
+				Second: "x",     // stringMethod
+				Third:  "false", // isEmpty
+				Fourth: "1",     // length
+				Fifth:  "false", // isNil
 			},
 		},
 		InitBytes: []byte("x"),
@@ -105,12 +108,12 @@ var bytesOnceCachingTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: []string{
-				"hello", // r1
-				"hello", // r2
-				"hello", // r3
-				"1",     // callCount
-				"true",  // Execute == Value
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "hello", // r1
+				Second: "hello", // r2
+				Third:  "hello", // r3
+				Fourth: "1",     // callCount
+				Fifth:  "true",  // executeEqValue
 			},
 		},
 		InitBytes: []byte("hello"),
@@ -118,12 +121,12 @@ var bytesOnceCachingTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce.Execute returns same result as Value for 'data'",
-			ExpectedInput: []string{
-				"data", // r1
-				"data", // r2
-				"data", // r3
-				"1",    // callCount
-				"true", // Execute == Value
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "data", // r1
+				Second: "data", // r2
+				Third:  "data", // r3
+				Fourth: "1",    // callCount
+				Fifth:  "true", // executeEqValue
 			},
 		},
 		InitBytes: []byte("data"),
@@ -144,9 +147,9 @@ var bytesOnceJsonTestCases = []bytesOnceJsonTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce 'hello' — MarshalJSON succeeds with data",
-			ExpectedInput: []string{
-				"true", // no error
-				"true", // data length > 0
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // noError
+				Second: "true", // dataLengthAboveZero
 			},
 		},
 		InitBytes: []byte("hello"),
@@ -154,9 +157,9 @@ var bytesOnceJsonTestCases = []bytesOnceJsonTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce.UnmarshalJSON overrides value to 'replaced'",
-			ExpectedInput: []string{
-				"true",     // no error
-				"replaced", // new value
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",     // noError
+				Second: "replaced", // newValue
 			},
 		},
 		InitBytes:    []byte("original"),
@@ -165,9 +168,9 @@ var bytesOnceJsonTestCases = []bytesOnceJsonTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce 'serialize-me' — Serialize returns JSON bytes",
-			ExpectedInput: []string{
-				"true", // no error
-				"true", // data length > 0
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // noError
+				Second: "true", // dataLengthAboveZero
 			},
 		},
 		InitBytes: []byte("serialize-me"),
@@ -181,10 +184,8 @@ var bytesOnceJsonTestCases = []bytesOnceJsonTestCase{
 var bytesOnceConstructorTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewBytesOnce (value) works correctly",
-			ExpectedInput: []string{
-				"val",
-			},
+			Title:         "NewBytesOnce (value) works correctly",
+			ExpectedInput: "val", // constructedValue
 		},
 		InitBytes: []byte("val"),
 	},

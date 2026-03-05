@@ -1,6 +1,7 @@
 package coreoncetests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -9,10 +10,11 @@ import (
 // =============================================================================
 
 type errorOnceTestCase struct {
-	Case       coretestcases.CaseV1
-	InitError  string // empty means nil error
+	Case      coretestcases.CaseV1
+	InitError string // empty means nil error
 }
 
+// Note: 9 fields — exceeds args.Six, kept as []string for accuracy.
 var errorOnceCoreTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
@@ -58,11 +60,11 @@ var errorOnceCachingTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "ErrorOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: []string{
-				"fail", // r1
-				"fail", // r2
-				"fail", // r3
-				"1",    // callCount
+			ExpectedInput: args.Four[string, string, string, string]{
+				First:  "fail", // r1
+				Second: "fail", // r2
+				Third:  "fail", // r3
+				Fourth: "1",    // callCount
 			},
 		},
 		InitError: "fail",
@@ -76,28 +78,22 @@ var errorOnceCachingTestCases = []errorOnceTestCase{
 var errorOnceNullOrEmptyTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil — IsNullOrEmpty true",
-			ExpectedInput: []string{
-				"true",
-			},
+			Title:         "ErrorOnce nil — IsNullOrEmpty true",
+			ExpectedInput: "true", // isNullOrEmpty
 		},
 		InitError: "",
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce empty string — IsNullOrEmpty true",
-			ExpectedInput: []string{
-				"true",
-			},
+			Title:         "ErrorOnce empty string — IsNullOrEmpty true",
+			ExpectedInput: "true", // isNullOrEmpty
 		},
 		InitError: "empty-marker", // special: will create errors.New("")
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce with message — IsNullOrEmpty false",
-			ExpectedInput: []string{
-				"false",
-			},
+			Title:         "ErrorOnce with message — IsNullOrEmpty false",
+			ExpectedInput: "false", // isNullOrEmpty
 		},
 		InitError: "msg",
 	},
@@ -108,18 +104,18 @@ var errorOnceNullOrEmptyTestCases = []errorOnceTestCase{
 // =============================================================================
 
 type errorOnceMessageEqualTestCase struct {
-	Case       coretestcases.CaseV1
-	InitError  string
-	MatchMsg   string
+	Case      coretestcases.CaseV1
+	InitError string
+	MatchMsg  string
 }
 
 var errorOnceMessageEqualTestCases = []errorOnceMessageEqualTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "ErrorOnce 'match' — IsMessageEqual 'match' true, 'other' false",
-			ExpectedInput: []string{
-				"true",  // IsMessageEqual(matchMsg)
-				"false", // IsMessageEqual("other")
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // isMessageEqualMatch
+				Second: "false", // isMessageEqualOther
 			},
 		},
 		InitError: "match",
@@ -128,9 +124,9 @@ var errorOnceMessageEqualTestCases = []errorOnceMessageEqualTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "ErrorOnce nil — IsMessageEqual always false",
-			ExpectedInput: []string{
-				"false",
-				"false",
+			ExpectedInput: args.Two[string, string]{
+				First:  "false", // isMessageEqualMatch
+				Second: "false", // isMessageEqualOther
 			},
 		},
 		InitError: "",
@@ -152,9 +148,9 @@ var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "ErrorOnce 'base' — ConcatNewString contains both 'base' and 'extra'",
-			ExpectedInput: []string{
-				"true", // contains base
-				"true", // contains extra
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // containsBase
+				Second: "true", // containsExtra
 			},
 		},
 		InitError: "base",
@@ -162,10 +158,8 @@ var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil — ConcatNewString returns only additional message",
-			ExpectedInput: []string{
-				"only", // result equals extra message
-			},
+			Title:         "ErrorOnce nil — ConcatNewString returns only additional message",
+			ExpectedInput: "only", // resultEqualsExtraMessage
 		},
 		InitError: "",
 		ExtraMsg:  "only",
@@ -180,9 +174,9 @@ var errorOnceJsonTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "ErrorOnce 'marshal' — MarshalJSON returns '\"marshal\"'",
-			ExpectedInput: []string{
-				"true",       // no error
-				"\"marshal\"", // marshaled value
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",       // noError
+				Second: "\"marshal\"", // marshaledValue
 			},
 		},
 		InitError: "marshal",
@@ -190,9 +184,9 @@ var errorOnceJsonTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "ErrorOnce nil — MarshalJSON returns '\"\"'",
-			ExpectedInput: []string{
-				"true", // no error
-				"\"\"", // marshaled empty
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // noError
+				Second: "\"\"", // marshaledEmpty
 			},
 		},
 		InitError: "",

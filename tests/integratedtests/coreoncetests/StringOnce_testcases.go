@@ -1,6 +1,7 @@
 package coreoncetests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -17,11 +18,11 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'hello' — Value, String, IsEmpty false",
-			ExpectedInput: []string{
-				"hello", // Value
-				"hello", // String
-				"false", // IsEmpty
-				"false", // IsEmptyOrWhitespace
+			ExpectedInput: args.Four[string, string, string, string]{
+				First:  "hello", // value
+				Second: "hello", // stringMethod
+				Third:  "false", // isEmpty
+				Fourth: "false", // isEmptyOrWhitespace
 			},
 		},
 		InitValue: "hello",
@@ -29,11 +30,11 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce empty — IsEmpty true, IsEmptyOrWhitespace true",
-			ExpectedInput: []string{
-				"",     // Value
-				"",     // String
-				"true", // IsEmpty
-				"true", // IsEmptyOrWhitespace
+			ExpectedInput: args.Four[string, string, string, string]{
+				First:  "",     // value
+				Second: "",     // stringMethod
+				Third:  "true", // isEmpty
+				Fourth: "true", // isEmptyOrWhitespace
 			},
 		},
 		InitValue: "",
@@ -41,11 +42,11 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce whitespace — IsEmpty false, IsEmptyOrWhitespace true",
-			ExpectedInput: []string{
-				"   ",   // Value
-				"   ",   // String
-				"false", // IsEmpty
-				"true",  // IsEmptyOrWhitespace
+			ExpectedInput: args.Four[string, string, string, string]{
+				First:  "   ",   // value
+				Second: "   ",   // stringMethod
+				Third:  "false", // isEmpty
+				Fourth: "true",  // isEmptyOrWhitespace
 			},
 		},
 		InitValue: "   ",
@@ -60,11 +61,11 @@ var stringOnceCachingTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: []string{
-				"hello", // r1
-				"hello", // r2
-				"hello", // r3
-				"1",     // callCount
+			ExpectedInput: args.Four[string, string, string, string]{
+				First:  "hello", // r1
+				Second: "hello", // r2
+				Third:  "hello", // r3
+				Fourth: "1",     // callCount
 			},
 		},
 		InitValue: "hello",
@@ -85,9 +86,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'abc' — IsEqual 'abc' true, 'xyz' false",
-			ExpectedInput: []string{
-				"true",  // IsEqual(matchArg)
-				"false", // IsEqual("xyz")
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // isEqualMatch
+				Second: "false", // isEqualOther
 			},
 		},
 		InitValue: "abc",
@@ -96,9 +97,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'hello world' — IsContains 'world' true, 'xyz' false",
-			ExpectedInput: []string{
-				"true",  // IsContains(matchArg)
-				"false", // IsContains("xyz")
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // isContainsMatch
+				Second: "false", // isContainsOther
 			},
 		},
 		InitValue: "hello world",
@@ -107,9 +108,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'prefix-data' — HasPrefix 'prefix' true, 'data' false",
-			ExpectedInput: []string{
-				"true",  // HasPrefix(matchArg)
-				"false", // HasPrefix("data")
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // hasPrefixMatch
+				Second: "false", // hasPrefixOther
 			},
 		},
 		InitValue: "prefix-data",
@@ -118,9 +119,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'data-suffix' — HasSuffix 'suffix' true, 'data' false",
-			ExpectedInput: []string{
-				"true",  // HasSuffix(matchArg)
-				"false", // HasSuffix("data")
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // hasSuffixMatch
+				Second: "false", // hasSuffixOther
 			},
 		},
 		InitValue: "data-suffix",
@@ -142,10 +143,10 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'a,b,c' — SplitBy ','",
-			ExpectedInput: []string{
-				"3", // parts length
-				"a", // parts[0]
-				"c", // parts[2]
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "3", // partsLength
+				Second: "a", // firstPart
+				Third:  "c", // lastPart
 			},
 		},
 		InitValue: "a,b,c",
@@ -154,9 +155,9 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'key=value' — SplitLeftRight '='",
-			ExpectedInput: []string{
-				"key",   // left
-				"value", // right
+			ExpectedInput: args.Two[string, string]{
+				First:  "key",   // left
+				Second: "value", // right
 			},
 		},
 		InitValue: "key=value",
@@ -165,9 +166,9 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'nosplit' — SplitLeftRight '=' returns full left, empty right",
-			ExpectedInput: []string{
-				"nosplit", // left
-				"",        // right
+			ExpectedInput: args.Two[string, string]{
+				First:  "nosplit", // left
+				Second: "",        // right
 			},
 		},
 		InitValue: "nosplit",
@@ -176,9 +177,9 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce ' key = value ' — SplitLeftRightTrim '='",
-			ExpectedInput: []string{
-				"key",   // left trimmed
-				"value", // right trimmed
+			ExpectedInput: args.Two[string, string]{
+				First:  "key",   // leftTrimmed
+				Second: "value", // rightTrimmed
 			},
 		},
 		InitValue: " key = value ",
@@ -194,9 +195,9 @@ var stringOnceJsonTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'json' — MarshalJSON returns '\"json\"'",
-			ExpectedInput: []string{
-				"true",     // no error
-				"\"json\"", // marshaled value
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",     // noError
+				Second: "\"json\"", // marshaledValue
 			},
 		},
 		InitValue: "json",
