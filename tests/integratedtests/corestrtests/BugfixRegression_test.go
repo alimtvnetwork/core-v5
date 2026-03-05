@@ -55,10 +55,10 @@ func Test_SimpleSlice_InsertAt_Regression(t *testing.T) {
 		tc := simpleSliceInsertAtMiddleTestCase
 		ss := corestr.New.SimpleSlice.Strings([]string{"a", "b", "c"})
 		ss.InsertAt(1, "X")
-		items := ss.ListCopyPtrLock()
+		items := ss.List()
 		tc.ShouldBeEqual(t, 0,
 			fmt.Sprintf("%d", ss.Length()),
-			(*items)[0], (*items)[1], (*items)[2], (*items)[3],
+			items[0], items[1], items[2], items[3],
 		)
 	}
 
@@ -67,10 +67,10 @@ func Test_SimpleSlice_InsertAt_Regression(t *testing.T) {
 		tc := simpleSliceInsertAtPrependTestCase
 		ss := corestr.New.SimpleSlice.Strings([]string{"a", "b", "c"})
 		ss.InsertAt(0, "X")
-		items := ss.ListCopyPtrLock()
+		items := ss.List()
 		tc.ShouldBeEqual(t, 1,
 			fmt.Sprintf("%d", ss.Length()),
-			(*items)[0], (*items)[1], (*items)[2], (*items)[3],
+			items[0], items[1], items[2], items[3],
 		)
 	}
 
@@ -79,10 +79,10 @@ func Test_SimpleSlice_InsertAt_Regression(t *testing.T) {
 		tc := simpleSliceInsertAtAppendTestCase
 		ss := corestr.New.SimpleSlice.Strings([]string{"a", "b", "c"})
 		ss.InsertAt(3, "X")
-		items := ss.ListCopyPtrLock()
+		items := ss.List()
 		tc.ShouldBeEqual(t, 2,
 			fmt.Sprintf("%d", ss.Length()),
-			(*items)[0], (*items)[1], (*items)[2], (*items)[3],
+			items[0], items[1], items[2], items[3],
 		)
 	}
 
@@ -91,10 +91,10 @@ func Test_SimpleSlice_InsertAt_Regression(t *testing.T) {
 		tc := simpleSliceInsertAtNegativeTestCase
 		ss := corestr.New.SimpleSlice.Strings([]string{"a", "b", "c"})
 		ss.InsertAt(-1, "X")
-		items := ss.ListCopyPtrLock()
+		items := ss.List()
 		tc.ShouldBeEqual(t, 3,
 			fmt.Sprintf("%d", ss.Length()),
-			(*items)[0], (*items)[1], (*items)[2],
+			items[0], items[1], items[2],
 		)
 	}
 
@@ -103,10 +103,10 @@ func Test_SimpleSlice_InsertAt_Regression(t *testing.T) {
 		tc := simpleSliceInsertAtOutOfBoundsTestCase
 		ss := corestr.New.SimpleSlice.Strings([]string{"a", "b", "c"})
 		ss.InsertAt(100, "X")
-		items := ss.ListCopyPtrLock()
+		items := ss.List()
 		tc.ShouldBeEqual(t, 4,
 			fmt.Sprintf("%d", ss.Length()),
-			(*items)[0], (*items)[1], (*items)[2],
+			items[0], items[1], items[2],
 		)
 	}
 }
