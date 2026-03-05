@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -17,10 +16,8 @@ func Test_TripleFromSplit(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		inputStr, inputErr := input.GetAsString("input")
-		errcore.HandleErrMessage("input", inputErr)
-		sep, sepErr := input.GetAsString("sep")
-		errcore.HandleErrMessage("sep", sepErr)
+		inputStr, _ := input.GetAsString("input")
+		sep, _ := input.GetAsString("sep")
 
 		// Act
 		triple := coregeneric.TripleFromSplit(inputStr, sep)
@@ -45,10 +42,8 @@ func Test_TripleFromSplitTrimmed(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitTrimmedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		inputStr, inputErr := input.GetAsString("input")
-		errcore.HandleErrMessage("input", inputErr)
-		sep, sepErr := input.GetAsString("sep")
-		errcore.HandleErrMessage("sep", sepErr)
+		inputStr, _ := input.GetAsString("input")
+		sep, _ := input.GetAsString("sep")
 
 		// Act
 		triple := coregeneric.TripleFromSplitTrimmed(inputStr, sep)
@@ -73,10 +68,8 @@ func Test_TripleFromSplitN(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitNTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		inputStr, inputErr := input.GetAsString("input")
-		errcore.HandleErrMessage("input", inputErr)
-		sep, sepErr := input.GetAsString("sep")
-		errcore.HandleErrMessage("sep", sepErr)
+		inputStr, _ := input.GetAsString("input")
+		sep, _ := input.GetAsString("sep")
 
 		// Act
 		triple := coregeneric.TripleFromSplitN(inputStr, sep)
@@ -101,10 +94,8 @@ func Test_TripleFromSplitNTrimmed(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitNTrimmedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		inputStr, inputErr := input.GetAsString("input")
-		errcore.HandleErrMessage("input", inputErr)
-		sep, sepErr := input.GetAsString("sep")
-		errcore.HandleErrMessage("sep", sepErr)
+		inputStr, _ := input.GetAsString("input")
+		sep, _ := input.GetAsString("sep")
 
 		// Act
 		triple := coregeneric.TripleFromSplitNTrimmed(inputStr, sep)
@@ -129,8 +120,7 @@ func Test_TripleFromSlice(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSliceTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		parts, partsErr := input.GetAsStringSlice("parts")
-		errcore.HandleErrMessage("parts", partsErr)
+		parts, _ := input.GetAsStringSlice("parts")
 
 		// Act
 		triple := coregeneric.TripleFromSlice(parts)
