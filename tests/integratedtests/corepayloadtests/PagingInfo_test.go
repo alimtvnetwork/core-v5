@@ -85,7 +85,8 @@ func Test_PagingInfo_State_Verification(t *testing.T) {
 	for caseIndex, testCase := range pagingInfoStateTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNil, _ := input.GetAsBool("isNil")
+		isNilVal, _ := input.Get("isNil")
+		isNil, _ := isNilVal.(bool)
 
 		var info *corepayload.PagingInfo
 		if !isNil {
@@ -133,7 +134,8 @@ func Test_PagingInfo_ClonePtr_Verification(t *testing.T) {
 	for caseIndex, testCase := range pagingInfoClonePtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNil, _ := input.GetAsBool("isNil")
+		isNilVal, _ := input.Get("isNil")
+		isNil, _ := isNilVal.(bool)
 
 		var info *corepayload.PagingInfo
 		if !isNil {

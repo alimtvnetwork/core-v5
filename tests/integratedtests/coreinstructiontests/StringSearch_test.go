@@ -84,7 +84,8 @@ func Test_StringSearch_State_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringSearchStateTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNil, _ := input.GetAsBool("isNil")
+		isNilVal, _ := input.Get("isNil")
+		isNil, _ := isNilVal.(bool)
 
 		var ss *coreinstruction.StringSearch
 		if !isNil {
@@ -111,7 +112,8 @@ func Test_StringSearch_VerifyError_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringSearchVerifyErrorTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNil, _ := input.GetAsBool("isNil")
+		isNilVal, _ := input.Get("isNil")
+		isNil, _ := isNilVal.(bool)
 		content, _ := input.GetAsString("content")
 
 		var ss *coreinstruction.StringSearch

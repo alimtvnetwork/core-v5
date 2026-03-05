@@ -17,7 +17,8 @@ func Test_Glob_Match_Verification(t *testing.T) {
 		errcore.HandleErrMessage("pattern required", err)
 		content, err := input.GetAsString("content")
 		errcore.HandleErrMessage("content required", err)
-		isIgnoreCase, _ := input.GetAsBool("isIgnoreCase")
+		isIgnoreCaseVal, _ := input.Get("isIgnoreCase")
+		isIgnoreCase, _ := isIgnoreCaseVal.(bool)
 
 		// Act
 		isGlobMatch := stringcompareas.Glob.IsCompareSuccess(isIgnoreCase, content, pattern)
