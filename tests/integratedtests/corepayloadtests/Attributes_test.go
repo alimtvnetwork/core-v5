@@ -9,6 +9,19 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
+// getBoolDefault extracts a bool from args.Map with a default value.
+func getBoolDefault(input args.Map, key string, defaultVal bool) bool {
+	raw, found := input.Get(key)
+	if !found {
+		return defaultVal
+	}
+	val, ok := raw.(bool)
+	if !ok {
+		return defaultVal
+	}
+	return val
+}
+
 // =============================================================================
 // Attributes.IsEqual — Regression: logic inversion bug in IsSafeValid/HasIssuesOrEmpty
 // =============================================================================
@@ -17,9 +30,9 @@ func Test_Attributes_IsEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range attributesIsEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		leftNil := input.GetAsBoolDefault("left_nil", false)
-		rightNil := input.GetAsBoolDefault("right_nil", false)
-		samePointer := input.GetAsBoolDefault("same_pointer", false)
+		leftNil := getBoolDefault(input, "left_nil", false)
+		rightNil := getBoolDefault(input, "right_nil", false)
+		samePointer := getBoolDefault(input, "same_pointer", false)
 
 		var left, right *corepayload.Attributes
 
@@ -69,8 +82,8 @@ func Test_Attributes_Clone_Verification(t *testing.T) {
 	for caseIndex, testCase := range attributesCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilAttr := input.GetAsBoolDefault("nil_attr", false)
-		deep := input.GetAsBoolDefault("deep", false)
+		nilAttr := getBoolDefault(input, "nil_attr", false)
+		deep := getBoolDefault(input, "deep", false)
 
 		if nilAttr {
 			// Act
@@ -113,8 +126,8 @@ func Test_Attributes_IsSafeValid_Verification(t *testing.T) {
 	for caseIndex, testCase := range attributesIsSafeValidTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilAttr := input.GetAsBoolDefault("nil_attr", false)
-		empty := input.GetAsBoolDefault("empty", false)
+		nilAttr := getBoolDefault(input, "nil_attr", false)
+		empty := getBoolDefault(input, "empty", false)
 
 		var attr *corepayload.Attributes
 
@@ -145,7 +158,7 @@ func Test_AuthInfo_Clone_Verification(t *testing.T) {
 	for caseIndex, testCase := range authInfoCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilAuth := input.GetAsBoolDefault("nil_auth", false)
+		nilAuth := getBoolDefault(input, "nil_auth", false)
 
 		if nilAuth {
 			// Act

@@ -13,7 +13,9 @@ func newStringCompareFromMap(input args.Map) *coreinstruction.StringCompare {
 	method, _ := input.GetAsString("method")
 	search, _ := input.GetAsString("search")
 	content, _ := input.GetAsString("content")
-	isIgnoreCase, _ := input.GetAsBool("isIgnoreCase")
+
+	isIgnoreCaseRaw, _ := input.Get("isIgnoreCase")
+	isIgnoreCase, _ := isIgnoreCaseRaw.(bool)
 
 	switch method {
 	case "equal":
