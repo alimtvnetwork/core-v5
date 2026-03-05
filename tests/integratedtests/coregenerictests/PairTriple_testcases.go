@@ -16,7 +16,12 @@ var pairNewValidTestCases = []coretestcases.CaseV1{
 			"left":  "key",
 			"right": "value",
 		},
-		ExpectedInput: []string{"key", "value", "true", ""},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "key",   // left
+			Second: "value", // right
+			Third:  "true",  // isValid
+			Fourth: "",      // errorMessage
+		},
 	},
 	{
 		Title: "Pair[string,string] empty strings valid",
@@ -24,7 +29,12 @@ var pairNewValidTestCases = []coretestcases.CaseV1{
 			"left":  "",
 			"right": "",
 		},
-		ExpectedInput: []string{"", "", "true", ""},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "",     // left
+			Second: "",     // right
+			Third:  "true", // isValid
+			Fourth: "",     // errorMessage
+		},
 	},
 }
 
@@ -38,14 +48,24 @@ var pairInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"message": "something went wrong",
 		},
-		ExpectedInput: []string{"", "", "false", "something went wrong"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "",                      // left
+			Second: "",                      // right
+			Third:  "false",                 // isValid
+			Fourth: "something went wrong",  // errorMessage
+		},
 	},
 	{
 		Title: "InvalidPairNoMessage",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
-		ExpectedInput: []string{"", "", "false", ""},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "",      // left
+			Second: "",      // right
+			Third:  "false", // isValid
+			Fourth: "",      // errorMessage
+		},
 	},
 }
 
@@ -60,7 +80,12 @@ var pairCloneTestCases = []coretestcases.CaseV1{
 			"left":  "original-left",
 			"right": "original-right",
 		},
-		ExpectedInput: []string{"original-left", "original-right", "true", "mutated-left"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "original-left",  // clonedLeft
+			Second: "original-right", // clonedRight
+			Third:  "true",           // isValid
+			Fourth: "mutated-left",   // originalAfterMutation
+		},
 	},
 }
 
@@ -72,7 +97,7 @@ var pairNilCloneTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Nil pair clone returns nil",
 		ArrangeInput:  args.Map{},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true", // isNil
 	},
 }
 
@@ -86,7 +111,7 @@ var pairIsEqualSameTestCase = coretestcases.CaseV1{
 		"left":  "a",
 		"right": "b",
 	},
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 var pairIsEqualDiffLeftTestCase = coretestcases.CaseV1{
@@ -95,7 +120,7 @@ var pairIsEqualDiffLeftTestCase = coretestcases.CaseV1{
 		"left":  "a",
 		"right": "b",
 	},
-	ExpectedInput: []string{"false"},
+	ExpectedInput: "false",
 }
 
 var pairIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
@@ -104,13 +129,13 @@ var pairIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
 		"left":  "a",
 		"right": "b",
 	},
-	ExpectedInput: []string{"false"},
+	ExpectedInput: "false",
 }
 
 var pairIsEqualBothNilTestCase = coretestcases.CaseV1{
 	Title:         "Both nil",
 	ArrangeInput:  args.Map{},
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 // ==========================================
@@ -124,7 +149,10 @@ var pairValuesTestCases = []coretestcases.CaseV1{
 			"left":  "hello",
 			"right": "world",
 		},
-		ExpectedInput: []string{"hello", "world"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "hello", // left
+			Second: "world", // right
+		},
 	},
 }
 
@@ -140,7 +168,13 @@ var tripleNewValidTestCases = []coretestcases.CaseV1{
 			"middle": "b",
 			"right":  "c",
 		},
-		ExpectedInput: []string{"a", "b", "c", "true", ""},
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "a",    // left
+			Second: "b",    // middle
+			Third:  "c",    // right
+			Fourth: "true", // isValid
+			Fifth:  "",     // errorMessage
+		},
 	},
 }
 
@@ -154,14 +188,26 @@ var tripleInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"message": "bad input",
 		},
-		ExpectedInput: []string{"", "", "", "false", "bad input"},
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "",          // left
+			Second: "",          // middle
+			Third:  "",          // right
+			Fourth: "false",     // isValid
+			Fifth:  "bad input", // errorMessage
+		},
 	},
 	{
 		Title: "InvalidTripleNoMessage",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
-		ExpectedInput: []string{"", "", "", "false", ""},
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "",      // left
+			Second: "",      // middle
+			Third:  "",      // right
+			Fourth: "false", // isValid
+			Fifth:  "",      // errorMessage
+		},
 	},
 }
 
@@ -177,7 +223,13 @@ var tripleCloneTestCases = []coretestcases.CaseV1{
 			"middle": "M",
 			"right":  "R",
 		},
-		ExpectedInput: []string{"L", "M", "R", "true", "mutated"},
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "L",       // clonedLeft
+			Second: "M",       // clonedMiddle
+			Third:  "R",       // clonedRight
+			Fourth: "true",    // isValid
+			Fifth:  "mutated", // originalAfterMutation
+		},
 	},
 }
 
@@ -189,7 +241,7 @@ var tripleNilCloneTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "Nil triple clone returns nil",
 		ArrangeInput:  args.Map{},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true", // isNil
 	},
 }
 
@@ -205,7 +257,11 @@ var tripleValuesTestCases = []coretestcases.CaseV1{
 			"middle": "y",
 			"right":  "z",
 		},
-		ExpectedInput: []string{"x", "y", "z"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "x", // left
+			Second: "y", // middle
+			Third:  "z", // right
+		},
 	},
 }
 
@@ -220,7 +276,12 @@ var pairClearTestCases = []coretestcases.CaseV1{
 			"left":  "non-empty",
 			"right": "non-empty",
 		},
-		ExpectedInput: []string{"", "", "false", ""},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "",      // clearedLeft
+			Second: "",      // clearedRight
+			Third:  "false", // isValid
+			Fourth: "",      // errorMessage
+		},
 	},
 }
 
@@ -236,6 +297,12 @@ var tripleClearTestCases = []coretestcases.CaseV1{
 			"middle": "non-empty",
 			"right":  "non-empty",
 		},
-		ExpectedInput: []string{"", "", "", "false", ""},
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "",      // clearedLeft
+			Second: "",      // clearedMiddle
+			Third:  "",      // clearedRight
+			Fourth: "false", // isValid
+			Fifth:  "",      // errorMessage
+		},
 	},
 }

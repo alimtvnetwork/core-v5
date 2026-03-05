@@ -1,6 +1,7 @@
 package coregenerictests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -9,23 +10,33 @@ import (
 // ==========================================================================
 
 var hashmapEmptyTestCase = coretestcases.CaseV1{
-	Title:         "EmptyHashmap creates empty",
-	ExpectedInput: []string{"true", "0", "false"},
+	Title: "EmptyHashmap creates empty",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "true",  // isEmpty
+		Second: "0",     // length
+		Third:  "false", // hasItems
+	},
 }
 
 var hashmapNewTestCase = coretestcases.CaseV1{
 	Title:         "NewHashmap with capacity",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true", // isNotNil
 }
 
 var hashmapFromTestCase = coretestcases.CaseV1{
-	Title:         "HashmapFrom wraps map",
-	ExpectedInput: []string{"2", "true"},
+	Title: "HashmapFrom wraps map",
+	ExpectedInput: args.Two[string, string]{
+		First:  "2",    // length
+		Second: "true", // hasKey
+	},
 }
 
 var hashmapCloneFuncTestCase = coretestcases.CaseV1{
-	Title:         "HashmapClone independence",
-	ExpectedInput: []string{"1", "99"},
+	Title: "HashmapClone independence",
+	ExpectedInput: args.Two[string, string]{
+		First:  "1",  // length
+		Second: "99", // originalValue
+	},
 }
 
 // ==========================================================================
@@ -33,13 +44,19 @@ var hashmapCloneFuncTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapSetNewTestCase = coretestcases.CaseV1{
-	Title:         "Set new key returns true",
-	ExpectedInput: []string{"true", "1"},
+	Title: "Set new key returns true",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // isNew
+		Second: "1",    // length
+	},
 }
 
 var hashmapSetExistingTestCase = coretestcases.CaseV1{
-	Title:         "Set existing key returns false",
-	ExpectedInput: []string{"false", "2"},
+	Title: "Set existing key returns false",
+	ExpectedInput: args.Two[string, string]{
+		First:  "false", // isNew
+		Second: "2",     // updatedValue
+	},
 }
 
 // ==========================================================================
@@ -47,23 +64,29 @@ var hashmapSetExistingTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapGetFoundTestCase = coretestcases.CaseV1{
-	Title:         "Get found",
-	ExpectedInput: []string{"true", "42"},
+	Title: "Get found",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // found
+		Second: "42",   // value
+	},
 }
 
 var hashmapGetNotFoundTestCase = coretestcases.CaseV1{
-	Title:         "Get not found",
-	ExpectedInput: []string{"false", "0"},
+	Title: "Get not found",
+	ExpectedInput: args.Two[string, string]{
+		First:  "false", // found
+		Second: "0",     // zeroValue
+	},
 }
 
 var hashmapGetOrDefaultMissingTestCase = coretestcases.CaseV1{
 	Title:         "GetOrDefault missing returns default",
-	ExpectedInput: []string{"99"},
+	ExpectedInput: "99", // defaultValue
 }
 
 var hashmapGetOrDefaultFoundTestCase = coretestcases.CaseV1{
 	Title:         "GetOrDefault found returns value",
-	ExpectedInput: []string{"5"},
+	ExpectedInput: "5", // value
 }
 
 // ==========================================================================
@@ -71,13 +94,17 @@ var hashmapGetOrDefaultFoundTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapHasTestCase = coretestcases.CaseV1{
-	Title:         "Has/Contains/IsKeyMissing",
-	ExpectedInput: []string{"true", "true", "false"},
+	Title: "Has/Contains/IsKeyMissing",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "true",  // has
+		Second: "true",  // contains
+		Third:  "false", // isKeyMissing
+	},
 }
 
 var hashmapIsKeyMissingTestCase = coretestcases.CaseV1{
 	Title:         "IsKeyMissing true",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 // ==========================================================================
@@ -85,13 +112,16 @@ var hashmapIsKeyMissingTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapRemoveExistingTestCase = coretestcases.CaseV1{
-	Title:         "Remove existing",
-	ExpectedInput: []string{"true", "true"},
+	Title: "Remove existing",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // removed
+		Second: "true", // isGone
+	},
 }
 
 var hashmapRemoveMissingTestCase = coretestcases.CaseV1{
 	Title:         "Remove missing",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: "false", // removed
 }
 
 // ==========================================================================
@@ -100,12 +130,12 @@ var hashmapRemoveMissingTestCase = coretestcases.CaseV1{
 
 var hashmapKeysNonEmptyTestCase = coretestcases.CaseV1{
 	Title:         "Keys returns all",
-	ExpectedInput: []string{"2"},
+	ExpectedInput: "2", // keyCount
 }
 
 var hashmapKeysEmptyTestCase = coretestcases.CaseV1{
 	Title:         "Keys empty",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0", // keyCount
 }
 
 // ==========================================================================
@@ -113,13 +143,16 @@ var hashmapKeysEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapValuesNonEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Values returns all",
-	ExpectedInput: []string{"1", "1"},
+	Title: "Values returns all",
+	ExpectedInput: args.Two[string, string]{
+		First:  "1", // value1
+		Second: "1", // containsExpected
+	},
 }
 
 var hashmapValuesEmptyTestCase = coretestcases.CaseV1{
 	Title:         "Values empty",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0", // valueCount
 }
 
 // ==========================================================================
@@ -127,23 +160,26 @@ var hashmapValuesEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapAddOrUpdateMapMergesTestCase = coretestcases.CaseV1{
-	Title:         "AddOrUpdateMap merges",
-	ExpectedInput: []string{"2", "10"},
+	Title: "AddOrUpdateMap merges",
+	ExpectedInput: args.Two[string, string]{
+		First:  "2",  // length
+		Second: "10", // mergedValue
+	},
 }
 
 var hashmapAddOrUpdateMapEmptyNoopTestCase = coretestcases.CaseV1{
 	Title:         "AddOrUpdateMap empty noop",
-	ExpectedInput: []string{"1"},
+	ExpectedInput: "1", // length
 }
 
 var hashmapAddOrUpdateHashmapMergesTestCase = coretestcases.CaseV1{
 	Title:         "AddOrUpdateHashmap merges",
-	ExpectedInput: []string{"2"},
+	ExpectedInput: "2", // length
 }
 
 var hashmapAddOrUpdateHashmapNilNoopTestCase = coretestcases.CaseV1{
 	Title:         "AddOrUpdateHashmap nil noop",
-	ExpectedInput: []string{"1"},
+	ExpectedInput: "1", // length
 }
 
 // ==========================================================================
@@ -151,13 +187,16 @@ var hashmapAddOrUpdateHashmapNilNoopTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashmapConcatNewMergedTestCase = coretestcases.CaseV1{
-	Title:         "ConcatNew merged copy",
-	ExpectedInput: []string{"2", "1"},
+	Title: "ConcatNew merged copy",
+	ExpectedInput: args.Two[string, string]{
+		First:  "2", // mergedLength
+		Second: "1", // originalLength
+	},
 }
 
 var hashmapConcatNewNilTestCase = coretestcases.CaseV1{
 	Title:         "ConcatNew nil",
-	ExpectedInput: []string{"1"},
+	ExpectedInput: "1", // length
 }
 
 // ==========================================================================
@@ -166,7 +205,7 @@ var hashmapConcatNewNilTestCase = coretestcases.CaseV1{
 
 var hashmapCloneMethodTestCase = coretestcases.CaseV1{
 	Title:         "Clone method independence",
-	ExpectedInput: []string{"1"},
+	ExpectedInput: "1", // originalLength
 }
 
 // ==========================================================================
@@ -175,32 +214,32 @@ var hashmapCloneMethodTestCase = coretestcases.CaseV1{
 
 var hashmapIsEqualsSameContentTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals same content",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 var hashmapIsEqualsDifferentKeysTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals different keys",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: "false",
 }
 
 var hashmapIsEqualsDifferentLengthTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals different length",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: "false",
 }
 
 var hashmapIsEqualsBothNilTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals both nil",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 var hashmapIsEqualsOneNilTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals one nil",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: "false",
 }
 
 var hashmapIsEqualsSamePointerTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals same pointer",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 // ==========================================================================
@@ -209,12 +248,12 @@ var hashmapIsEqualsSamePointerTestCase = coretestcases.CaseV1{
 
 var hashmapForEachTestCase = coretestcases.CaseV1{
 	Title:         "ForEach visits all",
-	ExpectedInput: []string{"2"},
+	ExpectedInput: "2", // visitCount
 }
 
 var hashmapForEachBreakTestCase = coretestcases.CaseV1{
 	Title:         "ForEachBreak stops early",
-	ExpectedInput: []string{"2"},
+	ExpectedInput: "2", // visitCount
 }
 
 // ==========================================================================
@@ -223,7 +262,7 @@ var hashmapForEachBreakTestCase = coretestcases.CaseV1{
 
 var hashmapStringTestCase = coretestcases.CaseV1{
 	Title:         "String not empty",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true", // isNonEmpty
 }
 
 // ==========================================================================
@@ -232,15 +271,15 @@ var hashmapStringTestCase = coretestcases.CaseV1{
 
 var hashmapNilReceiverIsEmptyTestCase = coretestcases.CaseV1{
 	Title:         "IsEmpty nil receiver",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: "true",
 }
 
 var hashmapNilReceiverLengthTestCase = coretestcases.CaseV1{
 	Title:         "Length nil receiver",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0",
 }
 
 var hashmapNilReceiverHasItemsTestCase = coretestcases.CaseV1{
 	Title:         "HasItems nil receiver",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: "false",
 }

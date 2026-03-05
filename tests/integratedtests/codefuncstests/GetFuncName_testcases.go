@@ -11,8 +11,6 @@ var getFuncNameTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given a named function",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true", // containsFuncName
 	},
 }

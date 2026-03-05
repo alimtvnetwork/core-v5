@@ -19,9 +19,9 @@ var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 			"when":     "creating empty collection",
 			"capacity": 0,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "0",    // length
+			Second: "true", // isEmpty
 		},
 	},
 	{
@@ -30,9 +30,9 @@ var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 			"when":     "creating collection with capacity 10",
 			"capacity": 10,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "0",    // length
+			Second: "true", // isEmpty
 		},
 	},
 }
@@ -46,10 +46,10 @@ var typedCollectionAddTestCases = []coretestcases.CaseV1{
 			"email": "alice@test.com",
 			"age":   30,
 		},
-		ExpectedInput: []string{
-			"1",
-			"false",
-			"Alice",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "1",     // length
+			Second: "false", // isEmpty
+			Third:  "Alice", // firstName
 		},
 	},
 	{
@@ -63,11 +63,11 @@ var typedCollectionAddTestCases = []coretestcases.CaseV1{
 			"email2": "carol@test.com",
 			"age2":   35,
 		},
-		ExpectedInput: []string{
-			"2",
-			"false",
-			"Bob",
-			"Carol",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "2",     // length
+			Second: "false", // isEmpty
+			Third:  "Bob",   // firstName
+			Fourth: "Carol", // secondName
 		},
 	},
 }
@@ -80,10 +80,10 @@ var typedCollectionFilterTestCases = []coretestcases.CaseV1{
 			"minAge":    30,
 			"userCount": 3,
 		},
-		ExpectedInput: []string{
-			"2",
-			"Alice",
-			"Carol",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2",     // filteredCount
+			Second: "Alice", // match1
+			Third:  "Carol", // match2
 		},
 	},
 }
@@ -94,11 +94,11 @@ var typedCollectionMapTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "mapping users to names",
 		},
-		ExpectedInput: []string{
-			"3",
-			"Alice",
-			"Bob",
-			"Carol",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3",     // count
+			Second: "Alice", // name0
+			Third:  "Bob",   // name1
+			Fourth: "Carol", // name2
 		},
 	},
 }
@@ -109,9 +109,7 @@ var typedCollectionReduceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "reducing to sum of ages",
 		},
-		ExpectedInput: []string{
-			"90",
-		},
+		ExpectedInput: "90", // totalAge
 	},
 }
 
@@ -121,10 +119,10 @@ var typedCollectionGroupTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "grouping by category name",
 		},
-		ExpectedInput: []string{
-			"2",
-			"1",
-			"2",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2", // groupCount
+			Second: "1", // group1Size
+			Third:  "2", // group2Size
 		},
 	},
 }
@@ -135,9 +133,9 @@ var typedCollectionPartitionTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "partitioning by age >= 30",
 		},
-		ExpectedInput: []string{
-			"2",
-			"1",
+		ExpectedInput: args.Two[string, string]{
+			First:  "2", // matchCount
+			Second: "1", // nonMatchCount
 		},
 	},
 }
@@ -148,11 +146,11 @@ var typedCollectionAllDataTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "extracting all data",
 		},
-		ExpectedInput: []string{
-			"3",
-			"Alice",
-			"Bob",
-			"Carol",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3",     // count
+			Second: "Alice", // data0
+			Third:  "Bob",   // data1
+			Fourth: "Carol", // data2
 		},
 	},
 }
@@ -163,9 +161,9 @@ var typedCollectionElementAccessTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "accessing first and last",
 		},
-		ExpectedInput: []string{
-			"Alice",
-			"Carol",
+		ExpectedInput: args.Two[string, string]{
+			First:  "Alice", // firstName
+			Second: "Carol", // lastName
 		},
 	},
 }
@@ -176,10 +174,10 @@ var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "checking any user named Bob",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "true",  // anyBob
+			Second: "false", // anyDave
+			Third:  "true",  // allHaveEmail
 		},
 	},
 }
