@@ -10,9 +10,30 @@ import (
 )
 
 var resultIsEmptyTestCases = []coretestcases.CaseV1{
-	{Title: "IsEmpty - empty bytes returns true", ArrangeInput: args.Map{"result": corejson.NewResult.UsingBytes([]byte{})}, ExpectedInput: []string{"true"}},
-	{Title: "IsEmpty - nil receiver returns true", ArrangeInput: args.Map{"result": (*corejson.Result)(nil)}, ExpectedInput: []string{"true"}},
-	{Title: "IsEmpty - valid bytes returns false", ArrangeInput: args.Map{"result": func() *corejson.Result { r := corejson.New(map[string]string{"key": "value"}); return &r }()}, ExpectedInput: []string{"false"}},
+	{
+		Title: "IsEmpty - empty bytes returns true",
+		ArrangeInput: args.Map{
+			"result": corejson.NewResult.UsingBytes([]byte{}),
+		},
+		ExpectedInput: "true", // isEmpty
+	},
+	{
+		Title: "IsEmpty - nil receiver returns true",
+		ArrangeInput: args.Map{
+			"result": (*corejson.Result)(nil),
+		},
+		ExpectedInput: "true", // isEmpty
+	},
+	{
+		Title: "IsEmpty - valid bytes returns false",
+		ArrangeInput: args.Map{
+			"result": func() *corejson.Result {
+				r := corejson.New(map[string]string{"key": "value"})
+				return &r
+			}(),
+		},
+		ExpectedInput: "false", // isEmpty
+	},
 }
 
 func Test_Result_IsEmpty_Verification(t *testing.T) {
