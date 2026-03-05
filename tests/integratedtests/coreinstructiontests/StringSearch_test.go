@@ -7,7 +7,6 @@ import (
 	"gitlab.com/auk-go/core/coreinstruction"
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func newStringSearchFromMap(input args.Map) *coreinstruction.StringSearch {

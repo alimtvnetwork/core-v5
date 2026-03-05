@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_Glob_Match_Verification(t *testing.T) {
