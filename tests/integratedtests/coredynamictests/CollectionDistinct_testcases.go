@@ -15,21 +15,31 @@ var collectionDistinctTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"items": []string{"a", "b", "a", "c", "b", "a"},
 		},
-		ExpectedInput: []string{"3", "a", "b", "c"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3", // distinctCount
+			Second: "a", // item0
+			Third:  "b", // item1
+			Fourth: "c", // item2
+		},
 	},
 	{
 		Title: "Distinct on already unique returns same items",
 		ArrangeInput: args.Map{
 			"items": []string{"x", "y", "z"},
 		},
-		ExpectedInput: []string{"3", "x", "y", "z"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3", // distinctCount
+			Second: "x", // item0
+			Third:  "y", // item1
+			Fourth: "z", // item2
+		},
 	},
 	{
 		Title: "Distinct on empty returns empty",
 		ArrangeInput: args.Map{
 			"items": []string{},
 		},
-		ExpectedInput: "0",
+		ExpectedInput: "0", // distinctCount
 	},
 }
 
@@ -43,7 +53,7 @@ var collectionDistinctCountTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"items": []string{"a", "b", "a", "c", "b"},
 		},
-		ExpectedInput: "3",
+		ExpectedInput: "3", // distinctCount
 	},
 }
 
@@ -57,13 +67,13 @@ var collectionIsDistinctTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: "true",
+		ExpectedInput: "true", // isDistinct
 	},
 	{
 		Title: "IsDistinct false for duplicates",
 		ArrangeInput: args.Map{
 			"items": []string{"a", "b", "a"},
 		},
-		ExpectedInput: "false",
+		ExpectedInput: "false", // isDistinct
 	},
 }
