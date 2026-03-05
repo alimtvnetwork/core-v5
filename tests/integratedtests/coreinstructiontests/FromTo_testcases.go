@@ -1,6 +1,7 @@
 package coreinstructiontests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -10,10 +11,10 @@ import (
 
 var fromToClonePtrCopiesTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr - copies From and To",
-	ExpectedInput: []string{
-		"true",
-		"source",
-		"destination",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "true",        // isNotNil
+		Second: "source",      // from
+		Third:  "destination", // to
 	},
 }
 
@@ -28,9 +29,9 @@ var fromToClonePtrNilTestCase = coretestcases.CaseV1{
 
 var fromToCloneCopiesTestCase = coretestcases.CaseV1{
 	Title: "Clone - copies values",
-	ExpectedInput: []string{
-		"a",
-		"b",
+	ExpectedInput: args.Two[string, string]{
+		First:  "a", // from
+		Second: "b", // to
 	},
 }
 
@@ -82,9 +83,9 @@ var fromToIsToEmptyNonEmptyTestCase = coretestcases.CaseV1{
 
 var fromToStringContainsTestCase = coretestcases.CaseV1{
 	Title: "String - contains From and To",
-	ExpectedInput: []string{
-		"true",
-		"true",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // containsFrom
+		Second: "true", // containsTo
 	},
 }
 
@@ -94,9 +95,9 @@ var fromToStringContainsTestCase = coretestcases.CaseV1{
 
 var fromToNamesTestCase = coretestcases.CaseV1{
 	Title: "FromName/ToName return field values",
-	ExpectedInput: []string{
-		"src",
-		"dst",
+	ExpectedInput: args.Two[string, string]{
+		First:  "src", // fromName
+		Second: "dst", // toName
 	},
 }
 
@@ -129,10 +130,10 @@ var fromToSetToNameUpdatesTestCase = coretestcases.CaseV1{
 
 var fromToSourceDestMapsTestCase = coretestcases.CaseV1{
 	Title: "SourceDestination - maps From->Source To->Destination",
-	ExpectedInput: []string{
-		"true",
-		"src",
-		"dst",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "true", // isNotNil
+		Second: "src",  // source
+		Third:  "dst",  // destination
 	},
 }
 
@@ -147,10 +148,10 @@ var fromToSourceDestNilTestCase = coretestcases.CaseV1{
 
 var fromToRenameMapsTestCase = coretestcases.CaseV1{
 	Title: "Rename - maps From->Existing To->New",
-	ExpectedInput: []string{
-		"true",
-		"old",
-		"new",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "true", // isNotNil
+		Second: "old",  // existing
+		Third:  "new",  // newName
 	},
 }
 

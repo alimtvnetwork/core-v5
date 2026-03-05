@@ -16,9 +16,9 @@ var typedRequestNewTestCases = []coretestcases.CaseV1{
 			"when":    "given string payload",
 			"payload": "my-request",
 		},
-		ExpectedInput: []string{
-			"my-request",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "my-request", // payload
+			Second: "true",       // isValid
 		},
 	},
 }
@@ -33,10 +33,10 @@ var typedRequestInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil attribute",
 		},
-		ExpectedInput: []string{
-			"",
-			"false",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "",     // payload
+			Second: "false", // isValid
+			Third:  "true",  // isInvalid
 		},
 	},
 }
@@ -52,10 +52,10 @@ var typedRequestCloneTestCases = []coretestcases.CaseV1{
 			"when":    "given valid request",
 			"payload": "clone-payload",
 		},
-		ExpectedInput: []string{
-			"clone-payload",
-			"true",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "clone-payload", // payload
+			Second: "true",          // isValid
+			Third:  "true",          // isIndependent
 		},
 	},
 }
@@ -66,9 +66,7 @@ var typedRequestCloneNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil request",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 // ==========================================
@@ -82,9 +80,9 @@ var typedResponseResultToTypedResponseTestCases = []coretestcases.CaseV1{
 			"when":     "given valid typed response result",
 			"response": "back-convert",
 		},
-		ExpectedInput: []string{
-			"back-convert",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "back-convert", // response
+			Second: "true",         // isValid
 		},
 	},
 }
@@ -95,9 +93,7 @@ var typedResponseResultToTypedResponseNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil result",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -113,17 +109,13 @@ var typedResponseResultMessageTestCases = []coretestcases.CaseV1{
 			"response": "data",
 			"message":  "operation completed",
 		},
-		ExpectedInput: []string{
-			"operation completed",
-		},
+		ExpectedInput: "operation completed",
 	},
 	{
 		Title: "Message returns empty string on nil result",
 		ArrangeInput: args.Map{
 			"when": "given nil result",
 		},
-		ExpectedInput: []string{
-			"",
-		},
+		ExpectedInput: "",
 	},
 }

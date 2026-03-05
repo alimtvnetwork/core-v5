@@ -1,6 +1,7 @@
 package coregenerictests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -9,13 +10,21 @@ import (
 // ==========================================================================
 
 var linkedListEmptyTestCase = coretestcases.CaseV1{
-	Title:         "EmptyLinkedList creates empty list",
-	ExpectedInput: []string{"true", "0", "false"},
+	Title: "EmptyLinkedList creates empty list",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "true", // isEmpty
+		Second: "0",    // length
+		Third:  "false", // hasItems
+	},
 }
 
 var linkedListFromSliceTestCase = coretestcases.CaseV1{
-	Title:         "LinkedListFrom creates from slice",
-	ExpectedInput: []string{"3", "a", "c"},
+	Title: "LinkedListFrom creates from slice",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "3", // length
+		Second: "a", // first
+		Third:  "c", // last
+	},
 }
 
 var linkedListFromEmptySliceTestCase = coretestcases.CaseV1{
@@ -28,23 +37,39 @@ var linkedListFromEmptySliceTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var linkedListAddSingleTestCase = coretestcases.CaseV1{
-	Title:         "Add single sets head and tail",
-	ExpectedInput: []string{"1", "42", "42"},
+	Title: "Add single sets head and tail",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "1",  // length
+		Second: "42", // head
+		Third:  "42", // tail
+	},
 }
 
 var linkedListAddMultipleTestCase = coretestcases.CaseV1{
-	Title:         "Add multiple appends to back",
-	ExpectedInput: []string{"1", "3", "3"},
+	Title: "Add multiple appends to back",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "1", // head
+		Second: "3", // tail
+		Third:  "3", // length
+	},
 }
 
 var linkedListAddFrontPrependsTestCase = coretestcases.CaseV1{
-	Title:         "AddFront prepends",
-	ExpectedInput: []string{"1", "3", "3"},
+	Title: "AddFront prepends",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "1", // head
+		Second: "3", // tail
+		Third:  "3", // length
+	},
 }
 
 var linkedListAddFrontEmptyTestCase = coretestcases.CaseV1{
-	Title:         "AddFront empty",
-	ExpectedInput: []string{"first", "first", "1"},
+	Title: "AddFront empty",
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "first", // head
+		Second: "first", // tail
+		Third:  "1",     // length
+	},
 }
 
 var linkedListAddsTestCase = coretestcases.CaseV1{
@@ -135,8 +160,11 @@ var linkedListStringTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var linkedListIndexAtValidTestCase = coretestcases.CaseV1{
-	Title:         "IndexAt valid returns node",
-	ExpectedInput: []string{"true", "b"},
+	Title: "IndexAt valid returns node",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // isNotNil
+		Second: "b",    // value
+	},
 }
 
 var linkedListIndexAtFirstTestCase = coretestcases.CaseV1{
@@ -150,8 +178,11 @@ var linkedListIndexAtLastTestCase = coretestcases.CaseV1{
 }
 
 var linkedListIndexAtOutOfBoundsTestCase = coretestcases.CaseV1{
-	Title:         "IndexAt out of bounds",
-	ExpectedInput: []string{"true", "true"},
+	Title: "IndexAt out of bounds",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // isNil
+		Second: "true", // hasError
+	},
 }
 
 var linkedListIndexAtEmptyTestCase = coretestcases.CaseV1{
@@ -188,13 +219,23 @@ var linkedListForEachBreakFirstTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var linkedListHeadTailTestCase = coretestcases.CaseV1{
-	Title:         "Head/Tail nodes",
-	ExpectedInput: []string{"1", "3", "true", "false"},
+	Title: "Head/Tail nodes",
+	ExpectedInput: args.Four[string, string, string, string]{
+		First:  "1",     // head
+		Second: "3",     // tail
+		Third:  "true",  // headHasNext
+		Fourth: "false", // tailHasNext
+	},
 }
 
 var linkedListNodeNextTestCase = coretestcases.CaseV1{
-	Title:         "Node.Next traverses",
-	ExpectedInput: []string{"10", "20", "30", "false"},
+	Title: "Node.Next traverses",
+	ExpectedInput: args.Four[string, string, string, string]{
+		First:  "10",    // first
+		Second: "20",    // second
+		Third:  "30",    // third
+		Fourth: "false", // hasMore
+	},
 }
 
 // ==========================================================================
@@ -230,11 +271,17 @@ var linkedListNilReceiverTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var linkedListAppendNodeAppendsTestCase = coretestcases.CaseV1{
-	Title:         "AppendNode appends",
-	ExpectedInput: []string{"3", "3"},
+	Title: "AppendNode appends",
+	ExpectedInput: args.Two[string, string]{
+		First:  "3", // length
+		Second: "3", // lastValue
+	},
 }
 
 var linkedListAppendNodeEmptyTestCase = coretestcases.CaseV1{
-	Title:         "AppendNode empty",
-	ExpectedInput: []string{"1", "99"},
+	Title: "AppendNode empty",
+	ExpectedInput: args.Two[string, string]{
+		First:  "1",  // length
+		Second: "99", // value
+	},
 }

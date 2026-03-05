@@ -16,9 +16,7 @@ var containsAllTrueTestCase = coretestcases.CaseV1{
 		"items":       []int{1, 2, 3, 4, 5},
 		"searchItems": []int{1, 3, 5},
 	},
-	ExpectedInput: []string{
-		"true",
-	},
+	ExpectedInput: "true",
 }
 
 var containsAllFalseTestCase = coretestcases.CaseV1{
@@ -28,9 +26,7 @@ var containsAllFalseTestCase = coretestcases.CaseV1{
 		"items":       []int{1, 2, 3},
 		"searchItems": []int{1, 2, 99},
 	},
-	ExpectedInput: []string{
-		"false",
-	},
+	ExpectedInput: "false",
 }
 
 // ==========================================
@@ -44,9 +40,7 @@ var containsAnyTrueTestCase = coretestcases.CaseV1{
 		"items":       []int{1, 2, 3},
 		"searchItems": []int{99, 3, 100},
 	},
-	ExpectedInput: []string{
-		"true",
-	},
+	ExpectedInput: "true",
 }
 
 var containsAnyFalseTestCase = coretestcases.CaseV1{
@@ -56,9 +50,7 @@ var containsAnyFalseTestCase = coretestcases.CaseV1{
 		"items":       []int{1, 2, 3},
 		"searchItems": []int{88, 99, 100},
 	},
-	ExpectedInput: []string{
-		"false",
-	},
+	ExpectedInput: "false",
 }
 
 // ==========================================
@@ -72,9 +64,9 @@ var removeItemFoundTestCase = coretestcases.CaseV1{
 		"items":      []int{1, 2, 3, 2, 4},
 		"removeItem": 2,
 	},
-	ExpectedInput: []string{
-		"true",
-		"4",
+	ExpectedInput: args.Two[string, string]{
+		First:  "true", // removed
+		Second: "4",    // newLength
 	},
 }
 
@@ -85,9 +77,9 @@ var removeItemMissingTestCase = coretestcases.CaseV1{
 		"items":      []int{1, 3, 5},
 		"removeItem": 99,
 	},
-	ExpectedInput: []string{
-		"false",
-		"3",
+	ExpectedInput: args.Two[string, string]{
+		First:  "false", // removed
+		Second: "3",     // newLength
 	},
 }
 
@@ -102,9 +94,9 @@ var removeAllItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with multiple 2s",
 			"items": []int{1, 2, 3, 2, 4, 2},
 		},
-		ExpectedInput: []string{
-			"3",
-			"3",
+		ExpectedInput: args.Two[string, string]{
+			First:  "3", // removedCount
+			Second: "3", // newLength
 		},
 	},
 }
@@ -120,12 +112,12 @@ var toHashsetTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with duplicates",
 			"items": []int{1, 2, 3, 2, 1},
 		},
-		ExpectedInput: []string{
-			"3",
-			"true",
-			"true",
-			"true",
-			"false",
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "3",     // uniqueCount
+			Second: "true",  // has1
+			Third:  "true",  // has2
+			Fourth: "true",  // has3
+			Fifth:  "false", // has99
 		},
 	},
 }
@@ -141,10 +133,10 @@ var distinctSimpleSliceTestCases = []coretestcases.CaseV1{
 			"when":  "given simple slice with duplicates",
 			"items": []int{3, 1, 2, 1, 3, 4},
 		},
-		ExpectedInput: []string{
-			"4",
-			"3",
-			"4",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "4", // uniqueCount
+			Second: "3", // firstElement
+			Third:  "4", // lastElement
 		},
 	},
 }
@@ -160,9 +152,9 @@ var containsSimpleSliceItemTestCases = []coretestcases.CaseV1{
 			"when":  "given simple slice containing target",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // containsExisting
+			Second: "false", // containsMissing
 		},
 	},
 }

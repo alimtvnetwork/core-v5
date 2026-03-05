@@ -13,10 +13,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given id 'test-123'",
 			"id":   "test-123",
 		},
-		ExpectedInput: []string{
-			"test-123",
-			"false",
-			"false",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "test-123", // id
+			Second: "false",    // isEmpty
+			Third:  "false",    // isEmptyOrWhitespace
 		},
 	},
 	{
@@ -25,10 +25,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given id with special chars",
 			"id":   "user@domain.com/resource#123",
 		},
-		ExpectedInput: []string{
-			"user@domain.com/resource#123",
-			"false",
-			"false",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "user@domain.com/resource#123", // id
+			Second: "false",                         // isEmpty
+			Third:  "false",                         // isEmptyOrWhitespace
 		},
 	},
 
@@ -39,10 +39,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given empty id",
 			"id":   "",
 		},
-		ExpectedInput: []string{
-			"",
-			"true",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "",     // id
+			Second: "true", // isEmpty
+			Third:  "true", // isEmptyOrWhitespace
 		},
 	},
 	{
@@ -51,10 +51,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given whitespace-only id",
 			"id":   "   ",
 		},
-		ExpectedInput: []string{
-			"   ",
-			"false",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "   ",   // id
+			Second: "false", // isEmpty
+			Third:  "true",  // isEmptyOrWhitespace
 		},
 	},
 }
@@ -71,7 +71,11 @@ var identifiersLengthTestCases = []coretestcases.CaseV1{
 			"when": "given 3 ids",
 			"ids":  []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{"3", "false", "true"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "3",     // length
+			Second: "false", // isEmpty
+			Third:  "true",  // hasAnyItem
+		},
 	},
 
 	// === Boundary: empty ===
@@ -81,7 +85,11 @@ var identifiersLengthTestCases = []coretestcases.CaseV1{
 			"when": "given no ids",
 			"ids":  []string{},
 		},
-		ExpectedInput: []string{"0", "true", "false"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "0",     // length
+			Second: "true",  // isEmpty
+			Third:  "false", // hasAnyItem
+		},
 	},
 
 	// === Single item ===
@@ -91,7 +99,11 @@ var identifiersLengthTestCases = []coretestcases.CaseV1{
 			"when": "given single id",
 			"ids":  []string{"only"},
 		},
-		ExpectedInput: []string{"1", "false", "true"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "1",     // length
+			Second: "false", // isEmpty
+			Third:  "true",  // hasAnyItem
+		},
 	},
 }
 
@@ -104,7 +116,10 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"alpha", "beta", "gamma"},
 			"searchId": "beta",
 		},
-		ExpectedInput: []string{"true", "beta"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // found
+			Second: "beta", // id
+		},
 	},
 	{
 		Title: "GetById returns first item",
@@ -113,7 +128,10 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"first", "second"},
 			"searchId": "first",
 		},
-		ExpectedInput: []string{"true", "first"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // found
+			Second: "first", // id
+		},
 	},
 	{
 		Title: "GetById returns last item",
@@ -122,7 +140,10 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"first", "last"},
 			"searchId": "last",
 		},
-		ExpectedInput: []string{"true", "last"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // found
+			Second: "last", // id
+		},
 	},
 
 	// === Negative: not found ===
@@ -133,7 +154,10 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"alpha", "beta"},
 			"searchId": "missing",
 		},
-		ExpectedInput: []string{"false", ""},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // found
+			Second: "",      // id
+		},
 	},
 	{
 		Title: "GetById returns nil for empty search id",
@@ -142,7 +166,10 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"alpha", "beta"},
 			"searchId": "",
 		},
-		ExpectedInput: []string{"false", ""},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // found
+			Second: "",      // id
+		},
 	},
 	{
 		Title: "GetById returns nil from empty collection",
@@ -151,7 +178,10 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{},
 			"searchId": "any",
 		},
-		ExpectedInput: []string{"false", ""},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // found
+			Second: "",      // id
+		},
 	},
 }
 
@@ -214,7 +244,12 @@ var identifiersCloneTestCases = []coretestcases.CaseV1{
 			"when": "given 3 ids",
 			"ids":  []string{"x", "y", "z"},
 		},
-		ExpectedInput: []string{"3", "x", "y", "z"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3", // length
+			Second: "x", // first
+			Third:  "y", // second
+			Fourth: "z", // third
+		},
 	},
 
 	// === Boundary: empty ===
@@ -237,7 +272,11 @@ var identifiersAddTestCases = []coretestcases.CaseV1{
 			"ids":   []string{"a"},
 			"addId": "b",
 		},
-		ExpectedInput: []string{"2", "a", "b"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2", // length
+			Second: "a", // first
+			Third:  "b", // second
+		},
 	},
 
 	// === Negative: empty id skipped ===
@@ -248,7 +287,10 @@ var identifiersAddTestCases = []coretestcases.CaseV1{
 			"ids":   []string{"a"},
 			"addId": "",
 		},
-		ExpectedInput: []string{"1", "a"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "1", // length
+			Second: "a", // first
+		},
 	},
 }
 
@@ -290,12 +332,12 @@ var specificationCloneTestCases = []coretestcases.CaseV1{
 			"tags":     []string{},
 			"isGlobal": false,
 		},
-		ExpectedInput: []string{
-			"spec-2",
-			"Display",
-			"typeB",
-			"0",
-			"false",
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "spec-2",  // id
+			Second: "Display", // display
+			Third:  "typeB",   // typeName
+			Fourth: "0",       // tagsCount
+			Fifth:  "false",   // isGlobal
 		},
 	},
 }
@@ -313,7 +355,12 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{"a", "b", "c"},
 			"searchTags": []string{"a", "c"},
 		},
-		ExpectedInput: []string{"3", "false", "true", "true"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3",     // tagsCount
+			Second: "false", // isEmpty
+			Third:  "true",  // hasAllTags
+			Fourth: "true",  // hasAnyTag
+		},
 	},
 
 	// === Negative: partial match ===
@@ -324,7 +371,12 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{"a", "b"},
 			"searchTags": []string{"a", "missing"},
 		},
-		ExpectedInput: []string{"2", "false", "false", "true"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "2",     // tagsCount
+			Second: "false", // isEmpty
+			Third:  "false", // hasAllTags
+			Fourth: "true",  // hasAnyTag
+		},
 	},
 
 	// === Boundary: empty tags ===
@@ -335,7 +387,12 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{},
 			"searchTags": []string{},
 		},
-		ExpectedInput: []string{"0", "true", "true", "true"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "0",    // tagsCount
+			Second: "true", // isEmpty
+			Third:  "true", // hasAllTags
+			Fourth: "true", // hasAnyTag
+		},
 	},
 
 	// === Negative: search on empty ===
@@ -346,6 +403,11 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{},
 			"searchTags": []string{"a"},
 		},
-		ExpectedInput: []string{"0", "true", "false", "false"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "0",     // tagsCount
+			Second: "true",  // isEmpty
+			Third:  "false", // hasAllTags
+			Fourth: "false", // hasAnyTag
+		},
 	},
 }

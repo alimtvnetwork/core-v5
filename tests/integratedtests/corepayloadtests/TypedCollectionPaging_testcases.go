@@ -16,9 +16,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 			"when":     "3 items with page size 10",
 			"pageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-		},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "GetPagesSize returns exact page count when evenly divisible",
@@ -27,9 +25,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 			"count":    10,
 			"pageSize": 5,
 		},
-		ExpectedInput: []string{
-			"2",
-		},
+		ExpectedInput: "2",
 	},
 	{
 		Title: "GetPagesSize returns ceiling when not evenly divisible",
@@ -38,9 +34,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 			"count":    7,
 			"pageSize": 3,
 		},
-		ExpectedInput: []string{
-			"3",
-		},
+		ExpectedInput: "3",
 	},
 }
 
@@ -57,10 +51,10 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 			"pageSize":  2,
 			"pageIndex": 1,
 		},
-		ExpectedInput: []string{
-			"2",
-			"user-0",
-			"user-1",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2",      // pageItemCount
+			Second: "user-0", // firstItem
+			Third:  "user-1", // lastItem
 		},
 	},
 	{
@@ -71,9 +65,9 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 			"pageSize":  2,
 			"pageIndex": 3,
 		},
-		ExpectedInput: []string{
-			"1",
-			"user-4",
+		ExpectedInput: args.Two[string, string]{
+			First:  "1",      // pageItemCount
+			Second: "user-4", // firstItem
 		},
 	},
 	{
@@ -84,11 +78,11 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 			"pageSize":  10,
 			"pageIndex": 1,
 		},
-		ExpectedInput: []string{
-			"3",
-			"user-0",
-			"user-1",
-			"user-2",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3",      // pageItemCount
+			Second: "user-0", // firstItem
+			Third:  "user-1", // secondItem
+			Fourth: "user-2", // lastItem
 		},
 	},
 }
@@ -105,11 +99,11 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 			"count":    5,
 			"pageSize": 2,
 		},
-		ExpectedInput: []string{
-			"3",
-			"2",
-			"2",
-			"1",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "3", // pageCount
+			Second: "2", // page1Items
+			Third:  "2", // page2Items
+			Fourth: "1", // page3Items
 		},
 	},
 	{
@@ -119,9 +113,9 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 			"count":    2,
 			"pageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"2",
+		ExpectedInput: args.Two[string, string]{
+			First:  "1", // pageCount
+			Second: "2", // page1Items
 		},
 	},
 	{
@@ -131,10 +125,10 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 			"count":    6,
 			"pageSize": 3,
 		},
-		ExpectedInput: []string{
-			"2",
-			"3",
-			"3",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2", // pageCount
+			Second: "3", // page1Items
+			Third:  "3", // page2Items
 		},
 	},
 }
@@ -151,6 +145,7 @@ var typedCollectionPagedWithInfoTestCases = []coretestcases.CaseV1{
 			"count":    5,
 			"pageSize": 2,
 		},
+		// 10 elements exceeds args.Six — keep as []string
 		ExpectedInput: []string{
 			"3",
 			"1",
@@ -177,9 +172,9 @@ var typedCollectionPagingEmptyTestCases = []coretestcases.CaseV1{
 			"when":     "empty collection with page size 5",
 			"pageSize": 5,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
+		ExpectedInput: args.Two[string, string]{
+			First:  "1", // pageCount
+			Second: "0", // page1Items
 		},
 	},
 }
