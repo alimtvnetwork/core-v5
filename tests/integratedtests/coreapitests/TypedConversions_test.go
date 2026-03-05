@@ -266,10 +266,9 @@ func Test_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
 		message := ""
 
 		if vRaw, ok := input.Get("isValid"); ok {
-			v, _ := vRaw.(bool)
-		if true {
-			_ = v
-			isValid = v
+			if v, isBool := vRaw.(bool); isBool {
+				isValid = v
+			}
 		}
 
 		if v, ok := input.GetAsString("message"); ok {
@@ -319,8 +318,10 @@ func Test_TypedResponse_TypedResponseResult(t *testing.T) {
 		message, _ := input.GetAsString("message")
 		isValid := true
 
-		if v, ok := input.GetAsBool("isValid"); ok {
-			isValid = v
+		if vRaw, ok := input.Get("isValid"); ok {
+			if v, isBool := vRaw.(bool); isBool {
+				isValid = v
+			}
 		}
 
 		attr := &coreapi.ResponseAttribute{IsValid: isValid, Message: message}
