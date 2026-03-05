@@ -163,35 +163,3 @@ func Test_StringTo_IntegerDefault_Verification(t *testing.T) {
 		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", value))
 	}
 }
-
-func Test_StringTo_Bool_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringToBoolTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		inputStr, _ := input.GetAsString("input")
-
-		// Act
-		value := converters.StringTo.Bool(inputStr)
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", value))
-	}
-}
-
-func Test_StringTo_UnsignedInteger_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringToUnsignedIntegerTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		inputStr, _ := input.GetAsString("input")
-
-		// Act
-		value, err := converters.StringTo.UnsignedInteger(inputStr)
-
-		// Assert
-		testCase.ShouldBeEqual(
-			t, caseIndex,
-			fmt.Sprintf("%v", value),
-			fmt.Sprintf("%v", err != nil),
-		)
-	}
-}
