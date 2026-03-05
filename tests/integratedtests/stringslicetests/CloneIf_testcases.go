@@ -18,7 +18,12 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       true,
 			"additionalCap": 5,
 		},
-		ExpectedInput: []string{"2", "a", "b", "true"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "2",    // resultLength
+			Second: "a",    // item0
+			Third:  "b",    // item1
+			Fourth: "true", // isIndependentCopy
+		},
 	},
 	{
 		Title: "CloneIf returns original slice when isClone false",
@@ -28,7 +33,12 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       false,
 			"additionalCap": 0,
 		},
-		ExpectedInput: []string{"2", "x", "y", "false"},
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "2",     // resultLength
+			Second: "x",     // item0
+			Third:  "y",     // item1
+			Fourth: "false", // isIndependentCopy
+		},
 	},
 	{
 		Title: "CloneIf returns empty on nil input when isClone false",
@@ -38,7 +48,10 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       false,
 			"additionalCap": 0,
 		},
-		ExpectedInput: []string{"0", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "0",     // resultLength
+			Second: "false", // isIndependentCopy
+		},
 	},
 	{
 		Title: "CloneIf clones nil input when isClone true",
@@ -48,7 +61,10 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       true,
 			"additionalCap": 3,
 		},
-		ExpectedInput: []string{"0", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "0",    // resultLength
+			Second: "true", // isIndependentCopy
+		},
 	},
 }
 
@@ -65,7 +81,13 @@ var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       true,
 			"additionalCap": 2,
 		},
-		ExpectedInput: []string{"3", "a", "1", "true", "true"},
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "3",    // resultLength
+			Second: "a",    // item0
+			Third:  "1",    // item1
+			Fourth: "true", // item2
+			Fifth:  "true", // isIndependentCopy
+		},
 	},
 	{
 		Title: "AnyItemsCloneIf returns original when false",
@@ -75,6 +97,10 @@ var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       false,
 			"additionalCap": 0,
 		},
-		ExpectedInput: []string{"1", "x", "false"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "1",     // resultLength
+			Second: "x",     // item0
+			Third:  "false", // isIndependentCopy
+		},
 	},
 }

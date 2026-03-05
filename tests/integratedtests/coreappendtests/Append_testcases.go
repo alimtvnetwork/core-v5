@@ -13,10 +13,10 @@ var prependAppendTestCases = []coretestcases.CaseV1{
 			"prepend": "start",
 			"append":  "end",
 		},
-		ExpectedInput: []string{
-			"3",
-			"start",
-			"end",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "3",     // totalCount
+			Second: "start", // firstItem
+			Third:  "end",   // lastItem
 		},
 	},
 	{
@@ -25,10 +25,10 @@ var prependAppendTestCases = []coretestcases.CaseV1{
 			"when":   "given nil prepend",
 			"append": "end",
 		},
-		ExpectedInput: []string{
-			"2",
-			"middle",
-			"end",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2",      // totalCount
+			Second: "middle", // firstItem
+			Third:  "end",    // lastItem
 		},
 	},
 }
