@@ -120,7 +120,7 @@ func Test_TripleFromSlice(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSliceTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		parts, _ := input.GetAsStringSlice("parts")
+		parts, _ := input.GetAsStrings("parts")
 
 		// Act
 		triple := coregeneric.TripleFromSlice(parts)
