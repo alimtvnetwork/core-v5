@@ -17,23 +17,21 @@ func Test_Compare_JsonRoundtrip(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 
-		value, err := input.GetAsInt("value")
-		errcore.HandleErrMessage(
-			err,
-			"value is required for compare JSON roundtrip test",
-		)
+		value, ok := input.GetAsInt("value")
+		if !ok {
+			errcore.HandleErrMessage("value is required for compare JSON roundtrip test")
+		}
 
-		unmarshalInput, err := input.GetAsString("unmarshalInput")
-		errcore.HandleErrMessage(
-			err,
-			"unmarshalInput is required for compare JSON roundtrip test",
-		)
+		unmarshalInput, ok := input.GetAsString("unmarshalInput")
+		if !ok {
+			errcore.HandleErrMessage("unmarshalInput is required for compare JSON roundtrip test")
+		}
 
 		compare := corecomparator.Compare(value)
 
 		// Act — marshal
 		marshaledBytes, marshalErr := compare.MarshalJSON()
-		errcore.HandleErrMessage(
+		errcore.SimpleHandleErr(
 			marshalErr,
 			"MarshalJSON should not fail for valid compare",
 		)
@@ -44,7 +42,7 @@ func Test_Compare_JsonRoundtrip(t *testing.T) {
 		var target corecomparator.Compare
 
 		unmarshalErr := target.UnmarshalJSON([]byte(unmarshalInput))
-		errcore.HandleErrMessage(
+		errcore.SimpleHandleErr(
 			unmarshalErr,
 			"UnmarshalJSON should not fail for valid input",
 		)
@@ -71,24 +69,19 @@ func Test_Compare_OnlySupportedErr(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 
-		value, err := input.GetAsInt("value")
-		errcore.HandleErrMessage(
-			err,
-			"value is required for OnlySupportedErr test",
-		)
+		value, ok := input.GetAsInt("value")
+		if !ok {
+			errcore.HandleErrMessage("value is required for OnlySupportedErr test")
+		}
 
-		message, err := input.GetAsString("message")
-		errcore.HandleErrMessage(
-			err,
-			"message is required for OnlySupportedErr test",
-		)
+		message, ok := input.GetAsString("message")
+		if !ok {
+			errcore.HandleErrMessage("message is required for OnlySupportedErr test")
+		}
 
 		supportedRaw, hasSupported := input["supported"]
 		if !hasSupported {
-			errcore.HandleErrMessage(
-				fmt.Errorf("supported key missing"),
-				"supported is required for OnlySupportedErr test",
-			)
+			errcore.HandleErrMessage("supported is required for OnlySupportedErr test")
 		}
 
 		supportedInts := supportedRaw.([]int)

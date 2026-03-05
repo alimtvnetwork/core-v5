@@ -16,10 +16,14 @@ func Test_ComparisonValueIndexes_Verification(t *testing.T) {
 	for caseIndex, testCase := range comparisonValueIndexesTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		leftStr, err := input.GetAsString("left")
-		errcore.HandleErrMessage(err, "left is required")
-		rightStr, err := input.GetAsString("right")
-		errcore.HandleErrMessage(err, "right is required")
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
 
 		// Act
 		leftV := coreversion.New.Create(leftStr)
@@ -42,10 +46,14 @@ func Test_VersionSliceInteger_Verification(t *testing.T) {
 	for caseIndex, testCase := range versionSliceIntegerTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		leftStr, err := input.GetAsString("left")
-		errcore.HandleErrMessage(err, "left is required")
-		rightStr, err := input.GetAsString("right")
-		errcore.HandleErrMessage(err, "right is required")
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
 
 		// Act
 		leftV := coreversion.New.Create(leftStr)
@@ -67,10 +75,14 @@ func Test_IsAtLeast_Verification(t *testing.T) {
 	for caseIndex, testCase := range isAtLeastTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		leftStr, err := input.GetAsString("left")
-		errcore.HandleErrMessage(err, "left is required")
-		rightStr, err := input.GetAsString("right")
-		errcore.HandleErrMessage(err, "right is required")
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
 
 		// Act
 		result := coreversion.IsAtLeast(leftStr, rightStr)
@@ -88,10 +100,14 @@ func Test_IsLower_Verification(t *testing.T) {
 	for caseIndex, testCase := range isLowerTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		leftStr, err := input.GetAsString("left")
-		errcore.HandleErrMessage(err, "left is required")
-		rightStr, err := input.GetAsString("right")
-		errcore.HandleErrMessage(err, "right is required")
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
 
 		// Act
 		result := coreversion.IsLower(leftStr, rightStr)
@@ -109,10 +125,14 @@ func Test_IsExpectedVersion_Verification(t *testing.T) {
 	for caseIndex, testCase := range isExpectedVersionTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		leftStr, err := input.GetAsString("left")
-		errcore.HandleErrMessage(err, "left is required")
-		rightStr, err := input.GetAsString("right")
-		errcore.HandleErrMessage(err, "right is required")
+		leftStr, ok := input.GetAsString("left")
+		if !ok {
+			errcore.HandleErrMessage("left is required")
+		}
+		rightStr, ok := input.GetAsString("right")
+		if !ok {
+			errcore.HandleErrMessage("right is required")
+		}
 		expected := input["expected"].(corecomparator.Compare)
 
 		// Act
