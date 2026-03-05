@@ -13,9 +13,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 			"left":  5,
 			"right": 5,
 		},
-		ExpectedInput: []string{
-			"Equal",
-		},
+		ExpectedInput: "Equal", // compareResult
 	},
 	{
 		Title: "Integer returns LeftLess when left < right",
@@ -24,9 +22,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 			"left":  3,
 			"right": 7,
 		},
-		ExpectedInput: []string{
-			"LeftLess",
-		},
+		ExpectedInput: "LeftLess", // compareResult
 	},
 	{
 		Title: "Integer returns LeftGreater when left > right",
@@ -35,9 +31,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 			"left":  10,
 			"right": 2,
 		},
-		ExpectedInput: []string{
-			"LeftGreater",
-		},
+		ExpectedInput: "LeftGreater", // compareResult
 	},
 }
 
@@ -49,9 +43,7 @@ var isStringsEqualTestCases = []coretestcases.CaseV1{
 			"left":  []string{"a", "b", "c"},
 			"right": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true", // isEqual
 	},
 	{
 		Title: "IsStringsEqual returns false for different slices",
@@ -60,9 +52,7 @@ var isStringsEqualTestCases = []coretestcases.CaseV1{
 			"left":  []string{"a", "b"},
 			"right": []string{"a", "c"},
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false", // isEqual
 	},
 	{
 		Title: "IsStringsEqual returns false for different lengths",
@@ -71,8 +61,6 @@ var isStringsEqualTestCases = []coretestcases.CaseV1{
 			"left":  []string{"a"},
 			"right": []string{"a", "b"},
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false", // isEqual
 	},
 }

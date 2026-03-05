@@ -3,6 +3,7 @@ package coreoncetests
 import (
 	"errors"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -21,6 +22,7 @@ type bytesErrorOnceTestCase struct {
 // BytesErrorOnce — Core (Value, Length, IsEmpty, IsNull, IsDefined, HasAnyItem)
 // =============================================================================
 
+// Note: 9 fields — exceeds args.Six, kept as []string for accuracy.
 var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
@@ -59,14 +61,24 @@ var bytesErrorOnceCachingTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: []string{"cached", "cached", "true", "true", "1"},
+			ExpectedInput: args.Five[string, string, string, string, string]{
+				First:  "cached", // value1
+				Second: "cached", // value2
+				Third:  "true",   // value1EqValue2
+				Fourth: "true",   // executeEqValue
+				Fifth:  "1",      // callCount
+			},
 		},
 		InitBytes: []byte("cached"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.Value caches error result",
-			ExpectedInput: []string{"", "true", "test error"},
+			Title: "BytesErrorOnce.Value caches error result",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "",           // emptyValue
+				Second: "true",       // hasError
+				Third:  "test error", // errorMessage
+			},
 		},
 		InitErr: errors.New("test error"),
 	},
@@ -79,7 +91,7 @@ var bytesErrorOnceCachingTestCases = []bytesErrorOnceTestCase{
 var bytesErrorOnceExecuteTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
 		Title:         "BytesErrorOnce.Execute returns same as Value",
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true", // executeEqValue
 	},
 	InitBytes: []byte("exec"),
 }
@@ -87,15 +99,18 @@ var bytesErrorOnceExecuteTestCase = bytesErrorOnceTestCase{
 var bytesErrorOnceValueOnlyTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
 		Title:         "BytesErrorOnce.ValueOnly returns bytes without error",
-		ExpectedInput: []string{"only"},
+		ExpectedInput: "only", // valueOnlyResult
 	},
 	InitBytes: []byte("only"),
 }
 
 var bytesErrorOnceValueWithErrorTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title:         "BytesErrorOnce.ValueWithError aliases Value",
-		ExpectedInput: []string{"vwe", "true"},
+		Title: "BytesErrorOnce.ValueWithError aliases Value",
+		ExpectedInput: args.Two[string, string]{
+			First:  "vwe",  // valueWithErrorResult
+			Second: "true", // noError
+		},
 	},
 	InitBytes: []byte("vwe"),
 }
@@ -107,15 +122,29 @@ var bytesErrorOnceValueWithErrorTestCase = bytesErrorOnceTestCase{
 var bytesErrorOnceErrorStateTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce with error — HasError, IsInvalid, IsFailed true",
-			ExpectedInput: []string{"true", "false", "false", "false", "true", "true"},
+			Title: "BytesErrorOnce with error — HasError, IsInvalid, IsFailed true",
+			ExpectedInput: args.Six[string, string, string, string, string, string]{
+				First:  "true",  // hasError
+				Second: "false", // isValid
+				Third:  "false", // isSuccess
+				Fourth: "false", // isEmpty
+				Fifth:  "true",  // isInvalid
+				Sixth:  "true",  // isFailed
+			},
 		},
 		InitErr: errors.New("fail"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce without error — HasError false, IsValid, IsSuccess true",
-			ExpectedInput: []string{"false", "true", "true", "true", "false", "false"},
+			Title: "BytesErrorOnce without error — HasError false, IsValid, IsSuccess true",
+			ExpectedInput: args.Six[string, string, string, string, string, string]{
+				First:  "false", // hasError
+				Second: "true",  // isValid
+				Third:  "true",  // isSuccess
+				Fourth: "true",  // isEmpty
+				Fifth:  "false", // isInvalid
+				Sixth:  "false", // isFailed
+			},
 		},
 		InitBytes: []byte("ok"),
 	},
@@ -128,30 +157,42 @@ var bytesErrorOnceErrorStateTestCases = []bytesErrorOnceTestCase{
 var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce with error — HasIssuesOrEmpty true",
-			ExpectedInput: []string{"true", "false"},
+			Title: "BytesErrorOnce with error — HasIssuesOrEmpty true",
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // hasIssuesOrEmpty
+				Second: "false", // hasSafeItems
+			},
 		},
 		InitBytes: []byte("data"),
 		InitErr:   errors.New("err"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce empty bytes — HasIssuesOrEmpty true",
-			ExpectedInput: []string{"true", "false"},
+			Title: "BytesErrorOnce empty bytes — HasIssuesOrEmpty true",
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // hasIssuesOrEmpty
+				Second: "false", // hasSafeItems
+			},
 		},
 		InitBytes: []byte{},
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce data no error — HasIssuesOrEmpty false, HasSafeItems true",
-			ExpectedInput: []string{"false", "true"},
+			Title: "BytesErrorOnce data no error — HasIssuesOrEmpty false, HasSafeItems true",
+			ExpectedInput: args.Two[string, string]{
+				First:  "false", // hasIssuesOrEmpty
+				Second: "true",  // hasSafeItems
+			},
 		},
 		InitBytes: []byte("ok"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce nil receiver — HasIssuesOrEmpty true",
-			ExpectedInput: []string{"true", "false"},
+			Title: "BytesErrorOnce nil receiver — HasIssuesOrEmpty true",
+			ExpectedInput: args.Two[string, string]{
+				First:  "true",  // hasIssuesOrEmpty
+				Second: "false", // hasSafeItems
+			},
 		},
 		IsNilReceiver: true,
 	},
@@ -164,22 +205,34 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce 'str-val' — String returns correct value",
-			ExpectedInput: []string{"str-val", "false", "false"},
+			Title: "BytesErrorOnce 'str-val' — String returns correct value",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "str-val", // stringValue
+				Second: "false",   // isStringEmpty
+				Third:  "false",   // isStringEmptyOrWhitespace
+			},
 		},
 		InitBytes: []byte("str-val"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce nil — String empty, IsStringEmpty true",
-			ExpectedInput: []string{"", "true", "true"},
+			Title: "BytesErrorOnce nil — String empty, IsStringEmpty true",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "",     // stringValue
+				Second: "true", // isStringEmpty
+				Third:  "true", // isStringEmptyOrWhitespace
+			},
 		},
 		InitBytes: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce whitespace — IsStringEmptyOrWhitespace true",
-			ExpectedInput: []string{"   ", "false", "true"},
+			Title: "BytesErrorOnce whitespace — IsStringEmptyOrWhitespace true",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "   ",   // stringValue
+				Second: "false", // isStringEmpty
+				Third:  "true",  // isStringEmptyOrWhitespace
+			},
 		},
 		InitBytes: []byte("   "),
 	},
@@ -199,29 +252,42 @@ type bytesErrorOnceDeserializeTestCase struct {
 var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.Deserialize succeeds with valid JSON",
-			ExpectedInput: []string{"true", "test"},
+			Title: "BytesErrorOnce.Deserialize succeeds with valid JSON",
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // noError
+				Second: "test", // deserializedName
+			},
 		},
 		InitJson: `{"name":"test"}`,
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.Deserialize returns error when source has error",
-			ExpectedInput: []string{"true", "true", "true"},
+			Title: "BytesErrorOnce.Deserialize returns error when source has error",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "true", // hasSourceError
+				Second: "true", // hasDeserializeError
+				Third:  "true", // errorsMatch
+			},
 		},
 		InitErr: errors.New("source error"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.Deserialize with invalid JSON returns error",
-			ExpectedInput: []string{"true", "true"},
+			Title: "BytesErrorOnce.Deserialize with invalid JSON returns error",
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // hasError
+				Second: "true", // isJsonError
+			},
 		},
 		InitJson: "not-json",
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.DeserializeMust succeeds without panic",
-			ExpectedInput: []string{"false", "val"},
+			Title: "BytesErrorOnce.DeserializeMust succeeds without panic",
+			ExpectedInput: args.Two[string, string]{
+				First:  "false", // didPanic
+				Second: "val",   // deserializedKey
+			},
 		},
 		InitJson: `{"key":"val"}`,
 		IsMust:   true,
@@ -229,7 +295,7 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "BytesErrorOnce.DeserializeMust panics on error",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true", // didPanic
 		},
 		InitErr: errors.New("must-fail"),
 		IsMust:  true,
@@ -242,16 +308,22 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 
 var bytesErrorOnceMarshalJSONTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title:         "BytesErrorOnce.MarshalJSON returns bytes",
-		ExpectedInput: []string{"true", `{"a":1}`},
+		Title: "BytesErrorOnce.MarshalJSON returns bytes",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",    // noError
+			Second: `{"a":1}`, // marshaledValue
+		},
 	},
 	InitBytes: []byte(`{"a":1}`),
 }
 
 var bytesErrorOnceSerializeTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title:         "BytesErrorOnce.Serialize returns bytes",
-		ExpectedInput: []string{"true", "ser"},
+		Title: "BytesErrorOnce.Serialize returns bytes",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // noError
+			Second: "ser",  // serializedValue
+		},
 	},
 	InitBytes: []byte("ser"),
 }
@@ -269,22 +341,34 @@ type bytesErrorOnceLifecycleTestCase struct {
 var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce — HandleError no panic, MustBeEmptyError no panic on success",
-			ExpectedInput: []string{"false", "false", "false"},
+			Title: "BytesErrorOnce — HandleError no panic, MustBeEmptyError no panic on success",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "false", // handleErrorPanicked
+				Second: "false", // mustBeEmptyErrorPanicked
+				Third:  "false", // mustHaveSafeItemsPanicked
+			},
 		},
 		InitBytes: []byte("ok"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce — HandleError panics on error",
-			ExpectedInput: []string{"true", "false", "false"},
+			Title: "BytesErrorOnce — HandleError panics on error",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "true",  // handleErrorPanicked
+				Second: "false", // mustBeEmptyErrorPanicked
+				Third:  "false", // mustHaveSafeItemsPanicked
+			},
 		},
 		InitErr: errors.New("handle-err"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce — MustHaveSafeItems panics when empty",
-			ExpectedInput: []string{"false", "false", "true"},
+			Title: "BytesErrorOnce — MustHaveSafeItems panics when empty",
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "false", // handleErrorPanicked
+				Second: "false", // mustBeEmptyErrorPanicked
+				Third:  "true",  // mustHaveSafeItemsPanicked
+			},
 		},
 		InitBytes: []byte{},
 	},
@@ -293,8 +377,11 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 var bytesErrorOnceInitializedTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.IsInitialized false before, true after Value call",
-			ExpectedInput: []string{"false", "true"},
+			Title: "BytesErrorOnce.IsInitialized false before, true after Value call",
+			ExpectedInput: args.Two[string, string]{
+				First:  "false", // isInitializedBefore
+				Second: "true",  // isInitializedAfter
+			},
 		},
 		InitBytes: []byte("x"),
 	},
@@ -303,15 +390,18 @@ var bytesErrorOnceInitializedTestCases = []bytesErrorOnceTestCase{
 var bytesErrorOnceSerializeMustTestCases = []bytesErrorOnceLifecycleTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.SerializeMust returns bytes without panic",
-			ExpectedInput: []string{"false", "must-ser"},
+			Title: "BytesErrorOnce.SerializeMust returns bytes without panic",
+			ExpectedInput: args.Two[string, string]{
+				First:  "false",    // didPanic
+				Second: "must-ser", // serializedValue
+			},
 		},
 		InitBytes: []byte("must-ser"),
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "BytesErrorOnce.SerializeMust panics on error",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true", // didPanic
 		},
 		InitErr: errors.New("ser-fail"),
 	},
@@ -320,8 +410,11 @@ var bytesErrorOnceSerializeMustTestCases = []bytesErrorOnceLifecycleTestCase{
 var bytesErrorOnceConstructorTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "NewBytesErrorOnce (value) works correctly",
-			ExpectedInput: []string{"val", "true"},
+			Title: "NewBytesErrorOnce (value) works correctly",
+			ExpectedInput: args.Two[string, string]{
+				First:  "val",  // value
+				Second: "true", // isCorrect
+			},
 		},
 		InitBytes: []byte("val"),
 	},

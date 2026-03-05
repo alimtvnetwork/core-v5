@@ -1,6 +1,7 @@
 package coreoncetests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -13,6 +14,7 @@ type integerOnceTestCase struct {
 	InitValue int
 }
 
+// Note: 8 fields — exceeds args.Six, kept as []string for accuracy.
 var integerOnceCoreTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
@@ -72,10 +74,10 @@ var integerOnceCachingTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: []string{
-				"42", // r1
-				"42", // r2
-				"1",  // callCount
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "42", // r1
+				Second: "42", // r2
+				Third:  "1",  // callCount
 			},
 		},
 		InitValue: 42,
@@ -96,10 +98,10 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 10 — IsAbove(5), IsAboveEqual(10)",
-			ExpectedInput: []string{
-				"true",  // IsAbove(5)
-				"false", // IsAbove(10)
-				"true",  // IsAboveEqual(10)
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "true",  // isAbove5
+				Second: "false", // isAbove10
+				Third:  "true",  // isAboveEqual10
 			},
 		},
 		InitValue:    10,
@@ -108,10 +110,10 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 3 — IsLessThan(5), IsLessThanEqual(3)",
-			ExpectedInput: []string{
-				"true",  // IsLessThan(5)
-				"false", // IsLessThan(3)
-				"true",  // IsLessThanEqual(3)
+			ExpectedInput: args.Three[string, string, string]{
+				First:  "true",  // isLessThan5
+				Second: "false", // isLessThan3
+				Third:  "true",  // isLessThanEqual3
 			},
 		},
 		InitValue:    3,
@@ -127,9 +129,9 @@ var integerOnceJsonTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 42 — MarshalJSON returns '42'",
-			ExpectedInput: []string{
-				"true", // no error
-				"42",   // marshaled value
+			ExpectedInput: args.Two[string, string]{
+				First:  "true", // noError
+				Second: "42",   // marshaledValue
 			},
 		},
 		InitValue: 42,
