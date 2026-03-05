@@ -19,10 +19,10 @@ var compareJsonRoundtripTestCases = []coretestcases.CaseV1{
 			"value":          0,
 			"unmarshalInput": "3",
 		},
-		ExpectedInput: []string{
-			"\"Equal\"",
-			"NotEqual",
-			"3",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "\"Equal\"", // marshaledJson
+			Second: "NotEqual",  // unmarshaledName
+			Third:  "3",         // unmarshaledValue
 		},
 	},
 }
@@ -39,9 +39,7 @@ var onlySupportedErrTestCases = []coretestcases.CaseV1{
 			"message":   "dining doesn't support more",
 			"supported": []int{6, 3},
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true", // hasError
 	},
 	{
 		Title: "Equal IS in the supported list — should return nil error",
@@ -50,9 +48,7 @@ var onlySupportedErrTestCases = []coretestcases.CaseV1{
 			"message":   "some context message",
 			"supported": []int{0, 3},
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false", // hasError
 	},
 	{
 		Title: "Inconclusive is NOT in the supported list — should return error",
@@ -61,9 +57,7 @@ var onlySupportedErrTestCases = []coretestcases.CaseV1{
 			"message":   "only equal allowed",
 			"supported": []int{0},
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true", // hasError
 	},
 	{
 		Title: "Inconclusive IS in the supported list — should return nil error",
@@ -72,8 +66,6 @@ var onlySupportedErrTestCases = []coretestcases.CaseV1{
 			"message":   "inconclusive is fine",
 			"supported": []int{6, 0, 3},
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false", // hasError
 	},
 }

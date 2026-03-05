@@ -14,7 +14,11 @@ var stringStringCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given 3 StringString items",
 			"count": 3,
 		},
-		ExpectedInput: []string{"3", "false", "true"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "3",     // length
+			Second: "false", // isEmpty
+			Third:  "true",  // hasItems
+		},
 	},
 	{
 		Title: "Positive: Empty collection",
@@ -22,7 +26,11 @@ var stringStringCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given no items",
 			"count": 0,
 		},
-		ExpectedInput: []string{"0", "true", "false"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "0",     // length
+			Second: "true",  // isEmpty
+			Third:  "false", // hasItems
+		},
 	},
 }
 
@@ -37,7 +45,11 @@ var stringIntCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given 2 StringInt items",
 			"count": 2,
 		},
-		ExpectedInput: []string{"2", "true", "true"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2",    // length
+			Second: "true", // hasFirstItem
+			Third:  "true", // joinContainsAll
+		},
 	},
 	{
 		Title: "Negative: Single item collection",
@@ -45,7 +57,11 @@ var stringIntCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given 1 StringInt item",
 			"count": 1,
 		},
-		ExpectedInput: []string{"1", "true", "false"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "1",     // length
+			Second: "true",  // hasFirstItem
+			Third:  "false", // joinContainsAll
+		},
 	},
 }
 
@@ -59,7 +75,10 @@ var collectionPrependTestCase = coretestcases.CaseV1{
 		"when": "prepend 1 item to 2-item collection",
 		"op":   "prepend",
 	},
-	ExpectedInput: []string{"3", "prepended"},
+	ExpectedInput: args.Two[string, string]{
+		First:  "3",         // length
+		Second: "prepended", // firstItem
+	},
 }
 
 var collectionAppendTestCase = coretestcases.CaseV1{
@@ -68,7 +87,10 @@ var collectionAppendTestCase = coretestcases.CaseV1{
 		"when": "append 1 item to 2-item collection",
 		"op":   "append",
 	},
-	ExpectedInput: []string{"3", "appended"},
+	ExpectedInput: args.Two[string, string]{
+		First:  "3",        // length
+		Second: "appended", // lastItem
+	},
 }
 
 var collectionPrependIfFalseTestCase = coretestcases.CaseV1{
@@ -77,7 +99,10 @@ var collectionPrependIfFalseTestCase = coretestcases.CaseV1{
 		"when": "prepend with false condition",
 		"op":   "prependif-false",
 	},
-	ExpectedInput: []string{"2", "original-0"},
+	ExpectedInput: args.Two[string, string]{
+		First:  "2",          // length
+		Second: "original-0", // firstItem
+	},
 }
 
 var collectionAppendIfFalseTestCase = coretestcases.CaseV1{
@@ -86,7 +111,10 @@ var collectionAppendIfFalseTestCase = coretestcases.CaseV1{
 		"when": "append with false condition",
 		"op":   "appendif-false",
 	},
-	ExpectedInput: []string{"2", "original-0"},
+	ExpectedInput: args.Two[string, string]{
+		First:  "2",          // length
+		Second: "original-0", // firstItem
+	},
 }
 
 // endregion
@@ -99,7 +127,11 @@ var collectionCloneValidTestCase = coretestcases.CaseV1{
 		"when":  "clone a 3-item collection",
 		"count": 3,
 	},
-	ExpectedInput: []string{"3", "true", "true"},
+	ExpectedInput: args.Three[string, string, string]{
+		First:  "3",    // length
+		Second: "true", // sameContent
+		Third:  "true", // isIndependent
+	},
 }
 
 var collectionCloneNilTestCase = coretestcases.CaseV1{
@@ -107,7 +139,7 @@ var collectionCloneNilTestCase = coretestcases.CaseV1{
 	ArrangeInput: args.Map{
 		"when": "clone nil collection",
 	},
-	ExpectedInput: "true",
+	ExpectedInput: "true", // isNil
 }
 
 // endregion
@@ -120,7 +152,7 @@ var collectionIsEqualEqualTestCase = coretestcases.CaseV1{
 		"when": "two identical collections",
 		"case": "equal",
 	},
-	ExpectedInput: "true",
+	ExpectedInput: "true", // isEqual
 }
 
 var collectionIsEqualNotEqualTestCase = coretestcases.CaseV1{
@@ -129,7 +161,7 @@ var collectionIsEqualNotEqualTestCase = coretestcases.CaseV1{
 		"when": "two different collections",
 		"case": "notequal",
 	},
-	ExpectedInput: "false",
+	ExpectedInput: "false", // isEqual
 }
 
 var collectionIsEqualDiffLengthTestCase = coretestcases.CaseV1{
@@ -138,7 +170,7 @@ var collectionIsEqualDiffLengthTestCase = coretestcases.CaseV1{
 		"when": "collections with different lengths",
 		"case": "difflength",
 	},
-	ExpectedInput: "false",
+	ExpectedInput: "false", // isEqual
 }
 
 var collectionIsEqualBothNilsTestCase = coretestcases.CaseV1{
@@ -147,7 +179,7 @@ var collectionIsEqualBothNilsTestCase = coretestcases.CaseV1{
 		"when": "both nil collections",
 		"case": "bothnils",
 	},
-	ExpectedInput: "true",
+	ExpectedInput: "true", // isEqual
 }
 
 // endregion
@@ -161,7 +193,10 @@ var collectionErrorTestCases = []coretestcases.CaseV1{
 			"when":  "collection with items",
 			"count": 2,
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // hasError
+			Second: "true", // errorContainsItems
+		},
 	},
 	{
 		Title: "Negative: Empty collection returns nil error",
@@ -169,7 +204,10 @@ var collectionErrorTestCases = []coretestcases.CaseV1{
 			"when":  "empty collection",
 			"count": 0,
 		},
-		ExpectedInput: []string{"false", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // hasError
+			Second: "false", // errorContainsItems
+		},
 	},
 }
 
@@ -184,7 +222,7 @@ var collectionDisposeTestCases = []coretestcases.CaseV1{
 			"when":  "dispose a 3-item collection",
 			"count": 3,
 		},
-		ExpectedInput: "true",
+		ExpectedInput: "true", // isEmptyAfterDispose
 	},
 }
 
@@ -200,7 +238,10 @@ var collectionConcatNewTestCases = []coretestcases.CaseV1{
 			"original": 2,
 			"extra":    2,
 		},
-		ExpectedInput: []string{"4", "2"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "4", // mergedLength
+			Second: "2", // originalLength
+		},
 	},
 	{
 		Title: "Negative: ConcatNew with no extra items",
@@ -209,7 +250,10 @@ var collectionConcatNewTestCases = []coretestcases.CaseV1{
 			"original": 2,
 			"extra":    0,
 		},
-		ExpectedInput: []string{"2", "2"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "2", // mergedLength
+			Second: "2", // originalLength
+		},
 	},
 }
 
@@ -226,7 +270,10 @@ var stringMapAnyCollectionWithValuesTestCase = coretestcases.CaseV1{
 			{"key": 1},
 		},
 	},
-	ExpectedInput: []string{"2", "true"},
+	ExpectedInput: args.Two[string, string]{
+		First:  "2",    // length
+		Second: "true", // hasValues
+	},
 }
 
 var stringMapAnyCollectionNilValueTestCase = coretestcases.CaseV1{
@@ -237,7 +284,10 @@ var stringMapAnyCollectionNilValueTestCase = coretestcases.CaseV1{
 			nil,
 		},
 	},
-	ExpectedInput: []string{"1", "true"},
+	ExpectedInput: args.Two[string, string]{
+		First:  "1",    // length
+		Second: "true", // isNilMap
+	},
 }
 
 // endregion

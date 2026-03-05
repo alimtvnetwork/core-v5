@@ -5,6 +5,7 @@ import (
 	"reflect"
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -21,21 +22,21 @@ var castedResultIsInvalidTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsInvalid true on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsInvalid false when IsValid=true",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: &coredynamic.CastedResult{IsValid: true},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsInvalid true when IsValid=false",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsValid: false},
 	},
@@ -49,21 +50,21 @@ var castedResultIsNotNullTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotNull false on nil receiver",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotNull true when IsNull=false",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsNull: false},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotNull false when IsNull=true",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: &coredynamic.CastedResult{IsNull: true},
 	},
@@ -77,21 +78,21 @@ var castedResultIsNotPointerTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotPointer false on nil receiver",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotPointer true when IsPointer=false",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsPointer: false},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotPointer false when IsPointer=true",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: &coredynamic.CastedResult{IsPointer: true},
 	},
@@ -105,21 +106,21 @@ var castedResultIsNotMatchingAcceptedTypeTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotMatchingAcceptedType false on nil receiver",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotMatchingAcceptedType true when not matching",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsMatchingAcceptedType: false},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsNotMatchingAcceptedType false when matching",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: &coredynamic.CastedResult{IsMatchingAcceptedType: true},
 	},
@@ -139,7 +140,7 @@ var castedResultIsSourceKindTestCases = []castedResultIsSourceKindTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsSourceKind false on nil receiver",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR:        nil,
 		CheckKind: reflect.String,
@@ -147,7 +148,7 @@ var castedResultIsSourceKindTestCases = []castedResultIsSourceKindTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsSourceKind true on kind match",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR:        &coredynamic.CastedResult{SourceKind: reflect.Int},
 		CheckKind: reflect.Int,
@@ -155,7 +156,7 @@ var castedResultIsSourceKindTestCases = []castedResultIsSourceKindTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsSourceKind false on mismatch",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR:        &coredynamic.CastedResult{SourceKind: reflect.Int},
 		CheckKind: reflect.String,
@@ -170,21 +171,21 @@ var castedResultHasErrorTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasError false on nil receiver",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasError true when error present",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{Error: errors.New("fail")},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasError false when no error",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: &coredynamic.CastedResult{},
 	},
@@ -198,35 +199,35 @@ var castedResultHasAnyIssuesTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasAnyIssues true on nil receiver",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: nil,
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasAnyIssues true when invalid",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsValid: false, IsMatchingAcceptedType: true},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasAnyIssues true when null",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsValid: true, IsNull: true, IsMatchingAcceptedType: true},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasAnyIssues true when type not matching",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsValid: true, IsNull: false, IsMatchingAcceptedType: false},
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "HasAnyIssues false when all good",
-			ExpectedInput: []string{"false"},
+			ExpectedInput: "false",
 		},
 		CR: &coredynamic.CastedResult{
 			IsValid:                true,
@@ -243,8 +244,11 @@ var castedResultHasAnyIssuesTestCases = []castedResultTestCase{
 var castedResultSourceReflectTypeTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "Stores SourceReflectType correctly",
-			ExpectedInput: []string{"string", "true"},
+			Title: "Stores SourceReflectType correctly",
+			ExpectedInput: args.Two[string, string]{
+				First:  "string", // typeName
+				Second: "true",   // isStringKind
+			},
 		},
 		CR: &coredynamic.CastedResult{
 			SourceReflectType: reflect.TypeOf(""),
@@ -260,8 +264,11 @@ var castedResultSourceReflectTypeTestCases = []castedResultTestCase{
 var castedResultCastedValueTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "Casted stores value and HasAnyIssues false",
-			ExpectedInput: []string{"42", "false"},
+			Title: "Casted stores value and HasAnyIssues false",
+			ExpectedInput: args.Two[string, string]{
+				First:  "42",    // castedValue
+				Second: "false", // hasAnyIssues
+			},
 		},
 		CR: &coredynamic.CastedResult{
 			Casted:                 42,
@@ -279,7 +286,7 @@ var castedResultIsSourcePointerTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "IsSourcePointer field works",
-			ExpectedInput: []string{"true"},
+			ExpectedInput: "true",
 		},
 		CR: &coredynamic.CastedResult{IsSourcePointer: true},
 	},
