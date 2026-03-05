@@ -13,10 +13,10 @@ var fileWithLineTestCases = []coretestcases.CaseV1{
 			"file": "/src/main.go",
 			"line": 42,
 		},
-		ExpectedInput: []string{
-			"/src/main.go",
-			"42",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "/src/main.go", // filePath
+			Second: "42",           // lineNumber
+			Third:  "true",         // isValid
 		},
 	},
 	{
@@ -26,10 +26,10 @@ var fileWithLineTestCases = []coretestcases.CaseV1{
 			"file": "",
 			"line": 0,
 		},
-		ExpectedInput: []string{
-			"",
-			"0",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "",     // filePath
+			Second: "0",    // lineNumber
+			Third:  "true", // isValid
 		},
 	},
 }

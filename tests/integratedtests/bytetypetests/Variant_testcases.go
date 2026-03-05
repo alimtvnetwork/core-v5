@@ -12,11 +12,11 @@ var newVariantTestCases = []coretestcases.CaseV1{
 			"when":  "given byte value 5",
 			"input": 5,
 		},
-		ExpectedInput: []string{
-			"5",
-			"false",
-			"false",
-			"true",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "5",     // value
+			Second: "false", // isZero
+			Third:  "false", // isEmpty
+			Fourth: "true",  // isNonZero
 		},
 	},
 	{
@@ -25,11 +25,11 @@ var newVariantTestCases = []coretestcases.CaseV1{
 			"when":  "given byte value 0",
 			"input": 0,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
-			"true",
-			"false",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "0",    // value
+			Second: "true", // isZero
+			Third:  "true", // isEmpty
+			Fourth: "false", // isNonZero
 		},
 	},
 }

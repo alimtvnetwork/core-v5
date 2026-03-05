@@ -13,7 +13,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{1, 2, 3, 4, 5},
 			"eachPageSize": 0,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "GetPagesSize returns 0 for negative eachPageSize",
@@ -22,7 +22,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{1, 2, 3},
 			"eachPageSize": -3,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "GetPagesSize returns 0 for empty collection",
@@ -31,7 +31,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{},
 			"eachPageSize": 5,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: "0",
 	},
 	{
 		Title: "GetPagesSize returns 1 when items fit in one page",
@@ -40,7 +40,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{1, 2, 3},
 			"eachPageSize": 5,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "GetPagesSize returns 1 when items exactly fill one page",
@@ -49,7 +49,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{1, 2, 3, 4, 5},
 			"eachPageSize": 5,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 	{
 		Title: "GetPagesSize returns 2 when items spill into second page",
@@ -58,7 +58,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{1, 2, 3, 4, 5, 6},
 			"eachPageSize": 5,
 		},
-		ExpectedInput: []string{"2"},
+		ExpectedInput: "2",
 	},
 	{
 		Title: "GetPagesSize returns 3 for 10 items with eachPageSize=4",
@@ -67,7 +67,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
 			"eachPageSize": 4,
 		},
-		ExpectedInput: []string{"3"},
+		ExpectedInput: "3",
 	},
 	{
 		Title: "GetPagesSize returns count when eachPageSize=1",
@@ -76,7 +76,7 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{1, 2, 3, 4},
 			"eachPageSize": 1,
 		},
-		ExpectedInput: []string{"4"},
+		ExpectedInput: "4",
 	},
 	{
 		Title: "GetPagesSize returns 1 when single item with eachPageSize=1",
@@ -85,6 +85,6 @@ var collectionGetPagesSizeTestCases = []coretestcases.CaseV1{
 			"items":        []int{42},
 			"eachPageSize": 1,
 		},
-		ExpectedInput: []string{"1"},
+		ExpectedInput: "1",
 	},
 }

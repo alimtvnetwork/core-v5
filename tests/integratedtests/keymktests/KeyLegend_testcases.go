@@ -9,18 +9,18 @@ var keyLegendGroupIntRangeTestCases = []coretestcases.CaseV1{
 	{
 		Title: "GroupIntRange generates correct range of keys",
 		ArrangeInput: args.Map{
-			"when":     "given range 5 to 10",
-			"root":     "cimux",
-			"package":  "main",
-			"group":    "myg",
-			"state":    "stateName",
-			"startId":  5,
-			"endId":    10,
+			"when":    "given range 5 to 10",
+			"root":    "cimux",
+			"package": "main",
+			"group":   "myg",
+			"state":   "stateName",
+			"startId": 5,
+			"endId":   10,
 		},
-		ExpectedInput: []string{
-			"6",
-			"cimux-main-5-stateName",
-			"cimux-main-10-stateName",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "6",                       // count
+			Second: "cimux-main-5-stateName",  // firstKey
+			Third:  "cimux-main-10-stateName", // lastKey
 		},
 	},
 }

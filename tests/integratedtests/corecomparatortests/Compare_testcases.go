@@ -12,12 +12,12 @@ var compareStringTestCases = []coretestcases.CaseV1{
 			"when":  "given Equal compare",
 			"value": 0,
 		},
-		ExpectedInput: []string{
-			"Equal",
-			"=",
-			"eq",
-			"true",
-			"true",
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "Equal", // name
+			Second: "=",     // symbol
+			Third:  "eq",    // shortName
+			Fourth: "true",  // isEqual
+			Fifth:  "true",  // isValid
 		},
 	},
 	{
@@ -26,12 +26,12 @@ var compareStringTestCases = []coretestcases.CaseV1{
 			"when":  "given LeftGreater compare",
 			"value": 1,
 		},
-		ExpectedInput: []string{
-			"LeftGreater",
-			">",
-			"gt",
-			"false",
-			"true",
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "LeftGreater", // name
+			Second: ">",           // symbol
+			Third:  "gt",          // shortName
+			Fourth: "false",       // isEqual
+			Fifth:  "true",        // isValid
 		},
 	},
 	{
@@ -40,12 +40,12 @@ var compareStringTestCases = []coretestcases.CaseV1{
 			"when":  "given Inconclusive compare",
 			"value": 6,
 		},
-		ExpectedInput: []string{
-			"Inconclusive",
-			"?!",
-			"i",
-			"false",
-			"false",
+		ExpectedInput: args.Five[string, string, string, string, string]{
+			First:  "Inconclusive", // name
+			Second: "?!",           // symbol
+			Third:  "i",            // shortName
+			Fourth: "false",        // isEqual
+			Fifth:  "false",        // isValid
 		},
 	},
 }
