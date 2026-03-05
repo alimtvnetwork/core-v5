@@ -59,8 +59,10 @@ func Test_PagingInfo_IsEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range pagingInfoIsEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isLeftNil, _ := input.GetAsBool("isLeftNil")
-		isRightNil, _ := input.GetAsBool("isRightNil")
+		isLeftNilRaw, _ := input.Get("isLeftNil")
+		isLeftNil, _ := isLeftNilRaw.(bool)
+		isRightNilRaw, _ := input.Get("isRightNil")
+		isRightNil, _ := isRightNilRaw.(bool)
 
 		var left, right *corepayload.PagingInfo
 		if !isLeftNil {
