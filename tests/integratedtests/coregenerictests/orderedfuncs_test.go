@@ -513,24 +513,8 @@ func Test_MinMaxValueOrDefault_Hashmap_NonEmpty_Verification(t *testing.T) {
 // Test: MinValueHashmap / MaxValueHashmap
 // ==========================================
 
-func Test_MinMaxValue_Hashmap_Verification(t *testing.T) {
-	for caseIndex, testCase := range minMaxValueHashmapTestCases {
-		// Arrange
-		hm := coregeneric.New.Hashmap.StringInt.Cap(3)
-		hm.Set("gamma", 30)
-		hm.Set("alpha", 1)
-		hm.Set("beta", 20)
-
-		// Act
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinValueHashmap(hm)),
-			fmt.Sprintf("%d", coregeneric.MaxValueHashmap(hm)),
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
-}
+// Test_MinMaxValue_Hashmap_Verification is defined above (line 454).
+// Removed duplicate declaration here.
 
 // ==========================================
 // Test: SortSimpleSlice

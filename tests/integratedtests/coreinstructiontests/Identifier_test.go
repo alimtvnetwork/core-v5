@@ -36,8 +36,10 @@ func Test_Identifiers_Length_Verification(t *testing.T) {
 	for caseIndex, testCase := range identifiersLengthTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		ids, err := input.GetAsStrings("ids")
-		errcore.HandleErrMessage("ids required", err)
+		ids, ok := input.GetAsStrings("ids")
+		if !ok {
+			errcore.HandleErrMessage("ids required")
+		}
 
 		// Act
 		identifiers := coreinstruction.NewIdentifiers(ids...)
@@ -57,8 +59,10 @@ func Test_Identifiers_GetById_Verification(t *testing.T) {
 	for caseIndex, testCase := range identifiersGetByIdTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		ids, err := input.GetAsStrings("ids")
-		errcore.HandleErrMessage("ids required", err)
+		ids, ok := input.GetAsStrings("ids")
+		if !ok {
+			errcore.HandleErrMessage("ids required")
+		}
 		searchId, _ := input.GetAsString("searchId")
 
 		// Act
@@ -85,8 +89,10 @@ func Test_Identifiers_IndexOf_Verification(t *testing.T) {
 	for caseIndex, testCase := range identifiersIndexOfTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		ids, err := input.GetAsStrings("ids")
-		errcore.HandleErrMessage("ids required", err)
+		ids, ok := input.GetAsStrings("ids")
+		if !ok {
+			errcore.HandleErrMessage("ids required")
+		}
 		searchId, _ := input.GetAsString("searchId")
 
 		// Act
@@ -106,8 +112,10 @@ func Test_Identifiers_Clone_Verification(t *testing.T) {
 	for caseIndex, testCase := range identifiersCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		ids, err := input.GetAsStrings("ids")
-		errcore.HandleErrMessage("ids required", err)
+		ids, ok := input.GetAsStrings("ids")
+		if !ok {
+			errcore.HandleErrMessage("ids required")
+		}
 
 		// Act
 		original := coreinstruction.NewIdentifiers(ids...)
@@ -131,8 +139,10 @@ func Test_Identifiers_Add_Verification(t *testing.T) {
 	for caseIndex, testCase := range identifiersAddTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		ids, err := input.GetAsStrings("ids")
-		errcore.HandleErrMessage("ids required", err)
+		ids, ok := input.GetAsStrings("ids")
+		if !ok {
+			errcore.HandleErrMessage("ids required")
+		}
 		addId, _ := input.GetAsString("addId")
 
 		// Act
@@ -160,9 +170,12 @@ func Test_Specification_Clone_Verification(t *testing.T) {
 		id, _ := input.GetAsString("id")
 		display, _ := input.GetAsString("display")
 		typeName, _ := input.GetAsString("typeName")
-		tags, err := input.GetAsStrings("tags")
-		errcore.HandleErrMessage("tags required", err)
-		isGlobal, _ := input.GetAsBool("isGlobal")
+		tags, ok := input.GetAsStrings("tags")
+		if !ok {
+			errcore.HandleErrMessage("tags required")
+		}
+		isGlobalRaw, _ := input.Get("isGlobal")
+		isGlobal, _ := isGlobalRaw.(bool)
 
 		// Act
 		spec := coreinstruction.NewSpecification(id, display, typeName, tags, isGlobal)
@@ -198,10 +211,14 @@ func Test_BaseTags_Verification(t *testing.T) {
 	for caseIndex, testCase := range baseTagsTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		tags, err := input.GetAsStrings("tags")
-		errcore.HandleErrMessage("tags required", err)
-		searchTags, err := input.GetAsStrings("searchTags")
-		errcore.HandleErrMessage("searchTags required", err)
+		tags, ok := input.GetAsStrings("tags")
+		if !ok {
+			errcore.HandleErrMessage("tags required")
+		}
+		searchTags, ok := input.GetAsStrings("searchTags")
+		if !ok {
+			errcore.HandleErrMessage("searchTags required")
+		}
 
 		// Act
 		baseTags := coreinstruction.NewTags(tags)

@@ -259,48 +259,4 @@ func Test_TypedResponseResult_ClonePtr_Nil_Verification(t *testing.T) {
 	}
 }
 
-// ==========================================
-// Test: TypedResponseResult ClonePtr
-// ==========================================
-
-func Test_TypedResponseResult_ClonePtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range typedResponseResultCloneTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		response, _ := input.GetAsString("response")
-
-		attr := &coreapi.ResponseAttribute{IsValid: true}
-		result := coreapi.NewTypedResponseResult[string](attr, response)
-
-		// Act
-		cloned := result.ClonePtr()
-		actLines := []string{
-			cloned.Response,
-			fmt.Sprintf("%v", cloned.IsValid()),
-			fmt.Sprintf("%v", cloned != result),
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
-}
-
-// ==========================================
-// Test: TypedResponseResult ClonePtr nil
-// ==========================================
-
-func Test_TypedResponseResult_ClonePtr_Nil_Verification(t *testing.T) {
-	for caseIndex, testCase := range typedResponseResultCloneNilTestCases {
-		// Arrange
-		var result *coreapi.TypedResponseResult[string]
-
-		// Act
-		cloned := result.ClonePtr()
-		actLines := []string{
-			fmt.Sprintf("%v", cloned == nil),
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
-}
+// Duplicate declarations removed — originals are at lines 220 and 246.

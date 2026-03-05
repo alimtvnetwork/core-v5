@@ -18,11 +18,15 @@ func Test_StringsTo_IntegersWithDefaults(t *testing.T) {
 	for caseIndex, testCase := range integersWithDefaultsTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		inputRaw, rawErr := input.Get("input")
-		errcore.HandleErrMessage("input", rawErr)
+		inputRaw, rawFound := input.Get("input")
+		if !rawFound {
+			errcore.HandleErrMessage("input is required")
+		}
 		inputSlice := inputRaw.([]string)
-		defaultInt, defErr := input.GetAsInt("defaultInt")
-		errcore.HandleErrMessage("defaultInt", defErr)
+		defaultInt, defFound := input.GetAsInt("defaultInt")
+		if !defFound {
+			errcore.HandleErrMessage("defaultInt is required")
+		}
 
 		// Act
 		result := converters.StringsTo.IntegersWithDefaults(defaultInt, inputSlice...)
@@ -47,11 +51,15 @@ func Test_StringsTo_BytesWithDefaults(t *testing.T) {
 	for caseIndex, testCase := range bytesWithDefaultsTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		inputRaw, rawErr := input.Get("input")
-		errcore.HandleErrMessage("input", rawErr)
+		inputRaw, rawFound := input.Get("input")
+		if !rawFound {
+			errcore.HandleErrMessage("input is required")
+		}
 		inputSlice := inputRaw.([]string)
-		defaultByteRaw, defErr := input.Get("defaultByte")
-		errcore.HandleErrMessage("defaultByte", defErr)
+		defaultByteRaw, defFound := input.Get("defaultByte")
+		if !defFound {
+			errcore.HandleErrMessage("defaultByte is required")
+		}
 		defaultByte := defaultByteRaw.(byte)
 
 		// Act
@@ -77,11 +85,15 @@ func Test_StringsTo_CloneIf(t *testing.T) {
 	for caseIndex, testCase := range cloneIfTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		inputRaw, rawErr := input.Get("input")
-		errcore.HandleErrMessage("input", rawErr)
+		inputRaw, rawFound := input.Get("input")
+		if !rawFound {
+			errcore.HandleErrMessage("input is required")
+		}
 		inputSlice := inputRaw.([]string)
-		isCloneRaw, cloneErr := input.Get("isClone")
-		errcore.HandleErrMessage("isClone", cloneErr)
+		isCloneRaw, cloneFound := input.Get("isClone")
+		if !cloneFound {
+			errcore.HandleErrMessage("isClone is required")
+		}
 		isClone := isCloneRaw.(bool)
 
 		// Act

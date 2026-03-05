@@ -17,8 +17,10 @@ func Test_AnyItemConverter_ToNonNullItems_SkipNil(t *testing.T) {
 	for caseIndex, testCase := range toNonNullItemsTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isSkipRaw, skipErr := input.Get("isSkipOnNil")
-		errcore.HandleErrMessage("isSkipOnNil", skipErr)
+		isSkipRaw, skipFound := input.Get("isSkipOnNil")
+		if !skipFound {
+			errcore.HandleErrMessage("isSkipOnNil is required")
+		}
 		isSkip := isSkipRaw.(bool)
 
 		inputRaw, _ := input.Get("input")

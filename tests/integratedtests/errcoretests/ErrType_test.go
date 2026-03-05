@@ -81,7 +81,7 @@ func Test_ErrType_Error_Verification(t *testing.T) {
 		result := errType.Error(message, ref)
 
 		// Assert
-		testCase.ShouldBeRegex(t, caseIndex, result)
+		testCase.ShouldBeRegex(t, caseIndex, result.Error())
 	}
 }
 

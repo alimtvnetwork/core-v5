@@ -15,11 +15,11 @@ func Test_Time_Compare_Verification(t *testing.T) {
 		input := testCase.ArrangeInput.(args.Map)
 		left, ok := input["left"].(time.Time)
 		if !ok {
-			errcore.HandleErrMessage(nil, "left must be time.Time")
+			errcore.HandleErrMessage("left must be time.Time")
 		}
 		right, ok := input["right"].(time.Time)
 		if !ok {
-			errcore.HandleErrMessage(nil, "right must be time.Time")
+			errcore.HandleErrMessage("right must be time.Time")
 		}
 
 		// Act

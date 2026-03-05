@@ -35,7 +35,8 @@ func Test_SliceToError_Verification(t *testing.T) {
 	for caseIndex, testCase := range sliceToErrorTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNil, _ := input.GetAsBool("isNil")
+		isNilRaw, _ := input.Get("isNil")
+		isNil, _ := isNilRaw.(bool)
 
 		var slice []string
 		if !isNil {
@@ -60,7 +61,8 @@ func Test_SliceToErrorPtr_Verification(t *testing.T) {
 	for caseIndex, testCase := range sliceToErrorPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNil, _ := input.GetAsBool("isNil")
+		isNilRaw, _ := input.Get("isNil")
+		isNil, _ := isNilRaw.(bool)
 
 		var slice []string
 		if !isNil {
