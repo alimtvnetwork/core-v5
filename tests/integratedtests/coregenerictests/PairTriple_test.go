@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 // ==========================================
@@ -17,10 +16,8 @@ func Test_Pair_NewPair_Valid(t *testing.T) {
 	for caseIndex, testCase := range pairNewValidTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		left, leftErr := input.GetAsString("left")
-		errcore.HandleErrMessage("left", leftErr)
-		right, rightErr := input.GetAsString("right")
-		errcore.HandleErrMessage("right", rightErr)
+		left, _ := input.GetAsString("left")
+		right, _ := input.GetAsString("right")
 
 		// Act
 		pair := coregeneric.NewPair(left, right)

@@ -141,7 +141,7 @@ func Test_PairFromSlice(t *testing.T) {
 	for caseIndex, testCase := range pairFromSliceTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		parts, ok := input.GetAsStringSlice("parts")
+		parts, ok := input.GetAsStrings("parts")
 		if !ok {
 			errcore.HandleErrMessage("parts is required")
 		}

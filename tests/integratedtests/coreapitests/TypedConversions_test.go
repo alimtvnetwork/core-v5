@@ -63,9 +63,12 @@ func Test_TypedSimpleGenericRequest_Validity(t *testing.T) {
 	for caseIndex, testCase := range typedSimpleGenericRequestValidityTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilRequest, _ := input.GetAsBool("nilRequest")
-		invalidAttribute, _ := input.GetAsBool("invalidAttribute")
-		nilAttribute, _ := input.GetAsBool("nilAttribute")
+		nilRequestVal, _ := input.Get("nilRequest")
+		nilRequest, _ := nilRequestVal.(bool)
+		invalidAttributeVal, _ := input.Get("invalidAttribute")
+		invalidAttribute, _ := invalidAttributeVal.(bool)
+		nilAttributeVal, _ := input.Get("nilAttribute")
+		nilAttribute, _ := nilAttributeVal.(bool)
 
 		var req *coreapi.TypedSimpleGenericRequest[string]
 
@@ -109,7 +112,8 @@ func Test_TypedSimpleGenericRequest_Message(t *testing.T) {
 	for caseIndex, testCase := range typedSimpleGenericRequestMessageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilRequest, _ := input.GetAsBool("nilRequest")
+		nilRequestVal, _ := input.Get("nilRequest")
+		nilRequest, _ := nilRequestVal.(bool)
 
 		var req *coreapi.TypedSimpleGenericRequest[string]
 
@@ -261,8 +265,10 @@ func Test_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
 		isValid := true
 		message := ""
 
-		if v, ok := input.GetAsBool("isValid"); ok {
-			isValid = v
+		if vRaw, ok := input.Get("isValid"); ok {
+			if v, isBool := vRaw.(bool); isBool {
+				isValid = v
+			}
 		}
 
 		if v, ok := input.GetAsString("message"); ok {
@@ -312,8 +318,10 @@ func Test_TypedResponse_TypedResponseResult(t *testing.T) {
 		message, _ := input.GetAsString("message")
 		isValid := true
 
-		if v, ok := input.GetAsBool("isValid"); ok {
-			isValid = v
+		if vRaw, ok := input.Get("isValid"); ok {
+			if v, isBool := vRaw.(bool); isBool {
+				isValid = v
+			}
 		}
 
 		attr := &coreapi.ResponseAttribute{IsValid: isValid, Message: message}
