@@ -20,7 +20,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 	{
 		Title: "Equal - different strings should not match",
@@ -31,7 +34,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 	{
 		Title: "Equal - case-sensitive should not match different cases",
@@ -42,7 +48,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 
 	// === Contains ===
@@ -55,7 +64,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 	{
 		Title: "Contains - missing substring should not match",
@@ -66,7 +78,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 
 	// === StartsWith ===
@@ -79,7 +94,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 	{
 		Title: "StartsWith - non-prefix should not match",
@@ -90,7 +108,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 	{
 		Title: "StartsWith - ignore case should match",
@@ -101,7 +122,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 
 	// === EndsWith ===
@@ -114,7 +138,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 	{
 		Title: "EndsWith - non-suffix should not match",
@@ -125,7 +152,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 	{
 		Title: "EndsWith - ignore case should match",
@@ -136,7 +166,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 
 	// === Regex ===
@@ -149,7 +182,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 	{
 		Title: "Regex - non-matching pattern should not match",
@@ -160,7 +196,10 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 }
 
@@ -178,7 +217,7 @@ var stringCompareVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "VerifyError - equal mismatch returns error",
@@ -189,7 +228,7 @@ var stringCompareVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content":      "world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "VerifyError - contains mismatch returns error",
@@ -200,7 +239,7 @@ var stringCompareVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "VerifyError - valid regex match returns nil",
@@ -211,7 +250,7 @@ var stringCompareVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content":      "12345",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "VerifyError - valid regex no match returns error",
@@ -222,7 +261,7 @@ var stringCompareVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "VerifyError - invalid regex returns error",
@@ -233,7 +272,7 @@ var stringCompareVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content":      "content",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 }
 
@@ -248,7 +287,7 @@ var stringCompareNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil StringCompare",
 			"method": "IsMatch",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Nil receiver - IsMatchFailed returns false",
@@ -256,7 +295,7 @@ var stringCompareNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil StringCompare",
 			"method": "IsMatchFailed",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Nil receiver - IsInvalid returns true",
@@ -264,7 +303,7 @@ var stringCompareNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil StringCompare",
 			"method": "IsInvalid",
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Nil receiver - IsDefined returns false",
@@ -272,7 +311,7 @@ var stringCompareNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil StringCompare",
 			"method": "IsDefined",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Nil receiver - VerifyError returns nil",
@@ -280,6 +319,6 @@ var stringCompareNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil StringCompare",
 			"method": "VerifyError",
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }

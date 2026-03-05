@@ -18,7 +18,10 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "hello",
 			"content": "hello",
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 	{
 		Title: "IsMatch - equal no match returns false",
@@ -28,7 +31,10 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "hello",
 			"content": "world",
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 	{
 		Title: "IsMatch - contains match returns true",
@@ -38,7 +44,10 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "world",
 			"content": "hello world",
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isMatch
+			Second: "false", // isMatchFailed
+		},
 	},
 	{
 		Title: "IsMatch - contains no match returns false",
@@ -48,7 +57,10 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "xyz",
 			"content": "hello world",
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isMatch
+			Second: "true",  // isMatchFailed
+		},
 	},
 }
 
@@ -65,7 +77,10 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 			"search":   "o",
 			"contents": []string{"hello", "world", "foo"},
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isAllMatch
+			Second: "false", // isAllMatchFailed
+		},
 	},
 	{
 		Title: "IsAllMatch - one content fails returns false",
@@ -75,7 +90,10 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 			"search":   "z",
 			"contents": []string{"hello", "buzz", "world"},
 		},
-		ExpectedInput: []string{"false", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isAllMatch
+			Second: "true",  // isAllMatchFailed
+		},
 	},
 	{
 		Title: "IsAllMatch - empty contents returns true",
@@ -85,7 +103,10 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 			"search":   "hello",
 			"contents": []string{},
 		},
-		ExpectedInput: []string{"true", "false"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isAllMatch
+			Second: "false", // isAllMatchFailed
+		},
 	},
 }
 
@@ -102,7 +123,11 @@ var stringSearchStateTestCases = []coretestcases.CaseV1{
 			"search": "test",
 			"isNil":  false,
 		},
-		ExpectedInput: []string{"false", "true", "true"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "false", // isEmpty
+			Second: "true",  // isExist
+			Third:  "true",  // has
+		},
 	},
 	{
 		Title: "Nil - IsEmpty true, IsExist false, Has false",
@@ -110,7 +135,11 @@ var stringSearchStateTestCases = []coretestcases.CaseV1{
 			"when":  "given nil StringSearch",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"true", "false", "false"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "true",  // isEmpty
+			Second: "false", // isExist
+			Third:  "false", // has
+		},
 	},
 }
 
@@ -128,7 +157,7 @@ var stringSearchVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content": "hello",
 			"isNil":   false,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "VerifyError - no match returns error",
@@ -139,7 +168,7 @@ var stringSearchVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content": "world",
 			"isNil":   false,
 		},
-		ExpectedInput: []string{"true"},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "VerifyError - nil receiver returns nil",
@@ -148,6 +177,6 @@ var stringSearchVerifyErrorTestCases = []coretestcases.CaseV1{
 			"content": "anything",
 			"isNil":   true,
 		},
-		ExpectedInput: []string{"false"},
+		ExpectedInput: "false",
 	},
 }

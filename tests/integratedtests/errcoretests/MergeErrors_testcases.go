@@ -33,7 +33,10 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 			"input":   []string{"error one"},
 			"contain": "error one",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // hasError
+			Second: "true", // containsMessage
+		},
 	},
 	{
 		Title: "SliceToError - multiple items joins all",
@@ -42,7 +45,10 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 			"input":   []string{"err1", "err2", "err3"},
 			"contain": "err1",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // hasError
+			Second: "true", // containsMessage
+		},
 	},
 }
 
@@ -74,7 +80,10 @@ var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 			"input":   []string{"one"},
 			"contain": "one",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // hasError
+			Second: "true", // containsMessage
+		},
 	},
 }
 
@@ -109,7 +118,10 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"nils":    0,
 			"contain": "fail",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // hasError
+			Second: "true", // containsMessage
+		},
 	},
 	{
 		Title: "MergeErrors - multiple errors joins all",
@@ -119,7 +131,10 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"nils":    0,
 			"contain": "a",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // hasError
+			Second: "true", // containsMessage
+		},
 	},
 	{
 		Title: "MergeErrors - mixed nil and errors skips nil",
@@ -129,7 +144,10 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"nils":    3,
 			"contain": "real",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // hasError
+			Second: "true", // containsMessage
+		},
 	},
 	{
 		Title: "MergeErrors - single nil returns nil",
@@ -172,7 +190,11 @@ var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 			"errors": []string{"a", "b"},
 			"nils":   1,
 		},
-		ExpectedInput: []string{"2", "a", "b"},
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "2", // count
+			Second: "a", // first
+			Third:  "b", // second
+		},
 	},
 }
 

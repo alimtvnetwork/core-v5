@@ -24,10 +24,10 @@ var emptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil error",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"false",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "true",  // isEmpty
+			Second: "false", // isDefined
+			Third:  "false", // isNotEmpty
 		},
 	},
 	{
@@ -35,10 +35,10 @@ var emptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given non-nil error",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "false", // isEmpty
+			Second: "true",  // isDefined
+			Third:  "true",  // isNotEmpty
 		},
 	},
 }
@@ -53,9 +53,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given same error on both sides",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isEqual
+			Second: "false", // isNotEqual
 		},
 	},
 	{
@@ -63,9 +63,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given both nil",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isEqual
+			Second: "false", // isNotEqual
 		},
 	},
 	{
@@ -73,9 +73,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil vs non-nil",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isEqual
+			Second: "true",  // isNotEqual
 		},
 	},
 	{
@@ -83,9 +83,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given same message different instances",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isEqual
+			Second: "false", // isNotEqual
 		},
 	},
 	{
@@ -93,9 +93,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given different messages",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isEqual
+			Second: "true",  // isNotEqual
 		},
 	},
 }
@@ -110,27 +110,21 @@ var allDefinedTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given all non-nil errors",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "AllDefined false when one is nil",
 		ArrangeInput: args.Map{
 			"when": "given one nil error among non-nil",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "AllDefined false for empty args",
 		ArrangeInput: args.Map{
 			"when": "given no arguments",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 }
 
@@ -140,27 +134,21 @@ var anyDefinedTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given one non-nil among nils",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "AnyDefined false when all nil",
 		ArrangeInput: args.Map{
 			"when": "given all nil errors",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "AnyDefined false for empty args",
 		ArrangeInput: args.Map{
 			"when": "given no arguments",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 }
 
@@ -174,27 +162,21 @@ var allEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given all nil errors",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "AllEmpty false when one is non-nil",
 		ArrangeInput: args.Map{
 			"when": "given one non-nil among nil",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "AllEmpty true for empty args",
 		ArrangeInput: args.Map{
 			"when": "given no arguments",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -204,27 +186,21 @@ var anyEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given one nil among non-nil",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "AnyEmpty false when all non-nil",
 		ArrangeInput: args.Map{
 			"when": "given all non-nil errors",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "AnyEmpty true for empty args",
 		ArrangeInput: args.Map{
 			"when": "given no arguments",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -240,9 +216,9 @@ var equalStringTestCases = []coretestcases.CaseV1{
 			"left":  "hello",
 			"right": "hello",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isEqual
+			Second: "false", // isNotEqual
 		},
 	},
 	{
@@ -252,9 +228,9 @@ var equalStringTestCases = []coretestcases.CaseV1{
 			"left":  "hello",
 			"right": "world",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isEqual
+			Second: "true",  // isNotEqual
 		},
 	},
 	{
@@ -264,9 +240,9 @@ var equalStringTestCases = []coretestcases.CaseV1{
 			"left":  "",
 			"right": "",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isEqual
+			Second: "false", // isNotEqual
 		},
 	},
 }

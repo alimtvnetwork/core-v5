@@ -16,11 +16,11 @@ var typedSimpleGenericRequestNewTestCases = []coretestcases.CaseV1{
 			"when":    "given valid attribute and typed simple request",
 			"payload": "hello-world",
 		},
-		ExpectedInput: []string{
-			"true",
-			"true",
-			"hello-world",
-			"true",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "true",        // isValid
+			Second: "true",        // hasAttribute
+			Third:  "hello-world", // payload
+			Fourth: "true",        // hasRequest
 		},
 	},
 }
@@ -35,10 +35,10 @@ var typedSimpleGenericRequestInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil attribute",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "false", // isValid
+			Second: "true",  // isInvalid
+			Third:  "true",  // isNilRequest
 		},
 	},
 }
@@ -54,9 +54,9 @@ var typedSimpleGenericRequestValidityTestCases = []coretestcases.CaseV1{
 			"when":    "given valid attribute and valid request",
 			"payload": "data",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true",  // isValid
+			Second: "false", // isInvalid
 		},
 	},
 	{
@@ -65,9 +65,9 @@ var typedSimpleGenericRequestValidityTestCases = []coretestcases.CaseV1{
 			"when":       "given valid attribute but nil request",
 			"nilRequest": true,
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isValid
+			Second: "true",  // isInvalid
 		},
 	},
 	{
@@ -77,21 +77,21 @@ var typedSimpleGenericRequestValidityTestCases = []coretestcases.CaseV1{
 			"payload":          "data",
 			"invalidAttribute": true,
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isValid
+			Second: "true",  // isInvalid
 		},
 	},
 	{
 		Title: "TypedSimpleGenericRequest with nil attribute but valid request reports IsInvalid",
 		ArrangeInput: args.Map{
-			"when":          "given nil attribute and valid request",
-			"payload":       "data",
-			"nilAttribute":  true,
+			"when":         "given nil attribute and valid request",
+			"payload":      "data",
+			"nilAttribute": true,
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isValid
+			Second: "true",  // isInvalid
 		},
 	},
 	{
@@ -101,9 +101,9 @@ var typedSimpleGenericRequestValidityTestCases = []coretestcases.CaseV1{
 			"nilRequest":       true,
 			"invalidAttribute": true,
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isValid
+			Second: "true",  // isInvalid
 		},
 	},
 }
@@ -120,9 +120,9 @@ var typedSimpleGenericRequestMessageTestCases = []coretestcases.CaseV1{
 			"payload": "data",
 			"message": "validation failed",
 		},
-		ExpectedInput: []string{
-			"validation failed",
-			"false",
+		ExpectedInput: args.Two[string, string]{
+			First:  "validation failed", // message
+			Second: "false",             // isNilError
 		},
 	},
 	{
@@ -131,9 +131,9 @@ var typedSimpleGenericRequestMessageTestCases = []coretestcases.CaseV1{
 			"when":       "given nil request",
 			"nilRequest": true,
 		},
-		ExpectedInput: []string{
-			"",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "",     // message
+			Second: "true", // isNilError
 		},
 	},
 }
@@ -149,9 +149,7 @@ var typedSimpleGenericRequestNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil receiver",
 			"method": "IsValid",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 	{
 		Title: "Nil receiver IsInvalid returns true",
@@ -159,9 +157,7 @@ var typedSimpleGenericRequestNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil receiver",
 			"method": "IsInvalid",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Nil receiver Message returns empty string",
@@ -169,9 +165,7 @@ var typedSimpleGenericRequestNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil receiver",
 			"method": "Message",
 		},
-		ExpectedInput: []string{
-			"",
-		},
+		ExpectedInput: "",
 	},
 	{
 		Title: "Nil receiver InvalidError returns nil",
@@ -179,9 +173,7 @@ var typedSimpleGenericRequestNilReceiverTestCases = []coretestcases.CaseV1{
 			"when":   "given nil receiver",
 			"method": "InvalidError",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -198,9 +190,9 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"message": "validation failed",
 			"check":   "validity",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false", // isValid
+			Second: "true",  // isInvalid
 		},
 	},
 	{
@@ -211,9 +203,7 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"message": "field is required",
 			"check":   "message",
 		},
-		ExpectedInput: []string{
-			"field is required",
-		},
+		ExpectedInput: "field is required",
 	},
 	{
 		Title: "Valid attribute with invalid underlying request returns non-nil InvalidError",
@@ -223,9 +213,9 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"message": "input rejected",
 			"check":   "invalidError",
 		},
-		ExpectedInput: []string{
-			"false",
-			"input rejected",
+		ExpectedInput: args.Two[string, string]{
+			First:  "false",          // isNilError
+			Second: "input rejected", // errorMessage
 		},
 	},
 	{
@@ -236,9 +226,9 @@ var typedSimpleGenericRequestInvalidUnderlyingTestCases = []coretestcases.CaseV1
 			"message": "",
 			"check":   "invalidErrorNil",
 		},
-		ExpectedInput: []string{
-			"true",
-			"",
+		ExpectedInput: args.Two[string, string]{
+			First:  "true", // isNilError
+			Second: "",     // errorMessage
 		},
 	},
 }
@@ -254,10 +244,10 @@ var typedSimpleGenericRequestCloneTestCases = []coretestcases.CaseV1{
 			"when":    "given valid request",
 			"payload": "clone-me",
 		},
-		ExpectedInput: []string{
-			"clone-me",
-			"true",
-			"true",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "clone-me", // payload
+			Second: "true",     // isValid
+			Third:  "true",     // isIndependent
 		},
 	},
 }
@@ -268,9 +258,7 @@ var typedSimpleGenericRequestCloneNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil request",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -285,11 +273,11 @@ var typedRequestInToTypedSimpleGenericTestCases = []coretestcases.CaseV1{
 			"when":    "given valid typed request in",
 			"payload": "wrapped-data",
 		},
-		ExpectedInput: []string{
-			"true",
-			"wrapped-data",
-			"true",
-			"",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "true",         // isValid
+			Second: "wrapped-data", // payload
+			Third:  "true",         // hasRequest
+			Fourth: "",             // message
 		},
 	},
 	{
@@ -300,11 +288,11 @@ var typedRequestInToTypedSimpleGenericTestCases = []coretestcases.CaseV1{
 			"isValid": false,
 			"message": "input rejected",
 		},
-		ExpectedInput: []string{
-			"false",
-			"bad-data",
-			"false",
-			"input rejected",
+		ExpectedInput: args.Four[string, string, string, string]{
+			First:  "false",          // isValid
+			Second: "bad-data",       // payload
+			Third:  "false",          // hasValidRequest
+			Fourth: "input rejected", // message
 		},
 	},
 }
@@ -315,9 +303,7 @@ var typedRequestInToTypedSimpleGenericNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil request",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -333,10 +319,10 @@ var typedResponseToTypedResponseResultTestCases = []coretestcases.CaseV1{
 			"response": "result-data",
 			"message":  "success",
 		},
-		ExpectedInput: []string{
-			"result-data",
-			"true",
-			"success",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "result-data", // response
+			Second: "true",        // isValid
+			Third:  "success",     // message
 		},
 	},
 	{
@@ -347,10 +333,10 @@ var typedResponseToTypedResponseResultTestCases = []coretestcases.CaseV1{
 			"isValid":  false,
 			"message":  "failed",
 		},
-		ExpectedInput: []string{
-			"error-data",
-			"false",
-			"failed",
+		ExpectedInput: args.Three[string, string, string]{
+			First:  "error-data", // response
+			Second: "false",      // isValid
+			Third:  "failed",     // message
 		},
 	},
 }
@@ -361,9 +347,6 @@ var typedResponseToTypedResponseResultNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil response",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
-
