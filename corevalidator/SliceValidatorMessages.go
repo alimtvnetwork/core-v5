@@ -20,7 +20,10 @@ func (it *SliceValidator) ActualInputWithExpectingMessage(
 		caseIndex,
 		header,
 	)
-	finalMessage := actualInputMessage + constants.NewLineUnix + userExpectingMessage
+	finalMessage := actualInputMessage +
+		constants.NewLineUnix +
+		constants.NewLineUnix +
+		userExpectingMessage
 
 	return finalMessage
 }
