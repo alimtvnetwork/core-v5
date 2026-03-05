@@ -41,8 +41,7 @@ func Test_StringSearch_IsMatch_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		ss := newStringSearchFromMap(input)
-		content, err := input.GetAsString("content")
-		errcore.HandleErrMessage("content required", err)
+		content, _ := input.GetAsString("content")
 
 		// Act
 		isMatch := ss.IsMatch(content)
@@ -63,8 +62,7 @@ func Test_StringSearch_IsAllMatch_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		ss := newStringSearchFromMap(input)
-		contents, err := input.GetAsStrings("contents")
-		errcore.HandleErrMessage("contents required", err)
+		contents, _ := input.GetAsStrings("contents")
 
 		// Act
 		isAllMatch := ss.IsAllMatch(contents...)

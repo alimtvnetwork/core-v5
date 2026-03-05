@@ -13,10 +13,8 @@ func Test_Glob_Match_Verification(t *testing.T) {
 	for caseIndex, testCase := range globMatchTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		pattern, err := input.GetAsString("pattern")
-		errcore.HandleErrMessage("pattern required", err)
-		content, err := input.GetAsString("content")
-		errcore.HandleErrMessage("content required", err)
+		pattern, _ := input.GetAsString("pattern")
+		content, _ := input.GetAsString("content")
 		isIgnoreCaseVal, _ := input.Get("isIgnoreCase")
 		isIgnoreCase, _ := isIgnoreCaseVal.(bool)
 
