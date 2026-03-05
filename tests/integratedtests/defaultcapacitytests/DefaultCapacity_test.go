@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/defaultcapacity"
 )
 

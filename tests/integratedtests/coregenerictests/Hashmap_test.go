@@ -387,14 +387,8 @@ func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
 	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
-func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
-	tc := hashmapIsEqualsBothNilTestCase
-	var hm1, hm2 *coregeneric.Hashmap[string, int]
-
-	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
-
-	tc.ShouldBeEqualFirst(t, actLines...)
-}
+// Test_Hashmap_IsEquals_BothNil is defined in CollectionBranch_test.go (line 384).
+// Removed duplicate declaration here.
 
 func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
 	tc := hashmapIsEqualsOneNilTestCase

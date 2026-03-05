@@ -2,7 +2,6 @@ package coreoncetests
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
