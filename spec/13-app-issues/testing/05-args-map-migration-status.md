@@ -6,8 +6,8 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **39 files** | 28.3% |
-| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **32 files** | 23.2% |
+| ✅ Migrated to `args.Map` | **40 files** | 29.0% |
+| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **31 files** | 22.5% |
 | 🔴 Using `[]string` | **40 files** | 29.0% |
 | 🟡 Using plain `string` / other | **27 files** | 19.6% |
 | **Total testcase files** | **~138** | — |
@@ -16,7 +16,7 @@
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (39 files)
+## ✅ Fully Migrated to `args.Map` (40 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -60,12 +60,13 @@
 | `coreversiontests` | `String_testcases.go` | Version string output |
 | `namevaluetests` | `Collection_testcases.go` | Collection CRUD operations |
 | `namevaluetests` | `Instance_testcases.go` | Instance formatting/dispose |
+| `coredynamictests` | `Dynamic_testcases.go` | 16 cases: constructors, clone, bytes, loop, items |
 | `coresorttests` | `Sort_testcases.go` | Plain string expectations |
 | `pagingutiltests` | `Paging_testcases.go` | Paging calculations |
 
 ---
 
-## 🔶 Using Typed Tuples `args.Two`–`args.Six` (38 files)
+## 🔶 Using Typed Tuples `args.Two`–`args.Six` (37 files)
 
 These use positional typed tuples — better than `[]string` but lack semantic keys. **Migration to `args.Map` recommended.**
 
@@ -132,7 +133,7 @@ These use raw `[]string` slices with positional semantics. **Highest priority fo
 | `coredynamictests` | `CollectionLock_testcases.go` | 1–3 values | 🟢 Easy |
 | `coredynamictests` | `CollectionMap_testcases.go` | 2–4 values × 7 cases | 🟡 Medium |
 | `coredynamictests` | `CastedResult_testcases.go` | 1–3 values | 🟢 Easy |
-| `coredynamictests` | `Dynamic_testcases.go` | 2–5 values | 🟡 Medium |
+
 | `coredynamictests` | `CollectionSort_testcases.go` | 2–3 values | 🟢 Easy |
 | `coredynamictests` | `CollectionSearch_testcases.go` | 2–3 values | 🟢 Easy |
 | `coredynamictests` | `CollectionDistinct_testcases.go` | 1–2 values | 🟢 Easy |
@@ -175,8 +176,8 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ██████░░░░░░░░░░░░░░  39/138 (28.3%)
-Tuples   █████░░░░░░░░░░░░░░░  32/138 (23.2%)
+Migrated ██████░░░░░░░░░░░░░░  40/138 (29.0%)
+Tuples   █████░░░░░░░░░░░░░░░  31/138 (22.5%)
 []string ██████░░░░░░░░░░░░░░  40/138 (29.0%)
 Other    ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
 ```
@@ -185,6 +186,7 @@ Other    ████░░░░░░░░░░░░░░░░  27/138 (1
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +1 migrated: `Dynamic_testcases.go` (16 args.Two/Three/Four → args.Map) — total 40 |
 | 2026-03-06 | +12 migrated: `coregenerictests` (5), `coreinstructiontests` (2), `namevaluetests` (2), `coresorttests` (1), `coreuniquetests` (1), `PointerSliceSorter` (1) — total 39 |
 | 2026-03-06 | Fixed counts: tuples 36→38, `[]string` 50→46, total ~138. Renamed Waves to Batches/Priorities |
 | 2026-03-06 | +8 migrated (`MapAnyItems*`, 6 new `coreoncetests`) — total 27 |
@@ -202,7 +204,7 @@ All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
 ### Priority 2 — `[]string` Medium (🟡 Medium, 8 files)
 Multi-field structs or 4+ positional values. Estimated: ~2 hours total.
 
-### Priority 3 — Typed Tuples → `args.Map` (32 files)
+### Priority 3 — Typed Tuples → `args.Map` (31 files)
 `args.Two`–`args.Six` → `args.Map` with semantic keys. Higher effort but significant diagnostic improvement.
 
 ### Keep As-Is (15 files)
