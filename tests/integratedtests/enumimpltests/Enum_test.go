@@ -6,7 +6,6 @@ import (
 
 	"gitlab.com/auk-go/core/coreimpl/enumimpl"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
 func Test_EnumByte_MinMax(t *testing.T) {
@@ -17,15 +16,13 @@ func Test_EnumByte_MinMax(t *testing.T) {
 		enumImpl := enumMap.BasicByte("unknown type")
 
 		// Act
-		actualMin := enumImpl.Min()
-		actualMax := enumImpl.Max()
-		actLines := []string{
-			fmt.Sprintf("%v", actualMin),
-			fmt.Sprintf("%v", actualMax),
+		actual := args.Map{
+			"min": fmt.Sprintf("%v", enumImpl.Min()),
+			"max": fmt.Sprintf("%v", enumImpl.Max()),
 		}
 
 		// Assert
-		assertEnumMinMax(t, caseIndex, tc, actLines)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -37,15 +34,13 @@ func Test_EnumInt8_MinMax(t *testing.T) {
 		enumImpl := enumMap.BasicInt8("unknown type")
 
 		// Act
-		actualMin := enumImpl.Min()
-		actualMax := enumImpl.Max()
-		actLines := []string{
-			fmt.Sprintf("%v", actualMin),
-			fmt.Sprintf("%v", actualMax),
+		actual := args.Map{
+			"min": fmt.Sprintf("%v", enumImpl.Min()),
+			"max": fmt.Sprintf("%v", enumImpl.Max()),
 		}
 
 		// Assert
-		assertEnumMinMax(t, caseIndex, tc, actLines)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -57,15 +52,13 @@ func Test_EnumInt16_MinMax(t *testing.T) {
 		enumImpl := enumMap.BasicInt16("unknown type")
 
 		// Act
-		actualMin := enumImpl.Min()
-		actualMax := enumImpl.Max()
-		actLines := []string{
-			fmt.Sprintf("%v", actualMin),
-			fmt.Sprintf("%v", actualMax),
+		actual := args.Map{
+			"min": fmt.Sprintf("%v", enumImpl.Min()),
+			"max": fmt.Sprintf("%v", enumImpl.Max()),
 		}
 
 		// Assert
-		assertEnumMinMax(t, caseIndex, tc, actLines)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -77,15 +70,13 @@ func Test_EnumInt32_MinMax(t *testing.T) {
 		enumImpl := enumMap.BasicInt32("unknown type")
 
 		// Act
-		actualMin := enumImpl.Min()
-		actualMax := enumImpl.Max()
-		actLines := []string{
-			fmt.Sprintf("%v", actualMin),
-			fmt.Sprintf("%v", actualMax),
+		actual := args.Map{
+			"min": fmt.Sprintf("%v", enumImpl.Min()),
+			"max": fmt.Sprintf("%v", enumImpl.Max()),
 		}
 
 		// Assert
-		assertEnumMinMax(t, caseIndex, tc, actLines)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -97,15 +88,13 @@ func Test_EnumUInt16_MinMax(t *testing.T) {
 		enumImpl := enumMap.BasicUInt16("unknown type")
 
 		// Act
-		actualMin := enumImpl.Min()
-		actualMax := enumImpl.Max()
-		actLines := []string{
-			fmt.Sprintf("%v", actualMin),
-			fmt.Sprintf("%v", actualMax),
+		actual := args.Map{
+			"min": fmt.Sprintf("%v", enumImpl.Min()),
+			"max": fmt.Sprintf("%v", enumImpl.Max()),
 		}
 
 		// Assert
-		assertEnumMinMax(t, caseIndex, tc, actLines)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -117,23 +106,12 @@ func Test_EnumString_MinMax(t *testing.T) {
 		enumImpl := enumMap.BasicString("unknown type")
 
 		// Act
-		actualMin := enumImpl.Min()
-		actualMax := enumImpl.Max()
-		actLines := []string{
-			fmt.Sprintf("%v", actualMin),
-			fmt.Sprintf("%v", actualMax),
+		actual := args.Map{
+			"min": fmt.Sprintf("%v", enumImpl.Min()),
+			"max": fmt.Sprintf("%v", enumImpl.Max()),
 		}
 
 		// Assert
-		assertEnumMinMax(t, caseIndex, tc, actLines)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
-}
-
-func assertEnumMinMax(
-	t *testing.T,
-	caseIndex int,
-	tc coretestcases.CaseV1,
-	actLines []string,
-) {
-	tc.ShouldBeEqual(t, caseIndex, actLines...)
 }
