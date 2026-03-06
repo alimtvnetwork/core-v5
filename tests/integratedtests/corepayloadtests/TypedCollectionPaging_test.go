@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/auk-go/core/coredata/corepayload"
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/errcore"
 )
 
 // =============================================================================
