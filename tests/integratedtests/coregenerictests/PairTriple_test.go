@@ -21,15 +21,19 @@ func Test_Pair_NewPair_Valid(t *testing.T) {
 
 		// Act
 		pair := coregeneric.NewPair(left, right)
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"left":         pair.Left,
+			"right":        pair.Right,
+			"isValid":      pair.IsValid,
+			"errorMessage": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -51,15 +55,19 @@ func Test_Pair_InvalidPair(t *testing.T) {
 			pair = coregeneric.InvalidPair[string, string](message)
 		}
 
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"left":         pair.Left,
+			"right":        pair.Right,
+			"isValid":      pair.IsValid,
+			"errorMessage": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -79,15 +87,19 @@ func Test_Pair_Clone_Independence(t *testing.T) {
 		cloned := original.Clone()
 		cloned.Left = "mutated-left"
 
-		actLines := []string{
-			original.Left,
-			original.Right,
-			fmt.Sprintf("%v", original.IsValid),
-			cloned.Left,
+		actual := args.Map{
+			"clonedLeft":            original.Left,
+			"clonedRight":          original.Right,
+			"isValid":              original.IsValid,
+			"originalAfterMutation": cloned.Left,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -164,10 +176,17 @@ func Test_Pair_Values(t *testing.T) {
 		// Act
 		pair := coregeneric.NewPair(left, right)
 		l, r := pair.Values()
-		actLines := []string{l, r}
+		actual := args.Map{
+			"left":  l,
+			"right": r,
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -185,15 +204,19 @@ func Test_Pair_Clear(t *testing.T) {
 		// Act
 		pair := coregeneric.NewPair(left, right)
 		pair.Clear()
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"clearedLeft":  pair.Left,
+			"clearedRight": pair.Right,
+			"isValid":      pair.IsValid,
+			"errorMessage": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -211,16 +234,20 @@ func Test_Triple_NewTriple_Valid(t *testing.T) {
 
 		// Act
 		triple := coregeneric.NewTriple(left, middle, right)
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"left":         triple.Left,
+			"middle":       triple.Middle,
+			"right":        triple.Right,
+			"isValid":      triple.IsValid,
+			"errorMessage": triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -242,16 +269,20 @@ func Test_Triple_InvalidTriple(t *testing.T) {
 			triple = coregeneric.InvalidTriple[string, string, string](message)
 		}
 
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"left":         triple.Left,
+			"middle":       triple.Middle,
+			"right":        triple.Right,
+			"isValid":      triple.IsValid,
+			"errorMessage": triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -272,16 +303,20 @@ func Test_Triple_Clone_Independence(t *testing.T) {
 		cloned := original.Clone()
 		cloned.Left = "mutated"
 
-		actLines := []string{
-			original.Left,
-			original.Middle,
-			original.Right,
-			fmt.Sprintf("%v", original.IsValid),
-			cloned.Left,
+		actual := args.Map{
+			"clonedLeft":            original.Left,
+			"clonedMiddle":         original.Middle,
+			"clonedRight":          original.Right,
+			"isValid":              original.IsValid,
+			"originalAfterMutation": cloned.Left,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -319,10 +354,18 @@ func Test_Triple_Values(t *testing.T) {
 		// Act
 		triple := coregeneric.NewTriple(left, middle, right)
 		a, b, c := triple.Values()
-		actLines := []string{a, b, c}
+		actual := args.Map{
+			"left":   a,
+			"middle": b,
+			"right":  c,
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -341,16 +384,20 @@ func Test_Triple_Clear(t *testing.T) {
 		// Act
 		triple := coregeneric.NewTriple(left, middle, right)
 		triple.Clear()
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"clearedLeft":   triple.Left,
+			"clearedMiddle": triple.Middle,
+			"clearedRight":  triple.Right,
+			"isValid":       triple.IsValid,
+			"errorMessage":  triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
