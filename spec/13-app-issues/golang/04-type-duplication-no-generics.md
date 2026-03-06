@@ -18,14 +18,16 @@ After upgrading to Go 1.22+, introduce generic versions. See [Go Modernization P
 
 ## TODO and Follow-Ups
 
-- [ ] Upgrade Go version first (prerequisite)
-- [ ] Add generic `conditional.If[T]`
+- [x] Upgrade Go version first (prerequisite)
+- [x] Add generic `conditional.If[T]` — implemented in `generic.go`
+- [x] Add typed convenience wrappers (`IfInt`, `IfBool`, etc.) — `typed_wrappers.go`
 - [ ] Add generic `EmptySlicePtr[T]`
-- [ ] Deprecate per-type functions
-- [ ] Remove in next major version
+- [x] Deprecate per-type functions — all legacy files have deprecation comments
+- [ ] Remove deprecated files in next major version
 
 ## Done Checklist
 
-- [ ] Generic versions created
-- [ ] Old functions deprecated
-- [ ] Tests pass
+- [x] Generic versions created (`If[T]`, `IfFunc[T]`, `IfTrueFunc[T]`, `IfSlice[T]`, `NilDef[T]`, `ValueOrZero[T]`, etc.)
+- [x] Typed convenience wrappers created (`IfInt`, `IfString`, `IfSliceBool`, etc.)
+- [x] Old functions deprecated with migration comments
+- [ ] Tests pass (run locally to verify)
