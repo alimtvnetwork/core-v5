@@ -18,11 +18,11 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'hello' — Value, String, IsEmpty false",
-			ExpectedInput: args.Four[string, string, string, string]{
-				First:  "hello", // value
-				Second: "hello", // stringMethod
-				Third:  "false", // isEmpty
-				Fourth: "false", // isEmptyOrWhitespace
+			ExpectedInput: args.Map{
+				"value":                "hello",
+				"string":               "hello",
+				"isEmpty":              false,
+				"isEmptyOrWhitespace":  false,
 			},
 		},
 		InitValue: "hello",
@@ -30,11 +30,11 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce empty — IsEmpty true, IsEmptyOrWhitespace true",
-			ExpectedInput: args.Four[string, string, string, string]{
-				First:  "",     // value
-				Second: "",     // stringMethod
-				Third:  "true", // isEmpty
-				Fourth: "true", // isEmptyOrWhitespace
+			ExpectedInput: args.Map{
+				"value":                "",
+				"string":               "",
+				"isEmpty":              true,
+				"isEmptyOrWhitespace":  true,
 			},
 		},
 		InitValue: "",
@@ -42,11 +42,11 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce whitespace — IsEmpty false, IsEmptyOrWhitespace true",
-			ExpectedInput: args.Four[string, string, string, string]{
-				First:  "   ",   // value
-				Second: "   ",   // stringMethod
-				Third:  "false", // isEmpty
-				Fourth: "true",  // isEmptyOrWhitespace
+			ExpectedInput: args.Map{
+				"value":                "   ",
+				"string":               "   ",
+				"isEmpty":              false,
+				"isEmptyOrWhitespace":  true,
 			},
 		},
 		InitValue: "   ",
@@ -61,11 +61,11 @@ var stringOnceCachingTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: args.Four[string, string, string, string]{
-				First:  "hello", // r1
-				Second: "hello", // r2
-				Third:  "hello", // r3
-				Fourth: "1",     // callCount
+			ExpectedInput: args.Map{
+				"r1":        "hello",
+				"r2":        "hello",
+				"r3":        "hello",
+				"callCount": 1,
 			},
 		},
 		InitValue: "hello",
@@ -86,9 +86,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'abc' — IsEqual 'abc' true, 'xyz' false",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",  // isEqualMatch
-				Second: "false", // isEqualOther
+			ExpectedInput: args.Map{
+				"matchResult":   true,
+				"noMatchResult": false,
 			},
 		},
 		InitValue: "abc",
@@ -97,9 +97,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'hello world' — IsContains 'world' true, 'xyz' false",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",  // isContainsMatch
-				Second: "false", // isContainsOther
+			ExpectedInput: args.Map{
+				"matchResult":   true,
+				"noMatchResult": false,
 			},
 		},
 		InitValue: "hello world",
@@ -108,9 +108,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'prefix-data' — HasPrefix 'prefix' true, 'data' false",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",  // hasPrefixMatch
-				Second: "false", // hasPrefixOther
+			ExpectedInput: args.Map{
+				"matchResult":   true,
+				"noMatchResult": false,
 			},
 		},
 		InitValue: "prefix-data",
@@ -119,9 +119,9 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'data-suffix' — HasSuffix 'suffix' true, 'data' false",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",  // hasSuffixMatch
-				Second: "false", // hasSuffixOther
+			ExpectedInput: args.Map{
+				"matchResult":   true,
+				"noMatchResult": false,
 			},
 		},
 		InitValue: "data-suffix",
@@ -137,53 +137,58 @@ type stringOnceSplitTestCase struct {
 	Case      coretestcases.CaseV1
 	InitValue string
 	Splitter  string
+	Method    string // "splitBy", "splitLeftRight", "splitLeftRightTrim"
 }
 
 var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'a,b,c' — SplitBy ','",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "3", // partsLength
-				Second: "a", // firstPart
-				Third:  "c", // lastPart
+			ExpectedInput: args.Map{
+				"partsLength": 3,
+				"firstPart":   "a",
+				"lastPart":    "c",
 			},
 		},
 		InitValue: "a,b,c",
 		Splitter:  ",",
+		Method:    "splitBy",
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'key=value' — SplitLeftRight '='",
-			ExpectedInput: args.Two[string, string]{
-				First:  "key",   // left
-				Second: "value", // right
+			ExpectedInput: args.Map{
+				"left":  "key",
+				"right": "value",
 			},
 		},
 		InitValue: "key=value",
 		Splitter:  "=",
+		Method:    "splitLeftRight",
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'nosplit' — SplitLeftRight '=' returns full left, empty right",
-			ExpectedInput: args.Two[string, string]{
-				First:  "nosplit", // left
-				Second: "",        // right
+			ExpectedInput: args.Map{
+				"left":  "nosplit",
+				"right": "",
 			},
 		},
 		InitValue: "nosplit",
 		Splitter:  "=",
+		Method:    "splitLeftRight",
 	},
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce ' key = value ' — SplitLeftRightTrim '='",
-			ExpectedInput: args.Two[string, string]{
-				First:  "key",   // leftTrimmed
-				Second: "value", // rightTrimmed
+			ExpectedInput: args.Map{
+				"left":  "key",
+				"right": "value",
 			},
 		},
 		InitValue: " key = value ",
 		Splitter:  "=",
+		Method:    "splitLeftRightTrim",
 	},
 }
 
@@ -195,9 +200,9 @@ var stringOnceJsonTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'json' — MarshalJSON returns '\"json\"'",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",     // noError
-				Second: "\"json\"", // marshaledValue
+			ExpectedInput: args.Map{
+				"noError":        true,
+				"marshaledValue": "\"json\"",
 			},
 		},
 		InitValue: "json",

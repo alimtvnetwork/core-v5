@@ -14,20 +14,19 @@ type integerOnceTestCase struct {
 	InitValue int
 }
 
-// Note: 8 fields — exceeds args.Six, kept as []string for accuracy.
 var integerOnceCoreTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 0 — IsZero, IsEmpty, String '0'",
-			ExpectedInput: []string{
-				"0",     // Value
-				"0",     // String
-				"true",  // IsZero
-				"true",  // IsEmpty
-				"false", // IsAboveZero
-				"false", // IsPositive
-				"false", // IsLessThanZero
-				"false", // IsNegative
+			ExpectedInput: args.Map{
+				"value":         0,
+				"string":        "0",
+				"isZero":        true,
+				"isEmpty":       true,
+				"isAboveZero":   false,
+				"isPositive":    false,
+				"isLessThanZero": false,
+				"isNegative":    false,
 			},
 		},
 		InitValue: 0,
@@ -35,15 +34,15 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 42 — positive, not zero",
-			ExpectedInput: []string{
-				"42",    // Value
-				"42",    // String
-				"false", // IsZero
-				"false", // IsEmpty
-				"true",  // IsAboveZero
-				"true",  // IsPositive
-				"false", // IsLessThanZero
-				"false", // IsNegative
+			ExpectedInput: args.Map{
+				"value":         42,
+				"string":        "42",
+				"isZero":        false,
+				"isEmpty":       false,
+				"isAboveZero":   true,
+				"isPositive":    true,
+				"isLessThanZero": false,
+				"isNegative":    false,
 			},
 		},
 		InitValue: 42,
@@ -51,15 +50,15 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce -3 — negative, not zero",
-			ExpectedInput: []string{
-				"-3",    // Value
-				"-3",    // String
-				"false", // IsZero
-				"false", // IsEmpty
-				"false", // IsAboveZero
-				"false", // IsPositive
-				"true",  // IsLessThanZero
-				"true",  // IsNegative
+			ExpectedInput: args.Map{
+				"value":         -3,
+				"string":        "-3",
+				"isZero":        false,
+				"isEmpty":       false,
+				"isAboveZero":   false,
+				"isPositive":    false,
+				"isLessThanZero": true,
+				"isNegative":    true,
 			},
 		},
 		InitValue: -3,
@@ -74,10 +73,10 @@ var integerOnceCachingTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "42", // r1
-				Second: "42", // r2
-				Third:  "1",  // callCount
+			ExpectedInput: args.Map{
+				"r1":        42,
+				"r2":        42,
+				"callCount": 1,
 			},
 		},
 		InitValue: 42,
@@ -98,10 +97,10 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 10 — IsAbove(5), IsAboveEqual(10)",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "true",  // isAbove5
-				Second: "false", // isAbove10
-				Third:  "true",  // isAboveEqual10
+			ExpectedInput: args.Map{
+				"isAboveCompare":    true,
+				"isAboveSelf":       false,
+				"isAboveEqualSelf":  true,
 			},
 		},
 		InitValue:    10,
@@ -110,10 +109,10 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 3 — IsLessThan(5), IsLessThanEqual(3)",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "true",  // isLessThan5
-				Second: "false", // isLessThan3
-				Third:  "true",  // isLessThanEqual3
+			ExpectedInput: args.Map{
+				"isLessThanCompare":    true,
+				"isLessThanSelf":       false,
+				"isLessThanEqualSelf":  true,
 			},
 		},
 		InitValue:    3,
@@ -129,9 +128,9 @@ var integerOnceJsonTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 42 — MarshalJSON returns '42'",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true", // noError
-				Second: "42",   // marshaledValue
+			ExpectedInput: args.Map{
+				"noError":        true,
+				"marshaledValue": "42",
 			},
 		},
 		InitValue: 42,

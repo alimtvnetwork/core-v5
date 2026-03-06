@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 func Test_StringOnce_Core(t *testing.T) {
@@ -14,15 +15,15 @@ func Test_StringOnce_Core(t *testing.T) {
 		once := coreonce.NewStringOncePtr(func() string { return initVal })
 
 		// Act
-		actLines := []string{
-			once.Value(),
-			once.String(),
-			fmt.Sprintf("%v", once.IsEmpty()),
-			fmt.Sprintf("%v", once.IsEmptyOrWhitespace()),
+		actual := args.Map{
+			"value":               once.Value(),
+			"string":              once.String(),
+			"isEmpty":             once.IsEmpty(),
+			"isEmptyOrWhitespace": once.IsEmptyOrWhitespace(),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -42,15 +43,14 @@ func Test_StringOnce_Caching(t *testing.T) {
 		r2 := once.Value()
 		r3 := once.Value()
 
-		actLines := []string{
-			r1,
-			r2,
-			r3,
-			fmt.Sprintf("%d", callCount),
-		}
-
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		actual := args.Map{
+			"r1":        r1,
+			"r2":        r2,
+			"r3":        r3,
+			"callCount": callCount,
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -61,35 +61,35 @@ func Test_StringOnce_Match(t *testing.T) {
 		once := coreonce.NewStringOncePtr(func() string { return initVal })
 
 		// Act
-		var actLines []string
+		var actual args.Map
 
 		hasPrefix := tc.MatchArg == "prefix"
 		hasSuffix := tc.MatchArg == "suffix"
 
 		if hasPrefix {
-			actLines = []string{
-				fmt.Sprintf("%v", once.HasPrefix(tc.MatchArg)),
-				fmt.Sprintf("%v", once.HasPrefix("data")),
+			actual = args.Map{
+				"matchResult":   once.HasPrefix(tc.MatchArg),
+				"noMatchResult": once.HasPrefix("data"),
 			}
 		} else if hasSuffix {
-			actLines = []string{
-				fmt.Sprintf("%v", once.HasSuffix(tc.MatchArg)),
-				fmt.Sprintf("%v", once.HasSuffix("data")),
+			actual = args.Map{
+				"matchResult":   once.HasSuffix(tc.MatchArg),
+				"noMatchResult": once.HasSuffix("data"),
 			}
 		} else if tc.MatchArg == tc.InitValue {
-			actLines = []string{
-				fmt.Sprintf("%v", once.IsEqual(tc.MatchArg)),
-				fmt.Sprintf("%v", once.IsEqual("xyz")),
+			actual = args.Map{
+				"matchResult":   once.IsEqual(tc.MatchArg),
+				"noMatchResult": once.IsEqual("xyz"),
 			}
 		} else {
-			actLines = []string{
-				fmt.Sprintf("%v", once.IsContains(tc.MatchArg)),
-				fmt.Sprintf("%v", once.IsContains("xyz")),
+			actual = args.Map{
+				"matchResult":   once.IsContains(tc.MatchArg),
+				"noMatchResult": once.IsContains("xyz"),
 			}
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -100,28 +100,32 @@ func Test_StringOnce_Split(t *testing.T) {
 		once := coreonce.NewStringOncePtr(func() string { return initVal })
 
 		// Act
-		var actLines []string
+		var actual args.Map
 
-		isSplitBy := tc.InitValue == "a,b,c"
-		isTrimSplit := tc.InitValue == " key = value "
-
-		if isSplitBy {
+		switch tc.Method {
+		case "splitBy":
 			parts := once.SplitBy(tc.Splitter)
-			actLines = []string{
-				fmt.Sprintf("%d", len(parts)),
-				parts[0],
-				parts[2],
+			actual = args.Map{
+				"partsLength": len(parts),
+				"firstPart":   parts[0],
+				"lastPart":    parts[len(parts)-1],
 			}
-		} else if isTrimSplit {
+		case "splitLeftRightTrim":
 			left, right := once.SplitLeftRightTrim(tc.Splitter)
-			actLines = []string{left, right}
-		} else {
+			actual = args.Map{
+				"left":  left,
+				"right": right,
+			}
+		default: // splitLeftRight
 			left, right := once.SplitLeftRight(tc.Splitter)
-			actLines = []string{left, right}
+			actual = args.Map{
+				"left":  left,
+				"right": right,
+			}
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -133,14 +137,15 @@ func Test_StringOnce_Json(t *testing.T) {
 
 		// Act
 		data, err := once.MarshalJSON()
-		noError := err == nil
-
-		actLines := []string{
-			fmt.Sprintf("%v", noError),
-			string(data),
-		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		actual := args.Map{
+			"noError":        err == nil,
+			"marshaledValue": string(data),
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
+
+// Ensure fmt is used
+var _ = fmt.Sprintf

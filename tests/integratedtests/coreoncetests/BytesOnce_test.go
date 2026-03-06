@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 func Test_BytesOnce_Core(t *testing.T) {
@@ -22,16 +23,16 @@ func Test_BytesOnce_Core(t *testing.T) {
 
 		// Act
 		val := once.Value()
-		actLines := []string{
-			string(val),
-			once.String(),
-			fmt.Sprintf("%v", once.IsEmpty()),
-			fmt.Sprintf("%v", once.Length()),
-			fmt.Sprintf("%v", val == nil),
+		actual := args.Map{
+			"stringOfValue": string(val),
+			"stringMethod":  once.String(),
+			"isEmpty":       once.IsEmpty(),
+			"length":        once.Length(),
+			"isNil":         val == nil,
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -51,16 +52,16 @@ func Test_BytesOnce_Caching(t *testing.T) {
 		r2 := once.Value()
 		r3 := once.Value()
 
-		actLines := []string{
-			string(r1),
-			string(r2),
-			string(r3),
-			fmt.Sprintf("%d", callCount),
-			fmt.Sprintf("%v", string(once.Execute()) == string(once.Value())),
+		actual := args.Map{
+			"r1":             string(r1),
+			"r2":             string(r2),
+			"r3":             string(r3),
+			"callCount":      callCount,
+			"executeEqValue": string(once.Execute()) == string(once.Value()),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -71,27 +72,27 @@ func Test_BytesOnce_JSON(t *testing.T) {
 		once := coreonce.NewBytesOncePtr(func() []byte { return initBytes })
 
 		// Act
-		var actLines []string
+		var actual args.Map
 
 		if tc.ReplaceBytes != nil {
 			input, _ := json.Marshal(tc.ReplaceBytes)
 			err := once.UnmarshalJSON(input)
 
-			actLines = []string{
-				fmt.Sprintf("%v", err == nil),
-				string(once.Value()),
+			actual = args.Map{
+				"noError":  err == nil,
+				"newValue": string(once.Value()),
 			}
 		} else {
 			data, err := once.MarshalJSON()
 
-			actLines = []string{
-				fmt.Sprintf("%v", err == nil),
-				fmt.Sprintf("%v", len(data) > 0),
+			actual = args.Map{
+				"noError":             err == nil,
+				"dataLengthAboveZero": len(data) > 0,
 			}
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -102,11 +103,14 @@ func Test_BytesOnce_Constructor(t *testing.T) {
 		once := coreonce.NewBytesOnce(func() []byte { return initBytes })
 
 		// Act
-		actLines := []string{
-			string(once.Value()),
+		actual := args.Map{
+			"constructedValue": string(once.Value()),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
+
+// Ensure fmt is used
+var _ = fmt.Sprintf

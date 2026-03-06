@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 func Test_BoolOnce_Core(t *testing.T) {
@@ -13,11 +14,14 @@ func Test_BoolOnce_Core(t *testing.T) {
 		initVal := tc.InitValue
 		once := coreonce.NewBoolOncePtr(func() bool { return initVal })
 
-		// Act & Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", once.Value()),
-			once.String(),
-		)
+		// Act
+		actual := args.Map{
+			"value":  once.Value(),
+			"string": once.String(),
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -38,12 +42,13 @@ func Test_BoolOnce_Caching(t *testing.T) {
 		r3 := once.Value()
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", r1),
-			fmt.Sprintf("%v", r2),
-			fmt.Sprintf("%v", r3),
-			fmt.Sprintf("%d", callCount),
-		)
+		actual := args.Map{
+			"r1":        r1,
+			"r2":        r2,
+			"r3":        r3,
+			"callCount": callCount,
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -55,12 +60,15 @@ func Test_BoolOnce_Json(t *testing.T) {
 
 		// Act
 		data, err := once.MarshalJSON()
-		noError := err == nil
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", noError),
-			string(data),
-		)
+		actual := args.Map{
+			"noError":        err == nil,
+			"marshaledValue": string(data),
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
+
+// Ensure fmt is used
+var _ = fmt.Sprintf
