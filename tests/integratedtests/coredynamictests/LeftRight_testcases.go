@@ -279,4 +279,150 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 			return &coredynamic.LeftRight{Left: &i, Right: &s}
 		}(),
 	},
+
+	// ---- Interface types ----
+
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus both interface values holding same concrete type",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: func() *coredynamic.LeftRight {
+			var left any = "hello"
+			var right any = "world"
+			return &coredynamic.LeftRight{Left: left, Right: right}
+		}(),
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus interface values holding different concrete types",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: func() *coredynamic.LeftRight {
+			var left any = "text"
+			var right any = 99
+			return &coredynamic.LeftRight{Left: left, Right: right}
+		}(),
+	},
+
+	// ---- Slice types ----
+
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus both string slices — same type",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{
+			Left:  []string{"a", "b"},
+			Right: []string{"c"},
+		},
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus different slice types — string vs int",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{
+			Left:  []string{"a"},
+			Right: []int{1, 2},
+		},
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus empty slice vs non-empty slice — same type",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{
+			Left:  []int{},
+			Right: []int{1, 2, 3},
+		},
+	},
+
+	// ---- Map types ----
+
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus both map[string]string — same type",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{
+			Left:  map[string]string{"a": "1"},
+			Right: map[string]string{"b": "2"},
+		},
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus different map types — map[string]string vs map[string]int",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{
+			Left:  map[string]string{"a": "1"},
+			Right: map[string]int{"b": 2},
+		},
+	},
+
+	// ---- IsSameRegardlessPointer coverage ----
+
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus pointer vs value same underlying — IsSameRegardlessPointer true",
+			ExpectedInput: args.Map{
+				"isSame":                  "false",
+				"isSameRegardlessPointer": "true",
+				"isLeftUnknownNull":       "false",
+				"isRightUnknownNull":      "false",
+				"isLeftPointer":           "false",
+				"isRightPointer":          "true",
+			},
+		},
+		LR: func() *coredynamic.LeftRight {
+			s := "hello"
+			return &coredynamic.LeftRight{Left: "world", Right: &s}
+		}(),
+	},
+
+	// ---- Struct types ----
+
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus both same struct type",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{
+			Left:  struct{ Name string }{Name: "a"},
+			Right: struct{ Name string }{Name: "b"},
+		},
+	},
 }
