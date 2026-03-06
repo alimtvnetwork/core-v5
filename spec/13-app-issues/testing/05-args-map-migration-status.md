@@ -6,9 +6,9 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **42 files** | 30.4% |
-| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **29 files** | 21.0% |
-| 🔴 Using `[]string` | **40 files** | 29.0% |
+| ✅ Migrated to `args.Map` | **51 files** | 37.0% |
+| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **27 files** | 19.6% |
+| 🔴 Using `[]string` | **33 files** | 23.9% |
 | 🟡 Using plain `string` / other | **27 files** | 19.6% |
 | **Total testcase files** | **~138** | — |
 
@@ -16,7 +16,7 @@
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (42 files)
+## ✅ Fully Migrated to `args.Map` (51 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -61,6 +61,15 @@
 | `namevaluetests` | `Collection_testcases.go` | Collection CRUD operations |
 | `namevaluetests` | `Instance_testcases.go` | Instance formatting/dispose |
 | `coredynamictests` | `Dynamic_testcases.go` | 16 cases: constructors, clone, bytes, loop, items |
+| `coredynamictests` | `AnyCollectionLock_testcases.go` | Lock/unlock assertions |
+| `coredynamictests` | `CollectionLock_testcases.go` | Lock/unlock assertions |
+| `coredynamictests` | `CollectionSort_testcases.go` | Sort result assertions |
+| `coredynamictests` | `CollectionDistinct_testcases.go` | Distinct count + items |
+| `coredynamictests` | `CollectionGroupBy_testcases.go` | GroupBy result assertions |
+| `coredynamictests` | `LeftRight_testcases.go` | Left/Right pair assertions |
+| `coredynamictests` | `CollectionMap_testcases.go` | Map transformation assertions |
+| `coredynamictests` | `CollectionNewCreator_testcases.go` | Creator result assertions |
+| `coredynamictests` | `AnyCollectionNewCreator_testcases.go` | Creator result assertions |
 | `coresorttests` | `Sort_testcases.go` | Plain string expectations |
 | `corejsontests` | `New_NewPtr_testcases.go` | 6 cases: New/NewPtr constructors |
 | `corejsontests` | `Result_Unmarshal_testcases.go` | 4 cases: Unmarshal valid/nil/invalid/error |
@@ -68,7 +77,7 @@
 
 ---
 
-## 🔶 Using Typed Tuples `args.Two`–`args.Six` (35 files)
+## 🔶 Using Typed Tuples `args.Two`–`args.Six` (27 files)
 
 These use positional typed tuples — better than `[]string` but lack semantic keys. **Migration to `args.Map` recommended.**
 
@@ -81,8 +90,7 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 | `coreapitests` | `TypedRequest_testcases.go` | `args.Two` |
 | `converterstests` | `StringsTo_testcases.go` | `args.Five` |
 | `converterstests` | `StringTo_testcases.go` | `args.Five` |
-| `coredynamictests` | `CollectionGroupBy_testcases.go` | `args.Three` |
-| `coredynamictests` | `LeftRight_testcases.go` | `args.Two` |
+| `coregenerictests` | `CollectionBranch_testcases.go` | `args.Two` |
 | `coregenerictests` | `CollectionBranch_testcases.go` | `args.Two` |
 | `coregenerictests` | `CollectionSerialization_testcases.go` | `args.Two` |
 | `coregenerictests` | `HashsetBranch_testcases.go` | `args.Two` |
@@ -110,11 +118,11 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 
 ---
 
-## 🔴 Using `[]string` Expectations (46 files)
+## 🔴 Using `[]string` Expectations (38 files)
 
 These use raw `[]string` slices with positional semantics. **Highest priority for migration.**
 
-### Batch A — Quick Wins (simple boolean/value expectations, 31 files)
+### Batch A — Quick Wins (simple boolean/value expectations, 23 files)
 
 | Package | File | Fields | Difficulty |
 |---------|------|--------|------------|
@@ -128,16 +136,8 @@ These use raw `[]string` slices with positional semantics. **Highest priority fo
 | `corecmptests` | `Time_testcases.go` | 1–2 values | 🟢 Easy |
 | `coretaskinfotests` | `InfoCreate_testcases.go` | 2–4 values | 🟢 Easy |
 | `converterstests` | `AnyItemConverter_testcases.go` | 1–3 values | 🟢 Easy |
-| `coredynamictests` | `AnyCollectionNewCreator_testcases.go` | 2–4 values × 12 cases | 🟡 Medium |
-| `coredynamictests` | `CollectionNewCreator_testcases.go` | 2–4 values | 🟡 Medium |
-| `coredynamictests` | `AnyCollectionLock_testcases.go` | 1–3 values | 🟢 Easy |
-| `coredynamictests` | `CollectionLock_testcases.go` | 1–3 values | 🟢 Easy |
-| `coredynamictests` | `CollectionMap_testcases.go` | 2–4 values × 7 cases | 🟡 Medium |
 | `coredynamictests` | `CastedResult_testcases.go` | 1–3 values | 🟢 Easy |
-
-| `coredynamictests` | `CollectionSort_testcases.go` | 2–3 values | 🟢 Easy |
 | `coredynamictests` | `CollectionSearch_testcases.go` | 2–3 values | 🟢 Easy |
-| `coredynamictests` | `CollectionDistinct_testcases.go` | 1–2 values | 🟢 Easy |
 | `corestrtests` | `LeftMiddleRightFromSplit_testcases.go` | 4 values × 7 cases | 🟡 Medium |
 | `corestrtests` | `BugfixRegression_testcases.go` | 1–2 values | 🟢 Easy |
 | `corestrtests` | `SimpleSlice_testcases.go` | 1–3 values | 🟢 Easy |
@@ -177,9 +177,9 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ██████░░░░░░░░░░░░░░  42/138 (30.4%)
-Tuples   █████░░░░░░░░░░░░░░░  29/138 (21.0%)
-[]string ██████░░░░░░░░░░░░░░  40/138 (29.0%)
+Migrated ████████░░░░░░░░░░░░  51/138 (37.0%)
+Tuples   ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
+[]string █████░░░░░░░░░░░░░░░  33/138 (23.9%)
 Other    ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
 ```
 
@@ -187,6 +187,7 @@ Other    ████░░░░░░░░░░░░░░░░  27/138 (1
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | Fixed coredynamictests tracking: moved 9 previously migrated files from tuples/[]string to migrated — total 51 |
 | 2026-03-06 | +2 migrated: `corejsontests` (New_NewPtr, Result_Unmarshal) — total 42 |
 | 2026-03-06 | +1 migrated: `Dynamic_testcases.go` (16 args.Two/Three/Four → args.Map) — total 40 |
 | 2026-03-06 | +12 migrated: `coregenerictests` (5), `coreinstructiontests` (2), `namevaluetests` (2), `coresorttests` (1), `coreuniquetests` (1), `PointerSliceSorter` (1) — total 39 |
@@ -200,13 +201,13 @@ Other    ████░░░░░░░░░░░░░░░░  27/138 (1
 
 ## Migration Priority
 
-### Priority 1 — `[]string` Quick Wins (🟢 Easy, 17 files)
+### Priority 1 — `[]string` Quick Wins (🟢 Easy, 12 files)
 All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
 
-### Priority 2 — `[]string` Medium (🟡 Medium, 8 files)
+### Priority 2 — `[]string` Medium (🟡 Medium, 4 files)
 Multi-field structs or 4+ positional values. Estimated: ~2 hours total.
 
-### Priority 3 — Typed Tuples → `args.Map` (31 files)
+### Priority 3 — Typed Tuples → `args.Map` (27 files)
 `args.Two`–`args.Six` → `args.Map` with semantic keys. Higher effort but significant diagnostic improvement.
 
 ### Keep As-Is (15 files)
