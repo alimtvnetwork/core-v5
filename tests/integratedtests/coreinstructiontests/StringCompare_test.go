@@ -46,11 +46,17 @@ func Test_StringCompare_IsMatch(t *testing.T) {
 		sc := newStringCompareFromMap(input)
 
 		// Act
-		isMatch := fmt.Sprintf("%v", sc.IsMatch())
-		isMatchFailed := fmt.Sprintf("%v", sc.IsMatchFailed())
+		actual := args.Map{
+			"isMatch":       sc.IsMatch(),
+			"isMatchFailed": sc.IsMatchFailed(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, isMatch, isMatchFailed)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 

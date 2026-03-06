@@ -20,9 +20,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 	{
@@ -34,9 +34,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 	{
@@ -48,9 +48,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 
@@ -64,9 +64,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 	{
@@ -78,9 +78,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 
@@ -94,9 +94,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 	{
@@ -108,9 +108,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 	{
@@ -122,9 +122,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 
@@ -138,9 +138,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 	{
@@ -152,9 +152,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 	{
@@ -166,9 +166,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 
@@ -182,9 +182,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello world",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 	{
@@ -196,9 +196,9 @@ var stringCompareIsMatchTestCases = []coretestcases.CaseV1{
 			"content":      "hello",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 }

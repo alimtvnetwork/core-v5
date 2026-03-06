@@ -18,9 +18,9 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "hello",
 			"content": "hello",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 	{
@@ -31,9 +31,9 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "hello",
 			"content": "world",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 	{
@@ -44,9 +44,9 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "world",
 			"content": "hello world",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       true,
+			"isMatchFailed": false,
 		},
 	},
 	{
@@ -57,9 +57,9 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 			"search":  "xyz",
 			"content": "hello world",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isMatchFailed
+		ExpectedInput: args.Map{
+			"isMatch":       false,
+			"isMatchFailed": true,
 		},
 	},
 }
@@ -77,9 +77,9 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 			"search":   "o",
 			"contents": []string{"hello", "world", "foo"},
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isAllMatch
-			Second: "false", // isAllMatchFailed
+		ExpectedInput: args.Map{
+			"isAllMatch":       true,
+			"isAnyMatchFailed": false,
 		},
 	},
 	{
@@ -90,9 +90,9 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 			"search":   "z",
 			"contents": []string{"hello", "buzz", "world"},
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isAllMatch
-			Second: "true",  // isAllMatchFailed
+		ExpectedInput: args.Map{
+			"isAllMatch":       false,
+			"isAnyMatchFailed": true,
 		},
 	},
 	{
@@ -103,9 +103,9 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 			"search":   "hello",
 			"contents": []string{},
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isAllMatch
-			Second: "false", // isAllMatchFailed
+		ExpectedInput: args.Map{
+			"isAllMatch":       true,
+			"isAnyMatchFailed": false,
 		},
 	},
 }
@@ -123,10 +123,10 @@ var stringSearchStateTestCases = []coretestcases.CaseV1{
 			"search": "test",
 			"isNil":  false,
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "false", // isEmpty
-			Second: "true",  // isExist
-			Third:  "true",  // has
+		ExpectedInput: args.Map{
+			"isEmpty": false,
+			"isExist": true,
+			"has":     true,
 		},
 	},
 	{
@@ -135,10 +135,10 @@ var stringSearchStateTestCases = []coretestcases.CaseV1{
 			"when":  "given nil StringSearch",
 			"isNil": true,
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "true",  // isEmpty
-			Second: "false", // isExist
-			Third:  "false", // has
+		ExpectedInput: args.Map{
+			"isEmpty": true,
+			"isExist": false,
+			"has":     false,
 		},
 	},
 }

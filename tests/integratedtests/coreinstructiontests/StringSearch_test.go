@@ -43,15 +43,16 @@ func Test_StringSearch_IsMatch_Verification(t *testing.T) {
 		content, _ := input.GetAsString("content")
 
 		// Act
-		isMatch := ss.IsMatch(content)
-		isMatchFailed := ss.IsMatchFailed(content)
+		actual := args.Map{
+			"isMatch":       ss.IsMatch(content),
+			"isMatchFailed": ss.IsMatchFailed(content),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
+		testCase.ShouldBeEqualMap(
 			t,
 			caseIndex,
-			fmt.Sprintf("%v", isMatch),
-			fmt.Sprintf("%v", isMatchFailed),
+			actual,
 		)
 	}
 }
@@ -64,15 +65,16 @@ func Test_StringSearch_IsAllMatch_Verification(t *testing.T) {
 		contents, _ := input.GetAsStrings("contents")
 
 		// Act
-		isAllMatch := ss.IsAllMatch(contents...)
-		isAnyFailed := ss.IsAnyMatchFailed(contents...)
+		actual := args.Map{
+			"isAllMatch":       ss.IsAllMatch(contents...),
+			"isAnyMatchFailed": ss.IsAnyMatchFailed(contents...),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
+		testCase.ShouldBeEqualMap(
 			t,
 			caseIndex,
-			fmt.Sprintf("%v", isAllMatch),
-			fmt.Sprintf("%v", isAnyFailed),
+			actual,
 		)
 	}
 }
@@ -90,17 +92,17 @@ func Test_StringSearch_State_Verification(t *testing.T) {
 		}
 
 		// Act
-		isEmpty := ss.IsEmpty()
-		isExist := ss.IsExist()
-		has := ss.Has()
+		actual := args.Map{
+			"isEmpty": ss.IsEmpty(),
+			"isExist": ss.IsExist(),
+			"has":     ss.Has(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
+		testCase.ShouldBeEqualMap(
 			t,
 			caseIndex,
-			fmt.Sprintf("%v", isEmpty),
-			fmt.Sprintf("%v", isExist),
-			fmt.Sprintf("%v", has),
+			actual,
 		)
 	}
 }
