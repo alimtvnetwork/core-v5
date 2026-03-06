@@ -10,13 +10,17 @@ import (
 // ==========================================================================
 
 var collectionForEachVisitsAllTestCase = coretestcases.CaseV1{
-	Title:         "ForEach visits all items with correct indices",
-	ExpectedInput: []string{"5", "0:1", "4:5"},
+	Title: "ForEach visits all items with correct indices",
+	ExpectedInput: args.Map{
+		"visited":    5,
+		"firstEntry": "0:1",
+		"lastEntry":  "4:5",
+	},
 }
 
 var collectionForEachEmptyTestCase = coretestcases.CaseV1{
 	Title:         "ForEach on empty collection does nothing",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: args.Map{"visited": 0},
 }
 
 // ==========================================================================
@@ -25,12 +29,12 @@ var collectionForEachEmptyTestCase = coretestcases.CaseV1{
 
 var collectionForEachBreakStopsTestCase = coretestcases.CaseV1{
 	Title:         "ForEachBreak stops at first match",
-	ExpectedInput: []string{"2"},
+	ExpectedInput: args.Map{"visited": 2},
 }
 
 var collectionForEachBreakVisitsAllTestCase = coretestcases.CaseV1{
 	Title:         "ForEachBreak visits all if no break",
-	ExpectedInput: []string{"5"},
+	ExpectedInput: args.Map{"visited": 5},
 }
 
 // ==========================================================================
@@ -38,18 +42,27 @@ var collectionForEachBreakVisitsAllTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionSortFuncAscTestCase = coretestcases.CaseV1{
-	Title:         "SortFunc ascending",
-	ExpectedInput: []string{"1", "5"},
+	Title: "SortFunc ascending",
+	ExpectedInput: args.Map{
+		"first": 1,
+		"last":  5,
+	},
 }
 
 var collectionSortFuncDescTestCase = coretestcases.CaseV1{
-	Title:         "SortFunc descending",
-	ExpectedInput: []string{"5", "1"},
+	Title: "SortFunc descending",
+	ExpectedInput: args.Map{
+		"first": 5,
+		"last":  1,
+	},
 }
 
 var collectionSortFuncSingleTestCase = coretestcases.CaseV1{
-	Title:         "SortFunc single element",
-	ExpectedInput: []string{"42", "42"},
+	Title: "SortFunc single element",
+	ExpectedInput: args.Map{
+		"first": 42,
+		"last":  42,
+	},
 }
 
 // ==========================================================================
@@ -57,13 +70,17 @@ var collectionSortFuncSingleTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddIfManyTrueTestCase = coretestcases.CaseV1{
-	Title:         "AddIfMany true adds all items",
-	ExpectedInput: []string{"3", "10", "30"},
+	Title: "AddIfMany true adds all items",
+	ExpectedInput: args.Map{
+		"length": 3,
+		"first":  10,
+		"last":   30,
+	},
 }
 
 var collectionAddIfManyFalseTestCase = coretestcases.CaseV1{
 	Title:         "AddIfMany false adds nothing",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: args.Map{"length": 0},
 }
 
 // ==========================================================================
@@ -71,8 +88,11 @@ var collectionAddIfManyFalseTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddFuncTestCase = coretestcases.CaseV1{
-	Title:         "AddFunc appends result of function",
-	ExpectedInput: []string{"1", "42"},
+	Title: "AddFunc appends result of function",
+	ExpectedInput: args.Map{
+		"length": 1,
+		"first":  42,
+	},
 }
 
 // ==========================================================================
@@ -80,13 +100,21 @@ var collectionAddFuncTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionAddCollectionsMergeTestCase = coretestcases.CaseV1{
-	Title:         "AddCollections merges multiple collections",
-	ExpectedInput: []string{"6", "1", "6"},
+	Title: "AddCollections merges multiple collections",
+	ExpectedInput: args.Map{
+		"length": 6,
+		"first":  1,
+		"last":   6,
+	},
 }
 
 var collectionAddCollectionsNilTestCase = coretestcases.CaseV1{
-	Title:         "AddCollections with nil collection skips it",
-	ExpectedInput: []string{"3", "1", "3"},
+	Title: "AddCollections with nil collection skips it",
+	ExpectedInput: args.Map{
+		"length": 3,
+		"first":  1,
+		"last":   3,
+	},
 }
 
 // ==========================================================================
@@ -94,8 +122,11 @@ var collectionAddCollectionsNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionCloneEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Clone empty returns empty",
-	ExpectedInput: []string{"0", "true"},
+	Title: "Clone empty returns empty",
+	ExpectedInput: args.Map{
+		"length":  0,
+		"isEmpty": true,
+	},
 }
 
 // ==========================================================================
@@ -104,17 +135,20 @@ var collectionCloneEmptyTestCase = coretestcases.CaseV1{
 
 var collectionSkipAllTestCase = coretestcases.CaseV1{
 	Title:         "Skip all returns empty",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: args.Map{"length": 0},
 }
 
 var collectionTakeMoreTestCase = coretestcases.CaseV1{
 	Title:         "Take more than length returns all",
-	ExpectedInput: []string{"3"},
+	ExpectedInput: args.Map{"length": 3},
 }
 
 var collectionSkipZeroTakeZeroTestCase = coretestcases.CaseV1{
-	Title:         "Skip 0 returns all, Take 0 returns empty",
-	ExpectedInput: []string{"3", "0"},
+	Title: "Skip 0 returns all, Take 0 returns empty",
+	ExpectedInput: args.Map{
+		"skipLength": 3,
+		"takeLength": 0,
+	},
 }
 
 // ==========================================================================
@@ -122,18 +156,24 @@ var collectionSkipZeroTakeZeroTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionFilterNoMatchTestCase = coretestcases.CaseV1{
-	Title:         "Filter no match returns empty",
-	ExpectedInput: []string{"0", "true"},
+	Title: "Filter no match returns empty",
+	ExpectedInput: args.Map{
+		"length":  0,
+		"isEmpty": true,
+	},
 }
 
 var collectionFilterAllMatchTestCase = coretestcases.CaseV1{
 	Title:         "Filter all match returns all",
-	ExpectedInput: []string{"3"},
+	ExpectedInput: args.Map{"length": 3},
 }
 
 var collectionFilterEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Filter empty collection returns empty",
-	ExpectedInput: []string{"0", "true"},
+	Title: "Filter empty collection returns empty",
+	ExpectedInput: args.Map{
+		"length":  0,
+		"isEmpty": true,
+	},
 }
 
 // ==========================================================================
@@ -142,12 +182,12 @@ var collectionFilterEmptyTestCase = coretestcases.CaseV1{
 
 var collectionCountFuncNoMatchTestCase = coretestcases.CaseV1{
 	Title:         "CountFunc no match returns 0",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: args.Map{"count": 0},
 }
 
 var collectionCountFuncEmptyTestCase = coretestcases.CaseV1{
 	Title:         "CountFunc empty collection returns 0",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: args.Map{"count": 0},
 }
 
 // ==========================================================================
@@ -156,12 +196,12 @@ var collectionCountFuncEmptyTestCase = coretestcases.CaseV1{
 
 var collectionStringPopulatedTestCase = coretestcases.CaseV1{
 	Title:         "String formats collection",
-	ExpectedInput: []string{"[1 2 3]"},
+	ExpectedInput: args.Map{"result": "[1 2 3]"},
 }
 
 var collectionStringEmptyTestCase = coretestcases.CaseV1{
 	Title:         "String empty collection",
-	ExpectedInput: []string{"[]"},
+	ExpectedInput: args.Map{"result": "[]"},
 }
 
 // ==========================================================================
@@ -169,8 +209,12 @@ var collectionStringEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionLockVariantsTestCase = coretestcases.CaseV1{
-	Title:         "Lock variants work correctly",
-	ExpectedInput: []string{"3", "false", "3"},
+	Title: "Lock variants work correctly",
+	ExpectedInput: args.Map{
+		"lengthLock":  3,
+		"isEmptyLock": false,
+		"length":      3,
+	},
 }
 
 // ==========================================================================
@@ -178,13 +222,26 @@ var collectionLockVariantsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionMetadataPopulatedTestCase = coretestcases.CaseV1{
-	Title:         "Metadata methods on populated collection",
-	ExpectedInput: []string{"true", "true", "true", "false", "2", "3"},
+	Title: "Metadata methods on populated collection",
+	ExpectedInput: args.Map{
+		"hasAnyItem": true,
+		"hasItems":   true,
+		"hasIndex2":  true,
+		"hasIndex5":  false,
+		"lastIndex":  2,
+		"count":      3,
+	},
 }
 
 var collectionMetadataEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Metadata methods on empty collection",
-	ExpectedInput: []string{"false", "false", "false", "-1", "0"},
+	Title: "Metadata methods on empty collection",
+	ExpectedInput: args.Map{
+		"hasAnyItem": false,
+		"hasItems":   false,
+		"hasIndex0":  false,
+		"lastIndex":  -1,
+		"count":      0,
+	},
 }
 
 // ==========================================================================
@@ -192,8 +249,12 @@ var collectionMetadataEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionRemoveAtSingleTestCase = coretestcases.CaseV1{
-	Title:         "RemoveAt single item leaves empty collection",
-	ExpectedInput: []string{"true", "0", "true"},
+	Title: "RemoveAt single item leaves empty collection",
+	ExpectedInput: args.Map{
+		"removed": true,
+		"length":  0,
+		"isEmpty": true,
+	},
 }
 
 // ==========================================================================
@@ -202,7 +263,7 @@ var collectionRemoveAtSingleTestCase = coretestcases.CaseV1{
 
 var collectionAddCollectionEmptyTestCase = coretestcases.CaseV1{
 	Title:         "AddCollection with empty collection does not change length",
-	ExpectedInput: []string{"3"},
+	ExpectedInput: args.Map{"length": 3},
 }
 
 // ==========================================================================
@@ -241,7 +302,11 @@ var hashmapIsEqualsSamePtrTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var collectionLenCapTestCase = coretestcases.CaseV1{
-	Title:         "CollectionLenCap creates with pre-set length and capacity",
-	ArrangeInput:  args.Map{},
-	ExpectedInput: []string{"3", "10", "0"},
+	Title:        "CollectionLenCap creates with pre-set length and capacity",
+	ArrangeInput: args.Map{},
+	ExpectedInput: args.Map{
+		"length":   3,
+		"capacity": 10,
+		"first":    0,
+	},
 }

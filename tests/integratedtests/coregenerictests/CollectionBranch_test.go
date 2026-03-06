@@ -1,6 +1,7 @@
 package coregenerictests
 
 import (
+	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
@@ -25,11 +26,13 @@ func Test_Collection_ForEach_VisitsAll(t *testing.T) {
 		visited++
 	})
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", visited),
-		firstEntry,
-		lastEntry,
-	)
+	actual := args.Map{
+		"visited":    visited,
+		"firstEntry": firstEntry,
+		"lastEntry":  lastEntry,
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_ForEach_Empty(t *testing.T) {
@@ -37,7 +40,10 @@ func Test_Collection_ForEach_Empty(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	visited := 0
 	col.ForEach(func(index int, item int) { visited++ })
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", visited))
+
+	actual := args.Map{"visited": visited}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -52,7 +58,10 @@ func Test_Collection_ForEachBreak_Stops(t *testing.T) {
 		visited++
 		return item >= 3
 	})
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", visited))
+
+	actual := args.Map{"visited": visited}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_ForEachBreak_VisitsAll(t *testing.T) {
@@ -63,7 +72,10 @@ func Test_Collection_ForEachBreak_VisitsAll(t *testing.T) {
 		visited++
 		return false
 	})
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", visited))
+
+	actual := args.Map{"visited": visited}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -74,30 +86,39 @@ func Test_Collection_SortFunc_Asc(t *testing.T) {
 	tc := collectionSortFuncAscTestCase
 	col := coregeneric.New.Collection.Int.Items(3, 1, 5, 2, 4)
 	col.SortFunc(func(a, b int) bool { return a < b })
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.First()),
-		fmt.Sprintf("%d", col.Last()),
-	)
+
+	actual := args.Map{
+		"first": col.First(),
+		"last":  col.Last(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_SortFunc_Desc(t *testing.T) {
 	tc := collectionSortFuncDescTestCase
 	col := coregeneric.New.Collection.Int.Items(3, 1, 5, 2, 4)
 	col.SortFunc(func(a, b int) bool { return a > b })
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.First()),
-		fmt.Sprintf("%d", col.Last()),
-	)
+
+	actual := args.Map{
+		"first": col.First(),
+		"last":  col.Last(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_SortFunc_Single(t *testing.T) {
 	tc := collectionSortFuncSingleTestCase
 	col := coregeneric.New.Collection.Int.Items(42)
 	col.SortFunc(func(a, b int) bool { return a < b })
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.First()),
-		fmt.Sprintf("%d", col.Last()),
-	)
+
+	actual := args.Map{
+		"first": col.First(),
+		"last":  col.Last(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -108,18 +129,24 @@ func Test_Collection_AddIfMany_True(t *testing.T) {
 	tc := collectionAddIfManyTrueTestCase
 	col := coregeneric.EmptyCollection[int]()
 	col.AddIfMany(true, 10, 20, 30)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		fmt.Sprintf("%d", col.First()),
-		fmt.Sprintf("%d", col.Last()),
-	)
+
+	actual := args.Map{
+		"length": col.Length(),
+		"first":  col.First(),
+		"last":   col.Last(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_AddIfMany_False(t *testing.T) {
 	tc := collectionAddIfManyFalseTestCase
 	col := coregeneric.EmptyCollection[int]()
 	col.AddIfMany(false, 10, 20, 30)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", col.Length()))
+
+	actual := args.Map{"length": col.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -130,10 +157,13 @@ func Test_Collection_AddFunc(t *testing.T) {
 	tc := collectionAddFuncTestCase
 	col := coregeneric.EmptyCollection[int]()
 	col.AddFunc(func() int { return 42 })
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		fmt.Sprintf("%d", col.First()),
-	)
+
+	actual := args.Map{
+		"length": col.Length(),
+		"first":  col.First(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -146,11 +176,14 @@ func Test_Collection_AddCollections_Merge(t *testing.T) {
 	c2 := coregeneric.New.Collection.Int.Items(4, 5)
 	c3 := coregeneric.New.Collection.Int.Items(6)
 	col.AddCollections(c2, c3)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		fmt.Sprintf("%d", col.First()),
-		fmt.Sprintf("%d", col.Last()),
-	)
+
+	actual := args.Map{
+		"length": col.Length(),
+		"first":  col.First(),
+		"last":   col.Last(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_AddCollections_WithNil(t *testing.T) {
@@ -158,11 +191,14 @@ func Test_Collection_AddCollections_WithNil(t *testing.T) {
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	empty := coregeneric.EmptyCollection[int]()
 	col.AddCollections(empty)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		fmt.Sprintf("%d", col.First()),
-		fmt.Sprintf("%d", col.Last()),
-	)
+
+	actual := args.Map{
+		"length": col.Length(),
+		"first":  col.First(),
+		"last":   col.Last(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -173,10 +209,13 @@ func Test_Collection_Clone_Empty(t *testing.T) {
 	tc := collectionCloneEmptyTestCase
 	col := coregeneric.EmptyCollection[int]()
 	cloned := col.Clone()
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", cloned.Length()),
-		fmt.Sprintf("%v", cloned.IsEmpty()),
-	)
+
+	actual := args.Map{
+		"length":  cloned.Length(),
+		"isEmpty": cloned.IsEmpty(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -187,14 +226,20 @@ func Test_Collection_SkipAll(t *testing.T) {
 	tc := collectionSkipAllTestCase
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	skipped := col.Skip(10)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", len(skipped)))
+
+	actual := args.Map{"length": len(skipped)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_TakeMore(t *testing.T) {
 	tc := collectionTakeMoreTestCase
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	taken := col.Take(100)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", len(taken)))
+
+	actual := args.Map{"length": len(taken)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_SkipZeroTakeZero(t *testing.T) {
@@ -202,10 +247,13 @@ func Test_Collection_SkipZeroTakeZero(t *testing.T) {
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	skipZero := col.Skip(0)
 	takeZero := col.Take(0)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", len(skipZero)),
-		fmt.Sprintf("%d", len(takeZero)),
-	)
+
+	actual := args.Map{
+		"skipLength": len(skipZero),
+		"takeLength": len(takeZero),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -216,27 +264,36 @@ func Test_Collection_Filter_NoMatch(t *testing.T) {
 	tc := collectionFilterNoMatchTestCase
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	filtered := col.Filter(func(item int) bool { return item > 100 })
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", filtered.Length()),
-		fmt.Sprintf("%v", filtered.IsEmpty()),
-	)
+
+	actual := args.Map{
+		"length":  filtered.Length(),
+		"isEmpty": filtered.IsEmpty(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_Filter_AllMatch(t *testing.T) {
 	tc := collectionFilterAllMatchTestCase
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	filtered := col.Filter(func(item int) bool { return item > 0 })
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", filtered.Length()))
+
+	actual := args.Map{"length": filtered.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_Filter_Empty(t *testing.T) {
 	tc := collectionFilterEmptyTestCase
 	col := coregeneric.EmptyCollection[int]()
 	filtered := col.Filter(func(item int) bool { return true })
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", filtered.Length()),
-		fmt.Sprintf("%v", filtered.IsEmpty()),
-	)
+
+	actual := args.Map{
+		"length":  filtered.Length(),
+		"isEmpty": filtered.IsEmpty(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -247,14 +304,20 @@ func Test_Collection_CountFunc_NoMatch(t *testing.T) {
 	tc := collectionCountFuncNoMatchTestCase
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	count := col.CountFunc(func(item int) bool { return item > 100 })
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", count))
+
+	actual := args.Map{"count": count}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_CountFunc_Empty(t *testing.T) {
 	tc := collectionCountFuncEmptyTestCase
 	col := coregeneric.EmptyCollection[int]()
 	count := col.CountFunc(func(item int) bool { return true })
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", count))
+
+	actual := args.Map{"count": count}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -264,13 +327,19 @@ func Test_Collection_CountFunc_Empty(t *testing.T) {
 func Test_Collection_String_Populated(t *testing.T) {
 	tc := collectionStringPopulatedTestCase
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
-	tc.ShouldBeEqual(t, 0, col.String())
+
+	actual := args.Map{"result": col.String()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_String_Empty(t *testing.T) {
 	tc := collectionStringEmptyTestCase
 	col := coregeneric.EmptyCollection[int]()
-	tc.ShouldBeEqual(t, 0, col.String())
+
+	actual := args.Map{"result": col.String()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -282,11 +351,14 @@ func Test_Collection_Lock_Variants(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	col.AddLock(1)
 	col.AddsLock(2, 3)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.LengthLock()),
-		fmt.Sprintf("%v", col.IsEmptyLock()),
-		fmt.Sprintf("%d", col.Length()),
-	)
+
+	actual := args.Map{
+		"lengthLock":  col.LengthLock(),
+		"isEmptyLock": col.IsEmptyLock(),
+		"length":      col.Length(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -296,26 +368,32 @@ func Test_Collection_Lock_Variants(t *testing.T) {
 func Test_Collection_Metadata_Populated(t *testing.T) {
 	tc := collectionMetadataPopulatedTestCase
 	col := coregeneric.New.Collection.Int.Items(10, 20, 30)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", col.HasAnyItem()),
-		fmt.Sprintf("%v", col.HasItems()),
-		fmt.Sprintf("%v", col.HasIndex(2)),
-		fmt.Sprintf("%v", col.HasIndex(5)),
-		fmt.Sprintf("%d", col.LastIndex()),
-		fmt.Sprintf("%d", col.Count()),
-	)
+
+	actual := args.Map{
+		"hasAnyItem": col.HasAnyItem(),
+		"hasItems":   col.HasItems(),
+		"hasIndex2":  col.HasIndex(2),
+		"hasIndex5":  col.HasIndex(5),
+		"lastIndex":  col.LastIndex(),
+		"count":      col.Count(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Collection_Metadata_Empty(t *testing.T) {
 	tc := collectionMetadataEmptyTestCase
 	col := coregeneric.EmptyCollection[int]()
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", col.HasAnyItem()),
-		fmt.Sprintf("%v", col.HasItems()),
-		fmt.Sprintf("%v", col.HasIndex(0)),
-		fmt.Sprintf("%d", col.LastIndex()),
-		fmt.Sprintf("%d", col.Count()),
-	)
+
+	actual := args.Map{
+		"hasAnyItem": col.HasAnyItem(),
+		"hasItems":   col.HasItems(),
+		"hasIndex0":  col.HasIndex(0),
+		"lastIndex":  col.LastIndex(),
+		"count":      col.Count(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -326,11 +404,14 @@ func Test_Collection_RemoveAt_Single(t *testing.T) {
 	tc := collectionRemoveAtSingleTestCase
 	col := coregeneric.New.Collection.Int.Items(42)
 	removed := col.RemoveAt(0)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", removed),
-		fmt.Sprintf("%d", col.Length()),
-		fmt.Sprintf("%v", col.IsEmpty()),
-	)
+
+	actual := args.Map{
+		"removed": removed,
+		"length":  col.Length(),
+		"isEmpty": col.IsEmpty(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -342,7 +423,10 @@ func Test_Collection_AddCollection_Empty(t *testing.T) {
 	col := coregeneric.New.Collection.Int.Items(1, 2, 3)
 	empty := coregeneric.EmptyCollection[int]()
 	col.AddCollection(empty)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%d", col.Length()))
+
+	actual := args.Map{"length": col.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -427,9 +511,12 @@ func Test_Hashmap_IsEquals_SamePtr(t *testing.T) {
 func Test_Collection_LenCap(t *testing.T) {
 	tc := collectionLenCapTestCase
 	col := coregeneric.CollectionLenCap[int](3, 10)
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		fmt.Sprintf("%d", col.Capacity()),
-		fmt.Sprintf("%d", col.First()),
-	)
+
+	actual := args.Map{
+		"length":   col.Length(),
+		"capacity": col.Capacity(),
+		"first":    col.First(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
