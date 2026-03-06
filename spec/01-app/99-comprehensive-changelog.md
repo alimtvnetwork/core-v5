@@ -171,17 +171,16 @@ Migrated **88 of 138** test case files from positional types to semantic `args.M
 
 ## Remaining Work (Not Yet Completed)
 
-See `plan.md` → Prioritized Backlog for the full list. Key items:
-
-| Priority | Task | Blocker |
-|----------|------|---------|
-| 🔴 High | `interface{}` → `any` in `coreinterface/` (569 matches) | Requires Go 1.18+ |
-| 🔴 High | Go version upgrade to 1.22+ | Requires local tooling |
-| 🟡 Medium | Generics adoption (`conditional/`, `coremath/`, etc.) | Requires Go 1.18+ |
-| 🟡 Medium | Package name typo fixes (`convertinteranl`, `refeflectcore`) | API-breaking, needs aliases |
-| 🟡 Medium | `errors.Is`/`errors.As`/`errors.Join` adoption | Requires Go 1.20+ |
+| Priority | Task | Status |
+|----------|------|--------|
+| ~~🔴 High~~ | ~~`interface{}` → `any` in `coreinterface/`~~ | ✅ Complete |
+| ~~🔴 High~~ | ~~Go version upgrade to 1.22+~~ | ✅ Complete (1.24.0) |
+| ~~🟡 Medium~~ | ~~Generics adoption (`conditional/`, `coremath/`, etc.)~~ | ✅ Complete (`conditional/`, `coregeneric/`, `corepayload/`) |
+| ~~🟡 Medium~~ | ~~Package name typo fixes (`convertinteranl`, `refeflectcore`)~~ | ✅ Complete |
+| 🟡 Medium | `errors.Is`/`errors.As`/`errors.Join` adoption | 🔄 Planned |
 | 🟡 Medium | Remove `codegen/` after consumer audit | Needs consumer survey |
 | 🟢 Low | Unit test coverage gaps | Time-bound |
 | 🟢 Low | CI pipeline setup | Infrastructure |
 | 🟢 Low | `slog` / `iter` package adoption | Requires Go 1.21+/1.23+ |
 | 🟢 Low | Module splitting | Architecture decision |
+| 🟢 Low | Remove deprecated per-type functions | Next major version |
