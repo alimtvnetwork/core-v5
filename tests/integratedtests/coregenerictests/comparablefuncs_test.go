@@ -1,7 +1,6 @@
 package coregenerictests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
@@ -111,14 +110,13 @@ func Test_RemoveItem_Found(t *testing.T) {
 	// Act
 	col := coregeneric.New.Collection.Int.Items(items...)
 	removed := coregeneric.RemoveItem(col, removeItem)
-	actLines := []string{
-		fmt.Sprintf("%v", removed),
-		fmt.Sprintf("%d", col.Length()),
+	actual := args.Map{
+		"removed":   removed,
+		"newLength": col.Length(),
 	}
 
 	// Assert
-
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_RemoveItem_Missing(t *testing.T) {
@@ -132,14 +130,13 @@ func Test_RemoveItem_Missing(t *testing.T) {
 	// Act
 	col := coregeneric.New.Collection.Int.Items(items...)
 	removed := coregeneric.RemoveItem(col, removeItem)
-	actLines := []string{
-		fmt.Sprintf("%v", removed),
-		fmt.Sprintf("%d", col.Length()),
+	actual := args.Map{
+		"removed":   removed,
+		"newLength": col.Length(),
 	}
 
 	// Assert
-
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -155,13 +152,13 @@ func Test_RemoveAllItems_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		removedCount := coregeneric.RemoveAllItems(col, 2)
-		actLines := []string{
-			fmt.Sprintf("%d", removedCount),
-			fmt.Sprintf("%d", col.Length()),
+		actual := args.Map{
+			"removedCount": removedCount,
+			"newLength":    col.Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -178,16 +175,16 @@ func Test_ToHashset_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		hs := coregeneric.ToHashset(col)
-		actLines := []string{
-			fmt.Sprintf("%d", hs.Length()),
-			fmt.Sprintf("%v", hs.Has(1)),
-			fmt.Sprintf("%v", hs.Has(2)),
-			fmt.Sprintf("%v", hs.Has(3)),
-			fmt.Sprintf("%v", hs.Has(99)),
+		actual := args.Map{
+			"uniqueCount": hs.Length(),
+			"has1":        hs.Has(1),
+			"has2":        hs.Has(2),
+			"has3":        hs.Has(3),
+			"has99":       hs.Has(99),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -204,14 +201,14 @@ func Test_DistinctSimpleSlice_Verification(t *testing.T) {
 		// Act
 		ss := coregeneric.New.SimpleSlice.Int.Items(items...)
 		unique := coregeneric.DistinctSimpleSlice(ss)
-		actLines := []string{
-			fmt.Sprintf("%d", unique.Length()),
-			fmt.Sprintf("%d", unique.First()),
-			fmt.Sprintf("%d", unique.Last()),
+		actual := args.Map{
+			"uniqueCount":  unique.Length(),
+			"firstElement": unique.First(),
+			"lastElement":  unique.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -227,12 +224,12 @@ func Test_ContainsSimpleSliceItem_Verification(t *testing.T) {
 
 		// Act
 		ss := coregeneric.New.SimpleSlice.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%v", coregeneric.ContainsSimpleSliceItem(ss, 20)),
-			fmt.Sprintf("%v", coregeneric.ContainsSimpleSliceItem(ss, 99)),
+		actual := args.Map{
+			"containsExisting": coregeneric.ContainsSimpleSliceItem(ss, 20),
+			"containsMissing":  coregeneric.ContainsSimpleSliceItem(ss, 99),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
