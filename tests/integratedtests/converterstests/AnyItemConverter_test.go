@@ -27,13 +27,14 @@ func Test_AnyItemConverter_ToNonNullItems_SkipNil(t *testing.T) {
 
 		// Act
 		result := converters.AnyItem.ToNonNullItems(isSkip, inputRaw)
-		actLines := []string{fmt.Sprintf("%d", len(result))}
-
-		for _, item := range result {
-			actLines = append(actLines, fmt.Sprintf("%v", item))
+		actual := args.Map{
+			"count": len(result),
+		}
+		for i, item := range result {
+			actual[fmt.Sprintf("item%d", i)] = fmt.Sprintf("%v", item)
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

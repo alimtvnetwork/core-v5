@@ -17,7 +17,7 @@ var toNonNullItemsTestCases = []coretestcases.CaseV1{
 			"isSkipOnNil": true,
 			"input":       nil,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: args.Map{"count": 0},
 	},
 	{
 		Title: "ToNonNullItems converts valid slice",
@@ -26,7 +26,11 @@ var toNonNullItemsTestCases = []coretestcases.CaseV1{
 			"isSkipOnNil": false,
 			"input":       []any{"hello", "world"},
 		},
-		ExpectedInput: []string{"2", "hello", "world"},
+		ExpectedInput: args.Map{
+			"count": 2,
+			"item0": "hello",
+			"item1": "world",
+		},
 	},
 	{
 		Title: "ToNonNullItems returns empty for nil input when not skipOnNil",
@@ -35,6 +39,6 @@ var toNonNullItemsTestCases = []coretestcases.CaseV1{
 			"isSkipOnNil": true,
 			"input":       nil,
 		},
-		ExpectedInput: []string{"0"},
+		ExpectedInput: args.Map{"count": 0},
 	},
 }

@@ -23,16 +23,13 @@ func Test_IsAny_Defined_Null_Verification(t *testing.T) {
 		}
 
 		// Act
-		isDefined := fmt.Sprintf("%v", isany.Defined(item))
-		isNull := fmt.Sprintf("%v", isany.Null(item))
+		actual := args.Map{
+			"isDefined": fmt.Sprintf("%v", isany.Defined(item)),
+			"isNull":    fmt.Sprintf("%v", isany.Null(item)),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			isDefined,
-			isNull,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -44,15 +41,12 @@ func Test_IsAny_Both_Verification(t *testing.T) {
 		second := input.GetDirectLower("second")
 
 		// Act
-		definedBoth := fmt.Sprintf("%v", isany.DefinedBoth(first, second))
-		nullBoth := fmt.Sprintf("%v", isany.NullBoth(first, second))
+		actual := args.Map{
+			"definedBoth": fmt.Sprintf("%v", isany.DefinedBoth(first, second)),
+			"nullBoth":    fmt.Sprintf("%v", isany.NullBoth(first, second)),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			definedBoth,
-			nullBoth,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

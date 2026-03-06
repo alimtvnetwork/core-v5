@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/isany"
 )
 
@@ -29,13 +30,13 @@ func Test_DeepEqual_Verification(t *testing.T) {
 		pair := pairs[caseIndex]
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", isany.DeepEqual(pair.left, pair.right)),
-			fmt.Sprintf("%v", isany.NotDeepEqual(pair.left, pair.right)),
+		actual := args.Map{
+			"isDeepEqual":    fmt.Sprintf("%v", isany.DeepEqual(pair.left, pair.right)),
+			"isNotDeepEqual": fmt.Sprintf("%v", isany.NotDeepEqual(pair.left, pair.right)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -45,23 +46,17 @@ func Test_DeepEqual_Verification(t *testing.T) {
 
 func Test_Zero_Verification(t *testing.T) {
 	for caseIndex, testCase := range zeroTestCases {
-		// Arrange
-		values := []any{
-			0,
-			42,
-			"",
-			"hello",
-			false,
-		}
-
 		// Act
-		actLines := make([]string, 0, len(values))
-		for _, v := range values {
-			actLines = append(actLines, fmt.Sprintf("%v", isany.Zero(v)))
+		actual := args.Map{
+			"intZero":   fmt.Sprintf("%v", isany.Zero(0)),
+			"int42":     fmt.Sprintf("%v", isany.Zero(42)),
+			"emptyStr":  fmt.Sprintf("%v", isany.Zero("")),
+			"helloStr":  fmt.Sprintf("%v", isany.Zero("hello")),
+			"boolFalse": fmt.Sprintf("%v", isany.Zero(false)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -77,14 +72,14 @@ func Test_ReflectNull_Verification(t *testing.T) {
 		var nilSlice []string
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", isany.ReflectNull(nilPtr)),
-			fmt.Sprintf("%v", isany.ReflectNull(nonNilPtr)),
-			fmt.Sprintf("%v", isany.ReflectNull(nilSlice)),
+		actual := args.Map{
+			"nilPtr":    fmt.Sprintf("%v", isany.ReflectNull(nilPtr)),
+			"nonNilPtr": fmt.Sprintf("%v", isany.ReflectNull(nonNilPtr)),
+			"nilSlice":  fmt.Sprintf("%v", isany.ReflectNull(nilSlice)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -98,14 +93,14 @@ func Test_NotNull_Verification(t *testing.T) {
 		var nilPtr *string
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", isany.NotNull(nil)),
-			fmt.Sprintf("%v", isany.NotNull(42)),
-			fmt.Sprintf("%v", isany.NotNull(nilPtr) == isany.Null(nilPtr)),
+		actual := args.Map{
+			"notNullNil":    fmt.Sprintf("%v", isany.NotNull(nil)),
+			"notNull42":     fmt.Sprintf("%v", isany.NotNull(42)),
+			"inverseEquals": fmt.Sprintf("%v", isany.NotNull(nilPtr) == isany.Null(nilPtr)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -115,16 +110,14 @@ func Test_NotNull_Verification(t *testing.T) {
 
 func Test_StringEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range stringEqualTestCases {
-		// Arrange — compare values by their string representation
-
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", isany.StringEqual("hello", "hello")),
-			fmt.Sprintf("%v", isany.StringEqual("hello", "world")),
+		actual := args.Map{
+			"sameStrings": fmt.Sprintf("%v", isany.StringEqual("hello", "hello")),
+			"diffStrings": fmt.Sprintf("%v", isany.StringEqual("hello", "world")),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -139,13 +132,13 @@ func Test_Pointer_Verification(t *testing.T) {
 		s := "hello"
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", isany.Pointer(&x)),
-			fmt.Sprintf("%v", isany.Pointer(x)),
-			fmt.Sprintf("%v", isany.Pointer(&s)),
+		actual := args.Map{
+			"intPtr":    fmt.Sprintf("%v", isany.Pointer(&x)),
+			"intVal":    fmt.Sprintf("%v", isany.Pointer(x)),
+			"stringPtr": fmt.Sprintf("%v", isany.Pointer(&s)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

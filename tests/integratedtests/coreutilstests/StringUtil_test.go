@@ -75,9 +75,13 @@ func Test_SplitLeftRight_Verification(t *testing.T) {
 
 		// Act
 		left, right := stringutil.SplitLeftRight(inputStr, separator)
+		actual := args.Map{
+			"left":  left,
+			"right": right,
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, left, right)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

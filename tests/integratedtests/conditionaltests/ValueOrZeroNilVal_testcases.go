@@ -108,7 +108,10 @@ var ptrOrZeroStringTestCases = []coretestcases.CaseV1{
 			"when":  "given nil string pointer",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"true", ""},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "",
+		},
 	},
 	{
 		Title: "PtrOrZero with non-nil string pointer returns same value",
@@ -117,7 +120,10 @@ var ptrOrZeroStringTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": "world",
 		},
-		ExpectedInput: []string{"true", "world"},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "world",
+		},
 	},
 }
 
@@ -128,7 +134,10 @@ var ptrOrZeroIntTestCases = []coretestcases.CaseV1{
 			"when":  "given nil int pointer",
 			"isNil": true,
 		},
-		ExpectedInput: []string{"true", "0"},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "0",
+		},
 	},
 	{
 		Title: "PtrOrZero with non-nil int pointer returns same value",
@@ -137,7 +146,10 @@ var ptrOrZeroIntTestCases = []coretestcases.CaseV1{
 			"isNil": false,
 			"value": 99,
 		},
-		ExpectedInput: []string{"true", "99"},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "99",
+		},
 	},
 }
 
@@ -209,7 +221,10 @@ var nilValPtrStringTestCases = []coretestcases.CaseV1{
 			"onNil":    "nil-label",
 			"onNonNil": "set-label",
 		},
-		ExpectedInput: []string{"true", "nil-label"},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "nil-label",
+		},
 	},
 	{
 		Title: "NilValPtr with non-nil pointer returns pointer to onNonNil",
@@ -220,6 +235,9 @@ var nilValPtrStringTestCases = []coretestcases.CaseV1{
 			"onNil":    "nil-label",
 			"onNonNil": "set-label",
 		},
-		ExpectedInput: []string{"true", "set-label"},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "set-label",
+		},
 	},
 }

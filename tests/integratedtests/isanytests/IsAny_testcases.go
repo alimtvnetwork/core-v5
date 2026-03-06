@@ -12,9 +12,9 @@ var isAnyDefinedNullTestCases = []coretestcases.CaseV1{
 			"when":  "given nil value",
 			"input": nil,
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"isDefined": "false",
+			"isNull":    "true",
 		},
 	},
 	{
@@ -24,9 +24,9 @@ var isAnyDefinedNullTestCases = []coretestcases.CaseV1{
 			"input":    "error-marker",
 			"useError": true,
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isDefined": "true",
+			"isNull":    "false",
 		},
 	},
 	{
@@ -35,9 +35,9 @@ var isAnyDefinedNullTestCases = []coretestcases.CaseV1{
 			"when":  "given empty string",
 			"input": "",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isDefined": "true",
+			"isNull":    "false",
 		},
 	},
 	{
@@ -46,9 +46,9 @@ var isAnyDefinedNullTestCases = []coretestcases.CaseV1{
 			"when":  "given integer zero",
 			"input": 0,
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isDefined": "true",
+			"isNull":    "false",
 		},
 	},
 }
@@ -61,9 +61,9 @@ var isAnyBothTestCases = []coretestcases.CaseV1{
 			"first":  nil,
 			"second": "something",
 		},
-		ExpectedInput: []string{
-			"false",
-			"false",
+		ExpectedInput: args.Map{
+			"definedBoth": "false",
+			"nullBoth":    "false",
 		},
 	},
 	{
@@ -73,9 +73,9 @@ var isAnyBothTestCases = []coretestcases.CaseV1{
 			"first":  nil,
 			"second": nil,
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"definedBoth": "false",
+			"nullBoth":    "true",
 		},
 	},
 	{
@@ -85,9 +85,9 @@ var isAnyBothTestCases = []coretestcases.CaseV1{
 			"first":  "a",
 			"second": "b",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"definedBoth": "true",
+			"nullBoth":    "false",
 		},
 	},
 }

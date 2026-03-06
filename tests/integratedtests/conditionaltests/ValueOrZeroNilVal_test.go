@@ -87,14 +87,13 @@ func Test_PtrOrZero_String_Verification(t *testing.T) {
 		}
 
 		result := conditional.PtrOrZero[string](ptr)
-		isNotNil := fmt.Sprintf("%v", result != nil)
-		derefVal := *result
+		actual := args.Map{
+			"isNotNil": fmt.Sprintf("%v", result != nil),
+			"value":    *result,
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			isNotNil,
-			derefVal,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -113,14 +112,13 @@ func Test_PtrOrZero_Int_Verification(t *testing.T) {
 		}
 
 		result := conditional.PtrOrZero[int](ptr)
-		isNotNil := fmt.Sprintf("%v", result != nil)
-		derefVal := fmt.Sprintf("%v", *result)
+		actual := args.Map{
+			"isNotNil": fmt.Sprintf("%v", result != nil),
+			"value":    fmt.Sprintf("%v", *result),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			isNotNil,
-			derefVal,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -187,13 +185,12 @@ func Test_NilValPtr_String_Verification(t *testing.T) {
 		}
 
 		result := conditional.NilValPtr[string](ptr, onNil, onNonNil)
-		isNotNil := fmt.Sprintf("%v", result != nil)
-		derefVal := *result
+		actual := args.Map{
+			"isNotNil": fmt.Sprintf("%v", result != nil),
+			"value":    *result,
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			isNotNil,
-			derefVal,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

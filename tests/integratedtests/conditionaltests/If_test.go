@@ -117,14 +117,13 @@ func Test_IfSlice_String_Verification(t *testing.T) {
 
 		// Act
 		result := conditional.IfSlice[string](isTrue, trueValue, falseValue)
-		length := fmt.Sprintf("%v", len(result))
-		first := result[0]
+		actual := args.Map{
+			"length": fmt.Sprintf("%v", len(result)),
+			"first":  result[0],
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			length,
-			first,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

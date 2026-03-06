@@ -1,77 +1,106 @@
 package defaultcapacitytests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-type predictiveInput struct {
-	possibleLen   int
-	multiplier    float64
-	additionalCap int
-}
-
-type maxLimitInput struct {
-	wholeLength int
-	limit       int
-}
-
 var predictiveTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Zero length returns additionalCap only",
-		ArrangeInput:  predictiveInput{possibleLen: 0, multiplier: 1.5, additionalCap: 10},
+		Title: "Zero length returns additionalCap only",
+		ArrangeInput: args.Map{
+			"possibleLen":   0,
+			"multiplier":    1.5,
+			"additionalCap": 10,
+		},
 		ExpectedInput: "10",
 	},
 	{
-		Title:         "Negative length returns additionalCap only",
-		ArrangeInput:  predictiveInput{possibleLen: -5, multiplier: 1.5, additionalCap: 10},
+		Title: "Negative length returns additionalCap only",
+		ArrangeInput: args.Map{
+			"possibleLen":   -5,
+			"multiplier":    1.5,
+			"additionalCap": 10,
+		},
 		ExpectedInput: "10",
 	},
 	{
-		Title:         "10 items with 1.5x multiplier and 5 additional = 20",
-		ArrangeInput:  predictiveInput{possibleLen: 10, multiplier: 1.5, additionalCap: 5},
+		Title: "10 items with 1.5x multiplier and 5 additional = 20",
+		ArrangeInput: args.Map{
+			"possibleLen":   10,
+			"multiplier":    1.5,
+			"additionalCap": 5,
+		},
 		ExpectedInput: "20",
 	},
 	{
-		Title:         "100 items with 2.0x multiplier and 0 additional = 200",
-		ArrangeInput:  predictiveInput{possibleLen: 100, multiplier: 2.0, additionalCap: 0},
+		Title: "100 items with 2.0x multiplier and 0 additional = 200",
+		ArrangeInput: args.Map{
+			"possibleLen":   100,
+			"multiplier":    2.0,
+			"additionalCap": 0,
+		},
 		ExpectedInput: "200",
 	},
 	{
-		Title:         "1 item with 1.0x multiplier and 0 additional = 1",
-		ArrangeInput:  predictiveInput{possibleLen: 1, multiplier: 1.0, additionalCap: 0},
+		Title: "1 item with 1.0x multiplier and 0 additional = 1",
+		ArrangeInput: args.Map{
+			"possibleLen":   1,
+			"multiplier":    1.0,
+			"additionalCap": 0,
+		},
 		ExpectedInput: "1",
 	},
 	{
-		Title:         "3 items with 1.2x multiplier and 4 additional = 8",
-		ArrangeInput:  predictiveInput{possibleLen: 3, multiplier: 1.2, additionalCap: 4},
+		Title: "3 items with 1.2x multiplier and 4 additional = 8",
+		ArrangeInput: args.Map{
+			"possibleLen":   3,
+			"multiplier":    1.2,
+			"additionalCap": 4,
+		},
 		ExpectedInput: "8",
 	},
 }
 
 var maxLimitTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Limit -1 (no limit) returns wholeLength",
-		ArrangeInput:  maxLimitInput{wholeLength: 100, limit: -1},
+		Title: "Limit -1 (no limit) returns wholeLength",
+		ArrangeInput: args.Map{
+			"wholeLength": 100,
+			"limit":       -1,
+		},
 		ExpectedInput: "100",
 	},
 	{
-		Title:         "Limit >= wholeLength returns wholeLength",
-		ArrangeInput:  maxLimitInput{wholeLength: 50, limit: 100},
+		Title: "Limit >= wholeLength returns wholeLength",
+		ArrangeInput: args.Map{
+			"wholeLength": 50,
+			"limit":       100,
+		},
 		ExpectedInput: "50",
 	},
 	{
-		Title:         "Limit == wholeLength returns wholeLength",
-		ArrangeInput:  maxLimitInput{wholeLength: 50, limit: 50},
+		Title: "Limit == wholeLength returns wholeLength",
+		ArrangeInput: args.Map{
+			"wholeLength": 50,
+			"limit":       50,
+		},
 		ExpectedInput: "50",
 	},
 	{
-		Title:         "Limit < wholeLength returns limit",
-		ArrangeInput:  maxLimitInput{wholeLength: 100, limit: 25},
+		Title: "Limit < wholeLength returns limit",
+		ArrangeInput: args.Map{
+			"wholeLength": 100,
+			"limit":       25,
+		},
 		ExpectedInput: "25",
 	},
 	{
-		Title:         "Limit 0 with items returns 0",
-		ArrangeInput:  maxLimitInput{wholeLength: 100, limit: 0},
+		Title: "Limit 0 with items returns 0",
+		ArrangeInput: args.Map{
+			"wholeLength": 100,
+			"limit":       0,
+		},
 		ExpectedInput: "0",
 	},
 }
