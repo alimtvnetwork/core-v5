@@ -1,9 +1,9 @@
 package coregenerictests
 
 import (
-	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 )
 
@@ -15,13 +15,13 @@ func Test_Hashmap_Empty(t *testing.T) {
 	tc := hashmapEmptyTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
-	actLines := []string{
-		fmt.Sprintf("%v", hm.IsEmpty()),
-		fmt.Sprintf("%v", hm.Length()),
-		fmt.Sprintf("%v", hm.HasItems()),
+	actual := args.Map{
+		"isEmpty":  hm.IsEmpty(),
+		"length":   hm.Length(),
+		"hasItems": hm.HasItems(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -32,9 +32,9 @@ func Test_Hashmap_New(t *testing.T) {
 	tc := hashmapNewTestCase
 	hm := coregeneric.NewHashmap[string, int](10)
 
-	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
+	actual := args.Map{"isEmpty": hm.IsEmpty()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -45,12 +45,12 @@ func Test_Hashmap_From(t *testing.T) {
 	tc := hashmapFromTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 
-	actLines := []string{
-		fmt.Sprintf("%v", hm.Length()),
-		fmt.Sprintf("%v", hm.Has("a")),
+	actual := args.Map{
+		"length": hm.Length(),
+		"hasKey": hm.Has("a"),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -66,12 +66,12 @@ func Test_Hashmap_CloneFunc(t *testing.T) {
 	origVal, _ := orig.Get("k")
 	clonedVal, _ := cloned.Get("k")
 
-	actLines := []string{
-		fmt.Sprintf("%v", origVal),
-		fmt.Sprintf("%v", clonedVal),
+	actual := args.Map{
+		"origValue":   origVal,
+		"clonedValue": clonedVal,
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -83,12 +83,12 @@ func Test_Hashmap_SetNew(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	isNew := hm.Set("key", 42)
 
-	actLines := []string{
-		fmt.Sprintf("%v", isNew),
-		fmt.Sprintf("%v", hm.Length()),
+	actual := args.Map{
+		"isNew":  isNew,
+		"length": hm.Length(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_SetExisting(t *testing.T) {
@@ -97,12 +97,12 @@ func Test_Hashmap_SetExisting(t *testing.T) {
 	isNew := hm.Set("key", 2)
 	val, _ := hm.Get("key")
 
-	actLines := []string{
-		fmt.Sprintf("%v", isNew),
-		fmt.Sprintf("%v", val),
+	actual := args.Map{
+		"isNew":        isNew,
+		"updatedValue": val,
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -114,12 +114,12 @@ func Test_Hashmap_GetFound(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"k": 42})
 	val, found := hm.Get("k")
 
-	actLines := []string{
-		fmt.Sprintf("%v", found),
-		fmt.Sprintf("%v", val),
+	actual := args.Map{
+		"found": found,
+		"value": val,
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_GetNotFound(t *testing.T) {
@@ -127,12 +127,12 @@ func Test_Hashmap_GetNotFound(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	val, found := hm.Get("missing")
 
-	actLines := []string{
-		fmt.Sprintf("%v", found),
-		fmt.Sprintf("%v", val),
+	actual := args.Map{
+		"found": found,
+		"value": val,
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -143,18 +143,18 @@ func Test_Hashmap_GetOrDefaultMissing(t *testing.T) {
 	tc := hashmapGetOrDefaultMissingTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
-	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
+	actual := args.Map{"value": hm.GetOrDefault("x", 99)}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_GetOrDefaultFound(t *testing.T) {
 	tc := hashmapGetOrDefaultFoundTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"x": 5})
 
-	actLines := []string{fmt.Sprintf("%v", hm.GetOrDefault("x", 99))}
+	actual := args.Map{"value": hm.GetOrDefault("x", 99)}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -165,22 +165,22 @@ func Test_Hashmap_Has(t *testing.T) {
 	tc := hashmapHasTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 
-	actLines := []string{
-		fmt.Sprintf("%v", hm.Has("a")),
-		fmt.Sprintf("%v", hm.Contains("a")),
-		fmt.Sprintf("%v", hm.IsKeyMissing("a")),
+	actual := args.Map{
+		"has":          hm.Has("a"),
+		"contains":     hm.Contains("a"),
+		"isKeyMissing": hm.IsKeyMissing("a"),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsKeyMissing(t *testing.T) {
 	tc := hashmapIsKeyMissingTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
-	actLines := []string{fmt.Sprintf("%v", hm.IsKeyMissing("x"))}
+	actual := args.Map{"isKeyMissing": hm.IsKeyMissing("x")}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -192,21 +192,21 @@ func Test_Hashmap_RemoveExisting(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"k": 1})
 	existed := hm.Remove("k")
 
-	actLines := []string{
-		fmt.Sprintf("%v", existed),
-		fmt.Sprintf("%v", hm.IsEmpty()),
+	actual := args.Map{
+		"removed": existed,
+		"isGone":  hm.IsEmpty(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_RemoveMissing(t *testing.T) {
 	tc := hashmapRemoveMissingTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
-	actLines := []string{fmt.Sprintf("%v", hm.Remove("x"))}
+	actual := args.Map{"removed": hm.Remove("x")}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -217,18 +217,18 @@ func Test_Hashmap_Keys_NonEmpty(t *testing.T) {
 	tc := hashmapKeysNonEmptyTestCase
 	hm := coregeneric.HashmapFrom(map[int]string{1: "a", 2: "b"})
 
-	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
+	actual := args.Map{"keyCount": len(hm.Keys())}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_Keys_Empty(t *testing.T) {
 	tc := hashmapKeysEmptyTestCase
 	hm := coregeneric.EmptyHashmap[int, string]()
 
-	actLines := []string{fmt.Sprintf("%v", len(hm.Keys()))}
+	actual := args.Map{"keyCount": len(hm.Keys())}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -240,21 +240,21 @@ func Test_Hashmap_Values_NonEmpty(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	vals := hm.Values()
 
-	actLines := []string{
-		fmt.Sprintf("%v", len(vals)),
-		fmt.Sprintf("%v", vals[0]),
+	actual := args.Map{
+		"valueCount":       len(vals),
+		"containsExpected": vals[0],
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_Values_Empty(t *testing.T) {
 	tc := hashmapValuesEmptyTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
-	actLines := []string{fmt.Sprintf("%v", len(hm.Values()))}
+	actual := args.Map{"valueCount": len(hm.Values())}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -267,12 +267,12 @@ func Test_Hashmap_AddOrUpdateMap_Merges(t *testing.T) {
 	hm.AddOrUpdateMap(map[string]int{"b": 2, "a": 10})
 	val, _ := hm.Get("a")
 
-	actLines := []string{
-		fmt.Sprintf("%v", hm.Length()),
-		fmt.Sprintf("%v", val),
+	actual := args.Map{
+		"length":      hm.Length(),
+		"mergedValue": val,
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_AddOrUpdateMap_EmptyNoop(t *testing.T) {
@@ -280,9 +280,9 @@ func Test_Hashmap_AddOrUpdateMap_EmptyNoop(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	hm.AddOrUpdateMap(map[string]int{})
 
-	actLines := []string{fmt.Sprintf("%v", hm.Length())}
+	actual := args.Map{"length": hm.Length()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -294,9 +294,9 @@ func Test_Hashmap_AddOrUpdateHashmap_Merges(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	hm.AddOrUpdateHashmap(coregeneric.HashmapFrom(map[string]int{"b": 2}))
 
-	actLines := []string{fmt.Sprintf("%v", hm.Length())}
+	actual := args.Map{"length": hm.Length()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_AddOrUpdateHashmap_NilNoop(t *testing.T) {
@@ -304,9 +304,9 @@ func Test_Hashmap_AddOrUpdateHashmap_NilNoop(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	hm.AddOrUpdateHashmap(nil)
 
-	actLines := []string{fmt.Sprintf("%v", hm.Length())}
+	actual := args.Map{"length": hm.Length()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -319,12 +319,12 @@ func Test_Hashmap_ConcatNew_Merged(t *testing.T) {
 	hm2 := coregeneric.HashmapFrom(map[string]int{"b": 2})
 	result := hm1.ConcatNew(hm2)
 
-	actLines := []string{
-		fmt.Sprintf("%v", result.Length()),
-		fmt.Sprintf("%v", hm1.Length()),
+	actual := args.Map{
+		"mergedLength":   result.Length(),
+		"originalLength": hm1.Length(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
@@ -332,9 +332,9 @@ func Test_Hashmap_ConcatNew_Nil(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	result := hm.ConcatNew(nil)
 
-	actLines := []string{fmt.Sprintf("%v", result.Length())}
+	actual := args.Map{"length": result.Length()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -348,9 +348,9 @@ func Test_Hashmap_CloneMethod(t *testing.T) {
 	cloned.Set("k", 99)
 	origVal, _ := hm.Get("k")
 
-	actLines := []string{fmt.Sprintf("%v", origVal)}
+	actual := args.Map{"origValue": origVal}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -362,9 +362,9 @@ func Test_Hashmap_IsEquals_SameContent(t *testing.T) {
 	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 	hm2 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 
-	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_DifferentKeys(t *testing.T) {
@@ -372,9 +372,9 @@ func Test_Hashmap_IsEquals_DifferentKeys(t *testing.T) {
 	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	hm2 := coregeneric.HashmapFrom(map[string]int{"b": 1})
 
-	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
@@ -382,9 +382,9 @@ func Test_Hashmap_IsEquals_DifferentLength(t *testing.T) {
 	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	hm2 := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 
-	actLines := []string{fmt.Sprintf("%v", hm1.IsEquals(hm2))}
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // Test_Hashmap_IsEquals_BothNil is defined in CollectionBranch_test.go (line 384).
@@ -394,18 +394,18 @@ func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
 	tc := hashmapIsEqualsOneNilTestCase
 	hm := coregeneric.EmptyHashmap[string, int]()
 
-	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(nil))}
+	actual := args.Map{"isEquals": hm.IsEquals(nil)}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_SamePointer(t *testing.T) {
 	tc := hashmapIsEqualsSamePointerTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 
-	actLines := []string{fmt.Sprintf("%v", hm.IsEquals(hm))}
+	actual := args.Map{"isEquals": hm.IsEquals(hm)}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -418,9 +418,9 @@ func Test_Hashmap_ForEach(t *testing.T) {
 	count := 0
 	hm.ForEach(func(_ string, _ int) { count++ })
 
-	actLines := []string{fmt.Sprintf("%v", count)}
+	actual := args.Map{"visitCount": count}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_ForEachBreak(t *testing.T) {
@@ -429,9 +429,9 @@ func Test_Hashmap_ForEachBreak(t *testing.T) {
 	count := 0
 	hm.ForEachBreak(func(_ int, _ int) bool { count++; return count >= 2 })
 
-	actLines := []string{fmt.Sprintf("%v", count)}
+	actual := args.Map{"visitCount": count}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -442,9 +442,9 @@ func Test_Hashmap_String(t *testing.T) {
 	tc := hashmapStringTestCase
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 
-	actLines := []string{fmt.Sprintf("%v", hm.String() != "")}
+	actual := args.Map{"isNonEmpty": hm.String() != ""}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -455,25 +455,25 @@ func Test_Hashmap_NilReceiver_IsEmpty(t *testing.T) {
 	tc := hashmapNilReceiverIsEmptyTestCase
 	var hm *coregeneric.Hashmap[string, int]
 
-	actLines := []string{fmt.Sprintf("%v", hm.IsEmpty())}
+	actual := args.Map{"isEmpty": hm.IsEmpty()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_NilReceiver_Length(t *testing.T) {
 	tc := hashmapNilReceiverLengthTestCase
 	var hm *coregeneric.Hashmap[string, int]
 
-	actLines := []string{fmt.Sprintf("%v", hm.Length())}
+	actual := args.Map{"length": hm.Length()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_NilReceiver_HasItems(t *testing.T) {
 	tc := hashmapNilReceiverHasItemsTestCase
 	var hm *coregeneric.Hashmap[string, int]
 
-	actLines := []string{fmt.Sprintf("%v", hm.HasItems())}
+	actual := args.Map{"hasItems": hm.HasItems()}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
