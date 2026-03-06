@@ -122,6 +122,48 @@ func Test_IfFuncInt_Typed_Verification(t *testing.T) {
 	}
 }
 
+func Test_IfFuncString_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifFuncStringTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.GetAsString("trueValue")
+		falseVal, _ := input.GetAsString("falseValue")
+
+		// Act
+		result := conditional.IfFuncString(
+			isTrue,
+			func() string { return trueVal },
+			func() string { return falseVal },
+		)
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, result)
+	}
+}
+
+func Test_IfFuncAny_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifFuncAnyTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.Get("trueValue")
+		falseVal, _ := input.Get("falseValue")
+
+		// Act
+		result := conditional.IfFuncAny(
+			isTrue,
+			func() any { return trueVal },
+			func() any { return falseVal },
+		)
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
+	}
+}
+
 // ============================================================================
 // IfTrueFunc<Type> wrappers
 // ============================================================================
@@ -139,6 +181,87 @@ func Test_IfTrueFuncBool_Typed_Verification(t *testing.T) {
 		)
 
 		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
+	}
+}
+
+func Test_IfTrueFuncString_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifTrueFuncStringTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.GetAsString("trueValue")
+
+		// Act
+		result := conditional.IfTrueFuncString(
+			isTrue,
+			func() string { return trueVal },
+		)
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, result)
+	}
+}
+
+func Test_IfTrueFuncStrings_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifTrueFuncStringsTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.Get("trueValue")
+
+		// Act
+		result := conditional.IfTrueFuncStrings(
+			isTrue,
+			func() []string { return trueVal.([]string) },
+		)
+
+		// Assert
+		if result == nil {
+			actual := args.Map{
+				"length": fmt.Sprintf("%v", 0),
+				"isNil":  "true",
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			actual := args.Map{
+				"length": fmt.Sprintf("%v", len(result)),
+				"first":  result[0],
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		}
+	}
+}
+
+func Test_IfTrueFuncBytes_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifTrueFuncBytesTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.Get("trueValue")
+
+		// Act
+		result := conditional.IfTrueFuncBytes(
+			isTrue,
+			func() []byte { return trueVal.([]byte) },
+		)
+
+		// Assert
+		if result == nil {
+			actual := args.Map{
+				"length": fmt.Sprintf("%v", 0),
+				"isNil":  "true",
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			actual := args.Map{
+				"length": fmt.Sprintf("%v", len(result)),
+				"first":  fmt.Sprintf("%v", result[0]),
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		}
 	}
 }
 
@@ -173,6 +296,50 @@ func Test_IfSliceInt_Typed_Verification(t *testing.T) {
 		falseVal, _ := input.Get("falseValue")
 
 		result := conditional.IfSliceInt(isTrue, trueVal.([]int), falseVal.([]int))
+		actual := args.Map{
+			"length": fmt.Sprintf("%v", len(result)),
+			"first":  fmt.Sprintf("%v", result[0]),
+		}
+
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
+
+func Test_IfSliceString_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifSliceStringTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.Get("trueValue")
+		falseVal, _ := input.Get("falseValue")
+
+		// Act
+		result := conditional.IfSliceString(isTrue, trueVal.([]string), falseVal.([]string))
+
+		// Assert
+		actual := args.Map{
+			"length": fmt.Sprintf("%v", len(result)),
+			"first":  result[0],
+		}
+
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
+
+func Test_IfSliceByte_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifSliceByteTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.Get("trueValue")
+		falseVal, _ := input.Get("falseValue")
+
+		// Act
+		result := conditional.IfSliceByte(isTrue, trueVal.([]byte), falseVal.([]byte))
+
+		// Assert
 		actual := args.Map{
 			"length": fmt.Sprintf("%v", len(result)),
 			"first":  fmt.Sprintf("%v", result[0]),

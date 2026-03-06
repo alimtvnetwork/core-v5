@@ -166,6 +166,52 @@ var ifFuncIntTestCases = []coretestcases.CaseV1{
 	},
 }
 
+// --- IfFuncString ---
+
+var ifFuncStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfFuncString true evaluates trueFunc",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  "yes",
+			"falseValue": "no",
+		},
+		ExpectedInput: "yes",
+	},
+	{
+		Title: "IfFuncString false evaluates falseFunc",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  "yes",
+			"falseValue": "no",
+		},
+		ExpectedInput: "no",
+	},
+}
+
+// --- IfFuncAny ---
+
+var ifFuncAnyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfFuncAny true evaluates trueFunc",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  42,
+			"falseValue": "fallback",
+		},
+		ExpectedInput: "42",
+	},
+	{
+		Title: "IfFuncAny false evaluates falseFunc",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  42,
+			"falseValue": "fallback",
+		},
+		ExpectedInput: "fallback",
+	},
+}
+
 // --- IfTrueFuncBool ---
 
 var ifTrueFuncBoolTestCases = []coretestcases.CaseV1{
@@ -184,6 +230,81 @@ var ifTrueFuncBoolTestCases = []coretestcases.CaseV1{
 			"trueValue": true,
 		},
 		ExpectedInput: "false",
+	},
+}
+
+// --- IfTrueFuncString ---
+
+var ifTrueFuncStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfTrueFuncString true returns trueFunc result",
+		ArrangeInput: args.Map{
+			"isTrue":    true,
+			"trueValue": "hello",
+		},
+		ExpectedInput: "hello",
+	},
+	{
+		Title: "IfTrueFuncString false returns zero value (empty)",
+		ArrangeInput: args.Map{
+			"isTrue":    false,
+			"trueValue": "hello",
+		},
+		ExpectedInput: "",
+	},
+}
+
+// --- IfTrueFuncStrings ---
+
+var ifTrueFuncStringsTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfTrueFuncStrings true returns trueFunc result",
+		ArrangeInput: args.Map{
+			"isTrue":    true,
+			"trueValue": []string{"a", "b"},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "a",
+		},
+	},
+	{
+		Title: "IfTrueFuncStrings false returns nil slice",
+		ArrangeInput: args.Map{
+			"isTrue":    false,
+			"trueValue": []string{"a", "b"},
+		},
+		ExpectedInput: args.Map{
+			"length": "0",
+			"isNil":  "true",
+		},
+	},
+}
+
+// --- IfTrueFuncBytes ---
+
+var ifTrueFuncBytesTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfTrueFuncBytes true returns trueFunc result",
+		ArrangeInput: args.Map{
+			"isTrue":    true,
+			"trueValue": []byte{1, 2, 3},
+		},
+		ExpectedInput: args.Map{
+			"length": "3",
+			"first":  "1",
+		},
+	},
+	{
+		Title: "IfTrueFuncBytes false returns nil slice",
+		ArrangeInput: args.Map{
+			"isTrue":    false,
+			"trueValue": []byte{1, 2, 3},
+		},
+		ExpectedInput: args.Map{
+			"length": "0",
+			"isNil":  "true",
+		},
 	},
 }
 
@@ -241,6 +362,64 @@ var ifSliceIntTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"length": "1",
 			"first":  "9",
+		},
+	},
+}
+
+// --- IfSliceString ---
+
+var ifSliceStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceString true returns trueSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []string{"hello", "world"},
+			"falseValue": []string{"fallback"},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "hello",
+		},
+	},
+	{
+		Title: "IfSliceString false returns falseSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []string{"hello", "world"},
+			"falseValue": []string{"fallback"},
+		},
+		ExpectedInput: args.Map{
+			"length": "1",
+			"first":  "fallback",
+		},
+	},
+}
+
+// --- IfSliceByte ---
+
+var ifSliceByteTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceByte true returns trueSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []byte{10, 20},
+			"falseValue": []byte{99},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "10",
+		},
+	},
+	{
+		Title: "IfSliceByte false returns falseSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []byte{10, 20},
+			"falseValue": []byte{99},
+		},
+		ExpectedInput: args.Map{
+			"length": "1",
+			"first":  "99",
 		},
 	},
 }
