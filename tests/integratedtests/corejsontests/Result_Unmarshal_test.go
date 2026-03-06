@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 func Test_Result_Unmarshal_Valid(t *testing.T) {
@@ -19,14 +20,14 @@ func Test_Result_Unmarshal_Valid(t *testing.T) {
 	// Act
 	err := jsonResult.Unmarshal(target)
 
-	actLines := []string{
-		fmt.Sprintf("%v", err),
-		target.Name,
-		fmt.Sprintf("%v", target.Age),
+	actual := args.Map{
+		"error":            fmt.Sprintf("%v", err),
+		"deserializedName": target.Name,
+		"deserializedAge":  fmt.Sprintf("%v", target.Age),
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Result_Unmarshal_NilReceiver(t *testing.T) {
@@ -39,13 +40,13 @@ func Test_Result_Unmarshal_NilReceiver(t *testing.T) {
 	// Act
 	err := nilResult.Unmarshal(target)
 
-	actLines := []string{
-		fmt.Sprintf("%v", err != nil),
-		fmt.Sprintf("%v", strings.Contains(err.Error(), "null")),
+	actual := args.Map{
+		"hasError":          err != nil,
+		"errorContainsNull": strings.Contains(err.Error(), "null"),
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Result_Unmarshal_InvalidBytes(t *testing.T) {
@@ -58,13 +59,13 @@ func Test_Result_Unmarshal_InvalidBytes(t *testing.T) {
 	// Act
 	err := result.Unmarshal(target)
 
-	actLines := []string{
-		fmt.Sprintf("%v", err != nil),
-		fmt.Sprintf("%v", strings.Contains(err.Error(), "unmarshal")),
+	actual := args.Map{
+		"hasError":               err != nil,
+		"errorContainsUnmarshal": strings.Contains(err.Error(), "unmarshal"),
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Result_Unmarshal_ExistingError(t *testing.T) {
@@ -78,11 +79,11 @@ func Test_Result_Unmarshal_ExistingError(t *testing.T) {
 	// Act
 	err := result.Unmarshal(target)
 
-	actLines := []string{
-		fmt.Sprintf("%v", err != nil),
-		fmt.Sprintf("%v", strings.Contains(err.Error(), "unmarshal")),
+	actual := args.Map{
+		"hasError":               err != nil,
+		"errorContainsUnmarshal": strings.Contains(err.Error(), "unmarshal"),
 	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
