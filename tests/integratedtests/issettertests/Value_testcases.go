@@ -1,6 +1,7 @@
 package issettertests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/issetter"
 )
@@ -15,47 +16,47 @@ var valueNewTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "New with 'true' returns True",
 		ArrangeInput:  "true",
-		ExpectedInput: []string{"false", "True"},
+		ExpectedInput: args.Map{"hasError": false, "name": "True"},
 	},
 	{
 		Title:         "New with 'false' returns False",
 		ArrangeInput:  "false",
-		ExpectedInput: []string{"false", "False"},
+		ExpectedInput: args.Map{"hasError": false, "name": "False"},
 	},
 	{
 		Title:         "New with 'yes' returns True",
 		ArrangeInput:  "yes",
-		ExpectedInput: []string{"false", "True"},
+		ExpectedInput: args.Map{"hasError": false, "name": "True"},
 	},
 	{
 		Title:         "New with 'no' returns False",
 		ArrangeInput:  "no",
-		ExpectedInput: []string{"false", "False"},
+		ExpectedInput: args.Map{"hasError": false, "name": "False"},
 	},
 	{
 		Title:         "New with 'Set' returns Set",
 		ArrangeInput:  "Set",
-		ExpectedInput: []string{"false", "Set"},
+		ExpectedInput: args.Map{"hasError": false, "name": "Set"},
 	},
 	{
 		Title:         "New with 'Unset' returns Unset",
 		ArrangeInput:  "Unset",
-		ExpectedInput: []string{"false", "Unset"},
+		ExpectedInput: args.Map{"hasError": false, "name": "Unset"},
 	},
 	{
 		Title:         "New with '*' returns Wildcard",
 		ArrangeInput:  "*",
-		ExpectedInput: []string{"false", "Wildcard"},
+		ExpectedInput: args.Map{"hasError": false, "name": "Wildcard"},
 	},
 	{
 		Title:         "New with empty string returns Uninitialized",
 		ArrangeInput:  "",
-		ExpectedInput: []string{"false", "Uninitialized"},
+		ExpectedInput: args.Map{"hasError": false, "name": "Uninitialized"},
 	},
 	{
 		Title:         "New with invalid string returns error",
 		ArrangeInput:  "invalid_value_xyz",
-		ExpectedInput: []string{"true", "Uninitialized"},
+		ExpectedInput: args.Map{"hasError": true, "name": "Uninitialized"},
 	},
 }
 
@@ -86,54 +87,54 @@ var newBoolTestCases = []coretestcases.CaseV1{
 }
 
 // booleanLogicTestCases
-// Expected order: isOn, isOff, isTrue, isFalse, isSet, isUnset, isValid, isWildcard
+// Expected keys: isOn, isOff, isTrue, isFalse, isSet, isUnset, isValid, isWildcard
 var booleanLogicTestCases = []coretestcases.CaseV1{
 	{
 		Title:        "Uninitialized boolean logic",
 		ArrangeInput: issetter.Uninitialized,
-		ExpectedInput: []string{
-			"false", "false", "false", "false",
-			"false", "false", "false", "false",
+		ExpectedInput: args.Map{
+			"isOn": false, "isOff": false, "isTrue": false, "isFalse": false,
+			"isSet": false, "isUnset": false, "isValid": false, "isWildcard": false,
 		},
 	},
 	{
 		Title:        "True boolean logic",
 		ArrangeInput: issetter.True,
-		ExpectedInput: []string{
-			"true", "false", "true", "false",
-			"false", "false", "true", "false",
+		ExpectedInput: args.Map{
+			"isOn": true, "isOff": false, "isTrue": true, "isFalse": false,
+			"isSet": false, "isUnset": false, "isValid": true, "isWildcard": false,
 		},
 	},
 	{
 		Title:        "False boolean logic",
 		ArrangeInput: issetter.False,
-		ExpectedInput: []string{
-			"false", "true", "false", "true",
-			"false", "false", "true", "false",
+		ExpectedInput: args.Map{
+			"isOn": false, "isOff": true, "isTrue": false, "isFalse": true,
+			"isSet": false, "isUnset": false, "isValid": true, "isWildcard": false,
 		},
 	},
 	{
 		Title:        "Set boolean logic",
 		ArrangeInput: issetter.Set,
-		ExpectedInput: []string{
-			"true", "false", "false", "false",
-			"true", "false", "true", "false",
+		ExpectedInput: args.Map{
+			"isOn": true, "isOff": false, "isTrue": false, "isFalse": false,
+			"isSet": true, "isUnset": false, "isValid": true, "isWildcard": false,
 		},
 	},
 	{
 		Title:        "Unset boolean logic",
 		ArrangeInput: issetter.Unset,
-		ExpectedInput: []string{
-			"false", "true", "false", "false",
-			"false", "true", "true", "false",
+		ExpectedInput: args.Map{
+			"isOn": false, "isOff": true, "isTrue": false, "isFalse": false,
+			"isSet": false, "isUnset": true, "isValid": true, "isWildcard": false,
 		},
 	},
 	{
 		Title:        "Wildcard boolean logic",
 		ArrangeInput: issetter.Wildcard,
-		ExpectedInput: []string{
-			"false", "false", "false", "false",
-			"false", "false", "true", "true",
+		ExpectedInput: args.Map{
+			"isOn": false, "isOff": false, "isTrue": false, "isFalse": false,
+			"isSet": false, "isUnset": false, "isValid": true, "isWildcard": true,
 		},
 	},
 }
@@ -167,37 +168,37 @@ var combinedBooleansTestCases = []coretestcases.CaseV1{
 }
 
 // conversionTestCases
-// Expected order: toBooleanValue.Name(), toSetUnsetValue.Name()
+// Expected keys: toBooleanValue, toSetUnsetValue
 var conversionTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "True converts to True/Set",
 		ArrangeInput:  issetter.True,
-		ExpectedInput: []string{"True", "Set"},
+		ExpectedInput: args.Map{"toBooleanValue": "True", "toSetUnsetValue": "Set"},
 	},
 	{
 		Title:         "False converts to False/Unset",
 		ArrangeInput:  issetter.False,
-		ExpectedInput: []string{"False", "Unset"},
+		ExpectedInput: args.Map{"toBooleanValue": "False", "toSetUnsetValue": "Unset"},
 	},
 	{
 		Title:         "Set converts to True/Set",
 		ArrangeInput:  issetter.Set,
-		ExpectedInput: []string{"True", "Set"},
+		ExpectedInput: args.Map{"toBooleanValue": "True", "toSetUnsetValue": "Set"},
 	},
 	{
 		Title:         "Unset converts to False/Unset",
 		ArrangeInput:  issetter.Unset,
-		ExpectedInput: []string{"False", "Unset"},
+		ExpectedInput: args.Map{"toBooleanValue": "False", "toSetUnsetValue": "Unset"},
 	},
 	{
 		Title:         "Wildcard converts to Wildcard/Wildcard",
 		ArrangeInput:  issetter.Wildcard,
-		ExpectedInput: []string{"Wildcard", "Wildcard"},
+		ExpectedInput: args.Map{"toBooleanValue": "Wildcard", "toSetUnsetValue": "Wildcard"},
 	},
 	{
 		Title:         "Uninitialized converts to Uninitialized/Uninitialized",
 		ArrangeInput:  issetter.Uninitialized,
-		ExpectedInput: []string{"Uninitialized", "Uninitialized"},
+		ExpectedInput: args.Map{"toBooleanValue": "Uninitialized", "toSetUnsetValue": "Uninitialized"},
 	},
 }
 
