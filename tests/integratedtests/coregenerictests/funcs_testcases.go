@@ -1,6 +1,7 @@
 package coregenerictests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -10,17 +11,17 @@ import (
 
 var mapCollectionIntToStringTestCase = coretestcases.CaseV1{
 	Title:         "MapCollection int to string",
-	ExpectedInput: []string{"3", "v1", "v3"},
+	ExpectedInput: args.Map{"length": 3, "first": "v1", "last": "v3"},
 }
 
 var mapCollectionNilSourceTestCase = coretestcases.CaseV1{
 	Title:         "MapCollection nil source",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"isEmpty": true},
 }
 
 var mapCollectionEmptySourceTestCase = coretestcases.CaseV1{
 	Title:         "MapCollection empty source",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"isEmpty": true},
 }
 
 // ==========================================================================
@@ -29,12 +30,12 @@ var mapCollectionEmptySourceTestCase = coretestcases.CaseV1{
 
 var flatMapCollectionFlattensTestCase = coretestcases.CaseV1{
 	Title:         "FlatMapCollection flattens",
-	ExpectedInput: []string{"6"},
+	ExpectedInput: args.Map{"length": 6},
 }
 
 var flatMapCollectionNilTestCase = coretestcases.CaseV1{
 	Title:         "FlatMapCollection nil",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"isEmpty": true},
 }
 
 // ==========================================================================
@@ -43,17 +44,17 @@ var flatMapCollectionNilTestCase = coretestcases.CaseV1{
 
 var reduceCollectionSumTestCase = coretestcases.CaseV1{
 	Title:         "ReduceCollection sum",
-	ExpectedInput: []string{"10"},
+	ExpectedInput: args.Map{"result": 10},
 }
 
 var reduceCollectionNilTestCase = coretestcases.CaseV1{
 	Title:         "ReduceCollection nil returns initial",
-	ExpectedInput: []string{"99"},
+	ExpectedInput: args.Map{"result": 99},
 }
 
 var reduceCollectionConcatTestCase = coretestcases.CaseV1{
 	Title:         "ReduceCollection string concat",
-	ExpectedInput: []string{"abc"},
+	ExpectedInput: args.Map{"result": "abc"},
 }
 
 // ==========================================================================
@@ -62,12 +63,12 @@ var reduceCollectionConcatTestCase = coretestcases.CaseV1{
 
 var groupByCollectionGroupsTestCase = coretestcases.CaseV1{
 	Title:         "GroupByCollection groups",
-	ExpectedInput: []string{"2", "3", "3"},
+	ExpectedInput: args.Map{"groupCount": 2, "evenCount": 3, "oddCount": 3},
 }
 
 var groupByCollectionNilTestCase = coretestcases.CaseV1{
 	Title:         "GroupByCollection nil",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: args.Map{"groupCount": 0},
 }
 
 // ==========================================================================
@@ -76,17 +77,17 @@ var groupByCollectionNilTestCase = coretestcases.CaseV1{
 
 var containsFuncFoundTestCase = coretestcases.CaseV1{
 	Title:         "ContainsFunc found",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"result": true},
 }
 
 var containsFuncNotFoundTestCase = coretestcases.CaseV1{
 	Title:         "ContainsFunc not found",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: args.Map{"result": false},
 }
 
 var containsFuncNilTestCase = coretestcases.CaseV1{
 	Title:         "ContainsFunc nil",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: args.Map{"result": false},
 }
 
 // ==========================================================================
@@ -95,17 +96,17 @@ var containsFuncNilTestCase = coretestcases.CaseV1{
 
 var containsItemFoundTestCase = coretestcases.CaseV1{
 	Title:         "ContainsItem found",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"result": true},
 }
 
 var containsItemNotFoundTestCase = coretestcases.CaseV1{
 	Title:         "ContainsItem not found",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: args.Map{"result": false},
 }
 
 var containsItemNilTestCase = coretestcases.CaseV1{
 	Title:         "ContainsItem nil",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: args.Map{"result": false},
 }
 
 // ==========================================================================
@@ -114,17 +115,17 @@ var containsItemNilTestCase = coretestcases.CaseV1{
 
 var indexOfFuncFoundTestCase = coretestcases.CaseV1{
 	Title:         "IndexOfFunc found",
-	ExpectedInput: []string{"1"},
+	ExpectedInput: args.Map{"index": 1},
 }
 
 var indexOfFuncNotFoundTestCase = coretestcases.CaseV1{
 	Title:         "IndexOfFunc not found",
-	ExpectedInput: []string{"-1"},
+	ExpectedInput: args.Map{"index": -1},
 }
 
 var indexOfFuncNilTestCase = coretestcases.CaseV1{
 	Title:         "IndexOfFunc nil",
-	ExpectedInput: []string{"-1"},
+	ExpectedInput: args.Map{"index": -1},
 }
 
 // ==========================================================================
@@ -133,12 +134,12 @@ var indexOfFuncNilTestCase = coretestcases.CaseV1{
 
 var indexOfItemFoundTestCase = coretestcases.CaseV1{
 	Title:         "IndexOfItem found",
-	ExpectedInput: []string{"2"},
+	ExpectedInput: args.Map{"index": 2},
 }
 
 var indexOfItemNotFoundTestCase = coretestcases.CaseV1{
 	Title:         "IndexOfItem not found",
-	ExpectedInput: []string{"-1"},
+	ExpectedInput: args.Map{"index": -1},
 }
 
 // ==========================================================================
@@ -147,17 +148,17 @@ var indexOfItemNotFoundTestCase = coretestcases.CaseV1{
 
 var distinctRemovesDuplicatesTestCase = coretestcases.CaseV1{
 	Title:         "Distinct removes duplicates",
-	ExpectedInput: []string{"3"},
+	ExpectedInput: args.Map{"length": 3},
 }
 
 var distinctNilTestCase = coretestcases.CaseV1{
 	Title:         "Distinct nil",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"isEmpty": true},
 }
 
 var distinctNoDuplicatesTestCase = coretestcases.CaseV1{
 	Title:         "Distinct no duplicates",
-	ExpectedInput: []string{"3"},
+	ExpectedInput: args.Map{"length": 3},
 }
 
 // ==========================================================================
@@ -166,10 +167,10 @@ var distinctNoDuplicatesTestCase = coretestcases.CaseV1{
 
 var mapSimpleSliceTransformsTestCase = coretestcases.CaseV1{
 	Title:         "MapSimpleSlice transforms",
-	ExpectedInput: []string{"3"},
+	ExpectedInput: args.Map{"length": 3},
 }
 
 var mapSimpleSliceNilTestCase = coretestcases.CaseV1{
 	Title:         "MapSimpleSlice nil",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"isEmpty": true},
 }

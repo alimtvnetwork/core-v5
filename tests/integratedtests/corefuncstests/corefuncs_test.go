@@ -2,7 +2,6 @@ package corefuncstests
 
 import (
 	"errors"
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/corefuncs"
@@ -12,33 +11,24 @@ import (
 // sampleFunc is a helper for GetFuncName tests.
 func sampleFunc() {}
 
-// ==========================================
-// Test: GetFuncName / GetFuncFullName
-// ==========================================
-
 func Test_GetFuncName_Verification(t *testing.T) {
-	for caseIndex, testCase := range getFuncNameTestCases {
-		// Arrange — use sampleFunc
-
+	for caseIndex, tc := range getFuncNameTestCases {
 		// Act
 		shortName := corefuncs.GetFuncName(sampleFunc)
 		fullName := corefuncs.GetFuncFullName(sampleFunc)
-		actLines := []string{
-			fmt.Sprintf("%v", len(shortName) > 0),
-			fmt.Sprintf("%v", len(fullName) > len(shortName)),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		actual := args.Map{
+			"hasShortName":        len(shortName) > 0,
+			"fullLongerThanShort": len(fullName) > len(shortName),
+		}
+
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-// ==========================================
-// Test: ActionReturnsErrorFuncWrapper — success
-// ==========================================
-
 func Test_ActionReturnsErrorFuncWrapper_Success_Verification(t *testing.T) {
-	for caseIndex, testCase := range actionErrWrapperSuccessTestCases {
+	for caseIndex, tc := range actionErrWrapperSuccessTestCases {
 		// Arrange
 		wrapper := corefuncs.New.ActionErr("cleanup", func() error {
 			return nil
@@ -46,22 +36,19 @@ func Test_ActionReturnsErrorFuncWrapper_Success_Verification(t *testing.T) {
 
 		// Act
 		err := wrapper.Exec()
-		actLines := []string{
-			fmt.Sprintf("%v", err == nil),
-			wrapper.Name,
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		actual := args.Map{
+			"isNil": err == nil,
+			"name":  wrapper.Name,
+		}
+
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-// ==========================================
-// Test: ActionReturnsErrorFuncWrapper — failure
-// ==========================================
-
 func Test_ActionReturnsErrorFuncWrapper_Failure_Verification(t *testing.T) {
-	for caseIndex, testCase := range actionErrWrapperFailureTestCases {
+	for caseIndex, tc := range actionErrWrapperFailureTestCases {
 		// Arrange
 		wrapper := corefuncs.New.ActionErr("cleanup", func() error {
 			return errors.New("cleanup failed")
@@ -69,49 +56,41 @@ func Test_ActionReturnsErrorFuncWrapper_Failure_Verification(t *testing.T) {
 
 		// Act
 		err := wrapper.Exec()
-		actLines := []string{
-			fmt.Sprintf("%v", err == nil),
-			fmt.Sprintf("%v", err != nil),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		actual := args.Map{
+			"isNil":    err == nil,
+			"hasError": err != nil,
+		}
+
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
-
-// ==========================================
-// Test: IsSuccessFuncWrapper
-// ==========================================
 
 func Test_IsSuccessFuncWrapper_Verification(t *testing.T) {
 	results := []bool{true, false}
 
-	for caseIndex, testCase := range isSuccessWrapperTestCases {
+	for caseIndex, tc := range isSuccessWrapperTestCases {
 		// Arrange
 		expectedResult := results[caseIndex]
 		wrapper := corefuncs.New.IsSuccess("checker", func() bool {
 			return expectedResult
 		})
 
-		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", wrapper.Exec()),
-			wrapper.Name,
+		// Act & Assert
+		actual := args.Map{
+			"result": wrapper.Exec(),
+			"name":   wrapper.Name,
 		}
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-// ==========================================
-// Test: InOutErrFuncWrapperOf — success
-// ==========================================
-
 func Test_InOutErrFuncWrapperOf_Success_Verification(t *testing.T) {
-	for caseIndex, testCase := range inOutErrWrapperOfSuccessTestCases {
+	for caseIndex, tc := range inOutErrWrapperOfSuccessTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
+		input := tc.ArrangeInput.(args.Map)
 		inputStr, _ := input.GetAsString("input")
 
 		wrapper := corefuncs.NewInOutErrWrapper[string, int](
@@ -123,24 +102,21 @@ func Test_InOutErrFuncWrapperOf_Success_Verification(t *testing.T) {
 
 		// Act
 		result, err := wrapper.Exec(inputStr)
-		actLines := []string{
-			fmt.Sprintf("%d", result),
-			fmt.Sprintf("%v", err == nil),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		actual := args.Map{
+			"result": result,
+			"isNil":  err == nil,
+		}
+
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-// ==========================================
-// Test: InOutErrFuncWrapperOf — failure
-// ==========================================
-
 func Test_InOutErrFuncWrapperOf_Failure_Verification(t *testing.T) {
-	for caseIndex, testCase := range inOutErrWrapperOfFailureTestCases {
+	for caseIndex, tc := range inOutErrWrapperOfFailureTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
+		input := tc.ArrangeInput.(args.Map)
 		inputStr, _ := input.GetAsString("input")
 
 		wrapper := corefuncs.NewInOutErrWrapper[string, int](
@@ -155,56 +131,47 @@ func Test_InOutErrFuncWrapperOf_Failure_Verification(t *testing.T) {
 
 		// Act
 		result, err := wrapper.Exec(inputStr)
-		actLines := []string{
-			fmt.Sprintf("%d", result),
-			fmt.Sprintf("%v", err == nil),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		actual := args.Map{
+			"result": result,
+			"isNil":  err == nil,
+		}
+
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-// ==========================================
-// Test: New creator factory — ActionErr
-// ==========================================
-
 func Test_NewCreator_ActionErr_Verification(t *testing.T) {
-	for caseIndex, testCase := range newCreatorActionErrTestCases {
+	for caseIndex, tc := range newCreatorActionErrTestCases {
 		// Arrange
 		wrapper := corefuncs.New.ActionErr("my-action", func() error {
 			return nil
 		})
 
-		// Act
-		actLines := []string{
-			wrapper.Name,
-			fmt.Sprintf("%v", wrapper.Action != nil),
+		// Assert
+		actual := args.Map{
+			"name":      wrapper.Name,
+			"hasAction": wrapper.Action != nil,
 		}
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-// ==========================================
-// Test: New creator factory — IsSuccess
-// ==========================================
-
 func Test_NewCreator_IsSuccess_Verification(t *testing.T) {
-	for caseIndex, testCase := range newCreatorIsSuccessTestCases {
+	for caseIndex, tc := range newCreatorIsSuccessTestCases {
 		// Arrange
 		wrapper := corefuncs.New.IsSuccess("my-check", func() bool {
 			return true
 		})
 
-		// Act
-		actLines := []string{
-			wrapper.Name,
-			fmt.Sprintf("%v", wrapper.Action != nil),
+		// Assert
+		actual := args.Map{
+			"name":      wrapper.Name,
+			"hasAction": wrapper.Action != nil,
 		}
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
