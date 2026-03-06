@@ -6,8 +6,8 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **59 files** | 42.8% |
-| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **12 files** | 8.7% |
+| ✅ Migrated to `args.Map` | **60 files** | 43.5% |
+| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **11 files** | 8.0% |
 | 🔴 Using `[]string` | **33 files** | 23.9% |
 | 🟡 Using plain `string` / other | **~34 files** | 24.6% |
 | **Total testcase files** | **~138** | — |
@@ -74,6 +74,7 @@
 | `coreversiontests` | `ComparisonExtended_testcases.go` | Version comparison |
 | `coreversiontests` | `Comparison_testcases.go` | Version comparison |
 | `coreversiontests` | `Parse_testcases.go` | Version parsing |
+| `corestrtests` | `BugfixRegression_testcases.go` | ~20 cases: Collection/Hashmap/Hashset/ValidValue |
 | `coreversiontests` | `String_testcases.go` | Version string output |
 | `coresorttests` | `Sort_testcases.go` | Plain string expectations |
 | `namevaluetests` | `Collection_testcases.go` | Collection CRUD operations |
@@ -83,14 +84,13 @@
 
 ---
 
-## 🔶 Using Typed Tuples `args.Two`–`args.Six` (12 files)
+## 🔶 Using Typed Tuples `args.Two`–`args.Six` (11 files)
 
 These use positional typed tuples — better than `[]string` but lack semantic keys. **Migration to `args.Map` recommended.**
 
 | Package | File | Tuple Types | Cases |
 |---------|------|-------------|-------|
 | `coreappendtests` | `Append_testcases.go` | `args.Three` | 2 |
-| `corestrtests` | `BugfixRegression_testcases.go` | `args.Two`–`args.Five` | ~20 |
 | `errcoretests` | `MergeErrors_testcases.go` | `args.Two`/`args.Three` | ~10 |
 | `iserrortests` | `iserror_testcases.go` | `args.Two`/`args.Three` | ~10 |
 | `keymktests` | `KeyLegend_testcases.go` | `args.Three` | 1 |
@@ -161,8 +161,8 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated █████████░░░░░░░░░░░░  59/138 (42.8%)
-Tuples   ██░░░░░░░░░░░░░░░░░░  12/138 ( 8.7%)
+Migrated █████████░░░░░░░░░░░░  60/138 (43.5%)
+Tuples   ██░░░░░░░░░░░░░░░░░░  11/138 ( 8.0%)
 []string █████░░░░░░░░░░░░░░░░  33/138 (23.9%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
 ```
@@ -171,6 +171,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +1 migrated: `corestrtests/BugfixRegression_testcases.go` (~20 cases: args.Two–Five → args.Map). Tuples 12→11. Total 60/138 (43.5%) |
 | 2026-03-06 | Full audit: +8 migrated (coreapitests×4, typesconvtests×1, coremathtests×1, LeftRight TypeStatus fix×1, recount×1). Tuples reduced 27→12 (many were already migrated or didn't exist). Updated []string batch lists. Total 59/138 (42.8%) |
 | 2026-03-06 | Fixed coredynamictests tracking: moved 9 previously migrated files from tuples/[]string to migrated — total 51 |
 | 2026-03-06 | +2 migrated: `corejsontests` (New_NewPtr, Result_Unmarshal) — total 42 |
@@ -188,7 +189,7 @@ All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
 ### Priority 2 — `[]string` Medium (🟡 Medium, 2 files)
 Multi-field structs or 4+ positional values. Estimated: ~30 min total.
 
-### Priority 3 — Typed Tuples → `args.Map` (12 files)
+### Priority 3 — Typed Tuples → `args.Map` (11 files)
 `args.Two`–`args.Five` → `args.Map` with semantic keys. Higher effort but significant diagnostic improvement.
 
 ### Keep As-Is (15 files)
