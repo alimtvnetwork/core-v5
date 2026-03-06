@@ -169,6 +169,20 @@ Migrated **88 of 138** test case files from positional types to semantic `args.M
 
 ---
 
+## Error Handling Modernization ✅
+
+Adopted `errors.Join`, `fmt.Errorf` with `%w`, and `errors.Is`/`errors.As` compatibility across `errcore/`:
+
+- `MergeErrors`, `ManyErrorToSingle`, `ManyErrorToSingleDirect` → `errors.Join` (preserves error chain)
+- `ConcatMessageWithErr`, `ConcatMessageWithErrWithStackTrace` → `fmt.Errorf` with `%w` (wraps with context)
+- `CompiledError` → `fmt.Errorf` with `%w` (wraps main error)
+- `RawErrCollection.CompiledError()` → `errors.Join` (preserves all collected errors)
+- `RawErrorType.MergeError*` (4 methods) → `fmt.Errorf` with `%w` (preserves original error)
+- Added `JoinErrors` convenience alias
+- Deleted `CompiledErrorString.go` (merged into `CompiledError.go`)
+
+---
+
 ## Remaining Work (Not Yet Completed)
 
 | Priority | Task | Status |
@@ -177,7 +191,7 @@ Migrated **88 of 138** test case files from positional types to semantic `args.M
 | ~~🔴 High~~ | ~~Go version upgrade to 1.22+~~ | ✅ Complete (1.24.0) |
 | ~~🟡 Medium~~ | ~~Generics adoption (`conditional/`, `coremath/`, etc.)~~ | ✅ Complete (`conditional/`, `coregeneric/`, `corepayload/`) |
 | ~~🟡 Medium~~ | ~~Package name typo fixes (`convertinteranl`, `refeflectcore`)~~ | ✅ Complete |
-| 🟡 Medium | `errors.Is`/`errors.As`/`errors.Join` adoption | 🔄 Planned |
+| ~~🟡 Medium~~ | ~~`errors.Is`/`errors.As`/`errors.Join` adoption~~ | ✅ Complete |
 | 🟡 Medium | Remove `codegen/` after consumer audit | Needs consumer survey |
 | 🟢 Low | Unit test coverage gaps | Time-bound |
 | 🟢 Low | CI pipeline setup | Infrastructure |
