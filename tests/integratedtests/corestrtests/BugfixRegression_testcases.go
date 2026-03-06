@@ -11,9 +11,9 @@ import (
 
 var hashsetAddNonEmptyAddsTestCase = coretestcases.CaseV1{
 	Title: "AddNonEmpty with non-empty string adds item",
-	ExpectedInput: args.Two[string, string]{
-		First:  "1",    // length
-		Second: "true", // containsItem
+	ExpectedInput: args.Map{
+		"length":       "1",
+		"containsItem": "true",
 	},
 }
 
@@ -24,11 +24,11 @@ var hashsetAddNonEmptySkipsEmptyTestCase = coretestcases.CaseV1{
 
 var hashsetAddNonEmptyChainedTestCase = coretestcases.CaseV1{
 	Title: "AddNonEmpty chained adds multiple items",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "3",    // length
-		Second: "true", // containsItem1
-		Third:  "true", // containsItem2
-		Fourth: "true", // containsItem3
+	ExpectedInput: args.Map{
+		"length":        "3",
+		"containsItem1": "true",
+		"containsItem2": "true",
+		"containsItem3": "true",
 	},
 }
 
@@ -38,54 +38,54 @@ var hashsetAddNonEmptyChainedTestCase = coretestcases.CaseV1{
 
 var simpleSliceInsertAtMiddleTestCase = coretestcases.CaseV1{
 	Title: "InsertAt middle persists and shifts items",
-	ExpectedInput: args.Five[string, string, string, string, string]{
-		First:  "4", // length
-		Second: "a", // item0
-		Third:  "X", // item1
-		Fourth: "b", // item2
-		Fifth:  "c", // item3
+	ExpectedInput: args.Map{
+		"length": "4",
+		"item0":  "a",
+		"item1":  "X",
+		"item2":  "b",
+		"item3":  "c",
 	},
 }
 
 var simpleSliceInsertAtPrependTestCase = coretestcases.CaseV1{
 	Title: "InsertAt index 0 prepends",
-	ExpectedInput: args.Five[string, string, string, string, string]{
-		First:  "4", // length
-		Second: "X", // item0
-		Third:  "a", // item1
-		Fourth: "b", // item2
-		Fifth:  "c", // item3
+	ExpectedInput: args.Map{
+		"length": "4",
+		"item0":  "X",
+		"item1":  "a",
+		"item2":  "b",
+		"item3":  "c",
 	},
 }
 
 var simpleSliceInsertAtAppendTestCase = coretestcases.CaseV1{
 	Title: "InsertAt end appends",
-	ExpectedInput: args.Five[string, string, string, string, string]{
-		First:  "4", // length
-		Second: "a", // item0
-		Third:  "b", // item1
-		Fourth: "c", // item2
-		Fifth:  "X", // item3
+	ExpectedInput: args.Map{
+		"length": "4",
+		"item0":  "a",
+		"item1":  "b",
+		"item2":  "c",
+		"item3":  "X",
 	},
 }
 
 var simpleSliceInsertAtNegativeTestCase = coretestcases.CaseV1{
 	Title: "InsertAt negative index does nothing",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "3", // length
-		Second: "a", // item0
-		Third:  "b", // item1
-		Fourth: "c", // item2
+	ExpectedInput: args.Map{
+		"length": "3",
+		"item0":  "a",
+		"item1":  "b",
+		"item2":  "c",
 	},
 }
 
 var simpleSliceInsertAtOutOfBoundsTestCase = coretestcases.CaseV1{
 	Title: "InsertAt out-of-bounds index does nothing",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "3", // length
-		Second: "a", // item0
-		Third:  "b", // item1
-		Fourth: "c", // item2
+	ExpectedInput: args.Map{
+		"length": "3",
+		"item0":  "a",
+		"item1":  "b",
+		"item2":  "c",
 	},
 }
 
@@ -95,51 +95,51 @@ var simpleSliceInsertAtOutOfBoundsTestCase = coretestcases.CaseV1{
 
 var collectionRemoveAtMiddleTestCase = coretestcases.CaseV1{
 	Title: "RemoveAt valid middle index succeeds",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isRemoved
-		Second: "2",    // remainingLength
+	ExpectedInput: args.Map{
+		"isRemoved":       "true",
+		"remainingLength": "2",
 	},
 }
 
 var collectionRemoveAtFirstTestCase = coretestcases.CaseV1{
 	Title: "RemoveAt index 0 succeeds",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // isRemoved
-		Second: "2",    // remainingLength
-		Third:  "b",    // newFirstItem
+	ExpectedInput: args.Map{
+		"isRemoved":       "true",
+		"remainingLength": "2",
+		"newFirstItem":    "b",
 	},
 }
 
 var collectionRemoveAtLastTestCase = coretestcases.CaseV1{
 	Title: "RemoveAt last index succeeds",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // isRemoved
-		Second: "2",    // remainingLength
-		Third:  "b",    // lastItem
+	ExpectedInput: args.Map{
+		"isRemoved":       "true",
+		"remainingLength": "2",
+		"lastItem":        "b",
 	},
 }
 
 var collectionRemoveAtNegativeTestCase = coretestcases.CaseV1{
 	Title: "RemoveAt negative index returns false",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isRemoved
-		Second: "3",     // remainingLength
+	ExpectedInput: args.Map{
+		"isRemoved":       "false",
+		"remainingLength": "3",
 	},
 }
 
 var collectionRemoveAtOutOfBoundsTestCase = coretestcases.CaseV1{
 	Title: "RemoveAt out-of-bounds returns false",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isRemoved
-		Second: "3",     // remainingLength
+	ExpectedInput: args.Map{
+		"isRemoved":       "false",
+		"remainingLength": "3",
 	},
 }
 
 var collectionRemoveAtEmptyTestCase = coretestcases.CaseV1{
 	Title: "RemoveAt on empty returns false",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isRemoved
-		Second: "0",     // remainingLength
+	ExpectedInput: args.Map{
+		"isRemoved":       "false",
+		"remainingLength": "0",
 	},
 }
 
@@ -178,33 +178,33 @@ var hashmapIsEqualPtrNilVsNonNilTestCase = coretestcases.CaseV1{
 
 var cachingRemovalFreshHashsetTestCase = coretestcases.CaseV1{
 	Title: "Fresh Hashset IsEmpty returns true, Length returns 0",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isEmpty
-		Second: "0",    // length
+	ExpectedInput: args.Map{
+		"isEmpty": "true",
+		"length":  "0",
 	},
 }
 
 var cachingRemovalHashsetAfterAddTestCase = coretestcases.CaseV1{
 	Title: "Hashset IsEmpty false after Add, Length correct",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isEmpty
-		Second: "2",     // length
+	ExpectedInput: args.Map{
+		"isEmpty": "false",
+		"length":  "2",
 	},
 }
 
 var cachingRemovalFreshHashmapTestCase = coretestcases.CaseV1{
 	Title: "Fresh Hashmap IsEmpty returns true, Length returns 0",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isEmpty
-		Second: "0",    // length
+	ExpectedInput: args.Map{
+		"isEmpty": "true",
+		"length":  "0",
 	},
 }
 
 var cachingRemovalHashmapAfterSetTestCase = coretestcases.CaseV1{
 	Title: "Hashmap IsEmpty false after Set, Length correct",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isEmpty
-		Second: "2",     // length
+	ExpectedInput: args.Map{
+		"isEmpty": "false",
+		"length":  "2",
 	},
 }
 
@@ -257,17 +257,17 @@ var hashmapClearNilReceiverTestCase = coretestcases.CaseV1{
 
 var hashmapClearPopulatedTestCase = coretestcases.CaseV1{
 	Title: "Clear on populated Hashmap resets to empty",
-	ExpectedInput: args.Two[string, string]{
-		First:  "0",    // length
-		Second: "true", // isEmpty
+	ExpectedInput: args.Map{
+		"length":  "0",
+		"isEmpty": "true",
 	},
 }
 
 var hashmapClearChainableTestCase = coretestcases.CaseV1{
 	Title: "Clear preserves chainability",
-	ExpectedInput: args.Two[string, string]{
-		First:  "0", // lengthAfterClear
-		Second: "1", // lengthAfterReAdd
+	ExpectedInput: args.Map{
+		"lengthAfterClear": "0",
+		"lengthAfterReAdd": "1",
 	},
 }
 
@@ -277,28 +277,28 @@ var hashmapClearChainableTestCase = coretestcases.CaseV1{
 
 var hashsetAddBoolNewItemTestCase = coretestcases.CaseV1{
 	Title: "AddBool new item invalidates cache and Items reflects it",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "false", // existedBefore
-		Second: "1",     // lengthAfter
-		Third:  "true",  // itemsContains
+	ExpectedInput: args.Map{
+		"existedBefore": "false",
+		"lengthAfter":   "1",
+		"itemsContains": "true",
 	},
 }
 
 var hashsetAddBoolExistingTestCase = coretestcases.CaseV1{
 	Title: "AddBool existing item does not change length",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // existedBefore
-		Second: "1",    // lengthAfter
+	ExpectedInput: args.Map{
+		"existedBefore": "true",
+		"lengthAfter":   "1",
 	},
 }
 
 var hashsetAddBoolMultipleTestCase = coretestcases.CaseV1{
 	Title: "AddBool multiple new items all appear in Items",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "3",    // length
-		Second: "true", // containsItem1
-		Third:  "true", // containsItem2
-		Fourth: "true", // containsItem3
+	ExpectedInput: args.Map{
+		"length":        "3",
+		"containsItem1": "true",
+		"containsItem2": "true",
+		"containsItem3": "true",
 	},
 }
 
@@ -313,10 +313,10 @@ var hashmapAddOrUpdateMismatchedTestCase = coretestcases.CaseV1{
 
 var hashmapAddOrUpdateEqualTestCase = coretestcases.CaseV1{
 	Title: "Equal lengths adds all pairs",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "2",  // length
-		Second: "v1", // value1
-		Third:  "v2", // value2
+	ExpectedInput: args.Map{
+		"length": "2",
+		"value1": "v1",
+		"value2": "v2",
 	},
 }
 
