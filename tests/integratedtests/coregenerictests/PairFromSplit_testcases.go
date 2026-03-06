@@ -16,11 +16,11 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "key=value",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"key",
-			"value",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "key",
+			"right":   "value",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -29,11 +29,11 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "noseparator",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"noseparator",
-			"",
-			"false",
-			"only one part found",
+		ExpectedInput: args.Map{
+			"left":    "noseparator",
+			"right":   "",
+			"isValid": false,
+			"message": "only one part found",
 		},
 	},
 	{
@@ -42,11 +42,11 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"",
-			"",
-			"false",
-			"only one part found",
+		ExpectedInput: args.Map{
+			"left":    "",
+			"right":   "",
+			"isValid": false,
+			"message": "only one part found",
 		},
 	},
 	{
@@ -55,11 +55,11 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "a=b=c=d",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b=c=d",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"right":   "b=c=d",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -68,11 +68,11 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "=value",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"",
-			"value",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "",
+			"right":   "value",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -81,11 +81,11 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "key=",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"key",
-			"",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "key",
+			"right":   "",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -94,11 +94,11 @@ var pairFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "hello::world",
 			"sep":   "::",
 		},
-		ExpectedInput: []string{
-			"hello",
-			"world",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "hello",
+			"right":   "world",
+			"isValid": true,
+			"message": "",
 		},
 	},
 }
@@ -114,11 +114,11 @@ var pairFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 			"input": "  key  =  value  ",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"key",
-			"value",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "key",
+			"right":   "value",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -127,11 +127,11 @@ var pairFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 			"input": "  onlypart  ",
 			"sep":   "=",
 		},
-		ExpectedInput: []string{
-			"onlypart",
-			"",
-			"false",
-			"only one part found",
+		ExpectedInput: args.Map{
+			"left":    "onlypart",
+			"right":   "",
+			"isValid": false,
+			"message": "only one part found",
 		},
 	},
 }
@@ -147,11 +147,11 @@ var pairFromSplitFullTestCases = []coretestcases.CaseV1{
 			"input": "a:b:c:d",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b:c:d",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"right":   "b:c:d",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -160,11 +160,11 @@ var pairFromSplitFullTestCases = []coretestcases.CaseV1{
 			"input": "nosep",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"nosep",
-			"",
-			"false",
-			"separator not found",
+		ExpectedInput: args.Map{
+			"left":    "nosep",
+			"right":   "",
+			"isValid": false,
+			"message": "separator not found",
 		},
 	},
 	{
@@ -173,11 +173,11 @@ var pairFromSplitFullTestCases = []coretestcases.CaseV1{
 			"input": "key:",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"key",
-			"",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "key",
+			"right":   "",
+			"isValid": true,
+			"message": "",
 		},
 	},
 }
@@ -193,11 +193,11 @@ var pairFromSplitFullTrimmedTestCases = []coretestcases.CaseV1{
 			"input": "  a  :  b : c : d  ",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b : c : d",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"right":   "b : c : d",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -206,11 +206,11 @@ var pairFromSplitFullTrimmedTestCases = []coretestcases.CaseV1{
 			"input": "  nosep  ",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"nosep",
-			"",
-			"false",
-			"separator not found",
+		ExpectedInput: args.Map{
+			"left":    "nosep",
+			"right":   "",
+			"isValid": false,
+			"message": "separator not found",
 		},
 	},
 }
@@ -225,11 +225,11 @@ var pairFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{"left", "right"},
 		},
-		ExpectedInput: []string{
-			"left",
-			"right",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "left",
+			"right":   "right",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -237,11 +237,11 @@ var pairFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{"only"},
 		},
-		ExpectedInput: []string{
-			"only",
-			"",
-			"false",
-			"only one part found",
+		ExpectedInput: args.Map{
+			"left":    "only",
+			"right":   "",
+			"isValid": false,
+			"message": "only one part found",
 		},
 	},
 	{
@@ -249,11 +249,11 @@ var pairFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{},
 		},
-		ExpectedInput: []string{
-			"",
-			"",
-			"false",
-			"empty input",
+		ExpectedInput: args.Map{
+			"left":    "",
+			"right":   "",
+			"isValid": false,
+			"message": "empty input",
 		},
 	},
 	{
@@ -261,11 +261,11 @@ var pairFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{"first", "middle", "last"},
 		},
-		ExpectedInput: []string{
-			"first",
-			"last",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "first",
+			"right":   "last",
+			"isValid": true,
+			"message": "",
 		},
 	},
 }

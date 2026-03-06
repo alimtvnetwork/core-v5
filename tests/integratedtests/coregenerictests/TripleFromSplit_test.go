@@ -1,7 +1,6 @@
 package coregenerictests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
@@ -21,16 +20,16 @@ func Test_TripleFromSplit(t *testing.T) {
 
 		// Act
 		triple := coregeneric.TripleFromSplit(inputStr, sep)
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"left":    triple.Left,
+			"middle":  triple.Middle,
+			"right":   triple.Right,
+			"isValid": triple.IsValid,
+			"message": triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -47,16 +46,16 @@ func Test_TripleFromSplitTrimmed(t *testing.T) {
 
 		// Act
 		triple := coregeneric.TripleFromSplitTrimmed(inputStr, sep)
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"left":    triple.Left,
+			"middle":  triple.Middle,
+			"right":   triple.Right,
+			"isValid": triple.IsValid,
+			"message": triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -73,16 +72,16 @@ func Test_TripleFromSplitN(t *testing.T) {
 
 		// Act
 		triple := coregeneric.TripleFromSplitN(inputStr, sep)
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"left":    triple.Left,
+			"middle":  triple.Middle,
+			"right":   triple.Right,
+			"isValid": triple.IsValid,
+			"message": triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -99,16 +98,16 @@ func Test_TripleFromSplitNTrimmed(t *testing.T) {
 
 		// Act
 		triple := coregeneric.TripleFromSplitNTrimmed(inputStr, sep)
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"left":    triple.Left,
+			"middle":  triple.Middle,
+			"right":   triple.Right,
+			"isValid": triple.IsValid,
+			"message": triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -124,15 +123,15 @@ func Test_TripleFromSlice(t *testing.T) {
 
 		// Act
 		triple := coregeneric.TripleFromSlice(parts)
-		actLines := []string{
-			triple.Left,
-			triple.Middle,
-			triple.Right,
-			fmt.Sprintf("%v", triple.IsValid),
-			triple.Message,
+		actual := args.Map{
+			"left":    triple.Left,
+			"middle":  triple.Middle,
+			"right":   triple.Right,
+			"isValid": triple.IsValid,
+			"message": triple.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

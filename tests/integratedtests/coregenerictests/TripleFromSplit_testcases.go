@@ -16,12 +16,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "a.b.c",
 			"sep":   ".",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b",
-			"c",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "b",
+			"right":   "c",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -30,12 +30,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "nosep",
 			"sep":   ".",
 		},
-		ExpectedInput: []string{
-			"nosep",
-			"",
-			"",
-			"false",
-			"only one part found",
+		ExpectedInput: args.Map{
+			"left":    "nosep",
+			"middle":  "",
+			"right":   "",
+			"isValid": false,
+			"message": "only one part found",
 		},
 	},
 	{
@@ -44,12 +44,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "a.b",
 			"sep":   ".",
 		},
-		ExpectedInput: []string{
-			"a",
-			"",
-			"b",
-			"false",
-			"only two parts found",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "",
+			"right":   "b",
+			"isValid": false,
+			"message": "only two parts found",
 		},
 	},
 	{
@@ -58,12 +58,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "a.b.c.d",
 			"sep":   ".",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b",
-			"d",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "b",
+			"right":   "d",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -72,12 +72,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "",
 			"sep":   ".",
 		},
-		ExpectedInput: []string{
-			"",
-			"",
-			"",
-			"false",
-			"only one part found",
+		ExpectedInput: args.Map{
+			"left":    "",
+			"middle":  "",
+			"right":   "",
+			"isValid": false,
+			"message": "only one part found",
 		},
 	},
 	{
@@ -86,12 +86,12 @@ var tripleFromSplitTestCases = []coretestcases.CaseV1{
 			"input": "x::y::z",
 			"sep":   "::",
 		},
-		ExpectedInput: []string{
-			"x",
-			"y",
-			"z",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "x",
+			"middle":  "y",
+			"right":   "z",
+			"isValid": true,
+			"message": "",
 		},
 	},
 }
@@ -107,12 +107,12 @@ var tripleFromSplitTrimmedTestCases = []coretestcases.CaseV1{
 			"input": "  a  .  b  .  c  ",
 			"sep":   ".",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b",
-			"c",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "b",
+			"right":   "c",
+			"isValid": true,
+			"message": "",
 		},
 	},
 }
@@ -128,12 +128,12 @@ var tripleFromSplitNTestCases = []coretestcases.CaseV1{
 			"input": "a:b:c:d:e",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b",
-			"c:d:e",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "b",
+			"right":   "c:d:e",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -142,12 +142,12 @@ var tripleFromSplitNTestCases = []coretestcases.CaseV1{
 			"input": "x:y:z",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"x",
-			"y",
-			"z",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "x",
+			"middle":  "y",
+			"right":   "z",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -156,12 +156,12 @@ var tripleFromSplitNTestCases = []coretestcases.CaseV1{
 			"input": "a:b",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"a",
-			"",
-			"b",
-			"false",
-			"only two parts found",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "",
+			"right":   "b",
+			"isValid": false,
+			"message": "only two parts found",
 		},
 	},
 }
@@ -177,12 +177,12 @@ var tripleFromSplitNTrimmedTestCases = []coretestcases.CaseV1{
 			"input": "  a  :  b  :  c : d : e  ",
 			"sep":   ":",
 		},
-		ExpectedInput: []string{
-			"a",
-			"b",
-			"c : d : e",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "b",
+			"right":   "c : d : e",
+			"isValid": true,
+			"message": "",
 		},
 	},
 }
@@ -197,12 +197,12 @@ var tripleFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{"L", "M", "R"},
 		},
-		ExpectedInput: []string{
-			"L",
-			"M",
-			"R",
-			"true",
-			"",
+		ExpectedInput: args.Map{
+			"left":    "L",
+			"middle":  "M",
+			"right":   "R",
+			"isValid": true,
+			"message": "",
 		},
 	},
 	{
@@ -210,12 +210,12 @@ var tripleFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{},
 		},
-		ExpectedInput: []string{
-			"",
-			"",
-			"",
-			"false",
-			"empty input",
+		ExpectedInput: args.Map{
+			"left":    "",
+			"middle":  "",
+			"right":   "",
+			"isValid": false,
+			"message": "empty input",
 		},
 	},
 	{
@@ -223,12 +223,12 @@ var tripleFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{"only"},
 		},
-		ExpectedInput: []string{
-			"only",
-			"",
-			"",
-			"false",
-			"only one part found",
+		ExpectedInput: args.Map{
+			"left":    "only",
+			"middle":  "",
+			"right":   "",
+			"isValid": false,
+			"message": "only one part found",
 		},
 	},
 	{
@@ -236,12 +236,12 @@ var tripleFromSliceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"parts": []string{"a", "b"},
 		},
-		ExpectedInput: []string{
-			"a",
-			"",
-			"b",
-			"false",
-			"only two parts found",
+		ExpectedInput: args.Map{
+			"left":    "a",
+			"middle":  "",
+			"right":   "b",
+			"isValid": false,
+			"message": "only two parts found",
 		},
 	},
 }
