@@ -14,8 +14,8 @@ var comparisonValueIndexesTestCases = []coretestcases.CaseV1{
 			"left":  "v0.0.1",
 			"right": "v0.0.1",
 		},
-		ExpectedInput: []string{
-			"Equal",
+		ExpectedInput: args.Map{
+			"result": "Equal",
 		},
 	},
 	{
@@ -25,8 +25,8 @@ var comparisonValueIndexesTestCases = []coretestcases.CaseV1{
 			"left":  "v3.0",
 			"right": "v0.2.1",
 		},
-		ExpectedInput: []string{
-			"LeftGreater",
+		ExpectedInput: args.Map{
+			"result": "LeftGreater",
 		},
 	},
 	{
@@ -36,8 +36,8 @@ var comparisonValueIndexesTestCases = []coretestcases.CaseV1{
 			"left":  "v0.0.2",
 			"right": "v0.2.1",
 		},
-		ExpectedInput: []string{
-			"LeftLess",
+		ExpectedInput: args.Map{
+			"result": "LeftLess",
 		},
 	},
 	{
@@ -47,8 +47,8 @@ var comparisonValueIndexesTestCases = []coretestcases.CaseV1{
 			"left":  "v4",
 			"right": "v4.0",
 		},
-		ExpectedInput: []string{
-			"Equal",
+		ExpectedInput: args.Map{
+			"result": "Equal",
 		},
 	},
 }
@@ -61,8 +61,8 @@ var versionSliceIntegerTestCases = []coretestcases.CaseV1{
 			"left":  "v1.2.3",
 			"right": "v1.2.3",
 		},
-		ExpectedInput: []string{
-			"Equal",
+		ExpectedInput: args.Map{
+			"result": "Equal",
 		},
 	},
 	{
@@ -72,8 +72,8 @@ var versionSliceIntegerTestCases = []coretestcases.CaseV1{
 			"left":  "v3.0",
 			"right": "v0.2.1",
 		},
-		ExpectedInput: []string{
-			"LeftGreater",
+		ExpectedInput: args.Map{
+			"result": "LeftGreater",
 		},
 	},
 	{
@@ -83,8 +83,8 @@ var versionSliceIntegerTestCases = []coretestcases.CaseV1{
 			"left":  "v0.0.2",
 			"right": "v0.2.1",
 		},
-		ExpectedInput: []string{
-			"LeftLess",
+		ExpectedInput: args.Map{
+			"result": "LeftLess",
 		},
 	},
 	{
@@ -94,8 +94,8 @@ var versionSliceIntegerTestCases = []coretestcases.CaseV1{
 			"left":  "v4",
 			"right": "v4.0",
 		},
-		ExpectedInput: []string{
-			"Equal",
+		ExpectedInput: args.Map{
+			"result": "Equal",
 		},
 	},
 	{
@@ -105,8 +105,8 @@ var versionSliceIntegerTestCases = []coretestcases.CaseV1{
 			"left":  "v2.0.0.1",
 			"right": "v2.0.0.5",
 		},
-		ExpectedInput: []string{
-			"LeftLess",
+		ExpectedInput: args.Map{
+			"result": "LeftLess",
 		},
 	},
 	{
@@ -116,8 +116,8 @@ var versionSliceIntegerTestCases = []coretestcases.CaseV1{
 			"left":  "v2.0.0.5",
 			"right": "v2.0.0.1",
 		},
-		ExpectedInput: []string{
-			"LeftGreater",
+		ExpectedInput: args.Map{
+			"result": "LeftGreater",
 		},
 	},
 }
@@ -130,8 +130,8 @@ var isAtLeastTestCases = []coretestcases.CaseV1{
 			"left":  "3.0",
 			"right": "0.2.1",
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isAtLeast": true,
 		},
 	},
 	{
@@ -141,8 +141,8 @@ var isAtLeastTestCases = []coretestcases.CaseV1{
 			"left":  "v0.0.1",
 			"right": "v0.0.1",
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isAtLeast": true,
 		},
 	},
 	{
@@ -152,8 +152,8 @@ var isAtLeastTestCases = []coretestcases.CaseV1{
 			"left":  "v0.0.2",
 			"right": "v0.2.1",
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isAtLeast": false,
 		},
 	},
 }
@@ -166,8 +166,8 @@ var isLowerTestCases = []coretestcases.CaseV1{
 			"left":  "v0.0.2",
 			"right": "v0.2.1",
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isLower": true,
 		},
 	},
 	{
@@ -177,8 +177,8 @@ var isLowerTestCases = []coretestcases.CaseV1{
 			"left":  "v0.0.1",
 			"right": "v0.0.1",
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isLower": false,
 		},
 	},
 	{
@@ -188,8 +188,8 @@ var isLowerTestCases = []coretestcases.CaseV1{
 			"left":  "v3.0",
 			"right": "v0.2.1",
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isLower": false,
 		},
 	},
 }
@@ -203,8 +203,8 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 			"right":    "v0.0.1",
 			"expected": corecomparator.Equal,
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isExpected": true,
 		},
 	},
 	{
@@ -215,8 +215,8 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 			"right":    "v0.2.1",
 			"expected": corecomparator.LeftGreater,
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isExpected": true,
 		},
 	},
 	{
@@ -227,8 +227,8 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 			"right":    "v4.0",
 			"expected": corecomparator.LeftGreater,
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isExpected": false,
 		},
 	},
 }

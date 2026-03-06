@@ -20,10 +20,9 @@ func Test_Version_Compare_Verification(t *testing.T) {
 		result := leftV.Compare(&rightV)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			result.Name(),
-		)
+		actual := args.Map{
+			"result": result.Name(),
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
