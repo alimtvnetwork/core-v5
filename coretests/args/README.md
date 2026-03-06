@@ -292,6 +292,8 @@ need named parameters rather than positional ones.
 | `Get(key)` | `(any, bool)` | Raw map access |
 | `GetAsInt(key)` | `(int, bool)` | Type-safe int extraction |
 | `GetAsString(key)` | `(string, bool)` | Type-safe string extraction |
+| `GetAsBool(key)` | `(bool, bool)` | Type-safe boolean extraction |
+| `GetAsBoolDefault(key, def)` | `bool` | Boolean extraction with fallback default |
 | `GetAsStrings(key)` | `([]string, bool)` | Type-safe string slice extraction |
 | `CompileToStrings()` | `[]string` | Sorted `"key : value"` lines using `%v` format |
 | `CompileToString()` | `string` | Sorted `"key : value"` as single string |
