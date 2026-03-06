@@ -357,7 +357,10 @@ func Test_Hashmap_IsEquals_SameKeys(t *testing.T) {
 	hm2 := coregeneric.New.Hashmap.StringInt.Cap(5)
 	hm2.Set("a", 99)
 	hm2.Set("b", 100)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", hm1.IsEquals(hm2)))
+
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_DiffKeys(t *testing.T) {
@@ -368,7 +371,10 @@ func Test_Hashmap_IsEquals_DiffKeys(t *testing.T) {
 	hm2 := coregeneric.New.Hashmap.StringInt.Cap(5)
 	hm2.Set("x", 1)
 	hm2.Set("y", 2)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", hm1.IsEquals(hm2)))
+
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_DiffLength(t *testing.T) {
@@ -378,28 +384,40 @@ func Test_Hashmap_IsEquals_DiffLength(t *testing.T) {
 	hm2 := coregeneric.New.Hashmap.StringInt.Cap(5)
 	hm2.Set("a", 1)
 	hm2.Set("b", 2)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", hm1.IsEquals(hm2)))
+
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
 	tc := hashmapIsEqualsBothNilTestCase
 	var hm1 *coregeneric.Hashmap[string, int]
 	var hm2 *coregeneric.Hashmap[string, int]
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", hm1.IsEquals(hm2)))
+
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_NilVsNonNil(t *testing.T) {
 	tc := hashmapIsEqualsNilVsNonNilTestCase
 	var hm1 *coregeneric.Hashmap[string, int]
 	hm2 := coregeneric.New.Hashmap.StringInt.Cap(5)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", hm1.IsEquals(hm2)))
+
+	actual := args.Map{"isEquals": hm1.IsEquals(hm2)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashmap_IsEquals_SamePtr(t *testing.T) {
 	tc := hashmapIsEqualsSamePtrTestCase
 	hm1 := coregeneric.New.Hashmap.StringInt.Cap(5)
 	hm1.Set("a", 1)
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", hm1.IsEquals(hm1)))
+
+	actual := args.Map{"isEquals": hm1.IsEquals(hm1)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
