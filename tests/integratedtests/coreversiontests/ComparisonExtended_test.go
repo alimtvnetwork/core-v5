@@ -1,7 +1,6 @@
 package coreversiontests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/corecmp"
@@ -34,11 +33,10 @@ func Test_ComparisonValueIndexes_Verification(t *testing.T) {
 		)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			result.Name(),
-		)
+		actual := args.Map{
+			"result": result.Name(),
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -63,11 +61,10 @@ func Test_VersionSliceInteger_Verification(t *testing.T) {
 		result := corecmp.VersionSliceInteger(leftValues, rightValues)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			result.Name(),
-		)
+		actual := args.Map{
+			"result": result.Name(),
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -88,11 +85,10 @@ func Test_IsAtLeast_Verification(t *testing.T) {
 		result := coreversion.IsAtLeast(leftStr, rightStr)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", result),
-		)
+		actual := args.Map{
+			"isAtLeast": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -113,11 +109,10 @@ func Test_IsLower_Verification(t *testing.T) {
 		result := coreversion.IsLower(leftStr, rightStr)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", result),
-		)
+		actual := args.Map{
+			"isLower": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -139,10 +134,9 @@ func Test_IsExpectedVersion_Verification(t *testing.T) {
 		result := coreversion.IsExpectedVersion(expected, leftStr, rightStr)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", result),
-		)
+		actual := args.Map{
+			"isExpected": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
