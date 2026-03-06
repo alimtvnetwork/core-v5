@@ -13,10 +13,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given id 'test-123'",
 			"id":   "test-123",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "test-123", // id
-			Second: "false",    // isEmpty
-			Third:  "false",    // isEmptyOrWhitespace
+		ExpectedInput: args.Map{
+			"id":                 "test-123",
+			"isEmpty":            false,
+			"isEmptyOrWhitespace": false,
 		},
 	},
 	{
@@ -25,10 +25,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given id with special chars",
 			"id":   "user@domain.com/resource#123",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "user@domain.com/resource#123", // id
-			Second: "false",                         // isEmpty
-			Third:  "false",                         // isEmptyOrWhitespace
+		ExpectedInput: args.Map{
+			"id":                 "user@domain.com/resource#123",
+			"isEmpty":            false,
+			"isEmptyOrWhitespace": false,
 		},
 	},
 
@@ -39,10 +39,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given empty id",
 			"id":   "",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "",     // id
-			Second: "true", // isEmpty
-			Third:  "true", // isEmptyOrWhitespace
+		ExpectedInput: args.Map{
+			"id":                 "",
+			"isEmpty":            true,
+			"isEmptyOrWhitespace": true,
 		},
 	},
 	{
@@ -51,10 +51,10 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"when": "given whitespace-only id",
 			"id":   "   ",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "   ",   // id
-			Second: "false", // isEmpty
-			Third:  "true",  // isEmptyOrWhitespace
+		ExpectedInput: args.Map{
+			"id":                 "   ",
+			"isEmpty":            false,
+			"isEmptyOrWhitespace": true,
 		},
 	},
 }
@@ -71,10 +71,10 @@ var identifiersLengthTestCases = []coretestcases.CaseV1{
 			"when": "given 3 ids",
 			"ids":  []string{"a", "b", "c"},
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "3",     // length
-			Second: "false", // isEmpty
-			Third:  "true",  // hasAnyItem
+		ExpectedInput: args.Map{
+			"length":     3,
+			"isEmpty":    false,
+			"hasAnyItem": true,
 		},
 	},
 
@@ -85,10 +85,10 @@ var identifiersLengthTestCases = []coretestcases.CaseV1{
 			"when": "given no ids",
 			"ids":  []string{},
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "0",     // length
-			Second: "true",  // isEmpty
-			Third:  "false", // hasAnyItem
+		ExpectedInput: args.Map{
+			"length":     0,
+			"isEmpty":    true,
+			"hasAnyItem": false,
 		},
 	},
 
@@ -99,10 +99,10 @@ var identifiersLengthTestCases = []coretestcases.CaseV1{
 			"when": "given single id",
 			"ids":  []string{"only"},
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "1",     // length
-			Second: "false", // isEmpty
-			Third:  "true",  // hasAnyItem
+		ExpectedInput: args.Map{
+			"length":     1,
+			"isEmpty":    false,
+			"hasAnyItem": true,
 		},
 	},
 }
@@ -116,9 +116,9 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"alpha", "beta", "gamma"},
 			"searchId": "beta",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // found
-			Second: "beta", // id
+		ExpectedInput: args.Map{
+			"found": true,
+			"id":    "beta",
 		},
 	},
 	{
@@ -128,9 +128,9 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"first", "second"},
 			"searchId": "first",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // found
-			Second: "first", // id
+		ExpectedInput: args.Map{
+			"found": true,
+			"id":    "first",
 		},
 	},
 	{
@@ -140,9 +140,9 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"first", "last"},
 			"searchId": "last",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // found
-			Second: "last", // id
+		ExpectedInput: args.Map{
+			"found": true,
+			"id":    "last",
 		},
 	},
 
@@ -154,9 +154,9 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"alpha", "beta"},
 			"searchId": "missing",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // found
-			Second: "",      // id
+		ExpectedInput: args.Map{
+			"found": false,
+			"id":    "",
 		},
 	},
 	{
@@ -166,9 +166,9 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{"alpha", "beta"},
 			"searchId": "",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // found
-			Second: "",      // id
+		ExpectedInput: args.Map{
+			"found": false,
+			"id":    "",
 		},
 	},
 	{
@@ -178,9 +178,9 @@ var identifiersGetByIdTestCases = []coretestcases.CaseV1{
 			"ids":      []string{},
 			"searchId": "any",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // found
-			Second: "",      // id
+		ExpectedInput: args.Map{
+			"found": false,
+			"id":    "",
 		},
 	},
 }
@@ -244,11 +244,11 @@ var identifiersCloneTestCases = []coretestcases.CaseV1{
 			"when": "given 3 ids",
 			"ids":  []string{"x", "y", "z"},
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "3", // length
-			Second: "x", // first
-			Third:  "y", // second
-			Fourth: "z", // third
+		ExpectedInput: args.Map{
+			"length": 3,
+			"id0":    "x",
+			"id1":    "y",
+			"id2":    "z",
 		},
 	},
 
@@ -259,7 +259,9 @@ var identifiersCloneTestCases = []coretestcases.CaseV1{
 			"when": "given empty identifiers",
 			"ids":  []string{},
 		},
-		ExpectedInput: "0",
+		ExpectedInput: args.Map{
+			"length": 0,
+		},
 	},
 }
 
@@ -272,10 +274,10 @@ var identifiersAddTestCases = []coretestcases.CaseV1{
 			"ids":   []string{"a"},
 			"addId": "b",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "2", // length
-			Second: "a", // first
-			Third:  "b", // second
+		ExpectedInput: args.Map{
+			"length": 2,
+			"id0":    "a",
+			"id1":    "b",
 		},
 	},
 
@@ -287,9 +289,9 @@ var identifiersAddTestCases = []coretestcases.CaseV1{
 			"ids":   []string{"a"},
 			"addId": "",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "1", // length
-			Second: "a", // first
+		ExpectedInput: args.Map{
+			"length": 1,
+			"id0":    "a",
 		},
 	},
 }
@@ -310,14 +312,14 @@ var specificationCloneTestCases = []coretestcases.CaseV1{
 			"tags":     []string{"tag1", "tag2"},
 			"isGlobal": true,
 		},
-		ExpectedInput: []string{
-			"spec-1",
-			"My Spec",
-			"typeA",
-			"2",
-			"tag1",
-			"tag2",
-			"true",
+		ExpectedInput: args.Map{
+			"id":        "spec-1",
+			"display":   "My Spec",
+			"typeName":  "typeA",
+			"tagsCount": 2,
+			"tag0":      "tag1",
+			"tag1":      "tag2",
+			"isGlobal":  true,
 		},
 	},
 
@@ -332,12 +334,12 @@ var specificationCloneTestCases = []coretestcases.CaseV1{
 			"tags":     []string{},
 			"isGlobal": false,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "spec-2",  // id
-			Second: "Display", // display
-			Third:  "typeB",   // typeName
-			Fourth: "0",       // tagsCount
-			Fifth:  "false",   // isGlobal
+		ExpectedInput: args.Map{
+			"id":        "spec-2",
+			"display":   "Display",
+			"typeName":  "typeB",
+			"tagsCount": 0,
+			"isGlobal":  false,
 		},
 	},
 }
@@ -355,11 +357,11 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{"a", "b", "c"},
 			"searchTags": []string{"a", "c"},
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "3",     // tagsCount
-			Second: "false", // isEmpty
-			Third:  "true",  // hasAllTags
-			Fourth: "true",  // hasAnyTag
+		ExpectedInput: args.Map{
+			"tagsCount":  3,
+			"isEmpty":    false,
+			"hasAllTags": true,
+			"hasAnyTag":  true,
 		},
 	},
 
@@ -371,11 +373,11 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{"a", "b"},
 			"searchTags": []string{"a", "missing"},
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "2",     // tagsCount
-			Second: "false", // isEmpty
-			Third:  "false", // hasAllTags
-			Fourth: "true",  // hasAnyTag
+		ExpectedInput: args.Map{
+			"tagsCount":  2,
+			"isEmpty":    false,
+			"hasAllTags": false,
+			"hasAnyTag":  true,
 		},
 	},
 
@@ -387,11 +389,11 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{},
 			"searchTags": []string{},
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "0",    // tagsCount
-			Second: "true", // isEmpty
-			Third:  "true", // hasAllTags
-			Fourth: "true", // hasAnyTag
+		ExpectedInput: args.Map{
+			"tagsCount":  0,
+			"isEmpty":    true,
+			"hasAllTags": true,
+			"hasAnyTag":  true,
 		},
 	},
 
@@ -403,11 +405,11 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 			"tags":       []string{},
 			"searchTags": []string{"a"},
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "0",     // tagsCount
-			Second: "true",  // isEmpty
-			Third:  "false", // hasAllTags
-			Fourth: "false", // hasAnyTag
+		ExpectedInput: args.Map{
+			"tagsCount":  0,
+			"isEmpty":    true,
+			"hasAllTags": false,
+			"hasAnyTag":  false,
 		},
 	},
 }

@@ -17,18 +17,14 @@ func Test_BaseIdentifier_Verification(t *testing.T) {
 
 		// Act
 		identifier := coreinstruction.NewIdentifier(id)
-		idStr := identifier.IdString()
-		isEmpty := fmt.Sprintf("%v", identifier.IsIdEmpty())
-		isWhitespace := fmt.Sprintf("%v", identifier.IsIdWhitespace())
+		actual := args.Map{
+			"id":                 identifier.IdString(),
+			"isEmpty":            identifier.IsIdEmpty(),
+			"isEmptyOrWhitespace": identifier.IsIdWhitespace(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			idStr,
-			isEmpty,
-			isWhitespace,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -43,15 +39,14 @@ func Test_Identifiers_Length_Verification(t *testing.T) {
 
 		// Act
 		identifiers := coreinstruction.NewIdentifiers(ids...)
+		actual := args.Map{
+			"length":     identifiers.Length(),
+			"isEmpty":    identifiers.IsEmpty(),
+			"hasAnyItem": identifiers.HasAnyItem(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", identifiers.Length()),
-			fmt.Sprintf("%v", identifiers.IsEmpty()),
-			fmt.Sprintf("%v", identifiers.HasAnyItem()),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -69,19 +64,19 @@ func Test_Identifiers_GetById_Verification(t *testing.T) {
 		identifiers := coreinstruction.NewIdentifiers(ids...)
 		result := identifiers.GetById(searchId)
 
-		// Assert
 		found := result != nil
 		foundId := ""
 		if found {
 			foundId = result.Id
 		}
 
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", found),
-			foundId,
-		)
+		actual := args.Map{
+			"found": found,
+			"id":    foundId,
+		}
+
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -100,11 +95,7 @@ func Test_Identifiers_IndexOf_Verification(t *testing.T) {
 		index := identifiers.IndexOf(searchId)
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", index),
-		)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", index))
 	}
 }
 
@@ -121,17 +112,15 @@ func Test_Identifiers_Clone_Verification(t *testing.T) {
 		original := coreinstruction.NewIdentifiers(ids...)
 		cloned := original.Clone()
 
-		// Assert
-		results := []string{fmt.Sprintf("%v", cloned.Length())}
-		for _, baseId := range cloned.Ids {
-			results = append(results, baseId.Id)
+		actual := args.Map{
+			"length": cloned.Length(),
+		}
+		for i, baseId := range cloned.Ids {
+			actual[fmt.Sprintf("id%d", i)] = baseId.Id
 		}
 
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			results...,
-		)
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -149,17 +138,15 @@ func Test_Identifiers_Add_Verification(t *testing.T) {
 		identifiers := coreinstruction.NewIdentifiers(ids...)
 		identifiers.Add(addId)
 
-		// Assert
-		results := []string{fmt.Sprintf("%v", identifiers.Length())}
-		for _, baseId := range identifiers.Ids {
-			results = append(results, baseId.Id)
+		actual := args.Map{
+			"length": identifiers.Length(),
+		}
+		for i, baseId := range identifiers.Ids {
+			actual[fmt.Sprintf("id%d", i)] = baseId.Id
 		}
 
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			results...,
-		)
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -181,29 +168,19 @@ func Test_Specification_Clone_Verification(t *testing.T) {
 		spec := coreinstruction.NewSpecification(id, display, typeName, tags, isGlobal)
 		cloned := spec.Clone()
 
+		actual := args.Map{
+			"id":        cloned.Id,
+			"display":   cloned.Display,
+			"typeName":  cloned.Type,
+			"tagsCount": cloned.TagsLength(),
+			"isGlobal":  cloned.IsGlobal,
+		}
+		for i, tag := range cloned.Tags {
+			actual[fmt.Sprintf("tag%d", i)] = tag
+		}
+
 		// Assert
-		results := []string{
-			cloned.Id,
-			cloned.Display,
-			cloned.Type,
-			fmt.Sprintf("%v", cloned.TagsLength()),
-		}
-
-		for _, tag := range cloned.Tags {
-			results = append(results, tag)
-		}
-
-		if cloned.TagsLength() == 0 {
-			results = append(results, fmt.Sprintf("%v", cloned.IsGlobal))
-		} else {
-			results = append(results, fmt.Sprintf("%v", cloned.IsGlobal))
-		}
-
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			results...,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -222,16 +199,15 @@ func Test_BaseTags_Verification(t *testing.T) {
 
 		// Act
 		baseTags := coreinstruction.NewTags(tags)
+		actual := args.Map{
+			"tagsCount":  baseTags.TagsLength(),
+			"isEmpty":    baseTags.IsTagsEmpty(),
+			"hasAllTags": baseTags.HasAllTags(searchTags...),
+			"hasAnyTag":  baseTags.HasAnyTags(searchTags...),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", baseTags.TagsLength()),
-			fmt.Sprintf("%v", baseTags.IsTagsEmpty()),
-			fmt.Sprintf("%v", baseTags.HasAllTags(searchTags...)),
-			fmt.Sprintf("%v", baseTags.HasAnyTags(searchTags...)),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

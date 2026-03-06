@@ -11,9 +11,7 @@ var intUniqueGetRemovesDuplicatesTestCase = coretestcases.CaseV1{
 		"when":  "given slice with duplicates",
 		"input": []int{1, 2, 2, 3, 3, 3},
 	},
-	ExpectedInput: []string{
-		"3",
-	},
+	ExpectedInput: "3",
 }
 
 var intUniqueGetAlreadyUniqueTestCase = coretestcases.CaseV1{
@@ -22,9 +20,7 @@ var intUniqueGetAlreadyUniqueTestCase = coretestcases.CaseV1{
 		"when":  "given slice without duplicates",
 		"input": []int{1, 2, 3},
 	},
-	ExpectedInput: []string{
-		"3",
-	},
+	ExpectedInput: "3",
 }
 
 var intUniqueGetNilTestCase = coretestcases.CaseV1{
@@ -32,7 +28,5 @@ var intUniqueGetNilTestCase = coretestcases.CaseV1{
 	ArrangeInput: args.Map{
 		"when": "given nil slice",
 	},
-	ExpectedInput: []string{
-		"true",
-	},
+	ExpectedInput: "true",
 }

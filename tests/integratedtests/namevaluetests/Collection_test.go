@@ -28,16 +28,14 @@ func Test_StringStringCollection_Verification(t *testing.T) {
 				Value: fmt.Sprintf("val%d", i),
 			})
 		}
-		length := fmt.Sprintf("%d", col.Length())
-		isEmpty := fmt.Sprintf("%v", col.IsEmpty())
-		hasAny := fmt.Sprintf("%v", col.HasAnyItem())
+		actual := args.Map{
+			"length":   col.Length(),
+			"isEmpty":  col.IsEmpty(),
+			"hasItems": col.HasAnyItem(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			length,
-			isEmpty,
-			hasAny,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -60,17 +58,15 @@ func Test_StringIntCollection_Verification(t *testing.T) {
 				Value: i * 10,
 			})
 		}
-		length := fmt.Sprintf("%d", col.Length())
 		joined := col.Join(", ")
-		containsItem0 := fmt.Sprintf("%v", strings.Contains(joined, "item0"))
-		containsComma := fmt.Sprintf("%v", strings.Contains(joined, ","))
+		actual := args.Map{
+			"length":          col.Length(),
+			"hasFirstItem":    strings.Contains(joined, "item0"),
+			"joinContainsAll": strings.Contains(joined, ","),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			length,
-			containsItem0,
-			containsComma,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -88,11 +84,13 @@ func Test_Collection_Prepend(t *testing.T) {
 	// Act
 	col.Prepend(namevalue.StringString{Name: "prepended", Value: "vp"})
 
+	actual := args.Map{
+		"length":    col.Length(),
+		"firstItem": col.Items[0].Name,
+	}
+
 	// Assert
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		col.Items[0].Name,
-	)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -109,11 +107,13 @@ func Test_Collection_Append(t *testing.T) {
 	// Act
 	col.Append(namevalue.StringString{Name: "appended", Value: "va"})
 
+	actual := args.Map{
+		"length":   col.Length(),
+		"lastItem": col.Items[col.LastIndex()].Name,
+	}
+
 	// Assert
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		col.Items[col.LastIndex()].Name,
-	)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -130,11 +130,13 @@ func Test_Collection_PrependIfFalse(t *testing.T) {
 	// Act
 	col.PrependIf(false, namevalue.StringString{Name: "skipped", Value: "vs"})
 
+	actual := args.Map{
+		"length":    col.Length(),
+		"firstItem": col.Items[0].Name,
+	}
+
 	// Assert
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		col.Items[0].Name,
-	)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -151,11 +153,13 @@ func Test_Collection_AppendIfFalse(t *testing.T) {
 	// Act
 	col.AppendIf(false, namevalue.StringString{Name: "skipped", Value: "vs"})
 
+	actual := args.Map{
+		"length":    col.Length(),
+		"firstItem": col.Items[0].Name,
+	}
+
 	// Assert
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%d", col.Length()),
-		col.Items[0].Name,
-	)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -172,7 +176,6 @@ func Test_CollectionClone_Valid(t *testing.T) {
 
 	// Act
 	col := namevalue.NewGenericCollectionDefault[string, string]()
-
 	for i := 0; i < countInt; i++ {
 		col.Add(namevalue.StringString{
 			Name:  fmt.Sprintf("k%d", i),
@@ -181,20 +184,16 @@ func Test_CollectionClone_Valid(t *testing.T) {
 	}
 
 	cloned := col.Clone()
-	sameLength := fmt.Sprintf("%d", cloned.Length())
-
 	col.Add(namevalue.StringString{Name: "extra", Value: "x"})
-	cloneUnchanged := fmt.Sprintf("%v", cloned.Length() == countInt)
-	isEqual := fmt.Sprintf("%v", cloned.IsEqualByString(
-		namevalue.NewGenericCollectionUsing[string, string](true, cloned.Items...),
-	))
+
+	actual := args.Map{
+		"length":        cloned.Length(),
+		"sameContent":   cloned.IsEqualByString(namevalue.NewGenericCollectionUsing[string, string](true, cloned.Items...)),
+		"isIndependent": cloned.Length() == countInt,
+	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0,
-		sameLength,
-		cloneUnchanged,
-		isEqual,
-	)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -207,10 +206,9 @@ func Test_CollectionClone_NilReceiver(t *testing.T) {
 	// Act
 	var nilCol *namevalue.StringStringCollection
 	result := nilCol.ClonePtr()
-	isNil := fmt.Sprintf("%v", result == nil)
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, isNil)
+	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", result == nil))
 }
 
 // ==========================================================================
@@ -291,14 +289,14 @@ func Test_CollectionError_Verification(t *testing.T) {
 		}
 
 		err := col.Error()
-		hasError := fmt.Sprintf("%v", err != nil)
 		errMsg := col.ErrorUsingMessage("failed:")
-		hasMsgError := fmt.Sprintf("%v", errMsg != nil)
 
-		testCase.ShouldBeEqual(t, caseIndex,
-			hasError,
-			hasMsgError,
-		)
+		actual := args.Map{
+			"hasError":            err != nil,
+			"errorContainsItems": errMsg != nil,
+		}
+
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -321,9 +319,8 @@ func Test_CollectionDispose_Verification(t *testing.T) {
 		}
 
 		col.Dispose()
-		isNilItems := fmt.Sprintf("%v", col.Items == nil)
 
-		testCase.ShouldBeEqual(t, caseIndex, isNilItems)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", col.Items == nil))
 	}
 }
 
@@ -350,13 +347,13 @@ func Test_CollectionConcatNew_Verification(t *testing.T) {
 		}
 
 		newCol := col.ConcatNew(extraItems...)
-		newLength := fmt.Sprintf("%d", newCol.Length())
-		originalUnchanged := fmt.Sprintf("%d", col.Length())
 
-		testCase.ShouldBeEqual(t, caseIndex,
-			newLength,
-			originalUnchanged,
-		)
+		actual := args.Map{
+			"mergedLength":   newCol.Length(),
+			"originalLength": col.Length(),
+		}
+
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -373,7 +370,6 @@ func Test_StringMapAnyCollection_WithValues(t *testing.T) {
 
 	// Act
 	col := namevalue.NewGenericCollectionDefault[string, map[string]any]()
-
 	for i, mapVal := range mapValues {
 		col.Add(namevalue.StringMapAny{
 			Name:  fmt.Sprintf("map%d", i),
@@ -381,14 +377,13 @@ func Test_StringMapAnyCollection_WithValues(t *testing.T) {
 		})
 	}
 
-	length := fmt.Sprintf("%d", col.Length())
-	hasItems := fmt.Sprintf("%v", col.HasAnyItem())
+	actual := args.Map{
+		"length":    col.Length(),
+		"hasValues": col.HasAnyItem(),
+	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0,
-		length,
-		hasItems,
-	)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -404,7 +399,6 @@ func Test_StringMapAnyCollection_NilValue(t *testing.T) {
 
 	// Act
 	col := namevalue.NewGenericCollectionDefault[string, map[string]any]()
-
 	for i, mapVal := range mapValues {
 		col.Add(namevalue.StringMapAny{
 			Name:  fmt.Sprintf("map%d", i),
@@ -412,12 +406,11 @@ func Test_StringMapAnyCollection_NilValue(t *testing.T) {
 		})
 	}
 
-	length := fmt.Sprintf("%d", col.Length())
-	hasItems := fmt.Sprintf("%v", col.HasAnyItem())
+	actual := args.Map{
+		"length":   col.Length(),
+		"isNilMap": col.HasAnyItem(),
+	}
 
 	// Assert
-	tc.ShouldBeEqual(t, 0,
-		length,
-		hasItems,
-	)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
