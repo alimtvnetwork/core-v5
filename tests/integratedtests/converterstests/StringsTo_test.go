@@ -30,16 +30,21 @@ func Test_StringsTo_IntegersWithDefaults(t *testing.T) {
 
 		// Act
 		result := converters.StringsTo.IntegersWithDefaults(defaultInt, inputSlice...)
-		actLines := []string{fmt.Sprintf("%d", result.Length())}
-
-		for _, v := range result.Values {
-			actLines = append(actLines, fmt.Sprintf("%d", v))
+		actual := args.Map{
+			"count":          result.Length(),
+			"hadDefaultUsed": result.HasError(),
 		}
 
-		actLines = append(actLines, fmt.Sprintf("%v", result.HasError()))
+		for i, v := range result.Values {
+			actual[fmt.Sprintf("val%d", i)] = v
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -64,16 +69,21 @@ func Test_StringsTo_BytesWithDefaults(t *testing.T) {
 
 		// Act
 		result := converters.StringsTo.BytesWithDefaults(defaultByte, inputSlice...)
-		actLines := []string{fmt.Sprintf("%d", result.Length())}
-
-		for _, v := range result.Values {
-			actLines = append(actLines, fmt.Sprintf("%d", v))
+		actual := args.Map{
+			"count":          result.Length(),
+			"hadDefaultUsed": result.HasError(),
 		}
 
-		actLines = append(actLines, fmt.Sprintf("%v", result.HasError()))
+		for i, v := range result.Values {
+			actual[fmt.Sprintf("val%d", i)] = int(v)
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -98,10 +108,12 @@ func Test_StringsTo_CloneIf(t *testing.T) {
 
 		// Act
 		result := converters.StringsTo.CloneIf(isClone, inputSlice...)
-		actLines := []string{fmt.Sprintf("%d", len(result))}
+		actual := args.Map{
+			"count": len(result),
+		}
 
-		for _, v := range result {
-			actLines = append(actLines, v)
+		for i, v := range result {
+			actual[fmt.Sprintf("item%d", i)] = v
 		}
 
 		// Check if it's a different slice (clone independence)
@@ -110,14 +122,16 @@ func Test_StringsTo_CloneIf(t *testing.T) {
 			isSamePointer = unsafe.Pointer(&inputSlice[0]) == unsafe.Pointer(&result[0])
 		}
 
-		// When isClone=true and len>0, should NOT be same pointer
-		// When isClone=false, SHOULD be same pointer
 		isIndependent := isClone && !isSamePointer && len(inputSlice) > 0
 		isReturned := !isClone && isSamePointer
-		actLines = append(actLines, fmt.Sprintf("%v", isIndependent || isReturned || len(inputSlice) == 0))
+		actual["isIndependent"] = isIndependent || isReturned || len(inputSlice) == 0
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(
+			t,
+			caseIndex,
+			actual,
+		)
 	}
 }
 
@@ -164,13 +178,27 @@ func Test_StringsTo_PtrOfPtrToPtrStrings(t *testing.T) {
 			result = converters.StringsTo.PtrOfPtrToPtrStrings(&ptrSlice)
 		}
 
-		actLines := []string{fmt.Sprintf("%d", len(*result))}
-		for _, v := range *result {
-			actLines = append(actLines, v)
-		}
+		// For cases with args.Map expected, use ShouldBeEqualMap
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
+			actual := args.Map{
+				"count": len(*result),
+			}
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+			for i, v := range *result {
+				actual[fmt.Sprintf("item%d", i)] = v
+			}
+
+			testCase.ShouldBeEqualMap(
+				t,
+				caseIndex,
+				actual,
+			)
+		} else {
+			// Plain string expected
+			actLines := []string{fmt.Sprintf("%d", len(*result))}
+
+			testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		}
 	}
 }
 
@@ -209,12 +237,26 @@ func Test_StringsTo_PtrOfPtrToMapStringBool(t *testing.T) {
 			result = converters.StringsTo.PtrOfPtrToMapStringBool(&ptrSlice)
 		}
 
-		actLines := []string{fmt.Sprintf("%d", len(result))}
-		for _, v := range result {
-			actLines = append(actLines, fmt.Sprintf("%v", v))
-		}
+		// For cases with args.Map expected, use ShouldBeEqualMap
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
+			actual := args.Map{
+				"count": len(result),
+			}
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+			for k, v := range result {
+				actual["has"+k] = v
+			}
+
+			testCase.ShouldBeEqualMap(
+				t,
+				caseIndex,
+				actual,
+			)
+		} else {
+			// Plain string expected
+			actLines := []string{fmt.Sprintf("%d", len(result))}
+
+			testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		}
 	}
 }

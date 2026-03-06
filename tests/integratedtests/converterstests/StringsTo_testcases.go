@@ -17,12 +17,12 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":      []string{"1", "2", "3"},
 			"defaultInt": -1,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",     // count
-			Second: "1",     // val0
-			Third:  "2",     // val1
-			Fourth: "3",     // val2
-			Fifth:  "false", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          3,
+			"val0":           1,
+			"val1":           2,
+			"val2":           3,
+			"hadDefaultUsed": false,
 		},
 	},
 	{
@@ -32,12 +32,12 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":      []string{"10", "abc", "20"},
 			"defaultInt": -1,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",    // count
-			Second: "10",   // val0
-			Third:  "-1",   // val1 (default)
-			Fourth: "20",   // val2
-			Fifth:  "true", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          3,
+			"val0":           10,
+			"val1":           -1,
+			"val2":           20,
+			"hadDefaultUsed": true,
 		},
 	},
 	{
@@ -47,9 +47,9 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":      []string{},
 			"defaultInt": 0,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "0",     // count
-			Second: "false", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          0,
+			"hadDefaultUsed": false,
 		},
 	},
 	{
@@ -59,12 +59,12 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":      []string{"x", "y", "z"},
 			"defaultInt": 99,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",    // count
-			Second: "99",   // val0 (default)
-			Third:  "99",   // val1 (default)
-			Fourth: "99",   // val2 (default)
-			Fifth:  "true", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          3,
+			"val0":           99,
+			"val1":           99,
+			"val2":           99,
+			"hadDefaultUsed": true,
 		},
 	},
 	{
@@ -74,12 +74,12 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":      []string{"-5", "0", "5"},
 			"defaultInt": 0,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",     // count
-			Second: "-5",    // val0
-			Third:  "0",     // val1
-			Fourth: "5",     // val2
-			Fifth:  "false", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          3,
+			"val0":           -5,
+			"val1":           0,
+			"val2":           5,
+			"hadDefaultUsed": false,
 		},
 	},
 }
@@ -96,12 +96,12 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":       []string{"0", "127", "255"},
 			"defaultByte": byte(0),
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",     // count
-			Second: "0",     // val0
-			Third:  "127",   // val1
-			Fourth: "255",   // val2
-			Fifth:  "false", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          3,
+			"val0":           0,
+			"val1":           127,
+			"val2":           255,
+			"hadDefaultUsed": false,
 		},
 	},
 	{
@@ -111,12 +111,12 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":       []string{"100", "256", "50"},
 			"defaultByte": byte(42),
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",    // count
-			Second: "100",  // val0
-			Third:  "42",   // val1 (default)
-			Fourth: "50",   // val2
-			Fifth:  "true", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          3,
+			"val0":           100,
+			"val1":           42,
+			"val2":           50,
+			"hadDefaultUsed": true,
 		},
 	},
 	{
@@ -126,11 +126,11 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":       []string{"-1", "10"},
 			"defaultByte": byte(0),
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "2",    // count
-			Second: "0",    // val0 (default)
-			Third:  "10",   // val1
-			Fourth: "true", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          2,
+			"val0":           0,
+			"val1":           10,
+			"hadDefaultUsed": true,
 		},
 	},
 	{
@@ -140,10 +140,10 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":       []string{"abc"},
 			"defaultByte": byte(99),
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "1",    // count
-			Second: "99",   // val0 (default)
-			Third:  "true", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          1,
+			"val0":           99,
+			"hadDefaultUsed": true,
 		},
 	},
 	{
@@ -153,9 +153,9 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 			"input":       []string{},
 			"defaultByte": byte(0),
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "0",     // count
-			Second: "false", // hadDefaultUsed
+		ExpectedInput: args.Map{
+			"count":          0,
+			"hadDefaultUsed": false,
 		},
 	},
 }
@@ -172,12 +172,12 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"input":   []string{"a", "b", "c"},
 			"isClone": true,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",    // count
-			Second: "a",    // item0
-			Third:  "b",    // item1
-			Fourth: "c",    // item2
-			Fifth:  "true", // isIndependent
+		ExpectedInput: args.Map{
+			"count":         3,
+			"item0":         "a",
+			"item1":         "b",
+			"item2":         "c",
+			"isIndependent": true,
 		},
 	},
 	{
@@ -187,11 +187,11 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"input":   []string{"x", "y"},
 			"isClone": false,
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "2",     // count
-			Second: "x",     // item0
-			Third:  "y",     // item1
-			Fourth: "false", // isIndependent
+		ExpectedInput: args.Map{
+			"count":         2,
+			"item0":         "x",
+			"item1":         "y",
+			"isIndependent": false,
 		},
 	},
 	{
@@ -201,9 +201,9 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"input":   []string{},
 			"isClone": true,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "0",     // count
-			Second: "false", // isIndependent
+		ExpectedInput: args.Map{
+			"count":         0,
+			"isIndependent": false,
 		},
 	},
 }
@@ -219,10 +219,10 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 			"when":  "given valid pointer string array",
 			"input": []string{"hello", "world"},
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "2",     // count
-			Second: "hello", // item0
-			Third:  "world", // item1
+		ExpectedInput: args.Map{
+			"count": 2,
+			"item0": "hello",
+			"item1": "world",
 		},
 	},
 	{
@@ -233,10 +233,10 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 			"hasNil": true,
 			"nilIdx": 1,
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "2",     // count
-			Second: "hello", // item0
-			Third:  "",      // item1 (nil)
+		ExpectedInput: args.Map{
+			"count": 2,
+			"item0": "hello",
+			"item1": "",
 		},
 	},
 	{
@@ -245,7 +245,7 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 			"when":  "given nil outer pointer",
 			"isNil": true,
 		},
-		ExpectedInput: "0", // count
+		ExpectedInput: "0",
 	},
 	{
 		Title: "PtrOfPtrToPtrStrings returns empty for nil inner pointer",
@@ -253,7 +253,7 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 			"when":       "given nil inner pointer",
 			"isNilInner": true,
 		},
-		ExpectedInput: "0", // count
+		ExpectedInput: "0",
 	},
 }
 
@@ -268,10 +268,10 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given valid pointer string array",
 			"input": []string{"key1", "key2"},
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "2",    // count
-			Second: "true", // hasKey1
-			Third:  "true", // hasKey2
+		ExpectedInput: args.Map{
+			"count":   2,
+			"haskey1": true,
+			"haskey2": true,
 		},
 	},
 	{
@@ -281,9 +281,9 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 			"input":  []string{"key1"},
 			"hasNil": true,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "1",    // count
-			Second: "true", // hasKey1
+		ExpectedInput: args.Map{
+			"count":   1,
+			"haskey1": true,
 		},
 	},
 	{
@@ -292,7 +292,7 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given nil outer pointer",
 			"isNil": true,
 		},
-		ExpectedInput: "0", // count
+		ExpectedInput: "0",
 	},
 	{
 		Title: "PtrOfPtrToMapStringBool returns empty for empty array",
@@ -300,6 +300,6 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 			"when":  "given empty array",
 			"input": []string{},
 		},
-		ExpectedInput: "0", // count
+		ExpectedInput: "0",
 	},
 }
