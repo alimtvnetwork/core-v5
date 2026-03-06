@@ -366,6 +366,64 @@ var ifSliceIntTestCases = []coretestcases.CaseV1{
 	},
 }
 
+// --- IfSliceString ---
+
+var ifSliceStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceString true returns trueSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []string{"hello", "world"},
+			"falseValue": []string{"fallback"},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "hello",
+		},
+	},
+	{
+		Title: "IfSliceString false returns falseSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []string{"hello", "world"},
+			"falseValue": []string{"fallback"},
+		},
+		ExpectedInput: args.Map{
+			"length": "1",
+			"first":  "fallback",
+		},
+	},
+}
+
+// --- IfSliceByte ---
+
+var ifSliceByteTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceByte true returns trueSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []byte{10, 20},
+			"falseValue": []byte{99},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "10",
+		},
+	},
+	{
+		Title: "IfSliceByte false returns falseSlice",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []byte{10, 20},
+			"falseValue": []byte{99},
+		},
+		ExpectedInput: args.Map{
+			"length": "1",
+			"first":  "99",
+		},
+	},
+}
+
 // --- IfSliceAny ---
 
 var ifSliceAnyTestCases = []coretestcases.CaseV1{
