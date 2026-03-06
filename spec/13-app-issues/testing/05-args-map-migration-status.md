@@ -6,9 +6,9 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **85 files** | 61.6% |
+| ✅ Migrated to `args.Map` | **86 files** | 62.3% |
 | 🔶 Using `args.Two`–`args.Six` (typed tuples) | **0 files** | 0% |
-| 🔴 Using `[]string` | **16 files** | 11.6% |
+| 🔴 Using `[]string` | **15 files** | 10.9% |
 | 🟡 Using plain `string` / other | **~34 files** | 24.6% |
 | **Total testcase files** | **~138** | — |
 
@@ -106,6 +106,7 @@
 | `coretaskinfotests` | `InfoCreate_testcases.go` | 20 test vars: name/desc/url/isSecure/isPlainText/hasExamples/field checks → args.Map |
 | `coretestcasestests` | `ExpectedLines_testcases.go` | 8 scattered expected vars → table-driven with lineCount/line0..N args.Map |
 | `coretestcasestests` | `GenericGherkins_testcases.go` | ExpectedLines []string → ExtraArgs with expectedDiff/expectedResult/line0..N keys |
+| `isanytests` | `ExtendedTypedNil_testcases.go` | 4 legacy BaseTestCase vars → CaseV1 with result0..N/type0..N/types0..N args.Map |
 
 ---
 
@@ -117,11 +118,9 @@ All typed tuple files have been migrated to `args.Map`. ✅
 
 ## 🔴 Using `[]string` Expectations (20 files)
 
-### Batch A — Migratable to `args.Map` (1 file)
+### Batch A — Migratable to `args.Map` (0 files)
 
-| Package | File | Fields | Difficulty |
-|---------|------|--------|------------|
-| `isanytests` | `ExtendedTypedNil_testcases.go` | Legacy BaseTestCase | 🟡 Medium |
+All migratable `[]string` files have been migrated. ✅
 
 ### Batch B — Keep as `[]string` (15 files)
 
@@ -155,9 +154,9 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated █████████████░░░░░░░  85/138 (61.6%)
+Migrated ██████████████░░░░░░  86/138 (62.3%)
 Tuples   ░░░░░░░░░░░░░░░░░░░░   0/138 ( 0.0%)
-[]string ███░░░░░░░░░░░░░░░░░░  16/138 (11.6%)
+[]string ██░░░░░░░░░░░░░░░░░░░  15/138 (10.9%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
 ```
 
@@ -165,6 +164,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +1 migrated: `isanytests/ExtendedTypedNil_testcases.go` (4 legacy BaseTestCase vars → CaseV1 with result/type indexed args.Map). []string 16→15. Total 86/138 (62.3%). Batch A fully cleared. |
 | 2026-03-06 | +2 migrated: `coretestcasestests/ExpectedLines_testcases.go` (8 scattered vars → table-driven args.Map) + `GenericGherkins_testcases.go` (ExpectedLines → ExtraArgs with semantic keys). []string 18→16. Total 85/138 (61.6%) |
 | 2026-03-06 | +1 migrated: `coretaskinfotests/InfoCreate_testcases.go` (20 test vars, all []string → args.Map with semantic keys). []string 19→18. Total 83/138 (60.1%) |
 | 2026-03-06 | Confirmed `issettertests/Value_testcases.go` already migrated — moved from Batch A to migrated. []string 20→19. Total 82/138 (59.4%) |
@@ -183,7 +183,8 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 ## Migration Priority
 
-### Priority 1 — `[]string` Medium (🟡 Medium, 1 file)
+### Priority 1 — `[]string` Medium (🟡 Medium, 0 files)
+Batch A fully cleared. All remaining `[]string` files are in Batch B (kept as `[]string` for ordered sequences).
 ExtendedTypedNil. Requires semantic key mapping for legacy BaseTestCase pattern.
 
 ### Priority 2 — Typed Tuples → `args.Map` (0 files) ✅ COMPLETE
