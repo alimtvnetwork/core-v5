@@ -51,12 +51,18 @@ func Test_Compare_JsonRoundtrip(t *testing.T) {
 		numberString := target.NumberString()
 
 		// Assert
-		testCase.ShouldBeEqual(
+		actual := args.Map{
+			"marshaledJson":    marshaledString,
+			"unmarshaledName":  name,
+			"unmarshaledValue": numberString,
+		}
+
+		expected := testCase.ExpectedInput.(args.Map)
+		testCase.ShouldBeEqualMap(
 			t,
 			caseIndex,
-			marshaledString,
-			name,
-			numberString,
+			expected,
+			actual,
 		)
 	}
 }

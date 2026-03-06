@@ -21,17 +21,19 @@ func Test_FileWithLine_Verification(t *testing.T) {
 			Line:     line,
 		}
 
-		fullPath := fwl.FullFilePath()
-		lineNum := fmt.Sprintf("%v", fwl.LineNumber())
-		isNotNil := fmt.Sprintf("%v", fwl.IsNotNil())
+		actual := args.Map{
+			"filePath":   fwl.FullFilePath(),
+			"lineNumber": fmt.Sprintf("%v", fwl.LineNumber()),
+			"isValid":    fmt.Sprintf("%v", fwl.IsNotNil()),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
+		expected := testCase.ExpectedInput.(args.Map)
+		testCase.ShouldBeEqualMap(
 			t,
 			caseIndex,
-			fullPath,
-			lineNum,
-			isNotNil,
+			expected,
+			actual,
 		)
 	}
 }
