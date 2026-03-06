@@ -84,14 +84,13 @@
 
 ---
 
-## 🔶 Using Typed Tuples `args.Two`–`args.Six` (12 files)
+## 🔶 Using Typed Tuples `args.Two`–`args.Six` (11 files)
 
 These use positional typed tuples — better than `[]string` but lack semantic keys. **Migration to `args.Map` recommended.**
 
 | Package | File | Tuple Types | Cases |
 |---------|------|-------------|-------|
 | `coreappendtests` | `Append_testcases.go` | `args.Three` | 2 |
-
 | `errcoretests` | `MergeErrors_testcases.go` | `args.Two`/`args.Three` | ~10 |
 | `iserrortests` | `iserror_testcases.go` | `args.Two`/`args.Three` | ~10 |
 | `keymktests` | `KeyLegend_testcases.go` | `args.Three` | 1 |
@@ -172,6 +171,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +1 migrated: `corestrtests/BugfixRegression_testcases.go` (~20 cases: args.Two–Five → args.Map). Tuples 12→11. Total 60/138 (43.5%) |
 | 2026-03-06 | Full audit: +8 migrated (coreapitests×4, typesconvtests×1, coremathtests×1, LeftRight TypeStatus fix×1, recount×1). Tuples reduced 27→12 (many were already migrated or didn't exist). Updated []string batch lists. Total 59/138 (42.8%) |
 | 2026-03-06 | Fixed coredynamictests tracking: moved 9 previously migrated files from tuples/[]string to migrated — total 51 |
 | 2026-03-06 | +2 migrated: `corejsontests` (New_NewPtr, Result_Unmarshal) — total 42 |
