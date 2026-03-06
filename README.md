@@ -4,6 +4,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Pipeline Status](https://gitlab.com/auk-go/core/badges/main/pipeline.svg)](https://gitlab.com/auk-go/core/-/pipelines)
 [![Coverage](https://gitlab.com/auk-go/core/badges/main/coverage.svg)](https://gitlab.com/auk-go/core/-/pipelines)
+[![Go Report Card](https://goreportcard.com/badge/gitlab.com/auk-go/core)](https://goreportcard.com/report/gitlab.com/auk-go/core)
 
 ![Core logo](assets/core-250.png)
 
