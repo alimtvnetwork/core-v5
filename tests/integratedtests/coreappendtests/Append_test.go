@@ -27,16 +27,17 @@ func Test_PrependAppendAnyItems_Verification(t *testing.T) {
 			"middle",
 		)
 
-		var actLines []string
-		actLines = append(actLines, fmt.Sprintf("%v", len(result)))
+		actual := args.Map{
+			"totalCount": fmt.Sprintf("%v", len(result)),
+		}
 		if len(result) > 0 {
-			actLines = append(actLines, result[0])
+			actual["firstItem"] = result[0]
 		}
 		if len(result) > 1 {
-			actLines = append(actLines, result[len(result)-1])
+			actual["lastItem"] = result[len(result)-1]
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

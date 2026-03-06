@@ -33,9 +33,9 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 			"input":   []string{"error one"},
 			"contain": "error one",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // hasError
-			Second: "true", // containsMessage
+		ExpectedInput: args.Map{
+			"hasError":        "true",
+			"containsMessage": "true",
 		},
 	},
 	{
@@ -45,9 +45,9 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 			"input":   []string{"err1", "err2", "err3"},
 			"contain": "err1",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // hasError
-			Second: "true", // containsMessage
+		ExpectedInput: args.Map{
+			"hasError":        "true",
+			"containsMessage": "true",
 		},
 	},
 }
@@ -80,9 +80,9 @@ var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 			"input":   []string{"one"},
 			"contain": "one",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // hasError
-			Second: "true", // containsMessage
+		ExpectedInput: args.Map{
+			"hasError":        "true",
+			"containsMessage": "true",
 		},
 	},
 }
@@ -118,9 +118,9 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"nils":    0,
 			"contain": "fail",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // hasError
-			Second: "true", // containsMessage
+		ExpectedInput: args.Map{
+			"hasError":        "true",
+			"containsMessage": "true",
 		},
 	},
 	{
@@ -131,9 +131,9 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"nils":    0,
 			"contain": "a",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // hasError
-			Second: "true", // containsMessage
+		ExpectedInput: args.Map{
+			"hasError":        "true",
+			"containsMessage": "true",
 		},
 	},
 	{
@@ -144,9 +144,9 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 			"nils":    3,
 			"contain": "real",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // hasError
-			Second: "true", // containsMessage
+		ExpectedInput: args.Map{
+			"hasError":        "true",
+			"containsMessage": "true",
 		},
 	},
 	{
@@ -190,10 +190,10 @@ var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 			"errors": []string{"a", "b"},
 			"nils":   1,
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "2", // count
-			Second: "a", // first
-			Third:  "b", // second
+		ExpectedInput: args.Map{
+			"count":  "2",
+			"first":  "a",
+			"second": "b",
 		},
 	},
 }

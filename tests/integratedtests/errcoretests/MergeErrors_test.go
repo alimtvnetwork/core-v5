@@ -46,14 +46,17 @@ func Test_SliceToError_Verification(t *testing.T) {
 		// Act
 		err := errcore.SliceToError(slice)
 
-		// Assert
-		results := []string{fmt.Sprintf("%v", err != nil)}
-		if err != nil {
+		// Assert — branch on whether ExpectedInput is args.Map or plain string
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
 			contain, _ := input.GetAsString("contain")
-			results = append(results, fmt.Sprintf("%v", strings.Contains(err.Error(), contain)))
+			actual := args.Map{
+				"hasError":        fmt.Sprintf("%v", err != nil),
+				"containsMessage": fmt.Sprintf("%v", err != nil && strings.Contains(err.Error(), contain)),
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", err != nil))
 		}
-
-		testCase.ShouldBeEqual(t, caseIndex, results...)
 	}
 }
 
@@ -73,13 +76,16 @@ func Test_SliceToErrorPtr_Verification(t *testing.T) {
 		err := errcore.SliceToErrorPtr(slice)
 
 		// Assert
-		results := []string{fmt.Sprintf("%v", err != nil)}
-		if err != nil {
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
 			contain, _ := input.GetAsString("contain")
-			results = append(results, fmt.Sprintf("%v", strings.Contains(err.Error(), contain)))
+			actual := args.Map{
+				"hasError":        fmt.Sprintf("%v", err != nil),
+				"containsMessage": fmt.Sprintf("%v", err != nil && strings.Contains(err.Error(), contain)),
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", err != nil))
 		}
-
-		testCase.ShouldBeEqual(t, caseIndex, results...)
 	}
 }
 
@@ -93,13 +99,16 @@ func Test_MergeErrors_Verification(t *testing.T) {
 		merged := errcore.MergeErrors(errs...)
 
 		// Assert
-		results := []string{fmt.Sprintf("%v", merged != nil)}
-		if merged != nil {
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
 			contain, _ := input.GetAsString("contain")
-			results = append(results, fmt.Sprintf("%v", strings.Contains(merged.Error(), contain)))
+			actual := args.Map{
+				"hasError":        fmt.Sprintf("%v", merged != nil),
+				"containsMessage": fmt.Sprintf("%v", merged != nil && strings.Contains(merged.Error(), contain)),
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", merged != nil))
 		}
-
-		testCase.ShouldBeEqual(t, caseIndex, results...)
 	}
 }
 
@@ -113,10 +122,20 @@ func Test_SliceErrorsToStrings_Verification(t *testing.T) {
 		result := errcore.SliceErrorsToStrings(errs...)
 
 		// Assert
-		results := []string{fmt.Sprintf("%v", len(result))}
-		results = append(results, result...)
-
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
+			actual := args.Map{
+				"count": fmt.Sprintf("%v", len(result)),
+			}
+			if len(result) > 0 {
+				actual["first"] = result[0]
+			}
+			if len(result) > 1 {
+				actual["second"] = result[1]
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", len(result)))
+		}
 	}
 }
 

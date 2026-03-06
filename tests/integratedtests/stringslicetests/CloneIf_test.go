@@ -33,9 +33,11 @@ func Test_StringSlice_CloneIf(t *testing.T) {
 		// Act
 		result := stringslice.CloneIf(isClone, additionalCap, inputSlice)
 
-		actLines := []string{fmt.Sprintf("%d", len(result))}
-		for _, v := range result {
-			actLines = append(actLines, v)
+		actual := args.Map{
+			"resultLength": fmt.Sprintf("%d", len(result)),
+		}
+		for i, v := range result {
+			actual[fmt.Sprintf("item%d", i)] = v
 		}
 
 		// Check independence
@@ -45,10 +47,10 @@ func Test_StringSlice_CloneIf(t *testing.T) {
 		}
 		isIndependent := isClone && !isSamePointer
 		isReturned := !isClone && (isSamePointer || len(inputSlice) == 0)
-		actLines = append(actLines, fmt.Sprintf("%v", isIndependent || isReturned))
+		actual["isIndependentCopy"] = fmt.Sprintf("%v", isIndependent || isReturned)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -70,9 +72,11 @@ func Test_StringSlice_AnyItemsCloneIf(t *testing.T) {
 		// Act
 		result := stringslice.AnyItemsCloneIf(isClone, additionalCap, inputSlice)
 
-		actLines := []string{fmt.Sprintf("%d", len(result))}
-		for _, v := range result {
-			actLines = append(actLines, fmt.Sprintf("%v", v))
+		actual := args.Map{
+			"resultLength": fmt.Sprintf("%d", len(result)),
+		}
+		for i, v := range result {
+			actual[fmt.Sprintf("item%d", i)] = fmt.Sprintf("%v", v)
 		}
 
 		// Check independence
@@ -82,9 +86,9 @@ func Test_StringSlice_AnyItemsCloneIf(t *testing.T) {
 		}
 		isIndependent := isClone && !isSamePointer
 		isReturned := !isClone && isSamePointer
-		actLines = append(actLines, fmt.Sprintf("%v", isIndependent || isReturned))
+		actual["isIndependentCopy"] = fmt.Sprintf("%v", isIndependent || isReturned)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

@@ -28,11 +28,13 @@ func Test_Index_JsonRoundtrip_Verification(t *testing.T) {
 		err := restored.JsonParseSelfInject(&jsonResult)
 		errcore.HandleErr(err)
 
+		actual := args.Map{
+			"indexName":  restored.Name(),
+			"indexValue": restored.ToNumberString(),
+		}
+
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			restored.Name(),
-			restored.ToNumberString(),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -44,14 +46,13 @@ func Test_Index_NameAndNameValue_Verification(t *testing.T) {
 		idx := indexByName[indexName]
 
 		// Act
-		name := idx.Name()
-		nameValue := idx.NameValue()
+		actual := args.Map{
+			"name":      idx.Name(),
+			"nameValue": idx.NameValue(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			name,
-			nameValue,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -69,10 +70,12 @@ func Test_Index_JsonParseSelfInject_Verification(t *testing.T) {
 		err := target.JsonParseSelfInject(&sourceJson)
 		errcore.HandleErr(err)
 
+		actual := args.Map{
+			"resultName":      target.Name(),
+			"resultNameValue": target.NameValue(),
+		}
+
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			target.Name(),
-			target.NameValue(),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

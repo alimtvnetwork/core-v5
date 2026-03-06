@@ -12,9 +12,9 @@ var jsonRoundtripTestCases = []coretestcases.CaseV1{
 			"when":  "given Patch index",
 			"index": "Patch",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "Patch", // indexName
-			Second: "2",     // indexValue
+		ExpectedInput: args.Map{
+			"indexName":  "Patch",
+			"indexValue": "2",
 		},
 	},
 	{
@@ -23,9 +23,9 @@ var jsonRoundtripTestCases = []coretestcases.CaseV1{
 			"when":  "given Major index",
 			"index": "Major",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "Major", // indexName
-			Second: "0",     // indexValue
+		ExpectedInput: args.Map{
+			"indexName":  "Major",
+			"indexValue": "0",
 		},
 	},
 	{
@@ -34,9 +34,9 @@ var jsonRoundtripTestCases = []coretestcases.CaseV1{
 			"when":  "given Build index",
 			"index": "Build",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "Build", // indexName
-			Second: "3",     // indexValue
+		ExpectedInput: args.Map{
+			"indexName":  "Build",
+			"indexValue": "3",
 		},
 	},
 }
@@ -48,9 +48,9 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 			"when":  "given Minor index",
 			"index": "Minor",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "Minor",    // name
-			Second: "Minor[1]", // nameValue
+		ExpectedInput: args.Map{
+			"name":      "Minor",
+			"nameValue": "Minor[1]",
 		},
 	},
 	{
@@ -59,9 +59,9 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 			"when":  "given Patch index",
 			"index": "Patch",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "Patch",    // name
-			Second: "Patch[2]", // nameValue
+		ExpectedInput: args.Map{
+			"name":      "Patch",
+			"nameValue": "Patch[2]",
 		},
 	},
 }
@@ -74,9 +74,9 @@ var jsonParseSelfInjectTestCases = []coretestcases.CaseV1{
 			"source": "Patch",
 			"target": "Minor",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "Patch",    // resultName
-			Second: "Patch[2]", // resultNameValue
+		ExpectedInput: args.Map{
+			"resultName":      "Patch",
+			"resultNameValue": "Patch[2]",
 		},
 	},
 	{
@@ -86,9 +86,9 @@ var jsonParseSelfInjectTestCases = []coretestcases.CaseV1{
 			"source": "Major",
 			"target": "Build",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "Major",    // resultName
-			Second: "Major[0]", // resultNameValue
+		ExpectedInput: args.Map{
+			"resultName":      "Major",
+			"resultNameValue": "Major[0]",
 		},
 	},
 }

@@ -15,9 +15,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.go",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 	{
@@ -28,9 +28,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "build-20260303/result.json",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 	{
@@ -41,9 +41,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "fileA.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 	{
@@ -54,9 +54,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "log5.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 	{
@@ -67,9 +67,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "exact.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 
@@ -82,9 +82,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.go",
 			"isIgnoreCase": true,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 	{
@@ -95,9 +95,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.go",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "false",
+			"isInverse": "true",
 		},
 	},
 
@@ -110,9 +110,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "main.rs",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "false",
+			"isInverse": "true",
 		},
 	},
 	{
@@ -123,9 +123,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "fileAB.txt",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "false",
+			"isInverse": "true",
 		},
 	},
 
@@ -138,9 +138,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "anything",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isMatch
-			Second: "true",  // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "false",
+			"isInverse": "true",
 		},
 	},
 
@@ -153,9 +153,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 	{
@@ -166,9 +166,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 	{
@@ -179,9 +179,9 @@ var globMatchTestCases = []coretestcases.CaseV1{
 			"content":      "anything-at-all",
 			"isIgnoreCase": false,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isMatch
-			Second: "false", // isInverse
+		ExpectedInput: args.Map{
+			"isMatch":   "true",
+			"isInverse": "false",
 		},
 	},
 }

@@ -17,10 +17,10 @@ var keyLegendGroupIntRangeTestCases = []coretestcases.CaseV1{
 			"startId": 5,
 			"endId":   10,
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "6",                       // count
-			Second: "cimux-main-5-stateName",  // firstKey
-			Third:  "cimux-main-10-stateName", // lastKey
+		ExpectedInput: args.Map{
+			"count":    "6",
+			"firstKey": "cimux-main-5-stateName",
+			"lastKey":  "cimux-main-10-stateName",
 		},
 	},
 }

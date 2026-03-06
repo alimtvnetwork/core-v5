@@ -20,14 +20,14 @@ func Test_Empty_Defined_NotEmpty_Verification(t *testing.T) {
 		err := errorsToTest[caseIndex]
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", iserror.Empty(err)),
-			fmt.Sprintf("%v", iserror.Defined(err)),
-			fmt.Sprintf("%v", iserror.NotEmpty(err)),
+		actual := args.Map{
+			"isEmpty":    fmt.Sprintf("%v", iserror.Empty(err)),
+			"isDefined":  fmt.Sprintf("%v", iserror.Defined(err)),
+			"isNotEmpty": fmt.Sprintf("%v", iserror.NotEmpty(err)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -53,13 +53,13 @@ func Test_Equal_NotEqual_Verification(t *testing.T) {
 		pair := pairs[caseIndex]
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", iserror.Equal(pair.left, pair.right)),
-			fmt.Sprintf("%v", iserror.NotEqual(pair.left, pair.right)),
+		actual := args.Map{
+			"isEqual":    fmt.Sprintf("%v", iserror.Equal(pair.left, pair.right)),
+			"isNotEqual": fmt.Sprintf("%v", iserror.NotEqual(pair.left, pair.right)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -175,12 +175,12 @@ func Test_EqualString_NotEqualString_Verification(t *testing.T) {
 		right, _ := input.GetAsString("right")
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", iserror.EqualString(left, right)),
-			fmt.Sprintf("%v", iserror.NotEqualString(left, right)),
+		actual := args.Map{
+			"isEqual":    fmt.Sprintf("%v", iserror.EqualString(left, right)),
+			"isNotEqual": fmt.Sprintf("%v", iserror.NotEqualString(left, right)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
