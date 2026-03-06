@@ -270,8 +270,8 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"count":   2,
-			"hasKey1": true,
-			"hasKey2": true,
+			"haskey1": true,
+			"haskey2": true,
 		},
 	},
 	{
@@ -283,7 +283,7 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"count":   1,
-			"hasKey1": true,
+			"haskey1": true,
 		},
 	},
 	{
