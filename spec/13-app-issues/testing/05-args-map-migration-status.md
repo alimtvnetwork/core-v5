@@ -182,8 +182,8 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 ## Migration Priority
 
-### Priority 1 — `[]string` Medium (🟡 Medium, 4 files)
-coretaskinfotests, coretestcasestests (×2), ExtendedTypedNil. Require semantic key mapping for 4+ positional values.
+### Priority 1 — `[]string` Medium (🟡 Medium, 3 files)
+coretestcasestests (×2), ExtendedTypedNil. Require semantic key mapping for 4+ positional values.
 
 ### Priority 2 — Typed Tuples → `args.Map` (0 files) ✅ COMPLETE
 All typed tuple files have been migrated.
