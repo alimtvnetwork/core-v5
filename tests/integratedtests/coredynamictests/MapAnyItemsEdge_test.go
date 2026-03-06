@@ -8,10 +8,9 @@ import (
 	"gitlab.com/auk-go/core/coretests/args"
 )
 
-// getBool delegates to getBoolDefault (defined in Dynamic_test.go).
-// Kept as a short alias for readability in this file.
+// getBool extracts a boolean flag from the input map, defaulting to false.
 func getBool(input args.Map, key string) bool {
-	return getBoolDefault(input, key)
+	return input.GetAsBoolDefault(key, false)
 }
 
 // ==========================================
