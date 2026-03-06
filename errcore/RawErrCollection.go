@@ -775,9 +775,7 @@ func (it RawErrCollection) CompiledError() error {
 		return nil
 	}
 
-	toString := it.String()
-
-	return errors.New(toString)
+	return errors.Join(it.Items...)
 }
 
 func (it *RawErrCollection) CompiledErrorUsingJoiner(joiner string) error {

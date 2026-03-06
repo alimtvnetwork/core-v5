@@ -249,7 +249,7 @@ func (it RawErrorType) MergeError(
 		return nil
 	}
 
-	return it.ErrorNoRefs(err.Error())
+	return fmt.Errorf("%s: %w", it.String(), err)
 }
 
 func (it RawErrorType) MergeErrorWithMessage(
@@ -260,7 +260,7 @@ func (it RawErrorType) MergeErrorWithMessage(
 		return nil
 	}
 
-	return it.ErrorNoRefs(message + err.Error())
+	return fmt.Errorf("%s %s: %w", it.String(), message, err)
 }
 
 func (it RawErrorType) MergeErrorWithMessageRef(
@@ -272,7 +272,9 @@ func (it RawErrorType) MergeErrorWithMessageRef(
 		return nil
 	}
 
-	return it.Error(message+err.Error(), reference)
+	refMsg := CombineWithMsgTypeNoStack(it, message, reference)
+
+	return fmt.Errorf("%s: %w", refMsg, err)
 }
 
 func (it RawErrorType) MergeErrorWithRef(
@@ -283,7 +285,9 @@ func (it RawErrorType) MergeErrorWithRef(
 		return nil
 	}
 
-	return it.Error(err.Error(), reference)
+	refMsg := CombineWithMsgTypeNoStack(it, "", reference)
+
+	return fmt.Errorf("%s: %w", refMsg, err)
 }
 
 func (it RawErrorType) MsgCsvRef(
