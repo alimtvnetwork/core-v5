@@ -19,7 +19,10 @@ var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 			"name": "product-create", "id": "prod-1",
 			"sku": "SKU-100", "title": "Widget", "price": 29.99,
 		},
-		ExpectedInput: []string{"product-create", "prod-1", "SKU-100", "Widget", "29.99"},
+		ExpectedInput: args.Map{
+			"name": "product-create", "id": "prod-1",
+			"sku": "SKU-100", "title": "Widget", "price": "29.99",
+		},
 	},
 	{
 		Title: "Deserialize typed wrapper with empty payload fields",
@@ -27,7 +30,10 @@ var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 			"name": "empty-product", "id": "prod-2",
 			"sku": "", "title": "", "price": 0.0,
 		},
-		ExpectedInput: []string{"empty-product", "prod-2", "", "", "0.00"},
+		ExpectedInput: args.Map{
+			"name": "empty-product", "id": "prod-2",
+			"sku": "", "title": "", "price": "0.00",
+		},
 	},
 }
 
@@ -38,7 +44,10 @@ var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 			"name": "round-trip", "id": "rt-1",
 			"sku": "RT-SKU", "title": "Round Trip Product", "price": 55.50,
 		},
-		ExpectedInput: []string{"round-trip", "rt-1", "RT-SKU", "Round Trip Product", "55.50"},
+		ExpectedInput: args.Map{
+			"name": "round-trip", "id": "rt-1",
+			"sku": "RT-SKU", "title": "Round Trip Product", "price": "55.50",
+		},
 	},
 	{
 		Title: "Round-trip with special characters in title",
@@ -46,7 +55,10 @@ var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 			"name": "special-chars", "id": "sc-1",
 			"sku": "SC-001", "title": `Quote "test" & <html>`, "price": 0.01,
 		},
-		ExpectedInput: []string{"special-chars", "sc-1", "SC-001", `Quote "test" & <html>`, "0.01"},
+		ExpectedInput: args.Map{
+			"name": "special-chars", "id": "sc-1",
+			"sku": "SC-001", "title": `Quote "test" & <html>`, "price": "0.01",
+		},
 	},
 }
 
@@ -57,7 +69,11 @@ var typedWrapperCloneTestCases = []coretestcases.CaseV1{
 			"name": "clone-source", "id": "cl-1",
 			"sku": "CL-SKU", "title": "Original", "price": 100.0,
 		},
-		ExpectedInput: []string{"clone-source", "cl-1", "CL-SKU", "Original", "100.00", "Modified"},
+		ExpectedInput: args.Map{
+			"originalName": "clone-source", "originalId": "cl-1",
+			"originalSku": "CL-SKU", "originalTitle": "Original",
+			"originalPrice": "100.00", "clonedTitle": "Modified",
+		},
 	},
 }
 
@@ -69,7 +85,10 @@ var typedWrapperSetDataTestCases = []coretestcases.CaseV1{
 			"sku": "SD-SKU", "title": "Before", "price": 10.0,
 			"new_title": "After", "new_price": 20.0,
 		},
-		ExpectedInput: []string{"After", "20.00", "After", "20.00"},
+		ExpectedInput: args.Map{
+			"directTitle": "After", "directPrice": "20.00",
+			"reparsedTitle": "After", "reparsedPrice": "20.00",
+		},
 	},
 }
 
@@ -78,7 +97,9 @@ var typedWrapperNilTestCase = coretestcases.CaseV1{
 	ArrangeInput: args.Map{
 		"when": "passing nil wrapper",
 	},
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{
+		"hasError": true,
+	},
 }
 
 var typedWrapperInvalidJsonTestCase = coretestcases.CaseV1{
@@ -87,7 +108,9 @@ var typedWrapperInvalidJsonTestCase = coretestcases.CaseV1{
 		"when":  "passing invalid json",
 		"bytes": "not-valid-json{{{",
 	},
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{
+		"hasError": true,
+	},
 }
 
 var typedWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
@@ -96,6 +119,8 @@ var typedWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"count": 3,
 		},
-		ExpectedInput: []string{"3", "item-0", "item-1", "item-2"},
+		ExpectedInput: args.Map{
+			"count": 3, "title0": "item-0", "title1": "item-1", "title2": "item-2",
+		},
 	},
 }

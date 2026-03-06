@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coredata/corepayload"
 	"gitlab.com/auk-go/core/errcore"
 )
@@ -39,6 +40,18 @@ func createTaggedCollection() *corepayload.TypedPayloadCollection[testUserWithTa
 	return corepayload.TypedPayloadCollectionFrom[testUserWithTags](createTaggedUsers())
 }
 
+func buildTagsMap(allTags []string) args.Map {
+	actual := args.Map{
+		"count": len(allTags),
+	}
+
+	for i, tag := range allTags {
+		actual[fmt.Sprintf("tag%d", i)] = tag
+	}
+
+	return actual
+}
+
 // =============================================================================
 // FlatMapTypedPayloads — wrapper-level
 // =============================================================================
@@ -56,11 +69,8 @@ func Test_TypedPayloadCollection_FlatMapTypedPayloads(t *testing.T) {
 			},
 		)
 
-		results := []string{fmt.Sprintf("%d", len(allTags))}
-		results = append(results, allTags...)
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, buildTagsMap(allTags))
 	}
 }
 
@@ -81,11 +91,8 @@ func Test_TypedPayloadCollection_FlatMapTypedPayloadData(t *testing.T) {
 			},
 		)
 
-		results := []string{fmt.Sprintf("%d", len(allTags))}
-		results = append(results, allTags...)
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, buildTagsMap(allTags))
 	}
 }
 
@@ -107,7 +114,9 @@ func Test_TypedPayloadCollection_FlatMap_Empty(t *testing.T) {
 		)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", len(allTags)))
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"count": len(allTags),
+		})
 	}
 }
 
@@ -129,7 +138,9 @@ func Test_TypedPayloadCollection_FlatMap_NoOutput(t *testing.T) {
 		)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", len(result)))
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"count": len(result),
+		})
 	}
 }
 
@@ -148,11 +159,11 @@ func Test_TypedPayloadCollection_NilWrapperEdge(t *testing.T) {
 		isValid := collection.IsValid()
 		length := collection.Length()
 
-		// Assert — collection has 4 items (3 valid + 1 nil), IsValid is false
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", isValid),
-			fmt.Sprintf("%d", length),
-		)
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"isValid": isValid,
+			"length":  length,
+		})
 	}
 }
 
@@ -187,13 +198,13 @@ func Test_TypedPayloadCollection_DeserializationFailure(t *testing.T) {
 		}
 		payloadsCollection.Items = append(payloadsCollection.Items, invalidWrapper)
 
-		// Act — deserialization to a DIFFERENT type should skip the invalid one
+		// Act
 		collection := corepayload.TypedPayloadCollectionFromPayloads[testUser](payloadsCollection)
 
-		// Assert — only 2 valid items should be in the resulting collection
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", collection.Length()),
-		)
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"count": collection.Length(),
+		})
 	}
 }
 
@@ -209,12 +220,11 @@ func Test_TypedPayloadCollection_DeserializeInvalidBytes(t *testing.T) {
 
 		// Act
 		_, err := corepayload.TypedPayloadCollectionDeserialize[testUser]([]byte(invalidBytes))
-		hasError := err != nil
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", hasError),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"hasError": err != nil,
+		})
 	}
 }
 
@@ -233,10 +243,10 @@ func Test_TypedPayloadCollection_NilReceiver(t *testing.T) {
 		hasItems := collection.HasItems()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", length),
-			fmt.Sprintf("%v", isEmpty),
-			fmt.Sprintf("%v", !hasItems),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"length":  length,
+			"isEmpty": isEmpty,
+			"noItems": !hasItems,
+		})
 	}
 }

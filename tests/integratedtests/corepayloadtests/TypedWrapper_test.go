@@ -48,13 +48,13 @@ func Test_TypedPayloadWrapper_Deserialization(t *testing.T) {
 		data := deserialized.Data()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			deserialized.Name(),
-			deserialized.Identifier(),
-			data.SKU,
-			data.Title,
-			fmt.Sprintf("%.2f", data.Price),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"name":  deserialized.Name(),
+			"id":    deserialized.Identifier(),
+			"sku":   data.SKU,
+			"title": data.Title,
+			"price": fmt.Sprintf("%.2f", data.Price),
+		})
 	}
 }
 
@@ -72,13 +72,13 @@ func Test_TypedPayloadWrapper_RoundTrip(t *testing.T) {
 		restoredData := restored.Data()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			restored.Name(),
-			restored.Identifier(),
-			restoredData.SKU,
-			restoredData.Title,
-			fmt.Sprintf("%.2f", restoredData.Price),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"name":  restored.Name(),
+			"id":    restored.Identifier(),
+			"sku":   restoredData.SKU,
+			"title": restoredData.Title,
+			"price": fmt.Sprintf("%.2f", restoredData.Price),
+		})
 	}
 }
 
@@ -104,14 +104,14 @@ func Test_TypedPayloadWrapper_DeepClone(t *testing.T) {
 		clonedData := cloned.Data()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			original.Name(),
-			original.Identifier(),
-			originalData.SKU,
-			originalData.Title,
-			fmt.Sprintf("%.2f", originalData.Price),
-			clonedData.Title,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"originalName":  original.Name(),
+			"originalId":    original.Identifier(),
+			"originalSku":   originalData.SKU,
+			"originalTitle": originalData.Title,
+			"originalPrice": fmt.Sprintf("%.2f", originalData.Price),
+			"clonedTitle":   clonedData.Title,
+		})
 	}
 }
 
@@ -140,12 +140,12 @@ func Test_TypedPayloadWrapper_SetTypedData(t *testing.T) {
 		reparsedData := reparsed.Data()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			directData.Title,
-			fmt.Sprintf("%.2f", directData.Price),
-			reparsedData.Title,
-			fmt.Sprintf("%.2f", reparsedData.Price),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"directTitle":   directData.Title,
+			"directPrice":   fmt.Sprintf("%.2f", directData.Price),
+			"reparsedTitle": reparsedData.Title,
+			"reparsedPrice": fmt.Sprintf("%.2f", reparsedData.Price),
+		})
 	}
 }
 
@@ -156,7 +156,9 @@ func Test_TypedPayloadWrapper_NilWrapper(t *testing.T) {
 	_, err := corepayload.NewTypedPayloadWrapper[testProduct](nil)
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err != nil))
+	tc.ShouldBeEqualMap(t, 0, args.Map{
+		"hasError": err != nil,
+	})
 }
 
 func Test_TypedPayloadWrapper_InvalidJson(t *testing.T) {
@@ -170,7 +172,9 @@ func Test_TypedPayloadWrapper_InvalidJson(t *testing.T) {
 	_, err := corepayload.TypedPayloadWrapperDeserialize[testProduct]([]byte(invalidBytes))
 
 	// Assert
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", err != nil))
+	tc.ShouldBeEqualMap(t, 0, args.Map{
+		"hasError": err != nil,
+	})
 }
 
 func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
@@ -210,14 +214,16 @@ func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
 		deserialized, deserializeErr := corepayload.TypedPayloadWrapperDeserializeToMany[testProduct](jsonSlice.Bytes)
 		errcore.HandleErr(deserializeErr)
 
-		results := []string{fmt.Sprintf("%d", len(deserialized))}
+		actual := args.Map{
+			"count": len(deserialized),
+		}
 
-		for _, item := range deserialized {
-			results = append(results, item.Data().Title)
+		for i, item := range deserialized {
+			actual[fmt.Sprintf("title%d", i)] = item.Data().Title
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

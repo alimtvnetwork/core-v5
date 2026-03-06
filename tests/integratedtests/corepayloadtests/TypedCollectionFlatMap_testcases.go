@@ -22,14 +22,11 @@ var flatMapTypedPayloadsTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given 3 users with 2 tags each",
 		},
-		ExpectedInput: []string{
-			"6",
-			"go",
-			"rust",
-			"python",
-			"java",
-			"ts",
-			"js",
+		ExpectedInput: args.Map{
+			"count": 6,
+			"tag0": "go", "tag1": "rust",
+			"tag2": "python", "tag3": "java",
+			"tag4": "ts", "tag5": "js",
 		},
 	},
 }
@@ -44,14 +41,11 @@ var flatMapTypedPayloadDataTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given 3 users with 2 tags each via data accessor",
 		},
-		ExpectedInput: []string{
-			"6",
-			"go",
-			"rust",
-			"python",
-			"java",
-			"ts",
-			"js",
+		ExpectedInput: args.Map{
+			"count": 6,
+			"tag0": "go", "tag1": "rust",
+			"tag2": "python", "tag3": "java",
+			"tag4": "ts", "tag5": "js",
 		},
 	},
 }
@@ -66,7 +60,9 @@ var flatMapEmptyCollectionTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
-		ExpectedInput: "0",
+		ExpectedInput: args.Map{
+			"count": 0,
+		},
 	},
 }
 
@@ -80,7 +76,9 @@ var flatMapNoOutputTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "mapper returns nil for each item",
 		},
-		ExpectedInput: "0",
+		ExpectedInput: args.Map{
+			"count": 0,
+		},
 	},
 }
 
@@ -94,9 +92,9 @@ var nilWrapperEdgeCaseTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "collection contains a nil wrapper",
 		},
-		ExpectedInput: []string{
-			"false",
-			"3",
+		ExpectedInput: args.Map{
+			"isValid": false,
+			"length":  3,
 		},
 	},
 }
@@ -113,7 +111,9 @@ var deserializationFailureTestCases = []coretestcases.CaseV1{
 			"valid_count":   2,
 			"invalid_count": 1,
 		},
-		ExpectedInput: "2",
+		ExpectedInput: args.Map{
+			"count": 2,
+		},
 	},
 }
 
@@ -128,7 +128,9 @@ var collectionDeserializeInvalidTestCases = []coretestcases.CaseV1{
 			"when":  "passing invalid json bytes",
 			"bytes": "{{not-json-at-all",
 		},
-		ExpectedInput: "true",
+		ExpectedInput: args.Map{
+			"hasError": true,
+		},
 	},
 }
 
@@ -142,10 +144,10 @@ var nilReceiverTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "collection pointer is nil",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
+			"noItems": true,
 		},
 	},
 }
