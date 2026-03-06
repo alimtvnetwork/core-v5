@@ -1,7 +1,6 @@
 package defaulterrtests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
