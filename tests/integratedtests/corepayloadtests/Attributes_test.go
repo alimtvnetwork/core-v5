@@ -1,26 +1,12 @@
 package corepayloadtests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coredata/corepayload"
 	"gitlab.com/auk-go/core/errcore"
 )
-
-// getBoolDefault extracts a bool from args.Map with a default value.
-func getBoolDefault(input args.Map, key string, defaultVal bool) bool {
-	raw, found := input.Get(key)
-	if !found {
-		return defaultVal
-	}
-	val, ok := raw.(bool)
-	if !ok {
-		return defaultVal
-	}
-	return val
-}
 
 // =============================================================================
 // Attributes.IsEqual — Regression: logic inversion bug in IsSafeValid/HasIssuesOrEmpty
@@ -30,9 +16,9 @@ func Test_Attributes_IsEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range attributesIsEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		leftNil := getBoolDefault(input, "left_nil", false)
-		rightNil := getBoolDefault(input, "right_nil", false)
-		samePointer := getBoolDefault(input, "same_pointer", false)
+		leftNil := input.GetAsBoolDefault("left_nil", false)
+		rightNil := input.GetAsBoolDefault("right_nil", false)
+		samePointer := input.GetAsBoolDefault("same_pointer", false)
 
 		var left, right *corepayload.Attributes
 
@@ -68,9 +54,9 @@ func Test_Attributes_IsEqual_Verification(t *testing.T) {
 		result := left.IsEqual(right)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", result),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"isEqual": result,
+		})
 	}
 }
 
@@ -82,8 +68,8 @@ func Test_Attributes_Clone_Verification(t *testing.T) {
 	for caseIndex, testCase := range attributesCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilAttr := getBoolDefault(input, "nil_attr", false)
-		deep := getBoolDefault(input, "deep", false)
+		nilAttr := input.GetAsBoolDefault("nil_attr", false)
+		deep := input.GetAsBoolDefault("deep", false)
 
 		if nilAttr {
 			// Act
@@ -91,10 +77,10 @@ func Test_Attributes_Clone_Verification(t *testing.T) {
 			clonedPtr, err := attr.ClonePtr(deep)
 
 			// Assert
-			testCase.ShouldBeEqual(t, caseIndex,
-				fmt.Sprintf("%v", clonedPtr == nil),
-				fmt.Sprintf("%v", err != nil),
-			)
+			testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+				"isNil":    clonedPtr == nil,
+				"hasError": err != nil,
+			})
 
 			continue
 		}
@@ -111,10 +97,10 @@ func Test_Attributes_Clone_Verification(t *testing.T) {
 		isEqual := attr.IsEqual(&cloned)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			string(cloned.DynamicPayloads),
-			fmt.Sprintf("%v", isEqual),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"clonedPayload": string(cloned.DynamicPayloads),
+			"isEqual":       isEqual,
+		})
 	}
 }
 
@@ -126,8 +112,8 @@ func Test_Attributes_IsSafeValid_Verification(t *testing.T) {
 	for caseIndex, testCase := range attributesIsSafeValidTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilAttr := getBoolDefault(input, "nil_attr", false)
-		empty := getBoolDefault(input, "empty", false)
+		nilAttr := input.GetAsBoolDefault("nil_attr", false)
+		empty := input.GetAsBoolDefault("empty", false)
 
 		var attr *corepayload.Attributes
 
@@ -144,9 +130,9 @@ func Test_Attributes_IsSafeValid_Verification(t *testing.T) {
 		result := attr.IsSafeValid()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", result),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"isSafeValid": result,
+		})
 	}
 }
 
@@ -158,7 +144,7 @@ func Test_AuthInfo_Clone_Verification(t *testing.T) {
 	for caseIndex, testCase := range authInfoCloneTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		nilAuth := getBoolDefault(input, "nil_auth", false)
+		nilAuth := input.GetAsBoolDefault("nil_auth", false)
 
 		if nilAuth {
 			// Act
@@ -166,9 +152,9 @@ func Test_AuthInfo_Clone_Verification(t *testing.T) {
 			cloned := auth.ClonePtr()
 
 			// Assert
-			testCase.ShouldBeEqual(t, caseIndex,
-				fmt.Sprintf("%v", cloned == nil),
-			)
+			testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+				"isNil": cloned == nil,
+			})
 
 			continue
 		}
@@ -192,19 +178,19 @@ func Test_AuthInfo_Clone_Verification(t *testing.T) {
 			cloned.ActionType = newActionType
 
 			// Assert — original unchanged, clone mutated
-			testCase.ShouldBeEqual(t, caseIndex,
-				auth.ActionType,
-				cloned.ActionType,
-			)
+			testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+				"originalAction": auth.ActionType,
+				"clonedAction":   cloned.ActionType,
+			})
 
 			continue
 		}
 
 		// Assert — all fields including Identifier are preserved
-		testCase.ShouldBeEqual(t, caseIndex,
-			cloned.Identifier,
-			cloned.ActionType,
-			cloned.ResourceName,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"identifier":   cloned.Identifier,
+			"actionType":   cloned.ActionType,
+			"resourceName": cloned.ResourceName,
+		})
 	}
 }

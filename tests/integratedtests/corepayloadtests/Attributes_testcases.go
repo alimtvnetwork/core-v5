@@ -17,8 +17,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 			"left_nil": true,
 			"right_nil": true,
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isEqual": true,
 		},
 	},
 	{
@@ -28,8 +28,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 			"left_nil": true,
 			"right_nil": false,
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isEqual": false,
 		},
 	},
 	{
@@ -39,8 +39,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 			"left_nil": false,
 			"right_nil": true,
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isEqual": false,
 		},
 	},
 	{
@@ -49,8 +49,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 			"when":         "same pointer identity",
 			"same_pointer": true,
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isEqual": true,
 		},
 	},
 	{
@@ -59,8 +59,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 			"when":    "same dynamic payloads on both",
 			"payload": "test-data",
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isEqual": true,
 		},
 	},
 	{
@@ -70,8 +70,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 			"left_payload":  "data-a",
 			"right_payload": "data-b",
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isEqual": false,
 		},
 	},
 }
@@ -88,9 +88,9 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 			"nil_attr": true,
 			"deep":     false,
 		},
-		ExpectedInput: []string{
-			"true",  // clonedPtr is nil
-			"false", // no error
+		ExpectedInput: args.Map{
+			"isNil":    true,
+			"hasError": false,
 		},
 	},
 	{
@@ -100,9 +100,9 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 			"payload": "clone-payload",
 			"deep":    false,
 		},
-		ExpectedInput: []string{
-			"clone-payload", // cloned payload string
-			"true",          // is equal to original
+		ExpectedInput: args.Map{
+			"clonedPayload": "clone-payload",
+			"isEqual":       true,
 		},
 	},
 	{
@@ -112,9 +112,9 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 			"payload": "deep-clone-data",
 			"deep":    true,
 		},
-		ExpectedInput: []string{
-			"deep-clone-data", // cloned payload preserved
-			"true",            // is equal before mutation
+		ExpectedInput: args.Map{
+			"clonedPayload": "deep-clone-data",
+			"isEqual":       true,
 		},
 	},
 }
@@ -130,8 +130,8 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 			"when":     "attributes is nil",
 			"nil_attr": true,
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isSafeValid": false,
 		},
 	},
 	{
@@ -140,8 +140,8 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 			"when":  "attributes has no data",
 			"empty": true,
 		},
-		ExpectedInput: []string{
-			"false",
+		ExpectedInput: args.Map{
+			"isSafeValid": false,
 		},
 	},
 	{
@@ -150,8 +150,8 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 			"when":    "attributes has dynamic payload",
 			"payload": "valid-data",
 		},
-		ExpectedInput: []string{
-			"true",
+		ExpectedInput: args.Map{
+			"isSafeValid": true,
 		},
 	},
 }
@@ -167,8 +167,8 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 			"when":     "auth info is nil",
 			"nil_auth": true,
 		},
-		ExpectedInput: []string{
-			"true", // result is nil
+		ExpectedInput: args.Map{
+			"isNil": true,
 		},
 	},
 	{
@@ -179,10 +179,10 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 			"action_type":   "login",
 			"resource_name": "/api/data",
 		},
-		ExpectedInput: []string{
-			"user-42",
-			"login",
-			"/api/data",
+		ExpectedInput: args.Map{
+			"identifier":   "user-42",
+			"actionType":   "login",
+			"resourceName": "/api/data",
 		},
 	},
 	{
@@ -193,9 +193,9 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 			"action_type":     "read",
 			"new_action_type": "write",
 		},
-		ExpectedInput: []string{
-			"read",  // original unchanged
-			"write", // clone mutated
+		ExpectedInput: args.Map{
+			"originalAction": "read",
+			"clonedAction":   "write",
 		},
 	},
 	{
@@ -206,10 +206,10 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 			"action_type":   "delete",
 			"resource_name": "/api/remove",
 		},
-		ExpectedInput: []string{
-			"",
-			"delete",
-			"/api/remove",
+		ExpectedInput: args.Map{
+			"identifier":   "",
+			"actionType":   "delete",
+			"resourceName": "/api/remove",
 		},
 	},
 }
