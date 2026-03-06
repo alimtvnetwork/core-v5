@@ -64,14 +64,11 @@ func Test_TypedPayloadCollection_Creation(t *testing.T) {
 			collection = corepayload.NewTypedPayloadCollection[testUser](capacity)
 		}
 
-		length := fmt.Sprintf("%d", collection.Length())
-		isEmpty := fmt.Sprintf("%v", collection.IsEmpty())
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			length,
-			isEmpty,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"length":  collection.Length(),
+			"isEmpty": collection.IsEmpty(),
+		})
 	}
 }
 
@@ -93,10 +90,10 @@ func Test_TypedPayloadCollection_Add(t *testing.T) {
 		// Act
 		collection.Add(firstTyped)
 
-		results := []string{
-			fmt.Sprintf("%d", collection.Length()),
-			fmt.Sprintf("%v", collection.IsEmpty()),
-			collection.First().Data().Name,
+		actual := args.Map{
+			"length":    collection.Length(),
+			"isEmpty":   collection.IsEmpty(),
+			"firstName": collection.First().Data().Name,
 		}
 
 		name2, hasSecond := input.GetAsString("name2")
@@ -110,16 +107,16 @@ func Test_TypedPayloadCollection_Add(t *testing.T) {
 			errcore.HandleErr(secondErr)
 			collection.Add(secondTyped)
 
-			results = []string{
-				fmt.Sprintf("%d", collection.Length()),
-				fmt.Sprintf("%v", collection.IsEmpty()),
-				collection.First().Data().Name,
-				collection.Last().Data().Name,
+			actual = args.Map{
+				"length":     collection.Length(),
+				"isEmpty":    collection.IsEmpty(),
+				"firstName":  collection.First().Data().Name,
+				"secondName": collection.Last().Data().Name,
 			}
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -133,16 +130,16 @@ func Test_TypedPayloadCollection_FilterByData(t *testing.T) {
 			return user.Age >= 30
 		})
 
-		results := []string{
-			fmt.Sprintf("%d", filtered.Length()),
+		actual := args.Map{
+			"filteredCount": filtered.Length(),
 		}
 
 		filtered.ForEachData(func(index int, data testUser) {
-			results = append(results, data.Name)
+			actual[fmt.Sprintf("match%d", index+1)] = data.Name
 		})
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -157,11 +154,16 @@ func Test_TypedPayloadCollection_MapData(t *testing.T) {
 			func(user testUser) string { return user.Name },
 		)
 
-		results := []string{fmt.Sprintf("%d", len(names))}
-		results = append(results, names...)
+		actual := args.Map{
+			"count": len(names),
+		}
+
+		for i, name := range names {
+			actual[fmt.Sprintf("name%d", i)] = name
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -178,7 +180,9 @@ func Test_TypedPayloadCollection_ReduceData(t *testing.T) {
 		)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", totalAge))
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"totalAge": totalAge,
+		})
 	}
 }
 
@@ -195,16 +199,12 @@ func Test_TypedPayloadCollection_GroupByCategory(t *testing.T) {
 			},
 		)
 
-		groupCount := fmt.Sprintf("%d", len(groups))
-		juniorCount := fmt.Sprintf("%d", groups["junior"].Length())
-		seniorCount := fmt.Sprintf("%d", groups["senior"].Length())
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			groupCount,
-			juniorCount,
-			seniorCount,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"groupCount":      len(groups),
+			"juniorGroupSize": groups["junior"].Length(),
+			"seniorGroupSize": groups["senior"].Length(),
+		})
 	}
 }
 
@@ -222,10 +222,10 @@ func Test_TypedPayloadCollection_Partition(t *testing.T) {
 		)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", senior.Length()),
-			fmt.Sprintf("%d", junior.Length()),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"seniorCount": senior.Length(),
+			"juniorCount": junior.Length(),
+		})
 	}
 }
 
@@ -237,13 +237,16 @@ func Test_TypedPayloadCollection_AllData(t *testing.T) {
 		// Act
 		allData := collection.AllData()
 
-		results := []string{fmt.Sprintf("%d", len(allData))}
-		for _, user := range allData {
-			results = append(results, user.Name)
+		actual := args.Map{
+			"count": len(allData),
+		}
+
+		for i, user := range allData {
+			actual[fmt.Sprintf("data%d", i)] = user.Name
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -257,10 +260,10 @@ func Test_TypedPayloadCollection_ElementAccess(t *testing.T) {
 		lastName := collection.Last().Data().Name
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			firstName,
-			lastName,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"firstName": firstName,
+			"lastName":  lastName,
+		})
 	}
 }
 
@@ -292,11 +295,11 @@ func Test_TypedPayloadCollection_AnyAll(t *testing.T) {
 		)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", hasBob),
-			fmt.Sprintf("%v", hasNonExistent),
-			fmt.Sprintf("%v", allParsed),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"anyBob":         hasBob,
+			"anyNonexistent": hasNonExistent,
+			"allAreParsed":   allParsed,
+		})
 	}
 }
 

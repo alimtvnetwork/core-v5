@@ -28,11 +28,11 @@ func Test_PayloadWrapper_Create_Verification(t *testing.T) {
 		hasJson := !jsonResult.IsEmpty()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			payload.Name,
-			payload.Identifier,
-			fmt.Sprintf("%v", hasJson),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"name":       payload.Name,
+			"identifier": payload.Identifier,
+			"hasJson":    hasJson,
+		})
 	}
 }
 
@@ -58,11 +58,11 @@ func Test_PayloadWrapper_DeserializeRoundtrip_Verification(t *testing.T) {
 		isEqual := jsonResult.IsEqual(*restoredJson)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			restored.Name,
-			restored.Identifier,
-			fmt.Sprintf("%v", isEqual),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"restoredName":       restored.Name,
+			"restoredIdentifier": restored.Identifier,
+			"jsonIsEqual":        isEqual,
+		})
 	}
 }
 
@@ -88,11 +88,11 @@ func Test_PayloadWrapper_Clone_Verification(t *testing.T) {
 		originalUnchanged := original.Name != cloned.Name
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			original.Name,
-			cloned.Name,
-			fmt.Sprintf("%v", originalUnchanged),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"originalName":  original.Name,
+			"clonedName":    cloned.Name,
+			"isIndependent": originalUnchanged,
+		})
 	}
 }
 
@@ -122,8 +122,8 @@ func Test_PayloadWrapper_DeserializeToMany_Verification(t *testing.T) {
 		errcore.HandleErr(deserializeErr)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", len(deserialized)),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+			"deserializedCount": len(deserialized),
+		})
 	}
 }
