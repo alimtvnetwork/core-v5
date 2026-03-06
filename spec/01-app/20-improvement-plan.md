@@ -4,11 +4,9 @@
 
 ## Phase 1: Foundation ✅ COMPLETE
 
-### 1.1 Complete `interface{}` → `any` Migration
-- **Status**: ~80% done (corepayload, coredynamic creators migrated)
-- **Remaining**: `coreinterface/` (569 matches in 27 files — large interfaces, defer to dedicated session)
-- **Effort**: ~1-2 sessions remaining
-- **Risk**: Low (alias, no behavioral change)
+### 1.1 Complete `interface{}` → `any` Migration ✅
+- **Status**: ✅ Complete — zero `interface{}` matches remain across the entire codebase
+- **Effort**: Done
 
 ### 1.2 Fix Known Bugs ✅
 - [x] `PayloadWrapper.IsIdentifier` compares `it.Name` instead of `it.Identifier` — **FIXED**

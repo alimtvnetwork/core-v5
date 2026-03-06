@@ -2,25 +2,30 @@
 
 ## Upgrade Targets
 
-### Current State
+### Current State ✅ COMPLETE
 
-- **go.mod**: `go 1.17.8`
-- **makefile**: `GoVersion=v1.17.8`
-- **README**: References Go 1.17.8 as prerequisite
+- **go.mod**: `go 1.24.0` (upgraded from 1.17.8)
+- **makefile**: Updated
+- **README**: Updated
 
-### Desired Target
+### Migration Phases — Status
 
-- **Go 1.22+** (latest stable as of 2026)
-- This enables: generics (1.18+), `any` alias, improved error handling, range-over-int (1.22), enhanced stdlib.
+| Phase | Description | Status |
+|-------|-------------|--------|
+| Phase 1 | Update `go.mod` to 1.22+, fix compilation errors | ✅ Done (upgraded to 1.24.0) |
+| Phase 2 | Replace `interface{}` with `any` project-wide | ✅ Done (zero matches remain) |
+| Phase 3 | Add generic versions of high-duplication packages | ✅ Done (`conditional/`, `coredata/coregeneric/`, `corepayload/`) |
+| Phase 4 | Deprecate old per-type functions | ✅ Done (deprecation comments on all legacy files) |
+| Phase 5 | Remove deprecated functions in next major version | 🔄 Planned |
 
-### Module and Tooling Updates Needed
+### Module and Tooling Updates ✅ COMPLETE
 
-1. Update `go.mod`: `go 1.22` (or latest).
-2. Update `makefile`: `GoVersion=v1.22`.
-3. Update `README.md` prerequisites.
-4. Update `go.sum` via `go mod tidy`.
-5. Verify all dependencies are compatible.
-6. Update CI/Docker images to use Go 1.22+.
+1. ~~Update `go.mod`: `go 1.22` (or latest).~~ → Done: `go 1.24.0`
+2. ~~Update `makefile`: `GoVersion=v1.22`.~~ → Done
+3. ~~Update `README.md` prerequisites.~~ → Done
+4. ~~Update `go.sum` via `go mod tidy`.~~ → Done
+5. ~~Verify all dependencies are compatible.~~ → Done
+6. ~~Update CI/Docker images to use Go 1.22+.~~ → Done
 
 ## Generics Adoption Targets
 
@@ -44,13 +49,13 @@ Generics should be used when they:
 | `core.go` | `EmptyIntsPtr()`, `EmptyStringsPtr()`, etc. | `EmptySlicePtr[T any]() *[]T` |
 | `coreinterface/` | Many near-identical `Value*Getter` interfaces | `ValueGetter[T any]` |
 
-### Acceptance Criteria
+### Acceptance Criteria ✅ ALL MET
 
-- [ ] Code compiles with `go 1.22+`.
-- [ ] All existing tests pass.
-- [ ] Readability is maintained or improved.
-- [ ] No gratuitous generics — each use must eliminate real duplication.
-- [ ] Backward compatibility maintained for external consumers (major version bump if needed).
+- [x] Code compiles with `go 1.22+` (running 1.24.0).
+- [x] All existing tests pass.
+- [x] Readability is maintained or improved.
+- [x] No gratuitous generics — each use eliminates real duplication.
+- [x] Backward compatibility maintained for external consumers (major version bump if needed).
 
 ## Example Modernization Targets
 
@@ -95,10 +100,10 @@ func If[T any](cond bool, trueVal, falseVal T) T {
 - Use `errors.Join` (Go 1.20+) for multi-error combination instead of manual merge.
 - Consider generic result types for operations that return value-or-error.
 
-## Migration Strategy
+## Migration Strategy — Status
 
-1. **Phase 1**: Update `go.mod` to 1.22, fix any compilation errors.
-2. **Phase 2**: Replace `interface{}` with `any` project-wide (mechanical).
-3. **Phase 3**: Add generic versions of high-duplication packages (keep old functions as wrappers for compatibility).
-4. **Phase 4**: Deprecate old per-type functions, point to generic versions.
-5. **Phase 5**: Remove deprecated functions in next major version.
+1. **Phase 1**: Update `go.mod` to 1.22, fix any compilation errors. ✅ Done (1.24.0)
+2. **Phase 2**: Replace `interface{}` with `any` project-wide (mechanical). ✅ Done
+3. **Phase 3**: Add generic versions of high-duplication packages (keep old functions as wrappers for compatibility). ✅ Done (`conditional/`, `coregeneric/`, `corepayload/`)
+4. **Phase 4**: Deprecate old per-type functions, point to generic versions. ✅ Done
+5. **Phase 5**: Remove deprecated functions in next major version. 🔄 Planned
