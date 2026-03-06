@@ -15,8 +15,12 @@ var hashsetAddDuplicateTestCase = coretestcases.CaseV1{
 }
 
 var hashsetAddBoolTestCase = coretestcases.CaseV1{
-	Title:         "AddBool returns false for new, true for existing",
-	ExpectedInput: args.Map{"firstExisted": false, "secondExisted": true, "length": 1},
+	Title: "AddBool returns false for new, true for existing",
+	ExpectedInput: args.Map{
+		"firstExisted":  false,
+		"secondExisted": true,
+		"length":        1,
+	},
 }
 
 var hashsetAddsVariadicTestCase = coretestcases.CaseV1{
@@ -25,8 +29,13 @@ var hashsetAddsVariadicTestCase = coretestcases.CaseV1{
 }
 
 var hashsetAddSliceTestCase = coretestcases.CaseV1{
-	Title:         "AddSlice adds all items from slice",
-	ExpectedInput: args.Map{"length": 3, "hasX": true, "hasY": true, "hasZ": true},
+	Title: "AddSlice adds all items from slice",
+	ExpectedInput: args.Map{
+		"length": 3,
+		"hasX":   true,
+		"hasY":   true,
+		"hasZ":   true,
+	},
 }
 
 // ==========================================================================
@@ -34,8 +43,11 @@ var hashsetAddSliceTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetAddIfTrueTestCase = coretestcases.CaseV1{
-	Title:         "AddIf true adds item",
-	ExpectedInput: args.Map{"length": 1, "hasItem": true},
+	Title: "AddIf true adds item",
+	ExpectedInput: args.Map{
+		"length":  1,
+		"hasItem": true,
+	},
 }
 
 var hashsetAddIfFalseTestCase = coretestcases.CaseV1{
@@ -58,8 +70,12 @@ var hashsetAddIfManyFalseTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetMergeOtherSetTestCase = coretestcases.CaseV1{
-	Title:         "AddHashsetItems merges other set",
-	ExpectedInput: args.Map{"length": 4, "has3": true, "has4": true},
+	Title: "AddHashsetItems merges other set",
+	ExpectedInput: args.Map{
+		"length": 4,
+		"has3":   true,
+		"has4":   true,
+	},
 }
 
 var hashsetMergeNilOtherTestCase = coretestcases.CaseV1{
@@ -73,8 +89,12 @@ var hashsetMergeEmptyOtherTestCase = coretestcases.CaseV1{
 }
 
 var hashsetAddItemsMapTestCase = coretestcases.CaseV1{
-	Title:         "AddItemsMap adds only true entries",
-	ExpectedInput: args.Map{"length": 2, "hasYes": true, "hasNope": false},
+	Title: "AddItemsMap adds only true entries",
+	ExpectedInput: args.Map{
+		"length":  2,
+		"hasYes":  true,
+		"hasNope": false,
+	},
 }
 
 // ==========================================================================
@@ -82,13 +102,20 @@ var hashsetAddItemsMapTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetRemoveExistingTestCase = coretestcases.CaseV1{
-	Title:         "Remove existing returns true and decreases length",
-	ExpectedInput: args.Map{"existed": true, "length": 2, "stillHas": false},
+	Title: "Remove existing returns true and decreases length",
+	ExpectedInput: args.Map{
+		"existed":  true,
+		"length":   2,
+		"stillHas": false,
+	},
 }
 
 var hashsetRemoveNonExistingTestCase = coretestcases.CaseV1{
-	Title:         "Remove non-existing returns false",
-	ExpectedInput: args.Map{"existed": false, "length": 3},
+	Title: "Remove non-existing returns false",
+	ExpectedInput: args.Map{
+		"existed": false,
+		"length":  3,
+	},
 }
 
 // ==========================================================================
@@ -96,13 +123,19 @@ var hashsetRemoveNonExistingTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetHasTestCase = coretestcases.CaseV1{
-	Title:         "Has returns true for existing, false for missing",
-	ExpectedInput: args.Map{"hasExisting": true, "hasMissing": false},
+	Title: "Has returns true for existing, false for missing",
+	ExpectedInput: args.Map{
+		"hasExisting": true,
+		"hasMissing":  false,
+	},
 }
 
 var hashsetContainsAliasTestCase = coretestcases.CaseV1{
-	Title:         "Contains is alias for Has",
-	ExpectedInput: args.Map{"containsExisting": true, "containsMissing": false},
+	Title: "Contains is alias for Has",
+	ExpectedInput: args.Map{
+		"containsExisting": true,
+		"containsMissing":  false,
+	},
 }
 
 // ==========================================================================
@@ -183,8 +216,13 @@ var hashsetIsEqualsBothEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetResizeLargerTestCase = coretestcases.CaseV1{
-	Title:         "Resize to larger capacity preserves items",
-	ExpectedInput: args.Map{"length": 3, "has1": true, "has2": true, "has3": true},
+	Title: "Resize to larger capacity preserves items",
+	ExpectedInput: args.Map{
+		"length": 3,
+		"has1":   true,
+		"has2":   true,
+		"has3":   true,
+	},
 }
 
 var hashsetResizeSmallerTestCase = coretestcases.CaseV1{
@@ -226,8 +264,13 @@ var hashsetOutputCollectionTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetLockAddContainsTestCase = coretestcases.CaseV1{
-	Title:         "AddLock and ContainsLock work thread-safely",
-	ExpectedInput: args.Map{"length": 2, "containsA": true, "containsB": true, "containsZ": false},
+	Title: "AddLock and ContainsLock work thread-safely",
+	ExpectedInput: args.Map{
+		"length":    2,
+		"containsA": true,
+		"containsB": true,
+		"containsZ": false,
+	},
 }
 
 var hashsetLockAddSliceTestCase = coretestcases.CaseV1{
@@ -236,13 +279,22 @@ var hashsetLockAddSliceTestCase = coretestcases.CaseV1{
 }
 
 var hashsetLockRemoveTestCase = coretestcases.CaseV1{
-	Title:         "RemoveLock removes item thread-safely",
-	ExpectedInput: args.Map{"existed": true, "length": 2, "stillHas": false},
+	Title: "RemoveLock removes item thread-safely",
+	ExpectedInput: args.Map{
+		"existed":  true,
+		"length":   2,
+		"stillHas": false,
+	},
 }
 
 var hashsetLockIsEmptyLengthTestCase = coretestcases.CaseV1{
-	Title:         "IsEmptyLock and LengthLock return correct values",
-	ExpectedInput: args.Map{"emptyBefore": true, "lengthBefore": 0, "emptyAfter": false, "lengthAfter": 2},
+	Title: "IsEmptyLock and LengthLock return correct values",
+	ExpectedInput: args.Map{
+		"emptyBefore":  true,
+		"lengthBefore": 0,
+		"emptyAfter":   false,
+		"lengthAfter":  2,
+	},
 }
 
 // ==========================================================================
@@ -250,26 +302,44 @@ var hashsetLockIsEmptyLengthTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var hashsetConstructorEmptyTestCase = coretestcases.CaseV1{
-	Title:         "EmptyHashset creates empty set",
-	ExpectedInput: args.Map{"length": 0, "isEmpty": true},
+	Title: "EmptyHashset creates empty set",
+	ExpectedInput: args.Map{
+		"length":  0,
+		"isEmpty": true,
+	},
 }
 
 var hashsetConstructorNewCapTestCase = coretestcases.CaseV1{
-	Title:         "NewHashset with capacity creates empty set",
-	ExpectedInput: args.Map{"length": 0, "isEmpty": true},
+	Title: "NewHashset with capacity creates empty set",
+	ExpectedInput: args.Map{
+		"length":  0,
+		"isEmpty": true,
+	},
 }
 
 var hashsetConstructorFromTestCase = coretestcases.CaseV1{
-	Title:         "HashsetFrom creates populated set",
-	ExpectedInput: args.Map{"length": 3, "hasA": true, "hasB": true, "hasC": true},
+	Title: "HashsetFrom creates populated set",
+	ExpectedInput: args.Map{
+		"length": 3,
+		"hasA":   true,
+		"hasB":   true,
+		"hasC":   true,
+	},
 }
 
 var hashsetConstructorFromMapTestCase = coretestcases.CaseV1{
-	Title:         "HashsetFromMap creates set from map",
-	ExpectedInput: args.Map{"length": 2, "has10": true, "has20": true},
+	Title: "HashsetFromMap creates set from map",
+	ExpectedInput: args.Map{
+		"length": 2,
+		"has10":  true,
+		"has20":  true,
+	},
 }
 
 var hashsetConstructorHasItemsTestCase = coretestcases.CaseV1{
-	Title:         "HasItems returns true for populated, false for empty",
-	ExpectedInput: args.Map{"populatedHasItems": true, "emptyHasItems": false},
+	Title: "HasItems returns true for populated, false for empty",
+	ExpectedInput: args.Map{
+		"populatedHasItems": true,
+		"emptyHasItems":     false,
+	},
 }

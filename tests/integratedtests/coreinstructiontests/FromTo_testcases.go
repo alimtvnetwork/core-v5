@@ -10,8 +10,12 @@ import (
 // ==========================================================================
 
 var fromToClonePtrCopiesTestCase = coretestcases.CaseV1{
-	Title:         "ClonePtr - copies From and To",
-	ExpectedInput: args.Map{"isNotNil": true, "from": "source", "to": "destination"},
+	Title: "ClonePtr - copies From and To",
+	ExpectedInput: args.Map{
+		"isNotNil": true,
+		"from":     "source",
+		"to":       "destination",
+	},
 }
 
 var fromToClonePtrNilTestCase = coretestcases.CaseV1{
@@ -24,8 +28,11 @@ var fromToClonePtrNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToCloneCopiesTestCase = coretestcases.CaseV1{
-	Title:         "Clone - copies values",
-	ExpectedInput: args.Map{"from": "a", "to": "b"},
+	Title: "Clone - copies values",
+	ExpectedInput: args.Map{
+		"from": "a",
+		"to":   "b",
+	},
 }
 
 // ==========================================================================
@@ -75,8 +82,11 @@ var fromToIsToEmptyNonEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToStringContainsTestCase = coretestcases.CaseV1{
-	Title:         "String - contains From and To",
-	ExpectedInput: args.Map{"containsFrom": true, "containsTo": true},
+	Title: "String - contains From and To",
+	ExpectedInput: args.Map{
+		"containsFrom": true,
+		"containsTo":   true,
+	},
 }
 
 // ==========================================================================
@@ -84,8 +94,11 @@ var fromToStringContainsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToNamesTestCase = coretestcases.CaseV1{
-	Title:         "FromName/ToName return field values",
-	ExpectedInput: args.Map{"fromName": "src", "toName": "dst"},
+	Title: "FromName/ToName return field values",
+	ExpectedInput: args.Map{
+		"fromName": "src",
+		"toName":   "dst",
+	},
 }
 
 // ==========================================================================
@@ -116,8 +129,12 @@ var fromToSetToNameUpdatesTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToSourceDestMapsTestCase = coretestcases.CaseV1{
-	Title:         "SourceDestination - maps From->Source To->Destination",
-	ExpectedInput: args.Map{"isNotNil": true, "source": "src", "destination": "dst"},
+	Title: "SourceDestination - maps From->Source To->Destination",
+	ExpectedInput: args.Map{
+		"isNotNil":    true,
+		"source":      "src",
+		"destination": "dst",
+	},
 }
 
 var fromToSourceDestNilTestCase = coretestcases.CaseV1{
@@ -130,8 +147,12 @@ var fromToSourceDestNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToRenameMapsTestCase = coretestcases.CaseV1{
-	Title:         "Rename - maps From->Existing To->New",
-	ExpectedInput: args.Map{"isNotNil": true, "existing": "old", "newName": "new"},
+	Title: "Rename - maps From->Existing To->New",
+	ExpectedInput: args.Map{
+		"isNotNil": true,
+		"existing": "old",
+		"newName":  "new",
+	},
 }
 
 var fromToRenameNilTestCase = coretestcases.CaseV1{

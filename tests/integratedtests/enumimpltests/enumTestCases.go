@@ -18,7 +18,10 @@ var enumByteTestCases = []coretestcases.CaseV1{
 				"Something": 10,
 			},
 		},
-		ExpectedInput: args.Map{"min": 0, "max": 10},
+		ExpectedInput: args.Map{
+			"min": 0,
+			"max": 10,
+		},
 	},
 }
 
@@ -34,7 +37,10 @@ var enumInt8TestCases = []coretestcases.CaseV1{
 				"Something": 12,
 			},
 		},
-		ExpectedInput: args.Map{"min": -2, "max": 12},
+		ExpectedInput: args.Map{
+			"min": -2,
+			"max": 12,
+		},
 	},
 }
 
@@ -50,7 +56,10 @@ var enumInt16TestCases = []coretestcases.CaseV1{
 				"Something": 14,
 			},
 		},
-		ExpectedInput: args.Map{"min": -3, "max": 14},
+		ExpectedInput: args.Map{
+			"min": -3,
+			"max": 14,
+		},
 	},
 }
 
@@ -66,7 +75,10 @@ var enumInt32TestCases = []coretestcases.CaseV1{
 				"Something": 15,
 			},
 		},
-		ExpectedInput: args.Map{"min": -4, "max": 15},
+		ExpectedInput: args.Map{
+			"min": -4,
+			"max": 15,
+		},
 	},
 }
 
@@ -81,7 +93,10 @@ var enumUInt16TestCases = []coretestcases.CaseV1{
 				"Something":  20,
 			},
 		},
-		ExpectedInput: args.Map{"min": 0, "max": 20},
+		ExpectedInput: args.Map{
+			"min": 0,
+			"max": 20,
+		},
 	},
 }
 
@@ -96,6 +111,9 @@ var enumStringTestCases = []coretestcases.CaseV1{
 				"Something":  20,
 			},
 		},
-		ExpectedInput: args.Map{"min": "", "max": "Something2"},
+		ExpectedInput: args.Map{
+			"min": "",
+			"max": "Something2",
+		},
 	},
 }
