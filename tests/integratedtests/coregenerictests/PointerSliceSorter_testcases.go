@@ -1,6 +1,7 @@
 package coregenerictests
 
 import (
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
@@ -60,8 +61,13 @@ var ptrSorterCustomLessTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterSwitchTestCase = coretestcases.CaseV1{
-	Title:         "Sort asc then switch to desc and re-sort",
-	ExpectedInput: []string{"1", "5", "5", "1"},
+	Title: "Sort asc then switch to desc and re-sort",
+	ExpectedInput: args.Map{
+		"firstAfterAsc":  "1",
+		"lastAfterAsc":   "5",
+		"firstAfterDesc": "5",
+		"lastAfterDesc":  "1",
+	},
 }
 
 // ==========================================================================
@@ -69,8 +75,11 @@ var ptrSorterSwitchTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterIsSortedTestCase = coretestcases.CaseV1{
-	Title:         "IsSorted true after sort, false before",
-	ExpectedInput: []string{"false", "true"},
+	Title: "IsSorted true after sort, false before",
+	ExpectedInput: args.Map{
+		"beforeSort": false,
+		"afterSort":  true,
+	},
 }
 
 // ==========================================================================
@@ -78,18 +87,25 @@ var ptrSorterIsSortedTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Empty slice: Len=0, IsSorted=true",
-	ExpectedInput: []string{"0", "true"},
+	Title: "Empty slice: Len=0, IsSorted=true",
+	ExpectedInput: args.Map{
+		"length":   0,
+		"isSorted": true,
+	},
 }
 
 var ptrSorterSingleTestCase = coretestcases.CaseV1{
-	Title:         "Single element: IsSorted=true after sort",
-	ExpectedInput: []string{"1", "true", "42"},
+	Title: "Single element: IsSorted=true after sort",
+	ExpectedInput: args.Map{
+		"length":   1,
+		"isSorted": true,
+		"value":    "42",
+	},
 }
 
 var ptrSorterNilSliceTestCase = coretestcases.CaseV1{
 	Title:         "Nil items slice: Len=0",
-	ExpectedInput: []string{"0"},
+	ExpectedInput: "0",
 }
 
 // ==========================================================================
@@ -97,8 +113,13 @@ var ptrSorterNilSliceTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var ptrSorterSetItemsTestCase = coretestcases.CaseV1{
-	Title:         "SetItems replaces slice and sorts new data",
-	ExpectedInput: []string{"3", "10", "20", "30"},
+	Title: "SetItems replaces slice and sorts new data",
+	ExpectedInput: args.Map{
+		"length": 3,
+		"item0":  "10",
+		"item1":  "20",
+		"item2":  "30",
+	},
 }
 
 // ==========================================================================
