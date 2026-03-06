@@ -86,12 +86,13 @@ func Test_PageRequest_Clone_Fields(t *testing.T) {
 
 		// Act
 		clone := req.Clone()
+		actual := args.Map{
+			"pageSize":  fmt.Sprintf("%v", clone.PageSize),
+			"pageIndex": fmt.Sprintf("%v", clone.PageIndex),
+		}
 
 		// Assert
-		tc.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", clone.PageSize),
-			fmt.Sprintf("%v", clone.PageIndex),
-		)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -105,11 +106,12 @@ func Test_PageRequest_Clone_Independence(t *testing.T) {
 		clone := req.Clone()
 		clone.PageSize = 99
 		clone.PageIndex = 99
+		actual := args.Map{
+			"pageSize":  fmt.Sprintf("%v", req.PageSize),
+			"pageIndex": fmt.Sprintf("%v", req.PageIndex),
+		}
 
 		// Assert
-		tc.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", req.PageSize),
-			fmt.Sprintf("%v", req.PageIndex),
-		)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

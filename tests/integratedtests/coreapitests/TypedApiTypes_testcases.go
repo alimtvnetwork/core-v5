@@ -16,9 +16,9 @@ var typedRequestInNewTestCases = []coretestcases.CaseV1{
 			"when":    "given string payload",
 			"payload": "hello",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "hello", // payload
-			Second: "true",  // isValid
+		ExpectedInput: args.Map{
+			"payload": "hello",
+			"isValid": "true",
 		},
 	},
 }
@@ -33,10 +33,10 @@ var typedRequestInInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil attribute",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "",      // payload
-			Second: "false", // isValid
-			Third:  "true",  // isInvalid
+		ExpectedInput: args.Map{
+			"payload":      "",
+			"isValid":      "false",
+			"hasAttribute": "true",
 		},
 	},
 }
@@ -52,9 +52,9 @@ var typedRequestInCloneTestCases = []coretestcases.CaseV1{
 			"when":    "given valid request",
 			"payload": "cloneme",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "cloneme", // payload
-			Second: "true",    // isValid
+		ExpectedInput: args.Map{
+			"payload": "cloneme",
+			"isValid": "true",
 		},
 	},
 }
@@ -84,9 +84,9 @@ var typedResponseNewTestCases = []coretestcases.CaseV1{
 			"when":     "given int response",
 			"response": 42,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "42",   // response
-			Second: "true", // isValid
+		ExpectedInput: args.Map{
+			"response": "42",
+			"isValid":  "true",
 		},
 	},
 }
@@ -101,10 +101,10 @@ var typedResponseInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil attribute",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "0",     // response
-			Second: "false", // isValid
-			Third:  "true",  // isInvalid
+		ExpectedInput: args.Map{
+			"response":     "0",
+			"isValid":      "false",
+			"hasAttribute": "true",
 		},
 	},
 }
@@ -120,9 +120,9 @@ var typedResponseCloneTestCases = []coretestcases.CaseV1{
 			"when":     "given valid response",
 			"response": 99,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "99",   // response
-			Second: "true", // isValid
+		ExpectedInput: args.Map{
+			"response": "99",
+			"isValid":  "true",
 		},
 	},
 }
@@ -138,10 +138,10 @@ var typedResponseResultNewTestCases = []coretestcases.CaseV1{
 			"when":     "given string response",
 			"response": "ok",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "ok",   // response
-			Second: "true", // isValid
-			Third:  "true", // hasResponse
+		ExpectedInput: args.Map{
+			"response":    "ok",
+			"isValid":     "true",
+			"hasResponse": "true",
 		},
 	},
 }
@@ -156,9 +156,9 @@ var typedResponseResultInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given invalid result",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isValid
-			Second: "true",  // isInvalid
+		ExpectedInput: args.Map{
+			"isValid":   "false",
+			"isInvalid": "true",
 		},
 	},
 }
@@ -174,10 +174,10 @@ var typedResponseResultCloneTestCases = []coretestcases.CaseV1{
 			"when":     "given valid result",
 			"response": "cloneable",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "cloneable", // response
-			Second: "true",      // isValid
-			Third:  "true",      // isIndependent
+		ExpectedInput: args.Map{
+			"response":      "cloneable",
+			"isValid":       "true",
+			"isIndependent": "true",
 		},
 	},
 }

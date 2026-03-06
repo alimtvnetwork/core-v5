@@ -22,13 +22,13 @@ func Test_NewTypedRequestIn_Verification(t *testing.T) {
 
 		// Act
 		req := coreapi.NewTypedRequestIn[string](attr, payload)
-		actLines := []string{
-			req.Request,
-			fmt.Sprintf("%v", req.Attribute.IsValid),
+		actual := args.Map{
+			"payload": req.Request,
+			"isValid": fmt.Sprintf("%v", req.Attribute.IsValid),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -42,14 +42,14 @@ func Test_InvalidTypedRequestIn_Verification(t *testing.T) {
 
 		// Act
 		req := coreapi.InvalidTypedRequestIn[string](nil)
-		actLines := []string{
-			req.Request,
-			fmt.Sprintf("%v", req.Attribute.IsValid),
-			fmt.Sprintf("%v", req.Attribute != nil),
+		actual := args.Map{
+			"payload":      req.Request,
+			"isValid":      fmt.Sprintf("%v", req.Attribute.IsValid),
+			"hasAttribute": fmt.Sprintf("%v", req.Attribute != nil),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -68,13 +68,13 @@ func Test_TypedRequestIn_Clone_Verification(t *testing.T) {
 
 		// Act
 		cloned := req.Clone()
-		actLines := []string{
-			cloned.Request,
-			fmt.Sprintf("%v", cloned.Attribute.IsValid),
+		actual := args.Map{
+			"payload": cloned.Request,
+			"isValid": fmt.Sprintf("%v", cloned.Attribute.IsValid),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -112,13 +112,13 @@ func Test_NewTypedResponse_Verification(t *testing.T) {
 
 		// Act
 		resp := coreapi.NewTypedResponse[int](attr, response)
-		actLines := []string{
-			fmt.Sprintf("%d", resp.Response),
-			fmt.Sprintf("%v", resp.Attribute.IsValid),
+		actual := args.Map{
+			"response": fmt.Sprintf("%d", resp.Response),
+			"isValid":  fmt.Sprintf("%v", resp.Attribute.IsValid),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -132,14 +132,14 @@ func Test_InvalidTypedResponse_Verification(t *testing.T) {
 
 		// Act
 		resp := coreapi.InvalidTypedResponse[int](nil)
-		actLines := []string{
-			fmt.Sprintf("%d", resp.Response),
-			fmt.Sprintf("%v", resp.Attribute.IsValid),
-			fmt.Sprintf("%v", resp.Attribute != nil),
+		actual := args.Map{
+			"response":     fmt.Sprintf("%d", resp.Response),
+			"isValid":      fmt.Sprintf("%v", resp.Attribute.IsValid),
+			"hasAttribute": fmt.Sprintf("%v", resp.Attribute != nil),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -158,13 +158,13 @@ func Test_TypedResponse_Clone_Verification(t *testing.T) {
 
 		// Act
 		cloned := resp.Clone()
-		actLines := []string{
-			fmt.Sprintf("%d", cloned.Response),
-			fmt.Sprintf("%v", cloned.Attribute.IsValid),
+		actual := args.Map{
+			"response": fmt.Sprintf("%d", cloned.Response),
+			"isValid":  fmt.Sprintf("%v", cloned.Attribute.IsValid),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -182,14 +182,14 @@ func Test_NewTypedResponseResult_Verification(t *testing.T) {
 
 		// Act
 		result := coreapi.NewTypedResponseResult[string](attr, response)
-		actLines := []string{
-			result.Response,
-			fmt.Sprintf("%v", result.IsValid()),
-			fmt.Sprintf("%v", !result.IsInvalid()),
+		actual := args.Map{
+			"response":    result.Response,
+			"isValid":     fmt.Sprintf("%v", result.IsValid()),
+			"hasResponse": fmt.Sprintf("%v", !result.IsInvalid()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -203,13 +203,13 @@ func Test_InvalidTypedResponseResult_Verification(t *testing.T) {
 
 		// Act
 		result := coreapi.InvalidTypedResponseResult[string](nil)
-		actLines := []string{
-			fmt.Sprintf("%v", result.IsValid()),
-			fmt.Sprintf("%v", result.IsInvalid()),
+		actual := args.Map{
+			"isValid":   fmt.Sprintf("%v", result.IsValid()),
+			"isInvalid": fmt.Sprintf("%v", result.IsInvalid()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -228,14 +228,14 @@ func Test_TypedResponseResult_ClonePtr_Verification(t *testing.T) {
 
 		// Act
 		cloned := result.ClonePtr()
-		actLines := []string{
-			cloned.Response,
-			fmt.Sprintf("%v", cloned.IsValid()),
-			fmt.Sprintf("%v", cloned != result),
+		actual := args.Map{
+			"response":      cloned.Response,
+			"isValid":       fmt.Sprintf("%v", cloned.IsValid()),
+			"isIndependent": fmt.Sprintf("%v", cloned != result),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

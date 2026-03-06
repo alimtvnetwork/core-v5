@@ -24,15 +24,15 @@ func Test_NewTypedSimpleGenericRequest(t *testing.T) {
 
 		// Act
 		req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
-		actLines := []string{
-			fmt.Sprintf("%v", req.IsValid()),
-			fmt.Sprintf("%v", req.Attribute.IsValid),
-			req.Data(),
-			fmt.Sprintf("%v", req.Request != nil),
+		actual := args.Map{
+			"isValid":      fmt.Sprintf("%v", req.IsValid()),
+			"hasAttribute": fmt.Sprintf("%v", req.Attribute.IsValid),
+			"payload":      req.Data(),
+			"hasRequest":   fmt.Sprintf("%v", req.Request != nil),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -44,14 +44,14 @@ func Test_InvalidTypedSimpleGenericRequest(t *testing.T) {
 	for caseIndex, testCase := range typedSimpleGenericRequestInvalidTestCases {
 		// Act
 		req := coreapi.InvalidTypedSimpleGenericRequest[string](nil)
-		actLines := []string{
-			fmt.Sprintf("%v", req.IsValid()),
-			fmt.Sprintf("%v", req.Attribute != nil),
-			fmt.Sprintf("%v", req.Request == nil),
+		actual := args.Map{
+			"isValid":      fmt.Sprintf("%v", req.IsValid()),
+			"isInvalid":    fmt.Sprintf("%v", req.Attribute != nil),
+			"isNilRequest": fmt.Sprintf("%v", req.Request == nil),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -94,13 +94,13 @@ func Test_TypedSimpleGenericRequest_Validity(t *testing.T) {
 		}
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", req.IsValid()),
-			fmt.Sprintf("%v", req.IsInvalid()),
+		actual := args.Map{
+			"isValid":   fmt.Sprintf("%v", req.IsValid()),
+			"isInvalid": fmt.Sprintf("%v", req.IsInvalid()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -128,13 +128,13 @@ func Test_TypedSimpleGenericRequest_Message(t *testing.T) {
 		}
 
 		// Act
-		actLines := []string{
-			req.Message(),
-			fmt.Sprintf("%v", req.InvalidError() == nil),
+		actual := args.Map{
+			"message":    req.Message(),
+			"isNilError": fmt.Sprintf("%v", req.InvalidError() == nil),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -186,32 +186,31 @@ func Test_TypedSimpleGenericRequest_InvalidUnderlying(t *testing.T) {
 		req := coreapi.NewTypedSimpleGenericRequest[string](attr, simpleReq)
 
 		// Act
-		var actLines []string
-
 		switch check {
 		case "validity":
-			actLines = []string{
-				fmt.Sprintf("%v", req.IsValid()),
-				fmt.Sprintf("%v", req.IsInvalid()),
+			actual := args.Map{
+				"isValid":   fmt.Sprintf("%v", req.IsValid()),
+				"isInvalid": fmt.Sprintf("%v", req.IsInvalid()),
 			}
+			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		case "message":
-			actLines = []string{req.Message()}
+			tc.ShouldBeEqual(t, caseIndex, req.Message())
 		case "invalidError":
-			actLines = []string{
-				fmt.Sprintf("%v", req.InvalidError() == nil),
-				req.InvalidError().Error(),
+			actual := args.Map{
+				"isNilError":   fmt.Sprintf("%v", req.InvalidError() == nil),
+				"errorMessage": req.InvalidError().Error(),
 			}
+			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		case "invalidErrorNil":
-			actLines = []string{
-				fmt.Sprintf("%v", req.InvalidError() == nil),
-				req.Message(),
+			actual := args.Map{
+				"isNilError":   fmt.Sprintf("%v", req.InvalidError() == nil),
+				"errorMessage": req.Message(),
 			}
+			tc.ShouldBeEqualMap(t, caseIndex, actual)
 		}
-
-		// Assert
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
 	}
 }
+
 // ==========================================
 // Test: TypedSimpleGenericRequest Clone
 // ==========================================
@@ -228,14 +227,14 @@ func Test_TypedSimpleGenericRequest_Clone(t *testing.T) {
 
 		// Act
 		cloned := req.Clone()
-		actLines := []string{
-			cloned.Data(),
-			fmt.Sprintf("%v", cloned.IsValid()),
-			fmt.Sprintf("%v", cloned != req),
+		actual := args.Map{
+			"payload":       cloned.Data(),
+			"isValid":       fmt.Sprintf("%v", cloned.IsValid()),
+			"isIndependent": fmt.Sprintf("%v", cloned != req),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -280,15 +279,25 @@ func Test_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
 
 		// Act
 		tsgr := reqIn.TypedSimpleGenericRequest(isValid, message)
-		actLines := []string{
-			fmt.Sprintf("%v", tsgr.Request.IsValid()),
-			tsgr.Data(),
-			fmt.Sprintf("%v", tsgr.Attribute.IsValid),
-			tsgr.Message(),
+
+		// Build actual map — key depends on test case
+		actual := args.Map{
+			"isValid": fmt.Sprintf("%v", tsgr.Request.IsValid()),
+			"payload": tsgr.Data(),
+			"message": tsgr.Message(),
+		}
+
+		// Use "hasRequest" or "hasValidRequest" depending on expected keys
+		expected := testCase.ExpectedInput.(args.Map)
+		if _, ok := expected["hasRequest"]; ok {
+			actual["hasRequest"] = fmt.Sprintf("%v", tsgr.Attribute.IsValid)
+		}
+		if _, ok := expected["hasValidRequest"]; ok {
+			actual["hasValidRequest"] = fmt.Sprintf("%v", tsgr.Request.IsValid())
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -329,14 +338,14 @@ func Test_TypedResponse_TypedResponseResult(t *testing.T) {
 
 		// Act
 		result := resp.TypedResponseResult()
-		actLines := []string{
-			result.Response,
-			fmt.Sprintf("%v", result.IsValid()),
-			result.Message(),
+		actual := args.Map{
+			"response": result.Response,
+			"isValid":  fmt.Sprintf("%v", result.IsValid()),
+			"message":  result.Message(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

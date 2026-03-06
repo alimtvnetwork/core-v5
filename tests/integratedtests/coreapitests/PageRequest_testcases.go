@@ -131,9 +131,9 @@ var pageRequestCloneFieldsTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageSize: 20, PageIndex: 5},
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "20", // pageSize
-			Second: "5",  // pageIndex
+		ExpectedInput: args.Map{
+			"pageSize":  "20",
+			"pageIndex": "5",
 		},
 	},
 }
@@ -144,9 +144,9 @@ var pageRequestCloneIndependenceTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"req": &coreapi.PageRequest{PageSize: 20, PageIndex: 5},
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "20", // pageSize
-			Second: "5",  // pageIndex
+		ExpectedInput: args.Map{
+			"pageSize":  "20",
+			"pageIndex": "5",
 		},
 	},
 }
