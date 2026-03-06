@@ -1,9 +1,8 @@
 package errcore
 
-func ManyErrorToSingleDirect(errorItems ...error) error {
-	if errorItems == nil || len(errorItems) == 0 {
-		return nil
-	}
+import "errors"
 
-	return ManyErrorToSingle(errorItems)
+// ManyErrorToSingleDirect is the variadic wrapper for ManyErrorToSingle.
+func ManyErrorToSingleDirect(errorItems ...error) error {
+	return errors.Join(errorItems...)
 }
