@@ -6,9 +6,9 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **70 files** | 50.7% |
+| ✅ Migrated to `args.Map` | **81 files** | 58.7% |
 | 🔶 Using `args.Two`–`args.Six` (typed tuples) | **0 files** | 0% |
-| 🔴 Using `[]string` | **31 files** | 22.5% |
+| 🔴 Using `[]string` | **20 files** | 14.5% |
 | 🟡 Using plain `string` / other | **~34 files** | 24.6% |
 | **Total testcase files** | **~138** | — |
 
@@ -16,7 +16,7 @@
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (70 files)
+## ✅ Fully Migrated to `args.Map` (81 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -91,6 +91,17 @@
 | `versionindexestests` | `Index_testcases.go` | ~7 cases: JSON roundtrip/Name/Inject |
 | `coreappendtests` | `Append_testcases.go` | 2 cases: PrependAppend |
 | `keymktests` | `KeyLegend_testcases.go` | 1 case: GroupIntRange |
+| `conditionaltests` | `If_testcases.go` | ifSlice: length+first → args.Map |
+| `conditionaltests` | `ValueOrZeroNilVal_testcases.go` | ptrOrZero/nilValPtr: isNotNil+value → args.Map |
+| `converterstests` | `StringTo_testcases.go` | value+hasError/isSuccess → args.Map |
+| `converterstests` | `AnyItemConverter_testcases.go` | count+items → args.Map |
+| `isanytests` | `IsAny_testcases.go` | isDefined/isNull, definedBoth/nullBoth → args.Map |
+| `isanytests` | `DeepEqual_testcases.go` | isDeepEqual/isNotDeepEqual + named keys → args.Map |
+| `coreutilstests` | `StringUtil_testcases.go` | splitLeftRight: left+right → args.Map |
+| `ostypetests` | `OsType_testcases.go` | variationGroup/Identity: args.Three/Four → args.Map |
+| `defaultcapacitytests` | `DefaultCapacity_testcases.go` | custom structs → args.Map ArrangeInput |
+| `defaulterrtests` | `DefaultErr_testcases.go` | isNotNil+hasMessage → args.Map |
+| `enumimpltests` | `enumTestCases.go` | min+max → args.Map |
 
 ---
 
@@ -98,34 +109,19 @@
 
 All typed tuple files have been migrated to `args.Map`. ✅
 
-> **Note:** Previously listed files that have been migrated: `coreapitests/*` (4 files), `typesconvtests/*` (1 file), `converterstests/*`, `coregenerictests/*`, `corestrtests/BugfixRegression`, `regexnewtests/*`, `simplewraptests/*`, `keymktests/Key_testcases.go`, `reqtypetests/*`, `iserrortests/*`, `errcoretests/*`, `stringcompareastests/*`, `stringslicetests/*`, `versionindexestests/*`, `coreappendtests/*`, `keymktests/KeyLegend*`.
-
 ---
 
-## 🔴 Using `[]string` Expectations (31 files)
+## 🔴 Using `[]string` Expectations (20 files)
 
-### Batch A — Migratable to `args.Map` (16 files)
+### Batch A — Migratable to `args.Map` (5 files)
 
 | Package | File | Fields | Difficulty |
 |---------|------|--------|------------|
-| `conditionaltests` | `If_testcases.go` | 1–2 values | 🟢 Easy |
-| `conditionaltests` | `ValueOrZeroNilVal_testcases.go` | 1–2 values | 🟢 Easy |
-| `converterstests` | `StringTo_testcases.go` | 2 values (result + hasError) | 🟢 Easy |
-| `converterstests` | `AnyItemConverter_testcases.go` | 1–3 values | 🟢 Easy |
-| `coredynamictests` | `CastedResult_testcases.go` | 1–3 values | 🟢 Easy |
-| `coredynamictests` | `CollectionSearch_testcases.go` | 2–3 values | 🟢 Easy |
-
-| `corestrtests` | `SimpleSlice_testcases.go` | 1–3 values | 🟢 Easy |
-| `coretaskinfotests` | `InfoCreate_testcases.go` | 2–4 values | 🟢 Easy |
-| `coreutilstests` | `StringUtil_testcases.go` | 1–2 values | 🟢 Easy |
-| `defaulterrtests` | `DefaultErr_testcases.go` | 2 booleans × 11 cases | 🟢 Easy |
-| `defaultcapacitytests` | `DefaultCapacity_testcases.go` | 1 value | 🟢 Easy |
-| `enumimpltests` | `BasicEnum_testcases.go` | 2–3 values | 🟢 Easy |
-| `isanytests` | `IsAny_testcases.go` | 2–3 booleans | 🟢 Easy |
-| `isanytests` | `DeepEqual_testcases.go` | 2 booleans | 🟢 Easy |
+| `coretaskinfotests` | `InfoCreate_testcases.go` | 2–8 values | 🟡 Medium |
+| `coretestcasestests` | `GenericGherkins_testcases.go` | StringBoolGherkins pattern | 🟡 Medium |
+| `coretestcasestests` | `ExpectedLines_testcases.go` | Framework self-test | 🟡 Medium |
 | `issettertests` | `Value_testcases.go` | 2–8 booleans | 🟡 Medium |
-| `ostypetests` | `OsType_testcases.go` | 1–2 values | 🟢 Easy |
-| `codetestcasestests` | `GenericGherkins_testcases.go` | 1–2 values | 🟢 Easy |
+| `isanytests` | `ExtendedTypedNil_testcases.go` | Legacy BaseTestCase | 🟡 Medium |
 
 ### Batch B — Keep as `[]string` (15 files)
 
@@ -142,7 +138,6 @@ Variable-length output, multi-line error messages, formatted type inspection. No
 | `coreflecttests` | `FuncWrap_testcases.go` | Multi-line error messages |
 | `coredynamictests` | `CollectionGetPagesSize_testcases.go` | Variable-length paging output |
 | `coredynamictests` | `CollectionGetPagesSize_Others_testcases.go` | Variable-length paging output |
-| `isanytests` | `ExtendedTypedNil_testcases.go` | Formatted type inspection output |
 | `integratedtests` | `GetAssert_testcases.go` | Multi-line assertion output |
 | `integratedtests` | `GetAssert_ToStrings_testcases.go` | Formatted conversion output |
 | `integratedtests` | `GetAssert_SimpleTestCasesWrapper_testcases.go` | Multi-line wrapper output |
@@ -160,9 +155,9 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ██████████░░░░░░░░░░  70/138 (50.7%)
+Migrated █████████████░░░░░░░  81/138 (58.7%)
 Tuples   ░░░░░░░░░░░░░░░░░░░░   0/138 ( 0.0%)
-[]string █████░░░░░░░░░░░░░░░░  31/138 (22.5%)
+[]string ████░░░░░░░░░░░░░░░░░  20/138 (14.5%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
 ```
 
@@ -170,6 +165,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +11 migrated: easy []string batch (conditionaltests×2, converterstests×2, isanytests×2, coreutilstests×1, ostypetests×1, defaultcapacitytests×1, defaulterrtests×1, enumimpltests×1). []string 31→20. Total 81/138 (58.7%) |
 | 2026-03-06 | +8 migrated: all remaining typed tuples (reqtypetests, iserrortests, errcoretests, stringcompareastests, stringslicetests, versionindexestests, coreappendtests, keymktests/KeyLegend). Tuples 11→0. Total 70/138 (50.7%) |
 | 2026-03-06 | +2 migrated: `corestrtests/LeftRightFromSplit` (14 cases) + `LeftMiddleRightFromSplit` (14 cases) from []string → args.Map. Total 62/138 (44.9%) |
 | 2026-03-06 | +1 migrated: `corestrtests/BugfixRegression_testcases.go` (~20 cases: args.Two–Five → args.Map). Tuples 12→11. Total 60/138 (43.5%) |
@@ -184,14 +180,14 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 ## Migration Priority
 
-### Priority 1 — `[]string` Quick Wins (🟢 Easy, 15 files)
-All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
+### Priority 1 — `[]string` Medium (🟡 Medium, 5 files)
+coretaskinfotests, coretestcasestests, issettertests, ExtendedTypedNil. Require semantic key mapping for 4+ positional values.
 
-### Priority 2 — `[]string` Medium (🟡 Medium, 1 file)
-Multi-field structs or 4+ positional values. Estimated: ~30 min total.
-
-### Priority 3 — Typed Tuples → `args.Map` (0 files) ✅ COMPLETE
+### Priority 2 — Typed Tuples → `args.Map` (0 files) ✅ COMPLETE
 All typed tuple files have been migrated.
+
+### Priority 3 — Easy `[]string` (0 files) ✅ COMPLETE
+All easy []string files have been migrated.
 
 ### Keep As-Is (15 files)
 Variable-length output, multi-line error messages, formatted type inspection. Not suitable for `args.Map`.
