@@ -155,9 +155,9 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated █████████████░░░░░░░  82/138 (59.4%)
+Migrated █████████████░░░░░░░  83/138 (60.1%)
 Tuples   ░░░░░░░░░░░░░░░░░░░░   0/138 ( 0.0%)
-[]string ████░░░░░░░░░░░░░░░░░  19/138 (13.8%)
+[]string ███░░░░░░░░░░░░░░░░░░  18/138 (13.0%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
 ```
 
@@ -165,6 +165,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +1 migrated: `coretaskinfotests/InfoCreate_testcases.go` (20 test vars, all []string → args.Map with semantic keys). []string 19→18. Total 83/138 (60.1%) |
 | 2026-03-06 | Confirmed `issettertests/Value_testcases.go` already migrated — moved from Batch A to migrated. []string 20→19. Total 82/138 (59.4%) |
 | 2026-03-06 | +11 migrated: easy []string batch (conditionaltests×2, converterstests×2, isanytests×2, coreutilstests×1, ostypetests×1, defaultcapacitytests×1, defaulterrtests×1, enumimpltests×1). []string 31→20. Total 81/138 (58.7%) |
 | 2026-03-06 | +8 migrated: all remaining typed tuples (reqtypetests, iserrortests, errcoretests, stringcompareastests, stringslicetests, versionindexestests, coreappendtests, keymktests/KeyLegend). Tuples 11→0. Total 70/138 (50.7%) |
