@@ -1,7 +1,6 @@
 package corecomparatortests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/corecomparator"
@@ -16,21 +15,15 @@ func Test_Compare_Verification(t *testing.T) {
 		compare := corecomparator.Compare(value)
 
 		// Act
-		name := compare.String()
-		symbol := compare.OperatorSymbol()
-		shortForm := compare.OperatorShortForm()
-		isEqual := fmt.Sprintf("%v", compare.IsEqual())
-		isValid := fmt.Sprintf("%v", compare.IsValid())
+		actual := args.Map{
+			"name":      compare.String(),
+			"symbol":    compare.OperatorSymbol(),
+			"shortName": compare.OperatorShortForm(),
+			"isEqual":   compare.IsEqual(),
+			"isValid":   compare.IsValid(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			name,
-			symbol,
-			shortForm,
-			isEqual,
-			isValid,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
