@@ -22,13 +22,20 @@ type bytesErrorOnceTestCase struct {
 // BytesErrorOnce — Core (Value, Length, IsEmpty, IsNull, IsDefined, HasAnyItem)
 // =============================================================================
 
-// Note: 9 fields — exceeds args.Six, kept as []string for accuracy.
 var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce 'abc' — Length 3, not empty, not null, isDefined",
-			ExpectedInput: []string{
-				"abc", "true", "3", "true", "false", "false", "false", "false", "true",
+			ExpectedInput: args.Map{
+				"stringValue": "abc",
+				"noError":     true,
+				"length":      3,
+				"hasAnyItem":  true,
+				"isEmpty":     false,
+				"isEmptyBytes": false,
+				"isBytesEmpty": false,
+				"isNull":      false,
+				"isDefined":   true,
 			},
 		},
 		InitBytes: []byte("abc"),
@@ -36,8 +43,16 @@ var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce nil/nil — empty, null, not defined",
-			ExpectedInput: []string{
-				"", "true", "0", "false", "true", "true", "true", "true", "false",
+			ExpectedInput: args.Map{
+				"stringValue": "",
+				"noError":     true,
+				"length":      0,
+				"hasAnyItem":  false,
+				"isEmpty":     true,
+				"isEmptyBytes": true,
+				"isBytesEmpty": true,
+				"isNull":      true,
+				"isDefined":   false,
 			},
 		},
 		InitBytes: nil,
@@ -45,8 +60,16 @@ var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce empty bytes/nil — empty, not null",
-			ExpectedInput: []string{
-				"", "true", "0", "false", "true", "true", "true", "false", "false",
+			ExpectedInput: args.Map{
+				"stringValue": "",
+				"noError":     true,
+				"length":      0,
+				"hasAnyItem":  false,
+				"isEmpty":     true,
+				"isEmptyBytes": true,
+				"isBytesEmpty": true,
+				"isNull":      false,
+				"isDefined":   false,
 			},
 		},
 		InitBytes: []byte{},
@@ -61,12 +84,12 @@ var bytesErrorOnceCachingTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.Value caches — initializer runs exactly once",
-			ExpectedInput: args.Five[string, string, string, string, string]{
-				First:  "cached", // value1
-				Second: "cached", // value2
-				Third:  "true",   // value1EqValue2
-				Fourth: "true",   // executeEqValue
-				Fifth:  "1",      // callCount
+			ExpectedInput: args.Map{
+				"value1":         "cached",
+				"value2":         "cached",
+				"value1EqValue2": true,
+				"executeEqValue": true,
+				"callCount":      1,
 			},
 		},
 		InitBytes: []byte("cached"),
@@ -74,10 +97,10 @@ var bytesErrorOnceCachingTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.Value caches error result",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "",           // emptyValue
-				Second: "true",       // hasError
-				Third:  "test error", // errorMessage
+			ExpectedInput: args.Map{
+				"emptyValue":   "",
+				"hasError":     true,
+				"errorMessage": "test error",
 			},
 		},
 		InitErr: errors.New("test error"),
@@ -90,16 +113,20 @@ var bytesErrorOnceCachingTestCases = []bytesErrorOnceTestCase{
 
 var bytesErrorOnceExecuteTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title:         "BytesErrorOnce.Execute returns same as Value",
-		ExpectedInput: "true", // executeEqValue
+		Title: "BytesErrorOnce.Execute returns same as Value",
+		ExpectedInput: args.Map{
+			"executeEqValue": true,
+		},
 	},
 	InitBytes: []byte("exec"),
 }
 
 var bytesErrorOnceValueOnlyTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title:         "BytesErrorOnce.ValueOnly returns bytes without error",
-		ExpectedInput: "only", // valueOnlyResult
+		Title: "BytesErrorOnce.ValueOnly returns bytes without error",
+		ExpectedInput: args.Map{
+			"valueOnlyResult": "only",
+		},
 	},
 	InitBytes: []byte("only"),
 }
@@ -107,9 +134,9 @@ var bytesErrorOnceValueOnlyTestCase = bytesErrorOnceTestCase{
 var bytesErrorOnceValueWithErrorTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
 		Title: "BytesErrorOnce.ValueWithError aliases Value",
-		ExpectedInput: args.Two[string, string]{
-			First:  "vwe",  // valueWithErrorResult
-			Second: "true", // noError
+		ExpectedInput: args.Map{
+			"valueWithErrorResult": "vwe",
+			"noError":              true,
 		},
 	},
 	InitBytes: []byte("vwe"),
@@ -123,13 +150,13 @@ var bytesErrorOnceErrorStateTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce with error — HasError, IsInvalid, IsFailed true",
-			ExpectedInput: args.Six[string, string, string, string, string, string]{
-				First:  "true",  // hasError
-				Second: "false", // isValid
-				Third:  "false", // isSuccess
-				Fourth: "false", // isEmpty
-				Fifth:  "true",  // isInvalid
-				Sixth:  "true",  // isFailed
+			ExpectedInput: args.Map{
+				"hasError":  true,
+				"isValid":   false,
+				"isSuccess": false,
+				"isEmpty":   false,
+				"isInvalid": true,
+				"isFailed":  true,
 			},
 		},
 		InitErr: errors.New("fail"),
@@ -137,13 +164,13 @@ var bytesErrorOnceErrorStateTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce without error — HasError false, IsValid, IsSuccess true",
-			ExpectedInput: args.Six[string, string, string, string, string, string]{
-				First:  "false", // hasError
-				Second: "true",  // isValid
-				Third:  "true",  // isSuccess
-				Fourth: "true",  // isEmpty
-				Fifth:  "false", // isInvalid
-				Sixth:  "false", // isFailed
+			ExpectedInput: args.Map{
+				"hasError":  false,
+				"isValid":   true,
+				"isSuccess": true,
+				"isEmpty":   true,
+				"isInvalid": false,
+				"isFailed":  false,
 			},
 		},
 		InitBytes: []byte("ok"),
@@ -158,9 +185,9 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce with error — HasIssuesOrEmpty true",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",  // hasIssuesOrEmpty
-				Second: "false", // hasSafeItems
+			ExpectedInput: args.Map{
+				"hasIssuesOrEmpty": true,
+				"hasSafeItems":     false,
 			},
 		},
 		InitBytes: []byte("data"),
@@ -169,9 +196,9 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce empty bytes — HasIssuesOrEmpty true",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",  // hasIssuesOrEmpty
-				Second: "false", // hasSafeItems
+			ExpectedInput: args.Map{
+				"hasIssuesOrEmpty": true,
+				"hasSafeItems":     false,
 			},
 		},
 		InitBytes: []byte{},
@@ -179,9 +206,9 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce data no error — HasIssuesOrEmpty false, HasSafeItems true",
-			ExpectedInput: args.Two[string, string]{
-				First:  "false", // hasIssuesOrEmpty
-				Second: "true",  // hasSafeItems
+			ExpectedInput: args.Map{
+				"hasIssuesOrEmpty": false,
+				"hasSafeItems":     true,
 			},
 		},
 		InitBytes: []byte("ok"),
@@ -189,9 +216,9 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce nil receiver — HasIssuesOrEmpty true",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true",  // hasIssuesOrEmpty
-				Second: "false", // hasSafeItems
+			ExpectedInput: args.Map{
+				"hasIssuesOrEmpty": true,
+				"hasSafeItems":     false,
 			},
 		},
 		IsNilReceiver: true,
@@ -206,10 +233,10 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce 'str-val' — String returns correct value",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "str-val", // stringValue
-				Second: "false",   // isStringEmpty
-				Third:  "false",   // isStringEmptyOrWhitespace
+			ExpectedInput: args.Map{
+				"stringValue":                "str-val",
+				"isStringEmpty":              false,
+				"isStringEmptyOrWhitespace":  false,
 			},
 		},
 		InitBytes: []byte("str-val"),
@@ -217,10 +244,10 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce nil — String empty, IsStringEmpty true",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "",     // stringValue
-				Second: "true", // isStringEmpty
-				Third:  "true", // isStringEmptyOrWhitespace
+			ExpectedInput: args.Map{
+				"stringValue":                "",
+				"isStringEmpty":              true,
+				"isStringEmptyOrWhitespace":  true,
 			},
 		},
 		InitBytes: nil,
@@ -228,10 +255,10 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce whitespace — IsStringEmptyOrWhitespace true",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "   ",   // stringValue
-				Second: "false", // isStringEmpty
-				Third:  "true",  // isStringEmptyOrWhitespace
+			ExpectedInput: args.Map{
+				"stringValue":                "   ",
+				"isStringEmpty":              false,
+				"isStringEmptyOrWhitespace":  true,
 			},
 		},
 		InitBytes: []byte("   "),
@@ -253,9 +280,9 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.Deserialize succeeds with valid JSON",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true", // noError
-				Second: "test", // deserializedName
+			ExpectedInput: args.Map{
+				"noError":          true,
+				"deserializedName": "test",
 			},
 		},
 		InitJson: `{"name":"test"}`,
@@ -263,10 +290,10 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.Deserialize returns error when source has error",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "true", // hasSourceError
-				Second: "true", // hasDeserializeError
-				Third:  "true", // errorsMatch
+			ExpectedInput: args.Map{
+				"hasSourceError":      true,
+				"hasDeserializeError": true,
+				"errorsMatch":         true,
 			},
 		},
 		InitErr: errors.New("source error"),
@@ -274,9 +301,9 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.Deserialize with invalid JSON returns error",
-			ExpectedInput: args.Two[string, string]{
-				First:  "true", // hasError
-				Second: "true", // isJsonError
+			ExpectedInput: args.Map{
+				"hasError":    true,
+				"isJsonError": true,
 			},
 		},
 		InitJson: "not-json",
@@ -284,9 +311,9 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.DeserializeMust succeeds without panic",
-			ExpectedInput: args.Two[string, string]{
-				First:  "false", // didPanic
-				Second: "val",   // deserializedKey
+			ExpectedInput: args.Map{
+				"didPanic":        false,
+				"deserializedKey": "val",
 			},
 		},
 		InitJson: `{"key":"val"}`,
@@ -294,8 +321,10 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.DeserializeMust panics on error",
-			ExpectedInput: "true", // didPanic
+			Title: "BytesErrorOnce.DeserializeMust panics on error",
+			ExpectedInput: args.Map{
+				"didPanic": true,
+			},
 		},
 		InitErr: errors.New("must-fail"),
 		IsMust:  true,
@@ -309,9 +338,9 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 var bytesErrorOnceMarshalJSONTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
 		Title: "BytesErrorOnce.MarshalJSON returns bytes",
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",    // noError
-			Second: `{"a":1}`, // marshaledValue
+		ExpectedInput: args.Map{
+			"noError":        true,
+			"marshaledValue": `{"a":1}`,
 		},
 	},
 	InitBytes: []byte(`{"a":1}`),
@@ -320,9 +349,9 @@ var bytesErrorOnceMarshalJSONTestCase = bytesErrorOnceTestCase{
 var bytesErrorOnceSerializeTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
 		Title: "BytesErrorOnce.Serialize returns bytes",
-		ExpectedInput: args.Two[string, string]{
-			First:  "true", // noError
-			Second: "ser",  // serializedValue
+		ExpectedInput: args.Map{
+			"noError":         true,
+			"serializedValue": "ser",
 		},
 	},
 	InitBytes: []byte("ser"),
@@ -342,10 +371,10 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce — HandleError no panic, MustBeEmptyError no panic on success",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "false", // handleErrorPanicked
-				Second: "false", // mustBeEmptyErrorPanicked
-				Third:  "false", // mustHaveSafeItemsPanicked
+			ExpectedInput: args.Map{
+				"handleErrorPanicked":       false,
+				"mustBeEmptyErrorPanicked":  false,
+				"mustHaveSafeItemsPanicked": false,
 			},
 		},
 		InitBytes: []byte("ok"),
@@ -353,10 +382,10 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce — HandleError panics on error",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "true",  // handleErrorPanicked
-				Second: "false", // mustBeEmptyErrorPanicked
-				Third:  "false", // mustHaveSafeItemsPanicked
+			ExpectedInput: args.Map{
+				"handleErrorPanicked":       true,
+				"mustBeEmptyErrorPanicked":  false,
+				"mustHaveSafeItemsPanicked": false,
 			},
 		},
 		InitErr: errors.New("handle-err"),
@@ -364,10 +393,10 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce — MustHaveSafeItems panics when empty",
-			ExpectedInput: args.Three[string, string, string]{
-				First:  "false", // handleErrorPanicked
-				Second: "false", // mustBeEmptyErrorPanicked
-				Third:  "true",  // mustHaveSafeItemsPanicked
+			ExpectedInput: args.Map{
+				"handleErrorPanicked":       false,
+				"mustBeEmptyErrorPanicked":  false,
+				"mustHaveSafeItemsPanicked": true,
 			},
 		},
 		InitBytes: []byte{},
@@ -378,9 +407,9 @@ var bytesErrorOnceInitializedTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.IsInitialized false before, true after Value call",
-			ExpectedInput: args.Two[string, string]{
-				First:  "false", // isInitializedBefore
-				Second: "true",  // isInitializedAfter
+			ExpectedInput: args.Map{
+				"isInitializedBefore": false,
+				"isInitializedAfter":  true,
 			},
 		},
 		InitBytes: []byte("x"),
@@ -391,17 +420,19 @@ var bytesErrorOnceSerializeMustTestCases = []bytesErrorOnceLifecycleTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce.SerializeMust returns bytes without panic",
-			ExpectedInput: args.Two[string, string]{
-				First:  "false",    // didPanic
-				Second: "must-ser", // serializedValue
+			ExpectedInput: args.Map{
+				"didPanic":        false,
+				"serializedValue": "must-ser",
 			},
 		},
 		InitBytes: []byte("must-ser"),
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "BytesErrorOnce.SerializeMust panics on error",
-			ExpectedInput: "true", // didPanic
+			Title: "BytesErrorOnce.SerializeMust panics on error",
+			ExpectedInput: args.Map{
+				"didPanic": true,
+			},
 		},
 		InitErr: errors.New("ser-fail"),
 	},
@@ -411,9 +442,9 @@ var bytesErrorOnceConstructorTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "NewBytesErrorOnce (value) works correctly",
-			ExpectedInput: args.Two[string, string]{
-				First:  "val",  // value
-				Second: "true", // isCorrect
+			ExpectedInput: args.Map{
+				"value":     "val",
+				"isCorrect": true,
 			},
 		},
 		InitBytes: []byte("val"),

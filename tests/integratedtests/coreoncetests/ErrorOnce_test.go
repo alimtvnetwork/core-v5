@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 func newErrorOnce(initError string) *coreonce.ErrorOnce {
@@ -26,18 +27,21 @@ func Test_ErrorOnce_Core(t *testing.T) {
 		// Arrange
 		once := newErrorOnce(tc.InitError)
 
-		// Act & Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", once.HasError()),
-			fmt.Sprintf("%v", once.IsValid()),
-			fmt.Sprintf("%v", once.IsSuccess()),
-			fmt.Sprintf("%v", once.IsEmpty()),
-			fmt.Sprintf("%v", once.IsInvalid()),
-			fmt.Sprintf("%v", once.IsFailed()),
-			fmt.Sprintf("%v", once.HasAnyItem()),
-			fmt.Sprintf("%v", once.IsDefined()),
-			once.Message(),
-		)
+		// Act
+		actual := args.Map{
+			"hasError":   once.HasError(),
+			"isValid":    once.IsValid(),
+			"isSuccess":  once.IsSuccess(),
+			"isEmpty":    once.IsEmpty(),
+			"isInvalid":  once.IsInvalid(),
+			"isFailed":   once.IsFailed(),
+			"hasAnyItem": once.HasAnyItem(),
+			"isDefined":  once.IsDefined(),
+			"message":    once.Message(),
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -58,12 +62,13 @@ func Test_ErrorOnce_Caching(t *testing.T) {
 		r3 := once.Value()
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			r1.Error(),
-			r2.Error(),
-			r3.Error(),
-			fmt.Sprintf("%d", callCount),
-		)
+		actual := args.Map{
+			"r1":        r1.Error(),
+			"r2":        r2.Error(),
+			"r3":        r3.Error(),
+			"callCount": callCount,
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -72,10 +77,13 @@ func Test_ErrorOnce_NullOrEmpty(t *testing.T) {
 		// Arrange
 		once := newErrorOnce(tc.InitError)
 
-		// Act & Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", once.IsNullOrEmpty()),
-		)
+		// Act
+		actual := args.Map{
+			"isNullOrEmpty": once.IsNullOrEmpty(),
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -84,11 +92,14 @@ func Test_ErrorOnce_MessageEqual(t *testing.T) {
 		// Arrange
 		once := newErrorOnce(tc.InitError)
 
-		// Act & Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", once.IsMessageEqual(tc.MatchMsg)),
-			fmt.Sprintf("%v", once.IsMessageEqual("other")),
-		)
+		// Act
+		actual := args.Map{
+			"isMessageEqualMatch": once.IsMessageEqual(tc.MatchMsg),
+			"isMessageEqualOther": once.IsMessageEqual("other"),
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -100,20 +111,22 @@ func Test_ErrorOnce_ConcatNew(t *testing.T) {
 		// Act
 		result := once.ConcatNewString(tc.ExtraMsg)
 
-		var actLines []string
+		var actual args.Map
 
 		isNilError := tc.InitError == ""
 		if isNilError {
-			actLines = []string{result}
+			actual = args.Map{
+				"result": result,
+			}
 		} else {
-			actLines = []string{
-				fmt.Sprintf("%v", strings.Contains(result, tc.InitError)),
-				fmt.Sprintf("%v", strings.Contains(result, tc.ExtraMsg)),
+			actual = args.Map{
+				"containsBase":  strings.Contains(result, tc.InitError),
+				"containsExtra": strings.Contains(result, tc.ExtraMsg),
 			}
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -124,12 +137,15 @@ func Test_ErrorOnce_Json(t *testing.T) {
 
 		// Act
 		data, err := once.MarshalJSON()
-		noError := err == nil
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", noError),
-			string(data),
-		)
+		actual := args.Map{
+			"noError":        err == nil,
+			"marshaledValue": string(data),
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
+
+// Ensure fmt is used
+var _ = fmt.Sprintf

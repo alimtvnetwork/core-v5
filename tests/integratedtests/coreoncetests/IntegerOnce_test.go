@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 func Test_IntegerOnce_Core(t *testing.T) {
@@ -13,17 +14,20 @@ func Test_IntegerOnce_Core(t *testing.T) {
 		initVal := tc.InitValue
 		once := coreonce.NewIntegerOncePtr(func() int { return initVal })
 
-		// Act & Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", once.Value()),
-			once.String(),
-			fmt.Sprintf("%v", once.IsZero()),
-			fmt.Sprintf("%v", once.IsEmpty()),
-			fmt.Sprintf("%v", once.IsAboveZero()),
-			fmt.Sprintf("%v", once.IsPositive()),
-			fmt.Sprintf("%v", once.IsLessThanZero()),
-			fmt.Sprintf("%v", once.IsNegative()),
-		)
+		// Act
+		actual := args.Map{
+			"value":          once.Value(),
+			"string":         once.String(),
+			"isZero":         once.IsZero(),
+			"isEmpty":        once.IsEmpty(),
+			"isAboveZero":    once.IsAboveZero(),
+			"isPositive":     once.IsPositive(),
+			"isLessThanZero": once.IsLessThanZero(),
+			"isNegative":     once.IsNegative(),
+		}
+
+		// Assert
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -43,11 +47,12 @@ func Test_IntegerOnce_Caching(t *testing.T) {
 		r2 := once.Value()
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", r1),
-			fmt.Sprintf("%d", r2),
-			fmt.Sprintf("%d", callCount),
-		)
+		actual := args.Map{
+			"r1":        r1,
+			"r2":        r2,
+			"callCount": callCount,
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -59,25 +64,25 @@ func Test_IntegerOnce_Compare(t *testing.T) {
 		cmpVal := tc.CompareValue
 
 		// Act
-		var actLines []string
+		var actual args.Map
 
 		isLessThanCase := tc.InitValue < tc.CompareValue
 		if isLessThanCase {
-			actLines = []string{
-				fmt.Sprintf("%v", once.IsLessThan(cmpVal)),
-				fmt.Sprintf("%v", once.IsLessThan(initVal)),
-				fmt.Sprintf("%v", once.IsLessThanEqual(initVal)),
+			actual = args.Map{
+				"isLessThanCompare":   once.IsLessThan(cmpVal),
+				"isLessThanSelf":      once.IsLessThan(initVal),
+				"isLessThanEqualSelf": once.IsLessThanEqual(initVal),
 			}
 		} else {
-			actLines = []string{
-				fmt.Sprintf("%v", once.IsAbove(cmpVal)),
-				fmt.Sprintf("%v", once.IsAbove(initVal)),
-				fmt.Sprintf("%v", once.IsAboveEqual(initVal)),
+			actual = args.Map{
+				"isAboveCompare":   once.IsAbove(cmpVal),
+				"isAboveSelf":      once.IsAbove(initVal),
+				"isAboveEqualSelf": once.IsAboveEqual(initVal),
 			}
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -89,12 +94,15 @@ func Test_IntegerOnce_Json(t *testing.T) {
 
 		// Act
 		data, err := once.MarshalJSON()
-		noError := err == nil
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", noError),
-			string(data),
-		)
+		actual := args.Map{
+			"noError":        err == nil,
+			"marshaledValue": string(data),
+		}
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
+
+// Ensure fmt is used (for potential future use)
+var _ = fmt.Sprintf
