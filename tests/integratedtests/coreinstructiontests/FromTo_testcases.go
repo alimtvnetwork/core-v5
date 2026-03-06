@@ -10,17 +10,13 @@ import (
 // ==========================================================================
 
 var fromToClonePtrCopiesTestCase = coretestcases.CaseV1{
-	Title: "ClonePtr - copies From and To",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true",        // isNotNil
-		Second: "source",      // from
-		Third:  "destination", // to
-	},
+	Title:         "ClonePtr - copies From and To",
+	ExpectedInput: args.Map{"isNotNil": true, "from": "source", "to": "destination"},
 }
 
 var fromToClonePtrNilTestCase = coretestcases.CaseV1{
 	Title:         "ClonePtr - nil receiver returns nil",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"isNil": true},
 }
 
 // ==========================================================================
@@ -28,11 +24,8 @@ var fromToClonePtrNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToCloneCopiesTestCase = coretestcases.CaseV1{
-	Title: "Clone - copies values",
-	ExpectedInput: args.Two[string, string]{
-		First:  "a", // from
-		Second: "b", // to
-	},
+	Title:         "Clone - copies values",
+	ExpectedInput: args.Map{"from": "a", "to": "b"},
 }
 
 // ==========================================================================
@@ -41,12 +34,12 @@ var fromToCloneCopiesTestCase = coretestcases.CaseV1{
 
 var fromToIsNullNilTestCase = coretestcases.CaseV1{
 	Title:         "IsNull - nil returns true",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"result": true},
 }
 
 var fromToIsNullNonNilTestCase = coretestcases.CaseV1{
 	Title:         "IsNull - non-nil returns false",
-	ExpectedInput: "false",
+	ExpectedInput: args.Map{"result": false},
 }
 
 // ==========================================================================
@@ -55,12 +48,12 @@ var fromToIsNullNonNilTestCase = coretestcases.CaseV1{
 
 var fromToIsFromEmptyEmptyTestCase = coretestcases.CaseV1{
 	Title:         "IsFromEmpty - empty From returns true",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"result": true},
 }
 
 var fromToIsFromEmptyNilTestCase = coretestcases.CaseV1{
 	Title:         "IsFromEmpty - nil receiver returns true",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"result": true},
 }
 
 // ==========================================================================
@@ -69,12 +62,12 @@ var fromToIsFromEmptyNilTestCase = coretestcases.CaseV1{
 
 var fromToIsToEmptyEmptyTestCase = coretestcases.CaseV1{
 	Title:         "IsToEmpty - empty To returns true",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"result": true},
 }
 
 var fromToIsToEmptyNonEmptyTestCase = coretestcases.CaseV1{
 	Title:         "IsToEmpty - non-empty returns false",
-	ExpectedInput: "false",
+	ExpectedInput: args.Map{"result": false},
 }
 
 // ==========================================================================
@@ -82,11 +75,8 @@ var fromToIsToEmptyNonEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToStringContainsTestCase = coretestcases.CaseV1{
-	Title: "String - contains From and To",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // containsFrom
-		Second: "true", // containsTo
-	},
+	Title:         "String - contains From and To",
+	ExpectedInput: args.Map{"containsFrom": true, "containsTo": true},
 }
 
 // ==========================================================================
@@ -94,11 +84,8 @@ var fromToStringContainsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToNamesTestCase = coretestcases.CaseV1{
-	Title: "FromName/ToName return field values",
-	ExpectedInput: args.Two[string, string]{
-		First:  "src", // fromName
-		Second: "dst", // toName
-	},
+	Title:         "FromName/ToName return field values",
+	ExpectedInput: args.Map{"fromName": "src", "toName": "dst"},
 }
 
 // ==========================================================================
@@ -107,12 +94,12 @@ var fromToNamesTestCase = coretestcases.CaseV1{
 
 var fromToSetFromNameUpdatesTestCase = coretestcases.CaseV1{
 	Title:         "SetFromName - updates From",
-	ExpectedInput: "new",
+	ExpectedInput: args.Map{"from": "new"},
 }
 
 var fromToSetFromNameNilTestCase = coretestcases.CaseV1{
 	Title:         "SetFromName - nil receiver no panic",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"noPanic": true},
 }
 
 // ==========================================================================
@@ -121,7 +108,7 @@ var fromToSetFromNameNilTestCase = coretestcases.CaseV1{
 
 var fromToSetToNameUpdatesTestCase = coretestcases.CaseV1{
 	Title:         "SetToName - updates To",
-	ExpectedInput: "new",
+	ExpectedInput: args.Map{"to": "new"},
 }
 
 // ==========================================================================
@@ -129,17 +116,13 @@ var fromToSetToNameUpdatesTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToSourceDestMapsTestCase = coretestcases.CaseV1{
-	Title: "SourceDestination - maps From->Source To->Destination",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // isNotNil
-		Second: "src",  // source
-		Third:  "dst",  // destination
-	},
+	Title:         "SourceDestination - maps From->Source To->Destination",
+	ExpectedInput: args.Map{"isNotNil": true, "source": "src", "destination": "dst"},
 }
 
 var fromToSourceDestNilTestCase = coretestcases.CaseV1{
 	Title:         "SourceDestination - nil returns nil",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"isNil": true},
 }
 
 // ==========================================================================
@@ -147,15 +130,11 @@ var fromToSourceDestNilTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var fromToRenameMapsTestCase = coretestcases.CaseV1{
-	Title: "Rename - maps From->Existing To->New",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // isNotNil
-		Second: "old",  // existing
-		Third:  "new",  // newName
-	},
+	Title:         "Rename - maps From->Existing To->New",
+	ExpectedInput: args.Map{"isNotNil": true, "existing": "old", "newName": "new"},
 }
 
 var fromToRenameNilTestCase = coretestcases.CaseV1{
 	Title:         "Rename - nil returns nil",
-	ExpectedInput: "true",
+	ExpectedInput: args.Map{"isNil": true},
 }

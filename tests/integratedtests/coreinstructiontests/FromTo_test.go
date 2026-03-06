@@ -1,16 +1,12 @@
 package coreinstructiontests
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coreinstruction"
 )
-
-// ==========================================
-// Test: ClonePtr
-// ==========================================
 
 func Test_FromTo_ClonePtr(t *testing.T) {
 	// Case 0: positive
@@ -19,13 +15,13 @@ func Test_FromTo_ClonePtr(t *testing.T) {
 		orig := &coreinstruction.FromTo{From: "source", To: "destination"}
 		cloned := orig.ClonePtr()
 
-		actLines := []string{
-			fmt.Sprintf("%v", cloned != nil),
-			cloned.From,
-			cloned.To,
+		actual := args.Map{
+			"isNotNil": cloned != nil,
+			"from":     cloned.From,
+			"to":       cloned.To,
 		}
 
-		tc.ShouldBeEqual(t, 0, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 
 	// Case 1: nil receiver
@@ -33,153 +29,115 @@ func Test_FromTo_ClonePtr(t *testing.T) {
 		tc := fromToClonePtrNilTestCase
 		var nilFT *coreinstruction.FromTo
 
-		actLines := []string{
-			fmt.Sprintf("%v", nilFT.ClonePtr() == nil),
-		}
+		actual := args.Map{"isNil": nilFT.ClonePtr() == nil}
 
-		tc.ShouldBeEqual(t, 1, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 }
-
-// ==========================================
-// Test: Clone
-// ==========================================
 
 func Test_FromTo_Clone(t *testing.T) {
 	tc := fromToCloneCopiesTestCase
 	orig := coreinstruction.FromTo{From: "a", To: "b"}
 	c := orig.Clone()
 
-	actLines := []string{c.From, c.To}
+	actual := args.Map{"from": c.From, "to": c.To}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-// ==========================================
-// Test: IsNull
-// ==========================================
-
 func Test_FromTo_IsNull(t *testing.T) {
-	// Case 0: nil returns true
 	{
 		tc := fromToIsNullNilTestCase
 		var nilFT *coreinstruction.FromTo
 
-		actLines := []string{fmt.Sprintf("%v", nilFT.IsNull())}
+		actual := args.Map{"result": nilFT.IsNull()}
 
-		tc.ShouldBeEqual(t, 0, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 
-	// Case 1: non-nil returns false
 	{
 		tc := fromToIsNullNonNilTestCase
 		ft := &coreinstruction.FromTo{From: "x", To: "y"}
 
-		actLines := []string{fmt.Sprintf("%v", ft.IsNull())}
+		actual := args.Map{"result": ft.IsNull()}
 
-		tc.ShouldBeEqual(t, 1, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 }
 
-// ==========================================
-// Test: IsFromEmpty
-// ==========================================
-
 func Test_FromTo_IsFromEmpty(t *testing.T) {
-	// Case 0: empty From returns true
 	{
 		tc := fromToIsFromEmptyEmptyTestCase
 		ft := &coreinstruction.FromTo{From: "", To: "dest"}
 
-		actLines := []string{fmt.Sprintf("%v", ft.IsFromEmpty())}
+		actual := args.Map{"result": ft.IsFromEmpty()}
 
-		tc.ShouldBeEqual(t, 0, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 
-	// Case 1: nil receiver returns true
 	{
 		tc := fromToIsFromEmptyNilTestCase
 		var nilFT *coreinstruction.FromTo
 
-		actLines := []string{fmt.Sprintf("%v", nilFT.IsFromEmpty())}
+		actual := args.Map{"result": nilFT.IsFromEmpty()}
 
-		tc.ShouldBeEqual(t, 1, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 }
 
-// ==========================================
-// Test: IsToEmpty
-// ==========================================
-
 func Test_FromTo_IsToEmpty(t *testing.T) {
-	// Case 0: empty To returns true
 	{
 		tc := fromToIsToEmptyEmptyTestCase
 		ft := &coreinstruction.FromTo{From: "src", To: ""}
 
-		actLines := []string{fmt.Sprintf("%v", ft.IsToEmpty())}
+		actual := args.Map{"result": ft.IsToEmpty()}
 
-		tc.ShouldBeEqual(t, 0, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 
-	// Case 1: non-empty returns false
 	{
 		tc := fromToIsToEmptyNonEmptyTestCase
 		ft := &coreinstruction.FromTo{From: "src", To: "dest"}
 
-		actLines := []string{fmt.Sprintf("%v", ft.IsToEmpty())}
+		actual := args.Map{"result": ft.IsToEmpty()}
 
-		tc.ShouldBeEqual(t, 1, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 }
-
-// ==========================================
-// Test: String
-// ==========================================
 
 func Test_FromTo_String(t *testing.T) {
 	tc := fromToStringContainsTestCase
 	ft := coreinstruction.FromTo{From: "alpha", To: "beta"}
 	s := ft.String()
 
-	actLines := []string{
-		fmt.Sprintf("%v", len(s) > 0 && strings.Contains(s, "alpha")),
-		fmt.Sprintf("%v", strings.Contains(s, "beta")),
+	actual := args.Map{
+		"containsFrom": len(s) > 0 && strings.Contains(s, "alpha"),
+		"containsTo":   strings.Contains(s, "beta"),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
-
-// ==========================================
-// Test: FromName / ToName
-// ==========================================
 
 func Test_FromTo_Names(t *testing.T) {
 	tc := fromToNamesTestCase
 	ft := coreinstruction.FromTo{From: "src", To: "dst"}
 
-	actLines := []string{ft.FromName(), ft.ToName()}
+	actual := args.Map{"fromName": ft.FromName(), "toName": ft.ToName()}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-// ==========================================
-// Test: SetFromName
-// ==========================================
-
 func Test_FromTo_SetFromName(t *testing.T) {
-	// Case 0: updates From
 	{
 		tc := fromToSetFromNameUpdatesTestCase
 		ft := &coreinstruction.FromTo{From: "old", To: "t"}
 		ft.SetFromName("new")
 
-		actLines := []string{ft.From}
+		actual := args.Map{"from": ft.From}
 
-		tc.ShouldBeEqual(t, 0, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 
-	// Case 1: nil receiver no panic
 	{
 		tc := fromToSetFromNameNilTestCase
 		var nilFT *coreinstruction.FromTo
@@ -191,88 +149,71 @@ func Test_FromTo_SetFromName(t *testing.T) {
 					didPanic = true
 				}
 			}()
-
 			nilFT.SetFromName("x")
 		}()
 
-		actLines := []string{fmt.Sprintf("%v", !didPanic)}
+		actual := args.Map{"noPanic": !didPanic}
 
-		tc.ShouldBeEqual(t, 1, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 }
-
-// ==========================================
-// Test: SetToName
-// ==========================================
 
 func Test_FromTo_SetToName(t *testing.T) {
 	tc := fromToSetToNameUpdatesTestCase
 	ft := &coreinstruction.FromTo{From: "f", To: "old"}
 	ft.SetToName("new")
 
-	actLines := []string{ft.To}
+	actual := args.Map{"to": ft.To}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-// ==========================================
-// Test: SourceDestination
-// ==========================================
-
 func Test_FromTo_SourceDestination(t *testing.T) {
-	// Case 0: maps From->Source To->Destination
 	{
 		tc := fromToSourceDestMapsTestCase
 		ft := &coreinstruction.FromTo{From: "src", To: "dst"}
 		sd := ft.SourceDestination()
 
-		actLines := []string{
-			fmt.Sprintf("%v", sd != nil),
-			sd.Source,
-			sd.Destination,
+		actual := args.Map{
+			"isNotNil":    sd != nil,
+			"source":      sd.Source,
+			"destination": sd.Destination,
 		}
 
-		tc.ShouldBeEqual(t, 0, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 
-	// Case 1: nil returns nil
 	{
 		tc := fromToSourceDestNilTestCase
 		var nilFT *coreinstruction.FromTo
 
-		actLines := []string{fmt.Sprintf("%v", nilFT.SourceDestination() == nil)}
+		actual := args.Map{"isNil": nilFT.SourceDestination() == nil}
 
-		tc.ShouldBeEqual(t, 1, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 }
 
-// ==========================================
-// Test: Rename
-// ==========================================
-
 func Test_FromTo_Rename(t *testing.T) {
-	// Case 0: maps From->Existing To->New
 	{
 		tc := fromToRenameMapsTestCase
 		ft := &coreinstruction.FromTo{From: "old", To: "new"}
 		rn := ft.Rename()
 
-		actLines := []string{
-			fmt.Sprintf("%v", rn != nil),
-			rn.Existing,
-			rn.New,
+		actual := args.Map{
+			"isNotNil": rn != nil,
+			"existing": rn.Existing,
+			"newName":  rn.New,
 		}
 
-		tc.ShouldBeEqual(t, 0, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 
-	// Case 1: nil returns nil
 	{
 		tc := fromToRenameNilTestCase
 		var nilFT *coreinstruction.FromTo
 
-		actLines := []string{fmt.Sprintf("%v", nilFT.Rename() == nil)}
+		actual := args.Map{"isNil": nilFT.Rename() == nil}
 
-		tc.ShouldBeEqual(t, 1, actLines...)
+		tc.ShouldBeEqualMapFirst(t, actual)
 	}
 }

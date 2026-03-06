@@ -1,7 +1,6 @@
 package coreindexestests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coreindexes"
@@ -9,9 +8,9 @@ import (
 )
 
 func Test_HasIndex_Verification(t *testing.T) {
-	for caseIndex, testCase := range hasIndexTestCases {
+	for caseIndex, tc := range hasIndexTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
+		input := tc.ArrangeInput.(args.Map)
 		indexesVal, _ := input.Get("indexes")
 		indexes := indexesVal.([]int)
 		current, _ := input.GetAsInt("current")
@@ -20,28 +19,30 @@ func Test_HasIndex_Verification(t *testing.T) {
 		result := coreindexes.HasIndex(indexes, current)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
+		actual := args.Map{"result": result}
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_LastIndex_Verification(t *testing.T) {
-	for caseIndex, testCase := range lastIndexTestCases {
+	for caseIndex, tc := range lastIndexTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
+		input := tc.ArrangeInput.(args.Map)
 		length, _ := input.GetAsInt("length")
 
 		// Act
 		result := coreindexes.LastIndex(length)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
+		actual := args.Map{"result": result}
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_IsWithinIndexRange_Verification(t *testing.T) {
-	for caseIndex, testCase := range isWithinIndexRangeTestCases {
+	for caseIndex, tc := range isWithinIndexRangeTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
+		input := tc.ArrangeInput.(args.Map)
 		index, _ := input.GetAsInt("index")
 		length, _ := input.GetAsInt("length")
 
@@ -49,6 +50,7 @@ func Test_IsWithinIndexRange_Verification(t *testing.T) {
 		result := coreindexes.IsWithinIndexRange(index, length)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
+		actual := args.Map{"result": result}
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
