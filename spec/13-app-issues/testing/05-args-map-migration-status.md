@@ -6,17 +6,17 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **86 files** | 62.3% |
+| ✅ Migrated to `args.Map` | **88 files** | 63.8% |
 | 🔶 Using `args.Two`–`args.Six` (typed tuples) | **0 files** | 0% |
 | 🔴 Using `[]string` | **15 files** | 10.9% |
-| 🟡 Using plain `string` / other | **~34 files** | 24.6% |
+| 🟡 Using plain `string` / other | **~35 files** | 25.4% |
 | **Total testcase files** | **~138** | — |
 
 > Note: Some files use multiple patterns (e.g., `[]string` for some cases, `args.Map` for others).
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (81 files)
+## ✅ Fully Migrated to `args.Map` (88 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -107,6 +107,8 @@
 | `coretestcasestests` | `ExpectedLines_testcases.go` | 8 scattered expected vars → table-driven with lineCount/line0..N args.Map |
 | `coretestcasestests` | `GenericGherkins_testcases.go` | ExpectedLines []string → ExtraArgs with expectedDiff/expectedResult/line0..N keys |
 | `isanytests` | `ExtendedTypedNil_testcases.go` | 4 legacy BaseTestCase vars → CaseV1 with result0..N/type0..N/types0..N args.Map |
+| `codestacktests` | `FileWithLine_testcases.go` | args.Three → args.Map with filePath/lineNumber/isValid |
+| `corecomparatortests` | `CompareExtended_testcases.go` | args.Three → args.Map with marshaledJson/unmarshaledName/unmarshaledValue |
 
 ---
 
@@ -154,7 +156,7 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ██████████████░░░░░░  86/138 (62.3%)
+Migrated ██████████████░░░░░░  88/138 (63.8%)
 Tuples   ░░░░░░░░░░░░░░░░░░░░   0/138 ( 0.0%)
 []string ██░░░░░░░░░░░░░░░░░░░  15/138 (10.9%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
@@ -164,6 +166,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +2 migrated: `codestacktests/FileWithLine_testcases.go` (args.Three → args.Map with filePath/lineNumber/isValid) + `corecomparatortests/CompareExtended_testcases.go` (args.Three → args.Map with marshaledJson/unmarshaledName/unmarshaledValue). Total 88/138 (63.8%). All args.Three cleared. |
 | 2026-03-06 | +1 migrated: `isanytests/ExtendedTypedNil_testcases.go` (4 legacy BaseTestCase vars → CaseV1 with result/type indexed args.Map). []string 16→15. Total 86/138 (62.3%). Batch A fully cleared. |
 | 2026-03-06 | +2 migrated: `coretestcasestests/ExpectedLines_testcases.go` (8 scattered vars → table-driven args.Map) + `GenericGherkins_testcases.go` (ExpectedLines → ExtraArgs with semantic keys). []string 18→16. Total 85/138 (61.6%) |
 | 2026-03-06 | +1 migrated: `coretaskinfotests/InfoCreate_testcases.go` (20 test vars, all []string → args.Map with semantic keys). []string 19→18. Total 83/138 (60.1%) |
