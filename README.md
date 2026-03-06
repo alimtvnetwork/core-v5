@@ -1,5 +1,10 @@
 # `core` — Go Utility Framework
 
+[![Go Version](https://img.shields.io/badge/Go-1.24+-00ADD8?style=flat&logo=go&logoColor=white)](https://go.dev/doc/install)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Pipeline Status](https://gitlab.com/auk-go/core/badges/main/pipeline.svg)](https://gitlab.com/auk-go/core/-/pipelines)
+[![Coverage](https://gitlab.com/auk-go/core/badges/main/coverage.svg)](https://gitlab.com/auk-go/core/-/pipelines)
+
 ![Core logo](assets/core-250.png)
 
 > **The power of Java/.NET — the simplicity of Go.**
