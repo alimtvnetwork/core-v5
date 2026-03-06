@@ -529,6 +529,33 @@ func (it Map) GetAsIntDefault(name string, defaultVal int) (item int) {
 	return defaultVal
 }
 
+// GetAsBool
+//
+//	Retrieves an item from the map by name, converting it to a bool.
+func (it Map) GetAsBool(name string) (item bool, isValid bool) {
+	i, ok := it.Get(name)
+	if !ok {
+		return false, false
+	}
+
+	conv, ok := i.(bool)
+
+	return conv, ok
+}
+
+// GetAsBoolDefault
+//
+//	Retrieves an item from the map by name, converting it to a bool, or returning a default value if not found or not a bool.
+func (it Map) GetAsBoolDefault(name string, defaultVal bool) (item bool) {
+	v, isValid := it.GetAsBool(name)
+
+	if isValid {
+		return v
+	}
+
+	return defaultVal
+}
+
 // GetAsString
 //
 //	Retrieves an item from the map by name, converting it to a string.
