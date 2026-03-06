@@ -18,12 +18,12 @@ var infoDefaultTestCases = []coretestcases.CaseV1{
 			"desc": "some desc",
 			"url":  "some url",
 		},
-		ExpectedInput: []string{
-			"some name",
-			"some desc",
-			"some url",
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"name":      "some name",
+			"desc":      "some desc",
+			"url":       "some url",
+			"isNull":    "false",
+			"isDefined": "true",
 		},
 	},
 }
@@ -42,14 +42,14 @@ var infoExamplesWithItemsTestCases = []coretestcases.CaseV1{
 			"url":      "example url",
 			"examples": []string{"ex1", "ex2"},
 		},
-		ExpectedInput: []string{
-			"example name",
-			"example desc",
-			"example url",
-			"false",
-			"true",
-			"true",
-			"2",
+		ExpectedInput: args.Map{
+			"name":         "example name",
+			"desc":         "example desc",
+			"url":          "example url",
+			"isNull":       "false",
+			"isDefined":    "true",
+			"hasExamples":  "true",
+			"exampleCount": "2",
 		},
 	},
 }
@@ -67,14 +67,14 @@ var infoExamplesEmptyTestCases = []coretestcases.CaseV1{
 			"desc": "no-ex desc",
 			"url":  "no-ex url",
 		},
-		ExpectedInput: []string{
-			"no-ex name",
-			"no-ex desc",
-			"no-ex url",
-			"false",
-			"true",
-			"false",
-			"0",
+		ExpectedInput: args.Map{
+			"name":         "no-ex name",
+			"desc":         "no-ex desc",
+			"url":          "no-ex url",
+			"isNull":       "false",
+			"isDefined":    "true",
+			"hasExamples":  "false",
+			"exampleCount": "0",
 		},
 	},
 }
@@ -89,7 +89,7 @@ var infoNilSafeNameTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -99,7 +99,7 @@ var infoNilSafeDescriptionTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -109,7 +109,7 @@ var infoNilSafeUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -119,7 +119,7 @@ var infoNilSafeHintUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -129,7 +129,7 @@ var infoNilSafeErrorUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -139,7 +139,7 @@ var infoNilSafeExampleUrlTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -149,9 +149,9 @@ var infoNilNullCheckTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info for null check",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isNull":    "true",
+			"isDefined": "false",
 		},
 	},
 }
@@ -162,9 +162,9 @@ var infoNilEmptyCheckTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info for empty check",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isEmpty":    "true",
+			"hasAnyItem": "false",
 		},
 	},
 }
@@ -185,7 +185,7 @@ var infoNilPrettyJsonTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info for json",
 		},
-		ExpectedInput: []string{""},
+		ExpectedInput: "",
 	},
 }
 
@@ -202,13 +202,13 @@ var infoSecureDefaultTestCases = []coretestcases.CaseV1{
 			"desc": "secure-desc",
 			"url":  "secure-url",
 		},
-		ExpectedInput: []string{
-			"secure-name",
-			"secure-desc",
-			"secure-url",
-			"true",
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"name":             "secure-name",
+			"desc":             "secure-desc",
+			"url":              "secure-url",
+			"isSecure":         "true",
+			"isPlainText":      "false",
+			"isExcludePayload": "true",
 		},
 	},
 }
@@ -223,12 +223,12 @@ var infoSecureExamplesTestCases = []coretestcases.CaseV1{
 			"url":      "sec-ex-url",
 			"examples": []string{"ex1", "ex2", "ex3"},
 		},
-		ExpectedInput: []string{
-			"sec-ex-name",
-			"true",
-			"false",
-			"true",
-			"3",
+		ExpectedInput: args.Map{
+			"name":             "sec-ex-name",
+			"isSecure":         "true",
+			"isPlainText":      "false",
+			"isExcludePayload": "true",
+			"exampleCount":     "3",
 		},
 	},
 }
@@ -239,9 +239,9 @@ var infoSetSecureOnNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info with SetSecure",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isSecure":    "true",
+			"isPlainText": "false",
 		},
 	},
 }
@@ -253,10 +253,10 @@ var infoSetSecureOnExistingTestCases = []coretestcases.CaseV1{
 			"when": "given plain info then SetSecure",
 			"name": "was-plain",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"was-plain",
+		ExpectedInput: args.Map{
+			"isSecure":    "true",
+			"isPlainText": "false",
+			"name":        "was-plain",
 		},
 	},
 }
@@ -274,13 +274,13 @@ var infoPlainDefaultTestCases = []coretestcases.CaseV1{
 			"desc": "plain-desc",
 			"url":  "plain-url",
 		},
-		ExpectedInput: []string{
-			"plain-name",
-			"plain-desc",
-			"plain-url",
-			"false",
-			"true",
-			"true",
+		ExpectedInput: args.Map{
+			"name":              "plain-name",
+			"desc":              "plain-desc",
+			"url":               "plain-url",
+			"isSecure":          "false",
+			"isPlainText":       "true",
+			"isIncludePayloads": "true",
 		},
 	},
 }
@@ -297,15 +297,15 @@ var infoPlainAllUrlExamplesTestCases = []coretestcases.CaseV1{
 			"errorUrl": "all-err",
 			"examples": []string{"ex1"},
 		},
-		ExpectedInput: []string{
-			"all-name",
-			"all-desc",
-			"all-url",
-			"all-hint",
-			"all-err",
-			"false",
-			"true",
-			"1",
+		ExpectedInput: args.Map{
+			"name":         "all-name",
+			"desc":         "all-desc",
+			"url":          "all-url",
+			"hintUrl":      "all-hint",
+			"errorUrl":     "all-err",
+			"isSecure":     "false",
+			"isPlainText":  "true",
+			"exampleCount": "1",
 		},
 	},
 }
@@ -316,9 +316,9 @@ var infoSetPlainOnNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil info with SetPlain",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"isSecure":    "false",
+			"isPlainText": "true",
 		},
 	},
 }
@@ -336,12 +336,12 @@ var infoSerializeDefaultTestCases = []coretestcases.CaseV1{
 			"desc": "round-trip desc",
 			"url":  "round-trip url",
 		},
-		ExpectedInput: []string{
-			"round-trip name",
-			"round-trip desc",
-			"round-trip url",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"name":     "round-trip name",
+			"desc":     "round-trip desc",
+			"url":      "round-trip url",
+			"noError":  "true",
+			"isSecure": "false",
 		},
 	},
 }
@@ -355,12 +355,12 @@ var infoSerializeSecureTestCases = []coretestcases.CaseV1{
 			"desc": "sec-rt-desc",
 			"url":  "sec-rt-url",
 		},
-		ExpectedInput: []string{
-			"sec-rt-name",
-			"sec-rt-desc",
-			"sec-rt-url",
-			"true",
-			"true",
+		ExpectedInput: args.Map{
+			"name":     "sec-rt-name",
+			"desc":     "sec-rt-desc",
+			"url":      "sec-rt-url",
+			"noError":  "true",
+			"isSecure": "true",
 		},
 	},
 }
@@ -375,12 +375,12 @@ var infoSerializeExamplesTestCases = []coretestcases.CaseV1{
 			"url":      "ex-rt-url",
 			"examples": []string{"cmd1 --flag", "cmd2 --other"},
 		},
-		ExpectedInput: []string{
-			"ex-rt-name",
-			"true",
-			"2",
-			"cmd1 --flag",
-			"cmd2 --other",
+		ExpectedInput: args.Map{
+			"name":         "ex-rt-name",
+			"noError":      "true",
+			"exampleCount": "2",
+			"example0":     "cmd1 --flag",
+			"example1":     "cmd2 --other",
 		},
 	},
 }
@@ -396,12 +396,12 @@ var infoSerializeAllUrlsTestCases = []coretestcases.CaseV1{
 			"hintUrl":  "full-hint",
 			"errorUrl": "full-error",
 		},
-		ExpectedInput: []string{
-			"full-name",
-			"full-url",
-			"full-hint",
-			"full-error",
-			"true",
+		ExpectedInput: args.Map{
+			"name":     "full-name",
+			"url":      "full-url",
+			"hintUrl":  "full-hint",
+			"errorUrl": "full-error",
+			"noError":  "true",
 		},
 	},
 }
@@ -420,10 +420,10 @@ var infoCloneTestCases = []coretestcases.CaseV1{
 			"url":     "original-url",
 			"newName": "mutated",
 		},
-		ExpectedInput: []string{
-			"original",
-			"mutated",
-			"original-desc",
+		ExpectedInput: args.Map{
+			"originalName": "original",
+			"clonedName":   "mutated",
+			"clonedDesc":   "original-desc",
 		},
 	},
 }
@@ -438,14 +438,14 @@ var infoFieldCheckPopulatedTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given fully populated info",
 		},
-		ExpectedInput: []string{
-			"true",
-			"true",
-			"true",
-			"true",
-			"true",
-			"true",
-			"true",
+		ExpectedInput: args.Map{
+			"hasRootName":         "true",
+			"hasDescription":      "true",
+			"hasUrl":              "true",
+			"hasHintUrl":          "true",
+			"hasErrorUrl":         "true",
+			"hasExamples":         "true",
+			"hasChainingExample":  "true",
 		},
 	},
 }
@@ -456,14 +456,14 @@ var infoFieldCheckEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty info",
 		},
-		ExpectedInput: []string{
-			"false",
-			"false",
-			"false",
-			"false",
-			"false",
-			"false",
-			"false",
+		ExpectedInput: args.Map{
+			"hasRootName":         "false",
+			"hasDescription":      "false",
+			"hasUrl":              "false",
+			"hasHintUrl":          "false",
+			"hasErrorUrl":         "false",
+			"hasExamples":         "false",
+			"hasChainingExample":  "false",
 		},
 	},
 }
