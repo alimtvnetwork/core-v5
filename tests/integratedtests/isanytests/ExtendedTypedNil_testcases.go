@@ -1,72 +1,59 @@
 package isanytests
 
-// Extended test cases migrated from cmd/main/nullTesting01.go and nullTesting02.go.
-// These cover typed-nil scenarios with error and *int that the original
-// nullTestCases and definedTestCases do not exercise.
-
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/coretests"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/issetter"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
 var (
-	nilError    error
-	nilIntPtr   *int
-	nilIntPtr2  *int
-	liveError   = errors.New("")
-	liveErrorX  = errors.New("x")
+	nilError   error
+	nilIntPtr  *int
+	nilIntPtr2 *int
+	liveError  = errors.New("")
+	liveErrorX = errors.New("x")
 
 	// -------------------------------------------------------------------------
 	// nullTesting01 — Defined and Null on typed nils (error, *int)
 	// -------------------------------------------------------------------------
 
-	extendedDefinedTestCases = []testWrapper{
+	extendedDefinedTestCases = []coretestcases.CaseV1{
 		{
-			BaseTestCase: coretests.BaseTestCase{
-				Title: "Defined on typed-nil error and *int — " +
-					"nil literal is not defined, typed-nil error is not defined, " +
-					"typed-nil *int is not defined, non-nil error IS defined.",
-				ArrangeInput: []any{
-					nil,
-					liveError,
-					nilError,
-					nilIntPtr,
-				},
-				ExpectedInput: []string{
-					"0 : false (value: <nil>, type: <nil>)",
-					"1 : true (value: , type: *errors.errorString)",
-					"2 : false (value: <nil>, type: <nil>)",
-					"3 : false (value: <nil>, type: *int)",
-				},
-				VerifyTypeOf: arrangeTypeVerification,
-				IsEnable:     issetter.True,
+			Title: "Defined on typed-nil error and *int",
+			ArrangeInput: args.Map{
+				"when":   "nil literal, live error, typed-nil error, typed-nil *int",
+				"inputs": []any{nil, liveError, nilError, nilIntPtr},
+			},
+			ExpectedInput: args.Map{
+				"result0": "false",
+				"type0":   "<nil>",
+				"result1": "true",
+				"type1":   "*errors.errorString",
+				"result2": "false",
+				"type2":   "<nil>",
+				"result3": "false",
+				"type3":   "*int",
 			},
 		},
 	}
 
-	extendedNullTestCases = []testWrapper{
+	extendedNullTestCases = []coretestcases.CaseV1{
 		{
-			BaseTestCase: coretests.BaseTestCase{
-				Title: "Null on typed-nil error and *int — " +
-					"nil literal is null, typed-nil error is null, " +
-					"typed-nil *int is null, non-nil error is NOT null.",
-				ArrangeInput: []any{
-					nil,
-					liveError,
-					nilError,
-					nilIntPtr,
-				},
-				ExpectedInput: []string{
-					"0 : true (value: <nil>, type: <nil>)",
-					"1 : false (value: , type: *errors.errorString)",
-					"2 : true (value: <nil>, type: <nil>)",
-					"3 : true (value: <nil>, type: *int)",
-				},
-				VerifyTypeOf: arrangeTypeVerification,
-				IsEnable:     issetter.True,
+			Title: "Null on typed-nil error and *int",
+			ArrangeInput: args.Map{
+				"when":   "nil literal, live error, typed-nil error, typed-nil *int",
+				"inputs": []any{nil, liveError, nilError, nilIntPtr},
+			},
+			ExpectedInput: args.Map{
+				"result0": "true",
+				"type0":   "<nil>",
+				"result1": "false",
+				"type1":   "*errors.errorString",
+				"result2": "true",
+				"type2":   "<nil>",
+				"result3": "true",
+				"type3":   "*int",
 			},
 		},
 	}
@@ -75,82 +62,58 @@ var (
 	// nullTesting02 — DefinedBoth and NullBoth with error and *int typed nils
 	// -------------------------------------------------------------------------
 
-	extendedDefinedBothTestCases = []testWrapper{
+	extendedDefinedBothTestCases = []coretestcases.CaseV1{
 		{
-			BaseTestCase: coretests.BaseTestCase{
-				Title: "DefinedBoth with typed-nil error, *int, and live error — " +
-					"migrated from nullTesting02.",
-				ArrangeInput: []args.TwoAny{
-					{
-						First:  nil,
-						Second: liveErrorX,
-					},
-					{
-						First:  nil,
-						Second: nil,
-					},
-					{
-						First:  nilIntPtr,
-						Second: nilIntPtr2,
-					},
-					{
-						First:  liveErrorX,
-						Second: liveErrorX,
-					},
-					{
-						First:  liveErrorX,
-						Second: nilIntPtr,
-					},
+			Title: "DefinedBoth with typed-nil error, *int, and live error",
+			ArrangeInput: args.Map{
+				"when": "migrated from nullTesting02",
+				"pairs": []args.TwoAny{
+					{First: nil, Second: liveErrorX},
+					{First: nil, Second: nil},
+					{First: nilIntPtr, Second: nilIntPtr2},
+					{First: liveErrorX, Second: liveErrorX},
+					{First: liveErrorX, Second: nilIntPtr},
 				},
-				ExpectedInput: []string{
-					"0 : false (<nil>, *errors.errorString)",
-					"1 : false (<nil>, <nil>)",
-					"2 : false (*int, *int)",
-					"3 : true (*errors.errorString, *errors.errorString)",
-					"4 : false (*errors.errorString, *int)",
-				},
-				VerifyTypeOf: twoArgsTypeVerification,
-				IsEnable:     issetter.True,
+			},
+			ExpectedInput: args.Map{
+				"result0": "false",
+				"types0":  "<nil>, *errors.errorString",
+				"result1": "false",
+				"types1":  "<nil>, <nil>",
+				"result2": "false",
+				"types2":  "*int, *int",
+				"result3": "true",
+				"types3":  "*errors.errorString, *errors.errorString",
+				"result4": "false",
+				"types4":  "*errors.errorString, *int",
 			},
 		},
 	}
 
-	extendedNullBothTestCases = []testWrapper{
+	extendedNullBothTestCases = []coretestcases.CaseV1{
 		{
-			BaseTestCase: coretests.BaseTestCase{
-				Title: "NullBoth with typed-nil error, *int, and live error — " +
-					"migrated from nullTesting02.",
-				ArrangeInput: []args.TwoAny{
-					{
-						First:  nil,
-						Second: liveErrorX,
-					},
-					{
-						First:  nil,
-						Second: nil,
-					},
-					{
-						First:  nilIntPtr,
-						Second: nilIntPtr2,
-					},
-					{
-						First:  liveErrorX,
-						Second: liveErrorX,
-					},
-					{
-						First:  liveErrorX,
-						Second: nilIntPtr,
-					},
+			Title: "NullBoth with typed-nil error, *int, and live error",
+			ArrangeInput: args.Map{
+				"when": "migrated from nullTesting02",
+				"pairs": []args.TwoAny{
+					{First: nil, Second: liveErrorX},
+					{First: nil, Second: nil},
+					{First: nilIntPtr, Second: nilIntPtr2},
+					{First: liveErrorX, Second: liveErrorX},
+					{First: liveErrorX, Second: nilIntPtr},
 				},
-				ExpectedInput: []string{
-					"0 : false (<nil>, *errors.errorString)",
-					"1 : true (<nil>, <nil>)",
-					"2 : true (*int, *int)",
-					"3 : false (*errors.errorString, *errors.errorString)",
-					"4 : false (*errors.errorString, *int)",
-				},
-				VerifyTypeOf: twoArgsTypeVerification,
-				IsEnable:     issetter.True,
+			},
+			ExpectedInput: args.Map{
+				"result0": "false",
+				"types0":  "<nil>, *errors.errorString",
+				"result1": "true",
+				"types1":  "<nil>, <nil>",
+				"result2": "true",
+				"types2":  "*int, *int",
+				"result3": "false",
+				"types3":  "*errors.errorString, *errors.errorString",
+				"result4": "false",
+				"types4":  "*errors.errorString, *int",
 			},
 		},
 	}

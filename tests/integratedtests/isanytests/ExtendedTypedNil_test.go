@@ -1,159 +1,90 @@
 package isanytests
 
 import (
+	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/corecsv"
-	"gitlab.com/auk-go/core/coredata/corestr"
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/isany"
 )
 
 // Test_Extended_Defined_TypedNil verifies isany.Defined with typed-nil error and *int.
-// Migrated from cmd/main/nullTesting01.go.
 func Test_Extended_Defined_TypedNil(t *testing.T) {
 	for caseIndex, testCase := range extendedDefinedTestCases {
 		// Arrange
-		inputs := testCase.
-			ArrangeInput.([]any)
-		actualSlice := corestr.
-			New.
-			SimpleSlice.
-			Cap(len(inputs))
+		input := testCase.ArrangeInput.(args.Map)
+		inputs := input["inputs"].([]any)
 
 		// Act
-		for i, input := range inputs {
-			actualSlice.AppendFmt(
-				booleanPrintFormatWithType,
-				i,
-				isany.Defined(input),
-				input,
-				input,
-			)
+		actual := args.Map{}
+		for i, v := range inputs {
+			actual[fmt.Sprintf("result%d", i)] = fmt.Sprintf("%t", isany.Defined(v))
+			actual[fmt.Sprintf("type%d", i)] = fmt.Sprintf("%T", v)
 		}
 
-		finalActLines := actualSlice.Strings()
-		finalTestCase := coretestcases.
-			CaseV1(testCase.BaseTestCase)
-
 		// Assert
-		finalTestCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			finalActLines...,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 // Test_Extended_Null_TypedNil verifies isany.Null with typed-nil error and *int.
-// Migrated from cmd/main/nullTesting01.go.
 func Test_Extended_Null_TypedNil(t *testing.T) {
 	for caseIndex, testCase := range extendedNullTestCases {
 		// Arrange
-		inputs := testCase.
-			ArrangeInput.([]any)
-		actualSlice := corestr.
-			New.
-			SimpleSlice.
-			Cap(len(inputs))
+		input := testCase.ArrangeInput.(args.Map)
+		inputs := input["inputs"].([]any)
 
 		// Act
-		for i, input := range inputs {
-			actualSlice.AppendFmt(
-				booleanPrintFormatWithType,
-				i,
-				isany.Null(input),
-				input,
-				input,
-			)
+		actual := args.Map{}
+		for i, v := range inputs {
+			actual[fmt.Sprintf("result%d", i)] = fmt.Sprintf("%t", isany.Null(v))
+			actual[fmt.Sprintf("type%d", i)] = fmt.Sprintf("%T", v)
 		}
 
-		finalActLines := actualSlice.Strings()
-		finalTestCase := coretestcases.
-			CaseV1(testCase.BaseTestCase)
-
 		// Assert
-		finalTestCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			finalActLines...,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 // Test_Extended_DefinedBoth_TypedNil verifies isany.DefinedBoth with error and *int typed nils.
-// Migrated from cmd/main/nullTesting02.go.
 func Test_Extended_DefinedBoth_TypedNil(t *testing.T) {
 	for caseIndex, testCase := range extendedDefinedBothTestCases {
 		// Arrange
-		inputs := testCase.
-			ArrangeInput.([]args.TwoAny)
-		actualSlice := corestr.
-			New.
-			SimpleSlice.
-			Cap(len(inputs))
+		input := testCase.ArrangeInput.(args.Map)
+		pairs := input["pairs"].([]args.TwoAny)
 
 		// Act
-		for i, parameter := range inputs {
-			f := parameter.First
-			s := parameter.Second
-
-			actualSlice.AppendFmt(
-				defaultCaseIndexBoolStringFmt,
-				i,
-				isany.DefinedBoth(f, s),
-				corecsv.AnyToTypesCsvDefault(f, s),
-			)
+		actual := args.Map{}
+		for i, pair := range pairs {
+			f := pair.First
+			s := pair.Second
+			actual[fmt.Sprintf("result%d", i)] = fmt.Sprintf("%t", isany.DefinedBoth(f, s))
+			actual[fmt.Sprintf("types%d", i)] = corecsv.AnyToTypesCsvDefault(f, s)
 		}
 
-		finalActLines := actualSlice.Strings()
-		finalTestCase := coretestcases.
-			CaseV1(testCase.BaseTestCase)
-
 		// Assert
-		finalTestCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			finalActLines...,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 // Test_Extended_NullBoth_TypedNil verifies isany.NullBoth with error and *int typed nils.
-// Migrated from cmd/main/nullTesting02.go.
 func Test_Extended_NullBoth_TypedNil(t *testing.T) {
 	for caseIndex, testCase := range extendedNullBothTestCases {
 		// Arrange
-		inputs := testCase.
-			ArrangeInput.([]args.TwoAny)
-		actualSlice := corestr.
-			New.
-			SimpleSlice.
-			Cap(len(inputs))
+		input := testCase.ArrangeInput.(args.Map)
+		pairs := input["pairs"].([]args.TwoAny)
 
 		// Act
-		for i, parameter := range inputs {
-			f := parameter.First
-			s := parameter.Second
-
-			actualSlice.AppendFmt(
-				defaultCaseIndexBoolStringFmt,
-				i,
-				isany.NullBoth(f, s),
-				corecsv.AnyToTypesCsvDefault(f, s),
-			)
+		actual := args.Map{}
+		for i, pair := range pairs {
+			f := pair.First
+			s := pair.Second
+			actual[fmt.Sprintf("result%d", i)] = fmt.Sprintf("%t", isany.NullBoth(f, s))
+			actual[fmt.Sprintf("types%d", i)] = corecsv.AnyToTypesCsvDefault(f, s)
 		}
 
-		finalActLines := actualSlice.Strings()
-		finalTestCase := coretestcases.
-			CaseV1(testCase.BaseTestCase)
-
 		// Assert
-		finalTestCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			finalActLines...,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
