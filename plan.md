@@ -148,7 +148,7 @@
 
 | Priority | Task | Spec Reference |
 |----------|------|---------------|
-| 🔴 High | Complete `interface{}` → `any` in `coreinterface/` (569 matches) | `20-improvement-plan.md` |
+| ✅ Done | `interface{}` → `any` in `coreinterface/` (verified 0 remaining) | `20-improvement-plan.md` |
 | ✅ Done | Split `Attributes.go` — already split (Getters/Setters/Json) | `20-improvement-plan.md` Phase 5 |
 | ✅ Done | Split `Dynamic.go` — already split (Getters/Reflect/Json) | `20-improvement-plan.md` Phase 5 |
 | ✅ Done | Split `Info.go` (646→4 files: Info/Getters/Json/Map) | `20-improvement-plan.md` Phase 5 |
