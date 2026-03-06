@@ -261,6 +261,7 @@ These are the primary assertion methods — they use GoConvey's `convey.Convey` 
 | Method | Comparison | Use When |
 |---|---|---|
 | `ShouldBeEqual(t, idx, actuals...)` | Exact string equality | **Default choice** for most tests |
+| `ShouldBeEqualMap(t, idx, actual Map)` | Sorted map key-value equality | **Multi-property assertions** with self-documenting output |
 | `ShouldBeTrimEqual(t, idx, actuals...)` | Trim whitespace, then equal | Output may have leading/trailing spaces |
 | `ShouldBeSortedEqual(t, idx, actuals...)` | Sort + trim, then equal | Order doesn't matter (e.g., map keys) |
 | `ShouldContains(t, idx, actuals...)` | Substring contains | Partial matching |
@@ -271,6 +272,34 @@ These are the primary assertion methods — they use GoConvey's `convey.Convey` 
 | `ShouldBeTrimRegex(t, idx, actuals...)` | Trim + regex | Trimmed pattern matching |
 | `ShouldHaveNoError(t, title, idx, err)` | Error is nil | Verify no error occurred |
 | `AssertDirectly(t, title, msg, idx, actual, assertion, expected)` | Any convey assertion | Custom assertions |
+
+#### ShouldBeEqualMap — self-documenting multi-property assertions
+
+```go
+func Test_Variant_Verification(t *testing.T) {
+    for caseIndex, tc := range variantTestCases {
+        // Arrange
+        input := tc.ArrangeInput.(args.Map)
+        inputVal, _ := input.GetAsInt("input")
+
+        // Act
+        v := bytetype.New(byte(inputVal))
+        actual := args.Map{
+            "value":     v.ValueInt(),
+            "isZero":    v.IsZero(),
+            "isInvalid": v.IsInvalid(),
+            "isValid":   v.IsValid(),
+        }
+
+        // Assert — keys explain what each value means
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+Helper methods:
+- `ExpectedAsMap()` — type-asserts `ExpectedInput` to `args.Map` (panics if wrong type)
+- `ShouldBeEqualMapFirst(t, actual)` — shorthand for `ShouldBeEqualMap(t, 0, actual)`
 
 #### ShouldBeEqual — primary usage
 

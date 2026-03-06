@@ -23,6 +23,8 @@ The repository uses a **table-driven test pattern** with an AAA (Arrange-Act-Ass
 
 ## Template Test Structure
 
+### Standard (positional string assertions)
+
 ```go
 package sometests
 
@@ -57,6 +59,56 @@ func Test_MyFunction(t *testing.T) {
     }
 }
 ```
+
+### Map-Based (self-documenting multi-property assertions)
+
+Use `args.Map` as `ExpectedInput` when asserting multiple properties. This eliminates
+magic indices and produces labeled failure output (e.g., `"isZero : false"` instead of `"false"`).
+
+```go
+// _testcases.go — raw typed values, no fmt.Sprintf
+var variantTestCases = []coretestcases.CaseV1{
+    {
+        Title: "New creates Variant with correct value",
+        ArrangeInput: args.Map{
+            "when":  "given byte value 5",
+            "input": 5,
+        },
+        ExpectedInput: args.Map{
+            "value":     5,
+            "isZero":    false,
+            "isInvalid": false,
+            "isValid":   true,
+        },
+    },
+}
+
+// _test.go — pass raw values, CompileToStrings handles conversion
+func Test_Variant(t *testing.T) {
+    for caseIndex, tc := range variantTestCases {
+        // Arrange
+        input := tc.ArrangeInput.(args.Map)
+        inputVal, _ := input.GetAsInt("input")
+
+        // Act
+        v := bytetype.New(byte(inputVal))
+        actual := args.Map{
+            "value":     v.ValueInt(),
+            "isZero":    v.IsZero(),
+            "isInvalid": v.IsInvalid(),
+            "isValid":   v.IsValid(),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+**Key methods:**
+- `args.Map.CompileToStrings()` — sorted `"key : value"` lines using `%v` format
+- `CaseV1.ShouldBeEqualMap(t, idx, actual)` — compiles both maps and compares
+- `CaseV1.ExpectedAsMap()` — type-asserts `ExpectedInput` to `args.Map`
 
 ## Best Patterns Observed
 
