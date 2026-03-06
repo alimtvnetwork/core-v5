@@ -1,42 +1,32 @@
 package coretestcasestests
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
 func Test_GenericGherkins_IsFailedToMatch_WhenMatching(t *testing.T) {
 	tc := isFailedToMatchWhenMatchingTestCase
 
-	// Arrange — IsMatching is true
-
 	// Act
 	result := tc.IsFailedToMatch()
 
 	// Assert
-
-	tc.ShouldMatchExpectedFirst(
-		t,
-		result,
-	)
+	tc.ShouldMatchExpectedFirst(t, result)
 }
 
 func Test_GenericGherkins_IsFailedToMatch_WhenNotMatching(t *testing.T) {
 	tc := isFailedToMatchWhenNotMatchingTestCase
 
-	// Arrange — IsMatching is false
-
 	// Act
 	result := tc.IsFailedToMatch()
 
 	// Assert
-
-	tc.ShouldMatchExpectedFirst(
-		t,
-		result,
-	)
+	tc.ShouldMatchExpectedFirst(t, result)
 }
 
 func Test_GenericGherkins_CompareWith_Equal(t *testing.T) {
@@ -45,20 +35,17 @@ func Test_GenericGherkins_CompareWith_Equal(t *testing.T) {
 	// Arrange
 	a := tc.GetExtra("a").(*coretestcases.StringBoolGherkins)
 	b := tc.GetExtra("b").(*coretestcases.StringBoolGherkins)
+	expectedDiff, _ := tc.ExtraArgs.GetAsString("expectedDiff")
 
 	// Act
 	isEqual, diff := a.CompareWith(b)
 
 	// Assert
-
-	tc.ShouldMatchExpectedFirst(
-		t,
-		isEqual,
-	)
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		[]string{diff},
-	)
+	tc.ShouldMatchExpectedFirst(t, isEqual)
+	actual := args.Map{"diff": diff}
+	expected := args.Map{"diff": expectedDiff}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_CompareWith_DiffTitle(t *testing.T) {
@@ -67,20 +54,17 @@ func Test_GenericGherkins_CompareWith_DiffTitle(t *testing.T) {
 	// Arrange
 	a := tc.GetExtra("a").(*coretestcases.StringBoolGherkins)
 	b := tc.GetExtra("b").(*coretestcases.StringBoolGherkins)
+	expectedDiff, _ := tc.ExtraArgs.GetAsString("expectedDiff")
 
 	// Act
 	isEqual, diff := a.CompareWith(b)
 
 	// Assert
-
-	tc.ShouldMatchExpectedFirst(
-		t,
-		isEqual,
-	)
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		[]string{diff},
-	)
+	tc.ShouldMatchExpectedFirst(t, isEqual)
+	actual := args.Map{"diff": diff}
+	expected := args.Map{"diff": expectedDiff}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_CompareWith_DiffInput(t *testing.T) {
@@ -89,20 +73,17 @@ func Test_GenericGherkins_CompareWith_DiffInput(t *testing.T) {
 	// Arrange
 	a := tc.GetExtra("a").(*coretestcases.StringBoolGherkins)
 	b := tc.GetExtra("b").(*coretestcases.StringBoolGherkins)
+	expectedDiff, _ := tc.ExtraArgs.GetAsString("expectedDiff")
 
 	// Act
 	isEqual, diff := a.CompareWith(b)
 
 	// Assert
-
-	tc.ShouldMatchExpectedFirst(
-		t,
-		isEqual,
-	)
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		[]string{diff},
-	)
+	tc.ShouldMatchExpectedFirst(t, isEqual)
+	actual := args.Map{"diff": diff}
+	expected := args.Map{"diff": expectedDiff}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_CompareWith_BothNil(t *testing.T) {
@@ -111,20 +92,17 @@ func Test_GenericGherkins_CompareWith_BothNil(t *testing.T) {
 	// Arrange
 	var a *coretestcases.StringBoolGherkins
 	var b *coretestcases.StringBoolGherkins
+	expectedDiff, _ := tc.ExtraArgs.GetAsString("expectedDiff")
 
 	// Act
 	isEqual, diff := a.CompareWith(b)
 
 	// Assert
-
-	tc.ShouldMatchExpectedFirst(
-		t,
-		isEqual,
-	)
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		[]string{diff},
-	)
+	tc.ShouldMatchExpectedFirst(t, isEqual)
+	actual := args.Map{"diff": diff}
+	expected := args.Map{"diff": expectedDiff}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_CompareWith_OneNil(t *testing.T) {
@@ -133,20 +111,17 @@ func Test_GenericGherkins_CompareWith_OneNil(t *testing.T) {
 	// Arrange
 	a := tc.GetExtra("a").(*coretestcases.StringBoolGherkins)
 	var b *coretestcases.StringBoolGherkins
+	expectedDiff, _ := tc.ExtraArgs.GetAsString("expectedDiff")
 
 	// Act
 	isEqual, diff := a.CompareWith(b)
 
 	// Assert
-
-	tc.ShouldMatchExpectedFirst(
-		t,
-		isEqual,
-	)
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		[]string{diff},
-	)
+	tc.ShouldMatchExpectedFirst(t, isEqual)
+	actual := args.Map{"diff": diff}
+	expected := args.Map{"diff": expectedDiff}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_FullString_Basic(t *testing.T) {
@@ -159,12 +134,22 @@ func Test_GenericGherkins_FullString_Basic(t *testing.T) {
 	result := g.FullString()
 	actLines := strings.Split(strings.TrimRight(result, "\n"), "\n")
 
-	// Assert
+	// Assert — build args.Map with lineCount + indexed keys
+	actual := args.Map{
+		"expectedLineCount": fmt.Sprintf("%d", len(actLines)),
+	}
+	for i, line := range actLines {
+		actual[fmt.Sprintf("line%d", i)] = line
+	}
 
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	expected := args.Map{}
+	for k, v := range tc.ExtraArgs {
+		if k != "subject" {
+			expected[k] = v
+		}
+	}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_FullString_Nil(t *testing.T) {
@@ -175,23 +160,19 @@ func Test_GenericGherkins_FullString_Nil(t *testing.T) {
 
 	// Act
 	result := g.FullString()
-	actLines := []string{result}
 
 	// Assert
-
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	expectedResult, _ := tc.ExtraArgs.GetAsString("expectedResult")
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": expectedResult}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_ShouldBeEqualArgs_Passing(t *testing.T) {
 	tc := shouldBeEqualPassingTestCase
 
-	// Arrange — expected lines defined in test case
-
-	// Act + Assert
-
+	// Act + Assert — ExpectedLines kept for ShouldBeEqualArgs compatibility
 	tc.ShouldBeEqualArgsFirst(
 		t,
 		"line-a",
@@ -202,33 +183,27 @@ func Test_GenericGherkins_ShouldBeEqualArgs_Passing(t *testing.T) {
 func Test_GenericGherkins_CaseTitle_UsesTitle(t *testing.T) {
 	tc := caseTitleUseTitleTestCase
 
-	// Arrange — Title is set
-
 	// Act
 	result := tc.CaseTitle()
-	actLines := []string{result}
 
 	// Assert
-
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	expectedResult, _ := tc.ExtraArgs.GetAsString("expectedResult")
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": expectedResult}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.Title, ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_GenericGherkins_CaseTitle_FallsBackToWhen(t *testing.T) {
 	tc := caseTitleFallbackToWhenTestCase
 
-	// Arrange — Title is empty
-
 	// Act
 	result := tc.CaseTitle()
-	actLines := []string{result}
 
 	// Assert
-
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	expectedResult, _ := tc.ExtraArgs.GetAsString("expectedResult")
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": expectedResult}
+	verifyCaseV1 := coretestcases.CaseV1{Title: tc.CaseTitle(), ExpectedInput: expected}
+	verifyCaseV1.ShouldBeEqualMapFirst(t, actual)
 }
