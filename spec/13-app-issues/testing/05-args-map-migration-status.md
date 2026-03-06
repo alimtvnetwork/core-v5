@@ -6,8 +6,8 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **40 files** | 29.0% |
-| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **31 files** | 22.5% |
+| ✅ Migrated to `args.Map` | **42 files** | 30.4% |
+| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **29 files** | 21.0% |
 | 🔴 Using `[]string` | **40 files** | 29.0% |
 | 🟡 Using plain `string` / other | **27 files** | 19.6% |
 | **Total testcase files** | **~138** | — |
@@ -16,7 +16,7 @@
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (40 files)
+## ✅ Fully Migrated to `args.Map` (42 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -62,11 +62,13 @@
 | `namevaluetests` | `Instance_testcases.go` | Instance formatting/dispose |
 | `coredynamictests` | `Dynamic_testcases.go` | 16 cases: constructors, clone, bytes, loop, items |
 | `coresorttests` | `Sort_testcases.go` | Plain string expectations |
+| `corejsontests` | `New_NewPtr_testcases.go` | 6 cases: New/NewPtr constructors |
+| `corejsontests` | `Result_Unmarshal_testcases.go` | 4 cases: Unmarshal valid/nil/invalid/error |
 | `pagingutiltests` | `Paging_testcases.go` | Paging calculations |
 
 ---
 
-## 🔶 Using Typed Tuples `args.Two`–`args.Six` (37 files)
+## 🔶 Using Typed Tuples `args.Two`–`args.Six` (35 files)
 
 These use positional typed tuples — better than `[]string` but lack semantic keys. **Migration to `args.Map` recommended.**
 
@@ -87,8 +89,7 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 | `coregenerictests` | `Hashmap_testcases.go` | `args.Two` |
 | `coregenerictests` | `TripleFromSplit_testcases.go` | `args.Three` |
 | `coregenerictests` | `comparablefuncs_testcases.go` | `args.Two` |
-| `corejsontests` | `New_NewPtr_testcases.go` | `args.Two` |
-| `corejsontests` | `Result_Unmarshal_testcases.go` | `args.Two`/`args.Three` |
+| `corestrtests` | `Collection_testcases.go` | `args.Two` |
 | `corestrtests` | `Collection_testcases.go` | `args.Two` |
 | `corestrtests` | `Hashmap_testcases.go` | `args.Two` |
 | `corestrtests` | `Hashset_testcases.go` | `args.Two` |
@@ -176,8 +177,8 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ██████░░░░░░░░░░░░░░  40/138 (29.0%)
-Tuples   █████░░░░░░░░░░░░░░░  31/138 (22.5%)
+Migrated ██████░░░░░░░░░░░░░░  42/138 (30.4%)
+Tuples   █████░░░░░░░░░░░░░░░  29/138 (21.0%)
 []string ██████░░░░░░░░░░░░░░  40/138 (29.0%)
 Other    ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
 ```
@@ -186,6 +187,7 @@ Other    ████░░░░░░░░░░░░░░░░  27/138 (1
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +2 migrated: `corejsontests` (New_NewPtr, Result_Unmarshal) — total 42 |
 | 2026-03-06 | +1 migrated: `Dynamic_testcases.go` (16 args.Two/Three/Four → args.Map) — total 40 |
 | 2026-03-06 | +12 migrated: `coregenerictests` (5), `coreinstructiontests` (2), `namevaluetests` (2), `coresorttests` (1), `coreuniquetests` (1), `PointerSliceSorter` (1) — total 39 |
 | 2026-03-06 | Fixed counts: tuples 36→38, `[]string` 50→46, total ~138. Renamed Waves to Batches/Priorities |
