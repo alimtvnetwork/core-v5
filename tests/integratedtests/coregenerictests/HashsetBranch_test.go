@@ -1,9 +1,9 @@
 package coregenerictests
 
 import (
-	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 )
 
@@ -16,7 +16,9 @@ func Test_Hashset_AddDuplicate(t *testing.T) {
 	hs := coregeneric.EmptyHashset[int]()
 	hs.Add(1).Add(2).Add(3).Add(1).Add(2)
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_AddBool(t *testing.T) {
@@ -25,12 +27,13 @@ func Test_Hashset_AddBool(t *testing.T) {
 	first := hs.AddBool("a")
 	second := hs.AddBool("a")
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%v", first),
-		fmt.Sprintf("%v", second),
-		fmt.Sprintf("%d", hs.Length()),
-	)
+	actual := args.Map{
+		"firstExisted":  first,
+		"secondExisted": second,
+		"length":        hs.Length(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_AddsVariadic(t *testing.T) {
@@ -38,7 +41,9 @@ func Test_Hashset_AddsVariadic(t *testing.T) {
 	hs := coregeneric.EmptyHashset[int]()
 	hs.Adds(10, 20, 30, 10)
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_AddSlice(t *testing.T) {
@@ -46,13 +51,14 @@ func Test_Hashset_AddSlice(t *testing.T) {
 	hs := coregeneric.EmptyHashset[string]()
 	hs.AddSlice([]string{"x", "y", "z"})
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has("x")),
-		fmt.Sprintf("%v", hs.Has("y")),
-		fmt.Sprintf("%v", hs.Has("z")),
-	)
+	actual := args.Map{
+		"length": hs.Length(),
+		"hasX":   hs.Has("x"),
+		"hasY":   hs.Has("y"),
+		"hasZ":   hs.Has("z"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -64,11 +70,12 @@ func Test_Hashset_AddIfTrue(t *testing.T) {
 	hs := coregeneric.EmptyHashset[int]()
 	hs.AddIf(true, 42)
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has(42)),
-	)
+	actual := args.Map{
+		"length":  hs.Length(),
+		"hasItem": hs.Has(42),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_AddIfFalse(t *testing.T) {
@@ -76,7 +83,9 @@ func Test_Hashset_AddIfFalse(t *testing.T) {
 	hs := coregeneric.EmptyHashset[int]()
 	hs.AddIf(false, 42)
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_AddIfManyTrue(t *testing.T) {
@@ -84,7 +93,9 @@ func Test_Hashset_AddIfManyTrue(t *testing.T) {
 	hs := coregeneric.EmptyHashset[int]()
 	hs.AddIfMany(true, 1, 2, 3)
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_AddIfManyFalse(t *testing.T) {
@@ -92,7 +103,9 @@ func Test_Hashset_AddIfManyFalse(t *testing.T) {
 	hs := coregeneric.EmptyHashset[int]()
 	hs.AddIfMany(false, 1, 2, 3)
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -105,12 +118,13 @@ func Test_Hashset_MergeOtherSet(t *testing.T) {
 	other := coregeneric.HashsetFrom([]int{3, 4})
 	hs.AddHashsetItems(other)
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has(3)),
-		fmt.Sprintf("%v", hs.Has(4)),
-	)
+	actual := args.Map{
+		"length": hs.Length(),
+		"has3":   hs.Has(3),
+		"has4":   hs.Has(4),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_MergeNilOther(t *testing.T) {
@@ -118,7 +132,9 @@ func Test_Hashset_MergeNilOther(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2})
 	hs.AddHashsetItems(nil)
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_MergeEmptyOther(t *testing.T) {
@@ -126,7 +142,9 @@ func Test_Hashset_MergeEmptyOther(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2})
 	hs.AddHashsetItems(coregeneric.EmptyHashset[int]())
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_AddItemsMap(t *testing.T) {
@@ -138,12 +156,13 @@ func Test_Hashset_AddItemsMap(t *testing.T) {
 		"nope": false,
 	})
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has("yes")),
-		fmt.Sprintf("%v", hs.Has("nope")),
-	)
+	actual := args.Map{
+		"length":  hs.Length(),
+		"hasYes":  hs.Has("yes"),
+		"hasNope": hs.Has("nope"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -155,12 +174,13 @@ func Test_Hashset_RemoveExisting(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 	existed := hs.Remove(2)
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%v", existed),
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has(2)),
-	)
+	actual := args.Map{
+		"existed":  existed,
+		"length":   hs.Length(),
+		"stillHas": hs.Has(2),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_RemoveNonExisting(t *testing.T) {
@@ -168,11 +188,12 @@ func Test_Hashset_RemoveNonExisting(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 	existed := hs.Remove(99)
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%v", existed),
-		fmt.Sprintf("%d", hs.Length()),
-	)
+	actual := args.Map{
+		"existed": existed,
+		"length":  hs.Length(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -183,22 +204,24 @@ func Test_Hashset_Has(t *testing.T) {
 	tc := hashsetHasTestCase
 	hs := coregeneric.HashsetFrom([]string{"a", "b", "c"})
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%v", hs.Has("a")),
-		fmt.Sprintf("%v", hs.Has("z")),
-	)
+	actual := args.Map{
+		"hasExisting": hs.Has("a"),
+		"hasMissing":  hs.Has("z"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_ContainsAlias(t *testing.T) {
 	tc := hashsetContainsAliasTestCase
 	hs := coregeneric.HashsetFrom([]string{"a", "b", "c"})
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%v", hs.Contains("b")),
-		fmt.Sprintf("%v", hs.Contains("z")),
-	)
+	actual := args.Map{
+		"containsExisting": hs.Contains("b"),
+		"containsMissing":  hs.Contains("z"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -209,42 +232,54 @@ func Test_Hashset_HasAllTrue(t *testing.T) {
 	tc := hashsetHasAllTrueTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3, 4, 5})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", hs.HasAll(1, 3, 5)))
+	actual := args.Map{"hasAll": hs.HasAll(1, 3, 5)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_HasAllFalse(t *testing.T) {
 	tc := hashsetHasAllFalseTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3, 4, 5})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", hs.HasAll(1, 99)))
+	actual := args.Map{"hasAll": hs.HasAll(1, 99)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_HasAnyTrue(t *testing.T) {
 	tc := hashsetHasAnyTrueTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3, 4, 5})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", hs.HasAny(99, 3)))
+	actual := args.Map{"hasAny": hs.HasAny(99, 3)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_HasAnyFalse(t *testing.T) {
 	tc := hashsetHasAnyFalseTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3, 4, 5})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", hs.HasAny(99, 100)))
+	actual := args.Map{"hasAny": hs.HasAny(99, 100)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_HasAllEmptyArgs(t *testing.T) {
 	tc := hashsetHasAllEmptyArgsTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3, 4, 5})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", hs.HasAll()))
+	actual := args.Map{"hasAll": hs.HasAll()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_HasAnyEmptyArgs(t *testing.T) {
 	tc := hashsetHasAnyEmptyArgsTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3, 4, 5})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", hs.HasAny()))
+	actual := args.Map{"hasAny": hs.HasAny()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -256,7 +291,9 @@ func Test_Hashset_IsEquals_SameItems(t *testing.T) {
 	a := coregeneric.HashsetFrom([]int{1, 2, 3})
 	b := coregeneric.HashsetFrom([]int{3, 2, 1})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEquals(b)))
+	actual := args.Map{"isEquals": a.IsEquals(b)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_IsEquals_DifferentItems(t *testing.T) {
@@ -264,7 +301,9 @@ func Test_Hashset_IsEquals_DifferentItems(t *testing.T) {
 	a := coregeneric.HashsetFrom([]int{1, 2, 3})
 	b := coregeneric.HashsetFrom([]int{1, 2, 4})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEquals(b)))
+	actual := args.Map{"isEquals": a.IsEquals(b)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_IsEquals_DifferentLength(t *testing.T) {
@@ -272,7 +311,9 @@ func Test_Hashset_IsEquals_DifferentLength(t *testing.T) {
 	a := coregeneric.HashsetFrom([]int{1, 2})
 	b := coregeneric.HashsetFrom([]int{1, 2, 3})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEquals(b)))
+	actual := args.Map{"isEquals": a.IsEquals(b)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_IsEquals_BothNil(t *testing.T) {
@@ -280,7 +321,9 @@ func Test_Hashset_IsEquals_BothNil(t *testing.T) {
 	var a *coregeneric.Hashset[int]
 	var b *coregeneric.Hashset[int]
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEquals(b)))
+	actual := args.Map{"isEquals": a.IsEquals(b)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_IsEquals_NilVsNonNil(t *testing.T) {
@@ -288,14 +331,18 @@ func Test_Hashset_IsEquals_NilVsNonNil(t *testing.T) {
 	var a *coregeneric.Hashset[int]
 	b := coregeneric.EmptyHashset[int]()
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEquals(b)))
+	actual := args.Map{"isEquals": a.IsEquals(b)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_IsEquals_SamePointer(t *testing.T) {
 	tc := hashsetIsEqualsSamePointerTestCase
 	a := coregeneric.HashsetFrom([]int{1, 2})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEquals(a)))
+	actual := args.Map{"isEquals": a.IsEquals(a)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_IsEquals_BothEmpty(t *testing.T) {
@@ -303,7 +350,9 @@ func Test_Hashset_IsEquals_BothEmpty(t *testing.T) {
 	a := coregeneric.EmptyHashset[int]()
 	b := coregeneric.EmptyHashset[int]()
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", a.IsEquals(b)))
+	actual := args.Map{"isEquals": a.IsEquals(b)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -315,13 +364,14 @@ func Test_Hashset_ResizeLarger(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 	hs.Resize(100)
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has(1)),
-		fmt.Sprintf("%v", hs.Has(2)),
-		fmt.Sprintf("%v", hs.Has(3)),
-	)
+	actual := args.Map{
+		"length": hs.Length(),
+		"has1":   hs.Has(1),
+		"has2":   hs.Has(2),
+		"has3":   hs.Has(3),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_ResizeSmaller(t *testing.T) {
@@ -329,7 +379,9 @@ func Test_Hashset_ResizeSmaller(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 	hs.Resize(1)
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -340,28 +392,36 @@ func Test_Hashset_OutputList(t *testing.T) {
 	tc := hashsetOutputListTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", len(hs.List())))
+	actual := args.Map{"listLen": len(hs.List())}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_OutputListEmpty(t *testing.T) {
 	tc := hashsetOutputListEmptyTestCase
 	hs := coregeneric.EmptyHashset[int]()
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", len(hs.List())))
+	actual := args.Map{"listLen": len(hs.List())}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_OutputListPtr(t *testing.T) {
 	tc := hashsetOutputListPtrTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%v", hs.ListPtr() != nil))
+	actual := args.Map{"isNotNil": hs.ListPtr() != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_OutputMap(t *testing.T) {
 	tc := hashsetOutputMapTestCase
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", len(hs.Map())))
+	actual := args.Map{"mapLen": len(hs.Map())}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_OutputCollection(t *testing.T) {
@@ -369,7 +429,9 @@ func Test_Hashset_OutputCollection(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 	col := hs.Collection()
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", col.Length()))
+	actual := args.Map{"collectionLen": col.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -382,13 +444,14 @@ func Test_Hashset_LockAddContains(t *testing.T) {
 	hs.AddLock("a")
 	hs.AddLock("b")
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.ContainsLock("a")),
-		fmt.Sprintf("%v", hs.ContainsLock("b")),
-		fmt.Sprintf("%v", hs.ContainsLock("z")),
-	)
+	actual := args.Map{
+		"length":    hs.Length(),
+		"containsA": hs.ContainsLock("a"),
+		"containsB": hs.ContainsLock("b"),
+		"containsZ": hs.ContainsLock("z"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_LockAddSlice(t *testing.T) {
@@ -396,7 +459,9 @@ func Test_Hashset_LockAddSlice(t *testing.T) {
 	hs := coregeneric.EmptyHashset[int]()
 	hs.AddSliceLock([]int{10, 20, 30})
 
-	tc.ShouldBeEqualFirst(t, fmt.Sprintf("%d", hs.Length()))
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_LockRemove(t *testing.T) {
@@ -404,30 +469,35 @@ func Test_Hashset_LockRemove(t *testing.T) {
 	hs := coregeneric.HashsetFrom([]int{1, 2, 3})
 	existed := hs.RemoveLock(2)
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%v", existed),
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has(2)),
-	)
+	actual := args.Map{
+		"existed":  existed,
+		"length":   hs.Length(),
+		"stillHas": hs.Has(2),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_LockIsEmptyLength(t *testing.T) {
 	tc := hashsetLockIsEmptyLengthTestCase
 	hs := coregeneric.EmptyHashset[int]()
-	emptyBefore := fmt.Sprintf("%v", hs.IsEmptyLock())
-	lenBefore := fmt.Sprintf("%d", hs.LengthLock())
-	hs.Adds(1, 2)
-	emptyAfter := fmt.Sprintf("%v", hs.IsEmptyLock())
-	lenAfter := fmt.Sprintf("%d", hs.LengthLock())
 
-	tc.ShouldBeEqualFirst(
-		t,
-		emptyBefore,
-		lenBefore,
-		emptyAfter,
-		lenAfter,
-	)
+	emptyBefore := hs.IsEmptyLock()
+	lengthBefore := hs.LengthLock()
+
+	hs.Adds(1, 2)
+
+	emptyAfter := hs.IsEmptyLock()
+	lengthAfter := hs.LengthLock()
+
+	actual := args.Map{
+		"emptyBefore":  emptyBefore,
+		"lengthBefore": lengthBefore,
+		"emptyAfter":   emptyAfter,
+		"lengthAfter":  lengthAfter,
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -438,47 +508,51 @@ func Test_Hashset_ConstructorEmpty(t *testing.T) {
 	tc := hashsetConstructorEmptyTestCase
 	hs := coregeneric.EmptyHashset[int]()
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.IsEmpty()),
-	)
+	actual := args.Map{
+		"length":  hs.Length(),
+		"isEmpty": hs.IsEmpty(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_ConstructorNewCap(t *testing.T) {
 	tc := hashsetConstructorNewCapTestCase
 	hs := coregeneric.NewHashset[string](10)
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.IsEmpty()),
-	)
+	actual := args.Map{
+		"length":  hs.Length(),
+		"isEmpty": hs.IsEmpty(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_ConstructorFrom(t *testing.T) {
 	tc := hashsetConstructorFromTestCase
 	hs := coregeneric.HashsetFrom([]string{"a", "b", "c"})
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has("a")),
-		fmt.Sprintf("%v", hs.Has("b")),
-		fmt.Sprintf("%v", hs.Has("c")),
-	)
+	actual := args.Map{
+		"length": hs.Length(),
+		"hasA":   hs.Has("a"),
+		"hasB":   hs.Has("b"),
+		"hasC":   hs.Has("c"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_ConstructorFromMap(t *testing.T) {
 	tc := hashsetConstructorFromMapTestCase
 	hs := coregeneric.HashsetFromMap(map[int]bool{10: true, 20: true})
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", hs.Length()),
-		fmt.Sprintf("%v", hs.Has(10)),
-		fmt.Sprintf("%v", hs.Has(20)),
-	)
+	actual := args.Map{
+		"length": hs.Length(),
+		"has10":  hs.Has(10),
+		"has20":  hs.Has(20),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Hashset_ConstructorHasItems(t *testing.T) {
@@ -486,9 +560,10 @@ func Test_Hashset_ConstructorHasItems(t *testing.T) {
 	pop := coregeneric.HashsetFrom([]int{1})
 	empty := coregeneric.EmptyHashset[int]()
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%v", pop.HasItems()),
-		fmt.Sprintf("%v", empty.HasItems()),
-	)
+	actual := args.Map{
+		"populatedHasItems": pop.HasItems(),
+		"emptyHasItems":     empty.HasItems(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

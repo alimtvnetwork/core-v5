@@ -211,29 +211,29 @@ var collectionAddCollectionEmptyTestCase = coretestcases.CaseV1{
 
 var hashmapIsEqualsSameKeysTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals same keys → true",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"isEquals": true},
 }
 
 var hashmapIsEqualsDiffKeysTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals same length different keys → false",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: args.Map{"isEquals": false},
 }
 
 var hashmapIsEqualsDiffLengthTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals different length → false",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: args.Map{"isEquals": false},
 }
 
 // Removed: hashmapIsEqualsBothNilTestCase — declared in Hashmap_testcases.go
 
 var hashmapIsEqualsNilVsNonNilTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals nil vs non-nil → false",
-	ExpectedInput: []string{"false"},
+	ExpectedInput: args.Map{"isEquals": false},
 }
 
 var hashmapIsEqualsSamePtrTestCase = coretestcases.CaseV1{
 	Title:         "IsEquals same pointer → true",
-	ExpectedInput: []string{"true"},
+	ExpectedInput: args.Map{"isEquals": true},
 }
 
 // ==========================================================================
