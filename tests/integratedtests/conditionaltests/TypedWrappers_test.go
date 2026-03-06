@@ -122,6 +122,48 @@ func Test_IfFuncInt_Typed_Verification(t *testing.T) {
 	}
 }
 
+func Test_IfFuncString_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifFuncStringTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.GetAsString("trueValue")
+		falseVal, _ := input.GetAsString("falseValue")
+
+		// Act
+		result := conditional.IfFuncString(
+			isTrue,
+			func() string { return trueVal },
+			func() string { return falseVal },
+		)
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, result)
+	}
+}
+
+func Test_IfFuncAny_Typed_Verification(t *testing.T) {
+	for caseIndex, testCase := range ifFuncAnyTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		isTrueVal, _ := input.Get("isTrue")
+		isTrue := isTrueVal == true
+		trueVal, _ := input.Get("trueValue")
+		falseVal, _ := input.Get("falseValue")
+
+		// Act
+		result := conditional.IfFuncAny(
+			isTrue,
+			func() any { return trueVal },
+			func() any { return falseVal },
+		)
+
+		// Assert
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
+	}
+}
+
 // ============================================================================
 // IfTrueFunc<Type> wrappers
 // ============================================================================
