@@ -10,120 +10,126 @@ import (
 	"gitlab.com/auk-go/core/errcore"
 )
 
-func Test_MapAnyItems_AddAndKeys_Verification(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsAddAndKeysTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		capacity := input.GetAsIntDefault("capacity", 10)
-		keys := input["keys"].([]string)
+func Test_MapAnyItems_AddAndKeys(t *testing.T) {
+	tc := mapAnyItemsAddAndKeysTestCase
 
-		// Act
-		mapItems := coredynamic.NewMapAnyItems(capacity)
-		collection := corestr.New.Collection.Cap(10)
-		collection.Adds("a", "b", "c")
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	capacity := input.GetAsIntDefault("capacity", 10)
+	keys := input["keys"].([]string)
 
-		for _, key := range keys {
-			mapItems.Add(key, collection)
-		}
+	// Act
+	mapItems := coredynamic.NewMapAnyItems(capacity)
+	collection := corestr.New.Collection.Cap(10)
+	collection.Adds("a", "b", "c")
 
-		allKeys := mapItems.AllKeys()
-		hasAll := true
-		for _, key := range keys {
-			found := false
-			for _, k := range allKeys {
-				if k == key {
-					found = true
-					break
-				}
-			}
-			if !found {
-				hasAll = false
+	for _, key := range keys {
+		mapItems.Add(key, collection)
+	}
+
+	allKeys := mapItems.AllKeys()
+	hasAll := true
+	for _, key := range keys {
+		found := false
+		for _, k := range allKeys {
+			if k == key {
+				found = true
 				break
 			}
 		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", len(allKeys)),
-			fmt.Sprintf("%v", hasAll),
-		)
-	}
-}
-
-func Test_MapAnyItems_Paged_Verification(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsPagedTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		itemCount := input.GetAsIntDefault("itemCount", 9)
-		pageSize := input.GetAsIntDefault("pageSize", 2)
-
-		// Act
-		mapItems := coredynamic.NewMapAnyItems(itemCount + 5)
-		collection := corestr.New.Collection.Cap(5)
-		collection.Adds("a", "b")
-
-		for i := 0; i < itemCount; i++ {
-			mapItems.Add(fmt.Sprintf("key-%d", i), collection)
+		if !found {
+			hasAll = false
+			break
 		}
-
-		pagedItems := mapItems.GetPagedCollection(pageSize)
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", len(pagedItems)),
-		)
 	}
+
+	actual := args.Map{
+		"keyCount": len(allKeys),
+		"hasAll":   hasAll,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-func Test_MapAnyItems_JsonRoundtrip_Verification(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsJsonRoundtripTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		itemCount := input.GetAsIntDefault("itemCount", 4)
+func Test_MapAnyItems_Paged(t *testing.T) {
+	tc := mapAnyItemsPagedTestCase
 
-		// Act
-		mapItems := coredynamic.NewMapAnyItems(itemCount + 5)
-		collection := corestr.New.Collection.Cap(5)
-		collection.Adds("val1", "val2")
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	itemCount := input.GetAsIntDefault("itemCount", 9)
+	pageSize := input.GetAsIntDefault("pageSize", 2)
 
-		for i := 0; i < itemCount; i++ {
-			mapItems.Add(fmt.Sprintf("item-%d", i), collection)
-		}
+	// Act
+	mapItems := coredynamic.NewMapAnyItems(itemCount + 5)
+	collection := corestr.New.Collection.Cap(5)
+	collection.Adds("a", "b")
 
-		jsonResult := mapItems.JsonPtr()
-		restored := coredynamic.EmptyMapAnyItems()
-		parseErr := restored.JsonParseSelfInject(jsonResult)
-		errcore.HandleErr(parseErr)
-
-		newJsonResult := restored.Json()
-		isEqual := jsonResult.IsEqual(newJsonResult)
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", isEqual),
-		)
+	for i := 0; i < itemCount; i++ {
+		mapItems.Add(fmt.Sprintf("key-%d", i), collection)
 	}
+
+	pagedItems := mapItems.GetPagedCollection(pageSize)
+
+	actual := args.Map{
+		"pageCount": len(pagedItems),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-func Test_MapAnyItems_GetItemRef_Verification(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsGetItemRefTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		key, _ := input.GetAsString("key")
+func Test_MapAnyItems_JsonRoundtrip(t *testing.T) {
+	tc := mapAnyItemsJsonRoundtripTestCase
 
-		// Act
-		mapItems := coredynamic.NewMapAnyItems(10)
-		collection := corestr.New.Collection.Cap(5)
-		collection.Adds("x", "y", "z")
-		mapItems.Add(key, collection)
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	itemCount := input.GetAsIntDefault("itemCount", 4)
 
-		target := corestr.Empty.Collection()
-		mapItems.GetItemRef(key, target)
-		hasItems := target.HasAnyItem()
+	// Act
+	mapItems := coredynamic.NewMapAnyItems(itemCount + 5)
+	collection := corestr.New.Collection.Cap(5)
+	collection.Adds("val1", "val2")
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", hasItems),
-		)
+	for i := 0; i < itemCount; i++ {
+		mapItems.Add(fmt.Sprintf("item-%d", i), collection)
 	}
+
+	jsonResult := mapItems.JsonPtr()
+	restored := coredynamic.EmptyMapAnyItems()
+	parseErr := restored.JsonParseSelfInject(jsonResult)
+	errcore.HandleErr(parseErr)
+
+	newJsonResult := restored.Json()
+
+	actual := args.Map{
+		"isEqual": jsonResult.IsEqual(newJsonResult),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_GetItemRef(t *testing.T) {
+	tc := mapAnyItemsGetItemRefTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	key, _ := input.GetAsString("key")
+
+	// Act
+	mapItems := coredynamic.NewMapAnyItems(10)
+	collection := corestr.New.Collection.Cap(5)
+	collection.Adds("x", "y", "z")
+	mapItems.Add(key, collection)
+
+	target := corestr.Empty.Collection()
+	mapItems.GetItemRef(key, target)
+
+	actual := args.Map{
+		"hasItems": target.HasAnyItem(),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
