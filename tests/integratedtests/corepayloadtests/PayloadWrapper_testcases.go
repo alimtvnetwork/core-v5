@@ -17,10 +17,10 @@ var payloadWrapperCreateTestCases = []coretestcases.CaseV1{
 			"name": "test-payload",
 			"id":   "pay-1",
 		},
-		ExpectedInput: []string{
-			"test-payload",
-			"pay-1",
-			"true",
+		ExpectedInput: args.Map{
+			"name":       "test-payload",
+			"identifier": "pay-1",
+			"hasJson":    true,
 		},
 	},
 }
@@ -37,10 +37,10 @@ var payloadWrapperDeserializeRoundtripTestCases = []coretestcases.CaseV1{
 			"name": "roundtrip-payload",
 			"id":   "rt-1",
 		},
-		ExpectedInput: []string{
-			"roundtrip-payload",
-			"rt-1",
-			"true",
+		ExpectedInput: args.Map{
+			"restoredName":       "roundtrip-payload",
+			"restoredIdentifier": "rt-1",
+			"jsonIsEqual":        true,
 		},
 	},
 }
@@ -58,10 +58,10 @@ var payloadWrapperCloneTestCases = []coretestcases.CaseV1{
 			"id":       "clone-1",
 			"new_name": "mutated-pay",
 		},
-		ExpectedInput: []string{
-			"original-pay",
-			"mutated-pay",
-			"true",
+		ExpectedInput: args.Map{
+			"originalName":  "original-pay",
+			"clonedName":    "mutated-pay",
+			"isIndependent": true,
 		},
 	},
 }
@@ -77,8 +77,8 @@ var payloadWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 			"when":  "given 3 payloads serialized as array",
 			"count": 3,
 		},
-		ExpectedInput: []string{
-			"3",
+		ExpectedInput: args.Map{
+			"deserializedCount": 3,
 		},
 	},
 }
