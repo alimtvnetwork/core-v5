@@ -103,6 +103,7 @@
 | `defaulterrtests` | `DefaultErr_testcases.go` | isNotNil+hasMessage → args.Map |
 | `enumimpltests` | `enumTestCases.go` | min+max → args.Map |
 | `issettertests` | `Value_testcases.go` | hasError/name, 8 boolean logic keys, conversions → args.Map |
+| `coretaskinfotests` | `InfoCreate_testcases.go` | 20 test vars: name/desc/url/isSecure/isPlainText/hasExamples/field checks → args.Map |
 
 ---
 
