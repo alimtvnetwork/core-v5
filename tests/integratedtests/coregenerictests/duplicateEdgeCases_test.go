@@ -1,7 +1,6 @@
 package coregenerictests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
@@ -21,23 +20,15 @@ func Test_Distinct_AllSameValue_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		unique := coregeneric.Distinct(col)
-
-		var actLines []string
-		if unique.IsEmpty() {
-			actLines = []string{
-				fmt.Sprintf("%d", unique.Length()),
-				fmt.Sprintf("%v", unique.IsEmpty()),
-			}
-		} else {
-			actLines = []string{
-				fmt.Sprintf("%d", unique.Length()),
-				fmt.Sprintf("%d", unique.First()),
-				fmt.Sprintf("%d", unique.Last()),
-			}
+		actual := args.Map{
+			"length":         unique.Length(),
+			"isEmpty":        unique.IsEmpty(),
+			"firstOrDefault": unique.FirstOrDefault(),
+			"lastOrDefault":  unique.LastOrDefault(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -54,15 +45,15 @@ func Test_RemoveItem_AllSameValue_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		removed := coregeneric.RemoveItem(col, 3)
-		actLines := []string{
-			fmt.Sprintf("%v", removed),
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%d", col.First()),
-			fmt.Sprintf("%d", col.Last()),
+		actual := args.Map{
+			"removed": removed,
+			"length":  col.Length(),
+			"first":   col.First(),
+			"last":    col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -79,14 +70,14 @@ func Test_RemoveAllItems_AllSameValue_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		removedCount := coregeneric.RemoveAllItems(col, 3)
-		actLines := []string{
-			fmt.Sprintf("%d", removedCount),
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+		actual := args.Map{
+			"removedCount": removedCount,
+			"length":       col.Length(),
+			"isEmpty":      col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -102,15 +93,15 @@ func Test_ContainsAllAny_AllSameValue_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%v", coregeneric.ContainsAll(col, 5)),
-			fmt.Sprintf("%v", coregeneric.ContainsAll(col, 5, 6)),
-			fmt.Sprintf("%v", coregeneric.ContainsAny(col, 5, 99)),
-			fmt.Sprintf("%v", coregeneric.ContainsAny(col, 88, 99)),
+		actual := args.Map{
+			"containsAllSingle":    coregeneric.ContainsAll(col, 5),
+			"containsAllWithOther": coregeneric.ContainsAll(col, 5, 6),
+			"containsAnyWithMatch": coregeneric.ContainsAny(col, 5, 99),
+			"containsAnyNoMatch":   coregeneric.ContainsAny(col, 88, 99),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -127,14 +118,14 @@ func Test_ToHashset_AllSameValue_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		hs := coregeneric.ToHashset(col)
-		actLines := []string{
-			fmt.Sprintf("%d", hs.Length()),
-			fmt.Sprintf("%v", hs.Has(9)),
-			fmt.Sprintf("%v", hs.Has(99)),
+		actual := args.Map{
+			"length": hs.Length(),
+			"has9":   hs.Has(9),
+			"has99":  hs.Has(99),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -150,13 +141,13 @@ func Test_Hashset_FromAllDuplicates_Verification(t *testing.T) {
 
 		// Act
 		hs := coregeneric.New.Hashset.String.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", hs.Length()),
-			fmt.Sprintf("%v", hs.Has("x")),
+		actual := args.Map{
+			"length": hs.Length(),
+			"hasX":   hs.Has("x"),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -174,47 +165,61 @@ func Test_Hashset_AddBoolRepeated_Verification(t *testing.T) {
 		add2 := hs.AddBool(42)
 		add3 := hs.AddBool(42)
 		add4 := hs.AddBool(42)
-		actLines := []string{
-			fmt.Sprintf("%v", add1),
-			fmt.Sprintf("%v", add2),
-			fmt.Sprintf("%v", add3),
-			fmt.Sprintf("%v", add4),
-			fmt.Sprintf("%d", hs.Length()),
+		actual := args.Map{
+			"add1":   add1,
+			"add2":   add2,
+			"add3":   add3,
+			"add4":   add4,
+			"length": hs.Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 // ==========================================
-// Test: DistinctSimpleSlice — all same value
+// Test: DistinctSimpleSlice — all same (non-empty)
 // ==========================================
 
-func Test_DistinctSimpleSlice_AllSameValue_Verification(t *testing.T) {
-	for caseIndex, testCase := range distinctSimpleSliceAllSameTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		items := input["items"].([]int)
+func Test_DistinctSimpleSlice_AllSame_NonEmpty(t *testing.T) {
+	tc := distinctSimpleSliceAllSameNonEmptyTestCase
 
-		// Act
-		ss := coregeneric.New.SimpleSlice.Int.Items(items...)
-		unique := coregeneric.DistinctSimpleSlice(ss)
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
 
-		var actLines []string
-		if unique.IsEmpty() {
-			actLines = []string{
-				fmt.Sprintf("%d", unique.Length()),
-				fmt.Sprintf("%v", unique.IsEmpty()),
-			}
-		} else {
-			actLines = []string{
-				fmt.Sprintf("%d", unique.Length()),
-				fmt.Sprintf("%d", unique.First()),
-			}
-		}
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	// Act
+	ss := coregeneric.New.SimpleSlice.Int.Items(items...)
+	unique := coregeneric.DistinctSimpleSlice(ss)
+	actual := args.Map{
+		"length": unique.Length(),
+		"first":  unique.First(),
 	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// ==========================================
+// Test: DistinctSimpleSlice — all same (empty)
+// ==========================================
+
+func Test_DistinctSimpleSlice_AllSame_Empty(t *testing.T) {
+	tc := distinctSimpleSliceAllSameEmptyTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	items := input["items"].([]int)
+
+	// Act
+	ss := coregeneric.New.SimpleSlice.Int.Items(items...)
+	unique := coregeneric.DistinctSimpleSlice(ss)
+	actual := args.Map{
+		"length":  unique.Length(),
+		"isEmpty": unique.IsEmpty(),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

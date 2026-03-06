@@ -16,11 +16,11 @@ var sortCollectionAscTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted int collection",
 			"items": []int{5, 3, 1, 4, 2},
 		},
-		ExpectedInput: []string{
-			"5",
-			"1",
-			"5",
-			"true",
+		ExpectedInput: args.Map{
+			"length":   5,
+			"first":    1,
+			"last":     5,
+			"isSorted": true,
 		},
 	},
 	{
@@ -29,11 +29,11 @@ var sortCollectionAscTestCases = []coretestcases.CaseV1{
 			"when":  "given already sorted collection",
 			"items": []int{1, 2, 3},
 		},
-		ExpectedInput: []string{
-			"3",
-			"1",
-			"3",
-			"true",
+		ExpectedInput: args.Map{
+			"length":   3,
+			"first":    1,
+			"last":     3,
+			"isSorted": true,
 		},
 	},
 	{
@@ -42,11 +42,11 @@ var sortCollectionAscTestCases = []coretestcases.CaseV1{
 			"when":  "given single-element collection",
 			"items": []int{42},
 		},
-		ExpectedInput: []string{
-			"1",
-			"42",
-			"42",
-			"true",
+		ExpectedInput: args.Map{
+			"length":   1,
+			"first":    42,
+			"last":     42,
+			"isSorted": true,
 		},
 	},
 }
@@ -62,10 +62,10 @@ var sortCollectionDescTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted int collection",
 			"items": []int{5, 3, 1, 4, 2},
 		},
-		ExpectedInput: []string{
-			"5",
-			"5",
-			"1",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  5,
+			"last":   1,
 		},
 	},
 }
@@ -81,9 +81,9 @@ var minMaxCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given int collection with various values",
 			"items": []int{7, 2, 9, 1, 5},
 		},
-		ExpectedInput: []string{
-			"1",
-			"9",
+		ExpectedInput: args.Map{
+			"min": 1,
+			"max": 9,
 		},
 	},
 	{
@@ -92,9 +92,9 @@ var minMaxCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given single-element collection",
 			"items": []int{42},
 		},
-		ExpectedInput: []string{
-			"42",
-			"42",
+		ExpectedInput: args.Map{
+			"min": 42,
+			"max": 42,
 		},
 	},
 }
@@ -110,9 +110,9 @@ var minMaxCollectionOrDefaultTestCases = []coretestcases.CaseV1{
 			"when":  "given non-empty int collection",
 			"items": []int{3, 1, 4},
 		},
-		ExpectedInput: []string{
-			"1",
-			"4",
+		ExpectedInput: args.Map{
+			"min": 1,
+			"max": 4,
 		},
 	},
 }
@@ -123,9 +123,9 @@ var minMaxCollectionOrDefaultEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty int collection with default -1",
 		},
-		ExpectedInput: []string{
-			"-1",
-			"-1",
+		ExpectedInput: args.Map{
+			"min": -1,
+			"max": -1,
 		},
 	},
 }
@@ -141,9 +141,7 @@ var isSortedCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given ascending sorted collection",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: args.Map{"isSorted": true},
 	},
 	{
 		Title: "IsSortedCollection false for unsorted",
@@ -151,9 +149,7 @@ var isSortedCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted collection",
 			"items": []int{3, 1, 2},
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: args.Map{"isSorted": false},
 	},
 }
 
@@ -168,9 +164,7 @@ var sumCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given int collection",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"15",
-		},
+		ExpectedInput: args.Map{"sum": 15},
 	},
 	{
 		Title: "SumCollection empty returns zero",
@@ -178,9 +172,7 @@ var sumCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given empty int collection",
 			"items": []int{},
 		},
-		ExpectedInput: []string{
-			"0",
-		},
+		ExpectedInput: args.Map{"sum": 0},
 	},
 }
 
@@ -195,12 +187,12 @@ var clampCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given ints clamped to [2, 4]",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"2",
-			"2",
-			"3",
-			"4",
-			"4",
+		ExpectedInput: args.Map{
+			"val0": 2,
+			"val1": 2,
+			"val2": 3,
+			"val3": 4,
+			"val4": 4,
 		},
 	},
 }
@@ -216,10 +208,10 @@ var sortedListHashsetTestCases = []coretestcases.CaseV1{
 			"when":  "given int hashset with unordered items",
 			"items": []int{5, 3, 1, 4, 2},
 		},
-		ExpectedInput: []string{
-			"5",
-			"1",
-			"5",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  1,
+			"last":   5,
 		},
 	},
 }
@@ -235,10 +227,10 @@ var sortedListDescHashsetTestCases = []coretestcases.CaseV1{
 			"when":  "given int hashset with unordered items",
 			"items": []int{5, 3, 1, 4, 2},
 		},
-		ExpectedInput: []string{
-			"5",
-			"5",
-			"1",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  5,
+			"last":   1,
 		},
 	},
 }
@@ -254,10 +246,10 @@ var sortedCollectionHashsetTestCases = []coretestcases.CaseV1{
 			"when":  "given int hashset with unordered items",
 			"items": []int{5, 3, 1, 4, 2},
 		},
-		ExpectedInput: []string{
-			"5",
-			"1",
-			"5",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  1,
+			"last":   5,
 		},
 	},
 }
@@ -273,9 +265,9 @@ var minMaxHashsetTestCases = []coretestcases.CaseV1{
 			"when":  "given int hashset",
 			"items": []int{7, 2, 9, 1, 5},
 		},
-		ExpectedInput: []string{
-			"1",
-			"9",
+		ExpectedInput: args.Map{
+			"min": 1,
+			"max": 9,
 		},
 	},
 }
@@ -286,9 +278,9 @@ var minMaxHashsetOrDefaultTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty int hashset with default -1",
 		},
-		ExpectedInput: []string{
-			"-1",
-			"-1",
+		ExpectedInput: args.Map{
+			"min": -1,
+			"max": -1,
 		},
 	},
 }
@@ -300,9 +292,9 @@ var minMaxHashsetOrDefaultNonEmptyTestCases = []coretestcases.CaseV1{
 			"when":  "given non-empty int hashset with default -1",
 			"items": []int{3, 1, 4},
 		},
-		ExpectedInput: []string{
-			"1",
-			"4",
+		ExpectedInput: args.Map{
+			"min": 1,
+			"max": 4,
 		},
 	},
 }
@@ -317,10 +309,10 @@ var sortedKeysHashmapTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given string-int hashmap with unordered keys",
 		},
-		ExpectedInput: []string{
-			"3",
-			"alpha",
-			"gamma",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "alpha",
+			"last":   "gamma",
 		},
 	},
 }
@@ -335,10 +327,10 @@ var sortedKeysDescHashmapTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given string-int hashmap with unordered keys",
 		},
-		ExpectedInput: []string{
-			"3",
-			"gamma",
-			"alpha",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "gamma",
+			"last":   "alpha",
 		},
 	},
 }
@@ -353,9 +345,9 @@ var minMaxKeyHashmapTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given string-int hashmap",
 		},
-		ExpectedInput: []string{
-			"alpha",
-			"gamma",
+		ExpectedInput: args.Map{
+			"minKey": "alpha",
+			"maxKey": "gamma",
 		},
 	},
 }
@@ -370,9 +362,9 @@ var minMaxKeyHashmapOrDefaultEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty string-int hashmap with default 'none'",
 		},
-		ExpectedInput: []string{
-			"none",
-			"none",
+		ExpectedInput: args.Map{
+			"minKey": "none",
+			"maxKey": "none",
 		},
 	},
 }
@@ -383,9 +375,9 @@ var minMaxKeyHashmapOrDefaultNonEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given non-empty string-int hashmap with default 'none'",
 		},
-		ExpectedInput: []string{
-			"alpha",
-			"gamma",
+		ExpectedInput: args.Map{
+			"minKey": "alpha",
+			"maxKey": "gamma",
 		},
 	},
 }
@@ -400,10 +392,10 @@ var sortedValuesHashmapTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given string-int hashmap with numeric values",
 		},
-		ExpectedInput: []string{
-			"3",
-			"1",
-			"30",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  1,
+			"last":   30,
 		},
 	},
 }
@@ -418,9 +410,9 @@ var minMaxValueHashmapTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given string-int hashmap with numeric values",
 		},
-		ExpectedInput: []string{
-			"1",
-			"30",
+		ExpectedInput: args.Map{
+			"minValue": 1,
+			"maxValue": 30,
 		},
 	},
 }
@@ -435,9 +427,9 @@ var minMaxValueHashmapOrDefaultEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty hashmap with default -1",
 		},
-		ExpectedInput: []string{
-			"-1",
-			"-1",
+		ExpectedInput: args.Map{
+			"minValue": -1,
+			"maxValue": -1,
 		},
 	},
 }
@@ -448,9 +440,9 @@ var minMaxValueHashmapOrDefaultNonEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given non-empty string-int hashmap with default -1",
 		},
-		ExpectedInput: []string{
-			"1",
-			"30",
+		ExpectedInput: args.Map{
+			"minValue": 1,
+			"maxValue": 30,
 		},
 	},
 }
@@ -466,10 +458,10 @@ var sortSimpleSliceTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted int simple slice",
 			"items": []int{5, 3, 1, 4, 2},
 		},
-		ExpectedInput: []string{
-			"5",
-			"1",
-			"5",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  1,
+			"last":   5,
 		},
 	},
 }
@@ -481,9 +473,9 @@ var minMaxSimpleSliceTestCases = []coretestcases.CaseV1{
 			"when":  "given int simple slice",
 			"items": []int{7, 2, 9, 1, 5},
 		},
-		ExpectedInput: []string{
-			"1",
-			"9",
+		ExpectedInput: args.Map{
+			"min": 1,
+			"max": 9,
 		},
 	},
 }
@@ -503,9 +495,9 @@ var sortCollectionEmptyTestCases = []coretestcases.CaseV1{
 			"when":  "given empty int collection",
 			"items": []int{},
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":   0,
+			"isSorted": true,
 		},
 	},
 }
@@ -521,11 +513,11 @@ var sortCollectionNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with negative and positive values",
 			"items": []int{3, -5, 0, -1, 7, -10},
 		},
-		ExpectedInput: []string{
-			"6",
-			"-10",
-			"7",
-			"true",
+		ExpectedInput: args.Map{
+			"length":   6,
+			"first":    -10,
+			"last":     7,
+			"isSorted": true,
 		},
 	},
 }
@@ -541,9 +533,9 @@ var minMaxCollectionNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with only negative values",
 			"items": []int{-3, -7, -1, -9, -5},
 		},
-		ExpectedInput: []string{
-			"-9",
-			"-1",
+		ExpectedInput: args.Map{
+			"min": -9,
+			"max": -1,
 		},
 	},
 	{
@@ -552,9 +544,9 @@ var minMaxCollectionNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with mixed signs",
 			"items": []int{-100, 0, 50, -25, 100},
 		},
-		ExpectedInput: []string{
-			"-100",
-			"100",
+		ExpectedInput: args.Map{
+			"min": -100,
+			"max": 100,
 		},
 	},
 }
@@ -570,9 +562,7 @@ var sumCollectionNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with negative values",
 			"items": []int{-5, 10, -3, 8, -10},
 		},
-		ExpectedInput: []string{
-			"0",
-		},
+		ExpectedInput: args.Map{"sum": 0},
 	},
 	{
 		Title: "SumCollection with all negative numbers",
@@ -580,9 +570,7 @@ var sumCollectionNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with all negative values",
 			"items": []int{-1, -2, -3},
 		},
-		ExpectedInput: []string{
-			"-6",
-		},
+		ExpectedInput: args.Map{"sum": -6},
 	},
 }
 
@@ -597,12 +585,12 @@ var clampCollectionNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given ints clamped to [-5, -1]",
 			"items": []int{-10, -3, 0, -1, -7},
 		},
-		ExpectedInput: []string{
-			"-5",
-			"-3",
-			"-1",
-			"-1",
-			"-5",
+		ExpectedInput: args.Map{
+			"val0": -5,
+			"val1": -3,
+			"val2": -1,
+			"val3": -1,
+			"val4": -5,
 		},
 	},
 }
@@ -618,9 +606,7 @@ var isSortedCollectionEdgeTestCases = []coretestcases.CaseV1{
 			"when":  "given empty collection",
 			"items": []int{},
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: args.Map{"isSorted": true},
 	},
 	{
 		Title: "IsSortedCollection true for single element",
@@ -628,9 +614,7 @@ var isSortedCollectionEdgeTestCases = []coretestcases.CaseV1{
 			"when":  "given single-element collection",
 			"items": []int{99},
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: args.Map{"isSorted": true},
 	},
 }
 
@@ -645,10 +629,10 @@ var sortedListHashsetSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given hashset with single item",
 			"items": []int{42},
 		},
-		ExpectedInput: []string{
-			"1",
-			"42",
-			"42",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  42,
+			"last":   42,
 		},
 	},
 }
@@ -664,9 +648,9 @@ var minMaxHashsetSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given hashset with one item",
 			"items": []int{7},
 		},
-		ExpectedInput: []string{
-			"7",
-			"7",
+		ExpectedInput: args.Map{
+			"min": 7,
+			"max": 7,
 		},
 	},
 }
@@ -682,9 +666,9 @@ var minMaxHashsetNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given hashset with negative values",
 			"items": []int{-3, -7, 0, 5, -1},
 		},
-		ExpectedInput: []string{
-			"-7",
-			"5",
+		ExpectedInput: args.Map{
+			"min": -7,
+			"max": 5,
 		},
 	},
 }
@@ -700,10 +684,10 @@ var sortedListHashsetNegativeTestCases = []coretestcases.CaseV1{
 			"when":  "given hashset with mixed signs",
 			"items": []int{3, -2, 0, -5, 1},
 		},
-		ExpectedInput: []string{
-			"5",
-			"-5",
-			"3",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  -5,
+			"last":   3,
 		},
 	},
 }
@@ -718,10 +702,10 @@ var sortedKeysHashmapSingleTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap with one key-value pair",
 		},
-		ExpectedInput: []string{
-			"1",
-			"only",
-			"only",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  "only",
+			"last":   "only",
 		},
 	},
 }
@@ -732,9 +716,9 @@ var minMaxKeyHashmapSingleTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap with one entry",
 		},
-		ExpectedInput: []string{
-			"only",
-			"only",
+		ExpectedInput: args.Map{
+			"minKey": "only",
+			"maxKey": "only",
 		},
 	},
 }
@@ -749,9 +733,9 @@ var minMaxValueHashmapNegativeTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap with negative integer values",
 		},
-		ExpectedInput: []string{
-			"-20",
-			"5",
+		ExpectedInput: args.Map{
+			"minValue": -20,
+			"maxValue": 5,
 		},
 	},
 }
@@ -762,10 +746,10 @@ var sortedValuesHashmapNegativeTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap with mixed sign values",
 		},
-		ExpectedInput: []string{
-			"3",
-			"-20",
-			"5",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  -20,
+			"last":   5,
 		},
 	},
 }

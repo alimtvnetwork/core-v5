@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 func intPtr(v int) *int       { return &v }
@@ -137,13 +138,14 @@ func Test_PointerSliceSorter_Switch(t *testing.T) {
 	firstAfterDesc := ptrStr(sorter.Items()[0])
 	lastAfterDesc := ptrStr(sorter.Items()[4])
 
-	tc.ShouldBeEqualFirst(
-		t,
-		firstAfterAsc,
-		lastAfterAsc,
-		firstAfterDesc,
-		lastAfterDesc,
-	)
+	actual := args.Map{
+		"firstAfterAsc":  firstAfterAsc,
+		"lastAfterAsc":   lastAfterAsc,
+		"firstAfterDesc": firstAfterDesc,
+		"lastAfterDesc":  lastAfterDesc,
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -155,15 +157,16 @@ func Test_PointerSliceSorter_IsSorted(t *testing.T) {
 	items := []*int{intPtr(3), intPtr(1), intPtr(5)}
 	sorter := coregeneric.NewPointerSliceSorterAsc(items)
 
-	beforeSort := fmt.Sprintf("%v", sorter.IsSorted())
+	beforeSort := sorter.IsSorted()
 	sorter.Sort()
-	afterSort := fmt.Sprintf("%v", sorter.IsSorted())
+	afterSort := sorter.IsSorted()
 
-	tc.ShouldBeEqualFirst(
-		t,
-		beforeSort,
-		afterSort,
-	)
+	actual := args.Map{
+		"beforeSort": beforeSort,
+		"afterSort":  afterSort,
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -176,11 +179,12 @@ func Test_PointerSliceSorter_Empty(t *testing.T) {
 	sorter := coregeneric.NewPointerSliceSorterAsc(items)
 	sorter.Sort()
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", sorter.Len()),
-		fmt.Sprintf("%v", sorter.IsSorted()),
-	)
+	actual := args.Map{
+		"length":   sorter.Len(),
+		"isSorted": sorter.IsSorted(),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_PointerSliceSorter_Single(t *testing.T) {
@@ -189,12 +193,13 @@ func Test_PointerSliceSorter_Single(t *testing.T) {
 	sorter := coregeneric.NewPointerSliceSorterAsc(items)
 	sorter.Sort()
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", sorter.Len()),
-		fmt.Sprintf("%v", sorter.IsSorted()),
-		ptrStr(sorter.Items()[0]),
-	)
+	actual := args.Map{
+		"length":   sorter.Len(),
+		"isSorted": sorter.IsSorted(),
+		"value":    ptrStr(sorter.Items()[0]),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_PointerSliceSorter_NilSlice(t *testing.T) {
@@ -216,13 +221,15 @@ func Test_PointerSliceSorter_SetItems(t *testing.T) {
 	newItems := []*int{intPtr(30), intPtr(10), intPtr(20)}
 	sorter.SetItems(newItems).Sort()
 
-	tc.ShouldBeEqualFirst(
-		t,
-		fmt.Sprintf("%d", sorter.Len()),
-		ptrSliceToStrings(sorter.Items())[0],
-		ptrSliceToStrings(sorter.Items())[1],
-		ptrSliceToStrings(sorter.Items())[2],
-	)
+	sortedStrs := ptrSliceToStrings(sorter.Items())
+	actual := args.Map{
+		"length": sorter.Len(),
+		"item0":  sortedStrs[0],
+		"item1":  sortedStrs[1],
+		"item2":  sortedStrs[2],
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================

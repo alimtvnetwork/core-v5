@@ -16,9 +16,9 @@ var collectionStringCapTestCases = []coretestcases.CaseV1{
 			"when":     "given capacity 10",
 			"capacity": 10,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -29,9 +29,9 @@ var collectionStringEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty string collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -43,11 +43,11 @@ var collectionStringFromTestCases = []coretestcases.CaseV1{
 			"when":  "given existing string slice",
 			"items": []string{"alpha", "beta", "gamma"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"false",
-			"alpha",
-			"gamma",
+		ExpectedInput: args.Map{
+			"length":  3,
+			"isEmpty": false,
+			"first":   "alpha",
+			"last":    "gamma",
 		},
 	},
 }
@@ -59,10 +59,10 @@ var collectionStringItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given variadic strings",
 			"items": []string{"one", "two", "three"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"one",
-			"three",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "one",
+			"last":   "three",
 		},
 	},
 }
@@ -78,10 +78,10 @@ var collectionIntItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given int items",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: []string{
-			"3",
-			"10",
-			"30",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  10,
+			"last":   30,
 		},
 	},
 }
@@ -97,10 +97,10 @@ var collectionFilterTestCases = []coretestcases.CaseV1{
 			"when":  "given ints, filter > 2",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"3",
-			"3",
-			"5",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  3,
+			"last":   5,
 		},
 	},
 }
@@ -116,9 +116,9 @@ var collectionCloneIndependenceTestCases = []coretestcases.CaseV1{
 			"when":  "given collection cloned then mutated",
 			"items": []string{"x", "y", "z"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"true",
+		ExpectedInput: args.Map{
+			"originalLength": 3,
+			"isIndependent":  true,
 		},
 	},
 }
@@ -134,11 +134,11 @@ var hashsetAddHasTestCases = []coretestcases.CaseV1{
 			"when":  "given string hashset with items added",
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"true",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"hasA":   true,
+			"hasC":   true,
+			"hasZ":   false,
 		},
 	},
 }
@@ -151,10 +151,10 @@ var hashsetRemoveTestCases = []coretestcases.CaseV1{
 			"items":  []string{"a", "b", "c"},
 			"remove": "b",
 		},
-		ExpectedInput: []string{
-			"2",
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"length":     2,
+			"hasRemoved": false,
+			"hasA":       true,
 		},
 	},
 }
@@ -169,11 +169,11 @@ var hashmapSetGetTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given string-string hashmap with entries",
 		},
-		ExpectedInput: []string{
-			"2",
-			"value1",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"length":   2,
+			"value":    "value1",
+			"found":    true,
+			"notFound": false,
 		},
 	},
 }
@@ -189,10 +189,10 @@ var simpleSliceAddTestCases = []coretestcases.CaseV1{
 			"when":  "given int simple slice with items added",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: []string{
-			"3",
-			"10",
-			"30",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  10,
+			"last":   30,
 		},
 	},
 }
@@ -208,10 +208,10 @@ var linkedListAddTestCases = []coretestcases.CaseV1{
 			"when":  "given string linked list with items",
 			"items": []string{"first", "second", "third"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"first",
-			"third",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "first",
+			"last":   "third",
 		},
 	},
 }
@@ -224,10 +224,10 @@ var linkedListAddFrontTestCases = []coretestcases.CaseV1{
 			"items":   []string{"b", "c"},
 			"prepend": "a",
 		},
-		ExpectedInput: []string{
-			"3",
-			"a",
-			"c",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "a",
+			"last":   "c",
 		},
 	},
 }
@@ -243,10 +243,10 @@ var mapCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given int collection mapped to strings",
 			"items": []int{1, 2, 3},
 		},
-		ExpectedInput: []string{
-			"3",
-			"1",
-			"3",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "1",
+			"last":   "3",
 		},
 	},
 }
@@ -262,10 +262,10 @@ var distinctTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with duplicates",
 			"items": []int{1, 2, 3, 2, 1, 4},
 		},
-		ExpectedInput: []string{
-			"4",
-			"1",
-			"4",
+		ExpectedInput: args.Map{
+			"length": 4,
+			"first":  1,
+			"last":   4,
 		},
 	},
 }

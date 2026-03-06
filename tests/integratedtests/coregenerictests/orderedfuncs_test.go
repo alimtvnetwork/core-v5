@@ -21,15 +21,15 @@ func Test_SortCollection_Asc_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		coregeneric.SortCollection(col)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%d", col.First()),
-			fmt.Sprintf("%d", col.Last()),
-			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		actual := args.Map{
+			"length":   col.Length(),
+			"first":    col.First(),
+			"last":     col.Last(),
+			"isSorted": coregeneric.IsSortedCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -46,14 +46,14 @@ func Test_SortCollection_Desc_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		coregeneric.SortCollectionDesc(col)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%d", col.First()),
-			fmt.Sprintf("%d", col.Last()),
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
+			"last":   col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -69,13 +69,13 @@ func Test_MinMax_Collection_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinCollection(col)),
-			fmt.Sprintf("%d", coregeneric.MaxCollection(col)),
+		actual := args.Map{
+			"min": coregeneric.MinCollection(col),
+			"max": coregeneric.MaxCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -91,13 +91,13 @@ func Test_MinMaxOrDefault_Collection_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinCollectionOrDefault(col, -1)),
-			fmt.Sprintf("%d", coregeneric.MaxCollectionOrDefault(col, -1)),
+		actual := args.Map{
+			"min": coregeneric.MinCollectionOrDefault(col, -1),
+			"max": coregeneric.MaxCollectionOrDefault(col, -1),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -107,13 +107,13 @@ func Test_MinMaxOrDefault_Empty_Collection_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Empty()
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinCollectionOrDefault(col, -1)),
-			fmt.Sprintf("%d", coregeneric.MaxCollectionOrDefault(col, -1)),
+		actual := args.Map{
+			"min": coregeneric.MinCollectionOrDefault(col, -1),
+			"max": coregeneric.MaxCollectionOrDefault(col, -1),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -129,12 +129,12 @@ func Test_IsSortedCollection_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		actual := args.Map{
+			"isSorted": coregeneric.IsSortedCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -150,12 +150,12 @@ func Test_SumCollection_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.SumCollection(col)),
+		actual := args.Map{
+			"sum": coregeneric.SumCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -172,13 +172,13 @@ func Test_ClampCollection_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		coregeneric.ClampCollection(col, 2, 4)
-		actLines := make([]string, col.Length())
+		actual := args.Map{}
 		for i := 0; i < col.Length(); i++ {
-			actLines[i] = fmt.Sprintf("%d", col.GetAt(i))
+			actual[fmt.Sprintf("val%d", i)] = col.GetAt(i)
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -195,14 +195,14 @@ func Test_SortedListHashset_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
 		sorted := coregeneric.SortedListHashset(hs)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sorted)),
-			fmt.Sprintf("%d", sorted[0]),
-			fmt.Sprintf("%d", sorted[len(sorted)-1]),
+		actual := args.Map{
+			"length": len(sorted),
+			"first":  sorted[0],
+			"last":   sorted[len(sorted)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -219,14 +219,14 @@ func Test_SortedListDescHashset_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
 		sorted := coregeneric.SortedListDescHashset(hs)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sorted)),
-			fmt.Sprintf("%d", sorted[0]),
-			fmt.Sprintf("%d", sorted[len(sorted)-1]),
+		actual := args.Map{
+			"length": len(sorted),
+			"first":  sorted[0],
+			"last":   sorted[len(sorted)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -243,14 +243,14 @@ func Test_SortedCollectionHashset_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
 		col := coregeneric.SortedCollectionHashset(hs)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%d", col.First()),
-			fmt.Sprintf("%d", col.Last()),
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
+			"last":   col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -266,13 +266,13 @@ func Test_MinMax_Hashset_Verification(t *testing.T) {
 
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinHashset(hs)),
-			fmt.Sprintf("%d", coregeneric.MaxHashset(hs)),
+		actual := args.Map{
+			"min": coregeneric.MinHashset(hs),
+			"max": coregeneric.MaxHashset(hs),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -282,13 +282,13 @@ func Test_MinMaxOrDefault_Hashset_Empty_Verification(t *testing.T) {
 
 		// Act
 		hs := coregeneric.New.Hashset.Int.Empty()
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinHashsetOrDefault(hs, -1)),
-			fmt.Sprintf("%d", coregeneric.MaxHashsetOrDefault(hs, -1)),
+		actual := args.Map{
+			"min": coregeneric.MinHashsetOrDefault(hs, -1),
+			"max": coregeneric.MaxHashsetOrDefault(hs, -1),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -300,13 +300,13 @@ func Test_MinMaxOrDefault_Hashset_NonEmpty_Verification(t *testing.T) {
 
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinHashsetOrDefault(hs, -1)),
-			fmt.Sprintf("%d", coregeneric.MaxHashsetOrDefault(hs, -1)),
+		actual := args.Map{
+			"min": coregeneric.MinHashsetOrDefault(hs, -1),
+			"max": coregeneric.MaxHashsetOrDefault(hs, -1),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -324,14 +324,14 @@ func Test_SortedKeysHashmap_Verification(t *testing.T) {
 
 		// Act
 		sortedKeys := coregeneric.SortedKeysHashmap(hm)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sortedKeys)),
-			sortedKeys[0],
-			sortedKeys[len(sortedKeys)-1],
+		actual := args.Map{
+			"length": len(sortedKeys),
+			"first":  sortedKeys[0],
+			"last":   sortedKeys[len(sortedKeys)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -349,14 +349,14 @@ func Test_SortedKeysDescHashmap_Verification(t *testing.T) {
 
 		// Act
 		sortedKeys := coregeneric.SortedKeysDescHashmap(hm)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sortedKeys)),
-			sortedKeys[0],
-			sortedKeys[len(sortedKeys)-1],
+		actual := args.Map{
+			"length": len(sortedKeys),
+			"first":  sortedKeys[0],
+			"last":   sortedKeys[len(sortedKeys)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -373,13 +373,13 @@ func Test_MinMaxKey_Hashmap_Verification(t *testing.T) {
 		hm.Set("beta", 20)
 
 		// Act
-		actLines := []string{
-			coregeneric.MinKeyHashmap(hm),
-			coregeneric.MaxKeyHashmap(hm),
+		actual := args.Map{
+			"minKey": coregeneric.MinKeyHashmap(hm),
+			"maxKey": coregeneric.MaxKeyHashmap(hm),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -393,13 +393,13 @@ func Test_MinMaxKeyOrDefault_Hashmap_Empty_Verification(t *testing.T) {
 
 		// Act
 		hm := coregeneric.New.Hashmap.StringInt.Cap(0)
-		actLines := []string{
-			coregeneric.MinKeyHashmapOrDefault(hm, "none"),
-			coregeneric.MaxKeyHashmapOrDefault(hm, "none"),
+		actual := args.Map{
+			"minKey": coregeneric.MinKeyHashmapOrDefault(hm, "none"),
+			"maxKey": coregeneric.MaxKeyHashmapOrDefault(hm, "none"),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -412,13 +412,13 @@ func Test_MinMaxKeyOrDefault_Hashmap_NonEmpty_Verification(t *testing.T) {
 		hm.Set("beta", 20)
 
 		// Act
-		actLines := []string{
-			coregeneric.MinKeyHashmapOrDefault(hm, "none"),
-			coregeneric.MaxKeyHashmapOrDefault(hm, "none"),
+		actual := args.Map{
+			"minKey": coregeneric.MinKeyHashmapOrDefault(hm, "none"),
+			"maxKey": coregeneric.MaxKeyHashmapOrDefault(hm, "none"),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -436,14 +436,14 @@ func Test_SortedValuesHashmap_Verification(t *testing.T) {
 
 		// Act
 		sortedVals := coregeneric.SortedValuesHashmap(hm)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sortedVals)),
-			fmt.Sprintf("%d", sortedVals[0]),
-			fmt.Sprintf("%d", sortedVals[len(sortedVals)-1]),
+		actual := args.Map{
+			"length": len(sortedVals),
+			"first":  sortedVals[0],
+			"last":   sortedVals[len(sortedVals)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -460,13 +460,13 @@ func Test_MinMaxValue_Hashmap_Verification(t *testing.T) {
 		hm.Set("beta", 20)
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinValueHashmap(hm)),
-			fmt.Sprintf("%d", coregeneric.MaxValueHashmap(hm)),
+		actual := args.Map{
+			"minValue": coregeneric.MinValueHashmap(hm),
+			"maxValue": coregeneric.MaxValueHashmap(hm),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -480,13 +480,13 @@ func Test_MinMaxValueOrDefault_Hashmap_Empty_Verification(t *testing.T) {
 
 		// Act
 		hm := coregeneric.New.Hashmap.StringInt.Cap(0)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinValueHashmapOrDefault(hm, -1)),
-			fmt.Sprintf("%d", coregeneric.MaxValueHashmapOrDefault(hm, -1)),
+		actual := args.Map{
+			"minValue": coregeneric.MinValueHashmapOrDefault(hm, -1),
+			"maxValue": coregeneric.MaxValueHashmapOrDefault(hm, -1),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -499,22 +499,15 @@ func Test_MinMaxValueOrDefault_Hashmap_NonEmpty_Verification(t *testing.T) {
 		hm.Set("beta", 20)
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinValueHashmapOrDefault(hm, -1)),
-			fmt.Sprintf("%d", coregeneric.MaxValueHashmapOrDefault(hm, -1)),
+		actual := args.Map{
+			"minValue": coregeneric.MinValueHashmapOrDefault(hm, -1),
+			"maxValue": coregeneric.MaxValueHashmapOrDefault(hm, -1),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
-
-// ==========================================
-// Test: MinValueHashmap / MaxValueHashmap
-// ==========================================
-
-// Test_MinMaxValue_Hashmap_Verification is defined above (line 454).
-// Removed duplicate declaration here.
 
 // ==========================================
 // Test: SortSimpleSlice
@@ -529,14 +522,14 @@ func Test_SortSimpleSlice_Verification(t *testing.T) {
 		// Act
 		ss := coregeneric.New.SimpleSlice.Int.Items(items...)
 		coregeneric.SortSimpleSlice(ss)
-		actLines := []string{
-			fmt.Sprintf("%d", ss.Length()),
-			fmt.Sprintf("%d", ss.First()),
-			fmt.Sprintf("%d", ss.Last()),
+		actual := args.Map{
+			"length": ss.Length(),
+			"first":  ss.First(),
+			"last":   ss.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -552,13 +545,13 @@ func Test_MinMax_SimpleSlice_Verification(t *testing.T) {
 
 		// Act
 		ss := coregeneric.New.SimpleSlice.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinSimpleSlice(ss)),
-			fmt.Sprintf("%d", coregeneric.MaxSimpleSlice(ss)),
+		actual := args.Map{
+			"min": coregeneric.MinSimpleSlice(ss),
+			"max": coregeneric.MaxSimpleSlice(ss),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -579,13 +572,13 @@ func Test_SortCollection_Empty_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		coregeneric.SortCollection(col)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		actual := args.Map{
+			"length":   col.Length(),
+			"isSorted": coregeneric.IsSortedCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -602,15 +595,15 @@ func Test_SortCollection_Negative_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		coregeneric.SortCollection(col)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%d", col.First()),
-			fmt.Sprintf("%d", col.Last()),
-			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		actual := args.Map{
+			"length":   col.Length(),
+			"first":    col.First(),
+			"last":     col.Last(),
+			"isSorted": coregeneric.IsSortedCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -626,13 +619,13 @@ func Test_MinMax_Collection_Negative_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinCollection(col)),
-			fmt.Sprintf("%d", coregeneric.MaxCollection(col)),
+		actual := args.Map{
+			"min": coregeneric.MinCollection(col),
+			"max": coregeneric.MaxCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -648,12 +641,12 @@ func Test_SumCollection_Negative_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.SumCollection(col)),
+		actual := args.Map{
+			"sum": coregeneric.SumCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -670,13 +663,13 @@ func Test_ClampCollection_Negative_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		coregeneric.ClampCollection(col, -5, -1)
-		actLines := make([]string, col.Length())
+		actual := args.Map{}
 		for i := 0; i < col.Length(); i++ {
-			actLines[i] = fmt.Sprintf("%d", col.GetAt(i))
+			actual[fmt.Sprintf("val%d", i)] = col.GetAt(i)
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -692,12 +685,12 @@ func Test_IsSortedCollection_Edge_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%v", coregeneric.IsSortedCollection(col)),
+		actual := args.Map{
+			"isSorted": coregeneric.IsSortedCollection(col),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -714,14 +707,14 @@ func Test_SortedListHashset_Single_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
 		sorted := coregeneric.SortedListHashset(hs)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sorted)),
-			fmt.Sprintf("%d", sorted[0]),
-			fmt.Sprintf("%d", sorted[len(sorted)-1]),
+		actual := args.Map{
+			"length": len(sorted),
+			"first":  sorted[0],
+			"last":   sorted[len(sorted)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -737,13 +730,13 @@ func Test_MinMax_Hashset_Single_Verification(t *testing.T) {
 
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinHashset(hs)),
-			fmt.Sprintf("%d", coregeneric.MaxHashset(hs)),
+		actual := args.Map{
+			"min": coregeneric.MinHashset(hs),
+			"max": coregeneric.MaxHashset(hs),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -759,13 +752,13 @@ func Test_MinMax_Hashset_Negative_Verification(t *testing.T) {
 
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinHashset(hs)),
-			fmt.Sprintf("%d", coregeneric.MaxHashset(hs)),
+		actual := args.Map{
+			"min": coregeneric.MinHashset(hs),
+			"max": coregeneric.MaxHashset(hs),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -782,14 +775,14 @@ func Test_SortedListHashset_Negative_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.Int.From(items)
 		sorted := coregeneric.SortedListHashset(hs)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sorted)),
-			fmt.Sprintf("%d", sorted[0]),
-			fmt.Sprintf("%d", sorted[len(sorted)-1]),
+		actual := args.Map{
+			"length": len(sorted),
+			"first":  sorted[0],
+			"last":   sorted[len(sorted)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -805,14 +798,14 @@ func Test_SortedKeysHashmap_Single_Verification(t *testing.T) {
 
 		// Act
 		sortedKeys := coregeneric.SortedKeysHashmap(hm)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sortedKeys)),
-			sortedKeys[0],
-			sortedKeys[len(sortedKeys)-1],
+		actual := args.Map{
+			"length": len(sortedKeys),
+			"first":  sortedKeys[0],
+			"last":   sortedKeys[len(sortedKeys)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -823,13 +816,13 @@ func Test_MinMaxKey_Hashmap_Single_Verification(t *testing.T) {
 		hm.Set("only", 99)
 
 		// Act
-		actLines := []string{
-			coregeneric.MinKeyHashmap(hm),
-			coregeneric.MaxKeyHashmap(hm),
+		actual := args.Map{
+			"minKey": coregeneric.MinKeyHashmap(hm),
+			"maxKey": coregeneric.MaxKeyHashmap(hm),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -846,13 +839,13 @@ func Test_MinMaxValue_Hashmap_Negative_Verification(t *testing.T) {
 		hm.Set("gamma", -3)
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%d", coregeneric.MinValueHashmap(hm)),
-			fmt.Sprintf("%d", coregeneric.MaxValueHashmap(hm)),
+		actual := args.Map{
+			"minValue": coregeneric.MinValueHashmap(hm),
+			"maxValue": coregeneric.MaxValueHashmap(hm),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -866,13 +859,13 @@ func Test_SortedValuesHashmap_Negative_Verification(t *testing.T) {
 
 		// Act
 		sortedVals := coregeneric.SortedValuesHashmap(hm)
-		actLines := []string{
-			fmt.Sprintf("%d", len(sortedVals)),
-			fmt.Sprintf("%d", sortedVals[0]),
-			fmt.Sprintf("%d", sortedVals[len(sortedVals)-1]),
+		actual := args.Map{
+			"length": len(sortedVals),
+			"first":  sortedVals[0],
+			"last":   sortedVals[len(sortedVals)-1],
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
