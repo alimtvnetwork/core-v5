@@ -6,9 +6,9 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **82 files** | 59.4% |
+| ✅ Migrated to `args.Map` | **83 files** | 60.1% |
 | 🔶 Using `args.Two`–`args.Six` (typed tuples) | **0 files** | 0% |
-| 🔴 Using `[]string` | **19 files** | 13.8% |
+| 🔴 Using `[]string` | **18 files** | 13.0% |
 | 🟡 Using plain `string` / other | **~34 files** | 24.6% |
 | **Total testcase files** | **~138** | — |
 
