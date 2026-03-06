@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coredata/corepayload"
-	"gitlab.com/auk-go/core/errcore"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // =============================================================================
@@ -44,10 +43,10 @@ func Test_TypedPayloadCollection_GetPagesSize(t *testing.T) {
 	for caseIndex, testCase := range typedCollectionPagesSizeTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		pageSize := input.GetDirectLower("pageSize").(int)
+		pageSize, _ := input.GetAsInt("pageSize")
 
 		count := 3 // default from createTestCollection (Alice, Bob, Carol)
-		if c, ok := input.GetDirectLower("count").(int); ok {
+		if c, ok := input.GetAsInt("count"); ok {
 			count = c
 		}
 
@@ -57,9 +56,10 @@ func Test_TypedPayloadCollection_GetPagesSize(t *testing.T) {
 		pagesSize := collection.GetPagesSize(pageSize)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", pagesSize),
-		)
+		actual := args.Map{
+			"pagesSize": pagesSize,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -71,22 +71,24 @@ func Test_TypedPayloadCollection_GetSinglePageCollection(t *testing.T) {
 	for caseIndex, testCase := range typedCollectionSinglePageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		count := input.GetDirectLower("count").(int)
-		pageSize := input.GetDirectLower("pageSize").(int)
-		pageIndex := input.GetDirectLower("pageIndex").(int)
+		count, _ := input.GetAsInt("count")
+		pageSize, _ := input.GetAsInt("pageSize")
+		pageIndex, _ := input.GetAsInt("pageIndex")
 
 		collection := createNumberedUsers(count)
 
 		// Act
 		page := collection.GetSinglePageCollection(pageSize, pageIndex)
 
-		results := []string{fmt.Sprintf("%d", page.Length())}
-		for _, item := range page.Items() {
-			results = append(results, item.Identifier())
+		actual := args.Map{
+			"pageItemCount": page.Length(),
+		}
+		for i, item := range page.Items() {
+			actual[fmt.Sprintf("item%d", i)] = item.Identifier()
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -98,21 +100,23 @@ func Test_TypedPayloadCollection_GetPagedCollection(t *testing.T) {
 	for caseIndex, testCase := range typedCollectionPagedCollectionTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		count := input.GetDirectLower("count").(int)
-		pageSize := input.GetDirectLower("pageSize").(int)
+		count, _ := input.GetAsInt("count")
+		pageSize, _ := input.GetAsInt("pageSize")
 
 		collection := createNumberedUsers(count)
 
 		// Act
 		pages := collection.GetPagedCollection(pageSize)
 
-		results := []string{fmt.Sprintf("%d", len(pages))}
-		for _, page := range pages {
-			results = append(results, fmt.Sprintf("%d", page.Length()))
+		actual := args.Map{
+			"pageCount": len(pages),
+		}
+		for i, page := range pages {
+			actual[fmt.Sprintf("page%dItems", i+1)] = page.Length()
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -124,29 +128,30 @@ func Test_TypedPayloadCollection_GetPagedCollectionWithInfo(t *testing.T) {
 	for caseIndex, testCase := range typedCollectionPagedWithInfoTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		count := input.GetDirectLower("count").(int)
-		pageSize := input.GetDirectLower("pageSize").(int)
+		count, _ := input.GetAsInt("count")
+		pageSize, _ := input.GetAsInt("pageSize")
 
 		collection := createNumberedUsers(count)
 
 		// Act
 		pages := collection.GetPagedCollectionWithInfo(pageSize)
 
-		results := []string{fmt.Sprintf("%d", len(pages))}
+		actual := args.Map{
+			"pageCount": len(pages),
+		}
 
-		// Emit first 2 pages' PagingInfo fields: CurrentPageIndex, TotalPages, PerPageItems, TotalItems
+		// Emit first 2 pages' PagingInfo fields
 		for i := 0; i < 2 && i < len(pages); i++ {
 			page := pages[i]
-			results = append(results,
-				fmt.Sprintf("%d", page.Paging.CurrentPageIndex),
-				fmt.Sprintf("%d", page.Paging.TotalPages),
-				fmt.Sprintf("%d", page.Paging.PerPageItems),
-				fmt.Sprintf("%d", page.Paging.TotalItems),
-			)
+			prefix := fmt.Sprintf("p%d", i+1)
+			actual[prefix+"CurrentPageIndex"] = page.Paging.CurrentPageIndex
+			actual[prefix+"TotalPages"] = page.Paging.TotalPages
+			actual[prefix+"PerPageItems"] = page.Paging.PerPageItems
+			actual[prefix+"TotalItems"] = page.Paging.TotalItems
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -158,19 +163,19 @@ func Test_TypedPayloadCollection_Paging_Empty(t *testing.T) {
 	for caseIndex, testCase := range typedCollectionPagingEmptyTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		pageSize := input.GetDirectLower("pageSize").(int)
+		pageSize, _ := input.GetAsInt("pageSize")
 
 		collection := corepayload.EmptyTypedPayloadCollection[testUser]()
 
 		// Act
 		pages := collection.GetPagedCollection(pageSize)
 
-		results := []string{
-			fmt.Sprintf("%d", len(pages)),
-			fmt.Sprintf("%d", pages[0].Length()),
+		actual := args.Map{
+			"pageCount":  len(pages),
+			"page1Items": pages[0].Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

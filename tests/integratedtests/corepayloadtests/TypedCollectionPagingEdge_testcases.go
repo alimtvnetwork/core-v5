@@ -17,9 +17,9 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 			"count":    1,
 			"pageSize": 1,
 		},
-		ExpectedInput: []string{
-			"1",
-			"1",
+		ExpectedInput: args.Map{
+			"pageCount":  1,
+			"page1Items": 1,
 		},
 	},
 	{
@@ -29,11 +29,11 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 			"count":    3,
 			"pageSize": 1,
 		},
-		ExpectedInput: []string{
-			"3",
-			"1",
-			"1",
-			"1",
+		ExpectedInput: args.Map{
+			"pageCount":  3,
+			"page1Items": 1,
+			"page2Items": 1,
+			"page3Items": 1,
 		},
 	},
 	{
@@ -43,9 +43,9 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 			"count":    5,
 			"pageSize": 5,
 		},
-		ExpectedInput: []string{
-			"1",
-			"5",
+		ExpectedInput: args.Map{
+			"pageCount":  1,
+			"page1Items": 5,
 		},
 	},
 	{
@@ -55,9 +55,9 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 			"count":    3,
 			"pageSize": 100,
 		},
-		ExpectedInput: []string{
-			"1",
-			"3",
+		ExpectedInput: args.Map{
+			"pageCount":  1,
+			"page1Items": 3,
 		},
 	},
 }
@@ -75,11 +75,11 @@ var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 			"pageSize":  3,
 			"pageIndex": 2,
 		},
-		ExpectedInput: []string{
-			"3",
-			"user-3",
-			"user-4",
-			"user-5",
+		ExpectedInput: args.Map{
+			"pageItemCount": 3,
+			"item0":         "user-3",
+			"item1":         "user-4",
+			"item2":         "user-5",
 		},
 	},
 	{
@@ -90,9 +90,9 @@ var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 			"pageSize":  1,
 			"pageIndex": 2,
 		},
-		ExpectedInput: []string{
-			"1",
-			"user-1",
+		ExpectedInput: args.Map{
+			"pageItemCount": 1,
+			"item0":         "user-1",
 		},
 	},
 }
@@ -109,12 +109,12 @@ var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 			"count":    1,
 			"pageSize": 5,
 		},
-		ExpectedInput: []string{
-			"1",
-			"1",   // CurrentPageIndex
-			"1",   // TotalPages
-			"5",   // PerPageItems
-			"1",   // TotalItems
+		ExpectedInput: args.Map{
+			"pageCount":          1,
+			"p1CurrentPageIndex": 1,
+			"p1TotalPages":       1,
+			"p1PerPageItems":     5,
+			"p1TotalItems":       1,
 		},
 	},
 	{
@@ -124,16 +124,16 @@ var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 			"count":    4,
 			"pageSize": 2,
 		},
-		ExpectedInput: []string{
-			"2",
-			"1",   // page 1 CurrentPageIndex
-			"2",   // TotalPages
-			"2",   // PerPageItems
-			"4",   // TotalItems
-			"2",   // page 2 CurrentPageIndex
-			"2",   // TotalPages
-			"2",   // PerPageItems
-			"4",   // TotalItems
+		ExpectedInput: args.Map{
+			"pageCount":          2,
+			"p1CurrentPageIndex": 1,
+			"p1TotalPages":       2,
+			"p1PerPageItems":     2,
+			"p1TotalItems":       4,
+			"p2CurrentPageIndex": 2,
+			"p2TotalPages":       2,
+			"p2PerPageItems":     2,
+			"p2TotalItems":       4,
 		},
 	},
 }
@@ -150,7 +150,9 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 			"count":    5,
 			"pageSize": 1,
 		},
-		ExpectedInput: "5",
+		ExpectedInput: args.Map{
+			"pagesSize": 5,
+		},
 	},
 	{
 		Title: "GetPagesSize with single item",
@@ -159,6 +161,8 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 			"count":    1,
 			"pageSize": 10,
 		},
-		ExpectedInput: "1",
+		ExpectedInput: args.Map{
+			"pagesSize": 1,
+		},
 	},
 }
