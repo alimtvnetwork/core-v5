@@ -20,13 +20,13 @@ func Test_Collection_String_Cap_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.String.Cap(capacity)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -40,13 +40,13 @@ func Test_Collection_String_Empty_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.String.Empty()
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -62,15 +62,15 @@ func Test_Collection_String_From_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.String.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
-			col.First(),
-			col.Last(),
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
+			"first":   col.First(),
+			"last":    col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -86,14 +86,14 @@ func Test_Collection_String_Items_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.String.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			col.First(),
-			col.Last(),
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
+			"last":   col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -109,14 +109,14 @@ func Test_Collection_Int_Items_Verification(t *testing.T) {
 
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%d", col.First()),
-			fmt.Sprintf("%d", col.Last()),
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
+			"last":   col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -133,14 +133,14 @@ func Test_Collection_Filter_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		filtered := col.Filter(func(item int) bool { return item > 2 })
-		actLines := []string{
-			fmt.Sprintf("%d", filtered.Length()),
-			fmt.Sprintf("%d", filtered.First()),
-			fmt.Sprintf("%d", filtered.Last()),
+		actual := args.Map{
+			"length": filtered.Length(),
+			"first":  filtered.First(),
+			"last":   filtered.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -158,13 +158,13 @@ func Test_Collection_Clone_Independence_Verification(t *testing.T) {
 		original := coregeneric.New.Collection.String.From(items)
 		cloned := original.Clone()
 		cloned.Add("mutated")
-		actLines := []string{
-			fmt.Sprintf("%d", original.Length()),
-			fmt.Sprintf("%v", original.Length() != cloned.Length()),
+		actual := args.Map{
+			"originalLength": original.Length(),
+			"isIndependent":  original.Length() != cloned.Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -181,15 +181,15 @@ func Test_Hashset_AddHas_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.String.Empty()
 		hs.AddSlice(items)
-		actLines := []string{
-			fmt.Sprintf("%d", hs.Length()),
-			fmt.Sprintf("%v", hs.Has("a")),
-			fmt.Sprintf("%v", hs.Has("c")),
-			fmt.Sprintf("%v", hs.Has("z")),
+		actual := args.Map{
+			"length": hs.Length(),
+			"hasA":   hs.Has("a"),
+			"hasC":   hs.Has("c"),
+			"hasZ":   hs.Has("z"),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -207,14 +207,14 @@ func Test_Hashset_Remove_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.String.From(items)
 		hs.Remove(removeKey)
-		actLines := []string{
-			fmt.Sprintf("%d", hs.Length()),
-			fmt.Sprintf("%v", hs.Has(removeKey)),
-			fmt.Sprintf("%v", hs.Has("a")),
+		actual := args.Map{
+			"length":     hs.Length(),
+			"hasRemoved": hs.Has(removeKey),
+			"hasA":       hs.Has("a"),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -232,15 +232,15 @@ func Test_Hashmap_SetGet_Verification(t *testing.T) {
 		hm.Set("key2", "value2")
 		val, found := hm.Get("key1")
 		_, notFound := hm.Get("missing")
-		actLines := []string{
-			fmt.Sprintf("%d", hm.Length()),
-			val,
-			fmt.Sprintf("%v", found),
-			fmt.Sprintf("%v", notFound),
+		actual := args.Map{
+			"length":   hm.Length(),
+			"value":    val,
+			"found":    found,
+			"notFound": notFound,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -259,14 +259,14 @@ func Test_SimpleSlice_Add_Verification(t *testing.T) {
 		for _, item := range items {
 			ss.Add(item)
 		}
-		actLines := []string{
-			fmt.Sprintf("%d", ss.Length()),
-			fmt.Sprintf("%d", ss.First()),
-			fmt.Sprintf("%d", ss.Last()),
+		actual := args.Map{
+			"length": ss.Length(),
+			"first":  ss.First(),
+			"last":   ss.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -285,14 +285,14 @@ func Test_LinkedList_Add_Verification(t *testing.T) {
 		for _, item := range items {
 			ll.Add(item)
 		}
-		actLines := []string{
-			fmt.Sprintf("%d", ll.Length()),
-			ll.First(),
-			ll.Last(),
+		actual := args.Map{
+			"length": ll.Length(),
+			"first":  ll.First(),
+			"last":   ll.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -310,14 +310,14 @@ func Test_LinkedList_AddFront_Verification(t *testing.T) {
 		// Act
 		ll := coregeneric.New.LinkedList.String.From(items)
 		ll.AddFront(prepend)
-		actLines := []string{
-			fmt.Sprintf("%d", ll.Length()),
-			ll.First(),
-			ll.Last(),
+		actual := args.Map{
+			"length": ll.Length(),
+			"first":  ll.First(),
+			"last":   ll.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -336,14 +336,14 @@ func Test_MapCollection_Verification(t *testing.T) {
 		mapped := coregeneric.MapCollection(col, func(item int) string {
 			return fmt.Sprintf("%d", item)
 		})
-		actLines := []string{
-			fmt.Sprintf("%d", mapped.Length()),
-			mapped.First(),
-			mapped.Last(),
+		actual := args.Map{
+			"length": mapped.Length(),
+			"first":  mapped.First(),
+			"last":   mapped.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -360,13 +360,13 @@ func Test_Distinct_Verification(t *testing.T) {
 		// Act
 		col := coregeneric.New.Collection.Int.Items(items...)
 		unique := coregeneric.Distinct(col)
-		actLines := []string{
-			fmt.Sprintf("%d", unique.Length()),
-			fmt.Sprintf("%d", unique.First()),
-			fmt.Sprintf("%d", unique.Last()),
+		actual := args.Map{
+			"length": unique.Length(),
+			"first":  unique.First(),
+			"last":   unique.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

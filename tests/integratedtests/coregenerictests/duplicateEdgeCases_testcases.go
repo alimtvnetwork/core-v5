@@ -16,10 +16,11 @@ var distinctAllSameTestCases = []coretestcases.CaseV1{
 			"when":  "given collection where every element is 7",
 			"items": []int{7, 7, 7, 7, 7},
 		},
-		ExpectedInput: []string{
-			"1",
-			"7",
-			"7",
+		ExpectedInput: args.Map{
+			"length":         1,
+			"isEmpty":        false,
+			"firstOrDefault": 7,
+			"lastOrDefault":  7,
 		},
 	},
 	{
@@ -28,10 +29,11 @@ var distinctAllSameTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with one element",
 			"items": []int{42},
 		},
-		ExpectedInput: []string{
-			"1",
-			"42",
-			"42",
+		ExpectedInput: args.Map{
+			"length":         1,
+			"isEmpty":        false,
+			"firstOrDefault": 42,
+			"lastOrDefault":  42,
 		},
 	},
 	{
@@ -40,9 +42,11 @@ var distinctAllSameTestCases = []coretestcases.CaseV1{
 			"when":  "given empty collection",
 			"items": []int{},
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":         0,
+			"isEmpty":        true,
+			"firstOrDefault": 0,
+			"lastOrDefault":  0,
 		},
 	},
 }
@@ -58,11 +62,11 @@ var removeItemAllSameTestCases = []coretestcases.CaseV1{
 			"when":  "given collection of five 3s, remove 3",
 			"items": []int{3, 3, 3, 3, 3},
 		},
-		ExpectedInput: []string{
-			"true",
-			"4",
-			"3",
-			"3",
+		ExpectedInput: args.Map{
+			"removed": true,
+			"length":  4,
+			"first":   3,
+			"last":    3,
 		},
 	},
 }
@@ -78,10 +82,10 @@ var removeAllItemsAllSameTestCases = []coretestcases.CaseV1{
 			"when":  "given collection of five 3s, remove all 3s",
 			"items": []int{3, 3, 3, 3, 3},
 		},
-		ExpectedInput: []string{
-			"5",
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"removedCount": 5,
+			"length":       0,
+			"isEmpty":      true,
 		},
 	},
 }
@@ -97,11 +101,11 @@ var containsAllSameTestCases = []coretestcases.CaseV1{
 			"when":  "given collection where every element is 5",
 			"items": []int{5, 5, 5},
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"containsAllSingle":    true,
+			"containsAllWithOther": false,
+			"containsAnyWithMatch": true,
+			"containsAnyNoMatch":   false,
 		},
 	},
 }
@@ -117,10 +121,10 @@ var toHashsetAllSameTestCases = []coretestcases.CaseV1{
 			"when":  "given collection of five 9s",
 			"items": []int{9, 9, 9, 9, 9},
 		},
-		ExpectedInput: []string{
-			"1",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"has9":   true,
+			"has99":  false,
 		},
 	},
 }
@@ -136,9 +140,9 @@ var hashsetAddDuplicatesTestCases = []coretestcases.CaseV1{
 			"when":  "given slice of repeated 'x' values",
 			"items": []string{"x", "x", "x", "x"},
 		},
-		ExpectedInput: []string{
-			"1",
-			"true",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"hasX":   true,
 		},
 	},
 }
@@ -153,12 +157,12 @@ var hashsetAddBoolDuplicatesTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "adding same value 4 times",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"false",
-			"false",
-			"1",
+		ExpectedInput: args.Map{
+			"add1":   true,
+			"add2":   false,
+			"add3":   false,
+			"add4":   false,
+			"length": 1,
 		},
 	},
 }
@@ -167,27 +171,26 @@ var hashsetAddBoolDuplicatesTestCases = []coretestcases.CaseV1{
 // SimpleSlice: DistinctSimpleSlice all same
 // ==========================================
 
-var distinctSimpleSliceAllSameTestCases = []coretestcases.CaseV1{
-	{
-		Title: "DistinctSimpleSlice on all-same returns single element",
-		ArrangeInput: args.Map{
-			"when":  "given simple slice of five 8s",
-			"items": []int{8, 8, 8, 8, 8},
-		},
-		ExpectedInput: []string{
-			"1",
-			"8",
-		},
+var distinctSimpleSliceAllSameNonEmptyTestCase = coretestcases.CaseV1{
+	Title: "DistinctSimpleSlice on all-same returns single element",
+	ArrangeInput: args.Map{
+		"when":  "given simple slice of five 8s",
+		"items": []int{8, 8, 8, 8, 8},
 	},
-	{
-		Title: "DistinctSimpleSlice on empty returns empty",
-		ArrangeInput: args.Map{
-			"when":  "given empty simple slice",
-			"items": []int{},
-		},
-		ExpectedInput: []string{
-			"0",
-			"true",
-		},
+	ExpectedInput: args.Map{
+		"length": 1,
+		"first":  8,
+	},
+}
+
+var distinctSimpleSliceAllSameEmptyTestCase = coretestcases.CaseV1{
+	Title: "DistinctSimpleSlice on empty returns empty",
+	ArrangeInput: args.Map{
+		"when":  "given empty simple slice",
+		"items": []int{},
+	},
+	ExpectedInput: args.Map{
+		"length":  0,
+		"isEmpty": true,
 	},
 }

@@ -13,36 +13,43 @@ var collectionRemoveAtTestCases = []coretestcases.CaseV1{
 	{
 		Title: "RemoveAt removes item at valid index",
 		ArrangeInput: args.Map{
-			"when":  "given collection with 3 items, remove index 1",
-			"items": []int{10, 20, 30},
+			"when":        "given collection with 3 items, remove index 1",
+			"items":       []int{10, 20, 30},
+			"removeIndex": 1,
 		},
-		ExpectedInput: []string{
-			"true",
-			"2",
-			"10",
-			"30",
+		ExpectedInput: args.Map{
+			"removed": true,
+			"length":  2,
+			"first":   10,
+			"last":    30,
 		},
 	},
 	{
 		Title: "RemoveAt returns false for out-of-bounds index",
 		ArrangeInput: args.Map{
-			"when":  "given collection with 3 items, remove index 10",
-			"items": []int{10, 20, 30},
+			"when":        "given collection with 3 items, remove index 10",
+			"items":       []int{10, 20, 30},
+			"removeIndex": 10,
 		},
-		ExpectedInput: []string{
-			"false",
-			"3",
+		ExpectedInput: args.Map{
+			"removed": false,
+			"length":  3,
+			"first":   10,
+			"last":    30,
 		},
 	},
 	{
 		Title: "RemoveAt returns false for negative index",
 		ArrangeInput: args.Map{
-			"when":  "given collection with items, remove index -1",
-			"items": []int{10, 20},
+			"when":        "given collection with items, remove index -1",
+			"items":       []int{10, 20},
+			"removeIndex": -1,
 		},
-		ExpectedInput: []string{
-			"false",
-			"2",
+		ExpectedInput: args.Map{
+			"removed": false,
+			"length":  2,
+			"first":   10,
+			"last":    20,
 		},
 	},
 }
@@ -58,10 +65,10 @@ var collectionReverseTestCases = []coretestcases.CaseV1{
 			"when":  "given int collection",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"5",
-			"5",
-			"1",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  5,
+			"last":   1,
 		},
 	},
 	{
@@ -70,10 +77,10 @@ var collectionReverseTestCases = []coretestcases.CaseV1{
 			"when":  "given single element",
 			"items": []int{42},
 		},
-		ExpectedInput: []string{
-			"1",
-			"42",
-			"42",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  42,
+			"last":   42,
 		},
 	},
 }
@@ -89,11 +96,11 @@ var collectionSkipTakeTestCases = []coretestcases.CaseV1{
 			"when":  "given 5-element collection",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"3",
-			"3",
-			"2",
-			"1",
+		ExpectedInput: args.Map{
+			"skipLength": 3,
+			"skipFirst":  3,
+			"takeLength": 2,
+			"takeFirst":  1,
 		},
 	},
 }
@@ -108,9 +115,9 @@ var collectionAddIfTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given conditional adds",
 		},
-		ExpectedInput: []string{
-			"1",
-			"100",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  100,
 		},
 	},
 }
@@ -125,10 +132,10 @@ var collectionDefaultsEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty int collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"firstOrDefault": 0,
+			"lastOrDefault":  0,
+			"isEmpty":        true,
 		},
 	},
 }
@@ -144,10 +151,10 @@ var collectionSafeAtTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with items",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: []string{
-			"20",
-			"0",
-			"0",
+		ExpectedInput: args.Map{
+			"safeAt1":   20,
+			"safeAt10":  0,
+			"safeAtNeg": 0,
 		},
 	},
 }
@@ -163,11 +170,11 @@ var collectionConcatNewTestCases = []coretestcases.CaseV1{
 			"when":  "given collection concatenated with more items",
 			"items": []int{1, 2, 3},
 		},
-		ExpectedInput: []string{
-			"5",
-			"3",
-			"1",
-			"5",
+		ExpectedInput: args.Map{
+			"concatLength":   5,
+			"originalLength": 3,
+			"concatFirst":    1,
+			"concatLast":     5,
 		},
 	},
 }
@@ -183,9 +190,7 @@ var collectionCountFuncTestCases = []coretestcases.CaseV1{
 			"when":  "given ints, count evens",
 			"items": []int{1, 2, 3, 4, 5, 6},
 		},
-		ExpectedInput: []string{
-			"3",
-		},
+		ExpectedInput: args.Map{"count": 3},
 	},
 }
 
@@ -199,10 +204,10 @@ var collectionAddCollectionTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given two collections merged",
 		},
-		ExpectedInput: []string{
-			"5",
-			"1",
-			"5",
+		ExpectedInput: args.Map{
+			"length": 5,
+			"first":  1,
+			"last":   5,
 		},
 	},
 }
@@ -218,11 +223,11 @@ var hashsetHasAllHasAnyTestCases = []coretestcases.CaseV1{
 			"when":  "given hashset with a, b, c",
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"hasAllPresent":    true,
+			"hasAllWithMissing": false,
+			"hasAnyWithMatch":  true,
+			"hasAnyNoMatch":    false,
 		},
 	},
 }
@@ -237,9 +242,9 @@ var hashsetIsEqualsTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given two hashsets to compare",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"equalsSame": true,
+			"equalsDiff": false,
 		},
 	},
 }
@@ -254,9 +259,9 @@ var hashsetAddBoolTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashset with add bool",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"firstAdd":  false,
+			"secondAdd": true,
 		},
 	},
 }
@@ -271,10 +276,10 @@ var hashmapRemoveTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap with key to remove",
 		},
-		ExpectedInput: []string{
-			"true",
-			"1",
-			"false",
+		ExpectedInput: args.Map{
+			"existed": true,
+			"length":  1,
+			"hasA":    false,
 		},
 	},
 }
@@ -289,9 +294,9 @@ var hashmapGetOrDefaultTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap with some keys",
 		},
-		ExpectedInput: []string{
-			"100",
-			"-1",
+		ExpectedInput: args.Map{
+			"existing": 100,
+			"missing":  -1,
 		},
 	},
 }
@@ -306,10 +311,10 @@ var hashmapCloneTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap cloned then mutated",
 		},
-		ExpectedInput: []string{
-			"2",
-			"2",
-			"true",
+		ExpectedInput: args.Map{
+			"originalLength": 2,
+			"clonedLength":   3,
+			"isIndependent":  true,
 		},
 	},
 }
@@ -324,9 +329,9 @@ var hashmapKeysValuesTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given hashmap with entries",
 		},
-		ExpectedInput: []string{
-			"3",
-			"3",
+		ExpectedInput: args.Map{
+			"keysCount":   3,
+			"valuesCount": 3,
 		},
 	},
 }
@@ -341,9 +346,9 @@ var hashmapIsEqualsTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given two hashmaps to compare",
 		},
-		ExpectedInput: []string{
-			"false",
-			"false",
+		ExpectedInput: args.Map{
+			"equalsSameLength": false,
+			"equalsDiffLength": false,
 		},
 	},
 }
@@ -359,10 +364,10 @@ var linkedListItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given linked list with items",
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"a",
-			"c",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "a",
+			"last":   "c",
 		},
 	},
 }
@@ -374,9 +379,9 @@ var linkedListIndexAtTestCases = []coretestcases.CaseV1{
 			"when":  "given linked list",
 			"items": []string{"x", "y", "z"},
 		},
-		ExpectedInput: []string{
-			"y",
-			"true",
+		ExpectedInput: args.Map{
+			"elementAt1": "y",
+			"nilAt10":    true,
 		},
 	},
 }
@@ -387,11 +392,11 @@ var linkedListEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty linked list",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
-			"false",
-			"",
+		ExpectedInput: args.Map{
+			"length":         0,
+			"isEmpty":        true,
+			"hasItems":       false,
+			"firstOrDefault": "",
 		},
 	},
 }
@@ -407,10 +412,10 @@ var simpleSliceFilterTestCases = []coretestcases.CaseV1{
 			"when":  "given int slice, filter > 2",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"3",
-			"3",
-			"5",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  3,
+			"last":   5,
 		},
 	},
 }
@@ -422,9 +427,9 @@ var simpleSliceCloneTestCases = []coretestcases.CaseV1{
 			"when":  "given int slice cloned then mutated",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: []string{
-			"3",
-			"true",
+		ExpectedInput: args.Map{
+			"originalLength": 3,
+			"isIndependent":  true,
 		},
 	},
 }
@@ -436,9 +441,9 @@ var simpleSliceSkipTakeTestCases = []coretestcases.CaseV1{
 			"when":  "given 5-element simple slice",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"3",
-			"2",
+		ExpectedInput: args.Map{
+			"skipLength": 3,
+			"takeLength": 2,
 		},
 	},
 }
@@ -454,10 +459,10 @@ var flatMapCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given collection of ints mapped to repeated strings",
 			"items": []int{1, 2, 3},
 		},
-		ExpectedInput: []string{
-			"6",
-			"1",
-			"3",
+		ExpectedInput: args.Map{
+			"length": 6,
+			"first":  "1",
+			"last":   "3",
 		},
 	},
 }
@@ -473,9 +478,7 @@ var reduceCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given int collection reduced to sum",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"15",
-		},
+		ExpectedInput: args.Map{"sum": 15},
 	},
 }
 
@@ -490,10 +493,10 @@ var groupByCollectionTestCases = []coretestcases.CaseV1{
 			"when":  "given int collection grouped by parity",
 			"items": []int{1, 2, 3, 4, 5, 6},
 		},
-		ExpectedInput: []string{
-			"2",
-			"3",
-			"3",
+		ExpectedInput: args.Map{
+			"groupCount": 2,
+			"evenCount":  3,
+			"oddCount":   3,
 		},
 	},
 }
