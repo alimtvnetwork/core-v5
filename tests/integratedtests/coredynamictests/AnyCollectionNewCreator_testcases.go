@@ -15,9 +15,9 @@ var newCreatorGenericEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty any collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -33,10 +33,10 @@ var newCreatorGenericCapTestCases = []coretestcases.CaseV1{
 			"when":     "given capacity 10",
 			"capacity": 10,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"length":     0,
+			"isEmpty":    true,
+			"hasAnyItem": false,
 		},
 	},
 }
@@ -48,9 +48,9 @@ var newCreatorGenericCapZeroTestCases = []coretestcases.CaseV1{
 			"when":     "given capacity 0",
 			"capacity": 0,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -66,11 +66,11 @@ var newCreatorGenericFromTestCases = []coretestcases.CaseV1{
 			"when":  "given existing any slice",
 			"items": []any{"alpha", 42, true},
 		},
-		ExpectedInput: []string{
-			"3",
-			"false",
-			"alpha",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  3,
+			"isEmpty": false,
+			"first":   "alpha",
+			"last":    "true",
 		},
 	},
 }
@@ -82,9 +82,9 @@ var newCreatorGenericFromEmptyTestCases = []coretestcases.CaseV1{
 			"when":  "given empty any slice",
 			"items": []any{},
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -100,10 +100,10 @@ var newCreatorGenericCloneTestCases = []coretestcases.CaseV1{
 			"when":  "given cloned any slice",
 			"items": []any{"x", "y"},
 		},
-		ExpectedInput: []string{
-			"2",
-			"x",
-			"y",
+		ExpectedInput: args.Map{
+			"length": 2,
+			"first":  "x",
+			"last":   "y",
 		},
 	},
 }
@@ -115,9 +115,9 @@ var newCreatorGenericCloneMutationTestCases = []coretestcases.CaseV1{
 			"when":  "given cloned collection then mutated",
 			"items": []any{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"true",
+		ExpectedInput: args.Map{
+			"originalLength": 3,
+			"isIndependent":  true,
 		},
 	},
 }
@@ -133,10 +133,10 @@ var newCreatorGenericItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given variadic any items",
 			"items": []any{"one", 2, 3.0},
 		},
-		ExpectedInput: []string{
-			"3",
-			"one",
-			"3",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "one",
+			"last":   "3",
 		},
 	},
 }
@@ -148,10 +148,10 @@ var newCreatorGenericItemsSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given single any item",
 			"items": []any{"solo"},
 		},
-		ExpectedInput: []string{
-			"1",
-			"solo",
-			"solo",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  "solo",
+			"last":   "solo",
 		},
 	},
 }
@@ -166,9 +166,9 @@ var newCreatorGenericFromNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil slice",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -184,10 +184,10 @@ var newCreatorGenericCapLargeTestCases = []coretestcases.CaseV1{
 			"when":     "given capacity 1000000",
 			"capacity": 1000000,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
-			"1000000",
+		ExpectedInput: args.Map{
+			"length":   0,
+			"isEmpty":  true,
+			"capacity": 1000000,
 		},
 	},
 }
@@ -202,9 +202,9 @@ var newCreatorGenericItemsNoArgsTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given zero variadic args",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -219,9 +219,9 @@ var newCreatorGenericCloneNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil slice to clone",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }

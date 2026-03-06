@@ -39,20 +39,19 @@ func Test_Map_IntToString_Verification(t *testing.T) {
 
 func Test_Map_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapEmptyTestCases {
-		// Arrange
-
 		// Act
 		col := coredynamic.New.Collection.Int.Empty()
 		result := coredynamic.Map(col, func(i int) string {
 			return fmt.Sprintf("%d", i)
 		})
-		actLines := []string{
-			fmt.Sprintf("%d", result.Length()),
-			fmt.Sprintf("%v", result.IsEmpty()),
+
+		actual := args.Map{
+			"length":  result.Length(),
+			"isEmpty": result.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -69,13 +68,14 @@ func Test_Map_Nil_Verification(t *testing.T) {
 		result := coredynamic.Map(col, func(i int) string {
 			return fmt.Sprintf("%d", i)
 		})
-		actLines := []string{
-			fmt.Sprintf("%d", result.Length()),
-			fmt.Sprintf("%v", result.IsEmpty()),
+
+		actual := args.Map{
+			"length":  result.Length(),
+			"isEmpty": result.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -88,9 +88,7 @@ func Test_Map_StringToInt_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -118,9 +116,7 @@ func Test_FlatMap_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -147,20 +143,19 @@ func Test_FlatMap_Verification(t *testing.T) {
 
 func Test_FlatMap_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range flatMapEmptyTestCases {
-		// Arrange
-
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
 		result := coredynamic.FlatMap(col, func(s string) []string {
 			return strings.Split(s, "")
 		})
-		actLines := []string{
-			fmt.Sprintf("%d", result.Length()),
-			fmt.Sprintf("%v", result.IsEmpty()),
+
+		actual := args.Map{
+			"length":  result.Length(),
+			"isEmpty": result.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -179,10 +174,9 @@ func Test_Reduce_Sum_Verification(t *testing.T) {
 		result := coredynamic.Reduce(col, 0, func(acc int, item int) int {
 			return acc + item
 		})
-		actLines := []string{fmt.Sprintf("%d", result)}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", result))
 	}
 }
 
@@ -201,10 +195,9 @@ func Test_Reduce_Empty_Verification(t *testing.T) {
 		result := coredynamic.Reduce(col, initial, func(acc int, item int) int {
 			return acc + item
 		})
-		actLines := []string{fmt.Sprintf("%d", result)}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", result))
 	}
 }
 
@@ -217,9 +210,7 @@ func Test_Reduce_Concat_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -231,10 +222,9 @@ func Test_Reduce_Concat_Verification(t *testing.T) {
 			}
 			return acc + "-" + item
 		})
-		actLines := []string{result}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 

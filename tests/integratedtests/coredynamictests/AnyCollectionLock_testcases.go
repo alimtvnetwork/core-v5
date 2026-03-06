@@ -90,11 +90,11 @@ var genericItemsLockTestCases = []coretestcases.CaseV1{
 			"when":  "given generic collection with items",
 			"items": []any{"a", "b"},
 		},
-		ExpectedInput: []string{
-			"2",
-			"a",
-			"b",
-			"true",
+		ExpectedInput: args.Map{
+			"length":        2,
+			"first":         "a",
+			"last":          "b",
+			"isIndependent": true,
 		},
 	},
 }
@@ -110,9 +110,9 @@ var genericClearLockTestCases = []coretestcases.CaseV1{
 			"when":  "given generic collection then ClearLock",
 			"items": []any{"x", "y", "z"},
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -129,10 +129,10 @@ var genericAddCollectionLockTestCases = []coretestcases.CaseV1{
 			"first":  []any{"a"},
 			"second": []any{"b", "c"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"a",
-			"c",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "a",
+			"last":   "c",
 		},
 	},
 }
@@ -148,10 +148,10 @@ var genericFilterLockTestCases = []coretestcases.CaseV1{
 			"when":  "given concurrent reads while filtering generic collection",
 			"items": []any{"alpha", "beta", "gamma", "delta"},
 		},
-		ExpectedInput: []string{
-			"2",
-			"alpha",
-			"delta",
+		ExpectedInput: args.Map{
+			"length": 2,
+			"first":  "alpha",
+			"last":   "delta",
 		},
 	},
 }

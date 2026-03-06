@@ -13,12 +13,10 @@ var collectionAddLockTestCases = []coretestcases.CaseV1{
 	{
 		Title: "AddLock appends item thread-safely",
 		ArrangeInput: args.Map{
-			"when": "given concurrent AddLock calls",
+			"when":  "given concurrent AddLock calls",
 			"count": 100,
 		},
-		ExpectedInput: []string{
-			"100",
-		},
+		ExpectedInput: "100",
 	},
 }
 
@@ -34,9 +32,7 @@ var collectionAddsLockTestCases = []coretestcases.CaseV1{
 			"count": 50,
 			"batch": 2,
 		},
-		ExpectedInput: []string{
-			"100",
-		},
+		ExpectedInput: "100",
 	},
 }
 
@@ -51,9 +47,7 @@ var collectionLengthLockTestCases = []coretestcases.CaseV1{
 			"when":  "given items added then LengthLock called",
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"3",
-		},
+		ExpectedInput: "3",
 	},
 }
 
@@ -67,9 +61,7 @@ var collectionIsEmptyLockTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -79,9 +71,7 @@ var collectionIsEmptyLockNonEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given non-empty collection",
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 }
 
@@ -96,11 +86,11 @@ var collectionItemsLockTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with items",
 			"items": []string{"x", "y"},
 		},
-		ExpectedInput: []string{
-			"2",
-			"x",
-			"y",
-			"true",
+		ExpectedInput: args.Map{
+			"length":        2,
+			"first":         "x",
+			"last":          "y",
+			"isIndependent": true,
 		},
 	},
 }
@@ -116,9 +106,9 @@ var collectionClearLockTestCases = []coretestcases.CaseV1{
 			"when":  "given collection then ClearLock",
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -135,10 +125,10 @@ var collectionAddCollectionLockTestCases = []coretestcases.CaseV1{
 			"first":  []string{"a"},
 			"second": []string{"b", "c"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"a",
-			"c",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "a",
+			"last":   "c",
 		},
 	},
 }

@@ -14,17 +14,16 @@ import (
 
 func Test_NewCreator_Generic_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorGenericEmptyTestCases {
-		// Arrange — no input needed
-
 		// Act
 		col := coredynamic.New.Collection.Any.Empty()
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -40,14 +39,15 @@ func Test_NewCreator_Generic_Cap_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.Cap(capacity)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
-			fmt.Sprintf("%v", col.HasAnyItem()),
+
+		actual := args.Map{
+			"length":     col.Length(),
+			"isEmpty":    col.IsEmpty(),
+			"hasAnyItem": col.HasAnyItem(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -63,13 +63,14 @@ func Test_NewCreator_Generic_Cap_Zero_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.Cap(capacity)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -85,15 +86,16 @@ func Test_NewCreator_Generic_From_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
-			fmt.Sprintf("%v", col.First()),
-			fmt.Sprintf("%v", col.Last()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
+			"first":   fmt.Sprintf("%v", col.First()),
+			"last":    fmt.Sprintf("%v", col.Last()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -109,13 +111,14 @@ func Test_NewCreator_Generic_From_Empty_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -131,14 +134,15 @@ func Test_NewCreator_Generic_Clone_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.Clone(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.First()),
-			fmt.Sprintf("%v", col.Last()),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  fmt.Sprintf("%v", col.First()),
+			"last":   fmt.Sprintf("%v", col.Last()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -156,13 +160,14 @@ func Test_NewCreator_Generic_Clone_Mutation_Verification(t *testing.T) {
 		original := items
 		col := coredynamic.New.Collection.Any.Clone(items)
 		col.Add("mutated")
-		actLines := []string{
-			fmt.Sprintf("%d", len(original)),
-			fmt.Sprintf("%v", len(original) != col.Length()),
+
+		actual := args.Map{
+			"originalLength": len(original),
+			"isIndependent":  len(original) != col.Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -178,14 +183,15 @@ func Test_NewCreator_Generic_Items_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.First()),
-			fmt.Sprintf("%v", col.Last()),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  fmt.Sprintf("%v", col.First()),
+			"last":   fmt.Sprintf("%v", col.Last()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -201,14 +207,15 @@ func Test_NewCreator_Generic_Items_Single_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.First()),
-			fmt.Sprintf("%v", col.Last()),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  fmt.Sprintf("%v", col.First()),
+			"last":   fmt.Sprintf("%v", col.Last()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -218,17 +225,16 @@ func Test_NewCreator_Generic_Items_Single_Verification(t *testing.T) {
 
 func Test_NewCreator_Generic_From_Nil_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorGenericFromNilTestCases {
-		// Arrange — nil slice
-
 		// Act
 		col := coredynamic.New.Collection.Any.From(nil)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -244,14 +250,15 @@ func Test_NewCreator_Generic_Cap_Large_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Any.Cap(capacity)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
-			fmt.Sprintf("%d", col.Capacity()),
+
+		actual := args.Map{
+			"length":   col.Length(),
+			"isEmpty":  col.IsEmpty(),
+			"capacity": col.Capacity(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -261,17 +268,16 @@ func Test_NewCreator_Generic_Cap_Large_Verification(t *testing.T) {
 
 func Test_NewCreator_Generic_Items_NoArgs_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorGenericItemsNoArgsTestCases {
-		// Arrange — no args
-
 		// Act
 		col := coredynamic.New.Collection.Any.Items()
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -281,16 +287,15 @@ func Test_NewCreator_Generic_Items_NoArgs_Verification(t *testing.T) {
 
 func Test_NewCreator_Generic_Clone_Nil_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorGenericCloneNilTestCases {
-		// Arrange — nil slice
-
 		// Act
 		col := coredynamic.New.Collection.Any.Clone(nil)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

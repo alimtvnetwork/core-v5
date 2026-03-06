@@ -21,14 +21,15 @@ func Test_NewCreator_String_Cap_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.String.Cap(capacity)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
-			fmt.Sprintf("%v", col.HasAnyItem()),
+
+		actual := args.Map{
+			"length":     col.Length(),
+			"isEmpty":    col.IsEmpty(),
+			"hasAnyItem": col.HasAnyItem(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -38,17 +39,16 @@ func Test_NewCreator_String_Cap_Verification(t *testing.T) {
 
 func Test_NewCreator_String_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range newCreatorStringEmptyTestCases {
-		// Arrange — no input needed
-
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -61,23 +61,22 @@ func Test_NewCreator_String_From_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
-			col.First(),
-			col.Last(),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
+			"first":   col.First(),
+			"last":    col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -90,22 +89,21 @@ func Test_NewCreator_String_Clone_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			col.First(),
-			col.Last(),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
+			"last":   col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -118,22 +116,21 @@ func Test_NewCreator_String_Items_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			col.First(),
-			col.Last(),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
+			"last":   col.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -149,13 +146,14 @@ func Test_NewCreator_Int_Cap_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Int.Cap(capacity)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -171,14 +169,15 @@ func Test_NewCreator_Int_Items_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Int.Items(items...)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%d", col.First()),
-			fmt.Sprintf("%d", col.Last()),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  fmt.Sprintf("%d", col.First()),
+			"last":   fmt.Sprintf("%d", col.Last()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -191,22 +190,21 @@ func Test_Collection_AddIf_True_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		item, isValid := input.GetAsString("item")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsString 'item' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
 		col.AddIf(true, item)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			col.First(),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -216,18 +214,17 @@ func Test_Collection_AddIf_True_Verification(t *testing.T) {
 
 func Test_Collection_AddIf_False_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionAddIfFalseTestCases {
-		// Arrange — no special input
-
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
 		col.AddIf(false, "skipped")
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -240,14 +237,10 @@ func Test_Collection_AddCollection_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		first, isValid := input.GetAsStrings("first")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'first' failed")
 		}
-
 		second, isValid := input.GetAsStrings("second")
-
 		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'second' failed")
 		}
@@ -256,14 +249,15 @@ func Test_Collection_AddCollection_Verification(t *testing.T) {
 		col1 := coredynamic.New.Collection.String.From(first)
 		col2 := coredynamic.New.Collection.String.From(second)
 		col1.AddCollection(col2)
-		actLines := []string{
-			fmt.Sprintf("%d", col1.Length()),
-			col1.First(),
-			col1.Last(),
+
+		actual := args.Map{
+			"length": col1.Length(),
+			"first":  col1.First(),
+			"last":   col1.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -276,22 +270,21 @@ func Test_Collection_AddCollection_Nil_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		first, isValid := input.GetAsStrings("first")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'first' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(first)
 		col.AddCollection(nil)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			col.First(),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -304,9 +297,7 @@ func Test_Collection_Clone_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -314,15 +305,16 @@ func Test_Collection_Clone_Verification(t *testing.T) {
 		original := coredynamic.New.Collection.String.From(items)
 		cloned := original.Clone()
 		cloned.Add("mutated")
-		actLines := []string{
-			fmt.Sprintf("%d", original.Length()),
-			original.First(),
-			original.Last(),
-			fmt.Sprintf("%v", original.Length() != cloned.Length()),
+
+		actual := args.Map{
+			"length":        original.Length(),
+			"first":         original.First(),
+			"last":          original.Last(),
+			"isIndependent": original.Length() != cloned.Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -335,19 +327,16 @@ func Test_Collection_Reverse_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
 		col.Reverse()
-		actLines := col.Strings()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, col.Strings()...)
 	}
 }
 
@@ -357,18 +346,17 @@ func Test_Collection_Reverse_Verification(t *testing.T) {
 
 func Test_Collection_Reverse_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionReverseEmptyTestCases {
-		// Arrange — empty collection
-
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
 		col.Reverse()
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -381,14 +369,10 @@ func Test_Collection_ConcatNew_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		original, isValid := input.GetAsStrings("original")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'original' failed")
 		}
-
 		adding, isValid := input.GetAsStrings("adding")
-
 		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'adding' failed")
 		}
@@ -396,15 +380,16 @@ func Test_Collection_ConcatNew_Verification(t *testing.T) {
 		// Act
 		col := coredynamic.New.Collection.String.From(original)
 		result := col.ConcatNew(adding...)
-		actLines := []string{
-			fmt.Sprintf("%d", result.Length()),
-			result.First(),
-			result.Last(),
-			fmt.Sprintf("%d", col.Length()),
+
+		actual := args.Map{
+			"mergedLength":   result.Length(),
+			"mergedFirst":    result.First(),
+			"mergedLast":     result.Last(),
+			"originalLength": col.Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -420,13 +405,14 @@ func Test_Collection_Capacity_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.String.Cap(capacity)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Capacity()),
-			fmt.Sprintf("%d", col.Length()),
+
+		actual := args.Map{
+			"capacity": col.Capacity(),
+			"length":   col.Length(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -444,11 +430,8 @@ func Test_Collection_AddCapacity_Verification(t *testing.T) {
 		// Act
 		col := coredynamic.New.Collection.String.Cap(capacity)
 		col.AddCapacity(additional)
-		actLines := []string{
-			fmt.Sprintf("%v", col.Capacity() >= capacity+additional),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", col.Capacity() >= capacity+additional))
 	}
 }

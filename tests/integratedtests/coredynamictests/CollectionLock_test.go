@@ -32,12 +32,8 @@ func Test_Collection_AddLock_Verification(t *testing.T) {
 		}
 		wg.Wait()
 
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-		}
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", col.Length()))
 	}
 }
 
@@ -68,12 +64,8 @@ func Test_Collection_AddsLock_Verification(t *testing.T) {
 		}
 		wg.Wait()
 
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-		}
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", col.Length()))
 	}
 }
 
@@ -92,12 +84,9 @@ func Test_Collection_LengthLock_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.LengthLock()),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", col.LengthLock()))
 	}
 }
 
@@ -107,16 +96,11 @@ func Test_Collection_LengthLock_Verification(t *testing.T) {
 
 func Test_Collection_IsEmptyLock_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionIsEmptyLockTestCases {
-		// Arrange — empty collection
-
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
-		actLines := []string{
-			fmt.Sprintf("%v", col.IsEmptyLock()),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", col.IsEmptyLock()))
 	}
 }
 
@@ -126,16 +110,11 @@ func Test_Collection_IsEmptyLock_Empty_Verification(t *testing.T) {
 
 func Test_Collection_IsEmptyLock_NonEmpty_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionIsEmptyLockNonEmptyTestCases {
-		// Arrange
-
 		// Act
 		col := coredynamic.New.Collection.String.Items("x")
-		actLines := []string{
-			fmt.Sprintf("%v", col.IsEmptyLock()),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", col.IsEmptyLock()))
 	}
 }
 
@@ -156,15 +135,16 @@ func Test_Collection_ItemsLock_Verification(t *testing.T) {
 		col := coredynamic.New.Collection.String.From(items)
 		copied := col.ItemsLock()
 		copied = append(copied, "mutated")
-		actLines := []string{
-			fmt.Sprintf("%d", len(items)),
-			items[0],
-			items[len(items)-1],
-			fmt.Sprintf("%v", col.Length() != len(copied)),
+
+		actual := args.Map{
+			"length":        len(items),
+			"first":         items[0],
+			"last":          items[len(items)-1],
+			"isIndependent": col.Length() != len(copied),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -184,13 +164,14 @@ func Test_Collection_ClearLock_Verification(t *testing.T) {
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
 		col.ClearLock()
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -215,13 +196,14 @@ func Test_Collection_AddCollectionLock_Verification(t *testing.T) {
 		col1 := coredynamic.New.Collection.String.From(first)
 		col2 := coredynamic.New.Collection.String.From(second)
 		col1.AddCollectionLock(col2)
-		actLines := []string{
-			fmt.Sprintf("%d", col1.Length()),
-			col1.First(),
-			col1.Last(),
+
+		actual := args.Map{
+			"length": col1.Length(),
+			"first":  col1.First(),
+			"last":   col1.Last(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

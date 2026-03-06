@@ -32,12 +32,8 @@ func Test_Generic_Collection_AddLock_Verification(t *testing.T) {
 		}
 		wg.Wait()
 
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-		}
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", col.Length()))
 	}
 }
 
@@ -68,12 +64,8 @@ func Test_Generic_Collection_AddsLock_Verification(t *testing.T) {
 		}
 		wg.Wait()
 
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-		}
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", col.Length()))
 	}
 }
 
@@ -86,20 +78,15 @@ func Test_Generic_Collection_LengthLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.Any.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", col.LengthLock()),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", col.LengthLock()))
 	}
 }
 
@@ -109,16 +96,11 @@ func Test_Generic_Collection_LengthLock_Verification(t *testing.T) {
 
 func Test_Generic_Collection_IsEmptyLock_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range genericIsEmptyLockEmptyTestCases {
-		// Arrange — empty collection
-
 		// Act
 		col := coredynamic.New.Collection.Any.Empty()
-		actLines := []string{
-			fmt.Sprintf("%v", col.IsEmptyLock()),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", col.IsEmptyLock()))
 	}
 }
 
@@ -128,16 +110,11 @@ func Test_Generic_Collection_IsEmptyLock_Empty_Verification(t *testing.T) {
 
 func Test_Generic_Collection_IsEmptyLock_NonEmpty_Verification(t *testing.T) {
 	for caseIndex, testCase := range genericIsEmptyLockNonEmptyTestCases {
-		// Arrange
-
 		// Act
 		col := coredynamic.New.Collection.Any.Items("x")
-		actLines := []string{
-			fmt.Sprintf("%v", col.IsEmptyLock()),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", col.IsEmptyLock()))
 	}
 }
 
@@ -150,9 +127,7 @@ func Test_Generic_Collection_ItemsLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
 
@@ -160,15 +135,16 @@ func Test_Generic_Collection_ItemsLock_Verification(t *testing.T) {
 		col := coredynamic.New.Collection.Any.From(items)
 		copied := col.ItemsLock()
 		copied = append(copied, "mutated")
-		actLines := []string{
-			fmt.Sprintf("%d", len(items)),
-			fmt.Sprintf("%v", items[0]),
-			fmt.Sprintf("%v", items[len(items)-1]),
-			fmt.Sprintf("%v", col.Length() != len(copied)),
+
+		actual := args.Map{
+			"length":        len(items),
+			"first":         fmt.Sprintf("%v", items[0]),
+			"last":          fmt.Sprintf("%v", items[len(items)-1]),
+			"isIndependent": col.Length() != len(copied),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -181,22 +157,21 @@ func Test_Generic_Collection_ClearLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.Any.From(items)
 		col.ClearLock()
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -209,14 +184,10 @@ func Test_Generic_Collection_AddCollectionLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		first, isValid := input.GetAsAnyItems("first")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsAnyItems 'first' failed")
 		}
-
 		second, isValid := input.GetAsAnyItems("second")
-
 		if !isValid {
 			errcore.HandleErrMessage("GetAsAnyItems 'second' failed")
 		}
@@ -225,14 +196,15 @@ func Test_Generic_Collection_AddCollectionLock_Verification(t *testing.T) {
 		col1 := coredynamic.New.Collection.Any.From(first)
 		col2 := coredynamic.New.Collection.Any.From(second)
 		col1.AddCollectionLock(col2)
-		actLines := []string{
-			fmt.Sprintf("%d", col1.Length()),
-			fmt.Sprintf("%v", col1.First()),
-			fmt.Sprintf("%v", col1.Last()),
+
+		actual := args.Map{
+			"length": col1.Length(),
+			"first":  fmt.Sprintf("%v", col1.First()),
+			"last":   fmt.Sprintf("%v", col1.Last()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -245,9 +217,7 @@ func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsAnyItems("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsAnyItems 'items' failed")
 		}
 
@@ -265,23 +235,21 @@ func Test_Generic_Collection_FilterLock_Verification(t *testing.T) {
 
 		filtered := col.FilterLock(func(item any) bool {
 			s, ok := item.(string)
-
 			if !ok {
 				return false
 			}
-
 			return len(s) > 0 && (s[0] == 'a' || s[0] == 'd')
 		})
 		wg.Wait()
 
-		actLines := []string{
-			fmt.Sprintf("%d", filtered.Length()),
-			fmt.Sprintf("%v", filtered.First()),
-			fmt.Sprintf("%v", filtered.Last()),
+		actual := args.Map{
+			"length": filtered.Length(),
+			"first":  fmt.Sprintf("%v", filtered.First()),
+			"last":   fmt.Sprintf("%v", filtered.Last()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -299,31 +267,24 @@ func Test_Generic_Collection_LoopLock_Verification(t *testing.T) {
 			col.Add(fmt.Sprintf("item-%d", i))
 		}
 
-		// Act — add items concurrently, then loop
+		// Act
 		wg := sync.WaitGroup{}
 		wg.Add(count)
-
 		for i := 0; i < count; i++ {
 			go func(idx int) {
 				col.AddLock(fmt.Sprintf("extra-%d", idx))
 				wg.Done()
 			}(i)
 		}
-
 		wg.Wait()
 
 		visited := 0
 		col.LoopLock(func(index int, item any) bool {
 			visited++
-
 			return false
 		})
 
-		actLines := []string{
-			fmt.Sprintf("%d", visited),
-		}
-
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", visited))
 	}
 }

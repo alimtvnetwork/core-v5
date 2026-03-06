@@ -16,10 +16,10 @@ var newCreatorStringCapTestCases = []coretestcases.CaseV1{
 			"when":     "given capacity 10",
 			"capacity": 10,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"length":     0,
+			"isEmpty":    true,
+			"hasAnyItem": false,
 		},
 	},
 }
@@ -30,9 +30,9 @@ var newCreatorStringEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty string collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -44,11 +44,11 @@ var newCreatorStringFromTestCases = []coretestcases.CaseV1{
 			"when":  "given existing string slice",
 			"items": []string{"alpha", "beta", "gamma"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"false",
-			"alpha",
-			"gamma",
+		ExpectedInput: args.Map{
+			"length":  3,
+			"isEmpty": false,
+			"first":   "alpha",
+			"last":    "gamma",
 		},
 	},
 }
@@ -60,10 +60,10 @@ var newCreatorStringCloneTestCases = []coretestcases.CaseV1{
 			"when":  "given cloned string slice",
 			"items": []string{"x", "y"},
 		},
-		ExpectedInput: []string{
-			"2",
-			"x",
-			"y",
+		ExpectedInput: args.Map{
+			"length": 2,
+			"first":  "x",
+			"last":   "y",
 		},
 	},
 }
@@ -75,10 +75,10 @@ var newCreatorStringItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given variadic strings",
 			"items": []string{"one", "two", "three"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"one",
-			"three",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "one",
+			"last":   "three",
 		},
 	},
 }
@@ -94,9 +94,9 @@ var newCreatorIntCapTestCases = []coretestcases.CaseV1{
 			"when":     "given capacity 5",
 			"capacity": 5,
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -108,10 +108,10 @@ var newCreatorIntItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given int items",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: []string{
-			"3",
-			"10",
-			"30",
+		ExpectedInput: args.Map{
+			"length": 3,
+			"first":  "10",
+			"last":   "30",
 		},
 	},
 }
@@ -128,9 +128,9 @@ var collectionAddIfTrueTestCases = []coretestcases.CaseV1{
 			"isAdd": true,
 			"item":  "added",
 		},
-		ExpectedInput: []string{
-			"1",
-			"added",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  "added",
 		},
 	},
 }
@@ -143,9 +143,9 @@ var collectionAddIfFalseTestCases = []coretestcases.CaseV1{
 			"isAdd": false,
 			"item":  "skipped",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -162,10 +162,10 @@ var collectionAddCollectionTestCases = []coretestcases.CaseV1{
 			"first":  []string{"a", "b"},
 			"second": []string{"c", "d"},
 		},
-		ExpectedInput: []string{
-			"4",
-			"a",
-			"d",
+		ExpectedInput: args.Map{
+			"length": 4,
+			"first":  "a",
+			"last":   "d",
 		},
 	},
 }
@@ -177,9 +177,9 @@ var collectionAddCollectionNilTestCases = []coretestcases.CaseV1{
 			"when":  "given nil other collection",
 			"first": []string{"a"},
 		},
-		ExpectedInput: []string{
-			"1",
-			"a",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  "a",
 		},
 	},
 }
@@ -195,11 +195,11 @@ var collectionCloneTestCases = []coretestcases.CaseV1{
 			"when":  "given collection to clone",
 			"items": []string{"x", "y", "z"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"x",
-			"z",
-			"true",
+		ExpectedInput: args.Map{
+			"length":        3,
+			"first":         "x",
+			"last":          "z",
+			"isIndependent": true,
 		},
 	},
 }
@@ -215,11 +215,7 @@ var collectionReverseTestCases = []coretestcases.CaseV1{
 			"when":  "given 3-item collection",
 			"items": []string{"a", "b", "c"},
 		},
-		ExpectedInput: []string{
-			"c",
-			"b",
-			"a",
-		},
+		ExpectedInput: []string{"c", "b", "a"},
 	},
 }
 
@@ -229,9 +225,9 @@ var collectionReverseEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -248,11 +244,11 @@ var collectionConcatNewTestCases = []coretestcases.CaseV1{
 			"original": []string{"a", "b"},
 			"adding":   []string{"c", "d"},
 		},
-		ExpectedInput: []string{
-			"4",
-			"a",
-			"d",
-			"2",
+		ExpectedInput: args.Map{
+			"mergedLength":   4,
+			"mergedFirst":    "a",
+			"mergedLast":     "d",
+			"originalLength": 2,
 		},
 	},
 }
@@ -268,9 +264,9 @@ var collectionCapacityTestCases = []coretestcases.CaseV1{
 			"when":     "given collection with capacity 20",
 			"capacity": 20,
 		},
-		ExpectedInput: []string{
-			"20",
-			"0",
+		ExpectedInput: args.Map{
+			"capacity": 20,
+			"length":   0,
 		},
 	},
 }
@@ -283,8 +279,6 @@ var collectionResizeTestCases = []coretestcases.CaseV1{
 			"capacity":   5,
 			"additional": 10,
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }

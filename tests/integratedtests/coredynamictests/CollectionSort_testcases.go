@@ -16,11 +16,7 @@ var sortAscStringTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted strings",
 			"items": []string{"cherry", "apple", "banana"},
 		},
-		ExpectedInput: []string{
-			"apple",
-			"banana",
-			"cherry",
-		},
+		ExpectedInput: []string{"apple", "banana", "cherry"},
 	},
 }
 
@@ -35,11 +31,7 @@ var sortDescStringTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted strings",
 			"items": []string{"cherry", "apple", "banana"},
 		},
-		ExpectedInput: []string{
-			"cherry",
-			"banana",
-			"apple",
-		},
+		ExpectedInput: []string{"cherry", "banana", "apple"},
 	},
 }
 
@@ -54,12 +46,7 @@ var sortAscIntTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted ints",
 			"items": []int{30, 10, 20, 5},
 		},
-		ExpectedInput: []string{
-			"5",
-			"10",
-			"20",
-			"30",
-		},
+		ExpectedInput: []string{"5", "10", "20", "30"},
 	},
 }
 
@@ -74,12 +61,7 @@ var sortDescIntTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted ints",
 			"items": []int{30, 10, 20, 5},
 		},
-		ExpectedInput: []string{
-			"30",
-			"20",
-			"10",
-			"5",
-		},
+		ExpectedInput: []string{"30", "20", "10", "5"},
 	},
 }
 
@@ -94,14 +76,7 @@ var sortedAscNonMutatingTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted strings",
 			"items": []string{"c", "a", "b"},
 		},
-		ExpectedInput: []string{
-			"a",
-			"b",
-			"c",
-			"c",
-			"a",
-			"b",
-		},
+		ExpectedInput: []string{"a", "b", "c", "c", "a", "b"},
 	},
 }
 
@@ -115,9 +90,9 @@ var sortEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -133,9 +108,9 @@ var sortSingleTestCases = []coretestcases.CaseV1{
 			"when":  "given single element",
 			"items": []string{"only"},
 		},
-		ExpectedInput: []string{
-			"1",
-			"only",
+		ExpectedInput: args.Map{
+			"length": 1,
+			"first":  "only",
 		},
 	},
 }
@@ -151,9 +126,7 @@ var isSortedAscTrueTestCases = []coretestcases.CaseV1{
 			"when":  "given sorted ints",
 			"items": []int{1, 2, 3, 4},
 		},
-		ExpectedInput: []string{
-			"true",
-		},
+		ExpectedInput: "true",
 	},
 }
 
@@ -164,9 +137,7 @@ var isSortedAscFalseTestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted ints",
 			"items": []int{3, 1, 2},
 		},
-		ExpectedInput: []string{
-			"false",
-		},
+		ExpectedInput: "false",
 	},
 }
 
@@ -181,11 +152,7 @@ var sortFuncCustomTestCases = []coretestcases.CaseV1{
 			"when":  "given strings sorted by length",
 			"items": []string{"hello", "hi", "hey"},
 		},
-		ExpectedInput: []string{
-			"hi",
-			"hey",
-			"hello",
-		},
+		ExpectedInput: []string{"hi", "hey", "hello"},
 	},
 }
 
@@ -200,10 +167,6 @@ var sortAscFloat64TestCases = []coretestcases.CaseV1{
 			"when":  "given unsorted floats",
 			"items": []float64{3.14, 1.0, 2.71},
 		},
-		ExpectedInput: []string{
-			"1",
-			"2.71",
-			"3.14",
-		},
+		ExpectedInput: []string{"1", "2.71", "3.14"},
 	},
 }
