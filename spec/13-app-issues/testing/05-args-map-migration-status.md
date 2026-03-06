@@ -7,10 +7,10 @@
 | Category | Count | % of Total |
 |----------|-------|------------|
 | ✅ Migrated to `args.Map` | **27 files** | 20.1% |
-| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **36 files** | 26.9% |
-| 🔴 Using `[]string` | **50 files** | 37.3% |
-| 🟡 Using plain `string` / other | **21 files** | 15.7% |
-| **Total testcase files** | **~134** | — |
+| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **38 files** | 27.5% |
+| 🔴 Using `[]string` | **46 files** | 33.3% |
+| 🟡 Using plain `string` / other | **27 files** | 19.6% |
+| **Total testcase files** | **~138** | — |
 
 > Note: Some files use multiple patterns (e.g., `[]string` for some cases, `args.Map` for others).
 
@@ -52,7 +52,7 @@
 
 ---
 
-## 🔶 Using Typed Tuples `args.Two`–`args.Six` (36 files)
+## 🔶 Using Typed Tuples `args.Two`–`args.Six` (38 files)
 
 These use positional typed tuples — better than `[]string` but lack semantic keys. **Migration to `args.Map` recommended.**
 
@@ -99,11 +99,11 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 
 ---
 
-## 🔴 Using `[]string` Expectations (50 files)
+## 🔴 Using `[]string` Expectations (46 files)
 
 These use raw `[]string` slices with positional semantics. **Highest priority for migration.**
 
-### Wave 1 — Quick Wins (simple boolean/value expectations)
+### Batch A — Quick Wins (simple boolean/value expectations, 31 files)
 
 | Package | File | Fields | Difficulty |
 |---------|------|--------|------------|
@@ -139,7 +139,7 @@ These use raw `[]string` slices with positional semantics. **Highest priority fo
 | `coretestcasestests` | `GenericGherkins_testcases.go` | 1–2 values | 🟢 Easy |
 | `defaultcapacitytests` | `DefaultCapacity_testcases.go` | 1 value | 🟢 Easy |
 
-### Wave 3 — Keep as `[]string` (variable-length / formatted output)
+### Batch B — Keep as `[]string` (variable-length / formatted output, 15 files)
 
 | Package | File | Reason |
 |---------|------|--------|
@@ -170,32 +170,36 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ████████░░░░░░░░░░░░ 27/134 (20.1%)
-Tuples   ██████████░░░░░░░░░░ 36/134 (26.9%)
-[]string ████████████████░░░░ 50/134 (37.3%)
-Other    ████░░░░░░░░░░░░░░░░ 21/134 (15.7%)
+Migrated ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
+Tuples   █████░░░░░░░░░░░░░░░  38/138 (27.5%)
+[]string ███████░░░░░░░░░░░░░  46/138 (33.3%)
+Other    ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
 ```
 
 ### Changelog
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | Fixed counts: tuples 36→38, `[]string` 50→46, total ~138. Renamed Waves to Batches/Priorities |
 | 2026-03-06 | +8 migrated (`MapAnyItems*`, 6 new `coreoncetests`) — total 27 |
-| 2026-03-06 | Split Wave 1 into 31 actionable files with difficulty ratings |
-| 2026-03-06 | Added Wave 3 "keep as-is" with 15 files + justifications |
+| 2026-03-06 | Split `[]string` into 31 actionable files with difficulty ratings |
+| 2026-03-06 | Added "keep as-is" batch with 15 files + justifications |
 | 2026-03-06 | Initial audit — 19 migrated, 52 `[]string` |
 
 ---
 
 ## Migration Priority
 
-### Wave 1 — Quick Wins (🟢 Easy, 20 files)
+### Priority 1 — `[]string` Quick Wins (🟢 Easy, 20 files)
 All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
 
-### Wave 2 — Typed Tuples → `args.Map` (36 files)
+### Priority 2 — `[]string` Medium (🟡 Medium, 11 files)
+Multi-field structs or 4+ positional values. Estimated: ~2 hours total.
+
+### Priority 3 — Typed Tuples → `args.Map` (38 files)
 `args.Two`–`args.Six` → `args.Map` with semantic keys. Higher effort but significant diagnostic improvement.
 
-### Wave 3 — Keep As-Is (15 files)
+### Keep As-Is (15 files)
 Variable-length output, multi-line error messages, formatted type inspection. Not suitable for `args.Map`.
 
 ---
