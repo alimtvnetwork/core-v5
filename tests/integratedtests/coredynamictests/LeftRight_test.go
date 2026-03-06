@@ -108,6 +108,15 @@ func Test_LeftRight_TypeStatus_Verification(t *testing.T) {
 			"isRightUnknownNull": fmt.Sprintf("%v", status.IsRightUnknownNull),
 		}
 
+		if expectedMap, ok := tc.Case.ExpectedInput.(args.Map); ok {
+			if _, has := expectedMap["isLeftPointer"]; has {
+				actual["isLeftPointer"] = fmt.Sprintf("%v", status.IsLeftPointer)
+			}
+			if _, has := expectedMap["isRightPointer"]; has {
+				actual["isRightPointer"] = fmt.Sprintf("%v", status.IsRightPointer)
+			}
+		}
+
 		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
