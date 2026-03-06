@@ -315,7 +315,7 @@ func Test_Chmod_VarNameValues_Single(t *testing.T) {
 		Name:  "Location",
 		Value: "/tmp/test",
 	}
-	result := namevalue.VarNameValues(nv)
+	result := errcore.VarNameValues(nv)
 
 	actual := args.Map{
 		"containsName":  result != "",
@@ -336,7 +336,7 @@ func Test_Chmod_MessageNameValues(t *testing.T) {
 		Name:  "Path",
 		Value: "/usr/local/bin",
 	}
-	result := namevalue.MessageNameValues("chmod verification failed", nv)
+	result := errcore.MessageNameValues("chmod verification failed", nv)
 
 	actual := args.Map{
 		"containsMessage":   strings.Contains(result, "chmod verification failed"),
@@ -352,6 +352,6 @@ func Test_Chmod_MessageNameValues(t *testing.T) {
 
 func Test_Chmod_VarNameValues_Empty(t *testing.T) {
 	tc := chmodVarNameValuesEmptyTestCase
-	result := namevalue.VarNameValues()
+	result := errcore.VarNameValues()
 	tc.ShouldBeEqual(t, 0, result)
 }
