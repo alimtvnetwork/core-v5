@@ -16,9 +16,9 @@ var typedRequestNewTestCases = []coretestcases.CaseV1{
 			"when":    "given string payload",
 			"payload": "my-request",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "my-request", // payload
-			Second: "true",       // isValid
+		ExpectedInput: args.Map{
+			"payload": "my-request",
+			"isValid": "true",
 		},
 	},
 }
@@ -33,10 +33,10 @@ var typedRequestInvalidTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil attribute",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "",     // payload
-			Second: "false", // isValid
-			Third:  "true",  // isInvalid
+		ExpectedInput: args.Map{
+			"payload":      "",
+			"isValid":      "false",
+			"hasAttribute": "true",
 		},
 	},
 }
@@ -52,10 +52,10 @@ var typedRequestCloneTestCases = []coretestcases.CaseV1{
 			"when":    "given valid request",
 			"payload": "clone-payload",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "clone-payload", // payload
-			Second: "true",          // isValid
-			Third:  "true",          // isIndependent
+		ExpectedInput: args.Map{
+			"payload":       "clone-payload",
+			"isValid":       "true",
+			"isIndependent": "true",
 		},
 	},
 }
@@ -69,6 +69,7 @@ var typedRequestCloneNilTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 }
+
 // ==========================================
 // TypedResponseResult — ToTypedResponse
 // ==========================================
@@ -80,9 +81,9 @@ var typedResponseResultToTypedResponseTestCases = []coretestcases.CaseV1{
 			"when":     "given valid typed response result",
 			"response": "back-convert",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "back-convert", // response
-			Second: "true",         // isValid
+		ExpectedInput: args.Map{
+			"response": "back-convert",
+			"isValid":  "true",
 		},
 	},
 }

@@ -22,13 +22,13 @@ func Test_NewTypedRequest_Verification(t *testing.T) {
 
 		// Act
 		req := coreapi.NewTypedRequest[string](attr, payload)
-		actLines := []string{
-			req.Request,
-			fmt.Sprintf("%v", req.Attribute.IsValid),
+		actual := args.Map{
+			"payload": req.Request,
+			"isValid": fmt.Sprintf("%v", req.Attribute.IsValid),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -42,14 +42,14 @@ func Test_InvalidTypedRequest_Verification(t *testing.T) {
 
 		// Act
 		req := coreapi.InvalidTypedRequest[string](nil)
-		actLines := []string{
-			req.Request,
-			fmt.Sprintf("%v", req.Attribute.IsValid),
-			fmt.Sprintf("%v", req.Attribute != nil),
+		actual := args.Map{
+			"payload":      req.Request,
+			"isValid":      fmt.Sprintf("%v", req.Attribute.IsValid),
+			"hasAttribute": fmt.Sprintf("%v", req.Attribute != nil),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -68,14 +68,14 @@ func Test_TypedRequest_Clone_Verification(t *testing.T) {
 
 		// Act
 		cloned := req.Clone()
-		actLines := []string{
-			cloned.Request,
-			fmt.Sprintf("%v", cloned.Attribute.IsValid),
-			fmt.Sprintf("%v", cloned != req),
+		actual := args.Map{
+			"payload":       cloned.Request,
+			"isValid":       fmt.Sprintf("%v", cloned.Attribute.IsValid),
+			"isIndependent": fmt.Sprintf("%v", cloned != req),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -110,13 +110,13 @@ func Test_TypedResponseResult_ToTypedResponse_Verification(t *testing.T) {
 
 		// Act
 		resp := result.ToTypedResponse()
-		actLines := []string{
-			resp.Response,
-			fmt.Sprintf("%v", resp.Attribute.IsValid),
+		actual := args.Map{
+			"response": resp.Response,
+			"isValid":  fmt.Sprintf("%v", resp.Attribute.IsValid),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
