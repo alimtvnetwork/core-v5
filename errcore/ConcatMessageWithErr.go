@@ -1,12 +1,13 @@
 package errcore
 
 import (
-	"errors"
 	"fmt"
 
 	"gitlab.com/auk-go/core/internal/reflectinternal"
 )
 
+// ConcatMessageWithErr wraps an error with an additional message using fmt.Errorf and %w.
+// This preserves the original error chain, enabling errors.Is and errors.As.
 func ConcatMessageWithErr(
 	errMessage string,
 	err error,
@@ -15,7 +16,7 @@ func ConcatMessageWithErr(
 		return nil
 	}
 
-	return errors.New(errMessage + " " + err.Error())
+	return fmt.Errorf("%s %w", errMessage, err)
 }
 
 func ConcatMessageWithErrWithStackTrace(
@@ -34,5 +35,5 @@ func ConcatMessageWithErrWithStackTrace(
 		reflectinternal.CodeStack.StacksStringDefault(2),
 	)
 
-	return errors.New(fullMessage)
+	return fmt.Errorf("%s: %w", fullMessage, err)
 }
