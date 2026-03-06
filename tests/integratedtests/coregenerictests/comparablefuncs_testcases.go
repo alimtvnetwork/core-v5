@@ -64,9 +64,9 @@ var removeItemFoundTestCase = coretestcases.CaseV1{
 		"items":      []int{1, 2, 3, 2, 4},
 		"removeItem": 2,
 	},
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // removed
-		Second: "4",    // newLength
+	ExpectedInput: args.Map{
+		"removed":   true,
+		"newLength": 4,
 	},
 }
 
@@ -77,9 +77,9 @@ var removeItemMissingTestCase = coretestcases.CaseV1{
 		"items":      []int{1, 3, 5},
 		"removeItem": 99,
 	},
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // removed
-		Second: "3",     // newLength
+	ExpectedInput: args.Map{
+		"removed":   false,
+		"newLength": 3,
 	},
 }
 
@@ -94,9 +94,9 @@ var removeAllItemsTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with multiple 2s",
 			"items": []int{1, 2, 3, 2, 4, 2},
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "3", // removedCount
-			Second: "3", // newLength
+		ExpectedInput: args.Map{
+			"removedCount": 3,
+			"newLength":    3,
 		},
 	},
 }
@@ -112,12 +112,12 @@ var toHashsetTestCases = []coretestcases.CaseV1{
 			"when":  "given collection with duplicates",
 			"items": []int{1, 2, 3, 2, 1},
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",     // uniqueCount
-			Second: "true",  // has1
-			Third:  "true",  // has2
-			Fourth: "true",  // has3
-			Fifth:  "false", // has99
+		ExpectedInput: args.Map{
+			"uniqueCount": 3,
+			"has1":        true,
+			"has2":        true,
+			"has3":        true,
+			"has99":       false,
 		},
 	},
 }
@@ -133,10 +133,10 @@ var distinctSimpleSliceTestCases = []coretestcases.CaseV1{
 			"when":  "given simple slice with duplicates",
 			"items": []int{3, 1, 2, 1, 3, 4},
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "4", // uniqueCount
-			Second: "3", // firstElement
-			Third:  "4", // lastElement
+		ExpectedInput: args.Map{
+			"uniqueCount":  4,
+			"firstElement": 3,
+			"lastElement":  4,
 		},
 	},
 }
@@ -152,9 +152,9 @@ var containsSimpleSliceItemTestCases = []coretestcases.CaseV1{
 			"when":  "given simple slice containing target",
 			"items": []int{10, 20, 30},
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // containsExisting
-			Second: "false", // containsMissing
+		ExpectedInput: args.Map{
+			"containsExisting": true,
+			"containsMissing":  false,
 		},
 	},
 }
