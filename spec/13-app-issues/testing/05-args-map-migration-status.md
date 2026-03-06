@@ -6,8 +6,8 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **62 files** | 44.9% |
-| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **11 files** | 8.0% |
+| ✅ Migrated to `args.Map` | **70 files** | 50.7% |
+| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **0 files** | 0% |
 | 🔴 Using `[]string` | **31 files** | 22.5% |
 | 🟡 Using plain `string` / other | **~34 files** | 24.6% |
 | **Total testcase files** | **~138** | — |
@@ -16,7 +16,7 @@
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (62 files)
+## ✅ Fully Migrated to `args.Map` (70 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -83,25 +83,22 @@
 | `namevaluetests` | `Instance_testcases.go` | Instance formatting/dispose |
 | `pagingutiltests` | `Paging_testcases.go` | Paging calculations |
 | `typesconvtests` | `TypesConv_testcases.go` | All Bool/Byte/Float/Int/String conversions |
+| `reqtypetests` | `Request_testcases.go` | ~20 cases: identity/logical/HTTP methods |
+| `iserrortests` | `iserror_testcases.go` | ~10 cases: Empty/Equal/EqualString |
+| `errcoretests` | `MergeErrors_testcases.go` | ~10 cases: SliceToError/MergeErrors/ToStrings |
+| `stringcompareastests` | `Glob_testcases.go` | 13 cases: glob match/inverse |
+| `stringslicetests` | `CloneIf_testcases.go` | 6 cases: CloneIf/AnyItemsCloneIf |
+| `versionindexestests` | `Index_testcases.go` | ~7 cases: JSON roundtrip/Name/Inject |
+| `coreappendtests` | `Append_testcases.go` | 2 cases: PrependAppend |
+| `keymktests` | `KeyLegend_testcases.go` | 1 case: GroupIntRange |
 
 ---
 
-## 🔶 Using Typed Tuples `args.Two`–`args.Six` (11 files)
+## 🔶 Using Typed Tuples `args.Two`–`args.Six` (0 files)
 
-These use positional typed tuples — better than `[]string` but lack semantic keys. **Migration to `args.Map` recommended.**
+All typed tuple files have been migrated to `args.Map`. ✅
 
-| Package | File | Tuple Types | Cases |
-|---------|------|-------------|-------|
-| `coreappendtests` | `Append_testcases.go` | `args.Three` | 2 |
-| `errcoretests` | `MergeErrors_testcases.go` | `args.Two`/`args.Three` | ~10 |
-| `iserrortests` | `iserror_testcases.go` | `args.Two`/`args.Three` | ~10 |
-| `keymktests` | `KeyLegend_testcases.go` | `args.Three` | 1 |
-| `reqtypetests` | `Request_testcases.go` | `args.Three`–`args.Five` | ~20 |
-| `stringcompareastests` | `Glob_testcases.go` | `args.Two` | ~13 |
-| `stringslicetests` | `CloneIf_testcases.go` | `args.Two`–`args.Five` | 6 |
-| `versionindexestests` | `Index_testcases.go` | `args.Two` | ~6 |
-
-> **Note:** Files previously listed here that have been migrated: `coreapitests/*` (4 files), `typesconvtests/*` (1 file), `converterstests/*`, `coregenerictests/*`, `corestrtests/Collection`, `corestrtests/Hashmap`, `corestrtests/Hashset`, `corestrtests/ValidValue`, `regexnewtests/*`, `simplewraptests/*`, `keymktests/Key_testcases.go` — these were either migrated or confirmed to not use typed tuples.
+> **Note:** Previously listed files that have been migrated: `coreapitests/*` (4 files), `typesconvtests/*` (1 file), `converterstests/*`, `coregenerictests/*`, `corestrtests/BugfixRegression`, `regexnewtests/*`, `simplewraptests/*`, `keymktests/Key_testcases.go`, `reqtypetests/*`, `iserrortests/*`, `errcoretests/*`, `stringcompareastests/*`, `stringslicetests/*`, `versionindexestests/*`, `coreappendtests/*`, `keymktests/KeyLegend*`.
 
 ---
 
@@ -163,8 +160,8 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ██████████░░░░░░░░░░  62/138 (44.9%)
-Tuples   ██░░░░░░░░░░░░░░░░░░  11/138 ( 8.0%)
+Migrated ██████████░░░░░░░░░░  70/138 (50.7%)
+Tuples   ░░░░░░░░░░░░░░░░░░░░   0/138 ( 0.0%)
 []string █████░░░░░░░░░░░░░░░░  31/138 (22.5%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
 ```
@@ -173,6 +170,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +8 migrated: all remaining typed tuples (reqtypetests, iserrortests, errcoretests, stringcompareastests, stringslicetests, versionindexestests, coreappendtests, keymktests/KeyLegend). Tuples 11→0. Total 70/138 (50.7%) |
 | 2026-03-06 | +2 migrated: `corestrtests/LeftRightFromSplit` (14 cases) + `LeftMiddleRightFromSplit` (14 cases) from []string → args.Map. Total 62/138 (44.9%) |
 | 2026-03-06 | +1 migrated: `corestrtests/BugfixRegression_testcases.go` (~20 cases: args.Two–Five → args.Map). Tuples 12→11. Total 60/138 (43.5%) |
 | 2026-03-06 | Full audit: +8 migrated (coreapitests×4, typesconvtests×1, coremathtests×1, LeftRight TypeStatus fix×1, recount×1). Tuples reduced 27→12 (many were already migrated or didn't exist). Updated []string batch lists. Total 59/138 (42.8%) |
@@ -192,8 +190,8 @@ All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
 ### Priority 2 — `[]string` Medium (🟡 Medium, 1 file)
 Multi-field structs or 4+ positional values. Estimated: ~30 min total.
 
-### Priority 3 — Typed Tuples → `args.Map` (11 files)
-`args.Two`–`args.Five` → `args.Map` with semantic keys. Higher effort but significant diagnostic improvement.
+### Priority 3 — Typed Tuples → `args.Map` (0 files) ✅ COMPLETE
+All typed tuple files have been migrated.
 
 ### Keep As-Is (15 files)
 Variable-length output, multi-line error messages, formatted type inspection. Not suitable for `args.Map`.
