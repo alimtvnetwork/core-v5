@@ -34,7 +34,10 @@ func Test_IntPtr(t *testing.T) {
 	tc := intPtrTestCase
 	ptr := typesconv.IntPtr(42)
 
-	actual := args.Map{"value": *ptr, "isNil": ptr == nil}
+	actual := args.Map{
+		"value": *ptr,
+		"isNil": ptr == nil,
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
@@ -48,10 +51,12 @@ func Test_IntPtrToSimple_Verification(t *testing.T) {
 
 		// Act
 		var ptr *int
+
 		if !isNil {
 			v, _ := input.GetAsInt("value")
 			ptr = &v
 		}
+
 		result := typesconv.IntPtrToSimple(ptr)
 
 		// Assert
@@ -70,14 +75,20 @@ func Test_IntPtrToSimpleDef_Verification(t *testing.T) {
 
 		// Act
 		var ptr *int
+
 		if !isNil {
 			v, _ := input.GetAsInt("value")
 			ptr = &v
 		}
+
 		result := typesconv.IntPtrToSimpleDef(ptr, defVal)
 
 		// Assert
-		actual := args.Map{"result": result, "defaultUsed": isNil}
+		actual := args.Map{
+			"result":      result,
+			"defaultUsed": isNil,
+		}
+
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
@@ -91,10 +102,12 @@ func Test_IntPtrToDefPtr_Verification(t *testing.T) {
 
 		// Act
 		var ptr *int
+
 		if !isNil {
 			v, _ := input.GetAsInt("value")
 			ptr = &v
 		}
+
 		result := typesconv.IntPtrToDefPtr(ptr, 77)
 
 		// Assert
@@ -111,7 +124,10 @@ func Test_BoolPtr(t *testing.T) {
 	tc := boolPtrTestCase
 	ptr := typesconv.BoolPtr(true)
 
-	actual := args.Map{"value": *ptr, "isNil": ptr == nil}
+	actual := args.Map{
+		"value": *ptr,
+		"isNil": ptr == nil,
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
@@ -125,10 +141,12 @@ func Test_BoolPtrToSimple_Verification(t *testing.T) {
 
 		// Act
 		var ptr *bool
+
 		if !isNil {
 			v, _ := input.GetAsBool("value")
 			ptr = &v
 		}
+
 		result := typesconv.BoolPtrToSimple(ptr)
 
 		// Assert
@@ -147,14 +165,20 @@ func Test_BoolPtrToSimpleDef_Verification(t *testing.T) {
 
 		// Act
 		var ptr *bool
+
 		if !isNil {
 			v, _ := input.GetAsBool("value")
 			ptr = &v
 		}
+
 		result := typesconv.BoolPtrToSimpleDef(ptr, defVal)
 
 		// Assert
-		actual := args.Map{"result": result, "defaultUsed": isNil}
+		actual := args.Map{
+			"result":      result,
+			"defaultUsed": isNil,
+		}
+
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
@@ -168,10 +192,12 @@ func Test_BoolPtrToDefPtr_Verification(t *testing.T) {
 
 		// Act
 		var ptr *bool
+
 		if !isNil {
 			v, _ := input.GetAsBool("value")
 			ptr = &v
 		}
+
 		result := typesconv.BoolPtrToDefPtr(ptr, false)
 
 		// Assert
@@ -188,10 +214,10 @@ func Test_BytePtr(t *testing.T) {
 	tc := bytePtrTestCase
 	ptr := typesconv.BytePtr(42)
 
-	actual := args.Map{"value": int(ptr != nil && *ptr == 42), "isNil": ptr == nil}
-
-	// Use direct values for byte
-	actual = args.Map{"value": int(*ptr), "isNil": ptr == nil}
+	actual := args.Map{
+		"value": int(*ptr),
+		"isNil": ptr == nil,
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
@@ -205,11 +231,13 @@ func Test_BytePtrToSimple_Verification(t *testing.T) {
 
 		// Act
 		var ptr *byte
+
 		if !isNil {
 			v, _ := input.GetAsInt("value")
 			b := byte(v)
 			ptr = &b
 		}
+
 		result := typesconv.BytePtrToSimple(ptr)
 
 		// Assert
@@ -228,15 +256,21 @@ func Test_BytePtrToSimpleDef_Verification(t *testing.T) {
 
 		// Act
 		var ptr *byte
+
 		if !isNil {
 			v, _ := input.GetAsInt("value")
 			b := byte(v)
 			ptr = &b
 		}
+
 		result := typesconv.BytePtrToSimpleDef(ptr, byte(defVal))
 
 		// Assert
-		actual := args.Map{"result": int(result), "defaultUsed": isNil}
+		actual := args.Map{
+			"result":      int(result),
+			"defaultUsed": isNil,
+		}
+
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
@@ -249,7 +283,10 @@ func Test_FloatPtr(t *testing.T) {
 	tc := floatPtrTestCase
 	ptr := typesconv.FloatPtr(1.5)
 
-	actual := args.Map{"value": *ptr, "isNil": ptr == nil}
+	actual := args.Map{
+		"value": *ptr,
+		"isNil": ptr == nil,
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
@@ -263,11 +300,13 @@ func Test_FloatPtrToSimple_Verification(t *testing.T) {
 
 		// Act
 		var ptr *float32
+
 		if !isNil {
 			vAny, _ := input.Get("value")
 			v := float32(vAny.(float64))
 			ptr = &v
 		}
+
 		result := typesconv.FloatPtrToSimple(ptr)
 
 		// Assert
@@ -287,15 +326,21 @@ func Test_FloatPtrToSimpleDef_Verification(t *testing.T) {
 
 		// Act
 		var ptr *float32
+
 		if !isNil {
 			vAny, _ := input.Get("value")
 			v := float32(vAny.(float64))
 			ptr = &v
 		}
+
 		result := typesconv.FloatPtrToSimpleDef(ptr, defVal)
 
 		// Assert
-		actual := args.Map{"result": result, "defaultUsed": isNil}
+		actual := args.Map{
+			"result":      result,
+			"defaultUsed": isNil,
+		}
+
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
@@ -308,7 +353,10 @@ func Test_StringPtr(t *testing.T) {
 	tc := stringPtrTestCase
 	ptr := typesconv.StringPtr("test")
 
-	actual := args.Map{"value": *ptr, "isNil": ptr == nil}
+	actual := args.Map{
+		"value": *ptr,
+		"isNil": ptr == nil,
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
@@ -322,10 +370,12 @@ func Test_StringPtrToSimple_Verification(t *testing.T) {
 
 		// Act
 		var ptr *string
+
 		if !isNil {
 			v, _ := input.GetAsString("value")
 			ptr = &v
 		}
+
 		result := typesconv.StringPtrToSimple(ptr)
 
 		// Assert
@@ -344,14 +394,20 @@ func Test_StringPtrToSimpleDef_Verification(t *testing.T) {
 
 		// Act
 		var ptr *string
+
 		if !isNil {
 			v, _ := input.GetAsString("value")
 			ptr = &v
 		}
+
 		result := typesconv.StringPtrToSimpleDef(ptr, defVal)
 
 		// Assert
-		actual := args.Map{"result": result, "defaultUsed": isNil}
+		actual := args.Map{
+			"result":      result,
+			"defaultUsed": isNil,
+		}
+
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
@@ -365,10 +421,12 @@ func Test_StringPointerToBool_Verification(t *testing.T) {
 
 		// Act
 		var ptr *string
+
 		if !isNil {
 			v, _ := input.GetAsString("value")
 			ptr = &v
 		}
+
 		result := typesconv.StringPointerToBool(ptr)
 
 		// Assert

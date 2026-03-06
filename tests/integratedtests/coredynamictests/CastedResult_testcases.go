@@ -245,7 +245,10 @@ var castedResultSourceReflectTypeTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "Stores SourceReflectType correctly",
-			ExpectedInput: args.Map{"typeName": "string", "isStringKind": true},
+		ExpectedInput: args.Map{
+			"typeName":     "string",
+			"isStringKind": true,
+		},
 		},
 		CR: &coredynamic.CastedResult{
 			SourceReflectType: reflect.TypeOf(""),
@@ -262,7 +265,10 @@ var castedResultCastedValueTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title:         "Casted stores value and HasAnyIssues false",
-			ExpectedInput: args.Map{"castedValue": 42, "hasAnyIssues": false},
+		ExpectedInput: args.Map{
+			"castedValue":  42,
+			"hasAnyIssues": false,
+		},
 		},
 		CR: &coredynamic.CastedResult{
 			Casted:                 42,

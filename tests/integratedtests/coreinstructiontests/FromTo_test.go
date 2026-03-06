@@ -40,7 +40,10 @@ func Test_FromTo_Clone(t *testing.T) {
 	orig := coreinstruction.FromTo{From: "a", To: "b"}
 	c := orig.Clone()
 
-	actual := args.Map{"from": c.From, "to": c.To}
+	actual := args.Map{
+		"from": c.From,
+		"to":   c.To,
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
@@ -122,7 +125,10 @@ func Test_FromTo_Names(t *testing.T) {
 	tc := fromToNamesTestCase
 	ft := coreinstruction.FromTo{From: "src", To: "dst"}
 
-	actual := args.Map{"fromName": ft.FromName(), "toName": ft.ToName()}
+	actual := args.Map{
+		"fromName": ft.FromName(),
+		"toName":   ft.ToName(),
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }

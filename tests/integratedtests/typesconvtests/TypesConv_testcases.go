@@ -77,7 +77,10 @@ var intPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"value":  42,
 			"defVal": 99,
 		},
-		ExpectedInput: args.Map{"result": 42, "defaultUsed": false},
+		ExpectedInput: args.Map{
+			"result":      42,
+			"defaultUsed": false,
+		},
 	},
 	{
 		Title: "IntPtrToSimpleDef returns default for nil",
@@ -86,13 +89,19 @@ var intPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"isNil":  true,
 			"defVal": 99,
 		},
-		ExpectedInput: args.Map{"result": 99, "defaultUsed": true},
+		ExpectedInput: args.Map{
+			"result":      99,
+			"defaultUsed": true,
+		},
 	},
 }
 
 var intPtrTestCase = coretestcases.CaseV1{
-	Title:         "IntPtr creates pointer to value",
-	ExpectedInput: args.Map{"value": 42, "isNil": false},
+	Title: "IntPtr creates pointer to value",
+	ExpectedInput: args.Map{
+		"value": 42,
+		"isNil": false,
+	},
 }
 
 var intPtrToDefPtrTestCases = []coretestcases.CaseV1{
@@ -157,7 +166,10 @@ var boolPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"value":  true,
 			"defVal": false,
 		},
-		ExpectedInput: args.Map{"result": true, "defaultUsed": false},
+		ExpectedInput: args.Map{
+			"result":      true,
+			"defaultUsed": false,
+		},
 	},
 	{
 		Title: "BoolPtrToSimpleDef returns default for nil",
@@ -166,13 +178,19 @@ var boolPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"isNil":  true,
 			"defVal": true,
 		},
-		ExpectedInput: args.Map{"result": true, "defaultUsed": true},
+		ExpectedInput: args.Map{
+			"result":      true,
+			"defaultUsed": true,
+		},
 	},
 }
 
 var boolPtrTestCase = coretestcases.CaseV1{
-	Title:         "BoolPtr creates pointer to value",
-	ExpectedInput: args.Map{"value": true, "isNil": false},
+	Title: "BoolPtr creates pointer to value",
+	ExpectedInput: args.Map{
+		"value": true,
+		"isNil": false,
+	},
 }
 
 var boolPtrToDefPtrTestCases = []coretestcases.CaseV1{
@@ -228,7 +246,10 @@ var bytePtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"value":  100,
 			"defVal": 50,
 		},
-		ExpectedInput: args.Map{"result": 100, "defaultUsed": false},
+		ExpectedInput: args.Map{
+			"result":      100,
+			"defaultUsed": false,
+		},
 	},
 	{
 		Title: "BytePtrToSimpleDef returns default for nil",
@@ -237,13 +258,19 @@ var bytePtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"isNil":  true,
 			"defVal": 50,
 		},
-		ExpectedInput: args.Map{"result": 50, "defaultUsed": true},
+		ExpectedInput: args.Map{
+			"result":      50,
+			"defaultUsed": true,
+		},
 	},
 }
 
 var bytePtrTestCase = coretestcases.CaseV1{
-	Title:         "BytePtr creates pointer to value",
-	ExpectedInput: args.Map{"value": 42, "isNil": false},
+	Title: "BytePtr creates pointer to value",
+	ExpectedInput: args.Map{
+		"value": 42,
+		"isNil": false,
+	},
 }
 
 // ==========================================================================
@@ -279,7 +306,10 @@ var floatPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"value":  2.71,
 			"defVal": 9.99,
 		},
-		ExpectedInput: args.Map{"result": float32(2.71), "defaultUsed": false},
+		ExpectedInput: args.Map{
+			"result":      float32(2.71),
+			"defaultUsed": false,
+		},
 	},
 	{
 		Title: "FloatPtrToSimpleDef returns default for nil",
@@ -288,13 +318,19 @@ var floatPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"isNil":  true,
 			"defVal": 9.99,
 		},
-		ExpectedInput: args.Map{"result": float32(9.99), "defaultUsed": true},
+		ExpectedInput: args.Map{
+			"result":      float32(9.99),
+			"defaultUsed": true,
+		},
 	},
 }
 
 var floatPtrTestCase = coretestcases.CaseV1{
-	Title:         "FloatPtr creates pointer to value",
-	ExpectedInput: args.Map{"value": float32(1.5), "isNil": false},
+	Title: "FloatPtr creates pointer to value",
+	ExpectedInput: args.Map{
+		"value": float32(1.5),
+		"isNil": false,
+	},
 }
 
 // ==========================================================================
@@ -330,7 +366,10 @@ var stringPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"value":  "actual",
 			"defVal": "fallback",
 		},
-		ExpectedInput: args.Map{"result": "actual", "defaultUsed": false},
+		ExpectedInput: args.Map{
+			"result":      "actual",
+			"defaultUsed": false,
+		},
 	},
 	{
 		Title: "StringPtrToSimpleDef returns default for nil",
@@ -339,13 +378,19 @@ var stringPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 			"isNil":  true,
 			"defVal": "fallback",
 		},
-		ExpectedInput: args.Map{"result": "fallback", "defaultUsed": true},
+		ExpectedInput: args.Map{
+			"result":      "fallback",
+			"defaultUsed": true,
+		},
 	},
 }
 
 var stringPtrTestCase = coretestcases.CaseV1{
-	Title:         "StringPtr creates pointer to value",
-	ExpectedInput: args.Map{"value": "test", "isNil": false},
+	Title: "StringPtr creates pointer to value",
+	ExpectedInput: args.Map{
+		"value": "test",
+		"isNil": false,
+	},
 }
 
 var stringPointerToBoolTestCases = []coretestcases.CaseV1{
