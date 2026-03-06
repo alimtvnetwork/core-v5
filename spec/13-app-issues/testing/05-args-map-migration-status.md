@@ -6,9 +6,9 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **60 files** | 43.5% |
+| ✅ Migrated to `args.Map` | **62 files** | 44.9% |
 | 🔶 Using `args.Two`–`args.Six` (typed tuples) | **11 files** | 8.0% |
-| 🔴 Using `[]string` | **33 files** | 23.9% |
+| 🔴 Using `[]string` | **31 files** | 22.5% |
 | 🟡 Using plain `string` / other | **~34 files** | 24.6% |
 | **Total testcase files** | **~138** | — |
 
@@ -16,7 +16,7 @@
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (59 files)
+## ✅ Fully Migrated to `args.Map` (62 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -76,6 +76,8 @@
 | `coreversiontests` | `Parse_testcases.go` | Version parsing |
 | `corestrtests` | `BugfixRegression_testcases.go` | ~20 cases: Collection/Hashmap/Hashset/ValidValue |
 | `coreversiontests` | `String_testcases.go` | Version string output |
+| `corestrtests` | `LeftRightFromSplit_testcases.go` | 14 cases: left/right/isValid |
+| `corestrtests` | `LeftMiddleRightFromSplit_testcases.go` | 14 cases: left/middle/right/isValid |
 | `coresorttests` | `Sort_testcases.go` | Plain string expectations |
 | `namevaluetests` | `Collection_testcases.go` | Collection CRUD operations |
 | `namevaluetests` | `Instance_testcases.go` | Instance formatting/dispose |
@@ -103,9 +105,9 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 
 ---
 
-## 🔴 Using `[]string` Expectations (33 files)
+## 🔴 Using `[]string` Expectations (31 files)
 
-### Batch A — Migratable to `args.Map` (18 files)
+### Batch A — Migratable to `args.Map` (16 files)
 
 | Package | File | Fields | Difficulty |
 |---------|------|--------|------------|
@@ -115,7 +117,7 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 | `converterstests` | `AnyItemConverter_testcases.go` | 1–3 values | 🟢 Easy |
 | `coredynamictests` | `CastedResult_testcases.go` | 1–3 values | 🟢 Easy |
 | `coredynamictests` | `CollectionSearch_testcases.go` | 2–3 values | 🟢 Easy |
-| `corestrtests` | `LeftMiddleRightFromSplit_testcases.go` | 4 values × 7 cases | 🟡 Medium |
+
 | `corestrtests` | `SimpleSlice_testcases.go` | 1–3 values | 🟢 Easy |
 | `coretaskinfotests` | `InfoCreate_testcases.go` | 2–4 values | 🟢 Easy |
 | `coreutilstests` | `StringUtil_testcases.go` | 1–2 values | 🟢 Easy |
@@ -161,9 +163,9 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated █████████░░░░░░░░░░░░  60/138 (43.5%)
+Migrated ██████████░░░░░░░░░░  62/138 (44.9%)
 Tuples   ██░░░░░░░░░░░░░░░░░░  11/138 ( 8.0%)
-[]string █████░░░░░░░░░░░░░░░░  33/138 (23.9%)
+[]string █████░░░░░░░░░░░░░░░░  31/138 (22.5%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
 ```
 
@@ -171,6 +173,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +2 migrated: `corestrtests/LeftRightFromSplit` (14 cases) + `LeftMiddleRightFromSplit` (14 cases) from []string → args.Map. Total 62/138 (44.9%) |
 | 2026-03-06 | +1 migrated: `corestrtests/BugfixRegression_testcases.go` (~20 cases: args.Two–Five → args.Map). Tuples 12→11. Total 60/138 (43.5%) |
 | 2026-03-06 | Full audit: +8 migrated (coreapitests×4, typesconvtests×1, coremathtests×1, LeftRight TypeStatus fix×1, recount×1). Tuples reduced 27→12 (many were already migrated or didn't exist). Updated []string batch lists. Total 59/138 (42.8%) |
 | 2026-03-06 | Fixed coredynamictests tracking: moved 9 previously migrated files from tuples/[]string to migrated — total 51 |
@@ -183,10 +186,10 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 ## Migration Priority
 
-### Priority 1 — `[]string` Quick Wins (🟢 Easy, 16 files)
+### Priority 1 — `[]string` Quick Wins (🟢 Easy, 15 files)
 All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
 
-### Priority 2 — `[]string` Medium (🟡 Medium, 2 files)
+### Priority 2 — `[]string` Medium (🟡 Medium, 1 file)
 Multi-field structs or 4+ positional values. Estimated: ~30 min total.
 
 ### Priority 3 — Typed Tuples → `args.Map` (11 files)
