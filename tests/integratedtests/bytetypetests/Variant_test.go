@@ -1,7 +1,6 @@
 package bytetypetests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/bytetype"
@@ -16,19 +15,15 @@ func Test_Variant_Verification(t *testing.T) {
 
 		// Act
 		v := bytetype.New(byte(inputVal))
-		valueStr := fmt.Sprintf("%v", v.ValueInt())
-		isZero := fmt.Sprintf("%v", v.IsZero())
-		isInvalid := fmt.Sprintf("%v", v.IsInvalid())
-		isValid := fmt.Sprintf("%v", v.IsValid())
+
+		actual := args.Map{
+			"value":     v.ValueInt(),
+			"isZero":    v.IsZero(),
+			"isInvalid": v.IsInvalid(),
+			"isValid":   v.IsValid(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			valueStr,
-			isZero,
-			isInvalid,
-			isValid,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
