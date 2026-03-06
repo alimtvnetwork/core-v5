@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // ==========================================
@@ -12,9 +14,9 @@ import (
 
 func Test_CastedResult_IsInvalid_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultIsInvalidTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.IsInvalid())}
+		actual := args.Map{"result": tc.CR.IsInvalid()}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -24,9 +26,9 @@ func Test_CastedResult_IsInvalid_Verification(t *testing.T) {
 
 func Test_CastedResult_IsNotNull_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultIsNotNullTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.IsNotNull())}
+		actual := args.Map{"result": tc.CR.IsNotNull()}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -36,9 +38,9 @@ func Test_CastedResult_IsNotNull_Verification(t *testing.T) {
 
 func Test_CastedResult_IsNotPointer_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultIsNotPointerTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.IsNotPointer())}
+		actual := args.Map{"result": tc.CR.IsNotPointer()}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -48,9 +50,9 @@ func Test_CastedResult_IsNotPointer_Verification(t *testing.T) {
 
 func Test_CastedResult_IsNotMatchingAcceptedType_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultIsNotMatchingAcceptedTypeTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.IsNotMatchingAcceptedType())}
+		actual := args.Map{"result": tc.CR.IsNotMatchingAcceptedType()}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -60,9 +62,9 @@ func Test_CastedResult_IsNotMatchingAcceptedType_Verification(t *testing.T) {
 
 func Test_CastedResult_IsSourceKind_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultIsSourceKindTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.IsSourceKind(tc.CheckKind))}
+		actual := args.Map{"result": tc.CR.IsSourceKind(tc.CheckKind)}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -72,9 +74,9 @@ func Test_CastedResult_IsSourceKind_Verification(t *testing.T) {
 
 func Test_CastedResult_HasError_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultHasErrorTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.HasError())}
+		actual := args.Map{"result": tc.CR.HasError()}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -84,9 +86,9 @@ func Test_CastedResult_HasError_Verification(t *testing.T) {
 
 func Test_CastedResult_HasAnyIssues_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultHasAnyIssuesTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.HasAnyIssues())}
+		actual := args.Map{"result": tc.CR.HasAnyIssues()}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -96,12 +98,12 @@ func Test_CastedResult_HasAnyIssues_Verification(t *testing.T) {
 
 func Test_CastedResult_SourceReflectType_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultSourceReflectTypeTestCases {
-		actLines := []string{
-			tc.CR.SourceReflectType.Name(),
-			fmt.Sprintf("%v", tc.CR.IsSourceKind(reflect.String)),
+		actual := args.Map{
+			"typeName":     tc.CR.SourceReflectType.Name(),
+			"isStringKind": tc.CR.IsSourceKind(reflect.String),
 		}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -111,12 +113,12 @@ func Test_CastedResult_SourceReflectType_Verification(t *testing.T) {
 
 func Test_CastedResult_CastedValue_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultCastedValueTestCases {
-		actLines := []string{
-			fmt.Sprintf("%v", tc.CR.Casted),
-			fmt.Sprintf("%v", tc.CR.HasAnyIssues()),
+		actual := args.Map{
+			"castedValue":  fmt.Sprintf("%v", tc.CR.Casted),
+			"hasAnyIssues": tc.CR.HasAnyIssues(),
 		}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -126,8 +128,8 @@ func Test_CastedResult_CastedValue_Verification(t *testing.T) {
 
 func Test_CastedResult_IsSourcePointer_Verification(t *testing.T) {
 	for caseIndex, tc := range castedResultIsSourcePointerTestCases {
-		actLines := []string{fmt.Sprintf("%v", tc.CR.IsSourcePointer)}
+		actual := args.Map{"result": tc.CR.IsSourcePointer}
 
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
