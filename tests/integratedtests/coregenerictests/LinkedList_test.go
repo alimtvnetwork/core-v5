@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // ==========================================================================
@@ -15,13 +16,18 @@ func Test_LinkedList_Empty(t *testing.T) {
 	tc := linkedListEmptyTestCase
 	ll := coregeneric.EmptyLinkedList[int]()
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.IsEmpty()),
-		fmt.Sprintf("%v", ll.Length()),
-		fmt.Sprintf("%v", ll.HasItems()),
+	// Act
+	actual := args.Map{
+		"isEmpty":  ll.IsEmpty(),
+		"length":   ll.Length(),
+		"hasItems": ll.HasItems(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 // ==========================================================================
@@ -32,13 +38,18 @@ func Test_LinkedList_FromSlice(t *testing.T) {
 	tc := linkedListFromSliceTestCase
 	ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.Length()),
-		ll.First(),
-		ll.Last(),
+	// Act
+	actual := args.Map{
+		"length": ll.Length(),
+		"first":  ll.First(),
+		"last":   ll.Last(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_LinkedList_FromEmptySlice(t *testing.T) {
@@ -59,13 +70,18 @@ func Test_LinkedList_AddSingle(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	ll.Add(42)
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.Length()),
-		fmt.Sprintf("%v", ll.First()),
-		fmt.Sprintf("%v", ll.Last()),
+	// Act
+	actual := args.Map{
+		"length": ll.Length(),
+		"head":   ll.First(),
+		"tail":   ll.Last(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_LinkedList_AddMultiple(t *testing.T) {
@@ -73,13 +89,18 @@ func Test_LinkedList_AddMultiple(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	ll.Add(1).Add(2).Add(3)
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.First()),
-		fmt.Sprintf("%v", ll.Last()),
-		fmt.Sprintf("%v", ll.Length()),
+	// Act
+	actual := args.Map{
+		"head":   ll.First(),
+		"tail":   ll.Last(),
+		"length": ll.Length(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 // ==========================================================================
@@ -91,13 +112,18 @@ func Test_LinkedList_AddFrontPrepends(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{2, 3})
 	ll.AddFront(1)
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.First()),
-		fmt.Sprintf("%v", ll.Last()),
-		fmt.Sprintf("%v", ll.Length()),
+	// Act
+	actual := args.Map{
+		"head":   ll.First(),
+		"tail":   ll.Last(),
+		"length": ll.Length(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_LinkedList_AddFrontEmpty(t *testing.T) {
@@ -105,13 +131,18 @@ func Test_LinkedList_AddFrontEmpty(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.AddFront("first")
 
-	actLines := []string{
-		ll.First(),
-		ll.Last(),
-		fmt.Sprintf("%v", ll.Length()),
+	// Act
+	actual := args.Map{
+		"head":   ll.First(),
+		"tail":   ll.Last(),
+		"length": ll.Length(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 // ==========================================================================
@@ -311,12 +342,17 @@ func Test_LinkedList_IndexAt_Valid(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]string{"a", "b", "c"})
 	node := ll.IndexAt(1)
 
-	actLines := []string{
-		fmt.Sprintf("%v", node != nil),
-		node.Element,
+	// Act
+	actual := args.Map{
+		"isNotNil": node != nil,
+		"value":    node.Element,
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_LinkedList_IndexAt_First(t *testing.T) {
@@ -341,12 +377,17 @@ func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
 	tc := linkedListIndexAtOutOfBoundsTestCase
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.IndexAt(5) == nil),
-		fmt.Sprintf("%v", ll.IndexAt(-1) == nil),
+	// Act
+	actual := args.Map{
+		"isNil":    ll.IndexAt(5) == nil,
+		"hasError": ll.IndexAt(-1) == nil,
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_LinkedList_IndexAt_Empty(t *testing.T) {
@@ -418,28 +459,45 @@ func Test_LinkedList_HeadTail(t *testing.T) {
 	tc := linkedListHeadTailTestCase
 	ll := coregeneric.LinkedListFrom([]int{1, 2, 3})
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.Head().Element),
-		fmt.Sprintf("%v", ll.Tail().Element),
-		fmt.Sprintf("%v", ll.Head().HasNext()),
-		fmt.Sprintf("%v", ll.Tail().HasNext()),
+	// Act
+	actual := args.Map{
+		"head":        ll.Head().Element,
+		"tail":        ll.Tail().Element,
+		"headHasNext": ll.Head().HasNext(),
+		"tailHasNext": ll.Tail().HasNext(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_LinkedList_NodeNext(t *testing.T) {
 	tc := linkedListNodeNextTestCase
 	ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
 	n := ll.Head()
-
-	actLines := []string{fmt.Sprintf("%v", n.Element)}
+	first := n.Element
 	n = n.Next()
-	actLines = append(actLines, fmt.Sprintf("%v", n.Element))
+	second := n.Element
 	n = n.Next()
-	actLines = append(actLines, fmt.Sprintf("%v", n.Element), fmt.Sprintf("%v", n.HasNext()))
+	third := n.Element
+	hasMore := n.HasNext()
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Act
+	actual := args.Map{
+		"first":   first,
+		"second":  second,
+		"third":   third,
+		"hasMore": hasMore,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 // ==========================================================================
@@ -497,12 +555,17 @@ func Test_LinkedList_AppendNodeAppends(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 	ll.AppendNode(&coregeneric.LinkedListNode[int]{Element: 3})
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.Length()),
-		fmt.Sprintf("%v", ll.Last()),
+	// Act
+	actual := args.Map{
+		"length":    ll.Length(),
+		"lastValue": ll.Last(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_LinkedList_AppendNodeEmpty(t *testing.T) {
@@ -510,10 +573,15 @@ func Test_LinkedList_AppendNodeEmpty(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	ll.AppendNode(&coregeneric.LinkedListNode[int]{Element: 99})
 
-	actLines := []string{
-		fmt.Sprintf("%v", ll.Length()),
-		fmt.Sprintf("%v", ll.First()),
+	// Act
+	actual := args.Map{
+		"length": ll.Length(),
+		"value":  ll.First(),
 	}
 
-	tc.ShouldBeEqualFirst(t, actLines...)
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }

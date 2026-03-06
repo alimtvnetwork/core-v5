@@ -11,19 +11,19 @@ import (
 
 var linkedListEmptyTestCase = coretestcases.CaseV1{
 	Title: "EmptyLinkedList creates empty list",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // isEmpty
-		Second: "0",    // length
-		Third:  "false", // hasItems
+	ExpectedInput: args.Map{
+		"isEmpty":  true,
+		"length":   0,
+		"hasItems": false,
 	},
 }
 
 var linkedListFromSliceTestCase = coretestcases.CaseV1{
 	Title: "LinkedListFrom creates from slice",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "3", // length
-		Second: "a", // first
-		Third:  "c", // last
+	ExpectedInput: args.Map{
+		"length": 3,
+		"first":  "a",
+		"last":   "c",
 	},
 }
 
@@ -38,37 +38,37 @@ var linkedListFromEmptySliceTestCase = coretestcases.CaseV1{
 
 var linkedListAddSingleTestCase = coretestcases.CaseV1{
 	Title: "Add single sets head and tail",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "1",  // length
-		Second: "42", // head
-		Third:  "42", // tail
+	ExpectedInput: args.Map{
+		"length": 1,
+		"head":   42,
+		"tail":   42,
 	},
 }
 
 var linkedListAddMultipleTestCase = coretestcases.CaseV1{
 	Title: "Add multiple appends to back",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "1", // head
-		Second: "3", // tail
-		Third:  "3", // length
+	ExpectedInput: args.Map{
+		"head":   1,
+		"tail":   3,
+		"length": 3,
 	},
 }
 
 var linkedListAddFrontPrependsTestCase = coretestcases.CaseV1{
 	Title: "AddFront prepends",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "1", // head
-		Second: "3", // tail
-		Third:  "3", // length
+	ExpectedInput: args.Map{
+		"head":   1,
+		"tail":   3,
+		"length": 3,
 	},
 }
 
 var linkedListAddFrontEmptyTestCase = coretestcases.CaseV1{
 	Title: "AddFront empty",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "first", // head
-		Second: "first", // tail
-		Third:  "1",     // length
+	ExpectedInput: args.Map{
+		"head":   "first",
+		"tail":   "first",
+		"length": 1,
 	},
 }
 
@@ -161,9 +161,9 @@ var linkedListStringTestCase = coretestcases.CaseV1{
 
 var linkedListIndexAtValidTestCase = coretestcases.CaseV1{
 	Title: "IndexAt valid returns node",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isNotNil
-		Second: "b",    // value
+	ExpectedInput: args.Map{
+		"isNotNil": true,
+		"value":    "b",
 	},
 }
 
@@ -179,9 +179,9 @@ var linkedListIndexAtLastTestCase = coretestcases.CaseV1{
 
 var linkedListIndexAtOutOfBoundsTestCase = coretestcases.CaseV1{
 	Title: "IndexAt out of bounds",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isNil
-		Second: "true", // hasError
+	ExpectedInput: args.Map{
+		"isNil":    true,
+		"hasError": true,
 	},
 }
 
@@ -220,21 +220,21 @@ var linkedListForEachBreakFirstTestCase = coretestcases.CaseV1{
 
 var linkedListHeadTailTestCase = coretestcases.CaseV1{
 	Title: "Head/Tail nodes",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "1",     // head
-		Second: "3",     // tail
-		Third:  "true",  // headHasNext
-		Fourth: "false", // tailHasNext
+	ExpectedInput: args.Map{
+		"head":        1,
+		"tail":        3,
+		"headHasNext": true,
+		"tailHasNext": false,
 	},
 }
 
 var linkedListNodeNextTestCase = coretestcases.CaseV1{
 	Title: "Node.Next traverses",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "10",    // first
-		Second: "20",    // second
-		Third:  "30",    // third
-		Fourth: "false", // hasMore
+	ExpectedInput: args.Map{
+		"first":   10,
+		"second":  20,
+		"third":   30,
+		"hasMore": false,
 	},
 }
 
@@ -272,16 +272,16 @@ var linkedListNilReceiverTestCase = coretestcases.CaseV1{
 
 var linkedListAppendNodeAppendsTestCase = coretestcases.CaseV1{
 	Title: "AppendNode appends",
-	ExpectedInput: args.Two[string, string]{
-		First:  "3", // length
-		Second: "3", // lastValue
+	ExpectedInput: args.Map{
+		"length":    3,
+		"lastValue": 3,
 	},
 }
 
 var linkedListAppendNodeEmptyTestCase = coretestcases.CaseV1{
 	Title: "AppendNode empty",
-	ExpectedInput: args.Two[string, string]{
-		First:  "1",  // length
-		Second: "99", // value
+	ExpectedInput: args.Map{
+		"length": 1,
+		"value":  99,
 	},
 }
