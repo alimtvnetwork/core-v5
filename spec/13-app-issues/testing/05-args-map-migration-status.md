@@ -6,9 +6,9 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **81 files** | 58.7% |
+| ✅ Migrated to `args.Map` | **82 files** | 59.4% |
 | 🔶 Using `args.Two`–`args.Six` (typed tuples) | **0 files** | 0% |
-| 🔴 Using `[]string` | **20 files** | 14.5% |
+| 🔴 Using `[]string` | **19 files** | 13.8% |
 | 🟡 Using plain `string` / other | **~34 files** | 24.6% |
 | **Total testcase files** | **~138** | — |
 
@@ -102,6 +102,7 @@
 | `defaultcapacitytests` | `DefaultCapacity_testcases.go` | custom structs → args.Map ArrangeInput |
 | `defaulterrtests` | `DefaultErr_testcases.go` | isNotNil+hasMessage → args.Map |
 | `enumimpltests` | `enumTestCases.go` | min+max → args.Map |
+| `issettertests` | `Value_testcases.go` | hasError/name, 8 boolean logic keys, conversions → args.Map |
 
 ---
 
@@ -113,14 +114,13 @@ All typed tuple files have been migrated to `args.Map`. ✅
 
 ## 🔴 Using `[]string` Expectations (20 files)
 
-### Batch A — Migratable to `args.Map` (5 files)
+### Batch A — Migratable to `args.Map` (4 files)
 
 | Package | File | Fields | Difficulty |
 |---------|------|--------|------------|
 | `coretaskinfotests` | `InfoCreate_testcases.go` | 2–8 values | 🟡 Medium |
 | `coretestcasestests` | `GenericGherkins_testcases.go` | StringBoolGherkins pattern | 🟡 Medium |
 | `coretestcasestests` | `ExpectedLines_testcases.go` | Framework self-test | 🟡 Medium |
-| `issettertests` | `Value_testcases.go` | 2–8 booleans | 🟡 Medium |
 | `isanytests` | `ExtendedTypedNil_testcases.go` | Legacy BaseTestCase | 🟡 Medium |
 
 ### Batch B — Keep as `[]string` (15 files)
@@ -155,9 +155,9 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated █████████████░░░░░░░  81/138 (58.7%)
+Migrated █████████████░░░░░░░  82/138 (59.4%)
 Tuples   ░░░░░░░░░░░░░░░░░░░░   0/138 ( 0.0%)
-[]string ████░░░░░░░░░░░░░░░░░  20/138 (14.5%)
+[]string ████░░░░░░░░░░░░░░░░░  19/138 (13.8%)
 Other    █████░░░░░░░░░░░░░░░░  34/138 (24.6%)
 ```
 
@@ -180,8 +180,8 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 ## Migration Priority
 
-### Priority 1 — `[]string` Medium (🟡 Medium, 5 files)
-coretaskinfotests, coretestcasestests, issettertests, ExtendedTypedNil. Require semantic key mapping for 4+ positional values.
+### Priority 1 — `[]string` Medium (🟡 Medium, 4 files)
+coretaskinfotests, coretestcasestests (×2), ExtendedTypedNil. Require semantic key mapping for 4+ positional values.
 
 ### Priority 2 — Typed Tuples → `args.Map` (0 files) ✅ COMPLETE
 All typed tuple files have been migrated.
