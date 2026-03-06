@@ -18,19 +18,16 @@ func Test_SortAsc_String_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
 		coredynamic.SortAsc(col)
-		actLines := col.Items()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, col.Items()...)
 	}
 }
 
@@ -43,19 +40,16 @@ func Test_SortDesc_String_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.Clone(items)
 		coredynamic.SortDesc(col)
-		actLines := col.Items()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, col.Items()...)
 	}
 }
 
@@ -114,9 +108,7 @@ func Test_SortedAsc_NonMutating_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -136,18 +128,17 @@ func Test_SortedAsc_NonMutating_Verification(t *testing.T) {
 
 func Test_SortAsc_Empty_Verification(t *testing.T) {
 	for caseIndex, testCase := range sortEmptyTestCases {
-		// Arrange
-
 		// Act
 		col := coredynamic.New.Collection.String.Empty()
 		coredynamic.SortAsc(col)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			fmt.Sprintf("%v", col.IsEmpty()),
+
+		actual := args.Map{
+			"length":  col.Length(),
+			"isEmpty": col.IsEmpty(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -160,22 +151,21 @@ func Test_SortAsc_Single_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		// Act
 		col := coredynamic.New.Collection.String.From(items)
 		coredynamic.SortAsc(col)
-		actLines := []string{
-			fmt.Sprintf("%d", col.Length()),
-			col.First(),
+
+		actual := args.Map{
+			"length": col.Length(),
+			"first":  col.First(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -191,12 +181,9 @@ func Test_IsSortedAsc_True_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Int.From(items)
-		actLines := []string{
-			fmt.Sprintf("%v", coredynamic.IsSortedAsc(col)),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", coredynamic.IsSortedAsc(col)))
 	}
 }
 
@@ -212,12 +199,9 @@ func Test_IsSortedAsc_False_Verification(t *testing.T) {
 
 		// Act
 		col := coredynamic.New.Collection.Int.From(items)
-		actLines := []string{
-			fmt.Sprintf("%v", coredynamic.IsSortedAsc(col)),
-		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", coredynamic.IsSortedAsc(col)))
 	}
 }
 
@@ -230,9 +214,7 @@ func Test_SortFunc_Custom_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -241,10 +223,9 @@ func Test_SortFunc_Custom_Verification(t *testing.T) {
 		col.SortFunc(func(a, b string) bool {
 			return len(a) < len(b)
 		})
-		actLines := col.Items()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, col.Items()...)
 	}
 }
 

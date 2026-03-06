@@ -17,23 +17,26 @@ func Test_Collection_Distinct_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionDistinctTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		col := coredynamic.New.Collection.String.From(items)
 		result := coredynamic.Distinct(col)
 
-		actLines := []string{
-			fmt.Sprintf("%d", result.Length()),
-		}
-		for i := 0; i < result.Length(); i++ {
-			actLines = append(actLines, result.SafeAt(i))
-		}
+		// Handle mixed ExpectedInput types
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
+			actual := args.Map{
+				"distinctCount": result.Length(),
+			}
+			for i := 0; i < result.Length(); i++ {
+				actual[fmt.Sprintf("item%d", i)] = result.SafeAt(i)
+			}
 
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", result.Length()))
+		}
 	}
 }
 
@@ -45,18 +48,13 @@ func Test_Collection_DistinctCount_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionDistinctCountTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		col := coredynamic.New.Collection.String.From(items)
-		actLines := []string{
-			fmt.Sprintf("%d", coredynamic.DistinctCount(col)),
-		}
 
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", coredynamic.DistinctCount(col)))
 	}
 }
 
@@ -68,17 +66,12 @@ func Test_Collection_IsDistinct_Verification(t *testing.T) {
 	for caseIndex, testCase := range collectionIsDistinctTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
 		col := coredynamic.New.Collection.String.From(items)
-		actLines := []string{
-			fmt.Sprintf("%v", coredynamic.IsDistinct(col)),
-		}
 
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", coredynamic.IsDistinct(col)))
 	}
 }

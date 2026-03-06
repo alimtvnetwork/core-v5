@@ -151,9 +151,9 @@ var leftRightDeserializeLeftTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
 			Title: "DeserializeLeft valid data returns non-nil no error",
-			ExpectedInput: args.Two[string, string]{
-				First:  "false", // isNil
-				Second: "false", // hasError
+			ExpectedInput: args.Map{
+				"isNil":    false,
+				"hasError": false,
 			},
 		},
 		LR: &coredynamic.LeftRight{Left: map[string]string{"key": "val"}},

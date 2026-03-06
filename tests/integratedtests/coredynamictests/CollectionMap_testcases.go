@@ -16,12 +16,7 @@ var mapIntToStringTestCases = []coretestcases.CaseV1{
 			"when":  "given ints [1, 2, 3]",
 			"items": []int{1, 2, 3},
 		},
-		ExpectedInput: []string{
-			"3",
-			"#1",
-			"#2",
-			"#3",
-		},
+		ExpectedInput: []string{"3", "#1", "#2", "#3"},
 	},
 }
 
@@ -31,9 +26,9 @@ var mapEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty int collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -44,9 +39,9 @@ var mapNilTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -62,12 +57,7 @@ var mapStringToIntTestCases = []coretestcases.CaseV1{
 			"when":  "given strings [hi, hello, x]",
 			"items": []string{"hi", "hello", "x"},
 		},
-		ExpectedInput: []string{
-			"3",
-			"2",
-			"5",
-			"1",
-		},
+		ExpectedInput: []string{"3", "2", "5", "1"},
 	},
 }
 
@@ -82,13 +72,7 @@ var flatMapTestCases = []coretestcases.CaseV1{
 			"when":  "given strings split to chars",
 			"items": []string{"ab", "cd"},
 		},
-		ExpectedInput: []string{
-			"4",
-			"a",
-			"b",
-			"c",
-			"d",
-		},
+		ExpectedInput: []string{"4", "a", "b", "c", "d"},
 	},
 }
 
@@ -98,9 +82,9 @@ var flatMapEmptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
-		ExpectedInput: []string{
-			"0",
-			"true",
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -157,11 +141,6 @@ var mapThenFilterTestCases = []coretestcases.CaseV1{
 			"when":  "given ints mapped to doubled then filtered > 5",
 			"items": []int{1, 2, 3, 4, 5},
 		},
-		ExpectedInput: []string{
-			"3",
-			"6",
-			"8",
-			"10",
-		},
+		ExpectedInput: []string{"3", "6", "8", "10"},
 	},
 }

@@ -19,9 +19,7 @@ func Test_Collection_GroupBy_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -35,13 +33,28 @@ func Test_Collection_GroupBy_Verification(t *testing.T) {
 		})
 
 		// Assert
-		actLines := make([]string, 0, len(groups))
-		for key, group := range groups {
-			actLines = append(actLines, fmt.Sprintf("%s:%d", key, group.Length()))
-		}
-		sort.Strings(actLines)
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
+			actLines := make([]string, 0, len(groups))
+			for key, group := range groups {
+				actLines = append(actLines, fmt.Sprintf("%s:%d", key, group.Length()))
+			}
+			sort.Strings(actLines)
 
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+			actual := args.Map{}
+			for i, line := range actLines {
+				actual[fmt.Sprintf("group%c", 'A'+i)] = line
+			}
+
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			actLines := make([]string, 0, len(groups))
+			for key, group := range groups {
+				actLines = append(actLines, fmt.Sprintf("%s:%d", key, group.Length()))
+			}
+			sort.Strings(actLines)
+
+			testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		}
 	}
 }
 
@@ -54,9 +67,7 @@ func Test_Collection_GroupByCount_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		items, isValid := input.GetAsStrings("items")
-		isInvalid := !isValid
-
-		if isInvalid {
+		if !isValid {
 			errcore.HandleErrMessage("GetAsStrings 'items' failed")
 		}
 
@@ -67,12 +78,24 @@ func Test_Collection_GroupByCount_Verification(t *testing.T) {
 		})
 
 		// Assert
-		actLines := make([]string, 0, len(counts))
-		for key, count := range counts {
-			actLines = append(actLines, fmt.Sprintf("%s:%d", key, count))
-		}
-		sort.Strings(actLines)
+		if _, isMap := testCase.ExpectedInput.(args.Map); isMap {
+			actLines := make([]string, 0, len(counts))
+			for key, count := range counts {
+				actLines = append(actLines, fmt.Sprintf("%s:%d", key, count))
+			}
+			sort.Strings(actLines)
 
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+			actual := args.Map{}
+			for i, line := range actLines {
+				keys := []string{"blueCount", "greenCount", "redCount"}
+				if i < len(keys) {
+					actual[keys[i]] = line
+				}
+			}
+
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
+		} else {
+			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%d", len(counts)))
+		}
 	}
 }
