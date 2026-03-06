@@ -177,8 +177,12 @@ var leftRightDeserializeRightTestCases = []leftRightTestCase{
 var leftRightTypeStatusTestCases = []leftRightTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "TypeStatus not nil on nil receiver",
-			ExpectedInput: "true",
+			Title: "TypeStatus on nil receiver returns both-null status",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "true",
+				"isRightUnknownNull": "true",
+			},
 		},
 		LR: nil,
 	},
