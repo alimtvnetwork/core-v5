@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // ==========================================================================
@@ -275,14 +276,38 @@ func Test_Pair_NewPairWithMessage_Valid(t *testing.T) {
 	tc := pairWithMessageValidTestCase
 	p := coregeneric.NewPairWithMessage("hello", "world", true, "ok")
 
-	tc.ShouldBeEqualFirst(t, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
+	// Act
+	actual := args.Map{
+		"left":         p.Left,
+		"right":        p.Right,
+		"isValid":      p.IsValid,
+		"errorMessage": p.Message,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_Pair_NewPairWithMessage_Invalid(t *testing.T) {
 	tc := pairWithMessageInvalidTestCase
 	p := coregeneric.NewPairWithMessage("", "", false, "failed")
 
-	tc.ShouldBeEqualFirst(t, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
+	// Act
+	actual := args.Map{
+		"left":         p.Left,
+		"right":        p.Right,
+		"isValid":      p.IsValid,
+		"errorMessage": p.Message,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 // ==========================================================================
@@ -293,14 +318,40 @@ func Test_Triple_NewTripleWithMessage_Valid(t *testing.T) {
 	tc := tripleWithMessageValidTestCase
 	tr := coregeneric.NewTripleWithMessage("a", "b", "c", true, "success")
 
-	tc.ShouldBeEqualFirst(t, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
+	// Act
+	actual := args.Map{
+		"left":         tr.Left,
+		"middle":       tr.Middle,
+		"right":        tr.Right,
+		"isValid":      tr.IsValid,
+		"errorMessage": tr.Message,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 func Test_Triple_NewTripleWithMessage_Invalid(t *testing.T) {
 	tc := tripleWithMessageInvalidTestCase
 	tr := coregeneric.NewTripleWithMessage("", "", "", false, "error occurred")
 
-	tc.ShouldBeEqualFirst(t, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
+	// Act
+	actual := args.Map{
+		"left":         tr.Left,
+		"middle":       tr.Middle,
+		"right":        tr.Right,
+		"isValid":      tr.IsValid,
+		"errorMessage": tr.Message,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 // ==========================================================================
@@ -312,7 +363,19 @@ func Test_Pair_Dispose(t *testing.T) {
 	p := coregeneric.NewPairWithMessage("a", "b", true, "msg")
 	p.Dispose()
 
-	tc.ShouldBeEqualFirst(t, p.Left, p.Right, fmt.Sprintf("%v", p.IsValid), p.Message)
+	// Act
+	actual := args.Map{
+		"left":         p.Left,
+		"right":        p.Right,
+		"isValid":      p.IsValid,
+		"errorMessage": p.Message,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
 
 // ==========================================================================
@@ -324,8 +387,25 @@ func Test_Triple_Dispose(t *testing.T) {
 	tr := coregeneric.NewTripleWithMessage("a", "b", "c", true, "msg")
 	tr.Dispose()
 
-	tc.ShouldBeEqualFirst(t, tr.Left, tr.Middle, tr.Right, fmt.Sprintf("%v", tr.IsValid), tr.Message)
+	// Act
+	actual := args.Map{
+		"left":         tr.Left,
+		"middle":       tr.Middle,
+		"right":        tr.Right,
+		"isValid":      tr.IsValid,
+		"errorMessage": tr.Message,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(
+		t,
+		actual,
+	)
 }
+
+// ==========================================================================
+// Test: All typed Pair creator shortcuts
+// ==========================================================================
 
 // ==========================================================================
 // Test: All typed Pair creator shortcuts
