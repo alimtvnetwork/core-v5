@@ -12,12 +12,12 @@ var compareStringTestCases = []coretestcases.CaseV1{
 			"when":  "given Equal compare",
 			"value": 0,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "Equal", // name
-			Second: "=",     // symbol
-			Third:  "eq",    // shortName
-			Fourth: "true",  // isEqual
-			Fifth:  "true",  // isValid
+		ExpectedInput: args.Map{
+			"name":      "Equal",
+			"symbol":    "=",
+			"shortName": "eq",
+			"isEqual":   true,
+			"isValid":   true,
 		},
 	},
 	{
@@ -26,12 +26,12 @@ var compareStringTestCases = []coretestcases.CaseV1{
 			"when":  "given LeftGreater compare",
 			"value": 1,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "LeftGreater", // name
-			Second: ">",           // symbol
-			Third:  "gt",          // shortName
-			Fourth: "false",       // isEqual
-			Fifth:  "true",        // isValid
+		ExpectedInput: args.Map{
+			"name":      "LeftGreater",
+			"symbol":    ">",
+			"shortName": "gt",
+			"isEqual":   false,
+			"isValid":   true,
 		},
 	},
 	{
@@ -40,12 +40,12 @@ var compareStringTestCases = []coretestcases.CaseV1{
 			"when":  "given Inconclusive compare",
 			"value": 6,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "Inconclusive", // name
-			Second: "?!",           // symbol
-			Third:  "i",            // shortName
-			Fourth: "false",        // isEqual
-			Fifth:  "false",        // isValid
+		ExpectedInput: args.Map{
+			"name":      "Inconclusive",
+			"symbol":    "?!",
+			"shortName": "i",
+			"isEqual":   false,
+			"isValid":   false,
 		},
 	},
 }
