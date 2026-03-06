@@ -51,23 +51,27 @@ var expectedLinesTestCases = []coretestcases.CaseV1{
 	},
 }
 
-// expectedLinesExpectedOutputs maps each test case index to its expected
-// output lines expressed as args.Map with lineCount + indexed keys.
+// expectedLinesExpectedOutputs holds the expected output for each test case
+// as args.Map with lineCount + indexed line keys.
 var expectedLinesExpectedOutputs = []args.Map{
-	// int → ["42"]
 	{"lineCount": "1", "line0": "42"},
-	// bool true → ["true"]
 	{"lineCount": "1", "line0": "true"},
-	// bool false → ["false"]
 	{"lineCount": "1", "line0": "false"},
-	// []int → ["10","20","30"]
 	{"lineCount": "3", "line0": "10", "line1": "20", "line2": "30"},
-	// []bool → ["true","false","true"]
 	{"lineCount": "3", "line0": "true", "line1": "false", "line2": "true"},
-	// string → ["hello"]
 	{"lineCount": "1", "line0": "hello"},
-	// []string → ["a","b","c"]
 	{"lineCount": "3", "line0": "a", "line1": "b", "line2": "c"},
-	// map[string]int → sorted key : value lines
 	{"lineCount": "2", "line0": "age : 30", "line1": "count : 5"},
+}
+
+// expectedLinesVerificationCases are CaseV1 instances used for ShouldBeEqualMap assertion.
+var expectedLinesVerificationCases = []coretestcases.CaseV1{
+	{Title: "ExpectedLines converts int to string", ExpectedInput: expectedLinesExpectedOutputs[0]},
+	{Title: "ExpectedLines converts bool true", ExpectedInput: expectedLinesExpectedOutputs[1]},
+	{Title: "ExpectedLines converts bool false", ExpectedInput: expectedLinesExpectedOutputs[2]},
+	{Title: "ExpectedLines converts []int slice", ExpectedInput: expectedLinesExpectedOutputs[3]},
+	{Title: "ExpectedLines converts []bool slice", ExpectedInput: expectedLinesExpectedOutputs[4]},
+	{Title: "ExpectedLines wraps string into slice", ExpectedInput: expectedLinesExpectedOutputs[5]},
+	{Title: "ExpectedLines returns []string as-is", ExpectedInput: expectedLinesExpectedOutputs[6]},
+	{Title: "ExpectedLines converts map[string]int sorted", ExpectedInput: expectedLinesExpectedOutputs[7]},
 }

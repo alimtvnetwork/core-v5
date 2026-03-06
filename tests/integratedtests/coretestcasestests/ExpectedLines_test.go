@@ -5,14 +5,12 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_CaseV1_ExpectedLines_Verification(t *testing.T) {
 	for caseIndex, tc := range expectedLinesTestCases {
 		// Arrange — ExpectedInput varies by type (int, bool, []int, etc.)
-		expected := expectedLinesExpectedOutputs[caseIndex]
+		expectedOutput := expectedLinesExpectedOutputs[caseIndex]
 
 		// Act
 		actLines := tc.ExpectedLines()
@@ -25,11 +23,10 @@ func Test_CaseV1_ExpectedLines_Verification(t *testing.T) {
 			actual[fmt.Sprintf("line%d", i)] = line
 		}
 
-		// Assert
-		verifyCase := coretestcases.CaseV1{
-			Title:         tc.Title,
-			ExpectedInput: expected,
-		}
-		errcore.AssertMapDiffOnMismatch(t, caseIndex, verifyCase.Title, actual, expected)
+		// Assert — use a verification CaseV1 with expected output as ExpectedInput
+		verifyCaseV1 := expectedLinesVerificationCases[caseIndex]
+		verifyCaseV1.ShouldBeEqualMap(t, caseIndex, actual)
+
+		_ = expectedOutput // referenced via verifyCaseV1
 	}
 }
