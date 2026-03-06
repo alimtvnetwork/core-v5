@@ -6,9 +6,9 @@
 
 | Category | Count | % of Total |
 |----------|-------|------------|
-| ✅ Migrated to `args.Map` | **27 files** | 20.1% |
-| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **38 files** | 27.5% |
-| 🔴 Using `[]string` | **46 files** | 33.3% |
+| ✅ Migrated to `args.Map` | **39 files** | 28.3% |
+| 🔶 Using `args.Two`–`args.Six` (typed tuples) | **32 files** | 23.2% |
+| 🔴 Using `[]string` | **40 files** | 29.0% |
 | 🟡 Using plain `string` / other | **27 files** | 19.6% |
 | **Total testcase files** | **~138** | — |
 
@@ -16,7 +16,7 @@
 
 ---
 
-## ✅ Fully Migrated to `args.Map` (27 files)
+## ✅ Fully Migrated to `args.Map` (39 files)
 
 | Package | File | Notes |
 |---------|------|-------|
@@ -24,6 +24,16 @@
 | `chmodhelpertests` | `PartialRwxVerify_testcases.go` | Simple boolean expectations |
 | `coredynamictests` | `MapAnyItems_testcases.go` | 4 named test cases |
 | `coredynamictests` | `MapAnyItemsEdge_testcases.go` | 19 named test cases |
+| `coregenerictests` | `Collection_testcases.go` | Collection operations |
+| `coregenerictests` | `CollectionEdgeCases_testcases.go` | Edge cases with semantic keys |
+| `coregenerictests` | `duplicateEdgeCases_testcases.go` | Distinct/duplicate operations |
+| `coregenerictests` | `orderedfuncs_testcases.go` | Clamp/MinMax operations |
+| `coregenerictests` | `PointerSliceSorter_testcases.go` | Mixed: args.Map + ordered []string |
+| `coreinstructiontests` | `Identifier_testcases.go` | Identifiers, Specs, BaseTags |
+| `coreinstructiontests` | `IdentifiersWithGlobals_testcases.go` | WithGlobals CRUD operations |
+| `coreinstructiontests` | `FromTo_testcases.go` | Already migrated |
+| `coreinstructiontests` | `StringCompare_testcases.go` | Already migrated |
+| `coreinstructiontests` | `StringSearch_testcases.go` | Already migrated |
 | `coreoncetests` | `IntegerOnce_testcases.go` | 4 test case arrays |
 | `coreoncetests` | `StringOnce_testcases.go` | 5 test case arrays |
 | `coreoncetests` | `BoolOnce_testcases.go` | 3 test case arrays |
@@ -48,6 +58,9 @@
 | `coreversiontests` | `Comparison_testcases.go` | Version comparison |
 | `coreversiontests` | `Parse_testcases.go` | Version parsing |
 | `coreversiontests` | `String_testcases.go` | Version string output |
+| `namevaluetests` | `Collection_testcases.go` | Collection CRUD operations |
+| `namevaluetests` | `Instance_testcases.go` | Instance formatting/dispose |
+| `coresorttests` | `Sort_testcases.go` | Plain string expectations |
 | `pagingutiltests` | `Paging_testcases.go` | Paging calculations |
 
 ---
@@ -75,8 +88,6 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 | `coregenerictests` | `comparablefuncs_testcases.go` | `args.Two` |
 | `corejsontests` | `New_NewPtr_testcases.go` | `args.Two` |
 | `corejsontests` | `Result_Unmarshal_testcases.go` | `args.Two`/`args.Three` |
-| `coreinstructiontests` | `StringSearch_testcases.go` | `args.Two` |
-| `coreinstructiontests` | `FromTo_testcases.go` | `args.Two` |
 | `corestrtests` | `Collection_testcases.go` | `args.Two` |
 | `corestrtests` | `Hashmap_testcases.go` | `args.Two` |
 | `corestrtests` | `Hashset_testcases.go` | `args.Two` |
@@ -84,8 +95,6 @@ These use positional typed tuples — better than `[]string` but lack semantic k
 | `iserrortests` | `iserror_testcases.go` | `args.Two`/`args.Three` |
 | `keymktests` | `KeyLegend_testcases.go` | `args.Two` |
 | `keymktests` | `Key_testcases.go` | `args.Two` |
-| `namevaluetests` | `Collection_testcases.go` | `args.Two`/`args.Three` |
-| `namevaluetests` | `Instance_testcases.go` | `args.Two` |
 | `regexnewtests` | `LazyRegex_testcases.go` | `args.Two` |
 | `regexnewtests` | `LazyRegex_Methods_testcases.go` | `args.Two` |
 | `simplewraptests` | `Wrapper_testcases.go` | `args.Two` |
@@ -109,7 +118,6 @@ These use raw `[]string` slices with positional semantics. **Highest priority fo
 |---------|------|--------|------------|
 | `defaulterrtests` | `DefaultErr_testcases.go` | 2 booleans × 11 cases | 🟢 Easy |
 | `issettertests` | `Value_testcases.go` | 2–8 booleans | 🟡 Medium |
-| `coregenerictests` | `CollectionEdgeCases_testcases.go` | 1–4 values × 25 cases | 🟡 Medium |
 | `coregenerictests` | `funcs_testcases.go` | 1–3 values × 10 cases | 🟢 Easy |
 | `enumimpltests` | `BasicEnum_testcases.go` | 2–3 values | 🟢 Easy |
 | `reqtypetests` | `Type_testcases.go` | 1–2 values | 🟢 Easy |
@@ -131,9 +139,6 @@ These use raw `[]string` slices with positional semantics. **Highest priority fo
 | `corestrtests` | `LeftMiddleRightFromSplit_testcases.go` | 4 values × 7 cases | 🟡 Medium |
 | `corestrtests` | `BugfixRegression_testcases.go` | 1–2 values | 🟢 Easy |
 | `corestrtests` | `SimpleSlice_testcases.go` | 1–3 values | 🟢 Easy |
-| `coresorttests` | `Sort_testcases.go` | 1 value | 🟢 Easy |
-| `coreinstructiontests` | `Identifier_testcases.go` | 3–5 values × 10 cases | 🟡 Medium |
-| `coreinstructiontests` | `IdentifiersWithGlobals_testcases.go` | 3–5 values | 🟡 Medium |
 | `codefuncstests` | `GetFuncName_testcases.go` | 1 value | 🟢 Easy |
 | `coreutilstests` | `StringUtil_testcases.go` | 1–2 values | 🟢 Easy |
 | `coretestcasestests` | `GenericGherkins_testcases.go` | 1–2 values | 🟢 Easy |
@@ -170,9 +175,9 @@ Single-value expectations stored as bare strings or other simple types. **Low pr
 ## Migration Progress
 
 ```
-Migrated ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
-Tuples   █████░░░░░░░░░░░░░░░  38/138 (27.5%)
-[]string ███████░░░░░░░░░░░░░  46/138 (33.3%)
+Migrated ██████░░░░░░░░░░░░░░  39/138 (28.3%)
+Tuples   █████░░░░░░░░░░░░░░░  32/138 (23.2%)
+[]string ██████░░░░░░░░░░░░░░  40/138 (29.0%)
 Other    ████░░░░░░░░░░░░░░░░  27/138 (19.6%)
 ```
 
@@ -180,6 +185,7 @@ Other    ████░░░░░░░░░░░░░░░░  27/138 (1
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | +12 migrated: `coregenerictests` (5), `coreinstructiontests` (2), `namevaluetests` (2), `coresorttests` (1), `coreuniquetests` (1), `PointerSliceSorter` (1) — total 39 |
 | 2026-03-06 | Fixed counts: tuples 36→38, `[]string` 50→46, total ~138. Renamed Waves to Batches/Priorities |
 | 2026-03-06 | +8 migrated (`MapAnyItems*`, 6 new `coreoncetests`) — total 27 |
 | 2026-03-06 | Split `[]string` into 31 actionable files with difficulty ratings |
@@ -190,13 +196,13 @@ Other    ████░░░░░░░░░░░░░░░░  27/138 (1
 
 ## Migration Priority
 
-### Priority 1 — `[]string` Quick Wins (🟢 Easy, 20 files)
+### Priority 1 — `[]string` Quick Wins (🟢 Easy, 17 files)
 All single/dual-boolean or 1–3 value expectations. Estimated: ~1 hour total.
 
-### Priority 2 — `[]string` Medium (🟡 Medium, 11 files)
+### Priority 2 — `[]string` Medium (🟡 Medium, 8 files)
 Multi-field structs or 4+ positional values. Estimated: ~2 hours total.
 
-### Priority 3 — Typed Tuples → `args.Map` (38 files)
+### Priority 3 — Typed Tuples → `args.Map` (32 files)
 `args.Two`–`args.Six` → `args.Map` with semantic keys. Higher effort but significant diagnostic improvement.
 
 ### Keep As-Is (15 files)
