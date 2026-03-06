@@ -108,7 +108,11 @@ func Test_Variant(t *testing.T) {
 **Key methods:**
 - `args.Map.CompileToStrings()` — sorted `"key : value"` lines using `%v` format
 - `CaseV1.ShouldBeEqualMap(t, idx, actual)` — compiles both maps and compares
+- `CaseV1.ShouldBeEqualMapFirst(t, actual)` — convenience for non-looping tests (hardcodes `caseIndex=0`)
+- `CaseV1.ShouldBeEqualFirst(t, values...)` — convenience for non-looping positional tests
 - `CaseV1.ExpectedAsMap()` — type-asserts `ExpectedInput` to `args.Map`
+
+> **Migration status:** 39 of ~138 testcase files (28.3%) now use `args.Map`. See [migration tracker](../13-app-issues/testing/05-args-map-migration-status.md).
 
 ## Best Patterns Observed
 
