@@ -1,9 +1,9 @@
 package coregenerictests
 
 import (
-	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coredata/coregeneric"
 )
 
