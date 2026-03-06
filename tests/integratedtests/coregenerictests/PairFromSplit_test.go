@@ -1,7 +1,6 @@
 package coregenerictests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
@@ -28,15 +27,15 @@ func Test_PairFromSplit(t *testing.T) {
 
 		// Act
 		pair := coregeneric.PairFromSplit(inputStr, sep)
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"left":    pair.Left,
+			"right":   pair.Right,
+			"isValid": pair.IsValid,
+			"message": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -59,15 +58,15 @@ func Test_PairFromSplitTrimmed(t *testing.T) {
 
 		// Act
 		pair := coregeneric.PairFromSplitTrimmed(inputStr, sep)
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"left":    pair.Left,
+			"right":   pair.Right,
+			"isValid": pair.IsValid,
+			"message": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -90,15 +89,15 @@ func Test_PairFromSplitFull(t *testing.T) {
 
 		// Act
 		pair := coregeneric.PairFromSplitFull(inputStr, sep)
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"left":    pair.Left,
+			"right":   pair.Right,
+			"isValid": pair.IsValid,
+			"message": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -121,15 +120,15 @@ func Test_PairFromSplitFullTrimmed(t *testing.T) {
 
 		// Act
 		pair := coregeneric.PairFromSplitFullTrimmed(inputStr, sep)
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"left":    pair.Left,
+			"right":   pair.Right,
+			"isValid": pair.IsValid,
+			"message": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -148,14 +147,14 @@ func Test_PairFromSlice(t *testing.T) {
 
 		// Act
 		pair := coregeneric.PairFromSlice(parts)
-		actLines := []string{
-			pair.Left,
-			pair.Right,
-			fmt.Sprintf("%v", pair.IsValid),
-			pair.Message,
+		actual := args.Map{
+			"left":    pair.Left,
+			"right":   pair.Right,
+			"isValid": pair.IsValid,
+			"message": pair.Message,
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
