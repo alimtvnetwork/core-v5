@@ -12,7 +12,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking Marshalling error",
 			"error": "Marshalling",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "UnMarshalling error is not nil",
@@ -20,7 +20,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking UnMarshalling error",
 			"error": "UnMarshalling",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "OutOfRange error is not nil",
@@ -28,7 +28,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking OutOfRange error",
 			"error": "OutOfRange",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "CannotProcessNilOrEmpty error is not nil",
@@ -36,7 +36,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking CannotProcessNilOrEmpty error",
 			"error": "CannotProcessNilOrEmpty",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "NegativeDataCannotProcess error is not nil",
@@ -44,7 +44,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking NegativeDataCannotProcess error",
 			"error": "NegativeDataCannotProcess",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "NilResult error is not nil",
@@ -52,7 +52,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking NilResult error",
 			"error": "NilResult",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "UnexpectedValue error is not nil",
@@ -60,7 +60,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking UnexpectedValue error",
 			"error": "UnexpectedValue",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "CannotRemoveFromEmptyCollection error is not nil",
@@ -68,7 +68,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking CannotRemoveFromEmptyCollection error",
 			"error": "CannotRemoveFromEmptyCollection",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "MarshallingFailedDueToNilOrEmpty error is not nil",
@@ -76,7 +76,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking MarshallingFailedDueToNilOrEmpty error",
 			"error": "MarshallingFailedDueToNilOrEmpty",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "UnmarshallingFailedDueToNilOrEmpty error is not nil",
@@ -84,7 +84,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking UnmarshallingFailedDueToNilOrEmpty error",
 			"error": "UnmarshallingFailedDueToNilOrEmpty",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
 		Title: "KeyNotExistInMap error is not nil",
@@ -92,6 +92,6 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 			"when":  "checking KeyNotExistInMap error",
 			"error": "KeyNotExistInMap",
 		},
-		ExpectedInput: []string{"true", "true"},
+		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 }
