@@ -102,6 +102,12 @@ func Test_LeftRight_TypeStatus_Verification(t *testing.T) {
 	for caseIndex, tc := range leftRightTypeStatusTestCases {
 		status := tc.LR.TypeStatus()
 
-		tc.Case.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", status != nil))
+		actual := args.Map{
+			"isSame":             fmt.Sprintf("%v", status.IsSame),
+			"isLeftUnknownNull":  fmt.Sprintf("%v", status.IsLeftUnknownNull),
+			"isRightUnknownNull": fmt.Sprintf("%v", status.IsRightUnknownNull),
+		}
+
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
