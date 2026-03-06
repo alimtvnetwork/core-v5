@@ -18,11 +18,11 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       true,
 			"additionalCap": 5,
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "2",    // resultLength
-			Second: "a",    // item0
-			Third:  "b",    // item1
-			Fourth: "true", // isIndependentCopy
+		ExpectedInput: args.Map{
+			"resultLength":    "2",
+			"item0":           "a",
+			"item1":           "b",
+			"isIndependentCopy": "true",
 		},
 	},
 	{
@@ -33,11 +33,11 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       false,
 			"additionalCap": 0,
 		},
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "2",     // resultLength
-			Second: "x",     // item0
-			Third:  "y",     // item1
-			Fourth: "false", // isIndependentCopy
+		ExpectedInput: args.Map{
+			"resultLength":    "2",
+			"item0":           "x",
+			"item1":           "y",
+			"isIndependentCopy": "false",
 		},
 	},
 	{
@@ -48,9 +48,9 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       false,
 			"additionalCap": 0,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "0",     // resultLength
-			Second: "false", // isIndependentCopy
+		ExpectedInput: args.Map{
+			"resultLength":    "0",
+			"isIndependentCopy": "false",
 		},
 	},
 	{
@@ -61,9 +61,9 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       true,
 			"additionalCap": 3,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "0",    // resultLength
-			Second: "true", // isIndependentCopy
+		ExpectedInput: args.Map{
+			"resultLength":    "0",
+			"isIndependentCopy": "true",
 		},
 	},
 }
@@ -81,12 +81,12 @@ var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       true,
 			"additionalCap": 2,
 		},
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "3",    // resultLength
-			Second: "a",    // item0
-			Third:  "1",    // item1
-			Fourth: "true", // item2
-			Fifth:  "true", // isIndependentCopy
+		ExpectedInput: args.Map{
+			"resultLength":    "3",
+			"item0":           "a",
+			"item1":           "1",
+			"item2":           "true",
+			"isIndependentCopy": "true",
 		},
 	},
 	{
@@ -97,10 +97,10 @@ var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 			"isClone":       false,
 			"additionalCap": 0,
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "1",     // resultLength
-			Second: "x",     // item0
-			Third:  "false", // isIndependentCopy
+		ExpectedInput: args.Map{
+			"resultLength":    "1",
+			"item0":           "x",
+			"isIndependentCopy": "false",
 		},
 	},
 }

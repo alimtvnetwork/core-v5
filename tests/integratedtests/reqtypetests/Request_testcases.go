@@ -7,206 +7,206 @@ import (
 )
 
 // requestIdentityTestCases
-// Expected order: name, isValid, isInvalid
+// Expected: name, isValid, isInvalid
 var requestIdentityTestCases = []coretestcases.CaseV1{
 	{
 		Title:        "Invalid request identity",
 		ArrangeInput: reqtype.Invalid,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Invalid", // name
-			Second: "false",   // isValid
-			Third:  "true",    // isInvalid
+		ExpectedInput: args.Map{
+			"name":      "Invalid",
+			"isValid":   "false",
+			"isInvalid": "true",
 		},
 	},
 	{
 		Title:        "Create request identity",
 		ArrangeInput: reqtype.Create,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Create", // name
-			Second: "true",   // isValid
-			Third:  "false",  // isInvalid
+		ExpectedInput: args.Map{
+			"name":      "Create",
+			"isValid":   "true",
+			"isInvalid": "false",
 		},
 	},
 	{
 		Title:        "Read request identity",
 		ArrangeInput: reqtype.Read,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Read",  // name
-			Second: "true",  // isValid
-			Third:  "false", // isInvalid
+		ExpectedInput: args.Map{
+			"name":      "Read",
+			"isValid":   "true",
+			"isInvalid": "false",
 		},
 	},
 	{
 		Title:        "Update request identity",
 		ArrangeInput: reqtype.Update,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Update", // name
-			Second: "true",   // isValid
-			Third:  "false",  // isInvalid
+		ExpectedInput: args.Map{
+			"name":      "Update",
+			"isValid":   "true",
+			"isInvalid": "false",
 		},
 	},
 	{
 		Title:        "Delete request identity",
 		ArrangeInput: reqtype.Delete,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Delete", // name
-			Second: "true",   // isValid
-			Third:  "false",  // isInvalid
+		ExpectedInput: args.Map{
+			"name":      "Delete",
+			"isValid":   "true",
+			"isInvalid": "false",
 		},
 	},
 	{
 		Title:        "Drop request identity",
 		ArrangeInput: reqtype.Drop,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Drop",  // name
-			Second: "true",  // isValid
-			Third:  "false", // isInvalid
+		ExpectedInput: args.Map{
+			"name":      "Drop",
+			"isValid":   "true",
+			"isInvalid": "false",
 		},
 	},
 }
 
 // requestLogicalGroupTestCases
-// Expected order: isCreateLogically, isDropLogically, isCrudOnly, isReadOrEdit
+// Expected: isCreateLogically, isDropLogically, isCrudOnly, isReadOrEdit
 var requestLogicalGroupTestCases = []coretestcases.CaseV1{
 	{
 		Title:        "Create is logically a create operation",
 		ArrangeInput: reqtype.Create,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "true",  // isCreateLogically
-			Second: "false", // isDropLogically
-			Third:  "true",  // isCrudOnly
-			Fourth: "false", // isReadOrEdit
+		ExpectedInput: args.Map{
+			"isCreateLogically": "true",
+			"isDropLogically":   "false",
+			"isCrudOnly":        "true",
+			"isReadOrEdit":      "false",
 		},
 	},
 	{
 		Title:        "Read is logically a read/edit operation",
 		ArrangeInput: reqtype.Read,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isCreateLogically
-			Second: "false", // isDropLogically
-			Third:  "true",  // isCrudOnly
-			Fourth: "true",  // isReadOrEdit
+		ExpectedInput: args.Map{
+			"isCreateLogically": "false",
+			"isDropLogically":   "false",
+			"isCrudOnly":        "true",
+			"isReadOrEdit":      "true",
 		},
 	},
 	{
 		Title:        "Update is logically a read/edit and CRUD operation",
 		ArrangeInput: reqtype.Update,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isCreateLogically
-			Second: "false", // isDropLogically
-			Third:  "true",  // isCrudOnly
-			Fourth: "true",  // isReadOrEdit
+		ExpectedInput: args.Map{
+			"isCreateLogically": "false",
+			"isDropLogically":   "false",
+			"isCrudOnly":        "true",
+			"isReadOrEdit":      "true",
 		},
 	},
 	{
 		Title:        "Delete is logically a CRUD operation",
 		ArrangeInput: reqtype.Delete,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isCreateLogically
-			Second: "false", // isDropLogically
-			Third:  "true",  // isCrudOnly
-			Fourth: "false", // isReadOrEdit
+		ExpectedInput: args.Map{
+			"isCreateLogically": "false",
+			"isDropLogically":   "false",
+			"isCrudOnly":        "true",
+			"isReadOrEdit":      "false",
 		},
 	},
 	{
 		Title:        "Drop is logically a drop operation",
 		ArrangeInput: reqtype.Drop,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isCreateLogically
-			Second: "true",  // isDropLogically
-			Third:  "false", // isCrudOnly
-			Fourth: "false", // isReadOrEdit
+		ExpectedInput: args.Map{
+			"isCreateLogically": "false",
+			"isDropLogically":   "true",
+			"isCrudOnly":        "false",
+			"isReadOrEdit":      "false",
 		},
 	},
 	{
 		Title:        "CreateOrUpdate is logically a create operation",
 		ArrangeInput: reqtype.CreateOrUpdate,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "true",  // isCreateLogically
-			Second: "false", // isDropLogically
-			Third:  "false", // isCrudOnly
-			Fourth: "false", // isReadOrEdit
+		ExpectedInput: args.Map{
+			"isCreateLogically": "true",
+			"isDropLogically":   "false",
+			"isCrudOnly":        "false",
+			"isReadOrEdit":      "false",
 		},
 	},
 	{
 		Title:        "Append is not a CRUD operation",
 		ArrangeInput: reqtype.Append,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isCreateLogically
-			Second: "false", // isDropLogically
-			Third:  "false", // isCrudOnly
-			Fourth: "false", // isReadOrEdit
+		ExpectedInput: args.Map{
+			"isCreateLogically": "false",
+			"isDropLogically":   "false",
+			"isCrudOnly":        "false",
+			"isReadOrEdit":      "false",
 		},
 	},
 }
 
 // requestHttpTestCases
-// Expected order: isGet, isPost, isPut, isDelete, isPatch
+// Expected: isGet, isPost, isPut, isDelete, isPatch
 var requestHttpTestCases = []coretestcases.CaseV1{
 	{
 		Title:        "GetHttp matches only GET",
 		ArrangeInput: reqtype.GetHttp,
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "true",  // isGet
-			Second: "false", // isPost
-			Third:  "false", // isPut
-			Fourth: "false", // isDelete
-			Fifth:  "false", // isPatch
+		ExpectedInput: args.Map{
+			"isGet":    "true",
+			"isPost":   "false",
+			"isPut":    "false",
+			"isDelete": "false",
+			"isPatch":  "false",
 		},
 	},
 	{
 		Title:        "PostHttp matches only POST",
 		ArrangeInput: reqtype.PostHttp,
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "false", // isGet
-			Second: "true",  // isPost
-			Third:  "false", // isPut
-			Fourth: "false", // isDelete
-			Fifth:  "false", // isPatch
+		ExpectedInput: args.Map{
+			"isGet":    "false",
+			"isPost":   "true",
+			"isPut":    "false",
+			"isDelete": "false",
+			"isPatch":  "false",
 		},
 	},
 	{
 		Title:        "PutHttp matches only PUT",
 		ArrangeInput: reqtype.PutHttp,
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "false", // isGet
-			Second: "false", // isPost
-			Third:  "true",  // isPut
-			Fourth: "false", // isDelete
-			Fifth:  "false", // isPatch
+		ExpectedInput: args.Map{
+			"isGet":    "false",
+			"isPost":   "false",
+			"isPut":    "true",
+			"isDelete": "false",
+			"isPatch":  "false",
 		},
 	},
 	{
 		Title:        "DeleteHttp matches only DELETE",
 		ArrangeInput: reqtype.DeleteHttp,
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "false", // isGet
-			Second: "false", // isPost
-			Third:  "false", // isPut
-			Fourth: "true",  // isDelete
-			Fifth:  "false", // isPatch
+		ExpectedInput: args.Map{
+			"isGet":    "false",
+			"isPost":   "false",
+			"isPut":    "false",
+			"isDelete": "true",
+			"isPatch":  "false",
 		},
 	},
 	{
 		Title:        "PatchHttp matches only PATCH",
 		ArrangeInput: reqtype.PatchHttp,
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "false", // isGet
-			Second: "false", // isPost
-			Third:  "false", // isPut
-			Fourth: "false", // isDelete
-			Fifth:  "true",  // isPatch
+		ExpectedInput: args.Map{
+			"isGet":    "false",
+			"isPost":   "false",
+			"isPut":    "false",
+			"isDelete": "false",
+			"isPatch":  "true",
 		},
 	},
 	{
 		Title:        "Create is not an HTTP method",
 		ArrangeInput: reqtype.Create,
-		ExpectedInput: args.Five[string, string, string, string, string]{
-			First:  "false", // isGet
-			Second: "false", // isPost
-			Third:  "false", // isPut
-			Fourth: "false", // isDelete
-			Fifth:  "false", // isPatch
+		ExpectedInput: args.Map{
+			"isGet":    "false",
+			"isPost":   "false",
+			"isPut":    "false",
+			"isDelete": "false",
+			"isPatch":  "false",
 		},
 	},
 }

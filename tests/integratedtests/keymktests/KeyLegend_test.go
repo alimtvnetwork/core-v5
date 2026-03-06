@@ -28,12 +28,14 @@ func Test_KeyLegend_GroupIntRange_Verification(t *testing.T) {
 		)
 		result := k.GroupIntRange(startId, endId)
 
+		actual := args.Map{
+			"count":    fmt.Sprintf("%d", len(result)),
+			"firstKey": result[0],
+			"lastKey":  result[len(result)-1],
+		}
+
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", len(result)),
-			result[0],
-			result[len(result)-1],
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

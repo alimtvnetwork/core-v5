@@ -24,10 +24,10 @@ var emptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil error",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "true",  // isEmpty
-			Second: "false", // isDefined
-			Third:  "false", // isNotEmpty
+		ExpectedInput: args.Map{
+			"isEmpty":    "true",
+			"isDefined":  "false",
+			"isNotEmpty": "false",
 		},
 	},
 	{
@@ -35,10 +35,10 @@ var emptyTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given non-nil error",
 		},
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "false", // isEmpty
-			Second: "true",  // isDefined
-			Third:  "true",  // isNotEmpty
+		ExpectedInput: args.Map{
+			"isEmpty":    "false",
+			"isDefined":  "true",
+			"isNotEmpty": "true",
 		},
 	},
 }
@@ -53,9 +53,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given same error on both sides",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isEqual
-			Second: "false", // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "true",
+			"isNotEqual": "false",
 		},
 	},
 	{
@@ -63,9 +63,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given both nil",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isEqual
-			Second: "false", // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "true",
+			"isNotEqual": "false",
 		},
 	},
 	{
@@ -73,9 +73,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil vs non-nil",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isEqual
-			Second: "true",  // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "false",
+			"isNotEqual": "true",
 		},
 	},
 	{
@@ -83,9 +83,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given same message different instances",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isEqual
-			Second: "false", // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "true",
+			"isNotEqual": "false",
 		},
 	},
 	{
@@ -93,9 +93,9 @@ var equalTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given different messages",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isEqual
-			Second: "true",  // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "false",
+			"isNotEqual": "true",
 		},
 	},
 }
@@ -216,9 +216,9 @@ var equalStringTestCases = []coretestcases.CaseV1{
 			"left":  "hello",
 			"right": "hello",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isEqual
-			Second: "false", // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "true",
+			"isNotEqual": "false",
 		},
 	},
 	{
@@ -228,9 +228,9 @@ var equalStringTestCases = []coretestcases.CaseV1{
 			"left":  "hello",
 			"right": "world",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "false", // isEqual
-			Second: "true",  // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "false",
+			"isNotEqual": "true",
 		},
 	},
 	{
@@ -240,9 +240,9 @@ var equalStringTestCases = []coretestcases.CaseV1{
 			"left":  "",
 			"right": "",
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "true",  // isEqual
-			Second: "false", // isNotEqual
+		ExpectedInput: args.Map{
+			"isEqual":    "true",
+			"isNotEqual": "false",
 		},
 	},
 }

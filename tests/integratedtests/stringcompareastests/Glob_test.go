@@ -21,13 +21,13 @@ func Test_Glob_Match_Verification(t *testing.T) {
 		isGlobMatch := stringcompareas.Glob.IsCompareSuccess(isIgnoreCase, content, pattern)
 		isNonGlobMatch := stringcompareas.NonGlob.IsCompareSuccess(isIgnoreCase, content, pattern)
 
+		actual := args.Map{
+			"isMatch":   fmt.Sprintf("%v", isGlobMatch),
+			"isInverse": fmt.Sprintf("%v", isNonGlobMatch),
+		}
+
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", isGlobMatch),
-			fmt.Sprintf("%v", isNonGlobMatch),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
