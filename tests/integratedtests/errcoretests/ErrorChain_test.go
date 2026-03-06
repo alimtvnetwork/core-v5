@@ -3,7 +3,6 @@ package errcoretests
 import (
 	"errors"
 	"fmt"
-	"io"
 	"os"
 	"testing"
 
@@ -101,7 +100,7 @@ func Test_ConcatMessageWithErr_ErrorsAs_Verification(t *testing.T) {
 		// Assert
 		var pathErr *os.PathError
 		actual := args.Map{
-			"hasError":   fmt.Sprintf("%v", merged != nil),
+			"hasError":   fmt.Sprintf("%v", wrapped != nil),
 			"errorsAsOk": fmt.Sprintf("%v", errors.As(wrapped, &pathErr)),
 		}
 
