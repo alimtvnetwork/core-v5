@@ -272,4 +272,6 @@ Retained for backward compatibility — use generic equivalents or typed wrapper
 ## Related Docs
 
 - [Typed Wrappers Reference](./typed-wrappers.md)
+- [Migration Guide](./migration-guide.md) — How to update from deprecated per-type functions
+- [Deprecation Removal Plan](./deprecation-removal-plan.md) — Next major version cleanup
 - [Repo Overview](../spec/01-app/00-repo-overview.md)
