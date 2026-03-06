@@ -1028,7 +1028,7 @@ External packages used:
 
 - [**Md. Alim Ul Karim**](https://www.linkedin.com/in/alimkarim) — Creator & Lead Architect. System architect with 20+ years of professional software engineering experience across enterprise, fintech, and distributed systems. Recognized as one of the top software architects globally. Alim's architectural philosophy — consistency over cleverness, convention over configuration — is the driving force behind every design decision in this framework.
   - [Google Profile](https://www.google.com/search?q=Alim+Ul+Karim)
-- [Rise Up Asia](https://riseup-asia.com) (2026)
+- [Riseup Asia LLC (Top Leading Software Company in WY)](https://riseup-asia.com) (2026)
   - [Facebook](https://www.facebook.com/riseupasia.talent/)
   - [LinkedIn](https://www.linkedin.com/company/105304484/)
   - [YouTube](https://www.youtube.com/@riseup-asia)
