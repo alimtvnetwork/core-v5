@@ -214,6 +214,26 @@ Added **30 test cases** across 4 new files covering all split constructors:
 
 ## Remaining Work
 
+### Error Handling Modernization ✅ COMPLETE
+
+Adopted `errors.Join`, `errors.Is`/`errors.As`, and `fmt.Errorf` with `%w` across `errcore/`:
+
+| Function | Change |
+|----------|--------|
+| `MergeErrors` | `errors.Join` — preserves error chain |
+| `ManyErrorToSingle` | `errors.Join` — preserves error chain |
+| `ManyErrorToSingleDirect` | `errors.Join` — preserves error chain |
+| `ConcatMessageWithErr` | `fmt.Errorf("%s %w")` — wraps with context |
+| `ConcatMessageWithErrWithStackTrace` | `fmt.Errorf` with `%w` — wraps with traces |
+| `CompiledError` | `fmt.Errorf` with `%w` — wraps main error |
+| `RawErrCollection.CompiledError()` | `errors.Join` — preserves all collected errors |
+| `RawErrorType.MergeError` | `fmt.Errorf` with `%w` — preserves original |
+| `RawErrorType.MergeErrorWithMessage` | `fmt.Errorf` with `%w` — preserves original |
+| `RawErrorType.MergeErrorWithMessageRef` | `fmt.Errorf` with `%w` — preserves original |
+| `RawErrorType.MergeErrorWithRef` | `fmt.Errorf` with `%w` — preserves original |
+| New: `JoinErrors` | Convenience alias for `errors.Join` |
+
+
 ### `interface{}` → `any` Migration ✅ COMPLETE
 
 All `interface{}` references have been migrated to `any` across the entire codebase — zero matches remain.
