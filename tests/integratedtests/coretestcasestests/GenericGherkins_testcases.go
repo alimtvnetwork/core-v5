@@ -36,9 +36,7 @@ var compareWithEqualTestCase = coretestcases.StringBoolGherkins{
 			Title: "same",
 			Input: "hello",
 		},
-	},
-	ExpectedLines: []string{
-		"",
+		"expectedDiff": "",
 	},
 }
 
@@ -57,9 +55,7 @@ var compareWithDiffTitleTestCase = coretestcases.StringBoolGherkins{
 			Title: "B",
 			Input: "hello",
 		},
-	},
-	ExpectedLines: []string{
-		`Title: "A" != "B"`,
+		"expectedDiff": `Title: "A" != "B"`,
 	},
 }
 
@@ -78,9 +74,7 @@ var compareWithDiffInputTestCase = coretestcases.StringBoolGherkins{
 			Title: "same",
 			Input: "beta",
 		},
-	},
-	ExpectedLines: []string{
-		"Input: alpha != beta",
+		"expectedDiff": "Input: alpha != beta",
 	},
 }
 
@@ -91,10 +85,8 @@ var compareWithBothNilTestCase = coretestcases.StringBoolGherkins{
 	When:     "both pointers are nil",
 	Expected: true,
 	ExtraArgs: args.Map{
-		"bothNil": true,
-	},
-	ExpectedLines: []string{
-		"",
+		"bothNil":      true,
+		"expectedDiff": "",
 	},
 }
 
@@ -105,10 +97,8 @@ var compareWithOneNilTestCase = coretestcases.StringBoolGherkins{
 	When:     "only one pointer is nil",
 	Expected: false,
 	ExtraArgs: args.Map{
-		"a": &coretestcases.StringBoolGherkins{Title: "exists"},
-	},
-	ExpectedLines: []string{
-		"one side is nil",
+		"a":            &coretestcases.StringBoolGherkins{Title: "exists"},
+		"expectedDiff": "one side is nil",
 	},
 }
 
@@ -130,25 +120,24 @@ var fullStringBasicTestCase = coretestcases.StringBoolGherkins{
 			Actual:     false,
 			IsMatching: true,
 		},
-	},
-	ExpectedLines: []string{
-		"Title:      FullString includes all fields",
-		"Feature:    regex",
-		"Given:      a valid pattern",
-		"When:       struct has all fields populated",
-		"Then:       output is formatted",
-		"Input:      test-pattern",
-		"Expected:   true",
-		"Actual:     false",
-		"IsMatching: true",
+		"expectedLineCount": "9",
+		"line0":             "Title:      FullString includes all fields",
+		"line1":             "Feature:    regex",
+		"line2":             "Given:      a valid pattern",
+		"line3":             "When:       struct has all fields populated",
+		"line4":             "Then:       output is formatted",
+		"line5":             "Input:      test-pattern",
+		"line6":             "Expected:   true",
+		"line7":             "Actual:     false",
+		"line8":             "IsMatching: true",
 	},
 }
 
 var fullStringNilTestCase = coretestcases.StringBoolGherkins{
 	Title: "FullString handles nil receiver",
 	When:  "receiver is nil",
-	ExpectedLines: []string{
-		"<nil GenericGherkins>",
+	ExtraArgs: args.Map{
+		"expectedResult": "<nil GenericGherkins>",
 	},
 }
 
@@ -168,15 +157,15 @@ var shouldBeEqualPassingTestCase = coretestcases.StringBoolGherkins{
 var caseTitleUseTitleTestCase = coretestcases.StringBoolGherkins{
 	Title: "CaseTitle returns Title when set",
 	When:  "when-fallback",
-	ExpectedLines: []string{
-		"CaseTitle returns Title when set",
+	ExtraArgs: args.Map{
+		"expectedResult": "CaseTitle returns Title when set",
 	},
 }
 
 var caseTitleFallbackToWhenTestCase = coretestcases.StringBoolGherkins{
 	Title: "",
 	When:  "when-fallback-value",
-	ExpectedLines: []string{
-		"when-fallback-value",
+	ExtraArgs: args.Map{
+		"expectedResult": "when-fallback-value",
 	},
 }
