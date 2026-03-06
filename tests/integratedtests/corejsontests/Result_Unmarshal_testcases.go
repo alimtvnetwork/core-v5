@@ -7,33 +7,33 @@ import (
 
 var resultUnmarshalValidTestCase = coretestcases.CaseV1{
 	Title: "Unmarshal - valid JSON deserializes correctly",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "<nil>",  // error
-		Second: "Alice",  // deserializedName
-		Third:  "30",     // deserializedAge
+	ExpectedInput: args.Map{
+		"error":            "<nil>",
+		"deserializedName": "Alice",
+		"deserializedAge":  "30",
 	},
 }
 
 var resultUnmarshalNilTestCase = coretestcases.CaseV1{
 	Title: "Unmarshal - nil receiver returns error",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasError
-		Second: "true", // errorContainsNull
+	ExpectedInput: args.Map{
+		"hasError":          true,
+		"errorContainsNull": true,
 	},
 }
 
 var resultUnmarshalInvalidTestCase = coretestcases.CaseV1{
 	Title: "Unmarshal - invalid bytes returns error",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasError
-		Second: "true", // errorContainsUnmarshal
+	ExpectedInput: args.Map{
+		"hasError":               true,
+		"errorContainsUnmarshal": true,
 	},
 }
 
 var resultUnmarshalExistingErrorTestCase = coretestcases.CaseV1{
 	Title: "Unmarshal - existing error propagates",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasError
-		Second: "true", // errorContainsUnmarshal
+	ExpectedInput: args.Map{
+		"hasError":               true,
+		"errorContainsUnmarshal": true,
 	},
 }
