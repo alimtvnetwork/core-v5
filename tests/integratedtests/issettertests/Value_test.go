@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/issetter"
 )
 
@@ -14,14 +15,14 @@ func Test_Value_New_Verification(t *testing.T) {
 
 		// Act
 		val, err := issetter.New(input)
-		hasErr := fmt.Sprintf("%v", err != nil)
-		name := val.Name()
+
+		actual := args.Map{
+			"hasError": err != nil,
+			"name":     val.Name(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			hasErr,
-			name,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -59,26 +60,19 @@ func Test_Value_BooleanLogic_Verification(t *testing.T) {
 		input := testCase.ArrangeInput.(issetter.Value)
 
 		// Act
-		isOn := fmt.Sprintf("%v", input.IsOn())
-		isOff := fmt.Sprintf("%v", input.IsOff())
-		isTrue := fmt.Sprintf("%v", input.IsTrue())
-		isFalse := fmt.Sprintf("%v", input.IsFalse())
-		isSet := fmt.Sprintf("%v", input.IsSet())
-		isUnset := fmt.Sprintf("%v", input.IsUnset())
-		isValid := fmt.Sprintf("%v", input.IsValid())
-		isWildcard := fmt.Sprintf("%v", input.IsWildcard())
+		actual := args.Map{
+			"isOn":       input.IsOn(),
+			"isOff":      input.IsOff(),
+			"isTrue":     input.IsTrue(),
+			"isFalse":    input.IsFalse(),
+			"isSet":      input.IsSet(),
+			"isUnset":    input.IsUnset(),
+			"isValid":    input.IsValid(),
+			"isWildcard": input.IsWildcard(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			isOn,
-			isOff,
-			isTrue,
-			isFalse,
-			isSet,
-			isUnset,
-			isValid,
-			isWildcard,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -102,14 +96,13 @@ func Test_Value_Conversions_Verification(t *testing.T) {
 		input := testCase.ArrangeInput.(issetter.Value)
 
 		// Act
-		toBool := input.ToBooleanValue().Name()
-		toSetUnset := input.ToSetUnsetValue().Name()
+		actual := args.Map{
+			"toBooleanValue":  input.ToBooleanValue().Name(),
+			"toSetUnsetValue": input.ToSetUnsetValue().Name(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			toBool,
-			toSetUnset,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
