@@ -165,6 +165,7 @@ Other    █████░░░░░░░░░░░░░░░░  34/138
 
 | Date | Change |
 |------|--------|
+| 2026-03-06 | Confirmed `issettertests/Value_testcases.go` already migrated — moved from Batch A to migrated. []string 20→19. Total 82/138 (59.4%) |
 | 2026-03-06 | +11 migrated: easy []string batch (conditionaltests×2, converterstests×2, isanytests×2, coreutilstests×1, ostypetests×1, defaultcapacitytests×1, defaulterrtests×1, enumimpltests×1). []string 31→20. Total 81/138 (58.7%) |
 | 2026-03-06 | +8 migrated: all remaining typed tuples (reqtypetests, iserrortests, errcoretests, stringcompareastests, stringslicetests, versionindexestests, coreappendtests, keymktests/KeyLegend). Tuples 11→0. Total 70/138 (50.7%) |
 | 2026-03-06 | +2 migrated: `corestrtests/LeftRightFromSplit` (14 cases) + `LeftMiddleRightFromSplit` (14 cases) from []string → args.Map. Total 62/138 (44.9%) |
