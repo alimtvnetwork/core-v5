@@ -63,15 +63,3 @@ var expectedLinesExpectedOutputs = []args.Map{
 	{"lineCount": "3", "line0": "a", "line1": "b", "line2": "c"},
 	{"lineCount": "2", "line0": "age : 30", "line1": "count : 5"},
 }
-
-// expectedLinesVerificationCases are CaseV1 instances used for ShouldBeEqualMap assertion.
-var expectedLinesVerificationCases = []coretestcases.CaseV1{
-	{Title: "ExpectedLines converts int to string", ExpectedInput: expectedLinesExpectedOutputs[0]},
-	{Title: "ExpectedLines converts bool true", ExpectedInput: expectedLinesExpectedOutputs[1]},
-	{Title: "ExpectedLines converts bool false", ExpectedInput: expectedLinesExpectedOutputs[2]},
-	{Title: "ExpectedLines converts []int slice", ExpectedInput: expectedLinesExpectedOutputs[3]},
-	{Title: "ExpectedLines converts []bool slice", ExpectedInput: expectedLinesExpectedOutputs[4]},
-	{Title: "ExpectedLines wraps string into slice", ExpectedInput: expectedLinesExpectedOutputs[5]},
-	{Title: "ExpectedLines returns []string as-is", ExpectedInput: expectedLinesExpectedOutputs[6]},
-	{Title: "ExpectedLines converts map[string]int sorted", ExpectedInput: expectedLinesExpectedOutputs[7]},
-}

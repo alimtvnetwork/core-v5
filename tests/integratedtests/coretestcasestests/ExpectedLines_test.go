@@ -5,11 +5,12 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
 func Test_CaseV1_ExpectedLines_Verification(t *testing.T) {
 	for caseIndex, tc := range expectedLinesTestCases {
-		// Arrange — ExpectedInput varies by type (int, bool, []int, etc.)
+		// Arrange
 		expectedOutput := expectedLinesExpectedOutputs[caseIndex]
 
 		// Act
@@ -23,10 +24,11 @@ func Test_CaseV1_ExpectedLines_Verification(t *testing.T) {
 			actual[fmt.Sprintf("line%d", i)] = line
 		}
 
-		// Assert — use a verification CaseV1 with expected output as ExpectedInput
-		verifyCaseV1 := expectedLinesVerificationCases[caseIndex]
-		verifyCaseV1.ShouldBeEqualMap(t, caseIndex, actual)
-
-		_ = expectedOutput // referenced via verifyCaseV1
+		// Assert via verification CaseV1
+		verifyCase := coretestcases.CaseV1{
+			Title:         tc.Title,
+			ExpectedInput: expectedOutput,
+		}
+		verifyCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
