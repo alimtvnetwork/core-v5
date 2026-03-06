@@ -30,10 +30,10 @@ var idsLengthNilTestCase = coretestcases.CaseV1{
 
 var idsGetByIdFoundTestCase = coretestcases.CaseV1{
 	Title: "GetById - found returns item",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // found
-		Second: "beta", // id
-		Third:  "true", // isGlobal
+	ExpectedInput: args.Map{
+		"found":    true,
+		"id":       "beta",
+		"isGlobal": true,
 	},
 }
 
@@ -53,26 +53,26 @@ var idsGetByIdEmptyTestCase = coretestcases.CaseV1{
 
 var idsCloneIndependenceTestCase = coretestcases.CaseV1{
 	Title: "Clone - independence",
-	ExpectedInput: args.Two[string, string]{
-		First:  "2", // originalLength
-		Second: "3", // cloneLength
+	ExpectedInput: args.Map{
+		"originalLength": 2,
+		"cloneLength":    3,
 	},
 }
 
 var idsCloneEmptyTestCase = coretestcases.CaseV1{
 	Title: "Clone - empty clones to empty",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isEmpty
-		Second: "0",    // length
+	ExpectedInput: args.Map{
+		"isNotNil": true,
+		"length":   0,
 	},
 }
 
 var idsClonePreservesTestCase = coretestcases.CaseV1{
 	Title: "Clone - preserves values",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // isNotNil
-		Second: "id-1", // firstId
-		Third:  "false", // isEmpty
+	ExpectedInput: args.Map{
+		"isNotNil": true,
+		"firstId":  "id-1",
+		"isGlobal": false,
 	},
 }
 
@@ -82,10 +82,10 @@ var idsClonePreservesTestCase = coretestcases.CaseV1{
 
 var idsAddSingleTestCase = coretestcases.CaseV1{
 	Title: "Add - single item",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "1",    // length
-		Second: "true", // found
-		Third:  "true", // isGlobal
+	ExpectedInput: args.Map{
+		"length":   1,
+		"found":    true,
+		"isGlobal": true,
 	},
 }
 
@@ -96,10 +96,10 @@ var idsAddEmptyIdTestCase = coretestcases.CaseV1{
 
 var idsAddMultipleTestCase = coretestcases.CaseV1{
 	Title: "Add - multiple accumulate",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "3",     // length
-		Second: "true",  // foundFirst
-		Third:  "false", // foundMissing
+	ExpectedInput: args.Map{
+		"length":             3,
+		"secondIsGlobal":     true,
+		"thirdIsGlobal":      false,
 	},
 }
 
@@ -109,17 +109,17 @@ var idsAddMultipleTestCase = coretestcases.CaseV1{
 
 var idsIsEmptyTrueTestCase = coretestcases.CaseV1{
 	Title: "IsEmpty - empty true",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true",  // isEmpty
-		Second: "false", // hasAnyItem
+	ExpectedInput: args.Map{
+		"isEmpty":    true,
+		"hasAnyItem": false,
 	},
 }
 
 var idsIsEmptyFalseTestCase = coretestcases.CaseV1{
 	Title: "IsEmpty - non-empty false",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isEmpty
-		Second: "true",  // hasAnyItem
+	ExpectedInput: args.Map{
+		"isEmpty":    false,
+		"hasAnyItem": true,
 	},
 }
 
@@ -129,10 +129,10 @@ var idsIsEmptyFalseTestCase = coretestcases.CaseV1{
 
 var idsIndexOfFoundTestCase = coretestcases.CaseV1{
 	Title: "IndexOf - found returns correct index",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "0", // indexOf first
-		Second: "1", // indexOf second
-		Third:  "2", // indexOf third
+	ExpectedInput: args.Map{
+		"indexOfA": 0,
+		"indexOfB": 1,
+		"indexOfC": 2,
 	},
 }
 
@@ -157,11 +157,11 @@ var idsIndexOfEmptyCollectionTestCase = coretestcases.CaseV1{
 
 var idsAddsBatchTestCase = coretestcases.CaseV1{
 	Title: "Adds - batch add all items",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "3",    // length
-		Second: "true", // found1
-		Third:  "true", // found2
-		Fourth: "true", // found3
+	ExpectedInput: args.Map{
+		"length":   3,
+		"foundOne": true,
+		"foundTwo": true,
+		"foundThree": true,
 	},
 }
 
@@ -176,8 +176,8 @@ var idsAddsEmptyTestCase = coretestcases.CaseV1{
 
 var idsNewEdgeEmptyTestCase = coretestcases.CaseV1{
 	Title: "New - no ids creates empty",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isEmpty
-		Second: "0",    // length
+	ExpectedInput: args.Map{
+		"isNotNil": true,
+		"length":   0,
 	},
 }

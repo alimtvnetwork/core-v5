@@ -122,25 +122,25 @@ var stringIntTestCases = []coretestcases.CaseV1{
 
 var stringMapAnyPopulatedTestCase = coretestcases.CaseV1{
 	Title: "Positive: StringMapAny with populated map",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasName
-		Second: "true", // hasMapValue
+	ExpectedInput: args.Map{
+		"isValidJson":  true,
+		"containsName": true,
 	},
 }
 
 var stringMapAnyEmptyTestCase = coretestcases.CaseV1{
 	Title: "Negative: StringMapAny with empty map",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasName
-		Second: "true", // hasMapValue
+	ExpectedInput: args.Map{
+		"isValidJson":  true,
+		"containsName": true,
 	},
 }
 
 var stringMapAnyNilTestCase = coretestcases.CaseV1{
 	Title: "Negative: StringMapAny with nil map",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasName
-		Second: "true", // isNilValue
+	ExpectedInput: args.Map{
+		"isValidJson":  true,
+		"containsName": true,
 	},
 }
 
@@ -150,17 +150,17 @@ var stringMapAnyNilTestCase = coretestcases.CaseV1{
 
 var stringMapStringPopulatedTestCase = coretestcases.CaseV1{
 	Title: "Positive: StringMapString with populated map",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasName
-		Second: "true", // hasMapValue
+	ExpectedInput: args.Map{
+		"isValidJson":  true,
+		"containsName": true,
 	},
 }
 
 var stringMapStringNilTestCase = coretestcases.CaseV1{
 	Title: "Negative: StringMapString with nil map",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasName
-		Second: "true", // isNilValue
+	ExpectedInput: args.Map{
+		"isValidJson":  true,
+		"containsName": true,
 	},
 }
 
@@ -170,25 +170,25 @@ var stringMapStringNilTestCase = coretestcases.CaseV1{
 
 var disposeStringAnyTestCase = coretestcases.CaseV1{
 	Title: "Positive: Dispose clears StringAny fields",
-	ExpectedInput: args.Two[string, string]{
-		First:  "",     // disposedName
-		Second: "true", // isNilValue
+	ExpectedInput: args.Map{
+		"disposedName":  "",
+		"isNilValue":    true,
 	},
 }
 
 var disposeStringStringTestCase = coretestcases.CaseV1{
 	Title: "Positive: Dispose clears StringString fields",
-	ExpectedInput: args.Two[string, string]{
-		First:  "", // disposedName
-		Second: "", // disposedValue
+	ExpectedInput: args.Map{
+		"disposedName":  "",
+		"disposedValue": "",
 	},
 }
 
 var disposeStringIntTestCase = coretestcases.CaseV1{
 	Title: "Positive: Dispose clears StringInt to zero",
-	ExpectedInput: args.Two[string, string]{
-		First:  "", // disposedName
-		Second: "0", // disposedValue
+	ExpectedInput: args.Map{
+		"disposedName":  "",
+		"disposedValue": 0,
 	},
 }
 
@@ -198,17 +198,17 @@ var disposeStringIntTestCase = coretestcases.CaseV1{
 
 var jsonStringStringAnyTestCase = coretestcases.CaseV1{
 	Title: "Positive: StringAny JsonString contains key",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isValidJson
-		Second: "true", // containsKey
+	ExpectedInput: args.Map{
+		"isValidJson": true,
+		"containsKey": true,
 	},
 }
 
 var jsonStringStringIntTestCase = coretestcases.CaseV1{
 	Title: "Positive: StringInt JsonString contains number",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isValidJson
-		Second: "true", // containsNumber
+	ExpectedInput: args.Map{
+		"isValidJson":    true,
+		"containsNumber": true,
 	},
 }
 
@@ -223,9 +223,9 @@ var collectionTestCases = []coretestcases.CaseV1{
 			"when":  "given multiple StringAny items",
 			"count": 3,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "3",     // length
-			Second: "false", // isEmpty
+		ExpectedInput: args.Map{
+			"length":  3,
+			"isEmpty": false,
 		},
 	},
 	{
@@ -234,9 +234,9 @@ var collectionTestCases = []coretestcases.CaseV1{
 			"when":  "given no items",
 			"count": 0,
 		},
-		ExpectedInput: args.Two[string, string]{
-			First:  "0",    // length
-			Second: "true", // isEmpty
+		ExpectedInput: args.Map{
+			"length":  0,
+			"isEmpty": true,
 		},
 	},
 }
@@ -247,17 +247,17 @@ var collectionTestCases = []coretestcases.CaseV1{
 
 var chmodVarNameValuesSingleTestCase = coretestcases.CaseV1{
 	Title: "Positive: StringAny works in errcore.VarNameValues",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // containsName
-		Second: "true", // containsValue
+	ExpectedInput: args.Map{
+		"containsName":  true,
+		"containsValue": true,
 	},
 }
 
 var chmodMessageNameValuesTestCase = coretestcases.CaseV1{
 	Title: "Positive: StringAny works in errcore.MessageNameValues",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // containsMessage
-		Second: "true", // containsNameValue
+	ExpectedInput: args.Map{
+		"containsMessage":   true,
+		"containsNameValue": true,
 	},
 }
 

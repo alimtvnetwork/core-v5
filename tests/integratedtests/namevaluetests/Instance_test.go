@@ -1,7 +1,6 @@
 package namevaluetests
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 
@@ -92,10 +91,12 @@ func Test_StringMapAny_Populated(t *testing.T) {
 	}
 	result := instance.String()
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", result != ""),
-		fmt.Sprintf("%v", strings.Contains(result, "config")),
-	)
+	actual := args.Map{
+		"isValidJson":  result != "",
+		"containsName": strings.Contains(result, "config"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -111,10 +112,12 @@ func Test_StringMapAny_Empty(t *testing.T) {
 	}
 	result := instance.String()
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", result != ""),
-		fmt.Sprintf("%v", strings.Contains(result, "empty")),
-	)
+	actual := args.Map{
+		"isValidJson":  result != "",
+		"containsName": strings.Contains(result, "empty"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -130,10 +133,12 @@ func Test_StringMapAny_Nil(t *testing.T) {
 	}
 	result := instance.String()
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", result != ""),
-		fmt.Sprintf("%v", strings.Contains(result, "nothing")),
-	)
+	actual := args.Map{
+		"isValidJson":  result != "",
+		"containsName": strings.Contains(result, "nothing"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -149,10 +154,12 @@ func Test_StringMapString_Populated(t *testing.T) {
 	}
 	result := instance.String()
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", result != ""),
-		fmt.Sprintf("%v", strings.Contains(result, "headers")),
-	)
+	actual := args.Map{
+		"isValidJson":  result != "",
+		"containsName": strings.Contains(result, "headers"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -168,10 +175,12 @@ func Test_StringMapString_Nil(t *testing.T) {
 	}
 	result := instance.String()
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", result != ""),
-		fmt.Sprintf("%v", strings.Contains(result, "nothing")),
-	)
+	actual := args.Map{
+		"isValidJson":  result != "",
+		"containsName": strings.Contains(result, "nothing"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -184,10 +193,12 @@ func Test_Dispose_StringAny(t *testing.T) {
 	inst := &namevalue.StringAny{Name: "key", Value: "val"}
 	inst.Dispose()
 
-	tc.ShouldBeEqual(t, 0,
-		inst.Name,
-		fmt.Sprintf("%v", inst.Value == nil),
-	)
+	actual := args.Map{
+		"disposedName": inst.Name,
+		"isNilValue":   inst.Value == nil,
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -200,10 +211,12 @@ func Test_Dispose_StringString(t *testing.T) {
 	inst := &namevalue.StringString{Name: "key", Value: "val"}
 	inst.Dispose()
 
-	tc.ShouldBeEqual(t, 0,
-		inst.Name,
-		inst.Value,
-	)
+	actual := args.Map{
+		"disposedName":  inst.Name,
+		"disposedValue": inst.Value,
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -216,10 +229,12 @@ func Test_Dispose_StringInt(t *testing.T) {
 	inst := &namevalue.StringInt{Name: "count", Value: 42}
 	inst.Dispose()
 
-	tc.ShouldBeEqual(t, 0,
-		inst.Name,
-		fmt.Sprintf("%d", inst.Value),
-	)
+	actual := args.Map{
+		"disposedName":  inst.Name,
+		"disposedValue": inst.Value,
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -232,10 +247,12 @@ func Test_JsonString_StringAny(t *testing.T) {
 	inst := namevalue.StringAny{Name: "server", Value: "api.example.com"}
 	jsonStr := inst.JsonString()
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", jsonStr != ""),
-		fmt.Sprintf("%v", strings.Contains(jsonStr, "server")),
-	)
+	actual := args.Map{
+		"isValidJson": jsonStr != "",
+		"containsKey": strings.Contains(jsonStr, "server"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -248,10 +265,12 @@ func Test_JsonString_StringInt(t *testing.T) {
 	inst := namevalue.StringInt{Name: "port", Value: 443}
 	jsonStr := inst.JsonString()
 
-	tc.ShouldBeEqual(t, 0,
-		fmt.Sprintf("%v", jsonStr != ""),
-		fmt.Sprintf("%v", strings.Contains(jsonStr, "port")),
-	)
+	actual := args.Map{
+		"isValidJson":    jsonStr != "",
+		"containsNumber": strings.Contains(jsonStr, "port"),
+	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -267,19 +286,20 @@ func Test_Collection_Verification(t *testing.T) {
 
 		// Act
 		collection := namevalue.NewCollection()
-
 		for i := 0; i < countInt; i++ {
 			collection.Add(namevalue.StringAny{
-				Name:  fmt.Sprintf("key%d", i),
+				Name:  "key",
 				Value: i,
 			})
 		}
 
-		length := fmt.Sprintf("%d", collection.Length())
-		isEmpty := fmt.Sprintf("%v", collection.IsEmpty())
+		actual := args.Map{
+			"length":  collection.Length(),
+			"isEmpty": collection.IsEmpty(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, length, isEmpty)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -296,10 +316,12 @@ func Test_Chmod_VarNameValues_Single(t *testing.T) {
 	}
 	result := namevalue.VarNameValues(nv)
 
-	isNotEmpty := fmt.Sprintf("%v", result != "")
-	containsPath := fmt.Sprintf("%v", strings.Contains(result, "/tmp/test"))
+	actual := args.Map{
+		"containsName":  result != "",
+		"containsValue": strings.Contains(result, "/tmp/test"),
+	}
 
-	tc.ShouldBeEqual(t, 0, isNotEmpty, containsPath)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -315,10 +337,12 @@ func Test_Chmod_MessageNameValues(t *testing.T) {
 	}
 	result := namevalue.MessageNameValues("chmod verification failed", nv)
 
-	containsMessage := fmt.Sprintf("%v", strings.Contains(result, "chmod verification failed"))
-	containsPath := fmt.Sprintf("%v", strings.Contains(result, "/usr/local/bin"))
+	actual := args.Map{
+		"containsMessage":   strings.Contains(result, "chmod verification failed"),
+		"containsNameValue": strings.Contains(result, "/usr/local/bin"),
+	}
 
-	tc.ShouldBeEqual(t, 0, containsMessage, containsPath)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -327,8 +351,6 @@ func Test_Chmod_MessageNameValues(t *testing.T) {
 
 func Test_Chmod_VarNameValues_Empty(t *testing.T) {
 	tc := chmodVarNameValuesEmptyTestCase
-
 	result := namevalue.VarNameValues()
-
 	tc.ShouldBeEqual(t, 0, result)
 }
