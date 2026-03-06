@@ -186,7 +186,10 @@ var ifSliceTestCases = []coretestcases.CaseV1{
 			"trueValue":  []string{"a", "b"},
 			"falseValue": []string{"x", "y"},
 		},
-		ExpectedInput: []string{"2", "a"},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "a",
+		},
 	},
 	{
 		Title: "IfSlice false returns falseSlice",
@@ -196,7 +199,10 @@ var ifSliceTestCases = []coretestcases.CaseV1{
 			"trueValue":  []string{"a", "b"},
 			"falseValue": []string{"x", "y", "z"},
 		},
-		ExpectedInput: []string{"3", "x"},
+		ExpectedInput: args.Map{
+			"length": "3",
+			"first":  "x",
+		},
 	},
 }
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/ostype"
 )
 
@@ -43,16 +43,14 @@ func Test_Variation_Group_Verification(t *testing.T) {
 
 		// Act
 		group := input.Group()
-		groupName := group.Name()
-		isUnix := fmt.Sprintf("%v", group.IsUnix())
-		isWindows := fmt.Sprintf("%v", group.IsWindows())
+		actual := args.Map{
+			"groupName": group.Name(),
+			"isUnix":    fmt.Sprintf("%v", group.IsUnix()),
+			"isWindows": fmt.Sprintf("%v", group.IsWindows()),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			groupName,
-			isUnix,
-			isWindows,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -62,17 +60,14 @@ func Test_Variation_Identity_Verification(t *testing.T) {
 		input := testCase.ArrangeInput.(ostype.Variation)
 
 		// Act
-		isWindows := fmt.Sprintf("%v", input.IsWindows())
-		isLinux := fmt.Sprintf("%v", input.IsLinux())
-		isDarwin := fmt.Sprintf("%v", input.IsDarwinOrMacOs())
-		isValid := fmt.Sprintf("%v", input.IsValid())
+		actual := args.Map{
+			"isWindows": fmt.Sprintf("%v", input.IsWindows()),
+			"isLinux":   fmt.Sprintf("%v", input.IsLinux()),
+			"isDarwin":  fmt.Sprintf("%v", input.IsDarwinOrMacOs()),
+			"isValid":   fmt.Sprintf("%v", input.IsValid()),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			isWindows,
-			isLinux,
-			isDarwin,
-			isValid,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

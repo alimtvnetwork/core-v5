@@ -15,9 +15,9 @@ var deepEqualTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given same int values",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isDeepEqual":    "true",
+			"isNotDeepEqual": "false",
 		},
 	},
 	{
@@ -25,9 +25,9 @@ var deepEqualTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given different int values",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"isDeepEqual":    "false",
+			"isNotDeepEqual": "true",
 		},
 	},
 	{
@@ -35,9 +35,9 @@ var deepEqualTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given same string slices",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isDeepEqual":    "true",
+			"isNotDeepEqual": "false",
 		},
 	},
 	{
@@ -45,9 +45,9 @@ var deepEqualTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given different string slices",
 		},
-		ExpectedInput: []string{
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"isDeepEqual":    "false",
+			"isNotDeepEqual": "true",
 		},
 	},
 	{
@@ -55,9 +55,9 @@ var deepEqualTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given both nil",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"isDeepEqual":    "true",
+			"isNotDeepEqual": "false",
 		},
 	},
 }
@@ -72,12 +72,12 @@ var zeroTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given various zero and non-zero values",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"true",
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"intZero":   "true",
+			"int42":     "false",
+			"emptyStr":  "true",
+			"helloStr":  "false",
+			"boolFalse": "true",
 		},
 	},
 }
@@ -92,10 +92,10 @@ var reflectNullTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil and non-nil pointers",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"nilPtr":    "true",
+			"nonNilPtr": "false",
+			"nilSlice":  "true",
 		},
 	},
 }
@@ -110,11 +110,11 @@ var notNullTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given nil and non-nil values",
 		},
-	ExpectedInput: []string{
-		"false",
-		"true",
-		"false",
-	},
+		ExpectedInput: args.Map{
+			"notNullNil":    "false",
+			"notNull42":     "true",
+			"inverseEquals": "false",
+		},
 	},
 }
 
@@ -128,9 +128,9 @@ var stringEqualTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given values with same/different string representation",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
+		ExpectedInput: args.Map{
+			"sameStrings": "true",
+			"diffStrings": "false",
 		},
 	},
 }
@@ -145,10 +145,10 @@ var pointerTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"when": "given pointer and non-pointer values",
 		},
-		ExpectedInput: []string{
-			"true",
-			"false",
-			"true",
+		ExpectedInput: args.Map{
+			"intPtr":    "true",
+			"intVal":    "false",
+			"stringPtr": "true",
 		},
 	},
 }

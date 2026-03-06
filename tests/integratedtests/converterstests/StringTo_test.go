@@ -16,11 +16,13 @@ func Test_StringTo_Integer_Verification(t *testing.T) {
 
 		// Act
 		value, err := converters.StringTo.Integer(inputStr)
-		valueStr := fmt.Sprintf("%v", value)
-		hasError := fmt.Sprintf("%v", err != nil)
+		actual := args.Map{
+			"value":    fmt.Sprintf("%v", value),
+			"hasError": fmt.Sprintf("%v", err != nil),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, valueStr, hasError)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -48,13 +50,13 @@ func Test_StringTo_IntegerWithDefault_Verification(t *testing.T) {
 
 		// Act
 		value, isSuccess := converters.StringTo.IntegerWithDefault(inputStr, defaultInt)
+		actual := args.Map{
+			"value":     fmt.Sprintf("%v", value),
+			"isSuccess": fmt.Sprintf("%v", isSuccess),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t, caseIndex,
-			fmt.Sprintf("%v", value),
-			fmt.Sprintf("%v", isSuccess),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -66,14 +68,13 @@ func Test_StringTo_Float64_Verification(t *testing.T) {
 
 		// Act
 		value, err := converters.StringTo.Float64(inputStr)
-		hasError := fmt.Sprintf("%v", err != nil)
+		actual := args.Map{
+			"value":    fmt.Sprintf("%v", value),
+			"hasError": fmt.Sprintf("%v", err != nil),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t, caseIndex,
-			fmt.Sprintf("%v", value),
-			hasError,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -85,13 +86,13 @@ func Test_StringTo_Byte_Verification(t *testing.T) {
 
 		// Act
 		value, err := converters.StringTo.Byte(inputStr)
+		actual := args.Map{
+			"value":    fmt.Sprintf("%v", value),
+			"hasError": fmt.Sprintf("%v", err != nil),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t, caseIndex,
-			fmt.Sprintf("%v", value),
-			fmt.Sprintf("%v", err != nil),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -126,27 +127,24 @@ func Test_StringsTo_Hashset_Verification(t *testing.T) {
 
 		// Act
 		hashset := converters.StringsTo.Hashset(inputSlice)
-		length := fmt.Sprintf("%v", len(hashset))
+		actual := args.Map{
+			"count": len(hashset),
+		}
 
-		actLines := []string{length}
-		for _, s := range inputSlice {
-			if _, exists := hashset[s]; exists {
-				// only add unique check
-				found := false
-				for _, existing := range actLines[1:] {
-					if existing == fmt.Sprintf("%v", hashset[s]) {
-						found = true
-						break
-					}
-				}
-				if !found {
-					actLines = append(actLines, fmt.Sprintf("%v", hashset[s]))
+		// Check all values are true
+		if len(hashset) > 0 {
+			allTrue := true
+			for _, v := range hashset {
+				if !v {
+					allTrue = false
+					break
 				}
 			}
+			actual["allTrue"] = allTrue
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

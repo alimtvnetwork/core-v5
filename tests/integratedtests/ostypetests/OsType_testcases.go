@@ -68,87 +68,87 @@ var getGroupTestCases = []coretestcases.CaseV1{
 }
 
 // variationGroupTestCases
-// Expected order: groupName, isUnix, isWindows
+// Expected: groupName, isUnix, isWindows
 var variationGroupTestCases = []coretestcases.CaseV1{
 	{
 		Title:        "Windows variation has WindowsGroup",
 		ArrangeInput: ostype.Windows,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Windows", // groupName
-			Second: "false",   // isUnix
-			Third:  "true",    // isWindows
+		ExpectedInput: args.Map{
+			"groupName": "Windows",
+			"isUnix":    "false",
+			"isWindows": "true",
 		},
 	},
 	{
 		Title:        "Linux variation has UnixGroup",
 		ArrangeInput: ostype.Linux,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Unix", // groupName
-			Second: "true", // isUnix
-			Third:  "false", // isWindows
+		ExpectedInput: args.Map{
+			"groupName": "Unix",
+			"isUnix":    "true",
+			"isWindows": "false",
 		},
 	},
 	{
 		Title:        "DarwinOrMacOs variation has UnixGroup",
 		ArrangeInput: ostype.DarwinOrMacOs,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Unix", // groupName
-			Second: "true", // isUnix
-			Third:  "false", // isWindows
+		ExpectedInput: args.Map{
+			"groupName": "Unix",
+			"isUnix":    "true",
+			"isWindows": "false",
 		},
 	},
 	{
 		Title:        "Android variation has AndroidGroup",
 		ArrangeInput: ostype.Android,
-		ExpectedInput: args.Three[string, string, string]{
-			First:  "Android", // groupName
-			Second: "false",   // isUnix
-			Third:  "false",   // isWindows
+		ExpectedInput: args.Map{
+			"groupName": "Android",
+			"isUnix":    "false",
+			"isWindows": "false",
 		},
 	},
 }
 
 // variationIdentityTestCases
-// Expected order: isWindows, isLinux, isDarwin, isValid
+// Expected: isWindows, isLinux, isDarwin, isValid
 var variationIdentityTestCases = []coretestcases.CaseV1{
 	{
 		Title:        "Windows identity checks",
 		ArrangeInput: ostype.Windows,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "true",  // isWindows
-			Second: "false", // isLinux
-			Third:  "false", // isDarwin
-			Fourth: "true",  // isValid
+		ExpectedInput: args.Map{
+			"isWindows": "true",
+			"isLinux":   "false",
+			"isDarwin":  "false",
+			"isValid":   "true",
 		},
 	},
 	{
 		Title:        "Linux identity checks",
 		ArrangeInput: ostype.Linux,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isWindows
-			Second: "true",  // isLinux
-			Third:  "false", // isDarwin
-			Fourth: "true",  // isValid
+		ExpectedInput: args.Map{
+			"isWindows": "false",
+			"isLinux":   "true",
+			"isDarwin":  "false",
+			"isValid":   "true",
 		},
 	},
 	{
 		Title:        "DarwinOrMacOs identity checks",
 		ArrangeInput: ostype.DarwinOrMacOs,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isWindows
-			Second: "false", // isLinux
-			Third:  "true",  // isDarwin
-			Fourth: "true",  // isValid
+		ExpectedInput: args.Map{
+			"isWindows": "false",
+			"isLinux":   "false",
+			"isDarwin":  "true",
+			"isValid":   "true",
 		},
 	},
 	{
 		Title:        "Any (default) is invalid",
 		ArrangeInput: ostype.Any,
-		ExpectedInput: args.Four[string, string, string, string]{
-			First:  "false", // isWindows
-			Second: "false", // isLinux
-			Third:  "false", // isDarwin
-			Fourth: "false", // isValid
+		ExpectedInput: args.Map{
+			"isWindows": "false",
+			"isLinux":   "false",
+			"isDarwin":  "false",
+			"isValid":   "false",
 		},
 	},
 }

@@ -4,16 +4,21 @@ import (
 	"fmt"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/defaultcapacity"
 )
 
 func Test_Predictive_Verification(t *testing.T) {
 	for caseIndex, testCase := range predictiveTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(predictiveInput)
+		input := testCase.ArrangeInput.(args.Map)
+		possibleLen := input.GetAsIntDefault("possibleLen", 0)
+		multiplierRaw, _ := input.Get("multiplier")
+		multiplier := multiplierRaw.(float64)
+		additionalCap := input.GetAsIntDefault("additionalCap", 0)
 
 		// Act
-		result := defaultcapacity.Predictive(input.possibleLen, input.multiplier, input.additionalCap)
+		result := defaultcapacity.Predictive(possibleLen, multiplier, additionalCap)
 		resultStr := fmt.Sprintf("%d", result)
 
 		// Assert
@@ -24,10 +29,12 @@ func Test_Predictive_Verification(t *testing.T) {
 func Test_MaxLimit_Verification(t *testing.T) {
 	for caseIndex, testCase := range maxLimitTestCases {
 		// Arrange
-		input := testCase.ArrangeInput.(maxLimitInput)
+		input := testCase.ArrangeInput.(args.Map)
+		wholeLength := input.GetAsIntDefault("wholeLength", 0)
+		limit := input.GetAsIntDefault("limit", 0)
 
 		// Act
-		result := defaultcapacity.MaxLimit(input.wholeLength, input.limit)
+		result := defaultcapacity.MaxLimit(wholeLength, limit)
 		resultStr := fmt.Sprintf("%d", result)
 
 		// Assert
