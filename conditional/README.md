@@ -4,9 +4,102 @@
 
 The `conditional` package provides generic ternary expressions, nil-safe defaults, conditional function execution, and batch function runners for Go. It replaces verbose `if/else` blocks with concise, type-safe one-liners.
 
-## Typed Convenience Wrappers (`typed_*.go`)
+## Architecture
 
-For common primitive types, typed wrappers eliminate the need to specify type parameters:
+```
+conditional/
+├── generic.go                          # Generic base: If[T], IfFunc[T], NilDef[T], etc.
+├── typed_bool.go                       # bool typed wrappers
+├── typed_byte.go                       # byte typed wrappers
+├── typed_string.go                     # string typed wrappers
+├── typed_int.go                        # int typed wrappers
+├── typed_int8.go                       # int8 typed wrappers
+├── typed_int16.go                      # int16 typed wrappers
+├── typed_int32.go                      # int32 typed wrappers
+├── typed_int64.go                      # int64 typed wrappers
+├── typed_uint.go                       # uint typed wrappers
+├── typed_uint8.go                      # uint8 typed wrappers
+├── typed_uint16.go                     # uint16 typed wrappers
+├── typed_uint32.go                     # uint32 typed wrappers
+├── typed_uint64.go                     # uint64 typed wrappers
+├── typed_float32.go                    # float32 typed wrappers
+├── typed_float64.go                    # float64 typed wrappers
+├── funcs.go                            # Internal helper functions
+├── VoidFunctions.go                    # Void batch execution
+├── Functions.go                        # Result batch execution
+├── FunctionsExecuteResults.go          # Result batch with isTake/isBreak
+├── ErrorFunc.go                        # Error batch execution
+├── ErrorFunctionsExecuteResults.go     # Error batch with aggregation
+├── TypedErrorFunctionsExecuteResults.go # Typed (T, error) batch execution
+├── AnyFunctions.go                     # any-typed batch execution
+├── AnyFunctionsExecuteResults.go       # any-typed batch with control
+├── Setter.go                           # Conditional setters
+├── SetterDefault.go                    # Conditional setters with default
+├── Bool.go .. Byte.go                  # Deprecated per-type ternaries
+├── Booleans.go .. Bytes.go             # Deprecated per-type slice ternaries
+├── *Ptr.go                             # Deprecated pointer variants
+├── *Func.go, *TrueFunc.go             # Deprecated function-based ternaries
+├── NilDef*.go, NilCheck.go, DefOnNil.go # Deprecated nil-safe helpers
+├── BoolByOrder.go                      # Order-based boolean helpers
+├── BoolFunctionsByOrder.go             # Order-based boolean function helpers
+├── StringsIndexVal.go, StringDefault.go # String utility helpers
+├── ErrorFunctionResult.go              # Error function result type
+└── executeErrorFunctions.go            # Internal execution logic
+```
+
+## Generic Base Functions (`generic.go`)
+
+All typed wrappers delegate to these generic base functions. Use these directly when
+working with custom types, or use the [typed wrappers](#typed-convenience-wrappers) for primitives.
+
+### Signature Table
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `If[T]` | `(cond bool, t, f T) T` | Ternary — returns `t` if true, `f` if false |
+| `IfFunc[T]` | `(cond bool, tF, fF func() T) T` | Lazy ternary — evaluates only the chosen branch |
+| `IfTrueFunc[T]` | `(cond bool, tF func() T) T` | True-only — evaluates `tF` on true, zero value on false |
+| `IfSlice[T]` | `(cond bool, t, f []T) []T` | Slice ternary |
+| `IfPtr[T]` | `(cond bool, t, f *T) *T` | Pointer ternary |
+| `NilDef[T]` | `(ptr *T, def T) T` | Dereference or default |
+| `NilDefPtr[T]` | `(ptr *T, def T) *T` | Return pointer or pointer-to-default |
+| `NilVal[T]` | `(ptr *T, onNil, onNonNil T) T` | Choose between two values based on nil check (no deref) |
+| `NilValPtr[T]` | `(ptr *T, onNil, onNonNil T) *T` | Like `NilVal` but returns pointer to chosen value |
+| `ValueOrZero[T]` | `(ptr *T) T` | Dereference or zero value |
+| `PtrOrZero[T]` | `(ptr *T) *T` | Return pointer or pointer-to-zero (guaranteed non-nil) |
+
+### Usage Examples
+
+```go
+// Ternary
+result := conditional.If[int](isTrue, 2, 7)                    // returns 2 or 7
+name   := conditional.If[string](len(s) > 0, s, "default")
+
+// Lazy evaluation — only the chosen branch is called
+val := conditional.IfFunc[string](ok,
+    func() string { return expensiveCall() },
+    func() string { return "fallback" },
+)
+
+// True-only — zero value on false
+val := conditional.IfTrueFunc[int](ok, func() int { return compute() })
+
+// Nil-safe defaults
+val := conditional.NilDef[int](ptr, 42)         // dereference or 42
+p   := conditional.NilDefPtr[string](ptr, "x")  // pointer or &"x"
+
+// Nil branching without dereference
+label := conditional.NilVal[string](namePtr, "(unknown)", "has name")
+
+// Zero-value deref
+active := conditional.ValueOrZero[bool](flagPtr)   // false if nil
+safePtr := conditional.PtrOrZero[int](intPtr)       // guaranteed non-nil
+```
+
+## Typed Convenience Wrappers
+
+For all 15 primitive types, typed wrappers eliminate the need to specify type parameters.
+Each type gets the same function set, named with the type suffix (e.g., `IfInt`, `IfFuncString`).
 
 ```go
 result := conditional.IfInt(isTrue, 2, 7)                          // no type param needed
@@ -16,62 +109,53 @@ items  := conditional.IfSliceString(ok, listA, listB)              // slice tern
 ptr    := conditional.IfPtrInt(ok, &a, &b)                         // pointer ternary
 defVal := conditional.NilDefFloat64(ptr, 3.14)                     // nil-safe default
 defPtr := conditional.NilDefPtrString(ptr, "fallback")             // nil-safe pointer default
+label  := conditional.NilValInt(ptr, -1, 100)                      // nil branch without deref
+zero   := conditional.ValueOrZeroBool(flagPtr)                     // false if nil
+safe   := conditional.PtrOrZeroInt64(numPtr)                       // guaranteed non-nil
 ```
 
-### Available Typed Wrappers
+### Function Set Per Type
 
-Each type has the following functions (using `Int` as example):
+Each typed wrapper file provides these functions (using `{T}` as the type suffix):
 
-| Function | Description |
-|----------|-------------|
-| `IfInt(cond, t, f)` | Ternary for `int` values |
-| `IfFuncInt(cond, tF, fF)` | Lazy-evaluated ternary |
-| `IfTrueFuncInt(cond, tF)` | Evaluate only when true |
-| `IfSliceInt(cond, t, f)` | Slice ternary |
-| `IfSlicePtrInt(cond, t, f)` | Pointer-to-slice ternary |
-| `IfSlicePtrFuncInt(cond, tF, fF)` | Lazy pointer-to-slice ternary |
-| `IfPtrInt(cond, t, f)` | Pointer ternary |
-| `NilDefInt*` | Nil-safe default (where available) |
-| `NilDefPtrInt(ptr, def)` | Nil-safe pointer default |
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `If{T}` | `(cond, t, f) T` | Ternary |
+| `IfFunc{T}` | `(cond, tF, fF) T` | Lazy ternary |
+| `IfTrueFunc{T}` | `(cond, tF) T` | True-only lazy |
+| `IfSlice{T}` | `(cond, t, f) []T` | Slice ternary |
+| `IfPtr{T}` | `(cond, t, f) *T` | Pointer ternary |
+| `NilDef{T}` | `(ptr, def) T` | Deref or default ¹ |
+| `NilDefPtr{T}` | `(ptr, def) *T` | Pointer or &default |
+| `NilVal{T}` | `(ptr, onNil, onNonNil) T` | Nil branch (no deref) |
+| `NilValPtr{T}` | `(ptr, onNil, onNonNil) *T` | Nil branch → pointer |
+| `ValueOrZero{T}` | `(ptr) T` | Deref or zero |
+| `PtrOrZero{T}` | `(ptr) *T` | Pointer or &zero |
 
-### Supported Types
+¹ `NilDef{T}` is **omitted** for `bool`, `int`, and `byte` due to naming conflicts with
+deprecated functions. Use `NilDef[bool](ptr, def)` directly for those types.
 
-| File | Types | NilDef Available |
-|------|-------|------------------|
-| `typed_bool.go` | `bool` | `NilDefPtrBool` only (NilDef conflicts with deprecated) |
-| `typed_int.go` | `int` | `NilDefPtrInt` only (NilDef conflicts with deprecated) |
-| `typed_int8.go` | `int8` | Both `NilDefInt8` and `NilDefPtrInt8` |
-| `typed_int16.go` | `int16` | Both `NilDefInt16` and `NilDefPtrInt16` |
-| `typed_int32.go` | `int32` | Both `NilDefInt32` and `NilDefPtrInt32` |
-| `typed_int64.go` | `int64` | Both `NilDefInt64` and `NilDefPtrInt64` |
-| `typed_float32.go` | `float32` | Both `NilDefFloat32` and `NilDefPtrFloat32` |
-| `typed_float64.go` | `float64` | Both `NilDefFloat64` and `NilDefPtrFloat64` |
-| `typed_string.go` | `string` | Both `NilDefString` and `NilDefPtrString` |
-| `typed_byte.go` | `byte` | `NilDefPtrByte` only (NilDef conflicts with deprecated) |
+### All 15 Supported Types
 
-> **Note**: For `bool`, `int`, and `byte`, `NilDef<Type>` is omitted because
-> deprecated functions with the same name but different signatures already exist.
-> Use `NilDef[bool](ptr, defVal)` directly for those types.
+| File | Type | NilDef Available | Notes |
+|------|------|:---:|-------|
+| `typed_bool.go` | `bool` | Ptr only | `NilDefBool` conflicts with deprecated |
+| `typed_byte.go` | `byte` | Ptr only | `NilDefByte` conflicts with deprecated |
+| `typed_string.go` | `string` | ✓ Both | `NilDefString` differs from deprecated `NilDefStr` |
+| `typed_int.go` | `int` | Ptr only | `NilDefInt` conflicts with deprecated |
+| `typed_int8.go` | `int8` | ✓ Both | |
+| `typed_int16.go` | `int16` | ✓ Both | |
+| `typed_int32.go` | `int32` | ✓ Both | |
+| `typed_int64.go` | `int64` | ✓ Both | |
+| `typed_uint.go` | `uint` | ✓ Both | |
+| `typed_uint8.go` | `uint8` | ✓ Both | |
+| `typed_uint16.go` | `uint16` | ✓ Both | |
+| `typed_uint32.go` | `uint32` | ✓ Both | |
+| `typed_uint64.go` | `uint64` | ✓ Both | |
+| `typed_float32.go` | `float32` | ✓ Both | |
+| `typed_float64.go` | `float64` | ✓ Both | |
 
-## Core Generic Functions (`generic.go`)
-
-### Ternary Helpers
-
-```go
-result := conditional.If[int](isTrue, 2, 7)                    // generic ternary
-name   := conditional.IfFunc[string](ok, trueFunc, falseFunc)   // lazy evaluation
-val    := conditional.IfTrueFunc[int](ok, func() int { ... })   // evaluate only on true
-items  := conditional.IfSlice[string](ok, listA, listB)         // slice ternary
-ptr    := conditional.IfPtr[int](ok, &a, &b)                    // pointer ternary
-```
-
-### Nil-Safe Defaults
-
-```go
-val := conditional.NilDef[int](ptr, 42)         // dereference or default
-p   := conditional.NilDefPtr[string](ptr, "x")  // return pointer or pointer-to-default
-res := conditional.NilCheck(maybeNil, onNil, onNonNil)  // any-typed nil branch
-```
+> For the complete per-type function reference, see [typed-wrappers.md](./typed-wrappers.md).
 
 ## Batch Function Execution
 
@@ -128,23 +212,23 @@ conditional.SetterDefault(isApply, &target, value, def)  // set value or default
 
 ## Legacy Per-Type Functions (Deprecated)
 
-Retained for backward compatibility — use generic equivalents instead:
+Retained for backward compatibility — use generic equivalents or typed wrappers instead:
 
 | Deprecated | Replacement |
 |-----------|-------------|
-| `Bool(cond, t, f)` | `If[bool](cond, t, f)` |
-| `Int(cond, t, f)` | `If[int](cond, t, f)` |
-| `String(cond, t, f)` | `If[string](cond, t, f)` |
-| `Byte(cond, t, f)` | `If[byte](cond, t, f)` |
+| `Bool(cond, t, f)` | `IfBool(cond, t, f)` or `If[bool](cond, t, f)` |
+| `Int(cond, t, f)` | `IfInt(cond, t, f)` or `If[int](cond, t, f)` |
+| `String(cond, t, f)` | `IfString(cond, t, f)` or `If[string](cond, t, f)` |
+| `Byte(cond, t, f)` | `IfByte(cond, t, f)` or `If[byte](cond, t, f)` |
 | `Interface(cond, t, f)` | `If[any](cond, t, f)` |
-| `Integers(cond, t, f)` | `IfSlice[int](cond, t, f)` |
-| `Strings(cond, t, f)` | `IfSlice[string](cond, t, f)` |
-| `BoolFunc(cond, tF, fF)` | `IfFunc[bool](cond, tF, fF)` |
-| `StringFunc(cond, tF, fF)` | `IfFunc[string](cond, tF, fF)` |
-| `StringTrueFunc(cond, tF)` | `IfTrueFunc[string](cond, tF)` |
-| `BooleanTrueFunc(cond, tF)` | `IfTrueFunc[bool](cond, tF)` |
+| `Integers(cond, t, f)` | `IfSliceInt(cond, t, f)` or `IfSlice[int](cond, t, f)` |
+| `Strings(cond, t, f)` | `IfSliceString(cond, t, f)` or `IfSlice[string](cond, t, f)` |
+| `BoolFunc(cond, tF, fF)` | `IfFuncBool(cond, tF, fF)` or `IfFunc[bool](cond, tF, fF)` |
+| `StringFunc(cond, tF, fF)` | `IfFuncString(cond, tF, fF)` or `IfFunc[string](cond, tF, fF)` |
+| `StringTrueFunc(cond, tF)` | `IfTrueFuncString(cond, tF)` or `IfTrueFunc[string](cond, tF)` |
+| `BooleanTrueFunc(cond, tF)` | `IfTrueFuncBool(cond, tF)` or `IfTrueFunc[bool](cond, tF)` |
 | `BytesTrueFunc(cond, tF)` | `IfTrueFunc[[]byte](cond, tF)` |
-| `NilDefStr(ptr, def)` | `NilDef[string](ptr, def)` |
+| `NilDefStr(ptr, def)` | `NilDefString(ptr, def)` or `NilDef[string](ptr, def)` |
 | `NilDefInt(ptr, def)` | `NilDef[int](ptr, def)` |
 | `NilDefBool(ptr, def)` | `NilDef[bool](ptr, def)` |
 | `NilDefByte(ptr, def)` | `NilDef[byte](ptr, def)` |
@@ -154,42 +238,30 @@ Retained for backward compatibility — use generic equivalents instead:
 
 | Deprecated | Replacement |
 |-----------|-------------|
-| `StringPtr(cond, t, f)` | `IfPtr[string](cond, t, f)` |
-| `IntegersPtr(cond, t, f)` | `IfSlice[int](cond, t, f)` |
-| `StringsPtr(cond, t, f)` | `IfSlice[string](cond, t, f)` |
-| `BytesPtr(cond, t, f)` | `IfSlice[byte](cond, t, f)` |
-| `BooleansPtr(cond, t, f)` | `IfSlice[bool](cond, t, f)` |
+| `StringPtr(cond, t, f)` | `IfPtrString(cond, t, f)` or `IfPtr[string](cond, t, f)` |
+| `IntegersPtr(cond, t, f)` | `IfSliceInt(cond, t, f)` or `IfSlice[int](cond, t, f)` |
+| `StringsPtr(cond, t, f)` | `IfSliceString(cond, t, f)` or `IfSlice[string](cond, t, f)` |
+| `BytesPtr(cond, t, f)` | `IfSliceByte(cond, t, f)` or `IfSlice[byte](cond, t, f)` |
+| `BooleansPtr(cond, t, f)` | `IfSliceBool(cond, t, f)` or `IfSlice[bool](cond, t, f)` |
 | `InterfacesPtr(cond, t, f)` | `IfSlice[any](cond, t, f)` |
 
-## File Organization
+## Decision Guide
 
-| File | Responsibility |
-|------|---------------|
-| `generic.go` | All generic functions (`If`, `IfFunc`, `NilDef`, etc.) |
-| `typed_bool.go` ... `typed_byte.go` | Typed convenience wrappers for 10 primitive types |
-| `funcs.go` | Internal helper functions |
-| `Bool.go`, `String.go`, `Int.go`, `Byte.go` | Deprecated per-type ternaries |
-| `Booleans.go`, `Strings.go`, `Integers.go`, `Bytes.go` | Deprecated slice ternaries |
-| `*Ptr.go` | Deprecated pointer variants |
-| `*TrueFunc.go` | Deprecated true-only function variants |
-| `*Func.go` | Deprecated function-based ternaries |
-| `NilDef*.go`, `NilCheck.go`, `DefOnNil.go` | Nil-safe default helpers |
-| `VoidFunctions.go` | Void batch execution |
-| `Functions.go`, `FunctionsExecuteResults.go` | Result batch execution |
-| `ErrorFunc.go`, `ErrorFunctionsExecuteResults.go` | Error batch execution |
-| `TypedErrorFunctionsExecuteResults.go` | Typed error batch execution |
-| `AnyFunctions.go`, `AnyFunctionsExecuteResults.go` | Any-typed batch execution |
-| `Setter.go`, `SetterDefault.go` | Conditional setters |
-| `BoolByOrder.go`, `BoolFunctionsByOrder.go` | Order-based boolean helpers |
-| `StringsIndexVal.go`, `StringDefault.go` | String utility helpers |
-| `ErrorFunctionResult.go` | Error function result type |
-| `executeErrorFunctions.go`, `executeVoidFunctions.go` | Internal execution logic |
+| Scenario | Use |
+|----------|-----|
+| Known primitive type | Typed wrapper: `IfInt(...)`, `NilDefString(...)` |
+| Custom struct/interface | Generic: `If[MyType](...)`, `NilDef[MyType](...)` |
+| Slice of primitives | Typed: `IfSliceInt(...)` |
+| Slice of custom type | Generic: `IfSlice[MyType](...)` |
+| Map type | Generic: `If[map[K]V](...)` |
+| Func type | Generic: `If[func() error](...)` |
+| Legacy code migration | Replace deprecated → typed wrapper first, generic if no wrapper |
 
 ## Key Patterns
 
 - **`isTake` / `isBreak`**: Control flags for batch execution — `isTake` determines whether a result is collected, `isBreak` halts execution.
 - **Error aggregation**: All errors from batch execution are merged via `errcore.SliceToError` with index metadata appended for debugging.
-- **Generic-first**: New code should use the generic functions (`If[T]`, `NilDef[T]`). Per-type wrappers exist only for backward compatibility.
+- **Generic-first**: New code should use generic functions (`If[T]`, `NilDef[T]`) or typed wrappers. Per-type legacy functions exist only for backward compatibility.
 
 ## How to Extend Safely
 
@@ -199,4 +271,5 @@ Retained for backward compatibility — use generic equivalents instead:
 
 ## Related Docs
 
+- [Typed Wrappers Reference](./typed-wrappers.md)
 - [Repo Overview](../spec/01-app/00-repo-overview.md)
