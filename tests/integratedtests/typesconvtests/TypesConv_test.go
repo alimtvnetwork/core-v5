@@ -188,10 +188,10 @@ func Test_BytePtr(t *testing.T) {
 	tc := bytePtrTestCase
 	ptr := typesconv.BytePtr(42)
 
-	actual := args.Map{"value": int(ptr != nil && *ptr == 42), "isNil": ptr == nil}
-
-	// Use direct values for byte
-	actual = args.Map{"value": int(*ptr), "isNil": ptr == nil}
+	actual := args.Map{
+		"value": int(*ptr),
+		"isNil": ptr == nil,
+	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
@@ -236,7 +236,11 @@ func Test_BytePtrToSimpleDef_Verification(t *testing.T) {
 		result := typesconv.BytePtrToSimpleDef(ptr, byte(defVal))
 
 		// Assert
-		actual := args.Map{"result": int(result), "defaultUsed": isNil}
+		actual := args.Map{
+			"result":      int(result),
+			"defaultUsed": isNil,
+		}
+
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
