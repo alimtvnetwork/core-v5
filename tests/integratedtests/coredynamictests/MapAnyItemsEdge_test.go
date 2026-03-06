@@ -1,7 +1,6 @@
 package coredynamictests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
@@ -13,199 +12,382 @@ func getBool(input args.Map, key string) bool {
 	return input.GetAsBoolDefault(key, false)
 }
 
-// ==========================================
-// IsEqual — table-driven
-// ==========================================
-
-func Test_MapAnyItems_IsEqual(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsIsEqualTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		leftNil := getBool(input, "leftNil")
-		rightNil := getBool(input, "rightNil")
-
-		var left *coredynamic.MapAnyItems
-		var right *coredynamic.MapAnyItems
-
-		if !leftNil {
-			leftMap := input["leftMap"].(map[string]any)
-			left = coredynamic.NewMapAnyItemsUsingItems(leftMap)
-		}
-		if !rightNil {
-			rightMap := input["rightMap"].(map[string]any)
-			right = coredynamic.NewMapAnyItemsUsingItems(rightMap)
-		}
-
-		// Act
-		result := left.IsEqual(right)
-
-		// Diagnostic diff on failure
-		resultStr := fmt.Sprintf("%v", result)
-
-		diag := MapDiffDiagnostics{
-			CaseIndex: caseIndex,
-			Title:     testCase.Title,
-			Left:      left,
-			Right:     right,
-		}
-		diag.PrintIfResultMismatch(resultStr, testCase.ExpectedInput)
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, resultStr)
+// buildMapFromInput constructs a *MapAnyItems from the test case input.
+func buildMapFromInput(input args.Map) *coredynamic.MapAnyItems {
+	if getBool(input, "leftNil") {
+		return nil
 	}
+
+	leftMap := input["leftMap"].(map[string]any)
+
+	return coredynamic.NewMapAnyItemsUsingItems(leftMap)
 }
 
 // ==========================================
-// IsEqualRaw — table-driven
+// IsEqual — named tests
 // ==========================================
 
-func Test_MapAnyItems_IsEqualRaw(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsIsEqualRawTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		leftNil := getBool(input, "leftNil")
+func Test_MapAnyItems_IsEqual_BothNil(t *testing.T) {
+	tc := mapAnyItemsIsEqualBothNilTestCase
+	input := tc.ArrangeInput.(args.Map)
 
-		var m *coredynamic.MapAnyItems
-		if !leftNil {
-			leftMap := input["leftMap"].(map[string]any)
-			m = coredynamic.NewMapAnyItemsUsingItems(leftMap)
-		}
-
-		var rawMap map[string]any
-		if rm, ok := input["rightMap"]; ok {
-			rawMap = rm.(map[string]any)
-		}
-
-		// Act
-		result := m.IsEqualRaw(rawMap)
-
-		// Diagnostic diff on failure
-		resultStr := fmt.Sprintf("%v", result)
-
-		diag := MapDiffDiagnostics{
-			CaseIndex: caseIndex,
-			Title:     testCase.Title,
-			Left:      m,
-			RawMap:    rawMap,
-		}
-		diag.PrintIfResultMismatch(resultStr, testCase.ExpectedInput)
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, resultStr)
+	// Arrange
+	var left, right *coredynamic.MapAnyItems
+	if !getBool(input, "leftNil") {
+		left = coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
 	}
+	if !getBool(input, "rightNil") {
+		right = coredynamic.NewMapAnyItemsUsingItems(input["rightMap"].(map[string]any))
+	}
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(right)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_IsEqual_LeftNil(t *testing.T) {
+	tc := mapAnyItemsIsEqualLeftNilTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	var left *coredynamic.MapAnyItems
+	right := coredynamic.NewMapAnyItemsUsingItems(input["rightMap"].(map[string]any))
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(right)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_IsEqual_RightNil(t *testing.T) {
+	tc := mapAnyItemsIsEqualRightNilTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	left := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(nil)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_IsEqual_SameContent(t *testing.T) {
+	tc := mapAnyItemsIsEqualSameContentTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	left := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	right := coredynamic.NewMapAnyItemsUsingItems(input["rightMap"].(map[string]any))
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(right)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_IsEqual_DiffValues(t *testing.T) {
+	tc := mapAnyItemsIsEqualDiffValuesTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	left := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	right := coredynamic.NewMapAnyItemsUsingItems(input["rightMap"].(map[string]any))
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(right)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_IsEqual_DiffKeys(t *testing.T) {
+	tc := mapAnyItemsIsEqualDiffKeysTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	left := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	right := coredynamic.NewMapAnyItemsUsingItems(input["rightMap"].(map[string]any))
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(right)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_IsEqual_DiffLengths(t *testing.T) {
+	tc := mapAnyItemsIsEqualDiffLengthsTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	left := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	right := coredynamic.NewMapAnyItemsUsingItems(input["rightMap"].(map[string]any))
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(right)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_IsEqual_BothEmpty(t *testing.T) {
+	tc := mapAnyItemsIsEqualBothEmptyTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	left := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	right := coredynamic.NewMapAnyItemsUsingItems(input["rightMap"].(map[string]any))
+
+	// Act
+	actual := args.Map{"isEqual": left.IsEqual(right)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
-// ClonePtr — table-driven
+// IsEqualRaw — named tests
 // ==========================================
 
-func Test_MapAnyItems_ClonePtr(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsClonePtrTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		leftNil := getBool(input, "leftNil")
-		addAfterClone := getBool(input, "addAfterClone")
+func Test_MapAnyItems_IsEqualRaw_NilReceiver(t *testing.T) {
+	tc := mapAnyItemsIsEqualRawNilReceiverTestCase
+	input := tc.ArrangeInput.(args.Map)
 
-		var m *coredynamic.MapAnyItems
-		if !leftNil {
-			leftMap := input["leftMap"].(map[string]any)
-			m = coredynamic.NewMapAnyItemsUsingItems(leftMap)
-		}
+	// Arrange
+	var m *coredynamic.MapAnyItems
+	rawMap := input["rightMap"].(map[string]any)
 
-		// Act
-		clone, err := m.ClonePtr()
+	// Act
+	actual := args.Map{"isEqualRaw": m.IsEqualRaw(rawMap)}
 
-		var actLines []string
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
 
-		hasError := err != nil
-		cloneIsNil := clone == nil
-		actLines = append(actLines, fmt.Sprintf("%v", hasError))
-		actLines = append(actLines, fmt.Sprintf("%v", cloneIsNil))
+func Test_MapAnyItems_IsEqualRaw_BothNil(t *testing.T) {
+	tc := mapAnyItemsIsEqualRawBothNilTestCase
 
-		if !cloneIsNil && !hasError {
-			actLines = append(actLines, fmt.Sprintf("%d", clone.Length()))
+	// Arrange
+	var m *coredynamic.MapAnyItems
 
-			if addAfterClone {
-				clone.Add("new_key", "new_val")
-				actLines = append(actLines, fmt.Sprintf("%v", m.HasKey("new_key")))
-				actLines = append(actLines, fmt.Sprintf("%v", clone.HasKey("new_key")))
-			} else {
-				if _, ok := input["leftMap"]; ok {
-					leftMap := input["leftMap"].(map[string]any)
-					if _, has := leftMap["name"]; has {
-						actLines = append(actLines, fmt.Sprintf("%v", clone.HasKey("name")))
-						actLines = append(actLines, fmt.Sprintf("%v", clone.HasKey("age")))
-					}
-				}
-			}
-		}
+	// Act
+	actual := args.Map{"isEqualRaw": m.IsEqualRaw(nil)}
 
-		// Diagnostic diff on failure
-		diag := MapDiffDiagnostics{
-			CaseIndex: caseIndex,
-			Title:     testCase.Title,
-			Left:      m,
-			Clone:     clone,
-			Error:     err,
-		}
-		diag.PrintIfMismatch(actLines, testCase.ExpectedInput)
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
 
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
-	}
+func Test_MapAnyItems_IsEqualRaw_Matching(t *testing.T) {
+	tc := mapAnyItemsIsEqualRawMatchingTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	rawMap := input["rightMap"].(map[string]any)
+
+	// Act
+	actual := args.Map{"isEqualRaw": m.IsEqualRaw(rawMap)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
-// Edge cases — table-driven
+// ClonePtr — named tests
 // ==========================================
 
-func Test_MapAnyItems_EdgeCases(t *testing.T) {
-	for caseIndex, testCase := range mapAnyItemsEdgeCaseTestCases {
-		// Arrange
-		input := testCase.ArrangeInput.(args.Map)
-		leftNil := getBool(input, "leftNil")
+func Test_MapAnyItems_ClonePtr_NilReceiver(t *testing.T) {
+	tc := mapAnyItemsClonePtrNilTestCase
 
-		var m *coredynamic.MapAnyItems
-		if !leftNil {
-			leftMap := input["leftMap"].(map[string]any)
-			m = coredynamic.NewMapAnyItemsUsingItems(leftMap)
-		}
+	// Arrange
+	var m *coredynamic.MapAnyItems
 
-		var actLines []string
+	// Act
+	clone, err := m.ClonePtr()
 
-		// Act — branch by what the test case exercises
-		if key, ok := input["addKey"]; ok {
-			addKey := key.(string)
-			addValue := input["addValue"]
-			isNew := m.Add(addKey, addValue)
-			actLines = append(actLines, fmt.Sprintf("%v", isNew))
-
-			expectedSlice, ok := testCase.ExpectedInput.([]string)
-			if ok && len(expectedSlice) > 1 {
-				if expectedSlice[1] == "new" || expectedSlice[1] == "old" {
-					val := m.GetValue(addKey)
-					actLines = append(actLines, fmt.Sprintf("%v", val))
-				} else {
-					actLines = append(actLines, fmt.Sprintf("%d", m.Length()))
-				}
-			}
-		} else if key, ok := input["key"]; ok {
-			actLines = append(actLines, fmt.Sprintf("%v", m.HasKey(key.(string))))
-		} else {
-			actLines = append(actLines, fmt.Sprintf("%d", m.Length()))
-			actLines = append(actLines, fmt.Sprintf("%v", m.IsEmpty()))
-			actLines = append(actLines, fmt.Sprintf("%v", m.HasAnyItem()))
-		}
-
-		// Diagnostic diff on failure
-		diag := MapDiffDiagnostics{
-			CaseIndex: caseIndex,
-			Title:     testCase.Title,
-			Left:      m,
-		}
-		diag.PrintIfMismatch(actLines, testCase.ExpectedInput)
-
-		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+	actual := args.Map{
+		"hasError":   err != nil,
+		"cloneIsNil": clone == nil,
 	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_ClonePtr_ValidData(t *testing.T) {
+	tc := mapAnyItemsClonePtrValidTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+
+	// Act
+	clone, err := m.ClonePtr()
+
+	actual := args.Map{
+		"hasError":    err != nil,
+		"cloneIsNil":  clone == nil,
+		"cloneLength": clone.Length(),
+		"hasName":     clone.HasKey("name"),
+		"hasAge":      clone.HasKey("age"),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_ClonePtr_Empty(t *testing.T) {
+	tc := mapAnyItemsClonePtrEmptyTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+
+	// Act
+	clone, err := m.ClonePtr()
+
+	actual := args.Map{
+		"hasError":    err != nil,
+		"cloneIsNil":  clone == nil,
+		"cloneLength": clone.Length(),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_ClonePtr_Independence(t *testing.T) {
+	tc := mapAnyItemsClonePtrIndependenceTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+
+	// Act
+	clone, err := m.ClonePtr()
+	clone.Add("new_key", "new_val")
+
+	actual := args.Map{
+		"hasError":         err != nil,
+		"cloneIsNil":       clone == nil,
+		"originalHasNewKey": m.HasKey("new_key"),
+		"cloneHasNewKey":    clone.HasKey("new_key"),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// ==========================================
+// Edge cases — named tests
+// ==========================================
+
+func Test_MapAnyItems_NilReceiverLength(t *testing.T) {
+	tc := mapAnyItemsNilLengthTestCase
+
+	// Arrange
+	var m *coredynamic.MapAnyItems
+
+	// Act
+	actual := args.Map{
+		"length":     m.Length(),
+		"isEmpty":    m.IsEmpty(),
+		"hasAnyItem": m.HasAnyItem(),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_HasKey_NilReceiver(t *testing.T) {
+	tc := mapAnyItemsHasKeyNilTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	var m *coredynamic.MapAnyItems
+	key, _ := input.GetAsString("key")
+
+	// Act
+	actual := args.Map{"hasKey": m.HasKey(key)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_HasKey_Exists(t *testing.T) {
+	tc := mapAnyItemsHasKeyExistsTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	key, _ := input.GetAsString("key")
+
+	// Act
+	actual := args.Map{"hasKey": m.HasKey(key)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_HasKey_Missing(t *testing.T) {
+	tc := mapAnyItemsHasKeyMissingTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	key, _ := input.GetAsString("key")
+
+	// Act
+	actual := args.Map{"hasKey": m.HasKey(key)}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_Add_NewKey(t *testing.T) {
+	tc := mapAnyItemsAddNewKeyTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	addKey := input["addKey"].(string)
+	addValue := input["addValue"]
+
+	// Act
+	isNew := m.Add(addKey, addValue)
+
+	actual := args.Map{
+		"isNew":       isNew,
+		"lengthAfter": m.Length(),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_MapAnyItems_Add_ExistingKey(t *testing.T) {
+	tc := mapAnyItemsAddExistingKeyTestCase
+	input := tc.ArrangeInput.(args.Map)
+
+	// Arrange
+	m := coredynamic.NewMapAnyItemsUsingItems(input["leftMap"].(map[string]any))
+	addKey := input["addKey"].(string)
+	addValue := input["addValue"]
+
+	// Act
+	isNew := m.Add(addKey, addValue)
+
+	actual := args.Map{
+		"isNew":        isNew,
+		"updatedValue": m.GetValue(addKey),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
