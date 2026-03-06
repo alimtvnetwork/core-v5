@@ -30,12 +30,12 @@ func Test_DefaultErr_AllSentinels(t *testing.T) {
 		err := errorMap[errorName]
 
 		// Act
-		isNotNil := fmt.Sprintf("%v", err != nil)
-		hasMessage := fmt.Sprintf("%v", err != nil && err.Error() != "")
-
-		actLines := []string{isNotNil, hasMessage}
+		actual := args.Map{
+			"isNotNil":   err != nil,
+			"hasMessage": err != nil && err.Error() != "",
+		}
 
 		// Assert
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
