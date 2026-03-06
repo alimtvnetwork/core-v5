@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coreonce"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // =============================================================================
@@ -23,20 +24,20 @@ func Test_BytesErrorOnce_Core(t *testing.T) {
 
 		// Act
 		val, err := once.Value()
-		actLines := []string{
-			string(val),
-			fmt.Sprintf("%v", err == nil),
-			fmt.Sprintf("%v", once.Length()),
-			fmt.Sprintf("%v", once.HasAnyItem()),
-			fmt.Sprintf("%v", once.IsEmpty()),
-			fmt.Sprintf("%v", once.IsEmptyBytes()),
-			fmt.Sprintf("%v", once.IsBytesEmpty()),
-			fmt.Sprintf("%v", once.IsNull()),
-			fmt.Sprintf("%v", once.IsDefined()),
+		actual := args.Map{
+			"stringValue":  string(val),
+			"noError":      err == nil,
+			"length":       once.Length(),
+			"hasAnyItem":   once.HasAnyItem(),
+			"isEmpty":      once.IsEmpty(),
+			"isEmptyBytes": once.IsEmptyBytes(),
+			"isBytesEmpty": once.IsBytesEmpty(),
+			"isNull":       once.IsNull(),
+			"isDefined":    once.IsDefined(),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -57,14 +58,14 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 
 			// Act
 			val, err := once.Value()
-			actLines := []string{
-				string(val),
-				fmt.Sprintf("%v", val == nil),
-				err.Error(),
+			actual := args.Map{
+				"emptyValue":   string(val),
+				"hasError":     val == nil,
+				"errorMessage": err.Error(),
 			}
 
 			// Assert
-			tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+			tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 
 			continue
 		}
@@ -77,19 +78,23 @@ func Test_BytesErrorOnce_Caching(t *testing.T) {
 		})
 
 		// Act
-		r1, e1 := once.Value()
-		r2, e2 := once.Value()
+		r1, _ := once.Value()
+		r2, _ := once.Value()
 
-		actLines := []string{
-			string(r1),
-			string(r2),
-			fmt.Sprintf("%v", e1 == nil),
-			fmt.Sprintf("%v", e2 == nil),
-			fmt.Sprintf("%d", callCount),
+		actual := args.Map{
+			"value1":         string(r1),
+			"value2":         string(r2),
+			"value1EqValue2": string(r1) == string(r2),
+			"executeEqValue": func() bool {
+				ev, _ := once.Execute()
+				vv, _ := once.Value()
+				return string(ev) == string(vv)
+			}(),
+			"callCount": callCount,
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -109,12 +114,12 @@ func Test_BytesErrorOnce_Execute(t *testing.T) {
 	v1, _ := once.Execute()
 	v2, _ := once.Value()
 
-	actLines := []string{
-		fmt.Sprintf("%v", string(v1) == string(v2)),
+	actual := args.Map{
+		"executeEqValue": string(v1) == string(v2),
 	}
 
 	// Assert
-	tc.Case.ShouldBeEqual(t, 0, actLines...)
+	tc.Case.ShouldBeEqualMapFirst(t, actual)
 }
 
 // =============================================================================
@@ -130,12 +135,12 @@ func Test_BytesErrorOnce_ValueOnly(t *testing.T) {
 	})
 
 	// Act
-	actLines := []string{
-		string(once.ValueOnly()),
+	actual := args.Map{
+		"valueOnlyResult": string(once.ValueOnly()),
 	}
 
 	// Assert
-	tc.Case.ShouldBeEqual(t, 0, actLines...)
+	tc.Case.ShouldBeEqualMapFirst(t, actual)
 }
 
 // =============================================================================
@@ -153,13 +158,13 @@ func Test_BytesErrorOnce_ValueWithError(t *testing.T) {
 	// Act
 	v, e := once.ValueWithError()
 
-	actLines := []string{
-		string(v),
-		fmt.Sprintf("%v", e == nil),
+	actual := args.Map{
+		"valueWithErrorResult": string(v),
+		"noError":              e == nil,
 	}
 
 	// Assert
-	tc.Case.ShouldBeEqual(t, 0, actLines...)
+	tc.Case.ShouldBeEqualMapFirst(t, actual)
 }
 
 // =============================================================================
@@ -176,17 +181,17 @@ func Test_BytesErrorOnce_ErrorState(t *testing.T) {
 		})
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", once.HasError()),
-			fmt.Sprintf("%v", once.IsEmptyError()),
-			fmt.Sprintf("%v", once.IsValid()),
-			fmt.Sprintf("%v", once.IsSuccess()),
-			fmt.Sprintf("%v", once.IsInvalid()),
-			fmt.Sprintf("%v", once.IsFailed()),
+		actual := args.Map{
+			"hasError":  once.HasError(),
+			"isValid":   once.IsEmptyError(),
+			"isSuccess": once.IsValid(),
+			"isEmpty":   once.IsSuccess(),
+			"isInvalid": once.IsInvalid(),
+			"isFailed":  once.IsFailed(),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -210,13 +215,13 @@ func Test_BytesErrorOnce_HasIssues(t *testing.T) {
 		}
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", once.HasIssuesOrEmpty()),
-			fmt.Sprintf("%v", once.HasSafeItems()),
+		actual := args.Map{
+			"hasIssuesOrEmpty": once.HasIssuesOrEmpty(),
+			"hasSafeItems":     once.HasSafeItems(),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -233,14 +238,14 @@ func Test_BytesErrorOnce_String(t *testing.T) {
 		})
 
 		// Act
-		actLines := []string{
-			once.String(),
-			fmt.Sprintf("%v", once.IsStringEmpty()),
-			fmt.Sprintf("%v", once.IsStringEmptyOrWhitespace()),
+		actual := args.Map{
+			"stringValue":               once.String(),
+			"isStringEmpty":             once.IsStringEmpty(),
+			"isStringEmptyOrWhitespace": once.IsStringEmptyOrWhitespace(),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -258,42 +263,42 @@ func Test_BytesErrorOnce_Deserialize(t *testing.T) {
 		})
 
 		// Act
-		var actLines []string
+		var actual args.Map
 
 		if tc.IsMust {
 			var result map[string]string
 			panicked := callPanics(func() { once.DeserializeMust(&result) })
-			actLines = []string{fmt.Sprintf("%v", panicked)}
+			actual = args.Map{"didPanic": panicked}
 
 			if !panicked {
-				actLines = append(actLines, result["key"])
+				actual["deserializedKey"] = result["key"]
 			}
 		} else if initErr != nil {
 			var result map[string]string
 			err := once.Deserialize(&result)
-			actLines = []string{
-				fmt.Sprintf("%v", err != nil),
-				fmt.Sprintf("%v", strings.Contains(err.Error(), "existing error cannot deserialize")),
-				fmt.Sprintf("%v", strings.Contains(err.Error(), initErr.Error())),
+			actual = args.Map{
+				"hasSourceError":      err != nil,
+				"hasDeserializeError": strings.Contains(err.Error(), "existing error cannot deserialize"),
+				"errorsMatch":         strings.Contains(err.Error(), initErr.Error()),
 			}
 		} else if initJson == "not-json" {
 			var result map[string]string
 			err := once.Deserialize(&result)
-			actLines = []string{
-				fmt.Sprintf("%v", err != nil),
-				fmt.Sprintf("%v", strings.Contains(err.Error(), "deserialize failed")),
+			actual = args.Map{
+				"hasError":    err != nil,
+				"isJsonError": strings.Contains(err.Error(), "deserialize failed"),
 			}
 		} else {
 			var result map[string]string
 			err := once.Deserialize(&result)
-			actLines = []string{
-				fmt.Sprintf("%v", err == nil),
-				result["name"],
+			actual = args.Map{
+				"noError":          err == nil,
+				"deserializedName": result["name"],
 			}
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -312,13 +317,13 @@ func Test_BytesErrorOnce_MarshalJSON(t *testing.T) {
 	// Act
 	data, err := once.MarshalJSON()
 
-	actLines := []string{
-		fmt.Sprintf("%v", err == nil),
-		string(data),
+	actual := args.Map{
+		"noError":        err == nil,
+		"marshaledValue": string(data),
 	}
 
 	// Assert
-	tc.Case.ShouldBeEqual(t, 0, actLines...)
+	tc.Case.ShouldBeEqualMapFirst(t, actual)
 }
 
 // =============================================================================
@@ -336,13 +341,13 @@ func Test_BytesErrorOnce_Serialize(t *testing.T) {
 	// Act
 	data, err := once.Serialize()
 
-	actLines := []string{
-		fmt.Sprintf("%v", err == nil),
-		string(data),
+	actual := args.Map{
+		"noError":         err == nil,
+		"serializedValue": string(data),
 	}
 
 	// Assert
-	tc.Case.ShouldBeEqual(t, 0, actLines...)
+	tc.Case.ShouldBeEqualMapFirst(t, actual)
 }
 
 // =============================================================================
@@ -361,14 +366,14 @@ func Test_BytesErrorOnce_SerializeMust(t *testing.T) {
 		// Act
 		var result []byte
 		panicked := callPanics(func() { result = once.SerializeMust() })
-		actLines := []string{fmt.Sprintf("%v", panicked)}
+		actual := args.Map{"didPanic": panicked}
 
 		if !panicked {
-			actLines = append(actLines, string(result))
+			actual["serializedValue"] = string(result)
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -386,14 +391,14 @@ func Test_BytesErrorOnce_Lifecycle(t *testing.T) {
 		})
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", callPanics(func() { once.HandleError() })),
-			fmt.Sprintf("%v", callPanics(func() { once.MustBeEmptyError() })),
-			fmt.Sprintf("%v", callPanics(func() { once.MustHaveSafeItems() })),
+		actual := args.Map{
+			"handleErrorPanicked":       callPanics(func() { once.HandleError() }),
+			"mustBeEmptyErrorPanicked":  callPanics(func() { once.MustBeEmptyError() }),
+			"mustHaveSafeItemsPanicked": callPanics(func() { once.MustHaveSafeItems() }),
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -414,13 +419,13 @@ func Test_BytesErrorOnce_IsInitialized(t *testing.T) {
 		_, _ = once.Value()
 		afterInit := once.IsInitialized()
 
-		actLines := []string{
-			fmt.Sprintf("%v", beforeInit),
-			fmt.Sprintf("%v", afterInit),
+		actual := args.Map{
+			"isInitializedBefore": beforeInit,
+			"isInitializedAfter":  afterInit,
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -438,12 +443,15 @@ func Test_BytesErrorOnce_Constructor(t *testing.T) {
 
 		// Act
 		v, e := once.Value()
-		actLines := []string{
-			string(v),
-			fmt.Sprintf("%v", e == nil),
+		actual := args.Map{
+			"value":     string(v),
+			"isCorrect": e == nil,
 		}
 
 		// Assert
-		tc.Case.ShouldBeEqual(t, caseIndex, actLines...)
+		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
+
+// Ensure fmt is used
+var _ = fmt.Sprintf
