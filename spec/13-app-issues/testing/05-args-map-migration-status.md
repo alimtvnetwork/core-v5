@@ -107,6 +107,8 @@
 | `coretestcasestests` | `ExpectedLines_testcases.go` | 8 scattered expected vars → table-driven with lineCount/line0..N args.Map |
 | `coretestcasestests` | `GenericGherkins_testcases.go` | ExpectedLines []string → ExtraArgs with expectedDiff/expectedResult/line0..N keys |
 | `isanytests` | `ExtendedTypedNil_testcases.go` | 4 legacy BaseTestCase vars → CaseV1 with result0..N/type0..N/types0..N args.Map |
+| `codestacktests` | `FileWithLine_testcases.go` | args.Three → args.Map with filePath/lineNumber/isValid |
+| `corecomparatortests` | `CompareExtended_testcases.go` | args.Three → args.Map with marshaledJson/unmarshaledName/unmarshaledValue |
 
 ---
 
