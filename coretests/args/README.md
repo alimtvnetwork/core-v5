@@ -282,24 +282,42 @@ h := args.HolderAny{
 ## Map
 
 A `map[string]any` type with typed getter methods for extracting values
-by key name. Used as `ArrangeInput` when tests need named parameters
-rather than positional ones.
+by key name. Used as both `ArrangeInput` and `ExpectedInput` when tests
+need named parameters rather than positional ones.
 
 ### Key Methods
 
 | Method | Returns | Description |
 |--------|---------|-------------|
 | `Get(key)` | `(any, bool)` | Raw map access |
-| `GetAsInt(key)` | `(int, error)` | Type-safe int extraction |
-| `GetAsString(key)` | `(string, error)` | Type-safe string extraction |
-| `GetAsBool(key)` | `(bool, error)` | Type-safe bool extraction |
+| `GetAsInt(key)` | `(int, bool)` | Type-safe int extraction |
+| `GetAsString(key)` | `(string, bool)` | Type-safe string extraction |
+| `GetAsStrings(key)` | `([]string, bool)` | Type-safe string slice extraction |
+| `CompileToStrings()` | `[]string` | Sorted `"key : value"` lines using `%v` format |
+| `CompileToString()` | `string` | Sorted `"key : value"` as single string |
 | `WorkFunc()` | `any` | Returns the value at key "func" |
 | `HasFunc()` | `bool` | Checks if "func" key exists |
 | `HasExpect()` | `bool` | Checks if "expected" key exists |
 | `FirstItem()` | `any` | Returns value at "first" key |
 | `ArgsCount()` | `int` | Count of keys excluding "expected" and "func" |
 
-### Usage Pattern
+### CompileToStrings — Self-Documenting Test Output
+
+`CompileToStrings()` converts all map values to strings using `%v` format
+and returns sorted `"key : value"` lines. This is the foundation for
+map-based test assertions where raw typed values (int, bool, etc.) are
+stored in the map and compiled at comparison time.
+
+```go
+m := args.Map{"isZero": false, "value": 5, "isValid": true}
+m.CompileToStrings()
+// Returns: []string{"isValid : true", "isZero : false", "value : 5"}
+```
+
+This eliminates the need for manual `fmt.Sprintf` calls in test bodies
+and produces failure output where every value has a descriptive label.
+
+### Usage as ArrangeInput
 
 ```go
 var testCases = []coretestcases.CaseV1{
@@ -325,6 +343,61 @@ func Test_MaxInt(t *testing.T) {
     }
 }
 ```
+
+### Usage as ExpectedInput (Map-Based Assertions)
+
+When `ExpectedInput` is `args.Map`, use `ShouldBeEqualMap` for self-documenting
+assertions. Both actual and expected maps are compiled to sorted `"key : value"`
+lines, so failure output always shows **what** each value represents.
+
+```go
+// In _testcases.go — raw typed values, no fmt.Sprintf needed
+var variantValidTestCases = []coretestcases.CaseV1{
+    {
+        Title: "New creates Variant with correct value",
+        ArrangeInput: args.Map{
+            "when":  "given byte value 5",
+            "input": 5,
+        },
+        ExpectedInput: args.Map{
+            "value":     5,
+            "isZero":    false,
+            "isInvalid": false,
+            "isValid":   true,
+        },
+    },
+}
+
+// In _test.go — pass raw values, CompileToStrings handles conversion
+func Test_Variant_Verification(t *testing.T) {
+    for caseIndex, tc := range variantValidTestCases {
+        // Arrange
+        input := tc.ArrangeInput.(args.Map)
+        inputVal, _ := input.GetAsInt("input")
+
+        // Act
+        v := bytetype.New(byte(inputVal))
+        actual := args.Map{
+            "value":     v.ValueInt(),
+            "isZero":    v.IsZero(),
+            "isInvalid": v.IsInvalid(),
+            "isValid":   v.IsValid(),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+**Why this is better than positional strings:**
+
+| Aspect | Positional (`[]string`) | Map-Based (`args.Map`) |
+|--------|------------------------|------------------------|
+| Failure output | `"false"` (what does this mean?) | `"isZero : false"` (self-documenting) |
+| Source readability | Magic indices | Named keys |
+| Maintenance | Reorder = silent bug | Keys are independent |
+| Type handling | Manual `fmt.Sprintf` everywhere | Raw values, compiled automatically |
 
 ## Dynamic[T] / DynamicFunc[T]
 

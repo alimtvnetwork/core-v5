@@ -559,7 +559,7 @@ var myTestCase = coretestcases.CaseV1{
 }
 ```
 
-### String slice (for multi-line assertions)
+### String slice (for multi-line positional assertions)
 
 ```go
 var myTestCase = coretestcases.CaseV1{
@@ -568,22 +568,80 @@ var myTestCase = coretestcases.CaseV1{
 }
 ```
 
-### How it works internally
+### args.Map (preferred for multi-value assertions)
 
-`CaseV1.expectedLines()` normalizes both formats to `[]string`:
+Use `args.Map` as `ExpectedInput` when the test verifies multiple properties.
+This produces **self-documenting failure output** where every value has a descriptive key.
 
 ```go
-func (it CaseV1) expectedLines() []string {
-    switch v := it.ExpectedInput.(type) {
-    case string:
-        return []string{v}       // wraps single string
-    case []string:
-        return v                 // returns as-is
-    default:
-        panic("must be string or []string")
+var myTestCase = coretestcases.CaseV1{
+    Title: "New creates Variant with correct value",
+    ArrangeInput: args.Map{
+        "when":  "given byte value 5",
+        "input": 5,
+    },
+    ExpectedInput: args.Map{
+        "value":     5,      // raw int — no fmt.Sprintf needed
+        "isZero":    false,   // raw bool
+        "isInvalid": false,
+        "isValid":   true,
+    },
+}
+```
+
+In the test body, construct actual results as `args.Map` with the **same keys** and raw values:
+
+```go
+func Test_Variant(t *testing.T) {
+    for caseIndex, tc := range testCases {
+        // Arrange
+        input := tc.ArrangeInput.(args.Map)
+        inputVal, _ := input.GetAsInt("input")
+
+        // Act
+        v := bytetype.New(byte(inputVal))
+        actual := args.Map{
+            "value":     v.ValueInt(),
+            "isZero":    v.IsZero(),
+            "isInvalid": v.IsInvalid(),
+            "isValid":   v.IsValid(),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
     }
 }
 ```
+
+**How it works internally:**
+- `ShouldBeEqualMap` calls `CompileToStrings()` on both actual and expected maps
+- `CompileToStrings()` sorts keys and formats each entry as `"key : %v"` (e.g., `"isZero : false"`)
+- Comparison is done as sorted string lines, ensuring deterministic order
+
+**Failure output example:**
+```
+isValid : true       ← expected
+isValid : false      ← actual     [MISMATCH]
+```
+
+**When to use which format:**
+
+| Format | Use When |
+|--------|----------|
+| `string` | Single value assertion |
+| `[]string` | Multi-value positional (collection items, ordered output) |
+| `args.Map` | Multi-property assertions (object state, method results) |
+
+### How ExpectedLines() works internally
+
+`CaseV1.ExpectedLines()` normalizes `ExpectedInput` to `[]string` via `convertinternal.AnyTo.Strings()`:
+
+- `string` → `[]string{s}`
+- `[]string` → as-is
+- `int`, `bool`, `byte`, etc. → converted via `strconv`
+- `map[string]any` → sorted `"key : value"` lines
+- `args.Map` → handled via `CompileToStrings()` in `ShouldBeEqualMap`
+- Other types → PrettyJSON fallback
 
 ### Rule: Match actual output to expected line-by-line
 
