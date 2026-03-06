@@ -115,11 +115,10 @@ All typed tuple files have been migrated to `args.Map`. ✅
 
 ## 🔴 Using `[]string` Expectations (20 files)
 
-### Batch A — Migratable to `args.Map` (4 files)
+### Batch A — Migratable to `args.Map` (3 files)
 
 | Package | File | Fields | Difficulty |
 |---------|------|--------|------------|
-| `coretaskinfotests` | `InfoCreate_testcases.go` | 2–8 values | 🟡 Medium |
 | `coretestcasestests` | `GenericGherkins_testcases.go` | StringBoolGherkins pattern | 🟡 Medium |
 | `coretestcasestests` | `ExpectedLines_testcases.go` | Framework self-test | 🟡 Medium |
 | `isanytests` | `ExtendedTypedNil_testcases.go` | Legacy BaseTestCase | 🟡 Medium |
