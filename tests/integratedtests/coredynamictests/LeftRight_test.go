@@ -115,6 +115,9 @@ func Test_LeftRight_TypeStatus_Verification(t *testing.T) {
 			if _, has := expectedMap["isRightPointer"]; has {
 				actual["isRightPointer"] = fmt.Sprintf("%v", status.IsRightPointer)
 			}
+			if _, has := expectedMap["isSameRegardlessPointer"]; has {
+				actual["isSameRegardlessPointer"] = fmt.Sprintf("%v", status.IsSameRegardlessPointer())
+			}
 		}
 
 		tc.Case.ShouldBeEqualMap(t, caseIndex, actual)
