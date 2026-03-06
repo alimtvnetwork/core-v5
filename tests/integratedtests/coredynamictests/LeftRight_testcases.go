@@ -186,4 +186,97 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 		},
 		LR: nil,
 	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus same value types",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{Left: 1, Right: 2},
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus different value types",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{Left: "hello", Right: 42},
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus mixed pointer and value of same underlying type",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+				"isLeftPointer":      "false",
+				"isRightPointer":     "true",
+			},
+		},
+		LR: func() *coredynamic.LeftRight {
+			v := 10
+			return &coredynamic.LeftRight{Left: 5, Right: &v}
+		}(),
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus both pointer types same",
+			ExpectedInput: args.Map{
+				"isSame":             "true",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+				"isLeftPointer":      "true",
+				"isRightPointer":     "true",
+			},
+		},
+		LR: func() *coredynamic.LeftRight {
+			a, b := 1, 2
+			return &coredynamic.LeftRight{Left: &a, Right: &b}
+		}(),
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus left nil right non-nil",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "true",
+				"isRightUnknownNull": "false",
+			},
+		},
+		LR: &coredynamic.LeftRight{Left: nil, Right: "value"},
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus left non-nil right nil",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "true",
+			},
+		},
+		LR: &coredynamic.LeftRight{Left: "value", Right: nil},
+	},
+	{
+		Case: coretestcases.CaseV1{
+			Title: "TypeStatus both pointer types different",
+			ExpectedInput: args.Map{
+				"isSame":             "false",
+				"isLeftUnknownNull":  "false",
+				"isRightUnknownNull": "false",
+				"isLeftPointer":      "true",
+				"isRightPointer":     "true",
+			},
+		},
+		LR: func() *coredynamic.LeftRight {
+			i := 1
+			s := "x"
+			return &coredynamic.LeftRight{Left: &i, Right: &s}
+		}(),
+	},
 }
