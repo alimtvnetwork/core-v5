@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // ==========================================================================
@@ -16,12 +17,12 @@ func Test_Dynamic_Constructor_NewDynamicValid(t *testing.T) {
 	tc := dynamicConstructorNewDynamicValidTestCase
 	d := refNewDynamicValid("hello")
 
-	actLines := []string{
-		fmt.Sprintf("%v", d.IsValid()),
-		fmt.Sprintf("%v", d.Value()),
+	actual := args.Map{
+		"isValid":   d.IsValid(),
+		"dataValue": fmt.Sprintf("%v", d.Value()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -32,12 +33,12 @@ func Test_Dynamic_Constructor_NewDynamic_Invalid(t *testing.T) {
 	tc := dynamicConstructorNewDynamicInvalidTestCase
 	d := refNewDynamic(nil, false)
 
-	actLines := []string{
-		fmt.Sprintf("%v", d.IsValid()),
-		fmt.Sprintf("%v", d.IsInvalid()),
+	actual := args.Map{
+		"isValid": d.IsValid(),
+		"isNull":  d.IsInvalid(),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -48,12 +49,12 @@ func Test_Dynamic_Constructor_InvalidDynamic(t *testing.T) {
 	tc := dynamicConstructorInvalidDynamicTestCase
 	d := refInvalidDynamic()
 
-	actLines := []string{
-		fmt.Sprintf("%v", d.IsValid()),
-		fmt.Sprintf("%v", d.IsNull()),
+	actual := args.Map{
+		"isValid": d.IsValid(),
+		"isNull":  d.IsNull(),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -64,13 +65,13 @@ func Test_Dynamic_Constructor_InvalidDynamicPtr(t *testing.T) {
 	tc := dynamicConstructorInvalidDynamicPtrTestCase
 	d := refInvalidDynamicPtr()
 
-	actLines := []string{
-		fmt.Sprintf("%v", d != nil),
-		fmt.Sprintf("%v", d.IsValid()),
-		fmt.Sprintf("%v", d.IsNull()),
+	actual := args.Map{
+		"isNotNilPtr": d != nil,
+		"isValid":     d.IsValid(),
+		"isNull":      d.IsNull(),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -81,13 +82,13 @@ func Test_Dynamic_Constructor_NewDynamicPtr(t *testing.T) {
 	tc := dynamicConstructorNewDynamicPtrTestCase
 	d := refNewDynamicPtr(42, true)
 
-	actLines := []string{
-		fmt.Sprintf("%v", d != nil),
-		fmt.Sprintf("%v", d.IsValid()),
-		fmt.Sprintf("%v", d.Value()),
+	actual := args.Map{
+		"isNotNilPtr": d != nil,
+		"isValid":     d.IsValid(),
+		"dataValue":   fmt.Sprintf("%v", d.Value()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -99,12 +100,12 @@ func Test_Dynamic_Clone(t *testing.T) {
 	original := refNewDynamicValid("data")
 	cloned := original.Clone()
 
-	actLines := []string{
-		fmt.Sprintf("%v", cloned.Value()),
-		fmt.Sprintf("%v", cloned.IsValid()),
+	actual := args.Map{
+		"clonedValue":   fmt.Sprintf("%v", cloned.Value()),
+		"isIndependent": cloned.IsValid(),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Dynamic_ClonePtr_NilReceiver(t *testing.T) {
@@ -121,12 +122,12 @@ func Test_Dynamic_ClonePtr_Valid(t *testing.T) {
 	original := refNewDynamicPtr("data", true)
 	cloned := original.ClonePtr()
 
-	actLines := []string{
-		fmt.Sprintf("%v", cloned != nil),
-		fmt.Sprintf("%v", cloned.Value()),
+	actual := args.Map{
+		"isNotNilPtr": cloned != nil,
+		"clonedValue": fmt.Sprintf("%v", cloned.Value()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Dynamic_NonPtr(t *testing.T) {
@@ -146,12 +147,12 @@ func Test_Dynamic_DataValueEquality(t *testing.T) {
 	tc := dynamicDataValueEqualityTestCase
 	d := refNewDynamicValid(99)
 
-	actLines := []string{
-		fmt.Sprintf("%v", d.Data()),
-		fmt.Sprintf("%v", d.Data() == d.Value()),
+	actual := args.Map{
+		"dataValue":       fmt.Sprintf("%v", d.Data()),
+		"dataEqualsValue": d.Data() == d.Value(),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -303,10 +304,14 @@ func Test_Dynamic_ValueString_Nil(t *testing.T) {
 func Test_Dynamic_ValueStrings_Slice(t *testing.T) {
 	tc := dynamicValueStringsSliceTestCase
 	d := refNewDynamicValid([]string{"a", "b"})
+	result := d.ValueStrings()
 
-	actLines := d.ValueStrings()
+	actual := args.Map{
+		"item0": result[0],
+		"item1": result[1],
+	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Dynamic_ValueStrings_NonSlice(t *testing.T) {
@@ -358,12 +363,12 @@ func Test_Dynamic_Bytes_Valid(t *testing.T) {
 	d := refNewDynamicValid([]byte("raw"))
 	raw, ok := d.Bytes()
 
-	actLines := []string{
-		fmt.Sprintf("%v", ok),
-		string(raw),
+	actual := args.Map{
+		"hasBytes": ok,
+		"content":  string(raw),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Dynamic_Bytes_NonBytes(t *testing.T) {
@@ -381,12 +386,12 @@ func Test_Dynamic_Bytes_NilReceiver(t *testing.T) {
 	var d *coredynamic.Dynamic
 	raw, ok := d.Bytes()
 
-	actLines := []string{
-		fmt.Sprintf("%v", raw == nil),
-		fmt.Sprintf("%v", ok),
+	actual := args.Map{
+		"isNilBytes": raw == nil,
+		"hasBytes":   ok,
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -398,12 +403,12 @@ func Test_Dynamic_IntDefault_Valid(t *testing.T) {
 	d := refNewDynamicValid(42)
 	val, ok := d.IntDefault(0)
 
-	actLines := []string{
-		fmt.Sprintf("%v", ok),
-		fmt.Sprintf("%d", val),
+	actual := args.Map{
+		"isValid":  ok,
+		"intValue": val,
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Dynamic_IntDefault_NilData(t *testing.T) {
@@ -411,12 +416,12 @@ func Test_Dynamic_IntDefault_NilData(t *testing.T) {
 	d := refNewDynamic(nil, true)
 	val, ok := d.IntDefault(99)
 
-	actLines := []string{
-		fmt.Sprintf("%v", ok),
-		fmt.Sprintf("%d", val),
+	actual := args.Map{
+		"isValid":      ok,
+		"defaultValue": val,
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -544,12 +549,12 @@ func Test_Dynamic_ReflectValue_Verification(t *testing.T) {
 	rv1 := d.ReflectValue()
 	rv2 := d.ReflectValue()
 
-	actLines := []string{
-		fmt.Sprintf("%v", rv1 == rv2),
-		fmt.Sprintf("%d", rv1.Int()),
+	actual := args.Map{
+		"isCached":       rv1 == rv2,
+		"extractedValue": int(rv1.Int()),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -566,9 +571,14 @@ func Test_Dynamic_Loop_Iterate(t *testing.T) {
 		return false
 	})
 
-	actLines := append([]string{fmt.Sprintf("%v", called)}, collected...)
+	actual := args.Map{
+		"didLoop": called,
+		"item0":   collected[0],
+		"item1":   collected[1],
+		"item2":   collected[2],
+	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -612,12 +622,12 @@ func Test_Dynamic_ItemUsingIndex(t *testing.T) {
 	tc := dynamicItemUsingIndexTestCase
 	d := refNewDynamicValid([]string{"a", "b"})
 
-	actLines := []string{
-		fmt.Sprintf("%v", d.ItemUsingIndex(0)),
-		fmt.Sprintf("%v", d.ItemUsingIndex(1)),
+	actual := args.Map{
+		"item0": fmt.Sprintf("%v", d.ItemUsingIndex(0)),
+		"item1": fmt.Sprintf("%v", d.ItemUsingIndex(1)),
 	}
 
-	tc.ShouldBeEqual(t, 0, actLines...)
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================

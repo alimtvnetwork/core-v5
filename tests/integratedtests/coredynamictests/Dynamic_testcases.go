@@ -26,43 +26,43 @@ type dynamicBoolCheckInput struct {
 
 var dynamicConstructorNewDynamicValidTestCase = coretestcases.CaseV1{
 	Title: "NewDynamicValid creates valid Dynamic",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true",  // isValid
-		Second: "hello", // dataValue
+	ExpectedInput: args.Map{
+		"isValid":   true,
+		"dataValue": "hello",
 	},
 }
 
 var dynamicConstructorNewDynamicInvalidTestCase = coretestcases.CaseV1{
 	Title: "NewDynamic with isValid=false creates invalid Dynamic",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isValid
-		Second: "true",  // isNull
+	ExpectedInput: args.Map{
+		"isValid": false,
+		"isNull":  true,
 	},
 }
 
 var dynamicConstructorInvalidDynamicTestCase = coretestcases.CaseV1{
 	Title: "InvalidDynamic creates invalid nil Dynamic",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isValid
-		Second: "true",  // isNull
+	ExpectedInput: args.Map{
+		"isValid": false,
+		"isNull":  true,
 	},
 }
 
 var dynamicConstructorInvalidDynamicPtrTestCase = coretestcases.CaseV1{
 	Title: "InvalidDynamicPtr creates invalid nil Dynamic pointer",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true",  // isNotNilPtr
-		Second: "false", // isValid
-		Third:  "true",  // isNull
+	ExpectedInput: args.Map{
+		"isNotNilPtr": true,
+		"isValid":     false,
+		"isNull":      true,
 	},
 }
 
 var dynamicConstructorNewDynamicPtrTestCase = coretestcases.CaseV1{
 	Title: "NewDynamicPtr creates pointer Dynamic",
-	ExpectedInput: args.Three[string, string, string]{
-		First:  "true", // isNotNilPtr
-		Second: "true", // isValid
-		Third:  "42",   // dataValue
+	ExpectedInput: args.Map{
+		"isNotNilPtr": true,
+		"isValid":     true,
+		"dataValue":   "42",
 	},
 }
 
@@ -72,9 +72,9 @@ var dynamicConstructorNewDynamicPtrTestCase = coretestcases.CaseV1{
 
 var dynamicCloneTestCase = coretestcases.CaseV1{
 	Title: "Clone creates independent copy",
-	ExpectedInput: args.Two[string, string]{
-		First:  "data", // clonedValue
-		Second: "true", // isIndependent
+	ExpectedInput: args.Map{
+		"clonedValue":   "data",
+		"isIndependent": true,
 	},
 }
 
@@ -85,9 +85,9 @@ var dynamicClonePtrNilTestCase = coretestcases.CaseV1{
 
 var dynamicClonePtrValidTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr creates independent pointer copy",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isNotNilPtr
-		Second: "data", // clonedValue
+	ExpectedInput: args.Map{
+		"isNotNilPtr": true,
+		"clonedValue": "data",
 	},
 }
 
@@ -102,9 +102,9 @@ var dynamicNonPtrTestCase = coretestcases.CaseV1{
 
 var dynamicDataValueEqualityTestCase = coretestcases.CaseV1{
 	Title: "Data and Value return same inner data",
-	ExpectedInput: args.Two[string, string]{
-		First:  "99",   // dataValue
-		Second: "true", // dataEqualsValue
+	ExpectedInput: args.Map{
+		"dataValue":       "99",
+		"dataEqualsValue": true,
 	},
 }
 
@@ -354,9 +354,9 @@ var dynamicValueStringNilTestCase = coretestcases.CaseV1{
 
 var dynamicValueStringsSliceTestCase = coretestcases.CaseV1{
 	Title: "ValueStrings returns []string",
-	ExpectedInput: args.Two[string, string]{
-		First:  "a", // item0
-		Second: "b", // item1
+	ExpectedInput: args.Map{
+		"item0": "a",
+		"item1": "b",
 	},
 }
 
@@ -397,9 +397,9 @@ var dynamicValueInt64TestCases = []coretestcases.CaseV1{
 
 var dynamicBytesValidTestCase = coretestcases.CaseV1{
 	Title: "Bytes returns []byte",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // hasBytes
-		Second: "raw",  // content
+	ExpectedInput: args.Map{
+		"hasBytes": true,
+		"content":  "raw",
 	},
 }
 
@@ -410,9 +410,9 @@ var dynamicBytesNonBytesTestCase = coretestcases.CaseV1{
 
 var dynamicBytesNilReceiverTestCase = coretestcases.CaseV1{
 	Title: "Bytes returns nil,false on nil receiver",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true",  // isNilBytes
-		Second: "false", // hasBytes
+	ExpectedInput: args.Map{
+		"isNilBytes": true,
+		"hasBytes":   false,
 	},
 }
 
@@ -422,17 +422,17 @@ var dynamicBytesNilReceiverTestCase = coretestcases.CaseV1{
 
 var dynamicIntDefaultValidTestCase = coretestcases.CaseV1{
 	Title: "IntDefault parses int value",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isValid
-		Second: "42",   // intValue
+	ExpectedInput: args.Map{
+		"isValid":  true,
+		"intValue": 42,
 	},
 }
 
 var dynamicIntDefaultNilTestCase = coretestcases.CaseV1{
 	Title: "IntDefault returns default on nil data",
-	ExpectedInput: args.Two[string, string]{
-		First:  "false", // isValid
-		Second: "99",    // defaultValue
+	ExpectedInput: args.Map{
+		"isValid":      false,
+		"defaultValue": 99,
 	},
 }
 
@@ -496,9 +496,9 @@ var dynamicIsReflectTypeOfTestCase = coretestcases.CaseV1{
 
 var dynamicReflectValueCachedTestCase = coretestcases.CaseV1{
 	Title: "ReflectValue returns cached reflect.Value",
-	ExpectedInput: args.Two[string, string]{
-		First:  "true", // isValid
-		Second: "42",   // extractedValue
+	ExpectedInput: args.Map{
+		"isCached":       true,
+		"extractedValue": 42,
 	},
 }
 
@@ -508,11 +508,11 @@ var dynamicReflectValueCachedTestCase = coretestcases.CaseV1{
 
 var dynamicLoopIterateTestCase = coretestcases.CaseV1{
 	Title: "Loop iterates slice items",
-	ExpectedInput: args.Four[string, string, string, string]{
-		First:  "true", // didLoop
-		Second: "a",    // item0
-		Third:  "b",    // item1
-		Fourth: "c",    // item2
+	ExpectedInput: args.Map{
+		"didLoop": true,
+		"item0":   "a",
+		"item1":   "b",
+		"item2":   "c",
 	},
 }
 
@@ -532,9 +532,9 @@ var dynamicLoopBreakTestCase = coretestcases.CaseV1{
 
 var dynamicItemUsingIndexTestCase = coretestcases.CaseV1{
 	Title: "ItemUsingIndex returns correct element",
-	ExpectedInput: args.Two[string, string]{
-		First:  "a", // item0
-		Second: "b", // item1
+	ExpectedInput: args.Map{
+		"item0": "a",
+		"item1": "b",
 	},
 }
 
