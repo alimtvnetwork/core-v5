@@ -1,7 +1,6 @@
 package pagingutiltests
 
 import (
-	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
@@ -19,7 +18,10 @@ func Test_GetPagesSize_Verification(t *testing.T) {
 		result := pagingutil.GetPagesSize(eachPageSize, totalLength)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))
+		actual := args.Map{
+			"pagesSize": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -39,13 +41,12 @@ func Test_GetPagingInfo_Verification(t *testing.T) {
 		})
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			fmt.Sprintf("%v", info.PageIndex),
-			fmt.Sprintf("%v", info.SkipItems),
-			fmt.Sprintf("%v", info.EndingLength),
-			fmt.Sprintf("%v", info.IsPagingPossible),
-		)
+		actual := args.Map{
+			"pageIndex":        info.PageIndex,
+			"skipItems":        info.SkipItems,
+			"endingLength":     info.EndingLength,
+			"isPagingPossible": info.IsPagingPossible,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

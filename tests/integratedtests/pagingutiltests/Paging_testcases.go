@@ -14,7 +14,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  10,
 		},
-		ExpectedInput: "1",
+		ExpectedInput: args.Map{
+			"pagesSize": 1,
+		},
 	},
 	{
 		Title: "GetPagesSize returns 2 for partial overflow",
@@ -23,7 +25,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  11,
 		},
-		ExpectedInput: "2",
+		ExpectedInput: args.Map{
+			"pagesSize": 2,
+		},
 	},
 	{
 		Title: "GetPagesSize returns 3 for 25 items page 10",
@@ -32,7 +36,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  25,
 		},
-		ExpectedInput: "3",
+		ExpectedInput: args.Map{
+			"pagesSize": 3,
+		},
 	},
 	{
 		Title: "GetPagesSize returns 1 for single item",
@@ -41,7 +47,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  1,
 		},
-		ExpectedInput: "1",
+		ExpectedInput: args.Map{
+			"pagesSize": 1,
+		},
 	},
 	{
 		Title: "GetPagesSize returns 10 for 100 items page 10",
@@ -50,7 +58,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  100,
 		},
-		ExpectedInput: "10",
+		ExpectedInput: args.Map{
+			"pagesSize": 10,
+		},
 	},
 	{
 		Title: "GetPagesSize returns 1 for page size 1 and 1 item",
@@ -59,7 +69,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 1,
 			"totalLength":  1,
 		},
-		ExpectedInput: "1",
+		ExpectedInput: args.Map{
+			"pagesSize": 1,
+		},
 	},
 	{
 		Title: "GetPagesSize returns 5 for page size 1 and 5 items",
@@ -68,7 +80,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 1,
 			"totalLength":  5,
 		},
-		ExpectedInput: "5",
+		ExpectedInput: args.Map{
+			"pagesSize": 5,
+		},
 	},
 
 	// === Boundary / edge cases ===
@@ -79,7 +93,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 10,
 			"totalLength":  0,
 		},
-		ExpectedInput: "0",
+		ExpectedInput: args.Map{
+			"pagesSize": 0,
+		},
 	},
 
 	// === Negative / guard cases ===
@@ -90,7 +106,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": 0,
 			"totalLength":  25,
 		},
-		ExpectedInput: "0",
+		ExpectedInput: args.Map{
+			"pagesSize": 0,
+		},
 	},
 	{
 		Title: "GetPagesSize returns 0 for negative page size",
@@ -99,7 +117,9 @@ var getPagesSizeTestCases = []coretestcases.CaseV1{
 			"eachPageSize": -5,
 			"totalLength":  25,
 		},
-		ExpectedInput: "0",
+		ExpectedInput: args.Map{
+			"pagesSize": 0,
+		},
 	},
 }
 
@@ -113,11 +133,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    2,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"2",
-			"10",
-			"20",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        2,
+			"skipItems":        10,
+			"endingLength":     20,
+			"isPagingPossible": true,
 		},
 	},
 	{
@@ -128,11 +148,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"10",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     10,
+			"isPagingPossible": true,
 		},
 	},
 	{
@@ -143,11 +163,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    3,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"3",
-			"20",
-			"25",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        3,
+			"skipItems":        20,
+			"endingLength":     25,
+			"isPagingPossible": true,
 		},
 	},
 	{
@@ -158,11 +178,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    2,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"2",
-			"10",
-			"20",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        2,
+			"skipItems":        10,
+			"endingLength":     20,
+			"isPagingPossible": true,
 		},
 	},
 	{
@@ -173,11 +193,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    3,
 			"eachPageSize": 1,
 		},
-		ExpectedInput: []string{
-			"3",
-			"2",
-			"3",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        3,
+			"skipItems":        2,
+			"endingLength":     3,
+			"isPagingPossible": true,
 		},
 	},
 
@@ -190,11 +210,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"5",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     5,
+			"isPagingPossible": false,
 		},
 	},
 	{
@@ -205,11 +225,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": 5,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"1",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     1,
+			"isPagingPossible": false,
 		},
 	},
 
@@ -222,11 +242,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"10",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     10,
+			"isPagingPossible": true,
 		},
 	},
 
@@ -239,11 +259,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"0",
-			"0",
-			"0",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        0,
+			"skipItems":        0,
+			"endingLength":     0,
+			"isPagingPossible": false,
 		},
 	},
 
@@ -256,11 +276,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    -3,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"10",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     10,
+			"isPagingPossible": true,
 		},
 	},
 	{
@@ -271,11 +291,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    0,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"10",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     10,
+			"isPagingPossible": true,
 		},
 	},
 
@@ -288,11 +308,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    100,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"3",
-			"20",
-			"25",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        3,
+			"skipItems":        20,
+			"endingLength":     25,
+			"isPagingPossible": true,
 		},
 	},
 	{
@@ -303,11 +323,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    5,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"2",
-			"10",
-			"15",
-			"true",
+		ExpectedInput: args.Map{
+			"pageIndex":        2,
+			"skipItems":        10,
+			"endingLength":     15,
+			"isPagingPossible": true,
 		},
 	},
 
@@ -320,11 +340,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": 0,
 		},
-		ExpectedInput: []string{
-			"0",
-			"0",
-			"0",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        0,
+			"skipItems":        0,
+			"endingLength":     0,
+			"isPagingPossible": false,
 		},
 	},
 	{
@@ -335,11 +355,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": -5,
 		},
-		ExpectedInput: []string{
-			"0",
-			"0",
-			"0",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        0,
+			"skipItems":        0,
+			"endingLength":     0,
+			"isPagingPossible": false,
 		},
 	},
 
@@ -352,11 +372,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    -1,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"3",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     3,
+			"isPagingPossible": false,
 		},
 	},
 
@@ -369,11 +389,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    99,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"1",
-			"0",
-			"3",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        1,
+			"skipItems":        0,
+			"endingLength":     3,
+			"isPagingPossible": false,
 		},
 	},
 
@@ -386,11 +406,11 @@ var getPagingInfoTestCases = []coretestcases.CaseV1{
 			"pageIndex":    1,
 			"eachPageSize": 10,
 		},
-		ExpectedInput: []string{
-			"0",
-			"0",
-			"0",
-			"false",
+		ExpectedInput: args.Map{
+			"pageIndex":        0,
+			"skipItems":        0,
+			"endingLength":     0,
+			"isPagingPossible": false,
 		},
 	},
 }
