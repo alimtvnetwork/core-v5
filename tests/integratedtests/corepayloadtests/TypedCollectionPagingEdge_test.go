@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coredata/corepayload"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // =============================================================================
@@ -16,21 +16,23 @@ func Test_TypedPayloadCollection_GetPagedCollection_EdgeCases(t *testing.T) {
 	for caseIndex, testCase := range typedCollectionPagingEdgeCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		count := input.GetDirectLower("count").(int)
-		pageSize := input.GetDirectLower("pageSize").(int)
+		count, _ := input.GetAsInt("count")
+		pageSize, _ := input.GetAsInt("pageSize")
 
 		collection := createNumberedUsers(count)
 
 		// Act
 		pages := collection.GetPagedCollection(pageSize)
 
-		results := []string{fmt.Sprintf("%d", len(pages))}
-		for _, page := range pages {
-			results = append(results, fmt.Sprintf("%d", page.Length()))
+		actual := args.Map{
+			"pageCount": len(pages),
+		}
+		for i, page := range pages {
+			actual[fmt.Sprintf("page%dItems", i+1)] = page.Length()
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -42,22 +44,24 @@ func Test_TypedPayloadCollection_GetSinglePageCollection_EdgeCases(t *testing.T)
 	for caseIndex, testCase := range typedCollectionSinglePageEdgeCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		count := input.GetDirectLower("count").(int)
-		pageSize := input.GetDirectLower("pageSize").(int)
-		pageIndex := input.GetDirectLower("pageIndex").(int)
+		count, _ := input.GetAsInt("count")
+		pageSize, _ := input.GetAsInt("pageSize")
+		pageIndex, _ := input.GetAsInt("pageIndex")
 
 		collection := createNumberedUsers(count)
 
 		// Act
 		page := collection.GetSinglePageCollection(pageSize, pageIndex)
 
-		results := []string{fmt.Sprintf("%d", page.Length())}
-		for _, item := range page.Items() {
-			results = append(results, item.Identifier())
+		actual := args.Map{
+			"pageItemCount": page.Length(),
+		}
+		for i, item := range page.Items() {
+			actual[fmt.Sprintf("item%d", i)] = item.Identifier()
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -69,28 +73,29 @@ func Test_TypedPayloadCollection_GetPagedCollectionWithInfo_EdgeCases(t *testing
 	for caseIndex, testCase := range typedCollectionPagedWithInfoEdgeCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		count := input.GetDirectLower("count").(int)
-		pageSize := input.GetDirectLower("pageSize").(int)
+		count, _ := input.GetAsInt("count")
+		pageSize, _ := input.GetAsInt("pageSize")
 
 		collection := createNumberedUsers(count)
 
 		// Act
 		pages := collection.GetPagedCollectionWithInfo(pageSize)
 
-		results := []string{fmt.Sprintf("%d", len(pages))}
+		actual := args.Map{
+			"pageCount": len(pages),
+		}
 
 		for i := 0; i < len(pages) && i < 2; i++ {
 			page := pages[i]
-			results = append(results,
-				fmt.Sprintf("%d", page.Paging.CurrentPageIndex),
-				fmt.Sprintf("%d", page.Paging.TotalPages),
-				fmt.Sprintf("%d", page.Paging.PerPageItems),
-				fmt.Sprintf("%d", page.Paging.TotalItems),
-			)
+			prefix := fmt.Sprintf("p%d", i+1)
+			actual[prefix+"CurrentPageIndex"] = page.Paging.CurrentPageIndex
+			actual[prefix+"TotalPages"] = page.Paging.TotalPages
+			actual[prefix+"PerPageItems"] = page.Paging.PerPageItems
+			actual[prefix+"TotalItems"] = page.Paging.TotalItems
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -102,8 +107,8 @@ func Test_TypedPayloadCollection_GetPagesSize_EdgeCases(t *testing.T) {
 	for caseIndex, testCase := range typedCollectionPagesSizeEdgeCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		count := input.GetDirectLower("count").(int)
-		pageSize := input.GetDirectLower("pageSize").(int)
+		count, _ := input.GetAsInt("count")
+		pageSize, _ := input.GetAsInt("pageSize")
 
 		collection := createNumberedUsers(count)
 
@@ -111,9 +116,10 @@ func Test_TypedPayloadCollection_GetPagesSize_EdgeCases(t *testing.T) {
 		pagesSize := collection.GetPagesSize(pageSize)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%d", pagesSize),
-		)
+		actual := args.Map{
+			"pagesSize": pagesSize,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 

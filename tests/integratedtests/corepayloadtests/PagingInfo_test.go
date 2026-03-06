@@ -34,35 +34,12 @@ func pagingInfoDiff(label string, left, right *corepayload.PagingInfo) string {
 	)
 }
 
-// pagingInfoStateString returns all state check results as a formatted string for diff output.
-func pagingInfoStateString(label string, info *corepayload.PagingInfo) string {
-	infoStr := "<nil>"
-	if info != nil {
-		infoStr = fmt.Sprintf(
-			"{TotalPages:%d, CurrentPageIndex:%d, PerPageItems:%d, TotalItems:%d}",
-			info.TotalPages, info.CurrentPageIndex, info.PerPageItems, info.TotalItems,
-		)
-	}
-
-	return fmt.Sprintf(
-		"\n[%s] Input: %s\n"+
-			"  IsEmpty:%v | HasTotalPages:%v, HasCurrentPageIndex:%v, HasPerPageItems:%v, HasTotalItems:%v\n"+
-			"  IsInvalidTotalPages:%v, IsInvalidCurrentPageIndex:%v, IsInvalidPerPageItems:%v, IsInvalidTotalItems:%v",
-		label, infoStr,
-		info.IsEmpty(),
-		info.HasTotalPages(), info.HasCurrentPageIndex(), info.HasPerPageItems(), info.HasTotalItems(),
-		info.IsInvalidTotalPages(), info.IsInvalidCurrentPageIndex(), info.IsInvalidPerPageItems(), info.IsInvalidTotalItems(),
-	)
-}
-
 func Test_PagingInfo_IsEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range pagingInfoIsEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isLeftNilRaw, _ := input.Get("isLeftNil")
-		isLeftNil, _ := isLeftNilRaw.(bool)
-		isRightNilRaw, _ := input.Get("isRightNil")
-		isRightNil, _ := isRightNilRaw.(bool)
+		isLeftNil := input.GetAsBoolDefault("isLeftNil", false)
+		isRightNil := input.GetAsBoolDefault("isRightNil", false)
 
 		var left, right *corepayload.PagingInfo
 		if !isLeftNil {
@@ -76,8 +53,10 @@ func Test_PagingInfo_IsEqual_Verification(t *testing.T) {
 		result := left.IsEqual(right)
 
 		// Assert
-		actual := fmt.Sprintf("%v", result)
-		testCase.ShouldBeEqual(t, caseIndex, actual)
+		actual := args.Map{
+			"isEqual": result,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -85,8 +64,7 @@ func Test_PagingInfo_State_Verification(t *testing.T) {
 	for caseIndex, testCase := range pagingInfoStateTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNilVal, _ := input.Get("isNil")
-		isNil, _ := isNilVal.(bool)
+		isNil := input.GetAsBoolDefault("isNil", false)
 
 		var info *corepayload.PagingInfo
 		if !isNil {
@@ -94,20 +72,20 @@ func Test_PagingInfo_State_Verification(t *testing.T) {
 		}
 
 		// Act
-		results := []string{
-			fmt.Sprintf("%v", info.IsEmpty()),
-			fmt.Sprintf("%v", info.HasTotalPages()),
-			fmt.Sprintf("%v", info.HasCurrentPageIndex()),
-			fmt.Sprintf("%v", info.HasPerPageItems()),
-			fmt.Sprintf("%v", info.HasTotalItems()),
-			fmt.Sprintf("%v", info.IsInvalidTotalPages()),
-			fmt.Sprintf("%v", info.IsInvalidCurrentPageIndex()),
-			fmt.Sprintf("%v", info.IsInvalidPerPageItems()),
-			fmt.Sprintf("%v", info.IsInvalidTotalItems()),
+		actual := args.Map{
+			"isEmpty":                   info.IsEmpty(),
+			"hasTotalPages":             info.HasTotalPages(),
+			"hasCurrentPageIndex":       info.HasCurrentPageIndex(),
+			"hasPerPageItems":           info.HasPerPageItems(),
+			"hasTotalItems":             info.HasTotalItems(),
+			"isInvalidTotalPages":       info.IsInvalidTotalPages(),
+			"isInvalidCurrentPageIndex": info.IsInvalidCurrentPageIndex(),
+			"isInvalidPerPageItems":     info.IsInvalidPerPageItems(),
+			"isInvalidTotalItems":       info.IsInvalidTotalItems(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, results...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -121,12 +99,13 @@ func Test_PagingInfo_Clone_Verification(t *testing.T) {
 		clone := info.Clone()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex,
-			fmt.Sprintf("%v", clone.TotalPages),
-			fmt.Sprintf("%v", clone.CurrentPageIndex),
-			fmt.Sprintf("%v", clone.PerPageItems),
-			fmt.Sprintf("%v", clone.TotalItems),
-		)
+		actual := args.Map{
+			"totalPages":       clone.TotalPages,
+			"currentPageIndex": clone.CurrentPageIndex,
+			"perPageItems":     clone.PerPageItems,
+			"totalItems":       clone.TotalItems,
+		}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -134,8 +113,7 @@ func Test_PagingInfo_ClonePtr_Verification(t *testing.T) {
 	for caseIndex, testCase := range pagingInfoClonePtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNilVal, _ := input.Get("isNil")
-		isNil, _ := isNilVal.(bool)
+		isNil := input.GetAsBoolDefault("isNil", false)
 
 		var info *corepayload.PagingInfo
 		if !isNil {
@@ -147,15 +125,19 @@ func Test_PagingInfo_ClonePtr_Verification(t *testing.T) {
 
 		// Assert
 		if isNil {
-			testCase.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result == nil))
+			actual := args.Map{
+				"isNil": result == nil,
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
 		} else {
-			testCase.ShouldBeEqual(t, caseIndex,
-				fmt.Sprintf("%v", result == nil),
-				fmt.Sprintf("%v", result.TotalPages),
-				fmt.Sprintf("%v", result.CurrentPageIndex),
-				fmt.Sprintf("%v", result.PerPageItems),
-				fmt.Sprintf("%v", result.TotalItems),
-			)
+			actual := args.Map{
+				"isNil":            result == nil,
+				"totalPages":       result.TotalPages,
+				"currentPageIndex": result.CurrentPageIndex,
+				"perPageItems":     result.PerPageItems,
+				"totalItems":       result.TotalItems,
+			}
+			testCase.ShouldBeEqualMap(t, caseIndex, actual)
 		}
 	}
 }
