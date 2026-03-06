@@ -22,16 +22,16 @@ func Test_Info_Default_Verification(t *testing.T) {
 
 		// Act
 		info := coretaskinfo.New.Info.Default(nameStr, descStr, urlStr)
-		actLines := []string{
-			info.SafeName(),
-			info.SafeDescription(),
-			info.SafeUrl(),
-			fmt.Sprintf("%v", info.IsNull()),
-			fmt.Sprintf("%v", info.IsDefined()),
+		actual := args.Map{
+			"name":      info.SafeName(),
+			"desc":      info.SafeDescription(),
+			"url":       info.SafeUrl(),
+			"isNull":    fmt.Sprintf("%v", info.IsNull()),
+			"isDefined": fmt.Sprintf("%v", info.IsDefined()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -50,18 +50,18 @@ func Test_Info_ExamplesWithItems_Verification(t *testing.T) {
 
 		// Act
 		info := coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr, examples...)
-		actLines := []string{
-			info.SafeName(),
-			info.SafeDescription(),
-			info.SafeUrl(),
-			fmt.Sprintf("%v", info.IsNull()),
-			fmt.Sprintf("%v", info.IsDefined()),
-			fmt.Sprintf("%v", info.HasExamples()),
-			fmt.Sprintf("%d", len(info.Examples)),
+		actual := args.Map{
+			"name":         info.SafeName(),
+			"desc":         info.SafeDescription(),
+			"url":          info.SafeUrl(),
+			"isNull":       fmt.Sprintf("%v", info.IsNull()),
+			"isDefined":    fmt.Sprintf("%v", info.IsDefined()),
+			"hasExamples":  fmt.Sprintf("%v", info.HasExamples()),
+			"exampleCount": fmt.Sprintf("%d", len(info.Examples)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -79,18 +79,18 @@ func Test_Info_ExamplesEmpty_Verification(t *testing.T) {
 
 		// Act
 		info := coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr)
-		actLines := []string{
-			info.SafeName(),
-			info.SafeDescription(),
-			info.SafeUrl(),
-			fmt.Sprintf("%v", info.IsNull()),
-			fmt.Sprintf("%v", info.IsDefined()),
-			fmt.Sprintf("%v", info.HasExamples()),
-			fmt.Sprintf("%d", len(info.Examples)),
+		actual := args.Map{
+			"name":         info.SafeName(),
+			"desc":         info.SafeDescription(),
+			"url":          info.SafeUrl(),
+			"isNull":       fmt.Sprintf("%v", info.IsNull()),
+			"isDefined":    fmt.Sprintf("%v", info.IsDefined()),
+			"hasExamples":  fmt.Sprintf("%v", info.HasExamples()),
+			"exampleCount": fmt.Sprintf("%d", len(info.Examples)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -104,10 +104,10 @@ func Test_Info_Nil_SafeName_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{info.SafeName()}
+		result := info.SafeName()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -121,10 +121,10 @@ func Test_Info_Nil_SafeDescription_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{info.SafeDescription()}
+		result := info.SafeDescription()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -138,10 +138,10 @@ func Test_Info_Nil_SafeUrl_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{info.SafeUrl()}
+		result := info.SafeUrl()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -155,10 +155,10 @@ func Test_Info_Nil_SafeHintUrl_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{info.SafeHintUrl()}
+		result := info.SafeHintUrl()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -172,10 +172,10 @@ func Test_Info_Nil_SafeErrorUrl_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{info.SafeErrorUrl()}
+		result := info.SafeErrorUrl()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -189,10 +189,10 @@ func Test_Info_Nil_SafeExampleUrl_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{info.SafeExampleUrl()}
+		result := info.SafeExampleUrl()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -206,13 +206,13 @@ func Test_Info_Nil_NullCheck_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", info.IsNull()),
-			fmt.Sprintf("%v", info.IsDefined()),
+		actual := args.Map{
+			"isNull":    fmt.Sprintf("%v", info.IsNull()),
+			"isDefined": fmt.Sprintf("%v", info.IsDefined()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -226,13 +226,13 @@ func Test_Info_Nil_EmptyCheck_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", info.IsEmpty()),
-			fmt.Sprintf("%v", info.HasAnyItem()),
+		actual := args.Map{
+			"isEmpty":    fmt.Sprintf("%v", info.IsEmpty()),
+			"hasAnyItem": fmt.Sprintf("%v", info.HasAnyItem()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -247,10 +247,10 @@ func Test_Info_Nil_ClonePtr_Verification(t *testing.T) {
 
 		// Act
 		cloned := info.ClonePtr()
-		actLines := []string{fmt.Sprintf("%v", cloned == nil)}
+		result := fmt.Sprintf("%v", cloned == nil)
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -264,10 +264,10 @@ func Test_Info_Nil_PrettyJsonString_Verification(t *testing.T) {
 		var info *coretaskinfo.Info
 
 		// Act
-		actLines := []string{info.PrettyJsonString()}
+		result := info.PrettyJsonString()
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqual(t, caseIndex, result)
 	}
 }
 
@@ -285,17 +285,17 @@ func Test_Info_SecureDefault_Verification(t *testing.T) {
 
 		// Act
 		info := coretaskinfo.New.Info.Secure.Default(nameStr, descStr, urlStr)
-		actLines := []string{
-			info.SafeName(),
-			info.SafeDescription(),
-			info.SafeUrl(),
-			fmt.Sprintf("%v", info.IsSecure()),
-			fmt.Sprintf("%v", info.IsPlainText()),
-			fmt.Sprintf("%v", info.IsExcludePayload()),
+		actual := args.Map{
+			"name":             info.SafeName(),
+			"desc":             info.SafeDescription(),
+			"url":              info.SafeUrl(),
+			"isSecure":         fmt.Sprintf("%v", info.IsSecure()),
+			"isPlainText":      fmt.Sprintf("%v", info.IsPlainText()),
+			"isExcludePayload": fmt.Sprintf("%v", info.IsExcludePayload()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -315,16 +315,16 @@ func Test_Info_SecureExamples_Verification(t *testing.T) {
 		// Act
 		info := coretaskinfo.New.Info.Secure.NameDescUrlExamples(
 			nameStr, descStr, urlStr, examples...)
-		actLines := []string{
-			info.SafeName(),
-			fmt.Sprintf("%v", info.IsSecure()),
-			fmt.Sprintf("%v", info.IsPlainText()),
-			fmt.Sprintf("%v", info.IsExcludePayload()),
-			fmt.Sprintf("%d", len(info.Examples)),
+		actual := args.Map{
+			"name":             info.SafeName(),
+			"isSecure":         fmt.Sprintf("%v", info.IsSecure()),
+			"isPlainText":      fmt.Sprintf("%v", info.IsPlainText()),
+			"isExcludePayload": fmt.Sprintf("%v", info.IsExcludePayload()),
+			"exampleCount":     fmt.Sprintf("%d", len(info.Examples)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -339,13 +339,13 @@ func Test_Info_SetSecureOnNil_Verification(t *testing.T) {
 
 		// Act
 		result := info.SetSecure()
-		actLines := []string{
-			fmt.Sprintf("%v", result.IsSecure()),
-			fmt.Sprintf("%v", result.IsPlainText()),
+		actual := args.Map{
+			"isSecure":    fmt.Sprintf("%v", result.IsSecure()),
+			"isPlainText": fmt.Sprintf("%v", result.IsPlainText()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -362,14 +362,14 @@ func Test_Info_SetSecureOnExisting_Verification(t *testing.T) {
 		// Act
 		info := coretaskinfo.New.Info.Plain.Default(nameStr, "d", "u")
 		info.SetSecure()
-		actLines := []string{
-			fmt.Sprintf("%v", info.IsSecure()),
-			fmt.Sprintf("%v", info.IsPlainText()),
-			info.SafeName(),
+		actual := args.Map{
+			"isSecure":    fmt.Sprintf("%v", info.IsSecure()),
+			"isPlainText": fmt.Sprintf("%v", info.IsPlainText()),
+			"name":        info.SafeName(),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -387,17 +387,17 @@ func Test_Info_PlainDefault_Verification(t *testing.T) {
 
 		// Act
 		info := coretaskinfo.New.Info.Plain.Default(nameStr, descStr, urlStr)
-		actLines := []string{
-			info.SafeName(),
-			info.SafeDescription(),
-			info.SafeUrl(),
-			fmt.Sprintf("%v", info.IsSecure()),
-			fmt.Sprintf("%v", info.IsPlainText()),
-			fmt.Sprintf("%v", info.IsIncludePayloads()),
+		actual := args.Map{
+			"name":              info.SafeName(),
+			"desc":              info.SafeDescription(),
+			"url":               info.SafeUrl(),
+			"isSecure":          fmt.Sprintf("%v", info.IsSecure()),
+			"isPlainText":       fmt.Sprintf("%v", info.IsPlainText()),
+			"isIncludePayloads": fmt.Sprintf("%v", info.IsIncludePayloads()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -419,19 +419,19 @@ func Test_Info_PlainAllUrlExamples_Verification(t *testing.T) {
 		// Act
 		info := coretaskinfo.New.Info.Plain.AllUrlExamples(
 			nameStr, descStr, urlStr, hintUrl, errorUrl, examples...)
-		actLines := []string{
-			info.SafeName(),
-			info.SafeDescription(),
-			info.SafeUrl(),
-			info.SafeHintUrl(),
-			info.SafeErrorUrl(),
-			fmt.Sprintf("%v", info.IsSecure()),
-			fmt.Sprintf("%v", info.IsPlainText()),
-			fmt.Sprintf("%d", len(info.Examples)),
+		actual := args.Map{
+			"name":         info.SafeName(),
+			"desc":         info.SafeDescription(),
+			"url":          info.SafeUrl(),
+			"hintUrl":      info.SafeHintUrl(),
+			"errorUrl":     info.SafeErrorUrl(),
+			"isSecure":     fmt.Sprintf("%v", info.IsSecure()),
+			"isPlainText":  fmt.Sprintf("%v", info.IsPlainText()),
+			"exampleCount": fmt.Sprintf("%d", len(info.Examples)),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -446,13 +446,13 @@ func Test_Info_SetPlainOnNil_Verification(t *testing.T) {
 
 		// Act
 		result := info.SetPlain()
-		actLines := []string{
-			fmt.Sprintf("%v", result.IsSecure()),
-			fmt.Sprintf("%v", result.IsPlainText()),
+		actual := args.Map{
+			"isSecure":    fmt.Sprintf("%v", result.IsSecure()),
+			"isPlainText": fmt.Sprintf("%v", result.IsPlainText()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -472,16 +472,16 @@ func Test_Info_SerializeDefault_Verification(t *testing.T) {
 		original := coretaskinfo.New.Info.Default(nameStr, descStr, urlStr)
 		jsonBytes := original.JsonPtr().Bytes
 		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
-		actLines := []string{
-			deserialized.SafeName(),
-			deserialized.SafeDescription(),
-			deserialized.SafeUrl(),
-			fmt.Sprintf("%v", err == nil),
-			fmt.Sprintf("%v", deserialized.IsSecure()),
+		actual := args.Map{
+			"name":     deserialized.SafeName(),
+			"desc":     deserialized.SafeDescription(),
+			"url":      deserialized.SafeUrl(),
+			"noError":  fmt.Sprintf("%v", err == nil),
+			"isSecure": fmt.Sprintf("%v", deserialized.IsSecure()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -501,16 +501,16 @@ func Test_Info_SerializeSecure_Verification(t *testing.T) {
 		original := coretaskinfo.New.Info.Secure.Default(nameStr, descStr, urlStr)
 		jsonBytes := original.JsonPtr().Bytes
 		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
-		actLines := []string{
-			deserialized.SafeName(),
-			deserialized.SafeDescription(),
-			deserialized.SafeUrl(),
-			fmt.Sprintf("%v", err == nil),
-			fmt.Sprintf("%v", deserialized.IsSecure()),
+		actual := args.Map{
+			"name":     deserialized.SafeName(),
+			"desc":     deserialized.SafeDescription(),
+			"url":      deserialized.SafeUrl(),
+			"noError":  fmt.Sprintf("%v", err == nil),
+			"isSecure": fmt.Sprintf("%v", deserialized.IsSecure()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -531,17 +531,17 @@ func Test_Info_SerializeExamples_Verification(t *testing.T) {
 		original := coretaskinfo.New.Info.Examples(nameStr, descStr, urlStr, examples...)
 		jsonBytes := original.JsonPtr().Bytes
 		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
-		actLines := []string{
-			deserialized.SafeName(),
-			fmt.Sprintf("%v", err == nil),
-			fmt.Sprintf("%d", len(deserialized.Examples)),
+		actual := args.Map{
+			"name":         deserialized.SafeName(),
+			"noError":      fmt.Sprintf("%v", err == nil),
+			"exampleCount": fmt.Sprintf("%d", len(deserialized.Examples)),
 		}
-		for _, ex := range deserialized.Examples {
-			actLines = append(actLines, ex)
+		for i, ex := range deserialized.Examples {
+			actual[fmt.Sprintf("example%d", i)] = ex
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -563,16 +563,16 @@ func Test_Info_SerializeAllUrls_Verification(t *testing.T) {
 		original := coretaskinfo.New.Info.Plain.AllUrl(nameStr, descStr, urlStr, hintUrl, errorUrl)
 		jsonBytes := original.JsonPtr().Bytes
 		deserialized, err := coretaskinfo.New.Info.Deserialized(jsonBytes)
-		actLines := []string{
-			deserialized.SafeName(),
-			deserialized.SafeUrl(),
-			deserialized.SafeHintUrl(),
-			deserialized.SafeErrorUrl(),
-			fmt.Sprintf("%v", err == nil),
+		actual := args.Map{
+			"name":     deserialized.SafeName(),
+			"url":      deserialized.SafeUrl(),
+			"hintUrl":  deserialized.SafeHintUrl(),
+			"errorUrl": deserialized.SafeErrorUrl(),
+			"noError":  fmt.Sprintf("%v", err == nil),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -593,15 +593,14 @@ func Test_Info_Clone_Verification(t *testing.T) {
 		original := coretaskinfo.New.Info.Default(nameStr, descStr, urlStr)
 		cloned := original.Clone()
 		cloned.RootName = newName
+		actual := args.Map{
+			"originalName": original.SafeName(),
+			"clonedName":   cloned.SafeName(),
+			"clonedDesc":   cloned.SafeDescription(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqual(
-			t,
-			caseIndex,
-			original.SafeName(),
-			cloned.SafeName(),
-			cloned.SafeDescription(),
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -620,18 +619,18 @@ func Test_Info_FieldChecks_Populated_Verification(t *testing.T) {
 		info.SingleExample = "single"
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", info.HasRootName()),
-			fmt.Sprintf("%v", info.HasDescription()),
-			fmt.Sprintf("%v", info.HasUrl()),
-			fmt.Sprintf("%v", info.HasHintUrl()),
-			fmt.Sprintf("%v", info.HasErrorUrl()),
-			fmt.Sprintf("%v", info.HasExamples()),
-			fmt.Sprintf("%v", info.HasChainingExample()),
+		actual := args.Map{
+			"hasRootName":        fmt.Sprintf("%v", info.HasRootName()),
+			"hasDescription":     fmt.Sprintf("%v", info.HasDescription()),
+			"hasUrl":             fmt.Sprintf("%v", info.HasUrl()),
+			"hasHintUrl":         fmt.Sprintf("%v", info.HasHintUrl()),
+			"hasErrorUrl":        fmt.Sprintf("%v", info.HasErrorUrl()),
+			"hasExamples":        fmt.Sprintf("%v", info.HasExamples()),
+			"hasChainingExample": fmt.Sprintf("%v", info.HasChainingExample()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -645,17 +644,17 @@ func Test_Info_FieldChecks_Empty_Verification(t *testing.T) {
 		info := &coretaskinfo.Info{}
 
 		// Act
-		actLines := []string{
-			fmt.Sprintf("%v", info.HasRootName()),
-			fmt.Sprintf("%v", info.HasDescription()),
-			fmt.Sprintf("%v", info.HasUrl()),
-			fmt.Sprintf("%v", info.HasHintUrl()),
-			fmt.Sprintf("%v", info.HasErrorUrl()),
-			fmt.Sprintf("%v", info.HasExamples()),
-			fmt.Sprintf("%v", info.HasChainingExample()),
+		actual := args.Map{
+			"hasRootName":        fmt.Sprintf("%v", info.HasRootName()),
+			"hasDescription":     fmt.Sprintf("%v", info.HasDescription()),
+			"hasUrl":             fmt.Sprintf("%v", info.HasUrl()),
+			"hasHintUrl":         fmt.Sprintf("%v", info.HasHintUrl()),
+			"hasErrorUrl":        fmt.Sprintf("%v", info.HasErrorUrl()),
+			"hasExamples":        fmt.Sprintf("%v", info.HasExamples()),
+			"hasChainingExample": fmt.Sprintf("%v", info.HasChainingExample()),
 		}
 
 		// Assert
-		testCase.ShouldBeEqual(t, caseIndex, actLines...)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
