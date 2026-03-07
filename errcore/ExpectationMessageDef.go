@@ -2,6 +2,7 @@ package errcore
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -81,5 +82,5 @@ func (it ExpectationMessageDef) Print(actual any) {
 		it.When,
 		it.ToString(actual))
 
-	fmt.Println(msg)
+	slog.Warn("expectation", "message", msg)
 }

@@ -1,6 +1,9 @@
 package errcore
 
-import "fmt"
+import (
+	"fmt"
+	"log/slog"
+)
 
 // PrintDiffOnMismatch prints a formatted diff diagnostic block
 // only when actual and expected lines differ.
@@ -24,16 +27,15 @@ func PrintDiffOnMismatch(
 		return
 	}
 
-	fmt.Printf(
-		"\n=== Diff (Case %d: %s) ===\n",
-		caseIndex,
-		title,
+	header := fmt.Sprintf("Diff (Case %d: %s)", caseIndex, title)
+
+	slog.Warn(header,
+		"contextLines", contextLines,
+		"caseIndex", caseIndex,
+		"title", title,
 	)
 
-	for _, line := range contextLines {
-		fmt.Println(line)
-	}
-
 	PrintLineDiff(caseIndex, title, actLines, expectedLines)
-	fmt.Println("=== End ===")
+
+	slog.Debug("end diff", "caseIndex", caseIndex, "title", title)
 }

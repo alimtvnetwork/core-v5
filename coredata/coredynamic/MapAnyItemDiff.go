@@ -1,7 +1,7 @@
 package coredynamic
 
 import (
-	"fmt"
+	"log/slog"
 
 	"gitlab.com/auk-go/core/coredata/corejson"
 	"gitlab.com/auk-go/core/internal/mapdiffinternal"
@@ -175,10 +175,11 @@ func (it MapAnyItemDiff) PrettyJsonString() string {
 
 func (it MapAnyItemDiff) LogPrettyJsonString() {
 	if it.IsEmpty() {
-		fmt.Println("Empty Map")
+		slog.Info("empty map")
+		return
 	}
 
 	prettyJson := it.JsonPtr().PrettyJsonString()
 
-	fmt.Println(prettyJson)
+	slog.Info("map diff", "json", prettyJson)
 }

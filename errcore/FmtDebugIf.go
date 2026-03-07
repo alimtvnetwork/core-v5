@@ -1,6 +1,9 @@
 package errcore
 
-import "fmt"
+import (
+	"fmt"
+	"log/slog"
+)
 
 func FmtDebugIf(
 	isDebug bool,
@@ -11,5 +14,5 @@ func FmtDebugIf(
 		return
 	}
 
-	fmt.Printf(format, items...)
+	slog.Debug(fmt.Sprintf(format, items...))
 }

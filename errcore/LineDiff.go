@@ -2,6 +2,7 @@ package errcore
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -140,7 +141,7 @@ func PrintLineDiff(
 ) {
 	msg := LineDiffToString(caseIndex, header, actual, expected)
 	if len(msg) > 0 {
-		fmt.Print(msg)
+		slog.Warn("line diff", "caseIndex", caseIndex, "header", header, "diff", msg)
 	}
 }
 
@@ -204,7 +205,7 @@ func PrintErrorLineDiff(
 ) {
 	msg := ErrorToLinesLineDiff(caseIndex, header, err, expectedLines)
 	if len(msg) > 0 {
-		fmt.Print(msg)
+		slog.Warn("error line diff", "caseIndex", caseIndex, "header", header, "diff", msg)
 	}
 }
 

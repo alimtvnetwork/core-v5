@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"fmt"
+	"log/slog"
 	"reflect"
 	"strings"
 
@@ -35,7 +36,7 @@ func (it arrangeInputGenerator) Generate(
 		for i := 0; i < argsCount; i++ {
 			name := coreindexes.NameByIndex(i)
 
-			fmt.Println("Property Name :", name)
+			slog.Debug("processing property", "name", name)
 			slice.AppendFmt(
 				argSingleTemplate,
 				name,

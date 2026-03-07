@@ -2,6 +2,7 @@ package coretests
 
 import (
 	"fmt"
+	"log/slog"
 
 	"gitlab.com/auk-go/core/internal/msgformats"
 )
@@ -18,7 +19,7 @@ func (it printMessage) FailedExpected(
 	if isFailed {
 		message := GetAssert.Quick(when, actual, expected, counter)
 
-		fmt.Println(message)
+		slog.Warn("test failed", "message", message)
 	}
 }
 
@@ -28,11 +29,10 @@ func (it printMessage) FailedExpected(
 func (it printMessage) NameValue(header string, anyItem any) {
 	toString := ToStringNameValues(anyItem)
 
-	fmt.Printf(
-		msgformats.PrintValuesFormat,
-		header,
-		anyItem,
-		toString,
+	slog.Info("name-value",
+		"header", header,
+		"value", anyItem,
+		"toString", toString,
 	)
 }
 
@@ -42,10 +42,9 @@ func (it printMessage) NameValue(header string, anyItem any) {
 func (it printMessage) Value(header string, anyItem any) {
 	toString := ToStringValues(anyItem)
 
-	fmt.Printf(
-		msgformats.PrintValuesFormat,
-		header,
-		anyItem,
-		toString,
+	slog.Info("value",
+		"header", header,
+		"value", anyItem,
+		"toString", toString,
 	)
 }

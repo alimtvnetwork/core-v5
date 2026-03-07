@@ -1,7 +1,7 @@
 package corevalidator
 
 import (
-	"fmt"
+	"log/slog"
 	"testing"
 
 	"github.com/smarty/assertions/should"
@@ -97,7 +97,7 @@ func (it *SliceValidators) VerifyAll(
 	err := errs.AsDefaultError()
 
 	if isPrintError {
-		fmt.Println(err)
+		slog.Error("verification failed", "error", err)
 	}
 
 	return err
@@ -254,7 +254,7 @@ func (it *SliceValidators) VerifyFirst(
 	err := errs.AsDefaultError()
 
 	if isPrintError {
-		fmt.Println(err)
+		slog.Error("verification failed", "error", err)
 	}
 
 	return err
@@ -302,7 +302,7 @@ func (it *SliceValidators) VerifyUpto(
 	err := errs.AsDefaultError()
 
 	if isPrintErr {
-		fmt.Println(err)
+		slog.Error("verification failed", "error", err)
 	}
 
 	return err

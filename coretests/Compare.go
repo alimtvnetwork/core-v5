@@ -1,7 +1,7 @@
 package coretests
 
 import (
-	"fmt"
+	"log/slog"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -68,7 +68,7 @@ func (it *Compare) IsMatch(
 		if !isMatch && isPrint {
 			compiledMessage := it.GetPrintMessage(index)
 
-			fmt.Println(compiledMessage)
+			slog.Warn("compare mismatch", "message", compiledMessage)
 		}
 
 		return isMatch
@@ -86,7 +86,7 @@ func (it *Compare) IsMatch(
 	if !isMatch && isPrint {
 		compiledMessage := it.GetPrintMessage(index)
 
-		fmt.Println(compiledMessage)
+		slog.Warn("compare mismatch", "message", compiledMessage)
 	}
 
 	return isMatch

@@ -1,12 +1,15 @@
 package errcore
 
-import "fmt"
+import (
+	"fmt"
+	"log/slog"
+)
 
 func FmtDebug(
 	format string,
 	items ...any,
 ) {
-	fmt.Printf(format, items...)
+	slog.Debug(fmt.Sprintf(format, items...))
 }
 
 func ValidPrint(
@@ -14,7 +17,7 @@ func ValidPrint(
 	items ...any,
 ) {
 	if isValid {
-		fmt.Print(items...)
+		slog.Info("valid", "values", fmt.Sprint(items...))
 	}
 }
 
@@ -23,6 +26,6 @@ func FailedPrint(
 	items ...any,
 ) {
 	if isFailed {
-		fmt.Print(items...)
+		slog.Warn("failed", "values", fmt.Sprint(items...))
 	}
 }
