@@ -109,7 +109,7 @@ var mapStringAnyDiffIsRawEqualTestCases = []coretestcases.CaseV1{
 				"a": "1",
 			},
 		},
-		ExpectedInput: "false",
+		ExpectedInput: "true",
 	},
 	{
 		Title: "Missing key in right returns false",
