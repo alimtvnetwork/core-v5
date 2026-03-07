@@ -3,6 +3,8 @@ package reflectmodeltests
 import (
 	"reflect"
 	"testing"
+
+	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
 )
 
 // ===== FieldProcessor Tests =====
@@ -30,7 +32,7 @@ func Test_FieldProcessor_IsFieldType_NoMatch(t *testing.T) {
 }
 
 func Test_FieldProcessor_IsFieldType_NilReceiver(t *testing.T) {
-	var fp *FieldProcessorAlias
+	var fp *reflectmodel.FieldProcessor
 
 	if fp.IsFieldType(reflect.TypeOf("")) {
 		t.Error("expected IsFieldType = false on nil receiver")
@@ -60,7 +62,7 @@ func Test_FieldProcessor_IsFieldKind_NoMatch(t *testing.T) {
 }
 
 func Test_FieldProcessor_IsFieldKind_NilReceiver(t *testing.T) {
-	var fp *FieldProcessorAlias
+	var fp *reflectmodel.FieldProcessor
 
 	if fp.IsFieldKind(reflect.String) {
 		t.Error("expected IsFieldKind = false on nil receiver")
