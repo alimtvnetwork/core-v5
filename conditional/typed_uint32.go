@@ -66,16 +66,6 @@ func PtrOrZeroUint32(valuePointer *uint32) *uint32 {
 	return PtrOrZero[uint32](valuePointer)
 }
 
-// Deprecated: Use ValueOrZeroUint32 instead.
-func NilDerefUint32(valuePointer *uint32) uint32 {
-	return ValueOrZero[uint32](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroUint32 instead.
-func NilDerefPtrUint32(valuePointer *uint32) *uint32 {
-	return PtrOrZero[uint32](valuePointer)
-}
-
 // NilValUint32 is a typed convenience wrapper for NilVal[uint32].
 func NilValUint32(valuePointer *uint32, onNil, onNonNil uint32) uint32 {
 	return NilVal[uint32](valuePointer, onNil, onNonNil)

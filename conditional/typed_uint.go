@@ -66,16 +66,6 @@ func PtrOrZeroUint(valuePointer *uint) *uint {
 	return PtrOrZero[uint](valuePointer)
 }
 
-// Deprecated: Use ValueOrZeroUint instead.
-func NilDerefUint(valuePointer *uint) uint {
-	return ValueOrZero[uint](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroUint instead.
-func NilDerefPtrUint(valuePointer *uint) *uint {
-	return PtrOrZero[uint](valuePointer)
-}
-
 // NilValUint is a typed convenience wrapper for NilVal[uint].
 func NilValUint(valuePointer *uint, onNil, onNonNil uint) uint {
 	return NilVal[uint](valuePointer, onNil, onNonNil)

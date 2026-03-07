@@ -32,25 +32,6 @@ func IfSliceFloat32(
 	return IfSlice[float32](isTrue, trueValue, falseValue)
 }
 
-// Deprecated: Use IfSliceFloat32 instead.
-func IfSlicePtrFloat32(
-	isTrue bool,
-	trueValue, falseValue []float32,
-) []float32 {
-	return IfSlice[float32](isTrue, trueValue, falseValue)
-}
-
-// Deprecated: Use IfSlice[float32] with func wrappers instead.
-func IfSlicePtrFuncFloat32(
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []float32,
-) []float32 {
-	if isTrue {
-		return trueValueFunc()
-	}
-	return falseValueFunc()
-}
-
 // IfPtrFloat32 is a typed convenience wrapper for IfPtr[float32].
 func IfPtrFloat32(
 	isTrue bool,
@@ -82,16 +63,6 @@ func ValueOrZeroFloat32(valuePointer *float32) float32 {
 
 // PtrOrZeroFloat32 is a typed convenience wrapper for PtrOrZero[float32].
 func PtrOrZeroFloat32(valuePointer *float32) *float32 {
-	return PtrOrZero[float32](valuePointer)
-}
-
-// Deprecated: Use ValueOrZeroFloat32 instead.
-func NilDerefFloat32(valuePointer *float32) float32 {
-	return ValueOrZero[float32](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroFloat32 instead.
-func NilDerefPtrFloat32(valuePointer *float32) *float32 {
 	return PtrOrZero[float32](valuePointer)
 }
 

@@ -16,7 +16,7 @@
 | Phase 2 | Replace `interface{}` with `any` project-wide | ✅ Done (zero matches remain) |
 | Phase 3 | Add generic versions of high-duplication packages | ✅ Done (`conditional/`, `coredata/coregeneric/`, `corepayload/`) |
 | Phase 4 | Deprecate old per-type functions | ✅ Done (deprecation comments on all legacy files) |
-| Phase 5 | Remove deprecated functions in next major version | 🔄 Planned |
+| Phase 5 | Remove deprecated functions (legacy files + aliases) | ✅ Done (27 files deleted, ~99 functions removed) |
 | Phase 6 | Migrate all external callers to typed wrappers | ✅ Done (0 external callers remain) |
 | Phase 7 | slog structured logging (consumer configures handler) | ✅ Done |
 
@@ -108,4 +108,4 @@ func If[T any](cond bool, trueVal, falseVal T) T {
 2. **Phase 2**: Replace `interface{}` with `any` project-wide (mechanical). ✅ Done
 3. **Phase 3**: Add generic versions of high-duplication packages (keep old functions as wrappers for compatibility). ✅ Done (`conditional/`, `coregeneric/`, `corepayload/`)
 4. **Phase 4**: Deprecate old per-type functions, point to generic versions. ✅ Done
-5. **Phase 5**: Remove deprecated functions in next major version. 🔄 Planned
+5. **Phase 5**: Remove deprecated functions — delete 27 legacy files, remove deprecated generic aliases (`IfSlicePtr`, `IfSlicePtrFunc`, `NilDeref`, `NilDerefPtr`), remove deprecated typed aliases (`IfSlicePtr*`, `IfSlicePtrFunc*`, `NilDeref*`, `NilDerefPtr*`), extract `NilOrEmptyStr` to dedicated file, add `NilDefBool`/`NilDefInt`/`NilDefByte` typed wrappers (no longer conflicting). ✅ Done

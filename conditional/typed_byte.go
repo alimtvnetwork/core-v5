@@ -32,25 +32,6 @@ func IfSliceByte(
 	return IfSlice[byte](isTrue, trueValue, falseValue)
 }
 
-// Deprecated: Use IfSliceByte instead.
-func IfSlicePtrByte(
-	isTrue bool,
-	trueValue, falseValue []byte,
-) []byte {
-	return IfSlice[byte](isTrue, trueValue, falseValue)
-}
-
-// Deprecated: Use IfSlice[byte] with func wrappers instead.
-func IfSlicePtrFuncByte(
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []byte,
-) []byte {
-	if isTrue {
-		return trueValueFunc()
-	}
-	return falseValueFunc()
-}
-
 // IfPtrByte is a typed convenience wrapper for IfPtr[byte].
 func IfPtrByte(
 	isTrue bool,
@@ -59,10 +40,15 @@ func IfPtrByte(
 	return IfPtr[byte](isTrue, trueValue, falseValue)
 }
 
+// NilDefByte is a typed convenience wrapper for NilDef[byte].
+func NilDefByte(
+	valuePointer *byte,
+	defVal byte,
+) byte {
+	return NilDef[byte](valuePointer, defVal)
+}
+
 // NilDefPtrByte is a typed convenience wrapper for NilDefPtr[byte].
-// Note: NilDef[byte] typed wrapper is omitted due to naming conflict
-// with the deprecated NilDefByte(ptr) in NilDefByte.go.
-// Use NilDef[byte](ptr, defVal) directly.
 func NilDefPtrByte(
 	valuePointer *byte,
 	defVal byte,
@@ -77,16 +63,6 @@ func ValueOrZeroByte(valuePointer *byte) byte {
 
 // PtrOrZeroByte is a typed convenience wrapper for PtrOrZero[byte].
 func PtrOrZeroByte(valuePointer *byte) *byte {
-	return PtrOrZero[byte](valuePointer)
-}
-
-// Deprecated: Use ValueOrZeroByte instead.
-func NilDerefByte(valuePointer *byte) byte {
-	return ValueOrZero[byte](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroByte instead.
-func NilDerefPtrByte(valuePointer *byte) *byte {
 	return PtrOrZero[byte](valuePointer)
 }
 

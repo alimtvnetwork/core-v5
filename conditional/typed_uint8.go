@@ -66,16 +66,6 @@ func PtrOrZeroUint8(valuePointer *uint8) *uint8 {
 	return PtrOrZero[uint8](valuePointer)
 }
 
-// Deprecated: Use ValueOrZeroUint8 instead.
-func NilDerefUint8(valuePointer *uint8) uint8 {
-	return ValueOrZero[uint8](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroUint8 instead.
-func NilDerefPtrUint8(valuePointer *uint8) *uint8 {
-	return PtrOrZero[uint8](valuePointer)
-}
-
 // NilValUint8 is a typed convenience wrapper for NilVal[uint8].
 func NilValUint8(valuePointer *uint8, onNil, onNonNil uint8) uint8 {
 	return NilVal[uint8](valuePointer, onNil, onNonNil)

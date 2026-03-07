@@ -200,6 +200,27 @@ Adopted `errors.Join`, `fmt.Errorf` with `%w`, and `errors.Is`/`errors.As` compa
 
 ---
 
+## Phase 11: Deprecated Function Removal ✅
+
+- Deleted 27 deprecated legacy files from `conditional/` package
+- Removed 4 deprecated generic aliases from `generic.go` (`IfSlicePtr`, `IfSlicePtrFunc`, `NilDeref`, `NilDerefPtr`)
+- Removed ~30 deprecated typed aliases from all 15 `typed_*.go` files (`IfSlicePtr*`, `IfSlicePtrFunc*`, `NilDeref*`, `NilDerefPtr*`)
+- Extracted `NilOrEmptyStr`/`NilOrEmptyStrPtr` to dedicated `NilOrEmpty.go` before deleting `NilDefStr.go`
+- Added `NilDefBool`, `NilDefInt`, `NilDefByte` typed wrappers (naming conflicts resolved by deletion)
+- All 15 typed files now have uniform 11-function sets (no "Ptr only" gaps)
+- Updated `README.md`, removed `migration-guide.md` and `deprecation-removal-plan.md`
+- Package reduced from ~69 files to ~41 files
+
+---
+
+## Phase 12: coredata Root Package Unit Tests ✅
+
+- Added `BytesError_test.go` — 25 tests covering String(), HasError(), IsEmptyError(), HasBytes(), Length(), IsEmpty(), HandleError(), HandleErrorWithMsg(), CombineErrorWithRef*()
+- Added `Integers_test.go` — 6 tests covering Len(), Less(), Swap(), sort.Interface
+- Added `PointerStrings_test.go` — 8 tests covering Len(), Less() (nil/non-nil combinations), Swap(), sort.Interface with nil elements
+
+---
+
 ## Remaining Work (Not Yet Completed)
 
 | Priority | Task | Status |
@@ -211,8 +232,9 @@ Adopted `errors.Join`, `fmt.Errorf` with `%w`, and `errors.Is`/`errors.As` compa
 | ~~🟡 Medium~~ | ~~`errors.Is`/`errors.As`/`errors.Join` adoption~~ | ✅ Complete |
 | ~~🟡 Medium~~ | ~~slog structured logging migration~~ | ✅ Complete |
 | ~~🟡 Medium~~ | ~~Deprecated conditional caller migration~~ | ✅ Complete |
+| ~~🟡 Medium~~ | ~~Remove 27 deprecated conditional files~~ | ✅ Complete |
+| ~~🟢 Low~~ | ~~Unit tests for `coredata/` root (BytesError, Integers, PointerStrings)~~ | ✅ Complete |
 | 🟡 Medium | Remove `codegen/` after consumer audit | Needs consumer survey |
-| 🟡 Medium | Remove 27 deprecated conditional files | Next major version |
-| 🟢 Low | Unit test coverage gaps (`reflectmodel/`, `coredata/`, `trydo/`, `mapdiffinternal/`) | Time-bound |
+| 🟢 Low | Unit test coverage gaps (`reflectmodel/`, `trydo/`, `mapdiffinternal/`) | Time-bound |
 | 🟢 Low | CI pipeline setup | Infrastructure |
 | 🟢 Low | Module splitting | Architecture decision |
