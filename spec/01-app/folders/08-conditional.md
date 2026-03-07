@@ -2,23 +2,27 @@
 
 ## Folder Purpose
 
-Provides ternary-style helper functions for all Go primitive types, replacing the lack of a ternary operator in Go.
+Provides generic ternary-style helper functions, nil-safe defaults, and batch function execution for Go, replacing the lack of a ternary operator.
 
 ## Responsibilities
 
-1. `Bool(condition, trueVal, falseVal)` — and equivalents for `Int`, `String`, `Byte`, `Interface`, etc.
-2. Function-based conditionals (`BoolFunc`, `StringFunc`, `ErrorFunc`).
-3. Nil-default helpers (`NilDefStr`, `NilDefInt`, etc.).
-4. Void/error function execution based on conditions.
+1. Generic base functions: `If[T]`, `IfFunc[T]`, `IfTrueFunc[T]`, `IfSlice[T]`, `IfPtr[T]`, `NilDef[T]`, `ValueOrZero[T]`, etc.
+2. Typed convenience wrappers for 15 primitive types (11 functions each): `IfInt`, `IfString`, `NilDefBool`, etc.
+3. Batch function execution: `VoidFunctions`, `Functions`, `ErrorFunc`, `TypedErrorFunctionsExecuteResults`.
+4. String-specific helpers: `NilOrEmptyStr`, `NilOrEmptyStrPtr`, `StringDefault`.
+5. Conditional setters: `Setter`, `SetterDefault`.
 
 ## Usage Example
 
 ```go
-result := conditional.Int(true, 2, 7)   // returns 2
-result := conditional.Int(false, 2, 7)  // returns 7
-name := conditional.String(len(s) > 0, s, "default")
+result := conditional.IfInt(true, 2, 7)   // returns 2
+result := conditional.IfInt(false, 2, 7)  // returns 7
+name := conditional.IfString(len(s) > 0, s, "default")
+val := conditional.NilDefInt(intPtr, 42)  // dereference or 42
 ```
 
 ## Related Docs
 
+- [conditional README](../../conditional/README.md)
+- [Typed Wrappers Reference](../../conditional/typed-wrappers.md)
 - [Repo Overview](../00-repo-overview.md)
