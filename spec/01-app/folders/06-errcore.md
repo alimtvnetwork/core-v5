@@ -28,6 +28,10 @@ Rich error construction, formatting, merging, and stack-trace enhancement. Provi
 - New error types: create a new file with the pattern `{ErrorType}.go`.
 - Compose with existing types; don't duplicate formatting logic.
 
+## Logging Convention
+
+All diagnostic output uses `log/slog` with structured key-value pairs. No centralized slog config lives in this library — consumer apps are responsible for configuring their own `slog.Handler` (JSON for production, text for development).
+
 ## Related Docs
 
 - [Repo Overview](../00-repo-overview.md)

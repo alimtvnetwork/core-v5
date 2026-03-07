@@ -183,6 +183,23 @@ Adopted `errors.Join`, `fmt.Errorf` with `%w`, and `errors.Is`/`errors.As` compa
 
 ---
 
+## Phase 9: slog Structured Logging Migration ✅
+
+- Migrated all `fmt.Println`/`log.Println` calls to `slog.Debug`/`slog.Info`/`slog.Warn`/`slog.Error`
+- Standardized level mapping: Debug (diagnostics), Warn (mismatches), Error (actual errors)
+- All log calls use structured key-value pairs (`caseIndex`, `title`, `error`, `diff`)
+- **Decision**: No centralized slog config package in this library — consumer apps configure their own `slog.Handler`
+
+---
+
+## Phase 10: Deprecated Conditional Caller Migration ✅
+
+- Migrated all 8 external callers from deprecated `conditional.Byte`/`conditional.String` to `IfByte`/`IfString`
+- Updated files: `chmodhelper/Attribute.go` (9 calls), `coredata/corestr/ValidValues.go`, 2 test files
+- Zero external callers of deprecated per-type functions remain outside `conditional/` package
+
+---
+
 ## Remaining Work (Not Yet Completed)
 
 | Priority | Task | Status |
@@ -192,9 +209,10 @@ Adopted `errors.Join`, `fmt.Errorf` with `%w`, and `errors.Is`/`errors.As` compa
 | ~~🟡 Medium~~ | ~~Generics adoption (`conditional/`, `coremath/`, etc.)~~ | ✅ Complete (`conditional/`, `coregeneric/`, `corepayload/`) |
 | ~~🟡 Medium~~ | ~~Package name typo fixes (`convertinteranl`, `refeflectcore`)~~ | ✅ Complete |
 | ~~🟡 Medium~~ | ~~`errors.Is`/`errors.As`/`errors.Join` adoption~~ | ✅ Complete |
+| ~~🟡 Medium~~ | ~~slog structured logging migration~~ | ✅ Complete |
+| ~~🟡 Medium~~ | ~~Deprecated conditional caller migration~~ | ✅ Complete |
 | 🟡 Medium | Remove `codegen/` after consumer audit | Needs consumer survey |
-| 🟢 Low | Unit test coverage gaps | Time-bound |
+| 🟡 Medium | Remove 27 deprecated conditional files | Next major version |
+| 🟢 Low | Unit test coverage gaps (`reflectmodel/`, `coredata/`, `trydo/`, `mapdiffinternal/`) | Time-bound |
 | 🟢 Low | CI pipeline setup | Infrastructure |
-| 🟢 Low | `slog` / `iter` package adoption | Requires Go 1.21+/1.23+ |
 | 🟢 Low | Module splitting | Architecture decision |
-| 🟢 Low | Remove deprecated per-type functions | Next major version |
