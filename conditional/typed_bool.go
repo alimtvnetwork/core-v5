@@ -32,25 +32,6 @@ func IfSliceBool(
 	return IfSlice[bool](isTrue, trueValue, falseValue)
 }
 
-// Deprecated: Use IfSliceBool instead.
-func IfSlicePtrBool(
-	isTrue bool,
-	trueValue, falseValue []bool,
-) []bool {
-	return IfSlice[bool](isTrue, trueValue, falseValue)
-}
-
-// Deprecated: Use IfSlice[bool] with func wrappers instead.
-func IfSlicePtrFuncBool(
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []bool,
-) []bool {
-	if isTrue {
-		return trueValueFunc()
-	}
-	return falseValueFunc()
-}
-
 // IfPtrBool is a typed convenience wrapper for IfPtr[bool].
 func IfPtrBool(
 	isTrue bool,
@@ -59,10 +40,15 @@ func IfPtrBool(
 	return IfPtr[bool](isTrue, trueValue, falseValue)
 }
 
+// NilDefBool is a typed convenience wrapper for NilDef[bool].
+func NilDefBool(
+	valuePointer *bool,
+	defVal bool,
+) bool {
+	return NilDef[bool](valuePointer, defVal)
+}
+
 // NilDefPtrBool is a typed convenience wrapper for NilDefPtr[bool].
-// Note: NilDef[bool] typed wrapper is omitted due to naming conflict
-// with the deprecated NilDefBool(ptr) in NilDefBool.go.
-// Use NilDef[bool](ptr, defVal) directly.
 func NilDefPtrBool(
 	valuePointer *bool,
 	defVal bool,
@@ -77,16 +63,6 @@ func ValueOrZeroBool(valuePointer *bool) bool {
 
 // PtrOrZeroBool is a typed convenience wrapper for PtrOrZero[bool].
 func PtrOrZeroBool(valuePointer *bool) *bool {
-	return PtrOrZero[bool](valuePointer)
-}
-
-// Deprecated: Use ValueOrZeroBool instead.
-func NilDerefBool(valuePointer *bool) bool {
-	return ValueOrZero[bool](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroBool instead.
-func NilDerefPtrBool(valuePointer *bool) *bool {
 	return PtrOrZero[bool](valuePointer)
 }
 

@@ -32,25 +32,6 @@ func IfSliceString(
 	return IfSlice[string](isTrue, trueValue, falseValue)
 }
 
-// Deprecated: Use IfSliceString instead.
-func IfSlicePtrString(
-	isTrue bool,
-	trueValue, falseValue []string,
-) []string {
-	return IfSlice[string](isTrue, trueValue, falseValue)
-}
-
-// Deprecated: Use IfSlice[string] with func wrappers instead.
-func IfSlicePtrFuncString(
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []string,
-) []string {
-	if isTrue {
-		return trueValueFunc()
-	}
-	return falseValueFunc()
-}
-
 // IfPtrString is a typed convenience wrapper for IfPtr[string].
 func IfPtrString(
 	isTrue bool,
@@ -60,8 +41,6 @@ func IfPtrString(
 }
 
 // NilDefString is a typed convenience wrapper for NilDef[string].
-// Note: This differs from the deprecated NilDefStr(ptr) which uses EmptyString as default.
-// This version requires an explicit default value.
 func NilDefString(
 	valuePointer *string,
 	defVal string,
@@ -84,16 +63,6 @@ func ValueOrZeroString(valuePointer *string) string {
 
 // PtrOrZeroString is a typed convenience wrapper for PtrOrZero[string].
 func PtrOrZeroString(valuePointer *string) *string {
-	return PtrOrZero[string](valuePointer)
-}
-
-// Deprecated: Use ValueOrZeroString instead.
-func NilDerefString(valuePointer *string) string {
-	return ValueOrZero[string](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroString instead.
-func NilDerefPtrString(valuePointer *string) *string {
 	return PtrOrZero[string](valuePointer)
 }
 

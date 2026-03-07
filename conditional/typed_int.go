@@ -32,25 +32,6 @@ func IfSliceInt(
 	return IfSlice[int](isTrue, trueValue, falseValue)
 }
 
-// Deprecated: Use IfSliceInt instead.
-func IfSlicePtrInt(
-	isTrue bool,
-	trueValue, falseValue []int,
-) []int {
-	return IfSlice[int](isTrue, trueValue, falseValue)
-}
-
-// Deprecated: Use IfSlice[int] with func wrappers instead.
-func IfSlicePtrFuncInt(
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []int,
-) []int {
-	if isTrue {
-		return trueValueFunc()
-	}
-	return falseValueFunc()
-}
-
 // IfPtrInt is a typed convenience wrapper for IfPtr[int].
 func IfPtrInt(
 	isTrue bool,
@@ -59,10 +40,15 @@ func IfPtrInt(
 	return IfPtr[int](isTrue, trueValue, falseValue)
 }
 
+// NilDefInt is a typed convenience wrapper for NilDef[int].
+func NilDefInt(
+	valuePointer *int,
+	defVal int,
+) int {
+	return NilDef[int](valuePointer, defVal)
+}
+
 // NilDefPtrInt is a typed convenience wrapper for NilDefPtr[int].
-// Note: NilDef[int] typed wrapper is omitted due to naming conflict
-// with the deprecated NilDefInt(ptr) in NilDefInt.go.
-// Use NilDef[int](ptr, defVal) directly.
 func NilDefPtrInt(
 	valuePointer *int,
 	defVal int,
@@ -77,16 +63,6 @@ func ValueOrZeroInt(valuePointer *int) int {
 
 // PtrOrZeroInt is a typed convenience wrapper for PtrOrZero[int].
 func PtrOrZeroInt(valuePointer *int) *int {
-	return PtrOrZero[int](valuePointer)
-}
-
-// Deprecated: Use ValueOrZeroInt instead.
-func NilDerefInt(valuePointer *int) int {
-	return ValueOrZero[int](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroInt instead.
-func NilDerefPtrInt(valuePointer *int) *int {
 	return PtrOrZero[int](valuePointer)
 }
 
