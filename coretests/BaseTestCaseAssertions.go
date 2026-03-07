@@ -2,7 +2,7 @@ package coretests
 
 import (
 	"errors"
-	"fmt"
+	"log/slog"
 	"testing"
 
 	"github.com/smartystreets/goconvey/convey"
@@ -87,7 +87,7 @@ func (it *BaseTestCase) ShouldBeExplicit(
 			if isFailed {
 				toString := it.LinesString(caseIndex)
 
-				fmt.Println(toString)
+				slog.Warn("test case mismatch", "caseIndex", caseIndex, "details", toString)
 			}
 
 			convey.SoMsg(

@@ -2,6 +2,7 @@ package coretests
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -240,7 +241,7 @@ func LogOnFail(
 	}
 
 	logMessage := fmt.Sprintf(msgformats.LogFormat, expected, actual)
-	fmt.Println(logMessage)
+	slog.Warn("assertion failed", "message", logMessage)
 }
 
 func ToStringValues(anyItem any) string {

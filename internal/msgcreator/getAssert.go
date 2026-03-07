@@ -2,6 +2,7 @@ package msgcreator
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -178,7 +179,7 @@ func (it getAssert) SortedArray(
 	message string,
 ) []string {
 	if isPrint {
-		fmt.Println(message)
+		slog.Debug("sorted array", "message", message)
 	}
 
 	return SplitByEachWordTrimmedNoSpace(
