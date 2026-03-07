@@ -27,7 +27,7 @@ func Test_Reflection_Types_Verification(t *testing.T) {
 			isFunc := testCase.FirstParam()
 			checkerFunc := convertFuncType(input.WorkFunc)
 			funcName := input.GetFuncName()
-			value := conditional.String(
+			value := conditional.IfString(
 				isFunc == "isFunc",
 				funcName,
 				toStringFunc(first),

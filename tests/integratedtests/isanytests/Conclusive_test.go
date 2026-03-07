@@ -27,7 +27,7 @@ func Test_Conclusive_Verification(t *testing.T) {
 			s := parameter.Second
 			isEqual, isConclusive := isany.Conclusive(f, s)
 			values := corecsv.AnyToValuesTypeString(f, s)
-			conclusive := conditional.String(
+			conclusive := conditional.IfString(
 				isConclusive,
 				"Conclusive",
 				"Inconclusive",

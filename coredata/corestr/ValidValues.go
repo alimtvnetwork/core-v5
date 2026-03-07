@@ -107,7 +107,7 @@ func (it *ValidValues) SafeValidValueAt(index int) string {
 	if it.HasIndex(index) {
 		validVal := it.ValidValues[index]
 
-		return conditional.String(
+		return conditional.IfString(
 			validVal.IsValid,
 			validVal.Value,
 			constants.EmptyString)
