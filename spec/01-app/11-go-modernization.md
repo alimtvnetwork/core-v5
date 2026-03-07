@@ -17,6 +17,8 @@
 | Phase 3 | Add generic versions of high-duplication packages | ✅ Done (`conditional/`, `coredata/coregeneric/`, `corepayload/`) |
 | Phase 4 | Deprecate old per-type functions | ✅ Done (deprecation comments on all legacy files) |
 | Phase 5 | Remove deprecated functions in next major version | 🔄 Planned |
+| Phase 6 | Migrate all external callers to typed wrappers | ✅ Done (0 external callers remain) |
+| Phase 7 | slog structured logging (consumer configures handler) | ✅ Done |
 
 ### Module and Tooling Updates ✅ COMPLETE
 
