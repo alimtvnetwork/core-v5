@@ -221,6 +221,15 @@ Adopted `errors.Join`, `fmt.Errorf` with `%w`, and `errors.Is`/`errors.As` compa
 
 ---
 
+## Phase 13: reflectcore/reflectmodel Unit Tests ✅
+
+- Created `tests/integratedtests/reflectmodeltests/` package with `helpers.go` for test struct and factory functions
+- Added `FieldProcessor_test.go` — 8 tests covering IsFieldType(), IsFieldKind(), nil receiver safety, field data integrity
+- Added `MethodProcessor_test.go` — 30+ tests covering HasValidFunc(), IsInvalid(), GetFuncName(), Func(), ArgsCount(), ReturnLength(), IsPublicMethod(), IsPrivateMethod(), GetType(), GetInArgsTypes(), GetOutArgsTypes(), GetInArgsTypesNames(), IsEqual(), IsNotEqual(), ValidateMethodArgs(), VerifyInArgs(), VerifyOutArgs(), InArgsVerifyRv(), Invoke(), GetFirstResponseOfInvoke(), InvokeResultOfIndex()
+- Added `ReflectValueKind_test.go` — 13 tests covering InvalidReflectValueKindModel(), IsInvalid(), HasError(), IsEmptyError(), ActualInstance(), PkgPath(), TypeName(), PointerRv(), PointerInterface() with nil receiver safety
+
+---
+
 ## Remaining Work (Not Yet Completed)
 
 | Priority | Task | Status |
@@ -234,7 +243,8 @@ Adopted `errors.Join`, `fmt.Errorf` with `%w`, and `errors.Is`/`errors.As` compa
 | ~~🟡 Medium~~ | ~~Deprecated conditional caller migration~~ | ✅ Complete |
 | ~~🟡 Medium~~ | ~~Remove 27 deprecated conditional files~~ | ✅ Complete |
 | ~~🟢 Low~~ | ~~Unit tests for `coredata/` root (BytesError, Integers, PointerStrings)~~ | ✅ Complete |
+| ~~🟢 Low~~ | ~~Unit tests for `reflectmodel/` (FieldProcessor, MethodProcessor, ReflectValueKind)~~ | ✅ Complete |
 | 🟡 Medium | Remove `codegen/` after consumer audit | Needs consumer survey |
-| 🟢 Low | Unit test coverage gaps (`reflectmodel/`, `trydo/`, `mapdiffinternal/`) | Time-bound |
+| 🟢 Low | Unit test coverage gaps (`trydo/`, `mapdiffinternal/`) | Time-bound |
 | 🟢 Low | CI pipeline setup | Infrastructure |
 | 🟢 Low | Module splitting | Architecture decision |
