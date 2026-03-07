@@ -1,7 +1,7 @@
 package corestr
 
 import (
-	"fmt"
+	"log/slog"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -318,6 +318,5 @@ func (linkedListNode *LinkedListNode) StringList(header string) string {
 
 func (linkedListNode *LinkedListNode) Print(header string) {
 	finalString := linkedListNode.StringList(header)
-	fmt.Println(finalString)
-	fmt.Println(finalString)
+	slog.Info("linked list", "content", finalString)
 }

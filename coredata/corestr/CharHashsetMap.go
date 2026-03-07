@@ -3,6 +3,7 @@ package corestr
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"sort"
 	"strings"
 	"sync"
@@ -298,9 +299,7 @@ func (it *CharHashsetMap) Print(isPrint bool) {
 		return
 	}
 
-	fmt.Println(
-		it.String(),
-	)
+	slog.Info("char hashset map", "content", it.String())
 }
 
 func (it *CharHashsetMap) PrintLock(isPrint bool) {
@@ -310,9 +309,7 @@ func (it *CharHashsetMap) PrintLock(isPrint bool) {
 		return
 	}
 
-	fmt.Println(
-		it.StringLock(),
-	)
+	slog.Info("char hashset map (locked)", "content", it.StringLock())
 }
 
 func (it *CharHashsetMap) IsEmpty() bool {
