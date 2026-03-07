@@ -1,11 +1,14 @@
-package mapdiffinternaltests
+package mapdiffinternal
 
 import (
+	"fmt"
+	"testing"
+
 	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
-var isStringTypeTestCases = []coretestcases.CaseV1{
+var isStringTypeInternalTestCases = []coretestcases.CaseV1{
 	{
 		Title: "String value returns true",
 		ArrangeInput: args.Map{
@@ -41,4 +44,22 @@ var isStringTypeTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: "true",
 	},
+}
+
+func Test_isStringType(t *testing.T) {
+	for caseIndex, testCase := range isStringTypeInternalTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		value := input["value"]
+
+		// Act
+		result := isStringType(value)
+
+		// Assert
+		testCase.ShouldBeEqual(
+			t,
+			caseIndex,
+			fmt.Sprintf("%v", result),
+		)
+	}
 }
