@@ -4,7 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
+	"log/slog"
+	"os"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
@@ -434,7 +435,7 @@ func (it *RawErrCollection) Log() {
 		return
 	}
 
-	fmt.Println(it.String())
+	slog.Error("raw error collection", "errors", it.String())
 }
 
 func (it *RawErrCollection) LogWithTraces() {
@@ -442,7 +443,7 @@ func (it *RawErrCollection) LogWithTraces() {
 		return
 	}
 
-	log.Println(it.CompiledErrorWithStackTraces())
+	slog.Error("raw error collection with traces", "errors", it.CompiledErrorWithStackTraces())
 }
 
 func (it *RawErrCollection) LogFatal() {
@@ -450,7 +451,8 @@ func (it *RawErrCollection) LogFatal() {
 		return
 	}
 
-	log.Fatalln(it.String())
+	slog.Error("fatal: raw error collection", "errors", it.String())
+	os.Exit(1)
 }
 
 func (it *RawErrCollection) LogFatalWithTraces() {
@@ -458,7 +460,8 @@ func (it *RawErrCollection) LogFatalWithTraces() {
 		return
 	}
 
-	log.Fatalln(it.CompiledErrorWithStackTraces())
+	slog.Error("fatal: raw error collection with traces", "errors", it.CompiledErrorWithStackTraces())
+	os.Exit(1)
 }
 
 func (it *RawErrCollection) LogIf(isLog bool) {
