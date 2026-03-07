@@ -9,7 +9,7 @@ Private implementation helpers not intended for external consumption. Go enforce
 | Package | Purpose |
 |---------|---------|
 | `reflectinternal/` | Reflection helpers: type name extraction, looper, isChecker, mapConverter |
-| `convertinteranl/` | Type conversion internals (note: **typo** in folder name — should be `convertinternal`) |
+| `convertinternal/` | Type conversion internals (renamed from `convertinteranl` — see [issue](/spec/13-app-issues/golang/01-convertinteranl-typo.md)) |
 | `pathinternal/` | Path manipulation: `Join()`, `ParentDir()`, `GetTemp()` |
 | `csvinternal/` | CSV formatting internals |
 | `jsoninternal/` | JSON processing internals |
@@ -25,7 +25,6 @@ Private implementation helpers not intended for external consumption. Go enforce
 
 ## Known Issues
 
-- `convertinteranl` — typo; should be `convertinternal`. See issues.
 - Some internal packages are quite large and could benefit from refactoring.
 
 ## Related Docs
