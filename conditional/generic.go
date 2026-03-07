@@ -61,29 +61,6 @@ func IfSlice[T any](
 	return falseValue
 }
 
-// Deprecated: Use IfSlice instead.
-func IfSlicePtr[T any](
-	isTrue bool,
-	trueValue, falseValue []T,
-) []T {
-	if isTrue {
-		return trueValue
-	}
-
-	return falseValue
-}
-
-// Deprecated: Use IfSlice with func wrappers instead.
-func IfSlicePtrFunc[T any](
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []T,
-) []T {
-	if isTrue {
-		return trueValueFunc()
-	}
-
-	return falseValueFunc()
-}
 
 // NilDef dereferences a pointer, returning defVal if the pointer is nil.
 // It replaces NilDefValInt, NilBoolVal, NilByteVal and similar functions.
@@ -177,11 +154,6 @@ func ValueOrZero[T any](
 	return *valuePointer
 }
 
-// Deprecated: Use ValueOrZero instead.
-func NilDeref[T any](valuePointer *T) T {
-	return ValueOrZero[T](valuePointer)
-}
-
 // PtrOrZero returns the pointer itself if non-nil, otherwise a pointer to the zero value.
 // It replaces NilDefBoolPtr, NilDefBytePtr, NilDefIntPtr, NilDefStrPtr.
 //
@@ -197,9 +169,4 @@ func PtrOrZero[T any](
 	}
 
 	return valuePointer
-}
-
-// Deprecated: Use PtrOrZero instead.
-func NilDerefPtr[T any](valuePointer *T) *T {
-	return PtrOrZero[T](valuePointer)
 }
