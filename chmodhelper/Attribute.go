@@ -54,18 +54,18 @@ func (it *Attribute) ToAttributeValue() AttributeValue {
 }
 
 func (it *Attribute) ToSpecificBytes() (read, write, exe, sum byte) {
-	read = conditional.Byte(it.IsRead, ReadValue, constants.Zero)
-	write = conditional.Byte(it.IsWrite, WriteValue, constants.Zero)
-	exe = conditional.Byte(it.IsExecute, ExecuteValue, constants.Zero)
+	read = conditional.IfByte(it.IsRead, ReadValue, constants.Zero)
+	write = conditional.IfByte(it.IsWrite, WriteValue, constants.Zero)
+	exe = conditional.IfByte(it.IsExecute, ExecuteValue, constants.Zero)
 
 	return read, write, exe, read + write + exe
 }
 
 // ToByte refers to the compiled byte value in between 0-7
 func (it *Attribute) ToByte() byte {
-	r := conditional.Byte(it.IsRead, ReadValue, constants.Zero)
-	w := conditional.Byte(it.IsWrite, WriteValue, constants.Zero)
-	e := conditional.Byte(it.IsExecute, ExecuteValue, constants.Zero)
+	r := conditional.IfByte(it.IsRead, ReadValue, constants.Zero)
+	w := conditional.IfByte(it.IsWrite, WriteValue, constants.Zero)
+	e := conditional.IfByte(it.IsExecute, ExecuteValue, constants.Zero)
 
 	return r + w + e
 }
@@ -77,9 +77,9 @@ func (it *Attribute) ToSum() byte {
 
 func (it *Attribute) ToRwx() [3]byte {
 	return [3]byte{
-		conditional.Byte(it.IsRead, ReadChar, constants.HyphenChar),
-		conditional.Byte(it.IsWrite, WriteChar, constants.HyphenChar),
-		conditional.Byte(it.IsExecute, ExecuteChar, constants.HyphenChar),
+		conditional.IfByte(it.IsRead, ReadChar, constants.HyphenChar),
+		conditional.IfByte(it.IsWrite, WriteChar, constants.HyphenChar),
+		conditional.IfByte(it.IsExecute, ExecuteChar, constants.HyphenChar),
 	}
 }
 
