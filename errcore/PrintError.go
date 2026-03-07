@@ -1,11 +1,11 @@
 package errcore
 
-import "fmt"
+import "log/slog"
 
 func PrintError(
 	err error,
 ) {
 	if err != nil {
-		fmt.Print(err)
+		slog.Error("error occurred", "error", err)
 	}
 }

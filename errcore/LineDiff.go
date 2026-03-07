@@ -2,6 +2,7 @@ package errcore
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
 	"gitlab.com/auk-go/core/constants"
