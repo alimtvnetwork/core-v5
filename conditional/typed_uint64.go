@@ -66,16 +66,6 @@ func PtrOrZeroUint64(valuePointer *uint64) *uint64 {
 	return PtrOrZero[uint64](valuePointer)
 }
 
-// Deprecated: Use ValueOrZeroUint64 instead.
-func NilDerefUint64(valuePointer *uint64) uint64 {
-	return ValueOrZero[uint64](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroUint64 instead.
-func NilDerefPtrUint64(valuePointer *uint64) *uint64 {
-	return PtrOrZero[uint64](valuePointer)
-}
-
 // NilValUint64 is a typed convenience wrapper for NilVal[uint64].
 func NilValUint64(valuePointer *uint64, onNil, onNonNil uint64) uint64 {
 	return NilVal[uint64](valuePointer, onNil, onNonNil)

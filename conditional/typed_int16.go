@@ -32,25 +32,6 @@ func IfSliceInt16(
 	return IfSlice[int16](isTrue, trueValue, falseValue)
 }
 
-// Deprecated: Use IfSliceInt16 instead.
-func IfSlicePtrInt16(
-	isTrue bool,
-	trueValue, falseValue []int16,
-) []int16 {
-	return IfSlice[int16](isTrue, trueValue, falseValue)
-}
-
-// Deprecated: Use IfSlice[int16] with func wrappers instead.
-func IfSlicePtrFuncInt16(
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []int16,
-) []int16 {
-	if isTrue {
-		return trueValueFunc()
-	}
-	return falseValueFunc()
-}
-
 // IfPtrInt16 is a typed convenience wrapper for IfPtr[int16].
 func IfPtrInt16(
 	isTrue bool,
@@ -82,16 +63,6 @@ func ValueOrZeroInt16(valuePointer *int16) int16 {
 
 // PtrOrZeroInt16 is a typed convenience wrapper for PtrOrZero[int16].
 func PtrOrZeroInt16(valuePointer *int16) *int16 {
-	return PtrOrZero[int16](valuePointer)
-}
-
-// Deprecated: Use ValueOrZeroInt16 instead.
-func NilDerefInt16(valuePointer *int16) int16 {
-	return ValueOrZero[int16](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroInt16 instead.
-func NilDerefPtrInt16(valuePointer *int16) *int16 {
 	return PtrOrZero[int16](valuePointer)
 }
 

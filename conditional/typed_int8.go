@@ -32,25 +32,6 @@ func IfSliceInt8(
 	return IfSlice[int8](isTrue, trueValue, falseValue)
 }
 
-// Deprecated: Use IfSliceInt8 instead.
-func IfSlicePtrInt8(
-	isTrue bool,
-	trueValue, falseValue []int8,
-) []int8 {
-	return IfSlice[int8](isTrue, trueValue, falseValue)
-}
-
-// Deprecated: Use IfSlice[int8] with func wrappers instead.
-func IfSlicePtrFuncInt8(
-	isTrue bool,
-	trueValueFunc, falseValueFunc func() []int8,
-) []int8 {
-	if isTrue {
-		return trueValueFunc()
-	}
-	return falseValueFunc()
-}
-
 // IfPtrInt8 is a typed convenience wrapper for IfPtr[int8].
 func IfPtrInt8(
 	isTrue bool,
@@ -82,16 +63,6 @@ func ValueOrZeroInt8(valuePointer *int8) int8 {
 
 // PtrOrZeroInt8 is a typed convenience wrapper for PtrOrZero[int8].
 func PtrOrZeroInt8(valuePointer *int8) *int8 {
-	return PtrOrZero[int8](valuePointer)
-}
-
-// Deprecated: Use ValueOrZeroInt8 instead.
-func NilDerefInt8(valuePointer *int8) int8 {
-	return ValueOrZero[int8](valuePointer)
-}
-
-// Deprecated: Use PtrOrZeroInt8 instead.
-func NilDerefPtrInt8(valuePointer *int8) *int8 {
 	return PtrOrZero[int8](valuePointer)
 }
 
