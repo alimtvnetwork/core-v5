@@ -31,13 +31,7 @@ func Test_FieldProcessor_IsFieldType_NoMatch(t *testing.T) {
 	}
 }
 
-func Test_FieldProcessor_IsFieldType_NilReceiver(t *testing.T) {
-	var fp *reflectmodel.FieldProcessor
-
-	if fp.IsFieldType(reflect.TypeOf("")) {
-		t.Error("expected IsFieldType = false on nil receiver")
-	}
-}
+// Note: IsFieldType nil receiver test migrated to FieldProcessor_NilReceiver_testcases.go
 
 func Test_FieldProcessor_IsFieldKind_Match(t *testing.T) {
 	fp := newFieldProcessor("Age", 1)
@@ -61,11 +55,14 @@ func Test_FieldProcessor_IsFieldKind_NoMatch(t *testing.T) {
 	}
 }
 
-func Test_FieldProcessor_IsFieldKind_NilReceiver(t *testing.T) {
-	var fp *reflectmodel.FieldProcessor
+// Note: IsFieldKind nil receiver test migrated to FieldProcessor_NilReceiver_testcases.go
 
-	if fp.IsFieldKind(reflect.String) {
-		t.Error("expected IsFieldKind = false on nil receiver")
+func Test_FieldProcessor_NilReceiver(t *testing.T) {
+	for caseIndex, tc := range fieldProcessorNilReceiverTestCases {
+		// Arrange (implicit — nil receiver)
+
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 
