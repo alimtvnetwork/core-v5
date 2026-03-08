@@ -76,18 +76,18 @@ These use `CaseV1` with `(*Type)(nil)` in `ArrangeInput`. Well-structured but ve
 
 | Category | Files | Est. Cases | Status |
 |----------|-------|-----------|--------|
-| ✅ Migrated | 9 | ~42 | Done |
-| ⬜ Priority A (inline `t.Error`) | 11 | ~35 | Not started |
+| ✅ Migrated | 13 | ~68 | Done |
+| ⬜ Priority A (inline `t.Error`) | 7 | ~19 | Not started |
 | ⬜ Priority B (CaseV1 nil) | 14 | ~41 | Not started |
-| **Total** | **34** | **~118** | **~36% done** |
+| **Total** | **34** | **~128** | **~53% done** |
 
 ---
 
 ## Recommended Migration Order
 
-1. **Priority A** — `corevalidatortests/` (5 files, 17 cases) — highest density of raw `t.Error`
-2. **Priority A** — `reflectmodeltests/` (3 files, 10 cases) — inline style
-3. **Priority A** — `coredatatests/BytesError_test.go` (5 cases)
+1. ~~**Priority A** — `reflectmodeltests/` (3 files, 10 cases) — inline style~~ ✅ Done
+2. ~~**Priority A** — `coredatatests/BytesError_test.go` (5 cases)~~ ✅ Done
+3. **Priority A** — `corevalidatortests/` (5 files, 17 cases) — highest density of remaining raw `t.Error`
 4. **Priority B** — `coredynamictests/` (3 files, 11 cases) — CaseV1 with manual setup
 5. **Priority B** — `coregenerictests/` (3 files, 10 cases) — requires generic literal wrappers
 6. **Priority B** — remaining scattered files (5 files, ~14 cases)
