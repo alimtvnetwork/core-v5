@@ -45,3 +45,31 @@ func (it Results[T1, T2]) IsResult2(expected any) bool {
 func (it Results[T1, T2]) Result2String() string {
 	return fmt.Sprintf("%v", it.Result2)
 }
+
+// FromResultAny converts a ResultAny into a typed Results[T1, T2]
+// by type-asserting AllResults[0] and AllResults[1].
+//
+// If type assertion fails, zero values are used.
+func FromResultAny[T1, T2 any](r ResultAny) Results[T1, T2] {
+	var res Results[T1, T2]
+
+	res.Panicked = r.Panicked
+	res.PanicValue = r.PanicValue
+	res.Error = r.Error
+	res.AllResults = r.AllResults
+	res.ReturnCount = r.ReturnCount
+
+	if len(r.AllResults) > 0 {
+		if v, ok := r.AllResults[0].(T1); ok {
+			res.Value = v
+		}
+	}
+
+	if len(r.AllResults) > 1 {
+		if v, ok := r.AllResults[1].(T2); ok {
+			res.Result2 = v
+		}
+	}
+
+	return res
+}

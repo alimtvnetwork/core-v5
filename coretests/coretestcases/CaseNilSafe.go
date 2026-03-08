@@ -1,6 +1,7 @@
 package coretestcases
 
 import (
+	"fmt"
 	"testing"
 
 	"gitlab.com/auk-go/core/coretests/args"
@@ -21,7 +22,7 @@ import (
 //	        Title: "IsValid on nil receiver returns false",
 //	        Func:  (*MyStruct).IsValid,
 //	        Expected: args.Map{
-//	            "value":    false,
+//	            "value":    "false",
 //	            "panicked": false,
 //	        },
 //	    },
@@ -38,7 +39,7 @@ type CaseNilSafe struct {
 	Args []any
 
 	// Expected holds the expected results as a typed map.
-	// Common keys: "value", "panicked", "error", "isSafe".
+	// Common keys: "value", "panicked", "isSafe", "hasError", "returnCount".
 	Expected args.Map
 }
 
@@ -107,4 +108,55 @@ func (it CaseNilSafe) ShouldBeEqualMapFirst(
 		0,
 		actual,
 	)
+}
+
+// ShouldBeSafe is a convenience assertion that invokes with nil
+// and asserts using the Result's ToMap output.
+//
+// This is the most concise assertion for standard nil-safety tests:
+//
+//	tc.ShouldBeSafe(t, caseIndex)
+func (it CaseNilSafe) ShouldBeSafe(
+	t *testing.T,
+	caseIndex int,
+) {
+	t.Helper()
+
+	result := it.InvokeNil()
+	actual := filterMapByExpected(result.ToMap(), it.Expected)
+
+	it.ShouldBeEqualMap(
+		t,
+		caseIndex,
+		actual,
+	)
+}
+
+// ShouldBeSafeFirst is a convenience for non-loop tests (caseIndex=0).
+func (it CaseNilSafe) ShouldBeSafeFirst(
+	t *testing.T,
+) {
+	t.Helper()
+
+	it.ShouldBeSafe(
+		t,
+		0,
+	)
+}
+
+// filterMapByExpected returns a new args.Map containing only the keys
+// present in the expected map. This allows Expected to be a subset of
+// the full ToMap output — tests only assert what they care about.
+func filterMapByExpected(actual args.Map, expected args.Map) args.Map {
+	filtered := args.Map{}
+
+	for key := range expected {
+		if val, exists := actual[key]; exists {
+			filtered[key] = val
+		} else {
+			filtered[key] = fmt.Sprintf("<missing key: %s>", key)
+		}
+	}
+
+	return filtered
 }
