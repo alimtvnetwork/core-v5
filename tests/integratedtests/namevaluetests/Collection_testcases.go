@@ -134,13 +134,8 @@ var collectionCloneValidTestCase = coretestcases.CaseV1{
 	},
 }
 
-var collectionCloneNilTestCase = coretestcases.CaseV1{
-	Title: "Negative: ClonePtr on nil returns nil",
-	ArrangeInput: args.Map{
-		"when": "clone nil collection",
-	},
-	ExpectedInput: "true", // isNil
-}
+// Note: Nil receiver test case migrated to Collection_NilReceiver_testcases.go
+// using CaseNilSafe pattern with direct method references.
 
 // endregion
 

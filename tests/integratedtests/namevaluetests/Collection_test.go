@@ -197,18 +197,16 @@ func Test_CollectionClone_Valid(t *testing.T) {
 }
 
 // ==========================================================================
-// Test: Clone — nil receiver
+// Test: Clone — nil receiver (CaseNilSafe pattern)
 // ==========================================================================
 
 func Test_CollectionClone_NilReceiver(t *testing.T) {
-	tc := collectionCloneNilTestCase
+	for caseIndex, tc := range collectionNilSafeTestCases {
+		// Arrange (implicit — nil receiver)
 
-	// Act
-	var nilCol *namevalue.StringStringCollection
-	result := nilCol.ClonePtr()
-
-	// Assert
-	tc.ShouldBeEqual(t, 0, fmt.Sprintf("%v", result == nil))
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
+	}
 }
 
 // ==========================================================================

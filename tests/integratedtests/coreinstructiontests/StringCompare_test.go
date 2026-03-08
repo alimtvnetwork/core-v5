@@ -75,100 +75,14 @@ func Test_StringCompare_VerifyError(t *testing.T) {
 }
 
 // ==========================================
-// Nil Receiver — per-method tests
+// Nil Receiver — CaseNilSafe pattern
 // ==========================================
 
-func Test_StringCompare_NilReceiver_IsMatch(t *testing.T) {
-	for caseIndex, tc := range stringCompareNilReceiverTestCases {
-		// Arrange
-		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-		if method != "IsMatch" {
-			continue
-		}
+func Test_StringCompare_NilReceiver(t *testing.T) {
+	for caseIndex, tc := range stringCompareNilSafeTestCases {
+		// Arrange (implicit — nil receiver)
 
-		var sc *coreinstruction.StringCompare
-
-		// Act
-		result := fmt.Sprintf("%v", sc.IsMatch())
-
-		// Assert
-		tc.ShouldBeEqual(t, caseIndex, result)
-	}
-}
-
-func Test_StringCompare_NilReceiver_IsMatchFailed(t *testing.T) {
-	for caseIndex, tc := range stringCompareNilReceiverTestCases {
-		// Arrange
-		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-		if method != "IsMatchFailed" {
-			continue
-		}
-
-		var sc *coreinstruction.StringCompare
-
-		// Act
-		result := fmt.Sprintf("%v", sc.IsMatchFailed())
-
-		// Assert
-		tc.ShouldBeEqual(t, caseIndex, result)
-	}
-}
-
-func Test_StringCompare_NilReceiver_IsInvalid(t *testing.T) {
-	for caseIndex, tc := range stringCompareNilReceiverTestCases {
-		// Arrange
-		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-		if method != "IsInvalid" {
-			continue
-		}
-
-		var sc *coreinstruction.StringCompare
-
-		// Act
-		result := fmt.Sprintf("%v", sc.IsInvalid())
-
-		// Assert
-		tc.ShouldBeEqual(t, caseIndex, result)
-	}
-}
-
-func Test_StringCompare_NilReceiver_IsDefined(t *testing.T) {
-	for caseIndex, tc := range stringCompareNilReceiverTestCases {
-		// Arrange
-		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-		if method != "IsDefined" {
-			continue
-		}
-
-		var sc *coreinstruction.StringCompare
-
-		// Act
-		result := fmt.Sprintf("%v", sc.IsDefined())
-
-		// Assert
-		tc.ShouldBeEqual(t, caseIndex, result)
-	}
-}
-
-func Test_StringCompare_NilReceiver_VerifyError(t *testing.T) {
-	for caseIndex, tc := range stringCompareNilReceiverTestCases {
-		// Arrange
-		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-		if method != "VerifyError" {
-			continue
-		}
-
-		var sc *coreinstruction.StringCompare
-
-		// Act
-		result := fmt.Sprintf("%v", sc.VerifyError() != nil)
-
-		// Assert
-		tc.ShouldBeEqual(t, caseIndex, result)
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }

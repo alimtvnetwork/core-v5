@@ -257,14 +257,8 @@ var linkedListAddLockTestCase = coretestcases.CaseV1{
 	ExpectedInput: "2",
 }
 
-// ==========================================================================
-// Nil receiver
-// ==========================================================================
-
-var linkedListNilReceiverTestCase = coretestcases.CaseV1{
-	Title:         "IsEmpty nil receiver",
-	ExpectedInput: "true",
-}
+// Note: Nil receiver test case migrated to LinkedList_NilReceiver_testcases.go
+// using CaseNilSafe pattern with direct method references.
 
 // ==========================================================================
 // AppendNode

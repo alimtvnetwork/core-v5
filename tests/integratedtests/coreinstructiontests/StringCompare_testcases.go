@@ -276,49 +276,5 @@ var stringCompareVerifyErrorTestCases = []coretestcases.CaseV1{
 	},
 }
 
-// =============================================================================
-// Nil receiver test cases
-// =============================================================================
-
-var stringCompareNilReceiverTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Nil receiver - IsMatch returns true (vacuous truth)",
-		ArrangeInput: args.Map{
-			"when":   "given nil StringCompare",
-			"method": "IsMatch",
-		},
-		ExpectedInput: "true",
-	},
-	{
-		Title: "Nil receiver - IsMatchFailed returns false",
-		ArrangeInput: args.Map{
-			"when":   "given nil StringCompare",
-			"method": "IsMatchFailed",
-		},
-		ExpectedInput: "false",
-	},
-	{
-		Title: "Nil receiver - IsInvalid returns true",
-		ArrangeInput: args.Map{
-			"when":   "given nil StringCompare",
-			"method": "IsInvalid",
-		},
-		ExpectedInput: "true",
-	},
-	{
-		Title: "Nil receiver - IsDefined returns false",
-		ArrangeInput: args.Map{
-			"when":   "given nil StringCompare",
-			"method": "IsDefined",
-		},
-		ExpectedInput: "false",
-	},
-	{
-		Title: "Nil receiver - VerifyError returns nil",
-		ArrangeInput: args.Map{
-			"when":   "given nil StringCompare",
-			"method": "VerifyError",
-		},
-		ExpectedInput: "false",
-	},
-}
+// Note: Nil receiver test cases migrated to StringCompare_NilReceiver_testcases.go
+// using CaseNilSafe pattern with direct method references.

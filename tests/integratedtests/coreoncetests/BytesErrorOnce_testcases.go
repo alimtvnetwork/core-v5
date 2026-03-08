@@ -213,16 +213,7 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 		},
 		InitBytes: []byte("ok"),
 	},
-	{
-		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce nil receiver — HasIssuesOrEmpty true",
-			ExpectedInput: args.Map{
-				"hasIssuesOrEmpty": true,
-				"hasSafeItems":     false,
-			},
-		},
-		IsNilReceiver: true,
-	},
+	// Note: Nil receiver case migrated to BytesErrorOnce_NilReceiver_testcases.go
 }
 
 // =============================================================================

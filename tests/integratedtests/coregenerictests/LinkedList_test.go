@@ -534,16 +534,16 @@ func Test_LinkedList_AddLock(t *testing.T) {
 }
 
 // ==========================================================================
-// Test: Nil receiver
+// Test: Nil receiver (CaseNilSafe pattern)
 // ==========================================================================
 
 func Test_LinkedList_NilReceiver(t *testing.T) {
-	tc := linkedListNilReceiverTestCase
-	var ll *coregeneric.LinkedList[int]
+	for caseIndex, tc := range linkedListNilSafeTestCases {
+		// Arrange (implicit — nil receiver)
 
-	actLines := []string{fmt.Sprintf("%v", ll.IsEmpty())}
-
-	tc.ShouldBeEqualFirst(t, actLines...)
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
+	}
 }
 
 // ==========================================================================

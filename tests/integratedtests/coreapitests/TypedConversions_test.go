@@ -139,33 +139,15 @@ func Test_TypedSimpleGenericRequest_Message(t *testing.T) {
 }
 
 // ==========================================
-// Test: TypedSimpleGenericRequest Nil Receiver
+// Test: TypedSimpleGenericRequest Nil Receiver (CaseNilSafe pattern)
 // ==========================================
 
 func Test_TypedSimpleGenericRequest_NilReceiver(t *testing.T) {
-	for caseIndex, tc := range typedSimpleGenericRequestNilReceiverTestCases {
-		// Arrange
-		var req *coreapi.TypedSimpleGenericRequest[string]
+	for caseIndex, tc := range typedSimpleGenericRequestNilSafeTestCases {
+		// Arrange (implicit — nil receiver)
 
-		input := tc.ArrangeInput.(args.Map)
-		method, _ := input.GetAsString("method")
-
-		// Act
-		var actLines []string
-
-		switch method {
-		case "IsValid":
-			actLines = []string{fmt.Sprintf("%v", req.IsValid())}
-		case "IsInvalid":
-			actLines = []string{fmt.Sprintf("%v", req.IsInvalid())}
-		case "Message":
-			actLines = []string{req.Message()}
-		case "InvalidError":
-			actLines = []string{fmt.Sprintf("%v", req.InvalidError() == nil)}
-		}
-
-		// Assert
-		tc.ShouldBeEqual(t, caseIndex, actLines...)
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 
