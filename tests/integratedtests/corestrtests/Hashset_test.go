@@ -477,52 +477,16 @@ func Test_StrHashset_Clear(t *testing.T) {
 	}
 }
 
-func Test_StrHashset_Clear_NilReceiver(t *testing.T) {
-	var hs *corestr.Hashset
-	result := hs.Clear()
-	if result != nil {
-		t.Error("Clear on nil should return nil")
-	}
-}
-
-func Test_StrHashset_Dispose(t *testing.T) {
-	hs := corestr.New.Hashset.StringsSpreadItems("a")
-	hs.Dispose()
-	// After dispose, items is nil — Length should handle nil
-	if hs.Length() != 0 {
-		t.Errorf("After Dispose: expected 0, got %d", hs.Length())
-	}
-}
-
 // ==========================================
-// Nil receiver guards
+// Nil receiver guards (CaseNilSafe pattern)
 // ==========================================
 
-func Test_StrHashset_NilReceiver_IsEmpty(t *testing.T) {
-	var hs *corestr.Hashset
-	if !hs.IsEmpty() {
-		t.Error("nil.IsEmpty() should return true")
-	}
-}
+func Test_StrHashset_NilReceiver(t *testing.T) {
+	for caseIndex, tc := range hashsetNilReceiverTestCases {
+		// Arrange (implicit — nil receiver)
 
-func Test_StrHashset_NilReceiver_Length(t *testing.T) {
-	var hs *corestr.Hashset
-	if hs.Length() != 0 {
-		t.Error("nil.Length() should return 0")
-	}
-}
-
-func Test_StrHashset_NilReceiver_HasItems(t *testing.T) {
-	var hs *corestr.Hashset
-	if hs.HasItems() {
-		t.Error("nil.HasItems() should return false")
-	}
-}
-
-func Test_StrHashset_NilReceiver_HasAnyItem(t *testing.T) {
-	var hs *corestr.Hashset
-	if hs.HasAnyItem() {
-		t.Error("nil.HasAnyItem() should return false")
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 

@@ -8,115 +8,16 @@ import (
 	"gitlab.com/auk-go/core/regexnew"
 )
 
-func Test_NilLazyRegex_IsNull(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
+// =============================================================================
+// Nil receiver tests (migrated to CaseNilSafe)
+// =============================================================================
 
-	// Act & Assert
-	if !lazy.IsNull() {
-		t.Error("nil LazyRegex should return true for IsNull")
-	}
-}
+func Test_NilLazyRegex(t *testing.T) {
+	for caseIndex, tc := range lazyRegexNilReceiverTestCases {
+		// Arrange (implicit — nil receiver)
 
-func Test_NilLazyRegex_IsUndefined(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act & Assert
-	if !lazy.IsUndefined() {
-		t.Error("nil LazyRegex should return true for IsUndefined")
-	}
-}
-
-func Test_NilLazyRegex_IsDefined(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act & Assert
-	if lazy.IsDefined() {
-		t.Error("nil LazyRegex should return false for IsDefined")
-	}
-}
-
-func Test_NilLazyRegex_IsCompiled(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act & Assert
-	if lazy.IsCompiled() {
-		t.Error("nil LazyRegex should return false for IsCompiled")
-	}
-}
-
-func Test_NilLazyRegex_String(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act
-	result := lazy.String()
-
-	// Assert
-	if result != "" {
-		t.Errorf("nil LazyRegex String() should return empty, got %q", result)
-	}
-}
-
-func Test_NilLazyRegex_Pattern(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act
-	result := lazy.Pattern()
-
-	// Assert
-	if result != "" {
-		t.Errorf("nil LazyRegex Pattern() should return empty, got %q", result)
-	}
-}
-
-func Test_NilLazyRegex_HasAnyIssues(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act & Assert
-	if !lazy.HasAnyIssues() {
-		t.Error("nil LazyRegex should return true for HasAnyIssues")
-	}
-}
-
-func Test_NilLazyRegex_IsInvalid(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act & Assert
-	if !lazy.IsInvalid() {
-		t.Error("nil LazyRegex should return true for IsInvalid")
-	}
-}
-
-func Test_NilLazyRegex_OnRequiredCompiled(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act
-	err := lazy.OnRequiredCompiled()
-
-	// Assert
-	if err == nil {
-		t.Error("nil LazyRegex OnRequiredCompiled should return error")
-	}
-}
-
-func Test_NilLazyRegex_FullString(t *testing.T) {
-	// Arrange
-	var lazy *regexnew.LazyRegex
-
-	// Act
-	result := lazy.FullString()
-
-	// Assert
-	if result != "" {
-		t.Errorf("nil LazyRegex FullString() should return empty, got %q", result)
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 
