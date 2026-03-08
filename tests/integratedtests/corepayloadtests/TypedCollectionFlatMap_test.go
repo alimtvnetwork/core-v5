@@ -229,24 +229,14 @@ func Test_TypedPayloadCollection_DeserializeInvalidBytes(t *testing.T) {
 }
 
 // =============================================================================
-// Edge: nil receiver safety
+// Edge: nil receiver safety (CaseNilSafe pattern)
 // =============================================================================
 
 func Test_TypedPayloadCollection_NilReceiver(t *testing.T) {
-	for caseIndex, testCase := range nilReceiverTestCases {
-		// Arrange
-		var collection *corepayload.TypedPayloadCollection[testUser]
+	for caseIndex, tc := range typedPayloadCollectionNilSafeTestCases {
+		// Arrange (implicit — nil receiver)
 
-		// Act
-		length := collection.Length()
-		isEmpty := collection.IsEmpty()
-		hasItems := collection.HasItems()
-
-		// Assert
-		testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
-			"length":  length,
-			"isEmpty": isEmpty,
-			"noItems": !hasItems,
-		})
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }

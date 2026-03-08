@@ -133,21 +133,5 @@ var collectionDeserializeInvalidTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
-
-// =============================================================================
-// Edge: nil receiver safety
-// =============================================================================
-
-var nilReceiverTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Nil collection — Length returns 0 and IsEmpty returns true",
-		ArrangeInput: args.Map{
-			"when": "collection pointer is nil",
-		},
-		ExpectedInput: args.Map{
-			"length":  0,
-			"isEmpty": true,
-			"noItems": true,
-		},
-	},
-}
+// Note: Nil receiver test cases migrated to TypedCollection_NilReceiver_testcases.go
+// using CaseNilSafe pattern with function literal wrappers for generic types.

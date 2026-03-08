@@ -137,45 +137,8 @@ var typedSimpleGenericRequestMessageTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
-
-// ==========================================
-// TypedSimpleGenericRequest — Nil Receiver Edge Cases
-// ==========================================
-
-var typedSimpleGenericRequestNilReceiverTestCases = []coretestcases.CaseV1{
-	{
-		Title: "Nil receiver IsValid returns false",
-		ArrangeInput: args.Map{
-			"when":   "given nil receiver",
-			"method": "IsValid",
-		},
-		ExpectedInput: "false",
-	},
-	{
-		Title: "Nil receiver IsInvalid returns true",
-		ArrangeInput: args.Map{
-			"when":   "given nil receiver",
-			"method": "IsInvalid",
-		},
-		ExpectedInput: "true",
-	},
-	{
-		Title: "Nil receiver Message returns empty string",
-		ArrangeInput: args.Map{
-			"when":   "given nil receiver",
-			"method": "Message",
-		},
-		ExpectedInput: "",
-	},
-	{
-		Title: "Nil receiver InvalidError returns nil",
-		ArrangeInput: args.Map{
-			"when":   "given nil receiver",
-			"method": "InvalidError",
-		},
-		ExpectedInput: "true",
-	},
-}
+// Note: Nil receiver test cases migrated to TypedConversions_NilReceiver_testcases.go
+// using CaseNilSafe pattern with function literal wrappers for generic types.
 
 // ==========================================
 // TypedSimpleGenericRequest — Invalid Underlying Request Edge Cases
