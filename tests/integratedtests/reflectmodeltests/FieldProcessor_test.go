@@ -3,8 +3,6 @@ package reflectmodeltests
 import (
 	"reflect"
 	"testing"
-
-	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
 )
 
 // ===== FieldProcessor Tests =====
