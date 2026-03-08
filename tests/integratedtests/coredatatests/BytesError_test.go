@@ -9,14 +9,7 @@ import (
 
 // ===== BytesError Tests =====
 
-func Test_BytesError_String_Nil(t *testing.T) {
-	var be *coredata.BytesError
-
-	got := be.String()
-	if got != "" {
-		t.Errorf("BytesError.String() on nil = %q, want empty", got)
-	}
-}
+// Note: String nil receiver test migrated to BytesError_NilReceiver_testcases.go
 
 func Test_BytesError_String_WithBytes(t *testing.T) {
 	be := &coredata.BytesError{
@@ -69,13 +62,7 @@ func Test_BytesError_HasError_False(t *testing.T) {
 	}
 }
 
-func Test_BytesError_HasError_Nil(t *testing.T) {
-	var be *coredata.BytesError
-
-	if be.HasError() {
-		t.Error("expected HasError() = false on nil receiver")
-	}
-}
+// Note: HasError nil receiver test migrated to BytesError_NilReceiver_testcases.go
 
 func Test_BytesError_IsEmptyError_True(t *testing.T) {
 	be := &coredata.BytesError{}
@@ -85,13 +72,7 @@ func Test_BytesError_IsEmptyError_True(t *testing.T) {
 	}
 }
 
-func Test_BytesError_IsEmptyError_Nil(t *testing.T) {
-	var be *coredata.BytesError
-
-	if !be.IsEmptyError() {
-		t.Error("expected IsEmptyError() = true on nil receiver")
-	}
-}
+// Note: IsEmptyError nil receiver test migrated to BytesError_NilReceiver_testcases.go
 
 func Test_BytesError_IsEmptyError_False(t *testing.T) {
 	be := &coredata.BytesError{
@@ -152,14 +133,7 @@ func Test_BytesError_HasBytes_False_WithError(t *testing.T) {
 	}
 }
 
-func Test_BytesError_Length_Nil(t *testing.T) {
-	var be *coredata.BytesError
-
-	got := be.Length()
-	if got != 0 {
-		t.Errorf("BytesError.Length() on nil = %d, want 0", got)
-	}
-}
+// Note: Length nil receiver test migrated to BytesError_NilReceiver_testcases.go
 
 func Test_BytesError_Length_WithBytes(t *testing.T) {
 	be := &coredata.BytesError{
@@ -172,13 +146,7 @@ func Test_BytesError_Length_WithBytes(t *testing.T) {
 	}
 }
 
-func Test_BytesError_IsEmpty_True(t *testing.T) {
-	var be *coredata.BytesError
-
-	if !be.IsEmpty() {
-		t.Error("expected IsEmpty() = true on nil receiver")
-	}
-}
+// Note: IsEmpty nil receiver test migrated to BytesError_NilReceiver_testcases.go
 
 func Test_BytesError_IsEmpty_EmptyBytes(t *testing.T) {
 	be := &coredata.BytesError{
@@ -207,11 +175,15 @@ func Test_BytesError_HandleError_NoError(t *testing.T) {
 	be.HandleError()
 }
 
-func Test_BytesError_HandleError_NilReceiver(t *testing.T) {
-	var be *coredata.BytesError
+// Note: HandleError nil receiver test migrated to BytesError_NilReceiver_testcases.go
 
-	// Should not panic
-	be.HandleError()
+func Test_BytesError_NilReceiver(t *testing.T) {
+	for caseIndex, tc := range bytesErrorNilReceiverTestCases {
+		// Arrange (implicit — nil receiver)
+
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
+	}
 }
 
 func Test_BytesError_HandleError_Panics(t *testing.T) {
