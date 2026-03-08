@@ -176,7 +176,38 @@ func (it *MyStruct) Clone() Cloneable { ... }
 
 **Pitfall:** `reflect.Value.Interface()` on a nil interface returns `nil` typed as `any`, not as `Cloneable`. `extractResult` handles this by checking `IsNil()` before extracting.
 
-### 7. Nil Func Reference
+### 7. Generic Type Methods (Function Literal Wrapper)
+
+Go does not support method expressions on generic types:
+
+```go
+// ❌ COMPILE ERROR — Go cannot form method expressions on generic types
+(*coregeneric.LinkedList[int]).IsEmpty
+```
+
+**Recommended pattern:** Use a **function literal wrapper** that calls the method directly. This preserves compile-time safety — renaming the method still causes a build error at the call site.
+
+```go
+CaseNilSafe{
+    Title: "Length on nil returns 0",
+    Func: func(c *corepayload.TypedPayloadCollection[testUser]) int {
+        return c.Length()
+    },
+    Expected: args.Map{
+        "value":    "0",
+        "panicked": false,
+    },
+}
+```
+
+**Why this works:**
+- The literal's signature tells `buildCallArgs` the first parameter type, so it creates a typed nil pointer of the correct generic instantiation.
+- `InvokeWithPanicRecovery` calls the literal via reflection identically to a method expression.
+- Renaming `Length()` → build error inside the literal body.
+
+**When to use:** Any method on a generic struct (`LinkedList[T]`, `TypedPayloadCollection[T]`, `TypedSimpleGenericRequest[T]`, etc.). Non-generic types should still prefer direct method expressions (`(*MyStruct).IsValid`).
+
+### 8. Nil Func Reference
 
 If `Func` is nil (programmer error), `InvokeWithPanicRecovery` returns `Result{Panicked: true, PanicValue: "funcRef is nil"}`. This fails the test loudly rather than silently passing.
 
