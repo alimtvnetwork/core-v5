@@ -114,6 +114,115 @@ func Test_Variant(t *testing.T) {
 
 > **Migration status:** 39 of ~138 testcase files (28.3%) now use `args.Map`. See [migration tracker](../13-app-issues/testing/05-args-map-migration-status.md).
 
+## Nil-Receiver Safety Pattern (CaseNilSafe)
+
+The `CaseNilSafe` structure provides a **compile-time-safe, table-driven** pattern for testing nil-receiver safety on pointer receiver methods.
+
+### Why CaseNilSafe
+
+- **Compile-time safety**: Uses direct method references (`(*Type).Method`) — renaming a method causes a build error instead of a silent test failure.
+- **Unified pattern**: Replaces 4 different nil-test styles (inline `t.Error`, CaseV1, custom wrappers, GenericGherkins) with one consistent structure.
+- **Panic recovery**: Built-in `recover()` via `results.InvokeWithPanicRecovery` — tests can assert both safe and panicking methods.
+
+### Structure
+
+```go
+type CaseNilSafe struct {
+    Title    string     // scenario name
+    Func     any        // direct method ref: (*Type).Method
+    Args     []any      // optional input arguments
+    Expected args.Map   // expected outcome map
+}
+```
+
+### Test Case File (`_NilReceiver_testcases.go`)
+
+```go
+var myStructNilReceiverTestCases = []coretestcases.CaseNilSafe{
+    {
+        Title: "IsValid on nil returns false",
+        Func:  (*MyStruct).IsValid,
+        Expected: args.Map{
+            "value":    "false",
+            "panicked": false,
+        },
+    },
+    {
+        Title: "Parse on nil with args returns zero",
+        Func:  (*MyStruct).Parse,
+        Args:  []any{"hello"},
+        Expected: args.Map{
+            "value":       "0",
+            "panicked":    false,
+            "hasError":    false,
+            "returnCount": 2,
+        },
+    },
+    {
+        Title: "UnsafeMethod on nil panics",
+        Func:  (*MyStruct).UnsafeMethod,
+        Expected: args.Map{
+            "panicked": true,
+        },
+    },
+}
+```
+
+### Test Logic File (`_NilReceiver_test.go`)
+
+```go
+func Test_MyStruct_NilReceiver(t *testing.T) {
+    for caseIndex, tc := range myStructNilReceiverTestCases {
+        // Arrange (implicit — nil receiver)
+
+        // Act & Assert
+        tc.ShouldBeSafe(t, caseIndex)
+    }
+}
+```
+
+### Key Methods
+
+| Method | Purpose |
+|--------|---------|
+| `MethodName()` | Extracts method name via reflection |
+| `CaseTitle()` | Returns Title, falling back to MethodName |
+| `InvokeNil()` | Calls method with nil receiver + panic recovery |
+| `Invoke(receiver)` | Calls with a specific receiver |
+| `ShouldBeSafe(t, idx)` | One-liner: invoke nil → assert ToMap vs Expected |
+| `ShouldBeEqualMap(t, idx, actual)` | Manual assertion with custom actual map |
+
+### Expected Map Keys
+
+| Key | Type | Description |
+|-----|------|-------------|
+| `"value"` | `string` | Primary return value via `%v` |
+| `"panicked"` | `bool` | Whether invocation panicked |
+| `"isSafe"` | `bool` | `!panicked && !hasError` |
+| `"hasError"` | `bool` | Whether an error was returned |
+| `"returnCount"` | `int` | Number of return values |
+
+Expected can be a **subset** — only keys present in Expected are compared.
+
+### Migration Guide
+
+**Priority 1 — Inline `if` + `t.Error`** (violates "no raw `t.Error`" standard):
+1. Create `_NilReceiver_testcases.go` with `CaseNilSafe` entries
+2. Replace individual `Test_*_NilReceiver_*` functions with one loop
+3. Delete old inline tests
+
+**Priority 2 — CaseV1 nil sections**:
+1. Extract nil-specific CaseV1 entries into `CaseNilSafe` entries
+2. Use method references instead of `ArrangeInput` maps
+
+**Priority 3 — Custom wrappers**:
+1. Replace custom `IsNilReceiver` fields with `CaseNilSafe.InvokeNil()`
+
+### Related Docs
+
+- [CaseNilSafe Design Document](./designs/CaseNilSafe-design.md)
+- [results package](./folders/07-coretests.md)
+
 ## Best Patterns Observed
 
 1. **Separation of test data and test logic** — `_testcases.go` files keep data separate.
@@ -136,3 +245,4 @@ No formal coverage requirements are documented. Recommended minimum: critical pa
 
 - [coretests folder spec](./folders/07-coretests.md)
 - [Repo Overview](./00-repo-overview.md)
+- [CaseNilSafe Design](./designs/CaseNilSafe-design.md)
