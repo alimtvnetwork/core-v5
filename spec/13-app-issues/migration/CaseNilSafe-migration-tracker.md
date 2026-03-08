@@ -22,6 +22,10 @@
 | 7 | `corepayloadtests` | `TypedCollection_NilReceiver_testcases.go` | CaseV1 / GenericGherkins | 3 |
 | 8 | `coreapitests` | `TypedConversions_NilReceiver_testcases.go` | CaseV1 string-dispatch | 4 |
 | 9 | `casenilsafetests` | `CaseNilSafe_test.go` | N/A (self-test) | 12 |
+| 10 | `reflectmodeltests` | `FieldProcessor_NilReceiver_testcases.go` | Inline `t.Error` | 2 |
+| 11 | `reflectmodeltests` | `MethodProcessor_NilReceiver_testcases.go` | Inline `t.Error` | 10 |
+| 12 | `reflectmodeltests` | `ReflectValueKind_NilReceiver_testcases.go` | Inline `t.Error` | 8 |
+| 13 | `coredatatests` | `BytesError_NilReceiver_testcases.go` | Inline `t.Error` | 6 |
 
 ---
 
@@ -31,11 +35,7 @@ These use raw `t.Error`/`t.Errorf` with manual nil-receiver setup. Highest migra
 
 | # | Package | File | Methods to Migrate | Est. Cases |
 |---|---------|------|--------------------|-----------|
-| 1 | `reflectmodeltests` | `FieldProcessor_test.go` | `IsFieldType`, `IsFieldKind` | 2 |
-| 2 | `reflectmodeltests` | `MethodProcessor_test.go` | `HasValidFunc`, `IsInvalid`, `Func`, `IsPublicMethod`, `GetType`, `Invoke` | 6 |
-| 3 | `reflectmodeltests` | `ReflectValueKind_test.go` | `IsInvalid` + others | ~2 |
-| 4 | `coredatatests` | `BytesError_test.go` | `HasError`, `IsEmptyError`, `IsEmpty`, `HandleError` + others | ~5 |
-| 5 | `corevalidatortests` | `SliceValidators_test.go` | `IsMatch` | 1 |
+| 1 | `corevalidatortests` | `SliceValidators_test.go` | `IsMatch` | 1 |
 | 6 | `corevalidatortests` | `SliceValidatorUnit_test.go` | `IsValid`, `ActualLinesLength`, `AllVerifyError`, `VerifyFirstError` | 4 |
 | 7 | `corevalidatortests` | `SliceValidatorExtra_test.go` | `AllVerifyErrorExceptLast`, `AllVerifyErrorQuick`, `AllVerifyErrorTestCase`, `ActualLinesString`, `ExpectingLinesString`, `IsUsedAlready`, `VerifySimpleError` | 7 |
 | 8 | `corevalidatortests` | `TextValidator_test.go` | `IsMatchMany`, `VerifyDetailError` | 2 |
