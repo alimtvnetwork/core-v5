@@ -22,21 +22,9 @@ func Test_MethodProcessor_HasValidFunc_True(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_HasValidFunc_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
+// Note: HasValidFunc nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
-	if mp.HasValidFunc() {
-		t.Error("expected HasValidFunc() = false on nil receiver")
-	}
-}
-
-func Test_MethodProcessor_IsInvalid_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	if !mp.IsInvalid() {
-		t.Error("expected IsInvalid() = true on nil receiver")
-	}
-}
+// Note: IsInvalid nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 func Test_MethodProcessor_IsInvalid_Valid(t *testing.T) {
 	mp := newMethodProcessor("PublicMethod")
@@ -65,14 +53,7 @@ func Test_MethodProcessor_Func_Valid(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_Func_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	fn := mp.Func()
-	if fn != nil {
-		t.Error("expected Func() = nil on nil receiver")
-	}
-}
+// Note: Func nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 // --- Args & Return Counts ---
 
@@ -106,14 +87,7 @@ func Test_MethodProcessor_ReturnLength(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_ReturnLength_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	got := mp.ReturnLength()
-	if got != -1 {
-		t.Errorf("ReturnLength() on nil = %d, want -1", got)
-	}
-}
+// Note: ReturnLength nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 func Test_MethodProcessor_ReturnLength_MultiReturn(t *testing.T) {
 	mp := newMethodProcessor("MultiReturn")
@@ -134,13 +108,7 @@ func Test_MethodProcessor_IsPublicMethod(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_IsPublicMethod_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	if mp.IsPublicMethod() {
-		t.Error("expected IsPublicMethod() = false on nil receiver")
-	}
-}
+// Note: IsPublicMethod nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 func Test_MethodProcessor_IsPrivateMethod_False(t *testing.T) {
 	mp := newMethodProcessor("PublicMethod")
@@ -161,14 +129,7 @@ func Test_MethodProcessor_GetType_Valid(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_GetType_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	got := mp.GetType()
-	if got != nil {
-		t.Error("expected GetType() = nil on nil receiver")
-	}
-}
+// Note: GetType nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 // --- InArgs & OutArgs Types ---
 
@@ -182,14 +143,7 @@ func Test_MethodProcessor_GetInArgsTypes(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_GetInArgsTypes_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	types := mp.GetInArgsTypes()
-	if len(types) != 0 {
-		t.Errorf("GetInArgsTypes() on nil len = %d, want 0", len(types))
-	}
-}
+// Note: GetInArgsTypes nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 func Test_MethodProcessor_GetInArgsTypes_Cached(t *testing.T) {
 	mp := newMethodProcessor("PublicMethod")
@@ -211,14 +165,7 @@ func Test_MethodProcessor_GetOutArgsTypes(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_GetOutArgsTypes_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	types := mp.GetOutArgsTypes()
-	if len(types) != 0 {
-		t.Errorf("GetOutArgsTypes() on nil len = %d, want 0", len(types))
-	}
-}
+// Note: GetOutArgsTypes nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 func Test_MethodProcessor_GetOutArgsTypes_NoArgs(t *testing.T) {
 	mp := newMethodProcessor("NoArgsMethod")
@@ -240,14 +187,7 @@ func Test_MethodProcessor_GetInArgsTypesNames(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_GetInArgsTypesNames_Nil(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
-
-	names := mp.GetInArgsTypesNames()
-	if len(names) != 0 {
-		t.Errorf("GetInArgsTypesNames() on nil len = %d, want 0", len(names))
-	}
-}
+// Note: GetInArgsTypesNames nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
 // --- IsEqual / IsNotEqual ---
 
@@ -376,12 +316,14 @@ func Test_MethodProcessor_Invoke_Success(t *testing.T) {
 	}
 }
 
-func Test_MethodProcessor_Invoke_NilReceiver(t *testing.T) {
-	var mp *reflectmodel.MethodProcessor
+// Note: Invoke nil receiver test migrated to MethodProcessor_NilReceiver_testcases.go
 
-	_, err := mp.Invoke()
-	if err == nil {
-		t.Error("expected error for Invoke on nil receiver")
+func Test_MethodProcessor_NilReceiver(t *testing.T) {
+	for caseIndex, tc := range methodProcessorNilReceiverTestCases {
+		// Arrange (implicit — nil receiver)
+
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 

@@ -22,6 +22,10 @@
 | 7 | `corepayloadtests` | `TypedCollection_NilReceiver_testcases.go` | CaseV1 / GenericGherkins | 3 |
 | 8 | `coreapitests` | `TypedConversions_NilReceiver_testcases.go` | CaseV1 string-dispatch | 4 |
 | 9 | `casenilsafetests` | `CaseNilSafe_test.go` | N/A (self-test) | 12 |
+| 10 | `reflectmodeltests` | `FieldProcessor_NilReceiver_testcases.go` | Inline `t.Error` | 2 |
+| 11 | `reflectmodeltests` | `MethodProcessor_NilReceiver_testcases.go` | Inline `t.Error` | 10 |
+| 12 | `reflectmodeltests` | `ReflectValueKind_NilReceiver_testcases.go` | Inline `t.Error` | 8 |
+| 13 | `coredatatests` | `BytesError_NilReceiver_testcases.go` | Inline `t.Error` | 6 |
 
 ---
 
@@ -31,11 +35,7 @@ These use raw `t.Error`/`t.Errorf` with manual nil-receiver setup. Highest migra
 
 | # | Package | File | Methods to Migrate | Est. Cases |
 |---|---------|------|--------------------|-----------|
-| 1 | `reflectmodeltests` | `FieldProcessor_test.go` | `IsFieldType`, `IsFieldKind` | 2 |
-| 2 | `reflectmodeltests` | `MethodProcessor_test.go` | `HasValidFunc`, `IsInvalid`, `Func`, `IsPublicMethod`, `GetType`, `Invoke` | 6 |
-| 3 | `reflectmodeltests` | `ReflectValueKind_test.go` | `IsInvalid` + others | ~2 |
-| 4 | `coredatatests` | `BytesError_test.go` | `HasError`, `IsEmptyError`, `IsEmpty`, `HandleError` + others | ~5 |
-| 5 | `corevalidatortests` | `SliceValidators_test.go` | `IsMatch` | 1 |
+| 1 | `corevalidatortests` | `SliceValidators_test.go` | `IsMatch` | 1 |
 | 6 | `corevalidatortests` | `SliceValidatorUnit_test.go` | `IsValid`, `ActualLinesLength`, `AllVerifyError`, `VerifyFirstError` | 4 |
 | 7 | `corevalidatortests` | `SliceValidatorExtra_test.go` | `AllVerifyErrorExceptLast`, `AllVerifyErrorQuick`, `AllVerifyErrorTestCase`, `ActualLinesString`, `ExpectingLinesString`, `IsUsedAlready`, `VerifySimpleError` | 7 |
 | 8 | `corevalidatortests` | `TextValidator_test.go` | `IsMatchMany`, `VerifyDetailError` | 2 |
@@ -76,18 +76,18 @@ These use `CaseV1` with `(*Type)(nil)` in `ArrangeInput`. Well-structured but ve
 
 | Category | Files | Est. Cases | Status |
 |----------|-------|-----------|--------|
-| ✅ Migrated | 9 | ~42 | Done |
-| ⬜ Priority A (inline `t.Error`) | 11 | ~35 | Not started |
+| ✅ Migrated | 13 | ~68 | Done |
+| ⬜ Priority A (inline `t.Error`) | 7 | ~19 | Not started |
 | ⬜ Priority B (CaseV1 nil) | 14 | ~41 | Not started |
-| **Total** | **34** | **~118** | **~36% done** |
+| **Total** | **34** | **~128** | **~53% done** |
 
 ---
 
 ## Recommended Migration Order
 
-1. **Priority A** — `corevalidatortests/` (5 files, 17 cases) — highest density of raw `t.Error`
-2. **Priority A** — `reflectmodeltests/` (3 files, 10 cases) — inline style
-3. **Priority A** — `coredatatests/BytesError_test.go` (5 cases)
+1. ~~**Priority A** — `reflectmodeltests/` (3 files, 10 cases) — inline style~~ ✅ Done
+2. ~~**Priority A** — `coredatatests/BytesError_test.go` (5 cases)~~ ✅ Done
+3. **Priority A** — `corevalidatortests/` (5 files, 17 cases) — highest density of remaining raw `t.Error`
 4. **Priority B** — `coredynamictests/` (3 files, 11 cases) — CaseV1 with manual setup
 5. **Priority B** — `coregenerictests/` (3 files, 10 cases) — requires generic literal wrappers
 6. **Priority B** — remaining scattered files (5 files, ~14 cases)
