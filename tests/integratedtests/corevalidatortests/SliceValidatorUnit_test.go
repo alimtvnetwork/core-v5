@@ -69,12 +69,7 @@ func Test_SliceValidator_IsValid_OneNil(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_IsValid_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	if !v.IsValid(true) {
-		t.Error("nil receiver should return true")
-	}
-}
+// (nil receiver tests migrated to SliceValidator_NilReceiver_testcases.go)
 
 func Test_SliceValidator_IsValid_BothEmpty(t *testing.T) {
 	v := corevalidator.SliceValidator{
@@ -132,12 +127,7 @@ func Test_SliceValidator_ActualLinesLength(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_ActualLinesLength_Nil(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	if v.ActualLinesLength() != 0 {
-		t.Error("nil receiver should return 0")
-	}
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 func Test_SliceValidator_ExpectingLinesLength(t *testing.T) {
 	v := corevalidator.SliceValidator{
@@ -266,14 +256,7 @@ func Test_SliceValidator_AllVerifyError_Fail(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_AllVerifyError_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	params := &corevalidator.Parameter{CaseIndex: 0}
-	err := v.AllVerifyError(params)
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 func Test_SliceValidator_AllVerifyError_SkipEmpty(t *testing.T) {
 	v := corevalidator.SliceValidator{
@@ -313,14 +296,7 @@ func Test_SliceValidator_VerifyFirstError_Pass(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_VerifyFirstError_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	params := &corevalidator.Parameter{CaseIndex: 0}
-	err := v.VerifyFirstError(params)
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // SliceValidator.Dispose
@@ -338,11 +314,7 @@ func Test_SliceValidator_Dispose(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_Dispose_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	// should not panic
-	v.Dispose()
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // SliceValidator — case insensitive
