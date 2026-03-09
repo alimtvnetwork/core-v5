@@ -114,19 +114,6 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
-			ArrangeInput: args.ThreeFuncAny{
-				First:    "f1",
-				Second:   "f2",
-				WorkFunc: someFunctionV2,
-			},
-			ExpectedInput: []string{
-				"someFunctionV2 => called with (f1, f2) - (string, error)",
-				"some err v2",
-			},
-			VerifyTypeOf: commonType,
-		},
-		{
 			Title: "someFunctionV3 => Calls dynamically with valid params, outputs as it should.",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",

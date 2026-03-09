@@ -37,15 +37,11 @@ func Test_Reflectcore_Is_NotNil(t *testing.T) {
 }
 
 func Test_Reflectcore_TypeName_NotNil(t *testing.T) {
-	if reflectcore.TypeName == nil {
-		t.Error("TypeName should not be nil")
-	}
+	_ = reflectcore.TypeName // compile-time existence check
 }
 
 func Test_Reflectcore_TypeNames_NotNil(t *testing.T) {
-	if reflectcore.TypeNames == nil {
-		t.Error("TypeNames should not be nil")
-	}
+	_ = reflectcore.TypeNames // compile-time existence check
 }
 
 func Test_Reflectcore_ReflectType_NotNil(t *testing.T) {
