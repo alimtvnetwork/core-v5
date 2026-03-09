@@ -12,7 +12,7 @@ import (
 func sampleFunc() {}
 
 // =============================================================================
-// GetFuncName
+// GetFuncName — positive
 // =============================================================================
 
 func Test_GetFuncName_Verification(t *testing.T) {
@@ -27,7 +27,71 @@ func Test_GetFuncName_Verification(t *testing.T) {
 }
 
 // =============================================================================
-// GetFuncFullName
+// GetFuncName — nil input (panic recovery)
+// =============================================================================
+
+func Test_GetFuncName_NilInput(t *testing.T) {
+	tc := getFuncNameNilTestCase
+
+	// Arrange
+	var panicked bool
+	var result string
+
+	// Act
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				panicked = true
+			}
+		}()
+
+		result = corefuncs.GetFuncName(nil)
+	}()
+
+	actual := args.Map{
+		"result":   result,
+		"panicked": panicked,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// =============================================================================
+// GetFuncName — non-function input (panic recovery)
+// =============================================================================
+
+func Test_GetFuncName_NonFuncInput(t *testing.T) {
+	tc := getFuncNameNonFuncTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	inputVal, _ := input.Get("input")
+	var panicked bool
+	var result string
+
+	// Act
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				panicked = true
+			}
+		}()
+
+		result = corefuncs.GetFuncName(inputVal)
+	}()
+
+	actual := args.Map{
+		"result":   result,
+		"panicked": panicked,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// =============================================================================
+// GetFuncFullName — positive
 // =============================================================================
 
 func Test_GetFuncFullName_Verification(t *testing.T) {
@@ -45,7 +109,71 @@ func Test_GetFuncFullName_Verification(t *testing.T) {
 }
 
 // =============================================================================
-// GetFunc
+// GetFuncFullName — nil input (panic recovery)
+// =============================================================================
+
+func Test_GetFuncFullName_NilInput(t *testing.T) {
+	tc := getFuncFullNameNilTestCase
+
+	// Arrange
+	var panicked bool
+	var result string
+
+	// Act
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				panicked = true
+			}
+		}()
+
+		result = corefuncs.GetFuncFullName(nil)
+	}()
+
+	actual := args.Map{
+		"result":   result,
+		"panicked": panicked,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// =============================================================================
+// GetFuncFullName — non-function input (panic recovery)
+// =============================================================================
+
+func Test_GetFuncFullName_NonFuncInput(t *testing.T) {
+	tc := getFuncFullNameNonFuncTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	inputVal, _ := input.Get("input")
+	var panicked bool
+	var result string
+
+	// Act
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				panicked = true
+			}
+		}()
+
+		result = corefuncs.GetFuncFullName(inputVal)
+	}()
+
+	actual := args.Map{
+		"result":   result,
+		"panicked": panicked,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// =============================================================================
+// GetFunc — positive
 // =============================================================================
 
 func Test_GetFunc_Verification(t *testing.T) {
@@ -59,6 +187,72 @@ func Test_GetFunc_Verification(t *testing.T) {
 		// Assert
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
+}
+
+// =============================================================================
+// GetFunc — nil input (panic recovery)
+// =============================================================================
+
+func Test_GetFunc_NilInput(t *testing.T) {
+	tc := getFuncNilTestCase
+
+	// Arrange
+	var panicked bool
+	var isNil bool
+
+	// Act
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				panicked = true
+			}
+		}()
+
+		f := corefuncs.GetFunc(nil)
+		isNil = f == nil
+	}()
+
+	actual := args.Map{
+		"isNil":    isNil,
+		"panicked": panicked,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// =============================================================================
+// GetFunc — non-function input (panic recovery)
+// =============================================================================
+
+func Test_GetFunc_NonFuncInput(t *testing.T) {
+	tc := getFuncNonFuncTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	inputVal, _ := input.Get("input")
+	var panicked bool
+	var isNil bool
+
+	// Act
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				panicked = true
+			}
+		}()
+
+		f := corefuncs.GetFunc(inputVal)
+		isNil = f == nil
+	}()
+
+	actual := args.Map{
+		"isNil":    isNil,
+		"panicked": panicked,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // =============================================================================
