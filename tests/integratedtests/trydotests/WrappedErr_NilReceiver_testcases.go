@@ -62,4 +62,36 @@ var wrappedErrNilSafeTestCases = []coretestcases.CaseNilSafe{
 			Panicked: false,
 		},
 	},
+	{
+		Title: "IsInvalidException on nil returns true",
+		Func:  (*trydo.WrappedErr).IsInvalidException,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "HasErrorOrException on nil returns false",
+		Func:  (*trydo.WrappedErr).HasErrorOrException,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "IsBothPresent on nil returns false",
+		Func:  (*trydo.WrappedErr).IsBothPresent,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "HasException on nil returns false",
+		Func:  (*trydo.WrappedErr).HasException,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
+		},
+	},
 }

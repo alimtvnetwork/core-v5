@@ -40,4 +40,49 @@ var mapAnyItemsNilSafeTestCases = []coretestcases.CaseNilSafe{
 			Panicked: false,
 		},
 	},
+	{
+		Title: "HasKey on nil returns false",
+		Func: func(m *coredynamic.MapAnyItems) bool {
+			return m.HasKey("anything")
+		},
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "Clear on nil does not panic",
+		Func:  (*coredynamic.MapAnyItems).Clear,
+		Expected: results.ResultAny{
+			Panicked: false,
+		},
+		CompareFields: []string{"panicked", "returnCount"},
+	},
+	{
+		Title: "DeepClear on nil does not panic",
+		Func:  (*coredynamic.MapAnyItems).DeepClear,
+		Expected: results.ResultAny{
+			Panicked: false,
+		},
+		CompareFields: []string{"panicked", "returnCount"},
+	},
+	{
+		Title: "Dispose on nil does not panic",
+		Func:  (*coredynamic.MapAnyItems).Dispose,
+		Expected: results.ResultAny{
+			Panicked: false,
+		},
+		CompareFields: []string{"panicked", "returnCount"},
+	},
+	{
+		Title: "ClonePtr on nil returns nil and error",
+		Func: func(m *coredynamic.MapAnyItems) bool {
+			ptr, err := m.ClonePtr()
+			return ptr == nil && err != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
 }

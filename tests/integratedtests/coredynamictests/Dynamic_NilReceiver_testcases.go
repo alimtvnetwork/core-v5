@@ -43,4 +43,49 @@ var dynamicNilSafeTestCases = []coretestcases.CaseNilSafe{
 			Panicked: false,
 		},
 	},
+	{
+		Title: "ValueMarshal on nil returns nil bytes and error",
+		Func: func(d *coredynamic.Dynamic) bool {
+			bytes, err := d.ValueMarshal()
+			return bytes == nil && err != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "ReflectSetTo on nil returns error",
+		Func: func(d *coredynamic.Dynamic) bool {
+			var target string
+			err := d.ReflectSetTo(&target)
+			return err != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "Deserialize on nil returns invalid and error",
+		Func: func(d *coredynamic.Dynamic) bool {
+			result, err := d.Deserialize([]byte(`{}`))
+			return result != nil && err != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "UnmarshalJSON on nil returns error",
+		Func: func(d *coredynamic.Dynamic) bool {
+			err := d.UnmarshalJSON([]byte(`{}`))
+			return err != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
 }

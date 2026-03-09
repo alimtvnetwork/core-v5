@@ -110,4 +110,44 @@ var infoNilSafeTestCases = []coretestcases.CaseNilSafe{
 			Panicked: false,
 		},
 	},
+	{
+		Title: "String on nil returns empty",
+		Func:  (*coretaskinfo.Info).String,
+		Expected: results.ResultAny{
+			Value:    "",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "SetSecure on nil returns non-nil info",
+		Func: func(info *coretaskinfo.Info) bool {
+			result := info.SetSecure()
+			return result != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "SetPlain on nil returns non-nil info",
+		Func: func(info *coretaskinfo.Info) bool {
+			result := info.SetPlain()
+			return result != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "Options on nil returns non-nil options",
+		Func: func(info *coretaskinfo.Info) bool {
+			return info.Options() != nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
 }
