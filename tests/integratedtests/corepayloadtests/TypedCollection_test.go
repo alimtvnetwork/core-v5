@@ -304,9 +304,9 @@ func Test_TypedPayloadCollection_AnyAll(t *testing.T) {
 }
 
 func Test_TypedPayloadCollection_EmptyBehavior(t *testing.T) {
+	tc := typedCollectionEmptyOpsTestCase
 	collection := corepayload.EmptyTypedPayloadCollection[testUser]()
 
-	// Verify empty collection operations don't panic
 	allData := collection.AllData()
 	names := corepayload.MapTypedPayloadData[testUser, string](
 		collection, func(u testUser) string { return u.Name },
@@ -316,52 +316,58 @@ func Test_TypedPayloadCollection_EmptyBehavior(t *testing.T) {
 		collection, 0, func(acc int, u testUser) int { return acc + u.Age },
 	)
 
-	if len(allData) != 0 || len(names) != 0 || filtered.Length() != 0 || totalAge != 0 {
-		t.Error("Empty collection operations should return empty/zero results")
+	actual := args.Map{
+		"allDataLen":  len(allData),
+		"namesLen":    len(names),
+		"filteredLen": filtered.Length(),
+		"totalAge":    totalAge,
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TypedPayloadCollection_FirstByName(t *testing.T) {
+	tc := typedCollectionFirstByNameTestCase
 	collection := createTestCollection()
 
 	found := collection.FirstByName("Bob")
-	if found == nil || found.Data().Name != "Bob" {
-		t.Error("FirstByName should find Bob")
+	notFound := collection.FirstByName("Nonexistent")
+
+	actual := args.Map{
+		"foundName":   found.Data().Name,
+		"notFoundNil": notFound == nil,
 	}
 
-	notFound := collection.FirstByName("Nonexistent")
-	if notFound != nil {
-		t.Error("FirstByName should return nil for nonexistent")
-	}
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TypedPayloadCollection_RemoveAt(t *testing.T) {
+	tc := typedCollectionRemoveAtTestCase
 	collection := createTestCollection()
 
-	removed := collection.RemoveAt(1) // Remove Bob
-	if !removed || collection.Length() != 2 {
-		t.Error("RemoveAt should remove item and reduce length")
-	}
-
-	if collection.First().Data().Name != "Alice" || collection.Last().Data().Name != "Carol" {
-		t.Error("Remaining items should be Alice and Carol")
-	}
-
+	removed := collection.RemoveAt(1)
 	invalidRemove := collection.RemoveAt(99)
-	if invalidRemove {
-		t.Error("RemoveAt with invalid index should return false")
+
+	actual := args.Map{
+		"removed":       removed,
+		"lengthAfter":   collection.Length(),
+		"firstName":     collection.First().Data().Name,
+		"lastName":      collection.Last().Data().Name,
+		"invalidRemove": invalidRemove,
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TypedPayloadCollection_ToPayloadsCollection(t *testing.T) {
+	tc := typedCollectionToPayloadsTestCase
 	collection := createTestCollection()
 	payloads := collection.ToPayloadsCollection()
 
-	if payloads.Length() != 3 {
-		t.Errorf("Expected 3 payloads, got %d", payloads.Length())
+	actual := args.Map{
+		"length":    payloads.Length(),
+		"firstName": payloads.First().Name,
 	}
 
-	if payloads.First().Name != "Alice" {
-		t.Errorf("Expected first payload name Alice, got %s", payloads.First().Name)
-	}
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
