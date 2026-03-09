@@ -23,17 +23,16 @@ The codebase has **~51 files** containing nil-receiver tests in at least **4 dif
 
 ```
 coretests/
-├── results/                      ← NEW package
-│   ├── Result.go                 ← Result[T] base struct
-│   ├── ResultHelpers.go          ← ToMap, ReturnCount helpers
-│   ├── Results.go                ← Results[T1, T2] for multi-return
-│   ├── Invoke.go                 ← InvokeWithPanicRecovery engine
-│   ├── MethodName.go             ← Reflection-based name extraction
-│   └── aliases.go                ← ResultBool, ResultString, etc.
+├── results/                       ← Result types + assertions
+│   ├── Result.go                  ← Result[T] base struct + ToMap
+│   ├── ResultAssert.go            ← ShouldMatchResult + field derivation
+│   ├── Results.go                 ← Results[T1, T2] for multi-return
+│   ├── Invoke.go                  ← InvokeWithPanicRecovery engine
+│   ├── MethodName.go              ← Reflection-based name extraction
+│   └── aliases.go                 ← ResultBool, ResultString, etc.
 ├── coretestcases/
-│   ├── CaseNilSafe.go            ← Test case struct + Invoke
-│   ├── CaseNilSafeAssertions.go  ← ShouldBeEqualMap, ShouldBeSafe
-│   └── CaseNilSafeAssertHelper.go← Delegation to errcore
+│   ├── CaseNilSafe.go             ← Test case struct + ShouldBeSafe (delegates to Result)
+│   └── CaseNilSafeAssertHelper.go ← Delegation to errcore
 ```
 
 ### Core Types
@@ -57,12 +56,50 @@ type Results[T1, T2 any] struct {
 
 // CaseNilSafe — the test case
 type CaseNilSafe struct {
-    Title    string     // scenario name
-    Func     any        // direct method ref: (*Type).Method
-    Args     []any      // optional input arguments
-    Expected args.Map   // expected outcome map
+    Title         string            // scenario name
+    Func          any               // direct method ref: (*Type).Method
+    Args          []any             // optional input arguments
+    Expected      results.ResultAny // expected outcome (typed result struct)
+    CompareFields []string          // optional override for field comparison
 }
 ```
+
+### Assertion Ownership
+
+**Assertion methods live on `Result[T]`**, not on `CaseNilSafe`:
+
+```go
+// On results.Result[T] — the canonical assertion method
+func (it Result[T]) ShouldMatchResult(
+    t *testing.T, caseIndex int, title string,
+    expected ResultAny, compareFields ...string,
+)
+
+// ExpectAnyError — sentinel for "expect any non-nil error"
+var ExpectAnyError = fmt.Errorf("expect-any-error")
+```
+
+`CaseNilSafe.ShouldBeSafe` is a thin convenience that delegates:
+
+```go
+func (it CaseNilSafe) ShouldBeSafe(t *testing.T, caseIndex int) {
+    result := it.InvokeNil()
+    result.ShouldMatchResult(t, caseIndex, it.CaseTitle(), it.Expected, it.CompareFields...)
+}
+```
+
+### Field Auto-Derivation
+
+When `CompareFields` is empty, the compared fields are auto-derived from `Expected`:
+
+| Condition | Field included |
+|-----------|---------------|
+| Always | `"panicked"` |
+| `Expected.Value != nil` | `"value"` |
+| `Expected.Error != nil` | `"hasError"` |
+| `Expected.ReturnCount != 0` | `"returnCount"` |
+
+For edge cases (e.g., asserting `returnCount: 0` for void methods), set `CompareFields` explicitly.
 
 ## Edge Cases
 
@@ -87,7 +124,7 @@ func (it MyStruct) String() string {
 - `(*MyStruct).IsValid` with nil → `Result{Value: false, Panicked: false}` ✓
 - `(*MyStruct).String` with nil → `Result{Panicked: true}` (Go auto-dereferences)
 
-**CaseNilSafe handles both** — the test case simply declares `"panicked": true/false` in Expected.
+**CaseNilSafe handles both** — the test case simply sets `Panicked: true/false` in Expected.
 
 ### 2. Multi-Return Methods
 
@@ -102,11 +139,11 @@ func (it *MyStruct) Parse(s string) (int, error) { ... }
 CaseNilSafe{
     Func: (*MyStruct).Parse,
     Args: []any{"123"},
-    Expected: args.Map{
-        "value":       0,
-        "hasError":    true,
-        "panicked":    false,
-        "returnCount": 2,
+    Expected: results.ResultAny{
+        Value:       0,
+        Panicked:    false,
+        Error:       results.ExpectAnyError,
+        ReturnCount: 2,
     },
 }
 ```
@@ -122,10 +159,10 @@ func (it *MyStruct) Reset() { it.data = nil }
 ```go
 CaseNilSafe{
     Func: (*MyStruct).Reset,
-    Expected: args.Map{
-        "panicked":    false,
-        "returnCount": 0,
+    Expected: results.ResultAny{
+        Panicked: false,
     },
+    CompareFields: []string{"panicked", "returnCount"},
 }
 ```
 
@@ -141,10 +178,10 @@ func (it *MyStruct) Lookup(key string) (string, bool) { ... }
 CaseNilSafe{
     Func: (*MyStruct).Lookup,
     Args: []any{"key"},
-    Expected: args.Map{
-        "value":       "",
-        "panicked":    false,
-        "returnCount": 2,
+    Expected: results.ResultAny{
+        Value:       "",
+        Panicked:    false,
+        ReturnCount: 2,
     },
 }
 ```
@@ -161,9 +198,9 @@ func (it *MyStruct) Process(ctx context.Context, opts Options) error { ... }
 CaseNilSafe{
     Func: (*MyStruct).Process,
     Args: []any{context.Background(), Options{Verbose: true}},
-    Expected: args.Map{
-        "panicked": false,
-        "hasError": true,
+    Expected: results.ResultAny{
+        Panicked: false,
+        Error:    results.ExpectAnyError,
     },
 }
 ```
@@ -193,9 +230,9 @@ CaseNilSafe{
     Func: func(c *corepayload.TypedPayloadCollection[testUser]) int {
         return c.Length()
     },
-    Expected: args.Map{
-        "value":    "0",
-        "panicked": false,
+    Expected: results.ResultAny{
+        Value:    "0",
+        Panicked: false,
     },
 }
 ```
@@ -223,6 +260,7 @@ If `Func` is nil (programmer error), `InvokeWithPanicRecovery` returns `Result{P
 | `IsError(msg)` | `bool` | Error message match |
 | `ValueString()` | `string` | `fmt.Sprintf("%v", Value)` |
 | `ToMap()` | `args.Map` | Standard map for assertion |
+| **`ShouldMatchResult(...)`** | — | **Primary assertion method** |
 
 ### ToMap Output
 
@@ -236,7 +274,14 @@ result.ToMap() → args.Map{
 }
 ```
 
-This integrates directly with `ShouldBeEqualMap`.
+### ShouldMatchResult (on Result[T])
+
+The canonical assertion method. Compares the actual result against an expected `ResultAny`, using auto-derived or explicit field selection:
+
+```go
+result.ShouldMatchResult(t, caseIndex, "title", expected)                   // auto-derive
+result.ShouldMatchResult(t, caseIndex, "title", expected, "panicked", "returnCount") // explicit
+```
 
 ## Usage Pattern
 
@@ -247,28 +292,27 @@ var myStructNilSafeTestCases = []coretestcases.CaseNilSafe{
     {
         Title: "IsValid on nil returns false",
         Func:  (*MyStruct).IsValid,
-        Expected: args.Map{
-            "value":    false,
-            "panicked": false,
-            "isSafe":   true,
+        Expected: results.ResultAny{
+            Value:    "false",
+            Panicked: false,
         },
     },
     {
         Title: "String on nil panics (value receiver)",
         Func:  (*MyStruct).String,
-        Expected: args.Map{
-            "panicked": true,
+        Expected: results.ResultAny{
+            Panicked: true,
         },
     },
     {
         Title: "Parse on nil with args",
         Func:  (*MyStruct).Parse,
         Args:  []any{"hello"},
-        Expected: args.Map{
-            "value":       0,
-            "panicked":    false,
-            "hasError":    true,
-            "returnCount": 2,
+        Expected: results.ResultAny{
+            Value:       0,
+            Panicked:    false,
+            Error:       results.ExpectAnyError,
+            ReturnCount: 2,
         },
     },
 }
@@ -281,16 +325,13 @@ func Test_MyStruct_NilSafety(t *testing.T) {
     for caseIndex, tc := range myStructNilSafeTestCases {
         // Arrange (implicit — nil receiver)
 
-        // Act
-        result := tc.InvokeNil()
-
-        // Assert
-        tc.ShouldBeEqualMap(t, caseIndex, result.ToMap())
+        // Act & Assert
+        tc.ShouldBeSafe(t, caseIndex)
     }
 }
 ```
 
-**The entire test loop is 3 lines of logic** — no per-method branching.
+**The entire test loop is 1 line of logic** — `ShouldBeSafe` invokes with nil, calls `Result.ShouldMatchResult`, and auto-derives fields.
 
 ## Migration Plan
 
