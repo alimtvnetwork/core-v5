@@ -8,7 +8,7 @@ import (
 )
 
 // =============================================================================
-// GetFuncName
+// GetFuncName — positive + negative
 // =============================================================================
 
 var getFuncNameTestCases = []coretestcases.CaseV1{
@@ -21,8 +21,31 @@ var getFuncNameTestCases = []coretestcases.CaseV1{
 	},
 }
 
+var getFuncNameNilTestCase = coretestcases.CaseV1{
+	Title: "GetFuncName with nil returns empty string",
+	ArrangeInput: args.Map{
+		"when": "given nil input",
+	},
+	ExpectedInput: args.Map{
+		"result":   "",
+		"panicked": false,
+	},
+}
+
+var getFuncNameNonFuncTestCase = coretestcases.CaseV1{
+	Title: "GetFuncName with non-function returns empty string",
+	ArrangeInput: args.Map{
+		"when":  "given an integer instead of a function",
+		"input": 42,
+	},
+	ExpectedInput: args.Map{
+		"result":   "",
+		"panicked": false,
+	},
+}
+
 // =============================================================================
-// GetFuncFullName
+// GetFuncFullName — positive + negative
 // =============================================================================
 
 var getFuncFullNameTestCases = []coretestcases.CaseV1{
@@ -38,8 +61,31 @@ var getFuncFullNameTestCases = []coretestcases.CaseV1{
 	},
 }
 
+var getFuncFullNameNilTestCase = coretestcases.CaseV1{
+	Title: "GetFuncFullName with nil returns empty string",
+	ArrangeInput: args.Map{
+		"when": "given nil input",
+	},
+	ExpectedInput: args.Map{
+		"result":   "",
+		"panicked": false,
+	},
+}
+
+var getFuncFullNameNonFuncTestCase = coretestcases.CaseV1{
+	Title: "GetFuncFullName with non-function returns empty string",
+	ArrangeInput: args.Map{
+		"when":  "given a string instead of a function",
+		"input": "not-a-func",
+	},
+	ExpectedInput: args.Map{
+		"result":   "",
+		"panicked": false,
+	},
+}
+
 // =============================================================================
-// GetFunc
+// GetFunc — positive + negative
 // =============================================================================
 
 var getFuncTestCases = []coretestcases.CaseV1{
@@ -51,6 +97,29 @@ var getFuncTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isNotNil": true,
 		},
+	},
+}
+
+var getFuncNilTestCase = coretestcases.CaseV1{
+	Title: "GetFunc with nil returns nil",
+	ArrangeInput: args.Map{
+		"when": "given nil input",
+	},
+	ExpectedInput: args.Map{
+		"isNil":    true,
+		"panicked": false,
+	},
+}
+
+var getFuncNonFuncTestCase = coretestcases.CaseV1{
+	Title: "GetFunc with non-function returns nil",
+	ArrangeInput: args.Map{
+		"when":  "given a struct instead of a function",
+		"input": struct{ Name string }{"test"},
+	},
+	ExpectedInput: args.Map{
+		"isNil":    true,
+		"panicked": false,
 	},
 }
 
