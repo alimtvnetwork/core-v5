@@ -3,6 +3,7 @@ package corevalidatortests
 import (
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 )
@@ -12,74 +13,74 @@ import (
 // ==========================================
 
 func Test_SliceValidator_IsValid_ExactMatch(t *testing.T) {
+	tc := svIsValidExactMatchTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"a", "b", "c"},
-		ExpectedLines: []string{"a", "b", "c"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"a", "b", "c"}, ExpectedLines: []string{"a", "b", "c"},
 	}
-	if !v.IsValid(true) {
-		t.Error("exact match should be valid")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsValid_Mismatch(t *testing.T) {
+	tc := svIsValidMismatchTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"a", "b"},
-		ExpectedLines: []string{"a", "x"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"a", "b"}, ExpectedLines: []string{"a", "x"},
 	}
-	if v.IsValid(true) {
-		t.Error("content mismatch should be invalid")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsValid_LengthMismatch(t *testing.T) {
+	tc := svIsValidLengthMismatchTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"a"},
-		ExpectedLines: []string{"a", "b"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"a"}, ExpectedLines: []string{"a", "b"},
 	}
-	if v.IsValid(true) {
-		t.Error("length mismatch should be invalid")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsValid_BothNil(t *testing.T) {
+	tc := svIsValidBothNilTestCase
 	v := corevalidator.SliceValidator{
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   nil,
-		ExpectedLines: nil,
+		CompareAs: stringcompareas.Equal, ActualLines: nil, ExpectedLines: nil,
 	}
-	if !v.IsValid(true) {
-		t.Error("both nil should be valid")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsValid_OneNil(t *testing.T) {
+	tc := svIsValidOneNilTestCase
 	v := corevalidator.SliceValidator{
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   nil,
-		ExpectedLines: []string{"a"},
+		CompareAs: stringcompareas.Equal, ActualLines: nil, ExpectedLines: []string{"a"},
 	}
-	if v.IsValid(true) {
-		t.Error("one nil should be invalid")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // (nil receiver tests migrated to SliceValidator_NilReceiver_testcases.go)
 
 func Test_SliceValidator_IsValid_BothEmpty(t *testing.T) {
+	tc := svIsValidBothEmptyTestCase
 	v := corevalidator.SliceValidator{
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{},
-		ExpectedLines: []string{},
+		CompareAs: stringcompareas.Equal, ActualLines: []string{}, ExpectedLines: []string{},
 	}
-	if !v.IsValid(true) {
-		t.Error("both empty should be valid")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -87,15 +88,15 @@ func Test_SliceValidator_IsValid_BothEmpty(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_IsValid_TrimMatch(t *testing.T) {
+	tc := svIsValidTrimMatchTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultTrimCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"  hello  ", " world "},
-		ExpectedLines: []string{"hello", "world"},
+		Condition: corevalidator.DefaultTrimCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"  hello  ", " world "}, ExpectedLines: []string{"hello", "world"},
 	}
-	if !v.IsValid(true) {
-		t.Error("trimmed should match")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -103,15 +104,15 @@ func Test_SliceValidator_IsValid_TrimMatch(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_IsValid_Contains(t *testing.T) {
+	tc := svIsValidContainsTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Contains,
-		ActualLines:   []string{"hello world", "foo bar"},
-		ExpectedLines: []string{"ello", "bar"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Contains,
+		ActualLines: []string{"hello world", "foo bar"}, ExpectedLines: []string{"ello", "bar"},
 	}
-	if !v.IsValid(true) {
-		t.Error("contains should match substrings")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -119,52 +120,53 @@ func Test_SliceValidator_IsValid_Contains(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_ActualLinesLength(t *testing.T) {
-	v := corevalidator.SliceValidator{
-		ActualLines: []string{"a", "b"},
-	}
-	if v.ActualLinesLength() != 2 {
-		t.Errorf("expected 2, got %d", v.ActualLinesLength())
-	}
+	tc := svActualLinesLengthTestCase
+	v := corevalidator.SliceValidator{ActualLines: []string{"a", "b"}}
+
+	actual := args.Map{"length": v.ActualLinesLength()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 func Test_SliceValidator_ExpectingLinesLength(t *testing.T) {
-	v := corevalidator.SliceValidator{
-		ExpectedLines: []string{"a", "b", "c"},
-	}
-	if v.ExpectingLinesLength() != 3 {
-		t.Errorf("expected 3, got %d", v.ExpectingLinesLength())
-	}
+	tc := svExpectingLinesLengthTestCase
+	v := corevalidator.SliceValidator{ExpectedLines: []string{"a", "b", "c"}}
+
+	actual := args.Map{"length": v.ExpectingLinesLength()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsUsedAlready_False(t *testing.T) {
-	v := corevalidator.SliceValidator{
-		ExpectedLines: []string{"a"},
-	}
-	if v.IsUsedAlready() {
-		t.Error("fresh validator should not be used already")
-	}
+	tc := svIsUsedAlreadyFalseTestCase
+	v := corevalidator.SliceValidator{ExpectedLines: []string{"a"}}
+
+	actual := args.Map{"isUsed": v.IsUsedAlready()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsUsedAlready_TrueAfterComparing(t *testing.T) {
+	tc := svIsUsedAlreadyTrueTestCase
 	v := corevalidator.SliceValidator{
-		CompareAs:     stringcompareas.Equal,
-		ExpectedLines: []string{"a"},
-		ActualLines:   []string{"a"},
+		CompareAs: stringcompareas.Equal, ExpectedLines: []string{"a"}, ActualLines: []string{"a"},
 	}
 	_ = v.ComparingValidators()
-	if !v.IsUsedAlready() {
-		t.Error("after ComparingValidators should be used")
-	}
+
+	actual := args.Map{"isUsed": v.IsUsedAlready()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_MethodName(t *testing.T) {
+	tc := svMethodNameTestCase
 	v := corevalidator.SliceValidator{CompareAs: stringcompareas.Contains}
-	name := v.MethodName()
-	if name != "IsContains" {
-		t.Errorf("expected 'IsContains', got '%s'", name)
-	}
+
+	actual := args.Map{"name": v.MethodName()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -172,22 +174,28 @@ func Test_SliceValidator_MethodName(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_SetActual(t *testing.T) {
+	tc := svSetActualTestCase
 	v := corevalidator.SliceValidator{
-		CompareAs:     stringcompareas.Equal,
-		ExpectedLines: []string{"a"},
+		CompareAs: stringcompareas.Equal, ExpectedLines: []string{"a"},
 	}
 	v.SetActual([]string{"a"})
-	if v.ActualLinesLength() != 1 {
-		t.Error("SetActual should set actual lines")
-	}
+
+	actual := args.Map{"length": v.ActualLinesLength()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_SetActualVsExpected(t *testing.T) {
+	tc := svSetActualVsExpectedTestCase
 	v := corevalidator.SliceValidator{CompareAs: stringcompareas.Equal}
 	v.SetActualVsExpected([]string{"a"}, []string{"b"})
-	if v.ActualLinesLength() != 1 || v.ExpectingLinesLength() != 1 {
-		t.Error("should set both actual and expected")
+
+	actual := args.Map{
+		"actualLen":   v.ActualLinesLength(),
+		"expectedLen": v.ExpectingLinesLength(),
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -195,25 +203,27 @@ func Test_SliceValidator_SetActualVsExpected(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_IsValidOtherLines_Match(t *testing.T) {
+	tc := svIsValidOtherLinesMatchTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
 		ExpectedLines: []string{"a", "b"},
 	}
-	if !v.IsValidOtherLines(true, []string{"a", "b"}) {
-		t.Error("matching other lines should return true")
-	}
+
+	actual := args.Map{"isValid": v.IsValidOtherLines(true, []string{"a", "b"})}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsValidOtherLines_Mismatch(t *testing.T) {
+	tc := svIsValidOtherLinesMismatchTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
 		ExpectedLines: []string{"a", "b"},
 	}
-	if v.IsValidOtherLines(true, []string{"a", "x"}) {
-		t.Error("mismatching other lines should return false")
-	}
+
+	actual := args.Map{"isValid": v.IsValidOtherLines(true, []string{"a", "x"})}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -221,58 +231,44 @@ func Test_SliceValidator_IsValidOtherLines_Mismatch(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_AllVerifyError_Pass(t *testing.T) {
+	tc := svAllVerifyErrorPassTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"a", "b"},
-		ExpectedLines: []string{"a", "b"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"a", "b"}, ExpectedLines: []string{"a", "b"},
 	}
-	params := &corevalidator.Parameter{
-		CaseIndex:       0,
-		Header:          "test",
-		IsCaseSensitive: true,
-	}
-	err := v.AllVerifyError(params)
-	if err != nil {
-		t.Errorf("matching should pass: %v", err)
-	}
+	params := &corevalidator.Parameter{CaseIndex: 0, Header: "test", IsCaseSensitive: true}
+
+	actual := args.Map{"hasError": v.AllVerifyError(params) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_AllVerifyError_Fail(t *testing.T) {
+	tc := svAllVerifyErrorFailTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"a", "x"},
-		ExpectedLines: []string{"a", "b"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"a", "x"}, ExpectedLines: []string{"a", "b"},
 	}
-	params := &corevalidator.Parameter{
-		CaseIndex:       0,
-		Header:          "test",
-		IsCaseSensitive: true,
-	}
-	err := v.AllVerifyError(params)
-	if err == nil {
-		t.Error("mismatch should return error")
-	}
+	params := &corevalidator.Parameter{CaseIndex: 0, Header: "test", IsCaseSensitive: true}
+
+	actual := args.Map{"hasError": v.AllVerifyError(params) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 func Test_SliceValidator_AllVerifyError_SkipEmpty(t *testing.T) {
+	tc := svAllVerifyErrorSkipEmptyTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{},
-		ExpectedLines: []string{"a"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{}, ExpectedLines: []string{"a"},
 	}
-	params := &corevalidator.Parameter{
-		CaseIndex:                  0,
-		IsSkipCompareOnActualEmpty: true,
-	}
-	err := v.AllVerifyError(params)
-	if err != nil {
-		t.Errorf("skip empty should not error: %v", err)
-	}
+	params := &corevalidator.Parameter{CaseIndex: 0, IsSkipCompareOnActualEmpty: true}
+
+	actual := args.Map{"hasError": v.AllVerifyError(params) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -280,20 +276,16 @@ func Test_SliceValidator_AllVerifyError_SkipEmpty(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_VerifyFirstError_Pass(t *testing.T) {
+	tc := svVerifyFirstErrorPassTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"a", "b"},
-		ExpectedLines: []string{"a", "b"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"a", "b"}, ExpectedLines: []string{"a", "b"},
 	}
-	params := &corevalidator.Parameter{
-		CaseIndex:       0,
-		IsCaseSensitive: true,
-	}
-	err := v.VerifyFirstError(params)
-	if err != nil {
-		t.Errorf("matching should pass: %v", err)
-	}
+	params := &corevalidator.Parameter{CaseIndex: 0, IsCaseSensitive: true}
+
+	actual := args.Map{"hasError": v.VerifyFirstError(params) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
@@ -303,15 +295,18 @@ func Test_SliceValidator_VerifyFirstError_Pass(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_Dispose(t *testing.T) {
+	tc := svDisposeTestCase
 	v := corevalidator.SliceValidator{
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"a"},
-		ExpectedLines: []string{"a"},
+		CompareAs: stringcompareas.Equal, ActualLines: []string{"a"}, ExpectedLines: []string{"a"},
 	}
 	v.Dispose()
-	if v.ActualLines != nil || v.ExpectedLines != nil {
-		t.Error("Dispose should nil out lines")
+
+	actual := args.Map{
+		"actualNil":   v.ActualLines == nil,
+		"expectedNil": v.ExpectedLines == nil,
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
@@ -321,44 +316,45 @@ func Test_SliceValidator_Dispose(t *testing.T) {
 // ==========================================
 
 func Test_SliceValidator_IsValid_CaseInsensitive(t *testing.T) {
+	tc := svCaseInsensitiveTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"Hello", "WORLD"},
-		ExpectedLines: []string{"hello", "world"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"Hello", "WORLD"}, ExpectedLines: []string{"hello", "world"},
 	}
-	if !v.IsValid(false) {
-		t.Error("case-insensitive should match")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(false)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_SliceValidator_IsValid_CaseSensitiveFail(t *testing.T) {
+	tc := svCaseSensitiveFailTestCase
 	v := corevalidator.SliceValidator{
-		Condition:     corevalidator.DefaultDisabledCoreCondition,
-		CompareAs:     stringcompareas.Equal,
-		ActualLines:   []string{"Hello"},
-		ExpectedLines: []string{"hello"},
+		Condition: corevalidator.DefaultDisabledCoreCondition, CompareAs: stringcompareas.Equal,
+		ActualLines: []string{"Hello"}, ExpectedLines: []string{"hello"},
 	}
-	if v.IsValid(true) {
-		t.Error("case-sensitive different case should not match")
-	}
+
+	actual := args.Map{"isValid": v.IsValid(true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
-// SliceValidator — NewSliceValidatorUsingErr
+// NewSliceValidatorUsingErr
 // ==========================================
 
 func Test_NewSliceValidatorUsingErr_NilError(t *testing.T) {
+	tc := svNewUsingErrNilTestCase
 	v := corevalidator.NewSliceValidatorUsingErr(
 		nil, "expected\nlines",
 		true, false, false,
 		stringcompareas.Equal,
 	)
-	if v == nil {
-		t.Error("should not be nil")
+
+	actual := args.Map{
+		"isNotNil":  v != nil,
+		"actualLen": v.ActualLinesLength(),
 	}
-	// nil error produces empty actual
-	if v.ActualLinesLength() != 0 {
-		t.Errorf("nil error should produce 0 actual lines, got %d", v.ActualLinesLength())
-	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
