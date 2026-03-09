@@ -60,4 +60,14 @@ var castedResultNilSafeTestCases = []coretestcases.CaseNilSafe{
 			Panicked: false,
 		},
 	},
+	{
+		Title: "IsSourceKind false on nil receiver",
+		Func: func(cr *coredynamic.CastedResult) bool {
+			return cr.IsSourceKind(0)
+		},
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
+		},
+	},
 }

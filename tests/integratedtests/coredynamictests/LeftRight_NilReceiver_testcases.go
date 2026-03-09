@@ -52,4 +52,52 @@ var leftRightNilSafeTestCases = []coretestcases.CaseNilSafe{
 			Panicked: false,
 		},
 	},
+	{
+		Title: "HasAnyItem false on nil receiver",
+		Func:  (*coredynamic.LeftRight).HasAnyItem,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "DeserializeLeft on nil returns nil",
+		Func: func(lr *coredynamic.LeftRight) bool {
+			return lr.DeserializeLeft() == nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "DeserializeRight on nil returns nil",
+		Func: func(lr *coredynamic.LeftRight) bool {
+			return lr.DeserializeRight() == nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "LeftToDynamic on nil returns nil",
+		Func: func(lr *coredynamic.LeftRight) bool {
+			return lr.LeftToDynamic() == nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "RightToDynamic on nil returns nil",
+		Func: func(lr *coredynamic.LeftRight) bool {
+			return lr.RightToDynamic() == nil
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
 }

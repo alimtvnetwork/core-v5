@@ -39,9 +39,27 @@ var fromToNilSafeTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
+		Title: "IsToEmpty on nil returns true",
+		Func:  (*coreinstruction.FromTo).IsToEmpty,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
 		Title: "SetFromName on nil does not panic",
 		Func: func(ft *coreinstruction.FromTo) {
 			ft.SetFromName("x")
+		},
+		Expected: results.ResultAny{
+			Panicked: false,
+		},
+		CompareFields: []string{"panicked", "returnCount"},
+	},
+	{
+		Title: "SetToName on nil does not panic",
+		Func: func(ft *coreinstruction.FromTo) {
+			ft.SetToName("x")
 		},
 		Expected: results.ResultAny{
 			Panicked: false,
