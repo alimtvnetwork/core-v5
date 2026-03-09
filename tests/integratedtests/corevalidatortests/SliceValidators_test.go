@@ -21,15 +21,7 @@ func Test_SliceValidators_Empty(t *testing.T) {
 	}
 }
 
-func Test_SliceValidators_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidators
-	if v.Length() != 0 {
-		t.Error("nil Length should be 0")
-	}
-	if !v.IsEmpty() {
-		t.Error("nil should be empty")
-	}
-}
+// (nil receiver tests migrated to SliceValidators_NilReceiver_testcases.go)
 
 func Test_SliceValidators_WithItems(t *testing.T) {
 	v := &corevalidator.SliceValidators{
@@ -105,12 +97,7 @@ func Test_SliceValidators_IsMatch_OneFails(t *testing.T) {
 	}
 }
 
-func Test_SliceValidators_IsMatch_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidators
-	if !v.IsMatch(true) {
-		t.Error("nil receiver should return true")
-	}
-}
+// (nil receiver test migrated to SliceValidators_NilReceiver_testcases.go)
 
 // ==========================================
 // SliceValidators.VerifyAll

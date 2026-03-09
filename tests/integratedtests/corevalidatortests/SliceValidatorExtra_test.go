@@ -30,14 +30,7 @@ func Test_SliceValidator_AllVerifyErrorExceptLast_Pass(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_AllVerifyErrorExceptLast_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	params := &corevalidator.Parameter{CaseIndex: 0}
-	err := v.AllVerifyErrorExceptLast(params)
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // SliceValidator.AllVerifyErrorQuick
@@ -67,13 +60,7 @@ func Test_SliceValidator_AllVerifyErrorQuick_Fail(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_AllVerifyErrorQuick_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	err := v.AllVerifyErrorQuick(0, "test", "a")
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // SliceValidator.AllVerifyErrorTestCase
@@ -105,13 +92,7 @@ func Test_SliceValidator_AllVerifyErrorTestCase_Fail(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_AllVerifyErrorTestCase_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	err := v.AllVerifyErrorTestCase(0, "test", true)
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // SliceValidator.ComparingValidators caching
@@ -137,21 +118,7 @@ func Test_SliceValidator_ComparingValidators_Cached(t *testing.T) {
 // SliceValidator.ActualLinesString / ExpectingLinesString
 // ==========================================
 
-func Test_SliceValidator_ActualLinesString_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	s := v.ActualLinesString()
-	if s != "" {
-		t.Errorf("nil receiver should return empty, got '%s'", s)
-	}
-}
-
-func Test_SliceValidator_ExpectingLinesString_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	s := v.ExpectingLinesString()
-	if s != "" {
-		t.Errorf("nil receiver should return empty, got '%s'", s)
-	}
-}
+// (nil receiver tests migrated to SliceValidator_NilReceiver_testcases.go)
 
 func Test_SliceValidator_ActualLinesString_NonEmpty(t *testing.T) {
 	v := corevalidator.SliceValidator{
@@ -177,12 +144,7 @@ func Test_SliceValidator_ExpectingLinesString_NonEmpty(t *testing.T) {
 // SliceValidator.IsUsedAlready — nil receiver
 // ==========================================
 
-func Test_SliceValidator_IsUsedAlready_NilReceiver(t *testing.T) {
-	var v *corevalidator.SliceValidator
-	if v.IsUsedAlready() {
-		t.Error("nil receiver should not be used already")
-	}
-}
+// (nil receiver test migrated to SliceValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // NewSliceValidatorUsingErr — with actual error
@@ -376,14 +338,7 @@ func Test_TextValidator_VerifySimpleError_Mismatch(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_VerifySimpleError_NilReceiver(t *testing.T) {
-	var v *corevalidator.TextValidator
-	params := &corevalidator.Parameter{CaseIndex: 0}
-	err := v.VerifySimpleError(0, params, "anything")
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to TextValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // TextValidator.MethodName

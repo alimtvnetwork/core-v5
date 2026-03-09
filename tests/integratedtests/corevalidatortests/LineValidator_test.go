@@ -122,12 +122,7 @@ func Test_LineValidator_IsMatchMany_EmptySkip(t *testing.T) {
 	}
 }
 
-func Test_LineValidator_IsMatchMany_NilReceiver(t *testing.T) {
-	var v *corevalidator.LineValidator
-	if !v.IsMatchMany(false, true, corestr.TextWithLineNumber{Text: "x"}) {
-		t.Error("nil receiver should return true")
-	}
-}
+// (nil receiver test migrated to LineValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // LineValidator.VerifyError

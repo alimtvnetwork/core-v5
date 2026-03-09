@@ -26,24 +26,12 @@
 | 11 | `reflectmodeltests` | `MethodProcessor_NilReceiver_testcases.go` | Inline `t.Error` | 10 |
 | 12 | `reflectmodeltests` | `ReflectValueKind_NilReceiver_testcases.go` | Inline `t.Error` | 8 |
 | 13 | `coredatatests` | `BytesError_NilReceiver_testcases.go` | Inline `t.Error` | 6 |
-
----
-
-## Remaining — Inline `t.Error` Style (Priority A)
-
-These use raw `t.Error`/`t.Errorf` with manual nil-receiver setup. Highest migration value.
-
-| # | Package | File | Methods to Migrate | Est. Cases |
-|---|---------|------|--------------------|-----------|
-| 1 | `corevalidatortests` | `SliceValidators_test.go` | `IsMatch` | 1 |
-| 6 | `corevalidatortests` | `SliceValidatorUnit_test.go` | `IsValid`, `ActualLinesLength`, `AllVerifyError`, `VerifyFirstError` | 4 |
-| 7 | `corevalidatortests` | `SliceValidatorExtra_test.go` | `AllVerifyErrorExceptLast`, `AllVerifyErrorQuick`, `AllVerifyErrorTestCase`, `ActualLinesString`, `ExpectingLinesString`, `IsUsedAlready`, `VerifySimpleError` | 7 |
-| 8 | `corevalidatortests` | `TextValidator_test.go` | `IsMatchMany`, `VerifyDetailError` | 2 |
-| 9 | `corevalidatortests` | `TextValidators_test.go` | `Length`, `VerifyErrorMany` | 2 |
-| 10 | `corevalidatortests` | `BaseLinesValidators_test.go` | `LinesValidatorsLength`, `IsEmptyLinesValidators`, `HasLinesValidators` | 3 |
-| 11 | `corevalidatortests` | `LineValidator_test.go` | `IsMatchMany` | 1 |
-
-**Subtotal: ~35 cases across 11 files**
+| 14 | `corevalidatortests` | `SliceValidator_NilReceiver_testcases.go` | Inline `t.Error` | 11 |
+| 15 | `corevalidatortests` | `SliceValidators_NilReceiver_testcases.go` | Inline `t.Error` | 3 |
+| 16 | `corevalidatortests` | `TextValidator_NilReceiver_testcases.go` | Inline `t.Error` | 2 |
+| 17 | `corevalidatortests` | `TextValidators_NilReceiver_testcases.go` | Inline `t.Error` | 3 |
+| 18 | `corevalidatortests` | `BaseLinesValidators_NilReceiver_testcases.go` | Inline `t.Error` | 5 |
+| 19 | `corevalidatortests` | `LineValidator_NilReceiver_testcases.go` | Inline `t.Error` | 1 |
 
 ---
 
@@ -53,20 +41,20 @@ These use `CaseV1` with `(*Type)(nil)` in `ArrangeInput`. Well-structured but ve
 
 | # | Package | File | Methods / Sections | Est. Cases |
 |---|---------|------|--------------------|-----------|
-| 12 | `coreapitests` | `PageRequest_testcases.go` | `IsPageSizeEmpty`, `IsPageIndexEmpty`, `HasPageSize`, `HasPageIndex`, `Clone` (nil) | 5 |
-| 13 | `coredynamictests` | `Dynamic_testcases.go` + `Dynamic_test.go` | `ClonePtr`, `Bytes`, `ValueNullErr`, `ValueString`, `IntDefault` (nil receiver) | 5 |
-| 14 | `coredynamictests` | `MapAnyItemsEdge_testcases.go` + `_test.go` | `IsEqualRaw`, `ClonePtr`, `Length`, `HasKey` (nil receiver) | 4 |
-| 15 | `coredynamictests` | `AnyCollectionNewCreator_testcases.go` | `From` nil, `Clone` nil | 2 |
-| 16 | `coregenerictests` | `Hashmap_testcases.go` + `Hashmap_test.go` | `IsEmpty`, `Length`, `HasItems` (nil receiver) | 3 |
-| 17 | `coregenerictests` | `PairTripleExtended_test.go` | `Pair.Clear`, `Triple.Clear` (nil receiver) | 2 |
-| 18 | `coregenerictests` | `Hashset_test.go` | `IsEmpty`, `Length`, `HasItems` (duplicate nil tests, generic type) | 5 |
-| 19 | `corestrtests` | `BugfixRegression_testcases.go` + `_test.go` | `Hashmap.Clear` nil receiver | 1 |
-| 20 | `coreinstructiontests` | `IdentifiersWithGlobals_testcases.go` | `Length` nil receiver | 1 |
-| 21 | `coreinstructiontests` | `FromTo_test.go` | `ClonePtr` nil receiver | 1 |
-| 22 | `trydotests` | `WrappedErr_testcases.go` | nil receiver state, string, exception type | 3 |
-| 23 | `errcoretests` | `ErrorChain_testcases.go` | `ConcatMessageWithErr` nil | 1 |
-| 24 | `coretaskinfotests` | `InfoCreate_testcases.go` | `SafeName`, `SafeDescription`, `SafeUrl`, `SafeHintUrl`, `SafeErrorUrl`, `SafeExampleUrl` | 6 |
-| 25 | `coreapitests` | `TypedConversions_testcases.go` | `Clone` nil, `RequestInTo` nil (remaining CaseV1 sections) | 2 |
+| 1 | `coreapitests` | `PageRequest_testcases.go` | `IsPageSizeEmpty`, `IsPageIndexEmpty`, `HasPageSize`, `HasPageIndex`, `Clone` (nil) | 5 |
+| 2 | `coredynamictests` | `Dynamic_testcases.go` + `Dynamic_test.go` | `ClonePtr`, `Bytes`, `ValueNullErr`, `ValueString`, `IntDefault` (nil receiver) | 5 |
+| 3 | `coredynamictests` | `MapAnyItemsEdge_testcases.go` + `_test.go` | `IsEqualRaw`, `ClonePtr`, `Length`, `HasKey` (nil receiver) | 4 |
+| 4 | `coredynamictests` | `AnyCollectionNewCreator_testcases.go` | `From` nil, `Clone` nil | 2 |
+| 5 | `coregenerictests` | `Hashmap_testcases.go` + `Hashmap_test.go` | `IsEmpty`, `Length`, `HasItems` (nil receiver) | 3 |
+| 6 | `coregenerictests` | `PairTripleExtended_test.go` | `Pair.Clear`, `Triple.Clear` (nil receiver) | 2 |
+| 7 | `coregenerictests` | `Hashset_test.go` | `IsEmpty`, `Length`, `HasItems` (duplicate nil tests, generic type) | 5 |
+| 8 | `corestrtests` | `BugfixRegression_testcases.go` + `_test.go` | `Hashmap.Clear` nil receiver | 1 |
+| 9 | `coreinstructiontests` | `IdentifiersWithGlobals_testcases.go` | `Length` nil receiver | 1 |
+| 10 | `coreinstructiontests` | `FromTo_test.go` | `ClonePtr` nil receiver | 1 |
+| 11 | `trydotests` | `WrappedErr_testcases.go` | nil receiver state, string, exception type | 3 |
+| 12 | `errcoretests` | `ErrorChain_testcases.go` | `ConcatMessageWithErr` nil | 1 |
+| 13 | `coretaskinfotests` | `InfoCreate_testcases.go` | `SafeName`, `SafeDescription`, `SafeUrl`, `SafeHintUrl`, `SafeErrorUrl`, `SafeExampleUrl` | 6 |
+| 14 | `coreapitests` | `TypedConversions_testcases.go` | `Clone` nil, `RequestInTo` nil (remaining CaseV1 sections) | 2 |
 
 **Subtotal: ~41 cases across 14 files**
 
@@ -76,24 +64,26 @@ These use `CaseV1` with `(*Type)(nil)` in `ArrangeInput`. Well-structured but ve
 
 | Category | Files | Est. Cases | Status |
 |----------|-------|-----------|--------|
-| ✅ Migrated | 13 | ~68 | Done |
-| ⬜ Priority A (inline `t.Error`) | 7 | ~19 | Not started |
+| ✅ Migrated | 19 | ~93 | Done |
+| ⬜ Priority A (inline `t.Error`) | 0 | 0 | **All done** ✅ |
 | ⬜ Priority B (CaseV1 nil) | 14 | ~41 | Not started |
-| **Total** | **34** | **~128** | **~53% done** |
+| **Total** | **33** | **~134** | **~69% done** |
 
 ---
 
 ## Recommended Migration Order
 
-1. ~~**Priority A** — `reflectmodeltests/` (3 files, 10 cases) — inline style~~ ✅ Done
-2. ~~**Priority A** — `coredatatests/BytesError_test.go` (5 cases)~~ ✅ Done
-3. **Priority A** — `corevalidatortests/` (5 files, 17 cases) — highest density of remaining raw `t.Error`
+1. ~~**Priority A** — `reflectmodeltests/` (3 files, 20 cases) — inline style~~ ✅ Done
+2. ~~**Priority A** — `coredatatests/BytesError_test.go` (6 cases)~~ ✅ Done
+3. ~~**Priority A** — `corevalidatortests/` (7 files, 25 cases)~~ ✅ Done
 4. **Priority B** — `coredynamictests/` (3 files, 11 cases) — CaseV1 with manual setup
 5. **Priority B** — `coregenerictests/` (3 files, 10 cases) — requires generic literal wrappers
-6. **Priority B** — remaining scattered files (5 files, ~14 cases)
+6. **Priority B** — remaining scattered files (8 files, ~20 cases)
 
 ## Notes
 
 - Generic types (`Hashset[T]`, `Hashmap[K,V]`, `Pair[A,B]`, `Triple[A,B,C]`) require the **function literal wrapper** pattern documented in the design doc §7.
 - Some CaseV1 nil tests also test non-nil behavior in the same variable (e.g., `PageRequest` has nil + valid cases in one slice). Migration should extract only the nil cases into `CaseNilSafe`, leaving the rest in CaseV1.
-- `corevalidatortests` has the most files (5) and would benefit most from consolidation into per-type `_NilReceiver_testcases.go` files.
+- All Priority A (inline `t.Error`) migrations are now complete. Only Priority B (CaseV1) remains.
+- `Expected` uses `results.ResultAny` with `CompareFields` for subset assertion.
+- `ExpectAnyError` sentinel is used for methods expected to return non-nil errors.
