@@ -14,12 +14,8 @@ func Test_CaseNilSafe_PointerReceiverMethods(t *testing.T) {
 	for caseIndex, tc := range nilSafePointerReceiverTestCases {
 		// Arrange (implicit — nil receiver)
 
-		// Act
-		result := tc.InvokeNil()
-
-		// Assert
+		// Act & Assert
 		tc.ShouldBeSafe(t, caseIndex)
-		_ = result
 	}
 }
 
@@ -31,12 +27,8 @@ func Test_CaseNilSafe_VoidMethods(t *testing.T) {
 	for caseIndex, tc := range nilSafeVoidTestCases {
 		// Arrange (implicit — nil receiver)
 
-		// Act
-		result := tc.InvokeNil()
-		actual := filterToExpected(result.ToMap(), tc.Expected)
-
-		// Assert
-		tc.ShouldBeEqualMap(t, caseIndex, actual)
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 
@@ -48,12 +40,8 @@ func Test_CaseNilSafe_MultiReturnMethods(t *testing.T) {
 	for caseIndex, tc := range nilSafeMultiReturnTestCases {
 		// Arrange (implicit — nil receiver)
 
-		// Act
-		result := tc.InvokeNil()
-		actual := filterToExpected(result.ToMap(), tc.Expected)
-
-		// Assert
-		tc.ShouldBeEqualMap(t, caseIndex, actual)
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 
@@ -65,12 +53,8 @@ func Test_CaseNilSafe_UnsafeMethods(t *testing.T) {
 	for caseIndex, tc := range nilUnsafeTestCases {
 		// Arrange (implicit — nil receiver)
 
-		// Act
-		result := tc.InvokeNil()
-		actual := filterToExpected(result.ToMap(), tc.Expected)
-
-		// Assert
-		tc.ShouldBeEqualMap(t, caseIndex, actual)
+		// Act & Assert
+		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 
@@ -88,8 +72,26 @@ func Test_CaseNilSafe_MethodName(t *testing.T) {
 			"methodName": name,
 		}
 
-		// Assert
-		tc.ShouldBeEqualMap(t, caseIndex, actual)
+		// Assert — MethodName is not an invocation test,
+		// so we compare directly via args.Map
+		expected := args.Map{
+			"methodName": tc.Expected.Value,
+		}
+
+		actLines := actual.CompileToStrings()
+		expLines := expected.CompileToStrings()
+
+		if len(actLines) != len(expLines) {
+			t.Errorf("Case %d: line count mismatch", caseIndex)
+
+			continue
+		}
+
+		for i, line := range actLines {
+			if line != expLines[i] {
+				t.Errorf("Case %d: got %q, want %q", caseIndex, line, expLines[i])
+			}
+		}
 	}
 }
 
@@ -137,17 +139,4 @@ func Test_CaseNilSafe_InvokeWithReceiver(t *testing.T) {
 	if result.ValueString() != "true" {
 		t.Errorf("expected true, got %s", result.ValueString())
 	}
-}
-
-// filterToExpected returns a subset of actual containing only keys in expected.
-func filterToExpected(actual args.Map, expected args.Map) args.Map {
-	filtered := args.Map{}
-
-	for key := range expected {
-		if val, exists := actual[key]; exists {
-			filtered[key] = val
-		}
-	}
-
-	return filtered
 }

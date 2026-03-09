@@ -1,8 +1,8 @@
 package reflectmodeltests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
 )
 
@@ -14,64 +14,64 @@ var reflectValueKindNilReceiverTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "IsInvalid on nil returns true",
 		Func:  (*reflectmodel.ReflectValueKind).IsInvalid,
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "HasError on nil returns false",
 		Func:  (*reflectmodel.ReflectValueKind).HasError,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "IsEmptyError on nil returns true",
 		Func:  (*reflectmodel.ReflectValueKind).IsEmptyError,
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "ActualInstance on nil returns nil",
 		Func:  (*reflectmodel.ReflectValueKind).ActualInstance,
-		Expected: args.Map{
-			"value":    "<nil>",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "<nil>",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "PkgPath on nil returns empty",
 		Func:  (*reflectmodel.ReflectValueKind).PkgPath,
-		Expected: args.Map{
-			"value":    "",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "TypeName on nil returns empty",
 		Func:  (*reflectmodel.ReflectValueKind).TypeName,
-		Expected: args.Map{
-			"value":    "",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "PointerRv on nil returns nil",
 		Func:  (*reflectmodel.ReflectValueKind).PointerRv,
-		Expected: args.Map{
-			"panicked": false,
+		Expected: results.ResultAny{
+			Panicked: false,
 		},
 	},
 	{
 		Title: "PointerInterface on nil returns nil",
 		Func:  (*reflectmodel.ReflectValueKind).PointerInterface,
-		Expected: args.Map{
-			"value":    "<nil>",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "<nil>",
+			Panicked: false,
 		},
 	},
 }

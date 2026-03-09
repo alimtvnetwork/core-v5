@@ -1,8 +1,8 @@
 package casenilsafetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 )
 
 // =============================================================================
@@ -13,29 +13,29 @@ var nilSafePointerReceiverTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "IsValid on nil returns false",
 		Func:  (*sampleStruct).IsValid,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
-			"isSafe":   true,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
+		CompareFields: []string{"value", "panicked", "isSafe"},
 	},
 	{
 		Title: "Length on nil returns 0",
 		Func:  (*sampleStruct).Length,
-		Expected: args.Map{
-			"value":    "0",
-			"panicked": false,
-			"isSafe":   true,
+		Expected: results.ResultAny{
+			Value:    "0",
+			Panicked: false,
 		},
+		CompareFields: []string{"value", "panicked", "isSafe"},
 	},
 	{
 		Title: "String on nil returns empty",
 		Func:  (*sampleStruct).String,
-		Expected: args.Map{
-			"value":    "",
-			"panicked": false,
-			"isSafe":   true,
+		Expected: results.ResultAny{
+			Value:    "",
+			Panicked: false,
 		},
+		CompareFields: []string{"value", "panicked", "isSafe"},
 	},
 }
 
@@ -47,10 +47,10 @@ var nilSafeVoidTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "Reset on nil does not panic",
 		Func:  (*sampleStruct).Reset,
-		Expected: args.Map{
-			"panicked":    false,
-			"returnCount": 0,
+		Expected: results.ResultAny{
+			Panicked: false,
 		},
+		CompareFields: []string{"panicked", "returnCount"},
 	},
 }
 
@@ -63,21 +63,21 @@ var nilSafeMultiReturnTestCases = []coretestcases.CaseNilSafe{
 		Title: "Parse on nil returns (0, nil)",
 		Func:  (*sampleStruct).Parse,
 		Args:  []any{"hello"},
-		Expected: args.Map{
-			"value":       "0",
-			"panicked":    false,
-			"hasError":    false,
-			"returnCount": 2,
+		Expected: results.ResultAny{
+			Value:       "0",
+			Panicked:    false,
+			ReturnCount: 2,
 		},
+		CompareFields: []string{"value", "panicked", "hasError", "returnCount"},
 	},
 	{
 		Title: "Lookup on nil returns empty false",
 		Func:  (*sampleStruct).Lookup,
 		Args:  []any{"key"},
-		Expected: args.Map{
-			"value":       "",
-			"panicked":    false,
-			"returnCount": 2,
+		Expected: results.ResultAny{
+			Value:       "",
+			Panicked:    false,
+			ReturnCount: 2,
 		},
 	},
 }
@@ -90,44 +90,44 @@ var nilUnsafeTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "UnsafeMethod on nil panics",
 		Func:  (*sampleStruct).UnsafeMethod,
-		Expected: args.Map{
-			"panicked": true,
+		Expected: results.ResultAny{
+			Panicked: true,
 		},
 	},
 	{
 		Title: "ValueString on nil panics (value receiver)",
 		Func:  (*sampleStruct).ValueString,
-		Expected: args.Map{
-			"panicked": true,
+		Expected: results.ResultAny{
+			Panicked: true,
 		},
 	},
 }
 
 // =============================================================================
-// MethodName extraction
+// MethodName extraction — uses CompareFields for non-standard assertions
 // =============================================================================
 
 var methodNameTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "MethodName extracts IsValid",
 		Func:  (*sampleStruct).IsValid,
-		Expected: args.Map{
-			"methodName": "IsValid",
+		Expected: results.ResultAny{
+			Value: "IsValid",
 		},
 	},
 	{
 		Title: "MethodName extracts Parse",
 		Func:  (*sampleStruct).Parse,
 		Args:  []any{"x"},
-		Expected: args.Map{
-			"methodName": "Parse",
+		Expected: results.ResultAny{
+			Value: "Parse",
 		},
 	},
 	{
 		Title: "MethodName extracts Reset",
 		Func:  (*sampleStruct).Reset,
-		Expected: args.Map{
-			"methodName": "Reset",
+		Expected: results.ResultAny{
+			Value: "Reset",
 		},
 	},
 }

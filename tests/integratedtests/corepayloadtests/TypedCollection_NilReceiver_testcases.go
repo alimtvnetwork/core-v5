@@ -2,8 +2,8 @@ package corepayloadtests
 
 import (
 	"gitlab.com/auk-go/core/coredata/corepayload"
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 )
 
 // =============================================================================
@@ -21,9 +21,9 @@ var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) int {
 			return c.Length()
 		},
-		Expected: args.Map{
-			"value":    "0",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "0",
+			Panicked: false,
 		},
 	},
 	{
@@ -31,9 +31,9 @@ var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) bool {
 			return c.IsEmpty()
 		},
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
@@ -41,9 +41,9 @@ var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) bool {
 			return c.HasItems()
 		},
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 }

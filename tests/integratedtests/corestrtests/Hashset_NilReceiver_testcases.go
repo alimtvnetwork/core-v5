@@ -1,9 +1,9 @@
 package corestrtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 )
 
 // =============================================================================
@@ -14,41 +14,41 @@ var hashsetNilReceiverTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "IsEmpty on nil returns true",
 		Func:  (*corestr.Hashset).IsEmpty,
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "Length on nil returns 0",
 		Func:  (*corestr.Hashset).Length,
-		Expected: args.Map{
-			"value":    "0",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "0",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "HasItems on nil returns false",
 		Func:  (*corestr.Hashset).HasItems,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "HasAnyItem on nil returns false",
 		Func:  (*corestr.Hashset).HasAnyItem,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "Clear on nil returns nil",
 		Func:  (*corestr.Hashset).Clear,
-		Expected: args.Map{
-			"value":    "<nil>",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "<nil>",
+			Panicked: false,
 		},
 	},
 }

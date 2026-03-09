@@ -2,8 +2,8 @@ package coreapitests
 
 import (
 	"gitlab.com/auk-go/core/coredata/coreapi"
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 )
 
 // =============================================================================
@@ -21,9 +21,9 @@ var typedSimpleGenericRequestNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(r *coreapi.TypedSimpleGenericRequest[string]) bool {
 			return r.IsValid()
 		},
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
@@ -31,9 +31,9 @@ var typedSimpleGenericRequestNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(r *coreapi.TypedSimpleGenericRequest[string]) bool {
 			return r.IsInvalid()
 		},
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
@@ -41,9 +41,9 @@ var typedSimpleGenericRequestNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(r *coreapi.TypedSimpleGenericRequest[string]) string {
 			return r.Message()
 		},
-		Expected: args.Map{
-			"value":    "",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "",
+			Panicked: false,
 		},
 	},
 	{
@@ -51,9 +51,9 @@ var typedSimpleGenericRequestNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(r *coreapi.TypedSimpleGenericRequest[string]) error {
 			return r.InvalidError()
 		},
-		Expected: args.Map{
-			"panicked": false,
-			"hasError": false,
+		Expected: results.ResultAny{
+			Panicked: false,
 		},
+		CompareFields: []string{"panicked", "hasError"},
 	},
 }
