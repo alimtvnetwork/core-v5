@@ -4,32 +4,37 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 )
 
-// ==========================================
-// SimpleSliceValidator.SetActual
-// ==========================================
-
 func Test_SimpleSliceValidator_SetActual(t *testing.T) {
+	tc := simpleSliceValidatorSetActualTestCase
+
+	// Arrange
 	expected := corestr.New.SimpleSlice.Direct(false, []string{"a", "b"})
 	v := &corevalidator.SimpleSliceValidator{
 		Expected:  expected,
 		Condition: corevalidator.DefaultDisabledCoreCondition,
 		CompareAs: stringcompareas.Equal,
 	}
+
+	// Act
 	result := v.SetActual([]string{"a", "b"})
-	if result != v {
-		t.Error("SetActual should return same instance")
+
+	actual := args.Map{
+		"sameInstance": result == v,
 	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-// ==========================================
-// SimpleSliceValidator.SliceValidator
-// ==========================================
+func Test_SimpleSliceValidator_SliceValidator(t *testing.T) {
+	tc := simpleSliceValidatorSliceValidatorTestCase
 
-func Test_SimpleSliceValidator_SliceValidator_NotNil(t *testing.T) {
+	// Arrange
 	expected := corestr.New.SimpleSlice.Direct(false, []string{"a"})
 	v := &corevalidator.SimpleSliceValidator{
 		Expected:  expected,
@@ -37,94 +42,109 @@ func Test_SimpleSliceValidator_SliceValidator_NotNil(t *testing.T) {
 		CompareAs: stringcompareas.Equal,
 	}
 	v.SetActual([]string{"a"})
+
+	// Act
 	sv := v.SliceValidator()
-	if sv == nil {
-		t.Error("SliceValidator should not be nil")
+
+	actual := args.Map{
+		"isNotNil": sv != nil,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_SimpleSliceValidator_VerifyAll(t *testing.T) {
+	for caseIndex, tc := range simpleSliceValidatorVerifyAllTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		expectedLines := input["expected"].([]string)
+		actualLines := input["actual"].([]string)
+
+		expected := corestr.New.SimpleSlice.Direct(false, expectedLines)
+		v := &corevalidator.SimpleSliceValidator{
+			Expected:  expected,
+			Condition: corevalidator.DefaultDisabledCoreCondition,
+			CompareAs: stringcompareas.Equal,
+		}
+		v.SetActual(actualLines)
+		params := &corevalidator.Parameter{
+			CaseIndex:       0,
+			Header:          "test",
+			IsCaseSensitive: true,
+		}
+
+		// Act
+		err := v.VerifyAll(actualLines, params)
+
+		actual := args.Map{
+			"hasError": err != nil,
+		}
+
+		// Assert
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-// ==========================================
-// SimpleSliceValidator.VerifyAll
-// ==========================================
+func Test_SimpleSliceValidator_VerifyFirst(t *testing.T) {
+	tc := simpleSliceValidatorVerifyFirstTestCase
 
-func Test_SimpleSliceValidator_VerifyAll_Pass(t *testing.T) {
-	expected := corestr.New.SimpleSlice.Direct(false, []string{"a", "b"})
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	expectedLines := input["expected"].([]string)
+	actualLines := input["actual"].([]string)
+
+	expected := corestr.New.SimpleSlice.Direct(false, expectedLines)
 	v := &corevalidator.SimpleSliceValidator{
 		Expected:  expected,
 		Condition: corevalidator.DefaultDisabledCoreCondition,
 		CompareAs: stringcompareas.Equal,
 	}
-	v.SetActual([]string{"a", "b"})
+	v.SetActual(actualLines)
 	params := &corevalidator.Parameter{
 		CaseIndex:       0,
-		Header:          "test",
 		IsCaseSensitive: true,
 	}
-	err := v.VerifyAll([]string{"a", "b"}, params)
-	if err != nil {
-		t.Errorf("matching should pass: %v", err)
+
+	// Act
+	err := v.VerifyFirst(actualLines, params)
+
+	actual := args.Map{
+		"hasError": err != nil,
 	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-func Test_SimpleSliceValidator_VerifyAll_Fail(t *testing.T) {
-	expected := corestr.New.SimpleSlice.Direct(false, []string{"a", "b"})
+func Test_SimpleSliceValidator_VerifyUpto(t *testing.T) {
+	tc := simpleSliceValidatorVerifyUptoTestCase
+
+	// Arrange
+	input := tc.ArrangeInput.(args.Map)
+	expectedLines := input["expected"].([]string)
+	actualLines := input["actual"].([]string)
+	length, _ := input.GetAsInt("length")
+
+	expected := corestr.New.SimpleSlice.Direct(false, expectedLines)
 	v := &corevalidator.SimpleSliceValidator{
 		Expected:  expected,
 		Condition: corevalidator.DefaultDisabledCoreCondition,
 		CompareAs: stringcompareas.Equal,
 	}
-	v.SetActual([]string{"x", "y"})
-	params := &corevalidator.Parameter{
-		CaseIndex:       0,
-		Header:          "test",
-		IsCaseSensitive: true,
-	}
-	err := v.VerifyAll([]string{"x", "y"}, params)
-	if err == nil {
-		t.Error("mismatch should return error")
-	}
-}
-
-// ==========================================
-// SimpleSliceValidator.VerifyFirst
-// ==========================================
-
-func Test_SimpleSliceValidator_VerifyFirst_Pass(t *testing.T) {
-	expected := corestr.New.SimpleSlice.Direct(false, []string{"a"})
-	v := &corevalidator.SimpleSliceValidator{
-		Expected:  expected,
-		Condition: corevalidator.DefaultDisabledCoreCondition,
-		CompareAs: stringcompareas.Equal,
-	}
-	v.SetActual([]string{"a"})
+	v.SetActual(actualLines)
 	params := &corevalidator.Parameter{
 		CaseIndex:       0,
 		IsCaseSensitive: true,
 	}
-	err := v.VerifyFirst([]string{"a"}, params)
-	if err != nil {
-		t.Errorf("matching should pass: %v", err)
-	}
-}
 
-// ==========================================
-// SimpleSliceValidator.VerifyUpto
-// ==========================================
+	// Act
+	err := v.VerifyUpto(actualLines, params, length)
 
-func Test_SimpleSliceValidator_VerifyUpto_Pass(t *testing.T) {
-	expected := corestr.New.SimpleSlice.Direct(false, []string{"a", "b", "c"})
-	v := &corevalidator.SimpleSliceValidator{
-		Expected:  expected,
-		Condition: corevalidator.DefaultDisabledCoreCondition,
-		CompareAs: stringcompareas.Equal,
+	actual := args.Map{
+		"hasError": err != nil,
 	}
-	v.SetActual([]string{"a", "b", "c"})
-	params := &corevalidator.Parameter{
-		CaseIndex:       0,
-		IsCaseSensitive: true,
-	}
-	err := v.VerifyUpto([]string{"a", "b", "c"}, params, 2)
-	if err != nil {
-		t.Errorf("matching upto should pass: %v", err)
-	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

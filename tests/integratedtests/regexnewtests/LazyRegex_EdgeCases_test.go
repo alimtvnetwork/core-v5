@@ -5,6 +5,7 @@ import (
 	"sync"
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/regexnew"
 )
 
@@ -14,82 +15,103 @@ import (
 
 func Test_NilLazyRegex(t *testing.T) {
 	for caseIndex, tc := range lazyRegexNilReceiverTestCases {
-		// Arrange (implicit — nil receiver)
-
-		// Act & Assert
 		tc.ShouldBeSafe(t, caseIndex)
 	}
 }
 
+// =============================================================================
+// Empty pattern edge cases
+// =============================================================================
+
 func Test_EmptyPattern_IsUndefined(t *testing.T) {
-	// Arrange
-	lazy := regexnew.New.Lazy("")
+	tc := emptyPatternEdgeCaseTestCases[0]
 
-	// Act & Assert
-	if !lazy.IsUndefined() {
-		t.Error("empty pattern LazyRegex should be undefined")
-	}
-}
-
-func Test_EmptyPattern_IsNotApplicable(t *testing.T) {
-	// Arrange
-	lazy := regexnew.New.Lazy("")
-
-	// Act & Assert
-	if lazy.IsApplicable() {
-		t.Error("empty pattern LazyRegex should not be applicable")
-	}
-}
-
-func Test_EmptyPattern_IsMatch_ReturnsFalse(t *testing.T) {
-	// Arrange
-	lazy := regexnew.New.Lazy("")
-
-	// Act & Assert
-	if lazy.IsMatch("anything") {
-		t.Error("empty pattern LazyRegex IsMatch should return false")
-	}
-}
-
-func Test_EmptyPattern_IsFailedMatch_ReturnsFalse(t *testing.T) {
 	// Arrange
 	lazy := regexnew.New.Lazy("")
 
 	// Act
-	// IsFailedMatch on undefined returns true (regEx == nil)
-	result := lazy.IsFailedMatch("anything")
+	actual := args.Map{
+		"isUndefined": lazy.IsUndefined(),
+	}
 
 	// Assert
-	if !result {
-		t.Error("empty pattern LazyRegex IsFailedMatch should return true")
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_EmptyPattern_IsNotApplicable(t *testing.T) {
+	tc := emptyPatternEdgeCaseTestCases[1]
+
+	// Arrange
+	lazy := regexnew.New.Lazy("")
+
+	// Act
+	actual := args.Map{
+		"isApplicable": lazy.IsApplicable(),
 	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_EmptyPattern_IsMatch_ReturnsFalse(t *testing.T) {
+	tc := emptyPatternEdgeCaseTestCases[2]
+
+	// Arrange
+	lazy := regexnew.New.Lazy("")
+
+	// Act
+	actual := args.Map{
+		"isMatch": lazy.IsMatch("anything"),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_EmptyPattern_IsFailedMatch_ReturnsTrue(t *testing.T) {
+	tc := emptyPatternEdgeCaseTestCases[3]
+
+	// Arrange
+	lazy := regexnew.New.Lazy("")
+
+	// Act
+	actual := args.Map{
+		"isFailedMatch": lazy.IsFailedMatch("anything"),
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_EmptyPattern_Compile_ReturnsError(t *testing.T) {
+	tc := emptyPatternEdgeCaseTestCases[4]
+
 	// Arrange
 	lazy := regexnew.New.Lazy("")
 
 	// Act
 	regex, err := lazy.Compile()
 
+	actual := args.Map{
+		"hasError":   err != nil,
+		"regexIsNil": regex == nil,
+	}
+
 	// Assert
-	if err == nil {
-		t.Error("empty pattern Compile should return error")
-	}
-	if regex != nil {
-		t.Error("empty pattern Compile should return nil regex")
-	}
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
+// =============================================================================
+// Concurrency tests (these use channels by nature, kept as-is with assertions)
+// =============================================================================
+
 func Test_InvalidPattern_ConcurrentAccess(t *testing.T) {
-	// Arrange
 	invalidPatterns := []string{"[bad", "(unclosed", "*invalid", "(?P<>bad)"}
 	goroutineCount := 50
 	wg := sync.WaitGroup{}
 	wg.Add(goroutineCount)
 	errors := make(chan string, goroutineCount)
 
-	// Act
 	for i := 0; i < goroutineCount; i++ {
 		go func(index int) {
 			defer wg.Done()
@@ -119,21 +141,18 @@ func Test_InvalidPattern_ConcurrentAccess(t *testing.T) {
 	wg.Wait()
 	close(errors)
 
-	// Assert
 	for errMsg := range errors {
 		t.Error(errMsg)
 	}
 }
 
 func Test_InvalidPattern_ConcurrentCompileError(t *testing.T) {
-	// Arrange
 	pattern := "[broken"
 	goroutineCount := 50
 	wg := sync.WaitGroup{}
 	wg.Add(goroutineCount)
 	errors := make(chan string, goroutineCount)
 
-	// Act
 	for i := 0; i < goroutineCount; i++ {
 		go func(index int) {
 			defer wg.Done()
@@ -158,28 +177,25 @@ func Test_InvalidPattern_ConcurrentCompileError(t *testing.T) {
 	wg.Wait()
 	close(errors)
 
-	// Assert
 	for errMsg := range errors {
 		t.Error(errMsg)
 	}
 }
 
 func Test_MixedValidInvalid_ConcurrentAccess(t *testing.T) {
-	// Arrange
 	patterns := []string{`\d+`, "[bad", `[a-z]+`, "(unclosed"}
 	goroutineCount := 80
 	wg := sync.WaitGroup{}
 	wg.Add(goroutineCount)
 	errors := make(chan string, goroutineCount)
 
-	// Act
 	for i := 0; i < goroutineCount; i++ {
 		go func(index int) {
 			defer wg.Done()
 
 			p := patterns[index%len(patterns)]
 			lazy := regexnew.New.LazyLock(p)
-			isValid := (index%len(patterns))%2 == 0 // even indices are valid
+			isValid := (index%len(patterns))%2 == 0
 
 			if isValid {
 				if !lazy.IsApplicable() {
@@ -196,7 +212,6 @@ func Test_MixedValidInvalid_ConcurrentAccess(t *testing.T) {
 	wg.Wait()
 	close(errors)
 
-	// Assert
 	for errMsg := range errors {
 		t.Error(errMsg)
 	}
