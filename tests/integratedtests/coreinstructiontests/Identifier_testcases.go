@@ -413,3 +413,20 @@ var baseTagsTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+// ==========================================================================
+// Specification Clone — nil safety and deep copy
+// ==========================================================================
+
+var specificationCloneNilTestCase = coretestcases.CaseV1{
+	Title:         "Clone on nil Specification returns nil",
+	ExpectedInput: args.Map{"isNil": true},
+}
+
+var specificationCloneDeepCopyTestCase = coretestcases.CaseV1{
+	Title: "Clone deep copies Tags — mutation does not affect original",
+	ExpectedInput: args.Map{
+		"originalTag0": "a",
+		"cloneTag0":    "MUTATED",
+	},
+}

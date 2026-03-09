@@ -228,48 +228,29 @@ func Test_TypedPayloadWrapper_DeserializeToMany(t *testing.T) {
 }
 
 func Test_TypedPayloadWrapper_MetadataAccessors(t *testing.T) {
+	tc := typedWrapperMetadataAccessorsTestCase
 	product := testProduct{SKU: "META-1", Title: "Meta Test", Price: 42.0}
 	typed, err := corepayload.TypedPayloadWrapperNameIdCategory[testProduct](
 		"meta-name", "meta-id", "meta-category", product,
 	)
 	errcore.HandleErr(err)
 
-	if typed.Name() != "meta-name" {
-		t.Errorf("Expected name 'meta-name', got '%s'", typed.Name())
+	actual := args.Map{
+		"name":             typed.Name(),
+		"identifier":       typed.Identifier(),
+		"categoryName":     typed.CategoryName(),
+		"isParsed":         typed.IsParsed(),
+		"isEmpty":          typed.IsEmpty(),
+		"hasError":         typed.HasError(),
+		"hasSingleRecord":  typed.HasSingleRecord(),
+		"payloadsNonEmpty": typed.PayloadsString() != "",
 	}
 
-	if typed.Identifier() != "meta-id" {
-		t.Errorf("Expected id 'meta-id', got '%s'", typed.Identifier())
-	}
-
-	if typed.CategoryName() != "meta-category" {
-		t.Errorf("Expected category 'meta-category', got '%s'", typed.CategoryName())
-	}
-
-	if !typed.IsParsed() {
-		t.Error("Expected IsParsed to be true")
-	}
-
-	if typed.IsEmpty() {
-		t.Error("Expected IsEmpty to be false")
-	}
-
-	if typed.HasError() {
-		t.Error("Expected HasError to be false")
-	}
-
-	if typed.HasSingleRecord() != true {
-		t.Error("Expected HasSingleRecord to be true")
-	}
-
-	payloadsStr := typed.PayloadsString()
-
-	if payloadsStr == "" {
-		t.Error("Expected non-empty PayloadsString")
-	}
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TypedPayloadWrapper_TypedDataJson(t *testing.T) {
+	tc := typedWrapperTypedDataJsonTestCase
 	product := testProduct{SKU: "JSON-1", Title: "Json Test", Price: 99.99}
 	typed, err := corepayload.TypedPayloadWrapperNameIdRecord[testProduct](
 		"json-test", "jt-1", product,
@@ -277,20 +258,15 @@ func Test_TypedPayloadWrapper_TypedDataJson(t *testing.T) {
 	errcore.HandleErr(err)
 
 	dataJson := typed.TypedDataJson()
-
-	if dataJson.IsEmpty() {
-		t.Error("Expected non-empty TypedDataJson result")
-	}
-
 	dataJsonPtr := typed.TypedDataJsonPtr()
-
-	if dataJsonPtr == nil || dataJsonPtr.IsEmpty() {
-		t.Error("Expected non-empty TypedDataJsonPtr result")
-	}
-
 	jsonBytes, jsonErr := typed.TypedDataJsonBytes()
 
-	if jsonErr != nil || len(jsonBytes) == 0 {
-		t.Error("Expected non-empty TypedDataJsonBytes")
+	actual := args.Map{
+		"dataJsonNonEmpty":   !dataJson.IsEmpty(),
+		"dataJsonPtrNonNil":  dataJsonPtr != nil && !dataJsonPtr.IsEmpty(),
+		"jsonBytesNonEmpty":  len(jsonBytes) > 0,
+		"jsonBytesNoError":   jsonErr == nil,
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

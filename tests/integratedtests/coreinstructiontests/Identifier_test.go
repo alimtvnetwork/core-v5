@@ -212,24 +212,26 @@ func Test_BaseTags_Verification(t *testing.T) {
 }
 
 func Test_Specification_Clone_NilSafety(t *testing.T) {
-	// Verify nil receiver returns nil without panic
+	tc := specificationCloneNilTestCase
 	var spec *coreinstruction.Specification
 	result := spec.Clone()
 
-	if result != nil {
-		t.Error("Expected nil from nil Specification.Clone()")
-	}
+	actual := args.Map{"isNil": result == nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Specification_Clone_DeepCopy_Tags(t *testing.T) {
-	// Verify tags are deep-copied (mutating clone doesn't affect original)
+	tc := specificationCloneDeepCopyTestCase
 	original := coreinstruction.NewSpecification("id", "display", "type", []string{"a", "b"}, false)
 	cloned := original.Clone()
 
-	// Mutate clone's tags
 	cloned.Tags[0] = "MUTATED"
 
-	if original.Tags[0] == "MUTATED" {
-		t.Error("Clone shares Tags backing array with original — shallow copy detected")
+	actual := args.Map{
+		"originalTag0": original.Tags[0],
+		"cloneTag0":    cloned.Tags[0],
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

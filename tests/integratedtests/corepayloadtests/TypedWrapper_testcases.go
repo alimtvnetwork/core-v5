@@ -124,3 +124,35 @@ var typedWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+// ==========================================================================
+// TypedPayloadWrapper — Metadata accessors
+// ==========================================================================
+
+var typedWrapperMetadataAccessorsTestCase = coretestcases.CaseV1{
+	Title: "MetadataAccessors return correct values",
+	ExpectedInput: args.Map{
+		"name":             "meta-name",
+		"identifier":       "meta-id",
+		"categoryName":     "meta-category",
+		"isParsed":         true,
+		"isEmpty":          false,
+		"hasError":         false,
+		"hasSingleRecord":  true,
+		"payloadsNonEmpty": true,
+	},
+}
+
+// ==========================================================================
+// TypedPayloadWrapper — TypedDataJson
+// ==========================================================================
+
+var typedWrapperTypedDataJsonTestCase = coretestcases.CaseV1{
+	Title: "TypedDataJson returns non-empty results",
+	ExpectedInput: args.Map{
+		"dataJsonNonEmpty":    true,
+		"dataJsonPtrNonNil":  true,
+		"jsonBytesNonEmpty":  true,
+		"jsonBytesNoError":   true,
+	},
+}
