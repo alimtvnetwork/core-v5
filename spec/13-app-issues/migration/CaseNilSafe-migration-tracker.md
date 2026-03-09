@@ -4,8 +4,24 @@
 
 | Symbol | Meaning |
 |--------|---------|
-| ✅ | Migrated to CaseNilSafe |
+| ✅ | Migrated to CaseNilSafe with `results.ResultAny` |
 | ⬜ | Not yet migrated |
+
+---
+
+## Architecture (Corrected)
+
+All migrated test cases now use the **corrected architecture**:
+
+| Aspect | Old (incorrect) | New (correct) |
+|--------|----------------|---------------|
+| **Expected type** | `args.Map` (untyped) | `results.ResultAny` (typed struct) |
+| **Assertion owner** | Methods on `CaseNilSafe` | Methods on `results.Result[T]` (`ShouldMatchResult`) |
+| **CaseNilSafe role** | Logic + data | Data-only + thin `ShouldBeSafe` convenience that delegates to `Result` |
+| **Error sentinel** | `"hasError": true` in map | `results.ExpectAnyError` error value |
+| **Field comparison** | Manual map key matching | Auto-derived from `Expected` fields, with optional `CompareFields` override |
+
+See `spec/01-app/designs/CaseNilSafe-design.md` for full architecture.
 
 ---
 
@@ -17,8 +33,8 @@
 | 2 | `regexnewtests` | `LazyRegex_NilReceiver_testcases.go` | Inline `t.Error` | 10 |
 | 3 | `coreinstructiontests` | `StringCompare_NilReceiver_testcases.go` | CaseV1 string-dispatch | 5 |
 | 4 | `coregenerictests` | `LinkedList_NilReceiver_testcases.go` | CaseV1 | 3 |
-| 5 | `namevaluetests` | `Collection_NilReceiver_testcases.go` | CaseV1 | — |
-| 6 | `coreoncetests` | `BytesErrorOnce_NilReceiver_testcases.go` | Custom `IsNilReceiver` wrapper | — |
+| 5 | `namevaluetests` | `Collection_NilReceiver_testcases.go` | CaseV1 | 1 |
+| 6 | `coreoncetests` | `BytesErrorOnce_NilReceiver_testcases.go` | Custom `IsNilReceiver` wrapper | 4 |
 | 7 | `corepayloadtests` | `TypedCollection_NilReceiver_testcases.go` | CaseV1 / GenericGherkins | 3 |
 | 8 | `coreapitests` | `TypedConversions_NilReceiver_testcases.go` | CaseV1 string-dispatch | 4 |
 | 9 | `casenilsafetests` | `CaseNilSafe_test.go` | N/A (self-test) | 12 |
@@ -28,10 +44,12 @@
 | 13 | `coredatatests` | `BytesError_NilReceiver_testcases.go` | Inline `t.Error` | 6 |
 | 14 | `corevalidatortests` | `SliceValidator_NilReceiver_testcases.go` | Inline `t.Error` | 11 |
 | 15 | `corevalidatortests` | `SliceValidators_NilReceiver_testcases.go` | Inline `t.Error` | 3 |
-| 16 | `corevalidatortests` | `TextValidator_NilReceiver_testcases.go` | Inline `t.Error` | 2 |
+| 16 | `corevalidatortests` | `TextValidator_NilReceiver_testcases.go` | Inline `t.Error` | 3 |
 | 17 | `corevalidatortests` | `TextValidators_NilReceiver_testcases.go` | Inline `t.Error` | 3 |
 | 18 | `corevalidatortests` | `BaseLinesValidators_NilReceiver_testcases.go` | Inline `t.Error` | 5 |
 | 19 | `corevalidatortests` | `LineValidator_NilReceiver_testcases.go` | Inline `t.Error` | 1 |
+
+**Subtotal: 19 files, ~99 cases**
 
 ---
 
@@ -64,10 +82,10 @@ These use `CaseV1` with `(*Type)(nil)` in `ArrangeInput`. Well-structured but ve
 
 | Category | Files | Est. Cases | Status |
 |----------|-------|-----------|--------|
-| ✅ Migrated | 19 | ~93 | Done |
+| ✅ Migrated (ResultAny) | 19 | ~99 | Done |
 | ⬜ Priority A (inline `t.Error`) | 0 | 0 | **All done** ✅ |
 | ⬜ Priority B (CaseV1 nil) | 14 | ~41 | Not started |
-| **Total** | **33** | **~134** | **~69% done** |
+| **Total** | **33** | **~140** | **~71% done** |
 
 ---
 
@@ -75,15 +93,17 @@ These use `CaseV1` with `(*Type)(nil)` in `ArrangeInput`. Well-structured but ve
 
 1. ~~**Priority A** — `reflectmodeltests/` (3 files, 20 cases) — inline style~~ ✅ Done
 2. ~~**Priority A** — `coredatatests/BytesError_test.go` (6 cases)~~ ✅ Done
-3. ~~**Priority A** — `corevalidatortests/` (7 files, 25 cases)~~ ✅ Done
+3. ~~**Priority A** — `corevalidatortests/` (7 files, 26 cases)~~ ✅ Done
 4. **Priority B** — `coredynamictests/` (3 files, 11 cases) — CaseV1 with manual setup
 5. **Priority B** — `coregenerictests/` (3 files, 10 cases) — requires generic literal wrappers
 6. **Priority B** — remaining scattered files (8 files, ~20 cases)
 
 ## Notes
 
+- **Architecture corrected**: All migrated files now use `results.ResultAny` for `Expected` (not `args.Map`). Assertion logic lives on `Result[T].ShouldMatchResult`, with `CaseNilSafe.ShouldBeSafe` as a thin convenience.
 - Generic types (`Hashset[T]`, `Hashmap[K,V]`, `Pair[A,B]`, `Triple[A,B,C]`) require the **function literal wrapper** pattern documented in the design doc §7.
 - Some CaseV1 nil tests also test non-nil behavior in the same variable (e.g., `PageRequest` has nil + valid cases in one slice). Migration should extract only the nil cases into `CaseNilSafe`, leaving the rest in CaseV1.
 - All Priority A (inline `t.Error`) migrations are now complete. Only Priority B (CaseV1) remains.
 - `Expected` uses `results.ResultAny` with `CompareFields` for subset assertion.
 - `ExpectAnyError` sentinel is used for methods expected to return non-nil errors.
+- `BytesErrorOnce` and `Collection` testcases were retroactively corrected from `args.Map` → `results.ResultAny`.

@@ -2,8 +2,8 @@ package coreoncetests
 
 import (
 	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 )
 
 // =============================================================================
@@ -15,33 +15,33 @@ var bytesErrorOnceNilSafeTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "HasIssuesOrEmpty on nil returns true",
 		Func:  (*coreonce.BytesErrorOnce).HasIssuesOrEmpty,
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "HasSafeItems on nil returns false",
 		Func:  (*coreonce.BytesErrorOnce).HasSafeItems,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "IsEmpty on nil returns true",
 		Func:  (*coreonce.BytesErrorOnce).IsEmpty,
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "IsDefined on nil returns false",
 		Func:  (*coreonce.BytesErrorOnce).IsDefined,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 }

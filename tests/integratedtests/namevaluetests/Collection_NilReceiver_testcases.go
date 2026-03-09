@@ -1,8 +1,8 @@
 package namevaluetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 	"gitlab.com/auk-go/core/namevalue"
 )
 
@@ -14,9 +14,9 @@ var collectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "ClonePtr on nil returns nil",
 		Func:  (*namevalue.StringStringCollection).ClonePtr,
-		Expected: args.Map{
-			"value":    "<nil>",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "<nil>",
+			Panicked: false,
 		},
 	},
 }
