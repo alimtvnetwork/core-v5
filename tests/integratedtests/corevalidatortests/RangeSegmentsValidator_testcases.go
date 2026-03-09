@@ -231,3 +231,71 @@ var rangeSegmentsValidatorVerifyUptoDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 }
+
+// ==========================================
+// SetActual
+// ==========================================
+
+var rangeSegmentsValidatorSetActualTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SetActual propagates lines so matching segment validates",
+		ArrangeInput: &corevalidator.RangeSegmentsValidator{
+			Title: "set-actual-match",
+			VerifierSegments: []corevalidator.RangesSegment{
+				newMatchingRangeSegment(0, 3),
+			},
+		},
+		ExpectedInput: args.Map{
+			"returnsSelf": true,
+			"isMatch":     true,
+		},
+	},
+	{
+		Title: "SetActual propagates lines so mismatch segment fails",
+		ArrangeInput: &corevalidator.RangeSegmentsValidator{
+			Title: "set-actual-mismatch",
+			VerifierSegments: []corevalidator.RangesSegment{
+				newMismatchRangeSegment(0, 2),
+			},
+		},
+		ExpectedInput: args.Map{
+			"returnsSelf": true,
+			"isMatch":     false,
+		},
+	},
+}
+
+// ==========================================
+// SetActualOnAll (via Validators)
+// ==========================================
+
+var rangeSegmentsValidatorSetActualOnAllTestCases = []coretestcases.CaseV1{
+	{
+		Title: "SetActualOnAll replaces actual on all validators to matching",
+		ArrangeInput: &corevalidator.RangeSegmentsValidator{
+			Title: "set-all-match",
+			VerifierSegments: []corevalidator.RangesSegment{
+				newMatchingRangeSegment(0, 3),
+				newMatchingRangeSegment(3, 5),
+			},
+		},
+		ExpectedInput: args.Map{
+			"validatorCount": 2,
+			"isMatch":        true,
+		},
+	},
+	{
+		Title: "SetActualOnAll with mismatch segment produces no match",
+		ArrangeInput: &corevalidator.RangeSegmentsValidator{
+			Title: "set-all-mismatch",
+			VerifierSegments: []corevalidator.RangesSegment{
+				newMatchingRangeSegment(0, 3),
+				newMismatchRangeSegment(3, 5),
+			},
+		},
+		ExpectedInput: args.Map{
+			"validatorCount": 2,
+			"isMatch":        false,
+		},
+	},
+}

@@ -196,3 +196,48 @@ func Test_RangeSegmentsValidator_VerifyUptoDefault(t *testing.T) {
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
+
+// ==========================================
+// SetActual
+// ==========================================
+
+func Test_RangeSegmentsValidator_SetActual(t *testing.T) {
+	for caseIndex, tc := range rangeSegmentsValidatorSetActualTestCases {
+		// Arrange
+		v := tc.ArrangeInput.(*corevalidator.RangeSegmentsValidator)
+
+		// Act
+		result := v.SetActual(rangeSegActualLines)
+		validators := v.Validators()
+		actual := args.Map{
+			"returnsSelf": result == v,
+			"isMatch":     validators.IsMatch(),
+		}
+
+		// Assert
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
+
+// ==========================================
+// SetActualOnAll (via Validators)
+// ==========================================
+
+func Test_RangeSegmentsValidator_SetActualOnAll(t *testing.T) {
+	for caseIndex, tc := range rangeSegmentsValidatorSetActualOnAllTestCases {
+		// Arrange
+		v := tc.ArrangeInput.(*corevalidator.RangeSegmentsValidator)
+		v.SetActual(rangeSegActualLines)
+
+		// Act
+		validators := v.Validators()
+		validators.SetActualOnAll(rangeSegActualLines...)
+		actual := args.Map{
+			"validatorCount": len(validators),
+			"isMatch":        validators.IsMatch(),
+		}
+
+		// Assert
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
+	}
+}
