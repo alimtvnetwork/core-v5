@@ -248,6 +248,7 @@ var hasIndexNegativeCollectionTestCase = coretestcases.CaseV1{
 
 // ==========================================================================
 // Hashmap.Clear nil safety
+// Note: Migrated to BugfixRegression_NilReceiver_testcases.go using CaseNilSafe pattern.
 // ==========================================================================
 
 var hashmapClearNilReceiverTestCase = coretestcases.CaseV1{

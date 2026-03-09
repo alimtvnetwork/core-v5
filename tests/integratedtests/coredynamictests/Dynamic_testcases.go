@@ -77,6 +77,8 @@ var dynamicCloneTestCase = coretestcases.CaseV1{
 		"isIndependent": true,
 	},
 }
+// Note: ClonePtr, Bytes, ValueNullErr nil receiver test cases migrated to
+// Dynamic_NilReceiver_testcases.go using CaseNilSafe pattern.
 
 var dynamicClonePtrNilTestCase = coretestcases.CaseV1{
 	Title:         "ClonePtr returns nil on nil receiver",

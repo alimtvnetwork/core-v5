@@ -501,6 +501,7 @@ func Test_New_Triple_Creator_AllShortcuts(t *testing.T) {
 
 // ==========================================================================
 // Test: Pair — nil receiver Clear (no panic)
+// Note: Migrated to PairTriple_NilReceiver_testcases.go using CaseNilSafe pattern.
 // ==========================================================================
 
 func Test_Pair_Nil_Clear_NoPanic(t *testing.T) {
@@ -510,6 +511,7 @@ func Test_Pair_Nil_Clear_NoPanic(t *testing.T) {
 
 // ==========================================================================
 // Test: Triple — nil receiver Clear (no panic)
+// Note: Migrated to PairTriple_NilReceiver_testcases.go using CaseNilSafe pattern.
 // ==========================================================================
 
 func Test_Triple_Nil_Clear_NoPanic(t *testing.T) {
