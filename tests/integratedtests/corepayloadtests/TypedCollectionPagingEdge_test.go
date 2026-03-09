@@ -128,18 +128,15 @@ func Test_TypedPayloadCollection_GetPagesSize_EdgeCases(t *testing.T) {
 // =============================================================================
 
 func Test_TypedPayloadCollection_PagingWithInfo_Empty(t *testing.T) {
-	// Arrange
+	tc := typedCollectionPagingWithInfoEmptyTestCase
 	collection := corepayload.EmptyTypedPayloadCollection[testUser]()
 
-	// Act
 	pages := collection.GetPagedCollectionWithInfo(5)
 
-	// Assert
-	if len(pages) != 1 {
-		t.Errorf("Expected 1 page for empty collection, got %d", len(pages))
+	actual := args.Map{
+		"pageCount":    len(pages),
+		"firstPageLen": pages[0].Collection.Length(),
 	}
 
-	if pages[0].Collection.Length() != 0 {
-		t.Errorf("Expected 0 items on empty page, got %d", pages[0].Collection.Length())
-	}
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

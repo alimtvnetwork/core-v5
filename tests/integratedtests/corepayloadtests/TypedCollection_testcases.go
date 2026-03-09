@@ -183,3 +183,56 @@ var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+// ==========================================================================
+// TypedPayloadCollection — Empty operations
+// ==========================================================================
+
+var typedCollectionEmptyOpsTestCase = coretestcases.CaseV1{
+	Title: "Empty collection operations return zero values",
+	ExpectedInput: args.Map{
+		"allDataLen":   0,
+		"namesLen":     0,
+		"filteredLen":  0,
+		"totalAge":     0,
+	},
+}
+
+// ==========================================================================
+// TypedPayloadCollection — FirstByName
+// ==========================================================================
+
+var typedCollectionFirstByNameTestCase = coretestcases.CaseV1{
+	Title: "FirstByName finds existing and returns nil for missing",
+	ExpectedInput: args.Map{
+		"foundName":    "Bob",
+		"notFoundNil":  true,
+	},
+}
+
+// ==========================================================================
+// TypedPayloadCollection — RemoveAt
+// ==========================================================================
+
+var typedCollectionRemoveAtTestCase = coretestcases.CaseV1{
+	Title: "RemoveAt removes item and rejects invalid index",
+	ExpectedInput: args.Map{
+		"removed":       true,
+		"lengthAfter":   2,
+		"firstName":     "Alice",
+		"lastName":      "Carol",
+		"invalidRemove": false,
+	},
+}
+
+// ==========================================================================
+// TypedPayloadCollection — ToPayloadsCollection
+// ==========================================================================
+
+var typedCollectionToPayloadsTestCase = coretestcases.CaseV1{
+	Title: "ToPayloadsCollection returns all payloads",
+	ExpectedInput: args.Map{
+		"length":    3,
+		"firstName": "Alice",
+	},
+}
