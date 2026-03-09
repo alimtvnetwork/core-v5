@@ -9,6 +9,9 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
+// Note: Nil receiver test cases migrated to CastedResult_NilReceiver_testcases.go
+// using CaseNilSafe pattern with direct method references.
+
 type castedResultTestCase struct {
 	Case coretestcases.CaseV1
 	CR   *coredynamic.CastedResult

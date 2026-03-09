@@ -5,6 +5,9 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
+// Note: MapAnyItems nil receiver test cases (Length, IsEmpty, HasAnyItem) migrated to
+// MapAnyItemsEdge_NilReceiver_testcases.go using CaseNilSafe pattern.
+
 // ==========================================
 // MapAnyItems — IsEqual
 // ==========================================

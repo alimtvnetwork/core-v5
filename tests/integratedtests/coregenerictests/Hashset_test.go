@@ -508,6 +508,7 @@ func Test_GenericHashset_String_NotEmpty(t *testing.T) {
 
 // ==========================================
 // Nil receiver guards
+// Note: Migrated to Hashset_NilReceiver_testcases.go using CaseNilSafe pattern.
 // ==========================================
 
 func Test_GenericHashset_NilReceiver_IsEmpty(t *testing.T) {

@@ -6,6 +6,8 @@ import (
 	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
+// Note: Nil receiver test cases migrated to LeftRight_NilReceiver_testcases.go
+// using CaseNilSafe pattern with direct method references.
 type leftRightTestCase struct {
 	Case coretestcases.CaseV1
 	LR   *coredynamic.LeftRight
