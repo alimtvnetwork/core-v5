@@ -3,9 +3,11 @@ package coregenerictests
 import (
 	"fmt"
 	"sync"
+	"sync/atomic"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // ==========================================
@@ -13,6 +15,7 @@ import (
 // ==========================================
 
 func Test_GenericHashmap_SetLock_ConcurrentSafety(t *testing.T) {
+	tc := hashmapSetLockConcurrencyTestCase
 	const goroutines = 500
 	hm := coregeneric.NewHashmap[int, string](goroutines)
 
@@ -28,10 +31,9 @@ func Test_GenericHashmap_SetLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	got := hm.Length()
-	if got != goroutines {
-		t.Errorf("SetLock concurrent: expected %d entries, got %d", goroutines, got)
-	}
+	actual := args.Map{"length": hm.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -39,6 +41,7 @@ func Test_GenericHashmap_SetLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashmap_GetLock_ConcurrentReadsWrites(t *testing.T) {
+	tc := hashmapGetLockConcurrencyTestCase
 	const writers = 200
 	const readers = 200
 	hm := coregeneric.NewHashmap[int, int](writers)
@@ -46,7 +49,6 @@ func Test_GenericHashmap_GetLock_ConcurrentReadsWrites(t *testing.T) {
 	wg := sync.WaitGroup{}
 	wg.Add(writers + readers)
 
-	// concurrent writers
 	for i := 0; i < writers; i++ {
 		go func(idx int) {
 			hm.SetLock(idx, idx*10)
@@ -54,7 +56,6 @@ func Test_GenericHashmap_GetLock_ConcurrentReadsWrites(t *testing.T) {
 		}(i)
 	}
 
-	// concurrent readers
 	for i := 0; i < readers; i++ {
 		go func(idx int) {
 			_, _ = hm.GetLock(idx) // must not panic
@@ -64,10 +65,9 @@ func Test_GenericHashmap_GetLock_ConcurrentReadsWrites(t *testing.T) {
 
 	wg.Wait()
 
-	got := hm.Length()
-	if got != writers {
-		t.Errorf("After concurrent reads/writes: expected %d, got %d", writers, got)
-	}
+	actual := args.Map{"finalLength": hm.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -75,6 +75,7 @@ func Test_GenericHashmap_GetLock_ConcurrentReadsWrites(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashmap_ContainsLock_ConcurrentSafety(t *testing.T) {
+	tc := hashmapContainsLockConcurrencyTestCase
 	const writers = 200
 	const readers = 200
 	hm := coregeneric.NewHashmap[string, int](writers)
@@ -98,9 +99,9 @@ func Test_GenericHashmap_ContainsLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	if hm.Length() != writers {
-		t.Errorf("Expected %d, got %d", writers, hm.Length())
-	}
+	actual := args.Map{"finalLength": hm.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -108,10 +109,10 @@ func Test_GenericHashmap_ContainsLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashmap_RemoveLock_ConcurrentSafety(t *testing.T) {
+	tc := hashmapRemoveLockConcurrencyTestCase
 	const items = 500
 	hm := coregeneric.NewHashmap[int, string](items)
 
-	// Pre-populate
 	for i := 0; i < items; i++ {
 		hm.Set(i, fmt.Sprintf("val-%d", i))
 	}
@@ -128,10 +129,9 @@ func Test_GenericHashmap_RemoveLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	got := hm.Length()
-	if got != 0 {
-		t.Errorf("RemoveLock concurrent: expected 0 entries, got %d", got)
-	}
+	actual := args.Map{"length": hm.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -139,12 +139,16 @@ func Test_GenericHashmap_RemoveLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashmap_LengthLock_ConcurrentSafety(t *testing.T) {
+	tc := hashmapLengthLockConcurrencyTestCase
 	const writers = 100
 	const readers = 100
 	hm := coregeneric.NewHashmap[int, int](writers)
 
 	wg := sync.WaitGroup{}
 	wg.Add(writers + readers)
+
+	var noNegativeLen atomic.Bool
+	noNegativeLen.Store(true)
 
 	for i := 0; i < writers; i++ {
 		go func(idx int) {
@@ -157,7 +161,7 @@ func Test_GenericHashmap_LengthLock_ConcurrentSafety(t *testing.T) {
 		go func() {
 			length := hm.LengthLock()
 			if length < 0 {
-				t.Errorf("LengthLock returned negative: %d", length)
+				noNegativeLen.Store(false)
 			}
 			wg.Done()
 		}()
@@ -165,9 +169,12 @@ func Test_GenericHashmap_LengthLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	if hm.Length() != writers {
-		t.Errorf("Expected %d, got %d", writers, hm.Length())
+	actual := args.Map{
+		"finalLength":   hm.Length(),
+		"noNegativeLen": noNegativeLen.Load(),
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -175,6 +182,7 @@ func Test_GenericHashmap_LengthLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashmap_IsEmptyLock_ConcurrentSafety(t *testing.T) {
+	tc := hashmapIsEmptyLockConcurrencyTestCase
 	const goroutines = 100
 	hm := coregeneric.NewHashmap[int, int](goroutines)
 
@@ -194,9 +202,9 @@ func Test_GenericHashmap_IsEmptyLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	if hm.Length() != goroutines {
-		t.Errorf("Expected %d entries, got %d", goroutines, hm.Length())
-	}
+	actual := args.Map{"length": hm.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -204,10 +212,10 @@ func Test_GenericHashmap_IsEmptyLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashmap_MixedOperations_ConcurrentSafety(t *testing.T) {
+	tc := hashmapMixedOpsConcurrencyTestCase
 	const items = 300
 	hm := coregeneric.NewHashmap[int, string](items)
 
-	// Pre-populate half
 	for i := 0; i < items/2; i++ {
 		hm.Set(i, fmt.Sprintf("initial-%d", i))
 	}
@@ -215,7 +223,6 @@ func Test_GenericHashmap_MixedOperations_ConcurrentSafety(t *testing.T) {
 	wg := sync.WaitGroup{}
 	wg.Add(items * 3)
 
-	// Writers: set keys items..items*2
 	for i := items; i < items*2; i++ {
 		go func(idx int) {
 			hm.SetLock(idx, fmt.Sprintf("new-%d", idx))
@@ -223,7 +230,6 @@ func Test_GenericHashmap_MixedOperations_ConcurrentSafety(t *testing.T) {
 		}(i)
 	}
 
-	// Readers: read keys 0..items
 	for i := 0; i < items; i++ {
 		go func(idx int) {
 			_, _ = hm.GetLock(idx)
@@ -231,7 +237,6 @@ func Test_GenericHashmap_MixedOperations_ConcurrentSafety(t *testing.T) {
 		}(i)
 	}
 
-	// Removers: remove keys 0..items/2 (the pre-populated ones)
 	for i := 0; i < items; i++ {
 		go func(idx int) {
 			if idx < items/2 {
@@ -243,9 +248,7 @@ func Test_GenericHashmap_MixedOperations_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	// After: pre-populated (0..149) removed, new (300..599) added
-	got := hm.Length()
-	if got != items {
-		t.Errorf("Mixed ops concurrent: expected %d entries, got %d", items, got)
-	}
+	actual := args.Map{"finalLength": hm.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

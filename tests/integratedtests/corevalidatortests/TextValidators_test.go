@@ -3,6 +3,7 @@ package corevalidatortests
 import (
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 )
@@ -12,69 +13,83 @@ import (
 // ==========================================
 
 func Test_TextValidators_NewEmpty(t *testing.T) {
+	tc := textValidatorsNewEmptyTestCase
 	v := corevalidator.NewTextValidators(5)
-	if !v.IsEmpty() {
-		t.Error("new should be empty")
+
+	actual := args.Map{
+		"isEmpty": v.IsEmpty(),
+		"length":  v.Length(),
 	}
-	if v.Length() != 0 {
-		t.Errorf("length should be 0, got %d", v.Length())
-	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_Add(t *testing.T) {
+	tc := textValidatorsAddTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.Equal})
 	v.Add(corevalidator.TextValidator{Search: "b", SearchAs: stringcompareas.Equal})
-	if v.Length() != 2 {
-		t.Errorf("expected 2, got %d", v.Length())
-	}
+
+	actual := args.Map{"length": v.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_Adds(t *testing.T) {
+	tc := textValidatorsAddsTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.Adds(
 		corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.Equal},
 		corevalidator.TextValidator{Search: "b", SearchAs: stringcompareas.Equal},
 	)
-	if v.Length() != 2 {
-		t.Errorf("expected 2, got %d", v.Length())
-	}
+
+	actual := args.Map{"length": v.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_Adds_Empty(t *testing.T) {
+	tc := textValidatorsAddsEmptyTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.Adds()
-	if v.Length() != 0 {
-		t.Error("adds with nothing should stay empty")
-	}
+
+	actual := args.Map{"length": v.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_AddSimple(t *testing.T) {
+	tc := textValidatorsAddSimpleTestCase
 	v := corevalidator.NewTextValidators(1)
 	v.AddSimple("test", stringcompareas.Contains)
-	if v.Length() != 1 {
-		t.Error("AddSimple should add one")
-	}
+
+	actual := args.Map{"length": v.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_HasIndex(t *testing.T) {
+	tc := textValidatorsHasIndexTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.Equal})
-	if !v.HasIndex(0) {
-		t.Error("should have index 0")
+
+	actual := args.Map{
+		"hasIndex0": v.HasIndex(0),
+		"hasIndex1": v.HasIndex(1),
 	}
-	if v.HasIndex(1) {
-		t.Error("should not have index 1")
-	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_LastIndex(t *testing.T) {
+	tc := textValidatorsLastIndexTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.Equal})
 	v.Add(corevalidator.TextValidator{Search: "b", SearchAs: stringcompareas.Equal})
-	if v.LastIndex() != 1 {
-		t.Errorf("expected 1, got %d", v.LastIndex())
-	}
+
+	actual := args.Map{"lastIndex": v.LastIndex()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -82,28 +97,34 @@ func Test_TextValidators_LastIndex(t *testing.T) {
 // ==========================================
 
 func Test_TextValidators_IsMatch_EmptyValidators(t *testing.T) {
+	tc := textValidatorsIsMatchEmptyTestCase
 	v := corevalidator.NewTextValidators(0)
-	if !v.IsMatch("anything", true) {
-		t.Error("empty validators should match anything")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatch("anything", true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_IsMatch_AllPass(t *testing.T) {
+	tc := textValidatorsIsMatchAllPassTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.AddSimple("hello", stringcompareas.Contains)
 	v.AddSimple("world", stringcompareas.Contains)
-	if !v.IsMatch("hello world", true) {
-		t.Error("content containing both should match")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatch("hello world", true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_IsMatch_OneFails(t *testing.T) {
+	tc := textValidatorsIsMatchOneFailsTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.AddSimple("hello", stringcompareas.Contains)
 	v.AddSimple("xyz", stringcompareas.Contains)
-	if v.IsMatch("hello world", true) {
-		t.Error("missing substring should fail")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatch("hello world", true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -111,10 +132,12 @@ func Test_TextValidators_IsMatch_OneFails(t *testing.T) {
 // ==========================================
 
 func Test_TextValidators_IsMatchMany_EmptyValidators(t *testing.T) {
+	tc := textValidatorsIsMatchManyEmptyTestCase
 	v := corevalidator.NewTextValidators(0)
-	if !v.IsMatchMany(false, true, "a", "b") {
-		t.Error("empty validators should match many")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatchMany(false, true, "a", "b")}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -122,37 +145,40 @@ func Test_TextValidators_IsMatchMany_EmptyValidators(t *testing.T) {
 // ==========================================
 
 func Test_TextValidators_VerifyFirstError_AllPass(t *testing.T) {
+	tc := textValidatorsVerifyFirstAllPassTestCase
 	v := corevalidator.NewTextValidators(1)
 	v.Add(corevalidator.TextValidator{
 		Search:    "hello",
 		SearchAs:  stringcompareas.Equal,
 		Condition: corevalidator.DefaultDisabledCoreCondition,
 	})
-	err := v.VerifyFirstError(0, "hello", true)
-	if err != nil {
-		t.Errorf("should pass: %v", err)
-	}
+
+	actual := args.Map{"hasError": v.VerifyFirstError(0, "hello", true) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_VerifyFirstError_Fails(t *testing.T) {
+	tc := textValidatorsVerifyFirstFailTestCase
 	v := corevalidator.NewTextValidators(1)
 	v.Add(corevalidator.TextValidator{
 		Search:    "hello",
 		SearchAs:  stringcompareas.Equal,
 		Condition: corevalidator.DefaultDisabledCoreCondition,
 	})
-	err := v.VerifyFirstError(0, "world", true)
-	if err == nil {
-		t.Error("mismatch should return error")
-	}
+
+	actual := args.Map{"hasError": v.VerifyFirstError(0, "world", true) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_VerifyFirstError_Empty(t *testing.T) {
+	tc := textValidatorsVerifyFirstEmptyTestCase
 	v := corevalidator.NewTextValidators(0)
-	err := v.VerifyFirstError(0, "anything", true)
-	if err != nil {
-		t.Error("empty validators should return nil")
-	}
+
+	actual := args.Map{"hasError": v.VerifyFirstError(0, "anything", true) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -160,19 +186,21 @@ func Test_TextValidators_VerifyFirstError_Empty(t *testing.T) {
 // ==========================================
 
 func Test_TextValidators_AllVerifyError_AllPass(t *testing.T) {
+	tc := textValidatorsAllVerifyPassTestCase
 	v := corevalidator.NewTextValidators(1)
 	v.Add(corevalidator.TextValidator{
 		Search:    "hello",
 		SearchAs:  stringcompareas.Equal,
 		Condition: corevalidator.DefaultDisabledCoreCondition,
 	})
-	err := v.AllVerifyError(0, "hello", true)
-	if err != nil {
-		t.Errorf("should pass: %v", err)
-	}
+
+	actual := args.Map{"hasError": v.AllVerifyError(0, "hello", true) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_TextValidators_AllVerifyError_MultipleFail(t *testing.T) {
+	tc := textValidatorsAllVerifyFailTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.Add(corevalidator.TextValidator{
 		Search:    "x",
@@ -184,10 +212,10 @@ func Test_TextValidators_AllVerifyError_MultipleFail(t *testing.T) {
 		SearchAs:  stringcompareas.Equal,
 		Condition: corevalidator.DefaultDisabledCoreCondition,
 	})
-	err := v.AllVerifyError(0, "z", true)
-	if err == nil {
-		t.Error("both mismatches should return error")
-	}
+
+	actual := args.Map{"hasError": v.AllVerifyError(0, "z", true) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -195,12 +223,14 @@ func Test_TextValidators_AllVerifyError_MultipleFail(t *testing.T) {
 // ==========================================
 
 func Test_TextValidators_Dispose(t *testing.T) {
+	tc := textValidatorsDisposeTestCase
 	v := corevalidator.NewTextValidators(2)
 	v.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.Equal})
 	v.Dispose()
-	if v.Items != nil {
-		t.Error("Dispose should nil out Items")
-	}
+
+	actual := args.Map{"isNil": v.Items == nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // (nil receiver tests migrated to TextValidators_NilReceiver_testcases.go)

@@ -567,3 +567,66 @@ func Test_Hashset_ConstructorHasItems(t *testing.T) {
 
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
+
+// ==========================================================================
+// Test: Hashset — String output
+// ==========================================================================
+
+func Test_Hashset_StringNotEmpty(t *testing.T) {
+	tc := hashsetStringNotEmptyTestCase
+	hs := coregeneric.HashsetFrom([]int{1})
+
+	actual := args.Map{"isNonEmpty": hs.String() != ""}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+// ==========================================================================
+// Test: Hashset — Creator pattern (New.Hashset.X)
+// ==========================================================================
+
+func Test_Hashset_CreatorStringItems(t *testing.T) {
+	tc := hashsetCreatorStringItemsTestCase
+	hs := coregeneric.New.Hashset.String.Items("a", "b", "c")
+
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_Hashset_CreatorIntFrom(t *testing.T) {
+	tc := hashsetCreatorIntFromTestCase
+	hs := coregeneric.New.Hashset.Int.From([]int{1, 2, 3, 1})
+
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_Hashset_CreatorEmpty(t *testing.T) {
+	tc := hashsetCreatorEmptyTestCase
+	hs := coregeneric.New.Hashset.Float64.Empty()
+
+	actual := args.Map{"isEmpty": hs.IsEmpty()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_Hashset_CreatorCap(t *testing.T) {
+	tc := hashsetCreatorCapTestCase
+	hs := coregeneric.New.Hashset.Bool.Cap(10)
+
+	actual := args.Map{"isEmpty": hs.IsEmpty()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
+}
+
+func Test_Hashset_CreatorUsingMap(t *testing.T) {
+	tc := hashsetCreatorUsingMapTestCase
+	m := map[uint]bool{1: true, 2: true}
+	hs := coregeneric.New.Hashset.Uint.UsingMap(m)
+
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
+}

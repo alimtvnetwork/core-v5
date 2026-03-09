@@ -343,3 +343,41 @@ var hashsetConstructorHasItemsTestCase = coretestcases.CaseV1{
 		"emptyHasItems":     false,
 	},
 }
+
+// ==========================================================================
+// Hashset — String output
+// ==========================================================================
+
+var hashsetStringNotEmptyTestCase = coretestcases.CaseV1{
+	Title:         "String returns non-empty for non-empty set",
+	ExpectedInput: args.Map{"isNonEmpty": true},
+}
+
+// ==========================================================================
+// Hashset — Creator pattern (New.Hashset.X)
+// ==========================================================================
+
+var hashsetCreatorStringItemsTestCase = coretestcases.CaseV1{
+	Title:         "Creator String.Items creates populated set",
+	ExpectedInput: args.Map{"length": 3},
+}
+
+var hashsetCreatorIntFromTestCase = coretestcases.CaseV1{
+	Title:         "Creator Int.From deduplicates",
+	ExpectedInput: args.Map{"length": 3},
+}
+
+var hashsetCreatorEmptyTestCase = coretestcases.CaseV1{
+	Title:         "Creator Empty produces empty set",
+	ExpectedInput: args.Map{"isEmpty": true},
+}
+
+var hashsetCreatorCapTestCase = coretestcases.CaseV1{
+	Title:         "Creator Cap produces empty set with capacity",
+	ExpectedInput: args.Map{"isEmpty": true},
+}
+
+var hashsetCreatorUsingMapTestCase = coretestcases.CaseV1{
+	Title:         "Creator UsingMap populates from map",
+	ExpectedInput: args.Map{"length": 2},
+}

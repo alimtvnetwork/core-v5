@@ -3,9 +3,11 @@ package coregenerictests
 import (
 	"fmt"
 	"sync"
+	"sync/atomic"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // ==========================================
@@ -13,6 +15,7 @@ import (
 // ==========================================
 
 func Test_GenericCollection_AddLock_ConcurrentSafety(t *testing.T) {
+	tc := collectionAddLockConcurrencyTestCase
 	const goroutines = 500
 	col := coregeneric.EmptyCollection[int]()
 
@@ -28,10 +31,9 @@ func Test_GenericCollection_AddLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	got := col.Length()
-	if got != goroutines {
-		t.Errorf("AddLock concurrent: expected %d items, got %d", goroutines, got)
-	}
+	actual := args.Map{"length": col.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -39,6 +41,7 @@ func Test_GenericCollection_AddLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericCollection_AddsLock_ConcurrentSafety(t *testing.T) {
+	tc := collectionAddsLockConcurrencyTestCase
 	const goroutines = 200
 	const batchSize = 5
 	col := coregeneric.EmptyCollection[string]()
@@ -59,11 +62,9 @@ func Test_GenericCollection_AddsLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	expected := goroutines * batchSize
-	got := col.Length()
-	if got != expected {
-		t.Errorf("AddsLock concurrent: expected %d items, got %d", expected, got)
-	}
+	actual := args.Map{"length": col.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -71,12 +72,16 @@ func Test_GenericCollection_AddsLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericCollection_LengthLock_ConcurrentReadsWrites(t *testing.T) {
+	tc := collectionLengthLockConcurrencyTestCase
 	const writers = 100
 	const readers = 100
 	col := coregeneric.EmptyCollection[int]()
 
 	wg := sync.WaitGroup{}
 	wg.Add(writers + readers)
+
+	var noNegativeLen atomic.Bool
+	noNegativeLen.Store(true)
 
 	// concurrent writers
 	for i := 0; i < writers; i++ {
@@ -91,7 +96,7 @@ func Test_GenericCollection_LengthLock_ConcurrentReadsWrites(t *testing.T) {
 		go func() {
 			length := col.LengthLock()
 			if length < 0 {
-				t.Errorf("LengthLock returned negative: %d", length)
+				noNegativeLen.Store(false)
 			}
 			wg.Done()
 		}()
@@ -99,10 +104,12 @@ func Test_GenericCollection_LengthLock_ConcurrentReadsWrites(t *testing.T) {
 
 	wg.Wait()
 
-	got := col.Length()
-	if got != writers {
-		t.Errorf("After concurrent reads/writes: expected %d, got %d", writers, got)
+	actual := args.Map{
+		"finalLength":   col.Length(),
+		"noNegativeLen": noNegativeLen.Load(),
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -110,6 +117,7 @@ func Test_GenericCollection_LengthLock_ConcurrentReadsWrites(t *testing.T) {
 // ==========================================
 
 func Test_GenericCollection_IsEmptyLock_ConcurrentSafety(t *testing.T) {
+	tc := collectionIsEmptyLockConcurrencyTestCase
 	const goroutines = 100
 	col := coregeneric.EmptyCollection[int]()
 
@@ -129,7 +137,7 @@ func Test_GenericCollection_IsEmptyLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	if col.Length() != goroutines {
-		t.Errorf("Expected %d items, got %d", goroutines, col.Length())
-	}
+	actual := args.Map{"length": col.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

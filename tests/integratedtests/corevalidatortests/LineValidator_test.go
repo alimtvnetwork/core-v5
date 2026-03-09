@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/corestr"
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/corevalidator"
 	"gitlab.com/auk-go/core/enums/stringcompareas"
 )
@@ -13,6 +14,7 @@ import (
 // ==========================================
 
 func Test_LineValidator_IsMatch_BothMatch(t *testing.T) {
+	tc := lineValidatorIsMatchBothTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: 0},
 		TextValidator: corevalidator.TextValidator{
@@ -21,12 +23,14 @@ func Test_LineValidator_IsMatch_BothMatch(t *testing.T) {
 			Condition: corevalidator.DefaultDisabledCoreCondition,
 		},
 	}
-	if !v.IsMatch(0, "hello", true) {
-		t.Error("line+text match should return true")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatch(0, "hello", true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_IsMatch_LineNumberMismatch(t *testing.T) {
+	tc := lineValidatorIsMatchLineMismatchTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: 5},
 		TextValidator: corevalidator.TextValidator{
@@ -35,12 +39,14 @@ func Test_LineValidator_IsMatch_LineNumberMismatch(t *testing.T) {
 			Condition: corevalidator.DefaultDisabledCoreCondition,
 		},
 	}
-	if v.IsMatch(0, "hello", true) {
-		t.Error("line mismatch should return false")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatch(0, "hello", true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_IsMatch_TextMismatch(t *testing.T) {
+	tc := lineValidatorIsMatchTextMismatchTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: 0},
 		TextValidator: corevalidator.TextValidator{
@@ -49,12 +55,14 @@ func Test_LineValidator_IsMatch_TextMismatch(t *testing.T) {
 			Condition: corevalidator.DefaultDisabledCoreCondition,
 		},
 	}
-	if v.IsMatch(0, "world", true) {
-		t.Error("text mismatch should return false")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatch(0, "world", true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_IsMatch_SkipLineNumber(t *testing.T) {
+	tc := lineValidatorIsMatchSkipLineTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: -1},
 		TextValidator: corevalidator.TextValidator{
@@ -63,9 +71,10 @@ func Test_LineValidator_IsMatch_SkipLineNumber(t *testing.T) {
 			Condition: corevalidator.DefaultDisabledCoreCondition,
 		},
 	}
-	if !v.IsMatch(99, "hello", true) {
-		t.Error("skip line number should pass with text match")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatch(99, "hello", true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -73,6 +82,7 @@ func Test_LineValidator_IsMatch_SkipLineNumber(t *testing.T) {
 // ==========================================
 
 func Test_LineValidator_IsMatchMany_AllMatch(t *testing.T) {
+	tc := lineValidatorIsMatchManyAllTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: -1},
 		TextValidator: corevalidator.TextValidator{
@@ -85,12 +95,14 @@ func Test_LineValidator_IsMatchMany_AllMatch(t *testing.T) {
 		{Text: "ok", LineNumber: 0},
 		{Text: "ok", LineNumber: 1},
 	}
-	if !v.IsMatchMany(false, true, items...) {
-		t.Error("all matching should return true")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatchMany(false, true, items...)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_IsMatchMany_OneFails(t *testing.T) {
+	tc := lineValidatorIsMatchManyOneFailsTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: -1},
 		TextValidator: corevalidator.TextValidator{
@@ -103,12 +115,14 @@ func Test_LineValidator_IsMatchMany_OneFails(t *testing.T) {
 		{Text: "ok", LineNumber: 0},
 		{Text: "nope", LineNumber: 1},
 	}
-	if v.IsMatchMany(false, true, items...) {
-		t.Error("one failing should return false")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatchMany(false, true, items...)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_IsMatchMany_EmptySkip(t *testing.T) {
+	tc := lineValidatorIsMatchManyEmptySkipTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: -1},
 		TextValidator: corevalidator.TextValidator{
@@ -117,9 +131,10 @@ func Test_LineValidator_IsMatchMany_EmptySkip(t *testing.T) {
 			Condition: corevalidator.DefaultDisabledCoreCondition,
 		},
 	}
-	if !v.IsMatchMany(true, true) {
-		t.Error("empty with skip should return true")
-	}
+
+	actual := args.Map{"isMatch": v.IsMatchMany(true, true)}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // (nil receiver test migrated to LineValidator_NilReceiver_testcases.go)
@@ -129,6 +144,7 @@ func Test_LineValidator_IsMatchMany_EmptySkip(t *testing.T) {
 // ==========================================
 
 func Test_LineValidator_VerifyError_Match(t *testing.T) {
+	tc := lineValidatorVerifyErrorMatchTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: 0},
 		TextValidator: corevalidator.TextValidator{
@@ -142,13 +158,14 @@ func Test_LineValidator_VerifyError_Match(t *testing.T) {
 		Header:          "test",
 		IsCaseSensitive: true,
 	}
-	err := v.VerifyError(params, 0, "hello")
-	if err != nil {
-		t.Errorf("match should not error: %v", err)
-	}
+
+	actual := args.Map{"hasError": v.VerifyError(params, 0, "hello") != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_VerifyError_LineNumberMismatch(t *testing.T) {
+	tc := lineValidatorVerifyErrorLineMismatchTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: 5},
 		TextValidator: corevalidator.TextValidator{
@@ -162,13 +179,14 @@ func Test_LineValidator_VerifyError_LineNumberMismatch(t *testing.T) {
 		Header:          "test",
 		IsCaseSensitive: true,
 	}
-	err := v.VerifyError(params, 0, "hello")
-	if err == nil {
-		t.Error("line number mismatch should return error")
-	}
+
+	actual := args.Map{"hasError": v.VerifyError(params, 0, "hello") != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_VerifyError_TextMismatch(t *testing.T) {
+	tc := lineValidatorVerifyErrorTextMismatchTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: -1},
 		TextValidator: corevalidator.TextValidator{
@@ -182,10 +200,10 @@ func Test_LineValidator_VerifyError_TextMismatch(t *testing.T) {
 		Header:          "test",
 		IsCaseSensitive: true,
 	}
-	err := v.VerifyError(params, 0, "world")
-	if err == nil {
-		t.Error("text mismatch should return error")
-	}
+
+	actual := args.Map{"hasError": v.VerifyError(params, 0, "world") != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -193,6 +211,7 @@ func Test_LineValidator_VerifyError_TextMismatch(t *testing.T) {
 // ==========================================
 
 func Test_LineValidator_VerifyMany_ContinueOnError(t *testing.T) {
+	tc := lineValidatorVerifyManyContinueTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: -1},
 		TextValidator: corevalidator.TextValidator{
@@ -209,13 +228,14 @@ func Test_LineValidator_VerifyMany_ContinueOnError(t *testing.T) {
 		{Text: "bad", LineNumber: 0},
 		{Text: "ok", LineNumber: 1},
 	}
-	err := v.VerifyMany(true, params, items...)
-	if err == nil {
-		t.Error("should collect errors")
-	}
+
+	actual := args.Map{"hasError": v.VerifyMany(true, params, items...) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_LineValidator_VerifyMany_FirstOnly(t *testing.T) {
+	tc := lineValidatorVerifyManyFirstOnlyTestCase
 	v := corevalidator.LineValidator{
 		LineNumber: corevalidator.LineNumber{LineNumber: -1},
 		TextValidator: corevalidator.TextValidator{
@@ -232,8 +252,8 @@ func Test_LineValidator_VerifyMany_FirstOnly(t *testing.T) {
 		{Text: "bad", LineNumber: 0},
 		{Text: "also bad", LineNumber: 1},
 	}
-	err := v.VerifyMany(false, params, items...)
-	if err == nil {
-		t.Error("should return first error")
-	}
+
+	actual := args.Map{"hasError": v.VerifyMany(false, params, items...) != nil}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

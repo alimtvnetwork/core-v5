@@ -3,9 +3,11 @@ package coregenerictests
 import (
 	"fmt"
 	"sync"
+	"sync/atomic"
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata/coregeneric"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // ==========================================
@@ -13,6 +15,7 @@ import (
 // ==========================================
 
 func Test_GenericHashset_AddLock_ConcurrentSafety(t *testing.T) {
+	tc := hashsetAddLockConcurrencyTestCase
 	const goroutines = 500
 	hs := coregeneric.NewHashset[int](goroutines)
 
@@ -28,10 +31,9 @@ func Test_GenericHashset_AddLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	got := hs.Length()
-	if got != goroutines {
-		t.Errorf("AddLock concurrent: expected %d items, got %d", goroutines, got)
-	}
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -39,6 +41,7 @@ func Test_GenericHashset_AddLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashset_AddSliceLock_ConcurrentSafety(t *testing.T) {
+	tc := hashsetAddSliceLockConcurrencyTestCase
 	const goroutines = 100
 	const batchSize = 10
 	hs := coregeneric.NewHashset[string](goroutines * batchSize)
@@ -59,11 +62,9 @@ func Test_GenericHashset_AddSliceLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	expected := goroutines * batchSize
-	got := hs.Length()
-	if got != expected {
-		t.Errorf("AddSliceLock concurrent: expected %d unique items, got %d", expected, got)
-	}
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -71,6 +72,7 @@ func Test_GenericHashset_AddSliceLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashset_ContainsLock_ConcurrentReadsWrites(t *testing.T) {
+	tc := hashsetContainsLockConcurrencyTestCase
 	const writers = 200
 	const readers = 200
 	hs := coregeneric.NewHashset[int](writers)
@@ -78,7 +80,6 @@ func Test_GenericHashset_ContainsLock_ConcurrentReadsWrites(t *testing.T) {
 	wg := sync.WaitGroup{}
 	wg.Add(writers + readers)
 
-	// concurrent writers
 	for i := 0; i < writers; i++ {
 		go func(idx int) {
 			hs.AddLock(idx)
@@ -86,7 +87,6 @@ func Test_GenericHashset_ContainsLock_ConcurrentReadsWrites(t *testing.T) {
 		}(i)
 	}
 
-	// concurrent readers
 	for i := 0; i < readers; i++ {
 		go func(idx int) {
 			_ = hs.ContainsLock(idx) // must not panic
@@ -96,10 +96,9 @@ func Test_GenericHashset_ContainsLock_ConcurrentReadsWrites(t *testing.T) {
 
 	wg.Wait()
 
-	got := hs.Length()
-	if got != writers {
-		t.Errorf("After concurrent reads/writes: expected %d, got %d", writers, got)
-	}
+	actual := args.Map{"finalLength": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -107,10 +106,10 @@ func Test_GenericHashset_ContainsLock_ConcurrentReadsWrites(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashset_RemoveLock_ConcurrentSafety(t *testing.T) {
+	tc := hashsetRemoveLockConcurrencyTestCase
 	const items = 500
 	hs := coregeneric.NewHashset[int](items)
 
-	// Pre-populate
 	for i := 0; i < items; i++ {
 		hs.Add(i)
 	}
@@ -118,7 +117,6 @@ func Test_GenericHashset_RemoveLock_ConcurrentSafety(t *testing.T) {
 	wg := sync.WaitGroup{}
 	wg.Add(items)
 
-	// Concurrently remove all items
 	for i := 0; i < items; i++ {
 		go func(idx int) {
 			hs.RemoveLock(idx)
@@ -128,10 +126,9 @@ func Test_GenericHashset_RemoveLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	got := hs.Length()
-	if got != 0 {
-		t.Errorf("RemoveLock concurrent: expected 0 items, got %d", got)
-	}
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -139,12 +136,16 @@ func Test_GenericHashset_RemoveLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashset_LengthLock_ConcurrentSafety(t *testing.T) {
+	tc := hashsetLengthLockConcurrencyTestCase
 	const writers = 100
 	const readers = 100
 	hs := coregeneric.NewHashset[int](writers)
 
 	wg := sync.WaitGroup{}
 	wg.Add(writers + readers)
+
+	var noNegativeLen atomic.Bool
+	noNegativeLen.Store(true)
 
 	for i := 0; i < writers; i++ {
 		go func(idx int) {
@@ -157,7 +158,7 @@ func Test_GenericHashset_LengthLock_ConcurrentSafety(t *testing.T) {
 		go func() {
 			length := hs.LengthLock()
 			if length < 0 {
-				t.Errorf("LengthLock returned negative: %d", length)
+				noNegativeLen.Store(false)
 			}
 			wg.Done()
 		}()
@@ -165,9 +166,12 @@ func Test_GenericHashset_LengthLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	if hs.Length() != writers {
-		t.Errorf("Expected %d, got %d", writers, hs.Length())
+	actual := args.Map{
+		"finalLength":   hs.Length(),
+		"noNegativeLen": noNegativeLen.Load(),
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -175,6 +179,7 @@ func Test_GenericHashset_LengthLock_ConcurrentSafety(t *testing.T) {
 // ==========================================
 
 func Test_GenericHashset_IsEmptyLock_ConcurrentSafety(t *testing.T) {
+	tc := hashsetIsEmptyLockConcurrencyTestCase
 	const goroutines = 100
 	hs := coregeneric.NewHashset[int](goroutines)
 
@@ -194,7 +199,7 @@ func Test_GenericHashset_IsEmptyLock_ConcurrentSafety(t *testing.T) {
 
 	wg.Wait()
 
-	if hs.Length() != goroutines {
-		t.Errorf("Expected %d items, got %d", goroutines, hs.Length())
-	}
+	actual := args.Map{"length": hs.Length()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

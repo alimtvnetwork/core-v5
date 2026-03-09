@@ -142,39 +142,32 @@ func Test_PagingInfo_ClonePtr_Verification(t *testing.T) {
 	}
 }
 
-// === Independence tests (cannot be table-driven — require mutation) ===
+// === Independence tests ===
 
 func Test_PagingInfo_ClonePtr_Independence(t *testing.T) {
-	// Arrange
+	tc := pagingInfoClonePtrIndependenceTestCase
 	info := &corepayload.PagingInfo{TotalPages: 5, CurrentPageIndex: 3, PerPageItems: 10, TotalItems: 50}
 
-	// Act
 	clone := info.ClonePtr()
 	clone.TotalPages = 99
 	clone.CurrentPageIndex = 99
 
-	// Assert
-	if info.TotalPages != 5 || info.CurrentPageIndex != 3 {
-		t.Errorf("ClonePtr Independence FAILED - mutating clone affected original%s",
-			pagingInfoDiff("after mutation", info, clone),
-		)
+	actual := args.Map{
+		"originalTotalPages":  info.TotalPages,
+		"originalCurrentPage": info.CurrentPageIndex,
 	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_PagingInfo_Clone_Independence(t *testing.T) {
-	// Arrange
+	tc := pagingInfoCloneIndependenceTestCase
 	info := corepayload.PagingInfo{TotalPages: 5, CurrentPageIndex: 3, PerPageItems: 10, TotalItems: 50}
 
-	// Act
 	clone := info.Clone()
 	clone.TotalPages = 99
 
-	// Assert
-	if info.TotalPages != 5 {
-		clonePtr := &clone
-		infoPtr := &info
-		t.Errorf("Clone Independence FAILED - mutating clone affected original%s",
-			pagingInfoDiff("after mutation", infoPtr, clonePtr),
-		)
-	}
+	actual := args.Map{"originalTotalPages": info.TotalPages}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
