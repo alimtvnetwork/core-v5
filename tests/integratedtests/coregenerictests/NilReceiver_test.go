@@ -2,15 +2,7 @@ package coregenerictests
 
 import "testing"
 
-// ==========================================
-// LinkedList — CaseNilSafe pattern
-// ==========================================
-
-func Test_LinkedList_NilReceiver(t *testing.T) {
-	for caseIndex, tc := range linkedListNilSafeTestCases {
-		tc.ShouldBeSafe(t, caseIndex)
-	}
-}
+// Note: LinkedList NilReceiver tests remain in LinkedList_test.go
 
 // ==========================================
 // Hashset — CaseNilSafe pattern

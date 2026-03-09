@@ -43,7 +43,6 @@ var fromToNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Func: func(ft *coreinstruction.FromTo) {
 			ft.SetFromName("x")
 		},
-		Args: []any{"x"},
 		Expected: results.ResultAny{
 			Panicked: false,
 		},
