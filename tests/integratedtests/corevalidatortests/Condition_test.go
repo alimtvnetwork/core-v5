@@ -3,6 +3,7 @@ package corevalidatortests
 import (
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/corevalidator"
 )
 
@@ -11,38 +12,48 @@ import (
 // ==========================================
 
 func Test_Condition_IsSplitByWhitespace_AllFalse(t *testing.T) {
+	tc := conditionAllFalseTestCase
 	c := corevalidator.Condition{}
-	if c.IsSplitByWhitespace() {
-		t.Error("all false should not split by whitespace")
-	}
+
+	actual := args.Map{"isSplit": c.IsSplitByWhitespace()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Condition_IsSplitByWhitespace_UniqueWordOnly(t *testing.T) {
+	tc := conditionUniqueWordOnlyTestCase
 	c := corevalidator.Condition{IsUniqueWordOnly: true}
-	if !c.IsSplitByWhitespace() {
-		t.Error("IsUniqueWordOnly true should trigger split")
-	}
+
+	actual := args.Map{"isSplit": c.IsSplitByWhitespace()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Condition_IsSplitByWhitespace_NonEmptyWhitespace(t *testing.T) {
+	tc := conditionNonEmptyWhitespaceTestCase
 	c := corevalidator.Condition{IsNonEmptyWhitespace: true}
-	if !c.IsSplitByWhitespace() {
-		t.Error("IsNonEmptyWhitespace true should trigger split")
-	}
+
+	actual := args.Map{"isSplit": c.IsSplitByWhitespace()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Condition_IsSplitByWhitespace_SortBySpace(t *testing.T) {
+	tc := conditionSortBySpaceTestCase
 	c := corevalidator.Condition{IsSortStringsBySpace: true}
-	if !c.IsSplitByWhitespace() {
-		t.Error("IsSortStringsBySpace true should trigger split")
-	}
+
+	actual := args.Map{"isSplit": c.IsSplitByWhitespace()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Condition_IsSplitByWhitespace_TrimOnlyNotEnough(t *testing.T) {
+	tc := conditionTrimOnlyTestCase
 	c := corevalidator.Condition{IsTrimCompare: true}
-	if c.IsSplitByWhitespace() {
-		t.Error("only IsTrimCompare should not trigger split")
-	}
+
+	actual := args.Map{"isSplit": c.IsSplitByWhitespace()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================
@@ -50,35 +61,43 @@ func Test_Condition_IsSplitByWhitespace_TrimOnlyNotEnough(t *testing.T) {
 // ==========================================
 
 func Test_DefaultDisabledCondition_NoSplit(t *testing.T) {
+	tc := conditionDisabledTestCase
 	c := corevalidator.DefaultDisabledCoreCondition
-	if c.IsSplitByWhitespace() {
-		t.Error("disabled condition should not split")
-	}
+
+	actual := args.Map{"isSplit": c.IsSplitByWhitespace()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_DefaultTrimCondition_NoSplit(t *testing.T) {
+	tc := conditionTrimTestCase
 	c := corevalidator.DefaultTrimCoreCondition
-	if c.IsSplitByWhitespace() {
-		t.Error("trim-only condition should not split")
+
+	actual := args.Map{
+		"isSplit":       c.IsSplitByWhitespace(),
+		"isTrimCompare": c.IsTrimCompare,
 	}
-	if !c.IsTrimCompare {
-		t.Error("trim condition should have IsTrimCompare true")
-	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_DefaultSortTrimCondition_Split(t *testing.T) {
+	tc := conditionSortTrimTestCase
 	c := corevalidator.DefaultSortTrimCoreCondition
-	if !c.IsSplitByWhitespace() {
-		t.Error("sort+trim condition should split")
-	}
+
+	actual := args.Map{"isSplit": c.IsSplitByWhitespace()}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_DefaultUniqueWordsCondition_Split(t *testing.T) {
+	tc := conditionUniqueWordsTestCase
 	c := corevalidator.DefaultUniqueWordsCoreCondition
-	if !c.IsSplitByWhitespace() {
-		t.Error("unique words condition should split")
+
+	actual := args.Map{
+		"isSplit":          c.IsSplitByWhitespace(),
+		"isUniqueWordOnly": c.IsUniqueWordOnly,
 	}
-	if !c.IsUniqueWordOnly {
-		t.Error("should have IsUniqueWordOnly true")
-	}
+
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
