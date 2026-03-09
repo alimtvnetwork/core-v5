@@ -73,7 +73,7 @@ See `spec/01-app/designs/CaseNilSafe-design.md` for full architecture.
 | 26 | `coregenerictests` | `PairTriple_NilReceiver_testcases.go` | Inline `t.Error` | 2 |
 | 27 | `coreapitests` | `PageRequest_NilReceiver_testcases.go` | CaseV1 mixed slices | 5 |
 | 28 | `trydotests` | `WrappedErr_NilReceiver_testcases.go` | CaseV1 mixed slices | 6 |
-| 29 | `errcoretests` | `ErrorChain_NilReceiver_testcases.go` | CaseV1 standalone var | 1 |
+| 29 | `errcoretests` | `ErrorChain_test_v2.go` + `ErrorChain_testcases_v2.go` | CaseV1 (was CaseNilSafe pattern abuse — package function) | 4 |
 | 30 | `coretaskinfotests` | `InfoCreate_NilReceiver_testcases.go` | CaseV1 standalone vars | 12 |
 | 31 | `coreinstructiontests` | `IdentifiersWithGlobals_NilReceiver_testcases.go` | CaseV1 standalone var | 1 |
 | 32 | `coreinstructiontests` | `FromTo_NilReceiver_testcases.go` | CaseV1 standalone vars | 6 |
@@ -89,7 +89,7 @@ See `spec/01-app/designs/CaseNilSafe-design.md` for full architecture.
 | ✅ Priority A (CaseV1/custom) | 6 | ~20 | **Done** |
 | ✅ Self-test | 1 | 12 | **Done** |
 | ✅ Priority B (CaseV1 nil) | 13 | ~52 | **Done** |
-| **Total** | **33** | **~154** | **100% ✅** |
+| **Total** | **33** | **~185** | **100% ✅** |
 
 ---
 
@@ -100,4 +100,5 @@ See `spec/01-app/designs/CaseNilSafe-design.md` for full architecture.
 - Original CaseV1 nil cases remain in their source files alongside non-nil cases for backward compatibility. The CaseNilSafe duplicates provide structured, standardized nil-safety coverage.
 - `Expected` uses `results.ResultAny` with `CompareFields` for subset assertion.
 - `ExpectAnyError` sentinel is used for methods expected to return non-nil errors.
-- `ConcatMessageWithErr` is a package function (not a method), wrapped via `func(_ *struct{})` pattern.
+- `ConcatMessageWithErr` is a package function (not a method) — converted from CaseNilSafe (pattern abuse) to proper CaseV1 with positive/negative coverage.
+- **Branch coverage pass**: Added ~31 missing nil-receiver cases across LeftRight (+5), CastedResult (+1), MapAnyItems (+5), Dynamic (+4), WrappedErr (+4), FromTo (+2), Info (+4).
