@@ -86,18 +86,7 @@ func Test_BaseLinesValidators_ToLinesValidators_NonEmpty(t *testing.T) {
 	}
 }
 
-func Test_BaseLinesValidators_NilReceiver(t *testing.T) {
-	var b *corevalidator.BaseLinesValidators
-	if b.LinesValidatorsLength() != 0 {
-		t.Error("nil receiver should return 0")
-	}
-	if !b.IsEmptyLinesValidators() {
-		t.Error("nil receiver should be empty")
-	}
-	if b.HasLinesValidators() {
-		t.Error("nil receiver should not have validators")
-	}
-}
+// (nil receiver tests migrated to BaseLinesValidators_NilReceiver_testcases.go)
 
 // ==========================================
 // LinesValidators — collection
@@ -149,15 +138,7 @@ func Test_LinesValidators_HasIndex(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_NilReceiver(t *testing.T) {
-	var lv *corevalidator.LinesValidators
-	if lv.Length() != 0 {
-		t.Error("nil should return 0")
-	}
-	if !lv.IsEmpty() {
-		t.Error("nil should be empty")
-	}
-}
+// (nil receiver tests migrated to BaseLinesValidators_NilReceiver_testcases.go)
 
 // ==========================================
 // LinesValidators.IsMatchText

@@ -212,12 +212,7 @@ func Test_TextValidator_IsMatchMany_EmptySkip(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_IsMatchMany_NilReceiver(t *testing.T) {
-	var v *corevalidator.TextValidator
-	if !v.IsMatchMany(false, true, "anything") {
-		t.Error("nil receiver should return true")
-	}
-}
+// (nil receiver test migrated to TextValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // TextValidator.VerifyDetailError
@@ -257,14 +252,7 @@ func Test_TextValidator_VerifyDetailError_Mismatch(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_VerifyDetailError_NilReceiver(t *testing.T) {
-	var v *corevalidator.TextValidator
-	params := &corevalidator.Parameter{CaseIndex: 0}
-	err := v.VerifyDetailError(params, "anything")
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to TextValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // TextValidator.VerifyMany

@@ -203,29 +203,4 @@ func Test_TextValidators_Dispose(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_Dispose_Nil(t *testing.T) {
-	var v *corevalidator.TextValidators
-	// should not panic
-	v.Dispose()
-	_ = v
-}
-
-// ==========================================
-// TextValidators nil receiver
-// ==========================================
-
-func Test_TextValidators_NilReceiver_Length(t *testing.T) {
-	var v *corevalidator.TextValidators
-	if v.Length() != 0 {
-		t.Error("nil receiver Length should be 0")
-	}
-}
-
-func Test_TextValidators_NilReceiver_VerifyErrorMany(t *testing.T) {
-	var v *corevalidator.TextValidators
-	params := &corevalidator.Parameter{CaseIndex: 0}
-	err := v.VerifyErrorMany(true, params, "a")
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver tests migrated to TextValidators_NilReceiver_testcases.go)
