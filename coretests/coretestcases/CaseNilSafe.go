@@ -1,10 +1,8 @@
 package coretestcases
 
 import (
-	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/results"
 )
 
@@ -15,15 +13,20 @@ import (
 // providing compile-time safety — renaming a method causes a build error
 // rather than a silent test failure.
 //
+// Expected is a results.ResultAny, ensuring structural alignment
+// between the actual invocation result and the expected outcome.
+// Assertion methods live on results.Result[T]; CaseNilSafe delegates
+// to them via ShouldBeSafe for convenience.
+//
 // Usage:
 //
 //	testCases := []coretestcases.CaseNilSafe{
 //	    {
 //	        Title: "IsValid on nil receiver returns false",
 //	        Func:  (*MyStruct).IsValid,
-//	        Expected: args.Map{
-//	            "value":    "false",
-//	            "panicked": false,
+//	        Expected: results.ResultAny{
+//	            Value:    "false",
+//	            Panicked: false,
 //	        },
 //	    },
 //	}
@@ -38,9 +41,19 @@ type CaseNilSafe struct {
 	// Args holds optional input arguments for the method call.
 	Args []any
 
-	// Expected holds the expected results as a typed map.
-	// Common keys: "value", "panicked", "isSafe", "hasError", "returnCount".
-	Expected args.Map
+	// Expected holds the expected result as a typed Result struct.
+	// The assertion auto-derives which fields to compare based on
+	// which Expected fields are set to non-zero values.
+	// Override with CompareFields for explicit control.
+	Expected results.ResultAny
+
+	// CompareFields optionally specifies which Result fields to compare.
+	// When empty, fields are auto-derived from Expected:
+	//   - "panicked"    — always
+	//   - "value"       — if Expected.Value != nil
+	//   - "hasError"    — if Expected.Error != nil
+	//   - "returnCount" — if Expected.ReturnCount != 0
+	CompareFields []string
 }
 
 // MethodName returns the reflected name of the Func reference.
@@ -73,45 +86,8 @@ func (it CaseNilSafe) InvokeNil() results.ResultAny {
 	return it.Invoke(nil)
 }
 
-// ShouldBeEqualMap asserts that the actual result map matches Expected
-// using the standard map-based assertion pattern.
-func (it CaseNilSafe) ShouldBeEqualMap(
-	t *testing.T,
-	caseIndex int,
-	actual args.Map,
-) {
-	t.Helper()
-
-	title := it.CaseTitle()
-
-	actLines := actual.CompileToStrings()
-	expectedLines := it.Expected.CompileToStrings()
-
-	assertDiffOnMismatch(
-		t,
-		caseIndex,
-		title,
-		actLines,
-		expectedLines,
-	)
-}
-
-// ShouldBeEqualMapFirst is a convenience for non-loop tests (caseIndex=0).
-func (it CaseNilSafe) ShouldBeEqualMapFirst(
-	t *testing.T,
-	actual args.Map,
-) {
-	t.Helper()
-
-	it.ShouldBeEqualMap(
-		t,
-		0,
-		actual,
-	)
-}
-
 // ShouldBeSafe is a convenience assertion that invokes with nil
-// and asserts using the Result's ToMap output.
+// and delegates to Result.ShouldMatchResult for comparison.
 //
 // This is the most concise assertion for standard nil-safety tests:
 //
@@ -123,12 +99,13 @@ func (it CaseNilSafe) ShouldBeSafe(
 	t.Helper()
 
 	result := it.InvokeNil()
-	actual := filterMapByExpected(result.ToMap(), it.Expected)
 
-	it.ShouldBeEqualMap(
+	result.ShouldMatchResult(
 		t,
 		caseIndex,
-		actual,
+		it.CaseTitle(),
+		it.Expected,
+		it.CompareFields...,
 	)
 }
 
@@ -142,21 +119,4 @@ func (it CaseNilSafe) ShouldBeSafeFirst(
 		t,
 		0,
 	)
-}
-
-// filterMapByExpected returns a new args.Map containing only the keys
-// present in the expected map. This allows Expected to be a subset of
-// the full ToMap output — tests only assert what they care about.
-func filterMapByExpected(actual args.Map, expected args.Map) args.Map {
-	filtered := args.Map{}
-
-	for key := range expected {
-		if val, exists := actual[key]; exists {
-			filtered[key] = val
-		} else {
-			filtered[key] = fmt.Sprintf("<missing key: %s>", key)
-		}
-	}
-
-	return filtered
 }
