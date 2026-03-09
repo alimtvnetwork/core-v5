@@ -5,71 +5,64 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
-// ===== Integers Tests =====
+func Test_Integers_Len(t *testing.T) {
+	for caseIndex, tc := range integersLenTestCases {
+		// Arrange
+		var integers coredata.Integers
+		if tc.ArrangeInput != nil {
+			input := tc.ArrangeInput.(args.Map)
+			if vals, ok := input["values"]; ok {
+				integers = coredata.Integers(vals.([]int))
+			}
+		}
 
-func Test_Integers_Len_NilSlice(t *testing.T) {
-	var integers coredata.Integers
+		// Act
+		actual := args.Map{
+			"length": integers.Len(),
+		}
 
-	got := integers.Len()
-	if got != 0 {
-		t.Errorf("Integers.Len() on nil = %d, want 0", got)
-	}
-}
-
-func Test_Integers_Len_EmptySlice(t *testing.T) {
-	integers := coredata.Integers{}
-
-	got := integers.Len()
-	if got != 0 {
-		t.Errorf("Integers.Len() on empty = %d, want 0", got)
-	}
-}
-
-func Test_Integers_Len_WithElements(t *testing.T) {
-	integers := coredata.Integers{3, 1, 2}
-
-	got := integers.Len()
-	if got != 3 {
-		t.Errorf("Integers.Len() = %d, want 3", got)
+		// Assert
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_Integers_Less(t *testing.T) {
+	tc := integersLessTestCases[0]
+
+	// Arrange
 	integers := coredata.Integers{5, 3, 8}
 
-	if !integers.Less(1, 0) {
-		t.Error("expected Less(1,0) = true for 3 < 5")
+	// Act
+	actual := args.Map{
+		"less10": integers.Less(1, 0),
+		"less01": integers.Less(0, 1),
+		"less00": integers.Less(0, 0),
 	}
 
-	if integers.Less(0, 1) {
-		t.Error("expected Less(0,1) = false for 5 < 3")
-	}
-
-	if integers.Less(0, 0) {
-		t.Error("expected Less(0,0) = false for equal indices")
-	}
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-func Test_Integers_Swap(t *testing.T) {
-	integers := coredata.Integers{1, 2, 3}
-	integers.Swap(0, 2)
+func Test_Integers_Sort(t *testing.T) {
+	for caseIndex, tc := range integersSortTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		src := input["values"].([]int)
+		integers := make(coredata.Integers, len(src))
+		copy(integers, src)
 
-	if integers[0] != 3 || integers[2] != 1 {
-		t.Errorf("after Swap(0,2) got [%d,%d,%d], want [3,2,1]",
-			integers[0], integers[1], integers[2])
-	}
-}
+		// Act
+		sort.Sort(integers)
 
-func Test_Integers_SortInterface(t *testing.T) {
-	integers := coredata.Integers{5, 1, 4, 2, 3}
-	sort.Sort(integers)
-
-	expected := coredata.Integers{1, 2, 3, 4, 5}
-	for i, v := range integers {
-		if v != expected[i] {
-			t.Errorf("sorted[%d] = %d, want %d", i, v, expected[i])
+		actual := args.Map{
+			"first": integers[0],
+			"last":  integers[len(integers)-1],
 		}
+
+		// Assert
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

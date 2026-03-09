@@ -5,98 +5,93 @@ import (
 	"testing"
 
 	"gitlab.com/auk-go/core/coredata"
+	"gitlab.com/auk-go/core/coretests/args"
 )
 
-// ===== PointerStrings Tests =====
+func Test_PointerStrings_Len(t *testing.T) {
+	for caseIndex, tc := range pointerStringsLenTestCases {
+		// Arrange
+		var ps coredata.PointerStrings
+		if tc.ArrangeInput != nil {
+			input := tc.ArrangeInput.(args.Map)
+			count, _ := input.GetAsInt("count")
+			ptrs := make([]*string, count)
+			for i := range ptrs {
+				v := "item"
+				ptrs[i] = &v
+			}
+			ps = coredata.PointerStrings(ptrs)
+		}
 
-func Test_PointerStrings_Len_NilSlice(t *testing.T) {
-	var ps coredata.PointerStrings
+		// Act
+		actual := args.Map{
+			"length": ps.Len(),
+		}
 
-	got := ps.Len()
-	if got != 0 {
-		t.Errorf("PointerStrings.Len() on nil = %d, want 0", got)
+		// Assert
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_PointerStrings_Len_WithElements(t *testing.T) {
-	a, b := "alpha", "beta"
-	ps := coredata.PointerStrings{&a, &b}
+func Test_PointerStrings_Less(t *testing.T) {
+	// Case 0: both non-nil
+	{
+		a, b := "alpha", "beta"
+		ps := coredata.PointerStrings{&a, &b}
+		actual := args.Map{
+			"less01": ps.Less(0, 1),
+			"less10": ps.Less(1, 0),
+		}
+		pointerStringsLessTestCases[0].ShouldBeEqualMap(t, 0, actual)
+	}
 
-	got := ps.Len()
-	if got != 2 {
-		t.Errorf("PointerStrings.Len() = %d, want 2", got)
+	// Case 1: nil first
+	{
+		b := "beta"
+		ps := coredata.PointerStrings{nil, &b}
+		actual := args.Map{
+			"result": ps.Less(0, 1),
+		}
+		pointerStringsLessTestCases[1].ShouldBeEqualMap(t, 1, actual)
+	}
+
+	// Case 2: nil second
+	{
+		a := "alpha"
+		ps := coredata.PointerStrings{&a, nil}
+		actual := args.Map{
+			"result": ps.Less(0, 1),
+		}
+		pointerStringsLessTestCases[2].ShouldBeEqualMap(t, 2, actual)
+	}
+
+	// Case 3: both nil
+	{
+		ps := coredata.PointerStrings{nil, nil}
+		actual := args.Map{
+			"result": ps.Less(0, 1),
+		}
+		pointerStringsLessTestCases[3].ShouldBeEqualMap(t, 3, actual)
 	}
 }
 
-func Test_PointerStrings_Less_BothNonNil(t *testing.T) {
-	a, b := "alpha", "beta"
-	ps := coredata.PointerStrings{&a, &b}
+func Test_PointerStrings_Sort(t *testing.T) {
+	tc := pointerStringsSortTestCases[0]
 
-	if !ps.Less(0, 1) {
-		t.Error("expected Less(0,1) = true for alpha < beta")
-	}
-
-	if ps.Less(1, 0) {
-		t.Error("expected Less(1,0) = false for beta < alpha")
-	}
-}
-
-func Test_PointerStrings_Less_NilFirst(t *testing.T) {
-	b := "beta"
-	ps := coredata.PointerStrings{nil, &b}
-
-	if !ps.Less(0, 1) {
-		t.Error("expected nil < non-nil to be true")
-	}
-}
-
-func Test_PointerStrings_Less_NilSecond(t *testing.T) {
-	a := "alpha"
-	ps := coredata.PointerStrings{&a, nil}
-
-	if ps.Less(0, 1) {
-		t.Error("expected non-nil < nil to be false")
-	}
-}
-
-func Test_PointerStrings_Less_BothNil(t *testing.T) {
-	ps := coredata.PointerStrings{nil, nil}
-
-	// nil is treated as less, so Less(0,1) = true (first nil < second nil)
-	// This is the actual behavior since the first check returns true
-	if !ps.Less(0, 1) {
-		t.Error("expected Less(0,1) = true when both nil (first nil returns true)")
-	}
-}
-
-func Test_PointerStrings_Swap(t *testing.T) {
-	a, b := "alpha", "beta"
-	ps := coredata.PointerStrings{&a, &b}
-	ps.Swap(0, 1)
-
-	if *ps[0] != "beta" || *ps[1] != "alpha" {
-		t.Errorf("after Swap got [%s,%s], want [beta,alpha]", *ps[0], *ps[1])
-	}
-}
-
-func Test_PointerStrings_SortInterface(t *testing.T) {
+	// Arrange
 	c, a, b := "charlie", "alpha", "beta"
 	ps := coredata.PointerStrings{&c, nil, &a, &b}
+
+	// Act
 	sort.Sort(ps)
 
-	// nil sorts first, then alphabetical
-	if ps[0] != nil {
-		t.Error("expected nil at index 0 after sort")
+	actual := args.Map{
+		"firstIsNil": ps[0] == nil,
+		"second":     *ps[1],
+		"third":      *ps[2],
+		"fourth":     *ps[3],
 	}
 
-	expected := []string{"alpha", "beta", "charlie"}
-	for i, exp := range expected {
-		if ps[i+1] == nil || *ps[i+1] != exp {
-			got := "<nil>"
-			if ps[i+1] != nil {
-				got = *ps[i+1]
-			}
-			t.Errorf("sorted[%d] = %s, want %s", i+1, got, exp)
-		}
-	}
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }

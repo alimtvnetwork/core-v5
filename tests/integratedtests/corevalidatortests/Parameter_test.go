@@ -3,42 +3,42 @@ package corevalidatortests
 import (
 	"testing"
 
+	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/corevalidator"
 )
 
-// ==========================================
-// Parameter.IsIgnoreCase
-// ==========================================
+func Test_Parameter_IsIgnoreCase(t *testing.T) {
+	for caseIndex, tc := range parameterIsIgnoreCaseTestCases {
+		// Arrange
+		input := tc.ArrangeInput.(args.Map)
+		isCaseSensitive, _ := input.GetAsBool("isCaseSensitive")
+		p := corevalidator.Parameter{IsCaseSensitive: isCaseSensitive}
 
-func Test_Parameter_IsIgnoreCase_WhenCaseSensitive(t *testing.T) {
-	p := corevalidator.Parameter{IsCaseSensitive: true}
-	if p.IsIgnoreCase() {
-		t.Error("case-sensitive should not ignore case")
-	}
-}
+		// Act
+		actual := args.Map{
+			"isIgnoreCase": p.IsIgnoreCase(),
+		}
 
-func Test_Parameter_IsIgnoreCase_WhenNotCaseSensitive(t *testing.T) {
-	p := corevalidator.Parameter{IsCaseSensitive: false}
-	if !p.IsIgnoreCase() {
-		t.Error("not case-sensitive should ignore case")
+		// Assert
+		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_Parameter_DefaultValues(t *testing.T) {
+	tc := parameterDefaultValuesTestCase
+
+	// Arrange
 	p := corevalidator.Parameter{}
-	if p.CaseIndex != 0 {
-		t.Error("default CaseIndex should be 0")
+
+	// Act
+	actual := args.Map{
+		"caseIndex":                  p.CaseIndex,
+		"header":                     p.Header,
+		"isSkipCompareOnActualEmpty": p.IsSkipCompareOnActualEmpty,
+		"isAttachUserInputs":         p.IsAttachUserInputs,
+		"isCaseSensitive":            p.IsCaseSensitive,
 	}
-	if p.Header != "" {
-		t.Error("default Header should be empty")
-	}
-	if p.IsSkipCompareOnActualEmpty {
-		t.Error("default IsSkipCompareOnActualEmpty should be false")
-	}
-	if p.IsAttachUserInputs {
-		t.Error("default IsAttachUserInputs should be false")
-	}
-	if p.IsCaseSensitive {
-		t.Error("default IsCaseSensitive should be false")
-	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
