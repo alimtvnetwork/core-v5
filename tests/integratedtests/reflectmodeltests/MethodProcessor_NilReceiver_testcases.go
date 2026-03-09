@@ -1,8 +1,8 @@
 package reflectmodeltests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
 )
 
@@ -14,78 +14,78 @@ var methodProcessorNilReceiverTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "HasValidFunc on nil returns false",
 		Func:  (*reflectmodel.MethodProcessor).HasValidFunc,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "IsInvalid on nil returns true",
 		Func:  (*reflectmodel.MethodProcessor).IsInvalid,
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "Func on nil returns nil",
 		Func:  (*reflectmodel.MethodProcessor).Func,
-		Expected: args.Map{
-			"value":    "<nil>",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "<nil>",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "ReturnLength on nil returns -1",
 		Func:  (*reflectmodel.MethodProcessor).ReturnLength,
-		Expected: args.Map{
-			"value":    "-1",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "-1",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "IsPublicMethod on nil returns false",
 		Func:  (*reflectmodel.MethodProcessor).IsPublicMethod,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "GetType on nil returns nil",
 		Func:  (*reflectmodel.MethodProcessor).GetType,
-		Expected: args.Map{
-			"value":    "<nil>",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "<nil>",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "GetInArgsTypes on nil returns empty",
 		Func:  (*reflectmodel.MethodProcessor).GetInArgsTypes,
-		Expected: args.Map{
-			"panicked": false,
+		Expected: results.ResultAny{
+			Panicked: false,
 		},
 	},
 	{
 		Title: "GetOutArgsTypes on nil returns empty",
 		Func:  (*reflectmodel.MethodProcessor).GetOutArgsTypes,
-		Expected: args.Map{
-			"panicked": false,
+		Expected: results.ResultAny{
+			Panicked: false,
 		},
 	},
 	{
 		Title: "GetInArgsTypesNames on nil returns empty",
 		Func:  (*reflectmodel.MethodProcessor).GetInArgsTypesNames,
-		Expected: args.Map{
-			"panicked": false,
+		Expected: results.ResultAny{
+			Panicked: false,
 		},
 	},
 	{
 		Title: "Invoke on nil returns error",
 		Func:  (*reflectmodel.MethodProcessor).Invoke,
-		Expected: args.Map{
-			"panicked": false,
-			"hasError": true,
+		Expected: results.ResultAny{
+			Panicked: false,
+			Error:    results.ExpectAnyError,
 		},
 	},
 }

@@ -2,8 +2,8 @@ package coregenerictests
 
 import (
 	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/coretests/args"
 	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"gitlab.com/auk-go/core/coretests/results"
 )
 
 // =============================================================================
@@ -14,25 +14,25 @@ var linkedListNilSafeTestCases = []coretestcases.CaseNilSafe{
 	{
 		Title: "IsEmpty on nil returns true",
 		Func:  (*coregeneric.LinkedList[int]).IsEmpty,
-		Expected: args.Map{
-			"value":    "true",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "HasItems on nil returns false",
 		Func:  (*coregeneric.LinkedList[int]).HasItems,
-		Expected: args.Map{
-			"value":    "false",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
 		},
 	},
 	{
 		Title: "Length on nil returns 0",
 		Func:  (*coregeneric.LinkedList[int]).Length,
-		Expected: args.Map{
-			"value":    "0",
-			"panicked": false,
+		Expected: results.ResultAny{
+			Value:    "0",
+			Panicked: false,
 		},
 	},
 }
