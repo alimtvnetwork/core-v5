@@ -338,14 +338,7 @@ func Test_TextValidator_VerifySimpleError_Mismatch(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_VerifySimpleError_NilReceiver(t *testing.T) {
-	var v *corevalidator.TextValidator
-	params := &corevalidator.Parameter{CaseIndex: 0}
-	err := v.VerifySimpleError(0, params, "anything")
-	if err != nil {
-		t.Error("nil receiver should return nil")
-	}
-}
+// (nil receiver test migrated to TextValidator_NilReceiver_testcases.go)
 
 // ==========================================
 // TextValidator.MethodName

@@ -30,4 +30,13 @@ var textValidatorNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 		CompareFields: []string{"panicked", "hasError"},
 	},
+	{
+		Title: "VerifySimpleError on nil returns nil",
+		Func:  (*corevalidator.TextValidator).VerifySimpleError,
+		Args:  []any{0, &corevalidator.Parameter{CaseIndex: 0}, "anything"},
+		Expected: results.ResultAny{
+			Panicked: false,
+		},
+		CompareFields: []string{"panicked", "hasError"},
+	},
 }
