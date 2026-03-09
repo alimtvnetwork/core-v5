@@ -3,11 +3,9 @@ package errcoretests
 import "testing"
 
 // ==========================================
-// ConcatMessageWithErr nil — CaseNilSafe pattern
+// ConcatMessageWithErr — CaseV1 pattern
+// (Replaced CaseNilSafe pattern — ConcatMessageWithErr is a
+// package function, not a method. CaseNilSafe is inappropriate.)
+//
+// Tests moved to ErrorChain_test_v2.go with proper CaseV1 structure.
 // ==========================================
-
-func Test_ConcatMessageWithErr_NilReceiver(t *testing.T) {
-	for caseIndex, tc := range concatMessageNilSafeTestCases_v2 {
-		tc.ShouldBeSafe(t, caseIndex)
-	}
-}
