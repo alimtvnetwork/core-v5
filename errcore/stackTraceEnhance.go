@@ -86,7 +86,13 @@ func (it stackTraceEnhance) methodName(skip int) string {
 }
 
 func (it stackTraceEnhance) trace(skip int) string {
-	return reflectinternal.CodeStack.StacksStringCount(2+skip, 4)
+	lines := reflectinternal.CodeStack.StacksStringsFiltered(2+skip, 4)
+
+	if len(lines) == 0 {
+		return ""
+	}
+
+	return strings.Join(lines, "\n  - ")
 }
 
 func (it stackTraceEnhance) MsgErrorSkip(skip int, msg string, err error) string {
