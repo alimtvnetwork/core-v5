@@ -39,24 +39,10 @@
 
 ## Map Expected Output
 
-- When map comparison fails, the output must use the standard header separators (`============================>`).
-- Each entry is shown line-by-line with aligned `actual` / `expected` labels per line.
-- The `actual   :` and `expected :` labels must start at the same column (tab-indented).
-- Do NOT add trailing commas on entry values.
+- When map comparison fails, the expected values section should show values in a format that is directly copy-pasteable into `_testcases.go`.
+- Each entry must be on its own line, tab-indented, in Go literal format.
 - Do NOT use indexed numbering (`0:`, `1:`, etc.) before entries.
 - Format:
   ```
-  ============================>
-  0 ) Map Mismatch:
-      title here
-  ============================>
-      Actual lines: 2, Expected lines: 1
-  ============================>
-  	actual   : containsName : false
-  	expected : hasError : false
-  ============================>
-  	actual   : hasError : false
-  	expected : <missing>
-  ============================>
+  	"key": value,
   ```
-- A separate `slog.Warn` with Go literal format (copy-pasteable) is printed for easy test case correction.

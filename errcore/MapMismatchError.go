@@ -5,80 +5,56 @@ import (
 	"strings"
 )
 
-const mapMismatchSeparator = "============================>"
-
 // MapMismatchError builds a diagnostic error for map assertion failures.
 //
-// Each map entry is shown line-by-line with aligned actual/expected labels
-// and the standard header separators. No trailing commas on entries.
+// Each map entry is shown on its own line with tab indentation in Go literal
+// format, making the output directly copy-pasteable into _testcases.go.
 //
 // Output format:
 //
-//	============================>
 //	Map Mismatch (Case 0: title)
-//	Actual lines: 2, Expected lines: 1
-//	============================>
-//		actual   : containsName : false
-//		expected : hasError : false
-//	============================>
-//		actual   : hasError : false
-//		expected : <missing>
-//	============================>
+//
+//	Actual Received (2 entries):
+//	  "containsName": false,
+//	  "hasError":      false,
+//
+//	Expected Input (1 entries):
+//	  "hasError": false,
 func MapMismatchError(
 	caseIndex int,
 	title string,
-	actualLines []string,
-	expectedLines []string,
+	actualGoLiteralLines []string,
+	expectedGoLiteralLines []string,
 ) string {
 	var sb strings.Builder
 
-	maxLen := len(actualLines)
-
-	if len(expectedLines) > maxLen {
-		maxLen = len(expectedLines)
-	}
-
-	sb.WriteString("\n")
-	sb.WriteString(mapMismatchSeparator)
-	sb.WriteString("\n")
 	sb.WriteString(fmt.Sprintf(
-		"%d ) Map Mismatch:\n    %s",
+		"Map Mismatch (Case %d: %s)\n\n",
 		caseIndex,
 		title,
 	))
-	sb.WriteString("\n")
-	sb.WriteString(mapMismatchSeparator)
+
 	sb.WriteString(fmt.Sprintf(
-		"\n    Actual lines: %d, Expected lines: %d\n",
-		len(actualLines),
-		len(expectedLines),
+		"Actual Received (%d entries):\n",
+		len(actualGoLiteralLines),
 	))
 
-	for i := 0; i < maxLen; i++ {
-		sb.WriteString(mapMismatchSeparator)
+	for _, line := range actualGoLiteralLines {
+		sb.WriteString("\t")
+		sb.WriteString(line)
 		sb.WriteString("\n")
-
-		actualVal := "<missing>"
-		expectedVal := "<missing>"
-
-		if i < len(actualLines) {
-			actualVal = actualLines[i]
-		}
-
-		if i < len(expectedLines) {
-			expectedVal = expectedLines[i]
-		}
-
-		sb.WriteString(fmt.Sprintf(
-			"\tactual   : %s\n"+
-				"\texpected : %s\n",
-			actualVal,
-			expectedVal,
-		))
 	}
 
-	sb.WriteString(mapMismatchSeparator)
-	sb.WriteString("\n")
+	sb.WriteString(fmt.Sprintf(
+		"\nExpected Input (%d entries):\n",
+		len(expectedGoLiteralLines),
+	))
+
+	for _, line := range expectedGoLiteralLines {
+		sb.WriteString("\t")
+		sb.WriteString(line)
+		sb.WriteString("\n")
+	}
 
 	return sb.String()
 }
