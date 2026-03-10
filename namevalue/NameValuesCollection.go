@@ -1,7 +1,7 @@
 package namevalue
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // NameValuesCollection is the backward-compatible alias for Collection[string, any].

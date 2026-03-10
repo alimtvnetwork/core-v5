@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"runtime"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // Function

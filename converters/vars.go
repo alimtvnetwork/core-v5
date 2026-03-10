@@ -1,8 +1,8 @@
 package converters
 
 import (
-	"gitlab.com/auk-go/core/internal/convertinternal"
-	"gitlab.com/auk-go/core/internal/jsoninternal"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/jsoninternal"
 )
 
 var (

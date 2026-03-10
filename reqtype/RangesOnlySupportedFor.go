@@ -1,6 +1,6 @@
 package reqtype
 
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 func RangesOnlySupportedFor(
 	message string,

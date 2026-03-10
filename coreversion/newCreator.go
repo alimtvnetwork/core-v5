@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/enums/versionindexes"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/enums/versionindexes"
 )
 
 type newCreator struct{}

@@ -3,11 +3,11 @@ package coreversion
 import (
 	"strconv"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/corecmp"
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/enums/versionindexes"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/corecmp"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/enums/versionindexes"
 )
 
 type Version struct {

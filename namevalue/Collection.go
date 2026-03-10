@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // Collection is a generic collection of Instance[K, V] items.

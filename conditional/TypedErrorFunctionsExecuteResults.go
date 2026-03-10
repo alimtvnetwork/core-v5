@@ -3,7 +3,7 @@ package conditional
 import (
 	"strconv"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // TypedErrorFunctionsExecuteResults is the generic version of ErrorFunctionsExecuteResults.

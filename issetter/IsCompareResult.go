@@ -1,8 +1,8 @@
 package issetter
 
 import (
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/internal/messages"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/internal/messages"
 )
 
 // IsCompareResult Here left is v, and right is `n`

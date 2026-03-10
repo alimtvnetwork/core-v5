@@ -3,8 +3,8 @@ package converters
 import (
 	"unsafe"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 func UnsafeBytesToStringWithErr(unsafeBytes []byte) (string, error) {

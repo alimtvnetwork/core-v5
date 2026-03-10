@@ -1,6 +1,6 @@
 package typesconv
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func FloatPtr(val float32) *float32 {
 	return &val

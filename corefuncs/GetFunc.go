@@ -3,7 +3,7 @@ package corefuncs
 import (
 	"runtime"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 func GetFunc(i any) *runtime.Func {

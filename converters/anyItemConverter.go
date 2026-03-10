@@ -7,10 +7,10 @@ import (
 	"reflect"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coreappend"
-	"gitlab.com/auk-go/core/internal/convertinternal"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreappend"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type anyItemConverter struct{}

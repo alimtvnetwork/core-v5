@@ -1,6 +1,6 @@
 package ostype
 
-import "gitlab.com/auk-go/core/osconsts"
+import "github.com/alimtvnetwork/core/osconsts"
 
 func GetCurrentVariant() Variation {
 	return GetVariant(osconsts.CurrentOperatingSystem)

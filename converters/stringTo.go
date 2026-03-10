@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/converters/coreconverted"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/converters/coreconverted"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type stringTo struct{}

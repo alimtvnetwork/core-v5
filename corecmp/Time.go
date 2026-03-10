@@ -3,7 +3,7 @@ package corecmp
 import (
 	"time"
 
-	"gitlab.com/auk-go/core/corecomparator"
+	"github.com/alimtvnetwork/core/corecomparator"
 )
 
 func Time(left, right time.Time) corecomparator.Compare {

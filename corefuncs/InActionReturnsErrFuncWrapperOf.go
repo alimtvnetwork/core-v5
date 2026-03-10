@@ -1,6 +1,6 @@
 package corefuncs
 
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 // InActionReturnsErrFuncWrapperOf is the generic version of an input-action-error wrapper.
 //

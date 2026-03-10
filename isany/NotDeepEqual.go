@@ -1,6 +1,6 @@
 package isany
 
-import "gitlab.com/auk-go/core/internal/reflectinternal"
+import "github.com/alimtvnetwork/core/internal/reflectinternal"
 
 func NotDeepEqual(
 	left, right any,

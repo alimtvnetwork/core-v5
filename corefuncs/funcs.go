@@ -1,10 +1,10 @@
 package corefuncs
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corepayload"
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
-	"gitlab.com/auk-go/core/coreinterface/serializerinf"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corepayload"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/coreinterface/serializerinf"
 )
 
 type (
