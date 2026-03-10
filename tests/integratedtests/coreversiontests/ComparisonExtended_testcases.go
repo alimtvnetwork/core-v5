@@ -196,7 +196,7 @@ var isLowerTestCases = []coretestcases.CaseV1{
 
 var isExpectedVersionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsExpectedVersion returns true for matching Equal expectation",
+		Title: "IsExpectedVersion returns true -- equal versions v0.0.1 with Equal expectation",
 		ArrangeInput: args.Map{
 			"when":     "given equal versions with Equal expectation",
 			"left":     "v0.0.1",
