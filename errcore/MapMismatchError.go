@@ -14,7 +14,9 @@ const mapSeparator = "============================>"
 //
 // Output format:
 //
-//	Map Mismatch (TestFuncName, Case 1: Case Title)
+//	Test Method : TestFuncName
+//	Case        : 1
+//	Title       : Case Title
 //
 //	============================>
 //	1) Actual Received (2 entries):
@@ -39,12 +41,9 @@ func MapMismatchError(
 ) string {
 	var sb strings.Builder
 
-	sb.WriteString(fmt.Sprintf(
-		"Map Mismatch (%s, Case %d: %s)\n\n",
-		testName,
-		caseIndex,
-		title,
-	))
+	sb.WriteString(fmt.Sprintf("Test Method : %s\n", testName))
+	sb.WriteString(fmt.Sprintf("Case        : %d\n", caseIndex))
+	sb.WriteString(fmt.Sprintf("Title       : %s\n\n", title))
 
 	// Actual block
 	sb.WriteString(mapSeparator + "\n")
