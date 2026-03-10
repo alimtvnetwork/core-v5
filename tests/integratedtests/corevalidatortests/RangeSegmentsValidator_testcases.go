@@ -191,7 +191,7 @@ var rangeSegmentsValidatorVerifyUptoTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "VerifyUpto returns error -- mismatched segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "upto-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{

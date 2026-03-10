@@ -151,7 +151,7 @@ var combinedBooleansTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "False",
 	},
 	{
-		Title:         "Empty returns True",
+		Title:         "AllTrue returns True -- given empty slice",
 		ArrangeInput:  []bool{},
 		ExpectedInput: "True",
 	},
