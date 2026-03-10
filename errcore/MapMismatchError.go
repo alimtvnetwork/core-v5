@@ -75,7 +75,7 @@ func MapMismatchError(
 		sb.WriteString("\n")
 	}
 
-	sb.WriteString(mapSeparator + "\n")
+	sb.WriteString(mapSeparator)
 
 	return sb.String()
 }
