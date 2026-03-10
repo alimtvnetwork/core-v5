@@ -14,7 +14,7 @@ import (
 
 var wrappedErrStateTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil receiver is invalid and undefined",
+		Title: "WrappedErr returns invalid and undefined -- nil receiver",
 		ArrangeInput: args.Map{
 			"wrappedErr": (*trydo.WrappedErr)(nil),
 		},
@@ -28,7 +28,7 @@ var wrappedErrStateTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Zero-value WrappedErr — no error, no exception",
+		Title: "WrappedErr returns no error no exception -- zero-value struct",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{},
 		},
@@ -42,7 +42,7 @@ var wrappedErrStateTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Error only — no exception",
+		Title: "WrappedErr returns hasErrorOrExc true -- error only, no exception",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				Error:    errors.New("boom"),
@@ -59,7 +59,7 @@ var wrappedErrStateTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exception only — no error",
+		Title: "WrappedErr returns hasException true -- exception only, no error",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				Exception: "panic-value",
@@ -76,7 +76,7 @@ var wrappedErrStateTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Both error and exception present",
+		Title: "WrappedErr returns isBothPresent true -- error and exception both set",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				Error:     errors.New("err"),
@@ -95,7 +95,7 @@ var wrappedErrStateTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "HasThrown true but nil Exception is invalid exception",
+		Title: "WrappedErr returns isInvalidException true -- HasThrown true but nil Exception",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				HasThrown: true,
@@ -119,7 +119,7 @@ var wrappedErrStateTestCases = []coretestcases.CaseV1{
 
 var wrappedErrStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil receiver returns empty strings",
+		Title: "WrappedErr returns empty strings -- nil receiver",
 		ArrangeInput: args.Map{
 			"wrappedErr": (*trydo.WrappedErr)(nil),
 		},
@@ -130,7 +130,7 @@ var wrappedErrStringTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Error only returns error string",
+		Title: "WrappedErr returns error message -- error only, message 'something failed'",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				Error:    errors.New("something failed"),
@@ -144,7 +144,7 @@ var wrappedErrStringTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exception only returns exception string",
+		Title: "WrappedErr returns exception string -- exception only, value 'panic-data'",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				Exception: "panic-data",
@@ -158,7 +158,7 @@ var wrappedErrStringTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Zero-value returns all empty",
+		Title: "WrappedErr returns all empty strings -- zero-value struct",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{},
 		},
@@ -176,7 +176,7 @@ var wrappedErrStringTestCases = []coretestcases.CaseV1{
 
 var wrappedErrExceptionTypeTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil receiver returns nil type",
+		Title: "ExceptionType returns nil -- nil receiver",
 		ArrangeInput: args.Map{
 			"wrappedErr": (*trydo.WrappedErr)(nil),
 		},
@@ -185,7 +185,7 @@ var wrappedErrExceptionTypeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Invalid exception returns nil type",
+		Title: "ExceptionType returns nil -- invalid exception on zero-value struct",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{},
 		},
@@ -194,7 +194,7 @@ var wrappedErrExceptionTypeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Valid string exception returns string type",
+		Title: "ExceptionType returns string type -- string exception 'panic!'",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				Exception: "panic!",
@@ -207,7 +207,7 @@ var wrappedErrExceptionTypeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Valid int exception returns int type",
+		Title: "ExceptionType returns int type -- int exception 42",
 		ArrangeInput: args.Map{
 			"wrappedErr": &trydo.WrappedErr{
 				Exception: 42,
@@ -227,7 +227,7 @@ var wrappedErrExceptionTypeTestCases = []coretestcases.CaseV1{
 
 var errorFuncWrapPanicTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Func returns nil error — no error, no exception",
+		Title: "ErrorFuncWrapPanic returns no error no exception -- func returns nil",
 		ArrangeInput: args.Map{
 			"func": func() error { return nil },
 		},
@@ -237,7 +237,7 @@ var errorFuncWrapPanicTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Func returns error — hasError true, no exception",
+		Title: "ErrorFuncWrapPanic returns hasError true -- func returns error 'fail'",
 		ArrangeInput: args.Map{
 			"func": func() error { return errors.New("fail") },
 		},
@@ -248,7 +248,7 @@ var errorFuncWrapPanicTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Func panics — hasThrown true, exception captured",
+		Title: "ErrorFuncWrapPanic returns hasThrown true -- func panics with 'kaboom'",
 		ArrangeInput: args.Map{
 			"func": func() error { panic("kaboom") },
 		},
@@ -266,7 +266,7 @@ var errorFuncWrapPanicTestCases = []coretestcases.CaseV1{
 
 var wrapPanicTestCases = []coretestcases.CaseV1{
 	{
-		Title: "No panic returns nil exception",
+		Title: "WrapPanic returns nil exception -- no panic",
 		ArrangeInput: args.Map{
 			"func": func() {},
 		},
@@ -275,7 +275,7 @@ var wrapPanicTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Panic returns exception value",
+		Title: "WrapPanic returns exception value 'oops' -- func panics",
 		ArrangeInput: args.Map{
 			"func": func() { panic("oops") },
 		},
@@ -292,7 +292,7 @@ var wrapPanicTestCases = []coretestcases.CaseV1{
 
 var blockDoTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Try executes without catch or finally",
+		Title: "Block.Do returns tryRan only -- no catch, no finally, no panic",
 		ArrangeInput: args.Map{
 			"hasCatch":   false,
 			"hasFinally": false,
@@ -305,7 +305,7 @@ var blockDoTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Try + Finally both execute",
+		Title: "Block.Do returns tryRan and finallyRan -- no catch, has finally, no panic",
 		ArrangeInput: args.Map{
 			"hasCatch":   false,
 			"hasFinally": true,
@@ -318,7 +318,7 @@ var blockDoTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Panic triggers Catch and Finally",
+		Title: "Block.Do returns all ran -- has catch, has finally, panics",
 		ArrangeInput: args.Map{
 			"hasCatch":   true,
 			"hasFinally": true,
@@ -331,7 +331,7 @@ var blockDoTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Panic with Catch but no Finally",
+		Title: "Block.Do returns tryRan and catchRan -- has catch, no finally, panics",
 		ArrangeInput: args.Map{
 			"hasCatch":   true,
 			"hasFinally": false,

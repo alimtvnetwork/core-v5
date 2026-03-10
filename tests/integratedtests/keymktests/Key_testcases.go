@@ -7,7 +7,7 @@ import (
 
 var keyCompileTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Default key compiles with hyphen joiner",
+		Title: "Key.Compile returns 'root-sub-item' -- main 'root' with chains ['sub','item']",
 		ArrangeInput: args.Map{
 			"when":   "given main and chain items",
 			"main":   "root",
@@ -16,7 +16,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "root-sub-item",
 	},
 	{
-		Title: "Default key compiles with main only",
+		Title: "Key.Compile returns 'solo' -- main only, no chains",
 		ArrangeInput: args.Map{
 			"when":   "given main only",
 			"main":   "solo",
@@ -25,7 +25,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "solo",
 	},
 	{
-		Title: "Default key compiles with single chain",
+		Title: "Key.Compile returns 'app-config' -- main 'app' with single chain",
 		ArrangeInput: args.Map{
 			"when":   "given main and single chain",
 			"main":   "app",
@@ -34,7 +34,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "app-config",
 	},
 	{
-		Title: "Default key compiles with multiple chains",
+		Title: "Key.Compile returns 'a-b-c-d-e' -- main 'a' with four chains",
 		ArrangeInput: args.Map{
 			"when":   "given main and four chain items",
 			"main":   "a",
@@ -46,7 +46,7 @@ var keyCompileTestCases = []coretestcases.CaseV1{
 
 var keyAppendChainTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AppendChain adds items and compiles",
+		Title: "AppendChain returns 'root-a-b-c' -- main 'root', initial ['a'], appended ['b','c']",
 		ArrangeInput: args.Map{
 			"when":    "given main then append items",
 			"main":    "root",
@@ -59,7 +59,7 @@ var keyAppendChainTestCases = []coretestcases.CaseV1{
 
 var keyFinalizedTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Finalized locks key and returns compiled",
+		Title: "Finalized returns compiled 'base-path' and locks key -- main 'base' chain ['path']",
 		ArrangeInput: args.Map{
 			"when":   "given key is finalized",
 			"main":   "base",
@@ -71,7 +71,7 @@ var keyFinalizedTestCases = []coretestcases.CaseV1{
 
 var keyHasInChainsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "HasInChains true when item exists",
+		Title: "HasInChains returns true -- search 'sub' in chains ['sub','item']",
 		ArrangeInput: args.Map{
 			"when":   "given existing chain item",
 			"main":   "root",
@@ -81,7 +81,7 @@ var keyHasInChainsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "HasInChains false when item missing",
+		Title: "HasInChains returns false -- search 'missing' in chains ['sub','item']",
 		ArrangeInput: args.Map{
 			"when":   "given non-existing chain item",
 			"main":   "root",
@@ -94,7 +94,7 @@ var keyHasInChainsTestCases = []coretestcases.CaseV1{
 
 var keyClonePtrTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ClonePtr creates independent copy",
+		Title: "ClonePtr returns independent copy -- main 'original' chains ['a','b']",
 		ArrangeInput: args.Map{
 			"when":   "given key with chains",
 			"main":   "original",
@@ -106,7 +106,7 @@ var keyClonePtrTestCases = []coretestcases.CaseV1{
 
 var keyLengthTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Length returns chain count",
+		Title: "Length returns 3 -- key with chains ['a','b','c']",
 		ArrangeInput: args.Map{
 			"when":   "given key with 3 chains",
 			"main":   "root",
@@ -115,7 +115,7 @@ var keyLengthTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "3",
 	},
 	{
-		Title: "Length returns 0 for no chains",
+		Title: "Length returns 0 -- key with no chains",
 		ArrangeInput: args.Map{
 			"when":   "given key with no chains",
 			"main":   "root",
@@ -127,7 +127,7 @@ var keyLengthTestCases = []coretestcases.CaseV1{
 
 var keyIsEmptyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsEmpty true for empty main and no chains",
+		Title: "IsEmpty returns true -- empty main and no chains",
 		ArrangeInput: args.Map{
 			"when":   "given empty main",
 			"main":   "",
@@ -136,7 +136,7 @@ var keyIsEmptyTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "IsEmpty false for non-empty main",
+		Title: "IsEmpty returns false -- non-empty main 'root'",
 		ArrangeInput: args.Map{
 			"when":   "given non-empty main",
 			"main":   "root",
@@ -148,7 +148,7 @@ var keyIsEmptyTestCases = []coretestcases.CaseV1{
 
 var keyCompileWithAdditionalTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Compile with additional items appends at the end",
+		Title: "Compile returns 'root-a-extra' -- main 'root', chain ['a'], additional 'extra'",
 		ArrangeInput: args.Map{
 			"when":       "given key with chains and compile extras",
 			"main":       "root",

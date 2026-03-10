@@ -7,7 +7,7 @@ import (
 
 var defaultErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Marshalling error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- Marshalling",
 		ArrangeInput: args.Map{
 			"when":  "checking Marshalling error",
 			"error": "Marshalling",
@@ -15,7 +15,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "UnMarshalling error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- UnMarshalling",
 		ArrangeInput: args.Map{
 			"when":  "checking UnMarshalling error",
 			"error": "UnMarshalling",
@@ -23,7 +23,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "OutOfRange error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- OutOfRange",
 		ArrangeInput: args.Map{
 			"when":  "checking OutOfRange error",
 			"error": "OutOfRange",
@@ -31,7 +31,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "CannotProcessNilOrEmpty error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- CannotProcessNilOrEmpty",
 		ArrangeInput: args.Map{
 			"when":  "checking CannotProcessNilOrEmpty error",
 			"error": "CannotProcessNilOrEmpty",
@@ -39,7 +39,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "NegativeDataCannotProcess error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- NegativeDataCannotProcess",
 		ArrangeInput: args.Map{
 			"when":  "checking NegativeDataCannotProcess error",
 			"error": "NegativeDataCannotProcess",
@@ -47,7 +47,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "NilResult error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- NilResult",
 		ArrangeInput: args.Map{
 			"when":  "checking NilResult error",
 			"error": "NilResult",
@@ -55,7 +55,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "UnexpectedValue error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- UnexpectedValue",
 		ArrangeInput: args.Map{
 			"when":  "checking UnexpectedValue error",
 			"error": "UnexpectedValue",
@@ -63,7 +63,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "CannotRemoveFromEmptyCollection error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- CannotRemoveFromEmptyCollection",
 		ArrangeInput: args.Map{
 			"when":  "checking CannotRemoveFromEmptyCollection error",
 			"error": "CannotRemoveFromEmptyCollection",
@@ -71,7 +71,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "MarshallingFailedDueToNilOrEmpty error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- MarshallingFailedDueToNilOrEmpty",
 		ArrangeInput: args.Map{
 			"when":  "checking MarshallingFailedDueToNilOrEmpty error",
 			"error": "MarshallingFailedDueToNilOrEmpty",
@@ -79,7 +79,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "UnmarshallingFailedDueToNilOrEmpty error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- UnmarshallingFailedDueToNilOrEmpty",
 		ArrangeInput: args.Map{
 			"when":  "checking UnmarshallingFailedDueToNilOrEmpty error",
 			"error": "UnmarshallingFailedDueToNilOrEmpty",
@@ -87,7 +87,7 @@ var defaultErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"isNotNil": true, "hasMessage": true},
 	},
 	{
-		Title: "KeyNotExistInMap error is not nil",
+		Title: "DefaultErr returns non-nil error with message -- KeyNotExistInMap",
 		ArrangeInput: args.Map{
 			"when":  "checking KeyNotExistInMap error",
 			"error": "KeyNotExistInMap",
