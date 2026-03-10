@@ -3,7 +3,7 @@ package intsort
 import (
 	"sort"
 
-	"gitlab.com/auk-go/core/coredata"
+	"github.com/alimtvnetwork/core/coredata"
 )
 
 // QuickPtr Warning: Data gets mutated inside.

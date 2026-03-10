@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strings"
 
-	"gitlab.com/auk-go/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 type rvUtils struct{}

@@ -1,8 +1,8 @@
 package reflectcore
 
 import (
-	"gitlab.com/auk-go/core/internal/convertinternal"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 var (
