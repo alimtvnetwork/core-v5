@@ -80,11 +80,6 @@ var dynamicCloneTestCase = coretestcases.CaseV1{
 // Note: ClonePtr, Bytes, ValueNullErr nil receiver test cases migrated to
 // Dynamic_NilReceiver_testcases.go using CaseNilSafe pattern.
 
-var dynamicClonePtrNilTestCase = coretestcases.CaseV1{
-	Title:         "ClonePtr returns nil on nil receiver",
-	ExpectedInput: "true", // isNil
-}
-
 var dynamicClonePtrValidTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr creates independent pointer copy",
 	ExpectedInput: args.Map{
@@ -410,13 +405,7 @@ var dynamicBytesNonBytesTestCase = coretestcases.CaseV1{
 	ExpectedInput: "false", // hasBytes
 }
 
-var dynamicBytesNilReceiverTestCase = coretestcases.CaseV1{
-	Title: "Bytes returns nil,false on nil receiver",
-	ExpectedInput: args.Map{
-		"isNilBytes": true,
-		"hasBytes":   false,
-	},
-}
+// Note: Bytes nil receiver test case migrated to Dynamic_NilReceiver_testcases.go.
 
 // ==========================================================================
 // IntDefault
@@ -442,10 +431,7 @@ var dynamicIntDefaultNilTestCase = coretestcases.CaseV1{
 // ValueNullErr
 // ==========================================================================
 
-var dynamicValueNullErrNilReceiverTestCase = coretestcases.CaseV1{
-	Title:         "ValueNullErr returns error on nil receiver",
-	ExpectedInput: "true", // hasError
-}
+// Note: ValueNullErr nil receiver test case migrated to Dynamic_NilReceiver_testcases.go.
 
 var dynamicValueNullErrNullDataTestCase = coretestcases.CaseV1{
 	Title:         "ValueNullErr returns error on null data",

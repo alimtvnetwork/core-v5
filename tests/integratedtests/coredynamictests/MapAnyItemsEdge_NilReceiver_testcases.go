@@ -17,6 +17,26 @@ import (
 
 var mapAnyItemsNilSafeTestCases = []coretestcases.CaseNilSafe{
 	{
+		Title: "IsEqualRaw on nil with non-nil map returns false",
+		Func: func(m *coredynamic.MapAnyItems) bool {
+			return m.IsEqualRaw(map[string]any{"k": "v"})
+		},
+		Expected: results.ResultAny{
+			Value:    "false",
+			Panicked: false,
+		},
+	},
+	{
+		Title: "IsEqualRaw on nil with nil map returns true",
+		Func: func(m *coredynamic.MapAnyItems) bool {
+			return m.IsEqualRaw(nil)
+		},
+		Expected: results.ResultAny{
+			Value:    "true",
+			Panicked: false,
+		},
+	},
+	{
 		Title: "Length on nil returns 0",
 		Func:  (*coredynamic.MapAnyItems).Length,
 		Expected: results.ResultAny{

@@ -265,21 +265,4 @@ var hashmapStringTestCase = coretestcases.CaseV1{
 	ExpectedInput: args.Map{"isNonEmpty": true},
 }
 
-// ==========================================================================
-// Nil receiver
-// Note: Migrated to Hashmap_NilReceiver_testcases.go using CaseNilSafe pattern.
-// ==========================================================================
-var hashmapNilReceiverIsEmptyTestCase = coretestcases.CaseV1{
-	Title:         "IsEmpty nil receiver",
-	ExpectedInput: args.Map{"isEmpty": true},
-}
-
-var hashmapNilReceiverLengthTestCase = coretestcases.CaseV1{
-	Title:         "Length nil receiver",
-	ExpectedInput: args.Map{"length": 0},
-}
-
-var hashmapNilReceiverHasItemsTestCase = coretestcases.CaseV1{
-	Title:         "HasItems nil receiver",
-	ExpectedInput: args.Map{"hasItems": false},
-}
+// Note: Nil receiver test cases migrated to Hashmap_NilReceiver_testcases.go using CaseNilSafe pattern.

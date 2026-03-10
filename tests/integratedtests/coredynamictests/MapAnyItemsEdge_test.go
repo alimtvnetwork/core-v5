@@ -155,33 +155,7 @@ func Test_MapAnyItems_IsEqual_BothEmpty(t *testing.T) {
 // IsEqualRaw — named tests
 // ==========================================
 
-func Test_MapAnyItems_IsEqualRaw_NilReceiver(t *testing.T) {
-	tc := mapAnyItemsIsEqualRawNilReceiverTestCase
-	input := tc.ArrangeInput.(args.Map)
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-	rawMap := input["rightMap"].(map[string]any)
-
-	// Act
-	actual := args.Map{"isEqualRaw": m.IsEqualRaw(rawMap)}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
-
-func Test_MapAnyItems_IsEqualRaw_BothNil(t *testing.T) {
-	tc := mapAnyItemsIsEqualRawBothNilTestCase
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	actual := args.Map{"isEqualRaw": m.IsEqualRaw(nil)}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: IsEqualRaw nil receiver tests migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_MapAnyItems_IsEqualRaw_Matching(t *testing.T) {
 	tc := mapAnyItemsIsEqualRawMatchingTestCase
@@ -202,23 +176,7 @@ func Test_MapAnyItems_IsEqualRaw_Matching(t *testing.T) {
 // ClonePtr — named tests
 // ==========================================
 
-func Test_MapAnyItems_ClonePtr_NilReceiver(t *testing.T) {
-	tc := mapAnyItemsClonePtrNilTestCase
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	clone, err := m.ClonePtr()
-
-	actual := args.Map{
-		"hasError":   err != nil,
-		"cloneIsNil": clone == nil,
-	}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: ClonePtr nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_MapAnyItems_ClonePtr_ValidData(t *testing.T) {
 	tc := mapAnyItemsClonePtrValidTestCase
@@ -288,37 +246,7 @@ func Test_MapAnyItems_ClonePtr_Independence(t *testing.T) {
 // Edge cases — named tests
 // ==========================================
 
-func Test_MapAnyItems_NilReceiverLength(t *testing.T) {
-	tc := mapAnyItemsNilLengthTestCase
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	actual := args.Map{
-		"length":     m.Length(),
-		"isEmpty":    m.IsEmpty(),
-		"hasAnyItem": m.HasAnyItem(),
-	}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
-
-func Test_MapAnyItems_HasKey_NilReceiver(t *testing.T) {
-	tc := mapAnyItemsHasKeyNilTestCase
-	input := tc.ArrangeInput.(args.Map)
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-	key, _ := input.GetAsString("key")
-
-	// Act
-	actual := args.Map{"hasKey": m.HasKey(key)}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: Length/IsEmpty/HasAnyItem/HasKey nil receiver tests migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_MapAnyItems_HasKey_Exists(t *testing.T) {
 	tc := mapAnyItemsHasKeyExistsTestCase

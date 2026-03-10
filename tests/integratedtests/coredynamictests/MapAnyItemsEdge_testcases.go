@@ -128,28 +128,7 @@ var mapAnyItemsIsEqualBothEmptyTestCase = coretestcases.CaseV1{
 // MapAnyItems — IsEqualRaw
 // ==========================================
 
-var mapAnyItemsIsEqualRawNilReceiverTestCase = coretestcases.CaseV1{
-	Title: "IsEqualRaw - nil receiver should return false",
-	ArrangeInput: args.Map{
-		"when":     "receiver is nil, raw map has data",
-		"leftNil":  true,
-		"rightMap": map[string]any{"k": "v"},
-	},
-	ExpectedInput: args.Map{
-		"isEqualRaw": false,
-	},
-}
-
-var mapAnyItemsIsEqualRawBothNilTestCase = coretestcases.CaseV1{
-	Title: "IsEqualRaw - nil receiver nil map should return true",
-	ArrangeInput: args.Map{
-		"when":    "both receiver and raw map are nil",
-		"leftNil": true,
-	},
-	ExpectedInput: args.Map{
-		"isEqualRaw": true,
-	},
-}
+// Note: IsEqualRaw nil receiver test cases migrated to MapAnyItemsEdge_NilReceiver_testcases.go.
 
 var mapAnyItemsIsEqualRawMatchingTestCase = coretestcases.CaseV1{
 	Title: "IsEqualRaw - matching map should return true",
@@ -168,17 +147,7 @@ var mapAnyItemsIsEqualRawMatchingTestCase = coretestcases.CaseV1{
 // MapAnyItems — ClonePtr
 // ==========================================
 
-var mapAnyItemsClonePtrNilTestCase = coretestcases.CaseV1{
-	Title: "ClonePtr - nil receiver should return nil and error",
-	ArrangeInput: args.Map{
-		"when":    "receiver is nil",
-		"leftNil": true,
-	},
-	ExpectedInput: args.Map{
-		"hasError":   true,
-		"cloneIsNil": true,
-	},
-}
+// Note: ClonePtr nil receiver test case migrated to MapAnyItemsEdge_NilReceiver_testcases.go.
 
 var mapAnyItemsClonePtrValidTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr - valid data should clone successfully",
@@ -230,30 +199,8 @@ var mapAnyItemsClonePtrIndependenceTestCase = coretestcases.CaseV1{
 // MapAnyItems — Edge cases (Length, HasKey, Add)
 // ==========================================
 
-var mapAnyItemsNilLengthTestCase = coretestcases.CaseV1{
-	Title: "Length/IsEmpty/HasAnyItem - nil receiver safety",
-	ArrangeInput: args.Map{
-		"when":    "receiver is nil",
-		"leftNil": true,
-	},
-	ExpectedInput: args.Map{
-		"length":     0,
-		"isEmpty":    true,
-		"hasAnyItem": false,
-	},
-}
-
-var mapAnyItemsHasKeyNilTestCase = coretestcases.CaseV1{
-	Title: "HasKey - nil receiver should return false",
-	ArrangeInput: args.Map{
-		"when":    "receiver is nil, checking any key",
-		"leftNil": true,
-		"key":     "anything",
-	},
-	ExpectedInput: args.Map{
-		"hasKey": false,
-	},
-}
+// Note: Length/IsEmpty/HasAnyItem/HasKey nil receiver test cases migrated to
+// MapAnyItemsEdge_NilReceiver_testcases.go using CaseNilSafe pattern.
 
 var mapAnyItemsHasKeyExistsTestCase = coretestcases.CaseV1{
 	Title: "HasKey - existing key should return true",

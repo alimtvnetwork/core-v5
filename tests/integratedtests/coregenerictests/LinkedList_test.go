@@ -533,18 +533,7 @@ func Test_LinkedList_AddLock(t *testing.T) {
 	tc.ShouldBeEqualFirst(t, actLines...)
 }
 
-// ==========================================================================
-// Test: Nil receiver (CaseNilSafe pattern)
-// ==========================================================================
-
-func Test_LinkedList_NilReceiver(t *testing.T) {
-	for caseIndex, tc := range linkedListNilSafeTestCases {
-		// Arrange (implicit — nil receiver)
-
-		// Act & Assert
-		tc.ShouldBeSafe(t, caseIndex)
-	}
-}
+// Note: Nil receiver tests migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 // ==========================================================================
 // Test: AppendNode

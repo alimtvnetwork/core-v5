@@ -108,14 +108,7 @@ func Test_Dynamic_Clone(t *testing.T) {
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-func Test_Dynamic_ClonePtr_NilReceiver(t *testing.T) {
-	tc := dynamicClonePtrNilTestCase
-	var d *coredynamic.Dynamic
-
-	actLines := []string{fmt.Sprintf("%v", d.ClonePtr() == nil)}
-
-	tc.ShouldBeEqual(t, 0, actLines...)
-}
+// Note: ClonePtr nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_Dynamic_ClonePtr_Valid(t *testing.T) {
 	tc := dynamicClonePtrValidTestCase
@@ -381,18 +374,7 @@ func Test_Dynamic_Bytes_NonBytes(t *testing.T) {
 	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
-func Test_Dynamic_Bytes_NilReceiver(t *testing.T) {
-	tc := dynamicBytesNilReceiverTestCase
-	var d *coredynamic.Dynamic
-	raw, ok := d.Bytes()
-
-	actual := args.Map{
-		"isNilBytes": raw == nil,
-		"hasBytes":   ok,
-	}
-
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: Bytes nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 // ==========================================================================
 // Test: IntDefault
@@ -428,14 +410,7 @@ func Test_Dynamic_IntDefault_NilData(t *testing.T) {
 // Test: ValueNullErr
 // ==========================================================================
 
-func Test_Dynamic_ValueNullErr_NilReceiver(t *testing.T) {
-	tc := dynamicValueNullErrNilReceiverTestCase
-	var d *coredynamic.Dynamic
-
-	actLines := []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
-
-	tc.ShouldBeEqual(t, 0, actLines...)
-}
+// Note: ValueNullErr nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_Dynamic_ValueNullErr_NullData(t *testing.T) {
 	tc := dynamicValueNullErrNullDataTestCase
