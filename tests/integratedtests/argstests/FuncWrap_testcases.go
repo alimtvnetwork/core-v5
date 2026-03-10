@@ -30,7 +30,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV1 => Calls dynamically with less param (null), outputs error args count mismatch.",
+			Title: "FuncWrap returns args count mismatch error -- someFunctionV1 with nil third param",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
