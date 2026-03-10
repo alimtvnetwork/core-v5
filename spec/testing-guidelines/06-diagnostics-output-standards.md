@@ -20,8 +20,8 @@
    to ensure consistent visual alignment:
    ```
      Line   2 [MISMATCH]:
-         actual     : `isDefined : true`
-         expected   : `isDefined : false`
+              actual     : `isDefined : true`
+          expected   : `isDefined : false`
    ```
 
 ## Alignment
