@@ -5,6 +5,6 @@ import (
 )
 
 var deserializerFromToTestCase = coretestcases.CaseV1{
-	Title:         "corejson.Deserializer.FromTo - should match from to casting",
+	Title:         "Deserializer.FromTo returns matching cast -- valid input",
 	ExpectedInput: "true",
 }

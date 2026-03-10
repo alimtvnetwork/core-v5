@@ -6,7 +6,7 @@ import (
 )
 
 var newValidTestCase = coretestcases.CaseV1{
-	Title: "New - valid struct produces bytes no error",
+	Title: "New returns bytes without error -- valid struct input",
 	ExpectedInput: args.Map{
 		"hasError":    false,
 		"isEmpty":     false,
@@ -16,7 +16,7 @@ var newValidTestCase = coretestcases.CaseV1{
 }
 
 var newNilTestCase = coretestcases.CaseV1{
-	Title: "New - nil input produces null bytes",
+	Title: "New returns null bytes -- nil input",
 	ExpectedInput: args.Map{
 		"hasError":     false,
 		"bytesContent": "null",
@@ -24,7 +24,7 @@ var newNilTestCase = coretestcases.CaseV1{
 }
 
 var newChannelTestCase = coretestcases.CaseV1{
-	Title: "New - channel produces error",
+	Title: "New returns error -- channel input",
 	ExpectedInput: args.Map{
 		"hasError":             true,
 		"errorContainsMarshal": true,
@@ -32,7 +32,7 @@ var newChannelTestCase = coretestcases.CaseV1{
 }
 
 var newPtrValidTestCase = coretestcases.CaseV1{
-	Title: "NewPtr - valid struct produces non-nil result",
+	Title: "NewPtr returns non-nil result -- valid struct input",
 	ExpectedInput: args.Map{
 		"isNonNil": true,
 		"hasError": false,
@@ -42,7 +42,7 @@ var newPtrValidTestCase = coretestcases.CaseV1{
 }
 
 var newPtrNilTestCase = coretestcases.CaseV1{
-	Title: "NewPtr - nil input produces null bytes",
+	Title: "NewPtr returns null bytes -- nil input",
 	ExpectedInput: args.Map{
 		"isNonNil":     true,
 		"hasError":     false,
@@ -51,7 +51,7 @@ var newPtrNilTestCase = coretestcases.CaseV1{
 }
 
 var newPtrChannelTestCase = coretestcases.CaseV1{
-	Title: "NewPtr - channel produces error",
+	Title: "NewPtr returns error -- channel input",
 	ExpectedInput: args.Map{
 		"isNonNil":             true,
 		"hasError":             true,

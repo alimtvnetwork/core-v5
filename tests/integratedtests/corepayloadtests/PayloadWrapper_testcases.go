@@ -11,7 +11,7 @@ import (
 
 var payloadWrapperCreateTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PayloadWrapper creation produces valid JSON",
+		Title: "PayloadWrapper returns valid JSON -- name 'test-payload', id 'pay-1'",
 		ArrangeInput: args.Map{
 			"when": "given payload with name and id",
 			"name": "test-payload",
@@ -31,7 +31,7 @@ var payloadWrapperCreateTestCases = []coretestcases.CaseV1{
 
 var payloadWrapperDeserializeRoundtripTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PayloadWrapper serialization then deserialization preserves data",
+		Title: "PayloadWrapper roundtrip preserves data -- name 'roundtrip-payload', id 'rt-1'",
 		ArrangeInput: args.Map{
 			"when": "given payload serialized then deserialized",
 			"name": "roundtrip-payload",
@@ -51,7 +51,7 @@ var payloadWrapperDeserializeRoundtripTestCases = []coretestcases.CaseV1{
 
 var payloadWrapperCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PayloadWrapper ClonePtr creates independent copy",
+		Title: "ClonePtr returns independent copy -- original 'original-pay' mutated to 'mutated-pay'",
 		ArrangeInput: args.Map{
 			"when":     "given payload cloned and mutated",
 			"name":     "original-pay",
@@ -72,7 +72,7 @@ var payloadWrapperCloneTestCases = []coretestcases.CaseV1{
 
 var payloadWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "DeserializeToMany parses array of payloads",
+		Title: "DeserializeToMany returns 3 payloads -- array of 3 serialized",
 		ArrangeInput: args.Map{
 			"when":  "given 3 payloads serialized as array",
 			"count": 3,

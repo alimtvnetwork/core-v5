@@ -10,7 +10,7 @@ import (
 // ==========================================
 
 var mapAnyItemsAddAndKeysTestCase = coretestcases.CaseV1{
-	Title: "MapAnyItems Add stores items and AllKeys returns keys",
+	Title: "Add returns stored items and AllKeys returns keys -- 3 items added",
 	ArrangeInput: args.Map{
 		"when":     "given 3 items added",
 		"capacity": 10,
@@ -27,7 +27,7 @@ var mapAnyItemsAddAndKeysTestCase = coretestcases.CaseV1{
 // ==========================================
 
 var mapAnyItemsPagedTestCase = coretestcases.CaseV1{
-	Title: "GetPagedCollection splits items into pages of given size",
+	Title: "GetPagedCollection returns 5 pages -- 9 items paged by 2",
 	ArrangeInput: args.Map{
 		"when":      "given 9 items paged by 2",
 		"itemCount": 9,
@@ -43,7 +43,7 @@ var mapAnyItemsPagedTestCase = coretestcases.CaseV1{
 // ==========================================
 
 var mapAnyItemsJsonRoundtripTestCase = coretestcases.CaseV1{
-	Title: "MapAnyItems JSON serialize then deserialize is equal",
+	Title: "JSON serialize then deserialize returns equal map -- 4 items",
 	ArrangeInput: args.Map{
 		"when":      "given map serialized and deserialized",
 		"itemCount": 4,
@@ -58,7 +58,7 @@ var mapAnyItemsJsonRoundtripTestCase = coretestcases.CaseV1{
 // ==========================================
 
 var mapAnyItemsGetItemRefTestCase = coretestcases.CaseV1{
-	Title: "GetItemRef populates target with stored value",
+	Title: "GetItemRef returns stored value -- existing key 'target-key'",
 	ArrangeInput: args.Map{
 		"when": "given key exists in map",
 		"key":  "target-key",

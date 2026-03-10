@@ -7,7 +7,7 @@ import (
 
 var newVariantTestCases = []coretestcases.CaseV1{
 	{
-		Title: "New creates Variant with correct value",
+		Title: "New returns valid Variant -- byte value 5",
 		ArrangeInput: args.Map{
 			"when":  "given byte value 5",
 			"input": 5,
@@ -20,7 +20,7 @@ var newVariantTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New creates Zero Variant",
+		Title: "New returns zero Variant -- byte value 0",
 		ArrangeInput: args.Map{
 			"when":  "given byte value 0",
 			"input": 0,
