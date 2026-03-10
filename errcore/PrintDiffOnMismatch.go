@@ -35,5 +35,5 @@ func PrintDiffOnMismatch(
 
 	PrintLineDiff(caseIndex, title, actLines, expectedLines)
 
-	fmt.Printf("=== End Diff (Case %d) ===\n", caseIndex)
+	
 }
