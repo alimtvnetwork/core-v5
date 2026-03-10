@@ -26,8 +26,11 @@
 
 ## Alignment
 
-- `actual` and `expected` labels in diff output must be left-aligned to the same column.
+- `actual` and `expected` labels in diff output must each be padded to 11 characters
+  (label + trailing spaces) before the colon, ensuring both `: ` separators start at
+  the same column position regardless of label length.
 - Use consistent indentation (spaces, not tabs) in diagnostic blocks.
+- The padding rule: `actual` gets 5 trailing spaces, `expected` gets 3 trailing spaces.
 
 ## Test Title Encoding
 
