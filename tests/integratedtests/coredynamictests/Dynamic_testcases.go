@@ -405,13 +405,7 @@ var dynamicBytesNonBytesTestCase = coretestcases.CaseV1{
 	ExpectedInput: "false", // hasBytes
 }
 
-var dynamicBytesNilReceiverTestCase = coretestcases.CaseV1{
-	Title: "Bytes returns nil,false on nil receiver",
-	ExpectedInput: args.Map{
-		"isNilBytes": true,
-		"hasBytes":   false,
-	},
-}
+// Note: Bytes nil receiver test case migrated to Dynamic_NilReceiver_testcases.go.
 
 // ==========================================================================
 // IntDefault
