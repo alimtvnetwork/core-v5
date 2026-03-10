@@ -66,7 +66,7 @@ func (it CaseV1) ShouldBeEqualMap(
 			expectedMap.GoLiteralLines(),
 		)
 
-		validationErr = errcore.NewError(mapErrMsg)
+		validationErr = errors.New(mapErrMsg)
 	}
 
 	convey.Convey(
