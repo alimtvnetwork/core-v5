@@ -45,7 +45,8 @@ func MapMismatchError(
 	// Actual block
 	sb.WriteString(mapSeparator + "\n")
 	sb.WriteString(fmt.Sprintf(
-		"Actual Received (%d entries):\n",
+		"Actual Received (Case %d, %d entries):\n",
+		caseIndex,
 		len(actualGoLiteralLines),
 	))
 	sb.WriteString(fmt.Sprintf("    %s\n", title))
@@ -63,7 +64,8 @@ func MapMismatchError(
 	sb.WriteString("\n")
 	sb.WriteString(mapSeparator + "\n")
 	sb.WriteString(fmt.Sprintf(
-		"Expected Input (%d entries):\n",
+		"Expected Input (Case %d, %d entries):\n",
+		caseIndex,
 		len(expectedGoLiteralLines),
 	))
 	sb.WriteString(fmt.Sprintf("    %s\n", title))
