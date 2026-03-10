@@ -3,7 +3,7 @@ package mutexbykey
 import (
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type mutexMap struct {

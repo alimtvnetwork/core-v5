@@ -1,8 +1,8 @@
 package anycmp
 
 import (
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 // Cmp

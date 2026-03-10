@@ -1,6 +1,6 @@
 package defaulterr
 
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 var (
 	Marshalling = errcore.
