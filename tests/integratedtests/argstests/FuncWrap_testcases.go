@@ -69,7 +69,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving nil as a work func, doesn't panic but returns error.",
+			Title: "FuncWrap returns invalid error -- nil WorkFunc",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
