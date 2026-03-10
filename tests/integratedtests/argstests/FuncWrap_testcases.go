@@ -54,7 +54,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV1 => Calls dynamically with mismatch datatype for arg 2nd, it expects string but given int, outputs error",
+			Title: "FuncWrap returns type mismatch error -- someFunctionV1 with int instead of string for 2nd arg",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
