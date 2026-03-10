@@ -96,7 +96,7 @@ func LineDiffToString(
 			))
 		case "!!":
 			mismatchCount++
-			sb.WriteString(fmt.Sprintf(
+		sb.WriteString(fmt.Sprintf(
 				"  Line %3d [MISMATCH]:\n"+
 					"          actual   : `%s`\n"+
 					"          expected : `%s`\n",
