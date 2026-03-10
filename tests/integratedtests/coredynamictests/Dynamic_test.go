@@ -374,18 +374,7 @@ func Test_Dynamic_Bytes_NonBytes(t *testing.T) {
 	tc.ShouldBeEqual(t, 0, actLines...)
 }
 
-func Test_Dynamic_Bytes_NilReceiver(t *testing.T) {
-	tc := dynamicBytesNilReceiverTestCase
-	var d *coredynamic.Dynamic
-	raw, ok := d.Bytes()
-
-	actual := args.Map{
-		"isNilBytes": raw == nil,
-		"hasBytes":   ok,
-	}
-
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: Bytes nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 // ==========================================================================
 // Test: IntDefault
