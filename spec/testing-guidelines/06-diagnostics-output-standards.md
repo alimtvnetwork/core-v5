@@ -20,17 +20,17 @@
    to ensure consistent visual alignment:
    ```
      Line   2 [MISMATCH]:
-              actual     : `isDefined : true`
-          expected   : `isDefined : false`
+              actual : `isDefined : true`
+            expected : `isDefined : false`
    ```
 
 ## Alignment
 
-- `actual` and `expected` labels in diff output must each be padded to 11 characters
-  (label + trailing spaces) before the colon, ensuring both `: ` separators start at
-  the same column position regardless of label length.
+- `actual` and `expected` labels use different leading indentation so the `: ` colon
+  aligns at the same column position:
+  - `actual`: 14 leading spaces + 6 chars + 1 space = colon at column 21
+  - `expected`: 12 leading spaces + 8 chars + 1 space = colon at column 21
 - Use consistent indentation (spaces, not tabs) in diagnostic blocks.
-- The padding rule: `actual` gets 5 trailing spaces, `expected` gets 3 trailing spaces.
 
 ## Test Title Encoding
 
