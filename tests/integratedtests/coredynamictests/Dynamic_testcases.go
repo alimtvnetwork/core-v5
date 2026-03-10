@@ -80,11 +80,6 @@ var dynamicCloneTestCase = coretestcases.CaseV1{
 // Note: ClonePtr, Bytes, ValueNullErr nil receiver test cases migrated to
 // Dynamic_NilReceiver_testcases.go using CaseNilSafe pattern.
 
-var dynamicClonePtrNilTestCase = coretestcases.CaseV1{
-	Title:         "ClonePtr returns nil on nil receiver",
-	ExpectedInput: "true", // isNil
-}
-
 var dynamicClonePtrValidTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr creates independent pointer copy",
 	ExpectedInput: args.Map{
