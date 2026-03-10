@@ -6,7 +6,7 @@ import (
 )
 
 // =============================================================================
-// BoolOnce — Core (Value + String)
+// BoolOnce -- Core (Value + String)
 // =============================================================================
 
 type boolOnceTestCase struct {
@@ -17,7 +17,7 @@ type boolOnceTestCase struct {
 var boolOnceCoreTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BoolOnce true — Value returns true, String returns 'true'",
+			Title: "BoolOnce true -- Value returns true, String returns 'true'",
 			ExpectedInput: args.Map{
 				"value":  true,
 				"string": "true",
@@ -27,7 +27,7 @@ var boolOnceCoreTestCases = []boolOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BoolOnce false — Value returns false, String returns 'false'",
+			Title: "BoolOnce false -- Value returns false, String returns 'false'",
 			ExpectedInput: args.Map{
 				"value":  false,
 				"string": "false",
@@ -38,13 +38,13 @@ var boolOnceCoreTestCases = []boolOnceTestCase{
 }
 
 // =============================================================================
-// BoolOnce — Caching (call count verification)
+// BoolOnce -- Caching (call count verification)
 // =============================================================================
 
 var boolOnceCachingTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BoolOnce.Value caches — initializer runs exactly once",
+			Title: "BoolOnce.Value caches -- initializer runs exactly once",
 			ExpectedInput: args.Map{
 				"r1":        true,
 				"r2":        true,
@@ -56,7 +56,7 @@ var boolOnceCachingTestCases = []boolOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BoolOnce.Value false — caches false, initializer runs once",
+			Title: "BoolOnce.Value false -- caches false, initializer runs once",
 			ExpectedInput: args.Map{
 				"r1":        false,
 				"r2":        false,
@@ -69,13 +69,13 @@ var boolOnceCachingTestCases = []boolOnceTestCase{
 }
 
 // =============================================================================
-// BoolOnce — JSON
+// BoolOnce -- JSON
 // =============================================================================
 
 var boolOnceJsonTestCases = []boolOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BoolOnce true — MarshalJSON returns 'true'",
+			Title: "BoolOnce true -- MarshalJSON returns 'true'",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "true",
@@ -85,7 +85,7 @@ var boolOnceJsonTestCases = []boolOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BoolOnce false — MarshalJSON returns 'false'",
+			Title: "BoolOnce false -- MarshalJSON returns 'false'",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "false",
