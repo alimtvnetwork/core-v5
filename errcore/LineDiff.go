@@ -2,7 +2,6 @@ package errcore
 
 import (
 	"fmt"
-	"log/slog"
 	"strings"
 
 	"github.com/alimtvnetwork/core/constants"
