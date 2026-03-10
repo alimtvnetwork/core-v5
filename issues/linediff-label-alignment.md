@@ -32,19 +32,17 @@ imbalance, especially in terminals using proportional or variable-width renderin
 
 ## Fix
 
-Increased indent for `actual` label to use 14 leading spaces (vs 10 for `expected`),
-keeping the trailing padding so both colons align at the same column:
+Adjusted leading spaces so both colons align at the same column:
 
 ```go
-"              actual     : `%s`\n"+
-"          expected   : `%s`\n",
+"              actual : `%s`\n"+
+"            expected : `%s`\n",
 ```
 
-- `actual`: 14 leading spaces + 6 chars + 5 trailing spaces = colon at column 25
-- `expected`: 10 leading spaces + 8 chars + 3 trailing spaces = colon at column 21
+- `actual`: 14 leading spaces + 6 chars + 1 space = colon at column 21
+- `expected`: 12 leading spaces + 8 chars + 1 space = colon at column 21
 
-The extra leading indent on `actual` compensates for its shorter label name,
-ensuring the `: ` separators visually align in terminal output.
+Both colons now sit at column 21 from the line start.
 
 ## Affected Files
 
