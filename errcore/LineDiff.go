@@ -2,7 +2,6 @@ package errcore
 
 import (
 	"fmt"
-	"log/slog"
 	"strings"
 
 	"github.com/alimtvnetwork/core/constants"
@@ -141,7 +140,7 @@ func PrintLineDiff(
 ) {
 	msg := LineDiffToString(caseIndex, header, actual, expected)
 	if len(msg) > 0 {
-		slog.Warn("line diff", "caseIndex", caseIndex, "header", header, "diff", msg)
+		fmt.Print(msg)
 	}
 }
 
@@ -205,7 +204,7 @@ func PrintErrorLineDiff(
 ) {
 	msg := ErrorToLinesLineDiff(caseIndex, header, err, expectedLines)
 	if len(msg) > 0 {
-		slog.Warn("error line diff", "caseIndex", caseIndex, "header", header, "diff", msg)
+		fmt.Print(msg)
 	}
 }
 
