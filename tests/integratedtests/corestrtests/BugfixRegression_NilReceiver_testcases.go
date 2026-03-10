@@ -1,7 +1,7 @@
 package corestrtests
 
 import (
-	"github.com/alimtvnetwork/core/corestr"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/coretests/results"
 )
