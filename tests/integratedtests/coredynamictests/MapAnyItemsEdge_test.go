@@ -176,23 +176,7 @@ func Test_MapAnyItems_IsEqualRaw_Matching(t *testing.T) {
 // ClonePtr — named tests
 // ==========================================
 
-func Test_MapAnyItems_ClonePtr_NilReceiver(t *testing.T) {
-	tc := mapAnyItemsClonePtrNilTestCase
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	clone, err := m.ClonePtr()
-
-	actual := args.Map{
-		"hasError":   err != nil,
-		"cloneIsNil": clone == nil,
-	}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: ClonePtr nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_MapAnyItems_ClonePtr_ValidData(t *testing.T) {
 	tc := mapAnyItemsClonePtrValidTestCase
