@@ -1,12 +1,12 @@
 package coretestcases
 
 import (
-	"log/slog"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests/args"
-	"github.com/alimtvnetwork/core/enums/stringcompareas"
 	"github.com/alimtvnetwork/core/errcore"
+	"github.com/smarty/assertions/should"
+	"github.com/smartystreets/goconvey/convey"
 )
 
 // ExpectedAsMap retrieves ExpectedInput as args.Map.
@@ -25,28 +25,17 @@ func (it CaseV1) ExpectedAsMap() args.Map {
 // ShouldBeEqualMap compares actual args.Map against ExpectedInput args.Map.
 //
 // Both maps are compiled to sorted "key : value" string lines using
-// CompileToStrings(), then compared using the standard ShouldBeEqual
-// assertion pipeline.
+// CompileToStrings(), then compared line-by-line.
 //
-// On mismatch, a copy-pasteable Go literal block of the expected map
-// is printed via slog for easy test case correction.
+// On mismatch, a copy-pasteable Go literal block is printed showing
+// each entry on its own indexed line in Go literal format:
 //
-// Example:
+//	Actual Received (2 entries):
+//	  0: "containsName": false,
+//	  1: "hasError":      false,
 //
-//	// In _testcases.go:
-//	ExpectedInput: args.Map{
-//	    "value":   5,
-//	    "isZero":  false,
-//	    "isValid": true,
-//	}
-//
-//	// In _test.go:
-//	actual := args.Map{
-//	    "value":   v.ValueInt(),
-//	    "isZero":  v.IsZero(),
-//	    "isValid": v.IsValid(),
-//	}
-//	testCase.ShouldBeEqualMap(t, caseIndex, actual)
+//	Expected Input (1 entries):
+//	  0: "hasError": false,
 func (it CaseV1) ShouldBeEqualMap(
 	t *testing.T,
 	caseIndex int,
@@ -58,22 +47,32 @@ func (it CaseV1) ShouldBeEqualMap(
 	actualLines := actual.CompileToStrings()
 	expectedLines := expectedMap.CompileToStrings()
 
-	// Check for mismatch and print copy-pasteable expected output
-	if errcore.HasAnyMismatchOnLines(actualLines, expectedLines) {
-		slog.Warn("copy-pasteable expected (from actual):",
-			"caseIndex", caseIndex,
-			"title", it.Title,
-			"actualGoLiteral", "\n"+actual.GoLiteralString(),
+	hasMismatch := errcore.HasAnyMismatchOnLines(actualLines, expectedLines)
+
+	var validationErr error
+
+	if hasMismatch {
+		// Print line-by-line diff for detailed comparison
+		errcore.PrintDiffOnMismatch(caseIndex, it.Title, actualLines, expectedLines)
+
+		// Build map-specific diagnostic with Go literal format (copy-pasteable)
+		mapErrMsg := errcore.MapMismatchError(
+			caseIndex,
+			it.Title,
+			actual.GoLiteralLines(),
+			expectedMap.GoLiteralLines(),
 		)
+
+		validationErr = errcore.NewError(mapErrMsg)
 	}
 
-	it.ExpectedInput = expectedLines
-
-	it.ShouldBe(
-		t,
-		caseIndex,
-		stringcompareas.Equal,
-		actualLines...,
+	convey.Convey(
+		it.Title, t, func() {
+			convey.So(
+				validationErr,
+				should.BeNil,
+			)
+		},
 	)
 }
 
