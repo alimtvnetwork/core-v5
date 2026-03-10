@@ -1,0 +1,45 @@
+# Diagnostics Output Standards
+
+## Stack Trace Rules
+
+1. **Single header only**: Stack trace output must show `Stack-Trace :` exactly once, never duplicated.
+2. **No system library frames**: Frames from Go's standard library (`runtime/`, `testing/`, or anything under `GOROOT`) must be filtered out. Only project-level frames should appear.
+3. **Maximum 4 frames**: Stack traces are capped at 4 relevant frames to avoid noise.
+
+## Single-Value vs Multi-Line Assertions
+
+1. **Single-value comparison**: When both actual and expected are single strings (not multi-line), use compact format:
+   ```
+   Expected: "some value"
+   Actual:   "other value"
+   ```
+   Do NOT use the full line-by-line diff block for single values.
+
+2. **Multi-line comparison**: Use the standard `LineDiff` format with aligned labels:
+   ```
+     Line   2 [MISMATCH]:
+         actual   : `isDefined : true`
+         expected : `isDefined : false`
+   ```
+
+## Alignment
+
+- `actual` and `expected` labels in diff output must be left-aligned to the same column.
+- Use consistent indentation (spaces, not tabs) in diagnostic blocks.
+
+## Test Title Encoding
+
+- Test titles must use ASCII-safe characters only.
+- Use `--` or `-` instead of em dashes (`—`) to avoid encoding issues on Windows terminals.
+
+## Nil-Safety in Once Types
+
+- All `*Once.Value()` methods must guard against nil `initializerFunc`.
+- If `initializerFunc` is nil, return the zero value and mark as initialized.
+
+## Map Expected Output
+
+- When map comparison fails, the expected values section should show values in a format that is directly copy-pasteable into `_testcases.go`:
+  ```
+  "key": value,
+  ```
