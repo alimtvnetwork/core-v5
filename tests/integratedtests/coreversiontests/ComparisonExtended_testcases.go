@@ -196,7 +196,7 @@ var isLowerTestCases = []coretestcases.CaseV1{
 
 var isExpectedVersionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsExpectedVersion returns true for matching Equal expectation",
+		Title: "IsExpectedVersion returns true -- equal versions v0.0.1 with Equal expectation",
 		ArrangeInput: args.Map{
 			"when":     "given equal versions with Equal expectation",
 			"left":     "v0.0.1",
@@ -208,7 +208,7 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsExpectedVersion returns true for matching LeftGreater expectation",
+		Title: "IsExpectedVersion returns true -- v3.0 vs v0.2.1 with LeftGreater expectation",
 		ArrangeInput: args.Map{
 			"when":     "given left greater with LeftGreater expectation",
 			"left":     "v3.0",
@@ -220,7 +220,7 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsExpectedVersion returns false for mismatched expectation",
+		Title: "IsExpectedVersion returns false -- equal versions v4 vs v4.0 with LeftGreater expectation",
 		ArrangeInput: args.Map{
 			"when":     "given equal versions with LeftGreater expectation",
 			"left":     "v4",

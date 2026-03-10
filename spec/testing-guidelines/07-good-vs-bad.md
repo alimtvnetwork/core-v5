@@ -293,3 +293,35 @@ ExpectedInput: args.Map{"name": "Alice", "age": 30, "isActive": true, "role": "a
 | Indexed slice access `tc[0]` | Fragile | Use named variables or loop with index |
 | Multiple scenarios per function | Unclear which failed | Split into separate functions |
 | Missing AAA comments | Unclear structure | Add `// Arrange`, `// Act`, `// Assert` |
+| Vague title without input context | Can't diagnose from title alone | Include key input in title |
+
+---
+
+## Test Case Title Guidelines
+
+Titles MUST be self-documenting: when a test fails, the title alone should tell you
+**what was provided** and **what went wrong**.
+
+### ✅ Good Titles (include input context)
+
+```
+"IsExpectedVersion returns false -- equal versions v4 vs v4.0 with LeftGreater expectation"
+"ValueBool returns true -- given bool true input"
+"VerifySimple returns error -- mismatched segment range 0-2"
+```
+
+### ❌ Bad Titles (vague, no input context)
+
+```
+"IsExpectedVersion returns false for mismatched expectation"
+"ValueBool returns true"
+"Mismatch returns error"
+"Matching returns nil error"
+```
+
+### Rules
+
+1. Title must mention the **function/method** being tested.
+2. Title must include a `--` separator followed by a brief **input description**.
+3. Avoid generic words like "mismatched", "matching", "correct" without specifying WHAT.
+4. When inputs are simple values (e.g., "v4", `true`), include them directly in the title.

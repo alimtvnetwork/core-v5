@@ -127,7 +127,7 @@ var rangeSegmentsValidatorVerifyAllTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifySimpleTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Matching returns nil error",
+		Title: "VerifySimple returns nil -- matching segment range 1-3",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "simple-match",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -137,7 +137,7 @@ var rangeSegmentsValidatorVerifySimpleTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "VerifySimple returns error -- mismatched segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "simple-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -154,7 +154,7 @@ var rangeSegmentsValidatorVerifySimpleTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifyFirstTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Matching returns nil error",
+		Title: "VerifyFirst returns nil -- matching segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "first-match",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -164,7 +164,7 @@ var rangeSegmentsValidatorVerifyFirstTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "VerifyFirst returns error -- mismatched segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "first-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -191,7 +191,7 @@ var rangeSegmentsValidatorVerifyUptoTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "VerifyUpto returns error -- mismatched segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "upto-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{

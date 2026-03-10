@@ -310,7 +310,7 @@ var dynamicValueIntTestCases = []coretestcases.CaseV1{
 
 var dynamicValueBoolTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ValueBool returns true",
+		Title: "ValueBool returns true -- given bool true input",
 		ArrangeInput: dynamicInputMap{
 			InputData: true,
 			IsValid:   true,
@@ -318,7 +318,7 @@ var dynamicValueBoolTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "ValueBool returns false for non-bool",
+		Title: "ValueBool returns false -- given string x input",
 		ArrangeInput: dynamicInputMap{
 			InputData: "x",
 			IsValid:   true,
