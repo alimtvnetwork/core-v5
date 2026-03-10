@@ -2,6 +2,7 @@ package coretests
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 	"testing"
 
