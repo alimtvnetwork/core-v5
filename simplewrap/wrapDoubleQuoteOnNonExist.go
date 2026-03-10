@@ -1,6 +1,6 @@
 package simplewrap
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func wrapDoubleQuoteByExistenceCheck(
 	inputSlice []string,

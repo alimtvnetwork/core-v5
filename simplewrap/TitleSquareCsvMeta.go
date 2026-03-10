@@ -1,6 +1,6 @@
 package simplewrap
 
-import "gitlab.com/auk-go/core/internal/csvinternal"
+import "github.com/alimtvnetwork/core/internal/csvinternal"
 
 // TitleSquareCsvMeta
 //
