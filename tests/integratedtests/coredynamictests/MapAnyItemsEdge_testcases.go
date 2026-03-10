@@ -147,17 +147,7 @@ var mapAnyItemsIsEqualRawMatchingTestCase = coretestcases.CaseV1{
 // MapAnyItems — ClonePtr
 // ==========================================
 
-var mapAnyItemsClonePtrNilTestCase = coretestcases.CaseV1{
-	Title: "ClonePtr - nil receiver should return nil and error",
-	ArrangeInput: args.Map{
-		"when":    "receiver is nil",
-		"leftNil": true,
-	},
-	ExpectedInput: args.Map{
-		"hasError":   true,
-		"cloneIsNil": true,
-	},
-}
+// Note: ClonePtr nil receiver test case migrated to MapAnyItemsEdge_NilReceiver_testcases.go.
 
 var mapAnyItemsClonePtrValidTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr - valid data should clone successfully",
