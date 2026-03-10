@@ -2,7 +2,6 @@ package errcore
 
 import (
 	"fmt"
-	"log/slog"
 )
 
 // PrintDiffOnMismatch prints a formatted diff diagnostic block

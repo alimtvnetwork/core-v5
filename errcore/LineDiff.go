@@ -204,7 +204,7 @@ func PrintErrorLineDiff(
 ) {
 	msg := ErrorToLinesLineDiff(caseIndex, header, err, expectedLines)
 	if len(msg) > 0 {
-		slog.Warn("error line diff", "caseIndex", caseIndex, "header", header, "diff", msg)
+		fmt.Print(msg)
 	}
 }
 
