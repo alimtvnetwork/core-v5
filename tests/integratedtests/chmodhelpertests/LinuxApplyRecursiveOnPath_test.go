@@ -5,8 +5,8 @@ import (
 
 	"github.com/alimtvnetwork/core/chmodhelper"
 	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/tests/testwrappers/chmodhelpertestwrappers"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
 )
 
 func Test_LinuxApplyRecursiveOnPath_Unix(t *testing.T) {
