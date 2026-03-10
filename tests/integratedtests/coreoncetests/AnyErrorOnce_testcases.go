@@ -8,7 +8,7 @@ import (
 )
 
 // =============================================================================
-// AnyErrorOnce — Core
+// AnyErrorOnce -- Core
 // =============================================================================
 
 type anyErrorOnceTestCase struct {
@@ -20,7 +20,7 @@ type anyErrorOnceTestCase struct {
 var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce 'hello'/nil — no error, not null, isDefined",
+			Title: "AnyErrorOnce 'hello'/nil -- no error, not null, isDefined",
 			ExpectedInput: args.Map{
 				"hasError":   false,
 				"isValid":    true,
@@ -37,7 +37,7 @@ var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce nil/nil — isNull, isEmpty",
+			Title: "AnyErrorOnce nil/nil -- isNull, isEmpty",
 			ExpectedInput: args.Map{
 				"hasError":   false,
 				"isValid":    true,
@@ -54,7 +54,7 @@ var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce nil/error — hasError, isFailed",
+			Title: "AnyErrorOnce nil/error -- hasError, isFailed",
 			ExpectedInput: args.Map{
 				"hasError":   true,
 				"isValid":    false,
@@ -72,13 +72,13 @@ var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 }
 
 // =============================================================================
-// AnyErrorOnce — Caching
+// AnyErrorOnce -- Caching
 // =============================================================================
 
 var anyErrorOnceCachingTestCases = []anyErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce.Value caches — initializer runs once",
+			Title: "AnyErrorOnce.Value caches -- initializer runs once",
 			ExpectedInput: args.Map{
 				"callCount":      1,
 				"executeEqValue": true,
@@ -89,7 +89,7 @@ var anyErrorOnceCachingTestCases = []anyErrorOnceTestCase{
 }
 
 // =============================================================================
-// AnyErrorOnce — ValueMust / ExecuteMust
+// AnyErrorOnce -- ValueMust / ExecuteMust
 // =============================================================================
 
 var anyErrorOnceMustSuccessTestCase = anyErrorOnceTestCase{
@@ -113,12 +113,12 @@ var anyErrorOnceMustPanicTestCase = anyErrorOnceTestCase{
 }
 
 // =============================================================================
-// AnyErrorOnce — Cast
+// AnyErrorOnce -- Cast
 // =============================================================================
 
 var anyErrorOnceCastStringTestCase = anyErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyErrorOnce 'cast' — CastValueString succeeds",
+		Title: "AnyErrorOnce 'cast' -- CastValueString succeeds",
 		ExpectedInput: args.Map{
 			"castValue":   "cast",
 			"castSuccess": true,
@@ -129,13 +129,13 @@ var anyErrorOnceCastStringTestCase = anyErrorOnceTestCase{
 }
 
 // =============================================================================
-// AnyErrorOnce — JSON
+// AnyErrorOnce -- JSON
 // =============================================================================
 
 var anyErrorOnceJsonTestCases = []anyErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce 'json' — Serialize succeeds",
+			Title: "AnyErrorOnce 'json' -- Serialize succeeds",
 			ExpectedInput: args.Map{
 				"noError":             true,
 				"dataLengthAboveZero": true,
@@ -145,7 +145,7 @@ var anyErrorOnceJsonTestCases = []anyErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce with error — Serialize returns error",
+			Title: "AnyErrorOnce with error -- Serialize returns error",
 			ExpectedInput: args.Map{
 				"hasError": true,
 			},
@@ -155,7 +155,7 @@ var anyErrorOnceJsonTestCases = []anyErrorOnceTestCase{
 }
 
 // =============================================================================
-// AnyErrorOnce — Constructor
+// AnyErrorOnce -- Constructor
 // =============================================================================
 
 var anyErrorOnceConstructorTestCases = []anyErrorOnceTestCase{

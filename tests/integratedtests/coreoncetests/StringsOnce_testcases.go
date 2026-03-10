@@ -6,7 +6,7 @@ import (
 )
 
 // =============================================================================
-// StringsOnce — Core
+// StringsOnce -- Core
 // =============================================================================
 
 type stringsOnceTestCase struct {
@@ -17,7 +17,7 @@ type stringsOnceTestCase struct {
 var stringsOnceCoreTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b,c] — Length 3, not empty",
+			Title: "StringsOnce [a,b,c] -- Length 3, not empty",
 			ExpectedInput: args.Map{
 				"length":     3,
 				"isEmpty":    false,
@@ -28,7 +28,7 @@ var stringsOnceCoreTestCases = []stringsOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce empty — Length 0, isEmpty true",
+			Title: "StringsOnce empty -- Length 0, isEmpty true",
 			ExpectedInput: args.Map{
 				"length":     0,
 				"isEmpty":    true,
@@ -39,7 +39,7 @@ var stringsOnceCoreTestCases = []stringsOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce nil — Length 0, isEmpty true",
+			Title: "StringsOnce nil -- Length 0, isEmpty true",
 			ExpectedInput: args.Map{
 				"length":     0,
 				"isEmpty":    true,
@@ -51,13 +51,13 @@ var stringsOnceCoreTestCases = []stringsOnceTestCase{
 }
 
 // =============================================================================
-// StringsOnce — Contains / Has / HasAll
+// StringsOnce -- Contains / Has / HasAll
 // =============================================================================
 
 var stringsOnceContainsTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [x,y,z] — Has/IsContains/HasAll",
+			Title: "StringsOnce [x,y,z] -- Has/IsContains/HasAll",
 			ExpectedInput: args.Map{
 				"hasX":       true,
 				"containsY":  true,
@@ -71,13 +71,13 @@ var stringsOnceContainsTestCases = []stringsOnceTestCase{
 }
 
 // =============================================================================
-// StringsOnce — Sorted
+// StringsOnce -- Sorted
 // =============================================================================
 
 var stringsOnceSortedTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [c,a,b] — Sorted returns [a,b,c]",
+			Title: "StringsOnce [c,a,b] -- Sorted returns [a,b,c]",
 			ExpectedInput: args.Map{
 				"first": "a",
 				"last":  "c",
@@ -88,13 +88,13 @@ var stringsOnceSortedTestCases = []stringsOnceTestCase{
 }
 
 // =============================================================================
-// StringsOnce — UniqueMap / RangesMap
+// StringsOnce -- UniqueMap / RangesMap
 // =============================================================================
 
 var stringsOnceMapTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b,a] — UniqueMap has 2 keys, RangesMap has 2",
+			Title: "StringsOnce [a,b,a] -- UniqueMap has 2 keys, RangesMap has 2",
 			ExpectedInput: args.Map{
 				"uniqueLen":    2,
 				"rangesMapLen": 2,
@@ -107,13 +107,13 @@ var stringsOnceMapTestCases = []stringsOnceTestCase{
 }
 
 // =============================================================================
-// StringsOnce — IsEqual
+// StringsOnce -- IsEqual
 // =============================================================================
 
 var stringsOnceIsEqualTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b] — IsEqual same true, different false",
+			Title: "StringsOnce [a,b] -- IsEqual same true, different false",
 			ExpectedInput: args.Map{
 				"isEqualSame":    true,
 				"isEqualDiff":    false,
@@ -125,13 +125,13 @@ var stringsOnceIsEqualTestCases = []stringsOnceTestCase{
 }
 
 // =============================================================================
-// StringsOnce — Caching
+// StringsOnce -- Caching
 // =============================================================================
 
 var stringsOnceCachingTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce.Value caches — initializer runs once",
+			Title: "StringsOnce.Value caches -- initializer runs once",
 			ExpectedInput: args.Map{
 				"callCount": 1,
 				"length":    2,
@@ -142,13 +142,13 @@ var stringsOnceCachingTestCases = []stringsOnceTestCase{
 }
 
 // =============================================================================
-// StringsOnce — JSON
+// StringsOnce -- JSON
 // =============================================================================
 
 var stringsOnceJsonTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b] — MarshalJSON returns '[\"a\",\"b\"]'",
+			Title: "StringsOnce [a,b] -- MarshalJSON returns '[\"a\",\"b\"]'",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "[\"a\",\"b\"]",
@@ -159,7 +159,7 @@ var stringsOnceJsonTestCases = []stringsOnceTestCase{
 }
 
 // =============================================================================
-// StringsOnce — Constructor
+// StringsOnce -- Constructor
 // =============================================================================
 
 var stringsOnceConstructorTestCases = []stringsOnceTestCase{

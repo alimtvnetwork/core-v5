@@ -6,7 +6,7 @@ import (
 )
 
 // =============================================================================
-// AnyOnce — Core
+// AnyOnce -- Core
 // =============================================================================
 
 type anyOnceTestCase struct {
@@ -17,7 +17,7 @@ type anyOnceTestCase struct {
 var anyOnceCoreTestCases = []anyOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyOnce 'hello' — Value returns string, IsNull false",
+			Title: "AnyOnce 'hello' -- Value returns string, IsNull false",
 			ExpectedInput: args.Map{
 				"isNull":                    false,
 				"isStringEmpty":             false,
@@ -29,7 +29,7 @@ var anyOnceCoreTestCases = []anyOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyOnce nil — IsNull true, String empty",
+			Title: "AnyOnce nil -- IsNull true, String empty",
 			ExpectedInput: args.Map{
 				"isNull":                    true,
 				"isStringEmpty":             true,
@@ -41,7 +41,7 @@ var anyOnceCoreTestCases = []anyOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyOnce 42 — Value returns int, not null",
+			Title: "AnyOnce 42 -- Value returns int, not null",
 			ExpectedInput: args.Map{
 				"isNull":                    false,
 				"isStringEmpty":             false,
@@ -54,12 +54,12 @@ var anyOnceCoreTestCases = []anyOnceTestCase{
 }
 
 // =============================================================================
-// AnyOnce — Cast methods
+// AnyOnce -- Cast methods
 // =============================================================================
 
 var anyOnceCastStringTestCase = anyOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyOnce 'cast-me' — CastValueString succeeds",
+		Title: "AnyOnce 'cast-me' -- CastValueString succeeds",
 		ExpectedInput: args.Map{
 			"castValue":   "cast-me",
 			"castSuccess": true,
@@ -70,7 +70,7 @@ var anyOnceCastStringTestCase = anyOnceTestCase{
 
 var anyOnceCastStringsTestCase = anyOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyOnce []string — CastValueStrings succeeds",
+		Title: "AnyOnce []string -- CastValueStrings succeeds",
 		ExpectedInput: args.Map{
 			"castLen":     2,
 			"castSuccess": true,
@@ -81,7 +81,7 @@ var anyOnceCastStringsTestCase = anyOnceTestCase{
 
 var anyOnceCastBytesTestCase = anyOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyOnce []byte — CastValueBytes succeeds",
+		Title: "AnyOnce []byte -- CastValueBytes succeeds",
 		ExpectedInput: args.Map{
 			"castLen":     5,
 			"castSuccess": true,
@@ -92,7 +92,7 @@ var anyOnceCastBytesTestCase = anyOnceTestCase{
 
 var anyOnceCastMapTestCase = anyOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyOnce map[string]string — CastValueHashmapMap succeeds",
+		Title: "AnyOnce map[string]string -- CastValueHashmapMap succeeds",
 		ExpectedInput: args.Map{
 			"castLen":     1,
 			"castSuccess": true,
@@ -102,13 +102,13 @@ var anyOnceCastMapTestCase = anyOnceTestCase{
 }
 
 // =============================================================================
-// AnyOnce — Caching
+// AnyOnce -- Caching
 // =============================================================================
 
 var anyOnceCachingTestCases = []anyOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyOnce.Value caches — initializer runs once",
+			Title: "AnyOnce.Value caches -- initializer runs once",
 			ExpectedInput: args.Map{
 				"callCount": 1,
 			},
@@ -118,13 +118,13 @@ var anyOnceCachingTestCases = []anyOnceTestCase{
 }
 
 // =============================================================================
-// AnyOnce — JSON
+// AnyOnce -- JSON
 // =============================================================================
 
 var anyOnceJsonTestCases = []anyOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyOnce 'json' — Serialize succeeds",
+			Title: "AnyOnce 'json' -- Serialize succeeds",
 			ExpectedInput: args.Map{
 				"noError":             true,
 				"dataLengthAboveZero": true,
@@ -135,7 +135,7 @@ var anyOnceJsonTestCases = []anyOnceTestCase{
 }
 
 // =============================================================================
-// AnyOnce — Constructor
+// AnyOnce -- Constructor
 // =============================================================================
 
 var anyOnceConstructorTestCases = []anyOnceTestCase{

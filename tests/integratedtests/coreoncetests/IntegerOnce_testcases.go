@@ -6,7 +6,7 @@ import (
 )
 
 // =============================================================================
-// IntegerOnce — Core (Value + String + comparisons)
+// IntegerOnce -- Core (Value + String + comparisons)
 // =============================================================================
 
 type integerOnceTestCase struct {
@@ -17,7 +17,7 @@ type integerOnceTestCase struct {
 var integerOnceCoreTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 0 — IsZero, IsEmpty, String '0'",
+			Title: "IntegerOnce 0 -- IsZero, IsEmpty, String '0'",
 			ExpectedInput: args.Map{
 				"value":          0,
 				"string":         "0",
@@ -33,7 +33,7 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 42 — positive, not zero",
+			Title: "IntegerOnce 42 -- positive, not zero",
 			ExpectedInput: args.Map{
 				"value":          42,
 				"string":         "42",
@@ -49,7 +49,7 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce -3 — negative, not zero",
+			Title: "IntegerOnce -3 -- negative, not zero",
 			ExpectedInput: args.Map{
 				"value":          -3,
 				"string":         "-3",
@@ -66,13 +66,13 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 }
 
 // =============================================================================
-// IntegerOnce — Caching
+// IntegerOnce -- Caching
 // =============================================================================
 
 var integerOnceCachingTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce.Value caches — initializer runs exactly once",
+			Title: "IntegerOnce.Value caches -- initializer runs exactly once",
 			ExpectedInput: args.Map{
 				"r1":        42,
 				"r2":        42,
@@ -84,7 +84,7 @@ var integerOnceCachingTestCases = []integerOnceTestCase{
 }
 
 // =============================================================================
-// IntegerOnce — Comparisons (IsAbove, IsLessThan)
+// IntegerOnce -- Comparisons (IsAbove, IsLessThan)
 // =============================================================================
 
 type integerOnceCompareTestCase struct {
@@ -96,7 +96,7 @@ type integerOnceCompareTestCase struct {
 var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 10 — IsAbove(5), IsAboveEqual(10)",
+			Title: "IntegerOnce 10 -- IsAbove(5), IsAboveEqual(10)",
 			ExpectedInput: args.Map{
 				"isAboveCompare":   true,
 				"isAboveSelf":      false,
@@ -108,7 +108,7 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 3 — IsLessThan(5), IsLessThanEqual(3)",
+			Title: "IntegerOnce 3 -- IsLessThan(5), IsLessThanEqual(3)",
 			ExpectedInput: args.Map{
 				"isLessThanCompare":   true,
 				"isLessThanSelf":      false,
@@ -121,13 +121,13 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 }
 
 // =============================================================================
-// IntegerOnce — JSON
+// IntegerOnce -- JSON
 // =============================================================================
 
 var integerOnceJsonTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 42 — MarshalJSON returns '42'",
+			Title: "IntegerOnce 42 -- MarshalJSON returns '42'",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "42",

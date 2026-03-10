@@ -6,7 +6,7 @@ import (
 )
 
 // =============================================================================
-// IntegersOnce — Core
+// IntegersOnce -- Core
 // =============================================================================
 
 type integersOnceTestCase struct {
@@ -17,7 +17,7 @@ type integersOnceTestCase struct {
 var integersOnceCoreTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [3,1,2] — Length 3, not empty",
+			Title: "IntegersOnce [3,1,2] -- Length 3, not empty",
 			ExpectedInput: args.Map{
 				"length":  3,
 				"isEmpty": false,
@@ -28,7 +28,7 @@ var integersOnceCoreTestCases = []integersOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce empty — Length 0, isEmpty true",
+			Title: "IntegersOnce empty -- Length 0, isEmpty true",
 			ExpectedInput: args.Map{
 				"length":  0,
 				"isEmpty": true,
@@ -39,7 +39,7 @@ var integersOnceCoreTestCases = []integersOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce nil — Length 0, isEmpty true",
+			Title: "IntegersOnce nil -- Length 0, isEmpty true",
 			ExpectedInput: args.Map{
 				"length":  0,
 				"isEmpty": true,
@@ -51,13 +51,13 @@ var integersOnceCoreTestCases = []integersOnceTestCase{
 }
 
 // =============================================================================
-// IntegersOnce — Sorted
+// IntegersOnce -- Sorted
 // =============================================================================
 
 var integersOnceSortedTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [3,1,2] — Sorted returns [1,2,3]",
+			Title: "IntegersOnce [3,1,2] -- Sorted returns [1,2,3]",
 			ExpectedInput: args.Map{
 				"first": 1,
 				"last":  3,
@@ -68,13 +68,13 @@ var integersOnceSortedTestCases = []integersOnceTestCase{
 }
 
 // =============================================================================
-// IntegersOnce — RangesMap / RangesBoolMap
+// IntegersOnce -- RangesMap / RangesBoolMap
 // =============================================================================
 
 var integersOnceRangesTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [10,20,30] — RangesMap and RangesBoolMap",
+			Title: "IntegersOnce [10,20,30] -- RangesMap and RangesBoolMap",
 			ExpectedInput: args.Map{
 				"rangesMapLength":    3,
 				"rangesBoolMapLen":   3,
@@ -87,7 +87,7 @@ var integersOnceRangesTestCases = []integersOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce empty — RangesMap empty",
+			Title: "IntegersOnce empty -- RangesMap empty",
 			ExpectedInput: args.Map{
 				"rangesMapLength":    0,
 				"rangesBoolMapLen":   0,
@@ -101,13 +101,13 @@ var integersOnceRangesTestCases = []integersOnceTestCase{
 }
 
 // =============================================================================
-// IntegersOnce — IsEqual
+// IntegersOnce -- IsEqual
 // =============================================================================
 
 var integersOnceIsEqualTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [1,2,3] — IsEqual same true, different false",
+			Title: "IntegersOnce [1,2,3] -- IsEqual same true, different false",
 			ExpectedInput: args.Map{
 				"isEqualSame":    true,
 				"isEqualDiff":    false,
@@ -119,13 +119,13 @@ var integersOnceIsEqualTestCases = []integersOnceTestCase{
 }
 
 // =============================================================================
-// IntegersOnce — Caching
+// IntegersOnce -- Caching
 // =============================================================================
 
 var integersOnceCachingTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce.Value caches — initializer runs once",
+			Title: "IntegersOnce.Value caches -- initializer runs once",
 			ExpectedInput: args.Map{
 				"callCount": 1,
 				"length":    2,
@@ -136,13 +136,13 @@ var integersOnceCachingTestCases = []integersOnceTestCase{
 }
 
 // =============================================================================
-// IntegersOnce — JSON
+// IntegersOnce -- JSON
 // =============================================================================
 
 var integersOnceJsonTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [1,2] — MarshalJSON returns '[1,2]'",
+			Title: "IntegersOnce [1,2] -- MarshalJSON returns '[1,2]'",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "[1,2]",
@@ -153,7 +153,7 @@ var integersOnceJsonTestCases = []integersOnceTestCase{
 }
 
 // =============================================================================
-// IntegersOnce — Constructor
+// IntegersOnce -- Constructor
 // =============================================================================
 
 var integersOnceConstructorTestCases = []integersOnceTestCase{
