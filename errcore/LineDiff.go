@@ -141,7 +141,7 @@ func PrintLineDiff(
 ) {
 	msg := LineDiffToString(caseIndex, header, actual, expected)
 	if len(msg) > 0 {
-		slog.Warn("line diff", "caseIndex", caseIndex, "header", header, "diff", msg)
+		fmt.Print(msg)
 	}
 }
 
