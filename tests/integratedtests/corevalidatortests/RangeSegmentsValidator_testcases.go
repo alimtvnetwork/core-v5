@@ -154,7 +154,7 @@ var rangeSegmentsValidatorVerifySimpleTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifyFirstTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Matching returns nil error",
+		Title: "VerifyFirst returns nil -- matching segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "first-match",
 			VerifierSegments: []corevalidator.RangesSegment{
