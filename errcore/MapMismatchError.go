@@ -45,7 +45,8 @@ func MapMismatchError(
 	// Actual block
 	sb.WriteString(mapSeparator + "\n")
 	sb.WriteString(fmt.Sprintf(
-		"Actual Received (%d entries):\n",
+		"Actual Received (Case %d, %d entries):\n",
+		caseIndex,
 		len(actualGoLiteralLines),
 	))
 	sb.WriteString(fmt.Sprintf("    %s\n", title))
