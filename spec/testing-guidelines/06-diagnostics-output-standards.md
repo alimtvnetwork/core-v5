@@ -39,15 +39,22 @@
 
 ## Map Expected Output
 
-- When map comparison fails, each block (Actual Received, Expected Input) MUST be
-  wrapped in separator headers (`============================>`).
+- When map comparison fails, a header line MUST appear first showing the test function name,
+  case index, and case title:
+  ```
+  Map Mismatch (TestFuncName, Case 1: Case Title)
+  ```
+- Each block (Actual Received, Expected Input) MUST be wrapped in separator headers
+  (`============================>`).
 - The case title MUST appear under the section label, indented with 4 spaces.
 - Each entry must be on its own line, tab-indented, in Go literal format.
 - Do NOT use indexed numbering (`0:`, `1:`, etc.) before entries.
 - Format:
   ```
+  Map Mismatch (TestFuncName, Case 1: Case Title)
+
   ============================>
-  Actual Received (2 entries):
+  1) Actual Received (2 entries):
       Case Title
   ============================>
   	"containsName": false,
@@ -55,7 +62,7 @@
   ============================>
 
   ============================>
-  Expected Input (1 entries):
+  1) Expected Input (1 entries):
       Case Title
   ============================>
   	"hasError": false,
