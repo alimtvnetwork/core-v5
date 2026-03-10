@@ -20,7 +20,8 @@ to read as distinct items.
 ```
 
 Entries are shown in opaque `"key : value",` format instead of per-item
-Go literal format.
+Go literal format, and header separators (`============================>`)
+were removed during initial fix.
 
 ## Root Cause
 
@@ -30,17 +31,30 @@ for formatting. This wraps each compiled line in double quotes with commas,
 which is designed for generic string slice comparison but is unsuitable for
 map diagnostics where copy-pasteability matters.
 
+During the initial fix, the separator headers (`============================>`)
+were removed entirely, breaking the visual structure that distinguishes the
+Actual and Expected blocks.
+
 ## Fix
 
 1. Created `errcore/MapMismatchError.go` — formats map mismatches with
-   tab-indented Go literal lines, showing each entry on its own line:
+   tab-indented Go literal lines, each entry on its own line, wrapped in
+   separator headers (`============================>`):
    ```
+   ============================>
    Actual Received (2 entries):
+       Case Title
+   ============================>
    	"containsName": false,
    	"hasError":      false,
+   ============================>
 
+   ============================>
    Expected Input (1 entries):
+       Case Title
+   ============================>
    	"hasError": false,
+   ============================>
    ```
 
 2. Modified `CaseV1MapAssertions.go` — `ShouldBeEqualMap` now handles the full
@@ -54,10 +68,12 @@ map diagnostics where copy-pasteability matters.
 - Do NOT use indexed numbering (`0:`, `1:`, etc.) in diagnostic output lines.
 - Use tab indentation for each entry line.
 - Each entry must be on its own line in Go literal format (`"key": value,`).
+- Separator headers (`============================>`) MUST wrap each block.
+- Title MUST appear under the section label, indented with 4 spaces.
 
 ## Affected Files
 
-- `errcore/MapMismatchError.go` — new, map-specific diagnostic formatter
+- `errcore/MapMismatchError.go` — map-specific diagnostic formatter
 - `coretests/coretestcases/CaseV1MapAssertions.go` — primary fix location
 
 ## Spec Reference

@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+const mapSeparator = "============================>"
+
 // MapMismatchError builds a diagnostic error for map assertion failures.
 //
 // Each map entry is shown on its own line with tab indentation in Go literal
@@ -12,14 +14,20 @@ import (
 //
 // Output format:
 //
-//	Map Mismatch (Case 0: title)
-//
+//	============================>
 //	Actual Received (2 entries):
-//	  "containsName": false,
-//	  "hasError":      false,
+//	    Case Title
+//	============================>
+//		"containsName": false,
+//		"hasError":      false,
+//	============================>
 //
+//	============================>
 //	Expected Input (1 entries):
-//	  "hasError": false,
+//	    Case Title
+//	============================>
+//		"hasError": false,
+//	============================>
 func MapMismatchError(
 	caseIndex int,
 	title string,
@@ -34,10 +42,14 @@ func MapMismatchError(
 		title,
 	))
 
+	// Actual block
+	sb.WriteString(mapSeparator + "\n")
 	sb.WriteString(fmt.Sprintf(
 		"Actual Received (%d entries):\n",
 		len(actualGoLiteralLines),
 	))
+	sb.WriteString(fmt.Sprintf("    %s\n", title))
+	sb.WriteString(mapSeparator + "\n")
 
 	for _, line := range actualGoLiteralLines {
 		sb.WriteString("\t")
@@ -45,16 +57,25 @@ func MapMismatchError(
 		sb.WriteString("\n")
 	}
 
+	sb.WriteString(mapSeparator + "\n")
+
+	// Expected block
+	sb.WriteString("\n")
+	sb.WriteString(mapSeparator + "\n")
 	sb.WriteString(fmt.Sprintf(
-		"\nExpected Input (%d entries):\n",
+		"Expected Input (%d entries):\n",
 		len(expectedGoLiteralLines),
 	))
+	sb.WriteString(fmt.Sprintf("    %s\n", title))
+	sb.WriteString(mapSeparator + "\n")
 
 	for _, line := range expectedGoLiteralLines {
 		sb.WriteString("\t")
 		sb.WriteString(line)
 		sb.WriteString("\n")
 	}
+
+	sb.WriteString(mapSeparator + "\n")
 
 	return sb.String()
 }
