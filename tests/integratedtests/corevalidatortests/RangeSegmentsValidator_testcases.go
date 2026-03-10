@@ -127,7 +127,7 @@ var rangeSegmentsValidatorVerifyAllTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifySimpleTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Matching returns nil error",
+		Title: "VerifySimple returns nil -- matching segment range 1-3",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "simple-match",
 			VerifierSegments: []corevalidator.RangesSegment{
