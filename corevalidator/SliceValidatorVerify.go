@@ -246,22 +246,51 @@ func (it *SliceValidator) initialVerifyError(
 		it.ExpectedLines == nil
 
 	if isAnyNilCase {
-		return errcore.ExpectingErrorSimpleNoTypeNewLineEnds(
+		return it.compactOrFullMismatchError(
 			"ActualLines, ExpectedLines any is nil and other is not.",
-			it.ActualLines,
-			it.ExpectedLines,
 		)
 	}
 
 	if !it.isLengthOkay(lengthUpto) {
-		return errcore.ExpectingErrorSimpleNoTypeNewLineEnds(
+		return it.compactOrFullMismatchError(
 			"ActualLines, ExpectedLines Length is not equal.",
-			len(it.ActualLines),
-			len(it.ExpectedLines),
 		)
 	}
 
 	return nil
+}
+
+// compactOrFullMismatchError returns a compact error for single-value
+// comparisons and the standard verbose error for multi-line comparisons.
+func (it *SliceValidator) compactOrFullMismatchError(
+	header string,
+) error {
+	isSingleValue := len(it.ActualLines) <= 1 && len(it.ExpectedLines) <= 1
+
+	if isSingleValue {
+		actualVal := ""
+		expectedVal := ""
+
+		if len(it.ActualLines) == 1 {
+			actualVal = it.ActualLines[0]
+		}
+
+		if len(it.ExpectedLines) == 1 {
+			expectedVal = it.ExpectedLines[0]
+		}
+
+		return errcore.ExpectingErrorSimpleNoTypeNewLineEnds(
+			header,
+			actualVal,
+			expectedVal,
+		)
+	}
+
+	return errcore.ExpectingErrorSimpleNoTypeNewLineEnds(
+		header,
+		len(it.ActualLines),
+		len(it.ExpectedLines),
+	)
 }
 
 func (it *SliceValidator) initialVerifyErrorWithMerged(
