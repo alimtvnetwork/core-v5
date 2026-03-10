@@ -155,33 +155,7 @@ func Test_MapAnyItems_IsEqual_BothEmpty(t *testing.T) {
 // IsEqualRaw — named tests
 // ==========================================
 
-func Test_MapAnyItems_IsEqualRaw_NilReceiver(t *testing.T) {
-	tc := mapAnyItemsIsEqualRawNilReceiverTestCase
-	input := tc.ArrangeInput.(args.Map)
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-	rawMap := input["rightMap"].(map[string]any)
-
-	// Act
-	actual := args.Map{"isEqualRaw": m.IsEqualRaw(rawMap)}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
-
-func Test_MapAnyItems_IsEqualRaw_BothNil(t *testing.T) {
-	tc := mapAnyItemsIsEqualRawBothNilTestCase
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	actual := args.Map{"isEqualRaw": m.IsEqualRaw(nil)}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: IsEqualRaw nil receiver tests migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_MapAnyItems_IsEqualRaw_Matching(t *testing.T) {
 	tc := mapAnyItemsIsEqualRawMatchingTestCase
