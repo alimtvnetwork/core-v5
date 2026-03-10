@@ -85,7 +85,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving (int) as a work func, doesn't panic but returns error.",
+			Title: "FuncWrap returns invalid error -- int WorkFunc instead of func",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
