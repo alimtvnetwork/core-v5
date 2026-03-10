@@ -176,6 +176,48 @@ func (it codeStack) StacksStringsCount(skipStack, count int) []string {
 	return lines
 }
 
+// StacksStringsFiltered returns stack trace lines filtered to exclude
+// Go standard library frames (runtime/, testing/, etc.).
+func (it codeStack) StacksStringsFiltered(skipStack, count int) []string {
+	goRoot := runtime.GOROOT()
+	fileWithLines := it.NewFileWithLines(
+		skipStack+defaultInternalSkip,
+		count+4, // fetch extra to compensate for filtered frames
+	)
+
+	lines := make([]string, 0, count)
+
+	for _, fileWithLine := range fileWithLines {
+		if isSystemLibraryPath(goRoot, fileWithLine.FilePath) {
+			continue
+		}
+
+		newLine := fmt.Sprintf(
+			fileWithLineFormat,
+			fileWithLine.FilePath,
+			fileWithLine.Line,
+		)
+
+		lines = append(lines, newLine)
+
+		if len(lines) >= count {
+			break
+		}
+	}
+
+	return lines
+}
+
+// isSystemLibraryPath returns true if the file path belongs to
+// Go standard library or runtime (under GOROOT).
+func isSystemLibraryPath(goRoot, filePath string) bool {
+	if goRoot != "" && strings.HasPrefix(filePath, goRoot) {
+		return true
+	}
+
+	return false
+}
+
 func (it codeStack) StacksString(skipStack int) string {
 	lines := it.StacksStrings(skipStack + defaultInternalSkip)
 

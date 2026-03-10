@@ -37,6 +37,12 @@ func (it *BytesOnce) Value() []byte {
 		return it.innerData
 	}
 
+	if it.initializerFunc == nil {
+		it.isInitialized = true
+
+		return it.innerData
+	}
+
 	it.innerData = it.initializerFunc()
 	it.isInitialized = true
 
