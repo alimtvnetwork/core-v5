@@ -1,8 +1,6 @@
 package coretestcases
 
 import (
-	"testing"
-
 	"errors"
 	"testing"
 
