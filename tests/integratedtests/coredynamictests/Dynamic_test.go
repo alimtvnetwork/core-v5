@@ -108,14 +108,7 @@ func Test_Dynamic_Clone(t *testing.T) {
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-func Test_Dynamic_ClonePtr_NilReceiver(t *testing.T) {
-	tc := dynamicClonePtrNilTestCase
-	var d *coredynamic.Dynamic
-
-	actLines := []string{fmt.Sprintf("%v", d.ClonePtr() == nil)}
-
-	tc.ShouldBeEqual(t, 0, actLines...)
-}
+// Note: ClonePtr nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_Dynamic_ClonePtr_Valid(t *testing.T) {
 	tc := dynamicClonePtrValidTestCase
