@@ -17,7 +17,7 @@ var (
 
 	funWrapCreationTestCases = []coretestcases.CaseV1{
 		{
-			Title: "someFunctionV1 => Calls dynamically with valid params, outputs as it should.",
+			Title: "FuncWrap returns correct output -- someFunctionV1 with valid params ('f1','f2','f3')",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
