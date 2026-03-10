@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`gitlab.com/auk-go/core` is a shared Go utility framework — the foundational package of the **auk-go** ecosystem. It provides reusable primitives, data structures, interfaces, converters, validators, file-system helpers, testing utilities, and code-generation tools that keep downstream packages DRY and consistent.
+`github.com/alimtvnetwork/core` is a shared Go utility framework — the foundational package of the **auk-go** ecosystem. It provides reusable primitives, data structures, interfaces, converters, validators, file-system helpers, testing utilities, and code-generation tools that keep downstream packages DRY and consistent.
 
 ## Who It Is For
 
@@ -96,7 +96,7 @@ make run-sample
 ### Installation as Dependency
 
 ```bash
-go get gitlab.com/auk-go/core
+go get github.com/alimtvnetwork/core
 ```
 
 ## How Specs Relate to README and cmd/README

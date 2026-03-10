@@ -1,6 +1,6 @@
 package coregeneric
 
-import "gitlab.com/auk-go/core/corecomparator"
+import "github.com/alimtvnetwork/core/corecomparator"
 
 // =============================================================================
 // Comparison — returns corecomparator.Compare enum

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coreappend"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreappend"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_PrependAppendAnyItems_Verification(t *testing.T) {

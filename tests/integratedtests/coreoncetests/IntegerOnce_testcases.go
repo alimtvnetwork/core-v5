@@ -1,8 +1,8 @@
 package coreoncetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -19,14 +19,14 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 0 — IsZero, IsEmpty, String '0'",
 			ExpectedInput: args.Map{
-				"value":         0,
-				"string":        "0",
-				"isZero":        true,
-				"isEmpty":       true,
-				"isAboveZero":   false,
-				"isPositive":    false,
+				"value":          0,
+				"string":         "0",
+				"isZero":         true,
+				"isEmpty":        true,
+				"isAboveZero":    false,
+				"isPositive":     false,
 				"isLessThanZero": false,
-				"isNegative":    false,
+				"isNegative":     false,
 			},
 		},
 		InitValue: 0,
@@ -35,14 +35,14 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 42 — positive, not zero",
 			ExpectedInput: args.Map{
-				"value":         42,
-				"string":        "42",
-				"isZero":        false,
-				"isEmpty":       false,
-				"isAboveZero":   true,
-				"isPositive":    true,
+				"value":          42,
+				"string":         "42",
+				"isZero":         false,
+				"isEmpty":        false,
+				"isAboveZero":    true,
+				"isPositive":     true,
 				"isLessThanZero": false,
-				"isNegative":    false,
+				"isNegative":     false,
 			},
 		},
 		InitValue: 42,
@@ -51,14 +51,14 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce -3 — negative, not zero",
 			ExpectedInput: args.Map{
-				"value":         -3,
-				"string":        "-3",
-				"isZero":        false,
-				"isEmpty":       false,
-				"isAboveZero":   false,
-				"isPositive":    false,
+				"value":          -3,
+				"string":         "-3",
+				"isZero":         false,
+				"isEmpty":        false,
+				"isAboveZero":    false,
+				"isPositive":     false,
 				"isLessThanZero": true,
-				"isNegative":    true,
+				"isNegative":     true,
 			},
 		},
 		InitValue: -3,
@@ -98,9 +98,9 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 10 — IsAbove(5), IsAboveEqual(10)",
 			ExpectedInput: args.Map{
-				"isAboveCompare":    true,
-				"isAboveSelf":       false,
-				"isAboveEqualSelf":  true,
+				"isAboveCompare":   true,
+				"isAboveSelf":      false,
+				"isAboveEqualSelf": true,
 			},
 		},
 		InitValue:    10,
@@ -110,9 +110,9 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "IntegerOnce 3 — IsLessThan(5), IsLessThanEqual(3)",
 			ExpectedInput: args.Map{
-				"isLessThanCompare":    true,
-				"isLessThanSelf":       false,
-				"isLessThanEqualSelf":  true,
+				"isLessThanCompare":   true,
+				"isLessThanSelf":      false,
+				"isLessThanEqualSelf": true,
 			},
 		},
 		InitValue:    3,

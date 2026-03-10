@@ -1,8 +1,8 @@
 package coreoncetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -76,11 +76,11 @@ var integersOnceRangesTestCases = []integersOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "IntegersOnce [10,20,30] — RangesMap and RangesBoolMap",
 			ExpectedInput: args.Map{
-				"rangesMapLength":     3,
-				"rangesBoolMapLen":    3,
-				"uniqueMapLen":        3,
-				"rangesMapHas10":      true,
-				"rangesBoolMapHas20":  true,
+				"rangesMapLength":    3,
+				"rangesBoolMapLen":   3,
+				"uniqueMapLen":       3,
+				"rangesMapHas10":     true,
+				"rangesBoolMapHas20": true,
 			},
 		},
 		InitValue: []int{10, 20, 30},
@@ -89,11 +89,11 @@ var integersOnceRangesTestCases = []integersOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "IntegersOnce empty — RangesMap empty",
 			ExpectedInput: args.Map{
-				"rangesMapLength":     0,
-				"rangesBoolMapLen":    0,
-				"uniqueMapLen":        0,
-				"rangesMapHas10":      false,
-				"rangesBoolMapHas20":  false,
+				"rangesMapLength":    0,
+				"rangesBoolMapLen":   0,
+				"uniqueMapLen":       0,
+				"rangesMapHas10":     false,
+				"rangesBoolMapHas20": false,
 			},
 		},
 		InitValue: []int{},

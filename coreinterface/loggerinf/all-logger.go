@@ -1,8 +1,8 @@
 package loggerinf
 
 import (
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/coreinterface/serializerinf"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/coreinterface/serializerinf"
 )
 
 type StandardLoggerGetter interface {

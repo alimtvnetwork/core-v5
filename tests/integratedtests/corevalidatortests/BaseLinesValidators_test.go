@@ -3,8 +3,8 @@ package corevalidatortests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 // ==========================================

@@ -3,8 +3,8 @@ package args
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // ArgsCount returns the number of input arguments the wrapped function expects.

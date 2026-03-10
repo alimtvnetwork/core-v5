@@ -4,9 +4,9 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/coreimpl/enumimpl"
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_DynamicMapDiff1(t *testing.T) {

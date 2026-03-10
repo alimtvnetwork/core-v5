@@ -3,9 +3,9 @@ package corerangestests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/coredata/corerange"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/coredata/corerange"
 )
 
 func Test_Int_Ranges_ValidCases(t *testing.T) {

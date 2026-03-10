@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coreappend"
+	"github.com/alimtvnetwork/core/coreappend"
 )
 
 // ==========================================

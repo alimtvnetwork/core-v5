@@ -1,8 +1,8 @@
 package coretaskinfotests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================
@@ -439,13 +439,13 @@ var infoFieldCheckPopulatedTestCases = []coretestcases.CaseV1{
 			"when": "given fully populated info",
 		},
 		ExpectedInput: args.Map{
-			"hasRootName":         "true",
-			"hasDescription":      "true",
-			"hasUrl":              "true",
-			"hasHintUrl":          "true",
-			"hasErrorUrl":         "true",
-			"hasExamples":         "true",
-			"hasChainingExample":  "true",
+			"hasRootName":        "true",
+			"hasDescription":     "true",
+			"hasUrl":             "true",
+			"hasHintUrl":         "true",
+			"hasErrorUrl":        "true",
+			"hasExamples":        "true",
+			"hasChainingExample": "true",
 		},
 	},
 }
@@ -457,13 +457,13 @@ var infoFieldCheckEmptyTestCases = []coretestcases.CaseV1{
 			"when": "given empty info",
 		},
 		ExpectedInput: args.Map{
-			"hasRootName":         "false",
-			"hasDescription":      "false",
-			"hasUrl":              "false",
-			"hasHintUrl":          "false",
-			"hasErrorUrl":         "false",
-			"hasExamples":         "false",
-			"hasChainingExample":  "false",
+			"hasRootName":        "false",
+			"hasDescription":     "false",
+			"hasUrl":             "false",
+			"hasHintUrl":         "false",
+			"hasErrorUrl":        "false",
+			"hasExamples":        "false",
+			"hasChainingExample": "false",
 		},
 	},
 }

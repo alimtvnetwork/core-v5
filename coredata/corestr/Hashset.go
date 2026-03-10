@@ -7,12 +7,12 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/stringslice"
-	"gitlab.com/auk-go/core/internal/mapdiffinternal"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type Hashset struct {

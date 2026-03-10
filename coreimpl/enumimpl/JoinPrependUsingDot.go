@@ -1,7 +1,7 @@
 package enumimpl
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func JoinPrependUsingDot(

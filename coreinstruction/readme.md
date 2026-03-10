@@ -101,7 +101,7 @@ coreinstruction/
 ## Usage Examples
 
 ```go
-import "gitlab.com/auk-go/core/coreinstruction"
+import "github.com/alimtvnetwork/core/coreinstruction"
 
 // Create a specification
 spec := coreinstruction.NewSpecification(

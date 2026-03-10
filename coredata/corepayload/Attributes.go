@@ -3,11 +3,11 @@ package corepayload
 import (
 	"bytes"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreinstruction"
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coreinstruction"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
 )
 
 // Attributes holds metadata, key-value pairs, error state, and dynamic payloads
@@ -22,7 +22,7 @@ type Attributes struct {
 	PagingInfo       *PagingInfo                `json:"PagingInfo,omitempty"`
 	KeyValuePairs    *corestr.Hashmap           `json:"KeyValuePairs,omitempty"`
 	AnyKeyValuePairs *coredynamic.MapAnyItems   `json:"AnyKeyValuePairs,omitempty"`
-	FromTo           *coreinstruction.FromTo     `json:"FromTo,omitempty"` // Invoker and Receiver Details
+	FromTo           *coreinstruction.FromTo    `json:"FromTo,omitempty"` // Invoker and Receiver Details
 	DynamicPayloads  []byte                     `json:"DynamicPayloads,omitempty"`
 }
 
@@ -141,4 +141,3 @@ func (it *Attributes) deepClonePtr() (*Attributes, error) {
 			it.FromTo.ClonePtr(),
 			basicErr), nil
 }
-

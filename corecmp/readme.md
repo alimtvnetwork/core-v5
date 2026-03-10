@@ -75,8 +75,8 @@ All comparator functions return `corecomparator.Compare`:
 
 ```go
 import (
-    "gitlab.com/auk-go/core/corecmp"
-    "gitlab.com/auk-go/core/corecomparator"
+    "github.com/alimtvnetwork/core/corecmp"
+    "github.com/alimtvnetwork/core/corecomparator"
 )
 
 result := corecmp.Integer(5, 3)

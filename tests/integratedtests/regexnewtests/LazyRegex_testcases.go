@@ -1,7 +1,7 @@
 package regexnewtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================================================
@@ -153,10 +153,10 @@ var lazyRegexIsFailedMatchTestCase = coretestcases.StringBoolGherkins{
 }
 
 var lazyRegexFirstMatchLineFoundTestCase = coretestcases.StringGherkins{
-	Title:    "FirstMatchLine returns first submatch",
-	When:     "given a pattern with capture group",
-	Input:    "(\\d+)",
-	Expected: "123",
+	Title:     "FirstMatchLine returns first submatch",
+	When:      "given a pattern with capture group",
+	Input:     "(\\d+)",
+	Expected:  "123",
 	ExtraArgs: map[string]any{"compareInput": "abc 123 def 456"},
 	ExpectedLines: []string{
 		"123",
@@ -165,10 +165,10 @@ var lazyRegexFirstMatchLineFoundTestCase = coretestcases.StringGherkins{
 }
 
 var lazyRegexFirstMatchLineNotFoundTestCase = coretestcases.StringGherkins{
-	Title:    "FirstMatchLine returns empty on no match",
-	When:     "given a pattern that does not match",
-	Input:    "(\\d+)",
-	Expected: "",
+	Title:     "FirstMatchLine returns empty on no match",
+	When:      "given a pattern that does not match",
+	Input:     "(\\d+)",
+	Expected:  "",
 	ExtraArgs: map[string]any{"compareInput": "no digits here"},
 	ExpectedLines: []string{
 		"",

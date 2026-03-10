@@ -1,6 +1,6 @@
 package corejson
 
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 type deserializeFromResultTo struct{}
 

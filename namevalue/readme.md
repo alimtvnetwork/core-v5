@@ -138,7 +138,7 @@ An ordered collection of `Instance[K, V]` items with lazy string caching.
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/namevalue"
+import "github.com/alimtvnetwork/core/namevalue"
 
 // Generic usage
 pair := namevalue.Instance[string, int]{Name: "count", Value: 42}

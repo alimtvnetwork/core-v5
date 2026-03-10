@@ -3,7 +3,7 @@ package coretestcases
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // assertDiffOnMismatch delegates to errcore.AssertDiffOnMismatch

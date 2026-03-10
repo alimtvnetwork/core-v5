@@ -1,8 +1,8 @@
 package chmodhelper
 
 import (
-	"gitlab.com/auk-go/core/conditional"
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/conditional"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type Attribute struct {

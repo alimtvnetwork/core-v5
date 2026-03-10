@@ -1,8 +1,8 @@
 package coretaskinfo
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 func (it *Info) Map() map[string]string {

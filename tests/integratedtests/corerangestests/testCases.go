@@ -3,11 +3,11 @@ package corerangestests
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/coredata/corerange"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/coredata/corerange"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 var (

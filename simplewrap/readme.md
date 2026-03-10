@@ -107,7 +107,7 @@ simplewrap/
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/simplewrap"
+import "github.com/alimtvnetwork/core/simplewrap"
 
 // Basic wrapping
 simplewrap.WithDoubleQuote("hello")     // "hello"

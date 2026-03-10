@@ -5,8 +5,8 @@ import (
 	"go/token"
 	"path"
 
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
 type newAstReaderCreator struct{}

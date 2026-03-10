@@ -1,8 +1,8 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -174,7 +174,7 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 var typedCollectionPagingWithInfoEmptyTestCase = coretestcases.CaseV1{
 	Title: "PagingWithInfo on empty collection returns 1 page with 0 items",
 	ExpectedInput: args.Map{
-		"pageCount":     1,
-		"firstPageLen":  0,
+		"pageCount":    1,
+		"firstPageLen": 0,
 	},
 }

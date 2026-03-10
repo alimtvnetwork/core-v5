@@ -3,7 +3,7 @@ package corejson
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type anyTo struct{}

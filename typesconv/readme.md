@@ -62,7 +62,7 @@ Each type `T` (string, int, bool, byte, float32) has these functions:
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/typesconv"
+import "github.com/alimtvnetwork/core/typesconv"
 
 // Pointer creation
 p := typesconv.IntPtr(42)  // *int pointing to 42

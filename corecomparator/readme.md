@@ -132,7 +132,7 @@ Embeddable struct with `IsIgnoreCase bool` field. Provides `IsCaseSensitive()`, 
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/corecomparator"
+import "github.com/alimtvnetwork/core/corecomparator"
 
 result := someCompareFunc(a, b)
 

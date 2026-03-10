@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper"
 )
 
 func Test_RwxCompileValue(t *testing.T) {

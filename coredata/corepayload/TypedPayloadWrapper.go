@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 // TypedPayloadWrapper is a generic version of PayloadWrapper where T represents

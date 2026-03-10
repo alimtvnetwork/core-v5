@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 
-	"gitlab.com/auk-go/core/corecmp"
+	"github.com/alimtvnetwork/core/corecmp"
 )
 
 // DraftType

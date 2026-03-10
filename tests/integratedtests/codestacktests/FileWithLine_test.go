@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/codestack"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/codestack"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_FileWithLine_Verification(t *testing.T) {

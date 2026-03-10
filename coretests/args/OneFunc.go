@@ -1,8 +1,8 @@
 package args
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // OneFunc holds a single typed positional argument plus a WorkFunc for

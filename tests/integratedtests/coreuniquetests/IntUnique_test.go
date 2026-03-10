@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coreunique/intunique"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreunique/intunique"
 )
 
 func Test_IntUnique_Get_RemovesDuplicates(t *testing.T) {

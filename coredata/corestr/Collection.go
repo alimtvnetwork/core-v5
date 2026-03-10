@@ -9,14 +9,14 @@ import (
 	"strings"
 	"sync"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/stringslice"
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/defaultcapacity"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
-	"gitlab.com/auk-go/core/simplewrap"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/simplewrap"
 )
 
 type Collection struct {
@@ -1561,7 +1561,6 @@ func (it *Collection) NonEmptyItemsOrNonWhitespacePtr() []string {
 func (it *Collection) Items() []string {
 	return it.items
 }
-
 
 // Deprecated: Use List or Items instead.
 func (it *Collection) ListPtr() []string {

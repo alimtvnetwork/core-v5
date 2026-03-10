@@ -3,7 +3,7 @@ package reflectmodeltests
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 // sampleStruct is a test helper struct used to create

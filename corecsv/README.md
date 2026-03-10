@@ -100,7 +100,7 @@ All parameterized functions accept `isIncludeQuote` and `isIncludeSingleQuote` f
 ## Usage Examples
 
 ```go
-import "gitlab.com/auk-go/core/corecsv"
+import "github.com/alimtvnetwork/core/corecsv"
 
 // Simple default CSV
 result := corecsv.DefaultCsv("a", "b", "c")

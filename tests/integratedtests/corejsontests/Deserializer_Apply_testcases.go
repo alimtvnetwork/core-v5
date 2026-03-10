@@ -1,7 +1,7 @@
 package corejsontests
 
 import (
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var deserializerFromToTestCase = coretestcases.CaseV1{

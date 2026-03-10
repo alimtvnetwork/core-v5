@@ -3,8 +3,8 @@ package coreoncetests
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -27,15 +27,15 @@ var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce 'abc' — Length 3, not empty, not null, isDefined",
 			ExpectedInput: args.Map{
-				"stringValue": "abc",
-				"noError":     true,
-				"length":      3,
-				"hasAnyItem":  true,
-				"isEmpty":     false,
+				"stringValue":  "abc",
+				"noError":      true,
+				"length":       3,
+				"hasAnyItem":   true,
+				"isEmpty":      false,
 				"isEmptyBytes": false,
 				"isBytesEmpty": false,
-				"isNull":      false,
-				"isDefined":   true,
+				"isNull":       false,
+				"isDefined":    true,
 			},
 		},
 		InitBytes: []byte("abc"),
@@ -44,15 +44,15 @@ var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce nil/nil — empty, null, not defined",
 			ExpectedInput: args.Map{
-				"stringValue": "",
-				"noError":     true,
-				"length":      0,
-				"hasAnyItem":  false,
-				"isEmpty":     true,
+				"stringValue":  "",
+				"noError":      true,
+				"length":       0,
+				"hasAnyItem":   false,
+				"isEmpty":      true,
 				"isEmptyBytes": true,
 				"isBytesEmpty": true,
-				"isNull":      true,
-				"isDefined":   false,
+				"isNull":       true,
+				"isDefined":    false,
 			},
 		},
 		InitBytes: nil,
@@ -61,15 +61,15 @@ var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce empty bytes/nil — empty, not null",
 			ExpectedInput: args.Map{
-				"stringValue": "",
-				"noError":     true,
-				"length":      0,
-				"hasAnyItem":  false,
-				"isEmpty":     true,
+				"stringValue":  "",
+				"noError":      true,
+				"length":       0,
+				"hasAnyItem":   false,
+				"isEmpty":      true,
 				"isEmptyBytes": true,
 				"isBytesEmpty": true,
-				"isNull":      false,
-				"isDefined":   false,
+				"isNull":       false,
+				"isDefined":    false,
 			},
 		},
 		InitBytes: []byte{},
@@ -225,9 +225,9 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce 'str-val' — String returns correct value",
 			ExpectedInput: args.Map{
-				"stringValue":                "str-val",
-				"isStringEmpty":              false,
-				"isStringEmptyOrWhitespace":  false,
+				"stringValue":               "str-val",
+				"isStringEmpty":             false,
+				"isStringEmptyOrWhitespace": false,
 			},
 		},
 		InitBytes: []byte("str-val"),
@@ -236,9 +236,9 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce nil — String empty, IsStringEmpty true",
 			ExpectedInput: args.Map{
-				"stringValue":                "",
-				"isStringEmpty":              true,
-				"isStringEmptyOrWhitespace":  true,
+				"stringValue":               "",
+				"isStringEmpty":             true,
+				"isStringEmptyOrWhitespace": true,
 			},
 		},
 		InitBytes: nil,
@@ -247,9 +247,9 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesErrorOnce whitespace — IsStringEmptyOrWhitespace true",
 			ExpectedInput: args.Map{
-				"stringValue":                "   ",
-				"isStringEmpty":              false,
-				"isStringEmptyOrWhitespace":  true,
+				"stringValue":               "   ",
+				"isStringEmpty":             false,
+				"isStringEmptyOrWhitespace": true,
 			},
 		},
 		InitBytes: []byte("   "),

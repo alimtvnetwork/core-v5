@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 var (

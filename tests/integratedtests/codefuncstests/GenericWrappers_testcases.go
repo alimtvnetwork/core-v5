@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -52,7 +52,7 @@ var inOutErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 			"name":         "parse",
 		},
 		ExpectedInput: args.Map{
-			"hasError":      true,
+			"hasError":     true,
 			"containsName": true,
 		},
 	},
@@ -164,7 +164,7 @@ var inActionReturnsErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 			"name":         "validate",
 		},
 		ExpectedInput: args.Map{
-			"hasError":      true,
+			"hasError":     true,
 			"containsName": true,
 		},
 	},
@@ -240,7 +240,7 @@ var resultDelegatingOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 			"name":         "decode",
 		},
 		ExpectedInput: args.Map{
-			"hasError":      true,
+			"hasError":     true,
 			"containsName": true,
 		},
 	},
@@ -317,7 +317,7 @@ var serializeOutputOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 			"name":         "marshal",
 		},
 		ExpectedInput: args.Map{
-			"hasError":      true,
+			"hasError":     true,
 			"containsName": true,
 		},
 	},

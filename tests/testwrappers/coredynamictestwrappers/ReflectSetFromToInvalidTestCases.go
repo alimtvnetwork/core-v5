@@ -1,9 +1,9 @@
 package coredynamictestwrappers
 
 import (
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 var (

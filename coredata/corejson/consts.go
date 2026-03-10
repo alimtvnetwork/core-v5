@@ -1,6 +1,6 @@
 package corejson
 
-import "gitlab.com/auk-go/core/internal/jsoninternal"
+import "github.com/alimtvnetwork/core/internal/jsoninternal"
 
 const (
 	errTypeString  = "ErrorType.String"

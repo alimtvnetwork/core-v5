@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // Result is the base typed result for a single-return function invocation.

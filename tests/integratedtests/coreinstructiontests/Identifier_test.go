@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coreinstruction"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coreinstruction"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func Test_BaseIdentifier_Verification(t *testing.T) {
@@ -18,8 +18,8 @@ func Test_BaseIdentifier_Verification(t *testing.T) {
 		// Act
 		identifier := coreinstruction.NewIdentifier(id)
 		actual := args.Map{
-			"id":                 identifier.IdString(),
-			"isEmpty":            identifier.IsIdEmpty(),
+			"id":                  identifier.IdString(),
+			"isEmpty":             identifier.IsIdEmpty(),
 			"isEmptyOrWhitespace": identifier.IsIdWhitespace(),
 		}
 

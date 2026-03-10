@@ -3,8 +3,8 @@ package fmtcodegentype
 import (
 	"strconv"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
 )
 
 type Variant byte

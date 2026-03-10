@@ -1,7 +1,7 @@
 package corejson
 
 import (
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type newResultsCollectionCreator struct{}

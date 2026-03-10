@@ -1,6 +1,6 @@
 package codegen
 
-import "gitlab.com/auk-go/core/coredata/corestr"
+import "github.com/alimtvnetwork/core/coredata/corestr"
 
 type newGoCodeCreator struct{}
 

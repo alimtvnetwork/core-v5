@@ -3,9 +3,9 @@ package stringcompareas
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type Variant byte

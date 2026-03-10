@@ -3,8 +3,8 @@ package corevalidatortests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/corevalidator"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/corevalidator"
 )
 
 func Test_BaseValidatorCoreCondition(t *testing.T) {

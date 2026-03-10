@@ -4,7 +4,7 @@ import (
 	"math"
 	"sync"
 
-	"gitlab.com/auk-go/core/pagingutil"
+	"github.com/alimtvnetwork/core/pagingutil"
 )
 
 // =============================================================================

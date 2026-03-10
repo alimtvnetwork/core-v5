@@ -1,8 +1,8 @@
 package coregenerictests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================
@@ -82,8 +82,8 @@ var pairCloneTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"clonedLeft":            "original-left",
-			"clonedRight":          "original-right",
-			"isValid":              true,
+			"clonedRight":           "original-right",
+			"isValid":               true,
 			"originalAfterMutation": "mutated-left",
 		},
 	},
@@ -225,9 +225,9 @@ var tripleCloneTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"clonedLeft":            "L",
-			"clonedMiddle":         "M",
-			"clonedRight":          "R",
-			"isValid":              true,
+			"clonedMiddle":          "M",
+			"clonedRight":           "R",
+			"isValid":               true,
 			"originalAfterMutation": "mutated",
 		},
 	},

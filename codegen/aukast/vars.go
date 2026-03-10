@@ -1,7 +1,7 @@
 package aukast
 
 import (
-	"gitlab.com/auk-go/core/coreutils/stringutil"
+	"github.com/alimtvnetwork/core/coreutils/stringutil"
 	"golang.org/x/tools/go/packages"
 )
 

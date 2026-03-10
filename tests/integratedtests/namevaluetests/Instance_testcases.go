@@ -1,8 +1,8 @@
 package namevaluetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================================================
@@ -171,8 +171,8 @@ var stringMapStringNilTestCase = coretestcases.CaseV1{
 var disposeStringAnyTestCase = coretestcases.CaseV1{
 	Title: "Positive: Dispose clears StringAny fields",
 	ExpectedInput: args.Map{
-		"disposedName":  "",
-		"isNilValue":    true,
+		"disposedName": "",
+		"isNilValue":   true,
 	},
 }
 

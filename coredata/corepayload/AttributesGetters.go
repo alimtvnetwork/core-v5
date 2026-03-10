@@ -1,6 +1,6 @@
 package corepayload
 
-import "gitlab.com/auk-go/core/coreinterface/errcoreinf"
+import "github.com/alimtvnetwork/core/coreinterface/errcoreinf"
 
 // AttributesGetters.go — Read-only accessor and query methods extracted from Attributes.go
 

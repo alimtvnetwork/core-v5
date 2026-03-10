@@ -1,7 +1,7 @@
 package codegen
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 type Map map[string]args.Map

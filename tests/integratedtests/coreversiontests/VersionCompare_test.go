@@ -3,8 +3,8 @@ package coreversiontests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coreversion"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreversion"
 )
 
 func Test_Version_Compare_Verification(t *testing.T) {

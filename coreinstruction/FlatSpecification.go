@@ -1,6 +1,6 @@
 package coreinstruction
 
-import "gitlab.com/auk-go/core/coredata/stringslice"
+import "github.com/alimtvnetwork/core/coredata/stringslice"
 
 type FlatSpecification struct {
 	Id       string   `json:"Id"`

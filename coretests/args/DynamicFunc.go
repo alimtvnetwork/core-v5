@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // DynamicFunc is a generic map-based argument holder with a typed WorkFunc field.
@@ -31,9 +31,9 @@ import (
 //	    Expect:   "result",
 //	}
 type DynamicFunc[T any] struct {
-	Params        Map                      `json:",omitempty"`
-	WorkFunc      T                        `json:",omitempty"`
-	Expect        any                      `json:",omitempty"`
+	Params        Map `json:",omitempty"`
+	WorkFunc      T   `json:",omitempty"`
+	Expect        any `json:",omitempty"`
 	toSlice       []any
 	isSliceCached bool
 	toString      corestr.SimpleStringOnce

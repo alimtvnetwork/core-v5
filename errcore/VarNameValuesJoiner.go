@@ -3,7 +3,7 @@ package errcore
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/namevalue"
+	"github.com/alimtvnetwork/core/namevalue"
 )
 
 func VarNameValuesJoiner(

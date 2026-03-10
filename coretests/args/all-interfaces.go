@@ -3,7 +3,7 @@ package args
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coreinterface"
+	"github.com/alimtvnetwork/core/coreinterface"
 )
 
 // FuncWrapGetter provides access to a FuncWrapAny instance.

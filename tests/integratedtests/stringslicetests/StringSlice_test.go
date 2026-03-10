@@ -3,7 +3,7 @@ package stringslicetests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
 )
 
 // ==========================================

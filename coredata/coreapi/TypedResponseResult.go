@@ -1,6 +1,6 @@
 package coreapi
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 // TypedResponseResult is the generic response result type.
 //

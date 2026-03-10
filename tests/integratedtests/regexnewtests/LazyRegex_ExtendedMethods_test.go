@@ -4,8 +4,8 @@ import (
 	"regexp"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/regexnew"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/regexnew"
 )
 
 // =============================================================================

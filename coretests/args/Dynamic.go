@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // Dynamic is a generic map-based argument holder with a typed Expect field.
@@ -29,8 +29,8 @@ import (
 //	    Expect: 42,
 //	}
 type Dynamic[T any] struct {
-	Params        Map                      `json:",omitempty"`
-	Expect        T                        `json:",omitempty"`
+	Params        Map `json:",omitempty"`
+	Expect        T   `json:",omitempty"`
 	toSlice       []any
 	isSliceCached bool
 	toString      corestr.SimpleStringOnce

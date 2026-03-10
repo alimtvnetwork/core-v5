@@ -1,6 +1,6 @@
 package pathextendinf
 
-import "gitlab.com/auk-go/core/internal/internalinterface/internalpathextender"
+import "github.com/alimtvnetwork/core/internal/internalinterface/internalpathextender"
 
 type IsPathChecker interface {
 	internalpathextender.IsPathChecker

@@ -3,7 +3,7 @@ package corestrtests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 // ==========================================

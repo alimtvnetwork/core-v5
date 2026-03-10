@@ -1,8 +1,8 @@
 package corevalidatortestwrappers
 
 import (
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/corevalidator"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/corevalidator"
 )
 
 type SliceValidatorWrapper struct {

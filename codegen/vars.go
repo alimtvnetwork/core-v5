@@ -1,9 +1,9 @@
 package codegen
 
 import (
-	"gitlab.com/auk-go/core/codegen/codegentype"
-	"gitlab.com/auk-go/core/coreutils/stringutil"
-	"gitlab.com/auk-go/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/codegen/codegentype"
+	"github.com/alimtvnetwork/core/coreutils/stringutil"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 var (
@@ -11,10 +11,10 @@ var (
 
 	defaultPackages = []string{
 		"\"testing\"",
-		"\"gitlab.com/auk-go/core/coredata/corestr\"",
-		"\"gitlab.com/auk-go/core/coretests\"",
-		"\"gitlab.com/auk-go/core/coretests/args\"",
-		"\"gitlab.com/auk-go/core/converters\"",
+		"\"github.com/alimtvnetwork/core/coredata/corestr\"",
+		"\"github.com/alimtvnetwork/core/coretests\"",
+		"\"github.com/alimtvnetwork/core/coretests/args\"",
+		"\"github.com/alimtvnetwork/core/converters\"",
 	}
 
 	vars = unitVariables{

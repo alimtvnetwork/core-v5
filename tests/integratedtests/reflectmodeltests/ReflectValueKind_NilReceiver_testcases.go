@@ -1,9 +1,9 @@
 package reflectmodeltests
 
 import (
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/coretests/results"
-	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/results"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 // =============================================================================

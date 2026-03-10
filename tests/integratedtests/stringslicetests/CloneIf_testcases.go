@@ -1,8 +1,8 @@
 package stringslicetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -19,9 +19,9 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"additionalCap": 5,
 		},
 		ExpectedInput: args.Map{
-			"resultLength":    "2",
-			"item0":           "a",
-			"item1":           "b",
+			"resultLength":      "2",
+			"item0":             "a",
+			"item1":             "b",
 			"isIndependentCopy": "true",
 		},
 	},
@@ -34,9 +34,9 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"additionalCap": 0,
 		},
 		ExpectedInput: args.Map{
-			"resultLength":    "2",
-			"item0":           "x",
-			"item1":           "y",
+			"resultLength":      "2",
+			"item0":             "x",
+			"item1":             "y",
 			"isIndependentCopy": "false",
 		},
 	},
@@ -49,7 +49,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"additionalCap": 0,
 		},
 		ExpectedInput: args.Map{
-			"resultLength":    "0",
+			"resultLength":      "0",
 			"isIndependentCopy": "false",
 		},
 	},
@@ -62,7 +62,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 			"additionalCap": 3,
 		},
 		ExpectedInput: args.Map{
-			"resultLength":    "0",
+			"resultLength":      "0",
 			"isIndependentCopy": "true",
 		},
 	},
@@ -82,10 +82,10 @@ var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 			"additionalCap": 2,
 		},
 		ExpectedInput: args.Map{
-			"resultLength":    "3",
-			"item0":           "a",
-			"item1":           "1",
-			"item2":           "true",
+			"resultLength":      "3",
+			"item0":             "a",
+			"item1":             "1",
+			"item2":             "true",
 			"isIndependentCopy": "true",
 		},
 	},
@@ -98,8 +98,8 @@ var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 			"additionalCap": 0,
 		},
 		ExpectedInput: args.Map{
-			"resultLength":    "1",
-			"item0":           "x",
+			"resultLength":      "1",
+			"item0":             "x",
 			"isIndependentCopy": "false",
 		},
 	},

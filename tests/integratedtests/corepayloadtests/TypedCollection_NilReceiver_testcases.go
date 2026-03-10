@@ -1,9 +1,9 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coredata/corepayload"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/coretests/results"
+	"github.com/alimtvnetwork/core/coredata/corepayload"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/results"
 )
 
 // =============================================================================

@@ -1,7 +1,7 @@
 package coretestcases
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // GenericGherkins is a typed test case representation using

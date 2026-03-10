@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/internal/trydo"
-	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/internal/trydo"
+	"github.com/alimtvnetwork/core/tests/testwrappers/coredynamictestwrappers"
 )
 
 // Test_ReflectSetFromTo_ValidCases

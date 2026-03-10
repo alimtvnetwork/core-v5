@@ -1,6 +1,6 @@
 package entityinf
 
-import "gitlab.com/auk-go/core/internal/internalinterface"
+import "github.com/alimtvnetwork/core/internal/internalinterface"
 
 type RecordEntityDefiner interface {
 	BaseRecordEntityDefiner

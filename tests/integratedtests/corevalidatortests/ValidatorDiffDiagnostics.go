@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 // ValidatorDiffDiagnostics provides reusable diff-printing

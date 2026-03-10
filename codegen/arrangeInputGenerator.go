@@ -6,12 +6,12 @@ import (
 	"reflect"
 	"strings"
 
-	"gitlab.com/auk-go/core/codegen/coreproperty"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/codegen/coreproperty"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 type arrangeInputGenerator struct {

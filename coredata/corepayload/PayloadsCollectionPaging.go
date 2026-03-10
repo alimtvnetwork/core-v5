@@ -4,7 +4,7 @@ import (
 	"math"
 	"sync"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // PayloadsCollectionPaging.go — Paging methods extracted from PayloadsCollection.go

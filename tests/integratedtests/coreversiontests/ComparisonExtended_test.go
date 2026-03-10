@@ -3,12 +3,12 @@ package coreversiontests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/corecmp"
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coreversion"
-	"gitlab.com/auk-go/core/enums/versionindexes"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/corecmp"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreversion"
+	"github.com/alimtvnetwork/core/enums/versionindexes"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func Test_ComparisonValueIndexes_Verification(t *testing.T) {

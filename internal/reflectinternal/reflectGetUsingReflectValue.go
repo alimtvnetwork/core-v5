@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"unsafe"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type reflectGetUsingReflectValue struct{}

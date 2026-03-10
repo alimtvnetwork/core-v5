@@ -4,8 +4,8 @@ import (
 	"sort"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_IntegersDsc_Len(t *testing.T) {

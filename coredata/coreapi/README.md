@@ -81,7 +81,7 @@ TypedSimpleGenericRequest[T]
 ### Generic Request/Response
 
 ```go
-import "gitlab.com/auk-go/core/coredata/coreapi"
+import "github.com/alimtvnetwork/core/coredata/coreapi"
 
 type UserInput struct {
     Name  string

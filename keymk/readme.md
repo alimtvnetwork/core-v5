@@ -127,7 +127,7 @@ Pre-configured: `FullLegends`, `FullCategoryLegends`, `FullEventLegends`, `Short
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/keymk"
+import "github.com/alimtvnetwork/core/keymk"
 
 // Simple hyphen key
 key := keymk.NewKey.Default("app", "users", "create")

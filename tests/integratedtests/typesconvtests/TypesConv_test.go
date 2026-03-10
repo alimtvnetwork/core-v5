@@ -3,8 +3,8 @@ package typesconvtests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/typesconv"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/typesconv"
 )
 
 // ==========================================================================

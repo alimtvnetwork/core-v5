@@ -1,9 +1,9 @@
 package corevalidatortests
 
 import (
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
-	"gitlab.com/auk-go/core/tests/testwrappers/corevalidatortestwrappers"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/tests/testwrappers/corevalidatortestwrappers"
 )
 
 var textValidatorsTestCases = []corevalidatortestwrappers.TextValidatorsWrapper{

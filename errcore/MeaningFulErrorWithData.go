@@ -1,7 +1,7 @@
 package errcore
 
 import (
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 func MeaningfulErrorWithData(

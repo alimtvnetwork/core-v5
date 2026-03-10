@@ -3,7 +3,7 @@ package args
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // FuncWrap wraps a Go function value with reflection metadata for

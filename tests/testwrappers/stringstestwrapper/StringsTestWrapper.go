@@ -1,7 +1,7 @@
 package stringstestwrapper
 
 import (
-	"gitlab.com/auk-go/core/coretests"
+	"github.com/alimtvnetwork/core/coretests"
 )
 
 // StringsTestWrapper wraps BaseTestCase with typed []string accessors

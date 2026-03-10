@@ -3,8 +3,8 @@ package corevalidatortestwrappers
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type TextValidatorsWrapper struct {

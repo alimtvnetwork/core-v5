@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coregeneric"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func intPtr(v int) *int       { return &v }

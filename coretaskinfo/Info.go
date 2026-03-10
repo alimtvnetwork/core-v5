@@ -1,7 +1,7 @@
 package coretaskinfo
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 // Info holds metadata about a task including name, description, URLs, examples,

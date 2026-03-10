@@ -1,6 +1,6 @@
 package coreproperty
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 const (
 	ArgsJoinerEachLine    = constants.CommaSpace + "\n"

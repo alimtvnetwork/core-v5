@@ -1,8 +1,8 @@
 package regexnewtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -122,7 +122,7 @@ var matchUsingFuncErrorLockTestCases = []coretestcases.CaseV1{
 	{
 		Title: "MatchUsingFuncErrorLock match returns nil error",
 		ArrangeInput: args.Map{
-			"pattern":  "\\d+",
+			"pattern":   "\\d+",
 			"comparing": "abc123",
 		},
 		ExpectedInput: args.Map{
@@ -132,7 +132,7 @@ var matchUsingFuncErrorLockTestCases = []coretestcases.CaseV1{
 	{
 		Title: "MatchUsingFuncErrorLock mismatch returns error",
 		ArrangeInput: args.Map{
-			"pattern":  "^\\d+$",
+			"pattern":   "^\\d+$",
 			"comparing": "abc",
 		},
 		ExpectedInput: args.Map{
@@ -142,7 +142,7 @@ var matchUsingFuncErrorLockTestCases = []coretestcases.CaseV1{
 	{
 		Title: "MatchUsingFuncErrorLock invalid regex returns error",
 		ArrangeInput: args.Map{
-			"pattern":  "[broken",
+			"pattern":   "[broken",
 			"comparing": "test",
 		},
 		ExpectedInput: args.Map{
@@ -186,7 +186,7 @@ var matchUsingCustomizeErrorFuncLockTestCases = []coretestcases.CaseV1{
 			"useCustomizer": true,
 		},
 		ExpectedInput: args.Map{
-			"hasError":       true,
+			"hasError":      true,
 			"isCustomError": true,
 		},
 	},

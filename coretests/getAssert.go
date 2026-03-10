@@ -5,11 +5,11 @@ import (
 	"log/slog"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/convertinternal"
-	"gitlab.com/auk-go/core/internal/msgcreator"
-	"gitlab.com/auk-go/core/internal/msgformats"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/msgcreator"
+	"github.com/alimtvnetwork/core/internal/msgformats"
 )
 
 type getAssert struct {

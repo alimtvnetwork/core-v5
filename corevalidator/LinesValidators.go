@@ -3,12 +3,12 @@ package corevalidator
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/messages"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/messages"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 type LinesValidators struct {

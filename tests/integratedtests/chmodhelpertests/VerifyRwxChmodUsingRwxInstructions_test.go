@@ -3,10 +3,10 @@ package chmodhelpertests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 func Test_VerifyRwxChmodUsingRwxInstructions_Unix(t *testing.T) {

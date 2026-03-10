@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/tests/testwrappers/coredynamictestwrappers"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/tests/testwrappers/coredynamictestwrappers"
 )
 
 // ==========================================================================

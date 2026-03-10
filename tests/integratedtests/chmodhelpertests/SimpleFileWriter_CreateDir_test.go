@@ -4,12 +4,12 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/filemode"
-	"gitlab.com/auk-go/core/internal/pathinternal"
-	"gitlab.com/auk-go/core/iserror"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/filemode"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/iserror"
 )
 
 func Test_SimpleFileWriter_CreateDir_If_Verification(t *testing.T) {

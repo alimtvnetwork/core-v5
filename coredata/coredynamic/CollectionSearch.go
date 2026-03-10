@@ -1,6 +1,6 @@
 package coredynamic
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 // --- Package-level search functions for comparable types ---
 

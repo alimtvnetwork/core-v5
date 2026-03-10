@@ -1,6 +1,6 @@
 package csvinternal
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func AnyItemsToStringDefault(
 	references ...any,

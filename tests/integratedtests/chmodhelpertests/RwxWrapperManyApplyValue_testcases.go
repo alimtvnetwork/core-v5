@@ -1,13 +1,13 @@
 package chmodhelpertests
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/chmodhelper/chmodclasstype"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodclasstype"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 type rwxWrapperManyApplyTestCase struct {
-	Case     coretestcases.CaseV1
+	Case      coretestcases.CaseV1
 	SingleRwx chmodhelper.SingleRwx
 }
 

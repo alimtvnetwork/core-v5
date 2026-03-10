@@ -3,8 +3,8 @@ package aukast
 import (
 	"go/ast"
 
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 type newAstElemCreator struct{}

@@ -3,7 +3,7 @@ package errcore
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // ConcatMessageWithErr wraps an error with an additional message using fmt.Errorf and %w.

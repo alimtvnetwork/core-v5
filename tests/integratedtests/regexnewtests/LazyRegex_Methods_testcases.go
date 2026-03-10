@@ -1,7 +1,7 @@
 package regexnewtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var lazyRegexCompileTestCases = []coretestcases.StringGherkins{

@@ -1,8 +1,8 @@
 package namevaluetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // region StringStringCollection tests
@@ -189,7 +189,7 @@ var collectionErrorTestCases = []coretestcases.CaseV1{
 			"count": 2,
 		},
 		ExpectedInput: args.Map{
-			"hasError":            true,
+			"hasError":           true,
 			"errorContainsItems": true,
 		},
 	},
@@ -200,7 +200,7 @@ var collectionErrorTestCases = []coretestcases.CaseV1{
 			"count": 0,
 		},
 		ExpectedInput: args.Map{
-			"hasError":            false,
+			"hasError":           false,
 			"errorContainsItems": false,
 		},
 	},

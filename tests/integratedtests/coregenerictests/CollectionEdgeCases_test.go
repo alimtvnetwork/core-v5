@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coregeneric"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // ==========================================
@@ -231,10 +231,10 @@ func Test_Hashset_HasAll_HasAny_Verification(t *testing.T) {
 		// Act
 		hs := coregeneric.New.Hashset.String.From(items)
 		actual := args.Map{
-			"hasAllPresent":    hs.HasAll("a", "b", "c"),
+			"hasAllPresent":     hs.HasAll("a", "b", "c"),
 			"hasAllWithMissing": hs.HasAll("a", "b", "d"),
-			"hasAnyWithMatch":  hs.HasAny("x", "y", "a"),
-			"hasAnyNoMatch":    hs.HasAny("x", "y", "z"),
+			"hasAnyWithMatch":   hs.HasAny("x", "y", "a"),
+			"hasAnyNoMatch":     hs.HasAny("x", "y", "z"),
 		}
 
 		// Assert

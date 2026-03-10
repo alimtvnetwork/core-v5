@@ -1,8 +1,8 @@
 package stringslice
 
 import (
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/defaultcapacity"
 )
 
 // SafeIndexesDefaultWithDetail Only indexes which are present values will be included.

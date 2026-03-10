@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const OLD = 'gitlab.com/auk-go/core';
+const OLD = 'github.com/alimtvnetwork/core';
 const NEW = 'github.com/alimtvnetwork/core';
 
 function walk(dir) {

@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
 type reflectPath struct{}

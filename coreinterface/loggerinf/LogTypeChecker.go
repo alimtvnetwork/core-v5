@@ -1,6 +1,6 @@
 package loggerinf
 
-import "gitlab.com/auk-go/core/internal/internalinterface"
+import "github.com/alimtvnetwork/core/internal/internalinterface"
 
 type LogTypeChecker interface {
 	internalinterface.LogTypeChecker

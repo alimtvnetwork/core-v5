@@ -4,9 +4,9 @@ import (
 	"errors"
 	"os"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/osconstsinternal"
-	"gitlab.com/auk-go/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/osconstsinternal"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
 type fileWriter struct {

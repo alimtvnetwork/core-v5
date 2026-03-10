@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_StringTo_Integer_Verification(t *testing.T) {

@@ -3,8 +3,8 @@ package bytetypetests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/bytetype"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/bytetype"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_Variant_Verification(t *testing.T) {

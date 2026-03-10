@@ -3,8 +3,8 @@ package coretests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/osconsts"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/osconsts"
 )
 
 // SkipOnWindows Skip on Windows

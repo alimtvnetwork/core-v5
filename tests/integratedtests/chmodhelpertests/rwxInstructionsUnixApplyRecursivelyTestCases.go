@@ -1,8 +1,8 @@
 package chmodhelpertests
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/tests/testwrappers/chmodhelpertestwrappers"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/tests/testwrappers/chmodhelpertestwrappers"
 )
 
 // rwxInstructionsUnixApplyRecursivelyTestCase https://ss64.com/bash/chmod.html

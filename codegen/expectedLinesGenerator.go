@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
-	"gitlab.com/auk-go/core/codestack"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
-	"gitlab.com/auk-go/core/isany"
-	"gitlab.com/auk-go/core/iserror"
+	"github.com/alimtvnetwork/core/codegen/fmtcodegentype"
+	"github.com/alimtvnetwork/core/codestack"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/isany"
+	"github.com/alimtvnetwork/core/iserror"
 )
 
 type expectedLinesGenerator struct {

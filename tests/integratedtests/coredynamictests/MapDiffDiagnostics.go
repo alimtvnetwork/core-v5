@@ -3,8 +3,8 @@ package coredynamictests
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // MapDiffDiagnostics provides reusable diff-printing

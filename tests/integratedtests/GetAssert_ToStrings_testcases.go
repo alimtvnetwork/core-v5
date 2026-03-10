@@ -1,8 +1,8 @@
 package integratedtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var (
@@ -46,11 +46,11 @@ var (
 			VerifyTypeOf:  commonType,
 		},
 		{
-		Title: "giving []any - json convert and returns as it is.",
-		ArrangeInput: args.Map{
-			"any": []any{
-				"passed []interface, which is",
-				"any but lines of any",
+			Title: "giving []any - json convert and returns as it is.",
+			ArrangeInput: args.Map{
+				"any": []any{
+					"passed []interface, which is",
+					"any but lines of any",
 					"gets no converted and",
 					"returns as it is",
 				},
@@ -64,21 +64,21 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-		Title: "giving map[string]any - converts to lines and returns sorted lines.",
-		ArrangeInput: args.Map{
-			"any": map[string]any{
-				"line 1": "passed map[string]interface, which is",
-				"line 2": "any but keys as is but converts",
-				"line 3": "value to SmartJSON and",
-				"line 4": map[string]any{
-					"sub line 1": "returns",
+			Title: "giving map[string]any - converts to lines and returns sorted lines.",
+			ArrangeInput: args.Map{
+				"any": map[string]any{
+					"line 1": "passed map[string]interface, which is",
+					"line 2": "any but keys as is but converts",
+					"line 3": "value to SmartJSON and",
+					"line 4": map[string]any{
+						"sub line 1": "returns",
 						"sub line 2": -5,
 					},
 					"line 5": []string{
 						"some line 1",
 						"some line 2",
 					},
-				"line 6": []any{
+					"line 6": []any{
 						args.OneAny{
 							First:  "line 6.1 first",
 							Expect: "line 6.1 expect",
@@ -98,12 +98,12 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-		Title: "giving map[any]any - converts to lines and returns sorted lines.",
-		ArrangeInput: args.Map{
-			"any": map[any]any{
-				0:        "it is 0",
-				1:        []string{"it is 1"},
-				"line 1": "passed map[any]any, which is",
+			Title: "giving map[any]any - converts to lines and returns sorted lines.",
+			ArrangeInput: args.Map{
+				"any": map[any]any{
+					0:        "it is 0",
+					1:        []string{"it is 1"},
+					"line 1": "passed map[any]any, which is",
 					"line 2": "converts both keys and values to",
 					"line 3": "SmartJSON and returns it.",
 					"line 4": map[string]any{

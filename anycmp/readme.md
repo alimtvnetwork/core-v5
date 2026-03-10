@@ -37,7 +37,7 @@ Quick equality determination for two `any` values using pointer identity and nil
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/anycmp"
+import "github.com/alimtvnetwork/core/anycmp"
 
 result := anycmp.Cmp(a, b)
 

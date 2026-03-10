@@ -5,8 +5,8 @@ import (
 	"sort"
 	"sync"
 
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
 )
 
 type StringsOnce struct {

@@ -38,7 +38,7 @@ converters/
 ### String Conversions
 
 ```go
-import "gitlab.com/auk-go/core/converters"
+import "github.com/alimtvnetwork/core/converters"
 
 // String to integer
 val, err := converters.StringTo.Integer("42")

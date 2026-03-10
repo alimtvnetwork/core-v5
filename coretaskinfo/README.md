@@ -124,7 +124,7 @@ Controls which fields appear in output based on `ExcludingOptions`:
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/coretaskinfo"
+import "github.com/alimtvnetwork/core/coretaskinfo"
 
 // Basic creation
 info := coretaskinfo.New.Info.Default(

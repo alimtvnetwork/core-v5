@@ -3,7 +3,7 @@ package stringutil
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func AnyToString(anyItem any) string {

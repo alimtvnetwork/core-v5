@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coreinstruction"
+	"github.com/alimtvnetwork/core/coreinstruction"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_FromTo_ClonePtr(t *testing.T) {

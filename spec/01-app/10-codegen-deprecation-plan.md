@@ -15,7 +15,7 @@ The `codegen/` package generates unit-test boilerplate from Go function signatur
 
 ### What Depends on It
 
-#### Internal consumers (within `gitlab.com/auk-go/core`)
+#### Internal consumers (within `github.com/alimtvnetwork/core`)
 
 | File | Imports |
 |------|---------|

@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"runtime"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
 )
 
 // =============================================================================
@@ -75,19 +75,19 @@ func (r DynamicStringMethodRef) Name() string {
 // =============================================================================
 
 var (
-	refIsNull              = NewBoolRef((*coredynamic.Dynamic).IsNull)
-	refIsValid             = NewBoolRef((*coredynamic.Dynamic).IsValid)
-	refIsInvalid           = NewBoolRef((*coredynamic.Dynamic).IsInvalid)
-	refIsStringType        = NewBoolRef((*coredynamic.Dynamic).IsStringType)
-	refIsNumber            = NewBoolRef((*coredynamic.Dynamic).IsNumber)
-	refIsPrimitive         = NewBoolRef((*coredynamic.Dynamic).IsPrimitive)
-	refIsFunc              = NewBoolRef((*coredynamic.Dynamic).IsFunc)
-	refIsSliceOrArray      = NewBoolRef((*coredynamic.Dynamic).IsSliceOrArray)
-	refIsSliceOrArrayOrMap = NewBoolRef((*coredynamic.Dynamic).IsSliceOrArrayOrMap)
-	refIsMap               = NewBoolRef((*coredynamic.Dynamic).IsMap)
-	refIsPointer           = NewBoolRef((*coredynamic.Dynamic).IsPointer)
-	refIsValueType         = NewBoolRef((*coredynamic.Dynamic).IsValueType)
-	refIsStruct            = NewBoolRef((*coredynamic.Dynamic).IsStruct)
+	refIsNull                    = NewBoolRef((*coredynamic.Dynamic).IsNull)
+	refIsValid                   = NewBoolRef((*coredynamic.Dynamic).IsValid)
+	refIsInvalid                 = NewBoolRef((*coredynamic.Dynamic).IsInvalid)
+	refIsStringType              = NewBoolRef((*coredynamic.Dynamic).IsStringType)
+	refIsNumber                  = NewBoolRef((*coredynamic.Dynamic).IsNumber)
+	refIsPrimitive               = NewBoolRef((*coredynamic.Dynamic).IsPrimitive)
+	refIsFunc                    = NewBoolRef((*coredynamic.Dynamic).IsFunc)
+	refIsSliceOrArray            = NewBoolRef((*coredynamic.Dynamic).IsSliceOrArray)
+	refIsSliceOrArrayOrMap       = NewBoolRef((*coredynamic.Dynamic).IsSliceOrArrayOrMap)
+	refIsMap                     = NewBoolRef((*coredynamic.Dynamic).IsMap)
+	refIsPointer                 = NewBoolRef((*coredynamic.Dynamic).IsPointer)
+	refIsValueType               = NewBoolRef((*coredynamic.Dynamic).IsValueType)
+	refIsStruct                  = NewBoolRef((*coredynamic.Dynamic).IsStruct)
 	refIsStructStringNullOrEmpty = NewBoolRef(
 		(*coredynamic.Dynamic).IsStructStringNullOrEmpty,
 	)
@@ -98,8 +98,8 @@ var (
 // =============================================================================
 
 var (
-	refString         = NewStringRef((*coredynamic.Dynamic).String)
-	refValueString    = NewStringRef((*coredynamic.Dynamic).ValueString)
+	refString          = NewStringRef((*coredynamic.Dynamic).String)
+	refValueString     = NewStringRef((*coredynamic.Dynamic).ValueString)
 	refReflectTypeName = NewStringRef((*coredynamic.Dynamic).ReflectTypeName)
 )
 
@@ -110,11 +110,11 @@ var (
 // =============================================================================
 
 var (
-	refNewDynamicValid  = coredynamic.NewDynamicValid
-	refNewDynamic       = coredynamic.NewDynamic
-	refInvalidDynamic   = coredynamic.InvalidDynamic
+	refNewDynamicValid   = coredynamic.NewDynamicValid
+	refNewDynamic        = coredynamic.NewDynamic
+	refInvalidDynamic    = coredynamic.InvalidDynamic
 	refInvalidDynamicPtr = coredynamic.InvalidDynamicPtr
-	refNewDynamicPtr    = coredynamic.NewDynamicPtr
+	refNewDynamicPtr     = coredynamic.NewDynamicPtr
 )
 
 // =============================================================================
@@ -122,7 +122,7 @@ var (
 // =============================================================================
 
 // extractShortName extracts the method name from a fully qualified
-// runtime function name like "gitlab.com/auk-go/core/coredata/coredynamic.(*Dynamic).IsNull-fm".
+// runtime function name like "github.com/alimtvnetwork/core/coredata/coredynamic.(*Dynamic).IsNull-fm".
 func extractShortName(fullName string) string {
 	// Find last dot for the method name
 	for i := len(fullName) - 1; i >= 0; i-- {

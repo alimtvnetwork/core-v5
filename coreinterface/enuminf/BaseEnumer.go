@@ -1,6 +1,6 @@
 package enuminf
 
-import "gitlab.com/auk-go/core/coredata/corejson"
+import "github.com/alimtvnetwork/core/coredata/corejson"
 
 type BaseEnumer interface {
 	enumNameStinger

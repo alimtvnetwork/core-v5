@@ -1,6 +1,6 @@
 package corerange
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 type MinMaxByte struct {
 	Min, Max byte

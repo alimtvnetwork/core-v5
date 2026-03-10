@@ -1,7 +1,7 @@
 package codestack
 
 import (
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 var (

@@ -5,7 +5,7 @@ import (
 	"sync"
 	"testing"
 
-	"gitlab.com/auk-go/core/regexnew"
+	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func Test_LazyLock_ConcurrentAccess(t *testing.T) {

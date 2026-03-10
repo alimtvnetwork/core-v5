@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"strconv"
 
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
 )
 
 type Variant byte

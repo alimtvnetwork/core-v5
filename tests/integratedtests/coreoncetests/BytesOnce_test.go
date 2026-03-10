@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coreonce"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_BytesOnce_Core(t *testing.T) {

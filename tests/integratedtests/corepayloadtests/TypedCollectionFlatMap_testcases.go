@@ -1,8 +1,8 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // testUserWithTags extends testUser with tags for FlatMap testing.
@@ -24,7 +24,7 @@ var flatMapTypedPayloadsTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"count": 6,
-			"tag0": "go", "tag1": "rust",
+			"tag0":  "go", "tag1": "rust",
 			"tag2": "python", "tag3": "java",
 			"tag4": "ts", "tag5": "js",
 		},
@@ -43,7 +43,7 @@ var flatMapTypedPayloadDataTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"count": 6,
-			"tag0": "go", "tag1": "rust",
+			"tag0":  "go", "tag1": "rust",
 			"tag2": "python", "tag3": "java",
 			"tag4": "ts", "tag5": "js",
 		},
@@ -133,5 +133,6 @@ var collectionDeserializeInvalidTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
 // Note: Nil receiver test cases migrated to TypedCollection_NilReceiver_testcases.go
 // using CaseNilSafe pattern with function literal wrappers for generic types.

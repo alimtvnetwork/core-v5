@@ -128,7 +128,7 @@ coreutils/
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/coreutils/stringutil"
+import "github.com/alimtvnetwork/core/coreutils/stringutil"
 
 // Inspection
 stringutil.IsEmpty("")           // true

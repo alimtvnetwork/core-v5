@@ -3,8 +3,8 @@ package corecomparatortests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_Compare_Verification(t *testing.T) {

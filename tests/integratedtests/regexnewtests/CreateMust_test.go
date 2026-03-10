@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/regexnew"
+	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func Test_CreateMust_Verification(t *testing.T) {

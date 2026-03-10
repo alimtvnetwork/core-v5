@@ -3,9 +3,9 @@ package simplewraptests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/simplewrap"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/simplewrap"
 )
 
 func Test_When_DoubleQuoteWrapElements_SkipQuoteOnPresent_Should_Only_Have_SingleDoubleQuotation_NotDuplicates(t *testing.T) {

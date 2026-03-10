@@ -1,8 +1,8 @@
 package coredynamictests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // Note: MapAnyItems nil receiver test cases (Length, IsEmpty, HasAnyItem) migrated to
@@ -182,14 +182,14 @@ var mapAnyItemsClonePtrEmptyTestCase = coretestcases.CaseV1{
 var mapAnyItemsClonePtrIndependenceTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr - modifying clone should not affect original",
 	ArrangeInput: args.Map{
-		"when":         "clone is modified after cloning",
-		"leftNil":      false,
-		"leftMap":      map[string]any{"key": "original"},
+		"when":          "clone is modified after cloning",
+		"leftNil":       false,
+		"leftMap":       map[string]any{"key": "original"},
 		"addAfterClone": true,
 	},
 	ExpectedInput: args.Map{
-		"hasError":         false,
-		"cloneIsNil":       false,
+		"hasError":          false,
+		"cloneIsNil":        false,
 		"originalHasNewKey": false,
 		"cloneHasNewKey":    true,
 	},

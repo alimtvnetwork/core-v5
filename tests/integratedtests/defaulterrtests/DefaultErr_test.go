@@ -3,23 +3,23 @@ package defaulterrtests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 func Test_DefaultErr_AllSentinels(t *testing.T) {
 	errorMap := map[string]error{
-		"Marshalling":                       defaulterr.Marshalling,
-		"UnMarshalling":                     defaulterr.UnMarshalling,
-		"OutOfRange":                        defaulterr.OutOfRange,
-		"CannotProcessNilOrEmpty":           defaulterr.CannotProcessNilOrEmpty,
-		"NegativeDataCannotProcess":         defaulterr.NegativeDataCannotProcess,
-		"NilResult":                         defaulterr.NilResult,
-		"UnexpectedValue":                   defaulterr.UnexpectedValue,
-		"CannotRemoveFromEmptyCollection":   defaulterr.CannotRemoveFromEmptyCollection,
-		"MarshallingFailedDueToNilOrEmpty":  defaulterr.MarshallingFailedDueToNilOrEmpty,
+		"Marshalling":                        defaulterr.Marshalling,
+		"UnMarshalling":                      defaulterr.UnMarshalling,
+		"OutOfRange":                         defaulterr.OutOfRange,
+		"CannotProcessNilOrEmpty":            defaulterr.CannotProcessNilOrEmpty,
+		"NegativeDataCannotProcess":          defaulterr.NegativeDataCannotProcess,
+		"NilResult":                          defaulterr.NilResult,
+		"UnexpectedValue":                    defaulterr.UnexpectedValue,
+		"CannotRemoveFromEmptyCollection":    defaulterr.CannotRemoveFromEmptyCollection,
+		"MarshallingFailedDueToNilOrEmpty":   defaulterr.MarshallingFailedDueToNilOrEmpty,
 		"UnmarshallingFailedDueToNilOrEmpty": defaulterr.UnmarshallingFailedDueToNilOrEmpty,
-		"KeyNotExistInMap":                  defaulterr.KeyNotExistInMap,
+		"KeyNotExistInMap":                   defaulterr.KeyNotExistInMap,
 	}
 
 	for caseIndex, tc := range defaultErrorTestCases {

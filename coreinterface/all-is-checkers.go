@@ -3,7 +3,7 @@ package coreinterface
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type IsReflectionTypeChecker interface {
@@ -22,7 +22,6 @@ type DynamicDataHasChecker interface {
 	HasDynamicAll(searchTerms ...any) bool
 	HasDynamicAny(searchTerms ...any) bool
 }
-
 
 type IfStringCompiler interface {
 	CompileIf(condition bool) string
@@ -51,7 +50,6 @@ type BytesCompilerIf interface {
 type MustBytesCompiler interface {
 	CompileBytesMust() []byte
 }
-
 
 type StringFinalizer interface {
 	StringFinalize() string

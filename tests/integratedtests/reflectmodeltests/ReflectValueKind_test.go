@@ -3,7 +3,7 @@ package reflectmodeltests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 // ===== ReflectValueKind Tests =====

@@ -1,7 +1,7 @@
 package chmodhelpertestwrappers
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper"
 )
 
 var PathInstructionsV1 = []chmodhelper.DirFilesWithRwxPermission{

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corepayload"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corepayload"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // =============================================================================
@@ -262,10 +262,10 @@ func Test_TypedPayloadWrapper_TypedDataJson(t *testing.T) {
 	jsonBytes, jsonErr := typed.TypedDataJsonBytes()
 
 	actual := args.Map{
-		"dataJsonNonEmpty":   !dataJson.IsEmpty(),
-		"dataJsonPtrNonNil":  dataJsonPtr != nil && !dataJsonPtr.IsEmpty(),
-		"jsonBytesNonEmpty":  len(jsonBytes) > 0,
-		"jsonBytesNoError":   jsonErr == nil,
+		"dataJsonNonEmpty":  !dataJson.IsEmpty(),
+		"dataJsonPtrNonNil": dataJsonPtr != nil && !dataJsonPtr.IsEmpty(),
+		"jsonBytesNonEmpty": len(jsonBytes) > 0,
+		"jsonBytesNoError":  jsonErr == nil,
 	}
 
 	tc.ShouldBeEqualMapFirst(t, actual)

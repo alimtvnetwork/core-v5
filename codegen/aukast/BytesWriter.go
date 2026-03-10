@@ -3,7 +3,7 @@ package aukast
 import (
 	"io"
 
-	"gitlab.com/auk-go/core/internal/jsoninternal"
+	"github.com/alimtvnetwork/core/internal/jsoninternal"
 )
 
 type BytesWriter struct {

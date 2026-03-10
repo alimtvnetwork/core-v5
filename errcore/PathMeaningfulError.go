@@ -1,6 +1,6 @@
 package errcore
 
-import "gitlab.com/auk-go/core/internal/reflectinternal"
+import "github.com/alimtvnetwork/core/internal/reflectinternal"
 
 func PathMeaningfulError(
 	rawErrType RawErrorType,

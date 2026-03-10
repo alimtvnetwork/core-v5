@@ -3,8 +3,8 @@ package pagingutiltests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/pagingutil"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/pagingutil"
 )
 
 func Test_GetPagesSize_Verification(t *testing.T) {

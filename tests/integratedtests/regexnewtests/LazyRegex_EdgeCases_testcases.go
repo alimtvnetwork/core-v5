@@ -1,8 +1,8 @@
 package regexnewtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -37,7 +37,7 @@ var emptyPatternEdgeCaseTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Empty pattern Compile returns error and nil regex",
 		ExpectedInput: args.Map{
-			"hasError":    true,
+			"hasError":   true,
 			"regexIsNil": true,
 		},
 	},

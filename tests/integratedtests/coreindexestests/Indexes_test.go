@@ -3,8 +3,8 @@ package coreindexestests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coreindexes"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreindexes"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_HasIndex_Verification(t *testing.T) {

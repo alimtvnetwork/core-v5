@@ -4,9 +4,9 @@ import (
 	"errors"
 	"reflect"
 
-	"gitlab.com/auk-go/core/codestack"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/codestack"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // FuncMap is a named map of function names to their FuncWrapAny representations.

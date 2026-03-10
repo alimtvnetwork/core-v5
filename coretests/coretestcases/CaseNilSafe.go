@@ -3,7 +3,7 @@ package coretestcases
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/results"
+	"github.com/alimtvnetwork/core/coretests/results"
 )
 
 // CaseNilSafe is a test case structure for systematically testing

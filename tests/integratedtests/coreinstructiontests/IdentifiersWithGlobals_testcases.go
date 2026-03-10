@@ -1,8 +1,8 @@
 package coreinstructiontests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================================================
@@ -97,9 +97,9 @@ var idsAddEmptyIdTestCase = coretestcases.CaseV1{
 var idsAddMultipleTestCase = coretestcases.CaseV1{
 	Title: "Add - multiple accumulate",
 	ExpectedInput: args.Map{
-		"length":             3,
-		"secondIsGlobal":     true,
-		"thirdIsGlobal":      false,
+		"length":         3,
+		"secondIsGlobal": true,
+		"thirdIsGlobal":  false,
 	},
 }
 
@@ -158,9 +158,9 @@ var idsIndexOfEmptyCollectionTestCase = coretestcases.CaseV1{
 var idsAddsBatchTestCase = coretestcases.CaseV1{
 	Title: "Adds - batch add all items",
 	ExpectedInput: args.Map{
-		"length":   3,
-		"foundOne": true,
-		"foundTwo": true,
+		"length":     3,
+		"foundOne":   true,
+		"foundTwo":   true,
 		"foundThree": true,
 	},
 }

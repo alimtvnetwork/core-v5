@@ -1,6 +1,6 @@
 package coretests
 
-import "gitlab.com/auk-go/core/internal/msgcreator"
+import "github.com/alimtvnetwork/core/internal/msgcreator"
 
 // IsEqualMessage
 //

@@ -4,7 +4,7 @@ import (
 	"strings"
 	"unicode"
 
-	"gitlab.com/auk-go/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
 )
 
 func TypeNameToValidVariableName(currentTypeName string) (validVarName string) {

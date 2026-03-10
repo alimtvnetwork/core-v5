@@ -1,9 +1,9 @@
 package args
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // Holder is a flexible 6-slot argument holder with a typed WorkFunc

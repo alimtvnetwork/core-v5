@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/coretests/args"
 )
 
 // SimpleTestCase
@@ -15,10 +15,10 @@ import (
 //   - ActualInput : Input for the act method
 //   - ExpectedInput : Set expectations for the unit test (what we are going receive from invoking something)
 type SimpleTestCase struct {
-	Title         string   `json:",omitempty"` // consider as header
-	ArrangeInput  any      `json:",omitempty"` // preparing input, initial input
-	ActualInput   any      `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
-	ExpectedInput any      `json:",omitempty"` // expectation set from the test
+	Title         string `json:",omitempty"` // consider as header
+	ArrangeInput  any    `json:",omitempty"` // preparing input, initial input
+	ActualInput   any    `json:",omitempty"` // (dynamically set) : must be set after running Act, using SetActual
+	ExpectedInput any    `json:",omitempty"` // expectation set from the test
 	Params        args.Map
 }
 

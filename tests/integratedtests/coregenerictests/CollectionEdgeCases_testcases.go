@@ -1,8 +1,8 @@
 package coregenerictests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================
@@ -224,10 +224,10 @@ var hashsetHasAllHasAnyTestCases = []coretestcases.CaseV1{
 			"items": []string{"a", "b", "c"},
 		},
 		ExpectedInput: args.Map{
-			"hasAllPresent":    true,
+			"hasAllPresent":     true,
 			"hasAllWithMissing": false,
-			"hasAnyWithMatch":  true,
-			"hasAnyNoMatch":    false,
+			"hasAnyWithMatch":   true,
+			"hasAnyNoMatch":     false,
 		},
 	},
 }

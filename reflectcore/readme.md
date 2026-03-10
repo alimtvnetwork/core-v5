@@ -117,7 +117,7 @@ type MethodProcessor struct {
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/reflectcore"
+import "github.com/alimtvnetwork/core/reflectcore"
 
 // Type name extraction
 name := reflectcore.TypeName.OfAny(myStruct)

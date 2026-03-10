@@ -40,7 +40,7 @@ coreappend/
 ## Usage Examples
 
 ```go
-import "gitlab.com/auk-go/core/coreappend"
+import "github.com/alimtvnetwork/core/coreappend"
 
 // Append item at end, skip nil
 result := coreappend.AppendAnyItemsToStringSkipOnNil(

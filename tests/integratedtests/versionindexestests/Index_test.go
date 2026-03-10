@@ -3,9 +3,9 @@ package versionindexestests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/enums/versionindexes"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/enums/versionindexes"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 var indexByName = map[string]versionindexes.Index{

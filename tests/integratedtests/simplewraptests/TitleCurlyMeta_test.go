@@ -3,13 +3,13 @@ package simplewraptests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/simplewrap"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/simplewrap"
 )
 
 func Test_TitleCurlyMeta_Wraps_Verification(t *testing.T) {

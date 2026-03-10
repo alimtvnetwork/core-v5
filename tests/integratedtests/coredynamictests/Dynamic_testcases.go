@@ -1,8 +1,8 @@
 package coredynamictests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================================================
@@ -77,6 +77,7 @@ var dynamicCloneTestCase = coretestcases.CaseV1{
 		"isIndependent": true,
 	},
 }
+
 // Note: ClonePtr, Bytes, ValueNullErr nil receiver test cases migrated to
 // Dynamic_NilReceiver_testcases.go using CaseNilSafe pattern.
 

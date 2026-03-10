@@ -9,14 +9,14 @@ import (
 	"os/exec"
 	"strconv"
 
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/fsinternal"
-	"gitlab.com/auk-go/core/internal/osconstsinternal"
-	"gitlab.com/auk-go/core/osconsts"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/fsinternal"
+	"github.com/alimtvnetwork/core/internal/osconstsinternal"
+	"github.com/alimtvnetwork/core/osconsts"
 )
 
 type RwxWrapper struct {

@@ -1,7 +1,7 @@
 package codegentype
 
 import (
-	"gitlab.com/auk-go/core/coreimpl/enumimpl"
+	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
 )
 
 var (

@@ -5,11 +5,11 @@ import (
 	"sort"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/internal/convertinternal"
-	"gitlab.com/auk-go/core/internal/msgcreator"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/msgcreator"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type Map map[string]any

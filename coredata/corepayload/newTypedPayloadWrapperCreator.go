@@ -1,8 +1,8 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // newTypedPayloadWrapperCreator provides typed factory methods for TypedPayloadWrapper[T].

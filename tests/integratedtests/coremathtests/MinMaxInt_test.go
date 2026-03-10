@@ -3,8 +3,8 @@ package coremathtests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coremath"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coremath"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_MaxInt_Verification(t *testing.T) {

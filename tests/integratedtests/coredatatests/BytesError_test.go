@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata"
+	"github.com/alimtvnetwork/core/coredata"
 )
 
 // ===== BytesError Tests =====

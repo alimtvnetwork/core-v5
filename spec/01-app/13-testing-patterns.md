@@ -30,8 +30,8 @@ package sometests
 
 import (
     "testing"
-    "gitlab.com/auk-go/core/coretests"
-    "gitlab.com/auk-go/core/coretests/args"
+    "github.com/alimtvnetwork/core/coretests"
+    "github.com/alimtvnetwork/core/coretests/args"
 )
 
 // Test cases defined in a separate _testcases.go file

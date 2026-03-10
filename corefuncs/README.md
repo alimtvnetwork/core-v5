@@ -82,7 +82,7 @@ Named wrappers pair a function with a `Name` field for logging, tracing, and deb
 Package-level constructor functions provide clean type inference:
 
 ```go
-import "gitlab.com/auk-go/core/corefuncs"
+import "github.com/alimtvnetwork/core/corefuncs"
 
 // InOutErr — transform with error
 wrapper := corefuncs.NewInOutErrWrapper[string, int](

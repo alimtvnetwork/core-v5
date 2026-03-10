@@ -1,9 +1,9 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coredata/corepayload"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coredata/corepayload"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -25,13 +25,13 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "IsEqual - left nil right non-nil should return false",
 		ArrangeInput: args.Map{
-			"when":                 "given left nil right non-nil",
-			"isLeftNil":            true,
-			"isRightNil":           false,
-			"rightTotalPages":      5,
+			"when":                  "given left nil right non-nil",
+			"isLeftNil":             true,
+			"isRightNil":            false,
+			"rightTotalPages":       5,
 			"rightCurrentPageIndex": 1,
-			"rightPerPageItems":    10,
-			"rightTotalItems":      50,
+			"rightPerPageItems":     10,
+			"rightTotalItems":       50,
 		},
 		ExpectedInput: args.Map{
 			"isEqual": false,
@@ -40,13 +40,13 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "IsEqual - left non-nil right nil should return false",
 		ArrangeInput: args.Map{
-			"when":                "given left non-nil right nil",
-			"isLeftNil":           false,
-			"isRightNil":          true,
-			"leftTotalPages":      5,
+			"when":                 "given left non-nil right nil",
+			"isLeftNil":            false,
+			"isRightNil":           true,
+			"leftTotalPages":       5,
 			"leftCurrentPageIndex": 1,
-			"leftPerPageItems":    10,
-			"leftTotalItems":      50,
+			"leftPerPageItems":     10,
+			"leftTotalItems":       50,
 		},
 		ExpectedInput: args.Map{
 			"isEqual": false,
@@ -162,15 +162,15 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 			"isNil": true,
 		},
 		ExpectedInput: args.Map{
-			"isEmpty":                 true,
-			"hasTotalPages":           false,
-			"hasCurrentPageIndex":     false,
-			"hasPerPageItems":         false,
-			"hasTotalItems":           false,
-			"isInvalidTotalPages":     true,
+			"isEmpty":                   true,
+			"hasTotalPages":             false,
+			"hasCurrentPageIndex":       false,
+			"hasPerPageItems":           false,
+			"hasTotalItems":             false,
+			"isInvalidTotalPages":       true,
 			"isInvalidCurrentPageIndex": true,
-			"isInvalidPerPageItems":   true,
-			"isInvalidTotalItems":     true,
+			"isInvalidPerPageItems":     true,
+			"isInvalidTotalItems":       true,
 		},
 	},
 	// --- zero values ---
@@ -185,15 +185,15 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 			"totalItems":       0,
 		},
 		ExpectedInput: args.Map{
-			"isEmpty":                 true,
-			"hasTotalPages":           false,
-			"hasCurrentPageIndex":     false,
-			"hasPerPageItems":         false,
-			"hasTotalItems":           false,
-			"isInvalidTotalPages":     true,
+			"isEmpty":                   true,
+			"hasTotalPages":             false,
+			"hasCurrentPageIndex":       false,
+			"hasPerPageItems":           false,
+			"hasTotalItems":             false,
+			"isInvalidTotalPages":       true,
 			"isInvalidCurrentPageIndex": true,
-			"isInvalidPerPageItems":   true,
-			"isInvalidTotalItems":     true,
+			"isInvalidPerPageItems":     true,
+			"isInvalidTotalItems":       true,
 		},
 	},
 	// --- all positive ---
@@ -208,15 +208,15 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 			"totalItems":       50,
 		},
 		ExpectedInput: args.Map{
-			"isEmpty":                 false,
-			"hasTotalPages":           true,
-			"hasCurrentPageIndex":     true,
-			"hasPerPageItems":         true,
-			"hasTotalItems":           true,
-			"isInvalidTotalPages":     false,
+			"isEmpty":                   false,
+			"hasTotalPages":             true,
+			"hasCurrentPageIndex":       true,
+			"hasPerPageItems":           true,
+			"hasTotalItems":             true,
+			"isInvalidTotalPages":       false,
 			"isInvalidCurrentPageIndex": false,
-			"isInvalidPerPageItems":   false,
-			"isInvalidTotalItems":     false,
+			"isInvalidPerPageItems":     false,
+			"isInvalidTotalItems":       false,
 		},
 	},
 	// --- negative TotalPages ---
@@ -231,15 +231,15 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 			"totalItems":       50,
 		},
 		ExpectedInput: args.Map{
-			"isEmpty":                 false,
-			"hasTotalPages":           false,
-			"hasCurrentPageIndex":     true,
-			"hasPerPageItems":         true,
-			"hasTotalItems":           true,
-			"isInvalidTotalPages":     true,
+			"isEmpty":                   false,
+			"hasTotalPages":             false,
+			"hasCurrentPageIndex":       true,
+			"hasPerPageItems":           true,
+			"hasTotalItems":             true,
+			"isInvalidTotalPages":       true,
 			"isInvalidCurrentPageIndex": false,
-			"isInvalidPerPageItems":   false,
-			"isInvalidTotalItems":     false,
+			"isInvalidPerPageItems":     false,
+			"isInvalidTotalItems":       false,
 		},
 	},
 	// --- partial: only TotalPages set ---
@@ -254,15 +254,15 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 			"totalItems":       0,
 		},
 		ExpectedInput: args.Map{
-			"isEmpty":                 false,
-			"hasTotalPages":           true,
-			"hasCurrentPageIndex":     false,
-			"hasPerPageItems":         false,
-			"hasTotalItems":           false,
-			"isInvalidTotalPages":     false,
+			"isEmpty":                   false,
+			"hasTotalPages":             true,
+			"hasCurrentPageIndex":       false,
+			"hasPerPageItems":           false,
+			"hasTotalItems":             false,
+			"isInvalidTotalPages":       false,
 			"isInvalidCurrentPageIndex": true,
-			"isInvalidPerPageItems":   true,
-			"isInvalidTotalItems":     true,
+			"isInvalidPerPageItems":     true,
+			"isInvalidTotalItems":       true,
 		},
 	},
 }
@@ -380,8 +380,8 @@ func buildPagingInfoPrefixed(input args.Map, prefix string) *corepayload.PagingI
 var pagingInfoClonePtrIndependenceTestCase = coretestcases.CaseV1{
 	Title: "ClonePtr creates independent copy",
 	ExpectedInput: args.Map{
-		"originalTotalPages":      5,
-		"originalCurrentPage":     3,
+		"originalTotalPages":  5,
+		"originalCurrentPage": 3,
 	},
 }
 

@@ -1,8 +1,8 @@
 package coreoncetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -109,10 +109,10 @@ var bytesOnceCachingTestCases = []bytesOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce.Value caches — initializer runs exactly once",
 			ExpectedInput: args.Map{
-				"r1":            "hello",
-				"r2":            "hello",
-				"r3":            "hello",
-				"callCount":     1,
+				"r1":             "hello",
+				"r2":             "hello",
+				"r3":             "hello",
+				"callCount":      1,
 				"executeEqValue": true,
 			},
 		},
@@ -122,10 +122,10 @@ var bytesOnceCachingTestCases = []bytesOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "BytesOnce.Execute returns same result as Value for 'data'",
 			ExpectedInput: args.Map{
-				"r1":            "data",
-				"r2":            "data",
-				"r3":            "data",
-				"callCount":     1,
+				"r1":             "data",
+				"r2":             "data",
+				"r3":             "data",
+				"callCount":      1,
 				"executeEqValue": true,
 			},
 		},

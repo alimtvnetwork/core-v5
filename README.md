@@ -2,9 +2,9 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.24+-00ADD8?style=flat&logo=go&logoColor=white)](https://go.dev/doc/install)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Pipeline Status](https://gitlab.com/auk-go/core/badges/main/pipeline.svg)](https://gitlab.com/auk-go/core/-/pipelines)
-[![Coverage](https://gitlab.com/auk-go/core/badges/main/coverage.svg)](https://gitlab.com/auk-go/core/-/pipelines)
-[![Go Report Card](https://goreportcard.com/badge/gitlab.com/auk-go/core)](https://goreportcard.com/report/gitlab.com/auk-go/core)
+[![Pipeline Status](https://github.com/alimtvnetwork/core/badges/main/pipeline.svg)](https://github.com/alimtvnetwork/core/-/pipelines)
+[![Coverage](https://github.com/alimtvnetwork/core/badges/main/coverage.svg)](https://github.com/alimtvnetwork/core/-/pipelines)
+[![Go Report Card](https://goreportcard.com/badge/github.com/alimtvnetwork/core)](https://goreportcard.com/report/github.com/alimtvnetwork/core)
 
 ![Core logo](assets/core-250.png)
 
@@ -30,7 +30,7 @@ This library is not an academic exercise. It encapsulates **20 years of professi
 
 ### We Welcome Your Feedback
 
-If something doesn't feel right — if a pattern seems wrong, an API is confusing, or you think there's a better approach — **please tell us.** Open an [issue](https://gitlab.com/auk-go/core/-/issues), start a discussion, or submit a merge request. We take all feedback seriously, treat criticism as a gift, and are committed to continuously improving this library for the community.
+If something doesn't feel right — if a pattern seems wrong, an API is confusing, or you think there's a better approach — **please tell us.** Open an [issue](https://github.com/alimtvnetwork/core/-/issues), start a discussion, or submit a merge request. We take all feedback seriously, treat criticism as a gift, and are committed to continuously improving this library for the community.
 
 ## Quick Start
 
@@ -44,13 +44,13 @@ If something doesn't feel right — if a pattern seems wrong, an API is confusin
 ### Install
 
 ```bash
-go get gitlab.com/auk-go/core
+go get github.com/alimtvnetwork/core
 ```
 
 ### Clone
 
 ```bash
-git clone https://gitlab.com/auk-go/core.git
+git clone https://github.com/alimtvnetwork/core.git
 ```
 
 ### Build & Test
@@ -107,7 +107,7 @@ make run-sample       # run sample/demo
 ### Conditional (Ternary) Helpers
 
 ```go
-import "gitlab.com/auk-go/core/conditional"
+import "github.com/alimtvnetwork/core/conditional"
 
 // Generic (Go 1.22+)
 result := conditional.If[int](true, 2, 7)          // 2
@@ -130,7 +130,7 @@ result := conditional.Int(true, 2, 7)   // 2
 ### Generic Slice/Map Factories
 
 ```go
-import "gitlab.com/auk-go/core"
+import "github.com/alimtvnetwork/core"
 
 ints := core.EmptySlicePtr[int]()            // *[]int (empty, non-nil)
 strs := core.SlicePtrByLength[string](10)    // *[]string with len=10
@@ -143,7 +143,7 @@ capped := core.SlicePtrByCapacity[int](100)  // *[]int with cap=100
 The **payload system** (`coredata/corepayload/`) is the primary data transport mechanism. Use `PayloadWrapper` to carry structured data between components:
 
 ```go
-import "gitlab.com/auk-go/core/coredata/corepayload"
+import "github.com/alimtvnetwork/core/coredata/corepayload"
 
 // Create an empty payload
 payload := corepayload.New.PayloadWrapper.Empty()
@@ -191,7 +191,7 @@ restored, err := corepayload.New.PayloadWrapper.Deserialize(jsonBytes)
 `coretaskinfo.Info` holds metadata about tasks, errors, or operations — name, description, URLs, examples, and security flags:
 
 ```go
-import "gitlab.com/auk-go/core/coretaskinfo"
+import "github.com/alimtvnetwork/core/coretaskinfo"
 
 // Create with factory
 info := coretaskinfo.New.Info.Default(
@@ -231,7 +231,7 @@ copied := info.Clone()
 ### JSON Serialize / Deserialize
 
 ```go
-import "gitlab.com/auk-go/core/coredata/corejson"
+import "github.com/alimtvnetwork/core/coredata/corejson"
 
 type Example struct {
     A       string
@@ -263,8 +263,8 @@ pretty := corejson.NewPtr(from).PrettyJsonString()
 
 ```go
 import (
-    "gitlab.com/auk-go/core/coredata/corestr"
-    "gitlab.com/auk-go/core/constants"
+    "github.com/alimtvnetwork/core/coredata/corestr"
+    "github.com/alimtvnetwork/core/constants"
 )
 
 values := []string{"hello", "world", "something"}
@@ -280,7 +280,7 @@ fmt.Println(collection.Length())  // 4
 ### Hashset
 
 ```go
-import "gitlab.com/auk-go/core/coredata/corestr"
+import "github.com/alimtvnetwork/core/coredata/corestr"
 
 hs := corestr.NewHashset(2)
 hs.Add("alpha")
@@ -292,7 +292,7 @@ fmt.Println(hs.Has("alpha")) // true
 ### Error Construction
 
 ```go
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 // Rich error with stack trace
 err := errcore.Expected.Error("config file", "/etc/app.conf")
@@ -314,7 +314,7 @@ The `regexnew` package provides thread-safe, lazy-compiled regular expressions w
 #### Creating Regex — Lock vs No-Lock
 
 ```go
-import "gitlab.com/auk-go/core/regexnew"
+import "github.com/alimtvnetwork/core/regexnew"
 
 // --- Package-level vars (init time, no goroutine contention) ---
 // Use New.Lazy — no mutex lock needed at init
@@ -439,7 +439,7 @@ lazy := regexnew.New.LazyRegex.NewLockIf(true, `\d+`)
 #### Pre-compiled Regex Constants
 
 ```go
-import "gitlab.com/auk-go/core/regexnew"
+import "github.com/alimtvnetwork/core/regexnew"
 
 // Ready-to-use lazy regex for common patterns
 regexnew.WhitespaceFinderRegex.IsMatch("hello world")          // true
@@ -451,7 +451,7 @@ regexnew.FirstNumberAnyWhereCheckerRegex.IsMatch("version 42") // true
 ### Sorting
 
 ```go
-import "gitlab.com/auk-go/core/coresort/strsort"
+import "github.com/alimtvnetwork/core/coresort/strsort"
 
 fruits := []string{"banana", "mango", "apple"}
 strsort.Quick(&fruits)    // [apple banana mango]
@@ -477,7 +477,7 @@ The [`issetter`](/issetter/) package provides a byte-backed boolean type with **
 - **Indeterminate** (`IsAsk`/`IsSkip`): `Uninitialized`, `Wildcard`
 
 ```go
-import "gitlab.com/auk-go/core/issetter"
+import "github.com/alimtvnetwork/core/issetter"
 
 // Basic state checks
 status := issetter.True
@@ -519,7 +519,7 @@ See [`issetter/Value.go`](/issetter/Value.go) for all methods and [`issetter/REA
 ### File Permissions (chmodhelper)
 
 ```go
-import "gitlab.com/auk-go/core/chmodhelper"
+import "github.com/alimtvnetwork/core/chmodhelper"
 
 // Parse rwx string
 rwx := chmodhelper.ExpandCharRwx("rwxr-xr--")
@@ -530,7 +530,7 @@ isValid := chmodhelper.ChmodVerify.IsFileHasRwx(path, expectedRwx)
 ### CSV Formatting
 
 ```go
-import "gitlab.com/auk-go/core/corecsv"
+import "github.com/alimtvnetwork/core/corecsv"
 
 // Any type implementing Csver interface gets CSV output
 line := corecsv.DefaultCsv(myStruct) // "field1,field2,field3"
@@ -539,7 +539,7 @@ line := corecsv.DefaultCsv(myStruct) // "field1,field2,field3"
 ### Generic Typed Functions Execution
 
 ```go
-import "gitlab.com/auk-go/core/conditional"
+import "github.com/alimtvnetwork/core/conditional"
 
 // Execute a set of functions and collect results
 results, err := conditional.TypedErrorFunctionsExecuteResults[string](
@@ -566,9 +566,9 @@ This project follows the **Arrange-Act-Assert (AAA)** pattern with `coretestcase
 ```go
 import (
     "testing"
-    "gitlab.com/auk-go/core/coretests/coretestcases"
-    "gitlab.com/auk-go/core/coretests/args"
-    "gitlab.com/auk-go/core/coretests"
+    "github.com/alimtvnetwork/core/coretests/coretestcases"
+    "github.com/alimtvnetwork/core/coretests/args"
+    "github.com/alimtvnetwork/core/coretests"
 )
 
 // In _testcases.go file:
@@ -779,7 +779,7 @@ For the complete folder-by-folder breakdown, see the [Folder Map](/spec/01-app/0
 The `corefuncs/` package defines reusable function signatures and structural wrappers — generic `[T]` types first, with `any`-based legacy types for backward compatibility. See the **[full corefuncs README](/corefuncs/README.md)** for complete documentation.
 
 ```go
-import "gitlab.com/auk-go/core/corefuncs"
+import "github.com/alimtvnetwork/core/corefuncs"
 
 // Generic function types (type-safe, recommended)
 var transform corefuncs.InOutFuncOf[string, int] = func(s string) int {
@@ -814,7 +814,7 @@ successWrapper := corefuncs.New.IsSuccess("healthcheck", pingFunc)
 The `coredata/coreapi/` package provides both dynamic (`any`-based) and strongly-typed (`[T]`) API types:
 
 ```go
-import "gitlab.com/auk-go/core/coredata/coreapi"
+import "github.com/alimtvnetwork/core/coredata/coreapi"
 
 // --- Typed (Generic) API — compile-time type safety ---
 
@@ -868,7 +868,7 @@ dynamicReq := &coreapi.GenericRequestIn{
 ## JSON — Comprehensive Examples
 
 ```go
-import "gitlab.com/auk-go/core/coredata/corejson"
+import "github.com/alimtvnetwork/core/coredata/corejson"
 
 // --- Serialization ---
 type User struct {
@@ -920,9 +920,9 @@ The `coretests/` package provides assertion helpers and test-case structures for
 ```go
 import (
     "testing"
-    "gitlab.com/auk-go/core/coretests"
-    "gitlab.com/auk-go/core/coretests/coretestcases"
-    "gitlab.com/auk-go/core/coretests/args"
+    "github.com/alimtvnetwork/core/coretests"
+    "github.com/alimtvnetwork/core/coretests/coretestcases"
+    "github.com/alimtvnetwork/core/coretests/args"
 )
 
 // === Test Cases (in _testcases.go) ===
@@ -1022,7 +1022,7 @@ External packages used:
 
 ## Issues
 
-- [Create an issue](https://gitlab.com/auk-go/core/-/issues)
+- [Create an issue](https://github.com/alimtvnetwork/core/-/issues)
 
 ## Contributors
 

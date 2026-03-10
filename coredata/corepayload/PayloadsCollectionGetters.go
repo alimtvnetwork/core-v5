@@ -1,6 +1,6 @@
 package corepayload
 
-import "gitlab.com/auk-go/core/defaultcapacity"
+import "github.com/alimtvnetwork/core/defaultcapacity"
 
 // PayloadsCollectionGetters.go — Read-only accessor and query methods extracted from PayloadsCollection.go
 

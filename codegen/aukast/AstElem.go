@@ -5,7 +5,7 @@ import (
 	"go/ast"
 	"reflect"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type AstElem struct {

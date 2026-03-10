@@ -1,9 +1,9 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/payloadinf"
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/payloadinf"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 // AttributesJson.go — JSON serialization, deserialization, and string methods extracted from Attributes.go

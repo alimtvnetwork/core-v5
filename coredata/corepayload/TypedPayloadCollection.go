@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 // TypedPayloadCollection is a generic, thread-safe collection of TypedPayloadWrapper[T].

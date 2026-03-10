@@ -5,8 +5,8 @@ import (
 	"runtime"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 type getFunc struct{}

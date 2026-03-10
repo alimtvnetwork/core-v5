@@ -1,8 +1,8 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 // DeserializePayloadTo deserializes the PayloadWrapper's Payloads bytes into T.

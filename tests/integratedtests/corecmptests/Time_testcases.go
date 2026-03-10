@@ -3,8 +3,8 @@ package corecmptests
 import (
 	"time"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var baseTime = time.Date(2024, 1, 15, 10, 30, 0, 0, time.UTC)

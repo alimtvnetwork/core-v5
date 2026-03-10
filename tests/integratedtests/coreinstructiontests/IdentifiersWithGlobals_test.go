@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coreinstruction"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreinstruction"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // ==========================================================================

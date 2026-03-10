@@ -1,6 +1,6 @@
 package defaultcapacity
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func OfSearch(length int) int {
 	if length <= constants.Capacity3 {

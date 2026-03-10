@@ -1,6 +1,6 @@
 package stringcompareas
 
-import "gitlab.com/auk-go/core/regexnew"
+import "github.com/alimtvnetwork/core/regexnew"
 
 // isRegexFunc no use of isCaseSensitive
 //

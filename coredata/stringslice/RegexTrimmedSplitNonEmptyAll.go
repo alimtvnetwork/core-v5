@@ -3,7 +3,7 @@ package stringslice
 import (
 	"regexp"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func RegexTrimmedSplitNonEmptyAll(

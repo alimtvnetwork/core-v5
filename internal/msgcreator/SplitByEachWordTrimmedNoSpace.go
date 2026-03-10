@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"gitlab.com/auk-go/core/coredata/stringslice"
+	"github.com/alimtvnetwork/core/coredata/stringslice"
 )
 
 func SplitByEachWordTrimmedNoSpace(

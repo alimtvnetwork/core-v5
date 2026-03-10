@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coregeneric"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // ==========================================
@@ -89,8 +89,8 @@ func Test_Pair_Clone_Independence(t *testing.T) {
 
 		actual := args.Map{
 			"clonedLeft":            original.Left,
-			"clonedRight":          original.Right,
-			"isValid":              original.IsValid,
+			"clonedRight":           original.Right,
+			"isValid":               original.IsValid,
 			"originalAfterMutation": cloned.Left,
 		}
 
@@ -305,9 +305,9 @@ func Test_Triple_Clone_Independence(t *testing.T) {
 
 		actual := args.Map{
 			"clonedLeft":            original.Left,
-			"clonedMiddle":         original.Middle,
-			"clonedRight":          original.Right,
-			"isValid":              original.IsValid,
+			"clonedMiddle":          original.Middle,
+			"clonedRight":           original.Right,
+			"isValid":               original.IsValid,
 			"originalAfterMutation": cloned.Left,
 		}
 

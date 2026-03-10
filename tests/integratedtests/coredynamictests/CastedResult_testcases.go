@@ -4,9 +4,9 @@ import (
 	"errors"
 	"reflect"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // Note: Nil receiver test cases migrated to CastedResult_NilReceiver_testcases.go
@@ -247,11 +247,11 @@ var castedResultHasAnyIssuesTestCases = []castedResultTestCase{
 var castedResultSourceReflectTypeTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "Stores SourceReflectType correctly",
-		ExpectedInput: args.Map{
-			"typeName":     "string",
-			"isStringKind": true,
-		},
+			Title: "Stores SourceReflectType correctly",
+			ExpectedInput: args.Map{
+				"typeName":     "string",
+				"isStringKind": true,
+			},
 		},
 		CR: &coredynamic.CastedResult{
 			SourceReflectType: reflect.TypeOf(""),
@@ -267,11 +267,11 @@ var castedResultSourceReflectTypeTestCases = []castedResultTestCase{
 var castedResultCastedValueTestCases = []castedResultTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title:         "Casted stores value and HasAnyIssues false",
-		ExpectedInput: args.Map{
-			"castedValue":  42,
-			"hasAnyIssues": false,
-		},
+			Title: "Casted stores value and HasAnyIssues false",
+			ExpectedInput: args.Map{
+				"castedValue":  42,
+				"hasAnyIssues": false,
+			},
 		},
 		CR: &coredynamic.CastedResult{
 			Casted:                 42,

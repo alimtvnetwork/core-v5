@@ -42,7 +42,7 @@ coreindexes/
 ## Usage Examples
 
 ```go
-import "gitlab.com/auk-go/core/coreindexes"
+import "github.com/alimtvnetwork/core/coreindexes"
 
 // Named constants
 item := slice[coreindexes.First]  // slice[0]

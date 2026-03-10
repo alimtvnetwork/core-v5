@@ -4,9 +4,9 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 func Test_SimpleTestCaseWrapper_String_Verification(t *testing.T) {

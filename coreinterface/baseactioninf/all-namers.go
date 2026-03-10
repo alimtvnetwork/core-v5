@@ -1,6 +1,6 @@
 package baseactioninf
 
-import "gitlab.com/auk-go/core/coreinterface/enuminf"
+import "github.com/alimtvnetwork/core/coreinterface/enuminf"
 
 type CategoryTypeNamer interface {
 	TypeName() enuminf.BasicEnumer

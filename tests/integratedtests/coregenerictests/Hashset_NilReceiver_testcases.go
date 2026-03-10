@@ -1,9 +1,9 @@
 package coregenerictests
 
 import (
-	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/coretests/results"
+	"github.com/alimtvnetwork/core/coredata/coregeneric"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/results"
 )
 
 // =============================================================================

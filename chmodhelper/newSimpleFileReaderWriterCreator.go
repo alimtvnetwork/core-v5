@@ -3,7 +3,7 @@ package chmodhelper
 import (
 	"os"
 
-	"gitlab.com/auk-go/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
 type newSimpleFileReaderWriterCreator struct{}

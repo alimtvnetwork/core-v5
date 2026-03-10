@@ -1,8 +1,8 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // testProduct is a sample struct for TypedPayloadWrapper deserialization tests.
@@ -150,9 +150,9 @@ var typedWrapperMetadataAccessorsTestCase = coretestcases.CaseV1{
 var typedWrapperTypedDataJsonTestCase = coretestcases.CaseV1{
 	Title: "TypedDataJson returns non-empty results",
 	ExpectedInput: args.Map{
-		"dataJsonNonEmpty":    true,
-		"dataJsonPtrNonNil":  true,
-		"jsonBytesNonEmpty":  true,
-		"jsonBytesNoError":   true,
+		"dataJsonNonEmpty":  true,
+		"dataJsonPtrNonNil": true,
+		"jsonBytesNonEmpty": true,
+		"jsonBytesNoError":  true,
 	},
 }

@@ -218,7 +218,7 @@ type Version struct {
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/coreversion"
+import "github.com/alimtvnetwork/core/coreversion"
 
 // Parse version
 v := coreversion.New.Create("v1.2.3")

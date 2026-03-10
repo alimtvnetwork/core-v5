@@ -3,8 +3,8 @@ package issettertests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 func Test_Value_IsOnLogically(t *testing.T) {
@@ -152,9 +152,9 @@ func Test_Value_LazyEvaluateBool(t *testing.T) {
 		result := v.LazyEvaluateBool(func() { called = true })
 
 		actual := args.Map{
-			"called":      called,
+			"called":       called,
 			"returnedTrue": result,
-			"isTrue":      v.IsTrue(),
+			"isTrue":       v.IsTrue(),
 		}
 
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
@@ -170,9 +170,9 @@ func Test_Value_LazyEvaluateSet(t *testing.T) {
 		result := v.LazyEvaluateSet(func() { called = true })
 
 		actual := args.Map{
-			"called":      called,
+			"called":       called,
 			"returnedTrue": result,
-			"isSet":       v.IsSet(),
+			"isSet":        v.IsSet(),
 		}
 
 		tc.ShouldBeEqualMap(t, caseIndex, actual)

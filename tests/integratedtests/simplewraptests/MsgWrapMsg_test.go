@@ -3,9 +3,9 @@ package simplewraptests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/simplewrap"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/simplewrap"
 )
 
 func Test_MsgWrapMsg_Wraps_Verification(t *testing.T) {

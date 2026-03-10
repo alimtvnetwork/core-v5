@@ -79,7 +79,7 @@ TypedSimpleResult[T]                          SimpleResult
 ### TypedDynamic[T] — Generic Wrapper (Recommended)
 
 ```go
-import "gitlab.com/auk-go/core/coredata/coredynamic"
+import "github.com/alimtvnetwork/core/coredata/coredynamic"
 
 // Create a typed dynamic value
 d := coredynamic.NewTypedDynamic[string]("hello", true)

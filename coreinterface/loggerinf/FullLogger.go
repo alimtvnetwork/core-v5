@@ -1,6 +1,6 @@
 package loggerinf
 
-import "gitlab.com/auk-go/core/coreinterface/enuminf"
+import "github.com/alimtvnetwork/core/coreinterface/enuminf"
 
 type FullLogger interface {
 	LogModel(

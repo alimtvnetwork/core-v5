@@ -1,7 +1,7 @@
 package aukast
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coredata/corestr"
 )
 
 type AstFuncMap map[string]AstFunction

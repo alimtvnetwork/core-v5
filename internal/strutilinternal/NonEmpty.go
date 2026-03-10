@@ -1,6 +1,6 @@
 package strutilinternal
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func NonEmptySlice(slice []string) []string {
 	length := len(slice)

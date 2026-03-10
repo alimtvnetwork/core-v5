@@ -3,7 +3,7 @@ package coreinterface
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type StringRangesGetter interface {

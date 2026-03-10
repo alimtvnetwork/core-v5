@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coreonce"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func newErrorOnce(initError string) *coreonce.ErrorOnce {

@@ -1,10 +1,10 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
-	"gitlab.com/auk-go/core/coreinterface/payloadinf"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/coreinterface/payloadinf"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // AttributesSetters.go — Mutating methods extracted from Attributes.go

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/corecmp"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/corecmp"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_Integer_Compare_Verification(t *testing.T) {

@@ -3,8 +3,8 @@ package corecsvtests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/corecsv"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/corecsv"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 func Test_RangeNamesWithValuesIndexes_Verification(t *testing.T) {

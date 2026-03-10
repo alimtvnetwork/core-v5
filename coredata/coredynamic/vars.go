@@ -3,12 +3,12 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 //goland:noinspection GoVarAndConstTypeMayBeOmitted
 var (
-	New                          = &newCreator{}
+	New                                       = &newCreator{}
 	emptyBytesType               reflect.Type = reflect.TypeOf([]byte{})
 	emptyBytesPointerType        reflect.Type = reflect.TypeOf(&[]byte{})
 	getTypeNameFunc                           = reflectinternal.ReflectType.Name

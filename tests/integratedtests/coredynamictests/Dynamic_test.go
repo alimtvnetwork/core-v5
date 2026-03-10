@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // ==========================================================================

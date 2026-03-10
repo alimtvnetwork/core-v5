@@ -3,7 +3,7 @@ package coredynamic
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/defaulterr"
+	"github.com/alimtvnetwork/core/defaulterr"
 )
 
 // DynamicReflect.go — Reflection-based operations, loops, filters, and

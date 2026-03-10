@@ -3,7 +3,7 @@ package chmodhelper
 import (
 	"sync"
 
-	"gitlab.com/auk-go/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
 var (

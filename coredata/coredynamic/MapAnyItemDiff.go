@@ -3,8 +3,8 @@ package coredynamic
 import (
 	"log/slog"
 
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/mapdiffinternal"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
 )
 
 type MapAnyItemDiff map[string]any

@@ -3,10 +3,10 @@ package codegen
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/chmodhelper"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/pathinternal"
-	"gitlab.com/auk-go/core/iserror"
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/pathinternal"
+	"github.com/alimtvnetwork/core/iserror"
 )
 
 type FinalCode struct {

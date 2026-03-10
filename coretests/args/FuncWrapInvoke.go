@@ -6,10 +6,10 @@ import (
 	"reflect"
 	"strings"
 
-	"gitlab.com/auk-go/core/codestack"
-	"gitlab.com/auk-go/core/internal/convertinternal"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
-	"gitlab.com/auk-go/core/internal/trydo"
+	"github.com/alimtvnetwork/core/codestack"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/trydo"
 )
 
 // VoidCallNoReturn invokes the function ignoring return values.

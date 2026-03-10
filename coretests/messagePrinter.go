@@ -1,10 +1,7 @@
 package coretests
 
 import (
-	"fmt"
 	"log/slog"
-
-	"gitlab.com/auk-go/core/internal/msgformats"
 )
 
 type printMessage struct{}

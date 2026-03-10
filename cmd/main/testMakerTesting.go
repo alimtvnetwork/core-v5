@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/keymk"
+	"github.com/alimtvnetwork/core/keymk"
 )
 
 func testMakerTesting() {

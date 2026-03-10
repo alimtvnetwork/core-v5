@@ -1,8 +1,8 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -152,15 +152,15 @@ var typedCollectionPagedWithInfoTestCases = []coretestcases.CaseV1{
 			"pageSize": 2,
 		},
 		ExpectedInput: args.Map{
-			"pageCount":            3,
-			"p1CurrentPageIndex":   1,
-			"p1TotalPages":         3,
-			"p1PerPageItems":       2,
-			"p1TotalItems":         5,
-			"p2CurrentPageIndex":   2,
-			"p2TotalPages":         3,
-			"p2PerPageItems":       2,
-			"p2TotalItems":         5,
+			"pageCount":          3,
+			"p1CurrentPageIndex": 1,
+			"p1TotalPages":       3,
+			"p1PerPageItems":     2,
+			"p1TotalItems":       5,
+			"p2CurrentPageIndex": 2,
+			"p2TotalPages":       3,
+			"p2PerPageItems":     2,
+			"p2TotalItems":       5,
 		},
 	},
 }

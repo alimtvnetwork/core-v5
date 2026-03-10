@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 // ===== MethodProcessor Tests =====

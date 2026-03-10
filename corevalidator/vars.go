@@ -1,6 +1,6 @@
 package corevalidator
 
-import "gitlab.com/auk-go/core/enums/stringcompareas"
+import "github.com/alimtvnetwork/core/enums/stringcompareas"
 
 var (
 	DefaultDisabledCoreCondition = Condition{

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
 )
 
 type RawErrorType string
@@ -96,9 +96,9 @@ const (
 	PathsMissingOrHavingIssuesType             RawErrorType = "Path missing or having other access issues!"
 	BytesAreNilOrEmptyType                     RawErrorType = "Bytes data either nil or empty."
 	// Deprecated: Use ValidationFailedType instead.
-	ValidataionFailedType                      RawErrorType = "Validation failed!"
-	ValidationFailedType                       RawErrorType = "Validation failed!"
-	LengthIssueType                            RawErrorType = "Length Issue!"
+	ValidataionFailedType RawErrorType = "Validation failed!"
+	ValidationFailedType  RawErrorType = "Validation failed!"
+	LengthIssueType       RawErrorType = "Length Issue!"
 )
 
 func GetSet(

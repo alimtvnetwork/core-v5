@@ -1,7 +1,7 @@
 package simplewraptests
 
 import (
-	"gitlab.com/auk-go/core/coretests"
+	"github.com/alimtvnetwork/core/coretests"
 )
 
 type testWrapper struct {

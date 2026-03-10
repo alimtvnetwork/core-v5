@@ -1,6 +1,6 @@
 package coreapi
 
-import "gitlab.com/auk-go/core/coredata/coredynamic"
+import "github.com/alimtvnetwork/core/coredata/coredynamic"
 
 // TypedSimpleGenericRequest is the generic version of SimpleGenericRequest.
 //
@@ -20,7 +20,7 @@ import "gitlab.com/auk-go/core/coredata/coredynamic"
 //
 //	fmt.Println(req.Request.Data().Name) // "Alice" — strongly typed
 type TypedSimpleGenericRequest[T any] struct {
-	Attribute *RequestAttribute                   `json:"Attribute,omitempty"`
+	Attribute *RequestAttribute                  `json:"Attribute,omitempty"`
 	Request   *coredynamic.TypedSimpleRequest[T] `json:"Request,omitempty"`
 }
 
@@ -101,4 +101,3 @@ func (it *TypedSimpleGenericRequest[T]) Clone() *TypedSimpleGenericRequest[T] {
 		Request:   it.Request.Clone(),
 	}
 }
-

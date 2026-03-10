@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"strconv"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type newBasicInt32Creator struct{}

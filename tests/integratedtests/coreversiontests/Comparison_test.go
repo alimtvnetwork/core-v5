@@ -3,10 +3,10 @@ package coreversiontests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coreversion"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreversion"
 )
 
 func Test_Comparison_Verification(t *testing.T) {

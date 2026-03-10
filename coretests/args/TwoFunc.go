@@ -1,8 +1,8 @@
 package args
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 // TwoFunc holds two typed positional arguments plus a WorkFunc for

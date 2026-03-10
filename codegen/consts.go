@@ -1,6 +1,6 @@
 package codegen
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 const (
 	ArgsJoiner            = constants.CommaSpace

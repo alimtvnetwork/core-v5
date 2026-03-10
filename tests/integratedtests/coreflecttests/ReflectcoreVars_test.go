@@ -3,7 +3,7 @@ package coreflecttests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/reflectcore"
+	"github.com/alimtvnetwork/core/reflectcore"
 )
 
 // ==========================================

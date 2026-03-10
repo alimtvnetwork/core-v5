@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/regexnew"
+	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func Test_New_Lazy_Verification(t *testing.T) {

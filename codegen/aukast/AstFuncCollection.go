@@ -1,6 +1,6 @@
 package aukast
 
-import "gitlab.com/auk-go/core/coredata/corestr"
+import "github.com/alimtvnetwork/core/coredata/corestr"
 
 type AstFuncCollection struct {
 	Names         *corestr.SimpleSlice

@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"reflect"
 
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 type Creator struct {

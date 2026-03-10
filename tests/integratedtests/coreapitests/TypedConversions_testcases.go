@@ -1,8 +1,8 @@
 package coreapitests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================
@@ -137,6 +137,7 @@ var typedSimpleGenericRequestMessageTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
 // Note: Nil receiver test cases migrated to TypedConversions_NilReceiver_testcases.go
 // using CaseNilSafe pattern with function literal wrappers for generic types.
 

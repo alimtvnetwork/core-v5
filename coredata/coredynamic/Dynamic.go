@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"reflect"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/coreonce"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/coreonce"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 // Dynamic wraps an arbitrary value with cached reflection metadata.

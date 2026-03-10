@@ -136,7 +136,7 @@ The `pagingValidation.go` file provides focused predicate functions used by `Get
 ## Usage
 
 ```go
-import "gitlab.com/auk-go/core/pagingutil"
+import "github.com/alimtvnetwork/core/pagingutil"
 
 // Total pages
 pages := pagingutil.GetPagesSize(10, 95) // 10

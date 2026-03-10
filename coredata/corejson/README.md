@@ -76,7 +76,7 @@ corejson/
 ### Serialization
 
 ```go
-import "gitlab.com/auk-go/core/coredata/corejson"
+import "github.com/alimtvnetwork/core/coredata/corejson"
 
 type User struct {
     Name  string `json:"name"`

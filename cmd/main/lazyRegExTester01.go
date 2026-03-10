@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"gitlab.com/auk-go/core/regexnew"
+	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func lazyRegExTester01() {

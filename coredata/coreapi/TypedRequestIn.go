@@ -1,6 +1,6 @@
 package coreapi
 
-import "gitlab.com/auk-go/core/coredata/coredynamic"
+import "github.com/alimtvnetwork/core/coredata/coredynamic"
 
 // TypedRequestIn is the generic API request type.
 //

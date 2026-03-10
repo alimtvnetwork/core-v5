@@ -3,8 +3,8 @@ package corestr
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/coredata/coregeneric"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/coredata/coregeneric"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
 )
 
 // LeftMiddleRight is a string-specialized three-value container.

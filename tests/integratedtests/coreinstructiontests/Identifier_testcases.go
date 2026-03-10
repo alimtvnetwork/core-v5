@@ -1,8 +1,8 @@
 package coreinstructiontests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var identifierTestCases = []coretestcases.CaseV1{
@@ -14,8 +14,8 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"id":   "test-123",
 		},
 		ExpectedInput: args.Map{
-			"id":                 "test-123",
-			"isEmpty":            false,
+			"id":                  "test-123",
+			"isEmpty":             false,
 			"isEmptyOrWhitespace": false,
 		},
 	},
@@ -26,8 +26,8 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"id":   "user@domain.com/resource#123",
 		},
 		ExpectedInput: args.Map{
-			"id":                 "user@domain.com/resource#123",
-			"isEmpty":            false,
+			"id":                  "user@domain.com/resource#123",
+			"isEmpty":             false,
 			"isEmptyOrWhitespace": false,
 		},
 	},
@@ -40,8 +40,8 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"id":   "",
 		},
 		ExpectedInput: args.Map{
-			"id":                 "",
-			"isEmpty":            true,
+			"id":                  "",
+			"isEmpty":             true,
 			"isEmptyOrWhitespace": true,
 		},
 	},
@@ -52,8 +52,8 @@ var identifierTestCases = []coretestcases.CaseV1{
 			"id":   "   ",
 		},
 		ExpectedInput: args.Map{
-			"id":                 "   ",
-			"isEmpty":            false,
+			"id":                  "   ",
+			"isEmpty":             false,
 			"isEmptyOrWhitespace": true,
 		},
 	},

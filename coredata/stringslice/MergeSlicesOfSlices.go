@@ -1,6 +1,6 @@
 package stringslice
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 // MergeSlicesOfSlices Don't include nil or length 0 slices
 func MergeSlicesOfSlices(slicesOfSlice ...[]string) []string {

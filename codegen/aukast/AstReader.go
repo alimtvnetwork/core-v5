@@ -5,9 +5,9 @@ import (
 	"go/parser"
 	"go/token"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/isany"
 	"golang.org/x/tools/go/packages"
 )
 

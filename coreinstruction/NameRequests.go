@@ -1,6 +1,6 @@
 package coreinstruction
 
-import "gitlab.com/auk-go/core/coredata/corestr"
+import "github.com/alimtvnetwork/core/coredata/corestr"
 
 type NameRequests struct {
 	Name     string               `json:"Name,omitempty"`

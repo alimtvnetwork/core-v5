@@ -1,8 +1,8 @@
 package coreoncetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -100,10 +100,10 @@ var mapSSOnceIsEqualTestCases = []mapSSOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "MapStringStringOnce {a:1} — IsEqual same true, different false",
 			ExpectedInput: args.Map{
-				"isEqualSame":     true,
-				"isEqualDiffVal":  false,
-				"isEqualDiffKey":  false,
-				"isEqualDiffLen":  false,
+				"isEqualSame":    true,
+				"isEqualDiffVal": false,
+				"isEqualDiffKey": false,
+				"isEqualDiffLen": false,
 			},
 		},
 		InitValue: map[string]string{"a": "1"},

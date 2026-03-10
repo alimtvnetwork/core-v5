@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/coretaskinfo"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coretaskinfo"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func infoCreateExample01() {

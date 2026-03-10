@@ -3,7 +3,7 @@ package strutilinternal
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 func NonWhitespaceJoin(slice []string, joiner string) string {

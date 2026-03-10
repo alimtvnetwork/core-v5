@@ -1,9 +1,9 @@
 package loggerinf
 
 import (
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/coreinterface/pathextendinf"
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coreinterface/pathextendinf"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type AttrPersistentLogger interface {

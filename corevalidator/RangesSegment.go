@@ -1,8 +1,8 @@
 package corevalidator
 
 import (
-	"gitlab.com/auk-go/core/coredata/corerange"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/coredata/corerange"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 type RangesSegment struct {

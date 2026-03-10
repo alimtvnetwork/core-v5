@@ -5,10 +5,10 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/corevalidator"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 var sliceValidatorsVerifyAllDiffTestCases = []coretestcases.CaseV1{
@@ -21,10 +21,10 @@ var sliceValidatorsVerifyAllDiffTestCases = []coretestcases.CaseV1{
 			"header":   "diff-test-header",
 		},
 		ExpectedInput: []string{
-			"true",  // error is not nil
-			"true",  // error contains header
-			"true",  // error contains actual line "world"
-			"true",  // error contains expected line "planet"
+			"true", // error is not nil
+			"true", // error contains header
+			"true", // error contains actual line "world"
+			"true", // error contains expected line "planet"
 		},
 	},
 	{

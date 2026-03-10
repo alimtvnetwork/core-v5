@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coreapi"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coreapi"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func Test_PageRequest_IsPageSizeEmpty(t *testing.T) {

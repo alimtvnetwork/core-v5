@@ -1,8 +1,8 @@
 package enumimpl
 
 import (
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
 )
 
 func OnlySupportedErr(

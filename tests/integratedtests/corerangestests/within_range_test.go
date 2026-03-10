@@ -3,10 +3,10 @@ package corerangestests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/converters"
+	"github.com/alimtvnetwork/core/errcore"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/converters"
-	"gitlab.com/auk-go/core/errcore"
 )
 
 func Test_RangeInt_Valid_WithInRange_Verification(t *testing.T) {

@@ -1,6 +1,6 @@
 package coredynamictestwrappers
 
-import "gitlab.com/auk-go/core/coretests"
+import "github.com/alimtvnetwork/core/coretests"
 
 var (
 	ReflectSetFromToTestCasesDraftTypeInput = coretests.DraftType{

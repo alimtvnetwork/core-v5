@@ -1,7 +1,7 @@
 package reflectinternal
 
 import (
-	"gitlab.com/auk-go/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
 )
 
 var (

@@ -7,10 +7,10 @@ import (
 
 // GetPkgName
 //
-// fullImportLine - "gitlab.com/auk-go/core/internal/reflectinternal"
+// fullImportLine - "github.com/alimtvnetwork/core/internal/reflectinternal"
 //
 // # returns
-//   - prefix : gitlab.com/auk-go/core/internal/
+//   - prefix : github.com/alimtvnetwork/core/internal/
 //   - pkgName : reflectinternal
 func GetPkgName(fullImportLine string) (prefix, pkgName string) {
 	trim := strings.TrimSpace(fullImportLine)

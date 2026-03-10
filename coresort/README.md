@@ -38,8 +38,8 @@ coresort/
 
 ```go
 import (
-    "gitlab.com/auk-go/core/coresort/intsort"
-    "gitlab.com/auk-go/core/coresort/strsort"
+    "github.com/alimtvnetwork/core/coresort/intsort"
+    "github.com/alimtvnetwork/core/coresort/strsort"
 )
 
 // Sort integers ascending

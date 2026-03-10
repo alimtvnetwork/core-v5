@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/coresort/intsort"
-	"gitlab.com/auk-go/core/coresort/strsort"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coresort/intsort"
+	"github.com/alimtvnetwork/core/coresort/strsort"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // =============================================================================

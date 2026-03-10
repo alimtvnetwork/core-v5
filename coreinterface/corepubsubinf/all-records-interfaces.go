@@ -1,12 +1,12 @@
 package corepubsubinf
 
 import (
-	"gitlab.com/auk-go/core/coreinterface"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/coreinterface/errcoreinf"
-	"gitlab.com/auk-go/core/coreinterface/loggerinf"
-	"gitlab.com/auk-go/core/coreinterface/pathextendinf"
-	"gitlab.com/auk-go/core/internal/internalinterface"
+	"github.com/alimtvnetwork/core/coreinterface"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
+	"github.com/alimtvnetwork/core/coreinterface/loggerinf"
+	"github.com/alimtvnetwork/core/coreinterface/pathextendinf"
+	"github.com/alimtvnetwork/core/internal/internalinterface"
 )
 
 type IdAsStringer interface {

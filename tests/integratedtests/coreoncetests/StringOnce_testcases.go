@@ -1,8 +1,8 @@
 package coreoncetests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // =============================================================================
@@ -19,10 +19,10 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce 'hello' — Value, String, IsEmpty false",
 			ExpectedInput: args.Map{
-				"value":                "hello",
-				"string":               "hello",
-				"isEmpty":              false,
-				"isEmptyOrWhitespace":  false,
+				"value":               "hello",
+				"string":              "hello",
+				"isEmpty":             false,
+				"isEmptyOrWhitespace": false,
 			},
 		},
 		InitValue: "hello",
@@ -31,10 +31,10 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce empty — IsEmpty true, IsEmptyOrWhitespace true",
 			ExpectedInput: args.Map{
-				"value":                "",
-				"string":               "",
-				"isEmpty":              true,
-				"isEmptyOrWhitespace":  true,
+				"value":               "",
+				"string":              "",
+				"isEmpty":             true,
+				"isEmptyOrWhitespace": true,
 			},
 		},
 		InitValue: "",
@@ -43,10 +43,10 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "StringOnce whitespace — IsEmpty false, IsEmptyOrWhitespace true",
 			ExpectedInput: args.Map{
-				"value":                "   ",
-				"string":               "   ",
-				"isEmpty":              false,
-				"isEmptyOrWhitespace":  true,
+				"value":               "   ",
+				"string":              "   ",
+				"isEmpty":             false,
+				"isEmptyOrWhitespace": true,
 			},
 		},
 		InitValue: "   ",

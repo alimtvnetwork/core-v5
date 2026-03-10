@@ -3,8 +3,8 @@ package coremath
 import (
 	"math"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/osconsts"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/osconsts"
 )
 
 type integerOutOfRange struct{}

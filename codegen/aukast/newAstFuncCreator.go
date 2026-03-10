@@ -3,7 +3,7 @@ package aukast
 import (
 	"go/ast"
 
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 type newAstFunctionCreator struct{}

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/corecsv"
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/corecsv"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 func Test_StringersToString_Verification(t *testing.T) {

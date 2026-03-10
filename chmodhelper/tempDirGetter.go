@@ -1,6 +1,6 @@
 package chmodhelper
 
-import "gitlab.com/auk-go/core/internal/osconstsinternal"
+import "github.com/alimtvnetwork/core/internal/osconstsinternal"
 
 type tempDirGetter struct{}
 

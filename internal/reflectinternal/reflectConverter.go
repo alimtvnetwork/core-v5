@@ -6,8 +6,8 @@ import (
 	"sync"
 	"unsafe"
 
-	"gitlab.com/auk-go/core/internal/convertinternal"
-	"gitlab.com/auk-go/core/reflectcore/reflectmodel"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 type reflectConverter struct{}

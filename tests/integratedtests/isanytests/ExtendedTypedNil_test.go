@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"gitlab.com/auk-go/core/corecsv"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/isany"
+	"github.com/alimtvnetwork/core/corecsv"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/isany"
 )
 
 // Test_Extended_Defined_TypedNil verifies isany.Defined with typed-nil error and *int.

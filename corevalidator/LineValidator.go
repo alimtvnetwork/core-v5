@@ -3,8 +3,8 @@ package corevalidator
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type LineValidator struct {

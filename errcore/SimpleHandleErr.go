@@ -1,6 +1,6 @@
 package errcore
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 func SimpleHandleErr(err error, msg string) {
 	if err == nil {

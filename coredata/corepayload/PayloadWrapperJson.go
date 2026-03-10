@@ -1,6 +1,6 @@
 package corepayload
 
-import "gitlab.com/auk-go/core/coredata/corejson"
+import "github.com/alimtvnetwork/core/coredata/corejson"
 
 // PayloadWrapperJson.go — JSON-related methods extracted from PayloadWrapper.go
 // These methods handle serialization, deserialization, and JSON representation.

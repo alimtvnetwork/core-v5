@@ -3,8 +3,8 @@ package coredynamictests
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coredata/coredynamic"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // getBool extracts a boolean flag from the input map, defaulting to false.
@@ -232,8 +232,8 @@ func Test_MapAnyItems_ClonePtr_Independence(t *testing.T) {
 	clone.Add("new_key", "new_val")
 
 	actual := args.Map{
-		"hasError":         err != nil,
-		"cloneIsNil":       clone == nil,
+		"hasError":          err != nil,
+		"cloneIsNil":        clone == nil,
 		"originalHasNewKey": m.HasKey("new_key"),
 		"cloneHasNewKey":    clone.HasKey("new_key"),
 	}

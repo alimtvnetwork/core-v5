@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
 )
 
 // KeyWithLegend

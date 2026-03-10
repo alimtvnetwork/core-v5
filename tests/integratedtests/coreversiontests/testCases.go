@@ -3,11 +3,11 @@ package coreversiontests
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/corecomparator"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coreversion"
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/corecomparator"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreversion"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 var (
@@ -140,7 +140,7 @@ var (
 	comparisonStringTestCases = []testWrapper{
 		{
 			Title: "Versions comparisons - Left Greater",
-		ArrangeInput: []args.LeftRightAny{
+			ArrangeInput: []args.LeftRightAny{
 				{
 					Left:   "1.2.5",
 					Right:  "1.2.4",
@@ -179,7 +179,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Left Less",
-		ArrangeInput: []args.LeftRightAny{
+			ArrangeInput: []args.LeftRightAny{
 				{
 					Left:   "1.2",
 					Right:  "1.2.1",
@@ -236,7 +236,7 @@ var (
 		},
 		{
 			Title: "Versions comparisons - Equal",
-		ArrangeInput: []args.LeftRightAny{
+			ArrangeInput: []args.LeftRightAny{
 				{
 					Left:   "v2.2",
 					Right:  "v2.2.0",

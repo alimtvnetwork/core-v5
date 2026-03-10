@@ -1,7 +1,7 @@
 package chmodhelpertests
 
 import (
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 var linuxApplyRecursiveOnPathTestCase = coretestcases.CaseV1{

@@ -1,6 +1,6 @@
 package chmodhelper
 
-import "gitlab.com/auk-go/core/coredata/corestr"
+import "github.com/alimtvnetwork/core/coredata/corestr"
 
 // GetFilesChmodRwxFullMapDirect returns filePath -> "-rwxrwxrwx"
 func GetFilesChmodRwxFullMapDirect(

@@ -1,8 +1,8 @@
 package coredynamic
 
 import (
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 type LeftRight struct {

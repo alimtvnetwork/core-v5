@@ -1,7 +1,7 @@
 package chmodhelper
 
 import (
-	"gitlab.com/auk-go/core/chmodhelper/chmodins"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
 )
 
 func ParseRwxInstructionToExecutor(

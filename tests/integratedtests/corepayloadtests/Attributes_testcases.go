@@ -1,8 +1,8 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // ==========================================
@@ -13,8 +13,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Both nil Attributes are equal",
 		ArrangeInput: args.Map{
-			"when":     "both attributes are nil",
-			"left_nil": true,
+			"when":      "both attributes are nil",
+			"left_nil":  true,
 			"right_nil": true,
 		},
 		ExpectedInput: args.Map{
@@ -24,8 +24,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Left nil, right non-nil are not equal",
 		ArrangeInput: args.Map{
-			"when":     "left is nil right is not",
-			"left_nil": true,
+			"when":      "left is nil right is not",
+			"left_nil":  true,
 			"right_nil": false,
 		},
 		ExpectedInput: args.Map{
@@ -35,8 +35,8 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Right nil, left non-nil are not equal",
 		ArrangeInput: args.Map{
-			"when":     "right is nil left is not",
-			"left_nil": false,
+			"when":      "right is nil left is not",
+			"left_nil":  false,
 			"right_nil": true,
 		},
 		ExpectedInput: args.Map{

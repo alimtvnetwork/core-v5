@@ -35,7 +35,7 @@ Lightweight, quick-determination comparator for `any`-typed values. Returns `Equ
 ## Usage Example
 
 ```go
-import "gitlab.com/auk-go/core/anycmp"
+import "github.com/alimtvnetwork/core/anycmp"
 
 result := anycmp.Cmp(a, b)
 

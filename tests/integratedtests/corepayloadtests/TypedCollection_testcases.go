@@ -1,8 +1,8 @@
 package corepayloadtests
 
 import (
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
 // testUser is a simple struct for testing TypedPayloadCollection[T].
@@ -177,9 +177,9 @@ var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 			"when": "checking any user named Bob",
 		},
 		ExpectedInput: args.Map{
-			"anyBob":        true,
+			"anyBob":         true,
 			"anyNonexistent": false,
-			"allAreParsed":  true,
+			"allAreParsed":   true,
 		},
 	},
 }
@@ -191,10 +191,10 @@ var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 var typedCollectionEmptyOpsTestCase = coretestcases.CaseV1{
 	Title: "Empty collection operations return zero values",
 	ExpectedInput: args.Map{
-		"allDataLen":   0,
-		"namesLen":     0,
-		"filteredLen":  0,
-		"totalAge":     0,
+		"allDataLen":  0,
+		"namesLen":    0,
+		"filteredLen": 0,
+		"totalAge":    0,
 	},
 }
 
@@ -205,8 +205,8 @@ var typedCollectionEmptyOpsTestCase = coretestcases.CaseV1{
 var typedCollectionFirstByNameTestCase = coretestcases.CaseV1{
 	Title: "FirstByName finds existing and returns nil for missing",
 	ExpectedInput: args.Map{
-		"foundName":    "Bob",
-		"notFoundNil":  true,
+		"foundName":   "Bob",
+		"notFoundNil": true,
 	},
 }
 

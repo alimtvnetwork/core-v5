@@ -3,7 +3,7 @@ package codegen
 import (
 	"errors"
 
-	"gitlab.com/auk-go/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper"
 )
 
 type newFinalCodeCreator struct{}

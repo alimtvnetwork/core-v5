@@ -1,6 +1,6 @@
 package corestr
 
-import "gitlab.com/auk-go/core/coredata/coregeneric"
+import "github.com/alimtvnetwork/core/coredata/coregeneric"
 
 // LeftRightFromSplit splits a string by separator into a LeftRight.
 //

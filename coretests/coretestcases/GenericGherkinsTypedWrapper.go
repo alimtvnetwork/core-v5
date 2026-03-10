@@ -1,6 +1,6 @@
 package coretestcases
 
-import "gitlab.com/auk-go/core/coretests"
+import "github.com/alimtvnetwork/core/coretests"
 
 // CaseTitle returns the test case title (Title or When fallback).
 //

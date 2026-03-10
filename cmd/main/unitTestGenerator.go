@@ -3,15 +3,15 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/codegen"
-	"gitlab.com/auk-go/core/codegen/codegentype"
-	"gitlab.com/auk-go/core/codegen/coreproperty"
-	"gitlab.com/auk-go/core/codegen/fmtcodegentype"
-	"gitlab.com/auk-go/core/codestack"
-	"gitlab.com/auk-go/core/coretests"
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/coretests/coretestcases"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/codegen"
+	"github.com/alimtvnetwork/core/codegen/codegentype"
+	"github.com/alimtvnetwork/core/codegen/coreproperty"
+	"github.com/alimtvnetwork/core/codegen/fmtcodegentype"
+	"github.com/alimtvnetwork/core/codestack"
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type unitTestGenerator struct{}

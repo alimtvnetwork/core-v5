@@ -3,8 +3,8 @@ package coretestcases
 import (
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 // ExpectedAsMap retrieves ExpectedInput as args.Map.

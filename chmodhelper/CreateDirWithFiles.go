@@ -4,7 +4,7 @@ import (
 	"os"
 	"path"
 
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func CreateDirWithFiles(

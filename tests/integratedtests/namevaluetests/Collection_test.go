@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/coretests/args"
-	"gitlab.com/auk-go/core/namevalue"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/namevalue"
 )
 
 // ==========================================================================
@@ -290,7 +290,7 @@ func Test_CollectionError_Verification(t *testing.T) {
 		errMsg := col.ErrorUsingMessage("failed:")
 
 		actual := args.Map{
-			"hasError":            err != nil,
+			"hasError":           err != nil,
 			"errorContainsItems": errMsg != nil,
 		}
 

@@ -3,9 +3,9 @@ package simplewraptests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/simplewrap"
 	"github.com/smarty/assertions/should"
 	"github.com/smartystreets/goconvey/convey"
-	"gitlab.com/auk-go/core/simplewrap"
 )
 
 func Test_DoubleQuoteWrapElementsWithIndexes_Should_Return_Slice_WithDoubleQuoteWithIndexes(t *testing.T) {

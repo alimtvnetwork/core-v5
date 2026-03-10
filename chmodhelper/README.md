@@ -85,7 +85,7 @@ chmodhelper/
 ### Checking Permissions
 
 ```go
-import "gitlab.com/auk-go/core/chmodhelper"
+import "github.com/alimtvnetwork/core/chmodhelper"
 
 // Check if path exists
 exists := chmodhelper.IsPathExists("/tmp/myfile")

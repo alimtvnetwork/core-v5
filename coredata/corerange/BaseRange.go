@@ -3,7 +3,7 @@ package corerange
 import (
 	"fmt"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 type BaseRange struct {

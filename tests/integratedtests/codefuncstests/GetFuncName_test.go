@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"gitlab.com/auk-go/core/corefuncs"
-	"gitlab.com/auk-go/core/coretests/args"
+	"github.com/alimtvnetwork/core/corefuncs"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 func sampleFunc() {}

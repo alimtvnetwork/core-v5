@@ -1,8 +1,8 @@
 package corepayload
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/defaultcapacity"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/defaultcapacity"
 )
 
 // PayloadsCollectionFilter.go — Filter and search methods extracted from PayloadsCollection.go

@@ -1,6 +1,6 @@
 package stringslice
 
-import "gitlab.com/auk-go/core/constants"
+import "github.com/alimtvnetwork/core/constants"
 
 // Deprecated: Use FirstOrDefault instead.
 func FirstOrDefaultPtr(slice []string) string {

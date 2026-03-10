@@ -1,8 +1,8 @@
 package corevalidator
 
 import (
-	"gitlab.com/auk-go/core/coredata/corestr"
-	"gitlab.com/auk-go/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 type SimpleSliceValidator struct {

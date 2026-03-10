@@ -3,7 +3,7 @@ package coretests
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/issetter"
+	"github.com/alimtvnetwork/core/issetter"
 )
 
 // VerifyTypeOf

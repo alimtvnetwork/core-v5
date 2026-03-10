@@ -3,7 +3,7 @@ package errcore
 import (
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
+	"github.com/alimtvnetwork/core/constants"
 )
 
 // PathMeaningfulMessage skip error if messages empty or length 0
