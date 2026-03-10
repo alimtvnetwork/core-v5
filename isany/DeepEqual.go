@@ -1,7 +1,7 @@
 package isany
 
 import (
-	"gitlab.com/auk-go/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
 
 func DeepEqual(

@@ -3,8 +3,8 @@ package conditional
 import (
 	"strconv"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 func executeErrorFunctions(functions []func() error) error {

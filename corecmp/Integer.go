@@ -1,6 +1,6 @@
 package corecmp
 
-import "gitlab.com/auk-go/core/corecomparator"
+import "github.com/alimtvnetwork/core/corecomparator"
 
 func Integer(left, right int) corecomparator.Compare {
 	if left == right {

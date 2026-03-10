@@ -1,6 +1,6 @@
 package isany
 
-import "gitlab.com/auk-go/core/internal/strutilinternal"
+import "github.com/alimtvnetwork/core/internal/strutilinternal"
 
 func StringEqual(
 	left, right any,

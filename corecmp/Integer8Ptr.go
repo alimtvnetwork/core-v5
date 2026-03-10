@@ -1,6 +1,6 @@
 package corecmp
 
-import "gitlab.com/auk-go/core/corecomparator"
+import "github.com/alimtvnetwork/core/corecomparator"
 
 func Integer8Ptr(left, right *int8) corecomparator.Compare {
 	if left == nil && right == nil {

@@ -1,6 +1,6 @@
 package corefuncs
 
-import "gitlab.com/auk-go/core/errcore"
+import "github.com/alimtvnetwork/core/errcore"
 
 // ResultDelegatingFuncWrapperOf is the generic version of ResultDelegatingFuncWrapper.
 //
