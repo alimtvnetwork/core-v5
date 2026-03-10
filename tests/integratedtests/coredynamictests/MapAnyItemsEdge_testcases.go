@@ -128,28 +128,7 @@ var mapAnyItemsIsEqualBothEmptyTestCase = coretestcases.CaseV1{
 // MapAnyItems — IsEqualRaw
 // ==========================================
 
-var mapAnyItemsIsEqualRawNilReceiverTestCase = coretestcases.CaseV1{
-	Title: "IsEqualRaw - nil receiver should return false",
-	ArrangeInput: args.Map{
-		"when":     "receiver is nil, raw map has data",
-		"leftNil":  true,
-		"rightMap": map[string]any{"k": "v"},
-	},
-	ExpectedInput: args.Map{
-		"isEqualRaw": false,
-	},
-}
-
-var mapAnyItemsIsEqualRawBothNilTestCase = coretestcases.CaseV1{
-	Title: "IsEqualRaw - nil receiver nil map should return true",
-	ArrangeInput: args.Map{
-		"when":    "both receiver and raw map are nil",
-		"leftNil": true,
-	},
-	ExpectedInput: args.Map{
-		"isEqualRaw": true,
-	},
-}
+// Note: IsEqualRaw nil receiver test cases migrated to MapAnyItemsEdge_NilReceiver_testcases.go.
 
 var mapAnyItemsIsEqualRawMatchingTestCase = coretestcases.CaseV1{
 	Title: "IsEqualRaw - matching map should return true",
