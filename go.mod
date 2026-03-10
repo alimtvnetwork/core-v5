@@ -1,4 +1,4 @@
-module gitlab.com/auk-go/core
+module github.com/alimtvnetwork/core
 
 go 1.24.0
 
