@@ -41,9 +41,9 @@ func MapMismatchError(
 ) string {
 	var sb strings.Builder
 
-	sb.WriteString(fmt.Sprintf("Test Method : %s\n", testName))
-	sb.WriteString(fmt.Sprintf("Case        : %d\n", caseIndex))
-	sb.WriteString(fmt.Sprintf("Title       : %s\n\n", title))
+	sb.WriteString(fmt.Sprintf("\n    Test Method : %s\n", testName))
+	sb.WriteString(fmt.Sprintf("    Case        : %d\n", caseIndex))
+	sb.WriteString(fmt.Sprintf("    Title       : %s\n\n", title))
 
 	// Actual block
 	sb.WriteString(mapSeparator + "\n")
