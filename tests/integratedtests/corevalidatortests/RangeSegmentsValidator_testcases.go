@@ -164,7 +164,7 @@ var rangeSegmentsValidatorVerifyFirstTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "VerifyFirst returns error -- mismatched segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "first-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{
