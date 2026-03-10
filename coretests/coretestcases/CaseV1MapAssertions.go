@@ -58,6 +58,7 @@ func (it CaseV1) ShouldBeEqualMap(
 
 		// Build map-specific diagnostic with Go literal format (copy-pasteable)
 		mapErrMsg := errcore.MapMismatchError(
+			t.Name(),
 			caseIndex,
 			it.Title,
 			actual.GoLiteralLines(),

@@ -14,8 +14,10 @@ const mapSeparator = "============================>"
 //
 // Output format:
 //
+//	Map Mismatch (TestFuncName, Case 1: Case Title)
+//
 //	============================>
-//	Actual Received (2 entries):
+//	1) Actual Received (2 entries):
 //	    Case Title
 //	============================>
 //		"containsName": false,
@@ -23,12 +25,13 @@ const mapSeparator = "============================>"
 //	============================>
 //
 //	============================>
-//	Expected Input (1 entries):
+//	1) Expected Input (1 entries):
 //	    Case Title
 //	============================>
 //		"hasError": false,
 //	============================>
 func MapMismatchError(
+	testName string,
 	caseIndex int,
 	title string,
 	actualGoLiteralLines []string,
@@ -37,7 +40,8 @@ func MapMismatchError(
 	var sb strings.Builder
 
 	sb.WriteString(fmt.Sprintf(
-		"Map Mismatch (Case %d: %s)\n\n",
+		"Map Mismatch (%s, Case %d: %s)\n\n",
+		testName,
 		caseIndex,
 		title,
 	))
