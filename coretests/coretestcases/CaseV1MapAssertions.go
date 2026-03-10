@@ -3,6 +3,9 @@ package coretestcases
 import (
 	"testing"
 
+	"errors"
+	"testing"
+
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/errcore"
 	"github.com/smarty/assertions/should"
