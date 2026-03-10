@@ -15,11 +15,13 @@
    ```
    Do NOT use the full line-by-line diff block for single values.
 
-2. **Multi-line comparison**: Use the standard `LineDiff` format with aligned labels:
+2. **Multi-line comparison**: Use the standard `LineDiff` format with aligned labels.
+   Both `actual` and `expected` labels must be padded to 10 characters before the colon
+   to ensure consistent visual alignment:
    ```
      Line   2 [MISMATCH]:
-         actual   : `isDefined : true`
-         expected : `isDefined : false`
+         actual     : `isDefined : true`
+         expected   : `isDefined : false`
    ```
 
 ## Alignment
