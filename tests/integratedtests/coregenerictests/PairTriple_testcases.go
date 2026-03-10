@@ -11,7 +11,7 @@ import (
 
 var pairNewValidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Pair[string,string] valid",
+		Title: "NewPair returns valid Pair -- left 'key', right 'value'",
 		ArrangeInput: args.Map{
 			"left":  "key",
 			"right": "value",
@@ -24,7 +24,7 @@ var pairNewValidTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Pair[string,string] empty strings valid",
+		Title: "NewPair returns valid Pair -- both empty strings",
 		ArrangeInput: args.Map{
 			"left":  "",
 			"right": "",
@@ -44,7 +44,7 @@ var pairNewValidTestCases = []coretestcases.CaseV1{
 
 var pairInvalidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "InvalidPair with message",
+		Title: "InvalidPair returns invalid with message -- 'something went wrong'",
 		ArrangeInput: args.Map{
 			"message": "something went wrong",
 		},
@@ -56,7 +56,7 @@ var pairInvalidTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "InvalidPairNoMessage",
+		Title: "InvalidPair returns invalid with empty message -- empty string",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
@@ -75,7 +75,7 @@ var pairInvalidTestCases = []coretestcases.CaseV1{
 
 var pairCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Clone produces independent copy",
+		Title: "Clone returns independent copy -- left 'original-left', right 'original-right'",
 		ArrangeInput: args.Map{
 			"left":  "original-left",
 			"right": "original-right",
@@ -95,7 +95,7 @@ var pairCloneTestCases = []coretestcases.CaseV1{
 
 var pairNilCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Nil pair clone returns nil",
+		Title:         "Clone returns nil -- nil pair input",
 		ArrangeInput:  args.Map{},
 		ExpectedInput: "true",
 	},
@@ -106,7 +106,7 @@ var pairNilCloneTestCases = []coretestcases.CaseV1{
 // ==========================================
 
 var pairIsEqualSameTestCase = coretestcases.CaseV1{
-	Title: "Equal pairs",
+	Title: "IsEqual returns true -- same left 'a' and right 'b'",
 	ArrangeInput: args.Map{
 		"left":  "a",
 		"right": "b",
@@ -115,7 +115,7 @@ var pairIsEqualSameTestCase = coretestcases.CaseV1{
 }
 
 var pairIsEqualDiffLeftTestCase = coretestcases.CaseV1{
-	Title: "Unequal pairs - different left",
+	Title: "IsEqual returns false -- different left values",
 	ArrangeInput: args.Map{
 		"left":  "a",
 		"right": "b",
@@ -124,7 +124,7 @@ var pairIsEqualDiffLeftTestCase = coretestcases.CaseV1{
 }
 
 var pairIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
-	Title: "Nil vs non-nil",
+	Title: "IsEqual returns false -- nil vs non-nil pair",
 	ArrangeInput: args.Map{
 		"left":  "a",
 		"right": "b",
@@ -133,7 +133,7 @@ var pairIsEqualNilVsNonNilTestCase = coretestcases.CaseV1{
 }
 
 var pairIsEqualBothNilTestCase = coretestcases.CaseV1{
-	Title:         "Both nil",
+	Title:         "IsEqual returns true -- both nil pairs",
 	ArrangeInput:  args.Map{},
 	ExpectedInput: "true",
 }
@@ -144,7 +144,7 @@ var pairIsEqualBothNilTestCase = coretestcases.CaseV1{
 
 var pairValuesTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Values returns left and right",
+		Title: "Values returns left and right -- 'hello', 'world'",
 		ArrangeInput: args.Map{
 			"left":  "hello",
 			"right": "world",
@@ -162,7 +162,7 @@ var pairValuesTestCases = []coretestcases.CaseV1{
 
 var tripleNewValidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Triple[string,string,string] valid",
+		Title: "NewTriple returns valid Triple -- 'a', 'b', 'c'",
 		ArrangeInput: args.Map{
 			"left":   "a",
 			"middle": "b",
@@ -184,7 +184,7 @@ var tripleNewValidTestCases = []coretestcases.CaseV1{
 
 var tripleInvalidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "InvalidTriple with message",
+		Title: "InvalidTriple returns invalid with message -- 'bad input'",
 		ArrangeInput: args.Map{
 			"message": "bad input",
 		},
@@ -197,7 +197,7 @@ var tripleInvalidTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "InvalidTripleNoMessage",
+		Title: "InvalidTriple returns invalid with empty message -- empty string",
 		ArrangeInput: args.Map{
 			"message": "",
 		},
@@ -217,7 +217,7 @@ var tripleInvalidTestCases = []coretestcases.CaseV1{
 
 var tripleCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Clone produces independent copy",
+		Title: "Clone returns independent copy -- Triple('L','M','R')",
 		ArrangeInput: args.Map{
 			"left":   "L",
 			"middle": "M",
@@ -239,7 +239,7 @@ var tripleCloneTestCases = []coretestcases.CaseV1{
 
 var tripleNilCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Nil triple clone returns nil",
+		Title:         "Clone returns nil -- nil triple input",
 		ArrangeInput:  args.Map{},
 		ExpectedInput: "true",
 	},
@@ -251,7 +251,7 @@ var tripleNilCloneTestCases = []coretestcases.CaseV1{
 
 var tripleValuesTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Values returns all three",
+		Title: "Values returns all three -- 'x', 'y', 'z'",
 		ArrangeInput: args.Map{
 			"left":   "x",
 			"middle": "y",
@@ -271,7 +271,7 @@ var tripleValuesTestCases = []coretestcases.CaseV1{
 
 var pairClearTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Clear resets to zero values",
+		Title: "Clear resets Pair to zero values -- from non-empty left and right",
 		ArrangeInput: args.Map{
 			"left":  "non-empty",
 			"right": "non-empty",
@@ -291,7 +291,7 @@ var pairClearTestCases = []coretestcases.CaseV1{
 
 var tripleClearTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Clear resets to zero values",
+		Title: "Clear resets Triple to zero values -- from non-empty left, middle, right",
 		ArrangeInput: args.Map{
 			"left":   "non-empty",
 			"middle": "non-empty",

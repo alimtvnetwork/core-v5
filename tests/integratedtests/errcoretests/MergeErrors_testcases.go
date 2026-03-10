@@ -11,7 +11,7 @@ import (
 
 var sliceToErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "SliceToError - nil slice returns nil",
+		Title: "SliceToError returns nil -- nil slice",
 		ArrangeInput: args.Map{
 			"when":  "given nil slice",
 			"isNil": true,
@@ -19,7 +19,7 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title: "SliceToError - empty slice returns nil",
+		Title: "SliceToError returns nil -- empty slice",
 		ArrangeInput: args.Map{
 			"when":  "given empty slice",
 			"input": []string{},
@@ -27,7 +27,7 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title: "SliceToError - single item returns error with message",
+		Title: "SliceToError returns error with message -- single item ['error one']",
 		ArrangeInput: args.Map{
 			"when":    "given single error string",
 			"input":   []string{"error one"},
@@ -39,7 +39,7 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "SliceToError - multiple items joins all",
+		Title: "SliceToError returns joined error -- three items ['err1','err2','err3']",
 		ArrangeInput: args.Map{
 			"when":    "given three error strings",
 			"input":   []string{"err1", "err2", "err3"},
@@ -58,7 +58,7 @@ var sliceToErrorTestCases = []coretestcases.CaseV1{
 
 var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 	{
-		Title: "SliceToErrorPtr - nil slice returns nil",
+		Title: "SliceToErrorPtr returns nil -- nil slice",
 		ArrangeInput: args.Map{
 			"when":  "given nil slice",
 			"isNil": true,
@@ -66,7 +66,7 @@ var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title: "SliceToErrorPtr - empty slice returns nil",
+		Title: "SliceToErrorPtr returns nil -- empty slice",
 		ArrangeInput: args.Map{
 			"when":  "given empty slice",
 			"input": []string{},
@@ -74,7 +74,7 @@ var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title: "SliceToErrorPtr - single item returns error",
+		Title: "SliceToErrorPtr returns error -- single item ['one']",
 		ArrangeInput: args.Map{
 			"when":    "given single error string",
 			"input":   []string{"one"},
@@ -93,7 +93,7 @@ var sliceToErrorPtrTestCases = []coretestcases.CaseV1{
 
 var mergeErrorsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "MergeErrors - no args returns nil",
+		Title: "MergeErrors returns nil -- no arguments",
 		ArrangeInput: args.Map{
 			"when":   "given no arguments",
 			"errors": []string{},
@@ -102,7 +102,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title: "MergeErrors - all nil returns nil",
+		Title: "MergeErrors returns nil -- three nil errors",
 		ArrangeInput: args.Map{
 			"when":   "given three nil errors",
 			"errors": []string{},
@@ -111,7 +111,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title: "MergeErrors - single error returns it",
+		Title: "MergeErrors returns single error -- one error 'fail'",
 		ArrangeInput: args.Map{
 			"when":    "given single error",
 			"errors":  []string{"fail"},
@@ -124,7 +124,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "MergeErrors - multiple errors joins all",
+		Title: "MergeErrors returns joined error -- three errors ['a','b','c']",
 		ArrangeInput: args.Map{
 			"when":    "given three errors",
 			"errors":  []string{"a", "b", "c"},
@@ -137,7 +137,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "MergeErrors - mixed nil and errors skips nil",
+		Title: "MergeErrors returns error skipping nils -- 2 errors interleaved with 3 nils",
 		ArrangeInput: args.Map{
 			"when":    "given errors interleaved with nils",
 			"errors":  []string{"real", "also real"},
@@ -150,7 +150,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "MergeErrors - single nil returns nil",
+		Title: "MergeErrors returns nil -- single nil",
 		ArrangeInput: args.Map{
 			"when":   "given single nil",
 			"errors": []string{},
@@ -166,7 +166,7 @@ var mergeErrorsTestCases = []coretestcases.CaseV1{
 
 var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "SliceErrorsToStrings - no args returns empty",
+		Title: "SliceErrorsToStrings returns empty -- no arguments",
 		ArrangeInput: args.Map{
 			"when":   "given no arguments",
 			"errors": []string{},
@@ -175,7 +175,7 @@ var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "0",
 	},
 	{
-		Title: "SliceErrorsToStrings - all nil returns empty",
+		Title: "SliceErrorsToStrings returns empty -- two nil errors",
 		ArrangeInput: args.Map{
 			"when":   "given two nil errors",
 			"errors": []string{},
@@ -184,7 +184,7 @@ var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "0",
 	},
 	{
-		Title: "SliceErrorsToStrings - mixed returns non-nil only",
+		Title: "SliceErrorsToStrings returns non-nil only -- 2 errors mixed with 1 nil",
 		ArrangeInput: args.Map{
 			"when":   "given errors mixed with nil",
 			"errors": []string{"a", "b"},
@@ -204,7 +204,7 @@ var sliceErrorsToStringsTestCases = []coretestcases.CaseV1{
 
 var mergeErrorsToStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "MergeErrorsToString - no errors returns empty",
+		Title: "MergeErrorsToString returns empty -- no errors",
 		ArrangeInput: args.Map{
 			"when":   "given no errors",
 			"joiner": ", ",
@@ -214,7 +214,7 @@ var mergeErrorsToStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "",
 	},
 	{
-		Title: "MergeErrorsToString - joins with custom joiner",
+		Title: "MergeErrorsToString returns joined string -- two errors with pipe joiner",
 		ArrangeInput: args.Map{
 			"when":   "given two errors with pipe joiner",
 			"joiner": " | ",
@@ -224,7 +224,7 @@ var mergeErrorsToStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "x | y",
 	},
 	{
-		Title: "MergeErrorsToString - skips nil errors",
+		Title: "MergeErrorsToString returns non-nil only -- one error with 2 nils",
 		ArrangeInput: args.Map{
 			"when":   "given one error with nils",
 			"joiner": ", ",
@@ -241,7 +241,7 @@ var mergeErrorsToStringTestCases = []coretestcases.CaseV1{
 
 var mergeErrorsToStringDefaultTestCases = []coretestcases.CaseV1{
 	{
-		Title: "MergeErrorsToStringDefault - no errors returns empty",
+		Title: "MergeErrorsToStringDefault returns empty -- no errors",
 		ArrangeInput: args.Map{
 			"when":   "given no errors",
 			"errors": []string{},
@@ -250,7 +250,7 @@ var mergeErrorsToStringDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "",
 	},
 	{
-		Title: "MergeErrorsToStringDefault - joins with space",
+		Title: "MergeErrorsToStringDefault returns space-joined -- two errors ['a','b']",
 		ArrangeInput: args.Map{
 			"when":   "given two errors",
 			"errors": []string{"a", "b"},

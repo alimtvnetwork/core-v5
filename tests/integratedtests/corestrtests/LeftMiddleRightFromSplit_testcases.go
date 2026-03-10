@@ -10,7 +10,7 @@ import (
 // ==========================================================================
 
 var leftMiddleRightFromSplitNormalTestCase = coretestcases.CaseV1{
-	Title: "Normal three-part split",
+	Title: "LeftMiddleRightFromSplit returns valid triple -- 'a:b:c' three-part split",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "b",
@@ -20,7 +20,7 @@ var leftMiddleRightFromSplitNormalTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitTwoPartsTestCase = coretestcases.CaseV1{
-	Title: "Two parts only — middle empty, invalid",
+	Title: "LeftMiddleRightFromSplit returns invalid -- 'a:b' two parts only",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "",
@@ -30,7 +30,7 @@ var leftMiddleRightFromSplitTwoPartsTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitSinglePartTestCase = coretestcases.CaseV1{
-	Title: "Single part — no separator found",
+	Title: "LeftMiddleRightFromSplit returns invalid -- 'hello' no separator found",
 	ExpectedInput: args.Map{
 		"left":    "hello",
 		"middle":  "",
@@ -40,7 +40,7 @@ var leftMiddleRightFromSplitSinglePartTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitFourPlusTestCase = coretestcases.CaseV1{
-	Title: "Four+ parts — middle=second, right=last",
+	Title: "LeftMiddleRightFromSplit returns middle=second, right=last -- 'a:b:c:d' four+ parts",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "b",
@@ -50,7 +50,7 @@ var leftMiddleRightFromSplitFourPlusTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitEmptyTestCase = coretestcases.CaseV1{
-	Title: "Empty input",
+	Title: "LeftMiddleRightFromSplit returns all empty invalid -- empty string input",
 	ExpectedInput: args.Map{
 		"left":    "",
 		"middle":  "",
@@ -60,7 +60,7 @@ var leftMiddleRightFromSplitEmptyTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitEdgesTestCase = coretestcases.CaseV1{
-	Title: "Separator at edges",
+	Title: "LeftMiddleRightFromSplit returns valid empty parts -- separator at edges",
 	ExpectedInput: args.Map{
 		"left":    "",
 		"middle":  "",
@@ -74,7 +74,7 @@ var leftMiddleRightFromSplitEdgesTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftMiddleRightFromSplitTrimmedAllTestCase = coretestcases.CaseV1{
-	Title: "Trims whitespace from all three parts",
+	Title: "LeftMiddleRightFromSplitTrimmed returns trimmed parts -- ' a : b : c ' with whitespace",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "b",
@@ -84,7 +84,7 @@ var leftMiddleRightFromSplitTrimmedAllTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitTrimmedTwoTestCase = coretestcases.CaseV1{
-	Title: "Trims with two parts only",
+	Title: "LeftMiddleRightFromSplitTrimmed returns invalid -- ' a : b ' two parts with whitespace",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "",
@@ -98,7 +98,7 @@ var leftMiddleRightFromSplitTrimmedTwoTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftMiddleRightFromSplitNRemainderTestCase = coretestcases.CaseV1{
-	Title: "SplitN keeps remainder in right",
+	Title: "SplitN returns remainder in right -- 'a:b:c:d:e' keeps 'c:d:e'",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "b",
@@ -108,7 +108,7 @@ var leftMiddleRightFromSplitNRemainderTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitNExact3TestCase = coretestcases.CaseV1{
-	Title: "SplitN with exactly 3 parts",
+	Title: "SplitN returns exact parts -- 'a:b:c' exactly 3 parts",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "b",
@@ -118,7 +118,7 @@ var leftMiddleRightFromSplitNExact3TestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitNTwoOnlyTestCase = coretestcases.CaseV1{
-	Title: "SplitN with 2 parts only",
+	Title: "SplitN returns invalid -- 'a:b' only 2 parts",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "",
@@ -128,7 +128,7 @@ var leftMiddleRightFromSplitNTwoOnlyTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitNMissingSepTestCase = coretestcases.CaseV1{
-	Title: "SplitN missing separator",
+	Title: "SplitN returns invalid -- 'nosep' missing separator",
 	ExpectedInput: args.Map{
 		"left":    "nosep",
 		"middle":  "",
@@ -142,7 +142,7 @@ var leftMiddleRightFromSplitNMissingSepTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftMiddleRightFromSplitNTrimmedRemainderTestCase = coretestcases.CaseV1{
-	Title: "SplitN trimmed keeps remainder trimmed",
+	Title: "SplitNTrimmed returns trimmed remainder -- ' a : b : c : d : e ' with whitespace",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "b",
@@ -152,7 +152,7 @@ var leftMiddleRightFromSplitNTrimmedRemainderTestCase = coretestcases.CaseV1{
 }
 
 var leftMiddleRightFromSplitNTrimmedTwoTestCase = coretestcases.CaseV1{
-	Title: "SplitN trimmed with 2 parts",
+	Title: "SplitNTrimmed returns invalid -- ' a : b ' only 2 parts",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"middle":  "",
