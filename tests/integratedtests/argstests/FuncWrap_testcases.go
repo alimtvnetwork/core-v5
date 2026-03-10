@@ -101,7 +101,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
+			Title: "FuncWrap returns correct output -- someFunctionV2 with valid params ('f1','f2')",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
