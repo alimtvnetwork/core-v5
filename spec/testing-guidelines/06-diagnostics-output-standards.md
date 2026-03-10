@@ -44,10 +44,11 @@
 
 ## Map Expected Output
 
-- When map comparison fails, a header line MUST appear first showing the test function name,
-  case index, and case title:
+- When map comparison fails, a structured header MUST appear first with each field on its own line:
   ```
-  Map Mismatch (TestFuncName, Case 1: Case Title)
+  Test Method : TestFuncName
+  Case        : 1
+  Title       : Case Title
   ```
 - Each block (Actual Received, Expected Input) MUST be wrapped in separator headers
   (`============================>`).
@@ -56,7 +57,9 @@
 - Do NOT use indexed numbering (`0:`, `1:`, etc.) before entries.
 - Format:
   ```
-  Map Mismatch (TestFuncName, Case 1: Case Title)
+  Test Method : TestFuncName
+  Case        : 1
+  Title       : Case Title
 
   ============================>
   1) Actual Received (2 entries):

@@ -39,10 +39,12 @@ Actual and Expected blocks.
 
 1. Created `errcore/MapMismatchError.go` — formats map mismatches with
    tab-indented Go literal lines, each entry on its own line, wrapped in
-   separator headers (`============================>`). Includes `testName`
-   (from `t.Name()`) in the header for traceability:
+   separator headers (`============================>`). Uses structured header
+   with `Test Method`, `Case`, and `Title` on separate lines for clarity:
    ```
-   Map Mismatch (TestFuncName, Case 1: Case Title)
+   Test Method : TestFuncName
+   Case        : 1
+   Title       : Case Title
 
    ============================>
    1) Actual Received (2 entries):
