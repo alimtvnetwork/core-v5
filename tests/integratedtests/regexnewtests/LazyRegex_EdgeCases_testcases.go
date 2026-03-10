@@ -11,31 +11,31 @@ import (
 
 var emptyPatternEdgeCaseTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Empty pattern LazyRegex is undefined",
+		Title: "LazyRegex returns undefined -- empty pattern",
 		ExpectedInput: args.Map{
 			"isUndefined": true,
 		},
 	},
 	{
-		Title: "Empty pattern LazyRegex is not applicable",
+		Title: "LazyRegex returns not applicable -- empty pattern",
 		ExpectedInput: args.Map{
 			"isApplicable": false,
 		},
 	},
 	{
-		Title: "Empty pattern IsMatch returns false",
+		Title: "IsMatch returns false -- empty pattern",
 		ExpectedInput: args.Map{
 			"isMatch": false,
 		},
 	},
 	{
-		Title: "Empty pattern IsFailedMatch returns true",
+		Title: "IsFailedMatch returns true -- empty pattern",
 		ExpectedInput: args.Map{
 			"isFailedMatch": true,
 		},
 	},
 	{
-		Title: "Empty pattern Compile returns error and nil regex",
+		Title: "Compile returns error and nil regex -- empty pattern",
 		ExpectedInput: args.Map{
 			"hasError":   true,
 			"regexIsNil": true,

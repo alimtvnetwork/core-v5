@@ -7,7 +7,7 @@ import (
 
 var getAndDeleteTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Get returns non-nil mutex for key",
+		Title: "Get returns non-nil mutex -- new key 'test-key-1'",
 		ArrangeInput: args.Map{
 			"when": "given a new key",
 			"key":  "test-key-1",
@@ -15,7 +15,7 @@ var getAndDeleteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "Get returns same mutex for same key",
+		Title: "Get returns same mutex -- same key 'test-key-same' requested twice",
 		ArrangeInput: args.Map{
 			"when": "given same key twice",
 			"key":  "test-key-same",
@@ -26,7 +26,7 @@ var getAndDeleteTestCases = []coretestcases.CaseV1{
 
 var deleteTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Delete returns true for existing key",
+		Title: "Delete returns true -- existing key 'test-key-del'",
 		ArrangeInput: args.Map{
 			"when": "given existing key to delete",
 			"key":  "test-key-del",
@@ -34,7 +34,7 @@ var deleteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "Delete returns false for non-existing key",
+		Title: "Delete returns false -- non-existing key 'test-key-nonexistent'",
 		ArrangeInput: args.Map{
 			"when": "given non-existing key to delete",
 			"key":  "test-key-nonexistent",

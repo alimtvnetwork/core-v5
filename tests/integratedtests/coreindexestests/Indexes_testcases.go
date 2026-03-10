@@ -7,7 +7,7 @@ import (
 
 var hasIndexTestCases = []coretestcases.CaseV1{
 	{
-		Title: "HasIndex returns true when index exists",
+		Title: "HasIndex returns true -- index 3 in [1,3,5]",
 		ArrangeInput: args.Map{
 			"when":    "given matching index",
 			"indexes": []int{1, 3, 5},
@@ -16,7 +16,7 @@ var hasIndexTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"result": true},
 	},
 	{
-		Title: "HasIndex returns false when index missing",
+		Title: "HasIndex returns false -- index 4 not in [1,3,5]",
 		ArrangeInput: args.Map{
 			"when":    "given non-matching index",
 			"indexes": []int{1, 3, 5},
@@ -28,7 +28,7 @@ var hasIndexTestCases = []coretestcases.CaseV1{
 
 var lastIndexTestCases = []coretestcases.CaseV1{
 	{
-		Title: "LastIndex returns length minus one",
+		Title: "LastIndex returns 4 -- length 5",
 		ArrangeInput: args.Map{
 			"when":   "given length 5",
 			"length": 5,
@@ -36,7 +36,7 @@ var lastIndexTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"result": 4},
 	},
 	{
-		Title: "LastIndex of length 1 is 0",
+		Title: "LastIndex returns 0 -- length 1",
 		ArrangeInput: args.Map{
 			"when":   "given length 1",
 			"length": 1,
@@ -47,7 +47,7 @@ var lastIndexTestCases = []coretestcases.CaseV1{
 
 var isWithinIndexRangeTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsWithinIndexRange true for valid index",
+		Title: "IsWithinIndexRange returns true -- index 2 in length 5",
 		ArrangeInput: args.Map{
 			"when":   "given index within range",
 			"index":  2,
@@ -56,7 +56,7 @@ var isWithinIndexRangeTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"result": true},
 	},
 	{
-		Title: "IsWithinIndexRange false for out-of-range index",
+		Title: "IsWithinIndexRange returns false -- index 5 in length 5",
 		ArrangeInput: args.Map{
 			"when":   "given index beyond range",
 			"index":  5,

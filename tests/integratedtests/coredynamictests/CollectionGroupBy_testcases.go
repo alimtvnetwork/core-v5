@@ -11,7 +11,7 @@ import (
 
 var collectionGroupByTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GroupBy groups strings by first character",
+		Title: "GroupBy returns grouped map -- 5 strings by first character",
 		ArrangeInput: args.Map{
 			"items": []string{"apple", "avocado", "banana", "blueberry", "cherry"},
 		},
@@ -22,14 +22,14 @@ var collectionGroupByTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GroupBy on empty returns empty map",
+		Title: "GroupBy returns empty map -- empty input",
 		ArrangeInput: args.Map{
 			"items": []string{},
 		},
 		ExpectedInput: "0",
 	},
 	{
-		Title: "GroupBy single group",
+		Title: "GroupBy returns single group -- all items start with 'a'",
 		ArrangeInput: args.Map{
 			"items": []string{"ant", "ape", "ace"},
 		},
@@ -43,7 +43,7 @@ var collectionGroupByTestCases = []coretestcases.CaseV1{
 
 var collectionGroupByCountTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GroupByCount counts occurrences",
+		Title: "GroupByCount returns occurrence counts -- [red,blue,red,green,blue,red]",
 		ArrangeInput: args.Map{
 			"items": []string{"red", "blue", "red", "green", "blue", "red"},
 		},
@@ -54,7 +54,7 @@ var collectionGroupByCountTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GroupByCount empty returns empty",
+		Title: "GroupByCount returns empty -- empty input",
 		ArrangeInput: args.Map{
 			"items": []string{},
 		},

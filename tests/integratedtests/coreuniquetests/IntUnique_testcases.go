@@ -6,7 +6,7 @@ import (
 )
 
 var intUniqueGetRemovesDuplicatesTestCase = coretestcases.CaseV1{
-	Title: "Get removes duplicates",
+	Title: "Get returns unique count -- slice with duplicates [1,2,2,3,3,3]",
 	ArrangeInput: args.Map{
 		"when":  "given slice with duplicates",
 		"input": []int{1, 2, 2, 3, 3, 3},
@@ -15,7 +15,7 @@ var intUniqueGetRemovesDuplicatesTestCase = coretestcases.CaseV1{
 }
 
 var intUniqueGetAlreadyUniqueTestCase = coretestcases.CaseV1{
-	Title: "Get returns same for already unique",
+	Title: "Get returns same count -- already unique slice [1,2,3]",
 	ArrangeInput: args.Map{
 		"when":  "given slice without duplicates",
 		"input": []int{1, 2, 3},
@@ -24,7 +24,7 @@ var intUniqueGetAlreadyUniqueTestCase = coretestcases.CaseV1{
 }
 
 var intUniqueGetNilTestCase = coretestcases.CaseV1{
-	Title: "Get handles nil",
+	Title: "Get returns nil-safe result -- nil slice input",
 	ArrangeInput: args.Map{
 		"when": "given nil slice",
 	},

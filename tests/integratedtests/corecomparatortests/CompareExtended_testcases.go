@@ -14,7 +14,7 @@ import (
 
 var compareJsonRoundtripTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Equal marshal produces quoted name, unmarshal restores identity",
+		Title: "Marshal returns quoted name and Unmarshal restores identity -- Equal value 0, unmarshal '3'",
 		ArrangeInput: args.Map{
 			"value":          0,
 			"unmarshalInput": "3",
@@ -33,7 +33,7 @@ var compareJsonRoundtripTestCases = []coretestcases.CaseV1{
 
 var onlySupportedErrTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Equal is NOT in the supported list — should return error",
+		Title: "OnlySupportedErr returns error -- Equal (0) not in supported [6,3]",
 		ArrangeInput: args.Map{
 			"value":     0,
 			"message":   "dining doesn't support more",
@@ -42,7 +42,7 @@ var onlySupportedErrTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true", // hasError
 	},
 	{
-		Title: "Equal IS in the supported list — should return nil error",
+		Title: "OnlySupportedErr returns nil -- Equal (0) in supported [0,3]",
 		ArrangeInput: args.Map{
 			"value":     0,
 			"message":   "some context message",
@@ -51,7 +51,7 @@ var onlySupportedErrTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false", // hasError
 	},
 	{
-		Title: "Inconclusive is NOT in the supported list — should return error",
+		Title: "OnlySupportedErr returns error -- Inconclusive (6) not in supported [0]",
 		ArrangeInput: args.Map{
 			"value":     6,
 			"message":   "only equal allowed",
@@ -60,7 +60,7 @@ var onlySupportedErrTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true", // hasError
 	},
 	{
-		Title: "Inconclusive IS in the supported list — should return nil error",
+		Title: "OnlySupportedErr returns nil -- Inconclusive (6) in supported [6,0,3]",
 		ArrangeInput: args.Map{
 			"value":     6,
 			"message":   "inconclusive is fine",

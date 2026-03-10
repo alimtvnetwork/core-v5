@@ -7,7 +7,7 @@ import (
 
 var compareStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Equal compare has correct name and symbol",
+		Title: "Compare returns correct properties -- Equal (value 0)",
 		ArrangeInput: args.Map{
 			"when":  "given Equal compare",
 			"value": 0,
@@ -21,7 +21,7 @@ var compareStringTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "LeftGreater compare has correct name and symbol",
+		Title: "Compare returns correct properties -- LeftGreater (value 1)",
 		ArrangeInput: args.Map{
 			"when":  "given LeftGreater compare",
 			"value": 1,
@@ -35,7 +35,7 @@ var compareStringTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Inconclusive compare is invalid",
+		Title: "Compare returns invalid properties -- Inconclusive (value 6)",
 		ArrangeInput: args.Map{
 			"when":  "given Inconclusive compare",
 			"value": 6,

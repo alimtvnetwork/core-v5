@@ -7,7 +7,7 @@ import (
 
 var keyLegendGroupIntRangeTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GroupIntRange generates correct range of keys",
+		Title: "GroupIntRange returns correct key range -- range 5 to 10",
 		ArrangeInput: args.Map{
 			"when":    "given range 5 to 10",
 			"root":    "cimux",
@@ -27,7 +27,7 @@ var keyLegendGroupIntRangeTestCases = []coretestcases.CaseV1{
 
 var keyLegendUserStringWithoutStateTestCases = []coretestcases.CaseV1{
 	{
-		Title: "UserStringWithoutState returns root-package-group-user",
+		Title: "UserStringWithoutState returns root-package-group-user -- user 'mynewuser1'",
 		ArrangeInput: args.Map{
 			"when":    "given user mynewuser1",
 			"root":    "cimux",
@@ -42,7 +42,7 @@ var keyLegendUserStringWithoutStateTestCases = []coretestcases.CaseV1{
 
 var keyLegendUpToStateTestCases = []coretestcases.CaseV1{
 	{
-		Title: "UpToState returns root-package-group-state-user",
+		Title: "UpToState returns root-package-group-state-user -- user 'my-user'",
 		ArrangeInput: args.Map{
 			"when":    "given user my-user",
 			"root":    "cimux",
