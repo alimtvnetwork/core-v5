@@ -7,19 +7,19 @@ import (
 
 // MapMismatchError builds a diagnostic error for map assertion failures.
 //
-// Each map entry is shown on its own indexed line in Go literal format,
-// making the output directly copy-pasteable into _testcases.go.
+// Each map entry is shown on its own line with tab indentation in Go literal
+// format, making the output directly copy-pasteable into _testcases.go.
 //
 // Output format:
 //
 //	Map Mismatch (Case 0: title)
 //
 //	Actual Received (2 entries):
-//	  0: "containsName": false,
-//	  1: "hasError":      false,
+//	  "containsName": false,
+//	  "hasError":      false,
 //
 //	Expected Input (1 entries):
-//	  0: "hasError": false,
+//	  "hasError": false,
 func MapMismatchError(
 	caseIndex int,
 	title string,
@@ -38,16 +38,22 @@ func MapMismatchError(
 		"Actual Received (%d entries):\n",
 		len(actualGoLiteralLines),
 	))
-	for i, line := range actualGoLiteralLines {
-		sb.WriteString(fmt.Sprintf("  %d: %s\n", i, line))
+
+	for _, line := range actualGoLiteralLines {
+		sb.WriteString("\t")
+		sb.WriteString(line)
+		sb.WriteString("\n")
 	}
 
 	sb.WriteString(fmt.Sprintf(
 		"\nExpected Input (%d entries):\n",
 		len(expectedGoLiteralLines),
 	))
-	for i, line := range expectedGoLiteralLines {
-		sb.WriteString(fmt.Sprintf("  %d: %s\n", i, line))
+
+	for _, line := range expectedGoLiteralLines {
+		sb.WriteString("\t")
+		sb.WriteString(line)
+		sb.WriteString("\n")
 	}
 
 	return sb.String()
