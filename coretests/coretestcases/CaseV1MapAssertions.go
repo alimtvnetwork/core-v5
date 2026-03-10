@@ -54,7 +54,7 @@ func (it CaseV1) ShouldBeEqualMap(
 	t.Helper()
 
 	actualLines := actual.CompileToStrings()
-	it.ExpectedInput = it.ExpectedAsMap()
+	it.ExpectedInput = it.ExpectedAsMap().CompileToStrings()
 
 	it.ShouldBe(
 		t,
