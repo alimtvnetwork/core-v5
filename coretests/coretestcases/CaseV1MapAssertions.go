@@ -1,10 +1,12 @@
 package coretestcases
 
 import (
+	"log/slog"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/enums/stringcompareas"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 // ExpectedAsMap retrieves ExpectedInput as args.Map.
@@ -26,9 +28,8 @@ func (it CaseV1) ExpectedAsMap() args.Map {
 // CompileToStrings(), then compared using the standard ShouldBeEqual
 // assertion pipeline.
 //
-// This allows test cases to define expectations with raw typed values
-// (int, bool, etc.) instead of pre-formatted strings, making test data
-// self-documenting and eliminating manual fmt.Sprintf calls in test bodies.
+// On mismatch, a copy-pasteable Go literal block of the expected map
+// is printed via slog for easy test case correction.
 //
 // Example:
 //
@@ -53,8 +54,20 @@ func (it CaseV1) ShouldBeEqualMap(
 ) {
 	t.Helper()
 
+	expectedMap := it.ExpectedAsMap()
 	actualLines := actual.CompileToStrings()
-	it.ExpectedInput = it.ExpectedAsMap().CompileToStrings()
+	expectedLines := expectedMap.CompileToStrings()
+
+	// Check for mismatch and print copy-pasteable expected output
+	if errcore.HasAnyMismatchOnLines(actualLines, expectedLines) {
+		slog.Warn("copy-pasteable expected (from actual):",
+			"caseIndex", caseIndex,
+			"title", it.Title,
+			"actualGoLiteral", "\n"+actual.GoLiteralString(),
+		)
+	}
+
+	it.ExpectedInput = expectedLines
 
 	it.ShouldBe(
 		t,
