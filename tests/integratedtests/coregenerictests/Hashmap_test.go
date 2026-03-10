@@ -447,33 +447,4 @@ func Test_Hashmap_String(t *testing.T) {
 	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
-// ==========================================================================
-// Test: Nil receiver
-// ==========================================================================
-
-func Test_Hashmap_NilReceiver_IsEmpty(t *testing.T) {
-	tc := hashmapNilReceiverIsEmptyTestCase
-	var hm *coregeneric.Hashmap[string, int]
-
-	actual := args.Map{"isEmpty": hm.IsEmpty()}
-
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
-
-func Test_Hashmap_NilReceiver_Length(t *testing.T) {
-	tc := hashmapNilReceiverLengthTestCase
-	var hm *coregeneric.Hashmap[string, int]
-
-	actual := args.Map{"length": hm.Length()}
-
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
-
-func Test_Hashmap_NilReceiver_HasItems(t *testing.T) {
-	tc := hashmapNilReceiverHasItemsTestCase
-	var hm *coregeneric.Hashmap[string, int]
-
-	actual := args.Map{"hasItems": hm.HasItems()}
-
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: Nil receiver tests migrated to NilReceiver_test.go using CaseNilSafe pattern.

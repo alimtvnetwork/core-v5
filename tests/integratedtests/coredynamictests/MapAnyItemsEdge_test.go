@@ -246,37 +246,7 @@ func Test_MapAnyItems_ClonePtr_Independence(t *testing.T) {
 // Edge cases — named tests
 // ==========================================
 
-func Test_MapAnyItems_NilReceiverLength(t *testing.T) {
-	tc := mapAnyItemsNilLengthTestCase
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-
-	// Act
-	actual := args.Map{
-		"length":     m.Length(),
-		"isEmpty":    m.IsEmpty(),
-		"hasAnyItem": m.HasAnyItem(),
-	}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
-
-func Test_MapAnyItems_HasKey_NilReceiver(t *testing.T) {
-	tc := mapAnyItemsHasKeyNilTestCase
-	input := tc.ArrangeInput.(args.Map)
-
-	// Arrange
-	var m *coredynamic.MapAnyItems
-	key, _ := input.GetAsString("key")
-
-	// Act
-	actual := args.Map{"hasKey": m.HasKey(key)}
-
-	// Assert
-	tc.ShouldBeEqualMapFirst(t, actual)
-}
+// Note: Length/IsEmpty/HasAnyItem/HasKey nil receiver tests migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_MapAnyItems_HasKey_Exists(t *testing.T) {
 	tc := mapAnyItemsHasKeyExistsTestCase

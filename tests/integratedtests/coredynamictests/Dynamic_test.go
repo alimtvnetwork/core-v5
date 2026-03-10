@@ -410,14 +410,7 @@ func Test_Dynamic_IntDefault_NilData(t *testing.T) {
 // Test: ValueNullErr
 // ==========================================================================
 
-func Test_Dynamic_ValueNullErr_NilReceiver(t *testing.T) {
-	tc := dynamicValueNullErrNilReceiverTestCase
-	var d *coredynamic.Dynamic
-
-	actLines := []string{fmt.Sprintf("%v", d.ValueNullErr() != nil)}
-
-	tc.ShouldBeEqual(t, 0, actLines...)
-}
+// Note: ValueNullErr nil receiver test migrated to NilReceiver_test.go using CaseNilSafe pattern.
 
 func Test_Dynamic_ValueNullErr_NullData(t *testing.T) {
 	tc := dynamicValueNullErrNullDataTestCase

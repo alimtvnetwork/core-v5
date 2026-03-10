@@ -431,10 +431,7 @@ var dynamicIntDefaultNilTestCase = coretestcases.CaseV1{
 // ValueNullErr
 // ==========================================================================
 
-var dynamicValueNullErrNilReceiverTestCase = coretestcases.CaseV1{
-	Title:         "ValueNullErr returns error on nil receiver",
-	ExpectedInput: "true", // hasError
-}
+// Note: ValueNullErr nil receiver test case migrated to Dynamic_NilReceiver_testcases.go.
 
 var dynamicValueNullErrNullDataTestCase = coretestcases.CaseV1{
 	Title:         "ValueNullErr returns error on null data",

@@ -199,30 +199,8 @@ var mapAnyItemsClonePtrIndependenceTestCase = coretestcases.CaseV1{
 // MapAnyItems — Edge cases (Length, HasKey, Add)
 // ==========================================
 
-var mapAnyItemsNilLengthTestCase = coretestcases.CaseV1{
-	Title: "Length/IsEmpty/HasAnyItem - nil receiver safety",
-	ArrangeInput: args.Map{
-		"when":    "receiver is nil",
-		"leftNil": true,
-	},
-	ExpectedInput: args.Map{
-		"length":     0,
-		"isEmpty":    true,
-		"hasAnyItem": false,
-	},
-}
-
-var mapAnyItemsHasKeyNilTestCase = coretestcases.CaseV1{
-	Title: "HasKey - nil receiver should return false",
-	ArrangeInput: args.Map{
-		"when":    "receiver is nil, checking any key",
-		"leftNil": true,
-		"key":     "anything",
-	},
-	ExpectedInput: args.Map{
-		"hasKey": false,
-	},
-}
+// Note: Length/IsEmpty/HasAnyItem/HasKey nil receiver test cases migrated to
+// MapAnyItemsEdge_NilReceiver_testcases.go using CaseNilSafe pattern.
 
 var mapAnyItemsHasKeyExistsTestCase = coretestcases.CaseV1{
 	Title: "HasKey - existing key should return true",
