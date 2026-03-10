@@ -4,10 +4,10 @@ import (
 	"errors"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/coredata/corejson"
-	"gitlab.com/auk-go/core/coreinterface/enuminf"
-	"gitlab.com/auk-go/core/errcore"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/coredata/corejson"
+	"github.com/alimtvnetwork/core/coreinterface/enuminf"
+	"github.com/alimtvnetwork/core/errcore"
 )
 
 type Request byte

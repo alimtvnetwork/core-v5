@@ -3,8 +3,8 @@ package issetter
 import (
 	"reflect"
 
-	"gitlab.com/auk-go/core/internal/csvinternal"
-	"gitlab.com/auk-go/core/simplewrap"
+	"github.com/alimtvnetwork/core/internal/csvinternal"
+	"github.com/alimtvnetwork/core/simplewrap"
 )
 
 var (

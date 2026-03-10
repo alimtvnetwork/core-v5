@@ -1,7 +1,7 @@
 package ostype
 
 import (
-	"gitlab.com/auk-go/core/osconsts"
+	"github.com/alimtvnetwork/core/osconsts"
 )
 
 // GetGroup rawRuntimeGoos = runtime.GOOS

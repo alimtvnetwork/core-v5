@@ -5,13 +5,13 @@ import (
 	"strconv"
 	"strings"
 
-	"gitlab.com/auk-go/core/constants"
-	"gitlab.com/auk-go/core/constants/bitsize"
-	"gitlab.com/auk-go/core/converters/coreconverted"
-	"gitlab.com/auk-go/core/defaulterr"
-	"gitlab.com/auk-go/core/errcore"
-	"gitlab.com/auk-go/core/internal/strutilinternal"
-	"gitlab.com/auk-go/core/simplewrap"
+	"github.com/alimtvnetwork/core/constants"
+	"github.com/alimtvnetwork/core/constants/bitsize"
+	"github.com/alimtvnetwork/core/converters/coreconverted"
+	"github.com/alimtvnetwork/core/defaulterr"
+	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
+	"github.com/alimtvnetwork/core/simplewrap"
 )
 
 type stringsTo struct{}

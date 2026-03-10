@@ -1,7 +1,7 @@
 package regexnew
 
 import (
-	"gitlab.com/auk-go/core/regconsts"
+	"github.com/alimtvnetwork/core/regconsts"
 )
 
 var (
