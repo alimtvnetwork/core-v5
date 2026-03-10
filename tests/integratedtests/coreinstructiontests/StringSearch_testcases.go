@@ -11,7 +11,7 @@ import (
 
 var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsMatch - equal match returns true",
+		Title: "IsMatch returns true -- equal match, search 'hello' in content 'hello'",
 		ArrangeInput: args.Map{
 			"when":    "given matching equal string",
 			"method":  "equal",
@@ -24,7 +24,7 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsMatch - equal no match returns false",
+		Title: "IsMatch returns false -- equal no match, search 'hello' in content 'world'",
 		ArrangeInput: args.Map{
 			"when":    "given non-matching equal string",
 			"method":  "equal",
@@ -37,7 +37,7 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsMatch - contains match returns true",
+		Title: "IsMatch returns true -- contains match, search 'world' in 'hello world'",
 		ArrangeInput: args.Map{
 			"when":    "given content containing search",
 			"method":  "contains",
@@ -50,7 +50,7 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsMatch - contains no match returns false",
+		Title: "IsMatch returns false -- contains no match, search 'xyz' in 'hello world'",
 		ArrangeInput: args.Map{
 			"when":    "given content not containing search",
 			"method":  "contains",
@@ -70,7 +70,7 @@ var stringSearchIsMatchTestCases = []coretestcases.CaseV1{
 
 var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsAllMatch - all contents match returns true",
+		Title: "IsAllMatch returns true -- all contents contain 'o' in ['hello','world','foo']",
 		ArrangeInput: args.Map{
 			"when":     "given all contents containing search",
 			"method":   "contains",
@@ -83,7 +83,7 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsAllMatch - one content fails returns false",
+		Title: "IsAllMatch returns false -- 'world' missing 'z' in ['hello','buzz','world']",
 		ArrangeInput: args.Map{
 			"when":     "given one content not containing search",
 			"method":   "contains",
@@ -96,7 +96,7 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsAllMatch - empty contents returns true",
+		Title: "IsAllMatch returns true -- empty contents slice",
 		ArrangeInput: args.Map{
 			"when":     "given empty contents",
 			"method":   "equal",
@@ -116,7 +116,7 @@ var stringSearchIsAllMatchTestCases = []coretestcases.CaseV1{
 
 var stringSearchStateTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Non-nil - IsEmpty false, IsExist true, Has true",
+		Title: "StringSearch returns isEmpty false, isExist true -- non-nil instance",
 		ArrangeInput: args.Map{
 			"when":   "given non-nil StringSearch",
 			"method": "equal",
@@ -130,7 +130,7 @@ var stringSearchStateTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Nil - IsEmpty true, IsExist false, Has false",
+		Title: "StringSearch returns isEmpty true, isExist false -- nil instance",
 		ArrangeInput: args.Map{
 			"when":  "given nil StringSearch",
 			"isNil": true,
@@ -149,7 +149,7 @@ var stringSearchStateTestCases = []coretestcases.CaseV1{
 
 var stringSearchVerifyErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "VerifyError - match returns nil",
+		Title: "VerifyError returns nil -- equal match, search 'hello' in 'hello'",
 		ArrangeInput: args.Map{
 			"when":    "given matching equal string",
 			"method":  "equal",
@@ -160,7 +160,7 @@ var stringSearchVerifyErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title: "VerifyError - no match returns error",
+		Title: "VerifyError returns error -- equal no match, search 'hello' in 'world'",
 		ArrangeInput: args.Map{
 			"when":    "given non-matching equal string",
 			"method":  "equal",
@@ -171,7 +171,7 @@ var stringSearchVerifyErrorTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "VerifyError - nil receiver returns nil",
+		Title: "VerifyError returns nil -- nil receiver, content 'anything'",
 		ArrangeInput: args.Map{
 			"when":    "given nil StringSearch",
 			"content": "anything",
