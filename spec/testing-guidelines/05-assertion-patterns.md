@@ -288,3 +288,16 @@ All assertions ultimately delegate to `errcore.AssertDiffOnMismatch`, which prod
 ```
 
 This is why `args.Map` with semantic keys is preferred — failures show exactly which field mismatched.
+
+---
+
+## Known Pitfall: Named Map Types and convertinternal.AnyTo.Strings
+
+`args.Map` is a **named type** (`type Map map[string]any`). Go's type switch does NOT
+match named types against their underlying type. This means `args.Map` will NOT match
+a `case map[string]any:` branch and will fall through to the `default` case (PrettyJSON).
+
+**Rule**: When passing `args.Map` as `ExpectedInput`, always convert it to `[]string`
+via `CompileToStrings()` before it reaches `ExpectedLines()`. The `ShouldBeEqualMap`
+method handles this automatically — never set `ExpectedInput` to a raw `args.Map`
+and then call `ShouldBe` directly.
