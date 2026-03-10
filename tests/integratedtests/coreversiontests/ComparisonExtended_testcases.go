@@ -208,7 +208,7 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsExpectedVersion returns true for matching LeftGreater expectation",
+		Title: "IsExpectedVersion returns true -- v3.0 vs v0.2.1 with LeftGreater expectation",
 		ArrangeInput: args.Map{
 			"when":     "given left greater with LeftGreater expectation",
 			"left":     "v3.0",
