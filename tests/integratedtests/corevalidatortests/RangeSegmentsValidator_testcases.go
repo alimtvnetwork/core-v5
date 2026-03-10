@@ -137,7 +137,7 @@ var rangeSegmentsValidatorVerifySimpleTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "VerifySimple returns error -- mismatched segment range 0-2",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "simple-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{
