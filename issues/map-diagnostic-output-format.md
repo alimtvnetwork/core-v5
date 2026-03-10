@@ -32,15 +32,15 @@ map diagnostics where copy-pasteability matters.
 
 ## Fix
 
-1. Created `errcore/MapMismatchError.go` — formats map mismatches with indexed
-   Go literal lines, showing each entry on its own numbered line:
+1. Created `errcore/MapMismatchError.go` — formats map mismatches with
+   tab-indented Go literal lines, showing each entry on its own line:
    ```
    Actual Received (2 entries):
-     0: "containsName": false,
-     1: "hasError":      false,
+   	"containsName": false,
+   	"hasError":      false,
 
    Expected Input (1 entries):
-     0: "hasError": false,
+   	"hasError": false,
    ```
 
 2. Modified `CaseV1MapAssertions.go` — `ShouldBeEqualMap` now handles the full
@@ -48,6 +48,12 @@ map diagnostics where copy-pasteability matters.
    - Prints `LineDiff` for detailed line-by-line comparison
    - Builds error message using `MapMismatchError` with Go literal format
    - Asserts via `convey.So(validationErr, should.BeNil)`
+
+## Key Rules
+
+- Do NOT use indexed numbering (`0:`, `1:`, etc.) in diagnostic output lines.
+- Use tab indentation for each entry line.
+- Each entry must be on its own line in Go literal format (`"key": value,`).
 
 ## Affected Files
 

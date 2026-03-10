@@ -39,7 +39,10 @@
 
 ## Map Expected Output
 
-- When map comparison fails, the expected values section should show values in a format that is directly copy-pasteable into `_testcases.go`:
+- When map comparison fails, the expected values section should show values in a format that is directly copy-pasteable into `_testcases.go`.
+- Each entry must be on its own line, tab-indented, in Go literal format.
+- Do NOT use indexed numbering (`0:`, `1:`, etc.) before entries.
+- Format:
   ```
-  "key": value,
+  	"key": value,
   ```
