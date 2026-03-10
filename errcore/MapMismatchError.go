@@ -64,7 +64,7 @@ func MapMismatchError(
 	sb.WriteString("\n")
 	sb.WriteString(mapSeparator + "\n")
 	sb.WriteString(fmt.Sprintf(
-		"Expected Input (Case %d, %d entries):\n",
+		"%d) Expected Input (%d entries):\n",
 		caseIndex,
 		len(expectedGoLiteralLines),
 	))
