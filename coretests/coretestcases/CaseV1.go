@@ -447,6 +447,14 @@ func (it CaseV1) ShouldBeEqual(
 	caseIndex int,
 	actualElements ...string,
 ) {
+	// When ExpectedInput is a single string, wrap it as []string
+	// so that "" becomes [""] matching the actual [""] from variadic.
+	// This prevents AnyTo.Strings("") returning [] (0 elements)
+	// while actual has [""] (1 element).
+	if s, ok := it.ExpectedInput.(string); ok {
+		it.ExpectedInput = []string{s}
+	}
+
 	_ = it.ShouldBe(
 		t,
 		caseIndex,
