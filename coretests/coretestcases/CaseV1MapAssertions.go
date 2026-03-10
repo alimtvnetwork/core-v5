@@ -2,6 +2,7 @@ package coretestcases
 
 import (
 	"errors"
+	"log/slog"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests/args"
@@ -28,15 +29,10 @@ func (it CaseV1) ExpectedAsMap() args.Map {
 // Both maps are compiled to sorted "key : value" string lines using
 // CompileToStrings(), then compared line-by-line.
 //
-// On mismatch, a copy-pasteable Go literal block is printed showing
-// each entry on its own indexed line in Go literal format:
-//
-//	Actual Received (2 entries):
-//	  0: "containsName": false,
-//	  1: "hasError":      false,
-//
-//	Expected Input (1 entries):
-//	  0: "hasError": false,
+// On mismatch, diagnostics are shown in two forms:
+//  1. Line-by-line comparison with aligned actual/expected labels
+//     and standard header separators (============================>)
+//  2. Copy-pasteable Go literal block via slog.Warn
 func (it CaseV1) ShouldBeEqualMap(
 	t *testing.T,
 	caseIndex int,
@@ -53,15 +49,20 @@ func (it CaseV1) ShouldBeEqualMap(
 	var validationErr error
 
 	if hasMismatch {
-		// Print line-by-line diff for detailed comparison
-		errcore.PrintDiffOnMismatch(caseIndex, it.Title, actualLines, expectedLines)
+		// Print copy-pasteable Go literal via slog
+		slog.Warn("copy-pasteable expected (from actual):",
+			"caseIndex", caseIndex,
+			"title", it.Title,
+			"actualGoLiteral", "\n"+actual.GoLiteralString(),
+		)
 
-		// Build map-specific diagnostic with Go literal format (copy-pasteable)
+		// Build map-specific diagnostic with header separators
+		// and aligned actual/expected labels per line
 		mapErrMsg := errcore.MapMismatchError(
 			caseIndex,
 			it.Title,
-			actual.GoLiteralLines(),
-			expectedMap.GoLiteralLines(),
+			actualLines,
+			expectedLines,
 		)
 
 		validationErr = errors.New(mapErrMsg)
