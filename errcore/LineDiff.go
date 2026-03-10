@@ -98,8 +98,8 @@ func LineDiffToString(
 			mismatchCount++
 			sb.WriteString(fmt.Sprintf(
 				"  Line %3d [MISMATCH]:\n"+
-					"         actual   : `%s`\n"+
-					"         expected : `%s`\n",
+					"      actual   : `%s`\n"+
+					"      expected : `%s`\n",
 				d.LineNumber,
 				d.Actual,
 				d.Expected,
