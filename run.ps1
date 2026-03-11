@@ -422,12 +422,18 @@ function Invoke-TestCoverage {
         $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
         $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
 
-        # Parse partial profile for this package's source coverage
+        # Parse partial profile for THIS package's source coverage only
+        # (not all packages, which are included via -coverpkg)
         $partialPct = ""
         if (Test-Path $partialProfile) {
+            # Build a match pattern for the source package path
+            # e.g. "anycmp" -> match lines starting with "github.com/alimtvnetwork/core/anycmp/"
+            $srcMatchPattern = $srcTarget -replace '/', '/'
             $pStmts = 0; $pCovered = 0
             foreach ($pLine in (Get-Content $partialProfile)) {
                 if ($pLine -match "^mode:") { continue }
+                # Only count lines belonging to this specific source package
+                if ($pLine -notmatch "/$srcMatchPattern/") { continue }
                 if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
                     $pStmts += [int]$Matches[1]
                     if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
