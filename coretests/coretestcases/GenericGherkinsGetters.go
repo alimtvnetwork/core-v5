@@ -1,7 +1,5 @@
 package coretestcases
 
-
-
 // IsFailedToMatch returns the inverse of IsMatching.
 //
 // Use when validating that a mismatch is expected.

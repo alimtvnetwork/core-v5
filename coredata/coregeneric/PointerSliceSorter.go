@@ -15,7 +15,7 @@ type LessFunc[T any] func(a, b T) bool
 // By default, ascending order is used for cmp.Ordered types.
 // Nil pointers are consistently pushed to the end (ascending) or beginning (descending).
 type PointerSliceSorter[T cmp.Ordered] struct {
-	items   []*T
+	items    []*T
 	lessFunc LessFunc[T]
 	nilFirst bool
 }

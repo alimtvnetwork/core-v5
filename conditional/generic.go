@@ -61,7 +61,6 @@ func IfSlice[T any](
 	return falseValue
 }
 
-
 // NilDef dereferences a pointer, returning defVal if the pointer is nil.
 // It replaces NilDefValInt, NilBoolVal, NilByteVal and similar functions.
 func NilDef[T any](

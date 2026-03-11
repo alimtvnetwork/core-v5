@@ -22,4 +22,3 @@ func (p PointerStringsDsc) Less(i, j int) bool {
 }
 
 func (p PointerStringsDsc) Swap(i, j int) { p[i], p[j] = p[j], p[i] }
-

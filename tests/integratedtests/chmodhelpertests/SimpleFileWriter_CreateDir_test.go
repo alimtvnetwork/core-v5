@@ -189,11 +189,11 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 			for fileIndex, file := range input.Files {
 				finalPath := pathinternal.Join(dir, file)
 
-			err := fileWriter.String.Default(
-				false,
-				finalPath,
-				"",
-			)
+				err := fileWriter.String.Default(
+					false,
+					finalPath,
+					"",
+				)
 
 				errcore.HandleErr(err)
 
@@ -276,7 +276,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 				finalPath := pathinternal.Join(dir, file)
 				parentDir := pathinternal.ParentDir(finalPath)
 
-			err := fileWriter.String.Chmod(
+				err := fileWriter.String.Chmod(
 					false,
 					filemode.X200,
 					filemode.X300,

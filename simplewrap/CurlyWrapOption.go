@@ -11,13 +11,13 @@ func CurlyWrapOption(
 	toStr := convertinternal.
 		AnyTo.
 		SmartString(source)
-	
+
 	if isSkipIfExists {
 		return ConditionalWrapWith(
 			'{',
 			toStr,
 			'}')
 	}
-	
+
 	return CurlyWrap(source)
 }

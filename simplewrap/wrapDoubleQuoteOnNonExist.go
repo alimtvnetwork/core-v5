@@ -13,6 +13,6 @@ func wrapDoubleQuoteByExistenceCheck(
 			item,
 			constants.DoubleQuoteChar)
 	}
-	
+
 	return newSlice
 }

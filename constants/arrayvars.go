@@ -45,19 +45,19 @@ var (
 		'>': One,
 	}
 
-	EmptyStrings          []string
-	EmptyPtrStrings       []*string
-	EmptyInts             []int
-	EmptyBytes            []byte
-	EmptyFloats           []float32
-	EmptyFloat64s         []float64
-	EmptyInterfaces      []any
-	EmptyIntToIntsMap    map[int][]int
-	EmptyIntToBytesMap   map[int][]byte
-	EmptyStringMap       map[string]string
-	EmptyStrToIntsMap    map[string][]int
-	EmptyStrToBytesMap   map[string][]byte
-	EmptyStringsMap      map[string][]string
+	EmptyStrings       []string
+	EmptyPtrStrings    []*string
+	EmptyInts          []int
+	EmptyBytes         []byte
+	EmptyFloats        []float32
+	EmptyFloat64s      []float64
+	EmptyInterfaces    []any
+	EmptyIntToIntsMap  map[int][]int
+	EmptyIntToBytesMap map[int][]byte
+	EmptyStringMap     map[string]string
+	EmptyStrToIntsMap  map[string][]int
+	EmptyStrToBytesMap map[string][]byte
+	EmptyStringsMap    map[string][]string
 
 	// Deprecated: Use non-pointer map types above instead.
 	EmptyIntToPtrIntsMap  map[int]*[]int

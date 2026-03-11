@@ -2,7 +2,7 @@ package simplewrap
 
 import (
 	"fmt"
-	
+
 	"github.com/alimtvnetwork/core/constants"
 )
 
@@ -15,7 +15,7 @@ func CurlyWrapIf(
 	if isNoCurly {
 		return toString(source)
 	}
-	
+
 	return fmt.Sprintf(
 		constants.CurlyWrapFormat,
 		toString(source))

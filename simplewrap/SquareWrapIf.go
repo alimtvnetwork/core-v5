@@ -9,6 +9,6 @@ func SquareWrapIf(
 	if isSkipWrap {
 		return toString(source)
 	}
-	
+
 	return SquareWrap(source)
 }

@@ -2,7 +2,7 @@ package simplewrap
 
 import (
 	"fmt"
-	
+
 	"github.com/alimtvnetwork/core/constants"
 )
 

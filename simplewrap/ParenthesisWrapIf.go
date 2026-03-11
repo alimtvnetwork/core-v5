@@ -7,6 +7,6 @@ func ParenthesisWrapIf(
 	if !isSquareWrap {
 		return toString(source)
 	}
-	
+
 	return ParenthesisWrap(source)
 }

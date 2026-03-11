@@ -248,7 +248,7 @@ var matchUsingCustomizeErrorFuncLockTestCases = []coretestcases.MapGherkins{
 			params.customizer:   "nil",
 		},
 		Expected: args.Map{
-			params.isNoError:    true,
+			params.isNoError:     true,
 			params.isCustomError: false,
 		},
 	},
@@ -261,7 +261,7 @@ var matchUsingCustomizeErrorFuncLockTestCases = []coretestcases.MapGherkins{
 			params.customizer:   "nil",
 		},
 		Expected: args.Map{
-			params.isNoError:    false,
+			params.isNoError:     false,
 			params.isCustomError: false,
 		},
 	},
@@ -274,7 +274,7 @@ var matchUsingCustomizeErrorFuncLockTestCases = []coretestcases.MapGherkins{
 			params.customizer:   "custom",
 		},
 		Expected: args.Map{
-			params.isNoError:    false,
+			params.isNoError:     false,
 			params.isCustomError: true,
 		},
 	},
@@ -287,7 +287,7 @@ var matchUsingCustomizeErrorFuncLockTestCases = []coretestcases.MapGherkins{
 			params.customizer:   "custom",
 		},
 		Expected: args.Map{
-			params.isNoError:    true,
+			params.isNoError:     true,
 			params.isCustomError: false,
 		},
 	},

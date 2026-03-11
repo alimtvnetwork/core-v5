@@ -37,7 +37,7 @@ var emptyPatternEdgeCaseTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Compile returns error and nil regex -- empty pattern",
 		ExpectedInput: args.Map{
-			params.hasError:  true,
+			params.hasError:   true,
 			params.regexIsNil: true,
 		},
 	},

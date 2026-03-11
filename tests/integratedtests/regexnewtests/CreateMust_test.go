@@ -219,7 +219,7 @@ func Test_MatchUsingCustomizeErrorFuncLock_Verification(t *testing.T) {
 		)
 
 		actual := args.Map{
-			params.isNoError:    err == nil,
+			params.isNoError:     err == nil,
 			params.isCustomError: err != nil && strings.HasPrefix(err.Error(), "CUSTOM:"),
 		}
 

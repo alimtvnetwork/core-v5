@@ -1,3 +1,0 @@
-# Ignore all test log files in this directory
-*.txt
-!.gitignore

@@ -35,5 +35,4 @@ func PrintDiffOnMismatch(
 
 	PrintLineDiff(caseIndex, title, actLines, expectedLines)
 
-	
 }

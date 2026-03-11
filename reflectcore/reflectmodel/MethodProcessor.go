@@ -17,7 +17,7 @@ type MethodProcessor struct {
 }
 
 var (
-	util              = rvUtils{}
+	util               = rvUtils{}
 	newLineSpaceIndent = "\n    - "
 )
 
