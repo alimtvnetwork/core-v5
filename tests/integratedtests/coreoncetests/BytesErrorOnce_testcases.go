@@ -96,7 +96,7 @@ var bytesErrorOnceCachingTestCases = []bytesErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.Value caches error result",
+			Title: "BytesErrorOnce.Value returns cached error -- error 'test error'",
 			ExpectedInput: args.Map{
 				"emptyValue":   "",
 				"hasError":     true,
