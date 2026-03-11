@@ -280,7 +280,7 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.Deserialize returns error when source has error",
+			Title: "BytesErrorOnce.Deserialize returns error -- source has error",
 			ExpectedInput: args.Map{
 				"hasSourceError":      true,
 				"hasDeserializeError": true,
