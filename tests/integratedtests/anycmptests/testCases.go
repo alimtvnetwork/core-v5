@@ -51,6 +51,18 @@ var (
 						First:  arrangeTypeVerification,
 						Second: arrangeTypeVerification,
 					},
+					{
+						First:  (*int)(nil),
+						Second: (*string)(nil),
+					},
+					{
+						First:  (*int)(nil),
+						Second: new(string),
+					},
+					{
+						First:  new(int),
+						Second: new(int),
+					},
 				},
 				ExpectedInput: []string{
 					"0 : Equal (<nil>, <nil>)",
@@ -60,6 +72,9 @@ var (
 					"4 : NotEqual (<nil>, *coretests.DraftType)",
 					"5 : Inconclusive (*coretests.DraftType, *coretests.DraftType)",
 					"6 : Equal (*coretests.VerifyTypeOf, *coretests.VerifyTypeOf)",
+					"7 : Equal (*int, *string)",
+					"8 : NotEqual (*int, *string)",
+					"9 : Inconclusive (*int, *int)",
 				},
 				VerifyTypeOf: arrangeTypeVerification,
 				IsEnable:     issetter.True,
