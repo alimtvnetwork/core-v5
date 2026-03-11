@@ -110,7 +110,7 @@ func Test_BytesTo_PtrString_Verification(t *testing.T) {
 			result = converters.BytesTo.PtrString(nil)
 		} else {
 			bytes := []byte(inputStr)
-			result = converters.BytesTo.PtrString(&bytes)
+			result = converters.BytesTo.PtrString(bytes)
 		}
 
 		// Assert

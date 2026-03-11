@@ -3,13 +3,13 @@ package converters
 type bytesTo struct{}
 
 func (it bytesTo) PtrString(
-	rawBytes *[]byte,
+	rawBytes []byte,
 ) string {
-	if rawBytes == nil || len(*rawBytes) == 0 {
+	if len(rawBytes) == 0 {
 		return ""
 	}
 
-	return string(*rawBytes)
+	return string(rawBytes)
 }
 
 func (it bytesTo) String(
@@ -22,10 +22,10 @@ func (it bytesTo) String(
 	return string(rawBytes)
 }
 
-func (it bytesTo) PointerToBytes(fromBytesPointer *[]byte) []byte {
-	if fromBytesPointer == nil || *fromBytesPointer == nil {
+func (it bytesTo) PointerToBytes(fromBytesPointer []byte) []byte {
+	if fromBytesPointer == nil {
 		return []byte{}
 	}
 
-	return *fromBytesPointer
+	return fromBytesPointer
 }

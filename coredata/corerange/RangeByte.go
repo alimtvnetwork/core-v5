@@ -76,15 +76,15 @@ func (it *RangeByte) RangeLength() byte {
 
 // RangesInt returns empty ints if IsInvalid
 // return range int values
-func (it *RangeByte) RangesInt() *[]byte {
+func (it *RangeByte) RangesInt() []byte {
 	return it.Ranges()
 }
 
 // Ranges returns empty ints if IsInvalid
 // return range int values
-func (it *RangeByte) Ranges() *[]byte {
+func (it *RangeByte) Ranges() []byte {
 	if it.IsInvalid() {
-		return &[]byte{}
+		return []byte{}
 	}
 
 	length := it.RangeLength()
@@ -96,7 +96,7 @@ func (it *RangeByte) Ranges() *[]byte {
 		slice[i] = start + i
 	}
 
-	return &slice
+	return slice
 }
 
 // IsWithinRange it.Start <= value && value <= it.End

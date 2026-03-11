@@ -96,7 +96,7 @@ func Test_ReflectSetFromTo_ValueToPtr(t *testing.T) {
 }
 
 // ==========================================================================
-// Test: (*[]byte, *DraftType) — bytes to draft type
+// Test: ([]byte, *DraftType) — bytes to draft type
 // ==========================================================================
 
 func Test_ReflectSetFromTo_BytesToDraft(t *testing.T) {

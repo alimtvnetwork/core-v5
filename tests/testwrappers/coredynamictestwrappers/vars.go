@@ -14,6 +14,5 @@ var (
 		SampleInteger: 0,
 	}
 
-	nilBytes        []byte  = nil
-	nilBytesPointer *[]byte = nil
+	nilBytes []byte = nil
 )

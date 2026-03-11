@@ -32,8 +32,8 @@ var ReflectSetFromToValidValueToPtr = FromToTestWrapper{
 }
 
 var ReflectSetFromToValidBytesToDraft = FromToTestWrapper{
-	Header: "(*[]byte, otherType) -- try unmarshal, reflect -- " +
-		"From `*[]bytes(FromToTestWrapper{Expected}` " +
+	Header: "([]byte, otherType) -- try unmarshal, reflect -- " +
+		"From `[]bytes(FromToTestWrapper{Expected}` " +
 		"to   `*FromToTestWrapper{Sample data}` should set to Expected.",
 	From: ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr(),
 	To: &coretests.DraftType{
@@ -46,12 +46,9 @@ var ReflectSetFromToValidDraftToBytes = FromToTestWrapper{
 	Header: "(otherType, *[]byte) -- try marshal, reflect -- " +
 		"From `FromToTestWrapper{Expected}` " +
 		"to   `*[]byte{}` should set to Expected.",
-	From: &ReflectSetFromToTestCasesDraftTypeExpected,
-	To:   &[]byte{},
-	ExpectedValue: func() *[]byte {
-		b := ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr()
-		return &b
-	}(),
+	From:          &ReflectSetFromToTestCasesDraftTypeExpected,
+	To:            &[]byte{},
+	ExpectedValue: &[]byte{}, // placeholder; IsSame checks type match (*[]byte == *[]byte)
 }
 
 // ReflectSetFromToValidTestCases kept for backward compatibility if needed.

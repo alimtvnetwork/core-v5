@@ -155,18 +155,6 @@ func (it newPayloadWrapperCreator) UsingCreateInstruction(
 			createInstruction.Attributes,
 			nil,
 		), nil
-	case *[]byte:
-		return it.createInternalUsingBytes(
-			createInstruction.Name,
-			createInstruction.Identifier,
-			createInstruction.TaskTypeName,
-			createInstruction.CategoryName,
-			createInstruction.EntityType,
-			createInstruction.HasManyRecords,
-			converters.BytesTo.PointerToBytes(payloadCasted),
-			createInstruction.Attributes,
-			nil,
-		), nil
 	case string:
 		return it.createInternalUsingBytes(
 			createInstruction.Name,
