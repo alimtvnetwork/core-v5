@@ -115,7 +115,7 @@ var typedWrapperInvalidJsonTestCase = coretestcases.CaseV1{
 
 var typedWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "DeserializeToMany parses array of typed wrappers",
+		Title: "TypedPayloadWrapper.DeserializeToMany returns 3 items -- array of 3",
 		ArrangeInput: args.Map{
 			"count": 3,
 		},
