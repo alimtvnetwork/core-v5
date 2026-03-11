@@ -16,11 +16,13 @@ But the map key is camelCase `"hasError"`. The lookup for `"haserror"` found not
 
 ## Solution
 
-Changed to direct map access which preserves key casing:
+Changed to typed accessor with a reusable `params` struct:
 
 ```go
-hasError := input["hasError"]
+hasError, _ := input.GetAsBool(params.hasError)
 ```
+
+A local `params.go` was added to `errcoretests/` to hold reusable key constants.
 
 ## File Changed
 - `tests/integratedtests/errcoretests/ErrType_test.go` (line 36)
