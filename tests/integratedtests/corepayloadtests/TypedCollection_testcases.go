@@ -172,7 +172,7 @@ var typedCollectionElementAccessTestCases = []coretestcases.CaseV1{
 
 var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AnyTypedPayload returns true when match exists",
+		Title: "AnyTypedPayload returns true for 'Bob' and false for nonexistent -- 3 users",
 		ArrangeInput: args.Map{
 			"when": "checking any user named Bob",
 		},
