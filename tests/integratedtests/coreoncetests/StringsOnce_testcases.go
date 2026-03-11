@@ -113,7 +113,7 @@ var stringsOnceMapTestCases = []stringsOnceTestCase{
 var stringsOnceIsEqualTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b] -- IsEqual same true, different false",
+			Title: "StringsOnce.IsEqual returns true for same and false for different -- [a,b] input",
 			ExpectedInput: args.Map{
 				"isEqualSame":    true,
 				"isEqualDiff":    false,
