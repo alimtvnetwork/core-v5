@@ -104,7 +104,7 @@ var byteOnceJsonTestCases = []byteOnceTestCase{
 var byteOnceSerializeTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 77 -- Serialize returns JSON bytes",
+			Title: "ByteOnce.Serialize returns '77' -- input 77",
 			ExpectedInput: args.Map{
 				"noError":         true,
 				"serializedValue": "77",
