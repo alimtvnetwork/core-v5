@@ -270,7 +270,7 @@ type bytesErrorOnceDeserializeTestCase struct {
 var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.Deserialize succeeds with valid JSON",
+			Title: "BytesErrorOnce.Deserialize returns no error -- valid JSON input",
 			ExpectedInput: args.Map{
 				"noError":          true,
 				"deserializedName": "test",
