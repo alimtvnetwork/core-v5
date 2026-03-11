@@ -36,7 +36,7 @@ func Test_BaseIsIgnoreCase_Verification(t *testing.T) {
 	for caseIndex, testCase := range baseIsIgnoreCaseTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isIgnoreCase := input.GetAsBoolDefault("isIgnoreCase")
+		isIgnoreCase := input.GetAsBoolDefault("isIgnoreCase", false)
 
 		b := corecomparator.BaseIsIgnoreCase{IsIgnoreCase: isIgnoreCase}
 
