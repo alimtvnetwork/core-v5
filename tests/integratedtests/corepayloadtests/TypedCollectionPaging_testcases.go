@@ -125,7 +125,7 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection with exact division has no partial pages",
+		Title: "GetPagedCollection returns 2 pages -- 6 items page size 3 exact division",
 		ArrangeInput: args.Map{
 			"when":     "6 items with page size 3",
 			"count":    6,
