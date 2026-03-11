@@ -14,7 +14,7 @@ import (
 
 var inOutErrOfExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns typed output on success",
+		Title: "InOutErrFuncWrapperOf.Exec returns output 5 -- success with 'hello' input",
 		ArrangeInput: args.Map{
 			"input":        "hello",
 			"hasActionErr": false,
@@ -26,7 +26,7 @@ var inOutErrOfExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns error on failure",
+		Title: "InOutErrFuncWrapperOf.Exec returns error -- failure with 'hello' input",
 		ArrangeInput: args.Map{
 			"input":        "hello",
 			"hasActionErr": true,
@@ -45,7 +45,7 @@ var inOutErrOfExecTestCases = []coretestcases.CaseV1{
 
 var inOutErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc wraps error with name",
+		Title: "InOutErrFuncWrapperOf.AsActionReturnsErrorFunc returns error with name -- failure",
 		ArrangeInput: args.Map{
 			"input":        "data",
 			"hasActionErr": true,
@@ -57,7 +57,7 @@ var inOutErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "InOutErrFuncWrapperOf.AsActionReturnsErrorFunc returns nil -- success",
 		ArrangeInput: args.Map{
 			"input":        "data",
 			"hasActionErr": false,
@@ -75,7 +75,7 @@ var inOutErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var inOutErrOfToLegacyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ToLegacy preserves behavior on success",
+		Title: "InOutErrFuncWrapperOf.ToLegacy returns output 5 -- success with 'hello' input",
 		ArrangeInput: args.Map{
 			"input":        "hello",
 			"hasActionErr": false,
@@ -94,7 +94,7 @@ var inOutErrOfToLegacyTestCases = []coretestcases.CaseV1{
 
 var inOutFuncOfExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns typed output",
+		Title: "InOutFuncWrapperOf.Exec returns 'HELLO' -- 'hello' input",
 		ArrangeInput: args.Map{
 			"input": "hello",
 			"name":  "upper",
@@ -111,7 +111,7 @@ var inOutFuncOfExecTestCases = []coretestcases.CaseV1{
 
 var inOutFuncOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc always returns nil",
+		Title: "InOutFuncWrapperOf.AsActionReturnsErrorFunc returns nil -- always succeeds",
 		ArrangeInput: args.Map{
 			"input": "data",
 			"name":  "process",
@@ -128,7 +128,7 @@ var inOutFuncOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var inActionReturnsErrOfExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns nil on success",
+		Title: "InActionReturnsErrOf.Exec returns nil -- valid email input",
 		ArrangeInput: args.Map{
 			"input":        "valid@example.com",
 			"hasActionErr": false,
@@ -139,7 +139,7 @@ var inActionReturnsErrOfExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns error on failure",
+		Title: "InActionReturnsErrOf.Exec returns error -- invalid input",
 		ArrangeInput: args.Map{
 			"input":        "invalid",
 			"hasActionErr": true,
@@ -157,7 +157,7 @@ var inActionReturnsErrOfExecTestCases = []coretestcases.CaseV1{
 
 var inActionReturnsErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc wraps error with name",
+		Title: "InActionReturnsErrOf.AsActionReturnsErrorFunc returns error with name -- failure",
 		ArrangeInput: args.Map{
 			"input":        "bad-data",
 			"hasActionErr": true,
@@ -169,7 +169,7 @@ var inActionReturnsErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "InActionReturnsErrOf.AsActionReturnsErrorFunc returns nil -- success",
 		ArrangeInput: args.Map{
 			"input":        "good-data",
 			"hasActionErr": false,
@@ -187,7 +187,7 @@ var inActionReturnsErrOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var inActionReturnsErrOfToLegacyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ToLegacy preserves error behavior",
+		Title: "InActionReturnsErrOf.ToLegacy returns error -- failure input",
 		ArrangeInput: args.Map{
 			"input":        "data",
 			"hasActionErr": true,
@@ -205,7 +205,7 @@ var inActionReturnsErrOfToLegacyTestCases = []coretestcases.CaseV1{
 
 var resultDelegatingOfExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns nil on success",
+		Title: "ResultDelegatingOf.Exec returns nil and filled true -- success",
 		ArrangeInput: args.Map{
 			"hasActionErr": false,
 			"name":         "unmarshal-user",
@@ -216,7 +216,7 @@ var resultDelegatingOfExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns error on failure",
+		Title: "ResultDelegatingOf.Exec returns error and filled false -- failure",
 		ArrangeInput: args.Map{
 			"hasActionErr": true,
 			"name":         "unmarshal-user",
@@ -234,7 +234,7 @@ var resultDelegatingOfExecTestCases = []coretestcases.CaseV1{
 
 var resultDelegatingOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc wraps error with name",
+		Title: "ResultDelegatingOf.AsActionReturnsErrorFunc returns error with name -- failure",
 		ArrangeInput: args.Map{
 			"hasActionErr": true,
 			"name":         "decode",
@@ -245,7 +245,7 @@ var resultDelegatingOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "ResultDelegatingOf.AsActionReturnsErrorFunc returns nil -- success",
 		ArrangeInput: args.Map{
 			"hasActionErr": false,
 			"name":         "decode",
@@ -262,7 +262,7 @@ var resultDelegatingOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var resultDelegatingOfToLegacyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ToLegacy preserves success behavior",
+		Title: "ResultDelegatingOf.ToLegacy returns nil -- success",
 		ArrangeInput: args.Map{
 			"hasActionErr": false,
 			"name":         "legacy-decode",
@@ -279,7 +279,7 @@ var resultDelegatingOfToLegacyTestCases = []coretestcases.CaseV1{
 
 var serializeOutputOfExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns serialized bytes on success",
+		Title: "SerializeOutputOf.Exec returns serialized bytes -- success with 'test-value' input",
 		ArrangeInput: args.Map{
 			"input":        "test-value",
 			"hasActionErr": false,
@@ -291,7 +291,7 @@ var serializeOutputOfExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns error on failure",
+		Title: "SerializeOutputOf.Exec returns error -- failure with 'test-value' input",
 		ArrangeInput: args.Map{
 			"input":        "test-value",
 			"hasActionErr": true,
@@ -310,7 +310,7 @@ var serializeOutputOfExecTestCases = []coretestcases.CaseV1{
 
 var serializeOutputOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc wraps error with name",
+		Title: "SerializeOutputOf.AsActionReturnsErrorFunc returns error with name -- failure",
 		ArrangeInput: args.Map{
 			"input":        "data",
 			"hasActionErr": true,
@@ -322,7 +322,7 @@ var serializeOutputOfAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "SerializeOutputOf.AsActionReturnsErrorFunc returns nil -- success",
 		ArrangeInput: args.Map{
 			"input":        "data",
 			"hasActionErr": false,

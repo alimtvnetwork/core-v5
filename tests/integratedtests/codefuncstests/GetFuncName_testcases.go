@@ -13,7 +13,7 @@ import (
 
 var getFuncNameTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetFuncName returns name for a function",
+		Title: "GetFuncName returns non-empty name -- named function input",
 		ArrangeInput: args.Map{
 			"when": "given a named function",
 		},
@@ -22,7 +22,7 @@ var getFuncNameTestCases = []coretestcases.CaseV1{
 }
 
 var getFuncNameNilTestCase = coretestcases.CaseV1{
-	Title: "GetFuncName with nil returns empty string",
+	Title: "GetFuncName returns empty string -- nil input",
 	ArrangeInput: args.Map{
 		"when": "given nil input",
 	},
@@ -33,7 +33,7 @@ var getFuncNameNilTestCase = coretestcases.CaseV1{
 }
 
 var getFuncNameNonFuncTestCase = coretestcases.CaseV1{
-	Title: "GetFuncName with non-function returns empty string",
+	Title: "GetFuncName returns empty string -- non-function (int) input",
 	ArrangeInput: args.Map{
 		"when":  "given an integer instead of a function",
 		"input": 42,
@@ -50,7 +50,7 @@ var getFuncNameNonFuncTestCase = coretestcases.CaseV1{
 
 var getFuncFullNameTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetFuncFullName returns full name for a function",
+		Title: "GetFuncFullName returns full package-qualified name -- named function input",
 		ArrangeInput: args.Map{
 			"when": "given a named function",
 		},
@@ -62,7 +62,7 @@ var getFuncFullNameTestCases = []coretestcases.CaseV1{
 }
 
 var getFuncFullNameNilTestCase = coretestcases.CaseV1{
-	Title: "GetFuncFullName with nil returns empty string",
+	Title: "GetFuncFullName returns empty string -- nil input",
 	ArrangeInput: args.Map{
 		"when": "given nil input",
 	},
@@ -73,7 +73,7 @@ var getFuncFullNameNilTestCase = coretestcases.CaseV1{
 }
 
 var getFuncFullNameNonFuncTestCase = coretestcases.CaseV1{
-	Title: "GetFuncFullName with non-function returns empty string",
+	Title: "GetFuncFullName returns empty string -- non-function (string) input",
 	ArrangeInput: args.Map{
 		"when":  "given a string instead of a function",
 		"input": "not-a-func",
@@ -90,7 +90,7 @@ var getFuncFullNameNonFuncTestCase = coretestcases.CaseV1{
 
 var getFuncTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetFunc returns non-nil for a function",
+		Title: "GetFunc returns non-nil -- named function input",
 		ArrangeInput: args.Map{
 			"when": "given a named function",
 		},
@@ -101,7 +101,7 @@ var getFuncTestCases = []coretestcases.CaseV1{
 }
 
 var getFuncNilTestCase = coretestcases.CaseV1{
-	Title: "GetFunc with nil returns nil",
+	Title: "GetFunc returns nil -- nil input",
 	ArrangeInput: args.Map{
 		"when": "given nil input",
 	},
@@ -112,7 +112,7 @@ var getFuncNilTestCase = coretestcases.CaseV1{
 }
 
 var getFuncNonFuncTestCase = coretestcases.CaseV1{
-	Title: "GetFunc with non-function returns nil",
+	Title: "GetFunc returns nil -- non-function (struct) input",
 	ArrangeInput: args.Map{
 		"when":  "given a struct instead of a function",
 		"input": struct{ Name string }{"test"},
@@ -129,7 +129,7 @@ var getFuncNonFuncTestCase = coretestcases.CaseV1{
 
 var newCreatorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "New.ActionErr creates wrapper with correct name",
+		Title: "New.ActionErr returns wrapper with correct name -- 'test-action' factory",
 		ArrangeInput: args.Map{
 			"method": "ActionErr",
 			"name":   "test-action",
@@ -139,7 +139,7 @@ var newCreatorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.IsSuccess creates wrapper that returns success",
+		Title: "New.IsSuccess returns wrapper that returns true -- 'test-check' factory",
 		ArrangeInput: args.Map{
 			"method": "IsSuccess",
 			"name":   "test-check",
@@ -149,7 +149,7 @@ var newCreatorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.NamedAction creates wrapper that calls with name",
+		Title: "New.NamedAction returns wrapper that calls with name -- 'test-named' factory",
 		ArrangeInput: args.Map{
 			"method": "NamedAction",
 			"name":   "test-named",
@@ -159,7 +159,7 @@ var newCreatorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.LegacyInOutErr creates wrapper that returns output",
+		Title: "New.LegacyInOutErr returns wrapper with output 'processed' -- 'test-inout' factory",
 		ArrangeInput: args.Map{
 			"method": "LegacyInOutErr",
 			"name":   "test-inout",
@@ -170,7 +170,7 @@ var newCreatorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "New.LegacyResultDelegating creates wrapper that delegates",
+		Title: "New.LegacyResultDelegating returns wrapper without error -- 'test-delegate' factory",
 		ArrangeInput: args.Map{
 			"method": "LegacyResultDelegating",
 			"name":   "test-delegate",

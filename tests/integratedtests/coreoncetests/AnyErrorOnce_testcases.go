@@ -20,7 +20,7 @@ type anyErrorOnceTestCase struct {
 var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce 'hello'/nil -- no error, not null, isDefined",
+			Title: "AnyErrorOnce returns isDefined true and isNull false -- 'hello' value, nil error",
 			ExpectedInput: args.Map{
 				"hasError":   false,
 				"isValid":    true,
@@ -37,7 +37,7 @@ var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce nil/nil -- isNull, isEmpty",
+			Title: "AnyErrorOnce returns isNull true and isEmpty true -- nil value, nil error",
 			ExpectedInput: args.Map{
 				"hasError":   false,
 				"isValid":    true,
@@ -54,7 +54,7 @@ var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce nil/error -- hasError, isFailed",
+			Title: "AnyErrorOnce returns hasError true and isFailed true -- nil value, error set",
 			ExpectedInput: args.Map{
 				"hasError":   true,
 				"isValid":    false,
@@ -78,7 +78,7 @@ var anyErrorOnceCoreTestCases = []anyErrorOnceTestCase{
 var anyErrorOnceCachingTestCases = []anyErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce.Value caches -- initializer runs once",
+			Title: "AnyErrorOnce.Value returns cached result -- initializer runs once",
 			ExpectedInput: args.Map{
 				"callCount":      1,
 				"executeEqValue": true,
@@ -94,7 +94,7 @@ var anyErrorOnceCachingTestCases = []anyErrorOnceTestCase{
 
 var anyErrorOnceMustSuccessTestCase = anyErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyErrorOnce.ValueMust succeeds without panic",
+		Title: "AnyErrorOnce.ValueMust returns value without panic -- no error",
 		ExpectedInput: args.Map{
 			"didPanic": false,
 		},
@@ -104,7 +104,7 @@ var anyErrorOnceMustSuccessTestCase = anyErrorOnceTestCase{
 
 var anyErrorOnceMustPanicTestCase = anyErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyErrorOnce.ValueMust panics on error",
+		Title: "AnyErrorOnce.ValueMust returns panic -- error set",
 		ExpectedInput: args.Map{
 			"didPanic": true,
 		},
@@ -118,7 +118,7 @@ var anyErrorOnceMustPanicTestCase = anyErrorOnceTestCase{
 
 var anyErrorOnceCastStringTestCase = anyErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "AnyErrorOnce 'cast' -- CastValueString succeeds",
+		Title: "AnyErrorOnce.CastValueString returns 'cast' and castSuccess true -- string value",
 		ExpectedInput: args.Map{
 			"castValue":   "cast",
 			"castSuccess": true,
@@ -135,7 +135,7 @@ var anyErrorOnceCastStringTestCase = anyErrorOnceTestCase{
 var anyErrorOnceJsonTestCases = []anyErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce 'json' -- Serialize succeeds",
+			Title: "AnyErrorOnce.Serialize returns bytes without error -- 'json' value",
 			ExpectedInput: args.Map{
 				"noError":             true,
 				"dataLengthAboveZero": true,
@@ -145,7 +145,7 @@ var anyErrorOnceJsonTestCases = []anyErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "AnyErrorOnce with error -- Serialize returns error",
+			Title: "AnyErrorOnce.Serialize returns error -- error set",
 			ExpectedInput: args.Map{
 				"hasError": true,
 			},
@@ -161,7 +161,7 @@ var anyErrorOnceJsonTestCases = []anyErrorOnceTestCase{
 var anyErrorOnceConstructorTestCases = []anyErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewAnyErrorOnce (value) works correctly",
+			Title: "NewAnyErrorOnce returns isNull false and noError true -- value input",
 			ExpectedInput: args.Map{
 				"isNull":  false,
 				"noError": true,

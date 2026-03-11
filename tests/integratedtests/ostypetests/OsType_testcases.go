@@ -8,32 +8,32 @@ import (
 
 var getVariantTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "windows maps to Windows",
+		Title:         "GetVariant returns 'windows' -- 'windows' input",
 		ArrangeInput:  "windows",
 		ExpectedInput: "windows",
 	},
 	{
-		Title:         "linux maps to Linux",
+		Title:         "GetVariant returns 'linux' -- 'linux' input",
 		ArrangeInput:  "linux",
 		ExpectedInput: "linux",
 	},
 	{
-		Title:         "darwin maps to DarwinOrMacOs",
+		Title:         "GetVariant returns 'darwin' -- 'darwin' input",
 		ArrangeInput:  "darwin",
 		ExpectedInput: "darwin",
 	},
 	{
-		Title:         "freebsd maps to FreeBsd",
+		Title:         "GetVariant returns 'freebsd' -- 'freebsd' input",
 		ArrangeInput:  "freebsd",
 		ExpectedInput: "freebsd",
 	},
 	{
-		Title:         "android maps to Android",
+		Title:         "GetVariant returns 'android' -- 'android' input",
 		ArrangeInput:  "android",
 		ExpectedInput: "android",
 	},
 	{
-		Title:         "unknown string maps to Unknown",
+		Title:         "GetVariant returns 'Unknown' -- unrecognized OS string",
 		ArrangeInput:  "totally_unknown_os",
 		ExpectedInput: "Unknown",
 	},
@@ -41,27 +41,27 @@ var getVariantTestCases = []coretestcases.CaseV1{
 
 var getGroupTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "windows is WindowsGroup",
+		Title:         "GetGroup returns WindowsGroup -- 'windows' input",
 		ArrangeInput:  "windows",
 		ExpectedInput: "WindowsGroup",
 	},
 	{
-		Title:         "linux is UnixGroup",
+		Title:         "GetGroup returns UnixGroup -- 'linux' input",
 		ArrangeInput:  "linux",
 		ExpectedInput: "UnixGroup",
 	},
 	{
-		Title:         "darwin is UnixGroup",
+		Title:         "GetGroup returns UnixGroup -- 'darwin' input",
 		ArrangeInput:  "darwin",
 		ExpectedInput: "UnixGroup",
 	},
 	{
-		Title:         "android is AndroidGroup",
+		Title:         "GetGroup returns AndroidGroup -- 'android' input",
 		ArrangeInput:  "android",
 		ExpectedInput: "AndroidGroup",
 	},
 	{
-		Title:         "unknown returns JavaScriptGroup",
+		Title:         "GetGroup returns JavaScriptGroup -- unrecognized OS string",
 		ArrangeInput:  "totally_unknown_os",
 		ExpectedInput: "JavaScriptGroup",
 	},
@@ -71,7 +71,7 @@ var getGroupTestCases = []coretestcases.CaseV1{
 // Expected: groupName, isUnix, isWindows
 var variationGroupTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "Windows variation has WindowsGroup",
+		Title:        "Variation.Group returns WindowsGroup and isWindows true -- Windows variant",
 		ArrangeInput: ostype.Windows,
 		ExpectedInput: args.Map{
 			"groupName": "WindowsGroup",
@@ -80,7 +80,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Linux variation has UnixGroup",
+		Title:        "Variation.Group returns UnixGroup and isUnix true -- Linux variant",
 		ArrangeInput: ostype.Linux,
 		ExpectedInput: args.Map{
 			"groupName": "UnixGroup",
@@ -89,7 +89,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "DarwinOrMacOs variation has UnixGroup",
+		Title:        "Variation.Group returns UnixGroup and isUnix true -- DarwinOrMacOs variant",
 		ArrangeInput: ostype.DarwinOrMacOs,
 		ExpectedInput: args.Map{
 			"groupName": "UnixGroup",
@@ -98,7 +98,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Android variation has AndroidGroup",
+		Title:        "Variation.Group returns AndroidGroup -- Android variant",
 		ArrangeInput: ostype.Android,
 		ExpectedInput: args.Map{
 			"groupName": "AndroidGroup",
@@ -112,7 +112,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 // Expected: isWindows, isLinux, isDarwin, isValid
 var variationIdentityTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "Windows identity checks",
+		Title:        "Variation returns isWindows true and isValid true -- Windows variant",
 		ArrangeInput: ostype.Windows,
 		ExpectedInput: args.Map{
 			"isWindows": "true",
@@ -122,7 +122,7 @@ var variationIdentityTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Linux identity checks",
+		Title:        "Variation returns isLinux true and isValid true -- Linux variant",
 		ArrangeInput: ostype.Linux,
 		ExpectedInput: args.Map{
 			"isWindows": "false",
@@ -132,7 +132,7 @@ var variationIdentityTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "DarwinOrMacOs identity checks",
+		Title:        "Variation returns isDarwin true and isValid true -- DarwinOrMacOs variant",
 		ArrangeInput: ostype.DarwinOrMacOs,
 		ExpectedInput: args.Map{
 			"isWindows": "false",
@@ -142,7 +142,7 @@ var variationIdentityTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Any (default) is invalid",
+		Title:        "Variation returns isValid false -- Any (default) variant",
 		ArrangeInput: ostype.Any,
 		ExpectedInput: args.Map{
 			"isWindows": "false",
