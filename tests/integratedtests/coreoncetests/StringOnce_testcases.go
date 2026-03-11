@@ -85,7 +85,7 @@ type stringOnceMatchTestCase struct {
 var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'abc' -- IsEqual 'abc' true, 'xyz' false",
+			Title: "StringOnce.IsEqual returns true for 'abc' and false for 'xyz' -- 'abc' input",
 			ExpectedInput: args.Map{
 				"matchResult":   true,
 				"noMatchResult": false,
