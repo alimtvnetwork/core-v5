@@ -25,9 +25,9 @@ func EmptyIntsPtr() *[]int {
 	return EmptySlicePtr[int]()
 }
 
-// Deprecated: Use EmptySlicePtr[byte]() instead.
-func EmptyBytePtr() *[]byte {
-	return EmptySlicePtr[byte]()
+// Deprecated: Use []byte{} instead.
+func EmptyBytePtr() []byte {
+	return []byte{}
 }
 
 // Deprecated: Use EmptyMapPtr[string, string]() instead.

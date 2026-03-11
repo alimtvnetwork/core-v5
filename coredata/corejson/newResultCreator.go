@@ -326,7 +326,7 @@ func (it newResultCreator) Create(
 }
 
 func (it newResultCreator) PtrUsingBytesPtr(
-	jsonBytes *[]byte,
+	jsonBytes []byte,
 	err error,
 	typeName string,
 ) *Result {
@@ -347,7 +347,7 @@ func (it newResultCreator) PtrUsingBytesPtr(
 	}
 
 	return &Result{
-		Bytes:    *jsonBytes,
+		Bytes:    jsonBytes,
 		Error:    nil,
 		TypeName: typeName,
 	}
