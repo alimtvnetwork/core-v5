@@ -29,7 +29,7 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce empty -- IsEmpty true, IsEmptyOrWhitespace true",
+			Title: "StringOnce returns isEmpty true and isEmptyOrWhitespace true -- empty input",
 			ExpectedInput: args.Map{
 				"value":               "",
 				"string":              "",
