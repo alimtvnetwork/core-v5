@@ -23,7 +23,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "StringTo.Integer parses negative integer",
+		Title: "StringTo.Integer returns -5 -- negative integer string '-5'",
 		ArrangeInput: args.Map{
 			"when":  "given negative integer string",
 			"input": "-5",
