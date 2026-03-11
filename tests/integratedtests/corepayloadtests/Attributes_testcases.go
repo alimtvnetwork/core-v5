@@ -106,7 +106,7 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Deep clone returns error",
+		Title: "Attributes.Clone returns error -- deep clone",
 		ArrangeInput: args.Map{
 			"when":    "deep clone then mutate original",
 			"payload": "deep-clone-data",
