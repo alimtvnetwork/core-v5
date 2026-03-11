@@ -383,7 +383,7 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce -- MustHaveSafeItems panics when empty",
+			Title: "BytesErrorOnce.MustHaveSafeItems returns panic -- empty bytes",
 			ExpectedInput: args.Map{
 				"handleErrorPanicked":       false,
 				"mustBeEmptyErrorPanicked":  false,
