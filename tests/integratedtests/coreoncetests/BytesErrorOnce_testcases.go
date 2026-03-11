@@ -133,7 +133,7 @@ var bytesErrorOnceValueOnlyTestCase = bytesErrorOnceTestCase{
 
 var bytesErrorOnceValueWithErrorTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "BytesErrorOnce.ValueWithError aliases Value",
+		Title: "BytesErrorOnce.ValueWithError returns same as Value -- 'vwe' input",
 		ExpectedInput: args.Map{
 			"valueWithErrorResult": "vwe",
 			"noError":              true,
