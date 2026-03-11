@@ -648,11 +648,21 @@ var __aiCoverageText =
             $scriptEnd = @'
 ';
 function copyForAI(){
-  navigator.clipboard.writeText(__aiCoverageText).then(function(){
-    var s=document.getElementById('ai-copy-status');
-    s.style.display='block';
-    setTimeout(function(){s.style.display='none';},2000);
-  });
+  try {
+    var ta = document.createElement("textarea");
+    ta.value = __aiCoverageText;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    var s = document.getElementById("ai-copy-status");
+    s.style.display = "block";
+    setTimeout(function(){ s.style.display = "none"; }, 2000);
+  } catch(e) {
+    alert("Copy failed: " + e.message);
+  }
 }
 </script>
 '@
