@@ -215,7 +215,7 @@ var typedCollectionFirstByNameTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionRemoveAtTestCase = coretestcases.CaseV1{
-	Title: "RemoveAt removes item and rejects invalid index",
+	Title: "TypedPayloadCollection.RemoveAt returns removed true and length 2 -- valid index",
 	ExpectedInput: args.Map{
 		"removed":       true,
 		"lengthAfter":   2,
