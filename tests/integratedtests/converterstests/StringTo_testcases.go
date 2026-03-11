@@ -15,7 +15,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "42", "hasError": "false"},
 	},
 	{
-		Title: "StringTo.Integer fails on non-numeric string",
+		Title: "StringTo.Integer returns error -- non-numeric string 'abc'",
 		ArrangeInput: args.Map{
 			"when":  "given non-numeric string",
 			"input": "abc",
