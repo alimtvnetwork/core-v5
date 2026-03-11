@@ -81,13 +81,14 @@ func Test_StringSlice_AnyItemsCloneIf(t *testing.T) {
 		}
 
 		// Check independence
-		isSamePointer := false
+		isIndependentCopy := false
 		if len(inputSlice) > 0 && len(result) > 0 {
-			isSamePointer = unsafe.Pointer(&inputSlice[0]) == unsafe.Pointer(&result[0])
+			isSamePointer := unsafe.Pointer(&inputSlice[0]) == unsafe.Pointer(&result[0])
+			isIndependentCopy = !isSamePointer
+		} else if isClone {
+			isIndependentCopy = true
 		}
-		isIndependent := isClone && !isSamePointer
-		isReturned := !isClone && isSamePointer
-		actual["isIndependentCopy"] = fmt.Sprintf("%v", isIndependent || isReturned)
+		actual["isIndependentCopy"] = fmt.Sprintf("%v", isIndependentCopy)
 
 		// Assert
 		testCase.ShouldBeEqualMap(t, caseIndex, actual)
