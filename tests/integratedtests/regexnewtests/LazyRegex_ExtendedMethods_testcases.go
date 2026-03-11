@@ -63,7 +63,7 @@ var lazyRegexCompileMustTestCases = []coretestcases.CaseV1{
 
 var lazyRegexFirstMatchLineTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FirstMatchLine returns first match",
+		Title: "LazyRegex.FirstMatchLine returns '123' -- pattern '(\\d+)' content 'abc123def456'",
 		ArrangeInput: args.Map{
 			"pattern": "(\\d+)",
 			"content": "abc123def456",
