@@ -33,7 +33,7 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 42 -- positive, not zero",
+			Title: "IntegerOnce returns isPositive true and isZero false -- input 42",
 			ExpectedInput: args.Map{
 				"value":          42,
 				"string":         "42",
