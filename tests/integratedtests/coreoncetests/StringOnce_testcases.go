@@ -156,7 +156,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'key=value' -- SplitLeftRight '='",
+			Title: "StringOnce.SplitLeftRight returns 'key' and 'value' -- 'key=value' split by '='",
 			ExpectedInput: args.Map{
 				"left":  "key",
 				"right": "value",
