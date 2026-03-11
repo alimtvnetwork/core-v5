@@ -8,7 +8,7 @@ import (
 
 var enumByteTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Byte enum min 0, max 10 -- generates min, max from given map[string]any",
+		Title: "EnumByte returns min 0 and max 10 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":   0,
