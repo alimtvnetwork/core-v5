@@ -17,7 +17,7 @@ type stringsOnceTestCase struct {
 var stringsOnceCoreTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b,c] -- Length 3, not empty",
+			Title: "StringsOnce returns length 3 and isEmpty false -- [a,b,c] input",
 			ExpectedInput: args.Map{
 				"length":     3,
 				"isEmpty":    false,
