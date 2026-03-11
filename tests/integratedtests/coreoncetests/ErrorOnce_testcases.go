@@ -182,7 +182,7 @@ var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 var errorOnceJsonTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce 'marshal' -- MarshalJSON returns '\"marshal\"'",
+			Title: "ErrorOnce.MarshalJSON returns '\"marshal\"' -- error 'marshal'",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "\"marshal\"",
