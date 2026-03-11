@@ -158,7 +158,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "false"},
 	},
 	{
-		Title: "Byte parses one",
+		Title: "StringTo.Byte returns 1 -- one string '1'",
 		ArrangeInput: args.Map{
 			"when":  "given one string",
 			"input": "1",
