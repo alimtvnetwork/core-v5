@@ -161,7 +161,7 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 
 var authInfoCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil AuthInfo ClonePtr returns nil",
+		Title: "AuthInfo.ClonePtr returns nil -- nil receiver",
 		ArrangeInput: args.Map{
 			"when":     "auth info is nil",
 			"nil_auth": true,
