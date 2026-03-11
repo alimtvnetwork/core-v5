@@ -39,7 +39,7 @@ var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 
 var typedCollectionAddTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Add single item increases length to 1",
+		Title: "TypedPayloadCollection.Add returns length 1 -- single user added",
 		ArrangeInput: args.Map{
 			"when":  "adding one user",
 			"name":  "Alice",
