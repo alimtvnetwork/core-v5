@@ -64,7 +64,7 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetSinglePageCollection returns last partial page",
+		Title: "GetSinglePageCollection returns 1 item -- last partial page 3 of 5 items",
 		ArrangeInput: args.Map{
 			"when":      "page 3 of 2 items per page from 5 items",
 			"count":     5,
