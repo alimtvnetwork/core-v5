@@ -3,7 +3,6 @@ package corepayload
 import (
 	"fmt"
 
-	"github.com/alimtvnetwork/core/converters"
 	"github.com/alimtvnetwork/core/coredata/corejson"
 	"github.com/alimtvnetwork/core/coreinterface/errcoreinf"
 	"github.com/alimtvnetwork/core/errcore"
