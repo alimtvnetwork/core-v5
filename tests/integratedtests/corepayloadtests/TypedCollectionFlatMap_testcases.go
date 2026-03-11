@@ -88,7 +88,7 @@ var flatMapNoOutputTestCases = []coretestcases.CaseV1{
 
 var nilWrapperEdgeCaseTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Collection with nil wrapper — IsValid returns false",
+		Title: "TypedPayloadCollection returns isValid false -- nil wrapper in collection",
 		ArrangeInput: args.Map{
 			"when": "collection contains a nil wrapper",
 		},
