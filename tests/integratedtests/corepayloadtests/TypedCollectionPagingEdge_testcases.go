@@ -49,7 +49,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection page size larger than item count",
+		Title: "GetPagedCollection returns 1 page -- 3 items page size 100 larger than count",
 		ArrangeInput: args.Map{
 			"when":     "3 items with page size 100",
 			"count":    3,
