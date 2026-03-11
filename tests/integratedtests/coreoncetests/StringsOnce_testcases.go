@@ -39,7 +39,7 @@ var stringsOnceCoreTestCases = []stringsOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce nil -- Length 0, isEmpty true",
+			Title: "StringsOnce returns length 0 and isEmpty true -- nil input",
 			ExpectedInput: args.Map{
 				"length":     0,
 				"isEmpty":    true,
