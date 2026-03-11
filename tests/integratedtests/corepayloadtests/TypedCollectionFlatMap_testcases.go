@@ -18,7 +18,7 @@ type testUserWithTags struct {
 
 var flatMapTypedPayloadsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloads flattens tags from all users",
+		Title: "FlatMapTypedPayloads returns 6 tags -- 3 users with 2 tags each",
 		ArrangeInput: args.Map{
 			"when": "given 3 users with 2 tags each",
 		},
