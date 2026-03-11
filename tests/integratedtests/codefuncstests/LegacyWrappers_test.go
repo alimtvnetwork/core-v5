@@ -320,8 +320,6 @@ func Test_ResultDelegatingFuncWrapper_AsActionReturnsErrorFunc_Verification(t *t
 		}
 		if err != nil {
 			actual["containsName"] = strings.Contains(err.Error(), name)
-		} else {
-			actual["containsName"] = false
 		}
 
 		// Assert
