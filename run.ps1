@@ -514,10 +514,15 @@ function Invoke-PackageTestCoverage {
     $coverHtml    = Join-Path $coverDir "coverage-$pkg.html"
     $coverSummary = Join-Path $coverDir "coverage-$pkg-summary.txt"
 
+    # Build coverpkg list: all source packages EXCLUDING tests/
+    $allPkgs = go list ./... 2>&1 | ForEach-Object { $_.ToString() }
+    $srcPkgs = $allPkgs | Where-Object { $_ -notmatch '/tests/' }
+    $covPkgList = $srcPkgs -join ","
+
     # Run from project ROOT so -coverpkg can instrument all source packages
     $prevPref = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    $output = & go test -v -count=1 "-coverprofile=$coverProfile" "-coverpkg=./..." "./tests/integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
+    $output = & go test -v -count=1 "-coverprofile=$coverProfile" "-coverpkg=$covPkgList" "./tests/integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
     $exitCode = $LASTEXITCODE
     $ErrorActionPreference = $prevPref
 
