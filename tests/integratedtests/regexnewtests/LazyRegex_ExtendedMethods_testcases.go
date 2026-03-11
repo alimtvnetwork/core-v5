@@ -123,7 +123,7 @@ var lazyRegexIsFailedMatchBytesTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsFailedMatchBytes true for invalid regex",
+		Title: "LazyRegex.IsFailedMatchBytes returns true -- invalid regex '[bad'",
 		ArrangeInput: args.Map{
 			"pattern": "[bad",
 			"input":   "test",
