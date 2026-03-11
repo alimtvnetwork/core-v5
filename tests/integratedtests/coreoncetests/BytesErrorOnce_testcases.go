@@ -234,7 +234,7 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce nil -- String empty, IsStringEmpty true",
+			Title: "BytesErrorOnce.String returns empty and isStringEmpty true -- nil bytes",
 			ExpectedInput: args.Map{
 				"stringValue":               "",
 				"isStringEmpty":             true,
