@@ -68,7 +68,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 
 var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetSinglePageCollection middle page returns correct items",
+		Title: "GetSinglePageCollection returns 3 items -- middle page 2 of 9 items page size 3",
 		ArrangeInput: args.Map{
 			"when":      "page 2 of 3 items per page from 9 items",
 			"count":     9,
