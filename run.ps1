@@ -546,7 +546,21 @@ function Invoke-TestCoverage {
 
         Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
 
-        # Print summary to console
+        # Print per-source-package coverage to console
+        if ($srcPkgStmts.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  === Per-Source-Package Coverage ===" -ForegroundColor Cyan
+            Write-Host ""
+            $sortedSrcPkgs2 = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctVal2 = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctVal2 }
+            } | Sort-Object Pct -Descending
+            foreach ($entry2 in $sortedSrcPkgs2) {
+                $color = if ($entry2.Pct -ge 50) { "Green" } elseif ($entry2.Pct -ge 20) { "Yellow" } else { "Red" }
+                Write-Host "  $($entry2.Pct)%`t$($entry2.Name)" -ForegroundColor $color
+            }
+        }
+
         Write-Host ""
         if ($totalLine) {
             Write-Host "  $totalLine" -ForegroundColor Cyan
