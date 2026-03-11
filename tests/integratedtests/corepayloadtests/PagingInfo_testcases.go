@@ -312,7 +312,7 @@ var pagingInfoCloneTestCases = []coretestcases.CaseV1{
 
 var pagingInfoClonePtrTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ClonePtr nil receiver returns nil",
+		Title: "PagingInfo.ClonePtr returns nil -- nil receiver",
 		ArrangeInput: args.Map{
 			"when":  "given nil PagingInfo pointer",
 			"isNil": true,
