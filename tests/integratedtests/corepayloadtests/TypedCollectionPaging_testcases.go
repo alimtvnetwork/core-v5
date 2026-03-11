@@ -11,7 +11,7 @@ import (
 
 var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagesSize returns 1 when items fewer than page size",
+		Title: "GetPagesSize returns 1 -- 3 items page size 10",
 		ArrangeInput: args.Map{
 			"when":     "3 items with page size 10",
 			"pageSize": 10,
