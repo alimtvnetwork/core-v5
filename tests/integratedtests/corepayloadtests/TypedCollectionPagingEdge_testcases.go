@@ -118,7 +118,7 @@ var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollectionWithInfo exact division metadata",
+		Title: "GetPagedCollectionWithInfo returns correct metadata -- 4 items page size 2 exact division",
 		ArrangeInput: args.Map{
 			"when":     "4 items with page size 2",
 			"count":    4,
