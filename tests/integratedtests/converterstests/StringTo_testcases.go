@@ -66,7 +66,7 @@ var bytesToStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "hello",
 	},
 	{
-		Title: "BytesTo.String returns empty for empty bytes",
+		Title: "BytesTo.String returns empty -- empty byte slice",
 		ArrangeInput: args.Map{
 			"when":  "given empty byte slice",
 			"input": "",
