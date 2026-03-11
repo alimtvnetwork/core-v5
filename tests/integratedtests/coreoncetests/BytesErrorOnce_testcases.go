@@ -245,7 +245,7 @@ var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce whitespace -- IsStringEmptyOrWhitespace true",
+			Title: "BytesErrorOnce returns isStringEmptyOrWhitespace true -- whitespace bytes",
 			ExpectedInput: args.Map{
 				"stringValue":               "   ",
 				"isStringEmpty":             false,
