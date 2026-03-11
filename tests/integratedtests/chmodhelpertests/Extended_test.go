@@ -503,7 +503,7 @@ func Test_DirCreator_Direct(t *testing.T) {
 	defer os.RemoveAll(dir)
 
 	// Act
-	err := chmodhelper.SimpleFileWriter.DirCreator.Direct(dir)
+	err := chmodhelper.SimpleFileWriter.CreateDir.Direct(dir)
 
 	// Assert
 	if err != nil {
