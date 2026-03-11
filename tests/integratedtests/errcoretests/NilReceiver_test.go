@@ -1,7 +1,5 @@
 package errcoretests
 
-import "testing"
-
 // ==========================================
 // ConcatMessageWithErr — CaseV1 pattern
 // (Replaced CaseNilSafe pattern — ConcatMessageWithErr is a

@@ -234,7 +234,7 @@ func Test_RangeSegmentsValidator_SetActualOnAll(t *testing.T) {
 		validators.SetActualOnAll(rangeSegActualLines...)
 		actual := args.Map{
 			"validatorCount": len(validators),
-			"isMatch":        validators.IsMatch(),
+			"isMatch":        validators.IsMatch(true),
 		}
 
 		// Assert
