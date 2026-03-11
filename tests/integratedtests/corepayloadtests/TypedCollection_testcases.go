@@ -189,7 +189,7 @@ var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionEmptyOpsTestCase = coretestcases.CaseV1{
-	Title: "Empty collection operations return zero values",
+	Title: "TypedPayloadCollection returns all zero values -- empty collection operations",
 	ExpectedInput: args.Map{
 		"allDataLen":  0,
 		"namesLen":    0,
