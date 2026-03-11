@@ -205,7 +205,7 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce data no error -- HasIssuesOrEmpty false, HasSafeItems true",
+			Title: "BytesErrorOnce returns hasSafeItems true -- 'ok' bytes no error",
 			ExpectedInput: args.Map{
 				"hasIssuesOrEmpty": false,
 				"hasSafeItems":     true,
