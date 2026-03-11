@@ -7,8 +7,8 @@ import (
 	"github.com/alimtvnetwork/core/typesconv"
 )
 
-func Test_BoolPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range boolPtrTestCases {
+func Test_Ext_BoolPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBoolPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		val := input.GetAsBoolDefault("value", false)
@@ -23,8 +23,8 @@ func Test_BoolPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_BoolPtrToSimple_Verification(t *testing.T) {
-	for caseIndex, testCase := range boolPtrToSimpleTestCases {
+func Test_Ext_BoolPtrToSimple_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBoolPtrToSimpleTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -45,8 +45,8 @@ func Test_BoolPtrToSimple_Verification(t *testing.T) {
 	}
 }
 
-func Test_BoolPtrToSimpleDef_Verification(t *testing.T) {
-	for caseIndex, testCase := range boolPtrToSimpleDefTestCases {
+func Test_Ext_BoolPtrToSimpleDef_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBoolPtrToSimpleDefTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -68,8 +68,8 @@ func Test_BoolPtrToSimpleDef_Verification(t *testing.T) {
 	}
 }
 
-func Test_BoolPtrToDefPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range boolPtrToDefPtrTestCases {
+func Test_Ext_BoolPtrToDefPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBoolPtrToDefPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -91,8 +91,8 @@ func Test_BoolPtrToDefPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_BoolPtrDefValFunc_Verification(t *testing.T) {
-	for caseIndex, testCase := range boolPtrDefValFuncTestCases {
+func Test_Ext_BoolPtrDefValFunc_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBoolPtrDefValFuncTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -113,8 +113,8 @@ func Test_BoolPtrDefValFunc_Verification(t *testing.T) {
 	}
 }
 
-func Test_IntPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range intPtrTestCases {
+func Test_Ext_IntPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extIntPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		val := input.GetAsIntDefault("value", 0)
@@ -129,8 +129,8 @@ func Test_IntPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_IntPtrToSimple_Verification(t *testing.T) {
-	for caseIndex, testCase := range intPtrToSimpleTestCases {
+func Test_Ext_IntPtrToSimple_Verification(t *testing.T) {
+	for caseIndex, testCase := range extIntPtrToSimpleTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -151,8 +151,8 @@ func Test_IntPtrToSimple_Verification(t *testing.T) {
 	}
 }
 
-func Test_IntPtrToSimpleDef_Verification(t *testing.T) {
-	for caseIndex, testCase := range intPtrToSimpleDefTestCases {
+func Test_Ext_IntPtrToSimpleDef_Verification(t *testing.T) {
+	for caseIndex, testCase := range extIntPtrToSimpleDefTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		defVal := input.GetAsIntDefault("defVal", 0)
@@ -167,8 +167,8 @@ func Test_IntPtrToSimpleDef_Verification(t *testing.T) {
 	}
 }
 
-func Test_IntPtrToDefPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range intPtrToDefPtrTestCases {
+func Test_Ext_IntPtrToDefPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extIntPtrToDefPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		defVal := input.GetAsIntDefault("defVal", 0)
@@ -183,8 +183,8 @@ func Test_IntPtrToDefPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_IntPtrDefValFunc_Verification(t *testing.T) {
-	for caseIndex, testCase := range intPtrDefValFuncTestCases {
+func Test_Ext_IntPtrDefValFunc_Verification(t *testing.T) {
+	for caseIndex, testCase := range extIntPtrDefValFuncTestCases {
 		// Arrange
 		_ = testCase.ArrangeInput
 
@@ -198,8 +198,8 @@ func Test_IntPtrDefValFunc_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringPtrTestCases {
+func Test_Ext_StringPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		val, _ := input.GetAsString("value")
@@ -214,8 +214,8 @@ func Test_StringPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringPtrToSimple_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringPtrToSimpleTestCases {
+func Test_Ext_StringPtrToSimple_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringPtrToSimpleTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -236,8 +236,8 @@ func Test_StringPtrToSimple_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringPtrToSimpleDef_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringPtrToSimpleDefTestCases {
+func Test_Ext_StringPtrToSimpleDef_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringPtrToSimpleDefTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		defVal, _ := input.GetAsString("defVal")
@@ -252,8 +252,8 @@ func Test_StringPtrToSimpleDef_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringPtrToDefPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringPtrToDefPtrTestCases {
+func Test_Ext_StringPtrToDefPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringPtrToDefPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		defVal, _ := input.GetAsString("defVal")
@@ -268,8 +268,8 @@ func Test_StringPtrToDefPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringPtrDefValFunc_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringPtrDefValFuncTestCases {
+func Test_Ext_StringPtrDefValFunc_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringPtrDefValFuncTestCases {
 		// Arrange
 		_ = testCase.ArrangeInput
 
@@ -283,8 +283,8 @@ func Test_StringPtrDefValFunc_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringToBool_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringToBoolTestCases {
+func Test_Ext_StringToBool_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringToBoolTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		val, _ := input.GetAsString("value")
@@ -299,8 +299,8 @@ func Test_StringToBool_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringPointerToBool_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringPointerToBoolTestCases {
+func Test_Ext_StringPointerToBool_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringPointerToBoolTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -321,8 +321,8 @@ func Test_StringPointerToBool_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringPointerToBoolPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringPointerToBoolPtrTestCases {
+func Test_Ext_StringPointerToBoolPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringPointerToBoolPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		isNil := input.GetAsBoolDefault("isNil", false)
@@ -343,8 +343,8 @@ func Test_StringPointerToBoolPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringToBoolPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range stringToBoolPtrTestCases {
+func Test_Ext_StringToBoolPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extStringToBoolPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		val, _ := input.GetAsString("value")
@@ -359,8 +359,8 @@ func Test_StringToBoolPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_BytePtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range bytePtrTestCases {
+func Test_Ext_BytePtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBytePtrTestCases {
 		// Arrange
 		result := typesconv.BytePtr(5)
 
@@ -371,10 +371,8 @@ func Test_BytePtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_BytePtrToSimple_Verification(t *testing.T) {
-	for caseIndex, testCase := range bytePtrToSimpleTestCases {
-		// Arrange - nil
-
+func Test_Ext_BytePtrToSimple_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBytePtrToSimpleTestCases {
 		// Act
 		result := typesconv.BytePtrToSimple(nil)
 
@@ -385,8 +383,8 @@ func Test_BytePtrToSimple_Verification(t *testing.T) {
 	}
 }
 
-func Test_BytePtrToSimpleDef_Verification(t *testing.T) {
-	for caseIndex, testCase := range bytePtrToSimpleDefTestCases {
+func Test_Ext_BytePtrToSimpleDef_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBytePtrToSimpleDefTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		rawDef, _ := input.Get("defVal")
@@ -402,8 +400,8 @@ func Test_BytePtrToSimpleDef_Verification(t *testing.T) {
 	}
 }
 
-func Test_BytePtrToDefPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range bytePtrToDefPtrTestCases {
+func Test_Ext_BytePtrToDefPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBytePtrToDefPtrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		rawDef, _ := input.Get("defVal")
@@ -419,10 +417,8 @@ func Test_BytePtrToDefPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_BytePtrDefValFunc_Verification(t *testing.T) {
-	for caseIndex, testCase := range bytePtrDefValFuncTestCases {
-		// Arrange - nil
-
+func Test_Ext_BytePtrDefValFunc_Verification(t *testing.T) {
+	for caseIndex, testCase := range extBytePtrDefValFuncTestCases {
 		// Act
 		result := typesconv.BytePtrDefValFunc(nil, func() byte { return 7 })
 
@@ -433,10 +429,8 @@ func Test_BytePtrDefValFunc_Verification(t *testing.T) {
 	}
 }
 
-func Test_FloatPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range floatPtrTestCases {
-		// Arrange
-
+func Test_Ext_FloatPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extFloatPtrTestCases {
 		// Act
 		result := typesconv.FloatPtr(3.14)
 
@@ -447,10 +441,8 @@ func Test_FloatPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_FloatPtrToSimple_Verification(t *testing.T) {
-	for caseIndex, testCase := range floatPtrToSimpleTestCases {
-		// Arrange - nil
-
+func Test_Ext_FloatPtrToSimple_Verification(t *testing.T) {
+	for caseIndex, testCase := range extFloatPtrToSimpleTestCases {
 		// Act
 		result := typesconv.FloatPtrToSimple(nil)
 
@@ -461,8 +453,8 @@ func Test_FloatPtrToSimple_Verification(t *testing.T) {
 	}
 }
 
-func Test_FloatPtrToSimpleDef_Verification(t *testing.T) {
-	for caseIndex, testCase := range floatPtrToSimpleDefTestCases {
+func Test_Ext_FloatPtrToSimpleDef_Verification(t *testing.T) {
+	for caseIndex, testCase := range extFloatPtrToSimpleDefTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		rawDef, _ := input.Get("defVal")
@@ -478,10 +470,8 @@ func Test_FloatPtrToSimpleDef_Verification(t *testing.T) {
 	}
 }
 
-func Test_FloatPtrToDefPtr_Verification(t *testing.T) {
-	for caseIndex, testCase := range floatPtrToDefPtrTestCases {
-		// Arrange
-
+func Test_Ext_FloatPtrToDefPtr_Verification(t *testing.T) {
+	for caseIndex, testCase := range extFloatPtrToDefPtrTestCases {
 		// Act
 		result := typesconv.FloatPtrToDefPtr(nil, 2.5)
 
@@ -492,10 +482,8 @@ func Test_FloatPtrToDefPtr_Verification(t *testing.T) {
 	}
 }
 
-func Test_FloatPtrDefValFunc_Verification(t *testing.T) {
-	for caseIndex, testCase := range floatPtrDefValFuncTestCases {
-		// Arrange - nil
-
+func Test_Ext_FloatPtrDefValFunc_Verification(t *testing.T) {
+	for caseIndex, testCase := range extFloatPtrDefValFuncTestCases {
 		// Act
 		result := typesconv.FloatPtrDefValFunc(nil, func() float32 { return 9.9 })
 
