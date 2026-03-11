@@ -46,7 +46,7 @@ var enumInt8TestCases = []coretestcases.CaseV1{
 
 var enumInt16TestCases = []coretestcases.CaseV1{
 	{
-		Title: "Integer16 enum min -3, max 14 -- generates min, max from given map[string]any",
+		Title: "EnumInt16 returns min -3 and max 14 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":   -3,
