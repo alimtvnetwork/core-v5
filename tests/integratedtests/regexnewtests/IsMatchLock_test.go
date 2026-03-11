@@ -108,7 +108,7 @@ func Test_LazyRegex_PatternString_Verification(t *testing.T) {
 	}
 }
 
-func Test_LazyRegex_MatchError_Verification(t *testing.T) {
+func Test_LazyRegex_MatchError_Lock_Verification(t *testing.T) {
 	for caseIndex, testCase := range isMatchLockMatchErrorTestCases {
 		// Arrange
 		pattern := testCase.Input
