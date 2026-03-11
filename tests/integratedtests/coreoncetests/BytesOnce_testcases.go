@@ -146,7 +146,7 @@ type bytesOnceJsonTestCase struct {
 var bytesOnceJsonTestCases = []bytesOnceJsonTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesOnce 'hello' -- MarshalJSON succeeds with data",
+			Title: "BytesOnce.MarshalJSON returns data without error -- 'hello' input",
 			ExpectedInput: args.Map{
 				"noError":             true,
 				"dataLengthAboveZero": true,
