@@ -156,7 +156,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	// --- nil receiver ---
 	{
-		Title: "Nil receiver - all state checks",
+		Title: "PagingInfo returns isEmpty true and all invalid -- nil receiver",
 		ArrangeInput: args.Map{
 			"when":  "given nil PagingInfo",
 			"isNil": true,
