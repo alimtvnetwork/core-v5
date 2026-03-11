@@ -363,15 +363,20 @@ function Invoke-TestCoverage {
     Write-Header "Running tests with coverage"
     Invoke-FetchLatest
 
+    # Clean data folder before running tests
+    $dataDir = Join-Path $PSScriptRoot "data"
+    if (Test-Path $dataDir) {
+        Remove-Item -Recurse -Force $dataDir
+        Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
+    }
+
     # Build check from tests/ dir (existing convention)
     Push-Location tests
     try { if (-not (Invoke-BuildCheck "./...")) { return } }
     finally { Pop-Location }
 
     $coverDir = Join-Path $PSScriptRoot "data" "coverage"
-    if (-not (Test-Path $coverDir)) {
-        New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
 
     $coverProfile = Join-Path $coverDir "coverage.out"
     $coverHtml    = Join-Path $coverDir "coverage.html"
@@ -485,15 +490,20 @@ function Invoke-PackageTestCoverage {
     Write-Header "Running coverage for package: $pkg"
     Invoke-FetchLatest
 
+    # Clean data folder before running tests
+    $dataDir = Join-Path $PSScriptRoot "data"
+    if (Test-Path $dataDir) {
+        Remove-Item -Recurse -Force $dataDir
+        Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
+    }
+
     # Build check from tests/ dir
     Push-Location tests
     try { if (-not (Invoke-BuildCheck "./integratedtests/$pkg/...")) { return } }
     finally { Pop-Location }
 
     $coverDir = Join-Path $PSScriptRoot "data" "coverage"
-    if (-not (Test-Path $coverDir)) {
-        New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
 
     $coverProfile = Join-Path $coverDir "coverage-$pkg.out"
     $coverHtml    = Join-Path $coverDir "coverage-$pkg.html"
