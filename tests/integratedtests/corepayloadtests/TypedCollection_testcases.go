@@ -90,7 +90,7 @@ var typedCollectionFilterTestCases = []coretestcases.CaseV1{
 
 var typedCollectionMapTestCases = []coretestcases.CaseV1{
 	{
-		Title: "MapTypedPayloadData extracts names",
+		Title: "MapTypedPayloadData returns 3 names -- 3 users mapped",
 		ArrangeInput: args.Map{
 			"when": "mapping users to names",
 		},
