@@ -424,7 +424,7 @@ function Invoke-TestCoverage {
             Write-Host "  [$pkgIndex/$($testPkgs.Count)] $shortName — no coverage data" -ForegroundColor DarkGray
         }
 
-        $allOutput.AddRange($output)
+        $allOutput.AddRange([string[]]@($output))
     }
 
     # Print to console
