@@ -225,7 +225,7 @@ var stringsToHashsetTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Hashset handles duplicates",
+		Title: "StringsTo.Hashset returns count 2 -- duplicate strings",
 		ArrangeInput: args.Map{
 			"when":  "given duplicate strings",
 			"input": []string{"a", "a", "b"},
