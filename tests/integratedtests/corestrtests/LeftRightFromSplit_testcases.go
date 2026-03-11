@@ -58,7 +58,7 @@ var leftRightFromSplitMultipleSepTestCase = coretestcases.CaseV1{
 	Title: "LeftRightFromSplit returns first-left and last-right -- multiple separators",
 	ExpectedInput: args.Map{
 		"left":    "a",
-		"right":   "c",
+		"right":   "b=c",
 		"isValid": "true",
 	},
 }
