@@ -17,7 +17,7 @@ type stringOnceTestCase struct {
 var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'hello' -- Value, String, IsEmpty false",
+			Title: "StringOnce returns value 'hello' and isEmpty false -- 'hello' input",
 			ExpectedInput: args.Map{
 				"value":               "hello",
 				"string":              "hello",
