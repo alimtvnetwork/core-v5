@@ -131,7 +131,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "Float64 parses negative float",
+		Title: "StringTo.Float64 returns -2.5 -- negative float '-2.5'",
 		ArrangeInput: args.Map{
 			"when":  "given negative float",
 			"input": "-2.5",
