@@ -5,7 +5,7 @@ import (
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
-var boolPtrTestCases = []coretestcases.CaseV1{
+var extBoolPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "BoolPtr true",
 		ArrangeInput:  args.Map{"value": true},
@@ -18,7 +18,7 @@ var boolPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var boolPtrToSimpleTestCases = []coretestcases.CaseV1{
+var extBoolPtrToSimpleTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns false",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -31,7 +31,7 @@ var boolPtrToSimpleTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var boolPtrToSimpleDefTestCases = []coretestcases.CaseV1{
+var extBoolPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns default true",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": true},
@@ -44,7 +44,7 @@ var boolPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var boolPtrToDefPtrTestCases = []coretestcases.CaseV1{
+var extBoolPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns defVal ptr",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": true},
@@ -57,7 +57,7 @@ var boolPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var boolPtrDefValFuncTestCases = []coretestcases.CaseV1{
+var extBoolPtrDefValFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil calls func",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -70,7 +70,7 @@ var boolPtrDefValFuncTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var intPtrTestCases = []coretestcases.CaseV1{
+var extIntPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "IntPtr creates pointer",
 		ArrangeInput:  args.Map{"value": 42},
@@ -78,7 +78,7 @@ var intPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var intPtrToSimpleTestCases = []coretestcases.CaseV1{
+var extIntPtrToSimpleTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns 0",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -91,7 +91,7 @@ var intPtrToSimpleTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var intPtrToSimpleDefTestCases = []coretestcases.CaseV1{
+var extIntPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns default",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": 99},
@@ -99,7 +99,7 @@ var intPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var intPtrToDefPtrTestCases = []coretestcases.CaseV1{
+var extIntPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns defVal ptr",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": 10},
@@ -107,7 +107,7 @@ var intPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var intPtrDefValFuncTestCases = []coretestcases.CaseV1{
+var extIntPtrDefValFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil calls func",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -115,7 +115,7 @@ var intPtrDefValFuncTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringPtrTestCases = []coretestcases.CaseV1{
+var extStringPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "StringPtr creates pointer",
 		ArrangeInput:  args.Map{"value": "hello"},
@@ -123,7 +123,7 @@ var stringPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringPtrToSimpleTestCases = []coretestcases.CaseV1{
+var extStringPtrToSimpleTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns empty",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -136,7 +136,7 @@ var stringPtrToSimpleTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringPtrToSimpleDefTestCases = []coretestcases.CaseV1{
+var extStringPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns default",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": "fallback"},
@@ -144,7 +144,7 @@ var stringPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringPtrToDefPtrTestCases = []coretestcases.CaseV1{
+var extStringPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns defVal ptr",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": "default"},
@@ -152,7 +152,7 @@ var stringPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringPtrDefValFuncTestCases = []coretestcases.CaseV1{
+var extStringPtrDefValFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil calls func",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -160,7 +160,7 @@ var stringPtrDefValFuncTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringToBoolTestCases = []coretestcases.CaseV1{
+var extStringToBoolTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "empty string returns false",
 		ArrangeInput:  args.Map{"value": ""},
@@ -193,7 +193,7 @@ var stringToBoolTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringPointerToBoolTestCases = []coretestcases.CaseV1{
+var extStringPointerToBoolTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns false",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -211,7 +211,7 @@ var stringPointerToBoolTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringPointerToBoolPtrTestCases = []coretestcases.CaseV1{
+var extStringPointerToBoolPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns false ptr",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -224,7 +224,7 @@ var stringPointerToBoolPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var stringToBoolPtrTestCases = []coretestcases.CaseV1{
+var extStringToBoolPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "empty returns false ptr",
 		ArrangeInput:  args.Map{"value": ""},
@@ -237,7 +237,7 @@ var stringToBoolPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var bytePtrTestCases = []coretestcases.CaseV1{
+var extBytePtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "BytePtr creates pointer",
 		ArrangeInput:  args.Map{"value": byte(5)},
@@ -245,7 +245,7 @@ var bytePtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var bytePtrToSimpleTestCases = []coretestcases.CaseV1{
+var extBytePtrToSimpleTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns 0",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -253,7 +253,7 @@ var bytePtrToSimpleTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var bytePtrToSimpleDefTestCases = []coretestcases.CaseV1{
+var extBytePtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns default",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": byte(9)},
@@ -261,7 +261,7 @@ var bytePtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var bytePtrToDefPtrTestCases = []coretestcases.CaseV1{
+var extBytePtrToDefPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns defVal ptr",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": byte(3)},
@@ -269,7 +269,7 @@ var bytePtrToDefPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var bytePtrDefValFuncTestCases = []coretestcases.CaseV1{
+var extBytePtrDefValFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil calls func",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -277,7 +277,7 @@ var bytePtrDefValFuncTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var floatPtrTestCases = []coretestcases.CaseV1{
+var extFloatPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "FloatPtr creates pointer",
 		ArrangeInput:  args.Map{"value": float32(3.14)},
@@ -285,7 +285,7 @@ var floatPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var floatPtrToSimpleTestCases = []coretestcases.CaseV1{
+var extFloatPtrToSimpleTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns 0",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -293,7 +293,7 @@ var floatPtrToSimpleTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var floatPtrToSimpleDefTestCases = []coretestcases.CaseV1{
+var extFloatPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns default",
 		ArrangeInput:  args.Map{"isNil": true, "defVal": float32(1.5)},
@@ -301,7 +301,7 @@ var floatPtrToSimpleDefTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var floatPtrToDefPtrTestCases = []coretestcases.CaseV1{
+var extFloatPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil returns defVal ptr",
 		ArrangeInput:  args.Map{"isNil": true},
@@ -309,7 +309,7 @@ var floatPtrToDefPtrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var floatPtrDefValFuncTestCases = []coretestcases.CaseV1{
+var extFloatPtrDefValFuncTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "nil calls func",
 		ArrangeInput:  args.Map{"isNil": true},
