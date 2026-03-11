@@ -123,7 +123,7 @@ var bytesErrorOnceExecuteTestCase = bytesErrorOnceTestCase{
 
 var bytesErrorOnceValueOnlyTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "BytesErrorOnce.ValueOnly returns bytes without error",
+		Title: "BytesErrorOnce.ValueOnly returns bytes without error -- 'only' input",
 		ExpectedInput: args.Map{
 			"valueOnlyResult": "only",
 		},
