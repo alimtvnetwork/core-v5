@@ -422,9 +422,9 @@ function Invoke-TestCoverage {
         $covLine = $output | Where-Object { $_ -match "coverage:\s+([\d.]+)%" } | Select-Object -Last 1
         if ($covLine -match "coverage:\s+([\d.]+)%") {
             $pkgCoverMap[$shortName] = $Matches[1]
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $shortName — $($Matches[1])%" -ForegroundColor Gray
+            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — $($Matches[1])%" -ForegroundColor Gray
         } else {
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $shortName — no coverage data" -ForegroundColor DarkGray
+            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — no coverage data" -ForegroundColor DarkGray
         }
 
         if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
