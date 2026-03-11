@@ -14,7 +14,7 @@ type testProduct struct {
 
 var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Deserialize typed wrapper preserves all fields",
+		Title: "TypedPayloadWrapper.Deserialize returns all fields -- name 'product-create'",
 		ArrangeInput: args.Map{
 			"name": "product-create", "id": "prod-1",
 			"sku": "SKU-100", "title": "Widget", "price": 29.99,
