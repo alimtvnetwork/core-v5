@@ -58,7 +58,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 
 var bytesToStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "BytesTo.String converts bytes to string",
+		Title: "BytesTo.String returns 'hello' -- valid byte slice",
 		ArrangeInput: args.Map{
 			"when":  "given valid byte slice",
 			"input": "hello",
