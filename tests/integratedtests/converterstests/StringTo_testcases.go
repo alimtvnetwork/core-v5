@@ -236,7 +236,7 @@ var stringsToHashsetTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Hashset handles empty slice",
+		Title: "StringsTo.Hashset returns count 0 -- empty slice",
 		ArrangeInput: args.Map{
 			"when":  "given empty slice",
 			"input": []string{},
