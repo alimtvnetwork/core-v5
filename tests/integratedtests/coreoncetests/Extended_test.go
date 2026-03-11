@@ -137,7 +137,7 @@ func Test_AnyOnce_Extended_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		expected := testCase.ExpectedInput.(args.Map)
-		isNil := input.GetAsBoolDefault("isNil")
+		isNil := input.GetAsBoolDefault("isNil", false)
 		valueType, _ := input.GetAsString("valueType")
 
 		actual := args.Map{}
