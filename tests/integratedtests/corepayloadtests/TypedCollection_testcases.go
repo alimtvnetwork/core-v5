@@ -131,7 +131,7 @@ var typedCollectionGroupTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPartitionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PartitionTypedPayloads splits by age threshold",
+		Title: "PartitionTypedPayloads returns 2 senior 1 junior -- age >= 30 threshold",
 		ArrangeInput: args.Map{
 			"when": "partitioning by age >= 30",
 		},
