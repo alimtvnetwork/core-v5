@@ -7,7 +7,7 @@ import (
 
 var integerCompareTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Integer returns Equal for same values",
+		Title: "Integer returns Equal -- same values 5 and 5",
 		ArrangeInput: args.Map{
 			"when":  "given equal integers",
 			"left":  5,
