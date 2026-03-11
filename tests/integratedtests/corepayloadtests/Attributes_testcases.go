@@ -185,7 +185,7 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone is independent — mutating clone does not affect original",
+		Title: "AuthInfo.ClonePtr returns independent copy -- clone mutated after creation",
 		ArrangeInput: args.Map{
 			"when":            "clone mutated after creation",
 			"identifier":      "original-id",
