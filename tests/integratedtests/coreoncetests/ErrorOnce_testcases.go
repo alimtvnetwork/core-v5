@@ -130,7 +130,7 @@ var errorOnceMessageEqualTestCases = []errorOnceMessageEqualTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- IsMessageEqual always false",
+			Title: "ErrorOnce.IsMessageEqual returns false for all -- nil error",
 			ExpectedInput: args.Map{
 				"isMessageEqualMatch": false,
 				"isMessageEqualOther": false,
