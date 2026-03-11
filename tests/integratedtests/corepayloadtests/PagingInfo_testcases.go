@@ -175,7 +175,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	},
 	// --- zero values ---
 	{
-		Title: "Zero values - IsEmpty true, all Has false, all IsInvalid true",
+		Title: "PagingInfo returns isEmpty true and all invalid -- zero values",
 		ArrangeInput: args.Map{
 			"when":             "given zero-value PagingInfo",
 			"isNil":            false,
