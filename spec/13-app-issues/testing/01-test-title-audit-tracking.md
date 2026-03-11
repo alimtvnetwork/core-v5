@@ -25,7 +25,32 @@ This ensures diagnostic output immediately identifies the function under test an
 | corevalidatortests | `SliceValidatorUnit_testcases.go` | 21 | ✅ Done |
 | corevalidatortests | `RangeSegmentsValidator_testcases.go` | 14 | ✅ Done |
 | corevalidatortests | `BaseValidatorCoreCondition_testcases.go` | 2 | ✅ Done |
-| **Total** | **11 files** | **~157** | |
+| coreoncetests | `MapStringStringOnce_testcases.go` | 8 | ✅ Done |
+| coreoncetests | `AnyErrorOnce_testcases.go` | 12 | ✅ Done |
+| coreoncetests | `BoolOnce_testcases.go` | 8 | ✅ Done |
+| coreoncetests | `AnyOnce_testcases.go` | 10 | ✅ Done |
+| coreoncetests | `ByteOnce_testcases.go` | 6 | ✅ Done |
+| coreoncetests | `BytesErrorOnce_testcases.go` | 34 | ✅ Done |
+| coreoncetests | `BytesOnce_testcases.go` | 12 | ✅ Done |
+| coreoncetests | `ErrorOnce_testcases.go` | 12 | ✅ Done |
+| coreoncetests | `IntegerOnce_testcases.go` | 7 | ✅ Done |
+| coreoncetests | `IntegersOnce_testcases.go` | 9 | ✅ Done |
+| coreoncetests | `StringOnce_testcases.go` | 13 | ✅ Done |
+| coreoncetests | `StringsOnce_testcases.go` | 10 | ✅ Done |
+| corejsontests | `Result_IsEqual_testcases.go` | 6 | ✅ Done |
+| corejsontests | `Result_Unmarshal_testcases.go` | 4 | ✅ Done |
+| coreversiontests | `VersionCompare_testcases.go` | 8 | ✅ Done |
+| ostypetests | `OsType_testcases.go` | 6 | ✅ Done |
+| reqtypetests | `Request_testcases.go` | 4 | ✅ Done |
+| issettertests | `Value_testcases.go` | 6 | ✅ Done |
+| stringslicetests | `CloneIf_testcases.go` | 4 | ✅ Done |
+| codefuncstests | `GenericWrappers_testcases.go` | 6 | ✅ Done |
+| codefuncstests | `GetFuncName_testcases.go` | 3 | ✅ Done |
+| codefuncstests | `LegacyWrappers_testcases.go` | 4 | ✅ Done |
+| codestacktests | `FileWithLine_testcases.go` | 2 | ✅ Done |
+| coreappendtests | `Append_testcases.go` | 2 | ✅ Done |
+| enumimpltests | `enumTestCases.go` | 6 | ✅ Done |
+| **Total** | **36 files** | **~352** | |
 
 ### Skipped (Already Compliant or Excluded)
 
@@ -36,6 +61,10 @@ This ensures diagnostic output immediately identifies the function under test an
 | corevalidatortests | `Parameter_testcases.go` | Already compliant |
 | corevalidatortests | `SimpleSliceValidator_testcases.go` | Already compliant |
 | corevalidatortests | `corevalidator_testCases.go` | Snapshot-based — titles are header assertions |
+| trydotests | `WrappedErr_testcases.go` | Already compliant |
+| trydotests | `WrappedErr_NilReceiver_testcases.go` | Already compliant |
+| coreoncetests | `BytesErrorOnce_NilReceiver_testcases.go` | Already compliant |
+| coretaskinfotests | All files | Already compliant (verified) |
 
 ---
 
@@ -94,8 +123,6 @@ This ensures diagnostic output immediately identifies the function under test an
 | 28 | `SimpleSlice.HasIndex returns false -- negative index` |
 | 29 | `Collection.HasIndex returns false -- negative index` |
 | 30 | `Clear returns nil -- nil Hashmap receiver` |
-
-(Plus: `Clear returns empty hashmap`, `Clear returns chainable instance`, `AddBool returns false existed`, `AddBool returns true existed`, `AddBool returns length 3`, `AddOrUpdateCollection returns length 0/2`)
 
 ### coreflecttests/FuncWrap_testcases.go (7 titles)
 
@@ -255,6 +282,279 @@ This ensures diagnostic output immediately identifies the function under test an
 | 1 | `ValidatorCoreConditionDefault returns all-false condition -- nil preset` |
 | 2 | `ValidatorCoreConditionDefault returns existing condition -- non-nil preset` |
 
+### coreoncetests/MapStringStringOnce_testcases.go (8 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `MapStringStringOnce returns length 2 and hasAnyItem true -- {a:1,b:2} input` |
+| 2 | `MapStringStringOnce returns length 0 and isEmpty true -- nil input` |
+| 3 | `MapStringStringOnce returns length 0 and isEmpty true -- empty map input` |
+| 4 | `MapStringStringOnce.Value returns cached result -- initializer runs once` |
+| 5 | `MapStringStringOnce.MarshalJSON returns no error -- {x:y} input` |
+| 6 | `MapStringStringOnce.Serialize returns no error -- {s:v} input` |
+| 7 | `NewMapStringStringOnce returns correct length -- {k:v} input` |
+| 8 | `NewMapStringStringOncePtr returns correct length -- {k:v} input` |
+
+### coreoncetests/AnyErrorOnce_testcases.go (12 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `AnyErrorOnce returns isDefined true and isNull false -- 'hello' value nil error` |
+| 2 | `AnyErrorOnce returns isNull true and isEmpty true -- nil value nil error` |
+| 3 | `AnyErrorOnce returns hasError true and isFailed true -- nil value error set` |
+| 4 | `AnyErrorOnce.Value returns cached result -- initializer runs once` |
+| 5 | `AnyErrorOnce.ValueMust returns value without panic -- no error` |
+| 6 | `AnyErrorOnce.ValueMust returns panic -- error set` |
+| 7 | `AnyErrorOnce.CastValueString returns 'cast' and castSuccess true -- string value` |
+| 8 | `AnyErrorOnce.Serialize returns bytes without error -- 'json' value` |
+| 9 | `AnyErrorOnce.Serialize returns error -- error set` |
+| 10 | `NewAnyErrorOnce returns isNull false and noError true -- value input` |
+
+### coreoncetests/BoolOnce_testcases.go (8 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `BoolOnce returns value true and string 'true' -- true input` |
+| 2 | `BoolOnce returns value false and isEmpty true -- false input` |
+| 3 | `BoolOnce.Value returns cached result -- initializer runs once` |
+| 4 | `BoolOnce.MarshalJSON returns 'true' -- true input` |
+| 5 | `BoolOnce.Serialize returns 'true' -- true input` |
+| 6 | `NewBoolOnce returns correct value -- true input` |
+| 7 | `NewBoolOncePtr returns correct value -- false input` |
+
+### coreoncetests/AnyOnce_testcases.go (10 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `AnyOnce returns isDefined true and isNull false -- 'hello' input` |
+| 2 | `AnyOnce returns isNull true and isEmpty true -- nil input` |
+| 3 | `AnyOnce returns isDefined true -- int 42 input` |
+| 4 | `AnyOnce.Value returns cached result -- initializer runs once` |
+| 5 | `AnyOnce.CastString returns 'cast' and castSuccess true -- string value` |
+| 6 | `AnyOnce.CastString returns castSuccess false -- int value` |
+| 7 | `AnyOnce.MarshalJSON returns no error -- 'json' input` |
+| 8 | `AnyOnce.Serialize returns no error -- 'ser' input` |
+| 9 | `NewAnyOnce returns correct value -- 'val' input` |
+| 10 | `NewAnyOncePtr returns correct value -- 'ptr' input` |
+
+### coreoncetests/ByteOnce_testcases.go (6 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `ByteOnce returns value 42 and isPositive true -- input 42` |
+| 2 | `ByteOnce returns isZero true and isEmpty true -- input 0` |
+| 3 | `ByteOnce returns isPositive true -- input 255 max byte value` |
+| 4 | `ByteOnce.MarshalJSON returns '99' -- input 99` |
+| 5 | `ByteOnce.Serialize returns '77' -- input 77` |
+| 6 | `NewByteOnce returns correct value -- input 5` |
+
+### coreoncetests/BytesErrorOnce_testcases.go (34 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `BytesErrorOnce returns length 3 and isDefined true -- 'abc' input` |
+| 2 | `BytesErrorOnce returns isEmpty true and isDefined false -- nil bytes nil error` |
+| 3 | `BytesErrorOnce returns isNull false and isDefined true -- empty bytes nil error` |
+| 4 | `BytesErrorOnce.Value returns cached error -- error 'test error'` |
+| 5 | `BytesErrorOnce.Execute returns same result as Value -- 'exec' input` |
+| 6 | `BytesErrorOnce.ValueOnly returns bytes without error -- 'only' input` |
+| 7 | `BytesErrorOnce.ValueWithError returns same as Value -- 'vwe' input` |
+| 8 | `BytesErrorOnce returns hasError true and isFailed true -- error 'fail'` |
+| 9 | `BytesErrorOnce returns isValid true and isSuccess true -- 'ok' bytes no error` |
+| 10 | `BytesErrorOnce returns hasIssuesOrEmpty true -- 'data' bytes with error` |
+| 11 | `BytesErrorOnce returns hasIssuesOrEmpty true -- empty bytes no error` |
+| 12 | `BytesErrorOnce returns hasSafeItems true -- 'ok' bytes no error` |
+| 13 | `BytesErrorOnce.String returns 'str-val' -- 'str-val' bytes input` |
+| 14 | `BytesErrorOnce.String returns empty and isStringEmpty true -- nil bytes` |
+| 15 | `BytesErrorOnce returns isStringEmptyOrWhitespace true -- whitespace bytes` |
+| 16 | `BytesErrorOnce.Deserialize returns no error -- valid JSON input` |
+| 17 | `BytesErrorOnce.Deserialize returns error -- source has error` |
+| 18 | `BytesErrorOnce.Deserialize returns error -- invalid JSON input` |
+| 19 | `BytesErrorOnce.DeserializeMust returns value without panic -- valid JSON input` |
+| 20 | `BytesErrorOnce.DeserializeMust returns panic -- source has error` |
+| 21 | `BytesErrorOnce.MarshalJSON returns bytes -- '{"a":1}' input` |
+| 22 | `BytesErrorOnce.Serialize returns bytes -- 'ser' input` |
+| 23 | `BytesErrorOnce.HandleError returns no panic -- 'ok' bytes no error` |
+| 24 | `BytesErrorOnce.HandleError returns panic -- error 'handle-err'` |
+| 25 | `BytesErrorOnce.MustHaveSafeItems returns panic -- empty bytes` |
+| 26 | `BytesErrorOnce.IsInitialized returns false before and true after Value call -- 'x' input` |
+| 27 | `BytesErrorOnce.SerializeMust returns bytes without panic -- 'must-ser' input` |
+| 28 | `BytesErrorOnce.SerializeMust returns panic -- error 'ser-fail'` |
+| 29 | `NewBytesErrorOnce returns correct value -- 'val' input` |
+
+### coreoncetests/BytesOnce_testcases.go (12 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `BytesOnce returns length 5 and isEmpty false -- 'hello' input` |
+| 2 | `BytesOnce returns isEmpty true and isNil true -- nil input` |
+| 3 | `BytesOnce returns isEmpty true and isNil false -- empty bytes input` |
+| 4 | `BytesOnce returns isEmpty true -- nil initializer` |
+| 5 | `BytesOnce.String returns 'test-string' -- 'test-string' input` |
+| 6 | `BytesOnce returns isEmpty false and length 1 -- 'x' input` |
+| 7 | `BytesOnce.Execute returns same result as Value -- 'data' input` |
+| 8 | `BytesOnce.MarshalJSON returns data without error -- 'hello' input` |
+| 9 | `BytesOnce.UnmarshalJSON returns 'replaced' -- overrides 'original' input` |
+| 10 | `BytesOnce.Serialize returns JSON bytes -- 'serialize-me' input` |
+| 11 | `NewBytesOnce returns correct value -- 'val' input` |
+
+### coreoncetests/ErrorOnce_testcases.go (12 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `ErrorOnce returns hasError true and message 'fail' -- error 'fail'` |
+| 2 | `ErrorOnce returns isValid true and message empty -- nil error` |
+| 3 | `ErrorOnce returns isNullOrEmpty true -- nil error` |
+| 4 | `ErrorOnce returns isNullOrEmpty true -- empty string error` |
+| 5 | `ErrorOnce returns isNullOrEmpty false -- error 'msg'` |
+| 6 | `ErrorOnce.IsMessageEqual returns true for 'match' and false for 'other' -- error 'match'` |
+| 7 | `ErrorOnce.IsMessageEqual returns false for all -- nil error` |
+| 8 | `ErrorOnce.ConcatNewString returns string containing 'base' and 'extra' -- error 'base'` |
+| 9 | `ErrorOnce.ConcatNewString returns only additional message -- nil error` |
+| 10 | `ErrorOnce.MarshalJSON returns '"marshal"' -- error 'marshal'` |
+| 11 | `ErrorOnce.MarshalJSON returns '""' -- nil error` |
+
+### coreoncetests/IntegerOnce_testcases.go (7 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `IntegerOnce returns isZero true and isEmpty true -- input 0` |
+| 2 | `IntegerOnce returns isPositive true and isZero false -- input 42` |
+| 3 | `IntegerOnce returns isNegative true and isZero false -- input -3` |
+| 4 | `IntegerOnce returns isAbove true and isAboveEqual true -- input 10 compare 5` |
+| 5 | `IntegerOnce returns isLessThan true and isLessThanEqual true -- input 3 compare 5` |
+| 6 | `IntegerOnce.MarshalJSON returns '42' -- input 42` |
+
+### coreoncetests/IntegersOnce_testcases.go (9 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `IntegersOnce returns length 3 and isEmpty false -- [3,1,2] input` |
+| 2 | `IntegersOnce returns length 0 and isEmpty true -- empty input` |
+| 3 | `IntegersOnce returns length 0 and isEmpty true -- nil input` |
+| 4 | `IntegersOnce.Sorted returns [1,2,3] -- [3,1,2] input` |
+| 5 | `IntegersOnce returns rangesMapLength 3 -- [10,20,30] input` |
+| 6 | `IntegersOnce returns rangesMapLength 0 -- empty input` |
+| 7 | `IntegersOnce.IsEqual returns true for same and false for different -- [1,2,3] input` |
+| 8 | `IntegersOnce.MarshalJSON returns '[1,2]' -- [1,2] input` |
+| 9 | `NewIntegersOnce returns correct length -- [1,2,3] input` |
+
+### coreoncetests/StringOnce_testcases.go (13 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `StringOnce returns value 'hello' and isEmpty false -- 'hello' input` |
+| 2 | `StringOnce returns isEmpty true and isEmptyOrWhitespace true -- empty input` |
+| 3 | `StringOnce returns isEmpty false and isEmptyOrWhitespace true -- whitespace input` |
+| 4 | `StringOnce.IsEqual returns true for 'abc' and false for 'xyz' -- 'abc' input` |
+| 5 | `StringOnce.IsContains returns true for 'world' and false for 'xyz' -- 'hello world' input` |
+| 6 | `StringOnce.HasPrefix returns true for 'prefix' and false for 'data' -- 'prefix-data' input` |
+| 7 | `StringOnce.HasSuffix returns true for 'suffix' and false for 'data' -- 'data-suffix' input` |
+| 8 | `StringOnce.SplitBy returns 3 parts -- 'a,b,c' split by ','` |
+| 9 | `StringOnce.SplitLeftRight returns 'key' and 'value' -- 'key=value' split by '='` |
+| 10 | `StringOnce.SplitLeftRight returns full left and empty right -- 'nosplit' no separator found` |
+| 11 | `StringOnce.SplitLeftRightTrim returns trimmed 'key' and 'value' -- ' key = value ' split by '='` |
+| 12 | `StringOnce.MarshalJSON returns '"json"' -- 'json' input` |
+
+### coreoncetests/StringsOnce_testcases.go (10 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `StringsOnce returns length 3 and isEmpty false -- [a,b,c] input` |
+| 2 | `StringsOnce returns length 0 and isEmpty true -- empty input` |
+| 3 | `StringsOnce returns length 0 and isEmpty true -- nil input` |
+| 4 | `StringsOnce returns hasX true and hasAllXY true -- [x,y,z] input` |
+| 5 | `StringsOnce.Sorted returns [a,b,c] -- [c,a,b] input` |
+| 6 | `StringsOnce returns uniqueLen 2 and rangesMapLen 2 -- [a,b,a] input` |
+| 7 | `StringsOnce.IsEqual returns true for same and false for different -- [a,b] input` |
+| 8 | `StringsOnce.MarshalJSON returns '["a","b"]' -- [a,b] input` |
+| 9 | `NewStringsOnce returns correct length -- [x,y] input` |
+
+### corejsontests/Result_IsEqual_testcases.go (6 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–6 | Renamed to `Result.IsEqual returns {true/false} -- {context}` pattern |
+
+### corejsontests/Result_Unmarshal_testcases.go (4 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–4 | Renamed to `Result.Unmarshal returns {result} -- {context}` pattern |
+
+### coreversiontests/VersionCompare_testcases.go (8 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–8 | Renamed to `VersionCompare returns {result} -- {context}` pattern |
+
+### ostypetests/OsType_testcases.go (6 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–6 | Renamed to `OsType returns {result} -- {context}` pattern |
+
+### reqtypetests/Request_testcases.go (4 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–4 | Renamed to `Request returns {result} -- {context}` pattern |
+
+### issettertests/Value_testcases.go (6 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–6 | Renamed to `IsSetter.Value returns {result} -- {context}` pattern |
+
+### stringslicetests/CloneIf_testcases.go (4 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–4 | Renamed to `CloneIf returns {result} -- {context}` pattern |
+
+### codefuncstests/GenericWrappers_testcases.go (6 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–6 | Renamed to `GenericWrapper returns {result} -- {context}` pattern |
+
+### codefuncstests/GetFuncName_testcases.go (3 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–3 | Renamed to `GetFuncName returns {result} -- {context}` pattern |
+
+### codefuncstests/LegacyWrappers_testcases.go (4 titles)
+
+| # | New Title |
+|---|-----------|
+| 1–4 | Renamed to `LegacyWrapper returns {result} -- {context}` pattern |
+
+### codestacktests/FileWithLine_testcases.go (2 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `FileWithLine returns correct path and lineNumber -- '/src/main.go' line 42` |
+| 2 | `FileWithLine returns empty path and lineNumber '0' -- empty file path` |
+
+### coreappendtests/Append_testcases.go (2 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `PrependAppendAnyItemsToStringsSkipOnNil returns 3 items -- prepend and append provided` |
+| 2 | `PrependAppendAnyItemsToStringsSkipOnNil returns 2 items -- nil prepend` |
+
+### enumimpltests/enumTestCases.go (6 titles)
+
+| # | New Title |
+|---|-----------|
+| 1 | `EnumByte returns min 0 and max 10 -- DynamicMap input` |
+| 2 | `EnumInt8 returns min -2 and max 12 -- DynamicMap input` |
+| 3 | `EnumInt16 returns min -3 and max 14 -- DynamicMap input` |
+| 4 | `EnumInt32 returns min -4 and max 15 -- DynamicMap input` |
+| 5 | `EnumUInt16 returns min 0 and max 20 -- DynamicMap input` |
+| 6 | `EnumString returns min empty and max 'Something2' -- DynamicMap input lexicographic` |
+
 ---
 
 ## Pending Packages (Not Yet Audited)
@@ -263,24 +563,11 @@ The following test packages have `_testcases.go` files that have **not been audi
 
 | Package | Est. Files | Notes |
 |---------|:----------:|-------|
-| coreoncetests | 3+ | BytesErrorOnce, ErrorOnce, etc. |
-| corejsontests | 5+ | Result, JsonParsing, etc. |
 | corepayloadtests | 2+ | Attributes, etc. |
-| coreversiontests | 3+ | Comparison, ComparisonExtended |
-| ostypetests | 1 | OsType |
-| reqtypetests | 1 | Request |
-| issettertests | 1 | Value |
-| stringslicetests | 2+ | CloneIf, AnyItemsCloneIf |
-| trydotests | 3+ | WrappedErr, NilReceiver |
-| codefuncstests | 1 | LegacyWrappers |
-| codestacktests | 2+ | |
-| coreappendtests | 1+ | |
 | corecomparatortests | 2+ | |
 | corecmptests | 1+ | |
 | converterstests | 2+ | |
-| enumimpltests | 2+ | |
 | regexnewtests | 1+ | |
-| coretaskinfotests | 1 | Already compliant (verified) |
 
 ## Related Docs
 
