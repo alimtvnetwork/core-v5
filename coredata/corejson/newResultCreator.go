@@ -107,21 +107,21 @@ func (it newResultCreator) UsingTypeBytesPtr(
 }
 
 func (it newResultCreator) UsingBytesPtr(
-	jsonBytes *[]byte,
+	jsonBytes []byte,
 ) *Result {
-	if jsonBytes == nil || *jsonBytes == nil {
+	if jsonBytes == nil {
 		return &Result{}
 	}
 
 	return &Result{
-		Bytes: *jsonBytes,
+		Bytes: jsonBytes,
 	}
 }
 
 func (it newResultCreator) UsingBytesPtrErrPtr(
-	jsonBytes *[]byte, err error, typeName string,
+	jsonBytes []byte, err error, typeName string,
 ) *Result {
-	if jsonBytes == nil || *jsonBytes == nil {
+	if jsonBytes == nil {
 		return &Result{
 			Error:    err,
 			TypeName: typeName,
@@ -129,7 +129,7 @@ func (it newResultCreator) UsingBytesPtrErrPtr(
 	}
 
 	return &Result{
-		Bytes:    *jsonBytes,
+		Bytes:    jsonBytes,
 		Error:    err,
 		TypeName: typeName,
 	}
