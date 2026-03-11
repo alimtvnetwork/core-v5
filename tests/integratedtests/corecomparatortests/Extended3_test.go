@@ -140,7 +140,7 @@ func Test_Compare_UnmarshalJSON_Verification(t *testing.T) {
 	for caseIndex, testCase := range compareUnmarshalJsonTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isNilData := input.GetAsBoolDefault("isNilData")
+		isNilData := input.GetAsBoolDefault("isNilData", false)
 
 		var compare corecomparator.Compare
 		var err error

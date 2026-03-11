@@ -164,10 +164,7 @@ func Test_SimpleSlice_InsertAt_Verification(t *testing.T) {
 func Test_LinkedListNode_Extended_Verification(t *testing.T) {
 	for caseIndex, testCase := range linkedListNodeExtendedTestCases {
 		// Arrange
-		list := coregeneric.NewLinkedList.Create[string]()
-		list.Add("a")
-		list.Add("b")
-		list.Add("c")
+		list := coregeneric.LinkedListFrom[string]([]string{"a", "b", "c"})
 		head := list.Head()
 
 		// Act

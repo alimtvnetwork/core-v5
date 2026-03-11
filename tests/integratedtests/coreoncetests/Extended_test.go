@@ -212,7 +212,7 @@ func Test_AnyErrorOnce_Extended_Verification(t *testing.T) {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		expected := testCase.ExpectedInput.(args.Map)
-		hasErr := input.GetAsBoolDefault("hasError")
+		hasErr := input.GetAsBoolDefault("hasError", false)
 		valueType, _ := input.GetAsString("valueType")
 
 		actual := args.Map{}
