@@ -453,25 +453,44 @@ function Invoke-TestCoverage {
     $allOutput | ForEach-Object { Write-Host $_ }
     Write-TestLogs $allOutput.ToArray()
 
-    # Merge all partial profiles into one
+    # Merge all partial profiles into one, using MAX count per unique line.
+    # This is critical because -coverpkg instruments ALL source packages in every test run,
+    # so each line appears N times (once per test package). Without dedup, the last occurrence
+    # (usually count=0 from a package that didn't exercise this code) overwrites the covered entry.
     Write-Host ""
-    Write-Host "  Merging $pkgIndex coverage profiles..." -ForegroundColor Yellow
+    Write-Host "  Merging $pkgIndex coverage profiles (max-count dedup)..." -ForegroundColor Yellow
 
     $partialFiles = Get-ChildItem -Path $partialDir -Filter "cover-*.out" | Sort-Object Name
-    $mergedLines = [System.Collections.Generic.List[string]]::new()
-    $mergedLines.Add("mode: set")
+    $coverMap = [System.Collections.Generic.Dictionary[string, int]]::new()
 
     foreach ($pf in $partialFiles) {
         $lines = Get-Content $pf.FullName
         foreach ($line in $lines) {
-            if ($line -and $line -notmatch "^mode:") {
-                $mergedLines.Add($line)
+            if (-not $line -or $line -match "^mode:") { continue }
+            # Coverage line format: "pkg/file.go:startLine.startCol,endLine.endCol numStatements count"
+            # Extract the key (everything except the last number) and the count
+            if ($line -match "^(.+\s+\d+)\s+(\d+)\s*$") {
+                $key = $Matches[1]
+                $count = [int]$Matches[2]
+                if ($coverMap.ContainsKey($key)) {
+                    if ($count -gt $coverMap[$key]) {
+                        $coverMap[$key] = $count
+                    }
+                } else {
+                    $coverMap[$key] = $count
+                }
             }
         }
     }
 
+    $mergedLines = [System.Collections.Generic.List[string]]::new()
+    $mergedLines.Add("mode: set")
+    foreach ($entry in $coverMap.GetEnumerator()) {
+        $mergedLines.Add("$($entry.Key) $($entry.Value)")
+    }
+
     Set-Content -Path $coverProfile -Value ($mergedLines -join "`n") -Encoding UTF8
-    Write-Success "Merged profile: $coverProfile ($($mergedLines.Count - 1) coverage lines)"
+    Write-Success "Merged profile: $coverProfile ($($coverMap.Count) unique coverage lines)"
 
     # Keep partial profiles for per-package inspection
     Write-Success "Partial profiles kept in: $partialDir"
