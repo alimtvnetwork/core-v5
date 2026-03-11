@@ -328,7 +328,7 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 
 var bytesErrorOnceMarshalJSONTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "BytesErrorOnce.MarshalJSON returns bytes",
+		Title: "BytesErrorOnce.MarshalJSON returns bytes -- '{\"a\":1}' input",
 		ExpectedInput: args.Map{
 			"noError":        true,
 			"marshaledValue": `{"a":1}`,
