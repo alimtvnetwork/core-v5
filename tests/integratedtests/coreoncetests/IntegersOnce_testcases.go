@@ -142,7 +142,7 @@ var integersOnceCachingTestCases = []integersOnceTestCase{
 var integersOnceJsonTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [1,2] -- MarshalJSON returns '[1,2]'",
+			Title: "IntegersOnce.MarshalJSON returns '[1,2]' -- [1,2] input",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "[1,2]",
