@@ -472,10 +472,10 @@ function Invoke-TestCoverage {
 
     if (Test-Path $coverProfile) {
         # Generate func-level summary
-        $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
+        $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
         # Generate HTML report
-        $htmlErr = & go tool cover -html=$coverProfile -o $coverHtml 2>&1
+        $htmlErr = & go tool cover "-html=$coverProfile" "-o=$coverHtml" 2>&1
         if (-not (Test-Path $coverHtml)) {
             Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html'" -ForegroundColor Red
             if ($htmlErr) { Write-Host "  $htmlErr" -ForegroundColor Red }
