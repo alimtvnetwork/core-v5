@@ -64,7 +64,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Different dynamic payloads are not equal",
+		Title: "Attributes.IsEqual returns false -- different dynamic payloads",
 		ArrangeInput: args.Map{
 			"when":          "different dynamic payloads",
 			"left_payload":  "data-a",
