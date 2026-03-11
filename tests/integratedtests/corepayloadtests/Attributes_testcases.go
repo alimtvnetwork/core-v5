@@ -44,7 +44,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Same pointer returns equal",
+		Title: "Attributes.IsEqual returns true -- same pointer identity",
 		ArrangeInput: args.Map{
 			"when":         "same pointer identity",
 			"same_pointer": true,
