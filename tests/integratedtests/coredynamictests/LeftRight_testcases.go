@@ -347,7 +347,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus empty slice vs non-empty slice — same type",
+			Title: "TypeStatus empty slice vs non-empty slice -- same type",
 			ExpectedInput: args.Map{
 				"isSame":             "true",
 				"isLeftUnknownNull":  "false",
