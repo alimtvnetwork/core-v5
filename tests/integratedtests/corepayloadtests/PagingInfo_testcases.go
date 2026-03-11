@@ -244,7 +244,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	},
 	// --- partial: only TotalPages set ---
 	{
-		Title: "Only TotalPages set - HasTotalPages true others false",
+		Title: "PagingInfo returns hasTotalPages true others false -- only TotalPages set",
 		ArrangeInput: args.Map{
 			"when":             "given only TotalPages populated",
 			"isNil":            false,
