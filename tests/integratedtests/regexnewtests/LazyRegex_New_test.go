@@ -1,62 +1,54 @@
 package regexnewtests
 
 import (
-	"fmt"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func Test_New_Lazy_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexNewTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
 		lazyRegex := regexnew.New.Lazy(pattern)
 
-		isDefined := fmt.Sprintf("%v", lazyRegex.IsDefined())
-		isApplicable := fmt.Sprintf("%v", lazyRegex.IsApplicable())
-		isMatch := fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))
-		isFailedMatch := fmt.Sprintf("%v", lazyRegex.IsFailedMatch(compareInput))
-
-		actLines := []string{
-			lazyRegex.Pattern(),
-			isDefined,
-			isApplicable,
-			isMatch,
-			isFailedMatch,
+		actual := args.Map{
+			params.patternResult: lazyRegex.Pattern(),
+			params.isDefined:     lazyRegex.IsDefined(),
+			params.isApplicable:  lazyRegex.IsApplicable(),
+			params.isMatch:       lazyRegex.IsMatch(compareInput),
+			params.isFailedMatch: lazyRegex.IsFailedMatch(compareInput),
 		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_New_LazyLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexLockTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
 		lazyRegex := regexnew.New.LazyLock(pattern)
 
-		isDefined := fmt.Sprintf("%v", lazyRegex.IsDefined())
-		isApplicable := fmt.Sprintf("%v", lazyRegex.IsApplicable())
-		isMatch := fmt.Sprintf("%v", lazyRegex.IsMatch(compareInput))
-		isFailedMatch := fmt.Sprintf("%v", lazyRegex.IsFailedMatch(compareInput))
-
-		actLines := []string{
-			lazyRegex.Pattern(),
-			isDefined,
-			isApplicable,
-			isMatch,
-			isFailedMatch,
+		actual := args.Map{
+			params.patternResult: lazyRegex.Pattern(),
+			params.isDefined:     lazyRegex.IsDefined(),
+			params.isApplicable:  lazyRegex.IsApplicable(),
+			params.isMatch:       lazyRegex.IsMatch(compareInput),
+			params.isFailedMatch: lazyRegex.IsFailedMatch(compareInput),
 		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

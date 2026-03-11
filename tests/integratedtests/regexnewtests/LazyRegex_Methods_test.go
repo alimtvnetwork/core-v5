@@ -1,97 +1,106 @@
 package regexnewtests
 
 import (
-	"fmt"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func Test_LazyRegex_Compile_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexCompileTestCases {
 		// Arrange
-		pattern := testCase.Input
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
 
 		// Act
 		lazyRegex := regexnew.New.LazyLock(pattern)
 		regex, err := lazyRegex.Compile()
 
-		isRegexNotNil := fmt.Sprintf("%v", regex != nil)
-		hasError := fmt.Sprintf("%v", err != nil)
-		isCompiled := fmt.Sprintf("%v", lazyRegex.IsCompiled())
-
-		actLines := []string{isRegexNotNil, hasError, isCompiled}
+		actual := args.Map{
+			params.regexNotNil: regex != nil,
+			params.hasError:    err != nil,
+			params.isCompiled:  lazyRegex.IsCompiled(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_LazyRegex_HasError_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexHasErrorTestCases {
 		// Arrange
-		pattern := testCase.Input
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
 
 		// Act
 		lazyRegex := regexnew.New.LazyLock(pattern)
-		hasError := fmt.Sprintf("%v", lazyRegex.HasError())
-		isInvalid := fmt.Sprintf("%v", lazyRegex.IsInvalid())
 
-		actLines := []string{hasError, isInvalid}
+		actual := args.Map{
+			params.hasError:  lazyRegex.HasError(),
+			params.isInvalid: lazyRegex.IsInvalid(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_LazyRegex_MatchBytes_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexMatchBytesTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
 		lazyRegex := regexnew.New.LazyLock(pattern)
-		isMatchBytes := fmt.Sprintf("%v", lazyRegex.IsMatchBytes([]byte(compareInput)))
-		isFailedMatchBytes := fmt.Sprintf("%v", lazyRegex.IsFailedMatchBytes([]byte(compareInput)))
 
-		actLines := []string{isMatchBytes, isFailedMatchBytes}
+		actual := args.Map{
+			params.isMatchBytes:       lazyRegex.IsMatchBytes([]byte(compareInput)),
+			params.isFailedMatchBytes: lazyRegex.IsFailedMatchBytes([]byte(compareInput)),
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_LazyRegex_MatchError_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexMatchErrorTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
 		lazyRegex := regexnew.New.LazyLock(pattern)
 		matchErr := lazyRegex.MatchError(compareInput)
-		isNoError := fmt.Sprintf("%v", matchErr == nil)
 
-		actLines := []string{isNoError}
+		actual := args.Map{
+			params.isNoError: matchErr == nil,
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_LazyRegex_String_Verification(t *testing.T) {
 	for caseIndex, testCase := range lazyRegexStringTestCases {
 		// Arrange
-		pattern := testCase.Input
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
 
 		// Act
 		lazyRegex := regexnew.New.LazyLock(pattern)
-		result := lazyRegex.String()
 
-		actLines := []string{result}
+		actual := args.Map{
+			params.stringResult: lazyRegex.String(),
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

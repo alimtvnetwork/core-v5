@@ -6,24 +6,27 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func Test_CreateMust_Verification(t *testing.T) {
 	for caseIndex, testCase := range createMustTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
 		regex := regexnew.CreateMust(pattern)
-		isNotNil := fmt.Sprintf("%v", regex != nil)
-		isMatch := fmt.Sprintf("%v", regex.MatchString(compareInput))
 
-		actLines := []string{isNotNil, isMatch}
+		actual := args.Map{
+			params.regexNotNil: regex != nil,
+			params.isMatch:     regex.MatchString(compareInput),
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -45,20 +48,21 @@ func Test_CreateMust_PanicsOnInvalidPattern(t *testing.T) {
 func Test_CreateMustLockIf_Verification(t *testing.T) {
 	for caseIndex, testCase := range createMustLockIfTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
-		isLockRaw := testCase.GetExtra("isLock")
-		isLock := isLockRaw == true
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
+		isLock, _ := input.GetAsBool(params.isLock)
 
 		// Act
 		regex := regexnew.CreateMustLockIf(isLock, pattern)
-		isNotNil := fmt.Sprintf("%v", regex != nil)
-		isMatch := fmt.Sprintf("%v", regex.MatchString(compareInput))
 
-		actLines := []string{isNotNil, isMatch}
+		actual := args.Map{
+			params.regexNotNil: regex != nil,
+			params.isMatch:     regex.MatchString(compareInput),
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -80,55 +84,60 @@ func Test_CreateMustLockIf_PanicsOnInvalidPattern(t *testing.T) {
 func Test_CreateLockIf_Verification(t *testing.T) {
 	for caseIndex, testCase := range createLockIfTestCases {
 		// Arrange
-		pattern := testCase.Input
-		isLockRaw := testCase.GetExtra("isLock")
-		isLock := isLockRaw == true
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		isLock, _ := input.GetAsBool(params.isLock)
 
 		// Act
 		regex, err := regexnew.CreateLockIf(isLock, pattern)
-		isNotNil := fmt.Sprintf("%v", regex != nil)
-		hasError := fmt.Sprintf("%v", err != nil)
 
-		actLines := []string{isNotNil, hasError}
+		actual := args.Map{
+			params.regexNotNil: regex != nil,
+			params.hasError:    err != nil,
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_CreateApplicableLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range createApplicableLockTestCases {
 		// Arrange
-		pattern := testCase.Input
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
 
 		// Act
 		regex, err, isApplicable := regexnew.CreateApplicableLock(pattern)
-		isNotNil := fmt.Sprintf("%v", regex != nil)
-		hasError := fmt.Sprintf("%v", err != nil)
-		applicable := fmt.Sprintf("%v", isApplicable)
 
-		actLines := []string{isNotNil, hasError, applicable}
+		actual := args.Map{
+			params.regexNotNil:  regex != nil,
+			params.hasError:     err != nil,
+			params.isApplicable: isApplicable,
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_NewMustLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range newMustLockTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
 		regex := regexnew.NewMustLock(pattern)
-		isNotNil := fmt.Sprintf("%v", regex != nil)
-		isMatch := fmt.Sprintf("%v", regex.MatchString(compareInput))
 
-		actLines := []string{isNotNil, isMatch}
+		actual := args.Map{
+			params.regexNotNil: regex != nil,
+			params.isMatch:     regex.MatchString(compareInput),
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -156,8 +165,9 @@ func Test_MatchUsingFuncErrorLock_Verification(t *testing.T) {
 
 	for caseIndex, testCase := range matchUsingFuncErrorLockTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
 		err := regexnew.MatchUsingFuncErrorLock(
@@ -165,12 +175,13 @@ func Test_MatchUsingFuncErrorLock_Verification(t *testing.T) {
 			compareInput,
 			matchFunc,
 		)
-		isNoError := fmt.Sprintf("%v", err == nil)
 
-		actLines := []string{isNoError}
+		actual := args.Map{
+			params.isNoError: err == nil,
+		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -189,16 +200,17 @@ func Test_MatchUsingCustomizeErrorFuncLock_Verification(t *testing.T) {
 
 	for caseIndex, testCase := range matchUsingCustomizeErrorFuncLockTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
-		customizer, _ := testCase.GetExtraAsString("customizer")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
+		customizerVal, _ := input.GetAsString(params.customizer)
 
-		// Act
 		var errFunc regexnew.CustomizeErr
-		if customizer == "custom" {
+		if customizerVal == "custom" {
 			errFunc = customErrFunc
 		}
 
+		// Act
 		err := regexnew.MatchUsingCustomizeErrorFuncLock(
 			pattern,
 			compareInput,
@@ -206,17 +218,12 @@ func Test_MatchUsingCustomizeErrorFuncLock_Verification(t *testing.T) {
 			errFunc,
 		)
 
-		isNoError := fmt.Sprintf("%v", err == nil)
-
-		var actLines []string
-		actLines = append(actLines, isNoError)
-
-		if err != nil {
-			isCustomError := fmt.Sprintf("%v", strings.HasPrefix(err.Error(), "CUSTOM:"))
-			actLines = append(actLines, isCustomError)
+		actual := args.Map{
+			params.isNoError:    err == nil,
+			params.isCustomError: err != nil && strings.HasPrefix(err.Error(), "CUSTOM:"),
 		}
 
 		// Assert
-		testCase.ShouldBeEqualUsingExpected(t, caseIndex, actLines)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }

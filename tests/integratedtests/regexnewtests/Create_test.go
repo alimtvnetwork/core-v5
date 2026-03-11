@@ -1,73 +1,62 @@
 package regexnewtests
 
 import (
-	"fmt"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/regexnew"
 )
 
 func Test_Create_Verification(t *testing.T) {
 	for caseIndex, testCase := range createTestCases {
 		// Arrange
-		pattern := testCase.Input
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
 
 		// Act
 		regex, err := regexnew.New.DefaultLock(pattern)
-		isCompiled := fmt.Sprintf("%v", regex != nil)
-		hasError := fmt.Sprintf("%v", err != nil)
 
-		actLines := []string{isCompiled, hasError}
+		actual := args.Map{
+			params.regexNotNil: regex != nil,
+			params.hasError:    err != nil,
+		}
 
 		// Assert
-
-		testCase.ShouldBeEqualUsingExpected(
-			t,
-			caseIndex,
-			actLines,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_Create_IsMatchLock_Verification(t *testing.T) {
 	for caseIndex, testCase := range createIsMatchLockTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
-		isMatch := fmt.Sprintf("%v", regexnew.IsMatchLock(pattern, compareInput))
-
-		actLines := []string{isMatch}
+		actual := args.Map{
+			params.isMatch: regexnew.IsMatchLock(pattern, compareInput),
+		}
 
 		// Assert
-
-		testCase.ShouldBeEqualUsingExpected(
-			t,
-			caseIndex,
-			actLines,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
 func Test_Create_IsMatchFailed_Verification(t *testing.T) {
 	for caseIndex, testCase := range createIsMatchFailedTestCases {
 		// Arrange
-		pattern := testCase.Input
-		compareInput, _ := testCase.GetExtraAsString("compareInput")
+		input := testCase.Input
+		pattern, _ := input.GetAsString(params.pattern)
+		compareInput, _ := input.GetAsString(params.compareInput)
 
 		// Act
-		isFailed := fmt.Sprintf("%v", regexnew.IsMatchFailed(pattern, compareInput))
-
-		actLines := []string{isFailed}
+		actual := args.Map{
+			params.isFailed: regexnew.IsMatchFailed(pattern, compareInput),
+		}
 
 		// Assert
-
-		testCase.ShouldBeEqualUsingExpected(
-			t,
-			caseIndex,
-			actLines,
-		)
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
@@ -77,26 +66,38 @@ func Test_Create_IsMatchFailed_Verification(t *testing.T) {
 
 func Test_MatchError_Match(t *testing.T) {
 	tc := matchErrorMatchTestCase
-	err := regexnew.MatchError(tc.Input, "hello")
 
-	actLines := []string{fmt.Sprintf("%v", err == nil)}
+	// Arrange
+	pattern, _ := tc.Input.GetAsString(params.pattern)
+	compareInput, _ := tc.Input.GetAsString(params.compareInput)
 
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	// Act
+	err := regexnew.MatchError(pattern, compareInput)
+
+	actual := args.Map{
+		params.isNoError: err == nil,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_MatchError_Mismatch(t *testing.T) {
 	tc := matchErrorMismatchTestCase
-	err := regexnew.MatchError(tc.Input, "abc")
 
-	actLines := []string{fmt.Sprintf("%v", err == nil)}
+	// Arrange
+	pattern, _ := tc.Input.GetAsString(params.pattern)
+	compareInput, _ := tc.Input.GetAsString(params.compareInput)
 
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	// Act
+	err := regexnew.MatchError(pattern, compareInput)
+
+	actual := args.Map{
+		params.isNoError: err == nil,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 // ==========================================================================
@@ -105,24 +106,36 @@ func Test_MatchError_Mismatch(t *testing.T) {
 
 func Test_MatchErrorLock_Match(t *testing.T) {
 	tc := matchErrorLockMatchTestCase
-	err := regexnew.MatchErrorLock(tc.Input, "hello world")
 
-	actLines := []string{fmt.Sprintf("%v", err == nil)}
+	// Arrange
+	pattern, _ := tc.Input.GetAsString(params.pattern)
+	compareInput, _ := tc.Input.GetAsString(params.compareInput)
 
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	// Act
+	err := regexnew.MatchErrorLock(pattern, compareInput)
+
+	actual := args.Map{
+		params.isNoError: err == nil,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_MatchErrorLock_Mismatch(t *testing.T) {
 	tc := matchErrorLockMismatchTestCase
-	err := regexnew.MatchErrorLock(tc.Input, "abc")
 
-	actLines := []string{fmt.Sprintf("%v", err == nil)}
+	// Arrange
+	pattern, _ := tc.Input.GetAsString(params.pattern)
+	compareInput, _ := tc.Input.GetAsString(params.compareInput)
 
-	tc.ShouldBeEqualUsingExpectedFirst(
-		t,
-		actLines,
-	)
+	// Act
+	err := regexnew.MatchErrorLock(pattern, compareInput)
+
+	actual := args.Map{
+		params.isNoError: err == nil,
+	}
+
+	// Assert
+	tc.ShouldBeEqualMapFirst(t, actual)
 }
