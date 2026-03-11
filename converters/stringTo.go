@@ -213,9 +213,9 @@ func (it stringTo) BytesConditional(
 	stringInput,
 	separator string,
 	processor func(in string) (out byte, isTake, isBreak bool),
-) *[]byte {
+) []byte {
 	if stringInput == "" {
-		return &[]byte{}
+		return []byte{}
 	}
 
 	splits := strings.Split(stringInput, separator)
@@ -233,7 +233,7 @@ func (it stringTo) BytesConditional(
 		}
 	}
 
-	return &results
+	return results
 }
 
 func (it stringTo) Byte(input string) (byte, error) {
