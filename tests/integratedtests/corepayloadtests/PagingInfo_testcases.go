@@ -221,7 +221,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	},
 	// --- negative TotalPages ---
 	{
-		Title: "Negative TotalPages - IsInvalidTotalPages true",
+		Title: "PagingInfo returns isInvalidTotalPages true -- negative TotalPages",
 		ArrangeInput: args.Map{
 			"when":             "given negative TotalPages",
 			"isNil":            false,
