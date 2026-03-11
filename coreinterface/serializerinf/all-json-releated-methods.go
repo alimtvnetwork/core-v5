@@ -63,7 +63,7 @@ type SafeValuesGetter interface {
 }
 
 type SafeValuesPtrGetter interface {
-	SafeValuesPtr() []byte
+	SafeValuesPtr() *[]byte
 }
 
 type RawSerializeGetter interface {

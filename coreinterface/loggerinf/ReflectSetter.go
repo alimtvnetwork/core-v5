@@ -13,7 +13,7 @@ package loggerinf
 //   - From, To: (null, null)                          -- do nothing
 //   - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
 //   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
-//   - From, To: ([]byte, otherType)                   -- try unmarshal, reflect
+//   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
 //   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
 //
 // Validations:

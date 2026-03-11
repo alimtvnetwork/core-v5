@@ -119,7 +119,7 @@ func Test_ReflectSetFromTo_BytesToDraft(t *testing.T) {
 }
 
 // ==========================================================================
-// Test: (otherType, *[]byte) — draft to bytes
+// Test: (*[]byte, *[]byte) — draft to bytes
 // ==========================================================================
 
 func Test_ReflectSetFromTo_DraftToBytes(t *testing.T) {
