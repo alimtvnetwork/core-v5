@@ -456,9 +456,17 @@ func Test_Variant_IsAnyEnumsEqual(t *testing.T) {
 }
 
 func Test_Variant_OnlySupportedErr(t *testing.T) {
-	err := stringcompareas.Equal.OnlySupportedErr("Equal")
+	// Passing all names as supported → no unsupported → nil error
+	allNames := stringcompareas.BasicEnumImpl.AllNameValues()
+	err := stringcompareas.Equal.OnlySupportedErr(allNames...)
 	if err != nil {
-		t.Error("supported name should not error")
+		t.Error("all names supported should not error")
+	}
+
+	// Passing only "Equal" → all others unsupported → error expected
+	err2 := stringcompareas.Equal.OnlySupportedErr("Equal")
+	if err2 == nil {
+		t.Error("partial support should return error for unsupported names")
 	}
 }
 
