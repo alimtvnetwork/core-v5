@@ -273,7 +273,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 
 var pagingInfoCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Clone copies all fields correctly",
+		Title: "PagingInfo.Clone returns all fields preserved -- populated input",
 		ArrangeInput: args.Map{
 			"when":             "given fully populated PagingInfo",
 			"totalPages":       5,
