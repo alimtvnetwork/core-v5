@@ -7,7 +7,7 @@ import (
 
 var stringToIntegerTestCases = []coretestcases.CaseV1{
 	{
-		Title: "StringTo.Integer parses valid integer",
+		Title: "StringTo.Integer returns 42 -- valid integer string '42'",
 		ArrangeInput: args.Map{
 			"when":  "given valid integer string",
 			"input": "42",
