@@ -47,7 +47,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "StringTo.Integer fails on float string",
+		Title: "StringTo.Integer returns error -- float string '3.14'",
 		ArrangeInput: args.Map{
 			"when":  "given float string",
 			"input": "3.14",
