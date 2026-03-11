@@ -14,7 +14,7 @@ type testUser struct {
 
 var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Empty collection has zero length",
+		Title: "TypedPayloadCollection returns length 0 and isEmpty true -- empty creation",
 		ArrangeInput: args.Map{
 			"when":     "creating empty collection",
 			"capacity": 0,
