@@ -180,7 +180,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce ' key = value ' -- SplitLeftRightTrim '='",
+			Title: "StringOnce.SplitLeftRightTrim returns trimmed 'key' and 'value' -- ' key = value ' split by '='",
 			ExpectedInput: args.Map{
 				"left":  "key",
 				"right": "value",
