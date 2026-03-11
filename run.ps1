@@ -357,30 +357,26 @@ function Invoke-PackageTests([string]$pkg) {
 function Invoke-TestCoverage {
     Write-Header "Running tests with coverage"
     Invoke-FetchLatest
+
+    # Build check from tests/ dir (existing convention)
     Push-Location tests
-    try {
-        if (-not (Invoke-BuildCheck "./...")) { return }
+    try { if (-not (Invoke-BuildCheck "./...")) { return } }
+    finally { Pop-Location }
 
-        $coverDir = Join-Path $PSScriptRoot "data" "coverage"
-        if (-not (Test-Path $coverDir)) {
-            New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
-        }
+    $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+    if (-not (Test-Path $coverDir)) {
+        New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
+    }
 
-        $coverProfile = Join-Path $coverDir "coverage.out"
-        $coverHtml    = Join-Path $coverDir "coverage.html"
-        $coverSummary = Join-Path $coverDir "coverage-summary.txt"
+    $coverProfile = Join-Path $coverDir "coverage.out"
+    $coverHtml    = Join-Path $coverDir "coverage.html"
+    $coverSummary = Join-Path $coverDir "coverage-summary.txt"
 
-        # Discover test packages, excluding testwrappers (test data only, 0% noise)
-        $allPkgs = & go list ./... 2>&1 | ForEach-Object { $_.ToString() }
-        $testPkgs = $allPkgs | Where-Object { $_ -notmatch "testwrappers" }
-
-        # Use -coverpkg to measure coverage of the MAIN source packages
-        # (the parent module), not just the test helper packages
-        $coverpkg = "github.com/alimtvnetwork/core/..."
-
-        $prevPref = $ErrorActionPreference
-        $ErrorActionPreference = "Continue"
-        $output = & go test -v -count=1 -coverprofile=$coverProfile -coverpkg=$coverpkg @testPkgs 2>&1 | ForEach-Object { $_.ToString() }
+    # Run from project ROOT so -coverpkg can instrument all source packages.
+    # Target only integratedtests (skip testwrappers — test data only, 0% noise).
+    $prevPref = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $output = & go test -v -count=1 -coverprofile=$coverProfile -coverpkg=./... ./tests/integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
         $exitCode = $LASTEXITCODE
         $ErrorActionPreference = $prevPref
 
