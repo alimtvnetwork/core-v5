@@ -154,7 +154,7 @@ type errorOnceConcatTestCase struct {
 var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce 'base' -- ConcatNewString contains both 'base' and 'extra'",
+			Title: "ErrorOnce.ConcatNewString returns string containing 'base' and 'extra' -- error 'base'",
 			ExpectedInput: args.Map{
 				"containsBase":  true,
 				"containsExtra": true,
