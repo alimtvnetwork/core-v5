@@ -142,7 +142,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 
 var stringToByteTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Byte parses valid byte value",
+		Title: "StringTo.Byte returns 255 -- valid byte '255'",
 		ArrangeInput: args.Map{
 			"when":  "given valid byte string",
 			"input": "255",
