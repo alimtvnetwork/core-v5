@@ -404,6 +404,9 @@ function Invoke-TestCoverage {
         $pkgIndex++
         $shortName = $testPkg -replace '.*integratedtests/?', ''
         if (-not $shortName) { $shortName = "(root)" }
+        # Derive the source package being tested (e.g. "chmodhelpertests" -> "chmodhelper")
+        $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
+        if (-not $srcTarget) { $srcTarget = $shortName }
 
         $partialProfile = Join-Path $partialDir "cover-$pkgIndex.out"
 
@@ -419,9 +422,9 @@ function Invoke-TestCoverage {
         $covLine = $output | Where-Object { $_ -match "coverage:\s+([\d.]+)%" } | Select-Object -Last 1
         if ($covLine -match "coverage:\s+([\d.]+)%") {
             $pkgCoverMap[$shortName] = $Matches[1]
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $shortName — $($Matches[1])%" -ForegroundColor Gray
+            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — $($Matches[1])%" -ForegroundColor Gray
         } else {
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $shortName — no coverage data" -ForegroundColor DarkGray
+            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — no coverage data" -ForegroundColor DarkGray
         }
 
         if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
@@ -475,12 +478,47 @@ function Invoke-TestCoverage {
             $summaryLines.Add("")
         }
 
-        # Per-package coverage with actual names
-        if ($pkgCoverMap.Count -gt 0) {
-            $summaryLines.Add("## Per-Package Coverage")
-            $sortedPkgs = $pkgCoverMap.GetEnumerator() | Sort-Object Value -Descending
-            foreach ($entry in $sortedPkgs) {
-                $summaryLines.Add("  $($entry.Value)%`t$($entry.Key)")
+        # Per-SOURCE-package coverage from merged profile
+        $srcPkgCovMap = [ordered]@{}
+        foreach ($line in $funcOutput) {
+            if ($line -match "^(\S+):" -and $line -notmatch "^total:") {
+                $srcPkg = $Matches[1]
+                # Extract short name from full import path
+                $shortSrc = $srcPkg -replace '.*alimtvnetwork/core/?', ''
+                if (-not $shortSrc) { $shortSrc = "(root)" }
+                if (-not $srcPkgCovMap.Contains($shortSrc)) {
+                    $srcPkgCovMap[$shortSrc] = @{ Stmts = 0; Covered = 0 }
+                }
+            }
+        }
+        # Parse coverage.out lines to compute per-source-package %
+        $srcPkgStmts = [ordered]@{}
+        foreach ($covLine2 in $mergedLines) {
+            if ($covLine2 -match "^mode:") { continue }
+            # Format: pkg/file.go:startLine.col,endLine.col numStmts count
+            if ($covLine2 -match "^(\S+?):(\d+)\.(\d+),(\d+)\.(\d+)\s+(\d+)\s+(\d+)") {
+                $filePath2 = $Matches[1]
+                $stmts = [int]$Matches[6]
+                $count = [int]$Matches[7]
+                # Extract package from file path
+                $shortSrc2 = $filePath2 -replace '.*alimtvnetwork/core/?', ''
+                $shortSrc2 = $shortSrc2 -replace '/[^/]+$', ''  # remove filename
+                if (-not $shortSrc2) { $shortSrc2 = "(root)" }
+                if (-not $srcPkgStmts.Contains($shortSrc2)) {
+                    $srcPkgStmts[$shortSrc2] = @{ Stmts = 0; Covered = 0 }
+                }
+                $srcPkgStmts[$shortSrc2].Stmts += $stmts
+                if ($count -gt 0) { $srcPkgStmts[$shortSrc2].Covered += $stmts }
+            }
+        }
+        if ($srcPkgStmts.Count -gt 0) {
+            $summaryLines.Add("## Per-Package Coverage (Source)")
+            $sortedSrcPkgs = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctVal = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctVal }
+            } | Sort-Object Pct -Descending
+            foreach ($entry in $sortedSrcPkgs) {
+                $summaryLines.Add("  $($entry.Pct)%`t$($entry.Name)")
             }
             $summaryLines.Add("")
         }
