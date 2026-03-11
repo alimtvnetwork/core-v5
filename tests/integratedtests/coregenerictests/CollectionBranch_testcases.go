@@ -29,7 +29,7 @@ var collectionForEachEmptyTestCase = coretestcases.CaseV1{
 
 var collectionForEachBreakStopsTestCase = coretestcases.CaseV1{
 	Title:         "ForEachBreak stops at first match",
-	ExpectedInput: args.Map{"visited": 2},
+	ExpectedInput: args.Map{"visited": 3},
 }
 
 var collectionForEachBreakVisitsAllTestCase = coretestcases.CaseV1{

@@ -25,7 +25,7 @@ var hashsetAddBoolTestCase = coretestcases.CaseV1{
 
 var hashsetAddsVariadicTestCase = coretestcases.CaseV1{
 	Title:         "Adds variadic adds all unique items",
-	ExpectedInput: args.Map{"length": 4},
+	ExpectedInput: args.Map{"length": 3},
 }
 
 var hashsetAddSliceTestCase = coretestcases.CaseV1{

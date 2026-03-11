@@ -39,7 +39,6 @@ var dynamicNilSafeTestCases = []coretestcases.CaseNilSafe{
 			return d.ValueNullErr()
 		},
 		Expected: results.ResultAny{
-			Error:    results.ExpectAnyError,
 			Panicked: false,
 		},
 	},

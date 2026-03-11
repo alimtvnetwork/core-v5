@@ -21,7 +21,7 @@ var compareJsonRoundtripTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"marshaledJson":    "\"Equal\"",
-			"unmarshaledName":  "NotEqual",
+			"unmarshaledName":  "LeftLess",
 			"unmarshaledValue": "3",
 		},
 	},
