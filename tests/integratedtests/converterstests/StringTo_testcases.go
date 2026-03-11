@@ -166,7 +166,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "1", "hasError": "false"},
 	},
 	{
-		Title: "Byte fails on empty string",
+		Title: "StringTo.Byte returns error -- empty string",
 		ArrangeInput: args.Map{
 			"when":  "given empty string",
 			"input": "",
