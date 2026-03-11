@@ -150,7 +150,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "255", "hasError": "false"},
 	},
 	{
-		Title: "Byte parses zero",
+		Title: "StringTo.Byte returns 0 -- zero string '0'",
 		ArrangeInput: args.Map{
 			"when":  "given zero string",
 			"input": "0",
