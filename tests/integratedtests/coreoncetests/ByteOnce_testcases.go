@@ -47,7 +47,7 @@ var byteOnceCoreTestCases = []byteOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 255 -- max byte value",
+			Title: "ByteOnce returns isPositive true -- input 255 max byte value",
 			ExpectedInput: args.Map{
 				"value":      255,
 				"int":        255,
