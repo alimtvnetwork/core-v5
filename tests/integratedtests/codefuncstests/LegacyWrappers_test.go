@@ -57,8 +57,6 @@ func Test_IsSuccessFuncWrapper_AsActionReturnsErrorFunc_Verification(t *testing.
 		}
 		if err != nil {
 			actual["containsName"] = strings.Contains(err.Error(), name)
-		} else {
-			actual["containsName"] = false
 		}
 
 		// Assert
