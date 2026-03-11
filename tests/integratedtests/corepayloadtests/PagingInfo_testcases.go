@@ -289,7 +289,7 @@ var pagingInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone of zero-value copies zeros",
+		Title: "PagingInfo.Clone returns all zeros -- zero-value input",
 		ArrangeInput: args.Map{
 			"when":             "given zero-value PagingInfo",
 			"totalPages":       0,
