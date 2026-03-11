@@ -48,7 +48,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "LeftGreater", // compareResult
 	},
 	{
-		Title: "Time returns LeftLess for small duration difference reverse",
+		Title: "Time returns LeftLess -- small nanosecond difference reverse",
 		ArrangeInput: args.Map{
 			"when":  "given left time slightly before right by nanoseconds",
 			"left":  baseTime,

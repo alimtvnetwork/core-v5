@@ -172,7 +172,7 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionPagingWithInfoEmptyTestCase = coretestcases.CaseV1{
-	Title: "PagingWithInfo on empty collection returns 1 page with 0 items",
+	Title: "GetPagedCollectionWithInfo returns 1 page 0 items -- empty collection",
 	ExpectedInput: args.Map{
 		"pageCount":    1,
 		"firstPageLen": 0,

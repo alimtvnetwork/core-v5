@@ -148,7 +148,7 @@ var typedWrapperMetadataAccessorsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedWrapperTypedDataJsonTestCase = coretestcases.CaseV1{
-	Title: "TypedDataJson returns non-empty results",
+	Title: "TypedPayloadWrapper.TypedDataJson returns non-empty -- populated wrapper",
 	ExpectedInput: args.Map{
 		"dataJsonNonEmpty":  true,
 		"dataJsonPtrNonNil": true,

@@ -198,7 +198,7 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone preserves all fields with empty Identifier",
+		Title: "AuthInfo.ClonePtr returns preserved fields -- empty Identifier",
 		ArrangeInput: args.Map{
 			"when":          "identifier is empty string",
 			"identifier":    "",

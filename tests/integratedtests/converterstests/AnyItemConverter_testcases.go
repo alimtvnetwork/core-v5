@@ -33,7 +33,7 @@ var toNonNullItemsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "ToNonNullItems returns empty for nil input when not skipOnNil",
+		Title: "ToNonNullItems returns count 0 -- nil input skipOnNil false",
 		ArrangeInput: args.Map{
 			"when":        "given nil input with isSkipOnNil false - should still return empty for nil reflect",
 			"isSkipOnNil": true,

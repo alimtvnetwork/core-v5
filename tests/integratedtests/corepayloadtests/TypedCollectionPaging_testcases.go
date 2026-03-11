@@ -171,7 +171,7 @@ var typedCollectionPagedWithInfoTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPagingEmptyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollection on empty collection returns single empty page",
+		Title: "GetPagedCollection returns 1 page with 0 items -- empty collection page size 5",
 		ArrangeInput: args.Map{
 			"when":     "empty collection with page size 5",
 			"pageSize": 5,

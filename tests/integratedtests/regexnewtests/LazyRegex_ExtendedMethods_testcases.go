@@ -211,7 +211,7 @@ var lazyRegexMustBeSafeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "MustBeSafe invalid pattern panics",
+		Title: "LazyRegex.MustBeSafe returns panic -- invalid pattern '[bad'",
 		ArrangeInput: args.Map{
 			"pattern": "[bad",
 		},

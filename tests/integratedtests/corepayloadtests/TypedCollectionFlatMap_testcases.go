@@ -123,7 +123,7 @@ var deserializationFailureTestCases = []coretestcases.CaseV1{
 
 var collectionDeserializeInvalidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "TypedPayloadCollectionDeserialize with invalid bytes returns error",
+		Title: "TypedPayloadCollectionDeserialize returns error -- invalid JSON bytes",
 		ArrangeInput: args.Map{
 			"when":  "passing invalid json bytes",
 			"bytes": "{{not-json-at-all",

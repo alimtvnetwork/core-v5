@@ -257,7 +257,7 @@ var stringToIntegerDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "77",
 	},
 	{
-		Title: "IntegerDefault returns 0 on invalid",
+		Title: "StringTo.IntegerDefault returns '0' -- non-number 'nope'",
 		ArrangeInput: args.Map{
 			"when":  "given non-number",
 			"input": "nope",

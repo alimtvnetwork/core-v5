@@ -230,7 +230,7 @@ var typedCollectionRemoveAtTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionToPayloadsTestCase = coretestcases.CaseV1{
-	Title: "ToPayloadsCollection returns all payloads",
+	Title: "TypedPayloadCollection.ToPayloadsCollection returns length 3 -- 3 users",
 	ExpectedInput: args.Map{
 		"length":    3,
 		"firstName": "Alice",

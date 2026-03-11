@@ -386,6 +386,6 @@ var pagingInfoClonePtrIndependenceTestCase = coretestcases.CaseV1{
 }
 
 var pagingInfoCloneIndependenceTestCase = coretestcases.CaseV1{
-	Title:         "Clone creates independent value copy",
+	Title:         "PagingInfo.Clone returns independent value copy -- mutation test",
 	ExpectedInput: args.Map{"originalTotalPages": 5},
 }
