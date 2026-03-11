@@ -57,7 +57,7 @@ var integersOnceCoreTestCases = []integersOnceTestCase{
 var integersOnceSortedTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [3,1,2] -- Sorted returns [1,2,3]",
+			Title: "IntegersOnce.Sorted returns [1,2,3] -- [3,1,2] input",
 			ExpectedInput: args.Map{
 				"first": 1,
 				"last":  3,
