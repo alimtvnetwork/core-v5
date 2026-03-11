@@ -11,7 +11,7 @@ import (
 
 var attributesIsEqualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Both nil Attributes are equal",
+		Title: "Attributes.IsEqual returns true -- both nil",
 		ArrangeInput: args.Map{
 			"when":      "both attributes are nil",
 			"left_nil":  true,
@@ -22,7 +22,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Left nil, right non-nil are not equal",
+		Title: "Attributes.IsEqual returns false -- left nil right non-nil",
 		ArrangeInput: args.Map{
 			"when":      "left is nil right is not",
 			"left_nil":  true,
@@ -33,7 +33,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Right nil, left non-nil are not equal",
+		Title: "Attributes.IsEqual returns false -- right nil left non-nil",
 		ArrangeInput: args.Map{
 			"when":      "right is nil left is not",
 			"left_nil":  false,
@@ -44,7 +44,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Same pointer returns equal",
+		Title: "Attributes.IsEqual returns true -- same pointer identity",
 		ArrangeInput: args.Map{
 			"when":         "same pointer identity",
 			"same_pointer": true,
@@ -54,7 +54,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Equal dynamic payloads are equal",
+		Title: "Attributes.IsEqual returns true -- same dynamic payloads",
 		ArrangeInput: args.Map{
 			"when":    "same dynamic payloads on both",
 			"payload": "test-data",
@@ -64,7 +64,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Different dynamic payloads are not equal",
+		Title: "Attributes.IsEqual returns false -- different dynamic payloads",
 		ArrangeInput: args.Map{
 			"when":          "different dynamic payloads",
 			"left_payload":  "data-a",
@@ -82,7 +82,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 
 var attributesCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil attributes shallow clone returns nil",
+		Title: "Attributes.Clone returns nil -- nil attributes shallow clone",
 		ArrangeInput: args.Map{
 			"when":     "attributes is nil",
 			"nil_attr": true,
@@ -94,7 +94,7 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Shallow clone preserves dynamic payloads",
+		Title: "Attributes.Clone returns preserved payload -- shallow clone",
 		ArrangeInput: args.Map{
 			"when":    "shallow clone with dynamic payloads",
 			"payload": "clone-payload",
@@ -106,7 +106,7 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Deep clone returns error",
+		Title: "Attributes.Clone returns error -- deep clone",
 		ArrangeInput: args.Map{
 			"when":    "deep clone then mutate original",
 			"payload": "deep-clone-data",
@@ -124,7 +124,7 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 
 var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil attributes IsSafeValid returns false",
+		Title: "Attributes.IsSafeValid returns false -- nil attributes",
 		ArrangeInput: args.Map{
 			"when":     "attributes is nil",
 			"nil_attr": true,
@@ -134,7 +134,7 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Empty attributes IsSafeValid returns false",
+		Title: "Attributes.IsSafeValid returns false -- empty attributes",
 		ArrangeInput: args.Map{
 			"when":  "attributes has no data",
 			"empty": true,
@@ -144,7 +144,7 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Attributes with payload IsSafeValid returns true",
+		Title: "Attributes.IsSafeValid returns true -- has dynamic payload",
 		ArrangeInput: args.Map{
 			"when":    "attributes has dynamic payload",
 			"payload": "valid-data",
@@ -161,7 +161,7 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 
 var authInfoCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil AuthInfo ClonePtr returns nil",
+		Title: "AuthInfo.ClonePtr returns nil -- nil receiver",
 		ArrangeInput: args.Map{
 			"when":     "auth info is nil",
 			"nil_auth": true,
@@ -171,7 +171,7 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone preserves Identifier field",
+		Title: "AuthInfo.ClonePtr returns preserved Identifier -- populated auth info",
 		ArrangeInput: args.Map{
 			"when":          "auth info has identifier",
 			"identifier":    "user-42",
@@ -185,7 +185,7 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone is independent — mutating clone does not affect original",
+		Title: "AuthInfo.ClonePtr returns independent copy -- clone mutated after creation",
 		ArrangeInput: args.Map{
 			"when":            "clone mutated after creation",
 			"identifier":      "original-id",
@@ -198,7 +198,7 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone preserves all fields with empty Identifier",
+		Title: "AuthInfo.ClonePtr returns preserved fields -- empty Identifier",
 		ArrangeInput: args.Map{
 			"when":          "identifier is empty string",
 			"identifier":    "",

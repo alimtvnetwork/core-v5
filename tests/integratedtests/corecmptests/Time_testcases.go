@@ -12,7 +12,7 @@ var laterTime = baseTime.Add(10 * time.Minute)
 
 var timeCompareTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Time returns Equal for identical times",
+		Title: "Time returns Equal -- identical times",
 		ArrangeInput: args.Map{
 			"when":  "given identical time values",
 			"left":  baseTime,
@@ -21,7 +21,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "Equal", // compareResult
 	},
 	{
-		Title: "Time returns LeftLess when left is before right",
+		Title: "Time returns LeftLess -- left before right",
 		ArrangeInput: args.Map{
 			"when":  "given left time before right time",
 			"left":  baseTime,
@@ -30,7 +30,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "LeftLess", // compareResult
 	},
 	{
-		Title: "Time returns LeftGreater when left is after right",
+		Title: "Time returns LeftGreater -- left after right",
 		ArrangeInput: args.Map{
 			"when":  "given left time after right time",
 			"left":  laterTime,
@@ -39,7 +39,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "LeftGreater", // compareResult
 	},
 	{
-		Title: "Time returns LeftGreater for small duration difference",
+		Title: "Time returns LeftGreater -- small nanosecond difference forward",
 		ArrangeInput: args.Map{
 			"when":  "given left time slightly after right by nanoseconds",
 			"left":  baseTime.Add(time.Duration(600000)),
@@ -48,7 +48,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "LeftGreater", // compareResult
 	},
 	{
-		Title: "Time returns LeftLess for small duration difference reverse",
+		Title: "Time returns LeftLess -- small nanosecond difference reverse",
 		ArrangeInput: args.Map{
 			"when":  "given left time slightly before right by nanoseconds",
 			"left":  baseTime,

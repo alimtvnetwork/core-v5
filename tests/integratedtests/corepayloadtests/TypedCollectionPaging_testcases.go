@@ -11,7 +11,7 @@ import (
 
 var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagesSize returns 1 when items fewer than page size",
+		Title: "GetPagesSize returns 1 -- 3 items page size 10",
 		ArrangeInput: args.Map{
 			"when":     "3 items with page size 10",
 			"pageSize": 10,
@@ -21,7 +21,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagesSize returns exact page count when evenly divisible",
+		Title: "GetPagesSize returns 2 -- 10 items page size 5 evenly divisible",
 		ArrangeInput: args.Map{
 			"when":     "10 items with page size 5",
 			"count":    10,
@@ -32,7 +32,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagesSize returns ceiling when not evenly divisible",
+		Title: "GetPagesSize returns 3 -- 7 items page size 3 ceiling",
 		ArrangeInput: args.Map{
 			"when":     "7 items with page size 3",
 			"count":    7,
@@ -50,7 +50,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 
 var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetSinglePageCollection returns first page correctly",
+		Title: "GetSinglePageCollection returns 2 items -- page 1 of 5 items page size 2",
 		ArrangeInput: args.Map{
 			"when":      "page 1 of 2 items per page from 5 items",
 			"count":     5,
@@ -64,7 +64,7 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetSinglePageCollection returns last partial page",
+		Title: "GetSinglePageCollection returns 1 item -- last partial page 3 of 5 items",
 		ArrangeInput: args.Map{
 			"when":      "page 3 of 2 items per page from 5 items",
 			"count":     5,
@@ -77,7 +77,7 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetSinglePageCollection returns entire collection when smaller than page size",
+		Title: "GetSinglePageCollection returns all 3 items -- page size 10 larger than count",
 		ArrangeInput: args.Map{
 			"when":      "3 items with page size 10",
 			"count":     3,
@@ -99,7 +99,7 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollection splits into correct number of pages",
+		Title: "GetPagedCollection returns 3 pages -- 5 items page size 2",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 2",
 			"count":    5,
@@ -113,7 +113,7 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection returns single page when fewer items than page size",
+		Title: "GetPagedCollection returns 1 page -- 2 items page size 10",
 		ArrangeInput: args.Map{
 			"when":     "2 items with page size 10",
 			"count":    2,
@@ -125,7 +125,7 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection with exact division has no partial pages",
+		Title: "GetPagedCollection returns 2 pages -- 6 items page size 3 exact division",
 		ArrangeInput: args.Map{
 			"when":     "6 items with page size 3",
 			"count":    6,
@@ -145,7 +145,7 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPagedWithInfoTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollectionWithInfo returns correct PagingInfo per page",
+		Title: "GetPagedCollectionWithInfo returns correct PagingInfo -- 5 items page size 2",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 2",
 			"count":    5,
@@ -171,7 +171,7 @@ var typedCollectionPagedWithInfoTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPagingEmptyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollection on empty collection returns single empty page",
+		Title: "GetPagedCollection returns 1 page with 0 items -- empty collection page size 5",
 		ArrangeInput: args.Map{
 			"when":     "empty collection with page size 5",
 			"pageSize": 5,

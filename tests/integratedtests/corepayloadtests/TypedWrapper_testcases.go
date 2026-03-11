@@ -14,7 +14,7 @@ type testProduct struct {
 
 var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Deserialize typed wrapper preserves all fields",
+		Title: "TypedPayloadWrapper.Deserialize returns all fields -- name 'product-create'",
 		ArrangeInput: args.Map{
 			"name": "product-create", "id": "prod-1",
 			"sku": "SKU-100", "title": "Widget", "price": 29.99,
@@ -25,7 +25,7 @@ var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Deserialize typed wrapper with empty payload fields",
+		Title: "TypedPayloadWrapper.Deserialize returns empty fields -- name 'empty-product'",
 		ArrangeInput: args.Map{
 			"name": "empty-product", "id": "prod-2",
 			"sku": "", "title": "", "price": 0.0,
@@ -39,7 +39,7 @@ var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 
 var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Round-trip serialize then deserialize preserves data",
+		Title: "TypedPayloadWrapper returns preserved data -- round-trip 'round-trip'",
 		ArrangeInput: args.Map{
 			"name": "round-trip", "id": "rt-1",
 			"sku": "RT-SKU", "title": "Round Trip Product", "price": 55.50,
@@ -50,7 +50,7 @@ var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Round-trip with special characters in title",
+		Title: "TypedPayloadWrapper returns preserved special chars -- round-trip 'special-chars'",
 		ArrangeInput: args.Map{
 			"name": "special-chars", "id": "sc-1",
 			"sku": "SC-001", "title": `Quote "test" & <html>`, "price": 0.01,
@@ -64,7 +64,7 @@ var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 
 var typedWrapperCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Deep clone produces independent copy",
+		Title: "TypedPayloadWrapper.ClonePtr returns independent copy -- 'clone-source'",
 		ArrangeInput: args.Map{
 			"name": "clone-source", "id": "cl-1",
 			"sku": "CL-SKU", "title": "Original", "price": 100.0,
@@ -79,7 +79,7 @@ var typedWrapperCloneTestCases = []coretestcases.CaseV1{
 
 var typedWrapperSetDataTestCases = []coretestcases.CaseV1{
 	{
-		Title: "SetTypedData updates both typed data and raw payloads",
+		Title: "TypedPayloadWrapper.SetTypedData returns updated values -- 'Before' to 'After'",
 		ArrangeInput: args.Map{
 			"name": "set-data", "id": "sd-1",
 			"sku": "SD-SKU", "title": "Before", "price": 10.0,
@@ -93,7 +93,7 @@ var typedWrapperSetDataTestCases = []coretestcases.CaseV1{
 }
 
 var typedWrapperNilTestCase = coretestcases.CaseV1{
-	Title: "Nil wrapper returns error on creation",
+	Title: "TypedPayloadWrapper returns error -- nil wrapper",
 	ArrangeInput: args.Map{
 		"when": "passing nil wrapper",
 	},
@@ -103,7 +103,7 @@ var typedWrapperNilTestCase = coretestcases.CaseV1{
 }
 
 var typedWrapperInvalidJsonTestCase = coretestcases.CaseV1{
-	Title: "Invalid JSON bytes return error on deserialization",
+	Title: "TypedPayloadWrapper returns error -- invalid JSON bytes",
 	ArrangeInput: args.Map{
 		"when":  "passing invalid json",
 		"bytes": "not-valid-json{{{",
@@ -115,7 +115,7 @@ var typedWrapperInvalidJsonTestCase = coretestcases.CaseV1{
 
 var typedWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "DeserializeToMany parses array of typed wrappers",
+		Title: "TypedPayloadWrapper.DeserializeToMany returns 3 items -- array of 3",
 		ArrangeInput: args.Map{
 			"count": 3,
 		},
@@ -130,7 +130,7 @@ var typedWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var typedWrapperMetadataAccessorsTestCase = coretestcases.CaseV1{
-	Title: "MetadataAccessors return correct values",
+	Title: "TypedPayloadWrapper returns correct metadata -- populated wrapper",
 	ExpectedInput: args.Map{
 		"name":             "meta-name",
 		"identifier":       "meta-id",
@@ -148,7 +148,7 @@ var typedWrapperMetadataAccessorsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedWrapperTypedDataJsonTestCase = coretestcases.CaseV1{
-	Title: "TypedDataJson returns non-empty results",
+	Title: "TypedPayloadWrapper.TypedDataJson returns non-empty -- populated wrapper",
 	ExpectedInput: args.Map{
 		"dataJsonNonEmpty":  true,
 		"dataJsonPtrNonNil": true,

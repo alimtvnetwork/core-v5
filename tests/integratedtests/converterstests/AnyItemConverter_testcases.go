@@ -11,7 +11,7 @@ import (
 
 var toNonNullItemsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ToNonNullItems returns empty for nil input when skipOnNil",
+		Title: "ToNonNullItems returns count 0 -- nil input skipOnNil true",
 		ArrangeInput: args.Map{
 			"when":        "given nil input with isSkipOnNil true",
 			"isSkipOnNil": true,
@@ -20,7 +20,7 @@ var toNonNullItemsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"count": 0},
 	},
 	{
-		Title: "ToNonNullItems converts valid slice",
+		Title: "ToNonNullItems returns count 2 -- valid string slice",
 		ArrangeInput: args.Map{
 			"when":        "given valid string slice",
 			"isSkipOnNil": false,
@@ -33,7 +33,7 @@ var toNonNullItemsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "ToNonNullItems returns empty for nil input when not skipOnNil",
+		Title: "ToNonNullItems returns count 0 -- nil input skipOnNil false",
 		ArrangeInput: args.Map{
 			"when":        "given nil input with isSkipOnNil false - should still return empty for nil reflect",
 			"isSkipOnNil": true,

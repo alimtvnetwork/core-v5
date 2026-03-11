@@ -11,7 +11,7 @@ import (
 
 var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollection single item with page size 1",
+		Title: "GetPagedCollection returns 1 page -- 1 item page size 1",
 		ArrangeInput: args.Map{
 			"when":     "1 item with page size 1",
 			"count":    1,
@@ -23,7 +23,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection page size 1 creates one page per item",
+		Title: "GetPagedCollection returns 3 pages -- 3 items page size 1",
 		ArrangeInput: args.Map{
 			"when":     "3 items with page size 1",
 			"count":    3,
@@ -37,7 +37,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection page size equals item count",
+		Title: "GetPagedCollection returns 1 page -- 5 items page size equals count",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 5",
 			"count":    5,
@@ -49,7 +49,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection page size larger than item count",
+		Title: "GetPagedCollection returns 1 page -- 3 items page size 100 larger than count",
 		ArrangeInput: args.Map{
 			"when":     "3 items with page size 100",
 			"count":    3,
@@ -68,7 +68,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 
 var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetSinglePageCollection middle page returns correct items",
+		Title: "GetSinglePageCollection returns 3 items -- middle page 2 of 9 items page size 3",
 		ArrangeInput: args.Map{
 			"when":      "page 2 of 3 items per page from 9 items",
 			"count":     9,
@@ -83,7 +83,7 @@ var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetSinglePageCollection page size 1 returns single item",
+		Title: "GetSinglePageCollection returns 1 item -- page 2 page size 1 from 5 items",
 		ArrangeInput: args.Map{
 			"when":      "page 2 of page size 1 from 5 items",
 			"count":     5,
@@ -103,7 +103,7 @@ var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 
 var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollectionWithInfo single item has correct metadata",
+		Title: "GetPagedCollectionWithInfo returns correct metadata -- 1 item page size 5",
 		ArrangeInput: args.Map{
 			"when":     "1 item with page size 5",
 			"count":    1,
@@ -118,7 +118,7 @@ var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollectionWithInfo exact division metadata",
+		Title: "GetPagedCollectionWithInfo returns correct metadata -- 4 items page size 2 exact division",
 		ArrangeInput: args.Map{
 			"when":     "4 items with page size 2",
 			"count":    4,
@@ -144,7 +144,7 @@ var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 
 var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagesSize with page size 1",
+		Title: "GetPagesSize returns 5 -- 5 items page size 1",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 1",
 			"count":    5,
@@ -155,7 +155,7 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagesSize with single item",
+		Title: "GetPagesSize returns 1 -- 1 item page size 10",
 		ArrangeInput: args.Map{
 			"when":     "1 item with page size 10",
 			"count":    1,
@@ -172,7 +172,7 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionPagingWithInfoEmptyTestCase = coretestcases.CaseV1{
-	Title: "PagingWithInfo on empty collection returns 1 page with 0 items",
+	Title: "GetPagedCollectionWithInfo returns 1 page 0 items -- empty collection",
 	ExpectedInput: args.Map{
 		"pageCount":    1,
 		"firstPageLen": 0,

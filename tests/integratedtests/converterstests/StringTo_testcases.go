@@ -7,7 +7,7 @@ import (
 
 var stringToIntegerTestCases = []coretestcases.CaseV1{
 	{
-		Title: "StringTo.Integer parses valid integer",
+		Title: "StringTo.Integer returns 42 -- valid integer string '42'",
 		ArrangeInput: args.Map{
 			"when":  "given valid integer string",
 			"input": "42",
@@ -15,7 +15,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "42", "hasError": "false"},
 	},
 	{
-		Title: "StringTo.Integer fails on non-numeric string",
+		Title: "StringTo.Integer returns error -- non-numeric string 'abc'",
 		ArrangeInput: args.Map{
 			"when":  "given non-numeric string",
 			"input": "abc",
@@ -23,7 +23,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "StringTo.Integer parses negative integer",
+		Title: "StringTo.Integer returns -5 -- negative integer string '-5'",
 		ArrangeInput: args.Map{
 			"when":  "given negative integer string",
 			"input": "-5",
@@ -31,7 +31,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "-5", "hasError": "false"},
 	},
 	{
-		Title: "StringTo.Integer parses zero",
+		Title: "StringTo.Integer returns 0 -- zero string '0'",
 		ArrangeInput: args.Map{
 			"when":  "given zero string",
 			"input": "0",
@@ -39,7 +39,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "false"},
 	},
 	{
-		Title: "StringTo.Integer fails on empty string",
+		Title: "StringTo.Integer returns error -- empty string",
 		ArrangeInput: args.Map{
 			"when":  "given empty string",
 			"input": "",
@@ -47,7 +47,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "StringTo.Integer fails on float string",
+		Title: "StringTo.Integer returns error -- float string '3.14'",
 		ArrangeInput: args.Map{
 			"when":  "given float string",
 			"input": "3.14",
@@ -58,7 +58,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 
 var bytesToStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "BytesTo.String converts bytes to string",
+		Title: "BytesTo.String returns 'hello' -- valid byte slice",
 		ArrangeInput: args.Map{
 			"when":  "given valid byte slice",
 			"input": "hello",
@@ -66,7 +66,7 @@ var bytesToStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "hello",
 	},
 	{
-		Title: "BytesTo.String returns empty for empty bytes",
+		Title: "BytesTo.String returns empty -- empty byte slice",
 		ArrangeInput: args.Map{
 			"when":  "given empty byte slice",
 			"input": "",
@@ -77,7 +77,7 @@ var bytesToStringTestCases = []coretestcases.CaseV1{
 
 var stringToIntegerWithDefaultTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IntegerWithDefault returns parsed value on valid input",
+		Title: "IntegerWithDefault returns 100 -- valid integer '100'",
 		ArrangeInput: args.Map{
 			"when":       "given valid integer",
 			"input":      "100",
@@ -86,7 +86,7 @@ var stringToIntegerWithDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "100", "isSuccess": "true"},
 	},
 	{
-		Title: "IntegerWithDefault returns default on invalid input",
+		Title: "IntegerWithDefault returns -1 -- invalid input 'xyz'",
 		ArrangeInput: args.Map{
 			"when":       "given non-numeric",
 			"input":      "xyz",
@@ -95,7 +95,7 @@ var stringToIntegerWithDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "-1", "isSuccess": "false"},
 	},
 	{
-		Title: "IntegerWithDefault returns default on empty string",
+		Title: "IntegerWithDefault returns 42 -- empty string",
 		ArrangeInput: args.Map{
 			"when":       "given empty string",
 			"input":      "",
@@ -107,7 +107,7 @@ var stringToIntegerWithDefaultTestCases = []coretestcases.CaseV1{
 
 var stringToFloat64TestCases = []coretestcases.CaseV1{
 	{
-		Title: "Float64 parses valid float",
+		Title: "StringTo.Float64 returns 3.14 -- valid float '3.14'",
 		ArrangeInput: args.Map{
 			"when":  "given valid float string",
 			"input": "3.14",
@@ -115,7 +115,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "3.14", "hasError": "false"},
 	},
 	{
-		Title: "Float64 parses integer as float",
+		Title: "StringTo.Float64 returns 42 -- integer string '42'",
 		ArrangeInput: args.Map{
 			"when":  "given integer string",
 			"input": "42",
@@ -123,7 +123,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "42", "hasError": "false"},
 	},
 	{
-		Title: "Float64 fails on non-numeric",
+		Title: "StringTo.Float64 returns error -- non-numeric 'abc'",
 		ArrangeInput: args.Map{
 			"when":  "given non-numeric string",
 			"input": "abc",
@@ -131,7 +131,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "Float64 parses negative float",
+		Title: "StringTo.Float64 returns -2.5 -- negative float '-2.5'",
 		ArrangeInput: args.Map{
 			"when":  "given negative float",
 			"input": "-2.5",
@@ -142,7 +142,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 
 var stringToByteTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Byte parses valid byte value",
+		Title: "StringTo.Byte returns 255 -- valid byte '255'",
 		ArrangeInput: args.Map{
 			"when":  "given valid byte string",
 			"input": "255",
@@ -150,7 +150,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "255", "hasError": "false"},
 	},
 	{
-		Title: "Byte parses zero",
+		Title: "StringTo.Byte returns 0 -- zero string '0'",
 		ArrangeInput: args.Map{
 			"when":  "given zero string",
 			"input": "0",
@@ -158,7 +158,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "false"},
 	},
 	{
-		Title: "Byte parses one",
+		Title: "StringTo.Byte returns 1 -- one string '1'",
 		ArrangeInput: args.Map{
 			"when":  "given one string",
 			"input": "1",
@@ -166,7 +166,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "1", "hasError": "false"},
 	},
 	{
-		Title: "Byte fails on empty string",
+		Title: "StringTo.Byte returns error -- empty string",
 		ArrangeInput: args.Map{
 			"when":  "given empty string",
 			"input": "",
@@ -174,7 +174,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "Byte fails on value > 255",
+		Title: "StringTo.Byte returns error -- value 256 exceeds byte range",
 		ArrangeInput: args.Map{
 			"when":  "given value exceeding byte range",
 			"input": "256",
@@ -182,7 +182,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "Byte fails on negative value",
+		Title: "StringTo.Byte returns error -- negative value '-1'",
 		ArrangeInput: args.Map{
 			"when":  "given negative value",
 			"input": "-1",
@@ -193,7 +193,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 
 var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PtrString returns string from valid pointer",
+		Title: "BytesTo.PtrString returns 'test-data' -- valid pointer",
 		ArrangeInput: args.Map{
 			"when":  "given valid byte slice pointer",
 			"input": "test-data",
@@ -202,7 +202,7 @@ var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "test-data",
 	},
 	{
-		Title: "PtrString returns empty for nil pointer",
+		Title: "BytesTo.PtrString returns empty -- nil pointer",
 		ArrangeInput: args.Map{
 			"when":  "given nil pointer",
 			"input": "",
@@ -214,7 +214,7 @@ var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 
 var stringsToHashsetTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Hashset creates map with all unique entries true",
+		Title: "StringsTo.Hashset returns count 3 allTrue -- distinct strings",
 		ArrangeInput: args.Map{
 			"when":  "given distinct strings",
 			"input": []string{"a", "b", "c"},
@@ -225,7 +225,7 @@ var stringsToHashsetTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Hashset handles duplicates",
+		Title: "StringsTo.Hashset returns count 2 -- duplicate strings",
 		ArrangeInput: args.Map{
 			"when":  "given duplicate strings",
 			"input": []string{"a", "a", "b"},
@@ -236,7 +236,7 @@ var stringsToHashsetTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Hashset handles empty slice",
+		Title: "StringsTo.Hashset returns count 0 -- empty slice",
 		ArrangeInput: args.Map{
 			"when":  "given empty slice",
 			"input": []string{},
@@ -249,7 +249,7 @@ var stringsToHashsetTestCases = []coretestcases.CaseV1{
 
 var stringToIntegerDefaultTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IntegerDefault returns parsed value",
+		Title: "StringTo.IntegerDefault returns '77' -- valid number",
 		ArrangeInput: args.Map{
 			"when":  "given valid number",
 			"input": "77",
@@ -257,7 +257,7 @@ var stringToIntegerDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "77",
 	},
 	{
-		Title: "IntegerDefault returns 0 on invalid",
+		Title: "StringTo.IntegerDefault returns '0' -- non-number 'nope'",
 		ArrangeInput: args.Map{
 			"when":  "given non-number",
 			"input": "nope",

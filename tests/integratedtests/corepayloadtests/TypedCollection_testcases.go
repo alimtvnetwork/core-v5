@@ -14,7 +14,7 @@ type testUser struct {
 
 var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Empty collection has zero length",
+		Title: "TypedPayloadCollection returns length 0 and isEmpty true -- empty creation",
 		ArrangeInput: args.Map{
 			"when":     "creating empty collection",
 			"capacity": 0,
@@ -25,7 +25,7 @@ var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Collection with capacity has zero length",
+		Title: "TypedPayloadCollection returns length 0 -- capacity 10 creation",
 		ArrangeInput: args.Map{
 			"when":     "creating collection with capacity 10",
 			"capacity": 10,
@@ -39,7 +39,7 @@ var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 
 var typedCollectionAddTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Add single item increases length to 1",
+		Title: "TypedPayloadCollection.Add returns length 1 -- single user added",
 		ArrangeInput: args.Map{
 			"when":  "adding one user",
 			"name":  "Alice",
@@ -53,7 +53,7 @@ var typedCollectionAddTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Add two items increases length to 2",
+		Title: "TypedPayloadCollection.Add returns length 2 -- two users added",
 		ArrangeInput: args.Map{
 			"when":   "adding two users",
 			"name":   "Bob",
@@ -74,7 +74,7 @@ var typedCollectionAddTestCases = []coretestcases.CaseV1{
 
 var typedCollectionFilterTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FilterByData returns only matching items",
+		Title: "TypedPayloadCollection.FilterByData returns 2 matches -- age >= 30",
 		ArrangeInput: args.Map{
 			"when":      "filtering users by age >= 30",
 			"minAge":    30,
@@ -90,7 +90,7 @@ var typedCollectionFilterTestCases = []coretestcases.CaseV1{
 
 var typedCollectionMapTestCases = []coretestcases.CaseV1{
 	{
-		Title: "MapTypedPayloadData extracts names",
+		Title: "MapTypedPayloadData returns 3 names -- 3 users mapped",
 		ArrangeInput: args.Map{
 			"when": "mapping users to names",
 		},
@@ -105,7 +105,7 @@ var typedCollectionMapTestCases = []coretestcases.CaseV1{
 
 var typedCollectionReduceTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ReduceTypedPayloadData sums ages",
+		Title: "ReduceTypedPayloadData returns totalAge 90 -- 3 users summed",
 		ArrangeInput: args.Map{
 			"when": "reducing to sum of ages",
 		},
@@ -117,7 +117,7 @@ var typedCollectionReduceTestCases = []coretestcases.CaseV1{
 
 var typedCollectionGroupTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GroupTypedPayloadData groups by category",
+		Title: "GroupTypedPayloadData returns 2 groups -- category grouping",
 		ArrangeInput: args.Map{
 			"when": "grouping by category name",
 		},
@@ -131,7 +131,7 @@ var typedCollectionGroupTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPartitionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PartitionTypedPayloads splits by age threshold",
+		Title: "PartitionTypedPayloads returns 2 senior 1 junior -- age >= 30 threshold",
 		ArrangeInput: args.Map{
 			"when": "partitioning by age >= 30",
 		},
@@ -144,7 +144,7 @@ var typedCollectionPartitionTestCases = []coretestcases.CaseV1{
 
 var typedCollectionAllDataTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AllData extracts all typed data",
+		Title: "TypedPayloadCollection.AllData returns 3 items -- 3 users",
 		ArrangeInput: args.Map{
 			"when": "extracting all data",
 		},
@@ -159,7 +159,7 @@ var typedCollectionAllDataTestCases = []coretestcases.CaseV1{
 
 var typedCollectionElementAccessTestCases = []coretestcases.CaseV1{
 	{
-		Title: "First and Last return correct elements",
+		Title: "TypedPayloadCollection.First returns 'Alice' and Last returns 'Carol' -- 3 users",
 		ArrangeInput: args.Map{
 			"when": "accessing first and last",
 		},
@@ -172,7 +172,7 @@ var typedCollectionElementAccessTestCases = []coretestcases.CaseV1{
 
 var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AnyTypedPayload returns true when match exists",
+		Title: "AnyTypedPayload returns true for 'Bob' and false for nonexistent -- 3 users",
 		ArrangeInput: args.Map{
 			"when": "checking any user named Bob",
 		},
@@ -189,7 +189,7 @@ var typedCollectionAnyAllTestCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionEmptyOpsTestCase = coretestcases.CaseV1{
-	Title: "Empty collection operations return zero values",
+	Title: "TypedPayloadCollection returns all zero values -- empty collection operations",
 	ExpectedInput: args.Map{
 		"allDataLen":  0,
 		"namesLen":    0,
@@ -203,7 +203,7 @@ var typedCollectionEmptyOpsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionFirstByNameTestCase = coretestcases.CaseV1{
-	Title: "FirstByName finds existing and returns nil for missing",
+	Title: "TypedPayloadCollection.FirstByName returns found and nil for missing -- 3 users",
 	ExpectedInput: args.Map{
 		"foundName":   "Bob",
 		"notFoundNil": true,
@@ -215,7 +215,7 @@ var typedCollectionFirstByNameTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionRemoveAtTestCase = coretestcases.CaseV1{
-	Title: "RemoveAt removes item and rejects invalid index",
+	Title: "TypedPayloadCollection.RemoveAt returns removed true and length 2 -- valid index",
 	ExpectedInput: args.Map{
 		"removed":       true,
 		"lengthAfter":   2,
@@ -230,7 +230,7 @@ var typedCollectionRemoveAtTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionToPayloadsTestCase = coretestcases.CaseV1{
-	Title: "ToPayloadsCollection returns all payloads",
+	Title: "TypedPayloadCollection.ToPayloadsCollection returns length 3 -- 3 users",
 	ExpectedInput: args.Map{
 		"length":    3,
 		"firstName": "Alice",

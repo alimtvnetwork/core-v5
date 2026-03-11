@@ -7,7 +7,7 @@ import (
 
 var integerCompareTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Integer returns Equal for same values",
+		Title: "Integer returns Equal -- same values 5 and 5",
 		ArrangeInput: args.Map{
 			"when":  "given equal integers",
 			"left":  5,
@@ -16,7 +16,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "Equal", // compareResult
 	},
 	{
-		Title: "Integer returns LeftLess when left < right",
+		Title: "Integer returns LeftLess -- left 3 right 7",
 		ArrangeInput: args.Map{
 			"when":  "given left less than right",
 			"left":  3,
@@ -25,7 +25,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "LeftLess", // compareResult
 	},
 	{
-		Title: "Integer returns LeftGreater when left > right",
+		Title: "Integer returns LeftGreater -- left 10 right 2",
 		ArrangeInput: args.Map{
 			"when":  "given left greater than right",
 			"left":  10,
@@ -37,7 +37,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 
 var isStringsEqualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsStringsEqual returns true for identical slices",
+		Title: "IsStringsEqual returns true -- identical slices",
 		ArrangeInput: args.Map{
 			"when":  "given identical string slices",
 			"left":  []string{"a", "b", "c"},
@@ -46,7 +46,7 @@ var isStringsEqualTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true", // isEqual
 	},
 	{
-		Title: "IsStringsEqual returns false for different slices",
+		Title: "IsStringsEqual returns false -- different values",
 		ArrangeInput: args.Map{
 			"when":  "given different string slices",
 			"left":  []string{"a", "b"},
@@ -55,7 +55,7 @@ var isStringsEqualTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false", // isEqual
 	},
 	{
-		Title: "IsStringsEqual returns false for different lengths",
+		Title: "IsStringsEqual returns false -- different lengths",
 		ArrangeInput: args.Map{
 			"when":  "given slices of different length",
 			"left":  []string{"a"},

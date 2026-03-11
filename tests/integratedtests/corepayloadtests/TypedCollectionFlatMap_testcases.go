@@ -18,7 +18,7 @@ type testUserWithTags struct {
 
 var flatMapTypedPayloadsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloads flattens tags from all users",
+		Title: "FlatMapTypedPayloads returns 6 tags -- 3 users with 2 tags each",
 		ArrangeInput: args.Map{
 			"when": "given 3 users with 2 tags each",
 		},
@@ -37,7 +37,7 @@ var flatMapTypedPayloadsTestCases = []coretestcases.CaseV1{
 
 var flatMapTypedPayloadDataTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloadData flattens tags via data accessor",
+		Title: "FlatMapTypedPayloadData returns 6 tags -- 3 users data accessor",
 		ArrangeInput: args.Map{
 			"when": "given 3 users with 2 tags each via data accessor",
 		},
@@ -56,7 +56,7 @@ var flatMapTypedPayloadDataTestCases = []coretestcases.CaseV1{
 
 var flatMapEmptyCollectionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloads on empty collection returns empty",
+		Title: "FlatMapTypedPayloads returns count 0 -- empty collection",
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
@@ -72,7 +72,7 @@ var flatMapEmptyCollectionTestCases = []coretestcases.CaseV1{
 
 var flatMapNoOutputTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloadData returns empty when mapper returns nil slices",
+		Title: "FlatMapTypedPayloadData returns count 0 -- mapper returns nil slices",
 		ArrangeInput: args.Map{
 			"when": "mapper returns nil for each item",
 		},
@@ -88,7 +88,7 @@ var flatMapNoOutputTestCases = []coretestcases.CaseV1{
 
 var nilWrapperEdgeCaseTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Collection with nil wrapper — IsValid returns false",
+		Title: "TypedPayloadCollection returns isValid false -- nil wrapper in collection",
 		ArrangeInput: args.Map{
 			"when": "collection contains a nil wrapper",
 		},
@@ -105,7 +105,7 @@ var nilWrapperEdgeCaseTestCases = []coretestcases.CaseV1{
 
 var deserializationFailureTestCases = []coretestcases.CaseV1{
 	{
-		Title: "TypedPayloadCollectionFromPayloads skips items with invalid payloads",
+		Title: "TypedPayloadCollectionFromPayloads returns count 2 -- 2 valid 1 invalid payload",
 		ArrangeInput: args.Map{
 			"when":          "2 valid + 1 invalid payload wrappers",
 			"valid_count":   2,
@@ -123,7 +123,7 @@ var deserializationFailureTestCases = []coretestcases.CaseV1{
 
 var collectionDeserializeInvalidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "TypedPayloadCollectionDeserialize with invalid bytes returns error",
+		Title: "TypedPayloadCollectionDeserialize returns error -- invalid JSON bytes",
 		ArrangeInput: args.Map{
 			"when":  "passing invalid json bytes",
 			"bytes": "{{not-json-at-all",

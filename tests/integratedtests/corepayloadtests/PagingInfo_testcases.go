@@ -12,7 +12,7 @@ import (
 
 var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsEqual - both nil should return true",
+		Title: "PagingInfo.IsEqual returns true -- both nil",
 		ArrangeInput: args.Map{
 			"when":       "given both nil",
 			"isLeftNil":  true,
@@ -23,7 +23,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - left nil right non-nil should return false",
+		Title: "PagingInfo.IsEqual returns false -- left nil right non-nil",
 		ArrangeInput: args.Map{
 			"when":                  "given left nil right non-nil",
 			"isLeftNil":             true,
@@ -38,7 +38,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - left non-nil right nil should return false",
+		Title: "PagingInfo.IsEqual returns false -- left non-nil right nil",
 		ArrangeInput: args.Map{
 			"when":                 "given left non-nil right nil",
 			"isLeftNil":            false,
@@ -53,7 +53,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - identical values should return true",
+		Title: "PagingInfo.IsEqual returns true -- identical values",
 		ArrangeInput: args.Map{
 			"when":                  "given identical values",
 			"isLeftNil":             false,
@@ -72,7 +72,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - different TotalPages should return false",
+		Title: "PagingInfo.IsEqual returns false -- different TotalPages",
 		ArrangeInput: args.Map{
 			"when":                  "given different TotalPages",
 			"isLeftNil":             false,
@@ -91,7 +91,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - different CurrentPageIndex should return false",
+		Title: "PagingInfo.IsEqual returns false -- different CurrentPageIndex",
 		ArrangeInput: args.Map{
 			"when":                  "given different CurrentPageIndex",
 			"isLeftNil":             false,
@@ -110,7 +110,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - different PerPageItems should return false",
+		Title: "PagingInfo.IsEqual returns false -- different PerPageItems",
 		ArrangeInput: args.Map{
 			"when":                  "given different PerPageItems",
 			"isLeftNil":             false,
@@ -129,7 +129,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - different TotalItems should return false",
+		Title: "PagingInfo.IsEqual returns false -- different TotalItems",
 		ArrangeInput: args.Map{
 			"when":                  "given different TotalItems",
 			"isLeftNil":             false,
@@ -156,7 +156,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	// --- nil receiver ---
 	{
-		Title: "Nil receiver - all state checks",
+		Title: "PagingInfo returns isEmpty true and all invalid -- nil receiver",
 		ArrangeInput: args.Map{
 			"when":  "given nil PagingInfo",
 			"isNil": true,
@@ -175,7 +175,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	},
 	// --- zero values ---
 	{
-		Title: "Zero values - IsEmpty true, all Has false, all IsInvalid true",
+		Title: "PagingInfo returns isEmpty true and all invalid -- zero values",
 		ArrangeInput: args.Map{
 			"when":             "given zero-value PagingInfo",
 			"isNil":            false,
@@ -198,7 +198,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	},
 	// --- all positive ---
 	{
-		Title: "All positive - IsEmpty false, all Has true, all IsInvalid false",
+		Title: "PagingInfo returns isEmpty false and all valid -- all positive values",
 		ArrangeInput: args.Map{
 			"when":             "given fully populated PagingInfo",
 			"isNil":            false,
@@ -221,7 +221,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	},
 	// --- negative TotalPages ---
 	{
-		Title: "Negative TotalPages - IsInvalidTotalPages true",
+		Title: "PagingInfo returns isInvalidTotalPages true -- negative TotalPages",
 		ArrangeInput: args.Map{
 			"when":             "given negative TotalPages",
 			"isNil":            false,
@@ -244,7 +244,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 	},
 	// --- partial: only TotalPages set ---
 	{
-		Title: "Only TotalPages set - HasTotalPages true others false",
+		Title: "PagingInfo returns hasTotalPages true others false -- only TotalPages set",
 		ArrangeInput: args.Map{
 			"when":             "given only TotalPages populated",
 			"isNil":            false,
@@ -273,7 +273,7 @@ var pagingInfoStateTestCases = []coretestcases.CaseV1{
 
 var pagingInfoCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Clone copies all fields correctly",
+		Title: "PagingInfo.Clone returns all fields preserved -- populated input",
 		ArrangeInput: args.Map{
 			"when":             "given fully populated PagingInfo",
 			"totalPages":       5,
@@ -289,7 +289,7 @@ var pagingInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone of zero-value copies zeros",
+		Title: "PagingInfo.Clone returns all zeros -- zero-value input",
 		ArrangeInput: args.Map{
 			"when":             "given zero-value PagingInfo",
 			"totalPages":       0,
@@ -312,7 +312,7 @@ var pagingInfoCloneTestCases = []coretestcases.CaseV1{
 
 var pagingInfoClonePtrTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ClonePtr nil receiver returns nil",
+		Title: "PagingInfo.ClonePtr returns nil -- nil receiver",
 		ArrangeInput: args.Map{
 			"when":  "given nil PagingInfo pointer",
 			"isNil": true,
@@ -322,7 +322,7 @@ var pagingInfoClonePtrTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "ClonePtr copies all fields",
+		Title: "PagingInfo.ClonePtr returns all fields preserved -- populated pointer",
 		ArrangeInput: args.Map{
 			"when":             "given populated PagingInfo pointer",
 			"isNil":            false,
@@ -378,7 +378,7 @@ func buildPagingInfoPrefixed(input args.Map, prefix string) *corepayload.PagingI
 // ==========================================================================
 
 var pagingInfoClonePtrIndependenceTestCase = coretestcases.CaseV1{
-	Title: "ClonePtr creates independent copy",
+	Title: "PagingInfo.ClonePtr returns independent copy -- mutation test",
 	ExpectedInput: args.Map{
 		"originalTotalPages":  5,
 		"originalCurrentPage": 3,
@@ -386,6 +386,6 @@ var pagingInfoClonePtrIndependenceTestCase = coretestcases.CaseV1{
 }
 
 var pagingInfoCloneIndependenceTestCase = coretestcases.CaseV1{
-	Title:         "Clone creates independent value copy",
+	Title:         "PagingInfo.Clone returns independent value copy -- mutation test",
 	ExpectedInput: args.Map{"originalTotalPages": 5},
 }
