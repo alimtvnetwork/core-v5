@@ -319,7 +319,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus both string slices — same type",
+			Title: "TypeStatus both string slices -- same type",
 			ExpectedInput: args.Map{
 				"isSame":             "true",
 				"isLeftUnknownNull":  "false",
