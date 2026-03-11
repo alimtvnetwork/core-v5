@@ -113,7 +113,7 @@ var bytesErrorOnceCachingTestCases = []bytesErrorOnceTestCase{
 
 var bytesErrorOnceExecuteTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "BytesErrorOnce.Execute returns same as Value",
+		Title: "BytesErrorOnce.Execute returns same result as Value -- 'exec' input",
 		ExpectedInput: args.Map{
 			"executeEqValue": true,
 		},
