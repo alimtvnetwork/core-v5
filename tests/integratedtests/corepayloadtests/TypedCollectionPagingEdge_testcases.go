@@ -23,7 +23,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection page size 1 creates one page per item",
+		Title: "GetPagedCollection returns 3 pages -- 3 items page size 1",
 		ArrangeInput: args.Map{
 			"when":     "3 items with page size 1",
 			"count":    3,
