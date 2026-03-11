@@ -39,7 +39,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "false"},
 	},
 	{
-		Title: "StringTo.Integer fails on empty string",
+		Title: "StringTo.Integer returns error -- empty string",
 		ArrangeInput: args.Map{
 			"when":  "given empty string",
 			"input": "",
