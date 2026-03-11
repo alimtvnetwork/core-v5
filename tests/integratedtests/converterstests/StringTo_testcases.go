@@ -182,7 +182,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "Byte fails on negative value",
+		Title: "StringTo.Byte returns error -- negative value '-1'",
 		ArrangeInput: args.Map{
 			"when":  "given negative value",
 			"input": "-1",
