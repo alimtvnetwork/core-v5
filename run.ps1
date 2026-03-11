@@ -386,7 +386,7 @@ function Invoke-TestCoverage {
     # Target only integratedtests (skip testwrappers — test data only, 0% noise).
     $prevPref = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    $output = & go test -v -count=1 -coverprofile=$coverProfile -coverpkg=./... ./tests/integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
+    $output = & go test -v -count=1 "-coverprofile=$coverProfile" "-coverpkg=./..." "./tests/integratedtests/..." 2>&1 | ForEach-Object { $_.ToString() }
     $exitCode = $LASTEXITCODE
     $ErrorActionPreference = $prevPref
 
