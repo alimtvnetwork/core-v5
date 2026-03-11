@@ -111,7 +111,7 @@ var collectionFilterTestCases = []coretestcases.CaseV1{
 
 var collectionCloneIndependenceTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Clone creates independent copy — mutations don't propagate",
+		Title: "Clone creates independent copy -- mutations don't propagate",
 		ArrangeInput: args.Map{
 			"when":  "given collection cloned then mutated",
 			"items": []string{"x", "y", "z"},

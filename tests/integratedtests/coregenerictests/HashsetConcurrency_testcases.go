@@ -10,12 +10,12 @@ import (
 // ==========================================================================
 
 var hashsetAddLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "AddLock concurrent safety — all items added",
+	Title:         "AddLock concurrent safety -- all items added",
 	ExpectedInput: args.Map{"length": 500},
 }
 
 var hashsetAddSliceLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "AddSliceLock concurrent safety — all batches added",
+	Title:         "AddSliceLock concurrent safety -- all batches added",
 	ExpectedInput: args.Map{"length": 1000},
 }
 
@@ -25,7 +25,7 @@ var hashsetContainsLockConcurrencyTestCase = coretestcases.CaseV1{
 }
 
 var hashsetRemoveLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "RemoveLock concurrent safety — all items removed",
+	Title:         "RemoveLock concurrent safety -- all items removed",
 	ExpectedInput: args.Map{"length": 0},
 }
 

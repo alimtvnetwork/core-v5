@@ -10,12 +10,12 @@ import (
 // ==========================================================================
 
 var collectionAddLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "AddLock concurrent safety — all items added",
+	Title:         "AddLock concurrent safety -- all items added",
 	ExpectedInput: args.Map{"length": 500},
 }
 
 var collectionAddsLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "AddsLock concurrent safety — all batches added",
+	Title:         "AddsLock concurrent safety -- all batches added",
 	ExpectedInput: args.Map{"length": 1000},
 }
 

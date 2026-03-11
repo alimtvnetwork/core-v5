@@ -10,7 +10,7 @@ import (
 // ==========================================================================
 
 var hashmapSetLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "SetLock concurrent safety — all entries added",
+	Title:         "SetLock concurrent safety -- all entries added",
 	ExpectedInput: args.Map{"length": 500},
 }
 
@@ -25,7 +25,7 @@ var hashmapContainsLockConcurrencyTestCase = coretestcases.CaseV1{
 }
 
 var hashmapRemoveLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "RemoveLock concurrent safety — all entries removed",
+	Title:         "RemoveLock concurrent safety -- all entries removed",
 	ExpectedInput: args.Map{"length": 0},
 }
 

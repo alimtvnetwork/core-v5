@@ -434,7 +434,7 @@ var infoCloneTestCases = []coretestcases.CaseV1{
 
 var infoFieldCheckPopulatedTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Info with all fields populated — Has checks return true",
+		Title: "Info with all fields populated -- Has checks return true",
 		ArrangeInput: args.Map{
 			"when": "given fully populated info",
 		},
@@ -452,7 +452,7 @@ var infoFieldCheckPopulatedTestCases = []coretestcases.CaseV1{
 
 var infoFieldCheckEmptyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Empty info — Has checks return false",
+		Title: "Empty info -- Has checks return false",
 		ArrangeInput: args.Map{
 			"when": "given empty info",
 		},

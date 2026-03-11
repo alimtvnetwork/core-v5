@@ -319,7 +319,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus both string slices — same type",
+			Title: "TypeStatus both string slices -- same type",
 			ExpectedInput: args.Map{
 				"isSame":             "true",
 				"isLeftUnknownNull":  "false",
@@ -333,7 +333,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus different slice types — string vs int",
+			Title: "TypeStatus different slice types -- string vs int",
 			ExpectedInput: args.Map{
 				"isSame":             "false",
 				"isLeftUnknownNull":  "false",
@@ -347,7 +347,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus empty slice vs non-empty slice — same type",
+			Title: "TypeStatus empty slice vs non-empty slice -- same type",
 			ExpectedInput: args.Map{
 				"isSame":             "true",
 				"isLeftUnknownNull":  "false",
@@ -364,7 +364,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus both map[string]string — same type",
+			Title: "TypeStatus both map[string]string -- same type",
 			ExpectedInput: args.Map{
 				"isSame":             "true",
 				"isLeftUnknownNull":  "false",
@@ -378,7 +378,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus different map types — map[string]string vs map[string]int",
+			Title: "TypeStatus different map types -- map[string]string vs map[string]int",
 			ExpectedInput: args.Map{
 				"isSame":             "false",
 				"isLeftUnknownNull":  "false",
@@ -395,7 +395,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus pointer vs value same underlying — IsSameRegardlessPointer true",
+			Title: "TypeStatus pointer vs value same underlying -- IsSameRegardlessPointer true",
 			ExpectedInput: args.Map{
 				"isSame":                  "false",
 				"isSameRegardlessPointer": "true",

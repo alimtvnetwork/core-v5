@@ -424,7 +424,7 @@ var specificationCloneNilTestCase = coretestcases.CaseV1{
 }
 
 var specificationCloneDeepCopyTestCase = coretestcases.CaseV1{
-	Title: "Clone deep copies Tags — mutation does not affect original",
+	Title: "Clone deep copies Tags -- mutation does not affect original",
 	ExpectedInput: args.Map{
 		"originalTag0": "a",
 		"cloneTag0":    "MUTATED",
