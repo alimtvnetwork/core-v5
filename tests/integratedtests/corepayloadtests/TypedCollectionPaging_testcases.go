@@ -145,7 +145,7 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPagedWithInfoTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollectionWithInfo returns correct PagingInfo per page",
+		Title: "GetPagedCollectionWithInfo returns correct PagingInfo -- 5 items page size 2",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 2",
 			"count":    5,
