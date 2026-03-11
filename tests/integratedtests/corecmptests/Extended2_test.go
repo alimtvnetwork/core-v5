@@ -19,16 +19,24 @@ func Test_IsStringsEqualPtr_Verification(t *testing.T) {
 		var left, right []string
 		if !leftNil {
 			rawLeft, has := input.Get("left")
-			if has && rawLeft != nil {
-				left = rawLeft.([]string)
+			if has {
+				if sl, ok := rawLeft.([]string); ok {
+					left = sl
+				} else {
+					left = []string{}
+				}
 			} else {
 				left = []string{}
 			}
 		}
 		if !rightNil {
 			rawRight, has := input.Get("right")
-			if has && rawRight != nil {
-				right = rawRight.([]string)
+			if has {
+				if sl, ok := rawRight.([]string); ok {
+					right = sl
+				} else {
+					right = []string{}
+				}
 			} else {
 				right = []string{}
 			}
