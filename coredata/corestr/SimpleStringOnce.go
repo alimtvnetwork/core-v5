@@ -76,10 +76,8 @@ func (it *SimpleStringOnce) ValueBytes() []byte {
 	return []byte(it.value)
 }
 
-func (it *SimpleStringOnce) ValueBytesPtr() *[]byte {
-	allBytes := []byte(it.value)
-
-	return &allBytes
+func (it *SimpleStringOnce) ValueBytesPtr() []byte {
+	return []byte(it.value)
 }
 
 // SetOnUninitialized

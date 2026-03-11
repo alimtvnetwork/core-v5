@@ -82,9 +82,9 @@ func (it stringTo) IntegersConditional(
 	stringInput,
 	separator string,
 	processor func(in string) (out int, isTake, isBreak bool),
-) *[]int {
+) []int {
 	if stringInput == "" {
-		return &[]int{}
+		return []int{}
 	}
 
 	splits := strings.Split(stringInput, separator)
@@ -102,7 +102,7 @@ func (it stringTo) IntegersConditional(
 		}
 	}
 
-	return &results
+	return results
 }
 
 func (it stringTo) IntegerMust(

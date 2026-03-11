@@ -90,10 +90,8 @@ func (it *ValidValue) ValueBytesOnce() []byte {
 }
 
 // Deprecated: Use ValueBytesOnce() instead. Returns []byte directly.
-func (it *ValidValue) ValueBytesOncePtr() *[]byte {
-	bytes := it.ValueBytesOnce()
-
-	return &bytes
+func (it *ValidValue) ValueBytesOncePtr() []byte {
+	return it.ValueBytesOnce()
 }
 
 func (it *ValidValue) IsEmpty() bool {
