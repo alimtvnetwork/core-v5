@@ -21,7 +21,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagesSize returns exact page count when evenly divisible",
+		Title: "GetPagesSize returns 2 -- 10 items page size 5 evenly divisible",
 		ArrangeInput: args.Map{
 			"when":     "10 items with page size 5",
 			"count":    10,
