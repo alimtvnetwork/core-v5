@@ -395,6 +395,56 @@ func (it *DynamicMap) DiffRaw(
 	return diffMap
 }
 
+// diffLeftSide collects diffs from left map against right map.
+func (it *DynamicMap) diffLeftSide(
+	differChecker DifferChecker,
+	isRegardlessType bool,
+	rightMap map[string]any,
+	diffMap map[string]any,
+) {
+	for key, leftValInf := range *it {
+		rightValInf, has := rightMap[key]
+
+		if !has {
+			diffMap[key] = differChecker.GetResultOnKeyMissingInRightExistInLeft(
+				key,
+				leftValInf,
+			)
+			continue
+		}
+
+		if !differChecker.IsEqual(isRegardlessType, leftValInf, rightValInf) {
+			diffMap[key] = differChecker.GetSingleDiffResult(true, leftValInf, rightValInf)
+		}
+	}
+}
+
+// diffRightSide collects diffs from right map against left map.
+func (it *DynamicMap) diffRightSide(
+	differChecker DifferChecker,
+	isRegardlessType bool,
+	leftMap map[string]any,
+	rightMap map[string]any,
+	diffMap map[string]any,
+) {
+	for rightKey, rightAnyVal := range rightMap {
+		if _, hasDiff := diffMap[rightKey]; hasDiff {
+			continue
+		}
+
+		leftVal, has := leftMap[rightKey]
+
+		if !has {
+			diffMap[rightKey] = differChecker.GetSingleDiffResult(false, leftVal, rightAnyVal)
+			continue
+		}
+
+		if !differChecker.IsEqual(isRegardlessType, leftVal, rightAnyVal) {
+			diffMap[rightKey] = differChecker.GetSingleDiffResult(false, leftVal, rightAnyVal)
+		}
+	}
+}
+
 func (it *DynamicMap) DiffRawUsingDifferChecker(
 	differChecker DifferChecker,
 	isRegardlessType bool,
@@ -413,78 +463,15 @@ func (it *DynamicMap) DiffRawUsingDifferChecker(
 	}
 
 	length := it.Length() / 3
-	diffMap := make(
-		map[string]any,
-		length,
-	)
+	diffMap := make(map[string]any, length)
 
-	for key, leftValInf := range *it {
-		rightValInf, has := rightMap[key]
-
-		if !has {
-			diffMap[key] = differChecker.GetResultOnKeyMissingInRightExistInLeft(
-				key,
-				leftValInf,
-			)
-
-			continue
-		}
-
-		isNotEqual := !differChecker.IsEqual(
-			isRegardlessType,
-			leftValInf,
-			rightValInf,
-		)
-
-		if isNotEqual {
-			diffMap[key] = differChecker.GetSingleDiffResult(
-				true,
-				leftValInf,
-				rightValInf,
-			)
-		}
-	}
+	it.diffLeftSide(differChecker, isRegardlessType, rightMap, diffMap)
 
 	if len(diffMap) == 0 && it.Length() == len(rightMap) {
 		return diffMap
 	}
 
-	leftMap := *it
-	for rightKey, rightAnyVal := range rightMap {
-		_, hasDiff := diffMap[rightKey]
-
-		if hasDiff {
-			// already added
-
-			continue
-		}
-
-		leftVal, has := leftMap[rightKey]
-
-		if !has {
-			diffMap[rightKey] = differChecker.GetSingleDiffResult(
-				false,
-				leftVal,
-				rightAnyVal,
-			)
-
-			continue
-		}
-
-		isNotEqual := !differChecker.IsEqual(
-			isRegardlessType,
-			leftVal,
-			rightAnyVal,
-		)
-
-		if isNotEqual {
-			diffMap[rightKey] = differChecker.GetSingleDiffResult(
-				false,
-				leftVal,
-				rightAnyVal,
-			)
-		}
-	}
+	it.diffRightSide(differChecker, isRegardlessType, *it, rightMap, diffMap)
 
 	return diffMap
 }
