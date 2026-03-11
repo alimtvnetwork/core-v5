@@ -77,7 +77,7 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetSinglePageCollection returns entire collection when smaller than page size",
+		Title: "GetSinglePageCollection returns all 3 items -- page size 10 larger than count",
 		ArrangeInput: args.Map{
 			"when":      "3 items with page size 10",
 			"count":     3,
