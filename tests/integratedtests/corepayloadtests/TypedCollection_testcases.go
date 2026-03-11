@@ -159,7 +159,7 @@ var typedCollectionAllDataTestCases = []coretestcases.CaseV1{
 
 var typedCollectionElementAccessTestCases = []coretestcases.CaseV1{
 	{
-		Title: "First and Last return correct elements",
+		Title: "TypedPayloadCollection.First returns 'Alice' and Last returns 'Carol' -- 3 users",
 		ArrangeInput: args.Map{
 			"when": "accessing first and last",
 		},
