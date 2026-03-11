@@ -11,7 +11,7 @@ import (
 
 var lazyRegexFullStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FullString on valid pattern returns non-empty JSON",
+		Title: "LazyRegex.FullString returns non-empty -- valid pattern '\\d+'",
 		ArrangeInput: args.Map{
 			"pattern": "\\d+",
 		},
