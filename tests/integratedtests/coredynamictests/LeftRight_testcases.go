@@ -333,7 +333,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus different slice types — string vs int",
+			Title: "TypeStatus different slice types -- string vs int",
 			ExpectedInput: args.Map{
 				"isSame":             "false",
 				"isLeftUnknownNull":  "false",
