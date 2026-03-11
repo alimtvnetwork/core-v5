@@ -107,7 +107,7 @@ var integersOnceRangesTestCases = []integersOnceTestCase{
 var integersOnceIsEqualTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [1,2,3] -- IsEqual same true, different false",
+			Title: "IntegersOnce.IsEqual returns true for same and false for different -- [1,2,3] input",
 			ExpectedInput: args.Map{
 				"isEqualSame":    true,
 				"isEqualDiff":    false,
