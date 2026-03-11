@@ -472,13 +472,22 @@ function Invoke-TestCoverage {
 
     if (Test-Path $coverProfile) {
         # Generate func-level summary
+        Write-Host "  [debug] coverProfile = $coverProfile" -ForegroundColor DarkGray
+        Write-Host "  [debug] coverHtml    = $coverHtml" -ForegroundColor DarkGray
+        Write-Host "  [debug] file exists  = $(Test-Path $coverProfile)" -ForegroundColor DarkGray
+
         $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
-        # Generate HTML report
-        $htmlErr = & go tool cover "-html=$coverProfile" "-o=$coverHtml" 2>&1
-        if (-not (Test-Path $coverHtml)) {
-            Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html'" -ForegroundColor Red
-            if ($htmlErr) { Write-Host "  $htmlErr" -ForegroundColor Red }
+        # Generate HTML report — use explicit argument list to avoid variable interpolation issues
+        $htmlArgs = @("-html=$coverProfile", "-o=$coverHtml")
+        Write-Host "  [debug] go tool cover args: $($htmlArgs -join ' ')" -ForegroundColor DarkGray
+        $htmlErr = & go tool cover $htmlArgs 2>&1
+        $htmlExitCode = $LASTEXITCODE
+
+        if ($htmlExitCode -ne 0 -or -not (Test-Path $coverHtml)) {
+            Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html' (exit: $htmlExitCode)" -ForegroundColor Red
+            if ($htmlErr) { Write-Host "  Error: $htmlErr" -ForegroundColor Red }
+            Write-Host "  [debug] Attempted command: go tool cover -html=`"$coverProfile`" -o=`"$coverHtml`"" -ForegroundColor DarkGray
             # Fallback: generate a basic HTML from the func output
             $fallbackHtml = @"
 <!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>
@@ -742,7 +751,8 @@ function Invoke-PackageTestCoverage {
 
     if (Test-Path $coverProfile) {
         $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
-        & go tool cover "-html=$coverProfile" "-o=$coverHtml" 2>&1 | Out-Null
+        $htmlArgs = @("-html=$coverProfile", "-o=$coverHtml")
+        & go tool cover $htmlArgs 2>&1 | Out-Null
 
         $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         $summaryLines = [System.Collections.Generic.List[string]]::new()
