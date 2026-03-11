@@ -423,17 +423,17 @@ function Invoke-TestCoverage {
         $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
 
         # Parse partial profile for THIS package's source coverage only
-        # (not all packages, which are included via -coverpkg)
         $partialPct = ""
         if (Test-Path $partialProfile) {
-            # Build a match pattern for the source package path
-            # e.g. "anycmp" -> match lines starting with "github.com/alimtvnetwork/core/anycmp/"
             $srcMatchPattern = $srcTarget -replace '/', '/'
             $pStmts = 0; $pCovered = 0
+            $pTotalLines = 0; $pMatchedLines = 0
             foreach ($pLine in (Get-Content $partialProfile)) {
                 if ($pLine -match "^mode:") { continue }
+                $pTotalLines++
                 # Only count lines belonging to this specific source package
                 if ($pLine -notmatch "/$srcMatchPattern/") { continue }
+                $pMatchedLines++
                 if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
                     $pStmts += [int]$Matches[1]
                     if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
@@ -442,6 +442,8 @@ function Invoke-TestCoverage {
             if ($pStmts -gt 0) {
                 $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
             }
+            # Debug: show filter effectiveness
+            Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
         }
 
         Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
