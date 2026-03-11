@@ -79,7 +79,7 @@ var typedWrapperCloneTestCases = []coretestcases.CaseV1{
 
 var typedWrapperSetDataTestCases = []coretestcases.CaseV1{
 	{
-		Title: "SetTypedData updates both typed data and raw payloads",
+		Title: "TypedPayloadWrapper.SetTypedData returns updated values -- 'Before' to 'After'",
 		ArrangeInput: args.Map{
 			"name": "set-data", "id": "sd-1",
 			"sku": "SD-SKU", "title": "Before", "price": 10.0,
