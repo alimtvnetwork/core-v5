@@ -404,6 +404,9 @@ function Invoke-TestCoverage {
         $pkgIndex++
         $shortName = $testPkg -replace '.*integratedtests/?', ''
         if (-not $shortName) { $shortName = "(root)" }
+        # Derive the source package being tested (e.g. "chmodhelpertests" -> "chmodhelper")
+        $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
+        if (-not $srcTarget) { $srcTarget = $shortName }
 
         $partialProfile = Join-Path $partialDir "cover-$pkgIndex.out"
 
