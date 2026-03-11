@@ -74,7 +74,7 @@ var integersOnceSortedTestCases = []integersOnceTestCase{
 var integersOnceRangesTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [10,20,30] -- RangesMap and RangesBoolMap",
+			Title: "IntegersOnce returns rangesMapLength 3 -- [10,20,30] input",
 			ExpectedInput: args.Map{
 				"rangesMapLength":    3,
 				"rangesBoolMapLen":   3,
