@@ -13,7 +13,13 @@ var resultIsEmptyTestCases = []coretestcases.CaseV1{
 	{
 		Title: "IsEmpty - empty bytes returns true",
 		ArrangeInput: args.Map{
-			"result": corejson.NewResult.UsingBytes([]byte{}),
+			"result": func() *corejson.Result {
+				r := corejson.NewResult.UsingBytes([]byte{})
+				return &r
+			}(),
+		},
+		ExpectedInput: "true", // isEmpty
+	},
 		},
 		ExpectedInput: "true", // isEmpty
 	},

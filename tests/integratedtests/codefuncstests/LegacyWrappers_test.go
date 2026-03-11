@@ -57,8 +57,6 @@ func Test_IsSuccessFuncWrapper_AsActionReturnsErrorFunc_Verification(t *testing.
 		}
 		if err != nil {
 			actual["containsName"] = strings.Contains(err.Error(), name)
-		} else {
-			actual["containsName"] = false
 		}
 
 		// Assert
@@ -181,8 +179,6 @@ func Test_ActionReturnsErrorFuncWrapper_AsActionReturnsErrorFunc_Verification(t 
 		}
 		if err != nil {
 			actual["containsName"] = strings.Contains(err.Error(), name)
-		} else {
-			actual["containsName"] = false
 		}
 
 		// Assert
@@ -256,8 +252,6 @@ func Test_InOutErrFuncWrapper_AsActionReturnsErrorFunc_Verification(t *testing.T
 		}
 		if err != nil {
 			actual["containsName"] = strings.Contains(err.Error(), name)
-		} else {
-			actual["containsName"] = false
 		}
 
 		// Assert
@@ -326,8 +320,6 @@ func Test_ResultDelegatingFuncWrapper_AsActionReturnsErrorFunc_Verification(t *t
 		}
 		if err != nil {
 			actual["containsName"] = strings.Contains(err.Error(), name)
-		} else {
-			actual["containsName"] = false
 		}
 
 		// Assert

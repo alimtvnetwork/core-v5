@@ -44,8 +44,8 @@ func (it *WrappedErr) IsInvalidException() bool {
 
 func (it *WrappedErr) HasErrorOrException() bool {
 	return it != nil &&
-		it.HasError ||
-		it.HasThrown
+		(it.HasError ||
+			it.HasThrown)
 }
 
 func (it *WrappedErr) IsBothPresent() bool {

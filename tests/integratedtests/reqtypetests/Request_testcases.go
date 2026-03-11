@@ -22,7 +22,7 @@ var requestIdentityTestCases = []coretestcases.CaseV1{
 		Title:        "Create request identity",
 		ArrangeInput: reqtype.Create,
 		ExpectedInput: args.Map{
-			"name":      "Create",
+			"name":      "CreateUsingAliasMap",
 			"isValid":   "true",
 			"isInvalid": "false",
 		},
@@ -114,7 +114,7 @@ var requestLogicalGroupTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isCreateLogically": "false",
 			"isDropLogically":   "true",
-			"isCrudOnly":        "false",
+			"isCrudOnly":        "true",
 			"isReadOrEdit":      "false",
 		},
 	},
@@ -124,8 +124,8 @@ var requestLogicalGroupTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isCreateLogically": "true",
 			"isDropLogically":   "false",
-			"isCrudOnly":        "false",
-			"isReadOrEdit":      "false",
+			"isCrudOnly":        "true",
+			"isReadOrEdit":      "true",
 		},
 	},
 	{

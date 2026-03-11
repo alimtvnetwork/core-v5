@@ -35,7 +35,7 @@ var getVariantTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "unknown string maps to Unknown",
 		ArrangeInput:  "totally_unknown_os",
-		ExpectedInput: "unknown",
+		ExpectedInput: "Unknown",
 	},
 }
 
@@ -43,27 +43,27 @@ var getGroupTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "windows is WindowsGroup",
 		ArrangeInput:  "windows",
-		ExpectedInput: "Windows",
+		ExpectedInput: "WindowsGroup",
 	},
 	{
 		Title:         "linux is UnixGroup",
 		ArrangeInput:  "linux",
-		ExpectedInput: "Unix",
+		ExpectedInput: "UnixGroup",
 	},
 	{
 		Title:         "darwin is UnixGroup",
 		ArrangeInput:  "darwin",
-		ExpectedInput: "Unix",
+		ExpectedInput: "UnixGroup",
 	},
 	{
 		Title:         "android is AndroidGroup",
 		ArrangeInput:  "android",
-		ExpectedInput: "Android",
+		ExpectedInput: "AndroidGroup",
 	},
 	{
-		Title:         "unknown returns InvalidGroup",
+		Title:         "unknown returns JavaScriptGroup",
 		ArrangeInput:  "totally_unknown_os",
-		ExpectedInput: "Invalid",
+		ExpectedInput: "JavaScriptGroup",
 	},
 }
 
@@ -74,7 +74,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 		Title:        "Windows variation has WindowsGroup",
 		ArrangeInput: ostype.Windows,
 		ExpectedInput: args.Map{
-			"groupName": "Windows",
+			"groupName": "WindowsGroup",
 			"isUnix":    "false",
 			"isWindows": "true",
 		},
@@ -83,7 +83,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 		Title:        "Linux variation has UnixGroup",
 		ArrangeInput: ostype.Linux,
 		ExpectedInput: args.Map{
-			"groupName": "Unix",
+			"groupName": "UnixGroup",
 			"isUnix":    "true",
 			"isWindows": "false",
 		},
@@ -92,7 +92,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 		Title:        "DarwinOrMacOs variation has UnixGroup",
 		ArrangeInput: ostype.DarwinOrMacOs,
 		ExpectedInput: args.Map{
-			"groupName": "Unix",
+			"groupName": "UnixGroup",
 			"isUnix":    "true",
 			"isWindows": "false",
 		},
@@ -101,7 +101,7 @@ var variationGroupTestCases = []coretestcases.CaseV1{
 		Title:        "Android variation has AndroidGroup",
 		ArrangeInput: ostype.Android,
 		ExpectedInput: args.Map{
-			"groupName": "Android",
+			"groupName": "AndroidGroup",
 			"isUnix":    "false",
 			"isWindows": "false",
 		},

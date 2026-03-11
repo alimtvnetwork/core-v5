@@ -167,7 +167,7 @@ var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 		Case: coretestcases.CaseV1{
 			Title: "ErrorOnce nil -- ConcatNewString returns only additional message",
 			ExpectedInput: args.Map{
-				"result": "only",
+				"result": "\"only\"",
 			},
 		},
 		InitError: "",

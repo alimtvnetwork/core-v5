@@ -196,7 +196,8 @@ func (it *SimpleSlice) InsertAt(
 	}
 
 	s := *it
-	s = append(s[:index+1], s[index:]...)
+	s = append(s, "")
+	copy(s[index+1:], s[index:])
 	s[index] = item
 	*it = s
 

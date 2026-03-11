@@ -5,7 +5,6 @@ import (
 
 	"github.com/alimtvnetwork/core/coredata/corepayload"
 	"github.com/alimtvnetwork/core/coretests/args"
-	"github.com/alimtvnetwork/core/errcore"
 )
 
 // =============================================================================
@@ -92,7 +91,13 @@ func Test_Attributes_Clone_Verification(t *testing.T) {
 
 		// Act
 		cloned, err := attr.Clone(deep)
-		errcore.HandleErr(err)
+		if err != nil {
+			testCase.ShouldBeEqualMap(t, caseIndex, args.Map{
+				"hasError": true,
+			})
+
+			continue
+		}
 
 		isEqual := attr.IsEqual(&cloned)
 

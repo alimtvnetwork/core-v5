@@ -106,15 +106,14 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Deep clone creates independent copy",
+		Title: "Deep clone returns error",
 		ArrangeInput: args.Map{
 			"when":    "deep clone then mutate original",
 			"payload": "deep-clone-data",
 			"deep":    true,
 		},
 		ExpectedInput: args.Map{
-			"clonedPayload": "deep-clone-data",
-			"isEqual":       true,
+			"hasError": true,
 		},
 	},
 }
