@@ -211,7 +211,7 @@ func Test_RangeSegmentsValidator_SetActual(t *testing.T) {
 		validators := v.Validators()
 		actual := args.Map{
 			"returnsSelf": result == v,
-			"isMatch":     validators.IsMatch(),
+			"isMatch":     validators.IsMatch(true),
 		}
 
 		// Assert
