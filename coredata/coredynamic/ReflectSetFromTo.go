@@ -18,7 +18,7 @@ import (
 //   - From, To: (null, null)                          -- do nothing
 //   - From, To: (sameTypePointer, sameTypePointer)    -- try reflection
 //   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
-//   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
+//   - From, To: ([]byte, otherType)                   -- try unmarshal, reflect
 //   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
 //
 // Validations:
@@ -85,10 +85,8 @@ func ReflectSetFromTo(
 	}
 
 	isLeftBytes := leftRfType == emptyBytesType
-	isLeftPointerBytes := leftRfType == emptyBytesPointerType
-	isLeftBytesOrPointerBytes := isLeftBytes || isLeftPointerBytes
 	isRightBytesPointer := rightRfType == emptyBytesPointerType
-	isAnyBytes := isLeftBytesOrPointerBytes || isRightBytesPointer
+	isAnyBytes := isLeftBytes || isRightBytesPointer
 
 	// case : From, To  : (sameTypePointer, sameTypePointer)    -- try reflection
 	if leftRfType == rightRfType {
@@ -117,23 +115,12 @@ func ReflectSetFromTo(
 			)
 	}
 
-	// case : From, To  : ([]byte or *[]byte, otherType)  -- try unmarshal, reflect
+	// case : From, To  : ([]byte, otherType)  -- try unmarshal, reflect
 	if isLeftBytes {
 		return corejson.
 			Deserialize.
 			UsingBytes(
 				from.([]byte),
-				toPointer,
-			)
-	}
-
-	// case : From, To  : (*[]byte, otherType) -- try unmarshal, reflect
-	if isLeftPointerBytes {
-		bytesPtr := from.(*[]byte)
-		return corejson.
-			Deserialize.
-			UsingBytesPointer(
-				*bytesPtr,
 				toPointer,
 			)
 	}
