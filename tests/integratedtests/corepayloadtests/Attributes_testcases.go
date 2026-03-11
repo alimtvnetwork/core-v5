@@ -171,7 +171,7 @@ var authInfoCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Clone preserves Identifier field",
+		Title: "AuthInfo.ClonePtr returns preserved Identifier -- populated auth info",
 		ArrangeInput: args.Map{
 			"when":          "auth info has identifier",
 			"identifier":    "user-42",
