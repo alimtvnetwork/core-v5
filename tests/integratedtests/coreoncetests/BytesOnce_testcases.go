@@ -22,7 +22,7 @@ type bytesOnceTestCase struct {
 var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesOnce 'hello' -- Value, String, IsEmpty false, Length 5",
+			Title: "BytesOnce returns length 5 and isEmpty false -- 'hello' input",
 			ExpectedInput: args.Map{
 				"stringOfValue": "hello",
 				"stringMethod":  "hello",
