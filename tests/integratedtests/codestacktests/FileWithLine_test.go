@@ -28,11 +28,9 @@ func Test_FileWithLine_Verification(t *testing.T) {
 		}
 
 		// Assert
-		expected := testCase.ExpectedInput.(args.Map)
 		testCase.ShouldBeEqualMap(
 			t,
 			caseIndex,
-			expected,
 			actual,
 		)
 	}

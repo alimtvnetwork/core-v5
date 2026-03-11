@@ -57,11 +57,9 @@ func Test_Compare_JsonRoundtrip(t *testing.T) {
 			"unmarshaledValue": numberString,
 		}
 
-		expected := testCase.ExpectedInput.(args.Map)
 		testCase.ShouldBeEqualMap(
 			t,
 			caseIndex,
-			expected,
 			actual,
 		)
 	}

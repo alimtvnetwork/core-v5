@@ -26,7 +26,7 @@ func assertReflectSetFromToBase(
 
 	actLines = []string{
 		fmt.Sprintf("%v", err == nil),
-		fmt.Sprintf("%v", typeStatus.IsSame()),
+		fmt.Sprintf("%v", typeStatus.IsSame),
 	}
 	expected = []string{"true", "true"}
 
