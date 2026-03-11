@@ -34,10 +34,13 @@ var params = struct {
 	isInvalid     string
 	isNoError     string
 	isCustomError string
+	errorContains string
 
 	// Expected keys — misc
-	isNotEmpty string
-	panicked   string
+	isNotEmpty  string
+	panicked    string
+	samePointer string
+	mapLength   string
 }{
 	// Input keys
 	pattern:      "pattern",
