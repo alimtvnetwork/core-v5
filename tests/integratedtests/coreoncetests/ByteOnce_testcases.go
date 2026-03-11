@@ -32,7 +32,7 @@ var byteOnceCoreTestCases = []byteOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 0 -- IsZero true, IsEmpty true",
+			Title: "ByteOnce returns isZero true and isEmpty true -- input 0",
 			ExpectedInput: args.Map{
 				"value":      0,
 				"int":        0,
