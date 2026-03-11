@@ -521,7 +521,7 @@ func Test_DirCreator_IfMissing(t *testing.T) {
 	defer os.RemoveAll(dir)
 
 	// Act
-	err := chmodhelper.SimpleFileWriter.DirCreator.IfMissing(os.FileMode(0755), dir)
+	err := chmodhelper.SimpleFileWriter.CreateDir.IfMissing(os.FileMode(0755), dir)
 
 	// Assert
 	if err != nil {
