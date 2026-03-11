@@ -75,8 +75,11 @@ var params = struct {
 	isInvalid:     "isInvalid",
 	isNoError:     "isNoError",
 	isCustomError: "isCustomError",
+	errorContains: "errorContains",
 
 	// Expected keys — misc
-	isNotEmpty: "isNotEmpty",
-	panicked:   "panicked",
+	isNotEmpty:  "isNotEmpty",
+	panicked:    "panicked",
+	samePointer: "samePointer",
+	mapLength:   "mapLength",
 }
