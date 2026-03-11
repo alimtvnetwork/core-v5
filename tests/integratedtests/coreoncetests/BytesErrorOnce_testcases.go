@@ -397,7 +397,7 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 var bytesErrorOnceInitializedTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.IsInitialized false before, true after Value call",
+			Title: "BytesErrorOnce.IsInitialized returns false before and true after Value call -- 'x' input",
 			ExpectedInput: args.Map{
 				"isInitializedBefore": false,
 				"isInitializedAfter":  true,
