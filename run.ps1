@@ -10,6 +10,7 @@
         T   | -t   | test          Run all tests (verbose)
         TP  | -tp  | test-pkg      Run tests for a specific package: ./run.ps1 TP regexnewtests
         TC  | -tc  | test-cover    Run tests with coverage
+        TCP | -tcp | test-cover-pkg Run coverage for a specific package: ./run.ps1 TCP regexnewtests
         TI  | -ti  | test-int      Run integrated tests only
         TF  | -tf  | test-fail     Show last failing tests log
         GC  | -gc  | goconvey      Launch GoConvey (browser test runner)
@@ -473,6 +474,110 @@ function Invoke-TestCoverage {
     Open-FailingTestsIfAny
 }
 
+function Invoke-PackageTestCoverage {
+    param([string]$pkg)
+
+    if (-not $pkg) {
+        Write-Fail "Usage: ./run.ps1 TCP <package-name>"
+        Write-Host "  Example: ./run.ps1 TCP regexnewtests" -ForegroundColor Gray
+        return
+    }
+
+    Write-Header "Running coverage for package: $pkg"
+    Invoke-FetchLatest
+    Push-Location tests
+    try {
+        $testPath = "./integratedtests/$pkg/..."
+        if (-not (Invoke-BuildCheck $testPath)) { return }
+
+        $coverDir = Join-Path $PSScriptRoot "data" "coverage"
+        if (-not (Test-Path $coverDir)) {
+            New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
+        }
+
+        $coverProfile = Join-Path $coverDir "coverage-$pkg.out"
+        $coverHtml    = Join-Path $coverDir "coverage-$pkg.html"
+        $coverSummary = Join-Path $coverDir "coverage-$pkg-summary.txt"
+
+        $coverpkg = "github.com/alimtvnetwork/core/..."
+
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $output = & go test -v -count=1 -coverprofile=$coverProfile -coverpkg=$coverpkg $testPath 2>&1 | ForEach-Object { $_.ToString() }
+        $exitCode = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
+        $output | ForEach-Object { Write-Host $_ }
+        Write-TestLogs $output
+
+        if (Test-Path $coverProfile) {
+            $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
+            & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
+
+            $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+            $summaryLines = [System.Collections.Generic.List[string]]::new()
+            $summaryLines.Add("# Coverage Summary ($pkg) — $timestamp")
+            $summaryLines.Add("")
+
+            $totalLine = $funcOutput | Where-Object { $_ -match "^total:" } | Select-Object -Last 1
+            if ($totalLine) {
+                $summaryLines.Add("## Total Coverage")
+                $summaryLines.Add("  $totalLine")
+                $summaryLines.Add("")
+            }
+
+            $lowCovFuncs = [System.Collections.Generic.List[string]]::new()
+            foreach ($line in $funcOutput) {
+                if ($line -match "(\d+\.\d+)%\s*$" -and $line -notmatch "^total:") {
+                    $pct = [double]$Matches[1]
+                    if ($pct -lt 50.0) {
+                        $lowCovFuncs.Add("  $line")
+                    }
+                }
+            }
+
+            if ($lowCovFuncs.Count -gt 0) {
+                $summaryLines.Add("## Low Coverage Functions (< 50%)")
+                $summaryLines.Add("  Count: $($lowCovFuncs.Count)")
+                $summaryLines.Add("")
+                foreach ($f in $lowCovFuncs) { $summaryLines.Add($f) }
+                $summaryLines.Add("")
+            }
+
+            $summaryLines.Add("## Reports")
+            $summaryLines.Add("  Profile:  $coverProfile")
+            $summaryLines.Add("  HTML:     $coverHtml")
+            $summaryLines.Add("  Summary:  $coverSummary")
+
+            Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
+
+            Write-Host ""
+            if ($totalLine) {
+                Write-Host "  $totalLine" -ForegroundColor Cyan
+            }
+            Write-Host ""
+            Write-Success "Coverage profile:  $coverProfile"
+            Write-Success "HTML report:       $coverHtml"
+            Write-Success "Summary:           $coverSummary"
+
+            if ($lowCovFuncs.Count -gt 0) {
+                Write-Host ""
+                Write-Host "  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
+            }
+
+            $openHtml = $true
+            if ($ExtraArgs -and $ExtraArgs[-1] -eq "--no-open") { $openHtml = $false }
+            if ($openHtml -and (Test-Path $coverHtml)) {
+                Write-Host ""
+                Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
+                Start-Process $coverHtml
+            }
+        }
+    }
+    finally { Pop-Location }
+    Open-FailingTestsIfAny
+}
+
 function Invoke-IntegratedTests {
     Write-Header "Running integrated tests only"
     Invoke-FetchLatest
@@ -600,6 +705,7 @@ function Show-Help {
     Write-Host "    T   | -t   | test          Run all tests (verbose)"
     Write-Host "    TP  | -tp  | test-pkg      Run tests for a specific package"
     Write-Host "    TC  | -tc  | test-cover    Run tests with coverage (HTML + summary)"
+    Write-Host "    TCP | -tcp | test-cover-pkg Run coverage for a specific package"
     Write-Host "    TI  | -ti  | test-int      Run integrated tests only"
     Write-Host "    TF  | -tf  | test-fail     Show last failing tests log"
     Write-Host "    GC  | -gc  | goconvey      Launch GoConvey (browser test runner)"
@@ -624,6 +730,7 @@ function Show-Help {
     Write-Host "    ./run.ps1 -t"
     Write-Host "    ./run.ps1 TP regexnewtests"
     Write-Host "    ./run.ps1 -tp regexnewtests"
+    Write-Host "    ./run.ps1 TCP regexnewtests  (package coverage)"
     Write-Host "    ./run.ps1 -gc"
     Write-Host "    ./run.ps1 -gc 9090          (custom port)"
     Write-Host ""
@@ -634,6 +741,7 @@ switch ($Command.ToLower()) {
     { $_ -in "t", "-t", "test" }              { Invoke-AllTests }
     { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $ExtraArgs[0] }
     { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
+    { $_ -in "tcp", "-tcp", "test-cover-pkg" } { Invoke-PackageTestCoverage $ExtraArgs[0] }
     { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
     { $_ -in "tf", "-tf", "test-fail" }       { Invoke-ShowFailLog }
     { $_ -in "gc", "-gc", "goconvey" }        { Invoke-GoConvey }
