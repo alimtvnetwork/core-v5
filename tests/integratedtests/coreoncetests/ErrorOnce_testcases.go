@@ -119,7 +119,7 @@ type errorOnceMessageEqualTestCase struct {
 var errorOnceMessageEqualTestCases = []errorOnceMessageEqualTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce 'match' -- IsMessageEqual 'match' true, 'other' false",
+			Title: "ErrorOnce.IsMessageEqual returns true for 'match' and false for 'other' -- error 'match'",
 			ExpectedInput: args.Map{
 				"isMessageEqualMatch": true,
 				"isMessageEqualOther": false,
