@@ -377,96 +377,94 @@ function Invoke-TestCoverage {
     $prevPref = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
     $output = & go test -v -count=1 -coverprofile=$coverProfile -coverpkg=./... ./tests/integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
-        $exitCode = $LASTEXITCODE
-        $ErrorActionPreference = $prevPref
+    $exitCode = $LASTEXITCODE
+    $ErrorActionPreference = $prevPref
 
-        $output | ForEach-Object { Write-Host $_ }
-        Write-TestLogs $output
+    $output | ForEach-Object { Write-Host $_ }
+    Write-TestLogs $output
 
-        if (Test-Path $coverProfile) {
-            # Generate func-level summary
-            $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
+    if (Test-Path $coverProfile) {
+        # Generate func-level summary
+        $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
 
-            # Generate HTML report
-            & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
+        # Generate HTML report
+        & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
 
-            # Build summary report
-            $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-            $summaryLines = [System.Collections.Generic.List[string]]::new()
-            $summaryLines.Add("# Coverage Summary — $timestamp")
+        # Build summary report
+        $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+        $summaryLines = [System.Collections.Generic.List[string]]::new()
+        $summaryLines.Add("# Coverage Summary — $timestamp")
+        $summaryLines.Add("")
+
+        # Extract total line
+        $totalLine = $funcOutput | Where-Object { $_ -match "^total:" } | Select-Object -Last 1
+        if ($totalLine) {
+            $summaryLines.Add("## Total Coverage")
+            $summaryLines.Add("  $totalLine")
             $summaryLines.Add("")
+        }
 
-            # Extract total line
-            $totalLine = $funcOutput | Where-Object { $_ -match "^total:" } | Select-Object -Last 1
-            if ($totalLine) {
-                $summaryLines.Add("## Total Coverage")
-                $summaryLines.Add("  $totalLine")
-                $summaryLines.Add("")
+        # Extract per-package coverage from test output
+        $pkgCoverLines = $output | Where-Object { $_ -match "coverage:" } | Sort-Object
+        if ($pkgCoverLines) {
+            $summaryLines.Add("## Per-Package Coverage")
+            foreach ($line in $pkgCoverLines) {
+                $summaryLines.Add("  $line")
             }
+            $summaryLines.Add("")
+        }
 
-            # Extract per-package coverage from test output
-            $pkgCoverLines = $output | Where-Object { $_ -match "coverage:" } | Sort-Object
-            if ($pkgCoverLines) {
-                $summaryLines.Add("## Per-Package Coverage")
-                foreach ($line in $pkgCoverLines) {
-                    $summaryLines.Add("  $line")
+        # Extract low-coverage functions (< 50%)
+        $lowCovFuncs = [System.Collections.Generic.List[string]]::new()
+        foreach ($line in $funcOutput) {
+            if ($line -match "(\d+\.\d+)%\s*$" -and $line -notmatch "^total:") {
+                $pct = [double]$Matches[1]
+                if ($pct -lt 50.0) {
+                    $lowCovFuncs.Add("  $line")
                 }
-                $summaryLines.Add("")
-            }
-
-            # Extract low-coverage functions (< 50%)
-            $lowCovFuncs = [System.Collections.Generic.List[string]]::new()
-            foreach ($line in $funcOutput) {
-                if ($line -match "(\d+\.\d+)%\s*$" -and $line -notmatch "^total:") {
-                    $pct = [double]$Matches[1]
-                    if ($pct -lt 50.0) {
-                        $lowCovFuncs.Add("  $line")
-                    }
-                }
-            }
-
-            if ($lowCovFuncs.Count -gt 0) {
-                $summaryLines.Add("## Low Coverage Functions (< 50%)")
-                $summaryLines.Add("  Count: $($lowCovFuncs.Count)")
-                $summaryLines.Add("")
-                foreach ($f in $lowCovFuncs) { $summaryLines.Add($f) }
-                $summaryLines.Add("")
-            }
-
-            # File paths
-            $summaryLines.Add("## Reports")
-            $summaryLines.Add("  Profile:  $coverProfile")
-            $summaryLines.Add("  HTML:     $coverHtml")
-            $summaryLines.Add("  Summary:  $coverSummary")
-
-            Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
-
-            # Print summary to console
-            Write-Host ""
-            if ($totalLine) {
-                Write-Host "  $totalLine" -ForegroundColor Cyan
-            }
-            Write-Host ""
-            Write-Success "Coverage profile:  $coverProfile"
-            Write-Success "HTML report:       $coverHtml"
-            Write-Success "Summary:           $coverSummary"
-
-            if ($lowCovFuncs.Count -gt 0) {
-                Write-Host ""
-                Write-Host "  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
-            }
-
-            # Auto-open HTML report
-            $openHtml = $true
-            if ($ExtraArgs -and $ExtraArgs[0] -eq "--no-open") { $openHtml = $false }
-            if ($openHtml -and (Test-Path $coverHtml)) {
-                Write-Host ""
-                Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
-                Start-Process $coverHtml
             }
         }
+
+        if ($lowCovFuncs.Count -gt 0) {
+            $summaryLines.Add("## Low Coverage Functions (< 50%)")
+            $summaryLines.Add("  Count: $($lowCovFuncs.Count)")
+            $summaryLines.Add("")
+            foreach ($f in $lowCovFuncs) { $summaryLines.Add($f) }
+            $summaryLines.Add("")
+        }
+
+        # File paths
+        $summaryLines.Add("## Reports")
+        $summaryLines.Add("  Profile:  $coverProfile")
+        $summaryLines.Add("  HTML:     $coverHtml")
+        $summaryLines.Add("  Summary:  $coverSummary")
+
+        Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
+
+        # Print summary to console
+        Write-Host ""
+        if ($totalLine) {
+            Write-Host "  $totalLine" -ForegroundColor Cyan
+        }
+        Write-Host ""
+        Write-Success "Coverage profile:  $coverProfile"
+        Write-Success "HTML report:       $coverHtml"
+        Write-Success "Summary:           $coverSummary"
+
+        if ($lowCovFuncs.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
+        }
+
+        # Auto-open HTML report
+        $openHtml = $true
+        if ($ExtraArgs -and $ExtraArgs[0] -eq "--no-open") { $openHtml = $false }
+        if ($openHtml -and (Test-Path $coverHtml)) {
+            Write-Host ""
+            Write-Host "  Opening HTML coverage report..." -ForegroundColor Yellow
+            Start-Process $coverHtml
+        }
     }
-    finally { Pop-Location }
     Open-FailingTestsIfAny
 }
 
