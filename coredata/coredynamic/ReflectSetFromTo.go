@@ -156,6 +156,14 @@ func ReflectSetFromTo(
 			)
 	}
 
+	// For *[]byte destination, set marshaled bytes directly
+	if isRightBytesPointer {
+		bytesPtr := toPointer.(*[]byte)
+		*bytesPtr = rawBytes
+
+		return nil
+	}
+
 	err := json.Unmarshal(
 		rawBytes,
 		toPointer,
