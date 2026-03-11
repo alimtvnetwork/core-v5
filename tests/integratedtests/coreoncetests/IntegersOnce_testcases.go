@@ -87,7 +87,7 @@ var integersOnceRangesTestCases = []integersOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce empty -- RangesMap empty",
+			Title: "IntegersOnce returns rangesMapLength 0 -- empty input",
 			ExpectedInput: args.Map{
 				"rangesMapLength":    0,
 				"rangesBoolMapLen":   0,
