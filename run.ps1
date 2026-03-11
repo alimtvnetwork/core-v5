@@ -741,8 +741,8 @@ function Invoke-PackageTestCoverage {
     Write-TestLogs $output
 
     if (Test-Path $coverProfile) {
-        $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
-        & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
+        $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
+        & go tool cover "-html=$coverProfile" "-o=$coverHtml" 2>&1 | Out-Null
 
         $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         $summaryLines = [System.Collections.Generic.List[string]]::new()
