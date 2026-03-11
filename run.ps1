@@ -460,6 +460,11 @@ function Invoke-TestCoverage {
         # Generate HTML report
         & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
 
+        # Build AI-friendly coverage text for the copy button
+        $aiTextLines = [System.Collections.Generic.List[string]]::new()
+        $aiTextLines.Add("# Coverage Report — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $aiTextLines.Add("")
+
         # Build summary report
         $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         $summaryLines = [System.Collections.Generic.List[string]]::new()
