@@ -150,7 +150,7 @@ var lazyRegexMatchUsingFuncErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "MatchUsingFuncError error on mismatch",
+		Title: "LazyRegex.MatchUsingFuncError returns error -- non-matching input",
 		ArrangeInput: args.Map{
 			"pattern":   "^\\d+$",
 			"comparing": "abc",
