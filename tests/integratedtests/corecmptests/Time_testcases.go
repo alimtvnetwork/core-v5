@@ -12,7 +12,7 @@ var laterTime = baseTime.Add(10 * time.Minute)
 
 var timeCompareTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Time returns Equal for identical times",
+		Title: "Time returns Equal -- identical times",
 		ArrangeInput: args.Map{
 			"when":  "given identical time values",
 			"left":  baseTime,
