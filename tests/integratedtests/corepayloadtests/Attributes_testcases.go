@@ -134,7 +134,7 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Empty attributes IsSafeValid returns false",
+		Title: "Attributes.IsSafeValid returns false -- empty attributes",
 		ArrangeInput: args.Map{
 			"when":  "attributes has no data",
 			"empty": true,
