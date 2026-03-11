@@ -312,7 +312,7 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.DeserializeMust panics on error",
+			Title: "BytesErrorOnce.DeserializeMust returns panic -- source has error",
 			ExpectedInput: args.Map{
 				"didPanic": true,
 			},
