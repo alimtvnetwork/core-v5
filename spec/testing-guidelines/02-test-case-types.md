@@ -405,20 +405,41 @@ where each line's meaning is unknowable without reading the test runner.
 #### Example — MapGherkins Test Case
 
 ```go
+// params.go
+package regexnewtests
+
+var params = struct {
+    pattern      string
+    compareInput string
+    isDefined    string
+    isApplicable string
+    isMatch      string
+    isFailedMatch string
+}{
+    pattern:      "pattern",
+    compareInput: "compareInput",
+    isDefined:    "isDefined",
+    isApplicable: "isApplicable",
+    isMatch:      "isMatch",
+    isFailedMatch: "isFailedMatch",
+}
+```
+
+```go
 // _testcases.go
 var lazyRegexTestCases = []coretestcases.MapGherkins{
     {
         Title: "New.Lazy matches word pattern",
         When:  "given a simple word pattern",
         Input: args.Map{
-            "pattern":      "hello",
-            "compareInput": "hello world",
+            params.pattern:      "hello",
+            params.compareInput: "hello world",
         },
         Expected: args.Map{
-            "isDefined":    true,
-            "isApplicable": true,
-            "isMatch":      true,
-            "isFailedMatch": false,
+            params.isDefined:    true,
+            params.isApplicable: true,
+            params.isMatch:      true,
+            params.isFailedMatch: false,
         },
     },
 }
@@ -429,16 +450,16 @@ var lazyRegexTestCases = []coretestcases.MapGherkins{
 func Test_LazyRegex_New_Verification(t *testing.T) {
     for caseIndex, tc := range lazyRegexTestCases {
         // Arrange
-        pattern, _ := tc.Input.GetAsString("pattern")
-        compareInput, _ := tc.Input.GetAsString("compareInput")
+        pattern, _ := tc.Input.GetAsString(params.pattern)
+        compareInput, _ := tc.Input.GetAsString(params.compareInput)
 
         // Act
         lazyRegex := regexnew.New.Lazy(pattern)
         actual := args.Map{
-            "isDefined":    lazyRegex.IsDefined(),
-            "isApplicable": lazyRegex.IsApplicable(),
-            "isMatch":      lazyRegex.IsMatch(compareInput),
-            "isFailedMatch": lazyRegex.IsFailedMatch(compareInput),
+            params.isDefined:    lazyRegex.IsDefined(),
+            params.isApplicable: lazyRegex.IsApplicable(),
+            params.isMatch:      lazyRegex.IsMatch(compareInput),
+            params.isFailedMatch: lazyRegex.IsFailedMatch(compareInput),
         }
 
         // Assert
