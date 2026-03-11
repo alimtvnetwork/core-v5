@@ -72,7 +72,7 @@ var flatMapEmptyCollectionTestCases = []coretestcases.CaseV1{
 
 var flatMapNoOutputTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloadData returns empty when mapper returns nil slices",
+		Title: "FlatMapTypedPayloadData returns count 0 -- mapper returns nil slices",
 		ArrangeInput: args.Map{
 			"when": "mapper returns nil for each item",
 		},
