@@ -203,7 +203,7 @@ var typedCollectionEmptyOpsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var typedCollectionFirstByNameTestCase = coretestcases.CaseV1{
-	Title: "FirstByName finds existing and returns nil for missing",
+	Title: "TypedPayloadCollection.FirstByName returns found and nil for missing -- 3 users",
 	ExpectedInput: args.Map{
 		"foundName":   "Bob",
 		"notFoundNil": true,
