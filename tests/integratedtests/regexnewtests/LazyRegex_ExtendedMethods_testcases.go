@@ -113,7 +113,7 @@ var lazyRegexIsFailedMatchBytesTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsFailedMatchBytes true when bytes do not match",
+		Title: "LazyRegex.IsFailedMatchBytes returns true -- non-matching bytes",
 		ArrangeInput: args.Map{
 			"pattern": "^\\d+$",
 			"input":   "abc",
