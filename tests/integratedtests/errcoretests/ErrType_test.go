@@ -33,10 +33,10 @@ func Test_ErrCore_MergeErrors_Verification(t *testing.T) {
 	for caseIndex, testCase := range errMergeTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		hasError := input["hasError"]
+		hasError, _ := input.GetAsBool(params.hasError)
 
 		var primaryErr, secondaryErr error
-		if hasError == true {
+		if hasError {
 			primaryErr = errors.New("test error")
 		}
 
