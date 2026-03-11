@@ -20,7 +20,7 @@ var lazyRegexFullStringTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "FullString on invalid pattern returns JSON with error info",
+		Title: "LazyRegex.FullString returns non-empty -- invalid pattern '[bad'",
 		ArrangeInput: args.Map{
 			"pattern": "[bad",
 		},
