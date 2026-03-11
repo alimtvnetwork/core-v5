@@ -174,7 +174,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "0", "hasError": "true"},
 	},
 	{
-		Title: "Byte fails on value > 255",
+		Title: "StringTo.Byte returns error -- value 256 exceeds byte range",
 		ArrangeInput: args.Map{
 			"when":  "given value exceeding byte range",
 			"input": "256",
