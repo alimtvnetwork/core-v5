@@ -31,7 +31,7 @@ func Test_EmptyPattern_IsUndefined(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"isUndefined": lazy.IsUndefined(),
+		params.isUndefined: lazy.IsUndefined(),
 	}
 
 	// Assert
@@ -46,7 +46,7 @@ func Test_EmptyPattern_IsNotApplicable(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"isApplicable": lazy.IsApplicable(),
+		params.isApplicable: lazy.IsApplicable(),
 	}
 
 	// Assert
@@ -61,7 +61,7 @@ func Test_EmptyPattern_IsMatch_ReturnsFalse(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"isMatch": lazy.IsMatch("anything"),
+		params.isMatch: lazy.IsMatch("anything"),
 	}
 
 	// Assert
@@ -76,7 +76,7 @@ func Test_EmptyPattern_IsFailedMatch_ReturnsTrue(t *testing.T) {
 
 	// Act
 	actual := args.Map{
-		"isFailedMatch": lazy.IsFailedMatch("anything"),
+		params.isFailedMatch: lazy.IsFailedMatch("anything"),
 	}
 
 	// Assert
@@ -93,8 +93,8 @@ func Test_EmptyPattern_Compile_ReturnsError(t *testing.T) {
 	regex, err := lazy.Compile()
 
 	actual := args.Map{
-		"hasError":   err != nil,
-		"regexIsNil": regex == nil,
+		params.hasError:   err != nil,
+		params.regexIsNil: regex == nil,
 	}
 
 	// Assert
