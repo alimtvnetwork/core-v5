@@ -85,7 +85,7 @@ func Test_ErrorOnce_Extended_Verification(t *testing.T) {
 	for caseIndex, testCase := range errorOnceExtendedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		hasErr := input.GetAsBoolDefault("hasError")
+		hasErr := input.GetAsBoolDefault("hasError", false)
 
 		var errOnce coreonce.ErrorOnce
 		if hasErr {
