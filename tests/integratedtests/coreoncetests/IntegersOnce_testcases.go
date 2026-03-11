@@ -17,7 +17,7 @@ type integersOnceTestCase struct {
 var integersOnceCoreTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce [3,1,2] -- Length 3, not empty",
+			Title: "IntegersOnce returns length 3 and isEmpty false -- [3,1,2] input",
 			ExpectedInput: args.Map{
 				"length":  3,
 				"isEmpty": false,
