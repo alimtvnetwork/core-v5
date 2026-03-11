@@ -118,7 +118,10 @@ func extractResult(returnValues []reflect.Value) ResultAny {
 
 	result.Value = safeInterface(returnValues[0])
 
-	if len(returnValues) > 1 {
+	if len(returnValues) == 1 {
+		// Single return — if it implements error, also populate Error
+		result.Error = extractErrorFromValue(returnValues[0])
+	} else {
 		last := returnValues[len(returnValues)-1]
 		result.Error = extractErrorFromValue(last)
 	}

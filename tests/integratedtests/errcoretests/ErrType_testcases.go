@@ -31,7 +31,7 @@ var errTypeCombineTestCases = []coretestcases.CaseV1{
 			"message": "",
 			"ref":     "",
 		},
-		ExpectedInput: ".*BytesAreNilOrEmpty.*",
+		ExpectedInput: ".*Bytes data either nil or empty.*",
 	},
 }
 
