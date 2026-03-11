@@ -74,7 +74,7 @@ var typedCollectionAddTestCases = []coretestcases.CaseV1{
 
 var typedCollectionFilterTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FilterByData returns only matching items",
+		Title: "TypedPayloadCollection.FilterByData returns 2 matches -- age >= 30",
 		ArrangeInput: args.Map{
 			"when":      "filtering users by age >= 30",
 			"minAge":    30,
