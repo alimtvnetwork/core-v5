@@ -31,7 +31,7 @@ var stringToIntegerTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "-5", "hasError": "false"},
 	},
 	{
-		Title: "StringTo.Integer parses zero",
+		Title: "StringTo.Integer returns 0 -- zero string '0'",
 		ArrangeInput: args.Map{
 			"when":  "given zero string",
 			"input": "0",
