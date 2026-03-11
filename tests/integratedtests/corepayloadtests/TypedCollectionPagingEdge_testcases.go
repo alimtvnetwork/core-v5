@@ -83,7 +83,7 @@ var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetSinglePageCollection page size 1 returns single item",
+		Title: "GetSinglePageCollection returns 1 item -- page 2 page size 1 from 5 items",
 		ArrangeInput: args.Map{
 			"when":      "page 2 of page size 1 from 5 items",
 			"count":     5,
