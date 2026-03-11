@@ -249,7 +249,7 @@ var stringsToHashsetTestCases = []coretestcases.CaseV1{
 
 var stringToIntegerDefaultTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IntegerDefault returns parsed value",
+		Title: "StringTo.IntegerDefault returns '77' -- valid number",
 		ArrangeInput: args.Map{
 			"when":  "given valid number",
 			"input": "77",
