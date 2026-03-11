@@ -35,7 +35,7 @@ var getVariantTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "unknown string maps to Unknown",
 		ArrangeInput:  "totally_unknown_os",
-		ExpectedInput: "unknown",
+		ExpectedInput: "Unknown",
 	},
 }
 

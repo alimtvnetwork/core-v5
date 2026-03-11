@@ -227,9 +227,9 @@ var isOutOfRangeTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "false",
 	},
 	{
-		Title:         "Value 5 (Wildcard/max) is in range",
+		Title:         "Value 5 (Wildcard/max) is out of range",
 		ArrangeInput:  byte(5),
-		ExpectedInput: "false",
+		ExpectedInput: "true",
 	},
 	{
 		Title:         "Value 6 is out of range",

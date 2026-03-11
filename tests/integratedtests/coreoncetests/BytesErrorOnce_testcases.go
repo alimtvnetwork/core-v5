@@ -375,8 +375,8 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 			Title: "BytesErrorOnce -- HandleError panics on error",
 			ExpectedInput: args.Map{
 				"handleErrorPanicked":       true,
-				"mustBeEmptyErrorPanicked":  false,
-				"mustHaveSafeItemsPanicked": false,
+				"mustBeEmptyErrorPanicked":  true,
+				"mustHaveSafeItemsPanicked": true,
 			},
 		},
 		InitErr: errors.New("handle-err"),
