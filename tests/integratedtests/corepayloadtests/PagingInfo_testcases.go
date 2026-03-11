@@ -322,7 +322,7 @@ var pagingInfoClonePtrTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "ClonePtr copies all fields",
+		Title: "PagingInfo.ClonePtr returns all fields preserved -- populated pointer",
 		ArrangeInput: args.Map{
 			"when":             "given populated PagingInfo pointer",
 			"isNil":            false,
