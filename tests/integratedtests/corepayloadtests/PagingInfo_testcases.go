@@ -378,7 +378,7 @@ func buildPagingInfoPrefixed(input args.Map, prefix string) *corepayload.PagingI
 // ==========================================================================
 
 var pagingInfoClonePtrIndependenceTestCase = coretestcases.CaseV1{
-	Title: "ClonePtr creates independent copy",
+	Title: "PagingInfo.ClonePtr returns independent copy -- mutation test",
 	ExpectedInput: args.Map{
 		"originalTotalPages":  5,
 		"originalCurrentPage": 3,
