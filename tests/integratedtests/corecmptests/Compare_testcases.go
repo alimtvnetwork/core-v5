@@ -25,7 +25,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "LeftLess", // compareResult
 	},
 	{
-		Title: "Integer returns LeftGreater when left > right",
+		Title: "Integer returns LeftGreater -- left 10 right 2",
 		ArrangeInput: args.Map{
 			"when":  "given left greater than right",
 			"left":  10,
