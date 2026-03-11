@@ -174,7 +174,7 @@ func Test_ClampCollection_Verification(t *testing.T) {
 		coregeneric.ClampCollection(col, 2, 4)
 		actual := args.Map{}
 		for i := 0; i < col.Length(); i++ {
-			actual[fmt.Sprintf("val%d", i)] = col.GetAt(i)
+			actual[fmt.Sprintf("val%d", i)] = col.SafeAt(i)
 		}
 
 		// Assert
