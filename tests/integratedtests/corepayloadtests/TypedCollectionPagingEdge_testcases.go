@@ -155,7 +155,7 @@ var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagesSize with single item",
+		Title: "GetPagesSize returns 1 -- 1 item page size 10",
 		ArrangeInput: args.Map{
 			"when":     "1 item with page size 10",
 			"count":    1,
