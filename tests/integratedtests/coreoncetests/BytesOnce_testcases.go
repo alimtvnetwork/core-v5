@@ -156,7 +156,7 @@ var bytesOnceJsonTestCases = []bytesOnceJsonTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesOnce.UnmarshalJSON overrides value to 'replaced'",
+			Title: "BytesOnce.UnmarshalJSON returns 'replaced' -- overrides 'original' input",
 			ExpectedInput: args.Map{
 				"noError":  true,
 				"newValue": "replaced",
