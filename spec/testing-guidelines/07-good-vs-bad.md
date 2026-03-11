@@ -294,6 +294,7 @@ ExpectedInput: args.Map{"name": "Alice", "age": 30, "isActive": true, "role": "a
 | Multiple scenarios per function | Unclear which failed | Split into separate functions |
 | Missing AAA comments | Unclear structure | Add `// Arrange`, `// Act`, `// Assert` |
 | Vague title without input context | Can't diagnose from title alone | Include key input in title |
+| Raw string keys in `args.Map` | Typo-prone, no autocomplete | Use `params.keyName` constants |
 
 ---
 

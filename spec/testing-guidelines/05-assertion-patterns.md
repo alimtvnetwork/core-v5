@@ -267,6 +267,135 @@ actual := args.Map{
 
 ---
 
+## Test Params Pattern (`params.go`)
+
+Every test package that uses `args.Map` keys MUST define a local `params.go` file
+with a `params` struct holding reusable key constants. This eliminates magic strings,
+prevents case-sensitivity bugs, and ensures consistency across test cases and runners.
+
+### Structure
+
+```go
+// params.go
+package mypkgtests
+
+var params = struct {
+	// Common assertion keys
+	isDefined    string
+	isApplicable string
+	isMatch      string
+	isFailedMatch string
+	hasError     string
+
+	// Package-specific keys
+	pattern      string
+	compareInput string
+}{
+	isDefined:    "isDefined",
+	isApplicable: "isApplicable",
+	isMatch:      "isMatch",
+	isFailedMatch: "isFailedMatch",
+	hasError:     "hasError",
+
+	pattern:      "pattern",
+	compareInput: "compareInput",
+}
+```
+
+### Common Keys Reference
+
+These keys appear across many test packages and SHOULD use consistent names:
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `isDefined` | `bool` | Whether the object is non-nil / initialized |
+| `isApplicable` | `bool` | Whether the object compiled / is usable |
+| `isMatch` | `bool` | Whether the input matched the pattern |
+| `isFailedMatch` | `bool` | Inverse of isMatch |
+| `hasError` | `bool` | Whether an error was returned |
+| `isValid` | `bool` | Whether validation passed |
+| `isNil` | `bool` | Whether the result is nil |
+| `pattern` | `string` | Regex or search pattern (input) |
+| `compareInput` | `string` | Text to match against (input) |
+
+### Usage in Test Cases
+
+```go
+// _testcases.go
+var testCases = []coretestcases.MapGherkins{
+    {
+        Title: "Lazy regex matches word pattern",
+        Input: args.Map{
+            params.pattern:      "hello",
+            params.compareInput: "hello world",
+        },
+        Expected: args.Map{
+            params.isDefined:    true,
+            params.isApplicable: true,
+            params.isMatch:      true,
+            params.isFailedMatch: false,
+        },
+    },
+}
+```
+
+### Usage in Test Runners
+
+```go
+// _test.go
+func Test_LazyRegex_Verification(t *testing.T) {
+    for caseIndex, tc := range testCases {
+        // Arrange
+        pattern, _ := tc.Input.GetAsString(params.pattern)
+        compareInput, _ := tc.Input.GetAsString(params.compareInput)
+
+        // Act
+        lazy := regexnew.New.Lazy(pattern)
+        actual := args.Map{
+            params.isDefined:    lazy.IsDefined(),
+            params.isApplicable: lazy.IsApplicable(),
+            params.isMatch:      lazy.IsMatch(compareInput),
+            params.isFailedMatch: lazy.IsFailedMatch(compareInput),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+### Rules
+
+1. **One `params.go` per test package** — each package defines its own params struct
+2. **Package-private** — `params` is unexported (lowercase), scoped to the test package
+3. **Common keys use standard names** — `isDefined`, `isMatch`, `hasError`, etc.
+4. **Package-specific keys extend the struct** — add fields unique to the domain
+5. **Never use raw string literals** for map keys in test cases or runners
+
+### ❌ Bad — magic strings
+
+```go
+Expected: args.Map{
+    "isDefined": true,    // raw string — typo-prone
+    "isMatch":   true,
+}
+
+hasError, _ := input.GetAsBool("hasError")  // magic string
+```
+
+### ✅ Good — params constants
+
+```go
+Expected: args.Map{
+    params.isDefined: true,    // compile-time safe
+    params.isMatch:   true,
+}
+
+hasError := input.GetAsBoolDefault(params.hasError, false)  // safe accessor + constant
+```
+
+---
+
 ## Safe Accessors in Test Runners
 
 Use typed getters to avoid panics:
