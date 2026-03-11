@@ -45,9 +45,14 @@ param(
 if (-not $PSBoundParameters.ContainsKey('Command')) {
     # Check $MyInvocation.Line for the actual argument
     $rawLine = $MyInvocation.Line
-    $match = [regex]::Match($rawLine, '(?i)run\.ps1\s+(-?\w[\w-]*)')
+    $match = [regex]::Match($rawLine, '(?i)run\.ps1\s+(-?\w[\w-]*)\s*(.*)')
     if ($match.Success) {
         $Command = $match.Groups[1].Value
+        # Capture remaining args that PowerShell swallowed
+        $trailing = $match.Groups[2].Value.Trim()
+        if ($trailing -and (-not $ExtraArgs -or $ExtraArgs.Count -eq 0)) {
+            $ExtraArgs = @($trailing -split '\s+')
+        }
     }
 }
 
