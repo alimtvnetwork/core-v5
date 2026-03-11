@@ -59,7 +59,7 @@ var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce empty bytes/nil -- empty, not null",
+			Title: "BytesErrorOnce returns isNull false and isDefined true -- empty bytes nil error",
 			ExpectedInput: args.Map{
 				"stringValue":  "",
 				"noError":      true,
