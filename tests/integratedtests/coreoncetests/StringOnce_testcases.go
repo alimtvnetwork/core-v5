@@ -96,7 +96,7 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'hello world' -- IsContains 'world' true, 'xyz' false",
+			Title: "StringOnce.IsContains returns true for 'world' and false for 'xyz' -- 'hello world' input",
 			ExpectedInput: args.Map{
 				"matchResult":   true,
 				"noMatchResult": false,
