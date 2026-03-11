@@ -301,7 +301,7 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.DeserializeMust succeeds without panic",
+			Title: "BytesErrorOnce.DeserializeMust returns value without panic -- valid JSON input",
 			ExpectedInput: args.Map{
 				"didPanic":        false,
 				"deserializedKey": "val",
