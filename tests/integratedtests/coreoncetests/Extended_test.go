@@ -54,21 +54,27 @@ func Test_ByteOnce_Extended_Verification(t *testing.T) {
 	}
 }
 
+// Test_IntegerOnce_Extended_Verification tests boolean checks using a SEPARATE
+// instance from serialize/unmarshal to avoid UnmarshalJSON corrupting innerData.
 func Test_IntegerOnce_Extended_Verification(t *testing.T) {
 	for caseIndex, testCase := range integerOnceExtendedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
 		val := input.GetAsIntDefault("value", 0)
-		intOnce := coreonce.NewIntegerOnce(func() int { return val })
 
-		// Act
-		executeResult := intOnce.Execute()
-		isAboveEqualZero := intOnce.IsAboveEqualZero()
-		isLessThanEqZero := intOnce.IsLessThanEqualZero()
-		isInvalidIndex := intOnce.IsInvalidIndex()
-		isValidIndex := intOnce.IsValidIndex()
-		_, serializeErr := intOnce.Serialize()
-		unmarshalErr := intOnce.UnmarshalJSON([]byte("10"))
+		// Use one instance for boolean checks only (no serialize/unmarshal)
+		boolOnce := coreonce.NewIntegerOnce(func() int { return val })
+		executeResult := boolOnce.Execute()
+		isAboveEqualZero := boolOnce.IsAboveEqualZero()
+		isLessThanEqZero := boolOnce.IsLessThanEqualZero()
+		isInvalidIndex := boolOnce.IsInvalidIndex()
+		isValidIndex := boolOnce.IsValidIndex()
+
+		// Use a SEPARATE instance for serialize/unmarshal
+		serOnce := coreonce.NewIntegerOnce(func() int { return val })
+		_ = serOnce.Execute()
+		_, serializeErr := serOnce.Serialize()
+		unmarshalErr := serOnce.UnmarshalJSON([]byte("10"))
 
 		actual := args.Map{
 			"execute":          executeResult,
@@ -85,6 +91,7 @@ func Test_IntegerOnce_Extended_Verification(t *testing.T) {
 	}
 }
 
+// Test_ErrorOnce_Extended_Verification tests ErrorOnce with and without errors.
 func Test_ErrorOnce_Extended_Verification(t *testing.T) {
 	for caseIndex, testCase := range errorOnceExtendedTestCases {
 		// Arrange
@@ -106,6 +113,7 @@ func Test_ErrorOnce_Extended_Verification(t *testing.T) {
 		concatErr := errOnce.ConcatNew("extra")
 		unmarshalErr := errOnce.UnmarshalJSON([]byte(`"hello"`))
 
+		// String() on nil error does NOT panic — it returns ""
 		canString := false
 		func() {
 			defer func() { recover() }()
