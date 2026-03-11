@@ -119,6 +119,51 @@ func (it *MapStringAnyDiff) HashmapDiffUsingRaw(
 	return diffMap
 }
 
+// diffLeftToRight collects entries from left that are missing or different in right.
+func (it *MapStringAnyDiff) diffLeftToRight(
+	isRegardlessType bool,
+	rightMap map[string]any,
+	diffMap map[string]any,
+) {
+	for key, leftValInf := range *it {
+		rightValInf, has := rightMap[key]
+
+		if !has {
+			diffMap[key] = leftValInf
+			continue
+		}
+
+		if it.isNotEqual(isRegardlessType, leftValInf, rightValInf) {
+			diffMap[key] = leftValInf
+		}
+	}
+}
+
+// diffRightToLeft collects entries from right that are missing or different in left.
+func (it *MapStringAnyDiff) diffRightToLeft(
+	isRegardlessType bool,
+	leftMap map[string]any,
+	rightMap map[string]any,
+	diffMap map[string]any,
+) {
+	for rightKey, rightAnyVal := range rightMap {
+		if _, hasDiff := diffMap[rightKey]; hasDiff {
+			continue
+		}
+
+		leftVal, has := leftMap[rightKey]
+
+		if !has {
+			diffMap[rightKey] = rightAnyVal
+			continue
+		}
+
+		if it.isNotEqual(isRegardlessType, rightAnyVal, leftVal) {
+			diffMap[rightKey] = rightAnyVal
+		}
+	}
+}
+
 func (it *MapStringAnyDiff) DiffRaw(
 	isRegardlessType bool,
 	rightMap map[string]any,
@@ -136,59 +181,15 @@ func (it *MapStringAnyDiff) DiffRaw(
 	}
 
 	length := it.Length() / 3
-	diffMap := make(
-		map[string]any,
-		length)
+	diffMap := make(map[string]any, length)
 
-	for key, leftValInf := range *it {
-		rightValInf, has := rightMap[key]
-		isMissing := !has
-
-		if isMissing {
-			diffMap[key] = leftValInf
-
-			continue
-		}
-
-		if it.isNotEqual(
-			isRegardlessType,
-			leftValInf,
-			rightValInf) {
-			diffMap[key] = leftValInf
-		}
-	}
+	it.diffLeftToRight(isRegardlessType, rightMap, diffMap)
 
 	if len(diffMap) == 0 && it.Length() == len(rightMap) {
 		return diffMap
 	}
 
-	leftMap := *it
-
-	for rightKey, rightAnyVal := range rightMap {
-		_, hasDiff := diffMap[rightKey]
-
-		if hasDiff {
-			// already added
-
-			continue
-		}
-
-		leftVal, has := leftMap[rightKey]
-		isMissing := !has
-
-		if isMissing {
-			diffMap[rightKey] = rightAnyVal
-
-			continue
-		}
-
-		if it.isNotEqual(
-			isRegardlessType,
-			rightAnyVal,
-			leftVal) {
-			diffMap[rightKey] = rightAnyVal
-		}
-	}
+	it.diffRightToLeft(isRegardlessType, *it, rightMap, diffMap)
 
 	return diffMap
 }

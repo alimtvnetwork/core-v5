@@ -96,6 +96,49 @@ func (it *HashmapDiff) HashmapDiffUsingRaw(
 	return diffMap
 }
 
+// diffLeftToRight collects entries from left that are missing or different in right.
+func (it *HashmapDiff) diffLeftToRight(
+	rightMap map[string]string,
+	diffMap map[string]string,
+) {
+	for key, leftValString := range *it {
+		rightValString, has := rightMap[key]
+
+		if !has {
+			diffMap[key] = leftValString
+			continue
+		}
+
+		if it.isNotEqual(leftValString, rightValString) {
+			diffMap[key] = leftValString
+		}
+	}
+}
+
+// diffRightToLeft collects entries from right that are missing or different in left.
+func (it *HashmapDiff) diffRightToLeft(
+	leftMap map[string]string,
+	rightMap map[string]string,
+	diffMap map[string]string,
+) {
+	for rightKey, rightStr := range rightMap {
+		if _, hasDiff := diffMap[rightKey]; hasDiff {
+			continue
+		}
+
+		leftValStr, has := leftMap[rightKey]
+
+		if !has {
+			diffMap[rightKey] = rightStr
+			continue
+		}
+
+		if it.isNotEqual(rightStr, leftValStr) {
+			diffMap[rightKey] = rightStr
+		}
+	}
+}
+
 func (it *HashmapDiff) DiffRaw(
 	rightMap map[string]string,
 ) map[string]string {
@@ -112,52 +155,15 @@ func (it *HashmapDiff) DiffRaw(
 	}
 
 	length := it.Length() / 3
-	diffMap := make(
-		map[string]string,
-		length)
+	diffMap := make(map[string]string, length)
 
-	for key, leftValString := range *it {
-		rightValString, has := rightMap[key]
-		isMissing := !has
-
-		if isMissing {
-			diffMap[key] = leftValString
-
-			continue
-		}
-
-		if it.isNotEqual(leftValString, rightValString) {
-			diffMap[key] = leftValString
-		}
-	}
+	it.diffLeftToRight(rightMap, diffMap)
 
 	if len(diffMap) == 0 && it.Length() == len(rightMap) {
 		return diffMap
 	}
 
-	leftMap := *it
-	for rightKey, rightStr := range rightMap {
-		_, hasDiff := diffMap[rightKey]
-
-		if hasDiff {
-			// already added
-
-			continue
-		}
-
-		leftValStr, has := leftMap[rightKey]
-		isMissing := !has
-
-		if isMissing {
-			diffMap[rightKey] = rightStr
-
-			continue
-		}
-
-		if it.isNotEqual(rightStr, leftValStr) {
-			diffMap[rightKey] = rightStr
-		}
-	}
+	it.diffRightToLeft(*it, rightMap, diffMap)
 
 	return diffMap
 }

@@ -11,50 +11,53 @@ import (
 
 type mapConverter struct{}
 
+// keysFromIntKeyMap extracts string keys from int-keyed maps.
+func keysFromIntKeyMap[V any](m map[int]V) []string {
+	keys := make([]string, 0, len(m))
+	for key := range m {
+		keys = append(keys, strconv.Itoa(key))
+	}
+	return keys
+}
+
+// keysFromStringKeyMap extracts keys from string-keyed maps.
+func keysFromStringKeyMap[V any](m map[string]V) []string {
+	keys := make([]string, 0, len(m))
+	for key := range m {
+		keys = append(keys, key)
+	}
+	return keys
+}
+
+// keysFromAnyKeyMap extracts string keys from any-keyed maps using SmartString.
+func keysFromAnyKeyMap[K comparable, V any](m map[K]V) []string {
+	keys := make([]string, 0, len(m))
+	for key := range m {
+		keys = append(keys, AnyTo.SmartString(key))
+	}
+	return keys
+}
+
 func (it mapConverter) Keys(
 	anyMap any,
 ) (keys []string, err error) {
 	switch v := anyMap.(type) {
 	case map[string]string:
-		for key := range v {
-			keys = append(keys, key)
-		}
-		return keys, nil
+		return keysFromStringKeyMap(v), nil
 	case map[string]any:
-		for key := range v {
-			keys = append(keys, key)
-		}
-		return keys, nil
+		return keysFromStringKeyMap(v), nil
 	case map[int]any:
-		for key := range v {
-			keys = append(keys, strconv.Itoa(key))
-		}
-		return keys, nil
+		return keysFromIntKeyMap(v), nil
 	case map[int]string:
-		for key := range v {
-			keys = append(keys, strconv.Itoa(key))
-		}
-		return keys, nil
+		return keysFromIntKeyMap(v), nil
 	case map[float64]any:
-		for key := range v {
-			keys = append(keys, AnyTo.SmartString(key))
-		}
-		return keys, nil
+		return keysFromAnyKeyMap(v), nil
 	case map[any]any:
-		for key := range v {
-			keys = append(keys, AnyTo.SmartString(key))
-		}
-		return keys, nil
+		return keysFromAnyKeyMap(v), nil
 	case map[any]string:
-		for key := range v {
-			keys = append(keys, AnyTo.SmartString(key))
-		}
-		return keys, nil
+		return keysFromAnyKeyMap(v), nil
 	case map[reflect.Type]string:
-		for key := range v {
-			keys = append(keys, AnyTo.SmartString(key))
-		}
-		return keys, nil
+		return keysFromAnyKeyMap(v), nil
 	default:
 		return keys, fmt.Errorf(
 			"current type %T is not support by the function",
@@ -146,50 +149,48 @@ func (it mapConverter) SortedKeysValues(
 	return keys, values, err
 }
 
+// valuesFromStringValMap extracts string values directly.
+func valuesFromStringValMap[K comparable](m map[K]string) []string {
+	values := make([]string, 0, len(m))
+	for _, value := range m {
+		values = append(values, value)
+	}
+	return values
+}
+
+// valuesFromAnyValMap extracts values using SmartString conversion.
+func valuesFromAnyValMap[K comparable](m map[K]any) []string {
+	values := make([]string, 0, len(m))
+	for _, value := range m {
+		values = append(values, AnyTo.SmartString(value))
+	}
+	return values
+}
+
 func (it mapConverter) Values(
 	anyMap any,
 ) (values []string, err error) {
 	switch casted := anyMap.(type) {
 	case map[string]string:
-		for _, value := range casted {
-			values = append(values, value)
-		}
-		return values, nil
+		return valuesFromStringValMap(casted), nil
 	case map[string]any:
-		for _, value := range casted {
-			values = append(values, AnyTo.SmartString(value))
-		}
-		return values, nil
+		return valuesFromAnyValMap(casted), nil
 	case map[int]any:
-		for _, value := range casted {
-			values = append(values, AnyTo.SmartString(value))
-		}
-		return values, nil
+		return valuesFromAnyValMap(casted), nil
 	case map[string]int:
+		vals := make([]string, 0, len(casted))
 		for _, value := range casted {
-			values = append(values, strconv.Itoa(value))
+			vals = append(vals, strconv.Itoa(value))
 		}
-		return values, nil
+		return vals, nil
 	case map[int]string:
-		for _, value := range casted {
-			values = append(values, value)
-		}
-		return values, nil
+		return valuesFromStringValMap(casted), nil
 	case map[float64]any:
-		for _, value := range casted {
-			values = append(values, AnyTo.SmartString(value))
-		}
-		return values, nil
+		return valuesFromAnyValMap(casted), nil
 	case map[any]any:
-		for _, value := range casted {
-			values = append(values, AnyTo.SmartString(value))
-		}
-		return values, nil
+		return valuesFromAnyValMap(casted), nil
 	case map[any]string:
-		for _, value := range casted {
-			values = append(values, value)
-		}
-		return values, nil
+		return valuesFromStringValMap(casted), nil
 	default:
 		return values, fmt.Errorf(
 			"current type %T is not support by the function",

@@ -103,18 +103,12 @@ func (it newAttributeCreator) UsingByte(v7 byte) (Attribute, error) {
 				v7)
 	}
 
-	// TODO optimize logic in future.
-	isRead := v7 >= ReadValue
-	isWrite := (isRead && v7 >= ReadWriteValue) || (!isRead && v7 >= WriteValue)
-	isExecute := (isWrite && isRead && v7 >= ReadWriteExecuteValue) ||
-		(isRead && !isWrite && v7 >= ReadExecuteValue) ||
-		(isWrite && !isRead && v7 >= WriteExecuteValue) ||
-		(!isRead && !isWrite && v7 >= ExecuteValue)
-
+	// Use standard Unix permission bit masks:
+	// bit 2 = read (4), bit 1 = write (2), bit 0 = execute (1)
 	return Attribute{
-		IsRead:    isRead,
-		IsWrite:   isWrite,
-		IsExecute: isExecute,
+		IsRead:    v7&4 != 0,
+		IsWrite:   v7&2 != 0,
+		IsExecute: v7&1 != 0,
 	}, nil
 }
 
