@@ -39,7 +39,7 @@ var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 
 var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Round-trip serialize then deserialize preserves data",
+		Title: "TypedPayloadWrapper returns preserved data -- round-trip 'round-trip'",
 		ArrangeInput: args.Map{
 			"name": "round-trip", "id": "rt-1",
 			"sku": "RT-SKU", "title": "Round Trip Product", "price": 55.50,
