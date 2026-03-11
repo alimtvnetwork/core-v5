@@ -11,7 +11,7 @@ import (
 
 var attributesIsEqualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Both nil Attributes are equal",
+		Title: "Attributes.IsEqual returns true -- both nil",
 		ArrangeInput: args.Map{
 			"when":      "both attributes are nil",
 			"left_nil":  true,
