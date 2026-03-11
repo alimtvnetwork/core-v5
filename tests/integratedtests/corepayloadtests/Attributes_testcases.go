@@ -124,7 +124,7 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 
 var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil attributes IsSafeValid returns false",
+		Title: "Attributes.IsSafeValid returns false -- nil attributes",
 		ArrangeInput: args.Map{
 			"when":     "attributes is nil",
 			"nil_attr": true,
