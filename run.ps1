@@ -418,14 +418,10 @@ function Invoke-TestCoverage {
 
         if ($pkgExit -ne 0) { $overallExit = $pkgExit }
 
-        # Extract coverage percentage for this package
-        $covLine = $output | Where-Object { $_ -match "coverage:\s+([\d.]+)%" } | Select-Object -Last 1
-        if ($covLine -match "coverage:\s+([\d.]+)%") {
-            $pkgCoverMap[$shortName] = $Matches[1]
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — $($Matches[1])%" -ForegroundColor Gray
-        } else {
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — no coverage data" -ForegroundColor DarkGray
-        }
+        # Show progress (per-test-pkg % is misleading — final source-pkg % shown after merge)
+        $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
+        $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
+        Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget" -ForegroundColor $statusColor
 
         if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
     }
