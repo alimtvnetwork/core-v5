@@ -256,3 +256,280 @@ var ifTrueFuncStringsTestCases = []coretestcases.CaseV1{
 		},
 	},
 }
+
+// ==========================================================================
+// IfTrueFuncBytes -- true-only func []byte wrapper
+// ==========================================================================
+
+var ifTrueFuncBytesTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfTrueFuncBytes returns slice -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":    true,
+			"trueValue": []byte{65, 66},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "65",
+		},
+	},
+	{
+		Title: "IfTrueFuncBytes returns nil -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":    false,
+			"trueValue": []byte{65, 66},
+		},
+		ExpectedInput: args.Map{
+			"length": "0",
+			"isNil":  "true",
+		},
+	},
+}
+
+// ==========================================================================
+// IfSliceBool -- slice bool wrapper
+// ==========================================================================
+
+var ifSliceBoolTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceBool returns trueSlice -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []bool{true, false},
+			"falseValue": []bool{false, true},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "true",
+		},
+	},
+	{
+		Title: "IfSliceBool returns falseSlice -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []bool{true, false},
+			"falseValue": []bool{false, true},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "false",
+		},
+	},
+}
+
+// ==========================================================================
+// IfSliceInt -- slice int wrapper
+// ==========================================================================
+
+var ifSliceIntTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceInt returns trueSlice -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []int{10, 20},
+			"falseValue": []int{30, 40},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "10",
+		},
+	},
+	{
+		Title: "IfSliceInt returns falseSlice -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []int{10, 20},
+			"falseValue": []int{30, 40},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "30",
+		},
+	},
+}
+
+// ==========================================================================
+// IfSliceString -- slice string wrapper
+// ==========================================================================
+
+var ifSliceStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceString returns trueSlice -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []string{"a", "b"},
+			"falseValue": []string{"x", "y"},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "a",
+		},
+	},
+	{
+		Title: "IfSliceString returns falseSlice -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []string{"a", "b"},
+			"falseValue": []string{"x", "y", "z"},
+		},
+		ExpectedInput: args.Map{
+			"length": "3",
+			"first":  "x",
+		},
+	},
+}
+
+// ==========================================================================
+// IfSliceByte -- slice byte wrapper
+// ==========================================================================
+
+var ifSliceByteTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceByte returns trueSlice -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []byte{1, 2},
+			"falseValue": []byte{3, 4},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "1",
+		},
+	},
+	{
+		Title: "IfSliceByte returns falseSlice -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []byte{1, 2},
+			"falseValue": []byte{3, 4},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "3",
+		},
+	},
+}
+
+// ==========================================================================
+// IfSliceAny -- slice any wrapper
+// ==========================================================================
+
+var ifSliceAnyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfSliceAny returns trueSlice -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  []any{"a", 1},
+			"falseValue": []any{"b", 2},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "a",
+		},
+	},
+	{
+		Title: "IfSliceAny returns falseSlice -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  []any{"a", 1},
+			"falseValue": []any{"b", 2},
+		},
+		ExpectedInput: args.Map{
+			"length": "2",
+			"first":  "b",
+		},
+	},
+}
+
+// ==========================================================================
+// IfPtrString -- pointer string wrapper
+// ==========================================================================
+
+var ifPtrStringTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfPtrString returns truePtr -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  "yes",
+			"falseValue": "no",
+		},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "yes",
+		},
+	},
+	{
+		Title: "IfPtrString returns falsePtr -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  "yes",
+			"falseValue": "no",
+		},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "no",
+		},
+	},
+}
+
+// ==========================================================================
+// IfPtrInt -- pointer int wrapper
+// ==========================================================================
+
+var ifPtrIntTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfPtrInt returns truePtr -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  10,
+			"falseValue": 20,
+		},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "10",
+		},
+	},
+	{
+		Title: "IfPtrInt returns falsePtr -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  10,
+			"falseValue": 20,
+		},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "20",
+		},
+	},
+}
+
+// ==========================================================================
+// IfPtrBool -- pointer bool wrapper
+// ==========================================================================
+
+var ifPtrBoolTestCases = []coretestcases.CaseV1{
+	{
+		Title: "IfPtrBool returns truePtr -- condition true",
+		ArrangeInput: args.Map{
+			"isTrue":     true,
+			"trueValue":  true,
+			"falseValue": false,
+		},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "true",
+		},
+	},
+	{
+		Title: "IfPtrBool returns falsePtr -- condition false",
+		ArrangeInput: args.Map{
+			"isTrue":     false,
+			"trueValue":  true,
+			"falseValue": false,
+		},
+		ExpectedInput: args.Map{
+			"isNotNil": "true",
+			"value":    "false",
+		},
+	},
+}
