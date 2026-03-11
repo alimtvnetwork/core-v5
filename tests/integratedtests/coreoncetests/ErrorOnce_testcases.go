@@ -36,7 +36,7 @@ var errorOnceCoreTestCases = []errorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- HasError false, IsValid true, Message empty",
+			Title: "ErrorOnce returns isValid true and message empty -- nil error",
 			ExpectedInput: args.Map{
 				"hasError":   false,
 				"isValid":    true,
