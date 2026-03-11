@@ -19,7 +19,7 @@ type errorOnceTestCase struct {
 var errorOnceCoreTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce with error -- HasError true, IsValid false, Message 'fail'",
+			Title: "ErrorOnce returns hasError true and message 'fail' -- error 'fail'",
 			ExpectedInput: args.Map{
 				"hasError":   true,
 				"isValid":    false,
