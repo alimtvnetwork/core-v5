@@ -177,7 +177,7 @@ var lazyRegexMatchUsingFuncErrorTestCases = []coretestcases.CaseV1{
 
 var lazyRegexOnRequiredCompiledMustTestCases = []coretestcases.CaseV1{
 	{
-		Title: "OnRequiredCompiledMust valid pattern no panic",
+		Title: "LazyRegex.OnRequiredCompiledMust returns no panic -- valid pattern",
 		ArrangeInput: args.Map{
 			"pattern": "\\d+",
 		},
