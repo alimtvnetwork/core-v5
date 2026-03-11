@@ -27,7 +27,7 @@ var enumByteTestCases = []coretestcases.CaseV1{
 
 var enumInt8TestCases = []coretestcases.CaseV1{
 	{
-		Title: "Integer8 enum min -2, max 12 -- generates min, max from given map[string]any",
+		Title: "EnumInt8 returns min -2 and max 12 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":   -2,
