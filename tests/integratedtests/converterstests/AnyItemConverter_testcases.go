@@ -20,7 +20,7 @@ var toNonNullItemsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"count": 0},
 	},
 	{
-		Title: "ToNonNullItems converts valid slice",
+		Title: "ToNonNullItems returns count 2 -- valid string slice",
 		ArrangeInput: args.Map{
 			"when":        "given valid string slice",
 			"isSkipOnNil": false,
