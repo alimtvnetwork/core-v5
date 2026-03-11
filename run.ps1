@@ -376,7 +376,8 @@ function Invoke-TestCoverage {
     finally { Pop-Location }
 
     $coverDir = Join-Path $PSScriptRoot "data" "coverage"
-    New-Item -ItemType Directory -Path $coverDir -Force | Out-Null
+    $partialDir = Join-Path $coverDir "partial"
+    New-Item -ItemType Directory -Path $partialDir -Force | Out-Null
 
     $coverProfile = Join-Path $coverDir "coverage.out"
     $coverHtml    = Join-Path $coverDir "coverage.html"
@@ -387,16 +388,71 @@ function Invoke-TestCoverage {
     $srcPkgs = $allPkgs | Where-Object { $_ -notmatch '/tests/' }
     $covPkgList = $srcPkgs -join ","
 
-    # Run from project ROOT so -coverpkg can instrument all source packages.
-    # Target only integratedtests (skip testwrappers — test data only, 0% noise).
-    $prevPref = $ErrorActionPreference
-    $ErrorActionPreference = "Continue"
-    $output = & go test -v -count=1 "-coverprofile=$coverProfile" "-coverpkg=$covPkgList" "./tests/integratedtests/..." 2>&1 | ForEach-Object { $_.ToString() }
-    $exitCode = $LASTEXITCODE
-    $ErrorActionPreference = $prevPref
+    # Get all test packages to run individually
+    $testPkgs = go list ./tests/integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
 
-    $output | ForEach-Object { Write-Host $_ }
-    Write-TestLogs $output
+    $allOutput = [System.Collections.Generic.List[string]]::new()
+    $pkgCoverMap = [ordered]@{}
+    $overallExit = 0
+    $pkgIndex = 0
+
+    Write-Host ""
+    Write-Host "  Running $($testPkgs.Count) test packages with individual coverage profiles..." -ForegroundColor Yellow
+    Write-Host ""
+
+    foreach ($testPkg in $testPkgs) {
+        $pkgIndex++
+        $shortName = $testPkg -replace '.*integratedtests/?', ''
+        if (-not $shortName) { $shortName = "(root)" }
+
+        $partialProfile = Join-Path $partialDir "cover-$pkgIndex.out"
+
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $output = & go test -v -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+        $pkgExit = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
+        if ($pkgExit -ne 0) { $overallExit = $pkgExit }
+
+        # Extract coverage percentage for this package
+        $covLine = $output | Where-Object { $_ -match "coverage:\s+([\d.]+)%" } | Select-Object -Last 1
+        if ($covLine -match "coverage:\s+([\d.]+)%") {
+            $pkgCoverMap[$shortName] = $Matches[1]
+            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $shortName — $($Matches[1])%" -ForegroundColor Gray
+        } else {
+            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $shortName — no coverage data" -ForegroundColor DarkGray
+        }
+
+        $allOutput.AddRange($output)
+    }
+
+    # Print to console
+    $allOutput | ForEach-Object { Write-Host $_ }
+    Write-TestLogs $allOutput.ToArray()
+
+    # Merge all partial profiles into one
+    Write-Host ""
+    Write-Host "  Merging $pkgIndex coverage profiles..." -ForegroundColor Yellow
+
+    $partialFiles = Get-ChildItem -Path $partialDir -Filter "cover-*.out" | Sort-Object Name
+    $mergedLines = [System.Collections.Generic.List[string]]::new()
+    $mergedLines.Add("mode: set")
+
+    foreach ($pf in $partialFiles) {
+        $lines = Get-Content $pf.FullName
+        foreach ($line in $lines) {
+            if ($line -and $line -notmatch "^mode:") {
+                $mergedLines.Add($line)
+            }
+        }
+    }
+
+    Set-Content -Path $coverProfile -Value ($mergedLines -join "`n") -Encoding UTF8
+    Write-Success "Merged profile: $coverProfile ($($mergedLines.Count - 1) coverage lines)"
+
+    # Clean up partial dir
+    Remove-Item -Recurse -Force $partialDir
 
     if (Test-Path $coverProfile) {
         # Generate func-level summary
@@ -419,12 +475,12 @@ function Invoke-TestCoverage {
             $summaryLines.Add("")
         }
 
-        # Extract per-package coverage from test output
-        $pkgCoverLines = $output | Where-Object { $_ -match "coverage:" } | Sort-Object
-        if ($pkgCoverLines) {
+        # Per-package coverage with actual names
+        if ($pkgCoverMap.Count -gt 0) {
             $summaryLines.Add("## Per-Package Coverage")
-            foreach ($line in $pkgCoverLines) {
-                $summaryLines.Add("  $line")
+            $sortedPkgs = $pkgCoverMap.GetEnumerator() | Sort-Object Value -Descending
+            foreach ($entry in $sortedPkgs) {
+                $summaryLines.Add("  $($entry.Value)%`t$($entry.Key)")
             }
             $summaryLines.Add("")
         }
