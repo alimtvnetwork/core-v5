@@ -13,19 +13,19 @@ var lazyRegexFullStringTestCases = []coretestcases.CaseV1{
 	{
 		Title: "LazyRegex.FullString returns non-empty -- valid pattern '\\d+'",
 		ArrangeInput: args.Map{
-			"pattern": "\\d+",
+			params.pattern: "\\d+",
 		},
 		ExpectedInput: args.Map{
-			"isNotEmpty": true,
+			params.isNotEmpty: true,
 		},
 	},
 	{
 		Title: "LazyRegex.FullString returns non-empty -- invalid pattern '[bad'",
 		ArrangeInput: args.Map{
-			"pattern": "[bad",
+			params.pattern: "[bad",
 		},
 		ExpectedInput: args.Map{
-			"isNotEmpty": true,
+			params.isNotEmpty: true,
 		},
 	},
 }
@@ -38,21 +38,21 @@ var lazyRegexCompileMustTestCases = []coretestcases.CaseV1{
 	{
 		Title: "LazyRegex.CompileMust returns regex without panic -- valid pattern '\\w+'",
 		ArrangeInput: args.Map{
-			"pattern": "\\w+",
+			params.pattern: "\\w+",
 		},
 		ExpectedInput: args.Map{
-			"regexNotNil": true,
-			"panicked":    false,
+			params.regexNotNil: true,
+			params.panicked:    false,
 		},
 	},
 	{
 		Title: "LazyRegex.CompileMust returns panic -- invalid pattern '[bad'",
 		ArrangeInput: args.Map{
-			"pattern": "[bad",
+			params.pattern: "[bad",
 		},
 		ExpectedInput: args.Map{
-			"regexNotNil": false,
-			"panicked":    true,
+			params.regexNotNil: false,
+			params.panicked:    true,
 		},
 	},
 }
@@ -65,34 +65,34 @@ var lazyRegexFirstMatchLineTestCases = []coretestcases.CaseV1{
 	{
 		Title: "LazyRegex.FirstMatchLine returns '123' -- pattern '(\\d+)' content 'abc123def456'",
 		ArrangeInput: args.Map{
-			"pattern": "(\\d+)",
-			"content": "abc123def456",
+			params.pattern: "(\\d+)",
+			params.content: "abc123def456",
 		},
 		ExpectedInput: args.Map{
-			"firstMatch":     "123",
-			"isInvalidMatch": false,
+			params.firstMatch:     "123",
+			params.isInvalidMatch: false,
 		},
 	},
 	{
 		Title: "LazyRegex.FirstMatchLine returns empty and invalid -- no match",
 		ArrangeInput: args.Map{
-			"pattern": "^\\d+$",
-			"content": "abc",
+			params.pattern: "^\\d+$",
+			params.content: "abc",
 		},
 		ExpectedInput: args.Map{
-			"firstMatch":     "",
-			"isInvalidMatch": true,
+			params.firstMatch:     "",
+			params.isInvalidMatch: true,
 		},
 	},
 	{
 		Title: "LazyRegex.FirstMatchLine returns empty and invalid -- invalid regex '[broken'",
 		ArrangeInput: args.Map{
-			"pattern": "[broken",
-			"content": "test",
+			params.pattern: "[broken",
+			params.content: "test",
 		},
 		ExpectedInput: args.Map{
-			"firstMatch":     "",
-			"isInvalidMatch": true,
+			params.firstMatch:     "",
+			params.isInvalidMatch: true,
 		},
 	},
 }
@@ -105,31 +105,31 @@ var lazyRegexIsFailedMatchBytesTestCases = []coretestcases.CaseV1{
 	{
 		Title: "LazyRegex.IsFailedMatchBytes returns false -- matching bytes '\\d+'",
 		ArrangeInput: args.Map{
-			"pattern": "\\d+",
-			"input":   "abc123",
+			params.pattern: "\\d+",
+			params.input:   "abc123",
 		},
 		ExpectedInput: args.Map{
-			"isFailed": false,
+			params.isFailed: false,
 		},
 	},
 	{
 		Title: "LazyRegex.IsFailedMatchBytes returns true -- non-matching bytes",
 		ArrangeInput: args.Map{
-			"pattern": "^\\d+$",
-			"input":   "abc",
+			params.pattern: "^\\d+$",
+			params.input:   "abc",
 		},
 		ExpectedInput: args.Map{
-			"isFailed": true,
+			params.isFailed: true,
 		},
 	},
 	{
 		Title: "LazyRegex.IsFailedMatchBytes returns true -- invalid regex '[bad'",
 		ArrangeInput: args.Map{
-			"pattern": "[bad",
-			"input":   "test",
+			params.pattern: "[bad",
+			params.input:   "test",
 		},
 		ExpectedInput: args.Map{
-			"isFailed": true,
+			params.isFailed: true,
 		},
 	},
 }
@@ -142,31 +142,31 @@ var lazyRegexMatchUsingFuncErrorTestCases = []coretestcases.CaseV1{
 	{
 		Title: "LazyRegex.MatchUsingFuncError returns no error -- matching input",
 		ArrangeInput: args.Map{
-			"pattern":   "^hello$",
-			"comparing": "hello",
+			params.pattern:   "^hello$",
+			params.comparing: "hello",
 		},
 		ExpectedInput: args.Map{
-			"hasError": false,
+			params.hasError: false,
 		},
 	},
 	{
 		Title: "LazyRegex.MatchUsingFuncError returns error -- non-matching input",
 		ArrangeInput: args.Map{
-			"pattern":   "^\\d+$",
-			"comparing": "abc",
+			params.pattern:   "^\\d+$",
+			params.comparing: "abc",
 		},
 		ExpectedInput: args.Map{
-			"hasError": true,
+			params.hasError: true,
 		},
 	},
 	{
 		Title: "LazyRegex.MatchUsingFuncError returns error -- invalid regex '[broken'",
 		ArrangeInput: args.Map{
-			"pattern":   "[broken",
-			"comparing": "test",
+			params.pattern:   "[broken",
+			params.comparing: "test",
 		},
 		ExpectedInput: args.Map{
-			"hasError": true,
+			params.hasError: true,
 		},
 	},
 }
@@ -179,19 +179,19 @@ var lazyRegexOnRequiredCompiledMustTestCases = []coretestcases.CaseV1{
 	{
 		Title: "LazyRegex.OnRequiredCompiledMust returns no panic -- valid pattern",
 		ArrangeInput: args.Map{
-			"pattern": "\\d+",
+			params.pattern: "\\d+",
 		},
 		ExpectedInput: args.Map{
-			"panicked": false,
+			params.panicked: false,
 		},
 	},
 	{
 		Title: "LazyRegex.OnRequiredCompiledMust returns panic -- invalid pattern '[bad'",
 		ArrangeInput: args.Map{
-			"pattern": "[bad",
+			params.pattern: "[bad",
 		},
 		ExpectedInput: args.Map{
-			"panicked": true,
+			params.panicked: true,
 		},
 	},
 }
@@ -204,19 +204,19 @@ var lazyRegexMustBeSafeTestCases = []coretestcases.CaseV1{
 	{
 		Title: "LazyRegex.MustBeSafe returns no panic -- valid pattern",
 		ArrangeInput: args.Map{
-			"pattern": "\\d+",
+			params.pattern: "\\d+",
 		},
 		ExpectedInput: args.Map{
-			"panicked": false,
+			params.panicked: false,
 		},
 	},
 	{
 		Title: "LazyRegex.MustBeSafe returns panic -- invalid pattern '[bad'",
 		ArrangeInput: args.Map{
-			"pattern": "[bad",
+			params.pattern: "[bad",
 		},
 		ExpectedInput: args.Map{
-			"panicked": true,
+			params.panicked: true,
 		},
 	},
 }
