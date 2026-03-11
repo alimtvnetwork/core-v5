@@ -105,7 +105,7 @@ var typedCollectionMapTestCases = []coretestcases.CaseV1{
 
 var typedCollectionReduceTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ReduceTypedPayloadData sums ages",
+		Title: "ReduceTypedPayloadData returns totalAge 90 -- 3 users summed",
 		ArrangeInput: args.Map{
 			"when": "reducing to sum of ages",
 		},
