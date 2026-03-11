@@ -19,7 +19,10 @@ func Cmp(left, right any) corecomparator.Compare {
 	if left == right {
 		return corecomparator.Equal
 	}
-
+	// Root cause: This branch is unreachable (dead code).
+	// `left == right` above already returns Equal for nil == nil,
+	// because untyped nil == untyped nil is true in Go.
+	// Kept for defensive clarity and explicit nil-documentation.
 	if left == nil && right == nil {
 		return corecomparator.Equal
 	}
