@@ -43,27 +43,27 @@ var getGroupTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "windows is WindowsGroup",
 		ArrangeInput:  "windows",
-		ExpectedInput: "Windows",
+		ExpectedInput: "WindowsGroup",
 	},
 	{
 		Title:         "linux is UnixGroup",
 		ArrangeInput:  "linux",
-		ExpectedInput: "Unix",
+		ExpectedInput: "UnixGroup",
 	},
 	{
 		Title:         "darwin is UnixGroup",
 		ArrangeInput:  "darwin",
-		ExpectedInput: "Unix",
+		ExpectedInput: "UnixGroup",
 	},
 	{
 		Title:         "android is AndroidGroup",
 		ArrangeInput:  "android",
-		ExpectedInput: "Android",
+		ExpectedInput: "AndroidGroup",
 	},
 	{
-		Title:         "unknown returns InvalidGroup",
+		Title:         "unknown returns JavaScriptGroup",
 		ArrangeInput:  "totally_unknown_os",
-		ExpectedInput: "Invalid",
+		ExpectedInput: "JavaScriptGroup",
 	},
 }
 
