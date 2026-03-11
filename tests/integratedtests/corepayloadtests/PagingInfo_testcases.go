@@ -53,7 +53,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - identical values should return true",
+		Title: "PagingInfo.IsEqual returns true -- identical values",
 		ArrangeInput: args.Map{
 			"when":                  "given identical values",
 			"isLeftNil":             false,
