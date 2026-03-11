@@ -622,7 +622,7 @@ pre{white-space:pre-wrap}</style></head><body>
         $aiTextLines.Add("- Use CaseV1 table-driven pattern with AAA comments")
         $aiTextLines.Add("- Focus on the lowest coverage packages first")
 
-        $aiTextEscaped = ($aiTextLines -join "`n") -replace '\\', '\\\\' -replace "'", "\'" -replace "`n", '\n' -replace "`r", '' -replace '"', '\"'
+        $aiTextEscaped = ($aiTextLines -join "`n") -replace '\\', '\\\\' -replace "'", "\\\'" -replace "`n", '\n' -replace "`r", '' -replace '"', '\"'
 
         # Inject "Copy for AI" button into the Go HTML report
         if (Test-Path $coverHtml) {
