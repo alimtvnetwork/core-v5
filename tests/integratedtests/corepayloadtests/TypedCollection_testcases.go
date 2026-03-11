@@ -117,7 +117,7 @@ var typedCollectionReduceTestCases = []coretestcases.CaseV1{
 
 var typedCollectionGroupTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GroupTypedPayloadData groups by category",
+		Title: "GroupTypedPayloadData returns 2 groups -- category grouping",
 		ArrangeInput: args.Map{
 			"when": "grouping by category name",
 		},
