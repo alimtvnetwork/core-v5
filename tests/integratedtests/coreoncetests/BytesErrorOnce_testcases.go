@@ -223,7 +223,7 @@ var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 var bytesErrorOnceStringTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce 'str-val' -- String returns correct value",
+			Title: "BytesErrorOnce.String returns 'str-val' -- 'str-val' bytes input",
 			ExpectedInput: args.Map{
 				"stringValue":               "str-val",
 				"isStringEmpty":             false,
