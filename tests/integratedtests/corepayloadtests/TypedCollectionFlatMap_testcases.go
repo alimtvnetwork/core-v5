@@ -105,7 +105,7 @@ var nilWrapperEdgeCaseTestCases = []coretestcases.CaseV1{
 
 var deserializationFailureTestCases = []coretestcases.CaseV1{
 	{
-		Title: "TypedPayloadCollectionFromPayloads skips items with invalid payloads",
+		Title: "TypedPayloadCollectionFromPayloads returns count 2 -- 2 valid 1 invalid payload",
 		ArrangeInput: args.Map{
 			"when":          "2 valid + 1 invalid payload wrappers",
 			"valid_count":   2,
