@@ -36,7 +36,7 @@ var lazyRegexFullStringTestCases = []coretestcases.CaseV1{
 
 var lazyRegexCompileMustTestCases = []coretestcases.CaseV1{
 	{
-		Title: "CompileMust valid pattern returns regex",
+		Title: "LazyRegex.CompileMust returns regex without panic -- valid pattern '\\w+'",
 		ArrangeInput: args.Map{
 			"pattern": "\\w+",
 		},
