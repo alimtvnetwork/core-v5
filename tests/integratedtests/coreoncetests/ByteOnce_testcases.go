@@ -87,7 +87,7 @@ var byteOnceCachingTestCases = []byteOnceTestCase{
 var byteOnceJsonTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 99 -- MarshalJSON returns '99'",
+			Title: "ByteOnce.MarshalJSON returns '99' -- input 99",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "99",
