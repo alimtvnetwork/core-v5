@@ -56,7 +56,7 @@ var flatMapTypedPayloadDataTestCases = []coretestcases.CaseV1{
 
 var flatMapEmptyCollectionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloads on empty collection returns empty",
+		Title: "FlatMapTypedPayloads returns count 0 -- empty collection",
 		ArrangeInput: args.Map{
 			"when": "given empty collection",
 		},
