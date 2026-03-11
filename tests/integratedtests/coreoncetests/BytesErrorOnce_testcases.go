@@ -291,7 +291,7 @@ var bytesErrorOnceDeserializeTestCases = []bytesErrorOnceDeserializeTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.Deserialize with invalid JSON returns error",
+			Title: "BytesErrorOnce.Deserialize returns error -- invalid JSON input",
 			ExpectedInput: args.Map{
 				"hasError":    true,
 				"isJsonError": true,
