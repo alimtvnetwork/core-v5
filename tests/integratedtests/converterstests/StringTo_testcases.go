@@ -115,7 +115,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "3.14", "hasError": "false"},
 	},
 	{
-		Title: "Float64 parses integer as float",
+		Title: "StringTo.Float64 returns 42 -- integer string '42'",
 		ArrangeInput: args.Map{
 			"when":  "given integer string",
 			"input": "42",
