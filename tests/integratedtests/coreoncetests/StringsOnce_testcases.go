@@ -57,7 +57,7 @@ var stringsOnceCoreTestCases = []stringsOnceTestCase{
 var stringsOnceContainsTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [x,y,z] -- Has/IsContains/HasAll",
+			Title: "StringsOnce returns hasX true and hasAllXY true -- [x,y,z] input",
 			ExpectedInput: args.Map{
 				"hasX":       true,
 				"containsY":  true,
