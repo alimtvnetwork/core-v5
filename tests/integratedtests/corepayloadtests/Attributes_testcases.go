@@ -22,7 +22,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Left nil, right non-nil are not equal",
+		Title: "Attributes.IsEqual returns false -- left nil right non-nil",
 		ArrangeInput: args.Map{
 			"when":      "left is nil right is not",
 			"left_nil":  true,
