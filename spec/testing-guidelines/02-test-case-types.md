@@ -365,17 +365,137 @@ type GenericGherkins[TInput, TExpect any] struct {
 ### Common Aliases
 
 ```go
-type AnyGherkins    = GenericGherkins[any, any]
-type StringGherkins = GenericGherkins[string, string]
+type AnyGherkins      = GenericGherkins[any, any]
+type StringGherkins   = GenericGherkins[string, string]
+type StringBoolGherkins = GenericGherkins[string, bool]
+type MapGherkins      = GenericGherkins[args.Map, args.Map]
 ```
 
-### When to Use
+### When to Use Which Alias
 
-- Complex scenarios with structured Given/When/Then
-- Regex/validation tests where `IsMatching` semantics apply
-- Tests requiring both typed expected values and string-line assertions
+| Alias | Input | Expected | Use When |
+|-------|-------|----------|----------|
+| `StringGherkins` | `string` | `string` | Single string input → single string result |
+| `StringBoolGherkins` | `string` | `bool` | String input → boolean result (e.g., IsMatch) |
+| `MapGherkins` | `args.Map` | `args.Map` | Multi-field input → multi-field result |
+| `AnyGherkins` | `any` | `any` | Heterogeneous or unknown types |
 
-### Example
+### Field Responsibility
+
+| Field | Purpose | Use When |
+|-------|---------|----------|
+| `Input` | Primary typed input data | Always — holds the main test input |
+| `Expected` | Primary typed expected result | Always — holds what the test asserts against |
+| `ExtraArgs` | Overflow key-value pairs | Only when `Input` cannot hold all arrange data |
+| `ExpectedLines` | Legacy raw string assertions | **Deprecated for new tests** — use `Expected` with `args.Map` instead |
+| `IsMatching` | Boolean match flag | Validation/matching tests (e.g., regex, search) |
+
+### MapGherkins — Preferred for Multi-Field Tests
+
+When a test has multiple inputs (e.g., pattern + compareInput) and multiple expected
+results (e.g., isDefined, isApplicable, isMatch), use `MapGherkins`:
+
+- **Input** (`args.Map`): holds all arrange data with semantic keys
+- **Expected** (`args.Map`): holds all assertion data with semantic keys
+- **ExtraArgs**: only used if needed beyond `Input`
+
+This replaces the opaque `ExpectedLines: []string{"true", "false", "true"}` pattern
+where each line's meaning is unknowable without reading the test runner.
+
+#### Example — MapGherkins Test Case
+
+```go
+// _testcases.go
+var lazyRegexTestCases = []coretestcases.MapGherkins{
+    {
+        Title: "New.Lazy matches word pattern",
+        When:  "given a simple word pattern",
+        Input: args.Map{
+            "pattern":      "hello",
+            "compareInput": "hello world",
+        },
+        Expected: args.Map{
+            "isDefined":    true,
+            "isApplicable": true,
+            "isMatch":      true,
+            "isFailedMatch": false,
+        },
+    },
+}
+```
+
+```go
+// _test.go
+func Test_LazyRegex_New_Verification(t *testing.T) {
+    for caseIndex, tc := range lazyRegexTestCases {
+        // Arrange
+        pattern, _ := tc.Input.GetAsString("pattern")
+        compareInput, _ := tc.Input.GetAsString("compareInput")
+
+        // Act
+        lazyRegex := regexnew.New.Lazy(pattern)
+        actual := args.Map{
+            "isDefined":    lazyRegex.IsDefined(),
+            "isApplicable": lazyRegex.IsApplicable(),
+            "isMatch":      lazyRegex.IsMatch(compareInput),
+            "isFailedMatch": lazyRegex.IsFailedMatch(compareInput),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+#### Why MapGherkins Over ExpectedLines
+
+❌ **Bad — opaque ExpectedLines:**
+```go
+{
+    Title:      "New.Lazy with simple word pattern",
+    Input:      "hello",
+    ExtraArgs:  map[string]any{"compareInput": "hello world"},
+    ExpectedLines: []string{
+        "hello",   // what is this?
+        "true",    // isDefined? isApplicable? isMatch?
+        "true",    // ???
+        "true",    // ???
+        "false",   // ???
+    },
+}
+```
+
+✅ **Good — self-documenting MapGherkins:**
+```go
+{
+    Title: "New.Lazy matches word pattern",
+    Input: args.Map{
+        "pattern":      "hello",
+        "compareInput": "hello world",
+    },
+    Expected: args.Map{
+        "isDefined":    true,
+        "isApplicable": true,
+        "isMatch":      true,
+        "isFailedMatch": false,
+    },
+}
+```
+
+### Assertion Methods — GenericGherkins
+
+| Method | Use When |
+|--------|----------|
+| `ShouldBeEqual(t, caseIndex, actLines, expLines)` | Raw string line comparison |
+| `ShouldBeEqualFirst(t, actLines, expLines)` | Single case, string lines |
+| `ShouldBeEqualArgs(t, caseIndex, lines...)` | Variadic string args vs ExpectedLines |
+| `ShouldBeEqualArgsFirst(t, lines...)` | Single case, variadic args |
+| `ShouldBeEqualUsingExpected(t, caseIndex, actLines)` | Act lines vs struct's ExpectedLines |
+| `ShouldBeEqualUsingExpectedFirst(t, actLines)` | Single case, vs ExpectedLines |
+| `ShouldBeEqualMap(t, caseIndex, actual)` | Map-based comparison (MapGherkins) |
+| `ShouldBeEqualMapFirst(t, actual)` | Single case, map comparison |
+
+### Legacy Example — StringGherkins (still valid for simple cases)
 
 ```go
 var regexMatchTestCases = []coretestcases.StringGherkins{

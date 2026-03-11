@@ -86,12 +86,12 @@ For multi-field comparisons with semantic keys. **Preferred for most tests.**
 
 ### How It Works
 
-1. `ExpectedInput` in testcase file is `args.Map` with raw typed values
+1. `ExpectedInput` (CaseV1) or `Expected` (MapGherkins) is `args.Map` with raw typed values
 2. `actual` in test runner is `args.Map` with raw typed values
 3. Both are compiled to sorted `"key : value"` strings
 4. Strings are compared line-by-line
 
-### Loop-based
+### CaseV1 — Loop-based
 
 ```go
 func Test_Validator_Verification(t *testing.T) {
@@ -106,6 +106,29 @@ func Test_Validator_Verification(t *testing.T) {
         actual := args.Map{
             "isValid": result.IsValid,
             "errors":  len(result.Errors),
+        }
+
+        // Assert
+        tc.ShouldBeEqualMap(t, caseIndex, actual)
+    }
+}
+```
+
+### MapGherkins — Loop-based
+
+```go
+func Test_LazyRegex_Verification(t *testing.T) {
+    for caseIndex, tc := range lazyRegexTestCases {
+        // Arrange
+        pattern, _ := tc.Input.GetAsString("pattern")
+        compareInput, _ := tc.Input.GetAsString("compareInput")
+
+        // Act
+        lazy := regexnew.New.Lazy(pattern)
+        actual := args.Map{
+            "isDefined":    lazy.IsDefined(),
+            "isApplicable": lazy.IsApplicable(),
+            "isMatch":      lazy.IsMatch(compareInput),
         }
 
         // Assert
