@@ -91,7 +91,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - different CurrentPageIndex should return false",
+		Title: "PagingInfo.IsEqual returns false -- different CurrentPageIndex",
 		ArrangeInput: args.Map{
 			"when":                  "given different CurrentPageIndex",
 			"isLeftNil":             false,
