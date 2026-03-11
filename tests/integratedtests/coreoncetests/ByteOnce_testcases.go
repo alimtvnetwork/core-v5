@@ -17,7 +17,7 @@ type byteOnceTestCase struct {
 var byteOnceCoreTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 42 -- Value, String, IsZero false, IsPositive true",
+			Title: "ByteOnce returns value 42 and isPositive true -- input 42",
 			ExpectedInput: args.Map{
 				"value":      42,
 				"int":        42,
