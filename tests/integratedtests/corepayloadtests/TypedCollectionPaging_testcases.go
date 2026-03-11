@@ -99,7 +99,7 @@ var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 
 var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollection splits into correct number of pages",
+		Title: "GetPagedCollection returns 3 pages -- 5 items page size 2",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 2",
 			"count":    5,
