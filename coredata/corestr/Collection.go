@@ -110,32 +110,43 @@ func (it *Collection) IsEquals(
 	)
 }
 
+// isCollectionPrecheckEqual handles nil, identity, and length checks.
+// Returns (result, handled) — if handled is true, use the result directly.
+func isCollectionPrecheckEqual(a, b *Collection) (result, handled bool) {
+	if a == nil && b == nil {
+		return true, true
+	}
+
+	if a == nil || b == nil {
+		return false, true
+	}
+
+	if a == b {
+		return true, true
+	}
+
+	if a.IsEmpty() && b.IsEmpty() {
+		return true, true
+	}
+
+	if a.IsEmpty() || b.IsEmpty() {
+		return false, true
+	}
+
+	if a.Length() != b.Length() {
+		return false, true
+	}
+
+	return false, false
+}
+
 func (it *Collection) IsEqualsWithSensitive(
 	isCaseSensitive bool,
 	anotherCollection *Collection,
 ) bool {
-	if anotherCollection == nil && it == nil {
-		return true
-	}
-
-	if anotherCollection == nil || it == nil {
-		return false
-	}
-
-	if it == anotherCollection {
-		return true
-	}
-
-	if it.IsEmpty() && anotherCollection.IsEmpty() {
-		return true
-	}
-
-	if it.IsEmpty() || anotherCollection.IsEmpty() {
-		return false
-	}
-
-	if it.Length() != anotherCollection.Length() {
-		return false
+	result, handled := isCollectionPrecheckEqual(it, anotherCollection)
+	if handled {
+		return result
 	}
 
 	leftItems := it.items
@@ -152,9 +163,7 @@ func (it *Collection) IsEqualsWithSensitive(
 	}
 
 	for i, leftVal := range leftItems {
-		isDifferent := !strings.EqualFold(leftVal, rightItems[i])
-
-		if isDifferent {
+		if !strings.EqualFold(leftVal, rightItems[i]) {
 			return false
 		}
 	}

@@ -167,6 +167,40 @@ func (it anyTo) PrettyJsonLines(anyItem any) []string {
 	)
 }
 
+// mapToSortedLines converts a map to sorted "key : value" formatted lines.
+func mapToSortedLines[K comparable, V any](
+	m map[K]V,
+	keyFmt func(K) string,
+	valFmt func(V) string,
+) []string {
+	if len(m) == 0 {
+		return []string{}
+	}
+
+	lines := make([]string, 0, len(m))
+
+	for key, value := range m {
+		lines = append(lines, fmt.Sprintf(
+			"%s : %s",
+			keyFmt(key),
+			valFmt(value),
+		))
+	}
+
+	sort.Strings(lines)
+
+	return lines
+}
+
+// stringsFromSlice converts typed slices to string slices.
+func stringsFromSlice[T any](s []T, fmtFunc func(T) string) []string {
+	lines := make([]string, len(s))
+	for i, elem := range s {
+		lines[i] = fmtFunc(elem)
+	}
+	return lines
+}
+
 func (it anyTo) Strings(
 	item any,
 ) []string {
@@ -175,189 +209,64 @@ func (it anyTo) Strings(
 		if v == "" {
 			return []string{}
 		}
-
-		return strings.Split(
-			v,
-			constants.NewLineUnix,
-		)
+		return strings.Split(v, constants.NewLineUnix)
 	case error:
 		if v == nil {
 			return []string{}
 		}
-
-		return strings.Split(
-			v.Error(),
-			constants.NewLineUnix,
-		)
+		return strings.Split(v.Error(), constants.NewLineUnix)
 	case []string:
 		return v
 	case []any:
-		if len(v) == 0 {
-			return []string{}
-		}
-
-		lines := make([]string, len(v))
-
-		for i, line := range v {
-			lines[i] = it.SmartJson(line)
-		}
-
-		return lines
-
+		return it.stringsFromAnySlice(v)
 	case map[string]any:
-		if len(v) == 0 {
-			return []string{}
-		}
-
-		lines := make([]string, len(v))
-		index := 0
-
-		for key, value := range v {
-			lines[index] = fmt.Sprintf(
-				"%s : %s",
-				key,
-				it.SmartJson(value),
-			)
-
-			index++
-		}
-
-		sort.Strings(lines)
-
-		return lines
+		return mapToSortedLines(v, func(k string) string { return k }, it.SmartJson)
 	case map[any]any:
-		if len(v) == 0 {
-			return []string{}
-		}
-
-		lines := make([]string, len(v))
-		index := 0
-
-		for key, value := range v {
-			lines[index] = fmt.Sprintf(
-				"%s : %s",
-				it.SmartJson(key),
-				it.SmartJson(value),
-			)
-
-			index++
-		}
-
-		sort.Strings(lines)
-
-		return lines
+		return mapToSortedLines(v, it.SmartJson, it.SmartJson)
 	case map[string]string:
-		if len(v) == 0 {
-			return []string{}
-		}
-
-		lines := make([]string, len(v))
-		index := 0
-
-		for key, value := range v {
-			lines[index] = fmt.Sprintf(
-				"%s : %s",
-				key,
-				value,
-			)
-
-			index++
-		}
-
-		sort.Strings(lines)
-
-		return lines
+		return mapToSortedLines(v, func(k string) string { return k }, func(v string) string { return v })
 	case map[string]int:
-		if len(v) == 0 {
-			return []string{}
-		}
-
-		lines := make([]string, len(v))
-		index := 0
-
-		for key, value := range v {
-			lines[index] = fmt.Sprintf(
-				"%s : %d",
-				key,
-				value,
-			)
-
-			index++
-		}
-
-		sort.Strings(lines)
-
-		return lines
-
+		return mapToSortedLines(v, func(k string) string { return k }, func(v int) string { return fmt.Sprintf("%d", v) })
 	case map[int]string:
-		if len(v) == 0 {
-			return []string{}
-		}
+		return mapToSortedLines(v, func(k int) string { return it.ValueString(k) }, func(v string) string { return v })
+	default:
+		return it.stringsFromPrimitiveOrFallback(item)
+	}
+}
 
-		lines := make([]string, len(v))
-		index := 0
+func (it anyTo) stringsFromAnySlice(v []any) []string {
+	if len(v) == 0 {
+		return []string{}
+	}
 
-		for key, value := range v {
-			lines[index] = fmt.Sprintf(
-				"%s : %s",
-				it.ValueString(key),
-				value,
-			)
+	lines := make([]string, len(v))
+	for i, line := range v {
+		lines[i] = it.SmartJson(line)
+	}
+	return lines
+}
 
-			index++
-		}
-
-		sort.Strings(lines)
-
-		return lines
+func (it anyTo) stringsFromPrimitiveOrFallback(item any) []string {
+	switch v := item.(type) {
 	case int, int32, int64,
 		uint8,
 		uint16, uint32, uint64,
 		float32, float64:
-		return []string{
-			fmt.Sprintf("%d", v),
-		}
+		return []string{fmt.Sprintf("%d", v)}
 	case fmt.Stringer:
 		return strings.Split(v.String(), constants.NewLineUnix)
 	case bool:
-		return []string{
-			strconv.FormatBool(v),
-		}
+		return []string{strconv.FormatBool(v)}
 	case []int:
-		lines := make([]string, len(v))
-		for i, elem := range v {
-			lines[i] = strconv.Itoa(elem)
-		}
-
-		return lines
+		return stringsFromSlice(v, strconv.Itoa)
 	case []bool:
-		lines := make([]string, len(v))
-		for i, elem := range v {
-			lines[i] = strconv.FormatBool(elem)
-		}
-
-		return lines
+		return stringsFromSlice(v, strconv.FormatBool)
 	case []int64:
-		lines := make([]string, len(v))
-		for i, elem := range v {
-			lines[i] = strconv.FormatInt(elem, 10)
-		}
-
-		return lines
+		return stringsFromSlice(v, func(n int64) string { return strconv.FormatInt(n, 10) })
 	case []float64:
-		lines := make([]string, len(v))
-		for i, elem := range v {
-			lines[i] = strconv.FormatFloat(elem, 'f', -1, 64)
-		}
-
-		return lines
+		return stringsFromSlice(v, func(f float64) string { return strconv.FormatFloat(f, 'f', -1, 64) })
 	case []byte:
-		lines := make([]string, len(v))
-		for i, elem := range v {
-			lines[i] = strconv.Itoa(int(elem))
-		}
-
-		return lines
+		return stringsFromSlice(v, func(b byte) string { return strconv.Itoa(int(b)) })
 	default:
 		return it.PrettyJsonLines(item)
 	}
