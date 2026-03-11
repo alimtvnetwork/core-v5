@@ -74,7 +74,7 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesOnce 'test-string' -- String returns correct conversion",
+			Title: "BytesOnce.String returns 'test-string' -- 'test-string' input",
 			ExpectedInput: args.Map{
 				"stringOfValue": "test-string",
 				"stringMethod":  "test-string",
