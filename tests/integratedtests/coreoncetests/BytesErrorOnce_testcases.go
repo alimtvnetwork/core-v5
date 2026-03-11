@@ -163,7 +163,7 @@ var bytesErrorOnceErrorStateTestCases = []bytesErrorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce without error -- HasError false, IsValid, IsSuccess true",
+			Title: "BytesErrorOnce returns isValid true and isSuccess true -- 'ok' bytes no error",
 			ExpectedInput: args.Map{
 				"hasError":  false,
 				"isValid":   true,
