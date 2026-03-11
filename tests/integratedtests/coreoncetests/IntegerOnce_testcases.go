@@ -17,7 +17,7 @@ type integerOnceTestCase struct {
 var integerOnceCoreTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 0 -- IsZero, IsEmpty, String '0'",
+			Title: "IntegerOnce returns isZero true and isEmpty true -- input 0",
 			ExpectedInput: args.Map{
 				"value":          0,
 				"string":         "0",
