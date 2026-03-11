@@ -202,7 +202,7 @@ var lazyRegexOnRequiredCompiledMustTestCases = []coretestcases.CaseV1{
 
 var lazyRegexMustBeSafeTestCases = []coretestcases.CaseV1{
 	{
-		Title: "MustBeSafe valid pattern no panic",
+		Title: "LazyRegex.MustBeSafe returns no panic -- valid pattern",
 		ArrangeInput: args.Map{
 			"pattern": "\\d+",
 		},
