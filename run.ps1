@@ -622,7 +622,7 @@ pre{white-space:pre-wrap}</style></head><body>
         $aiTextLines.Add("- Use CaseV1 table-driven pattern with AAA comments")
         $aiTextLines.Add("- Focus on the lowest coverage packages first")
 
-        $aiTextEscaped = ($aiTextLines -join "`n") -replace '\\', '\\\\' -replace "'", "\'" -replace "`n", '\n' -replace "`r", '' -replace '"', '\"'
+        $aiTextEscaped = ($aiTextLines -join "`n") -replace '\\', '\\\\' -replace "'", "\\\'" -replace "`n", '\n' -replace "`r", '' -replace '"', '\"'
 
         # Inject "Copy for AI" button into the Go HTML report
         if (Test-Path $coverHtml) {
@@ -648,11 +648,21 @@ var __aiCoverageText =
             $scriptEnd = @'
 ';
 function copyForAI(){
-  navigator.clipboard.writeText(__aiCoverageText).then(function(){
-    var s=document.getElementById('ai-copy-status');
-    s.style.display='block';
-    setTimeout(function(){s.style.display='none';},2000);
-  });
+  try {
+    var ta = document.createElement("textarea");
+    ta.value = __aiCoverageText;
+    ta.style.position = "fixed";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    var s = document.getElementById("ai-copy-status");
+    s.style.display = "block";
+    setTimeout(function(){ s.style.display = "none"; }, 2000);
+  } catch(e) {
+    alert("Copy failed: " + e.message);
+  }
 }
 </script>
 '@
