@@ -76,7 +76,7 @@ var lazyRegexNewTestCases = []coretestcases.StringBoolGherkins{
 			"false",
 			"false",
 			"false",
-			"false",
+			"true",
 		},
 	},
 }

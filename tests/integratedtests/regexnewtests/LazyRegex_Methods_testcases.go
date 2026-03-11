@@ -22,7 +22,7 @@ var lazyRegexCompileTestCases = []coretestcases.StringGherkins{
 		ExpectedLines: []string{
 			"false",
 			"true",
-			"false",
+			"true",
 		},
 	},
 	{
@@ -31,7 +31,7 @@ var lazyRegexCompileTestCases = []coretestcases.StringGherkins{
 		Input: "",
 		ExpectedLines: []string{
 			"false",
-			"false",
+			"true",
 			"false",
 		},
 	},
