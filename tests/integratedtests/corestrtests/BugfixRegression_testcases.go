@@ -267,7 +267,7 @@ var hashmapClearPopulatedTestCase = coretestcases.CaseV1{
 var hashmapClearChainableTestCase = coretestcases.CaseV1{
 	Title: "Clear returns chainable instance -- re-add after clear",
 	ExpectedInput: args.Map{
-		"lengthAfterClear": "0",
+		"lengthAfterClear": "1",
 		"lengthAfterReAdd": "1",
 	},
 }

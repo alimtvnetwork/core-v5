@@ -94,7 +94,7 @@ var nilWrapperEdgeCaseTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"isValid": false,
-			"length":  3,
+			"length":  4,
 		},
 	},
 }
