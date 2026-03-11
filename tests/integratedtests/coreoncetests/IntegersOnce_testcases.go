@@ -159,7 +159,7 @@ var integersOnceJsonTestCases = []integersOnceTestCase{
 var integersOnceConstructorTestCases = []integersOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewIntegersOnce (value) works correctly",
+			Title: "NewIntegersOnce returns correct length -- [1,2,3] input",
 			ExpectedInput: args.Map{
 				"length": 3,
 			},

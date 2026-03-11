@@ -165,7 +165,7 @@ var stringsOnceJsonTestCases = []stringsOnceTestCase{
 var stringsOnceConstructorTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewStringsOnce (value) works correctly",
+			Title: "NewStringsOnce returns correct length -- [x,y] input",
 			ExpectedInput: args.Map{
 				"length": 2,
 			},

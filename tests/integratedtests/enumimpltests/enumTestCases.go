@@ -102,7 +102,7 @@ var enumUInt16TestCases = []coretestcases.CaseV1{
 
 var enumStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "String enum min empty, max Something2 -- string max is lexicographic",
+		Title: "EnumString returns min empty and max 'Something2' -- DynamicMap input lexicographic",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":    0,

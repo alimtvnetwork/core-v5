@@ -432,7 +432,7 @@ var bytesErrorOnceSerializeMustTestCases = []bytesErrorOnceLifecycleTestCase{
 var bytesErrorOnceConstructorTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewBytesErrorOnce (value) works correctly",
+			Title: "NewBytesErrorOnce returns correct value -- 'val' input",
 			ExpectedInput: args.Map{
 				"value":     "val",
 				"isCorrect": true,

@@ -127,7 +127,7 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 var integerOnceJsonTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 42 -- MarshalJSON returns '42'",
+			Title: "IntegerOnce.MarshalJSON returns '42' -- input 42",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "42",

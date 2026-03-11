@@ -192,7 +192,7 @@ var errorOnceJsonTestCases = []errorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- MarshalJSON returns '\"\"'",
+			Title: "ErrorOnce.MarshalJSON returns '\"\"' -- nil error",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "\"\"",

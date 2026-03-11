@@ -121,7 +121,7 @@ var byteOnceSerializeTestCases = []byteOnceTestCase{
 var byteOnceConstructorTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewByteOnce (value) works correctly",
+			Title: "NewByteOnce returns correct value -- input 5",
 			ExpectedInput: args.Map{
 				"constructedValue": 5,
 			},

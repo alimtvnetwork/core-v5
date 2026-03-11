@@ -20,7 +20,7 @@ var fileWithLineTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "FileWithLine with empty path",
+		Title: "FileWithLine returns empty path and lineNumber '0' -- empty file path",
 		ArrangeInput: args.Map{
 			"when": "given empty file path",
 			"file": "",

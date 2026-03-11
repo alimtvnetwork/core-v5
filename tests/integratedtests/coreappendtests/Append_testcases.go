@@ -20,7 +20,7 @@ var prependAppendTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "PrependAppend with nil prepend skips it",
+		Title: "PrependAppendAnyItemsToStringsSkipOnNil returns 2 items -- nil prepend",
 		ArrangeInput: args.Map{
 			"when":   "given nil prepend",
 			"append": "end",

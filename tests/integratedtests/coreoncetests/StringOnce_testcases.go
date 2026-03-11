@@ -199,7 +199,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 var stringOnceJsonTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'json' -- MarshalJSON returns '\"json\"'",
+			Title: "StringOnce.MarshalJSON returns '\"json\"' -- 'json' input",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "\"json\"",

@@ -184,7 +184,7 @@ var bytesOnceJsonTestCases = []bytesOnceJsonTestCase{
 var bytesOnceConstructorTestCases = []bytesOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewBytesOnce (value) works correctly",
+			Title: "NewBytesOnce returns correct value -- 'val' input",
 			ExpectedInput: args.Map{
 				"constructedValue": "val",
 			},
