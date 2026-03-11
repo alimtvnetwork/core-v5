@@ -1,179 +1,294 @@
 package regexnewtests
 
 import (
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 )
 
-var createMustTestCases = []coretestcases.StringGherkins{
+var createMustTestCases = []coretestcases.MapGherkins{
 	{
-		Title:         "CreateMust with valid digit pattern returns compiled regex",
-		When:          "given a valid digit pattern",
-		Input:         "\\d+",
-		ExtraArgs:     map[string]any{"compareInput": "abc123"},
-		ExpectedLines: []string{"true", "true"},
+		Title: "CreateMust with valid digit pattern returns compiled regex",
+		When:  "given a valid digit pattern",
+		Input: args.Map{
+			params.pattern:      "\\d+",
+			params.compareInput: "abc123",
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     true,
+		},
 	},
 	{
-		Title:         "CreateMust with valid word pattern returns compiled regex",
-		When:          "given a valid word pattern",
-		Input:         "\\w+",
-		ExtraArgs:     map[string]any{"compareInput": "hello"},
-		ExpectedLines: []string{"true", "true"},
+		Title: "CreateMust with valid word pattern returns compiled regex",
+		When:  "given a valid word pattern",
+		Input: args.Map{
+			params.pattern:      "\\w+",
+			params.compareInput: "hello",
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     true,
+		},
 	},
 	{
-		Title:         "CreateMust with anchored pattern matches correctly",
-		When:          "given an anchored pattern with non-matching input",
-		Input:         "^\\d+$",
-		ExtraArgs:     map[string]any{"compareInput": "abc"},
-		ExpectedLines: []string{"true", "false"},
-	},
-}
-
-var createMustLockIfTestCases = []coretestcases.StringBoolGherkins{
-	{
-		Title:         "CreateMustLockIf with lock true compiles valid pattern",
-		When:          "given valid pattern with lock true",
-		Input:         "\\d+",
-		IsMatching:    true,
-		ExtraArgs:     map[string]any{"compareInput": "99", "isLock": true},
-		ExpectedLines: []string{"true", "true"},
-	},
-	{
-		Title:         "CreateMustLockIf with lock false compiles valid pattern",
-		When:          "given valid pattern with lock false",
-		Input:         "[a-z]+",
-		IsMatching:    true,
-		ExtraArgs:     map[string]any{"compareInput": "hello", "isLock": false},
-		ExpectedLines: []string{"true", "true"},
+		Title: "CreateMust with anchored pattern matches correctly",
+		When:  "given an anchored pattern with non-matching input",
+		Input: args.Map{
+			params.pattern:      "^\\d+$",
+			params.compareInput: "abc",
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     false,
+		},
 	},
 }
 
-var createLockIfTestCases = []coretestcases.StringBoolGherkins{
+var createMustLockIfTestCases = []coretestcases.MapGherkins{
 	{
-		Title:         "CreateLockIf with lock true compiles valid pattern",
-		When:          "given valid pattern with lock true",
-		Input:         "\\d+",
-		ExtraArgs:     map[string]any{"isLock": true},
-		ExpectedLines: []string{"true", "false"},
+		Title: "CreateMustLockIf with lock true compiles valid pattern",
+		When:  "given valid pattern with lock true",
+		Input: args.Map{
+			params.pattern:      "\\d+",
+			params.compareInput: "99",
+			params.isLock:       true,
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     true,
+		},
 	},
 	{
-		Title:         "CreateLockIf with lock false compiles valid pattern",
-		When:          "given valid pattern with lock false",
-		Input:         "[a-z]+",
-		ExtraArgs:     map[string]any{"isLock": false},
-		ExpectedLines: []string{"true", "false"},
-	},
-	{
-		Title:         "CreateLockIf with lock true returns error for invalid pattern",
-		When:          "given invalid pattern with lock true",
-		Input:         "[bad",
-		ExtraArgs:     map[string]any{"isLock": true},
-		ExpectedLines: []string{"false", "true"},
-	},
-	{
-		Title:         "CreateLockIf with lock false returns error for invalid pattern",
-		When:          "given invalid pattern with lock false",
-		Input:         "(unclosed",
-		ExtraArgs:     map[string]any{"isLock": false},
-		ExpectedLines: []string{"false", "true"},
+		Title: "CreateMustLockIf with lock false compiles valid pattern",
+		When:  "given valid pattern with lock false",
+		Input: args.Map{
+			params.pattern:      "[a-z]+",
+			params.compareInput: "hello",
+			params.isLock:       false,
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     true,
+		},
 	},
 }
 
-var createApplicableLockTestCases = []coretestcases.StringGherkins{
+var createLockIfTestCases = []coretestcases.MapGherkins{
 	{
-		Title:         "CreateApplicableLock with valid pattern is applicable",
-		When:          "given a valid pattern",
-		Input:         "\\d+",
-		ExpectedLines: []string{"true", "false", "true"},
+		Title: "CreateLockIf with lock true compiles valid pattern",
+		When:  "given valid pattern with lock true",
+		Input: args.Map{
+			params.pattern: "\\d+",
+			params.isLock:  true,
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.hasError:    false,
+		},
 	},
 	{
-		Title:         "CreateApplicableLock with invalid pattern is not applicable",
-		When:          "given an invalid pattern",
-		Input:         "[bad",
-		ExpectedLines: []string{"false", "true", "false"},
+		Title: "CreateLockIf with lock false compiles valid pattern",
+		When:  "given valid pattern with lock false",
+		Input: args.Map{
+			params.pattern: "[a-z]+",
+			params.isLock:  false,
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.hasError:    false,
+		},
 	},
 	{
-		Title:         "CreateApplicableLock with empty pattern is applicable",
-		When:          "given an empty pattern",
-		Input:         "",
-		ExpectedLines: []string{"true", "false", "true"},
-	},
-}
-
-var newMustLockTestCases = []coretestcases.StringGherkins{
-	{
-		Title:         "NewMustLock with valid pattern returns compiled regex",
-		When:          "given a valid digit pattern",
-		Input:         "\\d+",
-		ExtraArgs:     map[string]any{"compareInput": "123"},
-		ExpectedLines: []string{"true", "true"},
+		Title: "CreateLockIf with lock true returns error for invalid pattern",
+		When:  "given invalid pattern with lock true",
+		Input: args.Map{
+			params.pattern: "[bad",
+			params.isLock:  true,
+		},
+		Expected: args.Map{
+			params.regexNotNil: false,
+			params.hasError:    true,
+		},
 	},
 	{
-		Title:         "NewMustLock with word boundary pattern matches",
-		When:          "given a word boundary pattern",
-		Input:         "\\bhello\\b",
-		ExtraArgs:     map[string]any{"compareInput": "hello world"},
-		ExpectedLines: []string{"true", "true"},
-	},
-	{
-		Title:         "NewMustLock with anchored pattern rejects mismatch",
-		When:          "given an anchored pattern with non-matching input",
-		Input:         "^\\d+$",
-		ExtraArgs:     map[string]any{"compareInput": "abc"},
-		ExpectedLines: []string{"true", "false"},
-	},
-}
-
-var matchUsingFuncErrorLockTestCases = []coretestcases.StringGherkins{
-	{
-		Title:         "MatchUsingFuncErrorLock returns nil on match",
-		When:          "given matching input with MatchString func",
-		Input:         "^hello$",
-		ExtraArgs:     map[string]any{"compareInput": "hello"},
-		ExpectedLines: []string{"true"},
-	},
-	{
-		Title:         "MatchUsingFuncErrorLock returns error on mismatch",
-		When:          "given non-matching input with MatchString func",
-		Input:         "^\\d+$",
-		ExtraArgs:     map[string]any{"compareInput": "abc"},
-		ExpectedLines: []string{"false"},
-	},
-	{
-		Title:         "MatchUsingFuncErrorLock returns error for invalid pattern",
-		When:          "given invalid pattern with MatchString func",
-		Input:         "[bad",
-		ExtraArgs:     map[string]any{"compareInput": "test"},
-		ExpectedLines: []string{"false"},
+		Title: "CreateLockIf with lock false returns error for invalid pattern",
+		When:  "given invalid pattern with lock false",
+		Input: args.Map{
+			params.pattern: "(unclosed",
+			params.isLock:  false,
+		},
+		Expected: args.Map{
+			params.regexNotNil: false,
+			params.hasError:    true,
+		},
 	},
 }
 
-var matchUsingCustomizeErrorFuncLockTestCases = []coretestcases.StringGherkins{
+var createApplicableLockTestCases = []coretestcases.MapGherkins{
 	{
-		Title:         "CustomizeErrorFunc returns nil on match with nil customizer",
-		When:          "given matching input with nil customizer",
-		Input:         "^hello$",
-		ExtraArgs:     map[string]any{"compareInput": "hello", "customizer": "nil"},
-		ExpectedLines: []string{"true"},
+		Title: "CreateApplicableLock with valid pattern is applicable",
+		When:  "given a valid pattern",
+		Input: args.Map{
+			params.pattern: "\\d+",
+		},
+		Expected: args.Map{
+			params.regexNotNil:  true,
+			params.hasError:     false,
+			params.isApplicable: true,
+		},
 	},
 	{
-		Title:         "CustomizeErrorFunc returns default error on mismatch with nil customizer",
-		When:          "given non-matching input with nil customizer",
-		Input:         "^\\d+$",
-		ExtraArgs:     map[string]any{"compareInput": "abc", "customizer": "nil"},
-		ExpectedLines: []string{"false", "false"},
+		Title: "CreateApplicableLock with invalid pattern is not applicable",
+		When:  "given an invalid pattern",
+		Input: args.Map{
+			params.pattern: "[bad",
+		},
+		Expected: args.Map{
+			params.regexNotNil:  false,
+			params.hasError:     true,
+			params.isApplicable: false,
+		},
 	},
 	{
-		Title:         "CustomizeErrorFunc returns custom error on mismatch",
-		When:          "given non-matching input with custom error func",
-		Input:         "^\\d+$",
-		ExtraArgs:     map[string]any{"compareInput": "abc", "customizer": "custom"},
-		ExpectedLines: []string{"false", "true"},
+		Title: "CreateApplicableLock with empty pattern is applicable",
+		When:  "given an empty pattern",
+		Input: args.Map{
+			params.pattern: "",
+		},
+		Expected: args.Map{
+			params.regexNotNil:  true,
+			params.hasError:     false,
+			params.isApplicable: true,
+		},
+	},
+}
+
+var newMustLockTestCases = []coretestcases.MapGherkins{
+	{
+		Title: "NewMustLock with valid pattern returns compiled regex",
+		When:  "given a valid digit pattern",
+		Input: args.Map{
+			params.pattern:      "\\d+",
+			params.compareInput: "123",
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     true,
+		},
 	},
 	{
-		Title:         "CustomizeErrorFunc returns nil on match with custom error func",
-		When:          "given matching input with custom error func",
-		Input:         "\\d+",
-		ExtraArgs:     map[string]any{"compareInput": "123", "customizer": "custom"},
-		ExpectedLines: []string{"true"},
+		Title: "NewMustLock with word boundary pattern matches",
+		When:  "given a word boundary pattern",
+		Input: args.Map{
+			params.pattern:      "\\bhello\\b",
+			params.compareInput: "hello world",
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     true,
+		},
+	},
+	{
+		Title: "NewMustLock with anchored pattern rejects mismatch",
+		When:  "given an anchored pattern with non-matching input",
+		Input: args.Map{
+			params.pattern:      "^\\d+$",
+			params.compareInput: "abc",
+		},
+		Expected: args.Map{
+			params.regexNotNil: true,
+			params.isMatch:     false,
+		},
+	},
+}
+
+var matchUsingFuncErrorLockTestCases = []coretestcases.MapGherkins{
+	{
+		Title: "MatchUsingFuncErrorLock returns nil on match",
+		When:  "given matching input with MatchString func",
+		Input: args.Map{
+			params.pattern:      "^hello$",
+			params.compareInput: "hello",
+		},
+		Expected: args.Map{
+			params.isNoError: true,
+		},
+	},
+	{
+		Title: "MatchUsingFuncErrorLock returns error on mismatch",
+		When:  "given non-matching input with MatchString func",
+		Input: args.Map{
+			params.pattern:      "^\\d+$",
+			params.compareInput: "abc",
+		},
+		Expected: args.Map{
+			params.isNoError: false,
+		},
+	},
+	{
+		Title: "MatchUsingFuncErrorLock returns error for invalid pattern",
+		When:  "given invalid pattern with MatchString func",
+		Input: args.Map{
+			params.pattern:      "[bad",
+			params.compareInput: "test",
+		},
+		Expected: args.Map{
+			params.isNoError: false,
+		},
+	},
+}
+
+var matchUsingCustomizeErrorFuncLockTestCases = []coretestcases.MapGherkins{
+	{
+		Title: "CustomizeErrorFunc returns nil on match with nil customizer",
+		When:  "given matching input with nil customizer",
+		Input: args.Map{
+			params.pattern:      "^hello$",
+			params.compareInput: "hello",
+			params.customizer:   "nil",
+		},
+		Expected: args.Map{
+			params.isNoError:    true,
+			params.isCustomError: false,
+		},
+	},
+	{
+		Title: "CustomizeErrorFunc returns default error on mismatch with nil customizer",
+		When:  "given non-matching input with nil customizer",
+		Input: args.Map{
+			params.pattern:      "^\\d+$",
+			params.compareInput: "abc",
+			params.customizer:   "nil",
+		},
+		Expected: args.Map{
+			params.isNoError:    false,
+			params.isCustomError: false,
+		},
+	},
+	{
+		Title: "CustomizeErrorFunc returns custom error on mismatch",
+		When:  "given non-matching input with custom error func",
+		Input: args.Map{
+			params.pattern:      "^\\d+$",
+			params.compareInput: "abc",
+			params.customizer:   "custom",
+		},
+		Expected: args.Map{
+			params.isNoError:    false,
+			params.isCustomError: true,
+		},
+	},
+	{
+		Title: "CustomizeErrorFunc returns nil on match with custom error func",
+		When:  "given matching input with custom error func",
+		Input: args.Map{
+			params.pattern:      "\\d+",
+			params.compareInput: "123",
+			params.customizer:   "custom",
+		},
+		Expected: args.Map{
+			params.isNoError:    true,
+			params.isCustomError: false,
+		},
 	},
 }
