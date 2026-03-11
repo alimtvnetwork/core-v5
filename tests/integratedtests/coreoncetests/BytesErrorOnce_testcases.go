@@ -339,7 +339,7 @@ var bytesErrorOnceMarshalJSONTestCase = bytesErrorOnceTestCase{
 
 var bytesErrorOnceSerializeTestCase = bytesErrorOnceTestCase{
 	Case: coretestcases.CaseV1{
-		Title: "BytesErrorOnce.Serialize returns bytes",
+		Title: "BytesErrorOnce.Serialize returns bytes -- 'ser' input",
 		ExpectedInput: args.Map{
 			"noError":         true,
 			"serializedValue": "ser",
