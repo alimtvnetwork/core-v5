@@ -144,7 +144,7 @@ var typedCollectionPartitionTestCases = []coretestcases.CaseV1{
 
 var typedCollectionAllDataTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AllData extracts all typed data",
+		Title: "TypedPayloadCollection.AllData returns 3 items -- 3 users",
 		ArrangeInput: args.Map{
 			"when": "extracting all data",
 		},
