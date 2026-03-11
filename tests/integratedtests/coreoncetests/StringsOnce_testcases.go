@@ -148,7 +148,7 @@ var stringsOnceCachingTestCases = []stringsOnceTestCase{
 var stringsOnceJsonTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b] -- MarshalJSON returns '[\"a\",\"b\"]'",
+			Title: "StringsOnce.MarshalJSON returns '[\"a\",\"b\"]' -- [a,b] input",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "[\"a\",\"b\"]",
