@@ -636,6 +636,7 @@ switch ($Command.ToLower()) {
     { $_ -in "t", "-t", "test" }              { Invoke-AllTests }
     { $_ -in "tp", "-tp", "test-pkg" }        { Invoke-PackageTests $ExtraArgs[0] }
     { $_ -in "tc", "-tc", "test-cover" }      { Invoke-TestCoverage }
+    { $_ -in "tcp", "-tcp", "test-cover-pkg" } { Invoke-PackageTestCoverage $ExtraArgs[0] }
     { $_ -in "ti", "-ti", "test-int" }        { Invoke-IntegratedTests }
     { $_ -in "tf", "-tf", "test-fail" }       { Invoke-ShowFailLog }
     { $_ -in "gc", "-gc", "goconvey" }        { Invoke-GoConvey }
