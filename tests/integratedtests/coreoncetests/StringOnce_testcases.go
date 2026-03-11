@@ -17,7 +17,7 @@ type stringOnceTestCase struct {
 var stringOnceCoreTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'hello' -- Value, String, IsEmpty false",
+			Title: "StringOnce returns value 'hello' and isEmpty false -- 'hello' input",
 			ExpectedInput: args.Map{
 				"value":               "hello",
 				"string":              "hello",
@@ -29,7 +29,7 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce empty -- IsEmpty true, IsEmptyOrWhitespace true",
+			Title: "StringOnce returns isEmpty true and isEmptyOrWhitespace true -- empty input",
 			ExpectedInput: args.Map{
 				"value":               "",
 				"string":              "",
@@ -41,7 +41,7 @@ var stringOnceCoreTestCases = []stringOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce whitespace -- IsEmpty false, IsEmptyOrWhitespace true",
+			Title: "StringOnce returns isEmpty false and isEmptyOrWhitespace true -- whitespace input",
 			ExpectedInput: args.Map{
 				"value":               "   ",
 				"string":              "   ",
@@ -85,7 +85,7 @@ type stringOnceMatchTestCase struct {
 var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'abc' -- IsEqual 'abc' true, 'xyz' false",
+			Title: "StringOnce.IsEqual returns true for 'abc' and false for 'xyz' -- 'abc' input",
 			ExpectedInput: args.Map{
 				"matchResult":   true,
 				"noMatchResult": false,
@@ -96,7 +96,7 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'hello world' -- IsContains 'world' true, 'xyz' false",
+			Title: "StringOnce.IsContains returns true for 'world' and false for 'xyz' -- 'hello world' input",
 			ExpectedInput: args.Map{
 				"matchResult":   true,
 				"noMatchResult": false,
@@ -107,7 +107,7 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'prefix-data' -- HasPrefix 'prefix' true, 'data' false",
+			Title: "StringOnce.HasPrefix returns true for 'prefix' and false for 'data' -- 'prefix-data' input",
 			ExpectedInput: args.Map{
 				"matchResult":   true,
 				"noMatchResult": false,
@@ -118,7 +118,7 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'data-suffix' -- HasSuffix 'suffix' true, 'data' false",
+			Title: "StringOnce.HasSuffix returns true for 'suffix' and false for 'data' -- 'data-suffix' input",
 			ExpectedInput: args.Map{
 				"matchResult":   true,
 				"noMatchResult": false,
@@ -143,7 +143,7 @@ type stringOnceSplitTestCase struct {
 var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'a,b,c' -- SplitBy ','",
+			Title: "StringOnce.SplitBy returns 3 parts -- 'a,b,c' split by ','",
 			ExpectedInput: args.Map{
 				"partsLength": 3,
 				"firstPart":   "a",
@@ -156,7 +156,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'key=value' -- SplitLeftRight '='",
+			Title: "StringOnce.SplitLeftRight returns 'key' and 'value' -- 'key=value' split by '='",
 			ExpectedInput: args.Map{
 				"left":  "key",
 				"right": "value",
@@ -168,7 +168,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'nosplit' -- SplitLeftRight '=' returns full left, empty right",
+			Title: "StringOnce.SplitLeftRight returns full left and empty right -- 'nosplit' no separator found",
 			ExpectedInput: args.Map{
 				"left":  "nosplit",
 				"right": "",
@@ -180,7 +180,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce ' key = value ' -- SplitLeftRightTrim '='",
+			Title: "StringOnce.SplitLeftRightTrim returns trimmed 'key' and 'value' -- ' key = value ' split by '='",
 			ExpectedInput: args.Map{
 				"left":  "key",
 				"right": "value",
@@ -199,7 +199,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 var stringOnceJsonTestCases = []stringOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'json' -- MarshalJSON returns '\"json\"'",
+			Title: "StringOnce.MarshalJSON returns '\"json\"' -- 'json' input",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "\"json\"",

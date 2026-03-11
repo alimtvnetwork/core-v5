@@ -19,7 +19,7 @@ type errorOnceTestCase struct {
 var errorOnceCoreTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce with error -- HasError true, IsValid false, Message 'fail'",
+			Title: "ErrorOnce returns hasError true and message 'fail' -- error 'fail'",
 			ExpectedInput: args.Map{
 				"hasError":   true,
 				"isValid":    false,
@@ -36,7 +36,7 @@ var errorOnceCoreTestCases = []errorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- HasError false, IsValid true, Message empty",
+			Title: "ErrorOnce returns isValid true and message empty -- nil error",
 			ExpectedInput: args.Map{
 				"hasError":   false,
 				"isValid":    true,
@@ -79,7 +79,7 @@ var errorOnceCachingTestCases = []errorOnceTestCase{
 var errorOnceNullOrEmptyTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- IsNullOrEmpty true",
+			Title: "ErrorOnce returns isNullOrEmpty true -- nil error",
 			ExpectedInput: args.Map{
 				"isNullOrEmpty": true,
 			},
@@ -88,7 +88,7 @@ var errorOnceNullOrEmptyTestCases = []errorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce empty string -- IsNullOrEmpty true",
+			Title: "ErrorOnce returns isNullOrEmpty true -- empty string error",
 			ExpectedInput: args.Map{
 				"isNullOrEmpty": true,
 			},
@@ -97,7 +97,7 @@ var errorOnceNullOrEmptyTestCases = []errorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce with message -- IsNullOrEmpty false",
+			Title: "ErrorOnce returns isNullOrEmpty false -- error 'msg'",
 			ExpectedInput: args.Map{
 				"isNullOrEmpty": false,
 			},
@@ -119,7 +119,7 @@ type errorOnceMessageEqualTestCase struct {
 var errorOnceMessageEqualTestCases = []errorOnceMessageEqualTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce 'match' -- IsMessageEqual 'match' true, 'other' false",
+			Title: "ErrorOnce.IsMessageEqual returns true for 'match' and false for 'other' -- error 'match'",
 			ExpectedInput: args.Map{
 				"isMessageEqualMatch": true,
 				"isMessageEqualOther": false,
@@ -130,7 +130,7 @@ var errorOnceMessageEqualTestCases = []errorOnceMessageEqualTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- IsMessageEqual always false",
+			Title: "ErrorOnce.IsMessageEqual returns false for all -- nil error",
 			ExpectedInput: args.Map{
 				"isMessageEqualMatch": false,
 				"isMessageEqualOther": false,
@@ -154,7 +154,7 @@ type errorOnceConcatTestCase struct {
 var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce 'base' -- ConcatNewString contains both 'base' and 'extra'",
+			Title: "ErrorOnce.ConcatNewString returns string containing 'base' and 'extra' -- error 'base'",
 			ExpectedInput: args.Map{
 				"containsBase":  true,
 				"containsExtra": true,
@@ -165,7 +165,7 @@ var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- ConcatNewString returns only additional message",
+			Title: "ErrorOnce.ConcatNewString returns only additional message -- nil error",
 			ExpectedInput: args.Map{
 				"result": "\"only\"",
 			},
@@ -182,7 +182,7 @@ var errorOnceConcatTestCases = []errorOnceConcatTestCase{
 var errorOnceJsonTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce 'marshal' -- MarshalJSON returns '\"marshal\"'",
+			Title: "ErrorOnce.MarshalJSON returns '\"marshal\"' -- error 'marshal'",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "\"marshal\"",
@@ -192,7 +192,7 @@ var errorOnceJsonTestCases = []errorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- MarshalJSON returns '\"\"'",
+			Title: "ErrorOnce.MarshalJSON returns '\"\"' -- nil error",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "\"\"",

@@ -17,7 +17,7 @@ type integerOnceTestCase struct {
 var integerOnceCoreTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 0 -- IsZero, IsEmpty, String '0'",
+			Title: "IntegerOnce returns isZero true and isEmpty true -- input 0",
 			ExpectedInput: args.Map{
 				"value":          0,
 				"string":         "0",
@@ -33,7 +33,7 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 42 -- positive, not zero",
+			Title: "IntegerOnce returns isPositive true and isZero false -- input 42",
 			ExpectedInput: args.Map{
 				"value":          42,
 				"string":         "42",
@@ -49,7 +49,7 @@ var integerOnceCoreTestCases = []integerOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce -3 -- negative, not zero",
+			Title: "IntegerOnce returns isNegative true and isZero false -- input -3",
 			ExpectedInput: args.Map{
 				"value":          -3,
 				"string":         "-3",
@@ -96,7 +96,7 @@ type integerOnceCompareTestCase struct {
 var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 10 -- IsAbove(5), IsAboveEqual(10)",
+			Title: "IntegerOnce returns isAbove true and isAboveEqual true -- input 10 compare 5",
 			ExpectedInput: args.Map{
 				"isAboveCompare":   true,
 				"isAboveSelf":      false,
@@ -108,7 +108,7 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 3 -- IsLessThan(5), IsLessThanEqual(3)",
+			Title: "IntegerOnce returns isLessThan true and isLessThanEqual true -- input 3 compare 5",
 			ExpectedInput: args.Map{
 				"isLessThanCompare":   true,
 				"isLessThanSelf":      false,
@@ -127,7 +127,7 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 var integerOnceJsonTestCases = []integerOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 42 -- MarshalJSON returns '42'",
+			Title: "IntegerOnce.MarshalJSON returns '42' -- input 42",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "42",

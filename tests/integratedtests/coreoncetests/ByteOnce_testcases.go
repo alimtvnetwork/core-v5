@@ -17,7 +17,7 @@ type byteOnceTestCase struct {
 var byteOnceCoreTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 42 -- Value, String, IsZero false, IsPositive true",
+			Title: "ByteOnce returns value 42 and isPositive true -- input 42",
 			ExpectedInput: args.Map{
 				"value":      42,
 				"int":        42,
@@ -32,7 +32,7 @@ var byteOnceCoreTestCases = []byteOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 0 -- IsZero true, IsEmpty true",
+			Title: "ByteOnce returns isZero true and isEmpty true -- input 0",
 			ExpectedInput: args.Map{
 				"value":      0,
 				"int":        0,
@@ -47,7 +47,7 @@ var byteOnceCoreTestCases = []byteOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 255 -- max byte value",
+			Title: "ByteOnce returns isPositive true -- input 255 max byte value",
 			ExpectedInput: args.Map{
 				"value":      255,
 				"int":        255,
@@ -87,7 +87,7 @@ var byteOnceCachingTestCases = []byteOnceTestCase{
 var byteOnceJsonTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 99 -- MarshalJSON returns '99'",
+			Title: "ByteOnce.MarshalJSON returns '99' -- input 99",
 			ExpectedInput: args.Map{
 				"noError":        true,
 				"marshaledValue": "99",
@@ -104,7 +104,7 @@ var byteOnceJsonTestCases = []byteOnceTestCase{
 var byteOnceSerializeTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ByteOnce 77 -- Serialize returns JSON bytes",
+			Title: "ByteOnce.Serialize returns '77' -- input 77",
 			ExpectedInput: args.Map{
 				"noError":         true,
 				"serializedValue": "77",
@@ -121,7 +121,7 @@ var byteOnceSerializeTestCases = []byteOnceTestCase{
 var byteOnceConstructorTestCases = []byteOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewByteOnce (value) works correctly",
+			Title: "NewByteOnce returns correct value -- input 5",
 			ExpectedInput: args.Map{
 				"constructedValue": 5,
 			},

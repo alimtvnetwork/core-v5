@@ -7,7 +7,7 @@ import (
 
 var fileWithLineTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FileWithLine stores path and line",
+		Title: "FileWithLine returns correct path and lineNumber -- '/src/main.go' line 42",
 		ArrangeInput: args.Map{
 			"when": "given file path and line number",
 			"file": "/src/main.go",
@@ -20,7 +20,7 @@ var fileWithLineTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "FileWithLine with empty path",
+		Title: "FileWithLine returns empty path and lineNumber '0' -- empty file path",
 		ArrangeInput: args.Map{
 			"when": "given empty file path",
 			"file": "",

@@ -7,7 +7,7 @@ import (
 
 var prependAppendTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PrependAppend skips nil items",
+		Title: "PrependAppendAnyItemsToStringsSkipOnNil returns 3 items -- prepend and append provided",
 		ArrangeInput: args.Map{
 			"when":    "given prepend, append and middle items with nil",
 			"prepend": "start",
@@ -20,7 +20,7 @@ var prependAppendTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "PrependAppend with nil prepend skips it",
+		Title: "PrependAppendAnyItemsToStringsSkipOnNil returns 2 items -- nil prepend",
 		ArrangeInput: args.Map{
 			"when":   "given nil prepend",
 			"append": "end",

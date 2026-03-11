@@ -8,7 +8,7 @@ import (
 
 var enumByteTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Byte enum min 0, max 10 -- generates min, max from given map[string]any",
+		Title: "EnumByte returns min 0 and max 10 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":   0,
@@ -27,7 +27,7 @@ var enumByteTestCases = []coretestcases.CaseV1{
 
 var enumInt8TestCases = []coretestcases.CaseV1{
 	{
-		Title: "Integer8 enum min -2, max 12 -- generates min, max from given map[string]any",
+		Title: "EnumInt8 returns min -2 and max 12 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":   -2,
@@ -46,7 +46,7 @@ var enumInt8TestCases = []coretestcases.CaseV1{
 
 var enumInt16TestCases = []coretestcases.CaseV1{
 	{
-		Title: "Integer16 enum min -3, max 14 -- generates min, max from given map[string]any",
+		Title: "EnumInt16 returns min -3 and max 14 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":   -3,
@@ -65,7 +65,7 @@ var enumInt16TestCases = []coretestcases.CaseV1{
 
 var enumInt32TestCases = []coretestcases.CaseV1{
 	{
-		Title: "Integer32 enum min -4, max 15 -- generates min, max from given map[string]any",
+		Title: "EnumInt32 returns min -4 and max 15 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":   -4,
@@ -84,7 +84,7 @@ var enumInt32TestCases = []coretestcases.CaseV1{
 
 var enumUInt16TestCases = []coretestcases.CaseV1{
 	{
-		Title: "UnsignedInteger16 enum min 0, max 20 -- generates min, max from given map[string]any",
+		Title: "EnumUInt16 returns min 0 and max 20 -- DynamicMap input",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":    0,
@@ -102,7 +102,7 @@ var enumUInt16TestCases = []coretestcases.CaseV1{
 
 var enumStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "String enum min empty, max Something2 -- string max is lexicographic",
+		Title: "EnumString returns min empty and max 'Something2' -- DynamicMap input lexicographic",
 		ArrangeInput: args.Map{
 			"enum-map": enumimpl.DynamicMap{
 				"Invalid":    0,
