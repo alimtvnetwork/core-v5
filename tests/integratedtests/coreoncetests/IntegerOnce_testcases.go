@@ -108,7 +108,7 @@ var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 3 -- IsLessThan(5), IsLessThanEqual(3)",
+			Title: "IntegerOnce returns isLessThan true and isLessThanEqual true -- input 3 compare 5",
 			ExpectedInput: args.Map{
 				"isLessThanCompare":   true,
 				"isLessThanSelf":      false,
