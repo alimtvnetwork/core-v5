@@ -202,7 +202,7 @@ var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "test-data",
 	},
 	{
-		Title: "PtrString returns empty for nil pointer",
+		Title: "BytesTo.PtrString returns empty -- nil pointer",
 		ArrangeInput: args.Map{
 			"when":  "given nil pointer",
 			"input": "",
