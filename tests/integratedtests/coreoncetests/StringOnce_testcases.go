@@ -143,7 +143,7 @@ type stringOnceSplitTestCase struct {
 var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'a,b,c' -- SplitBy ','",
+			Title: "StringOnce.SplitBy returns 3 parts -- 'a,b,c' split by ','",
 			ExpectedInput: args.Map{
 				"partsLength": 3,
 				"firstPart":   "a",
