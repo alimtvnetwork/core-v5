@@ -103,7 +103,7 @@ var typedWrapperNilTestCase = coretestcases.CaseV1{
 }
 
 var typedWrapperInvalidJsonTestCase = coretestcases.CaseV1{
-	Title: "Invalid JSON bytes return error on deserialization",
+	Title: "TypedPayloadWrapper returns error -- invalid JSON bytes",
 	ArrangeInput: args.Map{
 		"when":  "passing invalid json",
 		"bytes": "not-valid-json{{{",
