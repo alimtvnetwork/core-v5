@@ -14,7 +14,7 @@ var versionCreationCases = []versionCreationCase{
 	{"major only", "v5", 5, 0, 0},
 	{"major.minor", "v1.2", 1, 2, 0},
 	{"with build", "v1.2.3.4", 1, 2, 3},
-	{"empty", "", 0, 0, 0},
-	{"just v", "v", 0, 0, 0},
+	{"empty", "", -1, -1, -1},
+	{"just v", "v", -1, -1, -1},
 	{"spaces", "  v1.2.3  ", 1, 2, 3},
 }

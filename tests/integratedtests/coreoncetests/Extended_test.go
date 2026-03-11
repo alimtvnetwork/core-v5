@@ -63,15 +63,19 @@ func Test_IntegerOnce_Extended_Verification(t *testing.T) {
 
 		// Act
 		executeResult := intOnce.Execute()
-		unmarshalErr := intOnce.UnmarshalJSON([]byte("10"))
+		isAboveEqualZero := intOnce.IsAboveEqualZero()
+		isLessThanEqZero := intOnce.IsLessThanEqualZero()
+		isInvalidIndex := intOnce.IsInvalidIndex()
+		isValidIndex := intOnce.IsValidIndex()
 		_, serializeErr := intOnce.Serialize()
+		unmarshalErr := intOnce.UnmarshalJSON([]byte("10"))
 
 		actual := args.Map{
 			"execute":          executeResult,
-			"isAboveEqualZero": intOnce.IsAboveEqualZero(),
-			"isLessThanEqZero": intOnce.IsLessThanEqualZero(),
-			"isInvalidIndex":   intOnce.IsInvalidIndex(),
-			"isValidIndex":     intOnce.IsValidIndex(),
+			"isAboveEqualZero": isAboveEqualZero,
+			"isLessThanEqZero": isLessThanEqZero,
+			"isInvalidIndex":   isInvalidIndex,
+			"isValidIndex":     isValidIndex,
 			"unmarshalOk":      unmarshalErr == nil,
 			"serializeOk":      serializeErr == nil,
 		}

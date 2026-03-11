@@ -76,7 +76,7 @@ var errorOnceExtendedTestCases = []coretestcases.CaseV1{
 			"hasError":    false,
 			"isEmptyErr":  true,
 			"executeOk":  true,
-			"stringOk":   false,
+			"stringOk":   true,
 			"serializeOk": true,
 			"concatOk":   true,
 			"unmarshalOk": true,

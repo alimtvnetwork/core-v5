@@ -13,12 +13,12 @@ var isStringsEqualPtrTestCases = []coretestcases.CaseV1{
 	},
 	{
 		Title:         "Left nil right non-nil returns false",
-		ArrangeInput:  args.Map{"leftNil": true, "rightNil": false},
+		ArrangeInput:  args.Map{"leftNil": true, "rightNil": false, "right": []string{"a"}},
 		ExpectedInput: args.Map{"result": false},
 	},
 	{
 		Title:         "Right nil left non-nil returns false",
-		ArrangeInput:  args.Map{"leftNil": false, "rightNil": true},
+		ArrangeInput:  args.Map{"leftNil": false, "rightNil": true, "left": []string{"a"}},
 		ExpectedInput: args.Map{"result": false},
 	},
 	{
