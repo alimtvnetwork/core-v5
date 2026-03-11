@@ -12,7 +12,7 @@ import (
 
 var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsEqual - both nil should return true",
+		Title: "PagingInfo.IsEqual returns true -- both nil",
 		ArrangeInput: args.Map{
 			"when":       "given both nil",
 			"isLeftNil":  true,
