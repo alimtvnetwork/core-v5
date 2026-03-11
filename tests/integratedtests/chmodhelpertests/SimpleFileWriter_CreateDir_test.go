@@ -189,10 +189,11 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 			for fileIndex, file := range input.Files {
 				finalPath := pathinternal.Join(dir, file)
 
-				err := fileWriter.String.Default(
-					finalPath,
-					"",
-				)
+			err := fileWriter.String.Default(
+				false,
+				finalPath,
+				"",
+			)
 
 				errcore.HandleErr(err)
 
