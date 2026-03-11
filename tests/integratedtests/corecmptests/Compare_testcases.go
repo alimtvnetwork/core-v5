@@ -37,7 +37,7 @@ var integerCompareTestCases = []coretestcases.CaseV1{
 
 var isStringsEqualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsStringsEqual returns true for identical slices",
+		Title: "IsStringsEqual returns true -- identical slices",
 		ArrangeInput: args.Map{
 			"when":  "given identical string slices",
 			"left":  []string{"a", "b", "c"},
