@@ -512,7 +512,7 @@ function Invoke-PackageTestCoverage {
     # Run from project ROOT so -coverpkg can instrument all source packages
     $prevPref = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    $output = & go test -v -count=1 -coverprofile=$coverProfile -coverpkg=./... "./tests/integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
+    $output = & go test -v -count=1 "-coverprofile=$coverProfile" "-coverpkg=./..." "./tests/integratedtests/$pkg/..." 2>&1 | ForEach-Object { $_.ToString() }
     $exitCode = $LASTEXITCODE
     $ErrorActionPreference = $prevPref
 
