@@ -140,7 +140,7 @@ var lazyRegexIsFailedMatchBytesTestCases = []coretestcases.CaseV1{
 
 var lazyRegexMatchUsingFuncErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "MatchUsingFuncError nil on match",
+		Title: "LazyRegex.MatchUsingFuncError returns no error -- matching input",
 		ArrangeInput: args.Map{
 			"pattern":   "^hello$",
 			"comparing": "hello",
