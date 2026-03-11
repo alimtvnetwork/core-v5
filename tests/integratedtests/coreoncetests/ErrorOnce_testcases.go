@@ -97,7 +97,7 @@ var errorOnceNullOrEmptyTestCases = []errorOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce with message -- IsNullOrEmpty false",
+			Title: "ErrorOnce returns isNullOrEmpty false -- error 'msg'",
 			ExpectedInput: args.Map{
 				"isNullOrEmpty": false,
 			},
