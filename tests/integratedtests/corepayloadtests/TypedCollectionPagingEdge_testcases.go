@@ -144,7 +144,7 @@ var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 
 var typedCollectionPagesSizeEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagesSize with page size 1",
+		Title: "GetPagesSize returns 5 -- 5 items page size 1",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 1",
 			"count":    5,
