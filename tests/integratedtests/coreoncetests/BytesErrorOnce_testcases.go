@@ -372,7 +372,7 @@ var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce -- HandleError panics on error",
+			Title: "BytesErrorOnce.HandleError returns panic -- error 'handle-err'",
 			ExpectedInput: args.Map{
 				"handleErrorPanicked":       true,
 				"mustBeEmptyErrorPanicked":  true,
