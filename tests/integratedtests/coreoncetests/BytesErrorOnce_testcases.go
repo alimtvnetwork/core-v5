@@ -420,7 +420,7 @@ var bytesErrorOnceSerializeMustTestCases = []bytesErrorOnceLifecycleTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce.SerializeMust panics on error",
+			Title: "BytesErrorOnce.SerializeMust returns panic -- error 'ser-fail'",
 			ExpectedInput: args.Map{
 				"didPanic": true,
 			},
