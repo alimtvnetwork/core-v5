@@ -30,7 +30,7 @@ var timeCompareTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "LeftLess", // compareResult
 	},
 	{
-		Title: "Time returns LeftGreater when left is after right",
+		Title: "Time returns LeftGreater -- left after right",
 		ArrangeInput: args.Map{
 			"when":  "given left time after right time",
 			"left":  laterTime,
