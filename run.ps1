@@ -369,9 +369,17 @@ function Invoke-TestCoverage {
         $coverHtml    = Join-Path $coverDir "coverage.html"
         $coverSummary = Join-Path $coverDir "coverage-summary.txt"
 
+        # Discover test packages, excluding testwrappers (test data only, 0% noise)
+        $allPkgs = & go list ./... 2>&1 | ForEach-Object { $_.ToString() }
+        $testPkgs = $allPkgs | Where-Object { $_ -notmatch "testwrappers" }
+
+        # Use -coverpkg to measure coverage of the MAIN source packages
+        # (the parent module), not just the test helper packages
+        $coverpkg = "github.com/alimtvnetwork/core/..."
+
         $prevPref = $ErrorActionPreference
         $ErrorActionPreference = "Continue"
-        $output = & go test -v -count=1 -coverprofile=$coverProfile ./... 2>&1 | ForEach-Object { $_.ToString() }
+        $output = & go test -v -count=1 -coverprofile=$coverProfile -coverpkg=$coverpkg @testPkgs 2>&1 | ForEach-Object { $_.ToString() }
         $exitCode = $LASTEXITCODE
         $ErrorActionPreference = $prevPref
 
