@@ -95,7 +95,7 @@ var stringToIntegerWithDefaultTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "-1", "isSuccess": "false"},
 	},
 	{
-		Title: "IntegerWithDefault returns default on empty string",
+		Title: "IntegerWithDefault returns 42 -- empty string",
 		ArrangeInput: args.Map{
 			"when":       "given empty string",
 			"input":      "",
