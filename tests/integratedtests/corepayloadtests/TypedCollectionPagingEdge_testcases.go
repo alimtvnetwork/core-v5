@@ -37,7 +37,7 @@ var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection page size equals item count",
+		Title: "GetPagedCollection returns 1 page -- 5 items page size equals count",
 		ArrangeInput: args.Map{
 			"when":     "5 items with page size 5",
 			"count":    5,
