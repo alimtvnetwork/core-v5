@@ -214,7 +214,7 @@ var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 
 var stringsToHashsetTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Hashset creates map with all unique entries true",
+		Title: "StringsTo.Hashset returns count 3 allTrue -- distinct strings",
 		ArrangeInput: args.Map{
 			"when":  "given distinct strings",
 			"input": []string{"a", "b", "c"},
