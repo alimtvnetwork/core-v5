@@ -46,9 +46,12 @@ var ReflectSetFromToValidDraftToBytes = FromToTestWrapper{
 	Header: "(otherType, *[]byte) -- try marshal, reflect -- " +
 		"From `FromToTestWrapper{Expected}` " +
 		"to   `*[]byte{}` should set to Expected.",
-	From:          &ReflectSetFromToTestCasesDraftTypeExpected,
-	To:            &[]byte{},
-	ExpectedValue: ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr(),
+	From: &ReflectSetFromToTestCasesDraftTypeExpected,
+	To:   &[]byte{},
+	ExpectedValue: func() *[]byte {
+		b := ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr()
+		return &b
+	}(),
 }
 
 // ReflectSetFromToValidTestCases kept for backward compatibility if needed.
