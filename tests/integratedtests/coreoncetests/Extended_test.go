@@ -13,7 +13,7 @@ func Test_BoolOnce_Extended_Verification(t *testing.T) {
 	for caseIndex, testCase := range boolOnceExtendedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		val := input.GetAsBoolDefault("value")
+		val := input.GetAsBoolDefault("value", false)
 		boolOnce := coreonce.NewBoolOnce(func() bool { return val })
 
 		// Act
