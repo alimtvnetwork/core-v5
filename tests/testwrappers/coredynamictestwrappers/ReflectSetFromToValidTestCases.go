@@ -32,8 +32,8 @@ var ReflectSetFromToValidValueToPtr = FromToTestWrapper{
 }
 
 var ReflectSetFromToValidBytesToDraft = FromToTestWrapper{
-	Header: "(*[]byte, otherType) -- try unmarshal, reflect -- " +
-		"From `*[]bytes(FromToTestWrapper{Expected}` " +
+	Header: "([]byte, otherType) -- try unmarshal, reflect -- " +
+		"From `[]bytes(FromToTestWrapper{Expected}` " +
 		"to   `*FromToTestWrapper{Sample data}` should set to Expected.",
 	From: ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr(),
 	To: &coretests.DraftType{
