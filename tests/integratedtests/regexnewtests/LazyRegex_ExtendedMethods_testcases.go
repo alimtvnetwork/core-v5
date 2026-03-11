@@ -85,7 +85,7 @@ var lazyRegexFirstMatchLineTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "FirstMatchLine invalid regex returns empty and invalid",
+		Title: "LazyRegex.FirstMatchLine returns empty and invalid -- invalid regex '[broken'",
 		ArrangeInput: args.Map{
 			"pattern": "[broken",
 			"content": "test",
