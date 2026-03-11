@@ -730,6 +730,7 @@ function Show-Help {
     Write-Host "    ./run.ps1 -t"
     Write-Host "    ./run.ps1 TP regexnewtests"
     Write-Host "    ./run.ps1 -tp regexnewtests"
+    Write-Host "    ./run.ps1 TCP regexnewtests  (package coverage)"
     Write-Host "    ./run.ps1 -gc"
     Write-Host "    ./run.ps1 -gc 9090          (custom port)"
     Write-Host ""
