@@ -123,7 +123,7 @@ var stringToFloat64TestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"value": "42", "hasError": "false"},
 	},
 	{
-		Title: "Float64 fails on non-numeric",
+		Title: "StringTo.Float64 returns error -- non-numeric 'abc'",
 		ArrangeInput: args.Map{
 			"when":  "given non-numeric string",
 			"input": "abc",
