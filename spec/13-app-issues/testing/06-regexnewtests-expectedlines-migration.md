@@ -1,17 +1,18 @@
 # Issue: Migrate regexnewtests from ExpectedLines to MapGherkins
 
-## Status: Open
+## Status: ✅ Completed
 
 ## Summary
 
-Test cases in `tests/integratedtests/regexnewtests/` use opaque `ExpectedLines: []string{"true", "false", ...}` 
-where each line's meaning is unknowable without reading the test runner. These should be migrated to 
-`MapGherkins` (or updated to use `Expected: args.Map{}`) with semantic keys.
+Test cases in `tests/integratedtests/regexnewtests/` used opaque `ExpectedLines: []string{"true", "false", ...}` 
+where each line's meaning was unknowable without reading the test runner. These have been migrated to 
+`MapGherkins` (or updated to use `Expected: args.Map{}`) with semantic keys, and a centralized `params.go` 
+file eliminates all raw string key usage.
 
 ## Problem
 
 ```go
-// ❌ Current — opaque, unreadable
+// ❌ Old — opaque, unreadable
 ExpectedLines: []string{
     "hello",   // pattern? input? output?
     "true",    // isDefined? isApplicable? isMatch?
@@ -23,51 +24,72 @@ ExpectedLines: []string{
 
 ## Solution
 
-Use `MapGherkins` with `Input` for arrange data and `Expected` for assertion data:
+Created `params.go` with a typed struct holding all reusable key constants, then migrated all test cases 
+to use `MapGherkins` with `Input` for arrange data and `Expected` for assertion data:
 
 ```go
-// ✅ Target — self-documenting
+// ✅ Completed — self-documenting with params keys
 Input: args.Map{
-    "pattern":      "hello",
-    "compareInput": "hello world",
+    params.pattern:      "hello",
+    params.compareInput: "hello world",
 },
 Expected: args.Map{
-    "isDefined":    true,
-    "isApplicable": true,
-    "isMatch":      true,
-    "isFailedMatch": false,
+    params.isDefined:    true,
+    params.isApplicable: true,
+    params.isMatch:      true,
+    params.isFailedMatch: false,
 },
 ```
 
-## Affected Files
+## Migrated Files
 
-### regexnewtests (5 files)
+### params.go (new)
 
-| File | Test Case Slices | Estimated Cases |
-|------|-----------------|-----------------|
+Centralized key constants file with 30 keys covering input keys (`pattern`, `compareInput`, `isLock`, 
+`customizer`, etc.) and expected keys (`isDefined`, `isApplicable`, `isMatch`, `regexNotNil`, `hasError`, etc.).
+
+### Testcase files (5 migrated from ExpectedLines → MapGherkins)
+
+| File | Test Case Slices | Cases |
+|------|-----------------|-------|
 | `LazyRegex_testcases.go` | `lazyRegexNewTestCases` (5), `lazyRegexLockTestCases` (2), 5 named cases | 12 |
 | `LazyRegex_Methods_testcases.go` | `lazyRegexCompileTestCases` (3), `lazyRegexHasErrorTestCases` (2), `lazyRegexMatchBytesTestCases` (2), `lazyRegexMatchErrorTestCases` (3), `lazyRegexStringTestCases` (2) | 12 |
-| `Create_testcases.go` | `createTestCases`, `isMatchLockTestCases`, `isMatchFailedTestCases`, 4 named cases | ~15 |
-| `CreateMust_testcases.go` | `createMustTestCases`, `createMustLockTestCases`, `hasErrorTestCases`, `isApplicableTestCases`, `createAndMatchTestCases`, `matchErrorTestCases`, `matchUsingFuncErrorTestCases` | ~25 |
-| `IsMatchLock_testcases.go` | `isMatchLockTestCases`, `isMatchFailedTestCases`, `lazyIsMatchTestCases`, `lazyIsMatchBuiltinTestCases`, `lazyIsFailedMatchTestCases`, `patternStringTestCases`, `lazyMatchErrorTestCases` | ~15 |
+| `Create_testcases.go` | `createTestCases` (4), `createIsMatchLockTestCases` (4), `createIsMatchFailedTestCases` (3), 4 named cases | 15 |
+| `CreateMust_testcases.go` | `createMustTestCases` (3), `createMustLockIfTestCases` (2), `createLockIfTestCases` (4), `createApplicableLockTestCases` (3), `newMustLockTestCases` (3), `matchUsingFuncErrorLockTestCases` (3), `matchUsingCustomizeErrorFuncLockTestCases` (4) | 22 |
+| `IsMatchLock_testcases.go` | `isMatchLockTestCases` (5), `isMatchFailedTestCases` (3), `isMatchLockLazyIsMatchTestCases` (2), `isMatchLockCompileTestCases` (1), `isMatchLockIsFailedMatchTestCases` (2), `isMatchLockPatternStringTestCases` (1), `isMatchLockMatchErrorTestCases` (2) | 16 |
 
-### Corresponding test runners (5 files)
+### Testcase files (2 updated to use params.go keys)
 
-| File | Updates Needed |
-|------|---------------|
-| `LazyRegex_New_test.go` | Replace `ShouldBeEqualUsingExpected` → `ShouldBeEqualMap`, extract from `tc.Input` |
-| `LazyRegex_Methods_test.go` | Same pattern |
-| `LazyRegex_PatternMatch_test.go` | Same pattern |
-| `Create_test.go` | Same pattern |
-| `CreateMust_test.go` | Same pattern |
-| `IsMatchLock_test.go` | Same pattern |
+| File | Updates |
+|------|---------|
+| `LazyRegex_EdgeCases_testcases.go` | Raw string keys → `params.` constants |
+| `LazyRegex_ExtendedMethods_testcases.go` | Raw string keys → `params.` constants |
 
-## Migration Steps Per File
+### Test runners (8 updated)
 
-1. Change test case type from `StringBoolGherkins` / `StringGherkins` → `MapGherkins`
-2. Move `Input` (pattern) and `ExtraArgs["compareInput"]` into `Input: args.Map{}`
-3. Replace `ExpectedLines: []string{...}` with `Expected: args.Map{...}` using semantic keys
-4. Update test runner to extract from `tc.Input.GetAsString("pattern")` etc.
-5. Replace `ShouldBeEqualArgs` / `ShouldBeEqualUsingExpected` → `ShouldBeEqualMap`
+| File | Changes |
+|------|---------|
+| `LazyRegex_New_test.go` | `ShouldBeEqualUsingExpected` → `ShouldBeEqualMap`, `fmt.Sprintf` removed |
+| `LazyRegex_PatternMatch_test.go` | `ShouldBeEqualUsingExpectedFirst` → `ShouldBeEqualMapFirst` |
+| `LazyRegex_Methods_test.go` | `ShouldBeEqualUsingExpected` → `ShouldBeEqualMap` |
+| `Create_test.go` | `ShouldBeEqualUsingExpected` → `ShouldBeEqualMap` |
+| `CreateMust_test.go` | `ShouldBeEqualUsingExpected` → `ShouldBeEqualMap`, branching eliminated |
+| `IsMatchLock_test.go` | `ShouldBeEqualUsingExpected` → `ShouldBeEqualMap` |
+| `LazyRegex_EdgeCases_test.go` | Raw string keys → `params.` constants |
+| `LazyRegex_ExtendedMethods_test.go` | Raw string keys → `params.` constants |
 
-## Total: ~79 test cases across 5 testcase files + 6 test runner files
+### Unchanged (no migration needed)
+
+| File | Reason |
+|------|--------|
+| `LazyRegex_NilReceiver_testcases.go` | Uses `CaseNilSafe` with `results.ResultAny` — different pattern |
+| `LazyRegex_Concurrency_test.go` | Channel-based goroutine tests — not table-driven |
+
+## Key Improvements
+
+1. **No more `fmt.Sprintf`**: All stringification removed; native types (`bool`, `string`) used throughout.
+2. **No branching in runners**: `CustomizeErrorFuncLock` runner now uses consistent map shape instead of conditional `append`.
+3. **Zero raw string keys**: Every `args.Map` key uses `params.` constants from centralized `params.go`.
+4. **Self-documenting**: Every test case is readable without consulting the test runner.
+
+## Total: 77 test cases across 7 testcase files + 8 test runner files + 1 params.go
