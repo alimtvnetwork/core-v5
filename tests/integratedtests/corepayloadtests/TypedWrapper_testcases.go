@@ -64,7 +64,7 @@ var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 
 var typedWrapperCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Deep clone produces independent copy",
+		Title: "TypedPayloadWrapper.ClonePtr returns independent copy -- 'clone-source'",
 		ArrangeInput: args.Map{
 			"name": "clone-source", "id": "cl-1",
 			"sku": "CL-SKU", "title": "Original", "price": 100.0,
