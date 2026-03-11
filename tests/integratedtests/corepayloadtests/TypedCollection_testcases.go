@@ -25,7 +25,7 @@ var typedCollectionCreationTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Collection with capacity has zero length",
+		Title: "TypedPayloadCollection returns length 0 -- capacity 10 creation",
 		ArrangeInput: args.Map{
 			"when":     "creating collection with capacity 10",
 			"capacity": 10,
