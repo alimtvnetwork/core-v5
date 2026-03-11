@@ -17,7 +17,7 @@ var (
 
 	funWrapCreationTestCases = []coretestcases.CaseV1{
 		{
-			Title: "someFunctionV1 => Calls dynamically with valid params, outputs as it should.",
+			Title: "FuncWrap returns correct output -- someFunctionV1 with valid params",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
@@ -30,7 +30,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV1 => Calls dynamically with less param (null), outputs error args count mismatch.",
+			Title: "FuncWrap returns args count mismatch error -- someFunctionV1 with nil third param",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
@@ -54,7 +54,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV1 => Calls dynamically with mismatch datatype for arg 2nd, it expects string but given int, outputs error",
+			Title: "FuncWrap returns type mismatch error -- someFunctionV1 with int instead of string at arg 2",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
@@ -69,7 +69,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving nil as a work func, doesn't panic but returns error.",
+			Title: "FuncWrap returns invalid error -- nil work func given",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
@@ -85,7 +85,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "giving (int) as a work func, doesn't panic but returns error.",
+			Title: "FuncWrap returns invalid error -- int given as work func",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   1,
@@ -101,7 +101,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV2 => Calls dynamically with valid params, outputs as it should.",
+			Title: "FuncWrap returns string and error output -- someFunctionV2 with valid params",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",
@@ -114,7 +114,7 @@ var (
 			VerifyTypeOf: commonType,
 		},
 		{
-			Title: "someFunctionV3 => Calls dynamically with valid params, outputs as it should.",
+			Title: "FuncWrap returns int, string, error output -- someFunctionV3 with valid params",
 			ArrangeInput: args.ThreeFuncAny{
 				First:    "f1",
 				Second:   "f2",

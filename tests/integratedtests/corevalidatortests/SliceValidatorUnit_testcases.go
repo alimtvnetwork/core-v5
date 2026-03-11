@@ -10,42 +10,42 @@ import (
 // ==========================================================================
 
 var svIsValidExactMatchTestCase = coretestcases.CaseV1{
-	Title:         "Exact match is valid",
+	Title:         "SliceValidator.IsValid returns true -- exact match",
 	ExpectedInput: args.Map{"isValid": true},
 }
 
 var svIsValidMismatchTestCase = coretestcases.CaseV1{
-	Title:         "Content mismatch is invalid",
+	Title:         "SliceValidator.IsValid returns false -- content mismatch",
 	ExpectedInput: args.Map{"isValid": false},
 }
 
 var svIsValidLengthMismatchTestCase = coretestcases.CaseV1{
-	Title:         "Length mismatch is invalid",
+	Title:         "SliceValidator.IsValid returns false -- length mismatch",
 	ExpectedInput: args.Map{"isValid": false},
 }
 
 var svIsValidBothNilTestCase = coretestcases.CaseV1{
-	Title:         "Both nil is valid",
+	Title:         "SliceValidator.IsValid returns true -- both nil",
 	ExpectedInput: args.Map{"isValid": true},
 }
 
 var svIsValidOneNilTestCase = coretestcases.CaseV1{
-	Title:         "One nil is invalid",
+	Title:         "SliceValidator.IsValid returns false -- one nil",
 	ExpectedInput: args.Map{"isValid": false},
 }
 
 var svIsValidBothEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Both empty is valid",
+	Title:         "SliceValidator.IsValid returns true -- both empty",
 	ExpectedInput: args.Map{"isValid": true},
 }
 
 var svIsValidTrimMatchTestCase = coretestcases.CaseV1{
-	Title:         "Trimmed match is valid",
+	Title:         "SliceValidator.IsValid returns true -- trimmed match",
 	ExpectedInput: args.Map{"isValid": true},
 }
 
 var svIsValidContainsTestCase = coretestcases.CaseV1{
-	Title:         "Contains matches substrings",
+	Title:         "SliceValidator.IsValid returns true -- contains substrings",
 	ExpectedInput: args.Map{"isValid": true},
 }
 
@@ -54,27 +54,27 @@ var svIsValidContainsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svActualLinesLengthTestCase = coretestcases.CaseV1{
-	Title:         "ActualLinesLength returns correct count",
+	Title:         "SliceValidator.ActualLinesLength returns 2 -- two actual lines",
 	ExpectedInput: args.Map{"length": 2},
 }
 
 var svExpectingLinesLengthTestCase = coretestcases.CaseV1{
-	Title:         "ExpectingLinesLength returns correct count",
+	Title:         "SliceValidator.ExpectingLinesLength returns 3 -- three expected lines",
 	ExpectedInput: args.Map{"length": 3},
 }
 
 var svIsUsedAlreadyFalseTestCase = coretestcases.CaseV1{
-	Title:         "Fresh validator is not used already",
+	Title:         "SliceValidator.IsUsedAlready returns false -- fresh instance",
 	ExpectedInput: args.Map{"isUsed": false},
 }
 
 var svIsUsedAlreadyTrueTestCase = coretestcases.CaseV1{
-	Title:         "After ComparingValidators is used already",
+	Title:         "SliceValidator.IsUsedAlready returns true -- after ComparingValidators",
 	ExpectedInput: args.Map{"isUsed": true},
 }
 
 var svMethodNameTestCase = coretestcases.CaseV1{
-	Title:         "MethodName returns correct name",
+	Title:         "SliceValidator.MethodName returns 'IsContains' -- Contains compare mode",
 	ExpectedInput: args.Map{"name": "IsContains"},
 }
 
@@ -83,12 +83,12 @@ var svMethodNameTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svSetActualTestCase = coretestcases.CaseV1{
-	Title:         "SetActual sets actual lines",
+	Title:         "SliceValidator.SetActual returns length 1 -- one line set",
 	ExpectedInput: args.Map{"length": 1},
 }
 
 var svSetActualVsExpectedTestCase = coretestcases.CaseV1{
-	Title: "SetActualVsExpected sets both",
+	Title: "SliceValidator.SetActualVsExpected returns both set -- one actual one expected",
 	ExpectedInput: args.Map{
 		"actualLen":   1,
 		"expectedLen": 1,
@@ -100,12 +100,12 @@ var svSetActualVsExpectedTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svIsValidOtherLinesMatchTestCase = coretestcases.CaseV1{
-	Title:         "Matching other lines returns true",
+	Title:         "SliceValidator.IsValidOtherLines returns true -- matching lines",
 	ExpectedInput: args.Map{"isValid": true},
 }
 
 var svIsValidOtherLinesMismatchTestCase = coretestcases.CaseV1{
-	Title:         "Mismatching other lines returns false",
+	Title:         "SliceValidator.IsValidOtherLines returns false -- mismatching lines",
 	ExpectedInput: args.Map{"isValid": false},
 }
 
@@ -114,17 +114,17 @@ var svIsValidOtherLinesMismatchTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svAllVerifyErrorPassTestCase = coretestcases.CaseV1{
-	Title:         "AllVerifyError passes on match",
+	Title:         "SliceValidator.AllVerifyError returns nil -- matching lines",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
 var svAllVerifyErrorFailTestCase = coretestcases.CaseV1{
-	Title:         "AllVerifyError returns error on mismatch",
+	Title:         "SliceValidator.AllVerifyError returns error -- mismatched lines",
 	ExpectedInput: args.Map{"hasError": true},
 }
 
 var svAllVerifyErrorSkipEmptyTestCase = coretestcases.CaseV1{
-	Title:         "AllVerifyError skips when actual empty",
+	Title:         "SliceValidator.AllVerifyError returns nil -- skip when actual empty",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
@@ -133,7 +133,7 @@ var svAllVerifyErrorSkipEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svVerifyFirstErrorPassTestCase = coretestcases.CaseV1{
-	Title:         "VerifyFirstError passes on match",
+	Title:         "SliceValidator.VerifyFirstError returns nil -- matching lines",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
@@ -142,7 +142,7 @@ var svVerifyFirstErrorPassTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svDisposeTestCase = coretestcases.CaseV1{
-	Title: "Dispose nils out lines",
+	Title: "SliceValidator.Dispose returns nil lines -- after dispose",
 	ExpectedInput: args.Map{
 		"actualNil":   true,
 		"expectedNil": true,
@@ -154,12 +154,12 @@ var svDisposeTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svCaseInsensitiveTestCase = coretestcases.CaseV1{
-	Title:         "Case-insensitive match is valid",
+	Title:         "SliceValidator.IsValid returns true -- case-insensitive match",
 	ExpectedInput: args.Map{"isValid": true},
 }
 
 var svCaseSensitiveFailTestCase = coretestcases.CaseV1{
-	Title:         "Case-sensitive different case is invalid",
+	Title:         "SliceValidator.IsValid returns false -- case-sensitive different case",
 	ExpectedInput: args.Map{"isValid": false},
 }
 
@@ -168,7 +168,7 @@ var svCaseSensitiveFailTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var svNewUsingErrNilTestCase = coretestcases.CaseV1{
-	Title: "NewSliceValidatorUsingErr with nil error",
+	Title: "NewSliceValidatorUsingErr returns non-nil with 0 actual -- nil error input",
 	ExpectedInput: args.Map{
 		"isNotNil":  true,
 		"actualLen": 0,

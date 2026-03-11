@@ -11,7 +11,7 @@ import (
 
 var getFuncNameTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "GetFuncName returns short name of a function",
+		Title:        "GetFuncName returns short name -- named function input",
 		ArrangeInput: args.Map{"when": "given a named function"},
 		ExpectedInput: args.Map{
 			"hasShortName":        true,
@@ -26,7 +26,7 @@ var getFuncNameTestCases = []coretestcases.CaseV1{
 
 var actionErrWrapperSuccessTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "ActionReturnsErrorFuncWrapper.Exec returns nil on success",
+		Title:        "ActionReturnsErrorFuncWrapper.Exec returns nil -- successful action",
 		ArrangeInput: args.Map{"when": "given action that succeeds"},
 		ExpectedInput: args.Map{
 			"isNil": true,
@@ -37,7 +37,7 @@ var actionErrWrapperSuccessTestCases = []coretestcases.CaseV1{
 
 var actionErrWrapperFailureTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "ActionReturnsErrorFuncWrapper.Exec returns error on failure",
+		Title:        "ActionReturnsErrorFuncWrapper.Exec returns error -- failing action",
 		ArrangeInput: args.Map{"when": "given action that fails"},
 		ExpectedInput: args.Map{
 			"isNil":    false,
@@ -52,7 +52,7 @@ var actionErrWrapperFailureTestCases = []coretestcases.CaseV1{
 
 var isSuccessWrapperTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "IsSuccessFuncWrapper.Exec returns true on success",
+		Title:        "IsSuccessFuncWrapper.Exec returns true -- action returns true",
 		ArrangeInput: args.Map{"when": "given action that returns true"},
 		ExpectedInput: args.Map{
 			"result": true,
@@ -60,7 +60,7 @@ var isSuccessWrapperTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "IsSuccessFuncWrapper.Exec returns false on failure",
+		Title:        "IsSuccessFuncWrapper.Exec returns false -- action returns false",
 		ArrangeInput: args.Map{"when": "given action that returns false"},
 		ExpectedInput: args.Map{
 			"result": false,
@@ -75,7 +75,7 @@ var isSuccessWrapperTestCases = []coretestcases.CaseV1{
 
 var inOutErrWrapperOfSuccessTestCases = []coretestcases.CaseV1{
 	{
-		Title: "InOutErrFuncWrapperOf.Exec returns output on success",
+		Title: "InOutErrFuncWrapperOf.Exec returns output 5 -- string 'hello' input",
 		ArrangeInput: args.Map{
 			"when":  "given string-to-int wrapper",
 			"input": "hello",
@@ -89,7 +89,7 @@ var inOutErrWrapperOfSuccessTestCases = []coretestcases.CaseV1{
 
 var inOutErrWrapperOfFailureTestCases = []coretestcases.CaseV1{
 	{
-		Title: "InOutErrFuncWrapperOf.Exec returns error on failure",
+		Title: "InOutErrFuncWrapperOf.Exec returns error -- empty string input",
 		ArrangeInput: args.Map{
 			"when":  "given wrapper that returns error",
 			"input": "",
@@ -107,7 +107,7 @@ var inOutErrWrapperOfFailureTestCases = []coretestcases.CaseV1{
 
 var newCreatorActionErrTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "New.ActionErr creates named wrapper correctly",
+		Title:        "New.ActionErr returns named wrapper -- 'my-action' factory",
 		ArrangeInput: args.Map{"when": "given New.ActionErr factory"},
 		ExpectedInput: args.Map{
 			"name":      "my-action",
@@ -118,7 +118,7 @@ var newCreatorActionErrTestCases = []coretestcases.CaseV1{
 
 var newCreatorIsSuccessTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "New.IsSuccess creates named wrapper correctly",
+		Title:        "New.IsSuccess returns named wrapper -- 'my-check' factory",
 		ArrangeInput: args.Map{"when": "given New.IsSuccess factory"},
 		ExpectedInput: args.Map{
 			"name":      "my-check",

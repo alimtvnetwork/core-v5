@@ -41,24 +41,24 @@ func newMismatchHeaderSliceValidator() corevalidator.HeaderSliceValidator {
 
 var headerSliceValidatorsLengthTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Nil returns length 0",
+		Title:         "HeaderSliceValidators.Length returns 0 -- nil input",
 		ArrangeInput:  nil,
 		ExpectedInput: args.Map{"length": 0},
 	},
 	{
-		Title:         "Empty slice returns length 0",
+		Title:         "HeaderSliceValidators.Length returns 0 -- empty slice",
 		ArrangeInput:  corevalidator.HeaderSliceValidators{},
 		ExpectedInput: args.Map{"length": 0},
 	},
 	{
-		Title: "Single item returns length 1",
+		Title: "HeaderSliceValidators.Length returns 1 -- single item",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 		},
 		ExpectedInput: args.Map{"length": 1},
 	},
 	{
-		Title: "Two items returns length 2",
+		Title: "HeaderSliceValidators.Length returns 2 -- two items",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 			newMismatchHeaderSliceValidator(),
@@ -69,17 +69,17 @@ var headerSliceValidatorsLengthTestCases = []coretestcases.CaseV1{
 
 var headerSliceValidatorsIsEmptyTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Nil is empty",
+		Title:         "HeaderSliceValidators.IsEmpty returns true -- nil input",
 		ArrangeInput:  nil,
 		ExpectedInput: args.Map{"isEmpty": true},
 	},
 	{
-		Title:         "Empty slice is empty",
+		Title:         "HeaderSliceValidators.IsEmpty returns true -- empty slice",
 		ArrangeInput:  corevalidator.HeaderSliceValidators{},
 		ExpectedInput: args.Map{"isEmpty": true},
 	},
 	{
-		Title: "Non-empty slice is not empty",
+		Title: "HeaderSliceValidators.IsEmpty returns false -- non-empty slice",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 		},
@@ -93,24 +93,24 @@ var headerSliceValidatorsIsEmptyTestCases = []coretestcases.CaseV1{
 
 var headerSliceValidatorsIsMatchTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Nil matches",
+		Title:         "HeaderSliceValidators.IsMatch returns true -- nil input",
 		ArrangeInput:  nil,
 		ExpectedInput: args.Map{"isMatch": true},
 	},
 	{
-		Title:         "Empty matches",
+		Title:         "HeaderSliceValidators.IsMatch returns true -- empty slice",
 		ArrangeInput:  corevalidator.HeaderSliceValidators{},
 		ExpectedInput: args.Map{"isMatch": true},
 	},
 	{
-		Title: "All matching returns true",
+		Title: "HeaderSliceValidators.IsMatch returns true -- all matching",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 		},
 		ExpectedInput: args.Map{"isMatch": true},
 	},
 	{
-		Title: "One mismatch returns false",
+		Title: "HeaderSliceValidators.IsMatch returns false -- one mismatch",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 			newMismatchHeaderSliceValidator(),
@@ -125,19 +125,19 @@ var headerSliceValidatorsIsMatchTestCases = []coretestcases.CaseV1{
 
 var headerSliceValidatorsVerifyAllTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Empty returns nil error",
+		Title:         "HeaderSliceValidators.VerifyAll returns nil -- empty slice",
 		ArrangeInput:  corevalidator.HeaderSliceValidators{},
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "All matching returns nil error",
+		Title: "HeaderSliceValidators.VerifyAll returns nil -- all matching",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 		},
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "HeaderSliceValidators.VerifyAll returns error -- mismatch found",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMismatchHeaderSliceValidator(),
 		},
@@ -151,19 +151,19 @@ var headerSliceValidatorsVerifyAllTestCases = []coretestcases.CaseV1{
 
 var headerSliceValidatorsVerifyFirstTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Empty returns nil error",
+		Title:         "HeaderSliceValidators.VerifyFirst returns nil -- empty slice",
 		ArrangeInput:  corevalidator.HeaderSliceValidators{},
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Matching returns nil error",
+		Title: "HeaderSliceValidators.VerifyFirst returns nil -- matching item",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 		},
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "HeaderSliceValidators.VerifyFirst returns error -- mismatch found",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMismatchHeaderSliceValidator(),
 		},
@@ -177,19 +177,19 @@ var headerSliceValidatorsVerifyFirstTestCases = []coretestcases.CaseV1{
 
 var headerSliceValidatorsVerifyUptoTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Empty returns nil error",
+		Title:         "HeaderSliceValidators.VerifyUpto returns nil -- empty slice",
 		ArrangeInput:  corevalidator.HeaderSliceValidators{},
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Matching within length returns nil error",
+		Title: "HeaderSliceValidators.VerifyUpto returns nil -- matching within length",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMatchingHeaderSliceValidator(),
 		},
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatch returns error",
+		Title: "HeaderSliceValidators.VerifyUpto returns error -- mismatch found",
 		ArrangeInput: corevalidator.HeaderSliceValidators{
 			newMismatchHeaderSliceValidator(),
 		},
