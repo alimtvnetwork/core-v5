@@ -168,7 +168,7 @@ var stringOnceSplitTestCases = []stringOnceSplitTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'nosplit' -- SplitLeftRight '=' returns full left, empty right",
+			Title: "StringOnce.SplitLeftRight returns full left and empty right -- 'nosplit' no separator found",
 			ExpectedInput: args.Map{
 				"left":  "nosplit",
 				"right": "",
