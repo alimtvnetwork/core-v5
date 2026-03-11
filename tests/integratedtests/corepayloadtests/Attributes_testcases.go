@@ -94,7 +94,7 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Shallow clone preserves dynamic payloads",
+		Title: "Attributes.Clone returns preserved payload -- shallow clone",
 		ArrangeInput: args.Map{
 			"when":    "shallow clone with dynamic payloads",
 			"payload": "clone-payload",
