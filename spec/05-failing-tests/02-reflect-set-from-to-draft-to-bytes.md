@@ -3,52 +3,49 @@
 ## Test
 `Test_ReflectSetFromTo_DraftToBytes` — Case 0: "(otherType, *[]byte) -- try marshal, reflect"
 
-## Root Cause
-**Production code bug** in `ReflectSetFromTo` (`coredata/coredynamic/ReflectSetFromTo.go`).
+## Root Cause (Two Issues)
 
-The documented supported case `(otherType, *[]byte)` is: marshal `From` (a struct) into JSON
-bytes, then store those bytes into the `*[]byte` destination. The code correctly performed
-step 1 (`json.Marshal(from)` → `rawBytes`), but then fell through to a generic
-`json.Unmarshal(rawBytes, toPointer)` call.
+### Issue A — Production bug: marshal then unmarshal into *[]byte
+In `ReflectSetFromTo` (`coredata/coredynamic/ReflectSetFromTo.go`), the documented supported
+case `(otherType, *[]byte)` marshals `From` (a struct) into JSON bytes, but then fell through
+to `json.Unmarshal(rawBytes, toPointer)`. Since `toPointer` is `*[]byte`, `json.Unmarshal`
+expects a **base64-encoded JSON string**, not a JSON object — causing an unmarshal error.
 
-`json.Unmarshal` into a `*[]byte` expects a **base64-encoded JSON string**, not a JSON object.
-Since `rawBytes` contained `{"SampleString1":"Expected",...}` (a JSON object), the unmarshal
-failed, returning an error.
+**Fix:** After successful `json.Marshal`, when the destination is `*[]byte`, directly assign
+`*toPointer.(*[]byte) = rawBytes` instead of calling `json.Unmarshal`.
 
-### Flow Before Fix
+### Issue B — Test case type mismatch: ExpectedValue was []byte, To was *[]byte
+After fixing Issue A, `err == nil` became `true` but `TypeSameStatus.IsSame` remained `false`.
+
+`TypeSameStatus(tc.To, tc.ExpectedValue)` compares `reflect.TypeOf`:
+- `tc.To` = `&[]byte{}` → type `*[]byte`
+- `tc.ExpectedValue` = `DraftType.JsonBytesPtr()` → returns `[]byte` (value, NOT pointer)
+
+Despite the misleading method name `JsonBytesPtr`, it returns `[]byte` not `*[]byte`.
+So `*[]byte != []byte` → `IsSame = false`.
+
+**Fix:** Wrapped the `ExpectedValue` in a pointer:
+```go
+ExpectedValue: func() *[]byte {
+    b := ReflectSetFromToTestCasesDraftTypeExpected.JsonBytesPtr()
+    return &b
+}(),
 ```
-From: *DraftType{Expected}  →  json.Marshal  →  rawBytes (JSON object)
-                                                      ↓
-                              json.Unmarshal(rawBytes, *[]byte)  ← FAILS (expects base64 string)
-```
-
-## Solution
-After successful `json.Marshal` and when the destination is `*[]byte`, **set the bytes
-directly** via `*toPointer.(*[]byte) = rawBytes` instead of falling through to `json.Unmarshal`.
-
-### Flow After Fix
-```
-From: *DraftType{Expected}  →  json.Marshal  →  rawBytes (JSON object)
-                                                      ↓
-                              *toPointer.(*[]byte) = rawBytes  ← direct assignment ✓
-```
-
-The `json.Unmarshal` fallback remains for other non-byte destination types that reach that
-code path (currently none, but kept for defensive completeness).
 
 ## Iteration Details
-1. Initial attempt set `From` from `JsonBytesPtr()` to `&struct` — fixed the test case setup
-   but revealed the production bug (both lines now `false` instead of just line 2).
-2. Root-caused to the `Unmarshal` step — struct JSON cannot be unmarshalled into `[]byte`.
-3. Fixed production code to short-circuit with direct byte assignment for `*[]byte` targets.
+1. **Attempt 1:** Changed test case `From` from `JsonBytesPtr()` to `&struct` — correctly
+   set up the "otherType → *[]byte" scenario but exposed the production bug (both lines false).
+2. **Attempt 2:** Fixed production code to short-circuit with direct byte assignment for
+   `*[]byte` targets. Line 0 became `true` but line 1 remained `false`.
+3. **Attempt 3:** Root-caused the `IsSame` failure to `JsonBytesPtr()` returning `[]byte`
+   (not `*[]byte`). Wrapped `ExpectedValue` in a pointer to match `To`'s type.
 
 ## Learnings
-- `json.Unmarshal` into `*[]byte` only works for **base64-encoded JSON strings**, not
-  arbitrary JSON objects/arrays.
-- When a function documents supported type combinations, each combination needs its own
-  explicit handling path — generic fallthrough logic may not cover all cases correctly.
+- `json.Unmarshal` into `*[]byte` only works for base64-encoded JSON strings.
+- Method names like `JsonBytesPtr` can be misleading — always verify the return type signature.
+- `TypeSameStatus.IsSame` compares `reflect.TypeOf` exactly — `*[]byte != []byte`.
 
 ## What Not to Repeat
-- Do not assume `json.Unmarshal` is a universal setter — its behavior is type-dependent.
-- When adding new supported type combinations to `ReflectSetFromTo`, verify the full
-  marshal→assign path with a dedicated test case before declaring it supported.
+- Do not assume a method named `*Ptr` returns a pointer — check the signature.
+- When setting up test wrappers with `any`-typed fields, verify the concrete types match
+  what the assertion logic expects.
