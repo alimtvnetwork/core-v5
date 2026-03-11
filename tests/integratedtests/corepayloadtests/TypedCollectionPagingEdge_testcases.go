@@ -11,7 +11,7 @@ import (
 
 var typedCollectionPagingEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollection single item with page size 1",
+		Title: "GetPagedCollection returns 1 page -- 1 item page size 1",
 		ArrangeInput: args.Map{
 			"when":     "1 item with page size 1",
 			"count":    1,
