@@ -11,7 +11,7 @@ func Test_BaseIsCaseSensitive_Verification(t *testing.T) {
 	for caseIndex, testCase := range baseIsCaseSensitiveTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isCaseSensitive := input.GetAsBoolDefault("isCaseSensitive")
+		isCaseSensitive := input.GetAsBoolDefault("isCaseSensitive", false)
 
 		b := corecomparator.BaseIsCaseSensitive{IsCaseSensitive: isCaseSensitive}
 
