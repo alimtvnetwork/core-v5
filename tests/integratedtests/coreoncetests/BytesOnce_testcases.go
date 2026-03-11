@@ -61,7 +61,7 @@ var bytesOnceCoreTestCases = []bytesOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesOnce nil initializer -- Length 0, IsEmpty true",
+			Title: "BytesOnce returns isEmpty true -- nil initializer",
 			ExpectedInput: args.Map{
 				"stringOfValue": "",
 				"stringMethod":  "",
