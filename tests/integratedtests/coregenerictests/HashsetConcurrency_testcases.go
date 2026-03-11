@@ -25,7 +25,7 @@ var hashsetContainsLockConcurrencyTestCase = coretestcases.CaseV1{
 }
 
 var hashsetRemoveLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "RemoveLock concurrent safety — all items removed",
+	Title:         "RemoveLock concurrent safety -- all items removed",
 	ExpectedInput: args.Map{"length": 0},
 }
 

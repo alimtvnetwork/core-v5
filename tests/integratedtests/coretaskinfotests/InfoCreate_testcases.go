@@ -452,7 +452,7 @@ var infoFieldCheckPopulatedTestCases = []coretestcases.CaseV1{
 
 var infoFieldCheckEmptyTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Empty info — Has checks return false",
+		Title: "Empty info -- Has checks return false",
 		ArrangeInput: args.Map{
 			"when": "given empty info",
 		},

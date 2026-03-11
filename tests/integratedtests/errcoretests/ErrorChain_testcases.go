@@ -188,7 +188,7 @@ var mergeErrorsMultiSentinelTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "MergeErrors partial sentinels — missing one fails",
+		Title: "MergeErrors partial sentinels -- missing one fails",
 		ArrangeInput: args.Map{
 			"when":      "given two of three sentinels",
 			"errors":    []error{errSentinelA, errSentinelB},

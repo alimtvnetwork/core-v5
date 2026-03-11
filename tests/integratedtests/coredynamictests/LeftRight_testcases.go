@@ -395,7 +395,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus pointer vs value same underlying — IsSameRegardlessPointer true",
+			Title: "TypeStatus pointer vs value same underlying -- IsSameRegardlessPointer true",
 			ExpectedInput: args.Map{
 				"isSame":                  "false",
 				"isSameRegardlessPointer": "true",
