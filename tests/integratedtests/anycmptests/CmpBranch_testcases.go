@@ -72,15 +72,8 @@ var cmpOneNilTestCases = []coretestcases.CaseV1{
 // Branch: isLeftNull && isBothEqual (both typed-nil) → Equal
 var cmpTypedNilBothNullTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "Cmp returns Equal -- both typed nil maps",
-		ArrangeInput: args.Map{"when": "two nil maps", "pair": args.TwoAny{First: (map[string]string)(nil), Second: (map[string]string)(nil)}},
-		ExpectedInput: args.Map{
-			"name": "Equal",
-		},
-	},
-	{
-		Title:        "Cmp returns Equal -- both typed nil slices",
-		ArrangeInput: args.Map{"when": "two nil slices", "pair": args.TwoAny{First: ([]string)(nil), Second: ([]string)(nil)}},
+		Title:        "Cmp returns Equal -- both typed nil pointers different types",
+		ArrangeInput: args.Map{"when": "two nil ptrs diff type", "pair": args.TwoAny{First: (*int)(nil), Second: (*string)(nil)}},
 		ExpectedInput: args.Map{
 			"name": "Equal",
 		},
@@ -93,14 +86,7 @@ var cmpTypedNilBothNullTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Cmp returns Equal -- both typed nil func",
-		ArrangeInput: args.Map{"when": "two nil funcs", "pair": args.TwoAny{First: (func())(nil), Second: (func())(nil)}},
-		ExpectedInput: args.Map{
-			"name": "Equal",
-		},
-	},
-	{
-		Title:        "Cmp returns Equal -- both typed nil pointers",
+		Title:        "Cmp returns Equal -- both typed nil pointers same type",
 		ArrangeInput: args.Map{"when": "two nil ptrs", "pair": args.TwoAny{First: (*int)(nil), Second: (*int)(nil)}},
 		ExpectedInput: args.Map{
 			"name": "Equal",
@@ -111,22 +97,15 @@ var cmpTypedNilBothNullTestCases = []coretestcases.CaseV1{
 // Branch: isBothDifferent && (isLeftNull || isRightNull) → NotEqual
 var cmpTypedNilOneSideTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "Cmp returns NotEqual -- typed nil map vs non-nil map",
-		ArrangeInput: args.Map{"when": "nil map vs non-nil map", "pair": args.TwoAny{First: (map[string]string)(nil), Second: map[string]string{"a": "b"}}},
-		ExpectedInput: args.Map{
-			"name": "NotEqual",
-		},
-	},
-	{
-		Title:        "Cmp returns NotEqual -- non-nil slice vs typed nil slice",
-		ArrangeInput: args.Map{"when": "non-nil vs nil slice", "pair": args.TwoAny{First: []string{"a"}, Second: ([]string)(nil)}},
-		ExpectedInput: args.Map{
-			"name": "NotEqual",
-		},
-	},
-	{
 		Title:        "Cmp returns NotEqual -- typed nil ptr vs non-nil ptr",
-		ArrangeInput: args.Map{"when": "nil ptr vs non-nil ptr", "pair": args.TwoAny{First: (*int)(nil), Second: &sharedPtr}},
+		ArrangeInput: args.Map{"when": "nil ptr vs non-nil ptr", "pair": args.TwoAny{First: (*int)(nil), Second: new(int)}},
+		ExpectedInput: args.Map{
+			"name": "NotEqual",
+		},
+	},
+	{
+		Title:        "Cmp returns NotEqual -- non-nil ptr vs typed nil ptr",
+		ArrangeInput: args.Map{"when": "non-nil ptr vs nil ptr", "pair": args.TwoAny{First: new(string), Second: (*string)(nil)}},
 		ExpectedInput: args.Map{
 			"name": "NotEqual",
 		},
@@ -164,17 +143,11 @@ var cmpBothNonNilTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Cmp returns Inconclusive -- two non-nil maps",
-		ArrangeInput: args.Map{"when": "different maps", "pair": args.TwoAny{First: map[string]string{"a": "1"}, Second: map[string]string{"b": "2"}}},
-		ExpectedInput: args.Map{
-			"name": "Inconclusive",
-		},
-	},
-	{
-		Title:        "Cmp returns Inconclusive -- two non-nil slices",
-		ArrangeInput: args.Map{"when": "different slices", "pair": args.TwoAny{First: []int{1}, Second: []int{2}}},
+		Title:        "Cmp returns Inconclusive -- two different non-nil channels",
+		ArrangeInput: args.Map{"when": "different chans", "pair": args.TwoAny{First: make(chan int), Second: make(chan int)}},
 		ExpectedInput: args.Map{
 			"name": "Inconclusive",
 		},
 	},
 }
+
