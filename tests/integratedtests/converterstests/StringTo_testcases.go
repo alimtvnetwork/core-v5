@@ -77,7 +77,7 @@ var bytesToStringTestCases = []coretestcases.CaseV1{
 
 var stringToIntegerWithDefaultTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IntegerWithDefault returns parsed value on valid input",
+		Title: "IntegerWithDefault returns 100 -- valid integer '100'",
 		ArrangeInput: args.Map{
 			"when":       "given valid integer",
 			"input":      "100",
