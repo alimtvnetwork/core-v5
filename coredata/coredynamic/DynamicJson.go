@@ -42,20 +42,20 @@ func (it *Dynamic) JsonPayloadMust() (jsonBytes []byte) {
 		ToSafeBytesMust(it.innerData)
 }
 
-// JsonBytesPtr returns empty string on nil.
+// JsonBytesPtr returns empty bytes on nil.
 // no error on nil.
-func (it *Dynamic) JsonBytesPtr() (jsonBytesPtr *[]byte, err error) {
+func (it *Dynamic) JsonBytesPtr() (jsonBytes []byte, err error) {
 	if it.IsNull() {
-		return &[]byte{}, nil
+		return []byte{}, nil
 	}
 
 	marshalledBytes, marshalErr := json.Marshal(it.innerData)
 
 	if marshalErr != nil {
-		return &[]byte{}, marshalErr
+		return []byte{}, marshalErr
 	}
 
-	return &marshalledBytes, nil
+	return marshalledBytes, nil
 }
 
 func (it *Dynamic) MarshalJSON() ([]byte, error) {
@@ -140,7 +140,7 @@ func (it *Dynamic) JsonBytes() (jsonBytesPtr []byte, err error) {
 		return []byte{}, err
 	}
 
-	return *allBytes, err
+	return allBytes, err
 }
 
 func (it *Dynamic) JsonString() (jsonString string, err error) {
