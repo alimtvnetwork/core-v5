@@ -364,7 +364,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus both map[string]string — same type",
+			Title: "TypeStatus both map[string]string -- same type",
 			ExpectedInput: args.Map{
 				"isSame":             "true",
 				"isLeftUnknownNull":  "false",
