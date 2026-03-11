@@ -39,7 +39,7 @@ var integersOnceCoreTestCases = []integersOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegersOnce nil -- Length 0, isEmpty true",
+			Title: "IntegersOnce returns length 0 and isEmpty true -- nil input",
 			ExpectedInput: args.Map{
 				"length":  0,
 				"isEmpty": true,
