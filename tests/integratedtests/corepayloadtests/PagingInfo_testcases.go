@@ -110,7 +110,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - different PerPageItems should return false",
+		Title: "PagingInfo.IsEqual returns false -- different PerPageItems",
 		ArrangeInput: args.Map{
 			"when":                  "given different PerPageItems",
 			"isLeftNil":             false,
