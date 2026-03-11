@@ -15,7 +15,7 @@ var hashsetAddLockConcurrencyTestCase = coretestcases.CaseV1{
 }
 
 var hashsetAddSliceLockConcurrencyTestCase = coretestcases.CaseV1{
-	Title:         "AddSliceLock concurrent safety — all batches added",
+	Title:         "AddSliceLock concurrent safety -- all batches added",
 	ExpectedInput: args.Map{"length": 1000},
 }
 
