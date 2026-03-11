@@ -38,7 +38,7 @@ var pagingInfoIsEqualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsEqual - left non-nil right nil should return false",
+		Title: "PagingInfo.IsEqual returns false -- left non-nil right nil",
 		ArrangeInput: args.Map{
 			"when":                 "given left non-nil right nil",
 			"isLeftNil":            false,
