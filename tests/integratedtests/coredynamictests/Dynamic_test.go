@@ -127,7 +127,8 @@ func Test_Dynamic_NonPtr(t *testing.T) {
 	tc := dynamicNonPtrTestCase
 	d := refNewDynamicValid("x")
 
-	actLines := []string{fmt.Sprintf("%v", d.NonPtr().Value())}
+	np := d.NonPtr()
+	actLines := []string{fmt.Sprintf("%v", np.Value())}
 
 	tc.ShouldBeEqual(t, 0, actLines...)
 }

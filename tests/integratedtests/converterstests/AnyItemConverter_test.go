@@ -26,7 +26,7 @@ func Test_AnyItemConverter_ToNonNullItems_SkipNil(t *testing.T) {
 		inputRaw, _ := input.Get("input")
 
 		// Act
-		result := converters.AnyItem.ToNonNullItems(isSkip, inputRaw)
+		result := converters.AnyTo.ToNonNullItems(isSkip, inputRaw)
 		actual := args.Map{
 			"count": len(result),
 		}

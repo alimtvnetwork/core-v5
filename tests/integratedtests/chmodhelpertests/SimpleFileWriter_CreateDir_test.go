@@ -276,7 +276,8 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 				finalPath := pathinternal.Join(dir, file)
 				parentDir := pathinternal.ParentDir(finalPath)
 
-				err := fileWriter.String.Chmod(
+			err := fileWriter.String.Chmod(
+					false,
 					filemode.X200,
 					filemode.X300,
 					finalPath,

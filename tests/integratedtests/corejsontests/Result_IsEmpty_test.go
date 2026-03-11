@@ -20,9 +20,6 @@ var resultIsEmptyTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: "true", // isEmpty
 	},
-		},
-		ExpectedInput: "true", // isEmpty
-	},
 	{
 		Title: "IsEmpty - nil receiver returns true",
 		ArrangeInput: args.Map{

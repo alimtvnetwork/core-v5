@@ -37,7 +37,7 @@ func Test_DynamicCollection_GetPagesSize_Verification(t *testing.T) {
 
 		collection := coredynamic.NewDynamicCollection(count)
 		for i := 0; i < count; i++ {
-			collection.Add(coredynamic.Dynamic{Value: i})
+			collection.Add(coredynamic.NewDynamicValid(i))
 		}
 
 		// Act
