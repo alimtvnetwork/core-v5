@@ -378,7 +378,7 @@ var leftRightTypeStatusTestCases = []leftRightTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "TypeStatus different map types — map[string]string vs map[string]int",
+			Title: "TypeStatus different map types -- map[string]string vs map[string]int",
 			ExpectedInput: args.Map{
 				"isSame":             "false",
 				"isLeftUnknownNull":  "false",
