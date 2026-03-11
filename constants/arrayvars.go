@@ -60,9 +60,9 @@ var (
 	EmptyStringsMap      map[string][]string
 
 	// Deprecated: Use non-pointer map types above instead.
-	EmptyIntToPtrIntsMap  map[int]*[]int
-	EmptyIntToPtrBytesMap map[int]*[]byte
-	EmptyStrToPtrIntsMap  map[string]*[]int
-	EmptyStrToPtrBytesMap map[string]*[]byte
-	EmptyPtrStringsMap    map[string]*[]string
+	EmptyIntToPtrIntsMap  map[int][]int
+	EmptyIntToPtrBytesMap map[int][]byte
+	EmptyStrToPtrIntsMap  map[string][]int
+	EmptyStrToPtrBytesMap map[string][]byte
+	EmptyPtrStringsMap    map[string][]string
 )
