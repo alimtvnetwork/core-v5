@@ -122,9 +122,7 @@ func Test_StringsTo_CloneIf(t *testing.T) {
 			isSamePointer = unsafe.Pointer(&inputSlice[0]) == unsafe.Pointer(&result[0])
 		}
 
-		isIndependent := isClone && !isSamePointer && len(inputSlice) > 0
-		isReturned := !isClone && isSamePointer
-		actual["isIndependent"] = isIndependent || isReturned || len(inputSlice) == 0
+		actual["isIndependent"] = isClone && !isSamePointer && len(inputSlice) > 0
 
 		// Assert
 		testCase.ShouldBeEqualMap(

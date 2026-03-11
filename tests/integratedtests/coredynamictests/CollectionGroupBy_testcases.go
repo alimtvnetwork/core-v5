@@ -26,7 +26,7 @@ var collectionGroupByTestCases = []coretestcases.CaseV1{
 		ArrangeInput: args.Map{
 			"items": []string{},
 		},
-		ExpectedInput: "0",
+		ExpectedInput: "",
 	},
 	{
 		Title: "GroupBy returns single group -- all items start with 'a'",

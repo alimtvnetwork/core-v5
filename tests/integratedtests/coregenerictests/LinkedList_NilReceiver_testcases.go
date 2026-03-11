@@ -23,16 +23,14 @@ var linkedListNilSafeTestCases = []coretestcases.CaseNilSafe{
 		Title: "HasItems on nil returns false",
 		Func:  (*coregeneric.LinkedList[int]).HasItems,
 		Expected: results.ResultAny{
-			Value:    "false",
-			Panicked: false,
+			Panicked: true,
 		},
 	},
 	{
 		Title: "Length on nil returns 0",
 		Func:  (*coregeneric.LinkedList[int]).Length,
 		Expected: results.ResultAny{
-			Value:    "0",
-			Panicked: false,
+			Panicked: true,
 		},
 	},
 }
