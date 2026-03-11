@@ -103,7 +103,7 @@ var typedCollectionSinglePageEdgeCases = []coretestcases.CaseV1{
 
 var typedCollectionPagedWithInfoEdgeCases = []coretestcases.CaseV1{
 	{
-		Title: "GetPagedCollectionWithInfo single item has correct metadata",
+		Title: "GetPagedCollectionWithInfo returns correct metadata -- 1 item page size 5",
 		ArrangeInput: args.Map{
 			"when":     "1 item with page size 5",
 			"count":    1,
