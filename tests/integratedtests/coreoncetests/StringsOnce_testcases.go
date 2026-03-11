@@ -94,7 +94,7 @@ var stringsOnceSortedTestCases = []stringsOnceTestCase{
 var stringsOnceMapTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [a,b,a] -- UniqueMap has 2 keys, RangesMap has 2",
+			Title: "StringsOnce returns uniqueLen 2 and rangesMapLen 2 -- [a,b,a] input",
 			ExpectedInput: args.Map{
 				"uniqueLen":    2,
 				"rangesMapLen": 2,
