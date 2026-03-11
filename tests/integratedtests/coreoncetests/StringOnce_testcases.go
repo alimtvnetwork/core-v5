@@ -118,7 +118,7 @@ var stringOnceMatchTestCases = []stringOnceMatchTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringOnce 'data-suffix' -- HasSuffix 'suffix' true, 'data' false",
+			Title: "StringOnce.HasSuffix returns true for 'suffix' and false for 'data' -- 'data-suffix' input",
 			ExpectedInput: args.Map{
 				"matchResult":   true,
 				"noMatchResult": false,
