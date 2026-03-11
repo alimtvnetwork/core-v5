@@ -193,7 +193,7 @@ var stringToByteTestCases = []coretestcases.CaseV1{
 
 var bytesToPtrStringTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PtrString returns string from valid pointer",
+		Title: "BytesTo.PtrString returns 'test-data' -- valid pointer",
 		ArrangeInput: args.Map{
 			"when":  "given valid byte slice pointer",
 			"input": "test-data",
