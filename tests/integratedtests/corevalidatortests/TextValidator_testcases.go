@@ -10,22 +10,22 @@ import (
 // ==========================================================================
 
 var tvIsMatchExactEqualTestCase = coretestcases.CaseV1{
-	Title:         "Exact equal match returns true",
+	Title:         "IsMatch returns true -- exact equal text",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvIsMatchExactNotEqualTestCase = coretestcases.CaseV1{
-	Title:         "Different text returns false",
+	Title:         "IsMatch returns false -- different text",
 	ExpectedInput: args.Map{"isMatch": false},
 }
 
 var tvIsMatchCaseInsensitiveTestCase = coretestcases.CaseV1{
-	Title:         "Case-insensitive match returns true",
+	Title:         "IsMatch returns true -- case-insensitive match",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvIsMatchCaseSensitiveFailTestCase = coretestcases.CaseV1{
-	Title:         "Case-sensitive mismatch returns false",
+	Title:         "IsMatch returns false -- case-sensitive mismatch",
 	ExpectedInput: args.Map{"isMatch": false},
 }
 
@@ -34,12 +34,12 @@ var tvIsMatchCaseSensitiveFailTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvIsMatchTrimTestCase = coretestcases.CaseV1{
-	Title:         "Trimmed search matches trimmed content",
+	Title:         "IsMatch returns true -- trimmed search matches content",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvIsMatchTrimBothTestCase = coretestcases.CaseV1{
-	Title:         "Trim handles both search and content",
+	Title:         "IsMatch returns true -- trim applied to both search and content",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
@@ -48,12 +48,12 @@ var tvIsMatchTrimBothTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvIsMatchContainsTestCase = coretestcases.CaseV1{
-	Title:         "Contains finds substring",
+	Title:         "IsMatch returns true -- contains substring found",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvIsMatchContainsMissingTestCase = coretestcases.CaseV1{
-	Title:         "Contains does not find missing substring",
+	Title:         "IsMatch returns false -- contains substring not found",
 	ExpectedInput: args.Map{"isMatch": false},
 }
 
@@ -62,12 +62,12 @@ var tvIsMatchContainsMissingTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvIsMatchNotEqualDifferentTestCase = coretestcases.CaseV1{
-	Title:         "NotEqual matches when different",
+	Title:         "IsMatch returns true -- NotEqual with different text",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvIsMatchNotEqualSameTestCase = coretestcases.CaseV1{
-	Title:         "NotEqual does not match when same",
+	Title:         "IsMatch returns false -- NotEqual with same text",
 	ExpectedInput: args.Map{"isMatch": false},
 }
 
@@ -76,7 +76,7 @@ var tvIsMatchNotEqualSameTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvIsMatchUniqueWordsSortedTestCase = coretestcases.CaseV1{
-	Title:         "Unique+sorted matches reordered unique words",
+	Title:         "IsMatch returns true -- unique+sorted reordered words",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
@@ -85,12 +85,12 @@ var tvIsMatchUniqueWordsSortedTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvIsMatchEmptyBothTestCase = coretestcases.CaseV1{
-	Title:         "Empty search vs empty content matches",
+	Title:         "IsMatch returns true -- both search and content empty",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvIsMatchEmptySearchNonEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Empty search vs non-empty content does not match",
+	Title:         "IsMatch returns false -- empty search vs non-empty content",
 	ExpectedInput: args.Map{"isMatch": false},
 }
 
@@ -99,17 +99,17 @@ var tvIsMatchEmptySearchNonEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvIsMatchManyAllTestCase = coretestcases.CaseV1{
-	Title:         "All identical match",
+	Title:         "IsMatchMany returns true -- all lines identical",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvIsMatchManyOneFailsTestCase = coretestcases.CaseV1{
-	Title:         "One mismatch fails",
+	Title:         "IsMatchMany returns false -- one line mismatched",
 	ExpectedInput: args.Map{"isMatch": false},
 }
 
 var tvIsMatchManyEmptySkipTestCase = coretestcases.CaseV1{
-	Title:         "Empty contents with skip returns true",
+	Title:         "IsMatchMany returns true -- empty contents with skip",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
@@ -118,12 +118,12 @@ var tvIsMatchManyEmptySkipTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvVerifyDetailMatchTestCase = coretestcases.CaseV1{
-	Title:         "VerifyDetailError returns nil on match",
+	Title:         "VerifyDetailError returns nil -- matching text",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
 var tvVerifyDetailMismatchTestCase = coretestcases.CaseV1{
-	Title:         "VerifyDetailError returns error on mismatch",
+	Title:         "VerifyDetailError returns error -- mismatched text",
 	ExpectedInput: args.Map{"hasError": true},
 }
 
@@ -132,17 +132,17 @@ var tvVerifyDetailMismatchTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvVerifyManyFirstOnlyTestCase = coretestcases.CaseV1{
-	Title:         "VerifyMany firstOnly returns first error",
+	Title:         "VerifyMany returns first error -- firstOnly mode",
 	ExpectedInput: args.Map{"hasError": true},
 }
 
 var tvVerifyManyAllErrorsTestCase = coretestcases.CaseV1{
-	Title:         "VerifyMany collects all errors",
+	Title:         "VerifyMany returns all errors -- collect mode",
 	ExpectedInput: args.Map{"hasError": true},
 }
 
 var tvVerifyFirstEmptySkipTestCase = coretestcases.CaseV1{
-	Title:         "VerifyFirstError empty with skip returns nil",
+	Title:         "VerifyFirstError returns nil -- empty contents with skip",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
@@ -151,7 +151,7 @@ var tvVerifyFirstEmptySkipTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvSearchTextFinalizedTestCase = coretestcases.CaseV1{
-	Title: "SearchTextFinalized caches and trims",
+	Title: "SearchTextFinalized returns cached trimmed value -- 'hello' with whitespace",
 	ExpectedInput: args.Map{
 		"isCached": true,
 		"value":    "hello",
@@ -163,16 +163,16 @@ var tvSearchTextFinalizedTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var tvEmptyMatchesEmptyTestCase = coretestcases.CaseV1{
-	Title:         "EmptyValidator matches empty string",
+	Title:         "EmptyValidator returns match true -- empty string input",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvEmptyMatchesTrimmedTestCase = coretestcases.CaseV1{
-	Title:         "EmptyValidator matches whitespace-only",
+	Title:         "EmptyValidator returns match true -- whitespace-only input",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var tvEmptyNoMatchNonEmptyTestCase = coretestcases.CaseV1{
-	Title:         "EmptyValidator does not match non-empty",
+	Title:         "EmptyValidator returns match false -- non-empty input",
 	ExpectedInput: args.Map{"isMatch": false},
 }

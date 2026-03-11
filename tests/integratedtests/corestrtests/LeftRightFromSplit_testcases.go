@@ -10,7 +10,7 @@ import (
 // ==========================================================================
 
 var leftRightFromSplitNormalTestCase = coretestcases.CaseV1{
-	Title: "Normal key=value split",
+	Title: "LeftRightFromSplit returns valid split -- 'key=value' normal input",
 	ExpectedInput: args.Map{
 		"left":    "key",
 		"right":   "value",
@@ -19,7 +19,7 @@ var leftRightFromSplitNormalTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitMissingSepTestCase = coretestcases.CaseV1{
-	Title: "Missing separator returns left only, invalid",
+	Title: "LeftRightFromSplit returns invalid -- no separator found",
 	ExpectedInput: args.Map{
 		"left":    "no-separator-here",
 		"right":   "",
@@ -28,7 +28,7 @@ var leftRightFromSplitMissingSepTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitEmptyTestCase = coretestcases.CaseV1{
-	Title: "Empty input returns empty left, invalid",
+	Title: "LeftRightFromSplit returns empty invalid -- empty input string",
 	ExpectedInput: args.Map{
 		"left":    "",
 		"right":   "",
@@ -37,7 +37,7 @@ var leftRightFromSplitEmptyTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitSepAtStartTestCase = coretestcases.CaseV1{
-	Title: "Separator at start gives empty left",
+	Title: "LeftRightFromSplit returns empty left -- separator at start",
 	ExpectedInput: args.Map{
 		"left":    "",
 		"right":   "value",
@@ -46,7 +46,7 @@ var leftRightFromSplitSepAtStartTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitSepAtEndTestCase = coretestcases.CaseV1{
-	Title: "Separator at end gives empty right",
+	Title: "LeftRightFromSplit returns empty right -- separator at end",
 	ExpectedInput: args.Map{
 		"left":    "key",
 		"right":   "",
@@ -55,7 +55,7 @@ var leftRightFromSplitSepAtEndTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitMultipleSepTestCase = coretestcases.CaseV1{
-	Title: "Multiple separators keeps first left and last right",
+	Title: "LeftRightFromSplit returns first-left and last-right -- multiple separators",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"right":   "c",
@@ -68,7 +68,7 @@ var leftRightFromSplitMultipleSepTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftRightFromSplitTrimmedTrimsTestCase = coretestcases.CaseV1{
-	Title: "Trims whitespace from both parts",
+	Title: "LeftRightFromSplitTrimmed returns trimmed parts -- whitespace around both",
 	ExpectedInput: args.Map{
 		"left":    "key",
 		"right":   "value",
@@ -77,7 +77,7 @@ var leftRightFromSplitTrimmedTrimsTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitTrimmedNoSepTestCase = coretestcases.CaseV1{
-	Title: "Trims with no separator returns trimmed left, invalid",
+	Title: "LeftRightFromSplitTrimmed returns trimmed invalid -- no separator found",
 	ExpectedInput: args.Map{
 		"left":    "hello",
 		"right":   "",
@@ -86,7 +86,7 @@ var leftRightFromSplitTrimmedNoSepTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitTrimmedWhitespaceTestCase = coretestcases.CaseV1{
-	Title: "Trims whitespace-only parts to empty",
+	Title: "LeftRightFromSplitTrimmed returns empty parts -- whitespace-only values",
 	ExpectedInput: args.Map{
 		"left":    "",
 		"right":   "",
@@ -99,7 +99,7 @@ var leftRightFromSplitTrimmedWhitespaceTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftRightFromSplitFullRemainderTestCase = coretestcases.CaseV1{
-	Title: "Full split keeps remainder in right",
+	Title: "LeftRightFromSplitFull returns remainder in right -- 'a:b:c:d' multi-separator",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"right":   "b:c:d",
@@ -108,7 +108,7 @@ var leftRightFromSplitFullRemainderTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitFullSingleSepTestCase = coretestcases.CaseV1{
-	Title: "Full split with single separator same as normal",
+	Title: "LeftRightFromSplitFull returns same as normal -- single separator",
 	ExpectedInput: args.Map{
 		"left":    "key",
 		"right":   "value",
@@ -117,7 +117,7 @@ var leftRightFromSplitFullSingleSepTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitFullMissingSepTestCase = coretestcases.CaseV1{
-	Title: "Full split missing separator returns invalid",
+	Title: "LeftRightFromSplitFull returns invalid -- no separator found",
 	ExpectedInput: args.Map{
 		"left":    "nosep",
 		"right":   "",
@@ -130,7 +130,7 @@ var leftRightFromSplitFullMissingSepTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var leftRightFromSplitFullTrimmedRemainderTestCase = coretestcases.CaseV1{
-	Title: "Full trimmed split keeps remainder trimmed",
+	Title: "LeftRightFromSplitFullTrimmed returns trimmed remainder -- ' a : b : c : d ' with spaces",
 	ExpectedInput: args.Map{
 		"left":    "a",
 		"right":   "b : c : d",
@@ -139,7 +139,7 @@ var leftRightFromSplitFullTrimmedRemainderTestCase = coretestcases.CaseV1{
 }
 
 var leftRightFromSplitFullTrimmedMissingSepTestCase = coretestcases.CaseV1{
-	Title: "Full trimmed missing separator returns trimmed invalid",
+	Title: "LeftRightFromSplitFullTrimmed returns trimmed invalid -- no separator found",
 	ExpectedInput: args.Map{
 		"left":    "hello",
 		"right":   "",

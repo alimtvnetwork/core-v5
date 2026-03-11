@@ -10,7 +10,7 @@ import (
 // ==========================================================================
 
 var textValidatorsNewEmptyTestCase = coretestcases.CaseV1{
-	Title: "New TextValidators is empty with length 0",
+	Title: "TextValidators returns isEmpty true length 0 -- new instance",
 	ExpectedInput: args.Map{
 		"isEmpty": true,
 		"length":  0,
@@ -18,27 +18,27 @@ var textValidatorsNewEmptyTestCase = coretestcases.CaseV1{
 }
 
 var textValidatorsAddTestCase = coretestcases.CaseV1{
-	Title:         "Add increases length",
+	Title:         "TextValidators.Add returns length 2 -- two items added",
 	ExpectedInput: args.Map{"length": 2},
 }
 
 var textValidatorsAddsTestCase = coretestcases.CaseV1{
-	Title:         "Adds variadic adds all",
+	Title:         "TextValidators.Adds returns length 2 -- variadic two items",
 	ExpectedInput: args.Map{"length": 2},
 }
 
 var textValidatorsAddsEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Adds with nothing stays empty",
+	Title:         "TextValidators.Adds returns length 0 -- no items given",
 	ExpectedInput: args.Map{"length": 0},
 }
 
 var textValidatorsAddSimpleTestCase = coretestcases.CaseV1{
-	Title:         "AddSimple adds one",
+	Title:         "TextValidators.AddSimple returns length 1 -- one item added",
 	ExpectedInput: args.Map{"length": 1},
 }
 
 var textValidatorsHasIndexTestCase = coretestcases.CaseV1{
-	Title: "HasIndex returns true for valid, false for invalid",
+	Title: "TextValidators.HasIndex returns true for 0, false for 1 -- single item",
 	ExpectedInput: args.Map{
 		"hasIndex0": true,
 		"hasIndex1": false,
@@ -46,7 +46,7 @@ var textValidatorsHasIndexTestCase = coretestcases.CaseV1{
 }
 
 var textValidatorsLastIndexTestCase = coretestcases.CaseV1{
-	Title:         "LastIndex returns correct value",
+	Title:         "TextValidators.LastIndex returns 1 -- two items",
 	ExpectedInput: args.Map{"lastIndex": 1},
 }
 
@@ -55,17 +55,17 @@ var textValidatorsLastIndexTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var textValidatorsIsMatchEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Empty validators match anything",
+	Title:         "TextValidators.IsMatch returns true -- empty validators",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var textValidatorsIsMatchAllPassTestCase = coretestcases.CaseV1{
-	Title:         "All validators pass → match",
+	Title:         "TextValidators.IsMatch returns true -- all validators pass",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
 var textValidatorsIsMatchOneFailsTestCase = coretestcases.CaseV1{
-	Title:         "One validator fails → no match",
+	Title:         "TextValidators.IsMatch returns false -- one validator fails",
 	ExpectedInput: args.Map{"isMatch": false},
 }
 
@@ -74,7 +74,7 @@ var textValidatorsIsMatchOneFailsTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var textValidatorsIsMatchManyEmptyTestCase = coretestcases.CaseV1{
-	Title:         "Empty validators match many",
+	Title:         "TextValidators.IsMatchMany returns true -- empty validators",
 	ExpectedInput: args.Map{"isMatch": true},
 }
 
@@ -83,17 +83,17 @@ var textValidatorsIsMatchManyEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var textValidatorsVerifyFirstAllPassTestCase = coretestcases.CaseV1{
-	Title:         "VerifyFirstError passes on match",
+	Title:         "TextValidators.VerifyFirstError returns nil -- all match",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
 var textValidatorsVerifyFirstFailTestCase = coretestcases.CaseV1{
-	Title:         "VerifyFirstError returns error on mismatch",
+	Title:         "TextValidators.VerifyFirstError returns error -- one mismatch",
 	ExpectedInput: args.Map{"hasError": true},
 }
 
 var textValidatorsVerifyFirstEmptyTestCase = coretestcases.CaseV1{
-	Title:         "VerifyFirstError empty validators returns nil",
+	Title:         "TextValidators.VerifyFirstError returns nil -- empty validators",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
@@ -102,12 +102,12 @@ var textValidatorsVerifyFirstEmptyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var textValidatorsAllVerifyPassTestCase = coretestcases.CaseV1{
-	Title:         "AllVerifyError passes on match",
+	Title:         "TextValidators.AllVerifyError returns nil -- all match",
 	ExpectedInput: args.Map{"hasError": false},
 }
 
 var textValidatorsAllVerifyFailTestCase = coretestcases.CaseV1{
-	Title:         "AllVerifyError returns error on multiple mismatches",
+	Title:         "TextValidators.AllVerifyError returns error -- multiple mismatches",
 	ExpectedInput: args.Map{"hasError": true},
 }
 
@@ -116,6 +116,6 @@ var textValidatorsAllVerifyFailTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var textValidatorsDisposeTestCase = coretestcases.CaseV1{
-	Title:         "Dispose nils out Items",
+	Title:         "TextValidators.Dispose returns nil Items -- after dispose",
 	ExpectedInput: args.Map{"isNil": true},
 }

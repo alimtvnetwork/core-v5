@@ -10,27 +10,27 @@ import (
 // ==========================================================================
 
 var conditionAllFalseTestCase = coretestcases.CaseV1{
-	Title:         "All false should not split by whitespace",
+	Title:         "IsSplitByWhitespace returns false -- all flags false",
 	ExpectedInput: args.Map{"isSplit": false},
 }
 
 var conditionUniqueWordOnlyTestCase = coretestcases.CaseV1{
-	Title:         "IsUniqueWordOnly triggers split",
+	Title:         "IsSplitByWhitespace returns true -- IsUniqueWordOnly enabled",
 	ExpectedInput: args.Map{"isSplit": true},
 }
 
 var conditionNonEmptyWhitespaceTestCase = coretestcases.CaseV1{
-	Title:         "IsNonEmptyWhitespace triggers split",
+	Title:         "IsSplitByWhitespace returns true -- IsNonEmptyWhitespace enabled",
 	ExpectedInput: args.Map{"isSplit": true},
 }
 
 var conditionSortBySpaceTestCase = coretestcases.CaseV1{
-	Title:         "IsSortStringsBySpace triggers split",
+	Title:         "IsSplitByWhitespace returns true -- IsSortStringsBySpace enabled",
 	ExpectedInput: args.Map{"isSplit": true},
 }
 
 var conditionTrimOnlyTestCase = coretestcases.CaseV1{
-	Title:         "IsTrimCompare alone does not trigger split",
+	Title:         "IsSplitByWhitespace returns false -- IsTrimCompare only",
 	ExpectedInput: args.Map{"isSplit": false},
 }
 
@@ -39,12 +39,12 @@ var conditionTrimOnlyTestCase = coretestcases.CaseV1{
 // ==========================================================================
 
 var conditionDisabledTestCase = coretestcases.CaseV1{
-	Title:         "DefaultDisabled does not split",
+	Title:         "DefaultDisabled returns isSplit false -- preset disabled",
 	ExpectedInput: args.Map{"isSplit": false},
 }
 
 var conditionTrimTestCase = coretestcases.CaseV1{
-	Title: "DefaultTrim does not split but has IsTrimCompare",
+	Title: "DefaultTrim returns isSplit false, isTrimCompare true -- preset trim",
 	ExpectedInput: args.Map{
 		"isSplit":       false,
 		"isTrimCompare": true,
@@ -52,12 +52,12 @@ var conditionTrimTestCase = coretestcases.CaseV1{
 }
 
 var conditionSortTrimTestCase = coretestcases.CaseV1{
-	Title:         "DefaultSortTrim splits",
+	Title:         "DefaultSortTrim returns isSplit true -- preset sort-trim",
 	ExpectedInput: args.Map{"isSplit": true},
 }
 
 var conditionUniqueWordsTestCase = coretestcases.CaseV1{
-	Title: "DefaultUniqueWords splits and has IsUniqueWordOnly",
+	Title: "DefaultUniqueWords returns isSplit true, isUniqueWordOnly true -- preset unique-words",
 	ExpectedInput: args.Map{
 		"isSplit":          true,
 		"isUniqueWordOnly": true,
