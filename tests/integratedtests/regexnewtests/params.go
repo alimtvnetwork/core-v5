@@ -34,10 +34,13 @@ var params = struct {
 	isInvalid     string
 	isNoError     string
 	isCustomError string
+	errorContains string
 
 	// Expected keys — misc
-	isNotEmpty string
-	panicked   string
+	isNotEmpty  string
+	panicked    string
+	samePointer string
+	mapLength   string
 }{
 	// Input keys
 	pattern:      "pattern",
@@ -72,8 +75,11 @@ var params = struct {
 	isInvalid:     "isInvalid",
 	isNoError:     "isNoError",
 	isCustomError: "isCustomError",
+	errorContains: "errorContains",
 
 	// Expected keys — misc
-	isNotEmpty: "isNotEmpty",
-	panicked:   "panicked",
+	isNotEmpty:  "isNotEmpty",
+	panicked:    "panicked",
+	samePointer: "samePointer",
+	mapLength:   "mapLength",
 }
