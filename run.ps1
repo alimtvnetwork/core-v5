@@ -418,10 +418,27 @@ function Invoke-TestCoverage {
 
         if ($pkgExit -ne 0) { $overallExit = $pkgExit }
 
-        # Show progress (per-test-pkg % is misleading — final source-pkg % shown after merge)
+        # Extract coverage % from go test output and compute partial coverage from profile
         $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
         $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
-        Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget" -ForegroundColor $statusColor
+
+        # Parse partial profile for this package's source coverage
+        $partialPct = ""
+        if (Test-Path $partialProfile) {
+            $pStmts = 0; $pCovered = 0
+            foreach ($pLine in (Get-Content $partialProfile)) {
+                if ($pLine -match "^mode:") { continue }
+                if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
+                    $pStmts += [int]$Matches[1]
+                    if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
+                }
+            }
+            if ($pStmts -gt 0) {
+                $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
+            }
+        }
+
+        Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
 
         if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
     }
