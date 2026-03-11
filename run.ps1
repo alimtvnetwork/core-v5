@@ -601,6 +601,7 @@ function Show-Help {
     Write-Host "    T   | -t   | test          Run all tests (verbose)"
     Write-Host "    TP  | -tp  | test-pkg      Run tests for a specific package"
     Write-Host "    TC  | -tc  | test-cover    Run tests with coverage (HTML + summary)"
+    Write-Host "    TCP | -tcp | test-cover-pkg Run coverage for a specific package"
     Write-Host "    TI  | -ti  | test-int      Run integrated tests only"
     Write-Host "    TF  | -tf  | test-fail     Show last failing tests log"
     Write-Host "    GC  | -gc  | goconvey      Launch GoConvey (browser test runner)"
