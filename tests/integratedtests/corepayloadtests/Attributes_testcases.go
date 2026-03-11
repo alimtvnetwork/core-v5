@@ -82,7 +82,7 @@ var attributesIsEqualTestCases = []coretestcases.CaseV1{
 
 var attributesCloneTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Nil attributes shallow clone returns nil",
+		Title: "Attributes.Clone returns nil -- nil attributes shallow clone",
 		ArrangeInput: args.Map{
 			"when":     "attributes is nil",
 			"nil_attr": true,
