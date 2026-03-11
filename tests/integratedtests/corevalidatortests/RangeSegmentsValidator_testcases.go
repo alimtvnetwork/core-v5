@@ -45,7 +45,7 @@ func newMismatchRangeSegment(start, end int) corevalidator.RangesSegment {
 
 var rangeSegmentsValidatorLengthTestCases = []coretestcases.CaseV1{
 	{
-		Title: "No segments returns 0",
+		Title: "LengthOfVerifierSegments returns 0 -- no segments",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title:            "empty",
 			VerifierSegments: nil,
@@ -53,7 +53,7 @@ var rangeSegmentsValidatorLengthTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"length": 0},
 	},
 	{
-		Title: "One segment returns 1",
+		Title: "LengthOfVerifierSegments returns 1 -- one segment",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "one",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -63,7 +63,7 @@ var rangeSegmentsValidatorLengthTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"length": 1},
 	},
 	{
-		Title: "Two segments returns 2",
+		Title: "LengthOfVerifierSegments returns 2 -- two segments",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "two",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -81,7 +81,7 @@ var rangeSegmentsValidatorLengthTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorValidatorsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Produces HeaderSliceValidators from segments",
+		Title: "Validators returns HeaderSliceValidators -- one segment input",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "test",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -100,7 +100,7 @@ var rangeSegmentsValidatorValidatorsTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifyAllTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Matching segment returns nil error",
+		Title: "VerifyAll returns nil -- matching segment",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "match",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -110,7 +110,7 @@ var rangeSegmentsValidatorVerifyAllTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title: "Mismatching segment returns error",
+		Title: "VerifyAll returns error -- mismatching segment",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -181,7 +181,7 @@ var rangeSegmentsValidatorVerifyFirstTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifyUptoTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Matching within upto length returns nil error",
+		Title: "VerifyUpto returns nil -- matching segment within length",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "upto-match",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -208,7 +208,7 @@ var rangeSegmentsValidatorVerifyUptoTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifyFirstDefaultTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Default uses Title as header, matching returns nil",
+		Title: "VerifyFirstDefault returns nil -- matching segment with Title as header",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "default-first",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -221,7 +221,7 @@ var rangeSegmentsValidatorVerifyFirstDefaultTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorVerifyUptoDefaultTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Default uses Title as header, matching returns nil",
+		Title: "VerifyUptoDefault returns nil -- matching segment with Title as header",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "default-upto",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -238,7 +238,7 @@ var rangeSegmentsValidatorVerifyUptoDefaultTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorSetActualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "SetActual propagates lines so matching segment validates",
+		Title: "SetActual returns self and match true -- matching segment propagated",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "set-actual-match",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -251,7 +251,7 @@ var rangeSegmentsValidatorSetActualTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "SetActual propagates lines so mismatch segment fails",
+		Title: "SetActual returns self and match false -- mismatch segment propagated",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "set-actual-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -271,7 +271,7 @@ var rangeSegmentsValidatorSetActualTestCases = []coretestcases.CaseV1{
 
 var rangeSegmentsValidatorSetActualOnAllTestCases = []coretestcases.CaseV1{
 	{
-		Title: "SetActualOnAll replaces actual on all validators to matching",
+		Title: "SetActualOnAll returns match true -- all segments matching",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "set-all-match",
 			VerifierSegments: []corevalidator.RangesSegment{
@@ -285,7 +285,7 @@ var rangeSegmentsValidatorSetActualOnAllTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "SetActualOnAll with mismatch segment produces no match",
+		Title: "SetActualOnAll returns match false -- one segment mismatched",
 		ArrangeInput: &corevalidator.RangeSegmentsValidator{
 			Title: "set-all-mismatch",
 			VerifierSegments: []corevalidator.RangesSegment{

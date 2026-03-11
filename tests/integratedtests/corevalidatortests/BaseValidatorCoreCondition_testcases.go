@@ -7,7 +7,7 @@ import (
 
 var baseValidatorCoreConditionTestCases = []coretestcases.CaseV1{
 	{
-		Title: "ValidatorCoreConditionDefault nil creates default condition",
+		Title: "ValidatorCoreConditionDefault returns all-false condition -- nil preset",
 		ArrangeInput: args.Map{
 			"presetCondition": false,
 		},
@@ -19,7 +19,7 @@ var baseValidatorCoreConditionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "ValidatorCoreConditionDefault non-nil returns existing condition",
+		Title: "ValidatorCoreConditionDefault returns existing condition -- non-nil preset",
 		ArrangeInput: args.Map{
 			"presetCondition": true,
 		},
