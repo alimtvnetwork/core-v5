@@ -361,7 +361,7 @@ type bytesErrorOnceLifecycleTestCase struct {
 var bytesErrorOnceLifecycleTestCases = []bytesErrorOnceLifecycleTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce -- HandleError no panic, MustBeEmptyError no panic on success",
+			Title: "BytesErrorOnce.HandleError returns no panic -- 'ok' bytes no error",
 			ExpectedInput: args.Map{
 				"handleErrorPanicked":       false,
 				"mustBeEmptyErrorPanicked":  false,
