@@ -32,7 +32,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagesSize returns ceiling when not evenly divisible",
+		Title: "GetPagesSize returns 3 -- 7 items page size 3 ceiling",
 		ArrangeInput: args.Map{
 			"when":     "7 items with page size 3",
 			"count":    7,
