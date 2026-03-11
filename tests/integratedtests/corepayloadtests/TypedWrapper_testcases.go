@@ -50,7 +50,7 @@ var typedWrapperRoundTripTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Round-trip with special characters in title",
+		Title: "TypedPayloadWrapper returns preserved special chars -- round-trip 'special-chars'",
 		ArrangeInput: args.Map{
 			"name": "special-chars", "id": "sc-1",
 			"sku": "SC-001", "title": `Quote "test" & <html>`, "price": 0.01,
