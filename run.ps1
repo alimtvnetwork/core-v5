@@ -458,7 +458,20 @@ function Invoke-TestCoverage {
         $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
 
         # Generate HTML report
-        & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
+        $htmlErr = & go tool cover -html=$coverProfile -o $coverHtml 2>&1
+        if (-not (Test-Path $coverHtml)) {
+            Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html'" -ForegroundColor Red
+            if ($htmlErr) { Write-Host "  $htmlErr" -ForegroundColor Red }
+            # Fallback: generate a basic HTML from the func output
+            $fallbackHtml = @"
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>
+<style>body{font-family:monospace;padding:20px;background:#1e1e2e;color:#cdd6f4}
+pre{white-space:pre-wrap}</style></head><body>
+<h1>Coverage Report</h1><pre>$($funcOutput -join "`n")</pre></body></html>
+"@
+            Set-Content -Path $coverHtml -Value $fallbackHtml -Encoding UTF8
+            Write-Host "  Generated fallback HTML report" -ForegroundColor Yellow
+        }
 
         # Build AI-friendly coverage text for the copy button
         $aiTextLines = [System.Collections.Generic.List[string]]::new()
