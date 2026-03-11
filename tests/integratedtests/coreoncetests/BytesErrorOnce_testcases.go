@@ -25,7 +25,7 @@ type bytesErrorOnceTestCase struct {
 var bytesErrorOnceCoreTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce 'abc' -- Length 3, not empty, not null, isDefined",
+			Title: "BytesErrorOnce returns length 3 and isDefined true -- 'abc' input",
 			ExpectedInput: args.Map{
 				"stringValue":  "abc",
 				"noError":      true,
