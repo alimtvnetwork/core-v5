@@ -37,7 +37,7 @@ var instanceNilTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var collectionTestCases = []coretestcases.CaseV1{
+var extCollectionTestCases = []coretestcases.CaseV1{
 	{
 		Title:        "Collection operations",
 		ArrangeInput: args.Map{},

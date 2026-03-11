@@ -69,7 +69,7 @@ func Test_Instance_Nil_Verification(t *testing.T) {
 }
 
 func Test_Collection_Operations_Verification(t *testing.T) {
-	for caseIndex, testCase := range collectionTestCases {
+	for caseIndex, testCase := range extCollectionTestCases {
 		// Arrange
 		col := namevalue.NewGenericCollectionDefault[string, string]()
 		col.Add(namevalue.Instance[string, string]{Name: "a", Value: "1"})

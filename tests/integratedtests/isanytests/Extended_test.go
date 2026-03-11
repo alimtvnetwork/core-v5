@@ -10,8 +10,8 @@ import (
 	"github.com/alimtvnetwork/core/isany"
 )
 
-func Test_NotNull_Verification(t *testing.T) {
-	for caseIndex, tc := range notNullTestCases {
+func Test_Ext_NotNull_Verification(t *testing.T) {
+	for caseIndex, tc := range extNotNullTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputVal, _ := input.Get("input")
@@ -24,8 +24,8 @@ func Test_NotNull_Verification(t *testing.T) {
 	}
 }
 
-func Test_AllNull_Verification(t *testing.T) {
-	for caseIndex, tc := range allNullTestCases {
+func Test_Ext_AllNull_Verification(t *testing.T) {
+	for caseIndex, tc := range extAllNullTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputsRaw, _ := input.Get("inputs")
@@ -39,8 +39,8 @@ func Test_AllNull_Verification(t *testing.T) {
 	}
 }
 
-func Test_AnyNull_Verification(t *testing.T) {
-	for caseIndex, tc := range anyNullTestCases {
+func Test_Ext_AnyNull_Verification(t *testing.T) {
+	for caseIndex, tc := range extAnyNullTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputsRaw, _ := input.Get("inputs")
@@ -54,8 +54,8 @@ func Test_AnyNull_Verification(t *testing.T) {
 	}
 }
 
-func Test_Zero_Verification(t *testing.T) {
-	for caseIndex, tc := range zeroTestCases {
+func Test_Ext_Zero_Verification(t *testing.T) {
+	for caseIndex, tc := range extZeroTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputVal, _ := input.Get("input")
@@ -68,8 +68,8 @@ func Test_Zero_Verification(t *testing.T) {
 	}
 }
 
-func Test_AllZero_Verification(t *testing.T) {
-	for caseIndex, tc := range allZeroTestCases {
+func Test_Ext_AllZero_Verification(t *testing.T) {
+	for caseIndex, tc := range extAllZeroTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputsRaw, _ := input.Get("inputs")
@@ -83,8 +83,8 @@ func Test_AllZero_Verification(t *testing.T) {
 	}
 }
 
-func Test_AnyZero_Verification(t *testing.T) {
-	for caseIndex, tc := range anyZeroTestCases {
+func Test_Ext_AnyZero_Verification(t *testing.T) {
+	for caseIndex, tc := range extAnyZeroTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputsRaw, _ := input.Get("inputs")
@@ -98,8 +98,8 @@ func Test_AnyZero_Verification(t *testing.T) {
 	}
 }
 
-func Test_Pointer_Verification(t *testing.T) {
-	for caseIndex, tc := range pointerTestCases {
+func Test_Ext_Pointer_Verification(t *testing.T) {
+	for caseIndex, tc := range extPointerTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		usePtrRaw, _ := input.Get("usePointer")
@@ -120,8 +120,8 @@ func Test_Pointer_Verification(t *testing.T) {
 	}
 }
 
-func Test_Function_Verification(t *testing.T) {
-	for caseIndex, tc := range functionTestCases {
+func Test_Ext_Function_Verification(t *testing.T) {
+	for caseIndex, tc := range extFunctionTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		useFuncRaw, _ := input.Get("useFunc")
@@ -141,8 +141,8 @@ func Test_Function_Verification(t *testing.T) {
 	}
 }
 
-func Test_TypeSame_Verification(t *testing.T) {
-	for caseIndex, tc := range typeSameTestCases {
+func Test_Ext_TypeSame_Verification(t *testing.T) {
+	for caseIndex, tc := range extTypeSameTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		left, _ := input.Get("left")
@@ -156,8 +156,8 @@ func Test_TypeSame_Verification(t *testing.T) {
 	}
 }
 
-func Test_StringEqual_Verification(t *testing.T) {
-	for caseIndex, tc := range stringEqualTestCases {
+func Test_Ext_StringEqual_Verification(t *testing.T) {
+	for caseIndex, tc := range extStringEqualTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		left, _ := input.GetAsString("left")
@@ -171,8 +171,8 @@ func Test_StringEqual_Verification(t *testing.T) {
 	}
 }
 
-func Test_DefinedAllOf_Verification(t *testing.T) {
-	for caseIndex, tc := range definedAllOfTestCases {
+func Test_Ext_DefinedAllOf_Verification(t *testing.T) {
+	for caseIndex, tc := range extDefinedAllOfTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputsRaw, _ := input.Get("inputs")
@@ -186,8 +186,8 @@ func Test_DefinedAllOf_Verification(t *testing.T) {
 	}
 }
 
-func Test_DefinedAnyOf_Verification(t *testing.T) {
-	for caseIndex, tc := range definedAnyOfTestCases {
+func Test_Ext_DefinedAnyOf_Verification(t *testing.T) {
+	for caseIndex, tc := range extDefinedAnyOfTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputsRaw, _ := input.Get("inputs")
@@ -201,8 +201,8 @@ func Test_DefinedAnyOf_Verification(t *testing.T) {
 	}
 }
 
-func Test_ReflectNull_Verification(t *testing.T) {
-	for caseIndex, tc := range reflectNullTestCases {
+func Test_Ext_ReflectNull_Verification(t *testing.T) {
+	for caseIndex, tc := range extReflectNullTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		useNilPtrRaw, _ := input.Get("useNilPtr")
@@ -225,8 +225,8 @@ func Test_ReflectNull_Verification(t *testing.T) {
 	}
 }
 
-func Test_DefinedLeftRight_Verification(t *testing.T) {
-	for caseIndex, tc := range definedLeftRightTestCases {
+func Test_Ext_DefinedLeftRight_Verification(t *testing.T) {
+	for caseIndex, tc := range extDefinedLeftRightTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		leftNilRaw, hasLeftNil := input.Get("leftNil")
@@ -251,8 +251,8 @@ func Test_DefinedLeftRight_Verification(t *testing.T) {
 	}
 }
 
-func Test_DefinedItems_Verification(t *testing.T) {
-	for caseIndex, tc := range definedItemsTestCases {
+func Test_Ext_DefinedItems_Verification(t *testing.T) {
+	for caseIndex, tc := range extDefinedItemsTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		inputsRaw, _ := input.Get("inputs")
@@ -269,8 +269,8 @@ func Test_DefinedItems_Verification(t *testing.T) {
 	}
 }
 
-func Test_NotDeepEqual_Verification(t *testing.T) {
-	for caseIndex, tc := range notDeepEqualTestCases {
+func Test_Ext_NotDeepEqual_Verification(t *testing.T) {
+	for caseIndex, tc := range extNotDeepEqualTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		left, _ := input.Get("left")
@@ -284,8 +284,8 @@ func Test_NotDeepEqual_Verification(t *testing.T) {
 	}
 }
 
-func Test_Conclusive_Verification(t *testing.T) {
-	for caseIndex, tc := range conclusiveTestCases {
+func Test_Ext_Conclusive_Verification(t *testing.T) {
+	for caseIndex, tc := range extConclusiveTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		value, _ := input.GetAsInt("value")
@@ -299,8 +299,8 @@ func Test_Conclusive_Verification(t *testing.T) {
 	}
 }
 
-func Test_FuncOnly_Verification(t *testing.T) {
-	for caseIndex, tc := range funcOnlyTestCases {
+func Test_Ext_FuncOnly_Verification(t *testing.T) {
+	for caseIndex, tc := range extFuncOnlyTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
 		useFuncRaw, _ := input.Get("useFunc")

@@ -9,7 +9,7 @@ import (
 // NotNull
 // ============================================================================
 
-var notNullTestCases = []coretestcases.CaseV1{
+var extNotNullTestCases = []coretestcases.CaseV1{
 	{
 		Title: "NotNull returns false for nil",
 		ArrangeInput: args.Map{
@@ -30,7 +30,7 @@ var notNullTestCases = []coretestcases.CaseV1{
 // AllNull
 // ============================================================================
 
-var allNullTestCases = []coretestcases.CaseV1{
+var extAllNullTestCases = []coretestcases.CaseV1{
 	{
 		Title: "AllNull returns true for all nil",
 		ArrangeInput: args.Map{
@@ -58,7 +58,7 @@ var allNullTestCases = []coretestcases.CaseV1{
 // AnyNull
 // ============================================================================
 
-var anyNullTestCases = []coretestcases.CaseV1{
+var extAnyNullTestCases = []coretestcases.CaseV1{
 	{
 		Title: "AnyNull returns true when any is nil",
 		ArrangeInput: args.Map{
@@ -86,7 +86,7 @@ var anyNullTestCases = []coretestcases.CaseV1{
 // Zero / AllZero / AnyZero
 // ============================================================================
 
-var zeroTestCases = []coretestcases.CaseV1{
+var extZeroTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Zero returns true for zero int",
 		ArrangeInput: args.Map{
@@ -124,7 +124,7 @@ var zeroTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var allZeroTestCases = []coretestcases.CaseV1{
+var extAllZeroTestCases = []coretestcases.CaseV1{
 	{
 		Title: "AllZero returns true for all zero values",
 		ArrangeInput: args.Map{
@@ -141,7 +141,7 @@ var allZeroTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var anyZeroTestCases = []coretestcases.CaseV1{
+var extAnyZeroTestCases = []coretestcases.CaseV1{
 	{
 		Title: "AnyZero returns true when any is zero",
 		ArrangeInput: args.Map{
@@ -162,7 +162,7 @@ var anyZeroTestCases = []coretestcases.CaseV1{
 // Pointer / Function / TypeSame
 // ============================================================================
 
-var pointerTestCases = []coretestcases.CaseV1{
+var extPointerTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Pointer returns true for pointer type",
 		ArrangeInput: args.Map{
@@ -180,7 +180,7 @@ var pointerTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var functionTestCases = []coretestcases.CaseV1{
+var extFunctionTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Function returns true for func type",
 		ArrangeInput: args.Map{
@@ -198,7 +198,7 @@ var functionTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var typeSameTestCases = []coretestcases.CaseV1{
+var extTypeSameTestCases = []coretestcases.CaseV1{
 	{
 		Title: "TypeSame returns true for same types",
 		ArrangeInput: args.Map{
@@ -221,7 +221,7 @@ var typeSameTestCases = []coretestcases.CaseV1{
 // StringEqual
 // ============================================================================
 
-var stringEqualTestCases = []coretestcases.CaseV1{
+var extStringEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "StringEqual returns true for same strings",
 		ArrangeInput: args.Map{
@@ -244,7 +244,7 @@ var stringEqualTestCases = []coretestcases.CaseV1{
 // Defined / DefinedAllOf / DefinedAnyOf
 // ============================================================================
 
-var definedAllOfTestCases = []coretestcases.CaseV1{
+var extDefinedAllOfTestCases = []coretestcases.CaseV1{
 	{
 		Title: "DefinedAllOf returns true when all non-nil",
 		ArrangeInput: args.Map{
@@ -261,7 +261,7 @@ var definedAllOfTestCases = []coretestcases.CaseV1{
 	},
 }
 
-var definedAnyOfTestCases = []coretestcases.CaseV1{
+var extDefinedAnyOfTestCases = []coretestcases.CaseV1{
 	{
 		Title: "DefinedAnyOf returns true when any non-nil",
 		ArrangeInput: args.Map{
@@ -282,7 +282,7 @@ var definedAnyOfTestCases = []coretestcases.CaseV1{
 // ReflectNull / ReflectNotNull
 // ============================================================================
 
-var reflectNullTestCases = []coretestcases.CaseV1{
+var extReflectNullTestCases = []coretestcases.CaseV1{
 	{
 		Title: "ReflectNull returns true for nil pointer reflect value",
 		ArrangeInput: args.Map{
@@ -303,7 +303,7 @@ var reflectNullTestCases = []coretestcases.CaseV1{
 // DefinedLeftRight
 // ============================================================================
 
-var definedLeftRightTestCases = []coretestcases.CaseV1{
+var extDefinedLeftRightTestCases = []coretestcases.CaseV1{
 	{
 		Title: "DefinedLeftRight both defined",
 		ArrangeInput: args.Map{
@@ -332,7 +332,7 @@ var definedLeftRightTestCases = []coretestcases.CaseV1{
 // DefinedItems
 // ============================================================================
 
-var definedItemsTestCases = []coretestcases.CaseV1{
+var extDefinedItemsTestCases = []coretestcases.CaseV1{
 	{
 		Title: "DefinedItems returns only non-nil items",
 		ArrangeInput: args.Map{
@@ -357,7 +357,7 @@ var definedItemsTestCases = []coretestcases.CaseV1{
 // NotDeepEqual
 // ============================================================================
 
-var notDeepEqualTestCases = []coretestcases.CaseV1{
+var extNotDeepEqualTestCases = []coretestcases.CaseV1{
 	{
 		Title: "NotDeepEqual returns true for different values",
 		ArrangeInput: args.Map{
@@ -380,7 +380,7 @@ var notDeepEqualTestCases = []coretestcases.CaseV1{
 // Conclusive
 // ============================================================================
 
-var conclusiveTestCases = []coretestcases.CaseV1{
+var extConclusiveTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Conclusive returns true for Equal",
 		ArrangeInput: args.Map{
@@ -401,7 +401,7 @@ var conclusiveTestCases = []coretestcases.CaseV1{
 // FuncOnly
 // ============================================================================
 
-var funcOnlyTestCases = []coretestcases.CaseV1{
+var extFuncOnlyTestCases = []coretestcases.CaseV1{
 	{
 		Title: "FuncOnly returns true for function",
 		ArrangeInput: args.Map{
