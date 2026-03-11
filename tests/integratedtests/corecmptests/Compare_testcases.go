@@ -46,7 +46,7 @@ var isStringsEqualTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true", // isEqual
 	},
 	{
-		Title: "IsStringsEqual returns false for different slices",
+		Title: "IsStringsEqual returns false -- different values",
 		ArrangeInput: args.Map{
 			"when":  "given different string slices",
 			"left":  []string{"a", "b"},
