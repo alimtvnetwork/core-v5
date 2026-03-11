@@ -418,14 +418,10 @@ function Invoke-TestCoverage {
 
         if ($pkgExit -ne 0) { $overallExit = $pkgExit }
 
-        # Extract coverage percentage for this package
-        $covLine = $output | Where-Object { $_ -match "coverage:\s+([\d.]+)%" } | Select-Object -Last 1
-        if ($covLine -match "coverage:\s+([\d.]+)%") {
-            $pkgCoverMap[$shortName] = $Matches[1]
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — $($Matches[1])%" -ForegroundColor Gray
-        } else {
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $srcTarget (via $shortName) — no coverage data" -ForegroundColor DarkGray
-        }
+        # Show progress (per-test-pkg % is misleading — final source-pkg % shown after merge)
+        $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
+        $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
+        Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget" -ForegroundColor $statusColor
 
         if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
     }
@@ -550,7 +546,21 @@ function Invoke-TestCoverage {
 
         Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
 
-        # Print summary to console
+        # Print per-source-package coverage to console
+        if ($srcPkgStmts.Count -gt 0) {
+            Write-Host ""
+            Write-Host "  === Per-Source-Package Coverage ===" -ForegroundColor Cyan
+            Write-Host ""
+            $sortedSrcPkgs2 = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctVal2 = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctVal2 }
+            } | Sort-Object Pct -Descending
+            foreach ($entry2 in $sortedSrcPkgs2) {
+                $color = if ($entry2.Pct -ge 50) { "Green" } elseif ($entry2.Pct -ge 20) { "Yellow" } else { "Red" }
+                Write-Host "  $($entry2.Pct)%`t$($entry2.Name)" -ForegroundColor $color
+            }
+        }
+
         Write-Host ""
         if ($totalLine) {
             Write-Host "  $totalLine" -ForegroundColor Cyan
