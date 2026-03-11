@@ -144,7 +144,7 @@ var attributesIsSafeValidTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Attributes with payload IsSafeValid returns true",
+		Title: "Attributes.IsSafeValid returns true -- has dynamic payload",
 		ArrangeInput: args.Map{
 			"when":    "attributes has dynamic payload",
 			"payload": "valid-data",
