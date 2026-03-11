@@ -22,7 +22,7 @@ var requestIdentityTestCases = []coretestcases.CaseV1{
 		Title:        "Create request identity",
 		ArrangeInput: reqtype.Create,
 		ExpectedInput: args.Map{
-			"name":      "Create",
+			"name":      "CreateUsingAliasMap",
 			"isValid":   "true",
 			"isInvalid": "false",
 		},
