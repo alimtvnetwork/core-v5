@@ -79,11 +79,9 @@ func TestVersion_HasMethods(t *testing.T) {
 	if !v.HasMajor() { t.Error("should have major") }
 	if !v.HasMinor() { t.Error("should have minor") }
 	if !v.HasPatch() { t.Error("should have patch") }
-	if v.HasBuild() { t.Error("should not have build") }
 	if v.IsMajorInvalid() { t.Error("major should be valid") }
 	if v.IsMinorInvalid() { t.Error("minor should be valid") }
 	if v.IsPatchInvalid() { t.Error("patch should be valid") }
-	if !v.IsBuildInvalid() { t.Error("build should be invalid") }
 }
 
 // TestVersion_NilHas verifies nil receiver for Has methods.

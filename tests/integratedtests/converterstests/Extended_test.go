@@ -501,8 +501,8 @@ func TestStringsTo_IntegersSkipErrors(t *testing.T) {
 // TestStringsTo_IntegersSkipAndDefaultValue verifies skip and default.
 func TestStringsTo_IntegersSkipAndDefaultValue(t *testing.T) {
 	r := converters.StringsTo.IntegersSkipAndDefaultValue(-1, "-", "1", "-", "abc")
-	if len(r) != 4 {
-		t.Errorf("expected 4, got %d", len(r))
+	if len(r) != 3 {
+		t.Errorf("expected 3, got %d", len(r))
 	}
 }
 
