@@ -130,7 +130,7 @@ var typedWrapperDeserializeToManyTestCases = []coretestcases.CaseV1{
 // ==========================================================================
 
 var typedWrapperMetadataAccessorsTestCase = coretestcases.CaseV1{
-	Title: "MetadataAccessors return correct values",
+	Title: "TypedPayloadWrapper returns correct metadata -- populated wrapper",
 	ExpectedInput: args.Map{
 		"name":             "meta-name",
 		"identifier":       "meta-id",
