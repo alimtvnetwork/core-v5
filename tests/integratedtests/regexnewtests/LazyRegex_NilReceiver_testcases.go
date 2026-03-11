@@ -91,4 +91,20 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 			Panicked: false,
 		},
 	},
+	{
+		Title: "CompiledError on nil returns error",
+		Func:  (*regexnew.LazyRegex).CompiledError,
+		Expected: results.ResultAny{
+			Panicked: false,
+			Error:    results.ExpectAnyError,
+		},
+	},
+	{
+		Title: "Error on nil returns error",
+		Func:  (*regexnew.LazyRegex).Error,
+		Expected: results.ResultAny{
+			Panicked: false,
+			Error:    results.ExpectAnyError,
+		},
+	},
 }
