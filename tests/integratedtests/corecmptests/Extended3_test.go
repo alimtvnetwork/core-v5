@@ -7,7 +7,7 @@ import (
 	"github.com/alimtvnetwork/core/corecomparator"
 )
 
-func Test_Byte_Comparison(t *testing.T) {
+func Test_Byte_Direct_Comparison(t *testing.T) {
 	if corecmp.Byte(5, 5) != corecomparator.Equal {
 		t.Error("same bytes should be Equal")
 	}
@@ -19,7 +19,7 @@ func Test_Byte_Comparison(t *testing.T) {
 	}
 }
 
-func Test_BytePtr_Comparison(t *testing.T) {
+func Test_BytePtr_Direct_Comparison(t *testing.T) {
 	if corecmp.BytePtr(nil, nil) != corecomparator.Equal {
 		t.Error("both nil should be Equal")
 	}
@@ -36,7 +36,7 @@ func Test_BytePtr_Comparison(t *testing.T) {
 	}
 }
 
-func Test_Integer64_Comparison(t *testing.T) {
+func Test_Integer64_Direct_Comparison(t *testing.T) {
 	if corecmp.Integer64(10, 10) != corecomparator.Equal {
 		t.Error("same should be Equal")
 	}
@@ -48,7 +48,7 @@ func Test_Integer64_Comparison(t *testing.T) {
 	}
 }
 
-func Test_IntegerPtr_Comparison(t *testing.T) {
+func Test_IntegerPtr_Direct_Comparison(t *testing.T) {
 	if corecmp.IntegerPtr(nil, nil) != corecomparator.Equal {
 		t.Error("both nil should be Equal")
 	}
@@ -62,7 +62,7 @@ func Test_IntegerPtr_Comparison(t *testing.T) {
 	}
 }
 
-func Test_IsIntegersEqual_Verification(t *testing.T) {
+func Test_IsIntegersEqual_Direct_Verification(t *testing.T) {
 	if !corecmp.IsIntegersEqual(nil, nil) {
 		t.Error("both nil should be equal")
 	}
@@ -77,25 +77,7 @@ func Test_IsIntegersEqual_Verification(t *testing.T) {
 	}
 }
 
-func Test_IsStringsEqualWithoutOrder_Verification(t *testing.T) {
-	if !corecmp.IsStringsEqualWithoutOrder(nil, nil) {
-		t.Error("both nil should be equal")
-	}
-	if corecmp.IsStringsEqualWithoutOrder(nil, []string{"a"}) {
-		t.Error("nil vs non-nil should not be equal")
-	}
-	if !corecmp.IsStringsEqualWithoutOrder([]string{"b", "a"}, []string{"a", "b"}) {
-		t.Error("same items different order should be equal")
-	}
-	if corecmp.IsStringsEqualWithoutOrder([]string{"a"}, []string{"b"}) {
-		t.Error("different items should not be equal")
-	}
-	if corecmp.IsStringsEqualWithoutOrder([]string{"a"}, []string{"a", "b"}) {
-		t.Error("different lengths should not be equal")
-	}
-}
-
-func Test_VersionSliceByte_Verification(t *testing.T) {
+func Test_VersionSliceByte_Direct_Comparison(t *testing.T) {
 	if corecmp.VersionSliceByte(nil, nil) != corecomparator.Equal {
 		t.Error("both nil should be Equal")
 	}
@@ -119,5 +101,130 @@ func Test_VersionSliceByte_Verification(t *testing.T) {
 	}
 	if corecmp.VersionSliceByte([]byte{1, 2}, []byte{1}) != corecomparator.LeftGreater {
 		t.Error("longer left should be LeftGreater")
+	}
+}
+
+func Test_IsStringsEqualWithoutOrder_Direct_Verification(t *testing.T) {
+	if !corecmp.IsStringsEqualWithoutOrder(nil, nil) {
+		t.Error("both nil should be equal")
+	}
+	if corecmp.IsStringsEqualWithoutOrder(nil, []string{"a"}) {
+		t.Error("nil vs non-nil should not be equal")
+	}
+	if !corecmp.IsStringsEqualWithoutOrder([]string{"b", "a"}, []string{"a", "b"}) {
+		t.Error("same items different order should be equal")
+	}
+	if corecmp.IsStringsEqualWithoutOrder([]string{"a"}, []string{"b"}) {
+		t.Error("different items should not be equal")
+	}
+	if corecmp.IsStringsEqualWithoutOrder([]string{"a"}, []string{"a", "b"}) {
+		t.Error("different lengths should not be equal")
+	}
+}
+
+func Test_Integer8_Direct_Comparison(t *testing.T) {
+	if corecmp.Integer8(5, 5) != corecomparator.Equal {
+		t.Error("same should be Equal")
+	}
+	if corecmp.Integer8(3, 7) != corecomparator.LeftLess {
+		t.Error("3 < 7 should be LeftLess")
+	}
+	if corecmp.Integer8(7, 3) != corecomparator.LeftGreater {
+		t.Error("7 > 3 should be LeftGreater")
+	}
+}
+
+func Test_Integer16_Direct_Comparison(t *testing.T) {
+	if corecmp.Integer16(5, 5) != corecomparator.Equal {
+		t.Error("same should be Equal")
+	}
+	if corecmp.Integer16(3, 7) != corecomparator.LeftLess {
+		t.Error("3 < 7 should be LeftLess")
+	}
+}
+
+func Test_Integer32_Direct_Comparison(t *testing.T) {
+	if corecmp.Integer32(5, 5) != corecomparator.Equal {
+		t.Error("same should be Equal")
+	}
+	if corecmp.Integer32(3, 7) != corecomparator.LeftLess {
+		t.Error("3 < 7 should be LeftLess")
+	}
+}
+
+func Test_Integer8Ptr_Direct_Comparison(t *testing.T) {
+	if corecmp.Integer8Ptr(nil, nil) != corecomparator.Equal {
+		t.Error("both nil should be Equal")
+	}
+	v := int8(5)
+	if corecmp.Integer8Ptr(nil, &v) != corecomparator.NotEqual {
+		t.Error("left nil should be NotEqual")
+	}
+}
+
+func Test_Integer16Ptr_Direct_Comparison(t *testing.T) {
+	if corecmp.Integer16Ptr(nil, nil) != corecomparator.Equal {
+		t.Error("both nil should be Equal")
+	}
+	v := int16(5)
+	if corecmp.Integer16Ptr(nil, &v) != corecomparator.NotEqual {
+		t.Error("left nil should be NotEqual")
+	}
+}
+
+func Test_Integer32Ptr_Direct_Comparison(t *testing.T) {
+	if corecmp.Integer32Ptr(nil, nil) != corecomparator.Equal {
+		t.Error("both nil should be Equal")
+	}
+	v := int32(5)
+	if corecmp.Integer32Ptr(nil, &v) != corecomparator.NotEqual {
+		t.Error("left nil should be NotEqual")
+	}
+}
+
+func Test_Integer64Ptr_Direct_Comparison(t *testing.T) {
+	if corecmp.Integer64Ptr(nil, nil) != corecomparator.Equal {
+		t.Error("both nil should be Equal")
+	}
+	v := int64(5)
+	if corecmp.Integer64Ptr(nil, &v) != corecomparator.NotEqual {
+		t.Error("left nil should be NotEqual")
+	}
+}
+
+func Test_IsIntegersEqualPtr_Verification(t *testing.T) {
+	if !corecmp.IsIntegersEqualPtr(nil, nil) {
+		t.Error("both nil should be equal")
+	}
+	a := []int{1, 2}
+	if corecmp.IsIntegersEqualPtr(&a, nil) {
+		t.Error("one nil should not be equal")
+	}
+	b := []int{1, 2}
+	if !corecmp.IsIntegersEqualPtr(&a, &b) {
+		t.Error("same slices should be equal")
+	}
+}
+
+func Test_AnyItem_Verification(t *testing.T) {
+	result := corecmp.AnyItem("hello", "hello")
+	if result != corecomparator.Equal {
+		t.Error("same strings should be Equal")
+	}
+	result2 := corecmp.AnyItem(1, 2)
+	if result2 == corecomparator.Equal {
+		t.Error("different ints should not be Equal")
+	}
+}
+
+func Test_VersionSliceInteger_Direct_Comparison(t *testing.T) {
+	if corecmp.VersionSliceInteger(nil, nil) != corecomparator.Equal {
+		t.Error("both nil should be Equal")
+	}
+	if corecmp.VersionSliceInteger([]int{1, 2}, []int{1, 2}) != corecomparator.Equal {
+		t.Error("same should be Equal")
+	}
+	if corecmp.VersionSliceInteger([]int{1}, []int{1, 2}) != corecomparator.LeftLess {
+		t.Error("shorter should be LeftLess")
 	}
 }
