@@ -46,7 +46,7 @@ var lazyRegexCompileMustTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "CompileMust invalid pattern panics",
+		Title: "LazyRegex.CompileMust returns panic -- invalid pattern '[bad'",
 		ArrangeInput: args.Map{
 			"pattern": "[bad",
 		},
