@@ -25,7 +25,7 @@ var typedWrapperDeserializationTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Deserialize typed wrapper with empty payload fields",
+		Title: "TypedPayloadWrapper.Deserialize returns empty fields -- name 'empty-product'",
 		ArrangeInput: args.Map{
 			"name": "empty-product", "id": "prod-2",
 			"sku": "", "title": "", "price": 0.0,
