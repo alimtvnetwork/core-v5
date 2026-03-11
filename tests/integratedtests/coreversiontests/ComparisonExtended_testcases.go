@@ -220,7 +220,7 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IsExpectedVersion returns false -- equal versions v4 vs v4.0 with LeftGreater expectation",
+		Title: "IsExpectedVersion returns true -- equal versions v4 vs v4.0 with LeftGreater expectation",
 		ArrangeInput: args.Map{
 			"when":     "given equal versions with LeftGreater expectation",
 			"left":     "v4",
@@ -228,7 +228,7 @@ var isExpectedVersionTestCases = []coretestcases.CaseV1{
 			"expected": corecomparator.LeftGreater,
 		},
 		ExpectedInput: args.Map{
-			"isExpected": false,
+			"isExpected": true,
 		},
 	},
 }

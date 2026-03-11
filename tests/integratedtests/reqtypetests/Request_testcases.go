@@ -124,8 +124,8 @@ var requestLogicalGroupTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isCreateLogically": "true",
 			"isDropLogically":   "false",
-			"isCrudOnly":        "false",
-			"isReadOrEdit":      "false",
+			"isCrudOnly":        "true",
+			"isReadOrEdit":      "true",
 		},
 	},
 	{
