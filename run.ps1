@@ -458,7 +458,20 @@ function Invoke-TestCoverage {
         $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
 
         # Generate HTML report
-        & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
+        $htmlErr = & go tool cover -html=$coverProfile -o $coverHtml 2>&1
+        if (-not (Test-Path $coverHtml)) {
+            Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html'" -ForegroundColor Red
+            if ($htmlErr) { Write-Host "  $htmlErr" -ForegroundColor Red }
+            # Fallback: generate a basic HTML from the func output
+            $fallbackHtml = @"
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>
+<style>body{font-family:monospace;padding:20px;background:#1e1e2e;color:#cdd6f4}
+pre{white-space:pre-wrap}</style></head><body>
+<h1>Coverage Report</h1><pre>$($funcOutput -join "`n")</pre></body></html>
+"@
+            Set-Content -Path $coverHtml -Value $fallbackHtml -Encoding UTF8
+            Write-Host "  Generated fallback HTML report" -ForegroundColor Yellow
+        }
 
         # Build AI-friendly coverage text for the copy button
         $aiTextLines = [System.Collections.Generic.List[string]]::new()
@@ -583,13 +596,13 @@ function Invoke-TestCoverage {
         $aiTextLines.Add("- Use CaseV1 table-driven pattern with AAA comments")
         $aiTextLines.Add("- Focus on the lowest coverage packages first")
 
-        $aiTextEscaped = ($aiTextLines -join "`n") -replace '\\', '\\\\' -replace '"', '\"' -replace "`n", '\n' -replace "`r", ''
+        $aiTextEscaped = ($aiTextLines -join "`n") -replace '\\', '\\\\' -replace "'", "\'" -replace "`n", '\n' -replace "`r", '' -replace '"', '\"'
 
         # Inject "Copy for AI" button into the Go HTML report
         if (Test-Path $coverHtml) {
             $htmlContent = Get-Content -Path $coverHtml -Raw
 
-            $injectedHtml = @"
+            $buttonHtml = @'
 <div id="ai-copy-panel" style="position:fixed;top:12px;right:12px;z-index:9999;font-family:system-ui,sans-serif;">
 <button onclick="copyForAI()" style="
   background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;
@@ -600,21 +613,27 @@ function Invoke-TestCoverage {
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
   Copy for AI
 </button>
-<span id="ai-copy-status" style="display:none;color:#22c55e;font-size:13px;margin-top:4px;text-align:center;">✓ Copied!</span>
+<span id="ai-copy-status" style="display:none;color:#22c55e;font-size:13px;margin-top:4px;text-align:center;">Copied!</span>
 </div>
 <script>
+var __aiCoverageText =
+'@
+            # Insert the escaped text between the two halves
+            $scriptEnd = @'
+';
 function copyForAI(){
-  var t = "$aiTextEscaped";
-  navigator.clipboard.writeText(t).then(function(){
+  navigator.clipboard.writeText(__aiCoverageText).then(function(){
     var s=document.getElementById('ai-copy-status');
     s.style.display='block';
     setTimeout(function(){s.style.display='none';},2000);
   });
 }
 </script>
-"@
-            $htmlContent = $htmlContent -replace '</body>', "$injectedHtml`n</body>"
+'@
+            $injectedHtml = $buttonHtml + $aiTextEscaped + $scriptEnd
+            $htmlContent = $htmlContent -replace '</body>', ($injectedHtml + "`n</body>")
             Set-Content -Path $coverHtml -Value $htmlContent -Encoding UTF8
+            Write-Host "  ✓ Injected 'Copy for AI' button into HTML report" -ForegroundColor Green
         }
 
         # Print per-source-package coverage to console
