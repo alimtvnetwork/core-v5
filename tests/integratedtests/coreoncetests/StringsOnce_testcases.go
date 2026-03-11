@@ -77,7 +77,7 @@ var stringsOnceContainsTestCases = []stringsOnceTestCase{
 var stringsOnceSortedTestCases = []stringsOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "StringsOnce [c,a,b] -- Sorted returns [a,b,c]",
+			Title: "StringsOnce.Sorted returns [a,b,c] -- [c,a,b] input",
 			ExpectedInput: args.Map{
 				"first": "a",
 				"last":  "c",
