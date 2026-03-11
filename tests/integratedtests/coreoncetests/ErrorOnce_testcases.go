@@ -79,7 +79,7 @@ var errorOnceCachingTestCases = []errorOnceTestCase{
 var errorOnceNullOrEmptyTestCases = []errorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "ErrorOnce nil -- IsNullOrEmpty true",
+			Title: "ErrorOnce returns isNullOrEmpty true -- nil error",
 			ExpectedInput: args.Map{
 				"isNullOrEmpty": true,
 			},
