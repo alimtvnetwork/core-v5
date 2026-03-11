@@ -129,6 +129,50 @@ for i, tc := range testCases {
 }
 ```
 
+### params.go Pattern for Map Keys
+
+Test packages should define a local `params.go` file with a `params` struct holding reusable key constants. This eliminates magic strings and prevents case-sensitivity bugs when accessing `args.Map` fields.
+
+```go
+// tests/integratedtests/myfeaturetests/params.go
+package myfeaturetests
+
+var params = struct {
+    pattern      string
+    compareInput string
+    isDefined    string
+    isApplicable string
+    isMatch      string
+    isFailedMatch string
+}{
+    pattern:      "pattern",
+    compareInput: "compareInput",
+    isDefined:    "isDefined",
+    isApplicable: "isApplicable",
+    isMatch:      "isMatch",
+    isFailedMatch: "isFailedMatch",
+}
+```
+
+Usage in test cases and runners:
+
+```go
+// Test case definition
+Input: args.Map{
+    params.pattern:      "hello",
+    params.compareInput: "hello world",
+},
+Expected: args.Map{
+    params.isDefined:    true,
+    params.isMatch:      true,
+    params.isFailedMatch: false,
+},
+
+// Test runner
+pattern, _ := tc.Input.GetAsString(params.pattern)
+compareInput, _ := tc.Input.GetAsString(params.compareInput)
+```
+
 ### Why MapGherkins over ExpectedLines
 
 | Aspect         | `ExpectedLines`          | `MapGherkins`                    |
