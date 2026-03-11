@@ -93,7 +93,7 @@ var typedWrapperSetDataTestCases = []coretestcases.CaseV1{
 }
 
 var typedWrapperNilTestCase = coretestcases.CaseV1{
-	Title: "Nil wrapper returns error on creation",
+	Title: "TypedPayloadWrapper returns error -- nil wrapper",
 	ArrangeInput: args.Map{
 		"when": "passing nil wrapper",
 	},
