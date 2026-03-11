@@ -120,7 +120,7 @@ var bytesOnceCachingTestCases = []bytesOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesOnce.Execute returns same result as Value for 'data'",
+			Title: "BytesOnce.Execute returns same result as Value -- 'data' input",
 			ExpectedInput: args.Map{
 				"r1":             "data",
 				"r2":             "data",
