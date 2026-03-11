@@ -107,7 +107,7 @@ var stringToIntegerWithDefaultTestCases = []coretestcases.CaseV1{
 
 var stringToFloat64TestCases = []coretestcases.CaseV1{
 	{
-		Title: "Float64 parses valid float",
+		Title: "StringTo.Float64 returns 3.14 -- valid float '3.14'",
 		ArrangeInput: args.Map{
 			"when":  "given valid float string",
 			"input": "3.14",
