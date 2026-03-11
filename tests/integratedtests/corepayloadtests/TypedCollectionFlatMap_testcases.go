@@ -37,7 +37,7 @@ var flatMapTypedPayloadsTestCases = []coretestcases.CaseV1{
 
 var flatMapTypedPayloadDataTestCases = []coretestcases.CaseV1{
 	{
-		Title: "FlatMapTypedPayloadData flattens tags via data accessor",
+		Title: "FlatMapTypedPayloadData returns 6 tags -- 3 users data accessor",
 		ArrangeInput: args.Map{
 			"when": "given 3 users with 2 tags each via data accessor",
 		},
