@@ -184,7 +184,7 @@ var bytesErrorOnceErrorStateTestCases = []bytesErrorOnceTestCase{
 var bytesErrorOnceHasIssuesTestCases = []bytesErrorOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "BytesErrorOnce with error -- HasIssuesOrEmpty true",
+			Title: "BytesErrorOnce returns hasIssuesOrEmpty true -- 'data' bytes with error",
 			ExpectedInput: args.Map{
 				"hasIssuesOrEmpty": true,
 				"hasSafeItems":     false,
