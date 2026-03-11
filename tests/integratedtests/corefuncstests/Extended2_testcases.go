@@ -72,17 +72,15 @@ var ext2InOutErrToLegacyTestCases = []coretestcases.CaseV1{
 }
 
 // ==========================================================================
-// SerializeOutputFuncWrapperOf.ToLegacy
+// SerializeOutputFuncWrapperOf.AsActionReturnsErrorFunc
 // ==========================================================================
 
-var ext2SerializeToLegacyTestCases = []coretestcases.CaseV1{
+var ext2SerializeAsErrFuncTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "SerializeOutputFuncWrapperOf.ToLegacy converts -- success",
-		ArrangeInput: args.Map{"when": "given serialize wrapper converted to legacy"},
+		Title:        "SerializeOutputFuncWrapperOf.AsActionReturnsErrorFunc success -- nil",
+		ArrangeInput: args.Map{"when": "given serialize wrapper as err func"},
 		ExpectedInput: args.Map{
-			"name":     "legacy-serialize",
-			"hasBytes": true,
-			"isNil":    true,
+			"isNil": true,
 		},
 	},
 }

@@ -119,26 +119,24 @@ func Test_InOutErrWrapper_ToLegacy_Ext2_Verification(t *testing.T) {
 }
 
 // ============================================================================
-// SerializeOutputFuncWrapperOf.ToLegacy
+// SerializeOutputFuncWrapperOf.AsActionReturnsErrorFunc
 // ============================================================================
 
-func Test_SerializeWrapper_ToLegacy_Ext2_Verification(t *testing.T) {
-	for caseIndex, tc := range ext2SerializeToLegacyTestCases {
+func Test_SerializeWrapper_AsErrFunc_Ext2_Verification(t *testing.T) {
+	for caseIndex, tc := range ext2SerializeAsErrFuncTestCases {
 		// Arrange
 		wrapper := corefuncs.NewSerializeWrapper[string](
-			"legacy-serialize",
+			"serialize",
 			func(s string) ([]byte, error) { return []byte(s), nil },
 		)
 
 		// Act
-		legacy := wrapper.ToLegacy()
-		bytes, err := legacy("test")
+		errFunc := wrapper.AsActionReturnsErrorFunc("test")
+		err := errFunc()
 
 		// Assert
 		actual := args.Map{
-			"name":     wrapper.Name,
-			"hasBytes": len(bytes) > 0,
-			"isNil":    err == nil,
+			"isNil": err == nil,
 		}
 		tc.ShouldBeEqualMap(t, caseIndex, actual)
 	}
