@@ -31,7 +31,7 @@ func Test_SimpleSlice_AddsIf_Verification(t *testing.T) {
 	for caseIndex, testCase := range simpleSliceAddsIfTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
-		isAdd := input.GetAsBoolDefault("isAdd")
+		isAdd := input.GetAsBoolDefault("isAdd", false)
 		s := coregeneric.EmptySimpleSlice[string]()
 
 		// Act
