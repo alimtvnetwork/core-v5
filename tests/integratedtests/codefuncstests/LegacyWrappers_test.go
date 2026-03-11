@@ -252,8 +252,6 @@ func Test_InOutErrFuncWrapper_AsActionReturnsErrorFunc_Verification(t *testing.T
 		}
 		if err != nil {
 			actual["containsName"] = strings.Contains(err.Error(), name)
-		} else {
-			actual["containsName"] = false
 		}
 
 		// Assert
