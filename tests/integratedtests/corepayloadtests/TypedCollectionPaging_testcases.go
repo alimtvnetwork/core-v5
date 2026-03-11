@@ -113,7 +113,7 @@ var typedCollectionPagedCollectionTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "GetPagedCollection returns single page when fewer items than page size",
+		Title: "GetPagedCollection returns 1 page -- 2 items page size 10",
 		ArrangeInput: args.Map{
 			"when":     "2 items with page size 10",
 			"count":    2,
