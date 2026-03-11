@@ -50,7 +50,7 @@ var typedCollectionPagesSizeTestCases = []coretestcases.CaseV1{
 
 var typedCollectionSinglePageTestCases = []coretestcases.CaseV1{
 	{
-		Title: "GetSinglePageCollection returns first page correctly",
+		Title: "GetSinglePageCollection returns 2 items -- page 1 of 5 items page size 2",
 		ArrangeInput: args.Map{
 			"when":      "page 1 of 2 items per page from 5 items",
 			"count":     5,
