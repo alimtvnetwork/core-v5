@@ -160,7 +160,7 @@ var lazyRegexMatchUsingFuncErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "MatchUsingFuncError error on invalid regex",
+		Title: "LazyRegex.MatchUsingFuncError returns error -- invalid regex '[broken'",
 		ArrangeInput: args.Map{
 			"pattern":   "[broken",
 			"comparing": "test",
