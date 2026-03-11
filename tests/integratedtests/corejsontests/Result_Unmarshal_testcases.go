@@ -6,7 +6,7 @@ import (
 )
 
 var resultUnmarshalValidTestCase = coretestcases.CaseV1{
-	Title: "Unmarshal - valid JSON deserializes correctly",
+	Title: "Unmarshal returns deserialized struct -- valid JSON input",
 	ExpectedInput: args.Map{
 		"error":            "<nil>",
 		"deserializedName": "Alice",
@@ -15,7 +15,7 @@ var resultUnmarshalValidTestCase = coretestcases.CaseV1{
 }
 
 var resultUnmarshalNilTestCase = coretestcases.CaseV1{
-	Title: "Unmarshal - nil receiver returns error",
+	Title: "Unmarshal returns error -- nil receiver",
 	ExpectedInput: args.Map{
 		"hasError":          true,
 		"errorContainsNull": true,
@@ -23,7 +23,7 @@ var resultUnmarshalNilTestCase = coretestcases.CaseV1{
 }
 
 var resultUnmarshalInvalidTestCase = coretestcases.CaseV1{
-	Title: "Unmarshal - invalid bytes returns error",
+	Title: "Unmarshal returns error -- invalid bytes input",
 	ExpectedInput: args.Map{
 		"hasError":               true,
 		"errorContainsUnmarshal": true,
@@ -31,7 +31,7 @@ var resultUnmarshalInvalidTestCase = coretestcases.CaseV1{
 }
 
 var resultUnmarshalExistingErrorTestCase = coretestcases.CaseV1{
-	Title: "Unmarshal - existing error propagates",
+	Title: "Unmarshal returns propagated error -- existing error on result",
 	ExpectedInput: args.Map{
 		"hasError":               true,
 		"errorContainsUnmarshal": true,

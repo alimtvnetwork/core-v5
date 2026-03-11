@@ -17,7 +17,7 @@ type mapSSOnceTestCase struct {
 var mapSSOnceCoreTestCases = []mapSSOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce {a:1,b:2} -- Length 2, not empty",
+			Title: "MapStringStringOnce returns length 2 and hasAnyItem true -- {a:1,b:2} input",
 			ExpectedInput: args.Map{
 				"length":     2,
 				"isEmpty":    false,
@@ -28,7 +28,7 @@ var mapSSOnceCoreTestCases = []mapSSOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce empty -- Length 0, isEmpty true",
+			Title: "MapStringStringOnce returns length 0 and isEmpty true -- empty map input",
 			ExpectedInput: args.Map{
 				"length":     0,
 				"isEmpty":    true,
@@ -39,7 +39,7 @@ var mapSSOnceCoreTestCases = []mapSSOnceTestCase{
 	},
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce nil -- Length 0, isEmpty true",
+			Title: "MapStringStringOnce returns length 0 and isEmpty true -- nil input",
 			ExpectedInput: args.Map{
 				"length":     0,
 				"isEmpty":    true,
@@ -57,7 +57,7 @@ var mapSSOnceCoreTestCases = []mapSSOnceTestCase{
 var mapSSOnceContainsTestCases = []mapSSOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce {k1:v1,k2:v2} -- Has/IsContains/GetValue",
+			Title: "MapStringStringOnce.Has returns true and GetValue returns 'v1' -- {k1:v1,k2:v2} input",
 			ExpectedInput: args.Map{
 				"hasK1":      true,
 				"containsK2": true,
@@ -77,7 +77,7 @@ var mapSSOnceContainsTestCases = []mapSSOnceTestCase{
 var mapSSOnceKeysValuesTestCases = []mapSSOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce {b:2,a:1} -- AllKeysSorted [a,b], AllValuesSorted [1,2]",
+			Title: "MapStringStringOnce.AllKeysSorted returns [a,b] and AllValuesSorted returns [1,2] -- {b:2,a:1} input",
 			ExpectedInput: args.Map{
 				"keysLen":          2,
 				"valuesLen":        2,
@@ -98,7 +98,7 @@ var mapSSOnceKeysValuesTestCases = []mapSSOnceTestCase{
 var mapSSOnceIsEqualTestCases = []mapSSOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce {a:1} -- IsEqual same true, different false",
+			Title: "MapStringStringOnce.IsEqual returns true for same and false for different -- {a:1} input",
 			ExpectedInput: args.Map{
 				"isEqualSame":    true,
 				"isEqualDiffVal": false,
@@ -117,7 +117,7 @@ var mapSSOnceIsEqualTestCases = []mapSSOnceTestCase{
 var mapSSOnceCachingTestCases = []mapSSOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce.Value caches -- initializer runs once",
+			Title: "MapStringStringOnce.Value returns cached result -- initializer runs once",
 			ExpectedInput: args.Map{
 				"callCount": 1,
 				"length":    2,
@@ -134,7 +134,7 @@ var mapSSOnceCachingTestCases = []mapSSOnceTestCase{
 var mapSSOnceJsonTestCases = []mapSSOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "MapStringStringOnce {a:1} -- MarshalJSON succeeds",
+			Title: "MapStringStringOnce.MarshalJSON returns bytes without error -- {a:1} input",
 			ExpectedInput: args.Map{
 				"noError":             true,
 				"dataLengthAboveZero": true,
@@ -151,7 +151,7 @@ var mapSSOnceJsonTestCases = []mapSSOnceTestCase{
 var mapSSOnceConstructorTestCases = []mapSSOnceTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "NewMapStringStringOnce (value) works correctly",
+			Title: "NewMapStringStringOnce returns length 1 -- single key-value input",
 			ExpectedInput: args.Map{
 				"length": 1,
 			},

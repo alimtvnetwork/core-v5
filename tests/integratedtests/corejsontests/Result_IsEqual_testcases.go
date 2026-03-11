@@ -12,7 +12,7 @@ import (
 
 var resultIsEqualTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsEqual - same content returns true",
+		Title: "IsEqual returns true -- same content",
 		ArrangeInput: args.Map{
 			"a": corejson.New(map[string]string{"key": "value"}),
 			"b": corejson.New(map[string]string{"key": "value"}),
@@ -20,7 +20,7 @@ var resultIsEqualTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "IsEqual - different content returns false",
+		Title: "IsEqual returns false -- different content",
 		ArrangeInput: args.Map{
 			"a": corejson.New(map[string]string{"key": "a"}),
 			"b": corejson.New(map[string]string{"key": "b"}),
@@ -35,7 +35,7 @@ var resultIsEqualTestCases = []coretestcases.CaseV1{
 
 var resultIsEqualPtrTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IsEqualPtr - both nil returns true",
+		Title: "IsEqualPtr returns true -- both nil",
 		ArrangeInput: args.Map{
 			"aPtr": (*corejson.Result)(nil),
 			"bPtr": (*corejson.Result)(nil),
@@ -43,7 +43,7 @@ var resultIsEqualPtrTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "true",
 	},
 	{
-		Title: "IsEqualPtr - one nil returns false",
+		Title: "IsEqualPtr returns false -- one nil",
 		ArrangeInput: args.Map{
 			"aPtr": corejson.NewPtr(map[string]string{"k": "v"}),
 			"bPtr": (*corejson.Result)(nil),

@@ -11,7 +11,7 @@ import (
 
 var cloneIfTestCases = []coretestcases.CaseV1{
 	{
-		Title: "CloneIf clones with extra capacity when isClone true",
+		Title: "CloneIf returns independent copy with length 2 -- isClone true with extra cap",
 		ArrangeInput: args.Map{
 			"when":          "given isClone true with extra cap",
 			"input":         []string{"a", "b"},
@@ -26,7 +26,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "CloneIf returns original slice when isClone false",
+		Title: "CloneIf returns original slice reference -- isClone false",
 		ArrangeInput: args.Map{
 			"when":          "given isClone false",
 			"input":         []string{"x", "y"},
@@ -41,7 +41,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "CloneIf returns empty on nil input when isClone false",
+		Title: "CloneIf returns empty non-independent -- nil input with isClone false",
 		ArrangeInput: args.Map{
 			"when":          "given nil input with isClone false",
 			"isNil":         true,
@@ -54,7 +54,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "CloneIf clones nil input when isClone true",
+		Title: "CloneIf returns empty independent copy -- nil input with isClone true",
 		ArrangeInput: args.Map{
 			"when":          "given nil input with isClone true",
 			"isNil":         true,
@@ -74,7 +74,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 
 var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AnyItemsCloneIf clones when true",
+		Title: "AnyItemsCloneIf returns independent copy with length 3 -- isClone true",
 		ArrangeInput: args.Map{
 			"when":          "given isClone true",
 			"input":         []any{"a", 1, true},
@@ -90,7 +90,7 @@ var anyItemsCloneIfTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AnyItemsCloneIf returns original when false",
+		Title: "AnyItemsCloneIf returns original slice reference -- isClone false",
 		ArrangeInput: args.Map{
 			"when":          "given isClone false",
 			"input":         []any{"x"},

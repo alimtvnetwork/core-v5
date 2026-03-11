@@ -7,7 +7,7 @@ import (
 
 var versionCompareTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Equal versions return Equal",
+		Title: "VersionCompare returns Equal -- identical versions v0.0.1",
 		ArrangeInput: args.Map{
 			"when":  "given equal versions",
 			"left":  "v0.0.1",
@@ -18,7 +18,7 @@ var versionCompareTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Left major greater returns LeftGreater",
+		Title: "VersionCompare returns LeftGreater -- left major v3.0 vs right v0.2.1",
 		ArrangeInput: args.Map{
 			"when":  "given left major version greater",
 			"left":  "v3.0",
@@ -29,7 +29,7 @@ var versionCompareTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Left minor less returns LeftLess",
+		Title: "VersionCompare returns LeftLess -- left minor v0.0.2 vs right v0.2.1",
 		ArrangeInput: args.Map{
 			"when":  "given left minor version less",
 			"left":  "v0.0.2",
@@ -40,7 +40,7 @@ var versionCompareTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Same major with zero-padded returns Equal",
+		Title: "VersionCompare returns Equal -- zero-padded v4 vs v4.0",
 		ArrangeInput: args.Map{
 			"when":  "given v4 vs v4.0",
 			"left":  "v4",

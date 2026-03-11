@@ -11,7 +11,7 @@ import (
 
 var isSuccessExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns true when action succeeds",
+		Title: "IsSuccessFuncWrapper.Exec returns true -- action succeeds",
 		ArrangeInput: args.Map{
 			"actionResult": true,
 			"name":         "check-health",
@@ -21,7 +21,7 @@ var isSuccessExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns false when action fails",
+		Title: "IsSuccessFuncWrapper.Exec returns false -- action fails",
 		ArrangeInput: args.Map{
 			"actionResult": false,
 			"name":         "check-health",
@@ -38,7 +38,7 @@ var isSuccessExecTestCases = []coretestcases.CaseV1{
 
 var isSuccessAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "IsSuccessFuncWrapper.AsActionReturnsErrorFunc returns nil -- action succeeds",
 		ArrangeInput: args.Map{
 			"actionResult": true,
 			"name":         "check-ok",
@@ -48,7 +48,7 @@ var isSuccessAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns error on failure",
+		Title: "IsSuccessFuncWrapper.AsActionReturnsErrorFunc returns error with name -- action fails",
 		ArrangeInput: args.Map{
 			"actionResult": false,
 			"name":         "check-fail",
@@ -66,7 +66,7 @@ var isSuccessAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var namedActionExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec calls action with wrapper name",
+		Title: "NamedActionFuncWrapper.Exec returns calledWith 'my-task' -- wrapper name 'my-task'",
 		ArrangeInput: args.Map{
 			"name": "my-task",
 		},
@@ -82,7 +82,7 @@ var namedActionExecTestCases = []coretestcases.CaseV1{
 
 var namedActionAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc always returns nil",
+		Title: "NamedActionFuncWrapper.AsActionReturnsErrorFunc returns nil -- always succeeds",
 		ArrangeInput: args.Map{
 			"name": "log-step",
 		},
@@ -99,7 +99,7 @@ var namedActionAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var actionReturnsErrorExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns nil when action succeeds",
+		Title: "ActionReturnsErrorFuncWrapper.Exec returns nil -- action succeeds",
 		ArrangeInput: args.Map{
 			"hasActionErr": false,
 			"name":         "cleanup",
@@ -109,7 +109,7 @@ var actionReturnsErrorExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns error when action fails",
+		Title: "ActionReturnsErrorFuncWrapper.Exec returns error -- action fails",
 		ArrangeInput: args.Map{
 			"hasActionErr": true,
 			"name":         "cleanup",
@@ -126,7 +126,7 @@ var actionReturnsErrorExecTestCases = []coretestcases.CaseV1{
 
 var actionReturnsErrorAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc wraps error with name on failure",
+		Title: "ActionReturnsErrorFuncWrapper.AsActionReturnsErrorFunc returns error with name -- failure",
 		ArrangeInput: args.Map{
 			"hasActionErr": true,
 			"name":         "deploy",
@@ -137,7 +137,7 @@ var actionReturnsErrorAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "ActionReturnsErrorFuncWrapper.AsActionReturnsErrorFunc returns nil -- success",
 		ArrangeInput: args.Map{
 			"hasActionErr": false,
 			"name":         "deploy",
@@ -154,7 +154,7 @@ var actionReturnsErrorAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var inOutErrExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns output on success",
+		Title: "InOutErrFuncWrapper.Exec returns 'HELLO' -- success with 'hello' input",
 		ArrangeInput: args.Map{
 			"input":        "hello",
 			"hasActionErr": false,
@@ -166,7 +166,7 @@ var inOutErrExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns error on failure",
+		Title: "InOutErrFuncWrapper.Exec returns error -- failure with 'hello' input",
 		ArrangeInput: args.Map{
 			"input":        "hello",
 			"hasActionErr": true,
@@ -184,7 +184,7 @@ var inOutErrExecTestCases = []coretestcases.CaseV1{
 
 var inOutErrAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc wraps error with name",
+		Title: "InOutErrFuncWrapper.AsActionReturnsErrorFunc returns error with name -- failure",
 		ArrangeInput: args.Map{
 			"input":        "data",
 			"hasActionErr": true,
@@ -196,7 +196,7 @@ var inOutErrAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "InOutErrFuncWrapper.AsActionReturnsErrorFunc returns nil -- success",
 		ArrangeInput: args.Map{
 			"input":        "data",
 			"hasActionErr": false,
@@ -214,7 +214,7 @@ var inOutErrAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 
 var resultDelegatingExecTestCases = []coretestcases.CaseV1{
 	{
-		Title: "Exec returns nil on success",
+		Title: "ResultDelegatingFuncWrapper.Exec returns nil -- success",
 		ArrangeInput: args.Map{
 			"hasActionErr": false,
 			"name":         "unmarshal",
@@ -224,7 +224,7 @@ var resultDelegatingExecTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "Exec returns error on failure",
+		Title: "ResultDelegatingFuncWrapper.Exec returns error -- failure",
 		ArrangeInput: args.Map{
 			"hasActionErr": true,
 			"name":         "unmarshal",
@@ -241,7 +241,7 @@ var resultDelegatingExecTestCases = []coretestcases.CaseV1{
 
 var resultDelegatingAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 	{
-		Title: "AsActionReturnsErrorFunc wraps error with name",
+		Title: "ResultDelegatingFuncWrapper.AsActionReturnsErrorFunc returns error with name -- failure",
 		ArrangeInput: args.Map{
 			"hasActionErr": true,
 			"name":         "deserialize",
@@ -252,7 +252,7 @@ var resultDelegatingAsActionReturnsErrorTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "AsActionReturnsErrorFunc returns nil on success",
+		Title: "ResultDelegatingFuncWrapper.AsActionReturnsErrorFunc returns nil -- success",
 		ArrangeInput: args.Map{
 			"hasActionErr": false,
 			"name":         "deserialize",
