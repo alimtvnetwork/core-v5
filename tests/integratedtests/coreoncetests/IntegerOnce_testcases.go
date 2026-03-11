@@ -96,7 +96,7 @@ type integerOnceCompareTestCase struct {
 var integerOnceCompareTestCases = []integerOnceCompareTestCase{
 	{
 		Case: coretestcases.CaseV1{
-			Title: "IntegerOnce 10 -- IsAbove(5), IsAboveEqual(10)",
+			Title: "IntegerOnce returns isAbove true and isAboveEqual true -- input 10 compare 5",
 			ExpectedInput: args.Map{
 				"isAboveCompare":   true,
 				"isAboveSelf":      false,
