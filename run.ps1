@@ -472,10 +472,10 @@ function Invoke-TestCoverage {
 
     if (Test-Path $coverProfile) {
         # Generate func-level summary
-        $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
+        $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
         # Generate HTML report
-        $htmlErr = & go tool cover -html=$coverProfile -o $coverHtml 2>&1
+        $htmlErr = & go tool cover "-html=$coverProfile" "-o=$coverHtml" 2>&1
         if (-not (Test-Path $coverHtml)) {
             Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html'" -ForegroundColor Red
             if ($htmlErr) { Write-Host "  $htmlErr" -ForegroundColor Red }
@@ -741,8 +741,8 @@ function Invoke-PackageTestCoverage {
     Write-TestLogs $output
 
     if (Test-Path $coverProfile) {
-        $funcOutput = & go tool cover -func=$coverProfile 2>&1 | ForEach-Object { $_.ToString() }
-        & go tool cover -html=$coverProfile -o $coverHtml 2>&1 | Out-Null
+        $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
+        & go tool cover "-html=$coverProfile" "-o=$coverHtml" 2>&1 | Out-Null
 
         $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
         $summaryLines = [System.Collections.Generic.List[string]]::new()
