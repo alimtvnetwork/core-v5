@@ -1006,7 +1006,7 @@ func Test_ExpandCharRwx_Ext2(t *testing.T) {
 
 // ── IsChmod ──
 
-func Test_IsChmod(t *testing.T) {
+func Test_IsChmod_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
