@@ -994,7 +994,7 @@ func Test_ParseRwxInstructionToStringRwx_Verification(t *testing.T) {
 
 // ── ExpandCharRwx ──
 
-func Test_ExpandCharRwx(t *testing.T) {
+func Test_ExpandCharRwx_Ext2(t *testing.T) {
 	// Act
 	r, w, x := chmodhelper.ExpandCharRwx("rwx")
 
