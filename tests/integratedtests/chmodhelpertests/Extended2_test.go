@@ -1622,7 +1622,7 @@ func Test_GetExistingChmodRwxWrapper_Invalid(t *testing.T) {
 
 // ── SimpleFileReaderWriter ──
 
-func Test_SimpleFileReaderWriter_WriteReadString(t *testing.T) {
+func Test_SimpleFileReaderWriter_WriteReadString_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_sfrw_ext2"
 	filePath := dir + "/test.txt"
