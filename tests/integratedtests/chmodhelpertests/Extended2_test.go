@@ -3199,7 +3199,7 @@ func Test_FileReader_ReadBytes_Ext2(t *testing.T) {
 	}
 }
 
-func Test_FileReader_Read_Invalid(t *testing.T) {
+func Test_FileReader_Read_Invalid_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.SimpleFileWriter.FileReader.Read("/nonexistent/xyz")
 
