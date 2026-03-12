@@ -3245,7 +3245,7 @@ func Test_AnyItemWriter_DefaultLock(t *testing.T) {
 
 // ── simpleFileWriter Lock/Unlock ──
 
-func Test_SimpleFileWriter_LockUnlock(t *testing.T) {
+func Test_SimpleFileWriter_LockUnlock_Ext2(t *testing.T) {
 	// Act - should not panic
 	chmodhelper.SimpleFileWriter.Lock()
 	chmodhelper.SimpleFileWriter.Unlock()
