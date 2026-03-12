@@ -44,7 +44,7 @@ func Test_HashmapDiff_AllKeysSorted_Verification(t *testing.T) {
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual(t *testing.T) {
+func Test_HashmapDiff_IsRawEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffIsRawEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
