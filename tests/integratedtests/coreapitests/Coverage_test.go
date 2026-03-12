@@ -118,7 +118,7 @@ func Test_Cov_ResponseAttribute_Clone_WithSlices(t *testing.T) {
 	}
 }
 
-func Test_ResponseAttribute_Clone_Nil(t *testing.T) {
+func Test_Cov_ResponseAttribute_Clone_Nil(t *testing.T) {
 	var attr *coreapi.ResponseAttribute
 	if attr.Clone() != nil {
 		t.Error("nil clone should return nil")
