@@ -2010,7 +2010,7 @@ func Test_SimpleFileReaderWriter_ExpireParentDir_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_RemoveDirOnExist(t *testing.T) {
+func Test_SimpleFileReaderWriter_RemoveDirOnExist_Ext2(t *testing.T) {
 	// Arrange -- dir doesn't exist
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/nonexistent/xyz/file.txt")
 
