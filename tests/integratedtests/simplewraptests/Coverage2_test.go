@@ -119,7 +119,7 @@ func Test_Cov2_WithDoubleQuote_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "WithDoubleQuote_Empty", actual)
 }
 
-func Test_WithDoubleQuoteAny_Int_Cov2(t *testing.T) {
+func Test_Cov2_WithDoubleQuoteAny_Int(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.WithDoubleQuoteAny(42) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "WithDoubleQuoteAny_Int", actual)
