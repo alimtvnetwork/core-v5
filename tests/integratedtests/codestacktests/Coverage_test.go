@@ -1008,7 +1008,7 @@ func Test_Cov_Dir_CurDirJoin(t *testing.T) {
 
 func Test_Cov_TraceCollection_Concat(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	concatted := tc.ConcatNew(codestack.New.Default())
