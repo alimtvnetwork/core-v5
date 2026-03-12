@@ -157,7 +157,7 @@ func Test_Cov2_FloatingPointTypeRv_Float32(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FloatingPointTypeRv_Float32", actual)
 }
 
-func Test_FloatingPointTypeRv_Int_Cov2(t *testing.T) {
+func Test_Cov2_FloatingPointTypeRv_Int(t *testing.T) {
 	actual := args.Map{"result": isany.FloatingPointTypeRv(reflect.ValueOf(42))}
 	expected := args.Map{"result": false}
 	expected.ShouldBeEqual(t, 0, "FloatingPointTypeRv_Int", actual)
