@@ -484,7 +484,7 @@ func Test_Cov_TypedSimpleGenericRequest_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedSimpleGenericRequest_Clone(t *testing.T) {
+func Test_Cov_TypedSimpleGenericRequest_Clone(t *testing.T) {
 	attr := &coreapi.RequestAttribute{IsValid: true}
 	simpleReq := coredynamic.NewTypedSimpleRequest("data", true, "")
 	req := coreapi.NewTypedSimpleGenericRequest(attr, simpleReq)
