@@ -3284,7 +3284,7 @@ func Test_RwxWrapper_ApplyChmodSkipInvalid_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ApplyChmod_InvalidNotSkip(t *testing.T) {
+func Test_RwxWrapper_ApplyChmod_InvalidNotSkip_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
