@@ -81,7 +81,7 @@ func Test_Cov_RequestAttribute_IsSearchRequestEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_Clone(t *testing.T) {
+func Test_Cov_RequestAttribute_Clone(t *testing.T) {
 	attr := &coreapi.RequestAttribute{
 		Url:          "http://test",
 		IsValid:      true,
