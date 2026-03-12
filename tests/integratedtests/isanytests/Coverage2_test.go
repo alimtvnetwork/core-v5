@@ -12,7 +12,7 @@ import (
 
 // ── Conclusive all branches ──
 
-func Test_Conclusive_BothNil_Cov2(t *testing.T) {
+func Test_Cov2_Conclusive_BothNil(t *testing.T) {
 	isEqual, isConcl := isany.Conclusive(nil, nil)
 	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
 	expected := args.Map{"isEqual": true, "isConcl": true}
