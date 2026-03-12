@@ -338,7 +338,7 @@ func Test_Cov_TypedResponseResult_ToTypedResponse(t *testing.T) {
 	}
 }
 
-func Test_InvalidTypedResponseResult_NilAttribute(t *testing.T) {
+func Test_Cov_InvalidTypedResponseResult_NilAttribute(t *testing.T) {
 	rr := coreapi.InvalidTypedResponseResult[string](nil)
 	if rr.Attribute == nil {
 		t.Error("should have default invalid attribute")
