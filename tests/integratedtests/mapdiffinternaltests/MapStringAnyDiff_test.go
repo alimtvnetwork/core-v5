@@ -65,7 +65,7 @@ func Test_MapStringAnyDiff_IsRawEqual_Verification(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_HasAnyChanges(t *testing.T) {
+func Test_MapStringAnyDiff_HasAnyChanges_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffHasAnyChangesTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
