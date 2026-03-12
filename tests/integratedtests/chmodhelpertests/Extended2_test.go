@@ -776,7 +776,7 @@ func Test_VarAttribute_ToCompileAttr_WithWildcard_Ext2(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_NilSafe(t *testing.T) {
+func Test_VarAttribute_NilSafe_Ext2(t *testing.T) {
 	// Arrange
 	var varAttr *chmodhelper.VarAttribute
 
