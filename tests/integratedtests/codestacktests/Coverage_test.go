@@ -880,7 +880,7 @@ func Test_Cov_StackTrace_SkipOne(t *testing.T) {
 	}
 }
 
-func Test_StackTrace_SkipNone_Cov(t *testing.T) {
+func Test_Cov_StackTrace_SkipNone(t *testing.T) {
 	// Act
 	tc := codestack.New.StackTrace.SkipNone()
 
