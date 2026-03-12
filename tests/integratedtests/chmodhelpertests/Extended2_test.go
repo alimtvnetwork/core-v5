@@ -1448,7 +1448,7 @@ func Test_GetFilteredExistsPaths_Empty_Ext2(t *testing.T) {
 
 // ── RwxMatchingStatus ──
 
-func Test_RwxMatchingStatus_Empty(t *testing.T) {
+func Test_RwxMatchingStatus_Empty_Ext2(t *testing.T) {
 	// Arrange
 	status := chmodhelper.EmptyRwxMatchingStatus()
 
