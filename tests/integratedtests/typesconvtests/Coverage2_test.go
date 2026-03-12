@@ -127,7 +127,7 @@ func Test_Cov2_StringToBool_YES(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "StringToBool_YES", actual)
 }
 
-func Test_StringToBool_No_Cov2(t *testing.T) {
+func Test_Cov2_StringToBool_No(t *testing.T) {
 	actual := args.Map{"result": typesconv.StringToBool("No")}
 	expected := args.Map{"result": false}
 	expected.ShouldBeEqual(t, 0, "StringToBool_No", actual)
