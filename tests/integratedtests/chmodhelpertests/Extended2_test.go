@@ -2560,7 +2560,7 @@ func Test_TempDirGetter_Ext2(t *testing.T) {
 
 // ── chmodApplier tests ──
 
-func Test_ChmodApplier_ApplyIf_False(t *testing.T) {
+func Test_ChmodApplier_ApplyIf_False_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.ApplyIf(false, os.FileMode(0755), "/whatever")
 
