@@ -1139,7 +1139,7 @@ func Test_ParseRwxInstructionToExecutor_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ParseRwxInstructionToExecutor_Nil(t *testing.T) {
+func Test_ParseRwxInstructionToExecutor_Nil_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.ParseRwxInstructionToExecutor(nil)
 
