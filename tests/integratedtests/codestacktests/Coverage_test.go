@@ -370,7 +370,7 @@ func Test_Cov_Trace_HasIssues(t *testing.T) {
 
 // ── TraceCollection tests (unique coverage methods) ──
 
-func Test_TraceCollection_NewAndBasic_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
