@@ -1266,7 +1266,7 @@ func Test_RwxInstructionExecutors_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ParseRwxInstructionsToExecutors(t *testing.T) {
+func Test_ParseRwxInstructionsToExecutors_Ext2(t *testing.T) {
 	// Arrange
 	instructions := []chmodins.RwxInstruction{
 		{
