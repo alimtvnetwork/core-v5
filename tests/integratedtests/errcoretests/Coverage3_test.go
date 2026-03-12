@@ -606,18 +606,24 @@ func Test_Cov3_GetReferenceMessage_EmptyStringRef(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "getReferenceMessage returns empty -- empty string reference", actual)
 }
 
-// ── StringLinesToQuoteLinesWithTabs ──
+// ── LinesToDoubleQuoteLinesWithTabs ──
 
-func Test_Cov3_StringLinesToQuoteLinesWithTabs(t *testing.T) {
-	actual := args.Map{"len": len(errcore.StringLinesToQuoteLinesWithTabs([]string{"a", "b"}))}
+func Test_Cov3_LinesToDoubleQuoteLinesWithTabs(t *testing.T) {
+	actual := args.Map{"len": len(errcore.LinesToDoubleQuoteLinesWithTabs(4, []string{"a", "b"}))}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLinesWithTabs returns entries -- with lines", actual)
+	expected.ShouldBeEqual(t, 0, "LinesToDoubleQuoteLinesWithTabs returns entries -- with lines", actual)
+}
+
+func Test_Cov3_LinesToDoubleQuoteLinesWithTabs_Empty(t *testing.T) {
+	actual := args.Map{"len": len(errcore.LinesToDoubleQuoteLinesWithTabs(4, nil))}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "LinesToDoubleQuoteLinesWithTabs returns empty -- nil lines", actual)
 }
 
 // ── GetSearchLineNumberExpectationMessage ──
 
 func Test_Cov3_GetSearchLineNumberExpectationMessage(t *testing.T) {
-	actual := args.Map{"notEmpty": errcore.GetSearchLineNumberExpectationMessage("search", 5, true) != ""}
+	actual := args.Map{"notEmpty": errcore.GetSearchLineNumberExpectationMessage(1, 5, 3, "content", "search", "info") != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchLineNumberExpectationMessage returns formatted -- all args", actual)
 }
