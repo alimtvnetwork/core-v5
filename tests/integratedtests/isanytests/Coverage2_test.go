@@ -41,7 +41,7 @@ func Test_Cov2_Conclusive_RightNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Conclusive_RightNil", actual)
 }
 
-func Test_Conclusive_BothTypedNilSameType_Cov2(t *testing.T) {
+func Test_Cov2_Conclusive_BothTypedNilSameType(t *testing.T) {
 	var a, b *int
 	isEqual, isConcl := isany.Conclusive(a, b)
 	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
