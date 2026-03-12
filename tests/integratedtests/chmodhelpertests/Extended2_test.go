@@ -566,7 +566,7 @@ func Test_Attribute_IsEqualPtr_BothNil(t *testing.T) {
 	}
 }
 
-func Test_Attribute_UsingByte(t *testing.T) {
+func Test_Attribute_UsingByte_Ext2(t *testing.T) {
 	// Act
 	attr, err := chmodhelper.New.Attribute.UsingByte(5)
 
