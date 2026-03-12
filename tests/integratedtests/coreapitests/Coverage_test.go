@@ -105,7 +105,7 @@ func Test_Cov_RequestAttribute_Clone_Nil(t *testing.T) {
 // ResponseAttribute — uncovered branches
 // =============================================================================
 
-func Test_ResponseAttribute_Clone_WithSlices(t *testing.T) {
+func Test_Cov_ResponseAttribute_Clone_WithSlices(t *testing.T) {
 	attr := &coreapi.ResponseAttribute{
 		IsValid:        true,
 		Message:        "ok",
