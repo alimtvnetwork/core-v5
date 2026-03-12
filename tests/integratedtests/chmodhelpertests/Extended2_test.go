@@ -1878,7 +1878,7 @@ func Test_SimpleFileReaderWriter_Json_Methods_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_InitializeDefault(t *testing.T) {
+func Test_SimpleFileReaderWriter_InitializeDefault_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.SimpleFileReaderWriter{
 		ChmodDir:  os.FileMode(0755),
