@@ -318,7 +318,7 @@ func Test_Cov2_NumberType_Extended(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "NumberType_Extended", actual)
 }
 
-func Test_PositiveIntegerType_Extended_Cov2(t *testing.T) {
+func Test_Cov2_PositiveIntegerType_Extended(t *testing.T) {
 	actual := args.Map{
 		"uint8":  isany.PositiveIntegerType(uint8(1)),
 		"uint16": isany.PositiveIntegerType(uint16(1)),
