@@ -30,7 +30,7 @@ func Test_Cov2_IntPtrToDefPtr_NonNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "IntPtrToDefPtr_NonNil", actual)
 }
 
-func Test_IntPtrDefValFunc_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_IntPtrDefValFunc_NonNil(t *testing.T) {
 	v := 10
 	r := typesconv.IntPtrDefValFunc(&v, func() int { return 99 })
 	actual := args.Map{"result": *r}
