@@ -179,7 +179,7 @@ func Test_Cov2_CurlyWrap_Int(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "CurlyWrap_Int", actual)
 }
 
-func Test_SquareWrap_Int_Cov2(t *testing.T) {
+func Test_Cov2_SquareWrap_Int(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.SquareWrap(42) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SquareWrap_Int", actual)
