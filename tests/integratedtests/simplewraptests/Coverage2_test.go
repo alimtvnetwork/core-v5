@@ -113,7 +113,7 @@ func Test_Cov2_DoubleQuoteWrapElementsWithIndexes(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "DoubleQuoteWrapElementsWithIndexes", actual)
 }
 
-func Test_WithDoubleQuote_Empty_Cov2(t *testing.T) {
+func Test_Cov2_WithDoubleQuote_Empty(t *testing.T) {
 	actual := args.Map{"result": simplewrap.WithDoubleQuote("")}
 	expected := args.Map{"result": `""`}
 	expected.ShouldBeEqual(t, 0, "WithDoubleQuote_Empty", actual)
