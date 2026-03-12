@@ -35,7 +35,7 @@ func Test_RwxWrapper_Create_Verification(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_RwxFullString(t *testing.T) {
+func Test_RwxWrapper_RwxFullString_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2RwxFullStringParseTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
