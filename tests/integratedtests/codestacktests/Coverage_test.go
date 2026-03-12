@@ -600,7 +600,7 @@ func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
-	if !tc.IsEqual(tc) {
+	if !tc.IsEqual(&tc) {
 		t.Error("collection should be equal to itself")
 	}
 }
@@ -746,11 +746,14 @@ func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
-	s := tc.Serializer()
+	bytes, err := tc.Serializer()
 
 	// Assert
-	if s == nil {
-		t.Error("Serializer should not be nil")
+	if err != nil {
+		t.Errorf("Serializer should not return error: %v", err)
+	}
+	if len(bytes) == 0 {
+		t.Error("Serializer should not be empty")
 	}
 }
 
@@ -800,7 +803,7 @@ func Test_Cov_TraceCollection_Dispose(t *testing.T) {
 
 func Test_Cov_NameOf_Method(t *testing.T) {
 	// Act
-	name := codestack.NameOf.Method("github.com/alimtvnetwork/core/codestack.Test_NameOf_Method_Cov")
+	name := codestack.NameOf.MethodByFullName("github.com/alimtvnetwork/core/codestack.Test_NameOf_Method_Cov")
 
 	// Assert
 	if name == "" {
@@ -810,7 +813,7 @@ func Test_Cov_NameOf_Method(t *testing.T) {
 
 func Test_Cov_NameOf_Package(t *testing.T) {
 	// Act
-	name := codestack.NameOf.Package("github.com/alimtvnetwork/core/codestack.Test_NameOf_Package_Cov")
+	name := codestack.NameOf.PackageByFullName("github.com/alimtvnetwork/core/codestack.Test_NameOf_Package_Cov")
 
 	// Assert
 	if name == "" {
@@ -1018,7 +1021,8 @@ func Test_Cov_TraceCollection_Concat(t *testing.T) {
 		t.Error("ConcatNew should increase length")
 	}
 
-	concatPtr := tc.ConcatNewPtr(codestack.New.Default())
+	trace := codestack.New.Default()
+	concatPtr := tc.ConcatNewPtr(&trace)
 	if concatPtr == nil {
 		t.Error("ConcatNewPtr should not be nil")
 	}
@@ -1029,17 +1033,17 @@ func Test_Cov_TraceCollection_Filters(t *testing.T) {
 	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
-	filtered := tc.Filter(func(index int, trace codestack.Trace) bool {
-		return true
+	filtered := tc.Filter(func(trace *codestack.Trace) (bool, bool) {
+		return true, false
 	})
-	if filtered.Length() == 0 {
+	if len(filtered) == 0 {
 		t.Error("Filter should not be empty")
 	}
 
-	filteredLimit := tc.FilterWithLimit(1, func(index int, trace codestack.Trace) bool {
-		return true
+	filteredLimit := tc.FilterWithLimit(1, func(trace *codestack.Trace) (bool, bool) {
+		return true, false
 	})
-	if filteredLimit.Length() == 0 {
+	if len(filteredLimit) == 0 {
 		t.Error("FilterWithLimit should not be empty")
 	}
 }

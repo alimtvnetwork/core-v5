@@ -281,7 +281,7 @@ func Test_Cov_User_Ptr(t *testing.T) {
 // ── newUserCreator ──
 
 func Test_Cov_NewUser_All(t *testing.T) {
-	u := corepayload.NewUser.All(true, "1", "test", "admin", "tok", "hash")
+	u := corepayload.New.User.All(true, "1", "test", "admin", "tok", "hash")
 	actual := args.Map{
 		"id": u.Identifier, "name": u.Name, "type": u.Type,
 		"auth": u.AuthToken, "hash": u.PasswordHash, "sys": u.IsSystemUser,
@@ -294,49 +294,49 @@ func Test_Cov_NewUser_All(t *testing.T) {
 }
 
 func Test_Cov_NewUser_Create(t *testing.T) {
-	u := corepayload.NewUser.Create(true, "test", "admin")
+	u := corepayload.New.User.Create(true, "test", "admin")
 	actual := args.Map{"name": u.Name, "sys": u.IsSystemUser}
 	expected := args.Map{"name": "test", "sys": true}
 	expected.ShouldBeEqual(t, 0, "NewUser.Create", actual)
 }
 
 func Test_Cov_NewUser_NonSys(t *testing.T) {
-	u := corepayload.NewUser.NonSysCreate("test", "admin")
+	u := corepayload.New.User.NonSysCreate("test", "admin")
 	actual := args.Map{"name": u.Name, "sys": u.IsSystemUser}
 	expected := args.Map{"name": "test", "sys": false}
 	expected.ShouldBeEqual(t, 0, "NewUser.NonSysCreate", actual)
 }
 
 func Test_Cov_NewUser_NonSysId(t *testing.T) {
-	u := corepayload.NewUser.NonSysCreateId("1", "test", "admin")
+	u := corepayload.New.User.NonSysCreateId("1", "test", "admin")
 	actual := args.Map{"id": u.Identifier, "name": u.Name}
 	expected := args.Map{"id": "1", "name": "test"}
 	expected.ShouldBeEqual(t, 0, "NewUser.NonSysCreateId", actual)
 }
 
 func Test_Cov_NewUser_System(t *testing.T) {
-	u := corepayload.NewUser.System("test", "admin")
+	u := corepayload.New.User.System("test", "admin")
 	actual := args.Map{"sys": u.IsSystemUser}
 	expected := args.Map{"sys": true}
 	expected.ShouldBeEqual(t, 0, "NewUser.System", actual)
 }
 
 func Test_Cov_NewUser_SystemId(t *testing.T) {
-	u := corepayload.NewUser.SystemId("1", "test", "admin")
+	u := corepayload.New.User.SystemId("1", "test", "admin")
 	actual := args.Map{"id": u.Identifier, "sys": u.IsSystemUser}
 	expected := args.Map{"id": "1", "sys": true}
 	expected.ShouldBeEqual(t, 0, "NewUser.SystemId", actual)
 }
 
 func Test_Cov_NewUser_UsingName(t *testing.T) {
-	u := corepayload.NewUser.UsingName("test")
+	u := corepayload.New.User.UsingName("test")
 	actual := args.Map{"name": u.Name}
 	expected := args.Map{"name": "test"}
 	expected.ShouldBeEqual(t, 0, "NewUser.UsingName", actual)
 }
 
 func Test_Cov_NewUser_Empty(t *testing.T) {
-	u := corepayload.NewUser.Empty()
+	u := corepayload.New.User.Empty()
 	actual := args.Map{"notNil": u != nil, "nameEmpty": u.Name == ""}
 	expected := args.Map{"notNil": true, "nameEmpty": true}
 	expected.ShouldBeEqual(t, 0, "NewUser.Empty", actual)
@@ -345,21 +345,21 @@ func Test_Cov_NewUser_Empty(t *testing.T) {
 func Test_Cov_NewUser_Deserialize(t *testing.T) {
 	original := &corepayload.User{Name: "test", Type: "admin"}
 	bytes, _ := original.Serialize()
-	u, err := corepayload.NewUser.Deserialize(bytes)
+	u, err := corepayload.New.User.Deserialize(bytes)
 	actual := args.Map{"err": err == nil, "name": u.Name}
 	expected := args.Map{"err": true, "name": "test"}
 	expected.ShouldBeEqual(t, 0, "NewUser.Deserialize", actual)
 }
 
 func Test_Cov_NewUser_Deserialize_Error(t *testing.T) {
-	_, err := corepayload.NewUser.Deserialize([]byte("invalid"))
+	_, err := corepayload.New.User.Deserialize([]byte("invalid"))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "NewUser.Deserialize error", actual)
 }
 
 func Test_Cov_NewUser_CastOrDeserializeFrom(t *testing.T) {
-	_, err := corepayload.NewUser.CastOrDeserializeFrom(nil)
+	_, err := corepayload.New.User.CastOrDeserializeFrom(nil)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "CastOrDeserializeFrom nil", actual)
@@ -367,7 +367,7 @@ func Test_Cov_NewUser_CastOrDeserializeFrom(t *testing.T) {
 
 func Test_Cov_NewUser_CastOrDeserializeFrom_Valid(t *testing.T) {
 	src := map[string]any{"Name": "test"}
-	u, err := corepayload.NewUser.CastOrDeserializeFrom(src)
+	u, err := corepayload.New.User.CastOrDeserializeFrom(src)
 	actual := args.Map{"hasErr": err != nil, "notNil": u != nil}
 	expected := args.Map{"hasErr": false, "notNil": true}
 	expected.ShouldBeEqual(t, 0, "CastOrDeserializeFrom valid", actual)
