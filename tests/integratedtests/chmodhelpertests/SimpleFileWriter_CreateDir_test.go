@@ -242,7 +242,7 @@ func Test_SimpleFileWriter_CreateDir_ExistingFileFails_Verification(t *testing.T
 	}
 }
 
-func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
 	chmodhelper.SimpleFileWriter.Lock()
 	defer chmodhelper.SimpleFileWriter.Unlock()
