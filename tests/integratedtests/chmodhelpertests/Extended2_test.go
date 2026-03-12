@@ -1791,7 +1791,7 @@ func Test_SimpleFileReaderWriter_WriteAny_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_Get_NotExist(t *testing.T) {
+func Test_SimpleFileReaderWriter_Get_NotExist_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/nonexistent/xyz/file.json")
 
