@@ -1561,7 +1561,7 @@ func Test_GetRecursivePaths_File_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetRecursivePaths_Dir(t *testing.T) {
+func Test_GetRecursivePaths_Dir_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_recursive_ext2"
 	os.MkdirAll(dir, 0755)
