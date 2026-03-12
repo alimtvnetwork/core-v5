@@ -2356,7 +2356,7 @@ func Test_NewRwxWrapperCreator_UsingExistingFileOption_Ext2(t *testing.T) {
 
 // ── SingleRwx ──
 
-func Test_SingleRwx_All(t *testing.T) {
+func Test_SingleRwx_All_Ext2(t *testing.T) {
 	// Arrange
 	singleRwx, err := chmodhelper.NewSingleRwx("rwx", chmodclasstype.All)
 
