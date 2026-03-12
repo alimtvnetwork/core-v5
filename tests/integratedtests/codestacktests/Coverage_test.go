@@ -126,7 +126,7 @@ func Test_Cov_FileWithLine_ParseJson(t *testing.T) {
 	}
 }
 
-func Test_FileWithLine_ParseJsonMust_Cov(t *testing.T) {
+func Test_Cov_FileWithLine_ParseJsonMust(t *testing.T) {
 	// Arrange
 	fwl := &codestack.FileWithLine{
 		FilePath: "/tmp/test.go",
