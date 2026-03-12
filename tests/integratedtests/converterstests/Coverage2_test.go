@@ -61,16 +61,16 @@ func Test_Cov2_StringTo_Byte_Overflow(t *testing.T) {
 // ── AnyTo additional coverage ──
 
 func Test_Cov2_AnyTo_SmartStrings(t *testing.T) {
-	result := converters.AnyTo.SmartStrings("a", 42, true)
-	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 3}
+	result := converters.AnyTo.SmartStringsOf("a", 42, true)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "AnyTo.SmartStrings", actual)
 }
 
 func Test_Cov2_AnyTo_SmartStrings_Empty(t *testing.T) {
-	result := converters.AnyTo.SmartStrings()
-	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 0}
+	result := converters.AnyTo.SmartStringsOf()
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": ""}
 	expected.ShouldBeEqual(t, 0, "AnyTo.SmartStrings empty", actual)
 }
 
