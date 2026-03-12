@@ -9,7 +9,7 @@ import (
 	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
 )
 
-func Test_MapStringAnyDiff_Length_IsEmpty_HasAnyItem_LastIndex(t *testing.T) {
+func Test_MapStringAnyDiff_Length_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffLengthTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
