@@ -1170,7 +1170,7 @@ func Test_RwxInstructionExecutor_IsEqualFileMode_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxInstructionExecutor_CompiledWrapper(t *testing.T) {
+func Test_RwxInstructionExecutor_CompiledWrapper_Ext2(t *testing.T) {
 	// Arrange
 	ins := &chmodins.RwxInstruction{
 		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
