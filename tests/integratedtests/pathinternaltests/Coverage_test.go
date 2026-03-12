@@ -8,7 +8,7 @@ import (
 	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
-func Test_Clean(t *testing.T) {
+func Test_Cov_Clean(t *testing.T) {
 	// Arrange & Act
 	actual := args.Map{
 		"empty":       pathinternal.Clean(""),
