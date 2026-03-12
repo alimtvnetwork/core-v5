@@ -74,7 +74,7 @@ func Test_Cov2_Conclusive_Inconclusive(t *testing.T) {
 
 // ── ReflectValueNull ──
 
-func Test_ReflectValueNull_NilPtr_Cov2(t *testing.T) {
+func Test_Cov2_ReflectValueNull_NilPtr(t *testing.T) {
 	var ptr *int
 	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(ptr))}
 	expected := args.Map{"isNull": true}
