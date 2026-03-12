@@ -1044,7 +1044,7 @@ func Test_Cov_TraceCollection_Filters(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_AsBindings_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_AsBindings(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
