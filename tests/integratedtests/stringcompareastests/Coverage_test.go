@@ -277,7 +277,7 @@ var covIsAnyEnumsEqualTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_IsAnyEnumsEqual_NoMatch_Coverage(t *testing.T) {
+func Test_Cov_IsAnyEnumsEqual_NoMatch(t *testing.T) {
 	for caseIndex, testCase := range covIsAnyEnumsEqualTestCases {
 		a := stringcompareas.Equal
 		b := stringcompareas.StartsWith
