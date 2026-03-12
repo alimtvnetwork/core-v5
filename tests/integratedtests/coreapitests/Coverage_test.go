@@ -235,7 +235,7 @@ func Test_Cov_PageRequest_Clone(t *testing.T) {
 // TypedResponse — uncovered branches
 // =============================================================================
 
-func Test_TypedResponse_Clone_Nil(t *testing.T) {
+func Test_Cov_TypedResponse_Clone_Nil(t *testing.T) {
 	var resp *coreapi.TypedResponse[string]
 	if resp.Clone() != nil {
 		t.Error("nil clone should return nil")
