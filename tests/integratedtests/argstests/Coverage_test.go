@@ -191,7 +191,7 @@ func Test_Map_Arrange(t *testing.T) {
 	}
 }
 
-func Test_Map_SetActual(t *testing.T) {
+func Test_Map_SetActual_Cov(t *testing.T) {
 	m := args.Map{}
 	m.SetActual("hello")
 	if m.Actual() != "hello" {
