@@ -18,7 +18,7 @@ func Test_Cov_RequestAttribute_HasSearchRequest(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_HasSearchRequest_Nil(t *testing.T) {
+func Test_Cov_RequestAttribute_HasSearchRequest_Nil(t *testing.T) {
 	var attr *coreapi.RequestAttribute
 	if attr.HasSearchRequest() {
 		t.Error("nil should not have search request")
