@@ -188,7 +188,7 @@ func Test_Cov_PageRequest_IsPageIndexEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_PageRequest_HasPageSize(t *testing.T) {
+func Test_Cov_PageRequest_HasPageSize(t *testing.T) {
 	pr := &coreapi.PageRequest{PageSize: 10}
 	if !pr.HasPageSize() {
 		t.Error("should have page size")
