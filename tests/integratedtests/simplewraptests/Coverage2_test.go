@@ -161,7 +161,7 @@ func Test_Cov2_MsgWrapNumber_Int64(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "MsgWrapNumber_Int64", actual)
 }
 
-func Test_MsgCsvItems_Empty_Cov2(t *testing.T) {
+func Test_Cov2_MsgCsvItems_Empty(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.MsgCsvItems("msg") != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MsgCsvItems_Empty", actual)
