@@ -2449,7 +2449,7 @@ func Test_SingleRwx_OwnerOther_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SingleRwx_InvalidLength(t *testing.T) {
+func Test_SingleRwx_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.NewSingleRwx("rw", chmodclasstype.All)
 
