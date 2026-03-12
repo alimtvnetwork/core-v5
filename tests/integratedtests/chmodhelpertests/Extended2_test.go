@@ -2746,7 +2746,7 @@ func Test_ChmodVerifier_IsEqualRwxFull_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_GetExistingRwxWrapper(t *testing.T) {
+func Test_ChmodVerifier_GetExistingRwxWrapper_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
