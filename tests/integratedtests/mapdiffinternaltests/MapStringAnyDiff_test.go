@@ -44,7 +44,7 @@ func Test_MapStringAnyDiff_AllKeysSorted_Verification(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_IsRawEqual(t *testing.T) {
+func Test_MapStringAnyDiff_IsRawEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffIsRawEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
