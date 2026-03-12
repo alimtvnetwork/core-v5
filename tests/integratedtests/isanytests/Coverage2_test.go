@@ -177,7 +177,7 @@ func Test_Cov2_NumberTypeRv_Uint32(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "NumberTypeRv_Uint32", actual)
 }
 
-func Test_NumberTypeRv_String_Cov2(t *testing.T) {
+func Test_Cov2_NumberTypeRv_String(t *testing.T) {
 	actual := args.Map{"result": isany.NumberTypeRv(reflect.ValueOf("hello"))}
 	expected := args.Map{"result": false}
 	expected.ShouldBeEqual(t, 0, "NumberTypeRv_String", actual)
