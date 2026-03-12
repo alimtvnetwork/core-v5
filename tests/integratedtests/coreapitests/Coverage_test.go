@@ -313,7 +313,7 @@ func Test_Cov_TypedResponseResult_ClonePtr_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedResponseResult_ClonePtr(t *testing.T) {
+func Test_Cov_TypedResponseResult_ClonePtr(t *testing.T) {
 	attr := &coreapi.ResponseAttribute{IsValid: true}
 	rr := coreapi.NewTypedResponseResult(attr, "data")
 	c := rr.ClonePtr()
