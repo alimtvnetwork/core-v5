@@ -707,7 +707,7 @@ func Test_ParseRwxToVarAttribute_Verification(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_Methods(t *testing.T) {
+func Test_VarAttribute_Methods_Ext2(t *testing.T) {
 	// Arrange
 	varAttr, _ := chmodhelper.ParseRwxToVarAttribute("r*x")
 
