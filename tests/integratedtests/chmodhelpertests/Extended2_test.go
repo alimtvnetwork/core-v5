@@ -3253,7 +3253,7 @@ func Test_SimpleFileWriter_LockUnlock_Ext2(t *testing.T) {
 
 // ── ApplyChmod on valid temp file (Unix) ──
 
-func Test_RwxWrapper_ApplyChmod_Unix(t *testing.T) {
+func Test_RwxWrapper_ApplyChmod_Unix_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
