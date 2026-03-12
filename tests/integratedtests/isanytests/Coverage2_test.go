@@ -334,7 +334,7 @@ func Test_Cov2_PositiveIntegerType_Extended(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "PositiveIntegerType_Extended", actual)
 }
 
-func Test_FloatingPointType_Float32_Cov2(t *testing.T) {
+func Test_Cov2_FloatingPointType_Float32(t *testing.T) {
 	actual := args.Map{"result": isany.FloatingPointType(float32(1.0))}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "FloatingPointType_Float32", actual)
