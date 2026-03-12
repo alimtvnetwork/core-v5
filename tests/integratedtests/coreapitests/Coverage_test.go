@@ -46,7 +46,7 @@ func Test_Cov_RequestAttribute_IsEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_IsAnyNull_Nil(t *testing.T) {
+func Test_Cov_RequestAttribute_IsAnyNull_Nil(t *testing.T) {
 	var attr *coreapi.RequestAttribute
 	if !attr.IsAnyNull() {
 		t.Error("nil should be null")
