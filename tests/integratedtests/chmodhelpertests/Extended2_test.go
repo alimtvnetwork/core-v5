@@ -1382,7 +1382,7 @@ func Test_GetExistsFilteredPathFileInfoMap_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistsFilteredPathFileInfoMap_Empty(t *testing.T) {
+func Test_GetExistsFilteredPathFileInfoMap_Empty_Ext2(t *testing.T) {
 	// Act
 	fmap := chmodhelper.GetExistsFilteredPathFileInfoMap(false)
 
