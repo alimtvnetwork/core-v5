@@ -595,7 +595,7 @@ func Test_Cov_TraceCollection_Reverse(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_IsEqual_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
