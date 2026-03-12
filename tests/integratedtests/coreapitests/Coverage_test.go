@@ -329,7 +329,7 @@ func Test_Cov_TypedResponseResult_ToTypedResponse_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedResponseResult_ToTypedResponse(t *testing.T) {
+func Test_Cov_TypedResponseResult_ToTypedResponse(t *testing.T) {
 	attr := &coreapi.ResponseAttribute{IsValid: true}
 	rr := coreapi.NewTypedResponseResult(attr, "data")
 	resp := rr.ToTypedResponse()
