@@ -276,7 +276,7 @@ func Test_Cov2_DefinedItems_SomeNil(t *testing.T) {
 
 // ── DefinedAllOf / DefinedAnyOf ──
 
-func Test_DefinedAllOf_Empty_Cov2(t *testing.T) {
+func Test_Cov2_DefinedAllOf_Empty(t *testing.T) {
 	actual := args.Map{"result": isany.DefinedAllOf()}
 	expected := args.Map{"result": false}
 	expected.ShouldBeEqual(t, 0, "DefinedAllOf_Empty", actual)
