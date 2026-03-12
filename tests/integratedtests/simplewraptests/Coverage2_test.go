@@ -85,7 +85,7 @@ func Test_Cov2_DoubleQuoteWrapElements_Nil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "DoubleQuoteWrapElements_Nil", actual)
 }
 
-func Test_DoubleQuoteWrapElements_EmptySlice_Cov2(t *testing.T) {
+func Test_Cov2_DoubleQuoteWrapElements_EmptySlice(t *testing.T) {
 	actual := args.Map{"len": len(simplewrap.DoubleQuoteWrapElements(false))}
 	expected := args.Map{"len": 0}
 	expected.ShouldBeEqual(t, 0, "DoubleQuoteWrapElements_EmptySlice", actual)
