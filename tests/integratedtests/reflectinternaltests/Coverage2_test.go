@@ -670,7 +670,7 @@ func Test_Cov2_Path_CurDir(t *testing.T) {
 // ── TypeNamesReferenceString ──
 
 func Test_Cov2_TypeNamesReferenceString(t *testing.T) {
-	result := reflectinternal.TypeNamesReferenceString(42, "hello")
+	result := reflectinternal.TypeNamesReferenceString(true, 42, "hello")
 
 	actual := args.Map{
 		"notEmpty": result != "",
@@ -684,7 +684,7 @@ func Test_Cov2_TypeNamesReferenceString(t *testing.T) {
 // ── TypeNamesString ──
 
 func Test_Cov2_TypeNamesString(t *testing.T) {
-	result := reflectinternal.TypeNamesString(42, "hello")
+	result := reflectinternal.TypeNamesString(true, 42, "hello")
 
 	actual := args.Map{
 		"notEmpty": result != "",
@@ -697,30 +697,17 @@ func Test_Cov2_TypeNamesString(t *testing.T) {
 
 // ── ReflectType converter ──
 
-func Test_Cov2_ReflectType_InterfaceElem(t *testing.T) {
-	// Just call it to cover the code path
-	intType := reflect.TypeOf(0)
-	result := reflectinternal.ReflectType.ToNonPointerType(intType)
+func Test_Cov2_ReflectType_SafeName(t *testing.T) {
+	result := reflectinternal.ReflectType.SafeName(42)
+	nilResult := reflectinternal.ReflectType.SafeName(nil)
 
 	actual := args.Map{
-		"notNil": result != nil,
+		"result":    result,
+		"nilResult": nilResult,
 	}
 	expected := args.Map{
-		"notNil": true,
+		"result":    "int",
+		"nilResult": "",
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectType_InterfaceElem", actual)
-}
-
-func Test_Cov2_ReflectType_PtrType(t *testing.T) {
-	val := 42
-	ptrType := reflect.TypeOf(&val)
-	result := reflectinternal.ReflectType.ToNonPointerType(ptrType)
-
-	actual := args.Map{
-		"isInt": result.Kind() == reflect.Int,
-	}
-	expected := args.Map{
-		"isInt": true,
-	}
-	expected.ShouldBeEqual(t, 0, "ReflectType_PtrType", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectType_SafeName", actual)
 }
