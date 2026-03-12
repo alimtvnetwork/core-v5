@@ -2277,7 +2277,7 @@ func Test_NewRwxWrapperCreator_UsingRwxOwnerGroupOther_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_Instruction(t *testing.T) {
+func Test_NewRwxWrapperCreator_Instruction_Ext2(t *testing.T) {
 	// Act
 	ins, err := chmodhelper.New.RwxWrapper.Instruction(
 		"-rwxr-xr-x",
