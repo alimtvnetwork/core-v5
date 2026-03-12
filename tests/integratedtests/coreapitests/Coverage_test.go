@@ -298,7 +298,7 @@ func Test_Cov_TypedResponseResult_Message_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedResponseResult_Message(t *testing.T) {
+func Test_Cov_TypedResponseResult_Message(t *testing.T) {
 	attr := &coreapi.ResponseAttribute{Message: "ok"}
 	rr := coreapi.NewTypedResponseResult(attr, "data")
 	if rr.Message() != "ok" {
