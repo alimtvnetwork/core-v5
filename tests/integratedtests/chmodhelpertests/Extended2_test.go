@@ -2095,7 +2095,7 @@ func Test_NewSimpleFileReaderWriter_DefaultCleanPath_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewSimpleFileReaderWriter_Path(t *testing.T) {
+func Test_NewSimpleFileReaderWriter_Path_Ext2(t *testing.T) {
 	// Act
 	rw := chmodhelper.New.SimpleFileReaderWriter.Path(true, os.FileMode(0755), os.FileMode(0644), "/tmp/file.txt")
 
