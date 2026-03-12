@@ -1110,7 +1110,7 @@ func Test_ParseRwxOwnerGroupOtherToFileMode_Ext2(t *testing.T) {
 
 // ── ParseRwxInstructionToExecutor ──
 
-func Test_ParseRwxInstructionToExecutor(t *testing.T) {
+func Test_ParseRwxInstructionToExecutor_Ext2(t *testing.T) {
 	// Arrange
 	ins := &chmodins.RwxInstruction{
 		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
