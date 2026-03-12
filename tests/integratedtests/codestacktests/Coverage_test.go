@@ -8,7 +8,7 @@ import (
 
 // ── FileWithLine nil-safety ──
 
-func Test_FileWithLine_NilSafe(t *testing.T) {
+func Test_Cov_FileWithLine_NilSafe(t *testing.T) {
 	for caseIndex, tc := range coverageFileWithLineNilSafeCases {
 		// Assert
 		tc.ShouldBeSafe(t, caseIndex)
