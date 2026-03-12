@@ -46,7 +46,7 @@ func Test_Cov2_TitleSquareMetaUsingFmt(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "TitleSquareMetaUsingFmt", actual)
 }
 
-func Test_WithBracketsQuotation_Cov2(t *testing.T) {
+func Test_Cov2_WithBracketsQuotation(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.WithBracketsQuotation("hello") != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "WithBracketsQuotation", actual)
