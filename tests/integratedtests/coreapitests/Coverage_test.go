@@ -209,7 +209,7 @@ func Test_Cov_PageRequest_HasPageIndex(t *testing.T) {
 	}
 }
 
-func Test_PageRequest_HasPageIndex_Nil(t *testing.T) {
+func Test_Cov_PageRequest_HasPageIndex_Nil(t *testing.T) {
 	var pr *coreapi.PageRequest
 	if pr.HasPageIndex() {
 		t.Error("nil should not have page index")
