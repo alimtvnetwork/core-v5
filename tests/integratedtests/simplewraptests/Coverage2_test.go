@@ -97,7 +97,7 @@ func Test_Cov2_DoubleQuoteWrapElements_SkipExistence(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "DoubleQuoteWrapElements_SkipExistence", actual)
 }
 
-func Test_DoubleQuoteWrapElementsWithIndexes_Cov2(t *testing.T) {
+func Test_Cov2_DoubleQuoteWrapElementsWithIndexes(t *testing.T) {
 	actual := args.Map{
 		"nilNotNil":     simplewrap.DoubleQuoteWrapElementsWithIndexes(nil...) != nil,
 		"emptyLen":      len(simplewrap.DoubleQuoteWrapElementsWithIndexes()),
