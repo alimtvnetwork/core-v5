@@ -268,7 +268,8 @@ func Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification(t *testing.T) 
 			dir := input.Dir
 
 			pathinternal.RemoveDirMust(
-			"Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification",
+				dir,
+				"Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification",
 			)
 
 			for fileIndex, file := range input.Files {
