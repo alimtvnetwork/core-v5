@@ -174,7 +174,7 @@ func Test_Cov_SearchRequest_Clone_Nil(t *testing.T) {
 // PageRequest — uncovered branches
 // =============================================================================
 
-func Test_PageRequest_IsPageSizeEmpty_Nil(t *testing.T) {
+func Test_Cov_PageRequest_IsPageSizeEmpty_Nil(t *testing.T) {
 	var pr *coreapi.PageRequest
 	if !pr.IsPageSizeEmpty() {
 		t.Error("nil should be empty")
