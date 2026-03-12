@@ -131,7 +131,7 @@ func Test_Cov2_WithSingleQuote_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "WithSingleQuote_Empty", actual)
 }
 
-func Test_ToJsonName_Int_Cov2(t *testing.T) {
+func Test_Cov2_ToJsonName_Int(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.ToJsonName(42) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ToJsonName_Int", actual)
