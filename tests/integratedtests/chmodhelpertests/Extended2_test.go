@@ -1088,7 +1088,7 @@ func Test_GetExistingChmodOfValidFile_Invalid(t *testing.T) {
 
 // ── ParseRwxOwnerGroupOtherToFileMode ──
 
-func Test_ParseRwxOwnerGroupOtherToFileMode(t *testing.T) {
+func Test_ParseRwxOwnerGroupOtherToFileMode_Ext2(t *testing.T) {
 	// Arrange
 	ogo := &chmodins.RwxOwnerGroupOther{
 		Owner: "rwx",
