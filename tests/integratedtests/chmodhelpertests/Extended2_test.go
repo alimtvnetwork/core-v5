@@ -3364,7 +3364,7 @@ func Test_ChmodApplier_Default_Unix_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_SkipInvalidFile(t *testing.T) {
+func Test_ChmodApplier_SkipInvalidFile_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Act
