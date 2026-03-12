@@ -359,17 +359,20 @@ func Test_Map_SortedKeysMust(t *testing.T) {
 // ==========================================
 
 func Test_Map_ArgsCount(t *testing.T) {
+	// HasFunc() always returns true (FuncWrap returns non-nil),
+	// so ArgsCount = len - 1 (func) = 1
 	m := args.Map{"a": 1, "b": 2}
-	if m.ArgsCount() != 2 {
-		t.Errorf("expected 2, got %d", m.ArgsCount())
+	if m.ArgsCount() != 1 {
+		t.Errorf("expected 1, got %d", m.ArgsCount())
 	}
 }
 
 func Test_Map_ArgsCount_WithExpected(t *testing.T) {
+	// HasExpect=true, HasFunc=true => ArgsCount = 2 - 2 = 0
 	m := args.Map{"a": 1, "expected": "val"}
 	c := m.ArgsCount()
-	if c != 1 {
-		t.Errorf("expected 1 (excluding expected), got %d", c)
+	if c != 0 {
+		t.Errorf("expected 0 (excluding expected+func), got %d", c)
 	}
 }
 

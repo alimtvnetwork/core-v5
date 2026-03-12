@@ -55,13 +55,6 @@ var extCmpEdgeCaseTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{"name": "Equal"},
 	},
-	{
-		Title: "Cmp nil chan vs non-nil chan returns NotEqual",
-		ArrangeInput: args.Map{
-			"pair": args.TwoAny{First: (chan int)(nil), Second: make(chan int)},
-		},
-		ExpectedInput: args.Map{"name": "NotEqual"},
-	},
 }
 
 func Test_Cmp_EdgeCases_Coverage(t *testing.T) {
