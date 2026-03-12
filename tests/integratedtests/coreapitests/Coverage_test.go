@@ -60,7 +60,7 @@ func Test_Cov_RequestAttribute_IsPageRequestEmpty(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_IsPageRequestEmpty_Nil(t *testing.T) {
+func Test_Cov_RequestAttribute_IsPageRequestEmpty_Nil(t *testing.T) {
 	var attr *coreapi.RequestAttribute
 	if !attr.IsPageRequestEmpty() {
 		t.Error("nil should be empty")
