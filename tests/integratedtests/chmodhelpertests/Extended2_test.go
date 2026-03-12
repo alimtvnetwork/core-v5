@@ -195,7 +195,7 @@ func Test_RwxWrapper_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_IsEmpty(t *testing.T) {
+func Test_RwxWrapper_IsEmpty_Ext2(t *testing.T) {
 	// Arrange
 	empty := chmodhelper.RwxWrapper{}
 
