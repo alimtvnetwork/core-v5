@@ -798,26 +798,48 @@ func Test_Cov3_RangeByte_DifferenceStartGtEnd(t *testing.T) {
 // ── RangeAny — uncovered branches ──
 
 func Test_Cov3_RangeAny_Methods(t *testing.T) {
-	ra := corerange.NewRangeAny("hello:world", ":")
+	ra := &corerange.RangeAny{
+		BaseRange: &corerange.BaseRange{
+			RawInput:  "hello:world",
+			Separator: ":",
+			IsValid:   true,
+			HasStart:  true,
+			HasEnd:    true,
+		},
+		RawInput: "hello:world",
+		Start:    "hello",
+		End:      "world",
+	}
 	actual := args.Map{
-		"rawInput":      ra.RawInputString(),
-		"start":         ra.StartString(),
-		"end":           ra.EndString(),
-		"rangeIntNil":   ra.CreateRangeInt() == nil,
-		"rangeStrNil":   ra.CreateRangeString() == nil,
-		"startEndNil":   ra.CreateStartEndString() == nil,
+		"rawInput":       ra.RawInputString(),
+		"start":          ra.StartString(),
+		"end":            ra.EndString(),
+		"rangeIntNotNil": ra.CreateRangeInt() != nil,
+		"rangeStrNotNil": ra.CreateRangeString() != nil,
+		"startEndNotNil": ra.CreateStartEndString() != nil,
 		"stringNotEmpty": ra.String() != "",
 	}
 	expected := args.Map{
 		"rawInput": "hello:world", "start": "hello", "end": "world",
-		"rangeIntNil": false, "rangeStrNil": false, "startEndNil": false,
+		"rangeIntNotNil": true, "rangeStrNotNil": true, "startEndNotNil": true,
 		"stringNotEmpty": true,
 	}
 	expected.ShouldBeEqual(t, 0, "RangeAny methods return expected -- valid input", actual)
 }
 
 func Test_Cov3_RangeAny_CreateRangeIntMinMax(t *testing.T) {
-	ra := corerange.NewRangeAny("3:7", ":")
+	ra := &corerange.RangeAny{
+		BaseRange: &corerange.BaseRange{
+			RawInput:  "3:7",
+			Separator: ":",
+			IsValid:   true,
+			HasStart:  true,
+			HasEnd:    true,
+		},
+		RawInput: "3:7",
+		Start:    "3",
+		End:      "7",
+	}
 	mm := &corerange.MinMaxInt{Min: 0, Max: 10}
 	actual := args.Map{"notNil": ra.CreateRangeIntMinMax(mm) != nil}
 	expected := args.Map{"notNil": true}

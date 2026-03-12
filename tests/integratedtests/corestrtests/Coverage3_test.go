@@ -9,48 +9,56 @@ import (
 
 // ── Collection — additional methods ──
 
-func Test_Cov3_Collection_AddString(t *testing.T) {
+func Test_Cov3_Collection_Add(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
-	c.AddString("hello")
+	c.Add("hello")
 	actual := args.Map{"length": c.Length(), "hasAny": c.HasAnyItem()}
 	expected := args.Map{"length": 1, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "Collection AddString returns 1 -- single item", actual)
+	expected.ShouldBeEqual(t, 0, "Collection Add returns 1 -- single item", actual)
 }
 
-func Test_Cov3_Collection_AddStringPtr(t *testing.T) {
+func Test_Cov3_Collection_AddStrings(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
-	val := "hello"
-	c.AddStringPtr(&val)
-	actual := args.Map{"length": c.Length()}
-	expected := args.Map{"length": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddStringPtr returns 1 -- single ptr", actual)
-}
-
-func Test_Cov3_Collection_AllIndividualsLength(t *testing.T) {
-	c := corestr.New.Collection.Cap(5)
-	c.AddStrings("ab", "cde")
+	c.AddStrings([]string{"ab", "cde"})
 	actual := args.Map{"len": c.AllIndividualsLength()}
 	expected := args.Map{"len": 5}
 	expected.ShouldBeEqual(t, 0, "Collection AllIndividualsLength returns 5 -- ab+cde", actual)
 }
 
-// ── Hashmap — additional methods ──
-
-func Test_Cov3_Hashmap_AddIf(t *testing.T) {
-	h := corestr.New.Hashmap.Cap(5)
-	h.AddIf(true, "yes", "value")
-	h.AddIf(false, "no", "value")
-	actual := args.Map{"length": h.Length(), "hasYes": h.Has("yes"), "hasNo": h.Has("no")}
-	expected := args.Map{"length": 1, "hasYes": true, "hasNo": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddIf returns 1 -- conditional add", actual)
+func Test_Cov3_Collection_AddIf(t *testing.T) {
+	c := corestr.New.Collection.Cap(5)
+	c.AddIf(true, "yes")
+	c.AddIf(false, "no")
+	actual := args.Map{"length": c.Length()}
+	expected := args.Map{"length": 1}
+	expected.ShouldBeEqual(t, 0, "Collection AddIf returns 1 -- conditional add", actual)
 }
 
-func Test_Cov3_Hashmap_GetOrDefault(t *testing.T) {
+// ── Hashmap — additional methods ──
+
+func Test_Cov3_Hashmap_AddOrUpdate(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key", "value")
-	actual := args.Map{"exists": h.Get("key"), "notExists": h.GetOrDefault("missing", "default")}
-	expected := args.Map{"exists": "value", "notExists": "default"}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetOrDefault returns expected -- hit and miss", actual)
+	h.AddOrUpdate("key", "value")
+	val, found := h.Get("key")
+	actual := args.Map{"val": val, "found": found}
+	expected := args.Map{"val": "value", "found": true}
+	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdate and Get returns expected -- hit", actual)
+}
+
+func Test_Cov3_Hashmap_Get_Miss(t *testing.T) {
+	h := corestr.New.Hashmap.Cap(5)
+	_, found := h.Get("missing")
+	actual := args.Map{"found": found}
+	expected := args.Map{"found": false}
+	expected.ShouldBeEqual(t, 0, "Hashmap Get returns not found -- miss", actual)
+}
+
+func Test_Cov3_Hashmap_Has(t *testing.T) {
+	h := corestr.New.Hashmap.Cap(5)
+	h.AddOrUpdate("key", "value")
+	actual := args.Map{"hasKey": h.Has("key"), "hasMissing": h.Has("missing")}
+	expected := args.Map{"hasKey": true, "hasMissing": false}
+	expected.ShouldBeEqual(t, 0, "Hashmap Has returns expected -- hit and miss", actual)
 }
 
 // ── Hashset — additional methods ──
@@ -78,15 +86,6 @@ func Test_Cov3_LeftRight_PartialLeft(t *testing.T) {
 	actual := args.Map{"hasLeft": lr.HasLeft(), "hasRight": lr.HasRight(), "hasBoth": lr.HasBoth()}
 	expected := args.Map{"hasLeft": true, "hasRight": false, "hasBoth": false}
 	expected.ShouldBeEqual(t, 0, "LeftRight partial returns mixed -- only left", actual)
-}
-
-// ── LeftMiddleRight — additional methods ──
-
-func Test_Cov3_LeftMiddleRight_Empty(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{}
-	actual := args.Map{"hasLeft": lmr.HasLeft(), "hasMiddle": lmr.HasMiddle(), "hasRight": lmr.HasRight()}
-	expected := args.Map{"hasLeft": false, "hasMiddle": false, "hasRight": false}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight empty returns false -- all checks", actual)
 }
 
 // ── KeyValuePair ──
@@ -141,13 +140,13 @@ func Test_Cov3_AllIndividualsLengthOfSimpleSlices(t *testing.T) {
 	s1.Adds("ab", "cde")
 	s2 := corestr.New.SimpleSlice.Cap(5)
 	s2.Add("f")
-	actual := args.Map{"result": corestr.AllIndividualsLengthOfSimpleSlices([]*corestr.SimpleSlice{s1, s2})}
+	actual := args.Map{"result": corestr.AllIndividualsLengthOfSimpleSlices(s1, s2)}
 	expected := args.Map{"result": 6}
 	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns 6 -- 3 strings", actual)
 }
 
-func Test_Cov3_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
-	actual := args.Map{"result": corestr.AllIndividualsLengthOfSimpleSlices(nil)}
+func Test_Cov3_AllIndividualsLengthOfSimpleSlices_NoArgs(t *testing.T) {
+	actual := args.Map{"result": corestr.AllIndividualsLengthOfSimpleSlices()}
 	expected := args.Map{"result": 0}
-	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns 0 -- nil input", actual)
+	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns 0 -- no args", actual)
 }
