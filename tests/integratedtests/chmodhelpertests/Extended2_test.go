@@ -938,7 +938,7 @@ func Test_RwxVariableWrapper_IsEqual_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxVariableWrapper_NilSafe(t *testing.T) {
+func Test_RwxVariableWrapper_NilSafe_Ext2(t *testing.T) {
 	// Arrange
 	var v1, v2 *chmodhelper.RwxVariableWrapper
 
