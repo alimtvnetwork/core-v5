@@ -785,7 +785,7 @@ func Test_Cov_TraceCollection_ParseJson(t *testing.T) {
 
 func Test_Cov_TraceCollection_Dispose(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	tc.Dispose()
