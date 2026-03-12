@@ -185,7 +185,7 @@ func Test_Cov2_SquareWrap_Int(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "SquareWrap_Int", actual)
 }
 
-func Test_ParenthesisWrap_Int_Cov2(t *testing.T) {
+func Test_Cov2_ParenthesisWrap_Int(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.ParenthesisWrap(42) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ParenthesisWrap_Int", actual)
