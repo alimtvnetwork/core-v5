@@ -2518,7 +2518,7 @@ func Test_SingleRwx_ToRwxWrapper_NonAll_Fails(t *testing.T) {
 	}
 }
 
-func Test_SingleRwx_ToDisabledRwxWrapper(t *testing.T) {
+func Test_SingleRwx_ToDisabledRwxWrapper_Ext2(t *testing.T) {
 	// Arrange
 	singleRwx, _ := chmodhelper.NewSingleRwx("rwx", chmodclasstype.Owner)
 
