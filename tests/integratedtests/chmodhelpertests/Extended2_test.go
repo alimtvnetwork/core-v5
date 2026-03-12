@@ -2667,7 +2667,7 @@ func Test_RwxOwnerGroupOtherApplyChmod_NilRwx_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxOwnerGroupOtherApplyChmod_NilCondition(t *testing.T) {
+func Test_RwxOwnerGroupOtherApplyChmod_NilCondition_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxOwnerGroupOtherApplyChmod(
 		&chmodins.RwxOwnerGroupOther{Owner: "rwx", Group: "r-x", Other: "r--"},
