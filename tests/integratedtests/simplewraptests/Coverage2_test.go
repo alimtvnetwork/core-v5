@@ -173,7 +173,7 @@ func Test_Cov2_ConditionalWrapWith_BothPresent2Char(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "ConditionalWrapWith_BothPresent2Char", actual)
 }
 
-func Test_CurlyWrap_Int_Cov2(t *testing.T) {
+func Test_Cov2_CurlyWrap_Int(t *testing.T) {
 	actual := args.Map{"contains42": strings.Contains(simplewrap.CurlyWrap(42), "42")}
 	expected := args.Map{"contains42": true}
 	expected.ShouldBeEqual(t, 0, "CurlyWrap_Int", actual)
