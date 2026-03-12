@@ -127,7 +127,7 @@ func Test_MapStringAnyDiff_DiffRaw_Verification(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_ShouldDiffMessage(t *testing.T) {
+func Test_MapStringAnyDiff_ShouldDiffMessage_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffShouldDiffMessageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
