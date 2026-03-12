@@ -1720,7 +1720,7 @@ func Test_SimpleFileReaderWriter_WriteAndRead_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_ReadOnExist_NotExist(t *testing.T) {
+func Test_SimpleFileReaderWriter_ReadOnExist_NotExist_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/nonexistent/xyz/file.txt")
 
