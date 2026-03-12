@@ -942,7 +942,7 @@ func Test_Cov_StacksTo_JsonString(t *testing.T) {
 	}
 }
 
-func Test_StacksTo_JsonStringDefault_Cov(t *testing.T) {
+func Test_Cov_StacksTo_JsonStringDefault(t *testing.T) {
 	// Act
 	result := codestack.StacksTo.JsonStringDefault()
 
