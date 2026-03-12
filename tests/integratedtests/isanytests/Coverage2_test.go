@@ -151,7 +151,7 @@ func Test_Cov2_ReflectNull_Int(t *testing.T) {
 
 // ── FloatingPointTypeRv ──
 
-func Test_FloatingPointTypeRv_Float32_Cov2(t *testing.T) {
+func Test_Cov2_FloatingPointTypeRv_Float32(t *testing.T) {
 	actual := args.Map{"result": isany.FloatingPointTypeRv(reflect.ValueOf(float32(3.14)))}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "FloatingPointTypeRv_Float32", actual)
