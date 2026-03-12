@@ -322,7 +322,7 @@ func Test_Cov_Trace_ParseJsonMust(t *testing.T) {
 	}
 }
 
-func Test_Trace_JsonParseSelfInject_Cov(t *testing.T) {
+func Test_Cov_Trace_JsonParseSelfInject(t *testing.T) {
 	// Arrange
 	trace := codestack.New.Default()
 	jsonResult := trace.Json()
