@@ -1316,7 +1316,7 @@ func Test_ParseRwxInstructionsToExecutors_Empty_Ext2(t *testing.T) {
 
 // ── ParseRwxOwnerGroupOtherToRwxVariableWrapper ──
 
-func Test_ParseRwxOwnerGroupOtherToRwxVariableWrapper_Nil(t *testing.T) {
+func Test_ParseRwxOwnerGroupOtherToRwxVariableWrapper_Nil_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.ParseRwxOwnerGroupOtherToRwxVariableWrapper(nil)
 
