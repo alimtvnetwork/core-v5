@@ -1,312 +1,521 @@
 package mapdiffinternaltests
 
 import (
+	"fmt"
 	"testing"
 
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
 )
 
-// Cover: HashmapDiff nil receiver, DiffRaw nil branches, MapStringAnyDiff nil/empty branches
+// ==========================================================================
+// HashmapDiff — nil receiver
+// ==========================================================================
 
-func Test_HashmapDiff_NilPtr_Length_Cov2(t *testing.T) {
-	var h *mapdiffinternal.HashmapDiff
-	if h.Length() != 0 {
-		t.Error("nil should have length 0")
+var extHashmapDiffNilReceiverTestCases = []coretestcases.CaseV1{
+	{
+		Title:         "Nil HashmapDiff ptr has length 0",
+		ArrangeInput:  args.Map{"method": "Length"},
+		ExpectedInput: args.Map{"result": 0},
+	},
+	{
+		Title:         "Nil HashmapDiff IsRawEqual both nil returns true",
+		ArrangeInput:  args.Map{"method": "IsRawEqual-both-nil"},
+		ExpectedInput: args.Map{"result": true},
+	},
+	{
+		Title:         "Nil HashmapDiff IsRawEqual left nil right non-nil returns false",
+		ArrangeInput:  args.Map{"method": "IsRawEqual-left-nil"},
+		ExpectedInput: args.Map{"result": false},
+	},
+}
+
+func Test_HashmapDiff_NilReceiver_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extHashmapDiffNilReceiverTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		method, _ := input.GetAsString("method")
+
+		var h *mapdiffinternal.HashmapDiff
+		var actual args.Map
+
+		// Act
+		switch method {
+		case "Length":
+			actual = args.Map{"result": h.Length()}
+		case "IsRawEqual-both-nil":
+			actual = args.Map{"result": h.IsRawEqual(nil)}
+		case "IsRawEqual-left-nil":
+			actual = args.Map{"result": h.IsRawEqual(map[string]string{"a": "1"})}
+		}
+
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_Empty_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{}
-	if !h.IsEmpty() {
-		t.Error("should be empty")
-	}
-	if h.HasAnyItem() {
-		t.Error("should not have items")
-	}
-	if h.LastIndex() != -1 {
-		t.Error("expected -1")
-	}
-	keys := h.AllKeysSorted()
-	if len(keys) != 0 {
-		t.Error("expected 0 keys")
+// ==========================================================================
+// HashmapDiff — LogShouldDiffMessage
+// ==========================================================================
+
+var extHashmapDiffLogShouldDiffMessageTestCases = []coretestcases.CaseV1{
+	{
+		Title: "LogShouldDiffMessage no diff returns empty",
+		ArrangeInput: args.Map{
+			"left":  map[string]string{"a": "1"},
+			"right": map[string]string{"a": "1"},
+			"title": "test",
+		},
+		ExpectedInput: args.Map{"isEmpty": true},
+	},
+	{
+		Title: "LogShouldDiffMessage with diff returns non-empty and prints",
+		ArrangeInput: args.Map{
+			"left":  map[string]string{"a": "1"},
+			"right": map[string]string{"a": "2"},
+			"title": "test",
+		},
+		ExpectedInput: args.Map{"isEmpty": false},
+	},
+}
+
+func Test_HashmapDiff_LogShouldDiffMessage_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extHashmapDiffLogShouldDiffMessageTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]string)
+		right := input["right"].(map[string]string)
+		title := input["title"].(string)
+		h := mapdiffinternal.HashmapDiff(left)
+
+		// Act
+		result := h.LogShouldDiffMessage(title, right)
+
+		// Assert
+		actual := args.Map{"isEmpty": result == ""}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_NonEmpty_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1", "b": "2"}
-	if h.IsEmpty() {
-		t.Error("should not be empty")
-	}
-	if !h.HasAnyItem() {
-		t.Error("should have items")
-	}
-	if h.LastIndex() != 1 {
-		t.Error("expected 1")
-	}
-	keys := h.AllKeysSorted()
-	if len(keys) != 2 || keys[0] != "a" {
-		t.Error("expected sorted keys")
+// ==========================================================================
+// HashmapDiff — DiffRaw right-to-left value diff branch
+// ==========================================================================
+
+var extHashmapDiffDiffRawRightDiffValueTestCases = []coretestcases.CaseV1{
+	{
+		Title: "DiffRaw right has different value for key not in left diff",
+		ArrangeInput: args.Map{
+			"left":  map[string]string{"a": "1", "b": "2"},
+			"right": map[string]string{"a": "1", "b": "3", "c": "4"},
+		},
+		ExpectedInput: args.Map{
+			"diffLength": 2,
+			"hasKey-b":   true,
+			"hasKey-c":   true,
+		},
+	},
+}
+
+func Test_HashmapDiff_DiffRaw_RightDiffValue_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extHashmapDiffDiffRawRightDiffValueTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]string)
+		right := input["right"].(map[string]string)
+		h := mapdiffinternal.HashmapDiff(left)
+
+		// Act
+		diffMap := h.DiffRaw(right)
+
+		// Assert
+		actual := args.Map{"diffLength": len(diffMap)}
+		for key := range diffMap {
+			actual["hasKey-"+key] = true
+		}
+
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual_BothNil_Cov2(t *testing.T) {
-	var h *mapdiffinternal.HashmapDiff
-	if !h.IsRawEqual(nil) {
-		t.Error("both nil should be equal")
+// ==========================================================================
+// HashmapDiff — HashmapDiffUsingRaw empty diff path
+// ==========================================================================
+
+var extHashmapDiffUsingRawTestCases = []coretestcases.CaseV1{
+	{
+		Title: "HashmapDiffUsingRaw identical maps returns empty",
+		ArrangeInput: args.Map{
+			"left":  map[string]string{"a": "1"},
+			"right": map[string]string{"a": "1"},
+		},
+		ExpectedInput: args.Map{"length": 0},
+	},
+	{
+		Title: "HashmapDiffUsingRaw different maps returns diff",
+		ArrangeInput: args.Map{
+			"left":  map[string]string{"a": "1"},
+			"right": map[string]string{"a": "2"},
+		},
+		ExpectedInput: args.Map{"length": 1},
+	},
+}
+
+func Test_HashmapDiff_HashmapDiffUsingRaw_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extHashmapDiffUsingRawTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]string)
+		right := input["right"].(map[string]string)
+		h := mapdiffinternal.HashmapDiff(left)
+
+		// Act
+		result := h.HashmapDiffUsingRaw(right)
+
+		// Assert
+		actual := args.Map{"length": result.Length()}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual_LeftNil_Cov2(t *testing.T) {
-	var h *mapdiffinternal.HashmapDiff
-	if h.IsRawEqual(map[string]string{"a": "1"}) {
-		t.Error("left nil should not equal non-nil")
+// ==========================================================================
+// HashmapDiff — ToStringsSliceOfDiffMap
+// ==========================================================================
+
+var extHashmapDiffToStringsSliceTestCases = []coretestcases.CaseV1{
+	{
+		Title: "ToStringsSliceOfDiffMap formats entries",
+		ArrangeInput: args.Map{
+			"diffMap": map[string]string{"key": "val"},
+		},
+		ExpectedInput: args.Map{"length": 1},
+	},
+}
+
+func Test_HashmapDiff_ToStringsSliceOfDiffMap_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extHashmapDiffToStringsSliceTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		diffMap := input["diffMap"].(map[string]string)
+		h := mapdiffinternal.HashmapDiff(map[string]string{})
+
+		// Act
+		slice := h.ToStringsSliceOfDiffMap(diffMap)
+
+		// Assert
+		actual := args.Map{"length": len(slice)}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual_DiffLength_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	if h.IsRawEqual(map[string]string{"a": "1", "b": "2"}) {
-		t.Error("different lengths should not be equal")
+// ==========================================================================
+// MapStringAnyDiff — nil receiver
+// ==========================================================================
+
+var extMapStringAnyDiffNilReceiverTestCases = []coretestcases.CaseV1{
+	{
+		Title:         "Nil MapStringAnyDiff ptr has length 0",
+		ArrangeInput:  args.Map{"method": "Length"},
+		ExpectedInput: args.Map{"result": 0},
+	},
+}
+
+func Test_MapStringAnyDiff_NilReceiver_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extMapStringAnyDiffNilReceiverTestCases {
+		// Arrange
+		var m *mapdiffinternal.MapStringAnyDiff
+		var actual args.Map
+
+		// Act
+		actual = args.Map{"result": m.Length()}
+
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual_MissingKey_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	if h.IsRawEqual(map[string]string{"b": "1"}) {
-		t.Error("missing key should not be equal")
+// ==========================================================================
+// MapStringAnyDiff — LogShouldDiffMessage
+// ==========================================================================
+
+var extMapStringAnyDiffLogTestCases = []coretestcases.CaseV1{
+	{
+		Title: "LogShouldDiffMessage no diff returns empty",
+		ArrangeInput: args.Map{
+			"left":  map[string]any{"a": 1},
+			"right": map[string]any{"a": 1},
+			"title": "test",
+		},
+		ExpectedInput: args.Map{"isEmpty": true},
+	},
+	{
+		Title: "LogShouldDiffMessage with diff returns non-empty",
+		ArrangeInput: args.Map{
+			"left":  map[string]any{"a": 1},
+			"right": map[string]any{"a": 2},
+			"title": "test",
+		},
+		ExpectedInput: args.Map{"isEmpty": false},
+	},
+}
+
+func Test_MapStringAnyDiff_LogShouldDiffMessage_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extMapStringAnyDiffLogTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]any)
+		right := input["right"].(map[string]any)
+		title := input["title"].(string)
+		m := mapdiffinternal.MapStringAnyDiff(left)
+
+		// Act
+		result := m.LogShouldDiffMessage(false, title, right)
+
+		// Assert
+		actual := args.Map{"isEmpty": result == ""}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual_DiffValue_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	if h.IsRawEqual(map[string]string{"a": "2"}) {
-		t.Error("different values should not be equal")
+// ==========================================================================
+// MapStringAnyDiff — Raw / HasAnyItem / LastIndex non-empty
+// ==========================================================================
+
+var extMapStringAnyDiffNonEmptyTestCases = []coretestcases.CaseV1{
+	{
+		Title: "Non-empty MapStringAnyDiff accessors",
+		ArrangeInput: args.Map{
+			"map": map[string]any{"a": 1, "b": 2, "c": 3},
+		},
+		ExpectedInput: args.Map{
+			"hasAnyItem": true,
+			"lastIndex":  2,
+			"rawLength":  3,
+		},
+	},
+}
+
+func Test_MapStringAnyDiff_NonEmpty_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extMapStringAnyDiffNonEmptyTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		raw := input["map"].(map[string]any)
+		m := mapdiffinternal.MapStringAnyDiff(raw)
+
+		// Act
+		actual := args.Map{
+			"hasAnyItem": m.HasAnyItem(),
+			"lastIndex":  m.LastIndex(),
+			"rawLength":  len(m.Raw()),
+		}
+
+		// Assert
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual_Equal_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	if !h.IsRawEqual(map[string]string{"a": "1"}) {
-		t.Error("should be equal")
+// ==========================================================================
+// MapStringAnyDiff — DiffRaw right-to-left value diff
+// ==========================================================================
+
+var extMapStringAnyDiffDiffRawRightValueTestCases = []coretestcases.CaseV1{
+	{
+		Title: "DiffRaw right value differs for key not in left diff",
+		ArrangeInput: args.Map{
+			"left":  map[string]any{"a": 1, "b": 2},
+			"right": map[string]any{"a": 1, "b": 3, "c": 4},
+		},
+		ExpectedInput: args.Map{
+			"diffLength": 2,
+			"hasKey-b":   true,
+			"hasKey-c":   true,
+		},
+	},
+}
+
+func Test_MapStringAnyDiff_DiffRaw_RightDiffValue_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extMapStringAnyDiffDiffRawRightValueTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]any)
+		right := input["right"].(map[string]any)
+		m := mapdiffinternal.MapStringAnyDiff(left)
+
+		// Act
+		diffMap := m.DiffRaw(false, right)
+
+		// Assert
+		actual := args.Map{"diffLength": len(diffMap)}
+		for key := range diffMap {
+			actual["hasKey-"+key] = true
+		}
+
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_DiffRaw_BothNil_Cov2(t *testing.T) {
-	var h *mapdiffinternal.HashmapDiff
-	r := h.DiffRaw(nil)
-	if len(r) != 0 {
-		t.Error("expected empty")
+// ==========================================================================
+// MapStringAnyDiff — HashmapDiffUsingRaw
+// ==========================================================================
+
+var extMapStringAnyDiffUsingRawTestCases = []coretestcases.CaseV1{
+	{
+		Title: "HashmapDiffUsingRaw identical returns empty",
+		ArrangeInput: args.Map{
+			"left":  map[string]any{"a": 1},
+			"right": map[string]any{"a": 1},
+		},
+		ExpectedInput: args.Map{"length": 0},
+	},
+	{
+		Title: "HashmapDiffUsingRaw different returns diff",
+		ArrangeInput: args.Map{
+			"left":  map[string]any{"a": 1},
+			"right": map[string]any{"a": 2},
+		},
+		ExpectedInput: args.Map{"length": 1},
+	},
+}
+
+func Test_MapStringAnyDiff_HashmapDiffUsingRaw_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extMapStringAnyDiffUsingRawTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]any)
+		right := input["right"].(map[string]any)
+		m := mapdiffinternal.MapStringAnyDiff(left)
+
+		// Act
+		result := m.HashmapDiffUsingRaw(false, right)
+
+		// Assert
+		actual := args.Map{"length": result.Length()}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_HashmapDiff_DiffRaw_LeftNilRightNot_Cov2(t *testing.T) {
-	var h *mapdiffinternal.HashmapDiff
-	right := map[string]string{"a": "1"}
-	r := h.DiffRaw(right)
-	if len(r) != 1 {
-		t.Error("expected right map")
-	}
-}
+// ==========================================================================
+// MapStringAnyDiff — DiffRaw right nil left non-nil
+// ==========================================================================
 
-func Test_HashmapDiff_DiffRaw_RightNil_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	r := h.DiffRaw(nil)
-	if len(r) != 1 {
-		t.Error("expected left map")
-	}
-}
-
-func Test_HashmapDiff_DiffRaw_DiffValues_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1", "b": "2"}
-	r := h.DiffRaw(map[string]string{"a": "1", "b": "3"})
-	if len(r) != 1 || r["b"] != "2" {
-		t.Error("expected diff on b")
-	}
-}
-
-func Test_HashmapDiff_DiffRaw_RightExtra_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	r := h.DiffRaw(map[string]string{"a": "1", "c": "3"})
-	if len(r) != 1 || r["c"] != "3" {
-		t.Error("expected c from right")
-	}
-}
-
-func Test_HashmapDiff_DiffJsonMessage_NoDiff_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	r := h.DiffJsonMessage(map[string]string{"a": "1"})
-	if r != "" {
-		t.Error("expected empty")
-	}
-}
-
-func Test_HashmapDiff_DiffJsonMessage_WithDiff_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	r := h.DiffJsonMessage(map[string]string{"a": "2"})
-	if r == "" {
-		t.Error("expected non-empty")
-	}
-}
-
-func Test_HashmapDiff_ShouldDiffMessage_NoDiff_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	r := h.ShouldDiffMessage("test", map[string]string{"a": "1"})
-	if r != "" {
-		t.Error("expected empty")
-	}
-}
-
-func Test_HashmapDiff_ShouldDiffMessage_WithDiff_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	r := h.ShouldDiffMessage("test", map[string]string{"a": "2"})
-	if r == "" {
-		t.Error("expected non-empty")
-	}
-}
-
-func Test_HashmapDiff_LogShouldDiffMessage_NoDiff_Cov2(t *testing.T) {
-	h := mapdiffinternal.HashmapDiff{"a": "1"}
-	r := h.LogShouldDiffMessage("test", map[string]string{"a": "1"})
-	if r != "" {
-		t.Error("expected empty")
-	}
-}
-
-// ============================================================================
-// MapStringAnyDiff
-// ============================================================================
-
-func Test_MapStringAnyDiff_NilPtr_Length_Cov2(t *testing.T) {
-	var m *mapdiffinternal.MapStringAnyDiff
-	if m.Length() != 0 {
-		t.Error("nil should be 0")
-	}
-}
-
-func Test_MapStringAnyDiff_Empty_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{}
-	if !m.IsEmpty() {
-		t.Error("should be empty")
-	}
-	if m.HasAnyItem() {
-		t.Error("should not have items")
-	}
-	if m.LastIndex() != -1 {
-		t.Error("expected -1")
-	}
-}
-
-func Test_MapStringAnyDiff_Raw_Nil_Cov2(t *testing.T) {
-	var m mapdiffinternal.MapStringAnyDiff
-	r := m.Raw()
-	if r == nil {
-		t.Error("expected empty map not nil")
-	}
-}
-
-func Test_MapStringAnyDiff_Raw_NonNil_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	r := m.Raw()
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_MapStringAnyDiff_HasAnyChanges_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	if !m.HasAnyChanges(false, map[string]any{"a": 2}) {
-		t.Error("should have changes")
-	}
-}
-
-func Test_MapStringAnyDiff_IsRawEqual_RegardlessType_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	if !m.IsRawEqual(true, map[string]any{"a": 1}) {
-		t.Error("should be equal regardless type")
-	}
-}
-
-func Test_MapStringAnyDiff_IsRawEqual_StrictType_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	if !m.IsRawEqual(false, map[string]any{"a": 1}) {
-		t.Error("should be equal")
-	}
-}
-
-func Test_MapStringAnyDiff_DiffRaw_BothNil_Cov2(t *testing.T) {
-	var m *mapdiffinternal.MapStringAnyDiff
-	r := m.DiffRaw(false, nil)
-	if len(r) != 0 {
-		t.Error("expected empty")
-	}
-}
-
-func Test_MapStringAnyDiff_DiffRaw_LeftNil_Cov2(t *testing.T) {
-	var m *mapdiffinternal.MapStringAnyDiff
-	r := m.DiffRaw(false, map[string]any{"a": 1})
-	if len(r) != 1 {
-		t.Error("expected right map")
-	}
+var extMapStringAnyDiffDiffRawRightNilTestCases = []coretestcases.CaseV1{
+	{
+		Title: "DiffRaw right nil returns left",
+		ArrangeInput: args.Map{
+			"left": map[string]any{"a": 1},
+		},
+		ExpectedInput: args.Map{"diffLength": 1},
+	},
 }
 
 func Test_MapStringAnyDiff_DiffRaw_RightNil_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	r := m.DiffRaw(false, nil)
-	if len(r) != 1 {
-		t.Error("expected left map")
+	for caseIndex, testCase := range extMapStringAnyDiffDiffRawRightNilTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]any)
+		m := mapdiffinternal.MapStringAnyDiff(left)
+
+		// Act
+		diffMap := m.DiffRaw(false, nil)
+
+		// Assert
+		actual := args.Map{"diffLength": len(diffMap)}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_MapStringAnyDiff_ToStringsSliceOfDiffMap_StringVal_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{}
-	diff := map[string]any{"key": "stringval"}
-	r := m.ToStringsSliceOfDiffMap(diff)
-	if len(r) != 1 {
-		t.Error("expected 1")
+// ==========================================================================
+// MapStringAnyDiff — IsRawEqual nil branches
+// ==========================================================================
+
+var extMapStringAnyDiffIsRawEqualNilTestCases = []coretestcases.CaseV1{
+	{
+		Title:         "IsRawEqual both nil returns true",
+		ArrangeInput:  args.Map{"scenario": "both-nil"},
+		ExpectedInput: args.Map{"result": "true"},
+	},
+	{
+		Title:         "IsRawEqual left nil returns false",
+		ArrangeInput:  args.Map{"scenario": "left-nil"},
+		ExpectedInput: args.Map{"result": "false"},
+	},
+	{
+		Title:         "IsRawEqual right nil returns false",
+		ArrangeInput:  args.Map{"scenario": "right-nil"},
+		ExpectedInput: args.Map{"result": "false"},
+	},
+	{
+		Title:         "IsRawEqual different length returns false",
+		ArrangeInput:  args.Map{"scenario": "diff-length"},
+		ExpectedInput: args.Map{"result": "false"},
+	},
+	{
+		Title:         "IsRawEqual missing key returns false",
+		ArrangeInput:  args.Map{"scenario": "missing-key"},
+		ExpectedInput: args.Map{"result": "false"},
+	},
+}
+
+func Test_MapStringAnyDiff_IsRawEqual_NilBranches_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extMapStringAnyDiffIsRawEqualNilTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		scenario, _ := input.GetAsString("scenario")
+		var result bool
+
+		// Act
+		switch scenario {
+		case "both-nil":
+			var m *mapdiffinternal.MapStringAnyDiff
+			result = m.IsRawEqual(false, nil)
+		case "left-nil":
+			var m *mapdiffinternal.MapStringAnyDiff
+			result = m.IsRawEqual(false, map[string]any{"a": 1})
+		case "right-nil":
+			m := mapdiffinternal.MapStringAnyDiff{"a": 1}
+			result = m.IsRawEqual(false, nil)
+		case "diff-length":
+			m := mapdiffinternal.MapStringAnyDiff{"a": 1}
+			result = m.IsRawEqual(false, map[string]any{"a": 1, "b": 2})
+		case "missing-key":
+			m := mapdiffinternal.MapStringAnyDiff{"a": 1}
+			result = m.IsRawEqual(false, map[string]any{"b": 1})
+		}
+
+		// Assert
+		actual := args.Map{"result": fmt.Sprintf("%v", result)}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
 
-func Test_MapStringAnyDiff_ToStringsSliceOfDiffMap_NonStringVal_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{}
-	diff := map[string]any{"key": 42}
-	r := m.ToStringsSliceOfDiffMap(diff)
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
+// ==========================================================================
+// MapStringAnyDiff — DiffJsonMessage
+// ==========================================================================
+
+var extMapStringAnyDiffDiffJsonMessageTestCases = []coretestcases.CaseV1{
+	{
+		Title: "DiffJsonMessage regardless type same string rep returns empty",
+		ArrangeInput: args.Map{
+			"left":  map[string]any{"a": 1},
+			"right": map[string]any{"a": "1"},
+		},
+		ExpectedInput: args.Map{"isEmpty": true},
+	},
 }
 
-func Test_MapStringAnyDiff_DiffJsonMessage_NoDiff_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	r := m.DiffJsonMessage(false, map[string]any{"a": 1})
-	if r != "" {
-		t.Error("expected empty")
-	}
-}
+func Test_MapStringAnyDiff_DiffJsonMessage_RegardlessType_Cov2(t *testing.T) {
+	for caseIndex, testCase := range extMapStringAnyDiffDiffJsonMessageTestCases {
+		// Arrange
+		input := testCase.ArrangeInput.(args.Map)
+		left := input["left"].(map[string]any)
+		right := input["right"].(map[string]any)
+		m := mapdiffinternal.MapStringAnyDiff(left)
 
-func Test_MapStringAnyDiff_DiffJsonMessage_WithDiff_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	r := m.DiffJsonMessage(false, map[string]any{"a": 2})
-	if r == "" {
-		t.Error("expected non-empty")
-	}
-}
+		// Act
+		result := m.DiffJsonMessage(true, right)
 
-func Test_MapStringAnyDiff_ShouldDiffMessage_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	r := m.ShouldDiffMessage(false, "test", map[string]any{"a": 1})
-	if r != "" {
-		t.Error("expected empty for no diff")
-	}
-	r = m.ShouldDiffMessage(false, "test", map[string]any{"a": 2})
-	if r == "" {
-		t.Error("expected non-empty for diff")
-	}
-}
-
-func Test_MapStringAnyDiff_LogShouldDiffMessage_NoDiff_Cov2(t *testing.T) {
-	m := mapdiffinternal.MapStringAnyDiff{"a": 1}
-	r := m.LogShouldDiffMessage(false, "test", map[string]any{"a": 1})
-	if r != "" {
-		t.Error("expected empty")
+		// Assert
+		actual := args.Map{"isEmpty": result == ""}
+		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
 }
