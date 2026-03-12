@@ -323,7 +323,7 @@ func Test_RwxWrapper_ToRwxOwnerGroupOther_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ToRwxInstruction(t *testing.T) {
+func Test_RwxWrapper_ToRwxInstruction_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 	condition := &chmodins.Condition{IsSkipOnInvalid: true}
