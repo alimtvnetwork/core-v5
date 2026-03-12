@@ -604,7 +604,7 @@ func Test_Attribute_UsingVariant_Ext2(t *testing.T) {
 
 // ── AttrVariant tests ──
 
-func Test_AttrVariant_Methods(t *testing.T) {
+func Test_AttrVariant_Methods_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2AttrVariantTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
