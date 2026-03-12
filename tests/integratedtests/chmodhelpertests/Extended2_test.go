@@ -3044,7 +3044,7 @@ func Test_FileBytesWriter_WithDir_Ext2(t *testing.T) {
 	}
 }
 
-func Test_FileBytesWriter_WithDirLock(t *testing.T) {
+func Test_FileBytesWriter_WithDirLock_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_fbw_wdl_ext2"
 	filePath := dir + "/test.txt"
