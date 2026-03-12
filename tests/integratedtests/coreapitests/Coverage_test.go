@@ -470,7 +470,7 @@ func Test_Cov_TypedSimpleGenericRequest_InvalidError_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedSimpleGenericRequest_InvalidError_NilRequest(t *testing.T) {
+func Test_Cov_TypedSimpleGenericRequest_InvalidError_NilRequest(t *testing.T) {
 	req := &coreapi.TypedSimpleGenericRequest[string]{}
 	if req.InvalidError() != nil {
 		t.Error("nil request should return nil")
