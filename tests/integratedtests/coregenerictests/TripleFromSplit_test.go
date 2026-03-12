@@ -37,7 +37,7 @@ func Test_TripleFromSplit_Verification(t *testing.T) {
 // Test: TripleFromSplitTrimmed
 // ==========================================
 
-func Test_TripleFromSplitTrimmed(t *testing.T) {
+func Test_TripleFromSplitTrimmed_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitTrimmedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
