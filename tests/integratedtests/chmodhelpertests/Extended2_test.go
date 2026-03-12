@@ -2168,7 +2168,7 @@ func Test_NewRwxWrapperCreator_UsingBytes_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_UsingSpecificByte(t *testing.T) {
+func Test_NewRwxWrapperCreator_UsingSpecificByte_Ext2(t *testing.T) {
 	// Act
 	wrapper := chmodhelper.New.RwxWrapper.UsingSpecificByte(7, 5, 5)
 
