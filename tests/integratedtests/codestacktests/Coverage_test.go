@@ -754,7 +754,7 @@ func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_StackTracesBytes_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_StackTracesBytes(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
