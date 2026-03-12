@@ -105,7 +105,7 @@ func Test_Cov2_StringPtrToSimpleDef_NonNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "StringPtrToSimpleDef_NonNil", actual)
 }
 
-func Test_StringPtrToDefPtr_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_StringPtrToDefPtr_NonNil(t *testing.T) {
 	v := "hello"
 	r := typesconv.StringPtrToDefPtr(&v, "fb")
 	actual := args.Map{"result": *r}
