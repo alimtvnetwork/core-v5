@@ -2783,7 +2783,7 @@ func Test_ChmodVerifier_PathsUsingFileModeImmediateReturn_Valid_Ext2(t *testing.
 	}
 }
 
-func Test_ChmodVerifier_Path(t *testing.T) {
+func Test_ChmodVerifier_Path_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
