@@ -406,7 +406,7 @@ func Test_Cov_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
 	}
 }
 
-func Test_InvalidTypedRequestIn_NilAttribute(t *testing.T) {
+func Test_Cov_InvalidTypedRequestIn_NilAttribute(t *testing.T) {
 	req := coreapi.InvalidTypedRequestIn[string](nil)
 	if req.Attribute == nil {
 		t.Error("should have default invalid attribute")
