@@ -1046,7 +1046,7 @@ func Test_Cov_TraceCollection_Filters(t *testing.T) {
 
 func Test_Cov_TraceCollection_AsBindings(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	binder := tc.AsJsonContractsBinder()
