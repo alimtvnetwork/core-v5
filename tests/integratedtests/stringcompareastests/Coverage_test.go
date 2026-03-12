@@ -339,7 +339,7 @@ var covUnmarshalJSONErrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_UnmarshalJSON_Error_Coverage(t *testing.T) {
+func Test_Cov_UnmarshalJSON_Error(t *testing.T) {
 	for caseIndex, testCase := range covUnmarshalJSONErrTestCases {
 		v := stringcompareas.Equal
 		err := v.UnmarshalJSON([]byte("invalid-not-json"))

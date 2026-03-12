@@ -57,7 +57,7 @@ var extCmpEdgeCaseTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_Cmp_EdgeCases_Coverage(t *testing.T) {
+func Test_Cov_Cmp_EdgeCases(t *testing.T) {
 	for caseIndex, testCase := range extCmpEdgeCaseTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)

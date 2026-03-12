@@ -113,7 +113,7 @@ func Test_Cov_JoinTemp(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "JoinTemp", actual)
 }
 
-func Test_RemoveDirIf_NonExistent(t *testing.T) {
+func Test_Cov_RemoveDirIf_NonExistent(t *testing.T) {
 	// Arrange & Act — removing non-existent dir with flag=false should be no-op
 	err := pathinternal.RemoveDirIf(false, "/nonexistent/path/12345", "test")
 

@@ -221,7 +221,7 @@ func Test_Cov2_CurlyWrapIf_Stringer(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "CurlyWrapIf_Stringer", actual)
 }
 
-func Test_CurlyWrapIf_FmtStringer_Cov2(t *testing.T) {
+func Test_Cov2_CurlyWrapIf_FmtStringer(t *testing.T) {
 	var s fmt.Stringer = testStringer{}
 	actual := args.Map{"notEmpty": simplewrap.CurlyWrapIf(true, s) != ""}
 	expected := args.Map{"notEmpty": true}

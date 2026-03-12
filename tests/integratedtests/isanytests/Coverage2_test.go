@@ -340,7 +340,7 @@ func Test_Cov2_FloatingPointType_Float32(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FloatingPointType_Float32", actual)
 }
 
-func Test_PrimitiveType_Extended_Cov2(t *testing.T) {
+func Test_Cov2_PrimitiveType_Extended(t *testing.T) {
 	actual := args.Map{
 		"uint":  isany.PrimitiveType(uint(1)),
 		"int8":  isany.PrimitiveType(int8(1)),
