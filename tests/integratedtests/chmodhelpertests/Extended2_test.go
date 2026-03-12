@@ -2043,7 +2043,7 @@ func Test_NewSimpleFileReaderWriter_All_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewSimpleFileReaderWriter_Options(t *testing.T) {
+func Test_NewSimpleFileReaderWriter_Options_Ext2(t *testing.T) {
 	// Act
 	rw := chmodhelper.New.SimpleFileReaderWriter.Options(true, true, true, "/tmp/test.txt")
 
