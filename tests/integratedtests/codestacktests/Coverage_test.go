@@ -250,7 +250,7 @@ func Test_Cov_Trace_Clone(t *testing.T) {
 	}
 }
 
-func Test_Trace_Json_Cov(t *testing.T) {
+func Test_Cov_Trace_Json(t *testing.T) {
 	// Arrange
 	trace := codestack.New.Default()
 
