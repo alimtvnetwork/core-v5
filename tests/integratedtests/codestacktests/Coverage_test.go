@@ -974,7 +974,7 @@ func Test_Cov_File_Name(t *testing.T) {
 	}
 }
 
-func Test_File_Path_Cov(t *testing.T) {
+func Test_Cov_File_Path(t *testing.T) {
 	// Act
 	path := codestack.File.Path(0)
 
