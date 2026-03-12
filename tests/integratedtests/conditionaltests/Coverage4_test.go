@@ -1,9 +1,11 @@
 package conditionaltests
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/alimtvnetwork/core/conditional"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // ============================================================================
@@ -11,1029 +13,464 @@ import (
 // ============================================================================
 
 func Test_IfFloat32_Cov4(t *testing.T) {
-	if r := conditional.IfFloat32(true, 1.5, 2.5); r != 1.5 {
-		t.Errorf("expected 1.5, got %v", r)
+	actual := args.Map{
+		"true":  fmt.Sprintf("%.1f", conditional.IfFloat32(true, 1.5, 2.5)),
+		"false": fmt.Sprintf("%.1f", conditional.IfFloat32(false, 1.5, 2.5)),
 	}
-	if r := conditional.IfFloat32(false, 1.5, 2.5); r != 2.5 {
-		t.Errorf("expected 2.5, got %v", r)
-	}
+	expected := args.Map{"true": "1.5", "false": "2.5"}
+	expected.ShouldBeEqual(t, 0, "IfFloat32", actual)
 }
 
 func Test_IfFuncFloat32_Cov4(t *testing.T) {
-	r := conditional.IfFuncFloat32(true, func() float32 { return 1.0 }, func() float32 { return 2.0 })
-	if r != 1.0 {
-		t.Error("expected 1.0")
+	actual := args.Map{
+		"true":  fmt.Sprintf("%.1f", conditional.IfFuncFloat32(true, func() float32 { return 1.0 }, func() float32 { return 2.0 })),
+		"false": fmt.Sprintf("%.1f", conditional.IfFuncFloat32(false, func() float32 { return 1.0 }, func() float32 { return 2.0 })),
 	}
-	r = conditional.IfFuncFloat32(false, func() float32 { return 1.0 }, func() float32 { return 2.0 })
-	if r != 2.0 {
-		t.Error("expected 2.0")
-	}
+	expected := args.Map{"true": "1.0", "false": "2.0"}
+	expected.ShouldBeEqual(t, 0, "IfFuncFloat32", actual)
 }
 
 func Test_IfTrueFuncFloat32_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncFloat32(true, func() float32 { return 3.14 }); r != 3.14 {
-		t.Error("expected 3.14")
+	actual := args.Map{
+		"true":  fmt.Sprintf("%.2f", conditional.IfTrueFuncFloat32(true, func() float32 { return 3.14 })),
+		"false": fmt.Sprintf("%.0f", conditional.IfTrueFuncFloat32(false, func() float32 { return 3.14 })),
 	}
-	if r := conditional.IfTrueFuncFloat32(false, func() float32 { return 3.14 }); r != 0 {
-		t.Error("expected 0")
-	}
+	expected := args.Map{"true": "3.14", "false": "0"}
+	expected.ShouldBeEqual(t, 0, "IfTrueFuncFloat32", actual)
 }
 
 func Test_IfSliceFloat32_Cov4(t *testing.T) {
-	r := conditional.IfSliceFloat32(true, []float32{1.0}, []float32{2.0, 3.0})
-	if len(r) != 1 {
-		t.Error("expected 1")
+	actual := args.Map{
+		"trueLen":  len(conditional.IfSliceFloat32(true, []float32{1.0}, []float32{2.0, 3.0})),
+		"falseLen": len(conditional.IfSliceFloat32(false, []float32{1.0}, []float32{2.0, 3.0})),
 	}
-	r = conditional.IfSliceFloat32(false, []float32{1.0}, []float32{2.0, 3.0})
-	if len(r) != 2 {
-		t.Error("expected 2")
-	}
+	expected := args.Map{"trueLen": 1, "falseLen": 2}
+	expected.ShouldBeEqual(t, 0, "IfSliceFloat32", actual)
 }
 
 func Test_IfPtrFloat32_Cov4(t *testing.T) {
 	a, b := float32(1.0), float32(2.0)
-	if *conditional.IfPtrFloat32(true, &a, &b) != 1.0 {
-		t.Error("expected 1.0")
+	actual := args.Map{
+		"true":  fmt.Sprintf("%.1f", *conditional.IfPtrFloat32(true, &a, &b)),
+		"false": fmt.Sprintf("%.1f", *conditional.IfPtrFloat32(false, &a, &b)),
 	}
-	if *conditional.IfPtrFloat32(false, &a, &b) != 2.0 {
-		t.Error("expected 2.0")
-	}
+	expected := args.Map{"true": "1.0", "false": "2.0"}
+	expected.ShouldBeEqual(t, 0, "IfPtrFloat32", actual)
 }
 
 func Test_NilDefFloat32_Cov4(t *testing.T) {
-	if r := conditional.NilDefFloat32(nil, 5.5); r != 5.5 {
-		t.Error("expected 5.5")
-	}
 	v := float32(3.3)
-	if r := conditional.NilDefFloat32(&v, 5.5); r != 3.3 {
-		t.Error("expected 3.3")
+	actual := args.Map{
+		"nil":    fmt.Sprintf("%.1f", conditional.NilDefFloat32(nil, 5.5)),
+		"nonNil": fmt.Sprintf("%.1f", conditional.NilDefFloat32(&v, 5.5)),
 	}
+	expected := args.Map{"nil": "5.5", "nonNil": "3.3"}
+	expected.ShouldBeEqual(t, 0, "NilDefFloat32", actual)
 }
 
 func Test_NilDefPtrFloat32_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrFloat32(nil, 9.9)
-	if *r != 9.9 {
-		t.Error("expected 9.9")
-	}
 	v := float32(1.1)
-	r = conditional.NilDefPtrFloat32(&v, 9.9)
-	if *r != 1.1 {
-		t.Error("expected 1.1")
+	actual := args.Map{
+		"nil":    fmt.Sprintf("%.1f", *conditional.NilDefPtrFloat32(nil, 9.9)),
+		"nonNil": fmt.Sprintf("%.1f", *conditional.NilDefPtrFloat32(&v, 9.9)),
 	}
+	expected := args.Map{"nil": "9.9", "nonNil": "1.1"}
+	expected.ShouldBeEqual(t, 0, "NilDefPtrFloat32", actual)
 }
 
 func Test_ValueOrZeroFloat32_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroFloat32(nil); r != 0 {
-		t.Error("expected 0")
-	}
 	v := float32(7.7)
-	if r := conditional.ValueOrZeroFloat32(&v); r != 7.7 {
-		t.Error("expected 7.7")
+	actual := args.Map{
+		"nil":    fmt.Sprintf("%.0f", conditional.ValueOrZeroFloat32(nil)),
+		"nonNil": fmt.Sprintf("%.1f", conditional.ValueOrZeroFloat32(&v)),
 	}
+	expected := args.Map{"nil": "0", "nonNil": "7.7"}
+	expected.ShouldBeEqual(t, 0, "ValueOrZeroFloat32", actual)
 }
 
 func Test_PtrOrZeroFloat32_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroFloat32(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
 	v := float32(4.4)
-	r = conditional.PtrOrZeroFloat32(&v)
-	if *r != 4.4 {
-		t.Error("expected 4.4")
+	actual := args.Map{
+		"nil":    fmt.Sprintf("%.0f", *conditional.PtrOrZeroFloat32(nil)),
+		"nonNil": fmt.Sprintf("%.1f", *conditional.PtrOrZeroFloat32(&v)),
 	}
+	expected := args.Map{"nil": "0", "nonNil": "4.4"}
+	expected.ShouldBeEqual(t, 0, "PtrOrZeroFloat32", actual)
 }
 
 func Test_NilValFloat32_Cov4(t *testing.T) {
-	if r := conditional.NilValFloat32(nil, 1.0, 2.0); r != 1.0 {
-		t.Error("expected 1.0")
-	}
 	v := float32(5.0)
-	if r := conditional.NilValFloat32(&v, 1.0, 2.0); r != 2.0 {
-		t.Error("expected 2.0")
+	actual := args.Map{
+		"nil":    fmt.Sprintf("%.1f", conditional.NilValFloat32(nil, 1.0, 2.0)),
+		"nonNil": fmt.Sprintf("%.1f", conditional.NilValFloat32(&v, 1.0, 2.0)),
 	}
+	expected := args.Map{"nil": "1.0", "nonNil": "2.0"}
+	expected.ShouldBeEqual(t, 0, "NilValFloat32", actual)
 }
 
 func Test_NilValPtrFloat32_Cov4(t *testing.T) {
-	r := conditional.NilValPtrFloat32(nil, 1.0, 2.0)
-	if *r != 1.0 {
-		t.Error("expected 1.0")
-	}
 	v := float32(5.0)
-	r = conditional.NilValPtrFloat32(&v, 1.0, 2.0)
-	if *r != 2.0 {
-		t.Error("expected 2.0")
+	actual := args.Map{
+		"nil":    fmt.Sprintf("%.1f", *conditional.NilValPtrFloat32(nil, 1.0, 2.0)),
+		"nonNil": fmt.Sprintf("%.1f", *conditional.NilValPtrFloat32(&v, 1.0, 2.0)),
 	}
+	expected := args.Map{"nil": "1.0", "nonNil": "2.0"}
+	expected.ShouldBeEqual(t, 0, "NilValPtrFloat32", actual)
 }
 
 // ============================================================================
-// typed_float64.go — NilDef, NilDefPtr, ValueOrZero, PtrOrZero, NilVal, NilValPtr
-// (IfFloat64, IfFuncFloat64, IfTrueFuncFloat64 already covered by TypedWrappers)
+// typed_float64.go
 // ============================================================================
 
-func Test_NilDefFloat64_Cov4(t *testing.T) {
-	if r := conditional.NilDefFloat64(nil, 5.5); r != 5.5 {
-		t.Error("expected 5.5")
-	}
+func Test_Float64_Functions_Cov4(t *testing.T) {
 	v := 3.3
-	if r := conditional.NilDefFloat64(&v, 5.5); r != 3.3 {
-		t.Error("expected 3.3")
+	actual := args.Map{
+		"nilDef":         fmt.Sprintf("%.1f", conditional.NilDefFloat64(nil, 5.5)),
+		"nilDefNonNil":   fmt.Sprintf("%.1f", conditional.NilDefFloat64(&v, 5.5)),
+		"nilDefPtr":      fmt.Sprintf("%.1f", *conditional.NilDefPtrFloat64(nil, 9.9)),
+		"valueOrZero":    fmt.Sprintf("%.0f", conditional.ValueOrZeroFloat64(nil)),
+		"valueOrZeroVal": fmt.Sprintf("%.1f", conditional.ValueOrZeroFloat64(&v)),
+		"ptrOrZero":      fmt.Sprintf("%.0f", *conditional.PtrOrZeroFloat64(nil)),
+		"nilVal":         fmt.Sprintf("%.1f", conditional.NilValFloat64(nil, 1.0, 2.0)),
+		"nilValNonNil":   fmt.Sprintf("%.1f", conditional.NilValFloat64(&v, 1.0, 2.0)),
 	}
+	expected := args.Map{
+		"nilDef": "5.5", "nilDefNonNil": "3.3",
+		"nilDefPtr": "9.9", "valueOrZero": "0", "valueOrZeroVal": "3.3",
+		"ptrOrZero": "0", "nilVal": "1.0", "nilValNonNil": "2.0",
+	}
+	expected.ShouldBeEqual(t, 0, "Float64_Functions", actual)
 }
 
-func Test_NilDefPtrFloat64_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrFloat64(nil, 9.9)
-	if *r != 9.9 {
-		t.Error("expected 9.9")
-	}
-}
-
-func Test_ValueOrZeroFloat64_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroFloat64(nil); r != 0 {
-		t.Error("expected 0")
-	}
-	v := 7.7
-	if r := conditional.ValueOrZeroFloat64(&v); r != 7.7 {
-		t.Error("expected 7.7")
-	}
-}
-
-func Test_PtrOrZeroFloat64_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroFloat64(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValFloat64_Cov4(t *testing.T) {
-	if r := conditional.NilValFloat64(nil, 1.0, 2.0); r != 1.0 {
-		t.Error("expected 1.0")
-	}
+func Test_Float64_NilValPtr_Cov4(t *testing.T) {
 	v := 5.0
-	if r := conditional.NilValFloat64(&v, 1.0, 2.0); r != 2.0 {
-		t.Error("expected 2.0")
+	actual := args.Map{
+		"nil":    fmt.Sprintf("%.1f", *conditional.NilValPtrFloat64(nil, 1.0, 2.0)),
+		"nonNil": fmt.Sprintf("%.1f", *conditional.NilValPtrFloat64(&v, 1.0, 2.0)),
 	}
+	expected := args.Map{"nil": "1.0", "nonNil": "2.0"}
+	expected.ShouldBeEqual(t, 0, "NilValPtrFloat64", actual)
 }
 
-func Test_NilValPtrFloat64_Cov4(t *testing.T) {
-	r := conditional.NilValPtrFloat64(nil, 1.0, 2.0)
-	if *r != 1.0 {
-		t.Error("expected 1.0")
-	}
-	v := 5.0
-	r = conditional.NilValPtrFloat64(&v, 1.0, 2.0)
-	if *r != 2.0 {
-		t.Error("expected 2.0")
-	}
-}
-
-func Test_IfSliceFloat64_Cov4(t *testing.T) {
-	r := conditional.IfSliceFloat64(true, []float64{1.0}, []float64{2.0, 3.0})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrFloat64_Cov4(t *testing.T) {
+func Test_Float64_SlicePtrFunc_Cov4(t *testing.T) {
 	a, b := 1.0, 2.0
-	if *conditional.IfPtrFloat64(true, &a, &b) != 1.0 {
-		t.Error("expected 1.0")
+	actual := args.Map{
+		"sliceLen":     len(conditional.IfSliceFloat64(true, []float64{1.0}, []float64{2.0, 3.0})),
+		"ptrTrue":      fmt.Sprintf("%.1f", *conditional.IfPtrFloat64(true, &a, &b)),
+		"ifFunc":       fmt.Sprintf("%.1f", conditional.IfFuncFloat64(true, func() float64 { return 1.0 }, func() float64 { return 2.0 })),
+		"trueFuncTrue": fmt.Sprintf("%.2f", conditional.IfTrueFuncFloat64(true, func() float64 { return 3.14 })),
+		"trueFuncFalse": fmt.Sprintf("%.0f", conditional.IfTrueFuncFloat64(false, func() float64 { return 3.14 })),
 	}
-}
-
-func Test_IfFuncFloat64_Cov4(t *testing.T) {
-	r := conditional.IfFuncFloat64(true, func() float64 { return 1.0 }, func() float64 { return 2.0 })
-	if r != 1.0 {
-		t.Error("expected 1.0")
+	expected := args.Map{
+		"sliceLen": 1, "ptrTrue": "1.0", "ifFunc": "1.0",
+		"trueFuncTrue": "3.14", "trueFuncFalse": "0",
 	}
-}
-
-func Test_IfTrueFuncFloat64_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncFloat64(true, func() float64 { return 3.14 }); r != 3.14 {
-		t.Error("expected 3.14")
-	}
-	if r := conditional.IfTrueFuncFloat64(false, func() float64 { return 3.14 }); r != 0 {
-		t.Error("expected 0")
-	}
+	expected.ShouldBeEqual(t, 0, "Float64_SlicePtrFunc", actual)
 }
 
 // ============================================================================
-// typed_int8.go — all 11 functions
+// Helper for typed int tests — generates args.Map for all 11 functions of a type
 // ============================================================================
 
-func Test_IfInt8_Cov4(t *testing.T) {
-	if r := conditional.IfInt8(true, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-	if r := conditional.IfInt8(false, 1, 2); r != 2 {
-		t.Error("expected 2")
-	}
-}
-
-func Test_IfFuncInt8_Cov4(t *testing.T) {
-	r := conditional.IfFuncInt8(true, func() int8 { return 1 }, func() int8 { return 2 })
-	if r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfTrueFuncInt8_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncInt8(true, func() int8 { return 5 }); r != 5 {
-		t.Error("expected 5")
-	}
-	if r := conditional.IfTrueFuncInt8(false, func() int8 { return 5 }); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_IfSliceInt8_Cov4(t *testing.T) {
-	r := conditional.IfSliceInt8(true, []int8{1}, []int8{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrInt8_Cov4(t *testing.T) {
-	a, b := int8(1), int8(2)
-	if *conditional.IfPtrInt8(true, &a, &b) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilDefInt8_Cov4(t *testing.T) {
-	if r := conditional.NilDefInt8(nil, 5); r != 5 {
-		t.Error("expected 5")
-	}
+func Test_Int8_Functions_Cov4(t *testing.T) {
 	v := int8(3)
-	if r := conditional.NilDefInt8(&v, 5); r != 3 {
-		t.Error("expected 3")
+	actual := args.Map{
+		"ifTrue":       int(conditional.IfInt8(true, 1, 2)),
+		"ifFalse":      int(conditional.IfInt8(false, 1, 2)),
+		"ifFunc":       int(conditional.IfFuncInt8(true, func() int8 { return 1 }, func() int8 { return 2 })),
+		"trueFuncT":    int(conditional.IfTrueFuncInt8(true, func() int8 { return 5 })),
+		"trueFuncF":    int(conditional.IfTrueFuncInt8(false, func() int8 { return 5 })),
+		"sliceLen":     len(conditional.IfSliceInt8(true, []int8{1}, []int8{2, 3})),
+		"ptrTrue":      int(*conditional.IfPtrInt8(true, &v, &v)),
+		"nilDef":       int(conditional.NilDefInt8(nil, 5)),
+		"nilDefNonNil": int(conditional.NilDefInt8(&v, 5)),
+		"nilDefPtr":    int(*conditional.NilDefPtrInt8(nil, 9)),
+		"valueOrZero":  int(conditional.ValueOrZeroInt8(nil)),
+		"ptrOrZero":    int(*conditional.PtrOrZeroInt8(nil)),
+		"nilVal":       int(conditional.NilValInt8(nil, 1, 2)),
+		"nilValPtr":    int(*conditional.NilValPtrInt8(nil, 1, 2)),
 	}
+	expected := args.Map{
+		"ifTrue": 1, "ifFalse": 2, "ifFunc": 1,
+		"trueFuncT": 5, "trueFuncF": 0, "sliceLen": 1, "ptrTrue": 3,
+		"nilDef": 5, "nilDefNonNil": 3, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
+	}
+	expected.ShouldBeEqual(t, 0, "Int8_Functions", actual)
 }
 
-func Test_NilDefPtrInt8_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrInt8(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
+func Test_Int16_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfInt16(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncInt16(true, func() int16 { return 10 }, func() int16 { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncInt16(true, func() int16 { return 50 })),
+		"trueFuncF":   int(conditional.IfTrueFuncInt16(false, func() int16 { return 50 })),
+		"sliceLen":    len(conditional.IfSliceInt16(true, []int16{1}, []int16{2, 3})),
+		"nilDef":      int(conditional.NilDefInt16(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrInt16(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroInt16(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroInt16(nil)),
+		"nilVal":      int(conditional.NilValInt16(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrInt16(nil, 1, 2)),
 	}
-}
-
-func Test_ValueOrZeroInt8_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroInt8(nil); r != 0 {
-		t.Error("expected 0")
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50, "trueFuncF": 0,
+		"sliceLen": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
-}
-
-func Test_PtrOrZeroInt8_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroInt8(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValInt8_Cov4(t *testing.T) {
-	if r := conditional.NilValInt8(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrInt8_Cov4(t *testing.T) {
-	r := conditional.NilValPtrInt8(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_int16.go — all 11 functions
-// ============================================================================
-
-func Test_IfInt16_Cov4(t *testing.T) {
-	if r := conditional.IfInt16(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncInt16_Cov4(t *testing.T) {
-	r := conditional.IfFuncInt16(true, func() int16 { return 10 }, func() int16 { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncInt16_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncInt16(true, func() int16 { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-	if r := conditional.IfTrueFuncInt16(false, func() int16 { return 50 }); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_IfSliceInt16_Cov4(t *testing.T) {
-	r := conditional.IfSliceInt16(true, []int16{1}, []int16{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrInt16_Cov4(t *testing.T) {
 	a, b := int16(1), int16(2)
-	if *conditional.IfPtrInt16(true, &a, &b) != 1 {
-		t.Error("expected 1")
-	}
+	actual["ptrTrue"] = int(*conditional.IfPtrInt16(true, &a, &b))
+	expected["ptrTrue"] = 1
+	expected.ShouldBeEqual(t, 0, "Int16_Functions", actual)
 }
 
-func Test_NilDefInt16_Cov4(t *testing.T) {
-	if r := conditional.NilDefInt16(nil, 5); r != 5 {
-		t.Error("expected 5")
+func Test_Int32_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfInt32(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncInt32(true, func() int32 { return 10 }, func() int32 { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncInt32(true, func() int32 { return 50 })),
+		"trueFuncF":   int(conditional.IfTrueFuncInt32(false, func() int32 { return 50 })),
+		"sliceLen":    len(conditional.IfSliceInt32(true, []int32{1}, []int32{2, 3})),
+		"nilDef":      int(conditional.NilDefInt32(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrInt32(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroInt32(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroInt32(nil)),
+		"nilVal":      int(conditional.NilValInt32(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrInt32(nil, 1, 2)),
 	}
-}
-
-func Test_NilDefPtrInt16_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrInt16(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroInt16_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroInt16(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroInt16_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroInt16(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValInt16_Cov4(t *testing.T) {
-	if r := conditional.NilValInt16(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrInt16_Cov4(t *testing.T) {
-	r := conditional.NilValPtrInt16(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_int32.go — all 11 functions
-// ============================================================================
-
-func Test_IfInt32_Cov4(t *testing.T) {
-	if r := conditional.IfInt32(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncInt32_Cov4(t *testing.T) {
-	r := conditional.IfFuncInt32(true, func() int32 { return 10 }, func() int32 { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncInt32_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncInt32(true, func() int32 { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-	if r := conditional.IfTrueFuncInt32(false, func() int32 { return 50 }); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_IfSliceInt32_Cov4(t *testing.T) {
-	r := conditional.IfSliceInt32(true, []int32{1}, []int32{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrInt32_Cov4(t *testing.T) {
 	a, b := int32(1), int32(2)
-	if *conditional.IfPtrInt32(true, &a, &b) != 1 {
-		t.Error("expected 1")
+	actual["ptrTrue"] = int(*conditional.IfPtrInt32(true, &a, &b))
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50, "trueFuncF": 0,
+		"sliceLen": 1, "ptrTrue": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
+	expected.ShouldBeEqual(t, 0, "Int32_Functions", actual)
 }
 
-func Test_NilDefInt32_Cov4(t *testing.T) {
-	if r := conditional.NilDefInt32(nil, 5); r != 5 {
-		t.Error("expected 5")
+func Test_Int64_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfInt64(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncInt64(true, func() int64 { return 10 }, func() int64 { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncInt64(true, func() int64 { return 50 })),
+		"trueFuncF":   int(conditional.IfTrueFuncInt64(false, func() int64 { return 50 })),
+		"sliceLen":    len(conditional.IfSliceInt64(true, []int64{1}, []int64{2, 3})),
+		"nilDef":      int(conditional.NilDefInt64(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrInt64(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroInt64(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroInt64(nil)),
+		"nilVal":      int(conditional.NilValInt64(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrInt64(nil, 1, 2)),
 	}
-}
-
-func Test_NilDefPtrInt32_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrInt32(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroInt32_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroInt32(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroInt32_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroInt32(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValInt32_Cov4(t *testing.T) {
-	if r := conditional.NilValInt32(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrInt32_Cov4(t *testing.T) {
-	r := conditional.NilValPtrInt32(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_int64.go — all 11 functions
-// ============================================================================
-
-func Test_IfInt64_Cov4(t *testing.T) {
-	if r := conditional.IfInt64(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncInt64_Cov4(t *testing.T) {
-	r := conditional.IfFuncInt64(true, func() int64 { return 10 }, func() int64 { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncInt64_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncInt64(true, func() int64 { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-	if r := conditional.IfTrueFuncInt64(false, func() int64 { return 50 }); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_IfSliceInt64_Cov4(t *testing.T) {
-	r := conditional.IfSliceInt64(true, []int64{1}, []int64{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrInt64_Cov4(t *testing.T) {
 	a, b := int64(1), int64(2)
-	if *conditional.IfPtrInt64(true, &a, &b) != 1 {
-		t.Error("expected 1")
+	actual["ptrTrue"] = int(*conditional.IfPtrInt64(true, &a, &b))
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50, "trueFuncF": 0,
+		"sliceLen": 1, "ptrTrue": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
+	expected.ShouldBeEqual(t, 0, "Int64_Functions", actual)
 }
 
-func Test_NilDefInt64_Cov4(t *testing.T) {
-	if r := conditional.NilDefInt64(nil, 5); r != 5 {
-		t.Error("expected 5")
+func Test_Uint_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfUint(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncUint(true, func() uint { return 10 }, func() uint { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncUint(true, func() uint { return 50 })),
+		"trueFuncF":   int(conditional.IfTrueFuncUint(false, func() uint { return 50 })),
+		"sliceLen":    len(conditional.IfSliceUint(true, []uint{1}, []uint{2, 3})),
+		"nilDef":      int(conditional.NilDefUint(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrUint(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroUint(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroUint(nil)),
+		"nilVal":      int(conditional.NilValUint(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrUint(nil, 1, 2)),
 	}
-}
-
-func Test_NilDefPtrInt64_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrInt64(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroInt64_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroInt64(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroInt64_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroInt64(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValInt64_Cov4(t *testing.T) {
-	if r := conditional.NilValInt64(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrInt64_Cov4(t *testing.T) {
-	r := conditional.NilValPtrInt64(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_uint.go — all 11 functions
-// ============================================================================
-
-func Test_IfUint_Cov4(t *testing.T) {
-	if r := conditional.IfUint(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncUint_Cov4(t *testing.T) {
-	r := conditional.IfFuncUint(true, func() uint { return 10 }, func() uint { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncUint_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncUint(true, func() uint { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-	if r := conditional.IfTrueFuncUint(false, func() uint { return 50 }); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_IfSliceUint_Cov4(t *testing.T) {
-	r := conditional.IfSliceUint(true, []uint{1}, []uint{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrUint_Cov4(t *testing.T) {
 	a, b := uint(1), uint(2)
-	if *conditional.IfPtrUint(true, &a, &b) != 1 {
-		t.Error("expected 1")
+	actual["ptrTrue"] = int(*conditional.IfPtrUint(true, &a, &b))
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50, "trueFuncF": 0,
+		"sliceLen": 1, "ptrTrue": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
+	expected.ShouldBeEqual(t, 0, "Uint_Functions", actual)
 }
 
-func Test_NilDefUint_Cov4(t *testing.T) {
-	if r := conditional.NilDefUint(nil, 5); r != 5 {
-		t.Error("expected 5")
+func Test_Uint8_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfUint8(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncUint8(true, func() uint8 { return 10 }, func() uint8 { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncUint8(true, func() uint8 { return 50 })),
+		"trueFuncF":   int(conditional.IfTrueFuncUint8(false, func() uint8 { return 50 })),
+		"sliceLen":    len(conditional.IfSliceUint8(true, []uint8{1}, []uint8{2, 3})),
+		"nilDef":      int(conditional.NilDefUint8(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrUint8(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroUint8(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroUint8(nil)),
+		"nilVal":      int(conditional.NilValUint8(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrUint8(nil, 1, 2)),
 	}
-}
-
-func Test_NilDefPtrUint_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrUint(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroUint_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroUint(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroUint_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroUint(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValUint_Cov4(t *testing.T) {
-	if r := conditional.NilValUint(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrUint_Cov4(t *testing.T) {
-	r := conditional.NilValPtrUint(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_uint8.go — all 11 functions
-// ============================================================================
-
-func Test_IfUint8_Cov4(t *testing.T) {
-	if r := conditional.IfUint8(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncUint8_Cov4(t *testing.T) {
-	r := conditional.IfFuncUint8(true, func() uint8 { return 10 }, func() uint8 { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncUint8_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncUint8(true, func() uint8 { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-	if r := conditional.IfTrueFuncUint8(false, func() uint8 { return 50 }); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_IfSliceUint8_Cov4(t *testing.T) {
-	r := conditional.IfSliceUint8(true, []uint8{1}, []uint8{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrUint8_Cov4(t *testing.T) {
 	a, b := uint8(1), uint8(2)
-	if *conditional.IfPtrUint8(true, &a, &b) != 1 {
-		t.Error("expected 1")
+	actual["ptrTrue"] = int(*conditional.IfPtrUint8(true, &a, &b))
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50, "trueFuncF": 0,
+		"sliceLen": 1, "ptrTrue": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
+	expected.ShouldBeEqual(t, 0, "Uint8_Functions", actual)
 }
 
-func Test_NilDefUint8_Cov4(t *testing.T) {
-	if r := conditional.NilDefUint8(nil, 5); r != 5 {
-		t.Error("expected 5")
+func Test_Uint16_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfUint16(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncUint16(true, func() uint16 { return 10 }, func() uint16 { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncUint16(true, func() uint16 { return 50 })),
+		"sliceLen":    len(conditional.IfSliceUint16(true, []uint16{1}, []uint16{2, 3})),
+		"nilDef":      int(conditional.NilDefUint16(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrUint16(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroUint16(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroUint16(nil)),
+		"nilVal":      int(conditional.NilValUint16(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrUint16(nil, 1, 2)),
 	}
-}
-
-func Test_NilDefPtrUint8_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrUint8(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroUint8_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroUint8(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroUint8_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroUint8(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValUint8_Cov4(t *testing.T) {
-	if r := conditional.NilValUint8(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrUint8_Cov4(t *testing.T) {
-	r := conditional.NilValPtrUint8(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_uint16.go — all 11 functions
-// ============================================================================
-
-func Test_IfUint16_Cov4(t *testing.T) {
-	if r := conditional.IfUint16(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncUint16_Cov4(t *testing.T) {
-	r := conditional.IfFuncUint16(true, func() uint16 { return 10 }, func() uint16 { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncUint16_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncUint16(true, func() uint16 { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-}
-
-func Test_IfSliceUint16_Cov4(t *testing.T) {
-	r := conditional.IfSliceUint16(true, []uint16{1}, []uint16{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrUint16_Cov4(t *testing.T) {
 	a, b := uint16(1), uint16(2)
-	if *conditional.IfPtrUint16(true, &a, &b) != 1 {
-		t.Error("expected 1")
+	actual["ptrTrue"] = int(*conditional.IfPtrUint16(true, &a, &b))
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50,
+		"sliceLen": 1, "ptrTrue": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
+	expected.ShouldBeEqual(t, 0, "Uint16_Functions", actual)
 }
 
-func Test_NilDefUint16_Cov4(t *testing.T) {
-	if r := conditional.NilDefUint16(nil, 5); r != 5 {
-		t.Error("expected 5")
+func Test_Uint32_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfUint32(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncUint32(true, func() uint32 { return 10 }, func() uint32 { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncUint32(true, func() uint32 { return 50 })),
+		"sliceLen":    len(conditional.IfSliceUint32(true, []uint32{1}, []uint32{2, 3})),
+		"nilDef":      int(conditional.NilDefUint32(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrUint32(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroUint32(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroUint32(nil)),
+		"nilVal":      int(conditional.NilValUint32(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrUint32(nil, 1, 2)),
 	}
-}
-
-func Test_NilDefPtrUint16_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrUint16(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroUint16_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroUint16(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroUint16_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroUint16(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValUint16_Cov4(t *testing.T) {
-	if r := conditional.NilValUint16(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrUint16_Cov4(t *testing.T) {
-	r := conditional.NilValPtrUint16(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_uint32.go — all 11 functions
-// ============================================================================
-
-func Test_IfUint32_Cov4(t *testing.T) {
-	if r := conditional.IfUint32(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncUint32_Cov4(t *testing.T) {
-	r := conditional.IfFuncUint32(true, func() uint32 { return 10 }, func() uint32 { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncUint32_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncUint32(true, func() uint32 { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-}
-
-func Test_IfSliceUint32_Cov4(t *testing.T) {
-	r := conditional.IfSliceUint32(true, []uint32{1}, []uint32{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrUint32_Cov4(t *testing.T) {
 	a, b := uint32(1), uint32(2)
-	if *conditional.IfPtrUint32(true, &a, &b) != 1 {
-		t.Error("expected 1")
+	actual["ptrTrue"] = int(*conditional.IfPtrUint32(true, &a, &b))
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50,
+		"sliceLen": 1, "ptrTrue": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
+	expected.ShouldBeEqual(t, 0, "Uint32_Functions", actual)
 }
 
-func Test_NilDefUint32_Cov4(t *testing.T) {
-	if r := conditional.NilDefUint32(nil, 5); r != 5 {
-		t.Error("expected 5")
+func Test_Uint64_Functions_Cov4(t *testing.T) {
+	actual := args.Map{
+		"ifTrue":      int(conditional.IfUint64(true, 10, 20)),
+		"ifFunc":      int(conditional.IfFuncUint64(true, func() uint64 { return 10 }, func() uint64 { return 20 })),
+		"trueFuncT":   int(conditional.IfTrueFuncUint64(true, func() uint64 { return 50 })),
+		"sliceLen":    len(conditional.IfSliceUint64(true, []uint64{1}, []uint64{2, 3})),
+		"nilDef":      int(conditional.NilDefUint64(nil, 5)),
+		"nilDefPtr":   int(*conditional.NilDefPtrUint64(nil, 9)),
+		"valueOrZero": int(conditional.ValueOrZeroUint64(nil)),
+		"ptrOrZero":   int(*conditional.PtrOrZeroUint64(nil)),
+		"nilVal":      int(conditional.NilValUint64(nil, 1, 2)),
+		"nilValPtr":   int(*conditional.NilValPtrUint64(nil, 1, 2)),
 	}
-}
-
-func Test_NilDefPtrUint32_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrUint32(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroUint32_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroUint32(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroUint32_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroUint32(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValUint32_Cov4(t *testing.T) {
-	if r := conditional.NilValUint32(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrUint32_Cov4(t *testing.T) {
-	r := conditional.NilValPtrUint32(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-// ============================================================================
-// typed_uint64.go — all 11 functions
-// ============================================================================
-
-func Test_IfUint64_Cov4(t *testing.T) {
-	if r := conditional.IfUint64(true, 10, 20); r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfFuncUint64_Cov4(t *testing.T) {
-	r := conditional.IfFuncUint64(true, func() uint64 { return 10 }, func() uint64 { return 20 })
-	if r != 10 {
-		t.Error("expected 10")
-	}
-}
-
-func Test_IfTrueFuncUint64_Cov4(t *testing.T) {
-	if r := conditional.IfTrueFuncUint64(true, func() uint64 { return 50 }); r != 50 {
-		t.Error("expected 50")
-	}
-}
-
-func Test_IfSliceUint64_Cov4(t *testing.T) {
-	r := conditional.IfSliceUint64(true, []uint64{1}, []uint64{2, 3})
-	if len(r) != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_IfPtrUint64_Cov4(t *testing.T) {
 	a, b := uint64(1), uint64(2)
-	if *conditional.IfPtrUint64(true, &a, &b) != 1 {
-		t.Error("expected 1")
+	actual["ptrTrue"] = int(*conditional.IfPtrUint64(true, &a, &b))
+	expected := args.Map{
+		"ifTrue": 10, "ifFunc": 10, "trueFuncT": 50,
+		"sliceLen": 1, "ptrTrue": 1, "nilDef": 5, "nilDefPtr": 9,
+		"valueOrZero": 0, "ptrOrZero": 0, "nilVal": 1, "nilValPtr": 1,
 	}
-}
-
-func Test_NilDefUint64_Cov4(t *testing.T) {
-	if r := conditional.NilDefUint64(nil, 5); r != 5 {
-		t.Error("expected 5")
-	}
-}
-
-func Test_NilDefPtrUint64_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrUint64(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
-}
-
-func Test_ValueOrZeroUint64_Cov4(t *testing.T) {
-	if r := conditional.ValueOrZeroUint64(nil); r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_PtrOrZeroUint64_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroUint64(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
-}
-
-func Test_NilValUint64_Cov4(t *testing.T) {
-	if r := conditional.NilValUint64(nil, 1, 2); r != 1 {
-		t.Error("expected 1")
-	}
-}
-
-func Test_NilValPtrUint64_Cov4(t *testing.T) {
-	r := conditional.NilValPtrUint64(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
+	expected.ShouldBeEqual(t, 0, "Uint64_Functions", actual)
 }
 
 // ============================================================================
-// NilDefPtrBool, PtrOrZeroBool, NilValPtrBool (may be uncovered)
+// Bool/Byte/Int Ptr functions
 // ============================================================================
 
 func Test_NilDefPtrBool_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrBool(nil, true)
-	if *r != true {
-		t.Error("expected true")
-	}
 	v := false
-	r = conditional.NilDefPtrBool(&v, true)
-	if *r != false {
-		t.Error("expected false")
+	actual := args.Map{
+		"nil":    *conditional.NilDefPtrBool(nil, true),
+		"nonNil": *conditional.NilDefPtrBool(&v, true),
 	}
+	expected := args.Map{"nil": true, "nonNil": false}
+	expected.ShouldBeEqual(t, 0, "NilDefPtrBool", actual)
 }
 
 func Test_PtrOrZeroBool_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroBool(nil)
-	if *r != false {
-		t.Error("expected false")
-	}
+	actual := args.Map{"result": *conditional.PtrOrZeroBool(nil)}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "PtrOrZeroBool", actual)
 }
 
 func Test_NilValPtrBool_Cov4(t *testing.T) {
-	r := conditional.NilValPtrBool(nil, true, false)
-	if *r != true {
-		t.Error("expected true")
-	}
+	actual := args.Map{"result": *conditional.NilValPtrBool(nil, true, false)}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "NilValPtrBool", actual)
 }
 
-// NilDefPtrByte, PtrOrZeroByte, NilValPtrByte
 func Test_NilDefPtrByte_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrByte(nil, 9)
-	if *r != 9 {
-		t.Error("expected 9")
-	}
+	actual := args.Map{"result": int(*conditional.NilDefPtrByte(nil, 9))}
+	expected := args.Map{"result": 9}
+	expected.ShouldBeEqual(t, 0, "NilDefPtrByte", actual)
 }
 
 func Test_PtrOrZeroByte_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroByte(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
+	actual := args.Map{"result": int(*conditional.PtrOrZeroByte(nil))}
+	expected := args.Map{"result": 0}
+	expected.ShouldBeEqual(t, 0, "PtrOrZeroByte", actual)
 }
 
 func Test_NilValPtrByte_Cov4(t *testing.T) {
-	r := conditional.NilValPtrByte(nil, 1, 2)
-	if *r != 1 {
-		t.Error("expected 1")
-	}
+	actual := args.Map{"result": int(*conditional.NilValPtrByte(nil, 1, 2))}
+	expected := args.Map{"result": 1}
+	expected.ShouldBeEqual(t, 0, "NilValPtrByte", actual)
 }
 
-// NilDefPtrInt, PtrOrZeroInt, NilValPtrInt
 func Test_NilDefPtrInt_Cov4(t *testing.T) {
-	r := conditional.NilDefPtrInt(nil, 42)
-	if *r != 42 {
-		t.Error("expected 42")
-	}
+	actual := args.Map{"result": *conditional.NilDefPtrInt(nil, 42)}
+	expected := args.Map{"result": 42}
+	expected.ShouldBeEqual(t, 0, "NilDefPtrInt", actual)
 }
 
 func Test_PtrOrZeroInt_Cov4(t *testing.T) {
-	r := conditional.PtrOrZeroInt(nil)
-	if *r != 0 {
-		t.Error("expected 0")
-	}
+	actual := args.Map{"result": *conditional.PtrOrZeroInt(nil)}
+	expected := args.Map{"result": 0}
+	expected.ShouldBeEqual(t, 0, "PtrOrZeroInt", actual)
 }
 
 func Test_NilValPtrInt_Cov4(t *testing.T) {
-	r := conditional.NilValPtrInt(nil, -1, 1)
-	if *r != -1 {
-		t.Error("expected -1")
-	}
+	actual := args.Map{"result": *conditional.NilValPtrInt(nil, -1, 1)}
+	expected := args.Map{"result": -1}
+	expected.ShouldBeEqual(t, 0, "NilValPtrInt", actual)
 }
 
 // ============================================================================
-// VoidFunctions with nil func in slice
+// VoidFunctions / ErrorFunctionsExecuteResults / FunctionsExecuteResults
 // ============================================================================
 
 func Test_VoidFunctions_WithNilFunc_Cov4(t *testing.T) {
 	count := 0
-	funcs := []func(){
-		nil,
-		func() { count++ },
-	}
+	funcs := []func(){nil, func() { count++ }}
 	conditional.VoidFunctions(true, funcs, []func(){})
-	if count != 1 {
-		t.Errorf("expected 1, got %d", count)
-	}
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 1}
+	expected.ShouldBeEqual(t, 0, "VoidFunctions_WithNilFunc", actual)
 }
-
-// ============================================================================
-// ErrorFunctionsExecuteResults with nil func in slice
-// ============================================================================
 
 func Test_ErrorFunctionsExecuteResults_WithNilFunc_Cov4(t *testing.T) {
-	funcs := []func() error{
-		nil,
-		func() error { return nil },
-	}
+	funcs := []func() error{nil, func() error { return nil }}
 	err := conditional.ErrorFunctionsExecuteResults(true, funcs, []func() error{})
-	if err != nil {
-		t.Error("expected nil error")
-	}
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": false}
+	expected.ShouldBeEqual(t, 0, "ErrorFunctionsExecuteResults_WithNilFunc", actual)
 }
-
-// ============================================================================
-// FunctionsExecuteResults with nil and skip-take
-// ============================================================================
 
 func Test_FunctionsExecuteResults_SkipTake_Cov4(t *testing.T) {
 	funcs := []func() (string, bool, bool){
@@ -1041,9 +478,9 @@ func Test_FunctionsExecuteResults_SkipTake_Cov4(t *testing.T) {
 		func() (string, bool, bool) { return "take", true, false },
 	}
 	results := conditional.FunctionsExecuteResults[string](true, funcs, nil)
-	if len(results) != 1 || results[0] != "take" {
-		t.Error("expected only 'take'")
-	}
+	actual := args.Map{"len": len(results), "first": results[0]}
+	expected := args.Map{"len": 1, "first": "take"}
+	expected.ShouldBeEqual(t, 0, "FunctionsExecuteResults_SkipTake", actual)
 }
 
 func Test_FunctionsExecuteResults_NilFunc_Cov4(t *testing.T) {
@@ -1052,14 +489,14 @@ func Test_FunctionsExecuteResults_NilFunc_Cov4(t *testing.T) {
 		func() (string, bool, bool) { return "a", true, false },
 	}
 	results := conditional.FunctionsExecuteResults[string](true, funcs, nil)
-	if len(results) != 1 {
-		t.Error("expected 1")
-	}
+	actual := args.Map{"len": len(results)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "FunctionsExecuteResults_NilFunc", actual)
 }
 
 func Test_FunctionsExecuteResults_Empty_Cov4(t *testing.T) {
 	results := conditional.FunctionsExecuteResults[string](true, nil, nil)
-	if results != nil {
-		t.Error("expected nil")
-	}
+	actual := args.Map{"isNil": results == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "FunctionsExecuteResults_Empty", actual)
 }
