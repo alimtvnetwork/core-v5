@@ -27,7 +27,7 @@ func Test_Cov2_TitleSquareMeta(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "TitleSquareMeta", actual)
 }
 
-func Test_TitleQuotationMeta_Cov2(t *testing.T) {
+func Test_Cov2_TitleQuotationMeta(t *testing.T) {
 	r := simplewrap.TitleQuotationMeta("title", "val", "meta")
 	actual := args.Map{"notEmpty": r != "", "containsTitle": strings.Contains(r, "title")}
 	expected := args.Map{"notEmpty": true, "containsTitle": true}
