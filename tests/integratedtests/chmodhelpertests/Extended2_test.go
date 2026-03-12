@@ -2831,7 +2831,7 @@ func Test_ChmodVerifier_UsingRwxOwnerGroupOther_Nil_Ext2(t *testing.T) {
 
 // ── RwxPartialToInstructionExecutor ──
 
-func Test_RwxPartialToInstructionExecutor_NilCondition(t *testing.T) {
+func Test_RwxPartialToInstructionExecutor_NilCondition_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.RwxPartialToInstructionExecutor("-rwx", nil)
 
