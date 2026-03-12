@@ -122,7 +122,7 @@ func Test_Cov2_ReflectValueNull_NilUnsafePtr(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilUnsafePtr", actual)
 }
 
-func Test_ReflectValueNull_IntKind_Cov2(t *testing.T) {
+func Test_Cov2_ReflectValueNull_IntKind(t *testing.T) {
 	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(42))}
 	expected := args.Map{"isNull": false}
 	expected.ShouldBeEqual(t, 0, "ReflectValueNull_IntKind", actual)
