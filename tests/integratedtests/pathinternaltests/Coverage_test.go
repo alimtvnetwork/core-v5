@@ -85,7 +85,7 @@ func Test_Cov_IsPathExists(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "IsPathExists", actual)
 }
 
-func Test_GetTemp(t *testing.T) {
+func Test_Cov_GetTemp(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.GetTemp()
 
