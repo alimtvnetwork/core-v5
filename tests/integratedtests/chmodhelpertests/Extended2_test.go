@@ -2580,7 +2580,7 @@ func Test_ChmodApplier_OnMismatchOption_NotApply_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_PathsUsingFileModeConditions_EmptyLocations(t *testing.T) {
+func Test_ChmodApplier_PathsUsingFileModeConditions_EmptyLocations_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.PathsUsingFileModeConditions(os.FileMode(0755), nil)
 
