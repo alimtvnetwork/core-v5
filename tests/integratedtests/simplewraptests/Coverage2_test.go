@@ -149,7 +149,7 @@ func Test_Cov2_With_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "With_Empty", actual)
 }
 
-func Test_WithStartEnd_Empty_Cov2(t *testing.T) {
+func Test_Cov2_WithStartEnd_Empty(t *testing.T) {
 	actual := args.Map{"result": simplewrap.WithStartEnd("", "")}
 	expected := args.Map{"result": ""}
 	expected.ShouldBeEqual(t, 0, "WithStartEnd_Empty", actual)
