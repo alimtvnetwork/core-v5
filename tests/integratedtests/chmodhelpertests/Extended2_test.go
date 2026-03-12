@@ -2207,7 +2207,7 @@ func Test_NewRwxWrapperCreator_UsingAttrs_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_Rwx10(t *testing.T) {
+func Test_NewRwxWrapperCreator_Rwx10_Ext2(t *testing.T) {
 	// Act
 	wrapper, err := chmodhelper.New.RwxWrapper.Rwx10("-rwxr-xr-x")
 
