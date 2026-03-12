@@ -1392,7 +1392,7 @@ func Test_GetExistsFilteredPathFileInfoMap_Empty(t *testing.T) {
 	}
 }
 
-func Test_FilteredPathFileInfoMap_LazyMethods(t *testing.T) {
+func Test_FilteredPathFileInfoMap_LazyMethods_Ext2(t *testing.T) {
 	// Arrange
 	fmap := chmodhelper.GetExistsFilteredPathFileInfoMap(
 		true,
