@@ -99,7 +99,7 @@ func Test_Cov_GetTemp(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "GetTemp", actual)
 }
 
-func Test_JoinTemp(t *testing.T) {
+func Test_Cov_JoinTemp(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.JoinTemp("subdir", "file.txt")
 
