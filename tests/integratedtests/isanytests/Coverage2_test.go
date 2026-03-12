@@ -81,7 +81,7 @@ func Test_Cov2_ReflectValueNull_NilPtr(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "ReflectValueNull_NilPtr", actual)
 }
 
-func Test_ReflectValueNull_NonNilPtr_Cov2(t *testing.T) {
+func Test_Cov2_ReflectValueNull_NonNilPtr(t *testing.T) {
 	v := 42
 	actual := args.Map{"isNull": isany.ReflectValueNull(reflect.ValueOf(&v))}
 	expected := args.Map{"isNull": false}
