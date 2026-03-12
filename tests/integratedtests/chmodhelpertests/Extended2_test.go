@@ -166,7 +166,7 @@ func Test_RwxWrapper_FriendlyDisplay_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_Clone(t *testing.T) {
+func Test_RwxWrapper_Clone_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
