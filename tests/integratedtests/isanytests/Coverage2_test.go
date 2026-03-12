@@ -49,7 +49,7 @@ func Test_Cov2_Conclusive_BothTypedNilSameType(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Conclusive_BothTypedNilSameType", actual)
 }
 
-func Test_Conclusive_OneTypedNilOtherNot_Cov2(t *testing.T) {
+func Test_Cov2_Conclusive_OneTypedNilOtherNot(t *testing.T) {
 	var a *int
 	v := 42
 	isEqual, isConcl := isany.Conclusive(a, &v)
