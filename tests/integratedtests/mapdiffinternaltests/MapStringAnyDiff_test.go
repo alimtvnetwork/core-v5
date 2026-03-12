@@ -29,7 +29,7 @@ func Test_MapStringAnyDiff_Length_Verification(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_AllKeysSorted(t *testing.T) {
+func Test_MapStringAnyDiff_AllKeysSorted_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffAllKeysSortedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
