@@ -64,7 +64,7 @@ func Test_HashmapDiff_IsRawEqual_Verification(t *testing.T) {
 	}
 }
 
-func Test_HashmapDiff_DiffRaw(t *testing.T) {
+func Test_HashmapDiff_DiffRaw_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffDiffRawTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
