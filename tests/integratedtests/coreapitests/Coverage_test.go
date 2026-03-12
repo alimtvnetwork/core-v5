@@ -397,7 +397,7 @@ func Test_Cov_TypedRequestIn_TypedSimpleGenericRequest_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
+func Test_Cov_TypedRequestIn_TypedSimpleGenericRequest(t *testing.T) {
 	attr := &coreapi.RequestAttribute{IsValid: true}
 	req := coreapi.NewTypedRequestIn(attr, "payload")
 	sgr := req.TypedSimpleGenericRequest(true, "")
