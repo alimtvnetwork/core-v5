@@ -420,7 +420,7 @@ func Test_Attribute_Methods_Verification(t *testing.T) {
 	}
 }
 
-func Test_Attribute_NilSafe(t *testing.T) {
+func Test_Attribute_NilSafe_Ext2(t *testing.T) {
 	// Arrange
 	var attr *chmodhelper.Attribute
 
