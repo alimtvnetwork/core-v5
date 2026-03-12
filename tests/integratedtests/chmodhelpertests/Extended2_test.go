@@ -2329,7 +2329,7 @@ func Test_NewRwxWrapperCreator_UsingExistingFileSkipInvalidFile_Ext2(t *testing.
 	}
 }
 
-func Test_NewRwxWrapperCreator_UsingExistingFileOption(t *testing.T) {
+func Test_NewRwxWrapperCreator_UsingExistingFileOption_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
