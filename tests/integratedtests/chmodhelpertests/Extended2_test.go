@@ -2899,7 +2899,7 @@ func Test_DirCreator_DirectLock_Ext2(t *testing.T) {
 	}
 }
 
-func Test_DirCreator_ByChecking_NewDir(t *testing.T) {
+func Test_DirCreator_ByChecking_NewDir_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
