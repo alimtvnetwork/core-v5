@@ -223,7 +223,7 @@ func Test_Cov2_PrimitiveTypeRv_Uintptr(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "PrimitiveTypeRv_Uintptr", actual)
 }
 
-func Test_PrimitiveTypeRv_Struct_Cov2(t *testing.T) {
+func Test_Cov2_PrimitiveTypeRv_Struct(t *testing.T) {
 	actual := args.Map{"result": isany.PrimitiveTypeRv(reflect.Struct)}
 	expected := args.Map{"result": false}
 	expected.ShouldBeEqual(t, 0, "PrimitiveTypeRv_Struct", actual)
