@@ -253,7 +253,7 @@ func Test_Cov2_DeepEqualAllItems(t *testing.T) {
 
 // ── DefinedItems full coverage ──
 
-func Test_DefinedItems_Empty_Cov2(t *testing.T) {
+func Test_Cov2_DefinedItems_Empty(t *testing.T) {
 	isAll, items := isany.DefinedItems()
 	actual := args.Map{"isAll": isAll, "isNil": items == nil}
 	expected := args.Map{"isAll": false, "isNil": true}
