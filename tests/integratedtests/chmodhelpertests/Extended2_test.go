@@ -1831,7 +1831,7 @@ func Test_SimpleFileReaderWriter_ClonePtr_Nil(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_JSON(t *testing.T) {
+func Test_SimpleFileReaderWriter_JSON_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/tmp/test.txt")
 
