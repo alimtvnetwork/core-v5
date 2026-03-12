@@ -457,10 +457,16 @@ func Test_Variant_IsAnyEnumsEqual(t *testing.T) {
 
 func Test_Variant_OnlySupportedErr(t *testing.T) {
 	// Passing all names as supported → no unsupported → nil error
-	allNames := stringcompareas.BasicEnumImpl.StringRanges()
+	allNames := []string{
+		"Equal", "StartsWith", "EndsWith", "Anywhere",
+		"IsContains", "AnyChars", "Regex",
+		"NotEqual", "NotStartsWith", "NotEndsWith",
+		"NotContains", "NotAnyChars", "NotMatchRegex",
+		"Glob", "NonGlob", "Invalid",
+	}
 	err := stringcompareas.Equal.OnlySupportedErr(allNames...)
 	if err != nil {
-		t.Error("all names supported should not error")
+		t.Errorf("all names supported should not error, got: %v", err)
 	}
 
 	// Passing only "Equal" → all others unsupported → error expected
