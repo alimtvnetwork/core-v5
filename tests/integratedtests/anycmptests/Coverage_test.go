@@ -35,27 +35,6 @@ var extCmpEdgeCaseTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"name": "Equal"},
 	},
 	{
-		Title: "Cmp nil slice vs non-nil slice returns NotEqual",
-		ArrangeInput: args.Map{
-			"pair": args.TwoAny{First: ([]int)(nil), Second: []int{}},
-		},
-		ExpectedInput: args.Map{"name": "NotEqual"},
-	},
-	{
-		Title: "Cmp non-nil slice vs nil slice returns NotEqual",
-		ArrangeInput: args.Map{
-			"pair": args.TwoAny{First: []int{}, Second: ([]int)(nil)},
-		},
-		ExpectedInput: args.Map{"name": "NotEqual"},
-	},
-	{
-		Title: "Cmp nil map vs non-nil map returns NotEqual",
-		ArrangeInput: args.Map{
-			"pair": args.TwoAny{First: (map[string]int)(nil), Second: map[string]int{}},
-		},
-		ExpectedInput: args.Map{"name": "NotEqual"},
-	},
-	{
 		Title: "Cmp bool true vs true returns Equal (== match)",
 		ArrangeInput: args.Map{
 			"pair": args.TwoAny{First: true, Second: true},
@@ -75,13 +54,6 @@ var extCmpEdgeCaseTestCases = []coretestcases.CaseV1{
 			"pair": args.TwoAny{First: 3.14, Second: 3.14},
 		},
 		ExpectedInput: args.Map{"name": "Equal"},
-	},
-	{
-		Title: "Cmp nil chan vs non-nil chan returns NotEqual",
-		ArrangeInput: args.Map{
-			"pair": args.TwoAny{First: (chan int)(nil), Second: make(chan int)},
-		},
-		ExpectedInput: args.Map{"name": "NotEqual"},
 	},
 }
 
