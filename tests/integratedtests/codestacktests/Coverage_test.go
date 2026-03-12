@@ -473,7 +473,7 @@ func Test_Cov_TraceCollection_Strings(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_SkipTake_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 	length := tc.Length()
