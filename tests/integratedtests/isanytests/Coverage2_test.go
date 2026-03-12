@@ -231,7 +231,7 @@ func Test_Cov2_PrimitiveTypeRv_Struct(t *testing.T) {
 
 // ── DeepEqualAllItems edge cases ──
 
-func Test_DeepEqualAllItems_Cov2(t *testing.T) {
+func Test_Cov2_DeepEqualAllItems(t *testing.T) {
 	actual := args.Map{
 		"empty":      isany.DeepEqualAllItems(),
 		"single":     isany.DeepEqualAllItems(42),
