@@ -27,7 +27,7 @@ func Test_Cov_Clean(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Clean", actual)
 }
 
-func Test_Join(t *testing.T) {
+func Test_Cov_Join(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.Join("a", "b", "c")
 
