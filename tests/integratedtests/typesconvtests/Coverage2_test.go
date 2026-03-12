@@ -90,7 +90,7 @@ func Test_Cov2_FloatPtrToDefPtr_NonNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FloatPtrToDefPtr_NonNil", actual)
 }
 
-func Test_FloatPtrDefValFunc_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_FloatPtrDefValFunc_NonNil(t *testing.T) {
 	v := float32(3.14)
 	r := typesconv.FloatPtrDefValFunc(&v, func() float32 { return 9.9 })
 	actual := args.Map{"result": fmt.Sprintf("%.2f", *r)}
