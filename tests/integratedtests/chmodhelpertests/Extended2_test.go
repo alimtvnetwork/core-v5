@@ -3180,7 +3180,7 @@ func Test_FileReader_Read_Ext2(t *testing.T) {
 	}
 }
 
-func Test_FileReader_ReadBytes(t *testing.T) {
+func Test_FileReader_ReadBytes_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	os.WriteFile(tmpFile.Name(), []byte("hello"), 0644)
