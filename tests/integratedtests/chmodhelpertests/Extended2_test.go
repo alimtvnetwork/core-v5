@@ -686,7 +686,7 @@ func Test_Variant_ExpandOctalByte(t *testing.T) {
 
 // ── ParseRwxToVarAttribute ──
 
-func Test_ParseRwxToVarAttribute(t *testing.T) {
+func Test_ParseRwxToVarAttribute_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2ParseRwxToVarAttrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
