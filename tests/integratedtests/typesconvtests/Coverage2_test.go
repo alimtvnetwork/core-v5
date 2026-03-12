@@ -15,7 +15,7 @@ func Test_Cov2_IntPtrToSimple_NonNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "IntPtrToSimple_NonNil", actual)
 }
 
-func Test_IntPtrToSimpleDef_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_IntPtrToSimpleDef_NonNil(t *testing.T) {
 	v := 10
 	actual := args.Map{"result": typesconv.IntPtrToSimpleDef(&v, 99)}
 	expected := args.Map{"result": 10}
