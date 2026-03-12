@@ -3093,7 +3093,7 @@ func Test_FileBytesWriter_Chmod(t *testing.T) {
 
 // ── fileStringWriter additional ──
 
-func Test_FileStringWriter_All(t *testing.T) {
+func Test_FileStringWriter_All_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_fsw_all_ext2"
 	filePath := dir + "/test.txt"
