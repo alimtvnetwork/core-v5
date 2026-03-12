@@ -13,7 +13,7 @@ type testStringer struct{}
 
 func (s testStringer) String() string { return "stringer" }
 
-func Test_TitleCurlyMeta_Cov2(t *testing.T) {
+func Test_Cov2_TitleCurlyMeta(t *testing.T) {
 	r := simplewrap.TitleCurlyMeta("title", "val", "meta")
 	actual := args.Map{"notEmpty": r != "", "containsTitle": strings.Contains(r, "title")}
 	expected := args.Map{"notEmpty": true, "containsTitle": true}
