@@ -304,7 +304,7 @@ func Test_Cov2_Null_UnsafePointer(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Null_UnsafePointer", actual)
 }
 
-func Test_NumberType_Extended_Cov2(t *testing.T) {
+func Test_Cov2_NumberType_Extended(t *testing.T) {
 	actual := args.Map{
 		"uint":    isany.NumberType(uint(1)),
 		"int8":    isany.NumberType(int8(1)),
