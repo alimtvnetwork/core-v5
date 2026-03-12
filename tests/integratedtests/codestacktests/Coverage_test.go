@@ -623,7 +623,7 @@ func Test_Cov_TraceCollection_Clone(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_ClearDispose_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_ClearDispose(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
