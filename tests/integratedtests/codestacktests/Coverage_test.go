@@ -986,7 +986,7 @@ func Test_Cov_File_Path(t *testing.T) {
 
 // ── Dir getter tests ──
 
-func Test_Dir_CurDir_Cov(t *testing.T) {
+func Test_Cov_Dir_CurDir(t *testing.T) {
 	// Act
 	dir := codestack.Dir.CurDir()
 
