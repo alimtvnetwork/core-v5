@@ -72,7 +72,7 @@ func Test_Cov_Relative(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Relative", actual)
 }
 
-func Test_IsPathExists(t *testing.T) {
+func Test_Cov_IsPathExists(t *testing.T) {
 	// Arrange & Act
 	actual := args.Map{
 		"tempExists":  pathinternal.IsPathExists(os.TempDir()),
