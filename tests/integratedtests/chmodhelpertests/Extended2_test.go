@@ -973,7 +973,7 @@ func Test_GetRwxLengthError_Verification(t *testing.T) {
 
 // ── ParseRwxInstructionToStringRwx ──
 
-func Test_ParseRwxInstructionToStringRwx(t *testing.T) {
+func Test_ParseRwxInstructionToStringRwx_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2ParseRwxToStringTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
