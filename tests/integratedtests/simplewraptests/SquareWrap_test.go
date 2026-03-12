@@ -38,7 +38,7 @@ func Test_SquareWrapIf_Enabled_Verification(
 	}
 }
 
-func Test_SquareWrapIf_Disabled_Wraps_Nothing(
+func Test_SquareWrapIf_Disabled_Verification(
 	t *testing.T,
 ) {
 	for caseIndex, testCase := range squareBracketWrapDisabledTestCases {

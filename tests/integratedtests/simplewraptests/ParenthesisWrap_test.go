@@ -39,7 +39,7 @@ func Test_ParenthesisWrapIf_Enabled_Verification(t *testing.T) {
 	}
 }
 
-func Test_ParenthesisWrapIf_Disabled_Wraps_All_Without_Existing_Condition_Checking_Can_Have_DuplicateParenthesis(t *testing.T) {
+func Test_ParenthesisWrapIf_Disabled_Verification(t *testing.T) {
 
 	for caseIndex, testCase := range parenthesisDisabledRemainsAsItIsTestCases {
 		// Arrange
