@@ -1774,7 +1774,7 @@ func Test_SimpleFileReaderWriter_JoinRelPath_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_WriteAny(t *testing.T) {
+func Test_SimpleFileReaderWriter_WriteAny_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_sfrw_any_ext2"
 	filePath := dir + "/test.json"
