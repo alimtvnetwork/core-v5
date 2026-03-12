@@ -2192,7 +2192,7 @@ func Test_NewRwxWrapperCreator_UsingAttrVariants_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_UsingAttrs(t *testing.T) {
+func Test_NewRwxWrapperCreator_UsingAttrs_Ext2(t *testing.T) {
 	// Arrange
 	owner := chmodhelper.New.Attribute.UsingRwxString("rwx")
 	group := chmodhelper.New.Attribute.UsingRwxString("r-x")
