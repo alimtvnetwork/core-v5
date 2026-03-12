@@ -127,7 +127,7 @@ var covOnlySupportedMsgErrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_OnlySupportedMsgErr_Coverage(t *testing.T) {
+func Test_Cov_OnlySupportedMsgErr(t *testing.T) {
 	for caseIndex, testCase := range covOnlySupportedMsgErrTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		names := input["names"].([]string)
