@@ -679,7 +679,7 @@ func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_StringsUsingFmt_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
