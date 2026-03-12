@@ -215,7 +215,7 @@ func Test_Cov2_WithParenthesis_Int(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "WithParenthesis_Int", actual)
 }
 
-func Test_CurlyWrapIf_Stringer_Cov2(t *testing.T) {
+func Test_Cov2_CurlyWrapIf_Stringer(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.CurlyWrapIf(true, testStringer{}) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CurlyWrapIf_Stringer", actual)
