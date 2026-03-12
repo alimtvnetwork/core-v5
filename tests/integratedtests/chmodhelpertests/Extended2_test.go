@@ -536,7 +536,7 @@ func Test_Attribute_Clone_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_IsEqual(t *testing.T) {
+func Test_Attribute_IsEqual_Ext2(t *testing.T) {
 	// Arrange
 	a1 := chmodhelper.New.Attribute.UsingRwxString("rwx")
 	a2 := chmodhelper.New.Attribute.UsingRwxString("rwx")
