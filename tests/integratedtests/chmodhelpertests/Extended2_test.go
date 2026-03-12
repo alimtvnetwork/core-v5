@@ -1610,7 +1610,7 @@ func Test_GetExistingChmodRwxWrapper_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodRwxWrapper_Invalid(t *testing.T) {
+func Test_GetExistingChmodRwxWrapper_Invalid_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.GetExistingChmodRwxWrapper("/nonexistent/xyz")
 
