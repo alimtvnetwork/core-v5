@@ -322,7 +322,7 @@ func Test_Cov_TypedResponseResult_ClonePtr(t *testing.T) {
 	}
 }
 
-func Test_TypedResponseResult_ToTypedResponse_Nil(t *testing.T) {
+func Test_Cov_TypedResponseResult_ToTypedResponse_Nil(t *testing.T) {
 	var rr *coreapi.TypedResponseResult[string]
 	if rr.ToTypedResponse() != nil {
 		t.Error("nil should return nil")
