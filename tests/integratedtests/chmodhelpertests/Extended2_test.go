@@ -1043,7 +1043,7 @@ func Test_IsChmodEqualUsingRwxOwnerGroupOther_Ext2(t *testing.T) {
 
 // ── FileModeFriendlyString ──
 
-func Test_FileModeFriendlyString(t *testing.T) {
+func Test_FileModeFriendlyString_Ext2(t *testing.T) {
 	// Act
 	result := chmodhelper.FileModeFriendlyString(os.FileMode(0755))
 
