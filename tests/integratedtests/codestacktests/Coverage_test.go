@@ -355,7 +355,7 @@ func Test_Cov_Trace_Dispose(t *testing.T) {
 	}
 }
 
-func Test_Trace_HasIssues_Cov(t *testing.T) {
+func Test_Cov_Trace_HasIssues(t *testing.T) {
 	// Arrange
 	trace := codestack.Trace{}
 
