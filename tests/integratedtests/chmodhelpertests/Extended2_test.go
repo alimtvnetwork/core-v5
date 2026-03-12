@@ -2257,7 +2257,7 @@ func Test_NewRwxWrapperCreator_UsingFileMode_Zero(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_UsingRwxOwnerGroupOther(t *testing.T) {
+func Test_NewRwxWrapperCreator_UsingRwxOwnerGroupOther_Ext2(t *testing.T) {
 	// Arrange
 	ogo := &chmodins.RwxOwnerGroupOther{
 		Owner: "rwx",
