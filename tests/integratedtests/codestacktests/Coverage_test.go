@@ -650,7 +650,7 @@ func Test_Cov_TraceCollection_Add(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_Paging_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_Paging(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
