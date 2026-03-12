@@ -902,7 +902,7 @@ func Test_Cov_StacksTo_String(t *testing.T) {
 	}
 }
 
-func Test_StacksTo_StringDefault_Cov(t *testing.T) {
+func Test_Cov_StacksTo_StringDefault(t *testing.T) {
 	// Act
 	result := codestack.StacksTo.StringDefault()
 
