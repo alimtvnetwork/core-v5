@@ -494,7 +494,7 @@ func Test_Attribute_ToRwx_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_ToVariant(t *testing.T) {
+func Test_Attribute_ToVariant_Ext2(t *testing.T) {
 	// Arrange
 	attr := chmodhelper.New.Attribute.UsingRwxString("rwx")
 
