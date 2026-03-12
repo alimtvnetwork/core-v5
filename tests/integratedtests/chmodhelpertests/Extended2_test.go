@@ -756,7 +756,7 @@ func Test_VarAttribute_Fixed_Ext2(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_ToCompileAttr_WithWildcard(t *testing.T) {
+func Test_VarAttribute_ToCompileAttr_WithWildcard_Ext2(t *testing.T) {
 	// Arrange
 	varAttr, _ := chmodhelper.ParseRwxToVarAttribute("r*x")
 	fixed := chmodhelper.New.Attribute.UsingRwxString("rw-")
