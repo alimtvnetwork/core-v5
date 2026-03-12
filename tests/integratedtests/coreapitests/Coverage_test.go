@@ -383,7 +383,7 @@ func Test_Cov_InvalidTypedRequest_NilAttribute(t *testing.T) {
 // TypedRequestIn — uncovered branches
 // =============================================================================
 
-func Test_TypedRequestIn_Clone_Nil(t *testing.T) {
+func Test_Cov_TypedRequestIn_Clone_Nil(t *testing.T) {
 	var req *coreapi.TypedRequestIn[string]
 	if req.Clone() != nil {
 		t.Error("nil clone should return nil")
