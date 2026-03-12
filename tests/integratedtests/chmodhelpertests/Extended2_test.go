@@ -1235,7 +1235,7 @@ func Test_RwxInstructionExecutor_IsEqualFileInfo_Nil(t *testing.T) {
 
 // ── RwxInstructionExecutors ──
 
-func Test_RwxInstructionExecutors(t *testing.T) {
+func Test_RwxInstructionExecutors_Ext2(t *testing.T) {
 	// Arrange
 	executors := chmodhelper.NewRwxInstructionExecutors(2)
 
