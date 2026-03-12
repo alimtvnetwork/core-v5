@@ -229,7 +229,7 @@ func Test_RwxWrapper_IsEqualPtr_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_IsEqualFileMode(t *testing.T) {
+func Test_RwxWrapper_IsEqualFileMode_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
