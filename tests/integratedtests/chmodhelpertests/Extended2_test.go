@@ -1420,7 +1420,7 @@ func Test_FilteredPathFileInfoMap_LazyMethods(t *testing.T) {
 
 // ── GetFilteredExistsPaths ──
 
-func Test_GetFilteredExistsPaths(t *testing.T) {
+func Test_GetFilteredExistsPaths_Ext2(t *testing.T) {
 	// Act
 	found, missing := chmodhelper.GetFilteredExistsPaths([]string{
 		os.TempDir(),
