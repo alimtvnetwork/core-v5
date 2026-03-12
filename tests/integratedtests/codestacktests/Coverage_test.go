@@ -26,7 +26,7 @@ func Test_Cov_Trace_NilSafe(t *testing.T) {
 
 // ── FileWithLine value tests ──
 
-func Test_FileWithLine_Value_Cov(t *testing.T) {
+func Test_Cov_FileWithLine_Value(t *testing.T) {
 	// Arrange
 	fwl := &codestack.FileWithLine{
 		FilePath: "/tmp/test.go",
