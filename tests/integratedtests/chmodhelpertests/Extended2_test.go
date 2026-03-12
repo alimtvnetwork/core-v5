@@ -2729,7 +2729,7 @@ func Test_ChmodVerifier_MismatchErrorUsingRwxFull_Ext2(t *testing.T) {
 	_ = err
 }
 
-func Test_ChmodVerifier_IsEqualRwxFull(t *testing.T) {
+func Test_ChmodVerifier_IsEqualRwxFull_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
