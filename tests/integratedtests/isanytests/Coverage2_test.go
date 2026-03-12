@@ -165,7 +165,7 @@ func Test_Cov2_FloatingPointTypeRv_Int(t *testing.T) {
 
 // ── NumberTypeRv ──
 
-func Test_NumberTypeRv_Int8_Cov2(t *testing.T) {
+func Test_Cov2_NumberTypeRv_Int8(t *testing.T) {
 	actual := args.Map{"result": isany.NumberTypeRv(reflect.ValueOf(int8(1)))}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "NumberTypeRv_Int8", actual)
