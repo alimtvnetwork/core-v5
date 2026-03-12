@@ -144,7 +144,7 @@ func Test_Cov_InvalidRequestAttribute(t *testing.T) {
 	}
 }
 
-func Test_InvalidResponseAttribute(t *testing.T) {
+func Test_Cov_InvalidResponseAttribute(t *testing.T) {
 	attr := coreapi.InvalidResponseAttribute("test error")
 	if attr.IsValid || attr.Message != "test error" {
 		t.Error("should be invalid with message")
