@@ -2683,7 +2683,7 @@ func Test_RwxOwnerGroupOtherApplyChmod_NilCondition_Ext2(t *testing.T) {
 
 // ── chmodVerifier additional tests ──
 
-func Test_ChmodVerifier_RwxFull_InvalidLength(t *testing.T) {
+func Test_ChmodVerifier_RwxFull_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodVerify.RwxFull("/tmp", "rwx")
 
