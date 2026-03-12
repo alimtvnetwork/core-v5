@@ -163,7 +163,7 @@ func Test_Cov_SearchRequest_Clone(t *testing.T) {
 	}
 }
 
-func Test_SearchRequest_Clone_Nil(t *testing.T) {
+func Test_Cov_SearchRequest_Clone_Nil(t *testing.T) {
 	var sr *coreapi.SearchRequest
 	if sr.Clone() != nil {
 		t.Error("nil clone should return nil")
