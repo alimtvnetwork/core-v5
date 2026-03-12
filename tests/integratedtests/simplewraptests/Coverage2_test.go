@@ -34,7 +34,7 @@ func Test_Cov2_TitleQuotationMeta(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "TitleQuotationMeta", actual)
 }
 
-func Test_TitleSquareCsvMeta_Cov2(t *testing.T) {
+func Test_Cov2_TitleSquareCsvMeta(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.TitleSquareCsvMeta("title", "val", "a", "b") != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "TitleSquareCsvMeta", actual)
