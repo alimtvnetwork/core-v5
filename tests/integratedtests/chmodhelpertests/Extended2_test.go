@@ -1475,7 +1475,7 @@ func Test_RwxMatchingStatus_Invalid_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxMatchingStatus_CreateErrFinalError_AllMatching(t *testing.T) {
+func Test_RwxMatchingStatus_CreateErrFinalError_AllMatching_Ext2(t *testing.T) {
 	// Arrange
 	status := &chmodhelper.RwxMatchingStatus{
 		IsAllMatching: true,
