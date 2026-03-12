@@ -75,7 +75,7 @@ func Test_Cov2_FloatPtrToSimple_NonNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FloatPtrToSimple_NonNil", actual)
 }
 
-func Test_FloatPtrToSimpleDef_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_FloatPtrToSimpleDef_NonNil(t *testing.T) {
 	v := float32(3.14)
 	actual := args.Map{"result": fmt.Sprintf("%.2f", typesconv.FloatPtrToSimpleDef(&v, 9.9))}
 	expected := args.Map{"result": "3.14"}
