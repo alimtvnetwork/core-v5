@@ -803,7 +803,7 @@ func Test_Cov_TraceCollection_Dispose(t *testing.T) {
 
 func Test_Cov_NameOf_Method(t *testing.T) {
 	// Act
-	name := codestack.NameOf.Method("github.com/alimtvnetwork/core/codestack.Test_NameOf_Method_Cov")
+	name := codestack.NameOf.MethodByFullName("github.com/alimtvnetwork/core/codestack.Test_NameOf_Method_Cov")
 
 	// Assert
 	if name == "" {
