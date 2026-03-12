@@ -449,7 +449,7 @@ func Test_Cov_TypedSimpleGenericRequest_IsInvalid(t *testing.T) {
 	}
 }
 
-func Test_TypedSimpleGenericRequest_Message_Nil(t *testing.T) {
+func Test_Cov_TypedSimpleGenericRequest_Message_Nil(t *testing.T) {
 	var req *coreapi.TypedSimpleGenericRequest[string]
 	if req.Message() != "" {
 		t.Error("nil should return empty")
