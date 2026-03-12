@@ -442,7 +442,7 @@ func Test_Cov_TypedSimpleGenericRequest_IsValid_True(t *testing.T) {
 	}
 }
 
-func Test_TypedSimpleGenericRequest_IsInvalid(t *testing.T) {
+func Test_Cov_TypedSimpleGenericRequest_IsInvalid(t *testing.T) {
 	req := coreapi.InvalidTypedSimpleGenericRequest[string](nil)
 	if !req.IsInvalid() {
 		t.Error("should be invalid")
