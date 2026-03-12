@@ -1461,7 +1461,7 @@ func Test_RwxMatchingStatus_Empty_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxMatchingStatus_Invalid(t *testing.T) {
+func Test_RwxMatchingStatus_Invalid_Ext2(t *testing.T) {
 	// Arrange
 	err := os.ErrNotExist
 	status := chmodhelper.InvalidRwxMatchingStatus(err)
