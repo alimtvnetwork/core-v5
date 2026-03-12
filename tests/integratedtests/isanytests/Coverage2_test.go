@@ -217,7 +217,7 @@ func Test_Cov2_PositiveIntegerTypeRv_Int(t *testing.T) {
 
 // ── PrimitiveTypeRv ──
 
-func Test_PrimitiveTypeRv_Uintptr_Cov2(t *testing.T) {
+func Test_Cov2_PrimitiveTypeRv_Uintptr(t *testing.T) {
 	actual := args.Map{"result": isany.PrimitiveTypeRv(reflect.Uintptr)}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "PrimitiveTypeRv_Uintptr", actual)
