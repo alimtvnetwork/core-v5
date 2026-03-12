@@ -34,7 +34,7 @@ func Test_Cov2_Conclusive_LeftNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Conclusive_LeftNil", actual)
 }
 
-func Test_Conclusive_RightNil_Cov2(t *testing.T) {
+func Test_Cov2_Conclusive_RightNil(t *testing.T) {
 	isEqual, isConcl := isany.Conclusive(42, nil)
 	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
 	expected := args.Map{"isEqual": false, "isConcl": true}
