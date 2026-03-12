@@ -3127,7 +3127,7 @@ func Test_FileStringWriter_DefaultLock_Ext2(t *testing.T) {
 	}
 }
 
-func Test_FileStringWriter_Chmod(t *testing.T) {
+func Test_FileStringWriter_Chmod_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_fsw_chmod_ext2"
 	filePath := dir + "/test.txt"
