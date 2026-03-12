@@ -316,17 +316,17 @@ func Test_RangesInBetween_Ext(t *testing.T) {
 // Start / End
 // ==========================================
 
-func Test_Request_StartFunc_Ext(t *testing.T) {
-	s := reqtype.StartRequest()
-	if s != reqtype.Invalid {
-		t.Errorf("expected Invalid for start")
+func Test_Request_Min_Ext(t *testing.T) {
+	m := reqtype.Min()
+	if m != reqtype.Invalid {
+		t.Errorf("expected Invalid for Min")
 	}
 }
 
-func Test_Request_EndFunc_Ext(t *testing.T) {
-	e := reqtype.EndRequest()
-	if e == reqtype.Invalid {
-		t.Error("end should not be Invalid")
+func Test_Request_Max_Ext(t *testing.T) {
+	m := reqtype.Max()
+	if m == reqtype.Invalid {
+		t.Error("Max should not be Invalid")
 	}
 }
 
