@@ -1034,7 +1034,7 @@ func Test_IsChmod_Ext2(t *testing.T) {
 
 // ── IsChmodEqualUsingRwxOwnerGroupOther ──
 
-func Test_IsChmodEqualUsingRwxOwnerGroupOther(t *testing.T) {
+func Test_IsChmodEqualUsingRwxOwnerGroupOther_Ext2(t *testing.T) {
 	// Assert
 	if chmodhelper.IsChmodEqualUsingRwxOwnerGroupOther("/tmp", nil) {
 		t.Error("nil rwx should return false")
