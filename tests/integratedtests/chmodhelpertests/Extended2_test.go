@@ -671,7 +671,7 @@ func Test_Variant_ToWrapperPtr_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Variant_ExpandOctalByte(t *testing.T) {
+func Test_Variant_ExpandOctalByte_Ext2(t *testing.T) {
 	// Arrange
 	v := chmodhelper.X755
 
