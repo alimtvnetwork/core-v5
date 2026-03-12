@@ -203,7 +203,7 @@ func Test_Cov2_TitleSquare_Int(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "TitleSquare_Int", actual)
 }
 
-func Test_WithBrackets_Int_Cov2(t *testing.T) {
+func Test_Cov2_WithBrackets_Int(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.WithBrackets(42) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "WithBrackets_Int", actual)
