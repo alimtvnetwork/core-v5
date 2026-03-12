@@ -746,11 +746,14 @@ func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
-	s := tc.Serializer()
+	bytes, err := tc.Serializer()
 
 	// Assert
-	if s == nil {
-		t.Error("Serializer should not be nil")
+	if err != nil {
+		t.Errorf("Serializer should not return error: %v", err)
+	}
+	if len(bytes) == 0 {
+		t.Error("Serializer should not be empty")
 	}
 }
 
