@@ -2801,7 +2801,7 @@ func Test_ChmodVerifier_Path_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_PathIf_True(t *testing.T) {
+func Test_ChmodVerifier_PathIf_True_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
