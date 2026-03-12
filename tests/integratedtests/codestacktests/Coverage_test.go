@@ -848,7 +848,7 @@ func Test_Cov_NewCreator_SkipOne(t *testing.T) {
 	}
 }
 
-func Test_NewCreator_Ptr_Cov(t *testing.T) {
+func Test_Cov_NewCreator_Ptr(t *testing.T) {
 	// Act
 	trace := codestack.New.Ptr(0)
 
