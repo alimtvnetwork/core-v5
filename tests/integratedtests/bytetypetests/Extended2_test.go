@@ -105,8 +105,10 @@ func Test_Variant_IsEnumEqual(t *testing.T) {
 		otherVariant := bytetype.New(byte(other))
 
 		// Act
+		// IsEnumEqual takes enuminf.BasicEnumer which requires pointer receiver
+		// (UnmarshalJSON has pointer receiver), so pass &otherVariant.
 		actual := args.Map{
-			"isEnumEqual": v.IsEnumEqual(otherVariant),
+			"isEnumEqual": v.IsEnumEqual(&otherVariant),
 		}
 
 		// Assert
@@ -119,11 +121,17 @@ func Test_Variant_IsAnyEnumsEqual(t *testing.T) {
 	v := bytetype.One
 
 	// Act & Assert
-	if !v.IsAnyEnumsEqual(bytetype.Two, bytetype.One) {
+	// IsAnyEnumsEqual takes ...enuminf.BasicEnumer which requires pointer receiver.
+	// bytetype.Variant has UnmarshalJSON on pointer receiver, so use variables + &.
+	two := bytetype.Two
+	one := bytetype.One
+	three := bytetype.Three
+
+	if !v.IsAnyEnumsEqual(&two, &one) {
 		t.Error("expected IsAnyEnumsEqual to find match")
 	}
 
-	if v.IsAnyEnumsEqual(bytetype.Two, bytetype.Three) {
+	if v.IsAnyEnumsEqual(&two, &three) {
 		t.Error("expected IsAnyEnumsEqual to not match")
 	}
 
@@ -347,14 +355,16 @@ func Test_Variant_JsonString(t *testing.T) {
 func Test_Variant_OnlySupportedErr(t *testing.T) {
 	// Arrange
 	v := bytetype.One
-	allNames := v.AllNameValues()
+	// OnlySupportedErr compares against StringRanges() (plain names like "Zero"),
+	// not AllNameValues() which returns "Name(Value)" format like "Zero(0)".
+	allNames := v.StringRanges()
 
 	// Act
 	err := v.OnlySupportedErr(allNames...)
 
 	// Assert
 	if err != nil {
-		t.Errorf("OnlySupportedErr with all names should return nil, got: %v", err)
+		t.Errorf("all names supported should not error, got: %v", err)
 	}
 }
 
