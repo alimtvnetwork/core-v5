@@ -2716,7 +2716,7 @@ func Test_ChmodVerifier_MismatchError_Ext2(t *testing.T) {
 	_ = err
 }
 
-func Test_ChmodVerifier_MismatchErrorUsingRwxFull(t *testing.T) {
+func Test_ChmodVerifier_MismatchErrorUsingRwxFull_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
