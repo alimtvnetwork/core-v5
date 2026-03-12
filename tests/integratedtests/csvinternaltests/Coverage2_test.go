@@ -166,5 +166,3 @@ func Test_Cov2_StringsToCsvString_SingleQuote(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Strings_CsvString_SingleQuote", actual)
 }
 
-// Use _ to avoid unused import
-var _ = fmt.Sprintf

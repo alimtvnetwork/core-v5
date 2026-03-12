@@ -167,7 +167,7 @@ func Test_Cov2_StringSearch_IsAllMatch(t *testing.T) {
 // ── NameList / NameListCollection ──
 
 func Test_Cov2_NameList_DeepClone(t *testing.T) {
-	nl := &coreinstruction.NameList{Name: "test", List: corestr.NewSimpleSlicePtr("a", "b")}
+	nl := &coreinstruction.NameList{Name: "test", List: corestr.New.SimpleSlice.Lines("a", "b")}
 	cloned := nl.DeepClone()
 	actual := args.Map{"name": cloned.Name, "notNil": cloned.List != nil}
 	expected := args.Map{"name": "test", "notNil": true}
