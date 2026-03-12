@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/enums/versionindexes"
 )
 
@@ -48,7 +49,7 @@ func Test_Index_EnumMethods(t *testing.T) {
 		"stringVal":      "Major",
 		"rangeNamesCsv":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_EnumMethods", actual)
+	coretestcases.CaseV1{Title: "Index_EnumMethods", ExpectedInput: expected}.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Index_AllVariants(t *testing.T) {
@@ -67,7 +68,7 @@ func Test_Index_AllVariants(t *testing.T) {
 		"buildValid":   true,
 		"invalidValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_AllVariants", actual)
+	coretestcases.CaseV1{Title: "Index_AllVariants", ExpectedInput: expected}.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Index_Comparisons(t *testing.T) {
@@ -91,7 +92,7 @@ func Test_Index_Comparisons(t *testing.T) {
 		"isAnyNamesOf":   true,
 		"isAnyValsEq":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_Comparisons", actual)
+	coretestcases.CaseV1{Title: "Index_Comparisons", ExpectedInput: expected}.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Index_JSON(t *testing.T) {
@@ -113,7 +114,7 @@ func Test_Index_JSON(t *testing.T) {
 		"unmarshalErr": "<nil>",
 		"roundTrip":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_JSON", actual)
+	coretestcases.CaseV1{Title: "Index_JSON", ExpectedInput: expected}.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Index_Binders(t *testing.T) {
@@ -135,7 +136,7 @@ func Test_Index_Binders(t *testing.T) {
 		"toPtrNil":         false,
 		"enumTypeNil":      false,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_Binders", actual)
+	coretestcases.CaseV1{Title: "Index_Binders", ExpectedInput: expected}.ShouldBeEqualMapFirst(t, actual)
 }
 
 func Test_Index_EnumMetadata(t *testing.T) {
@@ -171,5 +172,5 @@ func Test_Index_EnumMetadata(t *testing.T) {
 		"valueInt16":       0,
 		"valueInt32":       0,
 	}
-	expected.ShouldBeEqual(t, 0, "Index_EnumMetadata", actual)
+	coretestcases.CaseV1{Title: "Index_EnumMetadata", ExpectedInput: expected}.ShouldBeEqualMapFirst(t, actual)
 }
