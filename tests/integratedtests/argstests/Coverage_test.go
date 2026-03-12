@@ -296,7 +296,7 @@ func Test_Map_Raw(t *testing.T) {
 	}
 }
 
-func Test_Map_Args(t *testing.T) {
+func Test_Map_Args_Cov(t *testing.T) {
 	m := args.Map{"a": 1, "b": 2}
 	a := m.Args("a", "b")
 	if len(a) != 2 {
