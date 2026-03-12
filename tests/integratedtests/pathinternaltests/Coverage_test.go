@@ -58,7 +58,7 @@ func Test_Cov_ParentDir(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "ParentDir", actual)
 }
 
-func Test_Relative(t *testing.T) {
+func Test_Cov_Relative(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.Relative("/a/b", "/a/b/c/d")
 
