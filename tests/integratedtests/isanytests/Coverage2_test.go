@@ -298,7 +298,7 @@ func Test_Cov2_DefinedAnyOf(t *testing.T) {
 
 // ── Null / NumberType / PositiveIntegerType / FloatingPointType / PrimitiveType ──
 
-func Test_Null_UnsafePointer_Cov2(t *testing.T) {
+func Test_Cov2_Null_UnsafePointer(t *testing.T) {
 	actual := args.Map{"isNull": isany.Null(unsafe.Pointer(nil))}
 	expected := args.Map{"isNull": true}
 	expected.ShouldBeEqual(t, 0, "Null_UnsafePointer", actual)
