@@ -20,7 +20,7 @@ var covVerifyMessageTestCases = []coretestcases.CaseV1{
 			"variant": stringcompareas.Equal, "ignoreCase": false,
 			"content": "hello", "search": "hello",
 		},
-		ExpectedInput: args.Map{"isEmpty": true},
+		ExpectedInput: args.Map{"isEmpty": true, "isNegativeMsg": false},
 	},
 	{
 		Title: "VerifyMessage positive mismatch -- case sensitive",

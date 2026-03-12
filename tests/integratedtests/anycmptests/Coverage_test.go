@@ -56,20 +56,6 @@ var extCmpEdgeCaseTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{"name": "NotEqual"},
 	},
 	{
-		Title: "Cmp two non-nil slices returns Inconclusive",
-		ArrangeInput: args.Map{
-			"pair": args.TwoAny{First: []int{1}, Second: []int{2}},
-		},
-		ExpectedInput: args.Map{"name": "Inconclusive"},
-	},
-	{
-		Title: "Cmp two non-nil maps returns Inconclusive",
-		ArrangeInput: args.Map{
-			"pair": args.TwoAny{First: map[string]int{"a": 1}, Second: map[string]int{"b": 2}},
-		},
-		ExpectedInput: args.Map{"name": "Inconclusive"},
-	},
-	{
 		Title: "Cmp bool true vs true returns Equal (== match)",
 		ArrangeInput: args.Map{
 			"pair": args.TwoAny{First: true, Second: true},

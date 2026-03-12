@@ -104,7 +104,7 @@ func Test_Map_HasDefinedAll_Empty(t *testing.T) {
 // Map Get operations
 // ==========================================
 
-func Test_Map_Get(t *testing.T) {
+func Test_Map_Get_Cov(t *testing.T) {
 	m := args.Map{"a": "val"}
 	item, isValid := m.Get("a")
 	if !isValid || item != "val" {
@@ -191,7 +191,7 @@ func Test_Map_Arrange(t *testing.T) {
 	}
 }
 
-func Test_Map_SetActual(t *testing.T) {
+func Test_Map_SetActual_Cov(t *testing.T) {
 	m := args.Map{}
 	m.SetActual("hello")
 	if m.Actual() != "hello" {
@@ -296,7 +296,7 @@ func Test_Map_Raw(t *testing.T) {
 	}
 }
 
-func Test_Map_Args(t *testing.T) {
+func Test_Map_Args_Cov(t *testing.T) {
 	m := args.Map{"a": 1, "b": 2}
 	a := m.Args("a", "b")
 	if len(a) != 2 {
@@ -304,7 +304,7 @@ func Test_Map_Args(t *testing.T) {
 	}
 }
 
-func Test_Map_GetByIndex(t *testing.T) {
+func Test_Map_GetByIndex_Cov(t *testing.T) {
 	m := args.Map{"a": 1}
 	v := m.GetByIndex(0)
 	if v == nil {
@@ -324,7 +324,7 @@ func Test_Map_GetByIndex_OutOfBounds(t *testing.T) {
 // Map SortedKeys
 // ==========================================
 
-func Test_Map_SortedKeys(t *testing.T) {
+func Test_Map_SortedKeys_Cov(t *testing.T) {
 	m := args.Map{"b": 2, "a": 1}
 	keys, err := m.SortedKeys()
 	if err != nil {
