@@ -607,7 +607,7 @@ func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 
 func Test_Cov_TraceCollection_Clone(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	cloned := tc.Clone()
