@@ -191,7 +191,7 @@ func Test_Cov2_PositiveIntegerTypeRv_Uint8(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "PositiveIntegerTypeRv_Uint8", actual)
 }
 
-func Test_PositiveIntegerTypeRv_Uint16_Cov2(t *testing.T) {
+func Test_Cov2_PositiveIntegerTypeRv_Uint16(t *testing.T) {
 	actual := args.Map{"result": isany.PositiveIntegerTypeRv(reflect.ValueOf(uint16(1)))}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "PositiveIntegerTypeRv_Uint16", actual)
