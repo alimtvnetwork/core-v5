@@ -2819,7 +2819,7 @@ func Test_ChmodVerifier_PathIf_True_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_UsingRwxOwnerGroupOther_Nil(t *testing.T) {
+func Test_ChmodVerifier_UsingRwxOwnerGroupOther_Nil_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodVerify.UsingRwxOwnerGroupOther(nil, "/tmp")
 
