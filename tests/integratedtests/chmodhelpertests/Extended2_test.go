@@ -1850,7 +1850,7 @@ func Test_SimpleFileReaderWriter_JSON_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_Json_Methods(t *testing.T) {
+func Test_SimpleFileReaderWriter_Json_Methods_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/tmp/test.txt")
 
