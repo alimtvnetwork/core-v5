@@ -67,7 +67,7 @@ func Test_Cov_RequestAttribute_IsPageRequestEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_IsSearchRequestEmpty(t *testing.T) {
+func Test_Cov_RequestAttribute_IsSearchRequestEmpty(t *testing.T) {
 	attr := &coreapi.RequestAttribute{}
 	if !attr.IsSearchRequestEmpty() {
 		t.Error("should be empty without search request")
