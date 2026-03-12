@@ -551,7 +551,7 @@ func Test_Attribute_IsEqual_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_IsEqualPtr_BothNil(t *testing.T) {
+func Test_Attribute_IsEqualPtr_BothNil_Ext2(t *testing.T) {
 	// Arrange
 	var a1, a2 *chmodhelper.Attribute
 
