@@ -3329,7 +3329,7 @@ func Test_RwxWrapper_Verify_Unix_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_HasChmod_Unix(t *testing.T) {
+func Test_RwxWrapper_HasChmod_Unix_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
