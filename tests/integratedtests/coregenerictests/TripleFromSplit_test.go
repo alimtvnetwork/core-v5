@@ -11,7 +11,7 @@ import (
 // Test: TripleFromSplit
 // ==========================================
 
-func Test_TripleFromSplit(t *testing.T) {
+func Test_TripleFromSplit_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
