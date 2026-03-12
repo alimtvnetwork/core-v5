@@ -3227,7 +3227,7 @@ func Test_AnyItemWriter_Default_Ext2(t *testing.T) {
 	}
 }
 
-func Test_AnyItemWriter_DefaultLock(t *testing.T) {
+func Test_AnyItemWriter_DefaultLock_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_aiw_dl_ext2"
 	filePath := dir + "/test.json"
