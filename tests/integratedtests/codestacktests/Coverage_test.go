@@ -582,7 +582,7 @@ func Test_Cov_TraceCollection_Json(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_Reverse_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_Reverse(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
