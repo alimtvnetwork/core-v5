@@ -234,13 +234,13 @@ func Test_Cov2_NameOf_All_EmptyInput(t *testing.T) {
 }
 
 func Test_Cov2_NameOf_Method_EmptyInput(t *testing.T) {
-	actual := args.Map{"result": codestack.NameOf.Method("")}
+	actual := args.Map{"result": codestack.NameOf.MethodByFullName("")}
 	expected := args.Map{"result": ""}
 	expected.ShouldBeEqual(t, 0, "NameOf.Method returns empty -- empty input", actual)
 }
 
 func Test_Cov2_NameOf_Package_EmptyInput(t *testing.T) {
-	actual := args.Map{"result": codestack.NameOf.Package("")}
+	actual := args.Map{"result": codestack.NameOf.PackageByFullName("")}
 	expected := args.Map{"result": ""}
 	expected.ShouldBeEqual(t, 0, "NameOf.Package returns empty -- empty input", actual)
 }

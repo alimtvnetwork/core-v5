@@ -53,6 +53,10 @@ func (it *Dynamic[T]) GetWorkFunc() any {
 }
 
 func (it *Dynamic[T]) HasFirst() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.Params.HasFirst()
 }
 

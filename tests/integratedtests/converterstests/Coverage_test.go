@@ -133,9 +133,9 @@ func Test_Cov_StringsTo_Csv(t *testing.T) {
 }
 
 func Test_Cov_StringsTo_CsvUsingPtrStrings(t *testing.T) {
-	nilResult := converters.StringsTo.CsvUsingPtrStrings(nil)
+	nilResult := converters.StringsTo.CsvUsingPtrStrings(false, nil)
 	items := []string{"a", "b"}
-	result := converters.StringsTo.CsvUsingPtrStrings(&items)
+	result := converters.StringsTo.CsvUsingPtrStrings(false, &items)
 	actual := args.Map{"nilEmpty": nilResult == "", "notEmpty": result != ""}
 	expected := args.Map{"nilEmpty": true, "notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CsvUsingPtrStrings", actual)

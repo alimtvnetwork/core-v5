@@ -182,14 +182,14 @@ func Test_Cov2_BytesTo_String_Empty(t *testing.T) {
 }
 
 func Test_Cov2_UnsafeBytesTo_String(t *testing.T) {
-	result := converters.UnsafeBytesTo.String([]byte("hello"))
+	result := converters.UnsafeBytesToString([]byte("hello"))
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "hello"}
 	expected.ShouldBeEqual(t, 0, "UnsafeBytesTo.String", actual)
 }
 
 func Test_Cov2_UnsafeBytesTo_String_Empty(t *testing.T) {
-	result := converters.UnsafeBytesTo.String(nil)
+	result := converters.UnsafeBytesToString(nil)
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
 	expected.ShouldBeEqual(t, 0, "UnsafeBytesTo.String nil", actual)
