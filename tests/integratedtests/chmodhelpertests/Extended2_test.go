@@ -1301,7 +1301,7 @@ func Test_ParseRwxInstructionsToExecutors_Nil_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ParseRwxInstructionsToExecutors_Empty(t *testing.T) {
+func Test_ParseRwxInstructionsToExecutors_Empty_Ext2(t *testing.T) {
 	// Act
 	executors, err := chmodhelper.ParseRwxInstructionsToExecutors([]chmodins.RwxInstruction{})
 
