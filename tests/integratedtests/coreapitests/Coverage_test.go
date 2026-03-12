@@ -356,7 +356,7 @@ func Test_Cov_TypedRequest_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedRequest_ToTypedSimpleGenericRequest_Nil(t *testing.T) {
+func Test_Cov_TypedRequest_ToTypedSimpleGenericRequest_Nil(t *testing.T) {
 	var req *coreapi.TypedRequest[string]
 	if req.ToTypedSimpleGenericRequest(true, "") != nil {
 		t.Error("nil should return nil")
