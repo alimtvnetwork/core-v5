@@ -1,9 +1,14 @@
 package chmodhelpertests
 
 import (
+	"github.com/alimtvnetwork/core/chmodhelper"
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/results"
 )
+
+type pathExistStatType = chmodhelper.PathExistStat
+type nilSafeResult = results.ResultAny
 
 // ── PathExistStat nil-safety tests ──
 
