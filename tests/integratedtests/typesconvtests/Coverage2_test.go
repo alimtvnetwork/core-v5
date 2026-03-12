@@ -98,7 +98,7 @@ func Test_Cov2_FloatPtrDefValFunc_NonNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FloatPtrDefValFunc_NonNil", actual)
 }
 
-func Test_StringPtrToSimpleDef_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_StringPtrToSimpleDef_NonNil(t *testing.T) {
 	v := "hello"
 	actual := args.Map{"result": typesconv.StringPtrToSimpleDef(&v, "fb")}
 	expected := args.Map{"result": "hello"}
