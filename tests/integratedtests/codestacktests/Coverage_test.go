@@ -396,7 +396,7 @@ func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_FirstLast_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_FirstLast(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
