@@ -481,7 +481,7 @@ func Test_Attribute_ToSpecificBytes_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_ToRwx(t *testing.T) {
+func Test_Attribute_ToRwx_Ext2(t *testing.T) {
 	// Arrange
 	attr := chmodhelper.New.Attribute.UsingRwxString("r-x")
 
