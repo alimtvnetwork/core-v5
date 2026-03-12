@@ -167,7 +167,7 @@ func Test_Cov2_MsgCsvItems_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "MsgCsvItems_Empty", actual)
 }
 
-func Test_ConditionalWrapWith_BothPresent2Char_Cov2(t *testing.T) {
+func Test_Cov2_ConditionalWrapWith_BothPresent2Char(t *testing.T) {
 	actual := args.Map{"result": simplewrap.ConditionalWrapWith('{', "{}", '}')}
 	expected := args.Map{"result": "{}"}
 	expected.ShouldBeEqual(t, 0, "ConditionalWrapWith_BothPresent2Char", actual)
