@@ -1,0 +1,298 @@
+package stringutiltests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coreutils/stringutil"
+)
+
+func Test_AnyToString(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"string": stringutil.AnyToString("hello"),
+		"nil":    stringutil.AnyToString(nil),
+		"int":    stringutil.AnyToString(42),
+	}
+	expected := args.Map{
+		"string": "hello",
+		"nil":    "",
+		"int":    "42",
+	}
+	expected.ShouldBeEqual(t, 0, "AnyToString", actual)
+}
+
+func Test_IsEmpty(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"empty":    stringutil.IsEmpty(""),
+		"nonEmpty": stringutil.IsEmpty("hello"),
+	}
+	expected := args.Map{
+		"empty":    true,
+		"nonEmpty": false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsEmpty", actual)
+}
+
+func Test_IsNotEmpty(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"empty":    stringutil.IsNotEmpty(""),
+		"nonEmpty": stringutil.IsNotEmpty("hello"),
+	}
+	expected := args.Map{
+		"empty":    false,
+		"nonEmpty": true,
+	}
+	expected.ShouldBeEqual(t, 0, "IsNotEmpty", actual)
+}
+
+func Test_IsBlank(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"empty":    stringutil.IsBlank(""),
+		"space":    stringutil.IsBlank("   "),
+		"text":     stringutil.IsBlank("hello"),
+	}
+	expected := args.Map{
+		"empty":    true,
+		"space":    true,
+		"text":     false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsBlank", actual)
+}
+
+func Test_IsEmptyOrWhitespace(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"empty":    stringutil.IsEmptyOrWhitespace(""),
+		"space":    stringutil.IsEmptyOrWhitespace("  "),
+		"tab":      stringutil.IsEmptyOrWhitespace("\t"),
+		"text":     stringutil.IsEmptyOrWhitespace("hello"),
+	}
+	expected := args.Map{
+		"empty":    true,
+		"space":    true,
+		"tab":      true,
+		"text":     false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsEmptyOrWhitespace", actual)
+}
+
+func Test_IsDefined(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"empty":    stringutil.IsDefined(""),
+		"nonEmpty": stringutil.IsDefined("hello"),
+	}
+	expected := args.Map{
+		"empty":    false,
+		"nonEmpty": true,
+	}
+	expected.ShouldBeEqual(t, 0, "IsDefined", actual)
+}
+
+func Test_IsContains(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"found":    stringutil.IsContains("hello world", "world"),
+		"notFound": stringutil.IsContains("hello world", "foo"),
+	}
+	expected := args.Map{
+		"found":    true,
+		"notFound": false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsContains", actual)
+}
+
+func Test_IsStarts(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"starts": stringutil.IsStarts("hello world", "hello"),
+		"not":    stringutil.IsStarts("hello world", "world"),
+	}
+	expected := args.Map{
+		"starts": true,
+		"not":    false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsStarts", actual)
+}
+
+func Test_IsEnds(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"ends": stringutil.IsEnds("hello world", "world"),
+		"not":  stringutil.IsEnds("hello world", "hello"),
+	}
+	expected := args.Map{
+		"ends": true,
+		"not":  false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsEnds", actual)
+}
+
+func Test_FirstChar(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"first": stringutil.FirstChar("hello"),
+		"empty": stringutil.FirstChar(""),
+	}
+	expected := args.Map{
+		"first": "h",
+		"empty": "",
+	}
+	expected.ShouldBeEqual(t, 0, "FirstChar", actual)
+}
+
+func Test_ToInt(t *testing.T) {
+	// Act
+	val, err := stringutil.ToInt("42")
+	_, errBad := stringutil.ToInt("abc")
+
+	actual := args.Map{
+		"val":    val,
+		"noErr":  err == nil,
+		"hasErr": errBad != nil,
+	}
+	expected := args.Map{
+		"val":    42,
+		"noErr":  true,
+		"hasErr": true,
+	}
+	expected.ShouldBeEqual(t, 0, "ToInt", actual)
+}
+
+func Test_ToIntDefault(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"valid":   stringutil.ToIntDefault("42", 0),
+		"invalid": stringutil.ToIntDefault("abc", 99),
+	}
+	expected := args.Map{
+		"valid":   42,
+		"invalid": 99,
+	}
+	expected.ShouldBeEqual(t, 0, "ToIntDefault", actual)
+}
+
+func Test_ToBool(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"true":    stringutil.ToBool("true"),
+		"false":   stringutil.ToBool("false"),
+		"invalid": stringutil.ToBool("abc"),
+	}
+	expected := args.Map{
+		"true":    true,
+		"false":   false,
+		"invalid": false,
+	}
+	expected.ShouldBeEqual(t, 0, "ToBool", actual)
+}
+
+func Test_SplitLeftRight(t *testing.T) {
+	// Act
+	lr := stringutil.SplitLeftRight("=", "key=value")
+	lr2 := stringutil.SplitLeftRight("=", "noequals")
+
+	actual := args.Map{
+		"left":   lr.Left,
+		"right":  lr.Right,
+		"left2":  lr2.Left,
+		"right2": lr2.Right,
+	}
+	expected := args.Map{
+		"left":   "key",
+		"right":  "value",
+		"left2":  "noequals",
+		"right2": "",
+	}
+	expected.ShouldBeEqual(t, 0, "SplitLeftRight", actual)
+}
+
+func Test_MaskLine(t *testing.T) {
+	// Act
+	result := stringutil.MaskLine("XXXXXXXXXX", "abc")
+
+	actual := args.Map{
+		"result": result,
+	}
+	expected := args.Map{
+		"result": "abcXXXXXXX",
+	}
+	expected.ShouldBeEqual(t, 0, "MaskLine", actual)
+}
+
+func Test_SafeSubstring(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"normal": stringutil.SafeSubstring("hello world", 0, 5),
+		"over":   stringutil.SafeSubstring("hi", 0, 10),
+		"empty":  stringutil.SafeSubstring("", 0, 5),
+	}
+	expected := args.Map{
+		"normal": "hello",
+		"over":   "hi",
+		"empty":  "",
+	}
+	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)
+}
+
+func Test_IsNullOrEmptyPtr(t *testing.T) {
+	// Arrange
+	empty := ""
+	hello := "hello"
+
+	// Act
+	actual := args.Map{
+		"nil":      stringutil.IsNullOrEmptyPtr(nil),
+		"empty":    stringutil.IsNullOrEmptyPtr(&empty),
+		"nonEmpty": stringutil.IsNullOrEmptyPtr(&hello),
+	}
+	expected := args.Map{
+		"nil":      true,
+		"empty":    true,
+		"nonEmpty": false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsNullOrEmptyPtr", actual)
+}
+
+func Test_IsAnyStartsWith(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"found":    stringutil.IsAnyStartsWith("hello", "he", "wo"),
+		"notFound": stringutil.IsAnyStartsWith("hello", "wo", "fo"),
+	}
+	expected := args.Map{
+		"found":    true,
+		"notFound": false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsAnyStartsWith", actual)
+}
+
+func Test_IsAnyEndsWith(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"found":    stringutil.IsAnyEndsWith("hello", "lo", "wo"),
+		"notFound": stringutil.IsAnyEndsWith("hello", "wo", "fo"),
+	}
+	expected := args.Map{
+		"found":    true,
+		"notFound": false,
+	}
+	expected.ShouldBeEqual(t, 0, "IsAnyEndsWith", actual)
+}
+
+func Test_RemoveMany(t *testing.T) {
+	// Act
+	result := stringutil.RemoveMany("hello world foo", "world", "foo")
+
+	actual := args.Map{
+		"result": result,
+	}
+	expected := args.Map{
+		"result": "hello  ",
+	}
+	expected.ShouldBeEqual(t, 0, "RemoveMany", actual)
+}
