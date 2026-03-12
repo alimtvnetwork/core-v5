@@ -65,7 +65,7 @@ func Test_Cov2_Conclusive_DiffTypes(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Conclusive_DiffTypes", actual)
 }
 
-func Test_Conclusive_Inconclusive_Cov2(t *testing.T) {
+func Test_Cov2_Conclusive_Inconclusive(t *testing.T) {
 	isEqual, isConcl := isany.Conclusive(42, 43)
 	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
 	expected := args.Map{"isEqual": false, "isConcl": false}
