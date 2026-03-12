@@ -417,7 +417,7 @@ func Test_Cov_InvalidTypedRequestIn_NilAttribute(t *testing.T) {
 // TypedSimpleGenericRequest — uncovered branches
 // =============================================================================
 
-func Test_TypedSimpleGenericRequest_IsValid_NilReceiver(t *testing.T) {
+func Test_Cov_TypedSimpleGenericRequest_IsValid_NilReceiver(t *testing.T) {
 	var req *coreapi.TypedSimpleGenericRequest[string]
 	if req.IsValid() {
 		t.Error("nil should be invalid")
