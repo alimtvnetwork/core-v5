@@ -3,7 +3,6 @@ package coreinstructiontests
 import (
 	"testing"
 
-	"github.com/alimtvnetwork/core/coredata/corestr"
 	"github.com/alimtvnetwork/core/coreinstruction"
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/enums/stringcompareas"
