@@ -2657,7 +2657,7 @@ func Test_RwxOwnerGroupOtherApplyChmod_EmptyLocations_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxOwnerGroupOtherApplyChmod_NilRwx(t *testing.T) {
+func Test_RwxOwnerGroupOtherApplyChmod_NilRwx_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxOwnerGroupOtherApplyChmod(nil, &chmodins.Condition{}, "/tmp")
 
