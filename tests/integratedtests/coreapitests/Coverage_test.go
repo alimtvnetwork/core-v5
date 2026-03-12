@@ -291,7 +291,7 @@ func Test_Cov_TypedResponseResult_IsInvalid(t *testing.T) {
 	}
 }
 
-func Test_TypedResponseResult_Message_Nil(t *testing.T) {
+func Test_Cov_TypedResponseResult_Message_Nil(t *testing.T) {
 	var rr *coreapi.TypedResponseResult[string]
 	if rr.Message() != "" {
 		t.Error("nil should return empty")
