@@ -8,7 +8,7 @@ import (
 	"github.com/alimtvnetwork/core/typesconv"
 )
 
-func Test_IntPtrToSimple_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_IntPtrToSimple_NonNil(t *testing.T) {
 	v := 42
 	actual := args.Map{"result": typesconv.IntPtrToSimple(&v)}
 	expected := args.Map{"result": 42}
