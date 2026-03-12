@@ -1212,7 +1212,7 @@ func Test_RwxInstructionExecutor_IsEqualRwxPartial_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxInstructionExecutor_IsEqualFileInfo_Nil(t *testing.T) {
+func Test_RwxInstructionExecutor_IsEqualFileInfo_Nil_Ext2(t *testing.T) {
 	// Arrange
 	ins := &chmodins.RwxInstruction{
 		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
