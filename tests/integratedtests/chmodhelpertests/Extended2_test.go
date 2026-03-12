@@ -2410,7 +2410,7 @@ func Test_SingleRwx_Other_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SingleRwx_OwnerGroup(t *testing.T) {
+func Test_SingleRwx_OwnerGroup_Ext2(t *testing.T) {
 	// Arrange
 	singleRwx, _ := chmodhelper.NewSingleRwx("rwx", chmodclasstype.OwnerGroup)
 
