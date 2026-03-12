@@ -1328,7 +1328,7 @@ func Test_ParseRwxOwnerGroupOtherToRwxVariableWrapper_Nil_Ext2(t *testing.T) {
 
 // ── FilteredPathFileInfoMap ──
 
-func Test_FilteredPathFileInfoMap_Empty(t *testing.T) {
+func Test_FilteredPathFileInfoMap_Empty_Ext2(t *testing.T) {
 	// Arrange
 	fmap := chmodhelper.InvalidFilteredPathFileInfoMap()
 
