@@ -137,7 +137,7 @@ func Test_Cov2_ReflectNull_NilMap(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "ReflectNull_NilMap", actual)
 }
 
-func Test_ReflectNull_NonNilMap_Cov2(t *testing.T) {
+func Test_Cov2_ReflectNull_NonNilMap(t *testing.T) {
 	actual := args.Map{"isNull": isany.ReflectNull(map[string]int{"a": 1})}
 	expected := args.Map{"isNull": false}
 	expected.ShouldBeEqual(t, 0, "ReflectNull_NonNilMap", actual)
