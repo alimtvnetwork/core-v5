@@ -3161,7 +3161,7 @@ func Test_FileStringWriter_ChmodLock(t *testing.T) {
 
 // ── fileReader ──
 
-func Test_FileReader_Read(t *testing.T) {
+func Test_FileReader_Read_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	os.WriteFile(tmpFile.Name(), []byte("hello"), 0644)
