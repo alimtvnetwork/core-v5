@@ -655,7 +655,7 @@ func Test_Variant_ToWrapper_Verification(t *testing.T) {
 	}
 }
 
-func Test_Variant_ToWrapperPtr(t *testing.T) {
+func Test_Variant_ToWrapperPtr_Ext2(t *testing.T) {
 	// Arrange
 	v := chmodhelper.X777
 
