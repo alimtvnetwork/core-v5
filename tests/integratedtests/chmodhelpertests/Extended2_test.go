@@ -2590,7 +2590,7 @@ func Test_ChmodApplier_PathsUsingFileModeConditions_EmptyLocations_Ext2(t *testi
 	}
 }
 
-func Test_ChmodApplier_PathsUsingFileModeConditions_NilCondition(t *testing.T) {
+func Test_ChmodApplier_PathsUsingFileModeConditions_NilCondition_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.PathsUsingFileModeConditions(os.FileMode(0755), nil, "/tmp")
 
