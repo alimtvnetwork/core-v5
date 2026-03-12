@@ -232,7 +232,7 @@ func Test_Cov_Trace_StringUsingFmt(t *testing.T) {
 	}
 }
 
-func Test_Trace_Clone_Cov(t *testing.T) {
+func Test_Cov_Trace_Clone(t *testing.T) {
 	// Arrange
 	trace := codestack.New.Default()
 
