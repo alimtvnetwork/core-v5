@@ -579,7 +579,7 @@ func Test_Attribute_UsingByte_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_UsingByte_Invalid(t *testing.T) {
+func Test_Attribute_UsingByte_Invalid_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.New.Attribute.UsingByte(8)
 
