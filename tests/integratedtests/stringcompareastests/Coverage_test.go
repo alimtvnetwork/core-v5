@@ -56,7 +56,7 @@ var covVerifyMessageTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_VerifyMessage_Coverage(t *testing.T) {
+func Test_Cov_VerifyMessage(t *testing.T) {
 	for caseIndex, testCase := range covVerifyMessageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -100,7 +100,7 @@ var covVerifyErrorTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_VerifyError_Coverage(t *testing.T) {
+func Test_Cov_VerifyError(t *testing.T) {
 	for caseIndex, testCase := range covVerifyErrorTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		variant := input["variant"].(stringcompareas.Variant)
@@ -127,7 +127,7 @@ var covOnlySupportedMsgErrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_OnlySupportedMsgErr_Coverage(t *testing.T) {
+func Test_Cov_OnlySupportedMsgErr(t *testing.T) {
 	for caseIndex, testCase := range covOnlySupportedMsgErrTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		names := input["names"].([]string)
@@ -251,7 +251,7 @@ var covIgnoreCaseCompareFuncTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_CompareFuncs_IgnoreCase_Coverage(t *testing.T) {
+func Test_Cov_CompareFuncs_IgnoreCase(t *testing.T) {
 	for caseIndex, testCase := range covIgnoreCaseCompareFuncTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		variant := input["variant"].(stringcompareas.Variant)
@@ -277,7 +277,7 @@ var covIsAnyEnumsEqualTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_IsAnyEnumsEqual_NoMatch_Coverage(t *testing.T) {
+func Test_Cov_IsAnyEnumsEqual_NoMatch(t *testing.T) {
 	for caseIndex, testCase := range covIsAnyEnumsEqualTestCases {
 		a := stringcompareas.Equal
 		b := stringcompareas.StartsWith
@@ -300,7 +300,7 @@ var covMinIntTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_MinInt_Coverage(t *testing.T) {
+func Test_Cov_MinInt(t *testing.T) {
 	for caseIndex, testCase := range covMinIntTestCases {
 		actual := args.Map{"value": fmt.Sprintf("%d", stringcompareas.Equal.MinInt())}
 		testCase.ShouldBeEqualMap(t, caseIndex, actual)
@@ -319,7 +319,7 @@ var covValueByteTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_ValueByte_Coverage(t *testing.T) {
+func Test_Cov_ValueByte(t *testing.T) {
 	for caseIndex, testCase := range covValueByteTestCases {
 		v := stringcompareas.Equal
 		actual := args.Map{"value": v.ValueByte()}
@@ -339,7 +339,7 @@ var covUnmarshalJSONErrTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_UnmarshalJSON_Error_Coverage(t *testing.T) {
+func Test_Cov_UnmarshalJSON_Error(t *testing.T) {
 	for caseIndex, testCase := range covUnmarshalJSONErrTestCases {
 		v := stringcompareas.Equal
 		err := v.UnmarshalJSON([]byte("invalid-not-json"))

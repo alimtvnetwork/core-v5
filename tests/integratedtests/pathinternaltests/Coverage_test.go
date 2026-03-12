@@ -8,7 +8,7 @@ import (
 	"github.com/alimtvnetwork/core/internal/pathinternal"
 )
 
-func Test_Clean(t *testing.T) {
+func Test_Cov_Clean(t *testing.T) {
 	// Arrange & Act
 	actual := args.Map{
 		"empty":       pathinternal.Clean(""),
@@ -27,7 +27,7 @@ func Test_Clean(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Clean", actual)
 }
 
-func Test_Join(t *testing.T) {
+func Test_Cov_Join(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.Join("a", "b", "c")
 
@@ -41,7 +41,7 @@ func Test_Join(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Join", actual)
 }
 
-func Test_ParentDir(t *testing.T) {
+func Test_Cov_ParentDir(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.ParentDir("/a/b/c")
 	emptyResult := pathinternal.ParentDir("")
@@ -58,7 +58,7 @@ func Test_ParentDir(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "ParentDir", actual)
 }
 
-func Test_Relative(t *testing.T) {
+func Test_Cov_Relative(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.Relative("/a/b", "/a/b/c/d")
 
@@ -72,7 +72,7 @@ func Test_Relative(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Relative", actual)
 }
 
-func Test_IsPathExists(t *testing.T) {
+func Test_Cov_IsPathExists(t *testing.T) {
 	// Arrange & Act
 	actual := args.Map{
 		"tempExists":  pathinternal.IsPathExists(os.TempDir()),
@@ -85,7 +85,7 @@ func Test_IsPathExists(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "IsPathExists", actual)
 }
 
-func Test_GetTemp(t *testing.T) {
+func Test_Cov_GetTemp(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.GetTemp()
 
@@ -99,7 +99,7 @@ func Test_GetTemp(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "GetTemp", actual)
 }
 
-func Test_JoinTemp(t *testing.T) {
+func Test_Cov_JoinTemp(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.JoinTemp("subdir", "file.txt")
 
@@ -113,7 +113,7 @@ func Test_JoinTemp(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "JoinTemp", actual)
 }
 
-func Test_RemoveDirIf_NonExistent(t *testing.T) {
+func Test_Cov_RemoveDirIf_NonExistent(t *testing.T) {
 	// Arrange & Act — removing non-existent dir with flag=false should be no-op
 	err := pathinternal.RemoveDirIf(false, "/nonexistent/path/12345", "test")
 
