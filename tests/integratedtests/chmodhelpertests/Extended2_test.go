@@ -2632,7 +2632,7 @@ func Test_RwxStringApplyChmod_InvalidLength_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxStringApplyChmod_NilCondition(t *testing.T) {
+func Test_RwxStringApplyChmod_NilCondition_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxStringApplyChmod("-rwxr-xr-x", nil, "/tmp")
 
