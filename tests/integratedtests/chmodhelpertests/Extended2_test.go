@@ -2570,7 +2570,7 @@ func Test_ChmodApplier_ApplyIf_False_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_OnMismatchOption_NotApply(t *testing.T) {
+func Test_ChmodApplier_OnMismatchOption_NotApply_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.OnMismatchOption(false, false, os.FileMode(0755), "/whatever")
 
