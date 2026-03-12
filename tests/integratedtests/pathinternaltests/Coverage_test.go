@@ -41,7 +41,7 @@ func Test_Cov_Join(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Join", actual)
 }
 
-func Test_ParentDir(t *testing.T) {
+func Test_Cov_ParentDir(t *testing.T) {
 	// Arrange & Act
 	result := pathinternal.ParentDir("/a/b/c")
 	emptyResult := pathinternal.ParentDir("")
