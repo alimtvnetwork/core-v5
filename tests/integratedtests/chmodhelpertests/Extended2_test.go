@@ -2536,7 +2536,7 @@ func Test_SingleRwx_ToDisabledRwxWrapper(t *testing.T) {
 
 // ── TempDirGetter ──
 
-func Test_TempDirGetter(t *testing.T) {
+func Test_TempDirGetter_Ext2(t *testing.T) {
 	// Act
 	tempDefault := chmodhelper.TempDirGetter.TempDefault()
 	tempPermanent := chmodhelper.TempDirGetter.TempPermanent()
