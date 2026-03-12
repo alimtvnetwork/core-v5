@@ -27,7 +27,7 @@ func Test_Cov2_Conclusive_SamePointer(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Conclusive_SamePointer", actual)
 }
 
-func Test_Conclusive_LeftNil_Cov2(t *testing.T) {
+func Test_Cov2_Conclusive_LeftNil(t *testing.T) {
 	isEqual, isConcl := isany.Conclusive(nil, 42)
 	actual := args.Map{"isEqual": isEqual, "isConcl": isConcl}
 	expected := args.Map{"isEqual": false, "isConcl": true}
