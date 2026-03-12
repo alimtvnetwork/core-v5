@@ -515,7 +515,7 @@ func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_FileWithLines_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
