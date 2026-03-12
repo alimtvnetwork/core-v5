@@ -823,7 +823,7 @@ func Test_MergeRwxWildcardWithFixedRwx_Verification(t *testing.T) {
 
 // ── NewRwxVariableWrapper ──
 
-func Test_NewRwxVariableWrapper(t *testing.T) {
+func Test_NewRwxVariableWrapper_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2NewRwxVarWrapperTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
