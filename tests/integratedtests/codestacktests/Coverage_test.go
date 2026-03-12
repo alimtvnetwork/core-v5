@@ -475,7 +475,7 @@ func Test_Cov_TraceCollection_Strings(t *testing.T) {
 
 func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 	length := tc.Length()
 
 	// Act & Assert
