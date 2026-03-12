@@ -155,7 +155,7 @@ func Test_Cov_InvalidResponseAttribute(t *testing.T) {
 // SearchRequest — uncovered branches
 // =============================================================================
 
-func Test_SearchRequest_Clone(t *testing.T) {
+func Test_Cov_SearchRequest_Clone(t *testing.T) {
 	sr := &coreapi.SearchRequest{SearchTerm: "test", IsContains: true}
 	c := sr.Clone()
 	if c == nil || c.SearchTerm != "test" || !c.IsContains {
