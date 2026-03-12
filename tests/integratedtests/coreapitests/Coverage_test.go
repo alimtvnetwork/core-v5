@@ -433,7 +433,7 @@ func Test_Cov_TypedSimpleGenericRequest_IsValid_NilRequest(t *testing.T) {
 	}
 }
 
-func Test_TypedSimpleGenericRequest_IsValid_True(t *testing.T) {
+func Test_Cov_TypedSimpleGenericRequest_IsValid_True(t *testing.T) {
 	attr := &coreapi.RequestAttribute{IsValid: true}
 	simpleReq := coredynamic.NewTypedSimpleRequest("data", true, "")
 	req := coreapi.NewTypedSimpleGenericRequest(attr, simpleReq)
