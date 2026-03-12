@@ -1033,17 +1033,17 @@ func Test_Cov_TraceCollection_Filters(t *testing.T) {
 	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
-	filtered := tc.Filter(func(index int, trace codestack.Trace) bool {
-		return true
+	filtered := tc.Filter(func(trace *codestack.Trace) (bool, bool) {
+		return true, false
 	})
-	if filtered.Length() == 0 {
+	if len(filtered) == 0 {
 		t.Error("Filter should not be empty")
 	}
 
-	filteredLimit := tc.FilterWithLimit(1, func(index int, trace codestack.Trace) bool {
-		return true
+	filteredLimit := tc.FilterWithLimit(1, func(trace *codestack.Trace) (bool, bool) {
+		return true, false
 	})
-	if filteredLimit.Length() == 0 {
+	if len(filteredLimit) == 0 {
 		t.Error("FilterWithLimit should not be empty")
 	}
 }
