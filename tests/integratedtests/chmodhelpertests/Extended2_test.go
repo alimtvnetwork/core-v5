@@ -211,7 +211,7 @@ func Test_RwxWrapper_IsEmpty_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_IsEqualPtr(t *testing.T) {
+func Test_RwxWrapper_IsEqualPtr_Ext2(t *testing.T) {
 	// Arrange
 	w1, _ := chmodhelper.New.RwxWrapper.Create("755")
 	w2, _ := chmodhelper.New.RwxWrapper.Create("755")
