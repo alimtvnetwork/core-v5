@@ -783,7 +783,7 @@ func Test_Cov_TraceCollection_ParseJson(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_Dispose_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_Dispose(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
