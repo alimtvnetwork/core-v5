@@ -953,7 +953,7 @@ func Test_RwxVariableWrapper_NilSafe(t *testing.T) {
 
 // ── GetRwxLengthError ──
 
-func Test_GetRwxLengthError(t *testing.T) {
+func Test_GetRwxLengthError_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2GetRwxLengthErrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
