@@ -202,7 +202,7 @@ func Test_Cov_PageRequest_HasPageSize_Nil(t *testing.T) {
 	}
 }
 
-func Test_PageRequest_HasPageIndex(t *testing.T) {
+func Test_Cov_PageRequest_HasPageIndex(t *testing.T) {
 	pr := &coreapi.PageRequest{PageIndex: 5}
 	if !pr.HasPageIndex() {
 		t.Error("should have page index")
