@@ -8,7 +8,7 @@ import (
 	"github.com/smartystreets/goconvey/convey"
 )
 
-func Test_DoubleQuoteWrapElementsWithIndexes_Should_Return_Slice_WithDoubleQuoteWithIndexes(t *testing.T) {
+func Test_DoubleQuoteWrapElementsWithIndexes_Verification(t *testing.T) {
 	// Arrange
 	testCases := []string{
 		"some-elem",

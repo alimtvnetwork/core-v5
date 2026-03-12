@@ -115,7 +115,7 @@ func Test_TripleFromSplitNTrimmed_Verification(t *testing.T) {
 // Test: TripleFromSlice
 // ==========================================
 
-func Test_TripleFromSlice(t *testing.T) {
+func Test_TripleFromSlice_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSliceTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)

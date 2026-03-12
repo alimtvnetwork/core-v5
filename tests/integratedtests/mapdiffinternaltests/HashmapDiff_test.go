@@ -104,7 +104,7 @@ func Test_HashmapDiff_DiffRaw_Verification(t *testing.T) {
 	}
 }
 
-func Test_HashmapDiff_ShouldDiffMessage(t *testing.T) {
+func Test_HashmapDiff_ShouldDiffMessage_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffShouldDiffMessageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)

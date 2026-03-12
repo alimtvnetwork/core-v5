@@ -160,7 +160,7 @@ func Test_MapStringAnyDiff_ShouldDiffMessage_Verification(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_ToStringsSliceOfDiffMap(t *testing.T) {
+func Test_MapStringAnyDiff_ToStringsSliceOfDiffMap_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffToStringsSliceTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
