@@ -2069,7 +2069,7 @@ func Test_NewSimpleFileReaderWriter_Create_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewSimpleFileReaderWriter_CreateClean(t *testing.T) {
+func Test_NewSimpleFileReaderWriter_CreateClean_Ext2(t *testing.T) {
 	// Act
 	rw := chmodhelper.New.SimpleFileReaderWriter.CreateClean(
 		true,
