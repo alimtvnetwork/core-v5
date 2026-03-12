@@ -324,7 +324,7 @@ func Test_Map_GetByIndex_OutOfBounds(t *testing.T) {
 // Map SortedKeys
 // ==========================================
 
-func Test_Map_SortedKeys(t *testing.T) {
+func Test_Map_SortedKeys_Cov(t *testing.T) {
 	m := args.Map{"b": 2, "a": 1}
 	keys, err := m.SortedKeys()
 	if err != nil {
