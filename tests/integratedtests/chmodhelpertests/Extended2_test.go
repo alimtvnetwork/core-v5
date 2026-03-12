@@ -2622,7 +2622,7 @@ func Test_RwxStringApplyChmod_EmptyLocations_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxStringApplyChmod_InvalidLength(t *testing.T) {
+func Test_RwxStringApplyChmod_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxStringApplyChmod("rwx", &chmodins.Condition{}, "/tmp")
 
