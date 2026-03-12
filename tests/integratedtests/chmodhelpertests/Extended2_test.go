@@ -182,7 +182,7 @@ func Test_RwxWrapper_Clone_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_Clone_Nil(t *testing.T) {
+func Test_RwxWrapper_Clone_Nil_Ext2(t *testing.T) {
 	// Arrange
 	var wrapper *chmodhelper.RwxWrapper
 
