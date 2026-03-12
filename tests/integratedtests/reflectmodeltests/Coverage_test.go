@@ -9,21 +9,15 @@ import (
 	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
-// ── ReflectValueKind ──
-
 func Test_Cov_ReflectValueKind_InvalidModel(t *testing.T) {
 	m := reflectmodel.InvalidReflectValueKindModel("test error")
 	actual := args.Map{
-		"isInvalid":  m.IsInvalid(),
-		"hasError":   m.HasError(),
-		"isEmptyErr": m.IsEmptyError(),
-		"typeName":   m.TypeName(),
+		"isInvalid": m.IsInvalid(), "hasError": m.HasError(),
+		"isEmptyErr": m.IsEmptyError(), "typeName": m.TypeName(),
 	}
 	expected := args.Map{
-		"isInvalid":  true,
-		"hasError":   true,
-		"isEmptyErr": false,
-		"typeName":   "",
+		"isInvalid": true, "hasError": true,
+		"isEmptyErr": false, "typeName": "",
 	}
 	expected.ShouldBeEqual(t, 0, "InvalidModel", actual)
 }
@@ -31,108 +25,67 @@ func Test_Cov_ReflectValueKind_InvalidModel(t *testing.T) {
 func Test_Cov_ReflectValueKind_NilMethods(t *testing.T) {
 	var m *reflectmodel.ReflectValueKind
 	actual := args.Map{
-		"isInvalid":    m.IsInvalid(),
-		"hasError":     m.HasError(),
-		"isEmptyErr":   m.IsEmptyError(),
-		"actualNil":    m.ActualInstance() == nil,
-		"pkgPath":      m.PkgPath(),
-		"pointerRv":    m.PointerRv() == nil,
-		"typeName":     m.TypeName(),
-		"pointerInf":   m.PointerInterface() == nil,
+		"isInvalid": m.IsInvalid(), "hasError": m.HasError(),
+		"isEmptyErr": m.IsEmptyError(), "actualNil": m.ActualInstance() == nil,
+		"pkgPath": m.PkgPath(), "pointerRv": m.PointerRv() == nil,
+		"typeName": m.TypeName(), "pointerInf": m.PointerInterface() == nil,
 	}
 	expected := args.Map{
-		"isInvalid":    true,
-		"hasError":     false,
-		"isEmptyErr":   true,
-		"actualNil":    true,
-		"pkgPath":      "",
-		"pointerRv":    true,
-		"typeName":     "",
-		"pointerInf":   true,
+		"isInvalid": true, "hasError": false,
+		"isEmptyErr": true, "actualNil": true,
+		"pkgPath": "", "pointerRv": true,
+		"typeName": "", "pointerInf": true,
 	}
 	expected.ShouldBeEqual(t, 0, "NilMethods", actual)
 }
 
 func Test_Cov_ReflectValueKind_ValidModel(t *testing.T) {
 	rv := reflect.ValueOf(42)
-	m := &reflectmodel.ReflectValueKind{
-		IsValid:         true,
-		FinalReflectVal: rv,
-		Kind:            rv.Kind(),
-	}
+	m := &reflectmodel.ReflectValueKind{IsValid: true, FinalReflectVal: rv, Kind: rv.Kind()}
 	actual := args.Map{
-		"isInvalid":  m.IsInvalid(),
-		"hasError":   m.HasError(),
-		"typeName":   m.TypeName() != "",
-		"pkgPath":    m.PkgPath(),
-		"actualVal":  m.ActualInstance(),
-		"ptrNotNil":  m.PointerRv() != nil,
+		"isInvalid": m.IsInvalid(), "hasError": m.HasError(),
+		"typeName": m.TypeName() != "", "pkgPath": m.PkgPath(),
+		"actualVal": m.ActualInstance(), "ptrNotNil": m.PointerRv() != nil,
 		"ptrInfNotNil": m.PointerInterface() != nil,
 	}
 	expected := args.Map{
-		"isInvalid":  false,
-		"hasError":   false,
-		"typeName":   true,
-		"pkgPath":    "",
-		"actualVal":  42,
-		"ptrNotNil":  true,
+		"isInvalid": false, "hasError": false,
+		"typeName": true, "pkgPath": "",
+		"actualVal": 42, "ptrNotNil": true,
 		"ptrInfNotNil": true,
 	}
 	expected.ShouldBeEqual(t, 0, "ValidModel", actual)
 }
 
 func Test_Cov_ReflectValueKind_InvalidNotValid(t *testing.T) {
-	m := &reflectmodel.ReflectValueKind{
-		IsValid:         false,
-		FinalReflectVal: reflect.ValueOf(42),
-	}
-	actual := args.Map{
-		"ptrRvNotNil": m.PointerRv() != nil,
-	}
-	expected := args.Map{
-		"ptrRvNotNil": true,
-	}
+	m := &reflectmodel.ReflectValueKind{IsValid: false, FinalReflectVal: reflect.ValueOf(42)}
+	actual := args.Map{"ptrRvNotNil": m.PointerRv() != nil}
+	expected := args.Map{"ptrRvNotNil": true}
 	expected.ShouldBeEqual(t, 0, "InvalidNotValid", actual)
 }
 
 func Test_Cov_ReflectValueKind_WithError(t *testing.T) {
 	m := &reflectmodel.ReflectValueKind{
-		IsValid: true,
-		Error:   errors.New("some error"),
-		FinalReflectVal: reflect.ValueOf(42),
-		Kind:    reflect.Int,
+		IsValid: true, Error: errors.New("some error"),
+		FinalReflectVal: reflect.ValueOf(42), Kind: reflect.Int,
 	}
-	actual := args.Map{
-		"isInvalid": m.IsInvalid(),
-		"hasError":  m.HasError(),
-	}
-	expected := args.Map{
-		"isInvalid": true,
-		"hasError":  true,
-	}
+	actual := args.Map{"isInvalid": m.IsInvalid(), "hasError": m.HasError()}
+	expected := args.Map{"isInvalid": true, "hasError": true}
 	expected.ShouldBeEqual(t, 0, "WithError", actual)
 }
 
-// ── ReflectValue struct ──
-
 func Test_Cov_ReflectValue_Fields(t *testing.T) {
 	rv := reflectmodel.ReflectValue{
-		TypeName:     "MyType",
-		FieldsNames:  []string{"A", "B"},
-		MethodsNames: []string{"M1"},
-		RawData:      42,
+		TypeName: "MyType", FieldsNames: []string{"A", "B"},
+		MethodsNames: []string{"M1"}, RawData: 42,
 	}
 	actual := args.Map{
-		"typeName":   rv.TypeName,
-		"fieldsLen":  len(rv.FieldsNames),
-		"methodsLen": len(rv.MethodsNames),
-		"rawData":    rv.RawData,
+		"typeName": rv.TypeName, "fieldsLen": len(rv.FieldsNames),
+		"methodsLen": len(rv.MethodsNames), "rawData": rv.RawData,
 	}
 	expected := args.Map{
-		"typeName":   "MyType",
-		"fieldsLen":  2,
-		"methodsLen": 1,
-		"rawData":    42,
+		"typeName": "MyType", "fieldsLen": 2,
+		"methodsLen": 1, "rawData": 42,
 	}
 	expected.ShouldBeEqual(t, 0, "ReflectValue", actual)
 }
