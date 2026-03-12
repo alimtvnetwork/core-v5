@@ -78,7 +78,7 @@ func Test_Cov2_CurlyWrapOption(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "CurlyWrapOption", actual)
 }
 
-func Test_DoubleQuoteWrapElements_Nil_Cov2(t *testing.T) {
+func Test_Cov2_DoubleQuoteWrapElements_Nil(t *testing.T) {
 	r := simplewrap.DoubleQuoteWrapElements(false, nil...)
 	actual := args.Map{"isNotNil": r != nil}
 	expected := args.Map{"isNotNil": true}
