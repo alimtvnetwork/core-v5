@@ -270,7 +270,7 @@ func Test_RwxWrapper_IsRwxEqualLocation_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_IsRwxEqualFileInfo(t *testing.T) {
+func Test_RwxWrapper_IsRwxEqualFileInfo_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
