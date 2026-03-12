@@ -372,7 +372,7 @@ func Test_Cov_Trace_HasIssues(t *testing.T) {
 
 func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if tc.IsEmpty() {
@@ -398,7 +398,7 @@ func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
 
 func Test_Cov_TraceCollection_FirstLast(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	first := tc.First()
@@ -434,7 +434,7 @@ func Test_Cov_TraceCollection_FirstLast(t *testing.T) {
 
 func Test_Cov_TraceCollection_Strings(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	strs := tc.Strings()
@@ -475,7 +475,7 @@ func Test_Cov_TraceCollection_Strings(t *testing.T) {
 
 func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 	length := tc.Length()
 
 	// Act & Assert
@@ -517,7 +517,7 @@ func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 
 func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	fwls := tc.FileWithLines()
@@ -530,7 +530,7 @@ func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 		t.Error("FileWithLinesStrings should not be empty")
 	}
 
-	fwlStr := tc.FileWithLinesString(", ")
+	fwlStr := tc.FileWithLinesString()
 	if fwlStr == "" {
 		t.Error("FileWithLinesString should not be empty")
 	}
@@ -543,7 +543,7 @@ func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 
 func Test_Cov_TraceCollection_Json(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	jsonStrs := tc.JsonStrings()
@@ -584,7 +584,7 @@ func Test_Cov_TraceCollection_Json(t *testing.T) {
 
 func Test_Cov_TraceCollection_Reverse(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	reversed := tc.Reverse()
@@ -597,7 +597,7 @@ func Test_Cov_TraceCollection_Reverse(t *testing.T) {
 
 func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if !tc.IsEqual(tc) {
@@ -607,7 +607,7 @@ func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 
 func Test_Cov_TraceCollection_Clone(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	cloned := tc.Clone()
@@ -625,7 +625,7 @@ func Test_Cov_TraceCollection_Clone(t *testing.T) {
 
 func Test_Cov_TraceCollection_ClearDispose(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	tc.Clear()
@@ -652,7 +652,7 @@ func Test_Cov_TraceCollection_Add(t *testing.T) {
 
 func Test_Cov_TraceCollection_Paging(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	pages := tc.GetPagesSize(2)
@@ -665,15 +665,15 @@ func Test_Cov_TraceCollection_Paging(t *testing.T) {
 
 func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
-	csStr := tc.CodeStacksString(", ")
+	csStr := tc.CodeStacksString()
 	if csStr == "" {
 		t.Error("CodeStacksString should not be empty")
 	}
 
-	csStrLimit := tc.CodeStacksStringLimit(", ", 1)
+	csStrLimit := tc.CodeStacksStringLimit(1)
 	if csStrLimit == "" {
 		t.Error("CodeStacksStringLimit should not be empty")
 	}
@@ -681,10 +681,10 @@ func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 
 func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
-	strs := tc.StringsUsingFmt(func(tr codestack.Trace) string {
+	strs := tc.StringsUsingFmt(func(tr *codestack.Trace) string {
 		return tr.PackageName
 	})
 
@@ -693,9 +693,9 @@ func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 		t.Error("StringsUsingFmt should not be empty")
 	}
 
-	joinStr := tc.JoinUsingFmt(", ", func(tr codestack.Trace) string {
+	joinStr := tc.JoinUsingFmt(func(tr *codestack.Trace) string {
 		return tr.PackageName
-	})
+	}, ", ")
 	if joinStr == "" {
 		t.Error("JoinUsingFmt should not be empty")
 	}
@@ -703,7 +703,7 @@ func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 
 func Test_Cov_TraceCollection_JoinShortStrings(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	joinShort := tc.JoinShortStrings(", ")
@@ -716,7 +716,7 @@ func Test_Cov_TraceCollection_JoinShortStrings(t *testing.T) {
 
 func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	csvLine := tc.JoinCsvLine()
@@ -729,7 +729,7 @@ func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 
 func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if !tc.HasIndex(0) {
@@ -743,7 +743,7 @@ func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
 
 func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	s := tc.Serializer()
@@ -756,7 +756,7 @@ func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 
 func Test_Cov_TraceCollection_StackTracesBytes(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	bytes := tc.StackTracesBytes()
@@ -769,7 +769,7 @@ func Test_Cov_TraceCollection_StackTracesBytes(t *testing.T) {
 
 func Test_Cov_TraceCollection_ParseJson(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 	jsonResult := tc.Json()
 	jsonPtr := &jsonResult
 
@@ -785,7 +785,7 @@ func Test_Cov_TraceCollection_ParseJson(t *testing.T) {
 
 func Test_Cov_TraceCollection_Dispose(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	tc.Dispose()
@@ -914,7 +914,7 @@ func Test_Cov_StacksTo_StringDefault(t *testing.T) {
 
 func Test_Cov_StacksTo_Bytes(t *testing.T) {
 	// Act
-	result := codestack.StacksTo.Bytes(2, 5)
+	result := codestack.StacksTo.Bytes(2)
 
 	// Assert
 	if len(result) == 0 {
@@ -934,7 +934,7 @@ func Test_Cov_StacksTo_BytesDefault(t *testing.T) {
 
 func Test_Cov_StacksTo_JsonString(t *testing.T) {
 	// Act
-	result := codestack.StacksTo.JsonString(2, 5)
+	result := codestack.StacksTo.JsonString(2)
 
 	// Assert
 	if result == "" {
@@ -1008,7 +1008,7 @@ func Test_Cov_Dir_CurDirJoin(t *testing.T) {
 
 func Test_Cov_TraceCollection_Concat(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	concatted := tc.ConcatNew(codestack.New.Default())
@@ -1026,7 +1026,7 @@ func Test_Cov_TraceCollection_Concat(t *testing.T) {
 
 func Test_Cov_TraceCollection_Filters(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	filtered := tc.Filter(func(index int, trace codestack.Trace) bool {
@@ -1046,7 +1046,7 @@ func Test_Cov_TraceCollection_Filters(t *testing.T) {
 
 func Test_Cov_TraceCollection_AsBindings(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	binder := tc.AsJsonContractsBinder()
