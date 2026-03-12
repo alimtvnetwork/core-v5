@@ -260,7 +260,7 @@ func Test_Cov2_DefinedItems_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "DefinedItems_Empty", actual)
 }
 
-func Test_DefinedItems_AllDefined_Cov2(t *testing.T) {
+func Test_Cov2_DefinedItems_AllDefined(t *testing.T) {
 	isAll, items := isany.DefinedItems(1, "hello", 3.14)
 	actual := args.Map{"isAll": isAll, "len": len(items)}
 	expected := args.Map{"isAll": true, "len": 3}
