@@ -125,7 +125,7 @@ func Test_Cov_ResponseAttribute_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_ResponseAttribute_Clone_EmptySlices(t *testing.T) {
+func Test_Cov_ResponseAttribute_Clone_EmptySlices(t *testing.T) {
 	attr := &coreapi.ResponseAttribute{IsValid: true}
 	c := attr.Clone()
 	if c == nil || c.StepsPerformed != nil {
