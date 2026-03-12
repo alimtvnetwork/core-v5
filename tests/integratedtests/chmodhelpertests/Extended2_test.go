@@ -1528,7 +1528,7 @@ func Test_GetExistingChmodRwxWrappers_ContinueOnError_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodRwxWrappers_ImmediateExit(t *testing.T) {
+func Test_GetExistingChmodRwxWrappers_ImmediateExit_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.GetExistingChmodRwxWrappers(
 		false,
