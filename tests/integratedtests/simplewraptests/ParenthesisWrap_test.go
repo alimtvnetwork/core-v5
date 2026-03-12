@@ -8,7 +8,7 @@ import (
 	"github.com/alimtvnetwork/core/simplewrap"
 )
 
-func Test_ParenthesisWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Have_DuplicateParenthesis(t *testing.T) {
+func Test_ParenthesisWrapIf_Enabled_Verification(t *testing.T) {
 	for caseIndex, testCase := range parenthesisValidTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
