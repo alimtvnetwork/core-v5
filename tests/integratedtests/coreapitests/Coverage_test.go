@@ -25,7 +25,7 @@ func Test_Cov_RequestAttribute_HasSearchRequest_Nil(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_HasPageRequest(t *testing.T) {
+func Test_Cov_RequestAttribute_HasPageRequest(t *testing.T) {
 	attr := &coreapi.RequestAttribute{PageRequest: &coreapi.PageRequest{PageSize: 10}}
 	if !attr.HasPageRequest() {
 		t.Error("should have page request")
