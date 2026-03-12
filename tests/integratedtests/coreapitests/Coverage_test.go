@@ -216,7 +216,7 @@ func Test_Cov_PageRequest_HasPageIndex_Nil(t *testing.T) {
 	}
 }
 
-func Test_PageRequest_Clone_Nil(t *testing.T) {
+func Test_Cov_PageRequest_Clone_Nil(t *testing.T) {
 	var pr *coreapi.PageRequest
 	if pr.Clone() != nil {
 		t.Error("nil clone should return nil")
