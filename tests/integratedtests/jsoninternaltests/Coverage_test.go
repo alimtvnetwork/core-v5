@@ -126,7 +126,7 @@ func Test_StringJsonConverter(t *testing.T) {
 	item := map[string]string{"key": "value"}
 
 	// Act
-	defStr, err := jsoninternal.StringJson.Default(item)
+	defStr, err := jsoninternal.String.Default(item)
 	safeStr := jsoninternal.StringJson.SafeDefault(item)
 	prettyStr, err2 := jsoninternal.StringJson.Pretty(item)
 	strVal := jsoninternal.StringJson.StringValue("hello")
