@@ -799,7 +799,7 @@ func Test_VarAttribute_IsEqualPtr_BothNil(t *testing.T) {
 
 // ── MergeRwxWildcardWithFixedRwx ──
 
-func Test_MergeRwxWildcardWithFixedRwx(t *testing.T) {
+func Test_MergeRwxWildcardWithFixedRwx_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2MergeRwxTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
