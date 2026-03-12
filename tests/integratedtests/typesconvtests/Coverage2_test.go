@@ -152,7 +152,7 @@ func Test_Cov2_StringPointerToBool_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "StringPointerToBool_Empty", actual)
 }
 
-func Test_StringPointerToBoolPtr_Empty_Cov2(t *testing.T) {
+func Test_Cov2_StringPointerToBoolPtr_Empty(t *testing.T) {
 	s := ""
 	r := typesconv.StringPointerToBoolPtr(&s)
 	actual := args.Map{"result": *r}
