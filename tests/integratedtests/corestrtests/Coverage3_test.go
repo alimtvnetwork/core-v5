@@ -76,16 +76,25 @@ func Test_Cov3_Hashset_Remove(t *testing.T) {
 
 func Test_Cov3_LeftRight_Empty(t *testing.T) {
 	lr := corestr.LeftRight{}
-	actual := args.Map{"hasLeft": lr.HasLeft(), "hasRight": lr.HasRight(), "hasBoth": lr.HasBoth()}
-	expected := args.Map{"hasLeft": false, "hasRight": false, "hasBoth": false}
-	expected.ShouldBeEqual(t, 0, "LeftRight empty returns false -- all checks", actual)
+	actual := args.Map{"isLeftEmpty": lr.IsLeftEmpty(), "isRightEmpty": lr.IsRightEmpty()}
+	expected := args.Map{"isLeftEmpty": true, "isRightEmpty": true}
+	expected.ShouldBeEqual(t, 0, "LeftRight empty returns true -- all empty", actual)
 }
 
 func Test_Cov3_LeftRight_PartialLeft(t *testing.T) {
-	lr := corestr.LeftRight{Left: "l"}
-	actual := args.Map{"hasLeft": lr.HasLeft(), "hasRight": lr.HasRight(), "hasBoth": lr.HasBoth()}
-	expected := args.Map{"hasLeft": true, "hasRight": false, "hasBoth": false}
+	lr := corestr.NewLeftRight("l", "")
+	actual := args.Map{"isLeftEmpty": lr.IsLeftEmpty(), "isRightEmpty": lr.IsRightEmpty(), "hasSafe": lr.HasSafeNonEmpty()}
+	expected := args.Map{"isLeftEmpty": false, "isRightEmpty": true, "hasSafe": false}
 	expected.ShouldBeEqual(t, 0, "LeftRight partial returns mixed -- only left", actual)
+}
+
+// ── LeftMiddleRight — additional methods ──
+
+func Test_Cov3_LeftMiddleRight_Empty(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("", "", "")
+	actual := args.Map{"isLeftEmpty": lmr.IsLeftEmpty(), "isMiddleEmpty": lmr.IsMiddleEmpty(), "isRightEmpty": lmr.IsRightEmpty()}
+	expected := args.Map{"isLeftEmpty": true, "isMiddleEmpty": true, "isRightEmpty": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight empty returns true -- all empty", actual)
 }
 
 // ── KeyValuePair ──
