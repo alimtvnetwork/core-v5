@@ -964,7 +964,7 @@ func Test_Cov_StacksTo_StringNoCount(t *testing.T) {
 
 // ── File getter tests ──
 
-func Test_File_Name_Cov(t *testing.T) {
+func Test_Cov_File_Name(t *testing.T) {
 	// Act
 	name := codestack.File.Name(0)
 
