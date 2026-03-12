@@ -1818,7 +1818,7 @@ func Test_SimpleFileReaderWriter_Clone_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_ClonePtr_Nil(t *testing.T) {
+func Test_SimpleFileReaderWriter_ClonePtr_Nil_Ext2(t *testing.T) {
 	// Arrange
 	var rw *chmodhelper.SimpleFileReaderWriter
 
