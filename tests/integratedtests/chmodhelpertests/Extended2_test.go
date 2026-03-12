@@ -1949,7 +1949,7 @@ func Test_SimpleFileReaderWriter_NewPath_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_NewPathJoin(t *testing.T) {
+func Test_SimpleFileReaderWriter_NewPathJoin_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.SimpleFileReaderWriter{
 		ChmodDir:  os.FileMode(0755),
