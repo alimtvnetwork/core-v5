@@ -2693,7 +2693,7 @@ func Test_ChmodVerifier_RwxFull_InvalidLength_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_RwxFull_NonExistent(t *testing.T) {
+func Test_ChmodVerifier_RwxFull_NonExistent_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodVerify.RwxFull("/nonexistent/xyz", "-rwxr-xr-x")
 
