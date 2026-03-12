@@ -1073,7 +1073,7 @@ func Test_GetExistingChmodOfValidFile_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodOfValidFile_Invalid(t *testing.T) {
+func Test_GetExistingChmodOfValidFile_Invalid_Ext2(t *testing.T) {
 	// Act
 	chmod, isInvalid := chmodhelper.GetExistingChmodOfValidFile("/nonexistent/xyz")
 
