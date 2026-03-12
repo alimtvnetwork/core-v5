@@ -197,7 +197,7 @@ func Test_Cov2_TitleCurlyWrap_Int(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "TitleCurlyWrap_Int", actual)
 }
 
-func Test_TitleSquare_Int_Cov2(t *testing.T) {
+func Test_Cov2_TitleSquare_Int(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.TitleSquare("t", 42) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "TitleSquare_Int", actual)
