@@ -166,7 +166,7 @@ func Test_Cov_FileWithLine_JsonParseSelfInject(t *testing.T) {
 
 // ── Trace value tests ──
 
-func Test_Trace_Value_Cov(t *testing.T) {
+func Test_Cov_Trace_Value(t *testing.T) {
 	// Arrange
 	trace := codestack.New.Default()
 
