@@ -1647,7 +1647,7 @@ func Test_SimpleFileReaderWriter_WriteReadString(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_Properties(t *testing.T) {
+func Test_SimpleFileReaderWriter_Properties_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_sfrw_props_ext2"
 	filePath := dir + "/test.txt"
