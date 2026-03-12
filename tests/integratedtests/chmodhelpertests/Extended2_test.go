@@ -1359,7 +1359,7 @@ func Test_FilteredPathFileInfoMap_Empty(t *testing.T) {
 	}
 }
 
-func Test_GetExistsFilteredPathFileInfoMap(t *testing.T) {
+func Test_GetExistsFilteredPathFileInfoMap_Ext2(t *testing.T) {
 	// Arrange
 	tempDir := os.TempDir()
 
