@@ -17,7 +17,7 @@ func Test_Cov_FileWithLine_NilSafe(t *testing.T) {
 
 // ── Trace nil-safety ──
 
-func Test_Trace_NilSafe(t *testing.T) {
+func Test_Cov_Trace_NilSafe(t *testing.T) {
 	for caseIndex, tc := range coverageTraceNilSafeCases {
 		// Assert
 		tc.ShouldBeSafe(t, caseIndex)
