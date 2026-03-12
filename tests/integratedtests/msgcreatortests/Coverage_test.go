@@ -1,0 +1,138 @@
+package msgcreatortests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/internal/msgcreator"
+)
+
+// ── SplitByEachWordTrimmedNoSpace ──
+
+func Test_Cov_SplitByEachWordTrimmedNoSpace(t *testing.T) {
+	result := msgcreator.SplitByEachWordTrimmedNoSpace("hello world foo", true)
+	emptyResult := msgcreator.SplitByEachWordTrimmedNoSpace("", false)
+	unsorted := msgcreator.SplitByEachWordTrimmedNoSpace("b a", false)
+	actual := args.Map{
+		"resultLen": len(result),
+		"first":     result[0],
+		"emptyLen":  len(emptyResult),
+		"unsorted0": unsorted[0],
+	}
+	expected := args.Map{
+		"resultLen": 3,
+		"first":     "foo",
+		"emptyLen":  0,
+		"unsorted0": "b",
+	}
+	expected.ShouldBeEqual(t, 0, "SplitByEachWord", actual)
+}
+
+// ── Assert.Quick ──
+
+func Test_Cov_Assert_Quick(t *testing.T) {
+	result := msgcreator.Assert.Quick("input", "actual", "expected", 0)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "Quick", actual)
+}
+
+// ── Assert message methods ──
+
+func Test_Cov_Assert_Messages(t *testing.T) {
+	actual := args.Map{
+		"isEqual":    msgcreator.Assert.IsEqualMessage("w", "a", "e") != "",
+		"isNotEqual": msgcreator.Assert.IsNotEqualMessage("w", "a", "e") != "",
+		"isTrue":     msgcreator.Assert.IsTrueMessage("w", "a") != "",
+		"isFalse":    msgcreator.Assert.IsFalseMessage("w", "a") != "",
+		"isNil":      msgcreator.Assert.IsNilMessage("w", "a") != "",
+		"isNotNil":   msgcreator.Assert.IsNotNilMessage("w", "a") != "",
+		"shouldBe":   msgcreator.Assert.ShouldBeMessage("t", "a", "e") != "",
+		"shouldNot":  msgcreator.Assert.ShouldNotBeMessage("t", "a", "e") != "",
+	}
+	expected := args.Map{
+		"isEqual":    true,
+		"isNotEqual": true,
+		"isTrue":     true,
+		"isFalse":    true,
+		"isNil":      true,
+		"isNotNil":   true,
+		"shouldBe":   true,
+		"shouldNot":  true,
+	}
+	expected.ShouldBeEqual(t, 0, "Messages", actual)
+}
+
+// ── Assert.SortedMessage ──
+
+func Test_Cov_Assert_SortedMessage(t *testing.T) {
+	result := msgcreator.Assert.SortedMessage(false, "hello world", " ")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "SortedMessage", actual)
+}
+
+// ── Assert.SortedArrayNoPrint ──
+
+func Test_Cov_Assert_SortedArrayNoPrint(t *testing.T) {
+	result := msgcreator.Assert.SortedArrayNoPrint("c b a")
+	actual := args.Map{"first": result[0]}
+	expected := args.Map{"first": "a"}
+	expected.ShouldBeEqual(t, 0, "SortedArrayNoPrint", actual)
+}
+
+// ── Assert.ToStrings ──
+
+func Test_Cov_Assert_ToStrings(t *testing.T) {
+	result := msgcreator.Assert.ToStrings("hello")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "ToStrings", actual)
+}
+
+// ── Assert.ToStringsWithSpace ──
+
+func Test_Cov_Assert_ToStringsWithSpace(t *testing.T) {
+	result := msgcreator.Assert.ToStringsWithSpace(2, "hello")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "ToStringsWithSpace", actual)
+}
+
+func Test_Cov_Assert_ToStringsWithSpaceDefault(t *testing.T) {
+	result := msgcreator.Assert.ToStringsWithSpaceDefault("hello")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "ToStringsWithSpaceDefault", actual)
+}
+
+func Test_Cov_Assert_ToStringWithSpace(t *testing.T) {
+	result := msgcreator.Assert.ToStringWithSpace(2, "hello")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "ToStringWithSpace", actual)
+}
+
+// ── Assert.StringsToWithSpaceLines ──
+
+func Test_Cov_Assert_StringsToWithSpaceLines(t *testing.T) {
+	result := msgcreator.Assert.StringsToWithSpaceLines(2, "a", "b")
+	empty := msgcreator.Assert.StringsToWithSpaceLines(2)
+	actual := args.Map{"len": len(result), "emptyLen": len(empty)}
+	expected := args.Map{"len": 2, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "StringsToWithSpaceLines", actual)
+}
+
+// ── Assert.StringsToSpaceStringUsingFunc ──
+
+func Test_Cov_Assert_StringsToSpaceStringUsingFunc(t *testing.T) {
+	result := msgcreator.Assert.StringsToSpaceStringUsingFunc(2, func(i int, prefix, line string) string {
+		return prefix + line
+	}, "a", "b")
+	empty := msgcreator.Assert.StringsToSpaceStringUsingFunc(2, func(i int, prefix, line string) string {
+		return ""
+	})
+	actual := args.Map{"len": len(result), "emptyLen": len(empty)}
+	expected := args.Map{"len": 2, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "StringsToSpaceStringUsingFunc", actual)
+}
