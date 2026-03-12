@@ -182,7 +182,7 @@ func Test_RwxWrapper_Clone_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_Clone_Nil(t *testing.T) {
+func Test_RwxWrapper_Clone_Nil_Ext2(t *testing.T) {
 	// Arrange
 	var wrapper *chmodhelper.RwxWrapper
 
@@ -420,7 +420,7 @@ func Test_Attribute_Methods_Verification(t *testing.T) {
 	}
 }
 
-func Test_Attribute_NilSafe(t *testing.T) {
+func Test_Attribute_NilSafe_Ext2(t *testing.T) {
 	// Arrange
 	var attr *chmodhelper.Attribute
 
@@ -551,7 +551,7 @@ func Test_Attribute_IsEqual_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_IsEqualPtr_BothNil(t *testing.T) {
+func Test_Attribute_IsEqualPtr_BothNil_Ext2(t *testing.T) {
 	// Arrange
 	var a1, a2 *chmodhelper.Attribute
 
@@ -579,7 +579,7 @@ func Test_Attribute_UsingByte_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_UsingByte_Invalid(t *testing.T) {
+func Test_Attribute_UsingByte_Invalid_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.New.Attribute.UsingByte(8)
 
@@ -756,7 +756,7 @@ func Test_VarAttribute_Fixed_Ext2(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_ToCompileAttr_WithWildcard(t *testing.T) {
+func Test_VarAttribute_ToCompileAttr_WithWildcard_Ext2(t *testing.T) {
 	// Arrange
 	varAttr, _ := chmodhelper.ParseRwxToVarAttribute("r*x")
 	fixed := chmodhelper.New.Attribute.UsingRwxString("rw-")
@@ -776,7 +776,7 @@ func Test_VarAttribute_ToCompileAttr_WithWildcard(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_NilSafe(t *testing.T) {
+func Test_VarAttribute_NilSafe_Ext2(t *testing.T) {
 	// Arrange
 	var varAttr *chmodhelper.VarAttribute
 
@@ -787,7 +787,7 @@ func Test_VarAttribute_NilSafe(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_IsEqualPtr_BothNil(t *testing.T) {
+func Test_VarAttribute_IsEqualPtr_BothNil_Ext2(t *testing.T) {
 	// Arrange
 	var a, b *chmodhelper.VarAttribute
 
@@ -938,7 +938,7 @@ func Test_RwxVariableWrapper_IsEqual_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxVariableWrapper_NilSafe(t *testing.T) {
+func Test_RwxVariableWrapper_NilSafe_Ext2(t *testing.T) {
 	// Arrange
 	var v1, v2 *chmodhelper.RwxVariableWrapper
 
@@ -1073,7 +1073,7 @@ func Test_GetExistingChmodOfValidFile_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodOfValidFile_Invalid(t *testing.T) {
+func Test_GetExistingChmodOfValidFile_Invalid_Ext2(t *testing.T) {
 	// Act
 	chmod, isInvalid := chmodhelper.GetExistingChmodOfValidFile("/nonexistent/xyz")
 
@@ -1139,7 +1139,7 @@ func Test_ParseRwxInstructionToExecutor_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ParseRwxInstructionToExecutor_Nil(t *testing.T) {
+func Test_ParseRwxInstructionToExecutor_Nil_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.ParseRwxInstructionToExecutor(nil)
 
@@ -1212,7 +1212,7 @@ func Test_RwxInstructionExecutor_IsEqualRwxPartial_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxInstructionExecutor_IsEqualFileInfo_Nil(t *testing.T) {
+func Test_RwxInstructionExecutor_IsEqualFileInfo_Nil_Ext2(t *testing.T) {
 	// Arrange
 	ins := &chmodins.RwxInstruction{
 		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
@@ -1291,7 +1291,7 @@ func Test_ParseRwxInstructionsToExecutors_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ParseRwxInstructionsToExecutors_Nil(t *testing.T) {
+func Test_ParseRwxInstructionsToExecutors_Nil_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.ParseRwxInstructionsToExecutors(nil)
 
@@ -1301,7 +1301,7 @@ func Test_ParseRwxInstructionsToExecutors_Nil(t *testing.T) {
 	}
 }
 
-func Test_ParseRwxInstructionsToExecutors_Empty(t *testing.T) {
+func Test_ParseRwxInstructionsToExecutors_Empty_Ext2(t *testing.T) {
 	// Act
 	executors, err := chmodhelper.ParseRwxInstructionsToExecutors([]chmodins.RwxInstruction{})
 
@@ -1316,7 +1316,7 @@ func Test_ParseRwxInstructionsToExecutors_Empty(t *testing.T) {
 
 // ── ParseRwxOwnerGroupOtherToRwxVariableWrapper ──
 
-func Test_ParseRwxOwnerGroupOtherToRwxVariableWrapper_Nil(t *testing.T) {
+func Test_ParseRwxOwnerGroupOtherToRwxVariableWrapper_Nil_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.ParseRwxOwnerGroupOtherToRwxVariableWrapper(nil)
 
@@ -1328,7 +1328,7 @@ func Test_ParseRwxOwnerGroupOtherToRwxVariableWrapper_Nil(t *testing.T) {
 
 // ── FilteredPathFileInfoMap ──
 
-func Test_FilteredPathFileInfoMap_Empty(t *testing.T) {
+func Test_FilteredPathFileInfoMap_Empty_Ext2(t *testing.T) {
 	// Arrange
 	fmap := chmodhelper.InvalidFilteredPathFileInfoMap()
 
@@ -1382,7 +1382,7 @@ func Test_GetExistsFilteredPathFileInfoMap_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistsFilteredPathFileInfoMap_Empty(t *testing.T) {
+func Test_GetExistsFilteredPathFileInfoMap_Empty_Ext2(t *testing.T) {
 	// Act
 	fmap := chmodhelper.GetExistsFilteredPathFileInfoMap(false)
 
@@ -1436,7 +1436,7 @@ func Test_GetFilteredExistsPaths_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetFilteredExistsPaths_Empty(t *testing.T) {
+func Test_GetFilteredExistsPaths_Empty_Ext2(t *testing.T) {
 	// Act
 	found, missing := chmodhelper.GetFilteredExistsPaths([]string{})
 
@@ -1448,7 +1448,7 @@ func Test_GetFilteredExistsPaths_Empty(t *testing.T) {
 
 // ── RwxMatchingStatus ──
 
-func Test_RwxMatchingStatus_Empty(t *testing.T) {
+func Test_RwxMatchingStatus_Empty_Ext2(t *testing.T) {
 	// Arrange
 	status := chmodhelper.EmptyRwxMatchingStatus()
 
@@ -1461,7 +1461,7 @@ func Test_RwxMatchingStatus_Empty(t *testing.T) {
 	}
 }
 
-func Test_RwxMatchingStatus_Invalid(t *testing.T) {
+func Test_RwxMatchingStatus_Invalid_Ext2(t *testing.T) {
 	// Arrange
 	err := os.ErrNotExist
 	status := chmodhelper.InvalidRwxMatchingStatus(err)
@@ -1475,7 +1475,7 @@ func Test_RwxMatchingStatus_Invalid(t *testing.T) {
 	}
 }
 
-func Test_RwxMatchingStatus_CreateErrFinalError_AllMatching(t *testing.T) {
+func Test_RwxMatchingStatus_CreateErrFinalError_AllMatching_Ext2(t *testing.T) {
 	// Arrange
 	status := &chmodhelper.RwxMatchingStatus{
 		IsAllMatching: true,
@@ -1493,7 +1493,7 @@ func Test_RwxMatchingStatus_CreateErrFinalError_AllMatching(t *testing.T) {
 
 // ── GetExistingChmodRwxWrappers ──
 
-func Test_GetExistingChmodRwxWrappers_Empty(t *testing.T) {
+func Test_GetExistingChmodRwxWrappers_Empty_Ext2(t *testing.T) {
 	// Act
 	wrappers, err := chmodhelper.GetExistingChmodRwxWrappers(false)
 
@@ -1506,7 +1506,7 @@ func Test_GetExistingChmodRwxWrappers_Empty(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodRwxWrappers_ContinueOnError(t *testing.T) {
+func Test_GetExistingChmodRwxWrappers_ContinueOnError_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
@@ -1528,7 +1528,7 @@ func Test_GetExistingChmodRwxWrappers_ContinueOnError(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodRwxWrappers_ImmediateExit(t *testing.T) {
+func Test_GetExistingChmodRwxWrappers_ImmediateExit_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.GetExistingChmodRwxWrappers(
 		false,
@@ -1543,7 +1543,7 @@ func Test_GetExistingChmodRwxWrappers_ImmediateExit(t *testing.T) {
 
 // ── GetRecursivePaths ──
 
-func Test_GetRecursivePaths_File(t *testing.T) {
+func Test_GetRecursivePaths_File_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
@@ -1561,7 +1561,7 @@ func Test_GetRecursivePaths_File(t *testing.T) {
 	}
 }
 
-func Test_GetRecursivePaths_Dir(t *testing.T) {
+func Test_GetRecursivePaths_Dir_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_recursive_ext2"
 	os.MkdirAll(dir, 0755)
@@ -1580,7 +1580,7 @@ func Test_GetRecursivePaths_Dir(t *testing.T) {
 	}
 }
 
-func Test_GetRecursivePaths_NonExistent(t *testing.T) {
+func Test_GetRecursivePaths_NonExistent_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.GetRecursivePaths(false, "/nonexistent/xyz")
 
@@ -1610,7 +1610,7 @@ func Test_GetExistingChmodRwxWrapper_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodRwxWrapper_Invalid(t *testing.T) {
+func Test_GetExistingChmodRwxWrapper_Invalid_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.GetExistingChmodRwxWrapper("/nonexistent/xyz")
 
@@ -1720,7 +1720,7 @@ func Test_SimpleFileReaderWriter_WriteAndRead_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_ReadOnExist_NotExist(t *testing.T) {
+func Test_SimpleFileReaderWriter_ReadOnExist_NotExist_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/nonexistent/xyz/file.txt")
 
@@ -1791,7 +1791,7 @@ func Test_SimpleFileReaderWriter_WriteAny_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_Get_NotExist(t *testing.T) {
+func Test_SimpleFileReaderWriter_Get_NotExist_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/nonexistent/xyz/file.json")
 
@@ -1818,7 +1818,7 @@ func Test_SimpleFileReaderWriter_Clone_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_ClonePtr_Nil(t *testing.T) {
+func Test_SimpleFileReaderWriter_ClonePtr_Nil_Ext2(t *testing.T) {
 	// Arrange
 	var rw *chmodhelper.SimpleFileReaderWriter
 
@@ -2233,7 +2233,7 @@ func Test_NewRwxWrapperCreator_Rwx9_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_RwxFullStringWtHyphen_InvalidLength(t *testing.T) {
+func Test_NewRwxWrapperCreator_RwxFullStringWtHyphen_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.New.RwxWrapper.RwxFullStringWtHyphen("rw")
 
@@ -2243,7 +2243,7 @@ func Test_NewRwxWrapperCreator_RwxFullStringWtHyphen_InvalidLength(t *testing.T)
 	}
 }
 
-func Test_NewRwxWrapperCreator_UsingFileMode_Zero(t *testing.T) {
+func Test_NewRwxWrapperCreator_UsingFileMode_Zero_Ext2(t *testing.T) {
 	// Act
 	wrapper := chmodhelper.New.RwxWrapper.UsingFileMode(0)
 	wrapperPtr := chmodhelper.New.RwxWrapper.UsingFileModePtr(0)
@@ -2449,7 +2449,7 @@ func Test_SingleRwx_OwnerOther_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SingleRwx_InvalidLength(t *testing.T) {
+func Test_SingleRwx_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.NewSingleRwx("rw", chmodclasstype.All)
 
@@ -2505,7 +2505,7 @@ func Test_SingleRwx_ToRwxWrapper_All_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SingleRwx_ToRwxWrapper_NonAll_Fails(t *testing.T) {
+func Test_SingleRwx_ToRwxWrapper_NonAll_Fails_Ext2(t *testing.T) {
 	// Arrange
 	singleRwx, _ := chmodhelper.NewSingleRwx("rwx", chmodclasstype.Owner)
 
@@ -2560,7 +2560,7 @@ func Test_TempDirGetter_Ext2(t *testing.T) {
 
 // ── chmodApplier tests ──
 
-func Test_ChmodApplier_ApplyIf_False(t *testing.T) {
+func Test_ChmodApplier_ApplyIf_False_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.ApplyIf(false, os.FileMode(0755), "/whatever")
 
@@ -2570,7 +2570,7 @@ func Test_ChmodApplier_ApplyIf_False(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_OnMismatchOption_NotApply(t *testing.T) {
+func Test_ChmodApplier_OnMismatchOption_NotApply_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.OnMismatchOption(false, false, os.FileMode(0755), "/whatever")
 
@@ -2580,7 +2580,7 @@ func Test_ChmodApplier_OnMismatchOption_NotApply(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_PathsUsingFileModeConditions_EmptyLocations(t *testing.T) {
+func Test_ChmodApplier_PathsUsingFileModeConditions_EmptyLocations_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.PathsUsingFileModeConditions(os.FileMode(0755), nil)
 
@@ -2590,7 +2590,7 @@ func Test_ChmodApplier_PathsUsingFileModeConditions_EmptyLocations(t *testing.T)
 	}
 }
 
-func Test_ChmodApplier_PathsUsingFileModeConditions_NilCondition(t *testing.T) {
+func Test_ChmodApplier_PathsUsingFileModeConditions_NilCondition_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.PathsUsingFileModeConditions(os.FileMode(0755), nil, "/tmp")
 
@@ -2600,7 +2600,7 @@ func Test_ChmodApplier_PathsUsingFileModeConditions_NilCondition(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_RwxPartial_EmptyLocations(t *testing.T) {
+func Test_ChmodApplier_RwxPartial_EmptyLocations_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.RwxPartial("-rwx", &chmodins.Condition{})
 
@@ -2612,7 +2612,7 @@ func Test_ChmodApplier_RwxPartial_EmptyLocations(t *testing.T) {
 
 // ── RwxStringApplyChmod ──
 
-func Test_RwxStringApplyChmod_EmptyLocations(t *testing.T) {
+func Test_RwxStringApplyChmod_EmptyLocations_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxStringApplyChmod("-rwxr-xr-x", &chmodins.Condition{})
 
@@ -2622,7 +2622,7 @@ func Test_RwxStringApplyChmod_EmptyLocations(t *testing.T) {
 	}
 }
 
-func Test_RwxStringApplyChmod_InvalidLength(t *testing.T) {
+func Test_RwxStringApplyChmod_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxStringApplyChmod("rwx", &chmodins.Condition{}, "/tmp")
 
@@ -2632,7 +2632,7 @@ func Test_RwxStringApplyChmod_InvalidLength(t *testing.T) {
 	}
 }
 
-func Test_RwxStringApplyChmod_NilCondition(t *testing.T) {
+func Test_RwxStringApplyChmod_NilCondition_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxStringApplyChmod("-rwxr-xr-x", nil, "/tmp")
 
@@ -2644,7 +2644,7 @@ func Test_RwxStringApplyChmod_NilCondition(t *testing.T) {
 
 // ── RwxOwnerGroupOtherApplyChmod ──
 
-func Test_RwxOwnerGroupOtherApplyChmod_EmptyLocations(t *testing.T) {
+func Test_RwxOwnerGroupOtherApplyChmod_EmptyLocations_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxOwnerGroupOtherApplyChmod(
 		&chmodins.RwxOwnerGroupOther{Owner: "rwx", Group: "r-x", Other: "r--"},
@@ -2657,7 +2657,7 @@ func Test_RwxOwnerGroupOtherApplyChmod_EmptyLocations(t *testing.T) {
 	}
 }
 
-func Test_RwxOwnerGroupOtherApplyChmod_NilRwx(t *testing.T) {
+func Test_RwxOwnerGroupOtherApplyChmod_NilRwx_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxOwnerGroupOtherApplyChmod(nil, &chmodins.Condition{}, "/tmp")
 
@@ -2667,7 +2667,7 @@ func Test_RwxOwnerGroupOtherApplyChmod_NilRwx(t *testing.T) {
 	}
 }
 
-func Test_RwxOwnerGroupOtherApplyChmod_NilCondition(t *testing.T) {
+func Test_RwxOwnerGroupOtherApplyChmod_NilCondition_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxOwnerGroupOtherApplyChmod(
 		&chmodins.RwxOwnerGroupOther{Owner: "rwx", Group: "r-x", Other: "r--"},
@@ -2683,7 +2683,7 @@ func Test_RwxOwnerGroupOtherApplyChmod_NilCondition(t *testing.T) {
 
 // ── chmodVerifier additional tests ──
 
-func Test_ChmodVerifier_RwxFull_InvalidLength(t *testing.T) {
+func Test_ChmodVerifier_RwxFull_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodVerify.RwxFull("/tmp", "rwx")
 
@@ -2693,7 +2693,7 @@ func Test_ChmodVerifier_RwxFull_InvalidLength(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_RwxFull_NonExistent(t *testing.T) {
+func Test_ChmodVerifier_RwxFull_NonExistent_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodVerify.RwxFull("/nonexistent/xyz", "-rwxr-xr-x")
 
@@ -2703,7 +2703,7 @@ func Test_ChmodVerifier_RwxFull_NonExistent(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_MismatchError(t *testing.T) {
+func Test_ChmodVerifier_MismatchError_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
@@ -2716,7 +2716,7 @@ func Test_ChmodVerifier_MismatchError(t *testing.T) {
 	_ = err
 }
 
-func Test_ChmodVerifier_MismatchErrorUsingRwxFull(t *testing.T) {
+func Test_ChmodVerifier_MismatchErrorUsingRwxFull_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
@@ -2729,7 +2729,7 @@ func Test_ChmodVerifier_MismatchErrorUsingRwxFull(t *testing.T) {
 	_ = err
 }
 
-func Test_ChmodVerifier_IsEqualRwxFull(t *testing.T) {
+func Test_ChmodVerifier_IsEqualRwxFull_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -2746,7 +2746,7 @@ func Test_ChmodVerifier_IsEqualRwxFull(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_GetExistingRwxWrapper(t *testing.T) {
+func Test_ChmodVerifier_GetExistingRwxWrapper_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
@@ -2764,7 +2764,7 @@ func Test_ChmodVerifier_GetExistingRwxWrapper(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_PathsUsingFileModeImmediateReturn_Valid(t *testing.T) {
+func Test_ChmodVerifier_PathsUsingFileModeImmediateReturn_Valid_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -2783,7 +2783,7 @@ func Test_ChmodVerifier_PathsUsingFileModeImmediateReturn_Valid(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_Path(t *testing.T) {
+func Test_ChmodVerifier_Path_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -2801,7 +2801,7 @@ func Test_ChmodVerifier_Path(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_PathIf_True(t *testing.T) {
+func Test_ChmodVerifier_PathIf_True_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -2819,7 +2819,7 @@ func Test_ChmodVerifier_PathIf_True(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_UsingRwxOwnerGroupOther_Nil(t *testing.T) {
+func Test_ChmodVerifier_UsingRwxOwnerGroupOther_Nil_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodVerify.UsingRwxOwnerGroupOther(nil, "/tmp")
 
@@ -2831,7 +2831,7 @@ func Test_ChmodVerifier_UsingRwxOwnerGroupOther_Nil(t *testing.T) {
 
 // ── RwxPartialToInstructionExecutor ──
 
-func Test_RwxPartialToInstructionExecutor_NilCondition(t *testing.T) {
+func Test_RwxPartialToInstructionExecutor_NilCondition_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.RwxPartialToInstructionExecutor("-rwx", nil)
 
@@ -2841,7 +2841,7 @@ func Test_RwxPartialToInstructionExecutor_NilCondition(t *testing.T) {
 	}
 }
 
-func Test_RwxPartialToInstructionExecutor_Valid(t *testing.T) {
+func Test_RwxPartialToInstructionExecutor_Valid_Ext2(t *testing.T) {
 	// Act
 	executor, err := chmodhelper.RwxPartialToInstructionExecutor(
 		"-rwxr-xr--", &chmodins.Condition{})
@@ -2899,7 +2899,7 @@ func Test_DirCreator_DirectLock_Ext2(t *testing.T) {
 	}
 }
 
-func Test_DirCreator_ByChecking_NewDir(t *testing.T) {
+func Test_DirCreator_ByChecking_NewDir_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -2915,7 +2915,7 @@ func Test_DirCreator_ByChecking_NewDir(t *testing.T) {
 	}
 }
 
-func Test_DirCreator_ByChecking_ExistingDir(t *testing.T) {
+func Test_DirCreator_ByChecking_ExistingDir_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -3199,7 +3199,7 @@ func Test_FileReader_ReadBytes_Ext2(t *testing.T) {
 	}
 }
 
-func Test_FileReader_Read_Invalid(t *testing.T) {
+func Test_FileReader_Read_Invalid_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.SimpleFileWriter.FileReader.Read("/nonexistent/xyz")
 
@@ -3253,7 +3253,7 @@ func Test_SimpleFileWriter_LockUnlock_Ext2(t *testing.T) {
 
 // ── ApplyChmod on valid temp file (Unix) ──
 
-func Test_RwxWrapper_ApplyChmod_Unix(t *testing.T) {
+func Test_RwxWrapper_ApplyChmod_Unix_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -3271,7 +3271,7 @@ func Test_RwxWrapper_ApplyChmod_Unix(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ApplyChmodSkipInvalid(t *testing.T) {
+func Test_RwxWrapper_ApplyChmodSkipInvalid_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Act
@@ -3284,7 +3284,7 @@ func Test_RwxWrapper_ApplyChmodSkipInvalid(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ApplyChmod_InvalidNotSkip(t *testing.T) {
+func Test_RwxWrapper_ApplyChmod_InvalidNotSkip_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -3299,7 +3299,7 @@ func Test_RwxWrapper_ApplyChmod_InvalidNotSkip(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ApplyChmodOptions_SkipApply(t *testing.T) {
+func Test_RwxWrapper_ApplyChmodOptions_SkipApply_Ext2(t *testing.T) {
 	// Act
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 	err := wrapper.ApplyChmodOptions(false, true, false, "/whatever")
@@ -3310,7 +3310,7 @@ func Test_RwxWrapper_ApplyChmodOptions_SkipApply(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_Verify_Unix(t *testing.T) {
+func Test_RwxWrapper_Verify_Unix_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -3329,7 +3329,7 @@ func Test_RwxWrapper_Verify_Unix(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_HasChmod_Unix(t *testing.T) {
+func Test_RwxWrapper_HasChmod_Unix_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -3347,7 +3347,7 @@ func Test_RwxWrapper_HasChmod_Unix(t *testing.T) {
 
 // ── chmodApplier Unix ──
 
-func Test_ChmodApplier_Default_Unix(t *testing.T) {
+func Test_ChmodApplier_Default_Unix_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
@@ -3364,7 +3364,7 @@ func Test_ChmodApplier_Default_Unix(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_SkipInvalidFile(t *testing.T) {
+func Test_ChmodApplier_SkipInvalidFile_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Act
@@ -3376,7 +3376,7 @@ func Test_ChmodApplier_SkipInvalidFile(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_OnMismatch(t *testing.T) {
+func Test_ChmodApplier_OnMismatch_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Act
@@ -3388,7 +3388,7 @@ func Test_ChmodApplier_OnMismatch(t *testing.T) {
 	}
 }
 
-func Test_ChmodApplier_OnMismatchSkipInvalid(t *testing.T) {
+func Test_ChmodApplier_OnMismatchSkipInvalid_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Act
