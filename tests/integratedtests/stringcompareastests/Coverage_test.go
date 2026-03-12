@@ -300,7 +300,7 @@ var covMinIntTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_MinInt_Coverage(t *testing.T) {
+func Test_Cov_MinInt(t *testing.T) {
 	for caseIndex, testCase := range covMinIntTestCases {
 		actual := args.Map{"value": fmt.Sprintf("%d", stringcompareas.Equal.MinInt())}
 		testCase.ShouldBeEqualMap(t, caseIndex, actual)
