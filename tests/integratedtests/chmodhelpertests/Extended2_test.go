@@ -1543,7 +1543,7 @@ func Test_GetExistingChmodRwxWrappers_ImmediateExit_Ext2(t *testing.T) {
 
 // ── GetRecursivePaths ──
 
-func Test_GetRecursivePaths_File(t *testing.T) {
+func Test_GetRecursivePaths_File_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
