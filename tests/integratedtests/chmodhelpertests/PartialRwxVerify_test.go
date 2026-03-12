@@ -8,7 +8,7 @@ import (
 	"github.com/alimtvnetwork/core/errcore"
 )
 
-func Test_PartialRwxVerify(t *testing.T) {
+func Test_PartialRwxVerify_Verification(t *testing.T) {
 	for caseIndex, testCase := range partialRwxVerifyTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)

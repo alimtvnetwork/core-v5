@@ -13,7 +13,7 @@ import (
 
 // ── RwxWrapper Creation ──
 
-func Test_RwxWrapper_Create(t *testing.T) {
+func Test_RwxWrapper_Create_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2RwxWrapperCreateTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -35,7 +35,7 @@ func Test_RwxWrapper_Create(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_RwxFullString(t *testing.T) {
+func Test_RwxWrapper_RwxFullString_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2RwxFullStringParseTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -397,7 +397,7 @@ func Test_RwxWrapper_Json_Methods(t *testing.T) {
 
 // ── Attribute tests ──
 
-func Test_Attribute_Methods(t *testing.T) {
+func Test_Attribute_Methods_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2AttributeTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -686,7 +686,7 @@ func Test_Variant_ExpandOctalByte(t *testing.T) {
 
 // ── ParseRwxToVarAttribute ──
 
-func Test_ParseRwxToVarAttribute(t *testing.T) {
+func Test_ParseRwxToVarAttribute_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2ParseRwxToVarAttrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -799,7 +799,7 @@ func Test_VarAttribute_IsEqualPtr_BothNil(t *testing.T) {
 
 // ── MergeRwxWildcardWithFixedRwx ──
 
-func Test_MergeRwxWildcardWithFixedRwx(t *testing.T) {
+func Test_MergeRwxWildcardWithFixedRwx_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2MergeRwxTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -823,7 +823,7 @@ func Test_MergeRwxWildcardWithFixedRwx(t *testing.T) {
 
 // ── NewRwxVariableWrapper ──
 
-func Test_NewRwxVariableWrapper(t *testing.T) {
+func Test_NewRwxVariableWrapper_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2NewRwxVarWrapperTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -953,7 +953,7 @@ func Test_RwxVariableWrapper_NilSafe(t *testing.T) {
 
 // ── GetRwxLengthError ──
 
-func Test_GetRwxLengthError(t *testing.T) {
+func Test_GetRwxLengthError_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2GetRwxLengthErrTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -973,7 +973,7 @@ func Test_GetRwxLengthError(t *testing.T) {
 
 // ── ParseRwxInstructionToStringRwx ──
 
-func Test_ParseRwxInstructionToStringRwx(t *testing.T) {
+func Test_ParseRwxInstructionToStringRwx_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2ParseRwxToStringTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)

@@ -157,7 +157,7 @@ func Test_SimpleFileWriter_CreateDir_IfMissing_Verification(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_ExistingFileFails_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
 	chmodhelper.SimpleFileWriter.Lock()
 	defer chmodhelper.SimpleFileWriter.Unlock()
@@ -183,7 +183,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 
 			pathinternal.RemoveDirMust(
 				dir,
-				"Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will_Fail",
+				"Test_SimpleFileWriter_CreateDir_ExistingFileFails_Verification",
 			)
 
 			for fileIndex, file := range input.Files {
@@ -243,7 +243,7 @@ func Test_SimpleFileWriter_CreateDir_Calling_On_CreateDir_For_Existing_File_Will
 	}
 }
 
-func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
+func Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification(t *testing.T) {
 	temp := pathinternal.GetTemp()
 	chmodhelper.SimpleFileWriter.Lock()
 	defer chmodhelper.SimpleFileWriter.Unlock()
@@ -269,7 +269,7 @@ func Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails(t *testing.T) {
 
 			pathinternal.RemoveDirMust(
 				dir,
-				"Test_SimpleFileWriter_CreateDir_Using_ByChecking_Fails",
+				"Test_SimpleFileWriter_CreateDir_ByCheckingFails_Verification",
 			)
 
 			for fileIndex, file := range input.Files {

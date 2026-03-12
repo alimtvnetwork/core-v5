@@ -11,7 +11,7 @@ import (
 // Test: TripleFromSplit
 // ==========================================
 
-func Test_TripleFromSplit(t *testing.T) {
+func Test_TripleFromSplit_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -37,7 +37,7 @@ func Test_TripleFromSplit(t *testing.T) {
 // Test: TripleFromSplitTrimmed
 // ==========================================
 
-func Test_TripleFromSplitTrimmed(t *testing.T) {
+func Test_TripleFromSplitTrimmed_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitTrimmedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -63,7 +63,7 @@ func Test_TripleFromSplitTrimmed(t *testing.T) {
 // Test: TripleFromSplitN
 // ==========================================
 
-func Test_TripleFromSplitN(t *testing.T) {
+func Test_TripleFromSplitN_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitNTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -89,7 +89,7 @@ func Test_TripleFromSplitN(t *testing.T) {
 // Test: TripleFromSplitNTrimmed
 // ==========================================
 
-func Test_TripleFromSplitNTrimmed(t *testing.T) {
+func Test_TripleFromSplitNTrimmed_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSplitNTrimmedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -115,7 +115,7 @@ func Test_TripleFromSplitNTrimmed(t *testing.T) {
 // Test: TripleFromSlice
 // ==========================================
 
-func Test_TripleFromSlice(t *testing.T) {
+func Test_TripleFromSlice_Verification(t *testing.T) {
 	for caseIndex, testCase := range tripleFromSliceTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)

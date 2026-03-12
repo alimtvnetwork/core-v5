@@ -9,7 +9,7 @@ import (
 	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
 )
 
-func Test_HashmapDiff_Length_IsEmpty_HasAnyItem_LastIndex(t *testing.T) {
+func Test_HashmapDiff_Length_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffLengthTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -29,7 +29,7 @@ func Test_HashmapDiff_Length_IsEmpty_HasAnyItem_LastIndex(t *testing.T) {
 	}
 }
 
-func Test_HashmapDiff_AllKeysSorted(t *testing.T) {
+func Test_HashmapDiff_AllKeysSorted_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffAllKeysSortedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -44,7 +44,7 @@ func Test_HashmapDiff_AllKeysSorted(t *testing.T) {
 	}
 }
 
-func Test_HashmapDiff_IsRawEqual(t *testing.T) {
+func Test_HashmapDiff_IsRawEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffIsRawEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -64,7 +64,7 @@ func Test_HashmapDiff_IsRawEqual(t *testing.T) {
 	}
 }
 
-func Test_HashmapDiff_DiffRaw(t *testing.T) {
+func Test_HashmapDiff_DiffRaw_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffDiffRawTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -104,7 +104,7 @@ func Test_HashmapDiff_DiffRaw(t *testing.T) {
 	}
 }
 
-func Test_HashmapDiff_ShouldDiffMessage(t *testing.T) {
+func Test_HashmapDiff_ShouldDiffMessage_Verification(t *testing.T) {
 	for caseIndex, testCase := range hashmapDiffShouldDiffMessageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)

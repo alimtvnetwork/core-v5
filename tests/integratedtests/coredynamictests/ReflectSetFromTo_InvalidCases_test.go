@@ -19,7 +19,7 @@ import (
 //   - From, To: (sameTypeNonPointer, sameTypePointer) -- try reflection
 //   - From, To: ([]byte or *[]byte, otherType)        -- try unmarshal, reflect
 //   - From, To: (otherType, *[]byte)                  -- try marshal, reflect
-func Test_ReflectSetFromTo_Invalid_Cases_With_Error_Verifications(t *testing.T) {
+func Test_ReflectSetFromTo_InvalidCases_Verification(t *testing.T) {
 	for caseIndex, testCase := range coredynamictestwrappers.ReflectSetFromToInvalidTestCases {
 		// Act
 		wrappedResult := trydo.ErrorFuncWrapPanic(

@@ -13,7 +13,7 @@ import (
 // Nil receiver tests (migrated to CaseNilSafe)
 // =============================================================================
 
-func Test_NilLazyRegex(t *testing.T) {
+func Test_NilLazyRegex_NilSafe(t *testing.T) {
 	for caseIndex, tc := range lazyRegexNilReceiverTestCases {
 		tc.ShouldBeSafe(t, caseIndex)
 	}

@@ -8,19 +8,18 @@ import (
 	"github.com/alimtvnetwork/core/simplewrap"
 )
 
-func Test_ParenthesisWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Have_DuplicateParenthesis(t *testing.T) {
-	for caseIndex, testCase := range parenthesisValidTestCases {
+func Test_SquareWrapIf_Enabled_Verification(
+	t *testing.T,
+) {
+	for caseIndex, testCase := range squareBracketWrapTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
-		actualSlice := corestr.
-			New.
-			SimpleSlice.
-			Cap(len(inputs))
+		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
 		// Act
 		for _, input := range inputs {
 			actualSlice.Add(
-				simplewrap.ParenthesisWrapIf(
+				simplewrap.SquareWrapIf(
 					true,
 					input,
 				),
@@ -39,15 +38,22 @@ func Test_ParenthesisWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Ha
 	}
 }
 
-func Test_ParenthesisWrapIf_Disabled_Wraps_All_Without_Existing_Condition_Checking_Can_Have_DuplicateParenthesis(t *testing.T) {
-
-	for caseIndex, testCase := range parenthesisDisabledRemainsAsItIsTestCases {
+func Test_SquareWrapIf_Disabled_Verification(
+	t *testing.T,
+) {
+	for caseIndex, testCase := range squareBracketWrapDisabledTestCases {
 		// Arrange
 		inputs := testCase.Arrange()
 		actualSlice := corestr.New.SimpleSlice.Cap(len(inputs))
 
+		// Act
 		for _, input := range inputs {
-			actualSlice.Add(simplewrap.ParenthesisWrapIf(false, input))
+			actualSlice.Add(
+				simplewrap.SquareWrapIf(
+					false,
+					input,
+				),
+			)
 		}
 
 		finalActLines := actualSlice.Strings()

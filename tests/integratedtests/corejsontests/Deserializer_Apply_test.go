@@ -9,7 +9,7 @@ import (
 	"github.com/alimtvnetwork/core/errcore"
 )
 
-func Test_FromTo(t *testing.T) {
+func Test_FromTo_Verification(t *testing.T) {
 	tc := deserializerFromToTestCase
 
 	type Example struct {

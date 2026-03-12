@@ -9,7 +9,7 @@ import (
 	"github.com/alimtvnetwork/core/internal/mapdiffinternal"
 )
 
-func Test_MapStringAnyDiff_Length_IsEmpty_HasAnyItem_LastIndex(t *testing.T) {
+func Test_MapStringAnyDiff_Length_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffLengthTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -29,7 +29,7 @@ func Test_MapStringAnyDiff_Length_IsEmpty_HasAnyItem_LastIndex(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_AllKeysSorted(t *testing.T) {
+func Test_MapStringAnyDiff_AllKeysSorted_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffAllKeysSortedTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -44,7 +44,7 @@ func Test_MapStringAnyDiff_AllKeysSorted(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_IsRawEqual(t *testing.T) {
+func Test_MapStringAnyDiff_IsRawEqual_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffIsRawEqualTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -65,7 +65,7 @@ func Test_MapStringAnyDiff_IsRawEqual(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_HasAnyChanges(t *testing.T) {
+func Test_MapStringAnyDiff_HasAnyChanges_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffHasAnyChangesTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -86,7 +86,7 @@ func Test_MapStringAnyDiff_HasAnyChanges(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_DiffRaw(t *testing.T) {
+func Test_MapStringAnyDiff_DiffRaw_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffDiffRawTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -127,7 +127,7 @@ func Test_MapStringAnyDiff_DiffRaw(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_ShouldDiffMessage(t *testing.T) {
+func Test_MapStringAnyDiff_ShouldDiffMessage_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffShouldDiffMessageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
@@ -160,7 +160,7 @@ func Test_MapStringAnyDiff_ShouldDiffMessage(t *testing.T) {
 	}
 }
 
-func Test_MapStringAnyDiff_ToStringsSliceOfDiffMap(t *testing.T) {
+func Test_MapStringAnyDiff_ToStringsSliceOfDiffMap_Verification(t *testing.T) {
 	for caseIndex, testCase := range mapStringAnyDiffToStringsSliceTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
