@@ -1967,7 +1967,7 @@ func Test_SimpleFileReaderWriter_NewPathJoin_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_Serialize(t *testing.T) {
+func Test_SimpleFileReaderWriter_Serialize_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/nonexistent/file.txt")
 
