@@ -2957,7 +2957,7 @@ func Test_FileWriter_All_Ext2(t *testing.T) {
 	}
 }
 
-func Test_FileWriter_AllLock(t *testing.T) {
+func Test_FileWriter_AllLock_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_fw_alllock_ext2"
 	filePath := dir + "/test.txt"
