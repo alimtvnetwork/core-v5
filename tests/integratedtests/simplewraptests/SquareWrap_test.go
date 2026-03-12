@@ -8,7 +8,7 @@ import (
 	"github.com/alimtvnetwork/core/simplewrap"
 )
 
-func Test_SquareWrapIf_Wraps_All_Without_Existing_Condition_Checking_Can_Have_DuplicateSquareBrackets(
+func Test_SquareWrapIf_Enabled_Verification(
 	t *testing.T,
 ) {
 	for caseIndex, testCase := range squareBracketWrapTestCases {
