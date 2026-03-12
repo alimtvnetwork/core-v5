@@ -2857,7 +2857,7 @@ func Test_RwxPartialToInstructionExecutor_Valid(t *testing.T) {
 
 // ── dirCreator additional ──
 
-func Test_DirCreator_IfMissingLock(t *testing.T) {
+func Test_DirCreator_IfMissingLock_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_ifmissinglock_ext2"
 	defer os.RemoveAll(dir)
