@@ -996,7 +996,7 @@ func Test_Cov_Dir_CurDir(t *testing.T) {
 	}
 }
 
-func Test_Dir_CurDirJoin_Cov(t *testing.T) {
+func Test_Cov_Dir_CurDirJoin(t *testing.T) {
 	// Act
 	dir := codestack.Dir.CurDirJoin("subdir")
 
