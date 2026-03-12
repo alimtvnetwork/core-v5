@@ -1021,7 +1021,8 @@ func Test_Cov_TraceCollection_Concat(t *testing.T) {
 		t.Error("ConcatNew should increase length")
 	}
 
-	concatPtr := tc.ConcatNewPtr(codestack.New.Default())
+	trace := codestack.New.Default()
+	concatPtr := tc.ConcatNewPtr(&trace)
 	if concatPtr == nil {
 		t.Error("ConcatNewPtr should not be nil")
 	}
