@@ -261,7 +261,7 @@ func Test_RwxWrapper_IsRwxFullEqual_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_IsRwxEqualLocation(t *testing.T) {
+func Test_RwxWrapper_IsRwxEqualLocation_Ext2(t *testing.T) {
 	// Assert
 	w, _ := chmodhelper.New.RwxWrapper.Create("755")
 	// non-existent path
