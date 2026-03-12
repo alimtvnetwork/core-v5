@@ -56,7 +56,7 @@ var covVerifyMessageTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_VerifyMessage_Coverage(t *testing.T) {
+func Test_Cov_VerifyMessage(t *testing.T) {
 	for caseIndex, testCase := range covVerifyMessageTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
