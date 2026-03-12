@@ -494,7 +494,7 @@ func Test_Cov_TypedSimpleGenericRequest_Clone(t *testing.T) {
 	}
 }
 
-func Test_InvalidTypedSimpleGenericRequest_NilAttribute(t *testing.T) {
+func Test_Cov_InvalidTypedSimpleGenericRequest_NilAttribute(t *testing.T) {
 	req := coreapi.InvalidTypedSimpleGenericRequest[string](nil)
 	if req.Attribute == nil {
 		t.Error("should have default invalid attribute")
