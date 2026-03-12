@@ -517,7 +517,7 @@ func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 
 func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	fwls := tc.FileWithLines()
@@ -530,7 +530,7 @@ func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 		t.Error("FileWithLinesStrings should not be empty")
 	}
 
-	fwlStr := tc.FileWithLinesString(", ")
+	fwlStr := tc.FileWithLinesString()
 	if fwlStr == "" {
 		t.Error("FileWithLinesString should not be empty")
 	}
