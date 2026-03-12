@@ -70,10 +70,12 @@ func Test_Info_HasAnyItem_Ext(t *testing.T) {
 }
 
 func Test_Info_Options_Ext(t *testing.T) {
+	// Plain.Default does not set ExcludeOptions, so Options() returns nil.
+	// This is correct production behavior — nil means "no exclusions".
 	info := coretaskinfo.New.Info.Plain.Default("n", "d", "u")
 	opts := info.Options()
-	if opts == nil {
-		t.Error("Options should not be nil")
+	if opts != nil {
+		t.Error("Options should be nil for Default (no ExcludeOptions set)")
 	}
 }
 

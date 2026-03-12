@@ -355,14 +355,16 @@ func Test_Variant_JsonString(t *testing.T) {
 func Test_Variant_OnlySupportedErr(t *testing.T) {
 	// Arrange
 	v := bytetype.One
-	allNames := v.AllNameValues()
+	// OnlySupportedErr compares against StringRanges() (plain names like "Zero"),
+	// not AllNameValues() which returns "Name(Value)" format like "Zero(0)".
+	allNames := v.StringRanges()
 
 	// Act
 	err := v.OnlySupportedErr(allNames...)
 
 	// Assert
 	if err != nil {
-		t.Errorf("OnlySupportedErr with all names should return nil, got: %v", err)
+		t.Errorf("all names supported should not error, got: %v", err)
 	}
 }
 
