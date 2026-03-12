@@ -2612,7 +2612,7 @@ func Test_ChmodApplier_RwxPartial_EmptyLocations_Ext2(t *testing.T) {
 
 // ── RwxStringApplyChmod ──
 
-func Test_RwxStringApplyChmod_EmptyLocations(t *testing.T) {
+func Test_RwxStringApplyChmod_EmptyLocations_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.RwxStringApplyChmod("-rwxr-xr-x", &chmodins.Condition{})
 
