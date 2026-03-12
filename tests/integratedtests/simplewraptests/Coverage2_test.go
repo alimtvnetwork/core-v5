@@ -64,7 +64,7 @@ func Test_Cov2_WithParenthesisQuotation(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "WithParenthesisQuotation", actual)
 }
 
-func Test_CurlyWrapOption_Cov2(t *testing.T) {
+func Test_Cov2_CurlyWrapOption(t *testing.T) {
 	actual := args.Map{
 		"skipIfExists":    simplewrap.CurlyWrapOption(true, "{hello}"),
 		"noSkip":          simplewrap.CurlyWrapOption(false, "hello"),
