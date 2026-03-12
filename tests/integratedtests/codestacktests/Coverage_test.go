@@ -729,7 +729,7 @@ func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 
 func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if !tc.HasIndex(0) {
