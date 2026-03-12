@@ -137,7 +137,7 @@ func Test_Cov_ResponseAttribute_Clone_EmptySlices(t *testing.T) {
 // InvalidRequestAttribute / InvalidResponseAttribute
 // =============================================================================
 
-func Test_InvalidRequestAttribute(t *testing.T) {
+func Test_Cov_InvalidRequestAttribute(t *testing.T) {
 	attr := coreapi.InvalidRequestAttribute()
 	if attr.IsValid {
 		t.Error("should be invalid")
