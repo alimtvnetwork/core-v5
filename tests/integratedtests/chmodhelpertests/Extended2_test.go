@@ -2764,7 +2764,7 @@ func Test_ChmodVerifier_GetExistingRwxWrapper_Ext2(t *testing.T) {
 	}
 }
 
-func Test_ChmodVerifier_PathsUsingFileModeImmediateReturn_Valid(t *testing.T) {
+func Test_ChmodVerifier_PathsUsingFileModeImmediateReturn_Valid_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
