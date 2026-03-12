@@ -738,7 +738,7 @@ func Test_VarAttribute_Methods_Ext2(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_Fixed(t *testing.T) {
+func Test_VarAttribute_Fixed_Ext2(t *testing.T) {
 	// Arrange
 	varAttr, _ := chmodhelper.ParseRwxToVarAttribute("rwx")
 
