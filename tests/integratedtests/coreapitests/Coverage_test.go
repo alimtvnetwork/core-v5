@@ -269,7 +269,7 @@ func Test_Cov_InvalidTypedResponse_NilAttribute(t *testing.T) {
 // TypedResponseResult — uncovered branches
 // =============================================================================
 
-func Test_TypedResponseResult_IsValid(t *testing.T) {
+func Test_Cov_TypedResponseResult_IsValid(t *testing.T) {
 	attr := &coreapi.ResponseAttribute{IsValid: true}
 	rr := coreapi.NewTypedResponseResult(attr, "data")
 	if !rr.IsValid() {
