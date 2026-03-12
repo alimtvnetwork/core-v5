@@ -319,7 +319,7 @@ var covValueByteTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_ValueByte_Coverage(t *testing.T) {
+func Test_Cov_ValueByte(t *testing.T) {
 	for caseIndex, testCase := range covValueByteTestCases {
 		v := stringcompareas.Equal
 		actual := args.Map{"value": v.ValueByte()}
