@@ -860,7 +860,7 @@ func Test_Cov_NewCreator_Ptr(t *testing.T) {
 
 // ── StackTrace tests ──
 
-func Test_StackTrace_DefaultCount_Cov(t *testing.T) {
+func Test_Cov_StackTrace_DefaultCount(t *testing.T) {
 	// Act
 	tc := codestack.New.StackTrace.DefaultCount(3)
 
