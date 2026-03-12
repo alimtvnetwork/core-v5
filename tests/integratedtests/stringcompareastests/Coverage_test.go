@@ -251,7 +251,7 @@ var covIgnoreCaseCompareFuncTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_CompareFuncs_IgnoreCase_Coverage(t *testing.T) {
+func Test_Cov_CompareFuncs_IgnoreCase(t *testing.T) {
 	for caseIndex, testCase := range covIgnoreCaseCompareFuncTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		variant := input["variant"].(stringcompareas.Variant)
