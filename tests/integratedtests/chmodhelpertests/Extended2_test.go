@@ -2871,7 +2871,7 @@ func Test_DirCreator_IfMissingLock_Ext2(t *testing.T) {
 	}
 }
 
-func Test_DirCreator_DefaultLock(t *testing.T) {
+func Test_DirCreator_DefaultLock_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_defaultlock_ext2"
 	defer os.RemoveAll(dir)
