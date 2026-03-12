@@ -40,7 +40,7 @@ func Test_Cov2_TitleSquareCsvMeta(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "TitleSquareCsvMeta", actual)
 }
 
-func Test_TitleSquareMetaUsingFmt_Cov2(t *testing.T) {
+func Test_Cov2_TitleSquareMetaUsingFmt(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.TitleSquareMetaUsingFmt(testStringer{}, testStringer{}, testStringer{}) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "TitleSquareMetaUsingFmt", actual)
