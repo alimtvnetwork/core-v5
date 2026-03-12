@@ -11,7 +11,7 @@ import (
 // RequestAttribute — uncovered branches
 // =============================================================================
 
-func Test_RequestAttribute_HasSearchRequest(t *testing.T) {
+func Test_Cov_RequestAttribute_HasSearchRequest(t *testing.T) {
 	attr := &coreapi.RequestAttribute{SearchRequest: &coreapi.SearchRequest{}}
 	if !attr.HasSearchRequest() {
 		t.Error("should have search request")
