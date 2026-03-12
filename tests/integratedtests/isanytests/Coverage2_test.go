@@ -130,7 +130,7 @@ func Test_Cov2_ReflectValueNull_IntKind(t *testing.T) {
 
 // ── ReflectNull extended kinds ──
 
-func Test_ReflectNull_NilMap_Cov2(t *testing.T) {
+func Test_Cov2_ReflectNull_NilMap(t *testing.T) {
 	var m map[string]int
 	actual := args.Map{"isNull": isany.ReflectNull(m)}
 	expected := args.Map{"isNull": true}
