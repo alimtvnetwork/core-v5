@@ -397,7 +397,7 @@ func Test_RwxWrapper_Json_Methods(t *testing.T) {
 
 // ── Attribute tests ──
 
-func Test_Attribute_Methods(t *testing.T) {
+func Test_Attribute_Methods_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2AttributeTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
