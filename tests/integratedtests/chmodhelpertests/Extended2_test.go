@@ -337,7 +337,7 @@ func Test_RwxWrapper_ToRwxInstruction_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_JSON(t *testing.T) {
+func Test_RwxWrapper_JSON_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
