@@ -32,7 +32,7 @@ func Test_Cov_RequestAttribute_HasPageRequest(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_HasPageRequest_Nil(t *testing.T) {
+func Test_Cov_RequestAttribute_HasPageRequest_Nil(t *testing.T) {
 	var attr *coreapi.RequestAttribute
 	if attr.HasPageRequest() {
 		t.Error("nil should not have page request")
