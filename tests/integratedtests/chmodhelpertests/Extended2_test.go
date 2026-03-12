@@ -1493,7 +1493,7 @@ func Test_RwxMatchingStatus_CreateErrFinalError_AllMatching_Ext2(t *testing.T) {
 
 // ── GetExistingChmodRwxWrappers ──
 
-func Test_GetExistingChmodRwxWrappers_Empty(t *testing.T) {
+func Test_GetExistingChmodRwxWrappers_Empty_Ext2(t *testing.T) {
 	// Act
 	wrappers, err := chmodhelper.GetExistingChmodRwxWrappers(false)
 
