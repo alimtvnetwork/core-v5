@@ -424,7 +424,7 @@ func Test_Cov_TypedSimpleGenericRequest_IsValid_NilReceiver(t *testing.T) {
 	}
 }
 
-func Test_TypedSimpleGenericRequest_IsValid_NilRequest(t *testing.T) {
+func Test_Cov_TypedSimpleGenericRequest_IsValid_NilRequest(t *testing.T) {
 	req := &coreapi.TypedSimpleGenericRequest[string]{
 		Attribute: &coreapi.RequestAttribute{IsValid: true},
 	}
