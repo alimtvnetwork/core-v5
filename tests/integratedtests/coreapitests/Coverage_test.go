@@ -277,7 +277,7 @@ func Test_Cov_TypedResponseResult_IsValid(t *testing.T) {
 	}
 }
 
-func Test_TypedResponseResult_IsValid_Nil(t *testing.T) {
+func Test_Cov_TypedResponseResult_IsValid_Nil(t *testing.T) {
 	var rr *coreapi.TypedResponseResult[string]
 	if rr.IsValid() {
 		t.Error("nil should be invalid")
