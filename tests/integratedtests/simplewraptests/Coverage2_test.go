@@ -143,7 +143,7 @@ func Test_Cov2_WithCurly_Int(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "WithCurly_Int", actual)
 }
 
-func Test_With_Empty_Cov2(t *testing.T) {
+func Test_Cov2_With_Empty(t *testing.T) {
 	actual := args.Map{"result": simplewrap.With("", "", "")}
 	expected := args.Map{"result": ""}
 	expected.ShouldBeEqual(t, 0, "With_Empty", actual)
