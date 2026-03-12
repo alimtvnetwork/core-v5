@@ -818,7 +818,7 @@ func Test_Cov_NameOf_Package(t *testing.T) {
 	}
 }
 
-func Test_NameOf_All_Cov(t *testing.T) {
+func Test_Cov_NameOf_All(t *testing.T) {
 	// Act
 	full, pkg, method := codestack.NameOf.All("github.com/alimtvnetwork/core/codestack.Test_NameOf_All_Cov")
 
