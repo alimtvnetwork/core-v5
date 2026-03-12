@@ -2982,7 +2982,7 @@ func Test_FileWriter_AllLock_Ext2(t *testing.T) {
 	}
 }
 
-func Test_FileWriter_Chmod(t *testing.T) {
+func Test_FileWriter_Chmod_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
