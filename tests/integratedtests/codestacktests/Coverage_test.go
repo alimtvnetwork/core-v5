@@ -703,7 +703,7 @@ func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 
 func Test_Cov_TraceCollection_JoinShortStrings(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act
 	joinShort := tc.JoinShortStrings(", ")
