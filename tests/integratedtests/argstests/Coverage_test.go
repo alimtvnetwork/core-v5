@@ -104,7 +104,7 @@ func Test_Map_HasDefinedAll_Empty(t *testing.T) {
 // Map Get operations
 // ==========================================
 
-func Test_Map_Get(t *testing.T) {
+func Test_Map_Get_Cov(t *testing.T) {
 	m := args.Map{"a": "val"}
 	item, isValid := m.Get("a")
 	if !isValid || item != "val" {
