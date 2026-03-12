@@ -94,7 +94,7 @@ func Test_Cov_RequestAttribute_Clone(t *testing.T) {
 	}
 }
 
-func Test_RequestAttribute_Clone_Nil(t *testing.T) {
+func Test_Cov_RequestAttribute_Clone_Nil(t *testing.T) {
 	var attr *coreapi.RequestAttribute
 	if attr.Clone() != nil {
 		t.Error("nil clone should return nil")
