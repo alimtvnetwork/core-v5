@@ -153,7 +153,7 @@ func Test_RwxWrapper_String_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_FriendlyDisplay(t *testing.T) {
+func Test_RwxWrapper_FriendlyDisplay_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
