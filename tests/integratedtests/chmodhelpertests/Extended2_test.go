@@ -2932,7 +2932,7 @@ func Test_DirCreator_ByChecking_ExistingDir(t *testing.T) {
 
 // ── fileWriter additional ──
 
-func Test_FileWriter_All(t *testing.T) {
+func Test_FileWriter_All_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_fw_all_ext2"
 	filePath := dir + "/test.txt"
