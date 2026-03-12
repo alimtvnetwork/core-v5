@@ -1436,7 +1436,7 @@ func Test_GetFilteredExistsPaths_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetFilteredExistsPaths_Empty(t *testing.T) {
+func Test_GetFilteredExistsPaths_Empty_Ext2(t *testing.T) {
 	// Act
 	found, missing := chmodhelper.GetFilteredExistsPaths([]string{})
 
