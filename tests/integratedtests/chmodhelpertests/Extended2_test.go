@@ -1757,7 +1757,7 @@ func Test_SimpleFileReaderWriter_WritePath_Ext2(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_JoinRelPath(t *testing.T) {
+func Test_SimpleFileReaderWriter_JoinRelPath_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/tmp/test/file.txt")
 
