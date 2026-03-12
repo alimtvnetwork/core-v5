@@ -195,7 +195,7 @@ func Test_Cov_PageRequest_HasPageSize(t *testing.T) {
 	}
 }
 
-func Test_PageRequest_HasPageSize_Nil(t *testing.T) {
+func Test_Cov_PageRequest_HasPageSize_Nil(t *testing.T) {
 	var pr *coreapi.PageRequest
 	if pr.HasPageSize() {
 		t.Error("nil should not have page size")
