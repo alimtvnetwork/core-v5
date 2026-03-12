@@ -1055,7 +1055,7 @@ func Test_FileModeFriendlyString_Ext2(t *testing.T) {
 
 // ── GetExistingChmodOfValidFile ──
 
-func Test_GetExistingChmodOfValidFile(t *testing.T) {
+func Test_GetExistingChmodOfValidFile_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
