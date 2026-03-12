@@ -1915,7 +1915,7 @@ func Test_SimpleFileReaderWriter_InitializeDefaultApplyChmod_Ext2(t *testing.T) 
 	}
 }
 
-func Test_SimpleFileReaderWriter_InitializeDefaultNew(t *testing.T) {
+func Test_SimpleFileReaderWriter_InitializeDefaultNew_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.SimpleFileReaderWriter{
 		ChmodDir:  os.FileMode(0755),
