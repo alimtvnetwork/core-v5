@@ -1580,7 +1580,7 @@ func Test_GetRecursivePaths_Dir_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetRecursivePaths_NonExistent(t *testing.T) {
+func Test_GetRecursivePaths_NonExistent_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.GetRecursivePaths(false, "/nonexistent/xyz")
 
