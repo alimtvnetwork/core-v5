@@ -808,7 +808,7 @@ func Test_Cov_NameOf_Method(t *testing.T) {
 	}
 }
 
-func Test_NameOf_Package_Cov(t *testing.T) {
+func Test_Cov_NameOf_Package(t *testing.T) {
 	// Act
 	name := codestack.NameOf.Package("github.com/alimtvnetwork/core/codestack.Test_NameOf_Package_Cov")
 
