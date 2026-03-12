@@ -844,7 +844,7 @@ func Test_NewRwxVariableWrapper_Verification(t *testing.T) {
 	}
 }
 
-func Test_RwxVariableWrapper_Methods(t *testing.T) {
+func Test_RwxVariableWrapper_Methods_Ext2(t *testing.T) {
 	// Arrange
 	varWrapper, _ := chmodhelper.NewRwxVariableWrapper("-rwxr-xr--")
 
