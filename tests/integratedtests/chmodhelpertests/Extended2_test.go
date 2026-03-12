@@ -2145,7 +2145,7 @@ func Test_NewRwxWrapperCreator_Invalid_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_CreatePtr(t *testing.T) {
+func Test_NewRwxWrapperCreator_CreatePtr_Ext2(t *testing.T) {
 	// Act
 	ptr, err := chmodhelper.New.RwxWrapper.CreatePtr("755")
 
