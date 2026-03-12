@@ -372,7 +372,7 @@ func Test_Cov_Trace_HasIssues(t *testing.T) {
 
 func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if tc.IsEmpty() {
