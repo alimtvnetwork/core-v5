@@ -636,7 +636,7 @@ func Test_Cov_TraceCollection_ClearDispose(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_Add_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_Add(t *testing.T) {
 	// Arrange
 	tc := codestack.TraceCollection{}
 	trace := codestack.New.Default()
