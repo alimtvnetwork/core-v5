@@ -286,7 +286,7 @@ func Test_Cov_Trace_Json(t *testing.T) {
 	}
 }
 
-func Test_Trace_ParseJson_Cov(t *testing.T) {
+func Test_Cov_Trace_ParseJson(t *testing.T) {
 	// Arrange
 	trace := codestack.New.Default()
 	jsonResult := trace.Json()
