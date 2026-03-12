@@ -3347,7 +3347,7 @@ func Test_RwxWrapper_HasChmod_Unix_Ext2(t *testing.T) {
 
 // ── chmodApplier Unix ──
 
-func Test_ChmodApplier_Default_Unix(t *testing.T) {
+func Test_ChmodApplier_Default_Unix_Ext2(t *testing.T) {
 	coretests.SkipOnWindows(t)
 
 	// Arrange
