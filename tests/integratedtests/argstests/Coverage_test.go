@@ -304,7 +304,7 @@ func Test_Map_Args_Cov(t *testing.T) {
 	}
 }
 
-func Test_Map_GetByIndex(t *testing.T) {
+func Test_Map_GetByIndex_Cov(t *testing.T) {
 	m := args.Map{"a": 1}
 	v := m.GetByIndex(0)
 	if v == nil {
