@@ -127,7 +127,7 @@ func Test_RwxWrapper_ToFileMode_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ToFullRwxValuesChars(t *testing.T) {
+func Test_RwxWrapper_ToFullRwxValuesChars_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
