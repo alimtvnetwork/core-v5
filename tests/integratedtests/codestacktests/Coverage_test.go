@@ -1024,7 +1024,7 @@ func Test_Cov_TraceCollection_Concat(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_Filters_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_Filters(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
