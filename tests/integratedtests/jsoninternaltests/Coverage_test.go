@@ -129,7 +129,7 @@ func Test_StringJsonConverter(t *testing.T) {
 	defStr, err := jsoninternal.String.Default(item)
 	safeStr := jsoninternal.String.SafeDefault(item)
 	prettyStr, err2 := jsoninternal.String.Pretty(item)
-	strVal := jsoninternal.StringJson.StringValue("hello")
+	strVal := jsoninternal.String.StringValue("hello")
 
 	actual := args.Map{
 		"noErr":            err == nil,
