@@ -1026,7 +1026,7 @@ func Test_Cov_TraceCollection_Concat(t *testing.T) {
 
 func Test_Cov_TraceCollection_Filters(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	filtered := tc.Filter(func(index int, trace codestack.Trace) bool {
