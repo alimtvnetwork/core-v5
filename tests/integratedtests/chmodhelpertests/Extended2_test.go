@@ -307,7 +307,7 @@ func Test_RwxWrapper_ToPtr_ToNonPtr_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ToRwxOwnerGroupOther(t *testing.T) {
+func Test_RwxWrapper_ToRwxOwnerGroupOther_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
