@@ -2459,7 +2459,7 @@ func Test_SingleRwx_InvalidLength(t *testing.T) {
 	}
 }
 
-func Test_SingleRwx_ToRwxInstruction(t *testing.T) {
+func Test_SingleRwx_ToRwxInstruction_Ext2(t *testing.T) {
 	// Arrange
 	singleRwx, _ := chmodhelper.NewSingleRwx("rwx", chmodclasstype.All)
 	cond := &chmodins.Condition{IsRecursive: true}
