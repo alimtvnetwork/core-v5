@@ -952,7 +952,7 @@ func Test_Cov_StacksTo_JsonStringDefault(t *testing.T) {
 	}
 }
 
-func Test_StacksTo_StringNoCount_Cov(t *testing.T) {
+func Test_Cov_StacksTo_StringNoCount(t *testing.T) {
 	// Act
 	result := codestack.StacksTo.StringNoCount(5)
 
