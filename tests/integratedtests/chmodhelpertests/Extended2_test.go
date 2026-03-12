@@ -2841,7 +2841,7 @@ func Test_RwxPartialToInstructionExecutor_NilCondition_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxPartialToInstructionExecutor_Valid(t *testing.T) {
+func Test_RwxPartialToInstructionExecutor_Valid_Ext2(t *testing.T) {
 	// Act
 	executor, err := chmodhelper.RwxPartialToInstructionExecutor(
 		"-rwxr-xr--", &chmodins.Condition{})
