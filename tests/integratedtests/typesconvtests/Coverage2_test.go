@@ -45,7 +45,7 @@ func Test_Cov2_BytePtrToSimple_NonNil(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "BytePtrToSimple_NonNil", actual)
 }
 
-func Test_BytePtrToSimpleDef_NonNil_Cov2(t *testing.T) {
+func Test_Cov2_BytePtrToSimpleDef_NonNil(t *testing.T) {
 	v := byte(5)
 	actual := args.Map{"result": int(typesconv.BytePtrToSimpleDef(&v, 9))}
 	expected := args.Map{"result": 5}
