@@ -282,7 +282,7 @@ func Test_Cov2_DefinedAllOf_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "DefinedAllOf_Empty", actual)
 }
 
-func Test_DefinedAnyOf_Cov2(t *testing.T) {
+func Test_Cov2_DefinedAnyOf(t *testing.T) {
 	actual := args.Map{
 		"empty":      isany.DefinedAnyOf(),
 		"allDefined": isany.DefinedAnyOf(42, "hello"),
