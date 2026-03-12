@@ -1805,7 +1805,7 @@ func Test_SimpleFileReaderWriter_Get_NotExist(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_Clone(t *testing.T) {
+func Test_SimpleFileReaderWriter_Clone_Ext2(t *testing.T) {
 	// Arrange
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(true, "/tmp/test.txt")
 
