@@ -888,7 +888,7 @@ func Test_RwxVariableWrapper_Methods_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxVariableWrapper_PartialMatch(t *testing.T) {
+func Test_RwxVariableWrapper_PartialMatch_Ext2(t *testing.T) {
 	// Arrange
 	varWrapper, _ := chmodhelper.NewRwxVariableWrapper("-rwxr-xr--")
 
