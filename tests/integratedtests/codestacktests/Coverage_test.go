@@ -934,7 +934,7 @@ func Test_Cov_StacksTo_BytesDefault(t *testing.T) {
 
 func Test_Cov_StacksTo_JsonString(t *testing.T) {
 	// Act
-	result := codestack.StacksTo.JsonString(2, 5)
+	result := codestack.StacksTo.JsonString(2)
 
 	// Assert
 	if result == "" {
