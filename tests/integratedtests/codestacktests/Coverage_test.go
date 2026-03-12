@@ -434,7 +434,7 @@ func Test_Cov_TraceCollection_FirstLast(t *testing.T) {
 
 func Test_Cov_TraceCollection_Strings(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
 	strs := tc.Strings()
