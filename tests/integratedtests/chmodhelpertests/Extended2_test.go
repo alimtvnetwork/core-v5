@@ -589,7 +589,7 @@ func Test_Attribute_UsingByte_Invalid(t *testing.T) {
 	}
 }
 
-func Test_Attribute_UsingVariant(t *testing.T) {
+func Test_Attribute_UsingVariant_Ext2(t *testing.T) {
 	// Act
 	attr, err := chmodhelper.New.Attribute.UsingVariant(chmodhelper.ReadWrite)
 
