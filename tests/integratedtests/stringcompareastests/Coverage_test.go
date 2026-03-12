@@ -100,7 +100,7 @@ var covVerifyErrorTestCases = []coretestcases.CaseV1{
 	},
 }
 
-func Test_VerifyError_Coverage(t *testing.T) {
+func Test_Cov_VerifyError(t *testing.T) {
 	for caseIndex, testCase := range covVerifyErrorTestCases {
 		input := testCase.ArrangeInput.(args.Map)
 		variant := input["variant"].(stringcompareas.Variant)
