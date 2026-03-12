@@ -838,7 +838,7 @@ func Test_Cov_NameOf_All(t *testing.T) {
 
 // ── newCreator tests ──
 
-func Test_NewCreator_SkipOne_Cov(t *testing.T) {
+func Test_Cov_NewCreator_SkipOne(t *testing.T) {
 	// Act
 	trace := codestack.New.SkipOne()
 
