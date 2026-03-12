@@ -787,7 +787,7 @@ func Test_VarAttribute_NilSafe_Ext2(t *testing.T) {
 	}
 }
 
-func Test_VarAttribute_IsEqualPtr_BothNil(t *testing.T) {
+func Test_VarAttribute_IsEqualPtr_BothNil_Ext2(t *testing.T) {
 	// Arrange
 	var a, b *chmodhelper.VarAttribute
 
