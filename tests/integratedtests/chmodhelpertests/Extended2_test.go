@@ -636,7 +636,7 @@ func Test_AttrVariant_ToAttribute_Ext2(t *testing.T) {
 
 // ── Variant tests ──
 
-func Test_Variant_ToWrapper(t *testing.T) {
+func Test_Variant_ToWrapper_Verification(t *testing.T) {
 	for caseIndex, testCase := range ext2VariantTestCases {
 		// Arrange
 		input := testCase.ArrangeInput.(args.Map)
