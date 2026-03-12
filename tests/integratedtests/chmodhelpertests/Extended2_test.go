@@ -2233,7 +2233,7 @@ func Test_NewRwxWrapperCreator_Rwx9_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_RwxFullStringWtHyphen_InvalidLength(t *testing.T) {
+func Test_NewRwxWrapperCreator_RwxFullStringWtHyphen_InvalidLength_Ext2(t *testing.T) {
 	// Act
 	_, err := chmodhelper.New.RwxWrapper.RwxFullStringWtHyphen("rw")
 
