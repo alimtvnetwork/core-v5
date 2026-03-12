@@ -621,7 +621,7 @@ func Test_AttrVariant_Methods_Verification(t *testing.T) {
 	}
 }
 
-func Test_AttrVariant_ToAttribute(t *testing.T) {
+func Test_AttrVariant_ToAttribute_Ext2(t *testing.T) {
 	// Arrange
 	v := chmodhelper.ReadWriteExecute
 
