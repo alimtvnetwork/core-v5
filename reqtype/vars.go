@@ -211,6 +211,7 @@ var (
 
 	updateOrRemoveMap = map[Request]bool{
 		Update:               true,
+		Delete:               true,
 		CreateOrUpdate:       true,
 		DropOrSkipOnNonExist: true,
 		UpdateOnExist:        true,
