@@ -520,7 +520,7 @@ func Test_Attribute_ToStringByte_Ext2(t *testing.T) {
 	}
 }
 
-func Test_Attribute_Clone(t *testing.T) {
+func Test_Attribute_Clone_Ext2(t *testing.T) {
 	// Arrange
 	attr := chmodhelper.New.Attribute.UsingRwxString("rwx")
 
