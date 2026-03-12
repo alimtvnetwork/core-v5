@@ -1738,7 +1738,7 @@ func Test_SimpleFileReaderWriter_ReadOnExist_NotExist(t *testing.T) {
 	}
 }
 
-func Test_SimpleFileReaderWriter_WritePath(t *testing.T) {
+func Test_SimpleFileReaderWriter_WritePath_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_sfrw_wp_ext2"
 	filePath := dir + "/test.txt"
