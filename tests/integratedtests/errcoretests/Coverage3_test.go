@@ -235,8 +235,8 @@ func Test_Cov3_ConcatMessageWithErr_NilErr(t *testing.T) {
 
 func Test_Cov3_ConcatMessageWithErr_WithErr(t *testing.T) {
 	err := errcore.ConcatMessageWithErr("prefix", errors.New("inner"))
-	actual := args.Map{"hasErr": err != nil, "wrapsOriginal": errors.Is(err, errors.New("")) == false}
-	expected := args.Map{"hasErr": true, "wrapsOriginal": true}
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "ConcatMessageWithErr returns wrapped error -- with error", actual)
 }
 
