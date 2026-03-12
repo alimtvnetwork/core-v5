@@ -2127,7 +2127,7 @@ func Test_NewSimpleFileReaderWriter_PathDirDefaultChmod_Ext2(t *testing.T) {
 
 // ── newRwxWrapperCreator additional ──
 
-func Test_NewRwxWrapperCreator_Invalid(t *testing.T) {
+func Test_NewRwxWrapperCreator_Invalid_Ext2(t *testing.T) {
 	// Act
 	w := chmodhelper.New.RwxWrapper.Invalid()
 	wPtr := chmodhelper.New.RwxWrapper.InvalidPtr()
