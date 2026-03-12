@@ -892,7 +892,7 @@ func Test_Cov_StackTrace_SkipNone(t *testing.T) {
 
 // ── StacksTo tests ──
 
-func Test_StacksTo_String_Cov(t *testing.T) {
+func Test_Cov_StacksTo_String(t *testing.T) {
 	// Act
 	result := codestack.StacksTo.String(2, 5)
 
