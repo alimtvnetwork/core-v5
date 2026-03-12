@@ -2025,7 +2025,7 @@ func Test_SimpleFileReaderWriter_RemoveDirOnExist_Ext2(t *testing.T) {
 
 // ── newSimpleFileReaderWriterCreator ──
 
-func Test_NewSimpleFileReaderWriter_All(t *testing.T) {
+func Test_NewSimpleFileReaderWriter_All_Ext2(t *testing.T) {
 	// Act
 	rw := chmodhelper.New.SimpleFileReaderWriter.All(
 		os.FileMode(0755),
