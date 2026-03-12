@@ -52,7 +52,7 @@ func Test_Cov2_WithBracketsQuotation(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "WithBracketsQuotation", actual)
 }
 
-func Test_WithCurlyQuotation_Cov2(t *testing.T) {
+func Test_Cov2_WithCurlyQuotation(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.WithCurlyQuotation("hello") != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "WithCurlyQuotation", actual)
