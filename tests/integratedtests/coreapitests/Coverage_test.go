@@ -284,7 +284,7 @@ func Test_Cov_TypedResponseResult_IsValid_Nil(t *testing.T) {
 	}
 }
 
-func Test_TypedResponseResult_IsInvalid(t *testing.T) {
+func Test_Cov_TypedResponseResult_IsInvalid(t *testing.T) {
 	rr := coreapi.InvalidTypedResponseResult[string](nil)
 	if !rr.IsInvalid() {
 		t.Error("should be invalid")
