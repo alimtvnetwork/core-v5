@@ -727,7 +727,7 @@ func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_HasIndex_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
