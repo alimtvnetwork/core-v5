@@ -3299,7 +3299,7 @@ func Test_RwxWrapper_ApplyChmod_InvalidNotSkip_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxWrapper_ApplyChmodOptions_SkipApply(t *testing.T) {
+func Test_RwxWrapper_ApplyChmodOptions_SkipApply_Ext2(t *testing.T) {
 	// Act
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 	err := wrapper.ApplyChmodOptions(false, true, false, "/whatever")
