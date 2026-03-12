@@ -2600,7 +2600,7 @@ func Test_ChmodApplier_PathsUsingFileModeConditions_NilCondition_Ext2(t *testing
 	}
 }
 
-func Test_ChmodApplier_RwxPartial_EmptyLocations(t *testing.T) {
+func Test_ChmodApplier_RwxPartial_EmptyLocations_Ext2(t *testing.T) {
 	// Act
 	err := chmodhelper.ChmodApply.RwxPartial("-rwx", &chmodins.Condition{})
 
