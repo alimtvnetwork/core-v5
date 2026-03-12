@@ -1506,7 +1506,7 @@ func Test_GetExistingChmodRwxWrappers_Empty_Ext2(t *testing.T) {
 	}
 }
 
-func Test_GetExistingChmodRwxWrappers_ContinueOnError(t *testing.T) {
+func Test_GetExistingChmodRwxWrappers_ContinueOnError_Ext2(t *testing.T) {
 	// Arrange
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
