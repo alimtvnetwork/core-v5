@@ -452,7 +452,7 @@ func Test_Attribute_NilSafe(t *testing.T) {
 	}
 }
 
-func Test_Attribute_ToAttributeValue(t *testing.T) {
+func Test_Attribute_ToAttributeValue_Ext2(t *testing.T) {
 	// Arrange
 	attr := chmodhelper.New.Attribute.UsingRwxString("rwx")
 
