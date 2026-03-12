@@ -904,7 +904,7 @@ func Test_RwxVariableWrapper_PartialMatch_Ext2(t *testing.T) {
 	}
 }
 
-func Test_RwxVariableWrapper_IsEqual(t *testing.T) {
+func Test_RwxVariableWrapper_IsEqual_Ext2(t *testing.T) {
 	// Arrange
 	varWrapper, _ := chmodhelper.NewRwxVariableWrapper("-rwxr-xr--")
 
