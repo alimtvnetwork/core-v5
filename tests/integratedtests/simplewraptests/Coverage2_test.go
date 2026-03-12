@@ -155,7 +155,7 @@ func Test_Cov2_WithStartEnd_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "WithStartEnd_Empty", actual)
 }
 
-func Test_MsgWrapNumber_Int64_Cov2(t *testing.T) {
+func Test_Cov2_MsgWrapNumber_Int64(t *testing.T) {
 	actual := args.Map{"notEmpty": simplewrap.MsgWrapNumber("total", int64(100)) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MsgWrapNumber_Int64", actual)
