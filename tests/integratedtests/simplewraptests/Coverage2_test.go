@@ -137,7 +137,7 @@ func Test_Cov2_ToJsonName_Int(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "ToJsonName_Int", actual)
 }
 
-func Test_WithCurly_Int_Cov2(t *testing.T) {
+func Test_Cov2_WithCurly_Int(t *testing.T) {
 	actual := args.Map{"contains42": strings.Contains(simplewrap.WithCurly(42), "42")}
 	expected := args.Map{"contains42": true}
 	expected.ShouldBeEqual(t, 0, "WithCurly_Int", actual)
