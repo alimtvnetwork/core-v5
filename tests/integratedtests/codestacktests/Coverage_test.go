@@ -338,7 +338,7 @@ func Test_Cov_Trace_JsonParseSelfInject(t *testing.T) {
 	}
 }
 
-func Test_Trace_Dispose_Cov(t *testing.T) {
+func Test_Cov_Trace_Dispose(t *testing.T) {
 	// Arrange
 	trace := codestack.New.Default()
 
