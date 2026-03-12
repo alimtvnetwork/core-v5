@@ -61,7 +61,7 @@ func Test_RwxWrapper_RwxFullString_Verification(t *testing.T) {
 
 // ── RwxWrapper methods ──
 
-func Test_RwxWrapper_Bytes(t *testing.T) {
+func Test_RwxWrapper_Bytes_Ext2(t *testing.T) {
 	// Arrange
 	wrapper, _ := chmodhelper.New.RwxWrapper.Create("755")
 
