@@ -665,15 +665,15 @@ func Test_Cov_TraceCollection_Paging(t *testing.T) {
 
 func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default()
+	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
 
 	// Act & Assert
-	csStr := tc.CodeStacksString(", ")
+	csStr := tc.CodeStacksString()
 	if csStr == "" {
 		t.Error("CodeStacksString should not be empty")
 	}
 
-	csStrLimit := tc.CodeStacksStringLimit(", ", 1)
+	csStrLimit := tc.CodeStacksStringLimit(1)
 	if csStrLimit == "" {
 		t.Error("CodeStacksStringLimit should not be empty")
 	}
