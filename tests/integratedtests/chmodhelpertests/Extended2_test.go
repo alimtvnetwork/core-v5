@@ -3211,7 +3211,7 @@ func Test_FileReader_Read_Invalid(t *testing.T) {
 
 // ── anyItemWriter ──
 
-func Test_AnyItemWriter_Default(t *testing.T) {
+func Test_AnyItemWriter_Default_Ext2(t *testing.T) {
 	// Arrange
 	dir := os.TempDir() + "/chmodtest_aiw_ext2"
 	filePath := dir + "/test.json"
