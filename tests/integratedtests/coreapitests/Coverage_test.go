@@ -223,7 +223,7 @@ func Test_Cov_PageRequest_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_PageRequest_Clone(t *testing.T) {
+func Test_Cov_PageRequest_Clone(t *testing.T) {
 	pr := &coreapi.PageRequest{PageSize: 10, PageIndex: 2}
 	c := pr.Clone()
 	if c.PageSize != 10 || c.PageIndex != 2 {
