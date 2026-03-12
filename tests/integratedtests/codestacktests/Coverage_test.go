@@ -914,7 +914,7 @@ func Test_Cov_StacksTo_StringDefault(t *testing.T) {
 
 func Test_Cov_StacksTo_Bytes(t *testing.T) {
 	// Act
-	result := codestack.StacksTo.Bytes(2, 5)
+	result := codestack.StacksTo.Bytes(2)
 
 	// Assert
 	if len(result) == 0 {
