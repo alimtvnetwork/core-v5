@@ -1006,7 +1006,7 @@ func Test_Cov_Dir_CurDirJoin(t *testing.T) {
 	}
 }
 
-func Test_TraceCollection_Concat_Cov(t *testing.T) {
+func Test_Cov_TraceCollection_Concat(t *testing.T) {
 	// Arrange
 	tc := codestack.New.StackTrace.Default()
 
