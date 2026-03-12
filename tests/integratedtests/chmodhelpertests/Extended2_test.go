@@ -2311,7 +2311,7 @@ func Test_NewRwxWrapperCreator_UsingExistingFile_Ext2(t *testing.T) {
 	}
 }
 
-func Test_NewRwxWrapperCreator_UsingExistingFileSkipInvalidFile(t *testing.T) {
+func Test_NewRwxWrapperCreator_UsingExistingFileSkipInvalidFile_Ext2(t *testing.T) {
 	// Act - valid file
 	tmpFile, _ := os.CreateTemp("", "test-*.txt")
 	defer os.Remove(tmpFile.Name())
