@@ -856,7 +856,7 @@ func Test_BytesErrorOnce_Coverage(t *testing.T) {
 			actual["isStringEmptyWs"] = beo.IsStringEmptyOrWhitespace()
 			_, marshalErr := beo.MarshalJSON()
 			actual["marshalOk"] = marshalErr == nil
-			_ = beo.ValueWithError()
+			_, _ = beo.ValueWithError()
 			_ = beo.HasAnyItem()
 			_ = beo.IsDefined()
 			_ = beo.IsInvalid()

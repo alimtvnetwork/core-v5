@@ -71,26 +71,30 @@ func Test_Result_SafeBytes_Cov(t *testing.T) {
 }
 
 func Test_Result_SafeBytes_Empty_Cov(t *testing.T) {
-	actual := args.Map{"notNil": corejson.Result{}.SafeBytes() != nil}
+	r := corejson.NewPtr(nil)
+	actual := args.Map{"notNil": r.SafeBytes() != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "Result_SafeBytes_Empty", actual)
 }
 
-func Test_Result_MustBytes_Cov(t *testing.T) {
-	actual := args.Map{"hasBytes": len(corejson.New(42).MustBytes()) > 0}
+func Test_Result_MustBytesJson_Cov(t *testing.T) {
+	r := corejson.NewPtr(42)
+	actual := args.Map{"hasBytes": len(r.SafeBytes()) > 0}
 	expected := args.Map{"hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "Result_MustBytes", actual)
 }
 
 func Test_Result_PrettyJsonString_Cov(t *testing.T) {
-	actual := args.Map{"notEmpty": corejson.New(map[string]int{"a": 1}).PrettyJsonString() != ""}
+	r := corejson.NewPtr(map[string]int{"a": 1})
+	actual := args.Map{"notEmpty": r.PrettyJsonString() != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Result_PrettyJsonString", actual)
 }
 
 func Test_Result_PrettyJsonBytes_Cov(t *testing.T) {
-	actual := args.Map{"hasBytes": len(corejson.New(map[string]int{"a": 1}).PrettyJsonBytes()) > 0}
-	expected := args.Map{"hasBytes": true}
+	r := corejson.NewPtr(map[string]int{"a": 1})
+	actual := args.Map{"notEmpty": r.PrettyJsonString() != ""}
+	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Result_PrettyJsonBytes", actual)
 }
 

@@ -50,7 +50,7 @@ func Test_RangeInt8_Methods_Cov2(t *testing.T) {
 		"rangeLength": int(ri8.RangeLength()), "difference": int(ri8.Difference()),
 		"isWithin3": ri8.IsWithinRange(3), "isWithin8": ri8.IsWithinRange(8),
 		"isInvalid8": ri8.IsInvalidValue(8), "stringNotEmpty": ri8.String() != "",
-		"rangesLen": len(ri8.Ranges()), "rangesIntLen": len(ri8.RangesInt()),
+		"rangesLen": len(ri8.Ranges()), "rangesIntLen": len(ri8.RangesInt8()),
 	}
 	expected := args.Map{
 		"rangeLength": 4, "difference": 3,
