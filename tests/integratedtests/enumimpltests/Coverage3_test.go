@@ -717,7 +717,7 @@ func Test_Cov3_BasicString_IsAnyNamesOf(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_GetNameByIndex(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active", "Inactive"},
 	)
