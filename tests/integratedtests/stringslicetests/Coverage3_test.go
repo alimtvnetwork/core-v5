@@ -141,7 +141,7 @@ func Test_Cov3_MergeNewSimple(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_Make(t *testing.T) {
-	result := stringslice.Make(5)
+	result := stringslice.Make(0, 5)
 	actual := args.Map{"cap": cap(result) >= 5, "len": len(result)}
 	expected := args.Map{"cap": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "Make creates slice -- cap 5", actual)
@@ -155,7 +155,7 @@ func Test_Cov3_MakeLen(t *testing.T) {
 }
 
 func Test_Cov3_MakeDefault(t *testing.T) {
-	result := stringslice.MakeDefault()
+	result := stringslice.MakeDefault(10)
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "MakeDefault creates slice -- default", actual)
