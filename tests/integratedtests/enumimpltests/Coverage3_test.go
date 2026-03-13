@@ -654,7 +654,7 @@ func Test_Cov3_NumberEnumBase_JsonString(t *testing.T) {
 // ── BasicString ──
 
 func Test_Cov3_BasicString_Create(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active", "Inactive"},
 	)
@@ -681,7 +681,7 @@ func Test_Cov3_BasicString_Create(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_IsAnyOf(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -700,7 +700,7 @@ func Test_Cov3_BasicString_IsAnyOf(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_IsAnyNamesOf(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -717,7 +717,7 @@ func Test_Cov3_BasicString_IsAnyNamesOf(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_GetNameByIndex(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active", "Inactive"},
 	)
@@ -734,7 +734,7 @@ func Test_Cov3_BasicString_GetNameByIndex(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_GetIndexByName(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -753,7 +753,7 @@ func Test_Cov3_BasicString_GetIndexByName(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_Ranges(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -776,7 +776,7 @@ func Test_Cov3_BasicString_Ranges(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_GetValueByName(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -798,7 +798,7 @@ func Test_Cov3_BasicString_GetValueByName(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_ToEnumJsonBytes(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -820,7 +820,7 @@ func Test_Cov3_BasicString_ToEnumJsonBytes(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_UnmarshallToValue(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -852,7 +852,7 @@ func Test_Cov3_BasicString_UnmarshallToValue(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_EnumType(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -867,7 +867,7 @@ func Test_Cov3_BasicString_EnumType(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_AppendPrependJoinValue(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
@@ -884,7 +884,7 @@ func Test_Cov3_BasicString_AppendPrependJoinValue(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_OnlySupportedErr(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)

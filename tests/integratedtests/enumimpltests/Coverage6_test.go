@@ -1371,7 +1371,7 @@ func Test_Cov6_BasicString_CreateDefault(t *testing.T) {
 }
 
 func Test_Cov6_BasicString_ToEnumString(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)

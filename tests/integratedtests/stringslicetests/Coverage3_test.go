@@ -19,9 +19,9 @@ func Test_Cov3_First_NonEmpty(t *testing.T) {
 
 func Test_Cov3_FirstPtr_NonEmpty(t *testing.T) {
 	result := stringslice.FirstPtr([]string{"x"})
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "x"}
-	expected.ShouldBeEqual(t, 0, "FirstPtr returns ptr -- non-empty", actual)
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "x"}
+	expected.ShouldBeEqual(t, 0, "FirstPtr returns first -- non-empty", actual)
 }
 
 func Test_Cov3_Last_NonEmpty(t *testing.T) {
@@ -32,9 +32,9 @@ func Test_Cov3_Last_NonEmpty(t *testing.T) {
 
 func Test_Cov3_LastPtr_NonEmpty(t *testing.T) {
 	result := stringslice.LastPtr([]string{"x", "y"})
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "y"}
-	expected.ShouldBeEqual(t, 0, "LastPtr returns ptr -- non-empty", actual)
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "y"}
+	expected.ShouldBeEqual(t, 0, "LastPtr returns last -- non-empty", actual)
 }
 
 // ============================================================================
@@ -71,18 +71,17 @@ func Test_Cov3_LastOrDefault_NonEmpty(t *testing.T) {
 
 func Test_Cov3_InPlaceReverse(t *testing.T) {
 	s := []string{"a", "b", "c"}
-	stringslice.InPlaceReverse(s)
-	actual := args.Map{"first": s[0], "last": s[2]}
+	result := stringslice.InPlaceReverse(&s)
+	actual := args.Map{"first": (*result)[0], "last": (*result)[2]}
 	expected := args.Map{"first": "c", "last": "a"}
 	expected.ShouldBeEqual(t, 0, "InPlaceReverse reverses -- a,b,c", actual)
 }
 
-func Test_Cov3_InPlaceReverse_Empty(t *testing.T) {
-	s := []string{}
-	stringslice.InPlaceReverse(s)
-	actual := args.Map{"len": len(s)}
+func Test_Cov3_InPlaceReverse_Nil(t *testing.T) {
+	result := stringslice.InPlaceReverse(nil)
+	actual := args.Map{"len": len(*result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "InPlaceReverse empty -- empty", actual)
+	expected.ShouldBeEqual(t, 0, "InPlaceReverse nil -- empty", actual)
 }
 
 // ============================================================================
@@ -124,10 +123,10 @@ func Test_Cov3_IsEmpty(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_MergeNew(t *testing.T) {
-	result := stringslice.MergeNew([]string{"a"}, []string{"b"})
+	result := stringslice.MergeNew([]string{"a"}, "b")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "MergeNew merges -- 2 slices", actual)
+	expected.ShouldBeEqual(t, 0, "MergeNew merges -- slice+item", actual)
 }
 
 func Test_Cov3_MergeNewSimple(t *testing.T) {
@@ -142,7 +141,7 @@ func Test_Cov3_MergeNewSimple(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_Make(t *testing.T) {
-	result := stringslice.Make(5)
+	result := stringslice.Make(0, 5)
 	actual := args.Map{"cap": cap(result) >= 5, "len": len(result)}
 	expected := args.Map{"cap": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "Make creates slice -- cap 5", actual)
@@ -156,7 +155,7 @@ func Test_Cov3_MakeLen(t *testing.T) {
 }
 
 func Test_Cov3_MakeDefault(t *testing.T) {
-	result := stringslice.MakeDefault()
+	result := stringslice.MakeDefault(10)
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "MakeDefault creates slice -- default", actual)
@@ -195,8 +194,8 @@ func Test_Cov3_SortIf_False(t *testing.T) {
 
 func Test_Cov3_ClonePtr(t *testing.T) {
 	result := stringslice.ClonePtr([]string{"a", "b"})
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 2}
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "ClonePtr clones -- 2 items", actual)
 }
 
@@ -259,24 +258,24 @@ func Test_Cov3_LengthOfPointer_Nil(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_MakePtr(t *testing.T) {
-	result := stringslice.MakePtr(5)
+	result := stringslice.MakePtr(0, 5)
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MakePtr returns ptr -- cap 5", actual)
+	expected.ShouldBeEqual(t, 0, "MakePtr returns slice -- cap 5", actual)
 }
 
 func Test_Cov3_MakeLenPtr(t *testing.T) {
 	result := stringslice.MakeLenPtr(3)
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 3}
-	expected.ShouldBeEqual(t, 0, "MakeLenPtr returns ptr -- len 3", actual)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "MakeLenPtr returns slice -- len 3", actual)
 }
 
 func Test_Cov3_MakeDefaultPtr(t *testing.T) {
-	result := stringslice.MakeDefaultPtr()
+	result := stringslice.MakeDefaultPtr(10)
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MakeDefaultPtr returns ptr -- default", actual)
+	expected.ShouldBeEqual(t, 0, "MakeDefaultPtr returns slice -- default", actual)
 }
 
 // ============================================================================

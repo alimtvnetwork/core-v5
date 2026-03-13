@@ -58,12 +58,12 @@ func Test_SimpleSlice_String_Cov2(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "SimpleSlice_String", actual)
 }
 
-func Test_SimpleSlice_CsvString_Cov2(t *testing.T) {
+func Test_SimpleSlice_JoinCsv_Cov2(t *testing.T) {
 	s := corestr.New.SimpleSlice.Cap(5)
 	s.Adds("a", "b")
-	actual := args.Map{"notEmpty": s.CsvString() != ""}
+	actual := args.Map{"notEmpty": s.JoinCsv() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_CsvString", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_JoinCsv", actual)
 }
 
 // ── Collection ──
@@ -77,7 +77,7 @@ func Test_Collection_Cap_Cov2(t *testing.T) {
 
 func Test_Collection_AddStrings_Cov2(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
-	c.AddStrings("hello", "world")
+	c.AddStrings([]string{"hello", "world"})
 	actual := args.Map{"length": c.Length()}
 	expected := args.Map{"length": 2}
 	expected.ShouldBeEqual(t, 0, "Collection_AddStrings", actual)
@@ -201,16 +201,16 @@ func Test_CollectionsOfCollection_Cap_Cov2(t *testing.T) {
 // ── LeftRight / LeftMiddleRight / ValidValue / ValidValues ──
 
 func Test_LeftRight_Cov2(t *testing.T) {
-	lr := corestr.LeftRight{Left: "l", Right: "r"}
-	actual := args.Map{"hasLeft": lr.HasLeft(), "hasRight": lr.HasRight(), "hasBoth": lr.HasBoth()}
-	expected := args.Map{"hasLeft": true, "hasRight": true, "hasBoth": true}
+	lr := corestr.NewLeftRight("l", "r")
+	actual := args.Map{"isLeftEmpty": lr.IsLeftEmpty(), "isRightEmpty": lr.IsRightEmpty(), "hasSafe": lr.HasSafeNonEmpty()}
+	expected := args.Map{"isLeftEmpty": false, "isRightEmpty": false, "hasSafe": true}
 	expected.ShouldBeEqual(t, 0, "LeftRight", actual)
 }
 
 func Test_LeftMiddleRight_Cov2(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "l", Middle: "m", Right: "r"}
-	actual := args.Map{"hasLeft": lmr.HasLeft(), "hasMiddle": lmr.HasMiddle(), "hasRight": lmr.HasRight()}
-	expected := args.Map{"hasLeft": true, "hasMiddle": true, "hasRight": true}
+	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
+	actual := args.Map{"isLeftEmpty": lmr.IsLeftEmpty(), "isMiddleEmpty": lmr.IsMiddleEmpty(), "isRightEmpty": lmr.IsRightEmpty()}
+	expected := args.Map{"isLeftEmpty": false, "isMiddleEmpty": false, "isRightEmpty": false}
 	expected.ShouldBeEqual(t, 0, "LeftMiddleRight", actual)
 }
 

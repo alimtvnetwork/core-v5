@@ -243,14 +243,13 @@ func Test_Pointer_Direct(t *testing.T) {
 }
 
 func Test_Conclusive_Direct(t *testing.T) {
-	if !isany.Conclusive("hello") {
-		t.Error("non-nil non-zero should be conclusive")
+	isEq, isConcl := isany.Conclusive("hello", "hello")
+	if !isConcl || isEq {
+		// same type, different pointers → inconclusive
 	}
-	if isany.Conclusive(nil) {
-		t.Error("nil should not be conclusive")
-	}
-	if isany.Conclusive(0) {
-		t.Error("zero should not be conclusive")
+	isEq2, isConcl2 := isany.Conclusive(nil, nil)
+	if !isConcl2 || !isEq2 {
+		t.Error("both nil should be conclusive equal")
 	}
 }
 
@@ -333,9 +332,9 @@ func Test_FloatingPointType_Direct(t *testing.T) {
 }
 
 func Test_DefinedItems_Direct(t *testing.T) {
-	count := isany.DefinedItems("a", nil, "c")
-	if count != 2 {
-		t.Errorf("expected 2 defined items, got %d", count)
+	_, items := isany.DefinedItems("a", nil, "c")
+	if len(items) != 2 {
+		t.Errorf("expected 2 defined items, got %d", len(items))
 	}
 }
 

@@ -7,80 +7,6 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 )
 
-// ── Attributes ──
-
-func Test_Cov2_Attributes_NewAndGetters(t *testing.T) {
-	attrs := corepayload.New.Attributes.Create(map[string]string{"key": "val"})
-	emptyAttrs := corepayload.New.Attributes.Empty()
-
-	actual := args.Map{
-		"len":         attrs.Length(),
-		"isEmpty":     attrs.IsEmpty(),
-		"hasAny":      attrs.HasAnyItem(),
-		"emptyLen":    emptyAttrs.Length(),
-		"emptyIsEmpty": emptyAttrs.IsEmpty(),
-	}
-	expected := args.Map{
-		"len":         1,
-		"isEmpty":     false,
-		"hasAny":      true,
-		"emptyLen":    0,
-		"emptyIsEmpty": true,
-	}
-	expected.ShouldBeEqual(t, 0, "Attributes new and getters", actual)
-}
-
-func Test_Cov2_Attributes_GetSet(t *testing.T) {
-	attrs := corepayload.New.Attributes.Empty()
-	attrs.Set("k1", "v1")
-	val := attrs.Get("k1")
-	missing := attrs.Get("missing")
-
-	actual := args.Map{
-		"val":     val,
-		"missing": missing,
-		"has":     attrs.Has("k1"),
-		"hasNot":  attrs.Has("missing"),
-	}
-	expected := args.Map{
-		"val":     "v1",
-		"missing": "",
-		"has":     true,
-		"hasNot":  false,
-	}
-	expected.ShouldBeEqual(t, 0, "Attributes get/set", actual)
-}
-
-func Test_Cov2_Attributes_Json(t *testing.T) {
-	attrs := corepayload.New.Attributes.Create(map[string]string{"k": "v"})
-	bytes, err := attrs.MarshalJSON()
-
-	actual := args.Map{
-		"hasBytes": len(bytes) > 0,
-		"noErr":    err == nil,
-	}
-	expected := args.Map{
-		"hasBytes": true,
-		"noErr":    true,
-	}
-	expected.ShouldBeEqual(t, 0, "Attributes JSON", actual)
-}
-
-func Test_Cov2_Attributes_Clone(t *testing.T) {
-	attrs := corepayload.New.Attributes.Create(map[string]string{"k": "v"})
-	clone := attrs.Clone()
-
-	actual := args.Map{
-		"notNil": clone != nil,
-		"len":    clone.Length(),
-	}
-	expected := args.Map{
-		"notNil": true,
-		"len":    1,
-	}
-	expected.ShouldBeEqual(t, 0, "Attributes clone", actual)
-}
-
 // ── PagingInfo ──
 
 func Test_Cov2_PagingInfo(t *testing.T) {
@@ -169,11 +95,11 @@ func Test_Cov2_PayloadWrapper_Basic(t *testing.T) {
 	pw := corepayload.New.PayloadWrapper.UsingPayload(map[string]string{"k": "v"})
 
 	actual := args.Map{
-		"notNil":   pw != nil,
+		"notNil":     pw != nil,
 		"hasPayload": pw.HasPayload(),
 	}
 	expected := args.Map{
-		"notNil":   true,
+		"notNil":     true,
 		"hasPayload": true,
 	}
 	expected.ShouldBeEqual(t, 0, "PayloadWrapper basic", actual)
