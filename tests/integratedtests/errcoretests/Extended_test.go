@@ -172,7 +172,7 @@ func TestExpectingSimpleNoType(t *testing.T) {
 
 // TestExpectingError verifies ExpectingError.
 func TestExpectingError(t *testing.T) {
-	err := errcore.ExpectingError("header", "expected", "actual")
+	err := errcore.ExpectingErrorSimpleNoType("header", "expected", "actual")
 	if err == nil {
 		t.Error("should return error")
 	}
