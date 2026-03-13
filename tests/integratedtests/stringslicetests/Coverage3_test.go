@@ -71,18 +71,17 @@ func Test_Cov3_LastOrDefault_NonEmpty(t *testing.T) {
 
 func Test_Cov3_InPlaceReverse(t *testing.T) {
 	s := []string{"a", "b", "c"}
-	stringslice.InPlaceReverse(s)
-	actual := args.Map{"first": s[0], "last": s[2]}
+	result := stringslice.InPlaceReverse(&s)
+	actual := args.Map{"first": (*result)[0], "last": (*result)[2]}
 	expected := args.Map{"first": "c", "last": "a"}
 	expected.ShouldBeEqual(t, 0, "InPlaceReverse reverses -- a,b,c", actual)
 }
 
-func Test_Cov3_InPlaceReverse_Empty(t *testing.T) {
-	s := []string{}
-	stringslice.InPlaceReverse(s)
-	actual := args.Map{"len": len(s)}
+func Test_Cov3_InPlaceReverse_Nil(t *testing.T) {
+	result := stringslice.InPlaceReverse(nil)
+	actual := args.Map{"len": len(*result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "InPlaceReverse empty -- empty", actual)
+	expected.ShouldBeEqual(t, 0, "InPlaceReverse nil -- empty", actual)
 }
 
 // ============================================================================
