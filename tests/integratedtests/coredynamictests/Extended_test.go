@@ -56,7 +56,7 @@ func Test_Dynamic_NewDynamicPtr(t *testing.T) {
 // Clone
 // ==========================================
 
-func Test_Dynamic_Clone(t *testing.T) {
+func Test_Dynamic_Clone_Ext(t *testing.T) {
 	d := coredynamic.NewDynamicValid("hello")
 	cloned := d.Clone()
 	if cloned.Data() != "hello" {
