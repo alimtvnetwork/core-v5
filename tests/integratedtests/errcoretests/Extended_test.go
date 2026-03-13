@@ -137,12 +137,12 @@ func TestManyErrorToSingleDirect(t *testing.T) {
 // TestConcatMessageWithErr verifies ConcatMessageWithErr.
 func TestConcatMessageWithErr(t *testing.T) {
 	r := errcore.ConcatMessageWithErr("prefix", nil)
-	if r != "" {
-		t.Error("nil error should return empty")
+	if r != nil {
+		t.Error("nil error should return nil")
 	}
 	r = errcore.ConcatMessageWithErr("prefix", errors.New("err"))
-	if r == "" {
-		t.Error("should return concatenated message")
+	if r == nil {
+		t.Error("should return concatenated error")
 	}
 }
 
