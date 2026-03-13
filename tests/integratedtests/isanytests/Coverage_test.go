@@ -213,7 +213,7 @@ func Test_DefinedAnyOf_Coverage(t *testing.T) {
 // ── DefinedItems ──
 
 func Test_DefinedItems_Coverage(t *testing.T) {
-	items := isany.DefinedItems(nil, 42, nil, "hello")
+	_, items := isany.DefinedItems(nil, 42, nil, "hello")
 	if len(items) != 2 {
 		t.Errorf("expected 2 defined items, got %d", len(items))
 	}
