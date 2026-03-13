@@ -196,7 +196,7 @@ func TestExpectingNotEqualSimpleNoType(t *testing.T) {
 
 // TestVarTwo verifies VarTwo.
 func TestVarTwo(t *testing.T) {
-	r := errcore.VarTwo("a", "b", 1, 2)
+	r := errcore.VarTwo(false, "a", 1, "b", 2)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -204,7 +204,7 @@ func TestVarTwo(t *testing.T) {
 
 // TestVarThree verifies VarThree.
 func TestVarThree(t *testing.T) {
-	r := errcore.VarThree("a", "b", "c", 1, 2, 3)
+	r := errcore.VarThree(false, "a", 1, "b", 2, "c", 3)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -212,7 +212,7 @@ func TestVarThree(t *testing.T) {
 
 // TestMessageVarTwo verifies MessageVarTwo.
 func TestMessageVarTwo(t *testing.T) {
-	r := errcore.MessageVarTwo("msg", "a", "b", 1, 2)
+	r := errcore.MessageVarTwo("msg", "a", 1, "b", 2)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -220,7 +220,7 @@ func TestMessageVarTwo(t *testing.T) {
 
 // TestMessageVarThree verifies MessageVarThree.
 func TestMessageVarThree(t *testing.T) {
-	r := errcore.MessageVarThree("msg", "a", "b", "c", 1, 2, 3)
+	r := errcore.MessageVarThree("msg", "a", 1, "b", 2, "c", 3)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
