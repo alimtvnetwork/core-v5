@@ -615,7 +615,7 @@ func Test_Hashmap_Clone(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
+func Test_Hashmap_IsEquals_BothNil_Cov(t *testing.T) {
 	var hm1, hm2 *coregeneric.Hashmap[string, int]
 	if !hm1.IsEquals(hm2) {
 		t.Error("both nil should be equal")
