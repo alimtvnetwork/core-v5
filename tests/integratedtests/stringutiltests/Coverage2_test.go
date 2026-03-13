@@ -189,10 +189,10 @@ func Test_Cov2_IsEnds(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "IsEnds", actual)
 }
 
-func Test_Cov2_IsContains(t *testing.T) {
+func Test_Cov2_IsContains_Slice(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsContains("hello world", "lo wo"),
-		"noMatch": stringutil.IsContains("hello world", "xyz"),
+		"match":   stringutil.IsContains([]string{"hello", "world"}, "world", 0, true),
+		"noMatch": stringutil.IsContains([]string{"hello", "world"}, "xyz", 0, true),
 	}
 	expected := args.Map{
 		"match":   true,
