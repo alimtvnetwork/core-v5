@@ -242,17 +242,17 @@ func Test_KeyVal(t *testing.T) {
 // LeftRight
 // ==========================================
 
-func Test_LeftRight_IsLeftNil(t *testing.T) {
+func Test_LeftRight_IsLeftEmpty(t *testing.T) {
 	lr := coredynamic.LeftRight{Right: "right"}
-	if !lr.IsLeftNil() {
-		t.Error("left should be nil")
+	if !lr.IsLeftEmpty() {
+		t.Error("left should be empty")
 	}
 }
 
-func Test_LeftRight_IsRightNil(t *testing.T) {
+func Test_LeftRight_IsRightEmpty(t *testing.T) {
 	lr := coredynamic.LeftRight{Left: "left"}
-	if !lr.IsRightNil() {
-		t.Error("right should be nil")
+	if !lr.IsRightEmpty() {
+		t.Error("right should be empty")
 	}
 }
 
