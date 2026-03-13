@@ -679,7 +679,7 @@ func Test_Hashmap_HasItems(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_Keys_Empty(t *testing.T) {
+func Test_Hashmap_Keys_Empty_Cov(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	if len(hm.Keys()) != 0 {
 		t.Error("should return empty")
