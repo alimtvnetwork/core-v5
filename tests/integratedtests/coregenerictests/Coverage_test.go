@@ -303,7 +303,7 @@ func Test_LinkedList_PushFront(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Push(t *testing.T) {
+func Test_LinkedList_Push_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	ll.Push(1)
 	if ll.Length() != 1 {
