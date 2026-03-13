@@ -132,7 +132,7 @@ func Test_TextValidator_IsMatchMany_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_IsMatchMany_EmptySkip(t *testing.T) {
+func Test_TextValidator_IsMatchMany_EmptySkip_Cov(t *testing.T) {
 	tv := &corevalidator.TextValidator{Search: "x", SearchAs: stringcompareas.Equal}
 	if !tv.IsMatchMany(true, true) {
 		t.Error("empty contents with skip should return true")
