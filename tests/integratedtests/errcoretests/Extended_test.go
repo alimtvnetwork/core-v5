@@ -327,7 +327,7 @@ func TestVarTwoNoType(t *testing.T) {
 
 // TestVarThreeNoType verifies VarThreeNoType.
 func TestVarThreeNoType(t *testing.T) {
-	r := errcore.VarThreeNoType("a", "b", "c", 1, 2, 3)
+	r := errcore.VarThreeNoType("a", 1, "b", 2, "c", 3)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
