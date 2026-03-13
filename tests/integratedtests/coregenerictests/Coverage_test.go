@@ -429,7 +429,7 @@ func Test_LinkedList_IndexAt_OutOfBounds_Cov(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IndexAt_Empty(t *testing.T) {
+func Test_LinkedList_IndexAt_Empty_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	if ll.IndexAt(0) != nil {
 		t.Error("empty should return nil")
