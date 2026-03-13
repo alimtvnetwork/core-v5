@@ -240,13 +240,13 @@ func Test_NewResultsPtrCollection_Cap_Cov(t *testing.T) {
 // ── Pretty ──
 
 func Test_Pretty_Bytes_Cov(t *testing.T) {
-	actual := args.Map{"hasBytes": len(corejson.Pretty.Bytes.Raw([]byte(`{"a":1}`))) > 0}
+	actual := args.Map{"hasBytes": len(corejson.Pretty.Bytes.SafeDefault([]byte(`{"a":1}`))) > 0}
 	expected := args.Map{"hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "Pretty_Bytes", actual)
 }
 
 func Test_Pretty_String_Cov(t *testing.T) {
-	actual := args.Map{"notEmpty": corejson.Pretty.String.Raw(`{"a":1}`) != ""}
+	actual := args.Map{"notEmpty": corejson.Pretty.String.SafeDefault(`{"a":1}`) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Pretty_String", actual)
 }
