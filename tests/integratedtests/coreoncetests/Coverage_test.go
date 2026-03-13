@@ -627,7 +627,7 @@ func Test_IntegerOnce_Methods_Coverage(t *testing.T) {
 			"isNegative":    io.IsNegative(),
 			"string":        io.String(),
 		}
-		_ = io.MarshalJSON()
+		_, _ = io.MarshalJSON()
 
 		testCase.ShouldBeEqualMap(t, caseIndex, actual)
 	}
