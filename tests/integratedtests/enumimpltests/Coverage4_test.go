@@ -415,10 +415,7 @@ func Test_Cov4_BasicInt8_AppendPrependJoinNamer(t *testing.T) {
 		[]string{"Invalid", "Active"},
 	)
 
-	type mockNamer struct{ name string }
-	mn := func(n string) mockNamer { return mockNamer{name: n} }
-
-	result := bi.AppendPrependJoinNamer(".", mn("B"), mn("A"))
+	result := bi.AppendPrependJoinNamer(".", mockNamer4{"B"}, mockNamer4{"A"})
 
 	actual := args.Map{
 		"result": result,
