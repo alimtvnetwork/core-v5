@@ -1022,7 +1022,7 @@ func Test_Collection_Capacity_NilItems(t *testing.T) {
 	_ = col.Capacity()
 }
 
-func Test_Collection_ItemsPtr(t *testing.T) {
+func Test_Collection_ItemsPtr_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1})
 	p := col.ItemsPtr()
 	if p == nil || len(*p) != 1 {

@@ -432,7 +432,7 @@ func Test_IsPathExists(t *testing.T) {
 	}
 }
 
-func Test_IsDirectory(t *testing.T) {
+func Test_IsDirectory_Ext(t *testing.T) {
 	// Assert
 	if !chmodhelper.IsDirectory(os.TempDir()) {
 		t.Error("temp dir should be directory")

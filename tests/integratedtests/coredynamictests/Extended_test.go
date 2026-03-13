@@ -257,13 +257,13 @@ func Test_LeftRight_IsRightEmpty(t *testing.T) {
 }
 
 // ==========================================
-// Type
+// TypeSameStatus
 // ==========================================
 
-func Test_Type_Name(t *testing.T) {
-	typ := coredynamic.NewType(reflect.TypeOf(""))
-	if typ.Name() == "" {
-		t.Error("should return non-empty name")
+func Test_TypeSameStatus(t *testing.T) {
+	ts := coredynamic.TypeSameStatus("hello", "world")
+	if !ts.IsSame {
+		t.Error("same types should be same")
 	}
 }
 
@@ -271,16 +271,19 @@ func Test_Type_Name(t *testing.T) {
 // CastTo
 // ==========================================
 
-func Test_CastTo_String(t *testing.T) {
-	result := coredynamic.CastTo[string]("hello")
-	if result == nil || *result != "hello" {
-		t.Error("should cast to string")
+func Test_CastTo_Match(t *testing.T) {
+	result := coredynamic.CastTo(false, "hello", reflect.TypeOf(""))
+	if result.Error != nil {
+		t.Errorf("should not error: %v", result.Error)
+	}
+	if !result.IsMatchingAcceptedType {
+		t.Error("should match accepted type")
 	}
 }
 
 func Test_CastTo_Mismatch(t *testing.T) {
-	result := coredynamic.CastTo[int]("hello")
-	if result != nil {
-		t.Error("mismatching cast should return nil")
+	result := coredynamic.CastTo(false, "hello", reflect.TypeOf(0))
+	if result.Error == nil {
+		t.Error("mismatching cast should return error")
 	}
 }
