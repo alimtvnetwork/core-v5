@@ -653,7 +653,7 @@ func Test_Hashmap_IsEquals_MissingKey(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_String(t *testing.T) {
+func Test_Hashmap_String_Cov(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	if hm.String() == "" {
 		t.Error("should return non-empty")
