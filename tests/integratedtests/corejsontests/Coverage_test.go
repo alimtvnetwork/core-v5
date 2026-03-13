@@ -99,14 +99,14 @@ func Test_Result_PrettyJsonBytes_Cov(t *testing.T) {
 }
 
 func Test_Result_Clone_Cov(t *testing.T) {
-	c := corejson.New(42).Clone()
+	c := corejson.NewPtr(42).Clone(false)
 	actual := args.Map{"hasError": c.Error != nil, "hasBytes": len(c.Bytes) > 0}
 	expected := args.Map{"hasError": false, "hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "Result_Clone", actual)
 }
 
 func Test_Result_ClonePtr_Cov(t *testing.T) {
-	actual := args.Map{"notNil": corejson.New(42).ClonePtr() != nil}
+	actual := args.Map{"notNil": corejson.NewPtr(42).ClonePtr(false) != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "Result_ClonePtr", actual)
 }

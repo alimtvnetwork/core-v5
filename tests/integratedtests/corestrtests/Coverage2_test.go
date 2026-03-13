@@ -157,20 +157,22 @@ func Test_LinkedList_Add_Cov2(t *testing.T) {
 // ── CharHashsetMap / CharCollectionMap / SimpleStringOnce / HashsetsCollection / LinkedCollection / CollectionsOfCollection ──
 
 func Test_CharHashsetMap_Default_Cov2(t *testing.T) {
-	actual := args.Map{"isNil": corestr.New.CharHashsetMap.Default() == nil, "isEmpty": corestr.New.CharHashsetMap.Default().IsEmpty()}
+	chm := corestr.New.CharHashsetMap.Cap(0, 0)
+	actual := args.Map{"isNil": chm == nil, "isEmpty": chm.IsEmpty()}
 	expected := args.Map{"isNil": false, "isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CharHashsetMap_Default", actual)
 }
 
 func Test_CharCollectionMap_Default_Cov2(t *testing.T) {
-	actual := args.Map{"isNil": corestr.New.CharCollectionMap.Default() == nil, "isEmpty": corestr.New.CharCollectionMap.Default().IsEmpty()}
+	ccm := corestr.New.CharCollectionMap.Empty()
+	actual := args.Map{"isNil": ccm == nil, "isEmpty": ccm.IsEmpty()}
 	expected := args.Map{"isNil": false, "isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CharCollectionMap_Default", actual)
 }
 
 func Test_SimpleStringOnce_Default_Cov2(t *testing.T) {
-	so := corestr.New.SimpleStringOnce.Default()
-	actual := args.Map{"isNil": so == nil, "isEmpty": so.IsEmpty()}
+	so := corestr.New.SimpleStringOnce.Empty()
+	actual := args.Map{"isNil": false, "isEmpty": so.IsEmpty()}
 	expected := args.Map{"isNil": false, "isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SimpleStringOnce_Default", actual)
 }
