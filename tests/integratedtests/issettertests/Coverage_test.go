@@ -493,7 +493,7 @@ func Test_Value_OrValue(t *testing.T) {
 	}
 }
 
-func Test_Value_IsWildcardOrBool(t *testing.T) {
+func Test_Value_IsWildcardOrBool_Cov(t *testing.T) {
 	if !issetter.Wildcard.IsWildcardOrBool(false) {
 		t.Error("Wildcard should always return true")
 	}

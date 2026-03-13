@@ -645,7 +645,7 @@ func Test_BaseLinesValidators_HasLinesValidators(t *testing.T) {
 	}
 }
 
-func Test_BaseLinesValidators_ToLinesValidators_Empty(t *testing.T) {
+func Test_BaseLinesValidators_ToLinesValidators_Empty_Cov(t *testing.T) {
 	blv := &corevalidator.BaseLinesValidators{}
 	lv := blv.ToLinesValidators()
 	if lv.Length() != 0 {
