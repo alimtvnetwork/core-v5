@@ -59,13 +59,13 @@ func Test_Result_String_Cov(t *testing.T) {
 }
 
 func Test_Result_JsonString_Cov(t *testing.T) {
-	actual := args.Map{"result": corejson.New(42).JsonString()}
+	actual := args.Map{"result": corejson.NewPtr(42).JsonString()}
 	expected := args.Map{"result": "42"}
 	expected.ShouldBeEqual(t, 0, "Result_JsonString", actual)
 }
 
 func Test_Result_SafeBytes_Cov(t *testing.T) {
-	actual := args.Map{"hasBytes": len(corejson.New(42).SafeBytes()) > 0}
+	actual := args.Map{"hasBytes": len(corejson.NewPtr(42).SafeBytes()) > 0}
 	expected := args.Map{"hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "Result_SafeBytes", actual)
 }
