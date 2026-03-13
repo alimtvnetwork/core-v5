@@ -583,7 +583,7 @@ func Test_Cov3_Dynamic_Clone(t *testing.T) {
 		"cloneData":   cloned.Data(),
 		"ptrNotNil":   clonedPtr != nil,
 		"nilClone":    nilClone == nil,
-		"nonPtrData":  d.NonPtr().Data(),
+		"nonPtrData":  d.NonPtr().Ptr().Data(),
 		"ptrNotNil2":  d.Ptr() != nil,
 	}
 	expected := args.Map{

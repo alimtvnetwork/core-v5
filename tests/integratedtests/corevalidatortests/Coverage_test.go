@@ -43,7 +43,7 @@ func Test_Condition_IsSplitByWhitespace_Sort(t *testing.T) {
 // Parameter
 // =============================================================================
 
-func Test_Parameter_IsIgnoreCase(t *testing.T) {
+func Test_Parameter_IsIgnoreCase_Cov(t *testing.T) {
 	p := corevalidator.Parameter{IsCaseSensitive: true}
 	if p.IsIgnoreCase() {
 		t.Error("case sensitive should not ignore case")
@@ -114,7 +114,7 @@ func Test_LineNumber_VerifyError_Mismatch(t *testing.T) {
 // TextValidator — uncovered branches
 // =============================================================================
 
-func Test_TextValidator_ToString_MultiLine(t *testing.T) {
+func Test_TextValidator_ToString_MultiLine_Cov(t *testing.T) {
 	tv := corevalidator.TextValidator{
 		Search:   "test",
 		SearchAs: stringcompareas.Equal,
@@ -211,7 +211,7 @@ func Test_TextValidator_AllVerifyError_EmptySkip(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_MethodName(t *testing.T) {
+func Test_TextValidator_MethodName_Cov(t *testing.T) {
 	tv := corevalidator.TextValidator{SearchAs: stringcompareas.StartsWith}
 	if tv.MethodName() == "" {
 		t.Error("should return method name")
@@ -222,7 +222,7 @@ func Test_TextValidator_MethodName(t *testing.T) {
 // TextValidators — uncovered branches
 // =============================================================================
 
-func Test_TextValidators_Count(t *testing.T) {
+func Test_TextValidators_Count_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{})
 	tvs.Add(corevalidator.TextValidator{})
@@ -247,7 +247,7 @@ func Test_TextValidators_AddSimple(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_AddSimpleAllTrue(t *testing.T) {
+func Test_TextValidators_AddSimpleAllTrue_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.AddSimpleAllTrue("test", stringcompareas.Equal)
 	if tvs.Length() != 1 {
@@ -320,7 +320,7 @@ func Test_TextValidators_VerifyErrorMany_FirstOnly(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_VerifyFirstErrorMany_Empty(t *testing.T) {
+func Test_TextValidators_VerifyFirstErrorMany_Empty_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(0)
 	if tvs.VerifyFirstErrorMany(&corevalidator.Parameter{}) != nil {
 		t.Error("empty should return nil")
@@ -362,7 +362,7 @@ func Test_TextValidators_Length_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_AsBasicSliceContractsBinder(t *testing.T) {
+func Test_TextValidators_AsBasicSliceContractsBinder_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(0)
 	if tvs.AsBasicSliceContractsBinder() == nil {
 		t.Error("should return self")
@@ -599,7 +599,7 @@ func Test_LinesValidators_String_Cov(t *testing.T) {
 	_ = lv.String() // should not panic
 }
 
-func Test_LinesValidators_AsBasicSliceContractsBinder(t *testing.T) {
+func Test_LinesValidators_AsBasicSliceContractsBinder_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(0)
 	if lv.AsBasicSliceContractsBinder() == nil {
 		t.Error("should return self")
@@ -704,7 +704,7 @@ func Test_NewSliceValidatorUsingAny(t *testing.T) {
 // SimpleSliceValidator — uncovered branches
 // =============================================================================
 
-func Test_SimpleSliceValidator_VerifyFirst(t *testing.T) {
+func Test_SimpleSliceValidator_VerifyFirst_Cov(t *testing.T) {
 	// Exercise the VerifyFirst path
 	sv := &corevalidator.SimpleSliceValidator{
 		CompareAs: stringcompareas.Equal,
@@ -719,7 +719,7 @@ func Test_SimpleSliceValidator_VerifyFirst(t *testing.T) {
 // RangeSegmentsValidator — uncovered branches
 // =============================================================================
 
-func Test_RangeSegmentsValidator_LengthOfVerifierSegments(t *testing.T) {
+func Test_RangeSegmentsValidator_LengthOfVerifierSegments_Cov(t *testing.T) {
 	rsv := &corevalidator.RangeSegmentsValidator{}
 	if rsv.LengthOfVerifierSegments() != 0 {
 		t.Error("should return 0")

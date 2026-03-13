@@ -2,6 +2,7 @@ package coreutilstests
 
 import (
 	"fmt"
+	"regexp"
 	"strings"
 	"testing"
 

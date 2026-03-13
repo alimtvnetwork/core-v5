@@ -223,7 +223,7 @@ func Test_SimpleSlice_Items(t *testing.T) {
 // LinkedList — uncovered branches
 // =============================================================================
 
-func Test_LinkedList_LengthLock(t *testing.T) {
+func Test_LinkedList_LengthLock_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.Add("a")
 	if ll.LengthLock() != 1 {
@@ -231,14 +231,14 @@ func Test_LinkedList_LengthLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IsEmptyLock(t *testing.T) {
+func Test_LinkedList_IsEmptyLock_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	if !ll.IsEmptyLock() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_LinkedList_AddLock(t *testing.T) {
+func Test_LinkedList_AddLock_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.AddLock("a")
 	if ll.Length() != 1 {
@@ -369,7 +369,7 @@ func Test_LinkedList_Items_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Collection(t *testing.T) {
+func Test_LinkedList_Collection_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 	col := ll.Collection()
 	if col.Length() != 2 {
@@ -419,7 +419,7 @@ func Test_LinkedList_ForEachBreak_BreakLater(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
+func Test_LinkedList_IndexAt_OutOfBounds_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 	if ll.IndexAt(-1) != nil {
 		t.Error("negative should return nil")
@@ -429,14 +429,14 @@ func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IndexAt_Empty(t *testing.T) {
+func Test_LinkedList_IndexAt_Empty_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	if ll.IndexAt(0) != nil {
 		t.Error("empty should return nil")
 	}
 }
 
-func Test_LinkedList_IndexAt_Valid(t *testing.T) {
+func Test_LinkedList_IndexAt_Valid_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
 	node := ll.IndexAt(1)
 	if node == nil || node.Element != 20 {
@@ -444,7 +444,7 @@ func Test_LinkedList_IndexAt_Valid(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_String(t *testing.T) {
+func Test_LinkedList_String_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 	if ll.String() == "" {
 		t.Error("should return non-empty")
@@ -1106,7 +1106,7 @@ func Test_Pair_IsInvalid(t *testing.T) {
 	}
 }
 
-func Test_Pair_IsInvalid_Nil(t *testing.T) {
+func Test_Pair_IsInvalid_Nil_Cov(t *testing.T) {
 	var p *coregeneric.Pair[string, string]
 	if !p.IsInvalid() {
 		t.Error("nil should be invalid")
@@ -2106,7 +2106,7 @@ func Test_InvalidPairOf(t *testing.T) {
 	}
 }
 
-func Test_PairFromSplitTrimmed(t *testing.T) {
+func Test_PairFromSplitTrimmed_Cov(t *testing.T) {
 	p := coregeneric.PairFromSplitTrimmed(" a = b ", "=")
 	if p.Left != "a" || p.Right != "b" {
 		t.Error("should trim")

@@ -116,7 +116,7 @@ func TestManyErrorToSingle(t *testing.T) {
 	if r != nil {
 		t.Error("nil should return nil")
 	}
-	r = errcore.ManyErrorToSingle(errors.New("x"))
+	r = errcore.ManyErrorToSingle([]error{errors.New("x")})
 	if r == nil {
 		t.Error("single error should return it")
 	}
@@ -172,7 +172,7 @@ func TestExpectingSimpleNoType(t *testing.T) {
 
 // TestExpectingError verifies ExpectingError.
 func TestExpectingError(t *testing.T) {
-	err := errcore.ExpectingError("header", "expected", "actual")
+	err := errcore.ExpectingErrorSimpleNoType("header", "expected", "actual")
 	if err == nil {
 		t.Error("should return error")
 	}
@@ -196,7 +196,7 @@ func TestExpectingNotEqualSimpleNoType(t *testing.T) {
 
 // TestVarTwo verifies VarTwo.
 func TestVarTwo(t *testing.T) {
-	r := errcore.VarTwo("a", "b", 1, 2)
+	r := errcore.VarTwo(false, "a", 1, "b", 2)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -204,7 +204,7 @@ func TestVarTwo(t *testing.T) {
 
 // TestVarThree verifies VarThree.
 func TestVarThree(t *testing.T) {
-	r := errcore.VarThree("a", "b", "c", 1, 2, 3)
+	r := errcore.VarThree(false, "a", 1, "b", 2, "c", 3)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -212,7 +212,7 @@ func TestVarThree(t *testing.T) {
 
 // TestMessageVarTwo verifies MessageVarTwo.
 func TestMessageVarTwo(t *testing.T) {
-	r := errcore.MessageVarTwo("msg", "a", "b", 1, 2)
+	r := errcore.MessageVarTwo("msg", "a", 1, "b", 2)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -220,7 +220,7 @@ func TestMessageVarTwo(t *testing.T) {
 
 // TestMessageVarThree verifies MessageVarThree.
 func TestMessageVarThree(t *testing.T) {
-	r := errcore.MessageVarThree("msg", "a", "b", "c", 1, 2, 3)
+	r := errcore.MessageVarThree("msg", "a", 1, "b", 2, "c", 3)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -244,11 +244,11 @@ func TestVarMap(t *testing.T) {
 
 // TestShouldBe verifies ShouldBe.
 func TestShouldBe(t *testing.T) {
-	r := errcore.ShouldBe.String("actual", "expected")
+	r := errcore.ShouldBe.StrEqMsg("actual", "expected")
 	if r == "" {
 		t.Error("should return non-empty")
 	}
-	err := errcore.ShouldBe.Error("actual", "expected")
+	err := errcore.ShouldBe.StrEqErr("actual", "expected")
 	if err == nil {
 		t.Error("should return error")
 	}

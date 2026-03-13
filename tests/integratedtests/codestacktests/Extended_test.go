@@ -1264,7 +1264,7 @@ func Test_TraceCollection_Json_Ext(t *testing.T) {
 
 	// Assert
 	if result.HasError() {
-		t.Errorf("should not have error: %v", result.Err())
+		t.Errorf("should not have error: %v", result.MeaningfulError())
 	}
 }
 
@@ -1544,7 +1544,7 @@ func Test_Trace_Json_Ext(t *testing.T) {
 
 	// Assert
 	if result.HasError() {
-		t.Errorf("should not have error: %v", result.Err())
+		t.Errorf("should not have error: %v", result.MeaningfulError())
 	}
 }
 
@@ -1708,7 +1708,7 @@ func Test_FileWithLine_Json_Ext(t *testing.T) {
 
 	// Assert
 	if result.HasError() {
-		t.Errorf("error: %v", result.Err())
+		t.Errorf("error: %v", result.MeaningfulError())
 	}
 }
 
