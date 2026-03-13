@@ -1128,7 +1128,7 @@ func Test_Pair_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_Pair_IsEqual_BothNil(t *testing.T) {
+func Test_Pair_IsEqual_BothNil_Cov(t *testing.T) {
 	var p1, p2 *coregeneric.Pair[string, string]
 	if !p1.IsEqual(p2) {
 		t.Error("both nil should be equal")
