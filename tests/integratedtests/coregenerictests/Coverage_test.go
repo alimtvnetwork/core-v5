@@ -941,7 +941,7 @@ func Test_Collection_AddCollections(t *testing.T) {
 	}
 }
 
-func Test_Collection_RemoveAt_OutOfBounds(t *testing.T) {
+func Test_Collection_RemoveAt_OutOfBounds_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1})
 	if col.RemoveAt(-1) {
 		t.Error("negative should return false")
