@@ -43,7 +43,7 @@ func Test_Condition_IsSplitByWhitespace_Sort(t *testing.T) {
 // Parameter
 // =============================================================================
 
-func Test_Parameter_IsIgnoreCase(t *testing.T) {
+func Test_Parameter_IsIgnoreCase_Cov(t *testing.T) {
 	p := corevalidator.Parameter{IsCaseSensitive: true}
 	if p.IsIgnoreCase() {
 		t.Error("case sensitive should not ignore case")
