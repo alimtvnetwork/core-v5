@@ -539,7 +539,7 @@ func Test_Hashmap_ContainsLock(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsKeyMissing(t *testing.T) {
+func Test_Hashmap_IsKeyMissing_Cov(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	if !hm.IsKeyMissing("x") {
 		t.Error("should be missing")
