@@ -586,7 +586,7 @@ func Test_Hashmap_ForEach_Cov(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_ForEachBreak(t *testing.T) {
+func Test_Hashmap_ForEachBreak_Cov(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 	count := 0
 	hm.ForEachBreak(func(k string, v int) bool {
