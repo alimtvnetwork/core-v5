@@ -369,7 +369,7 @@ func Test_LinkedList_Items_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Collection(t *testing.T) {
+func Test_LinkedList_Collection_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 	col := ll.Collection()
 	if col.Length() != 2 {
