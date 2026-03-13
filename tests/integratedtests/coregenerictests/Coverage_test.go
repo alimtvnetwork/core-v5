@@ -836,7 +836,7 @@ func Test_Hashset_Collection(t *testing.T) {
 	}
 }
 
-func Test_Hashset_IsEquals_BothNil(t *testing.T) {
+func Test_Hashset_IsEquals_BothNil_Cov(t *testing.T) {
 	var hs1, hs2 *coregeneric.Hashset[string]
 	if !hs1.IsEquals(hs2) {
 		t.Error("both nil should be equal")
