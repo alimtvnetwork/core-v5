@@ -80,7 +80,7 @@ func Test_Dynamic_ClonePtr_Nil(t *testing.T) {
 	}
 }
 
-func Test_Dynamic_NonPtr(t *testing.T) {
+func Test_Dynamic_NonPtr_Ext(t *testing.T) {
 	d := coredynamic.NewDynamicValid("hello")
 	n := d.NonPtr()
 	if n.Data() != "hello" {
