@@ -229,11 +229,11 @@ func Test_SimpleResult(t *testing.T) {
 // ==========================================
 
 func Test_KeyVal(t *testing.T) {
-	kv := coredynamic.KeyVal{Key: "key", Val: "val"}
+	kv := coredynamic.KeyVal{Key: "key", Value: "val"}
 	if kv.Key != "key" {
 		t.Error("key mismatch")
 	}
-	if kv.Val != "val" {
+	if kv.Value != "val" {
 		t.Error("val mismatch")
 	}
 }
