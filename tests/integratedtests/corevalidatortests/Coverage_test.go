@@ -11,7 +11,7 @@ import (
 // Condition
 // =============================================================================
 
-func Test_Condition_IsSplitByWhitespace_AllFalse(t *testing.T) {
+func Test_Condition_IsSplitByWhitespace_AllFalse_Cov(t *testing.T) {
 	c := corevalidator.Condition{}
 	if c.IsSplitByWhitespace() {
 		t.Error("all false should return false")
