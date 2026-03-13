@@ -162,7 +162,7 @@ func Test_TextValidator_VerifySimpleError_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_VerifyMany_FirstOnly(t *testing.T) {
+func Test_TextValidator_VerifyMany_FirstOnly_Cov(t *testing.T) {
 	tv := &corevalidator.TextValidator{Search: "x", SearchAs: stringcompareas.Equal}
 	params := &corevalidator.Parameter{IsCaseSensitive: true}
 	err := tv.VerifyMany(false, params, "x", "y")
