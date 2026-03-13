@@ -914,7 +914,7 @@ func Test_Collection_AddIfMany_Skip(t *testing.T) {
 	}
 }
 
-func Test_Collection_AddFunc(t *testing.T) {
+func Test_Collection_AddFunc_Cov(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	col.AddFunc(func() int { return 42 })
 	if col.Length() != 1 || col.First() != 42 {
