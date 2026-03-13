@@ -271,7 +271,7 @@ func Test_Value_ToByteCondition_Cov(t *testing.T) {
 	}
 }
 
-func Test_Value_ToByteConditionWithWildcard(t *testing.T) {
+func Test_Value_ToByteConditionWithWildcard_Cov(t *testing.T) {
 	if issetter.Wildcard.ToByteConditionWithWildcard(99, 1, 0, 255) != 99 {
 		t.Error("Wildcard should return wildcard val")
 	}
