@@ -586,7 +586,7 @@ func Test_LinesValidators_HasIndex_Cov(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_AddPtr_Nil(t *testing.T) {
+func Test_LinesValidators_AddPtr_Nil_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(5)
 	lv.AddPtr(nil)
 	if lv.Length() != 0 {
