@@ -599,7 +599,7 @@ func Test_LinesValidators_String_Cov(t *testing.T) {
 	_ = lv.String() // should not panic
 }
 
-func Test_LinesValidators_AsBasicSliceContractsBinder(t *testing.T) {
+func Test_LinesValidators_AsBasicSliceContractsBinder_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(0)
 	if lv.AsBasicSliceContractsBinder() == nil {
 		t.Error("should return self")
