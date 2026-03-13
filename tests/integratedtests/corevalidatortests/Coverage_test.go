@@ -362,7 +362,7 @@ func Test_TextValidators_Length_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_AsBasicSliceContractsBinder(t *testing.T) {
+func Test_TextValidators_AsBasicSliceContractsBinder_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(0)
 	if tvs.AsBasicSliceContractsBinder() == nil {
 		t.Error("should return self")
