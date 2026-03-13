@@ -402,7 +402,7 @@ func Test_Value_LazyEvaluateSet_Cov(t *testing.T) {
 	}
 }
 
-func Test_Value_GetSetBoolOnInvalid(t *testing.T) {
+func Test_Value_GetSetBoolOnInvalid_Cov(t *testing.T) {
 	v := issetter.Uninitialized
 	result := v.GetSetBoolOnInvalid(true)
 	if !result {
