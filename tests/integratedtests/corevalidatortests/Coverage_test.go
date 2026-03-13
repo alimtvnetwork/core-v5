@@ -542,7 +542,7 @@ func Test_HeaderSliceValidators_IsEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_HeaderSliceValidators_SetActualOnAll_Empty(t *testing.T) {
+func Test_HeaderSliceValidators_SetActualOnAll_Empty_Cov(t *testing.T) {
 	var hsv corevalidator.HeaderSliceValidators
 	hsv.SetActualOnAll("a") // should not panic
 }
