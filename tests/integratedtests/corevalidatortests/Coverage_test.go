@@ -606,7 +606,7 @@ func Test_LinesValidators_AsBasicSliceContractsBinder(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_IsMatchText_Empty(t *testing.T) {
+func Test_LinesValidators_IsMatchText_Empty_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(0)
 	if !lv.IsMatchText("test", true) {
 		t.Error("empty should return true")
