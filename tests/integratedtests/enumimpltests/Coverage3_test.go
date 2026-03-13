@@ -798,7 +798,7 @@ func Test_Cov3_BasicString_GetValueByName(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_ToEnumJsonBytes(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
