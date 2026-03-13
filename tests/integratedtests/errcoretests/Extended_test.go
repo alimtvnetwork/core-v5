@@ -264,8 +264,8 @@ func TestRawErrCollection(t *testing.T) {
 	if !c.HasError() {
 		t.Error("should have error")
 	}
-	if c.SingleError() == nil {
-		t.Error("should return single error")
+	if c.CompiledError() == nil {
+		t.Error("should return compiled error")
 	}
 }
 
