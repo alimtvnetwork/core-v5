@@ -1113,7 +1113,7 @@ func Test_Pair_IsInvalid_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Pair_Values(t *testing.T) {
+func Test_Pair_Values_Cov(t *testing.T) {
 	p := coregeneric.NewPair("a", 1)
 	l, r := p.Values()
 	if l != "a" || r != 1 {
