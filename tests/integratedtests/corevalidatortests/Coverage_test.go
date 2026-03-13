@@ -222,7 +222,7 @@ func Test_TextValidator_MethodName_Cov(t *testing.T) {
 // TextValidators — uncovered branches
 // =============================================================================
 
-func Test_TextValidators_Count(t *testing.T) {
+func Test_TextValidators_Count_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{})
 	tvs.Add(corevalidator.TextValidator{})
