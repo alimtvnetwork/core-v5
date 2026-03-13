@@ -194,8 +194,8 @@ func Test_Cov3_SortIf_False(t *testing.T) {
 
 func Test_Cov3_ClonePtr(t *testing.T) {
 	result := stringslice.ClonePtr([]string{"a", "b"})
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 2}
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "ClonePtr clones -- 2 items", actual)
 }
 
