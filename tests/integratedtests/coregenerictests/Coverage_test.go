@@ -1163,7 +1163,7 @@ func Test_Pair_Clear_Nil(t *testing.T) {
 	p.Clear() // should not panic
 }
 
-func Test_Pair_Dispose(t *testing.T) {
+func Test_Pair_Dispose_Cov(t *testing.T) {
 	p := coregeneric.NewPair("a", "b")
 	p.Dispose()
 	if p.IsValid {
