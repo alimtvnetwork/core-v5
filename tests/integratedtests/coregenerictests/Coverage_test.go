@@ -958,7 +958,7 @@ func Test_Collection_SafeAt_OutOfBounds_Cov(t *testing.T) {
 	}
 }
 
-func Test_Collection_SafeAt_Empty(t *testing.T) {
+func Test_Collection_SafeAt_Empty_Cov(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	if col.SafeAt(0) != 0 {
 		t.Error("empty should return zero")
