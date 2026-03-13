@@ -238,7 +238,7 @@ func Test_LinkedList_IsEmptyLock_Cov(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddLock(t *testing.T) {
+func Test_LinkedList_AddLock_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.AddLock("a")
 	if ll.Length() != 1 {
