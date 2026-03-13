@@ -259,7 +259,7 @@ func Test_Value_And(t *testing.T) {
 	}
 }
 
-func Test_Value_ToByteCondition(t *testing.T) {
+func Test_Value_ToByteCondition_Cov(t *testing.T) {
 	if issetter.True.ToByteCondition(1, 0, 255) != 1 {
 		t.Error("True should return trueVal")
 	}
