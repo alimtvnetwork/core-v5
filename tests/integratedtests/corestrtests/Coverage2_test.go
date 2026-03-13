@@ -58,12 +58,12 @@ func Test_SimpleSlice_String_Cov2(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "SimpleSlice_String", actual)
 }
 
-func Test_SimpleSlice_CsvString_Cov2(t *testing.T) {
+func Test_SimpleSlice_JoinCsv_Cov2(t *testing.T) {
 	s := corestr.New.SimpleSlice.Cap(5)
 	s.Adds("a", "b")
-	actual := args.Map{"notEmpty": s.CsvString() != ""}
+	actual := args.Map{"notEmpty": s.JoinCsv() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_CsvString", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_JoinCsv", actual)
 }
 
 // ── Collection ──
