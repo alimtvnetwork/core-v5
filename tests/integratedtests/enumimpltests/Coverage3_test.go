@@ -884,7 +884,7 @@ func Test_Cov3_BasicString_AppendPrependJoinValue(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_OnlySupportedErr(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
