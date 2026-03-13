@@ -221,7 +221,7 @@ func Test_Value_BooleanOp(t *testing.T) {
 	}
 }
 
-func Test_Value_WildcardApply(t *testing.T) {
+func Test_Value_WildcardApply_Cov(t *testing.T) {
 	if !issetter.Wildcard.WildcardApply(true) {
 		t.Error("Wildcard.WildcardApply(true) should return true")
 	}
