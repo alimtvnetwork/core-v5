@@ -436,7 +436,7 @@ func Test_LinkedList_IndexAt_Empty_Cov(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IndexAt_Valid(t *testing.T) {
+func Test_LinkedList_IndexAt_Valid_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{10, 20, 30})
 	node := ll.IndexAt(1)
 	if node == nil || node.Element != 20 {
