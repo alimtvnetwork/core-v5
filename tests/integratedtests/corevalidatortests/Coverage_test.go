@@ -187,7 +187,7 @@ func Test_TextValidator_VerifyFirstError_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_VerifyFirstError_EmptySkip(t *testing.T) {
+func Test_TextValidator_VerifyFirstError_EmptySkip_Cov(t *testing.T) {
 	tv := &corevalidator.TextValidator{Search: "x", SearchAs: stringcompareas.Equal}
 	params := &corevalidator.Parameter{IsSkipCompareOnActualEmpty: true}
 	if tv.VerifyFirstError(params) != nil {
