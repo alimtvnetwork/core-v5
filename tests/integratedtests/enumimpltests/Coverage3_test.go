@@ -753,7 +753,7 @@ func Test_Cov3_BasicString_GetIndexByName(t *testing.T) {
 }
 
 func Test_Cov3_BasicString_Ranges(t *testing.T) {
-	bs := enumimpl.New.BasicString.Default(
+	bs := enumimpl.New.BasicString.Create(
 		"testStringEnum",
 		[]string{"Invalid", "Active"},
 	)
