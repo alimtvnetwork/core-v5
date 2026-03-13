@@ -121,8 +121,9 @@ func Test_Hashmap_Cap_Cov2(t *testing.T) {
 
 func Test_Hashmap_Add_Cov2(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key", "value")
-	actual := args.Map{"length": h.Length(), "has": h.Has("key"), "getVal": h.Get("key")}
+	h.AddOrUpdate("key", "value")
+	val, _ := h.Get("key")
+	actual := args.Map{"length": h.Length(), "has": h.Has("key"), "getVal": val}
 	expected := args.Map{"length": 1, "has": true, "getVal": "value"}
 	expected.ShouldBeEqual(t, 0, "Hashmap_Add", actual)
 }
