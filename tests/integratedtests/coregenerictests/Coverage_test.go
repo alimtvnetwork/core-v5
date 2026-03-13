@@ -419,7 +419,7 @@ func Test_LinkedList_ForEachBreak_BreakLater(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_IndexAt_OutOfBounds(t *testing.T) {
+func Test_LinkedList_IndexAt_OutOfBounds_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 	if ll.IndexAt(-1) != nil {
 		t.Error("negative should return nil")
