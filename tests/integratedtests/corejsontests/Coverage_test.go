@@ -133,7 +133,8 @@ func Test_Result_Unmarshal_Cov(t *testing.T) {
 // ── Empty creator ──
 
 func Test_EmptyResult_Cov(t *testing.T) {
-	actual := args.Map{"isEmpty": corejson.Empty.Result().IsEmpty()}
+	r := corejson.Empty.ResultPtr()
+	actual := args.Map{"isEmpty": r.IsEmpty()}
 	expected := args.Map{"isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "EmptyResult", actual)
 }
