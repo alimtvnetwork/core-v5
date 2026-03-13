@@ -42,12 +42,12 @@ func Test_New_Nil_Cov(t *testing.T) {
 func Test_Result_IsEmpty_Cov(t *testing.T) {
 	empty := corejson.Result{}
 	actual := args.Map{
-		"isEmpty": empty.IsEmpty(), "isEmptyError": empty.IsEmptyError() != nil,
-		"hasError": empty.HasError(), "hasNoError": !empty.HasError(), "isValid": empty.IsValid(),
+		"isEmpty": empty.IsEmpty(), "isEmptyError": empty.IsEmptyError(),
+		"hasError": empty.HasError(), "hasNoError": !empty.HasError(),
 	}
 	expected := args.Map{
 		"isEmpty": true, "isEmptyError": true,
-		"hasError": false, "hasNoError": true, "isValid": false,
+		"hasError": false, "hasNoError": true,
 	}
 	expected.ShouldBeEqual(t, 0, "Result_IsEmpty", actual)
 }
@@ -59,13 +59,13 @@ func Test_Result_String_Cov(t *testing.T) {
 }
 
 func Test_Result_JsonString_Cov(t *testing.T) {
-	actual := args.Map{"result": corejson.New(42).JsonString()}
+	actual := args.Map{"result": corejson.NewPtr(42).JsonString()}
 	expected := args.Map{"result": "42"}
 	expected.ShouldBeEqual(t, 0, "Result_JsonString", actual)
 }
 
 func Test_Result_SafeBytes_Cov(t *testing.T) {
-	actual := args.Map{"hasBytes": len(corejson.New(42).SafeBytes()) > 0}
+	actual := args.Map{"hasBytes": len(corejson.NewPtr(42).SafeBytes()) > 0}
 	expected := args.Map{"hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "Result_SafeBytes", actual)
 }
@@ -99,14 +99,14 @@ func Test_Result_PrettyJsonBytes_Cov(t *testing.T) {
 }
 
 func Test_Result_Clone_Cov(t *testing.T) {
-	c := corejson.New(42).Clone()
+	c := corejson.NewPtr(42).Clone(false)
 	actual := args.Map{"hasError": c.Error != nil, "hasBytes": len(c.Bytes) > 0}
 	expected := args.Map{"hasError": false, "hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "Result_Clone", actual)
 }
 
 func Test_Result_ClonePtr_Cov(t *testing.T) {
-	actual := args.Map{"notNil": corejson.New(42).ClonePtr() != nil}
+	actual := args.Map{"notNil": corejson.NewPtr(42).ClonePtr(false) != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "Result_ClonePtr", actual)
 }

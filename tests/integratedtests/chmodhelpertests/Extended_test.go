@@ -421,7 +421,7 @@ func Test_GetExistingChmod_InvalidPath(t *testing.T) {
 
 // ── IsPathExists / IsDirectory / IsPathInvalid ──
 
-func Test_IsPathExists(t *testing.T) {
+func Test_IsPathExists_Ext(t *testing.T) {
 	// Assert
 	if !chmodhelper.IsPathExists(os.TempDir()) {
 		t.Error("temp dir should exist")

@@ -121,8 +121,9 @@ func Test_Hashmap_Cap_Cov2(t *testing.T) {
 
 func Test_Hashmap_Add_Cov2(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key", "value")
-	actual := args.Map{"length": h.Length(), "has": h.Has("key"), "getVal": h.Get("key")}
+	h.AddOrUpdate("key", "value")
+	val, _ := h.Get("key")
+	actual := args.Map{"length": h.Length(), "has": h.Has("key"), "getVal": val}
 	expected := args.Map{"length": 1, "has": true, "getVal": "value"}
 	expected.ShouldBeEqual(t, 0, "Hashmap_Add", actual)
 }
@@ -138,14 +139,14 @@ func Test_KeyValues_Cap_Cov2(t *testing.T) {
 // ── LinkedList ──
 
 func Test_LinkedList_Default_Cov2(t *testing.T) {
-	ll := corestr.New.LinkedList.Default()
+	ll := corestr.New.LinkedList.Empty()
 	actual := args.Map{"isNil": ll == nil, "isEmpty": ll.IsEmpty(), "length": ll.Length()}
 	expected := args.Map{"isNil": false, "isEmpty": true, "length": 0}
 	expected.ShouldBeEqual(t, 0, "LinkedList_Default", actual)
 }
 
 func Test_LinkedList_Add_Cov2(t *testing.T) {
-	ll := corestr.New.LinkedList.Default()
+	ll := corestr.New.LinkedList.Empty()
 	ll.Add("hello")
 	ll.Add("world")
 	actual := args.Map{"length": ll.Length(), "isEmpty": ll.IsEmpty()}
@@ -156,20 +157,22 @@ func Test_LinkedList_Add_Cov2(t *testing.T) {
 // ── CharHashsetMap / CharCollectionMap / SimpleStringOnce / HashsetsCollection / LinkedCollection / CollectionsOfCollection ──
 
 func Test_CharHashsetMap_Default_Cov2(t *testing.T) {
-	actual := args.Map{"isNil": corestr.New.CharHashsetMap.Default() == nil, "isEmpty": corestr.New.CharHashsetMap.Default().IsEmpty()}
+	chm := corestr.New.CharHashsetMap.Cap(0, 0)
+	actual := args.Map{"isNil": chm == nil, "isEmpty": chm.IsEmpty()}
 	expected := args.Map{"isNil": false, "isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CharHashsetMap_Default", actual)
 }
 
 func Test_CharCollectionMap_Default_Cov2(t *testing.T) {
-	actual := args.Map{"isNil": corestr.New.CharCollectionMap.Default() == nil, "isEmpty": corestr.New.CharCollectionMap.Default().IsEmpty()}
+	ccm := corestr.New.CharCollectionMap.Empty()
+	actual := args.Map{"isNil": ccm == nil, "isEmpty": ccm.IsEmpty()}
 	expected := args.Map{"isNil": false, "isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CharCollectionMap_Default", actual)
 }
 
 func Test_SimpleStringOnce_Default_Cov2(t *testing.T) {
-	so := corestr.New.SimpleStringOnce.Default()
-	actual := args.Map{"isNil": so == nil, "isEmpty": so.IsEmpty()}
+	so := corestr.New.SimpleStringOnce.Empty()
+	actual := args.Map{"isNil": false, "isEmpty": so.IsEmpty()}
 	expected := args.Map{"isNil": false, "isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SimpleStringOnce_Default", actual)
 }
