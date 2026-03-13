@@ -223,7 +223,7 @@ func Test_SimpleSlice_Items(t *testing.T) {
 // LinkedList — uncovered branches
 // =============================================================================
 
-func Test_LinkedList_LengthLock(t *testing.T) {
+func Test_LinkedList_LengthLock_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.Add("a")
 	if ll.LengthLock() != 1 {
