@@ -19,9 +19,9 @@ func Test_Cov3_First_NonEmpty(t *testing.T) {
 
 func Test_Cov3_FirstPtr_NonEmpty(t *testing.T) {
 	result := stringslice.FirstPtr([]string{"x"})
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "x"}
-	expected.ShouldBeEqual(t, 0, "FirstPtr returns ptr -- non-empty", actual)
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "x"}
+	expected.ShouldBeEqual(t, 0, "FirstPtr returns first -- non-empty", actual)
 }
 
 func Test_Cov3_Last_NonEmpty(t *testing.T) {
