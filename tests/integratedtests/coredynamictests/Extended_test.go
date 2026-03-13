@@ -215,11 +215,11 @@ func Test_SimpleRequest_GetErrorOnTypeMismatch_MismatchWithMessage(t *testing.T)
 // ==========================================
 
 func Test_SimpleResult(t *testing.T) {
-	sr := coredynamic.NewSimpleResult("data", nil)
-	if sr.Value() != "data" {
+	sr := coredynamic.NewSimpleResult("data", true, "")
+	if sr.Result != "data" {
 		t.Error("value mismatch")
 	}
-	if sr.HasError() {
+	if sr.InvalidError() != nil {
 		t.Error("should not have error")
 	}
 }
