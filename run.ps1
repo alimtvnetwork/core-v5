@@ -370,11 +370,6 @@ function Invoke-TestCoverage {
         Write-Host "  Cleaned data/ folder" -ForegroundColor Yellow
     }
 
-    # Build check from tests/ dir (existing convention)
-    Push-Location tests
-    try { if (-not (Invoke-BuildCheck "./...")) { return } }
-    finally { Pop-Location }
-
     $coverDir = Join-Path $PSScriptRoot "data" "coverage"
     $partialDir = Join-Path $coverDir "partial"
     New-Item -ItemType Directory -Path $partialDir -Force | Out-Null
@@ -389,8 +384,84 @@ function Invoke-TestCoverage {
     $covPkgList = $srcPkgs -join ","
 
     # Get all test packages to run individually
-    $testPkgs = go list ./tests/integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
+    $allTestPkgs = go list ./tests/integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
 
+    # ── Pre-coverage compile check ──────────────────────────────────
+    # Compile each test package individually (go test -c) to detect
+    # build failures BEFORE running coverage. Packages that fail to
+    # compile are excluded from the coverage run so they don't produce
+    # misleading 0% profiles or cascade failures.
+    Write-Host ""
+    Write-Header "Pre-coverage compile check ($($allTestPkgs.Count) packages)"
+
+    $blockedPkgs = [System.Collections.Generic.List[string]]::new()
+    $blockedErrors = [System.Collections.Generic.Dictionary[string, string]]::new()
+    $testPkgs = [System.Collections.Generic.List[string]]::new()
+    $compileTemp = Join-Path $coverDir "compile-check"
+    New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
+
+    foreach ($testPkg in $allTestPkgs) {
+        $shortName = $testPkg -replace '.*integratedtests/?', ''
+        if (-not $shortName) { $shortName = "(root)" }
+
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $compileOut = & go test -c -o (Join-Path $compileTemp "test.exe") "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+        $compileExit = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+
+        if ($compileExit -eq 0) {
+            Write-Host "  ✓ $shortName" -ForegroundColor Green
+            $testPkgs.Add($testPkg)
+        } else {
+            Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
+            $blockedPkgs.Add($shortName)
+            $errLines = ($compileOut | Where-Object { $_ -match '\.go:\d+:' }) -join "`n"
+            $blockedErrors[$shortName] = $errLines
+        }
+    }
+
+    # Clean up compile artifacts
+    if (Test-Path $compileTemp) { Remove-Item -Recurse -Force $compileTemp }
+
+    # Print blocked summary
+    if ($blockedPkgs.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host "  │ BLOCKED PACKAGES ($($blockedPkgs.Count) failed to compile)" -ForegroundColor Red
+        Write-Host "  │" -ForegroundColor Red
+        foreach ($bp in ($blockedPkgs | Sort-Object)) {
+            Write-Host "  │   ✗ $bp" -ForegroundColor Red
+        }
+        Write-Host "  │" -ForegroundColor Red
+        Write-Host "  │ These packages will be SKIPPED in coverage." -ForegroundColor Yellow
+        Write-Host "  │ Fix their build errors to include them." -ForegroundColor Yellow
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host ""
+
+        # Write blocked details to file for AI/human review
+        $blockedFile = Join-Path $coverDir "blocked-packages.txt"
+        $blockedContent = @("# Blocked Packages — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')", "# Count: $($blockedPkgs.Count)", "")
+        foreach ($bp in ($blockedPkgs | Sort-Object)) {
+            $blockedContent += "## $bp"
+            if ($blockedErrors.ContainsKey($bp)) {
+                $blockedContent += $blockedErrors[$bp]
+            }
+            $blockedContent += ""
+        }
+        Set-Content -Path $blockedFile -Value ($blockedContent -join "`n") -Encoding UTF8
+        Write-Host "  Blocked details → $blockedFile" -ForegroundColor Gray
+    } else {
+        Write-Host ""
+        Write-Success "All $($testPkgs.Count) packages compiled successfully"
+    }
+
+    if ($testPkgs.Count -eq 0) {
+        Write-Fail "No packages compiled — aborting coverage run"
+        return
+    }
+
+    # ── Coverage run (only compilable packages) ─────────────────────
     $allOutput = [System.Collections.Generic.List[string]]::new()
     $pkgCoverMap = [ordered]@{}
     $overallExit = 0
