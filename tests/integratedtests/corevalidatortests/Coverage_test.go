@@ -594,7 +594,7 @@ func Test_LinesValidators_AddPtr_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_String(t *testing.T) {
+func Test_LinesValidators_String_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(0)
 	_ = lv.String() // should not panic
 }
