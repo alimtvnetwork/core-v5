@@ -376,7 +376,7 @@ func Test_Value_JSON(t *testing.T) {
 	}
 }
 
-func Test_Value_LazyEvaluateBool(t *testing.T) {
+func Test_Value_LazyEvaluateBool_Cov(t *testing.T) {
 	v := issetter.Uninitialized
 	called := v.LazyEvaluateBool(func() {})
 	if !called {
