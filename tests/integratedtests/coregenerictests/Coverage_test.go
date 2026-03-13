@@ -246,7 +246,7 @@ func Test_LinkedList_AddLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddSlice(t *testing.T) {
+func Test_LinkedList_AddSlice_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	ll.AddSlice([]int{1, 2, 3})
 	if ll.Length() != 3 {
@@ -270,7 +270,7 @@ func Test_LinkedList_AddsIf_Skip(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddFunc(t *testing.T) {
+func Test_LinkedList_AddFunc_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.AddFunc(func() string { return "x" })
 	if ll.Length() != 1 || ll.First() != "x" {
@@ -303,7 +303,7 @@ func Test_LinkedList_PushFront(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_Push(t *testing.T) {
+func Test_LinkedList_Push_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	ll.Push(1)
 	if ll.Length() != 1 {
@@ -577,7 +577,7 @@ func Test_Hashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_ForEach(t *testing.T) {
+func Test_Hashmap_ForEach_Cov(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	count := 0
 	hm.ForEach(func(k string, v int) { count++ })
@@ -586,7 +586,7 @@ func Test_Hashmap_ForEach(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_ForEachBreak(t *testing.T) {
+func Test_Hashmap_ForEachBreak_Cov(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1, "b": 2})
 	count := 0
 	hm.ForEachBreak(func(k string, v int) bool {
@@ -622,7 +622,7 @@ func Test_Hashmap_IsEquals_BothNil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
+func Test_Hashmap_IsEquals_OneNil_Cov(t *testing.T) {
 	var hm1 *coregeneric.Hashmap[string, int]
 	hm2 := coregeneric.EmptyHashmap[string, int]()
 	if hm1.IsEquals(hm2) {
@@ -653,7 +653,7 @@ func Test_Hashmap_IsEquals_MissingKey(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_String(t *testing.T) {
+func Test_Hashmap_String_Cov(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	if hm.String() == "" {
 		t.Error("should return non-empty")
@@ -679,14 +679,14 @@ func Test_Hashmap_HasItems(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_Keys_Empty(t *testing.T) {
+func Test_Hashmap_Keys_Empty_Cov(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	if len(hm.Keys()) != 0 {
 		t.Error("should return empty")
 	}
 }
 
-func Test_Hashmap_Values_Empty(t *testing.T) {
+func Test_Hashmap_Values_Empty_Cov(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	if len(hm.Values()) != 0 {
 		t.Error("should return empty")
@@ -836,7 +836,7 @@ func Test_Hashset_Collection(t *testing.T) {
 	}
 }
 
-func Test_Hashset_IsEquals_BothNil(t *testing.T) {
+func Test_Hashset_IsEquals_BothNil_Cov(t *testing.T) {
 	var hs1, hs2 *coregeneric.Hashset[string]
 	if !hs1.IsEquals(hs2) {
 		t.Error("both nil should be equal")

@@ -221,7 +221,7 @@ func Test_Value_BooleanOp(t *testing.T) {
 	}
 }
 
-func Test_Value_WildcardApply(t *testing.T) {
+func Test_Value_WildcardApply_Cov(t *testing.T) {
 	if !issetter.Wildcard.WildcardApply(true) {
 		t.Error("Wildcard.WildcardApply(true) should return true")
 	}
@@ -259,7 +259,7 @@ func Test_Value_And(t *testing.T) {
 	}
 }
 
-func Test_Value_ToByteCondition(t *testing.T) {
+func Test_Value_ToByteCondition_Cov(t *testing.T) {
 	if issetter.True.ToByteCondition(1, 0, 255) != 1 {
 		t.Error("True should return trueVal")
 	}
@@ -271,7 +271,7 @@ func Test_Value_ToByteCondition(t *testing.T) {
 	}
 }
 
-func Test_Value_ToByteConditionWithWildcard(t *testing.T) {
+func Test_Value_ToByteConditionWithWildcard_Cov(t *testing.T) {
 	if issetter.Wildcard.ToByteConditionWithWildcard(99, 1, 0, 255) != 99 {
 		t.Error("Wildcard should return wildcard val")
 	}
@@ -376,7 +376,7 @@ func Test_Value_JSON(t *testing.T) {
 	}
 }
 
-func Test_Value_LazyEvaluateBool(t *testing.T) {
+func Test_Value_LazyEvaluateBool_Cov(t *testing.T) {
 	v := issetter.Uninitialized
 	called := v.LazyEvaluateBool(func() {})
 	if !called {
@@ -389,7 +389,7 @@ func Test_Value_LazyEvaluateBool(t *testing.T) {
 	}
 }
 
-func Test_Value_LazyEvaluateSet(t *testing.T) {
+func Test_Value_LazyEvaluateSet_Cov(t *testing.T) {
 	v := issetter.Uninitialized
 	called := v.LazyEvaluateSet(func() {})
 	if !called {
@@ -402,7 +402,7 @@ func Test_Value_LazyEvaluateSet(t *testing.T) {
 	}
 }
 
-func Test_Value_GetSetBoolOnInvalid(t *testing.T) {
+func Test_Value_GetSetBoolOnInvalid_Cov(t *testing.T) {
 	v := issetter.Uninitialized
 	result := v.GetSetBoolOnInvalid(true)
 	if !result {
@@ -493,7 +493,7 @@ func Test_Value_OrValue(t *testing.T) {
 	}
 }
 
-func Test_Value_IsWildcardOrBool(t *testing.T) {
+func Test_Value_IsWildcardOrBool_Cov(t *testing.T) {
 	if !issetter.Wildcard.IsWildcardOrBool(false) {
 		t.Error("Wildcard should always return true")
 	}

@@ -11,7 +11,7 @@ import (
 // Condition
 // =============================================================================
 
-func Test_Condition_IsSplitByWhitespace_AllFalse(t *testing.T) {
+func Test_Condition_IsSplitByWhitespace_AllFalse_Cov(t *testing.T) {
 	c := corevalidator.Condition{}
 	if c.IsSplitByWhitespace() {
 		t.Error("all false should return false")
@@ -58,7 +58,7 @@ func Test_Parameter_IsIgnoreCase(t *testing.T) {
 // LineNumber
 // =============================================================================
 
-func Test_LineNumber_HasLineNumber(t *testing.T) {
+func Test_LineNumber_HasLineNumber_Cov(t *testing.T) {
 	ln := corevalidator.LineNumber{LineNumber: 5}
 	if !ln.HasLineNumber() {
 		t.Error("should have line number")
@@ -542,7 +542,7 @@ func Test_HeaderSliceValidators_IsEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_HeaderSliceValidators_SetActualOnAll_Empty(t *testing.T) {
+func Test_HeaderSliceValidators_SetActualOnAll_Empty_Cov(t *testing.T) {
 	var hsv corevalidator.HeaderSliceValidators
 	hsv.SetActualOnAll("a") // should not panic
 }
@@ -565,7 +565,7 @@ func Test_LinesValidators_Length_Nil(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_Count(t *testing.T) {
+func Test_LinesValidators_Count_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(5)
 	if lv.Count() != 0 {
 		t.Error("empty should return 0")
@@ -579,14 +579,14 @@ func Test_LinesValidators_HasAnyItem(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_HasIndex(t *testing.T) {
+func Test_LinesValidators_HasIndex_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(5)
 	if lv.HasIndex(0) {
 		t.Error("empty should not have index 0")
 	}
 }
 
-func Test_LinesValidators_AddPtr_Nil(t *testing.T) {
+func Test_LinesValidators_AddPtr_Nil_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(5)
 	lv.AddPtr(nil)
 	if lv.Length() != 0 {
@@ -594,7 +594,7 @@ func Test_LinesValidators_AddPtr_Nil(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_String(t *testing.T) {
+func Test_LinesValidators_String_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(0)
 	_ = lv.String() // should not panic
 }
@@ -606,14 +606,14 @@ func Test_LinesValidators_AsBasicSliceContractsBinder(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_IsMatchText_Empty(t *testing.T) {
+func Test_LinesValidators_IsMatchText_Empty_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(0)
 	if !lv.IsMatchText("test", true) {
 		t.Error("empty should return true")
 	}
 }
 
-func Test_LinesValidators_IsMatch_Empty(t *testing.T) {
+func Test_LinesValidators_IsMatch_Empty_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(0)
 	if !lv.IsMatch(false, true) {
 		t.Error("empty should return true")
@@ -645,7 +645,7 @@ func Test_BaseLinesValidators_HasLinesValidators(t *testing.T) {
 	}
 }
 
-func Test_BaseLinesValidators_ToLinesValidators_Empty(t *testing.T) {
+func Test_BaseLinesValidators_ToLinesValidators_Empty_Cov(t *testing.T) {
 	blv := &corevalidator.BaseLinesValidators{}
 	lv := blv.ToLinesValidators()
 	if lv.Length() != 0 {
