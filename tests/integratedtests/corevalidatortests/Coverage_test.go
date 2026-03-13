@@ -132,7 +132,7 @@ func Test_TextValidator_IsMatchMany_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_IsMatchMany_EmptySkip(t *testing.T) {
+func Test_TextValidator_IsMatchMany_EmptySkip_Cov(t *testing.T) {
 	tv := &corevalidator.TextValidator{Search: "x", SearchAs: stringcompareas.Equal}
 	if !tv.IsMatchMany(true, true) {
 		t.Error("empty contents with skip should return true")
@@ -162,7 +162,7 @@ func Test_TextValidator_VerifySimpleError_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_VerifyMany_FirstOnly(t *testing.T) {
+func Test_TextValidator_VerifyMany_FirstOnly_Cov(t *testing.T) {
 	tv := &corevalidator.TextValidator{Search: "x", SearchAs: stringcompareas.Equal}
 	params := &corevalidator.Parameter{IsCaseSensitive: true}
 	err := tv.VerifyMany(false, params, "x", "y")
@@ -187,7 +187,7 @@ func Test_TextValidator_VerifyFirstError_Nil(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_VerifyFirstError_EmptySkip(t *testing.T) {
+func Test_TextValidator_VerifyFirstError_EmptySkip_Cov(t *testing.T) {
 	tv := &corevalidator.TextValidator{Search: "x", SearchAs: stringcompareas.Equal}
 	params := &corevalidator.Parameter{IsSkipCompareOnActualEmpty: true}
 	if tv.VerifyFirstError(params) != nil {
@@ -231,7 +231,7 @@ func Test_TextValidators_Count_Cov(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_Adds_Empty(t *testing.T) {
+func Test_TextValidators_Adds_Empty_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Adds()
 	if tvs.Length() != 0 {
@@ -277,7 +277,7 @@ func Test_TextValidators_HasIndex(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_String(t *testing.T) {
+func Test_TextValidators_String_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{Search: "test", SearchAs: stringcompareas.Equal})
 	if tvs.String() == "" {
@@ -327,7 +327,7 @@ func Test_TextValidators_VerifyFirstErrorMany_Empty_Cov(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_AllVerifyErrorMany_Empty(t *testing.T) {
+func Test_TextValidators_AllVerifyErrorMany_Empty_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(0)
 	if tvs.AllVerifyErrorMany(&corevalidator.Parameter{}) != nil {
 		t.Error("empty should return nil")
@@ -420,7 +420,7 @@ func Test_SliceValidator_Dispose_Nil(t *testing.T) {
 	sv.Dispose() // should not panic
 }
 
-func Test_SliceValidator_SetActualVsExpected(t *testing.T) {
+func Test_SliceValidator_SetActualVsExpected_Cov(t *testing.T) {
 	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.Equal}
 	sv.SetActualVsExpected([]string{"a"}, []string{"a"})
 	if !sv.IsValid(true) {
@@ -428,7 +428,7 @@ func Test_SliceValidator_SetActualVsExpected(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_MethodName(t *testing.T) {
+func Test_SliceValidator_MethodName_Cov(t *testing.T) {
 	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.StartsWith}
 	if sv.MethodName() == "" {
 		t.Error("should return method name")
@@ -512,12 +512,12 @@ func Test_SliceValidators_IsEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_SliceValidators_SetActualOnAll_Empty(t *testing.T) {
+func Test_SliceValidators_SetActualOnAll_Empty_Cov(t *testing.T) {
 	var svs *corevalidator.SliceValidators
 	svs.SetActualOnAll("a") // should not panic
 }
 
-func Test_SliceValidators_IsValid_Empty(t *testing.T) {
+func Test_SliceValidators_IsValid_Empty_Cov(t *testing.T) {
 	svs := &corevalidator.SliceValidators{}
 	if !svs.IsValid(true) {
 		t.Error("empty should return true")

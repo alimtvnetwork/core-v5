@@ -1113,7 +1113,7 @@ func Test_Pair_IsInvalid_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Pair_Values(t *testing.T) {
+func Test_Pair_Values_Cov(t *testing.T) {
 	p := coregeneric.NewPair("a", 1)
 	l, r := p.Values()
 	if l != "a" || r != 1 {
@@ -1128,7 +1128,7 @@ func Test_Pair_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_Pair_IsEqual_BothNil(t *testing.T) {
+func Test_Pair_IsEqual_BothNil_Cov(t *testing.T) {
 	var p1, p2 *coregeneric.Pair[string, string]
 	if !p1.IsEqual(p2) {
 		t.Error("both nil should be equal")
@@ -1143,14 +1143,14 @@ func Test_Pair_IsEqual_OneNil(t *testing.T) {
 	}
 }
 
-func Test_Pair_String_Nil(t *testing.T) {
+func Test_Pair_String_Nil_Cov(t *testing.T) {
 	var p *coregeneric.Pair[string, string]
 	if p.String() != "" {
 		t.Error("nil should return empty")
 	}
 }
 
-func Test_Pair_Clear(t *testing.T) {
+func Test_Pair_Clear_Cov(t *testing.T) {
 	p := coregeneric.NewPair("a", "b")
 	p.Clear()
 	if p.IsValid || p.Left != "" || p.Right != "" {
@@ -1163,7 +1163,7 @@ func Test_Pair_Clear_Nil(t *testing.T) {
 	p.Clear() // should not panic
 }
 
-func Test_Pair_Dispose(t *testing.T) {
+func Test_Pair_Dispose_Cov(t *testing.T) {
 	p := coregeneric.NewPair("a", "b")
 	p.Dispose()
 	if p.IsValid {
@@ -1196,14 +1196,14 @@ func Test_Triple_IsInvalid(t *testing.T) {
 	}
 }
 
-func Test_Triple_IsInvalid_Nil(t *testing.T) {
+func Test_Triple_IsInvalid_Nil_Cov(t *testing.T) {
 	var tr *coregeneric.Triple[string, string, string]
 	if !tr.IsInvalid() {
 		t.Error("nil should be invalid")
 	}
 }
 
-func Test_Triple_Values(t *testing.T) {
+func Test_Triple_Values_Cov(t *testing.T) {
 	tr := coregeneric.NewTriple("a", "b", "c")
 	l, m, r := tr.Values()
 	if l != "a" || m != "b" || r != "c" {
@@ -1218,7 +1218,7 @@ func Test_Triple_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_Triple_IsEqual_BothNil(t *testing.T) {
+func Test_Triple_IsEqual_BothNil_Cov(t *testing.T) {
 	var tr1, tr2 *coregeneric.Triple[string, string, string]
 	if !tr1.IsEqual(tr2) {
 		t.Error("both nil should be equal")
@@ -1233,7 +1233,7 @@ func Test_Triple_IsEqual_OneNil(t *testing.T) {
 	}
 }
 
-func Test_Triple_String_Nil(t *testing.T) {
+func Test_Triple_String_Nil_Cov(t *testing.T) {
 	var tr *coregeneric.Triple[string, string, string]
 	if tr.String() != "" {
 		t.Error("nil should return empty")
@@ -1253,7 +1253,7 @@ func Test_Triple_Clear_Nil(t *testing.T) {
 	tr.Clear() // should not panic
 }
 
-func Test_Triple_Dispose(t *testing.T) {
+func Test_Triple_Dispose_Cov(t *testing.T) {
 	tr := coregeneric.NewTriple("a", "b", "c")
 	tr.Dispose()
 	if tr.IsValid {

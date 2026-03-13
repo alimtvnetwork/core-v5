@@ -137,12 +137,12 @@ func TestManyErrorToSingleDirect(t *testing.T) {
 // TestConcatMessageWithErr verifies ConcatMessageWithErr.
 func TestConcatMessageWithErr(t *testing.T) {
 	r := errcore.ConcatMessageWithErr("prefix", nil)
-	if r != "" {
-		t.Error("nil error should return empty")
+	if r != nil {
+		t.Error("nil error should return nil")
 	}
 	r = errcore.ConcatMessageWithErr("prefix", errors.New("err"))
-	if r == "" {
-		t.Error("should return concatenated message")
+	if r == nil {
+		t.Error("should return concatenated error")
 	}
 }
 
@@ -264,8 +264,8 @@ func TestRawErrCollection(t *testing.T) {
 	if !c.HasError() {
 		t.Error("should have error")
 	}
-	if c.SingleError() == nil {
-		t.Error("should return single error")
+	if c.CompiledError() == nil {
+		t.Error("should return compiled error")
 	}
 }
 
@@ -319,7 +319,7 @@ func TestMessageWithRef(t *testing.T) {
 
 // TestVarTwoNoType verifies VarTwoNoType.
 func TestVarTwoNoType(t *testing.T) {
-	r := errcore.VarTwoNoType("a", "b", 1, 2)
+	r := errcore.VarTwoNoType("a", 1, "b", 2)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -327,7 +327,7 @@ func TestVarTwoNoType(t *testing.T) {
 
 // TestVarThreeNoType verifies VarThreeNoType.
 func TestVarThreeNoType(t *testing.T) {
-	r := errcore.VarThreeNoType("a", "b", "c", 1, 2, 3)
+	r := errcore.VarThreeNoType("a", 1, "b", 2, "c", 3)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -335,7 +335,7 @@ func TestVarThreeNoType(t *testing.T) {
 
 // TestGetSearchTermExpectationMessage verifies search term message.
 func TestGetSearchTermExpectationMessage(t *testing.T) {
-	r := errcore.GetSearchTermExpectationMessage("search", "content", true)
+	r := errcore.GetSearchTermExpectationMessage(1, "header", "expectation", 0, "actual", "expected", nil)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
@@ -343,7 +343,7 @@ func TestGetSearchTermExpectationMessage(t *testing.T) {
 
 // TestGetSearchTermExpectationSimpleMessage verifies simple search term message.
 func TestGetSearchTermExpectationSimpleMessage(t *testing.T) {
-	r := errcore.GetSearchTermExpectationSimpleMessage("search", "content", true)
+	r := errcore.GetSearchTermExpectationSimpleMessage(1, "expectation", 0, "content", "search")
 	if r == "" {
 		t.Error("should return non-empty")
 	}
