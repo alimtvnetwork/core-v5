@@ -1233,7 +1233,7 @@ func Test_Triple_IsEqual_OneNil(t *testing.T) {
 	}
 }
 
-func Test_Triple_String_Nil(t *testing.T) {
+func Test_Triple_String_Nil_Cov(t *testing.T) {
 	var tr *coregeneric.Triple[string, string, string]
 	if tr.String() != "" {
 		t.Error("nil should return empty")
