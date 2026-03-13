@@ -139,14 +139,14 @@ func Test_KeyValues_Cap_Cov2(t *testing.T) {
 // ── LinkedList ──
 
 func Test_LinkedList_Default_Cov2(t *testing.T) {
-	ll := corestr.New.LinkedList.Default()
+	ll := corestr.New.LinkedList.Empty()
 	actual := args.Map{"isNil": ll == nil, "isEmpty": ll.IsEmpty(), "length": ll.Length()}
 	expected := args.Map{"isNil": false, "isEmpty": true, "length": 0}
 	expected.ShouldBeEqual(t, 0, "LinkedList_Default", actual)
 }
 
 func Test_LinkedList_Add_Cov2(t *testing.T) {
-	ll := corestr.New.LinkedList.Default()
+	ll := corestr.New.LinkedList.Empty()
 	ll.Add("hello")
 	ll.Add("world")
 	actual := args.Map{"length": ll.Length(), "isEmpty": ll.IsEmpty()}
