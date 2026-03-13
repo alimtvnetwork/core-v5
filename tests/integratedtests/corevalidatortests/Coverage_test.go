@@ -428,7 +428,7 @@ func Test_SliceValidator_SetActualVsExpected_Cov(t *testing.T) {
 	}
 }
 
-func Test_SliceValidator_MethodName(t *testing.T) {
+func Test_SliceValidator_MethodName_Cov(t *testing.T) {
 	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.StartsWith}
 	if sv.MethodName() == "" {
 		t.Error("should return method name")
