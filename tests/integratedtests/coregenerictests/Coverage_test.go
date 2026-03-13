@@ -246,7 +246,7 @@ func Test_LinkedList_AddLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddSlice(t *testing.T) {
+func Test_LinkedList_AddSlice_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[int]()
 	ll.AddSlice([]int{1, 2, 3})
 	if ll.Length() != 3 {
