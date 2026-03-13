@@ -114,7 +114,7 @@ func Test_LineNumber_VerifyError_Mismatch(t *testing.T) {
 // TextValidator — uncovered branches
 // =============================================================================
 
-func Test_TextValidator_ToString_MultiLine(t *testing.T) {
+func Test_TextValidator_ToString_MultiLine_Cov(t *testing.T) {
 	tv := corevalidator.TextValidator{
 		Search:   "test",
 		SearchAs: stringcompareas.Equal,
