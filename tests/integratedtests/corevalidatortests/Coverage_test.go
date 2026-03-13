@@ -579,7 +579,7 @@ func Test_LinesValidators_HasAnyItem(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_HasIndex(t *testing.T) {
+func Test_LinesValidators_HasIndex_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(5)
 	if lv.HasIndex(0) {
 		t.Error("empty should not have index 0")
