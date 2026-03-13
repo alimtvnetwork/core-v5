@@ -211,7 +211,7 @@ func Test_TextValidator_AllVerifyError_EmptySkip(t *testing.T) {
 	}
 }
 
-func Test_TextValidator_MethodName(t *testing.T) {
+func Test_TextValidator_MethodName_Cov(t *testing.T) {
 	tv := corevalidator.TextValidator{SearchAs: stringcompareas.StartsWith}
 	if tv.MethodName() == "" {
 		t.Error("should return method name")
