@@ -335,7 +335,7 @@ func TestVarThreeNoType(t *testing.T) {
 
 // TestGetSearchTermExpectationMessage verifies search term message.
 func TestGetSearchTermExpectationMessage(t *testing.T) {
-	r := errcore.GetSearchTermExpectationMessage("search", "content", true)
+	r := errcore.GetSearchTermExpectationMessage(1, "header", "expectation", 0, "actual", "expected", nil)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
