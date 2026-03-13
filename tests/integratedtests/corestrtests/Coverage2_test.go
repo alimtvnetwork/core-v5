@@ -77,7 +77,7 @@ func Test_Collection_Cap_Cov2(t *testing.T) {
 
 func Test_Collection_AddStrings_Cov2(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
-	c.AddStrings("hello", "world")
+	c.AddStrings([]string{"hello", "world"})
 	actual := args.Map{"length": c.Length()}
 	expected := args.Map{"length": 2}
 	expected.ShouldBeEqual(t, 0, "Collection_AddStrings", actual)
