@@ -1150,7 +1150,7 @@ func Test_Pair_String_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Pair_Clear(t *testing.T) {
+func Test_Pair_Clear_Cov(t *testing.T) {
 	p := coregeneric.NewPair("a", "b")
 	p.Clear()
 	if p.IsValid || p.Left != "" || p.Right != "" {
