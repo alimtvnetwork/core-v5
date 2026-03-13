@@ -1544,7 +1544,7 @@ func Test_Trace_Json_Ext(t *testing.T) {
 
 	// Assert
 	if result.HasError() {
-		t.Errorf("should not have error: %v", result.Err())
+		t.Errorf("should not have error: %v", result.MeaningfulError())
 	}
 }
 
