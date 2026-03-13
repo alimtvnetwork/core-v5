@@ -270,7 +270,7 @@ func Test_LinkedList_AddsIf_Skip(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_AddFunc(t *testing.T) {
+func Test_LinkedList_AddFunc_Cov(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.AddFunc(func() string { return "x" })
 	if ll.Length() != 1 || ll.First() != "x" {
