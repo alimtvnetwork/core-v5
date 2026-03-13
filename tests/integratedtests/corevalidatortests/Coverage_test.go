@@ -320,7 +320,7 @@ func Test_TextValidators_VerifyErrorMany_FirstOnly(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_VerifyFirstErrorMany_Empty(t *testing.T) {
+func Test_TextValidators_VerifyFirstErrorMany_Empty_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(0)
 	if tvs.VerifyFirstErrorMany(&corevalidator.Parameter{}) != nil {
 		t.Error("empty should return nil")
