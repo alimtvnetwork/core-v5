@@ -444,7 +444,7 @@ func Test_LinkedList_IndexAt_Valid_Cov(t *testing.T) {
 	}
 }
 
-func Test_LinkedList_String(t *testing.T) {
+func Test_LinkedList_String_Cov(t *testing.T) {
 	ll := coregeneric.LinkedListFrom([]int{1, 2})
 	if ll.String() == "" {
 		t.Error("should return non-empty")
