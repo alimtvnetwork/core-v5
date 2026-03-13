@@ -389,7 +389,7 @@ func Test_Value_LazyEvaluateBool_Cov(t *testing.T) {
 	}
 }
 
-func Test_Value_LazyEvaluateSet(t *testing.T) {
+func Test_Value_LazyEvaluateSet_Cov(t *testing.T) {
 	v := issetter.Uninitialized
 	called := v.LazyEvaluateSet(func() {})
 	if !called {
