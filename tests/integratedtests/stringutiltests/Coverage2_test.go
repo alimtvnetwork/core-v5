@@ -205,8 +205,8 @@ func Test_Cov2_IsContains_Slice(t *testing.T) {
 
 func Test_Cov2_IsStartsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsStartsWith("hello", "hel"),
-		"noMatch": stringutil.IsStartsWith("hello", "xyz"),
+		"match":   stringutil.IsStartsWith("hello", "hel", false),
+		"noMatch": stringutil.IsStartsWith("hello", "xyz", false),
 	}
 	expected := args.Map{
 		"match":   true,
@@ -217,8 +217,8 @@ func Test_Cov2_IsStartsWith(t *testing.T) {
 
 func Test_Cov2_IsEndsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsEndsWith("hello", "llo"),
-		"noMatch": stringutil.IsEndsWith("hello", "xyz"),
+		"match":   stringutil.IsEndsWith("hello", "llo", false),
+		"noMatch": stringutil.IsEndsWith("hello", "xyz", false),
 	}
 	expected := args.Map{
 		"match":   true,
