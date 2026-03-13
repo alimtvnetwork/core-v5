@@ -1143,7 +1143,7 @@ func Test_Pair_IsEqual_OneNil(t *testing.T) {
 	}
 }
 
-func Test_Pair_String_Nil(t *testing.T) {
+func Test_Pair_String_Nil_Cov(t *testing.T) {
 	var p *coregeneric.Pair[string, string]
 	if p.String() != "" {
 		t.Error("nil should return empty")
