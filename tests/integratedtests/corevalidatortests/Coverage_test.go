@@ -565,7 +565,7 @@ func Test_LinesValidators_Length_Nil(t *testing.T) {
 	}
 }
 
-func Test_LinesValidators_Count(t *testing.T) {
+func Test_LinesValidators_Count_Cov(t *testing.T) {
 	lv := corevalidator.NewLinesValidators(5)
 	if lv.Count() != 0 {
 		t.Error("empty should return 0")
