@@ -1106,7 +1106,7 @@ func Test_Pair_IsInvalid(t *testing.T) {
 	}
 }
 
-func Test_Pair_IsInvalid_Nil(t *testing.T) {
+func Test_Pair_IsInvalid_Nil_Cov(t *testing.T) {
 	var p *coregeneric.Pair[string, string]
 	if !p.IsInvalid() {
 		t.Error("nil should be invalid")
