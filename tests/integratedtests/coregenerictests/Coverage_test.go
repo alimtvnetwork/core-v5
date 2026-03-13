@@ -922,7 +922,7 @@ func Test_Collection_AddFunc_Cov(t *testing.T) {
 	}
 }
 
-func Test_Collection_AddCollection_Empty(t *testing.T) {
+func Test_Collection_AddCollection_Empty_Cov(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	other := coregeneric.EmptyCollection[int]()
 	col.AddCollection(other)
