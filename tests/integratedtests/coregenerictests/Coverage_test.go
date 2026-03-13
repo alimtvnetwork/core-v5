@@ -577,7 +577,7 @@ func Test_Hashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_ForEach(t *testing.T) {
+func Test_Hashmap_ForEach_Cov(t *testing.T) {
 	hm := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	count := 0
 	hm.ForEach(func(k string, v int) { count++ })
