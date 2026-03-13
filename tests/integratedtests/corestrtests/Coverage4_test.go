@@ -1,14 +1,11 @@
 package corestrtests
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corestr"
 	"github.com/alimtvnetwork/core/coretests/args"
 )
-
-var errForTest = errors.New("test error")
 
 // ── Hashmap — additional methods ──
 
