@@ -1218,7 +1218,7 @@ func Test_Triple_Clone_Nil(t *testing.T) {
 	}
 }
 
-func Test_Triple_IsEqual_BothNil(t *testing.T) {
+func Test_Triple_IsEqual_BothNil_Cov(t *testing.T) {
 	var tr1, tr2 *coregeneric.Triple[string, string, string]
 	if !tr1.IsEqual(tr2) {
 		t.Error("both nil should be equal")
