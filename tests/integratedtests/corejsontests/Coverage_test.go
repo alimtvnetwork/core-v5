@@ -115,7 +115,7 @@ func Test_Result_IsEqual_Cov(t *testing.T) {
 	r1 := corejson.New(42)
 	r2 := corejson.New(42)
 	r3 := corejson.New(43)
-	actual := args.Map{"same": r1.IsEqual(&r2), "diff": r1.IsEqual(&r3), "nil": r1.IsEqual(nil)}
+	actual := args.Map{"same": r1.IsEqual(r2), "diff": r1.IsEqual(r3), "nil": r1.IsEqual(corejson.Result{})}
 	expected := args.Map{"same": true, "diff": false, "nil": false}
 	expected.ShouldBeEqual(t, 0, "Result_IsEqual", actual)
 }
