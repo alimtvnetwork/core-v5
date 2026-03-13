@@ -1203,7 +1203,7 @@ func Test_Triple_IsInvalid_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Triple_Values(t *testing.T) {
+func Test_Triple_Values_Cov(t *testing.T) {
 	tr := coregeneric.NewTriple("a", "b", "c")
 	l, m, r := tr.Values()
 	if l != "a" || m != "b" || r != "c" {
