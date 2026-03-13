@@ -58,7 +58,7 @@ func Test_Parameter_IsIgnoreCase(t *testing.T) {
 // LineNumber
 // =============================================================================
 
-func Test_LineNumber_HasLineNumber(t *testing.T) {
+func Test_LineNumber_HasLineNumber_Cov(t *testing.T) {
 	ln := corevalidator.LineNumber{LineNumber: 5}
 	if !ln.HasLineNumber() {
 		t.Error("should have line number")
