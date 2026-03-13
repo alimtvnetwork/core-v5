@@ -319,7 +319,7 @@ func TestMessageWithRef(t *testing.T) {
 
 // TestVarTwoNoType verifies VarTwoNoType.
 func TestVarTwoNoType(t *testing.T) {
-	r := errcore.VarTwoNoType("a", "b", 1, 2)
+	r := errcore.VarTwoNoType("a", 1, "b", 2)
 	if r == "" {
 		t.Error("should return non-empty")
 	}
