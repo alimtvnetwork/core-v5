@@ -130,10 +130,12 @@ func Test_Ext_Function_Verification(t *testing.T) {
 		// Act
 		var result bool
 		if useFunc {
-			result = isany.Function(func() {})
+			isFunc, _ := isany.Function(func() {})
+			result = isFunc
 		} else {
 			inputVal, _ := input.Get("input")
-			result = isany.Function(inputVal)
+			isFunc, _ := isany.Function(inputVal)
+			result = isFunc
 		}
 
 		// Assert

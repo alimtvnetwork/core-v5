@@ -215,7 +215,7 @@ func Test_StartEndString_Methods_Cov2(t *testing.T) {
 // ── RangeAny ──
 
 func Test_RangeAny_Cov2(t *testing.T) {
-	ra := &corerange.RangeAny{BaseRange: &corerange.BaseRange{RawInput: "hello:world", Separator: ":", Start: "hello", End: "world", IsValid: true}}
+	ra := &corerange.RangeAny{BaseRange: &corerange.BaseRange{RawInput: "hello:world", Separator: ":", IsValid: true, HasStart: true, HasEnd: true}}
 	actual := args.Map{"isValid": ra.IsValid}
 	expected := args.Map{"isValid": true}
 	expected.ShouldBeEqual(t, 0, "RangeAny", actual)

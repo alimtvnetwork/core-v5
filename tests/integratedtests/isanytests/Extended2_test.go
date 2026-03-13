@@ -332,9 +332,9 @@ func Test_FloatingPointType_Direct(t *testing.T) {
 }
 
 func Test_DefinedItems_Direct(t *testing.T) {
-	count := isany.DefinedItems("a", nil, "c")
-	if count != 2 {
-		t.Errorf("expected 2 defined items, got %d", count)
+	_, items := isany.DefinedItems("a", nil, "c")
+	if len(items) != 2 {
+		t.Errorf("expected 2 defined items, got %d", len(items))
 	}
 }
 

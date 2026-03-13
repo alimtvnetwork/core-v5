@@ -398,12 +398,9 @@ func Test_PositiveIntegerType_Coverage(t *testing.T) {
 
 func Test_Conclusive_Coverage(t *testing.T) {
 	// Arrange — tests with two ints
-	left, right, isConclusive := isany.Conclusive(42, 43)
-	if !isConclusive {
-		t.Error("two ints should be conclusive")
-	}
-	if left == nil || right == nil {
-		t.Error("values should not be nil")
+	_, isConclusive := isany.Conclusive(42, 43)
+	if isConclusive {
+		t.Error("two same-type non-nil ints should be inconclusive")
 	}
 }
 

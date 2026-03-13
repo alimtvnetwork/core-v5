@@ -431,14 +431,14 @@ func Test_Cov2_NonEmptySlicePtr_Mixed(t *testing.T) {
 }
 
 // ============================================================================
-// NonEmpty
+// NonEmptySlice — extra
 // ============================================================================
 
-func Test_Cov2_NonEmpty_Mixed(t *testing.T) {
-	result := stringslice.NonEmpty([]string{"a", "", "b"})
+func Test_Cov2_NonEmptySlice_AllEmpty(t *testing.T) {
+	result := stringslice.NonEmptySlice([]string{"", ""})
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "NonEmpty filters empty -- mixed", actual)
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "NonEmptySlice returns empty -- all empty", actual)
 }
 
 // ============================================================================

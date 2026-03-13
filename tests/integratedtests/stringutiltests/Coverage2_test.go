@@ -297,8 +297,8 @@ func Test_Cov2_IsStartsAndEndsChar(t *testing.T) {
 
 func Test_Cov2_IsStartsAndEndsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsStartsAndEndsWith("<<hello>>", "<<", ">>"),
-		"noMatch": stringutil.IsStartsAndEndsWith("hello", "<<", ">>"),
+		"match":   stringutil.IsStartsAndEndsWith("<<hello>>", "<<", ">>", false),
+		"noMatch": stringutil.IsStartsAndEndsWith("hello", "<<", ">>", false),
 	}
 	expected := args.Map{
 		"match":   true,
@@ -311,8 +311,8 @@ func Test_Cov2_IsStartsAndEndsWith(t *testing.T) {
 
 func Test_Cov2_IsAnyStartsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsAnyStartsWith("hello", "xyz", "hel"),
-		"noMatch": stringutil.IsAnyStartsWith("hello", "xyz", "abc"),
+		"match":   stringutil.IsAnyStartsWith("hello", false, "xyz", "hel"),
+		"noMatch": stringutil.IsAnyStartsWith("hello", false, "xyz", "abc"),
 	}
 	expected := args.Map{
 		"match":   true,
@@ -323,8 +323,8 @@ func Test_Cov2_IsAnyStartsWith(t *testing.T) {
 
 func Test_Cov2_IsAnyEndsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsAnyEndsWith("hello", "xyz", "llo"),
-		"noMatch": stringutil.IsAnyEndsWith("hello", "xyz", "abc"),
+		"match":   stringutil.IsAnyEndsWith("hello", false, "xyz", "llo"),
+		"noMatch": stringutil.IsAnyEndsWith("hello", false, "xyz", "abc"),
 	}
 	expected := args.Map{
 		"match":   true,

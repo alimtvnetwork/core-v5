@@ -258,24 +258,24 @@ func Test_Cov3_LengthOfPointer_Nil(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_MakePtr(t *testing.T) {
-	result := stringslice.MakePtr(5)
+	result := stringslice.MakePtr(0, 5)
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MakePtr returns ptr -- cap 5", actual)
+	expected.ShouldBeEqual(t, 0, "MakePtr returns slice -- cap 5", actual)
 }
 
 func Test_Cov3_MakeLenPtr(t *testing.T) {
 	result := stringslice.MakeLenPtr(3)
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 3}
-	expected.ShouldBeEqual(t, 0, "MakeLenPtr returns ptr -- len 3", actual)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "MakeLenPtr returns slice -- len 3", actual)
 }
 
 func Test_Cov3_MakeDefaultPtr(t *testing.T) {
-	result := stringslice.MakeDefaultPtr()
+	result := stringslice.MakeDefaultPtr(10)
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MakeDefaultPtr returns ptr -- default", actual)
+	expected.ShouldBeEqual(t, 0, "MakeDefaultPtr returns slice -- default", actual)
 }
 
 // ============================================================================
