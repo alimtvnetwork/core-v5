@@ -517,7 +517,7 @@ func Test_SliceValidators_SetActualOnAll_Empty_Cov(t *testing.T) {
 	svs.SetActualOnAll("a") // should not panic
 }
 
-func Test_SliceValidators_IsValid_Empty(t *testing.T) {
+func Test_SliceValidators_IsValid_Empty_Cov(t *testing.T) {
 	svs := &corevalidator.SliceValidators{}
 	if !svs.IsValid(true) {
 		t.Error("empty should return true")

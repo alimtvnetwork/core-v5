@@ -205,7 +205,8 @@ func Test_AnyTo_ResultPtr_Cov(t *testing.T) {
 }
 
 func Test_NewResult_UsingBytes_Cov(t *testing.T) {
-	actual := args.Map{"notEmpty": !corejson.NewResult.UsingBytes([]byte(`"hello"`)).IsEmpty()}
+	r := corejson.NewResult.UsingBytesPtr([]byte(`"hello"`))
+	actual := args.Map{"notEmpty": r != nil}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "NewResult_UsingBytes", actual)
 }
@@ -219,35 +220,35 @@ func Test_NewResult_UsingBytesPtr_Cov(t *testing.T) {
 // ── Collections ──
 
 func Test_NewBytesCollection_Cap_Cov(t *testing.T) {
-	actual := args.Map{"notNil": corejson.NewBytesCollection.Cap(5) != nil}
+	actual := args.Map{"notNil": corejson.NewBytesCollection.UsingCap(5) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewBytesCollection_Cap", actual)
+	expected.ShouldBeEqual(t, 0, "NewBytesCollection_UsingCap", actual)
 }
 
 func Test_NewResultsCollection_Cap_Cov(t *testing.T) {
-	actual := args.Map{"notNil": corejson.NewResultsCollection.Cap(5) != nil}
+	actual := args.Map{"notNil": corejson.NewResultsCollection.UsingCap(5) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewResultsCollection_Cap", actual)
+	expected.ShouldBeEqual(t, 0, "NewResultsCollection_UsingCap", actual)
 }
 
 func Test_NewResultsPtrCollection_Cap_Cov(t *testing.T) {
-	actual := args.Map{"notNil": corejson.NewResultsPtrCollection.Cap(5) != nil}
+	actual := args.Map{"notNil": corejson.NewResultsPtrCollection.UsingCap(5) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewResultsPtrCollection_Cap", actual)
+	expected.ShouldBeEqual(t, 0, "NewResultsPtrCollection_UsingCap", actual)
 }
 
 // ── Pretty ──
 
-func Test_Pretty_FromBytes_Cov(t *testing.T) {
-	actual := args.Map{"hasBytes": len(corejson.Pretty.FromBytes([]byte(`{"a":1}`))) > 0}
+func Test_Pretty_Bytes_Cov(t *testing.T) {
+	actual := args.Map{"hasBytes": len(corejson.Pretty.Bytes.Raw([]byte(`{"a":1}`))) > 0}
 	expected := args.Map{"hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Pretty_FromBytes", actual)
+	expected.ShouldBeEqual(t, 0, "Pretty_Bytes", actual)
 }
 
-func Test_Pretty_FromString_Cov(t *testing.T) {
-	actual := args.Map{"notEmpty": corejson.Pretty.FromString(`{"a":1}`) != ""}
+func Test_Pretty_String_Cov(t *testing.T) {
+	actual := args.Map{"notEmpty": corejson.Pretty.String.Raw(`{"a":1}`) != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Pretty_FromString", actual)
+	expected.ShouldBeEqual(t, 0, "Pretty_String", actual)
 }
 
 // ── NewMapResults ──

@@ -343,7 +343,7 @@ func TestGetSearchTermExpectationMessage(t *testing.T) {
 
 // TestGetSearchTermExpectationSimpleMessage verifies simple search term message.
 func TestGetSearchTermExpectationSimpleMessage(t *testing.T) {
-	r := errcore.GetSearchTermExpectationSimpleMessage("search", "content", true)
+	r := errcore.GetSearchTermExpectationSimpleMessage(1, "expectation", 0, "content", "search")
 	if r == "" {
 		t.Error("should return non-empty")
 	}

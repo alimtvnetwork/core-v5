@@ -1253,7 +1253,7 @@ func Test_Triple_Clear_Nil(t *testing.T) {
 	tr.Clear() // should not panic
 }
 
-func Test_Triple_Dispose(t *testing.T) {
+func Test_Triple_Dispose_Cov(t *testing.T) {
 	tr := coregeneric.NewTriple("a", "b", "c")
 	tr.Dispose()
 	if tr.IsValid {
