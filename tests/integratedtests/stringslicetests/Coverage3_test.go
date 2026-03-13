@@ -123,10 +123,10 @@ func Test_Cov3_IsEmpty(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_MergeNew(t *testing.T) {
-	result := stringslice.MergeNew([]string{"a"}, []string{"b"})
+	result := stringslice.MergeNew([]string{"a"}, "b")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "MergeNew merges -- 2 slices", actual)
+	expected.ShouldBeEqual(t, 0, "MergeNew merges -- slice+item", actual)
 }
 
 func Test_Cov3_MergeNewSimple(t *testing.T) {
