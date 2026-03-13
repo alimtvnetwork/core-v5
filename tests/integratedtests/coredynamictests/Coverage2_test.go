@@ -42,7 +42,7 @@ func Test_Cov2_TypedDynamic_StringAndJson(t *testing.T) {
 	jsonStr, jsonStrErr := d.JsonString()
 	marshalBytes, marshalErr := d.MarshalJSON()
 	valueMarshal, valueMarshalErr := d.ValueMarshal()
-	bytes, bytesOk := d.Bytes()
+	_, bytesOk := d.Bytes()
 	actual := args.Map{
 		"string": d.String(), "jsonLen": len(jsonBytes) > 0, "jsonErr": jsonErr != nil,
 		"jsonStr": jsonStr != "", "jsonStrErr": jsonStrErr != nil,

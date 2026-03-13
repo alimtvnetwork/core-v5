@@ -97,7 +97,7 @@ func Test_KeyJson_Json_Ext2(t *testing.T) {
 
 	// Assert
 	if result.HasError() {
-		t.Errorf("Json() should not have error: %v", result.Err())
+		t.Errorf("Json() should not have error: %v", result.MeaningfulError())
 	}
 }
 

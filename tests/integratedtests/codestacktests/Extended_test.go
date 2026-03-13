@@ -1708,7 +1708,7 @@ func Test_FileWithLine_Json_Ext(t *testing.T) {
 
 	// Assert
 	if result.HasError() {
-		t.Errorf("error: %v", result.Err())
+		t.Errorf("error: %v", result.MeaningfulError())
 	}
 }
 
