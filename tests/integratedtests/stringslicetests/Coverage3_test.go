@@ -32,9 +32,9 @@ func Test_Cov3_Last_NonEmpty(t *testing.T) {
 
 func Test_Cov3_LastPtr_NonEmpty(t *testing.T) {
 	result := stringslice.LastPtr([]string{"x", "y"})
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "y"}
-	expected.ShouldBeEqual(t, 0, "LastPtr returns ptr -- non-empty", actual)
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "y"}
+	expected.ShouldBeEqual(t, 0, "LastPtr returns last -- non-empty", actual)
 }
 
 // ============================================================================
