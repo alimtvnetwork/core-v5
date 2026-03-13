@@ -181,11 +181,11 @@ func Test_HashsetsCollection_Cap_Cov2(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "HashsetsCollection_Cap", actual)
 }
 
-func Test_LinkedCollection_Default_Cov2(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Default()
+func Test_LinkedCollection_Empty_Cov2(t *testing.T) {
+	lc := corestr.New.LinkedCollection.Empty()
 	actual := args.Map{"isNil": lc == nil, "isEmpty": lc.IsEmpty()}
 	expected := args.Map{"isNil": false, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "LinkedCollection_Default", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollection_Empty", actual)
 }
 
 func Test_CollectionsOfCollection_Cap_Cov2(t *testing.T) {

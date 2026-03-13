@@ -539,7 +539,7 @@ func Test_Hashmap_ContainsLock(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsKeyMissing(t *testing.T) {
+func Test_Hashmap_IsKeyMissing_Cov(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	if !hm.IsKeyMissing("x") {
 		t.Error("should be missing")
@@ -615,7 +615,7 @@ func Test_Hashmap_Clone(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsEquals_BothNil(t *testing.T) {
+func Test_Hashmap_IsEquals_BothNil_Cov(t *testing.T) {
 	var hm1, hm2 *coregeneric.Hashmap[string, int]
 	if !hm1.IsEquals(hm2) {
 		t.Error("both nil should be equal")
@@ -630,14 +630,14 @@ func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsEquals_SamePtr(t *testing.T) {
+func Test_Hashmap_IsEquals_SamePtr_Cov(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	if !hm.IsEquals(hm) {
 		t.Error("same pointer should be equal")
 	}
 }
 
-func Test_Hashmap_IsEquals_DiffLength(t *testing.T) {
+func Test_Hashmap_IsEquals_DiffLength_Cov(t *testing.T) {
 	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	hm2 := coregeneric.EmptyHashmap[string, int]()
 	if hm1.IsEquals(hm2) {
@@ -914,7 +914,7 @@ func Test_Collection_AddIfMany_Skip(t *testing.T) {
 	}
 }
 
-func Test_Collection_AddFunc(t *testing.T) {
+func Test_Collection_AddFunc_Cov(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	col.AddFunc(func() int { return 42 })
 	if col.Length() != 1 || col.First() != 42 {
@@ -922,7 +922,7 @@ func Test_Collection_AddFunc(t *testing.T) {
 	}
 }
 
-func Test_Collection_AddCollection_Empty(t *testing.T) {
+func Test_Collection_AddCollection_Empty_Cov(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	other := coregeneric.EmptyCollection[int]()
 	col.AddCollection(other)
@@ -941,7 +941,7 @@ func Test_Collection_AddCollections(t *testing.T) {
 	}
 }
 
-func Test_Collection_RemoveAt_OutOfBounds(t *testing.T) {
+func Test_Collection_RemoveAt_OutOfBounds_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1})
 	if col.RemoveAt(-1) {
 		t.Error("negative should return false")
@@ -951,14 +951,14 @@ func Test_Collection_RemoveAt_OutOfBounds(t *testing.T) {
 	}
 }
 
-func Test_Collection_SafeAt_OutOfBounds(t *testing.T) {
+func Test_Collection_SafeAt_OutOfBounds_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1})
 	if col.SafeAt(5) != 0 {
 		t.Error("out of bounds should return zero")
 	}
 }
 
-func Test_Collection_SafeAt_Empty(t *testing.T) {
+func Test_Collection_SafeAt_Empty_Cov(t *testing.T) {
 	col := coregeneric.EmptyCollection[int]()
 	if col.SafeAt(0) != 0 {
 		t.Error("empty should return zero")
@@ -1022,7 +1022,7 @@ func Test_Collection_Capacity_NilItems(t *testing.T) {
 	_ = col.Capacity()
 }
 
-func Test_Collection_ItemsPtr(t *testing.T) {
+func Test_Collection_ItemsPtr_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1})
 	p := col.ItemsPtr()
 	if p == nil || len(*p) != 1 {

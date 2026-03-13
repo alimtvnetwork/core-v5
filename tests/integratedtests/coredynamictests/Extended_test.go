@@ -56,7 +56,7 @@ func Test_Dynamic_NewDynamicPtr(t *testing.T) {
 // Clone
 // ==========================================
 
-func Test_Dynamic_Clone(t *testing.T) {
+func Test_Dynamic_Clone_Ext(t *testing.T) {
 	d := coredynamic.NewDynamicValid("hello")
 	cloned := d.Clone()
 	if cloned.Data() != "hello" {
@@ -80,7 +80,7 @@ func Test_Dynamic_ClonePtr_Nil(t *testing.T) {
 	}
 }
 
-func Test_Dynamic_NonPtr(t *testing.T) {
+func Test_Dynamic_NonPtr_Ext(t *testing.T) {
 	d := coredynamic.NewDynamicValid("hello")
 	n := d.NonPtr()
 	if n.Data() != "hello" {
@@ -215,11 +215,11 @@ func Test_SimpleRequest_GetErrorOnTypeMismatch_MismatchWithMessage(t *testing.T)
 // ==========================================
 
 func Test_SimpleResult(t *testing.T) {
-	sr := coredynamic.NewSimpleResult("data", nil)
-	if sr.Value() != "data" {
+	sr := coredynamic.NewSimpleResult("data", true, "")
+	if sr.Result != "data" {
 		t.Error("value mismatch")
 	}
-	if sr.HasError() {
+	if sr.InvalidError() != nil {
 		t.Error("should not have error")
 	}
 }
@@ -229,11 +229,11 @@ func Test_SimpleResult(t *testing.T) {
 // ==========================================
 
 func Test_KeyVal(t *testing.T) {
-	kv := coredynamic.KeyVal{Key: "key", Val: "val"}
+	kv := coredynamic.KeyVal{Key: "key", Value: "val"}
 	if kv.Key != "key" {
 		t.Error("key mismatch")
 	}
-	if kv.Val != "val" {
+	if kv.Value != "val" {
 		t.Error("val mismatch")
 	}
 }
@@ -242,28 +242,28 @@ func Test_KeyVal(t *testing.T) {
 // LeftRight
 // ==========================================
 
-func Test_LeftRight_IsLeftNil(t *testing.T) {
+func Test_LeftRight_IsLeftEmpty(t *testing.T) {
 	lr := coredynamic.LeftRight{Right: "right"}
-	if !lr.IsLeftNil() {
-		t.Error("left should be nil")
+	if !lr.IsLeftEmpty() {
+		t.Error("left should be empty")
 	}
 }
 
-func Test_LeftRight_IsRightNil(t *testing.T) {
+func Test_LeftRight_IsRightEmpty(t *testing.T) {
 	lr := coredynamic.LeftRight{Left: "left"}
-	if !lr.IsRightNil() {
-		t.Error("right should be nil")
+	if !lr.IsRightEmpty() {
+		t.Error("right should be empty")
 	}
 }
 
 // ==========================================
-// Type
+// TypeSameStatus
 // ==========================================
 
-func Test_Type_Name(t *testing.T) {
-	typ := coredynamic.NewType(reflect.TypeOf(""))
-	if typ.Name() == "" {
-		t.Error("should return non-empty name")
+func Test_TypeSameStatus(t *testing.T) {
+	ts := coredynamic.TypeSameStatus("hello", "world")
+	if !ts.IsSame {
+		t.Error("same types should be same")
 	}
 }
 
@@ -271,16 +271,19 @@ func Test_Type_Name(t *testing.T) {
 // CastTo
 // ==========================================
 
-func Test_CastTo_String(t *testing.T) {
-	result := coredynamic.CastTo[string]("hello")
-	if result == nil || *result != "hello" {
-		t.Error("should cast to string")
+func Test_CastTo_Match(t *testing.T) {
+	result := coredynamic.CastTo(false, "hello", reflect.TypeOf(""))
+	if result.Error != nil {
+		t.Errorf("should not error: %v", result.Error)
+	}
+	if !result.IsMatchingAcceptedType {
+		t.Error("should match accepted type")
 	}
 }
 
 func Test_CastTo_Mismatch(t *testing.T) {
-	result := coredynamic.CastTo[int]("hello")
-	if result != nil {
-		t.Error("mismatching cast should return nil")
+	result := coredynamic.CastTo(false, "hello", reflect.TypeOf(0))
+	if result.Error == nil {
+		t.Error("mismatching cast should return error")
 	}
 }

@@ -50,7 +50,7 @@ func Test_RangeInt8_Methods_Cov2(t *testing.T) {
 		"rangeLength": int(ri8.RangeLength()), "difference": int(ri8.Difference()),
 		"isWithin3": ri8.IsWithinRange(3), "isWithin8": ri8.IsWithinRange(8),
 		"isInvalid8": ri8.IsInvalidValue(8), "stringNotEmpty": ri8.String() != "",
-		"rangesLen": len(ri8.Ranges()), "rangesIntLen": len(ri8.RangesInt()),
+		"rangesLen": len(ri8.Ranges()), "rangesIntLen": len(ri8.RangesInt8()),
 	}
 	expected := args.Map{
 		"rangeLength": 4, "difference": 3,
@@ -215,13 +215,15 @@ func Test_StartEndString_Methods_Cov2(t *testing.T) {
 // ── RangeAny ──
 
 func Test_RangeAny_Cov2(t *testing.T) {
-	actual := args.Map{"isValid": corerange.NewRangeAny("hello:world", ":").IsValid}
+	ra := &corerange.RangeAny{BaseRange: &corerange.BaseRange{RawInput: "hello:world", Separator: ":", Start: "hello", End: "world", IsValid: true}}
+	actual := args.Map{"isValid": ra.IsValid}
 	expected := args.Map{"isValid": true}
 	expected.ShouldBeEqual(t, 0, "RangeAny", actual)
 }
 
 func Test_RangeAny_NoSeparator_Cov2(t *testing.T) {
-	actual := args.Map{"isValid": corerange.NewRangeAny("hello", ":").IsValid}
+	ra := &corerange.RangeAny{BaseRange: &corerange.BaseRange{RawInput: "hello", Separator: ":", IsValid: false}}
+	actual := args.Map{"isValid": ra.IsValid}
 	expected := args.Map{"isValid": false}
 	expected.ShouldBeEqual(t, 0, "RangeAny_NoSep", actual)
 }

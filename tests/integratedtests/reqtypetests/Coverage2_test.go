@@ -217,14 +217,14 @@ func Test_Cov2_Request_IsAnyHttpMethod(t *testing.T) {
 }
 
 func Test_Cov2_Request_IsEnumEqual(t *testing.T) {
-	actual := args.Map{"result": reqtype.Create.IsEnumEqual(reqtype.Create)}
+	actual := args.Map{"result": reqtype.Create.IsEnumEqual(reqtype.Create.AsBasicEnumContractsBinder())}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "IsEnumEqual", actual)
 }
 
 func Test_Cov2_Request_IsAnyEnumsEqual(t *testing.T) {
 	r := reqtype.Create
-	actual := args.Map{"result": r.IsAnyEnumsEqual(reqtype.Read, reqtype.Create)}
+	actual := args.Map{"result": r.IsAnyEnumsEqual(reqtype.Read.AsBasicEnumContractsBinder(), reqtype.Create.AsBasicEnumContractsBinder())}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "IsAnyEnumsEqual", actual)
 }
