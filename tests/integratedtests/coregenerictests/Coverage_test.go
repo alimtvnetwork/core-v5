@@ -2106,7 +2106,7 @@ func Test_InvalidPairOf(t *testing.T) {
 	}
 }
 
-func Test_PairFromSplitTrimmed(t *testing.T) {
+func Test_PairFromSplitTrimmed_Cov(t *testing.T) {
 	p := coregeneric.PairFromSplitTrimmed(" a = b ", "=")
 	if p.Left != "a" || p.Right != "b" {
 		t.Error("should trim")

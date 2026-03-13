@@ -719,7 +719,7 @@ func Test_SimpleSliceValidator_VerifyFirst_Cov(t *testing.T) {
 // RangeSegmentsValidator — uncovered branches
 // =============================================================================
 
-func Test_RangeSegmentsValidator_LengthOfVerifierSegments(t *testing.T) {
+func Test_RangeSegmentsValidator_LengthOfVerifierSegments_Cov(t *testing.T) {
 	rsv := &corevalidator.RangeSegmentsValidator{}
 	if rsv.LengthOfVerifierSegments() != 0 {
 		t.Error("should return 0")
