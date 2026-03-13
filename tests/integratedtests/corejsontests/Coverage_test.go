@@ -148,54 +148,58 @@ func Test_EmptyResultPtr_Cov(t *testing.T) {
 
 // ── Serialize / Deserialize ──
 
-func Test_Serialize_Default_Cov(t *testing.T) {
-	actual := args.Map{"hasErr": corejson.Serialize.Default(42).HasError()}
+func Test_Serialize_Apply_Cov(t *testing.T) {
+	actual := args.Map{"hasErr": corejson.Serialize.Apply(42).HasError()}
 	expected := args.Map{"hasErr": false}
-	expected.ShouldBeEqual(t, 0, "Serialize_Default", actual)
+	expected.ShouldBeEqual(t, 0, "Serialize_Apply", actual)
 }
 
-func Test_Serialize_DefaultPtr_Cov(t *testing.T) {
-	r := corejson.Serialize.DefaultPtr(42)
+func Test_Serialize_UsingAnyPtr_Cov(t *testing.T) {
+	r := corejson.Serialize.UsingAnyPtr(42)
 	actual := args.Map{"notNil": r != nil, "hasErr": r.HasError()}
 	expected := args.Map{"notNil": true, "hasErr": false}
-	expected.ShouldBeEqual(t, 0, "Serialize_DefaultPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Serialize_UsingAnyPtr", actual)
 }
 
-func Test_Deserialize_FromResult_Cov(t *testing.T) {
+func Test_Deserialize_UsingResult_Cov(t *testing.T) {
 	type testS struct{ A int }
 	r := corejson.New(testS{A: 42})
 	var out testS
-	err := corejson.Deserialize.FromResult(r, &out)
+	err := corejson.Deserialize.UsingResult(&r, &out)
 	actual := args.Map{"hasErr": err != nil, "val": out.A}
 	expected := args.Map{"hasErr": false, "val": 42}
-	expected.ShouldBeEqual(t, 0, "Deserialize_FromResult", actual)
+	expected.ShouldBeEqual(t, 0, "Deserialize_UsingResult", actual)
 }
 
-func Test_Deserialize_FromBytes_Cov(t *testing.T) {
+func Test_Deserialize_UsingBytes_Cov(t *testing.T) {
 	type testS struct{ A int }
 	var out testS
-	err := corejson.Deserialize.FromBytes([]byte(`{"A":42}`), &out)
+	err := corejson.Deserialize.UsingBytes([]byte(`{"A":42}`), &out)
 	actual := args.Map{"hasErr": err != nil, "val": out.A}
 	expected := args.Map{"hasErr": false, "val": 42}
-	expected.ShouldBeEqual(t, 0, "Deserialize_FromBytes", actual)
+	expected.ShouldBeEqual(t, 0, "Deserialize_UsingBytes", actual)
 }
 
 // ── CastAny / AnyTo / NewResult ──
 
-func Test_CastAny_ToString_Cov(t *testing.T) {
-	actual := args.Map{"notEmpty": corejson.CastAny.ToString(42) != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CastAny_ToString", actual)
+func Test_CastAny_FromToDefault_Cov(t *testing.T) {
+	type testS struct{ A int }
+	from := testS{A: 42}
+	var to testS
+	err := corejson.CastAny.FromToDefault(from, &to)
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "CastAny_FromToDefault", actual)
 }
 
-func Test_AnyTo_Result_Cov(t *testing.T) {
-	actual := args.Map{"hasErr": corejson.AnyTo.Result(42).HasError()}
+func Test_AnyTo_SerializedJsonResult_Cov(t *testing.T) {
+	actual := args.Map{"hasErr": corejson.AnyTo.SerializedJsonResult(42).HasError()}
 	expected := args.Map{"hasErr": false}
-	expected.ShouldBeEqual(t, 0, "AnyTo_Result", actual)
+	expected.ShouldBeEqual(t, 0, "AnyTo_SerializedJsonResult", actual)
 }
 
 func Test_AnyTo_ResultPtr_Cov(t *testing.T) {
-	actual := args.Map{"notNil": corejson.AnyTo.ResultPtr(42) != nil}
+	actual := args.Map{"notNil": corejson.AnyTo.SerializedJsonResult(42) != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "AnyTo_ResultPtr", actual)
 }

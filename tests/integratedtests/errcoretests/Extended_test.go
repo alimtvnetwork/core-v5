@@ -244,11 +244,11 @@ func TestVarMap(t *testing.T) {
 
 // TestShouldBe verifies ShouldBe.
 func TestShouldBe(t *testing.T) {
-	r := errcore.ShouldBe.String("actual", "expected")
+	r := errcore.ShouldBe.StrEqMsg("actual", "expected")
 	if r == "" {
 		t.Error("should return non-empty")
 	}
-	err := errcore.ShouldBe.Error("actual", "expected")
+	err := errcore.ShouldBe.StrEqErr("actual", "expected")
 	if err == nil {
 		t.Error("should return error")
 	}
