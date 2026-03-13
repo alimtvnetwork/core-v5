@@ -231,7 +231,7 @@ func Test_TextValidators_Count_Cov(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_Adds_Empty(t *testing.T) {
+func Test_TextValidators_Adds_Empty_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Adds()
 	if tvs.Length() != 0 {
