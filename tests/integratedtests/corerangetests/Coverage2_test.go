@@ -215,13 +215,15 @@ func Test_StartEndString_Methods_Cov2(t *testing.T) {
 // ── RangeAny ──
 
 func Test_RangeAny_Cov2(t *testing.T) {
-	actual := args.Map{"isValid": corerange.NewRangeAny("hello:world", ":").IsValid}
+	ra := &corerange.RangeAny{BaseRange: &corerange.BaseRange{RawInput: "hello:world", Separator: ":", Start: "hello", End: "world", IsValid: true}}
+	actual := args.Map{"isValid": ra.IsValid}
 	expected := args.Map{"isValid": true}
 	expected.ShouldBeEqual(t, 0, "RangeAny", actual)
 }
 
 func Test_RangeAny_NoSeparator_Cov2(t *testing.T) {
-	actual := args.Map{"isValid": corerange.NewRangeAny("hello", ":").IsValid}
+	ra := &corerange.RangeAny{BaseRange: &corerange.BaseRange{RawInput: "hello", Separator: ":", IsValid: false}}
+	actual := args.Map{"isValid": ra.IsValid}
 	expected := args.Map{"isValid": false}
 	expected.ShouldBeEqual(t, 0, "RangeAny_NoSep", actual)
 }
