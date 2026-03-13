@@ -284,7 +284,7 @@ func Test_DoubleQuoteWrapElements_Coverage(t *testing.T) {
 
 func Test_DoubleQuoteWrapElementsWithIndexes_Coverage(t *testing.T) {
 	result := simplewrap.DoubleQuoteWrapElementsWithIndexes(
-		false, "a", "b")
+		"a", "b")
 	if len(result) != 2 {
 		t.Error("should have 2 items")
 	}

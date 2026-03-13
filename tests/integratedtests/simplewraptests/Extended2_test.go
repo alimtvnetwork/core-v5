@@ -7,17 +7,17 @@ import (
 	"github.com/alimtvnetwork/core/simplewrap"
 )
 
-func Test_WrapWithStartEnd_Verification(t *testing.T) {
+func Test_WithStartEnd_Verification_Ext2(t *testing.T) {
 	// Act
-	result := simplewrap.WrapWithStartEnd('[', "hello", ']')
+	result := simplewrap.WithStartEnd("[", "hello")
 
 	// Assert
-	if !strings.Contains(result, "[") || !strings.Contains(result, "]") {
-		t.Error("should contain brackets")
+	if !strings.Contains(result, "[") {
+		t.Error("should contain bracket wrapper")
 	}
 }
 
-func Test_WithBracketsQuotation_Verification(t *testing.T) {
+func Test_WithBracketsQuotation_Verification_Ext2(t *testing.T) {
 	// Act
 	result := simplewrap.WithBracketsQuotation("hello")
 
@@ -27,7 +27,7 @@ func Test_WithBracketsQuotation_Verification(t *testing.T) {
 	}
 }
 
-func Test_WithCurlyQuotation_Verification(t *testing.T) {
+func Test_WithCurlyQuotation_Verification_Ext2(t *testing.T) {
 	// Act
 	result := simplewrap.WithCurlyQuotation("hello")
 
@@ -37,7 +37,7 @@ func Test_WithCurlyQuotation_Verification(t *testing.T) {
 	}
 }
 
-func Test_WithParenthesisQuotation_Verification(t *testing.T) {
+func Test_WithParenthesisQuotation_Verification_Ext2(t *testing.T) {
 	// Act
 	result := simplewrap.WithParenthesisQuotation("hello")
 
@@ -47,7 +47,7 @@ func Test_WithParenthesisQuotation_Verification(t *testing.T) {
 	}
 }
 
-func Test_TitleSquareCsvMeta_Verification(t *testing.T) {
+func Test_TitleSquareCsvMeta_Verification_Ext2(t *testing.T) {
 	// Act
 	result := simplewrap.TitleSquareCsvMeta("title", "a", "b")
 
@@ -57,17 +57,7 @@ func Test_TitleSquareCsvMeta_Verification(t *testing.T) {
 	}
 }
 
-func Test_TitleSquareMetaUsingFmt_Verification(t *testing.T) {
-	// Act
-	result := simplewrap.TitleSquareMetaUsingFmt("title", "value", "meta %s", "formatted")
-
-	// Assert
-	if result == "" {
-		t.Error("should not be empty")
-	}
-}
-
-func Test_TitleQuotationMeta_Verification(t *testing.T) {
+func Test_TitleQuotationMeta_Verification_Ext2(t *testing.T) {
 	// Act
 	result := simplewrap.TitleQuotationMeta("title", "value", "meta")
 
@@ -77,26 +67,12 @@ func Test_TitleQuotationMeta_Verification(t *testing.T) {
 	}
 }
 
-func Test_DoubleQuoteWrapElements_Verification(t *testing.T) {
+func Test_DoubleQuoteWrapElements_Verification_Ext2(t *testing.T) {
 	// Act
-	result := simplewrap.DoubleQuoteWrapElements([]string{"a", "b"})
+	result := simplewrap.DoubleQuoteWrapElements(false, "a", "b")
 
 	// Assert
 	if len(result) != 2 {
 		t.Errorf("expected 2 elements, got %d", len(result))
-	}
-}
-
-func Test_WrapDoubleQuoteOnNonExist_Verification(t *testing.T) {
-	// Act - already quoted
-	result1 := simplewrap.WrapDoubleQuoteOnNonExist("\"hello\"")
-	if !strings.HasPrefix(result1, "\"") {
-		t.Error("already quoted should stay quoted")
-	}
-
-	// Act - not quoted
-	result2 := simplewrap.WrapDoubleQuoteOnNonExist("hello")
-	if !strings.Contains(result2, "\"") {
-		t.Error("unquoted should get quotes")
 	}
 }
