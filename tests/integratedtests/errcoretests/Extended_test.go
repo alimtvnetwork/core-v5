@@ -116,7 +116,7 @@ func TestManyErrorToSingle(t *testing.T) {
 	if r != nil {
 		t.Error("nil should return nil")
 	}
-	r = errcore.ManyErrorToSingle(errors.New("x"))
+	r = errcore.ManyErrorToSingle([]error{errors.New("x")})
 	if r == nil {
 		t.Error("single error should return it")
 	}
