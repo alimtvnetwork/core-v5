@@ -951,7 +951,7 @@ func Test_Collection_RemoveAt_OutOfBounds_Cov(t *testing.T) {
 	}
 }
 
-func Test_Collection_SafeAt_OutOfBounds(t *testing.T) {
+func Test_Collection_SafeAt_OutOfBounds_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1})
 	if col.SafeAt(5) != 0 {
 		t.Error("out of bounds should return zero")
