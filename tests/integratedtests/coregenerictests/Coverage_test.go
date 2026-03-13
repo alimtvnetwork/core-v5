@@ -622,7 +622,7 @@ func Test_Hashmap_IsEquals_BothNil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
+func Test_Hashmap_IsEquals_OneNil_Cov(t *testing.T) {
 	var hm1 *coregeneric.Hashmap[string, int]
 	hm2 := coregeneric.EmptyHashmap[string, int]()
 	if hm1.IsEquals(hm2) {
