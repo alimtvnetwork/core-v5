@@ -277,7 +277,7 @@ func Test_TextValidators_HasIndex(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_String(t *testing.T) {
+func Test_TextValidators_String_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{Search: "test", SearchAs: stringcompareas.Equal})
 	if tvs.String() == "" {
