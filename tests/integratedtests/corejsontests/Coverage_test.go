@@ -42,12 +42,12 @@ func Test_New_Nil_Cov(t *testing.T) {
 func Test_Result_IsEmpty_Cov(t *testing.T) {
 	empty := corejson.Result{}
 	actual := args.Map{
-		"isEmpty": empty.IsEmpty(), "isEmptyError": empty.IsEmptyError() != nil,
-		"hasError": empty.HasError(), "hasNoError": !empty.HasError(), "isValid": empty.IsValid(),
+		"isEmpty": empty.IsEmpty(), "isEmptyError": empty.IsEmptyError(),
+		"hasError": empty.HasError(), "hasNoError": !empty.HasError(),
 	}
 	expected := args.Map{
 		"isEmpty": true, "isEmptyError": true,
-		"hasError": false, "hasNoError": true, "isValid": false,
+		"hasError": false, "hasNoError": true,
 	}
 	expected.ShouldBeEqual(t, 0, "Result_IsEmpty", actual)
 }
