@@ -103,6 +103,6 @@ func (it Dynamic) NonPtr() Dynamic {
 	return it
 }
 
-func (it *Dynamic) Ptr() *Dynamic {
-	return it
+func (it Dynamic) Ptr() *Dynamic {
+	return &it
 }
