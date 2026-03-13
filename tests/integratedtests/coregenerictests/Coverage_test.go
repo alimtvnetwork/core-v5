@@ -637,7 +637,7 @@ func Test_Hashmap_IsEquals_SamePtr_Cov(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsEquals_DiffLength(t *testing.T) {
+func Test_Hashmap_IsEquals_DiffLength_Cov(t *testing.T) {
 	hm1 := coregeneric.HashmapFrom(map[string]int{"a": 1})
 	hm2 := coregeneric.EmptyHashmap[string, int]()
 	if hm1.IsEquals(hm2) {
