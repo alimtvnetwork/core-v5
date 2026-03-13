@@ -420,7 +420,7 @@ func Test_SliceValidator_Dispose_Nil(t *testing.T) {
 	sv.Dispose() // should not panic
 }
 
-func Test_SliceValidator_SetActualVsExpected(t *testing.T) {
+func Test_SliceValidator_SetActualVsExpected_Cov(t *testing.T) {
 	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.Equal}
 	sv.SetActualVsExpected([]string{"a"}, []string{"a"})
 	if !sv.IsValid(true) {
