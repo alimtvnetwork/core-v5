@@ -704,7 +704,7 @@ func Test_NewSliceValidatorUsingAny(t *testing.T) {
 // SimpleSliceValidator — uncovered branches
 // =============================================================================
 
-func Test_SimpleSliceValidator_VerifyFirst(t *testing.T) {
+func Test_SimpleSliceValidator_VerifyFirst_Cov(t *testing.T) {
 	// Exercise the VerifyFirst path
 	sv := &corevalidator.SimpleSliceValidator{
 		CompareAs: stringcompareas.Equal,
