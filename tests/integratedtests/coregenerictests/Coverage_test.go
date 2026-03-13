@@ -630,7 +630,7 @@ func Test_Hashmap_IsEquals_OneNil(t *testing.T) {
 	}
 }
 
-func Test_Hashmap_IsEquals_SamePtr(t *testing.T) {
+func Test_Hashmap_IsEquals_SamePtr_Cov(t *testing.T) {
 	hm := coregeneric.EmptyHashmap[string, int]()
 	if !hm.IsEquals(hm) {
 		t.Error("same pointer should be equal")
