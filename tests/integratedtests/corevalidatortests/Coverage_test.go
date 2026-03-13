@@ -512,7 +512,7 @@ func Test_SliceValidators_IsEmpty_Nil(t *testing.T) {
 	}
 }
 
-func Test_SliceValidators_SetActualOnAll_Empty(t *testing.T) {
+func Test_SliceValidators_SetActualOnAll_Empty_Cov(t *testing.T) {
 	var svs *corevalidator.SliceValidators
 	svs.SetActualOnAll("a") // should not panic
 }
