@@ -1196,7 +1196,7 @@ func Test_Triple_IsInvalid(t *testing.T) {
 	}
 }
 
-func Test_Triple_IsInvalid_Nil(t *testing.T) {
+func Test_Triple_IsInvalid_Nil_Cov(t *testing.T) {
 	var tr *coregeneric.Triple[string, string, string]
 	if !tr.IsInvalid() {
 		t.Error("nil should be invalid")
