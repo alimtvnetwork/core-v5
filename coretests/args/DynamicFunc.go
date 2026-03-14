@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/alimtvnetwork/core/constants"
-	"github.com/alimtvnetwork/core/converters"
 	"github.com/alimtvnetwork/core/coredata/corestr"
 	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
