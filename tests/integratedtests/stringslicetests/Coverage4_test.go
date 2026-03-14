@@ -177,9 +177,8 @@ func Test_Cov4_AppendAnyItemsWithStrings(t *testing.T) {
 
 func Test_Cov4_LinesSimpleProcess(t *testing.T) {
 	lines := []string{"hello", "world"}
-	var result []string
-	stringslice.LinesSimpleProcess(lines, func(index int, line string) {
-		result = append(result, line+"!")
+	result := stringslice.LinesSimpleProcess(lines, func(lineIn string) string {
+		return lineIn + "!"
 	})
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 2, "first": "hello!"}
