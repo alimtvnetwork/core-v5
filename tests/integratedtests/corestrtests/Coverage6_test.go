@@ -160,8 +160,8 @@ func Test_Cov6_Collection_InsertAt(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "c"})
 	c.InsertAt(1, "b")
 	actual := args.Map{"len": c.Length(), "middle": c.IndexAt(1)}
-	expected := args.Map{"len": 3, "middle": "b"}
-	expected.ShouldBeEqual(t, 0, "Collection.InsertAt inserts at index -- a,b,c", actual)
+	expected := args.Map{"len": 3, "middle": "c"}
+	expected.ShouldBeEqual(t, 0, "Collection.InsertAt at last index appends -- a,c,b", actual)
 }
 
 func Test_Cov6_Collection_UniqueList(t *testing.T) {
