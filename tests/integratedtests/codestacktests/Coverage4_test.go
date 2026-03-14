@@ -269,10 +269,10 @@ func Test_Cov4_Dir_CurDirJoin(t *testing.T) {
 // ── fileGetter ──
 
 func Test_Cov4_File_CurFile(t *testing.T) {
-	file := codestack.File.CurFile()
+	file := codestack.File.CurrentFilePath()
 	actual := args.Map{"hasContent": len(file) > 0}
 	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "File.CurFile returns non-empty -- from test", actual)
+	expected.ShouldBeEqual(t, 0, "File.CurrentFilePath returns non-empty -- from test", actual)
 }
 
 // ── stacksTo ──
