@@ -4,12 +4,12 @@
     Project runner script with shorthands for common operations.
 
 .DESCRIPTION
-    Usage: ./run.ps1 <command>
+    Usage: ./run.ps1 <command> [options]
 
     Commands (uppercase shorthands OR hyphen-lowercase):
         T   | -t   | test          Run all tests (verbose)
         TP  | -tp  | test-pkg      Run tests for a specific package: ./run.ps1 TP regexnewtests
-        TC  | -tc  | test-cover    Run tests with coverage
+        TC  | -tc  | test-cover    Run tests with coverage (parallel by default)
         TCP | -tcp | test-cover-pkg Run coverage for a specific package: ./run.ps1 TCP regexnewtests
         TI  | -ti  | test-int      Run integrated tests only
         TF  | -tf  | test-fail     Show last failing tests log
