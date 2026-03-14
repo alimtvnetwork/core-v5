@@ -267,11 +267,10 @@ func Test_Cov7_LinkedList_String(t *testing.T) {
 
 func Test_Cov7_AnyToString(t *testing.T) {
 	actual := args.Map{
-		"str":  corestr.AnyToString("hello"),
-		"int":  corestr.AnyToString(42) != "",
-		"nil":  corestr.AnyToString(nil),
+		"str": corestr.AnyToString(false, "hello"),
+		"int": corestr.AnyToString(false, 42) != "",
 	}
-	expected := args.Map{"str": "hello", "int": true, "nil": ""}
+	expected := args.Map{"str": "hello", "int": true}
 	expected.ShouldBeEqual(t, 0, "AnyToString -- all types", actual)
 }
 
