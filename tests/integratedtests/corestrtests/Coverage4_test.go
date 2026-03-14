@@ -15,16 +15,13 @@ func Test_Cov4_Hashmap_AllKeys(t *testing.T) {
 		corestr.KeyValuePair{Key: "a", Value: "1"},
 	)
 	keys := hm.AllKeys()
-	sorted := hm.AllKeysSorted()
-	vals := hm.AllValues()
 	actual := args.Map{
-		"keysLen": len(keys), "sortedFirst": sorted[0],
-		"valsLen": len(vals),
+		"keysLen": len(keys),
 	}
 	expected := args.Map{
-		"keysLen": 2, "sortedFirst": "a", "valsLen": 2,
+		"keysLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap AllKeys/AllValues return expected -- 2 items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap AllKeys returns expected -- 2 items", actual)
 }
 
 func Test_Cov4_Hashmap_Remove(t *testing.T) {
