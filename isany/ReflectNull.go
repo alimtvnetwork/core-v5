@@ -8,6 +8,10 @@ import "reflect"
 //
 // Reference : https://stackoverflow.com/a/43896204
 func ReflectNull(item any) bool {
+	if item == nil {
+		return true
+	}
+
 	rv := reflect.ValueOf(item)
 
 	switch rv.Kind() {
