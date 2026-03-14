@@ -138,13 +138,13 @@ func Test_Cov7_Collection_Json(t *testing.T) {
 
 func Test_Cov7_Hashmap_Basic(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key1", "val1")
-	h.Add("key2", "val2")
+	h.Set("key1", "val1")
+	h.Set("key2", "val2")
 	actual := args.Map{
 		"len":     h.Length(),
 		"isEmpty": h.IsEmpty(),
-		"hasKey":  h.HasKey("key1"),
-		"noKey":   h.HasKey("missing"),
+		"hasKey":  h.Has("key1"),
+		"noKey":   h.Has("missing"),
 	}
 	expected := args.Map{"len": 2, "isEmpty": false, "hasKey": true, "noKey": false}
 	expected.ShouldBeEqual(t, 0, "Hashmap basic -- 2 items", actual)
