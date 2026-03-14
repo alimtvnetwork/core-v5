@@ -666,7 +666,7 @@ func (it *Hashset) SortedList() []string {
 
 // Filter returns a new Hashset containing only keys for which the predicate returns true.
 func (it *Hashset) Filter(predicate func(string) bool) *Hashset {
-	result := NewHashset.Cap(it.Length())
+	result := New.Hashset.Cap(it.Length())
 
 	for key, isSet := range it.items {
 		if isSet && predicate(key) {
