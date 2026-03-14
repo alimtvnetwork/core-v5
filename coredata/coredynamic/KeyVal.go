@@ -77,7 +77,7 @@ func (it KeyVal) ValueUInt() uint {
 	return constants.Zero
 }
 
-func (it *KeyVal) ValueStrings() []string {
+func (it KeyVal) ValueStrings() []string {
 	casted, isSuccess := it.Value.([]string)
 
 	if isSuccess {
