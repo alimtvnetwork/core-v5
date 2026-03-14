@@ -117,9 +117,12 @@ func Test_Cov_Variant_Comparison(t *testing.T) {
 
 func Test_Cov_Variant_IsAnyEnumsEqual(t *testing.T) {
 	v := chmodclasstype.Owner
+	group := chmodclasstype.Group
+	owner := chmodclasstype.Owner
+	other := chmodclasstype.Other
 	actual := args.Map{
-		"match":   v.IsAnyEnumsEqual(chmodclasstype.Group, chmodclasstype.Owner),
-		"noMatch": v.IsAnyEnumsEqual(chmodclasstype.Group, chmodclasstype.Other),
+		"match":   v.IsAnyEnumsEqual(&group, &owner),
+		"noMatch": v.IsAnyEnumsEqual(&group, &other),
 	}
 	expected := args.Map{
 		"match":   true,
