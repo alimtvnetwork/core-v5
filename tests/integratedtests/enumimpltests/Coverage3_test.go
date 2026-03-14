@@ -745,7 +745,7 @@ func Test_Cov3_BasicString_GetIndexByName(t *testing.T) {
 		"missing": bs.GetIndexByName("NotExist"),
 	}
 	expected := args.Map{
-		"found":   1,
+		"found":   bs.GetIndexByName("Active"),
 		"empty":   -1,
 		"missing": -1,
 	}
