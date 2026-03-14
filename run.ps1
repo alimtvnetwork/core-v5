@@ -441,15 +441,44 @@ function Invoke-TestCoverage {
 
         # Write blocked details to file for AI/human review
         $blockedFile = Join-Path $coverDir "blocked-packages.txt"
-        $blockedContent = @("# Blocked Packages — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')", "# Count: $($blockedPkgs.Count)", "")
-        foreach ($bp in ($blockedPkgs | Sort-Object)) {
+        $sortedBlocked = $blockedPkgs | Sort-Object
+        $blockedContent = @(
+            "# Blocked Packages — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')",
+            "# Count: $($blockedPkgs.Count)",
+            "",
+            "# ── CLI Summary ──",
+            "# ┌─────────────────────────────────────────────────",
+            "# │ BLOCKED PACKAGES ($($blockedPkgs.Count) failed to compile)"
+        )
+        foreach ($bp in $sortedBlocked) {
+            $blockedContent += "# │   ✗ $bp"
+        }
+        $blockedContent += @(
+            "# │",
+            "# │ These packages will be SKIPPED in coverage.",
+            "# │ Fix their build errors to include them.",
+            "# └─────────────────────────────────────────────────",
+            "",
+            "# ── Package List ──"
+        )
+        foreach ($bp in $sortedBlocked) {
+            $blockedContent += "# - $bp"
+        }
+        $blockedContent += ""
+
+        # Write to project root as well
+        $rootBlockedFile = Join-Path $PSScriptRoot "blocked-packages.txt"
+
+        foreach ($bp in $sortedBlocked) {
             $blockedContent += "## $bp"
             if ($blockedErrors.ContainsKey($bp)) {
                 $blockedContent += $blockedErrors[$bp]
             }
             $blockedContent += ""
         }
-        Set-Content -Path $blockedFile -Value ($blockedContent -join "`n") -Encoding UTF8
+        $fileContent = $blockedContent -join "`n"
+        Set-Content -Path $blockedFile -Value $fileContent -Encoding UTF8
+        Set-Content -Path $rootBlockedFile -Value $fileContent -Encoding UTF8
         Write-Host "  Blocked details → $blockedFile" -ForegroundColor Gray
     } else {
         Write-Host ""
