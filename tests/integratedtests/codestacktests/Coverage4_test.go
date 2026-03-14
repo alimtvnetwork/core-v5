@@ -67,9 +67,9 @@ func Test_Cov4_Trace_String(t *testing.T) {
 func Test_Cov4_Trace_FileWithLine(t *testing.T) {
 	trace := codestack.New.Default()
 	fwl := trace.FileWithLine()
-	actual := args.Map{"notNil": fwl != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Trace.FileWithLine returns non-nil -- default", actual)
+	actual := args.Map{"hasPath": fwl.FilePath != "", "linePositive": fwl.Line > 0}
+	expected := args.Map{"hasPath": true, "linePositive": true}
+	expected.ShouldBeEqual(t, 0, "Trace.FileWithLine returns populated value -- default", actual)
 }
 
 func Test_Cov4_Trace_FullFilePath(t *testing.T) {
