@@ -45,10 +45,12 @@
 ./run.ps1 TP regexnewtests
 ./run.ps1 -tp corestrtests
 
-# Run tests with coverage (auto-opens HTML report)
+# Run tests with coverage (parallel by default, auto-opens HTML report)
 ./run.ps1 TC
 ./run.ps1 -tc
+./run.ps1 -tc --sync       # sequential mode
 ./run.ps1 -tc --no-open    # skip auto-open
+./run.ps1 -tc --sync --no-open  # both flags
 
 # Show last failing tests
 ./run.ps1 TF
