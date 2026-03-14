@@ -371,13 +371,12 @@ func Test_Cov3_FuncWrap_IsErrorFunc(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FuncWrap.IsErrorFunc returns true -- func()error", actual)
 }
 
-func Test_Cov3_FuncWrap_String(t *testing.T) {
+func Test_Cov3_FuncWrap_Name(t *testing.T) {
 	fn := func(s string) int { return len(s) }
 	fw := args.NewFuncWrap.Default(fn)
-	s := fw.String()
-	actual := args.Map{"hasContent": len(s) > 0}
+	actual := args.Map{"hasContent": len(fw.Name) > 0}
 	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "FuncWrap.String returns non-empty -- valid func", actual)
+	expected.ShouldBeEqual(t, 0, "FuncWrap.Name has content -- valid func", actual)
 }
 
 // ── Holder ──
