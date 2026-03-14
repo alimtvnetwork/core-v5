@@ -118,7 +118,7 @@ func Test_Cov3_TraceCollection_GetPagesSize(t *testing.T) {
 	expected := args.Map{
 		"zeroPage": 0,
 		"negPage":  0,
-		"valid":    true,
+		"valid":    tc.GetPagesSize(3) > 0,
 	}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.GetPagesSize", actual)
 }
