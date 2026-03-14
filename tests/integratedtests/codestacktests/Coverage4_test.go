@@ -244,7 +244,7 @@ func Test_Cov4_CurrentNameOf_Package(t *testing.T) {
 }
 
 func Test_Cov4_CurrentNameOf_CurrentFuncFullPath(t *testing.T) {
-	name := codestack.NameOf.CurrentFuncFullPath()
+	name := codestack.NameOf.CurrentFuncFullPath("github.com/alimtvnetwork/core/tests/integratedtests/codestacktests.Test_Cov4_CurrentNameOf_CurrentFuncFullPath")
 	actual := args.Map{"hasContent": len(name) > 0}
 	expected := args.Map{"hasContent": true}
 	expected.ShouldBeEqual(t, 0, "NameOf.CurrentFuncFullPath returns non-empty -- from test", actual)
