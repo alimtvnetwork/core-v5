@@ -274,6 +274,6 @@ func Test_Cov4_SafeIndexRanges(t *testing.T) {
 	items := []string{"a", "b", "c", "d", "e"}
 	result := stringslice.SafeIndexRanges(items, 1, 4)
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "SafeIndexRanges returns 3 -- range 1 to 4", actual)
+	expected := args.Map{"len": 4}
+	expected.ShouldBeEqual(t, 0, "SafeIndexRanges returns 4 -- range 1 to 4 inclusive", actual)
 }
