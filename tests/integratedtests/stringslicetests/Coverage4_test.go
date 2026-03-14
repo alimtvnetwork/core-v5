@@ -264,8 +264,8 @@ func Test_Cov4_SafeIndexes(t *testing.T) {
 	items := []string{"a", "b", "c", "d"}
 	result := stringslice.SafeIndexes(items, 0, 2, 99)
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "SafeIndexes returns 2 valid -- skip out of range", actual)
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "SafeIndexes returns 3 -- preallocated with empty for out of range", actual)
 }
 
 // ── SafeIndexRanges ──
