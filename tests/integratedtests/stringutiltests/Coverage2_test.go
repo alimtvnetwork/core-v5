@@ -336,14 +336,16 @@ func Test_Cov2_IsAnyEndsWith(t *testing.T) {
 // ── IsContainsPtr / IsContainsPtrSimple ──
 
 func Test_Cov2_IsContainsPtr_Nil(t *testing.T) {
-	actual := args.Map{"result": stringutil.IsContainsPtr(nil, "hello")}
+	find := "hello"
+	actual := args.Map{"result": stringutil.IsContainsPtr(nil, &find, 0, true)}
 	expected := args.Map{"result": false}
 	expected.ShouldBeEqual(t, 0, "IsContainsPtr nil", actual)
 }
 
 func Test_Cov2_IsContainsPtr_Match(t *testing.T) {
-	s := "hello world"
-	actual := args.Map{"result": stringutil.IsContainsPtr(&s, "world")}
+	s := []string{"hello", "world"}
+	find := "world"
+	actual := args.Map{"result": stringutil.IsContainsPtr(&s, &find, 0, true)}
 	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "IsContainsPtr match", actual)
 }
