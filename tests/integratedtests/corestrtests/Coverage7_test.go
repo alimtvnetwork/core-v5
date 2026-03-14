@@ -170,7 +170,7 @@ func Test_Cov7_Hashmap_String(t *testing.T) {
 
 func Test_Cov7_Hashmap_Json(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key", "val")
+	h.Set("key", "val")
 	r := h.Json()
 	actual := args.Map{"hasBytes": r.HasBytes()}
 	expected := args.Map{"hasBytes": true}
