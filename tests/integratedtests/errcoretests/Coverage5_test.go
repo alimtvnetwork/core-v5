@@ -139,8 +139,8 @@ func Test_Cov5_ToString_NonNil(t *testing.T) {
 
 func Test_Cov5_ToStringPtr_Nil(t *testing.T) {
 	actual := args.Map{"isNil": errcore.ToStringPtr(nil) == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "ToStringPtr nil -- nil", actual)
+	expected := args.Map{"isNil": false}
+	expected.ShouldBeEqual(t, 0, "ToStringPtr nil -- returns pointer to empty string", actual)
 }
 
 func Test_Cov5_ToStringPtr_NonNil(t *testing.T) {
