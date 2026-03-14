@@ -224,16 +224,16 @@ func Test_Cov3_AppendLineNew(t *testing.T) {
 func Test_Cov3_SlicePtr(t *testing.T) {
 	s := []string{"a"}
 	result := stringslice.SlicePtr(s)
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "SlicePtr returns ptr -- 1 item", actual)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "SlicePtr returns slice -- 1 item", actual)
 }
 
 func Test_Cov3_EmptyPtr(t *testing.T) {
 	result := stringslice.EmptyPtr()
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 0}
-	expected.ShouldBeEqual(t, 0, "EmptyPtr returns empty ptr -- empty", actual)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "EmptyPtr returns empty -- empty", actual)
 }
 
 // ============================================================================
