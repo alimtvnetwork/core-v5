@@ -1412,7 +1412,7 @@ func Test_IndexOfItem_Nil(t *testing.T) {
 	}
 }
 
-func Test_Distinct_Nil(t *testing.T) {
+func Test_Distinct_Nil_Cov(t *testing.T) {
 	result := coregeneric.Distinct[int](nil)
 	if result.Length() != 0 {
 		t.Error("nil should return empty")
