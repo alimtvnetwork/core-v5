@@ -135,7 +135,7 @@ func Test_Cov3_One_ArgTwo(t *testing.T) {
 
 func Test_Cov3_One_Args(t *testing.T) {
 	one := &args.One[string]{First: "hello"}
-	a := one.Args()
+	a := one.Args(1)
 	actual := args.Map{"len": len(a)}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "One.Args returns 1 -- single first", actual)
