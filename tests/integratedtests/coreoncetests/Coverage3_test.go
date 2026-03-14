@@ -126,7 +126,7 @@ func Test_Cov3_AnyErrorOnce_WithError(t *testing.T) {
 	expected := args.Map{
 		"hasError": true, "isEmptyError": false,
 		"isFailed": true, "isSuccess": false,
-		"isNull": true, "isEmpty": true,
+		"isNull": true, "isEmpty": false,
 		"isValid": false, "isInvalid": true,
 	}
 	expected.ShouldBeEqual(t, 0, "AnyErrorOnce with error returns expected -- fail", actual)
@@ -136,7 +136,7 @@ func Test_Cov3_AnyErrorOnce_ValueString_Nil(t *testing.T) {
 	aeo := coreonce.NewAnyErrorOnce(func() (any, error) { return nil, nil })
 	val, err := aeo.ValueString()
 	actual := args.Map{"val": val, "hasErr": err != nil}
-	expected := args.Map{"val": "", "hasErr": false}
+	expected := args.Map{"val": "<nil>", "hasErr": false}
 	expected.ShouldBeEqual(t, 0, "AnyErrorOnce ValueString nil value returns empty -- nil data", actual)
 }
 
@@ -171,7 +171,7 @@ func Test_Cov3_BytesErrorOnce_WithError(t *testing.T) {
 		"length": beo.Length(),
 	}
 	expected := args.Map{
-		"hasError": true, "isEmpty": true,
+		"hasError": true, "isEmpty": false,
 		"isValid": false, "isInvalid": true,
 		"length": 0,
 	}

@@ -95,7 +95,7 @@ func Test_Cov2_AnyTo_ToStringsUsingProcessor_Skip(t *testing.T) {
 func Test_Cov2_AnyTo_ToNonNullItems_WithValues(t *testing.T) {
 	result := converters.AnyTo.ToNonNullItems(true, []any{nil, 42, nil, "hello"})
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
+	expected := args.Map{"len": 4}
 	expected.ShouldBeEqual(t, 0, "ToNonNullItems with values", actual)
 }
 

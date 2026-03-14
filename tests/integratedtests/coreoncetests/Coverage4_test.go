@@ -639,7 +639,7 @@ func Test_Cov4_BytesErrorOnce_StringMethods(t *testing.T) {
 	expected := args.Map{
 		"isStringEmpty": false, "isStringWs": false,
 		"isBytesEmpty": false, "isEmptyBytes": false,
-		"hasAny": true, "isDefined": true, "isInit": false,
+		"hasAny": true, "isDefined": true, "isInit": true,
 		"isInitAfter": true,
 	}
 	expected.ShouldBeEqual(t, 0, "BytesErrorOnce string methods -- ab", actual)

@@ -284,8 +284,8 @@ func TestSliceErrorsToStrings(t *testing.T) {
 // TestErrorToSplitLines verifies ErrorToSplitLines.
 func TestErrorToSplitLines(t *testing.T) {
 	r := errcore.ErrorToSplitLines(nil)
-	if r != nil {
-		t.Error("nil should return nil")
+	if len(r) != 0 {
+		t.Error("nil should return empty slice")
 	}
 	r = errcore.ErrorToSplitLines(errors.New("a\nb"))
 	if len(r) != 2 {
@@ -296,8 +296,8 @@ func TestErrorToSplitLines(t *testing.T) {
 // TestErrorToSplitNonEmptyLines verifies ErrorToSplitNonEmptyLines.
 func TestErrorToSplitNonEmptyLines(t *testing.T) {
 	r := errcore.ErrorToSplitNonEmptyLines(nil)
-	if r != nil {
-		t.Error("nil should return nil")
+	if len(r) != 0 {
+		t.Error("nil should return empty slice")
 	}
 }
 

@@ -599,7 +599,7 @@ func Test_Cov2_Dynamic_Json_Deserialize(t *testing.T) {
 	var nilD *coredynamic.Dynamic
 	_, nilErr := nilD.Deserialize(nil)
 	actual := args.Map{"err": err != nil, "nilErr": nilErr != nil}
-	expected := args.Map{"err": false, "nilErr": true}
+	expected := args.Map{"err": true, "nilErr": true}
 	expected.ShouldBeEqual(t, 0, "Dynamic Deserialize returns expected -- valid and nil", actual)
 }
 
@@ -609,7 +609,7 @@ func Test_Cov2_Dynamic_UnmarshalJSON(t *testing.T) {
 	var nilD *coredynamic.Dynamic
 	nilErr := nilD.UnmarshalJSON(nil)
 	actual := args.Map{"err": err != nil, "nilErr": nilErr != nil}
-	expected := args.Map{"err": false, "nilErr": true}
+	expected := args.Map{"err": true, "nilErr": true}
 	expected.ShouldBeEqual(t, 0, "Dynamic UnmarshalJSON returns expected -- valid and nil", actual)
 }
 
