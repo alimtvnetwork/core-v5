@@ -23,10 +23,10 @@ func Test_Cov6_ConcatMessageWithErr(t *testing.T) {
 	result := errcore.ConcatMessageWithErr("prefix", errors.New("inner"))
 	nilResult := errcore.ConcatMessageWithErr("prefix", nil)
 	actual := args.Map{
-		"hasResult": result != "",
-		"nilResult": nilResult,
+		"hasResult": result != nil,
+		"nilResult": nilResult == nil,
 	}
-	expected := args.Map{"hasResult": true, "nilResult": "prefix"}
+	expected := args.Map{"hasResult": true, "nilResult": true}
 	expected.ShouldBeEqual(t, 0, "ConcatMessageWithErr", actual)
 }
 
