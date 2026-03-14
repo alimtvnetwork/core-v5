@@ -1,6 +1,6 @@
 package corerange
 
-import "github.com/alimtvnetwork/core/constants"
+// no imports needed
 
 type MinMaxByte struct {
 	Min, Max byte
@@ -121,17 +121,12 @@ func (it *MinMaxByte) RangesInt() []int {
 //	returns empty bytes if IsInvalid
 //	return range int values
 func (it *MinMaxByte) Ranges() []byte {
-	length := it.RangeLength()
+	intLength := int(it.RangeLengthInt())
 	start := it.Min
-	slice := make(
-		[]byte,
-		constants.Zero,
-		length)
+	slice := make([]byte, intLength)
 
-	var i byte
-
-	for i = 0; i < length; i++ {
-		slice[i] = start + i
+	for i := 0; i < intLength; i++ {
+		slice[i] = start + byte(i)
 	}
 
 	return slice
