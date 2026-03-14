@@ -24,11 +24,16 @@
         C   | -c   | clean         Clean build artifacts
         H   | -h   | help          Show this help
 
+    Mode options (for TC/TCP):
+        --sync        Run precompile + tests sequentially (default: parallel)
+        --no-open     Skip auto-opening HTML coverage report
+
 .EXAMPLE
     ./run.ps1 T
     ./run.ps1 -t
     ./run.ps1 TP regexnewtests
     ./run.ps1 -tp regexnewtests
+    ./run.ps1 TC --sync
     ./run.ps1 -gc
 #>
 
