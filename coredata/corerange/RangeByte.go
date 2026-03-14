@@ -89,7 +89,7 @@ func (it *RangeByte) Ranges() []byte {
 
 	length := it.RangeLength()
 	start := it.Start
-	slice := make([]byte, constants.Zero, length)
+	slice := make([]byte, length)
 	var i byte
 
 	for i = 0; i < length; i++ {

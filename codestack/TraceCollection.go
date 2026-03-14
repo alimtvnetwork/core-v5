@@ -291,6 +291,10 @@ func (it *TraceCollection) LastOrDefault() *Trace {
 }
 
 func (it *TraceCollection) SkipDynamic(skippingItemsCount int) any {
+	if skippingItemsCount > len(it.Items) {
+		return []Trace{}
+	}
+
 	return it.Items[skippingItemsCount:]
 }
 

@@ -25,8 +25,8 @@ func Conclusive(left, right any) (isEqual, isConclusive bool) {
 
 	leftRv := reflect.ValueOf(left)
 	rightRv := reflect.ValueOf(right)
-	isLeftNull := Null(leftRv)
-	isRightNull := Null(rightRv)
+	isLeftNull := ReflectValueNull(leftRv)
+	isRightNull := ReflectValueNull(rightRv)
 	isBothEqual := isLeftNull == isRightNull
 
 	if isLeftNull && isBothEqual {

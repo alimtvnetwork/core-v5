@@ -1,7 +1,11 @@
 package stringutil
 
-// FirstChar panics if not char
+// FirstChar returns first char or 0 if empty
 func FirstChar(input string) byte {
+	if input == "" {
+		return 0
+	}
+
 	return input[0]
 }
 
