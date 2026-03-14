@@ -17,9 +17,7 @@ func NewStartEndString(raw, sep string) *StartEndString {
 	length := len(ranges)
 	hasStart := length >= 1
 	hasEnd := length >= 2
-	isValid := false
-	isValid = isValid &&
-		length == 2 &&
+	isValid := length == 2 &&
 		hasStart &&
 		hasEnd
 
@@ -51,9 +49,7 @@ func NewStartEndStringUsingLines(lines []string) *StartEndString {
 	length := len(lines)
 	hasStart := length >= 1
 	hasEnd := length >= 2
-	isValid := false
-	isValid = isValid &&
-		length == 2 &&
+	isValid := length == 2 &&
 		hasStart &&
 		hasEnd
 

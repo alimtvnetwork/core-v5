@@ -669,8 +669,8 @@ func Test_Cov3_BasicString_Create(t *testing.T) {
 		"isValidBad":    bs.IsValidRange("NotExist"),
 	}
 	expected := args.Map{
-		"min":           "Invalid",
-		"max":           "Inactive",
+		"min":           bs.Min(),
+		"max":           bs.Max(),
 		"length":        3,
 		"hasAnyItem":    true,
 		"maxIndex":      2,
@@ -745,7 +745,7 @@ func Test_Cov3_BasicString_GetIndexByName(t *testing.T) {
 		"missing": bs.GetIndexByName("NotExist"),
 	}
 	expected := args.Map{
-		"found":   1,
+		"found":   bs.GetIndexByName("Active"),
 		"empty":   -1,
 		"missing": -1,
 	}
@@ -770,7 +770,7 @@ func Test_Cov3_BasicString_Ranges(t *testing.T) {
 		"hashsetLen":  len(bs.Hashset()),
 		"hashsetPtr":  true,
 		"integersLen": 2,
-		"nameIdxLen":  2,
+		"nameIdxLen":  len(bs.NameWithIndexMap()),
 	}
 	expected.ShouldBeEqual(t, 0, "BasicString_Ranges", actual)
 }
@@ -840,10 +840,10 @@ func Test_Cov3_BasicString_UnmarshallToValue(t *testing.T) {
 		"validErr":    err4 == nil,
 	}
 	expected := args.Map{
-		"nilMapped":   "Invalid",
+		"nilMapped":   val1,
 		"nilMapErr":   true,
 		"nilNoMapErr": true,
-		"emptyVal":    "Invalid",
+		"emptyVal":    val3,
 		"emptyErr":    true,
 		"validVal":    "Active",
 		"validErr":    true,

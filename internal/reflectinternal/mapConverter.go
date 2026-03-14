@@ -184,7 +184,10 @@ func (it mapConverter) ToSortedStringsMust(anyItem any) []string {
 
 	reflectVal := reflect.ValueOf(anyItem)
 
-	keys := it.ToStringsMust(reflectVal)
+	keys, err := it.ToStringsRv(reflectVal)
+	if err != nil {
+		panic(err)
+	}
 	sort.Strings(keys)
 
 	return keys

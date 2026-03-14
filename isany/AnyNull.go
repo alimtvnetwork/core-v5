@@ -2,7 +2,7 @@ package isany
 
 func AnyNull(anyItems ...any) bool {
 	if len(anyItems) == 0 {
-		return true
+		return false
 	}
 
 	for _, anyItem := range anyItems {

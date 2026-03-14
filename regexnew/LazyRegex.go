@@ -35,6 +35,10 @@ func (it *LazyRegex) IsUndefined() bool {
 //
 //	it unwraps the regex and compiles so take memory for once.
 func (it *LazyRegex) IsApplicable() bool {
+	if it == nil {
+		return false
+	}
+
 	if it.isApplicable {
 		return true
 	}

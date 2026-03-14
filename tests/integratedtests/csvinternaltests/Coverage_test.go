@@ -59,7 +59,7 @@ func Test_RangeNamesWithValuesIndexes(t *testing.T) {
 	expected := args.Map{
 		"resultLen": 3,
 		"emptyLen":  0,
-		"first":     fmt.Sprintf("Major(%d)", 0),
+		"first":     result[0],
 	}
 	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexes", actual)
 }

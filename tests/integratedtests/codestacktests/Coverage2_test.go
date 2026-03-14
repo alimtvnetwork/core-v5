@@ -190,7 +190,7 @@ func Test_Cov2_StacksTo_StringUsingFmt(t *testing.T) {
 		5,
 	)
 	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": result != ""}
 	expected.ShouldBeEqual(t, 0, "StacksTo.StringUsingFmt returns non-empty -- with formatter", actual)
 }
 

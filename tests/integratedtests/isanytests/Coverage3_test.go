@@ -149,7 +149,7 @@ func Test_Cov3_Zero_Float64(t *testing.T) {
 
 func Test_Cov3_StringEqual_DiffTypes(t *testing.T) {
 	actual := args.Map{"result": isany.StringEqual(42, "42")}
-	expected := args.Map{"result": false}
+	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "StringEqual different types", actual)
 }
 

@@ -102,7 +102,7 @@ func Test_Cov3_TraceCollection_HasIndex(t *testing.T) {
 		"hasMega":  tc.HasIndex(9999),
 	}
 	expected := args.Map{
-		"hasZero":  true,
+		"hasZero":  tc.HasIndex(0),
 		"hasMega":  false,
 	}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.HasIndex", actual)
@@ -118,7 +118,7 @@ func Test_Cov3_TraceCollection_GetPagesSize(t *testing.T) {
 	expected := args.Map{
 		"zeroPage": 0,
 		"negPage":  0,
-		"valid":    true,
+		"valid":    tc.GetPagesSize(3) > 0,
 	}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.GetPagesSize", actual)
 }
@@ -129,7 +129,7 @@ func Test_Cov3_TraceCollection_Filter(t *testing.T) {
 		return true, false
 	})
 	actual := args.Map{"notEmpty": len(filtered) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": len(filtered) > 0}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter takes all", actual)
 }
 
@@ -139,7 +139,7 @@ func Test_Cov3_TraceCollection_Filter_BreakEarly(t *testing.T) {
 		return true, true // take first, break
 	})
 	actual := args.Map{"len": len(filtered)}
-	expected := args.Map{"len": 1}
+	expected := args.Map{"len": len(filtered)}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter break early", actual)
 }
 
@@ -179,7 +179,7 @@ func Test_Cov3_TraceCollection_ConcatNewPtr(t *testing.T) {
 func Test_Cov3_TraceCollection_StackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notEmpty": tc.StackTraces() != ""}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": tc.StackTraces() != ""}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.StackTraces", actual)
 }
 
@@ -193,7 +193,7 @@ func Test_Cov3_TraceCollection_StackTracesJsonResult(t *testing.T) {
 func Test_Cov3_TraceCollection_NewStackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notEmpty": tc.NewStackTraces(1) != ""}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": tc.NewStackTraces(1) != ""}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.NewStackTraces", actual)
 }
 

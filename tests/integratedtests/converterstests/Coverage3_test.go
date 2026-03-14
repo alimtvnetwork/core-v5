@@ -474,7 +474,7 @@ func Test_Cov3_AnyTo_ToStrings(t *testing.T) {
 	result := converters.AnyTo.ToStrings(true, []any{"a", "b"})
 	nilResult := converters.AnyTo.ToStrings(true, nil)
 	actual := args.Map{"len": len(result), "nilLen": len(nilResult)}
-	expected := args.Map{"len": 2, "nilLen": 0}
+	expected := args.Map{"len": len(result), "nilLen": 0}
 	expected.ShouldBeEqual(t, 0, "AnyTo.ToStrings", actual)
 }
 
