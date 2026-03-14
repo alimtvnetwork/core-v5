@@ -1240,7 +1240,7 @@ func Test_Triple_String_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Triple_Clear(t *testing.T) {
+func Test_Triple_Clear_Cov(t *testing.T) {
 	tr := coregeneric.NewTriple("a", "b", "c")
 	tr.Clear()
 	if tr.IsValid || tr.Left != "" || tr.Middle != "" || tr.Right != "" {
