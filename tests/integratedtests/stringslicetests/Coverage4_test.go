@@ -241,21 +241,21 @@ func Test_Cov4_FirstLastDefaultStatusPtr_HasItems(t *testing.T) {
 	actual := args.Map{
 		"first":    result.First,
 		"last":     result.Last,
-		"hasItems": result.HasAnyItem,
+		"hasFirst": result.HasFirst,
 	}
 	expected := args.Map{
 		"first":    "a",
 		"last":     "b",
-		"hasItems": true,
+		"hasFirst": true,
 	}
 	expected.ShouldBeEqual(t, 0, "FirstLastDefaultStatusPtr returns correct -- 2 items", actual)
 }
 
 func Test_Cov4_FirstLastDefaultStatusPtr_Empty(t *testing.T) {
 	result := stringslice.FirstLastDefaultStatusPtr([]string{})
-	actual := args.Map{"hasItems": result.HasAnyItem}
-	expected := args.Map{"hasItems": false}
-	expected.ShouldBeEqual(t, 0, "FirstLastDefaultStatusPtr returns false -- empty", actual)
+	actual := args.Map{"isValid": result.IsValid}
+	expected := args.Map{"isValid": false}
+	expected.ShouldBeEqual(t, 0, "FirstLastDefaultStatusPtr returns invalid -- empty", actual)
 }
 
 // ── SafeIndexes ──

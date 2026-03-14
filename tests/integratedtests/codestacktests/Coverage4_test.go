@@ -278,9 +278,8 @@ func Test_Cov4_File_CurFile(t *testing.T) {
 // ── stacksTo ──
 
 func Test_Cov4_StacksTo_String(t *testing.T) {
-	traces := codestack.New.StackTrace.Default(1, 5)
-	s := codestack.StacksTo.String(traces)
+	s := codestack.StacksTo.String(1, 5)
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.String returns non-empty -- default traces", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.String returns non-empty -- skip 1 count 5", actual)
 }

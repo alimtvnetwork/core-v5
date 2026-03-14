@@ -279,8 +279,8 @@ func Test_Cov4_MapAnyItems_Basic(t *testing.T) {
 		"length":   m.Length(),
 		"hasItems": m.HasAnyItem(),
 		"isEmpty":  m.IsEmpty(),
-		"hasK1":    m.Has("k1"),
-		"hasX":     m.Has("x"),
+		"hasK1":    m.HasKey("k1"),
+		"hasX":     m.HasKey("x"),
 	}
 	expected := args.Map{
 		"length":   2,
