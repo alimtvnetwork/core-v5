@@ -227,8 +227,10 @@ func Test_Cov3_Variation_Extended(t *testing.T) {
 		"integerRanges":    len(v.IntegerEnumRanges()) > 0,
 		"rangesDynamic":    len(v.RangesDynamicMap()) > 0,
 		"format":           v.Format("%s") != "",
-		"isEnumEqual":      v.IsEnumEqual(ostype.Linux),
-		"isAnyEnumsEqual":  v.IsAnyEnumsEqual(ostype.Linux),
+		lp := ostype.Linux
+		lpp := &lp
+		"isEnumEqual":      v.IsEnumEqual(lpp),
+		"isAnyEnumsEqual":  v.IsAnyEnumsEqual(lpp),
 		"minMaxStr":        v.MinValueString() != "",
 		"maxStr":           v.MaxValueString() != "",
 		"minInt":           v.MinInt() >= 0,

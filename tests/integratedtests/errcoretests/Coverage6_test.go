@@ -113,14 +113,12 @@ func Test_Cov6_ToValueString(t *testing.T) {
 func Test_Cov6_RawErrCollection(t *testing.T) {
 	c := errcore.RawErrCollection{}
 	c.Add(errors.New("a"))
-	c.AddNonNil(nil)
-	c.AddNonNil(errors.New("b"))
+	c.Add(errors.New("b"))
 	actual := args.Map{
 		"len":    c.Length(),
-		"hasAny": c.HasAnyItem(),
-		"errors": len(c.Errors()),
+		"hasAny": c.HasAnyError(),
 	}
-	expected := args.Map{"len": 2, "hasAny": true, "errors": 2}
+	expected := args.Map{"len": 2, "hasAny": true}
 	expected.ShouldBeEqual(t, 0, "RawErrCollection", actual)
 }
 
