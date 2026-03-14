@@ -423,7 +423,7 @@ const (
 	KeyValJsonFormat                         = "{key: %s, val: %v}"              // Key, Value any
 	KeyValQuotationWrapJsonFormat            = "\"%v\":\"%v\""                   // Key, Value any
 	KeyStringValAnyWrapJsonFormat            = "\"%v\":%v"                       // Key, Value any
-	EnumNameValueFormat                      = "%s[%d]"                          // name, value any
+	EnumNameValueFormat                      = "%s(%d)"                          // name, value any
 	EnumDoubleQuoteNameValueFormat           = "\"%s\"[%d]"                      // name, value any
 	StringEnumNameValueFormat                = "%s"                              // name, value any
 	LikeQuerySuffix                          = " LIKE ?"

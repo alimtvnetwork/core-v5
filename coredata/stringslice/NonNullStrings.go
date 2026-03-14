@@ -7,5 +7,12 @@ func NonNullStrings(
 		return []string{}
 	}
 
-	return slice
+	result := make([]string, 0, len(slice))
+	for _, s := range slice {
+		if s != "" {
+			result = append(result, s)
+		}
+	}
+
+	return result
 }

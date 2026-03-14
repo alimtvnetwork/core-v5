@@ -460,7 +460,7 @@ func (it Value) IsWildcardOrBool(isBool bool) bool {
 		return true
 	}
 
-	return isBool
+	return (isBool && it.IsTrue()) || (!isBool && it.IsFalse())
 }
 
 func (it Value) ToByteCondition(trueVal, falseVal, invalid byte) byte {

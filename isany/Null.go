@@ -17,6 +17,7 @@ func Null(item any) bool {
 	switch rv.Kind() {
 	case reflect.Chan,
 		reflect.Func,
+		reflect.Interface,
 		reflect.Map,
 		reflect.Ptr,
 		reflect.UnsafePointer,
