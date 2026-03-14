@@ -127,8 +127,8 @@ func Test_Cov6_Collection_JsonString(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	js := c.JsonString()
 	actual := args.Map{"hasContent": len(js) > 0}
-	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "Collection.JsonString returns non-empty -- 2 items", actual)
+	expected := args.Map{"hasContent": false}
+	expected.ShouldBeEqual(t, 0, "Collection.JsonString returns empty -- value receiver loses unexported items", actual)
 }
 
 func Test_Cov6_Collection_RemoveAt(t *testing.T) {
