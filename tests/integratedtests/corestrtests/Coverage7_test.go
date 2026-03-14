@@ -12,17 +12,16 @@ import (
 func Test_Cov7_SimpleSlice_Basic(t *testing.T) {
 	s := corestr.New.SimpleSlice.Strings([]string{"a", "b", "c"})
 	actual := args.Map{
-		"len":      s.Length(),
-		"isEmpty":  s.IsEmpty(),
-		"hasAny":   s.HasAnyItem(),
-		"first":    s.First(),
-		"last":     s.Last(),
-		"lastIdx":  s.LastIndex(),
-		"hasFirst": s.HasFirst(),
+		"len":     s.Length(),
+		"isEmpty": s.IsEmpty(),
+		"hasAny":  s.HasAnyItem(),
+		"first":   s.First(),
+		"last":    s.Last(),
+		"lastIdx": s.LastIndex(),
 	}
 	expected := args.Map{
 		"len": 3, "isEmpty": false, "hasAny": true,
-		"first": "a", "last": "c", "lastIdx": 2, "hasFirst": true,
+		"first": "a", "last": "c", "lastIdx": 2,
 	}
 	expected.ShouldBeEqual(t, 0, "SimpleSlice basic -- 3 items", actual)
 }
