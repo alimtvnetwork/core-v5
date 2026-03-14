@@ -177,16 +177,16 @@ func Test_StringSlice_CloneIf_False(t *testing.T) {
 
 func Test_StringSlice_ClonePtr_Nil(t *testing.T) {
 	result := stringslice.ClonePtr(nil)
-	if result == nil || len(*result) != 0 {
-		t.Error("nil should return empty ptr")
+	if len(result) != 0 {
+		t.Error("nil should return empty slice")
 	}
 }
 
 func Test_StringSlice_ClonePtr_NonEmpty(t *testing.T) {
 	s := []string{"a", "b"}
-	result := stringslice.ClonePtr(&s)
-	if len(*result) != 2 {
-		t.Errorf("expected 2, got %d", len(*result))
+	result := stringslice.ClonePtr(s)
+	if len(result) != 2 {
+		t.Errorf("expected 2, got %d", len(result))
 	}
 }
 
