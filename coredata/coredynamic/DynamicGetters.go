@@ -61,7 +61,7 @@ func (it Dynamic) IsValid() bool {
 	return it.isValid
 }
 
-func (it *Dynamic) IsInvalid() bool {
+func (it Dynamic) IsInvalid() bool {
 	return !it.isValid
 }
 
