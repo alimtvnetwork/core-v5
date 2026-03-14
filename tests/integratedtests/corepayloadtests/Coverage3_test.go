@@ -166,9 +166,9 @@ func Test_Cov3_PayloadWrapper_JsonString(t *testing.T) {
 func Test_Cov3_PayloadWrapper_JsonModel(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{Name: "test"}
 	model := pw.JsonModel()
-	actual := args.Map{"notEmpty": len(model) > 0}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper.JsonModel returns non-empty -- basic", actual)
+	actual := args.Map{"sameName": model.Name == "test"}
+	expected := args.Map{"sameName": true}
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper.JsonModel returns value model -- basic", actual)
 }
 
 func Test_Cov3_PayloadWrapper_JsonModelAny(t *testing.T) {
