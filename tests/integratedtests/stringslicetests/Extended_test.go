@@ -153,7 +153,7 @@ func Test_StringSlice_HasAnyItemPtr_NonNil(t *testing.T) {
 
 func Test_StringSlice_CloneIf_True(t *testing.T) {
 	src := []string{"a", "b"}
-	result := stringslice.CloneIf(true, src)
+	result := stringslice.CloneIf(true, 0, src)
 	if len(result) != 2 {
 		t.Errorf("expected 2, got %d", len(result))
 	}
@@ -165,7 +165,7 @@ func Test_StringSlice_CloneIf_True(t *testing.T) {
 
 func Test_StringSlice_CloneIf_False(t *testing.T) {
 	src := []string{"a", "b"}
-	result := stringslice.CloneIf(false, src)
+	result := stringslice.CloneIf(false, 0, src)
 	if len(result) != 2 {
 		t.Errorf("expected 2, got %d", len(result))
 	}
