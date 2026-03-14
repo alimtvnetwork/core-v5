@@ -77,8 +77,8 @@ func Test_AllNull_Coverage(t *testing.T) {
 	if isany.AllNull(nil, 42, nil) {
 		t.Error("mixed should not be AllNull")
 	}
-	if isany.AllNull() {
-		t.Error("empty should not be AllNull")
+	if !isany.AllNull() {
+		t.Error("empty should be AllNull (vacuous truth)")
 	}
 }
 
