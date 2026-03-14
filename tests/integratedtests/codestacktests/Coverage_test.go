@@ -371,8 +371,8 @@ func Test_Cov_Trace_HasIssues(t *testing.T) {
 // ── TraceCollection tests (unique coverage methods) ──
 
 func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	// Arrange — use NewStacks.DefaultCount to avoid double-skip in New.StackTrace.Default
+	tc := codestack.NewStacks.DefaultCount(1)
 
 	// Act & Assert
 	if tc.IsEmpty() {
