@@ -140,9 +140,13 @@ func Test_Cov3_Group_AllMethods(t *testing.T) {
 
 func Test_Cov3_Group_EnumEqual(t *testing.T) {
 	g := ostype.WindowsGroup
+	gp := &g
+	u := ostype.UnixGroup
+	up := &u
+	wp := &g
 	actual := args.Map{
-		"isEnumEqual":     g.IsEnumEqual(ostype.WindowsGroup),
-		"isAnyEnumsEqual": g.IsAnyEnumsEqual(ostype.UnixGroup, ostype.WindowsGroup),
+		"isEnumEqual":     g.IsEnumEqual(wp),
+		"isAnyEnumsEqual": g.IsAnyEnumsEqual(up, wp),
 	}
 	expected := args.Map{"isEnumEqual": true, "isAnyEnumsEqual": true}
 	expected.ShouldBeEqual(t, 0, "Group EnumEqual", actual)
