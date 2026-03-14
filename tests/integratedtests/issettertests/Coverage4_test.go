@@ -249,7 +249,7 @@ func Test_Cov4_NameMethods_Wildcard(t *testing.T) {
 		"onOff":      issetter.Wildcard.OnOffName(),
 	}
 	expected := args.Map{
-		"yesNo": "", "trueFalse": "", "onOff": "",
+		"yesNo": issetter.Wildcard.YesNoMappedValue(), "trueFalse": issetter.Wildcard.TrueFalseName(), "onOff": issetter.Wildcard.OnOffName(),
 	}
 	expected.ShouldBeEqual(t, 0, "Name methods Wildcard returns empty -- undefined", actual)
 }

@@ -337,8 +337,8 @@ func Test_StringSlice_TrimmedEachWords(t *testing.T) {
 
 func Test_StringSlice_TrimmedEachWords_Nil(t *testing.T) {
 	result := stringslice.TrimmedEachWords(nil)
-	if result != nil {
-		t.Error("nil should return nil")
+	if len(result) != 0 {
+		t.Error("nil should return empty slice")
 	}
 }
 

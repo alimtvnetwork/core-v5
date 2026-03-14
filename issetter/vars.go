@@ -35,6 +35,7 @@ var (
 		simplewrap.WithDoubleQuote("Wildcard"): Wildcard,
 		simplewrap.WithDoubleQuote("WildCard"): Wildcard,
 		simplewrap.WithDoubleQuote("wildcard"): Wildcard, // all small
+		"Uninitialized":                        Uninitialized,
 		"0":                                    Uninitialized,
 		"":                                     Uninitialized,
 		"-":                                    Uninitialized,

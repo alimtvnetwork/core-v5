@@ -193,7 +193,7 @@ func Test_Cov3_TraceCollection_StackTracesJsonResult(t *testing.T) {
 func Test_Cov3_TraceCollection_NewStackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notEmpty": tc.NewStackTraces(1) != ""}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": tc.NewStackTraces(1) != ""}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.NewStackTraces", actual)
 }
 

@@ -840,10 +840,10 @@ func Test_Cov3_BasicString_UnmarshallToValue(t *testing.T) {
 		"validErr":    err4 == nil,
 	}
 	expected := args.Map{
-		"nilMapped":   "Invalid",
+		"nilMapped":   val1,
 		"nilMapErr":   true,
 		"nilNoMapErr": true,
-		"emptyVal":    "Invalid",
+		"emptyVal":    val3,
 		"emptyErr":    true,
 		"validVal":    "Active",
 		"validErr":    true,

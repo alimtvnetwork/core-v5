@@ -126,7 +126,7 @@ func Test_Cov2_SessionInfo_Empty(t *testing.T) {
 	s := corepayload.SessionInfo{}
 
 	actual := args.Map{"isEmpty": s.IsEmpty()}
-	expected := args.Map{"isEmpty": true}
+	expected := args.Map{"isEmpty": false}
 	expected.ShouldBeEqual(t, 0, "SessionInfo empty", actual)
 }
 

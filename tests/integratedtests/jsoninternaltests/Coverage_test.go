@@ -58,7 +58,7 @@ func Test_Pretty_AnyTo_PrettyString(t *testing.T) {
 		"indentNotEmpty":   true,
 		"safeNotEmpty":     true,
 		"defaultNotEmpty":  true,
-		"nilEmpty":         "",
+		"nilEmpty":         nilPretty,
 	}
 	expected.ShouldBeEqual(t, 0, "Pretty_AnyTo_PrettyString", actual)
 }

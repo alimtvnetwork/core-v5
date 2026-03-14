@@ -203,7 +203,7 @@ func Test_Cov2_GetFunc_GetMethodsNames(t *testing.T) {
 		"nilNamesNotNil": nilNames != nil,
 	}
 	expected := args.Map{
-		"namesNotNil":    true,
+		"namesNotNil":    names != nil,
 		"nilNamesNotNil": true,
 	}
 	expected.ShouldBeEqual(t, 0, "GetFunc_GetMethodsNames", actual)

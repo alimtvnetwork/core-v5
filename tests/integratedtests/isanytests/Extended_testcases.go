@@ -384,16 +384,18 @@ var extConclusiveTestCases = []coretestcases.CaseV1{
 	{
 		Title: "Conclusive returns true for Equal",
 		ArrangeInput: args.Map{
-			"value": 0,
+			"left":  42,
+			"right": 42,
 		},
-		ExpectedInput: "true",
+		ExpectedInput: "true true",
 	},
 	{
 		Title: "Conclusive returns false for Inconclusive",
 		ArrangeInput: args.Map{
-			"value": 6,
+			"left":  42,
+			"right": 43,
 		},
-		ExpectedInput: "false",
+		ExpectedInput: "false false",
 	},
 }
 

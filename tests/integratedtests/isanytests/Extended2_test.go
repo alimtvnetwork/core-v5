@@ -339,7 +339,7 @@ func Test_DefinedItems_Direct(t *testing.T) {
 }
 
 func Test_PositiveIntegerType_Direct(t *testing.T) {
-	if !isany.PositiveIntegerType(42) {
+	if !isany.PositiveIntegerType(uint(42)) {
 		t.Error("positive int should be positive integer type")
 	}
 	if isany.PositiveIntegerType(-1) {
