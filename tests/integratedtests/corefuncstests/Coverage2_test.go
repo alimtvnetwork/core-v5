@@ -1,0 +1,253 @@
+package corefuncstests
+
+import (
+	"errors"
+	"testing"
+
+	"github.com/alimtvnetwork/core/corefuncs"
+	"github.com/alimtvnetwork/core/coretests/args"
+)
+
+// ── GetFunc / GetFuncFullName / GetFuncName ──
+
+func Test_Cov2_GetFunc_NotNil(t *testing.T) {
+	f := corefuncs.GetFunc(corefuncs.GetFuncName)
+	actual := args.Map{"notNil": f != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "GetFunc returns non-nil for valid func", actual)
+}
+
+func Test_Cov2_GetFuncFullName_HasDot(t *testing.T) {
+	name := corefuncs.GetFuncFullName(corefuncs.GetFuncName)
+	actual := args.Map{"notEmpty": name != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "GetFuncFullName returns non-empty", actual)
+}
+
+func Test_Cov2_GetFuncName_Short(t *testing.T) {
+	name := corefuncs.GetFuncName(corefuncs.GetFuncName)
+	actual := args.Map{"result": name}
+	expected := args.Map{"result": "GetFuncName"}
+	expected.ShouldBeEqual(t, 0, "GetFuncName returns short name", actual)
+}
+
+// ── NamedActionFuncWrapper.Next ──
+
+func Test_Cov2_NamedAction_Next(t *testing.T) {
+	var firstCalled, secondCalled bool
+	w1 := corefuncs.New.NamedAction("first", func(name string) {
+		firstCalled = true
+	})
+	w2 := corefuncs.New.NamedAction("second", func(name string) {
+		secondCalled = true
+	})
+	w1.Next(&w2)
+	actual := args.Map{"first": firstCalled, "second": secondCalled}
+	expected := args.Map{"first": true, "second": true}
+	expected.ShouldBeEqual(t, 0, "NamedAction Next -- both called", actual)
+}
+
+// ── NamedActionFuncWrapper.Exec / AsActionReturnsErrorFunc ──
+
+func Test_Cov2_NamedAction_Exec(t *testing.T) {
+	var called bool
+	w := corefuncs.New.NamedAction("test", func(name string) {
+		called = true
+	})
+	w.Exec()
+	actual := args.Map{"called": called}
+	expected := args.Map{"called": true}
+	expected.ShouldBeEqual(t, 0, "NamedAction Exec -- called", actual)
+}
+
+func Test_Cov2_NamedAction_AsActionReturnsErrorFunc(t *testing.T) {
+	w := corefuncs.New.NamedAction("test", func(name string) {})
+	errFunc := w.AsActionReturnsErrorFunc()
+	err := errFunc()
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "NamedAction AsActionReturnsErrorFunc -- nil error", actual)
+}
+
+// ── IsSuccessFuncWrapper ──
+
+func Test_Cov2_IsSuccess_Exec(t *testing.T) {
+	w := corefuncs.New.IsSuccess("check", func() bool { return true })
+	actual := args.Map{"result": w.Exec()}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "IsSuccess Exec -- true", actual)
+}
+
+func Test_Cov2_IsSuccess_AsActionFunc(t *testing.T) {
+	w := corefuncs.New.IsSuccess("check", func() bool { return true })
+	w.AsActionFunc()()
+	actual := args.Map{"called": true}
+	expected := args.Map{"called": true}
+	expected.ShouldBeEqual(t, 0, "IsSuccess AsActionFunc -- no panic", actual)
+}
+
+func Test_Cov2_IsSuccess_AsActionReturnsErrorFunc_Fail(t *testing.T) {
+	w := corefuncs.New.IsSuccess("check", func() bool { return false })
+	err := w.AsActionReturnsErrorFunc()()
+	actual := args.Map{"hasError": err != nil}
+	expected := args.Map{"hasError": true}
+	expected.ShouldBeEqual(t, 0, "IsSuccess failure -- returns error", actual)
+}
+
+func Test_Cov2_IsSuccess_AsActionReturnsErrorFunc_Success(t *testing.T) {
+	w := corefuncs.New.IsSuccess("check", func() bool { return true })
+	err := w.AsActionReturnsErrorFunc()()
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "IsSuccess success -- nil error", actual)
+}
+
+// ── ActionReturnsErrorFuncWrapper.Exec ──
+
+func Test_Cov2_ActionErr_Exec(t *testing.T) {
+	w := corefuncs.New.ActionErr("test", func() error { return nil })
+	err := w.Exec()
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "ActionErr Exec -- nil error", actual)
+}
+
+func Test_Cov2_ActionErr_AsActionReturnsErrorFunc_Fail(t *testing.T) {
+	w := corefuncs.New.ActionErr("test", func() error { return errors.New("fail") })
+	err := w.AsActionReturnsErrorFunc()()
+	actual := args.Map{"hasError": err != nil}
+	expected := args.Map{"hasError": true}
+	expected.ShouldBeEqual(t, 0, "ActionErr failure -- wraps error", actual)
+}
+
+// ── ToLegacy conversions ──
+
+func Test_Cov2_InOutErrWrapperOf_ToLegacy(t *testing.T) {
+	w := corefuncs.NewInOutErrWrapper[string, int](
+		"test", func(s string) (int, error) { return len(s), nil },
+	)
+	legacy := w.ToLegacy()
+	out, err := legacy.Exec("hi")
+	actual := args.Map{"output": out, "isNil": err == nil}
+	expected := args.Map{"output": 2, "isNil": true}
+	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf ToLegacy", actual)
+}
+
+func Test_Cov2_InActionErrWrapperOf_ToLegacy(t *testing.T) {
+	w := corefuncs.NewInActionErrWrapper[string](
+		"test", func(s string) error { return nil },
+	)
+	legacy := w.ToLegacy()
+	_, err := legacy.Exec("hi")
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "InActionErrWrapperOf ToLegacy", actual)
+}
+
+func Test_Cov2_InOutFuncWrapperOf_ToLegacy(t *testing.T) {
+	w := corefuncs.NewInOutWrapper[string, int](
+		"test", func(s string) int { return len(s) },
+	)
+	legacy := w.ToLegacy()
+	out, err := legacy.Exec("hi")
+	actual := args.Map{"output": out, "isNil": err == nil}
+	expected := args.Map{"output": 2, "isNil": true}
+	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf ToLegacy", actual)
+}
+
+func Test_Cov2_ResultDelegatingWrapperOf_ToLegacy(t *testing.T) {
+	w := corefuncs.NewResultDelegatingWrapper[*string](
+		"test", func(t *string) error { return nil },
+	)
+	legacy := w.ToLegacy()
+	var s string
+	err := legacy.Exec(&s)
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf ToLegacy", actual)
+}
+
+// ── InOutErrFuncWrapper.Exec ──
+
+func Test_Cov2_LegacyInOutErr_Exec(t *testing.T) {
+	w := corefuncs.New.LegacyInOutErr("test", func(input any) (any, error) {
+		return "ok", nil
+	})
+	out, err := w.Exec("input")
+	actual := args.Map{"output": out, "isNil": err == nil}
+	expected := args.Map{"output": "ok", "isNil": true}
+	expected.ShouldBeEqual(t, 0, "LegacyInOutErr Exec", actual)
+}
+
+// ── ResultDelegatingFuncWrapper.Exec ──
+
+func Test_Cov2_LegacyResultDelegating_Exec(t *testing.T) {
+	w := corefuncs.New.LegacyResultDelegating("test", func(target any) error {
+		return nil
+	})
+	err := w.Exec("target")
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "LegacyResultDelegating Exec", actual)
+}
+
+// ── SerializeOutputFuncWrapperOf.Exec ──
+
+func Test_Cov2_SerializeWrapper_Exec(t *testing.T) {
+	w := corefuncs.NewSerializeWrapper[string](
+		"json", func(s string) ([]byte, error) { return []byte(s), nil },
+	)
+	bytes, err := w.Exec("hello")
+	actual := args.Map{"result": string(bytes), "isNil": err == nil}
+	expected := args.Map{"result": "hello", "isNil": true}
+	expected.ShouldBeEqual(t, 0, "SerializeWrapper Exec", actual)
+}
+
+// ── InActionReturnsErrFuncWrapperOf.Exec / AsActionFunc ──
+
+func Test_Cov2_InActionErrWrapper_Exec(t *testing.T) {
+	w := corefuncs.NewInActionErrWrapper[string](
+		"validate", func(s string) error { return nil },
+	)
+	err := w.Exec("test")
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "InActionErrWrapper Exec", actual)
+}
+
+// ── InOutErrFuncWrapperOf.Exec ──
+
+func Test_Cov2_InOutErrWrapperOf_Exec(t *testing.T) {
+	w := corefuncs.NewInOutErrWrapper[string, int](
+		"parse", func(s string) (int, error) { return len(s), nil },
+	)
+	out, err := w.Exec("abc")
+	actual := args.Map{"output": out, "isNil": err == nil}
+	expected := args.Map{"output": 3, "isNil": true}
+	expected.ShouldBeEqual(t, 0, "InOutErrWrapperOf Exec", actual)
+}
+
+// ── InOutFuncWrapperOf.Exec ──
+
+func Test_Cov2_InOutFuncWrapperOf_Exec(t *testing.T) {
+	w := corefuncs.NewInOutWrapper[string, int](
+		"strlen", func(s string) int { return len(s) },
+	)
+	out := w.Exec("test")
+	actual := args.Map{"output": out}
+	expected := args.Map{"output": 4}
+	expected.ShouldBeEqual(t, 0, "InOutFuncWrapperOf Exec", actual)
+}
+
+// ── ResultDelegatingFuncWrapperOf.Exec ──
+
+func Test_Cov2_ResultDelegatingWrapperOf_Exec(t *testing.T) {
+	w := corefuncs.NewResultDelegatingWrapper[*string](
+		"bind", func(t *string) error { *t = "bound"; return nil },
+	)
+	var s string
+	err := w.Exec(&s)
+	actual := args.Map{"value": s, "isNil": err == nil}
+	expected := args.Map{"value": "bound", "isNil": true}
+	expected.ShouldBeEqual(t, 0, "ResultDelegatingWrapperOf Exec", actual)
+}
