@@ -218,7 +218,7 @@ func (it Dynamic) ValueBool() bool {
 	return false
 }
 
-func (it *Dynamic) ValueInt64() int64 {
+func (it Dynamic) ValueInt64() int64 {
 	casted, isSuccess := it.innerData.(int64)
 
 	if isSuccess {
