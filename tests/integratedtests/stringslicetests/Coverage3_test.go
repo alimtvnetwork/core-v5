@@ -306,7 +306,7 @@ func Test_Cov3_FirstLastStatus_Empty(t *testing.T) {
 func Test_Cov3_HasAnyItemPtr(t *testing.T) {
 	s := []string{"a"}
 	actual := args.Map{
-		"has":    stringslice.HasAnyItemPtr(&s),
+		"has":    stringslice.HasAnyItemPtr(s),
 		"nilPtr": stringslice.HasAnyItemPtr(nil),
 	}
 	expected := args.Map{"has": true, "nilPtr": false}
@@ -316,7 +316,7 @@ func Test_Cov3_HasAnyItemPtr(t *testing.T) {
 func Test_Cov3_IsEmptyPtr(t *testing.T) {
 	s := []string{"a"}
 	actual := args.Map{
-		"notEmpty": stringslice.IsEmptyPtr(&s),
+		"notEmpty": stringslice.IsEmptyPtr(s),
 		"nilPtr":   stringslice.IsEmptyPtr(nil),
 	}
 	expected := args.Map{"notEmpty": false, "nilPtr": true}
