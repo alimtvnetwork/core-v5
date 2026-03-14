@@ -21,7 +21,7 @@ func (it Dynamic) Data() any {
 	return it.innerData
 }
 
-func (it *Dynamic) Value() any {
+func (it Dynamic) Value() any {
 	return it.innerData
 }
 
