@@ -1419,7 +1419,7 @@ func Test_Distinct_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_MapSimpleSlice_Nil(t *testing.T) {
+func Test_MapSimpleSlice_Nil_Cov(t *testing.T) {
 	result := coregeneric.MapSimpleSlice[int, string](nil, func(i int) string { return "" })
 	if result.Length() != 0 {
 		t.Error("nil should return empty")
