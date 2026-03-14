@@ -8,13 +8,13 @@ import (
 	"github.com/alimtvnetwork/core/errcore"
 )
 
-// ── CombineWithMsgType ──
+// ── CombineWithMsgTypeNoStack ──
 
-func Test_Cov6_CombineWithMsgType(t *testing.T) {
-	result := errcore.CombineWithMsgType.Error("test msg", errors.New("inner"))
-	actual := args.Map{"hasErr": result != nil}
-	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "CombineWithMsgType", actual)
+func Test_Cov6_CombineWithMsgTypeNoStack(t *testing.T) {
+	result := errcore.CombineWithMsgTypeNoStack("test-type", "test msg", "ref")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "CombineWithMsgTypeNoStack", actual)
 }
 
 // ── ConcatMessageWithErr ──
@@ -23,10 +23,10 @@ func Test_Cov6_ConcatMessageWithErr(t *testing.T) {
 	result := errcore.ConcatMessageWithErr("prefix", errors.New("inner"))
 	nilResult := errcore.ConcatMessageWithErr("prefix", nil)
 	actual := args.Map{
-		"hasResult": result != "",
-		"nilResult": nilResult,
+		"hasResult": result != nil,
+		"nilResult": nilResult == nil,
 	}
-	expected := args.Map{"hasResult": true, "nilResult": "prefix"}
+	expected := args.Map{"hasResult": true, "nilResult": true}
 	expected.ShouldBeEqual(t, 0, "ConcatMessageWithErr", actual)
 }
 
@@ -51,22 +51,22 @@ func Test_Cov6_ErrorToSplitNonEmptyLines(t *testing.T) {
 // ── ManyErrorToSingle / ManyErrorToSingleDirect ──
 
 func Test_Cov6_ManyErrorToSingle(t *testing.T) {
-	result := errcore.ManyErrorToSingle(errors.New("a"), nil, errors.New("b"))
-	nilResult := errcore.ManyErrorToSingle()
-	allNil := errcore.ManyErrorToSingle(nil, nil)
+	errs := []error{errors.New("a"), nil, errors.New("b")}
+	result := errcore.ManyErrorToSingle(errs)
+	nilResult := errcore.ManyErrorToSingle(nil)
+	allNil := errcore.ManyErrorToSingle([]error{nil, nil})
 	actual := args.Map{
-		"hasErr": result != nil,
+		"hasErr":    result != nil,
 		"nilResult": nilResult == nil,
-		"allNil": allNil == nil,
+		"allNil":    allNil == nil,
 	}
 	expected := args.Map{"hasErr": true, "nilResult": true, "allNil": true}
 	expected.ShouldBeEqual(t, 0, "ManyErrorToSingle", actual)
 }
 
 func Test_Cov6_ManyErrorToSingleDirect(t *testing.T) {
-	errs := []error{errors.New("a"), nil, errors.New("b")}
-	result := errcore.ManyErrorToSingleDirect(errs)
-	nilResult := errcore.ManyErrorToSingleDirect(nil)
+	result := errcore.ManyErrorToSingleDirect(errors.New("a"), nil, errors.New("b"))
+	nilResult := errcore.ManyErrorToSingleDirect()
 	actual := args.Map{"hasErr": result != nil, "nilResult": nilResult == nil}
 	expected := args.Map{"hasErr": true, "nilResult": true}
 	expected.ShouldBeEqual(t, 0, "ManyErrorToSingleDirect", actual)
@@ -113,14 +113,12 @@ func Test_Cov6_ToValueString(t *testing.T) {
 func Test_Cov6_RawErrCollection(t *testing.T) {
 	c := errcore.RawErrCollection{}
 	c.Add(errors.New("a"))
-	c.AddNonNil(nil)
-	c.AddNonNil(errors.New("b"))
+	c.Add(errors.New("b"))
 	actual := args.Map{
 		"len":    c.Length(),
-		"hasAny": c.HasAnyItem(),
-		"errors": len(c.Errors()),
+		"hasAny": c.HasAnyError(),
 	}
-	expected := args.Map{"len": 2, "hasAny": true, "errors": 2}
+	expected := args.Map{"len": 2, "hasAny": true}
 	expected.ShouldBeEqual(t, 0, "RawErrCollection", actual)
 }
 

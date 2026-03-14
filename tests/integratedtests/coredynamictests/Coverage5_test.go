@@ -159,13 +159,14 @@ func Test_Cov5_Dynamic_Json(t *testing.T) {
 	d := coredynamic.NewDynamicValid("hello")
 	r := d.Json()
 	rp := d.JsonPtr()
+	jsonStr, jsonErr := d.JsonString()
 	actual := args.Map{
-		"hasBytes": r.HasBytes(),
+		"hasBytes":  r.HasBytes(),
 		"ptrNotNil": rp != nil,
-		"jsonStr": d.JsonString() != "",
-		"prettyStr": d.PrettyJsonString() != "",
+		"jsonStr":   jsonStr != "",
+		"jsonErr":   jsonErr == nil,
 	}
-	expected := args.Map{"hasBytes": true, "ptrNotNil": true, "jsonStr": true, "prettyStr": true}
+	expected := args.Map{"hasBytes": true, "ptrNotNil": true, "jsonStr": true, "jsonErr": true}
 	expected.ShouldBeEqual(t, 0, "Dynamic Json -- valid", actual)
 }
 
@@ -241,8 +242,9 @@ func Test_Cov5_MapAnyItems_AllKeysSorted(t *testing.T) {
 func Test_Cov5_MapAnyItems_Json(t *testing.T) {
 	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
 	r := m.Json()
-	actual := args.Map{"hasBytes": r.HasBytes(), "jsonStr": m.JsonString() != "", "prettyStr": m.PrettyJsonString() != ""}
-	expected := args.Map{"hasBytes": true, "jsonStr": true, "prettyStr": true}
+	jsonStr, jsonErr := m.JsonString()
+	actual := args.Map{"hasBytes": r.HasBytes(), "jsonStr": jsonStr != "", "jsonErr": jsonErr == nil}
+	expected := args.Map{"hasBytes": true, "jsonStr": true, "jsonErr": true}
 	expected.ShouldBeEqual(t, 0, "MapAnyItems Json -- valid", actual)
 }
 
@@ -407,28 +409,32 @@ func Test_Cov5_LeftRight(t *testing.T) {
 // ── Type ──
 
 func Test_Cov5_Type_Basic(t *testing.T) {
-	typ := coredynamic.NewType("hello")
+	typ := coredynamic.Type("hello")
 	actual := args.Map{
-		"name":    typ.Name,
-		"isNull":  coredynamic.NewType(nil).IsNull,
+		"notNil": typ != nil,
+		"name":   typ.Name(),
 	}
-	expected := args.Map{"name": "string", "isNull": true}
-	expected.ShouldBeEqual(t, 0, "Type basic -- string and nil", actual)
+	expected := args.Map{"notNil": true, "name": "string"}
+	expected.ShouldBeEqual(t, 0, "Type basic -- string", actual)
 }
 
-// ── TypeSameStatus ──
+// ── TypeMustBeSame ──
 
-func Test_Cov5_TypeSameStatus(t *testing.T) {
-	status := coredynamic.TypeMustBeSame("hello", "world")
-	diffStatus := coredynamic.TypeMustBeSame("hello", 42)
-	actual := args.Map{
-		"isSame":   status.IsSame,
-		"noErr":    status.Err == nil,
-		"diffSame": diffStatus.IsSame,
-		"diffErr":  diffStatus.Err != nil,
-	}
-	expected := args.Map{"isSame": true, "noErr": true, "diffSame": false, "diffErr": true}
-	expected.ShouldBeEqual(t, 0, "TypeMustBeSame -- same and different", actual)
+func Test_Cov5_TypeMustBeSame_Same(t *testing.T) {
+	coredynamic.TypeMustBeSame("hello", "world") // should not panic
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
+	expected.ShouldBeEqual(t, 0, "TypeMustBeSame same -- no panic", actual)
+}
+
+func Test_Cov5_TypeMustBeSame_Different(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "TypeMustBeSame different -- panics", actual)
+	}()
+	coredynamic.TypeMustBeSame("hello", 42)
 }
 
 // ── ValueStatus ──

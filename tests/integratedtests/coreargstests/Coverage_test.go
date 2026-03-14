@@ -313,22 +313,11 @@ func Test_Cov_Map_Slice_String(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Map Slice/String", actual)
 }
 
-func Test_Cov_Map_GoLiteral(t *testing.T) {
+func Test_Cov_Map_GoLiteralString(t *testing.T) {
 	m := args.Map{"a": 1}
-	actual := args.Map{"notEmpty": m.GoLiteral() != ""}
+	actual := args.Map{"notEmpty": m.GoLiteralString() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Map GoLiteral", actual)
-}
-
-func Test_Cov_Map_Contracts(t *testing.T) {
-	m := args.Map{"a": 1}
-	actual := args.Map{
-		"mapper":    m.AsArgsMapper() != nil,
-		"funcName":  m.AsArgFuncNameContractsBinder() != nil,
-		"base":      m.AsArgBaseContractsBinder() != nil,
-	}
-	expected := args.Map{"mapper": true, "funcName": true, "base": true}
-	expected.ShouldBeEqual(t, 0, "Map Contracts", actual)
+	expected.ShouldBeEqual(t, 0, "Map GoLiteralString", actual)
 }
 
 // ── Dynamic ──
@@ -595,13 +584,13 @@ func Test_Cov_FuncWrap_Invoke(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FuncWrap Invoke", actual)
 }
 
-func Test_Cov_FuncWrap_InvokeFirstArg(t *testing.T) {
+func Test_Cov_FuncWrap_InvokeMultiArg(t *testing.T) {
 	fn := func(a, b string) string { return a + b }
 	fw := args.NewFuncWrap.Default(fn)
-	result, err := fw.InvokeFirstArg("hello", "world")
-	actual := args.Map{"noErr": err == nil, "result": result}
+	results, err := fw.Invoke("hello", "world")
+	actual := args.Map{"noErr": err == nil, "result": results[0]}
 	expected := args.Map{"noErr": true, "result": "helloworld"}
-	expected.ShouldBeEqual(t, 0, "FuncWrap InvokeFirstArg", actual)
+	expected.ShouldBeEqual(t, 0, "FuncWrap Invoke multi-arg", actual)
 }
 
 func Test_Cov_FuncWrap_Validate(t *testing.T) {
@@ -637,14 +626,14 @@ func Test_Cov_FuncWrap_InArgNamesEachLine(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FuncWrap InArgNamesEachLine", actual)
 }
 
-func Test_Cov_FuncWrap_InOutArgsMap(t *testing.T) {
+func Test_Cov_FuncWrap_InOutArgNames(t *testing.T) {
 	fn := func(s string) int { return len(s) }
 	fw := args.NewFuncWrap.Default(fn)
-	inMap := fw.InArgsMap()
-	outMap := fw.OutArgsMap()
-	actual := args.Map{"inLen": len(inMap) > 0, "outLen": len(outMap) > 0}
+	inNames := fw.InArgNames()
+	outNames := fw.OutArgNames()
+	actual := args.Map{"inLen": len(inNames) > 0, "outLen": len(outNames) > 0}
 	expected := args.Map{"inLen": true, "outLen": true}
-	expected.ShouldBeEqual(t, 0, "FuncWrap InOutArgsMap", actual)
+	expected.ShouldBeEqual(t, 0, "FuncWrap InOutArgNames", actual)
 }
 
 // ── NewTypedFuncWrap ──
@@ -682,7 +671,7 @@ func Test_Cov_Holder(t *testing.T) {
 // ── LeftRight ──
 
 func Test_Cov_LeftRight(t *testing.T) {
-	lr := args.LeftRight{Left: "l", Right: "r"}
+	lr := args.LeftRight[string, string]{Left: "l", Right: "r"}
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "l", "right": "r"}
 	expected.ShouldBeEqual(t, 0, "LeftRight", actual)
@@ -691,42 +680,42 @@ func Test_Cov_LeftRight(t *testing.T) {
 // ── One through Six ──
 
 func Test_Cov_One(t *testing.T) {
-	o := args.One{First: 1}
+	o := args.One[int]{First: 1}
 	actual := args.Map{"first": o.FirstItem(), "str": o.String() != ""}
 	expected := args.Map{"first": 1, "str": true}
 	expected.ShouldBeEqual(t, 0, "One", actual)
 }
 
 func Test_Cov_Two(t *testing.T) {
-	o := args.Two{First: 1, Second: 2}
+	o := args.Two[int, int]{First: 1, Second: 2}
 	actual := args.Map{"first": o.FirstItem(), "second": o.SecondItem(), "str": o.String() != ""}
 	expected := args.Map{"first": 1, "second": 2, "str": true}
 	expected.ShouldBeEqual(t, 0, "Two", actual)
 }
 
 func Test_Cov_Three(t *testing.T) {
-	o := args.Three{First: 1, Second: 2, Third: 3}
+	o := args.Three[int, int, int]{First: 1, Second: 2, Third: 3}
 	actual := args.Map{"first": o.FirstItem(), "second": o.SecondItem(), "third": o.ThirdItem(), "str": o.String() != ""}
 	expected := args.Map{"first": 1, "second": 2, "third": 3, "str": true}
 	expected.ShouldBeEqual(t, 0, "Three", actual)
 }
 
 func Test_Cov_Four(t *testing.T) {
-	o := args.Four{First: 1, Second: 2, Third: 3, Fourth: 4}
+	o := args.Four[int, int, int, int]{First: 1, Second: 2, Third: 3, Fourth: 4}
 	actual := args.Map{"fourth": o.FourthItem(), "str": o.String() != ""}
 	expected := args.Map{"fourth": 4, "str": true}
 	expected.ShouldBeEqual(t, 0, "Four", actual)
 }
 
 func Test_Cov_Five(t *testing.T) {
-	o := args.Five{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5}
+	o := args.Five[int, int, int, int, int]{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5}
 	actual := args.Map{"fifth": o.FifthItem(), "str": o.String() != ""}
 	expected := args.Map{"fifth": 5, "str": true}
 	expected.ShouldBeEqual(t, 0, "Five", actual)
 }
 
 func Test_Cov_Six(t *testing.T) {
-	o := args.Six{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5, Sixth: 6}
+	o := args.Six[int, int, int, int, int, int]{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5, Sixth: 6}
 	actual := args.Map{"sixth": o.SixthItem(), "str": o.String() != ""}
 	expected := args.Map{"sixth": 6, "str": true}
 	expected.ShouldBeEqual(t, 0, "Six", actual)

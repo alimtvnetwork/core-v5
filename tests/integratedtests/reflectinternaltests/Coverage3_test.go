@@ -279,8 +279,8 @@ func Test_Cov3_StackTrace_StringUsingFmt(t *testing.T) {
 
 func Test_Cov3_ReflectGetter_PublicValuesMapStruct(t *testing.T) {
 	type S struct{ A int; B string }
-	m, err := reflectinternal.Getter.PublicValuesMapStruct(S{A: 1, B: "hello"})
-	_, nilErr := reflectinternal.Getter.PublicValuesMapStruct(nil)
+	m, err := reflectinternal.ReflectGetter.PublicValuesMapStruct(S{A: 1, B: "hello"})
+	_, nilErr := reflectinternal.ReflectGetter.PublicValuesMapStruct(nil)
 	actual := args.Map{"len": len(m), "noErr": err == nil, "nilErr": nilErr != nil}
 	expected := args.Map{"len": 2, "noErr": true, "nilErr": true}
 	expected.ShouldBeEqual(t, 0, "PublicValuesMapStruct", actual)
@@ -288,8 +288,8 @@ func Test_Cov3_ReflectGetter_PublicValuesMapStruct(t *testing.T) {
 
 func Test_Cov3_ReflectGetter_FieldNameWithValuesMap(t *testing.T) {
 	type S struct{ A int }
-	m, err := reflectinternal.Getter.FieldNameWithValuesMap(S{A: 1})
-	_, nilErr := reflectinternal.Getter.FieldNameWithValuesMap(nil)
+	m, err := reflectinternal.ReflectGetter.FieldNameWithValuesMap(S{A: 1})
+	_, nilErr := reflectinternal.ReflectGetter.FieldNameWithValuesMap(nil)
 	actual := args.Map{"gt0": len(m) > 0, "noErr": err == nil, "nilErr": nilErr != nil}
 	expected := args.Map{"gt0": true, "noErr": true, "nilErr": true}
 	expected.ShouldBeEqual(t, 0, "FieldNameWithValuesMap", actual)
@@ -297,8 +297,8 @@ func Test_Cov3_ReflectGetter_FieldNameWithValuesMap(t *testing.T) {
 
 func Test_Cov3_ReflectGetter_FieldNamesMap(t *testing.T) {
 	type S struct{ A int }
-	m, err := reflectinternal.Getter.FieldNamesMap(S{A: 1})
-	_, nilErr := reflectinternal.Getter.FieldNamesMap(nil)
+	m, err := reflectinternal.ReflectGetter.FieldNamesMap(S{A: 1})
+	_, nilErr := reflectinternal.ReflectGetter.FieldNamesMap(nil)
 	actual := args.Map{"gt0": len(m) > 0, "noErr": err == nil, "nilErr": nilErr != nil}
 	expected := args.Map{"gt0": true, "noErr": true, "nilErr": true}
 	expected.ShouldBeEqual(t, 0, "FieldNamesMap", actual)
@@ -306,8 +306,8 @@ func Test_Cov3_ReflectGetter_FieldNamesMap(t *testing.T) {
 
 func Test_Cov3_ReflectGetter_StructFieldsMap(t *testing.T) {
 	type S struct{ A int }
-	m := reflectinternal.Getter.StructFieldsMap(S{A: 1})
-	nilM := reflectinternal.Getter.StructFieldsMap(nil)
+	m := reflectinternal.ReflectGetter.StructFieldsMap(S{A: 1})
+	nilM := reflectinternal.ReflectGetter.StructFieldsMap(nil)
 	actual := args.Map{"gt0": len(m) > 0, "nilLen": len(nilM)}
 	expected := args.Map{"gt0": true, "nilLen": 0}
 	expected.ShouldBeEqual(t, 0, "StructFieldsMap", actual)
@@ -315,8 +315,8 @@ func Test_Cov3_ReflectGetter_StructFieldsMap(t *testing.T) {
 
 func Test_Cov3_ReflectGetter_NullFieldsMap(t *testing.T) {
 	type S struct{ A *int }
-	m := reflectinternal.Getter.NullFieldsMap(S{})
-	nilM := reflectinternal.Getter.NullFieldsMap(nil)
+	m := reflectinternal.ReflectGetter.NullFieldsMap(S{})
+	nilM := reflectinternal.ReflectGetter.NullFieldsMap(nil)
 	actual := args.Map{"gt0": len(m) > 0, "nilLen": len(nilM)}
 	expected := args.Map{"gt0": true, "nilLen": 0}
 	expected.ShouldBeEqual(t, 0, "NullFieldsMap", actual)
@@ -324,8 +324,8 @@ func Test_Cov3_ReflectGetter_NullFieldsMap(t *testing.T) {
 
 func Test_Cov3_ReflectGetter_NullOrZeroFieldsMap(t *testing.T) {
 	type S struct{ A int; B *int }
-	m := reflectinternal.Getter.NullOrZeroFieldsMap(S{})
-	nilM := reflectinternal.Getter.NullOrZeroFieldsMap(nil)
+	m := reflectinternal.ReflectGetter.NullOrZeroFieldsMap(S{})
+	nilM := reflectinternal.ReflectGetter.NullOrZeroFieldsMap(nil)
 	actual := args.Map{"gt0": len(m) > 0, "nilLen": len(nilM)}
 	expected := args.Map{"gt0": true, "nilLen": 0}
 	expected.ShouldBeEqual(t, 0, "NullOrZeroFieldsMap", actual)

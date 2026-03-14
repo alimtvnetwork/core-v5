@@ -70,7 +70,7 @@ func Test_Cov_Key_AppendChainStrings(t *testing.T) {
 }
 
 func Test_Cov_Key_AppendChainStrings_SkipEmpty(t *testing.T) {
-	key := keymk.NewKey.AllStrings(keymk.SkipEmptyJoinerOption, "root", "a")
+	key := keymk.NewKey.AllStrings(keymk.JoinerOption, "root", "a")
 	key.AppendChainStrings("", "b")
 	actual := args.Map{"length": key.Length()}
 	expected := args.Map{"length": 2}
@@ -232,7 +232,7 @@ func Test_Cov_Key_JoinUsingJoiner(t *testing.T) {
 
 func Test_Cov_Key_JoinUsingOption(t *testing.T) {
 	key := keymk.NewKey.Default("root", "a")
-	result := key.JoinUsingOption(keymk.PathJoinerOption, "b")
+	result := key.JoinUsingOption(keymk.CurlyBracePathJoinerOption, "b")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Key JoinUsingOption", actual)

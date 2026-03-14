@@ -71,22 +71,25 @@ func Test_Cov3_IsEmptyOrWhitespacePtr(t *testing.T) {
 }
 
 func Test_Cov3_IsContainsPtr(t *testing.T) {
-	text := "hello world"
+	lines := []string{"hello", "world"}
+	find1 := "world"
+	find2 := "foo"
+	find3 := "x"
 	actual := args.Map{
-		"found":    stringutil.IsContainsPtr(&text, "world"),
-		"notFound": stringutil.IsContainsPtr(&text, "foo"),
-		"nil":      stringutil.IsContainsPtr(nil, "x"),
+		"found":    stringutil.IsContainsPtr(&lines, &find1, 0, true),
+		"notFound": stringutil.IsContainsPtr(&lines, &find2, 0, true),
+		"nil":      stringutil.IsContainsPtr(nil, &find3, 0, true),
 	}
 	expected := args.Map{"found": true, "notFound": false, "nil": false}
 	expected.ShouldBeEqual(t, 0, "IsContainsPtr", actual)
 }
 
 func Test_Cov3_IsContainsPtrSimple(t *testing.T) {
-	text := "hello world"
+	lines := []string{"hello", "world"}
 	actual := args.Map{
-		"found":    stringutil.IsContainsPtrSimple(&text, "hello"),
-		"notFound": stringutil.IsContainsPtrSimple(&text, "foo"),
-		"nil":      stringutil.IsContainsPtrSimple(nil, "x"),
+		"found":    stringutil.IsContainsPtrSimple(&lines, "hello", 0, true),
+		"notFound": stringutil.IsContainsPtrSimple(&lines, "foo", 0, true),
+		"nil":      stringutil.IsContainsPtrSimple(nil, "x", 0, true),
 	}
 	expected := args.Map{"found": true, "notFound": false, "nil": false}
 	expected.ShouldBeEqual(t, 0, "IsContainsPtrSimple", actual)
@@ -114,8 +117,8 @@ func Test_Cov3_IsEnds(t *testing.T) {
 
 func Test_Cov3_IsStartsWith(t *testing.T) {
 	actual := args.Map{
-		"starts":    stringutil.IsStartsWith("hello", "hel"),
-		"notStarts": stringutil.IsStartsWith("hello", "wor"),
+		"starts":    stringutil.IsStartsWith("hello", "hel", false),
+		"notStarts": stringutil.IsStartsWith("hello", "wor", false),
 	}
 	expected := args.Map{"starts": true, "notStarts": false}
 	expected.ShouldBeEqual(t, 0, "IsStartsWith", actual)
@@ -123,8 +126,8 @@ func Test_Cov3_IsStartsWith(t *testing.T) {
 
 func Test_Cov3_IsEndsWith(t *testing.T) {
 	actual := args.Map{
-		"ends":    stringutil.IsEndsWith("hello", "llo"),
-		"notEnds": stringutil.IsEndsWith("hello", "hel"),
+		"ends":    stringutil.IsEndsWith("hello", "llo", false),
+		"notEnds": stringutil.IsEndsWith("hello", "hel", false),
 	}
 	expected := args.Map{"ends": true, "notEnds": false}
 	expected.ShouldBeEqual(t, 0, "IsEndsWith", actual)

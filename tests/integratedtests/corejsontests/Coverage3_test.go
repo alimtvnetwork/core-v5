@@ -275,10 +275,10 @@ func Test_Cov3_Result_InjectInto(t *testing.T) {
 	type S struct{ Name string }
 	r := corejson.New(S{Name: "test"})
 	var s S
-	err := r.InjectInto(&s)
+	err := r.Unmarshal(&s)
 	actual := args.Map{"noErr": err == nil, "name": s.Name}
 	expected := args.Map{"noErr": true, "name": "test"}
-	expected.ShouldBeEqual(t, 0, "Result InjectInto -- valid", actual)
+	expected.ShouldBeEqual(t, 0, "Result Unmarshal -- valid", actual)
 }
 
 func Test_Cov3_Result_Dispose(t *testing.T) {

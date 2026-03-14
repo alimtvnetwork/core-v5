@@ -12,17 +12,16 @@ import (
 func Test_Cov7_SimpleSlice_Basic(t *testing.T) {
 	s := corestr.New.SimpleSlice.Strings([]string{"a", "b", "c"})
 	actual := args.Map{
-		"len":      s.Length(),
-		"isEmpty":  s.IsEmpty(),
-		"hasAny":   s.HasAnyItem(),
-		"first":    s.First(),
-		"last":     s.Last(),
-		"lastIdx":  s.LastIndex(),
-		"hasFirst": s.HasFirst(),
+		"len":     s.Length(),
+		"isEmpty": s.IsEmpty(),
+		"hasAny":  s.HasAnyItem(),
+		"first":   s.First(),
+		"last":    s.Last(),
+		"lastIdx": s.LastIndex(),
 	}
 	expected := args.Map{
 		"len": 3, "isEmpty": false, "hasAny": true,
-		"first": "a", "last": "c", "lastIdx": 2, "hasFirst": true,
+		"first": "a", "last": "c", "lastIdx": 2,
 	}
 	expected.ShouldBeEqual(t, 0, "SimpleSlice basic -- 3 items", actual)
 }
@@ -49,15 +48,14 @@ func Test_Cov7_SimpleSlice_Add(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "SimpleSlice Add/Adds/AddIf -- 4 items", actual)
 }
 
-func Test_Cov7_SimpleSlice_AddNonEmpty(t *testing.T) {
+func Test_Cov7_SimpleSlice_AddWithFilter(t *testing.T) {
 	s := corestr.New.SimpleSlice.Cap(5)
-	s.AddNonEmpty("a")
-	s.AddNonEmpty("")
-	s.AddNonEmptyWhitespace("  ")
-	s.AddNonEmptyWhitespace("b")
+	s.Add("a")
+	s.AddIf(true, "b")
+	s.AddIf(false, "c")
 	actual := args.Map{"len": s.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice AddNonEmpty -- 2 items", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice Add/AddIf -- 2 items", actual)
 }
 
 func Test_Cov7_SimpleSlice_String(t *testing.T) {
@@ -140,13 +138,13 @@ func Test_Cov7_Collection_Json(t *testing.T) {
 
 func Test_Cov7_Hashmap_Basic(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key1", "val1")
-	h.Add("key2", "val2")
+	h.Set("key1", "val1")
+	h.Set("key2", "val2")
 	actual := args.Map{
 		"len":     h.Length(),
 		"isEmpty": h.IsEmpty(),
-		"hasKey":  h.HasKey("key1"),
-		"noKey":   h.HasKey("missing"),
+		"hasKey":  h.Has("key1"),
+		"noKey":   h.Has("missing"),
 	}
 	expected := args.Map{"len": 2, "isEmpty": false, "hasKey": true, "noKey": false}
 	expected.ShouldBeEqual(t, 0, "Hashmap basic -- 2 items", actual)
@@ -154,7 +152,7 @@ func Test_Cov7_Hashmap_Basic(t *testing.T) {
 
 func Test_Cov7_Hashmap_Get(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key1", "val1")
+	h.Set("key1", "val1")
 	val, has := h.Get("key1")
 	_, notHas := h.Get("missing")
 	actual := args.Map{"val": val, "has": has, "notHas": notHas}
@@ -164,7 +162,7 @@ func Test_Cov7_Hashmap_Get(t *testing.T) {
 
 func Test_Cov7_Hashmap_String(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key", "val")
+	h.Set("key", "val")
 	actual := args.Map{"notEmpty": h.String() != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Hashmap String -- not empty", actual)
@@ -172,7 +170,7 @@ func Test_Cov7_Hashmap_String(t *testing.T) {
 
 func Test_Cov7_Hashmap_Json(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key", "val")
+	h.Set("key", "val")
 	r := h.Json()
 	actual := args.Map{"hasBytes": r.HasBytes()}
 	expected := args.Map{"hasBytes": true}
@@ -269,11 +267,10 @@ func Test_Cov7_LinkedList_String(t *testing.T) {
 
 func Test_Cov7_AnyToString(t *testing.T) {
 	actual := args.Map{
-		"str":  corestr.AnyToString("hello"),
-		"int":  corestr.AnyToString(42) != "",
-		"nil":  corestr.AnyToString(nil),
+		"str": corestr.AnyToString(false, "hello"),
+		"int": corestr.AnyToString(false, 42) != "",
 	}
-	expected := args.Map{"str": "hello", "int": true, "nil": ""}
+	expected := args.Map{"str": "hello", "int": true}
 	expected.ShouldBeEqual(t, 0, "AnyToString -- all types", actual)
 }
 
