@@ -87,7 +87,7 @@ func (it KeyVal) ValueStrings() []string {
 	return nil
 }
 
-func (it *KeyVal) ValueBool() bool {
+func (it KeyVal) ValueBool() bool {
 	casted, isSuccess := it.Value.(bool)
 
 	if isSuccess {
