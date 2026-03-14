@@ -115,7 +115,7 @@ func (it *RangeInt) DifferenceAbsolute() int {
 	diff := it.Difference()
 
 	if diff < 0 {
-		return diff
+		return -diff
 	}
 
 	return diff

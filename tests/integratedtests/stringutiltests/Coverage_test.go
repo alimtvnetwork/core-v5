@@ -139,8 +139,8 @@ func Test_FirstChar(t *testing.T) {
 		"empty": stringutil.FirstChar(""),
 	}
 	expected := args.Map{
-		"first": "h",
-		"empty": "",
+		"first": byte('h'),
+		"empty": byte(0),
 	}
 	expected.ShouldBeEqual(t, 0, "FirstChar", actual)
 }

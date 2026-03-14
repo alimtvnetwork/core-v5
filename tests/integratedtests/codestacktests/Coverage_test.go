@@ -397,8 +397,8 @@ func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_FirstLast(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	// Arrange — use NewStacks.DefaultCount to avoid double-skip
+	tc := codestack.NewStacks.DefaultCount(1)
 
 	// Act & Assert
 	first := tc.First()

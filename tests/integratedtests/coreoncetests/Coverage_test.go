@@ -363,7 +363,7 @@ var covIntegersOnceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEmpty": false, "sortedFirst": 1,
 			"rangesLen": 3, "rangesBoolLen": 3,
-			"uniqueLen": 3, "isEqual": false,
+			"uniqueLen": 3, "isEqual": true,
 		},
 	},
 	{

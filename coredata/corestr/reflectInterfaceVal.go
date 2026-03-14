@@ -3,6 +3,10 @@ package corestr
 import "reflect"
 
 func reflectInterfaceVal(item any) any {
+	if item == nil {
+		return nil
+	}
+
 	rVal := reflect.ValueOf(item)
 
 	if rVal.Kind() != reflect.Ptr {

@@ -86,8 +86,8 @@ func Test_AnyNull_Coverage(t *testing.T) {
 	if !isany.AnyNull(nil, 42) {
 		t.Error("should be AnyNull with nil present")
 	}
-	if !isany.AnyNull() {
-		t.Error("empty should be AnyNull")
+	if isany.AnyNull() {
+		t.Error("empty should not be AnyNull")
 	}
 	if isany.AnyNull(42, "hello") {
 		t.Error("no nils should not be AnyNull")

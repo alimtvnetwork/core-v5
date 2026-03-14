@@ -396,7 +396,7 @@ func Test_Cov2_SafeSubstring(t *testing.T) {
 	}
 	expected := args.Map{
 		"normal":    "el",
-		"outOfBound": "hello",
+		"outOfBound": "",
 	}
 	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)
 }

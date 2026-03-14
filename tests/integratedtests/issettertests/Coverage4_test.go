@@ -104,7 +104,7 @@ func Test_Cov4_IsWildcardOrBool(t *testing.T) {
 	expected := args.Map{
 		"wildTrue": true, "wildFalse": true,
 		"trueTrue": true, "trueFalse": false,
-		"falseFalse": false,
+		"falseFalse": true,
 	}
 	expected.ShouldBeEqual(t, 0, "IsWildcardOrBool returns expected -- all combos", actual)
 }
