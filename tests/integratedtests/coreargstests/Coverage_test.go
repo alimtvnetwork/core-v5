@@ -584,13 +584,13 @@ func Test_Cov_FuncWrap_Invoke(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FuncWrap Invoke", actual)
 }
 
-func Test_Cov_FuncWrap_InvokeFirstArg(t *testing.T) {
+func Test_Cov_FuncWrap_InvokeMultiArg(t *testing.T) {
 	fn := func(a, b string) string { return a + b }
 	fw := args.NewFuncWrap.Default(fn)
-	result, err := fw.InvokeFirstArg("hello", "world")
-	actual := args.Map{"noErr": err == nil, "result": result}
+	results, err := fw.Invoke("hello", "world")
+	actual := args.Map{"noErr": err == nil, "result": results[0]}
 	expected := args.Map{"noErr": true, "result": "helloworld"}
-	expected.ShouldBeEqual(t, 0, "FuncWrap InvokeFirstArg", actual)
+	expected.ShouldBeEqual(t, 0, "FuncWrap Invoke multi-arg", actual)
 }
 
 func Test_Cov_FuncWrap_Validate(t *testing.T) {
