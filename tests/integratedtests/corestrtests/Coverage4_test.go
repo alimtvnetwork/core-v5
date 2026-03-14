@@ -15,16 +15,13 @@ func Test_Cov4_Hashmap_AllKeys(t *testing.T) {
 		corestr.KeyValuePair{Key: "a", Value: "1"},
 	)
 	keys := hm.AllKeys()
-	sorted := hm.AllKeysSorted()
-	vals := hm.AllValues()
 	actual := args.Map{
-		"keysLen": len(keys), "sortedFirst": sorted[0],
-		"valsLen": len(vals),
+		"keysLen": len(keys),
 	}
 	expected := args.Map{
-		"keysLen": 2, "sortedFirst": "a", "valsLen": 2,
+		"keysLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap AllKeys/AllValues return expected -- 2 items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap AllKeys returns expected -- 2 items", actual)
 }
 
 func Test_Cov4_Hashmap_Remove(t *testing.T) {
@@ -45,24 +42,24 @@ func Test_Cov4_Hashmap_String(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Hashmap String returns non-empty -- one item", actual)
 }
 
-func Test_Cov4_Hashmap_GetValue(t *testing.T) {
+func Test_Cov4_Hashmap_Get(t *testing.T) {
 	hm := corestr.New.Hashmap.Empty()
 	hm.AddOrUpdate("k", "v")
-	val, found := hm.GetValue("k")
-	_, notFound := hm.GetValue("missing")
+	val, found := hm.Get("k")
+	_, notFound := hm.Get("missing")
 	actual := args.Map{"val": val, "found": found, "notFound": notFound}
 	expected := args.Map{"val": "v", "found": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetValue returns expected -- hit and miss", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap Get returns expected -- hit and miss", actual)
 }
 
 // ── Collection — serialization and iteration ──
 
-func Test_Cov4_Collection_Strings(t *testing.T) {
+func Test_Cov4_Collection_ListStrings(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"x", "y"})
-	strs := col.Strings()
+	strs := col.ListStrings()
 	actual := args.Map{"len": len(strs), "first": strs[0]}
 	expected := args.Map{"len": 2, "first": "x"}
-	expected.ShouldBeEqual(t, 0, "Collection Strings returns expected -- 2 items", actual)
+	expected.ShouldBeEqual(t, 0, "Collection ListStrings returns expected -- 2 items", actual)
 }
 
 func Test_Cov4_Collection_SafeAt(t *testing.T) {

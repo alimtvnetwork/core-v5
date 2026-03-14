@@ -1394,13 +1394,13 @@ func Test_ContainsFunc_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_IndexOfFunc_Nil(t *testing.T) {
+func Test_IndexOfFunc_Nil_Cov(t *testing.T) {
 	if coregeneric.IndexOfFunc[int](nil, func(i int) bool { return true }) != -1 {
 		t.Error("nil should return -1")
 	}
 }
 
-func Test_ContainsItem_Nil(t *testing.T) {
+func Test_ContainsItem_Nil_Cov(t *testing.T) {
 	if coregeneric.ContainsItem[int](nil, 1) {
 		t.Error("nil should return false")
 	}
@@ -1412,14 +1412,14 @@ func Test_IndexOfItem_Nil(t *testing.T) {
 	}
 }
 
-func Test_Distinct_Nil(t *testing.T) {
+func Test_Distinct_Nil_Cov(t *testing.T) {
 	result := coregeneric.Distinct[int](nil)
 	if result.Length() != 0 {
 		t.Error("nil should return empty")
 	}
 }
 
-func Test_MapSimpleSlice_Nil(t *testing.T) {
+func Test_MapSimpleSlice_Nil_Cov(t *testing.T) {
 	result := coregeneric.MapSimpleSlice[int, string](nil, func(i int) string { return "" })
 	if result.Length() != 0 {
 		t.Error("nil should return empty")
@@ -2192,7 +2192,7 @@ func Test_ContainsFunc_Found_Cov(t *testing.T) {
 	}
 }
 
-func Test_IndexOfFunc_Found(t *testing.T) {
+func Test_IndexOfFunc_Found_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{10, 20, 30})
 	if coregeneric.IndexOfFunc(col, func(i int) bool { return i == 20 }) != 1 {
 		t.Error("should find at index 1")

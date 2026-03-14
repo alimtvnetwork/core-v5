@@ -147,18 +147,16 @@ func Test_FirstChar(t *testing.T) {
 
 func Test_ToInt(t *testing.T) {
 	// Act
-	val, err := stringutil.ToInt("42")
-	_, errBad := stringutil.ToInt("abc")
+	val := stringutil.ToInt("42", -1)
+	valBad := stringutil.ToInt("abc", -1)
 
 	actual := args.Map{
 		"val":    val,
-		"noErr":  err == nil,
-		"hasErr": errBad != nil,
+		"valBad": valBad,
 	}
 	expected := args.Map{
 		"val":    42,
-		"noErr":  true,
-		"hasErr": true,
+		"valBad": -1,
 	}
 	expected.ShouldBeEqual(t, 0, "ToInt", actual)
 }
@@ -166,12 +164,12 @@ func Test_ToInt(t *testing.T) {
 func Test_ToIntDefault(t *testing.T) {
 	// Act
 	actual := args.Map{
-		"valid":   stringutil.ToIntDefault("42", 0),
-		"invalid": stringutil.ToIntDefault("abc", 99),
+		"valid":   stringutil.ToIntDefault("42"),
+		"invalid": stringutil.ToIntDefault("abc"),
 	}
 	expected := args.Map{
 		"valid":   42,
-		"invalid": 99,
+		"invalid": 0,
 	}
 	expected.ShouldBeEqual(t, 0, "ToIntDefault", actual)
 }
@@ -193,14 +191,14 @@ func Test_ToBool(t *testing.T) {
 
 func Test_SplitLeftRight(t *testing.T) {
 	// Act
-	lr := stringutil.SplitLeftRight("=", "key=value")
-	lr2 := stringutil.SplitLeftRight("=", "noequals")
+	left, right := stringutil.SplitLeftRight("key=value", "=")
+	left2, right2 := stringutil.SplitLeftRight("noequals", "=")
 
 	actual := args.Map{
-		"left":   lr.Left,
-		"right":  lr.Right,
-		"left2":  lr2.Left,
-		"right2": lr2.Right,
+		"left":   left,
+		"right":  right,
+		"left2":  left2,
+		"right2": right2,
 	}
 	expected := args.Map{
 		"left":   "key",
@@ -261,8 +259,8 @@ func Test_IsNullOrEmptyPtr(t *testing.T) {
 func Test_IsAnyStartsWith(t *testing.T) {
 	// Act
 	actual := args.Map{
-		"found":    stringutil.IsAnyStartsWith("hello", "he", "wo"),
-		"notFound": stringutil.IsAnyStartsWith("hello", "wo", "fo"),
+		"found":    stringutil.IsAnyStartsWith("hello", false, "he", "wo"),
+		"notFound": stringutil.IsAnyStartsWith("hello", false, "wo", "fo"),
 	}
 	expected := args.Map{
 		"found":    true,
@@ -274,8 +272,8 @@ func Test_IsAnyStartsWith(t *testing.T) {
 func Test_IsAnyEndsWith(t *testing.T) {
 	// Act
 	actual := args.Map{
-		"found":    stringutil.IsAnyEndsWith("hello", "lo", "wo"),
-		"notFound": stringutil.IsAnyEndsWith("hello", "wo", "fo"),
+		"found":    stringutil.IsAnyEndsWith("hello", false, "lo", "wo"),
+		"notFound": stringutil.IsAnyEndsWith("hello", false, "wo", "fo"),
 	}
 	expected := args.Map{
 		"found":    true,

@@ -112,8 +112,8 @@ func Test_StringSlice_Empty(t *testing.T) {
 
 func Test_StringSlice_EmptyPtr(t *testing.T) {
 	result := stringslice.EmptyPtr()
-	if result == nil || len(*result) != 0 {
-		t.Error("EmptyPtr should return non-nil empty slice ptr")
+	if len(result) != 0 {
+		t.Error("EmptyPtr should return empty slice")
 	}
 }
 
@@ -129,21 +129,21 @@ func Test_StringSlice_IsEmptyPtr_Nil(t *testing.T) {
 
 func Test_StringSlice_IsEmptyPtr_NonNil(t *testing.T) {
 	s := []string{"a"}
-	if stringslice.IsEmptyPtr(&s) {
-		t.Error("non-empty ptr should not be empty")
+	if stringslice.IsEmptyPtr(s) {
+		t.Error("non-empty should not be empty")
 	}
 }
 
 func Test_StringSlice_HasAnyItemPtr_Nil(t *testing.T) {
 	if stringslice.HasAnyItemPtr(nil) {
-		t.Error("nil ptr should not have items")
+		t.Error("nil should not have items")
 	}
 }
 
 func Test_StringSlice_HasAnyItemPtr_NonNil(t *testing.T) {
 	s := []string{"a"}
-	if !stringslice.HasAnyItemPtr(&s) {
-		t.Error("non-empty ptr should have items")
+	if !stringslice.HasAnyItemPtr(s) {
+		t.Error("non-empty should have items")
 	}
 }
 
@@ -153,7 +153,7 @@ func Test_StringSlice_HasAnyItemPtr_NonNil(t *testing.T) {
 
 func Test_StringSlice_CloneIf_True(t *testing.T) {
 	src := []string{"a", "b"}
-	result := stringslice.CloneIf(true, src)
+	result := stringslice.CloneIf(true, 0, src)
 	if len(result) != 2 {
 		t.Errorf("expected 2, got %d", len(result))
 	}
@@ -165,7 +165,7 @@ func Test_StringSlice_CloneIf_True(t *testing.T) {
 
 func Test_StringSlice_CloneIf_False(t *testing.T) {
 	src := []string{"a", "b"}
-	result := stringslice.CloneIf(false, src)
+	result := stringslice.CloneIf(false, 0, src)
 	if len(result) != 2 {
 		t.Errorf("expected 2, got %d", len(result))
 	}
@@ -177,16 +177,16 @@ func Test_StringSlice_CloneIf_False(t *testing.T) {
 
 func Test_StringSlice_ClonePtr_Nil(t *testing.T) {
 	result := stringslice.ClonePtr(nil)
-	if result == nil || len(*result) != 0 {
-		t.Error("nil should return empty ptr")
+	if len(result) != 0 {
+		t.Error("nil should return empty slice")
 	}
 }
 
 func Test_StringSlice_ClonePtr_NonEmpty(t *testing.T) {
 	s := []string{"a", "b"}
-	result := stringslice.ClonePtr(&s)
-	if len(*result) != 2 {
-		t.Errorf("expected 2, got %d", len(*result))
+	result := stringslice.ClonePtr(s)
+	if len(result) != 2 {
+		t.Errorf("expected 2, got %d", len(result))
 	}
 }
 
@@ -255,8 +255,8 @@ func Test_StringSlice_NonWhitespaceJoin(t *testing.T) {
 func Test_StringSlice_SlicePtr(t *testing.T) {
 	s := []string{"a", "b"}
 	result := stringslice.SlicePtr(s)
-	if result == nil || len(*result) != 2 {
-		t.Error("SlicePtr should return pointer to slice")
+	if len(result) != 2 {
+		t.Error("SlicePtr should return slice")
 	}
 }
 

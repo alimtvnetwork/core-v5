@@ -20,9 +20,9 @@ func Test_Cov3_Collection_Add(t *testing.T) {
 func Test_Cov3_Collection_AddStrings(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	c.AddStrings([]string{"ab", "cde"})
-	actual := args.Map{"len": c.AllIndividualsLength()}
-	expected := args.Map{"len": 5}
-	expected.ShouldBeEqual(t, 0, "Collection AllIndividualsLength returns 5 -- ab+cde", actual)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "Collection AddStrings returns 2 -- ab+cde", actual)
 }
 
 func Test_Cov3_Collection_AddIf(t *testing.T) {

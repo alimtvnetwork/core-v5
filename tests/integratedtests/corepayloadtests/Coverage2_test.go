@@ -109,15 +109,15 @@ func Test_Cov2_PagingInfo_InvalidChecks(t *testing.T) {
 // ── SessionInfo ──
 
 func Test_Cov2_SessionInfo(t *testing.T) {
-	s := corepayload.SessionInfo{SessionId: "abc123"}
+	s := corepayload.SessionInfo{Id: "abc123"}
 
 	actual := args.Map{
-		"hasSession": s.HasSession(),
-		"sessionId":  s.SessionId,
+		"isValid": s.IsValid(),
+		"id":      s.Id,
 	}
 	expected := args.Map{
-		"hasSession": true,
-		"sessionId":  "abc123",
+		"isValid": true,
+		"id":      "abc123",
 	}
 	expected.ShouldBeEqual(t, 0, "SessionInfo", actual)
 }
@@ -125,25 +125,25 @@ func Test_Cov2_SessionInfo(t *testing.T) {
 func Test_Cov2_SessionInfo_Empty(t *testing.T) {
 	s := corepayload.SessionInfo{}
 
-	actual := args.Map{"hasSession": s.HasSession()}
-	expected := args.Map{"hasSession": false}
+	actual := args.Map{"isEmpty": s.IsEmpty()}
+	expected := args.Map{"isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SessionInfo empty", actual)
 }
 
 // ── AuthInfo ──
 
 func Test_Cov2_AuthInfo(t *testing.T) {
-	a := corepayload.AuthInfo{Token: "tok", UserId: "uid"}
+	a := corepayload.AuthInfo{Identifier: "id1", ActionType: "login", ResourceName: "/api"}
 
 	actual := args.Map{
-		"hasToken":  a.HasToken(),
-		"hasUserId": a.HasUserId(),
-		"token":     a.Token,
+		"hasAction":   a.HasActionType(),
+		"hasResource": a.HasResourceName(),
+		"identifier":  a.Identifier,
 	}
 	expected := args.Map{
-		"hasToken":  true,
-		"hasUserId": true,
-		"token":     "tok",
+		"hasAction":   true,
+		"hasResource": true,
+		"identifier":  "id1",
 	}
 	expected.ShouldBeEqual(t, 0, "AuthInfo", actual)
 }
@@ -151,7 +151,10 @@ func Test_Cov2_AuthInfo(t *testing.T) {
 // ── PayloadWrapper ──
 
 func Test_Cov2_PayloadWrapper_Basic(t *testing.T) {
-	pw := corepayload.New.PayloadWrapper.UsingPayload(map[string]string{"k": "v"})
+	pw := corepayload.New.PayloadWrapper.Create(
+		"test", "id1", "task", "cat",
+		map[string]string{"k": "v"},
+	)
 
 	actual := args.Map{
 		"notNil":     pw != nil,
