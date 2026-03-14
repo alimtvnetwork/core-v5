@@ -208,7 +208,7 @@ func (it Dynamic) ValueStrings() []string {
 	return nil
 }
 
-func (it *Dynamic) ValueBool() bool {
+func (it Dynamic) ValueBool() bool {
 	casted, isSuccess := it.innerData.(bool)
 
 	if isSuccess {
