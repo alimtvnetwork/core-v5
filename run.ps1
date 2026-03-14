@@ -1556,6 +1556,7 @@ switch ($Command.ToLower()) {
     { $_ -in "f", "-f", "fmt" }               { Invoke-Format }
     { $_ -in "l", "-l", "lint", "v", "-v", "vet" } { Invoke-Vet }
     { $_ -in "ty", "-ty", "tidy" }            { Invoke-Tidy }
+    { $_ -in "pc", "-pc", "pre-commit" }      { Invoke-PreCommitCheck $ExtraArgs[0] }
     { $_ -in "c", "-c", "clean" }             { Invoke-Clean }
     { $_ -in "h", "-h", "help", "" }          { Show-Help }
     default {
