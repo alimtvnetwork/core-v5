@@ -191,11 +191,11 @@ func Test_ToBool(t *testing.T) {
 
 func Test_SplitLeftRight(t *testing.T) {
 	// Act
-	lr := stringutil.SplitLeftRight("=", "key=value")
-	lr2 := stringutil.SplitLeftRight("=", "noequals")
+	left, right := stringutil.SplitLeftRight("key=value", "=")
+	left2, right2 := stringutil.SplitLeftRight("noequals", "=")
 
 	actual := args.Map{
-		"left":   lr.Left,
+		"left":   left,
 		"right":  lr.Right,
 		"left2":  lr2.Left,
 		"right2": lr2.Right,

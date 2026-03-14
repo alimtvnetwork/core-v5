@@ -300,8 +300,9 @@ func Test_TextWithLineNumber_Cov2(t *testing.T) {
 }
 
 func Test_ValueStatus_Cov2(t *testing.T) {
-	vs := corestr.ValueStatus{Value: "hello", IsValid: true}
-	actual := args.Map{"value": vs.Value, "isValid": vs.IsValid}
-	expected := args.Map{"value": "hello", "isValid": true}
+	vv := corestr.NewValidValue("hello", true)
+	vs := corestr.ValueStatus{ValueValid: vv, Index: 0}
+	actual := args.Map{"index": vs.Index, "notNil": vs.ValueValid != nil}
+	expected := args.Map{"index": 0, "notNil": true}
 	expected.ShouldBeEqual(t, 0, "ValueStatus", actual)
 }

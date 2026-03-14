@@ -255,8 +255,8 @@ func Test_StringSlice_NonWhitespaceJoin(t *testing.T) {
 func Test_StringSlice_SlicePtr(t *testing.T) {
 	s := []string{"a", "b"}
 	result := stringslice.SlicePtr(s)
-	if result == nil || len(*result) != 2 {
-		t.Error("SlicePtr should return pointer to slice")
+	if len(result) != 2 {
+		t.Error("SlicePtr should return slice")
 	}
 }
 

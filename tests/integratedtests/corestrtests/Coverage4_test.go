@@ -54,12 +54,12 @@ func Test_Cov4_Hashmap_Get(t *testing.T) {
 
 // ── Collection — serialization and iteration ──
 
-func Test_Cov4_Collection_Strings(t *testing.T) {
+func Test_Cov4_Collection_ListStrings(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"x", "y"})
-	strs := col.Strings()
+	strs := col.ListStrings()
 	actual := args.Map{"len": len(strs), "first": strs[0]}
 	expected := args.Map{"len": 2, "first": "x"}
-	expected.ShouldBeEqual(t, 0, "Collection Strings returns expected -- 2 items", actual)
+	expected.ShouldBeEqual(t, 0, "Collection ListStrings returns expected -- 2 items", actual)
 }
 
 func Test_Cov4_Collection_SafeAt(t *testing.T) {

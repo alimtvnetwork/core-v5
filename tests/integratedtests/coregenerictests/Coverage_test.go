@@ -2192,7 +2192,7 @@ func Test_ContainsFunc_Found_Cov(t *testing.T) {
 	}
 }
 
-func Test_IndexOfFunc_Found(t *testing.T) {
+func Test_IndexOfFunc_Found_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{10, 20, 30})
 	if coregeneric.IndexOfFunc(col, func(i int) bool { return i == 20 }) != 1 {
 		t.Error("should find at index 1")
