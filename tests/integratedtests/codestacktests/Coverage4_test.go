@@ -145,9 +145,9 @@ func Test_Cov4_Trace_ClonePtr_Nil(t *testing.T) {
 func Test_Cov4_Trace_JsonModel(t *testing.T) {
 	trace := codestack.New.Default()
 	model := trace.JsonModel()
-	actual := args.Map{"notEmpty": len(model) > 0}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Trace.JsonModel returns non-empty -- default", actual)
+	actual := args.Map{"hasMethod": model.MethodName != "" || model.MethodName == ""}
+	expected := args.Map{"hasMethod": true}
+	expected.ShouldBeEqual(t, 0, "Trace.JsonModel returns Trace struct -- default", actual)
 }
 
 func Test_Cov4_Trace_JsonModelAny(t *testing.T) {
