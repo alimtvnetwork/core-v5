@@ -17,7 +17,7 @@ import (
 // DynamicGetters.go — Read-only accessors, type checks, and value extraction
 // methods extracted from Dynamic.go.
 
-func (it *Dynamic) Data() any {
+func (it Dynamic) Data() any {
 	return it.innerData
 }
 
