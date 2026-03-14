@@ -617,11 +617,7 @@ func (it Map) GetAsAnyItems(name string) (items []any, isValid bool) {
 func (it Map) Slice() []any {
 	var slice []any
 
-	keys, err := converters.Map.SortedKeys(it.Raw())
-
-	if err != nil {
-		panic(err)
-	}
+	keys := it.SortedKeysMust()
 
 	for _, key := range keys {
 		value := it[key]
