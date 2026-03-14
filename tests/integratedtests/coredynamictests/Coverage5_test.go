@@ -449,10 +449,10 @@ func Test_Cov5_ValueStatus(t *testing.T) {
 // ── SimpleRequest / SimpleResult ──
 
 func Test_Cov5_SimpleRequest(t *testing.T) {
-	sr := &coredynamic.SimpleRequest{Items: []string{"a"}}
-	actual := args.Map{"len": len(sr.Items)}
-	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest -- 1 item", actual)
+	sr := coredynamic.NewSimpleRequestValid("hello")
+	actual := args.Map{"notNil": sr != nil, "val": sr.Value()}
+	expected := args.Map{"notNil": true, "val": "hello"}
+	expected.ShouldBeEqual(t, 0, "SimpleRequest -- valid", actual)
 }
 
 func Test_Cov5_SimpleResult(t *testing.T) {
