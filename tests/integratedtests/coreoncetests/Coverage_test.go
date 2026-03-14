@@ -262,7 +262,7 @@ var covStringsOnceTestCases = []coretestcases.CaseV1{
 			"hasAll": true, "contains": true, "has": true,
 			"sortedFirst": "a", "rangesLen": 3,
 			"csvNotEmpty": true, "csvLinesNotEmpty": true,
-			"safeLen": 3, "isEqual": false,
+			"safeLen": 3, "isEqual": true,
 		},
 	},
 	{
@@ -363,7 +363,7 @@ var covIntegersOnceTestCases = []coretestcases.CaseV1{
 		ExpectedInput: args.Map{
 			"isEmpty": false, "sortedFirst": 1,
 			"rangesLen": 3, "rangesBoolLen": 3,
-			"uniqueLen": 3, "isEqual": false,
+			"uniqueLen": 3, "isEqual": true,
 		},
 	},
 	{

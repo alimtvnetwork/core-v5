@@ -243,9 +243,9 @@ func Test_AnyToString_String_Cov2(t *testing.T) {
 }
 
 func Test_AnyToString_Nil_Cov2(t *testing.T) {
-	_ = corestr.AnyToString(false, nil)
-	actual := args.Map{"ok": true}
-	expected := args.Map{"ok": true}
+	result := corestr.AnyToString(false, nil)
+	actual := args.Map{"ok": true, "empty": result == ""}
+	expected := args.Map{"ok": true, "empty": true}
 	expected.ShouldBeEqual(t, 0, "AnyToString_Nil", actual)
 }
 

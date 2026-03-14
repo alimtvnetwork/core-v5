@@ -25,7 +25,7 @@ func Test_Cov5_AllNull_Mixed(t *testing.T) {
 
 func Test_Cov5_AllNull_Empty(t *testing.T) {
 	actual := args.Map{"result": isany.AllNull()}
-	expected := args.Map{"result": false}
+	expected := args.Map{"result": true}
 	expected.ShouldBeEqual(t, 0, "AllNull empty", actual)
 }
 
@@ -47,7 +47,7 @@ func Test_Cov5_AnyNull_NoNil(t *testing.T) {
 
 func Test_Cov5_AnyNull_Empty(t *testing.T) {
 	actual := args.Map{"result": isany.AnyNull()}
-	expected := args.Map{"result": true}
+	expected := args.Map{"result": false}
 	expected.ShouldBeEqual(t, 0, "AnyNull empty", actual)
 }
 

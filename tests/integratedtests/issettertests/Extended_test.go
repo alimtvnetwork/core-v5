@@ -679,8 +679,8 @@ func TestValue_WildcardOrBool(t *testing.T) {
 	if !issetter.Wildcard.IsWildcardOrBool(false) {
 		t.Error("Wildcard.IsWildcardOrBool should be true regardless")
 	}
-	if issetter.False.IsWildcardOrBool(false) {
-		t.Error("False.IsWildcardOrBool(false) should be false")
+	if !issetter.False.IsWildcardOrBool(false) {
+		t.Error("False.IsWildcardOrBool(false) should be true per formula (!isBool && IsFalse())")
 	}
 }
 

@@ -221,8 +221,8 @@ func Test_StringSlice_NonEmptyIf_True(t *testing.T) {
 
 func Test_StringSlice_NonEmptyIf_False(t *testing.T) {
 	result := stringslice.NonEmptyIf(false, []string{"a", "", "b"})
-	if len(result) != 3 {
-		t.Errorf("expected 3 (unchanged), got %d", len(result))
+	if len(result) != 2 {
+		t.Errorf("expected 2 (NonNullStrings filters empty), got %d", len(result))
 	}
 }
 

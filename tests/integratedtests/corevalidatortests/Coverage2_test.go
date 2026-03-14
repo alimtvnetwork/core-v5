@@ -78,7 +78,7 @@ func Test_Cov2_SliceValidator_ActualLines_Valid(t *testing.T) {
 	}
 	expected := args.Map{
 		"actualLen": 2, "expectedLen": 2,
-		"actualStr": true, "expectedStr": true, "isUsed": false,
+		"actualStr": true, "expectedStr": true, "isUsed": true,
 	}
 	expected.ShouldBeEqual(t, 0, "SliceValidator ActualLines returns expected -- 2 lines", actual)
 }

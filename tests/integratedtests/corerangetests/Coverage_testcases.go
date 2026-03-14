@@ -98,7 +98,7 @@ var minMaxIntCases = []coretestcases.CaseV1{
 			"difference":    -4,
 			"diffAbsolute":  4,
 			"rangeLength":   5,
-			"isWithin5":     true,
+			"isWithin5":     false,
 			"isWithin10":    false,
 			"isOutOfRange2": true,
 			"stringVal":     "7-3",

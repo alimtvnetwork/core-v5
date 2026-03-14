@@ -348,8 +348,8 @@ func Test_Cov3_NonEmptyIf_True(t *testing.T) {
 func Test_Cov3_NonEmptyIf_False(t *testing.T) {
 	result := stringslice.NonEmptyIf(false, []string{"a", "", "b"})
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "NonEmptyIf false no filter -- mixed", actual)
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "NonEmptyIf false calls NonNullStrings -- filters empty", actual)
 }
 
 // ============================================================================

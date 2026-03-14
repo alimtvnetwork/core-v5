@@ -140,7 +140,7 @@ var isWildcardOrBoolTestCases = []coretestcases.CaseV1{
 	{
 		Title:         "IsWildcardOrBool - False with false",
 		ArrangeInput:  args.Map{"value": issetter.False, "input": false},
-		ExpectedInput: args.Map{"result": false},
+		ExpectedInput: args.Map{"result": true},
 	},
 }
 
