@@ -53,7 +53,7 @@ func (it *Dynamic) StructString() string {
 	return *it.StructStringPtr()
 }
 
-func (it *Dynamic) IsNull() bool {
+func (it Dynamic) IsNull() bool {
 	return it.innerData == nil
 }
 
