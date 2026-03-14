@@ -273,19 +273,19 @@ func Test_Cov5_AnyItem_BothNonNil(t *testing.T) {
 
 func Test_Cov5_IsIntegersEqual(t *testing.T) {
 	actual := args.Map{
-		"eq":   corecmp.IsIntegersEqual(5, 5),
-		"neq":  corecmp.IsIntegersEqual(3, 5),
+		"eq":  corecmp.IsIntegersEqual([]int{5}, []int{5}),
+		"neq": corecmp.IsIntegersEqual([]int{3}, []int{5}),
 	}
 	expected := args.Map{
-		"eq":   true,
-		"neq":  false,
+		"eq":  true,
+		"neq": false,
 	}
 	expected.ShouldBeEqual(t, 0, "IsIntegersEqual returns correct -- equal and not equal", actual)
 }
 
 func Test_Cov5_IsIntegersEqualPtr(t *testing.T) {
-	l, r := 5, 5
-	l2 := 3
+	l, r := []int{5}, []int{5}
+	l2 := []int{3}
 	actual := args.Map{
 		"bothNil":  corecmp.IsIntegersEqualPtr(nil, nil),
 		"leftNil":  corecmp.IsIntegersEqualPtr(nil, &r),
@@ -307,8 +307,8 @@ func Test_Cov5_IsIntegersEqualPtr(t *testing.T) {
 
 func Test_Cov5_IsStringsEqual(t *testing.T) {
 	actual := args.Map{
-		"eq":  corecmp.IsStringsEqual("abc", "abc"),
-		"neq": corecmp.IsStringsEqual("abc", "xyz"),
+		"eq":  corecmp.IsStringsEqual([]string{"abc"}, []string{"abc"}),
+		"neq": corecmp.IsStringsEqual([]string{"abc"}, []string{"xyz"}),
 	}
 	expected := args.Map{
 		"eq":  true,
@@ -318,14 +318,14 @@ func Test_Cov5_IsStringsEqual(t *testing.T) {
 }
 
 func Test_Cov5_IsStringsEqualPtr(t *testing.T) {
-	l, r := "abc", "abc"
-	l2 := "xyz"
+	l, r := []string{"abc"}, []string{"abc"}
+	l2 := []string{"xyz"}
 	actual := args.Map{
 		"bothNil":  corecmp.IsStringsEqualPtr(nil, nil),
-		"leftNil":  corecmp.IsStringsEqualPtr(nil, &r),
-		"rightNil": corecmp.IsStringsEqualPtr(&l, nil),
-		"eq":       corecmp.IsStringsEqualPtr(&l, &r),
-		"neq":      corecmp.IsStringsEqualPtr(&l2, &r),
+		"leftNil":  corecmp.IsStringsEqualPtr(nil, r),
+		"rightNil": corecmp.IsStringsEqualPtr(l, nil),
+		"eq":       corecmp.IsStringsEqualPtr(l, r),
+		"neq":      corecmp.IsStringsEqualPtr(l2, r),
 	}
 	expected := args.Map{
 		"bothNil":  true,

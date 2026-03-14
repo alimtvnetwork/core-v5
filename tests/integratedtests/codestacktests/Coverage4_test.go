@@ -67,9 +67,9 @@ func Test_Cov4_Trace_String(t *testing.T) {
 func Test_Cov4_Trace_FileWithLine(t *testing.T) {
 	trace := codestack.New.Default()
 	fwl := trace.FileWithLine()
-	actual := args.Map{"notNil": fwl != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Trace.FileWithLine returns non-nil -- default", actual)
+	actual := args.Map{"hasPath": fwl.FilePath != "", "linePositive": fwl.Line > 0}
+	expected := args.Map{"hasPath": true, "linePositive": true}
+	expected.ShouldBeEqual(t, 0, "Trace.FileWithLine returns populated value -- default", actual)
 }
 
 func Test_Cov4_Trace_FullFilePath(t *testing.T) {
@@ -193,7 +193,7 @@ func Test_Cov4_Trace_Dispose(t *testing.T) {
 // ── newStacksCreator (via New.StackTrace) ──
 
 func Test_Cov4_NewStacks_Default(t *testing.T) {
-	traces := codestack.New.StackTrace.Default()
+	traces := codestack.New.StackTrace.Default(1, 5)
 	actual := args.Map{"hasItems": traces.Length() > 0}
 	expected := args.Map{"hasItems": true}
 	expected.ShouldBeEqual(t, 0, "StackTrace.Default returns non-empty -- from test", actual)
@@ -203,7 +203,7 @@ func Test_Cov4_NewStacks_DefaultCount(t *testing.T) {
 	traces := codestack.New.StackTrace.DefaultCount(3)
 	actual := args.Map{"hasItems": traces.Length() > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "StackTrace.DefaultCount returns traces -- count 3", actual)
+	expected.ShouldBeEqual(t, 0, "StackTrace.DefaultCount returns traces -- start skip 3", actual)
 }
 
 func Test_Cov4_NewStacks_SkipOne(t *testing.T) {
@@ -221,7 +221,7 @@ func Test_Cov4_NewStacks_SkipNone(t *testing.T) {
 }
 
 func Test_Cov4_NewStacks_All(t *testing.T) {
-	traces := codestack.New.StackTrace.All(1, 5)
+	traces := codestack.New.StackTrace.All(true, true, 1, 5)
 	actual := args.Map{"hasItems": traces.Length() > 0}
 	expected := args.Map{"hasItems": true}
 	expected.ShouldBeEqual(t, 0, "StackTrace.All returns traces -- skip 1 count 5", actual)
@@ -278,7 +278,7 @@ func Test_Cov4_File_CurFile(t *testing.T) {
 // ── stacksTo ──
 
 func Test_Cov4_StacksTo_String(t *testing.T) {
-	traces := codestack.New.StackTrace.Default()
+	traces := codestack.New.StackTrace.Default(1, 5)
 	s := codestack.StacksTo.String(traces)
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}

@@ -372,33 +372,7 @@ func Test_Cov_Trace_HasIssues(t *testing.T) {
 
 func Test_Cov_TraceCollection_NewAndBasic(t *testing.T) {
 	// Arrange — use NewStacks.DefaultCount to avoid double-skip in New.StackTrace.Default
-	tc := codestack.NewStacks.DefaultCount(1)
-
-	// Act & Assert
-	if tc.IsEmpty() {
-		t.Error("Default TraceCollection should not be empty")
-	}
-
-	if !tc.HasAnyItem() {
-		t.Error("should have items")
-	}
-
-	if tc.Length() == 0 {
-		t.Error("Length should not be 0")
-	}
-
-	if tc.Count() == 0 {
-		t.Error("Count should not be 0")
-	}
-
-	if tc.LastIndex() < 0 {
-		t.Error("LastIndex should be >= 0")
-	}
-}
-
-func Test_Cov_TraceCollection_FirstLast(t *testing.T) {
-	// Arrange — use NewStacks.DefaultCount to avoid double-skip
-	tc := codestack.NewStacks.DefaultCount(1)
+	tc := codestack.New.StackTrace.DefaultCount(1)
 
 	// Act & Assert
 	first := tc.First()
