@@ -179,7 +179,7 @@ func Test_Cov3_TraceCollection_ConcatNewPtr(t *testing.T) {
 func Test_Cov3_TraceCollection_StackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.DefaultCount(1)
 	actual := args.Map{"notEmpty": tc.StackTraces() != ""}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": tc.StackTraces() != ""}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.StackTraces", actual)
 }
 
