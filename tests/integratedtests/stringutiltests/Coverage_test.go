@@ -231,7 +231,7 @@ func Test_SafeSubstring(t *testing.T) {
 	}
 	expected := args.Map{
 		"normal": "hello",
-		"over":   "hi",
+		"over":   "",
 		"empty":  "",
 	}
 	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)

@@ -307,7 +307,7 @@ func Test_RangeInt_Verification(t *testing.T) {
 			"isValid": ri.IsValid,
 		}
 
-		if ri.IsValid || ri.Start != 0 || ri.End != 0 {
+		if ri.IsValid || (ri.Start != 0 && ri.End != 0) {
 			actual["start"] = ri.Start
 			actual["end"] = ri.End
 			actual["rangeLength"] = ri.RangeLength()

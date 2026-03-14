@@ -67,11 +67,12 @@ func Test_Cov_Variant_Values(t *testing.T) {
 // ── Variant name methods ──
 
 func Test_Cov_Variant_Names(t *testing.T) {
+	owner := chmodclasstype.Owner
 	actual := args.Map{
-		"ownerName":   chmodclasstype.Owner.Name(),
-		"ownerString": chmodclasstype.Owner.String(),
-		"nameValue":   chmodclasstype.Owner.NameValue() != "",
-		"typeName":    chmodclasstype.Owner.TypeName() != "",
+		"ownerName":   (&owner).Name(),
+		"ownerString": owner.String(),
+		"nameValue":   owner.NameValue() != "",
+		"typeName":    owner.TypeName() != "",
 	}
 	expected := args.Map{
 		"ownerName":   "Owner",
@@ -86,12 +87,13 @@ func Test_Cov_Variant_Names(t *testing.T) {
 
 func Test_Cov_Variant_Comparison(t *testing.T) {
 	v := chmodclasstype.Owner
+	ownerEnum := chmodclasstype.Owner
 	actual := args.Map{
 		"isNameEqual":    v.IsNameEqual("Owner"),
 		"isNameNotEqual": v.IsNameEqual("Group"),
 		"isByteEqual":    v.IsByteValueEqual(byte(chmodclasstype.Owner)),
 		"isValueEqual":   v.IsValueEqual(byte(chmodclasstype.Owner)),
-		"isEnumEqual":    v.IsEnumEqual(chmodclasstype.Owner),
+		"isEnumEqual":    v.IsEnumEqual(&ownerEnum),
 		"isAnyNames":     v.IsAnyNamesOf("Owner", "Group"),
 		"isAnyNamesFail": v.IsAnyNamesOf("Group", "Other"),
 		"isAnyValues":    v.IsAnyValuesEqual(byte(chmodclasstype.Owner), byte(chmodclasstype.Group)),
@@ -115,9 +117,12 @@ func Test_Cov_Variant_Comparison(t *testing.T) {
 
 func Test_Cov_Variant_IsAnyEnumsEqual(t *testing.T) {
 	v := chmodclasstype.Owner
+	group := chmodclasstype.Group
+	owner := chmodclasstype.Owner
+	other := chmodclasstype.Other
 	actual := args.Map{
-		"match":   v.IsAnyEnumsEqual(chmodclasstype.Group, chmodclasstype.Owner),
-		"noMatch": v.IsAnyEnumsEqual(chmodclasstype.Group, chmodclasstype.Other),
+		"match":   v.IsAnyEnumsEqual(&group, &owner),
+		"noMatch": v.IsAnyEnumsEqual(&group, &other),
 	}
 	expected := args.Map{
 		"match":   true,

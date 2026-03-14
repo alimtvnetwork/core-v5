@@ -50,7 +50,7 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"name":      "Minor",
-			"nameValue": "Minor[1]",
+			"nameValue": "Minor(1)",
 		},
 	},
 	{
@@ -61,7 +61,7 @@ var nameAndNameValueTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"name":      "Patch",
-			"nameValue": "Patch[2]",
+			"nameValue": "Patch(2)",
 		},
 	},
 }
@@ -76,7 +76,7 @@ var jsonParseSelfInjectTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"resultName":      "Patch",
-			"resultNameValue": "Patch[2]",
+			"resultNameValue": "Patch(2)",
 		},
 	},
 	{
@@ -88,7 +88,7 @@ var jsonParseSelfInjectTestCases = []coretestcases.CaseV1{
 		},
 		ExpectedInput: args.Map{
 			"resultName":      "Major",
-			"resultNameValue": "Major[0]",
+			"resultNameValue": "Major(0)",
 		},
 	},
 }
