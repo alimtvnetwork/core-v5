@@ -450,10 +450,13 @@ function Invoke-TestCoverage {
             $idx = [System.Threading.Interlocked]::Increment([ref]$using:jobCounter)
             $outFile = Join-Path $tempDir "compile-$idx.exe"
             $ErrorActionPreference = "Continue"
-            $out = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            # Capture output to array first, THEN read $LASTEXITCODE before any pipe resets it
+            $rawOut = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1
+            $ec = $LASTEXITCODE
+            $out = @($rawOut | ForEach-Object { $_.ToString() })
             [pscustomobject]@{
                 Pkg      = $pkg
-                ExitCode = $LASTEXITCODE
+                ExitCode = $ec
                 Output   = $out
             }
         }
