@@ -51,13 +51,14 @@ func Test_Cov6_ErrorToSplitNonEmptyLines(t *testing.T) {
 // ── ManyErrorToSingle / ManyErrorToSingleDirect ──
 
 func Test_Cov6_ManyErrorToSingle(t *testing.T) {
-	result := errcore.ManyErrorToSingle(errors.New("a"), nil, errors.New("b"))
-	nilResult := errcore.ManyErrorToSingle()
-	allNil := errcore.ManyErrorToSingle(nil, nil)
+	errs := []error{errors.New("a"), nil, errors.New("b")}
+	result := errcore.ManyErrorToSingle(errs)
+	nilResult := errcore.ManyErrorToSingle(nil)
+	allNil := errcore.ManyErrorToSingle([]error{nil, nil})
 	actual := args.Map{
-		"hasErr": result != nil,
+		"hasErr":    result != nil,
 		"nilResult": nilResult == nil,
-		"allNil": allNil == nil,
+		"allNil":    allNil == nil,
 	}
 	expected := args.Map{"hasErr": true, "nilResult": true, "allNil": true}
 	expected.ShouldBeEqual(t, 0, "ManyErrorToSingle", actual)
