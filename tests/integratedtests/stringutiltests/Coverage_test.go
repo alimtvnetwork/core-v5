@@ -259,8 +259,8 @@ func Test_IsNullOrEmptyPtr(t *testing.T) {
 func Test_IsAnyStartsWith(t *testing.T) {
 	// Act
 	actual := args.Map{
-		"found":    stringutil.IsAnyStartsWith("hello", "he", "wo"),
-		"notFound": stringutil.IsAnyStartsWith("hello", "wo", "fo"),
+		"found":    stringutil.IsAnyStartsWith("hello", false, "he", "wo"),
+		"notFound": stringutil.IsAnyStartsWith("hello", false, "wo", "fo"),
 	}
 	expected := args.Map{
 		"found":    true,
