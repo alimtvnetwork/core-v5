@@ -8,7 +8,8 @@
 
 ```powershell
 ./run.ps1 -t              # Run all tests
-./run.ps1 -tc             # Run tests with coverage (HTML + summary)
+./run.ps1 -tc             # Run tests with coverage (parallel, HTML + summary)
+./run.ps1 -tc --sync      # Run tests with coverage (sequential mode)
 ./run.ps1 -h              # Show help
 ```
 
