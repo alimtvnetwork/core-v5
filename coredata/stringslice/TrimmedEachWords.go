@@ -10,7 +10,7 @@ import (
 // No spaces remained.
 func TrimmedEachWords(slice []string) []string {
 	if slice == nil {
-		return []string{}
+		return nil
 	}
 
 	length := len(slice)

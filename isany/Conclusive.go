@@ -32,7 +32,7 @@ func Conclusive(left, right any) (isEqual, isConclusive bool) {
 	if isLeftNull && isBothEqual {
 		// both null
 		return true, true
-	} else if !isBothEqual && isLeftNull || isRightNull {
+	} else if !isBothEqual && (isLeftNull || isRightNull) {
 		// any null but the other is not
 		return false, true
 	}

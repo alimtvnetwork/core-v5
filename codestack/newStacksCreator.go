@@ -38,7 +38,7 @@ func (it newStacksCreator) DefaultCount(
 	return it.All(
 		true,
 		true,
-		startSkipIndex+defaultInternalSkip,
+		startSkipIndex,
 		DefaultStackCount,
 	)
 }
