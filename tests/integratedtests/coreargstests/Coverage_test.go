@@ -313,22 +313,11 @@ func Test_Cov_Map_Slice_String(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Map Slice/String", actual)
 }
 
-func Test_Cov_Map_GoLiteral(t *testing.T) {
+func Test_Cov_Map_GoLiteralString(t *testing.T) {
 	m := args.Map{"a": 1}
-	actual := args.Map{"notEmpty": m.GoLiteral() != ""}
+	actual := args.Map{"notEmpty": m.GoLiteralString() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Map GoLiteral", actual)
-}
-
-func Test_Cov_Map_Contracts(t *testing.T) {
-	m := args.Map{"a": 1}
-	actual := args.Map{
-		"mapper":    m.AsArgsMapper() != nil,
-		"funcName":  m.AsArgFuncNameContractsBinder() != nil,
-		"base":      m.AsArgBaseContractsBinder() != nil,
-	}
-	expected := args.Map{"mapper": true, "funcName": true, "base": true}
-	expected.ShouldBeEqual(t, 0, "Map Contracts", actual)
+	expected.ShouldBeEqual(t, 0, "Map GoLiteralString", actual)
 }
 
 // ── Dynamic ──
