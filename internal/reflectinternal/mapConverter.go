@@ -187,7 +187,12 @@ func (it mapConverter) ToSortedStringsMust(anyItem any) []string {
 		return []string{}
 	}
 
-	reflectVal := reflect.ValueOf(anyItem)
+	var reflectVal reflect.Value
+	if rv, ok := anyItem.(reflect.Value); ok {
+		reflectVal = rv
+	} else {
+		reflectVal = reflect.ValueOf(anyItem)
+	}
 
 	keys, err := it.ToStringsRv(reflectVal)
 	if err != nil {
