@@ -8,13 +8,13 @@ import (
 	"github.com/alimtvnetwork/core/errcore"
 )
 
-// ── CombineWithMsgType ──
+// ── CombineWithMsgTypeNoStack ──
 
-func Test_Cov6_CombineWithMsgType(t *testing.T) {
-	result := errcore.CombineWithMsgType.Error("test msg", errors.New("inner"))
-	actual := args.Map{"hasErr": result != nil}
-	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "CombineWithMsgType", actual)
+func Test_Cov6_CombineWithMsgTypeNoStack(t *testing.T) {
+	result := errcore.CombineWithMsgTypeNoStack("test-type", "test msg", "ref")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "CombineWithMsgTypeNoStack", actual)
 }
 
 // ── ConcatMessageWithErr ──
