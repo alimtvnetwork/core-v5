@@ -270,11 +270,11 @@ func Test_Cov4_SimpleSlice_FirstOrDefault(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	empty := corestr.New.SimpleSlice.Empty()
 	actual := args.Map{
-		"first":        ss.FirstOrDefault("x"),
-		"emptyDefault": empty.FirstOrDefault("x"),
-		"lastOrDef":    ss.LastOrDefault("x"),
+		"first":        ss.FirstOrDefault(),
+		"emptyDefault": empty.FirstOrDefault(),
+		"lastOrDef":    ss.LastOrDefault(),
 	}
-	expected := args.Map{"first": "a", "emptyDefault": "x", "lastOrDef": "b"}
+	expected := args.Map{"first": "a", "emptyDefault": "", "lastOrDef": "b"}
 	expected.ShouldBeEqual(t, 0, "SimpleSlice FirstOrDefault/LastOrDefault returns expected", actual)
 }
 
