@@ -1987,7 +1987,7 @@ func Test_PointerSliceSorter_Less_BothNil(t *testing.T) {
 	}
 }
 
-func Test_PointerSliceSorter_NilFirst(t *testing.T) {
+func Test_PointerSliceSorter_NilFirst_Cov(t *testing.T) {
 	a := 1
 	items := []*int{&a, nil}
 	sorter := coregeneric.NewPointerSliceSorterFunc(items, func(x, y int) bool { return x < y }, true)
