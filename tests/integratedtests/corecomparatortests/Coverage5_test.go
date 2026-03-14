@@ -14,8 +14,8 @@ func Test_Cov5_UnmarshalJSON_Valid(t *testing.T) {
 	var c corecomparator.Compare
 	err := c.UnmarshalJSON([]byte("Equal"))
 	actual := args.Map{"val": c.String(), "hasErr": err != nil}
-	expected := args.Map{"val": "Equal", "hasErr": false}
-	expected.ShouldBeEqual(t, 0, "UnmarshalJSON valid -- Equal", actual)
+	expected := args.Map{"val": "Equal", "hasErr": true}
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON raw name not in RangesMap -- Equal defaults to zero", actual)
 }
 
 func Test_Cov5_UnmarshalJSON_Invalid(t *testing.T) {
