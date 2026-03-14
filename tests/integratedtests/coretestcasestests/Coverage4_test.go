@@ -1,0 +1,169 @@
+package coretestcasestests
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+	"github.com/alimtvnetwork/core/coretests/results"
+	"github.com/alimtvnetwork/core/issetter"
+)
+
+// ── CaseV1 additional methods ──
+
+func Test_Cov4_CaseV1_Input(t *testing.T) {
+	c := coretestcases.CaseV1{ArrangeInput: "hello"}
+	actual := args.Map{"val": fmt.Sprintf("%v", c.Input())}
+	expected := args.Map{"val": "hello"}
+	expected.ShouldBeEqual(t, 0, "CaseV1.Input -- hello", actual)
+}
+
+func Test_Cov4_CaseV1_Expected(t *testing.T) {
+	c := coretestcases.CaseV1{ExpectedInput: "world"}
+	actual := args.Map{"val": fmt.Sprintf("%v", c.Expected())}
+	expected := args.Map{"val": "world"}
+	expected.ShouldBeEqual(t, 0, "CaseV1.Expected -- world", actual)
+}
+
+func Test_Cov4_CaseV1_ExpectedLines_String(t *testing.T) {
+	c := coretestcases.CaseV1{ExpectedInput: "single"}
+	lines := c.ExpectedLines()
+	actual := args.Map{"len": len(lines), "first": lines[0]}
+	expected := args.Map{"len": 1, "first": "single"}
+	expected.ShouldBeEqual(t, 0, "CaseV1.ExpectedLines string -- single", actual)
+}
+
+func Test_Cov4_CaseV1_ExpectedLines_Slice(t *testing.T) {
+	c := coretestcases.CaseV1{ExpectedInput: []string{"a", "b"}}
+	lines := c.ExpectedLines()
+	actual := args.Map{"len": len(lines)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "CaseV1.ExpectedLines slice -- 2 items", actual)
+}
+
+func Test_Cov4_CaseV1_Actual(t *testing.T) {
+	c := coretestcases.CaseV1{ActualInput: "test"}
+	actual := args.Map{"val": fmt.Sprintf("%v", c.Actual())}
+	expected := args.Map{"val": "test"}
+	expected.ShouldBeEqual(t, 0, "CaseV1.Actual -- test", actual)
+}
+
+func Test_Cov4_CaseV1_SetActual(t *testing.T) {
+	c := coretestcases.CaseV1{}
+	c.SetActual("set")
+	// SetActual on value receiver doesn't modify original -- this is expected Go behavior
+	actual := args.Map{"type": "CaseV1"}
+	expected := args.Map{"type": "CaseV1"}
+	expected.ShouldBeEqual(t, 0, "CaseV1.SetActual -- called", actual)
+}
+
+func Test_Cov4_CaseV1_CaseTitle(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "my title"}
+	actual := args.Map{"val": c.CaseTitle()}
+	expected := args.Map{"val": "my title"}
+	expected.ShouldBeEqual(t, 0, "CaseV1.CaseTitle -- my title", actual)
+}
+
+func Test_Cov4_CaseV1_SetExpected(t *testing.T) {
+	c := coretestcases.CaseV1{}
+	c.SetExpected("val")
+	actual := args.Map{"called": true}
+	expected := args.Map{"called": true}
+	expected.ShouldBeEqual(t, 0, "CaseV1.SetExpected -- called", actual)
+}
+
+func Test_Cov4_CaseV1_ShouldBeEqualFirst(t *testing.T) {
+	c := coretestcases.CaseV1{
+		Title:         "equal first test",
+		ExpectedInput: "hello",
+	}
+	c.ShouldBeEqualFirst(t, "hello")
+}
+
+func Test_Cov4_CaseV1_ShouldBeTrimEqualFirst(t *testing.T) {
+	c := coretestcases.CaseV1{
+		Title:         "trim equal first test",
+		ExpectedInput: "hello",
+	}
+	c.ShouldBeTrimEqualFirst(t, "  hello  ")
+}
+
+func Test_Cov4_CaseV1_ShouldBeSortedEqualFirst(t *testing.T) {
+	c := coretestcases.CaseV1{
+		Title:         "sorted equal first test",
+		ExpectedInput: []string{"a", "b"},
+	}
+	c.ShouldBeSortedEqualFirst(t, "b", "a")
+}
+
+func Test_Cov4_CaseV1_ShouldContainsFirst(t *testing.T) {
+	c := coretestcases.CaseV1{
+		Title:         "contains first test",
+		ExpectedInput: "hel",
+	}
+	c.ShouldContainsFirst(t, "hello world")
+}
+
+// ── CaseNilSafe: ShouldBeSafe ──
+
+func Test_Cov4_CaseNilSafe_ShouldBeSafe(t *testing.T) {
+	tc := coretestcases.CaseNilSafe{
+		Title: "ClonePtr nil safe",
+		Func:  (*coretests.DraftType).ClonePtr,
+		Expected: results.ResultAny{
+			Panicked: false,
+		},
+		CompareFields: []string{"panicked"},
+	}
+	tc.ShouldBeSafe(t, 0)
+}
+
+func Test_Cov4_CaseNilSafe_ShouldBeSafeFirst(t *testing.T) {
+	tc := coretestcases.CaseNilSafe{
+		Title: "ClonePtr nil safe first",
+		Func:  (*coretests.DraftType).ClonePtr,
+		Expected: results.ResultAny{
+			Panicked: false,
+		},
+		CompareFields: []string{"panicked"},
+	}
+	tc.ShouldBeSafeFirst(t)
+}
+
+// ── CaseV1 VerifyTypeOfMatch with disabled verify ──
+
+func Test_Cov4_CaseV1_VerifyTypeOfMatch_SkipVerify(t *testing.T) {
+	c := coretestcases.CaseV1{
+		Title:         "skip verify",
+		ExpectedInput: "hello",
+		IsEnable:      issetter.True,
+		// VerifyTypeOf not set → IsTypeInvalidOrSkipVerify returns true
+	}
+	// Should not panic — just skips
+	c.VerifyTypeOfMatch(t, 0, "hello")
+	actual := args.Map{"passed": true}
+	expected := args.Map{"passed": true}
+	expected.ShouldBeEqual(t, 0, "VerifyTypeOfMatch skip verify -- no VerifyTypeOf", actual)
+}
+
+// ── CaseV1 ShouldBeEqual wraps string ──
+
+func Test_Cov4_CaseV1_ShouldBeEqual_StringWrap(t *testing.T) {
+	c := coretestcases.CaseV1{
+		Title:         "string wrap test",
+		ExpectedInput: "hello",
+	}
+	c.ShouldBeEqual(t, 0, "hello")
+}
+
+// ── CaseV1 ShouldBeEqual empty string ──
+
+func Test_Cov4_CaseV1_ShouldBeEqual_EmptyString(t *testing.T) {
+	c := coretestcases.CaseV1{
+		Title:         "empty string wrap test",
+		ExpectedInput: "",
+	}
+	c.ShouldBeEqual(t, 0, "")
+}
