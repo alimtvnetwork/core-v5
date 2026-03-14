@@ -152,7 +152,7 @@ func Test_Cov7_Hashmap_Basic(t *testing.T) {
 
 func Test_Cov7_Hashmap_Get(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key1", "val1")
+	h.Set("key1", "val1")
 	val, has := h.Get("key1")
 	_, notHas := h.Get("missing")
 	actual := args.Map{"val": val, "has": has, "notHas": notHas}
