@@ -1394,7 +1394,7 @@ func Test_ContainsFunc_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_IndexOfFunc_Nil(t *testing.T) {
+func Test_IndexOfFunc_Nil_Cov(t *testing.T) {
 	if coregeneric.IndexOfFunc[int](nil, func(i int) bool { return true }) != -1 {
 		t.Error("nil should return -1")
 	}
