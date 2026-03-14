@@ -10,14 +10,14 @@ import (
 // ── newTraceCollection ──
 
 func Test_Cov2_NewTraceCollection_Default(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 	actual := args.Map{"notEmpty": !tc.IsEmpty()}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "newTraceCollection.Default returns non-empty -- default args", actual)
 }
 
 func Test_Cov2_NewTraceCollection_SkipOne(t *testing.T) {
-	tc := codestack.New.StackTrace.SkipOne()
+	tc := codestack.New.StackTrace.SkipNone()
 	actual := args.Map{"notEmpty": !tc.IsEmpty()}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "newTraceCollection.SkipOne returns non-empty -- skip one", actual)
@@ -31,7 +31,7 @@ func Test_Cov2_NewTraceCollection_SkipNone(t *testing.T) {
 }
 
 func Test_Cov2_NewTraceCollection_DefaultCount(t *testing.T) {
-	tc := codestack.New.StackTrace.DefaultCount(1)
+	tc := codestack.New.StackTrace.DefaultCount(0)
 	actual := args.Map{"notEmpty": !tc.IsEmpty()}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "newTraceCollection.DefaultCount returns non-empty -- skip 1", actual)
