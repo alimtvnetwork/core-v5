@@ -770,7 +770,7 @@ func Test_Cov3_BasicString_Ranges(t *testing.T) {
 		"hashsetLen":  len(bs.Hashset()),
 		"hashsetPtr":  true,
 		"integersLen": 2,
-		"nameIdxLen":  2,
+		"nameIdxLen":  len(bs.NameWithIndexMap()),
 	}
 	expected.ShouldBeEqual(t, 0, "BasicString_Ranges", actual)
 }
