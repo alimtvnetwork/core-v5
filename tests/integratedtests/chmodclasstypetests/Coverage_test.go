@@ -67,11 +67,12 @@ func Test_Cov_Variant_Values(t *testing.T) {
 // ── Variant name methods ──
 
 func Test_Cov_Variant_Names(t *testing.T) {
+	owner := chmodclasstype.Owner
 	actual := args.Map{
-		"ownerName":   chmodclasstype.Owner.Name(),
-		"ownerString": chmodclasstype.Owner.String(),
-		"nameValue":   chmodclasstype.Owner.NameValue() != "",
-		"typeName":    chmodclasstype.Owner.TypeName() != "",
+		"ownerName":   (&owner).Name(),
+		"ownerString": owner.String(),
+		"nameValue":   owner.NameValue() != "",
+		"typeName":    owner.TypeName() != "",
 	}
 	expected := args.Map{
 		"ownerName":   "Owner",
