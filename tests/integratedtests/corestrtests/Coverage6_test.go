@@ -239,8 +239,8 @@ func Test_Cov6_Hashset_AddBool(t *testing.T) {
 	added1 := hs.AddBool("hello")
 	added2 := hs.AddBool("hello")
 	actual := args.Map{"first": added1, "second": added2}
-	expected := args.Map{"first": true, "second": false}
-	expected.ShouldBeEqual(t, 0, "Hashset.AddBool returns correct -- new vs existing", actual)
+	expected := args.Map{"first": false, "second": true}
+	expected.ShouldBeEqual(t, 0, "Hashset.AddBool returns isExist -- false then true", actual)
 }
 
 func Test_Cov6_Hashset_AddNonEmpty(t *testing.T) {
