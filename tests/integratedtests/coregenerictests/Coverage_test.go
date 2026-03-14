@@ -1367,28 +1367,28 @@ func Test_MapCollection_Nil(t *testing.T) {
 	}
 }
 
-func Test_FlatMapCollection_Nil(t *testing.T) {
+func Test_FlatMapCollection_Nil_Cov(t *testing.T) {
 	result := coregeneric.FlatMapCollection[int, string](nil, func(i int) []string { return nil })
 	if result.Length() != 0 {
 		t.Error("nil should return empty")
 	}
 }
 
-func Test_ReduceCollection_Nil(t *testing.T) {
+func Test_ReduceCollection_Nil_Cov(t *testing.T) {
 	result := coregeneric.ReduceCollection[int, int](nil, 0, func(acc int, item int) int { return acc + item })
 	if result != 0 {
 		t.Error("nil should return initial")
 	}
 }
 
-func Test_GroupByCollection_Nil(t *testing.T) {
+func Test_GroupByCollection_Nil_Cov(t *testing.T) {
 	result := coregeneric.GroupByCollection[int, string](nil, func(i int) string { return "" })
 	if len(result) != 0 {
 		t.Error("nil should return empty map")
 	}
 }
 
-func Test_ContainsFunc_Nil(t *testing.T) {
+func Test_ContainsFunc_Nil_Cov(t *testing.T) {
 	if coregeneric.ContainsFunc[int](nil, func(i int) bool { return true }) {
 		t.Error("nil should return false")
 	}
