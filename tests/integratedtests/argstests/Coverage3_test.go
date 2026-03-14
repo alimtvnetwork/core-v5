@@ -65,7 +65,8 @@ func Test_Cov3_Map_GetAsStringSlice(t *testing.T) {
 
 func Test_Cov3_Map_GetAsBytes(t *testing.T) {
 	m := args.Map{"data": []byte{1, 2, 3}}
-	data, _ := m.GetAsBytes("data")
+	raw, _ := m.Get("data")
+	data, _ := raw.([]byte)
 	actual := args.Map{"len": len(data)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "Map.GetAsBytes returns correct -- 3 bytes", actual)
