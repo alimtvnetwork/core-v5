@@ -25,11 +25,6 @@ func isPagingOutOfRange(length, eachPageSize int) bool {
 	return length < eachPageSize
 }
 
-// hasNoItems returns true when length is zero — distinct from negative guard.
-func hasNoItems(length int) bool {
-	return length == 0
-}
-
 // clampedPageIndex returns a valid page index:
 //   - negative or zero → 1 (first page)
 //   - beyond total pages → totalPages (last page)
