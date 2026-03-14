@@ -682,8 +682,8 @@ function Invoke-TestCoverage {
         foreach ($line in $lines) {
             if (-not $line -or $line -match "^mode:") { continue }
             # Coverage line format: "pkg/file.go:startLine.startCol,endLine.endCol numStatements count"
-            # Extract the key (everything except the last number) and the count
-            if ($line -match "^(.+\s+\d+)\s+(\d+)\s*$") {
+            # Require full format with colon before line numbers to reject malformed lines
+            if ($line -match "^(\S+\.go:\d+\.\d+,\d+\.\d+\s+\d+)\s+(\d+)\s*$") {
                 $key = $Matches[1]
                 $count = [int]$Matches[2]
                 if ($coverMap.ContainsKey($key)) {
