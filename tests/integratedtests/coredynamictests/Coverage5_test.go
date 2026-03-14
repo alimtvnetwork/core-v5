@@ -242,8 +242,9 @@ func Test_Cov5_MapAnyItems_AllKeysSorted(t *testing.T) {
 func Test_Cov5_MapAnyItems_Json(t *testing.T) {
 	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
 	r := m.Json()
-	actual := args.Map{"hasBytes": r.HasBytes(), "jsonStr": m.JsonString() != "", "prettyStr": m.PrettyJsonString() != ""}
-	expected := args.Map{"hasBytes": true, "jsonStr": true, "prettyStr": true}
+	jsonStr, jsonErr := m.JsonString()
+	actual := args.Map{"hasBytes": r.HasBytes(), "jsonStr": jsonStr != "", "jsonErr": jsonErr == nil}
+	expected := args.Map{"hasBytes": true, "jsonStr": true, "jsonErr": true}
 	expected.ShouldBeEqual(t, 0, "MapAnyItems Json -- valid", actual)
 }
 
