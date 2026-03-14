@@ -414,6 +414,7 @@ function Invoke-TestCoverage {
     $testPkgs = [System.Collections.Generic.List[string]]::new()
     $compileTemp = Join-Path $coverDir "compile-check"
     New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
+    [int]$jobCounter = 0
 
     if ($isSyncMode) {
         # ── Sequential compile check ──
