@@ -50,24 +50,20 @@ func Test_NewMust_Ext2(t *testing.T) {
 
 func Test_Max_Ext2(t *testing.T) {
 	// Act
-	v1, _ := issetter.New("True")
-	v2, _ := issetter.New("Set")
-	result := issetter.Max(v1, v2)
+	result := issetter.Max()
 
 	// Assert
-	if result != v2 {
-		t.Error("expected Set to be max")
+	if result != issetter.Wildcard {
+		t.Error("expected Wildcard to be max")
 	}
 }
 
 func Test_Min_Ext2(t *testing.T) {
 	// Act
-	v1, _ := issetter.New("True")
-	v2, _ := issetter.New("Set")
-	result := issetter.Min(v1, v2)
+	result := issetter.Min()
 
 	// Assert
-	if result != v1 {
-		t.Error("expected True to be min")
+	if result != issetter.Uninitialized {
+		t.Error("expected Uninitialized to be min")
 	}
 }

@@ -168,11 +168,11 @@ func Test_Cov2_TextValidators_AllVerifyError_WithMatch(t *testing.T) {
 
 func Test_Cov2_RangeSegmentsValidator_Create(t *testing.T) {
 	rsv := &corevalidator.RangeSegmentsValidator{
-		IsCaseSensitive: true,
+		Title: "test-range",
 	}
-	actual := args.Map{"isCaseSensitive": rsv.IsCaseSensitive}
-	expected := args.Map{"isCaseSensitive": true}
-	expected.ShouldBeEqual(t, 0, "RangeSegmentsValidator returns expected -- case sensitive", actual)
+	actual := args.Map{"title": rsv.Title, "segLen": rsv.LengthOfVerifierSegments()}
+	expected := args.Map{"title": "test-range", "segLen": 0}
+	expected.ShouldBeEqual(t, 0, "RangeSegmentsValidator returns expected -- basic", actual)
 }
 
 // =============================================================================

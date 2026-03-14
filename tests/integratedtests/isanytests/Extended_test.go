@@ -290,11 +290,13 @@ func Test_Ext_Conclusive_Verification(t *testing.T) {
 	for caseIndex, tc := range extConclusiveTestCases {
 		// Arrange
 		input := tc.ArrangeInput.(args.Map)
-		value, _ := input.GetAsInt("value")
-		compare := corecomparator.Compare(value)
+		leftRaw, _ := input.Get("left")
+		rightRaw, _ := input.Get("right")
 
 		// Act
-		result := isany.Conclusive(compare)
+		isEqual, isConclusive := isany.Conclusive(leftRaw, rightRaw)
+		result := fmt.Sprintf("%v %v", isEqual, isConclusive)
+		_ = result
 
 		// Assert
 		tc.ShouldBeEqual(t, caseIndex, fmt.Sprintf("%v", result))

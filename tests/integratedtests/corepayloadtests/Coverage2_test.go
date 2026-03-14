@@ -11,40 +11,99 @@ import (
 
 func Test_Cov2_PagingInfo(t *testing.T) {
 	p := corepayload.PagingInfo{
-		PageIndex: 0,
-		PageSize:  10,
-		Total:     25,
+		CurrentPageIndex: 1,
+		PerPageItems:     10,
+		TotalItems:       25,
+		TotalPages:       3,
 	}
 
 	actual := args.Map{
-		"totalPages": p.TotalPages(),
-		"hasNext":    p.HasNextPage(),
-		"hasPrev":    p.HasPreviousPage(),
+		"totalPages": p.TotalPages,
+		"hasTotalPages": p.HasTotalPages(),
+		"hasCurrentPage": p.HasCurrentPageIndex(),
 	}
 	expected := args.Map{
 		"totalPages": 3,
-		"hasNext":    true,
-		"hasPrev":    false,
+		"hasTotalPages": true,
+		"hasCurrentPage": true,
 	}
 	expected.ShouldBeEqual(t, 0, "PagingInfo", actual)
 }
 
-func Test_Cov2_PagingInfo_LastPage(t *testing.T) {
-	p := corepayload.PagingInfo{
-		PageIndex: 2,
-		PageSize:  10,
-		Total:     25,
-	}
+func Test_Cov2_PagingInfo_Empty(t *testing.T) {
+	p := corepayload.PagingInfo{}
 
 	actual := args.Map{
-		"hasNext": p.HasNextPage(),
-		"hasPrev": p.HasPreviousPage(),
+		"isEmpty":    p.IsEmpty(),
+		"hasTotalPages": p.HasTotalPages(),
 	}
 	expected := args.Map{
-		"hasNext": false,
-		"hasPrev": true,
+		"isEmpty":    true,
+		"hasTotalPages": false,
 	}
-	expected.ShouldBeEqual(t, 0, "PagingInfo last page", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo empty", actual)
+}
+
+func Test_Cov2_PagingInfo_Clone(t *testing.T) {
+	p := corepayload.PagingInfo{
+		CurrentPageIndex: 2,
+		PerPageItems:     10,
+		TotalItems:       50,
+		TotalPages:       5,
+	}
+	cloned := p.Clone()
+
+	actual := args.Map{
+		"isEqual": p.IsEqual(&cloned),
+		"totalPages": cloned.TotalPages,
+	}
+	expected := args.Map{
+		"isEqual": true,
+		"totalPages": 5,
+	}
+	expected.ShouldBeEqual(t, 0, "PagingInfo clone", actual)
+}
+
+func Test_Cov2_PagingInfo_ClonePtr(t *testing.T) {
+	p := &corepayload.PagingInfo{TotalPages: 3, TotalItems: 30}
+	cloned := p.ClonePtr()
+
+	actual := args.Map{
+		"notNil":  cloned != nil,
+		"isEqual": p.IsEqual(cloned),
+	}
+	expected := args.Map{
+		"notNil":  true,
+		"isEqual": true,
+	}
+	expected.ShouldBeEqual(t, 0, "PagingInfo clonePtr", actual)
+}
+
+func Test_Cov2_PagingInfo_ClonePtr_Nil(t *testing.T) {
+	var p *corepayload.PagingInfo
+	cloned := p.ClonePtr()
+
+	actual := args.Map{"isNil": cloned == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "PagingInfo clonePtr nil", actual)
+}
+
+func Test_Cov2_PagingInfo_InvalidChecks(t *testing.T) {
+	p := corepayload.PagingInfo{}
+
+	actual := args.Map{
+		"invalidTotalPages":       p.IsInvalidTotalPages(),
+		"invalidCurrentPageIndex": p.IsInvalidCurrentPageIndex(),
+		"invalidPerPageItems":     p.IsInvalidPerPageItems(),
+		"invalidTotalItems":       p.IsInvalidTotalItems(),
+	}
+	expected := args.Map{
+		"invalidTotalPages":       true,
+		"invalidCurrentPageIndex": true,
+		"invalidPerPageItems":     true,
+		"invalidTotalItems":       true,
+	}
+	expected.ShouldBeEqual(t, 0, "PagingInfo invalid checks", actual)
 }
 
 // ── SessionInfo ──

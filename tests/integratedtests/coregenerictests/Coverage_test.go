@@ -2244,7 +2244,7 @@ func Test_ContainsAny_Found(t *testing.T) {
 	}
 }
 
-func Test_RemoveItem_Found(t *testing.T) {
+func Test_RemoveItem_Found_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1, 2, 3})
 	if !coregeneric.RemoveItem(col, 2) {
 		t.Error("should remove")

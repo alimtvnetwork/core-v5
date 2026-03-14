@@ -341,7 +341,7 @@ func Test_TextValidators_AllVerifyError_Empty(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_Dispose(t *testing.T) {
+func Test_TextValidators_Dispose_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{})
 	tvs.Dispose()
