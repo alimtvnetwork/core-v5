@@ -67,7 +67,7 @@ func (it KeyVal) ValueInt() int {
 	return constants.InvalidValue
 }
 
-func (it *KeyVal) ValueUInt() uint {
+func (it KeyVal) ValueUInt() uint {
 	casted, isSuccess := it.Value.(uint)
 
 	if isSuccess {
