@@ -1271,12 +1271,204 @@ function Invoke-GoConvey {
     finally { Pop-Location }
 }
 
+function Invoke-PreCommitCheck {
+    param([string]$singlePkg)
+
+    Write-Header "Pre-commit API mismatch checker"
+
+    $isSyncMode = $false
+    if ($ExtraArgs) {
+        foreach ($ea in $ExtraArgs) {
+            if ($ea -eq "--sync") { $isSyncMode = $true }
+        }
+    }
+
+    # Discover test packages
+    $testBaseDir = Join-Path $PSScriptRoot "tests" "integratedtests"
+    if ($singlePkg) {
+        $targetDirs = @(Join-Path $testBaseDir $singlePkg)
+        if (-not (Test-Path $targetDirs[0])) {
+            Write-Fail "Package not found: $singlePkg"
+            return
+        }
+    } else {
+        $targetDirs = @(Get-ChildItem -Path $testBaseDir -Directory | ForEach-Object { $_.FullName })
+    }
+
+    # Filter to only dirs containing Coverage* files
+    $pkgsWithCoverage = [System.Collections.Generic.List[string]]::new()
+    foreach ($dir in $targetDirs) {
+        $coverFiles = Get-ChildItem -Path $dir -Filter "Coverage*" -File -ErrorAction SilentlyContinue
+        if ($coverFiles -and $coverFiles.Count -gt 0) {
+            $pkgsWithCoverage.Add($dir)
+        }
+    }
+
+    if ($pkgsWithCoverage.Count -eq 0) {
+        Write-Success "No Coverage* files found to check"
+        return
+    }
+
+    $modeLabel = if ($isSyncMode) { "sync" } else { "parallel" }
+    Write-Host "  Checking $($pkgsWithCoverage.Count) packages with Coverage* files ($modeLabel)..." -ForegroundColor Yellow
+    Write-Host ""
+
+    # Convert dirs to Go package paths
+    $goTestPkgs = [System.Collections.Generic.List[string]]::new()
+    foreach ($dir in $pkgsWithCoverage) {
+        $relPath = $dir -replace [regex]::Escape($PSScriptRoot), '' -replace '^[\\/]', '' -replace '\\', '/'
+        $goTestPkgs.Add("github.com/alimtvnetwork/core/$relPath")
+    }
+
+    # Compile check
+    $compileTemp = Join-Path $PSScriptRoot "data" "precommit"
+    if (Test-Path $compileTemp) { Remove-Item -Recurse -Force $compileTemp }
+    New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
+
+    $failures = [System.Collections.Generic.List[object]]::new()
+    $passedCount = 0
+
+    if ($isSyncMode) {
+        foreach ($pkg in $goTestPkgs) {
+            $shortName = $pkg -replace '.*integratedtests/?', ''
+            $safeName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $outFile = Join-Path $compileTemp "check-$safeName.test"
+
+            $prevPref = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            $compOut = & go test -c -o $outFile "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $ec = $LASTEXITCODE
+            $ErrorActionPreference = $prevPref
+
+            if ($ec -eq 0) {
+                Write-Host "  ✓ $shortName" -ForegroundColor Green
+                $passedCount++
+            } else {
+                Write-Host "  ✗ $shortName" -ForegroundColor Red
+                $parsedErrors = ParseCompileErrors $compOut
+                $failures.Add(@{
+                    package    = $shortName
+                    errorCount = $parsedErrors.Count
+                    errors     = $parsedErrors
+                })
+            }
+        }
+    } else {
+        $throttle = [Math]::Min($goTestPkgs.Count, [Environment]::ProcessorCount)
+        $results = $goTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
+            $pkg = $_
+            $tempDir = $using:compileTemp
+            $safeName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $outFile = Join-Path $tempDir "check-$safeName.test"
+            $ErrorActionPreference = "Continue"
+            $rawOut = & go test -c -o $outFile "$pkg" 2>&1
+            $ec = $LASTEXITCODE
+            $out = @($rawOut | ForEach-Object { $_.ToString() })
+            [pscustomobject]@{ Pkg = $pkg; ExitCode = $ec; Output = $out }
+        }
+
+        foreach ($r in ($results | Sort-Object Pkg)) {
+            $shortName = $r.Pkg -replace '.*integratedtests/?', ''
+            if ($r.ExitCode -eq 0) {
+                Write-Host "  ✓ $shortName" -ForegroundColor Green
+                $passedCount++
+            } else {
+                Write-Host "  ✗ $shortName" -ForegroundColor Red
+                $parsedErrors = ParseCompileErrors $r.Output
+                $failures.Add(@{
+                    package    = $shortName
+                    errorCount = $parsedErrors.Count
+                    errors     = $parsedErrors
+                })
+            }
+        }
+    }
+
+    # Clean up compile artifacts
+    Get-ChildItem -Path $compileTemp -Filter "*.test" -ErrorAction SilentlyContinue | Remove-Item -Force
+
+    # Summary
+    $allPassed = $failures.Count -eq 0
+    Write-Host ""
+    if ($allPassed) {
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Green
+        Write-Host "  │ ✓ ALL $passedCount PACKAGES PASSED API CHECK" -ForegroundColor Green
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Green
+    } else {
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host "  │ ✗ $($failures.Count) PACKAGE(S) HAVE API MISMATCHES" -ForegroundColor Red
+        Write-Host "  │" -ForegroundColor Red
+        foreach ($f in $failures) {
+            Write-Host "  │   ✗ $($f.package) ($($f.errorCount) error(s))" -ForegroundColor Red
+        }
+        Write-Host "  │" -ForegroundColor Red
+        Write-Host "  │ Fix these before committing Coverage* files." -ForegroundColor Yellow
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Red
+
+        # Print error details
+        Write-Host ""
+        foreach ($f in $failures) {
+            Write-Host "  ── $($f.package) ──" -ForegroundColor Red
+            foreach ($e in $f.errors) {
+                $cat = $e.category
+                Write-Host "    $($e.file):$($e.line) [$cat] $($e.message)" -ForegroundColor Yellow
+            }
+            Write-Host ""
+        }
+    }
+
+    # Write JSON report
+    $jsonReport = @{
+        timestamp    = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+        passed       = $allPassed
+        checkedCount = $goTestPkgs.Count
+        passedCount  = $passedCount
+        failedCount  = $failures.Count
+        failures     = $failures.ToArray()
+    }
+    $jsonPath = Join-Path $compileTemp "api-check.json"
+    $jsonReport | ConvertTo-Json -Depth 5 | Set-Content -Path $jsonPath -Encoding UTF8
+    Write-Host "  Report → $jsonPath" -ForegroundColor Gray
+
+    if (-not $allPassed) { exit 1 }
+}
+
+function ParseCompileErrors([string[]]$output) {
+    $errors = [System.Collections.Generic.List[object]]::new()
+    foreach ($line in $output) {
+        if ($line -match '^(.+?\.go):(\d+):\d+:\s*(.+)$') {
+            $file = Split-Path $Matches[1] -Leaf
+            $lineNum = [int]$Matches[2]
+            $msg = $Matches[3].Trim()
+
+            # Classify error
+            $category = "other"
+            if ($msg -match 'too many arguments|not enough arguments') { $category = "arg-count" }
+            elseif ($msg -match 'undefined:') { $category = "undefined" }
+            elseif ($msg -match 'cannot use .* as') { $category = "type-mismatch" }
+            elseif ($msg -match 'has no field or method') { $category = "missing-member" }
+            elseif ($msg -match 'cannot call non-function') { $category = "field-vs-method" }
+
+            $errors.Add(@{
+                file     = $file
+                line     = $lineNum
+                message  = $msg
+                category = $category
+                raw      = $line
+            })
+        }
+    }
+    return $errors.ToArray()
+}
+
 function Invoke-Clean {
     Write-Header "Cleaning build artifacts"
     if (Test-Path build) { Remove-Item -Recurse -Force build }
     if (Test-Path tests/coverage.out) { Remove-Item tests/coverage.out }
     $coverDir = Join-Path $PSScriptRoot "data" "coverage"
     if (Test-Path $coverDir) { Remove-Item -Recurse -Force $coverDir; Write-Success "Removed coverage reports" }
+    $precommitDir = Join-Path $PSScriptRoot "data" "precommit"
+    if (Test-Path $precommitDir) { Remove-Item -Recurse -Force $precommitDir; Write-Success "Removed precommit reports" }
     Write-Success "Clean complete"
 }
 
