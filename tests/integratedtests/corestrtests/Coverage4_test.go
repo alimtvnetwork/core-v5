@@ -202,10 +202,10 @@ func Test_Cov4_LeftMiddleRight_HasSafe(t *testing.T) {
 	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	actual := args.Map{
 		"hasSafe": lmr.HasSafeNonEmpty(),
-		"hasAll":  lmr.HasAll(),
+		"isAll":   lmr.IsAll("l", "m", "r"),
 	}
-	expected := args.Map{"hasSafe": true, "hasAll": true}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight HasSafe/HasAll returns true -- all set", actual)
+	expected := args.Map{"hasSafe": true, "isAll": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight HasSafe/IsAll returns true -- all set", actual)
 }
 
 // ── Hashset — remove and HasAny ──
