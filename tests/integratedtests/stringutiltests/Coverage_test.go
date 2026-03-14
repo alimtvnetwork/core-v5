@@ -272,8 +272,8 @@ func Test_IsAnyStartsWith(t *testing.T) {
 func Test_IsAnyEndsWith(t *testing.T) {
 	// Act
 	actual := args.Map{
-		"found":    stringutil.IsAnyEndsWith("hello", "lo", "wo"),
-		"notFound": stringutil.IsAnyEndsWith("hello", "wo", "fo"),
+		"found":    stringutil.IsAnyEndsWith("hello", false, "lo", "wo"),
+		"notFound": stringutil.IsAnyEndsWith("hello", false, "wo", "fo"),
 	}
 	expected := args.Map{
 		"found":    true,
