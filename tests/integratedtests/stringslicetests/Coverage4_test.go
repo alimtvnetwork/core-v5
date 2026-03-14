@@ -166,9 +166,8 @@ func Test_Cov4_AppendStringsWithAnyItems(t *testing.T) {
 // ── AppendAnyItemsWithStrings ──
 
 func Test_Cov4_AppendAnyItemsWithStrings(t *testing.T) {
-	anyItems := []any{42}
-	strs := []string{"hello", "world"}
-	result := stringslice.AppendAnyItemsWithStrings(anyItems, strs)
+	mainSlice := []string{"hello"}
+	result := stringslice.AppendAnyItemsWithStrings(false, false, mainSlice, 42, "world")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "AppendAnyItemsWithStrings returns 3 -- 1 + 2", actual)
