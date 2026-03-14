@@ -18,8 +18,8 @@ func Test_Cov3_Map_Length(t *testing.T) {
 func Test_Cov3_Map_ArgsCount(t *testing.T) {
 	m := args.Map{"a": 1, "b": 2, "expected": 3}
 	actual := args.Map{"count": m.ArgsCount()}
-	expected := args.Map{"count": 2}
-	expected.ShouldBeEqual(t, 0, "Map.ArgsCount excludes expected -- 3 entries minus 1", actual)
+	expected := args.Map{"count": 1}
+	expected.ShouldBeEqual(t, 0, "Map.ArgsCount excludes expected and func -- 3 entries minus 2", actual)
 }
 
 func Test_Cov3_Map_Expected(t *testing.T) {
