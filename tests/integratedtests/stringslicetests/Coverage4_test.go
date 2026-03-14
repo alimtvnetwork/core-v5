@@ -189,13 +189,12 @@ func Test_Cov4_LinesSimpleProcess(t *testing.T) {
 
 func Test_Cov4_LinesSimpleProcessNoEmpty(t *testing.T) {
 	lines := []string{"hello", "", "world", "   "}
-	var result []string
-	stringslice.LinesSimpleProcessNoEmpty(lines, func(index int, line string) {
-		result = append(result, line)
+	result := stringslice.LinesSimpleProcessNoEmpty(lines, func(lineIn string) string {
+		return lineIn
 	})
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinesSimpleProcessNoEmpty skips empty/ws -- 2 valid", actual)
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "LinesSimpleProcessNoEmpty skips empty -- 3 non-empty returned", actual)
 }
 
 // ── TrimmedEachWordsPtr ──
