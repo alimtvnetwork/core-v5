@@ -1277,6 +1277,11 @@ func (it *Hashmap) Get(key string) (val string, isFound bool) {
 	return val, isFound
 }
 
+// GetValue is an alias for Get.
+func (it *Hashmap) GetValue(key string) (val string, isFound bool) {
+	return it.Get(key)
+}
+
 func (it *Hashmap) Serialize() ([]byte, error) {
 	return corejson.Serialize.Raw(it)
 }
