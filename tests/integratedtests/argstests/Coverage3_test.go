@@ -109,18 +109,18 @@ func Test_Cov3_Map_String(t *testing.T) {
 func Test_Cov3_One_Basic(t *testing.T) {
 	one := &args.One[string]{First: "hello", Expect: 42}
 	actual := args.Map{
-		"first":    one.FirstItem(),
-		"expected": one.Expected(),
-		"hasFirst": one.HasFirst(),
+		"first":     one.FirstItem(),
+		"expected":  one.Expected(),
+		"hasFirst":  one.HasFirst(),
 		"hasExpect": one.HasExpect(),
-		"count":    one.ArgsCount(),
+		"count":     one.ArgsCount(),
 	}
 	expected := args.Map{
-		"first":    "hello",
-		"expected": 42,
-		"hasFirst": true,
+		"first":     "hello",
+		"expected":  42,
+		"hasFirst":  true,
 		"hasExpect": true,
-		"count":    1,
+		"count":     1,
 	}
 	expected.ShouldBeEqual(t, 0, "One basic getters -- string first", actual)
 }
@@ -186,22 +186,22 @@ func Test_Cov3_One_AsOneParameter(t *testing.T) {
 func Test_Cov3_Two_Basic(t *testing.T) {
 	two := &args.Two[string, int]{First: "hello", Second: 42, Expect: true}
 	actual := args.Map{
-		"first":    two.FirstItem(),
-		"second":   two.SecondItem(),
-		"expected": two.Expected(),
-		"hasFirst": two.HasFirst(),
+		"first":     two.FirstItem(),
+		"second":    two.SecondItem(),
+		"expected":  two.Expected(),
+		"hasFirst":  two.HasFirst(),
 		"hasSecond": two.HasSecond(),
 		"hasExpect": two.HasExpect(),
-		"count":    two.ArgsCount(),
+		"count":     two.ArgsCount(),
 	}
 	expected := args.Map{
-		"first":    "hello",
-		"second":   42,
-		"expected": true,
-		"hasFirst": true,
+		"first":     "hello",
+		"second":    42,
+		"expected":  true,
+		"hasFirst":  true,
 		"hasSecond": true,
 		"hasExpect": true,
-		"count":    2,
+		"count":     2,
 	}
 	expected.ShouldBeEqual(t, 0, "Two basic getters -- string and int", actual)
 }
@@ -256,24 +256,24 @@ func Test_Cov3_Two_LeftRight(t *testing.T) {
 func Test_Cov3_Three_Basic(t *testing.T) {
 	three := &args.Three[string, int, bool]{First: "hello", Second: 42, Third: true, Expect: "yes"}
 	actual := args.Map{
-		"first":    three.FirstItem(),
-		"second":   three.SecondItem(),
-		"third":    three.ThirdItem(),
-		"expected": three.Expected(),
-		"hasFirst": three.HasFirst(),
+		"first":     three.FirstItem(),
+		"second":    three.SecondItem(),
+		"third":     three.ThirdItem(),
+		"expected":  three.Expected(),
+		"hasFirst":  three.HasFirst(),
 		"hasSecond": three.HasSecond(),
-		"hasThird": three.HasThird(),
-		"count":    three.ArgsCount(),
+		"hasThird":  three.HasThird(),
+		"count":     three.ArgsCount(),
 	}
 	expected := args.Map{
-		"first":    "hello",
-		"second":   42,
-		"third":    true,
-		"expected": "yes",
-		"hasFirst": true,
+		"first":     "hello",
+		"second":    42,
+		"third":     true,
+		"expected":  "yes",
+		"hasFirst":  true,
 		"hasSecond": true,
-		"hasThird": true,
-		"count":    3,
+		"hasThird":  true,
+		"count":     3,
 	}
 	expected.ShouldBeEqual(t, 0, "Three basic getters -- string, int, bool", actual)
 }
@@ -384,33 +384,31 @@ func Test_Cov3_FuncWrap_String(t *testing.T) {
 
 func Test_Cov3_Holder_Basic(t *testing.T) {
 	fn := func(s string) int { return len(s) }
-	h := &args.Holder[string]{
-		First:  "hello",
-		Expect: 5,
-		Func:   fn,
+	h := &args.Holder[func(string) int]{
+		First:    "hello",
+		Expect:   5,
+		WorkFunc: fn,
 	}
 	actual := args.Map{
-		"first":    h.FirstItem(),
-		"expected": h.Expected(),
-		"hasFirst": h.HasFirst(),
+		"first":     h.FirstItem(),
+		"expected":  h.Expected(),
+		"hasFirst":  h.HasFirst(),
 		"hasExpect": h.HasExpect(),
-		"hasFunc":  h.HasFunc(),
-		"count":    h.ArgsCount(),
+		"hasFunc":   h.HasFunc(),
 	}
 	expected := args.Map{
-		"first":    "hello",
-		"expected": 5,
-		"hasFirst": true,
+		"first":     "hello",
+		"expected":  5,
+		"hasFirst":  true,
 		"hasExpect": true,
-		"hasFunc":  true,
-		"count":    1,
+		"hasFunc":   true,
 	}
 	expected.ShouldBeEqual(t, 0, "Holder basic getters -- string first with func", actual)
 }
 
 func Test_Cov3_Holder_GetFuncName(t *testing.T) {
 	fn := func() string { return "hello" }
-	h := &args.Holder[string]{Func: fn}
+	h := &args.Holder[func() string]{WorkFunc: fn}
 	name := h.GetFuncName()
 	actual := args.Map{"hasContent": len(name) > 0}
 	expected := args.Map{"hasContent": true}
@@ -419,7 +417,7 @@ func Test_Cov3_Holder_GetFuncName(t *testing.T) {
 
 func Test_Cov3_Holder_FuncWrap(t *testing.T) {
 	fn := func() string { return "hello" }
-	h := &args.Holder[string]{Func: fn}
+	h := &args.Holder[func() string]{WorkFunc: fn}
 	fw := h.FuncWrap()
 	actual := args.Map{"isValid": fw.IsValid()}
 	expected := args.Map{"isValid": true}
@@ -429,20 +427,20 @@ func Test_Cov3_Holder_FuncWrap(t *testing.T) {
 // ── LeftRight ──
 
 func Test_Cov3_LeftRight_Basic(t *testing.T) {
-	lr := &args.LeftRight{Left: "hello", Right: "world"}
+	lr := &args.LeftRight[string, string]{Left: "hello", Right: "world"}
 	actual := args.Map{
-		"left":    lr.Left,
-		"right":   lr.Right,
+		"left":  lr.Left,
+		"right": lr.Right,
 	}
 	expected := args.Map{
-		"left":    "hello",
-		"right":   "world",
+		"left":  "hello",
+		"right": "world",
 	}
 	expected.ShouldBeEqual(t, 0, "LeftRight basic -- both set", actual)
 }
 
 func Test_Cov3_LeftRight_GetByIndex(t *testing.T) {
-	lr := &args.LeftRight{Left: "L", Right: "R"}
+	lr := &args.LeftRight[string, string]{Left: "L", Right: "R"}
 	actual := args.Map{
 		"idx0": lr.GetByIndex(0),
 		"idx1": lr.GetByIndex(1),
@@ -454,17 +452,21 @@ func Test_Cov3_LeftRight_GetByIndex(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "LeftRight.GetByIndex returns correct -- both indexes", actual)
 }
 
-// ── String args ──
+// ── String type ──
 
-func Test_Cov3_String_Arg(t *testing.T) {
-	sa := args.String{Value: "hello world", TrimAll: true}
+func Test_Cov3_String_Basic(t *testing.T) {
+	sa := args.String("hello world")
 	actual := args.Map{
-		"val":     sa.Value,
-		"trimAll": sa.TrimAll,
+		"str":     sa.String(),
+		"len":     sa.Length(),
+		"isEmpty": sa.IsEmpty(),
+		"hasChr":  sa.HasCharacter(),
 	}
 	expected := args.Map{
-		"val":     "hello world",
-		"trimAll": true,
+		"str":     "hello world",
+		"len":     11,
+		"isEmpty": false,
+		"hasChr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "String arg basic -- value and trimAll", actual)
+	expected.ShouldBeEqual(t, 0, "String type basic -- hello world", actual)
 }
