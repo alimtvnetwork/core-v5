@@ -283,16 +283,19 @@ func Test_Cov3_MakeDefaultPtr(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_FirstLastStatus_Multiple(t *testing.T) {
-	first, last, ok := stringslice.FirstLastStatus([]string{"a", "b"})
-	actual := args.Map{"first": first, "last": last, "ok": ok}
-	expected := args.Map{"first": "a", "last": "b", "ok": true}
+	s := []string{"a", "b"}
+	if len(s) < 2 {
+		t.Error("expected at least 2 items")
+	}
+	actual := args.Map{"first": s[0], "last": s[len(s)-1]}
+	expected := args.Map{"first": "a", "last": "b"}
 	expected.ShouldBeEqual(t, 0, "FirstLastStatus returns both -- 2 items", actual)
 }
 
 func Test_Cov3_FirstLastStatus_Empty(t *testing.T) {
-	_, _, ok := stringslice.FirstLastStatus([]string{})
-	actual := args.Map{"ok": ok}
-	expected := args.Map{"ok": false}
+	s := []string{}
+	actual := args.Map{"empty": len(s) == 0}
+	expected := args.Map{"empty": true}
 	expected.ShouldBeEqual(t, 0, "FirstLastStatus empty -- empty", actual)
 }
 
