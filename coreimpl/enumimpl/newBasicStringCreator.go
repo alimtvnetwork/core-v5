@@ -253,6 +253,7 @@ func (it newBasicStringCreator) CreateUsingAliasMap(
 		numberEnumBase:                           enumBase,
 		minVal:                                   min,
 		maxVal:                                   max,
+		nameWithIndexMap:                         nameWithIndexMap,
 		jsonDoubleQuoteNameToValueHashMap:        stringsToHashSet(stringRangesNames),
 		valueToJsonDoubleQuoteStringBytesHashmap: valueToJsonDoubleQuoteStringBytesHashmap,
 	}

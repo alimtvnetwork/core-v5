@@ -41,7 +41,7 @@ func (it SessionInfo) IdentifierUnsignedInteger() uint {
 }
 
 func (it *SessionInfo) IsEmpty() bool {
-	return it == nil
+	return it == nil || (it.Id == "" && it.User == nil && it.SessionPath == "")
 }
 
 func (it *SessionInfo) IsValid() bool {
