@@ -151,18 +151,18 @@ func Test_Cov2_AuthInfo(t *testing.T) {
 // ── PayloadWrapper ──
 
 func Test_Cov2_PayloadWrapper_Basic(t *testing.T) {
-	pw := corepayload.New.PayloadWrapper.Create(
+	pw, _ := corepayload.New.PayloadWrapper.Create(
 		"test", "id1", "task", "cat",
 		map[string]string{"k": "v"},
 	)
 
 	actual := args.Map{
-		"notNil":     pw != nil,
-		"hasPayload": pw.HasPayload(),
+		"notNil":  pw != nil,
+		"hasAny":  pw.HasAnyItem(),
 	}
 	expected := args.Map{
-		"notNil":     true,
-		"hasPayload": true,
+		"notNil":  true,
+		"hasAny":  true,
 	}
 	expected.ShouldBeEqual(t, 0, "PayloadWrapper basic", actual)
 }
@@ -171,12 +171,12 @@ func Test_Cov2_PayloadWrapper_Empty(t *testing.T) {
 	pw := corepayload.New.PayloadWrapper.Empty()
 
 	actual := args.Map{
-		"notNil":     pw != nil,
-		"hasPayload": pw.HasPayload(),
+		"notNil":  pw != nil,
+		"hasAny":  pw.HasAnyItem(),
 	}
 	expected := args.Map{
-		"notNil":     true,
-		"hasPayload": false,
+		"notNil":  true,
+		"hasAny":  false,
 	}
 	expected.ShouldBeEqual(t, 0, "PayloadWrapper empty", actual)
 }

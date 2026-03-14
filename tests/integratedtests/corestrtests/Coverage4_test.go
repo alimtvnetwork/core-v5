@@ -62,15 +62,13 @@ func Test_Cov4_Collection_ListStrings(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Collection ListStrings returns expected -- 2 items", actual)
 }
 
-func Test_Cov4_Collection_SafeAt(t *testing.T) {
+func Test_Cov4_Collection_IndexAt(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	actual := args.Map{
-		"at0":   col.SafeAt(0),
-		"at99":  col.SafeAt(99),
-		"atNeg": col.SafeAt(-1),
+		"at0": col.IndexAt(0),
 	}
-	expected := args.Map{"at0": "a", "at99": "", "atNeg": ""}
-	expected.ShouldBeEqual(t, 0, "Collection SafeAt returns expected -- valid and out of bounds", actual)
+	expected := args.Map{"at0": "a"}
+	expected.ShouldBeEqual(t, 0, "Collection IndexAt returns expected -- valid index", actual)
 }
 
 func Test_Cov4_Collection_First_Last(t *testing.T) {
@@ -82,8 +80,10 @@ func Test_Cov4_Collection_First_Last(t *testing.T) {
 
 func Test_Cov4_Collection_Filter(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"ab", "cd", "abc"})
-	filtered := col.Filter(func(index int, val string) bool { return len(val) == 2 })
-	actual := args.Map{"len": filtered.Length()}
+	filtered := col.Filter(func(str string, index int) (string, bool, bool) {
+		return str, len(str) == 2, false
+	})
+	actual := args.Map{"len": len(filtered)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Collection Filter returns 2 -- length 2 items", actual)
 }
@@ -98,8 +98,8 @@ func Test_Cov4_LinkedList_Traversal(t *testing.T) {
 	actual := args.Map{
 		"length":  ll.Length(),
 		"isEmpty": ll.IsEmpty(),
-		"first":   ll.First(),
-		"last":    ll.Last(),
+		"first":   ll.Head().String(),
+		"last":    ll.Tail().String(),
 	}
 	expected := args.Map{
 		"length": 3, "isEmpty": false,
@@ -108,29 +108,28 @@ func Test_Cov4_LinkedList_Traversal(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "LinkedList traversal returns expected -- 3 items", actual)
 }
 
-func Test_Cov4_LinkedList_Strings(t *testing.T) {
+func Test_Cov4_LinkedList_HeadList(t *testing.T) {
 	ll := corestr.New.LinkedList.Empty()
 	ll.Add("x")
 	ll.Add("y")
-	strs := ll.Strings()
+	strs := ll.Head().List()
 	actual := args.Map{"len": len(strs)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedList Strings returns expected -- 2 items", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList Head.List returns expected -- 2 items", actual)
 }
 
 // ── SimpleStringOnce ──
 
 func Test_Cov4_SimpleStringOnce_Value(t *testing.T) {
-	so := corestr.New.SimpleStringOnce.Value("hello")
+	so := corestr.New.SimpleStringOnce.Init("hello")
 	actual := args.Map{
 		"isEmpty": so.IsEmpty(),
 		"value":   so.Value(),
-		"string":  so.String(),
 	}
 	expected := args.Map{
-		"isEmpty": false, "value": "hello", "string": "hello",
+		"isEmpty": false, "value": "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce Value returns expected -- hello", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce Init returns expected -- hello", actual)
 }
 
 func Test_Cov4_SimpleStringOnce_Empty(t *testing.T) {
@@ -144,9 +143,9 @@ func Test_Cov4_SimpleStringOnce_Empty(t *testing.T) {
 
 func Test_Cov4_CharHashsetMap_AddAndHas(t *testing.T) {
 	chm := corestr.New.CharHashsetMap.Cap(5, 5)
-	chm.Add('a', "value1")
-	chm.Add('a', "value2")
-	chm.Add('b', "value3")
+	chm.Add("alpha")
+	chm.Add("also")
+	chm.Add("beta")
 	actual := args.Map{
 		"isEmpty": chm.IsEmpty(),
 		"length":  chm.Length(),

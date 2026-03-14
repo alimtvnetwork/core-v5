@@ -268,7 +268,7 @@ func Test_StringSlice_LengthOfPointer_Nil(t *testing.T) {
 
 func Test_StringSlice_LengthOfPointer_NonNil(t *testing.T) {
 	s := []string{"a", "b", "c"}
-	if stringslice.LengthOfPointer(&s) != 3 {
+	if stringslice.LengthOfPointer(s) != 3 {
 		t.Errorf("expected 3")
 	}
 }
@@ -289,7 +289,7 @@ func Test_StringSlice_IndexesDefault(t *testing.T) {
 // ==========================================
 
 func Test_StringSlice_SplitTrimmedNonEmpty(t *testing.T) {
-	result := stringslice.SplitTrimmedNonEmpty("a, b, , c", ",")
+	result := stringslice.SplitTrimmedNonEmpty("a, b, , c", ",", -1)
 	if len(result) != 3 {
 		t.Errorf("expected 3, got %d: %v", len(result), result)
 	}
@@ -300,15 +300,15 @@ func Test_StringSlice_SplitTrimmedNonEmpty(t *testing.T) {
 // ==========================================
 
 func Test_StringSlice_FirstLastDefaultStatus_NonEmpty(t *testing.T) {
-	first, last, hasAny := stringslice.FirstLastDefaultStatus([]string{"a", "b", "c"})
-	if first != "a" || last != "c" || !hasAny {
-		t.Errorf("unexpected: first=%s last=%s hasAny=%v", first, last, hasAny)
+	status := stringslice.FirstLastDefaultStatus([]string{"a", "b", "c"})
+	if status.First != "a" || status.Last != "c" || !status.IsValid {
+		t.Errorf("unexpected: first=%s last=%s isValid=%v", status.First, status.Last, status.IsValid)
 	}
 }
 
 func Test_StringSlice_FirstLastDefaultStatus_Empty(t *testing.T) {
-	first, last, hasAny := stringslice.FirstLastDefaultStatus([]string{})
-	if first != "" || last != "" || hasAny {
+	status := stringslice.FirstLastDefaultStatus([]string{})
+	if status.First != "" || status.Last != "" || status.IsValid {
 		t.Error("empty should return empty strings and false")
 	}
 }
@@ -318,10 +318,7 @@ func Test_StringSlice_FirstLastDefaultStatus_Empty(t *testing.T) {
 // ==========================================
 
 func Test_StringSlice_NonNullStrings(t *testing.T) {
-	a := "a"
-	var nilPtr *string
-	b := "b"
-	result := stringslice.NonNullStrings(&a, nilPtr, &b)
+	result := stringslice.NonNullStrings([]string{"a", "", "b"})
 	if len(result) != 2 || result[0] != "a" || result[1] != "b" {
 		t.Errorf("expected [a b], got %v", result)
 	}
@@ -368,14 +365,14 @@ func Test_StringSlice_SafeIndexAtWith_OutOfBounds(t *testing.T) {
 // ==========================================
 
 func Test_StringSlice_FirstOrDefaultWith_NonEmpty(t *testing.T) {
-	result := stringslice.FirstOrDefaultWith([]string{"x"}, "def")
+	result, _ := stringslice.FirstOrDefaultWith([]string{"x"}, "def")
 	if result != "x" {
 		t.Errorf("expected 'x', got '%s'", result)
 	}
 }
 
 func Test_StringSlice_FirstOrDefaultWith_Empty(t *testing.T) {
-	result := stringslice.FirstOrDefaultWith([]string{}, "def")
+	result, _ := stringslice.FirstOrDefaultWith([]string{}, "def")
 	if result != "def" {
 		t.Errorf("expected 'def', got '%s'", result)
 	}
