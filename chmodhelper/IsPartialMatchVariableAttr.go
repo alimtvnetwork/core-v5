@@ -1,5 +1,7 @@
 package chmodhelper
 
+import "github.com/alimtvnetwork/core/constants"
+
 // IsPartialMatchVariableAttr
 //
 //	givenVarAttr can have wildcards "*"
@@ -17,15 +19,15 @@ func IsPartialMatchVariableAttr(
 	read := givenVarAttr.isRead.ToByteCondition(
 		ReadChar,
 		NopChar,
-		WildcardChar)
+		constants.WildcardChar)
 	write := givenVarAttr.isWrite.ToByteCondition(
 		WriteChar,
 		NopChar,
-		WildcardChar)
+		constants.WildcardChar)
 	execute := givenVarAttr.isExecute.ToByteCondition(
 		ExecuteChar,
 		NopChar,
-		WildcardChar,
+		constants.WildcardChar,
 	)
 
 	isRead := givenVarAttr.isRead.IsWildcard() || (read == r)

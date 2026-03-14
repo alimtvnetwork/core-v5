@@ -57,7 +57,7 @@ func Test_Cov3_Map_GetAs(t *testing.T) {
 
 func Test_Cov3_Map_GetAsStringSlice(t *testing.T) {
 	m := args.Map{"items": []string{"a", "b"}}
-	items, _ := m.GetAsStringSlice("items")
+	items, _ := m.GetAsStrings("items")
 	actual := args.Map{"len": len(items)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Map.GetAsStringSlice returns correct -- 2 items", actual)
@@ -65,7 +65,8 @@ func Test_Cov3_Map_GetAsStringSlice(t *testing.T) {
 
 func Test_Cov3_Map_GetAsBytes(t *testing.T) {
 	m := args.Map{"data": []byte{1, 2, 3}}
-	data, _ := m.GetAsBytes("data")
+	raw, _ := m.Get("data")
+	data, _ := raw.([]byte)
 	actual := args.Map{"len": len(data)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "Map.GetAsBytes returns correct -- 3 bytes", actual)
@@ -89,7 +90,7 @@ func Test_Cov3_Map_GetFirstOfNames(t *testing.T) {
 
 func Test_Cov3_Map_SortedKeys(t *testing.T) {
 	m := args.Map{"c": 3, "a": 1, "b": 2}
-	keys := m.SortedKeys()
+	keys, _ := m.SortedKeys()
 	actual := args.Map{"first": keys[0], "last": keys[2]}
 	expected := args.Map{"first": "a", "last": "c"}
 	expected.ShouldBeEqual(t, 0, "Map.SortedKeys returns sorted -- 3 keys", actual)
@@ -134,7 +135,7 @@ func Test_Cov3_One_ArgTwo(t *testing.T) {
 
 func Test_Cov3_One_Args(t *testing.T) {
 	one := &args.One[string]{First: "hello"}
-	a := one.Args()
+	a := one.Args(1)
 	actual := args.Map{"len": len(a)}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "One.Args returns 1 -- single first", actual)
@@ -207,7 +208,7 @@ func Test_Cov3_Two_Basic(t *testing.T) {
 
 func Test_Cov3_Two_Args(t *testing.T) {
 	two := &args.Two[string, int]{First: "hello", Second: 42}
-	a := two.Args()
+	a := two.Args(2)
 	actual := args.Map{"len": len(a)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Two.Args returns 2 -- first and second", actual)
@@ -279,7 +280,7 @@ func Test_Cov3_Three_Basic(t *testing.T) {
 
 func Test_Cov3_Three_Args(t *testing.T) {
 	three := &args.Three[string, int, bool]{First: "a", Second: 1, Third: true}
-	a := three.Args()
+	a := three.Args(3)
 	actual := args.Map{"len": len(a)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "Three.Args returns 3 -- all three", actual)
@@ -312,7 +313,7 @@ func Test_Cov3_Three_String(t *testing.T) {
 
 func Test_Cov3_FuncWrap_Basic(t *testing.T) {
 	fn := func(s string) int { return len(s) }
-	fw := args.NewFuncWrap.Func(fn)
+	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{
 		"isValid": fw.IsValid(),
 		"name":    len(fw.Name()) > 0,
@@ -326,7 +327,7 @@ func Test_Cov3_FuncWrap_Basic(t *testing.T) {
 
 func Test_Cov3_FuncWrap_InOutArgs(t *testing.T) {
 	fn := func(s string) int { return len(s) }
-	fw := args.NewFuncWrap.Func(fn)
+	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{
 		"inCount":  fw.InArgsCount(),
 		"outCount": fw.OutArgsCount(),
@@ -340,7 +341,7 @@ func Test_Cov3_FuncWrap_InOutArgs(t *testing.T) {
 
 func Test_Cov3_FuncWrap_IsStringFunc(t *testing.T) {
 	fn := func() string { return "hello" }
-	fw := args.NewFuncWrap.Func(fn)
+	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{"isString": fw.IsStringFunc()}
 	expected := args.Map{"isString": true}
 	expected.ShouldBeEqual(t, 0, "FuncWrap.IsStringFunc returns true -- func()string", actual)
@@ -348,7 +349,7 @@ func Test_Cov3_FuncWrap_IsStringFunc(t *testing.T) {
 
 func Test_Cov3_FuncWrap_IsBoolFunc(t *testing.T) {
 	fn := func() bool { return true }
-	fw := args.NewFuncWrap.Func(fn)
+	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{"isBool": fw.IsBoolFunc()}
 	expected := args.Map{"isBool": true}
 	expected.ShouldBeEqual(t, 0, "FuncWrap.IsBoolFunc returns true -- func()bool", actual)
@@ -356,7 +357,7 @@ func Test_Cov3_FuncWrap_IsBoolFunc(t *testing.T) {
 
 func Test_Cov3_FuncWrap_IsVoidFunc(t *testing.T) {
 	fn := func() {}
-	fw := args.NewFuncWrap.Func(fn)
+	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{"isVoid": fw.IsVoidFunc()}
 	expected := args.Map{"isVoid": true}
 	expected.ShouldBeEqual(t, 0, "FuncWrap.IsVoidFunc returns true -- func()", actual)
@@ -364,7 +365,7 @@ func Test_Cov3_FuncWrap_IsVoidFunc(t *testing.T) {
 
 func Test_Cov3_FuncWrap_IsErrorFunc(t *testing.T) {
 	fn := func() error { return nil }
-	fw := args.NewFuncWrap.Func(fn)
+	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{"isError": fw.IsErrorFunc()}
 	expected := args.Map{"isError": true}
 	expected.ShouldBeEqual(t, 0, "FuncWrap.IsErrorFunc returns true -- func()error", actual)
@@ -372,7 +373,7 @@ func Test_Cov3_FuncWrap_IsErrorFunc(t *testing.T) {
 
 func Test_Cov3_FuncWrap_String(t *testing.T) {
 	fn := func(s string) int { return len(s) }
-	fw := args.NewFuncWrap.Func(fn)
+	fw := args.NewFuncWrap.Default(fn)
 	s := fw.String()
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}
