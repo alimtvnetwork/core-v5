@@ -515,7 +515,7 @@ func Test_Cov2_ChmodVerifier_GetExistingRwxWrapper(t *testing.T) {
 
 	actual := args.Map{
 		"noError":  fmt.Sprintf("%v", err == nil),
-		"notEmpty": fmt.Sprintf("%v", rwx.String() != ""),
+		"notEmpty": fmt.Sprintf("%v", rwx.FriendlyDisplay() != ""),
 	}
 	expected := args.Map{
 		"noError":  "true",
