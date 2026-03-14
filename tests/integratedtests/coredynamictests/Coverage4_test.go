@@ -198,10 +198,10 @@ func Test_Cov4_NewStringMapCollection(t *testing.T) {
 // ── KeyVal ──
 
 func Test_Cov4_KeyVal_Basic(t *testing.T) {
-	kv := coredynamic.KeyVal{Key: "myKey", Val: "myVal"}
+	kv := coredynamic.KeyVal{Key: "myKey", Value: "myVal"}
 	actual := args.Map{
 		"key":       kv.Key,
-		"val":       kv.Val,
+		"val":       kv.Value,
 		"isKeyNull": kv.IsKeyNull(),
 	}
 	expected := args.Map{
@@ -216,8 +216,8 @@ func Test_Cov4_KeyVal_Basic(t *testing.T) {
 
 func Test_Cov4_KeyValCollection_Basic(t *testing.T) {
 	kvc := coredynamic.NewKeyValCollection(3)
-	kvc.Add(coredynamic.KeyVal{Key: "k1", Val: "v1"})
-	kvc.Add(coredynamic.KeyVal{Key: "k2", Val: "v2"})
+	kvc.Add(coredynamic.KeyVal{Key: "k1", Value: "v1"})
+	kvc.Add(coredynamic.KeyVal{Key: "k2", Value: "v2"})
 	actual := args.Map{
 		"length":  kvc.Length(),
 		"hasAny":  kvc.HasAnyItem(),
@@ -233,8 +233,8 @@ func Test_Cov4_KeyValCollection_Basic(t *testing.T) {
 
 func Test_Cov4_KeyValCollection_AllKeys(t *testing.T) {
 	kvc := coredynamic.NewKeyValCollection(3)
-	kvc.Add(coredynamic.KeyVal{Key: "b", Val: "2"})
-	kvc.Add(coredynamic.KeyVal{Key: "a", Val: "1"})
+	kvc.Add(coredynamic.KeyVal{Key: "b", Value: "2"})
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: "1"})
 	keys := kvc.AllKeys()
 	actual := args.Map{"len": len(keys)}
 	expected := args.Map{"len": 2}
@@ -243,8 +243,8 @@ func Test_Cov4_KeyValCollection_AllKeys(t *testing.T) {
 
 func Test_Cov4_KeyValCollection_AllKeysSorted(t *testing.T) {
 	kvc := coredynamic.NewKeyValCollection(3)
-	kvc.Add(coredynamic.KeyVal{Key: "b", Val: "2"})
-	kvc.Add(coredynamic.KeyVal{Key: "a", Val: "1"})
+	kvc.Add(coredynamic.KeyVal{Key: "b", Value: "2"})
+	kvc.Add(coredynamic.KeyVal{Key: "a", Value: "1"})
 	keys := kvc.AllKeysSorted()
 	actual := args.Map{"first": keys[0]}
 	expected := args.Map{"first": "a"}
@@ -253,7 +253,7 @@ func Test_Cov4_KeyValCollection_AllKeysSorted(t *testing.T) {
 
 func Test_Cov4_KeyValCollection_AllValues(t *testing.T) {
 	kvc := coredynamic.NewKeyValCollection(3)
-	kvc.Add(coredynamic.KeyVal{Key: "k", Val: "v"})
+	kvc.Add(coredynamic.KeyVal{Key: "k", Value: "v"})
 	vals := kvc.AllValues()
 	actual := args.Map{"len": len(vals)}
 	expected := args.Map{"len": 1}
@@ -262,7 +262,7 @@ func Test_Cov4_KeyValCollection_AllValues(t *testing.T) {
 
 func Test_Cov4_KeyValCollection_String(t *testing.T) {
 	kvc := coredynamic.NewKeyValCollection(3)
-	kvc.Add(coredynamic.KeyVal{Key: "k", Val: "v"})
+	kvc.Add(coredynamic.KeyVal{Key: "k", Value: "v"})
 	s := kvc.String()
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}
@@ -295,9 +295,9 @@ func Test_Cov4_MapAnyItems_Basic(t *testing.T) {
 func Test_Cov4_MapAnyItems_Get(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(5)
 	m.Set("k1", "v1")
-	val := m.Get("k1")
-	actual := args.Map{"val": val}
-	expected := args.Map{"val": "v1"}
+	val, has := m.Get("k1")
+	actual := args.Map{"val": val, "has": has}
+	expected := args.Map{"val": "v1", "has": true}
 	expected.ShouldBeEqual(t, 0, "MapAnyItems.Get returns correct -- k1", actual)
 }
 
