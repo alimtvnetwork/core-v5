@@ -12,7 +12,7 @@ import (
 
 func Test_Cov5_UnmarshalJSON_Valid(t *testing.T) {
 	var c corecomparator.Compare
-	err := c.UnmarshalJSON([]byte(`"Equal"`))
+	err := c.UnmarshalJSON([]byte("Equal"))
 	actual := args.Map{"val": c.String(), "hasErr": err != nil}
 	expected := args.Map{"val": "Equal", "hasErr": false}
 	expected.ShouldBeEqual(t, 0, "UnmarshalJSON valid -- Equal", actual)
