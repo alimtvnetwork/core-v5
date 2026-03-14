@@ -162,7 +162,7 @@ func Test_Cov7_Hashmap_Get(t *testing.T) {
 
 func Test_Cov7_Hashmap_String(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
-	h.Add("key", "val")
+	h.Set("key", "val")
 	actual := args.Map{"notEmpty": h.String() != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Hashmap String -- not empty", actual)
