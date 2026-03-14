@@ -19,6 +19,7 @@ type SliceValidator struct {
 	// ExpectedLines considered to be expected
 	ActualLines, ExpectedLines []string
 	comparingValidators        *TextValidators // lazy
+	isUsed                     bool
 }
 
 func (it *SliceValidator) IsUsedAlready() bool {
@@ -26,7 +27,7 @@ func (it *SliceValidator) IsUsedAlready() bool {
 		return false
 	}
 
-	return it.comparingValidators != nil
+	return it.isUsed
 }
 
 func (it *SliceValidator) ActualLinesLength() int {

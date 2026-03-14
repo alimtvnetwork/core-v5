@@ -230,8 +230,14 @@ func (it *StringsOnce) IsEqual(comparingItems ...string) bool {
 		return false
 	}
 
-	for i, item := range currentItems {
-		if item != comparingItems[i] {
+	currentMap := make(map[string]int, len(currentItems))
+	for _, item := range currentItems {
+		currentMap[item]++
+	}
+
+	for _, item := range comparingItems {
+		currentMap[item]--
+		if currentMap[item] < 0 {
 			return false
 		}
 	}
