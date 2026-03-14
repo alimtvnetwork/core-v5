@@ -1,0 +1,160 @@
+package strutilinternaltests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/internal/strutilinternal"
+)
+
+// ── NonWhitespaceSlicePtr ──
+
+func Test_Cov2_NonWhitespaceSlicePtr(t *testing.T) {
+	result := strutilinternal.NonWhitespaceSlicePtr([]string{"a", " ", "b"})
+	emptyResult := strutilinternal.NonWhitespaceSlicePtr([]string{})
+	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
+	expected := args.Map{"len": 2, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceSlicePtr", actual)
+}
+
+// ── NonWhitespaceTrimSlicePtr ──
+
+func Test_Cov2_NonWhitespaceTrimSlicePtr(t *testing.T) {
+	result := strutilinternal.NonWhitespaceTrimSlicePtr([]string{" a ", " "})
+	emptyResult := strutilinternal.NonWhitespaceTrimSlicePtr([]string{})
+	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult), "first": result[0]}
+	expected := args.Map{"len": 1, "emptyLen": 0, "first": "a"}
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceTrimSlicePtr", actual)
+}
+
+// ── NonWhitespaceJoinPtr ──
+
+func Test_Cov2_NonWhitespaceJoinPtr(t *testing.T) {
+	result := strutilinternal.NonWhitespaceJoinPtr([]string{"a", " ", "b"}, ",")
+	emptyResult := strutilinternal.NonWhitespaceJoinPtr([]string{}, ",")
+	actual := args.Map{"result": result, "empty": emptyResult}
+	expected := args.Map{"result": "a,b", "empty": ""}
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoinPtr", actual)
+}
+
+// ── SliceToMapConverter extended ──
+
+func Test_Cov2_SliceToMapConverter_Hashset(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"a", "b", "a"}
+	hs := conv.Hashset()
+	actual := args.Map{"len": len(hs), "hasA": hs["a"], "hasB": hs["b"]}
+	expected := args.Map{"len": 2, "hasA": true, "hasB": true}
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter Hashset", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineSplitMap(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"key=value", "a=b"}
+	result := conv.LineSplitMap("=")
+	actual := args.Map{"key": result["key"], "a": result["a"]}
+	expected := args.Map{"key": "value", "a": "b"}
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMap", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineSplitMapTrim(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"  key  =  value  ", "  "}
+	result := conv.LineSplitMapTrim("=")
+	actual := args.Map{"hasKey": result["key"] != ""}
+	expected := args.Map{"hasKey": true}
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMapTrim", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineSplitMapOptions(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"key=val"}
+	trimResult := conv.LineSplitMapOptions(true, "=")
+	noTrimResult := conv.LineSplitMapOptions(false, "=")
+	actual := args.Map{
+		"trimLen":   len(trimResult),
+		"noTrimLen": len(noTrimResult),
+	}
+	expected := args.Map{"trimLen": 1, "noTrimLen": 1}
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMapOptions", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineSplitMap_Empty(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{}
+	result := conv.LineSplitMap("=")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMap empty", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineProcessorMapOptions(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"hello", "world", "  "}
+	fn := func(line string) (string, string) { return line, "v" }
+	trimResult := conv.LineProcessorMapOptions(true, fn)
+	noTrimResult := conv.LineProcessorMapOptions(false, fn)
+	nilResult := conv.LineProcessorMapOptions(true, nil)
+	actual := args.Map{
+		"trimLen":   len(trimResult),
+		"noTrimLen": len(noTrimResult),
+		"nilLen":    len(nilResult),
+	}
+	expected := args.Map{"trimLen": 2, "noTrimLen": 3, "nilLen": 0}
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineProcessorMapOptions", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineProcessorMapStringIntegerTrim(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"hello", "  "}
+	fn := func(line string) (string, int) { return line, 1 }
+	result := conv.LineProcessorMapStringIntegerTrim(fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringIntegerTrim", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineProcessorMapStringIntegerOptions(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"hello"}
+	fn := func(line string) (string, int) { return line, 1 }
+	trimResult := conv.LineProcessorMapStringIntegerOptions(true, fn)
+	noTrimResult := conv.LineProcessorMapStringIntegerOptions(false, fn)
+	nilResult := conv.LineProcessorMapStringIntegerOptions(true, nil)
+	actual := args.Map{
+		"trimLen":   len(trimResult),
+		"noTrimLen": len(noTrimResult),
+		"nilLen":    len(nilResult),
+	}
+	expected := args.Map{"trimLen": 1, "noTrimLen": 1, "nilLen": 0}
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringIntegerOptions", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineProcessorMapStringAnyTrim(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"hello", "  "}
+	fn := func(line string) (string, any) { return line, 1 }
+	result := conv.LineProcessorMapStringAnyTrim(fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAnyTrim", actual)
+}
+
+func Test_Cov2_SliceToMapConverter_LineProcessorMapStringAnyOptions(t *testing.T) {
+	conv := strutilinternal.SliceToMapConverter{"hello"}
+	fn := func(line string) (string, any) { return line, "v" }
+	trimResult := conv.LineProcessorMapStringAnyOptions(true, fn)
+	noTrimResult := conv.LineProcessorMapStringAnyOptions(false, fn)
+	nilResult := conv.LineProcessorMapStringAnyOptions(true, nil)
+	actual := args.Map{
+		"trimLen":   len(trimResult),
+		"noTrimLen": len(noTrimResult),
+		"nilLen":    len(nilResult),
+	}
+	expected := args.Map{"trimLen": 1, "noTrimLen": 1, "nilLen": 0}
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAnyOptions", actual)
+}
+
+// ── ReplaceTemplateMap non-curly ──
+
+func Test_Cov2_ReplaceTemplateMap_NonCurly(t *testing.T) {
+	result := strutilinternal.ReplaceTemplateMap(
+		false,
+		"Hello name, you are age",
+		map[string]string{"name": "Alice", "age": "30"},
+	)
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "Hello Alice, you are 30"}
+	expected.ShouldBeEqual(t, 0, "ReplaceTemplateMap non-curly", actual)
+}
