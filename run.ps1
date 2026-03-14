@@ -1191,7 +1191,7 @@ function Invoke-ShowFailLog {
 
 function Show-Help {
     Write-Host ""
-    Write-Host "  Project Runner — ./run.ps1 <command>" -ForegroundColor Cyan
+    Write-Host "  Project Runner — ./run.ps1 <command> [options]" -ForegroundColor Cyan
     Write-Host ""
     Write-Host "  Testing:" -ForegroundColor Yellow
     Write-Host "    T   | -t   | test          Run all tests (verbose)"
@@ -1217,12 +1217,19 @@ function Show-Help {
     Write-Host "    C   | -c   | clean         Clean build artifacts"
     Write-Host "    H   | -h   | help          Show this help"
     Write-Host ""
+    Write-Host "  Mode Options (for TC/TCP):" -ForegroundColor Yellow
+    Write-Host "    --sync      Run precompile + tests sequentially (default: parallel)"
+    Write-Host "    --no-open   Skip auto-opening HTML coverage report"
+    Write-Host ""
     Write-Host "  Examples:" -ForegroundColor Gray
     Write-Host "    ./run.ps1 T"
     Write-Host "    ./run.ps1 -t"
     Write-Host "    ./run.ps1 TP regexnewtests"
     Write-Host "    ./run.ps1 -tp regexnewtests"
     Write-Host "    ./run.ps1 TCP regexnewtests  (package coverage)"
+    Write-Host "    ./run.ps1 TC                 (parallel by default)"
+    Write-Host "    ./run.ps1 TC --sync          (sequential mode)"
+    Write-Host "    ./run.ps1 TC --sync --no-open"
     Write-Host "    ./run.ps1 -gc"
     Write-Host "    ./run.ps1 -gc 9090          (custom port)"
     Write-Host ""
