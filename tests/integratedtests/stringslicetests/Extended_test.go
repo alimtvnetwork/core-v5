@@ -68,10 +68,9 @@ func Test_StringSlice_AppendLineNew_EmptySlice(t *testing.T) {
 // ==========================================
 
 func Test_StringSlice_PrependLineNew_Basic(t *testing.T) {
-	result := stringslice.PrependLineNew([]string{"b", "c"}, "a")
-	r := *result
-	if len(r) != 3 || r[0] != "a" {
-		t.Errorf("expected [a b c], got %v", r)
+	result := stringslice.PrependLineNew("a", []string{"b", "c"})
+	if len(result) != 3 || result[0] != "a" {
+		t.Errorf("expected [a b c], got %v", result)
 	}
 }
 

@@ -239,7 +239,7 @@ func Test_TextValidators_Adds_Empty_Cov(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_AddSimple(t *testing.T) {
+func Test_TextValidators_AddSimple_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.AddSimple("test", stringcompareas.Equal)
 	if tvs.Length() != 1 {
@@ -266,7 +266,7 @@ func Test_TextValidators_HasAnyItem(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_HasIndex(t *testing.T) {
+func Test_TextValidators_HasIndex_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{})
 	if !tvs.HasIndex(0) {
@@ -299,7 +299,7 @@ func Test_TextValidators_IsMatchMany_Empty(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_VerifyFirstError_Empty(t *testing.T) {
+func Test_TextValidators_VerifyFirstError_Empty_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(0)
 	if tvs.VerifyFirstError(0, "x", true) != nil {
 		t.Error("empty should return nil")
@@ -341,7 +341,7 @@ func Test_TextValidators_AllVerifyError_Empty(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_Dispose(t *testing.T) {
+func Test_TextValidators_Dispose_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{})
 	tvs.Dispose()

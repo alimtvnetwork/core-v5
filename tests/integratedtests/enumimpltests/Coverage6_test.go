@@ -2,6 +2,7 @@ package enumimpltests
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coreimpl/enumimpl"
@@ -829,9 +830,9 @@ func Test_Cov6_DynamicMap_KeyValueIntDefault(t *testing.T) {
 
 func Test_Cov6_DynamicMap_IsValueTypeOf(t *testing.T) {
 	dm := enumimpl.DynamicMap{"a": "hello"}
-	isStr := dm.IsValueTypeOf(fmt.Sprint)
+	isStr := dm.IsValueTypeOf(reflect.TypeOf(""))
 
-	actual := args.Map{"checked": isStr != true || isStr == true}
+	actual := args.Map{"checked": isStr}
 	expected := args.Map{"checked": true}
 	expected.ShouldBeEqual(t, 0, "DynamicMap_IsValueTypeOf", actual)
 }

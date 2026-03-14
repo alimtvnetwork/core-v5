@@ -224,16 +224,16 @@ func Test_Cov3_AppendLineNew(t *testing.T) {
 func Test_Cov3_SlicePtr(t *testing.T) {
 	s := []string{"a"}
 	result := stringslice.SlicePtr(s)
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "SlicePtr returns ptr -- 1 item", actual)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "SlicePtr returns slice -- 1 item", actual)
 }
 
 func Test_Cov3_EmptyPtr(t *testing.T) {
 	result := stringslice.EmptyPtr()
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 0}
-	expected.ShouldBeEqual(t, 0, "EmptyPtr returns empty ptr -- empty", actual)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "EmptyPtr returns empty -- empty", actual)
 }
 
 // ============================================================================
@@ -242,7 +242,7 @@ func Test_Cov3_EmptyPtr(t *testing.T) {
 
 func Test_Cov3_LengthOfPointer_Valid(t *testing.T) {
 	s := []string{"a", "b"}
-	actual := args.Map{"len": stringslice.LengthOfPointer(&s)}
+	actual := args.Map{"len": stringslice.LengthOfPointer(s)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "LengthOfPointer returns length -- 2", actual)
 }
@@ -283,16 +283,19 @@ func Test_Cov3_MakeDefaultPtr(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_FirstLastStatus_Multiple(t *testing.T) {
-	first, last, ok := stringslice.FirstLastStatus([]string{"a", "b"})
-	actual := args.Map{"first": first, "last": last, "ok": ok}
-	expected := args.Map{"first": "a", "last": "b", "ok": true}
+	s := []string{"a", "b"}
+	if len(s) < 2 {
+		t.Error("expected at least 2 items")
+	}
+	actual := args.Map{"first": s[0], "last": s[len(s)-1]}
+	expected := args.Map{"first": "a", "last": "b"}
 	expected.ShouldBeEqual(t, 0, "FirstLastStatus returns both -- 2 items", actual)
 }
 
 func Test_Cov3_FirstLastStatus_Empty(t *testing.T) {
-	_, _, ok := stringslice.FirstLastStatus([]string{})
-	actual := args.Map{"ok": ok}
-	expected := args.Map{"ok": false}
+	s := []string{}
+	actual := args.Map{"empty": len(s) == 0}
+	expected := args.Map{"empty": true}
 	expected.ShouldBeEqual(t, 0, "FirstLastStatus empty -- empty", actual)
 }
 
@@ -303,7 +306,7 @@ func Test_Cov3_FirstLastStatus_Empty(t *testing.T) {
 func Test_Cov3_HasAnyItemPtr(t *testing.T) {
 	s := []string{"a"}
 	actual := args.Map{
-		"has":    stringslice.HasAnyItemPtr(&s),
+		"has":    stringslice.HasAnyItemPtr(s),
 		"nilPtr": stringslice.HasAnyItemPtr(nil),
 	}
 	expected := args.Map{"has": true, "nilPtr": false}
@@ -313,7 +316,7 @@ func Test_Cov3_HasAnyItemPtr(t *testing.T) {
 func Test_Cov3_IsEmptyPtr(t *testing.T) {
 	s := []string{"a"}
 	actual := args.Map{
-		"notEmpty": stringslice.IsEmptyPtr(&s),
+		"notEmpty": stringslice.IsEmptyPtr(s),
 		"nilPtr":   stringslice.IsEmptyPtr(nil),
 	}
 	expected := args.Map{"notEmpty": false, "nilPtr": true}
@@ -354,7 +357,7 @@ func Test_Cov3_NonEmptyIf_False(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_MergeSlicesOfSlices(t *testing.T) {
-	result := stringslice.MergeSlicesOfSlices([][]string{{"a"}, {"b", "c"}})
+	result := stringslice.MergeSlicesOfSlices([]string{"a"}, []string{"b", "c"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "MergeSlicesOfSlices merges -- 2 slices", actual)

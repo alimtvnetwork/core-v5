@@ -222,28 +222,28 @@ func Test_ValidValue_Cov2(t *testing.T) {
 }
 
 func Test_ValidValues_Cov2(t *testing.T) {
-	vv := corestr.ValidValues{Values: []string{"a", "b"}, IsValid: true}
-	actual := args.Map{"len": len(vv.Values), "isValid": vv.IsValid}
-	expected := args.Map{"len": 2, "isValid": true}
+	vv := corestr.ValidValues{ValidValues: []*corestr.ValidValue{{Value: "a", IsValid: true}}}
+	actual := args.Map{"len": len(vv.ValidValues)}
+	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "ValidValues", actual)
 }
 
 // ── AnyToString ──
 
 func Test_AnyToString_Cov2(t *testing.T) {
-	actual := args.Map{"notEmpty": corestr.AnyToString(42) != ""}
+	actual := args.Map{"notEmpty": corestr.AnyToString(false, 42) != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "AnyToString_Int", actual)
 }
 
 func Test_AnyToString_String_Cov2(t *testing.T) {
-	actual := args.Map{"result": corestr.AnyToString("hello")}
+	actual := args.Map{"result": corestr.AnyToString(false, "hello")}
 	expected := args.Map{"result": "hello"}
 	expected.ShouldBeEqual(t, 0, "AnyToString_String", actual)
 }
 
 func Test_AnyToString_Nil_Cov2(t *testing.T) {
-	_ = corestr.AnyToString(nil)
+	_ = corestr.AnyToString(false, nil)
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "AnyToString_Nil", actual)
@@ -252,8 +252,9 @@ func Test_AnyToString_Nil_Cov2(t *testing.T) {
 // ── AllIndividualStringsOfStringsLength ──
 
 func Test_AllIndividualStringsOfStringsLength_Cov2(t *testing.T) {
-	actual := args.Map{"result": corestr.AllIndividualStringsOfStringsLength([]string{"ab", "cde"})}
-	expected := args.Map{"result": 5}
+	items := [][]string{{"ab", "cde"}}
+	actual := args.Map{"result": corestr.AllIndividualStringsOfStringsLength(&items)}
+	expected := args.Map{"result": 2}
 	expected.ShouldBeEqual(t, 0, "AllIndividualStringsOfStringsLength", actual)
 }
 
@@ -278,13 +279,13 @@ func Test_CloneSlice_Nil_Cov2(t *testing.T) {
 }
 
 func Test_CloneSliceIf_True_Cov2(t *testing.T) {
-	actual := args.Map{"len": len(corestr.CloneSliceIf(true, []string{"a"}))}
+	actual := args.Map{"len": len(corestr.CloneSliceIf(true, "a"))}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf_True", actual)
 }
 
 func Test_CloneSliceIf_False_Cov2(t *testing.T) {
-	actual := args.Map{"len": len(corestr.CloneSliceIf(false, []string{"a"}))}
+	actual := args.Map{"len": len(corestr.CloneSliceIf(false, "a"))}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf_False", actual)
 }

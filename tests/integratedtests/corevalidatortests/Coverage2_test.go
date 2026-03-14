@@ -14,9 +14,11 @@ import (
 
 func Test_Cov2_HeaderSliceValidator_Create(t *testing.T) {
 	hsv := corevalidator.HeaderSliceValidator{
-		Header:        "test-header",
-		CompareAs:     stringcompareas.Equal,
-		ExpectedLines: []string{"line1", "line2"},
+		Header: "test-header",
+		SliceValidator: corevalidator.SliceValidator{
+			CompareAs:     stringcompareas.Equal,
+			ExpectedLines: []string{"line1", "line2"},
+		},
 	}
 	actual := args.Map{"header": hsv.Header, "linesLen": len(hsv.ExpectedLines)}
 	expected := args.Map{"header": "test-header", "linesLen": 2}
@@ -166,11 +168,11 @@ func Test_Cov2_TextValidators_AllVerifyError_WithMatch(t *testing.T) {
 
 func Test_Cov2_RangeSegmentsValidator_Create(t *testing.T) {
 	rsv := &corevalidator.RangeSegmentsValidator{
-		IsCaseSensitive: true,
+		Title: "test-range",
 	}
-	actual := args.Map{"isCaseSensitive": rsv.IsCaseSensitive}
-	expected := args.Map{"isCaseSensitive": true}
-	expected.ShouldBeEqual(t, 0, "RangeSegmentsValidator returns expected -- case sensitive", actual)
+	actual := args.Map{"title": rsv.Title, "segLen": rsv.LengthOfVerifierSegments()}
+	expected := args.Map{"title": "test-range", "segLen": 0}
+	expected.ShouldBeEqual(t, 0, "RangeSegmentsValidator returns expected -- basic", actual)
 }
 
 // =============================================================================

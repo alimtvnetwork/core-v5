@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/alimtvnetwork/core/issetter"
-	"github.com/alimtvnetwork/core/corecomparator"
 )
 
 // TestValue_AllNameValues verifies AllNameValues returns all enum names.

@@ -96,8 +96,8 @@ func Test_IsDefined(t *testing.T) {
 func Test_IsContains(t *testing.T) {
 	// Act
 	actual := args.Map{
-		"found":    stringutil.IsContains("hello world", "world"),
-		"notFound": stringutil.IsContains("hello world", "foo"),
+		"found":    stringutil.IsContains([]string{"hello", "world"}, "world", 0, true),
+		"notFound": stringutil.IsContains([]string{"hello", "world"}, "foo", 0, true),
 	}
 	expected := args.Map{
 		"found":    true,

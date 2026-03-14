@@ -1240,7 +1240,7 @@ func Test_Triple_String_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_Triple_Clear(t *testing.T) {
+func Test_Triple_Clear_Cov(t *testing.T) {
 	tr := coregeneric.NewTriple("a", "b", "c")
 	tr.Clear()
 	if tr.IsValid || tr.Left != "" || tr.Middle != "" || tr.Right != "" {
@@ -1367,28 +1367,28 @@ func Test_MapCollection_Nil(t *testing.T) {
 	}
 }
 
-func Test_FlatMapCollection_Nil(t *testing.T) {
+func Test_FlatMapCollection_Nil_Cov(t *testing.T) {
 	result := coregeneric.FlatMapCollection[int, string](nil, func(i int) []string { return nil })
 	if result.Length() != 0 {
 		t.Error("nil should return empty")
 	}
 }
 
-func Test_ReduceCollection_Nil(t *testing.T) {
+func Test_ReduceCollection_Nil_Cov(t *testing.T) {
 	result := coregeneric.ReduceCollection[int, int](nil, 0, func(acc int, item int) int { return acc + item })
 	if result != 0 {
 		t.Error("nil should return initial")
 	}
 }
 
-func Test_GroupByCollection_Nil(t *testing.T) {
+func Test_GroupByCollection_Nil_Cov(t *testing.T) {
 	result := coregeneric.GroupByCollection[int, string](nil, func(i int) string { return "" })
 	if len(result) != 0 {
 		t.Error("nil should return empty map")
 	}
 }
 
-func Test_ContainsFunc_Nil(t *testing.T) {
+func Test_ContainsFunc_Nil_Cov(t *testing.T) {
 	if coregeneric.ContainsFunc[int](nil, func(i int) bool { return true }) {
 		t.Error("nil should return false")
 	}
@@ -1912,7 +1912,7 @@ func Test_CompareNumeric_All(t *testing.T) {
 // PointerSliceSorter — uncovered branches
 // =============================================================================
 
-func Test_PointerSliceSorter_Desc(t *testing.T) {
+func Test_PointerSliceSorter_Desc_Cov(t *testing.T) {
 	a, b, c := 3, 1, 2
 	items := []*int{&a, &b, &c}
 	sorter := coregeneric.NewPointerSliceSorterDesc(items)
@@ -1963,7 +1963,7 @@ func Test_PointerSliceSorter_SetMethods(t *testing.T) {
 	_ = sorter.IsSorted()
 }
 
-func Test_PointerSliceSorter_SetItems(t *testing.T) {
+func Test_PointerSliceSorter_SetItems_Cov(t *testing.T) {
 	sorter := coregeneric.NewPointerSliceSorterAsc([]*int{})
 	a := 5
 	sorter.SetItems([]*int{&a})
@@ -1987,7 +1987,7 @@ func Test_PointerSliceSorter_Less_BothNil(t *testing.T) {
 	}
 }
 
-func Test_PointerSliceSorter_NilFirst(t *testing.T) {
+func Test_PointerSliceSorter_NilFirst_Cov(t *testing.T) {
 	a := 1
 	items := []*int{&a, nil}
 	sorter := coregeneric.NewPointerSliceSorterFunc(items, func(x, y int) bool { return x < y }, true)
@@ -2185,7 +2185,7 @@ func Test_GroupByCollection_NonNil(t *testing.T) {
 	}
 }
 
-func Test_ContainsFunc_Found(t *testing.T) {
+func Test_ContainsFunc_Found_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1, 2, 3})
 	if !coregeneric.ContainsFunc(col, func(i int) bool { return i == 2 }) {
 		t.Error("should find 2")
@@ -2244,7 +2244,7 @@ func Test_ContainsAny_Found(t *testing.T) {
 	}
 }
 
-func Test_RemoveItem_Found(t *testing.T) {
+func Test_RemoveItem_Found_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1, 2, 3})
 	if !coregeneric.RemoveItem(col, 2) {
 		t.Error("should remove")
