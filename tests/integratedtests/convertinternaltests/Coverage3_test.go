@@ -239,8 +239,8 @@ func Test_Cov3_AnyTo_String_Error(t *testing.T) {
 
 func Test_Cov3_CodeFormatter_GolangRaw(t *testing.T) {
 	code := []byte("package main\nfunc main(){}")
-	result, err := convertinternal.CodeFormat.GolangRaw(code)
-	emptyResult, emptyErr := convertinternal.CodeFormat.GolangRaw([]byte{})
+	result, err := convertinternal.CodeFormatter.GolangRaw(code)
+	emptyResult, emptyErr := convertinternal.CodeFormatter.GolangRaw([]byte{})
 	actual := args.Map{
 		"notEmpty": len(result) > 0, "noErr": err == nil,
 		"emptyLen": len(emptyResult), "emptyNoErr": emptyErr == nil,
@@ -250,8 +250,8 @@ func Test_Cov3_CodeFormatter_GolangRaw(t *testing.T) {
 }
 
 func Test_Cov3_CodeFormatter_Golang(t *testing.T) {
-	result, err := convertinternal.CodeFormat.Golang("package main\nfunc main(){}")
-	emptyResult, emptyErr := convertinternal.CodeFormat.Golang("")
+	result, err := convertinternal.CodeFormatter.Golang("package main\nfunc main(){}")
+	emptyResult, emptyErr := convertinternal.CodeFormatter.Golang("")
 	actual := args.Map{
 		"notEmpty": result != "", "noErr": err == nil,
 		"emptyResult": emptyResult, "emptyNoErr": emptyErr == nil,
@@ -261,7 +261,7 @@ func Test_Cov3_CodeFormatter_Golang(t *testing.T) {
 }
 
 func Test_Cov3_CodeFormatter_Golang_Invalid(t *testing.T) {
-	_, err := convertinternal.CodeFormat.Golang("not valid go code {{{")
+	_, err := convertinternal.CodeFormatter.Golang("not valid go code {{{")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "CodeFormatter Golang invalid", actual)
@@ -303,8 +303,8 @@ func Test_Cov3_Integers_IntegersToStrings(t *testing.T) {
 // ── KeyValues ──
 
 func Test_Cov3_KeyValues_ToMap(t *testing.T) {
-	result := convertinternal.KeyValues.ToMap([]string{"a", "b"}, []string{"1", "2"})
-	nilResult := convertinternal.KeyValues.ToMap(nil, nil)
+	result := convertinternal.KeyValuesTo.ToMap([]string{"a", "b"}, []string{"1", "2"})
+	nilResult := convertinternal.KeyValuesTo.ToMap(nil, nil)
 	actual := args.Map{"len": len(result), "nilLen": len(nilResult), "a": result["a"]}
 	expected := args.Map{"len": 2, "nilLen": 0, "a": "1"}
 	expected.ShouldBeEqual(t, 0, "KeyValues ToMap", actual)
@@ -313,8 +313,8 @@ func Test_Cov3_KeyValues_ToMap(t *testing.T) {
 func Test_Cov3_KeyValues_ToMapPtr(t *testing.T) {
 	keys := []string{"a"}
 	vals := []string{"1"}
-	result := convertinternal.KeyValues.ToMapPtr(&keys, &vals)
-	nilResult := convertinternal.KeyValues.ToMapPtr(nil, nil)
+	result := convertinternal.KeyValuesTo.ToMapPtr(&keys, &vals)
+	nilResult := convertinternal.KeyValuesTo.ToMapPtr(nil, nil)
 	actual := args.Map{"notNil": result != nil, "nilNotNil": nilResult != nil}
 	expected := args.Map{"notNil": true, "nilNotNil": true}
 	expected.ShouldBeEqual(t, 0, "KeyValues ToMapPtr", actual)

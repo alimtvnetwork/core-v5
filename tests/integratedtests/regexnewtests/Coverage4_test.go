@@ -36,7 +36,7 @@ func Test_Cov4_LazyRegex_Nil(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_Valid(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	actual := args.Map{
 		"isDefined":    lr.IsDefined(),
 		"isUndefined":  lr.IsUndefined(),
@@ -57,7 +57,7 @@ func Test_Cov4_LazyRegex_Valid(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_Invalid(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`[invalid`)
+	lr := regexnew.New.LazyLock(`[invalid`)
 	actual := args.Map{
 		"isApplicable": lr.IsApplicable(),
 		"hasError":     lr.HasError(),
@@ -72,7 +72,7 @@ func Test_Cov4_LazyRegex_Invalid(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_Compile(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	r, err := lr.Compile()
 	actual := args.Map{"notNil": r != nil, "noErr": err == nil}
 	expected := args.Map{"notNil": true, "noErr": true}
@@ -80,7 +80,7 @@ func Test_Cov4_LazyRegex_Compile(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_CompileMust(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	r := lr.CompileMust()
 	actual := args.Map{"notNil": r != nil}
 	expected := args.Map{"notNil": true}
@@ -88,7 +88,7 @@ func Test_Cov4_LazyRegex_CompileMust(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_CompileMust_Panic(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`[invalid`)
+	lr := regexnew.New.LazyLock(`[invalid`)
 	defer func() {
 		r := recover()
 		actual := args.Map{"panicked": r != nil}
@@ -99,7 +99,7 @@ func Test_Cov4_LazyRegex_CompileMust_Panic(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_OnRequiredCompiled(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	err := lr.OnRequiredCompiled()
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
@@ -115,7 +115,7 @@ func Test_Cov4_LazyRegex_OnRequiredCompiled_Nil(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_OnRequiredCompiledMust(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	lr.OnRequiredCompiledMust() // should not panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
@@ -123,7 +123,7 @@ func Test_Cov4_LazyRegex_OnRequiredCompiledMust(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_OnRequiredCompiledMust_Panic(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`[invalid`)
+	lr := regexnew.New.LazyLock(`[invalid`)
 	defer func() {
 		r := recover()
 		actual := args.Map{"panicked": r != nil}
@@ -134,7 +134,7 @@ func Test_Cov4_LazyRegex_OnRequiredCompiledMust_Panic(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_CompiledError(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	err := lr.CompiledError()
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
@@ -142,7 +142,7 @@ func Test_Cov4_LazyRegex_CompiledError(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_Error(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`[invalid`)
+	lr := regexnew.New.LazyLock(`[invalid`)
 	err := lr.Error()
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
@@ -150,7 +150,7 @@ func Test_Cov4_LazyRegex_Error(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_MustBeSafe(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	lr.MustBeSafe() // should not panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
@@ -158,7 +158,7 @@ func Test_Cov4_LazyRegex_MustBeSafe(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_MustBeSafe_Panic(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`[invalid`)
+	lr := regexnew.New.LazyLock(`[invalid`)
 	defer func() {
 		r := recover()
 		actual := args.Map{"panicked": r != nil}
@@ -169,7 +169,7 @@ func Test_Cov4_LazyRegex_MustBeSafe_Panic(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_FullString(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	result := lr.FullString()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
@@ -177,7 +177,7 @@ func Test_Cov4_LazyRegex_FullString(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_MatchError_Success(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	err := lr.MatchError("123")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
@@ -185,7 +185,7 @@ func Test_Cov4_LazyRegex_MatchError_Success(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_MatchError_Fail(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	err := lr.MatchError("abc")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
@@ -193,7 +193,7 @@ func Test_Cov4_LazyRegex_MatchError_Fail(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_MatchUsingFuncError_Success(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	err := lr.MatchUsingFuncError("123", func(r *regexp.Regexp, s string) bool {
 		return r.MatchString(s)
 	})
@@ -203,7 +203,7 @@ func Test_Cov4_LazyRegex_MatchUsingFuncError_Success(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_MatchUsingFuncError_Fail(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	err := lr.MatchUsingFuncError("abc", func(r *regexp.Regexp, s string) bool {
 		return r.MatchString(s)
 	})
@@ -213,7 +213,7 @@ func Test_Cov4_LazyRegex_MatchUsingFuncError_Fail(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_IsMatch(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	actual := args.Map{
 		"match":   lr.IsMatch("123"),
 		"noMatch": lr.IsMatch("abc"),
@@ -223,7 +223,7 @@ func Test_Cov4_LazyRegex_IsMatch(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_IsMatchBytes(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	actual := args.Map{
 		"match":   lr.IsMatchBytes([]byte("123")),
 		"noMatch": lr.IsMatchBytes([]byte("abc")),
@@ -233,7 +233,7 @@ func Test_Cov4_LazyRegex_IsMatchBytes(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_IsFailedMatch(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	actual := args.Map{
 		"failOnAlpha":  lr.IsFailedMatch("abc"),
 		"failOnDigits": lr.IsFailedMatch("123"),
@@ -243,7 +243,7 @@ func Test_Cov4_LazyRegex_IsFailedMatch(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_IsFailedMatchBytes(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`^\d+$`)
+	lr := regexnew.New.LazyLock(`^\d+$`)
 	actual := args.Map{
 		"failOnAlpha":  lr.IsFailedMatchBytes([]byte("abc")),
 		"failOnDigits": lr.IsFailedMatchBytes([]byte("123")),
@@ -253,7 +253,7 @@ func Test_Cov4_LazyRegex_IsFailedMatchBytes(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_FirstMatchLine(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`\d+`)
+	lr := regexnew.New.LazyLock(`\d+`)
 	match, isInvalid := lr.FirstMatchLine("abc 123 def")
 	actual := args.Map{"match": match, "isInvalid": isInvalid}
 	expected := args.Map{"match": "123", "isInvalid": false}
@@ -261,7 +261,7 @@ func Test_Cov4_LazyRegex_FirstMatchLine(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_FirstMatchLine_NoMatch(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`\d+`)
+	lr := regexnew.New.LazyLock(`\d+`)
 	match, isInvalid := lr.FirstMatchLine("abc def")
 	actual := args.Map{"match": match, "isInvalid": isInvalid}
 	expected := args.Map{"match": "", "isInvalid": true}
@@ -269,7 +269,7 @@ func Test_Cov4_LazyRegex_FirstMatchLine_NoMatch(t *testing.T) {
 }
 
 func Test_Cov4_LazyRegex_FirstMatchLine_Invalid(t *testing.T) {
-	lr := regexnew.New.Lazy.Lock(`[invalid`)
+	lr := regexnew.New.LazyLock(`[invalid`)
 	match, isInvalid := lr.FirstMatchLine("abc")
 	actual := args.Map{"match": match, "isInvalid": isInvalid}
 	expected := args.Map{"match": "", "isInvalid": true}
@@ -348,14 +348,14 @@ func Test_Cov4_NewLazy_NoLock(t *testing.T) {
 }
 
 func Test_Cov4_NewLazy_LockIf_True(t *testing.T) {
-	lr := regexnew.New.Lazy.LockIf(true, `^\d+$`)
+	lr := regexnew.New.LazyLockIf(true, `^\d+$`)
 	actual := args.Map{"isDefined": lr.IsDefined()}
 	expected := args.Map{"isDefined": true}
 	expected.ShouldBeEqual(t, 0, "NewLazy LockIf true", actual)
 }
 
 func Test_Cov4_NewLazy_LockIf_False(t *testing.T) {
-	lr := regexnew.New.Lazy.LockIf(false, `^\d+$`)
+	lr := regexnew.New.LazyLockIf(false, `^\d+$`)
 	actual := args.Map{"isDefined": lr.IsDefined()}
 	expected := args.Map{"isDefined": true}
 	expected.ShouldBeEqual(t, 0, "NewLazy LockIf false", actual)

@@ -17,14 +17,14 @@ func Test_Cov5_TraceCollection_Length(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_IsEmpty(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	actual := args.Map{"isEmpty": tc.IsEmpty(), "lastIndex": tc.LastIndex()}
 	expected := args.Map{"isEmpty": true, "lastIndex": -1}
 	expected.ShouldBeEqual(t, 0, "TraceCollection IsEmpty -- empty", actual)
 }
 
 func Test_Cov5_TraceCollection_Add(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	trace := codestack.New.Default()
 	tc.Add(trace)
 	actual := args.Map{"len": tc.Length()}
@@ -33,7 +33,7 @@ func Test_Cov5_TraceCollection_Add(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_Adds(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	t1 := codestack.New.Default()
 	t2 := codestack.New.Default()
 	tc.Adds(t1, t2)
@@ -43,7 +43,7 @@ func Test_Cov5_TraceCollection_Adds(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_AddsEmpty(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	tc.Adds()
 	actual := args.Map{"len": tc.Length()}
 	expected := args.Map{"len": 0}
@@ -51,7 +51,7 @@ func Test_Cov5_TraceCollection_AddsEmpty(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_AddsPtr(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	t1 := codestack.New.Ptr(0)
 	var nilTrace *codestack.Trace
 	tc.AddsPtr(true, t1, nilTrace)
@@ -111,7 +111,7 @@ func Test_Cov5_TraceCollection_FirstOrDefault(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_FirstOrDefault_Empty(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	first := tc.FirstOrDefault()
 	actual := args.Map{"isNil": first == nil}
 	expected := args.Map{"isNil": true}
@@ -127,7 +127,7 @@ func Test_Cov5_TraceCollection_LastOrDefault(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_LastOrDefault_Empty(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	last := tc.LastOrDefault()
 	actual := args.Map{"isNil": last == nil}
 	expected := args.Map{"isNil": true}
@@ -199,7 +199,7 @@ func Test_Cov5_TraceCollection_GetPagesSize(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_GetPagesSize_Zero(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	pages := tc.GetPagesSize(2)
 	actual := args.Map{"pages": pages}
 	expected := args.Map{"pages": 0}
@@ -271,7 +271,7 @@ func Test_Cov5_TraceCollection_ConcatNewUsingSkipPlusCount(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_AddsUsingSkipDefault(t *testing.T) {
-	tc := codestack.EmptyTraceCollection()
+	tc := codestack.New.StackTrace.Empty()
 	tc.AddsUsingSkipDefault(0)
 	actual := args.Map{"hasItems": tc.HasAnyItem()}
 	expected := args.Map{"hasItems": true}
