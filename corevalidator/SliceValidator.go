@@ -46,6 +46,7 @@ func (it *SliceValidator) SetActual(
 	actual []string,
 ) *SliceValidator {
 	it.ActualLines = actual
+	it.isUsed = true
 
 	return it
 }
@@ -55,6 +56,7 @@ func (it *SliceValidator) SetActualVsExpected(
 ) *SliceValidator {
 	it.ActualLines = actual
 	it.ExpectedLines = expected
+	it.isUsed = true
 
 	return it
 }
