@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/alimtvnetwork/core/constants"
-	"github.com/alimtvnetwork/core/converters"
 	"github.com/alimtvnetwork/core/internal/convertinternal"
 	"github.com/alimtvnetwork/core/internal/msgcreator"
 	"github.com/alimtvnetwork/core/internal/reflectinternal"
