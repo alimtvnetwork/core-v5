@@ -31,15 +31,15 @@ func (it *KeyVal) ValueDynamicPtr() *Dynamic {
 	return NewDynamicPtr(it.Value, true)
 }
 
-func (it *KeyVal) IsKeyNull() bool {
+func (it KeyVal) IsKeyNull() bool {
 	return reflectinternal.Is.Null(it.Key)
 }
 
-func (it *KeyVal) IsKeyNullOrEmptyString() bool {
+func (it KeyVal) IsKeyNullOrEmptyString() bool {
 	return reflectinternal.Is.Null(it.Key) || it.Key.(string) == ""
 }
 
-func (it *KeyVal) IsValueNull() bool {
+func (it KeyVal) IsValueNull() bool {
 	return reflectinternal.Is.Null(it.Value)
 }
 
