@@ -8,7 +8,8 @@
 
 ```powershell
 ./run.ps1 -t              # Run all tests
-./run.ps1 -tc             # Run tests with coverage (HTML + summary)
+./run.ps1 -tc             # Run tests with coverage (parallel, HTML + summary)
+./run.ps1 -tc --sync      # Run tests with coverage (sequential mode)
 ./run.ps1 -h              # Show help
 ```
 
@@ -44,10 +45,12 @@
 ./run.ps1 TP regexnewtests
 ./run.ps1 -tp corestrtests
 
-# Run tests with coverage (auto-opens HTML report)
+# Run tests with coverage (parallel by default, auto-opens HTML report)
 ./run.ps1 TC
 ./run.ps1 -tc
+./run.ps1 -tc --sync       # sequential mode
 ./run.ps1 -tc --no-open    # skip auto-open
+./run.ps1 -tc --sync --no-open  # both flags
 
 # Show last failing tests
 ./run.ps1 TF
