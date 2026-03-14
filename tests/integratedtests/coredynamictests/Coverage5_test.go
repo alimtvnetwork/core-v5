@@ -450,8 +450,8 @@ func Test_Cov5_ValueStatus(t *testing.T) {
 
 func Test_Cov5_SimpleRequest(t *testing.T) {
 	sr := coredynamic.NewSimpleRequestValid("hello")
-	actual := args.Map{"msg": sr.Message(), "val": sr.Value() != nil}
-	expected := args.Map{"msg": "hello", "val": true}
+	actual := args.Map{"notNil": sr != nil, "val": sr.Value()}
+	expected := args.Map{"notNil": true, "val": "hello"}
 	expected.ShouldBeEqual(t, 0, "SimpleRequest -- valid", actual)
 }
 
