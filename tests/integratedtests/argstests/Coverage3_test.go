@@ -280,7 +280,7 @@ func Test_Cov3_Three_Basic(t *testing.T) {
 
 func Test_Cov3_Three_Args(t *testing.T) {
 	three := &args.Three[string, int, bool]{First: "a", Second: 1, Third: true}
-	a := three.Args()
+	a := three.Args(3)
 	actual := args.Map{"len": len(a)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "Three.Args returns 3 -- all three", actual)
