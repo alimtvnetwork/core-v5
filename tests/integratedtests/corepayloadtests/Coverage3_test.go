@@ -437,12 +437,10 @@ func Test_Cov3_PayloadsCollection_SkipTakeLimit(t *testing.T) {
 func Test_Cov3_PayloadsCollection_ConcatNew(t *testing.T) {
 	pc1 := corepayload.New.PayloadsCollection.Empty()
 	pc1.Add(corepayload.PayloadWrapper{Name: "a"})
-	pc2 := corepayload.New.PayloadsCollection.Empty()
-	pc2.Add(corepayload.PayloadWrapper{Name: "b"})
-	concat := pc1.ConcatNew(pc2)
+	concat := pc1.ConcatNew(corepayload.PayloadWrapper{Name: "b"})
 	actual := args.Map{"len": concat.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection.ConcatNew merges -- two collections", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadsCollection.ConcatNew merges -- two items", actual)
 }
 
 func Test_Cov3_PayloadsCollection_InsertAt(t *testing.T) {
@@ -450,7 +448,7 @@ func Test_Cov3_PayloadsCollection_InsertAt(t *testing.T) {
 	pc.Add(corepayload.PayloadWrapper{Name: "a"})
 	pc.Add(corepayload.PayloadWrapper{Name: "c"})
 	pw := corepayload.PayloadWrapper{Name: "b"}
-	pc.InsertAt(1, &pw)
+	pc.InsertAt(1, pw)
 	actual := args.Map{"len": pc.Length()}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "PayloadsCollection.InsertAt adds at index -- 3 items", actual)
@@ -460,8 +458,8 @@ func Test_Cov3_PayloadsCollection_Filter(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
 	pc.Add(corepayload.PayloadWrapper{Name: "match"})
 	pc.Add(corepayload.PayloadWrapper{Name: "other"})
-	filtered := pc.Filter(func(item *corepayload.PayloadWrapper) bool {
-		return item.Name == "match"
+	filtered := pc.Filter(func(item *corepayload.PayloadWrapper) (bool, bool) {
+		return item.Name == "match", false
 	})
 	actual := args.Map{"len": len(filtered)}
 	expected := args.Map{"len": 1}
@@ -472,8 +470,8 @@ func Test_Cov3_PayloadsCollection_FilterCollection(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
 	pc.Add(corepayload.PayloadWrapper{Name: "match"})
 	pc.Add(corepayload.PayloadWrapper{Name: "other"})
-	filtered := pc.FilterCollection(func(item *corepayload.PayloadWrapper) bool {
-		return item.Name == "match"
+	filtered := pc.FilterCollection(func(item *corepayload.PayloadWrapper) (bool, bool) {
+		return item.Name == "match", false
 	})
 	actual := args.Map{"len": filtered.Length()}
 	expected := args.Map{"len": 1}

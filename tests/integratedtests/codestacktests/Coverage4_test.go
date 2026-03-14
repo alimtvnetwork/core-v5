@@ -193,7 +193,7 @@ func Test_Cov4_Trace_Dispose(t *testing.T) {
 // ── newStacksCreator (via New.StackTrace) ──
 
 func Test_Cov4_NewStacks_Default(t *testing.T) {
-	traces := codestack.New.StackTrace.Default()
+	traces := codestack.New.StackTrace.Default(1, 5)
 	actual := args.Map{"hasItems": traces.Length() > 0}
 	expected := args.Map{"hasItems": true}
 	expected.ShouldBeEqual(t, 0, "StackTrace.Default returns non-empty -- from test", actual)
@@ -203,7 +203,7 @@ func Test_Cov4_NewStacks_DefaultCount(t *testing.T) {
 	traces := codestack.New.StackTrace.DefaultCount(3)
 	actual := args.Map{"hasItems": traces.Length() > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "StackTrace.DefaultCount returns traces -- count 3", actual)
+	expected.ShouldBeEqual(t, 0, "StackTrace.DefaultCount returns traces -- start skip 3", actual)
 }
 
 func Test_Cov4_NewStacks_SkipOne(t *testing.T) {
@@ -221,7 +221,7 @@ func Test_Cov4_NewStacks_SkipNone(t *testing.T) {
 }
 
 func Test_Cov4_NewStacks_All(t *testing.T) {
-	traces := codestack.New.StackTrace.All(1, 5)
+	traces := codestack.New.StackTrace.All(true, true, 1, 5)
 	actual := args.Map{"hasItems": traces.Length() > 0}
 	expected := args.Map{"hasItems": true}
 	expected.ShouldBeEqual(t, 0, "StackTrace.All returns traces -- skip 1 count 5", actual)

@@ -194,14 +194,14 @@ func Test_Cov5_GherkinsString(t *testing.T) {
 
 func Test_Cov5_StringLinesToQuoteLines_Empty(t *testing.T) {
 	result := errcore.StringLinesToQuoteLines(nil)
-	actual := args.Map{"isEmpty": result == ""}
+	actual := args.Map{"isEmpty": len(result) == 0}
 	expected := args.Map{"isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines nil -- empty", actual)
 }
 
 func Test_Cov5_StringLinesToQuoteLines_NonEmpty(t *testing.T) {
 	result := errcore.StringLinesToQuoteLines([]string{"a", "b"})
-	actual := args.Map{"notEmpty": result != ""}
+	actual := args.Map{"notEmpty": len(result) > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines non-empty -- formatted", actual)
 }
