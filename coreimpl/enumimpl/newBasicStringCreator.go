@@ -105,15 +105,20 @@ func (it newBasicStringCreator) CreateAliasMapOnly(
 	max := ""
 
 	index := 0
-	for _, name := range actualRangesNames {
+	for i, name := range actualRangesNames {
 		actualNames[index] = name
 
-		if name > max {
-			max = name
-		}
-
-		if name < min {
+		if i == 0 {
 			min = name
+			max = name
+		} else {
+			if name > max {
+				max = name
+			}
+
+			if name < min {
+				min = name
+			}
 		}
 
 		index++
@@ -248,6 +253,7 @@ func (it newBasicStringCreator) CreateUsingAliasMap(
 		numberEnumBase:                           enumBase,
 		minVal:                                   min,
 		maxVal:                                   max,
+		nameWithIndexMap:                         nameWithIndexMap,
 		jsonDoubleQuoteNameToValueHashMap:        stringsToHashSet(stringRangesNames),
 		valueToJsonDoubleQuoteStringBytesHashmap: valueToJsonDoubleQuoteStringBytesHashmap,
 	}

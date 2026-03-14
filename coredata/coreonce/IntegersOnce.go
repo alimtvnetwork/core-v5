@@ -144,8 +144,14 @@ func (it *IntegersOnce) IsEqual(integerItems ...int) bool {
 		return false
 	}
 
-	for i, item := range currentItems {
-		if item != integerItems[i] {
+	currentMap := make(map[int]int, len(currentItems))
+	for _, item := range currentItems {
+		currentMap[item]++
+	}
+
+	for _, item := range integerItems {
+		currentMap[item]--
+		if currentMap[item] < 0 {
 			return false
 		}
 	}

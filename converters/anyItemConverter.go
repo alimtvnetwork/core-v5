@@ -129,7 +129,7 @@ func (it anyItemConverter) ToStrings(
 		reflectVal,
 	)
 
-	return it.ItemsToStringsSkipOnNil(anyItems)
+	return it.ItemsToStringsSkipOnNil(anyItems...)
 }
 
 func (it anyItemConverter) ToStringsUsingProcessor(
