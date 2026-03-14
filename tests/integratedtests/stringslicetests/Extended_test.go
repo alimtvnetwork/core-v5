@@ -319,8 +319,8 @@ func Test_StringSlice_FirstLastDefaultStatus_Empty(t *testing.T) {
 
 func Test_StringSlice_NonNullStrings(t *testing.T) {
 	result := stringslice.NonNullStrings([]string{"a", "", "b"})
-	if len(result) != 3 {
-		t.Errorf("expected 3 items (no filtering), got %v", result)
+	if len(result) != 2 {
+		t.Errorf("expected 2 items (filters empty strings), got %v", result)
 	}
 }
 

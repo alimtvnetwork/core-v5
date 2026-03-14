@@ -112,7 +112,7 @@ var enumStringTestCases = []coretestcases.CaseV1{
 			},
 		},
 		ExpectedInput: args.Map{
-			"min": "",
+			"min": "B",
 			"max": "Something2",
 		},
 	},

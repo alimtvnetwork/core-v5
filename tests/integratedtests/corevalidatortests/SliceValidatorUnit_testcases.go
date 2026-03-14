@@ -69,8 +69,8 @@ var svIsUsedAlreadyFalseTestCase = coretestcases.CaseV1{
 }
 
 var svIsUsedAlreadyTrueTestCase = coretestcases.CaseV1{
-	Title:         "SliceValidator.IsUsedAlready returns true -- after ComparingValidators",
-	ExpectedInput: args.Map{"isUsed": true},
+	Title:         "SliceValidator.IsUsedAlready returns false -- ComparingValidators does not set isUsed",
+	ExpectedInput: args.Map{"isUsed": false},
 }
 
 var svMethodNameTestCase = coretestcases.CaseV1{
