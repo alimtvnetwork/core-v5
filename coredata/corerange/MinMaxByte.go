@@ -1,6 +1,6 @@
 package corerange
 
-import "github.com/alimtvnetwork/core/constants"
+// no imports needed
 
 type MinMaxByte struct {
 	Min, Max byte
