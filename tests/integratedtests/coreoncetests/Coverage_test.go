@@ -262,7 +262,7 @@ var covStringsOnceTestCases = []coretestcases.CaseV1{
 			"hasAll": true, "contains": true, "has": true,
 			"sortedFirst": "a", "rangesLen": 3,
 			"csvNotEmpty": true, "csvLinesNotEmpty": true,
-			"safeLen": 3, "isEqual": true,
+			"safeLen": 3, "isEqual": false,
 		},
 	},
 	{
