@@ -80,9 +80,13 @@ func Test_Cov2_Index_Format(t *testing.T) {
 }
 
 func Test_Cov2_Index_IsEnumEqual(t *testing.T) {
+	maj := versionindexes.Major
+	mp := &maj
+	min := versionindexes.Minor
+	minp := &min
 	actual := args.Map{
-		"equal":    versionindexes.Major.IsEnumEqual(versionindexes.Major),
-		"notEqual": versionindexes.Major.IsEnumEqual(versionindexes.Minor),
+		"equal":    versionindexes.Major.IsEnumEqual(mp),
+		"notEqual": versionindexes.Major.IsEnumEqual(minp),
 	}
 	expected := args.Map{"equal": true, "notEqual": false}
 	expected.ShouldBeEqual(t, 0, "Index IsEnumEqual", actual)
@@ -90,9 +94,17 @@ func Test_Cov2_Index_IsEnumEqual(t *testing.T) {
 
 func Test_Cov2_Index_IsAnyEnumsEqual(t *testing.T) {
 	v := versionindexes.Minor
+	maj := versionindexes.Major
+	mp := &maj
+	minv := versionindexes.Minor
+	minp := &minv
+	patch := versionindexes.Patch
+	pp := &patch
+	build := versionindexes.Build
+	bp := &build
 	actual := args.Map{
-		"found":    v.IsAnyEnumsEqual(versionindexes.Major, versionindexes.Minor),
-		"notFound": v.IsAnyEnumsEqual(versionindexes.Patch, versionindexes.Build),
+		"found":    v.IsAnyEnumsEqual(mp, minp),
+		"notFound": v.IsAnyEnumsEqual(pp, bp),
 	}
 	expected := args.Map{"found": true, "notFound": false}
 	expected.ShouldBeEqual(t, 0, "Index IsAnyEnumsEqual", actual)

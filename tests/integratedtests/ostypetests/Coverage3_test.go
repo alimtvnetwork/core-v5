@@ -217,6 +217,7 @@ func Test_Cov3_Group_Contracts(t *testing.T) {
 
 func Test_Cov3_Variation_Extended(t *testing.T) {
 	v := ostype.Linux
+	lp := &v
 	actual := args.Map{
 		"isAnyMatch":       v.IsAnyMatch(ostype.Windows, ostype.Linux),
 		"isAnyMatchFalse":  v.IsAnyMatch(ostype.Windows),
@@ -227,10 +228,8 @@ func Test_Cov3_Variation_Extended(t *testing.T) {
 		"integerRanges":    len(v.IntegerEnumRanges()) > 0,
 		"rangesDynamic":    len(v.RangesDynamicMap()) > 0,
 		"format":           v.Format("%s") != "",
-		lp := ostype.Linux
-		lpp := &lp
-		"isEnumEqual":      v.IsEnumEqual(lpp),
-		"isAnyEnumsEqual":  v.IsAnyEnumsEqual(lpp),
+		"isEnumEqual":      v.IsEnumEqual(lp),
+		"isAnyEnumsEqual":  v.IsAnyEnumsEqual(lp),
 		"minMaxStr":        v.MinValueString() != "",
 		"maxStr":           v.MaxValueString() != "",
 		"minInt":           v.MinInt() >= 0,

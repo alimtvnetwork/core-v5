@@ -117,8 +117,8 @@ func Test_Cov3_IsEnds(t *testing.T) {
 
 func Test_Cov3_IsStartsWith(t *testing.T) {
 	actual := args.Map{
-		"starts":    stringutil.IsStartsWith("hello", "hel"),
-		"notStarts": stringutil.IsStartsWith("hello", "wor"),
+		"starts":    stringutil.IsStartsWith("hello", "hel", false),
+		"notStarts": stringutil.IsStartsWith("hello", "wor", false),
 	}
 	expected := args.Map{"starts": true, "notStarts": false}
 	expected.ShouldBeEqual(t, 0, "IsStartsWith", actual)
@@ -126,8 +126,8 @@ func Test_Cov3_IsStartsWith(t *testing.T) {
 
 func Test_Cov3_IsEndsWith(t *testing.T) {
 	actual := args.Map{
-		"ends":    stringutil.IsEndsWith("hello", "llo"),
-		"notEnds": stringutil.IsEndsWith("hello", "hel"),
+		"ends":    stringutil.IsEndsWith("hello", "llo", false),
+		"notEnds": stringutil.IsEndsWith("hello", "hel", false),
 	}
 	expected := args.Map{"ends": true, "notEnds": false}
 	expected.ShouldBeEqual(t, 0, "IsEndsWith", actual)
