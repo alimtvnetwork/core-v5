@@ -1400,7 +1400,7 @@ func Test_IndexOfFunc_Nil_Cov(t *testing.T) {
 	}
 }
 
-func Test_ContainsItem_Nil(t *testing.T) {
+func Test_ContainsItem_Nil_Cov(t *testing.T) {
 	if coregeneric.ContainsItem[int](nil, 1) {
 		t.Error("nil should return false")
 	}
