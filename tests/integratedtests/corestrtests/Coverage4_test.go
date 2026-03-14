@@ -158,8 +158,8 @@ func Test_Cov4_CharHashsetMap_AddAndHas(t *testing.T) {
 
 func Test_Cov4_CharCollectionMap_AddAndGet(t *testing.T) {
 	ccm := corestr.New.CharCollectionMap.Empty()
-	ccm.Add('x', "val1")
-	ccm.Add('x', "val2")
+	ccm.Add("val1")
+	ccm.Add("val2")
 	actual := args.Map{"isEmpty": ccm.IsEmpty(), "length": ccm.Length()}
 	expected := args.Map{"isEmpty": false, "length": 1}
 	expected.ShouldBeEqual(t, 0, "CharCollectionMap Add returns expected -- 1 char", actual)
@@ -202,10 +202,10 @@ func Test_Cov4_LeftMiddleRight_HasSafe(t *testing.T) {
 	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	actual := args.Map{
 		"hasSafe": lmr.HasSafeNonEmpty(),
-		"hasAll":  lmr.HasAll(),
+		"isAll":   lmr.IsAll("l", "m", "r"),
 	}
-	expected := args.Map{"hasSafe": true, "hasAll": true}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight HasSafe/HasAll returns true -- all set", actual)
+	expected := args.Map{"hasSafe": true, "isAll": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight HasSafe/IsAll returns true -- all set", actual)
 }
 
 // ── Hashset — remove and HasAny ──
@@ -258,7 +258,7 @@ func Test_Cov4_Hashset_String(t *testing.T) {
 
 func Test_Cov4_Collection_Clone(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
-	cloned := col.Clone()
+	cloned := corestr.New.Collection.CloneStrings(col.ListStrings())
 	actual := args.Map{"length": cloned.Length()}
 	expected := args.Map{"length": 2}
 	expected.ShouldBeEqual(t, 0, "Collection Clone returns expected -- 2 items", actual)
@@ -270,11 +270,11 @@ func Test_Cov4_SimpleSlice_FirstOrDefault(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a", "b")
 	empty := corestr.New.SimpleSlice.Empty()
 	actual := args.Map{
-		"first":        ss.FirstOrDefault("x"),
-		"emptyDefault": empty.FirstOrDefault("x"),
-		"lastOrDef":    ss.LastOrDefault("x"),
+		"first":        ss.FirstOrDefault(),
+		"emptyDefault": empty.FirstOrDefault(),
+		"lastOrDef":    ss.LastOrDefault(),
 	}
-	expected := args.Map{"first": "a", "emptyDefault": "x", "lastOrDef": "b"}
+	expected := args.Map{"first": "a", "emptyDefault": "", "lastOrDef": "b"}
 	expected.ShouldBeEqual(t, 0, "SimpleSlice FirstOrDefault/LastOrDefault returns expected", actual)
 }
 
@@ -282,11 +282,14 @@ func Test_Cov4_SimpleSlice_FirstOrDefault(t *testing.T) {
 
 func Test_Cov4_SimpleSlice_SafeAt(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a", "b")
+	hasIdx0 := ss.HasIndex(0)
+	hasIdx99 := ss.HasIndex(99)
+	hasIdxNeg := ss.HasIndex(-1)
 	actual := args.Map{
-		"at0":   ss.SafeAt(0),
-		"at99":  ss.SafeAt(99),
-		"atNeg": ss.SafeAt(-1),
+		"hasIdx0":   hasIdx0,
+		"hasIdx99":  hasIdx99,
+		"hasIdxNeg": hasIdxNeg,
 	}
-	expected := args.Map{"at0": "a", "at99": "", "atNeg": ""}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice SafeAt returns expected -- valid and out of bounds", actual)
+	expected := args.Map{"hasIdx0": true, "hasIdx99": false, "hasIdxNeg": false}
+	expected.ShouldBeEqual(t, 0, "SimpleSlice HasIndex returns expected -- valid and out of bounds", actual)
 }
