@@ -196,9 +196,9 @@ func Test_SplitLeftRight(t *testing.T) {
 
 	actual := args.Map{
 		"left":   left,
-		"right":  lr.Right,
-		"left2":  lr2.Left,
-		"right2": lr2.Right,
+		"right":  right,
+		"left2":  left2,
+		"right2": right2,
 	}
 	expected := args.Map{
 		"left":   "key",
