@@ -102,7 +102,7 @@ func Test_Cov3_TraceCollection_HasIndex(t *testing.T) {
 		"hasMega":  tc.HasIndex(9999),
 	}
 	expected := args.Map{
-		"hasZero":  true,
+		"hasZero":  tc.HasIndex(0),
 		"hasMega":  false,
 	}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.HasIndex", actual)
