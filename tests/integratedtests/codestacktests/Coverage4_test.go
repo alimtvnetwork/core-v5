@@ -278,7 +278,7 @@ func Test_Cov4_File_CurFile(t *testing.T) {
 // ── stacksTo ──
 
 func Test_Cov4_StacksTo_String(t *testing.T) {
-	traces := codestack.New.StackTrace.Default()
+	traces := codestack.New.StackTrace.Default(1, 5)
 	s := codestack.StacksTo.String(traces)
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}
