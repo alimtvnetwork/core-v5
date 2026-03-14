@@ -626,14 +626,14 @@ func Test_Cov_FuncWrap_InArgNamesEachLine(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "FuncWrap InArgNamesEachLine", actual)
 }
 
-func Test_Cov_FuncWrap_InOutArgsMap(t *testing.T) {
+func Test_Cov_FuncWrap_InOutArgNames(t *testing.T) {
 	fn := func(s string) int { return len(s) }
 	fw := args.NewFuncWrap.Default(fn)
-	inMap := fw.InArgsMap()
-	outMap := fw.OutArgsMap()
-	actual := args.Map{"inLen": len(inMap) > 0, "outLen": len(outMap) > 0}
+	inNames := fw.InArgNames()
+	outNames := fw.OutArgNames()
+	actual := args.Map{"inLen": len(inNames) > 0, "outLen": len(outNames) > 0}
 	expected := args.Map{"inLen": true, "outLen": true}
-	expected.ShouldBeEqual(t, 0, "FuncWrap InOutArgsMap", actual)
+	expected.ShouldBeEqual(t, 0, "FuncWrap InOutArgNames", actual)
 }
 
 // ── NewTypedFuncWrap ──
