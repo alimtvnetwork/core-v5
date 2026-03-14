@@ -341,11 +341,7 @@ func (it *Dynamic[T]) Slice() []any {
 
 	var args []any
 
-	keys, err := converters.Map.SortedKeys(it.Params)
-
-	if err != nil {
-		panic(err)
-	}
+	keys := it.Params.SortedKeysMust()
 
 	for i, key := range keys {
 		value := it.Params[key]
