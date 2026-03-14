@@ -147,18 +147,16 @@ func Test_FirstChar(t *testing.T) {
 
 func Test_ToInt(t *testing.T) {
 	// Act
-	val, err := stringutil.ToInt("42")
-	_, errBad := stringutil.ToInt("abc")
+	val := stringutil.ToInt("42", -1)
+	valBad := stringutil.ToInt("abc", -1)
 
 	actual := args.Map{
 		"val":    val,
-		"noErr":  err == nil,
-		"hasErr": errBad != nil,
+		"valBad": valBad,
 	}
 	expected := args.Map{
 		"val":    42,
-		"noErr":  true,
-		"hasErr": true,
+		"valBad": -1,
 	}
 	expected.ShouldBeEqual(t, 0, "ToInt", actual)
 }
@@ -166,12 +164,12 @@ func Test_ToInt(t *testing.T) {
 func Test_ToIntDefault(t *testing.T) {
 	// Act
 	actual := args.Map{
-		"valid":   stringutil.ToIntDefault("42", 0),
-		"invalid": stringutil.ToIntDefault("abc", 99),
+		"valid":   stringutil.ToIntDefault("42"),
+		"invalid": stringutil.ToIntDefault("abc"),
 	}
 	expected := args.Map{
 		"valid":   42,
-		"invalid": 99,
+		"invalid": 0,
 	}
 	expected.ShouldBeEqual(t, 0, "ToIntDefault", actual)
 }
