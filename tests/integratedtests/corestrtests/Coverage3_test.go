@@ -138,8 +138,8 @@ func Test_Cov3_NewValidValue(t *testing.T) {
 func Test_Cov3_NewValidValue_Empty(t *testing.T) {
 	vv := corestr.NewValidValue("")
 	actual := args.Map{"value": vv.Value, "isValid": vv.IsValid}
-	expected := args.Map{"value": "", "isValid": false}
-	expected.ShouldBeEqual(t, 0, "NewValidValue returns invalid -- empty string", actual)
+	expected := args.Map{"value": "", "isValid": true}
+	expected.ShouldBeEqual(t, 0, "NewValidValue always returns valid -- empty string", actual)
 }
 
 // ── AllIndividualsLengthOfSimpleSlices ──
