@@ -57,7 +57,7 @@ func Test_Cov3_Map_GetAs(t *testing.T) {
 
 func Test_Cov3_Map_GetAsStringSlice(t *testing.T) {
 	m := args.Map{"items": []string{"a", "b"}}
-	items, _ := m.GetAsStringSlice("items")
+	items, _ := m.GetAsStrings("items")
 	actual := args.Map{"len": len(items)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Map.GetAsStringSlice returns correct -- 2 items", actual)

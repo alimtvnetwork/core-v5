@@ -1,5 +1,7 @@
 package chmodhelper
 
+import "github.com/alimtvnetwork/core/constants"
+
 // IsPartialMatchVariableAttr
 //
 //	givenVarAttr can have wildcards "*"
