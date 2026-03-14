@@ -261,7 +261,7 @@ func Test_Ext_DefinedItems_Verification(t *testing.T) {
 		inputs := inputsRaw.([]any)
 
 		// Act
-		result := isany.DefinedItems(inputs...)
+		_, result := isany.DefinedItems(inputs...)
 
 		// Assert
 		actual := args.Map{
