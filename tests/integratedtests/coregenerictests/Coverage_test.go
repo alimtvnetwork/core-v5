@@ -1912,7 +1912,7 @@ func Test_CompareNumeric_All(t *testing.T) {
 // PointerSliceSorter — uncovered branches
 // =============================================================================
 
-func Test_PointerSliceSorter_Desc(t *testing.T) {
+func Test_PointerSliceSorter_Desc_Cov(t *testing.T) {
 	a, b, c := 3, 1, 2
 	items := []*int{&a, &b, &c}
 	sorter := coregeneric.NewPointerSliceSorterDesc(items)
