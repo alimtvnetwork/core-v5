@@ -57,7 +57,7 @@ func (it KeyVal) ValueReflectValue() reflect.Value {
 	return reflect.ValueOf(it.Value)
 }
 
-func (it *KeyVal) ValueInt() int {
+func (it KeyVal) ValueInt() int {
 	casted, isSuccess := it.Value.(int)
 
 	if isSuccess {
