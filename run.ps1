@@ -21,6 +21,7 @@
         L   | -l   | lint          Run go vet on all packages
         V   | -v   | vet           Run go vet
         TY  | -ty  | tidy          Run go mod tidy
+        PC  | -pc  | pre-commit    Check Coverage* files for API mismatches
         C   | -c   | clean         Clean build artifacts
         H   | -h   | help          Show this help
 
