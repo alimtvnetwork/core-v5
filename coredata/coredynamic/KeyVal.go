@@ -15,11 +15,11 @@ type KeyVal struct {
 	Value any
 }
 
-func (it *KeyVal) KeyDynamic() Dynamic {
+func (it KeyVal) KeyDynamic() Dynamic {
 	return NewDynamic(it.Key, true)
 }
 
-func (it *KeyVal) ValueDynamic() Dynamic {
+func (it KeyVal) ValueDynamic() Dynamic {
 	return NewDynamic(it.Value, true)
 }
 
