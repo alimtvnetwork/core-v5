@@ -282,11 +282,14 @@ func Test_Cov4_SimpleSlice_FirstOrDefault(t *testing.T) {
 
 func Test_Cov4_SimpleSlice_SafeAt(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a", "b")
+	hasIdx0 := ss.HasIndex(0)
+	hasIdx99 := ss.HasIndex(99)
+	hasIdxNeg := ss.HasIndex(-1)
 	actual := args.Map{
-		"at0":   ss.SafeAt(0),
-		"at99":  ss.SafeAt(99),
-		"atNeg": ss.SafeAt(-1),
+		"hasIdx0":   hasIdx0,
+		"hasIdx99":  hasIdx99,
+		"hasIdxNeg": hasIdxNeg,
 	}
-	expected := args.Map{"at0": "a", "at99": "", "atNeg": ""}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice SafeAt returns expected -- valid and out of bounds", actual)
+	expected := args.Map{"hasIdx0": true, "hasIdx99": false, "hasIdxNeg": false}
+	expected.ShouldBeEqual(t, 0, "SimpleSlice HasIndex returns expected -- valid and out of bounds", actual)
 }
