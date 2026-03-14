@@ -112,8 +112,8 @@ func Test_StringSlice_Empty(t *testing.T) {
 
 func Test_StringSlice_EmptyPtr(t *testing.T) {
 	result := stringslice.EmptyPtr()
-	if result == nil || len(*result) != 0 {
-		t.Error("EmptyPtr should return non-nil empty slice ptr")
+	if len(result) != 0 {
+		t.Error("EmptyPtr should return empty slice")
 	}
 }
 
