@@ -87,12 +87,13 @@ func Test_Cov_Variant_Names(t *testing.T) {
 
 func Test_Cov_Variant_Comparison(t *testing.T) {
 	v := chmodclasstype.Owner
+	ownerEnum := chmodclasstype.Owner
 	actual := args.Map{
 		"isNameEqual":    v.IsNameEqual("Owner"),
 		"isNameNotEqual": v.IsNameEqual("Group"),
 		"isByteEqual":    v.IsByteValueEqual(byte(chmodclasstype.Owner)),
 		"isValueEqual":   v.IsValueEqual(byte(chmodclasstype.Owner)),
-		"isEnumEqual":    v.IsEnumEqual(chmodclasstype.Owner),
+		"isEnumEqual":    v.IsEnumEqual(&ownerEnum),
 		"isAnyNames":     v.IsAnyNamesOf("Owner", "Group"),
 		"isAnyNamesFail": v.IsAnyNamesOf("Group", "Other"),
 		"isAnyValues":    v.IsAnyValuesEqual(byte(chmodclasstype.Owner), byte(chmodclasstype.Group)),
