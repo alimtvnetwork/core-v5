@@ -246,12 +246,12 @@ func Test_Cov5_TraceCollection_JsonString(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "TraceCollection JsonString -- valid", actual)
 }
 
-func Test_Cov5_TraceCollection_PrettyJsonString(t *testing.T) {
+func Test_Cov5_TraceCollection_JsonStrings(t *testing.T) {
 	tc := codestack.New.StackTrace.Default(1, 3)
-	s := tc.PrettyJsonString()
+	s := tc.JsonStrings()
 	actual := args.Map{"notEmpty": len(s) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection PrettyJsonString -- valid", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection JsonStrings -- valid", actual)
 }
 
 func Test_Cov5_TraceCollection_String(t *testing.T) {
