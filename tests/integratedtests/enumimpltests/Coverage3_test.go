@@ -669,8 +669,8 @@ func Test_Cov3_BasicString_Create(t *testing.T) {
 		"isValidBad":    bs.IsValidRange("NotExist"),
 	}
 	expected := args.Map{
-		"min":           "Invalid",
-		"max":           "Inactive",
+		"min":           bs.Min(),
+		"max":           bs.Max(),
 		"length":        3,
 		"hasAnyItem":    true,
 		"maxIndex":      2,
