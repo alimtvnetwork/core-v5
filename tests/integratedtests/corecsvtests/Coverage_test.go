@@ -267,3 +267,34 @@ func Test_Cov_RangeNamesWithValuesIndexesString(t *testing.T) {
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexesString", actual)
 }
+
+// ── Empty-items branch coverage ──
+
+func Test_Cov_AnyItemsToCsvString_EmptyItems(t *testing.T) {
+	result := corecsv.AnyItemsToCsvString(", ", true, false)
+	actual := args.Map{"empty": result == ""}
+	expected := args.Map{"empty": true}
+	expected.ShouldBeEqual(t, 0, "AnyItemsToCsvString returns empty -- no items", actual)
+}
+
+func Test_Cov_StringsToCsvString_EmptyItems(t *testing.T) {
+	result := corecsv.StringsToCsvString(", ", true, false)
+	actual := args.Map{"empty": result == ""}
+	expected := args.Map{"empty": true}
+	expected.ShouldBeEqual(t, 0, "StringsToCsvString returns empty -- no items", actual)
+}
+
+func Test_Cov_RangeNamesWithValuesIndexes_EmptyItems(t *testing.T) {
+	result := corecsv.RangeNamesWithValuesIndexes()
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexes returns empty -- no items", actual)
+}
+
+func Test_Cov_AnyToValuesTypeStrings_EmptyStringItem(t *testing.T) {
+	// Covers the finalString == "" branch inside AnyToValuesTypeStrings
+	result := corecsv.AnyToValuesTypeStrings(nil)
+	actual := args.Map{"len": len(result), "notPanicked": true}
+	expected := args.Map{"len": 1, "notPanicked": true}
+	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeStrings covers empty-string item -- nil input", actual)
+}
