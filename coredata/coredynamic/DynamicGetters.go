@@ -178,7 +178,7 @@ func (it *Dynamic) Float64() (val float64, err error) {
 	return valFloat, nil
 }
 
-func (it *Dynamic) ValueInt() int {
+func (it Dynamic) ValueInt() int {
 	casted, isSuccess := it.innerData.(int)
 
 	if isSuccess {
