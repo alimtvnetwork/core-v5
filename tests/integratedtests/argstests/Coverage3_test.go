@@ -90,7 +90,7 @@ func Test_Cov3_Map_GetFirstOfNames(t *testing.T) {
 
 func Test_Cov3_Map_SortedKeys(t *testing.T) {
 	m := args.Map{"c": 3, "a": 1, "b": 2}
-	keys := m.SortedKeys()
+	keys, _ := m.SortedKeys()
 	actual := args.Map{"first": keys[0], "last": keys[2]}
 	expected := args.Map{"first": "a", "last": "c"}
 	expected.ShouldBeEqual(t, 0, "Map.SortedKeys returns sorted -- 3 keys", actual)
