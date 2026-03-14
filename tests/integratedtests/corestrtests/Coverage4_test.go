@@ -42,14 +42,14 @@ func Test_Cov4_Hashmap_String(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Hashmap String returns non-empty -- one item", actual)
 }
 
-func Test_Cov4_Hashmap_GetValue(t *testing.T) {
+func Test_Cov4_Hashmap_Get(t *testing.T) {
 	hm := corestr.New.Hashmap.Empty()
 	hm.AddOrUpdate("k", "v")
-	val, found := hm.GetValue("k")
-	_, notFound := hm.GetValue("missing")
+	val, found := hm.Get("k")
+	_, notFound := hm.Get("missing")
 	actual := args.Map{"val": val, "found": found, "notFound": notFound}
 	expected := args.Map{"val": "v", "found": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetValue returns expected -- hit and miss", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap Get returns expected -- hit and miss", actual)
 }
 
 // ── Collection — serialization and iteration ──
