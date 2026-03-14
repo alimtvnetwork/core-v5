@@ -644,6 +644,39 @@ func (it *Hashset) Has(key string) bool {
 	return isFound && isSet
 }
 
+// Contains is an alias for Has.
+func (it *Hashset) Contains(key string) bool {
+	return it.Has(key)
+}
+
+// IsEqual is an alias for IsEquals.
+func (it *Hashset) IsEqual(another *Hashset) bool {
+	return it.IsEquals(another)
+}
+
+// SortedList returns the list of keys sorted in ascending order.
+func (it *Hashset) SortedList() []string {
+	list := it.List()
+	sorted := make([]string, len(list))
+	copy(sorted, list)
+	sort.Strings(sorted)
+
+	return sorted
+}
+
+// Filter returns a new Hashset containing only keys for which the predicate returns true.
+func (it *Hashset) Filter(predicate func(string) bool) *Hashset {
+	result := NewHashset.Cap(it.Length())
+
+	for key, isSet := range it.items {
+		if isSet && predicate(key) {
+			result.Add(key)
+		}
+	}
+
+	return result
+}
+
 func (it *Hashset) HasLock(key string) bool {
 	it.Lock()
 	isSet, isFound := it.items[key]
