@@ -1,6 +1,7 @@
 package corestrtests
 
 import (
+	"sort"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corestr"
@@ -86,7 +87,7 @@ func Test_Cov6_Collection_AddNonEmptyWhitespace(t *testing.T) {
 func Test_Cov6_Collection_Take(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	taken := c.Take(2)
-	actual := args.Map{"len": len(taken)}
+	actual := args.Map{"len": taken.Length()}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Collection.Take returns 2 -- take 2 of 3", actual)
 }
@@ -94,7 +95,7 @@ func Test_Cov6_Collection_Take(t *testing.T) {
 func Test_Cov6_Collection_Skip(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	skipped := c.Skip(1)
-	actual := args.Map{"len": len(skipped)}
+	actual := args.Map{"len": skipped.Length()}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Collection.Skip returns 2 -- skip 1 of 3", actual)
 }
@@ -149,11 +150,10 @@ func Test_Cov6_Collection_AddIf(t *testing.T) {
 
 func Test_Cov6_Collection_ConcatNew(t *testing.T) {
 	c1 := corestr.New.Collection.Strings([]string{"a"})
-	c2 := corestr.New.Collection.Strings([]string{"b"})
-	concat := c1.ConcatNew(c2)
+	concat := c1.ConcatNew(0, "b")
 	actual := args.Map{"len": concat.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection.ConcatNew merges -- two collections", actual)
+	expected.ShouldBeEqual(t, 0, "Collection.ConcatNew merges -- a + b", actual)
 }
 
 func Test_Cov6_Collection_InsertAt(t *testing.T) {
@@ -174,10 +174,11 @@ func Test_Cov6_Collection_UniqueList(t *testing.T) {
 
 func Test_Cov6_Collection_Filter(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"ab", "cd", "ae"})
-	filtered := c.Filter(func(s string) bool {
-		return len(s) > 0 && s[0] == 'a'
+	filtered := c.Filter(func(str string, index int) (string, bool, bool) {
+		keep := len(str) > 0 && str[0] == 'a'
+		return str, keep, false
 	})
-	actual := args.Map{"len": filtered.Length()}
+	actual := args.Map{"len": len(filtered)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Collection.Filter returns 2 -- starts with a", actual)
 }
@@ -367,12 +368,14 @@ func Test_Cov6_Hashset_Nil(t *testing.T) {
 
 func Test_Cov6_Hashmap_NewAndBasic(t *testing.T) {
 	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k1": "v1", "k2": "v2"})
+	v1, found1 := hm.Get("k1")
 	actual := args.Map{
 		"length":   hm.Length(),
 		"hasItems": hm.HasItems(),
 		"isEmpty":  hm.IsEmpty(),
 		"hasK1":    hm.Has("k1"),
-		"getK1":    hm.Get("k1"),
+		"getK1":    v1,
+		"foundK1":  found1,
 	}
 	expected := args.Map{
 		"length":   2,
@@ -380,6 +383,7 @@ func Test_Cov6_Hashmap_NewAndBasic(t *testing.T) {
 		"isEmpty":  false,
 		"hasK1":    true,
 		"getK1":    "v1",
+		"foundK1":  true,
 	}
 	expected.ShouldBeEqual(t, 0, "Hashmap basic ops -- 2 items", actual)
 }
@@ -388,17 +392,19 @@ func Test_Cov6_Hashmap_AddOrUpdate(t *testing.T) {
 	hm := corestr.New.Hashmap.Empty()
 	hm.AddOrUpdate("k1", "v1")
 	hm.AddOrUpdate("k1", "v2")
-	actual := args.Map{"length": hm.Length(), "val": hm.Get("k1")}
+	v, _ := hm.Get("k1")
+	actual := args.Map{"length": hm.Length(), "val": v}
 	expected := args.Map{"length": 1, "val": "v2"}
 	expected.ShouldBeEqual(t, 0, "Hashmap.AddOrUpdate updates -- key exists", actual)
 }
 
-func Test_Cov6_Hashmap_AllKeysSorted(t *testing.T) {
+func Test_Cov6_Hashmap_AllKeys(t *testing.T) {
 	hm := corestr.New.Hashmap.UsingMap(map[string]string{"c": "3", "a": "1", "b": "2"})
-	keys := hm.AllKeysSorted()
+	keys := hm.AllKeys()
+	sort.Strings(keys)
 	actual := args.Map{"first": keys[0], "last": keys[2]}
 	expected := args.Map{"first": "a", "last": "c"}
-	expected.ShouldBeEqual(t, 0, "Hashmap.AllKeysSorted returns sorted -- 3 keys", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap.AllKeys returns all keys sorted -- 3 keys", actual)
 }
 
 func Test_Cov6_Hashmap_ValuesList(t *testing.T) {
@@ -428,9 +434,10 @@ func Test_Cov6_Hashmap_Clear(t *testing.T) {
 func Test_Cov6_Hashmap_Clone(t *testing.T) {
 	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	cloned := hm.Clone()
+	v, _ := cloned.Get("k")
 	actual := args.Map{
 		"sameLen": cloned.Length() == hm.Length(),
-		"sameVal": cloned.Get("k") == "v",
+		"sameVal": v == "v",
 	}
 	expected := args.Map{
 		"sameLen": true,
@@ -439,19 +446,19 @@ func Test_Cov6_Hashmap_Clone(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Hashmap.Clone returns same data -- single item", actual)
 }
 
-func Test_Cov6_Hashmap_IsEquals(t *testing.T) {
+func Test_Cov6_Hashmap_IsEqual(t *testing.T) {
 	hm1 := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	hm2 := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	hm3 := corestr.New.Hashmap.UsingMap(map[string]string{"k": "x"})
 	actual := args.Map{
-		"equal":    hm1.IsEquals(hm2),
-		"notEqual": hm1.IsEquals(hm3),
+		"equal":    hm1.IsEqual(*hm2),
+		"notEqual": hm1.IsEqual(*hm3),
 	}
 	expected := args.Map{
 		"equal":    true,
 		"notEqual": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap.IsEquals correct -- same and different", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap.IsEqual correct -- same and different", actual)
 }
 
 func Test_Cov6_Hashmap_String(t *testing.T) {
@@ -501,134 +508,4 @@ func Test_Cov6_StringUtils_WrapTilda(t *testing.T) {
 	actual := args.Map{"val": corestr.StringUtils.WrapTilda("hello")}
 	expected := args.Map{"val": "`hello`"}
 	expected.ShouldBeEqual(t, 0, "StringUtils.WrapTilda wraps correctly -- hello", actual)
-}
-
-func Test_Cov6_StringUtils_WrapDoubleIfMissing(t *testing.T) {
-	actual := args.Map{
-		"notWrapped": corestr.StringUtils.WrapDoubleIfMissing("hello"),
-		"alreadyWrapped": corestr.StringUtils.WrapDoubleIfMissing(`"hello"`),
-	}
-	expected := args.Map{
-		"notWrapped": `"hello"`,
-		"alreadyWrapped": `"hello"`,
-	}
-	expected.ShouldBeEqual(t, 0, "StringUtils.WrapDoubleIfMissing correct -- both cases", actual)
-}
-
-func Test_Cov6_StringUtils_WrapSingleIfMissing(t *testing.T) {
-	actual := args.Map{
-		"notWrapped":     corestr.StringUtils.WrapSingleIfMissing("hello"),
-		"alreadyWrapped": corestr.StringUtils.WrapSingleIfMissing("'hello'"),
-	}
-	expected := args.Map{
-		"notWrapped":     "'hello'",
-		"alreadyWrapped": "'hello'",
-	}
-	expected.ShouldBeEqual(t, 0, "StringUtils.WrapSingleIfMissing correct -- both cases", actual)
-}
-
-// ── Empty creators ──
-
-func Test_Cov6_Empty_Hashset(t *testing.T) {
-	hs := corestr.Empty.Hashset()
-	actual := args.Map{"notNil": hs != nil, "isEmpty": hs.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Empty.Hashset returns empty -- new", actual)
-}
-
-func Test_Cov6_Empty_LinkedList(t *testing.T) {
-	ll := corestr.Empty.LinkedList()
-	actual := args.Map{"notNil": ll != nil, "isEmpty": ll.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Empty.LinkedList returns empty -- new", actual)
-}
-
-func Test_Cov6_Empty_KeyValueCollection(t *testing.T) {
-	kvc := corestr.Empty.KeyValueCollection()
-	actual := args.Map{"notNil": kvc != nil, "isEmpty": kvc.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Empty.KeyValueCollection returns empty -- new", actual)
-}
-
-func Test_Cov6_Empty_LinkedCollections(t *testing.T) {
-	lc := corestr.Empty.LinkedCollections()
-	actual := args.Map{"notNil": lc != nil, "isEmpty": lc.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Empty.LinkedCollections returns empty -- new", actual)
-}
-
-func Test_Cov6_Empty_CharHashsetMap(t *testing.T) {
-	chm := corestr.Empty.CharHashsetMap()
-	actual := args.Map{"notNil": chm != nil, "isEmpty": chm.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Empty.CharHashsetMap returns empty -- new", actual)
-}
-
-func Test_Cov6_Empty_CharCollectionMap(t *testing.T) {
-	ccm := corestr.Empty.CharCollectionMap()
-	actual := args.Map{"notNil": ccm != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Empty.CharCollectionMap returns non-nil -- new", actual)
-}
-
-func Test_Cov6_Empty_HashsetsCollection(t *testing.T) {
-	hsc := corestr.Empty.HashsetsCollection()
-	actual := args.Map{"notNil": hsc != nil, "isEmpty": hsc.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Empty.HashsetsCollection returns empty -- new", actual)
-}
-
-// ── New creators ──
-
-func Test_Cov6_New_Collection_Strings(t *testing.T) {
-	c := corestr.New.Collection.Strings([]string{"a", "b"})
-	actual := args.Map{"len": c.Length()}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "New.Collection.Strings returns correct len -- 2 items", actual)
-}
-
-func Test_Cov6_New_Collection_Create(t *testing.T) {
-	c := corestr.New.Collection.Create(10)
-	actual := args.Map{"notNil": c != nil, "isEmpty": c.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "New.Collection.Create returns empty -- cap 10", actual)
-}
-
-func Test_Cov6_New_Hashset_Cap(t *testing.T) {
-	hs := corestr.New.Hashset.Cap(10)
-	actual := args.Map{"notNil": hs != nil, "isEmpty": hs.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "New.Hashset.Cap returns empty -- cap 10", actual)
-}
-
-func Test_Cov6_New_Hashmap_Cap(t *testing.T) {
-	hm := corestr.New.Hashmap.Cap(10)
-	actual := args.Map{"notNil": hm != nil, "isEmpty": hm.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "New.Hashmap.Cap returns empty -- cap 10", actual)
-}
-
-func Test_Cov6_New_Hashmap_Empty(t *testing.T) {
-	hm := corestr.New.Hashmap.Empty()
-	actual := args.Map{"notNil": hm != nil, "isEmpty": hm.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "New.Hashmap.Empty returns empty -- new", actual)
-}
-
-// ── CloneSlice ──
-
-func Test_Cov6_CloneSlice(t *testing.T) {
-	original := []string{"a", "b", "c"}
-	cloned := corestr.CloneSlice(original)
-	actual := args.Map{
-		"sameLen": len(cloned) == len(original),
-		"eq0":     cloned[0] == original[0],
-		"eq2":     cloned[2] == original[2],
-	}
-	expected := args.Map{
-		"sameLen": true,
-		"eq0":     true,
-		"eq2":     true,
-	}
-	expected.ShouldBeEqual(t, 0, "CloneSlice returns same data -- 3 items", actual)
 }

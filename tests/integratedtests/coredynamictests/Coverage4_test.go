@@ -26,8 +26,8 @@ func Test_Cov4_DynamicCollection_Empty(t *testing.T) {
 
 func Test_Cov4_DynamicCollection_AddAny(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("hello")
-	dc.AddAny(42)
+	dc.AddAny("hello", true)
+	dc.AddAny(42, true)
 	actual := args.Map{
 		"count":     dc.Count(),
 		"hasAny":    dc.HasAnyItem(),
@@ -49,8 +49,8 @@ func Test_Cov4_DynamicCollection_AddAny(t *testing.T) {
 
 func Test_Cov4_DynamicCollection_FirstLast(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("first")
-	dc.AddAny("last")
+	dc.AddAny("first", true)
+	dc.AddAny("last", true)
 	actual := args.Map{
 		"first":          dc.First().Value(),
 		"last":           dc.Last().Value(),
@@ -68,9 +68,9 @@ func Test_Cov4_DynamicCollection_FirstLast(t *testing.T) {
 
 func Test_Cov4_DynamicCollection_SkipTakeLimit(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("a")
-	dc.AddAny("b")
-	dc.AddAny("c")
+	dc.AddAny("a", true)
+	dc.AddAny("b", true)
+	dc.AddAny("c", true)
 	actual := args.Map{
 		"skipLen":  len(dc.Skip(1)),
 		"takeLen":  len(dc.Take(2)),
@@ -86,8 +86,8 @@ func Test_Cov4_DynamicCollection_SkipTakeLimit(t *testing.T) {
 
 func Test_Cov4_DynamicCollection_ListStrings(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("hello")
-	dc.AddAny("world")
+	dc.AddAny("hello", true)
+	dc.AddAny("world", true)
 	strs := dc.ListStrings()
 	actual := args.Map{"len": len(strs)}
 	expected := args.Map{"len": 2}
@@ -96,9 +96,9 @@ func Test_Cov4_DynamicCollection_ListStrings(t *testing.T) {
 
 func Test_Cov4_DynamicCollection_RemoveAt(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("a")
-	dc.AddAny("b")
-	dc.AddAny("c")
+	dc.AddAny("a", true)
+	dc.AddAny("b", true)
+	dc.AddAny("c", true)
 	dc.RemoveAt(1)
 	actual := args.Map{"count": dc.Count()}
 	expected := args.Map{"count": 2}
@@ -107,7 +107,7 @@ func Test_Cov4_DynamicCollection_RemoveAt(t *testing.T) {
 
 func Test_Cov4_DynamicCollection_String(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAny("hello")
+	dc.AddAny("hello", true)
 	s := dc.String()
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}
@@ -116,8 +116,8 @@ func Test_Cov4_DynamicCollection_String(t *testing.T) {
 
 func Test_Cov4_DynamicCollection_AddAnyNonNull(t *testing.T) {
 	dc := coredynamic.EmptyDynamicCollection()
-	dc.AddAnyNonNull(nil)
-	dc.AddAnyNonNull("hello")
+	dc.AddAnyNonNull(nil, false)
+	dc.AddAnyNonNull("hello", true)
 	actual := args.Map{"count": dc.Count()}
 	expected := args.Map{"count": 1}
 	expected.ShouldBeEqual(t, 0, "DynamicCollection.AddAnyNonNull skips nil -- 1 valid", actual)

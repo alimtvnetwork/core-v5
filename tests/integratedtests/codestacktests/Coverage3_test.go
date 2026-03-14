@@ -273,7 +273,7 @@ func Test_Cov3_TraceCollection_LastOrDefaultDynamic(t *testing.T) {
 
 func Test_Cov3_NewTraces_Cap(t *testing.T) {
 	// Use NewStacks.All directly to avoid double-skip in New.StackTrace
-	tc := codestack.NewStacks.All(1, 10)
+	tc := codestack.New.StackTrace.All(1, 10)
 	actual := args.Map{"notEmpty": tc.Length() > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "newStacksCreator.All", actual)

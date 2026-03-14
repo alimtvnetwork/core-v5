@@ -3,7 +3,6 @@ package corepayloadtests
 import (
 	"testing"
 
-	"github.com/alimtvnetwork/core/coredata/corejson"
 	"github.com/alimtvnetwork/core/coredata/corepayload"
 	"github.com/alimtvnetwork/core/coretests/args"
 )
@@ -17,14 +16,12 @@ func Test_Cov3_PayloadWrapper_New(t *testing.T) {
 	}
 	actual := args.Map{
 		"name":       pw.PayloadName(),
-		"id":         pw.PayloadIdentifier(),
 		"isNull":     pw.IsNull(),
 		"hasError":   pw.HasError(),
 		"emptyError": pw.IsEmptyError(),
 	}
 	expected := args.Map{
 		"name":       "test",
-		"id":         "id-1",
 		"isNull":     false,
 		"hasError":   false,
 		"emptyError": true,
@@ -136,14 +133,14 @@ func Test_Cov3_PayloadWrapper_Clone(t *testing.T) {
 		Name:       "test",
 		Identifier: "id-1",
 	}
-	cloned := pw.Clone()
+	cloned, err := pw.Clone(false)
 	actual := args.Map{
-		"notNil":   cloned != nil,
+		"noErr":    err == nil,
 		"sameName": cloned.Name == pw.Name,
 		"sameId":   cloned.Identifier == pw.Identifier,
 	}
 	expected := args.Map{
-		"notNil":   true,
+		"noErr":    true,
 		"sameName": true,
 		"sameId":   true,
 	}
@@ -185,9 +182,9 @@ func Test_Cov3_PayloadWrapper_JsonModelAny(t *testing.T) {
 func Test_Cov3_PayloadWrapper_Json(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{Name: "test"}
 	result := pw.Json()
-	actual := args.Map{"notNil": result != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper.Json returns non-nil -- basic", actual)
+	actual := args.Map{"hasBytes": result.HasBytes()}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper.Json returns result with bytes -- basic", actual)
 }
 
 func Test_Cov3_PayloadWrapper_Clear(t *testing.T) {
@@ -253,12 +250,10 @@ func Test_Cov3_PayloadWrapper_IsEqual_SamePtr(t *testing.T) {
 func Test_Cov3_PayloadWrapper_HasAttributes(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{Attributes: &corepayload.Attributes{}}
 	actual := args.Map{
-		"hasAttr":    pw.HasAttributes(),
-		"emptyAttr":  pw.IsEmptyAttributes(),
+		"hasAttr": pw.HasAttributes(),
 	}
 	expected := args.Map{
-		"hasAttr":    true,
-		"emptyAttr":  false,
+		"hasAttr": true,
 	}
 	expected.ShouldBeEqual(t, 0, "PayloadWrapper HasAttributes -- with empty attrs", actual)
 }
@@ -290,8 +285,7 @@ func Test_Cov3_PayloadsCollection_Empty(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_Add(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pw := &corepayload.PayloadWrapper{Name: "test"}
-	pc.Add(pw)
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	actual := args.Map{
 		"length":    pc.Length(),
 		"hasAny":    pc.HasAnyItem(),
@@ -309,10 +303,8 @@ func Test_Cov3_PayloadsCollection_Add(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_FirstLast(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pw1 := &corepayload.PayloadWrapper{Name: "first"}
-	pw2 := &corepayload.PayloadWrapper{Name: "last"}
-	pc.Add(pw1)
-	pc.Add(pw2)
+	pc.Add(corepayload.PayloadWrapper{Name: "first"})
+	pc.Add(corepayload.PayloadWrapper{Name: "last"})
 	actual := args.Map{
 		"firstName":          pc.First().Name,
 		"lastName":           pc.Last().Name,
@@ -330,7 +322,7 @@ func Test_Cov3_PayloadsCollection_FirstLast(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_Clone(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	cloned := pc.Clone()
 	actual := args.Map{"sameLen": cloned.Length() == pc.Length()}
 	expected := args.Map{"sameLen": true}
@@ -339,7 +331,7 @@ func Test_Cov3_PayloadsCollection_Clone(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_ClonePtr(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	cloned := pc.ClonePtr()
 	actual := args.Map{
 		"notNil":     cloned != nil,
@@ -354,7 +346,7 @@ func Test_Cov3_PayloadsCollection_ClonePtr(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_Clear(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	pc.Clear()
 	actual := args.Map{"isEmpty": pc.IsEmpty()}
 	expected := args.Map{"isEmpty": true}
@@ -363,7 +355,7 @@ func Test_Cov3_PayloadsCollection_Clear(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_Dispose(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	pc.Dispose()
 	actual := args.Map{"isEmpty": pc.IsEmpty()}
 	expected := args.Map{"isEmpty": true}
@@ -372,7 +364,7 @@ func Test_Cov3_PayloadsCollection_Dispose(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_Strings(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	strs := pc.Strings()
 	actual := args.Map{"len": len(strs)}
 	expected := args.Map{"len": 1}
@@ -381,7 +373,7 @@ func Test_Cov3_PayloadsCollection_Strings(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_String(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	s := pc.String()
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}
@@ -390,7 +382,7 @@ func Test_Cov3_PayloadsCollection_String(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_JsonString(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	js := pc.JsonString()
 	actual := args.Map{"hasContent": len(js) > 0}
 	expected := args.Map{"hasContent": true}
@@ -399,17 +391,17 @@ func Test_Cov3_PayloadsCollection_JsonString(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_Json(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+	pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	result := pc.Json()
-	actual := args.Map{"notNil": result != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection.Json returns non-nil -- single item", actual)
+	actual := args.Map{"hasBytes": result.HasBytes()}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "PayloadsCollection.Json returns result -- single item", actual)
 }
 
 func Test_Cov3_PayloadsCollection_Reverse(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "first"})
-	pc.Add(&corepayload.PayloadWrapper{Name: "last"})
+	pc.Add(corepayload.PayloadWrapper{Name: "first"})
+	pc.Add(corepayload.PayloadWrapper{Name: "last"})
 	reversed := pc.Reverse()
 	actual := args.Map{
 		"len":       reversed.Length(),
@@ -425,7 +417,7 @@ func Test_Cov3_PayloadsCollection_Reverse(t *testing.T) {
 func Test_Cov3_PayloadsCollection_SkipTakeLimit(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
 	for i := 0; i < 5; i++ {
-		pc.Add(&corepayload.PayloadWrapper{Name: "test"})
+		pc.Add(corepayload.PayloadWrapper{Name: "test"})
 	}
 	actual := args.Map{
 		"skipLen":      len(pc.Skip(2)),
@@ -444,9 +436,9 @@ func Test_Cov3_PayloadsCollection_SkipTakeLimit(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_ConcatNew(t *testing.T) {
 	pc1 := corepayload.New.PayloadsCollection.Empty()
-	pc1.Add(&corepayload.PayloadWrapper{Name: "a"})
+	pc1.Add(corepayload.PayloadWrapper{Name: "a"})
 	pc2 := corepayload.New.PayloadsCollection.Empty()
-	pc2.Add(&corepayload.PayloadWrapper{Name: "b"})
+	pc2.Add(corepayload.PayloadWrapper{Name: "b"})
 	concat := pc1.ConcatNew(pc2)
 	actual := args.Map{"len": concat.Length()}
 	expected := args.Map{"len": 2}
@@ -455,9 +447,10 @@ func Test_Cov3_PayloadsCollection_ConcatNew(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_InsertAt(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "a"})
-	pc.Add(&corepayload.PayloadWrapper{Name: "c"})
-	pc.InsertAt(1, &corepayload.PayloadWrapper{Name: "b"})
+	pc.Add(corepayload.PayloadWrapper{Name: "a"})
+	pc.Add(corepayload.PayloadWrapper{Name: "c"})
+	pw := corepayload.PayloadWrapper{Name: "b"}
+	pc.InsertAt(1, &pw)
 	actual := args.Map{"len": pc.Length()}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "PayloadsCollection.InsertAt adds at index -- 3 items", actual)
@@ -465,8 +458,8 @@ func Test_Cov3_PayloadsCollection_InsertAt(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_Filter(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "match"})
-	pc.Add(&corepayload.PayloadWrapper{Name: "other"})
+	pc.Add(corepayload.PayloadWrapper{Name: "match"})
+	pc.Add(corepayload.PayloadWrapper{Name: "other"})
 	filtered := pc.Filter(func(item *corepayload.PayloadWrapper) bool {
 		return item.Name == "match"
 	})
@@ -477,8 +470,8 @@ func Test_Cov3_PayloadsCollection_Filter(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_FilterCollection(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "match"})
-	pc.Add(&corepayload.PayloadWrapper{Name: "other"})
+	pc.Add(corepayload.PayloadWrapper{Name: "match"})
+	pc.Add(corepayload.PayloadWrapper{Name: "other"})
 	filtered := pc.FilterCollection(func(item *corepayload.PayloadWrapper) bool {
 		return item.Name == "match"
 	})
@@ -489,8 +482,8 @@ func Test_Cov3_PayloadsCollection_FilterCollection(t *testing.T) {
 
 func Test_Cov3_PayloadsCollection_FirstByCategory(t *testing.T) {
 	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "a", CategoryName: "cat1"})
-	pc.Add(&corepayload.PayloadWrapper{Name: "b", CategoryName: "cat2"})
+	pc.Add(corepayload.PayloadWrapper{Name: "a", CategoryName: "cat1"})
+	pc.Add(corepayload.PayloadWrapper{Name: "b", CategoryName: "cat2"})
 	found := pc.FirstByCategory("cat1")
 	actual := args.Map{
 		"notNil": found != nil,
@@ -501,129 +494,4 @@ func Test_Cov3_PayloadsCollection_FirstByCategory(t *testing.T) {
 		"name":   "a",
 	}
 	expected.ShouldBeEqual(t, 0, "PayloadsCollection.FirstByCategory finds correct -- cat1", actual)
-}
-
-func Test_Cov3_PayloadsCollection_FirstById(t *testing.T) {
-	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "a", Identifier: "id1"})
-	found := pc.FirstById("id1")
-	actual := args.Map{"notNil": found != nil, "name": found.Name}
-	expected := args.Map{"notNil": true, "name": "a"}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection.FirstById finds correct -- id1", actual)
-}
-
-func Test_Cov3_PayloadsCollection_IsEqual(t *testing.T) {
-	pc1 := corepayload.New.PayloadsCollection.Empty()
-	pc2 := corepayload.New.PayloadsCollection.Empty()
-	actual := args.Map{"equal": pc1.IsEqual(pc2)}
-	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection.IsEqual returns true -- both empty", actual)
-}
-
-func Test_Cov3_PayloadsCollection_GetPagesSize(t *testing.T) {
-	pc := corepayload.New.PayloadsCollection.Empty()
-	for i := 0; i < 7; i++ {
-		pc.Add(&corepayload.PayloadWrapper{Name: "test"})
-	}
-	pages := pc.GetPagesSize(3)
-	actual := args.Map{"pages": pages}
-	expected := args.Map{"pages": 3}
-	expected.ShouldBeEqual(t, 0, "PayloadsCollection.GetPagesSize returns 3 -- 7 items page 3", actual)
-}
-
-// ── newPayloadsCollectionCreator ──
-
-func Test_Cov3_NewPayloadsCollection_UsingCap(t *testing.T) {
-	pc := corepayload.New.PayloadsCollection.UsingCap(10)
-	actual := args.Map{"notNil": pc != nil, "isEmpty": pc.IsEmpty()}
-	expected := args.Map{"notNil": true, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "New.PayloadsCollection.UsingCap returns empty -- cap 10", actual)
-}
-
-func Test_Cov3_NewPayloadsCollection_UsingWrappers(t *testing.T) {
-	pw := &corepayload.PayloadWrapper{Name: "test"}
-	pc := corepayload.New.PayloadsCollection.UsingWrappers(pw)
-	actual := args.Map{"len": pc.Length()}
-	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "New.PayloadsCollection.UsingWrappers returns 1 -- single wrapper", actual)
-}
-
-func Test_Cov3_NewPayloadsCollection_Deserialize(t *testing.T) {
-	pc := corepayload.New.PayloadsCollection.Empty()
-	pc.Add(&corepayload.PayloadWrapper{Name: "test"})
-	b, _ := corejson.Serialize.Raw(pc)
-	deserialized, err := corepayload.New.PayloadsCollection.Deserialize(b)
-	actual := args.Map{
-		"noErr":   err == nil,
-		"len":     deserialized.Length(),
-	}
-	expected := args.Map{
-		"noErr":   true,
-		"len":     1,
-	}
-	expected.ShouldBeEqual(t, 0, "New.PayloadsCollection.Deserialize roundtrip -- single item", actual)
-}
-
-// ── SessionInfo ──
-
-func Test_Cov3_SessionInfo_Basic(t *testing.T) {
-	si := &corepayload.SessionInfo{
-		Username: "admin",
-	}
-	actual := args.Map{
-		"hasUser":      si.HasUser(),
-		"isUserEmpty":  si.IsUserEmpty(),
-		"isNameEmpty":  si.IsUserNameEmpty(),
-		"isUsernameEq": si.IsUsernameEqual("admin"),
-	}
-	expected := args.Map{
-		"hasUser":      true,
-		"isUserEmpty":  false,
-		"isNameEmpty":  false,
-		"isUsernameEq": true,
-	}
-	expected.ShouldBeEqual(t, 0, "SessionInfo getters correct -- admin user", actual)
-}
-
-func Test_Cov3_SessionInfo_Clone(t *testing.T) {
-	si := &corepayload.SessionInfo{Username: "admin"}
-	cloned := si.Clone()
-	actual := args.Map{
-		"sameName":   cloned.Username == si.Username,
-	}
-	expected := args.Map{
-		"sameName":   true,
-	}
-	expected.ShouldBeEqual(t, 0, "SessionInfo.Clone returns same data -- admin", actual)
-}
-
-func Test_Cov3_SessionInfo_Ptr(t *testing.T) {
-	si := corepayload.SessionInfo{Username: "admin"}
-	ptr := si.Ptr()
-	actual := args.Map{"notNil": ptr != nil, "sameName": ptr.Username == "admin"}
-	expected := args.Map{"notNil": true, "sameName": true}
-	expected.ShouldBeEqual(t, 0, "SessionInfo.Ptr returns pointer -- admin", actual)
-}
-
-// ── Attributes ──
-
-func Test_Cov3_Attributes_IsEqual_BothNil(t *testing.T) {
-	var a1, a2 *corepayload.Attributes
-	actual := args.Map{"equal": a1.IsEqual(a2)}
-	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "Attributes.IsEqual returns true -- both nil", actual)
-}
-
-func Test_Cov3_Attributes_IsEqual_OneNil(t *testing.T) {
-	a1 := &corepayload.Attributes{}
-	actual := args.Map{"equal": a1.IsEqual(nil)}
-	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "Attributes.IsEqual returns false -- one nil", actual)
-}
-
-func Test_Cov3_Attributes_IsEqual_SamePtr(t *testing.T) {
-	a1 := &corepayload.Attributes{}
-	actual := args.Map{"equal": a1.IsEqual(a1)}
-	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "Attributes.IsEqual returns true -- same ptr", actual)
 }

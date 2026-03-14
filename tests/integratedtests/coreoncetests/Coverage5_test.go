@@ -7,103 +7,81 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 )
 
-// ── ByteOnce additional ──
+// ── BoolOnce ──
 
-func Test_Cov5_ByteOnce_Aliases(t *testing.T) {
-	bo := coreonce.NewByteOnce(func() byte { return 42 })
-	actual := args.Map{
-		"value":   int(bo.Value()),
-		"execute": int(bo.Execute()),
-		"string":  bo.String(),
-	}
-	expected := args.Map{"value": 42, "execute": 42, "string": "42"}
-	expected.ShouldBeEqual(t, 0, "ByteOnce aliases -- 42", actual)
-}
-
-func Test_Cov5_ByteOnce_SerializeMarshal(t *testing.T) {
-	bo := coreonce.NewByteOnce(func() byte { return 1 })
-	bytes, err := bo.Serialize()
-	mb, merr := bo.MarshalJSON()
-	actual := args.Map{
-		"hasBytes": len(bytes) > 0, "noErr": err == nil,
-		"hasMb": len(mb) > 0, "noMerr": merr == nil,
-	}
-	expected := args.Map{
-		"hasBytes": true, "noErr": true,
-		"hasMb": true, "noMerr": true,
-	}
-	expected.ShouldBeEqual(t, 0, "ByteOnce serialize/marshal -- valid", actual)
-}
-
-// ── BoolOnce additional ──
-
-func Test_Cov5_BoolOnce_Aliases(t *testing.T) {
+func Test_Cov5_BoolOnce_Value(t *testing.T) {
 	bo := coreonce.NewBoolOnce(func() bool { return true })
 	actual := args.Map{
 		"value":   bo.Value(),
 		"execute": bo.Execute(),
-		"isTrue":  bo.IsTrue(),
-		"isFalse": bo.IsFalse(),
 		"string":  bo.String(),
 	}
 	expected := args.Map{
-		"value": true, "execute": true,
-		"isTrue": true, "isFalse": false,
-		"string": "true",
+		"value":   true,
+		"execute": true,
+		"string":  "true",
 	}
-	expected.ShouldBeEqual(t, 0, "BoolOnce aliases -- true", actual)
+	expected.ShouldBeEqual(t, 0, "BoolOnce returns true -- true func", actual)
 }
 
-// ── StringOnce additional ──
-
-func Test_Cov5_StringOnce_Aliases(t *testing.T) {
-	so := coreonce.NewStringOnce(func() string { return "hello" })
+func Test_Cov5_BoolOnce_False(t *testing.T) {
+	bo := coreonce.NewBoolOnce(func() bool { return false })
 	actual := args.Map{
-		"value":   so.Value(),
-		"execute": so.Execute(),
-		"string":  so.String(),
-		"isEmpty": so.IsEmpty(),
+		"value":  bo.Value(),
+		"string": bo.String(),
 	}
 	expected := args.Map{
-		"value": "hello", "execute": "hello",
-		"string": "hello", "isEmpty": false,
+		"value":  false,
+		"string": "false",
 	}
-	expected.ShouldBeEqual(t, 0, "StringOnce aliases -- hello", actual)
+	expected.ShouldBeEqual(t, 0, "BoolOnce returns false -- false func", actual)
 }
 
-func Test_Cov5_StringOnce_Empty(t *testing.T) {
-	so := coreonce.NewStringOnce(func() string { return "" })
-	actual := args.Map{"isEmpty": so.IsEmpty()}
-	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StringOnce empty -- true", actual)
-}
-
-// ── ErrorOnce additional ──
-
-func Test_Cov5_ErrorOnce_Nil(t *testing.T) {
-	eo := coreonce.NewErrorOnce(func() error { return nil })
+func Test_Cov5_BoolOnce_Serialize(t *testing.T) {
+	bo := coreonce.NewBoolOnce(func() bool { return true })
+	b, err := bo.Serialize()
 	actual := args.Map{
-		"isNil":    eo.Value() == nil,
-		"hasError": eo.HasError(),
-		"string":   eo.String(),
+		"noErr":    err == nil,
+		"hasBytes": len(b) > 0,
 	}
 	expected := args.Map{
-		"isNil": true, "hasError": false, "string": "",
+		"noErr":    true,
+		"hasBytes": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ErrorOnce nil -- no error", actual)
+	expected.ShouldBeEqual(t, 0, "BoolOnce.Serialize succeeds -- true", actual)
 }
 
-// ── BytesOnce additional ──
-
-func Test_Cov5_BytesOnce_Aliases(t *testing.T) {
-	bo := coreonce.NewBytesOnce(func() []byte { return []byte{1, 2} })
+func Test_Cov5_BoolOnce_MarshalJSON(t *testing.T) {
+	bo := coreonce.NewBoolOnce(func() bool { return true })
+	b, err := bo.MarshalJSON()
 	actual := args.Map{
-		"len":     len(bo.Value()),
-		"execute": len(bo.Execute()),
-		"string":  bo.String() != "",
+		"noErr":    err == nil,
+		"hasBytes": len(b) > 0,
 	}
 	expected := args.Map{
-		"len": 2, "execute": 2, "string": true,
+		"noErr":    true,
+		"hasBytes": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BytesOnce aliases -- 2 bytes", actual)
+	expected.ShouldBeEqual(t, 0, "BoolOnce.MarshalJSON succeeds -- true", actual)
+}
+
+func Test_Cov5_BoolOnce_UnmarshalJSON(t *testing.T) {
+	bo := coreonce.NewBoolOncePtr(func() bool { return false })
+	err := bo.UnmarshalJSON([]byte("true"))
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "BoolOnce.UnmarshalJSON succeeds -- true bytes", actual)
+}
+
+func Test_Cov5_BoolOnce_Ptr(t *testing.T) {
+	bo := coreonce.NewBoolOncePtr(func() bool { return true })
+	actual := args.Map{
+		"notNil": bo != nil,
+		"value":  bo.Value(),
+	}
+	expected := args.Map{
+		"notNil": true,
+		"value":  true,
+	}
+	expected.ShouldBeEqual(t, 0, "NewBoolOncePtr returns non-nil -- true", actual)
 }

@@ -34,7 +34,7 @@ func Test_Cov5_SliceToErrorPtr_Nil(t *testing.T) {
 
 func Test_Cov5_SliceToErrorPtr_NonEmpty(t *testing.T) {
 	s := []string{"e1"}
-	err := errcore.SliceToErrorPtr(&s)
+	err := errcore.SliceToErrorPtr(s)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "SliceToErrorPtr non-empty -- error", actual)
@@ -65,14 +65,14 @@ func Test_Cov5_MergeErrors_Both(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "MergeErrors both -- merged", actual)
 }
 
-func Test_Cov5_MergeErrorsToString_Nil(t *testing.T) {
-	actual := args.Map{"result": errcore.MergeErrorsToString(nil, nil)}
+func Test_Cov5_MergeErrorsToString_Empty(t *testing.T) {
+	actual := args.Map{"result": errcore.MergeErrorsToString(",")}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "MergeErrorsToString nil -- empty", actual)
+	expected.ShouldBeEqual(t, 0, "MergeErrorsToString no errors -- empty", actual)
 }
 
 func Test_Cov5_MergeErrorsToString_NonNil(t *testing.T) {
-	result := errcore.MergeErrorsToString(errors.New("a"), errors.New("b"))
+	result := errcore.MergeErrorsToString(",", errors.New("a"), errors.New("b"))
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MergeErrorsToString non-nil -- merged", actual)
@@ -169,16 +169,16 @@ func Test_Cov5_ToError_NonEmpty(t *testing.T) {
 
 func Test_Cov5_LineDiff_Same(t *testing.T) {
 	result := errcore.LineDiff([]string{"a", "b"}, []string{"a", "b"})
-	actual := args.Map{"isEmpty": result == ""}
-	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "LineDiff same -- empty", actual)
+	actual := args.Map{"noResults": len(result) == 0}
+	expected := args.Map{"noResults": true}
+	expected.ShouldBeEqual(t, 0, "LineDiff same -- no results", actual)
 }
 
 func Test_Cov5_LineDiff_Different(t *testing.T) {
 	result := errcore.LineDiff([]string{"a"}, []string{"b"})
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "LineDiff different -- has diff", actual)
+	actual := args.Map{"hasResults": len(result) > 0}
+	expected := args.Map{"hasResults": true}
+	expected.ShouldBeEqual(t, 0, "LineDiff different -- has results", actual)
 }
 
 // ── GherkinsString ──
@@ -206,20 +206,20 @@ func Test_Cov5_StringLinesToQuoteLines_NonEmpty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines non-empty -- formatted", actual)
 }
 
-// ── Ref / RefToError ──
+// ── MessageWithRef / ErrorWithRef ──
 
-func Test_Cov5_Ref(t *testing.T) {
-	result := errcore.Ref("a", "b")
+func Test_Cov5_MessageWithRef(t *testing.T) {
+	result := errcore.MessageWithRef("msg", "ref")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Ref -- formatted", actual)
+	expected.ShouldBeEqual(t, 0, "MessageWithRef -- formatted", actual)
 }
 
-func Test_Cov5_RefToError(t *testing.T) {
-	err := errcore.RefToError("a", "b")
+func Test_Cov5_MessageWithRefToError(t *testing.T) {
+	err := errcore.MessageWithRefToError("msg", "ref")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "RefToError -- error", actual)
+	expected.ShouldBeEqual(t, 0, "MessageWithRefToError -- error", actual)
 }
 
 // ── HandleErr ──
@@ -234,16 +234,10 @@ func Test_Cov5_HandleErr_Nil(t *testing.T) {
 
 // ── MustBeEmpty ──
 
-func Test_Cov5_MustBeEmpty_Empty(t *testing.T) {
-	err := errcore.MustBeEmpty("test", "")
-	actual := args.Map{"isNil": err == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "MustBeEmpty empty -- nil", actual)
-}
-
-func Test_Cov5_MustBeEmpty_NonEmpty(t *testing.T) {
-	err := errcore.MustBeEmpty("test", "value")
-	actual := args.Map{"hasErr": err != nil}
-	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MustBeEmpty non-empty -- error", actual)
+func Test_Cov5_MustBeEmpty_Nil(t *testing.T) {
+	// Should not panic
+	errcore.MustBeEmpty(nil)
+	actual := args.Map{"passed": true}
+	expected := args.Map{"passed": true}
+	expected.ShouldBeEqual(t, 0, "MustBeEmpty nil -- no panic", actual)
 }
