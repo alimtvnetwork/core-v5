@@ -1515,12 +1515,13 @@ function Show-Help {
     Write-Host "    L   | -l   | lint          Run go vet"
     Write-Host "    V   | -v   | vet           Run go vet"
     Write-Host "    TY  | -ty  | tidy          Run go mod tidy"
+    Write-Host "    PC  | -pc  | pre-commit    Check Coverage* files for API mismatches"
     Write-Host ""
     Write-Host "  Other:" -ForegroundColor Yellow
     Write-Host "    C   | -c   | clean         Clean build artifacts"
     Write-Host "    H   | -h   | help          Show this help"
     Write-Host ""
-    Write-Host "  Mode Options (for TC/TCP):" -ForegroundColor Yellow
+    Write-Host "  Mode Options (for TC/TCP/PC):" -ForegroundColor Yellow
     Write-Host "    --sync      Run precompile + tests sequentially (default: parallel)"
     Write-Host "    --no-open   Skip auto-opening HTML coverage report"
     Write-Host ""
@@ -1533,6 +1534,8 @@ function Show-Help {
     Write-Host "    ./run.ps1 TC                 (parallel by default)"
     Write-Host "    ./run.ps1 TC --sync          (sequential mode)"
     Write-Host "    ./run.ps1 TC --sync --no-open"
+    Write-Host "    ./run.ps1 PC                 (pre-commit check)"
+    Write-Host "    ./run.ps1 PC corejsontests   (check single package)"
     Write-Host "    ./run.ps1 -gc"
     Write-Host "    ./run.ps1 -gc 9090          (custom port)"
     Write-Host ""
