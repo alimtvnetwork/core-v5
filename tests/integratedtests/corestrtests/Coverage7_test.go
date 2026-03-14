@@ -48,15 +48,14 @@ func Test_Cov7_SimpleSlice_Add(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "SimpleSlice Add/Adds/AddIf -- 4 items", actual)
 }
 
-func Test_Cov7_SimpleSlice_AddNonEmpty(t *testing.T) {
+func Test_Cov7_SimpleSlice_AddWithFilter(t *testing.T) {
 	s := corestr.New.SimpleSlice.Cap(5)
-	s.AddNonEmpty("a")
-	s.AddNonEmpty("")
-	s.AddNonEmptyWhitespace("  ")
-	s.AddNonEmptyWhitespace("b")
+	s.Add("a")
+	s.AddIf(true, "b")
+	s.AddIf(false, "c")
 	actual := args.Map{"len": s.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice AddNonEmpty -- 2 items", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice Add/AddIf -- 2 items", actual)
 }
 
 func Test_Cov7_SimpleSlice_String(t *testing.T) {
