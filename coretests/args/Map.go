@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/alimtvnetwork/core/constants"
-	"github.com/alimtvnetwork/core/converters"
 	"github.com/alimtvnetwork/core/internal/convertinternal"
 	"github.com/alimtvnetwork/core/internal/msgcreator"
 	"github.com/alimtvnetwork/core/internal/reflectinternal"
@@ -617,11 +616,7 @@ func (it Map) GetAsAnyItems(name string) (items []any, isValid bool) {
 func (it Map) Slice() []any {
 	var slice []any
 
-	keys, err := converters.Map.SortedKeys(it.Raw())
-
-	if err != nil {
-		panic(err)
-	}
+	keys := it.SortedKeysMust()
 
 	for _, key := range keys {
 		value := it[key]

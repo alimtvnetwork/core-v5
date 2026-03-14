@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/alimtvnetwork/core/constants"
-	"github.com/alimtvnetwork/core/converters"
 	"github.com/alimtvnetwork/core/coredata/corestr"
 	"github.com/alimtvnetwork/core/internal/reflectinternal"
 )
@@ -341,11 +340,7 @@ func (it *Dynamic[T]) Slice() []any {
 
 	var args []any
 
-	keys, err := converters.Map.SortedKeys(it.Params)
-
-	if err != nil {
-		panic(err)
-	}
+	keys := it.Params.SortedKeysMust()
 
 	for i, key := range keys {
 		value := it.Params[key]
