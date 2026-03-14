@@ -129,21 +129,21 @@ func Test_StringSlice_IsEmptyPtr_Nil(t *testing.T) {
 
 func Test_StringSlice_IsEmptyPtr_NonNil(t *testing.T) {
 	s := []string{"a"}
-	if stringslice.IsEmptyPtr(&s) {
-		t.Error("non-empty ptr should not be empty")
+	if stringslice.IsEmptyPtr(s) {
+		t.Error("non-empty should not be empty")
 	}
 }
 
 func Test_StringSlice_HasAnyItemPtr_Nil(t *testing.T) {
 	if stringslice.HasAnyItemPtr(nil) {
-		t.Error("nil ptr should not have items")
+		t.Error("nil should not have items")
 	}
 }
 
 func Test_StringSlice_HasAnyItemPtr_NonNil(t *testing.T) {
 	s := []string{"a"}
-	if !stringslice.HasAnyItemPtr(&s) {
-		t.Error("non-empty ptr should have items")
+	if !stringslice.HasAnyItemPtr(s) {
+		t.Error("non-empty should have items")
 	}
 }
 
