@@ -1963,7 +1963,7 @@ func Test_PointerSliceSorter_SetMethods(t *testing.T) {
 	_ = sorter.IsSorted()
 }
 
-func Test_PointerSliceSorter_SetItems(t *testing.T) {
+func Test_PointerSliceSorter_SetItems_Cov(t *testing.T) {
 	sorter := coregeneric.NewPointerSliceSorterAsc([]*int{})
 	a := 5
 	sorter.SetItems([]*int{&a})
