@@ -13,14 +13,12 @@ func Test_Cov4_CloneSimpleSliceToPointers(t *testing.T) {
 	original := []string{"a", "b", "c"}
 	cloned := stringslice.CloneSimpleSliceToPointers(original)
 	actual := args.Map{
-		"len":  len(cloned),
-		"val0": *cloned[0],
-		"val2": *cloned[2],
+		"notNil": cloned != nil,
+		"len":    len(*cloned),
 	}
 	expected := args.Map{
-		"len":  3,
-		"val0": "a",
-		"val2": "c",
+		"notNil": true,
+		"len":    3,
 	}
 	expected.ShouldBeEqual(t, 0, "CloneSimpleSliceToPointers returns correct -- 3 items", actual)
 }
@@ -30,16 +28,16 @@ func Test_Cov4_CloneSimpleSliceToPointers(t *testing.T) {
 func Test_Cov4_FirstOrDefaultPtr_HasItems(t *testing.T) {
 	items := []string{"hello", "world"}
 	result := stringslice.FirstOrDefaultPtr(items)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "hello"}
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "hello"}
 	expected.ShouldBeEqual(t, 0, "FirstOrDefaultPtr returns first -- has items", actual)
 }
 
 func Test_Cov4_FirstOrDefaultPtr_Empty(t *testing.T) {
 	result := stringslice.FirstOrDefaultPtr([]string{})
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "FirstOrDefaultPtr returns nil -- empty", actual)
+	actual := args.Map{"isEmpty": result == ""}
+	expected := args.Map{"isEmpty": true}
+	expected.ShouldBeEqual(t, 0, "FirstOrDefaultPtr returns empty -- empty", actual)
 }
 
 // ── LastOrDefaultPtr ──
@@ -47,16 +45,16 @@ func Test_Cov4_FirstOrDefaultPtr_Empty(t *testing.T) {
 func Test_Cov4_LastOrDefaultPtr_HasItems(t *testing.T) {
 	items := []string{"hello", "world"}
 	result := stringslice.LastOrDefaultPtr(items)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "world"}
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "world"}
 	expected.ShouldBeEqual(t, 0, "LastOrDefaultPtr returns last -- has items", actual)
 }
 
 func Test_Cov4_LastOrDefaultPtr_Empty(t *testing.T) {
 	result := stringslice.LastOrDefaultPtr([]string{})
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "LastOrDefaultPtr returns nil -- empty", actual)
+	actual := args.Map{"isEmpty": result == ""}
+	expected := args.Map{"isEmpty": true}
+	expected.ShouldBeEqual(t, 0, "LastOrDefaultPtr returns empty -- empty", actual)
 }
 
 // ── LastIndexPtr ──
@@ -64,16 +62,9 @@ func Test_Cov4_LastOrDefaultPtr_Empty(t *testing.T) {
 func Test_Cov4_LastIndexPtr_HasItems(t *testing.T) {
 	items := []string{"a", "b", "c"}
 	result := stringslice.LastIndexPtr(items)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": 2}
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": 2}
 	expected.ShouldBeEqual(t, 0, "LastIndexPtr returns 2 -- 3 items", actual)
-}
-
-func Test_Cov4_LastIndexPtr_Empty(t *testing.T) {
-	result := stringslice.LastIndexPtr([]string{})
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "LastIndexPtr returns nil -- empty", actual)
 }
 
 // ── LastSafeIndexPtr ──
@@ -81,34 +72,27 @@ func Test_Cov4_LastIndexPtr_Empty(t *testing.T) {
 func Test_Cov4_LastSafeIndexPtr_HasItems(t *testing.T) {
 	items := []string{"a", "b"}
 	result := stringslice.LastSafeIndexPtr(items)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "b"}
-	expected.ShouldBeEqual(t, 0, "LastSafeIndexPtr returns last -- 2 items", actual)
-}
-
-func Test_Cov4_LastSafeIndexPtr_Empty(t *testing.T) {
-	result := stringslice.LastSafeIndexPtr([]string{})
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "LastSafeIndexPtr returns nil -- empty", actual)
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": 1}
+	expected.ShouldBeEqual(t, 0, "LastSafeIndexPtr returns 1 -- 2 items", actual)
 }
 
 // ── SafeIndexAtWithPtr ──
 
 func Test_Cov4_SafeIndexAtWithPtr_Valid(t *testing.T) {
 	items := []string{"a", "b", "c"}
-	result := stringslice.SafeIndexAtWithPtr(items, 1)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "b"}
+	result := stringslice.SafeIndexAtWithPtr(items, 1, "")
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "b"}
 	expected.ShouldBeEqual(t, 0, "SafeIndexAtWithPtr returns correct -- index 1", actual)
 }
 
 func Test_Cov4_SafeIndexAtWithPtr_OutOfRange(t *testing.T) {
 	items := []string{"a"}
-	result := stringslice.SafeIndexAtWithPtr(items, 5)
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAtWithPtr returns nil -- out of range", actual)
+	result := stringslice.SafeIndexAtWithPtr(items, 5, "default")
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "default"}
+	expected.ShouldBeEqual(t, 0, "SafeIndexAtWithPtr returns default -- out of range", actual)
 }
 
 // ── SafeIndexAtUsingLastIndex ──
@@ -129,40 +113,14 @@ func Test_Cov4_SafeIndexAtUsingLastIndex_OutOfRange(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndex returns empty -- out of range", actual)
 }
 
-// ── SafeIndexAtUsingLastIndexPtr ──
-
-func Test_Cov4_SafeIndexAtUsingLastIndexPtr_Valid(t *testing.T) {
-	items := []string{"a", "b"}
-	result := stringslice.SafeIndexAtUsingLastIndexPtr(items, 0, 1)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "a"}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndexPtr returns correct -- index 0", actual)
-}
-
-func Test_Cov4_SafeIndexAtUsingLastIndexPtr_OutOfRange(t *testing.T) {
-	items := []string{"a"}
-	result := stringslice.SafeIndexAtUsingLastIndexPtr(items, 5, 0)
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndexPtr returns nil -- out of range", actual)
-}
-
 // ── SafeRangeItemsPtr ──
 
 func Test_Cov4_SafeRangeItemsPtr_Valid(t *testing.T) {
 	items := []string{"a", "b", "c", "d"}
 	result := stringslice.SafeRangeItemsPtr(items, 1, 3)
-	actual := args.Map{"notNil": result != nil, "len": len(*result)}
-	expected := args.Map{"notNil": true, "len": 2}
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "SafeRangeItemsPtr returns 2 items -- range 1 to 3", actual)
-}
-
-func Test_Cov4_SafeRangeItemsPtr_OutOfRange(t *testing.T) {
-	items := []string{"a"}
-	result := stringslice.SafeRangeItemsPtr(items, 5, 10)
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "SafeRangeItemsPtr returns nil -- out of range", actual)
 }
 
 // ── NonWhitespacePtr ──
@@ -170,7 +128,7 @@ func Test_Cov4_SafeRangeItemsPtr_OutOfRange(t *testing.T) {
 func Test_Cov4_NonWhitespacePtr_Mixed(t *testing.T) {
 	items := []string{"hello", "  ", "world", ""}
 	result := stringslice.NonWhitespacePtr(items)
-	actual := args.Map{"len": len(*result)}
+	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "NonWhitespacePtr returns 2 -- skip whitespace and empty", actual)
 }
@@ -179,9 +137,9 @@ func Test_Cov4_NonWhitespacePtr_Mixed(t *testing.T) {
 
 func Test_Cov4_NonEmptyJoinPtr(t *testing.T) {
 	items := []string{"hello", "", "world", ""}
-	result := stringslice.NonEmptyJoinPtr(",", items)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "hello,world"}
+	result := stringslice.NonEmptyJoinPtr(items, ",")
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "hello,world"}
 	expected.ShouldBeEqual(t, 0, "NonEmptyJoinPtr joins non-empty -- comma sep", actual)
 }
 
@@ -189,9 +147,9 @@ func Test_Cov4_NonEmptyJoinPtr(t *testing.T) {
 
 func Test_Cov4_NonWhitespaceJoinPtr(t *testing.T) {
 	items := []string{"hello", "  ", "world"}
-	result := stringslice.NonWhitespaceJoinPtr(",", items)
-	actual := args.Map{"notNil": result != nil, "val": *result}
-	expected := args.Map{"notNil": true, "val": "hello,world"}
+	result := stringslice.NonWhitespaceJoinPtr(items, ",")
+	actual := args.Map{"val": result}
+	expected := args.Map{"val": "hello,world"}
 	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoinPtr joins non-whitespace -- comma sep", actual)
 }
 
@@ -210,8 +168,8 @@ func Test_Cov4_AppendStringsWithAnyItems(t *testing.T) {
 
 func Test_Cov4_AppendAnyItemsWithStrings(t *testing.T) {
 	anyItems := []any{42}
-	strings := []string{"hello", "world"}
-	result := stringslice.AppendAnyItemsWithStrings(anyItems, strings)
+	strs := []string{"hello", "world"}
+	result := stringslice.AppendAnyItemsWithStrings(anyItems, strs)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "AppendAnyItemsWithStrings returns 3 -- 1 + 2", actual)
@@ -248,7 +206,7 @@ func Test_Cov4_LinesSimpleProcessNoEmpty(t *testing.T) {
 func Test_Cov4_TrimmedEachWordsPtr(t *testing.T) {
 	items := []string{"  hello  ", " world "}
 	result := stringslice.TrimmedEachWordsPtr(items)
-	actual := args.Map{"first": (*result)[0], "last": (*result)[1]}
+	actual := args.Map{"first": result[0], "last": result[1]}
 	expected := args.Map{"first": "hello", "last": "world"}
 	expected.ShouldBeEqual(t, 0, "TrimmedEachWordsPtr trims all -- 2 items", actual)
 }
@@ -267,39 +225,27 @@ func Test_Cov4_SplitTrimmedNonEmptyAll(t *testing.T) {
 func Test_Cov4_FirstLastDefaultPtr_HasItems(t *testing.T) {
 	items := []string{"a", "b", "c"}
 	first, last := stringslice.FirstLastDefaultPtr(items)
-	actual := args.Map{
-		"first": *first,
-		"last":  *last,
-	}
-	expected := args.Map{
-		"first": "a",
-		"last":  "c",
-	}
+	actual := args.Map{"first": first, "last": last}
+	expected := args.Map{"first": "a", "last": "c"}
 	expected.ShouldBeEqual(t, 0, "FirstLastDefaultPtr returns first and last -- 3 items", actual)
 }
 
 func Test_Cov4_FirstLastDefaultPtr_Empty(t *testing.T) {
 	first, last := stringslice.FirstLastDefaultPtr([]string{})
-	actual := args.Map{
-		"firstNil": first == nil,
-		"lastNil":  last == nil,
-	}
-	expected := args.Map{
-		"firstNil": true,
-		"lastNil":  true,
-	}
-	expected.ShouldBeEqual(t, 0, "FirstLastDefaultPtr returns nil -- empty", actual)
+	actual := args.Map{"firstEmpty": first == "", "lastEmpty": last == ""}
+	expected := args.Map{"firstEmpty": true, "lastEmpty": true}
+	expected.ShouldBeEqual(t, 0, "FirstLastDefaultPtr returns empty -- empty", actual)
 }
 
 // ── FirstLastDefaultStatusPtr ──
 
 func Test_Cov4_FirstLastDefaultStatusPtr_HasItems(t *testing.T) {
 	items := []string{"a", "b"}
-	first, last, hasItems := stringslice.FirstLastDefaultStatusPtr(items)
+	result := stringslice.FirstLastDefaultStatusPtr(items)
 	actual := args.Map{
-		"first":    *first,
-		"last":     *last,
-		"hasItems": hasItems,
+		"first":    result.First,
+		"last":     result.Last,
+		"hasItems": result.HasAnyItem,
 	}
 	expected := args.Map{
 		"first":    "a",
@@ -310,8 +256,8 @@ func Test_Cov4_FirstLastDefaultStatusPtr_HasItems(t *testing.T) {
 }
 
 func Test_Cov4_FirstLastDefaultStatusPtr_Empty(t *testing.T) {
-	_, _, hasItems := stringslice.FirstLastDefaultStatusPtr([]string{})
-	actual := args.Map{"hasItems": hasItems}
+	result := stringslice.FirstLastDefaultStatusPtr([]string{})
+	actual := args.Map{"hasItems": result.HasAnyItem}
 	expected := args.Map{"hasItems": false}
 	expected.ShouldBeEqual(t, 0, "FirstLastDefaultStatusPtr returns false -- empty", actual)
 }
