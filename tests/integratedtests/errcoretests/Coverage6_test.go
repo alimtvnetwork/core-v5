@@ -65,9 +65,8 @@ func Test_Cov6_ManyErrorToSingle(t *testing.T) {
 }
 
 func Test_Cov6_ManyErrorToSingleDirect(t *testing.T) {
-	errs := []error{errors.New("a"), nil, errors.New("b")}
-	result := errcore.ManyErrorToSingleDirect(errs)
-	nilResult := errcore.ManyErrorToSingleDirect(nil)
+	result := errcore.ManyErrorToSingleDirect(errors.New("a"), nil, errors.New("b"))
+	nilResult := errcore.ManyErrorToSingleDirect()
 	actual := args.Map{"hasErr": result != nil, "nilResult": nilResult == nil}
 	expected := args.Map{"hasErr": true, "nilResult": true}
 	expected.ShouldBeEqual(t, 0, "ManyErrorToSingleDirect", actual)
