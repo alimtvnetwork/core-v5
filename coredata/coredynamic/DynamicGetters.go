@@ -17,11 +17,11 @@ import (
 // DynamicGetters.go — Read-only accessors, type checks, and value extraction
 // methods extracted from Dynamic.go.
 
-func (it *Dynamic) Data() any {
+func (it Dynamic) Data() any {
 	return it.innerData
 }
 
-func (it *Dynamic) Value() any {
+func (it Dynamic) Value() any {
 	return it.innerData
 }
 
@@ -53,15 +53,15 @@ func (it *Dynamic) StructString() string {
 	return *it.StructStringPtr()
 }
 
-func (it *Dynamic) IsNull() bool {
+func (it Dynamic) IsNull() bool {
 	return it.innerData == nil
 }
 
-func (it *Dynamic) IsValid() bool {
+func (it Dynamic) IsValid() bool {
 	return it.isValid
 }
 
-func (it *Dynamic) IsInvalid() bool {
+func (it Dynamic) IsInvalid() bool {
 	return !it.isValid
 }
 
@@ -178,7 +178,7 @@ func (it *Dynamic) Float64() (val float64, err error) {
 	return valFloat, nil
 }
 
-func (it *Dynamic) ValueInt() int {
+func (it Dynamic) ValueInt() int {
 	casted, isSuccess := it.innerData.(int)
 
 	if isSuccess {
@@ -188,7 +188,7 @@ func (it *Dynamic) ValueInt() int {
 	return constants.InvalidValue
 }
 
-func (it *Dynamic) ValueUInt() uint {
+func (it Dynamic) ValueUInt() uint {
 	casted, isSuccess := it.innerData.(uint)
 
 	if isSuccess {
@@ -198,7 +198,7 @@ func (it *Dynamic) ValueUInt() uint {
 	return constants.Zero
 }
 
-func (it *Dynamic) ValueStrings() []string {
+func (it Dynamic) ValueStrings() []string {
 	casted, isSuccess := it.innerData.([]string)
 
 	if isSuccess {
@@ -208,7 +208,7 @@ func (it *Dynamic) ValueStrings() []string {
 	return nil
 }
 
-func (it *Dynamic) ValueBool() bool {
+func (it Dynamic) ValueBool() bool {
 	casted, isSuccess := it.innerData.(bool)
 
 	if isSuccess {
@@ -218,7 +218,7 @@ func (it *Dynamic) ValueBool() bool {
 	return false
 }
 
-func (it *Dynamic) ValueInt64() int64 {
+func (it Dynamic) ValueInt64() int64 {
 	casted, isSuccess := it.innerData.(int64)
 
 	if isSuccess {

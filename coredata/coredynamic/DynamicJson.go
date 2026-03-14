@@ -78,11 +78,11 @@ func (it *Dynamic) UnmarshalJSON(data []byte) error {
 	return err
 }
 
-func (it *Dynamic) JsonModel() any {
+func (it Dynamic) JsonModel() any {
 	return it.innerData
 }
 
-func (it *Dynamic) JsonModelAny() any {
+func (it Dynamic) JsonModelAny() any {
 	return it.JsonModel()
 }
 
