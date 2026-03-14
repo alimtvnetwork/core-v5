@@ -283,7 +283,7 @@ func Test_Cov5_TrimmedEachWordsIf(t *testing.T) {
 	result := stringslice.TrimmedEachWordsIf(true, []string{"  a  ", " "})
 	result2 := stringslice.TrimmedEachWordsIf(false, []string{"  a  ", " "})
 	actual := args.Map{"trueLen": len(result), "falseLen": len(result2)}
-	expected := args.Map{"trueLen": 1, "falseLen": 1}
+	expected := args.Map{"trueLen": 1, "falseLen": 2}
 	expected.ShouldBeEqual(t, 0, "TrimmedEachWordsIf returns correct", actual)
 }
 

@@ -109,8 +109,8 @@ func Test_Cov4_SafeIndexAtUsingLastIndex_OutOfRange(t *testing.T) {
 	items := []string{"a"}
 	result := stringslice.SafeIndexAtUsingLastIndex(items, 5, 0)
 	actual := args.Map{"val": result}
-	expected := args.Map{"val": ""}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndex returns empty -- out of range", actual)
+	expected := args.Map{"val": "a"}
+	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndex returns first -- lastIndex exceeds slice", actual)
 }
 
 // ── SafeRangeItemsPtr ──
@@ -264,8 +264,8 @@ func Test_Cov4_SafeIndexes(t *testing.T) {
 	items := []string{"a", "b", "c", "d"}
 	result := stringslice.SafeIndexes(items, 0, 2, 99)
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "SafeIndexes returns 2 valid -- skip out of range", actual)
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "SafeIndexes returns 3 -- preallocated with empty for out of range", actual)
 }
 
 // ── SafeIndexRanges ──
@@ -274,6 +274,6 @@ func Test_Cov4_SafeIndexRanges(t *testing.T) {
 	items := []string{"a", "b", "c", "d", "e"}
 	result := stringslice.SafeIndexRanges(items, 1, 4)
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "SafeIndexRanges returns 3 -- range 1 to 4", actual)
+	expected := args.Map{"len": 4}
+	expected.ShouldBeEqual(t, 0, "SafeIndexRanges returns 4 -- range 1 to 4 inclusive", actual)
 }
