@@ -391,8 +391,18 @@ function Invoke-TestCoverage {
     # build failures BEFORE running coverage. Packages that fail to
     # compile are excluded from the coverage run so they don't produce
     # misleading 0% profiles or cascade failures.
+
+    # Determine sync vs parallel mode from ExtraArgs (--sync flag)
+    $isSyncMode = $false
+    if ($ExtraArgs) {
+        foreach ($ea in $ExtraArgs) {
+            if ($ea -eq "--sync") { $isSyncMode = $true }
+        }
+    }
+
+    $modeLabel = if ($isSyncMode) { "sync" } else { "parallel" }
     Write-Host ""
-    Write-Header "Pre-coverage compile check ($($allTestPkgs.Count) packages)"
+    Write-Header "Pre-coverage compile check ($($allTestPkgs.Count) packages, $modeLabel mode)"
 
     $blockedPkgs = [System.Collections.Generic.List[string]]::new()
     $blockedErrors = [System.Collections.Generic.Dictionary[string, string]]::new()
@@ -400,24 +410,68 @@ function Invoke-TestCoverage {
     $compileTemp = Join-Path $coverDir "compile-check"
     New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
 
-    foreach ($testPkg in $allTestPkgs) {
-        $shortName = $testPkg -replace '.*integratedtests/?', ''
-        if (-not $shortName) { $shortName = "(root)" }
+    if ($isSyncMode) {
+        # ── Sequential compile check ──
+        foreach ($testPkg in $allTestPkgs) {
+            $shortName = $testPkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
 
-        $prevPref = $ErrorActionPreference
-        $ErrorActionPreference = "Continue"
-        $compileOut = & go test -c -o (Join-Path $compileTemp "test.exe") "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
-        $compileExit = $LASTEXITCODE
-        $ErrorActionPreference = $prevPref
+            $prevPref = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            $compileOut = & go test -c -o (Join-Path $compileTemp "test.exe") "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $compileExit = $LASTEXITCODE
+            $ErrorActionPreference = $prevPref
 
-        if ($compileExit -eq 0) {
-            Write-Host "  ✓ $shortName" -ForegroundColor Green
-            $testPkgs.Add($testPkg)
-        } else {
-            Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
-            $blockedPkgs.Add($shortName)
-            $errLines = ($compileOut | Where-Object { $_ -match '\.go:\d+:' }) -join "`n"
-            $blockedErrors[$shortName] = $errLines
+            if ($compileExit -eq 0) {
+                Write-Host "  ✓ $shortName" -ForegroundColor Green
+                $testPkgs.Add($testPkg)
+            } else {
+                Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
+                $blockedPkgs.Add($shortName)
+                $errLines = ($compileOut | Where-Object { $_ -match '\.go:\d+:' }) -join "`n"
+                $blockedErrors[$shortName] = $errLines
+            }
+        }
+    } else {
+        # ── Parallel compile check ──
+        $compileJobs = @()
+        $jobIndex = 0
+        foreach ($testPkg in $allTestPkgs) {
+            $jobIndex++
+            $jobOutFile = Join-Path $compileTemp "compile-$jobIndex.exe"
+            $job = Start-Job -ScriptBlock {
+                param($pkg, $covPkgs, $outFile)
+                $ErrorActionPreference = "Continue"
+                $out = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+                [pscustomobject]@{
+                    Pkg      = $pkg
+                    ExitCode = $LASTEXITCODE
+                    Output   = $out
+                }
+            } -ArgumentList $testPkg, $covPkgList, $jobOutFile
+            $compileJobs += [pscustomobject]@{ Job = $job; Pkg = $testPkg }
+        }
+
+        # Wait and collect results
+        Write-Host "  Waiting for $($compileJobs.Count) compile jobs..." -ForegroundColor Gray
+        $compileJobs | ForEach-Object { $_.Job } | Wait-Job | Out-Null
+
+        foreach ($cj in $compileJobs) {
+            $result = Receive-Job -Job $cj.Job
+            Remove-Job -Job $cj.Job -Force
+
+            $shortName = $cj.Pkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+
+            if ($result.ExitCode -eq 0) {
+                Write-Host "  ✓ $shortName" -ForegroundColor Green
+                $testPkgs.Add($cj.Pkg)
+            } else {
+                Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
+                $blockedPkgs.Add($shortName)
+                $errLines = ($result.Output | Where-Object { $_ -match '\.go:\d+:' }) -join "`n"
+                $blockedErrors[$shortName] = $errLines
+            }
         }
     }
 
