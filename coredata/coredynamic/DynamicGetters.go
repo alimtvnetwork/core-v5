@@ -57,7 +57,7 @@ func (it Dynamic) IsNull() bool {
 	return it.innerData == nil
 }
 
-func (it *Dynamic) IsValid() bool {
+func (it Dynamic) IsValid() bool {
 	return it.isValid
 }
 
