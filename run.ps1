@@ -438,39 +438,32 @@ function Invoke-TestCoverage {
             }
         }
     } else {
-        # ── Parallel compile check ──
-        $compileJobs = @()
-        $jobIndex = 0
-        foreach ($testPkg in $allTestPkgs) {
-            $jobIndex++
-            $jobOutFile = Join-Path $compileTemp "compile-$jobIndex.exe"
-            $job = Start-Job -ScriptBlock {
-                param($pkg, $covPkgs, $outFile)
-                $ErrorActionPreference = "Continue"
-                $out = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
-                [pscustomobject]@{
-                    Pkg      = $pkg
-                    ExitCode = $LASTEXITCODE
-                    Output   = $out
-                }
-            } -ArgumentList $testPkg, $covPkgList, $jobOutFile
-            $compileJobs += [pscustomobject]@{ Job = $job; Pkg = $testPkg }
+        # ── Parallel compile check (ForEach-Object -Parallel, runspace-based) ──
+        $throttle = [Math]::Min($allTestPkgs.Count, [Environment]::ProcessorCount)
+        Write-Host "  Launching $($allTestPkgs.Count) compile checks ($throttle parallel)..." -ForegroundColor Gray
+
+        $compileResults = $allTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
+            $pkg = $_
+            $covPkgs = $using:covPkgList
+            $tempDir = $using:compileTemp
+            $idx = [System.Threading.Interlocked]::Increment([ref]$using:jobCounter)
+            $outFile = Join-Path $tempDir "compile-$idx.exe"
+            $ErrorActionPreference = "Continue"
+            $out = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            [pscustomobject]@{
+                Pkg      = $pkg
+                ExitCode = $LASTEXITCODE
+                Output   = $out
+            }
         }
 
-        # Wait and collect results
-        Write-Host "  Waiting for $($compileJobs.Count) compile jobs..." -ForegroundColor Gray
-        $compileJobs | ForEach-Object { $_.Job } | Wait-Job | Out-Null
-
-        foreach ($cj in $compileJobs) {
-            $result = Receive-Job -Job $cj.Job
-            Remove-Job -Job $cj.Job -Force
-
-            $shortName = $cj.Pkg -replace '.*integratedtests/?', ''
+        foreach ($result in $compileResults) {
+            $shortName = $result.Pkg -replace '.*integratedtests/?', ''
             if (-not $shortName) { $shortName = "(root)" }
 
             if ($result.ExitCode -eq 0) {
                 Write-Host "  ✓ $shortName" -ForegroundColor Green
-                $testPkgs.Add($cj.Pkg)
+                $testPkgs.Add($result.Pkg)
             } else {
                 Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
