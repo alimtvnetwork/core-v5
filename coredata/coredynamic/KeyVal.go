@@ -97,7 +97,7 @@ func (it KeyVal) ValueBool() bool {
 	return false
 }
 
-func (it *KeyVal) ValueInt64() int64 {
+func (it KeyVal) ValueInt64() int64 {
 	casted, isSuccess := it.Value.(int64)
 
 	if isSuccess {
