@@ -156,9 +156,8 @@ func Test_Cov4_NonWhitespaceJoinPtr(t *testing.T) {
 // ── AppendStringsWithAnyItems ──
 
 func Test_Cov4_AppendStringsWithAnyItems(t *testing.T) {
-	items := []string{"hello"}
-	anyItems := []any{"world", 42}
-	result := stringslice.AppendStringsWithAnyItems(items, anyItems)
+	mainSlice := []any{"hello"}
+	result := stringslice.AppendStringsWithAnyItems(false, false, mainSlice, "world", "!")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "AppendStringsWithAnyItems returns 3 -- 1 + 2", actual)
