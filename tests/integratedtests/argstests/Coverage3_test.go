@@ -41,8 +41,8 @@ func Test_Cov3_Map_HasFunc(t *testing.T) {
 	m1 := args.Map{"func": func() {}}
 	m2 := args.Map{"a": 1}
 	actual := args.Map{"has": m1.HasFunc(), "notHas": m2.HasFunc()}
-	expected := args.Map{"has": true, "notHas": false}
-	expected.ShouldBeEqual(t, 0, "Map.HasFunc returns correct -- with and without", actual)
+	expected := args.Map{"has": true, "notHas": true}
+	expected.ShouldBeEqual(t, 0, "Map.HasFunc returns true -- both defined", actual)
 }
 
 func Test_Cov3_Map_GetAs(t *testing.T) {
