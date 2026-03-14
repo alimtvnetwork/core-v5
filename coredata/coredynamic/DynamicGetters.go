@@ -188,7 +188,7 @@ func (it Dynamic) ValueInt() int {
 	return constants.InvalidValue
 }
 
-func (it *Dynamic) ValueUInt() uint {
+func (it Dynamic) ValueUInt() uint {
 	casted, isSuccess := it.innerData.(uint)
 
 	if isSuccess {
