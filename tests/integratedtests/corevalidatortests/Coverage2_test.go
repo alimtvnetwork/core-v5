@@ -14,9 +14,11 @@ import (
 
 func Test_Cov2_HeaderSliceValidator_Create(t *testing.T) {
 	hsv := corevalidator.HeaderSliceValidator{
-		Header:        "test-header",
-		CompareAs:     stringcompareas.Equal,
-		ExpectedLines: []string{"line1", "line2"},
+		Header: "test-header",
+		SliceValidator: corevalidator.SliceValidator{
+			CompareAs:     stringcompareas.Equal,
+			ExpectedLines: []string{"line1", "line2"},
+		},
 	}
 	actual := args.Map{"header": hsv.Header, "linesLen": len(hsv.ExpectedLines)}
 	expected := args.Map{"header": "test-header", "linesLen": 2}
