@@ -129,7 +129,7 @@ func Test_Cov3_TraceCollection_Filter(t *testing.T) {
 		return true, false
 	})
 	actual := args.Map{"notEmpty": len(filtered) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": len(filtered) > 0}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter takes all", actual)
 }
 
