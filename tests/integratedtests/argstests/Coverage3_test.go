@@ -316,7 +316,7 @@ func Test_Cov3_FuncWrap_Basic(t *testing.T) {
 	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{
 		"isValid": fw.IsValid(),
-		"name":    len(fw.Name()) > 0,
+		"name":    len(fw.Name) > 0,
 	}
 	expected := args.Map{
 		"isValid": true,
