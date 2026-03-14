@@ -158,8 +158,8 @@ func Test_Cov4_CharHashsetMap_AddAndHas(t *testing.T) {
 
 func Test_Cov4_CharCollectionMap_AddAndGet(t *testing.T) {
 	ccm := corestr.New.CharCollectionMap.Empty()
-	ccm.Add('x', "val1")
-	ccm.Add('x', "val2")
+	ccm.Add("val1")
+	ccm.Add("val2")
 	actual := args.Map{"isEmpty": ccm.IsEmpty(), "length": ccm.Length()}
 	expected := args.Map{"isEmpty": false, "length": 1}
 	expected.ShouldBeEqual(t, 0, "CharCollectionMap Add returns expected -- 1 char", actual)
