@@ -434,8 +434,12 @@ function Invoke-TestCoverage {
             } else {
                 Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
-                $errLines = ($compileOut | Where-Object { $_ -match '\.go:\d+:' }) -join "`n"
-                $blockedErrors[$shortName] = $errLines
+                $goLines = @($compileOut | Where-Object { $_ -match '\.go:\d+:' })
+                if ($goLines.Count -gt 0) {
+                    $blockedErrors[$shortName] = $goLines -join "`n"
+                } else {
+                    $blockedErrors[$shortName] = ($compileOut -join "`n")
+                }
             }
         }
     } else {
@@ -450,10 +454,13 @@ function Invoke-TestCoverage {
             $idx = [System.Threading.Interlocked]::Increment([ref]$using:jobCounter)
             $outFile = Join-Path $tempDir "compile-$idx.exe"
             $ErrorActionPreference = "Continue"
-            $out = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            # Capture output to array first, THEN read $LASTEXITCODE before any pipe resets it
+            $rawOut = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1
+            $ec = $LASTEXITCODE
+            $out = @($rawOut | ForEach-Object { $_.ToString() })
             [pscustomobject]@{
                 Pkg      = $pkg
-                ExitCode = $LASTEXITCODE
+                ExitCode = $ec
                 Output   = $out
             }
         }
@@ -468,8 +475,13 @@ function Invoke-TestCoverage {
             } else {
                 Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
-                $errLines = ($result.Output | Where-Object { $_ -match '\.go:\d+:' }) -join "`n"
-                $blockedErrors[$shortName] = $errLines
+                # Capture specific .go errors first; fall back to ALL output if none matched
+                $goLines = @($result.Output | Where-Object { $_ -match '\.go:\d+:' })
+                if ($goLines.Count -gt 0) {
+                    $blockedErrors[$shortName] = $goLines -join "`n"
+                } else {
+                    $blockedErrors[$shortName] = ($result.Output -join "`n")
+                }
             }
         }
     }
