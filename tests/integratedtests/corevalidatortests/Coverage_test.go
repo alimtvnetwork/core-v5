@@ -266,7 +266,7 @@ func Test_TextValidators_HasAnyItem(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_HasIndex(t *testing.T) {
+func Test_TextValidators_HasIndex_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.Add(corevalidator.TextValidator{})
 	if !tvs.HasIndex(0) {
