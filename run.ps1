@@ -434,8 +434,12 @@ function Invoke-TestCoverage {
             } else {
                 Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
-                $errLines = ($compileOut | Where-Object { $_ -match '\.go:\d+:' }) -join "`n"
-                $blockedErrors[$shortName] = $errLines
+                $goLines = @($compileOut | Where-Object { $_ -match '\.go:\d+:' })
+                if ($goLines.Count -gt 0) {
+                    $blockedErrors[$shortName] = $goLines -join "`n"
+                } else {
+                    $blockedErrors[$shortName] = ($compileOut -join "`n")
+                }
             }
         }
     } else {
