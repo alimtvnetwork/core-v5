@@ -198,7 +198,7 @@ func (it Dynamic) ValueUInt() uint {
 	return constants.Zero
 }
 
-func (it *Dynamic) ValueStrings() []string {
+func (it Dynamic) ValueStrings() []string {
 	casted, isSuccess := it.innerData.([]string)
 
 	if isSuccess {
