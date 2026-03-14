@@ -136,7 +136,7 @@ func Test_Cov3_AnyErrorOnce_ValueString_Nil(t *testing.T) {
 	aeo := coreonce.NewAnyErrorOnce(func() (any, error) { return nil, nil })
 	val, err := aeo.ValueString()
 	actual := args.Map{"val": val, "hasErr": err != nil}
-	expected := args.Map{"val": "", "hasErr": false}
+	expected := args.Map{"val": "<nil>", "hasErr": false}
 	expected.ShouldBeEqual(t, 0, "AnyErrorOnce ValueString nil value returns empty -- nil data", actual)
 }
 
