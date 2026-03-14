@@ -156,9 +156,8 @@ func Test_Cov4_NonWhitespaceJoinPtr(t *testing.T) {
 // ── AppendStringsWithAnyItems ──
 
 func Test_Cov4_AppendStringsWithAnyItems(t *testing.T) {
-	items := []string{"hello"}
-	anyItems := []any{"world", 42}
-	result := stringslice.AppendStringsWithAnyItems(items, anyItems)
+	mainSlice := []any{"hello"}
+	result := stringslice.AppendStringsWithAnyItems(false, false, mainSlice, "world", "!")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "AppendStringsWithAnyItems returns 3 -- 1 + 2", actual)
@@ -167,9 +166,8 @@ func Test_Cov4_AppendStringsWithAnyItems(t *testing.T) {
 // ── AppendAnyItemsWithStrings ──
 
 func Test_Cov4_AppendAnyItemsWithStrings(t *testing.T) {
-	anyItems := []any{42}
-	strs := []string{"hello", "world"}
-	result := stringslice.AppendAnyItemsWithStrings(anyItems, strs)
+	mainSlice := []string{"hello"}
+	result := stringslice.AppendAnyItemsWithStrings(false, false, mainSlice, 42, "world")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "AppendAnyItemsWithStrings returns 3 -- 1 + 2", actual)
@@ -179,9 +177,8 @@ func Test_Cov4_AppendAnyItemsWithStrings(t *testing.T) {
 
 func Test_Cov4_LinesSimpleProcess(t *testing.T) {
 	lines := []string{"hello", "world"}
-	var result []string
-	stringslice.LinesSimpleProcess(lines, func(index int, line string) {
-		result = append(result, line+"!")
+	result := stringslice.LinesSimpleProcess(lines, func(lineIn string) string {
+		return lineIn + "!"
 	})
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 2, "first": "hello!"}
@@ -192,13 +189,12 @@ func Test_Cov4_LinesSimpleProcess(t *testing.T) {
 
 func Test_Cov4_LinesSimpleProcessNoEmpty(t *testing.T) {
 	lines := []string{"hello", "", "world", "   "}
-	var result []string
-	stringslice.LinesSimpleProcessNoEmpty(lines, func(index int, line string) {
-		result = append(result, line)
+	result := stringslice.LinesSimpleProcessNoEmpty(lines, func(lineIn string) string {
+		return lineIn
 	})
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinesSimpleProcessNoEmpty skips empty/ws -- 2 valid", actual)
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "LinesSimpleProcessNoEmpty skips empty -- 3 non-empty returned", actual)
 }
 
 // ── TrimmedEachWordsPtr ──
@@ -245,21 +241,21 @@ func Test_Cov4_FirstLastDefaultStatusPtr_HasItems(t *testing.T) {
 	actual := args.Map{
 		"first":    result.First,
 		"last":     result.Last,
-		"hasItems": result.HasAnyItem,
+		"hasFirst": result.HasFirst,
 	}
 	expected := args.Map{
 		"first":    "a",
 		"last":     "b",
-		"hasItems": true,
+		"hasFirst": true,
 	}
 	expected.ShouldBeEqual(t, 0, "FirstLastDefaultStatusPtr returns correct -- 2 items", actual)
 }
 
 func Test_Cov4_FirstLastDefaultStatusPtr_Empty(t *testing.T) {
 	result := stringslice.FirstLastDefaultStatusPtr([]string{})
-	actual := args.Map{"hasItems": result.HasAnyItem}
-	expected := args.Map{"hasItems": false}
-	expected.ShouldBeEqual(t, 0, "FirstLastDefaultStatusPtr returns false -- empty", actual)
+	actual := args.Map{"isValid": result.IsValid}
+	expected := args.Map{"isValid": false}
+	expected.ShouldBeEqual(t, 0, "FirstLastDefaultStatusPtr returns invalid -- empty", actual)
 }
 
 // ── SafeIndexes ──

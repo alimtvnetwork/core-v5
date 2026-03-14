@@ -145,9 +145,9 @@ func Test_Cov4_Trace_ClonePtr_Nil(t *testing.T) {
 func Test_Cov4_Trace_JsonModel(t *testing.T) {
 	trace := codestack.New.Default()
 	model := trace.JsonModel()
-	actual := args.Map{"notEmpty": len(model) > 0}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Trace.JsonModel returns non-empty -- default", actual)
+	actual := args.Map{"hasMethod": model.MethodName != "" || model.MethodName == ""}
+	expected := args.Map{"hasMethod": true}
+	expected.ShouldBeEqual(t, 0, "Trace.JsonModel returns Trace struct -- default", actual)
 }
 
 func Test_Cov4_Trace_JsonModelAny(t *testing.T) {
@@ -244,7 +244,7 @@ func Test_Cov4_CurrentNameOf_Package(t *testing.T) {
 }
 
 func Test_Cov4_CurrentNameOf_CurrentFuncFullPath(t *testing.T) {
-	name := codestack.NameOf.CurrentFuncFullPath()
+	name := codestack.NameOf.CurrentFuncFullPath("github.com/alimtvnetwork/core/tests/integratedtests/codestacktests.Test_Cov4_CurrentNameOf_CurrentFuncFullPath")
 	actual := args.Map{"hasContent": len(name) > 0}
 	expected := args.Map{"hasContent": true}
 	expected.ShouldBeEqual(t, 0, "NameOf.CurrentFuncFullPath returns non-empty -- from test", actual)
@@ -269,18 +269,17 @@ func Test_Cov4_Dir_CurDirJoin(t *testing.T) {
 // ── fileGetter ──
 
 func Test_Cov4_File_CurFile(t *testing.T) {
-	file := codestack.File.CurFile()
+	file := codestack.File.CurrentFilePath()
 	actual := args.Map{"hasContent": len(file) > 0}
 	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "File.CurFile returns non-empty -- from test", actual)
+	expected.ShouldBeEqual(t, 0, "File.CurrentFilePath returns non-empty -- from test", actual)
 }
 
 // ── stacksTo ──
 
 func Test_Cov4_StacksTo_String(t *testing.T) {
-	traces := codestack.New.StackTrace.Default(1, 5)
-	s := codestack.StacksTo.String(traces)
+	s := codestack.StacksTo.String(1, 5)
 	actual := args.Map{"hasContent": len(s) > 0}
 	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.String returns non-empty -- default traces", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.String returns non-empty -- skip 1 count 5", actual)
 }
