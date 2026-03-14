@@ -239,7 +239,7 @@ func Test_TextValidators_Adds_Empty_Cov(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_AddSimple(t *testing.T) {
+func Test_TextValidators_AddSimple_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(5)
 	tvs.AddSimple("test", stringcompareas.Equal)
 	if tvs.Length() != 1 {
