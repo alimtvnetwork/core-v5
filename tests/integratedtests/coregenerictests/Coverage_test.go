@@ -2185,7 +2185,7 @@ func Test_GroupByCollection_NonNil(t *testing.T) {
 	}
 }
 
-func Test_ContainsFunc_Found(t *testing.T) {
+func Test_ContainsFunc_Found_Cov(t *testing.T) {
 	col := coregeneric.CollectionFrom([]int{1, 2, 3})
 	if !coregeneric.ContainsFunc(col, func(i int) bool { return i == 2 }) {
 		t.Error("should find 2")
