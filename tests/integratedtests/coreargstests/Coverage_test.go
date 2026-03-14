@@ -671,7 +671,7 @@ func Test_Cov_Holder(t *testing.T) {
 // ── LeftRight ──
 
 func Test_Cov_LeftRight(t *testing.T) {
-	lr := args.LeftRight{Left: "l", Right: "r"}
+	lr := args.LeftRight[string, string]{Left: "l", Right: "r"}
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "l", "right": "r"}
 	expected.ShouldBeEqual(t, 0, "LeftRight", actual)
@@ -680,42 +680,42 @@ func Test_Cov_LeftRight(t *testing.T) {
 // ── One through Six ──
 
 func Test_Cov_One(t *testing.T) {
-	o := args.One{First: 1}
+	o := args.One[int]{First: 1}
 	actual := args.Map{"first": o.FirstItem(), "str": o.String() != ""}
 	expected := args.Map{"first": 1, "str": true}
 	expected.ShouldBeEqual(t, 0, "One", actual)
 }
 
 func Test_Cov_Two(t *testing.T) {
-	o := args.Two{First: 1, Second: 2}
+	o := args.Two[int, int]{First: 1, Second: 2}
 	actual := args.Map{"first": o.FirstItem(), "second": o.SecondItem(), "str": o.String() != ""}
 	expected := args.Map{"first": 1, "second": 2, "str": true}
 	expected.ShouldBeEqual(t, 0, "Two", actual)
 }
 
 func Test_Cov_Three(t *testing.T) {
-	o := args.Three{First: 1, Second: 2, Third: 3}
+	o := args.Three[int, int, int]{First: 1, Second: 2, Third: 3}
 	actual := args.Map{"first": o.FirstItem(), "second": o.SecondItem(), "third": o.ThirdItem(), "str": o.String() != ""}
 	expected := args.Map{"first": 1, "second": 2, "third": 3, "str": true}
 	expected.ShouldBeEqual(t, 0, "Three", actual)
 }
 
 func Test_Cov_Four(t *testing.T) {
-	o := args.Four{First: 1, Second: 2, Third: 3, Fourth: 4}
+	o := args.Four[int, int, int, int]{First: 1, Second: 2, Third: 3, Fourth: 4}
 	actual := args.Map{"fourth": o.FourthItem(), "str": o.String() != ""}
 	expected := args.Map{"fourth": 4, "str": true}
 	expected.ShouldBeEqual(t, 0, "Four", actual)
 }
 
 func Test_Cov_Five(t *testing.T) {
-	o := args.Five{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5}
+	o := args.Five[int, int, int, int, int]{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5}
 	actual := args.Map{"fifth": o.FifthItem(), "str": o.String() != ""}
 	expected := args.Map{"fifth": 5, "str": true}
 	expected.ShouldBeEqual(t, 0, "Five", actual)
 }
 
 func Test_Cov_Six(t *testing.T) {
-	o := args.Six{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5, Sixth: 6}
+	o := args.Six[int, int, int, int, int, int]{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5, Sixth: 6}
 	actual := args.Map{"sixth": o.SixthItem(), "str": o.String() != ""}
 	expected := args.Map{"sixth": 6, "str": true}
 	expected.ShouldBeEqual(t, 0, "Six", actual)

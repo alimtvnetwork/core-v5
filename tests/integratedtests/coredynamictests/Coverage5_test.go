@@ -409,28 +409,32 @@ func Test_Cov5_LeftRight(t *testing.T) {
 // ── Type ──
 
 func Test_Cov5_Type_Basic(t *testing.T) {
-	typ := coredynamic.NewType("hello")
+	typ := coredynamic.Type("hello")
 	actual := args.Map{
-		"name":    typ.Name,
-		"isNull":  coredynamic.NewType(nil).IsNull,
+		"notNil": typ != nil,
+		"name":   typ.Name(),
 	}
-	expected := args.Map{"name": "string", "isNull": true}
-	expected.ShouldBeEqual(t, 0, "Type basic -- string and nil", actual)
+	expected := args.Map{"notNil": true, "name": "string"}
+	expected.ShouldBeEqual(t, 0, "Type basic -- string", actual)
 }
 
-// ── TypeSameStatus ──
+// ── TypeMustBeSame ──
 
-func Test_Cov5_TypeSameStatus(t *testing.T) {
-	status := coredynamic.TypeMustBeSame("hello", "world")
-	diffStatus := coredynamic.TypeMustBeSame("hello", 42)
-	actual := args.Map{
-		"isSame":   status.IsSame,
-		"noErr":    status.Err == nil,
-		"diffSame": diffStatus.IsSame,
-		"diffErr":  diffStatus.Err != nil,
-	}
-	expected := args.Map{"isSame": true, "noErr": true, "diffSame": false, "diffErr": true}
-	expected.ShouldBeEqual(t, 0, "TypeMustBeSame -- same and different", actual)
+func Test_Cov5_TypeMustBeSame_Same(t *testing.T) {
+	coredynamic.TypeMustBeSame("hello", "world") // should not panic
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
+	expected.ShouldBeEqual(t, 0, "TypeMustBeSame same -- no panic", actual)
+}
+
+func Test_Cov5_TypeMustBeSame_Different(t *testing.T) {
+	defer func() {
+		r := recover()
+		actual := args.Map{"panicked": r != nil}
+		expected := args.Map{"panicked": true}
+		expected.ShouldBeEqual(t, 0, "TypeMustBeSame different -- panics", actual)
+	}()
+	coredynamic.TypeMustBeSame("hello", 42)
 }
 
 // ── ValueStatus ──
