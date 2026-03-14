@@ -229,18 +229,21 @@ func Test_Cov_Variant_UnmarshalJSON_Invalid(t *testing.T) {
 
 func Test_Cov_Variant_OnlySupportedErr(t *testing.T) {
 	v := chmodclasstype.Owner
+	// OnlySupportedErr checks ALL enum names against supported list.
+	// Passing a subset means unsupported names exist → error returned.
 	err := v.OnlySupportedErr("Owner", "Group")
-	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Variant OnlySupportedErr no error -- supported", actual)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Variant OnlySupportedErr returns error -- subset supported", actual)
 }
 
 func Test_Cov_Variant_OnlySupportedMsgErr(t *testing.T) {
 	v := chmodclasstype.Owner
+	// Same: passing a subset means error is returned.
 	err := v.OnlySupportedMsgErr("test message", "Owner")
-	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Variant OnlySupportedMsgErr no error -- supported", actual)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "Variant OnlySupportedMsgErr returns error -- subset supported", actual)
 }
 
 // ── Variant AsContractsBinder ──
