@@ -551,58 +551,121 @@ function Invoke-TestCoverage {
     $pkgIndex = 0
 
     Write-Host ""
-    Write-Host "  Running $($testPkgs.Count) test packages with individual coverage profiles..." -ForegroundColor Yellow
+    Write-Host "  Running $($testPkgs.Count) test packages with individual coverage profiles ($modeLabel)..." -ForegroundColor Yellow
     Write-Host ""
 
-    foreach ($testPkg in $testPkgs) {
-        $pkgIndex++
-        $shortName = $testPkg -replace '.*integratedtests/?', ''
-        if (-not $shortName) { $shortName = "(root)" }
-        # Derive the source package being tested (e.g. "chmodhelpertests" -> "chmodhelper")
-        $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
-        if (-not $srcTarget) { $srcTarget = $shortName }
+    if ($isSyncMode) {
+        # ── Sequential coverage run ──
+        foreach ($testPkg in $testPkgs) {
+            $pkgIndex++
+            $shortName = $testPkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+            $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
+            if (-not $srcTarget) { $srcTarget = $shortName }
 
-        $partialProfile = Join-Path $partialDir "cover-$pkgIndex.out"
+            $partialProfile = Join-Path $partialDir "cover-$pkgIndex.out"
 
-        $prevPref = $ErrorActionPreference
-        $ErrorActionPreference = "Continue"
-        $output = & go test -v -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
-        $pkgExit = $LASTEXITCODE
-        $ErrorActionPreference = $prevPref
+            $prevPref = $ErrorActionPreference
+            $ErrorActionPreference = "Continue"
+            $output = & go test -v -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $pkgExit = $LASTEXITCODE
+            $ErrorActionPreference = $prevPref
 
-        if ($pkgExit -ne 0) { $overallExit = $pkgExit }
+            if ($pkgExit -ne 0) { $overallExit = $pkgExit }
 
-        # Extract coverage % from go test output and compute partial coverage from profile
-        $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
-        $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
+            $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
+            $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
 
-        # Parse partial profile for THIS package's source coverage only
-        $partialPct = ""
-        if (Test-Path $partialProfile) {
-            $srcMatchPattern = $srcTarget -replace '/', '/'
-            $pStmts = 0; $pCovered = 0
-            $pTotalLines = 0; $pMatchedLines = 0
-            foreach ($pLine in (Get-Content $partialProfile)) {
-                if ($pLine -match "^mode:") { continue }
-                $pTotalLines++
-                # Only count lines belonging to this specific source package
-                if ($pLine -notmatch "/$srcMatchPattern/") { continue }
-                $pMatchedLines++
-                if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
-                    $pStmts += [int]$Matches[1]
-                    if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
+            $partialPct = ""
+            if (Test-Path $partialProfile) {
+                $srcMatchPattern = $srcTarget -replace '/', '/'
+                $pStmts = 0; $pCovered = 0
+                $pTotalLines = 0; $pMatchedLines = 0
+                foreach ($pLine in (Get-Content $partialProfile)) {
+                    if ($pLine -match "^mode:") { continue }
+                    $pTotalLines++
+                    if ($pLine -notmatch "/$srcMatchPattern/") { continue }
+                    $pMatchedLines++
+                    if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
+                        $pStmts += [int]$Matches[1]
+                        if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
+                    }
                 }
+                if ($pStmts -gt 0) {
+                    $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
+                }
+                Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
             }
-            if ($pStmts -gt 0) {
-                $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
-            }
-            # Debug: show filter effectiveness
-            Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
+
+            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
+
+            if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
+        }
+    } else {
+        # ── Parallel coverage run ──
+        $coverJobs = @()
+        $coverJobIndex = 0
+        foreach ($testPkg in $testPkgs) {
+            $coverJobIndex++
+            $partialProfile = Join-Path $partialDir "cover-$coverJobIndex.out"
+            $job = Start-Job -ScriptBlock {
+                param($pkg, $profile, $covPkgs)
+                $ErrorActionPreference = "Continue"
+                $out = & go test -v -count=1 "-coverprofile=$profile" "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+                [pscustomobject]@{
+                    Pkg      = $pkg
+                    Profile  = $profile
+                    ExitCode = $LASTEXITCODE
+                    Output   = $out
+                }
+            } -ArgumentList $testPkg, $partialProfile, $covPkgList
+            $coverJobs += [pscustomobject]@{ Job = $job; Pkg = $testPkg; Index = $coverJobIndex; Profile = $partialProfile }
         }
 
-        Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
+        Write-Host "  Waiting for $($coverJobs.Count) test jobs..." -ForegroundColor Gray
+        $coverJobs | ForEach-Object { $_.Job } | Wait-Job | Out-Null
 
-        if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
+        # Collect results in order
+        foreach ($cj in ($coverJobs | Sort-Object Index)) {
+            $result = Receive-Job -Job $cj.Job
+            Remove-Job -Job $cj.Job -Force
+
+            $shortName = $cj.Pkg -replace '.*integratedtests/?', ''
+            if (-not $shortName) { $shortName = "(root)" }
+            $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
+            if (-not $srcTarget) { $srcTarget = $shortName }
+
+            if ($result.ExitCode -ne 0) { $overallExit = $result.ExitCode }
+
+            $statusIcon = if ($result.ExitCode -eq 0) { "✓" } else { "✗" }
+            $statusColor = if ($result.ExitCode -eq 0) { "Green" } else { "Red" }
+
+            $partialPct = ""
+            if (Test-Path $cj.Profile) {
+                $srcMatchPattern = $srcTarget -replace '/', '/'
+                $pStmts = 0; $pCovered = 0
+                $pTotalLines = 0; $pMatchedLines = 0
+                foreach ($pLine in (Get-Content $cj.Profile)) {
+                    if ($pLine -match "^mode:") { continue }
+                    $pTotalLines++
+                    if ($pLine -notmatch "/$srcMatchPattern/") { continue }
+                    $pMatchedLines++
+                    if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
+                        $pStmts += [int]$Matches[1]
+                        if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
+                    }
+                }
+                if ($pStmts -gt 0) {
+                    $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
+                }
+                Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
+            }
+
+            Write-Host "  [$($cj.Index)/$($coverJobs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
+
+            if ($result.Output) { foreach ($line in $result.Output) { $allOutput.Add([string]$line) } }
+        }
+        $pkgIndex = $coverJobIndex
     }
 
     # Print to console
