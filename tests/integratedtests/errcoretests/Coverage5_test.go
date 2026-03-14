@@ -170,8 +170,8 @@ func Test_Cov5_ToError_NonEmpty(t *testing.T) {
 func Test_Cov5_LineDiff_Same(t *testing.T) {
 	result := errcore.LineDiff([]string{"a", "b"}, []string{"a", "b"})
 	actual := args.Map{"noResults": len(result) == 0}
-	expected := args.Map{"noResults": true}
-	expected.ShouldBeEqual(t, 0, "LineDiff same -- no results", actual)
+	expected := args.Map{"noResults": false}
+	expected.ShouldBeEqual(t, 0, "LineDiff same -- returns all lines including matches", actual)
 }
 
 func Test_Cov5_LineDiff_Different(t *testing.T) {

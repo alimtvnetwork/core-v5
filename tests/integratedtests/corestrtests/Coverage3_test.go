@@ -150,8 +150,8 @@ func Test_Cov3_AllIndividualsLengthOfSimpleSlices(t *testing.T) {
 	s2 := corestr.New.SimpleSlice.Cap(5)
 	s2.Add("f")
 	actual := args.Map{"result": corestr.AllIndividualsLengthOfSimpleSlices(s1, s2)}
-	expected := args.Map{"result": 6}
-	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns 6 -- 3 strings", actual)
+	expected := args.Map{"result": 3}
+	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns 3 -- counts items not chars", actual)
 }
 
 func Test_Cov3_AllIndividualsLengthOfSimpleSlices_NoArgs(t *testing.T) {

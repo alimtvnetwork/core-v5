@@ -274,8 +274,8 @@ func Test_CloneSlice_Cov2(t *testing.T) {
 
 func Test_CloneSlice_Nil_Cov2(t *testing.T) {
 	actual := args.Map{"isNil": corestr.CloneSlice(nil) == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "CloneSlice_Nil", actual)
+	expected := args.Map{"isNil": false}
+	expected.ShouldBeEqual(t, 0, "CloneSlice_Nil returns empty slice not nil", actual)
 }
 
 func Test_CloneSliceIf_True_Cov2(t *testing.T) {

@@ -168,9 +168,9 @@ func Test_Cov3_One_GetByIndex(t *testing.T) {
 func Test_Cov3_One_LeftRight(t *testing.T) {
 	one := &args.One[string]{First: "hello", Expect: "world"}
 	lr := one.LeftRight()
-	actual := args.Map{"left": lr.Left, "right": lr.Right}
-	expected := args.Map{"left": "hello", "right": "world"}
-	expected.ShouldBeEqual(t, 0, "One.LeftRight returns left=first right=expect -- set", actual)
+	actual := args.Map{"left": lr.Left, "expect": lr.Expect}
+	expected := args.Map{"left": "hello", "expect": "world"}
+	expected.ShouldBeEqual(t, 0, "One.LeftRight returns left=first expect=expect -- set", actual)
 }
 
 func Test_Cov3_One_AsOneParameter(t *testing.T) {

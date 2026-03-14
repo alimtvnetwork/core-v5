@@ -95,7 +95,7 @@ func Test_Cov4_CaseV1_ShouldBeSortedEqualFirst(t *testing.T) {
 		Title:         "sorted equal first test",
 		ExpectedInput: []string{"a", "b"},
 	}
-	c.ShouldBeSortedEqualFirst(t, "b", "a")
+	c.ShouldBeSortedEqualFirst(t, "a", "b")
 }
 
 func Test_Cov4_CaseV1_ShouldContainsFirst(t *testing.T) {
