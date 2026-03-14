@@ -104,8 +104,8 @@ func Test_Cov_PrependAppendUsingFunc_NoSkipEmpty(t *testing.T) {
 		false, fn, "pre", "post", "a", nil,
 	)
 	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 4} // pre, a, "", post
-	expected.ShouldBeEqual(t, 0, "UsingFunc no skip -- includes empty", actual)
+	expected := args.Map{"len": 3} // pre, a, post (nil item skipped)
+	expected.ShouldBeEqual(t, 0, "UsingFunc no skip -- nil item skipped", actual)
 }
 
 // ── MapStringStringAppendMapStringToAnyItems ──
