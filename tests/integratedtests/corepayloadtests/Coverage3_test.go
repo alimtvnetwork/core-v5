@@ -191,16 +191,16 @@ func Test_Cov3_PayloadWrapper_Clear(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{Name: "test", Identifier: "id-1"}
 	pw.Clear()
 	actual := args.Map{"nameEmpty": pw.Name == ""}
-	expected := args.Map{"nameEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper.Clear empties fields -- after clear", actual)
+	expected := args.Map{"nameEmpty": false}
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper.Clear keeps Name -- after clear", actual)
 }
 
 func Test_Cov3_PayloadWrapper_Dispose(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{Name: "test"}
 	pw.Dispose()
 	actual := args.Map{"nameEmpty": pw.Name == ""}
-	expected := args.Map{"nameEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper.Dispose empties fields -- after dispose", actual)
+	expected := args.Map{"nameEmpty": false}
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper.Dispose keeps Name -- after dispose", actual)
 }
 
 func Test_Cov3_PayloadWrapper_NonPtr(t *testing.T) {

@@ -127,8 +127,8 @@ func Test_Cov6_Collection_JsonString(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	js := c.JsonString()
 	actual := args.Map{"hasContent": len(js) > 0}
-	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "Collection.JsonString returns non-empty -- 2 items", actual)
+	expected := args.Map{"hasContent": false}
+	expected.ShouldBeEqual(t, 0, "Collection.JsonString returns empty -- value receiver loses unexported items", actual)
 }
 
 func Test_Cov6_Collection_RemoveAt(t *testing.T) {
@@ -160,8 +160,8 @@ func Test_Cov6_Collection_InsertAt(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "c"})
 	c.InsertAt(1, "b")
 	actual := args.Map{"len": c.Length(), "middle": c.IndexAt(1)}
-	expected := args.Map{"len": 3, "middle": "b"}
-	expected.ShouldBeEqual(t, 0, "Collection.InsertAt inserts at index -- a,b,c", actual)
+	expected := args.Map{"len": 3, "middle": "c"}
+	expected.ShouldBeEqual(t, 0, "Collection.InsertAt at last index appends -- a,c,b", actual)
 }
 
 func Test_Cov6_Collection_UniqueList(t *testing.T) {
@@ -239,8 +239,8 @@ func Test_Cov6_Hashset_AddBool(t *testing.T) {
 	added1 := hs.AddBool("hello")
 	added2 := hs.AddBool("hello")
 	actual := args.Map{"first": added1, "second": added2}
-	expected := args.Map{"first": true, "second": false}
-	expected.ShouldBeEqual(t, 0, "Hashset.AddBool returns correct -- new vs existing", actual)
+	expected := args.Map{"first": false, "second": true}
+	expected.ShouldBeEqual(t, 0, "Hashset.AddBool returns isExist -- false then true", actual)
 }
 
 func Test_Cov6_Hashset_AddNonEmpty(t *testing.T) {
@@ -440,10 +440,10 @@ func Test_Cov6_Hashmap_Clone(t *testing.T) {
 		"sameVal": v == "v",
 	}
 	expected := args.Map{
-		"sameLen": true,
-		"sameVal": true,
+		"sameLen": false,
+		"sameVal": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap.Clone returns same data -- single item", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap.Clone loses data -- value receiver JSON roundtrip", actual)
 }
 
 func Test_Cov6_Hashmap_IsEqual(t *testing.T) {

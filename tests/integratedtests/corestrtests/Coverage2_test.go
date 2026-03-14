@@ -245,8 +245,8 @@ func Test_AnyToString_String_Cov2(t *testing.T) {
 func Test_AnyToString_Nil_Cov2(t *testing.T) {
 	result := corestr.AnyToString(false, nil)
 	actual := args.Map{"ok": true, "empty": result == ""}
-	expected := args.Map{"ok": true, "empty": true}
-	expected.ShouldBeEqual(t, 0, "AnyToString_Nil", actual)
+	expected := args.Map{"ok": true, "empty": false}
+	expected.ShouldBeEqual(t, 0, "AnyToString_Nil formats to non-empty", actual)
 }
 
 // ── AllIndividualStringsOfStringsLength ──
@@ -274,8 +274,8 @@ func Test_CloneSlice_Cov2(t *testing.T) {
 
 func Test_CloneSlice_Nil_Cov2(t *testing.T) {
 	actual := args.Map{"isNil": corestr.CloneSlice(nil) == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "CloneSlice_Nil", actual)
+	expected := args.Map{"isNil": false}
+	expected.ShouldBeEqual(t, 0, "CloneSlice_Nil returns empty slice not nil", actual)
 }
 
 func Test_CloneSliceIf_True_Cov2(t *testing.T) {

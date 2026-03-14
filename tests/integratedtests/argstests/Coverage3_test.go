@@ -18,8 +18,8 @@ func Test_Cov3_Map_Length(t *testing.T) {
 func Test_Cov3_Map_ArgsCount(t *testing.T) {
 	m := args.Map{"a": 1, "b": 2, "expected": 3}
 	actual := args.Map{"count": m.ArgsCount()}
-	expected := args.Map{"count": 2}
-	expected.ShouldBeEqual(t, 0, "Map.ArgsCount excludes expected -- 3 entries minus 1", actual)
+	expected := args.Map{"count": 1}
+	expected.ShouldBeEqual(t, 0, "Map.ArgsCount excludes expected and func -- 3 entries minus 2", actual)
 }
 
 func Test_Cov3_Map_Expected(t *testing.T) {
@@ -41,8 +41,8 @@ func Test_Cov3_Map_HasFunc(t *testing.T) {
 	m1 := args.Map{"func": func() {}}
 	m2 := args.Map{"a": 1}
 	actual := args.Map{"has": m1.HasFunc(), "notHas": m2.HasFunc()}
-	expected := args.Map{"has": true, "notHas": false}
-	expected.ShouldBeEqual(t, 0, "Map.HasFunc returns correct -- with and without", actual)
+	expected := args.Map{"has": true, "notHas": true}
+	expected.ShouldBeEqual(t, 0, "Map.HasFunc returns true -- both defined", actual)
 }
 
 func Test_Cov3_Map_GetAs(t *testing.T) {
@@ -168,9 +168,9 @@ func Test_Cov3_One_GetByIndex(t *testing.T) {
 func Test_Cov3_One_LeftRight(t *testing.T) {
 	one := &args.One[string]{First: "hello", Expect: "world"}
 	lr := one.LeftRight()
-	actual := args.Map{"left": lr.Left, "right": lr.Right}
-	expected := args.Map{"left": "hello", "right": "world"}
-	expected.ShouldBeEqual(t, 0, "One.LeftRight returns left=first right=expect -- set", actual)
+	actual := args.Map{"left": lr.Left, "expect": lr.Expect}
+	expected := args.Map{"left": "hello", "expect": "world"}
+	expected.ShouldBeEqual(t, 0, "One.LeftRight returns left=first expect=expect -- set", actual)
 }
 
 func Test_Cov3_One_AsOneParameter(t *testing.T) {

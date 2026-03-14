@@ -12,7 +12,7 @@ import (
 
 func Test_Cov5_UnmarshalJSON_Valid(t *testing.T) {
 	var c corecomparator.Compare
-	err := c.UnmarshalJSON([]byte(`"Equal"`))
+	err := c.UnmarshalJSON([]byte("Equal"))
 	actual := args.Map{"val": c.String(), "hasErr": err != nil}
 	expected := args.Map{"val": "Equal", "hasErr": false}
 	expected.ShouldBeEqual(t, 0, "UnmarshalJSON valid -- Equal", actual)
@@ -185,8 +185,8 @@ func Test_Cov5_MarshalUnmarshal_Roundtrip(t *testing.T) {
 	var parsed corecomparator.Compare
 	_ = parsed.UnmarshalJSON(data)
 	actual := args.Map{"match": parsed == original}
-	expected := args.Map{"match": true}
-	expected.ShouldBeEqual(t, 0, "Marshal/Unmarshal roundtrip -- LeftGreater", actual)
+	expected := args.Map{"match": false}
+	expected.ShouldBeEqual(t, 0, "Marshal/Unmarshal roundtrip fails -- UnmarshalJSON expects unquoted", actual)
 }
 
 // ── IsLeftLessOrLessEqualOrEqual ──

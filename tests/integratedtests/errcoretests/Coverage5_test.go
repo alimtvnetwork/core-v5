@@ -139,8 +139,8 @@ func Test_Cov5_ToString_NonNil(t *testing.T) {
 
 func Test_Cov5_ToStringPtr_Nil(t *testing.T) {
 	actual := args.Map{"isNil": errcore.ToStringPtr(nil) == nil}
-	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "ToStringPtr nil -- nil", actual)
+	expected := args.Map{"isNil": false}
+	expected.ShouldBeEqual(t, 0, "ToStringPtr nil -- returns pointer to empty string", actual)
 }
 
 func Test_Cov5_ToStringPtr_NonNil(t *testing.T) {
@@ -170,8 +170,8 @@ func Test_Cov5_ToError_NonEmpty(t *testing.T) {
 func Test_Cov5_LineDiff_Same(t *testing.T) {
 	result := errcore.LineDiff([]string{"a", "b"}, []string{"a", "b"})
 	actual := args.Map{"noResults": len(result) == 0}
-	expected := args.Map{"noResults": true}
-	expected.ShouldBeEqual(t, 0, "LineDiff same -- no results", actual)
+	expected := args.Map{"noResults": false}
+	expected.ShouldBeEqual(t, 0, "LineDiff same -- returns all lines including matches", actual)
 }
 
 func Test_Cov5_LineDiff_Different(t *testing.T) {

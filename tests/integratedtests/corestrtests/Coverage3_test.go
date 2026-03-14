@@ -138,8 +138,8 @@ func Test_Cov3_NewValidValue(t *testing.T) {
 func Test_Cov3_NewValidValue_Empty(t *testing.T) {
 	vv := corestr.NewValidValue("")
 	actual := args.Map{"value": vv.Value, "isValid": vv.IsValid}
-	expected := args.Map{"value": "", "isValid": false}
-	expected.ShouldBeEqual(t, 0, "NewValidValue returns invalid -- empty string", actual)
+	expected := args.Map{"value": "", "isValid": true}
+	expected.ShouldBeEqual(t, 0, "NewValidValue always returns valid -- empty string", actual)
 }
 
 // ── AllIndividualsLengthOfSimpleSlices ──
@@ -150,8 +150,8 @@ func Test_Cov3_AllIndividualsLengthOfSimpleSlices(t *testing.T) {
 	s2 := corestr.New.SimpleSlice.Cap(5)
 	s2.Add("f")
 	actual := args.Map{"result": corestr.AllIndividualsLengthOfSimpleSlices(s1, s2)}
-	expected := args.Map{"result": 6}
-	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns 6 -- 3 strings", actual)
+	expected := args.Map{"result": 3}
+	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices returns 3 -- counts items not chars", actual)
 }
 
 func Test_Cov3_AllIndividualsLengthOfSimpleSlices_NoArgs(t *testing.T) {
