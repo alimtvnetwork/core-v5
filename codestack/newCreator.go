@@ -23,8 +23,19 @@ func (it newCreator) Ptr(skipIndex int) *Trace {
 
 func (it newCreator) Create(skipIndex int) Trace {
 	pc, file, line, isOkay := runtime.Caller(skipIndex + defaultInternalSkip)
+
+	if !isOkay {
+		return Trace{
+			SkipIndex: skipIndex,
+			IsOkay:    false,
+		}
+	}
+
 	funcInfo := runtime.FuncForPC(pc)
-	fullFuncName := funcInfo.Name()
+	fullFuncName := ""
+	if funcInfo != nil {
+		fullFuncName = funcInfo.Name()
+	}
 
 	fullMethodSignature, packageName, methodName := NameOf.All(fullFuncName)
 
