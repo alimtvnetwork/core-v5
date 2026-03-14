@@ -471,7 +471,7 @@ func Test_Cov3_AnyTo_SmartStringsOf(t *testing.T) {
 // ── AnyTo: ToStrings ──
 
 func Test_Cov3_AnyTo_ToStrings(t *testing.T) {
-	result := converters.AnyTo.ToStrings(true, []string{"a", "b"})
+	result := converters.AnyTo.ToStrings(true, []any{"a", "b"})
 	nilResult := converters.AnyTo.ToStrings(true, nil)
 	actual := args.Map{"len": len(result), "nilLen": len(nilResult)}
 	expected := args.Map{"len": 2, "nilLen": 0}

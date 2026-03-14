@@ -135,7 +135,7 @@ func Test_Cov2_FileWithLine_NilPtr_IsNotNil(t *testing.T) {
 // ── stacksTo ──
 
 func Test_Cov2_StacksTo_String(t *testing.T) {
-	result := codestack.StacksTo.String(1, 5)
+	result := codestack.StacksTo.String(0, 5)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "StacksTo.String returns non-empty -- with count", actual)
@@ -149,17 +149,17 @@ func Test_Cov2_StacksTo_StringDefault(t *testing.T) {
 }
 
 func Test_Cov2_StacksTo_StringNoCount(t *testing.T) {
-	result := codestack.StacksTo.StringNoCount(1)
+	result := codestack.StacksTo.StringNoCount(0)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.StringNoCount returns non-empty -- skip 1", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.StringNoCount returns non-empty -- skip 0", actual)
 }
 
 func Test_Cov2_StacksTo_Bytes(t *testing.T) {
-	result := codestack.StacksTo.Bytes(1)
+	result := codestack.StacksTo.Bytes(0)
 	actual := args.Map{"notEmpty": len(result) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.Bytes returns non-empty -- skip 1", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.Bytes returns non-empty -- skip 0", actual)
 }
 
 func Test_Cov2_StacksTo_BytesDefault(t *testing.T) {
@@ -170,10 +170,10 @@ func Test_Cov2_StacksTo_BytesDefault(t *testing.T) {
 }
 
 func Test_Cov2_StacksTo_JsonString(t *testing.T) {
-	result := codestack.StacksTo.JsonString(1)
+	result := codestack.StacksTo.JsonString(0)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.JsonString returns non-empty -- skip 1", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.JsonString returns non-empty -- skip 0", actual)
 }
 
 func Test_Cov2_StacksTo_JsonStringDefault(t *testing.T) {

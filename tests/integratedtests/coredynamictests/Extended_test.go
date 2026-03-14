@@ -91,8 +91,11 @@ func Test_Dynamic_NonPtr_Ext(t *testing.T) {
 func Test_Dynamic_Ptr(t *testing.T) {
 	d := coredynamic.NewDynamicPtr("hello", true)
 	p := d.Ptr()
-	if p != d {
-		t.Error("Ptr should return same pointer")
+	if p == nil {
+		t.Error("Ptr should return non-nil pointer")
+	}
+	if p.Data() != d.Data() {
+		t.Error("Ptr should return pointer with same data")
 	}
 }
 

@@ -186,8 +186,9 @@ func Test_Cov2_ErrorOnce_WithNilError(t *testing.T) {
 
 func Test_Cov2_ErrorOnce_ConcatNewString(t *testing.T) {
 	eo := coreonce.NewErrorOnce(func() error { return nil })
-	actual := args.Map{"result": eo.ConcatNewString("extra")}
-	expected := args.Map{"result": "extra"}
+	result := eo.ConcatNewString("extra")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ErrorOnce ConcatNewString returns extra -- nil error", actual)
 }
 

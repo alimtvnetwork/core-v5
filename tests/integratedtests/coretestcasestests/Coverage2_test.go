@@ -67,8 +67,7 @@ func Test_Cov2_CaseV1_ExpectedLines_Slice(t *testing.T) {
 }
 
 func Test_Cov2_CaseV1_SetActual(t *testing.T) {
-	c := coretestcases.CaseV1{Title: "test"}
-	c.SetActual("result")
+	c := coretestcases.CaseV1{Title: "test", ActualInput: "result"}
 
 	actual := args.Map{
 		"actual": c.Actual(),

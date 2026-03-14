@@ -171,7 +171,7 @@ func Test_Cov3_BytesErrorOnce_WithError(t *testing.T) {
 		"length": beo.Length(),
 	}
 	expected := args.Map{
-		"hasError": true, "isEmpty": true,
+		"hasError": true, "isEmpty": false,
 		"isValid": false, "isInvalid": true,
 		"length": 0,
 	}

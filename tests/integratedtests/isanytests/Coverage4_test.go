@@ -221,8 +221,8 @@ func Test_Cov4_TypeSame_OneNil(t *testing.T) {
 func Test_Cov4_Conclusive_SameValues(t *testing.T) {
 	isEq, isConcl := isany.Conclusive(42, 42)
 	actual := args.Map{"isEqual": isEq, "isConcl": isConcl}
-	expected := args.Map{"isEqual": false, "isConcl": false}
-	expected.ShouldBeEqual(t, 0, "Conclusive same int values inconclusive", actual)
+	expected := args.Map{"isEqual": true, "isConcl": true}
+	expected.ShouldBeEqual(t, 0, "Conclusive same int values equal", actual)
 }
 
 // ── Zero struct ──

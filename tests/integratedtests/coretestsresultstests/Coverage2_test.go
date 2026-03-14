@@ -100,8 +100,9 @@ func (s *extCovTestStruct) Hello() string { return "hi" }
 
 func Test_Cov_Invoke_NilReceiver_Ext(t *testing.T) {
 	r := results.InvokeWithPanicRecovery((*extCovTestStruct).Hello, nil)
-	actual := args.Map{"panicked": r.Panicked}
-	expected := args.Map{"panicked": true}
+	// Hello() doesn't dereference receiver, so nil receiver works fine
+	actual := args.Map{"panicked": r.Panicked, "val": r.Value}
+	expected := args.Map{"panicked": false, "val": "hi"}
 	expected.ShouldBeEqual(t, 0, "Invoke nil receiver panics", actual)
 }
 

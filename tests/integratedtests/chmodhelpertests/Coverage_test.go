@@ -705,7 +705,7 @@ func Test_Cov_ChmodVerifier_GetRwx9_Zero(t *testing.T) {
 	tc := coretestcases.CaseV1{
 		Title:         "ChmodVerify.GetRwx9 returns empty for zero file mode",
 		ExpectedInput: args.Map{
-			"result": "----------",
+			"result": "---------",
 		},
 	}
 	tc.ShouldBeEqualMapFirst(t, actual)

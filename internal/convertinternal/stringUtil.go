@@ -107,7 +107,11 @@ func (it stringUtil) CamelCase(
 	lines := strings.Split(name, "_")
 
 	for i, s := range lines {
-		lines[i] = it.camelCaseWord(s)
+		if i == 0 {
+			lines[i] = it.camelCaseWord(s)
+		} else {
+			lines[i] = it.pascalCaseWord(s)
+		}
 	}
 
 	return strings.Join(lines, "")
