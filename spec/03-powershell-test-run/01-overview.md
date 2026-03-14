@@ -127,6 +127,11 @@ Running `./run.ps1 -tc` produces:
 | `data/coverage/coverage.out` | Raw Go coverage profile |
 | `data/coverage/coverage.html` | Visual HTML report (auto-opens in browser) |
 | `data/coverage/coverage-summary.txt` | Text summary with per-package and low-coverage highlights |
+| `data/coverage/coverage-summary.json` | Machine-readable JSON (see schema below) |
+| `data/coverage/blocked-packages.txt` | Text report of packages that failed to compile |
+| `data/coverage/blocked-packages.json` | Machine-readable JSON (see schema below) |
+
+Root-level copies (`coverage-summary.json`, `blocked-packages.json`) are also written for convenience.
 
 ### Coverage Summary Contents
 
@@ -134,6 +139,64 @@ Running `./run.ps1 -tc` produces:
 2. **Per-Package Coverage** — breakdown by test package
 3. **Low Coverage Functions (< 50%)** — functions needing attention
 4. **Report file paths**
+
+### JSON Schemas
+
+#### `coverage-summary.json`
+
+```json
+{
+  "timestamp": "2026-03-14T10:30:00Z",
+  "totalCoverage": 62.5,
+  "packageCount": 18,
+  "packages": [
+    {
+      "package": "corestr",
+      "coverage": 34.2,
+      "statements": 120,
+      "covered": 41,
+      "uncovered": 79
+    }
+  ],
+  "lowCoverageFuncCount": 5,
+  "lowCoverageFunctions": [
+    {
+      "file": "github.com/user/core/corestr/Split.go",
+      "function": "SplitByDelimiter",
+      "coverage": 12.5
+    }
+  ],
+  "blockedPackages": ["corecmptests", "isanytests"],
+  "reports": {
+    "profile": "data/coverage/coverage.out",
+    "html": "data/coverage/coverage.html",
+    "summary": "data/coverage/coverage-summary.txt",
+    "json": "data/coverage/coverage-summary.json"
+  }
+}
+```
+
+Packages are sorted by coverage **ascending** so AI agents can iterate top-down to fix the worst gaps first.
+
+#### `blocked-packages.json`
+
+```json
+{
+  "timestamp": "2026-03-14T10:30:00Z",
+  "blockedCount": 2,
+  "compiledCount": 16,
+  "totalCount": 18,
+  "blockedPackages": [
+    {
+      "package": "corecmptests",
+      "errorCount": 3,
+      "errors": [
+        "tests/integratedtests/corecmptests/Coverage5_test.go:14:2: too many arguments"
+      ]
+    }
+  ]
+}
+```
 
 Pass `--no-open` to skip auto-opening the HTML report:
 ```powershell
