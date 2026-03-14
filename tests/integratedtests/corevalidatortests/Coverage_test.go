@@ -299,7 +299,7 @@ func Test_TextValidators_IsMatchMany_Empty(t *testing.T) {
 	}
 }
 
-func Test_TextValidators_VerifyFirstError_Empty(t *testing.T) {
+func Test_TextValidators_VerifyFirstError_Empty_Cov(t *testing.T) {
 	tvs := corevalidator.NewTextValidators(0)
 	if tvs.VerifyFirstError(0, "x", true) != nil {
 		t.Error("empty should return nil")
