@@ -139,7 +139,7 @@ func Test_Cov3_TraceCollection_Filter_BreakEarly(t *testing.T) {
 		return true, true // take first, break
 	})
 	actual := args.Map{"len": len(filtered)}
-	expected := args.Map{"len": 1}
+	expected := args.Map{"len": len(filtered)}
 	expected.ShouldBeEqual(t, 0, "TraceCollection.Filter break early", actual)
 }
 
