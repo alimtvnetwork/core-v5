@@ -870,6 +870,81 @@ pre{white-space:pre-wrap}</style></head><body>
 
         Set-Content -Path $coverSummary -Value ($summaryLines -join "`n") -Encoding UTF8
 
+        # ── JSON export for coverage summary ──
+        $coverJsonFile = Join-Path $coverDir "coverage-summary.json"
+        $rootCoverJsonFile = Join-Path $PSScriptRoot "coverage-summary.json"
+
+        # Parse total coverage
+        $totalPct = 0.0
+        if ($totalLine -match "(\d+\.\d+)%") { $totalPct = [double]$Matches[1] }
+
+        # Build per-package array sorted by coverage ascending (lowest first for AI prioritization)
+        $pkgJsonItems = [System.Collections.Generic.List[object]]::new()
+        if ($srcPkgStmts.Count -gt 0) {
+            $sortedForJson = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctJ = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{ Name = $_.Key; Pct = $pctJ; Stmts = $_.Value.Stmts; Covered = $_.Value.Covered }
+            } | Sort-Object Pct
+            foreach ($e in $sortedForJson) {
+                $pkgJsonItems.Add(@{
+                    package    = $e.Name
+                    coverage   = $e.Pct
+                    statements = $e.Stmts
+                    covered    = $e.Covered
+                    uncovered  = $e.Stmts - $e.Covered
+                })
+            }
+        }
+
+        # Build low-coverage functions array
+        $lowCovJsonItems = [System.Collections.Generic.List[object]]::new()
+        foreach ($line in $funcOutput) {
+            if ($line -match "(\d+\.\d+)%\s*$" -and $line -notmatch "^total:") {
+                $pctF = [double]$Matches[1]
+                if ($pctF -lt 50.0) {
+                    # Parse: pkg/file.go:line: FuncName    pct%
+                    $funcName = ""
+                    $funcFile = ""
+                    if ($line -match "^(\S+):\s+(\S+)\s+(\d+\.\d+)%") {
+                        $funcFile = $Matches[1]
+                        $funcName = $Matches[2]
+                    }
+                    $lowCovJsonItems.Add(@{
+                        file     = $funcFile
+                        function = $funcName
+                        coverage = $pctF
+                    })
+                }
+            }
+        }
+
+        # Check for blocked packages JSON
+        $blockedRef = @()
+        $blockedJsonPath = Join-Path $coverDir "blocked-packages.json"
+        if (Test-Path $blockedJsonPath) {
+            $blockedRef = @((Get-Content $blockedJsonPath -Raw | ConvertFrom-Json).blockedPackages | ForEach-Object { $_.package })
+        }
+
+        $coverJsonObj = @{
+            timestamp           = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            totalCoverage       = $totalPct
+            packageCount        = $pkgJsonItems.Count
+            packages            = $pkgJsonItems.ToArray()
+            lowCoverageFuncCount = $lowCovJsonItems.Count
+            lowCoverageFunctions = $lowCovJsonItems.ToArray()
+            blockedPackages     = $blockedRef
+            reports             = @{
+                profile = $coverProfile
+                html    = $coverHtml
+                summary = $coverSummary
+                json    = $coverJsonFile
+            }
+        }
+        $coverJson = $coverJsonObj | ConvertTo-Json -Depth 4
+        Set-Content -Path $coverJsonFile -Value $coverJson -Encoding UTF8
+        Set-Content -Path $rootCoverJsonFile -Value $coverJson -Encoding UTF8
+        Write-Success "Coverage JSON: $coverJsonFile"
+
         # Build AI-friendly text for copy button
         $aiTextLines.Add("## Goal: Improve test coverage for the packages listed below.")
         $aiTextLines.Add("Please write tests for uncovered functions, following the project's AAA pattern.")
