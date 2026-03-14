@@ -208,7 +208,7 @@ func Test_Cov3_Two_Basic(t *testing.T) {
 
 func Test_Cov3_Two_Args(t *testing.T) {
 	two := &args.Two[string, int]{First: "hello", Second: 42}
-	a := two.Args()
+	a := two.Args(2)
 	actual := args.Map{"len": len(a)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Two.Args returns 2 -- first and second", actual)
