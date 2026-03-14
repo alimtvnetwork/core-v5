@@ -357,7 +357,7 @@ func Test_Cov3_NonEmptyIf_False(t *testing.T) {
 // ============================================================================
 
 func Test_Cov3_MergeSlicesOfSlices(t *testing.T) {
-	result := stringslice.MergeSlicesOfSlices([][]string{{"a"}, {"b", "c"}})
+	result := stringslice.MergeSlicesOfSlices([]string{"a"}, []string{"b", "c"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "MergeSlicesOfSlices merges -- 2 slices", actual)

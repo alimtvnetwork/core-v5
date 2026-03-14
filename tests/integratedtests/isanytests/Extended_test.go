@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/alimtvnetwork/core/corecomparator"
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/isany"
 )

@@ -2,6 +2,7 @@ package enumimpltests
 
 import (
 	"fmt"
+	"reflect"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coreimpl/enumimpl"

@@ -422,27 +422,27 @@ func Test_Cov2_ToBool(t *testing.T) {
 // ── ToInt / ToIntDef / ToIntDefault ──
 
 func Test_Cov2_ToInt(t *testing.T) {
-	result, err := stringutil.ToInt("42")
-	actual := args.Map{"value": result, "hasError": err != nil}
-	expected := args.Map{"value": 42, "hasError": false}
+	result := stringutil.ToInt("42", -1)
+	actual := args.Map{"value": result}
+	expected := args.Map{"value": 42}
 	expected.ShouldBeEqual(t, 0, "ToInt valid", actual)
 }
 
 func Test_Cov2_ToInt_Invalid(t *testing.T) {
-	_, err := stringutil.ToInt("abc")
-	actual := args.Map{"hasError": err != nil}
-	expected := args.Map{"hasError": true}
+	result := stringutil.ToInt("abc", -1)
+	actual := args.Map{"value": result}
+	expected := args.Map{"value": -1}
 	expected.ShouldBeEqual(t, 0, "ToInt invalid", actual)
 }
 
 func Test_Cov2_ToIntDefault(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToIntDefault("42", -1),
-		"invalid": stringutil.ToIntDefault("abc", -1),
+		"valid":   stringutil.ToIntDefault("42"),
+		"invalid": stringutil.ToIntDefault("abc"),
 	}
 	expected := args.Map{
 		"valid":   42,
-		"invalid": -1,
+		"invalid": 0,
 	}
 	expected.ShouldBeEqual(t, 0, "ToIntDefault", actual)
 }
