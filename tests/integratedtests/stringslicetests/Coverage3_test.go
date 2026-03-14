@@ -242,7 +242,7 @@ func Test_Cov3_EmptyPtr(t *testing.T) {
 
 func Test_Cov3_LengthOfPointer_Valid(t *testing.T) {
 	s := []string{"a", "b"}
-	actual := args.Map{"len": stringslice.LengthOfPointer(&s)}
+	actual := args.Map{"len": stringslice.LengthOfPointer(s)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "LengthOfPointer returns length -- 2", actual)
 }
