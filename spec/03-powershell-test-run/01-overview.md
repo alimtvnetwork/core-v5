@@ -30,6 +30,7 @@
 | `L` | `-l` | `lint` | Run `go vet` |
 | `V` | `-v` | `vet` | Run `go vet` |
 | `TY` | `-ty` | `tidy` | Run `go mod tidy` |
+| `PC` | `-pc` | `pre-commit` | Check Coverage\* files for API mismatches |
 | `C` | `-c` | `clean` | Clean build artifacts + coverage |
 | `H` | `-h` | `help` | Show help |
 
