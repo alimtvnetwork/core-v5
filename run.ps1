@@ -547,7 +547,34 @@ function Invoke-TestCoverage {
         $fileContent = $blockedContent -join "`n"
         Set-Content -Path $blockedFile -Value $fileContent -Encoding UTF8
         Set-Content -Path $rootBlockedFile -Value $fileContent -Encoding UTF8
+
+        # ── JSON export for blocked packages ──
+        $blockedJsonFile = Join-Path $coverDir "blocked-packages.json"
+        $rootBlockedJsonFile = Join-Path $PSScriptRoot "blocked-packages.json"
+        $blockedJsonItems = [System.Collections.Generic.List[object]]::new()
+        foreach ($bp in $sortedBlocked) {
+            $errText = ""
+            if ($blockedErrors.ContainsKey($bp)) { $errText = $blockedErrors[$bp] }
+            $errLines = @()
+            if ($errText) { $errLines = @($errText -split "`n" | Where-Object { $_ }) }
+            $blockedJsonItems.Add(@{
+                package    = $bp
+                errorCount = $errLines.Count
+                errors     = $errLines
+            })
+        }
+        $blockedJsonObj = @{
+            timestamp      = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            blockedCount   = $blockedPkgs.Count
+            compiledCount  = $testPkgs.Count
+            totalCount     = $allTestPkgs.Count
+            blockedPackages = $blockedJsonItems.ToArray()
+        }
+        $blockedJson = $blockedJsonObj | ConvertTo-Json -Depth 4
+        Set-Content -Path $blockedJsonFile -Value $blockedJson -Encoding UTF8
+        Set-Content -Path $rootBlockedJsonFile -Value $blockedJson -Encoding UTF8
         Write-Host "  Blocked details → $blockedFile" -ForegroundColor Gray
+        Write-Host "  Blocked JSON    → $blockedJsonFile" -ForegroundColor Gray
     } else {
         Write-Host ""
         Write-Success "All $($testPkgs.Count) packages compiled successfully"
