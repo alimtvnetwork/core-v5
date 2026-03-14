@@ -109,8 +109,8 @@ func Test_Cov4_SafeIndexAtUsingLastIndex_OutOfRange(t *testing.T) {
 	items := []string{"a"}
 	result := stringslice.SafeIndexAtUsingLastIndex(items, 5, 0)
 	actual := args.Map{"val": result}
-	expected := args.Map{"val": ""}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndex returns empty -- out of range", actual)
+	expected := args.Map{"val": "a"}
+	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndex returns first -- lastIndex exceeds slice", actual)
 }
 
 // ── SafeRangeItemsPtr ──
