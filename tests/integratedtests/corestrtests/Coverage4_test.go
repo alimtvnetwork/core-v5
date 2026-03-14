@@ -258,7 +258,7 @@ func Test_Cov4_Hashset_String(t *testing.T) {
 
 func Test_Cov4_Collection_Clone(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
-	cloned := col.Clone()
+	cloned := corestr.New.Collection.CloneStrings(col.ListStrings())
 	actual := args.Map{"length": cloned.Length()}
 	expected := args.Map{"length": 2}
 	expected.ShouldBeEqual(t, 0, "Collection Clone returns expected -- 2 items", actual)
