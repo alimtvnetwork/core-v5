@@ -126,7 +126,7 @@ func Test_Cov3_AnyErrorOnce_WithError(t *testing.T) {
 	expected := args.Map{
 		"hasError": true, "isEmptyError": false,
 		"isFailed": true, "isSuccess": false,
-		"isNull": true, "isEmpty": true,
+		"isNull": true, "isEmpty": false,
 		"isValid": false, "isInvalid": true,
 	}
 	expected.ShouldBeEqual(t, 0, "AnyErrorOnce with error returns expected -- fail", actual)
