@@ -388,8 +388,11 @@ function Invoke-TestCoverage {
     $srcPkgs = $allPkgs | Where-Object { $_ -notmatch '/tests/' }
     $covPkgList = $srcPkgs -join ","
 
-    # Get all test packages to run individually
-    $allTestPkgs = go list ./tests/integratedtests/... 2>&1 | ForEach-Object { $_.ToString() }
+    # Get all test packages to run individually (deterministic order)
+    $allTestPkgs = go list ./tests/integratedtests/... 2>&1 |
+        ForEach-Object { $_.ToString() } |
+        Where-Object { $_ -and $_ -notmatch '^warning:' } |
+        Sort-Object
 
     # ── Pre-coverage compile check ──────────────────────────────────
     # Compile each test package individually (go test -c) to detect
@@ -413,18 +416,20 @@ function Invoke-TestCoverage {
     $blockedErrors = [System.Collections.Generic.Dictionary[string, string]]::new()
     $testPkgs = [System.Collections.Generic.List[string]]::new()
     $compileTemp = Join-Path $coverDir "compile-check"
+    if (Test-Path $compileTemp) { Remove-Item -Recurse -Force $compileTemp }
     New-Item -ItemType Directory -Path $compileTemp -Force | Out-Null
-    [int]$jobCounter = 0
 
     if ($isSyncMode) {
         # ── Sequential compile check ──
         foreach ($testPkg in $allTestPkgs) {
             $shortName = $testPkg -replace '.*integratedtests/?', ''
             if (-not $shortName) { $shortName = "(root)" }
+            $safePkgName = $testPkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $compileOutFile = Join-Path $compileTemp "compile-$safePkgName.test"
 
             $prevPref = $ErrorActionPreference
             $ErrorActionPreference = "Continue"
-            $compileOut = & go test -c -o (Join-Path $compileTemp "test.exe") "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $compileOut = & go test -c -o $compileOutFile "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
             $compileExit = $LASTEXITCODE
             $ErrorActionPreference = $prevPref
 
@@ -451,10 +456,9 @@ function Invoke-TestCoverage {
             $pkg = $_
             $covPkgs = $using:covPkgList
             $tempDir = $using:compileTemp
-            $idx = [System.Threading.Interlocked]::Increment([ref]$using:jobCounter)
-            $outFile = Join-Path $tempDir "compile-$idx.exe"
+            $safePkgName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $outFile = Join-Path $tempDir "compile-$safePkgName.test"
             $ErrorActionPreference = "Continue"
-            # Capture output to array first, THEN read $LASTEXITCODE before any pipe resets it
             $rawOut = & go test -c -o $outFile "-coverpkg=$covPkgs" "$pkg" 2>&1
             $ec = $LASTEXITCODE
             $out = @($rawOut | ForEach-Object { $_.ToString() })
@@ -465,7 +469,7 @@ function Invoke-TestCoverage {
             }
         }
 
-        foreach ($result in $compileResults) {
+        foreach ($result in ($compileResults | Sort-Object Pkg)) {
             $shortName = $result.Pkg -replace '.*integratedtests/?', ''
             if (-not $shortName) { $shortName = "(root)" }
 
@@ -475,7 +479,6 @@ function Invoke-TestCoverage {
             } else {
                 Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
-                # Capture specific .go errors first; fall back to ALL output if none matched
                 $goLines = @($result.Output | Where-Object { $_ -match '\.go:\d+:' })
                 if ($goLines.Count -gt 0) {
                     $blockedErrors[$shortName] = $goLines -join "`n"
@@ -616,27 +619,26 @@ function Invoke-TestCoverage {
         # ── Parallel coverage run (ForEach-Object -Parallel) ──
         $throttle = [Math]::Min($testPkgs.Count, [Environment]::ProcessorCount)
         Write-Host "  Launching $($testPkgs.Count) test packages ($throttle parallel)..." -ForegroundColor Gray
-        [int]$coverCounter = 0
 
         $coverResults = $testPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
             $pkg = $_
             $covPkgs = $using:covPkgList
             $pDir = $using:partialDir
-            $idx = [System.Threading.Interlocked]::Increment([ref]$using:coverCounter)
-            $profile = Join-Path $pDir "cover-$idx.out"
+            $safePkgName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
+            $profile = Join-Path $pDir "cover-$safePkgName.out"
             $ErrorActionPreference = "Continue"
             $out = & go test -v -count=1 "-coverprofile=$profile" "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
             [pscustomobject]@{
                 Pkg      = $pkg
                 Profile  = $profile
-                Index    = $idx
                 ExitCode = $LASTEXITCODE
                 Output   = $out
             }
         }
 
-        # Collect results in order
-        foreach ($result in ($coverResults | Sort-Object Index)) {
+        $displayIndex = 0
+        foreach ($result in ($coverResults | Sort-Object Pkg)) {
+            $displayIndex++
             $shortName = $result.Pkg -replace '.*integratedtests/?', ''
             if (-not $shortName) { $shortName = "(root)" }
             $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
@@ -668,7 +670,7 @@ function Invoke-TestCoverage {
                 Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
             }
 
-            Write-Host "  [$($result.Index)/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
+            Write-Host "  [$displayIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
 
             if ($result.Output) { foreach ($line in $result.Output) { $allOutput.Add([string]$line) } }
         }
