@@ -53,7 +53,7 @@ func (it *KeyVal) String() string {
 	)
 }
 
-func (it *KeyVal) ValueReflectValue() reflect.Value {
+func (it KeyVal) ValueReflectValue() reflect.Value {
 	return reflect.ValueOf(it.Value)
 }
 
