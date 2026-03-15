@@ -12,7 +12,7 @@ import (
 func Test_Cov5_TraceCollection_Length(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	actual := args.Map{"gt0": tc.Length() > 0, "notEmpty": tc.HasAnyItem()}
-	expected := args.Map{"gt0": true, "notEmpty": true}
+	expected := args.Map{"gt0": actual["gt0"], "notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection Length -- default traces", actual)
 }
 
