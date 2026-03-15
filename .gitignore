@@ -138,3 +138,6 @@ docs/
 swagger.zip
 swagger/
 /data
+coverage-summary.json
+blocked-packages.txt
+blocked-packages.json
