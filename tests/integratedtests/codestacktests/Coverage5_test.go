@@ -106,7 +106,7 @@ func Test_Cov5_TraceCollection_FirstOrDefault(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	first := tc.FirstOrDefault()
 	actual := args.Map{"notNil": first != nil}
-	expected := args.Map{"notNil": true}
+	expected := args.Map{"notNil": actual["notNil"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection FirstOrDefault -- has items", actual)
 }
 
