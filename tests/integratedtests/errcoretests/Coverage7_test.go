@@ -332,7 +332,7 @@ func Test_Cov7_PrintDiffOnMismatch(t *testing.T) {
 // ── StackTracesCompiled ──
 
 func Test_Cov7_StackTracesCompiled(t *testing.T) {
-	result := errcore.StackTracesCompiled(0, 2)
+	result := errcore.StackTracesCompiled([]string{"trace1", "trace2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "StackTracesCompiled", actual)
