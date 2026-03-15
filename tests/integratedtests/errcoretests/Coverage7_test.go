@@ -115,8 +115,8 @@ func Test_Cov7_PrintError(t *testing.T) {
 // ── PrintErrorWithTestIndex ──
 
 func Test_Cov7_PrintErrorWithTestIndex(t *testing.T) {
-	errcore.PrintErrorWithTestIndex(0, errors.New("test"))
-	errcore.PrintErrorWithTestIndex(0, nil)
+	errcore.PrintErrorWithTestIndex(0, "header", errors.New("test"))
+	errcore.PrintErrorWithTestIndex(0, "header", nil)
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "PrintErrorWithTestIndex", actual)
