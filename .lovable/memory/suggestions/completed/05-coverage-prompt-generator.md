@@ -28,7 +28,8 @@ Combined utility that merges function filtering and uncovered-line extraction in
 - `FuncOutput` (required): lines from `go tool cover -func`
 - `Package` (required): package path (e.g., `errcore`)
 - `Threshold` (optional, default `100.0`): coverage percentage threshold
-- `OutputFile` (optional): path to write a plain-text copy of the report for sharing
+- `OutputFile` (optional): path to write a copy of the report for sharing
+- `Format` (optional, default `text`): output format — `text` (color-coded), `markdown` (table), or `json` (machine-readable)
 
 ### Integration
 Called automatically at end of `./run.ps1 TC` via:
