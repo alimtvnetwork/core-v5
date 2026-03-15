@@ -12,7 +12,7 @@ import (
 // ═══════════════════════════════════════════
 
 func Test_Cov10_LinkedList_Basic(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	ll.Add("a").Add("b").Add("c")
 	actual := args.Map{
 		"len":      ll.Length(),
@@ -30,7 +30,7 @@ func Test_Cov10_LinkedList_Basic(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_AddVariations(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(10)
+	ll := corestr.New.LinkedList.Create()
 	ll.AddNonEmpty("a")
 	ll.AddNonEmpty("")
 	ll.AddNonEmptyWhitespace("b")
@@ -48,7 +48,7 @@ func Test_Cov10_LinkedList_AddVariations(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_AddFront(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	ll.Add("b")
 	ll.AddFront("a")
 	ll.PushFront("z")
@@ -58,7 +58,7 @@ func Test_Cov10_LinkedList_AddFront(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_AddLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	ll.AddLock("a")
 	actual := args.Map{"len": ll.Length(), "emptyLock": ll.IsEmptyLock()}
 	expected := args.Map{"len": 1, "emptyLock": false}
@@ -66,11 +66,11 @@ func Test_Cov10_LinkedList_AddLock(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_IsEquals(t *testing.T) {
-	ll1 := corestr.New.LinkedList.Cap(5)
+	ll1 := corestr.New.LinkedList.Create()
 	ll1.Add("a").Add("b")
-	ll2 := corestr.New.LinkedList.Cap(5)
+	ll2 := corestr.New.LinkedList.Create()
 	ll2.Add("a").Add("b")
-	ll3 := corestr.New.LinkedList.Cap(5)
+	ll3 := corestr.New.LinkedList.Create()
 	ll3.Add("a").Add("c")
 	var nilLL *corestr.LinkedList
 	actual := args.Map{
@@ -84,7 +84,7 @@ func Test_Cov10_LinkedList_IsEquals(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_InsertAt(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	ll.Add("a").Add("c")
 	ll.InsertAt(1, "b")
 	actual := args.Map{"len": ll.Length()}
@@ -93,7 +93,7 @@ func Test_Cov10_LinkedList_InsertAt(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_Loop(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	ll.Add("a").Add("b").Add("c")
 	count := 0
 	ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
@@ -106,7 +106,7 @@ func Test_Cov10_LinkedList_Loop(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_Loop_Break(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	ll.Add("a").Add("b").Add("c")
 	count := 0
 	ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
@@ -119,7 +119,7 @@ func Test_Cov10_LinkedList_Loop_Break(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_Loop_Empty(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	called := false
 	ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
 		called = true
@@ -131,7 +131,7 @@ func Test_Cov10_LinkedList_Loop_Empty(t *testing.T) {
 }
 
 func Test_Cov10_LinkedList_AddItemsMap(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	ll.AddItemsMap(map[string]bool{"a": true, "b": false, "c": true})
 	ll.AddItemsMap(nil)
 	actual := args.Map{"len": ll.Length()}
