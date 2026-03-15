@@ -118,10 +118,15 @@ func (it *Attributes) ClonePtr(
 }
 
 func (it *Attributes) deepClonePtr() (*Attributes, error) {
-	anyMap, err := it.AnyKeyValuePairs.ClonePtr()
+	var anyMap *coredynamic.MapAnyItems
 
-	if err != nil {
-		return nil, err
+	if it.AnyKeyValuePairs != nil {
+		var err error
+		anyMap, err = it.AnyKeyValuePairs.ClonePtr()
+
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	var basicErr errcoreinf.BasicErrWrapper
