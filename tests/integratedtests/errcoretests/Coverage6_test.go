@@ -169,9 +169,10 @@ func Test_Cov6_SliceErrorsToStrings(t *testing.T) {
 // ── FmtDebug / FmtDebugIf ──
 
 func Test_Cov6_FmtDebug(t *testing.T) {
-	result := errcore.FmtDebug("hello %s", "world")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	// FmtDebug returns void; just verify no panic
+	errcore.FmtDebug("hello %s", "world")
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "FmtDebug", actual)
 }
 
