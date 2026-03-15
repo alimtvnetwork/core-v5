@@ -36,6 +36,17 @@ Standalone utility that filters `go tool cover -func` output to list functions b
 | `FuncOutput` | Yes | — | Lines from `go tool cover -func` |
 | `Threshold` | No | `100.0` | Coverage percentage threshold |
 
+### Get-PackageCoverageReport.ps1
+
+Combined utility that merges function filtering and uncovered-line extraction into a single detailed, color-coded report for one package. Shows each function's coverage percentage and specific uncovered line ranges.
+
+| Parameter | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `CoverProfile` | Yes | — | Path to `coverage.out` |
+| `FuncOutput` | Yes | — | Lines from `go tool cover -func` |
+| `Package` | Yes | — | Package path (e.g., `errcore`, `internal/strutilinternal`) |
+| `Threshold` | No | `100.0` | Coverage percentage threshold |
+
 ## Output
 
 ```
