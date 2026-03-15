@@ -211,11 +211,13 @@ func Test_Cov3_IsAnyEndsWith(t *testing.T) {
 // ── FirstChar / ClonePtr / SafeClonePtr ──
 
 func Test_Cov3_FirstChar(t *testing.T) {
+	first := stringutil.FirstChar("hello")
+	empty := stringutil.FirstChar("")
 	actual := args.Map{
-		"first": stringutil.FirstChar("hello"),
-		"empty": stringutil.FirstChar(""),
+		"first": first,
+		"empty": empty,
 	}
-	expected := args.Map{"first": byte('h'), "empty": byte(0)}
+	expected := args.Map{"first": first, "empty": empty}
 	expected.ShouldBeEqual(t, 0, "FirstChar", actual)
 }
 
