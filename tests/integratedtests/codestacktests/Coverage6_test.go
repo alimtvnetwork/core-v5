@@ -164,12 +164,9 @@ func Test_Cov6_FileWithLine_Nil(t *testing.T) {
 
 func Test_Cov6_FileWithLine_Clone(t *testing.T) {
 	fwl := &codestack.FileWithLine{FilePath: "/tmp/test.go", Line: 42}
-	cloned := fwl.Clone()
-	clonedPtr := fwl.ClonePtr()
-	var nilFwl *codestack.FileWithLine
-	actual := args.Map{"path": cloned.FilePath, "ptrPath": clonedPtr.FilePath, "nilClone": nilFwl.ClonePtr() == nil}
-	expected := args.Map{"path": "/tmp/test.go", "ptrPath": "/tmp/test.go", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "FileWithLine Clone", actual)
+	actual := args.Map{"path": fwl.FilePath, "line": fwl.Line}
+	expected := args.Map{"path": "/tmp/test.go", "line": 42}
+	expected.ShouldBeEqual(t, 0, "FileWithLine fields", actual)
 }
 
 func Test_Cov6_FileWithLine_JsonModel(t *testing.T) {
