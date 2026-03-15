@@ -412,8 +412,8 @@ func Test_Cov7_TypedSimpleResult_Conversions(t *testing.T) {
 	nilTD := nilR.ToTypedDynamic()
 	nilD := nilR.ToDynamic()
 	actual := args.Map{
-		"srValid": sr.IsValid, "tdValid": td.IsValid(), "dValid": d.IsValid(),
-		"nilSRValid": nilSR.IsValid, "nilTDValid": nilTD.IsValid(), "nilDValid": nilD.IsValid(),
+		"srValid": sr.IsValid(), "tdValid": td.IsValid(), "dValid": d.IsValid(),
+		"nilSRValid": nilSR.IsValid(), "nilTDValid": nilTD.IsValid(), "nilDValid": nilD.IsValid(),
 	}
 	expected := args.Map{
 		"srValid": true, "tdValid": true, "dValid": true,

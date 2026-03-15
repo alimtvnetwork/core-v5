@@ -584,11 +584,15 @@ func Test_Cov5_Map_WorkFunc(t *testing.T) {
 
 func Test_Cov5_Map_GetTyped(t *testing.T) {
 	m := args.Map{"str": "hello", "int": 42, "bool": true, "strs": []string{"a", "b"}}
+	str, _ := m.GetAsString("str")
+	intVal, _ := m.GetAsInt("int")
+	boolVal, _ := m.GetAsBool("bool")
+	strs, _ := m.GetAsStrings("strs")
 	actual := args.Map{
-		"str":    m.GetAsString("str"),
-		"int":    m.GetAsInt("int"),
-		"bool":   m.GetAsBool("bool"),
-		"strs":   len(m.GetAsStrings("strs")),
+		"str":     str,
+		"int":     intVal,
+		"bool":    boolVal,
+		"strs":    len(strs),
 		"defBool": m.GetAsBoolDefault("missing", true),
 	}
 	expected := args.Map{
