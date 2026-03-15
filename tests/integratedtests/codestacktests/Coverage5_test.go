@@ -405,7 +405,7 @@ func Test_Cov5_JoinPackageNameWithRelative(t *testing.T) {
 // ── StacksTo extended ──
 
 func Test_Cov5_StacksTo_Lines(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	lines := tc.Strings()
 	actual := args.Map{"gt0": len(lines) > 0}
 	expected := args.Map{"gt0": true}
@@ -413,7 +413,7 @@ func Test_Cov5_StacksTo_Lines(t *testing.T) {
 }
 
 func Test_Cov5_StacksTo_JsonResult(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	r := tc.StackTracesJsonResult()
 	actual := args.Map{"notNil": r != nil}
 	expected := args.Map{"notNil": true}
