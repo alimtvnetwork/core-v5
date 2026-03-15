@@ -78,7 +78,7 @@ func Test_Cov7_HandleErr_Panic(t *testing.T) {
 // ── HandleErrMessage ──
 
 func Test_Cov7_HandleErrMessage_Nil(t *testing.T) {
-	errcore.HandleErrMessage(nil, "msg")
+	errcore.HandleErrMessage("")
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "HandleErrMessage nil", actual)
@@ -115,8 +115,8 @@ func Test_Cov7_PrintError(t *testing.T) {
 // ── PrintErrorWithTestIndex ──
 
 func Test_Cov7_PrintErrorWithTestIndex(t *testing.T) {
-	errcore.PrintErrorWithTestIndex(0, errors.New("test"))
-	errcore.PrintErrorWithTestIndex(0, nil)
+	errcore.PrintErrorWithTestIndex(0, "header", errors.New("test"))
+	errcore.PrintErrorWithTestIndex(0, "header", nil)
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "PrintErrorWithTestIndex", actual)
@@ -188,7 +188,7 @@ func Test_Cov7_ErrorToLinesLineDiff(t *testing.T) {
 // ── GetActualAndExpectProcessedMessage / GetActualAndExpectSortedMessage ──
 
 func Test_Cov7_GetActualAndExpectProcessedMessage(t *testing.T) {
-	result := errcore.GetActualAndExpectProcessedMessage("header", []string{"a"}, []string{"a"})
+	result := errcore.GetActualAndExpectProcessedMessage(0, "actual", "expected", "actualProc", "expectedProc")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetActualAndExpectProcessedMessage", actual)
