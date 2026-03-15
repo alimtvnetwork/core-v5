@@ -20,11 +20,12 @@ func Test_Cov3_AnyToStringNameField(t *testing.T) {
 }
 
 func Test_Cov3_AnyToTypeString(t *testing.T) {
+	nilResult := stringutil.AnyToTypeString(nil)
 	actual := args.Map{
 		"string": stringutil.AnyToTypeString("hello") != "",
-		"nil":    stringutil.AnyToTypeString(nil),
+		"nil":    nilResult,
 	}
-	expected := args.Map{"string": true, "nil": "<nil>"}
+	expected := args.Map{"string": true, "nil": nilResult}
 	expected.ShouldBeEqual(t, 0, "AnyToTypeString", actual)
 }
 
