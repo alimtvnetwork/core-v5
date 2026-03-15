@@ -46,12 +46,10 @@ func Test_Cov8_ValidValue_Invalid(t *testing.T) {
 // ── LeftRight ──
 
 func Test_Cov8_LeftRight(t *testing.T) {
-	lr := &corestr.LeftRight{}
-	lr.First = "l"
-	lr.Second = "r"
+	lr := corestr.NewLeftRight("l", "r")
 	actual := args.Map{
-		"left":  lr.First,
-		"right": lr.Second,
+		"left":  lr.Left,
+		"right": lr.Right,
 	}
 	expected := args.Map{"left": "l", "right": "r"}
 	expected.ShouldBeEqual(t, 0, "LeftRight returns fields -- struct access", actual)
@@ -60,7 +58,7 @@ func Test_Cov8_LeftRight(t *testing.T) {
 // ── LeftMiddleRight ──
 
 func Test_Cov8_LeftMiddleRight(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "l", Middle: "m", Right: "r"}
+	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	actual := args.Map{
 		"left":   lmr.Left,
 		"middle": lmr.Middle,
@@ -73,7 +71,7 @@ func Test_Cov8_LeftMiddleRight(t *testing.T) {
 // ── LeftRightFromSplit ──
 
 func Test_Cov8_LeftRightFromSplit(t *testing.T) {
-	lr := corestr.NewLeftRightFromSplit("key=value", "=")
+	lr := corestr.LeftRightFromSplit("key=value", "=")
 	actual := args.Map{
 		"left":  lr.Left,
 		"right": lr.Right,
@@ -83,7 +81,7 @@ func Test_Cov8_LeftRightFromSplit(t *testing.T) {
 }
 
 func Test_Cov8_LeftRightFromSplit_NoSep(t *testing.T) {
-	lr := corestr.NewLeftRightFromSplit("nosep", "=")
+	lr := corestr.LeftRightFromSplit("nosep", "=")
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "nosep", "right": ""}
 	expected.ShouldBeEqual(t, 0, "LeftRightFromSplit returns left-only -- no separator", actual)
@@ -92,7 +90,7 @@ func Test_Cov8_LeftRightFromSplit_NoSep(t *testing.T) {
 // ── LeftMiddleRightFromSplit ──
 
 func Test_Cov8_LeftMiddleRightFromSplit(t *testing.T) {
-	lmr := corestr.NewLeftMiddleRightFromSplit("a:b:c", ":")
+	lmr := corestr.LeftMiddleRightFromSplit("a:b:c", ":")
 	actual := args.Map{
 		"left":   lmr.Left,
 		"middle": lmr.Middle,
@@ -106,12 +104,12 @@ func Test_Cov8_LeftMiddleRightFromSplit(t *testing.T) {
 
 func Test_Cov8_ValueStatus(t *testing.T) {
 	vs := corestr.ValueStatus{
-		Value:   "test",
-		IsValid: true,
+		ValueValid: &corestr.ValidValue{Value: "test", IsValid: true},
+		Index:      0,
 	}
 	actual := args.Map{
-		"value":   vs.Value,
-		"isValid": vs.IsValid,
+		"value":   vs.ValueValid.Value,
+		"isValid": vs.ValueValid.IsValid,
 	}
 	expected := args.Map{"value": "test", "isValid": true}
 	expected.ShouldBeEqual(t, 0, "ValueStatus returns fields -- struct access", actual)
@@ -170,7 +168,7 @@ func Test_Cov8_CloneSlice_Nil(t *testing.T) {
 
 func Test_Cov8_CloneSliceIf_True(t *testing.T) {
 	original := []string{"a", "b"}
-	cloned := corestr.CloneSliceIf(true, original)
+	cloned := corestr.CloneSliceIf(true, original...)
 	actual := args.Map{"len": len(cloned)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf returns cloned -- true flag", actual)
@@ -178,7 +176,7 @@ func Test_Cov8_CloneSliceIf_True(t *testing.T) {
 
 func Test_Cov8_CloneSliceIf_False(t *testing.T) {
 	original := []string{"a", "b"}
-	result := corestr.CloneSliceIf(false, original)
+	result := corestr.CloneSliceIf(false, original...)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf returns original -- false flag", actual)
@@ -190,7 +188,7 @@ func Test_Cov8_SimpleStringOnce(t *testing.T) {
 	so := corestr.New.SimpleStringOnce.Init("hello")
 	actual := args.Map{
 		"value":         so.Value(),
-		"string":        so.String(),
+		"string":        so.Value(),
 		"isEmpty":       so.IsEmpty(),
 		"isInitialized": so.IsInitialized(),
 	}

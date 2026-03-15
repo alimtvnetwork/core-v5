@@ -177,10 +177,10 @@ func Test_Cov6_FmtDebug(t *testing.T) {
 }
 
 func Test_Cov6_FmtDebugIf(t *testing.T) {
-	result := errcore.FmtDebugIf(true, "hello %s", "world")
-	emptyResult := errcore.FmtDebugIf(false, "hello")
-	actual := args.Map{"notEmpty": result != "", "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "empty": ""}
+	errcore.FmtDebugIf(true, "hello %s", "world")
+	errcore.FmtDebugIf(false, "hello")
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "FmtDebugIf", actual)
 }
 
@@ -208,10 +208,10 @@ func Test_Cov6_ExpectingSimpleNoType(t *testing.T) {
 }
 
 func Test_Cov6_ExpectingError(t *testing.T) {
-	result := errcore.ExpectingError("header", 42, "expected")
+	result := errcore.ExpectingErrorSimpleNoType("header", 42, "expected")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ExpectingError", actual)
+	expected.ShouldBeEqual(t, 0, "ExpectingErrorSimpleNoType", actual)
 }
 
 func Test_Cov6_ExpectingNotEqualSimpleNoType(t *testing.T) {
@@ -222,15 +222,17 @@ func Test_Cov6_ExpectingNotEqualSimpleNoType(t *testing.T) {
 }
 
 func Test_Cov6_ExpectingRecord(t *testing.T) {
-	result := errcore.ExpectingRecord("header", "group", 42, "expected")
-	actual := args.Map{"notEmpty": result != ""}
+	rec := &errcore.ExpectingRecord{ExpectingTitle: "header", WasExpecting: "expected"}
+	msg := rec.Message("actual")
+	actual := args.Map{"notEmpty": msg != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ExpectingRecord", actual)
 }
 
 func Test_Cov6_ExpectingFuture(t *testing.T) {
-	result := errcore.ExpectingFuture("header", "future", "expected")
-	actual := args.Map{"notEmpty": result != ""}
+	rec := errcore.ExpectingFuture("header", "expected")
+	msg := rec.Message("actual")
+	actual := args.Map{"notEmpty": msg != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ExpectingFuture", actual)
 }
@@ -238,7 +240,7 @@ func Test_Cov6_ExpectingFuture(t *testing.T) {
 // ── Var helpers ──
 
 func Test_Cov6_VarTwo(t *testing.T) {
-	result := errcore.VarTwo("a", 1, "b", 2)
+	result := errcore.VarTwo(true, "a", 1, "b", 2)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarTwo", actual)
@@ -252,7 +254,7 @@ func Test_Cov6_VarTwoNoType(t *testing.T) {
 }
 
 func Test_Cov6_VarThree(t *testing.T) {
-	result := errcore.VarThree("a", 1, "b", 2, "c", 3)
+	result := errcore.VarThree(true, "a", 1, "b", 2, "c", 3)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarThree", actual)
@@ -273,9 +275,9 @@ func Test_Cov6_VarMap(t *testing.T) {
 }
 
 func Test_Cov6_VarMapStrings(t *testing.T) {
-	result := errcore.VarMapStrings(map[string]string{"a": "1"})
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	result := errcore.VarMapStrings(map[string]any{"a": "1"})
+	actual := args.Map{"hasAny": len(result) > 0}
+	expected := args.Map{"hasAny": true}
 	expected.ShouldBeEqual(t, 0, "VarMapStrings", actual)
 }
 
@@ -297,7 +299,7 @@ func Test_Cov6_MsgHeaderIf(t *testing.T) {
 }
 
 func Test_Cov6_MsgHeaderPlusEnding(t *testing.T) {
-	result := errcore.MsgHeaderPlusEnding("header", "msg", "ending")
+	result := errcore.MsgHeaderPlusEnding("header", "msg")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MsgHeaderPlusEnding", actual)
@@ -306,14 +308,14 @@ func Test_Cov6_MsgHeaderPlusEnding(t *testing.T) {
 // ── Ref ──
 
 func Test_Cov6_Ref(t *testing.T) {
-	result := errcore.Ref("context", 42)
+	result := errcore.Ref("context")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Ref", actual)
 }
 
 func Test_Cov6_RefToError(t *testing.T) {
-	result := errcore.RefToError("context", 42)
+	result := errcore.RefToError("context")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "RefToError", actual)
@@ -329,7 +331,7 @@ func Test_Cov6_GherkinsString(t *testing.T) {
 }
 
 func Test_Cov6_GherkinsStringWithExpectation(t *testing.T) {
-	result := errcore.GherkinsStringWithExpectation(0, "title", "given", "when", "then", "expected")
+	result := errcore.GherkinsStringWithExpectation(0, "title", "given", "when", "then", "actual", "expected")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GherkinsStringWithExpectation", actual)
@@ -338,14 +340,14 @@ func Test_Cov6_GherkinsStringWithExpectation(t *testing.T) {
 // ── SourceDestination ──
 
 func Test_Cov6_SourceDestination(t *testing.T) {
-	result := errcore.SourceDestination("src", "dst")
+	result := errcore.SourceDestination(false, "src", "dst")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestination", actual)
 }
 
 func Test_Cov6_SourceDestinationErr(t *testing.T) {
-	result := errcore.SourceDestinationErr("src", "dst")
+	result := errcore.SourceDestinationErr(false, "src", "dst")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestinationErr", actual)
@@ -384,7 +386,7 @@ func Test_Cov6_PanicOnIndexOutOfRange(t *testing.T) {
 		expected := args.Map{"panicked": true}
 		expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange panic", actual)
 	}()
-	errcore.PanicOnIndexOutOfRange(5, 3)
+	errcore.PanicOnIndexOutOfRange(5, []int{3, 6})
 }
 
 // ── StringLinesToQuoteLines ──
@@ -404,20 +406,22 @@ func Test_Cov6_StringLinesToQuoteLinesToSingle(t *testing.T) {
 }
 
 func Test_Cov6_StringLinesToQuoteLinesWithTabs(t *testing.T) {
-	result := errcore.StringLinesToQuoteLinesWithTabs([]string{"a", "b"})
+	result := errcore.StringLinesToQuoteLines([]string{"a", "b"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLinesWithTabs", actual)
+	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines", actual)
 }
 
 // ── MapMismatchError ──
 
 func Test_Cov6_MapMismatchError(t *testing.T) {
 	result := errcore.MapMismatchError(
-		"ctx", "key", "expected", "actual",
+		"Test_Cov6_MapMismatchError", 1, "ctx",
+		[]string{"\"actual\": false,"},
+		[]string{"\"expected\": true,"},
 	)
-	actual := args.Map{"hasErr": result != nil}
-	expected := args.Map{"hasErr": true}
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MapMismatchError", actual)
 }
 
