@@ -525,7 +525,7 @@ func Test_Cov6_VarNameValuesStrings(t *testing.T) {
 		namevalue.Instance[string, any]{Name: "a", Value: "1"},
 		namevalue.Instance[string, any]{Name: "b", Value: "2"},
 	)
-	actual := args.Map{"notEmpty": result != ""}
+	actual := args.Map{"notEmpty": len(result) > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesStrings", actual)
 }
@@ -533,7 +533,10 @@ func Test_Cov6_VarNameValuesStrings(t *testing.T) {
 // ── MessageNameValues ──
 
 func Test_Cov6_MessageNameValues(t *testing.T) {
-	result := errcore.MessageNameValues("msg", "a", 1, "b", 2)
+	result := errcore.MessageNameValues("msg",
+		namevalue.Instance[string, any]{Name: "a", Value: 1},
+		namevalue.Instance[string, any]{Name: "b", Value: 2},
+	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MessageNameValues", actual)
