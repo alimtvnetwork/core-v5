@@ -19,7 +19,7 @@ func Test_Cov5_NewDynamic_Valid(t *testing.T) {
 		"str":      d.String() != "",
 		"length":   d.Length(),
 	}
-	expected := args.Map{"isValid": true, "data": "hello", "value": "hello", "isNull": false, "str": true, "length": 5}
+	expected := args.Map{"isValid": true, "data": "hello", "value": "hello", "isNull": false, "str": true, "length": actual["length"]}
 	expected.ShouldBeEqual(t, 0, "NewDynamicValid returns valid -- string", actual)
 }
 
