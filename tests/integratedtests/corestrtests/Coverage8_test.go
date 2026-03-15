@@ -71,7 +71,7 @@ func Test_Cov8_LeftMiddleRight(t *testing.T) {
 // ── LeftRightFromSplit ──
 
 func Test_Cov8_LeftRightFromSplit(t *testing.T) {
-	lr := corestr.NewLeftRightFromSplit("key=value", "=")
+	lr := corestr.LeftRightFromSplit("key=value", "=")
 	actual := args.Map{
 		"left":  lr.Left,
 		"right": lr.Right,
@@ -81,7 +81,7 @@ func Test_Cov8_LeftRightFromSplit(t *testing.T) {
 }
 
 func Test_Cov8_LeftRightFromSplit_NoSep(t *testing.T) {
-	lr := corestr.NewLeftRightFromSplit("nosep", "=")
+	lr := corestr.LeftRightFromSplit("nosep", "=")
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "nosep", "right": ""}
 	expected.ShouldBeEqual(t, 0, "LeftRightFromSplit returns left-only -- no separator", actual)
