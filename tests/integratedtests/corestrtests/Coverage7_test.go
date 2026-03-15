@@ -355,7 +355,7 @@ func Test_Cov7_HashsetsCollection_Basic(t *testing.T) {
 	actual := args.Map{
 		"len":     hc.Length(),
 		"isEmpty": hc.IsEmpty(),
-		"hasAny":  hc.HasAnyItem(),
+		"hasAny":  hc.HasItems(),
 	}
 	expected := args.Map{"len": 1, "isEmpty": false, "hasAny": true}
 	expected.ShouldBeEqual(t, 0, "HashsetsCollection basic -- 1 hashset", actual)

@@ -350,10 +350,10 @@ func Test_Cov3_ToByteDefault(t *testing.T) {
 }
 
 func Test_Cov3_ToInt(t *testing.T) {
-	val, err := stringutil.ToInt("42")
-	_, errInvalid := stringutil.ToInt("abc")
-	actual := args.Map{"val": val, "noErr": err == nil, "invalidErr": errInvalid != nil}
-	expected := args.Map{"val": 42, "noErr": true, "invalidErr": true}
+	val := stringutil.ToInt("42", 0)
+	valInvalid := stringutil.ToInt("abc", -1)
+	actual := args.Map{"val": val, "invalidVal": valInvalid}
+	expected := args.Map{"val": 42, "invalidVal": -1}
 	expected.ShouldBeEqual(t, 0, "ToInt", actual)
 }
 

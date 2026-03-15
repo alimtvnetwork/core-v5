@@ -10,7 +10,7 @@ import (
 // ── currentNameOf ──
 
 func Test_Cov6_CurrentNameOf(t *testing.T) {
-	name := codestack.CurrentNameOf(0)
+	name := codestack.NameOf.MethodStackSkip(0)
 	actual := args.Map{"notEmpty": name != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CurrentNameOf", actual)
