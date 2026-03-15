@@ -1355,7 +1355,7 @@ function Invoke-PreCommitCheck {
             }
         }
     } else {
-        $throttle = [Math]::Min($goTestPkgs.Count, [Environment]::ProcessorCount)
+        $throttle = [Math]::Min($goTestPkgs.Count, [Environment]::ProcessorCount * 2)
         $results = $goTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
             $pkg = $_
             $tempDir = $using:compileTemp
