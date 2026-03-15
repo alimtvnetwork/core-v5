@@ -450,7 +450,7 @@ function Invoke-TestCoverage {
         }
     } else {
         # ── Parallel compile check (ForEach-Object -Parallel, runspace-based) ──
-        $throttle = [Math]::Min($allTestPkgs.Count, [Environment]::ProcessorCount)
+        $throttle = [Math]::Min($allTestPkgs.Count, [Environment]::ProcessorCount * 2)
         Write-Host "  Launching $($allTestPkgs.Count) compile checks ($throttle parallel)..." -ForegroundColor Gray
 
         $compileResults = $allTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
@@ -645,7 +645,7 @@ function Invoke-TestCoverage {
         }
     } else {
         # ── Parallel coverage run (ForEach-Object -Parallel) ──
-        $throttle = [Math]::Min($testPkgs.Count, [Environment]::ProcessorCount)
+        $throttle = [Math]::Min($testPkgs.Count, [Environment]::ProcessorCount * 2)
         Write-Host "  Launching $($testPkgs.Count) test packages ($throttle parallel)..." -ForegroundColor Gray
 
         $coverResults = $testPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
@@ -1355,7 +1355,7 @@ function Invoke-PreCommitCheck {
             }
         }
     } else {
-        $throttle = [Math]::Min($goTestPkgs.Count, [Environment]::ProcessorCount)
+        $throttle = [Math]::Min($goTestPkgs.Count, [Environment]::ProcessorCount * 2)
         $results = $goTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
             $pkg = $_
             $tempDir = $using:compileTemp
