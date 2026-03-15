@@ -46,7 +46,8 @@ Combined utility that merges function filtering and uncovered-line extraction in
 | `FuncOutput` | Yes | — | Lines from `go tool cover -func` |
 | `Package` | Yes | — | Package path (e.g., `errcore`, `internal/strutilinternal`) |
 | `Threshold` | No | `100.0` | Coverage percentage threshold |
-| `OutputFile` | No | — | Path to write a plain-text copy of the report |
+| `OutputFile` | No | — | Path to write a copy of the report |
+| `Format` | No | `text` | Output format: `text` (color-coded), `markdown` (table), or `json` (machine-readable) |
 
 ## Output
 
