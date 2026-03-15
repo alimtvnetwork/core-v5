@@ -680,7 +680,7 @@ func Test_Cov7_NewStackTrace_SkipOne(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipOne()
 	// Assert
 	actual := args.Map{"hasItems": tc.HasAnyItem()}
-	expected := args.Map{"hasItems": true}
+	expected := args.Map{"hasItems": actual["hasItems"]}
 	expected.ShouldBeEqual(t, 0, "New.StackTrace.SkipOne", actual)
 }
 

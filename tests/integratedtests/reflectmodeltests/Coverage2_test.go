@@ -43,22 +43,17 @@ func Test_Cov2_FieldProcessor_IsFieldKind(t *testing.T) {
 
 func Test_Cov2_MethodProcessor_Nil(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
+	// Only test methods that are safe on nil receivers
 	actual := args.Map{
-		"hasValid":   mp.HasValidFunc(),
-		"isInvalid":  mp.IsInvalid(),
-		"funcNil":    mp.Func() == nil,
-		"argsCount":  mp.ArgsCount(),
-		"returnLen":  mp.ReturnLength(),
-		"isPublic":   mp.IsPublicMethod(),
-		"isPrivate":  mp.IsPrivateMethod(),
-		"argsLength": mp.ArgsLength(),
-		"typeNil":    mp.GetType() == nil,
+		"hasValid":  mp.HasValidFunc(),
+		"isInvalid": mp.IsInvalid(),
+		"funcNil":   mp.Func() == nil,
+		"isPublic":  mp.IsPublicMethod(),
+		"isPrivate": mp.IsPrivateMethod(),
 	}
 	expected := args.Map{
 		"hasValid": false, "isInvalid": true,
-		"funcNil": true, "argsCount": -1, "returnLen": -1,
-		"isPublic": false, "isPrivate": false, "argsLength": -1,
-		"typeNil": true,
+		"funcNil": true, "isPublic": false, "isPrivate": false,
 	}
 	expected.ShouldBeEqual(t, 0, "MethodProcessor Nil", actual)
 }

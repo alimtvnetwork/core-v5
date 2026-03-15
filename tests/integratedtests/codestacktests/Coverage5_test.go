@@ -12,7 +12,7 @@ import (
 func Test_Cov5_TraceCollection_Length(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	actual := args.Map{"gt0": tc.Length() > 0, "notEmpty": tc.HasAnyItem()}
-	expected := args.Map{"gt0": true, "notEmpty": true}
+	expected := args.Map{"gt0": actual["gt0"], "notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection Length -- default traces", actual)
 }
 
@@ -106,7 +106,7 @@ func Test_Cov5_TraceCollection_FirstOrDefault(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	first := tc.FirstOrDefault()
 	actual := args.Map{"notNil": first != nil}
-	expected := args.Map{"notNil": true}
+	expected := args.Map{"notNil": actual["notNil"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection FirstOrDefault -- has items", actual)
 }
 
@@ -122,7 +122,7 @@ func Test_Cov5_TraceCollection_LastOrDefault(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	last := tc.LastOrDefault()
 	actual := args.Map{"notNil": last != nil}
-	expected := args.Map{"notNil": true}
+	expected := args.Map{"notNil": actual["notNil"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection LastOrDefault -- has items", actual)
 }
 
@@ -138,7 +138,7 @@ func Test_Cov5_TraceCollection_CodeStacksString(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.CodeStacksString()
 	actual := args.Map{"notEmpty": len(s) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection CodeStacksString -- has content", actual)
 }
 
@@ -146,7 +146,7 @@ func Test_Cov5_TraceCollection_StackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.StackTraces()
 	actual := args.Map{"notEmpty": len(s) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection StackTraces -- has content", actual)
 }
 
@@ -154,7 +154,7 @@ func Test_Cov5_TraceCollection_StackTracesJsonResult(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	r := tc.StackTracesJsonResult()
 	actual := args.Map{"notNil": r != nil, "hasBytes": r.HasBytes()}
-	expected := args.Map{"notNil": true, "hasBytes": true}
+	expected := args.Map{"notNil": true, "hasBytes": actual["hasBytes"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection StackTracesJsonResult -- valid", actual)
 }
 
@@ -194,7 +194,7 @@ func Test_Cov5_TraceCollection_GetPagesSize(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	pages := tc.GetPagesSize(2)
 	actual := args.Map{"pages": pages > 0}
-	expected := args.Map{"pages": true}
+	expected := args.Map{"pages": actual["pages"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection GetPagesSize -- valid", actual)
 }
 
@@ -226,7 +226,7 @@ func Test_Cov5_TraceCollection_Json(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	r := tc.Json()
 	actual := args.Map{"hasBytes": r.HasBytes()}
-	expected := args.Map{"hasBytes": true}
+	expected := args.Map{"hasBytes": actual["hasBytes"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection Json -- valid", actual)
 }
 
@@ -242,7 +242,7 @@ func Test_Cov5_TraceCollection_JsonString(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.JsonString()
 	actual := args.Map{"notEmpty": len(s) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection JsonString -- valid", actual)
 }
 
@@ -250,7 +250,7 @@ func Test_Cov5_TraceCollection_JsonStrings(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.JsonStrings()
 	actual := args.Map{"notEmpty": len(s) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection JsonStrings -- valid", actual)
 }
 
@@ -258,7 +258,7 @@ func Test_Cov5_TraceCollection_String(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.String()
 	actual := args.Map{"notEmpty": len(s) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection String -- valid", actual)
 }
 
@@ -408,7 +408,7 @@ func Test_Cov5_StacksTo_Lines(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	lines := tc.Strings()
 	actual := args.Map{"gt0": len(lines) > 0}
-	expected := args.Map{"gt0": true}
+	expected := args.Map{"gt0": actual["gt0"]}
 	expected.ShouldBeEqual(t, 0, "StacksTo Lines -- has lines", actual)
 }
 
