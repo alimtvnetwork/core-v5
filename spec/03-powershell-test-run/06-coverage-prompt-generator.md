@@ -8,9 +8,10 @@ After `./run.ps1 TC` completes, the runner automatically generates AI-friendly p
 
 ```
 scripts/coverage/
-├── Generate-CoveragePrompts.ps1   # Main generator (called by run.ps1)
-├── Get-UncoveredLines.ps1         # Standalone: uncovered lines for one file
-└── Get-FunctionCoverage.ps1       # Standalone: filter functions by threshold
+├── Generate-CoveragePrompts.ps1      # Main generator (called by run.ps1)
+├── Get-UncoveredLines.ps1            # Standalone: uncovered lines for one file
+├── Get-FunctionCoverage.ps1          # Standalone: filter functions by threshold
+└── Get-PackageCoverageReport.ps1     # Combined: detailed report per package
 ```
 
 ### Generate-CoveragePrompts.ps1
@@ -33,6 +34,17 @@ Standalone utility that filters `go tool cover -func` output to list functions b
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
 | `FuncOutput` | Yes | — | Lines from `go tool cover -func` |
+| `Threshold` | No | `100.0` | Coverage percentage threshold |
+
+### Get-PackageCoverageReport.ps1
+
+Combined utility that merges function filtering and uncovered-line extraction into a single detailed, color-coded report for one package. Shows each function's coverage percentage and specific uncovered line ranges.
+
+| Parameter | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `CoverProfile` | Yes | — | Path to `coverage.out` |
+| `FuncOutput` | Yes | — | Lines from `go tool cover -func` |
+| `Package` | Yes | — | Package path (e.g., `errcore`, `internal/strutilinternal`) |
 | `Threshold` | No | `100.0` | Coverage percentage threshold |
 
 ## Output
@@ -95,6 +107,20 @@ $funcLines = go tool cover -func=data/coverage/coverage.out
 
 # Get all functions below 100% (default threshold)
 ./scripts/coverage/Get-FunctionCoverage.ps1 -FuncOutput $funcLines
+
+# Detailed report for a specific package (combines both utilities)
+$funcLines = go tool cover -func=data/coverage/coverage.out
+./scripts/coverage/Get-PackageCoverageReport.ps1 `
+  -CoverProfile data/coverage/coverage.out `
+  -FuncOutput $funcLines `
+  -Package "errcore"
+
+# Same, but only functions below 80%
+./scripts/coverage/Get-PackageCoverageReport.ps1 `
+  -CoverProfile data/coverage/coverage.out `
+  -FuncOutput $funcLines `
+  -Package "internal/strutilinternal" `
+  -Threshold 80
 ```
 
 ## Integration Point
