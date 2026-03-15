@@ -1057,6 +1057,15 @@ function copyForAI(){
             Write-Host "  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
         }
 
+        # ── Generate AI coverage prompts ──────────────────────────────
+        $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
+        if (Test-Path $promptScript) {
+            Write-Host ""
+            Write-Header "Generating coverage improvement prompts"
+            $promptsDir = Join-Path $PSScriptRoot "data" "prompts"
+            & $promptScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputDir $promptsDir -BatchSize 500 -ProjectRoot $PSScriptRoot
+        }
+
         # Auto-open HTML report in browser
         $openHtml = $true
         if ($ExtraArgs -and $ExtraArgs[0] -eq "--no-open") { $openHtml = $false }
