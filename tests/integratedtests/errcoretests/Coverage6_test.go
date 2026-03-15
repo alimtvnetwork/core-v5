@@ -331,7 +331,7 @@ func Test_Cov6_GherkinsString(t *testing.T) {
 }
 
 func Test_Cov6_GherkinsStringWithExpectation(t *testing.T) {
-	result := errcore.GherkinsStringWithExpectation(0, "title", "given", "when", "then", "expected")
+	result := errcore.GherkinsStringWithExpectation(0, "title", "given", "when", "then", "actual", "expected")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GherkinsStringWithExpectation", actual)
@@ -340,14 +340,14 @@ func Test_Cov6_GherkinsStringWithExpectation(t *testing.T) {
 // ── SourceDestination ──
 
 func Test_Cov6_SourceDestination(t *testing.T) {
-	result := errcore.SourceDestination("src", "dst")
+	result := errcore.SourceDestination(false, "src", "dst")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestination", actual)
 }
 
 func Test_Cov6_SourceDestinationErr(t *testing.T) {
-	result := errcore.SourceDestinationErr("src", "dst")
+	result := errcore.SourceDestinationErr(false, "src", "dst")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestinationErr", actual)
