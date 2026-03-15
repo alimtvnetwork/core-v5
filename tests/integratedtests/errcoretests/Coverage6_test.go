@@ -568,7 +568,7 @@ func Test_Cov6_MessageVarMap(t *testing.T) {
 // ── EnumRangeNotMeet / RangeNotMeet ──
 
 func Test_Cov6_EnumRangeNotMeet(t *testing.T) {
-	result := errcore.EnumRangeNotMeet("enumName", 42)
+	result := errcore.EnumRangeNotMeet(0, 10, nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "EnumRangeNotMeet", actual)

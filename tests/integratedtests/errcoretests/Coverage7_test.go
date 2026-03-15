@@ -188,7 +188,7 @@ func Test_Cov7_ErrorToLinesLineDiff(t *testing.T) {
 // ── GetActualAndExpectProcessedMessage / GetActualAndExpectSortedMessage ──
 
 func Test_Cov7_GetActualAndExpectProcessedMessage(t *testing.T) {
-	result := errcore.GetActualAndExpectProcessedMessage("header", []string{"a"}, []string{"a"})
+	result := errcore.GetActualAndExpectProcessedMessage(0, "actual", "expected", "actualProc", "expectedProc")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetActualAndExpectProcessedMessage", actual)
