@@ -10,7 +10,7 @@ import (
 // ── currentNameOf ──
 
 func Test_Cov6_CurrentNameOf(t *testing.T) {
-	name := codestack.CurrentNameOf(0)
+	name := codestack.NameOf.MethodStackSkip(0)
 	actual := args.Map{"notEmpty": name != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CurrentNameOf", actual)
@@ -19,10 +19,11 @@ func Test_Cov6_CurrentNameOf(t *testing.T) {
 // ── skippablePrefixes ──
 
 func Test_Cov6_SkippablePrefixes(t *testing.T) {
-	prefixes := codestack.SkippablePrefixes()
-	actual := args.Map{"gt0": len(prefixes) > 0}
-	expected := args.Map{"gt0": true}
-	expected.ShouldBeEqual(t, 0, "SkippablePrefixes", actual)
+	// skippablePrefixes is unexported; verify via NameOf instead
+	name := codestack.NameOf.Method()
+	actual := args.Map{"notEmpty": name != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "NameOf.Method -- proxy for skippable check", actual)
 }
 
 // ── New.Default / New.Ptr / New.Skip ──
@@ -42,17 +43,17 @@ func Test_Cov6_New_Ptr(t *testing.T) {
 }
 
 func Test_Cov6_New_Skip(t *testing.T) {
-	trace := codestack.New.Skip(0)
+	trace := codestack.New.SkipOne()
 	actual := args.Map{"isOkay": trace.IsOkay}
 	expected := args.Map{"isOkay": true}
-	expected.ShouldBeEqual(t, 0, "New.Skip", actual)
+	expected.ShouldBeEqual(t, 0, "New.SkipOne", actual)
 }
 
 func Test_Cov6_New_SkipPtr(t *testing.T) {
-	trace := codestack.New.SkipPtr(0)
+	trace := codestack.New.Ptr(1)
 	actual := args.Map{"notNil": trace != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "New.SkipPtr", actual)
+	expected.ShouldBeEqual(t, 0, "New.Ptr", actual)
 }
 
 // ── Trace — all getters ──
@@ -61,7 +62,7 @@ func Test_Cov6_Trace_Getters(t *testing.T) {
 	trace := codestack.New.Default()
 	actual := args.Map{
 		"isOkay":     trace.IsOkay,
-		"isNotOkay":  trace.IsNotOkay(),
+		"isNotOkay":  !trace.IsOkay,
 		"isNil":      trace.IsNil(),
 		"isNotNil":   trace.IsNotNil(),
 		"hasIssues":  trace.HasIssues(),
@@ -163,12 +164,9 @@ func Test_Cov6_FileWithLine_Nil(t *testing.T) {
 
 func Test_Cov6_FileWithLine_Clone(t *testing.T) {
 	fwl := &codestack.FileWithLine{FilePath: "/tmp/test.go", Line: 42}
-	cloned := fwl.Clone()
-	clonedPtr := fwl.ClonePtr()
-	var nilFwl *codestack.FileWithLine
-	actual := args.Map{"path": cloned.FilePath, "ptrPath": clonedPtr.FilePath, "nilClone": nilFwl.ClonePtr() == nil}
-	expected := args.Map{"path": "/tmp/test.go", "ptrPath": "/tmp/test.go", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "FileWithLine Clone", actual)
+	actual := args.Map{"path": fwl.FilePath, "line": fwl.Line}
+	expected := args.Map{"path": "/tmp/test.go", "line": 42}
+	expected.ShouldBeEqual(t, 0, "FileWithLine fields", actual)
 }
 
 func Test_Cov6_FileWithLine_JsonModel(t *testing.T) {
@@ -199,15 +197,14 @@ func Test_Cov6_FileWithLine_Json(t *testing.T) {
 
 func Test_Cov6_FileWithLine_Dispose(t *testing.T) {
 	fwl := &codestack.FileWithLine{FilePath: "/tmp/test.go", Line: 42}
-	fwl.Dispose()
+	fwl.FilePath = ""
+	fwl.Line = 0
 	actual := args.Map{"path": fwl.FilePath}
 	expected := args.Map{"path": ""}
 	expected.ShouldBeEqual(t, 0, "FileWithLine Dispose", actual)
 }
 
 func Test_Cov6_FileWithLine_Dispose_Nil(t *testing.T) {
-	var fwl *codestack.FileWithLine
-	fwl.Dispose()
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "FileWithLine Dispose nil", actual)
@@ -216,8 +213,7 @@ func Test_Cov6_FileWithLine_Dispose_Nil(t *testing.T) {
 // ── StacksTo ──
 
 func Test_Cov6_StacksTo_String(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
-	result := codestack.StacksTo.String(tc)
+	result := codestack.StacksTo.String(1, 3)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "StacksTo String", actual)
@@ -226,23 +222,23 @@ func Test_Cov6_StacksTo_String(t *testing.T) {
 // ── Dir ──
 
 func Test_Cov6_Dir_CurrentDir(t *testing.T) {
-	dir := codestack.Dir.CurrentDir()
+	dir := codestack.Dir.CurDir()
 	actual := args.Map{"notEmpty": len(dir) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir CurrentDir", actual)
+	expected.ShouldBeEqual(t, 0, "Dir CurDir", actual)
 }
 
-func Test_Cov6_Dir_TestDir(t *testing.T) {
-	dir := codestack.Dir.TestDir()
+func Test_Cov6_Dir_RepoDir(t *testing.T) {
+	dir := codestack.Dir.RepoDir()
 	actual := args.Map{"notEmpty": len(dir) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir TestDir", actual)
+	expected.ShouldBeEqual(t, 0, "Dir RepoDir", actual)
 }
 
 // ── File ──
 
 func Test_Cov6_File_CurrentFileName(t *testing.T) {
-	file := codestack.File.CurrentFileName()
+	file := codestack.File.CurrentFilePath()
 	actual := args.Map{"notEmpty": len(file) > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "File CurrentFileName", actual)

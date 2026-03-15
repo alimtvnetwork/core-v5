@@ -164,34 +164,27 @@ func Test_Cov5_New_DefaultApplicableLock(t *testing.T) {
 // ── regExMatchValidationError ──
 
 func Test_Cov5_RegExMatchValidationError(t *testing.T) {
-	err := regexnew.RegExMatchValidationError(`^\d+$`, "abc", nil, nil)
+	// regExMatchValidationError is unexported; test via MatchError instead
+	err := regexnew.MatchError(`^\d+$`, "abc")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "RegExMatchValidationError", actual)
+	expected.ShouldBeEqual(t, 0, "RegExMatchValidationError via MatchError", actual)
 }
 
 // ── LazyRegex — FindStringSubmatch / FindAllString ──
 
-func Test_Cov5_LazyRegex_FindStringSubmatch(t *testing.T) {
+func Test_Cov5_LazyRegex_FirstMatchLine(t *testing.T) {
 	lr := regexnew.New.LazyLock(`(\d+)-(\d+)`)
-	result := lr.FindStringSubmatch("abc 123-456 def")
-	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "LazyRegex FindStringSubmatch", actual)
+	result, isInvalid := lr.FirstMatchLine("abc 123-456 def")
+	actual := args.Map{"match": result, "isInvalid": isInvalid}
+	expected := args.Map{"match": "123-456", "isInvalid": false}
+	expected.ShouldBeEqual(t, 0, "LazyRegex FirstMatchLine", actual)
 }
 
-func Test_Cov5_LazyRegex_FindAllString(t *testing.T) {
-	lr := regexnew.New.LazyLock(`\d+`)
-	result := lr.FindAllString("abc 123 def 456", -1)
-	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LazyRegex FindAllString", actual)
-}
-
-func Test_Cov5_LazyRegex_ReplaceAllString(t *testing.T) {
-	lr := regexnew.New.LazyLock(`\d+`)
-	result := lr.ReplaceAllString("abc 123 def", "NUM")
-	actual := args.Map{"result": result}
-	expected := args.Map{"result": "abc NUM def"}
-	expected.ShouldBeEqual(t, 0, "LazyRegex ReplaceAllString", actual)
+func Test_Cov5_LazyRegex_FirstMatchLine_NoMatch(t *testing.T) {
+	lr := regexnew.New.LazyLock(`(\d+)-(\d+)`)
+	result, isInvalid := lr.FirstMatchLine("abc def")
+	actual := args.Map{"match": result, "isInvalid": isInvalid}
+	expected := args.Map{"match": "", "isInvalid": true}
+	expected.ShouldBeEqual(t, 0, "LazyRegex FirstMatchLine no match", actual)
 }

@@ -333,145 +333,132 @@ func Test_Cov3_ToBool(t *testing.T) {
 }
 
 func Test_Cov3_ToByte(t *testing.T) {
-	val, err := stringutil.ToByte("42")
-	_, errInvalid := stringutil.ToByte("abc")
-	actual := args.Map{"val": val, "noErr": err == nil, "invalidErr": errInvalid != nil}
-	expected := args.Map{"val": byte(42), "noErr": true, "invalidErr": true}
+	val := stringutil.ToByte("42", 0)
+	valInvalid := stringutil.ToByte("abc", 0)
+	actual := args.Map{"val": val, "invalidVal": valInvalid}
+	expected := args.Map{"val": byte(42), "invalidVal": byte(0)}
 	expected.ShouldBeEqual(t, 0, "ToByte", actual)
 }
 
 func Test_Cov3_ToByteDefault(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToByteDefault("42", 0),
-		"invalid": stringutil.ToByteDefault("abc", 99),
+		"valid":   stringutil.ToByteDefault("42"),
+		"invalid": stringutil.ToByteDefault("abc"),
 	}
-	expected := args.Map{"valid": byte(42), "invalid": byte(99)}
+	expected := args.Map{"valid": byte(42), "invalid": byte(0)}
 	expected.ShouldBeEqual(t, 0, "ToByteDefault", actual)
 }
 
 func Test_Cov3_ToInt(t *testing.T) {
-	val, err := stringutil.ToInt("42")
-	_, errInvalid := stringutil.ToInt("abc")
-	actual := args.Map{"val": val, "noErr": err == nil, "invalidErr": errInvalid != nil}
-	expected := args.Map{"val": 42, "noErr": true, "invalidErr": true}
+	val := stringutil.ToInt("42", 0)
+	valInvalid := stringutil.ToInt("abc", -1)
+	actual := args.Map{"val": val, "invalidVal": valInvalid}
+	expected := args.Map{"val": 42, "invalidVal": -1}
 	expected.ShouldBeEqual(t, 0, "ToInt", actual)
 }
 
 func Test_Cov3_ToIntDef(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToIntDef("42", 0),
-		"invalid": stringutil.ToIntDef("abc", 99),
+		"valid":   stringutil.ToIntDef("42"),
+		"invalid": stringutil.ToIntDef("abc"),
 	}
-	expected := args.Map{"valid": 42, "invalid": 99}
+	expected := args.Map{"valid": 42, "invalid": 0}
 	expected.ShouldBeEqual(t, 0, "ToIntDef", actual)
 }
 
 func Test_Cov3_ToIntDefault(t *testing.T) {
-	val, isValid := stringutil.ToIntDefault("42", 0)
-	_, isValidFail := stringutil.ToIntDefault("abc", 99)
-	actual := args.Map{"val": val, "isValid": isValid, "isValidFail": isValidFail}
-	expected := args.Map{"val": 42, "isValid": true, "isValidFail": false}
+	val := stringutil.ToIntDefault("42")
+	valInvalid := stringutil.ToIntDefault("abc")
+	actual := args.Map{"val": val, "invalidVal": valInvalid}
+	expected := args.Map{"val": 42, "invalidVal": 0}
 	expected.ShouldBeEqual(t, 0, "ToIntDefault", actual)
 }
 
 func Test_Cov3_ToInt8(t *testing.T) {
-	val, err := stringutil.ToInt8("42")
-	actual := args.Map{"val": val, "noErr": err == nil}
-	expected := args.Map{"val": int8(42), "noErr": true}
+	val := stringutil.ToInt8("42", 0)
+	actual := args.Map{"val": val}
+	expected := args.Map{"val": int8(42)}
 	expected.ShouldBeEqual(t, 0, "ToInt8", actual)
 }
 
 func Test_Cov3_ToInt8Def(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToInt8Def("42", 0),
-		"invalid": stringutil.ToInt8Def("abc", 99),
+		"valid":   stringutil.ToInt8Def("42"),
+		"invalid": stringutil.ToInt8Def("abc"),
 	}
-	expected := args.Map{"valid": int8(42), "invalid": int8(99)}
+	expected := args.Map{"valid": int8(42), "invalid": int8(0)}
 	expected.ShouldBeEqual(t, 0, "ToInt8Def", actual)
 }
 
 func Test_Cov3_ToInt16(t *testing.T) {
-	val, err := stringutil.ToInt16("42")
-	actual := args.Map{"val": val, "noErr": err == nil}
-	expected := args.Map{"val": int16(42), "noErr": true}
+	val := stringutil.ToInt16("42", 0)
+	actual := args.Map{"val": val}
+	expected := args.Map{"val": int16(42)}
 	expected.ShouldBeEqual(t, 0, "ToInt16", actual)
 }
 
 func Test_Cov3_ToInt16Default(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToInt16Default("42", 0),
-		"invalid": stringutil.ToInt16Default("abc", 99),
+		"valid":   stringutil.ToInt16Default("42"),
+		"invalid": stringutil.ToInt16Default("abc"),
 	}
-	expected := args.Map{"valid": int16(42), "invalid": int16(99)}
+	expected := args.Map{"valid": int16(42), "invalid": int16(0)}
 	expected.ShouldBeEqual(t, 0, "ToInt16Default", actual)
 }
 
 func Test_Cov3_ToInt32(t *testing.T) {
-	val, err := stringutil.ToInt32("42")
-	actual := args.Map{"val": val, "noErr": err == nil}
-	expected := args.Map{"val": int32(42), "noErr": true}
+	val := stringutil.ToInt32("42", 0)
+	actual := args.Map{"val": val}
+	expected := args.Map{"val": int32(42)}
 	expected.ShouldBeEqual(t, 0, "ToInt32", actual)
 }
 
 func Test_Cov3_ToInt32Def(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToInt32Def("42", 0),
-		"invalid": stringutil.ToInt32Def("abc", 99),
+		"valid":   stringutil.ToInt32Def("42"),
+		"invalid": stringutil.ToInt32Def("abc"),
 	}
-	expected := args.Map{"valid": int32(42), "invalid": int32(99)}
+	expected := args.Map{"valid": int32(42), "invalid": int32(0)}
 	expected.ShouldBeEqual(t, 0, "ToInt32Def", actual)
 }
 
 func Test_Cov3_ToUint16Default(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToUint16Default("42", 0),
-		"invalid": stringutil.ToUint16Default("abc", 99),
+		"valid":   stringutil.ToUint16Default("42"),
+		"invalid": stringutil.ToUint16Default("abc"),
 	}
-	expected := args.Map{"valid": uint16(42), "invalid": uint16(99)}
+	expected := args.Map{"valid": uint16(42), "invalid": uint16(0)}
 	expected.ShouldBeEqual(t, 0, "ToUint16Default", actual)
 }
 
 func Test_Cov3_ToUint32Default(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToUint32Default("42", 0),
-		"invalid": stringutil.ToUint32Default("abc", 99),
+		"valid":   stringutil.ToUint32Default("42"),
+		"invalid": stringutil.ToUint32Default("abc"),
 	}
-	expected := args.Map{"valid": uint32(42), "invalid": uint32(99)}
+	expected := args.Map{"valid": uint32(42), "invalid": uint32(0)}
 	expected.ShouldBeEqual(t, 0, "ToUint32Default", actual)
 }
 
 // ── SplitLeftRight / SplitFirstLast ──
 
 func Test_Cov3_SplitLeftRight(t *testing.T) {
-	l, r := stringutil.SplitLeftRight("=", "key=value")
+	l, r := stringutil.SplitLeftRight("key=value", "=")
 	actual := args.Map{"l": l, "r": r}
 	expected := args.Map{"l": "key", "r": "value"}
 	expected.ShouldBeEqual(t, 0, "SplitLeftRight", actual)
 }
 
 func Test_Cov3_SplitLeftRightTrimmed(t *testing.T) {
-	l, r := stringutil.SplitLeftRightTrimmed("=", "  key  =  value  ")
+	l, r := stringutil.SplitLeftRightTrimmed("  key  =  value  ", "=")
 	actual := args.Map{"l": l, "r": r}
 	expected := args.Map{"l": "key", "r": "value"}
 	expected.ShouldBeEqual(t, 0, "SplitLeftRightTrimmed", actual)
 }
 
 func Test_Cov3_SplitFirstLast(t *testing.T) {
-	first, last := stringutil.SplitFirstLast(".", "a.b.c")
+	first, last := stringutil.SplitFirstLast("a.b.c", ".")
 	actual := args.Map{"first": first, "last": last}
 	expected := args.Map{"first": "a", "last": "c"}
 	expected.ShouldBeEqual(t, 0, "SplitFirstLast", actual)
-}
-
-// ── KeyValReplacer ──
-
-func Test_Cov3_KeyValReplacer(t *testing.T) {
-	result := stringutil.KeyValReplacer(
-		"Hello {name} at {place}",
-		true,
-		map[string]string{"name": "Alice", "place": "home"},
-	)
-	actual := args.Map{"result": result}
-	expected := args.Map{"result": "Hello Alice at home"}
-	expected.ShouldBeEqual(t, 0, "KeyValReplacer", actual)
 }

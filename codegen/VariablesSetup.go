@@ -12,7 +12,7 @@ type variablesSetup struct {
 	outArgsNames corestr.SimpleSlice
 	setupLines   corestr.SimpleSlice
 	inArgsTypes  []reflect.Type
-	funcWrap     *args.FuncWrap
+	funcWrap     *args.FuncWrapAny
 }
 
 func (it variablesSetup) CompiledSetupLine() string {
