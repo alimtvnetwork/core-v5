@@ -6,7 +6,17 @@ import (
 
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/namevalue"
 )
+
+// mockLengthGetter implements the lengthGetter interface for testing.
+type mockLengthGetter struct {
+	length int
+}
+
+func (m *mockLengthGetter) Length() int {
+	return m.length
+}
 
 // ── CombineWithMsgTypeNoStack ──
 
@@ -453,38 +463,68 @@ func Test_Cov6_MessageWithRefToError(t *testing.T) {
 // ── CountStateChangeTracker ──
 
 func Test_Cov6_CountStateChangeTracker(t *testing.T) {
-	tracker := errcore.CountStateChangeTracker{}
-	tracker.SuccessCountChange()
-	tracker.FailedCountChange()
-	tracker.FailedCountChange()
+	mockLen := &mockLengthGetter{length: 0}
+	tracker := errcore.NewCountStateChangeTracker(mockLen)
+
+	// Initially same state
 	actual := args.Map{
-		"success": tracker.SuccessCount,
-		"failed":  tracker.FailedCount,
-		"total":   tracker.Total(),
-		"hasAny":  tracker.HasAny(),
+		"isSameState": tracker.IsSameState(),
+		"isValid":     tracker.IsValid(),
+		"isSuccess":   tracker.IsSuccess(),
+		"hasChanges":  tracker.HasChanges(),
+		"isFailed":    tracker.IsFailed(),
 	}
-	expected := args.Map{"success": 1, "failed": 2, "total": 3, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "CountStateChangeTracker", actual)
+	expected := args.Map{
+		"isSameState": true,
+		"isValid":     true,
+		"isSuccess":   true,
+		"hasChanges":  false,
+		"isFailed":    false,
+	}
+	expected.ShouldBeEqual(t, 0, "CountStateChangeTracker-initial", actual)
+
+	// Simulate length change
+	mockLen.length = 2
+	actual2 := args.Map{
+		"isSameState": tracker.IsSameState(),
+		"hasChanges":  tracker.HasChanges(),
+		"isFailed":    tracker.IsFailed(),
+	}
+	expected2 := args.Map{
+		"isSameState": false,
+		"hasChanges":  true,
+		"isFailed":    true,
+	}
+	expected2.ShouldBeEqual(t, 1, "CountStateChangeTracker-changed", actual2)
 }
 
 // ── VarNameValues / VarNameValuesJoiner / VarNameValuesStrings ──
 
 func Test_Cov6_VarNameValues(t *testing.T) {
-	result := errcore.VarNameValues("a", 1, "b", 2)
+	result := errcore.VarNameValues(
+		namevalue.Instance[string, any]{Name: "a", Value: 1},
+		namevalue.Instance[string, any]{Name: "b", Value: 2},
+	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValues", actual)
 }
 
 func Test_Cov6_VarNameValuesJoiner(t *testing.T) {
-	result := errcore.VarNameValuesJoiner(",", "a", 1, "b", 2)
+	result := errcore.VarNameValuesJoiner(",",
+		namevalue.Instance[string, any]{Name: "a", Value: 1},
+		namevalue.Instance[string, any]{Name: "b", Value: 2},
+	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner", actual)
 }
 
 func Test_Cov6_VarNameValuesStrings(t *testing.T) {
-	result := errcore.VarNameValuesStrings("a", "1", "b", "2")
+	result := errcore.VarNameValuesStrings(
+		namevalue.Instance[string, any]{Name: "a", Value: "1"},
+		namevalue.Instance[string, any]{Name: "b", Value: "2"},
+	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesStrings", actual)
