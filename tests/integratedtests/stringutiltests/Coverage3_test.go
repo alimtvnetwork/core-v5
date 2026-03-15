@@ -24,7 +24,7 @@ func Test_Cov3_AnyToTypeString(t *testing.T) {
 		"string": stringutil.AnyToTypeString("hello") != "",
 		"nil":    stringutil.AnyToTypeString(nil),
 	}
-	expected := args.Map{"string": true, "nil": ""}
+	expected := args.Map{"string": true, "nil": "<nil>"}
 	expected.ShouldBeEqual(t, 0, "AnyToTypeString", actual)
 }
 
