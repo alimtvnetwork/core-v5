@@ -7,125 +7,154 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 )
 
-// ── Format / FormatUsingFmt ──
+// ── ConvEnumAnyValToInteger ──
 
-func Test_Cov7_Format_ToString(t *testing.T) {
-	result := enumimpl.Format.ToString(42, "TestEnum")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Format ToString", actual)
+func Test_Cov7_ConvEnumAnyValToInteger_Int(t *testing.T) {
+	val := enumimpl.ConvEnumAnyValToInteger(42)
+	actual := args.Map{"val": val}
+	expected := args.Map{"val": 42}
+	expected.ShouldBeEqual(t, 0, "ConvEnumAnyValToInteger returns 42 -- int input", actual)
 }
 
-func Test_Cov7_FormatUsingFmt_NameValue(t *testing.T) {
-	result := enumimpl.FormatUsingFmt.NameValue("MyEnum", 5)
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "FormatUsingFmt NameValue", actual)
+func Test_Cov7_ConvEnumAnyValToInteger_String(t *testing.T) {
+	val := enumimpl.ConvEnumAnyValToInteger("notAnInt")
+	actual := args.Map{"isMinInt": val < 0}
+	expected := args.Map{"isMinInt": true}
+	expected.ShouldBeEqual(t, 0, "ConvEnumAnyValToInteger returns MinInt -- string input", actual)
 }
 
-// ── PrependJoin ──
-
-func Test_Cov7_PrependJoin_DotJoin(t *testing.T) {
-	result := enumimpl.PrependJoin.DotJoin("prefix", "suffix")
-	actual := args.Map{"result": result}
-	expected := args.Map{"result": "prefix.suffix"}
-	expected.ShouldBeEqual(t, 0, "PrependJoin DotJoin", actual)
-}
-
-// ── JoinPrependUsingDot ──
-
-func Test_Cov7_JoinPrependUsingDot(t *testing.T) {
-	result := enumimpl.JoinPrependUsingDot("base", "ext")
-	actual := args.Map{"result": result}
-	expected := args.Map{"result": "base.ext"}
-	expected.ShouldBeEqual(t, 0, "JoinPrependUsingDot", actual)
-}
-
-// ── ConvAnyValToInteger ──
-
-func Test_Cov7_ConvAnyValToInteger_Int(t *testing.T) {
-	val, ok := enumimpl.ConvAnyValToInteger(42)
-	actual := args.Map{"val": val, "ok": ok}
-	expected := args.Map{"val": 42, "ok": true}
-	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger int", actual)
-}
-
-func Test_Cov7_ConvAnyValToInteger_Int8(t *testing.T) {
-	val, ok := enumimpl.ConvAnyValToInteger(int8(5))
-	actual := args.Map{"val": val, "ok": ok}
-	expected := args.Map{"val": 5, "ok": true}
-	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger int8", actual)
-}
-
-func Test_Cov7_ConvAnyValToInteger_String(t *testing.T) {
-	_, ok := enumimpl.ConvAnyValToInteger("notAnInt")
-	actual := args.Map{"ok": ok}
-	expected := args.Map{"ok": false}
-	expected.ShouldBeEqual(t, 0, "ConvAnyValToInteger string", actual)
-}
-
-// ── NameWithValue ──
+// ── NameWithValue (function) ──
 
 func Test_Cov7_NameWithValue(t *testing.T) {
-	nv := enumimpl.NameWithValue{Name: "TestEnum", Value: 10}
-	actual := args.Map{
-		"name":  nv.Name,
-		"value": nv.Value,
-	}
-	expected := args.Map{"name": "TestEnum", "value": 10}
-	expected.ShouldBeEqual(t, 0, "NameWithValue struct", actual)
-}
-
-// ── AllNameValues ──
-
-func Test_Cov7_AllNameValues_FromMap(t *testing.T) {
-	m := map[string]int{"A": 1, "B": 2}
-	result := enumimpl.AllNameValues(m)
-	actual := args.Map{"len": len(result)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "AllNameValues from map", actual)
+	result := enumimpl.NameWithValue(10)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "NameWithValue returns formatted string -- int input", actual)
 }
 
 // ── UnsupportedNames ──
 
 func Test_Cov7_UnsupportedNames(t *testing.T) {
-	supported := []string{"A", "B"}
-	all := []string{"A", "B", "C", "D"}
-	result := enumimpl.UnsupportedNames(supported, all)
+	allNames := []string{"A", "B", "C", "D"}
+	result := enumimpl.UnsupportedNames(allNames, "A", "B")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "UnsupportedNames", actual)
+	expected.ShouldBeEqual(t, 0, "UnsupportedNames returns 2 -- two unsupported", actual)
+}
+
+func Test_Cov7_UnsupportedNames_AllSupported(t *testing.T) {
+	allNames := []string{"A", "B"}
+	result := enumimpl.UnsupportedNames(allNames, "A", "B")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "UnsupportedNames returns 0 -- all supported", actual)
 }
 
 // ── KeyAnyVal ──
 
 func Test_Cov7_KeyAnyVal(t *testing.T) {
-	kv := enumimpl.KeyAnyVal{Key: "test", Value: 42}
-	actual := args.Map{"key": kv.Key, "val": kv.Value}
-	expected := args.Map{"key": "test", "val": 42}
-	expected.ShouldBeEqual(t, 0, "KeyAnyVal struct", actual)
+	kv := enumimpl.KeyAnyVal{Key: "test", AnyValue: 42}
+	actual := args.Map{
+		"key":      kv.Key,
+		"valInt":   kv.ValInt(),
+		"isString": kv.IsString(),
+	}
+	expected := args.Map{"key": "test", "valInt": 42, "isString": false}
+	expected.ShouldBeEqual(t, 0, "KeyAnyVal returns correct fields -- int value", actual)
 }
 
-// ── KeyAnyValues ──
-
-func Test_Cov7_KeyAnyValues_Length(t *testing.T) {
-	kvs := enumimpl.KeyAnyValues{
-		{Key: "a", Value: 1},
-		{Key: "b", Value: 2},
+func Test_Cov7_KeyAnyVal_StringValue(t *testing.T) {
+	kv := enumimpl.KeyAnyVal{Key: "strKey", AnyValue: "hello"}
+	actual := args.Map{
+		"key":      kv.Key,
+		"isString": kv.IsString(),
+		"anyVal":   kv.AnyValString(),
 	}
-	actual := args.Map{"len": len(kvs)}
-	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "KeyAnyValues length", actual)
+	expected := args.Map{"key": "strKey", "isString": true, "anyVal": "hello"}
+	expected.ShouldBeEqual(t, 0, "KeyAnyVal returns string type -- string value", actual)
 }
 
 // ── DiffLeftRight ──
 
-func Test_Cov7_DiffLeftRight(t *testing.T) {
-	dlr := enumimpl.DiffLeftRight{
-		Left:  "leftVal",
-		Right: "rightVal",
+func Test_Cov7_DiffLeftRight_Same(t *testing.T) {
+	dlr := &enumimpl.DiffLeftRight{Left: "same", Right: "same"}
+	actual := args.Map{
+		"isSame":      dlr.IsSame(),
+		"isNotEqual":  dlr.IsNotEqual(),
+		"isEqual":     dlr.IsEqual(false),
+		"diffStr":     dlr.DiffString(),
 	}
-	actual := args.Map{"left": dlr.Left, "right": dlr.Right}
-	expected := args.Map{"left": "leftVal", "right": "rightVal"}
-	expected.ShouldBeEqual(t, 0, "DiffLeftRight struct", actual)
+	expected := args.Map{
+		"isSame": true, "isNotEqual": false, "isEqual": true, "diffStr": "",
+	}
+	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns same -- equal values", actual)
+}
+
+func Test_Cov7_DiffLeftRight_Different(t *testing.T) {
+	dlr := &enumimpl.DiffLeftRight{Left: "left", Right: "right"}
+	actual := args.Map{
+		"isSame":     dlr.IsSame(),
+		"isNotEqual": dlr.IsNotEqual(),
+		"hasMismatch": dlr.HasMismatch(false),
+	}
+	expected := args.Map{
+		"isSame": false, "isNotEqual": true, "hasMismatch": true,
+	}
+	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns mismatch -- different values", actual)
+}
+
+func Test_Cov7_DiffLeftRight_RegardlessOfType(t *testing.T) {
+	dlr := &enumimpl.DiffLeftRight{Left: 42, Right: 42}
+	actual := args.Map{
+		"isEqualRegardless": dlr.IsEqual(true),
+		"isSameTypeSame":    dlr.IsSameTypeSame(),
+	}
+	expected := args.Map{
+		"isEqualRegardless": true, "isSameTypeSame": true,
+	}
+	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns equal -- regardless of type", actual)
+}
+
+func Test_Cov7_DiffLeftRight_JsonString(t *testing.T) {
+	dlr := &enumimpl.DiffLeftRight{Left: "a", Right: "b"}
+	actual := args.Map{"notEmpty": dlr.JsonString() != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns json -- serialized", actual)
+}
+
+func Test_Cov7_DiffLeftRight_SpecificFullString(t *testing.T) {
+	dlr := &enumimpl.DiffLeftRight{Left: "x", Right: "y"}
+	l, r := dlr.SpecificFullString()
+	actual := args.Map{
+		"leftNotEmpty":  l != "",
+		"rightNotEmpty": r != "",
+	}
+	expected := args.Map{"leftNotEmpty": true, "rightNotEmpty": true}
+	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns full strings -- both sides", actual)
+}
+
+// ── DefaultDiffCheckerImpl ──
+
+func Test_Cov7_DefaultDiffChecker_IsEqual(t *testing.T) {
+	checker := enumimpl.DefaultDiffCheckerImpl
+	result := checker.IsEqual(false, 42, 42)
+	actual := args.Map{"isEqual": result}
+	expected := args.Map{"isEqual": true}
+	expected.ShouldBeEqual(t, 0, "DefaultDiffChecker returns true -- equal values", actual)
+}
+
+func Test_Cov7_DefaultDiffChecker_IsEqual_Regardless(t *testing.T) {
+	checker := enumimpl.DefaultDiffCheckerImpl
+	result := checker.IsEqual(true, 42, 42)
+	actual := args.Map{"isEqual": result}
+	expected := args.Map{"isEqual": true}
+	expected.ShouldBeEqual(t, 0, "DefaultDiffChecker returns true -- regardless mode", actual)
+}
+
+func Test_Cov7_LeftRightDiffChecker_IsEqual(t *testing.T) {
+	checker := enumimpl.LeftRightDiffCheckerImpl
+	result := checker.IsEqual(false, "a", "a")
+	actual := args.Map{"isEqual": result}
+	expected := args.Map{"isEqual": true}
+	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker returns true -- equal strings", actual)
 }
