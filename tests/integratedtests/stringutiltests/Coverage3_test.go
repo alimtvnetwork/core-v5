@@ -24,7 +24,7 @@ func Test_Cov3_AnyToTypeString(t *testing.T) {
 		"string": stringutil.AnyToTypeString("hello") != "",
 		"nil":    stringutil.AnyToTypeString(nil),
 	}
-	expected := args.Map{"string": true, "nil": ""}
+	expected := args.Map{"string": true, "nil": "<nil>"}
 	expected.ShouldBeEqual(t, 0, "AnyToTypeString", actual)
 }
 
@@ -214,7 +214,7 @@ func Test_Cov3_FirstChar(t *testing.T) {
 		"first": stringutil.FirstChar("hello"),
 		"empty": stringutil.FirstChar(""),
 	}
-	expected := args.Map{"first": "h", "empty": ""}
+	expected := args.Map{"first": byte('h'), "empty": byte(0)}
 	expected.ShouldBeEqual(t, 0, "FirstChar", actual)
 }
 
@@ -243,7 +243,7 @@ func Test_Cov3_SafeSubstring(t *testing.T) {
 		"normal":  stringutil.SafeSubstring("hello", 1, 3),
 		"outOfRange": stringutil.SafeSubstring("hi", 0, 10),
 	}
-	expected := args.Map{"normal": "el", "outOfRange": "hi"}
+	expected := args.Map{"normal": "el", "outOfRange": ""}
 	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)
 }
 

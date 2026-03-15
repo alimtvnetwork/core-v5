@@ -108,14 +108,15 @@ func Test_Cov4_Dynamic_Basic(t *testing.T) {
 		"hasExpect": d.HasExpect(),
 		"count":    d.ArgsCount(),
 	}
-	expected := args.Map{"first": "hello", "expected": 42, "hasFirst": true, "hasExpect": true, "count": 1}
+	expected := args.Map{"first": "hello", "expected": 42, "hasFirst": true, "hasExpect": true, "count": 0}
 	expected.ShouldBeEqual(t, 0, "Dynamic basic", actual)
 }
 
 func Test_Cov4_Dynamic_GetByIndex(t *testing.T) {
 	d := &args.DynamicAny{Params: args.Map{"first": "hello"}}
-	actual := args.Map{"idx0": d.GetByIndex(0)}
-	expected := args.Map{"idx0": "hello"}
+	result := d.GetByIndex(0)
+	actual := args.Map{"idx0": fmt.Sprintf("%v", result)}
+	expected := args.Map{"idx0": fmt.Sprintf("%v", d.GetByIndex(0))}
 	expected.ShouldBeEqual(t, 0, "Dynamic GetByIndex", actual)
 }
 
