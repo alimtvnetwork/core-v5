@@ -1,6 +1,7 @@
 package reflectinternaltests
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests/args"
@@ -404,7 +405,7 @@ func Test_Cov3_ReflectConverter_ArgsToReflectValues(t *testing.T) {
 }
 
 func Test_Cov3_ReflectConverter_ReflectValueToAnyValue_Nil(t *testing.T) {
-	result := reflectinternal.Converter.ReflectValueToAnyValue(nil)
+	result := reflectinternal.Converter.ReflectValueToAnyValue(reflect.Value{})
 	actual := args.Map{"isNil": result == nil}
 	expected := args.Map{"isNil": true}
 	expected.ShouldBeEqual(t, 0, "ReflectValueToAnyValue nil", actual)

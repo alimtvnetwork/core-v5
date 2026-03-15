@@ -140,7 +140,6 @@ func Test_Cov3_Group_AllMethods(t *testing.T) {
 
 func Test_Cov3_Group_EnumEqual(t *testing.T) {
 	g := ostype.WindowsGroup
-	gp := &g
 	u := ostype.UnixGroup
 	up := &u
 	wp := &g

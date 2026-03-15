@@ -190,7 +190,7 @@ func Test_Cov3_ReflectInterfaceVal_Ptr(t *testing.T) {
 // ── NonEmpty / NonEmptyJoin ──
 
 func Test_Cov3_NonEmpty(t *testing.T) {
-	result := strutilinternal.NonEmpty([]string{"a", "", "b", ""})
+	result := strutilinternal.NonEmptySlice([]string{"a", "", "b", ""})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "NonEmpty", actual)

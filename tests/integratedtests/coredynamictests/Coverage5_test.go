@@ -456,9 +456,9 @@ func Test_Cov5_SimpleRequest(t *testing.T) {
 }
 
 func Test_Cov5_SimpleResult(t *testing.T) {
-	sr := &coredynamic.SimpleResult{Data: "hello", IsSuccess: true}
-	actual := args.Map{"data": sr.Data, "isSuccess": sr.IsSuccess}
-	expected := args.Map{"data": "hello", "isSuccess": true}
+	sr := coredynamic.NewSimpleResultValid("hello")
+	actual := args.Map{"result": sr.Result, "isValid": sr.IsValid()}
+	expected := args.Map{"result": "hello", "isValid": true}
 	expected.ShouldBeEqual(t, 0, "SimpleResult -- valid", actual)
 }
 

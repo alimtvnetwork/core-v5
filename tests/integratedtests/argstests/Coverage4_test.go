@@ -100,17 +100,20 @@ func Test_Cov4_Six_GetByIndex(t *testing.T) {
 // ── Dynamic ──
 
 func Test_Cov4_Dynamic_Basic(t *testing.T) {
-	d := &args.Dynamic{First: "hello", Expect: 42}
+	d := &args.DynamicAny{Params: args.Map{"first": "hello"}, Expect: 42}
 	actual := args.Map{
-		"first":  d.FirstItem(), "expected": d.Expected(),
-		"hasFirst": d.HasFirst(), "hasExpect": d.HasExpect(), "count": d.ArgsCount(),
+		"first":    d.FirstItem(),
+		"expected": d.Expected(),
+		"hasFirst": d.HasFirst(),
+		"hasExpect": d.HasExpect(),
+		"count":    d.ArgsCount(),
 	}
 	expected := args.Map{"first": "hello", "expected": 42, "hasFirst": true, "hasExpect": true, "count": 1}
 	expected.ShouldBeEqual(t, 0, "Dynamic basic", actual)
 }
 
 func Test_Cov4_Dynamic_GetByIndex(t *testing.T) {
-	d := &args.Dynamic{First: "hello"}
+	d := &args.DynamicAny{Params: args.Map{"first": "hello"}}
 	actual := args.Map{"idx0": d.GetByIndex(0)}
 	expected := args.Map{"idx0": "hello"}
 	expected.ShouldBeEqual(t, 0, "Dynamic GetByIndex", actual)
@@ -119,13 +122,10 @@ func Test_Cov4_Dynamic_GetByIndex(t *testing.T) {
 // ── FuncMap ──
 
 func Test_Cov4_FuncMap_Basic(t *testing.T) {
-	fm := &args.FuncMap{Func: func() {}, Expect: "yes"}
-	actual := args.Map{
-		"hasFunc":   fm.HasFunc(),
-		"hasExpect": fm.HasExpect(),
-		"expected":  fm.Expected(),
-	}
-	expected := args.Map{"hasFunc": true, "hasExpect": true, "expected": "yes"}
+	fm := args.FuncMap{}
+	fm.Add(func() {})
+	actual := args.Map{"hasAny": fm.HasAnyItem(), "lengthGt0": fm.Length() > 0}
+	expected := args.Map{"hasAny": true, "lengthGt0": true}
 	expected.ShouldBeEqual(t, 0, "FuncMap basic", actual)
 }
 
@@ -151,7 +151,7 @@ func Test_Cov4_Map_GetFirstOfNames_None(t *testing.T) {
 
 func Test_Cov4_MapCompile_ToGoLiteral(t *testing.T) {
 	m := args.Map{"key": "value"}
-	literal := m.ToGoLiteral()
+	literal := m.GoLiteralString()
 	actual := args.Map{"notEmpty": len(literal) > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Map ToGoLiteral", actual)
@@ -169,21 +169,21 @@ func Test_Cov4_Holder_NilFunc(t *testing.T) {
 // ── Empty creator ──
 
 func Test_Cov4_Empty_One(t *testing.T) {
-	o := args.EmptyCreator.One()
-	actual := args.Map{"notNil": o != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Empty One", actual)
+	h := args.Empty.Holder()
+	actual := args.Map{"hasNil": h.First == nil}
+	expected := args.Map{"hasNil": true}
+	expected.ShouldBeEqual(t, 0, "Empty Holder", actual)
 }
 
 func Test_Cov4_Empty_Two(t *testing.T) {
-	tw := args.EmptyCreator.Two()
-	actual := args.Map{"notNil": tw != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Empty Two", actual)
+	fw := args.Empty.FuncWrap()
+	actual := args.Map{"isInvalid": fw.IsInvalid()}
+	expected := args.Map{"isInvalid": true}
+	expected.ShouldBeEqual(t, 0, "Empty FuncWrap", actual)
 }
 
 func Test_Cov4_Empty_Map(t *testing.T) {
-	m := args.EmptyCreator.Map()
+	m := args.Empty.Map()
 	actual := args.Map{"len": m.Length()}
 	expected := args.Map{"len": 0}
 	expected.ShouldBeEqual(t, 0, "Empty Map", actual)
@@ -192,21 +192,21 @@ func Test_Cov4_Empty_Map(t *testing.T) {
 // ── OneFunc / TwoFunc / ThreeFunc ──
 
 func Test_Cov4_OneFunc(t *testing.T) {
-	of := &args.OneFunc[string, func() string]{First: "a", WorkFunc: func() string { return "hello" }}
+	of := &args.OneFunc[string]{First: "a", WorkFunc: func() string { return "hello" }}
 	actual := args.Map{"first": of.FirstItem(), "hasFunc": of.HasFunc()}
 	expected := args.Map{"first": "a", "hasFunc": true}
 	expected.ShouldBeEqual(t, 0, "OneFunc", actual)
 }
 
 func Test_Cov4_TwoFunc(t *testing.T) {
-	tf := &args.TwoFunc[string, int, func() string]{First: "a", Second: 1, WorkFunc: func() string { return "hello" }}
+	tf := &args.TwoFunc[string, int]{First: "a", Second: 1, WorkFunc: func() string { return "hello" }}
 	actual := args.Map{"first": tf.FirstItem(), "second": tf.SecondItem(), "hasFunc": tf.HasFunc()}
 	expected := args.Map{"first": "a", "second": 1, "hasFunc": true}
 	expected.ShouldBeEqual(t, 0, "TwoFunc", actual)
 }
 
 func Test_Cov4_ThreeFunc(t *testing.T) {
-	tf := &args.ThreeFunc[string, int, bool, func() string]{
+	tf := &args.ThreeFunc[string, int, bool]{
 		First: "a", Second: 1, Third: true, WorkFunc: func() string { return "hello" },
 	}
 	actual := args.Map{"first": tf.FirstItem(), "hasFunc": tf.HasFunc()}
