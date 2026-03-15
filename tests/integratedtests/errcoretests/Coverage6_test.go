@@ -6,7 +6,17 @@ import (
 
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/namevalue"
 )
+
+// mockLengthGetter implements the lengthGetter interface for testing.
+type mockLengthGetter struct {
+	length int
+}
+
+func (m *mockLengthGetter) Length() int {
+	return m.length
+}
 
 // ── CombineWithMsgTypeNoStack ──
 
