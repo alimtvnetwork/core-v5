@@ -501,21 +501,30 @@ func Test_Cov6_CountStateChangeTracker(t *testing.T) {
 // ── VarNameValues / VarNameValuesJoiner / VarNameValuesStrings ──
 
 func Test_Cov6_VarNameValues(t *testing.T) {
-	result := errcore.VarNameValues("a", 1, "b", 2)
+	result := errcore.VarNameValues(
+		namevalue.Instance[string, any]{Name: "a", Value: 1},
+		namevalue.Instance[string, any]{Name: "b", Value: 2},
+	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValues", actual)
 }
 
 func Test_Cov6_VarNameValuesJoiner(t *testing.T) {
-	result := errcore.VarNameValuesJoiner(",", "a", 1, "b", 2)
+	result := errcore.VarNameValuesJoiner(",",
+		namevalue.Instance[string, any]{Name: "a", Value: 1},
+		namevalue.Instance[string, any]{Name: "b", Value: 2},
+	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner", actual)
 }
 
 func Test_Cov6_VarNameValuesStrings(t *testing.T) {
-	result := errcore.VarNameValuesStrings("a", "1", "b", "2")
+	result := errcore.VarNameValuesStrings(
+		namevalue.Instance[string, any]{Name: "a", Value: "1"},
+		namevalue.Instance[string, any]{Name: "b", Value: "2"},
+	)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesStrings", actual)
