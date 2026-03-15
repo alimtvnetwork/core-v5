@@ -406,20 +406,22 @@ func Test_Cov6_StringLinesToQuoteLinesToSingle(t *testing.T) {
 }
 
 func Test_Cov6_StringLinesToQuoteLinesWithTabs(t *testing.T) {
-	result := errcore.StringLinesToQuoteLinesWithTabs([]string{"a", "b"})
+	result := errcore.StringLinesToQuoteLines([]string{"a", "b"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLinesWithTabs", actual)
+	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines", actual)
 }
 
 // ── MapMismatchError ──
 
 func Test_Cov6_MapMismatchError(t *testing.T) {
 	result := errcore.MapMismatchError(
-		"ctx", "key", "expected", "actual",
+		"Test_Cov6_MapMismatchError", 1, "ctx",
+		[]string{"\"actual\": false,"},
+		[]string{"\"expected\": true,"},
 	)
-	actual := args.Map{"hasErr": result != nil}
-	expected := args.Map{"hasErr": true}
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MapMismatchError", actual)
 }
 
