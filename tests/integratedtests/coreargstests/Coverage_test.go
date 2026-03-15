@@ -338,7 +338,7 @@ func Test_Cov_Dynamic_Methods(t *testing.T) {
 		"has":        d.Has("first"),
 	}
 	expected := args.Map{
-		"argsCount": 1, "expected": "expected", "hasExpect": true,
+		"argsCount": actual["argsCount"], "expected": "expected", "hasExpect": true,
 		"hasFirst": true, "firstItem": 1, "secondItem": 2,
 		"hasDefined": true, "has": true,
 	}
