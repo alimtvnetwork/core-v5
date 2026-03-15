@@ -240,7 +240,7 @@ func Test_Cov6_ExpectingFuture(t *testing.T) {
 // ── Var helpers ──
 
 func Test_Cov6_VarTwo(t *testing.T) {
-	result := errcore.VarTwo("a", 1, "b", 2)
+	result := errcore.VarTwo(true, "a", 1, "b", 2)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarTwo", actual)
@@ -254,7 +254,7 @@ func Test_Cov6_VarTwoNoType(t *testing.T) {
 }
 
 func Test_Cov6_VarThree(t *testing.T) {
-	result := errcore.VarThree("a", 1, "b", 2, "c", 3)
+	result := errcore.VarThree(true, "a", 1, "b", 2, "c", 3)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarThree", actual)
