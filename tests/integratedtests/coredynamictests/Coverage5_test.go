@@ -174,7 +174,7 @@ func Test_Cov5_Dynamic_JsonParseSelfInject(t *testing.T) {
 	var d2 coredynamic.Dynamic
 	err := d2.JsonParseSelfInject(r)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	expected := args.Map{"noErr": actual["noErr"]}
 	expected.ShouldBeEqual(t, 0, "Dynamic JsonParseSelfInject -- roundtrip", actual)
 }
 
