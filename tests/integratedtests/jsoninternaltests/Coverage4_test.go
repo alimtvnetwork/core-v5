@@ -16,7 +16,7 @@ func Test_Cov4_AnyTo_String(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "noErr": err == nil, "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "noErr": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "noErr": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo String", actual)
 }
 
@@ -27,7 +27,7 @@ func Test_Cov4_AnyTo_SafeString(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo SafeString", actual)
 }
 
@@ -40,7 +40,7 @@ func Test_Cov4_AnyTo_PrettyString(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "noErr": err == nil, "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "noErr": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "noErr": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo PrettyString", actual)
 }
 
@@ -51,7 +51,7 @@ func Test_Cov4_AnyTo_SafePrettyString(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo SafePrettyString", actual)
 }
 
@@ -62,7 +62,7 @@ func Test_Cov4_AnyTo_PrettyStringDefault(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo PrettyStringDefault", actual)
 }
 
@@ -75,7 +75,7 @@ func Test_Cov4_AnyTo_PrettyStringIndent(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "noErr": err == nil, "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "noErr": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "noErr": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo PrettyStringIndent", actual)
 }
 

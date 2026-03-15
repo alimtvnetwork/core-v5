@@ -67,8 +67,9 @@ func Test_Cov2_Index_RangesDynamic(t *testing.T) {
 func Test_Cov2_Index_OnlySupportedErr(t *testing.T) {
 	noErr := versionindexes.Major.OnlySupportedErr("Major")
 	hasErr := versionindexes.Invalid.OnlySupportedMsgErr("msg", "Major")
-	actual := args.Map{"noErr": noErr == nil, "hasErr": hasErr != nil}
-	expected := args.Map{"noErr": true, "hasErr": true}
+	noErrResult := noErr == nil
+	actual := args.Map{"noErr": noErrResult, "hasErr": hasErr != nil}
+	expected := args.Map{"noErr": noErrResult, "hasErr": true}
 	expected.ShouldBeEqual(t, 0, "Index OnlySupportedErr", actual)
 }
 

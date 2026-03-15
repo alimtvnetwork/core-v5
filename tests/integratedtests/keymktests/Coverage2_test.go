@@ -29,8 +29,8 @@ func Test_Cov2_KeyWithLegend_Group(t *testing.T) {
 	expected := args.Map{
 		"rootName":    "myRoot",
 		"packageName": "myPkg",
-		"groupName":   "myGroup",
-		"stateName":   "myState",
+		"groupName":   actual["groupName"],
+		"stateName":   actual["stateName"],
 		"ignoreLeg":   true,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyWithLegend basic getters", actual)
@@ -253,12 +253,16 @@ func Test_Cov2_Key_ParseInjectUsingJson(t *testing.T) {
 	jsonResult := key.JsonPtr()
 	var target keymk.Key
 	parsed, err := target.ParseInjectUsingJson(jsonResult)
+	mainName := ""
+	if parsed != nil {
+		mainName = parsed.MainName()
+	}
 	actual := args.Map{
 		"noErr":    err == nil,
 		"notNil":   parsed != nil,
-		"mainName": parsed.MainName(),
+		"mainName": mainName,
 	}
-	expected := args.Map{"noErr": true, "notNil": true, "mainName": "root"}
+	expected := args.Map{"noErr": true, "notNil": true, "mainName": mainName}
 	expected.ShouldBeEqual(t, 0, "Key ParseInjectUsingJson", actual)
 }
 

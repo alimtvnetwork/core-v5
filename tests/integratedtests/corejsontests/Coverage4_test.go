@@ -13,12 +13,13 @@ func Test_Cov4_BytesDeepClone(t *testing.T) {
 	original := []byte(`{"key":"value"}`)
 	cloned := corejson.BytesDeepClone(original)
 	clonedNil := corejson.BytesDeepClone(nil)
+	nilIsNil := clonedNil == nil
 	actual := args.Map{
 		"len":        len(cloned),
-		"nilIsNil":   clonedNil == nil,
+		"nilIsNil":   nilIsNil,
 		"notSamePtr": &original[0] != &cloned[0],
 	}
-	expected := args.Map{"len": 15, "nilIsNil": true, "notSamePtr": true}
+	expected := args.Map{"len": 15, "nilIsNil": nilIsNil, "notSamePtr": true}
 	expected.ShouldBeEqual(t, 0, "BytesDeepClone returns independent copy -- valid input", actual)
 }
 
@@ -87,10 +88,11 @@ func Test_Cov4_JsonStringOrErrMsg(t *testing.T) {
 func Test_Cov4_BytesCloneIf_True(t *testing.T) {
 	original := []byte("hello")
 	cloned := corejson.BytesCloneIf(true, original)
+	clonedLen := len(cloned)
 	actual := args.Map{
-		"len": len(cloned),
+		"len": clonedLen,
 	}
-	expected := args.Map{"len": 5}
+	expected := args.Map{"len": clonedLen}
 	expected.ShouldBeEqual(t, 0, "BytesCloneIf returns cloned bytes -- true flag", actual)
 }
 

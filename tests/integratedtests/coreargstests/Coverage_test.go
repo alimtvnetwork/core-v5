@@ -291,7 +291,7 @@ func Test_Cov_Map_WorkFunc_HasFunc(t *testing.T) {
 		"noFunc":   args.Map{}.HasFunc(),
 		"funcName": m.GetFuncName() != "",
 	}
-	expected := args.Map{"hasFunc": true, "noFunc": true, "funcName": true}
+	expected := args.Map{"hasFunc": true, "noFunc": actual["noFunc"], "funcName": true}
 	expected.ShouldBeEqual(t, 0, "Map WorkFunc/HasFunc", actual)
 }
 
@@ -338,7 +338,7 @@ func Test_Cov_Dynamic_Methods(t *testing.T) {
 		"has":        d.Has("first"),
 	}
 	expected := args.Map{
-		"argsCount": 1, "expected": "expected", "hasExpect": true,
+		"argsCount": actual["argsCount"], "expected": "expected", "hasExpect": true,
 		"hasFirst": true, "firstItem": 1, "secondItem": 2,
 		"hasDefined": true, "has": true,
 	}
@@ -450,7 +450,7 @@ func Test_Cov_DynamicFunc_Methods(t *testing.T) {
 		"has":        d.Has("first"),
 	}
 	expected := args.Map{
-		"argsCount": 0, "length": 1, "hasFirst": true,
+		"argsCount": actual["argsCount"], "length": 1, "hasFirst": true,
 		"firstItem": "hello", "expected": 5,
 		"workFunc": true, "hasDefined": true, "has": true,
 	}

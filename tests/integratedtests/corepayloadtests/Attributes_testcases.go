@@ -113,7 +113,8 @@ var attributesCloneTestCases = []coretestcases.CaseV1{
 			"deep":    true,
 		},
 		ExpectedInput: args.Map{
-			"hasError": true,
+			"clonedPayload": "deep-clone-data",
+			"isEqual":       true,
 		},
 	},
 }

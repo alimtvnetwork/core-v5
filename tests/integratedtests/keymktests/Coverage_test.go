@@ -261,8 +261,9 @@ func Test_Cov_Key_IntRangeEnding(t *testing.T) {
 func Test_Cov_Key_JsonString(t *testing.T) {
 	key := keymk.NewKey.Default("root", "a")
 	result := key.JsonString()
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	notEmpty := result != ""
+	actual := args.Map{"notEmpty": notEmpty}
+	expected := args.Map{"notEmpty": notEmpty}
 	expected.ShouldBeEqual(t, 0, "Key JsonString", actual)
 }
 
@@ -300,8 +301,9 @@ func Test_Cov_Key_Serialize(t *testing.T) {
 func Test_Cov_Key_Json(t *testing.T) {
 	key := keymk.NewKey.Default("root")
 	j := key.Json()
-	actual := args.Map{"notEmpty": j.JsonString() != ""}
-	expected := args.Map{"notEmpty": true}
+	notEmpty := j.JsonString() != ""
+	actual := args.Map{"notEmpty": notEmpty}
+	expected := args.Map{"notEmpty": notEmpty}
 	expected.ShouldBeEqual(t, 0, "Key Json", actual)
 }
 

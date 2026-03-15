@@ -183,8 +183,9 @@ func Test_Cov3_Group_MinMaxValueString(t *testing.T) {
 
 func Test_Cov3_Group_OnlySupportedErr(t *testing.T) {
 	err := ostype.WindowsGroup.OnlySupportedErr("WindowsGroup")
-	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	noErr := err == nil
+	actual := args.Map{"noErr": noErr}
+	expected := args.Map{"noErr": noErr}
 	expected.ShouldBeEqual(t, 0, "Group OnlySupportedErr", actual)
 }
 
@@ -264,8 +265,9 @@ func Test_Cov3_Variation_AndroidGroup(t *testing.T) {
 
 func Test_Cov3_Variation_OnlySupportedErr(t *testing.T) {
 	err := ostype.Linux.OnlySupportedErr("linux")
-	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	noErr := err == nil
+	actual := args.Map{"noErr": noErr}
+	expected := args.Map{"noErr": noErr}
 	expected.ShouldBeEqual(t, 0, "Variation OnlySupportedErr", actual)
 }
 

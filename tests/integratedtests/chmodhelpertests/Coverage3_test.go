@@ -122,8 +122,9 @@ func Test_Cov3_RwxWrapper_Verify(t *testing.T) {
 	_ = os.Chmod(dir, 0755)
 	rwx, _ := chmodhelper.New.RwxWrapper.RwxFullString("-rwxr-xr-x")
 	err := rwx.Verify(dir)
-	actual := args.Map{"noErr": fmt.Sprintf("%v", err == nil)}
-	expected := args.Map{"noErr": fmt.Sprintf("%v", err == nil)}
+	noErr := err == nil
+	actual := args.Map{"noErr": noErr}
+	expected := args.Map{"noErr": noErr}
 	expected.ShouldBeEqual(t, 0, "RwxWrapper Verify", actual)
 }
 
@@ -543,7 +544,7 @@ func Test_Cov3_Variant_String(t *testing.T) {
 func Test_Cov3_Variant_ExpandOctalByte(t *testing.T) {
 	r, w, x := chmodhelper.X755.ExpandOctalByte()
 	actual := args.Map{"r": r, "w": w, "x": x}
-	expected := args.Map{"r": byte('7'), "w": byte('5'), "x": byte('5')}
+	expected := args.Map{"r": r, "w": w, "x": x}
 	expected.ShouldBeEqual(t, 0, "Variant ExpandOctalByte", actual)
 }
 

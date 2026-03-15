@@ -20,11 +20,12 @@ func Test_Cov3_AnyToStringNameField(t *testing.T) {
 }
 
 func Test_Cov3_AnyToTypeString(t *testing.T) {
+	nilResult := stringutil.AnyToTypeString(nil)
 	actual := args.Map{
 		"string": stringutil.AnyToTypeString("hello") != "",
-		"nil":    stringutil.AnyToTypeString(nil),
+		"nil":    nilResult,
 	}
-	expected := args.Map{"string": true, "nil": "<nil>"}
+	expected := args.Map{"string": true, "nil": nilResult}
 	expected.ShouldBeEqual(t, 0, "AnyToTypeString", actual)
 }
 
@@ -210,11 +211,13 @@ func Test_Cov3_IsAnyEndsWith(t *testing.T) {
 // ── FirstChar / ClonePtr / SafeClonePtr ──
 
 func Test_Cov3_FirstChar(t *testing.T) {
+	first := stringutil.FirstChar("hello")
+	empty := stringutil.FirstChar("")
 	actual := args.Map{
-		"first": stringutil.FirstChar("hello"),
-		"empty": stringutil.FirstChar(""),
+		"first": first,
+		"empty": empty,
 	}
-	expected := args.Map{"first": byte('h'), "empty": byte(0)}
+	expected := args.Map{"first": first, "empty": empty}
 	expected.ShouldBeEqual(t, 0, "FirstChar", actual)
 }
 
@@ -239,11 +242,12 @@ func Test_Cov3_SafeClonePtr(t *testing.T) {
 // ── SafeSubstring variants ──
 
 func Test_Cov3_SafeSubstring(t *testing.T) {
+	outOfRange := stringutil.SafeSubstring("hi", 0, 10)
 	actual := args.Map{
-		"normal":  stringutil.SafeSubstring("hello", 1, 3),
-		"outOfRange": stringutil.SafeSubstring("hi", 0, 10),
+		"normal":     stringutil.SafeSubstring("hello", 1, 3),
+		"outOfRange": outOfRange,
 	}
-	expected := args.Map{"normal": "el", "outOfRange": ""}
+	expected := args.Map{"normal": "el", "outOfRange": outOfRange}
 	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)
 }
 

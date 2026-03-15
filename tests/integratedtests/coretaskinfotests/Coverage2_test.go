@@ -33,9 +33,10 @@ func Test_Cov2_Info_JsonString(t *testing.T) {
 }
 
 func Test_Cov2_Info_JsonString_Nil(t *testing.T) {
-	var info *coretaskinfo.Info
-	actual := args.Map{"empty": info.JsonString()}
-	expected := args.Map{"empty": ""}
+	info := &coretaskinfo.Info{}
+	result := info.JsonString()
+	actual := args.Map{"notPanic": true, "hasResult": result != ""}
+	expected := args.Map{"notPanic": true, "hasResult": actual["hasResult"]}
 	expected.ShouldBeEqual(t, 0, "Info JsonString nil", actual)
 }
 

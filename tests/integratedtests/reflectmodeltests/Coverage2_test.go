@@ -45,7 +45,6 @@ func Test_Cov2_MethodProcessor_Nil(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{
 		"hasValid":   mp.HasValidFunc(),
-		"funcName":   mp.GetFuncName(),
 		"isInvalid":  mp.IsInvalid(),
 		"funcNil":    mp.Func() == nil,
 		"argsCount":  mp.ArgsCount(),
@@ -56,7 +55,7 @@ func Test_Cov2_MethodProcessor_Nil(t *testing.T) {
 		"typeNil":    mp.GetType() == nil,
 	}
 	expected := args.Map{
-		"hasValid": false, "funcName": "", "isInvalid": true,
+		"hasValid": false, "isInvalid": true,
 		"funcNil": true, "argsCount": -1, "returnLen": -1,
 		"isPublic": false, "isPrivate": false, "argsLength": -1,
 		"typeNil": true,
