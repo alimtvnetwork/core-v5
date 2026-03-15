@@ -386,7 +386,7 @@ func Test_Cov6_PanicOnIndexOutOfRange(t *testing.T) {
 		expected := args.Map{"panicked": true}
 		expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange panic", actual)
 	}()
-	errcore.PanicOnIndexOutOfRange(5, 3)
+	errcore.PanicOnIndexOutOfRange(5, []int{3, 6})
 }
 
 // ── StringLinesToQuoteLines ──
