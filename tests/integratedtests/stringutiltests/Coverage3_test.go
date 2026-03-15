@@ -214,7 +214,7 @@ func Test_Cov3_FirstChar(t *testing.T) {
 		"first": stringutil.FirstChar("hello"),
 		"empty": stringutil.FirstChar(""),
 	}
-	expected := args.Map{"first": "h", "empty": ""}
+	expected := args.Map{"first": byte('h'), "empty": byte(0)}
 	expected.ShouldBeEqual(t, 0, "FirstChar", actual)
 }
 
