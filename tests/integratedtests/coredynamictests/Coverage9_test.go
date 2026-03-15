@@ -1,0 +1,926 @@
+package coredynamictests
+
+import (
+	"reflect"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coretests/args"
+)
+
+// ═══════════════════════════════════════════
+// AnyCollection — constructors & basic
+// ═══════════════════════════════════════════
+
+func Test_Cov9_AnyCollection_Empty(t *testing.T) {
+	ac := coredynamic.EmptyAnyCollection()
+	var nilAC *coredynamic.AnyCollection
+	actual := args.Map{
+		"len":      ac.Length(),
+		"count":    ac.Count(),
+		"isEmpty":  ac.IsEmpty(),
+		"hasAny":   ac.HasAnyItem(),
+		"lastIdx":  ac.LastIndex(),
+		"nilLen":   nilAC.Length(),
+		"nilEmpty": nilAC.IsEmpty(),
+	}
+	expected := args.Map{
+		"len": 0, "count": 0, "isEmpty": true, "hasAny": false,
+		"lastIdx": -1, "nilLen": 0, "nilEmpty": true,
+	}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Empty", actual)
+}
+
+func Test_Cov9_AnyCollection_Add(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("a")
+	ac.Add("b")
+	actual := args.Map{
+		"len":    ac.Length(),
+		"hasAny": ac.HasAnyItem(),
+		"hasIdx": ac.HasIndex(1),
+		"noIdx":  ac.HasIndex(10),
+	}
+	expected := args.Map{"len": 2, "hasAny": true, "hasIdx": true, "noIdx": false}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Add", actual)
+}
+
+func Test_Cov9_AnyCollection_AddMany(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddMany("a", "b", "c")
+	ac.AddMany() // nil — no-op
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddMany", actual)
+}
+
+func Test_Cov9_AnyCollection_AddMany_SkipsNil(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddMany("a", nil, "b")
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddMany skips nil", actual)
+}
+
+func Test_Cov9_AnyCollection_AddNonNull(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddNonNull("a")
+	ac.AddNonNull(nil) // skip
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddNonNull", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAny(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddAny("hello", true)
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAny", actual)
+}
+
+func Test_Cov9_AnyCollection_AddNonNullDynamic(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddNonNullDynamic("x", true)
+	ac.AddNonNullDynamic(nil, true) // skip
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddNonNullDynamic", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnyManyDynamic(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddAnyManyDynamic("a", "b")
+	ac.AddAnyManyDynamic() // nil — no-op
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyManyDynamic", actual)
+}
+
+func Test_Cov9_AnyCollection_Items(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("a")
+	emptyAC := coredynamic.EmptyAnyCollection()
+	actual := args.Map{
+		"itemsLen": len(ac.Items()),
+		"emptyLen": len(emptyAC.Items()),
+	}
+	expected := args.Map{"itemsLen": 1, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Items", actual)
+}
+
+func Test_Cov9_AnyCollection_At(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	actual := args.Map{"val": ac.At(0)}
+	expected := args.Map{"val": "hello"}
+	expected.ShouldBeEqual(t, 0, "AnyCollection At", actual)
+}
+
+func Test_Cov9_AnyCollection_AtAsDynamic(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	d := ac.AtAsDynamic(0)
+	actual := args.Map{
+		"val":     d.Value(),
+		"isValid": d.IsValid(),
+	}
+	expected := args.Map{"val": "hello", "isValid": true}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AtAsDynamic", actual)
+}
+
+func Test_Cov9_AnyCollection_FirstLastOrDefault(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("first")
+	ac.Add("last")
+	emptyAC := coredynamic.EmptyAnyCollection()
+	actual := args.Map{
+		"first":         ac.First(),
+		"last":          ac.Last(),
+		"firstDyn":      ac.FirstDynamic(),
+		"lastDyn":       ac.LastDynamic(),
+		"firstOrDef":    ac.FirstOrDefault(),
+		"lastOrDef":     ac.LastOrDefault(),
+		"firstOrDefDyn": ac.FirstOrDefaultDynamic(),
+		"lastOrDefDyn":  ac.LastOrDefaultDynamic(),
+		"emptyFirst":    emptyAC.FirstOrDefault() == nil,
+		"emptyLast":     emptyAC.LastOrDefault() == nil,
+	}
+	expected := args.Map{
+		"first": "first", "last": "last",
+		"firstDyn": "first", "lastDyn": "last",
+		"firstOrDef": "first", "lastOrDef": "last",
+		"firstOrDefDyn": "first", "lastOrDefDyn": "last",
+		"emptyFirst": true, "emptyLast": true,
+	}
+	expected.ShouldBeEqual(t, 0, "AnyCollection FirstLast", actual)
+}
+
+func Test_Cov9_AnyCollection_SkipTakeLimitSlice(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(10)
+	ac.AddMany("a", "b", "c", "d", "e")
+	actual := args.Map{
+		"skipLen":      len(ac.Skip(2)),
+		"skipDynNN":    ac.SkipDynamic(2) != nil,
+		"skipCol":      ac.SkipCollection(2).Length(),
+		"takeLen":      len(ac.Take(2)),
+		"takeDynNN":    ac.TakeDynamic(2) != nil,
+		"takeCol":      ac.TakeCollection(2).Length(),
+		"limitLen":     len(ac.Limit(3)),
+		"limitDynNN":   ac.LimitDynamic(3) != nil,
+		"limitCol":     ac.LimitCollection(3).Length(),
+		"safeLimitCol": ac.SafeLimitCollection(100).Length(),
+	}
+	expected := args.Map{
+		"skipLen": 3, "skipDynNN": true, "skipCol": 3,
+		"takeLen": 2, "takeDynNN": true, "takeCol": 2,
+		"limitLen": 3, "limitDynNN": true, "limitCol": 3,
+		"safeLimitCol": 5,
+	}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Skip/Take/Limit", actual)
+}
+
+func Test_Cov9_AnyCollection_RemoveAt(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddMany("a", "b", "c")
+	ok := ac.RemoveAt(1)
+	fail := ac.RemoveAt(100)
+	actual := args.Map{
+		"ok":     ok,
+		"fail":   fail,
+		"newLen": ac.Length(),
+	}
+	expected := args.Map{"ok": true, "fail": false, "newLen": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection RemoveAt", actual)
+}
+
+func Test_Cov9_AnyCollection_DynamicItems(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	dynItems := ac.DynamicItems()
+	emptyAC := coredynamic.EmptyAnyCollection()
+	emptyDyn := emptyAC.DynamicItems()
+	actual := args.Map{
+		"dynLen":   len(dynItems),
+		"emptyLen": len(emptyDyn),
+	}
+	expected := args.Map{"dynLen": 1, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection DynamicItems", actual)
+}
+
+func Test_Cov9_AnyCollection_DynamicCollection(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	dc := ac.DynamicCollection()
+	emptyAC := coredynamic.EmptyAnyCollection()
+	emptyDC := emptyAC.DynamicCollection()
+	actual := args.Map{
+		"dcLen":    dc.Length(),
+		"emptyLen": emptyDC.Length(),
+	}
+	expected := args.Map{"dcLen": 1, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection DynamicCollection", actual)
+}
+
+func Test_Cov9_AnyCollection_Loop_Sync(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddMany("a", "b", "c")
+	count := 0
+	ac.Loop(false, func(index int, item any) (isBreak bool) {
+		count++
+		return false
+	})
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 3}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Loop sync", actual)
+}
+
+func Test_Cov9_AnyCollection_Loop_Break(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddMany("a", "b", "c")
+	count := 0
+	ac.Loop(false, func(index int, item any) (isBreak bool) {
+		count++
+		return true // break on first
+	})
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Loop break", actual)
+}
+
+func Test_Cov9_AnyCollection_Loop_Empty(t *testing.T) {
+	ac := coredynamic.EmptyAnyCollection()
+	count := 0
+	ac.Loop(false, func(index int, item any) (isBreak bool) {
+		count++
+		return false
+	})
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Loop empty", actual)
+}
+
+func Test_Cov9_AnyCollection_Loop_Async(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddMany("a", "b", "c")
+	// Async loop — cannot reliably count due to goroutines,
+	// but must not panic and must return self
+	result := ac.Loop(true, func(index int, item any) (isBreak bool) {
+		return false
+	})
+	actual := args.Map{"resultNN": result != nil}
+	expected := args.Map{"resultNN": true}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Loop async", actual)
+}
+
+func Test_Cov9_AnyCollection_LoopDynamic_Sync(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	ac.Add("world")
+	count := 0
+	ac.LoopDynamic(false, func(index int, item coredynamic.Dynamic) (isBreak bool) {
+		count++
+		return false
+	})
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection LoopDynamic sync", actual)
+}
+
+func Test_Cov9_AnyCollection_LoopDynamic_Break(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	ac.Add("world")
+	count := 0
+	ac.LoopDynamic(false, func(index int, item coredynamic.Dynamic) (isBreak bool) {
+		count++
+		return true
+	})
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection LoopDynamic break", actual)
+}
+
+func Test_Cov9_AnyCollection_LoopDynamic_Async(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	result := ac.LoopDynamic(true, func(index int, item coredynamic.Dynamic) (isBreak bool) {
+		return false
+	})
+	actual := args.Map{"resultNN": result != nil}
+	expected := args.Map{"resultNN": true}
+	expected.ShouldBeEqual(t, 0, "AnyCollection LoopDynamic async", actual)
+}
+
+func Test_Cov9_AnyCollection_LoopDynamic_Empty(t *testing.T) {
+	ac := coredynamic.EmptyAnyCollection()
+	count := 0
+	ac.LoopDynamic(false, func(index int, item coredynamic.Dynamic) (isBreak bool) {
+		count++
+		return false
+	})
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection LoopDynamic empty", actual)
+}
+
+func Test_Cov9_AnyCollection_ListStrings(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	ac.Add("world")
+	strs := ac.ListStrings(false)
+	strsField := ac.ListStrings(true)
+	strsPtr := ac.ListStringsPtr(false)
+	actual := args.Map{
+		"strsLen":      len(strs),
+		"strsFieldLen": len(strsField),
+		"strsPtrLen":   len(strsPtr),
+	}
+	expected := args.Map{"strsLen": 2, "strsFieldLen": 2, "strsPtrLen": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection ListStrings", actual)
+}
+
+func Test_Cov9_AnyCollection_Strings(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("a")
+	ac.Add("b")
+	strs := ac.Strings()
+	str := ac.String()
+	emptyAC := coredynamic.EmptyAnyCollection()
+	emptyStrs := emptyAC.Strings()
+	actual := args.Map{
+		"strsLen":     len(strs),
+		"strNotEmpty": str != "",
+		"emptyLen":    len(emptyStrs),
+	}
+	expected := args.Map{"strsLen": 2, "strNotEmpty": true, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Strings", actual)
+}
+
+func Test_Cov9_AnyCollection_Json(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	jsonResult := ac.Json()
+	jsonPtr := ac.JsonPtr()
+	model := ac.JsonModel()
+	modelAny := ac.JsonModelAny()
+	js, jsErr := ac.JsonString()
+	jsMust := ac.JsonStringMust()
+	actual := args.Map{
+		"jsonOk":     jsonResult.JsonString() != "",
+		"ptrNotNil":  jsonPtr != nil,
+		"modelNN":    model != nil,
+		"modelAnyNN": modelAny != nil,
+		"jsNotEmpty": js != "",
+		"jsErrNil":   jsErr == nil,
+		"mustNE":     jsMust != "",
+	}
+	expected := args.Map{
+		"jsonOk": true, "ptrNotNil": true,
+		"modelNN": true, "modelAnyNN": true,
+		"jsNotEmpty": true, "jsErrNil": true, "mustNE": true,
+	}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Json", actual)
+}
+
+func Test_Cov9_AnyCollection_JsonResultsCollection(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	rc := ac.JsonResultsCollection()
+	rpc := ac.JsonResultsPtrCollection()
+	emptyAC := coredynamic.EmptyAnyCollection()
+	emptyRC := emptyAC.JsonResultsCollection()
+	actual := args.Map{
+		"rcNotNil":      rc != nil,
+		"rpcNotNil":     rpc != nil,
+		"emptyRCNotNil": emptyRC != nil,
+	}
+	expected := args.Map{"rcNotNil": true, "rpcNotNil": true, "emptyRCNotNil": true}
+	expected.ShouldBeEqual(t, 0, "AnyCollection JsonResultsCollection", actual)
+}
+
+func Test_Cov9_AnyCollection_Paging(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(10)
+	ac.AddMany("a", "b", "c", "d", "e")
+	pages := ac.GetPagesSize(2)
+	paged := ac.GetPagedCollection(2)
+	single := ac.GetSinglePageCollection(2, 1)
+	actual := args.Map{
+		"pages":     pages,
+		"pagedLen":  len(paged),
+		"singleLen": single.Length(),
+	}
+	expected := args.Map{"pages": 3, "pagedLen": 3, "singleLen": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Paging", actual)
+}
+
+func Test_Cov9_AnyCollection_Paging_SmallSet(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("a")
+	pages := ac.GetPagesSize(0)
+	paged := ac.GetPagedCollection(10)
+	single := ac.GetSinglePageCollection(10, 1)
+	actual := args.Map{
+		"zeroPage":   pages,
+		"pagedSelf":  len(paged),
+		"singleSelf": single.Length(),
+	}
+	expected := args.Map{"zeroPage": 0, "pagedSelf": 1, "singleSelf": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection Paging small set", actual)
+}
+
+func Test_Cov9_AnyCollection_ParseJson(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	jsonResult := ac.Json()
+	jsonPtr := &jsonResult
+
+	target := coredynamic.EmptyAnyCollection()
+	parsed, err := target.ParseInjectUsingJson(jsonPtr)
+	actual := args.Map{
+		"parsedNotNil": parsed != nil,
+		"errNil":       err == nil,
+	}
+	expected := args.Map{"parsedNotNil": true, "errNil": true}
+	expected.ShouldBeEqual(t, 0, "AnyCollection ParseInjectUsingJson", actual)
+}
+
+func Test_Cov9_AnyCollection_JsonParseSelfInject(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	jsonResult := ac.Json()
+	jsonPtr := &jsonResult
+
+	target := coredynamic.EmptyAnyCollection()
+	err := target.JsonParseSelfInject(jsonPtr)
+	actual := args.Map{"errNil": err == nil}
+	expected := args.Map{"errNil": true}
+	expected.ShouldBeEqual(t, 0, "AnyCollection JsonParseSelfInject", actual)
+}
+
+// ═══════════════════════════════════════════
+// AnyCollection.AddAnySliceFromSingleItem
+// ═══════════════════════════════════════════
+
+func Test_Cov9_AnyCollection_AddAnySliceFromSingleItem(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddAnySliceFromSingleItem([]string{"a", "b", "c"})
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnySliceFromSingleItem", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnySliceFromSingleItem_Nil(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddAnySliceFromSingleItem(nil) // no-op
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnySliceFromSingleItem nil", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnySliceFromSingleItem_IntSlice(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.AddAnySliceFromSingleItem([]int{1, 2})
+	actual := args.Map{"len": ac.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnySliceFromSingleItem int slice", actual)
+}
+
+// ═══════════════════════════════════════════
+// DynamicCollection.AddAnySliceFromSingleItem
+// ═══════════════════════════════════════════
+
+func Test_Cov9_DynamicCollection_AddAnySliceFromSingleItem(t *testing.T) {
+	dc := coredynamic.NewDynamicCollection(5)
+	dc.AddAnySliceFromSingleItem(true, []string{"x", "y"})
+	actual := args.Map{"len": dc.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "DynamicCollection AddAnySliceFromSingleItem", actual)
+}
+
+func Test_Cov9_DynamicCollection_AddAnySliceFromSingleItem_Nil(t *testing.T) {
+	dc := coredynamic.NewDynamicCollection(5)
+	dc.AddAnySliceFromSingleItem(true, nil) // no-op
+	actual := args.Map{"len": dc.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "DynamicCollection AddAnySliceFromSingleItem nil", actual)
+}
+
+// ═══════════════════════════════════════════
+// AddAnyItemsWithTypeValidation — AnyCollection
+// ═══════════════════════════════════════════
+
+func Test_Cov9_AnyCollection_AddAnyItemsWithTypeValidation_Valid(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	strType := reflect.TypeOf("")
+	err := ac.AddAnyItemsWithTypeValidation(false, false, strType, "a", "b")
+	actual := args.Map{
+		"errNil": err == nil,
+		"len":    ac.Length(),
+	}
+	expected := args.Map{"errNil": true, "len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyItemsWithTypeValidation valid", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnyItemsWithTypeValidation_TypeMismatch(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	strType := reflect.TypeOf("")
+	err := ac.AddAnyItemsWithTypeValidation(false, false, strType, "a", 123)
+	actual := args.Map{
+		"hasErr": err != nil,
+		"len":    ac.Length(),
+	}
+	expected := args.Map{"hasErr": true, "len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyItemsWithTypeValidation mismatch stops", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnyItemsWithTypeValidation_ContinueOnError(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	strType := reflect.TypeOf("")
+	err := ac.AddAnyItemsWithTypeValidation(true, false, strType, "a", 123, "c")
+	actual := args.Map{
+		"hasErr": err != nil,
+		"len":    ac.Length(),
+	}
+	expected := args.Map{"hasErr": true, "len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyItemsWithTypeValidation continueOnError", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnyItemsWithTypeValidation_Empty(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	strType := reflect.TypeOf("")
+	err := ac.AddAnyItemsWithTypeValidation(false, false, strType)
+	actual := args.Map{"errNil": err == nil, "len": ac.Length()}
+	expected := args.Map{"errNil": true, "len": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyItemsWithTypeValidation empty", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnyItemsWithTypeValidation_NullNotAllowed(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	strType := reflect.TypeOf("")
+	err := ac.AddAnyItemsWithTypeValidation(false, true, strType, nil)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyItemsWithTypeValidation null not allowed", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnyWithTypeValidation_Valid(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	strType := reflect.TypeOf("")
+	err := ac.AddAnyWithTypeValidation(false, strType, "hello")
+	actual := args.Map{"errNil": err == nil, "len": ac.Length()}
+	expected := args.Map{"errNil": true, "len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyWithTypeValidation valid", actual)
+}
+
+func Test_Cov9_AnyCollection_AddAnyWithTypeValidation_TypeMismatch(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	strType := reflect.TypeOf("")
+	err := ac.AddAnyWithTypeValidation(false, strType, 42)
+	actual := args.Map{"hasErr": err != nil, "len": ac.Length()}
+	expected := args.Map{"hasErr": true, "len": 0}
+	expected.ShouldBeEqual(t, 0, "AnyCollection AddAnyWithTypeValidation mismatch", actual)
+}
+
+// ═══════════════════════════════════════════
+// AddAnyItemsWithTypeValidation — DynamicCollection
+// ═══════════════════════════════════════════
+
+func Test_Cov9_DynamicCollection_AddAnyItemsWithTypeValidation_Valid(t *testing.T) {
+	dc := coredynamic.NewDynamicCollection(5)
+	strType := reflect.TypeOf("")
+	err := dc.AddAnyItemsWithTypeValidation(false, false, strType, "a", "b")
+	actual := args.Map{
+		"errNil": err == nil,
+		"len":    dc.Length(),
+	}
+	expected := args.Map{"errNil": true, "len": 2}
+	expected.ShouldBeEqual(t, 0, "DynamicCollection AddAnyItemsWithTypeValidation valid", actual)
+}
+
+func Test_Cov9_DynamicCollection_AddAnyItemsWithTypeValidation_Mismatch(t *testing.T) {
+	dc := coredynamic.NewDynamicCollection(5)
+	strType := reflect.TypeOf("")
+	err := dc.AddAnyItemsWithTypeValidation(false, false, strType, "a", 123)
+	actual := args.Map{
+		"hasErr": err != nil,
+		"len":    dc.Length(),
+	}
+	expected := args.Map{"hasErr": true, "len": 1}
+	expected.ShouldBeEqual(t, 0, "DynamicCollection AddAnyItemsWithTypeValidation mismatch", actual)
+}
+
+func Test_Cov9_DynamicCollection_AddAnyItemsWithTypeValidation_ContinueOnError(t *testing.T) {
+	dc := coredynamic.NewDynamicCollection(5)
+	strType := reflect.TypeOf("")
+	err := dc.AddAnyItemsWithTypeValidation(true, false, strType, "a", 123, "c")
+	actual := args.Map{
+		"hasErr": err != nil,
+		"len":    dc.Length(),
+	}
+	expected := args.Map{"hasErr": true, "len": 2}
+	expected.ShouldBeEqual(t, 0, "DynamicCollection AddAnyItemsWithTypeValidation continueOnError", actual)
+}
+
+func Test_Cov9_DynamicCollection_AddAnyItemsWithTypeValidation_Empty(t *testing.T) {
+	dc := coredynamic.NewDynamicCollection(5)
+	strType := reflect.TypeOf("")
+	err := dc.AddAnyItemsWithTypeValidation(false, false, strType)
+	actual := args.Map{"errNil": err == nil, "len": dc.Length()}
+	expected := args.Map{"errNil": true, "len": 0}
+	expected.ShouldBeEqual(t, 0, "DynamicCollection AddAnyItemsWithTypeValidation empty", actual)
+}
+
+func Test_Cov9_DynamicCollection_AddAnyWithTypeValidation_Valid(t *testing.T) {
+	dc := coredynamic.NewDynamicCollection(5)
+	strType := reflect.TypeOf("")
+	err := dc.AddAnyWithTypeValidation(false, strType, "hello")
+	actual := args.Map{"errNil": err == nil, "len": dc.Length()}
+	expected := args.Map{"errNil": true, "len": 1}
+	expected.ShouldBeEqual(t, 0, "DynamicCollection AddAnyWithTypeValidation valid", actual)
+}
+
+// ═══════════════════════════════════════════
+// MapAnyItems.Diff / DiffRaw / HashmapDiffUsingRaw
+// ═══════════════════════════════════════════
+
+func Test_Cov9_MapAnyItems_Diff(t *testing.T) {
+	left := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1, "b": 2})
+	right := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1, "b": 3})
+	diff := left.Diff(true, right)
+	actual := args.Map{"diffNN": diff != nil}
+	expected := args.Map{"diffNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems Diff", actual)
+}
+
+func Test_Cov9_MapAnyItems_DiffRaw(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1, "b": 2})
+	diffMap := m.DiffRaw(true, map[string]any{"a": 1, "b": 3})
+	actual := args.Map{"diffMapNN": diffMap != nil}
+	expected := args.Map{"diffMapNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems DiffRaw", actual)
+}
+
+func Test_Cov9_MapAnyItems_HashmapDiffUsingRaw(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
+	diff := m.HashmapDiffUsingRaw(true, map[string]any{"a": 1})
+	actual := args.Map{"isEmpty": diff.IsEmpty()}
+	expected := args.Map{"isEmpty": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems HashmapDiffUsingRaw no diff", actual)
+}
+
+func Test_Cov9_MapAnyItems_IsRawEqual(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
+	actual := args.Map{
+		"equal":    m.IsRawEqual(true, map[string]any{"a": 1}),
+		"notEqual": m.IsRawEqual(true, map[string]any{"a": 2}),
+	}
+	expected := args.Map{"equal": true, "notEqual": false}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems IsRawEqual", actual)
+}
+
+func Test_Cov9_MapAnyItems_MapStringAnyDiff(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
+	diff := m.MapStringAnyDiff()
+	actual := args.Map{"diffLen": len(diff)}
+	expected := args.Map{"diffLen": 1}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems MapStringAnyDiff", actual)
+}
+
+func Test_Cov9_MapAnyItems_DiffJsonMessage(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
+	msg := m.DiffJsonMessage(true, map[string]any{"a": 2})
+	actual := args.Map{"msgNN": msg != ""}
+	expected := args.Map{"msgNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems DiffJsonMessage", actual)
+}
+
+func Test_Cov9_MapAnyItems_ShouldDiffMessage(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
+	msg := m.ShouldDiffMessage(true, "test", map[string]any{"a": 2})
+	actual := args.Map{"msgNN": msg != ""}
+	expected := args.Map{"msgNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems ShouldDiffMessage", actual)
+}
+
+func Test_Cov9_MapAnyItems_LogShouldDiffMessage(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
+	msg := m.LogShouldDiffMessage(true, "test", map[string]any{"a": 2})
+	actual := args.Map{"msgNN": msg != ""}
+	expected := args.Map{"msgNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems LogShouldDiffMessage", actual)
+}
+
+func Test_Cov9_MapAnyItems_ToStringsSliceOfDiffMap(t *testing.T) {
+	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"a": 1})
+	diffMap := map[string]any{"a": 2}
+	strs := m.ToStringsSliceOfDiffMap(diffMap)
+	actual := args.Map{"strsNN": strs != nil}
+	expected := args.Map{"strsNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItems ToStringsSliceOfDiffMap", actual)
+}
+
+// ═══════════════════════════════════════════
+// MapAnyItemDiff — methods
+// ═══════════════════════════════════════════
+
+func Test_Cov9_MapAnyItemDiff_Basic(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1, "b": 2})
+	var nilDiff *coredynamic.MapAnyItemDiff
+	actual := args.Map{
+		"len":       diff.Length(),
+		"isEmpty":   diff.IsEmpty(),
+		"hasAny":    diff.HasAnyItem(),
+		"lastIdx":   diff.LastIndex(),
+		"nilLen":    nilDiff.Length(),
+		"nilRawLen": len(nilDiff.Raw()),
+	}
+	expected := args.Map{
+		"len": 2, "isEmpty": false, "hasAny": true,
+		"lastIdx": 1, "nilLen": 0, "nilRawLen": 0,
+	}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff Basic", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_AllKeysSorted(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"b": 2, "a": 1})
+	sorted := diff.AllKeysSorted()
+	actual := args.Map{
+		"sortedFirst": sorted[0],
+		"sortedLen":   len(sorted),
+	}
+	expected := args.Map{"sortedFirst": "a", "sortedLen": 2}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff AllKeysSorted", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_IsRawEqual(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	actual := args.Map{
+		"equal":    diff.IsRawEqual(true, map[string]any{"a": 1}),
+		"notEqual": diff.IsRawEqual(true, map[string]any{"a": 2}),
+	}
+	expected := args.Map{"equal": true, "notEqual": false}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff IsRawEqual", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_HasAnyChanges(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	actual := args.Map{
+		"changed":    diff.HasAnyChanges(true, map[string]any{"a": 2}),
+		"notChanged": diff.HasAnyChanges(true, map[string]any{"a": 1}),
+	}
+	expected := args.Map{"changed": true, "notChanged": false}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff HasAnyChanges", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_DiffRaw(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	rawDiff := diff.DiffRaw(true, map[string]any{"a": 2})
+	actual := args.Map{"rawDiffNN": rawDiff != nil}
+	expected := args.Map{"rawDiffNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff DiffRaw", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_HashmapDiffUsingRaw(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	hashDiff := diff.HashmapDiffUsingRaw(true, map[string]any{"a": 1})
+	actual := args.Map{"isEmpty": hashDiff.IsEmpty()}
+	expected := args.Map{"isEmpty": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff HashmapDiffUsingRaw no diff", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_MapAnyItems(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	m := diff.MapAnyItems()
+	actual := args.Map{"len": m.Length(), "hasA": m.HasKey("a")}
+	expected := args.Map{"len": 1, "hasA": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff MapAnyItems", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_RawMapDiffer(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	rawDiffer := diff.RawMapDiffer()
+	actual := args.Map{"rawDifferLen": len(rawDiffer)}
+	expected := args.Map{"rawDifferLen": 1}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff RawMapDiffer", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_Raw(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	raw := diff.Raw()
+	actual := args.Map{"rawLen": len(raw)}
+	expected := args.Map{"rawLen": 1}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff Raw", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_Clear(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1, "b": 2})
+	cleared := diff.Clear()
+	var nilDiff *coredynamic.MapAnyItemDiff
+	nilCleared := nilDiff.Clear()
+	actual := args.Map{
+		"clearedLen":    cleared.Length(),
+		"nilClearedLen": nilCleared.Length(),
+	}
+	expected := args.Map{"clearedLen": 0, "nilClearedLen": 0}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff Clear", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_Json(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	jsonResult := diff.Json()
+	jsonPtr := diff.JsonPtr()
+	pretty := diff.PrettyJsonString()
+	actual := args.Map{
+		"jsonOk":    jsonResult.JsonString() != "",
+		"ptrNotNil": jsonPtr != nil,
+		"prettyNE":  pretty != "",
+	}
+	expected := args.Map{"jsonOk": true, "ptrNotNil": true, "prettyNE": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff Json", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_DiffJsonMessage(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	msg := diff.DiffJsonMessage(true, map[string]any{"a": 2})
+	actual := args.Map{"msgNN": msg != ""}
+	expected := args.Map{"msgNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff DiffJsonMessage", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_ShouldDiffMessage(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	msg := diff.ShouldDiffMessage(true, "test", map[string]any{"a": 2})
+	actual := args.Map{"msgNN": msg != ""}
+	expected := args.Map{"msgNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff ShouldDiffMessage", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_LogShouldDiffMessage(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	msg := diff.LogShouldDiffMessage(true, "test", map[string]any{"a": 2})
+	actual := args.Map{"msgNN": msg != ""}
+	expected := args.Map{"msgNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff LogShouldDiffMessage", actual)
+}
+
+func Test_Cov9_MapAnyItemDiff_ToStringsSliceOfDiffMap(t *testing.T) {
+	diff := coredynamic.MapAnyItemDiff(map[string]any{"a": 1})
+	strs := diff.ToStringsSliceOfDiffMap(map[string]any{"a": 2})
+	actual := args.Map{"strsNN": strs != nil}
+	expected := args.Map{"strsNN": true}
+	expected.ShouldBeEqual(t, 0, "MapAnyItemDiff ToStringsSliceOfDiffMap", actual)
+}
+
+// ═══════════════════════════════════════════
+// ReflectTypeValidation standalone
+// ═══════════════════════════════════════════
+
+func Test_Cov9_ReflectTypeValidation_Valid(t *testing.T) {
+	strType := reflect.TypeOf("")
+	err := coredynamic.ReflectTypeValidation(false, strType, "hello")
+	actual := args.Map{"errNil": err == nil}
+	expected := args.Map{"errNil": true}
+	expected.ShouldBeEqual(t, 0, "ReflectTypeValidation valid", actual)
+}
+
+func Test_Cov9_ReflectTypeValidation_TypeMismatch(t *testing.T) {
+	strType := reflect.TypeOf("")
+	err := coredynamic.ReflectTypeValidation(false, strType, 42)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "ReflectTypeValidation type mismatch", actual)
+}
+
+func Test_Cov9_ReflectTypeValidation_NilNotAllowed(t *testing.T) {
+	strType := reflect.TypeOf("")
+	err := coredynamic.ReflectTypeValidation(true, strType, nil)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "ReflectTypeValidation nil not allowed", actual)
+}
+
+func Test_Cov9_ReflectTypeValidation_NilAllowed(t *testing.T) {
+	strType := reflect.TypeOf("")
+	err := coredynamic.ReflectTypeValidation(false, strType, nil)
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "ReflectTypeValidation nil allowed but type mismatch", actual)
+}
+
+// ═══════════════════════════════════════════
+// AnyCollection.ReflectSetAt
+// ═══════════════════════════════════════════
+
+func Test_Cov9_AnyCollection_ReflectSetAt(t *testing.T) {
+	ac := coredynamic.NewAnyCollection(5)
+	ac.Add("hello")
+	var target string
+	err := ac.ReflectSetAt(0, &target)
+	actual := args.Map{
+		"errNil": err == nil,
+		"target": target,
+	}
+	expected := args.Map{"errNil": true, "target": "hello"}
+	expected.ShouldBeEqual(t, 0, "AnyCollection ReflectSetAt", actual)
+}
