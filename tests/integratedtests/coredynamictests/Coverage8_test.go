@@ -977,12 +977,14 @@ func Test_Cov8_MapAnyItems_JsonResultOfKeys(t *testing.T) {
 
 func Test_Cov8_MapAnyItems_AddJsonResultPtr(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(5)
-	m.AddJsonResultPtr("a", nil)   // nil — should skip
-	m.AddJsonResultPtr("b", &coredynamic.MapAnyItems{}.JsonPtr().Json().JsonPtr()) // non-nil
+	m.AddJsonResultPtr("a", nil) // nil — should skip
+	jr := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"x": 1}).JsonPtr()
+	m.AddJsonResultPtr("b", jr) // non-nil
 	actual := args.Map{
-		"lenAfterNil": m.HasKey("a"),
+		"noA": m.HasKey("a"),
+		"hasB": m.HasKey("b"),
 	}
-	expected := args.Map{"lenAfterNil": false}
+	expected := args.Map{"noA": false, "hasB": true}
 	expected.ShouldBeEqual(t, 0, "MapAnyItems AddJsonResultPtr", actual)
 }
 
