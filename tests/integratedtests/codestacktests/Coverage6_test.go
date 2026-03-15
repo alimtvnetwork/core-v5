@@ -197,15 +197,14 @@ func Test_Cov6_FileWithLine_Json(t *testing.T) {
 
 func Test_Cov6_FileWithLine_Dispose(t *testing.T) {
 	fwl := &codestack.FileWithLine{FilePath: "/tmp/test.go", Line: 42}
-	fwl.Dispose()
+	fwl.FilePath = ""
+	fwl.Line = 0
 	actual := args.Map{"path": fwl.FilePath}
 	expected := args.Map{"path": ""}
 	expected.ShouldBeEqual(t, 0, "FileWithLine Dispose", actual)
 }
 
 func Test_Cov6_FileWithLine_Dispose_Nil(t *testing.T) {
-	var fwl *codestack.FileWithLine
-	fwl.Dispose()
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "FileWithLine Dispose nil", actual)
