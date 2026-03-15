@@ -50,10 +50,10 @@ func Test_Cov6_New_Skip(t *testing.T) {
 }
 
 func Test_Cov6_New_SkipPtr(t *testing.T) {
-	trace := codestack.New.SkipPtr(0)
+	trace := codestack.New.Ptr(1)
 	actual := args.Map{"notNil": trace != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "New.SkipPtr", actual)
+	expected.ShouldBeEqual(t, 0, "New.Ptr", actual)
 }
 
 // ── Trace — all getters ──
