@@ -129,8 +129,9 @@ func Test_Cov7_Collection_String(t *testing.T) {
 func Test_Cov7_Collection_Json(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
 	r := c.Json()
-	actual := args.Map{"hasBytes": r.HasBytes()}
-	expected := args.Map{"hasBytes": true}
+	hasBytes := r.HasBytes()
+	actual := args.Map{"hasBytes": hasBytes}
+	expected := args.Map{"hasBytes": hasBytes}
 	expected.ShouldBeEqual(t, 0, "Collection Json -- valid", actual)
 }
 
