@@ -1,0 +1,191 @@
+package convertinternaltests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/internal/convertinternal"
+)
+
+// ── StringsTo.WithSpaces ──
+
+func Test_Cov4_StringsTo_WithSpaces(t *testing.T) {
+	// Act
+	result := convertinternal.StringsTo.WithSpaces(2, "a", "b")
+	emptyResult := convertinternal.StringsTo.WithSpaces(2)
+
+	// Assert
+	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
+	expected := args.Map{"len": 2, "emptyLen": 0}
+	expected.ShouldBeEqual(t, 0, "StringsTo WithSpaces", actual)
+}
+
+// ── Util.String methods ──
+
+func Test_Cov4_StringUtil_IndexToPosition(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"first":  convertinternal.Util.String.IndexToPosition(0),
+		"second": convertinternal.Util.String.IndexToPosition(1),
+		"third":  convertinternal.Util.String.IndexToPosition(2),
+		"fourth": convertinternal.Util.String.IndexToPosition(3),
+	}
+
+	// Assert
+	expected := args.Map{"first": "1st", "second": "2nd", "third": "3rd", "fourth": "4th"}
+	expected.ShouldBeEqual(t, 0, "IndexToPosition", actual)
+}
+
+func Test_Cov4_StringUtil_PascalCase(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"simple":     convertinternal.Util.String.PascalCase("hello"),
+		"underscore": convertinternal.Util.String.PascalCase("hello_world"),
+		"empty":      convertinternal.Util.String.PascalCase(""),
+		"single":     convertinternal.Util.String.PascalCase("a"),
+	}
+
+	// Assert
+	expected := args.Map{"simple": "Hello", "underscore": "HelloWorld", "empty": "", "single": "A"}
+	expected.ShouldBeEqual(t, 0, "PascalCase", actual)
+}
+
+func Test_Cov4_StringUtil_CamelCase(t *testing.T) {
+	// Act
+	actual := args.Map{
+		"simple":     convertinternal.Util.String.CamelCase("Hello"),
+		"underscore": convertinternal.Util.String.CamelCase("hello_world"),
+		"empty":      convertinternal.Util.String.CamelCase(""),
+		"single":     convertinternal.Util.String.CamelCase("A"),
+	}
+
+	// Assert
+	expected := args.Map{"simple": "hello", "underscore": "helloWorld", "empty": "", "single": "a"}
+	expected.ShouldBeEqual(t, 0, "CamelCase", actual)
+}
+
+func Test_Cov4_StringUtil_PrependWithSpaces(t *testing.T) {
+	// Act
+	result := convertinternal.Util.String.PrependWithSpaces(
+		", ",
+		2, []string{"existing"},
+		4, "prepend",
+	)
+
+	// Assert
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "PrependWithSpaces", actual)
+}
+
+func Test_Cov4_StringUtil_PrependWithSpacesDefault(t *testing.T) {
+	// Act
+	result := convertinternal.Util.String.PrependWithSpacesDefault(
+		2, []string{"existing"},
+		4, "prepend",
+	)
+
+	// Assert
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "PrependWithSpacesDefault", actual)
+}
+
+// ── Util.Strings.PrependWithSpaces — no-space branches ──
+
+func Test_Cov4_StringsUtil_PrependWithSpaces_NoSpaces(t *testing.T) {
+	// Act
+	result := convertinternal.Util.Strings.PrependWithSpaces(
+		0, []string{"existing"},
+		0, "prepend",
+	)
+
+	// Assert
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "PrependWithSpaces no spaces", actual)
+}
+
+// ── AnyTo.String — various types ──
+
+func Test_Cov4_AnyTo_String_Bool(t *testing.T) {
+	actual := args.Map{
+		"true":  convertinternal.AnyTo.String(true),
+		"false": convertinternal.AnyTo.String(false),
+	}
+	expected := args.Map{"true": "true", "false": "false"}
+	expected.ShouldBeEqual(t, 0, "AnyTo String bool", actual)
+}
+
+func Test_Cov4_AnyTo_String_Int(t *testing.T) {
+	result := convertinternal.AnyTo.String(42)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyTo String int", actual)
+}
+
+func Test_Cov4_AnyTo_String_Fallback(t *testing.T) {
+	result := convertinternal.AnyTo.String(map[string]int{"a": 1})
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyTo String fallback", actual)
+}
+
+// ── AnyTo.Strings — map[string]string ──
+
+func Test_Cov4_AnyTo_Strings_MapStringString(t *testing.T) {
+	result := convertinternal.AnyTo.Strings(map[string]string{"a": "1"})
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyTo Strings map[string]string", actual)
+}
+
+// ── AnyTo.Strings — []int / []bool ──
+
+func Test_Cov4_AnyTo_Strings_IntSlice(t *testing.T) {
+	result := convertinternal.AnyTo.Strings([]int{1, 2, 3})
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "AnyTo Strings int slice", actual)
+}
+
+func Test_Cov4_AnyTo_Strings_BoolSlice(t *testing.T) {
+	result := convertinternal.AnyTo.Strings([]bool{true, false})
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyTo Strings bool slice", actual)
+}
+
+// ── AnyTo.SmartString — Namer (not easily testable without namer) ──
+
+func Test_Cov4_AnyTo_ValueString(t *testing.T) {
+	result := convertinternal.AnyTo.ValueString(nil)
+	nonNil := convertinternal.AnyTo.ValueString(42)
+	actual := args.Map{"nil": result, "nonNilNotEmpty": nonNil != ""}
+	expected := args.Map{"nil": "", "nonNilNotEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyTo ValueString", actual)
+}
+
+// ── AnyTo.SmartJson — int/uint types ──
+
+func Test_Cov4_AnyTo_SmartJson_Int(t *testing.T) {
+	result := convertinternal.AnyTo.SmartJson(42)
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "42"}
+	expected.ShouldBeEqual(t, 0, "AnyTo SmartJson int", actual)
+}
+
+func Test_Cov4_AnyTo_SmartJson_Nil(t *testing.T) {
+	result := convertinternal.AnyTo.SmartJson(nil)
+	actual := args.Map{"empty": result}
+	expected := args.Map{"empty": ""}
+	expected.ShouldBeEqual(t, 0, "AnyTo SmartJson nil", actual)
+}
+
+func Test_Cov4_AnyTo_SmartJson_Default(t *testing.T) {
+	type s struct{ A int }
+	result := convertinternal.AnyTo.SmartJson(s{A: 1})
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyTo SmartJson default fallback", actual)
+}
