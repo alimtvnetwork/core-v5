@@ -43,10 +43,10 @@ func Test_Cov6_New_Ptr(t *testing.T) {
 }
 
 func Test_Cov6_New_Skip(t *testing.T) {
-	trace := codestack.New.Skip(0)
+	trace := codestack.New.SkipOne()
 	actual := args.Map{"isOkay": trace.IsOkay}
 	expected := args.Map{"isOkay": true}
-	expected.ShouldBeEqual(t, 0, "New.Skip", actual)
+	expected.ShouldBeEqual(t, 0, "New.SkipOne", actual)
 }
 
 func Test_Cov6_New_SkipPtr(t *testing.T) {
