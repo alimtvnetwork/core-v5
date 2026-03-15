@@ -1,0 +1,262 @@
+package corecsvtests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/corecsv"
+	"github.com/alimtvnetwork/core/coretests/args"
+)
+
+// ═══════════════════════════════════════════
+// Default convenience functions
+// ═══════════════════════════════════════════
+
+func Test_Cov3_DefaultCsv(t *testing.T) {
+	actual := args.Map{"result": corecsv.DefaultCsv("a", "b")}
+	expected := args.Map{"result": `"a", "b"`}
+	expected.ShouldBeEqual(t, 0, "DefaultCsv returns double-quoted csv -- two items", actual)
+}
+
+func Test_Cov3_DefaultCsv_Empty(t *testing.T) {
+	actual := args.Map{"result": corecsv.DefaultCsv()}
+	expected := args.Map{"result": ""}
+	expected.ShouldBeEqual(t, 0, "DefaultCsv returns empty -- no items", actual)
+}
+
+func Test_Cov3_DefaultAnyCsv(t *testing.T) {
+	actual := args.Map{"result": corecsv.DefaultAnyCsv("x", 1)}
+	expected := args.Map{"result": `"x", "1"`}
+	expected.ShouldBeEqual(t, 0, "DefaultAnyCsv returns double-quoted csv -- mixed types", actual)
+}
+
+func Test_Cov3_AnyItemsToStringDefault(t *testing.T) {
+	actual := args.Map{"result": corecsv.AnyItemsToStringDefault("hello")}
+	expected := args.Map{"result": `"hello"`}
+	expected.ShouldBeEqual(t, 0, "AnyItemsToStringDefault returns double-quoted -- single item", actual)
+}
+
+func Test_Cov3_DefaultCsvStrings(t *testing.T) {
+	result := corecsv.DefaultCsvStrings("a", "b")
+	actual := args.Map{"len": len(result), "first": result[0]}
+	expected := args.Map{"len": 2, "first": `"a"`}
+	expected.ShouldBeEqual(t, 0, "DefaultCsvStrings returns double-quoted slice -- two items", actual)
+}
+
+func Test_Cov3_DefaultAnyCsvStrings(t *testing.T) {
+	result := corecsv.DefaultAnyCsvStrings("x", 1)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "DefaultAnyCsvStrings returns slice -- two items", actual)
+}
+
+func Test_Cov3_DefaultCsvUsingJoiner(t *testing.T) {
+	actual := args.Map{"result": corecsv.DefaultCsvUsingJoiner(" | ", "a", "b")}
+	expected := args.Map{"result": `"a" | "b"`}
+	expected.ShouldBeEqual(t, 0, "DefaultCsvUsingJoiner returns joined -- pipe joiner", actual)
+}
+
+func Test_Cov3_DefaultAnyCsvUsingJoiner(t *testing.T) {
+	actual := args.Map{"result": corecsv.DefaultAnyCsvUsingJoiner(" | ", "a", "b")}
+	expected := args.Map{"result": `"a" | "b"`}
+	expected.ShouldBeEqual(t, 0, "DefaultAnyCsvUsingJoiner returns joined -- pipe joiner", actual)
+}
+
+func Test_Cov3_StringsToCsvStringsDefault(t *testing.T) {
+	result := corecsv.StringsToCsvStringsDefault("a")
+	actual := args.Map{"len": len(result), "first": result[0]}
+	expected := args.Map{"len": 1, "first": `"a"`}
+	expected.ShouldBeEqual(t, 0, "StringsToCsvStringsDefault returns double-quoted -- one item", actual)
+}
+
+func Test_Cov3_StringsToStringDefault(t *testing.T) {
+	actual := args.Map{"result": corecsv.StringsToStringDefault("a", "b")}
+	expected := args.Map{"result": `"a", "b"`}
+	expected.ShouldBeEqual(t, 0, "StringsToStringDefault returns joined csv -- two items", actual)
+}
+
+// ═══════════════════════════════════════════
+// CompileStringers
+// ═══════════════════════════════════════════
+
+func Test_Cov3_CompileStringersToStringDefault(t *testing.T) {
+	fn1 := func() string { return "hello" }
+	fn2 := func() string { return "world" }
+	result := corecsv.CompileStringersToStringDefault(fn1, fn2)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "CompileStringersToStringDefault returns non-empty -- two funcs", actual)
+}
+
+func Test_Cov3_CompileStringersToString(t *testing.T) {
+	fn := func() string { return "val" }
+	result := corecsv.CompileStringersToString(" | ", true, true, fn)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "CompileStringersToString returns non-empty -- single quote", actual)
+}
+
+func Test_Cov3_CompileStringersToCsvStrings_SingleQuote(t *testing.T) {
+	fn := func() string { return "val" }
+	result := corecsv.CompileStringersToCsvStrings(true, true, fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "CompileStringersToCsvStrings returns slice -- single quote", actual)
+}
+
+func Test_Cov3_CompileStringersToCsvStrings_DoubleQuote(t *testing.T) {
+	fn := func() string { return "val" }
+	result := corecsv.CompileStringersToCsvStrings(true, false, fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "CompileStringersToCsvStrings returns slice -- double quote", actual)
+}
+
+func Test_Cov3_CompileStringersToCsvStrings_NoQuote(t *testing.T) {
+	fn := func() string { return "val" }
+	result := corecsv.CompileStringersToCsvStrings(false, false, fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "CompileStringersToCsvStrings returns slice -- no quote", actual)
+}
+
+func Test_Cov3_CompileStringersToCsvStrings_Empty(t *testing.T) {
+	result := corecsv.CompileStringersToCsvStrings(true, true)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "CompileStringersToCsvStrings returns empty -- no funcs", actual)
+}
+
+// ═══════════════════════════════════════════
+// StringFunctionsToString — all 3 branches
+// ═══════════════════════════════════════════
+
+func Test_Cov3_StringFunctionsToString_SingleQuote(t *testing.T) {
+	fn := func() string { return "val" }
+	result := corecsv.StringFunctionsToString(true, true, fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "StringFunctionsToString returns slice -- single quote", actual)
+}
+
+func Test_Cov3_StringFunctionsToString_DoubleQuote(t *testing.T) {
+	fn := func() string { return "val" }
+	result := corecsv.StringFunctionsToString(true, false, fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "StringFunctionsToString returns slice -- double quote", actual)
+}
+
+func Test_Cov3_StringFunctionsToString_NoQuote(t *testing.T) {
+	fn := func() string { return "val" }
+	result := corecsv.StringFunctionsToString(false, false, fn)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "StringFunctionsToString returns slice -- no quote", actual)
+}
+
+func Test_Cov3_StringFunctionsToString_Empty(t *testing.T) {
+	result := corecsv.StringFunctionsToString(true, true)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "StringFunctionsToString returns empty -- no funcs", actual)
+}
+
+// ═══════════════════════════════════════════
+// AnyToTypesCsvStrings — all 3 branches
+// ═══════════════════════════════════════════
+
+func Test_Cov3_AnyToTypesCsvStrings_SingleQuote(t *testing.T) {
+	result := corecsv.AnyToTypesCsvStrings(true, true, "hello")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyToTypesCsvStrings returns slice -- single quote", actual)
+}
+
+func Test_Cov3_AnyToTypesCsvStrings_DoubleQuote(t *testing.T) {
+	result := corecsv.AnyToTypesCsvStrings(true, false, "hello")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyToTypesCsvStrings returns slice -- double quote", actual)
+}
+
+func Test_Cov3_AnyToTypesCsvStrings_NoQuote(t *testing.T) {
+	result := corecsv.AnyToTypesCsvStrings(false, false, "hello")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AnyToTypesCsvStrings returns slice -- no quote", actual)
+}
+
+func Test_Cov3_AnyToTypesCsvStrings_Empty(t *testing.T) {
+	result := corecsv.AnyToTypesCsvStrings(true, true)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "AnyToTypesCsvStrings returns empty -- no items", actual)
+}
+
+func Test_Cov3_AnyToTypesCsvDefault(t *testing.T) {
+	result := corecsv.AnyToTypesCsvDefault("hello", 42)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyToTypesCsvDefault returns non-empty -- two items", actual)
+}
+
+// ═══════════════════════════════════════════
+// AnyToValuesTypeStrings / AnyToValuesTypeString
+// ═══════════════════════════════════════════
+
+func Test_Cov3_AnyToValuesTypeStrings_NonEmpty(t *testing.T) {
+	result := corecsv.AnyToValuesTypeStrings("hello", 42)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeStrings returns slice -- two items", actual)
+}
+
+func Test_Cov3_AnyToValuesTypeStrings_Empty(t *testing.T) {
+	result := corecsv.AnyToValuesTypeStrings()
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeStrings returns empty -- no items", actual)
+}
+
+func Test_Cov3_AnyToValuesTypeString(t *testing.T) {
+	result := corecsv.AnyToValuesTypeString("hello", 42)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeString returns non-empty -- two items", actual)
+}
+
+func Test_Cov3_AnyToValuesTypeString_Empty(t *testing.T) {
+	result := corecsv.AnyToValuesTypeString()
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": ""}
+	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeString returns empty -- no items", actual)
+}
+
+// ═══════════════════════════════════════════
+// RangeNamesWithValuesIndexes*
+// ═══════════════════════════════════════════
+
+func Test_Cov3_RangeNamesWithValuesIndexesString(t *testing.T) {
+	result := corecsv.RangeNamesWithValuesIndexesString(" | ", "A", "B")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexesString returns non-empty -- two items", actual)
+}
+
+// ═══════════════════════════════════════════
+// StringersToCsvStrings — remaining branches
+// ═══════════════════════════════════════════
+
+func Test_Cov3_StringsToCsvStrings_SingleQuote(t *testing.T) {
+	result := corecsv.StringsToCsvStrings(true, true, "a", "b")
+	actual := args.Map{"len": len(result), "first": result[0]}
+	expected := args.Map{"len": 2, "first": "'a'"}
+	expected.ShouldBeEqual(t, 0, "StringsToCsvStrings returns single-quoted -- two items", actual)
+}
+
+func Test_Cov3_AnyItemsToCsvStrings_SingleQuote(t *testing.T) {
+	result := corecsv.AnyItemsToCsvStrings(true, true, "a", 1)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AnyItemsToCsvStrings returns single-quoted -- two items", actual)
+}
