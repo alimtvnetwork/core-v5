@@ -104,12 +104,12 @@ func Test_Cov8_LeftMiddleRightFromSplit(t *testing.T) {
 
 func Test_Cov8_ValueStatus(t *testing.T) {
 	vs := corestr.ValueStatus{
-		Value:   "test",
-		IsValid: true,
+		ValueValid: &corestr.ValidValue{Value: "test", IsValid: true},
+		Index:      0,
 	}
 	actual := args.Map{
-		"value":   vs.Value,
-		"isValid": vs.IsValid,
+		"value":   vs.ValueValid.Value,
+		"isValid": vs.ValueValid.IsValid,
 	}
 	expected := args.Map{"value": "test", "isValid": true}
 	expected.ShouldBeEqual(t, 0, "ValueStatus returns fields -- struct access", actual)
