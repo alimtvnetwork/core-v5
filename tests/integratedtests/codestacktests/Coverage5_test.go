@@ -263,8 +263,8 @@ func Test_Cov5_TraceCollection_String(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_ConcatNewUsingSkipPlusCount(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 2)
-	newTc := tc.ConcatNewUsingSkipPlusCount(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
+	newTc := tc.ConcatNewUsingSkipPlusCount(0, 3)
 	actual := args.Map{"gt": newTc.Length() >= tc.Length()}
 	expected := args.Map{"gt": true}
 	expected.ShouldBeEqual(t, 0, "TraceCollection ConcatNewUsingSkipPlusCount -- appended", actual)
