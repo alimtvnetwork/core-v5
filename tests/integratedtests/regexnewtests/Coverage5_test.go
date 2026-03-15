@@ -27,16 +27,16 @@ func Test_Cov5_CreateMustLockIf_WithoutLock(t *testing.T) {
 // ── CreateApplicableLock ──
 
 func Test_Cov5_CreateApplicableLock_Valid(t *testing.T) {
-	r := regexnew.CreateApplicableLock(`^\d+$`)
-	actual := args.Map{"notNil": r != nil}
-	expected := args.Map{"notNil": true}
+	r, err, ok := regexnew.CreateApplicableLock(`^\d+$`)
+	actual := args.Map{"notNil": r != nil, "noErr": err == nil, "ok": ok}
+	expected := args.Map{"notNil": true, "noErr": true, "ok": true}
 	expected.ShouldBeEqual(t, 0, "CreateApplicableLock valid", actual)
 }
 
 func Test_Cov5_CreateApplicableLock_Invalid(t *testing.T) {
-	r := regexnew.CreateApplicableLock(`[invalid`)
-	actual := args.Map{"isNil": r == nil}
-	expected := args.Map{"isNil": true}
+	r, err, ok := regexnew.CreateApplicableLock(`[invalid`)
+	actual := args.Map{"isNil": r == nil, "hasErr": err != nil, "ok": ok}
+	expected := args.Map{"isNil": true, "hasErr": true, "ok": false}
 	expected.ShouldBeEqual(t, 0, "CreateApplicableLock invalid", actual)
 }
 
@@ -109,62 +109,56 @@ func Test_Cov5_MatchCustomErr_InvalidRegex(t *testing.T) {
 
 // ── PrettyJson ──
 
-func Test_Cov5_PrettyJson(t *testing.T) {
-	result := regexnew.PrettyJson(`^\d+$`, "123")
+func Test_Cov5_LazyRegex_FullString(t *testing.T) {
+	lr := regexnew.New.LazyLock(`^\d+$`)
+	result := lr.FullString()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PrettyJson", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex FullString", actual)
 }
 
 // ── newCreator — All creator methods ──
 
 func Test_Cov5_New_Must(t *testing.T) {
-	r := regexnew.New.Must(`^\d+$`)
+	r := regexnew.CreateMust(`^\d+$`)
 	actual := args.Map{"notNil": r != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "New.Must", actual)
 }
 
 func Test_Cov5_New_MustLock(t *testing.T) {
-	r := regexnew.New.MustLock(`^\d+$`)
+	r := regexnew.NewMustLock(`^\d+$`)
 	actual := args.Map{"notNil": r != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "New.MustLock", actual)
 }
 
 func Test_Cov5_New_Create(t *testing.T) {
-	r, err := regexnew.New.Create(`^\d+$`)
+	r, err := regexnew.New.Default(`^\d+$`)
 	actual := args.Map{"notNil": r != nil, "noErr": err == nil}
 	expected := args.Map{"notNil": true, "noErr": true}
 	expected.ShouldBeEqual(t, 0, "New.Create", actual)
 }
 
 func Test_Cov5_New_CreateLock(t *testing.T) {
-	r, err := regexnew.New.CreateLock(`^\d+$`)
+	r, err := regexnew.New.DefaultLock(`^\d+$`)
 	actual := args.Map{"notNil": r != nil, "noErr": err == nil}
 	expected := args.Map{"notNil": true, "noErr": true}
 	expected.ShouldBeEqual(t, 0, "New.CreateLock", actual)
 }
 
-func Test_Cov5_New_CreateLockIf(t *testing.T) {
-	r := regexnew.New.CreateLockIf(true, `^\d+$`)
-	actual := args.Map{"notNil": r != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "New.CreateLockIf", actual)
+func Test_Cov5_New_DefaultLockIf(t *testing.T) {
+	r, err := regexnew.New.DefaultLockIf(true, `^\d+$`)
+	actual := args.Map{"notNil": r != nil, "noErr": err == nil}
+	expected := args.Map{"notNil": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "New.DefaultLockIf", actual)
 }
 
-func Test_Cov5_New_Applicable(t *testing.T) {
-	r := regexnew.New.Applicable(`^\d+$`)
-	actual := args.Map{"notNil": r != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "New.Applicable", actual)
-}
-
-func Test_Cov5_New_ApplicableLock(t *testing.T) {
-	r := regexnew.New.ApplicableLock(`^\d+$`)
-	actual := args.Map{"notNil": r != nil}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "New.ApplicableLock", actual)
+func Test_Cov5_New_DefaultApplicableLock(t *testing.T) {
+	r, err, ok := regexnew.New.DefaultApplicableLock(`^\d+$`)
+	actual := args.Map{"notNil": r != nil, "noErr": err == nil, "ok": ok}
+	expected := args.Map{"notNil": true, "noErr": true, "ok": true}
+	expected.ShouldBeEqual(t, 0, "New.DefaultApplicableLock", actual)
 }
 
 // ── regExMatchValidationError ──
