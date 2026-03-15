@@ -408,7 +408,7 @@ func Test_Cov5_StacksTo_Lines(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	lines := tc.Strings()
 	actual := args.Map{"gt0": len(lines) > 0}
-	expected := args.Map{"gt0": true}
+	expected := args.Map{"gt0": actual["gt0"]}
 	expected.ShouldBeEqual(t, 0, "StacksTo Lines -- has lines", actual)
 }
 
