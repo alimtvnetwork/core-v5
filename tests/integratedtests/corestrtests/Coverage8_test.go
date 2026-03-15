@@ -168,7 +168,7 @@ func Test_Cov8_CloneSlice_Nil(t *testing.T) {
 
 func Test_Cov8_CloneSliceIf_True(t *testing.T) {
 	original := []string{"a", "b"}
-	cloned := corestr.CloneSliceIf(true, original)
+	cloned := corestr.CloneSliceIf(true, original...)
 	actual := args.Map{"len": len(cloned)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf returns cloned -- true flag", actual)
@@ -176,7 +176,7 @@ func Test_Cov8_CloneSliceIf_True(t *testing.T) {
 
 func Test_Cov8_CloneSliceIf_False(t *testing.T) {
 	original := []string{"a", "b"}
-	result := corestr.CloneSliceIf(false, original)
+	result := corestr.CloneSliceIf(false, original...)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf returns original -- false flag", actual)
