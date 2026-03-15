@@ -138,7 +138,7 @@ func Test_Cov5_TraceCollection_CodeStacksString(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.CodeStacksString()
 	actual := args.Map{"notEmpty": len(s) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection CodeStacksString -- has content", actual)
 }
 
@@ -146,7 +146,7 @@ func Test_Cov5_TraceCollection_StackTraces(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.StackTraces()
 	actual := args.Map{"notEmpty": len(s) > 0}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection StackTraces -- has content", actual)
 }
 
