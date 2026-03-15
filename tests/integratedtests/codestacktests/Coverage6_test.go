@@ -222,17 +222,17 @@ func Test_Cov6_StacksTo_String(t *testing.T) {
 // ── Dir ──
 
 func Test_Cov6_Dir_CurrentDir(t *testing.T) {
-	dir := codestack.Dir.CurrentDir()
+	dir := codestack.Dir.CurDir()
 	actual := args.Map{"notEmpty": len(dir) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir CurrentDir", actual)
+	expected.ShouldBeEqual(t, 0, "Dir CurDir", actual)
 }
 
-func Test_Cov6_Dir_TestDir(t *testing.T) {
-	dir := codestack.Dir.TestDir()
+func Test_Cov6_Dir_RepoDir(t *testing.T) {
+	dir := codestack.Dir.RepoDir()
 	actual := args.Map{"notEmpty": len(dir) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir TestDir", actual)
+	expected.ShouldBeEqual(t, 0, "Dir RepoDir", actual)
 }
 
 // ── File ──
