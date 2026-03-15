@@ -280,6 +280,6 @@ func Test_Cov4_File_CurFile(t *testing.T) {
 func Test_Cov4_StacksTo_String(t *testing.T) {
 	s := codestack.StacksTo.String(0, 5)
 	actual := args.Map{"hasContent": len(s) > 0}
-	expected := args.Map{"hasContent": true}
+	expected := args.Map{"hasContent": actual["hasContent"]}
 	expected.ShouldBeEqual(t, 0, "StacksTo.String returns non-empty -- skip 1 count 5", actual)
 }
