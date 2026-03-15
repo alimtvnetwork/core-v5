@@ -62,7 +62,7 @@ func Test_Cov4_AnyTo_PrettyStringDefault(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo PrettyStringDefault", actual)
 }
 
