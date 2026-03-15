@@ -8,9 +8,10 @@ After `./run.ps1 TC` completes, the runner automatically generates AI-friendly p
 
 ```
 scripts/coverage/
-├── Generate-CoveragePrompts.ps1   # Main generator (called by run.ps1)
-├── Get-UncoveredLines.ps1         # Standalone: uncovered lines for one file
-└── Get-FunctionCoverage.ps1       # Standalone: filter functions by threshold
+├── Generate-CoveragePrompts.ps1      # Main generator (called by run.ps1)
+├── Get-UncoveredLines.ps1            # Standalone: uncovered lines for one file
+├── Get-FunctionCoverage.ps1          # Standalone: filter functions by threshold
+└── Get-PackageCoverageReport.ps1     # Combined: detailed report per package
 ```
 
 ### Generate-CoveragePrompts.ps1
