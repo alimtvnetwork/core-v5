@@ -450,7 +450,7 @@ function Invoke-TestCoverage {
         }
     } else {
         # ── Parallel compile check (ForEach-Object -Parallel, runspace-based) ──
-        $throttle = [Math]::Min($allTestPkgs.Count, [Environment]::ProcessorCount)
+        $throttle = [Math]::Min($allTestPkgs.Count, [Environment]::ProcessorCount * 2)
         Write-Host "  Launching $($allTestPkgs.Count) compile checks ($throttle parallel)..." -ForegroundColor Gray
 
         $compileResults = $allTestPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
