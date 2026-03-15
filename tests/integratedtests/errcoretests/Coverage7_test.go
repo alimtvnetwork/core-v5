@@ -350,9 +350,9 @@ func Test_Cov7_CombineWithMsgTypeNoStack(t *testing.T) {
 // ── CompiledError ──
 
 func Test_Cov7_CompiledError(t *testing.T) {
-	result := errcore.CompiledError("type", "msg", errors.New("inner"), "trace")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	result := errcore.CompiledError(errors.New("inner"), "additional")
+	actual := args.Map{"notNil": result != nil}
+	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "CompiledError", actual)
 }
 
