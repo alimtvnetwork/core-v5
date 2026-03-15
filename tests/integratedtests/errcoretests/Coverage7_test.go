@@ -194,31 +194,22 @@ func Test_Cov7_GetActualAndExpectProcessedMessage(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "GetActualAndExpectProcessedMessage", actual)
 }
 
-func Test_Cov7_GetActualAndExpectSortedMessage(t *testing.T) {
-	result := errcore.GetActualAndExpectSortedMessage("header", []string{"b", "a"}, []string{"a", "b"})
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "GetActualAndExpectSortedMessage", actual)
-}
-
-// ── GetSearchTermExpectationMessage ──
-
 func Test_Cov7_GetSearchTermExpectationMessage(t *testing.T) {
-	result := errcore.GetSearchTermExpectationMessage("header", "term", []string{"a", "b"})
+	result := errcore.GetSearchTermExpectationMessage(0, "header", "expectMsg", 1, "actual", "expected", nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchTermExpectationMessage", actual)
 }
 
 func Test_Cov7_GetSearchTermExpectationSimpleMessage(t *testing.T) {
-	result := errcore.GetSearchTermExpectationSimpleMessage("header", "term", []string{"a"})
+	result := errcore.GetSearchTermExpectationSimpleMessage(0, "expectMsg", 1, "content", "search")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchTermExpectationSimpleMessage", actual)
 }
 
 func Test_Cov7_GetSearchLineNumberExpectationMessage(t *testing.T) {
-	result := errcore.GetSearchLineNumberExpectationMessage("header", 5, []string{"a"})
+	result := errcore.GetSearchLineNumberExpectationMessage(0, 5, 3, "content", "search", nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchLineNumberExpectationMessage", actual)
@@ -325,7 +316,7 @@ func Test_Cov7_PrintErrorLineDiff(t *testing.T) {
 // ── AssertDiffOnMismatch / PrintDiffOnMismatch ──
 
 func Test_Cov7_AssertDiffOnMismatch(t *testing.T) {
-	errcore.AssertDiffOnMismatch(0, "test", []string{"a"}, []string{"a"})
+	errcore.AssertDiffOnMismatch(t, 0, "test", []string{"a"}, []string{"a"})
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "AssertDiffOnMismatch", actual)
@@ -341,7 +332,7 @@ func Test_Cov7_PrintDiffOnMismatch(t *testing.T) {
 // ── StackTracesCompiled ──
 
 func Test_Cov7_StackTracesCompiled(t *testing.T) {
-	result := errcore.StackTracesCompiled(0, 2)
+	result := errcore.StackTracesCompiled([]string{"trace1", "trace2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "StackTracesCompiled", actual)
@@ -349,29 +340,29 @@ func Test_Cov7_StackTracesCompiled(t *testing.T) {
 
 // ── CombineWithMsgType ──
 
-func Test_Cov7_CombineWithMsgType(t *testing.T) {
-	result := errcore.CombineWithMsgType("type", "msg", "ref")
+func Test_Cov7_CombineWithMsgTypeNoStack(t *testing.T) {
+	result := errcore.CombineWithMsgTypeNoStack("type", "msg", "ref")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CombineWithMsgType", actual)
+	expected.ShouldBeEqual(t, 0, "CombineWithMsgTypeNoStack", actual)
 }
 
 // ── CompiledError ──
 
 func Test_Cov7_CompiledError(t *testing.T) {
-	result := errcore.CompiledError("type", "msg", errors.New("inner"), "trace")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	result := errcore.CompiledError(errors.New("inner"), "additional")
+	actual := args.Map{"notNil": result != nil}
+	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "CompiledError", actual)
 }
 
 // ── PathMeaningFulMessage / PathMeaningfulError ──
 
-func Test_Cov7_PathMeaningFulMessage(t *testing.T) {
-	result := errcore.PathMeaningFulMessage("type", "msg", "/path")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PathMeaningFulMessage", actual)
+func Test_Cov7_PathMeaningfulMessage(t *testing.T) {
+	result := errcore.PathMeaningfulMessage("type", "funcName", "/path", "msg")
+	actual := args.Map{"notNil": result != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "PathMeaningfulMessage", actual)
 }
 
 func Test_Cov7_PathMeaningfulError(t *testing.T) {
@@ -391,7 +382,7 @@ func Test_Cov7_MeaningFulError(t *testing.T) {
 }
 
 func Test_Cov7_MeaningfulMessageError(t *testing.T) {
-	result := errcore.MeaningfulMessageError("type", "msg", "ref")
+	result := errcore.MeaningfulMessageError("type", "funcName", errors.New("inner"), "msg")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError", actual)
@@ -424,7 +415,7 @@ func Test_Cov7_RangeNotMeet(t *testing.T) {
 }
 
 func Test_Cov7_EnumRangeNotMeet(t *testing.T) {
-	result := errcore.EnumRangeNotMeet("type", 5, 1, 3, "extra")
+	result := errcore.EnumRangeNotMeet(1, 3, 5)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "EnumRangeNotMeet", actual)
@@ -433,7 +424,8 @@ func Test_Cov7_EnumRangeNotMeet(t *testing.T) {
 // ── StackEnhance ──
 
 func Test_Cov7_StackEnhance(t *testing.T) {
-	actual := args.Map{"notNil": errcore.StackEnhance != (struct{}{})}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance exists", actual)
+	result := errcore.StackEnhance.MsgSkip(0, "test msg")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "StackEnhance MsgSkip", actual)
 }

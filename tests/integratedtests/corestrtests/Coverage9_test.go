@@ -1482,7 +1482,7 @@ func Test_Cov9_LeftMiddleRightFromSplitNTrimmed(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov9_SimpleStringOnce_Basic(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	err := sso.SetOnUninitialized("hello")
 	actual := args.Map{
 		"err":      err == nil,
@@ -1515,7 +1515,7 @@ func Test_Cov9_SimpleStringOnce_Basic(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_SetOnUninitialized_AlreadyInit(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("first")
 	err := sso.SetOnUninitialized("second")
 	actual := args.Map{"hasErr": err != nil, "val": sso.Value()}
@@ -1524,7 +1524,7 @@ func Test_Cov9_SimpleStringOnce_SetOnUninitialized_AlreadyInit(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_GetSetOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	val1 := sso.GetSetOnce("first")
 	val2 := sso.GetSetOnce("second")
 	actual := args.Map{"val1": val1, "val2": val2}
@@ -1533,7 +1533,7 @@ func Test_Cov9_SimpleStringOnce_GetSetOnce(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_GetOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	val := sso.GetOnce()
 	actual := args.Map{"val": val, "isInit": sso.IsInitialized()}
 	expected := args.Map{"val": "", "isInit": true}
@@ -1541,7 +1541,7 @@ func Test_Cov9_SimpleStringOnce_GetOnce(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_GetOnceFunc(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	val := sso.GetOnceFunc(func() string { return "computed" })
 	val2 := sso.GetOnceFunc(func() string { return "should not" })
 	actual := args.Map{"val": val, "val2": val2}
@@ -1550,7 +1550,7 @@ func Test_Cov9_SimpleStringOnce_GetOnceFunc(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_Invalidate(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("hello")
 	sso.Invalidate()
 	actual := args.Map{"isInit": sso.IsInitialized(), "val": sso.Value()}
@@ -1559,7 +1559,7 @@ func Test_Cov9_SimpleStringOnce_Invalidate(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_Reset(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("hello")
 	sso.Reset()
 	actual := args.Map{"isInit": sso.IsInitialized()}
@@ -1568,14 +1568,14 @@ func Test_Cov9_SimpleStringOnce_Reset(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_IsInvalid(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	actual := args.Map{"isInvalid": sso.IsInvalid()}
 	expected := args.Map{"isInvalid": true}
 	expected.ShouldBeEqual(t, 0, "SimpleStringOnce IsInvalid uninit", actual)
 }
 
 func Test_Cov9_SimpleStringOnce_IntTypes(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("42")
 	actual := args.Map{
 		"int":        sso.Int(),
@@ -1599,7 +1599,7 @@ func Test_Cov9_SimpleStringOnce_IntTypes(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_Boolean(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("yes")
 	actual := args.Map{
 		"bool":    sso.Boolean(false),
@@ -1611,14 +1611,14 @@ func Test_Cov9_SimpleStringOnce_Boolean(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_Boolean_Uninit(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	actual := args.Map{"bool": sso.Boolean(true)}
 	expected := args.Map{"bool": false}
 	expected.ShouldBeEqual(t, 0, "SimpleStringOnce Boolean uninit", actual)
 }
 
 func Test_Cov9_SimpleStringOnce_ConcatNew(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("hello")
 	newSso := sso.ConcatNew(" world")
 	actual := args.Map{"val": newSso.Value()}
@@ -1627,7 +1627,7 @@ func Test_Cov9_SimpleStringOnce_ConcatNew(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_ConcatNewUsingStrings(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("a")
 	newSso := sso.ConcatNewUsingStrings("-", "b", "c")
 	actual := args.Map{"val": newSso.Value()}
@@ -1636,7 +1636,7 @@ func Test_Cov9_SimpleStringOnce_ConcatNewUsingStrings(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_NonPtrPtr(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("x")
 	nonPtr := sso.NonPtr()
 	ptr := sso.Ptr()
@@ -1646,7 +1646,7 @@ func Test_Cov9_SimpleStringOnce_NonPtrPtr(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_ValueBytes(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("abc")
 	actual := args.Map{"len": len(sso.ValueBytes()), "lenPtr": len(sso.ValueBytesPtr())}
 	expected := args.Map{"len": 3, "lenPtr": 3}
@@ -1654,7 +1654,7 @@ func Test_Cov9_SimpleStringOnce_ValueBytes(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_SetOnceIfUninitialized(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	isSet1 := sso.SetOnceIfUninitialized("first")
 	isSet2 := sso.SetOnceIfUninitialized("second")
 	actual := args.Map{"isSet1": isSet1, "isSet2": isSet2, "val": sso.Value()}
@@ -1663,7 +1663,7 @@ func Test_Cov9_SimpleStringOnce_SetOnceIfUninitialized(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_SetInitSetUnInit(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	sso.SetInitialize()
 	isInit := sso.IsInitialized()
 	sso.SetUnInit()
@@ -1674,7 +1674,7 @@ func Test_Cov9_SimpleStringOnce_SetInitSetUnInit(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_IsAnyOf_Empty(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("x")
 	actual := args.Map{"result": sso.IsAnyOf()}
 	expected := args.Map{"result": true}
@@ -1682,7 +1682,7 @@ func Test_Cov9_SimpleStringOnce_IsAnyOf_Empty(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_IsAnyContains_Empty(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("x")
 	actual := args.Map{"result": sso.IsAnyContains()}
 	expected := args.Map{"result": true}
@@ -1690,7 +1690,7 @@ func Test_Cov9_SimpleStringOnce_IsAnyContains_Empty(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_RegexNil(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("test")
 	actual := args.Map{
 		"matches": sso.IsRegexMatches(nil),
@@ -1701,7 +1701,7 @@ func Test_Cov9_SimpleStringOnce_RegexNil(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_Uint16(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("1000")
 	val, inRange := sso.Uint16()
 	actual := args.Map{"val": val, "inRange": inRange}
@@ -1710,7 +1710,7 @@ func Test_Cov9_SimpleStringOnce_Uint16(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_Uint32(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("50000")
 	val, inRange := sso.Uint32()
 	actual := args.Map{"val": val, "inRange": inRange}
@@ -1719,7 +1719,7 @@ func Test_Cov9_SimpleStringOnce_Uint32(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_WithinRange(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	_ = sso.SetOnUninitialized("50")
 	val, inRange := sso.WithinRange(true, 0, 100)
 	valOut, outRange := sso.WithinRange(true, 60, 100)
@@ -1738,7 +1738,7 @@ func Test_Cov9_SimpleStringOnce_WithinRange(t *testing.T) {
 }
 
 func Test_Cov9_SimpleStringOnce_SafeValue_Uninit(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init()
+	sso := corestr.New.SimpleStringOnce.Empty()
 	actual := args.Map{"val": sso.SafeValue()}
 	expected := args.Map{"val": ""}
 	expected.ShouldBeEqual(t, 0, "SimpleStringOnce SafeValue uninit", actual)
