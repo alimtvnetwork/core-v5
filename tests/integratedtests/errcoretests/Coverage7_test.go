@@ -78,7 +78,7 @@ func Test_Cov7_HandleErr_Panic(t *testing.T) {
 // ── HandleErrMessage ──
 
 func Test_Cov7_HandleErrMessage_Nil(t *testing.T) {
-	errcore.HandleErrMessage(nil, "msg")
+	errcore.HandleErrMessage("")
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "HandleErrMessage nil", actual)
