@@ -11,31 +11,30 @@ import (
 // ═══════════════════════════════════════════
 
 func Test_Cov6_FuncWrapAny_NilFunc(t *testing.T) {
-	fw := args.New.FuncWrap.AnyFunc("nilTest", nil)
+	fw := args.NewFuncWrap.Default(nil)
 	actual := args.Map{
-		"name":    fw.Name,
-		"isNil":   fw.IsNilFunc(),
-		"hasFunc": fw.HasFunc(),
+		"isInvalid":    fw.IsInvalid(),
+		"hasValidFunc": fw.HasValidFunc(),
 	}
-	expected := args.Map{"name": "nilTest", "isNil": true, "hasFunc": false}
+	expected := args.Map{"isInvalid": true, "hasValidFunc": false}
 	expected.ShouldBeEqual(t, 0, "FuncWrapAny nil func", actual)
 }
 
 func Test_Cov6_FuncWrapAny_ValidFunc(t *testing.T) {
 	fn := func(a, b int) int { return a + b }
-	fw := args.New.FuncWrap.AnyFunc("add", fn)
+	fw := args.NewFuncWrap.Default(fn)
 	actual := args.Map{
-		"name":    fw.Name,
-		"isNil":   fw.IsNilFunc(),
-		"hasFunc": fw.HasFunc(),
+		"nameNE":       fw.Name != "",
+		"isInvalid":    fw.IsInvalid(),
+		"hasValidFunc": fw.HasValidFunc(),
 	}
-	expected := args.Map{"name": "add", "isNil": false, "hasFunc": true}
+	expected := args.Map{"nameNE": true, "isInvalid": false, "hasValidFunc": true}
 	expected.ShouldBeEqual(t, 0, "FuncWrapAny valid func", actual)
 }
 
 func Test_Cov6_FuncWrapAny_Invoke(t *testing.T) {
 	fn := func(a, b int) int { return a + b }
-	fw := args.New.FuncWrap.AnyFunc("add", fn)
+	fw := args.NewFuncWrap.Default(fn)
 	results, err := fw.Invoke(3, 4)
 	actual := args.Map{
 		"errNil":    err == nil,
@@ -46,7 +45,7 @@ func Test_Cov6_FuncWrapAny_Invoke(t *testing.T) {
 }
 
 func Test_Cov6_FuncWrapAny_InvokeNilFunc(t *testing.T) {
-	fw := args.New.FuncWrap.AnyFunc("nilTest", nil)
+	fw := args.NewFuncWrap.Default(nil)
 	_, err := fw.Invoke(1)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
@@ -90,8 +89,8 @@ func Test_Cov6_Map_GetAs(t *testing.T) {
 
 func Test_Cov6_Map_GetAsBoolDefault(t *testing.T) {
 	m := args.Map{"bool": true}
-	val := m.GetAsBoolDefault("bool")
-	missing := m.GetAsBoolDefault("missing")
+	val := m.GetAsBoolDefault("bool", false)
+	missing := m.GetAsBoolDefault("missing", false)
 	actual := args.Map{"val": val, "missing": missing}
 	expected := args.Map{"val": true, "missing": false}
 	expected.ShouldBeEqual(t, 0, "Map GetAsBoolDefault", actual)
@@ -113,16 +112,16 @@ func Test_Cov6_Map_WorkFunc(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "Map WorkFunc", actual)
 }
 
-func Test_Cov6_Map_FirstItem(t *testing.T) {
+func Test_Cov6_Map_GetFirstOfNames(t *testing.T) {
 	m := args.Map{"input": "hello", "when": "hello2"}
-	first := m.FirstItem("input", "when")
-	missing := m.FirstItem("missing1", "missing2")
+	first := m.GetFirstOfNames("input", "when")
+	missing := m.GetFirstOfNames("missing1", "missing2")
 	actual := args.Map{
 		"first":   first,
 		"missing": missing == nil,
 	}
 	expected := args.Map{"first": "hello", "missing": true}
-	expected.ShouldBeEqual(t, 0, "Map FirstItem", actual)
+	expected.ShouldBeEqual(t, 0, "Map GetFirstOfNames", actual)
 }
 
 func Test_Cov6_Map_HasFunc(t *testing.T) {
@@ -130,8 +129,8 @@ func Test_Cov6_Map_HasFunc(t *testing.T) {
 	m1 := args.Map{"func": fn}
 	m2 := args.Map{"other": 1}
 	actual := args.Map{
-		"hasFunc":  m1.HasFunc(),
-		"noFunc":   m2.HasFunc(),
+		"hasFunc": m1.HasFunc(),
+		"noFunc":  m2.HasFunc(),
 	}
 	expected := args.Map{"hasFunc": true, "noFunc": false}
 	expected.ShouldBeEqual(t, 0, "Map HasFunc", actual)
@@ -157,91 +156,90 @@ func Test_Cov6_Map_GoLiteralLines(t *testing.T) {
 }
 
 // ═══════════════════════════════════════════
-// One through Six — basic
+// One through Six — basic (using *Any aliases for untyped usage)
 // ═══════════════════════════════════════════
 
 func Test_Cov6_One_Basic(t *testing.T) {
-	o := args.One{1}
+	o := args.OneAny{First: 1}
 	actual := args.Map{
-		"first":  o.First(),
+		"first":  o.First,
 		"str":    o.String() != "",
-		"len":    o.Length(),
-		"count":  o.Count(),
-		"all":    len(o.All()),
+		"count":  o.ArgsCount(),
+		"slice":  len(o.Slice()),
 	}
 	expected := args.Map{
-		"first": 1, "str": true, "len": 1, "count": 1, "all": 1,
+		"first": 1, "str": true, "count": 1, "slice": 1,
 	}
 	expected.ShouldBeEqual(t, 0, "One basic", actual)
 }
 
 func Test_Cov6_Two_Basic(t *testing.T) {
-	tw := args.Two{1, 2}
+	tw := args.TwoAny{First: 1, Second: 2}
 	actual := args.Map{
-		"first":  tw.First(),
-		"second": tw.Second(),
-		"len":    tw.Length(),
-		"all":    len(tw.All()),
+		"first":  tw.First,
+		"second": tw.Second,
+		"count":  tw.ArgsCount(),
+		"slice":  len(tw.Slice()),
 	}
-	expected := args.Map{"first": 1, "second": 2, "len": 2, "all": 2}
+	expected := args.Map{"first": 1, "second": 2, "count": 2, "slice": 2}
 	expected.ShouldBeEqual(t, 0, "Two basic", actual)
 }
 
 func Test_Cov6_Three_Basic(t *testing.T) {
-	th := args.Three{1, 2, 3}
+	th := args.ThreeAny{First: 1, Second: 2, Third: 3}
 	actual := args.Map{
-		"first":  th.First(),
-		"second": th.Second(),
-		"third":  th.Third(),
-		"len":    th.Length(),
+		"first":  th.First,
+		"second": th.Second,
+		"third":  th.Third,
+		"count":  th.ArgsCount(),
 	}
-	expected := args.Map{"first": 1, "second": 2, "third": 3, "len": 3}
+	expected := args.Map{"first": 1, "second": 2, "third": 3, "count": 3}
 	expected.ShouldBeEqual(t, 0, "Three basic", actual)
 }
 
 func Test_Cov6_Four_Basic(t *testing.T) {
-	f := args.Four{1, 2, 3, 4}
+	f := args.FourAny{First: 1, Second: 2, Third: 3, Fourth: 4}
 	actual := args.Map{
-		"first":  f.First(),
-		"second": f.Second(),
-		"third":  f.Third(),
-		"fourth": f.Fourth(),
-		"len":    f.Length(),
+		"first":  f.First,
+		"second": f.Second,
+		"third":  f.Third,
+		"fourth": f.Fourth,
+		"count":  f.ArgsCount(),
 	}
-	expected := args.Map{"first": 1, "second": 2, "third": 3, "fourth": 4, "len": 4}
+	expected := args.Map{"first": 1, "second": 2, "third": 3, "fourth": 4, "count": 4}
 	expected.ShouldBeEqual(t, 0, "Four basic", actual)
 }
 
 func Test_Cov6_Five_Basic(t *testing.T) {
-	f := args.Five{1, 2, 3, 4, 5}
+	f := args.FiveAny{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5}
 	actual := args.Map{
-		"first":  f.First(),
-		"second": f.Second(),
-		"third":  f.Third(),
-		"fourth": f.Fourth(),
-		"fifth":  f.Fifth(),
-		"len":    f.Length(),
+		"first":  f.First,
+		"second": f.Second,
+		"third":  f.Third,
+		"fourth": f.Fourth,
+		"fifth":  f.Fifth,
+		"count":  f.ArgsCount(),
 	}
 	expected := args.Map{
-		"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "len": 5,
+		"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "count": 5,
 	}
 	expected.ShouldBeEqual(t, 0, "Five basic", actual)
 }
 
 func Test_Cov6_Six_Basic(t *testing.T) {
-	s := args.Six{1, 2, 3, 4, 5, 6}
+	s := args.SixAny{First: 1, Second: 2, Third: 3, Fourth: 4, Fifth: 5, Sixth: 6}
 	actual := args.Map{
-		"first":  s.First(),
-		"second": s.Second(),
-		"third":  s.Third(),
-		"fourth": s.Fourth(),
-		"fifth":  s.Fifth(),
-		"sixth":  s.Sixth(),
-		"len":    s.Length(),
+		"first":  s.First,
+		"second": s.Second,
+		"third":  s.Third,
+		"fourth": s.Fourth,
+		"fifth":  s.Fifth,
+		"sixth":  s.Sixth,
+		"count":  s.ArgsCount(),
 	}
 	expected := args.Map{
 		"first": 1, "second": 2, "third": 3, "fourth": 4,
-		"fifth": 5, "sixth": 6, "len": 6,
+		"fifth": 5, "sixth": 6, "count": 6,
 	}
 	expected.ShouldBeEqual(t, 0, "Six basic", actual)
 }
@@ -251,11 +249,12 @@ func Test_Cov6_Six_Basic(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov6_Holder_Basic(t *testing.T) {
-	h := args.Holder[string]{Value: "hello"}
+	h := args.HolderAny{First: "hello"}
 	actual := args.Map{
-		"val": h.Value,
+		"first": h.First,
+		"count": h.ArgsCount(),
 	}
-	expected := args.Map{"val": "hello"}
+	expected := args.Map{"first": "hello", "count": 7}
 	expected.ShouldBeEqual(t, 0, "Holder basic", actual)
 }
 
@@ -264,17 +263,14 @@ func Test_Cov6_Holder_Basic(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov6_LeftRight_Basic(t *testing.T) {
-	lr := args.LeftRight[string, int]{Left: "hello", Right: 42}
-	lra := lr.LeftRightAny()
+	lr := args.LeftRightAny{Left: "hello", Right: 42}
 	actual := args.Map{
-		"left":     lr.Left,
-		"right":    lr.Right,
-		"lraLeft":  lra.Left,
-		"lraRight": lra.Right,
+		"left":  lr.Left,
+		"right": lr.Right,
+		"count": lr.ArgsCount(),
 	}
 	expected := args.Map{
-		"left": "hello", "right": 42,
-		"lraLeft": "hello", "lraRight": 42,
+		"left": "hello", "right": 42, "count": 2,
 	}
 	expected.ShouldBeEqual(t, 0, "LeftRight basic", actual)
 }
@@ -284,10 +280,11 @@ func Test_Cov6_LeftRight_Basic(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov6_Dynamic_Basic(t *testing.T) {
-	d := args.Dynamic[string]{Value: "hello"}
+	d := args.DynamicAny{Params: args.Map{"val": "hello"}, Expect: "expected"}
 	actual := args.Map{
-		"val": d.Value,
+		"expect": d.Expect,
+		"hasVal": d.HasDefined("val"),
 	}
-	expected := args.Map{"val": "hello"}
+	expected := args.Map{"expect": "expected", "hasVal": true}
 	expected.ShouldBeEqual(t, 0, "Dynamic basic", actual)
 }
