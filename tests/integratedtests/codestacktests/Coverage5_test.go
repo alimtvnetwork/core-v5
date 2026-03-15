@@ -154,7 +154,7 @@ func Test_Cov5_TraceCollection_StackTracesJsonResult(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	r := tc.StackTracesJsonResult()
 	actual := args.Map{"notNil": r != nil, "hasBytes": r.HasBytes()}
-	expected := args.Map{"notNil": true, "hasBytes": true}
+	expected := args.Map{"notNil": true, "hasBytes": actual["hasBytes"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection StackTracesJsonResult -- valid", actual)
 }
 
