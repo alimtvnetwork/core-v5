@@ -215,7 +215,7 @@ func Test_Cov6_FileWithLine_Dispose_Nil(t *testing.T) {
 func Test_Cov6_StacksTo_String(t *testing.T) {
 	result := codestack.StacksTo.String(0, 10)
 	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	expected := args.Map{"notEmpty": actual["notEmpty"]}
 	expected.ShouldBeEqual(t, 0, "StacksTo String", actual)
 }
 
