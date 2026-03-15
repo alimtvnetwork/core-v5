@@ -342,10 +342,10 @@ func Test_Cov3_ToByte(t *testing.T) {
 
 func Test_Cov3_ToByteDefault(t *testing.T) {
 	actual := args.Map{
-		"valid":   stringutil.ToByteDefault("42", 0),
-		"invalid": stringutil.ToByteDefault("abc", 99),
+		"valid":   stringutil.ToByteDefault("42"),
+		"invalid": stringutil.ToByteDefault("abc"),
 	}
-	expected := args.Map{"valid": byte(42), "invalid": byte(99)}
+	expected := args.Map{"valid": byte(42), "invalid": byte(0)}
 	expected.ShouldBeEqual(t, 0, "ToByteDefault", actual)
 }
 
