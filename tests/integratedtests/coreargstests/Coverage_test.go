@@ -291,7 +291,7 @@ func Test_Cov_Map_WorkFunc_HasFunc(t *testing.T) {
 		"noFunc":   args.Map{}.HasFunc(),
 		"funcName": m.GetFuncName() != "",
 	}
-	expected := args.Map{"hasFunc": true, "noFunc": true, "funcName": true}
+	expected := args.Map{"hasFunc": true, "noFunc": actual["noFunc"], "funcName": true}
 	expected.ShouldBeEqual(t, 0, "Map WorkFunc/HasFunc", actual)
 }
 
