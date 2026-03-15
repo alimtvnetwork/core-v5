@@ -96,6 +96,20 @@ $funcLines = go tool cover -func=data/coverage/coverage.out
 
 # Get all functions below 100% (default threshold)
 ./scripts/coverage/Get-FunctionCoverage.ps1 -FuncOutput $funcLines
+
+# Detailed report for a specific package (combines both utilities)
+$funcLines = go tool cover -func=data/coverage/coverage.out
+./scripts/coverage/Get-PackageCoverageReport.ps1 `
+  -CoverProfile data/coverage/coverage.out `
+  -FuncOutput $funcLines `
+  -Package "errcore"
+
+# Same, but only functions below 80%
+./scripts/coverage/Get-PackageCoverageReport.ps1 `
+  -CoverProfile data/coverage/coverage.out `
+  -FuncOutput $funcLines `
+  -Package "internal/strutilinternal" `
+  -Threshold 80
 ```
 
 ## Integration Point
