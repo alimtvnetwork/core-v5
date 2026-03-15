@@ -341,21 +341,21 @@ func Test_Cov4_IsMatchLock_Valid(t *testing.T) {
 // ── New.Lazy creators ──
 
 func Test_Cov4_NewLazy_NoLock(t *testing.T) {
-	lr := regexnew.New.Lazy.NoLock(`^\d+$`)
+	lr := regexnew.New.Lazy(`^\d+$`)
 	actual := args.Map{"isDefined": lr.IsDefined(), "isApplicable": lr.IsApplicable()}
 	expected := args.Map{"isDefined": true, "isApplicable": true}
 	expected.ShouldBeEqual(t, 0, "NewLazy NoLock", actual)
 }
 
 func Test_Cov4_NewLazy_LockIf_True(t *testing.T) {
-	lr := regexnew.New.LazyLockIf(true, `^\d+$`)
+	lr := regexnew.New.LazyRegex.NewLockIf(true, `^\d+$`)
 	actual := args.Map{"isDefined": lr.IsDefined()}
 	expected := args.Map{"isDefined": true}
 	expected.ShouldBeEqual(t, 0, "NewLazy LockIf true", actual)
 }
 
 func Test_Cov4_NewLazy_LockIf_False(t *testing.T) {
-	lr := regexnew.New.LazyLockIf(false, `^\d+$`)
+	lr := regexnew.New.LazyRegex.NewLockIf(false, `^\d+$`)
 	actual := args.Map{"isDefined": lr.IsDefined()}
 	expected := args.Map{"isDefined": true}
 	expected.ShouldBeEqual(t, 0, "NewLazy LockIf false", actual)

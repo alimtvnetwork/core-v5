@@ -89,9 +89,9 @@ func Test_Cov5_GenericGherkins_InputExpectedActual(t *testing.T) {
 		Actual:   "act",
 	}
 	actual := args.Map{
-		"input":    fmt.Sprintf("%v", tc.GetInput()),
-		"expected": fmt.Sprintf("%v", tc.GetExpected()),
-		"actual":   fmt.Sprintf("%v", tc.GetActual()),
+		"input":    fmt.Sprintf("%v", tc.TypedInput()),
+		"expected": fmt.Sprintf("%v", tc.TypedExpected()),
+		"actual":   fmt.Sprintf("%v", tc.TypedActual()),
 	}
 	expected := args.Map{"input": "in", "expected": "exp", "actual": "act"}
 	expected.ShouldBeEqual(t, 0, "GenericGherkins getters", actual)
@@ -99,16 +99,16 @@ func Test_Cov5_GenericGherkins_InputExpectedActual(t *testing.T) {
 
 func Test_Cov5_GenericGherkins_SetActual(t *testing.T) {
 	tc := coretestcases.GenericGherkins[string, string]{}
-	tc.SetActual("new")
-	actual := args.Map{"actual": fmt.Sprintf("%v", tc.GetActual())}
+	tc.SetTypedActual("new")
+	actual := args.Map{"actual": fmt.Sprintf("%v", tc.TypedActual())}
 	expected := args.Map{"actual": "new"}
 	expected.ShouldBeEqual(t, 0, "GenericGherkins SetActual", actual)
 }
 
 func Test_Cov5_GenericGherkins_SetExpected(t *testing.T) {
 	tc := coretestcases.GenericGherkins[string, string]{}
-	tc.SetExpected("exp")
-	actual := args.Map{"expected": fmt.Sprintf("%v", tc.GetExpected())}
+	tc.Expected = "exp"
+	actual := args.Map{"expected": fmt.Sprintf("%v", tc.TypedExpected())}
 	expected := args.Map{"expected": "exp"}
 	expected.ShouldBeEqual(t, 0, "GenericGherkins SetExpected", actual)
 }

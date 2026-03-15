@@ -182,8 +182,8 @@ func Test_Cov3_IsStartsAndEndsChar(t *testing.T) {
 
 func Test_Cov3_IsStartsAndEndsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsStartsAndEndsWith("hello world", "hello", "world"),
-		"noMatch": stringutil.IsStartsAndEndsWith("hello world", "hello", "xyz"),
+		"match":   stringutil.IsStartsAndEndsWith("hello world", "hello", "world", false),
+		"noMatch": stringutil.IsStartsAndEndsWith("hello world", "hello", "xyz", false),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
 	expected.ShouldBeEqual(t, 0, "IsStartsAndEndsWith", actual)
@@ -191,8 +191,8 @@ func Test_Cov3_IsStartsAndEndsWith(t *testing.T) {
 
 func Test_Cov3_IsAnyStartsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsAnyStartsWith("hello", []string{"he", "wo"}),
-		"noMatch": stringutil.IsAnyStartsWith("hello", []string{"wo", "xy"}),
+		"match":   stringutil.IsAnyStartsWith("hello", false, "he", "wo"),
+		"noMatch": stringutil.IsAnyStartsWith("hello", false, "wo", "xy"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
 	expected.ShouldBeEqual(t, 0, "IsAnyStartsWith", actual)
@@ -200,8 +200,8 @@ func Test_Cov3_IsAnyStartsWith(t *testing.T) {
 
 func Test_Cov3_IsAnyEndsWith(t *testing.T) {
 	actual := args.Map{
-		"match":   stringutil.IsAnyEndsWith("hello", []string{"lo", "xy"}),
-		"noMatch": stringutil.IsAnyEndsWith("hello", []string{"ab", "cd"}),
+		"match":   stringutil.IsAnyEndsWith("hello", false, "lo", "xy"),
+		"noMatch": stringutil.IsAnyEndsWith("hello", false, "ab", "cd"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
 	expected.ShouldBeEqual(t, 0, "IsAnyEndsWith", actual)
@@ -276,7 +276,7 @@ func Test_Cov3_MaskLine(t *testing.T) {
 }
 
 func Test_Cov3_MaskLines(t *testing.T) {
-	result := stringutil.MaskLines("XXXXX", []string{"ab", "cde"})
+	result := stringutil.MaskLines("XXXXX", "ab", "cde")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "MaskLines", actual)
@@ -289,7 +289,7 @@ func Test_Cov3_MaskTrimLine(t *testing.T) {
 }
 
 func Test_Cov3_MaskTrimLines(t *testing.T) {
-	result := stringutil.MaskTrimLines("XXXXX", []string{"  ab  ", "cde"})
+	result := stringutil.MaskTrimLines("XXXXX", "  ab  ", "cde")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "MaskTrimLines", actual)
@@ -305,8 +305,8 @@ func Test_Cov3_RemoveMany(t *testing.T) {
 }
 
 func Test_Cov3_RemoveManyBySplitting(t *testing.T) {
-	result := stringutil.RemoveManyBySplitting("hello world foo", "world", "foo")
-	actual := args.Map{"notEmpty": result != ""}
+	result := stringutil.RemoveManyBySplitting("hello world foo", " ", "world", "foo")
+	actual := args.Map{"notEmpty": len(result) > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "RemoveManyBySplitting", actual)
 }
@@ -314,7 +314,7 @@ func Test_Cov3_RemoveManyBySplitting(t *testing.T) {
 // ── TrimKeepSingleSpaceOnly ──
 
 func Test_Cov3_TrimKeepSingleSpaceOnly(t *testing.T) {
-	result := stringutil.TrimKeepSingleSpaceOnly("  hello   world  ")
+	result := stringutil.ReplaceWhiteSpacesToSingle("  hello   world  ")
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "hello world"}
 	expected.ShouldBeEqual(t, 0, "TrimKeepSingleSpaceOnly", actual)

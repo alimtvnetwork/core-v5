@@ -243,7 +243,7 @@ func Test_Cov7_LeftMiddleRightFromSplit(t *testing.T) {
 // ── LinkedList ──
 
 func Test_Cov7_LinkedList_Basic(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Empty()
 	ll.Add("a")
 	ll.Add("b")
 	actual := args.Map{
@@ -256,7 +256,7 @@ func Test_Cov7_LinkedList_Basic(t *testing.T) {
 }
 
 func Test_Cov7_LinkedList_String(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Empty()
 	ll.Add("a")
 	actual := args.Map{"notEmpty": ll.String() != ""}
 	expected := args.Map{"notEmpty": true}
@@ -312,8 +312,8 @@ func Test_Cov7_CloneSlice(t *testing.T) {
 }
 
 func Test_Cov7_CloneSliceIf(t *testing.T) {
-	result := corestr.CloneSliceIf(true, []string{"a"})
-	noClone := corestr.CloneSliceIf(false, []string{"a"})
+	result := corestr.CloneSliceIf(true, []string{"a"}...)
+	noClone := corestr.CloneSliceIf(false, []string{"a"}...)
 	actual := args.Map{"cloneLen": len(result), "noCloneLen": len(noClone)}
 	expected := args.Map{"cloneLen": 1, "noCloneLen": 1}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf -- clone and no clone", actual)
@@ -331,8 +331,8 @@ func Test_Cov7_ValidValue(t *testing.T) {
 // ── ValidValues ──
 
 func Test_Cov7_ValidValues(t *testing.T) {
-	vv := corestr.ValidValues{Values: []string{"a"}, IsValid: true}
-	actual := args.Map{"len": len(vv.Values), "isValid": vv.IsValid}
+	vv := corestr.NewValidValuesUsingValues(corestr.ValidValue{Value: "a", IsValid: true})
+	actual := args.Map{"len": vv.Length(), "isValid": vv.ValidValues[0].IsValid}
 	expected := args.Map{"len": 1, "isValid": true}
 	expected.ShouldBeEqual(t, 0, "ValidValues -- basic", actual)
 }
@@ -340,8 +340,8 @@ func Test_Cov7_ValidValues(t *testing.T) {
 // ── ValueStatus ──
 
 func Test_Cov7_ValueStatus(t *testing.T) {
-	vs := corestr.ValueStatus{Value: "hello", IsValid: true}
-	actual := args.Map{"val": vs.Value, "isValid": vs.IsValid}
+	vs := corestr.ValueStatus{ValueValid: &corestr.ValidValue{Value: "hello", IsValid: true}, Index: 0}
+	actual := args.Map{"val": vs.ValueValid.Value, "isValid": vs.ValueValid.IsValid}
 	expected := args.Map{"val": "hello", "isValid": true}
 	expected.ShouldBeEqual(t, 0, "ValueStatus -- basic", actual)
 }

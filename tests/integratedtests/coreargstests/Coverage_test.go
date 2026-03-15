@@ -725,7 +725,7 @@ func Test_Cov_Six(t *testing.T) {
 
 func Test_Cov_OneFunc(t *testing.T) {
 	fn := func() {}
-	o := args.OneFunc{First: 1, Func: fn}
+	o := args.OneFuncAny{First: 1, WorkFunc: fn}
 	actual := args.Map{"first": o.FirstItem(), "hasFunc": o.GetWorkFunc() != nil}
 	expected := args.Map{"first": 1, "hasFunc": true}
 	expected.ShouldBeEqual(t, 0, "OneFunc", actual)
@@ -733,7 +733,7 @@ func Test_Cov_OneFunc(t *testing.T) {
 
 func Test_Cov_TwoFunc(t *testing.T) {
 	fn := func() {}
-	o := args.TwoFunc{First: 1, Second: 2, Func: fn}
+	o := args.TwoFuncAny{First: 1, Second: 2, WorkFunc: fn}
 	actual := args.Map{"second": o.SecondItem(), "hasFunc": o.GetWorkFunc() != nil}
 	expected := args.Map{"second": 2, "hasFunc": true}
 	expected.ShouldBeEqual(t, 0, "TwoFunc", actual)
@@ -741,8 +741,9 @@ func Test_Cov_TwoFunc(t *testing.T) {
 
 func Test_Cov_FuncMap(t *testing.T) {
 	fn := func() {}
-	fm := args.FuncMap{Params: args.Map{"a": 1}, Func: fn}
-	actual := args.Map{"hasFunc": fm.GetWorkFunc() != nil, "firstNotNil": fm.Params != nil}
+	fm := args.FuncMap{}
+	fm.Add(fn)
+	actual := args.Map{"hasFunc": fm.HasAnyItem(), "firstNotNil": fm.Length() > 0}
 	expected := args.Map{"hasFunc": true, "firstNotNil": true}
 	expected.ShouldBeEqual(t, 0, "FuncMap", actual)
 }

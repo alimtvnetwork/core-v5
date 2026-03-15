@@ -3,112 +3,44 @@ package corevalidatortests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/coredata/corerange"
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/corevalidator"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
-// ── LineNumber ──
-
-func Test_Cov3_LineNumber_String(t *testing.T) {
-	ln := corevalidator.LineNumber{
-		Number: 5,
-		Line:   "hello world",
-	}
-	actual := args.Map{
-		"number":   ln.Number,
-		"line":     ln.Line,
-		"notEmpty": ln.String() != "",
-	}
-	expected := args.Map{"number": 5, "line": "hello world", "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "LineNumber String", actual)
+func Test_Cov3_LineNumber_Methods(t *testing.T) {
+	ln := corevalidator.LineNumber{LineNumber: 5}
+	actual := args.Map{"has": ln.HasLineNumber(), "isMatch": ln.IsMatch(5), "mismatchErr": ln.VerifyError(6) != nil}
+	expected := args.Map{"has": true, "isMatch": true, "mismatchErr": true}
+	expected.ShouldBeEqual(t, 0, "LineNumber methods", actual)
 }
 
-// ── Condition ──
-
 func Test_Cov3_Condition_Methods(t *testing.T) {
-	c := corevalidator.Condition{
-		IsValid: true,
-		Message: "all good",
-	}
-	actual := args.Map{
-		"isValid":  c.IsValid,
-		"message":  c.Message,
-		"hasError": c.HasError(),
-	}
-	expected := args.Map{
-		"isValid": true, "message": "all good", "hasError": false,
-	}
+	c := corevalidator.Condition{IsUniqueWordOnly: true}
+	actual := args.Map{"splitByWhitespace": c.IsSplitByWhitespace()}
+	expected := args.Map{"splitByWhitespace": true}
 	expected.ShouldBeEqual(t, 0, "Condition methods", actual)
 }
 
-func Test_Cov3_Condition_HasError_True(t *testing.T) {
-	c := corevalidator.Condition{IsValid: false, Message: "error"}
-	actual := args.Map{"hasError": c.HasError()}
-	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "Condition HasError true", actual)
-}
-
-// ── Parameter ──
-
 func Test_Cov3_Parameter_Methods(t *testing.T) {
-	p := corevalidator.Parameter{
-		Name:  "testParam",
-		Value: "testValue",
-	}
-	actual := args.Map{
-		"name":     p.Name,
-		"value":    p.Value,
-		"notEmpty": p.String() != "",
-	}
-	expected := args.Map{
-		"name": "testParam", "value": "testValue", "notEmpty": true,
-	}
+	p := corevalidator.Parameter{CaseIndex: 1, Header: "h", IsCaseSensitive: false}
+	actual := args.Map{"caseIndex": p.CaseIndex, "header": p.Header, "ignoreCase": p.IsIgnoreCase()}
+	expected := args.Map{"caseIndex": 1, "header": "h", "ignoreCase": true}
 	expected.ShouldBeEqual(t, 0, "Parameter methods", actual)
 }
 
-// ── RangesSegment ──
-
 func Test_Cov3_RangesSegment(t *testing.T) {
-	rs := corevalidator.RangesSegment{
-		ActualStartIndex:    0,
-		ActualEndIndex:      10,
-		ExpectedStartIndex:  0,
-		ExpectedEndIndex:    10,
-	}
-	actual := args.Map{
-		"start":    rs.ActualStartIndex,
-		"end":      rs.ActualEndIndex,
-		"expStart": rs.ExpectedStartIndex,
-		"expEnd":   rs.ExpectedEndIndex,
-	}
-	expected := args.Map{
-		"start": 0, "end": 10, "expStart": 0, "expEnd": 10,
-	}
+	rs := corevalidator.RangesSegment{RangeInt: corerange.RangeInt{Start: 0, End: 10}, ExpectedLines: []string{"a"}, CompareAs: stringcompareas.Equal}
+	actual := args.Map{"start": rs.Start, "end": rs.End, "expLen": len(rs.ExpectedLines), "compareAs": rs.CompareAs.Name()}
+	expected := args.Map{"start": 0, "end": 10, "expLen": 1, "compareAs": "Equal"}
 	expected.ShouldBeEqual(t, 0, "RangesSegment struct", actual)
 }
 
-// ── BaseValidatorCoreCondition ──
-
-func Test_Cov3_BaseValidatorCoreCondition_EmptyConditions(t *testing.T) {
-	bv := corevalidator.BaseValidatorCoreCondition{
-		Conditions: []corevalidator.Condition{},
-	}
-	actual := args.Map{
-		"len":    len(bv.Conditions),
-		"hasErr": bv.HasAnyError(),
-	}
-	expected := args.Map{"len": 0, "hasErr": false}
-	expected.ShouldBeEqual(t, 0, "BaseValidatorCoreCondition empty", actual)
-}
-
-func Test_Cov3_BaseValidatorCoreCondition_WithError(t *testing.T) {
-	bv := corevalidator.BaseValidatorCoreCondition{
-		Conditions: []corevalidator.Condition{
-			{IsValid: true, Message: "ok"},
-			{IsValid: false, Message: "fail"},
-		},
-	}
-	actual := args.Map{"hasErr": bv.HasAnyError()}
-	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "BaseValidatorCoreCondition with error", actual)
+func Test_Cov3_BaseValidatorCoreCondition_Default(t *testing.T) {
+	bv := corevalidator.BaseValidatorCoreCondition{}
+	cond := bv.ValidatorCoreConditionDefault()
+	actual := args.Map{"notNil": bv.ValidatorCoreCondition != nil, "split": cond.IsSplitByWhitespace()}
+	expected := args.Map{"notNil": true, "split": false}
+	expected.ShouldBeEqual(t, 0, "BaseValidatorCoreCondition default", actual)
 }

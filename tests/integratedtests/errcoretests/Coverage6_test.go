@@ -125,9 +125,9 @@ func Test_Cov6_RawErrCollection(t *testing.T) {
 func Test_Cov6_RawErrCollection_CombinedError(t *testing.T) {
 	c := errcore.RawErrCollection{}
 	c.Add(errors.New("a"))
-	result := c.CombinedError()
+	result := c.CompiledError()
 	empty := errcore.RawErrCollection{}
-	emptyResult := empty.CombinedError()
+	emptyResult := empty.CompiledError()
 	actual := args.Map{"hasErr": result != nil, "emptyNil": emptyResult == nil}
 	expected := args.Map{"hasErr": true, "emptyNil": true}
 	expected.ShouldBeEqual(t, 0, "RawErrCollection CombinedError", actual)
@@ -136,32 +136,23 @@ func Test_Cov6_RawErrCollection_CombinedError(t *testing.T) {
 // ── SliceError / SliceErrorDefault ──
 
 func Test_Cov6_SliceError(t *testing.T) {
-	se := errcore.SliceError{Errs: []string{"a", "b"}}
-	actual := args.Map{
-		"len":     se.Length(),
-		"hasAny":  se.HasAnyItem(),
-		"isEmpty": se.IsEmpty(),
-		"err":     se.Error() != nil,
-	}
-	expected := args.Map{"len": 2, "hasAny": true, "isEmpty": false, "err": true}
+	err := errcore.SliceError("|", []string{"a", "b"})
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "SliceError", actual)
 }
 
 func Test_Cov6_SliceError_Empty(t *testing.T) {
-	se := errcore.SliceError{}
-	actual := args.Map{"isEmpty": se.IsEmpty(), "err": se.Error() == nil}
-	expected := args.Map{"isEmpty": true, "err": true}
+	err := errcore.SliceError("|", []string{})
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true}
 	expected.ShouldBeEqual(t, 0, "SliceError Empty", actual)
 }
 
 func Test_Cov6_SliceErrorDefault(t *testing.T) {
-	se := errcore.SliceErrorDefault()
-	se.Add("a")
-	se.AddErr(errors.New("b"))
-	se.AddNonEmpty("")
-	se.AddNonEmpty("c")
-	actual := args.Map{"len": se.Length()}
-	expected := args.Map{"len": 3}
+	err := errcore.SliceErrorDefault([]string{"a", "b", "c"})
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "SliceErrorDefault", actual)
 }
 
