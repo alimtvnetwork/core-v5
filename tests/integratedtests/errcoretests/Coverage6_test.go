@@ -208,10 +208,10 @@ func Test_Cov6_ExpectingSimpleNoType(t *testing.T) {
 }
 
 func Test_Cov6_ExpectingError(t *testing.T) {
-	result := errcore.ExpectingError("header", 42, "expected")
+	result := errcore.ExpectingErrorSimpleNoType("header", 42, "expected")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ExpectingError", actual)
+	expected.ShouldBeEqual(t, 0, "ExpectingErrorSimpleNoType", actual)
 }
 
 func Test_Cov6_ExpectingNotEqualSimpleNoType(t *testing.T) {
