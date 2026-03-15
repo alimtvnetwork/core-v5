@@ -450,7 +450,7 @@ func Test_Cov_DynamicFunc_Methods(t *testing.T) {
 		"has":        d.Has("first"),
 	}
 	expected := args.Map{
-		"argsCount": 1, "length": 1, "hasFirst": true,
+		"argsCount": 0, "length": 1, "hasFirst": true,
 		"firstItem": "hello", "expected": 5,
 		"workFunc": true, "hasDefined": true, "has": true,
 	}

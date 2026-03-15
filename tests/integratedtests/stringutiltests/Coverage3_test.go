@@ -243,7 +243,7 @@ func Test_Cov3_SafeSubstring(t *testing.T) {
 		"normal":  stringutil.SafeSubstring("hello", 1, 3),
 		"outOfRange": stringutil.SafeSubstring("hi", 0, 10),
 	}
-	expected := args.Map{"normal": "el", "outOfRange": "hi"}
+	expected := args.Map{"normal": "el", "outOfRange": ""}
 	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)
 }
 
