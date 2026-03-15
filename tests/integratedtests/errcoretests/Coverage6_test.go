@@ -453,18 +453,39 @@ func Test_Cov6_MessageWithRefToError(t *testing.T) {
 // ── CountStateChangeTracker ──
 
 func Test_Cov6_CountStateChangeTracker(t *testing.T) {
-	tracker := errcore.CountStateChangeTracker{}
-	tracker.SuccessCountChange()
-	tracker.FailedCountChange()
-	tracker.FailedCountChange()
+	mockLen := &mockLengthGetter{length: 0}
+	tracker := errcore.NewCountStateChangeTracker(mockLen)
+
+	// Initially same state
 	actual := args.Map{
-		"success": tracker.SuccessCount,
-		"failed":  tracker.FailedCount,
-		"total":   tracker.Total(),
-		"hasAny":  tracker.HasAny(),
+		"isSameState": tracker.IsSameState(),
+		"isValid":     tracker.IsValid(),
+		"isSuccess":   tracker.IsSuccess(),
+		"hasChanges":  tracker.HasChanges(),
+		"isFailed":    tracker.IsFailed(),
 	}
-	expected := args.Map{"success": 1, "failed": 2, "total": 3, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "CountStateChangeTracker", actual)
+	expected := args.Map{
+		"isSameState": true,
+		"isValid":     true,
+		"isSuccess":   true,
+		"hasChanges":  false,
+		"isFailed":    false,
+	}
+	expected.ShouldBeEqual(t, 0, "CountStateChangeTracker-initial", actual)
+
+	// Simulate length change
+	mockLen.length = 2
+	actual2 := args.Map{
+		"isSameState": tracker.IsSameState(),
+		"hasChanges":  tracker.HasChanges(),
+		"isFailed":    tracker.IsFailed(),
+	}
+	expected2 := args.Map{
+		"isSameState": false,
+		"hasChanges":  true,
+		"isFailed":    true,
+	}
+	expected2.ShouldBeEqual(t, 1, "CountStateChangeTracker-changed", actual2)
 }
 
 // ── VarNameValues / VarNameValuesJoiner / VarNameValuesStrings ──
