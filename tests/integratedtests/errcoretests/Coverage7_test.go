@@ -340,11 +340,11 @@ func Test_Cov7_StackTracesCompiled(t *testing.T) {
 
 // ── CombineWithMsgType ──
 
-func Test_Cov7_CombineWithMsgType(t *testing.T) {
-	result := errcore.CombineWithMsgType("type", "msg", "ref")
+func Test_Cov7_CombineWithMsgTypeNoStack(t *testing.T) {
+	result := errcore.CombineWithMsgTypeNoStack("type", "msg", "ref")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CombineWithMsgType", actual)
+	expected.ShouldBeEqual(t, 0, "CombineWithMsgTypeNoStack", actual)
 }
 
 // ── CompiledError ──
