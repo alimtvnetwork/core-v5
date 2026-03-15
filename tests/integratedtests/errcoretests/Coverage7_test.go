@@ -194,31 +194,22 @@ func Test_Cov7_GetActualAndExpectProcessedMessage(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "GetActualAndExpectProcessedMessage", actual)
 }
 
-func Test_Cov7_GetActualAndExpectSortedMessage(t *testing.T) {
-	result := errcore.GetActualAndExpectSortedMessage("header", []string{"b", "a"}, []string{"a", "b"})
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "GetActualAndExpectSortedMessage", actual)
-}
-
-// ── GetSearchTermExpectationMessage ──
-
 func Test_Cov7_GetSearchTermExpectationMessage(t *testing.T) {
-	result := errcore.GetSearchTermExpectationMessage("header", "term", []string{"a", "b"})
+	result := errcore.GetSearchTermExpectationMessage(0, "header", "expectMsg", 1, "actual", "expected", nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchTermExpectationMessage", actual)
 }
 
 func Test_Cov7_GetSearchTermExpectationSimpleMessage(t *testing.T) {
-	result := errcore.GetSearchTermExpectationSimpleMessage("header", "term", []string{"a"})
+	result := errcore.GetSearchTermExpectationSimpleMessage(0, "expectMsg", 1, "content", "search")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchTermExpectationSimpleMessage", actual)
 }
 
 func Test_Cov7_GetSearchLineNumberExpectationMessage(t *testing.T) {
-	result := errcore.GetSearchLineNumberExpectationMessage("header", 5, []string{"a"})
+	result := errcore.GetSearchLineNumberExpectationMessage(0, 5, 3, "content", "search", nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchLineNumberExpectationMessage", actual)
