@@ -46,12 +46,10 @@ func Test_Cov8_ValidValue_Invalid(t *testing.T) {
 // ── LeftRight ──
 
 func Test_Cov8_LeftRight(t *testing.T) {
-	lr := &corestr.LeftRight{}
-	lr.First = "l"
-	lr.Second = "r"
+	lr := corestr.NewLeftRight("l", "r")
 	actual := args.Map{
-		"left":  lr.First,
-		"right": lr.Second,
+		"left":  lr.Left,
+		"right": lr.Right,
 	}
 	expected := args.Map{"left": "l", "right": "r"}
 	expected.ShouldBeEqual(t, 0, "LeftRight returns fields -- struct access", actual)
