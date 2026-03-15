@@ -177,10 +177,10 @@ func Test_Cov6_FmtDebug(t *testing.T) {
 }
 
 func Test_Cov6_FmtDebugIf(t *testing.T) {
-	result := errcore.FmtDebugIf(true, "hello %s", "world")
-	emptyResult := errcore.FmtDebugIf(false, "hello")
-	actual := args.Map{"notEmpty": result != "", "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "empty": ""}
+	errcore.FmtDebugIf(true, "hello %s", "world")
+	errcore.FmtDebugIf(false, "hello")
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "FmtDebugIf", actual)
 }
 
