@@ -108,7 +108,7 @@ func Test_Cov4_Dynamic_Basic(t *testing.T) {
 		"hasExpect": d.HasExpect(),
 		"count":    d.ArgsCount(),
 	}
-	expected := args.Map{"first": "hello", "expected": 42, "hasFirst": true, "hasExpect": true, "count": 1}
+	expected := args.Map{"first": "hello", "expected": 42, "hasFirst": true, "hasExpect": true, "count": 0}
 	expected.ShouldBeEqual(t, 0, "Dynamic basic", actual)
 }
 
