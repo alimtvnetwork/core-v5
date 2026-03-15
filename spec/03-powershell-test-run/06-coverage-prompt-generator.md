@@ -13,6 +13,28 @@ scripts/coverage/
 └── Get-FunctionCoverage.ps1       # Standalone: filter functions by threshold
 ```
 
+### Generate-CoveragePrompts.ps1
+
+Main generator invoked automatically at the end of `Invoke-TestCoverage`. Parses both `coverage.out` and `go tool cover -func` output to produce batched prompt files with uncovered line ranges.
+
+### Get-UncoveredLines.ps1
+
+Standalone utility that extracts uncovered line ranges for a single source file from a coverage profile. Useful for debugging why a specific file has gaps.
+
+| Parameter | Required | Description |
+|-----------|----------|-------------|
+| `CoverProfile` | Yes | Path to `coverage.out` |
+| `SourceFile` | Yes | Full module-qualified file path (e.g., `github.com/alimtvnetwork/core/errcore/ErrorNew.go`) |
+
+### Get-FunctionCoverage.ps1
+
+Standalone utility that filters `go tool cover -func` output to list functions below a given coverage threshold, sorted ascending by coverage.
+
+| Parameter | Required | Default | Description |
+|-----------|----------|---------|-------------|
+| `FuncOutput` | Yes | — | Lines from `go tool cover -func` |
+| `Threshold` | No | `100.0` | Coverage percentage threshold |
+
 ## Output
 
 ```
@@ -49,7 +71,7 @@ Write tests in tests/integratedtests/{pkg}tests/ using the AAA pattern with args
    Uncovered lines: L8-L12, L18
 ```
 
-## Parameters
+## Parameters (Generate-CoveragePrompts.ps1)
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
@@ -67,9 +89,12 @@ Write tests in tests/integratedtests/{pkg}tests/ using the AAA pattern with args
   -CoverProfile data/coverage/coverage.out `
   -SourceFile "github.com/alimtvnetwork/core/errcore/ErrorNew.go"
 
-# Get all functions below a threshold
+# Get all functions below 80% coverage
 $funcLines = go tool cover -func=data/coverage/coverage.out
 ./scripts/coverage/Get-FunctionCoverage.ps1 -FuncOutput $funcLines -Threshold 80
+
+# Get all functions below 100% (default threshold)
+./scripts/coverage/Get-FunctionCoverage.ps1 -FuncOutput $funcLines
 ```
 
 ## Integration Point
@@ -88,3 +113,4 @@ if (Test-Path $promptScript) {
 
 - [PowerShell Test Runner Overview](01-overview.md)
 - [Parallel Threading Strategy](05-parallel-threading.md)
+- [Coverage Prompts Spec](../13-app-issues/testing/09-coverage-prompts-from-powershell.md)
