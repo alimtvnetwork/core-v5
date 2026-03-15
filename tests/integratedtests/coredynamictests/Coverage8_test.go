@@ -298,12 +298,14 @@ func Test_Cov8_KeyValCollection_NonPtrPtr(t *testing.T) {
 	c := coredynamic.NewKeyValCollection(5)
 	c.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 	nonPtr := c.NonPtr()
+	nonPtrPtr := nonPtr.Ptr()
 	ptr := c.Ptr()
 	actual := args.Map{
-		"nonPtrLen": nonPtr.Length(),
+		"nonPtrLen": nonPtrPtr.Length(),
 		"ptrLen":    ptr.Length(),
+		"same":      ptr == c,
 	}
-	expected := args.Map{"nonPtrLen": 1, "ptrLen": 1}
+	expected := args.Map{"nonPtrLen": 1, "ptrLen": 1, "same": true}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection NonPtr/Ptr", actual)
 }
 
