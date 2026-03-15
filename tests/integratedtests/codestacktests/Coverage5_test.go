@@ -103,7 +103,7 @@ func Test_Cov5_TraceCollection_ClonePtr_Nil(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_FirstOrDefault(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	first := tc.FirstOrDefault()
 	actual := args.Map{"notNil": first != nil}
 	expected := args.Map{"notNil": true}
@@ -119,7 +119,7 @@ func Test_Cov5_TraceCollection_FirstOrDefault_Empty(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_LastOrDefault(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	last := tc.LastOrDefault()
 	actual := args.Map{"notNil": last != nil}
 	expected := args.Map{"notNil": true}
@@ -135,7 +135,7 @@ func Test_Cov5_TraceCollection_LastOrDefault_Empty(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_CodeStacksString(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.CodeStacksString()
 	actual := args.Map{"notEmpty": len(s) > 0}
 	expected := args.Map{"notEmpty": true}
@@ -143,7 +143,7 @@ func Test_Cov5_TraceCollection_CodeStacksString(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_StackTraces(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.StackTraces()
 	actual := args.Map{"notEmpty": len(s) > 0}
 	expected := args.Map{"notEmpty": true}
@@ -151,7 +151,7 @@ func Test_Cov5_TraceCollection_StackTraces(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_StackTracesJsonResult(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	r := tc.StackTracesJsonResult()
 	actual := args.Map{"notNil": r != nil, "hasBytes": r.HasBytes()}
 	expected := args.Map{"notNil": true, "hasBytes": true}
@@ -191,7 +191,7 @@ func Test_Cov5_TraceCollection_NewDefaultStackTracesJsonResult(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_GetPagesSize(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 6)
+	tc := codestack.New.StackTrace.SkipNone()
 	pages := tc.GetPagesSize(2)
 	actual := args.Map{"pages": pages > 0}
 	expected := args.Map{"pages": true}
@@ -207,7 +207,7 @@ func Test_Cov5_TraceCollection_GetPagesSize_Zero(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_Dispose(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	tc.Dispose()
 	actual := args.Map{"isEmpty": tc.IsEmpty()}
 	expected := args.Map{"isEmpty": true}
@@ -223,7 +223,7 @@ func Test_Cov5_TraceCollection_Dispose_Nil(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_Json(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	r := tc.Json()
 	actual := args.Map{"hasBytes": r.HasBytes()}
 	expected := args.Map{"hasBytes": true}
@@ -231,7 +231,7 @@ func Test_Cov5_TraceCollection_Json(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_JsonPtr(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	r := tc.JsonPtr()
 	actual := args.Map{"notNil": r != nil}
 	expected := args.Map{"notNil": true}
@@ -239,7 +239,7 @@ func Test_Cov5_TraceCollection_JsonPtr(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_JsonString(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.JsonString()
 	actual := args.Map{"notEmpty": len(s) > 0}
 	expected := args.Map{"notEmpty": true}
@@ -247,7 +247,7 @@ func Test_Cov5_TraceCollection_JsonString(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_JsonStrings(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.JsonStrings()
 	actual := args.Map{"notEmpty": len(s) > 0}
 	expected := args.Map{"notEmpty": true}
@@ -255,7 +255,7 @@ func Test_Cov5_TraceCollection_JsonStrings(t *testing.T) {
 }
 
 func Test_Cov5_TraceCollection_String(t *testing.T) {
-	tc := codestack.New.StackTrace.Default(1, 3)
+	tc := codestack.New.StackTrace.SkipNone()
 	s := tc.String()
 	actual := args.Map{"notEmpty": len(s) > 0}
 	expected := args.Map{"notEmpty": true}
