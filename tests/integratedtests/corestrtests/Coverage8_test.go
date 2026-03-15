@@ -90,7 +90,7 @@ func Test_Cov8_LeftRightFromSplit_NoSep(t *testing.T) {
 // ── LeftMiddleRightFromSplit ──
 
 func Test_Cov8_LeftMiddleRightFromSplit(t *testing.T) {
-	lmr := corestr.NewLeftMiddleRightFromSplit("a:b:c", ":")
+	lmr := corestr.LeftMiddleRightFromSplit("a:b:c", ":")
 	actual := args.Map{
 		"left":   lmr.Left,
 		"middle": lmr.Middle,
