@@ -382,7 +382,7 @@ func Test_Cov7_MeaningFulError(t *testing.T) {
 }
 
 func Test_Cov7_MeaningfulMessageError(t *testing.T) {
-	result := errcore.MeaningfulMessageError("type", "msg", "ref")
+	result := errcore.MeaningfulMessageError("type", "funcName", errors.New("inner"), "msg")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError", actual)
