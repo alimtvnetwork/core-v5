@@ -275,9 +275,9 @@ func Test_Cov6_VarMap(t *testing.T) {
 }
 
 func Test_Cov6_VarMapStrings(t *testing.T) {
-	result := errcore.VarMapStrings(map[string]string{"a": "1"})
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	result := errcore.VarMapStrings(map[string]any{"a": "1"})
+	actual := args.Map{"hasAny": len(result) > 0}
+	expected := args.Map{"hasAny": true}
 	expected.ShouldBeEqual(t, 0, "VarMapStrings", actual)
 }
 
