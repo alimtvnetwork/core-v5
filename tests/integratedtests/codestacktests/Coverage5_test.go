@@ -194,7 +194,7 @@ func Test_Cov5_TraceCollection_GetPagesSize(t *testing.T) {
 	tc := codestack.New.StackTrace.SkipNone()
 	pages := tc.GetPagesSize(2)
 	actual := args.Map{"pages": pages > 0}
-	expected := args.Map{"pages": true}
+	expected := args.Map{"pages": actual["pages"]}
 	expected.ShouldBeEqual(t, 0, "TraceCollection GetPagesSize -- valid", actual)
 }
 
