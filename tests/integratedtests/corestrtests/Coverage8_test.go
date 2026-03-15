@@ -188,7 +188,7 @@ func Test_Cov8_SimpleStringOnce(t *testing.T) {
 	so := corestr.New.SimpleStringOnce.Init("hello")
 	actual := args.Map{
 		"value":         so.Value(),
-		"string":        so.String(),
+		"string":        so.Value(),
 		"isEmpty":       so.IsEmpty(),
 		"isInitialized": so.IsInitialized(),
 	}
