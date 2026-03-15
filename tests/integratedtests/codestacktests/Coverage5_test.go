@@ -414,7 +414,7 @@ func Test_Cov5_StacksTo_Lines(t *testing.T) {
 
 func Test_Cov5_StacksTo_JsonResult(t *testing.T) {
 	tc := codestack.New.StackTrace.Default(1, 3)
-	r := codestack.StacksTo.JsonResult(tc)
+	r := tc.StackTracesJsonResult()
 	actual := args.Map{"notNil": r != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "StacksTo JsonResult -- not nil", actual)

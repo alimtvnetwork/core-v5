@@ -160,7 +160,7 @@ func Test_Cov6_SliceErrorDefault(t *testing.T) {
 
 func Test_Cov6_SliceErrorsToStrings(t *testing.T) {
 	errs := []error{errors.New("a"), nil, errors.New("b")}
-	result := errcore.SliceErrorsToStrings(errs)
+	result := errcore.SliceErrorsToStrings(errs...)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "SliceErrorsToStrings", actual)

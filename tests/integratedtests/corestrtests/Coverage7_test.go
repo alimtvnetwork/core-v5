@@ -249,7 +249,7 @@ func Test_Cov7_LinkedList_Basic(t *testing.T) {
 	actual := args.Map{
 		"len":     ll.Length(),
 		"isEmpty": ll.IsEmpty(),
-		"hasAny":  ll.HasAnyItem(),
+		"hasAny":  ll.HasItems(),
 	}
 	expected := args.Map{"len": 2, "isEmpty": false, "hasAny": true}
 	expected.ShouldBeEqual(t, 0, "LinkedList basic -- 2 items", actual)

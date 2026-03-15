@@ -164,10 +164,11 @@ func Test_Cov5_New_DefaultApplicableLock(t *testing.T) {
 // ── regExMatchValidationError ──
 
 func Test_Cov5_RegExMatchValidationError(t *testing.T) {
-	err := regexnew.RegExMatchValidationError(`^\d+$`, "abc", nil, nil)
+	// regExMatchValidationError is unexported; test via MatchError instead
+	err := regexnew.MatchError(`^\d+$`, "abc")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "RegExMatchValidationError", actual)
+	expected.ShouldBeEqual(t, 0, "RegExMatchValidationError via MatchError", actual)
 }
 
 // ── LazyRegex — FindStringSubmatch / FindAllString ──

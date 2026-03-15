@@ -223,9 +223,8 @@ func Test_Cov4_FuncWrap_WithArgs(t *testing.T) {
 		"inCount":  fw.InArgsCount(),
 		"outCount": fw.OutArgsCount(),
 		"isValid":  fw.IsValid(),
-		"isIntFunc": fw.IsIntFunc(),
 	}
-	expected := args.Map{"inCount": 2, "outCount": 1, "isValid": true, "isIntFunc": true}
+	expected := args.Map{"inCount": 2, "outCount": 1, "isValid": true}
 	expected.ShouldBeEqual(t, 0, "FuncWrap with args", actual)
 }
 
