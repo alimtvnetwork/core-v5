@@ -62,7 +62,7 @@ func Test_Cov6_Trace_Getters(t *testing.T) {
 	trace := codestack.New.Default()
 	actual := args.Map{
 		"isOkay":     trace.IsOkay,
-		"isNotOkay":  trace.IsNotOkay(),
+		"isNotOkay":  !trace.IsOkay,
 		"isNil":      trace.IsNil(),
 		"isNotNil":   trace.IsNotNil(),
 		"hasIssues":  trace.HasIssues(),
