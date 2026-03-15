@@ -149,10 +149,13 @@ func Test_Cov7_IsIntegersEqual(t *testing.T) {
 }
 
 func Test_Cov7_IsIntegersEqualPtr(t *testing.T) {
+	left := []int{1, 2}
+	right := []int{1, 2}
+	rightSingle := []int{1}
 	actual := args.Map{
-		"equal":   corecmp.IsIntegersEqualPtr([]int{1, 2}, []int{1, 2}),
+		"equal":   corecmp.IsIntegersEqualPtr(&left, &right),
 		"bothNil": corecmp.IsIntegersEqualPtr(nil, nil),
-		"leftNil": corecmp.IsIntegersEqualPtr(nil, []int{1}),
+		"leftNil": corecmp.IsIntegersEqualPtr(nil, &rightSingle),
 	}
 	expected := args.Map{"equal": true, "bothNil": true, "leftNil": false}
 	expected.ShouldBeEqual(t, 0, "IsIntegersEqualPtr", actual)

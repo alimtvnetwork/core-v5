@@ -303,7 +303,7 @@ func Test_Cov2_Info_WithExcludeOptions(t *testing.T) {
 			IsExcludeUrl:         true,
 			IsExcludeHintUrl:     true,
 			IsExcludeErrorUrl:    true,
-			IsExcludePayload:     true,
+			IsSecureText:         true,
 		},
 	}
 	actual := args.Map{

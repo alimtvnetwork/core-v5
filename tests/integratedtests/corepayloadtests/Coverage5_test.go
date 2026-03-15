@@ -95,22 +95,18 @@ func Test_Cov5_PagingInfo_ClonePtr_Nil(t *testing.T) {
 // ── SessionInfo ──
 
 func Test_Cov5_SessionInfo(t *testing.T) {
-	si := corepayload.SessionInfo{
-		SessionId: "sess-123",
-	}
-	actual := args.Map{"sessionId": si.SessionId}
-	expected := args.Map{"sessionId": "sess-123"}
+	si := corepayload.SessionInfo{Id: "sess-123"}
+	actual := args.Map{"id": si.Id}
+	expected := args.Map{"id": "sess-123"}
 	expected.ShouldBeEqual(t, 0, "SessionInfo struct", actual)
 }
 
 // ── UserInfo ──
 
 func Test_Cov5_UserInfo(t *testing.T) {
-	ui := corepayload.UserInfo{
-		UserId: "user-1",
-	}
-	actual := args.Map{"userId": ui.UserId}
-	expected := args.Map{"userId": "user-1"}
+	ui := corepayload.UserInfo{}
+	actual := args.Map{"isEmpty": ui.IsEmpty(), "hasUser": ui.HasUser()}
+	expected := args.Map{"isEmpty": true, "hasUser": false}
 	expected.ShouldBeEqual(t, 0, "UserInfo struct", actual)
 }
 

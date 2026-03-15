@@ -662,8 +662,8 @@ func Test_Cov3_NewSimpleFileRW_Path(t *testing.T) {
 // ── New.Attribute ──
 
 func Test_Cov3_NewAttribute_UsingRwx(t *testing.T) {
-	attr, err := chmodhelper.New.Attribute.UsingRwx("rwx")
-	actual := args.Map{"noErr": err == nil, "defined": attr.IsDefined()}
-	expected := args.Map{"noErr": true, "defined": true}
+	attr := chmodhelper.New.Attribute.UsingRwxString("rwx")
+	actual := args.Map{"defined": attr.IsDefined()}
+	expected := args.Map{"defined": true}
 	expected.ShouldBeEqual(t, 0, "NewAttribute UsingRwx", actual)
 }
