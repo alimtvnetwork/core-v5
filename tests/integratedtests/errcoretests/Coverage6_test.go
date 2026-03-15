@@ -299,7 +299,7 @@ func Test_Cov6_MsgHeaderIf(t *testing.T) {
 }
 
 func Test_Cov6_MsgHeaderPlusEnding(t *testing.T) {
-	result := errcore.MsgHeaderPlusEnding("header", "msg", "ending")
+	result := errcore.MsgHeaderPlusEnding("header", "msg")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MsgHeaderPlusEnding", actual)
@@ -308,14 +308,14 @@ func Test_Cov6_MsgHeaderPlusEnding(t *testing.T) {
 // ── Ref ──
 
 func Test_Cov6_Ref(t *testing.T) {
-	result := errcore.Ref("context", 42)
+	result := errcore.Ref("context")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Ref", actual)
 }
 
 func Test_Cov6_RefToError(t *testing.T) {
-	result := errcore.RefToError("context", 42)
+	result := errcore.RefToError("context")
 	actual := args.Map{"hasErr": result != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "RefToError", actual)
