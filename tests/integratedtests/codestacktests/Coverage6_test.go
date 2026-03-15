@@ -238,7 +238,7 @@ func Test_Cov6_Dir_RepoDir(t *testing.T) {
 // ── File ──
 
 func Test_Cov6_File_CurrentFileName(t *testing.T) {
-	file := codestack.File.CurrentFileName()
+	file := codestack.File.CurrentFilePath()
 	actual := args.Map{"notEmpty": len(file) > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "File CurrentFileName", actual)
