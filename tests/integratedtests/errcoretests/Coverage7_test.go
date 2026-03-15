@@ -316,7 +316,7 @@ func Test_Cov7_PrintErrorLineDiff(t *testing.T) {
 // ── AssertDiffOnMismatch / PrintDiffOnMismatch ──
 
 func Test_Cov7_AssertDiffOnMismatch(t *testing.T) {
-	errcore.AssertDiffOnMismatch(0, "test", []string{"a"}, []string{"a"})
+	errcore.AssertDiffOnMismatch(t, 0, "test", []string{"a"}, []string{"a"})
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "AssertDiffOnMismatch", actual)
