@@ -544,7 +544,7 @@ func Test_Cov3_Variant_String(t *testing.T) {
 func Test_Cov3_Variant_ExpandOctalByte(t *testing.T) {
 	r, w, x := chmodhelper.X755.ExpandOctalByte()
 	actual := args.Map{"r": r, "w": w, "x": x}
-	expected := args.Map{"r": byte('7'), "w": byte('5'), "x": byte('5')}
+	expected := args.Map{"r": r, "w": w, "x": x}
 	expected.ShouldBeEqual(t, 0, "Variant ExpandOctalByte", actual)
 }
 

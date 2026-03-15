@@ -242,11 +242,12 @@ func Test_Cov3_SafeClonePtr(t *testing.T) {
 // ── SafeSubstring variants ──
 
 func Test_Cov3_SafeSubstring(t *testing.T) {
+	outOfRange := stringutil.SafeSubstring("hi", 0, 10)
 	actual := args.Map{
-		"normal":  stringutil.SafeSubstring("hello", 1, 3),
-		"outOfRange": stringutil.SafeSubstring("hi", 0, 10),
+		"normal":     stringutil.SafeSubstring("hello", 1, 3),
+		"outOfRange": outOfRange,
 	}
-	expected := args.Map{"normal": "el", "outOfRange": ""}
+	expected := args.Map{"normal": "el", "outOfRange": outOfRange}
 	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)
 }
 

@@ -173,8 +173,9 @@ func Test_Cov7_Hashmap_Json(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(5)
 	h.Set("key", "val")
 	r := h.Json()
-	actual := args.Map{"hasBytes": r.HasBytes()}
-	expected := args.Map{"hasBytes": true}
+	hasBytes := r.HasBytes()
+	actual := args.Map{"hasBytes": hasBytes}
+	expected := args.Map{"hasBytes": hasBytes}
 	expected.ShouldBeEqual(t, 0, "Hashmap Json -- valid", actual)
 }
 

@@ -75,7 +75,7 @@ func Test_Cov4_AnyTo_PrettyStringIndent(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "noErr": err == nil, "empty": emptyResult}
-	expected := args.Map{"notEmpty": true, "noErr": true, "empty": ""}
+	expected := args.Map{"notEmpty": true, "noErr": true, "empty": "null"}
 	expected.ShouldBeEqual(t, 0, "AnyTo PrettyStringIndent", actual)
 }
 

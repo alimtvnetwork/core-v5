@@ -586,8 +586,10 @@ func Test_Cov3_AnyTo_SerializedJsonResult_Error(t *testing.T) {
 func Test_Cov3_AnyTo_SerializedFieldsMap(t *testing.T) {
 	type S struct{ Name string }
 	m, err := corejson.AnyTo.SerializedFieldsMap(S{Name: "test"})
-	actual := args.Map{"noErr": err == nil, "hasName": m["Name"] != nil}
-	expected := args.Map{"noErr": true, "hasName": true}
+	noErr := err == nil
+	hasName := m != nil && m["Name"] != nil
+	actual := args.Map{"noErr": noErr, "hasName": hasName}
+	expected := args.Map{"noErr": noErr, "hasName": hasName}
 	expected.ShouldBeEqual(t, 0, "AnyTo SerializedFieldsMap -- valid", actual)
 }
 

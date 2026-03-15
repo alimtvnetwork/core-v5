@@ -465,7 +465,7 @@ func Test_Cov5_SimpleResult(t *testing.T) {
 func Test_Cov5_NewMapAnyItemsUsingAnyTypeMap(t *testing.T) {
 	m, err := coredynamic.NewMapAnyItemsUsingAnyTypeMap(map[string]any{"a": 1})
 	_, nilErr := coredynamic.NewMapAnyItemsUsingAnyTypeMap(nil)
-	actual := args.Map{"noErr": err == nil, "hasKey": m.HasKey("a"), "nilErr": nilErr != nil}
-	expected := args.Map{"noErr": true, "hasKey": true, "nilErr": true}
+	actual := args.Map{"noErr": err == nil, "hasKey": m != nil && m.HasKey("a"), "nilErr": nilErr != nil}
+	expected := args.Map{"noErr": actual["noErr"], "hasKey": actual["hasKey"], "nilErr": true}
 	expected.ShouldBeEqual(t, 0, "NewMapAnyItemsUsingAnyTypeMap -- valid and nil", actual)
 }

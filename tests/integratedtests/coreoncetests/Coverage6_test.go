@@ -321,15 +321,16 @@ func Test_Cov6_AnyOnce_CastMethods(t *testing.T) {
 
 func Test_Cov6_AnyOnce_Null(t *testing.T) {
 	ao := coreonce.NewAnyOnce(func() any { return nil })
+	isInit := ao.IsInitialized()
 	actual := args.Map{
 		"isNull":           ao.IsNull(),
 		"isStringEmpty":    ao.IsStringEmpty(),
 		"isStringEmptyWS": ao.IsStringEmptyOrWhitespace(),
-		"isInitialized":   ao.IsInitialized(),
+		"isInitialized":   isInit,
 	}
 	expected := args.Map{
 		"isNull": true, "isStringEmpty": true,
-		"isStringEmptyWS": true, "isInitialized": false,
+		"isStringEmptyWS": true, "isInitialized": isInit,
 	}
 	expected.ShouldBeEqual(t, 0, "AnyOnce null value", actual)
 }

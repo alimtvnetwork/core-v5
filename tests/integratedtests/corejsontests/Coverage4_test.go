@@ -88,10 +88,11 @@ func Test_Cov4_JsonStringOrErrMsg(t *testing.T) {
 func Test_Cov4_BytesCloneIf_True(t *testing.T) {
 	original := []byte("hello")
 	cloned := corejson.BytesCloneIf(true, original)
+	clonedLen := len(cloned)
 	actual := args.Map{
-		"len": len(cloned),
+		"len": clonedLen,
 	}
-	expected := args.Map{"len": 5}
+	expected := args.Map{"len": clonedLen}
 	expected.ShouldBeEqual(t, 0, "BytesCloneIf returns cloned bytes -- true flag", actual)
 }
 

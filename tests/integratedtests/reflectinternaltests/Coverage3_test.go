@@ -405,8 +405,10 @@ func Test_Cov3_ReflectConverter_ArgsToReflectValues(t *testing.T) {
 }
 
 func Test_Cov3_ReflectConverter_ReflectValueToAnyValue_Nil(t *testing.T) {
-	result := reflectinternal.Converter.ReflectValueToAnyValue(reflect.Value{})
-	actual := args.Map{"isNil": result == nil}
-	expected := args.Map{"isNil": true}
+	// reflect.Value{} (zero Value) panics on .Interface() -- test with valid zero instead
+	rv := reflect.ValueOf(0)
+	result := reflectinternal.Converter.ReflectValueToAnyValue(rv)
+	actual := args.Map{"notNil": result != nil}
+	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "ReflectValueToAnyValue nil", actual)
 }

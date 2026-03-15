@@ -272,7 +272,7 @@ func Test_Cov3_TraceCollection_LastOrDefaultDynamic(t *testing.T) {
 // ── newTraceCollection factory coverage ──
 
 func Test_Cov3_NewTraces_Cap(t *testing.T) {
-	tc := codestack.New.StackTrace.All(true, true, 1, 10)
+	tc := codestack.New.StackTrace.SkipNone()
 	actual := args.Map{"notEmpty": tc.Length() > 0}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "newStacksCreator.All", actual)

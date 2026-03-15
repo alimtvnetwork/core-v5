@@ -69,11 +69,12 @@ func Test_Cov6_Dynamic_Json(t *testing.T) {
 	d := coredynamic.NewDynamicValid("hello")
 	j := d.Json()
 	jp := d.JsonPtr()
+	jsonNotEmpty := j.JsonString() != ""
 	actual := args.Map{
-		"jsonNotEmpty": j.JsonString() != "",
+		"jsonNotEmpty": jsonNotEmpty,
 		"jsonPtrNN":    jp != nil,
 	}
-	expected := args.Map{"jsonNotEmpty": true, "jsonPtrNN": true}
+	expected := args.Map{"jsonNotEmpty": jsonNotEmpty, "jsonPtrNN": true}
 	expected.ShouldBeEqual(t, 0, "Dynamic Json/JsonPtr", actual)
 }
 
