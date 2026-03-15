@@ -415,7 +415,7 @@ func Test_Cov7_RangeNotMeet(t *testing.T) {
 }
 
 func Test_Cov7_EnumRangeNotMeet(t *testing.T) {
-	result := errcore.EnumRangeNotMeet("type", 5, 1, 3, "extra")
+	result := errcore.EnumRangeNotMeet(1, 3, 5)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "EnumRangeNotMeet", actual)
