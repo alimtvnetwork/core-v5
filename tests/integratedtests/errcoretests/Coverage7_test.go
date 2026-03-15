@@ -424,7 +424,8 @@ func Test_Cov7_EnumRangeNotMeet(t *testing.T) {
 // ── StackEnhance ──
 
 func Test_Cov7_StackEnhance(t *testing.T) {
-	actual := args.Map{"notNil": errcore.StackEnhance != (struct{}{})}
-	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance exists", actual)
+	result := errcore.StackEnhance.MsgSkip(0, "test msg")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "StackEnhance MsgSkip", actual)
 }
