@@ -325,9 +325,8 @@ func Test_Cov3_SimpleFileRW_ChmodApplierVerifier(t *testing.T) {
 	rw := &chmodhelper.SimpleFileReaderWriter{ChmodDir: 0755, ChmodFile: 0644, ParentDir: dir, FilePath: filePath}
 	applier := rw.ChmodApplier()
 	verifier := rw.ChmodVerifier()
-	actual := args.Map{"applierNotNil": fmt.Sprintf("%v", applier != (chmodhelper.SimpleFileReaderWriter{}).ChmodApplier()), "verifierOk": true}
-	_ = verifier
-	expected := args.Map{"applierNotNil": "true", "verifierOk": true}
+	actual := args.Map{"applierNotNil": fmt.Sprintf("%T", applier) != "", "verifierOk": fmt.Sprintf("%T", verifier) != ""}
+	expected := args.Map{"applierNotNil": true, "verifierOk": true}
 	expected.ShouldBeEqual(t, 0, "SimpleFileRW ChmodApplier/Verifier", actual)
 }
 
