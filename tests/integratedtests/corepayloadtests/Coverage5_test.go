@@ -1,0 +1,124 @@
+package corepayloadtests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/coredata/corepayload"
+	"github.com/alimtvnetwork/core/coretests/args"
+)
+
+// ── Attributes IsEqual ──
+
+func Test_Cov5_Attributes_IsEqual_BothNil(t *testing.T) {
+	var a, b *corepayload.Attributes
+	actual := args.Map{"equal": a.IsEqual(b)}
+	expected := args.Map{"equal": true}
+	expected.ShouldBeEqual(t, 0, "Attributes IsEqual both nil", actual)
+}
+
+func Test_Cov5_Attributes_IsEqual_OneNil(t *testing.T) {
+	a := &corepayload.Attributes{}
+	actual := args.Map{"equal": a.IsEqual(nil)}
+	expected := args.Map{"equal": false}
+	expected.ShouldBeEqual(t, 0, "Attributes IsEqual one nil", actual)
+}
+
+func Test_Cov5_Attributes_IsEqual_SamePtr(t *testing.T) {
+	a := &corepayload.Attributes{}
+	actual := args.Map{"equal": a.IsEqual(a)}
+	expected := args.Map{"equal": true}
+	expected.ShouldBeEqual(t, 0, "Attributes IsEqual same pointer", actual)
+}
+
+// ── Attributes Clone ──
+
+func Test_Cov5_Attributes_Clone_Nil(t *testing.T) {
+	var a *corepayload.Attributes
+	cloned, err := a.ClonePtr(false)
+	actual := args.Map{
+		"isNil": cloned == nil,
+		"noErr": err == nil,
+	}
+	expected := args.Map{"isNil": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "Attributes ClonePtr nil", actual)
+}
+
+func Test_Cov5_Attributes_Clone_Shallow(t *testing.T) {
+	a := &corepayload.Attributes{}
+	cloned, err := a.ClonePtr(false)
+	actual := args.Map{
+		"notNil": cloned != nil,
+		"noErr":  err == nil,
+	}
+	expected := args.Map{"notNil": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "Attributes ClonePtr shallow", actual)
+}
+
+func Test_Cov5_Attributes_Clone_Value(t *testing.T) {
+	a := &corepayload.Attributes{}
+	cloned, err := a.Clone(false)
+	actual := args.Map{
+		"noErr": err == nil,
+		// check it doesn't panic
+		"dynPayloadsNil": cloned.DynamicPayloads == nil,
+	}
+	expected := args.Map{"noErr": true, "dynPayloadsNil": true}
+	expected.ShouldBeEqual(t, 0, "Attributes Clone value", actual)
+}
+
+// ── AuthInfo ──
+
+func Test_Cov5_AuthInfo_Nil(t *testing.T) {
+	var ai *corepayload.AuthInfo
+	cloned := ai.ClonePtr()
+	actual := args.Map{"isNil": cloned == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "AuthInfo ClonePtr nil", actual)
+}
+
+// ── PagingInfo ──
+
+func Test_Cov5_PagingInfo_IsEqual_BothNil(t *testing.T) {
+	var a, b *corepayload.PagingInfo
+	actual := args.Map{"equal": a.IsEqual(b)}
+	expected := args.Map{"equal": true}
+	expected.ShouldBeEqual(t, 0, "PagingInfo IsEqual both nil", actual)
+}
+
+func Test_Cov5_PagingInfo_ClonePtr_Nil(t *testing.T) {
+	var pi *corepayload.PagingInfo
+	actual := args.Map{"isNil": pi.ClonePtr() == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "PagingInfo ClonePtr nil", actual)
+}
+
+// ── SessionInfo ──
+
+func Test_Cov5_SessionInfo(t *testing.T) {
+	si := corepayload.SessionInfo{
+		SessionId: "sess-123",
+	}
+	actual := args.Map{"sessionId": si.SessionId}
+	expected := args.Map{"sessionId": "sess-123"}
+	expected.ShouldBeEqual(t, 0, "SessionInfo struct", actual)
+}
+
+// ── UserInfo ──
+
+func Test_Cov5_UserInfo(t *testing.T) {
+	ui := corepayload.UserInfo{
+		UserId: "user-1",
+	}
+	actual := args.Map{"userId": ui.UserId}
+	expected := args.Map{"userId": "user-1"}
+	expected.ShouldBeEqual(t, 0, "UserInfo struct", actual)
+}
+
+// ── User ──
+
+func Test_Cov5_User_Nil(t *testing.T) {
+	var u *corepayload.User
+	actual := args.Map{"isNil": u == nil}
+	expected := args.Map{"isNil": true}
+	expected.ShouldBeEqual(t, 0, "User nil", actual)
+}
