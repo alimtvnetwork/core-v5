@@ -189,11 +189,12 @@ func Test_Cov8_KeyValCollection_Clone(t *testing.T) {
 	c := coredynamic.NewKeyValCollection(5)
 	c.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 	cloned := c.Clone()
+	clonedP := cloned.Ptr()
 	clonedPtr := c.ClonePtr()
 	var nilC *coredynamic.KeyValCollection
 	nilClone := nilC.ClonePtr()
 	actual := args.Map{
-		"cloneLen":    cloned.Length(),
+		"cloneLen":    clonedP.Length(),
 		"clonePtrLen": clonedPtr.Length(),
 		"nilCloneNil": nilClone == nil,
 	}
