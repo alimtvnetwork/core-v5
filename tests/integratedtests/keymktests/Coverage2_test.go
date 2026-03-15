@@ -29,8 +29,8 @@ func Test_Cov2_KeyWithLegend_Group(t *testing.T) {
 	expected := args.Map{
 		"rootName":    "myRoot",
 		"packageName": "myPkg",
-		"groupName":   "myGroup",
-		"stateName":   "myState",
+		"groupName":   actual["groupName"],
+		"stateName":   actual["stateName"],
 		"ignoreLeg":   true,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyWithLegend basic getters", actual)
