@@ -358,11 +358,11 @@ func Test_Cov7_CompiledError(t *testing.T) {
 
 // ── PathMeaningFulMessage / PathMeaningfulError ──
 
-func Test_Cov7_PathMeaningFulMessage(t *testing.T) {
-	result := errcore.PathMeaningFulMessage("type", "msg", "/path")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PathMeaningFulMessage", actual)
+func Test_Cov7_PathMeaningfulMessage(t *testing.T) {
+	result := errcore.PathMeaningfulMessage("type", "funcName", "/path", "msg")
+	actual := args.Map{"notNil": result != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "PathMeaningfulMessage", actual)
 }
 
 func Test_Cov7_PathMeaningfulError(t *testing.T) {
