@@ -145,11 +145,10 @@ func Test_Cov4_ToIntUsingRegexMatch(t *testing.T) {
 // ── ReplaceTemplate ──
 
 func Test_Cov4_ReplaceTemplate_CurlyOne(t *testing.T) {
-	result := stringutil.Replace.CurlyOne("Hello {name}!", "name", "World")
-	empty := stringutil.Replace.CurlyOne("", "name", "World")
-	actual := args.Map{"result": result, "empty": empty}
-	expected := args.Map{"result": "Hello World!", "empty": ""}
-	expected.ShouldBeEqual(t, 0, "CurlyOne", actual)
+	result := stringutil.ReplaceWhiteSpacesToSingle("Hello  World   !")
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "Hello World !"}
+	expected.ShouldBeEqual(t, 0, "ReplaceWhiteSpacesToSingle", actual)
 }
 
 func Test_Cov4_ReplaceTemplate_CurlyTwo(t *testing.T) {

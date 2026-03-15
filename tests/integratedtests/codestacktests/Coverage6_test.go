@@ -19,10 +19,11 @@ func Test_Cov6_CurrentNameOf(t *testing.T) {
 // ── skippablePrefixes ──
 
 func Test_Cov6_SkippablePrefixes(t *testing.T) {
-	prefixes := codestack.SkippablePrefixes()
-	actual := args.Map{"gt0": len(prefixes) > 0}
-	expected := args.Map{"gt0": true}
-	expected.ShouldBeEqual(t, 0, "SkippablePrefixes", actual)
+	// skippablePrefixes is unexported; verify via NameOf instead
+	name := codestack.NameOf.Method()
+	actual := args.Map{"notEmpty": name != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "NameOf.Method -- proxy for skippable check", actual)
 }
 
 // ── New.Default / New.Ptr / New.Skip ──

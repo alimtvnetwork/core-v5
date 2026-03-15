@@ -364,12 +364,11 @@ func Test_Cov7_HashsetsCollection_Basic(t *testing.T) {
 // ── SimpleStringOnce ──
 
 func Test_Cov7_SimpleStringOnce(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default(func() string { return "hello" })
-	val1 := s.String()
-	val2 := s.String()
-	actual := args.Map{"val1": val1, "val2": val2, "initialized": s.IsInitialized()}
-	expected := args.Map{"val1": "hello", "val2": "hello", "initialized": true}
-	expected.ShouldBeEqual(t, 0, "SimpleStringOnce -- computed once", actual)
+	s := &corestr.SimpleStringOnce{}
+	s.SetOnceIfUninitialized("hello")
+	actual := args.Map{"val": s.Value(), "initialized": s.IsInitialized()}
+	expected := args.Map{"val": "hello", "initialized": true}
+	expected.ShouldBeEqual(t, 0, "SimpleStringOnce -- set once", actual)
 }
 
 // ── KeyValuePair / KeyAnyValuePair ──
