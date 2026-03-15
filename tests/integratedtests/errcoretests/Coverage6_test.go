@@ -222,15 +222,17 @@ func Test_Cov6_ExpectingNotEqualSimpleNoType(t *testing.T) {
 }
 
 func Test_Cov6_ExpectingRecord(t *testing.T) {
-	result := errcore.ExpectingRecord("header", "group", 42, "expected")
-	actual := args.Map{"notEmpty": result != ""}
+	rec := &errcore.ExpectingRecord{ExpectingTitle: "header", WasExpecting: "expected"}
+	msg := rec.Message("actual")
+	actual := args.Map{"notEmpty": msg != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ExpectingRecord", actual)
 }
 
 func Test_Cov6_ExpectingFuture(t *testing.T) {
-	result := errcore.ExpectingFuture("header", "future", "expected")
-	actual := args.Map{"notEmpty": result != ""}
+	rec := errcore.ExpectingFuture("header", "expected")
+	msg := rec.Message("actual")
+	actual := args.Map{"notEmpty": msg != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ExpectingFuture", actual)
 }
