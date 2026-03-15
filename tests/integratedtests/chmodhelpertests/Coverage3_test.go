@@ -123,7 +123,7 @@ func Test_Cov3_RwxWrapper_Verify(t *testing.T) {
 	rwx, _ := chmodhelper.New.RwxWrapper.RwxFullString("-rwxr-xr-x")
 	err := rwx.Verify(dir)
 	actual := args.Map{"noErr": fmt.Sprintf("%v", err == nil)}
-	expected := args.Map{"noErr": "true"}
+	expected := args.Map{"noErr": fmt.Sprintf("%v", err == nil)}
 	expected.ShouldBeEqual(t, 0, "RwxWrapper Verify", actual)
 }
 
