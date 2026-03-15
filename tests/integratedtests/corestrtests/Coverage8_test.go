@@ -58,7 +58,7 @@ func Test_Cov8_LeftRight(t *testing.T) {
 // ── LeftMiddleRight ──
 
 func Test_Cov8_LeftMiddleRight(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "l", Middle: "m", Right: "r"}
+	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	actual := args.Map{
 		"left":   lmr.Left,
 		"middle": lmr.Middle,
