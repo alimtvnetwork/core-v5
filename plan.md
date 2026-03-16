@@ -67,12 +67,13 @@
 - **Acceptance criteria**: All exit criteria in `spec/01-app/10-codegen-deprecation-plan.md` met
 - **Suggestion ref**: S-006
 
-### B.2 — Spec Reconciliation
+### B.2 — Spec Reconciliation ✅ DONE
 - **Objective**: Remove stale entries from spec files
 - **Dependencies**: None
 - **Expected outputs**: Updated spec files with accurate status markers
 - **Acceptance criteria**: No spec references completed work as pending
 - **Suggestion ref**: S-007
+- **Completed**: 2026-03-16 — Fixed 9 spec files
 
 ---
 
