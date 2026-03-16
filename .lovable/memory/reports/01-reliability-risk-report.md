@@ -1,6 +1,6 @@
 # Reliability & Failure-Chance Report
 
-## Date: 2026-03-16
+## Date: 2026-03-16 (Refreshed)
 ## Scope: Full spec set for `github.com/alimtvnetwork/core`
 
 ---
@@ -11,16 +11,16 @@
 
 | Tier | Modules | Success Probability | Assumptions |
 |------|---------|:-------------------:|-------------|
-| **Simple** (mechanical, well-scoped) | `interface{}` → `any` migration ✅, Go version update ✅, README rewrites ✅, deprecation notices ✅ | **95%** | Specs are precise, acceptance criteria are binary (done/not done), no cross-package side effects. Already completed — success confirmed. |
-| **Medium** (multi-file, API-aware) | File splitting (Phase 5) ✅, value receiver migration (Phase 6), codegen removal (Track B), per-package READMEs, test title audit | **75-80%** | Requires reading source to verify method signatures. Failure occurs when an AI assumes API shape from naming patterns. Specs exist but some lack explicit function signatures. |
-| **Complex / Agentic** (coverage push, generics adoption) | 100% coverage push (Batches 1-3 + remaining), generic Collection/Payload/Dynamic, branch coverage strategy | **50-60%** | Coverage work has a **documented history of repeated failures** (see postmortem). Root cause: assumed APIs, bulk generation without compile gates, build-failure cascades. Generics work requires understanding 40+ packages and their interplay. |
-| **End-to-End** (full pipeline: write tests → compile → run → verify coverage) | Coverage verification via `./run.ps1 PC` → `./run.ps1 TC` pipeline | **40-50%** | Requires PowerShell runtime, Go toolchain, and the full repo. AI cannot run these commands in Lovable's sandbox. Verification must happen on the user's machine. |
+| **Simple** (mechanical, well-scoped) | `interface{}` → `any` ✅, Go 1.24 update ✅, README rewrites ✅, deprecation notices ✅, slog adoption ✅, error modernization ✅ | **95%** | Already completed — confirmed success. |
+| **Medium** (multi-file, API-aware) | File splitting ✅, value receiver migration ✅ (S-006 done), codegen removal (Track B open), per-package READMEs ✅ (S-007 done), test title audit ✅ (S-004 done) | **80%** | Requires reading source to verify method signatures. Codegen removal needs external audit. |
+| **Complex / Agentic** (coverage push, reflection-heavy packages) | 100% coverage push for 20 remaining packages (Tiers 1-3), especially `corestr` (3.3%), `coredynamic` (0.9%), `corejson` (45%), `corepayload` (56%) | **45-55%** | Coverage work has a **documented root cause of repeated failure**: assumed APIs, bulk generation, build cascades. Reflection-heavy packages resist test generation without deep source reading. |
+| **End-to-End** (full verification pipeline) | Write tests → `./run.ps1 PC` → fix mismatches → `./run.ps1 TC` → confirm % | **35-45%** | AI cannot run Go/PowerShell in sandbox. Every cycle requires user-side verification. Latency between write and verify amplifies error accumulation. |
 
-### Key Assumption Behind All Estimates
+### Key Global Assumptions
 
-- The AI **cannot run Go compilation or tests**. All Go work is write-only — the user must verify.
-- The AI **must read source before writing tests** — never infer from naming conventions.
-- The spec set is extensive (25+ spec files, 18+ failing-test docs, 8+ testing guideline docs) but **some specs are stale** (reference completed work as pending).
+1. AI **cannot compile or run Go tests** — all Go work is write-only until user verifies.
+2. AI **must read source before every test edit** — naming-pattern inference is the #1 root cause of failure.
+3. Spec set is extensive (25+ spec files, 40+ bug docs, 8 testing guidelines) but **some cross-references are stale**.
 
 ---
 
@@ -28,43 +28,44 @@
 
 ### 2.1 Where Failures Are Likely
 
-| Module / Workflow | Failure Likelihood | Why | Symptoms |
+| Module / Workflow | Likelihood | Why | Symptoms |
 |---|:---:|---|---|
-| **Coverage test generation** (remaining 12 packages) | **HIGH** | Documented root cause: APIs assumed from naming, bulk generation without compile check. `errcore`, `issetter`, `corejson`, `corepayload`, `coredynamic` are explicitly flagged as high-risk. | Tests don't compile. Coverage reports show blocked packages. Build-failure cascade across integrated test packages. |
-| **Codegen removal** (Track B) | **MEDIUM** | Exit criteria checklist is clear but requires external audit (`grep` across auk-go repos). AI cannot verify external consumers. | Broken imports in unknown downstream repos. Missing rollback tag. |
-| **Value receiver migration** (Phase 6) | **MEDIUM** | Requires verifying interface satisfaction after each change. Some methods need nil-safety guards that prevent value receiver use. | Interface compliance failures at compile time. Nil pointer panics at runtime. |
-| **Test title audit** (1400+ titles, 40+ packages) | **LOW-MEDIUM** | Mechanical but massive scope. Risk: inconsistent application, missing edge cases in naming convention. | Titles don't follow `"{Function} returns {Result} -- {Input Context}"` format. Partial completion. |
-| **Documentation** (remaining READMEs) | **LOW** | Specs clearly list which packages need READMEs. Risk: API drift if README written without reading current source. | Inaccurate usage examples. Missing methods in docs. |
+| **Coverage: `coredynamic`** (57 files, 0.9% avg) | **VERY HIGH** | 53 files at 0%. Reflection-heavy, complex generics, Dynamic typing. Largest uncovered package. | Massive API mismatch. Tests won't compile. Build cascade blocks other packages. |
+| **Coverage: `corestr`** (52 files, 3.3% avg) | **VERY HIGH** | 42 files at 0%. Collection/Hashmap/Hashset/LinkedList. Many data structure methods. | Wrong method signatures, missing type fixtures. |
+| **Coverage: `corejson`** (18 files, 45% avg) | **HIGH** | Serialization/deserialization with generics and reflection. | Type assertion failures, wrong generic parameters. |
+| **Coverage: `corepayload`** (23 files, 56% avg) | **HIGH** | Typed generics, complex collection methods, JSON interop. | Wrong factory function signatures, paging logic errors. |
+| **Coverage: Tier 1 quick wins** (6 packages, 90-96%) | **MEDIUM** | Targeted branch coverage. Risk: missing edge cases in nil/boundary logic. | Tests compile but don't cover intended branches. |
+| **Codegen removal** (Track B) | **MEDIUM** | External consumer audit required. AI cannot verify. | Broken imports in unknown downstream repos. |
+| **Batch 4 verification** (6 unverified files) | **MEDIUM** | Written but never compiled. `coreindexes`, `coremath`, `corecsv`, `intunique`, `stringutil`, `conditional`. | API mismatches discovered when user runs `./run.ps1 PC`. |
 
-### 2.2 Cross-File Inconsistency Issues
+### 2.2 Cross-File Inconsistency Issues (Resolved vs Remaining)
 
-| Issue | Location | Impact |
+| Issue | Status | Action |
 |---|---|---|
-| `plan.md` backlog says `interface{} → any` is pending but it's ✅ complete | `plan.md` line 151 vs `20-improvement-plan.md` Phase 1 | AI may re-do completed work |
-| `plan.md` says "Split BaseTestCase.go" is 🟡 Medium priority but it's ✅ done | `plan.md` line 155 vs `20-improvement-plan.md` Phase 5 | Wasted effort |
-| Workflow plan lists tasks 10-13 as pending but suggestions tracker marks 7-9 as completed | `.lovable/memory/workflow/01-*` vs `.lovable/memory/suggestions/01-*` | Contradictory status |
-| `15-code-review-report.md` still shows "update go.mod to 1.22+" as pending | `15-code-review-report.md` line 57 | Stale recommendation |
-| Coverage batches 1-3 marked ✅ in workflow but suggestions say "Blocked by compile verification" | Workflow completed section vs suggestions #3 | Unclear what's actually verified |
+| `plan.md` showed completed items as pending | **FIXED** in this update | plan.md rewritten with accurate statuses |
+| `20-improvement-plan.md` Phase 6 says "In Progress" but S-006 is done | **FIXED** in this update | Noted in suggestions tracker |
+| `15-code-review-report.md` recommends "update go.mod to 1.22+" (already at 1.24) | **STALE** | Low priority — report is historical |
+| Coverage batches 1-3 ✅ in workflow vs suggestions "blocked by compile" | **CLARIFIED** | Batches 1-3 were written; batch 4 pending verification |
 
-### 2.3 How Failures Would Manifest
+### 2.3 How Failures Manifest
 
-1. **Silent compilation failures**: Test files are created but never compiled. User runs `./run.ps1 PC` and gets a wall of errors.
-2. **Coverage regression**: Blocked packages cause coverage numbers to drop, creating false alarms.
-3. **Duplicate work**: Stale spec files cause AI to re-implement already-completed phases.
-4. **API mismatch**: Tests call methods with wrong signatures, wrong parameter counts, or wrong return types.
+1. **Silent compilation failures** — Test files created, user gets wall of errors from `./run.ps1 PC`.
+2. **Coverage regression** — Blocked test packages make coverage numbers drop across the board.
+3. **API mismatch cascade** — One wrong method signature blocks the entire integrated test package.
+4. **Duplicate work** — Stale specs cause AI to re-implement completed phases.
 
 ---
 
 ## 3. Corrective Actions (Prioritized)
 
-| # | Fix | Where | Expected Reliability Gain |
+| # | Fix | Where | Reliability Gain |
 |---|-----|-------|:---:|
-| 1 | **Reconcile plan.md with improvement-plan.md** — Mark completed items as ✅, remove from backlog | `plan.md`, `20-improvement-plan.md` | +15% — Prevents duplicate work |
-| 2 | **Add explicit API signatures to coverage specs** — For each of the 12 remaining packages, list exact method signatures in the spec | `spec/05-failing-tests/`, new per-package coverage specs | +20% — Prevents assumed-API failures |
-| 3 | **Mark stale recommendations as DONE in code review report** | `spec/01-app/15-code-review-report.md` | +5% — Reduces confusion |
-| 4 | **Establish a "read source first" gate in all coverage specs** — Add a mandatory checklist item: "I have read the source file and confirmed the method signature" | `.lovable/memory/workflow/01-*` | +10% — Process fix for root cause |
-| 5 | **Resolve contradictory statuses** — Suggestions #1-3 say "blocked/pending" but completed suggestions include overlapping work | `.lovable/memory/suggestions/01-*` | +5% — Status clarity |
-| 6 | **Add compile-verification acceptance criteria to every coverage task** — "Task is not done until `./run.ps1 PC` passes" | All coverage-related specs | +10% — Prevents premature success claims |
+| 1 | **Verify Batch 4 compilation** — Run `./run.ps1 PC` to validate 6 unverified coverage files | User action → report results | +15% — Establishes real baseline |
+| 2 | **One-package-at-a-time gate for Tier 3** — Never bulk-generate coverage for `corestr`, `coredynamic`, `corejson` | Process rule in workflow memory | +15% — Prevents cascade failures |
+| 3 | **Add method signature snapshots** — Before writing tests for any HIGH RISK package, create a method-signature inventory file | New spec per package | +10% — Prevents assumed-API errors |
+| 4 | **Reconcile plan.md** (done in this update) | `plan.md` | +5% — Prevents duplicate work |
+| 5 | **Mark stale code review recommendations** | `spec/01-app/15-code-review-report.md` | +2% — Reduces confusion |
+| 6 | **External codegen audit** — User must run `grep` across auk-go repos before removal | User action | +3% — Prerequisite for Track B |
 
 ---
 
@@ -72,27 +73,28 @@
 
 ### Verdict: **CONDITIONALLY READY** ⚠️
 
-The spec set is **architecturally sound** and impressively comprehensive. The project has:
-- ✅ Clear folder structure and repo overview
-- ✅ Detailed per-package specs with acceptance criteria
-- ✅ A well-documented postmortem explaining past failures
-- ✅ Testing guidelines, branch coverage strategy, and naming conventions
-- ✅ A clear improvement plan with phased milestones
+**Strengths:**
+- ✅ Comprehensive spec set (25+ architecture docs, 40+ bug audits, 8 testing guidelines)
+- ✅ Well-documented postmortem explaining root cause of repeated failures
+- ✅ Clear improvement plan with 8 completed phases
+- ✅ Testing framework with AAA pattern, naming conventions, and branch coverage strategy
+- ✅ Suggestions tracker with structured completion handling
 
-**However, before starting implementation:**
+**Before starting implementation:**
+1. **MUST**: Run `./run.ps1 PC` to validate Batch 4 files (S-001)
+2. **MUST**: Follow one-package-at-a-time gate for all coverage work
+3. **SHOULD**: Create method signature inventory for HIGH RISK packages before writing tests
+4. **SHOULD**: Accept that coverage for `coredynamic` and `corestr` will take 5-8 sessions each
 
-1. **MUST FIX**: Reconcile `plan.md` with `20-improvement-plan.md` to eliminate stale/contradictory status (this report does this — see updated `plan.md`).
-2. **MUST FIX**: Update suggestions tracker to reflect true current state.
-3. **SHOULD FIX**: Add method signatures to remaining coverage package specs.
-4. **SHOULD FIX**: Establish that coverage work requires user-side verification (`./run.ps1 PC`) — AI cannot confirm success alone.
+### Overall Success Rate
 
-### Estimated Overall Success Rate for Remaining Work
+| Scenario | Estimate |
+|:---|:---:|
+| Handed to another AI as-is (before corrective fixes) | **50-55%** |
+| After corrective fixes + process enforcement | **70-75%** |
+| With user-side verification loop (./run.ps1 PC/TC after each batch) | **80-85%** |
 
-| If handed to another AI as-is | After corrective fixes |
-|:---:|:---:|
-| **55-60%** | **75-80%** |
-
-The 20% gap is almost entirely due to stale specs causing duplicate/wrong work and the coverage generation root cause not being enforced by the spec structure itself.
+The 30% gap between as-is and best-case is: stale specs (~5%), assumed APIs (~10%), no compile verification (~10%), cascade from bulk generation (~5%).
 
 ---
 
@@ -100,6 +102,6 @@ The 20% gap is almost entirely due to stale specs causing duplicate/wrong work a
 
 - [Improvement Plan](../../spec/01-app/20-improvement-plan.md)
 - [Coverage Remediation Root Cause](../workflow/completed/02-coverage-remediation-root-cause.md)
-- [Code Review Report](../../spec/01-app/15-code-review-report.md)
+- [Coverage File-Level Plan](../workflow/03-coverage-file-level-plan.md)
 - [Branch Coverage Strategy](../../spec/01-app/23-branch-coverage-strategy.md)
 - [Suggestions Tracker](../suggestions/01-suggestions-tracker.md)
