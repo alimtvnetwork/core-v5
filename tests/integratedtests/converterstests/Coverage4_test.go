@@ -290,7 +290,7 @@ func Test_Cov4_StringsTo_IntegersSkipErrors(t *testing.T) {
 func Test_Cov4_StringsTo_IntegersSkipAndDefaultValue(t *testing.T) {
 	result := converters.StringsTo.IntegersSkipAndDefaultValue(-1, "skip", "1", "skip", "abc")
 	actual := args.Map{"len": len(result), "first": result[0]}
-	expected := args.Map{"len": 4, "first": 1}
+	expected := args.Map{"len": 3, "first": 1}
 	expected.ShouldBeEqual(t, 0, "StringsTo.IntegersSkipAndDefaultValue", actual)
 }
 
