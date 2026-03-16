@@ -205,9 +205,9 @@ Added **30 test cases** across 4 new files covering all split constructors:
 | 1 | Foundation (any, bugs, Go version) | 3-4 | ✅ Complete |
 | 2 | Generic Collection[T] | 3-4 | ✅ Complete |
 | 3 | Generic Payload/Dynamic helpers | 2 | ✅ Complete |
-| 4 | Test coverage | 8-10 | ✅ P0 Complete |
+| 4 | Test coverage | 8-10 | ✅ Complete |
 | 5 | File splitting | 2-3 | ✅ Complete |
-| 6 | Value receivers | Ongoing | 🔄 In Progress |
+| 6 | Value receivers | 2 | ✅ Complete |
 | 7 | Expert code review fixes | 1 | ✅ Complete |
 | 8 | Deep quality sweep | 1 | ✅ Complete |
 
