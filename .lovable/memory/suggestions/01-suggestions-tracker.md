@@ -87,8 +87,8 @@
 - **rationale**: These are core packages without documentation.
 - **proposed change**: Read source, document API with examples, verify method names against source.
 - **acceptance criteria**: Each README has folder tree, usage examples, and verified method signatures.
-- **status**: open
-- **completion notes**: —
+- **status**: done
+- **completion notes**: All 5 packages already have comprehensive READMEs with architecture, usage examples, API tables, and extension guides. Verified 2026-03-16.
 
 ---
 
