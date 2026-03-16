@@ -388,7 +388,7 @@ func Test_Cov11_ValidValues_AddValidValues(t *testing.T) {
 
 func Test_Cov11_ValidValues_AddHashset(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	vvs.AddHashset(hs)
 	vvs.AddHashset(nil)
 	vvs.AddHashsetMap(map[string]bool{"c": true, "d": false})
