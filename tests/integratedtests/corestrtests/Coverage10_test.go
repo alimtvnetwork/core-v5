@@ -470,9 +470,12 @@ func Test_Cov10_LeftRight(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov10_ValueStatus(t *testing.T) {
-	vs := corestr.ValueStatus{Value: "hello", IsValid: true}
-	actual := args.Map{"val": vs.Value, "valid": vs.IsValid}
-	expected := args.Map{"val": "hello", "valid": true}
+	vs := corestr.ValueStatus{
+		ValueValid: &corestr.ValidValue{Value: "hello"},
+		Index:      0,
+	}
+	actual := args.Map{"val": vs.ValueValid.Value, "idx": vs.Index}
+	expected := args.Map{"val": "hello", "idx": 0}
 	expected.ShouldBeEqual(t, 0, "ValueStatus", actual)
 }
 
