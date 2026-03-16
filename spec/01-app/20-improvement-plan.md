@@ -98,15 +98,14 @@
 
 ---
 
-## Phase 6: Value Receiver Migration — PLANNED
+## Phase 6: Value Receiver Migration ✅ COMPLETE
 
-Migrate read-only methods from pointer to value receivers, package by package:
-- Start with small packages (`coreversion/`, `issetter/`)
-- Graduate to larger packages (`coretaskinfo/`, `corepayload/`)
-- Always verify interface satisfaction after changes
-- Initial migration done for `PayloadWrapperJson.go` (value receivers)
+Migrated read-only methods from pointer to value receivers across all convertible packages:
+- `issetter/` ✅ — already used value receivers
+- `coreversion/` ✅ — 35 methods migrated, bug fix for `AllValidVersionValues()` recursion
+- `corepayload/` ✅ — audited, remaining pointer receivers are correctly mutating/nil-checking
 
-**Effort**: Ongoing, 1-2 files per session alongside other work
+**No further changes needed** — all remaining pointer receivers are intentional (mutating, nil-safety, or interface compliance).
 
 ---
 
