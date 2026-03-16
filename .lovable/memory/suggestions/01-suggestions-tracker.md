@@ -94,8 +94,8 @@
 - **rationale**: Stale specs cause AI to re-implement completed work.
 - **proposed change**: Audit each spec file, mark completed items, remove outdated recommendations.
 - **acceptance criteria**: No spec file references completed work as pending.
-- **status**: open
-- **completion notes**: —
+- **status**: ✅ done
+- **completion notes**: Fixed 9 files: `15-code-review-report.md`, `21-code-review-report-v2.md`, `20-improvement-plan.md`, `00-repo-overview.md`, `codegen/01-codegen-deprecation.md`, `golang/04-type-duplication-no-generics.md`, `corevalidator/01-improvement-plan.md`. All completed items now marked with `[x]`, stale statuses corrected.
 
 ### S-008: CI Pipeline Setup
 - **suggestionId**: S-008
