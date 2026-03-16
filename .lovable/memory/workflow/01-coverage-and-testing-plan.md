@@ -1,7 +1,13 @@
 # Coverage & Testing Master Plan
 
 ## Status: In Progress
-## Last Updated: 2026-03-15
+## Last Updated: 2026-03-16
+
+## Critical Root Cause Checkpoint
+Coverage work has been repeatedly invalidated by assumed APIs, broad unverified coverage-file generation, and skipping the compile-first gate. Do **not** treat newly written coverage files as successful until `./run.ps1 PC` and then `./run.ps1 TC` confirm the result.
+
+See finalized postmortem memory: `.lovable/memory/workflow/completed/02-coverage-remediation-root-cause.md`
+See issue record: `issues/repeated-coverage-remediation-failure-root-cause.md`
 
 ---
 
