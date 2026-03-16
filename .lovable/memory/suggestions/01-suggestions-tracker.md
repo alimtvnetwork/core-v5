@@ -75,8 +75,8 @@
 - **rationale**: Value receivers communicate immutability, enable compiler optimizations, and clarify API intent.
 - **proposed change**: Package-by-package, verify interface satisfaction after each change.
 - **acceptance criteria**: All read-only methods use value receivers. All interfaces still satisfied. All tests pass.
-- **status**: open
-- **completion notes**: —
+- **status**: done
+- **completion notes**: Full audit completed 2026-03-16. Packages migrated: `issetter`, `coreversion`, `corepayload` (Phase 6 spec). Packages audited with no convertible methods: `coretaskinfo`, `coreinstruction`, `errcore`, `corevalidator`, `coredynamic`, `corejson`, `corestr`. All remaining pointer methods require nil-safety checks or mutate the receiver.
 
 ### S-007: Remaining Package READMEs
 - **suggestionId**: S-007
