@@ -47,9 +47,9 @@ See issue record: `issues/repeated-coverage-remediation-failure-root-cause.md`
 
 ## Active Tasks (Ordered by Priority)
 
-### 8. 🔲 Phase 1 — Quick Wins (6 packages, ~195 test cases)
+### 8. 🔧 Phase 1 — Quick Wins (6 packages, ~195 test cases)
 Packages near 100% that need targeted branch coverage:
-1. `coreonce` (95.7%) — 7 files, ~30 tests
+1. `coreonce` (95.7%) — 7 files, ~30 tests — **Coverage8_test.go written, awaiting PC/TC verification**
 2. `keymk` (95.6%) — 5 files, ~20 tests
 3. `corerange` (94.3%) — 11 files, ~30 tests
 4. `enumimpl` (95.9%) — 16 files, ~40 tests
