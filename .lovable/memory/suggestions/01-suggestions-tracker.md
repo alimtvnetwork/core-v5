@@ -107,5 +107,7 @@
 | 9 | Nil Receiver Coverage Audit | 2026-03-15 |
 | 10 | Test Runner Hardening Review | 2026-03-15 |
 | 11 | Diagnostic Output Regression Tests | 2026-03-15 |
+| 12 | Coverage Push Batch 4 (6 packages) | 2026-03-16 (pending PC verification) |
 
 > Completed suggestion detail files are in `completed/` subfolder.
+> Batch 4 session log: `.lovable/memory/workflow/02-coverage-batch4-session-log.md`
