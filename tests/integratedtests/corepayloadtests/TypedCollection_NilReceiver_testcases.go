@@ -17,7 +17,7 @@ import (
 
 var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 	{
-		Title: "Length on nil returns 0",
+		Title: "TypedPayloadCollection.Length returns 0 -- nil receiver",
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) int {
 			return c.Length()
 		},
