@@ -51,8 +51,8 @@
 - **rationale**: Consistent naming aids debugging and makes test output scannable.
 - **proposed change**: Batch rename test titles package-by-package.
 - **acceptance criteria**: All test titles follow the convention. `grep -c` confirms zero violations.
-- **status**: open
-- **completion notes**: —
+- **status**: done (Batch 5 — 5 listed pending packages completed 2026-03-16; ~127 titles renamed across corepayloadtests, corecomparatortests, corecmptests, converterstests, regexnewtests)
+- **completion notes**: All originally listed pending packages in the tracking doc are now audited. Additional packages may have non-compliant titles but were not in the original pending list.
 
 ### S-005: Codegen Removal (Track B)
 - **suggestionId**: S-005

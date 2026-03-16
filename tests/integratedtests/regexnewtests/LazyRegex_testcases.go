@@ -11,7 +11,7 @@ import (
 
 var lazyRegexNewTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "New.Lazy with simple word pattern matches correctly",
+		Title: "New.Lazy returns matching result -- simple word pattern",
 		When:  "given a simple word pattern",
 		Input: args.Map{
 			params.pattern:      "hello",
@@ -26,7 +26,7 @@ var lazyRegexNewTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "New.Lazy with digit pattern matches digits",
+		Title: "New.Lazy returns matching result -- digit pattern",
 		When:  "given a digit pattern",
 		Input: args.Map{
 			params.pattern:      "\\d+",
@@ -41,7 +41,7 @@ var lazyRegexNewTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "New.Lazy with no-match input returns false",
+		Title: "New.Lazy returns no match -- non-matching input",
 		When:  "given input that does not match",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -56,7 +56,7 @@ var lazyRegexNewTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "New.Lazy with invalid regex pattern has error",
+		Title: "New.Lazy returns error -- invalid regex pattern",
 		When:  "given an invalid regex pattern",
 		Input: args.Map{
 			params.pattern:      "[invalid",
@@ -71,7 +71,7 @@ var lazyRegexNewTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "New.Lazy with empty pattern matches everything",
+		Title: "New.Lazy returns undefined -- empty pattern",
 		When:  "given an empty pattern",
 		Input: args.Map{
 			params.pattern:      "",
@@ -89,7 +89,7 @@ var lazyRegexNewTestCases = []coretestcases.MapGherkins{
 
 var lazyRegexLockTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "New.LazyLock with word pattern is thread-safe",
+		Title: "New.LazyLock returns matching result -- word pattern thread-safe",
 		When:  "given a word pattern via LazyLock",
 		Input: args.Map{
 			params.pattern:      "world",
@@ -104,7 +104,7 @@ var lazyRegexLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "New.LazyLock with email pattern matches email",
+		Title: "New.LazyLock returns matching result -- email pattern",
 		When:  "given an email-like pattern",
 		Input: args.Map{
 			params.pattern:      `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`,
@@ -125,7 +125,7 @@ var lazyRegexLockTestCases = []coretestcases.MapGherkins{
 // ==========================================================================
 
 var lazyRegexIsMatchFullDigitTestCase = coretestcases.MapGherkins{
-	Title: "IsMatch returns true for full string digit match",
+	Title: "LazyRegex.IsMatch returns true -- full string digit match",
 	When:  "given full string digit pattern",
 	Input: args.Map{
 		params.pattern:      "^\\d+$",
@@ -137,7 +137,7 @@ var lazyRegexIsMatchFullDigitTestCase = coretestcases.MapGherkins{
 }
 
 var lazyRegexIsMatchPartialMismatchTestCase = coretestcases.MapGherkins{
-	Title: "IsMatch returns false for partial digit mismatch",
+	Title: "LazyRegex.IsMatch returns false -- partial digit mismatch",
 	When:  "given full string digit pattern with letters",
 	Input: args.Map{
 		params.pattern:      "^\\d+$",
@@ -149,7 +149,7 @@ var lazyRegexIsMatchPartialMismatchTestCase = coretestcases.MapGherkins{
 }
 
 var lazyRegexIsFailedMatchTestCase = coretestcases.MapGherkins{
-	Title: "IsFailedMatch is inverse of IsMatch",
+	Title: "LazyRegex.IsFailedMatch returns false -- matching input (inverse of IsMatch)",
 	When:  "given matching input to IsFailedMatch",
 	Input: args.Map{
 		params.pattern:      "^hello$",
@@ -161,7 +161,7 @@ var lazyRegexIsFailedMatchTestCase = coretestcases.MapGherkins{
 }
 
 var lazyRegexFirstMatchLineFoundTestCase = coretestcases.MapGherkins{
-	Title: "FirstMatchLine returns first submatch",
+	Title: "LazyRegex.FirstMatchLine returns first submatch -- capture group match",
 	When:  "given a pattern with capture group",
 	Input: args.Map{
 		params.pattern:      "(\\d+)",
@@ -174,7 +174,7 @@ var lazyRegexFirstMatchLineFoundTestCase = coretestcases.MapGherkins{
 }
 
 var lazyRegexFirstMatchLineNotFoundTestCase = coretestcases.MapGherkins{
-	Title: "FirstMatchLine returns empty on no match",
+	Title: "LazyRegex.FirstMatchLine returns empty -- no match found",
 	When:  "given a pattern that does not match",
 	Input: args.Map{
 		params.pattern:      "(\\d+)",

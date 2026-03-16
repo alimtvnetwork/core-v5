@@ -17,7 +17,7 @@ import (
 
 var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 	{
-		Title: "Length on nil returns 0",
+		Title: "TypedPayloadCollection.Length returns 0 -- nil receiver",
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) int {
 			return c.Length()
 		},
@@ -27,7 +27,7 @@ var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "IsEmpty on nil returns true",
+		Title: "TypedPayloadCollection.IsEmpty returns true -- nil receiver",
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) bool {
 			return c.IsEmpty()
 		},
@@ -37,7 +37,7 @@ var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "HasItems on nil returns false",
+		Title: "TypedPayloadCollection.HasItems returns false -- nil receiver",
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) bool {
 			return c.HasItems()
 		},

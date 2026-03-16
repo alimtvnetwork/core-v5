@@ -557,17 +557,26 @@ This ensures diagnostic output immediately identifies the function under test an
 
 ---
 
+## Batch 5 — Completed 2026-03-16
+
+The following 5 packages were audited and renamed:
+
+| Package | Files Renamed | Titles Renamed | Status |
+|---------|:------------:|:--------------:|--------|
+| corepayloadtests | 2 | 4 | ✅ Done |
+| corecomparatortests | 2 | ~30 | ✅ Done |
+| corecmptests | 2 | ~25 | ✅ Done |
+| converterstests | 1 | ~18 | ✅ Done |
+| regexnewtests | 5 | ~50 | ✅ Done |
+
+---
+
 ## Pending Packages (Not Yet Audited)
 
-The following test packages have `_testcases.go` files that have **not been audited** for title compliance:
-
-| Package | Est. Files | Notes |
-|---------|:----------:|-------|
-| corepayloadtests | 2+ | Attributes, etc. |
-| corecomparatortests | 2+ | |
-| corecmptests | 1+ | |
-| converterstests | 2+ | |
-| regexnewtests | 1+ | |
+All originally listed pending packages have been audited. Additional packages may have non-compliant titles but were not in the original pending list. To discover more, run:
+```bash
+grep -rn 'Title:' tests/integratedtests/*/testcases*.go | grep -v -E '"[A-Z][a-zA-Z0-9_.]+ returns '
+```
 
 ## Related Docs
 

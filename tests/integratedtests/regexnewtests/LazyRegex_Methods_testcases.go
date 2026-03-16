@@ -7,7 +7,7 @@ import (
 
 var lazyRegexCompileTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "Compile valid pattern returns no error",
+		Title: "LazyRegex.Compile returns no error -- valid pattern",
 		When:  "given a valid pattern to Compile",
 		Input: args.Map{
 			params.pattern: "\\d+",
@@ -19,7 +19,7 @@ var lazyRegexCompileTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "Compile invalid pattern returns error",
+		Title: "LazyRegex.Compile returns error -- invalid pattern",
 		When:  "given an invalid pattern to Compile",
 		Input: args.Map{
 			params.pattern: "[bad",
@@ -31,7 +31,7 @@ var lazyRegexCompileTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "Compile empty pattern on undefined lazy returns error",
+		Title: "LazyRegex.Compile returns error -- empty pattern on undefined lazy",
 		When:  "given empty pattern to Compile",
 		Input: args.Map{
 			params.pattern: "",
@@ -46,7 +46,7 @@ var lazyRegexCompileTestCases = []coretestcases.MapGherkins{
 
 var lazyRegexHasErrorTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "HasError returns false for valid pattern",
+		Title: "LazyRegex.HasError returns false -- valid pattern",
 		When:  "given valid pattern for HasError",
 		Input: args.Map{
 			params.pattern: "hello",
@@ -57,7 +57,7 @@ var lazyRegexHasErrorTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "HasError returns true for invalid pattern",
+		Title: "LazyRegex.HasError returns true -- invalid pattern",
 		When:  "given invalid pattern for HasError",
 		Input: args.Map{
 			params.pattern: "[broken",
@@ -71,7 +71,7 @@ var lazyRegexHasErrorTestCases = []coretestcases.MapGherkins{
 
 var lazyRegexMatchBytesTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "IsMatchBytes returns true for matching bytes",
+		Title: "LazyRegex.IsMatchBytes returns true -- matching bytes",
 		When:  "given matching byte input",
 		Input: args.Map{
 			params.pattern:      "\\d+",
@@ -83,7 +83,7 @@ var lazyRegexMatchBytesTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchBytes returns false for non-matching bytes",
+		Title: "LazyRegex.IsMatchBytes returns false -- non-matching bytes",
 		When:  "given non-matching byte input",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -98,7 +98,7 @@ var lazyRegexMatchBytesTestCases = []coretestcases.MapGherkins{
 
 var lazyRegexMatchErrorTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "LazyRegex.MatchError returns nil on match",
+		Title: "LazyRegex.MatchError returns nil -- matching input",
 		When:  "given matching input to LazyRegex.MatchError",
 		Input: args.Map{
 			params.pattern:      "^hello$",
@@ -109,7 +109,7 @@ var lazyRegexMatchErrorTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "LazyRegex.MatchError returns error on mismatch",
+		Title: "LazyRegex.MatchError returns error -- non-matching input",
 		When:  "given non-matching input to LazyRegex.MatchError",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -120,7 +120,7 @@ var lazyRegexMatchErrorTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "LazyRegex.MatchError returns error for invalid regex",
+		Title: "LazyRegex.MatchError returns error -- invalid regex",
 		When:  "given invalid regex to LazyRegex.MatchError",
 		Input: args.Map{
 			params.pattern:      "[bad",
@@ -134,7 +134,7 @@ var lazyRegexMatchErrorTestCases = []coretestcases.MapGherkins{
 
 var lazyRegexStringTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "String returns pattern for valid LazyRegex",
+		Title: "LazyRegex.String returns pattern -- valid LazyRegex",
 		When:  "given valid pattern for String",
 		Input: args.Map{
 			params.pattern: "\\d+",
@@ -144,7 +144,7 @@ var lazyRegexStringTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "Pattern returns the original pattern",
+		Title: "LazyRegex.Pattern returns original pattern -- email pattern",
 		When:  "given email pattern for Pattern",
 		Input: args.Map{
 			params.pattern: `[a-z]+@[a-z]+\.[a-z]+`,
