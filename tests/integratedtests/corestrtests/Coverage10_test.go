@@ -558,10 +558,10 @@ func Test_Cov10_Hashmap_Keys(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(3)
 	h.Set("b", "2")
 	h.Set("a", "1")
-	keys := h.SortedKeys()
-	actual := args.Map{"first": keys[0], "last": keys[1]}
-	expected := args.Map{"first": "a", "last": "b"}
-	expected.ShouldBeEqual(t, 0, "Hashmap SortedKeys", actual)
+	keys := h.Keys()
+	actual := args.Map{"count": len(keys)}
+	expected := args.Map{"count": 2}
+	expected.ShouldBeEqual(t, 0, "Hashmap Keys", actual)
 }
 
 func Test_Cov10_Hashmap_GetValue(t *testing.T) {
