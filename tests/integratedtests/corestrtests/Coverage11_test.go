@@ -1004,8 +1004,8 @@ func Test_Cov11_CollectionsOfCollection_Basic(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov11_HashsetsCollection_Basic(t *testing.T) {
-	hs1 := corestr.New.Hashset.Strings("a", "b")
-	hs2 := corestr.New.Hashset.Strings("c")
+	hs1 := corestr.New.Hashset.Strings([]string{"a", "b"})
+	hs2 := corestr.New.Hashset.Strings([]string{"c"})
 	hsc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs1, hs2)
 	actual := args.Map{
 		"len":        hsc.Length(),
