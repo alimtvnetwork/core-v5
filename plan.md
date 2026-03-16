@@ -60,12 +60,13 @@
 
 ## Phase B: Code Cleanup
 
-### B.1 — Codegen Removal
+### B.1 — Codegen Removal ⏭️ SKIPPED / DEFERRED
 - **Objective**: Remove deprecated `codegen/` entirely
 - **Dependencies**: User runs external audit (`grep` across auk-go repos)
 - **Expected outputs**: Deleted `codegen/`, `cmd/main/unitTestGenerator.go`, `tests/integratedtests/codegentests/`; updated `go.mod`
 - **Acceptance criteria**: All exit criteria in `spec/01-app/10-codegen-deprecation-plan.md` met
 - **Suggestion ref**: S-006
+- **Note**: User chose to skip this task (2026-03-16). Revisit when coverage stabilization is complete.
 
 ### B.2 — Spec Reconciliation ✅ DONE
 - **Objective**: Remove stale entries from spec files
@@ -118,7 +119,7 @@ Pick one to implement next:
 | 1 | **A.0 — Run `./run.ps1 PC`** | User action | None | — |
 | 2 | **A.1 — Coverage Phase 1: `coreonce`** | Small (30 tests) | Low | A.0 results |
 | 3 | **A.1 — Coverage Phase 1: `keymk`** | Small (20 tests) | Low | A.0 results |
-| 4 | **B.1 — Codegen removal** | Medium | Medium | User runs grep audit |
+| 4 | ~~**B.1 — Codegen removal**~~ | ⏭️ Skipped | — | — |
 | 5 | ~~**B.2 — Spec reconciliation**~~ | ✅ Done | — | — |
 | 6 | **C.3 — CI pipeline** | Medium | Low | — |
 
