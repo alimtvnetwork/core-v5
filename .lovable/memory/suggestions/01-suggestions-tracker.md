@@ -1,48 +1,98 @@
 # Suggestions Tracker
 
-## Last Updated: 2026-03-16
+## Last Updated: 2026-03-16T04:58:00+08:00
 
 ---
 
 ## Active Suggestions
 
-### 1. Regenerate Blocked Package Truth Before More Coverage Work
-**Priority:** Critical
-**Status:** In Progress
-Run `./run.ps1 PC` first. The current root cause is process failure: assumed APIs + unverified bulk coverage generation. No additional coverage progress should be trusted until the blocked-package baseline is refreshed.
+### S-001: Run Compile Baseline Before More Coverage Work
+- **suggestionId**: S-001
+- **createdAt**: 2026-03-16
+- **source**: Lovable
+- **affectedProject**: core (all integrated test packages)
+- **description**: Run `./run.ps1 PC` to regenerate the real blocked-package baseline before any further coverage expansion.
+- **rationale**: Coverage work has repeatedly failed because tests were written against assumed APIs. The postmortem (`.lovable/memory/workflow/completed/02-coverage-remediation-root-cause.md`) mandates this as step 1.
+- **proposed change**: User runs `./run.ps1 PC`, shares output. AI uses output to identify which packages are truly blocked.
+- **acceptance criteria**: `./run.ps1 PC` runs cleanly; blocked package list is captured and documented.
+- **status**: open
+- **completion notes**: —
 
-### 2. Audit Latest High-Risk Coverage Files Package-By-Package
-**Priority:** High
-**Status:** Pending
-Audit and compile-check these files one-by-one instead of in bulk:
-- `errcoretests/Coverage9_test.go`
-- `simplewraptests/Coverage7_test.go`
-- `issettertests/Coverage7_test.go`
-- `isanytests/Coverage9_test.go`
-- `converterstests/Coverage4_test.go`
-- `stringslicetests/Coverage7_test.go`
+### S-002: Audit High-Risk Coverage Files One-By-One
+- **suggestionId**: S-002
+- **createdAt**: 2026-03-16
+- **source**: Lovable
+- **affectedProject**: core (test packages)
+- **description**: Compile-check these files individually instead of in bulk: `errcoretests/Coverage9_test.go`, `simplewraptests/Coverage7_test.go`, `issettertests/Coverage7_test.go`, `isanytests/Coverage9_test.go`, `converterstests/Coverage4_test.go`, `stringslicetests/Coverage7_test.go`
+- **rationale**: These files were generated in bulk and never compile-verified. Each may have API mismatches.
+- **proposed change**: Read source for each package → verify test file signatures → fix mismatches → compile one at a time.
+- **acceptance criteria**: Each file compiles individually via `go build ./tests/integratedtests/<pkg>/...`
+- **status**: open
+- **completion notes**: —
 
-### 3. Finish Remaining Package Coverage Only After Compile Baseline Is Stable
-**Priority:** High
-**Status:** Blocked by compile verification
-Packages: `keymk`, `corerange`, `coreonce`, `enumimpl`, `stringslice`, `corevalidator`,
-`corepayload`, `reflectinternal`, `corejson`, `corestr`, `coredynamic`, `reflectmodel`
-Previously documented API-mismatch fixes exist for: `enumimpltests/Coverage7_test.go`, `corejsontests/Coverage4_test.go`, `corestrtests/Coverage8_test.go`.
+### S-003: Complete Remaining Package Coverage (12 packages)
+- **suggestionId**: S-003
+- **createdAt**: 2026-03-16
+- **source**: Lovable
+- **affectedProject**: core
+- **description**: Push remaining packages to 100% coverage: `keymk`, `corerange`, `coreonce`, `enumimpl`, `stringslice`, `corevalidator`, `corepayload`, `reflectinternal`, `corejson`, `corestr`, `coredynamic`, `reflectmodel`
+- **rationale**: These packages are below 100% and have no verified coverage files yet.
+- **proposed change**: One package at a time: read source → write tests → compile verify → run coverage.
+- **acceptance criteria**: Each package reaches 100% as reported by `./run.ps1 TC`.
+- **status**: open (blocked by S-001 and S-002)
+- **completion notes**: —
 
-### 4. Test Title Audit (Remaining Packages)
-**Priority:** Medium
-**Status:** Pending — Scoped
-1400+ titles across 40+ packages need renaming to `"{Function} returns {Result} -- {Input Context}"`.
-Top violators by count: coregenerictests (347), coredynamictests (174), coreutilstests (87), chmodhelpertests (79), coreinstructiontests (47), coremathtests (44), coresorttests (41), issettertests (40).
+### S-004: Test Title Audit (Remaining 17 Packages)
+- **suggestionId**: S-004
+- **createdAt**: 2026-03-16
+- **source**: Lovable
+- **affectedProject**: core (test packages)
+- **description**: 1400+ test titles across 40+ packages need renaming to `"{Function} returns {Result} -- {Input Context}"`. Top violators: coregenerictests (347), coredynamictests (174), coreutilstests (87).
+- **rationale**: Consistent naming aids debugging and makes test output scannable.
+- **proposed change**: Batch rename test titles package-by-package.
+- **acceptance criteria**: All test titles follow the convention. `grep -c` confirms zero violations.
+- **status**: open
+- **completion notes**: —
 
-### 5. Coverage Prompt Generator Validation
-**Priority:** Medium
-**Status:** Pending
-Run `./run.ps1 TC` and inspect `data/prompts/` to verify prompt files are generated correctly after blockers are cleared.
+### S-005: Codegen Removal (Track B)
+- **suggestionId**: S-005
+- **createdAt**: 2026-03-16
+- **source**: Lovable
+- **affectedProject**: core
+- **description**: Complete codegen removal per `spec/01-app/10-codegen-deprecation-plan.md` Track B.
+- **rationale**: Codegen is deprecated, adds maintenance burden, and has no confirmed external consumers.
+- **proposed change**: Remove `cmd/main/unitTestGenerator.go`, `tests/integratedtests/codegentests/`, `codegen/` tree. Run `go mod tidy`. Update docs.
+- **acceptance criteria**: All exit criteria in `10-codegen-deprecation-plan.md` are met. Module compiles without codegen.
+- **status**: open
+- **completion notes**: —
+
+### S-006: Value Receiver Migration (Phase 6 Completion)
+- **suggestionId**: S-006
+- **createdAt**: 2026-03-16
+- **source**: Lovable
+- **affectedProject**: core
+- **description**: Continue migrating read-only methods from pointer to value receivers. `issetter/` and `coreversion/` are done. Remaining: `coretaskinfo/`, `corepayload/`, others.
+- **rationale**: Value receivers communicate immutability, enable compiler optimizations, and clarify API intent.
+- **proposed change**: Package-by-package, verify interface satisfaction after each change.
+- **acceptance criteria**: All read-only methods use value receivers. All interfaces still satisfied. All tests pass.
+- **status**: open
+- **completion notes**: —
+
+### S-007: Remaining Package READMEs
+- **suggestionId**: S-007
+- **createdAt**: 2026-03-16
+- **source**: Lovable
+- **affectedProject**: core
+- **description**: Create README.md for: `coregeneric`, `corestr`, `coreonce`, `corerange`, `stringslice`.
+- **rationale**: These are core packages without documentation.
+- **proposed change**: Read source, document API with examples, verify method names against source.
+- **acceptance criteria**: Each README has folder tree, usage examples, and verified method signatures.
+- **status**: open
+- **completion notes**: —
 
 ---
 
-## Completed Suggestions (Moved to `completed/`)
+## Completed Suggestions (Archive)
 
 | # | Title | Completed |
 |---|-------|-----------|
@@ -57,3 +107,5 @@ Run `./run.ps1 TC` and inspect `data/prompts/` to verify prompt files are genera
 | 9 | Nil Receiver Coverage Audit | 2026-03-15 |
 | 10 | Test Runner Hardening Review | 2026-03-15 |
 | 11 | Diagnostic Output Regression Tests | 2026-03-15 |
+
+> Completed suggestion detail files are in `completed/` subfolder.

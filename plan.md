@@ -1,170 +1,126 @@
-# Phase-by-Phase Plan
+# Plan — Future Work Roadmap
+
+## Last Updated: 2026-03-16T04:58:00+08:00
+
+---
 
 ## Status Overview
 
 | Phase | Status | Description |
 |-------|--------|-------------|
-| Phase 1 | ✅ Done | Repository scan and folder map draft |
-| Phase 2 | ✅ Done | Per-folder spec docs |
-| Phase 3 | ✅ Done | README upgrades (root README rewrite) |
+| Phase 1-3 | ✅ Done | Repo scan, per-folder specs, README upgrades |
 | Phase 4 | ✅ Done | Special module docs and conventions |
-| Phase 5 | ✅ Done | Codegen deprecation and Go modernization plan |
-| Phase 6 | ✅ Done | Code review report and improvement backlog |
+| Phase 5 | ✅ Done | Codegen deprecation plan + Go modernization plan |
+| Phase 6 | ✅ Done | Code review report + improvement backlog |
 | Phase 7 | ✅ Done | Package-level README docs |
 | Phase 8 | ✅ Done | Code review fixes (return types, typos, README accuracy) |
+| Foundation | ✅ Done | `interface{}` → `any`, Go 1.24, bug fixes |
+| Generics | ✅ Done | Collection[T], TypedPayloadWrapper[T], TypedDynamic[T] |
+| File Splitting | ✅ Done | All large files split (PayloadWrapper, Attributes, Info, Dynamic, BaseTestCase) |
+| Deep Quality Sweep | ✅ Done | ~190 inline negation refactors, low-priority bug fixes, regression tests |
+| Expert Code Review | ✅ Done | 16 findings across 4 sub-phases, all fixed |
+| Error Modernization | ✅ Done | errors.Join, errors.Is/As, fmt.Errorf with %w |
 
 ---
 
-## Phase 1: Repository Scan and Folder Map Draft ✅
+## Phase A: Coverage Stabilization (CURRENT PRIORITY)
 
-**Goal**: Understand the full repo structure and create foundational spec docs.
+> **Prerequisite**: User must run `./run.ps1 PC` and share results before AI proceeds.
 
-**Outputs**:
-- `/spec/01-app/00-repo-overview.md` ✅
-- `/spec/01-app/01-folder-map.md` ✅
+### A.1 — Compile Baseline Refresh
+- **Objective**: Get the real blocked-package list from `./run.ps1 PC`
+- **Dependencies**: None (user action)
+- **Expected outputs**: Blocked package list documented in workflow memory
+- **Acceptance criteria**: `./run.ps1 PC` runs; blocked list captured
 
-**Acceptance Criteria**:
-- [x] Folder map exists and covers all top-level folders
-- [x] Repo overview exists and links to folder map
-- [x] Missing doc areas are listed
+### A.2 — Audit High-Risk Coverage Files (6 files)
+- **Objective**: Verify each unverified coverage file compiles
+- **Dependencies**: A.1
+- **Expected outputs**: Fixed test files that compile individually
+- **Acceptance criteria**: `go build ./tests/integratedtests/<pkg>/...` passes for each
+- **Files**: `errcoretests/Coverage9_test.go`, `simplewraptests/Coverage7_test.go`, `issettertests/Coverage7_test.go`, `isanytests/Coverage9_test.go`, `converterstests/Coverage4_test.go`, `stringslicetests/Coverage7_test.go`
 
----
-
-## Phase 2: Per-Folder Spec Docs ✅
-
-**Goal**: Create spec docs for each major folder.
-
-**Outputs**:
-- `/spec/01-app/folders/01-chmodhelper.md` ✅
-- `/spec/01-app/folders/02-cmd.md` ✅
-- `/spec/01-app/folders/03-codegen.md` ✅
-- `/spec/01-app/folders/04-coreinterface.md` ✅
-- `/spec/01-app/folders/05-coredata.md` ✅
-- `/spec/01-app/folders/06-errcore.md` ✅
-- `/spec/01-app/folders/07-coretests.md` ✅
-- `/spec/01-app/folders/08-conditional.md` ✅
-- `/spec/01-app/folders/09-internal.md` ✅
-- `/spec/01-app/folders/10-remaining-packages.md` ✅
-
-**Acceptance Criteria**:
-- [x] Each major folder has a spec doc
-- [x] Each doc links back to repo overview
+### A.3 — Remaining 12 Packages to 100%
+- **Objective**: Push all remaining packages to 100% branch coverage
+- **Dependencies**: A.1, A.2
+- **Expected outputs**: New coverage test files per package
+- **Acceptance criteria**: `./run.ps1 TC` shows 100% for each; no blocked packages
+- **Packages**: `keymk`, `corerange`, `coreonce`, `enumimpl`, `stringslice`, `corevalidator`, `corepayload`, `reflectinternal`, `corejson`, `corestr`, `coredynamic`, `reflectmodel`
 
 ---
 
-## Phase 3: README Upgrades ✅
+## Phase B: Code Cleanup & Modernization
 
-**Goal**: Rewrite root README with quick start, examples, and spec links.
+### B.1 — Codegen Removal
+- **Objective**: Remove deprecated codegen package entirely
+- **Dependencies**: External consumer audit (user must run grep across auk-go repos)
+- **Expected outputs**: Deleted `codegen/`, `cmd/main/unitTestGenerator.go`, `tests/integratedtests/codegentests/`; updated `go.mod`
+- **Acceptance criteria**: All exit criteria in `spec/01-app/10-codegen-deprecation-plan.md` met
+- **Spec reference**: `spec/01-app/10-codegen-deprecation-plan.md`
 
-**Acceptance Criteria**:
-- [x] README has end-to-end onboarding
-- [x] README includes modern examples
-- [x] README points to spec docs
-- [x] Prerequisites updated to modern Go
+### B.2 — Value Receiver Migration (Phase 6 Completion)
+- **Objective**: Migrate remaining read-only methods to value receivers
+- **Dependencies**: None (can be done incrementally)
+- **Expected outputs**: Updated method signatures; verified interface satisfaction
+- **Acceptance criteria**: All read-only methods use value receivers; all tests pass
+- **Spec reference**: `spec/01-app/20-improvement-plan.md` Phase 6
 
----
-
-## Phase 4: Special Module Docs ✅
-
-**Goal**: Document key modules and conventions.
-
-**Outputs**:
-- `/spec/01-app/modules/01-chmod-helper.md` ✅
-- `/spec/01-app/12-cmd-entrypoints.md` ✅
-- `/spec/01-app/13-testing-patterns.md` ✅
-- `/spec/01-app/14-core-interface-conventions.md` ✅
-- Updated `/cmd/README.md` ✅
-
-**Acceptance Criteria**:
-- [x] Module docs exist and are consistent
-- [x] Conventions are explicit and reusable
+### B.3 — Test Title Audit (Remaining 17 Packages)
+- **Objective**: Rename 1400+ test titles to standard format
+- **Dependencies**: None
+- **Expected outputs**: Renamed test functions
+- **Acceptance criteria**: All titles follow `"{Function} returns {Result} -- {Input Context}"`
 
 ---
 
-## Phase 5: Codegen Deprecation and Go Modernization ✅
+## Phase C: Documentation Completion
 
-**Outputs**:
-- `/spec/01-app/10-codegen-deprecation-plan.md` ✅
-- `/spec/01-app/11-go-modernization.md` ✅
+### C.1 — Remaining Package READMEs
+- **Objective**: Create README.md for undocumented packages
+- **Dependencies**: None
+- **Expected outputs**: README.md files with folder trees, API docs, examples
+- **Acceptance criteria**: Each README has verified method signatures and usage examples
+- **Packages**: `coregeneric`, `corestr`, `coreonce`, `corerange`, `stringslice`
 
-**Acceptance Criteria**:
-- [x] Codegen removal plan has clear exit criteria
-- [x] Go modernization plan is actionable
-
----
-
-## Phase 6: Code Review and Issues ✅
-
-**Outputs**:
-- `/spec/01-app/15-code-review-report.md` ✅
-- `/spec/13-app-issues/golang/01-convertinteranl-typo.md` ✅
-- `/spec/13-app-issues/golang/02-refeflectcore-typo.md` ✅
-- `/spec/13-app-issues/golang/03-go-version-outdated.md` ✅
-- `/spec/13-app-issues/golang/04-type-duplication-no-generics.md` ✅
-- `/spec/13-app-issues/docs/01-readme-outdated.md` ✅
-- `/spec/13-app-issues/docs/02-missing-package-docs.md` ✅
-- `/spec/13-app-issues/codegen/01-codegen-deprecation.md` ✅
-- `/spec/13-app-issues/testing/01-missing-unit-tests.md` ✅
-- `/spec/13-app-issues/cmd/01-cmd-readme-minimal.md` ✅
+### C.2 — Spec Reconciliation
+- **Objective**: Remove stale/contradictory entries from specs
+- **Dependencies**: None
+- **Expected outputs**: Updated spec files with accurate status markers
+- **Acceptance criteria**: No spec file references completed work as pending
 
 ---
 
-## Phase 7: Package-Level README Docs ✅
+## Phase D: Future Architecture (Low Priority)
 
-**Goal**: Create comprehensive README.md files for core packages with usage examples.
+### D.1 — Generic Interfaces in `coreinterface/`
+- **Objective**: Evaluate `ValueGetter[T]` generic interfaces
+- **Spec reference**: `spec/01-app/15-code-review-report.md`
 
-**Outputs**:
-- `coredata/corejson/README.md` ✅
-- `coredata/coreapi/README.md` ✅
-- `corefuncs/README.md` ✅
-- Verified `coredata/coredynamic/README.md` ✅ (pre-existing)
-- Verified `coredata/corepayload/README.md` ✅ (pre-existing)
+### D.2 — `iter` Package Adoption (Go 1.23+)
+- **Objective**: Use `iter.Seq` for collection iteration patterns
+- **Spec reference**: `spec/01-app/11-go-modernization.md`
 
-**Acceptance Criteria**:
-- [x] Each README has accurate folder tree
-- [x] Each README has usage examples
-- [x] All method names and return types verified against source
+### D.3 — CI Pipeline
+- **Objective**: Add `golangci-lint`, test coverage, and security scanning
+- **Spec reference**: `spec/01-app/15-code-review-report.md`
 
----
-
-## Phase 8: Code Review Fixes ✅
-
-**Goal**: Fix issues found during README review and code modernization.
-
-**Outputs**:
-- Migrated `*[]string` → `[]string` return types in Hashset, Collection, CharHashsetMap ✅
-- Fixed README examples: `Serialize.ToString` signature, `MapResults` API, wrapper constructors ✅
-- Added missing files to folder trees in corejson and coreapi READMEs ✅
-- Added deprecation notices to `*Ptr()` methods with direct-return alternatives ✅
-
-**Acceptance Criteria**:
-- [x] All README examples compile-correct
-- [x] Folder trees match actual directory contents
-- [x] Return type modernization complete for string collections
+### D.4 — Module Splitting
+- **Objective**: Evaluate splitting monorepo into focused Go modules
+- **Spec reference**: `spec/01-app/15-code-review-report.md`
 
 ---
-
-## Prioritized Backlog
-
-| Priority | Task | Spec Reference |
-|----------|------|---------------|
-| ✅ Done | `interface{}` → `any` in `coreinterface/` (verified 0 remaining) | `20-improvement-plan.md` |
-| ✅ Done | Split `Attributes.go` — already split (Getters/Setters/Json) | `20-improvement-plan.md` Phase 5 |
-| ✅ Done | Split `Dynamic.go` — already split (Getters/Reflect/Json) | `20-improvement-plan.md` Phase 5 |
-| ✅ Done | Split `Info.go` (646→4 files: Info/Getters/Json/Map) | `20-improvement-plan.md` Phase 5 |
-| 🟡 Medium | Split `BaseTestCase.go` (435 lines) | `20-improvement-plan.md` Phase 5 |
-| 🟡 Medium | Add generics to `conditional/` | `11-go-modernization.md` |
-| 🟡 Medium | Deprecate codegen | `10-codegen-deprecation-plan.md` |
-| 🟡 Medium | Create READMEs for coregeneric, corestr, coreonce, corerange, stringslice | `13-app-issues/docs/02-missing-package-docs.md` |
-| 🟡 Medium | Value receiver migration (ongoing) | `20-improvement-plan.md` Phase 6 |
-| 🟢 Low | Add missing unit tests (P1-P3 packages) | `20-improvement-plan.md` Phase 4 |
-| 🟢 Low | Remove codegen completely | `10-codegen-deprecation-plan.md` |
 
 ## Next Task Selection
 
-Recommended order:
+Pick one of these to implement next:
 
-1. **`coreinterface/` `any` migration** — Largest remaining modernization surface (569 matches).
-2. **File splitting** — Reduces cognitive load on large files.
-3. **Remaining package READMEs** — Completes documentation coverage.
-4. **Codegen deprecation** — Simplifies maintenance.
+| # | Task | Effort | Risk | Prerequisite |
+|---|------|--------|------|-------------|
+| 1 | **A.1 — Run `./run.ps1 PC`** | User action | None | — |
+| 2 | **A.2 — Audit 6 high-risk coverage files** | Medium | High (API mismatches) | A.1 results |
+| 3 | **B.1 — Remove codegen** | Medium | Medium (external audit needed) | User runs grep |
+| 4 | **B.3 — Test title audit** | Large but mechanical | Low | — |
+| 5 | **C.1 — Package READMEs** | Medium | Low | — |
+| 6 | **B.2 — Value receiver migration** | Small per package | Medium | — |
+
+**Recommended**: Start with **A.1** (user runs compile baseline), then **C.1** or **B.1** while waiting for results.

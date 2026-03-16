@@ -1,7 +1,7 @@
 # Coverage & Testing Master Plan
 
-## Status: In Progress
-## Last Updated: 2026-03-16
+## Status: In Progress — Blocked on Compile Baseline
+## Last Updated: 2026-03-16T04:58:00+08:00
 
 ## Critical Root Cause Checkpoint
 Coverage work has been repeatedly invalidated by assumed APIs, broad unverified coverage-file generation, and skipping the compile-first gate. Do **not** treat newly written coverage files as successful until `./run.ps1 PC` and then `./run.ps1 TC` confirm the result.
@@ -14,151 +14,55 @@ See issue record: `issues/repeated-coverage-remediation-failure-root-cause.md`
 ## Completed Tasks
 
 ### 1. ✅ 100% Coverage Push — Batch 1 (11 packages)
-**Completed: 2026-03-14**
-
-Created Coverage test files for 11 packages that were between 75-97% coverage:
-- `mapdiffinternal` (97.2% → targeting 100%)
-- `coreversion` (97.1%)
-- `reqtype` (97%)
-- `coreproperty` (96.2%)
-- `keymk` (96.2%) — *needs separate file, not yet created*
-- `corefuncs` (96%)
-- `coretests/results` (95.2%)
-- `coredata/corerange` (94.9%) — *needs separate file, not yet created*
-- `coredata/coreonce` (94%) — *needs separate file, not yet created*
-- `coreimpl/enumimpl` (93.2%) — *needs separate file, not yet created*
-- `convertinternal` (89.8%)
-- `jsoninternal` (89.5%)
-- `coredata/stringslice` (83.1%) — *needs separate file, not yet created*
-- `corevalidator` (82.8%) — *needs separate file, not yet created*
-- `coreutils/stringutil` (82%)
-- `coretests/coretestcases` (79.6%)
-- `internal/pathinternal` (75.6%)
-
-**Files Created:**
-- `tests/integratedtests/mapdiffinternaltests/Coverage3_test.go`
-- `tests/integratedtests/coreversiontests/Coverage3_test.go`
-- `tests/integratedtests/reqtypetests/Coverage3_test.go`
-- `tests/integratedtests/corepropertytests/Coverage_test.go`
-- `tests/integratedtests/corefuncstests/Coverage3_test.go`
-- `tests/integratedtests/pathinternaltests/Coverage3_test.go`
-- `tests/integratedtests/stringutiltests/Coverage4_test.go`
-- `tests/integratedtests/convertinternaltests/Coverage4_test.go`
-- `tests/integratedtests/jsoninternaltests/Coverage4_test.go`
-- `tests/integratedtests/resultstests/Coverage_test.go`
-- `tests/integratedtests/coretestcasestests/Coverage5_test.go`
+**Completed: 2026-03-14** — Created 11 coverage test files for packages 75-97%.
 
 ### 2. ✅ 100% Coverage Push — Batch 2 (6 packages)
-**Completed: 2026-03-14**
-
-Created Coverage test files for 6 packages with lower coverage (0-57%):
-- `chmodhelper` (57%)
-- `coretests/args` (43.7%)
-- `errcore` (25.7%)
-- `regexnew` (14.3%)
-- `corecmp` (16.8%)
-- `codestack` (0%)
-
-**Files Created:**
-- `tests/integratedtests/chmodhelpertests/Coverage3_test.go`
-- `tests/integratedtests/argstests/Coverage4_test.go`
-- `tests/integratedtests/errcoretests/Coverage7_test.go`
-- `tests/integratedtests/regexnewtests/Coverage5_test.go`
-- `tests/integratedtests/corecmptests/Coverage7_test.go`
-- `tests/integratedtests/codestacktests/Coverage6_test.go`
+**Completed: 2026-03-14** — Created 6 coverage test files for packages 0-57%.
 
 ### 3. ✅ 100% Coverage Push — Batch 3 (7 packages)
-**Completed: 2026-03-15**
-
-Created Coverage test files for 7 more packages:
-- `coregeneric` — Collection, Hashset, Hashmap, LinkedList, SimpleSlice, orderedfuncs, comparablefuncs, numericfuncs
-- `strutilinternal` — AnyToString, MaskLine, SplitLeftRight, CurlyWrapIf, Clone, ReflectInterfaceVal, NonEmpty
-- `isany` — ReflectNull, ReflectValueNull, NullBoth, DefinedBoth, DefinedAllOf/AnyOf, AllNull, AnyNull
-- `coremath` — MaxInt/MinInt equal edges, Integer boundary checks
-- `corecsv` — All quote branches, empty inputs, Stringers
-- `coretaskinfo` — InfoJson, InfoMap, Plain/Secure creators, Deserialized, ExcludeOptions
-- `simplewrap` — TitleCurlyWrap, TitleSquare, With/WithPtr, ConditionalWrapWith, DoubleQuoteWrapElements
-
-**Files Created:**
-- `tests/integratedtests/coregenerictests/Coverage3_test.go`
-- `tests/integratedtests/strutilinternaltests/Coverage3_test.go`
-- `tests/integratedtests/isanytests/Coverage8_test.go`
-- `tests/integratedtests/coremathtests/Coverage2_test.go`
-- `tests/integratedtests/corecsvtests/Coverage2_test.go`
-- `tests/integratedtests/coretaskinfotests/Coverage2_test.go`
-- `tests/integratedtests/simplewraptests/Coverage6_test.go`
+**Completed: 2026-03-15** — Created 7 coverage test files for generic/utility packages.
 
 ### 4. ✅ Coverage Prompt Generator System
-**Completed: 2026-03-15**
-
-Built a PowerShell-based system that auto-generates AI-friendly prompt files for coverage gaps:
-- **`scripts/coverage/Generate-CoveragePrompts.ps1`** — Main script: parses coverage.out + `go tool cover -func`, identifies all functions <100%, extracts uncovered line ranges, writes batched prompt files (500 functions/file) to `data/prompts/`
-- **`scripts/coverage/Get-UncoveredLines.ps1`** — Utility: extracts uncovered lines for a specific source file
-- **`scripts/coverage/Get-FunctionCoverage.ps1`** — Utility: filters function coverage by threshold
-- **Integration**: Auto-called at end of `./run.ps1 TC` after coverage summary
+**Completed: 2026-03-15** — PowerShell-based system for auto-generating AI-friendly prompt files.
 
 ---
 
-## Pending Tasks
+## Pending Tasks (Ordered by Priority)
 
-### 5. 🔲 Root-Cause Remediation Gate (Highest Priority)
-Before any more coverage expansion:
-- Run `./run.ps1 PC` to regenerate the real blocked-package baseline
-- Treat the blocked-package report as the source of truth
-- Do not claim coverage progress until `./run.ps1 TC` confirms it
+### 5. 🔲 BLOCKER: Compile Baseline Refresh
+- Run `./run.ps1 PC` to get real blocked-package list
+- This is the **mandatory first step** before any further coverage work
+- No coverage claims are valid until this is done
 
-### 6. 🔲 Audit Latest High-Risk Coverage Files One-By-One
-Latest generated files must be treated as **unverified** until compile-checked:
-- `tests/integratedtests/errcoretests/Coverage9_test.go`
-- `tests/integratedtests/simplewraptests/Coverage7_test.go`
-- `tests/integratedtests/issettertests/Coverage7_test.go`
-- `tests/integratedtests/isanytests/Coverage9_test.go`
-- `tests/integratedtests/converterstests/Coverage4_test.go`
-- `tests/integratedtests/stringslicetests/Coverage7_test.go`
+### 6. 🔲 Audit 6 High-Risk Coverage Files
+**Blocked by**: Task 5
+Files to verify one-by-one:
+- `errcoretests/Coverage9_test.go`
+- `simplewraptests/Coverage7_test.go`
+- `issettertests/Coverage7_test.go`
+- `isanytests/Coverage9_test.go`
+- `converterstests/Coverage4_test.go`
+- `stringslicetests/Coverage7_test.go`
 
-### 7. 🔲 Remaining Packages Still Below 100%
-Continue only after the compile baseline is stable:
-- `keymk`
-- `coredata/corerange`
-- `coredata/coreonce`
-- `coreimpl/enumimpl`
-- `coredata/stringslice`
-- `corevalidator`
-- `corepayload`
-- `reflectinternal`
-- `corejson`
-- `corestr`
-- `coredynamic`
-- `reflectmodel`
+### 7. 🔲 Remaining 12 Packages to 100%
+**Blocked by**: Tasks 5, 6
+Packages: `keymk`, `corerange`, `coreonce`, `enumimpl`, `stringslice`, `corevalidator`, `corepayload`, `reflectinternal`, `corejson`, `corestr`, `coredynamic`, `reflectmodel`
 
-### 8. 🔲 Verify All Coverage Files Compile & Pass
-Use the strict sequence:
-1. patch one package
-2. run `./run.ps1 PC`
-3. fix blockers
-4. repeat
-5. run `./run.ps1 TC` only after blockers are under control
+### 8. 🔲 Test Title Audit — Remaining 17 Packages
+Not blocked. Can proceed independently.
 
-### 9. 🔲 Test Title Audit — Remaining Packages
-Packages not yet audited for title convention:
-- coreoncetests, corejsontests, corepayloadtests, coreversiontests
-- ostypetests, reqtypetests, issettertests, stringslicetests
-- trydotests, codefuncstests, codestacktests, coreappendtests
-- corecomparatortests, corecmptests, converterstests
-- enumimpltests, regexnewtests
+### 9. 🔲 Diagnostic Output Regression Tests
+Create snapshot tests for diagnostic output formatting.
 
-### 10. 🔲 Nil Receiver Coverage Audit
-Systematically migrate nil receiver test cases from CaseV1 to CaseNilSafe pattern across all packages.
+---
 
-### 11. 🔲 Deep Clone Production Bug Investigation
-`corepayload.Attributes.Clone(deep=true)` returns error. Needs production code investigation.
+## Process Rules (From Postmortem)
 
-### 12. 🔲 Test Runner Hardening
-Review all test runners for:
-- Unconditional map key insertion (like the `containsName: false` pattern)
-- Value vs pointer type assertions
-- Incorrect independence/equality check logic
-- Coverage-file API drift before merge
-
-### 13. 🔲 Diagnostic Output Regression Tests
-Create snapshot tests for diagnostic output formatting to prevent regressions.
+1. **List first, then fix one-by-one.** Regenerate blocked packages before new work.
+2. **Read source before every test edit.** Never infer signatures from naming patterns.
+3. **Use a package gate.** Fix one package → compile verify → move on.
+4. **Do not trust coverage percentages while blockers exist.**
+5. **Do not report success from edits alone.** Only `./run.ps1 PC` / `TC` are evidence.
+6. **Do not bulk-create coverage suites for unfamiliar packages.**
+7. **Honor project behavior standards.** Vacuous truth, nil-handling, byte-slice clone.
+8. **Honor naming standards.** `Test_Cov[N]_{Method}_{Context}` format.
