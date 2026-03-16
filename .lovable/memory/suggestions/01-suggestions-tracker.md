@@ -1,35 +1,44 @@
 # Suggestions Tracker
 
-## Last Updated: 2026-03-15
+## Last Updated: 2026-03-16
 
 ---
 
 ## Active Suggestions
 
-### 1. Finish Remaining Package Coverage (12 packages)
-**Priority:** High
-**Status:** In Progress — Coverage test files created, 3 have API mismatches needing fixes
-Packages: `keymk`, `corerange`, `coreonce`, `enumimpl`, `stringslice`, `corevalidator`,
-`corepayload`, `reflectinternal`, `corejson`, `corestr`, `coredynamic`, `reflectmodel`
-Files created but need `./run.ps1 PC` to verify compilation.
-API mismatches flagged in: `enumimpltests/Coverage7_test.go`, `corejsontests/Coverage4_test.go`, `corestrtests/Coverage8_test.go`.
+### 1. Regenerate Blocked Package Truth Before More Coverage Work
+**Priority:** Critical
+**Status:** In Progress
+Run `./run.ps1 PC` first. The current root cause is process failure: assumed APIs + unverified bulk coverage generation. No additional coverage progress should be trusted until the blocked-package baseline is refreshed.
 
-### 2. Verify All New Coverage Tests Compile
+### 2. Audit Latest High-Risk Coverage Files Package-By-Package
 **Priority:** High
 **Status:** Pending
-Run `./run.ps1 PC` to confirm all newly created Coverage test files (Batches 1-4, 36 files total) compile without errors.
+Audit and compile-check these files one-by-one instead of in bulk:
+- `errcoretests/Coverage9_test.go`
+- `simplewraptests/Coverage7_test.go`
+- `issettertests/Coverage7_test.go`
+- `isanytests/Coverage9_test.go`
+- `converterstests/Coverage4_test.go`
+- `stringslicetests/Coverage7_test.go`
 
-### 3. Test Title Audit (Remaining Packages)
+### 3. Finish Remaining Package Coverage Only After Compile Baseline Is Stable
+**Priority:** High
+**Status:** Blocked by compile verification
+Packages: `keymk`, `corerange`, `coreonce`, `enumimpl`, `stringslice`, `corevalidator`,
+`corepayload`, `reflectinternal`, `corejson`, `corestr`, `coredynamic`, `reflectmodel`
+Previously documented API-mismatch fixes exist for: `enumimpltests/Coverage7_test.go`, `corejsontests/Coverage4_test.go`, `corestrtests/Coverage8_test.go`.
+
+### 4. Test Title Audit (Remaining Packages)
 **Priority:** Medium
 **Status:** Pending — Scoped
 1400+ titles across 40+ packages need renaming to `"{Function} returns {Result} -- {Input Context}"`.
 Top violators by count: coregenerictests (347), coredynamictests (174), coreutilstests (87), chmodhelpertests (79), coreinstructiontests (47), coremathtests (44), coresorttests (41), issettertests (40).
-Recommend incremental batches of 5-6 packages per session.
 
-### 4. Coverage Prompt Generator Validation
+### 5. Coverage Prompt Generator Validation
 **Priority:** Medium
 **Status:** Pending
-Run `./run.ps1 TC` and inspect `data/prompts/` to verify prompt files are generated correctly.
+Run `./run.ps1 TC` and inspect `data/prompts/` to verify prompt files are generated correctly after blockers are cleared.
 
 ---
 

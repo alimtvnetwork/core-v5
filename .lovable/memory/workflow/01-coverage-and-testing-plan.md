@@ -1,7 +1,13 @@
 # Coverage & Testing Master Plan
 
 ## Status: In Progress
-## Last Updated: 2026-03-15
+## Last Updated: 2026-03-16
+
+## Critical Root Cause Checkpoint
+Coverage work has been repeatedly invalidated by assumed APIs, broad unverified coverage-file generation, and skipping the compile-first gate. Do **not** treat newly written coverage files as successful until `./run.ps1 PC` and then `./run.ps1 TC` confirm the result.
+
+See finalized postmortem memory: `.lovable/memory/workflow/completed/02-coverage-remediation-root-cause.md`
+See issue record: `issues/repeated-coverage-remediation-failure-root-cause.md`
 
 ---
 
@@ -95,27 +101,45 @@ Built a PowerShell-based system that auto-generates AI-friendly prompt files for
 
 ## Pending Tasks
 
-### 5. 🔲 Remaining Packages Still Below 100%
-The following packages from Batch 1 were noted but coverage files were NOT created:
-- `keymk` (96.2%)
-- `coredata/corerange` (94.9%)
-- `coredata/coreonce` (94%)
-- `coreimpl/enumimpl` (93.2%)
-- `coredata/stringslice` (83.1%)
-- `corevalidator` (82.8%)
+### 5. 🔲 Root-Cause Remediation Gate (Highest Priority)
+Before any more coverage expansion:
+- Run `./run.ps1 PC` to regenerate the real blocked-package baseline
+- Treat the blocked-package report as the source of truth
+- Do not claim coverage progress until `./run.ps1 TC` confirms it
 
-Additional packages from Batch 2 not yet addressed:
-- `corepayload` (42.6%)
-- `reflectinternal` (22.9%)
-- `corejson` (20%)
-- `corestr` (2.8%)
-- `coredynamic` (2.3%)
-- `reflectmodel` (0.4%)
+### 6. 🔲 Audit Latest High-Risk Coverage Files One-By-One
+Latest generated files must be treated as **unverified** until compile-checked:
+- `tests/integratedtests/errcoretests/Coverage9_test.go`
+- `tests/integratedtests/simplewraptests/Coverage7_test.go`
+- `tests/integratedtests/issettertests/Coverage7_test.go`
+- `tests/integratedtests/isanytests/Coverage9_test.go`
+- `tests/integratedtests/converterstests/Coverage4_test.go`
+- `tests/integratedtests/stringslicetests/Coverage7_test.go`
 
-### 6. 🔲 Verify All New Tests Compile & Pass
-Run `./run.ps1 TC` to verify all 24 new Coverage test files compile and produce expected coverage improvements. Check for blocked packages.
+### 7. 🔲 Remaining Packages Still Below 100%
+Continue only after the compile baseline is stable:
+- `keymk`
+- `coredata/corerange`
+- `coredata/coreonce`
+- `coreimpl/enumimpl`
+- `coredata/stringslice`
+- `corevalidator`
+- `corepayload`
+- `reflectinternal`
+- `corejson`
+- `corestr`
+- `coredynamic`
+- `reflectmodel`
 
-### 7. 🔲 Test Title Audit — Remaining Packages
+### 8. 🔲 Verify All Coverage Files Compile & Pass
+Use the strict sequence:
+1. patch one package
+2. run `./run.ps1 PC`
+3. fix blockers
+4. repeat
+5. run `./run.ps1 TC` only after blockers are under control
+
+### 9. 🔲 Test Title Audit — Remaining Packages
 Packages not yet audited for title convention:
 - coreoncetests, corejsontests, corepayloadtests, coreversiontests
 - ostypetests, reqtypetests, issettertests, stringslicetests
@@ -123,17 +147,18 @@ Packages not yet audited for title convention:
 - corecomparatortests, corecmptests, converterstests
 - enumimpltests, regexnewtests
 
-### 8. 🔲 Nil Receiver Coverage Audit
+### 10. 🔲 Nil Receiver Coverage Audit
 Systematically migrate nil receiver test cases from CaseV1 to CaseNilSafe pattern across all packages.
 
-### 9. 🔲 Deep Clone Production Bug Investigation
+### 11. 🔲 Deep Clone Production Bug Investigation
 `corepayload.Attributes.Clone(deep=true)` returns error. Needs production code investigation.
 
-### 10. 🔲 Test Runner Hardening
+### 12. 🔲 Test Runner Hardening
 Review all test runners for:
 - Unconditional map key insertion (like the `containsName: false` pattern)
 - Value vs pointer type assertions
 - Incorrect independence/equality check logic
+- Coverage-file API drift before merge
 
-### 11. 🔲 Diagnostic Output Regression Tests
+### 13. 🔲 Diagnostic Output Regression Tests
 Create snapshot tests for diagnostic output formatting to prevent regressions.
