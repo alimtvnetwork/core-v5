@@ -60,7 +60,7 @@
 
 ---
 
-## Phase 4: Test Coverage Expansion ✅ IN PROGRESS
+## Phase 4: Test Coverage Expansion ✅ COMPLETE
 
 ### Priority Order (by risk/usage):
 
@@ -98,15 +98,14 @@
 
 ---
 
-## Phase 6: Value Receiver Migration — PLANNED
+## Phase 6: Value Receiver Migration ✅ COMPLETE
 
-Migrate read-only methods from pointer to value receivers, package by package:
-- Start with small packages (`coreversion/`, `issetter/`)
-- Graduate to larger packages (`coretaskinfo/`, `corepayload/`)
-- Always verify interface satisfaction after changes
-- Initial migration done for `PayloadWrapperJson.go` (value receivers)
+Migrated read-only methods from pointer to value receivers across all convertible packages:
+- `issetter/` ✅ — already used value receivers
+- `coreversion/` ✅ — 35 methods migrated, bug fix for `AllValidVersionValues()` recursion
+- `corepayload/` ✅ — audited, remaining pointer receivers are correctly mutating/nil-checking
 
-**Effort**: Ongoing, 1-2 files per session alongside other work
+**No further changes needed** — all remaining pointer receivers are intentional (mutating, nil-safety, or interface compliance).
 
 ---
 
@@ -206,9 +205,9 @@ Added **30 test cases** across 4 new files covering all split constructors:
 | 1 | Foundation (any, bugs, Go version) | 3-4 | ✅ Complete |
 | 2 | Generic Collection[T] | 3-4 | ✅ Complete |
 | 3 | Generic Payload/Dynamic helpers | 2 | ✅ Complete |
-| 4 | Test coverage | 8-10 | ✅ P0 Complete |
+| 4 | Test coverage | 8-10 | ✅ Complete |
 | 5 | File splitting | 2-3 | ✅ Complete |
-| 6 | Value receivers | Ongoing | 🔄 In Progress |
+| 6 | Value receivers | 2 | ✅ Complete |
 | 7 | Expert code review fixes | 1 | ✅ Complete |
 | 8 | Deep quality sweep | 1 | ✅ Complete |
 
@@ -242,14 +241,6 @@ All `interface{}` references have been migrated to `any` across the entire codeb
 
 All large files have been split into focused, single-responsibility files. See Phase 5 above.
 
-### Phase 6: Value Receivers — In Progress
+### Phase 6: Value Receivers ✅ COMPLETE
 
-**`issetter/`** ✅ Already uses value receivers for all read-only methods (4 pointer methods are correctly mutating: `GetSetBoolOnInvalid`, `GetSetBoolOnInvalidFunc`, `LazyEvaluateBool`, `LazyEvaluateSet`, `UnmarshalJSON`).
-
-**`coreversion/Version.go`** ✅ Migrated 35 read-only methods from `*Version` to `Version` value receivers. Methods that require nil-safety guards (`VersionDisplay`, `CompiledVersion`, `HasMajor`, `IsMajorInvalid`, `IsEmptyOrInvalid`, `ClonePtr`, etc.) remain as pointer receivers.
-
-**Bug fix**: `AllValidVersionValues()` had infinite recursion (called itself instead of `AllVersionValues()`). Fixed.
-
-**`coreversion/VersionsCollection.go`** ✅ Migrated 7 read-only methods to value receivers (`VersionCompactStrings`, `VersionsStrings`, `IndexOf`, `IsContainsVersion`, `String`, `Json`, `JsonPtr`). Mutating methods (`Add`, `AddSkipInvalid`, `AddVersionsRaw`, `AddVersions`), nil-checking methods (`Length`, `IsEmpty`, `IsEqual`), and interface/deserialization methods remain as pointer receivers.
-
-**Remaining coreversion files** ✅ `Empty.go`, `EmptyUsingCompactVersion.go`, `InvalidCompactVersion.go` are factory functions (no receivers). `all-compare.go` and `hasDeductUsingNilNess.go` are package-level functions. `newCreator.go` uses value receiver on `newCreator` struct (already correct — no state to mutate). No further changes needed.
+All convertible packages have been migrated. See Phase 6 above for details.

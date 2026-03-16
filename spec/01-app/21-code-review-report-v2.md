@@ -202,13 +202,13 @@ Unlike `AddOrUpdateStringsPtrWgLock` which validates `len(keys) != len(values)`,
 | Generic `coregeneric` package | ✅ Added |
 | Regression tests for all fixes | ✅ Added |
 
-## Remaining TODO
+## Remaining TODO — Status Update
 
-- [ ] **Critical:** Fix 3 compilation errors (DataModel files + ConcatNew)
-- [ ] **Medium:** Resolve caching pattern (remove or fix thread safety)
-- [ ] **Medium:** Fix `SkipDynamic`/`TakeDynamic` bounds
-- [ ] **Medium:** Rename `ValuesToLower` → `KeysToLower`
-- [ ] **Low:** Fix `Clear()` nil panic, `AddBool` cache invalidation, length validation
+- [x] **Critical:** Fix 3 compilation errors (DataModel files + ConcatNew) → Fixed
+- [x] **Medium:** Resolve caching pattern → Fixed (Phase 8 deep quality sweep)
+- [x] **Medium:** Fix `SkipDynamic`/`TakeDynamic` bounds → Fixed
+- [x] **Medium:** Rename `ValuesToLower` → `KeysToLower` → Fixed
+- [x] **Low:** Fix `Clear()` nil panic, `AddBool` cache invalidation, length validation → Fixed (Phase 8.2)
 
 ## Related Docs
 
