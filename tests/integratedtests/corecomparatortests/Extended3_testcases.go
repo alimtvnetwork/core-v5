@@ -7,12 +7,12 @@ import (
 
 var baseIsCaseSensitiveTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "CaseSensitive true -- IsIgnoreCase false",
+		Title:         "Base.IsCaseSensitive returns true -- IsIgnoreCase false",
 		ArrangeInput:  args.Map{"isCaseSensitive": true},
 		ExpectedInput: args.Map{"isIgnoreCase": false, "cloneMatch": true},
 	},
 	{
-		Title:         "CaseSensitive false -- IsIgnoreCase true",
+		Title:         "Base.IsCaseSensitive returns false -- IsIgnoreCase true",
 		ArrangeInput:  args.Map{"isCaseSensitive": false},
 		ExpectedInput: args.Map{"isIgnoreCase": true, "cloneMatch": true},
 	},
@@ -20,12 +20,12 @@ var baseIsCaseSensitiveTestCases = []coretestcases.CaseV1{
 
 var baseIsIgnoreCaseTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "IgnoreCase true -- IsCaseSensitive false",
+		Title:         "Base.IsIgnoreCase returns true -- IsCaseSensitive false",
 		ArrangeInput:  args.Map{"isIgnoreCase": true},
 		ExpectedInput: args.Map{"isCaseSensitive": false, "cloneMatch": true},
 	},
 	{
-		Title:         "IgnoreCase false -- IsCaseSensitive true",
+		Title:         "Base.IsIgnoreCase returns false -- IsCaseSensitive true",
 		ArrangeInput:  args.Map{"isIgnoreCase": false},
 		ExpectedInput: args.Map{"isCaseSensitive": true, "cloneMatch": true},
 	},
@@ -33,7 +33,7 @@ var baseIsIgnoreCaseTestCases = []coretestcases.CaseV1{
 
 var compareIsMethodTestCases = []coretestcases.CaseV1{
 	{
-		Title:        "Is -- Equal vs Equal is true",
+		Title:        "Compare.Is returns true -- Equal vs Equal",
 		ArrangeInput: args.Map{"value": 0, "other": 0},
 		ExpectedInput: args.Map{
 			"is":                  true,
@@ -56,7 +56,7 @@ var compareIsMethodTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Is -- LeftGreater vs Equal is false",
+		Title:        "Compare.Is returns false -- LeftGreater vs Equal",
 		ArrangeInput: args.Map{"value": 1, "other": 0},
 		ExpectedInput: args.Map{
 			"is":                  false,
@@ -79,7 +79,7 @@ var compareIsMethodTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title:        "Is -- Inconclusive check",
+		Title:        "Compare.Is returns true -- Inconclusive vs Inconclusive",
 		ArrangeInput: args.Map{"value": 6, "other": 6},
 		ExpectedInput: args.Map{
 			"is":                  true,
@@ -105,7 +105,7 @@ var compareIsMethodTestCases = []coretestcases.CaseV1{
 
 var baseIsCaseSensitiveNilTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "ClonePtr nil returns nil",
+		Title:         "Base.ClonePtr returns nil -- nil receiver",
 		ArrangeInput:  args.Map{"isNil": true},
 		ExpectedInput: args.Map{"isNil": true},
 	},
@@ -113,7 +113,7 @@ var baseIsCaseSensitiveNilTestCases = []coretestcases.CaseV1{
 
 var baseIsIgnoreCaseNilTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "ClonePtr nil returns nil",
+		Title:         "Base.ClonePtr returns nil -- nil receiver",
 		ArrangeInput:  args.Map{"isNil": true},
 		ExpectedInput: args.Map{"isNil": true},
 	},
@@ -121,17 +121,17 @@ var baseIsIgnoreCaseNilTestCases = []coretestcases.CaseV1{
 
 var compareUnmarshalJsonTestCases = []coretestcases.CaseV1{
 	{
-		Title:         "Unmarshal valid name -- no error",
+		Title:         "Compare.UnmarshalJSON returns no error -- valid name 'Equal'",
 		ArrangeInput:  args.Map{"data": "Equal"},
 		ExpectedInput: args.Map{"hasError": false},
 	},
 	{
-		Title:         "Unmarshal invalid name -- error",
+		Title:         "Compare.UnmarshalJSON returns error -- invalid name 'InvalidXyz'",
 		ArrangeInput:  args.Map{"data": "InvalidXyz"},
 		ExpectedInput: args.Map{"hasError": true},
 	},
 	{
-		Title:         "Unmarshal nil data -- error",
+		Title:         "Compare.UnmarshalJSON returns error -- nil data",
 		ArrangeInput:  args.Map{"isNilData": true},
 		ExpectedInput: args.Map{"hasError": true},
 	},
