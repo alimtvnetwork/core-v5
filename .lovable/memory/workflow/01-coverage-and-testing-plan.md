@@ -52,7 +52,7 @@ Packages near 100% that need targeted branch coverage:
 1. `coreonce` (95.7%) — 7 files, ~30 tests — **Coverage8_test.go written, awaiting PC/TC verification**
 2. `keymk` (95.6%) — 5 files, ~20 tests — **Coverage4_test.go written, awaiting PC/TC verification**
 3. `corerange` (94.3%) — 11 files, ~30 tests — **Coverage6_test.go written, awaiting PC/TC verification**
-4. `enumimpl` (95.9%) — 16 files, ~40 tests
+4. `enumimpl` (95.9%) — 16 files, ~40 tests — **Coverage10_test.go written, awaiting PC/TC verification**
 5. `corevalidator` (91.2%) — 10 files, ~35 tests
 6. `stringslice` (90.6%) — 24 files, ~50 tests
 
