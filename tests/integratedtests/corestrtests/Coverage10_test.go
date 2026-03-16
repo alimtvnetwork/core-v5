@@ -446,7 +446,7 @@ func Test_Cov10_KeyValuePair_NilChecks(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov10_LeftMiddleRight(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "a", Middle: "b", Right: "c"}
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
 	actual := args.Map{
 		"isAll": lmr.IsAll("a", "b", "c"),
 	}
