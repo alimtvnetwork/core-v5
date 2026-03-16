@@ -119,7 +119,7 @@ Pick one to implement next:
 | 2 | **A.1 — Coverage Phase 1: `coreonce`** | Small (30 tests) | Low | A.0 results |
 | 3 | **A.1 — Coverage Phase 1: `keymk`** | Small (20 tests) | Low | A.0 results |
 | 4 | **B.1 — Codegen removal** | Medium | Medium | User runs grep audit |
-| 5 | **B.2 — Spec reconciliation** | Small | Low | — |
+| 5 | ~~**B.2 — Spec reconciliation**~~ | ✅ Done | — | — |
 | 6 | **C.3 — CI pipeline** | Medium | Low | — |
 
 **Recommended**: Start with **A.0** (user runs `./run.ps1 PC`), then pick from **A.1** packages one at a time.
