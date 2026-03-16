@@ -1,6 +1,0 @@
-package entityinf
-
-type StandardTaskEntityDefinerContractsBinder interface {
-	StandardTaskEntityDefiner
-	AsStandardTaskEntityDefinerContractsBinder() StandardTaskEntityDefinerContractsBinder
-}

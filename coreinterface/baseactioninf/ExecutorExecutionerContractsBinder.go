@@ -1,6 +1,0 @@
-package baseactioninf
-
-type ExecutorExecutionerContractsBinder interface {
-	ExecutorExecutioner
-	AsExecutorExecutionerContractsBinder() ExecutorExecutionerContractsBinder
-}

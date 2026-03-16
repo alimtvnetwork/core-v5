@@ -1,5 +1,0 @@
-package jsoninternal
-
-const (
-	indent = "  "
-)

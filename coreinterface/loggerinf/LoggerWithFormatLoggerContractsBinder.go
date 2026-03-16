@@ -1,6 +1,0 @@
-package loggerinf
-
-type LoggerWithFormatLoggerContractsBinder interface {
-	LoggerWithFormatLogger
-	AsLoggerWithFormatLoggerContractsBinder() LoggerWithFormatLoggerContractsBinder
-}

@@ -1,7 +1,0 @@
-package stringslice
-
-import "gitlab.com/auk-go/core/constants"
-
-func MakeDefault(capacity int) []string {
-	return make([]string, constants.Zero, capacity)
-}
