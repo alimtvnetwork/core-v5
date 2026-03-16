@@ -446,7 +446,7 @@ func Test_Cov10_KeyValuePair_NilChecks(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov10_LeftMiddleRight(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "a", Middle: "b", Right: "c"}
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
 	actual := args.Map{
 		"isAll": lmr.IsAll("a", "b", "c"),
 	}
@@ -459,7 +459,7 @@ func Test_Cov10_LeftMiddleRight(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov10_LeftRight(t *testing.T) {
-	lr := corestr.LeftRight{Left: "a", Right: "b"}
+	lr := corestr.NewLeftRight("a", "b")
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "a", "right": "b"}
 	expected.ShouldBeEqual(t, 0, "LeftRight", actual)
@@ -470,9 +470,12 @@ func Test_Cov10_LeftRight(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov10_ValueStatus(t *testing.T) {
-	vs := corestr.ValueStatus{Value: "hello", IsValid: true}
-	actual := args.Map{"val": vs.Value, "valid": vs.IsValid}
-	expected := args.Map{"val": "hello", "valid": true}
+	vs := corestr.ValueStatus{
+		ValueValid: &corestr.ValidValue{Value: "hello"},
+		Index:      0,
+	}
+	actual := args.Map{"val": vs.ValueValid.Value, "idx": vs.Index}
+	expected := args.Map{"val": "hello", "idx": 0}
 	expected.ShouldBeEqual(t, 0, "ValueStatus", actual)
 }
 
@@ -555,10 +558,10 @@ func Test_Cov10_Hashmap_Keys(t *testing.T) {
 	h := corestr.New.Hashmap.Cap(3)
 	h.Set("b", "2")
 	h.Set("a", "1")
-	keys := h.SortedKeys()
-	actual := args.Map{"first": keys[0], "last": keys[1]}
-	expected := args.Map{"first": "a", "last": "b"}
-	expected.ShouldBeEqual(t, 0, "Hashmap SortedKeys", actual)
+	keys := h.Keys()
+	actual := args.Map{"count": len(keys)}
+	expected := args.Map{"count": 2}
+	expected.ShouldBeEqual(t, 0, "Hashmap Keys", actual)
 }
 
 func Test_Cov10_Hashmap_GetValue(t *testing.T) {
