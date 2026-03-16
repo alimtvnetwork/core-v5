@@ -241,14 +241,6 @@ All `interface{}` references have been migrated to `any` across the entire codeb
 
 All large files have been split into focused, single-responsibility files. See Phase 5 above.
 
-### Phase 6: Value Receivers — In Progress
+### Phase 6: Value Receivers ✅ COMPLETE
 
-**`issetter/`** ✅ Already uses value receivers for all read-only methods (4 pointer methods are correctly mutating: `GetSetBoolOnInvalid`, `GetSetBoolOnInvalidFunc`, `LazyEvaluateBool`, `LazyEvaluateSet`, `UnmarshalJSON`).
-
-**`coreversion/Version.go`** ✅ Migrated 35 read-only methods from `*Version` to `Version` value receivers. Methods that require nil-safety guards (`VersionDisplay`, `CompiledVersion`, `HasMajor`, `IsMajorInvalid`, `IsEmptyOrInvalid`, `ClonePtr`, etc.) remain as pointer receivers.
-
-**Bug fix**: `AllValidVersionValues()` had infinite recursion (called itself instead of `AllVersionValues()`). Fixed.
-
-**`coreversion/VersionsCollection.go`** ✅ Migrated 7 read-only methods to value receivers (`VersionCompactStrings`, `VersionsStrings`, `IndexOf`, `IsContainsVersion`, `String`, `Json`, `JsonPtr`). Mutating methods (`Add`, `AddSkipInvalid`, `AddVersionsRaw`, `AddVersions`), nil-checking methods (`Length`, `IsEmpty`, `IsEqual`), and interface/deserialization methods remain as pointer receivers.
-
-**Remaining coreversion files** ✅ `Empty.go`, `EmptyUsingCompactVersion.go`, `InvalidCompactVersion.go` are factory functions (no receivers). `all-compare.go` and `hasDeductUsingNilNess.go` are package-level functions. `newCreator.go` uses value receiver on `newCreator` struct (already correct — no state to mutate). No further changes needed.
+All convertible packages have been migrated. See Phase 6 above for details.

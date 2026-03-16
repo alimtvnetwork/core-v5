@@ -1,6 +1,6 @@
 # corevalidator — Improvement Plan
 
-## Status: 🔧 IN PROGRESS (Item #1 FIXED)
+## Status: 🔧 PARTIAL — Item #1 FIXED, Items #2-7 Open
 
 ## Date: 2026-03-03
 

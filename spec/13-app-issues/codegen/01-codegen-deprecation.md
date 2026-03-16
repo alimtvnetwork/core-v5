@@ -14,11 +14,11 @@ See [Codegen Deprecation Plan](/spec/01-app/10-codegen-deprecation-plan.md).
 
 ## TODO and Follow-Ups
 
-- [ ] Mark as deprecated
-- [ ] Audit consumers
-- [ ] Remove after migration
+- [x] Mark as deprecated → Done (doc.go deprecation notices in all sub-packages)
+- [x] Audit consumers → Done (only `cmd/main/unitTestGenerator.go` and codegen's own tests)
+- [ ] Remove after migration → Pending (S-006, awaiting external audit confirmation)
 
 ## Done Checklist
 
-- [ ] Codegen removed
-- [ ] No broken imports
+- [ ] Codegen removed → Pending removal
+- [ ] No broken imports → Will verify post-removal

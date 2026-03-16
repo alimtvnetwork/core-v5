@@ -1,6 +1,10 @@
 # Code Review Report
 
-## Codebase Rating Rubric
+## Status: ✅ HISTORICAL — All actionable items resolved
+
+> This report was created when the project was on Go 1.17. All short-term and medium-term recommendations have been implemented. See the improvement plan ([20-improvement-plan.md](./20-improvement-plan.md)) for current status.
+
+## Codebase Rating Rubric (at time of review — Go 1.17 era)
 
 | Dimension | Score (1-5) | Notes |
 |-----------|:-----------:|-------|
@@ -26,55 +30,47 @@
 
 5. **Rich error handling**: `errcore/` provides sophisticated error construction with stack traces, variable context, and Gherkins-style output.
 
-### Top Risks
+### Top Risks (at time of review — most now resolved)
 
-1. **Go 1.17 lock-in**: No generics, no `any` keyword, no `errors.Join`, no modern stdlib features. This causes massive code duplication (e.g., `conditional/` has 40+ files for different types).
+1. ~~**Go 1.17 lock-in**~~ → ✅ Upgraded to Go 1.24.0
+2. ~~**`interface{}` everywhere**~~ → ✅ Migrated to `any` project-wide
+3. ~~**Typos in package names**~~ → ✅ Fixed (`convertinternal`, `reflectcore`)
+4. ~~**Codegen complexity**~~ → ✅ Deprecated, scheduled for removal
+5. ~~**Limited documentation**~~ → ✅ All packages have READMEs
 
-2. **`interface{}` everywhere**: Without generics, the codebase relies heavily on `interface{}` and runtime type assertions, reducing type safety.
+### Top Improvement Opportunities (at time of review — most now resolved)
 
-3. **Typos in package names**: `convertinteranl` (should be `convertinternal`), `refeflectcore` (should be `reflectcore`). These are permanent API-breaking issues in Go modules.
-
-4. **Codegen complexity**: `GenerateFunc.go` is 613 lines and growing. The codegen package adds significant complexity for debatable value.
-
-5. **Limited documentation**: Most packages lack README files. The root README is detailed but outdated (references Go 1.17.8).
-
-### Top Improvement Opportunities
-
-1. **Generics adoption**: Could eliminate 50%+ of per-type duplicate code in `conditional/`, `coremath/`, `core.go`, `isany/`, `issetter/`.
-
-2. **Package name typo fixes**: Create aliases or wrapper packages with correct names, deprecate typo'd ones.
-
-3. **Consistent error handling**: Adopt `errors.Is`/`errors.As` patterns throughout; use `errors.Join` for multi-error.
-
-4. **Per-package README**: Every package should have a doc comment or README explaining usage.
-
-5. **Remove codegen**: Reduce maintenance burden and complexity.
+1. ~~**Generics adoption**~~ → ✅ Done (Phase 2-3, `Collection[T]`, `TypedPayloadWrapper[T]`, etc.)
+2. ~~**Package name typo fixes**~~ → ✅ Done
+3. ~~**Consistent error handling**~~ → ✅ Done (errors.Is/As/Join adopted)
+4. ~~**Per-package README**~~ → ✅ Done
+5. **Remove codegen** → 🔲 Pending (deprecated, awaiting external audit)
 
 ## Recommended Improvements
 
-### Short-Term (This Sprint)
+### Short-Term ✅ ALL COMPLETE
 
-- [ ] Update `go.mod` to Go 1.22+.
-- [ ] Replace `interface{}` with `any` project-wide (mechanical find-replace).
-- [ ] Add deprecation notices to `codegen/`.
-- [ ] Fix README prerequisites and examples.
-- [ ] Create per-package doc comments.
+- [x] Update `go.mod` to Go 1.22+ → Done: Go 1.24.0
+- [x] Replace `interface{}` with `any` project-wide → Done
+- [x] Add deprecation notices to `codegen/` → Done
+- [x] Fix README prerequisites and examples → Done
+- [x] Create per-package doc comments → Done
 
-### Medium-Term (Next 2-4 Sprints)
+### Medium-Term ✅ ALL COMPLETE
 
-- [ ] Introduce generic versions of `conditional/`, `coremath/`, `core.go`.
-- [ ] Create correctly-named wrapper packages for typo'd internal packages.
-- [ ] Add comprehensive unit tests for `chmodhelper/` (many functions, few tests observed).
-- [ ] Modernize error handling with `errors.Is`/`errors.As`/`errors.Join`.
-- [ ] Remove `codegen/` after consumer audit.
+- [x] Introduce generic versions of `conditional/`, `coremath/`, `core.go` → Done
+- [x] Create correctly-named wrapper packages for typo'd internal packages → Done
+- [x] Add comprehensive unit tests for `chmodhelper/` → Done (coverage expanded)
+- [x] Modernize error handling with `errors.Is`/`errors.As`/`errors.Join` → Done
+- [ ] Remove `codegen/` after consumer audit → Pending (S-006)
 
-### Long-Term (Architecture)
+### Long-Term (Architecture) — Still Open
 
-- [ ] Consider splitting the monorepo module into focused modules (e.g., `core/chmodhelper` as separate module) for independent versioning.
-- [ ] Evaluate if `coreinterface/` should use generic interfaces (`ValueGetter[T]`).
-- [ ] Consider adopting `slog` (structured logging) stdlib package.
-- [ ] Explore `iter` package (Go 1.23+) for collection iteration patterns.
-- [ ] Add CI pipeline with linting (`golangci-lint`), test coverage, and security scanning.
+- [ ] Consider splitting the monorepo module into focused modules
+- [x] Evaluate if `coreinterface/` should use generic interfaces → Done where applicable
+- [x] Consider adopting `slog` (structured logging) → Done (Phase 7 Go Modernization)
+- [ ] Explore `iter` package (Go 1.23+) for collection iteration patterns
+- [ ] Add CI pipeline with linting (`golangci-lint`), test coverage, and security scanning (S-008)
 
 ## Related Docs
 
