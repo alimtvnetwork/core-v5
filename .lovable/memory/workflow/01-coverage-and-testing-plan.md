@@ -1,7 +1,7 @@
 # Coverage & Testing Master Plan
 
-## Status: In Progress — Blocked on Compile Baseline
-## Last Updated: 2026-03-16T04:58:00+08:00
+## Status: In Progress — Audit Complete, Awaiting TC Run
+## Last Updated: 2026-03-16T14:30:00+08:00
 
 ## Critical Root Cause Checkpoint
 Coverage work has been repeatedly invalidated by assumed APIs, broad unverified coverage-file generation, and skipping the compile-first gate. Do **not** treat newly written coverage files as successful until `./run.ps1 PC` and then `./run.ps1 TC` confirm the result.
@@ -25,24 +25,17 @@ See issue record: `issues/repeated-coverage-remediation-failure-root-cause.md`
 ### 4. ✅ Coverage Prompt Generator System
 **Completed: 2026-03-15** — PowerShell-based system for auto-generating AI-friendly prompt files.
 
----
+### 5. ✅ Compile Baseline Refresh
+**Completed: 2026-03-16** — Ran `./run.ps1 PC`. Only 1 blocked package (corestrtests). Fixed Coverage10_test.go: embedded struct literal mismatches, wrong ValueStatus fields, non-existent Hashmap.SortedKeys(). Issue recorded.
 
-## Pending Tasks (Ordered by Priority)
-
-### 5. 🔲 BLOCKER: Compile Baseline Refresh
-- Run `./run.ps1 PC` to get real blocked-package list
-- This is the **mandatory first step** before any further coverage work
-- No coverage claims are valid until this is done
-
-### 6. 🔲 Audit 6 High-Risk Coverage Files
-**Blocked by**: Task 5
-Files to verify one-by-one:
-- `errcoretests/Coverage9_test.go`
-- `simplewraptests/Coverage7_test.go`
-- `issettertests/Coverage7_test.go`
-- `isanytests/Coverage9_test.go`
-- `converterstests/Coverage4_test.go`
-- `stringslicetests/Coverage7_test.go`
+### 6. ✅ Audit 6 High-Risk Coverage Files
+**Completed: 2026-03-16** — All 6 files audited against source. All APIs verified to exist with correct signatures. One assertion fix: `converterstests/Coverage4_test.go` had wrong expected len for IntegersSkipAndDefaultValue (4→3). Files audited:
+- `errcoretests/Coverage9_test.go` ✅ — 755 lines, all APIs verified
+- `simplewraptests/Coverage7_test.go` ✅ — 264 lines, all APIs verified
+- `issettertests/Coverage7_test.go` ✅ — 371 lines, all APIs verified
+- `isanytests/Coverage9_test.go` ✅ — 353 lines, all APIs verified
+- `converterstests/Coverage4_test.go` ✅ — Fixed len assertion bug
+- `stringslicetests/Coverage7_test.go` ✅ — 304 lines, all APIs verified
 
 ### 7. 🔲 Remaining 12 Packages to 100%
 **Blocked by**: Tasks 5, 6
