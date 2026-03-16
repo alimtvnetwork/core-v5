@@ -31,7 +31,7 @@ var payloadWrapperCreateTestCases = []coretestcases.CaseV1{
 
 var payloadWrapperDeserializeRoundtripTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PayloadWrapper roundtrip preserves data -- name 'roundtrip-payload', id 'rt-1'",
+		Title: "PayloadWrapper returns preserved data -- roundtrip name 'roundtrip-payload', id 'rt-1'",
 		ArrangeInput: args.Map{
 			"when": "given payload serialized then deserialized",
 			"name": "roundtrip-payload",

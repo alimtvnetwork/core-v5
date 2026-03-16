@@ -37,7 +37,7 @@ var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "HasItems on nil returns false",
+		Title: "TypedPayloadCollection.HasItems returns false -- nil receiver",
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) bool {
 			return c.HasItems()
 		},
