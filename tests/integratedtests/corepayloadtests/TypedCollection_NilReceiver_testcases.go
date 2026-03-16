@@ -27,7 +27,7 @@ var typedPayloadCollectionNilSafeTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "IsEmpty on nil returns true",
+		Title: "TypedPayloadCollection.IsEmpty returns true -- nil receiver",
 		Func: func(c *corepayload.TypedPayloadCollection[testUser]) bool {
 			return c.IsEmpty()
 		},
