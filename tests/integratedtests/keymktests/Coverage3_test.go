@@ -87,7 +87,7 @@ func Test_Cov3_Key_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 	// Arrange — create an invalid json result by serializing then corrupting
 	var target keymk.Key
 	badJson := keymk.NewKey.Default("x")
-	jsonResult := badJson.JsonPtr()
+	_ = badJson.JsonPtr()
 	// Corrupt the internal bytes to trigger unmarshal error
 	// Use a fresh key and inject bad data via ParseInjectUsingJson first to confirm error path
 	// Actually, the simplest approach: construct a corejson.Result from invalid bytes

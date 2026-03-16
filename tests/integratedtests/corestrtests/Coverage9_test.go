@@ -1723,7 +1723,7 @@ func Test_Cov9_SimpleStringOnce_WithinRange(t *testing.T) {
 	_ = sso.SetOnUninitialized("50")
 	val, inRange := sso.WithinRange(true, 0, 100)
 	valOut, outRange := sso.WithinRange(true, 60, 100)
-	valNoBound, noBoundRange := sso.WithinRange(false, 60, 100)
+	_, noBoundRange := sso.WithinRange(false, 60, 100)
 	actual := args.Map{
 		"val": val, "inRange": inRange,
 		"valOut": valOut, "outRange": outRange,

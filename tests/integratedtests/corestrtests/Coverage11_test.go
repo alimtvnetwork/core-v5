@@ -388,7 +388,7 @@ func Test_Cov11_ValidValues_AddValidValues(t *testing.T) {
 
 func Test_Cov11_ValidValues_AddHashset(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	vvs.AddHashset(hs)
 	vvs.AddHashset(nil)
 	vvs.AddHashsetMap(map[string]bool{"c": true, "d": false})
@@ -1004,8 +1004,8 @@ func Test_Cov11_CollectionsOfCollection_Basic(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov11_HashsetsCollection_Basic(t *testing.T) {
-	hs1 := corestr.New.Hashset.Strings("a", "b")
-	hs2 := corestr.New.Hashset.Strings("c")
+	hs1 := corestr.New.Hashset.Strings([]string{"a", "b"})
+	hs2 := corestr.New.Hashset.Strings([]string{"c"})
 	hsc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs1, hs2)
 	actual := args.Map{
 		"len":        hsc.Length(),
@@ -1097,7 +1097,7 @@ func Test_Cov11_KeyValueCollection_Adds(t *testing.T) {
 	kvc.AddMap(nil)
 	kvc.AddHashsetMap(map[string]bool{"k5": true})
 	kvc.AddHashsetMap(nil)
-	hs := corestr.New.Hashset.Strings("k6")
+	hs := corestr.New.Hashset.Strings([]string{"k6"})
 	kvc.AddHashset(hs)
 	kvc.AddHashset(nil)
 	hm := corestr.New.Hashmap.Cap(1)
