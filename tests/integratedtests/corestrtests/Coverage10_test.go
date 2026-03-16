@@ -575,16 +575,16 @@ func Test_Cov10_Hashmap_GetValue(t *testing.T) {
 }
 
 // ═══════════════════════════════════════════
-// Collection — JoinCsv
+// Collection — Join (comma)
 // ═══════════════════════════════════════════
 
-func Test_Cov10_Collection_JoinCsv(t *testing.T) {
+func Test_Cov10_Collection_JoinComma(t *testing.T) {
 	c := corestr.New.Collection.Cap(5)
 	c.Adds("a", "b", "c")
-	csv := c.JoinCsv()
+	csv := c.Join(", ")
 	actual := args.Map{"csv": csv}
 	expected := args.Map{"csv": "a, b, c"}
-	expected.ShouldBeEqual(t, 0, "Collection JoinCsv", actual)
+	expected.ShouldBeEqual(t, 0, "Collection Join comma", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -592,7 +592,7 @@ func Test_Cov10_Collection_JoinCsv(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov10_CharHashsetMap(t *testing.T) {
-	chm := corestr.New.CharHashsetMap.Cap(3)
+	chm := corestr.New.CharHashsetMap.Cap(3, 5)
 	chm.Add("hello")
 	chm.Add("help")
 	actual := args.Map{"len": chm.Length()}

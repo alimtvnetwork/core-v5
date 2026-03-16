@@ -1097,7 +1097,7 @@ func Test_Cov11_KeyValueCollection_Adds(t *testing.T) {
 	kvc.AddMap(nil)
 	kvc.AddHashsetMap(map[string]bool{"k5": true})
 	kvc.AddHashsetMap(nil)
-	hs := corestr.New.Hashset.Strings("k6")
+	hs := corestr.New.Hashset.Strings([]string{"k6"})
 	kvc.AddHashset(hs)
 	kvc.AddHashset(nil)
 	hm := corestr.New.Hashmap.Cap(1)
