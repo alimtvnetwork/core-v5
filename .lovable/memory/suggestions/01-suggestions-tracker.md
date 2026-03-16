@@ -1,6 +1,13 @@
 # Suggestions Tracker
 
-## Last Updated: 2026-03-16T04:58:00+08:00
+## Last Updated: 2026-03-16T09:50:00+08:00
+
+## Convention
+
+- **Location**: `.lovable/memory/suggestions/` — this file for active tracking, `completed/` for archives.
+- **File naming**: Single tracker file (`01-suggestions-tracker.md`). Individual completed suggestions in `completed/NN-slug.md`.
+- **Statuses**: `open` → `inProgress` → `done`
+- **Completion handling**: When done, update status here and optionally create detail file in `completed/`.
 
 ---
 
@@ -12,102 +19,116 @@
 - **source**: Lovable
 - **affectedProject**: core (all integrated test packages)
 - **description**: Run `./run.ps1 PC` to regenerate the real blocked-package baseline before any further coverage expansion.
-- **rationale**: Coverage work has repeatedly failed because tests were written against assumed APIs. The postmortem (`.lovable/memory/workflow/completed/02-coverage-remediation-root-cause.md`) mandates this as step 1.
+- **rationale**: Coverage work has repeatedly failed because tests were written against assumed APIs. Postmortem mandates this as step 1.
 - **proposed change**: User runs `./run.ps1 PC`, shares output. AI uses output to identify which packages are truly blocked.
-- **acceptance criteria**: `./run.ps1 PC` runs cleanly; blocked package list is captured and documented.
+- **acceptance criteria**: `./run.ps1 PC` runs cleanly; blocked package list documented.
 - **status**: open
 - **completion notes**: —
 
-### S-002: Audit High-Risk Coverage Files One-By-One
+### S-002: Verify Batch 4 Coverage Files (6 files)
 - **suggestionId**: S-002
 - **createdAt**: 2026-03-16
 - **source**: Lovable
 - **affectedProject**: core (test packages)
-- **description**: Compile-check these files individually instead of in bulk: `errcoretests/Coverage9_test.go`, `simplewraptests/Coverage7_test.go`, `issettertests/Coverage7_test.go`, `isanytests/Coverage9_test.go`, `converterstests/Coverage4_test.go`, `stringslicetests/Coverage7_test.go`
-- **rationale**: These files were generated in bulk and never compile-verified. Each may have API mismatches.
-- **proposed change**: Read source for each package → verify test file signatures → fix mismatches → compile one at a time.
-- **acceptance criteria**: Each file compiles individually via `go build ./tests/integratedtests/<pkg>/...`
-- **status**: open
+- **description**: Compile-verify Batch 4 files: `coreindexestests/Coverage2_test.go`, `coremathtests/Coverage3_test.go`, `corecsvtests/Coverage3_test.go`, `intuniquetests/Coverage_test.go`, `stringutiltests/Coverage5_test.go`, `conditionaltests/Coverage8_test.go`
+- **rationale**: Written 2026-03-16 but never compiled. Session log: `.lovable/memory/workflow/02-coverage-batch4-session-log.md`
+- **proposed change**: User runs `./run.ps1 PC`, AI fixes any API mismatches.
+- **acceptance criteria**: All 6 files compile via `./run.ps1 PC`.
+- **status**: open (depends on S-001)
 - **completion notes**: —
 
-### S-003: Complete Remaining Package Coverage (12 packages)
+### S-003: Coverage Push — Phase 1 Quick Wins (6 packages)
 - **suggestionId**: S-003
 - **createdAt**: 2026-03-16
 - **source**: Lovable
 - **affectedProject**: core
-- **description**: Push remaining packages to 100% coverage: `keymk`, `corerange`, `coreonce`, `enumimpl`, `stringslice`, `corevalidator`, `corepayload`, `reflectinternal`, `corejson`, `corestr`, `coredynamic`, `reflectmodel`
-- **rationale**: These packages are below 100% and have no verified coverage files yet.
+- **description**: Push 6 near-100% packages to full coverage: `coreonce` (95.7%), `keymk` (95.6%), `corerange` (94.3%), `enumimpl` (95.9%), `corevalidator` (91.2%), `stringslice` (90.6%).
+- **rationale**: Highest ROI — small test additions for significant coverage gains.
 - **proposed change**: One package at a time: read source → write tests → compile verify → run coverage.
-- **acceptance criteria**: Each package reaches 100% as reported by `./run.ps1 TC`.
-- **status**: open (blocked by S-001 and S-002)
+- **acceptance criteria**: Each package reaches 100% via `./run.ps1 TC`.
+- **status**: open (depends on S-001)
 - **completion notes**: —
 
-### S-004: Test Title Audit (Remaining 17 Packages)
+### S-004: Coverage Push — Phase 2 Moderate Effort (5 packages)
 - **suggestionId**: S-004
 - **createdAt**: 2026-03-16
 - **source**: Lovable
-- **affectedProject**: core (test packages)
-- **description**: 1400+ test titles across 40+ packages need renaming to `"{Function} returns {Result} -- {Input Context}"`. Top violators: coregenerictests (347), coredynamictests (174), coreutilstests (87).
-- **rationale**: Consistent naming aids debugging and makes test output scannable.
-- **proposed change**: Batch rename test titles package-by-package.
-- **acceptance criteria**: All test titles follow the convention. `grep -c` confirms zero violations.
-- **status**: done (Batch 5 — 5 listed pending packages completed 2026-03-16; ~127 titles renamed across corepayloadtests, corecomparatortests, corecmptests, converterstests, regexnewtests)
-- **completion notes**: All originally listed pending packages in the tracking doc are now audited. Additional packages may have non-compliant titles but were not in the original pending list.
+- **affectedProject**: core
+- **description**: `errcore` (90.2%), `reflectmodel` (72.6%), `reflectinternal` (80.4%), `corejson` (45%) ⚠️, `corepayload` (56%) ⚠️
+- **rationale**: Medium effort. `corejson` and `corepayload` are HIGH RISK — require method signature inventory first.
+- **proposed change**: One package at a time with mandatory source reading.
+- **acceptance criteria**: Each reaches 100% via `./run.ps1 TC`.
+- **status**: open (depends on S-003)
+- **completion notes**: —
 
-### S-005: Codegen Removal (Track B)
+### S-005: Coverage Push — Phase 3 Heavy Lift (4 packages)
 - **suggestionId**: S-005
 - **createdAt**: 2026-03-16
 - **source**: Lovable
 - **affectedProject**: core
-- **description**: Complete codegen removal per `spec/01-app/10-codegen-deprecation-plan.md` Track B.
-- **rationale**: Codegen is deprecated, adds maintenance burden, and has no confirmed external consumers.
-- **proposed change**: Remove `cmd/main/unitTestGenerator.go`, `tests/integratedtests/codegentests/`, `codegen/` tree. Run `go mod tidy`. Update docs.
-- **acceptance criteria**: All exit criteria in `10-codegen-deprecation-plan.md` are met. Module compiles without codegen.
-- **status**: open
+- **description**: `codestack` (0%), `corecmp` (10.8%), `corestr` (3.3%) ⚠️ VERY HIGH RISK, `coredynamic` (0.9%) ⚠️ VERY HIGH RISK
+- **rationale**: Largest uncovered packages. 5-8 sessions each for `corestr` and `coredynamic`.
+- **proposed change**: Method signature inventory → one file at a time → compile gate → coverage verify.
+- **acceptance criteria**: Each reaches 100%.
+- **status**: open (depends on S-004)
 - **completion notes**: —
 
-### S-006: Value Receiver Migration (Phase 6 Completion)
+### S-006: Codegen Removal (Track B)
 - **suggestionId**: S-006
 - **createdAt**: 2026-03-16
 - **source**: Lovable
 - **affectedProject**: core
-- **description**: Continue migrating read-only methods from pointer to value receivers. `issetter/` and `coreversion/` are done. Remaining: `coretaskinfo/`, `corepayload/`, others.
-- **rationale**: Value receivers communicate immutability, enable compiler optimizations, and clarify API intent.
-- **proposed change**: Package-by-package, verify interface satisfaction after each change.
-- **acceptance criteria**: All read-only methods use value receivers. All interfaces still satisfied. All tests pass.
-- **status**: done
-- **completion notes**: Full audit completed 2026-03-16. Packages migrated: `issetter`, `coreversion`, `corepayload` (Phase 6 spec). Packages audited with no convertible methods: `coretaskinfo`, `coreinstruction`, `errcore`, `corevalidator`, `coredynamic`, `corejson`, `corestr`. All remaining pointer methods require nil-safety checks or mutate the receiver.
+- **description**: Complete codegen removal per `spec/01-app/10-codegen-deprecation-plan.md`.
+- **rationale**: Deprecated package adds maintenance burden.
+- **proposed change**: External audit → remove files → `go mod tidy` → update docs.
+- **acceptance criteria**: All exit criteria in `10-codegen-deprecation-plan.md` met.
+- **status**: open (prerequisite: user runs external audit `grep`)
+- **completion notes**: —
 
-### S-007: Remaining Package READMEs
+### S-007: Spec Reconciliation
 - **suggestionId**: S-007
 - **createdAt**: 2026-03-16
 - **source**: Lovable
+- **affectedProject**: core (spec files)
+- **description**: Remove stale/contradictory entries from spec files. `15-code-review-report.md` still shows completed items as recommendations.
+- **rationale**: Stale specs cause AI to re-implement completed work.
+- **proposed change**: Audit each spec file, mark completed items, remove outdated recommendations.
+- **acceptance criteria**: No spec file references completed work as pending.
+- **status**: open
+- **completion notes**: —
+
+### S-008: CI Pipeline Setup
+- **suggestionId**: S-008
+- **createdAt**: 2026-03-16
+- **source**: Lovable
 - **affectedProject**: core
-- **description**: Create README.md for: `coregeneric`, `corestr`, `coreonce`, `corerange`, `stringslice`.
-- **rationale**: These are core packages without documentation.
-- **proposed change**: Read source, document API with examples, verify method names against source.
-- **acceptance criteria**: Each README has folder tree, usage examples, and verified method signatures.
-- **status**: done
-- **completion notes**: All 5 packages already have comprehensive READMEs with architecture, usage examples, API tables, and extension guides. Verified 2026-03-16.
+- **description**: Add `golangci-lint`, test coverage reporting, and security scanning to CI.
+- **rationale**: Currently no automated quality gates. Manual verification is error-prone.
+- **proposed change**: Create CI config (GitHub Actions or GitLab CI) with lint, test, coverage steps.
+- **acceptance criteria**: CI runs on push/PR, blocks on lint errors or test failures.
+- **status**: open (low priority — Phase D)
+- **completion notes**: —
 
 ---
 
 ## Completed Suggestions (Archive)
 
-| # | Title | Completed |
-|---|-------|-----------|
-| 1 | Diagnostic Formatting Improvements | 2026-03-11 |
-| 2 | Test Title Audit (Batches 1-4) | 2026-03-11 |
-| 3 | Fix 21 Failing Tests | 2026-03-11 |
-| 4 | Coverage Push Batch 1 (11 packages) | 2026-03-14 |
-| 5 | Coverage Push Batch 2 (6 packages) | 2026-03-14 |
-| 6 | Coverage Push Batch 3 (7 packages) | 2026-03-15 |
-| 7 | Coverage Prompt Generator System | 2026-03-15 |
-| 8 | Deep Clone Production Bug Fix | 2026-03-15 |
-| 9 | Nil Receiver Coverage Audit | 2026-03-15 |
-| 10 | Test Runner Hardening Review | 2026-03-15 |
-| 11 | Diagnostic Output Regression Tests | 2026-03-15 |
-| 12 | Coverage Push Batch 4 (6 packages) | 2026-03-16 (pending PC verification) |
+| # | Title | Completed | Notes |
+|---|-------|-----------|-------|
+| 1 | Diagnostic Formatting Improvements | 2026-03-11 | 4-space indent, separator headers, tab-indented entries |
+| 2 | Test Title Audit (Batches 1-5) | 2026-03-16 | ~375+ titles renamed across all listed packages |
+| 3 | Fix 21 Failing Tests | 2026-03-11 | All fixed |
+| 4 | Coverage Push Batch 1 (11 packages) | 2026-03-14 | Packages 75-97% |
+| 5 | Coverage Push Batch 2 (6 packages) | 2026-03-14 | Packages 0-57% |
+| 6 | Coverage Push Batch 3 (7 packages) | 2026-03-15 | Generic/utility packages |
+| 7 | Coverage Prompt Generator System | 2026-03-15 | PowerShell-based prompt generation |
+| 8 | Deep Clone Production Bug Fix | 2026-03-15 | `corepayload` nil AnyMap |
+| 9 | Nil Receiver Coverage Audit | 2026-03-15 | All types audited |
+| 10 | Test Runner Hardening Review | 2026-03-15 | Verified |
+| 11 | Diagnostic Output Regression Tests | 2026-03-15 | Snapshot tests |
+| 12 | Coverage Push Batch 4 (6 packages) | 2026-03-16 | ⚠️ Pending PC verification |
+| 13 | Value Receiver Migration (Phase 6) | 2026-03-16 | All convertible methods migrated |
+| 14 | Remaining Package READMEs | 2026-03-16 | All 5 packages already had READMEs |
+| 15 | High-Risk Coverage File Audit (6 files) | 2026-03-16 | Audited, 1 fix in converterstests |
 
-> Completed suggestion detail files are in `completed/` subfolder.
-> Batch 4 session log: `.lovable/memory/workflow/02-coverage-batch4-session-log.md`
+> Detail files in `completed/` subfolder.
