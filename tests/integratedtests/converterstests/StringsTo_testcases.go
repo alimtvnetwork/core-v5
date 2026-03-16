@@ -11,7 +11,7 @@ import (
 
 var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "IntegersWithDefaults converts all valid integers",
+		Title: "IntegersWithDefaults returns all converted -- valid integer strings",
 		ArrangeInput: args.Map{
 			"when":       "given all valid integer strings",
 			"input":      []string{"1", "2", "3"},
@@ -26,7 +26,7 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IntegersWithDefaults uses default for invalid entries",
+		Title: "IntegersWithDefaults returns default for invalid -- mix of valid and invalid strings",
 		ArrangeInput: args.Map{
 			"when":       "given mix of valid and invalid strings",
 			"input":      []string{"10", "abc", "20"},
@@ -41,7 +41,7 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IntegersWithDefaults returns empty on empty input",
+		Title: "IntegersWithDefaults returns empty -- empty input",
 		ArrangeInput: args.Map{
 			"when":       "given empty input",
 			"input":      []string{},
@@ -53,7 +53,7 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IntegersWithDefaults all invalid uses default everywhere",
+		Title: "IntegersWithDefaults returns all defaults -- all non-numeric strings",
 		ArrangeInput: args.Map{
 			"when":       "given all non-numeric strings",
 			"input":      []string{"x", "y", "z"},
@@ -68,7 +68,7 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "IntegersWithDefaults handles negative numbers",
+		Title: "IntegersWithDefaults returns correct values -- negative numbers",
 		ArrangeInput: args.Map{
 			"when":       "given negative number strings",
 			"input":      []string{"-5", "0", "5"},
@@ -90,7 +90,7 @@ var integersWithDefaultsTestCases = []coretestcases.CaseV1{
 
 var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "BytesWithDefaults converts valid byte values",
+		Title: "BytesWithDefaults returns all converted -- valid byte strings",
 		ArrangeInput: args.Map{
 			"when":        "given valid byte strings",
 			"input":       []string{"0", "127", "255"},
@@ -105,7 +105,7 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "BytesWithDefaults uses default for out-of-range value",
+		Title: "BytesWithDefaults returns default -- out-of-range value > 255",
 		ArrangeInput: args.Map{
 			"when":        "given value > 255",
 			"input":       []string{"100", "256", "50"},
@@ -120,7 +120,7 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "BytesWithDefaults uses default for negative value",
+		Title: "BytesWithDefaults returns default -- negative value",
 		ArrangeInput: args.Map{
 			"when":        "given negative value",
 			"input":       []string{"-1", "10"},
@@ -134,7 +134,7 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "BytesWithDefaults uses default for non-numeric",
+		Title: "BytesWithDefaults returns default -- non-numeric string",
 		ArrangeInput: args.Map{
 			"when":        "given non-numeric string",
 			"input":       []string{"abc"},
@@ -147,7 +147,7 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "BytesWithDefaults empty input",
+		Title: "BytesWithDefaults returns empty -- empty input",
 		ArrangeInput: args.Map{
 			"when":        "given empty input",
 			"input":       []string{},
@@ -166,7 +166,7 @@ var bytesWithDefaultsTestCases = []coretestcases.CaseV1{
 
 var cloneIfTestCases = []coretestcases.CaseV1{
 	{
-		Title: "CloneIf clones when isClone is true",
+		Title: "CloneIf returns independent clone -- isClone true",
 		ArrangeInput: args.Map{
 			"when":    "given isClone true",
 			"input":   []string{"a", "b", "c"},
@@ -181,7 +181,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "CloneIf returns same slice when isClone is false",
+		Title: "CloneIf returns same slice -- isClone false",
 		ArrangeInput: args.Map{
 			"when":    "given isClone false",
 			"input":   []string{"x", "y"},
@@ -195,7 +195,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "CloneIf returns empty on empty input regardless of isClone",
+		Title: "CloneIf returns empty -- empty input regardless of isClone",
 		ArrangeInput: args.Map{
 			"when":    "given empty input with isClone true",
 			"input":   []string{},
@@ -214,7 +214,7 @@ var cloneIfTestCases = []coretestcases.CaseV1{
 
 var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PtrOfPtrToPtrStrings converts valid pointer strings",
+		Title: "PtrOfPtrToPtrStrings returns converted strings -- valid pointer string array",
 		ArrangeInput: args.Map{
 			"when":  "given valid pointer string array",
 			"input": []string{"hello", "world"},
@@ -226,7 +226,7 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "PtrOfPtrToPtrStrings handles nil entries",
+		Title: "PtrOfPtrToPtrStrings returns empty for nil -- nil entry in array",
 		ArrangeInput: args.Map{
 			"when":   "given array with nil entry",
 			"input":  []string{"hello"},
@@ -240,7 +240,7 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "PtrOfPtrToPtrStrings returns empty for nil outer pointer",
+		Title: "PtrOfPtrToPtrStrings returns empty -- nil outer pointer",
 		ArrangeInput: args.Map{
 			"when":  "given nil outer pointer",
 			"isNil": true,
@@ -248,7 +248,7 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "0",
 	},
 	{
-		Title: "PtrOfPtrToPtrStrings returns empty for nil inner pointer",
+		Title: "PtrOfPtrToPtrStrings returns empty -- nil inner pointer",
 		ArrangeInput: args.Map{
 			"when":       "given nil inner pointer",
 			"isNilInner": true,
@@ -263,7 +263,7 @@ var ptrOfPtrToPtrStringsTestCases = []coretestcases.CaseV1{
 
 var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 	{
-		Title: "PtrOfPtrToMapStringBool converts valid entries",
+		Title: "PtrOfPtrToMapStringBool returns converted entries -- valid pointer string array",
 		ArrangeInput: args.Map{
 			"when":  "given valid pointer string array",
 			"input": []string{"key1", "key2"},
@@ -275,7 +275,7 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "PtrOfPtrToMapStringBool skips nil entries",
+		Title: "PtrOfPtrToMapStringBool returns without nil -- nil entry skipped",
 		ArrangeInput: args.Map{
 			"when":   "given array with nil entry",
 			"input":  []string{"key1"},
@@ -287,7 +287,7 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 		},
 	},
 	{
-		Title: "PtrOfPtrToMapStringBool returns empty for nil input",
+		Title: "PtrOfPtrToMapStringBool returns empty -- nil input",
 		ArrangeInput: args.Map{
 			"when":  "given nil outer pointer",
 			"isNil": true,
@@ -295,7 +295,7 @@ var ptrOfPtrToMapStringBoolTestCases = []coretestcases.CaseV1{
 		ExpectedInput: "0",
 	},
 	{
-		Title: "PtrOfPtrToMapStringBool returns empty for empty array",
+		Title: "PtrOfPtrToMapStringBool returns empty -- empty array",
 		ArrangeInput: args.Map{
 			"when":  "given empty array",
 			"input": []string{},

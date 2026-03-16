@@ -7,7 +7,7 @@ import (
 
 var createTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "Create with valid digit pattern compiles successfully",
+		Title: "Create returns compiled regex -- valid digit pattern",
 		When:  "given a valid digit pattern",
 		Input: args.Map{
 			params.pattern: "\\d+",
@@ -18,7 +18,7 @@ var createTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "Create with valid word boundary pattern compiles",
+		Title: "Create returns compiled regex -- valid word boundary pattern",
 		When:  "given a word boundary pattern",
 		Input: args.Map{
 			params.pattern: "\\bhello\\b",
@@ -29,7 +29,7 @@ var createTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "Create with invalid bracket pattern returns error",
+		Title: "Create returns error -- invalid bracket pattern",
 		When:  "given an invalid pattern",
 		Input: args.Map{
 			params.pattern: "[invalid",
@@ -40,7 +40,7 @@ var createTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "Create with empty pattern compiles as valid regex",
+		Title: "Create returns compiled regex -- empty pattern",
 		When:  "given an empty pattern",
 		Input: args.Map{
 			params.pattern: "",
@@ -54,7 +54,7 @@ var createTestCases = []coretestcases.MapGherkins{
 
 var createIsMatchLockTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "IsMatchLock returns true for matching digit pattern",
+		Title: "IsMatchLock returns true -- matching digit pattern",
 		When:  "given matching digit input",
 		Input: args.Map{
 			params.pattern:      "\\d+",
@@ -65,7 +65,7 @@ var createIsMatchLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchLock returns false for non-matching pattern",
+		Title: "IsMatchLock returns false -- non-matching pattern",
 		When:  "given non-matching input",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -76,7 +76,7 @@ var createIsMatchLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchLock returns false for invalid regex",
+		Title: "IsMatchLock returns false -- invalid regex",
 		When:  "given invalid regex pattern",
 		Input: args.Map{
 			params.pattern:      "[bad",
@@ -87,7 +87,7 @@ var createIsMatchLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchLock returns true for exact full match",
+		Title: "IsMatchLock returns true -- exact full match",
 		When:  "given exact match pattern",
 		Input: args.Map{
 			params.pattern:      "^hello$",
@@ -101,7 +101,7 @@ var createIsMatchLockTestCases = []coretestcases.MapGherkins{
 
 var createIsMatchFailedTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "IsMatchFailed returns false when pattern matches",
+		Title: "IsMatchFailed returns false -- pattern matches",
 		When:  "given matching input",
 		Input: args.Map{
 			params.pattern:      "\\d+",
@@ -112,7 +112,7 @@ var createIsMatchFailedTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchFailed returns true when pattern does not match",
+		Title: "IsMatchFailed returns true -- pattern does not match",
 		When:  "given non-matching input",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -123,7 +123,7 @@ var createIsMatchFailedTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchFailed returns true for invalid regex",
+		Title: "IsMatchFailed returns true -- invalid regex",
 		When:  "given invalid regex",
 		Input: args.Map{
 			params.pattern:      "[broken",
@@ -136,7 +136,7 @@ var createIsMatchFailedTestCases = []coretestcases.MapGherkins{
 }
 
 var matchErrorMatchTestCase = coretestcases.MapGherkins{
-	Title: "MatchError returns no error on match",
+	Title: "MatchError returns no error -- matching input",
 	When:  "given matching input to MatchError",
 	Input: args.Map{
 		params.pattern:      "^hello$",
@@ -148,7 +148,7 @@ var matchErrorMatchTestCase = coretestcases.MapGherkins{
 }
 
 var matchErrorMismatchTestCase = coretestcases.MapGherkins{
-	Title: "MatchError returns error on mismatch",
+	Title: "MatchError returns error -- non-matching input",
 	When:  "given non-matching input to MatchError",
 	Input: args.Map{
 		params.pattern:      "^\\d+$",
@@ -160,7 +160,7 @@ var matchErrorMismatchTestCase = coretestcases.MapGherkins{
 }
 
 var matchErrorLockMatchTestCase = coretestcases.MapGherkins{
-	Title: "MatchErrorLock returns no error on match",
+	Title: "MatchErrorLock returns no error -- matching input",
 	When:  "given matching input to MatchErrorLock",
 	Input: args.Map{
 		params.pattern:      "world",
@@ -172,7 +172,7 @@ var matchErrorLockMatchTestCase = coretestcases.MapGherkins{
 }
 
 var matchErrorLockMismatchTestCase = coretestcases.MapGherkins{
-	Title: "MatchErrorLock returns error on mismatch",
+	Title: "MatchErrorLock returns error -- non-matching input",
 	When:  "given non-matching input to MatchErrorLock",
 	Input: args.Map{
 		params.pattern:      "^xyz$",

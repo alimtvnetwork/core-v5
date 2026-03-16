@@ -12,7 +12,7 @@ import (
 
 var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 	{
-		Title: "IsNull on nil returns true",
+		Title: "LazyRegex.IsNull returns true -- nil receiver",
 		Func:  (*regexnew.LazyRegex).IsNull,
 		Expected: results.ResultAny{
 			Value:    "true",
@@ -20,7 +20,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "IsUndefined on nil returns true",
+		Title: "LazyRegex.IsUndefined returns true -- nil receiver",
 		Func:  (*regexnew.LazyRegex).IsUndefined,
 		Expected: results.ResultAny{
 			Value:    "true",
@@ -28,7 +28,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "IsDefined on nil returns false",
+		Title: "LazyRegex.IsDefined returns false -- nil receiver",
 		Func:  (*regexnew.LazyRegex).IsDefined,
 		Expected: results.ResultAny{
 			Value:    "false",
@@ -36,7 +36,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "IsCompiled on nil returns false",
+		Title: "LazyRegex.IsCompiled returns false -- nil receiver",
 		Func:  (*regexnew.LazyRegex).IsCompiled,
 		Expected: results.ResultAny{
 			Value:    "false",
@@ -44,7 +44,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "String on nil returns empty",
+		Title: "LazyRegex.String returns empty -- nil receiver",
 		Func:  (*regexnew.LazyRegex).String,
 		Expected: results.ResultAny{
 			Value:    "",
@@ -52,7 +52,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "Pattern on nil returns empty",
+		Title: "LazyRegex.Pattern returns empty -- nil receiver",
 		Func:  (*regexnew.LazyRegex).Pattern,
 		Expected: results.ResultAny{
 			Value:    "",
@@ -60,7 +60,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "HasAnyIssues on nil returns true",
+		Title: "LazyRegex.HasAnyIssues returns true -- nil receiver",
 		Func:  (*regexnew.LazyRegex).HasAnyIssues,
 		Expected: results.ResultAny{
 			Value:    "true",
@@ -68,7 +68,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "IsInvalid on nil returns true",
+		Title: "LazyRegex.IsInvalid returns true -- nil receiver",
 		Func:  (*regexnew.LazyRegex).IsInvalid,
 		Expected: results.ResultAny{
 			Value:    "true",
@@ -76,7 +76,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "OnRequiredCompiled on nil returns error",
+		Title: "LazyRegex.OnRequiredCompiled returns error -- nil receiver",
 		Func:  (*regexnew.LazyRegex).OnRequiredCompiled,
 		Expected: results.ResultAny{
 			Panicked: false,
@@ -84,7 +84,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "FullString on nil returns empty",
+		Title: "LazyRegex.FullString returns empty -- nil receiver",
 		Func:  (*regexnew.LazyRegex).FullString,
 		Expected: results.ResultAny{
 			Value:    "",
@@ -92,7 +92,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "CompiledError on nil returns error",
+		Title: "LazyRegex.CompiledError returns error -- nil receiver",
 		Func:  (*regexnew.LazyRegex).CompiledError,
 		Expected: results.ResultAny{
 			Panicked: false,
@@ -100,7 +100,7 @@ var lazyRegexNilReceiverTestCases = []coretestcases.CaseNilSafe{
 		},
 	},
 	{
-		Title: "Error on nil returns error",
+		Title: "LazyRegex.Error returns error -- nil receiver",
 		Func:  (*regexnew.LazyRegex).Error,
 		Expected: results.ResultAny{
 			Panicked: false,

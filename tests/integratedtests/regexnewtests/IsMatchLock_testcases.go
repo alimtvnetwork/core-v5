@@ -7,7 +7,7 @@ import (
 
 var isMatchLockTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "IsMatchLock true for matching digit pattern",
+		Title: "LazyRegex.IsMatchLock returns true -- matching digit pattern",
 		When:  "given digit pattern and numeric input",
 		Input: args.Map{
 			params.pattern:      "\\d+",
@@ -18,7 +18,7 @@ var isMatchLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchLock false for non-matching pattern",
+		Title: "LazyRegex.IsMatchLock returns false -- non-matching pattern",
 		When:  "given digit-only pattern and alpha input",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -29,7 +29,7 @@ var isMatchLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchLock false for invalid pattern",
+		Title: "LazyRegex.IsMatchLock returns false -- invalid pattern",
 		When:  "given invalid regex pattern",
 		Input: args.Map{
 			params.pattern:      "[bad",
@@ -40,7 +40,7 @@ var isMatchLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchLock true for email-like pattern",
+		Title: "LazyRegex.IsMatchLock returns true -- email-like pattern",
 		When:  "given email-like pattern",
 		Input: args.Map{
 			params.pattern:      "^[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+$",
@@ -51,7 +51,7 @@ var isMatchLockTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchLock false for empty input with required pattern",
+		Title: "LazyRegex.IsMatchLock returns false -- empty input with required pattern",
 		When:  "given required pattern and empty input",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -65,7 +65,7 @@ var isMatchLockTestCases = []coretestcases.MapGherkins{
 
 var isMatchFailedTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "IsMatchFailed false when pattern matches",
+		Title: "LazyRegex.IsFailedMatch returns false -- pattern matches",
 		When:  "given matching pattern",
 		Input: args.Map{
 			params.pattern:      "\\d+",
@@ -76,7 +76,7 @@ var isMatchFailedTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchFailed true when pattern does not match",
+		Title: "LazyRegex.IsFailedMatch returns true -- pattern does not match",
 		When:  "given non-matching pattern",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -87,7 +87,7 @@ var isMatchFailedTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "IsMatchFailed true for invalid pattern",
+		Title: "LazyRegex.IsFailedMatch returns true -- invalid pattern",
 		When:  "given invalid pattern",
 		Input: args.Map{
 			params.pattern:      "[bad",
@@ -101,7 +101,7 @@ var isMatchFailedTestCases = []coretestcases.MapGherkins{
 
 var isMatchLockLazyIsMatchTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "LazyRegex.IsMatch true for matching pattern",
+		Title: "LazyRegex.IsMatch returns true -- matching pattern",
 		When:  "given valid pattern with matching input",
 		Input: args.Map{
 			params.pattern:      "^hello$",
@@ -112,7 +112,7 @@ var isMatchLockLazyIsMatchTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "LazyRegex.IsMatch false for non-matching input",
+		Title: "LazyRegex.IsMatch returns false -- non-matching input",
 		When:  "given valid pattern with non-matching input",
 		Input: args.Map{
 			params.pattern:      "^hello$",
@@ -126,7 +126,7 @@ var isMatchLockLazyIsMatchTestCases = []coretestcases.MapGherkins{
 
 var isMatchLockCompileTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "LazyRegex compiles valid pattern without error",
+		Title: "LazyRegex.Compile returns no error -- valid pattern",
 		When:  "given valid pattern",
 		Input: args.Map{
 			params.pattern: "\\d+",
@@ -141,7 +141,7 @@ var isMatchLockCompileTestCases = []coretestcases.MapGherkins{
 
 var isMatchLockIsFailedMatchTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "LazyRegex.IsFailedMatch false when matches",
+		Title: "LazyRegex.IsFailedMatch returns false -- matching input",
 		When:  "given matching input",
 		Input: args.Map{
 			params.pattern:      "\\d+",
@@ -152,7 +152,7 @@ var isMatchLockIsFailedMatchTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "LazyRegex.IsFailedMatch true when not matches",
+		Title: "LazyRegex.IsFailedMatch returns true -- non-matching input",
 		When:  "given non-matching input",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
@@ -166,7 +166,7 @@ var isMatchLockIsFailedMatchTestCases = []coretestcases.MapGherkins{
 
 var isMatchLockPatternStringTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "LazyRegex.Pattern returns original pattern",
+		Title: "LazyRegex.Pattern returns original pattern -- valid pattern",
 		When:  "given a pattern",
 		Input: args.Map{
 			params.pattern: "^test\\d+$",
@@ -179,7 +179,7 @@ var isMatchLockPatternStringTestCases = []coretestcases.MapGherkins{
 
 var isMatchLockMatchErrorTestCases = []coretestcases.MapGherkins{
 	{
-		Title: "LazyRegex.MatchError nil for matching input",
+		Title: "LazyRegex.MatchError returns nil -- matching input",
 		When:  "given matching input",
 		Input: args.Map{
 			params.pattern:      "^hello$",
@@ -190,7 +190,7 @@ var isMatchLockMatchErrorTestCases = []coretestcases.MapGherkins{
 		},
 	},
 	{
-		Title: "LazyRegex.MatchError returns error for non-matching",
+		Title: "LazyRegex.MatchError returns error -- non-matching input",
 		When:  "given non-matching input",
 		Input: args.Map{
 			params.pattern:      "^\\d+$",
