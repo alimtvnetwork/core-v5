@@ -251,7 +251,7 @@ func Test_Cov8_Attributes_AuthType_Empty(t *testing.T) {
 
 func Test_Cov8_Attributes_GetStringKeyValue(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("key", "val"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "key", Value: "val"}))
 	val, found := attr.GetStringKeyValue("key")
 	actual := args.Map{"val": val, "found": found}
 	expected := args.Map{"val": "val", "found": true}
