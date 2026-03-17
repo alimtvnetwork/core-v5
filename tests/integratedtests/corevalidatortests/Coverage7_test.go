@@ -152,7 +152,7 @@ func Test_Cov7_SliceValidator_IsValid_DifferentLengths(t *testing.T) {
 func Test_Cov7_SliceValidator_IsValidOtherLines(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: []string{"a", "b"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{
 		"match":    sv.IsValidOtherLines(true, []string{"a", "b"}),
