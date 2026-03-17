@@ -91,7 +91,7 @@ func Test_Cov12_Hashmap_Basic(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Get(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	val, found := hm.Get("k1")
 	actual := args.Map{"val": val, "found": found}
 	expected := args.Map{"val": "v1", "found": true}
