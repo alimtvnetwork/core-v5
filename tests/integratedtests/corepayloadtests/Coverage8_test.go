@@ -28,7 +28,7 @@ func Test_Cov8_Attributes_HasSafeItems(t *testing.T) {
 
 func Test_Cov8_Attributes_HasStringKey(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("k1", "v1"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"}))
 	actual := args.Map{"has": attr.HasStringKey("k1"), "notHas": !attr.HasStringKey("k2")}
 	expected := args.Map{"has": true, "notHas": true}
 	expected.ShouldBeEqual(t, 0, "HasStringKey", actual)
