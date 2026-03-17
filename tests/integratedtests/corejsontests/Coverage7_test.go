@@ -239,10 +239,10 @@ func Test_Cov7_BytesCollection_Empty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "BytesCollection empty", actual)
 }
 
-func Test_Cov7_BytesCollection_AddBytes(t *testing.T) {
+func Test_Cov7_BytesCollection_Add(t *testing.T) {
 	bc := corejson.NewBytesCollection.Empty()
-	bc.AddBytes([]byte("hello"))
-	bc.AddBytes([]byte("world"))
+	bc.Add([]byte("hello"))
+	bc.Add([]byte("world"))
 	actual := args.Map{"len": bc.Length(), "hasAny": bc.HasAnyItem()}
 	expected := args.Map{"len": 2, "hasAny": true}
 	expected.ShouldBeEqual(t, 0, "BytesCollection add", actual)
@@ -269,9 +269,9 @@ func Test_Cov7_ResultCollection_Add(t *testing.T) {
 // ── JsonString / JsonStringer ──
 
 func Test_Cov7_JsonString(t *testing.T) {
-	js := corejson.JsonString(`{"a":1}`)
-	actual := args.Map{"str": string(js)}
-	expected := args.Map{"str": `{"a":1}`}
+	js, err := corejson.JsonString(`{"a":1}`)
+	actual := args.Map{"str": js, "noErr": err == nil}
+	expected := args.Map{"str": `"{\"a\":1}"`, "noErr": true}
 	expected.ShouldBeEqual(t, 0, "JsonString", actual)
 }
 
@@ -287,8 +287,8 @@ func Test_Cov7_MapResults_Empty(t *testing.T) {
 func Test_Cov7_MapResults_Add(t *testing.T) {
 	mr := corejson.NewMapResults.Empty()
 	result := corejson.New("hello")
-	mr.Add("key1", &result)
-	actual := args.Map{"len": mr.Length(), "hasKey": mr.Has("key1")}
-	expected := args.Map{"len": 1, "hasKey": true}
+	mr.Add("key1", result)
+	actual := args.Map{"len": mr.Length(), "hasAny": mr.HasAnyItem()}
+	expected := args.Map{"len": 1, "hasAny": true}
 	expected.ShouldBeEqual(t, 0, "MapResults add", actual)
 }

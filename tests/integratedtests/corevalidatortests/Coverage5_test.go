@@ -1754,7 +1754,7 @@ func Test_Cov5_HeaderSliceValidators_VerifyAllErrorUsingActual_WithItems(t *test
 	params := &corevalidator.Parameter{IsCaseSensitive: true, Header: "h"}
 
 	// Act
-	err := hsv.VerifyAllErrorUsingActual(params, "a")
+	_ = hsv.VerifyAllErrorUsingActual(params, "a")
 
 	// Assert
 	// SetActual works on a copy, so this may show header-only error
