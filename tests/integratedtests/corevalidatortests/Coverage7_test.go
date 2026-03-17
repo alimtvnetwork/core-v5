@@ -172,7 +172,7 @@ func Test_Cov7_SliceValidator_IsValidLines_BothNil(t *testing.T) {
 func Test_Cov7_SliceValidator_IsValidLines_LinesNilExpectedNil(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: nil,
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{"valid": sv.IsValidOtherLines(true, nil)}
 	expected := args.Map{"valid": true}
