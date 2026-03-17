@@ -135,7 +135,7 @@ func Test_Cov8_Attributes_ErrorMethods(t *testing.T) {
 
 func Test_Cov8_Attributes_StringKeyValuePairsLength(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	actual := args.Map{"len": attr.StringKeyValuePairsLength()}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "StringKeyValuePairsLength", actual)
