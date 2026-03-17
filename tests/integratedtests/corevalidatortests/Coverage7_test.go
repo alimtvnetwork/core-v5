@@ -394,7 +394,7 @@ func Test_Cov7_SliceValidators_Add(t *testing.T) {
 	svs.Add(corevalidator.SliceValidator{
 		ActualLines:   []string{"a"},
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	})
 	actual := args.Map{"count": svs.Length()}
 	expected := args.Map{"count": 1}
