@@ -131,7 +131,7 @@ func Test_Cov7_SliceValidator_IsValid_Mismatch(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"hello"},
 		ExpectedLines: []string{"world"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{"valid": sv.IsValid(true)}
 	expected := args.Map{"valid": false}
