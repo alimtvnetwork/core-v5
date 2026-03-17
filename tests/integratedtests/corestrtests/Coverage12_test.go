@@ -148,8 +148,8 @@ func Test_Cov12_Hashmap_ClonePtr_Nil(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_IsEqualPtr(t *testing.T) {
-	a := corestr.New.Hashmap.StringsKv("k1", "v1")
-	b := corestr.New.Hashmap.StringsKv("k1", "v1")
+	a := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
+	b := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	actual := args.Map{"equal": a.IsEqualPtr(b)}
 	expected := args.Map{"equal": true}
 	expected.ShouldBeEqual(t, 0, "Hashmap.IsEqualPtr", actual)
