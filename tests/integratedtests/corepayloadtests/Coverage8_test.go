@@ -343,7 +343,7 @@ func Test_Cov8_Attributes_AddNewAnyKeyValueOnly_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_AddOrUpdateString(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	isNew := attr.AddOrUpdateString("c", "d")
 	actual := args.Map{"isNew": isNew}
 	expected := args.Map{"isNew": true}
