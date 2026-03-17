@@ -385,7 +385,7 @@ func Test_Cov8_Attributes_SetBasicErr_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_Clear(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	attr.Clear()
 	actual := args.Map{"empty": attr.IsEmpty()}
 	expected := args.Map{"empty": true}
