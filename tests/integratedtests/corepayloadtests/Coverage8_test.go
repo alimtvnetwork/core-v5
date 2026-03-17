@@ -276,7 +276,7 @@ func Test_Cov8_Attributes_GetAnyKeyValue_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_HasStringKeyValuePairs(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	actual := args.Map{"has": attr.HasStringKeyValuePairs()}
 	expected := args.Map{"has": true}
 	expected.ShouldBeEqual(t, 0, "HasStringKeyValuePairs", actual)
