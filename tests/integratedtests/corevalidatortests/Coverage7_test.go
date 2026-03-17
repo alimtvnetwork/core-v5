@@ -89,7 +89,7 @@ func Test_Cov7_SliceValidator_ExpectingLinesLength_Nil(t *testing.T) {
 func Test_Cov7_SliceValidator_ComparingValidators(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: []string{"a", "b"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	validators := sv.ComparingValidators()
 	actual := args.Map{"count": len(validators.Items)}
