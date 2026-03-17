@@ -309,7 +309,7 @@ func Test_Cov8_Attributes_SetUserInfo_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_AddNewStringKeyValueOnly(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	added := attr.AddNewStringKeyValueOnly("c", "d")
 	actual := args.Map{"added": added}
 	expected := args.Map{"added": true}
