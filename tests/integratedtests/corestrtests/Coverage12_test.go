@@ -99,7 +99,7 @@ func Test_Cov12_Hashmap_Get(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Get_NotFound(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	val, found := hm.Get("k2")
 	actual := args.Map{"val": val, "found": found}
 	expected := args.Map{"val": "", "found": false}
