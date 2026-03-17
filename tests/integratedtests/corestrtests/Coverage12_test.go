@@ -10,7 +10,7 @@ import (
 // ── Collection ──
 
 func Test_Cov12_Collection_Basic(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b", "c")
+	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	actual := args.Map{
 		"len":     c.Length(),
 		"isEmpty": c.IsEmpty(),
