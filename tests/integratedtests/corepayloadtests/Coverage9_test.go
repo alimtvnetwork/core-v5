@@ -49,7 +49,7 @@ func Test_Cov9_Attributes_HasStringKey(t *testing.T) {
 }
 
 func Test_Cov9_Attributes_HasAnyKey(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("k", 42)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 
