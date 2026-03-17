@@ -66,7 +66,7 @@ func Test_Cov8_Attributes_PayloadsString_Empty(t *testing.T) {
 }
 
 func Test_Cov8_Attributes_AnyKeyValMap(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("k", "v")
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	result := attr.AnyKeyValMap()
