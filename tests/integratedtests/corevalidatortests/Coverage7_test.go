@@ -193,7 +193,7 @@ func Test_Cov7_SliceValidator_Dispose(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"a"},
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	_ = sv.ComparingValidators() // force lazy init
 	sv.Dispose()
