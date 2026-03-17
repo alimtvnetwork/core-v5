@@ -77,7 +77,7 @@ func Test_Cov12_Collection_IsEmpty_Nil(t *testing.T) {
 // ── Hashmap ──
 
 func Test_Cov12_Hashmap_Basic(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	actual := args.Map{
 		"has":     hm.Has("k1"),
 		"notHas":  !hm.Has("k2"),
