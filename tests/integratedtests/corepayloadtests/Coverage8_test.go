@@ -325,7 +325,7 @@ func Test_Cov8_Attributes_AddNewStringKeyValueOnly_Nil(t *testing.T) {
 }
 
 func Test_Cov8_Attributes_AddNewAnyKeyValueOnly(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	added := attr.AddNewAnyKeyValueOnly("k", 42)
 	actual := args.Map{"added": added}
