@@ -372,33 +372,37 @@ func Test_Cov7_HeaderSliceValidators_IsEmpty(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "HeaderSliceValidators.IsEmpty", actual)
 }
 
-func Test_Cov7_HeaderSliceValidators_Add(t *testing.T) {
-	hsvs := corevalidator.NewHeaderSliceValidators(5)
-	hsvs.Add(corevalidator.HeaderSliceValidator{Header: "h1"})
+func Test_Cov7_HeaderSliceValidators_Length(t *testing.T) {
+	hsvs := corevalidator.HeaderSliceValidators{
+		{Header: "h1"},
+	}
 	actual := args.Map{"count": hsvs.Length()}
 	expected := args.Map{"count": 1}
-	expected.ShouldBeEqual(t, 0, "HeaderSliceValidators.Add", actual)
+	expected.ShouldBeEqual(t, 0, "HeaderSliceValidators.Length", actual)
 }
 
 // ── SliceValidators ──
 
 func Test_Cov7_SliceValidators_IsEmpty(t *testing.T) {
-	svs := corevalidator.NewSliceValidators(5)
+	svs := &corevalidator.SliceValidators{}
 	actual := args.Map{"empty": svs.IsEmpty()}
 	expected := args.Map{"empty": true}
 	expected.ShouldBeEqual(t, 0, "SliceValidators.IsEmpty", actual)
 }
 
-func Test_Cov7_SliceValidators_Add(t *testing.T) {
-	svs := corevalidator.NewSliceValidators(5)
-	svs.Add(corevalidator.SliceValidator{
-		ActualLines:   []string{"a"},
-		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.Equal,
-	})
+func Test_Cov7_SliceValidators_Length(t *testing.T) {
+	svs := &corevalidator.SliceValidators{
+		Validators: []corevalidator.SliceValidator{
+			{
+				ActualLines:   []string{"a"},
+				ExpectedLines: []string{"a"},
+				CompareAs:     stringcompareas.Equal,
+			},
+		},
+	}
 	actual := args.Map{"count": svs.Length()}
 	expected := args.Map{"count": 1}
-	expected.ShouldBeEqual(t, 0, "SliceValidators.Add", actual)
+	expected.ShouldBeEqual(t, 0, "SliceValidators.Length", actual)
 }
 
 // ── RangesSegment ──
