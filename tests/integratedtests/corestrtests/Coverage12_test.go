@@ -52,7 +52,7 @@ func Test_Cov12_Collection_Adds(t *testing.T) {
 }
 
 func Test_Cov12_Collection_List(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	list := c.List()
 	actual := args.Map{"len": len(list)}
 	expected := args.Map{"len": 2}
