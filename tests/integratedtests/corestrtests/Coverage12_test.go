@@ -340,7 +340,7 @@ func Test_Cov12_CollectionsOfCollection_Basic(t *testing.T) {
 
 func Test_Cov12_CollectionsOfCollection_Add(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	coc.Add(c)
 	actual := args.Map{"len": coc.Length()}
 	expected := args.Map{"len": 1}
