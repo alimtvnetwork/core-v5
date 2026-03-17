@@ -77,7 +77,7 @@ func Test_Cov8_Attributes_AnyKeyValMap(t *testing.T) {
 
 func Test_Cov8_Attributes_Hashmap(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	result := attr.Hashmap()
 	actual := args.Map{"val": result["a"]}
 	expected := args.Map{"val": "b"}
