@@ -117,7 +117,7 @@ func Test_Cov12_Hashmap_AddOrUpdate(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Clear(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	hm.Clear()
 	actual := args.Map{"empty": hm.IsEmpty()}
 	expected := args.Map{"empty": true}
