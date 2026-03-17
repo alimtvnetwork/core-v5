@@ -100,7 +100,7 @@ func Test_Cov7_SliceValidator_ComparingValidators(t *testing.T) {
 func Test_Cov7_SliceValidator_ComparingValidators_Cached(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	v1 := sv.ComparingValidators()
 	v2 := sv.ComparingValidators()
