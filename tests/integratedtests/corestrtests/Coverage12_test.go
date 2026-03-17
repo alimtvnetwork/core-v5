@@ -60,7 +60,7 @@ func Test_Cov12_Collection_List(t *testing.T) {
 }
 
 func Test_Cov12_Collection_String(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	result := c.String()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
