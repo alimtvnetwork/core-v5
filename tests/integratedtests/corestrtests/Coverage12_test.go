@@ -132,7 +132,7 @@ func Test_Cov12_Hashmap_Nil(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Clone(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	cloned := hm.ClonePtr()
 	actual := args.Map{"notNil": cloned != nil, "has": cloned.Has("k1")}
 	expected := args.Map{"notNil": true, "has": true}
