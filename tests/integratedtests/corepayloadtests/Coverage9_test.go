@@ -105,7 +105,7 @@ func Test_Cov9_Attributes_AnyKeyValMap(t *testing.T) {
 		t.Fatal("nil AnyKeyValMap should return empty map")
 	}
 
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("k", 42)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	m = attr.AnyKeyValMap()
