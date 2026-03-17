@@ -215,7 +215,7 @@ func Test_Cov7_SliceValidator_Dispose_Nil(t *testing.T) {
 func Test_Cov7_TextValidator_IsMatch_EqualMatch(t *testing.T) {
 	tv := corevalidator.TextValidator{
 		Search:   "hello",
-		SearchAs: stringcompareas.EqualMatch,
+		SearchAs: stringcompareas.Equal,
 	}
 	actual := args.Map{
 		"match":    tv.IsMatch("hello", true),
