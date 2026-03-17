@@ -142,7 +142,7 @@ func Test_Cov8_Attributes_StringKeyValuePairsLength(t *testing.T) {
 }
 
 func Test_Cov8_Attributes_AnyKeyValuePairsLength(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("k", 1)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	actual := args.Map{"len": attr.AnyKeyValuePairsLength()}
