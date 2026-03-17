@@ -3532,7 +3532,7 @@ func Test_Cov9_NewAttributesCreator_AllFactories(t *testing.T) {
 	}
 
 	// UsingAnyKeyValues
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	attr = corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 
 	if attr == nil {
