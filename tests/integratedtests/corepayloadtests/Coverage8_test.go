@@ -35,7 +35,7 @@ func Test_Cov8_Attributes_HasStringKey(t *testing.T) {
 }
 
 func Test_Cov8_Attributes_HasAnyKey(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("x", 42)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	actual := args.Map{"has": attr.HasAnyKey("x"), "notHas": !attr.HasAnyKey("y")}
