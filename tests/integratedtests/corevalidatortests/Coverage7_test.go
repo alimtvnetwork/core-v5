@@ -355,7 +355,7 @@ func Test_Cov7_HeaderSliceValidator_IsValid(t *testing.T) {
 		SliceValidator: corevalidator.SliceValidator{
 			ActualLines:   []string{"a"},
 			ExpectedLines: []string{"a"},
-			CompareAs:     stringcompareas.EqualMatch,
+			CompareAs:     stringcompareas.Equal,
 		},
 	}
 	actual := args.Map{"valid": hsv.IsValid(true)}
