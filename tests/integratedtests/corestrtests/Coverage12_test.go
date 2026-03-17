@@ -10,7 +10,7 @@ import (
 // ── Collection ──
 
 func Test_Cov12_Collection_Basic(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b", "c")
+	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	actual := args.Map{
 		"len":     c.Length(),
 		"isEmpty": c.IsEmpty(),
@@ -52,7 +52,7 @@ func Test_Cov12_Collection_Adds(t *testing.T) {
 }
 
 func Test_Cov12_Collection_List(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	list := c.List()
 	actual := args.Map{"len": len(list)}
 	expected := args.Map{"len": 2}
@@ -60,7 +60,7 @@ func Test_Cov12_Collection_List(t *testing.T) {
 }
 
 func Test_Cov12_Collection_String(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	result := c.String()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
@@ -77,7 +77,7 @@ func Test_Cov12_Collection_IsEmpty_Nil(t *testing.T) {
 // ── Hashmap ──
 
 func Test_Cov12_Hashmap_Basic(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	actual := args.Map{
 		"has":     hm.Has("k1"),
 		"notHas":  !hm.Has("k2"),
@@ -91,7 +91,7 @@ func Test_Cov12_Hashmap_Basic(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Get(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	val, found := hm.Get("k1")
 	actual := args.Map{"val": val, "found": found}
 	expected := args.Map{"val": "v1", "found": true}
@@ -99,7 +99,7 @@ func Test_Cov12_Hashmap_Get(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Get_NotFound(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	val, found := hm.Get("k2")
 	actual := args.Map{"val": val, "found": found}
 	expected := args.Map{"val": "", "found": false}
@@ -117,7 +117,7 @@ func Test_Cov12_Hashmap_AddOrUpdate(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Clear(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	hm.Clear()
 	actual := args.Map{"empty": hm.IsEmpty()}
 	expected := args.Map{"empty": true}
@@ -132,7 +132,7 @@ func Test_Cov12_Hashmap_Nil(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_Clone(t *testing.T) {
-	hm := corestr.New.Hashmap.StringsKv("k1", "v1")
+	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	cloned := hm.ClonePtr()
 	actual := args.Map{"notNil": cloned != nil, "has": cloned.Has("k1")}
 	expected := args.Map{"notNil": true, "has": true}
@@ -148,16 +148,16 @@ func Test_Cov12_Hashmap_ClonePtr_Nil(t *testing.T) {
 }
 
 func Test_Cov12_Hashmap_IsEqualPtr(t *testing.T) {
-	a := corestr.New.Hashmap.StringsKv("k1", "v1")
-	b := corestr.New.Hashmap.StringsKv("k1", "v1")
+	a := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
+	b := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	actual := args.Map{"equal": a.IsEqualPtr(b)}
 	expected := args.Map{"equal": true}
 	expected.ShouldBeEqual(t, 0, "Hashmap.IsEqualPtr", actual)
 }
 
 func Test_Cov12_Hashmap_IsEqualPtr_Different(t *testing.T) {
-	a := corestr.New.Hashmap.StringsKv("k1", "v1")
-	b := corestr.New.Hashmap.StringsKv("k1", "v2")
+	a := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
+	b := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v2"})
 	actual := args.Map{"equal": a.IsEqualPtr(b)}
 	expected := args.Map{"equal": false}
 	expected.ShouldBeEqual(t, 0, "Hashmap.IsEqualPtr different", actual)
@@ -340,7 +340,7 @@ func Test_Cov12_CollectionsOfCollection_Basic(t *testing.T) {
 
 func Test_Cov12_CollectionsOfCollection_Add(t *testing.T) {
 	coc := corestr.New.CollectionsOfCollection.Cap(5)
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	coc.Add(c)
 	actual := args.Map{"len": coc.Length()}
 	expected := args.Map{"len": 1}

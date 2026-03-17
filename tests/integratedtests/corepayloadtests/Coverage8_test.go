@@ -28,14 +28,14 @@ func Test_Cov8_Attributes_HasSafeItems(t *testing.T) {
 
 func Test_Cov8_Attributes_HasStringKey(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("k1", "v1"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"}))
 	actual := args.Map{"has": attr.HasStringKey("k1"), "notHas": !attr.HasStringKey("k2")}
 	expected := args.Map{"has": true, "notHas": true}
 	expected.ShouldBeEqual(t, 0, "HasStringKey", actual)
 }
 
 func Test_Cov8_Attributes_HasAnyKey(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("x", 42)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	actual := args.Map{"has": attr.HasAnyKey("x"), "notHas": !attr.HasAnyKey("y")}
@@ -66,7 +66,7 @@ func Test_Cov8_Attributes_PayloadsString_Empty(t *testing.T) {
 }
 
 func Test_Cov8_Attributes_AnyKeyValMap(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("k", "v")
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	result := attr.AnyKeyValMap()
@@ -77,7 +77,7 @@ func Test_Cov8_Attributes_AnyKeyValMap(t *testing.T) {
 
 func Test_Cov8_Attributes_Hashmap(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	result := attr.Hashmap()
 	actual := args.Map{"val": result["a"]}
 	expected := args.Map{"val": "b"}
@@ -135,14 +135,14 @@ func Test_Cov8_Attributes_ErrorMethods(t *testing.T) {
 
 func Test_Cov8_Attributes_StringKeyValuePairsLength(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	actual := args.Map{"len": attr.StringKeyValuePairsLength()}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "StringKeyValuePairsLength", actual)
 }
 
 func Test_Cov8_Attributes_AnyKeyValuePairsLength(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	anyMap.Add("k", 1)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	actual := args.Map{"len": attr.AnyKeyValuePairsLength()}
@@ -251,7 +251,7 @@ func Test_Cov8_Attributes_AuthType_Empty(t *testing.T) {
 
 func Test_Cov8_Attributes_GetStringKeyValue(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("key", "val"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "key", Value: "val"}))
 	val, found := attr.GetStringKeyValue("key")
 	actual := args.Map{"val": val, "found": found}
 	expected := args.Map{"val": "val", "found": true}
@@ -276,7 +276,7 @@ func Test_Cov8_Attributes_GetAnyKeyValue_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_HasStringKeyValuePairs(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	actual := args.Map{"has": attr.HasStringKeyValuePairs()}
 	expected := args.Map{"has": true}
 	expected.ShouldBeEqual(t, 0, "HasStringKeyValuePairs", actual)
@@ -309,7 +309,7 @@ func Test_Cov8_Attributes_SetUserInfo_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_AddNewStringKeyValueOnly(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	added := attr.AddNewStringKeyValueOnly("c", "d")
 	actual := args.Map{"added": added}
 	expected := args.Map{"added": true}
@@ -325,7 +325,7 @@ func Test_Cov8_Attributes_AddNewStringKeyValueOnly_Nil(t *testing.T) {
 }
 
 func Test_Cov8_Attributes_AddNewAnyKeyValueOnly(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	added := attr.AddNewAnyKeyValueOnly("k", 42)
 	actual := args.Map{"added": added}
@@ -343,7 +343,7 @@ func Test_Cov8_Attributes_AddNewAnyKeyValueOnly_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_AddOrUpdateString(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	isNew := attr.AddOrUpdateString("c", "d")
 	actual := args.Map{"isNew": isNew}
 	expected := args.Map{"isNew": true}
@@ -359,7 +359,7 @@ func Test_Cov8_Attributes_AddOrUpdateString_Nil(t *testing.T) {
 }
 
 func Test_Cov8_Attributes_AddOrUpdateAnyItem(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	isNew := attr.AddOrUpdateAnyItem("k", 1)
 	actual := args.Map{"isNew": isNew}
@@ -385,7 +385,7 @@ func Test_Cov8_Attributes_SetBasicErr_Nil(t *testing.T) {
 
 func Test_Cov8_Attributes_Clear(t *testing.T) {
 	attr := corepayload.New.Attributes.UsingKeyValues(
-		corestr.New.Hashmap.StringsKv("a", "b"))
+		corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "a", Value: "b"}))
 	attr.Clear()
 	actual := args.Map{"empty": attr.IsEmpty()}
 	expected := args.Map{"empty": true}

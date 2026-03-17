@@ -25,7 +25,7 @@ func Test_Cov7_SliceValidator_ActualLinesLength_Nil(t *testing.T) {
 }
 
 func Test_Cov7_SliceValidator_MethodName(t *testing.T) {
-	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.EqualMatch}
+	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.Equal}
 	actual := args.Map{"notEmpty": sv.MethodName() != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MethodName", actual)
@@ -89,7 +89,7 @@ func Test_Cov7_SliceValidator_ExpectingLinesLength_Nil(t *testing.T) {
 func Test_Cov7_SliceValidator_ComparingValidators(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: []string{"a", "b"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	validators := sv.ComparingValidators()
 	actual := args.Map{"count": len(validators.Items)}
@@ -100,7 +100,7 @@ func Test_Cov7_SliceValidator_ComparingValidators(t *testing.T) {
 func Test_Cov7_SliceValidator_ComparingValidators_Cached(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	v1 := sv.ComparingValidators()
 	v2 := sv.ComparingValidators()
@@ -120,7 +120,7 @@ func Test_Cov7_SliceValidator_IsValid_Match(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"hello", "world"},
 		ExpectedLines: []string{"hello", "world"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{"valid": sv.IsValid(true)}
 	expected := args.Map{"valid": true}
@@ -131,7 +131,7 @@ func Test_Cov7_SliceValidator_IsValid_Mismatch(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"hello"},
 		ExpectedLines: []string{"world"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{"valid": sv.IsValid(true)}
 	expected := args.Map{"valid": false}
@@ -142,7 +142,7 @@ func Test_Cov7_SliceValidator_IsValid_DifferentLengths(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"a", "b"},
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{"valid": sv.IsValid(true)}
 	expected := args.Map{"valid": false}
@@ -152,7 +152,7 @@ func Test_Cov7_SliceValidator_IsValid_DifferentLengths(t *testing.T) {
 func Test_Cov7_SliceValidator_IsValidOtherLines(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: []string{"a", "b"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{
 		"match":    sv.IsValidOtherLines(true, []string{"a", "b"}),
@@ -172,7 +172,7 @@ func Test_Cov7_SliceValidator_IsValidLines_BothNil(t *testing.T) {
 func Test_Cov7_SliceValidator_IsValidLines_LinesNilExpectedNil(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: nil,
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{"valid": sv.IsValidOtherLines(true, nil)}
 	expected := args.Map{"valid": true}
@@ -182,7 +182,7 @@ func Test_Cov7_SliceValidator_IsValidLines_LinesNilExpectedNil(t *testing.T) {
 func Test_Cov7_SliceValidator_IsValidLines_OneNil(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	actual := args.Map{"valid": sv.IsValidOtherLines(true, nil)}
 	expected := args.Map{"valid": false}
@@ -193,7 +193,7 @@ func Test_Cov7_SliceValidator_Dispose(t *testing.T) {
 	sv := &corevalidator.SliceValidator{
 		ActualLines:   []string{"a"},
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	}
 	_ = sv.ComparingValidators() // force lazy init
 	sv.Dispose()
@@ -215,7 +215,7 @@ func Test_Cov7_SliceValidator_Dispose_Nil(t *testing.T) {
 func Test_Cov7_TextValidator_IsMatch_EqualMatch(t *testing.T) {
 	tv := corevalidator.TextValidator{
 		Search:   "hello",
-		SearchAs: stringcompareas.EqualMatch,
+		SearchAs: stringcompareas.Equal,
 	}
 	actual := args.Map{
 		"match":    tv.IsMatch("hello", true),
@@ -259,8 +259,8 @@ func Test_Cov7_TextValidator_IsMatch_EndsWith(t *testing.T) {
 
 func Test_Cov7_TextValidators_Add(t *testing.T) {
 	validators := corevalidator.NewTextValidators(5)
-	validators.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.EqualMatch})
-	validators.Add(corevalidator.TextValidator{Search: "b", SearchAs: stringcompareas.EqualMatch})
+	validators.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.Equal})
+	validators.Add(corevalidator.TextValidator{Search: "b", SearchAs: stringcompareas.Equal})
 	actual := args.Map{"count": len(validators.Items)}
 	expected := args.Map{"count": 2}
 	expected.ShouldBeEqual(t, 0, "TextValidators.Add", actual)
@@ -355,7 +355,7 @@ func Test_Cov7_HeaderSliceValidator_IsValid(t *testing.T) {
 		SliceValidator: corevalidator.SliceValidator{
 			ActualLines:   []string{"a"},
 			ExpectedLines: []string{"a"},
-			CompareAs:     stringcompareas.EqualMatch,
+			CompareAs:     stringcompareas.Equal,
 		},
 	}
 	actual := args.Map{"valid": hsv.IsValid(true)}
@@ -394,7 +394,7 @@ func Test_Cov7_SliceValidators_Add(t *testing.T) {
 	svs.Add(corevalidator.SliceValidator{
 		ActualLines:   []string{"a"},
 		ExpectedLines: []string{"a"},
-		CompareAs:     stringcompareas.EqualMatch,
+		CompareAs:     stringcompareas.Equal,
 	})
 	actual := args.Map{"count": svs.Length()}
 	expected := args.Map{"count": 1}
