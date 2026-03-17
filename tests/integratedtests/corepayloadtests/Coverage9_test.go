@@ -653,7 +653,7 @@ func Test_Cov9_Attributes_AddOrUpdateString(t *testing.T) {
 }
 
 func Test_Cov9_Attributes_AddOrUpdateAnyItem(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems()
+	anyMap := coredynamic.NewMapAnyItems(0)
 	attr := corepayload.New.Attributes.UsingAnyKeyValues(anyMap)
 	isNew := attr.AddOrUpdateAnyItem("k", 42)
 
