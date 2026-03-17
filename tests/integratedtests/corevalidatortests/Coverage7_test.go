@@ -25,7 +25,7 @@ func Test_Cov7_SliceValidator_ActualLinesLength_Nil(t *testing.T) {
 }
 
 func Test_Cov7_SliceValidator_MethodName(t *testing.T) {
-	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.EqualMatch}
+	sv := &corevalidator.SliceValidator{CompareAs: stringcompareas.Equal}
 	actual := args.Map{"notEmpty": sv.MethodName() != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MethodName", actual)
