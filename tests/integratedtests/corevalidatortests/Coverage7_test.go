@@ -259,8 +259,8 @@ func Test_Cov7_TextValidator_IsMatch_EndsWith(t *testing.T) {
 
 func Test_Cov7_TextValidators_Add(t *testing.T) {
 	validators := corevalidator.NewTextValidators(5)
-	validators.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.EqualMatch})
-	validators.Add(corevalidator.TextValidator{Search: "b", SearchAs: stringcompareas.EqualMatch})
+	validators.Add(corevalidator.TextValidator{Search: "a", SearchAs: stringcompareas.Equal})
+	validators.Add(corevalidator.TextValidator{Search: "b", SearchAs: stringcompareas.Equal})
 	actual := args.Map{"count": len(validators.Items)}
 	expected := args.Map{"count": 2}
 	expected.ShouldBeEqual(t, 0, "TextValidators.Add", actual)
