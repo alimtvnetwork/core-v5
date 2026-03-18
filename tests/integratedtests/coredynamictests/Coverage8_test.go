@@ -559,7 +559,7 @@ func Test_Cov8_DynamicCollection_Json(t *testing.T) {
 	js, jsErr := dc.JsonString()
 	jsMust := dc.JsonStringMust()
 	actual := args.Map{
-		"jsonOk":     jsonResult.JsonString() != "",
+		"jsonOk":     jsonResult.HasError() == false,
 		"ptrNotNil":  jsonPtr != nil,
 		"modelItems": len(model.Items) > 0,
 		"modelAnyNN": modelAny != nil,
