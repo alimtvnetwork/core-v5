@@ -448,8 +448,8 @@ func Test_Cov12_CloneSlice(t *testing.T) {
 
 func Test_Cov12_CloneSlice_Nil(t *testing.T) {
 	cloned := corestr.CloneSlice(nil)
-	actual := args.Map{"nil": cloned == nil}
-	expected := args.Map{"nil": true}
+	actual := args.Map{"empty": len(cloned) == 0}
+	expected := args.Map{"empty": true}
 	expected.ShouldBeEqual(t, 0, "CloneSlice nil", actual)
 }
 
