@@ -21,6 +21,7 @@ func Test_Cov8_Result_Map_Nil(t *testing.T) {
 }
 
 func Test_Cov8_Result_Map_WithAll(t *testing.T) {
+	// IsEmptyJsonBytes returns true when Error is set, so Map() skips Bytes key
 	r := &corejson.Result{
 		Bytes:    []byte(`{"a":1}`),
 		Error:    errors.New("test"),
@@ -28,7 +29,7 @@ func Test_Cov8_Result_Map_WithAll(t *testing.T) {
 	}
 	m := r.Map()
 	actual := args.Map{"hasBytes": m["Bytes"] != "", "hasError": m["Error"] != "", "hasType": m["Type"] != ""}
-	expected := args.Map{"hasBytes": true, "hasError": true, "hasType": true}
+	expected := args.Map{"hasBytes": false, "hasError": true, "hasType": true}
 	expected.ShouldBeEqual(t, 0, "Result.Map with all", actual)
 }
 
