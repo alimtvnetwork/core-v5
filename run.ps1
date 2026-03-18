@@ -108,9 +108,7 @@ function Write-TestLogs([string[]]$rawOutput) {
     $failing = [System.Collections.Generic.List[string]]::new()
 
     # Remove noisy go-test coverpkg warnings from logs
-    $filteredOutput = $rawOutput | Where-Object {
-        $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern'
-    }
+    $filteredOutput = Filter-TestWarnings $rawOutput
 
     # Save filtered output for debugging
     Set-Content -Path $rawFile -Value ($filteredOutput -join "`n") -Encoding UTF8
