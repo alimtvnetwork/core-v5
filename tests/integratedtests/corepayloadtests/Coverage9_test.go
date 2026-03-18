@@ -36,7 +36,7 @@ func Test_Cov9_Attributes_HasSafeItems(t *testing.T) {
 }
 
 func Test_Cov9_Attributes_HasStringKey(t *testing.T) {
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 
 	if !attr.HasStringKey("k") {
@@ -123,7 +123,7 @@ func Test_Cov9_Attributes_Hashmap(t *testing.T) {
 		t.Fatal("nil Hashmap should return empty map")
 	}
 
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 	m = attr.Hashmap()
 
@@ -203,7 +203,7 @@ func Test_Cov9_Attributes_HasKeyValuePairs(t *testing.T) {
 		t.Fatal("empty should not have key value pairs")
 	}
 
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr2 := corepayload.New.Attributes.UsingKeyValues(hm)
 
 	if !attr2.HasKeyValuePairs() {
@@ -294,7 +294,7 @@ func Test_Cov9_Attributes_StringKeyValuePairsLength(t *testing.T) {
 		t.Fatal("nil should return 0")
 	}
 
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 
 	if attr.StringKeyValuePairsLength() != 1 {
@@ -523,7 +523,7 @@ func Test_Cov9_Attributes_GetStringKeyValue(t *testing.T) {
 		t.Fatal("nil should not find")
 	}
 
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 	val, found := attr.GetStringKeyValue("k")
 
@@ -637,7 +637,7 @@ func Test_Cov9_Attributes_AddNewAnyKeyValueOnly(t *testing.T) {
 }
 
 func Test_Cov9_Attributes_AddOrUpdateString(t *testing.T) {
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 	isNew := attr.AddOrUpdateString("k2", "v2")
 
@@ -3396,7 +3396,7 @@ func Test_Cov9_PayloadProperties_AllMethods(t *testing.T) {
 
 	_ = props.Json()
 	_ = props.JsonPtr()
-	_ = props.AsPayloadPropertiesDefiner()
+	// AsPayloadPropertiesDefiner is on concrete type, not on interface — skip
 }
 
 func Test_Cov9_PayloadProperties_Setters(t *testing.T) {

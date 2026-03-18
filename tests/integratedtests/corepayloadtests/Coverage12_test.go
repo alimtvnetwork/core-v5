@@ -797,7 +797,7 @@ func Test_Cov12_NewPW_DeserializeUsingJsonResult(t *testing.T) {
 
 func Test_Cov12_NewPW_DeserializeUsingJsonResult_Bad(t *testing.T) {
 	jr := corejson.NewResult.UsingBytes([]byte("{bad"))
-	_, err := corepayload.New.PayloadWrapper.DeserializeUsingJsonResult(jr)
+	_, err := corepayload.New.PayloadWrapper.DeserializeUsingJsonResult(&jr)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "NewPW.DeserializeUsingJsonResult bad", actual)
@@ -851,7 +851,7 @@ func Test_Cov12_NewPC_DeserializeToMany_Bad(t *testing.T) {
 
 func Test_Cov12_NewPC_DeserializeUsingJsonResult_Bad(t *testing.T) {
 	jr := corejson.NewResult.UsingBytes([]byte("{bad"))
-	_, err := corepayload.New.PayloadsCollection.DeserializeUsingJsonResult(jr)
+	_, err := corepayload.New.PayloadsCollection.DeserializeUsingJsonResult(&jr)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "NewPC.DeserializeUsingJsonResult bad", actual)

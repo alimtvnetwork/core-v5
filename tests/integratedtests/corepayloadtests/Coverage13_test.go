@@ -11,10 +11,7 @@ import (
 // TypedPayloadWrapper — Core methods
 // ══════════════════════════════════════════════════════════════════════════════
 
-type testUser struct {
-	Name  string `json:"Name"`
-	Email string `json:"Email"`
-}
+// testUser is declared in TypedCollection_testcases.go
 
 func newTypedWrapper(name, id string, data testUser) *corepayload.TypedPayloadWrapper[testUser] {
 	tw, _ := corepayload.NewTypedPayloadWrapperFrom[testUser](name, id, "testUser", data)
@@ -29,7 +26,7 @@ func Test_Cov13_TPW_NewTypedPayloadWrapper_Nil(t *testing.T) {
 }
 
 func Test_Cov13_TPW_NewTypedPayloadWrapper_Valid(t *testing.T) {
-	pw := &corepayload.PayloadWrapper{Payloads: []byte(`{"Name":"alice","Email":"a@b.c"}`)}
+	pw := &corepayload.PayloadWrapper{Payloads: []byte(`{"name":"alice","email":"a@b.c","age":0}`)}
 	tw, err := corepayload.NewTypedPayloadWrapper[testUser](pw)
 	actual := args.Map{"noErr": err == nil, "name": tw.Data().Name}
 	expected := args.Map{"noErr": true, "name": "alice"}

@@ -1252,31 +1252,31 @@ func Test_Cov9_DynamicMap_String_StringValues(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "String returns formatted -- string map", actual)
 }
 
-func Test_Cov9_DynamicMap_DiffLeftRight_Same(t *testing.T) {
+func Test_Cov9_DynamicMap_DiffRaw_Same(t *testing.T) {
 	dm := enumimpl.DynamicMap{"a": 1}
-	other := enumimpl.DynamicMap{"a": 1}
-	result := dm.DiffLeftRight(false, &other)
+	other := map[string]any{"a": 1}
+	result := dm.DiffRaw(false, other)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns empty -- same maps", actual)
+	expected.ShouldBeEqual(t, 0, "DiffRaw returns empty -- same maps", actual)
 }
 
-func Test_Cov9_DynamicMap_DiffLeftRight_Different(t *testing.T) {
+func Test_Cov9_DynamicMap_DiffRaw_Different(t *testing.T) {
 	dm := enumimpl.DynamicMap{"a": 1, "b": 2}
-	other := enumimpl.DynamicMap{"a": 1, "b": 3}
-	result := dm.DiffLeftRight(false, &other)
+	other := map[string]any{"a": 1, "b": 3}
+	result := dm.DiffRaw(false, other)
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns diffs -- different values", actual)
+	expected.ShouldBeEqual(t, 0, "DiffRaw returns diffs -- different values", actual)
 }
 
-func Test_Cov9_DynamicMap_DiffLeftRight_MissingKey(t *testing.T) {
+func Test_Cov9_DynamicMap_DiffRaw_MissingKey(t *testing.T) {
 	dm := enumimpl.DynamicMap{"a": 1, "b": 2}
-	other := enumimpl.DynamicMap{"a": 1}
-	result := dm.DiffLeftRight(false, &other)
+	other := map[string]any{"a": 1}
+	result := dm.DiffRaw(false, other)
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "DiffLeftRight returns diffs -- missing key in right", actual)
+	expected.ShouldBeEqual(t, 0, "DiffRaw returns diffs -- missing key in right", actual)
 }
 
 // ── DiffLeftRight — additional uncovered branches ──

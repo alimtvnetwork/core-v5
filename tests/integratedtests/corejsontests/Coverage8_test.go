@@ -607,7 +607,8 @@ func Test_Cov8_Result_ToPtr(t *testing.T) {
 
 func Test_Cov8_Result_ToNonPtr(t *testing.T) {
 	r := corejson.Result{Bytes: []byte(`"x"`)}
-	actual := args.Map{"len": r.ToNonPtr().Length()}
+	np := r.ToNonPtr()
+	actual := args.Map{"len": np.Length()}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "ToNonPtr", actual)
 }

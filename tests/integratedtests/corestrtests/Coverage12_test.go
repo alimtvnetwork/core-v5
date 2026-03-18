@@ -199,7 +199,7 @@ func Test_Cov12_Hashset_Nil(t *testing.T) {
 // ── SimpleSlice ──
 
 func Test_Cov12_SimpleSlice_Basic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b", "c")
+	ss := corestr.New.SimpleSlice.SpreadStrings("a", "b", "c")
 	actual := args.Map{
 		"len":     ss.Length(),
 		"isEmpty": ss.IsEmpty(),
@@ -221,7 +221,7 @@ func Test_Cov12_SimpleSlice_Nil(t *testing.T) {
 // ── LeftRight ──
 
 func Test_Cov12_LeftRight(t *testing.T) {
-	lr := corestr.LeftRight{Left: "left", Right: "right"}
+	lr := corestr.NewLeftRight("left", "right")
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "left", "right": "right"}
 	expected.ShouldBeEqual(t, 0, "LeftRight", actual)
@@ -230,7 +230,7 @@ func Test_Cov12_LeftRight(t *testing.T) {
 // ── LeftMiddleRight ──
 
 func Test_Cov12_LeftMiddleRight(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "l", Middle: "m", Right: "r"}
+	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	actual := args.Map{"left": lmr.Left, "middle": lmr.Middle, "right": lmr.Right}
 	expected := args.Map{"left": "l", "middle": "m", "right": "r"}
 	expected.ShouldBeEqual(t, 0, "LeftMiddleRight", actual)
@@ -255,9 +255,10 @@ func Test_Cov12_ValidValue_Invalid(t *testing.T) {
 // ── ValueStatus ──
 
 func Test_Cov12_ValueStatus(t *testing.T) {
-	vs := corestr.ValueStatus{Value: "hello", IsFound: true}
-	actual := args.Map{"val": vs.Value, "found": vs.IsFound}
-	expected := args.Map{"val": "hello", "found": true}
+	vv := corestr.NewValidValue("hello")
+	vs := &corestr.ValueStatus{ValueValid: vv, Index: 0}
+	actual := args.Map{"val": vs.ValueValid.Value, "idx": vs.Index}
+	expected := args.Map{"val": "hello", "idx": 0}
 	expected.ShouldBeEqual(t, 0, "ValueStatus", actual)
 }
 

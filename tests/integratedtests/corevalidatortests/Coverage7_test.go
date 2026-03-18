@@ -3,6 +3,7 @@ package corevalidatortests
 import (
 	"testing"
 
+	"github.com/alimtvnetwork/core/coredata/corestr"
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/corevalidator"
 	"github.com/alimtvnetwork/core/enums/stringcompareas"
@@ -285,11 +286,11 @@ func Test_Cov7_TextValidators_Dispose_Nil(t *testing.T) {
 
 // ── Condition ──
 
-func Test_Cov7_Condition_IsAnd(t *testing.T) {
-	c := corevalidator.Condition{IsAnd: true}
-	actual := args.Map{"isAnd": c.IsAnd}
-	expected := args.Map{"isAnd": true}
-	expected.ShouldBeEqual(t, 0, "Condition.IsAnd", actual)
+func Test_Cov7_Condition_IsSplitByWhitespace(t *testing.T) {
+	c := corevalidator.Condition{IsUniqueWordOnly: true}
+	actual := args.Map{"split": c.IsSplitByWhitespace()}
+	expected := args.Map{"split": true}
+	expected.ShouldBeEqual(t, 0, "Condition.IsSplitByWhitespace", actual)
 }
 
 // ── Parameter ──
@@ -305,34 +306,40 @@ func Test_Cov7_Parameter_Fields(t *testing.T) {
 
 // ── SimpleSliceValidator ──
 
-func Test_Cov7_SimpleSliceValidator_IsValid(t *testing.T) {
-	sv := corevalidator.SimpleSliceValidator{
-		ActualLines:   []string{"a", "b"},
-		ExpectedLines: []string{"a", "b"},
+func Test_Cov7_SimpleSliceValidator_SetActual(t *testing.T) {
+	expected := corestr.New.SimpleSlice.SpreadStrings("a", "b")
+	sv := &corevalidator.SimpleSliceValidator{
+		Expected: expected,
 	}
-	actual := args.Map{"valid": sv.IsValid()}
-	expected := args.Map{"valid": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSliceValidator.IsValid", actual)
+	sv.SetActual([]string{"a", "b"})
+	sliceV := sv.SliceValidator()
+	actual := args.Map{"notNil": sliceV != nil}
+	expectedM := args.Map{"notNil": true}
+	expectedM.ShouldBeEqual(t, 0, "SimpleSliceValidator.SetActual", actual)
 }
 
-func Test_Cov7_SimpleSliceValidator_IsValid_Mismatch(t *testing.T) {
-	sv := corevalidator.SimpleSliceValidator{
-		ActualLines:   []string{"a"},
-		ExpectedLines: []string{"b"},
+func Test_Cov7_SimpleSliceValidator_VerifyAll(t *testing.T) {
+	expected := corestr.New.SimpleSlice.SpreadStrings("a", "b")
+	sv := &corevalidator.SimpleSliceValidator{
+		Expected: expected,
 	}
-	actual := args.Map{"valid": sv.IsValid()}
-	expected := args.Map{"valid": false}
-	expected.ShouldBeEqual(t, 0, "SimpleSliceValidator.IsValid mismatch", actual)
+	sv.SetActual([]string{"a", "b"})
+	err := sv.VerifyAll([]string{"a", "b"}, nil)
+	actual := args.Map{"noErr": err == nil}
+	expectedM := args.Map{"noErr": true}
+	expectedM.ShouldBeEqual(t, 0, "SimpleSliceValidator.VerifyAll", actual)
 }
 
-func Test_Cov7_SimpleSliceValidator_IsValid_DifferentLength(t *testing.T) {
-	sv := corevalidator.SimpleSliceValidator{
-		ActualLines:   []string{"a", "b"},
-		ExpectedLines: []string{"a"},
+func Test_Cov7_SimpleSliceValidator_VerifyAll_Mismatch(t *testing.T) {
+	expected := corestr.New.SimpleSlice.SpreadStrings("a", "b")
+	sv := &corevalidator.SimpleSliceValidator{
+		Expected: expected,
 	}
-	actual := args.Map{"valid": sv.IsValid()}
-	expected := args.Map{"valid": false}
-	expected.ShouldBeEqual(t, 0, "SimpleSliceValidator.IsValid different length", actual)
+	sv.SetActual([]string{"a", "c"})
+	err := sv.VerifyAll([]string{"a", "c"}, nil)
+	actual := args.Map{"hasErr": err != nil}
+	expectedM := args.Map{"hasErr": true}
+	expectedM.ShouldBeEqual(t, 0, "SimpleSliceValidator.VerifyAll mismatch", actual)
 }
 
 // ── LineNumber ──
