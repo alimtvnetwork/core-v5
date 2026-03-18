@@ -420,7 +420,7 @@ func Test_Cov12_CharCollectionMap_Nil(t *testing.T) {
 // ── CharHashsetMap ──
 
 func Test_Cov12_CharHashsetMap_Basic(t *testing.T) {
-	chm := corestr.New.CharHashsetMap.Cap(5)
+	chm := corestr.New.CharHashsetMap.Cap(5, 5)
 	actual := args.Map{"isEmpty": chm.IsEmpty(), "len": chm.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "CharHashsetMap basic", actual)
