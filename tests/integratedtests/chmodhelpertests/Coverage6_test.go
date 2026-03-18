@@ -111,7 +111,7 @@ func Test_Cov6_CreateDirFilesWithRwxPermissionsMust_Valid(t *testing.T) {
 	perms := []chmodhelper.DirFilesWithRwxPermission{
 		{
 			DirWithFiles: chmodhelper.DirWithFiles{Dir: dir, Files: []string{}},
-			ApplyRwx:     chmodins.RwxOwnerGroupOther{Owner: chmodins.NewRwx(true, true, true), Group: chmodins.NewRwx(true, false, true), Other: chmodins.NewRwx(true, false, true)},
+			ApplyRwx:     chmodins.RwxOwnerGroupOther{Owner: "rwx", Group: "r-x", Other: "r-x"},
 		},
 	}
 	// Should not panic
