@@ -677,27 +677,20 @@ func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act & Assert
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg"})
 	if !tc.HasIndex(0) {
 		t.Error("HasIndex 0 should be true")
 	}
-
 	if tc.HasIndex(9999) {
 		t.Error("HasIndex 9999 should be false")
 	}
 }
 
 func Test_Cov_TraceCollection_Serializer(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg"})
 	bytes, err := tc.Serializer()
-
-	// Assert
 	if err != nil {
 		t.Errorf("Serializer should not return error: %v", err)
 	}
@@ -707,13 +700,9 @@ func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_StackTracesBytes(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg", PackageMethodName: "pkg.F", FilePath: "/f.go", Line: 1, IsOkay: true})
 	bytes := tc.StackTracesBytes()
-
-	// Assert
 	if len(bytes) == 0 {
 		t.Error("StackTracesBytes should not be empty")
 	}
