@@ -946,6 +946,76 @@ pre{white-space:pre-wrap}</style></head><body>
         Set-Content -Path $rootCoverJsonFile -Value $coverJson -Encoding UTF8
         Write-Success "Coverage JSON: $coverJsonFile"
 
+        # ── Per-Package Coverage report (TXT + JSON) ──
+        $perPkgTxtFile = Join-Path $coverDir "per-package-coverage.txt"
+        $perPkgJsonFile = Join-Path $coverDir "per-package-coverage.json"
+        $rootPerPkgTxtFile = Join-Path $PSScriptRoot "per-package-coverage.txt"
+        $rootPerPkgJsonFile = Join-Path $PSScriptRoot "per-package-coverage.json"
+
+        $perPkgTxtLines = [System.Collections.Generic.List[string]]::new()
+        $perPkgTxtLines.Add("# Per-Package Coverage Report — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+        $perPkgTxtLines.Add("# Total: $totalLine")
+        $perPkgTxtLines.Add("")
+        $perPkgTxtLines.Add("{0,-50} {1,8} {2,8} {3,10} {4,8}" -f "Package", "Stmts", "Covered", "Uncovered", "Cov%")
+        $perPkgTxtLines.Add("{0,-50} {1,8} {2,8} {3,10} {4,8}" -f ("─" * 50), ("─" * 8), ("─" * 8), ("─" * 10), ("─" * 8))
+
+        $perPkgJsonItems = [System.Collections.Generic.List[object]]::new()
+
+        if ($srcPkgStmts.Count -gt 0) {
+            $sortedPerPkg = $srcPkgStmts.GetEnumerator() | ForEach-Object {
+                $pctP = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
+                [pscustomobject]@{
+                    Name      = $_.Key
+                    Pct       = $pctP
+                    Stmts     = $_.Value.Stmts
+                    Covered   = $_.Value.Covered
+                    Uncovered = $_.Value.Stmts - $_.Value.Covered
+                }
+            } | Sort-Object Pct
+
+            foreach ($pp in $sortedPerPkg) {
+                $statusMark = if ($pp.Pct -ge 100) { "✓" } elseif ($pp.Pct -ge 80) { "○" } else { "✗" }
+                $perPkgTxtLines.Add("$statusMark {0,-48} {1,8} {2,8} {3,10} {4,7}%" -f $pp.Name, $pp.Stmts, $pp.Covered, $pp.Uncovered, $pp.Pct)
+                $perPkgJsonItems.Add(@{
+                    package   = $pp.Name
+                    coverage  = $pp.Pct
+                    statements = $pp.Stmts
+                    covered   = $pp.Covered
+                    uncovered = $pp.Uncovered
+                    status    = if ($pp.Pct -ge 100) { "full" } elseif ($pp.Pct -ge 80) { "good" } else { "low" }
+                })
+            }
+
+            # Summary footer
+            $totalStmts = ($sortedPerPkg | Measure-Object -Property Stmts -Sum).Sum
+            $totalCovered = ($sortedPerPkg | Measure-Object -Property Covered -Sum).Sum
+            $totalUncovered = $totalStmts - $totalCovered
+            $fullCount = ($sortedPerPkg | Where-Object { $_.Pct -ge 100 }).Count
+            $lowCount = ($sortedPerPkg | Where-Object { $_.Pct -lt 80 }).Count
+
+            $perPkgTxtLines.Add("")
+            $perPkgTxtLines.Add("# Summary")
+            $perPkgTxtLines.Add("#   Packages:  $($sortedPerPkg.Count)")
+            $perPkgTxtLines.Add("#   100%%:      $fullCount")
+            $perPkgTxtLines.Add("#   < 80%%:     $lowCount")
+            $perPkgTxtLines.Add("#   Total stmts: $totalStmts  covered: $totalCovered  uncovered: $totalUncovered")
+        }
+
+        $perPkgJsonObj = @{
+            timestamp     = (Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
+            totalCoverage = $totalPct
+            packageCount  = $perPkgJsonItems.Count
+            packages      = $perPkgJsonItems.ToArray()
+        }
+
+        Set-Content -Path $perPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
+        Set-Content -Path $rootPerPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
+        $perPkgJson = $perPkgJsonObj | ConvertTo-Json -Depth 4
+        Set-Content -Path $perPkgJsonFile -Value $perPkgJson -Encoding UTF8
+        Set-Content -Path $rootPerPkgJsonFile -Value $perPkgJson -Encoding UTF8
+        Write-Success "Per-package coverage: $perPkgTxtFile"
+        Write-Success "Per-package JSON:     $perPkgJsonFile"
+
         # Build AI-friendly text for copy button
         $aiTextLines.Add("## Goal: Improve test coverage for the packages listed below.")
         $aiTextLines.Add("Please write tests for uncovered functions, following the project's AAA pattern.")
