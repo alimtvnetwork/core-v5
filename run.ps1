@@ -975,7 +975,7 @@ pre{white-space:pre-wrap}</style></head><body>
 
             foreach ($pp in $sortedPerPkg) {
                 $statusMark = if ($pp.Pct -ge 100) { "✓" } elseif ($pp.Pct -ge 80) { "○" } else { "✗" }
-                $perPkgTxtLines.Add("$statusMark {0,-48} {1,8} {2,8} {3,10} {4,7}%" -f $pp.Name, $pp.Stmts, $pp.Covered, $pp.Uncovered, $pp.Pct)
+                $perPkgTxtLines.Add("$statusMark {0,-48} {1,8} {2,8} {3,10} {4,7}%%" -f $pp.Name, $pp.Stmts, $pp.Covered, $pp.Uncovered, $pp.Pct)
                 $perPkgJsonItems.Add(@{
                     package   = $pp.Name
                     coverage  = $pp.Pct
