@@ -404,7 +404,7 @@ func Test_Cov12_SimpleStringOnce_Nil(t *testing.T) {
 // ── CharCollectionMap ──
 
 func Test_Cov12_CharCollectionMap_Basic(t *testing.T) {
-	ccm := corestr.New.CharCollectionMap.Cap(5)
+	ccm := corestr.New.CharCollectionMap.Empty()
 	actual := args.Map{"isEmpty": ccm.IsEmpty(), "len": ccm.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "CharCollectionMap basic", actual)
