@@ -265,7 +265,7 @@ function Invoke-GoTestAndLog([string]$testArgs) {
     $ErrorActionPreference = $prevPref
 
     # Print to console
-    $output | ForEach-Object { Write-Host $_ }
+    Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
 
     # Write logs
     Write-TestLogs $output
