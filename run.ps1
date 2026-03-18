@@ -1231,7 +1231,7 @@ function Invoke-PackageTestCoverage {
     $exitCode = $LASTEXITCODE
     $ErrorActionPreference = $prevPref
 
-    $output | ForEach-Object { Write-Host $_ }
+    Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
     Write-TestLogs $output
 
     if (Test-Path $coverProfile) {
