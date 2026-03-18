@@ -500,7 +500,7 @@ func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 
 func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	fwls := tc.FileWithLines()
