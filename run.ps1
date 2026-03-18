@@ -85,6 +85,11 @@ function Ensure-TestLogDir {
         New-Item -ItemType Directory -Path $TestLogDir -Force | Out-Null
     }
 }
+function Filter-TestWarnings([string[]]$lines) {
+    return $lines | Where-Object {
+        $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern'
+    }
+}
 
 function Write-TestLogs([string[]]$rawOutput) {
     Ensure-TestLogDir
@@ -103,9 +108,7 @@ function Write-TestLogs([string[]]$rawOutput) {
     $failing = [System.Collections.Generic.List[string]]::new()
 
     # Remove noisy go-test coverpkg warnings from logs
-    $filteredOutput = $rawOutput | Where-Object {
-        $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern'
-    }
+    $filteredOutput = Filter-TestWarnings $rawOutput
 
     # Save filtered output for debugging
     Set-Content -Path $rawFile -Value ($filteredOutput -join "`n") -Encoding UTF8
@@ -262,7 +265,7 @@ function Invoke-GoTestAndLog([string]$testArgs) {
     $ErrorActionPreference = $prevPref
 
     # Print to console
-    $output | ForEach-Object { Write-Host $_ }
+    Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
 
     # Write logs
     Write-TestLogs $output
@@ -354,7 +357,7 @@ function Invoke-AllTests {
         $exitCode = $LASTEXITCODE
         $ErrorActionPreference = $prevPref
 
-        $output | ForEach-Object { Write-Host $_ }
+        Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
 
         if ($exitCode -eq 0) { Write-Success "All tests passed" }
@@ -386,7 +389,7 @@ function Invoke-PackageTests([string]$pkg) {
         $exitCode = $LASTEXITCODE
         $ErrorActionPreference = $prevPref
 
-        $output | ForEach-Object { Write-Host $_ }
+        Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
 
         if ($exitCode -eq 0) { Write-Success "Package tests passed" }
@@ -737,7 +740,7 @@ function Invoke-TestCoverage {
     }
 
     # Print to console (skip "warning: no packages being tested" noise)
-    $allOutput | Where-Object { $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern' } | ForEach-Object { Write-Host $_ }
+    Filter-TestWarnings $allOutput | ForEach-Object { Write-Host $_ }
     Write-TestLogs $allOutput.ToArray()
 
     # Merge all partial profiles into one, using MAX count per unique line.
@@ -1228,7 +1231,7 @@ function Invoke-PackageTestCoverage {
     $exitCode = $LASTEXITCODE
     $ErrorActionPreference = $prevPref
 
-    $output | ForEach-Object { Write-Host $_ }
+    Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
     Write-TestLogs $output
 
     if (Test-Path $coverProfile) {
@@ -1320,7 +1323,7 @@ function Invoke-IntegratedTests {
         $exitCode = $LASTEXITCODE
         $ErrorActionPreference = $prevPref
 
-        $output | ForEach-Object { Write-Host $_ }
+        Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
 
         if ($exitCode -eq 0) { Write-Success "Integrated tests passed" }
