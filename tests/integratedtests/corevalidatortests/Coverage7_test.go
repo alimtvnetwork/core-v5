@@ -324,7 +324,8 @@ func Test_Cov7_SimpleSliceValidator_VerifyAll(t *testing.T) {
 		Expected: expected,
 	}
 	sv.SetActual([]string{"a", "b"})
-	err := sv.VerifyAll([]string{"a", "b"}, nil)
+	params := &corevalidator.Parameter{IsCaseSensitive: true}
+	err := sv.VerifyAll([]string{"a", "b"}, params)
 	actual := args.Map{"noErr": err == nil}
 	expectedM := args.Map{"noErr": true}
 	expectedM.ShouldBeEqual(t, 0, "SimpleSliceValidator.VerifyAll", actual)
@@ -336,7 +337,8 @@ func Test_Cov7_SimpleSliceValidator_VerifyAll_Mismatch(t *testing.T) {
 		Expected: expected,
 	}
 	sv.SetActual([]string{"a", "c"})
-	err := sv.VerifyAll([]string{"a", "c"}, nil)
+	params := &corevalidator.Parameter{IsCaseSensitive: true}
+	err := sv.VerifyAll([]string{"a", "c"}, params)
 	actual := args.Map{"hasErr": err != nil}
 	expectedM := args.Map{"hasErr": true}
 	expectedM.ShouldBeEqual(t, 0, "SimpleSliceValidator.VerifyAll mismatch", actual)

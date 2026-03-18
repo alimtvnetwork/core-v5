@@ -154,7 +154,7 @@ func (it *TextValidators) IsMatchMany(
 		)
 
 		if isNotMatched {
-			return isNotMatched
+			return false
 		}
 	}
 
