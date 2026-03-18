@@ -609,7 +609,7 @@ function Invoke-TestCoverage {
 
             $prevPref = $ErrorActionPreference
             $ErrorActionPreference = "Continue"
-            $output = & go test -v -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $output = & go test -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
             $pkgExit = $LASTEXITCODE
             $ErrorActionPreference = $prevPref
 
