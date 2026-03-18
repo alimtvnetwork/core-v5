@@ -75,10 +75,10 @@ func Test_Gap_Result_String_WithNilBytes(t *testing.T) {
 
 // ── deserializerLogic uncovered methods ──
 
-func Test_Gap_Deserialize_UsingSerializerTo(t *testing.T) {
+func Test_Gap_Deserialize_UsingSerializerFuncTo(t *testing.T) {
 	fn := func() ([]byte, error) { return []byte(`"hello"`), nil }
 	var s string
-	err := corejson.Deserialize.UsingSerializerTo(fn, &s)
+	err := corejson.Deserialize.UsingSerializerFuncTo(fn, &s)
 	if err != nil || s != "hello" {
 		t.Fatal("unexpected")
 	}
