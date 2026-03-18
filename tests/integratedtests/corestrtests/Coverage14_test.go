@@ -70,7 +70,7 @@ func Test_Cov14_Hashmap_AddsOrUpdates(t *testing.T) {
 		t.Fatal("expected 2")
 	}
 
-	h.AddsOrUpdates(nil)
+	h.AddsOrUpdates()
 }
 
 func Test_Cov14_Hashmap_AddOrUpdateMap(t *testing.T) {
