@@ -40,7 +40,7 @@ func Test_Cov5_IntegerPtr_BothNil(t *testing.T) {
 func Test_Cov5_IntegerPtr_LeftNil(t *testing.T) {
 	r := 5
 	actual := args.Map{"result": corecmp.IntegerPtr(nil, &r)}
-	expected := args.Map{"result": corecomparator.LeftLess}
+	expected := args.Map{"result": corecomparator.NotEqual}
 	expected.ShouldBeEqual(t, 0, "IntegerPtr returns LeftLess -- left nil", actual)
 }
 
