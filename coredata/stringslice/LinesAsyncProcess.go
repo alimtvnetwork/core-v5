@@ -14,7 +14,7 @@ func LinesAsyncProcess(
 		return []string{}
 	}
 
-	slice := Make(constants.Zero, len(lines))
+	slice := MakeLen(len(lines))
 	wg := sync.WaitGroup{}
 
 	wg.Add(len(lines))
