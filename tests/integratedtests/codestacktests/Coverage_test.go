@@ -848,7 +848,7 @@ func Test_Cov_NewCreator_Ptr(t *testing.T) {
 
 func Test_Cov_StackTrace_DefaultCount(t *testing.T) {
 	// Act
-	tc := codestack.New.StackTrace.DefaultCount(3)
+	tc := codestack.New.StackTrace.DefaultCount(1)
 
 	// Assert
 	if tc.IsEmpty() {
