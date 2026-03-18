@@ -285,11 +285,11 @@ func Test_Cov7_TextValidators_Dispose_Nil(t *testing.T) {
 
 // ── Condition ──
 
-func Test_Cov7_Condition_IsAnd(t *testing.T) {
-	c := corevalidator.Condition{IsAnd: true}
-	actual := args.Map{"isAnd": c.IsAnd}
-	expected := args.Map{"isAnd": true}
-	expected.ShouldBeEqual(t, 0, "Condition.IsAnd", actual)
+func Test_Cov7_Condition_IsSplitByWhitespace(t *testing.T) {
+	c := corevalidator.Condition{IsUniqueWordOnly: true}
+	actual := args.Map{"split": c.IsSplitByWhitespace()}
+	expected := args.Map{"split": true}
+	expected.ShouldBeEqual(t, 0, "Condition.IsSplitByWhitespace", actual)
 }
 
 // ── Parameter ──
