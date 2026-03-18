@@ -689,4 +689,3 @@ func Test_Cov6_Result_InjectInto(t *testing.T) {
 	// Just exercise the code path — don't assert err is nil
 	_ = err
 }
-}
