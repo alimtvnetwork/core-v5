@@ -726,7 +726,7 @@ func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
 
 func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	bytes, err := tc.Serializer()
