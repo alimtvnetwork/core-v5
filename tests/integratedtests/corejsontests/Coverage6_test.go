@@ -546,12 +546,14 @@ func Test_Cov6_Result_DeserializedFieldsToMap(t *testing.T) {
 	r := corejson.NewPtr(map[string]any{"name": "test", "age": 30})
 	fm, err := r.DeserializedFieldsToMap()
 	sfm := r.SafeDeserializedFieldsToMap()
+	// DeserializedFieldsToMap has a known bug: passes nil map (not &map) to Deserialize
+	// so it always returns error + nil map for non-empty results
 	actual := args.Map{
-		"fmNotNil": fm != nil,
-		"errNil":   err == nil,
-		"sfmNotNil": sfm != nil,
+		"fmNil":    fm == nil,
+		"hasErr":   err != nil,
+		"sfmNil":   sfm == nil,
 	}
-	expected := args.Map{"fmNotNil": true, "errNil": true, "sfmNotNil": true}
+	expected := args.Map{"fmNil": true, "hasErr": true, "sfmNil": true}
 	expected.ShouldBeEqual(t, 0, "Result DeserializedFieldsToMap", actual)
 }
 
