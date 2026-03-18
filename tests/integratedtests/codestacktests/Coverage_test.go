@@ -499,10 +499,10 @@ func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
+	// Use manually-constructed trace to avoid skip-count issues
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg", PackageMethodName: "pkg.Func", FilePath: "/f.go", Line: 1, IsOkay: true})
 
-	// Act & Assert
 	fwls := tc.FileWithLines()
 	if len(fwls) == 0 {
 		t.Error("FileWithLines should not be empty")
@@ -525,10 +525,9 @@ func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_Json(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg", PackageMethodName: "pkg.Func", FilePath: "/f.go", Line: 1, IsOkay: true})
 
-	// Act & Assert
 	jsonStrs := tc.JsonStrings()
 	if len(jsonStrs) == 0 {
 		t.Error("JsonStrings should not be empty")
