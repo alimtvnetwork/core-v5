@@ -382,7 +382,7 @@ func Test_Cov12_KeyValueCollection_Nil(t *testing.T) {
 // ── SimpleStringOnce ──
 
 func Test_Cov12_SimpleStringOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("hello")
+	sso := corestr.New.SimpleStringOnce.Init("hello")
 	actual := args.Map{
 		"val":     sso.Value(),
 		"isEmpty": sso.IsEmpty(),
