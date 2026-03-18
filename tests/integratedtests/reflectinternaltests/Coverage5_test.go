@@ -1,6 +1,7 @@
 package reflectinternaltests
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests/args"
