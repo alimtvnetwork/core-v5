@@ -73,7 +73,7 @@ func TestAttributes_WithDynamicPayloads(t *testing.T) {
 }
 
 func TestAttributes_WithKeyValues(t *testing.T) {
-	hm := corestr.New.Hashmap.FromKeyValue("k1", "v1")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k1": "v1"})
 	attr := New.Attributes.UsingKeyValues(hm)
 	if attr.IsKeyValuePairsEmpty() {
 		t.Fatal("should have kv pairs")
@@ -93,7 +93,7 @@ func TestAttributes_WithKeyValues(t *testing.T) {
 }
 
 func TestAttributes_WithAnyKeyValues(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems(map[string]any{"k": "v"})
+	anyMap := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"k": "v"})
 	attr := New.Attributes.UsingAnyKeyValues(anyMap)
 	if attr.IsAnyKeyValuePairsEmpty() {
 		t.Fatal("should have any kv")
