@@ -1,0 +1,828 @@
+package coredynamictests
+
+import (
+	"sync"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coredata/coredynamic"
+	"github.com/alimtvnetwork/core/coretests/args"
+)
+
+// ═══════════════════════════════════════════
+// Collection[T] — core methods
+// ═══════════════════════════════════════════
+
+func Test_Cov12_Collection_NewAndEmpty(t *testing.T) {
+	c := coredynamic.NewCollection[string](10)
+	e := coredynamic.EmptyCollection[string]()
+	actual := args.Map{"cLen": c.Length(), "cEmpty": c.IsEmpty(), "eLen": e.Length(), "eEmpty": e.IsEmpty()}
+	expected := args.Map{"cLen": 0, "cEmpty": true, "eLen": 0, "eEmpty": true}
+	expected.ShouldBeEqual(t, 0, "New/Empty", actual)
+}
+
+func Test_Cov12_Collection_From_Nil(t *testing.T) {
+	c := coredynamic.CollectionFrom[string](nil)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "CollectionFrom nil", actual)
+}
+
+func Test_Cov12_Collection_From(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	actual := args.Map{"len": c.Length(), "first": c.First(), "last": c.Last()}
+	expected := args.Map{"len": 2, "first": "a", "last": "b"}
+	expected.ShouldBeEqual(t, 0, "CollectionFrom", actual)
+}
+
+func Test_Cov12_Collection_Clone(t *testing.T) {
+	c := coredynamic.CollectionClone([]string{"a", "b"})
+	actual := args.Map{"len": c.Length(), "first": c.First()}
+	expected := args.Map{"len": 2, "first": "a"}
+	expected.ShouldBeEqual(t, 0, "CollectionClone", actual)
+}
+
+func Test_Cov12_Collection_At_SafeAt(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "c"})
+	actual := args.Map{"at": c.At(1), "safe": c.SafeAt(1), "oob": c.SafeAt(99)}
+	expected := args.Map{"at": "b", "safe": "b", "oob": ""}
+	expected.ShouldBeEqual(t, 0, "At/SafeAt", actual)
+}
+
+func Test_Cov12_Collection_FirstOrDefault(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a"})
+	e := coredynamic.EmptyCollection[string]()
+	f, fOK := c.FirstOrDefault()
+	l, lOK := c.LastOrDefault()
+	ef, efOK := e.FirstOrDefault()
+	el, elOK := e.LastOrDefault()
+	actual := args.Map{"f": *f, "fOK": fOK, "l": *l, "lOK": lOK, "efNil": ef == nil, "efOK": efOK, "elNil": el == nil, "elOK": elOK}
+	expected := args.Map{"f": "a", "fOK": true, "l": "a", "lOK": true, "efNil": true, "efOK": false, "elNil": true, "elOK": false}
+	expected.ShouldBeEqual(t, 0, "FirstOrDefault", actual)
+}
+
+func Test_Cov12_Collection_Items_Nil(t *testing.T) {
+	var c *coredynamic.Collection[string]
+	actual := args.Map{"len": len(c.Items())}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Items nil", actual)
+}
+
+func Test_Cov12_Collection_Length_Nil(t *testing.T) {
+	var c *coredynamic.Collection[string]
+	actual := args.Map{"len": c.Length(), "count": c.Count(), "empty": c.IsEmpty(), "has": c.HasAnyItem()}
+	expected := args.Map{"len": 0, "count": 0, "empty": true, "has": false}
+	expected.ShouldBeEqual(t, 0, "Length nil", actual)
+}
+
+func Test_Cov12_Collection_HasIndex(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	actual := args.Map{"v0": c.HasIndex(0), "v1": c.HasIndex(1), "v2": c.HasIndex(2), "neg": c.HasIndex(-1), "last": c.LastIndex()}
+	expected := args.Map{"v0": true, "v1": true, "v2": false, "neg": false, "last": 1}
+	expected.ShouldBeEqual(t, 0, "HasIndex", actual)
+}
+
+func Test_Cov12_Collection_SkipTakeLimitSlice(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "c", "d"})
+	actual := args.Map{
+		"skipLen": len(c.Skip(2)), "takeLen": len(c.Take(2)), "limitLen": len(c.Limit(2)),
+		"skipCLen": c.SkipCollection(2).Length(), "takeCLen": c.TakeCollection(2).Length(),
+		"limitCLen": c.LimitCollection(2).Length(), "safeLimitLen": c.SafeLimitCollection(2).Length(),
+	}
+	expected := args.Map{
+		"skipLen": 2, "takeLen": 2, "limitLen": 2,
+		"skipCLen": 2, "takeCLen": 2, "limitCLen": 2, "safeLimitLen": 2,
+	}
+	expected.ShouldBeEqual(t, 0, "Skip/Take/Limit", actual)
+}
+
+func Test_Cov12_Collection_Add_AddMany_AddNonNil(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c.Add("a").AddMany("b", "c")
+	s := "d"
+	c.AddNonNil(&s)
+	c.AddNonNil(nil)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 4}
+	expected.ShouldBeEqual(t, 0, "Add/AddMany/AddNonNil", actual)
+}
+
+func Test_Cov12_Collection_RemoveAt(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "c"})
+	ok := c.RemoveAt(1)
+	bad := c.RemoveAt(99)
+	actual := args.Map{"ok": ok, "bad": bad, "len": c.Length()}
+	expected := args.Map{"ok": true, "bad": false, "len": 2}
+	expected.ShouldBeEqual(t, 0, "RemoveAt", actual)
+}
+
+func Test_Cov12_Collection_ClearDispose(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	c.Clear()
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Clear", actual)
+	c2 := coredynamic.CollectionFrom([]string{"a"})
+	c2.Dispose()
+	actual2 := args.Map{"items": len(c2.Items())}
+	expected2 := args.Map{"items": 0}
+	expected2.ShouldBeEqual(t, 0, "Dispose", actual2)
+}
+
+func Test_Cov12_Collection_Loop(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "c"})
+	count := 0
+	c.Loop(func(i int, item string) bool { count++; return false })
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 3}
+	expected.ShouldBeEqual(t, 0, "Loop", actual)
+}
+
+func Test_Cov12_Collection_Loop_Empty(t *testing.T) {
+	c := coredynamic.EmptyCollection[string]()
+	count := 0
+	c.Loop(func(i int, item string) bool { count++; return false })
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 0}
+	expected.ShouldBeEqual(t, 0, "Loop empty", actual)
+}
+
+func Test_Cov12_Collection_LoopAsync(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3})
+	var mu sync.Mutex
+	sum := 0
+	c.LoopAsync(func(i int, item int) {
+		mu.Lock()
+		sum += item
+		mu.Unlock()
+	})
+	actual := args.Map{"sum": sum}
+	expected := args.Map{"sum": 6}
+	expected.ShouldBeEqual(t, 0, "LoopAsync", actual)
+}
+
+func Test_Cov12_Collection_LoopAsync_Empty(t *testing.T) {
+	c := coredynamic.EmptyCollection[int]()
+	c.LoopAsync(func(i int, item int) {})
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
+	expected.ShouldBeEqual(t, 0, "LoopAsync empty", actual)
+}
+
+func Test_Cov12_Collection_Filter(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3, 4})
+	filtered := c.Filter(func(i int) bool { return i%2 == 0 })
+	actual := args.Map{"len": filtered.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "Filter", actual)
+}
+
+func Test_Cov12_Collection_Filter_Empty(t *testing.T) {
+	c := coredynamic.EmptyCollection[int]()
+	filtered := c.Filter(func(i int) bool { return true })
+	actual := args.Map{"len": filtered.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Filter empty", actual)
+}
+
+func Test_Cov12_Collection_Paging(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3, 4, 5})
+	pages := c.GetPagesSize(2)
+	zero := c.GetPagesSize(0)
+	actual := args.Map{"pages": pages, "zero": zero}
+	expected := args.Map{"pages": 3, "zero": 0}
+	expected.ShouldBeEqual(t, 0, "GetPagesSize", actual)
+}
+
+func Test_Cov12_Collection_GetPagedCollection(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3, 4, 5})
+	paged := c.GetPagedCollection(2)
+	actual := args.Map{"pages": len(paged)}
+	expected := args.Map{"pages": 3}
+	expected.ShouldBeEqual(t, 0, "GetPagedCollection", actual)
+}
+
+func Test_Cov12_Collection_GetPagedCollection_Small(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2})
+	paged := c.GetPagedCollection(10)
+	actual := args.Map{"pages": len(paged)}
+	expected := args.Map{"pages": 1}
+	expected.ShouldBeEqual(t, 0, "GetPagedCollection small", actual)
+}
+
+func Test_Cov12_Collection_GetSinglePageCollection(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3, 4, 5})
+	page := c.GetSinglePageCollection(2, 1)
+	actual := args.Map{"len": page.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection", actual)
+}
+
+func Test_Cov12_Collection_Json(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	js, err := c.JsonString()
+	jm := c.JsonStringMust()
+	b, merr := c.MarshalJSON()
+	actual := args.Map{"jsNE": js != "", "noErr": err == nil, "jmNE": jm != "", "bLen": len(b) > 0, "merrNil": merr == nil}
+	expected := args.Map{"jsNE": true, "noErr": true, "jmNE": true, "bLen": true, "merrNil": true}
+	expected.ShouldBeEqual(t, 0, "Collection Json", actual)
+}
+
+func Test_Cov12_Collection_UnmarshalJSON(t *testing.T) {
+	c := coredynamic.EmptyCollection[string]()
+	err := c.UnmarshalJSON([]byte(`["x","y"]`))
+	actual := args.Map{"noErr": err == nil, "len": c.Length()}
+	expected := args.Map{"noErr": true, "len": 2}
+	expected.ShouldBeEqual(t, 0, "UnmarshalJSON", actual)
+}
+
+func Test_Cov12_Collection_Strings(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	strs := c.Strings()
+	str := c.String()
+	actual := args.Map{"len": len(strs), "strNE": str != ""}
+	expected := args.Map{"len": 2, "strNE": true}
+	expected.ShouldBeEqual(t, 0, "Strings", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionMethods — AddIf, AddCollection, ConcatNew, Clone, Capacity, Reverse, InsertAt, IndexOfFunc, SprintItems
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionMethods_AddIf(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c.AddIf(true, "a").AddIf(false, "b")
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AddIf", actual)
+}
+
+func Test_Cov12_CollectionMethods_AddManyIf(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c.AddManyIf(true, "a", "b").AddManyIf(false, "c")
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AddManyIf", actual)
+}
+
+func Test_Cov12_CollectionMethods_AddCollection(t *testing.T) {
+	c1 := coredynamic.CollectionFrom([]string{"a"})
+	c2 := coredynamic.CollectionFrom([]string{"b", "c"})
+	c1.AddCollection(c2)
+	c1.AddCollection(nil)
+	actual := args.Map{"len": c1.Length()}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "AddCollection", actual)
+}
+
+func Test_Cov12_CollectionMethods_AddCollections(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c1 := coredynamic.CollectionFrom([]string{"a"})
+	c.AddCollections(c1, nil)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AddCollections", actual)
+}
+
+func Test_Cov12_CollectionMethods_ConcatNew(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a"})
+	c2 := c.ConcatNew("b", "c")
+	actual := args.Map{"origLen": c.Length(), "newLen": c2.Length()}
+	expected := args.Map{"origLen": 1, "newLen": 3}
+	expected.ShouldBeEqual(t, 0, "ConcatNew", actual)
+}
+
+func Test_Cov12_CollectionMethods_Clone_Nil(t *testing.T) {
+	var c *coredynamic.Collection[string]
+	cloned := c.Clone()
+	actual := args.Map{"len": cloned.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Clone nil", actual)
+}
+
+func Test_Cov12_CollectionMethods_Capacity(t *testing.T) {
+	c := coredynamic.NewCollection[string](10)
+	var nilC *coredynamic.Collection[string]
+	actual := args.Map{"cap": c.Capacity() >= 10, "nilCap": nilC.Capacity()}
+	expected := args.Map{"cap": true, "nilCap": 0}
+	expected.ShouldBeEqual(t, 0, "Capacity", actual)
+}
+
+func Test_Cov12_CollectionMethods_AddCapacity(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c.AddCapacity(10)
+	c.AddCapacity(0) // no-op
+	actual := args.Map{"capGTE15": c.Capacity() >= 15}
+	expected := args.Map{"capGTE15": true}
+	expected.ShouldBeEqual(t, 0, "AddCapacity", actual)
+}
+
+func Test_Cov12_CollectionMethods_Resize(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c.Resize(20)
+	c.Resize(5) // no-op
+	actual := args.Map{"capGTE20": c.Capacity() >= 20}
+	expected := args.Map{"capGTE20": true}
+	expected.ShouldBeEqual(t, 0, "Resize", actual)
+}
+
+func Test_Cov12_CollectionMethods_Reverse(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "c"})
+	c.Reverse()
+	actual := args.Map{"first": c.First(), "last": c.Last()}
+	expected := args.Map{"first": "c", "last": "a"}
+	expected.ShouldBeEqual(t, 0, "Reverse", actual)
+}
+
+func Test_Cov12_CollectionMethods_Reverse_Single(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a"})
+	c.Reverse()
+	actual := args.Map{"first": c.First()}
+	expected := args.Map{"first": "a"}
+	expected.ShouldBeEqual(t, 0, "Reverse single", actual)
+}
+
+func Test_Cov12_CollectionMethods_InsertAt(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "c"})
+	c.InsertAt(1, "b")
+	actual := args.Map{"len": c.Length(), "at1": c.At(1)}
+	expected := args.Map{"len": 3, "at1": "b"}
+	expected.ShouldBeEqual(t, 0, "InsertAt", actual)
+}
+
+func Test_Cov12_CollectionMethods_InsertAt_Empty(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a"})
+	c.InsertAt(0)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "InsertAt empty", actual)
+}
+
+func Test_Cov12_CollectionMethods_IndexOfFunc(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "c"})
+	idx := c.IndexOfFunc(func(s string) bool { return s == "b" })
+	missing := c.IndexOfFunc(func(s string) bool { return s == "z" })
+	has := c.ContainsFunc(func(s string) bool { return s == "b" })
+	actual := args.Map{"idx": idx, "missing": missing, "has": has}
+	expected := args.Map{"idx": 1, "missing": -1, "has": true}
+	expected.ShouldBeEqual(t, 0, "IndexOfFunc", actual)
+}
+
+func Test_Cov12_CollectionMethods_SprintItems(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2})
+	items := c.SprintItems("%d")
+	actual := args.Map{"len": len(items)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "SprintItems", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionSearch — Contains, IndexOf, Has, HasAll, LastIndexOf, Count, Lock variants
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionSearch_Contains(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "c"})
+	actual := args.Map{
+		"has":   coredynamic.Contains(c, "b"),
+		"miss":  coredynamic.Contains(c, "z"),
+		"idx":   coredynamic.IndexOf(c, "b"),
+		"alias": coredynamic.Has(c, "b"),
+		"all":   coredynamic.HasAll(c, "a", "b"),
+		"allM":  coredynamic.HasAll(c, "a", "z"),
+		"last":  coredynamic.LastIndexOf(c, "b"),
+		"lastM": coredynamic.LastIndexOf(c, "z"),
+		"count": coredynamic.Count(c, "b"),
+	}
+	expected := args.Map{
+		"has": true, "miss": false, "idx": 1, "alias": true,
+		"all": true, "allM": false, "last": 1, "lastM": -1, "count": 1,
+	}
+	expected.ShouldBeEqual(t, 0, "Search", actual)
+}
+
+func Test_Cov12_CollectionSearch_HasAll_Empty(t *testing.T) {
+	c := coredynamic.EmptyCollection[string]()
+	actual := args.Map{"v": coredynamic.HasAll(c, "a")}
+	expected := args.Map{"v": false}
+	expected.ShouldBeEqual(t, 0, "HasAll empty", actual)
+}
+
+func Test_Cov12_CollectionSearch_Lock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	actual := args.Map{
+		"contains": coredynamic.ContainsLock(c, "a"),
+		"indexOf":  coredynamic.IndexOfLock(c, "a"),
+	}
+	expected := args.Map{"contains": true, "indexOf": 0}
+	expected.ShouldBeEqual(t, 0, "Search Lock", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionSort
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionSort_SortFunc(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{3, 1, 2})
+	c.SortFunc(func(a, b int) bool { return a < b })
+	actual := args.Map{"first": c.First(), "last": c.Last()}
+	expected := args.Map{"first": 1, "last": 3}
+	expected.ShouldBeEqual(t, 0, "SortFunc", actual)
+}
+
+func Test_Cov12_CollectionSort_SortFunc_Single(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1})
+	c.SortFunc(func(a, b int) bool { return a < b })
+	actual := args.Map{"first": c.First()}
+	expected := args.Map{"first": 1}
+	expected.ShouldBeEqual(t, 0, "SortFunc single", actual)
+}
+
+func Test_Cov12_CollectionSort_SortFuncLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{3, 1, 2})
+	c.SortFuncLock(func(a, b int) bool { return a < b })
+	actual := args.Map{"first": c.First()}
+	expected := args.Map{"first": 1}
+	expected.ShouldBeEqual(t, 0, "SortFuncLock", actual)
+}
+
+func Test_Cov12_CollectionSort_SortedFunc(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{3, 1, 2})
+	sorted := c.SortedFunc(func(a, b int) bool { return a < b })
+	actual := args.Map{"origFirst": c.First(), "sortedFirst": sorted.First()}
+	expected := args.Map{"origFirst": 3, "sortedFirst": 1}
+	expected.ShouldBeEqual(t, 0, "SortedFunc", actual)
+}
+
+func Test_Cov12_CollectionSort_PackageLevelSort(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{3, 1, 2})
+	coredynamic.SortAsc(c)
+	actual := args.Map{"first": c.First()}
+	expected := args.Map{"first": 1}
+	expected.ShouldBeEqual(t, 0, "SortAsc", actual)
+	coredynamic.SortDesc(c)
+	actual2 := args.Map{"first": c.First()}
+	expected2 := args.Map{"first": 3}
+	expected2.ShouldBeEqual(t, 0, "SortDesc", actual2)
+}
+
+func Test_Cov12_CollectionSort_SortAscDescLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{3, 1, 2})
+	coredynamic.SortAscLock(c)
+	actual := args.Map{"first": c.First()}
+	expected := args.Map{"first": 1}
+	expected.ShouldBeEqual(t, 0, "SortAscLock", actual)
+	coredynamic.SortDescLock(c)
+	actual2 := args.Map{"first": c.First()}
+	expected2 := args.Map{"first": 3}
+	expected2.ShouldBeEqual(t, 0, "SortDescLock", actual2)
+}
+
+func Test_Cov12_CollectionSort_SortedAscDesc(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{3, 1, 2})
+	asc := coredynamic.SortedAsc(c)
+	desc := coredynamic.SortedDesc(c)
+	actual := args.Map{"ascFirst": asc.First(), "descFirst": desc.First()}
+	expected := args.Map{"ascFirst": 1, "descFirst": 3}
+	expected.ShouldBeEqual(t, 0, "SortedAsc/Desc", actual)
+}
+
+func Test_Cov12_CollectionSort_IsSorted(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3})
+	single := coredynamic.CollectionFrom([]int{1})
+	actual := args.Map{
+		"asc":       coredynamic.IsSortedAsc(c),
+		"desc":      coredynamic.IsSortedDesc(c),
+		"singleAsc": coredynamic.IsSortedAsc(single),
+	}
+	expected := args.Map{"asc": true, "desc": false, "singleAsc": true}
+	expected.ShouldBeEqual(t, 0, "IsSorted", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionDistinct
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionDistinct(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "a", "c", "b"})
+	d := coredynamic.Distinct(c)
+	u := coredynamic.Unique(c)
+	dl := coredynamic.DistinctLock(c)
+	dc := coredynamic.DistinctCount(c)
+	id := coredynamic.IsDistinct(c)
+	actual := args.Map{"dLen": d.Length(), "uLen": u.Length(), "dlLen": dl.Length(), "dc": dc, "id": id}
+	expected := args.Map{"dLen": 3, "uLen": 3, "dlLen": 3, "dc": 3, "id": false}
+	expected.ShouldBeEqual(t, 0, "Distinct", actual)
+}
+
+func Test_Cov12_CollectionDistinct_Empty(t *testing.T) {
+	c := coredynamic.EmptyCollection[string]()
+	d := coredynamic.Distinct(c)
+	dc := coredynamic.DistinctCount(c)
+	actual := args.Map{"len": d.Length(), "dc": dc}
+	expected := args.Map{"len": 0, "dc": 0}
+	expected.ShouldBeEqual(t, 0, "Distinct empty", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionGroupBy
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionGroupBy(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"apple", "avocado", "banana"})
+	groups := coredynamic.GroupBy(c, func(s string) byte { return s[0] })
+	actual := args.Map{"keys": len(groups)}
+	expected := args.Map{"keys": 2}
+	expected.ShouldBeEqual(t, 0, "GroupBy", actual)
+}
+
+func Test_Cov12_CollectionGroupBy_Nil(t *testing.T) {
+	groups := coredynamic.GroupBy[string, byte](nil, func(s string) byte { return s[0] })
+	actual := args.Map{"keys": len(groups)}
+	expected := args.Map{"keys": 0}
+	expected.ShouldBeEqual(t, 0, "GroupBy nil", actual)
+}
+
+func Test_Cov12_CollectionGroupBy_Lock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	groups := coredynamic.GroupByLock(c, func(s string) string { return s })
+	actual := args.Map{"keys": len(groups)}
+	expected := args.Map{"keys": 2}
+	expected.ShouldBeEqual(t, 0, "GroupByLock", actual)
+}
+
+func Test_Cov12_CollectionGroupBy_Count(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b", "a"})
+	counts := coredynamic.GroupByCount(c, func(s string) string { return s })
+	actual := args.Map{"a": counts["a"], "b": counts["b"]}
+	expected := args.Map{"a": 2, "b": 1}
+	expected.ShouldBeEqual(t, 0, "GroupByCount", actual)
+}
+
+func Test_Cov12_CollectionGroupBy_Count_Nil(t *testing.T) {
+	counts := coredynamic.GroupByCount[string, string](nil, func(s string) string { return s })
+	actual := args.Map{"len": len(counts)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "GroupByCount nil", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionMap — Map, FlatMap, Reduce
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionMap_Map(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3})
+	mapped := coredynamic.Map(c, func(i int) string { return "x" })
+	actual := args.Map{"len": mapped.Length()}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "Map", actual)
+}
+
+func Test_Cov12_CollectionMap_Map_Nil(t *testing.T) {
+	mapped := coredynamic.Map[int, string](nil, func(i int) string { return "x" })
+	actual := args.Map{"len": mapped.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "Map nil", actual)
+}
+
+func Test_Cov12_CollectionMap_FlatMap(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"ab", "cd"})
+	flat := coredynamic.FlatMap(c, func(s string) []byte { return []byte(s) })
+	actual := args.Map{"len": flat.Length()}
+	expected := args.Map{"len": 4}
+	expected.ShouldBeEqual(t, 0, "FlatMap", actual)
+}
+
+func Test_Cov12_CollectionMap_FlatMap_Nil(t *testing.T) {
+	flat := coredynamic.FlatMap[string, byte](nil, func(s string) []byte { return []byte(s) })
+	actual := args.Map{"len": flat.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "FlatMap nil", actual)
+}
+
+func Test_Cov12_CollectionMap_Reduce(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3})
+	sum := coredynamic.Reduce(c, 0, func(acc int, item int) int { return acc + item })
+	actual := args.Map{"sum": sum}
+	expected := args.Map{"sum": 6}
+	expected.ShouldBeEqual(t, 0, "Reduce", actual)
+}
+
+func Test_Cov12_CollectionMap_Reduce_Nil(t *testing.T) {
+	sum := coredynamic.Reduce[int, int](nil, 99, func(acc int, item int) int { return acc + item })
+	actual := args.Map{"sum": sum}
+	expected := args.Map{"sum": 99}
+	expected.ShouldBeEqual(t, 0, "Reduce nil", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionLock — all Lock methods
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionLock_LengthLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	actual := args.Map{"len": c.LengthLock(), "empty": c.IsEmptyLock()}
+	expected := args.Map{"len": 2, "empty": false}
+	expected.ShouldBeEqual(t, 0, "LengthLock", actual)
+}
+
+func Test_Cov12_CollectionLock_AddLock(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c.AddLock("a")
+	c.AddsLock("b", "c")
+	c.AddManyLock("d")
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 4}
+	expected.ShouldBeEqual(t, 0, "AddLock", actual)
+}
+
+func Test_Cov12_CollectionLock_AddCollectionLock(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c2 := coredynamic.CollectionFrom([]string{"a", "b"})
+	c.AddCollectionLock(c2)
+	c.AddCollectionLock(nil)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AddCollectionLock", actual)
+}
+
+func Test_Cov12_CollectionLock_AddCollectionsLock(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c1 := coredynamic.CollectionFrom([]string{"a"})
+	c.AddCollectionsLock(c1, nil)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AddCollectionsLock", actual)
+}
+
+func Test_Cov12_CollectionLock_AddIfLock(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	c.AddIfLock(true, "a").AddIfLock(false, "b")
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AddIfLock", actual)
+}
+
+func Test_Cov12_CollectionLock_RemoveAtLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	ok := c.RemoveAtLock(0)
+	bad := c.RemoveAtLock(99)
+	actual := args.Map{"ok": ok, "bad": bad, "len": c.Length()}
+	expected := args.Map{"ok": true, "bad": false, "len": 1}
+	expected.ShouldBeEqual(t, 0, "RemoveAtLock", actual)
+}
+
+func Test_Cov12_CollectionLock_ClearLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a"})
+	c.ClearLock()
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "ClearLock", actual)
+}
+
+func Test_Cov12_CollectionLock_ItemsLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	items := c.ItemsLock()
+	actual := args.Map{"len": len(items)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "ItemsLock", actual)
+}
+
+func Test_Cov12_CollectionLock_FirstLastLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	actual := args.Map{"first": c.FirstLock(), "last": c.LastLock()}
+	expected := args.Map{"first": "a", "last": "b"}
+	expected.ShouldBeEqual(t, 0, "FirstLastLock", actual)
+}
+
+func Test_Cov12_CollectionLock_AddWithWgLock(t *testing.T) {
+	c := coredynamic.NewCollection[string](5)
+	wg := &sync.WaitGroup{}
+	wg.Add(1)
+	c.AddWithWgLock(wg, "a")
+	wg.Wait()
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "AddWithWgLock", actual)
+}
+
+func Test_Cov12_CollectionLock_LoopLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	count := 0
+	c.LoopLock(func(i int, item string) bool { count++; return false })
+	actual := args.Map{"count": count}
+	expected := args.Map{"count": 2}
+	expected.ShouldBeEqual(t, 0, "LoopLock", actual)
+}
+
+func Test_Cov12_CollectionLock_FilterLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]int{1, 2, 3, 4})
+	f := c.FilterLock(func(i int) bool { return i%2 == 0 })
+	actual := args.Map{"len": f.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "FilterLock", actual)
+}
+
+func Test_Cov12_CollectionLock_StringsLock(t *testing.T) {
+	c := coredynamic.CollectionFrom([]string{"a", "b"})
+	strs := c.StringsLock()
+	actual := args.Map{"len": len(strs)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "StringsLock", actual)
+}
+
+// ═══════════════════════════════════════════
+// CollectionTypes — factory shortcuts
+// ═══════════════════════════════════════════
+
+func Test_Cov12_CollectionTypes(t *testing.T) {
+	sc := coredynamic.NewStringCollection(5)
+	esc := coredynamic.EmptyStringCollection()
+	ic := coredynamic.NewIntCollection(5)
+	eic := coredynamic.EmptyIntCollection()
+	i64c := coredynamic.NewInt64Collection(5)
+	bc := coredynamic.NewByteCollection(5)
+	boc := coredynamic.NewBoolCollection(5)
+	fc := coredynamic.NewFloat64Collection(5)
+	amc := coredynamic.NewAnyMapCollection(5)
+	smc := coredynamic.NewStringMapCollection(5)
+	actual := args.Map{
+		"sc": sc != nil, "esc": esc != nil, "ic": ic != nil, "eic": eic != nil,
+		"i64c": i64c != nil, "bc": bc != nil, "boc": boc != nil, "fc": fc != nil,
+		"amc": amc != nil, "smc": smc != nil,
+	}
+	expected := args.Map{
+		"sc": true, "esc": true, "ic": true, "eic": true,
+		"i64c": true, "bc": true, "boc": true, "fc": true,
+		"amc": true, "smc": true,
+	}
+	expected.ShouldBeEqual(t, 0, "CollectionTypes", actual)
+}
+
+// ═══════════════════════════════════════════
+// newCreator — New.Collection pattern
+// ═══════════════════════════════════════════
+
+func Test_Cov12_NewCreator_Collection(t *testing.T) {
+	sc := coredynamic.New.Collection.String.Cap(5)
+	se := coredynamic.New.Collection.String.Empty()
+	sf := coredynamic.New.Collection.String.From([]string{"a"})
+	scl := coredynamic.New.Collection.String.Clone([]string{"a"})
+	si := coredynamic.New.Collection.String.Items("a", "b")
+	slc := coredynamic.New.Collection.String.LenCap(3, 10)
+	scr := coredynamic.New.Collection.String.Create([]string{"a", "b"})
+	actual := args.Map{
+		"scNN": sc != nil, "seNN": se != nil, "sfLen": sf.Length(), "sclLen": scl.Length(),
+		"siLen": si.Length(), "slcLen": slc.Length(), "scrLen": scr.Length(),
+	}
+	expected := args.Map{
+		"scNN": true, "seNN": true, "sfLen": 1, "sclLen": 1,
+		"siLen": 2, "slcLen": 3, "scrLen": 2,
+	}
+	expected.ShouldBeEqual(t, 0, "New.Collection.String", actual)
+}
+
+func Test_Cov12_NewCreator_Int(t *testing.T) {
+	c := coredynamic.New.Collection.Int.LenCap(2, 5)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "New.Collection.Int.LenCap", actual)
+}
+
+func Test_Cov12_NewCreator_Int64(t *testing.T) {
+	c := coredynamic.New.Collection.Int64.LenCap(2, 5)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "New.Collection.Int64.LenCap", actual)
+}
+
+func Test_Cov12_NewCreator_Byte(t *testing.T) {
+	c := coredynamic.New.Collection.Byte.LenCap(2, 5)
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "New.Collection.Byte.LenCap", actual)
+}
+
+func Test_Cov12_NewCreator_Any(t *testing.T) {
+	c := coredynamic.New.Collection.Any.Cap(5)
+	actual := args.Map{"nn": c != nil}
+	expected := args.Map{"nn": true}
+	expected.ShouldBeEqual(t, 0, "New.Collection.Any", actual)
+}
+
+func Test_Cov12_NewCreator_Other(t *testing.T) {
+	bs := coredynamic.New.Collection.ByteSlice.Empty()
+	bo := coredynamic.New.Collection.Bool.Empty()
+	f32 := coredynamic.New.Collection.Float32.Empty()
+	f64 := coredynamic.New.Collection.Float64.Empty()
+	am := coredynamic.New.Collection.AnyMap.Empty()
+	sm := coredynamic.New.Collection.StringMap.Empty()
+	im := coredynamic.New.Collection.IntMap.Empty()
+	actual := args.Map{
+		"bs": bs != nil, "bo": bo != nil, "f32": f32 != nil, "f64": f64 != nil,
+		"am": am != nil, "sm": sm != nil, "im": im != nil,
+	}
+	expected := args.Map{
+		"bs": true, "bo": true, "f32": true, "f64": true,
+		"am": true, "sm": true, "im": true,
+	}
+	expected.ShouldBeEqual(t, 0, "New.Collection.Others", actual)
+}
