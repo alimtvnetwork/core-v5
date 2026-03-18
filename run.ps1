@@ -609,7 +609,7 @@ function Invoke-TestCoverage {
 
             $prevPref = $ErrorActionPreference
             $ErrorActionPreference = "Continue"
-            $output = & go test -v -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $output = & go test -count=1 "-coverprofile=$partialProfile" "-coverpkg=$covPkgList" "$testPkg" 2>&1 | ForEach-Object { $_.ToString() }
             $pkgExit = $LASTEXITCODE
             $ErrorActionPreference = $prevPref
 
@@ -655,7 +655,7 @@ function Invoke-TestCoverage {
             $safePkgName = $pkg -replace '[^a-zA-Z0-9\.-]', '_'
             $profile = Join-Path $pDir "cover-$safePkgName.out"
             $ErrorActionPreference = "Continue"
-            $out = & go test -v -count=1 "-coverprofile=$profile" "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
+            $out = & go test -count=1 "-coverprofile=$profile" "-coverpkg=$covPkgs" "$pkg" 2>&1 | ForEach-Object { $_.ToString() }
             [pscustomobject]@{
                 Pkg      = $pkg
                 Profile  = $profile
