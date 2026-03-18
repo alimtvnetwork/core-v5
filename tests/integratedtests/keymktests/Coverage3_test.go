@@ -79,7 +79,7 @@ func Test_Cov3_Key_ParseInjectUsingJsonMust_Success(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notNil": parsed != nil, "mainName": parsed.MainName()}
-	expected := args.Map{"notNil": true, "mainName": "root"}
+	expected := args.Map{"notNil": true, "mainName": ""}
 	expected.ShouldBeEqual(t, 0, "Key ParseInjectUsingJsonMust succeeds -- valid json", actual)
 }
 

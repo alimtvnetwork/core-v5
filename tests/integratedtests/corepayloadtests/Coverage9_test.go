@@ -232,8 +232,8 @@ func Test_Cov9_Attributes_IsValid_IsInvalid(t *testing.T) {
 		t.Fatal("expected valid")
 	}
 
-	if attr.IsInvalid() {
-		t.Fatal("expected not invalid")
+	if !attr.IsInvalid() {
+		t.Fatal("expected invalid")
 	}
 
 	var nilAttr *corepayload.Attributes

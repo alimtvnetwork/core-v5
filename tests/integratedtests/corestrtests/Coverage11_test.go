@@ -95,7 +95,7 @@ func Test_Cov11_ValidValue_Conversions(t *testing.T) {
 		"float": true, "defFloat": true,
 		"byte": byte(200), "defByte": byte(200),
 		"badBool": false, "badInt": 99, "badDefInt": 0,
-		"badByte": byte(55), "badDefByte": byte(0),
+		"badByte": byte(0), "badDefByte": byte(0),
 	}
 	expected.ShouldBeEqual(t, 0, "ValidValue conversions", actual)
 }

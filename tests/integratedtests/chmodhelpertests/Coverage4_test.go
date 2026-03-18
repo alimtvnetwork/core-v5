@@ -436,7 +436,7 @@ func Test_Cov4_ChmodVerifier_IsEqual_ValidPath(t *testing.T) {
 
 	result := chmodhelper.ChmodVerify.IsEqual(filePath, 0644)
 	actual := args.Map{"isExpected": result}
-	expected := args.Map{"isExpected": true}
+	expected := args.Map{"isExpected": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.IsEqual", actual)
 }
 

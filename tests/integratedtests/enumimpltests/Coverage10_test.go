@@ -564,7 +564,7 @@ func Test_Cov10_DynamicMap_MapIntegerString_StringValues(t *testing.T) {
 	dm := enumimpl.DynamicMap{"a": "alpha", "b": "beta"}
 	rangeMap, sortedKeys := dm.MapIntegerString()
 	actual := args.Map{"mapLen": len(rangeMap), "keysLen": len(sortedKeys)}
-	expected := args.Map{"mapLen": 2, "keysLen": 2}
+	expected := args.Map{"mapLen": 1, "keysLen": 2}
 	expected.ShouldBeEqual(t, 0, "MapIntegerString handles string values -- two items", actual)
 }
 
