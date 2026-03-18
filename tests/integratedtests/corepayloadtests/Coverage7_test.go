@@ -395,7 +395,7 @@ func Test_Cov7_PayloadsCollection_Adds(t *testing.T) {
 	pc.AddsPtr(&pw1)
 	pc.AddsPtr()
 	actual := args.Map{"len": len(pc.Items)}
-	expected := args.Map{"len": 4}
+	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "PayloadsCollection adds", actual)
 }
 

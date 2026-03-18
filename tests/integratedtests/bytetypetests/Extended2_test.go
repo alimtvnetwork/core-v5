@@ -160,7 +160,7 @@ func Test_Variant_MarshalJSON(t *testing.T) {
 func Test_Variant_UnmarshalJSON(t *testing.T) {
 	// Arrange
 	v := bytetype.One
-	data, _ := json.Marshal(v)
+	data, _ := json.Marshal(v.Value())
 
 	// Act
 	var result bytetype.Variant
@@ -179,7 +179,7 @@ func Test_Variant_UnmarshalJSON(t *testing.T) {
 func Test_Variant_UnmarshallToValue(t *testing.T) {
 	// Arrange
 	v := bytetype.Two
-	data, _ := json.Marshal(v)
+	data, _ := json.Marshal(v.Value())
 
 	// Act
 	val, err := v.UnmarshallToValue(data)

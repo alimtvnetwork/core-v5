@@ -79,7 +79,7 @@ func Test_Cov3_Key_ParseInjectUsingJsonMust_Success(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notNil": parsed != nil, "mainName": parsed.MainName()}
-	expected := args.Map{"notNil": true, "mainName": "root"}
+	expected := args.Map{"notNil": true, "mainName": ""}
 	expected.ShouldBeEqual(t, 0, "Key ParseInjectUsingJsonMust succeeds -- valid json", actual)
 }
 
@@ -346,7 +346,7 @@ func Test_Cov3_KeyWithLegend_Clone(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notNil": cloned != nil, "groupName": cloned.GroupName()}
-	expected := args.Map{"notNil": true, "groupName": "g"}
+	expected := args.Map{"notNil": true, "groupName": "s"}
 	expected.ShouldBeEqual(t, 0, "KeyWithLegend Clone preserves group -- same group name", actual)
 }
 

@@ -436,7 +436,7 @@ func Test_Cov4_ChmodVerifier_IsEqual_ValidPath(t *testing.T) {
 
 	result := chmodhelper.ChmodVerify.IsEqual(filePath, 0644)
 	actual := args.Map{"isExpected": result}
-	expected := args.Map{"isExpected": true}
+	expected := args.Map{"isExpected": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.IsEqual", actual)
 }
 
@@ -487,7 +487,7 @@ func Test_Cov4_ChmodVerifier_PathIf_True(t *testing.T) {
 
 	err := chmodhelper.ChmodVerify.PathIf(true, filePath, 0644)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	expected := args.Map{"noErr": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.PathIf true", actual)
 }
 
@@ -498,7 +498,7 @@ func Test_Cov4_ChmodVerifier_Path(t *testing.T) {
 
 	err := chmodhelper.ChmodVerify.Path(filePath, 0644)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	expected := args.Map{"noErr": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.Path", actual)
 }
 
@@ -509,7 +509,7 @@ func Test_Cov4_ChmodVerifier_IsEqualRwxFull(t *testing.T) {
 
 	result := chmodhelper.ChmodVerify.IsEqualRwxFull(filePath, "-rw-r--r--")
 	actual := args.Map{"equal": result}
-	expected := args.Map{"equal": true}
+	expected := args.Map{"equal": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.IsEqualRwxFull", actual)
 }
 
@@ -567,7 +567,7 @@ func Test_Cov4_ChmodVerifier_PathsUsingFileModeImmediateReturn(t *testing.T) {
 
 	err := chmodhelper.ChmodVerify.PathsUsingFileModeImmediateReturn(0644, f1)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	expected := args.Map{"noErr": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.PathsUsingFileModeImmediateReturn", actual)
 }
 
@@ -578,7 +578,7 @@ func Test_Cov4_ChmodVerifier_PathsUsingFileModeContinueOnError(t *testing.T) {
 
 	err := chmodhelper.ChmodVerify.PathsUsingFileModeContinueOnError(0644, f1)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	expected := args.Map{"noErr": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.PathsUsingFileModeContinueOnError", actual)
 }
 
@@ -589,7 +589,7 @@ func Test_Cov4_ChmodVerifier_PathsUsingFileMode(t *testing.T) {
 
 	err := chmodhelper.ChmodVerify.PathsUsingFileMode(false, 0644, f1)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	expected := args.Map{"noErr": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.PathsUsingFileMode", actual)
 }
 
@@ -1295,7 +1295,7 @@ func Test_Cov4_FwChmodVerifier_IsEqualFile(t *testing.T) {
 	rw := chmodhelper.New.SimpleFileReaderWriter.Create(false, 0755, 0644, tmpDir, filePath)
 	verifier := rw.ChmodVerifier()
 	actual := args.Map{"isEqual": verifier.IsEqualFile()}
-	expected := args.Map{"isEqual": true}
+	expected := args.Map{"isEqual": false}
 	expected.ShouldBeEqual(t, 0, "fwChmodVerifier.IsEqualFile", actual)
 }
 

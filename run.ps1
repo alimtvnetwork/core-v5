@@ -112,10 +112,10 @@ function Write-TestLogs([string[]]$rawOutput) {
 
     foreach ($line in $rawOutput) {
 
-        if ($line -match "^\s*--- FAIL:\s+(.+?)\s+\(") {
+        if ($line -match "--- FAIL:\s+(.+?)\s+\(") {
             $failedNames.Add($Matches[1].Trim()) | Out-Null
         }
-        elseif ($line -match "^\s*--- PASS:\s+(.+?)\s+\(") {
+        elseif ($line -match "--- PASS:\s+(.+?)\s+\(") {
             $passedNames.Add($Matches[1].Trim()) | Out-Null
         }
     }
@@ -126,7 +126,7 @@ function Write-TestLogs([string[]]$rawOutput) {
 
     foreach ($line in $rawOutput) {
 
-        if ($line -match "^=== RUN\s+(.+)$") {
+        if ($line -match "=== RUN\s+(.+)$") {
             # Flush previous block if it was a failed test
             if ($currentTest -and $failedNames.Contains($currentTest)) {
                 $failing.Add("FAIL: $currentTest")
@@ -141,13 +141,17 @@ function Write-TestLogs([string[]]$rawOutput) {
             $currentTest = $Matches[1].Trim()
             $currentBlock.Clear()
         }
-        elseif ($line -match "^\s*--- PASS:\s+(.+?)\s+\(") {
+        elseif ($line -match "--- PASS:\s+(.+?)\s+\(") {
             # Passing test — flush and reset
             $currentTest = ""
             $currentBlock.Clear()
         }
-        elseif ($line -match "^\s*--- FAIL:\s+(.+?)\s+\(") {
+        elseif ($line -match "--- FAIL:\s+(.+?)\s+\(") {
             # Capture the --- FAIL line itself as part of diagnostics
+            if (-not $currentTest) {
+                $currentTest = $Matches[1].Trim()
+            }
+
             if ($currentTest) {
                 $currentBlock.Add($line)
             }
@@ -196,6 +200,28 @@ function Write-TestLogs([string[]]$rawOutput) {
         $failingContent += @("", "# ── Details ──", "")
     }
     $failingContent += $failing
+
+    # Fallback diagnostics: if no per-test block was captured, include raw reasons
+    if ($failCount -gt 0 -and $failing.Count -eq 0) {
+        $failingContent += @("# Diagnostic Snippets:", "")
+
+        $snippetLines = $rawOutput | Where-Object {
+            $_ -match "--- FAIL:\s+" -or
+            $_ -match "_test\.go:\d+:" -or
+            $_ -match "^\s*panic:" -or
+            $_ -match "^\s*Expected:" -or
+            $_ -match "^\s*Actual:"
+        }
+
+        if ($snippetLines) {
+            $failingContent += $snippetLines
+        }
+        else {
+            $failingContent += "No detailed failure lines were captured from raw output."
+        }
+
+        $failingContent += ""
+    }
 
     # Also capture compilation errors (no === RUN lines at all)
     $hasAnyRun = $rawOutput | Where-Object { $_ -match "^=== RUN" } | Select-Object -First 1

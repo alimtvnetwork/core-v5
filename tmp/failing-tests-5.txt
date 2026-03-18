@@ -1,0 +1,56 @@
+# Failing Tests — 2026-03-18 11:31:57
+# Count: 25
+
+# ── Summary ──
+  - Test_Cov_ParseBaseRwxInstructions_EmptyBytes
+  - Test_Cov_ParseRwxInstruction_EmptyBytes
+  - Test_Cov10_BasicString_NameWithIndexMap
+  - Test_Cov10_DynamicMap_MapIntegerString_StringValues
+  - Test_Cov11_KeyValueCollection_Adds
+  - Test_Cov11_ValidValue_Conversions
+  - Test_Cov12_Hashmap_Clone
+  - Test_Cov3_Key_ParseInjectUsingJsonMust_Success
+  - Test_Cov3_KeyWithLegend_Clone
+  - Test_Cov4_ChmodVerifier_IsEqual_ValidPath
+  - Test_Cov4_ChmodVerifier_IsEqualRwxFull
+  - Test_Cov4_ChmodVerifier_Path
+  - Test_Cov4_ChmodVerifier_PathIf_True
+  - Test_Cov4_ChmodVerifier_PathsUsingFileMode
+  - Test_Cov4_ChmodVerifier_PathsUsingFileModeContinueOnError
+  - Test_Cov4_ChmodVerifier_PathsUsingFileModeImmediateReturn
+  - Test_Cov4_FwChmodVerifier_IsEqualFile
+  - Test_Cov5_RwxWrapper_VerifyPaths
+  - Test_Cov5_TextValidators_IsMatchMany_WithItems_Fail
+  - Test_Cov5_Within_StringRangeUint32_AboveMax
+  - Test_Cov7_FuncMap_Invoke
+  - Test_Cov7_FuncMap_VoidCallNoReturn
+  - Test_Cov7_PayloadsCollection_Adds
+  - Test_Cov9_PayloadWrapper_DeserializePayloadsToPayloadsCollection
+  - Test_Variant_UnmarshallToValue
+
+# ── Details ──
+
+
+# Compilation Errors:
+
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/argstests	1.907s
+    Extended2_test.go:171: UnmarshalJSON error: UsingBytes - 
+    Extended2_test.go:175: expected value 1, got 0
+    Extended2_test.go:189: UnmarshallToValue error: Failed to unmarshal or deserialize. json unmarshal failed Ref (s) { err = UsingBytes - 
+    Extended2_test.go:193: expected 2, got 0
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/bytetypetests	1.627s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/chmodhelpertests	2.405s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/chmodinstests	1.228s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/corecmptests	2.991s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/coredynamictests	0.208s
+    Coverage9_test.go:236: expected not invalid
+    Coverage9_test.go:1719: expected no error
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/corepayloadtests	1.925s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/corerangetests	1.388s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/corestrtests	1.949s
+--- FAIL: Test_Cov5_TextValidators_IsMatchMany_WithItems_Fail (0.00s)
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/corevalidatortests	2.165s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/enumimpltests	1.574s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/keymktests	1.134s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/reflectinternaltests	1.177s
+FAIL	github.com/alimtvnetwork/core/tests/integratedtests/stringslicetests	1.037s
