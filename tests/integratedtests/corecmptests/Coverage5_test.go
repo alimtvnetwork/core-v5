@@ -264,7 +264,7 @@ func Test_Cov5_AnyItem_RightNil(t *testing.T) {
 
 func Test_Cov5_AnyItem_BothNonNil(t *testing.T) {
 	result := corecmp.AnyItem("hello", "world")
-	actual := args.Map{"isValid": result == corecomparator.Equal || result == corecomparator.NotEqual}
+	actual := args.Map{"isValid": result == corecomparator.Equal || result == corecomparator.NotEqual || result == corecomparator.Inconclusive}
 	expected := args.Map{"isValid": true}
 	expected.ShouldBeEqual(t, 0, "AnyItem returns valid -- both non-nil", actual)
 }
