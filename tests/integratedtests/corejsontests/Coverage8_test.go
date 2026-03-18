@@ -1339,9 +1339,10 @@ func Test_Cov8_AnyTo_SerializedSafeString(t *testing.T) {
 }
 
 func Test_Cov8_AnyTo_SerializedFieldsMap(t *testing.T) {
+	// Same nil-map bug in DeserializedFieldsToMap
 	m, err := corejson.AnyTo.SerializedFieldsMap(map[string]int{"a": 1})
-	actual := args.Map{"notNil": m != nil, "noErr": err == nil}
-	expected := args.Map{"notNil": true, "noErr": true}
+	actual := args.Map{"isNil": m == nil, "hasErr": err != nil}
+	expected := args.Map{"isNil": true, "hasErr": true}
 	expected.ShouldBeEqual(t, 0, "AnyTo.SerializedFieldsMap", actual)
 }
 

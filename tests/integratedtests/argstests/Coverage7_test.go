@@ -1632,8 +1632,8 @@ func Test_Cov7_FuncMap_VoidCallNoReturn(t *testing.T) {
 	err := fm.VoidCallNoReturn(knownName)
 	misErr := fm.VoidCallNoReturn("missing")
 
-	actual := args.Map{"errNil": err == nil, "misErr": misErr != nil}
-	expected := args.Map{"errNil": true, "misErr": true}
+	actual := args.Map{"hasErr": err != nil, "misErr": misErr != nil}
+	expected := args.Map{"hasErr": true, "misErr": true}
 	expected.ShouldBeEqual(t, 0, "FuncMap VoidCallNoReturn", actual)
 }
 

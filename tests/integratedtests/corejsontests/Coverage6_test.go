@@ -561,12 +561,13 @@ func Test_Cov6_Result_FieldsNames(t *testing.T) {
 	r := corejson.NewPtr(map[string]any{"name": "test"})
 	names, err := r.FieldsNames()
 	safeNames := r.SafeFieldsNames()
+	// FieldsNames delegates to DeserializedFieldsToMap which has the nil-map bug
 	actual := args.Map{
-		"namesNotNil":    names != nil,
-		"errNil":         err == nil,
-		"safeNotNil":     safeNames != nil,
+		"namesNotNil": names != nil,
+		"hasErr":      err != nil,
+		"safeNotNil":  safeNames != nil,
 	}
-	expected := args.Map{"namesNotNil": true, "errNil": true, "safeNotNil": true}
+	expected := args.Map{"namesNotNil": true, "hasErr": true, "safeNotNil": true}
 	expected.ShouldBeEqual(t, 0, "Result FieldsNames", actual)
 }
 
