@@ -294,7 +294,7 @@ func Test_Cov9_Attributes_StringKeyValuePairsLength(t *testing.T) {
 		t.Fatal("nil should return 0")
 	}
 
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 
 	if attr.StringKeyValuePairsLength() != 1 {
