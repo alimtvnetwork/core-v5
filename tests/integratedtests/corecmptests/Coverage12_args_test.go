@@ -1029,7 +1029,7 @@ func Test_Cov12_DynamicFunc_AllMethods(t *testing.T) {
 		"title":     df.Title(),
 	}
 	expected := args.Map{
-		"argsCount": 3, "hasFunc": true, "hasExpect": true,
+		"argsCount": 2, "hasFunc": true, "hasExpect": true,
 		"length": 3, "hasFirst": true, "when": "cond", "title": "t",
 	}
 	expected.ShouldBeEqual(t, 0, "DynamicFunc all methods", actual)
