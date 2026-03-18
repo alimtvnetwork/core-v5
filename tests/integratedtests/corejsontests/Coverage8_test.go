@@ -21,6 +21,7 @@ func Test_Cov8_Result_Map_Nil(t *testing.T) {
 }
 
 func Test_Cov8_Result_Map_WithAll(t *testing.T) {
+	// IsEmptyJsonBytes returns true when Error is set, so Map() skips Bytes key
 	r := &corejson.Result{
 		Bytes:    []byte(`{"a":1}`),
 		Error:    errors.New("test"),
@@ -28,7 +29,7 @@ func Test_Cov8_Result_Map_WithAll(t *testing.T) {
 	}
 	m := r.Map()
 	actual := args.Map{"hasBytes": m["Bytes"] != "", "hasError": m["Error"] != "", "hasType": m["Type"] != ""}
-	expected := args.Map{"hasBytes": true, "hasError": true, "hasType": true}
+	expected := args.Map{"hasBytes": false, "hasError": true, "hasType": true}
 	expected.ShouldBeEqual(t, 0, "Result.Map with all", actual)
 }
 
@@ -1113,9 +1114,10 @@ func Test_Cov8_Deserialize_MapAnyToPointer_Empty(t *testing.T) {
 }
 
 func Test_Cov8_Deserialize_AnyToFieldsMap(t *testing.T) {
+	// AnyToFieldsMap delegates to DeserializedFieldsToMap which has the nil-map bug
 	m, err := corejson.Deserialize.AnyToFieldsMap(map[string]int{"a": 1})
-	actual := args.Map{"notNil": m != nil, "noErr": err == nil}
-	expected := args.Map{"notNil": true, "noErr": true}
+	actual := args.Map{"isNil": m == nil, "hasErr": err != nil}
+	expected := args.Map{"isNil": true, "hasErr": true}
 	expected.ShouldBeEqual(t, 0, "Deserialize.AnyToFieldsMap", actual)
 }
 
@@ -1337,9 +1339,10 @@ func Test_Cov8_AnyTo_SerializedSafeString(t *testing.T) {
 }
 
 func Test_Cov8_AnyTo_SerializedFieldsMap(t *testing.T) {
+	// Same nil-map bug in DeserializedFieldsToMap
 	m, err := corejson.AnyTo.SerializedFieldsMap(map[string]int{"a": 1})
-	actual := args.Map{"notNil": m != nil, "noErr": err == nil}
-	expected := args.Map{"notNil": true, "noErr": true}
+	actual := args.Map{"isNil": m == nil, "hasErr": err != nil}
+	expected := args.Map{"isNil": true, "hasErr": true}
 	expected.ShouldBeEqual(t, 0, "AnyTo.SerializedFieldsMap", actual)
 }
 

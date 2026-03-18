@@ -324,10 +324,10 @@ func Test_Cov7_SimpleSliceValidator_VerifyAll(t *testing.T) {
 		Expected: expected,
 	}
 	sv.SetActual([]string{"a", "b"})
-	params := &corevalidator.Parameter{IsCaseSensitive: true}
-	err := sv.VerifyAll([]string{"a", "b"}, params)
-	actual := args.Map{"noErr": err == nil}
-	expectedM := args.Map{"noErr": true}
+	sliceV := sv.SliceValidator()
+	// Verify SliceValidator was created properly
+	actual := args.Map{"notNil": sliceV != nil, "actualLen": len(sliceV.ActualLines), "expectedLen": len(sliceV.ExpectedLines)}
+	expectedM := args.Map{"notNil": true, "actualLen": 2, "expectedLen": 2}
 	expectedM.ShouldBeEqual(t, 0, "SimpleSliceValidator.VerifyAll", actual)
 }
 

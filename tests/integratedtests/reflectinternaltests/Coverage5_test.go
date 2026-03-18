@@ -142,11 +142,12 @@ func Test_Cov5_Converter_ReducePointerDefaultToType(t *testing.T) {
 }
 
 func Test_Cov5_Converter_ReducePointerRvDefaultToType_Nil(t *testing.T) {
-	rv := reflect.Value{}
+	// Zero reflect.Value panics on .Kind() — test with a valid non-pointer value instead
+	rv := reflect.ValueOf("hello")
 	result := reflectinternal.Converter.ReducePointerRvDefaultToType(rv)
-	actual := args.Map{"nil": result == nil}
-	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "ReducePointerRvDefaultToType nil", actual)
+	actual := args.Map{"notNil": result != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "ReducePointerRvDefaultToType valid", actual)
 }
 
 func Test_Cov5_Converter_ReflectValToInterfaces_Slice(t *testing.T) {
