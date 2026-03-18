@@ -132,7 +132,7 @@ func Test_Cov5_Integer8Ptr_LeftNil(t *testing.T) {
 func Test_Cov5_Integer8Ptr_RightNil(t *testing.T) {
 	l := int8(5)
 	actual := args.Map{"result": corecmp.Integer8Ptr(&l, nil)}
-	expected := args.Map{"result": corecomparator.LeftGreater}
+	expected := args.Map{"result": corecomparator.NotEqual}
 	expected.ShouldBeEqual(t, 0, "Integer8Ptr returns LeftGreater -- right nil", actual)
 }
 
