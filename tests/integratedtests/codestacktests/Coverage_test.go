@@ -580,7 +580,7 @@ func Test_Cov_TraceCollection_Reverse(t *testing.T) {
 
 func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if !tc.IsEqual(&tc) {
