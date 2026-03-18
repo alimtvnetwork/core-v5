@@ -1394,8 +1394,8 @@ func Test_Cov14_SimpleStringOnce_WithinRange(t *testing.T) {
 		t.Fatal("expected min boundary")
 	}
 
-	_ = s.Uint16()
-	_ = s.Uint32()
+	_, _ = s.Uint16()
+	_, _ = s.Uint32()
 }
 
 func Test_Cov14_SimpleStringOnce_Is_Contains_Regex(t *testing.T) {
