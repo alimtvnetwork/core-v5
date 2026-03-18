@@ -20,8 +20,8 @@ func Test_Cov9_New_Valid(t *testing.T) {
 
 func Test_Cov9_NewPtr_Nil(t *testing.T) {
 	r := corejson.NewPtr(nil)
-	actual := args.Map{"notNil": r != nil, "empty": r.IsEmpty()}
-	expected := args.Map{"notNil": true, "empty": true}
+	actual := args.Map{"notNil": r != nil, "hasBytes": len(r.Bytes) > 0}
+	expected := args.Map{"notNil": true, "hasBytes": true}
 	expected.ShouldBeEqual(t, 0, "NewPtr nil", actual)
 }
 
