@@ -97,7 +97,7 @@ func Test_Cov15_TypedSimpleRequest_GetAs(t *testing.T) {
 	str, strOK := rs.GetAsString()
 	i, iOK := ri.GetAsInt()
 	i64, i64OK := ri.GetAsInt64()
-	f64, f64OK := rf.GetAsFloat64()
+	_, f64OK := rf.GetAsFloat64()
 	f32, f32OK := rf.GetAsFloat32()
 	b, bOK := rb.GetAsBool()
 	_, bytesOK := rs.GetAsBytes()
