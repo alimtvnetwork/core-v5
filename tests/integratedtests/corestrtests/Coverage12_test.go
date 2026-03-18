@@ -382,7 +382,7 @@ func Test_Cov12_KeyValueCollection_Nil(t *testing.T) {
 // ── SimpleStringOnce ──
 
 func Test_Cov12_SimpleStringOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("hello")
+	sso := corestr.New.SimpleStringOnce.Init("hello")
 	actual := args.Map{
 		"val":     sso.Value(),
 		"isEmpty": sso.IsEmpty(),
@@ -404,7 +404,7 @@ func Test_Cov12_SimpleStringOnce_Nil(t *testing.T) {
 // ── CharCollectionMap ──
 
 func Test_Cov12_CharCollectionMap_Basic(t *testing.T) {
-	ccm := corestr.New.CharCollectionMap.Cap(5)
+	ccm := corestr.New.CharCollectionMap.Empty()
 	actual := args.Map{"isEmpty": ccm.IsEmpty(), "len": ccm.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "CharCollectionMap basic", actual)
@@ -420,7 +420,7 @@ func Test_Cov12_CharCollectionMap_Nil(t *testing.T) {
 // ── CharHashsetMap ──
 
 func Test_Cov12_CharHashsetMap_Basic(t *testing.T) {
-	chm := corestr.New.CharHashsetMap.Cap(5)
+	chm := corestr.New.CharHashsetMap.Cap(5, 5)
 	actual := args.Map{"isEmpty": chm.IsEmpty(), "len": chm.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "CharHashsetMap basic", actual)
@@ -453,7 +453,7 @@ func Test_Cov12_CloneSlice_Nil(t *testing.T) {
 
 func Test_Cov12_CloneSliceIf_True(t *testing.T) {
 	original := []string{"a"}
-	cloned := corestr.CloneSliceIf(true, original)
+	cloned := corestr.CloneSliceIf(true, original...)
 	original[0] = "X"
 	actual := args.Map{"cloned": cloned[0]}
 	expected := args.Map{"cloned": "a"}
@@ -462,7 +462,7 @@ func Test_Cov12_CloneSliceIf_True(t *testing.T) {
 
 func Test_Cov12_CloneSliceIf_False(t *testing.T) {
 	original := []string{"a"}
-	cloned := corestr.CloneSliceIf(false, original)
+	cloned := corestr.CloneSliceIf(false, original...)
 	actual := args.Map{"len": len(cloned)}
 	expected := args.Map{"len": 1}
 	expected.ShouldBeEqual(t, 0, "CloneSliceIf false", actual)
@@ -471,7 +471,7 @@ func Test_Cov12_CloneSliceIf_False(t *testing.T) {
 // ── LinkedList ──
 
 func Test_Cov12_LinkedList_Basic(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	actual := args.Map{"isEmpty": ll.IsEmpty(), "len": ll.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "LinkedList basic", actual)
@@ -487,7 +487,7 @@ func Test_Cov12_LinkedList_Nil(t *testing.T) {
 // ── LinkedCollections ──
 
 func Test_Cov12_LinkedCollections_Basic(t *testing.T) {
-	lc := corestr.New.LinkedCollections.Cap(5)
+	lc := corestr.New.LinkedCollection.Create()
 	actual := args.Map{"isEmpty": lc.IsEmpty(), "len": lc.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "LinkedCollections basic", actual)
@@ -503,13 +503,11 @@ func Test_Cov12_LinkedCollections_Nil(t *testing.T) {
 // ── ValidValues ──
 
 func Test_Cov12_ValidValues(t *testing.T) {
-	vvs := corestr.ValidValues{
-		Items: []corestr.ValidValue{
-			{Value: "a", IsValid: true},
-			{Value: "b", IsValid: false},
-		},
-	}
-	actual := args.Map{"len": len(vvs.Items)}
+	vvs := corestr.NewValidValuesUsingValues(
+		corestr.ValidValue{Value: "a", IsValid: true},
+		corestr.ValidValue{Value: "b", IsValid: false},
+	)
+	actual := args.Map{"len": vvs.Length()}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "ValidValues", actual)
 }
@@ -517,8 +515,8 @@ func Test_Cov12_ValidValues(t *testing.T) {
 // ── HashmapDiff ──
 
 func Test_Cov12_HashmapDiff(t *testing.T) {
-	diff := corestr.HashmapDiff{Key: "k", Left: "a", Right: "b"}
-	actual := args.Map{"key": diff.Key, "left": diff.Left, "right": diff.Right}
-	expected := args.Map{"key": "k", "left": "a", "right": "b"}
+	diff := corestr.HashmapDiff(map[string]string{"k": "v"})
+	actual := args.Map{"len": diff.Length(), "empty": diff.IsEmpty()}
+	expected := args.Map{"len": 1, "empty": false}
 	expected.ShouldBeEqual(t, 0, "HashmapDiff", actual)
 }

@@ -3510,7 +3510,7 @@ func Test_Cov9_NewAttributesCreator_AllFactories(t *testing.T) {
 	}
 
 	// UsingKeyValues
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr = corepayload.New.Attributes.UsingKeyValues(hm)
 
 	if attr == nil {
@@ -4048,6 +4048,7 @@ func Test_Cov9_DeserializeAttributesPayloadToSlice(t *testing.T) {
 type mockStringer struct{ val string }
 
 func (m mockStringer) String() string { return m.val }
+func (m mockStringer) Name() string   { return m.val }
 
 func Test_Cov9_PayloadCreateInstructionTypeStringer(t *testing.T) {
 	instr := corepayload.PayloadCreateInstructionTypeStringer{

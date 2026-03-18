@@ -346,11 +346,10 @@ func Test_Cov7_SimpleSliceValidator_VerifyAll_Mismatch(t *testing.T) {
 
 func Test_Cov7_LineNumber_Fields(t *testing.T) {
 	ln := corevalidator.LineNumber{
-		Index:      0,
 		LineNumber: 1,
 	}
-	actual := args.Map{"idx": ln.Index, "num": ln.LineNumber}
-	expected := args.Map{"idx": 0, "num": 1}
+	actual := args.Map{"num": ln.LineNumber, "hasLN": ln.HasLineNumber()}
+	expected := args.Map{"num": 1, "hasLN": true}
 	expected.ShouldBeEqual(t, 0, "LineNumber fields", actual)
 }
 
@@ -416,10 +415,9 @@ func Test_Cov7_SliceValidators_Length(t *testing.T) {
 
 func Test_Cov7_RangesSegment(t *testing.T) {
 	rs := corevalidator.RangesSegment{
-		Start: 0,
-		End:   10,
+		ExpectedLines: []string{"a", "b"},
 	}
-	actual := args.Map{"start": rs.Start, "end": rs.End}
-	expected := args.Map{"start": 0, "end": 10}
+	actual := args.Map{"len": len(rs.ExpectedLines)}
+	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "RangesSegment", actual)
 }
