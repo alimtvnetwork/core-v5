@@ -471,7 +471,7 @@ func Test_Cov12_CloneSliceIf_False(t *testing.T) {
 // ── LinkedList ──
 
 func Test_Cov12_LinkedList_Basic(t *testing.T) {
-	ll := corestr.New.LinkedList.Cap(5)
+	ll := corestr.New.LinkedList.Create()
 	actual := args.Map{"isEmpty": ll.IsEmpty(), "len": ll.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "LinkedList basic", actual)
