@@ -85,6 +85,11 @@ function Ensure-TestLogDir {
         New-Item -ItemType Directory -Path $TestLogDir -Force | Out-Null
     }
 }
+function Filter-TestWarnings([string[]]$lines) {
+    return $lines | Where-Object {
+        $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern'
+    }
+}
 
 function Write-TestLogs([string[]]$rawOutput) {
     Ensure-TestLogDir
