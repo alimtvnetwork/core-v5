@@ -104,7 +104,7 @@ function Write-TestLogs([string[]]$rawOutput) {
 
     # Remove noisy go-test coverpkg warnings from logs
     $filteredOutput = $rawOutput | Where-Object {
-        $_ -notmatch '^warning: no packages being tested depend on matches for pattern'
+        $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern'
     }
 
     # Save filtered output for debugging
@@ -737,7 +737,7 @@ function Invoke-TestCoverage {
     }
 
     # Print to console (skip "warning: no packages being tested" noise)
-    $allOutput | Where-Object { $_ -notmatch '^warning: no packages being tested depend on matches for pattern' } | ForEach-Object { Write-Host $_ }
+    $allOutput | Where-Object { $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern' } | ForEach-Object { Write-Host $_ }
     Write-TestLogs $allOutput.ToArray()
 
     # Merge all partial profiles into one, using MAX count per unique line.
