@@ -516,7 +516,6 @@ func Test_Cov16_Collection_HasIndex(t *testing.T) {
 func Test_Cov16_Collection_Extended(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	_ = c.Take(2)
-	_ = c.Limit(2)
 	_ = c.Skip(1)
 	_ = c.First()
 	_ = c.Last()
@@ -536,7 +535,8 @@ func Test_Cov16_Collection_Extended(t *testing.T) {
 	_ = c.ListCopyPtrLock()
 	_ = c.Has("b")
 	_ = c.HasLock("a")
-	_ = c.HasPtr("a")
+	aPtr := "a"
+	_ = c.HasPtr(&aPtr)
 	_ = c.HasAll("a", "b")
 	_ = c.SortedListAsc()
 	_ = c.SortedAsc()
@@ -559,15 +559,16 @@ func Test_Cov16_Collection_Extended(t *testing.T) {
 	_ = c.NonWhitespaceJoins(",")
 	_ = c.String()
 	_ = c.StringLock()
-	_ = c.SummaryString()
+	_ = c.SummaryString(1)
 	_ = c.SummaryStringWithHeader("header")
 	_ = c.CsvLines()
 	_ = c.Csv()
-	_ = c.IsContainsPtr("a")
+	bPtr := "a"
+	_ = c.IsContainsPtr(&bPtr)
 	_ = c.IsContainsAll("a", "b")
 	_ = c.IsContainsAllLock("a", "b")
 	_ = c.IsContainsAllSlice([]string{"a"})
-	_ = c.HasUsingSensitivity(false, "A")
+	_ = c.HasUsingSensitivity("A", false)
 	c.AddCapacity(10)
 	c.Resize(5)
 	_ = c.New("d", "e")
@@ -576,8 +577,9 @@ func Test_Cov16_Collection_Extended(t *testing.T) {
 	_ = c.JsonPtr()
 	_ = c.AsJsonMarshaller()
 	_ = c.AsJsonContractsBinder()
-	_ = c.Serialize()
-	_ = c.Deserialize()
+	_, _ = c.Serialize()
+	var target []string
+	_ = c.Deserialize(&target)
 
 	actual := args.Map{"exercised": true}
 	expected := args.Map{"exercised": true}
@@ -586,12 +588,21 @@ func Test_Cov16_Collection_Extended(t *testing.T) {
 
 func Test_Cov16_Collection_Filter(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "bb", "ccc"})
-	filtered := c.Filter(func(s string) bool { return len(s) > 1 })
-	_ = c.FilterLock(func(s string) bool { return len(s) > 1 })
-	_ = c.FilteredCollection(func(s string) bool { return len(s) > 1 })
-	_ = c.FilteredCollectionLock(func(s string) bool { return len(s) > 1 })
-	_ = c.FilterPtr(func(s string) bool { return len(s) > 1 })
-	_ = c.FilterPtrLock(func(s string) bool { return len(s) > 1 })
+	filterFn := corestr.IsStringFilter(func(str string, index int) (string, bool, bool) {
+		return str, len(str) > 1, false
+	})
+	filtered := c.Filter(filterFn)
+	_ = c.FilterLock(filterFn)
+	_ = c.FilteredCollection(filterFn)
+	_ = c.FilteredCollectionLock(filterFn)
+	ptrFilterFn := corestr.IsStringPointerFilter(func(sp *string, index int) (*string, bool, bool) {
+		if sp != nil && len(*sp) > 1 {
+			return sp, true, false
+		}
+		return nil, false, false
+	})
+	_ = c.FilterPtr(ptrFilterFn)
+	_ = c.FilterPtrLock(ptrFilterFn)
 	actual := args.Map{"filteredLen": len(filtered)}
 	expected := args.Map{"filteredLen": 2}
 	expected.ShouldBeEqual(t, 0, "Collection Filter", actual)
