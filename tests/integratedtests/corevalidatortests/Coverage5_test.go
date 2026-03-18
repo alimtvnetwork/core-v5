@@ -706,7 +706,7 @@ func Test_Cov5_TextValidators_IsMatchMany_WithItems_Fail(t *testing.T) {
 
 	// Act & Assert
 	actual := args.Map{"match": tvs.IsMatchMany(false, true, "y")}
-	expected := args.Map{"match": true}
+	expected := args.Map{"match": false}
 	expected.ShouldBeEqual(t, 0, "IsMatchMany returns false -- item mismatch", actual)
 }
 
