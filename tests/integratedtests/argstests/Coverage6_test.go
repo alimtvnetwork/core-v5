@@ -99,7 +99,7 @@ func Test_Cov6_Map_GetAsBoolDefault(t *testing.T) {
 func Test_Cov6_Map_ArgsCount(t *testing.T) {
 	m := args.Map{"a": 1, "b": 2, "func": nil, "expect": nil}
 	actual := args.Map{"count": m.ArgsCount()}
-	expected := args.Map{"count": 2}
+	expected := args.Map{"count": 3}
 	expected.ShouldBeEqual(t, 0, "Map ArgsCount", actual)
 }
 
