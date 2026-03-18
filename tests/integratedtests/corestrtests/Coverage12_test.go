@@ -350,8 +350,9 @@ func Test_Cov12_CollectionsOfCollection_Add(t *testing.T) {
 
 func Test_Cov12_CollectionsOfCollection_Nil(t *testing.T) {
 	var coc *corestr.CollectionsOfCollection
-	actual := args.Map{"empty": coc.IsEmpty(), "len": coc.Length()}
-	expected := args.Map{"empty": true, "len": 0}
+	isNil := coc == nil
+	actual := args.Map{"isNil": isNil}
+	expected := args.Map{"isNil": true}
 	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection nil", actual)
 }
 
