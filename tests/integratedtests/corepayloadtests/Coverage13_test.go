@@ -26,7 +26,7 @@ func Test_Cov13_TPW_NewTypedPayloadWrapper_Nil(t *testing.T) {
 }
 
 func Test_Cov13_TPW_NewTypedPayloadWrapper_Valid(t *testing.T) {
-	pw := &corepayload.PayloadWrapper{Payloads: []byte(`{"Name":"alice","Email":"a@b.c"}`)}
+	pw := &corepayload.PayloadWrapper{Payloads: []byte(`{"name":"alice","email":"a@b.c","age":0}`)}
 	tw, err := corepayload.NewTypedPayloadWrapper[testUser](pw)
 	actual := args.Map{"noErr": err == nil, "name": tw.Data().Name}
 	expected := args.Map{"noErr": true, "name": "alice"}
