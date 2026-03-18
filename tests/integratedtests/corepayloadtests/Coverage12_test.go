@@ -851,7 +851,7 @@ func Test_Cov12_NewPC_DeserializeToMany_Bad(t *testing.T) {
 
 func Test_Cov12_NewPC_DeserializeUsingJsonResult_Bad(t *testing.T) {
 	jr := corejson.NewResult.UsingBytes([]byte("{bad"))
-	_, err := corepayload.New.PayloadsCollection.DeserializeUsingJsonResult(jr)
+	_, err := corepayload.New.PayloadsCollection.DeserializeUsingJsonResult(&jr)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "NewPC.DeserializeUsingJsonResult bad", actual)

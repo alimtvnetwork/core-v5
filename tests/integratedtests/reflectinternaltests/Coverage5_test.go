@@ -757,7 +757,7 @@ func Test_Cov5_Is_StructRv(t *testing.T) {
 func Test_Cov5_Looper_FieldsFor(t *testing.T) {
 	type S struct{ A int; B string }
 	count := 0
-	err := reflectinternal.Looper.FieldsFor(S{}, func(fp *reflect.StructField) error {
+	err := reflectinternal.Looper.FieldsFor(S{}, func(fp *reflectmodel.FieldProcessor) error {
 		return nil
 	})
 	_ = count

@@ -119,7 +119,7 @@ func Test_Cov5_AttrVariant_All(t *testing.T) {
 		"val":    v.Value(),
 		"gt":     v.IsGreaterThan(8),
 		"notGt":  v.IsGreaterThan(3),
-		"attrOk": v.ToAttribute().ToByte(),
+		"attrOk": func() byte { a := v.ToAttribute(); return a.ToByte() }(),
 	}
 	expected := args.Map{"str": true, "val": byte(7), "gt": true, "notGt": false, "attrOk": byte(7)}
 	expected.ShouldBeEqual(t, 0, "AttrVariant all", actual)

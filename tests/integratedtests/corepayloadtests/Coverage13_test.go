@@ -11,7 +11,7 @@ import (
 // TypedPayloadWrapper — Core methods
 // ══════════════════════════════════════════════════════════════════════════════
 
-type testUser struct {
+type testUserTyped struct {
 	Name  string `json:"Name"`
 	Email string `json:"Email"`
 }
