@@ -699,7 +699,7 @@ func Test_Cov_TraceCollection_JoinShortStrings(t *testing.T) {
 
 func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	csvLine := tc.JoinCsvLine()
