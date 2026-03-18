@@ -93,7 +93,7 @@ func TestAttributes_WithKeyValues(t *testing.T) {
 }
 
 func TestAttributes_WithAnyKeyValues(t *testing.T) {
-	anyMap := coredynamic.NewMapAnyItems(map[string]any{"k": "v"})
+	anyMap := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"k": "v"})
 	attr := New.Attributes.UsingAnyKeyValues(anyMap)
 	if attr.IsAnyKeyValuePairsEmpty() {
 		t.Fatal("should have any kv")
