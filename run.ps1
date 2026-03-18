@@ -801,6 +801,12 @@ function Invoke-TestCoverage {
 
         $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
+        $uncoveredJsonScript = Join-Path $PSScriptRoot "scripts" "coverage" "Export-UncoveredMethodsJson.ps1"
+        if (Test-Path $uncoveredJsonScript) {
+            $uncoveredJsonFile = Join-Path $coverDir "uncovered-method-lines.json"
+            & $uncoveredJsonScript -CoverProfile $coverProfile -FuncOutput $funcOutput -OutputFile $uncoveredJsonFile -ProjectRoot $PSScriptRoot
+        }
+
         # Generate HTML report — use explicit argument list to avoid variable interpolation issues
         $htmlArgs = @("-html=$coverProfile", "-o=$coverHtml")
         Write-Host "  [debug] go tool cover args: $($htmlArgs -join ' ')" -ForegroundColor DarkGray

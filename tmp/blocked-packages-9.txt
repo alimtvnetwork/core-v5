@@ -1,0 +1,44 @@
+# Blocked Packages — 2026-03-19 03:34:47
+# Count: 2
+
+# ── CLI Summary ──
+# ┌─────────────────────────────────────────────────
+# │ BLOCKED PACKAGES (2 failed to compile)
+# │   ✗ corejsontests
+# │   ✗ corestrtests
+# │
+# │ These packages will be SKIPPED in coverage.
+# │ Fix their build errors to include them.
+# └─────────────────────────────────────────────────
+
+# ── Package List ──
+# - corejsontests
+# - corestrtests
+
+## corejsontests
+tests\integratedtests\corejsontests\Coverage14_AnyTo_CastAny_Migrated_test.go:198:22: corejson.AnyTo.UsingSerializerFunc undefined (type corejson.anyTo has no field or method UsingSerializerFunc)
+tests\integratedtests\corejsontests\Coverage14_AnyTo_CastAny_Migrated_test.go:202:6: Test_C06_AnyTo_PrettyStringMust redeclared in this block
+	tests\integratedtests\corejsontests\Coverage14_AnyTo_CastAny_Migrated_test.go:124:6: other declaration of Test_C06_AnyTo_PrettyStringMust
+tests\integratedtests\corejsontests\Coverage19_Collections_Full_test.go:471:33: undefined: errors
+tests\integratedtests\corejsontests\Coverage19_Collections_Full_test.go:714:36: undefined: errors
+
+## corestrtests
+tests\integratedtests\corestrtests\Coverage_test.go:608:6: Test_LeftRight_UsingSlice redeclared in this block
+	tests\integratedtests\corestrtests\Coverage27_RemainingTypes_Full_test.go:1107:6: other declaration of Test_LeftRight_UsingSlice
+tests\integratedtests\corestrtests\Coverage_test.go:638:6: Test_LeftRight_IsEqual redeclared in this block
+	tests\integratedtests\corestrtests\Coverage27_RemainingTypes_Full_test.go:1188:6: other declaration of Test_LeftRight_IsEqual
+tests\integratedtests\corestrtests\Coverage_test.go:712:6: Test_ValidValue_Clone redeclared in this block
+	tests\integratedtests\corestrtests\Coverage27_RemainingTypes_Full_test.go:828:6: other declaration of Test_ValidValue_Clone
+tests\integratedtests\corestrtests\Coverage_test.go:732:6: Test_ValidValue_IsAnyOf redeclared in this block
+	tests\integratedtests\corestrtests\Coverage27_RemainingTypes_Full_test.go:736:6: other declaration of Test_ValidValue_IsAnyOf
+tests\integratedtests\corestrtests\Coverage_test.go:932:6: Test_KeyValueCollection_Get redeclared in this block
+	tests\integratedtests\corestrtests\Coverage27_RemainingTypes_Full_test.go:233:6: other declaration of Test_KeyValueCollection_Get
+tests\integratedtests\corestrtests\Coverage_test.go:979:6: Test_LinkedList_AddFront redeclared in this block
+	tests\integratedtests\corestrtests\Coverage24_LinkedList_Full_test.go:277:6: other declaration of Test_LinkedList_AddFront
+tests\integratedtests\corestrtests\Coverage_test.go:996:6: Test_LinkedList_IsEquals redeclared in this block
+	tests\integratedtests\corestrtests\Coverage24_LinkedList_Full_test.go:602:6: other declaration of Test_LinkedList_IsEquals
+tests\integratedtests\corestrtests\Coverage16_Helpers_test.go:644:23: not enough arguments in call to c.ExpandSlicePlusAdd
+tests\integratedtests\corestrtests\Coverage16_Helpers_test.go:652:23: cannot use [][]string{ΓÇª} (value of type [][]string) as []string value in argument to c.MergeSlicesOfSlice
+tests\integratedtests\corestrtests\Coverage16_Helpers_test.go:661:23: cannot use "b" (untyped string constant) as []string value in argument to c.GetAllExcept
+tests\integratedtests\corestrtests\Coverage16_Helpers_test.go:661:23: too many errors
+
