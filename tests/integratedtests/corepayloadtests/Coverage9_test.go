@@ -203,7 +203,7 @@ func Test_Cov9_Attributes_HasKeyValuePairs(t *testing.T) {
 		t.Fatal("empty should not have key value pairs")
 	}
 
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr2 := corepayload.New.Attributes.UsingKeyValues(hm)
 
 	if !attr2.HasKeyValuePairs() {
