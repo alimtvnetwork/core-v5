@@ -740,7 +740,7 @@ function Invoke-TestCoverage {
     }
 
     # Print to console (skip "warning: no packages being tested" noise)
-    $allOutput | Where-Object { $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern' } | ForEach-Object { Write-Host $_ }
+    Filter-TestWarnings $allOutput | ForEach-Object { Write-Host $_ }
     Write-TestLogs $allOutput.ToArray()
 
     # Merge all partial profiles into one, using MAX count per unique line.
