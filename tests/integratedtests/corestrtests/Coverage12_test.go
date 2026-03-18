@@ -199,7 +199,7 @@ func Test_Cov12_Hashset_Nil(t *testing.T) {
 // ── SimpleSlice ──
 
 func Test_Cov12_SimpleSlice_Basic(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Strings("a", "b", "c")
+	ss := corestr.New.SimpleSlice.SpreadStrings("a", "b", "c")
 	actual := args.Map{
 		"len":     ss.Length(),
 		"isEmpty": ss.IsEmpty(),
