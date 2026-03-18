@@ -487,7 +487,7 @@ func Test_Cov12_LinkedList_Nil(t *testing.T) {
 // ── LinkedCollections ──
 
 func Test_Cov12_LinkedCollections_Basic(t *testing.T) {
-	lc := corestr.New.LinkedCollections.Cap(5)
+	lc := corestr.New.LinkedCollection.Create()
 	actual := args.Map{"isEmpty": lc.IsEmpty(), "len": lc.Length()}
 	expected := args.Map{"isEmpty": true, "len": 0}
 	expected.ShouldBeEqual(t, 0, "LinkedCollections basic", actual)
