@@ -102,15 +102,20 @@ function Write-TestLogs([string[]]$rawOutput) {
     $passing = [System.Collections.Generic.List[string]]::new()
     $failing = [System.Collections.Generic.List[string]]::new()
 
-    # Save raw output for debugging
-    Set-Content -Path $rawFile -Value ($rawOutput -join "`n") -Encoding UTF8
+    # Remove noisy go-test coverpkg warnings from logs
+    $filteredOutput = $rawOutput | Where-Object {
+        $_ -notmatch '^warning: no packages being tested depend on matches for pattern'
+    }
+
+    # Save filtered output for debugging
+    Set-Content -Path $rawFile -Value ($filteredOutput -join "`n") -Encoding UTF8
 
     # Two-pass approach:
     # Pass 1: Identify which tests passed and which failed
     $failedNames = [System.Collections.Generic.HashSet[string]]::new()
     $passedNames = [System.Collections.Generic.HashSet[string]]::new()
 
-    foreach ($line in $rawOutput) {
+    foreach ($line in $filteredOutput) {
 
         if ($line -match "--- FAIL:\s+(.+?)\s+\(") {
             $failedNames.Add($Matches[1].Trim()) | Out-Null
@@ -124,7 +129,7 @@ function Write-TestLogs([string[]]$rawOutput) {
     $currentTest = ""
     $currentBlock = [System.Collections.Generic.List[string]]::new()
 
-    foreach ($line in $rawOutput) {
+    foreach ($line in $filteredOutput) {
 
         if ($line -match "=== RUN\s+(.+)$") {
             # Flush previous block if it was a failed test
@@ -205,7 +210,7 @@ function Write-TestLogs([string[]]$rawOutput) {
     if ($failCount -gt 0 -and $failing.Count -eq 0) {
         $failingContent += @("# Diagnostic Snippets:", "")
 
-        $snippetLines = $rawOutput | Where-Object {
+        $snippetLines = $filteredOutput | Where-Object {
             $_ -match "--- FAIL:\s+" -or
             $_ -match "_test\.go:\d+:" -or
             $_ -match "^\s*panic:" -or
@@ -224,10 +229,10 @@ function Write-TestLogs([string[]]$rawOutput) {
     }
 
     # Also capture compilation errors (no === RUN lines at all)
-    $hasAnyRun = $rawOutput | Where-Object { $_ -match "^=== RUN" } | Select-Object -First 1
+    $hasAnyRun = $filteredOutput | Where-Object { $_ -match "^=== RUN" } | Select-Object -First 1
 
     if (-not $hasAnyRun) {
-        $compileErrors = $rawOutput | Where-Object {
+        $compileErrors = $filteredOutput | Where-Object {
             $_ -match "\.go:\d+:" -or $_ -match "^#\s+" -or $_ -match "FAIL\s+"
         }
 
