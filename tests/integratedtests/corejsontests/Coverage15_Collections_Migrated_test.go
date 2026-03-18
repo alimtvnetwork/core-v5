@@ -103,8 +103,8 @@ func Test_C04_ResultsCollection_Json(t *testing.T) {
 func Test_C04_ResultsCollection_Clone(t *testing.T) {
 	c := corejson.NewResultsCollection.UsingCap(2)
 	c.Add(corejson.NewResult.Any("x"))
-	if c.ShadowClone().Length() != 1 { t.Fatal("expected 1") }
-	if c.Clone(true).Length() != 1 { t.Fatal("expected 1") }
+	if sc := c.ShadowClone(); sc.Length() != 1 { t.Fatal("expected 1") }
+	if cl := c.Clone(true); cl.Length() != 1 { t.Fatal("expected 1") }
 	cp := c.ClonePtr(true)
 	if cp == nil || cp.Length() != 1 { t.Fatal("expected 1") }
 	var nilC *corejson.ResultsCollection
@@ -185,8 +185,8 @@ func Test_C04_BytesCollection_ClearDispose(t *testing.T) {
 func Test_C04_BytesCollection_Clone(t *testing.T) {
 	c := corejson.NewBytesCollection.UsingCap(2)
 	c.Add([]byte("x"))
-	if c.ShadowClone().Length() != 1 { t.Fatal("expected 1") }
-	if c.Clone(true).Length() != 1 { t.Fatal("expected 1") }
+	if sc := c.ShadowClone(); sc.Length() != 1 { t.Fatal("expected 1") }
+	if cl := c.Clone(true); cl.Length() != 1 { t.Fatal("expected 1") }
 	cp := c.ClonePtr(true)
 	if cp == nil || cp.Length() != 1 { t.Fatal("expected 1") }
 	var nilC *corejson.BytesCollection

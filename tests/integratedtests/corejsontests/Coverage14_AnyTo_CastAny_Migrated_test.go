@@ -193,13 +193,13 @@ func Test_C06_CastAny_FromToReflection(t *testing.T) {
 	if err != nil || out != "hello" { t.Fatal("unexpected") }
 }
 
-func Test_C06_AnyTo_UsingSerializer(t *testing.T) {
+func Test_C06_AnyTo_UsingSerializerFunc(t *testing.T) {
 	fn := func() ([]byte, error) { return []byte(`"x"`), nil }
-	r := corejson.AnyTo.UsingSerializer(fn)
+	r := corejson.AnyTo.UsingSerializerFunc(fn)
 	if r == nil || r.HasError() { t.Fatal("unexpected") }
 }
 
-func Test_C06_AnyTo_PrettyString(t *testing.T) {
-	s := corejson.AnyTo.PrettyString(map[string]string{"a": "1"})
+func Test_C06_AnyTo_PrettyStringMust(t *testing.T) {
+	s := corejson.AnyTo.PrettyStringMust(map[string]string{"a": "1"})
 	if s == "" { t.Fatal("expected non-empty") }
 }

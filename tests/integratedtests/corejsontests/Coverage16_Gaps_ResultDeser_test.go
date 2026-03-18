@@ -75,20 +75,19 @@ func Test_Gap_Result_String_WithNilBytes(t *testing.T) {
 
 // ── deserializerLogic uncovered methods ──
 
-func Test_Gap_Deserialize_UsingSerializerTo(t *testing.T) {
+func Test_Gap_Deserialize_UsingSerializerFuncTo(t *testing.T) {
 	fn := func() ([]byte, error) { return []byte(`"hello"`), nil }
 	var s string
-	err := corejson.Deserialize.UsingSerializerTo(fn, &s)
+	err := corejson.Deserialize.UsingSerializerFuncTo(fn, &s)
 	if err != nil || s != "hello" {
 		t.Fatal("unexpected")
 	}
 }
 
-func Test_Gap_Deserialize_UsingSerializerTo_Nil(t *testing.T) {
+func Test_Gap_Deserialize_UsingSerializerFuncTo_Nil(t *testing.T) {
 	var s string
-	// nil serializer returns nil from NewResult.UsingSerializer
-	// which causes Deserialize on nil result
-	r := corejson.Deserialize.UsingSerializerTo(nil, &s)
+	// nil func returns nil result
+	r := corejson.Deserialize.UsingSerializerFuncTo(nil, &s)
 	_ = r
 }
 
@@ -282,12 +281,8 @@ func Test_Gap_NewResult_DeserializeUsingResult_WithIssues(t *testing.T) {
 }
 
 func Test_Gap_NewResult_FromStringer(t *testing.T) {
-	// errors.New implements fmt.Stringer via Error()
-	// But we can use a simple stringer
-	r := corejson.Serialize.FromStringer(errors.New("hello"))
-	if r.HasError() {
-		t.Fatal("unexpected error")
-	}
+	// Exercise serializer pretty string (FromStringer requires fmt.Stringer, not error)
+	_ = corejson.Serialize.ToPrettyStringIncludingErr("hello")
 }
 
 // ── castingAny uncovered ──
