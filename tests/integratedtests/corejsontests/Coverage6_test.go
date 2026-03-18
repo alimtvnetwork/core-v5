@@ -618,13 +618,14 @@ func Test_Cov6_Result_UnmarshalSkipExistingIssues(t *testing.T) {
 // ═══════════════════════════════════════════
 
 func Test_Cov6_Result_UnmarshalResult(t *testing.T) {
+	// UnmarshalResult tries to unmarshal bytes into a *Result struct
+	// "hello" is a JSON string, not a Result object — expect unmarshal error
 	r := corejson.NewPtr("hello")
-	result, err := r.UnmarshalResult()
+	_, err := r.UnmarshalResult()
 	actual := args.Map{
-		"resultNN": result != nil,
-		"errNil":   err == nil,
+		"hasErr": err != nil,
 	}
-	expected := args.Map{"resultNN": true, "errNil": true}
+	expected := args.Map{"hasErr": true}
 	expected.ShouldBeEqual(t, 0, "Result UnmarshalResult", actual)
 }
 
