@@ -1658,27 +1658,27 @@ func Test_Cov12_DynamicMap_HasKey_IsMissingKey_HasAllKeys_HasAnyKeys(t *testing.
 func Test_Cov12_DynamicMap_IsEqual_AllBranches(t *testing.T) {
 	var nilA, nilB *enumimpl.DynamicMap
 
-	if !nilA.IsEqual(nilB) {
+	if !nilA.IsEqual(false, nilB) {
 		t.Fatal("both nil should be equal")
 	}
 
 	dm := enumimpl.DynamicMap{"a": 1}
 
-	if nilA.IsEqual(&dm) {
+	if nilA.IsEqual(false, &dm) {
 		t.Fatal("nil vs non-nil should not be equal")
 	}
 
-	if dm.IsEqual(nilA) {
+	if dm.IsEqual(false, nilA) {
 		t.Fatal("non-nil vs nil should not be equal")
 	}
 
 	dm2 := enumimpl.DynamicMap{"a": 1}
 
-	if !dm.IsEqual(&dm2) {
+	if !dm.IsEqual(false, &dm2) {
 		t.Fatal("same maps should be equal")
 	}
 
-	if !dm.IsEqual(&dm) {
+	if !dm.IsEqual(false, &dm) {
 		t.Fatal("same pointer should be equal")
 	}
 }

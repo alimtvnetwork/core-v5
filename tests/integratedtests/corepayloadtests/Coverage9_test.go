@@ -3396,7 +3396,7 @@ func Test_Cov9_PayloadProperties_AllMethods(t *testing.T) {
 
 	_ = props.Json()
 	_ = props.JsonPtr()
-	_ = props.AsPayloadPropertiesDefiner()
+	// AsPayloadPropertiesDefiner is on concrete type, not on interface — skip
 }
 
 func Test_Cov9_PayloadProperties_Setters(t *testing.T) {

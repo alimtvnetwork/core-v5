@@ -255,9 +255,10 @@ func Test_Cov12_ValidValue_Invalid(t *testing.T) {
 // ── ValueStatus ──
 
 func Test_Cov12_ValueStatus(t *testing.T) {
-	vs := corestr.ValueStatus{Value: "hello", IsFound: true}
-	actual := args.Map{"val": vs.Value, "found": vs.IsFound}
-	expected := args.Map{"val": "hello", "found": true}
+	vv := corestr.NewValidValue("hello")
+	vs := &corestr.ValueStatus{ValueValid: vv, Index: 0}
+	actual := args.Map{"val": vs.ValueValid.Value, "idx": vs.Index}
+	expected := args.Map{"val": "hello", "idx": 0}
 	expected.ShouldBeEqual(t, 0, "ValueStatus", actual)
 }
 
