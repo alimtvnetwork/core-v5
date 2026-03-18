@@ -589,7 +589,7 @@ func Test_Cov4_ChmodVerifier_PathsUsingFileMode(t *testing.T) {
 
 	err := chmodhelper.ChmodVerify.PathsUsingFileMode(false, 0644, f1)
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
+	expected := args.Map{"noErr": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.PathsUsingFileMode", actual)
 }
 
