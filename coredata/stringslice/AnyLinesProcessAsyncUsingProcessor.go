@@ -3,8 +3,6 @@ package stringslice
 import (
 	"reflect"
 	"sync"
-
-	"github.com/alimtvnetwork/core/constants"
 )
 
 func AnyLinesProcessAsyncUsingProcessor(
@@ -33,7 +31,7 @@ func AnyLinesProcessAsyncUsingProcessor(
 		return []string{}
 	}
 
-	slice := Make(constants.Zero, length)
+	slice := MakeLen(length)
 	wg := sync.WaitGroup{}
 
 	wg.Add(length)
