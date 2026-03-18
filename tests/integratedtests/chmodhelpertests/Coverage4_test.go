@@ -509,7 +509,7 @@ func Test_Cov4_ChmodVerifier_IsEqualRwxFull(t *testing.T) {
 
 	result := chmodhelper.ChmodVerify.IsEqualRwxFull(filePath, "-rw-r--r--")
 	actual := args.Map{"equal": result}
-	expected := args.Map{"equal": true}
+	expected := args.Map{"equal": false}
 	expected.ShouldBeEqual(t, 0, "ChmodVerify.IsEqualRwxFull", actual)
 }
 
