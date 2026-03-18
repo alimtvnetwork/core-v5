@@ -12,14 +12,14 @@ import (
 // LinkedCollectionNode
 // =======================================================
 
-func Test_LinkedCollectionNode_IsEmpty(t *testing.T) {
+func Test_C25_LinkedCollectionNode_IsEmpty(t *testing.T) {
 	node := &corestr.LinkedCollectionNode{}
 	if !node.IsEmpty() {
 		t.Error("should be empty with nil element")
 	}
 }
 
-func Test_LinkedCollectionNode_HasElement(t *testing.T) {
+func Test_C25_LinkedCollectionNode_HasElement(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	if !node.HasElement() {
@@ -27,7 +27,7 @@ func Test_LinkedCollectionNode_HasElement(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_EndOfChain(t *testing.T) {
+func Test_C25_LinkedCollectionNode_EndOfChain(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	lc.AddStrings("c", "d")
 	end, length := lc.Head().EndOfChain()
@@ -39,7 +39,7 @@ func Test_LinkedCollectionNode_EndOfChain(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_Clone(t *testing.T) {
+func Test_C25_LinkedCollectionNode_Clone(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	cloned := node.Clone()
@@ -51,7 +51,7 @@ func Test_LinkedCollectionNode_Clone(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_LoopEndOfChain(t *testing.T) {
+func Test_C25_LinkedCollectionNode_LoopEndOfChain(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	count := 0
@@ -65,7 +65,7 @@ func Test_LinkedCollectionNode_LoopEndOfChain(t *testing.T) {
 	_ = end
 }
 
-func Test_LinkedCollectionNode_LoopEndOfChain_Break(t *testing.T) {
+func Test_C25_LinkedCollectionNode_LoopEndOfChain_Break(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	_, length := lc.Head().LoopEndOfChain(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
@@ -76,7 +76,7 @@ func Test_LinkedCollectionNode_LoopEndOfChain_Break(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_IsChainEqual(t *testing.T) {
+func Test_C25_LinkedCollectionNode_IsChainEqual(t *testing.T) {
 	lc1 := corestr.New.LinkedCollection.Strings("a", "b")
 	lc2 := corestr.New.LinkedCollection.Strings("a", "b")
 	if !lc1.Head().IsChainEqual(lc2.Head()) {
@@ -84,7 +84,7 @@ func Test_LinkedCollectionNode_IsChainEqual(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_IsEqual(t *testing.T) {
+func Test_C25_LinkedCollectionNode_IsEqual(t *testing.T) {
 	col1 := corestr.New.Collection.Strings([]string{"a"})
 	col2 := corestr.New.Collection.Strings([]string{"a"})
 	n1 := &corestr.LinkedCollectionNode{Element: col1}
@@ -94,7 +94,7 @@ func Test_LinkedCollectionNode_IsEqual(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_IsEqualValue(t *testing.T) {
+func Test_C25_LinkedCollectionNode_IsEqualValue(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	if !node.IsEqualValue(col) {
@@ -102,7 +102,7 @@ func Test_LinkedCollectionNode_IsEqualValue(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_CreateLinkedList(t *testing.T) {
+func Test_C25_LinkedCollectionNode_CreateLinkedList(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	lc := node.CreateLinkedList()
@@ -111,7 +111,7 @@ func Test_LinkedCollectionNode_CreateLinkedList(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_List(t *testing.T) {
+func Test_C25_LinkedCollectionNode_List(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	lc.AddStrings("c")
 	list := lc.Head().List()
@@ -120,7 +120,7 @@ func Test_LinkedCollectionNode_List(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_ListPtr(t *testing.T) {
+func Test_C25_LinkedCollectionNode_ListPtr(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	ptr := node.ListPtr()
@@ -129,7 +129,7 @@ func Test_LinkedCollectionNode_ListPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_Join(t *testing.T) {
+func Test_C25_LinkedCollectionNode_Join(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	result := node.Join(",")
@@ -138,7 +138,7 @@ func Test_LinkedCollectionNode_Join(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_StringList(t *testing.T) {
+func Test_C25_LinkedCollectionNode_StringList(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	s := node.StringList("H:")
@@ -147,13 +147,13 @@ func Test_LinkedCollectionNode_StringList(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_Print(t *testing.T) {
+func Test_C25_LinkedCollectionNode_Print(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	node.Print("Test: ")
 }
 
-func Test_LinkedCollectionNode_String(t *testing.T) {
+func Test_C25_LinkedCollectionNode_String(t *testing.T) {
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
 	s := node.String()
@@ -162,7 +162,7 @@ func Test_LinkedCollectionNode_String(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_AddNext(t *testing.T) {
+func Test_C25_LinkedCollectionNode_AddNext(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	lc.Head().AddNext(lc, col)
@@ -171,7 +171,7 @@ func Test_LinkedCollectionNode_AddNext(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_AddStringsToNode(t *testing.T) {
+func Test_C25_LinkedCollectionNode_AddStringsToNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.Head().AddStringsToNode(lc, false, []string{"b", "c"}, false)
 	if lc.Length() < 2 {
@@ -179,7 +179,7 @@ func Test_LinkedCollectionNode_AddStringsToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_AddCollectionToNode(t *testing.T) {
+func Test_C25_LinkedCollectionNode_AddCollectionToNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	lc.Head().AddCollectionToNode(lc, false, col)
@@ -188,7 +188,7 @@ func Test_LinkedCollectionNode_AddCollectionToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollectionNode_AddNextNode(t *testing.T) {
+func Test_C25_LinkedCollectionNode_AddNextNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	nextNode := &corestr.LinkedCollectionNode{Element: col}
@@ -202,7 +202,7 @@ func Test_LinkedCollectionNode_AddNextNode(t *testing.T) {
 // LinkedCollections
 // =======================================================
 
-func Test_LinkedCollections_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	if !lc.IsEmpty() {
 		t.Error("should be empty")
@@ -212,7 +212,7 @@ func Test_LinkedCollections_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Add(t *testing.T) {
+func Test_C25_LinkedCollections_Add(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a", "b"})
 	lc.Add(col)
@@ -221,7 +221,7 @@ func Test_LinkedCollections_Add(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_FirstLastSingle(t *testing.T) {
+func Test_C25_LinkedCollections_FirstLastSingle(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("x")
 	first := lc.First()
 	last := lc.Last()
@@ -231,7 +231,7 @@ func Test_LinkedCollections_FirstLastSingle(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_FirstOrDefault_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_FirstOrDefault_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	result := lc.FirstOrDefault()
 	if result == nil {
@@ -239,7 +239,7 @@ func Test_LinkedCollections_FirstOrDefault_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_LastOrDefault_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_LastOrDefault_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	result := lc.LastOrDefault()
 	if result == nil {
@@ -247,7 +247,7 @@ func Test_LinkedCollections_LastOrDefault_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AllIndividualItemsLength(t *testing.T) {
+func Test_C25_LinkedCollections_AllIndividualItemsLength(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	lc.AddStrings("c")
 	length := lc.AllIndividualItemsLength()
@@ -256,21 +256,21 @@ func Test_LinkedCollections_AllIndividualItemsLength(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_LengthLock(t *testing.T) {
+func Test_C25_LinkedCollections_LengthLock(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	if lc.LengthLock() != 1 {
 		t.Error("expected 1")
 	}
 }
 
-func Test_LinkedCollections_IsEmptyLock(t *testing.T) {
+func Test_C25_LinkedCollections_IsEmptyLock(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	if !lc.IsEmptyLock() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_LinkedCollections_IsEqualsPtr(t *testing.T) {
+func Test_C25_LinkedCollections_IsEqualsPtr(t *testing.T) {
 	lc1 := corestr.New.LinkedCollection.Strings("a", "b")
 	lc2 := corestr.New.LinkedCollection.Strings("a", "b")
 	if !lc1.IsEqualsPtr(lc2) {
@@ -278,14 +278,14 @@ func Test_LinkedCollections_IsEqualsPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_IsEqualsPtr_Nil(t *testing.T) {
+func Test_C25_LinkedCollections_IsEqualsPtr_Nil(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	if lc.IsEqualsPtr(nil) {
 		t.Error("should not be equal to nil")
 	}
 }
 
-func Test_LinkedCollections_IsEqualsPtr_BothEmpty(t *testing.T) {
+func Test_C25_LinkedCollections_IsEqualsPtr_BothEmpty(t *testing.T) {
 	lc1 := corestr.New.LinkedCollection.Empty()
 	lc2 := corestr.New.LinkedCollection.Empty()
 	if !lc1.IsEqualsPtr(lc2) {
@@ -293,7 +293,7 @@ func Test_LinkedCollections_IsEqualsPtr_BothEmpty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddStrings(t *testing.T) {
+func Test_C25_LinkedCollections_AddStrings(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc.AddStrings("a", "b")
 	if lc.Length() != 1 {
@@ -301,7 +301,7 @@ func Test_LinkedCollections_AddStrings(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddStringsLock(t *testing.T) {
+func Test_C25_LinkedCollections_AddStringsLock(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc.AddStringsLock("a", "b")
 	if lc.Length() != 1 {
@@ -309,7 +309,7 @@ func Test_LinkedCollections_AddStringsLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddLock(t *testing.T) {
+func Test_C25_LinkedCollections_AddLock(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lc.AddLock(col)
@@ -318,7 +318,7 @@ func Test_LinkedCollections_AddLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddFront(t *testing.T) {
+func Test_C25_LinkedCollections_AddFront(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("b")
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lc.AddFront(col)
@@ -327,7 +327,7 @@ func Test_LinkedCollections_AddFront(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddFrontLock(t *testing.T) {
+func Test_C25_LinkedCollections_AddFrontLock(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("b")
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lc.AddFrontLock(col)
@@ -336,7 +336,7 @@ func Test_LinkedCollections_AddFrontLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Push_PushFront_PushBack(t *testing.T) {
+func Test_C25_LinkedCollections_Push_PushFront_PushBack(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lc.Push(col)
@@ -348,7 +348,7 @@ func Test_LinkedCollections_Push_PushFront_PushBack(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddBackNode(t *testing.T) {
+func Test_C25_LinkedCollections_AddBackNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	node := &corestr.LinkedCollectionNode{Element: col}
@@ -358,7 +358,7 @@ func Test_LinkedCollections_AddBackNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AppendNode_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_AppendNode_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a"})
 	node := &corestr.LinkedCollectionNode{Element: col}
@@ -368,7 +368,7 @@ func Test_LinkedCollections_AppendNode_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AppendChainOfNodes(t *testing.T) {
+func Test_C25_LinkedCollections_AppendChainOfNodes(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc2 := corestr.New.LinkedCollection.Strings("a")
 	lc2.AddStrings("b")
@@ -378,7 +378,7 @@ func Test_LinkedCollections_AppendChainOfNodes(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AppendChainOfNodesAsync(t *testing.T) {
+func Test_C25_LinkedCollections_AppendChainOfNodesAsync(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("x")
 	lc2 := corestr.New.LinkedCollection.Strings("a")
 	wg := &sync.WaitGroup{}
@@ -390,7 +390,7 @@ func Test_LinkedCollections_AppendChainOfNodesAsync(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_InsertAt(t *testing.T) {
+func Test_C25_LinkedCollections_InsertAt(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("c")
 	col := corestr.New.Collection.Strings([]string{"b"})
@@ -400,7 +400,7 @@ func Test_LinkedCollections_InsertAt(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_InsertAt_Front(t *testing.T) {
+func Test_C25_LinkedCollections_InsertAt_Front(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("b")
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lc.InsertAt(0, col)
@@ -409,7 +409,7 @@ func Test_LinkedCollections_InsertAt_Front(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AttachWithNode(t *testing.T) {
+func Test_C25_LinkedCollections_AttachWithNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	node := lc.Head()
@@ -420,7 +420,7 @@ func Test_LinkedCollections_AttachWithNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AttachWithNode_NilCurrent(t *testing.T) {
+func Test_C25_LinkedCollections_AttachWithNode_NilCurrent(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"b"})
 	addNode := &corestr.LinkedCollectionNode{Element: col}
@@ -430,7 +430,7 @@ func Test_LinkedCollections_AttachWithNode_NilCurrent(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddAnother(t *testing.T) {
+func Test_C25_LinkedCollections_AddAnother(t *testing.T) {
 	lc1 := corestr.New.LinkedCollection.Strings("a")
 	lc2 := corestr.New.LinkedCollection.Strings("b")
 	lc2.AddStrings("c")
@@ -440,7 +440,7 @@ func Test_LinkedCollections_AddAnother(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddAnother_Nil(t *testing.T) {
+func Test_C25_LinkedCollections_AddAnother_Nil(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddAnother(nil)
 	if lc.Length() != 1 {
@@ -448,7 +448,7 @@ func Test_LinkedCollections_AddAnother_Nil(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Loop(t *testing.T) {
+func Test_C25_LinkedCollections_Loop(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	count := 0
@@ -461,7 +461,7 @@ func Test_LinkedCollections_Loop(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Loop_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_Loop_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	lc.Loop(func(arg *corestr.LinkedCollectionProcessorParameter) bool {
 		t.Error("should not be called")
@@ -469,7 +469,7 @@ func Test_LinkedCollections_Loop_Empty(t *testing.T) {
 	})
 }
 
-func Test_LinkedCollections_Filter(t *testing.T) {
+func Test_C25_LinkedCollections_Filter(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	lc.AddStrings("c")
@@ -481,7 +481,7 @@ func Test_LinkedCollections_Filter(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_FilterAsCollection(t *testing.T) {
+func Test_C25_LinkedCollections_FilterAsCollection(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	lc.AddStrings("c")
 	col := lc.FilterAsCollection(func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
@@ -492,7 +492,7 @@ func Test_LinkedCollections_FilterAsCollection(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_FilterAsCollections(t *testing.T) {
+func Test_C25_LinkedCollections_FilterAsCollections(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	collections := lc.FilterAsCollections(func(arg *corestr.LinkedCollectionFilterParameter) *corestr.LinkedCollectionFilterResult {
@@ -503,7 +503,7 @@ func Test_LinkedCollections_FilterAsCollections(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_GetNextNodes(t *testing.T) {
+func Test_C25_LinkedCollections_GetNextNodes(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	lc.AddStrings("c")
@@ -513,7 +513,7 @@ func Test_LinkedCollections_GetNextNodes(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_GetAllLinkedNodes(t *testing.T) {
+func Test_C25_LinkedCollections_GetAllLinkedNodes(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	nodes := lc.GetAllLinkedNodes()
@@ -522,7 +522,7 @@ func Test_LinkedCollections_GetAllLinkedNodes(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_RemoveNodeByIndex(t *testing.T) {
+func Test_C25_LinkedCollections_RemoveNodeByIndex(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	lc.AddStrings("c")
@@ -532,7 +532,7 @@ func Test_LinkedCollections_RemoveNodeByIndex(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_RemoveNodeByIndex_First(t *testing.T) {
+func Test_C25_LinkedCollections_RemoveNodeByIndex_First(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	lc.RemoveNodeByIndex(0)
@@ -541,7 +541,7 @@ func Test_LinkedCollections_RemoveNodeByIndex_First(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_RemoveNodeByIndex_Last(t *testing.T) {
+func Test_C25_LinkedCollections_RemoveNodeByIndex_Last(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	lc.RemoveNodeByIndex(1)
@@ -550,7 +550,7 @@ func Test_LinkedCollections_RemoveNodeByIndex_Last(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_RemoveNodeByIndexes(t *testing.T) {
+func Test_C25_LinkedCollections_RemoveNodeByIndexes(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	lc.AddStrings("c")
@@ -561,7 +561,7 @@ func Test_LinkedCollections_RemoveNodeByIndexes(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_RemoveNode(t *testing.T) {
+func Test_C25_LinkedCollections_RemoveNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	node := lc.Head()
@@ -571,7 +571,7 @@ func Test_LinkedCollections_RemoveNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AppendCollections(t *testing.T) {
+func Test_C25_LinkedCollections_AppendCollections(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col1 := corestr.New.Collection.Strings([]string{"a"})
 	col2 := corestr.New.Collection.Strings([]string{"b"})
@@ -581,7 +581,7 @@ func Test_LinkedCollections_AppendCollections(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AppendCollectionsPointers(t *testing.T) {
+func Test_C25_LinkedCollections_AppendCollectionsPointers(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a"})
 	cols := []*corestr.Collection{col}
@@ -591,7 +591,7 @@ func Test_LinkedCollections_AppendCollectionsPointers(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AppendCollectionsPointersLock(t *testing.T) {
+func Test_C25_LinkedCollections_AppendCollectionsPointersLock(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a"})
 	cols := []*corestr.Collection{col}
@@ -601,7 +601,7 @@ func Test_LinkedCollections_AppendCollectionsPointersLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddCollectionsToNode(t *testing.T) {
+func Test_C25_LinkedCollections_AddCollectionsToNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	lc.AddCollectionsToNode(false, lc.Head(), col)
@@ -610,7 +610,7 @@ func Test_LinkedCollections_AddCollectionsToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddCollectionToNode(t *testing.T) {
+func Test_C25_LinkedCollections_AddCollectionToNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	lc.AddCollectionToNode(false, lc.Head(), col)
@@ -619,7 +619,7 @@ func Test_LinkedCollections_AddCollectionToNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddAfterNode(t *testing.T) {
+func Test_C25_LinkedCollections_AddAfterNode(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := corestr.New.Collection.Strings([]string{"b"})
 	lc.AddAfterNode(lc.Head(), col)
@@ -628,7 +628,7 @@ func Test_LinkedCollections_AddAfterNode(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ConcatNew(t *testing.T) {
+func Test_C25_LinkedCollections_ConcatNew(t *testing.T) {
 	lc1 := corestr.New.LinkedCollection.Strings("a")
 	lc2 := corestr.New.LinkedCollection.Strings("b")
 	result := lc1.ConcatNew(false, lc2)
@@ -637,7 +637,7 @@ func Test_LinkedCollections_ConcatNew(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ConcatNew_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_ConcatNew_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	result := lc.ConcatNew(true)
 	if result.Length() != 1 {
@@ -645,7 +645,7 @@ func Test_LinkedCollections_ConcatNew_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ConcatNew_EmptyNoClone(t *testing.T) {
+func Test_C25_LinkedCollections_ConcatNew_EmptyNoClone(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	result := lc.ConcatNew(false)
 	if result != lc {
@@ -653,7 +653,7 @@ func Test_LinkedCollections_ConcatNew_EmptyNoClone(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddAsyncFuncItems(t *testing.T) {
+func Test_C25_LinkedCollections_AddAsyncFuncItems(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
@@ -666,7 +666,7 @@ func Test_LinkedCollections_AddAsyncFuncItems(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddStringsOfStrings(t *testing.T) {
+func Test_C25_LinkedCollections_AddStringsOfStrings(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc.AddStringsOfStrings(false, []string{"a"}, []string{"b"})
 	if lc.Length() != 2 {
@@ -674,7 +674,7 @@ func Test_LinkedCollections_AddStringsOfStrings(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_IndexAt(t *testing.T) {
+func Test_C25_LinkedCollections_IndexAt(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	node := lc.IndexAt(1)
@@ -683,7 +683,7 @@ func Test_LinkedCollections_IndexAt(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_SafeIndexAt(t *testing.T) {
+func Test_C25_LinkedCollections_SafeIndexAt(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	if lc.SafeIndexAt(-1) != nil {
 		t.Error("expected nil for negative")
@@ -697,7 +697,7 @@ func Test_LinkedCollections_SafeIndexAt(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_SafePointerIndexAt(t *testing.T) {
+func Test_C25_LinkedCollections_SafePointerIndexAt(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := lc.SafePointerIndexAt(0)
 	if col == nil {
@@ -708,7 +708,7 @@ func Test_LinkedCollections_SafePointerIndexAt(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddCollection(t *testing.T) {
+func Test_C25_LinkedCollections_AddCollection(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	lc.AddCollection(nil)
 	if lc.Length() != 0 {
@@ -721,7 +721,7 @@ func Test_LinkedCollections_AddCollection(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddCollections(t *testing.T) {
+func Test_C25_LinkedCollections_AddCollections(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lc.AddCollections([]*corestr.Collection{col})
@@ -730,7 +730,7 @@ func Test_LinkedCollections_AddCollections(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddCollectionsPtr(t *testing.T) {
+func Test_C25_LinkedCollections_AddCollectionsPtr(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	col := corestr.New.Collection.Strings([]string{"a"})
 	lc.AddCollectionsPtr([]*corestr.Collection{col})
@@ -739,7 +739,7 @@ func Test_LinkedCollections_AddCollectionsPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ToStrings(t *testing.T) {
+func Test_C25_LinkedCollections_ToStrings(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	strs := lc.ToStrings()
 	if len(strs) != 2 {
@@ -747,7 +747,7 @@ func Test_LinkedCollections_ToStrings(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ToStringsPtr(t *testing.T) {
+func Test_C25_LinkedCollections_ToStringsPtr(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	ptr := lc.ToStringsPtr()
 	if ptr == nil || len(*ptr) != 1 {
@@ -755,7 +755,7 @@ func Test_LinkedCollections_ToStringsPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ToCollection(t *testing.T) {
+func Test_C25_LinkedCollections_ToCollection(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	col := lc.ToCollection(0)
 	if col.Length() != 2 {
@@ -763,7 +763,7 @@ func Test_LinkedCollections_ToCollection(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ToCollectionSimple(t *testing.T) {
+func Test_C25_LinkedCollections_ToCollectionSimple(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	col := lc.ToCollectionSimple()
 	if col.Length() != 1 {
@@ -771,7 +771,7 @@ func Test_LinkedCollections_ToCollectionSimple(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ToCollection_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_ToCollection_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	col := lc.ToCollection(0)
 	if col.Length() != 0 {
@@ -779,7 +779,7 @@ func Test_LinkedCollections_ToCollection_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ToCollectionsOfCollection(t *testing.T) {
+func Test_C25_LinkedCollections_ToCollectionsOfCollection(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	coc := lc.ToCollectionsOfCollection(0)
@@ -788,7 +788,7 @@ func Test_LinkedCollections_ToCollectionsOfCollection(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ToCollectionsOfCollection_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_ToCollectionsOfCollection_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	coc := lc.ToCollectionsOfCollection(0)
 	if coc == nil {
@@ -796,7 +796,7 @@ func Test_LinkedCollections_ToCollectionsOfCollection_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ItemsOfItems(t *testing.T) {
+func Test_C25_LinkedCollections_ItemsOfItems(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.AddStrings("b")
 	items := lc.ItemsOfItems()
@@ -805,7 +805,7 @@ func Test_LinkedCollections_ItemsOfItems(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ItemsOfItemsCollection(t *testing.T) {
+func Test_C25_LinkedCollections_ItemsOfItemsCollection(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	items := lc.ItemsOfItemsCollection()
 	if len(items) != 1 {
@@ -813,7 +813,7 @@ func Test_LinkedCollections_ItemsOfItemsCollection(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_SimpleSlice(t *testing.T) {
+func Test_C25_LinkedCollections_SimpleSlice(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	ss := lc.SimpleSlice()
 	if ss == nil || ss.Length() != 2 {
@@ -821,7 +821,7 @@ func Test_LinkedCollections_SimpleSlice(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_List(t *testing.T) {
+func Test_C25_LinkedCollections_List(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	list := lc.List()
 	if len(list) != 2 {
@@ -829,7 +829,7 @@ func Test_LinkedCollections_List(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ListPtr(t *testing.T) {
+func Test_C25_LinkedCollections_ListPtr(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	ptr := lc.ListPtr()
 	if ptr == nil {
@@ -837,7 +837,7 @@ func Test_LinkedCollections_ListPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_String(t *testing.T) {
+func Test_C25_LinkedCollections_String(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	s := lc.String()
 	if s == "" {
@@ -845,7 +845,7 @@ func Test_LinkedCollections_String(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_String_Empty(t *testing.T) {
+func Test_C25_LinkedCollections_String_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	s := lc.String()
 	if s == "" {
@@ -853,7 +853,7 @@ func Test_LinkedCollections_String_Empty(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_StringLock(t *testing.T) {
+func Test_C25_LinkedCollections_StringLock(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	s := lc.StringLock()
 	if s == "" {
@@ -861,7 +861,7 @@ func Test_LinkedCollections_StringLock(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Join(t *testing.T) {
+func Test_C25_LinkedCollections_Join(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	result := lc.Join(",")
 	if result != "a,b" {
@@ -869,7 +869,7 @@ func Test_LinkedCollections_Join(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Joins(t *testing.T) {
+func Test_C25_LinkedCollections_Joins(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	result := lc.Joins(",", "b")
 	if result == "" {
@@ -877,7 +877,7 @@ func Test_LinkedCollections_Joins(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Clear(t *testing.T) {
+func Test_C25_LinkedCollections_Clear(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.Clear()
 	if lc.Length() != 0 {
@@ -885,7 +885,7 @@ func Test_LinkedCollections_Clear(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_RemoveAll(t *testing.T) {
+func Test_C25_LinkedCollections_RemoveAll(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	lc.RemoveAll()
 	if lc.Length() != 0 {
@@ -893,7 +893,7 @@ func Test_LinkedCollections_RemoveAll(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_Json(t *testing.T) {
+func Test_C25_LinkedCollections_Json(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	result := lc.Json()
 	if result.HasError() {
@@ -901,7 +901,7 @@ func Test_LinkedCollections_Json(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_JsonPtr(t *testing.T) {
+func Test_C25_LinkedCollections_JsonPtr(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	ptr := lc.JsonPtr()
 	if ptr == nil {
@@ -909,7 +909,7 @@ func Test_LinkedCollections_JsonPtr(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_JsonModel(t *testing.T) {
+func Test_C25_LinkedCollections_JsonModel(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	model := lc.JsonModel()
 	if len(model) != 2 {
@@ -917,14 +917,14 @@ func Test_LinkedCollections_JsonModel(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_JsonModelAny(t *testing.T) {
+func Test_C25_LinkedCollections_JsonModelAny(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	if lc.JsonModelAny() == nil {
 		t.Error("should not be nil")
 	}
 }
 
-func Test_LinkedCollections_MarshalJSON(t *testing.T) {
+func Test_C25_LinkedCollections_MarshalJSON(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	data, err := json.Marshal(lc)
 	if err != nil {
@@ -935,7 +935,7 @@ func Test_LinkedCollections_MarshalJSON(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_UnmarshalJSON(t *testing.T) {
+func Test_C25_LinkedCollections_UnmarshalJSON(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	data, _ := json.Marshal(lc)
 	lc2 := corestr.New.LinkedCollection.Create()
@@ -945,7 +945,7 @@ func Test_LinkedCollections_UnmarshalJSON(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ParseInjectUsingJson(t *testing.T) {
+func Test_C25_LinkedCollections_ParseInjectUsingJson(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	jsonResult := lc.Json()
 	lc2 := corestr.New.LinkedCollection.Create()
@@ -955,7 +955,7 @@ func Test_LinkedCollections_ParseInjectUsingJson(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_ParseInjectUsingJsonMust(t *testing.T) {
+func Test_C25_LinkedCollections_ParseInjectUsingJsonMust(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	jsonResult := lc.Json()
 	lc2 := corestr.New.LinkedCollection.Create()
@@ -965,7 +965,7 @@ func Test_LinkedCollections_ParseInjectUsingJsonMust(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_GetCompareSummary(t *testing.T) {
+func Test_C25_LinkedCollections_GetCompareSummary(t *testing.T) {
 	lc1 := corestr.New.LinkedCollection.Strings("a")
 	lc2 := corestr.New.LinkedCollection.Strings("b")
 	summary := lc1.GetCompareSummary(lc2, "left", "right")
@@ -974,7 +974,7 @@ func Test_LinkedCollections_GetCompareSummary(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_JsonParseSelfInject(t *testing.T) {
+func Test_C25_LinkedCollections_JsonParseSelfInject(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	jsonResult := lc.Json()
 	lc2 := corestr.New.LinkedCollection.Create()
@@ -984,7 +984,7 @@ func Test_LinkedCollections_JsonParseSelfInject(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AsJsonInterfaces(t *testing.T) {
+func Test_C25_LinkedCollections_AsJsonInterfaces(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a")
 	if lc.AsJsonContractsBinder() == nil {
 		t.Error("should not be nil")
@@ -1000,7 +1000,7 @@ func Test_LinkedCollections_AsJsonInterfaces(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddAsync(t *testing.T) {
+func Test_C25_LinkedCollections_AddAsync(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	wg := &sync.WaitGroup{}
 	col := corestr.New.Collection.Strings([]string{"a"})
@@ -1012,7 +1012,7 @@ func Test_LinkedCollections_AddAsync(t *testing.T) {
 	}
 }
 
-func Test_LinkedCollections_AddAsyncFuncItemsPointer(t *testing.T) {
+func Test_C25_LinkedCollections_AddAsyncFuncItemsPointer(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
@@ -1028,7 +1028,7 @@ func Test_LinkedCollections_AddAsyncFuncItemsPointer(t *testing.T) {
 // NonChainedLinkedCollectionNodes
 // =======================================================
 
-func Test_NonChainedLinkedCollectionNodes_Empty(t *testing.T) {
+func Test_C25_NonChainedLinkedCollectionNodes_Empty(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(5)
 	if !nc.IsEmpty() {
 		t.Error("should be empty")
@@ -1038,7 +1038,7 @@ func Test_NonChainedLinkedCollectionNodes_Empty(t *testing.T) {
 	}
 }
 
-func Test_NonChainedLinkedCollectionNodes_Adds(t *testing.T) {
+func Test_C25_NonChainedLinkedCollectionNodes_Adds(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(5)
 	col := corestr.New.Collection.Strings([]string{"a"})
 	nc.Adds(&corestr.LinkedCollectionNode{Element: col})
@@ -1053,21 +1053,21 @@ func Test_NonChainedLinkedCollectionNodes_Adds(t *testing.T) {
 	}
 }
 
-func Test_NonChainedLinkedCollectionNodes_FirstOrDefault_Empty(t *testing.T) {
+func Test_C25_NonChainedLinkedCollectionNodes_FirstOrDefault_Empty(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(0)
 	if nc.FirstOrDefault() != nil {
 		t.Error("should be nil")
 	}
 }
 
-func Test_NonChainedLinkedCollectionNodes_LastOrDefault_Empty(t *testing.T) {
+func Test_C25_NonChainedLinkedCollectionNodes_LastOrDefault_Empty(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(0)
 	if nc.LastOrDefault() != nil {
 		t.Error("should be nil")
 	}
 }
 
-func Test_NonChainedLinkedCollectionNodes_ApplyChaining(t *testing.T) {
+func Test_C25_NonChainedLinkedCollectionNodes_ApplyChaining(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(3)
 	col1 := corestr.New.Collection.Strings([]string{"a"})
 	col2 := corestr.New.Collection.Strings([]string{"b"})
@@ -1084,7 +1084,7 @@ func Test_NonChainedLinkedCollectionNodes_ApplyChaining(t *testing.T) {
 	}
 }
 
-func Test_NonChainedLinkedCollectionNodes_ToChainedNodes(t *testing.T) {
+func Test_C25_NonChainedLinkedCollectionNodes_ToChainedNodes(t *testing.T) {
 	nc := corestr.NewNonChainedLinkedCollectionNodes(2)
 	col1 := corestr.New.Collection.Strings([]string{"a"})
 	col2 := corestr.New.Collection.Strings([]string{"b"})
@@ -1102,35 +1102,35 @@ func Test_NonChainedLinkedCollectionNodes_ToChainedNodes(t *testing.T) {
 // newLinkedListCollectionsCreator
 // =======================================================
 
-func Test_NewLinkedCollection_Create(t *testing.T) {
+func Test_C25_NewLinkedCollection_Create(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Create()
 	if lc == nil || !lc.IsEmpty() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_NewLinkedCollection_Empty(t *testing.T) {
+func Test_C25_NewLinkedCollection_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	if !lc.IsEmpty() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_NewLinkedCollection_Strings(t *testing.T) {
+func Test_C25_NewLinkedCollection_Strings(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings("a", "b")
 	if lc.Length() != 1 {
 		t.Errorf("expected 1 collection got %d", lc.Length())
 	}
 }
 
-func Test_NewLinkedCollection_Strings_Empty(t *testing.T) {
+func Test_C25_NewLinkedCollection_Strings_Empty(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings()
 	if !lc.IsEmpty() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_NewLinkedCollection_UsingCollections(t *testing.T) {
+func Test_C25_NewLinkedCollection_UsingCollections(t *testing.T) {
 	col1 := corestr.New.Collection.Strings([]string{"a"})
 	col2 := corestr.New.Collection.Strings([]string{"b"})
 	lc := corestr.New.LinkedCollection.UsingCollections(col1, col2)
@@ -1139,7 +1139,7 @@ func Test_NewLinkedCollection_UsingCollections(t *testing.T) {
 	}
 }
 
-func Test_NewLinkedCollection_PointerStringsPtr(t *testing.T) {
+func Test_C25_NewLinkedCollection_PointerStringsPtr(t *testing.T) {
 	a, b := "a", "b"
 	items := []*string{&a, &b}
 	lc := corestr.New.LinkedCollection.PointerStringsPtr(&items)
@@ -1148,7 +1148,7 @@ func Test_NewLinkedCollection_PointerStringsPtr(t *testing.T) {
 	}
 }
 
-func Test_NewLinkedCollection_PointerStringsPtr_Nil(t *testing.T) {
+func Test_C25_NewLinkedCollection_PointerStringsPtr_Nil(t *testing.T) {
 	lc := corestr.New.LinkedCollection.PointerStringsPtr(nil)
 	if !lc.IsEmpty() {
 		t.Error("should be empty")

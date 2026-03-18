@@ -11,7 +11,7 @@ import (
 // KeyValueCollection
 // =======================================================
 
-func Test_KeyValueCollection_Add(t *testing.T) {
+func Test_C27_KeyValueCollection_Add(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k1", "v1").Add("k2", "v2")
 	if kvc.Length() != 2 {
@@ -19,7 +19,7 @@ func Test_KeyValueCollection_Add(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddIf(t *testing.T) {
+func Test_C27_KeyValueCollection_AddIf(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.AddIf(false, "skip", "val")
 	kvc.AddIf(true, "keep", "val")
@@ -28,7 +28,7 @@ func Test_KeyValueCollection_AddIf(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Count(t *testing.T) {
+func Test_C27_KeyValueCollection_Count(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	if kvc.Count() != 1 {
@@ -36,7 +36,7 @@ func Test_KeyValueCollection_Count(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_HasAnyItem(t *testing.T) {
+func Test_C27_KeyValueCollection_HasAnyItem(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	if kvc.HasAnyItem() {
 		t.Error("should not have items")
@@ -47,7 +47,7 @@ func Test_KeyValueCollection_HasAnyItem(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_LastIndex_HasIndex(t *testing.T) {
+func Test_C27_KeyValueCollection_LastIndex_HasIndex(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	if kvc.LastIndex() != 0 {
@@ -58,7 +58,7 @@ func Test_KeyValueCollection_LastIndex_HasIndex(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_First_Last(t *testing.T) {
+func Test_C27_KeyValueCollection_First_Last(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k1", "v1").Add("k2", "v2")
 	if kvc.First().Key != "k1" {
@@ -69,21 +69,21 @@ func Test_KeyValueCollection_First_Last(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_FirstOrDefault_Empty(t *testing.T) {
+func Test_C27_KeyValueCollection_FirstOrDefault_Empty(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	if kvc.FirstOrDefault() != nil {
 		t.Error("should be nil")
 	}
 }
 
-func Test_KeyValueCollection_LastOrDefault_Empty(t *testing.T) {
+func Test_C27_KeyValueCollection_LastOrDefault_Empty(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	if kvc.LastOrDefault() != nil {
 		t.Error("should be nil")
 	}
 }
 
-func Test_KeyValueCollection_Find(t *testing.T) {
+func Test_C27_KeyValueCollection_Find(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k1", "v1").Add("k2", "v2")
 	results := kvc.Find(func(i int, kv corestr.KeyValuePair) (corestr.KeyValuePair, bool, bool) {
@@ -94,7 +94,7 @@ func Test_KeyValueCollection_Find(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_SafeValueAt(t *testing.T) {
+func Test_C27_KeyValueCollection_SafeValueAt(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	if kvc.SafeValueAt(0) != "v" {
@@ -105,7 +105,7 @@ func Test_KeyValueCollection_SafeValueAt(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_SafeValuesAtIndexes(t *testing.T) {
+func Test_C27_KeyValueCollection_SafeValuesAtIndexes(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k1", "v1").Add("k2", "v2")
 	vals := kvc.SafeValuesAtIndexes(0, 1)
@@ -114,7 +114,7 @@ func Test_KeyValueCollection_SafeValuesAtIndexes(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Strings(t *testing.T) {
+func Test_C27_KeyValueCollection_Strings(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	strs := kvc.Strings()
@@ -123,7 +123,7 @@ func Test_KeyValueCollection_Strings(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_StringsUsingFormat(t *testing.T) {
+func Test_C27_KeyValueCollection_StringsUsingFormat(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	strs := kvc.StringsUsingFormat("%s=%s")
@@ -132,7 +132,7 @@ func Test_KeyValueCollection_StringsUsingFormat(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_String(t *testing.T) {
+func Test_C27_KeyValueCollection_String(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	s := kvc.String()
@@ -141,7 +141,7 @@ func Test_KeyValueCollection_String(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Adds(t *testing.T) {
+func Test_C27_KeyValueCollection_Adds(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Adds(
 		corestr.KeyValuePair{Key: "k1", Value: "v1"},
@@ -152,7 +152,7 @@ func Test_KeyValueCollection_Adds(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddStringBySplit(t *testing.T) {
+func Test_C27_KeyValueCollection_AddStringBySplit(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.AddStringBySplit("=", "key=value")
 	if kvc.Length() != 1 {
@@ -160,7 +160,7 @@ func Test_KeyValueCollection_AddStringBySplit(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddStringBySplitTrim(t *testing.T) {
+func Test_C27_KeyValueCollection_AddStringBySplitTrim(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.AddStringBySplitTrim("=", " key = value ")
 	if kvc.Length() != 1 {
@@ -168,7 +168,7 @@ func Test_KeyValueCollection_AddStringBySplitTrim(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddMap(t *testing.T) {
+func Test_C27_KeyValueCollection_AddMap(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.AddMap(map[string]string{"k": "v"})
 	if kvc.Length() != 1 {
@@ -176,7 +176,7 @@ func Test_KeyValueCollection_AddMap(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddHashsetMap(t *testing.T) {
+func Test_C27_KeyValueCollection_AddHashsetMap(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.AddHashsetMap(map[string]bool{"a": true})
 	if kvc.Length() != 1 {
@@ -184,7 +184,7 @@ func Test_KeyValueCollection_AddHashsetMap(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddHashset(t *testing.T) {
+func Test_C27_KeyValueCollection_AddHashset(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	kvc.AddHashset(hs)
@@ -193,7 +193,7 @@ func Test_KeyValueCollection_AddHashset(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddsHashmap(t *testing.T) {
+func Test_C27_KeyValueCollection_AddsHashmap(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	hm := corestr.New.Hashmap.Cap(5)
 	hm.AddOrUpdate("k", "v")
@@ -203,7 +203,7 @@ func Test_KeyValueCollection_AddsHashmap(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AddsHashmaps(t *testing.T) {
+func Test_C27_KeyValueCollection_AddsHashmaps(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	hm := corestr.New.Hashmap.Cap(5)
 	hm.AddOrUpdate("k", "v")
@@ -213,7 +213,7 @@ func Test_KeyValueCollection_AddsHashmaps(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Hashmap(t *testing.T) {
+func Test_C27_KeyValueCollection_Hashmap(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	hm := kvc.Hashmap()
@@ -222,7 +222,7 @@ func Test_KeyValueCollection_Hashmap(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_IsContains(t *testing.T) {
+func Test_C27_KeyValueCollection_IsContains(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	if !kvc.IsContains("k") {
@@ -230,7 +230,7 @@ func Test_KeyValueCollection_IsContains(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Get(t *testing.T) {
+func Test_C27_KeyValueCollection_Get(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	val, found := kvc.Get("k")
@@ -239,7 +239,7 @@ func Test_KeyValueCollection_Get(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_HasKey(t *testing.T) {
+func Test_C27_KeyValueCollection_HasKey(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	if !kvc.HasKey("k") {
@@ -247,7 +247,7 @@ func Test_KeyValueCollection_HasKey(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Map(t *testing.T) {
+func Test_C27_KeyValueCollection_Map(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	m := kvc.Map()
@@ -256,7 +256,7 @@ func Test_KeyValueCollection_Map(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AllKeys(t *testing.T) {
+func Test_C27_KeyValueCollection_AllKeys(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k1", "v1").Add("k2", "v2")
 	keys := kvc.AllKeys()
@@ -265,7 +265,7 @@ func Test_KeyValueCollection_AllKeys(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AllKeysSorted(t *testing.T) {
+func Test_C27_KeyValueCollection_AllKeysSorted(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("b", "v").Add("a", "v")
 	keys := kvc.AllKeysSorted()
@@ -274,7 +274,7 @@ func Test_KeyValueCollection_AllKeysSorted(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AllValues(t *testing.T) {
+func Test_C27_KeyValueCollection_AllValues(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	vals := kvc.AllValues()
@@ -283,7 +283,7 @@ func Test_KeyValueCollection_AllValues(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Join(t *testing.T) {
+func Test_C27_KeyValueCollection_Join(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	result := kvc.Join(",")
@@ -292,7 +292,7 @@ func Test_KeyValueCollection_Join(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_JoinKeys(t *testing.T) {
+func Test_C27_KeyValueCollection_JoinKeys(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k1", "v1").Add("k2", "v2")
 	result := kvc.JoinKeys(",")
@@ -301,7 +301,7 @@ func Test_KeyValueCollection_JoinKeys(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_JoinValues(t *testing.T) {
+func Test_C27_KeyValueCollection_JoinValues(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	result := kvc.JoinValues(",")
@@ -310,7 +310,7 @@ func Test_KeyValueCollection_JoinValues(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Json(t *testing.T) {
+func Test_C27_KeyValueCollection_Json(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	result := kvc.Json()
@@ -319,7 +319,7 @@ func Test_KeyValueCollection_Json(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_JsonPtr(t *testing.T) {
+func Test_C27_KeyValueCollection_JsonPtr(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	if kvc.JsonPtr() == nil {
@@ -327,7 +327,7 @@ func Test_KeyValueCollection_JsonPtr(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Serialize(t *testing.T) {
+func Test_C27_KeyValueCollection_Serialize(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	_, err := kvc.Serialize()
@@ -336,7 +336,7 @@ func Test_KeyValueCollection_Serialize(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_SerializeMust(t *testing.T) {
+func Test_C27_KeyValueCollection_SerializeMust(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	data := kvc.SerializeMust()
@@ -345,7 +345,7 @@ func Test_KeyValueCollection_SerializeMust(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_ParseInjectUsingJson(t *testing.T) {
+func Test_C27_KeyValueCollection_ParseInjectUsingJson(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	jsonResult := kvc.Json()
@@ -356,7 +356,7 @@ func Test_KeyValueCollection_ParseInjectUsingJson(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_JsonParseSelfInject(t *testing.T) {
+func Test_C27_KeyValueCollection_JsonParseSelfInject(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	jsonResult := kvc.Json()
@@ -367,7 +367,7 @@ func Test_KeyValueCollection_JsonParseSelfInject(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_AsJsonInterfaces(t *testing.T) {
+func Test_C27_KeyValueCollection_AsJsonInterfaces(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	if kvc.AsJsonContractsBinder() == nil {
 		t.Error("should not be nil")
@@ -380,7 +380,7 @@ func Test_KeyValueCollection_AsJsonInterfaces(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Clear(t *testing.T) {
+func Test_C27_KeyValueCollection_Clear(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	kvc.Clear()
@@ -389,13 +389,13 @@ func Test_KeyValueCollection_Clear(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Dispose(t *testing.T) {
+func Test_C27_KeyValueCollection_Dispose(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	kvc.Dispose()
 }
 
-func Test_KeyValueCollection_Deserialize(t *testing.T) {
+func Test_C27_KeyValueCollection_Deserialize(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	var target corestr.KeyValueCollection
@@ -405,7 +405,7 @@ func Test_KeyValueCollection_Deserialize(t *testing.T) {
 	}
 }
 
-func Test_KeyValueCollection_Compile(t *testing.T) {
+func Test_C27_KeyValueCollection_Compile(t *testing.T) {
 	kvc := corestr.Empty.KeyValueCollection()
 	kvc.Add("k", "v")
 	s := kvc.Compile()
@@ -418,7 +418,7 @@ func Test_KeyValueCollection_Compile(t *testing.T) {
 // KeyAnyValuePair
 // =======================================================
 
-func Test_KeyAnyValuePair_Basic(t *testing.T) {
+func Test_C27_KeyAnyValuePair_Basic(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "name", Value: "John"}
 	if kav.KeyName() != "name" {
 		t.Error("expected name")
@@ -434,7 +434,7 @@ func Test_KeyAnyValuePair_Basic(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_ValueString(t *testing.T) {
+func Test_C27_KeyAnyValuePair_ValueString(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: 42}
 	s := kav.ValueString()
 	if s == "" {
@@ -442,14 +442,14 @@ func Test_KeyAnyValuePair_ValueString(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_IsValueNull(t *testing.T) {
+func Test_C27_KeyAnyValuePair_IsValueNull(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: nil}
 	if !kav.IsValueNull() {
 		t.Error("should be null")
 	}
 }
 
-func Test_KeyAnyValuePair_HasNonNull(t *testing.T) {
+func Test_C27_KeyAnyValuePair_HasNonNull(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	if !kav.HasNonNull() {
 		t.Error("should have value")
@@ -459,21 +459,21 @@ func Test_KeyAnyValuePair_HasNonNull(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_IsValueEmptyString(t *testing.T) {
+func Test_C27_KeyAnyValuePair_IsValueEmptyString(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: nil}
 	if !kav.IsValueEmptyString() {
 		t.Error("should be empty string")
 	}
 }
 
-func Test_KeyAnyValuePair_IsValueWhitespace(t *testing.T) {
+func Test_C27_KeyAnyValuePair_IsValueWhitespace(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: nil}
 	if !kav.IsValueWhitespace() {
 		t.Error("should be whitespace")
 	}
 }
 
-func Test_KeyAnyValuePair_String(t *testing.T) {
+func Test_C27_KeyAnyValuePair_String(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	s := kav.String()
 	if s == "" {
@@ -481,14 +481,14 @@ func Test_KeyAnyValuePair_String(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_Compile(t *testing.T) {
+func Test_C27_KeyAnyValuePair_Compile(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	if kav.Compile() == "" {
 		t.Error("should not be empty")
 	}
 }
 
-func Test_KeyAnyValuePair_SerializeMust(t *testing.T) {
+func Test_C27_KeyAnyValuePair_SerializeMust(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	data := kav.SerializeMust()
 	if len(data) == 0 {
@@ -496,7 +496,7 @@ func Test_KeyAnyValuePair_SerializeMust(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_Serialize(t *testing.T) {
+func Test_C27_KeyAnyValuePair_Serialize(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	_, err := kav.Serialize()
 	if err != nil {
@@ -504,7 +504,7 @@ func Test_KeyAnyValuePair_Serialize(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_Json(t *testing.T) {
+func Test_C27_KeyAnyValuePair_Json(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	result := kav.Json()
 	if result.HasError() {
@@ -512,14 +512,14 @@ func Test_KeyAnyValuePair_Json(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_JsonPtr(t *testing.T) {
+func Test_C27_KeyAnyValuePair_JsonPtr(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	if kav.JsonPtr() == nil {
 		t.Error("should not be nil")
 	}
 }
 
-func Test_KeyAnyValuePair_ParseInjectUsingJson(t *testing.T) {
+func Test_C27_KeyAnyValuePair_ParseInjectUsingJson(t *testing.T) {
 	kav := corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	jsonResult := kav.Json()
 	kav2 := &corestr.KeyAnyValuePair{}
@@ -529,7 +529,7 @@ func Test_KeyAnyValuePair_ParseInjectUsingJson(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_AsJsonInterfaces(t *testing.T) {
+func Test_C27_KeyAnyValuePair_AsJsonInterfaces(t *testing.T) {
 	kav := &corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	if kav.AsJsonContractsBinder() == nil {
 		t.Error("should not be nil")
@@ -542,7 +542,7 @@ func Test_KeyAnyValuePair_AsJsonInterfaces(t *testing.T) {
 	}
 }
 
-func Test_KeyAnyValuePair_Clear_Dispose(t *testing.T) {
+func Test_C27_KeyAnyValuePair_Clear_Dispose(t *testing.T) {
 	kav := &corestr.KeyAnyValuePair{Key: "k", Value: "v"}
 	kav.Clear()
 	if kav.Key != "" {
@@ -556,84 +556,84 @@ func Test_KeyAnyValuePair_Clear_Dispose(t *testing.T) {
 // ValidValue
 // =======================================================
 
-func Test_ValidValue_NewValidValue(t *testing.T) {
+func Test_C27_ValidValue_NewValidValue(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	if vv.Value != "hello" || !vv.IsValid {
 		t.Error("unexpected state")
 	}
 }
 
-func Test_ValidValue_NewValidValueEmpty(t *testing.T) {
+func Test_C27_ValidValue_NewValidValueEmpty(t *testing.T) {
 	vv := corestr.NewValidValueEmpty()
 	if vv.Value != "" || !vv.IsValid {
 		t.Error("unexpected state")
 	}
 }
 
-func Test_ValidValue_InvalidValidValue(t *testing.T) {
+func Test_C27_ValidValue_InvalidValidValue(t *testing.T) {
 	vv := corestr.InvalidValidValue("err")
 	if vv.IsValid || vv.Message != "err" {
 		t.Error("unexpected state")
 	}
 }
 
-func Test_ValidValue_InvalidValidValueNoMessage(t *testing.T) {
+func Test_C27_ValidValue_InvalidValidValueNoMessage(t *testing.T) {
 	vv := corestr.InvalidValidValueNoMessage()
 	if vv.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_ValidValue_NewValidValueUsingAny(t *testing.T) {
+func Test_C27_ValidValue_NewValidValueUsingAny(t *testing.T) {
 	vv := corestr.NewValidValueUsingAny(false, true, "test")
 	if vv.Value == "" {
 		t.Error("should have value")
 	}
 }
 
-func Test_ValidValue_NewValidValueUsingAnyAutoValid(t *testing.T) {
+func Test_C27_ValidValue_NewValidValueUsingAnyAutoValid(t *testing.T) {
 	vv := corestr.NewValidValueUsingAnyAutoValid(false, "test")
 	if vv.Value == "" {
 		t.Error("should have value")
 	}
 }
 
-func Test_ValidValue_IsEmpty(t *testing.T) {
+func Test_C27_ValidValue_IsEmpty(t *testing.T) {
 	vv := corestr.NewValidValue("")
 	if !vv.IsEmpty() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_ValidValue_IsWhitespace(t *testing.T) {
+func Test_C27_ValidValue_IsWhitespace(t *testing.T) {
 	vv := corestr.NewValidValue("   ")
 	if !vv.IsWhitespace() {
 		t.Error("should be whitespace")
 	}
 }
 
-func Test_ValidValue_Trim(t *testing.T) {
+func Test_C27_ValidValue_Trim(t *testing.T) {
 	vv := corestr.NewValidValue("  hello  ")
 	if vv.Trim() != "hello" {
 		t.Error("expected trimmed")
 	}
 }
 
-func Test_ValidValue_HasValidNonEmpty(t *testing.T) {
+func Test_C27_ValidValue_HasValidNonEmpty(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	if !vv.HasValidNonEmpty() {
 		t.Error("should have valid non-empty")
 	}
 }
 
-func Test_ValidValue_HasValidNonWhitespace(t *testing.T) {
+func Test_C27_ValidValue_HasValidNonWhitespace(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	if !vv.HasValidNonWhitespace() {
 		t.Error("should be valid non-whitespace")
 	}
 }
 
-func Test_ValidValue_ValueBool(t *testing.T) {
+func Test_C27_ValidValue_ValueBool(t *testing.T) {
 	vv := corestr.NewValidValue("true")
 	if !vv.ValueBool() {
 		t.Error("expected true")
@@ -648,7 +648,7 @@ func Test_ValidValue_ValueBool(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_ValueInt(t *testing.T) {
+func Test_C27_ValidValue_ValueInt(t *testing.T) {
 	vv := corestr.NewValidValue("42")
 	if vv.ValueInt(0) != 42 {
 		t.Error("expected 42")
@@ -659,14 +659,14 @@ func Test_ValidValue_ValueInt(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_ValueDefInt(t *testing.T) {
+func Test_C27_ValidValue_ValueDefInt(t *testing.T) {
 	vv := corestr.NewValidValue("10")
 	if vv.ValueDefInt() != 10 {
 		t.Error("expected 10")
 	}
 }
 
-func Test_ValidValue_ValueByte(t *testing.T) {
+func Test_C27_ValidValue_ValueByte(t *testing.T) {
 	vv := corestr.NewValidValue("200")
 	if vv.ValueByte(0) != 200 {
 		t.Errorf("expected 200 got %d", vv.ValueByte(0))
@@ -677,28 +677,28 @@ func Test_ValidValue_ValueByte(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_ValueDefByte(t *testing.T) {
+func Test_C27_ValidValue_ValueDefByte(t *testing.T) {
 	vv := corestr.NewValidValue("100")
 	if vv.ValueDefByte() != 100 {
 		t.Error("expected 100")
 	}
 }
 
-func Test_ValidValue_ValueFloat64(t *testing.T) {
+func Test_C27_ValidValue_ValueFloat64(t *testing.T) {
 	vv := corestr.NewValidValue("3.14")
 	if vv.ValueFloat64(0) != 3.14 {
 		t.Error("expected 3.14")
 	}
 }
 
-func Test_ValidValue_ValueDefFloat64(t *testing.T) {
+func Test_C27_ValidValue_ValueDefFloat64(t *testing.T) {
 	vv := corestr.NewValidValue("2.5")
 	if vv.ValueDefFloat64() != 2.5 {
 		t.Error("expected 2.5")
 	}
 }
 
-func Test_ValidValue_ValueBytesOnce(t *testing.T) {
+func Test_C27_ValidValue_ValueBytesOnce(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	bytes := vv.ValueBytesOnce()
 	if len(bytes) != 5 {
@@ -711,7 +711,7 @@ func Test_ValidValue_ValueBytesOnce(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_ValueBytesOncePtr(t *testing.T) {
+func Test_C27_ValidValue_ValueBytesOncePtr(t *testing.T) {
 	vv := corestr.NewValidValue("hi")
 	bytes := vv.ValueBytesOncePtr()
 	if len(bytes) != 2 {
@@ -719,21 +719,21 @@ func Test_ValidValue_ValueBytesOncePtr(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_HasSafeNonEmpty(t *testing.T) {
+func Test_C27_ValidValue_HasSafeNonEmpty(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	if !vv.HasSafeNonEmpty() {
 		t.Error("expected true")
 	}
 }
 
-func Test_ValidValue_Is(t *testing.T) {
+func Test_C27_ValidValue_Is(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	if !vv.Is("hello") {
 		t.Error("should match")
 	}
 }
 
-func Test_ValidValue_IsAnyOf(t *testing.T) {
+func Test_C27_ValidValue_IsAnyOf(t *testing.T) {
 	vv := corestr.NewValidValue("b")
 	if !vv.IsAnyOf("a", "b", "c") {
 		t.Error("should match")
@@ -743,28 +743,28 @@ func Test_ValidValue_IsAnyOf(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_IsContains(t *testing.T) {
+func Test_C27_ValidValue_IsContains(t *testing.T) {
 	vv := corestr.NewValidValue("hello world")
 	if !vv.IsContains("world") {
 		t.Error("should contain")
 	}
 }
 
-func Test_ValidValue_IsAnyContains(t *testing.T) {
+func Test_C27_ValidValue_IsAnyContains(t *testing.T) {
 	vv := corestr.NewValidValue("hello world")
 	if !vv.IsAnyContains("xyz", "world") {
 		t.Error("should contain")
 	}
 }
 
-func Test_ValidValue_IsEqualNonSensitive(t *testing.T) {
+func Test_C27_ValidValue_IsEqualNonSensitive(t *testing.T) {
 	vv := corestr.NewValidValue("Hello")
 	if !vv.IsEqualNonSensitive("hello") {
 		t.Error("should be equal")
 	}
 }
 
-func Test_ValidValue_IsRegexMatches(t *testing.T) {
+func Test_C27_ValidValue_IsRegexMatches(t *testing.T) {
 	vv := corestr.NewValidValue("hello123")
 	re := regexp.MustCompile(`\d+`)
 	if !vv.IsRegexMatches(re) {
@@ -775,7 +775,7 @@ func Test_ValidValue_IsRegexMatches(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_RegexFindString(t *testing.T) {
+func Test_C27_ValidValue_RegexFindString(t *testing.T) {
 	vv := corestr.NewValidValue("hello123")
 	re := regexp.MustCompile(`\d+`)
 	result := vv.RegexFindString(re)
@@ -787,7 +787,7 @@ func Test_ValidValue_RegexFindString(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_RegexFindAllStrings(t *testing.T) {
+func Test_C27_ValidValue_RegexFindAllStrings(t *testing.T) {
 	vv := corestr.NewValidValue("a1b2c3")
 	re := regexp.MustCompile(`\d`)
 	results := vv.RegexFindAllStrings(re, -1)
@@ -796,7 +796,7 @@ func Test_ValidValue_RegexFindAllStrings(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_RegexFindAllStringsWithFlag(t *testing.T) {
+func Test_C27_ValidValue_RegexFindAllStringsWithFlag(t *testing.T) {
 	vv := corestr.NewValidValue("a1b2")
 	re := regexp.MustCompile(`\d`)
 	items, hasAny := vv.RegexFindAllStringsWithFlag(re, -1)
@@ -805,7 +805,7 @@ func Test_ValidValue_RegexFindAllStringsWithFlag(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_Split(t *testing.T) {
+func Test_C27_ValidValue_Split(t *testing.T) {
 	vv := corestr.NewValidValue("a,b,c")
 	parts := vv.Split(",")
 	if len(parts) != 3 {
@@ -813,19 +813,19 @@ func Test_ValidValue_Split(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_SplitNonEmpty(t *testing.T) {
+func Test_C27_ValidValue_SplitNonEmpty(t *testing.T) {
 	vv := corestr.NewValidValue("a,,b")
 	parts := vv.SplitNonEmpty(",")
 	_ = parts
 }
 
-func Test_ValidValue_SplitTrimNonWhitespace(t *testing.T) {
+func Test_C27_ValidValue_SplitTrimNonWhitespace(t *testing.T) {
 	vv := corestr.NewValidValue("a , , b")
 	parts := vv.SplitTrimNonWhitespace(",")
 	_ = parts
 }
 
-func Test_ValidValue_Clone(t *testing.T) {
+func Test_C27_ValidValue_Clone(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	cloned := vv.Clone()
 	if cloned.Value != "hello" {
@@ -833,14 +833,14 @@ func Test_ValidValue_Clone(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_String(t *testing.T) {
+func Test_C27_ValidValue_String(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	if vv.String() != "hello" {
 		t.Error("expected hello")
 	}
 }
 
-func Test_ValidValue_FullString(t *testing.T) {
+func Test_C27_ValidValue_FullString(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	s := vv.FullString()
 	if s == "" {
@@ -848,7 +848,7 @@ func Test_ValidValue_FullString(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_Clear_Dispose(t *testing.T) {
+func Test_C27_ValidValue_Clear_Dispose(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	vv.Clear()
 	if vv.Value != "" {
@@ -858,7 +858,7 @@ func Test_ValidValue_Clear_Dispose(t *testing.T) {
 	vv2.Dispose()
 }
 
-func Test_ValidValue_Json(t *testing.T) {
+func Test_C27_ValidValue_Json(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	result := vv.Json()
 	if result.HasError() {
@@ -866,7 +866,7 @@ func Test_ValidValue_Json(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_Serialize(t *testing.T) {
+func Test_C27_ValidValue_Serialize(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	_, err := vv.Serialize()
 	if err != nil {
@@ -874,7 +874,7 @@ func Test_ValidValue_Serialize(t *testing.T) {
 	}
 }
 
-func Test_ValidValue_ParseInjectUsingJson(t *testing.T) {
+func Test_C27_ValidValue_ParseInjectUsingJson(t *testing.T) {
 	vv := corestr.NewValidValue("hello")
 	jsonResult := vv.Json()
 	vv2 := &corestr.ValidValue{}
@@ -888,14 +888,14 @@ func Test_ValidValue_ParseInjectUsingJson(t *testing.T) {
 // ValidValues
 // =======================================================
 
-func Test_ValidValues_Empty(t *testing.T) {
+func Test_C27_ValidValues_Empty(t *testing.T) {
 	vvs := corestr.EmptyValidValues()
 	if !vvs.IsEmpty() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_ValidValues_Add(t *testing.T) {
+func Test_C27_ValidValues_Add(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a").Add("b")
 	if vvs.Length() != 2 {
@@ -903,7 +903,7 @@ func Test_ValidValues_Add(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_AddFull(t *testing.T) {
+func Test_C27_ValidValues_AddFull(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.AddFull(true, "val", "msg")
 	if vvs.Length() != 1 {
@@ -911,7 +911,7 @@ func Test_ValidValues_AddFull(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_Count_HasAnyItem(t *testing.T) {
+func Test_C27_ValidValues_Count_HasAnyItem(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	if vvs.Count() != 1 {
@@ -922,7 +922,7 @@ func Test_ValidValues_Count_HasAnyItem(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_Find(t *testing.T) {
+func Test_C27_ValidValues_Find(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a").Add("b")
 	results := vvs.Find(func(i int, vv *corestr.ValidValue) (*corestr.ValidValue, bool, bool) {
@@ -933,7 +933,7 @@ func Test_ValidValues_Find(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_SafeValueAt(t *testing.T) {
+func Test_C27_ValidValues_SafeValueAt(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	if vvs.SafeValueAt(0) != "a" {
@@ -944,7 +944,7 @@ func Test_ValidValues_SafeValueAt(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_SafeValidValueAt(t *testing.T) {
+func Test_C27_ValidValues_SafeValidValueAt(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	if vvs.SafeValidValueAt(0) != "a" {
@@ -952,7 +952,7 @@ func Test_ValidValues_SafeValidValueAt(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_SafeValuesAtIndexes(t *testing.T) {
+func Test_C27_ValidValues_SafeValuesAtIndexes(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a").Add("b")
 	vals := vvs.SafeValuesAtIndexes(0, 1)
@@ -961,7 +961,7 @@ func Test_ValidValues_SafeValuesAtIndexes(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_SafeValidValuesAtIndexes(t *testing.T) {
+func Test_C27_ValidValues_SafeValidValuesAtIndexes(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	vals := vvs.SafeValidValuesAtIndexes(0)
@@ -970,7 +970,7 @@ func Test_ValidValues_SafeValidValuesAtIndexes(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_Strings(t *testing.T) {
+func Test_C27_ValidValues_Strings(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	strs := vvs.Strings()
@@ -979,7 +979,7 @@ func Test_ValidValues_Strings(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_FullStrings(t *testing.T) {
+func Test_C27_ValidValues_FullStrings(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	strs := vvs.FullStrings()
@@ -988,7 +988,7 @@ func Test_ValidValues_FullStrings(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_String(t *testing.T) {
+func Test_C27_ValidValues_String(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	if vvs.String() == "" {
@@ -996,7 +996,7 @@ func Test_ValidValues_String(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_Adds(t *testing.T) {
+func Test_C27_ValidValues_Adds(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Adds(corestr.ValidValue{Value: "a", IsValid: true})
 	if vvs.Length() != 1 {
@@ -1004,7 +1004,7 @@ func Test_ValidValues_Adds(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_AddsPtr(t *testing.T) {
+func Test_C27_ValidValues_AddsPtr(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.AddsPtr(corestr.NewValidValue("a"))
 	if vvs.Length() != 1 {
@@ -1012,7 +1012,7 @@ func Test_ValidValues_AddsPtr(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_AddValidValues(t *testing.T) {
+func Test_C27_ValidValues_AddValidValues(t *testing.T) {
 	vvs1 := corestr.NewValidValues(5)
 	vvs1.Add("a")
 	vvs2 := corestr.NewValidValues(5)
@@ -1023,7 +1023,7 @@ func Test_ValidValues_AddValidValues(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_ConcatNew(t *testing.T) {
+func Test_C27_ValidValues_ConcatNew(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	vvs2 := corestr.NewValidValues(5)
@@ -1034,7 +1034,7 @@ func Test_ValidValues_ConcatNew(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_AddHashsetMap(t *testing.T) {
+func Test_C27_ValidValues_AddHashsetMap(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.AddHashsetMap(map[string]bool{"a": true})
 	if vvs.Length() != 1 {
@@ -1042,7 +1042,7 @@ func Test_ValidValues_AddHashsetMap(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_AddHashset(t *testing.T) {
+func Test_C27_ValidValues_AddHashset(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	hs := corestr.New.Hashset.Strings([]string{"a"})
 	vvs.AddHashset(hs)
@@ -1051,7 +1051,7 @@ func Test_ValidValues_AddHashset(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_Hashmap(t *testing.T) {
+func Test_C27_ValidValues_Hashmap(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	hm := vvs.Hashmap()
@@ -1060,7 +1060,7 @@ func Test_ValidValues_Hashmap(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_Map(t *testing.T) {
+func Test_C27_ValidValues_Map(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
 	vvs.Add("a")
 	m := vvs.Map()
@@ -1069,7 +1069,7 @@ func Test_ValidValues_Map(t *testing.T) {
 	}
 }
 
-func Test_ValidValues_NewValidValuesUsingValues(t *testing.T) {
+func Test_C27_ValidValues_NewValidValuesUsingValues(t *testing.T) {
 	vvs := corestr.NewValidValuesUsingValues(
 		corestr.ValidValue{Value: "a", IsValid: true},
 		corestr.ValidValue{Value: "b", IsValid: true},
@@ -1083,63 +1083,63 @@ func Test_ValidValues_NewValidValuesUsingValues(t *testing.T) {
 // LeftRight
 // =======================================================
 
-func Test_LeftRight_New(t *testing.T) {
+func Test_C27_LeftRight_New(t *testing.T) {
 	lr := corestr.NewLeftRight("left", "right")
 	if lr.Left != "left" || lr.Right != "right" {
 		t.Error("unexpected values")
 	}
 }
 
-func Test_LeftRight_Invalid(t *testing.T) {
+func Test_C27_LeftRight_Invalid(t *testing.T) {
 	lr := corestr.InvalidLeftRight("err")
 	if lr.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_LeftRight_InvalidNoMessage(t *testing.T) {
+func Test_C27_LeftRight_InvalidNoMessage(t *testing.T) {
 	lr := corestr.InvalidLeftRightNoMessage()
 	if lr.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_LeftRight_UsingSlice(t *testing.T) {
+func Test_C27_LeftRight_UsingSlice(t *testing.T) {
 	lr := corestr.LeftRightUsingSlice([]string{"a", "b"})
 	if lr.Left != "a" || lr.Right != "b" {
 		t.Error("unexpected values")
 	}
 }
 
-func Test_LeftRight_UsingSlice_Single(t *testing.T) {
+func Test_C27_LeftRight_UsingSlice_Single(t *testing.T) {
 	lr := corestr.LeftRightUsingSlice([]string{"a"})
 	if lr.Left != "a" || lr.Right != "" {
 		t.Error("unexpected values")
 	}
 }
 
-func Test_LeftRight_UsingSlice_Empty(t *testing.T) {
+func Test_C27_LeftRight_UsingSlice_Empty(t *testing.T) {
 	lr := corestr.LeftRightUsingSlice(nil)
 	if lr.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_LeftRight_UsingSlicePtr(t *testing.T) {
+func Test_C27_LeftRight_UsingSlicePtr(t *testing.T) {
 	lr := corestr.LeftRightUsingSlicePtr([]string{"a", "b"})
 	if lr.Left != "a" {
 		t.Error("expected a")
 	}
 }
 
-func Test_LeftRight_TrimmedUsingSlice(t *testing.T) {
+func Test_C27_LeftRight_TrimmedUsingSlice(t *testing.T) {
 	lr := corestr.LeftRightTrimmedUsingSlice([]string{" a ", " b "})
 	if lr.Left != "a" || lr.Right != "b" {
 		t.Error("expected trimmed values")
 	}
 }
 
-func Test_LeftRight_Methods(t *testing.T) {
+func Test_C27_LeftRight_Methods(t *testing.T) {
 	lr := corestr.NewLeftRight("left", "right")
 	if len(lr.LeftBytes()) == 0 {
 		t.Error("should have bytes")
@@ -1185,7 +1185,7 @@ func Test_LeftRight_Methods(t *testing.T) {
 	}
 }
 
-func Test_LeftRight_IsEqual(t *testing.T) {
+func Test_C27_LeftRight_IsEqual(t *testing.T) {
 	lr1 := corestr.NewLeftRight("a", "b")
 	lr2 := corestr.NewLeftRight("a", "b")
 	if !lr1.IsEqual(lr2) {
@@ -1193,7 +1193,7 @@ func Test_LeftRight_IsEqual(t *testing.T) {
 	}
 }
 
-func Test_LeftRight_Clone(t *testing.T) {
+func Test_C27_LeftRight_Clone(t *testing.T) {
 	lr := corestr.NewLeftRight("a", "b")
 	cloned := lr.Clone()
 	if cloned.Left != "a" {
@@ -1201,7 +1201,7 @@ func Test_LeftRight_Clone(t *testing.T) {
 	}
 }
 
-func Test_LeftRight_IsRegexMatch(t *testing.T) {
+func Test_C27_LeftRight_IsRegexMatch(t *testing.T) {
 	lr := corestr.NewLeftRight("hello123", "world")
 	re := regexp.MustCompile(`\d+`)
 	if !lr.IsLeftRegexMatch(re) {
@@ -1212,14 +1212,14 @@ func Test_LeftRight_IsRegexMatch(t *testing.T) {
 	}
 }
 
-func Test_LeftRight_Clear_Dispose(t *testing.T) {
+func Test_C27_LeftRight_Clear_Dispose(t *testing.T) {
 	lr := corestr.NewLeftRight("a", "b")
 	lr.Clear()
 	lr2 := corestr.NewLeftRight("c", "d")
 	lr2.Dispose()
 }
 
-func Test_LeftRight_NonPtr_Ptr(t *testing.T) {
+func Test_C27_LeftRight_NonPtr_Ptr(t *testing.T) {
 	lr := corestr.NewLeftRight("a", "b")
 	nonPtr := lr.NonPtr()
 	_ = nonPtr
@@ -1233,28 +1233,28 @@ func Test_LeftRight_NonPtr_Ptr(t *testing.T) {
 // LeftMiddleRight
 // =======================================================
 
-func Test_LeftMiddleRight_New(t *testing.T) {
+func Test_C27_LeftMiddleRight_New(t *testing.T) {
 	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	if lmr.Left != "l" || lmr.Middle != "m" || lmr.Right != "r" {
 		t.Error("unexpected values")
 	}
 }
 
-func Test_LeftMiddleRight_Invalid(t *testing.T) {
+func Test_C27_LeftMiddleRight_Invalid(t *testing.T) {
 	lmr := corestr.InvalidLeftMiddleRight("err")
 	if lmr.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_LeftMiddleRight_InvalidNoMessage(t *testing.T) {
+func Test_C27_LeftMiddleRight_InvalidNoMessage(t *testing.T) {
 	lmr := corestr.InvalidLeftMiddleRightNoMessage()
 	if lmr.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_LeftMiddleRight_Methods(t *testing.T) {
+func Test_C27_LeftMiddleRight_Methods(t *testing.T) {
 	lmr := corestr.NewLeftMiddleRight("left", "mid", "right")
 	if len(lmr.LeftBytes()) == 0 {
 		t.Error("should have bytes")
@@ -1297,7 +1297,7 @@ func Test_LeftMiddleRight_Methods(t *testing.T) {
 	}
 }
 
-func Test_LeftMiddleRight_Clone(t *testing.T) {
+func Test_C27_LeftMiddleRight_Clone(t *testing.T) {
 	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	cloned := lmr.Clone()
 	if cloned.Left != "l" {
@@ -1305,7 +1305,7 @@ func Test_LeftMiddleRight_Clone(t *testing.T) {
 	}
 }
 
-func Test_LeftMiddleRight_ToLeftRight(t *testing.T) {
+func Test_C27_LeftMiddleRight_ToLeftRight(t *testing.T) {
 	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	lr := lmr.ToLeftRight()
 	if lr.Left != "l" || lr.Right != "r" {
@@ -1313,7 +1313,7 @@ func Test_LeftMiddleRight_ToLeftRight(t *testing.T) {
 	}
 }
 
-func Test_LeftMiddleRight_Clear_Dispose(t *testing.T) {
+func Test_C27_LeftMiddleRight_Clear_Dispose(t *testing.T) {
 	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	lmr.Clear()
 	lmr2 := corestr.NewLeftMiddleRight("a", "b", "c")
@@ -1324,42 +1324,42 @@ func Test_LeftMiddleRight_Clear_Dispose(t *testing.T) {
 // TextWithLineNumber
 // =======================================================
 
-func Test_TextWithLineNumber_HasLineNumber(t *testing.T) {
+func Test_C27_TextWithLineNumber_HasLineNumber(t *testing.T) {
 	twl := &corestr.TextWithLineNumber{LineNumber: 5, Text: "hello"}
 	if !twl.HasLineNumber() {
 		t.Error("should have line number")
 	}
 }
 
-func Test_TextWithLineNumber_IsInvalidLineNumber(t *testing.T) {
+func Test_C27_TextWithLineNumber_IsInvalidLineNumber(t *testing.T) {
 	twl := &corestr.TextWithLineNumber{LineNumber: -1, Text: ""}
 	if !twl.IsInvalidLineNumber() {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_TextWithLineNumber_Length(t *testing.T) {
+func Test_C27_TextWithLineNumber_Length(t *testing.T) {
 	twl := &corestr.TextWithLineNumber{LineNumber: 1, Text: "hello"}
 	if twl.Length() != 5 {
 		t.Errorf("expected 5 got %d", twl.Length())
 	}
 }
 
-func Test_TextWithLineNumber_IsEmpty(t *testing.T) {
+func Test_C27_TextWithLineNumber_IsEmpty(t *testing.T) {
 	twl := &corestr.TextWithLineNumber{LineNumber: -1, Text: ""}
 	if !twl.IsEmpty() {
 		t.Error("should be empty")
 	}
 }
 
-func Test_TextWithLineNumber_IsEmptyText(t *testing.T) {
+func Test_C27_TextWithLineNumber_IsEmptyText(t *testing.T) {
 	twl := &corestr.TextWithLineNumber{LineNumber: 1, Text: ""}
 	if !twl.IsEmptyText() {
 		t.Error("should be empty text")
 	}
 }
 
-func Test_TextWithLineNumber_IsEmptyTextLineBoth(t *testing.T) {
+func Test_C27_TextWithLineNumber_IsEmptyTextLineBoth(t *testing.T) {
 	twl := &corestr.TextWithLineNumber{LineNumber: -1, Text: ""}
 	if !twl.IsEmptyTextLineBoth() {
 		t.Error("should be empty both")
@@ -1370,21 +1370,21 @@ func Test_TextWithLineNumber_IsEmptyTextLineBoth(t *testing.T) {
 // ValueStatus
 // =======================================================
 
-func Test_ValueStatus_InvalidValueStatus(t *testing.T) {
+func Test_C27_ValueStatus_InvalidValueStatus(t *testing.T) {
 	vs := corestr.InvalidValueStatus("err")
 	if vs.ValueValid.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_ValueStatus_InvalidValueStatusNoMessage(t *testing.T) {
+func Test_C27_ValueStatus_InvalidValueStatusNoMessage(t *testing.T) {
 	vs := corestr.InvalidValueStatusNoMessage()
 	if vs.ValueValid.IsValid {
 		t.Error("should be invalid")
 	}
 }
 
-func Test_ValueStatus_Clone(t *testing.T) {
+func Test_C27_ValueStatus_Clone(t *testing.T) {
 	vs := &corestr.ValueStatus{
 		ValueValid: corestr.NewValidValue("hello"),
 		Index:      5,
@@ -1399,7 +1399,7 @@ func Test_ValueStatus_Clone(t *testing.T) {
 // emptyCreator
 // =======================================================
 
-func Test_EmptyCreator_All(t *testing.T) {
+func Test_C27_EmptyCreator_All(t *testing.T) {
 	if corestr.Empty.Collection() == nil {
 		t.Error("nil")
 	}
@@ -1456,7 +1456,7 @@ func Test_EmptyCreator_All(t *testing.T) {
 // KeyValuePair (string methods)
 // =======================================================
 
-func Test_KeyValuePair_Basic(t *testing.T) {
+func Test_C27_KeyValuePair_Basic(t *testing.T) {
 	kv := corestr.KeyValuePair{Key: "k", Value: "v"}
 	if kv.String() == "" {
 		t.Error("should not be empty")
@@ -1467,7 +1467,7 @@ func Test_KeyValuePair_Basic(t *testing.T) {
 // DataModels
 // =======================================================
 
-func Test_HashsetDataModel(t *testing.T) {
+func Test_C27_HashsetDataModel(t *testing.T) {
 	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	dm := corestr.NewHashsetsDataModelUsing(hs)
 	if dm == nil {
@@ -1479,7 +1479,7 @@ func Test_HashsetDataModel(t *testing.T) {
 	}
 }
 
-func Test_HashmapDataModel(t *testing.T) {
+func Test_C27_HashmapDataModel(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	hm.AddOrUpdate("k", "v")
 	dm := corestr.NewHashmapsDataModelUsing(hm)
@@ -1492,7 +1492,7 @@ func Test_HashmapDataModel(t *testing.T) {
 	}
 }
 
-func Test_HashsetsCollectionDataModel(t *testing.T) {
+func Test_C27_HashsetsCollectionDataModel(t *testing.T) {
 	hs1 := corestr.New.Hashset.Strings([]string{"a"})
 	hsc := corestr.New.HashsetsCollection.UsingHashsetsPointers(hs1)
 	dm := corestr.NewHashsetsCollectionDataModelUsing(hsc)
