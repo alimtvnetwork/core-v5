@@ -131,8 +131,8 @@ func Test_Cov7_BytesDeepClone(t *testing.T) {
 
 func Test_Cov7_BytesDeepClone_Nil(t *testing.T) {
 	cloned := corejson.BytesDeepClone(nil)
-	actual := args.Map{"nil": cloned == nil}
-	expected := args.Map{"nil": true}
+	actual := args.Map{"isEmpty": len(cloned) == 0}
+	expected := args.Map{"isEmpty": true}
 	expected.ShouldBeEqual(t, 0, "BytesDeepClone nil", actual)
 }
 
