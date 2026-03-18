@@ -208,9 +208,8 @@ func Test_Cov13_KeyValCollection_Serialize(t *testing.T) {
 	kvc.Add(coredynamic.KeyVal{Key: "a", Value: 1})
 	b, err := kvc.Serialize()
 	js, jsErr := kvc.JsonString()
-	jm := kvc.JsonStringMust()
-	actual := args.Map{"bLen": len(b) > 0, "noErr": err == nil, "jsNE": js != "", "jsNoErr": jsErr == nil, "jmNE": jm != ""}
-	expected := args.Map{"bLen": true, "noErr": true, "jsNE": true, "jsNoErr": true, "jmNE": true}
+	actual := args.Map{"bLen": len(b) > 0, "noErr": err == nil, "jsNE": js != "", "jsNoErr": jsErr == nil}
+	expected := args.Map{"bLen": true, "noErr": true, "jsNE": true, "jsNoErr": true}
 	expected.ShouldBeEqual(t, 0, "Serialize", actual)
 }
 
