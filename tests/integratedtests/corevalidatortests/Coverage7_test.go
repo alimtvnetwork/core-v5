@@ -346,11 +346,10 @@ func Test_Cov7_SimpleSliceValidator_VerifyAll_Mismatch(t *testing.T) {
 
 func Test_Cov7_LineNumber_Fields(t *testing.T) {
 	ln := corevalidator.LineNumber{
-		Index:      0,
 		LineNumber: 1,
 	}
-	actual := args.Map{"idx": ln.Index, "num": ln.LineNumber}
-	expected := args.Map{"idx": 0, "num": 1}
+	actual := args.Map{"num": ln.LineNumber, "hasLN": ln.HasLineNumber()}
+	expected := args.Map{"num": 1, "hasLN": true}
 	expected.ShouldBeEqual(t, 0, "LineNumber fields", actual)
 }
 
