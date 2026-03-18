@@ -641,7 +641,12 @@ func Test_Cov16_Collection_AddNonEmptyStringsSlice(t *testing.T) {
 
 func Test_Cov16_Collection_ExpandMerge(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	c.ExpandSlicePlusAdd([]string{"b", "c"})
+	c.ExpandSlicePlusAdd(
+		[]string{"b", "c"},
+		func(line string) []string {
+			return []string{line}
+		},
+	)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "Collection ExpandSlicePlusAdd", actual)
@@ -649,7 +654,7 @@ func Test_Cov16_Collection_ExpandMerge(t *testing.T) {
 
 func Test_Cov16_Collection_MergeSlicesOfSlice(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	c.MergeSlicesOfSlice([][]string{{"a", "b"}, {"c"}})
+	c.MergeSlicesOfSlice([]string{"a", "b"}, []string{"c"})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
 	expected.ShouldBeEqual(t, 0, "Collection MergeSlicesOfSlice", actual)
@@ -658,8 +663,8 @@ func Test_Cov16_Collection_MergeSlicesOfSlice(t *testing.T) {
 func Test_Cov16_Collection_GetAllExcept(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	r := c.GetAllExceptCollection(corestr.New.Collection.Strings([]string{"b"}))
-	r2 := c.GetAllExcept("b")
-	actual := args.Map{"rLen": r.Length(), "r2Len": r2.Length()}
+	r2 := c.GetAllExcept([]string{"b"})
+	actual := args.Map{"rLen": len(r), "r2Len": len(r2)}
 	expected := args.Map{"rLen": 2, "r2Len": 2}
 	expected.ShouldBeEqual(t, 0, "Collection GetAllExcept", actual)
 }
@@ -674,7 +679,10 @@ func Test_Cov16_Collection_GetHashsetPlusHasAll(t *testing.T) {
 
 func Test_Cov16_Collection_AddStringsByFuncChecking(t *testing.T) {
 	c := corestr.New.Collection.Empty()
-	c.AddStringsByFuncChecking(func(s string) bool { return len(s) > 1 }, "a", "bb", "c", "dd")
+	c.AddStringsByFuncChecking(
+		[]string{"a", "bb", "c", "dd"},
+		func(s string) bool { return len(s) > 1 },
+	)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "Collection AddStringsByFuncChecking", actual)
