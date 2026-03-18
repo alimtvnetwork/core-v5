@@ -956,8 +956,8 @@ pre{white-space:pre-wrap}</style></head><body>
         $perPkgTxtLines.Add("# Per-Package Coverage Report — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
         $perPkgTxtLines.Add("# Total: $totalLine")
         $perPkgTxtLines.Add("")
-        $perPkgTxtLines.Add("{0,-50} {1,8} {2,8} {3,10} {4,8}" -f "Package", "Stmts", "Covered", "Uncovered", "Cov%")
-        $perPkgTxtLines.Add("{0,-50} {1,8} {2,8} {3,10} {4,8}" -f ("─" * 50), ("─" * 8), ("─" * 8), ("─" * 10), ("─" * 8))
+        $perPkgTxtLines.Add(("Package".PadRight(50)) + " " + ("Stmts".PadLeft(8)) + " " + ("Covered".PadLeft(8)) + " " + ("Uncovered".PadLeft(10)) + " " + ("Cov%".PadLeft(8)))
+        $perPkgTxtLines.Add(("─" * 50) + " " + ("─" * 8) + " " + ("─" * 8) + " " + ("─" * 10) + " " + ("─" * 8))
 
         $perPkgJsonItems = [System.Collections.Generic.List[object]]::new()
 
@@ -975,14 +975,20 @@ pre{white-space:pre-wrap}</style></head><body>
 
             foreach ($pp in $sortedPerPkg) {
                 $statusMark = if ($pp.Pct -ge 100) { "✓" } elseif ($pp.Pct -ge 80) { "○" } else { "✗" }
-                $perPkgTxtLines.Add("$statusMark {0,-48} {1,8} {2,8} {3,10} {4,7}%%" -f $pp.Name, $pp.Stmts, $pp.Covered, $pp.Uncovered, $pp.Pct)
+                $rowPackage = ("$statusMark $($pp.Name)").PadRight(50)
+                $rowStmts = $pp.Stmts.ToString().PadLeft(8)
+                $rowCovered = $pp.Covered.ToString().PadLeft(8)
+                $rowUncovered = $pp.Uncovered.ToString().PadLeft(10)
+                $rowPct = (([string]::Format([System.Globalization.CultureInfo]::InvariantCulture, "{0:0.0}", $pp.Pct)) + "%").PadLeft(8)
+                $perPkgTxtLines.Add("$rowPackage $rowStmts $rowCovered $rowUncovered $rowPct")
+
                 $perPkgJsonItems.Add(@{
-                    package   = $pp.Name
-                    coverage  = $pp.Pct
+                    package    = $pp.Name
+                    coverage   = $pp.Pct
                     statements = $pp.Stmts
-                    covered   = $pp.Covered
-                    uncovered = $pp.Uncovered
-                    status    = if ($pp.Pct -ge 100) { "full" } elseif ($pp.Pct -ge 80) { "good" } else { "low" }
+                    covered    = $pp.Covered
+                    uncovered  = $pp.Uncovered
+                    status     = if ($pp.Pct -ge 100) { "full" } elseif ($pp.Pct -ge 80) { "good" } else { "low" }
                 })
             }
 
@@ -996,8 +1002,8 @@ pre{white-space:pre-wrap}</style></head><body>
             $perPkgTxtLines.Add("")
             $perPkgTxtLines.Add("# Summary")
             $perPkgTxtLines.Add("#   Packages:  $($sortedPerPkg.Count)")
-            $perPkgTxtLines.Add("#   100%%:      $fullCount")
-            $perPkgTxtLines.Add("#   < 80%%:     $lowCount")
+            $perPkgTxtLines.Add("#   100%:      $fullCount")
+            $perPkgTxtLines.Add("#   < 80%:     $lowCount")
             $perPkgTxtLines.Add("#   Total stmts: $totalStmts  covered: $totalCovered  uncovered: $totalUncovered")
         }
 
