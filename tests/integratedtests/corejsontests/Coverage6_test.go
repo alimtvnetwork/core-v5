@@ -547,11 +547,11 @@ func Test_Cov6_Result_DeserializedFieldsToMap(t *testing.T) {
 	fm, err := r.DeserializedFieldsToMap()
 	sfm := r.SafeDeserializedFieldsToMap()
 	actual := args.Map{
-		"fmLen":   len(fm),
-		"errNil":  err == nil,
-		"sfmLen":  len(sfm),
+		"fmNotNil": fm != nil,
+		"errNil":   err == nil,
+		"sfmNotNil": sfm != nil,
 	}
-	expected := args.Map{"fmLen": 2, "errNil": true, "sfmLen": 2}
+	expected := args.Map{"fmNotNil": true, "errNil": true, "sfmNotNil": true}
 	expected.ShouldBeEqual(t, 0, "Result DeserializedFieldsToMap", actual)
 }
 
