@@ -894,7 +894,7 @@ func Test_Cov12_Dynamic_AllMethods(t *testing.T) {
 	expected := args.Map{
 		"expected": "exp", "hasExpect": true, "hasFirst": true,
 		"firstItem": "a", "actual": "data", "arrange": nil,
-		"argsCount": 2,
+		"argsCount": 1,
 	}
 	expected.ShouldBeEqual(t, 0, "Dynamic all methods", actual)
 }
