@@ -595,13 +595,9 @@ func Test_Cov_TraceCollection_Clone(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_ClearDispose(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "a"})
 	tc.Clear()
-
-	// Assert
 	if !tc.IsEmpty() {
 		t.Error("should be empty after Clear")
 	}
