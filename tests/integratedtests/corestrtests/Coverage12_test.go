@@ -221,7 +221,7 @@ func Test_Cov12_SimpleSlice_Nil(t *testing.T) {
 // ── LeftRight ──
 
 func Test_Cov12_LeftRight(t *testing.T) {
-	lr := corestr.LeftRight{Left: "left", Right: "right"}
+	lr := corestr.NewLeftRight("left", "right")
 	actual := args.Map{"left": lr.Left, "right": lr.Right}
 	expected := args.Map{"left": "left", "right": "right"}
 	expected.ShouldBeEqual(t, 0, "LeftRight", actual)
