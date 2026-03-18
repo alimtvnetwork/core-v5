@@ -230,7 +230,7 @@ func Test_Cov12_LeftRight(t *testing.T) {
 // ── LeftMiddleRight ──
 
 func Test_Cov12_LeftMiddleRight(t *testing.T) {
-	lmr := corestr.LeftMiddleRight{Left: "l", Middle: "m", Right: "r"}
+	lmr := corestr.NewLeftMiddleRight("l", "m", "r")
 	actual := args.Map{"left": lmr.Left, "middle": lmr.Middle, "right": lmr.Right}
 	expected := args.Map{"left": "l", "middle": "m", "right": "r"}
 	expected.ShouldBeEqual(t, 0, "LeftMiddleRight", actual)
