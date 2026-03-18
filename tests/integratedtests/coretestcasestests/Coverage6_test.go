@@ -1,0 +1,520 @@
+package coretestcasestests
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/coretestcases"
+)
+
+// ── GenericGherkins — CompareWith ──
+
+func Test_Cov6_GenericGherkins_CompareWith_BothNil(t *testing.T) {
+	var a, b *coretestcases.GenericGherkins[string, string]
+	eq, diff := a.CompareWith(b)
+	actual := args.Map{"eq": eq, "diff": diff}
+	expected := args.Map{"eq": true, "diff": ""}
+	expected.ShouldBeEqual(t, 0, "CompareWith both nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_OneNil(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Title: "x"}
+	eq, diff := a.CompareWith(nil)
+	actual := args.Map{"eq": eq, "diff": diff}
+	expected := args.Map{"eq": false, "diff": "one side is nil"}
+	expected.ShouldBeEqual(t, 0, "CompareWith one nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_Equal(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Title: "t", Feature: "f", Given: "g", When: "w", Then: "th", Input: "i", Expected: "e", Actual: "a", IsMatching: true}
+	b := &coretestcases.GenericGherkins[string, string]{Title: "t", Feature: "f", Given: "g", When: "w", Then: "th", Input: "i", Expected: "e", Actual: "a", IsMatching: true}
+	eq, diff := a.CompareWith(b)
+	actual := args.Map{"eq": eq, "diff": diff}
+	expected := args.Map{"eq": true, "diff": ""}
+	expected.ShouldBeEqual(t, 0, "CompareWith equal", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_TitleDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Title: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{Title: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith title diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_FeatureDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Feature: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{Feature: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith feature diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_GivenDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Given: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{Given: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith given diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_WhenDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{When: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{When: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith when diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_ThenDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Then: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{Then: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith then diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_InputDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Input: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{Input: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith input diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_ExpectedDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Expected: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{Expected: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith expected diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_ActualDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{Actual: "a"}
+	b := &coretestcases.GenericGherkins[string, string]{Actual: "b"}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith actual diff", actual)
+}
+
+func Test_Cov6_GenericGherkins_CompareWith_IsMatchingDiff(t *testing.T) {
+	a := &coretestcases.GenericGherkins[string, string]{IsMatching: true}
+	b := &coretestcases.GenericGherkins[string, string]{IsMatching: false}
+	eq, _ := a.CompareWith(b)
+	actual := args.Map{"eq": eq}
+	expected := args.Map{"eq": false}
+	expected.ShouldBeEqual(t, 0, "CompareWith ismatching diff", actual)
+}
+
+// ── GenericGherkins — Formatting ──
+
+func Test_Cov6_GenericGherkins_String(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{
+		Feature: "f", Given: "g", When: "w", Then: "th",
+	}
+	result := tc.String()
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "String", actual)
+}
+
+func Test_Cov6_GenericGherkins_ToString(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{Feature: "f", Given: "g", When: "w", Then: "th"}
+	result := tc.ToString(5)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "ToString", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetWithExpectation(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{
+		Feature: "f", Given: "g", When: "w", Then: "th",
+		Actual: "act", Expected: "exp",
+	}
+	result := tc.GetWithExpectation(0)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "GetWithExpectation", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetMessageConditional_True(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{
+		Feature: "f", Given: "g", When: "w", Then: "th",
+		Actual: "act", Expected: "exp",
+	}
+	result := tc.GetMessageConditional(true, 0)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "GetMessageConditional true", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetMessageConditional_False(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{
+		Feature: "f", Given: "g", When: "w", Then: "th",
+	}
+	result := tc.GetMessageConditional(false, 0)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "GetMessageConditional false", actual)
+}
+
+func Test_Cov6_GenericGherkins_FullString_Nil(t *testing.T) {
+	var tc *coretestcases.GenericGherkins[string, string]
+	result := tc.FullString()
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "<nil GenericGherkins>"}
+	expected.ShouldBeEqual(t, 0, "FullString nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_FullString_Valid(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{
+		Title: "t", Feature: "f", Given: "g", When: "w", Then: "th",
+		Input: "i", Expected: "e", Actual: "a", IsMatching: true,
+	}
+	result := tc.FullString()
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "FullString valid", actual)
+}
+
+func Test_Cov6_GenericGherkins_FullString_WithExtraArgs(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{
+		Title:     "t",
+		ExtraArgs: args.Map{"k": "v"},
+	}
+	result := tc.FullString()
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "FullString with extras", actual)
+}
+
+// ── GenericGherkins — Getters ──
+
+func Test_Cov6_GenericGherkins_IsFailedToMatch(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{IsMatching: true}
+	actual := args.Map{"val": tc.IsFailedToMatch()}
+	expected := args.Map{"val": false}
+	expected.ShouldBeEqual(t, 0, "IsFailedToMatch", actual)
+}
+
+func Test_Cov6_GenericGherkins_HasExtraArgs_Empty(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{}
+	actual := args.Map{"val": tc.HasExtraArgs()}
+	expected := args.Map{"val": false}
+	expected.ShouldBeEqual(t, 0, "HasExtraArgs empty", actual)
+}
+
+func Test_Cov6_GenericGherkins_HasExtraArgs_WithData(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{ExtraArgs: args.Map{"k": "v"}}
+	actual := args.Map{"val": tc.HasExtraArgs()}
+	expected := args.Map{"val": true}
+	expected.ShouldBeEqual(t, 0, "HasExtraArgs with data", actual)
+}
+
+func Test_Cov6_GenericGherkins_HasExtraArgs_Nil(t *testing.T) {
+	var tc *coretestcases.GenericGherkins[string, string]
+	actual := args.Map{"val": tc.HasExtraArgs()}
+	expected := args.Map{"val": false}
+	expected.ShouldBeEqual(t, 0, "HasExtraArgs nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtra_Valid(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{ExtraArgs: args.Map{"k": "v"}}
+	actual := args.Map{"val": fmt.Sprintf("%v", tc.GetExtra("k"))}
+	expected := args.Map{"val": "v"}
+	expected.ShouldBeEqual(t, 0, "GetExtra valid", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtra_Nil(t *testing.T) {
+	var tc *coretestcases.GenericGherkins[string, string]
+	actual := args.Map{"nil": tc.GetExtra("k") == nil}
+	expected := args.Map{"nil": true}
+	expected.ShouldBeEqual(t, 0, "GetExtra nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtra_NilExtraArgs(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{}
+	actual := args.Map{"nil": tc.GetExtra("k") == nil}
+	expected := args.Map{"nil": true}
+	expected.ShouldBeEqual(t, 0, "GetExtra nil extraargs", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtraAsString_Valid(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{ExtraArgs: args.Map{"k": "v"}}
+	val, ok := tc.GetExtraAsString("k")
+	actual := args.Map{"val": val, "ok": ok}
+	expected := args.Map{"val": "v", "ok": true}
+	expected.ShouldBeEqual(t, 0, "GetExtraAsString valid", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtraAsString_Nil(t *testing.T) {
+	var tc *coretestcases.GenericGherkins[string, string]
+	val, ok := tc.GetExtraAsString("k")
+	actual := args.Map{"val": val, "ok": ok}
+	expected := args.Map{"val": "", "ok": false}
+	expected.ShouldBeEqual(t, 0, "GetExtraAsString nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtraAsBool_Valid(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{ExtraArgs: args.Map{"k": true}}
+	val, ok := tc.GetExtraAsBool("k")
+	actual := args.Map{"val": val, "ok": ok}
+	expected := args.Map{"val": true, "ok": true}
+	expected.ShouldBeEqual(t, 0, "GetExtraAsBool valid", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtraAsBool_Nil(t *testing.T) {
+	var tc *coretestcases.GenericGherkins[string, string]
+	val, ok := tc.GetExtraAsBool("k")
+	actual := args.Map{"val": val, "ok": ok}
+	expected := args.Map{"val": false, "ok": false}
+	expected.ShouldBeEqual(t, 0, "GetExtraAsBool nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtraAsBoolDefault_Valid(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{ExtraArgs: args.Map{"k": false}}
+	val := tc.GetExtraAsBoolDefault("k", true)
+	actual := args.Map{"val": val}
+	expected := args.Map{"val": false}
+	expected.ShouldBeEqual(t, 0, "GetExtraAsBoolDefault valid", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtraAsBoolDefault_Nil(t *testing.T) {
+	var tc *coretestcases.GenericGherkins[string, string]
+	val := tc.GetExtraAsBoolDefault("k", true)
+	actual := args.Map{"val": val}
+	expected := args.Map{"val": true}
+	expected.ShouldBeEqual(t, 0, "GetExtraAsBoolDefault nil", actual)
+}
+
+func Test_Cov6_GenericGherkins_GetExtraAsBoolDefault_NilExtraArgs(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{}
+	val := tc.GetExtraAsBoolDefault("k", true)
+	actual := args.Map{"val": val}
+	expected := args.Map{"val": true}
+	expected.ShouldBeEqual(t, 0, "GetExtraAsBoolDefault nil extraargs", actual)
+}
+
+// ── GenericGherkins — TypedWrapper ──
+
+func Test_Cov6_GenericGherkins_AsTypedTestCaseWrapper(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{Title: "wrapper"}
+	w := tc.AsTypedTestCaseWrapper()
+	actual := args.Map{"notNil": w != nil, "title": w.CaseTitle()}
+	expected := args.Map{"notNil": true, "title": "wrapper"}
+	expected.ShouldBeEqual(t, 0, "AsTypedTestCaseWrapper", actual)
+}
+
+// ── GenericGherkins — ShouldMatchExpected match ──
+
+func Test_Cov6_GenericGherkins_ShouldMatchExpected_Match(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, bool]{Title: "match test", Expected: true}
+	// Should not error — actual matches expected
+	tc.ShouldMatchExpected(t, 0, true)
+	actual := args.Map{"passed": true}
+	expected := args.Map{"passed": true}
+	expected.ShouldBeEqual(t, 0, "ShouldMatchExpected match", actual)
+}
+
+func Test_Cov6_GenericGherkins_ShouldMatchExpectedFirst(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, bool]{Title: "match first", Expected: true}
+	tc.ShouldMatchExpectedFirst(t, true)
+	actual := args.Map{"passed": true}
+	expected := args.Map{"passed": true}
+	expected.ShouldBeEqual(t, 0, "ShouldMatchExpectedFirst", actual)
+}
+
+// ── GenericGherkins — ShouldBeEqualMap ──
+
+func Test_Cov6_MapGherkins_ShouldBeEqualMap(t *testing.T) {
+	tc := &coretestcases.MapGherkins{
+		Title:    "map equal test",
+		Expected: args.Map{"k": "v"},
+	}
+	tc.ShouldBeEqualMap(t, 0, args.Map{"k": "v"})
+}
+
+func Test_Cov6_MapGherkins_ShouldBeEqualMapFirst(t *testing.T) {
+	tc := &coretestcases.MapGherkins{
+		Title:    "map equal first test",
+		Expected: args.Map{"k": "v"},
+	}
+	tc.ShouldBeEqualMapFirst(t, args.Map{"k": "v"})
+}
+
+func Test_Cov6_MapGherkins_ShouldBeEqualMap_WhenFallback(t *testing.T) {
+	tc := &coretestcases.MapGherkins{
+		When:     "when title",
+		Expected: args.Map{"k": "v"},
+	}
+	tc.ShouldBeEqualMap(t, 0, args.Map{"k": "v"})
+}
+
+// ── CaseV1 — ArrangeTypeName ──
+
+func Test_Cov6_CaseV1_ArrangeTypeName(t *testing.T) {
+	c := coretestcases.CaseV1{ArrangeInput: "hello"}
+	actual := args.Map{"val": c.ArrangeTypeName()}
+	expected := args.Map{"val": "string"}
+	expected.ShouldBeEqual(t, 0, "ArrangeTypeName", actual)
+}
+
+// ── CaseV1 — AsSimpleTestCaseWrapper ──
+
+func Test_Cov6_CaseV1_AsSimpleTestCaseWrapper(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "test"}
+	w := c.AsSimpleTestCaseWrapper()
+	actual := args.Map{"title": w.CaseTitle()}
+	expected := args.Map{"title": "test"}
+	expected.ShouldBeEqual(t, 0, "AsSimpleTestCaseWrapper", actual)
+}
+
+// ── CaseV1 — AsSimpleTestCaseWrapperContractsBinder ──
+
+func Test_Cov6_CaseV1_AsSimpleTestCaseWrapperContractsBinder(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "test"}
+	w := c.AsSimpleTestCaseWrapperContractsBinder()
+	actual := args.Map{"notNil": w != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "AsSimpleTestCaseWrapperContractsBinder", actual)
+}
+
+// ── CaseV1 — AsBaseTestCase ──
+
+func Test_Cov6_CaseV1_AsBaseTestCase(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "test"}
+	b := c.AsBaseTestCase()
+	actual := args.Map{"title": b.Title}
+	expected := args.Map{"title": "test"}
+	expected.ShouldBeEqual(t, 0, "AsBaseTestCase", actual)
+}
+
+// ── CaseV1 — PrepareTitle ──
+
+func Test_Cov6_CaseV1_PrepareTitle(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "test"}
+	result := c.PrepareTitle(3, "additional")
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "PrepareTitle", actual)
+}
+
+// ── CaseV1 — ShouldStartsWithFirst / ShouldEndsWithFirst ──
+
+func Test_Cov6_CaseV1_ShouldStartsWithFirst(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "starts test", ExpectedInput: "hel"}
+	c.ShouldStartsWithFirst(t, "hello")
+}
+
+func Test_Cov6_CaseV1_ShouldEndsWithFirst(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "ends test", ExpectedInput: "llo"}
+	c.ShouldEndsWithFirst(t, "hello")
+}
+
+// ── CaseV1 — ShouldBeNotEqualFirst ──
+
+func Test_Cov6_CaseV1_ShouldBeNotEqualFirst(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "not equal first", ExpectedInput: "abc"}
+	c.ShouldBeNotEqualFirst(t, "xyz")
+}
+
+// ── CaseV1 — ShouldBeRegexFirst ──
+
+func Test_Cov6_CaseV1_ShouldBeRegexFirst(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "regex first", ExpectedInput: "^hel.*"}
+	c.ShouldBeRegexFirst(t, "hello")
+}
+
+// ── CaseV1 — ShouldBeTrimRegex ──
+
+func Test_Cov6_CaseV1_ShouldBeTrimRegex(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "trim regex", ExpectedInput: "^hello$"}
+	c.ShouldBeTrimRegex(t, 0, "  hello  ")
+}
+
+// ── CaseV1 — ShouldHaveNoError ──
+
+func Test_Cov6_CaseV1_ShouldHaveNoError(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "no error test"}
+	c.ShouldHaveNoError(t, "additional", 0, nil)
+}
+
+// ── CaseV1 — ExpectedAsMap ──
+
+func Test_Cov6_CaseV1_ExpectedAsMap_Valid(t *testing.T) {
+	c := coretestcases.CaseV1{ExpectedInput: args.Map{"k": "v"}}
+	m := c.ExpectedAsMap()
+	actual := args.Map{"len": len(m)}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "ExpectedAsMap valid", actual)
+}
+
+func Test_Cov6_CaseV1_ExpectedAsMap_Panic(t *testing.T) {
+	c := coretestcases.CaseV1{ExpectedInput: "not a map"}
+	var didPanic bool
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				didPanic = true
+			}
+		}()
+		c.ExpectedAsMap()
+	}()
+	actual := args.Map{"panicked": didPanic}
+	expected := args.Map{"panicked": true}
+	expected.ShouldBeEqual(t, 0, "ExpectedAsMap panic", actual)
+}
+
+// ── CaseV1 — ShouldBeEqualMap / ShouldBeEqualMapFirst ──
+
+func Test_Cov6_CaseV1_ShouldBeEqualMap(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "map test", ExpectedInput: args.Map{"k": "v"}}
+	c.ShouldBeEqualMap(t, 0, args.Map{"k": "v"})
+}
+
+func Test_Cov6_CaseV1_ShouldBeEqualMapFirst(t *testing.T) {
+	c := coretestcases.CaseV1{Title: "map first", ExpectedInput: args.Map{"k": "v"}}
+	c.ShouldBeEqualMapFirst(t, args.Map{"k": "v"})
+}
+
+// ── CaseNilSafe — MethodName / CaseTitle ──
+
+func Test_Cov6_CaseNilSafe_MethodName(t *testing.T) {
+	tc := coretestcases.CaseNilSafe{Func: fmt.Sprint}
+	actual := args.Map{"notEmpty": tc.MethodName() != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "CaseNilSafe MethodName", actual)
+}
+
+func Test_Cov6_CaseNilSafe_CaseTitle_WithTitle(t *testing.T) {
+	tc := coretestcases.CaseNilSafe{Title: "my title", Func: fmt.Sprint}
+	actual := args.Map{"val": tc.CaseTitle()}
+	expected := args.Map{"val": "my title"}
+	expected.ShouldBeEqual(t, 0, "CaseNilSafe CaseTitle with title", actual)
+}
+
+func Test_Cov6_CaseNilSafe_CaseTitle_Fallback(t *testing.T) {
+	tc := coretestcases.CaseNilSafe{Func: fmt.Sprint}
+	actual := args.Map{"notEmpty": tc.CaseTitle() != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "CaseNilSafe CaseTitle fallback", actual)
+}
+
+// ── GenericGherkins — CaseTitle fallback ──
+
+func Test_Cov6_GenericGherkins_CaseTitle_WhenFallback(t *testing.T) {
+	tc := &coretestcases.GenericGherkins[string, string]{When: "when-val"}
+	actual := args.Map{"val": tc.CaseTitle()}
+	expected := args.Map{"val": "when-val"}
+	expected.ShouldBeEqual(t, 0, "CaseTitle when fallback", actual)
+}
