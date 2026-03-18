@@ -36,7 +36,7 @@ func Test_Cov9_Attributes_HasSafeItems(t *testing.T) {
 }
 
 func Test_Cov9_Attributes_HasStringKey(t *testing.T) {
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 
 	if !attr.HasStringKey("k") {
