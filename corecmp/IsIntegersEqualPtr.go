@@ -9,11 +9,5 @@ func IsIntegersEqualPtr(leftSlicePtr, rightSlicePtr *[]int) bool {
 		return false
 	}
 
-	length := len(*leftSlicePtr)
-
-	if length != len(*rightSlicePtr) {
-		return false
-	}
-
 	return IsIntegersEqual(*leftSlicePtr, *rightSlicePtr)
 }

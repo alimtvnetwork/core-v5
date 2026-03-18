@@ -22,7 +22,7 @@ func Test_Cov_ParseRwxInstruction_Nil(t *testing.T) {
 
 func Test_Cov_ParseRwxInstruction_EmptyBytes(t *testing.T) {
 	// Arrange
-	r := corejson.NewPtr(nil)
+	r := &corejson.Result{}
 	// Act
 	result, err := chmodins.ParseRwxInstructionUsingJsonResult(r)
 	// Assert
@@ -108,7 +108,7 @@ func Test_Cov_ParseBaseRwxInstructions_Nil(t *testing.T) {
 
 func Test_Cov_ParseBaseRwxInstructions_EmptyBytes(t *testing.T) {
 	// Arrange
-	r := corejson.NewPtr(nil)
+	r := &corejson.Result{}
 	// Act
 	result, err := chmodins.ParseBaseRwxInstructionsUsingJsonResult(r)
 	// Assert
