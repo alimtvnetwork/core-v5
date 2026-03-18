@@ -15,7 +15,7 @@ import (
 func Test_Cov5_Result_Map(t *testing.T) {
 	r := corejson.NewPtr("hello")
 	m := r.Map()
-	actual := args.Map{"hasBytes": m["Bytes"] != "", "hasType": m["TypeName"] != ""}
+	actual := args.Map{"hasBytes": m["Bytes"] != "", "hasType": m["Type"] != ""}
 	expected := args.Map{"hasBytes": true, "hasType": true}
 	expected.ShouldBeEqual(t, 0, "Result Map", actual)
 }
