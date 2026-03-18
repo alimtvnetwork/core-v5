@@ -1603,18 +1603,19 @@ func Test_Cov7_FuncMap_Invoke(t *testing.T) {
 
 	results, err := fm.Invoke(knownName, 3, 4)
 	_, misErr := fm.Invoke("missing")
+	// VoidCall passes no args to a 2-arg func — expect error
 	voidCallRes, voidErr := fm.VoidCall(knownName)
 
 	actual := args.Map{
 		"errNil":   err == nil,
 		"resLen":   len(results),
 		"misErr":   misErr != nil,
-		"voidErr":  voidErr == nil,
+		"voidErr":  voidErr != nil,
 		"voidLen":  len(voidCallRes),
 	}
 	expected := args.Map{
 		"errNil": true, "resLen": 1,
-		"misErr": true, "voidErr": true, "voidLen": 1,
+		"misErr": true, "voidErr": true, "voidLen": 0,
 	}
 	expected.ShouldBeEqual(t, 0, "FuncMap invoke", actual)
 }
