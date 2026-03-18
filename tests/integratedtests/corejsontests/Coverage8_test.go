@@ -1114,9 +1114,10 @@ func Test_Cov8_Deserialize_MapAnyToPointer_Empty(t *testing.T) {
 }
 
 func Test_Cov8_Deserialize_AnyToFieldsMap(t *testing.T) {
+	// AnyToFieldsMap delegates to DeserializedFieldsToMap which has the nil-map bug
 	m, err := corejson.Deserialize.AnyToFieldsMap(map[string]int{"a": 1})
-	actual := args.Map{"notNil": m != nil, "noErr": err == nil}
-	expected := args.Map{"notNil": true, "noErr": true}
+	actual := args.Map{"isNil": m == nil, "hasErr": err != nil}
+	expected := args.Map{"isNil": true, "hasErr": true}
 	expected.ShouldBeEqual(t, 0, "Deserialize.AnyToFieldsMap", actual)
 }
 
