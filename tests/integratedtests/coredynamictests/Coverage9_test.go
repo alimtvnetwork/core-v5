@@ -367,7 +367,7 @@ func Test_Cov9_AnyCollection_Json(t *testing.T) {
 	js, jsErr := ac.JsonString()
 	jsMust := ac.JsonStringMust()
 	actual := args.Map{
-		"jsonOk":     jsonResult.JsonString() != "",
+		"jsonOk":     jsonResult.HasError() == false,
 		"ptrNotNil":  jsonPtr != nil,
 		"modelNN":    model != nil,
 		"modelAnyNN": modelAny != nil,
