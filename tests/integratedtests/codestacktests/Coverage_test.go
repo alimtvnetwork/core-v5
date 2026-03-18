@@ -648,7 +648,7 @@ func Test_Cov_TraceCollection_Paging(t *testing.T) {
 
 func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	csStr := tc.CodeStacksString()
