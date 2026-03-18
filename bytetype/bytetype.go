@@ -192,14 +192,15 @@ func (it Variant) MarshalJSON() ([]byte, error) {
 }
 
 func (it *Variant) UnmarshalJSON(data []byte) error {
-	newEmpty := Variant(0)
+	type variantAlias Variant
+	var raw variantAlias
 	err := corejson.
 		Deserialize.
 		UsingBytes(
-			data, &newEmpty)
+			data, &raw)
 
 	if err == nil {
-		*it = newEmpty
+		*it = Variant(raw)
 	}
 
 	return err
