@@ -681,7 +681,7 @@ func Test_Cov6_Result_PrettyJsonBuffer(t *testing.T) {
 
 func Test_Cov6_Result_InjectInto(t *testing.T) {
 	r := corejson.NewPtr("hello")
-	target := corejson.New("world")
+	target := corejson.NewPtr("world")
 	err := r.InjectInto(target)
 	actual := args.Map{"errNil": err == nil}
 	expected := args.Map{"errNil": true}
