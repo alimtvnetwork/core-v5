@@ -1,11 +1,11 @@
 package reflectinternaltests
 
 import (
-	"reflect"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/internal/reflectinternal"
+	"github.com/alimtvnetwork/core/reflectcore/reflectmodel"
 )
 
 // ── reflectConverter — uncovered branches ──
