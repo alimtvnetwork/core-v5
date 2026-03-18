@@ -690,9 +690,12 @@ func Test_Cov16_Collection_AddFuncResult(t *testing.T) {
 
 func Test_Cov16_Collection_ParseInjectUsingJson(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a"})
-	j := c.Serialize()
+	jsonBytes, serErr := c.Serialize()
+	if serErr != nil {
+		t.Fatal("serialize error")
+	}
 	c2 := corestr.New.Collection.Empty()
-	err := c2.ParseInjectUsingJson(j.SafeBytes())
+	err := c2.ParseInjectUsingJson(jsonBytes)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
 	expected.ShouldBeEqual(t, 0, "Collection ParseInjectUsingJson", actual)
