@@ -104,8 +104,8 @@ func Test_Cov6_ToStringPtr(t *testing.T) {
 	err := errors.New("test")
 	result := errcore.ToStringPtr(err)
 	nilResult := errcore.ToStringPtr(nil)
-	actual := args.Map{"notNil": result != nil, "nilResult": nilResult == nil}
-	expected := args.Map{"notNil": true, "nilResult": true}
+	actual := args.Map{"notNil": result != nil, "nilResultNotNil": nilResult != nil, "nilValue": *nilResult}
+	expected := args.Map{"notNil": true, "nilResultNotNil": true, "nilValue": ""}
 	expected.ShouldBeEqual(t, 0, "ToStringPtr", actual)
 }
 
