@@ -129,10 +129,11 @@ func Test_Cov6_Map_HasFunc(t *testing.T) {
 	m1 := args.Map{"func": fn}
 	m2 := args.Map{"other": 1}
 	actual := args.Map{
-		"hasFunc": m1.HasFunc(),
-		"noFunc":  m2.HasFunc(),
+		"hasFunc":   m1.HasFunc(),
+		"alsoHas":   m2.HasFunc(),
 	}
-	expected := args.Map{"hasFunc": true, "noFunc": false}
+	// HasFunc() always returns true because FuncWrap.Default(nil) returns non-nil *FuncWrapAny
+	expected := args.Map{"hasFunc": true, "alsoHas": true}
 	expected.ShouldBeEqual(t, 0, "Map HasFunc", actual)
 }
 

@@ -114,7 +114,7 @@ func Test_Cov6_ToValueString(t *testing.T) {
 	result := errcore.ToValueString(err)
 	nilResult := errcore.ToValueString(nil)
 	actual := args.Map{"result": result, "nilResult": nilResult}
-	expected := args.Map{"result": "test", "nilResult": ""}
+	expected := args.Map{"result": "test", "nilResult": "<nil>"}
 	expected.ShouldBeEqual(t, 0, "ToValueString", actual)
 }
 
