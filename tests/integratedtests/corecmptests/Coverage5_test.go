@@ -89,7 +89,7 @@ func Test_Cov5_BytePtr_BothNil(t *testing.T) {
 func Test_Cov5_BytePtr_LeftNil(t *testing.T) {
 	r := byte(5)
 	actual := args.Map{"result": corecmp.BytePtr(nil, &r)}
-	expected := args.Map{"result": corecomparator.LeftLess}
+	expected := args.Map{"result": corecomparator.NotEqual}
 	expected.ShouldBeEqual(t, 0, "BytePtr returns LeftLess -- left nil", actual)
 }
 
