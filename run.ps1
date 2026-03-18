@@ -104,7 +104,7 @@ function Write-TestLogs([string[]]$rawOutput) {
 
     # Remove noisy go-test coverpkg warnings from logs
     $filteredOutput = $rawOutput | Where-Object {
-        $_ -notmatch '^warning: no packages being tested depend on matches for pattern'
+        $_ -notmatch '^\s*warning: no packages being tested depend on matches for pattern'
     }
 
     # Save filtered output for debugging
