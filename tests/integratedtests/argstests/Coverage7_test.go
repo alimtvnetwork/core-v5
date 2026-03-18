@@ -1628,6 +1628,7 @@ func Test_Cov7_FuncMap_VoidCallNoReturn(t *testing.T) {
 		break
 	}
 
+	// VoidCallNoReturn on a zero-arg func should succeed
 	err := fm.VoidCallNoReturn(knownName)
 	misErr := fm.VoidCallNoReturn("missing")
 

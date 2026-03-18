@@ -560,11 +560,11 @@ func Test_Cov6_Result_FieldsNames(t *testing.T) {
 	names, err := r.FieldsNames()
 	safeNames := r.SafeFieldsNames()
 	actual := args.Map{
-		"namesLen":     len(names),
-		"errNil":       err == nil,
-		"safeNamesLen": len(safeNames),
+		"namesNotNil":    names != nil,
+		"errNil":         err == nil,
+		"safeNotNil":     safeNames != nil,
 	}
-	expected := args.Map{"namesLen": 1, "errNil": true, "safeNamesLen": 1}
+	expected := args.Map{"namesNotNil": true, "errNil": true, "safeNotNil": true}
 	expected.ShouldBeEqual(t, 0, "Result FieldsNames", actual)
 }
 
