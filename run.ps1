@@ -1323,7 +1323,7 @@ function Invoke-IntegratedTests {
         $exitCode = $LASTEXITCODE
         $ErrorActionPreference = $prevPref
 
-        $output | ForEach-Object { Write-Host $_ }
+        Filter-TestWarnings $output | ForEach-Object { Write-Host $_ }
         Write-TestLogs $output
 
         if ($exitCode -eq 0) { Write-Success "Integrated tests passed" }
