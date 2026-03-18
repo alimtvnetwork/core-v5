@@ -271,9 +271,9 @@ func Test_Cov3_Integer64Within_ToInt32(t *testing.T) {
 func Test_Cov3_Integer64Within_ToInt(t *testing.T) {
 	actual := args.Map{
 		"within":  coremath.IsRangeWithin.Integer64.ToInt(100),
-		"outside": coremath.IsRangeWithin.Integer64.ToInt(-9223372036854775808),
+		"minInt64": coremath.IsRangeWithin.Integer64.ToInt(-9223372036854775808),
 	}
-	expected := args.Map{"within": true, "outside": false}
+	expected := args.Map{"within": true, "minInt64": true}
 	expected.ShouldBeEqual(t, 0, "Integer64Within ToInt returns bool -- boundary", actual)
 }
 

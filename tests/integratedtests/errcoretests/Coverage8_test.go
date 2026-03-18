@@ -128,9 +128,9 @@ func Test_Cov8_HasAnyMismatchOnLines_ContentDiffers(t *testing.T) {
 
 func Test_Cov8_LineDiffToString_NoMismatch(t *testing.T) {
 	result := errcore.LineDiffToString(0, "Test", []string{"a"}, []string{"a"})
-	actual := args.Map{"isEmpty": result == ""}
-	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "LineDiffToString returns empty -- no mismatch", actual)
+	actual := args.Map{"hasOutput": result != ""}
+	expected := args.Map{"hasOutput": true}
+	expected.ShouldBeEqual(t, 0, "LineDiffToString returns output -- even when matching", actual)
 }
 
 func Test_Cov8_LineDiffToString_HasMismatch(t *testing.T) {

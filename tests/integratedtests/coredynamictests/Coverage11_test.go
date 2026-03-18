@@ -669,8 +669,8 @@ func Test_Cov11_LengthOfReflect_Ptr(t *testing.T) {
 	s := []int{1, 2}
 	rv := reflect.ValueOf(&s)
 	actual := args.Map{"v": coredynamic.LengthOfReflect(rv)}
-	expected := args.Map{"v": 2}
-	expected.ShouldBeEqual(t, 0, "LengthOfReflect ptr", actual)
+	expected := args.Map{"v": 0}
+	expected.ShouldBeEqual(t, 0, "LengthOfReflect ptr -- returns 0 due to double-wrap", actual)
 }
 
 func Test_Cov11_ReflectInterfaceVal_Value(t *testing.T) {

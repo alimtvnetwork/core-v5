@@ -500,7 +500,7 @@ func Test_Cov_TraceCollection_SkipTake(t *testing.T) {
 
 func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	fwls := tc.FileWithLines()
@@ -526,7 +526,7 @@ func Test_Cov_TraceCollection_FileWithLines(t *testing.T) {
 
 func Test_Cov_TraceCollection_Json(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	jsonStrs := tc.JsonStrings()
@@ -567,7 +567,7 @@ func Test_Cov_TraceCollection_Json(t *testing.T) {
 
 func Test_Cov_TraceCollection_Reverse(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	reversed := tc.Reverse()
@@ -580,7 +580,7 @@ func Test_Cov_TraceCollection_Reverse(t *testing.T) {
 
 func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if !tc.IsEqual(&tc) {
@@ -590,7 +590,7 @@ func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
 
 func Test_Cov_TraceCollection_Clone(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	cloned := tc.Clone()
@@ -608,7 +608,7 @@ func Test_Cov_TraceCollection_Clone(t *testing.T) {
 
 func Test_Cov_TraceCollection_ClearDispose(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	tc.Clear()
@@ -635,7 +635,7 @@ func Test_Cov_TraceCollection_Add(t *testing.T) {
 
 func Test_Cov_TraceCollection_Paging(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	pages := tc.GetPagesSize(2)
@@ -648,7 +648,7 @@ func Test_Cov_TraceCollection_Paging(t *testing.T) {
 
 func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	csStr := tc.CodeStacksString()
@@ -664,7 +664,7 @@ func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 
 func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	strs := tc.StringsUsingFmt(func(tr *codestack.Trace) string {
@@ -686,7 +686,7 @@ func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 
 func Test_Cov_TraceCollection_JoinShortStrings(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	joinShort := tc.JoinShortStrings(", ")
@@ -699,7 +699,7 @@ func Test_Cov_TraceCollection_JoinShortStrings(t *testing.T) {
 
 func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	csvLine := tc.JoinCsvLine()
@@ -712,7 +712,7 @@ func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
 
 func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act & Assert
 	if !tc.HasIndex(0) {
@@ -726,7 +726,7 @@ func Test_Cov_TraceCollection_HasIndex(t *testing.T) {
 
 func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	bytes, err := tc.Serializer()
@@ -742,7 +742,7 @@ func Test_Cov_TraceCollection_Serializer(t *testing.T) {
 
 func Test_Cov_TraceCollection_StackTracesBytes(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	bytes := tc.StackTracesBytes()
@@ -755,7 +755,7 @@ func Test_Cov_TraceCollection_StackTracesBytes(t *testing.T) {
 
 func Test_Cov_TraceCollection_ParseJson(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 	jsonResult := tc.Json()
 	jsonPtr := &jsonResult
 
@@ -771,7 +771,7 @@ func Test_Cov_TraceCollection_ParseJson(t *testing.T) {
 
 func Test_Cov_TraceCollection_Dispose(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	tc.Dispose()
@@ -848,7 +848,7 @@ func Test_Cov_NewCreator_Ptr(t *testing.T) {
 
 func Test_Cov_StackTrace_DefaultCount(t *testing.T) {
 	// Act
-	tc := codestack.New.StackTrace.DefaultCount(3)
+	tc := codestack.New.StackTrace.DefaultCount(1)
 
 	// Assert
 	if tc.IsEmpty() {
@@ -880,7 +880,7 @@ func Test_Cov_StackTrace_SkipNone(t *testing.T) {
 
 func Test_Cov_StacksTo_String(t *testing.T) {
 	// Act
-	result := codestack.StacksTo.String(2, 5)
+	result := codestack.StacksTo.String(0, 5)
 
 	// Assert
 	if result == "" {
@@ -900,7 +900,7 @@ func Test_Cov_StacksTo_StringDefault(t *testing.T) {
 
 func Test_Cov_StacksTo_Bytes(t *testing.T) {
 	// Act
-	result := codestack.StacksTo.Bytes(2)
+	result := codestack.StacksTo.Bytes(0)
 
 	// Assert
 	if len(result) == 0 {
@@ -994,7 +994,7 @@ func Test_Cov_Dir_CurDirJoin(t *testing.T) {
 
 func Test_Cov_TraceCollection_Concat(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
+	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
 
 	// Act
 	concatted := tc.ConcatNew(codestack.New.Default())

@@ -276,8 +276,9 @@ func Test_Cov7_SliceToErrorPtr(t *testing.T) {
 // ── ShouldBe / Expected ──
 
 func Test_Cov7_ShouldBe(t *testing.T) {
-	actual := args.Map{"notNil": errcore.ShouldBe != (struct{}{})}
-	expected := args.Map{"notNil": true}
+	msg := errcore.ShouldBe.AnyEqMsg("a", "b")
+	actual := args.Map{"notEmpty": msg != ""}
+	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ShouldBe exists", actual)
 }
 

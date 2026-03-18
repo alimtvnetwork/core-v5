@@ -302,9 +302,9 @@ func Test_Cov6_MsgHeader(t *testing.T) {
 
 func Test_Cov6_MsgHeaderIf(t *testing.T) {
 	result := errcore.MsgHeaderIf(true, "header", "msg")
-	empty := errcore.MsgHeaderIf(false, "header", "msg")
-	actual := args.Map{"notEmpty": result != "", "empty": empty}
-	expected := args.Map{"notEmpty": true, "empty": ""}
+	falseResult := errcore.MsgHeaderIf(false, "header", "msg")
+	actual := args.Map{"notEmpty": result != "", "falseNotEmpty": falseResult != ""}
+	expected := args.Map{"notEmpty": true, "falseNotEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MsgHeaderIf", actual)
 }
 
