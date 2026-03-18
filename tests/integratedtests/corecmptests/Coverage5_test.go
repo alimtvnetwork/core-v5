@@ -258,8 +258,8 @@ func Test_Cov5_AnyItem_LeftNil(t *testing.T) {
 
 func Test_Cov5_AnyItem_RightNil(t *testing.T) {
 	actual := args.Map{"result": corecmp.AnyItem("hello", nil)}
-	expected := args.Map{"result": corecomparator.LeftGreater}
-	expected.ShouldBeEqual(t, 0, "AnyItem returns LeftGreater -- right nil", actual)
+	expected := args.Map{"result": corecomparator.NotEqual}
+	expected.ShouldBeEqual(t, 0, "AnyItem returns NotEqual -- right nil", actual)
 }
 
 func Test_Cov5_AnyItem_BothNonNil(t *testing.T) {
