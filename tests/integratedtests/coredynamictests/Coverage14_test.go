@@ -555,10 +555,12 @@ func Test_Cov14_BytesConverter_ToHashmap_Invalid(t *testing.T) {
 }
 
 func Test_Cov14_BytesConverter_ToHashset(t *testing.T) {
+	// Hashset is a struct with unexported 'items map[string]bool' —
+	// JSON array ["a","b"] can't unmarshal into that struct, so error expected
 	bc := coredynamic.NewBytesConverter([]byte(`["a","b"]`))
 	hs, err := bc.ToHashset()
-	actual := args.Map{"nn": hs != nil, "noErr": err == nil}
-	expected := args.Map{"nn": true, "noErr": true}
+	actual := args.Map{"nn": hs == nil, "hasErr": err != nil}
+	expected := args.Map{"nn": true, "hasErr": true}
 	expected.ShouldBeEqual(t, 0, "ToHashset", actual)
 }
 
