@@ -709,29 +709,21 @@ func Test_Cov_TraceCollection_StackTracesBytes(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_ParseJson(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg"})
 	jsonResult := tc.Json()
 	jsonPtr := &jsonResult
-
-	// Act
 	target := &codestack.TraceCollection{}
 	err := target.JsonParseSelfInject(jsonPtr)
-
-	// Assert
 	if err != nil {
 		t.Errorf("JsonParseSelfInject error: %v", err)
 	}
 }
 
 func Test_Cov_TraceCollection_Dispose(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg"})
 	tc.Dispose()
-
-	// Assert
 	if !tc.IsEmpty() {
 		t.Error("should be empty after Dispose")
 	}
