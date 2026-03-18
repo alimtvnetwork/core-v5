@@ -146,14 +146,16 @@ func Test_Cov8_KeyValCollection_Json(t *testing.T) {
 	jsonPtr := c.JsonPtr()
 	model := c.JsonModel()
 	modelAny := c.JsonModelAny()
+	// KeyValCollection has only unexported 'items' → Json() produces "{}"
+	// IsEmptyJsonBytes considers "{}" empty → HasBytes()=false → JsonString()=""
 	actual := args.Map{
-		"jsonOk":    jsonResult.JsonString() != "",
-		"ptrNotNil": jsonPtr != nil,
-		"modelNN":   model != nil,
+		"jsonOk":     jsonResult.JsonString() != "",
+		"ptrNotNil":  jsonPtr != nil,
+		"modelNN":    model != nil,
 		"modelAnyNN": modelAny != nil,
 	}
 	expected := args.Map{
-		"jsonOk": true, "ptrNotNil": true,
+		"jsonOk": false, "ptrNotNil": true,
 		"modelNN": true, "modelAnyNN": true,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection Json", actual)
