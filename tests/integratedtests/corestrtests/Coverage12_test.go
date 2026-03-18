@@ -503,13 +503,11 @@ func Test_Cov12_LinkedCollections_Nil(t *testing.T) {
 // ── ValidValues ──
 
 func Test_Cov12_ValidValues(t *testing.T) {
-	vvs := corestr.ValidValues{
-		Items: []corestr.ValidValue{
-			{Value: "a", IsValid: true},
-			{Value: "b", IsValid: false},
-		},
-	}
-	actual := args.Map{"len": len(vvs.Items)}
+	vvs := corestr.NewValidValuesUsingValues(
+		corestr.ValidValue{Value: "a", IsValid: true},
+		corestr.ValidValue{Value: "b", IsValid: false},
+	)
+	actual := args.Map{"len": vvs.Length()}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "ValidValues", actual)
 }
@@ -517,8 +515,8 @@ func Test_Cov12_ValidValues(t *testing.T) {
 // ── HashmapDiff ──
 
 func Test_Cov12_HashmapDiff(t *testing.T) {
-	diff := corestr.HashmapDiff{Key: "k", Left: "a", Right: "b"}
-	actual := args.Map{"key": diff.Key, "left": diff.Left, "right": diff.Right}
-	expected := args.Map{"key": "k", "left": "a", "right": "b"}
+	diff := corestr.HashmapDiff(map[string]string{"k": "v"})
+	actual := args.Map{"len": diff.Length(), "empty": diff.IsEmpty()}
+	expected := args.Map{"len": 1, "empty": false}
 	expected.ShouldBeEqual(t, 0, "HashmapDiff", actual)
 }

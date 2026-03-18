@@ -9,12 +9,12 @@ import (
 	"github.com/alimtvnetwork/core/namevalue"
 )
 
-// mockLengthGetter implements the lengthGetter interface for testing.
-type mockLengthGetter struct {
+// mockLengthGetterCov6 implements the lengthGetter interface for testing.
+type mockLengthGetterCov6 struct {
 	length int
 }
 
-func (m *mockLengthGetter) Length() int {
+func (m *mockLengthGetterCov6) Length() int {
 	return m.length
 }
 

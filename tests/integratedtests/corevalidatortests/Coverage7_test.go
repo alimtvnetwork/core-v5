@@ -415,10 +415,9 @@ func Test_Cov7_SliceValidators_Length(t *testing.T) {
 
 func Test_Cov7_RangesSegment(t *testing.T) {
 	rs := corevalidator.RangesSegment{
-		Start: 0,
-		End:   10,
+		ExpectedLines: []string{"a", "b"},
 	}
-	actual := args.Map{"start": rs.Start, "end": rs.End}
-	expected := args.Map{"start": 0, "end": 10}
+	actual := args.Map{"len": len(rs.ExpectedLines)}
+	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "RangesSegment", actual)
 }
