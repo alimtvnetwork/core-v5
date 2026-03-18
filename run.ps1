@@ -166,14 +166,14 @@ function Write-TestLogs([string[]]$rawOutput) {
         }
         else {
             if ($currentTest) {
-                # Skip noisy non-diagnostic lines:
-                # - coverage summary lines (coverage: X% of statements in ...)
-                # - package result lines (ok/FAIL github.com/...)
-                # - lines that are just dots with FAIL/ok (e.g. "...FAIL", ".........ok")
-                if ($line -match '^\s*coverage:\s+\d' -or
-                    $line -match '^\s*ok\s+\S' -or
-                    $line -match '^\s*FAIL\s+\S' -or
-                    $line -match '^\s*\.+\s*(FAIL|ok)\s*$') {
+                # Skip noisy non-diagnostic lines (coverage/package summaries/progress markers)
+                $lineForMatch = $line.TrimEnd("`r")
+                if ($lineForMatch -match '^\s*coverage:\s+\d' -or
+                    $lineForMatch -match '^\s*(ok|FAIL)\s+\S+\s+\d+(\.\d+)?s(\s+coverage:.*)?\s*$' -or
+                    $lineForMatch -match '^\s*(ok|FAIL|PASS)\s*$' -or
+                    $lineForMatch -match '^\s*\?\s+\S+\s+\[no test files\]\s*$' -or
+                    $lineForMatch -match '^\s*===\s+(RUN|PAUSE|CONT)\s+' -or
+                    $lineForMatch -match '^\s*\.+\s*(FAIL|ok)\s*$') {
                     continue
                 }
                 $currentBlock.Add($line)
