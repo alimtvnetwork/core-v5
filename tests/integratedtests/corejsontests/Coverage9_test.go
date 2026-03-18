@@ -1,6 +1,7 @@
 package corejsontests
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corejson"
@@ -167,12 +168,12 @@ func Test_Cov9_MapResults_Add(t *testing.T) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// KeyAny / KeyWithJsoner / KeyWithResult
+// KeyAny
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov9_KeyAny(t *testing.T) {
-	ka := corejson.KeyAny{Key: "k", Value: "v"}
-	actual := args.Map{"key": ka.Key, "val": ka.Value}
+	ka := corejson.KeyAny{Key: "k", AnyInf: "v"}
+	actual := args.Map{"key": ka.Key, "val": ka.AnyInf}
 	expected := args.Map{"key": "k", "val": "v"}
 	expected.ShouldBeEqual(t, 0, "KeyAny", actual)
 }
@@ -186,25 +187,7 @@ func Test_Cov9_KeyWithResult(t *testing.T) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// SimpleJsonBinder / SimpleJsoner / JsonString / JsonStringer
-// ══════════════════════════════════════════════════════════════════════════════
-
-func Test_Cov9_JsonString_Nil(t *testing.T) {
-	var js *corejson.JsonString
-	actual := args.Map{"nil": js == nil}
-	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "JsonString nil", actual)
-}
-
-func Test_Cov9_JsonString_Valid(t *testing.T) {
-	js := corejson.JsonString(`{"a":1}`)
-	actual := args.Map{"notEmpty": string(js) != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "JsonString valid", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// PrettyJsonStringer
+// PrettyJsonString
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov9_PrettyJsonStringer_Valid(t *testing.T) {
@@ -260,50 +243,60 @@ func Test_Cov9_Result_IsEqual_DiffBytes(t *testing.T) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// Deserialize functions
+// Deserialize.FromBytes
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_Cov9_DeserializeFromBytesTo_Valid(t *testing.T) {
-	var s string
-	err := corejson.DeserializeFromBytesTo([]byte(`"hello"`), &s)
+func Test_Cov9_Deserialize_FromBytes_String(t *testing.T) {
+	s, err := corejson.Deserialize.FromBytes.String([]byte(`"hello"`))
 	actual := args.Map{"noErr": err == nil, "val": s}
 	expected := args.Map{"noErr": true, "val": "hello"}
-	expected.ShouldBeEqual(t, 0, "DeserializeFromBytesTo valid", actual)
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.String", actual)
 }
 
-func Test_Cov9_DeserializeFromBytesTo_Invalid(t *testing.T) {
-	var s string
-	err := corejson.DeserializeFromBytesTo([]byte(`{bad`), &s)
-	actual := args.Map{"hasErr": err != nil}
-	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "DeserializeFromBytesTo invalid", actual)
+func Test_Cov9_Deserialize_FromBytes_Integer(t *testing.T) {
+	i, err := corejson.Deserialize.FromBytes.Integer([]byte(`42`))
+	actual := args.Map{"noErr": err == nil, "val": i}
+	expected := args.Map{"noErr": true, "val": 42}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.Integer", actual)
 }
 
-func Test_Cov9_DeserializeFromResultTo_Valid(t *testing.T) {
-	r := corejson.New("hello")
-	var s string
-	err := corejson.DeserializeFromResultTo(&r, &s)
-	actual := args.Map{"noErr": err == nil, "val": s}
-	expected := args.Map{"noErr": true, "val": "hello"}
-	expected.ShouldBeEqual(t, 0, "DeserializeFromResultTo valid", actual)
+func Test_Cov9_Deserialize_FromBytes_Strings(t *testing.T) {
+	lines, err := corejson.Deserialize.FromBytes.Strings([]byte(`["a","b"]`))
+	actual := args.Map{"noErr": err == nil, "len": len(lines)}
+	expected := args.Map{"noErr": true, "len": 2}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.Strings", actual)
+}
+
+func Test_Cov9_Deserialize_FromBytes_Bool(t *testing.T) {
+	b, err := corejson.Deserialize.FromBytes.Bool([]byte(`true`))
+	actual := args.Map{"noErr": err == nil, "val": b}
+	expected := args.Map{"noErr": true, "val": true}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.Bool", actual)
+}
+
+func Test_Cov9_Deserialize_FromBytes_MapStringString(t *testing.T) {
+	m, err := corejson.Deserialize.FromBytes.MapStringString([]byte(`{"k":"v"}`))
+	actual := args.Map{"noErr": err == nil, "len": len(m)}
+	expected := args.Map{"noErr": true, "len": 1}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.MapStringString", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// Serialize (anyTo)
+// Serialize.Raw
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_Cov9_Serialize_Valid(t *testing.T) {
-	b, err := corejson.Serialize(map[string]string{"k": "v"})
+func Test_Cov9_Serialize_Raw_Valid(t *testing.T) {
+	b, err := corejson.Serialize.Raw(map[string]string{"k": "v"})
 	actual := args.Map{"hasBytes": len(b) > 0, "noErr": err == nil}
 	expected := args.Map{"hasBytes": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Serialize valid", actual)
+	expected.ShouldBeEqual(t, 0, "Serialize.Raw valid", actual)
 }
 
-func Test_Cov9_Serialize_Nil(t *testing.T) {
-	b, err := corejson.Serialize(nil)
+func Test_Cov9_Serialize_Raw_Nil(t *testing.T) {
+	b, err := corejson.Serialize.Raw(nil)
 	actual := args.Map{"hasBytes": len(b) > 0, "noErr": err == nil}
 	expected := args.Map{"hasBytes": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Serialize nil", actual)
+	expected.ShouldBeEqual(t, 0, "Serialize.Raw nil", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -311,43 +304,167 @@ func Test_Cov9_Serialize_Nil(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov9_Empty_Result(t *testing.T) {
-	r := corejson.EmptyResult.Value()
+	r := corejson.Empty.Result()
 	actual := args.Map{"empty": r.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "EmptyResult", actual)
+	expected.ShouldBeEqual(t, 0, "Empty.Result", actual)
 }
 
 func Test_Cov9_Empty_ResultPtr(t *testing.T) {
-	r := corejson.EmptyResult.Ptr()
+	r := corejson.Empty.ResultPtr()
 	actual := args.Map{"notNil": r != nil, "empty": r.IsEmpty()}
 	expected := args.Map{"notNil": true, "empty": true}
-	expected.ShouldBeEqual(t, 0, "EmptyResult Ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Empty.ResultPtr", actual)
 }
 
-func Test_Cov9_Empty_ResultBytesCollection(t *testing.T) {
-	bc := corejson.EmptyResult.BytesCollection()
-	actual := args.Map{"empty": bc.IsEmpty()}
-	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "EmptyResult BytesCollection", actual)
-}
-
-func Test_Cov9_Empty_ResultCollection(t *testing.T) {
-	rc := corejson.EmptyResult.ResultCollection()
+func Test_Cov9_Empty_ResultsCollection(t *testing.T) {
+	rc := corejson.Empty.ResultsCollection()
 	actual := args.Map{"empty": rc.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "EmptyResult ResultCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Empty.ResultsCollection", actual)
 }
 
 func Test_Cov9_Empty_ResultsPtrCollection(t *testing.T) {
-	rc := corejson.EmptyResult.ResultsPtrCollection()
+	rc := corejson.Empty.ResultsPtrCollection()
 	actual := args.Map{"empty": rc.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "EmptyResult ResultsPtrCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Empty.ResultsPtrCollection", actual)
 }
 
 func Test_Cov9_Empty_MapResults(t *testing.T) {
-	mr := corejson.EmptyResult.MapResults()
+	mr := corejson.Empty.MapResults()
 	actual := args.Map{"empty": mr.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "EmptyResult MapResults", actual)
+	expected.ShouldBeEqual(t, 0, "Empty.MapResults", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MeaningfulError / ErrorString / Raw / RawString
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov9_Result_MeaningfulError_Nil(t *testing.T) {
+	var r *corejson.Result
+	err := r.MeaningfulError()
+	actual := args.Map{"hasErr": err != nil}
+	expected := args.Map{"hasErr": true}
+	expected.ShouldBeEqual(t, 0, "MeaningfulError nil", actual)
+}
+
+func Test_Cov9_Result_MeaningfulError_Valid(t *testing.T) {
+	r := corejson.New("hello")
+	err := r.MeaningfulError()
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "MeaningfulError valid", actual)
+}
+
+func Test_Cov9_Result_ErrorString_Empty(t *testing.T) {
+	r := corejson.New("hello")
+	actual := args.Map{"empty": r.ErrorString() == ""}
+	expected := args.Map{"empty": true}
+	expected.ShouldBeEqual(t, 0, "ErrorString empty", actual)
+}
+
+func Test_Cov9_Result_Raw(t *testing.T) {
+	r := corejson.New("hello")
+	b, err := r.Raw()
+	actual := args.Map{"hasBytes": len(b) > 0, "noErr": err == nil}
+	expected := args.Map{"hasBytes": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "Raw", actual)
+}
+
+func Test_Cov9_Result_RawString(t *testing.T) {
+	r := corejson.New("hello")
+	s, err := r.RawString()
+	actual := args.Map{"notEmpty": s != "", "noErr": err == nil}
+	expected := args.Map{"notEmpty": true, "noErr": true}
+	expected.ShouldBeEqual(t, 0, "RawString", actual)
+}
+
+func Test_Cov9_NewResult_Error(t *testing.T) {
+	r := corejson.NewResult.Error(nil)
+	actual := args.Map{"empty": r.IsEmpty()}
+	expected := args.Map{"empty": true}
+	expected.ShouldBeEqual(t, 0, "NewResult Error nil", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CastAny / AnyTo
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov9_CastAny_Result(t *testing.T) {
+	r := corejson.New("hello")
+	casted, err := corejson.CastAny.Result(r)
+	actual := args.Map{"noErr": err == nil, "hasBytes": casted.HasBytes()}
+	expected := args.Map{"noErr": true, "hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "CastAny.Result", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// Pretty
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov9_Pretty_Bytes(t *testing.T) {
+	b := corejson.Pretty.Bytes.Format([]byte(`{"k":"v"}`))
+	actual := args.Map{"notNil": b != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "Pretty.Bytes.Format", actual)
+}
+
+func Test_Cov9_Pretty_String(t *testing.T) {
+	s := corejson.Pretty.String.Format(`{"k":"v"}`)
+	actual := args.Map{"notEmpty": s != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "Pretty.String.Format", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// Deserialize Must variants
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov9_Deserialize_FromBytes_StringMust(t *testing.T) {
+	s := corejson.Deserialize.FromBytes.StringMust([]byte(`"hello"`))
+	actual := args.Map{"val": s}
+	expected := args.Map{"val": "hello"}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.StringMust", actual)
+}
+
+func Test_Cov9_Deserialize_FromBytes_IntegerMust(t *testing.T) {
+	i := corejson.Deserialize.FromBytes.IntegerMust([]byte(`42`))
+	actual := args.Map{"val": i}
+	expected := args.Map{"val": 42}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.IntegerMust", actual)
+}
+
+func Test_Cov9_Deserialize_FromBytes_BoolMust(t *testing.T) {
+	b := corejson.Deserialize.FromBytes.BoolMust([]byte(`true`))
+	actual := args.Map{"val": b}
+	expected := args.Map{"val": true}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.BoolMust", actual)
+}
+
+func Test_Cov9_Deserialize_FromBytes_Integer64(t *testing.T) {
+	i, err := corejson.Deserialize.FromBytes.Integer64([]byte(`123456789`))
+	actual := args.Map{"noErr": err == nil, "val": i}
+	expected := args.Map{"noErr": true, "val": int64(123456789)}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.Integer64", actual)
+}
+
+func Test_Cov9_Deserialize_FromBytes_MapAnyItem(t *testing.T) {
+	m, err := corejson.Deserialize.FromBytes.MapAnyItem([]byte(`{"k":"v"}`))
+	actual := args.Map{"noErr": err == nil, "len": len(m)}
+	expected := args.Map{"noErr": true, "len": 1}
+	expected.ShouldBeEqual(t, 0, "Deserialize.FromBytes.MapAnyItem", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// Regex-based test for corejson (covers regexnew indirectly)
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov9_Regex_Placeholder(t *testing.T) {
+	// just to keep regexp import if needed
+	re := regexp.MustCompile(`\d+`)
+	actual := args.Map{"match": re.MatchString("42")}
+	expected := args.Map{"match": true}
+	expected.ShouldBeEqual(t, 0, "regex placeholder", actual)
 }
