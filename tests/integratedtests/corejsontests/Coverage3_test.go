@@ -478,7 +478,7 @@ func Test_Cov3_BytesCloneIf(t *testing.T) {
 	noClone := corejson.BytesCloneIf(false, []byte{1, 2})
 	emptyClone := corejson.BytesCloneIf(true, nil)
 	actual := args.Map{"cloneLen": len(result), "noCloneLen": len(noClone), "emptyLen": len(emptyClone)}
-	expected := args.Map{"cloneLen": 0, "noCloneLen": 0, "emptyLen": 0}
+	expected := args.Map{"cloneLen": 2, "noCloneLen": 0, "emptyLen": 0}
 	expected.ShouldBeEqual(t, 0, "BytesCloneIf -- all branches", actual)
 }
 

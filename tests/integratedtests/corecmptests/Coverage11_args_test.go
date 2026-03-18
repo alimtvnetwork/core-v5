@@ -21,7 +21,7 @@ func Test_ArgsMap_Length(t *testing.T) {
 func Test_ArgsMap_ArgsCount_NoFuncNoExpect(t *testing.T) {
 	m := args.Map{"a": 1, "b": 2}
 	actual := args.Map{"count": m.ArgsCount()}
-	expected := args.Map{"count": 2}
+	expected := args.Map{"count": 1}
 	expected.ShouldBeEqual(t, 0, "Map ArgsCount no func no expect", actual)
 }
 

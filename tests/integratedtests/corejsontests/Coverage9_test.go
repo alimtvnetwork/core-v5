@@ -84,9 +84,9 @@ func Test_Cov9_Result_Clone_NilPtr(t *testing.T) {
 }
 
 func Test_Cov9_CastAny_FromToDefault(t *testing.T) {
-	r := corejson.New(map[string]string{"k": "v"})
+	// CastAny.FromToDefault serializes source then deserializes into target
 	var casted map[string]string
-	err := corejson.CastAny.FromToDefault(r, &casted)
+	err := corejson.CastAny.FromToDefault(map[string]string{"k": "v"}, &casted)
 	actual := args.Map{"noErr": err == nil, "len": len(casted)}
 	expected := args.Map{"noErr": true, "len": 1}
 	expected.ShouldBeEqual(t, 0, "CastAny.FromToDefault", actual)
