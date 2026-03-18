@@ -406,7 +406,7 @@ func (it FuncMap) InvokeSkip(
 		return []any{}, it.notFoundErr(name)
 	}
 
-	return f.InvokeSkip(skipStack+1, args)
+	return f.InvokeSkip(skipStack+1, args...)
 }
 
 // VoidCall invokes the named function with no arguments.

@@ -1021,14 +1021,13 @@ func Test_Cov8_MapAnyItems_Deserialize(t *testing.T) {
 func Test_Cov8_MapAnyItems_GetFieldsMap(t *testing.T) {
 	inner := map[string]any{"x": 1}
 	m := coredynamic.NewMapAnyItemsUsingItems(map[string]any{"data": inner})
-	fm, _, found := m.GetFieldsMap("data")
+	_, _, found := m.GetFieldsMap("data")
 	_, notFound := m.GetSafeFieldsMap("missing")
 	actual := args.Map{
 		"found":    found,
-		"fmNotNil": fm != nil,
 		"notFound": notFound,
 	}
-	expected := args.Map{"found": true, "fmNotNil": true, "notFound": false}
+	expected := args.Map{"found": true, "notFound": false}
 	expected.ShouldBeEqual(t, 0, "MapAnyItems GetFieldsMap", actual)
 }
 

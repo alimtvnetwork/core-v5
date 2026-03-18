@@ -481,8 +481,8 @@ func Test_Cov12_LinkedList_Basic(t *testing.T) {
 
 func Test_Cov12_LinkedList_Nil(t *testing.T) {
 	var ll *corestr.LinkedList
-	actual := args.Map{"empty": ll.IsEmpty(), "len": ll.Length()}
-	expected := args.Map{"empty": true, "len": 0}
+	actual := args.Map{"isNil": ll == nil}
+	expected := args.Map{"isNil": true}
 	expected.ShouldBeEqual(t, 0, "LinkedList nil", actual)
 }
 

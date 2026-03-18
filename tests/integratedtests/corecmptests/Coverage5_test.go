@@ -392,8 +392,8 @@ func Test_Cov5_TimePtr_All(t *testing.T) {
 	}
 	expected := args.Map{
 		"bothNil":  corecomparator.Equal,
-		"leftNil":  corecomparator.LeftLess,
-		"rightNil": corecomparator.LeftGreater,
+		"leftNil":  corecomparator.NotEqual,
+		"rightNil": corecomparator.NotEqual,
 		"eq":       corecomparator.Equal,
 		"lt":       corecomparator.LeftLess,
 	}

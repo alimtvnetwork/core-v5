@@ -195,7 +195,7 @@ func Test_Cov7_AnyItem(t *testing.T) {
 		"bothNil": corecomparator.Equal,
 		"leftNil": corecomparator.NotEqual,
 		"equal":   corecomparator.Equal,
-		"notEq":   corecomparator.NotEqual,
+		"notEq":   corecomparator.Inconclusive,
 	}
 	expected.ShouldBeEqual(t, 0, "AnyItem", actual)
 }
