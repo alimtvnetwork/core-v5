@@ -463,7 +463,7 @@ func Test_Cov6_MessageWithRefToError(t *testing.T) {
 // ── CountStateChangeTracker ──
 
 func Test_Cov6_CountStateChangeTracker(t *testing.T) {
-	mockLen := &mockLengthGetter{length: 0}
+	mockLen := &mockLengthGetterCov6{length: 0}
 	tracker := errcore.NewCountStateChangeTracker(mockLen)
 
 	// Initially same state
