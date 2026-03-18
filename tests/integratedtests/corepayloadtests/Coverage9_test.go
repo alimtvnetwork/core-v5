@@ -523,7 +523,7 @@ func Test_Cov9_Attributes_GetStringKeyValue(t *testing.T) {
 		t.Fatal("nil should not find")
 	}
 
-	hm := corestr.New.Hashmap.UsingKeyValue("k", "v")
+	hm := corestr.New.Hashmap.UsingMap(map[string]string{"k": "v"})
 	attr := corepayload.New.Attributes.UsingKeyValues(hm)
 	val, found := attr.GetStringKeyValue("k")
 
