@@ -618,28 +618,23 @@ func Test_Cov_TraceCollection_Add(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_Paging(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	for i := 0; i < 10; i++ {
+		tc.Add(codestack.Trace{PackageName: "pkg"})
+	}
 	pages := tc.GetPagesSize(2)
-
-	// Assert
 	if pages < 1 {
 		t.Error("GetPagesSize should return at least 1")
 	}
 }
 
 func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act & Assert
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg", PackageMethodName: "pkg.F", FilePath: "/f.go", Line: 1, IsOkay: true})
 	csStr := tc.CodeStacksString()
 	if csStr == "" {
 		t.Error("CodeStacksString should not be empty")
 	}
-
 	csStrLimit := tc.CodeStacksStringLimit(1)
 	if csStrLimit == "" {
 		t.Error("CodeStacksStringLimit should not be empty")
@@ -647,19 +642,14 @@ func Test_Cov_TraceCollection_CodeStacksString(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg", PackageMethodName: "pkg.F", FilePath: "/f.go", Line: 1, IsOkay: true})
 	strs := tc.StringsUsingFmt(func(tr *codestack.Trace) string {
 		return tr.PackageName
 	})
-
-	// Assert
 	if len(strs) == 0 {
 		t.Error("StringsUsingFmt should not be empty")
 	}
-
 	joinStr := tc.JoinUsingFmt(func(tr *codestack.Trace) string {
 		return tr.PackageName
 	}, ", ")
@@ -669,26 +659,18 @@ func Test_Cov_TraceCollection_StringsUsingFmt(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_JoinShortStrings(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg", PackageMethodName: "pkg.F", FilePath: "/f.go", Line: 1, IsOkay: true})
 	joinShort := tc.JoinShortStrings(", ")
-
-	// Assert
 	if joinShort == "" {
 		t.Error("JoinShortStrings should not be empty")
 	}
 }
 
 func Test_Cov_TraceCollection_JoinCsvLine(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg", PackageMethodName: "pkg.F", FilePath: "/f.go", Line: 1, IsOkay: true})
 	csvLine := tc.JoinCsvLine()
-
-	// Assert
 	if csvLine == "" {
 		t.Error("JoinCsvLine should not be empty")
 	}
