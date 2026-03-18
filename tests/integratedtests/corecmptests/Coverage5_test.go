@@ -235,8 +235,8 @@ func Test_Cov5_Integer64Ptr_All(t *testing.T) {
 	}
 	expected := args.Map{
 		"bothNil":  corecomparator.Equal,
-		"leftNil":  corecomparator.LeftLess,
-		"rightNil": corecomparator.LeftGreater,
+		"leftNil":  corecomparator.NotEqual,
+		"rightNil": corecomparator.NotEqual,
 		"eq":       corecomparator.Equal,
 	}
 	expected.ShouldBeEqual(t, 0, "Integer64Ptr returns correct -- all branches", actual)
