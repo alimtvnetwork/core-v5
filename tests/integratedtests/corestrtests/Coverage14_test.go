@@ -2,6 +2,7 @@ package corestrtests
 
 import (
 	"encoding/json"
+	"regexp"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corestr"

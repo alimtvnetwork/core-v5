@@ -247,7 +247,7 @@ func Test_Cov15_TypedSimpleResult_GetAs(t *testing.T) {
 	str, strOK := rs.GetAsString()
 	i, iOK := ri.GetAsInt()
 	i64, i64OK := ri.GetAsInt64()
-	f64, f64OK := rf.GetAsFloat64()
+	_, f64OK := rf.GetAsFloat64()
 	b, bOK := rb.GetAsBool()
 	_, bytesOK := rs.GetAsBytes()
 	_, strsOK := rs.GetAsStrings()

@@ -386,7 +386,7 @@ func Test_Cov12_SimpleStringOnce(t *testing.T) {
 	actual := args.Map{
 		"val":     sso.Value(),
 		"isEmpty": sso.IsEmpty(),
-		"hasVal":  sso.HasValue(),
+		"hasVal":  sso.HasValidNonEmpty(),
 	}
 	expected := args.Map{
 		"val": "hello", "isEmpty": false, "hasVal": true,
