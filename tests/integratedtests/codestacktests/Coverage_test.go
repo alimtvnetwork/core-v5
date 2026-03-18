@@ -565,40 +565,29 @@ func Test_Cov_TraceCollection_Json(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_Reverse(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Adds(codestack.Trace{PackageName: "a"}, codestack.Trace{PackageName: "b"})
 	reversed := tc.Reverse()
-
-	// Assert
-	if reversed.Length() != tc.Length() {
+	if reversed.Length() != 2 {
 		t.Error("Reverse should preserve length")
 	}
 }
 
 func Test_Cov_TraceCollection_IsEqual(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act & Assert
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "a"})
 	if !tc.IsEqual(&tc) {
 		t.Error("collection should be equal to itself")
 	}
 }
 
 func Test_Cov_TraceCollection_Clone(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "a"})
 	cloned := tc.Clone()
-
-	// Assert
 	if cloned.Length() != tc.Length() {
 		t.Error("Clone should preserve length")
 	}
-
 	clonedPtr := tc.ClonePtr()
 	if clonedPtr == nil {
 		t.Error("ClonePtr should not be nil")
