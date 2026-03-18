@@ -1,6 +1,7 @@
 package coreinstructiontests
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coreinstruction"
@@ -8,6 +9,10 @@ import (
 	"github.com/alimtvnetwork/core/enums/stringcompareas"
 	"github.com/alimtvnetwork/core/reqtype"
 )
+
+func regexpCompile(pattern string) *regexp.Regexp {
+	return regexp.MustCompile(pattern)
+}
 
 // ── BaseLineIdentifier ──
 
