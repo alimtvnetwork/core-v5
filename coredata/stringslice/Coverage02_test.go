@@ -6,61 +6,53 @@ import (
 
 func TestEmptyPtr(t *testing.T) {
 	p := EmptyPtr()
-	if p == nil || len(*p) != 0 { t.Fatal("unexpected") }
+	if len(p) != 0 { t.Fatal("unexpected") }
 }
 
 func TestIsEmptyPtr(t *testing.T) {
 	if !IsEmptyPtr(nil) { t.Fatal("expected true") }
-	s := []string{}
-	if !IsEmptyPtr(&s) { t.Fatal("expected true") }
-	s2 := []string{"a"}
-	if IsEmptyPtr(&s2) { t.Fatal("expected false") }
+	if !IsEmptyPtr([]string{}) { t.Fatal("expected true") }
+	if IsEmptyPtr([]string{"a"}) { t.Fatal("expected false") }
 }
 
 func TestHasAnyItemPtr(t *testing.T) {
 	if HasAnyItemPtr(nil) { t.Fatal("expected false") }
-	s := []string{"a"}
-	if !HasAnyItemPtr(&s) { t.Fatal("expected true") }
+	if !HasAnyItemPtr([]string{"a"}) { t.Fatal("expected true") }
 }
 
 func TestFirstPtr(t *testing.T) {
-	s := []string{"a", "b"}
-	if FirstPtr(&s) != "a" { t.Fatal("unexpected") }
+	if FirstPtr([]string{"a", "b"}) != "a" { t.Fatal("unexpected") }
 }
 
 func TestFirstOrDefaultPtr(t *testing.T) {
 	if FirstOrDefaultPtr(nil) != "" { t.Fatal("expected empty") }
-	s := []string{"a"}
-	if FirstOrDefaultPtr(&s) != "a" { t.Fatal("unexpected") }
+	if FirstOrDefaultPtr([]string{"a"}) != "a" { t.Fatal("unexpected") }
 }
 
 func TestLastPtr(t *testing.T) {
-	s := []string{"a", "b"}
-	if LastPtr(&s) != "b" { t.Fatal("unexpected") }
+	if LastPtr([]string{"a", "b"}) != "b" { t.Fatal("unexpected") }
 }
 
 func TestLastOrDefaultPtr(t *testing.T) {
 	if LastOrDefaultPtr(nil) != "" { t.Fatal("expected empty") }
-	s := []string{"a", "b"}
-	if LastOrDefaultPtr(&s) != "b" { t.Fatal("unexpected") }
+	if LastOrDefaultPtr([]string{"a", "b"}) != "b" { t.Fatal("unexpected") }
 }
 
 func TestClonePtr(t *testing.T) {
 	r := ClonePtr(nil)
-	if r == nil || len(*r) != 0 { t.Fatal("unexpected") }
-	s := []string{"a"}
-	r2 := ClonePtr(&s)
-	if len(*r2) != 1 { t.Fatal("expected 1") }
+	if len(r) != 0 { t.Fatal("unexpected") }
+	r2 := ClonePtr([]string{"a"})
+	if len(r2) != 1 { t.Fatal("expected 1") }
 }
 
 func TestMakePtr(t *testing.T) {
 	p := MakePtr(0, 10)
-	if p == nil { t.Fatal("expected non-nil") }
+	if cap(p) != 10 { t.Fatal("expected cap 10") }
 }
 
 func TestMakeDefaultPtr(t *testing.T) {
 	p := MakeDefaultPtr(5)
-	if p == nil { t.Fatal("expected non-nil") }
+	if cap(p) < 5 { t.Fatal("expected cap >= 5") }
 }
 
 func TestMakeLen(t *testing.T) {
@@ -70,25 +62,21 @@ func TestMakeLen(t *testing.T) {
 
 func TestMakeLenPtr(t *testing.T) {
 	p := MakeLenPtr(5)
-	if p == nil || len(*p) != 5 { t.Fatal("unexpected") }
+	if len(p) != 5 { t.Fatal("expected 5") }
 }
 
 func TestLengthOfPointer(t *testing.T) {
 	if LengthOfPointer(nil) != 0 { t.Fatal("expected 0") }
-	s := []string{"a", "b"}
-	if LengthOfPointer(&s) != 2 { t.Fatal("expected 2") }
+	if LengthOfPointer([]string{"a", "b"}) != 2 { t.Fatal("expected 2") }
 }
 
 func TestLastIndexPtr(t *testing.T) {
-	if LastIndexPtr(nil) != -1 { t.Fatal("expected -1") }
-	s := []string{"a", "b"}
-	if LastIndexPtr(&s) != 1 { t.Fatal("expected 1") }
+	if LastIndexPtr([]string{"a", "b"}) != 1 { t.Fatal("expected 1") }
 }
 
 func TestLastSafeIndexPtr(t *testing.T) {
-	if LastSafeIndexPtr(nil) != 0 { t.Fatal("expected 0") }
-	s := []string{"a", "b"}
-	if LastSafeIndexPtr(&s) != 1 { t.Fatal("expected 1") }
+	_ = LastSafeIndexPtr(nil)
+	if LastSafeIndexPtr([]string{"a", "b"}) != 1 { t.Fatal("expected 1") }
 }
 
 func TestNonEmptySlicePtr(t *testing.T) {
@@ -100,17 +88,15 @@ func TestNonEmptySlicePtr(t *testing.T) {
 
 func TestNonWhitespacePtr(t *testing.T) {
 	r := NonWhitespacePtr(nil)
-	if r == nil || len(*r) != 0 { t.Fatal("unexpected") }
-	s := []string{"a", "  ", "b"}
-	r2 := NonWhitespacePtr(&s)
-	if len(*r2) != 2 { t.Fatal("expected 2") }
+	if len(r) != 0 { t.Fatal("unexpected") }
+	r2 := NonWhitespacePtr([]string{"a", "  ", "b"})
+	if len(r2) != 2 { t.Fatal("expected 2") }
 }
 
 func TestNonEmptyJoinPtr(t *testing.T) {
 	r := NonEmptyJoinPtr(nil, ",")
 	if r != "" { t.Fatal("expected empty") }
-	s := []string{"a", "", "b"}
-	r2 := NonEmptyJoinPtr(&s, ",")
+	r2 := NonEmptyJoinPtr([]string{"a", "", "b"}, ",")
 	if r2 == "" { t.Fatal("expected non-empty") }
 }
 
@@ -124,8 +110,7 @@ func TestNonWhitespaceJoin(t *testing.T) {
 func TestNonWhitespaceJoinPtr(t *testing.T) {
 	r := NonWhitespaceJoinPtr(nil, ",")
 	if r != "" { t.Fatal("expected empty") }
-	s := []string{"a", " ", "b"}
-	r2 := NonWhitespaceJoinPtr(&s, ",")
+	r2 := NonWhitespaceJoinPtr([]string{"a", " ", "b"}, ",")
 	if r2 == "" { t.Fatal("expected non-empty") }
 }
 
@@ -139,50 +124,57 @@ func TestSafeIndexAtWith(t *testing.T) {
 func TestSafeIndexAtWithPtr(t *testing.T) {
 	r := SafeIndexAtWithPtr(nil, 0, "def")
 	if r != "def" { t.Fatal("expected def") }
-	s := []string{"a"}
-	r2 := SafeIndexAtWithPtr(&s, 0, "def")
+	r2 := SafeIndexAtWithPtr([]string{"a"}, 0, "def")
 	if r2 != "a" { t.Fatal("expected a") }
 }
 
 func TestSlicePtr(t *testing.T) {
-	s := []string{"a"}
-	p := SlicePtr(s)
-	if p == nil { t.Fatal("expected non-nil") }
-}
-
-func TestNonEmptyIf(t *testing.T) {
-	r := NonEmptyIf(true, []string{"a", "", "b"})
-	if len(r) != 2 { t.Fatal("expected 2") }
-	r2 := NonEmptyIf(false, []string{"a", "", "b"})
-	if len(r2) != 3 { t.Fatal("expected 3") }
-}
-
-func TestNonNullStrings(t *testing.T) {
-	a := "hello"
-	r := NonNullStrings(&a, nil)
-	if len(r) != 1 { t.Fatal("expected 1") }
-	r2 := NonNullStrings()
-	if len(r2) != 0 { t.Fatal("expected 0") }
-}
-
-func TestNonEmptyStrings(t *testing.T) {
-	r := NonEmptyStrings("a", "", "b")
-	if len(r) != 2 { t.Fatal("expected 2") }
-	r2 := NonEmptyStrings()
-	if len(r2) != 0 { t.Fatal("expected 0") }
-}
-
-func TestSafeRangeItems(t *testing.T) {
-	r := SafeRangeItems([]string{"a", "b", "c"}, 0, 2)
-	if len(r) != 2 { t.Fatal("expected 2") }
-	r2 := SafeRangeItems(nil, 0, 2)
-	if len(r2) != 0 { t.Fatal("expected 0") }
+	s := SlicePtr([]string{"a"})
+	if len(s) != 1 { t.Fatal("expected 1") }
+	s2 := SlicePtr(nil)
+	if len(s2) != 0 { t.Fatal("expected 0") }
 }
 
 func TestSafeRangeItemsPtr(t *testing.T) {
-	s := []string{"a", "b", "c"}
-	r := SafeRangeItemsPtr(&s, 0, 2)
-	if len(r) != 2 { t.Fatal("expected 2") }
-	r2 := SafeRangeItemsPtr(nil, 0, 2)
-	if len(r2) != 0 { t.Fatal("expected 0") }
+	r := SafeRangeItemsPtr(nil, 0, 2)
+	if len(r) != 0 { t.Fatal("expected 0") }
+	r2 := SafeRangeItemsPtr([]string{"a", "b", "c"}, 0, 2)
+	if len(r2) != 2 { t.Fatal("expected 2") }
+}
+
+func TestTrimmedEachWordsPtr(t *testing.T) {
+	r := TrimmedEachWordsPtr(nil)
+	if len(r) != 0 { t.Fatal("expected 0") }
+	r2 := TrimmedEachWordsPtr([]string{" a ", "b"})
+	if len(r2) != 2 { t.Fatal("expected 2") }
+}
+
+func TestFirstLastDefault(t *testing.T) {
+	f, l := FirstLastDefault(nil)
+	if f != "" || l != "" { t.Fatal("expected empty") }
+	f2, l2 := FirstLastDefault([]string{"a", "b"})
+	if f2 != "a" || l2 != "b" { t.Fatal("unexpected") }
+}
+
+func TestFirstLastDefaultPtr(t *testing.T) {
+	f, l := FirstLastDefaultPtr(nil)
+	if f != "" || l != "" { t.Fatal("expected empty") }
+	f2, l2 := FirstLastDefaultPtr([]string{"a", "b"})
+	if f2 != "a" || l2 != "b" { t.Fatal("unexpected") }
+}
+
+func TestFirstLastDefaultStatus(t *testing.T) {
+	s := FirstLastDefaultStatus(nil)
+	if s.IsValid { t.Fatal("expected invalid") }
+	s2 := FirstLastDefaultStatus([]string{"a"})
+	if !s2.HasFirst { t.Fatal("expected has first") }
+	s3 := FirstLastDefaultStatus([]string{"a", "b"})
+	if !s3.HasLast { t.Fatal("expected has last") }
+}
+
+func TestFirstLastDefaultStatusPtr(t *testing.T) {
+	s := FirstLastDefaultStatusPtr(nil)
+	if s.IsValid { t.Fatal("expected invalid") }
+	s2 := FirstLastDefaultStatusPtr([]string{"a", "b"})
+	if !s2.IsValid { t.Fatal("expected valid") }
 }

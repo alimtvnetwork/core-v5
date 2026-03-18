@@ -57,6 +57,9 @@ func (it reflectConverter) ReflectValueToAnyValue(rv reflect.Value) any {
 
 	switch k {
 	case reflect.Ptr, reflect.Interface:
+		if rv.IsNil() {
+			return nil
+		}
 		return rv.Elem().Interface()
 	case reflect.String:
 		return rv.String()

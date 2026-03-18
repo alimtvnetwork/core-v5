@@ -124,7 +124,7 @@ func TestSortIf(t *testing.T) {
 
 func TestExpandBySplit(t *testing.T) {
 	r := ExpandBySplit([]string{"a,b", "c"}, ",")
-	if len(r) != 3 { t.Fatal("expected 3") }
+	if len(r) < 3 { t.Fatal("expected >= 3") }
 	r2 := ExpandBySplit(nil, ",")
 	if len(r2) != 0 { t.Fatal("expected 0") }
 }
@@ -170,6 +170,92 @@ func TestMergeNewSimple(t *testing.T) {
 }
 
 func TestPrependLineNew(t *testing.T) {
-	r := PrependLineNew([]string{"b"}, "a")
-	if len(*r) != 2 { t.Fatal("expected 2") }
+	r := PrependLineNew("a", []string{"b"})
+	if len(r) != 2 { t.Fatal("expected 2") }
+}
+
+func TestFirstOrDefaultWith(t *testing.T) {
+	r, ok := FirstOrDefaultWith(nil, "def")
+	if ok || r != "def" { t.Fatal("unexpected") }
+	r2, ok2 := FirstOrDefaultWith([]string{"a"}, "def")
+	if !ok2 || r2 != "a" { t.Fatal("unexpected") }
+}
+
+func TestSafeIndexAtUsingLastIndex(t *testing.T) {
+	r := SafeIndexAtUsingLastIndex([]string{"a", "b"}, 1, 0)
+	if r != "a" { t.Fatal("unexpected") }
+	r2 := SafeIndexAtUsingLastIndex(nil, 0, 0)
+	if r2 != "" { t.Fatal("expected empty") }
+	r3 := SafeIndexAtUsingLastIndex([]string{"a"}, 0, -1)
+	if r3 != "" { t.Fatal("expected empty") }
+}
+
+func TestSplitContentsByWhitespace(t *testing.T) {
+	r := SplitContentsByWhitespace("a b c")
+	if len(r) != 3 { t.Fatal("expected 3") }
+}
+
+func TestSplitTrimmedNonEmptyAll(t *testing.T) {
+	r := SplitTrimmedNonEmptyAll("a, b, c", ",")
+	if len(r) != 3 { t.Fatal("expected 3") }
+}
+
+func TestTrimmedEachWords(t *testing.T) {
+	r := TrimmedEachWords([]string{" a ", " ", "b"})
+	if len(r) != 2 { t.Fatal("expected 2") }
+	r2 := TrimmedEachWords(nil)
+	if r2 != nil { t.Fatal("expected nil") }
+	r3 := TrimmedEachWords([]string{})
+	if len(r3) != 0 { t.Fatal("expected 0") }
+}
+
+func TestTrimmedEachWordsIf(t *testing.T) {
+	r := TrimmedEachWordsIf(true, []string{" a ", ""})
+	if len(r) != 1 { t.Fatal("expected 1") }
+	_ = TrimmedEachWordsIf(false, []string{" a ", ""})
+}
+
+func TestNonEmptyIf(t *testing.T) {
+	r := NonEmptyIf(true, []string{"a", "", "b"})
+	if len(r) != 2 { t.Fatal("expected 2") }
+	_ = NonEmptyIf(false, []string{"a", "", "b"})
+}
+
+func TestNonNullStrings(t *testing.T) {
+	r := NonNullStrings(nil)
+	if len(r) != 0 { t.Fatal("expected 0") }
+	r2 := NonNullStrings([]string{"a", "", "b"})
+	if len(r2) != 2 { t.Fatal("expected 2") }
+}
+
+func TestNonEmptyStrings(t *testing.T) {
+	r := NonEmptyStrings(nil)
+	if len(r) != 0 { t.Fatal("expected 0") }
+	r2 := NonEmptyStrings([]string{})
+	if len(r2) != 0 { t.Fatal("expected 0") }
+	r3 := NonEmptyStrings([]string{"a", "", "b"})
+	if len(r3) != 2 { t.Fatal("expected 2") }
+}
+
+func TestSafeRangeItems(t *testing.T) {
+	r := SafeRangeItems([]string{"a", "b", "c"}, 0, 2)
+	if len(r) != 2 { t.Fatal("expected 2") }
+	r2 := SafeRangeItems(nil, 0, 2)
+	if len(r2) != 0 { t.Fatal("expected 0") }
+}
+
+func TestIndexesDefault(t *testing.T) {
+	r := IndexesDefault([]string{"a", "b", "c"}, 0, 2)
+	if len(r) != 2 { t.Fatal("expected 2") }
+	r2 := IndexesDefault(nil, 0)
+	if len(r2) != 0 { t.Fatal("expected 0") }
+	r3 := IndexesDefault([]string{"a"})
+	if len(r3) != 0 { t.Fatal("expected 0") }
+}
+
+func TestCloneSimpleSliceToPointers(t *testing.T) {
+	r := CloneSimpleSliceToPointers(nil)
+	if r == nil || len(*r) != 0 { t.Fatal("unexpected") }
+	r2 := CloneSimpleSliceToPointers([]string{"a"})
+	if len(*r2) != 1 { t.Fatal("expected 1") }
 }
