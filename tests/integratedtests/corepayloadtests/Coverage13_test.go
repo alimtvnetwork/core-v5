@@ -11,10 +11,7 @@ import (
 // TypedPayloadWrapper — Core methods
 // ══════════════════════════════════════════════════════════════════════════════
 
-type testUser struct {
-	Name  string `json:"Name"`
-	Email string `json:"Email"`
-}
+// testUser is declared in TypedCollection_testcases.go
 
 func newTypedWrapper(name, id string, data testUser) *corepayload.TypedPayloadWrapper[testUser] {
 	tw, _ := corepayload.NewTypedPayloadWrapperFrom[testUser](name, id, "testUser", data)
