@@ -166,8 +166,16 @@ function Write-TestLogs([string[]]$rawOutput) {
         }
         else {
             if ($currentTest) {
-                # Keep all diagnostic lines: t.Errorf output, diff lines,
-                # assertion details (expected vs actual), file:line references
+                # Skip noisy non-diagnostic lines:
+                # - coverage summary lines (coverage: X% of statements in ...)
+                # - package result lines (ok/FAIL github.com/...)
+                # - lines that are just dots with FAIL/ok (e.g. "...FAIL", ".........ok")
+                if ($line -match '^\s*coverage:\s+\d' -or
+                    $line -match '^\s*ok\s+\S' -or
+                    $line -match '^\s*FAIL\s+\S' -or
+                    $line -match '^\s*\.+\s*(FAIL|ok)\s*$') {
+                    continue
+                }
                 $currentBlock.Add($line)
             }
         }
