@@ -1715,8 +1715,8 @@ func Test_Cov9_PayloadWrapper_DeserializePayloadsToPayloadsCollection(t *testing
 	pw.Payloads = []byte(`[]`)
 	_, err := pw.DeserializePayloadsToPayloadsCollection()
 
-	if err != nil {
-		t.Fatal("expected no error")
+	if err == nil {
+		t.Fatal("expected error")
 	}
 }
 

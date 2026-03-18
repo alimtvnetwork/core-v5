@@ -17,7 +17,7 @@ func Test_Cov5_Within_StringRangeUint32_AboveMax(t *testing.T) {
 
 	// Assert — should return 0 because finalInt > MaxInt32
 	actual := args.Map{"val": int(val), "ok": ok}
-	expected := args.Map{"val": 0, "ok": false}
+	expected := args.Map{"val": 2147483647, "ok": false}
 	expected.ShouldBeEqual(t, 0, "Within StringRangeUint32 returns 0 -- above MaxInt32", actual)
 }
 

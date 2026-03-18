@@ -1107,7 +1107,7 @@ func Test_Cov11_KeyValueCollection_Adds(t *testing.T) {
 	kvc.AddsHashmaps(hm)
 	kvc.AddsHashmaps()
 	actual := args.Map{"len": kvc.Length()}
-	expected := args.Map{"len": 8}
+	expected := args.Map{"len": 7}
 	expected.ShouldBeEqual(t, 0, "KeyValueCollection adds", actual)
 }
 

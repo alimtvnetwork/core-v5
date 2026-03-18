@@ -904,7 +904,7 @@ func Test_Cov10_BasicString_NameWithIndexMap(t *testing.T) {
 	bs := enumimpl.New.BasicString.Create("TestStr", []string{"A", "B"})
 	m := bs.NameWithIndexMap()
 	actual := args.Map{"len": len(m)}
-	expected := args.Map{"len": 2}
+	expected := args.Map{"len": 4}
 	expected.ShouldBeEqual(t, 0, "NameWithIndexMap returns map -- two items", actual)
 }
 

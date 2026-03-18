@@ -1265,10 +1265,19 @@ func (it *Hashmap) ClonePtr() *Hashmap {
 }
 
 func (it Hashmap) Clone() Hashmap {
-	empty := Empty.Hashmap()
-	jsonResult := it.JsonPtr()
+	cloned := *Empty.Hashmap()
 
-	return *empty.ParseInjectUsingJsonMust(jsonResult)
+	if len(it.items) == 0 {
+		return cloned
+	}
+
+	cloned.items = make(map[string]string, len(it.items))
+	for key, val := range it.items {
+		cloned.items[key] = val
+	}
+	cloned.hasMapUpdated = it.hasMapUpdated
+
+	return cloned
 }
 
 func (it *Hashmap) Get(key string) (val string, isFound bool) {

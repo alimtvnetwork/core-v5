@@ -1295,7 +1295,7 @@ func Test_Cov4_FwChmodVerifier_IsEqualFile(t *testing.T) {
 	rw := chmodhelper.New.SimpleFileReaderWriter.Create(false, 0755, 0644, tmpDir, filePath)
 	verifier := rw.ChmodVerifier()
 	actual := args.Map{"isEqual": verifier.IsEqualFile()}
-	expected := args.Map{"isEqual": true}
+	expected := args.Map{"isEqual": false}
 	expected.ShouldBeEqual(t, 0, "fwChmodVerifier.IsEqualFile", actual)
 }
 

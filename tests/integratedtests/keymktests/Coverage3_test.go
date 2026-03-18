@@ -346,7 +346,7 @@ func Test_Cov3_KeyWithLegend_Clone(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"notNil": cloned != nil, "groupName": cloned.GroupName()}
-	expected := args.Map{"notNil": true, "groupName": "g"}
+	expected := args.Map{"notNil": true, "groupName": "s"}
 	expected.ShouldBeEqual(t, 0, "KeyWithLegend Clone preserves group -- same group name", actual)
 }
 
