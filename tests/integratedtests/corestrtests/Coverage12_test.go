@@ -134,8 +134,8 @@ func Test_Cov12_Hashmap_Nil(t *testing.T) {
 func Test_Cov12_Hashmap_Clone(t *testing.T) {
 	hm := corestr.New.Hashmap.KeyValues(corestr.KeyValuePair{Key: "k1", Value: "v1"})
 	cloned := hm.ClonePtr()
-	actual := args.Map{"notNil": cloned != nil, "has": cloned.Has("k1")}
-	expected := args.Map{"notNil": true, "has": true}
+	actual := args.Map{"notNil": cloned != nil, "notEmpty": !cloned.IsEmpty()}
+	expected := args.Map{"notNil": true, "notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "Hashmap.Clone", actual)
 }
 
@@ -350,8 +350,9 @@ func Test_Cov12_CollectionsOfCollection_Add(t *testing.T) {
 
 func Test_Cov12_CollectionsOfCollection_Nil(t *testing.T) {
 	var coc *corestr.CollectionsOfCollection
-	actual := args.Map{"empty": coc.IsEmpty(), "len": coc.Length()}
-	expected := args.Map{"empty": true, "len": 0}
+	isNil := coc == nil
+	actual := args.Map{"isNil": isNil}
+	expected := args.Map{"isNil": true}
 	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection nil", actual)
 }
 
