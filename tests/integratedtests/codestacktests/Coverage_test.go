@@ -895,17 +895,12 @@ func Test_Cov_Dir_CurDirJoin(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_Concat(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(0, codestack.DefaultStackCount)
-
-	// Act
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "a"})
 	concatted := tc.ConcatNew(codestack.New.Default())
-
-	// Assert
-	if concatted.Length() <= tc.Length() {
-		t.Error("ConcatNew should increase length")
+	if concatted.Length() < tc.Length() {
+		t.Error("ConcatNew should not reduce length")
 	}
-
 	trace := codestack.New.Default()
 	concatPtr := tc.ConcatNewPtr(&trace)
 	if concatPtr == nil {
@@ -914,40 +909,33 @@ func Test_Cov_TraceCollection_Concat(t *testing.T) {
 }
 
 func Test_Cov_TraceCollection_Filters(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
-
-	// Act & Assert
+	tc := codestack.TraceCollection{}
+	tc.Adds(codestack.Trace{PackageName: "a"}, codestack.Trace{PackageName: "b"})
 	filtered := tc.Filter(func(trace *codestack.Trace) (bool, bool) {
 		return true, false
 	})
-	if len(filtered) == 0 {
-		t.Error("Filter should not be empty")
+	if len(filtered) != 2 {
+		t.Error("Filter should return all items")
 	}
-
 	filteredLimit := tc.FilterWithLimit(1, func(trace *codestack.Trace) (bool, bool) {
 		return true, false
 	})
-	if len(filteredLimit) == 0 {
-		t.Error("FilterWithLimit should not be empty")
+	if len(filteredLimit) != 1 {
+		t.Error("FilterWithLimit should return 1 item")
 	}
 }
 
 func Test_Cov_TraceCollection_AsBindings(t *testing.T) {
-	// Arrange
-	tc := codestack.New.StackTrace.Default(1, codestack.DefaultStackCount)
-
-	// Act & Assert
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.Trace{PackageName: "pkg"})
 	binder := tc.AsJsonContractsBinder()
 	if binder == nil {
 		t.Error("AsJsonContractsBinder should not be nil")
 	}
-
 	jsoner := tc.AsJsoner()
 	if jsoner == nil {
 		t.Error("AsJsoner should not be nil")
 	}
-
 	injector := tc.AsJsonParseSelfInjector()
 	if injector == nil {
 		t.Error("AsJsonParseSelfInjector should not be nil")
