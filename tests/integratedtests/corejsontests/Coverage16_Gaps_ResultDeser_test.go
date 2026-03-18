@@ -84,11 +84,10 @@ func Test_Gap_Deserialize_UsingSerializerFuncTo(t *testing.T) {
 	}
 }
 
-func Test_Gap_Deserialize_UsingSerializerTo_Nil(t *testing.T) {
+func Test_Gap_Deserialize_UsingSerializerFuncTo_Nil(t *testing.T) {
 	var s string
-	// nil serializer returns nil from NewResult.UsingSerializer
-	// which causes Deserialize on nil result
-	r := corejson.Deserialize.UsingSerializerTo(nil, &s)
+	// nil func returns nil result
+	r := corejson.Deserialize.UsingSerializerFuncTo(nil, &s)
 	_ = r
 }
 
