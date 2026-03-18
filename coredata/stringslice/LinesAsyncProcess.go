@@ -2,8 +2,6 @@ package stringslice
 
 import (
 	"sync"
-
-	"github.com/alimtvnetwork/core/constants"
 )
 
 func LinesAsyncProcess(

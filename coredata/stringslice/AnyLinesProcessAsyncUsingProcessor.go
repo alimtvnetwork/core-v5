@@ -3,8 +3,6 @@ package stringslice
 import (
 	"reflect"
 	"sync"
-
-	"github.com/alimtvnetwork/core/constants"
 )
 
 func AnyLinesProcessAsyncUsingProcessor(
