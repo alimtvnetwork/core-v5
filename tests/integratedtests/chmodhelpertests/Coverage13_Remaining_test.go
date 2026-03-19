@@ -683,6 +683,7 @@ func Test_Cov13_FwChmodVerifier_HasMismatchParentDir(t *testing.T) {
 // ── CreateDirFilesWithRwxPermission error branches ──
 
 func Test_Cov13_CreateDirFilesWithRwxPermission_FileModeErr(t *testing.T) {
+	skipOnWindows(t)
 	perm := &chmodhelper.DirFilesWithRwxPermission{
 		DirWithFiles: chmodhelper.DirWithFiles{
 			Dir: "/tmp/cov13_perm",
