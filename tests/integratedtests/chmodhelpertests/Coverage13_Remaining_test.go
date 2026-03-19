@@ -481,6 +481,7 @@ func Test_Cov13_RwxOwnerGroupOtherApplyChmod_Valid(t *testing.T) {
 }
 
 func Test_Cov13_RwxOwnerGroupOtherApplyChmod_InvalidRwx(t *testing.T) {
+	skipOnWindows(t)
 	rwx := &chmodins.RwxOwnerGroupOther{Owner: "rZx", Group: "r-x", Other: "r-x"}
 	err := chmodhelper.RwxOwnerGroupOtherApplyChmod(rwx, &chmodins.Condition{}, "/tmp")
 	if err == nil {
