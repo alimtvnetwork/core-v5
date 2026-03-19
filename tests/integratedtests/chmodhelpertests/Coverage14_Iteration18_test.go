@@ -287,7 +287,7 @@ func Test_I18_ChmodVerify_RwxFull(t *testing.T) {
 // --- TempDirGetter ---
 
 func Test_I18_TempDirGetter(t *testing.T) {
-	td := chmodhelper.TempDirGetter.Default()
+	td := chmodhelper.TempDirGetter.TempDefault()
 	if td == "" {
 		t.Fatal("expected non-empty temp dir")
 	}
