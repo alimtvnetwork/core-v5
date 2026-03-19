@@ -1,7 +1,6 @@
 package corejsontests
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corejson"
@@ -1489,14 +1488,17 @@ func Test_C31_216_ResultTo_MapResultsMust(t *testing.T) {
 // ═══════════════════════════════════════════════
 
 func Test_C31_217_Serializer_FromStringer(t *testing.T) {
-	type myStringer struct{}
-	// Use errors.New as a Stringer
-	err := errors.New("test-stringer")
-	r := corejson.Serialize.FromStringer(err)
+	type myStringer31 struct{ val string }
+	stringer := myStringer31{val: "test-stringer"}
+	// Create a proper fmt.Stringer
+	r := corejson.Serialize.FromStringer(stringerImpl31{stringer.val})
 	if r.HasError() {
 		t.Fatal("unexpected error")
 	}
 }
+
+type stringerImpl31 struct{ v string }
+func (s stringerImpl31) String() string { return s.v }
 
 // ═══════════════════════════════════════════════
 // AnyTo — uncovered: UsingSerializer

@@ -8,7 +8,8 @@ import (
 
 func Test_Cov_Index_IsAnyEnumsEqual_NoMatch(t *testing.T) {
 	idx := versionindexes.Major
-	if idx.IsAnyEnumsEqual(versionindexes.Minor) {
+	minor := versionindexes.Minor
+	if idx.IsAnyEnumsEqual(&minor) {
 		t.Error("expected false")
 	}
 }

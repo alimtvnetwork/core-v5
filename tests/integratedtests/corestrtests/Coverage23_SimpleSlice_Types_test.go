@@ -456,7 +456,7 @@ func Test_Cov23_KeyAnyValuePair(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov23_SimpleStringOnce(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Value("hello")
+	sso := corestr.New.SimpleStringOnce.Init("hello")
 	if sso.IsEmpty() || !sso.HasValue() || sso.Value() != "hello" {
 		t.Fatal("basic checks failed")
 	}
@@ -464,11 +464,11 @@ func Test_Cov23_SimpleStringOnce(t *testing.T) {
 	if !sso2.IsEmpty() {
 		t.Fatal("expected empty")
 	}
-	sso2.SetOnce("world")
+	sso2.GetSetOnce("world")
 	if sso2.Value() != "world" {
 		t.Fatal("wrong")
 	}
-	sso2.SetOnce("again") // should not change
+	sso2.GetSetOnce("again") // should not change
 	if sso2.Value() != "world" {
 		t.Fatal("should not change")
 	}
@@ -501,13 +501,13 @@ func Test_Cov23_NewCreator(t *testing.T) {
 
 func Test_Cov23_HashsetsCollection(t *testing.T) {
 	hc := corestr.New.HashsetsCollection.Empty()
-	if !hc.IsEmpty() || hc.HasAnyItem() || hc.Length() != 0 {
+	if !hc.IsEmpty() || hc.HasItems() || hc.Length() != 0 {
 		t.Fatal("basic checks failed")
 	}
 	hs := corestr.New.Hashset.Cap(2)
 	hs.Add("a")
 	hc.Add(hs)
-	if hc.Length() != 1 || hc.IsEmpty() || !hc.HasAnyItem() {
+	if hc.Length() != 1 || hc.IsEmpty() || !hc.HasItems() {
 		t.Fatal("filled checks failed")
 	}
 }

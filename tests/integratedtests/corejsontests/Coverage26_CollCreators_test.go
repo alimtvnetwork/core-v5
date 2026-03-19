@@ -138,7 +138,7 @@ func Test_C26_NRC_UsingResultsPtr(t *testing.T) {
 }
 
 func Test_C26_NRC_UsingResultsPlusCap_Nil(t *testing.T) {
-	rc := corejson.NewResultsCollection.UsingResultsPlusCap(5, nil)
+	rc := corejson.NewResultsCollection.UsingResultsPlusCap(5)
 	_ = rc
 }
 
@@ -359,7 +359,7 @@ func Test_C26_NMR_UsingMapAnyItems(t *testing.T) {
 }
 
 func Test_C26_NMR_UsingKeyWithResultsPlusCap_Nil(t *testing.T) {
-	mr := corejson.NewMapResults.UsingKeyWithResultsPlusCap(5, nil)
+	mr := corejson.NewMapResults.UsingKeyWithResultsPlusCap(5)
 	_ = mr
 }
 
@@ -374,7 +374,7 @@ func Test_C26_NMR_UsingKeyWithResults(t *testing.T) {
 }
 
 func Test_C26_NMR_UsingKeyJsonersPlusCap_Nil(t *testing.T) {
-	mr := corejson.NewMapResults.UsingKeyJsonersPlusCap(5, nil)
+	mr := corejson.NewMapResults.UsingKeyJsonersPlusCap(5)
 	_ = mr
 }
 

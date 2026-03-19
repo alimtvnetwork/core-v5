@@ -144,7 +144,9 @@ func Test_Cov18_Hashmap_Keys(t *testing.T) {
 	}
 	_ = h.KeysLock()
 	_ = h.ValuesListCopyLock()
-	_ = h.KeysValuesListLock()
+	keys, vals := h.KeysValuesListLock()
+	_ = keys
+	_ = vals
 	_ = h.ItemsCopyLock()
 	expected := args.Map{"allKeysLen": 2, "keysLen": 2, "keysColLen": 2}
 	expected.ShouldBeEqual(t, 0, "Hashmap Keys", actual)
@@ -347,9 +349,9 @@ func Test_Cov18_Hashmap_StringsPtrWgLock(t *testing.T) {
 
 func Test_Cov18_Hashmap_ParseInjectJson(t *testing.T) {
 	h := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
-	j := h.Serialize()
+	j := h.Json()
 	h2 := corestr.New.Hashmap.Empty()
-	err := h2.ParseInjectUsingJson(j.SafeBytes())
+	_, err := h2.ParseInjectUsingJson(&j)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
 	expected.ShouldBeEqual(t, 0, "Hashmap ParseInjectJson", actual)

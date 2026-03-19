@@ -6,10 +6,10 @@ import (
 	"github.com/alimtvnetwork/core/converters"
 )
 
-// === anyItemConverter uncovered branches ===
+// === anyItemConverter (converters.AnyTo) uncovered branches ===
 
-func Test_Cov_AnyItem_ToStringsUsingProcessor_Break(t *testing.T) {
-	result := converters.AnyItem.ToStringsUsingProcessor(
+func Test_Cov_AnyTo_ToStringsUsingProcessor_Break(t *testing.T) {
+	result := converters.AnyTo.ToStringsUsingProcessor(
 		false,
 		func(index int, in any) (string, bool, bool) {
 			return "x", true, true // take + break
@@ -21,8 +21,8 @@ func Test_Cov_AnyItem_ToStringsUsingProcessor_Break(t *testing.T) {
 	}
 }
 
-func Test_Cov_AnyItem_ToStringsUsingSimpleProcessor_Empty(t *testing.T) {
-	result := converters.AnyItem.ToStringsUsingSimpleProcessor(
+func Test_Cov_AnyTo_ToStringsUsingSimpleProcessor_Empty(t *testing.T) {
+	result := converters.AnyTo.ToStringsUsingSimpleProcessor(
 		false,
 		func(index int, in any) string { return "x" },
 		[]string{},
@@ -32,23 +32,23 @@ func Test_Cov_AnyItem_ToStringsUsingSimpleProcessor_Empty(t *testing.T) {
 	}
 }
 
-func Test_Cov_AnyItem_ToPrettyJson_Error(t *testing.T) {
+func Test_Cov_AnyTo_ToPrettyJson_Error(t *testing.T) {
 	// channels can't be marshaled
 	ch := make(chan int)
-	result := converters.AnyItem.ToPrettyJson(ch)
+	result := converters.AnyTo.ToPrettyJson(ch)
 	if result != "" {
 		t.Error("expected empty for unmarshalable")
 	}
 }
 
-func Test_Cov_AnyItem_Bytes_Error(t *testing.T) {
+func Test_Cov_AnyTo_Bytes_Error(t *testing.T) {
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error("expected panic for unmarshalable")
 		}
 	}()
 	ch := make(chan int)
-	converters.AnyItem.Bytes(ch)
+	converters.AnyTo.Bytes(ch)
 }
 
 // === stringTo uncovered branches ===

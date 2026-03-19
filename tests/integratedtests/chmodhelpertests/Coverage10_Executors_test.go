@@ -87,7 +87,7 @@ func Test_Cov10_ApplyOnPath_ExitOnInvalid_Error(t *testing.T) {
 			Owner: "rwx", Group: "r-x", Other: "r-x",
 		},
 		Condition: chmodins.Condition{
-			IsExitOnInvalid: true,
+			IsSkipOnInvalid: false,
 		},
 	}
 	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
@@ -406,7 +406,7 @@ func Test_Cov10_Executors_ApplyOnPath_Error(t *testing.T) {
 			Owner: "rwx", Group: "r-x", Other: "r-x",
 		},
 		Condition: chmodins.Condition{
-			IsExitOnInvalid: true,
+			IsSkipOnInvalid: false,
 		},
 	}
 	e, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)

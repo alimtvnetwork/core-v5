@@ -577,8 +577,7 @@ function Invoke-TestCoverage {
         }
         $blockedContent += ""
 
-        # Write to project root as well
-        $rootBlockedFile = Join-Path $PSScriptRoot "blocked-packages.txt"
+        # (All output goes to $coverDir only — no root writes)
 
         foreach ($bp in $sortedBlocked) {
             $blockedContent += "## $bp"
@@ -589,11 +588,10 @@ function Invoke-TestCoverage {
         }
         $fileContent = $blockedContent -join "`n"
         Set-Content -Path $blockedFile -Value $fileContent -Encoding UTF8
-        Set-Content -Path $rootBlockedFile -Value $fileContent -Encoding UTF8
 
         # ── JSON export for blocked packages ──
         $blockedJsonFile = Join-Path $coverDir "blocked-packages.json"
-        $rootBlockedJsonFile = Join-Path $PSScriptRoot "blocked-packages.json"
+        
         $blockedJsonItems = [System.Collections.Generic.List[object]]::new()
         foreach ($bp in $sortedBlocked) {
             $errText = ""
@@ -615,7 +613,6 @@ function Invoke-TestCoverage {
         }
         $blockedJson = $blockedJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $blockedJsonFile -Value $blockedJson -Encoding UTF8
-        Set-Content -Path $rootBlockedJsonFile -Value $blockedJson -Encoding UTF8
         Write-Host "  Blocked details → $blockedFile" -ForegroundColor Gray
         Write-Host "  Blocked JSON    → $blockedJsonFile" -ForegroundColor Gray
     } else {
@@ -921,7 +918,7 @@ pre{white-space:pre-wrap}</style></head><body>
 
         # ── JSON export for coverage summary ──
         $coverJsonFile = Join-Path $coverDir "coverage-summary.json"
-        $rootCoverJsonFile = Join-Path $PSScriptRoot "coverage-summary.json"
+        
 
         # Parse total coverage
         $totalPct = 0.0
@@ -991,14 +988,11 @@ pre{white-space:pre-wrap}</style></head><body>
         }
         $coverJson = $coverJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $coverJsonFile -Value $coverJson -Encoding UTF8
-        Set-Content -Path $rootCoverJsonFile -Value $coverJson -Encoding UTF8
         Write-Success "Coverage JSON: $coverJsonFile"
 
         # ── Per-Package Coverage report (TXT + JSON) ──
         $perPkgTxtFile = Join-Path $coverDir "per-package-coverage.txt"
         $perPkgJsonFile = Join-Path $coverDir "per-package-coverage.json"
-        $rootPerPkgTxtFile = Join-Path $PSScriptRoot "per-package-coverage.txt"
-        $rootPerPkgJsonFile = Join-Path $PSScriptRoot "per-package-coverage.json"
 
         $perPkgTxtLines = [System.Collections.Generic.List[string]]::new()
         $perPkgTxtLines.Add("# Per-Package Coverage Report — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
@@ -1063,10 +1057,8 @@ pre{white-space:pre-wrap}</style></head><body>
         }
 
         Set-Content -Path $perPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
-        Set-Content -Path $rootPerPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
         $perPkgJson = $perPkgJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $perPkgJsonFile -Value $perPkgJson -Encoding UTF8
-        Set-Content -Path $rootPerPkgJsonFile -Value $perPkgJson -Encoding UTF8
         Write-Success "Per-package coverage: $perPkgTxtFile"
         Write-Success "Per-package JSON:     $perPkgJsonFile"
 

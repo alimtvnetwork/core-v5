@@ -8,16 +8,16 @@ import (
 
 func Test_Cov_NotContains_CaseSensitive(t *testing.T) {
 	nc := stringcompareas.NotContains
-	result := nc.Compare("Hello World", "hello", true)
+	result := nc.IsCompareSuccess(false, "Hello World", "hello")
 	if result {
-		t.Error("case sensitive: should not contain lowercase")
+		t.Error("case sensitive: should contain lowercase match")
 	}
 }
 
 func Test_Cov_NotContains_CaseInsensitive(t *testing.T) {
 	nc := stringcompareas.NotContains
-	result := nc.Compare("Hello World", "hello", false)
-	if !result {
+	result := nc.IsCompareSuccess(true, "Hello World", "hello")
+	if result {
 		t.Error("case insensitive: should contain")
 	}
 }
