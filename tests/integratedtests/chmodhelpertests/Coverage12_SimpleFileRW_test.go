@@ -137,6 +137,9 @@ func Test_Cov12_WriteAny_Error(t *testing.T) {
 // ── SimpleFileReaderWriter.Read ──
 
 func Test_Cov12_Read_Error(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rw := newTestRW("/nonexistent/cov12", "test.txt")
 	_, err := rw.Read()
 	if err == nil {
