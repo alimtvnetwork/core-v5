@@ -1191,7 +1191,7 @@ func Test_I8_AnyToString(t *testing.T) {
 
 func Test_I8_AllIndividualStringsOfStringsLength(t *testing.T) {
 	strs := [][]string{{"a", "bb"}, {"ccc"}}
-	result := corestr.AllIndividualStringsOfStringsLength(strs)
+	result := corestr.AllIndividualStringsOfStringsLength(&strs)
 	if result != 6 { t.Fatalf("expected 6, got %d", result) }
 }
 
