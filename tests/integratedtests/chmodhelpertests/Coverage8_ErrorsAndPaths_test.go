@@ -32,8 +32,8 @@ func Test_Cov8_NotDirError_ExistsButNotDir(t *testing.T) {
 	os.WriteFile(tmpFile, []byte("test"), 0644)
 	defer os.Remove(tmpFile)
 
-	// dirCreator.ByChecking on a file path triggers notDirError
-	err := chmodhelper.New.DirCreator.ByChecking(0755, tmpFile)
+	// Use chmodApplier on file that's not a dir to exercise notDirError
+	err := chmodhelper.ChmodApply.RecursivePath(false, 0755, tmpFile)
 	if err == nil {
 		t.Fatal("expected error for file path used as dir")
 	}
