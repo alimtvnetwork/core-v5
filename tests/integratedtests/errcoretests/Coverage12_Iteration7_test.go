@@ -755,30 +755,30 @@ func Test_Cov12_Combine_Func(t *testing.T) {
 // MeaningFulError / MeaningfulMessageError
 // ==========================================================================
 
-func Test_Cov12_MeaningFulError(t *testing.T) {
-	err := errcore.MeaningFulError("msg", errors.New("e"))
-	errNil := errcore.MeaningFulError("msg", nil)
+func Test_Cov12_MeaningfulError(t *testing.T) {
+	err := errcore.MeaningfulError(errcore.InvalidType, "fn", errors.New("e"))
+	errNil := errcore.MeaningfulError(errcore.InvalidType, "fn", nil)
 	actual := args.Map{"notNil": err != nil, "nilNil": errNil == nil}
 	expected := args.Map{"notNil": true, "nilNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningFulError", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulError", actual)
 }
 
-func Test_Cov12_MeaningFulErrorHandle(t *testing.T) {
-	errcore.MeaningFulErrorHandle("msg", nil) // no panic
+func Test_Cov12_MeaningfulErrorHandle(t *testing.T) {
+	errcore.MeaningfulErrorHandle(errcore.InvalidType, "fn", nil) // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "MeaningFulErrorHandle nil", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulErrorHandle nil", actual)
 }
 
-func Test_Cov12_MeaningFulErrorWithData(t *testing.T) {
-	err := errcore.MeaningFulErrorWithData("msg", errors.New("e"), "data")
+func Test_Cov12_MeaningfulErrorWithData(t *testing.T) {
+	err := errcore.MeaningfulErrorWithData(errcore.InvalidType, "fn", errors.New("e"), "data")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningFulErrorWithData", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulErrorWithData", actual)
 }
 
 func Test_Cov12_MeaningfulMessageError(t *testing.T) {
-	err := errcore.MeaningfulMessageError("msg", errors.New("e"))
+	err := errcore.MeaningfulMessageError(errcore.InvalidType, "fn", errors.New("e"), "msg")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError", actual)
