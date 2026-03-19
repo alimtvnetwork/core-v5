@@ -310,6 +310,9 @@ func Test_Cov9_IsRwxEqualFileInfo_Nil(t *testing.T) {
 }
 
 func Test_Cov9_IsRwxEqualFileInfo_Valid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	tmpFile := filepath.Join(os.TempDir(), "cov9_fileinfo.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	os.Chmod(tmpFile, 0644)
