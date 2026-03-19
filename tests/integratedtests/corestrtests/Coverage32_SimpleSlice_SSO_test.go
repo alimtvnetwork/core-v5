@@ -336,22 +336,17 @@ func Test_C32_SSO_Dispose(t *testing.T) {
 
 func Test_C32_SSO_Boolean(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("true")
-	_ = sso.Boolean()
+	_ = sso.Boolean(true)
 }
 
-func Test_C32_SSO_Integer(t *testing.T) {
+func Test_C32_SSO_Int(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("42")
-	_ = sso.Integer()
+	_ = sso.Int()
 }
 
-func Test_C32_SSO_Float(t *testing.T) {
+func Test_C32_SSO_ValueDefFloat64(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("3.14")
-	_ = sso.Float()
-}
-
-func Test_C32_SSO_Float64(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("3.14")
-	_ = sso.Float64()
+	_ = sso.ValueDefFloat64()
 }
 
 func Test_C32_SSO_JsonMethods(t *testing.T) {
