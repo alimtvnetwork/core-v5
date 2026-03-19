@@ -278,7 +278,7 @@ func Test_I18_ChmodVerify_RwxFull(t *testing.T) {
 	_ = err
 }
 
-func Test_I18_ChmodVerify_RwxFull(t *testing.T) {
+func Test_I18_ChmodVerify_RwxFull_NoDash(t *testing.T) {
 	skipIfWindows(t)
 
 	tmpDir := t.TempDir()
