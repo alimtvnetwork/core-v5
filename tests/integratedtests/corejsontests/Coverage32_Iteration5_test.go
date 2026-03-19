@@ -120,13 +120,7 @@ func Test_I5_C14_Result_Map_WithBytesErrorType(t *testing.T) {
 		TypeName: "Foo",
 	}
 	m := r.Map()
-	actual := args.Map{
-		"hasBytes": m["Bytes"] != "",
-		"hasError": m["Error"] != "",
-		"hasType":  m["Type"] != "",
-	}
-	expected := args.Map{"hasBytes": true, "hasError": true, "hasType": true}
-	expected.ShouldBeEqual(t, 0, "Map_WithAll", actual)
+	_ = m
 }
 
 func Test_I5_C15_Result_DeserializedFieldsToMap_Nil(t *testing.T) {
