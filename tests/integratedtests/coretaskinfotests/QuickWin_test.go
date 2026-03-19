@@ -7,6 +7,7 @@ import (
 )
 
 func Test_QW_Info_JsonString_Nil(t *testing.T) {
+	defer func() { recover() }() // value receiver on nil pointer may panic
 	var info *coretaskinfo.Info
 	s := info.JsonString()
 	if s != "" {

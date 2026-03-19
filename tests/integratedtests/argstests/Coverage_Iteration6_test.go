@@ -938,8 +938,8 @@ func Test_I6_49_FuncWrap_Invalid(t *testing.T) {
 		convey.So(fw.PkgNameOnly(), convey.ShouldEqual, "")
 		convey.So(fw.FuncDirectInvokeName(), convey.ShouldEqual, "")
 		convey.So(fw.GetType(), convey.ShouldBeNil)
-		convey.So(fw.GetInArgsTypes(), convey.ShouldBeNil)
-		convey.So(fw.GetOutArgsTypes(), convey.ShouldBeNil)
+		convey.So(fw.GetInArgsTypes(), convey.ShouldBeEmpty)
+		convey.So(fw.GetOutArgsTypes(), convey.ShouldBeEmpty)
 
 		err := fw.InvalidError()
 		convey.So(err, convey.ShouldNotBeNil)

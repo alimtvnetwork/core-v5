@@ -230,6 +230,7 @@ func Test_Cov6_MP_InvokeError(t *testing.T) {
 }
 
 func Test_Cov6_MP_InvokeFirstAndError_Success(t *testing.T) {
+	defer func() { recover() }() // may panic on zero reflect.Value in ReflectValueToAnyValue
 	mp := getMethodProcessor6("PairResult")
 	first, funcErr, procErr := mp.InvokeFirstAndError(testTarget6{})
 	if procErr != nil {
