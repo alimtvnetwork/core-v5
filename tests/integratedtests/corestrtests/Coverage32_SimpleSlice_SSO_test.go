@@ -201,16 +201,10 @@ func Test_C32_SS_IndexOf(t *testing.T) {
 	_ = ss.IndexOf("a")
 }
 
-func Test_C32_SS_SafeIndexAt(t *testing.T) {
+func Test_C32_SS_HasIndex(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.SafeIndexAt(0)
-	_ = ss.SafeIndexAt(99)
-}
-
-func Test_C32_SS_SafeIndexAtWith(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.SafeIndexAtWith(0, "def")
-	_ = ss.SafeIndexAtWith(99, "def")
+	_ = ss.HasIndex(0)
+	_ = ss.HasIndex(99)
 }
 
 // ── newSimpleSliceCreator ──
