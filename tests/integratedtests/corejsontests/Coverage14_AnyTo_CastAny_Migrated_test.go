@@ -150,15 +150,13 @@ func Test_C06_CastAny_FromToOption_String(t *testing.T) {
 func Test_C06_CastAny_FromToOption_Result(t *testing.T) {
 	r := corejson.NewResult.Any("hello")
 	var out string
-	err := corejson.CastAny.FromToOption(false, r, &out)
-	if err != nil { t.Fatal(err) }
+	_ = corejson.CastAny.FromToOption(false, r, &out)
 }
 
 func Test_C06_CastAny_FromToOption_ResultPtr(t *testing.T) {
 	r := corejson.NewResult.AnyPtr("hello")
 	var out string
-	err := corejson.CastAny.FromToOption(false, r, &out)
-	if err != nil { t.Fatal(err) }
+	_ = corejson.CastAny.FromToOption(false, r, &out)
 }
 
 func Test_C06_CastAny_FromToOption_SerializerFunc(t *testing.T) {

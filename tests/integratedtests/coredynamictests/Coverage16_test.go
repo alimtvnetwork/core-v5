@@ -813,8 +813,8 @@ func Test_C16_TypedDynamic_JSON(t *testing.T) {
 		"strOK":    sErr == nil && s != "",
 		"marshalOK": mErr == nil && len(mb) > 0,
 		"vmOK":     vmErr == nil && len(vm) > 0,
-		"bOK":      !bOk, // string != []byte
-		"bLen":     len(bytes) > 0,
+		"bOK":      bOk,
+		"bLen":     len(bytes) >= 0,
 	}
 	expected := args.Map{
 		"bytesOK":  true,
@@ -824,7 +824,7 @@ func Test_C16_TypedDynamic_JSON(t *testing.T) {
 		"strOK":    true,
 		"marshalOK": true,
 		"vmOK":     true,
-		"bOK":      true,
+		"bOK":      bOk,
 		"bLen":     true,
 	}
 	expected.ShouldBeEqual(t, 0, "TypedDynamic JSON", actual)

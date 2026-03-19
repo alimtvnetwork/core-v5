@@ -378,6 +378,7 @@ func Test_Gap_MR_DeserializeMust(t *testing.T) {
 	m := corejson.NewMapResults.UsingCap(2)
 	m.Add("a", corejson.NewResult.Any("hello"))
 	var s string
+	// DeserializeMust panics if key not found — use actual key
 	_ = m.DeserializeMust("a", &s)
 }
 
