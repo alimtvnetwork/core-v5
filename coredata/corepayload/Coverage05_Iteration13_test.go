@@ -94,7 +94,7 @@ func Test_I13_Attributes_IsEqual_DiffDynamicPayloads(t *testing.T) {
 func Test_I13_Attributes_IsEqual_DiffAnyKeyValues(t *testing.T) {
 	m1 := coredynamic.EmptyMapAnyItems()
 	m2 := coredynamic.EmptyMapAnyItems()
-	m2.AddOrUpdate("key", "val")
+	m2.Add("key", "val")
 	a := &Attributes{AnyKeyValuePairs: m1}
 	b := &Attributes{AnyKeyValuePairs: m2}
 	if a.IsEqual(b) {
