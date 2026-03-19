@@ -821,11 +821,11 @@ func Test_Cov12_StringLinesToQuoteLines(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines", actual)
 }
 
-func Test_Cov12_StringLinesToQuoteLinesWithTabs(t *testing.T) {
-	result := errcore.StringLinesToQuoteLinesWithTabs([]string{"a"})
+func Test_Cov12_StringLinesToQuoteLines_Integrated(t *testing.T) {
+	result := errcore.StringLinesToQuoteLines([]string{"a"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLinesWithTabs", actual)
+	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines integrated", actual)
 }
 
 func Test_Cov12_StringLinesToQuoteLinesToSingle(t *testing.T) {
