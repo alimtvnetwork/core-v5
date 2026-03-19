@@ -327,13 +327,13 @@ func Test_I18_SimpleFileWriter(t *testing.T) {
 	}
 }
 
-// --- EmptyCreator ---
+// --- FileModeFriendlyString ---
 
-func Test_I18_EmptyCreator_All(t *testing.T) {
-	r := chmodhelper.Empty.Result()
-	_ = r
-	rp := chmodhelper.Empty.ResultPtr()
-	_ = rp
+func Test_I18_FileModeFriendlyString(t *testing.T) {
+	s := chmodhelper.FileModeFriendlyString(0755)
+	if s == "" {
+		t.Fatal("expected non-empty friendly string")
+	}
 }
 
 // --- PathExistStat ---
