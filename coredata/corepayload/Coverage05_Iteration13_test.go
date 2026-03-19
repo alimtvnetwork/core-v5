@@ -117,7 +117,7 @@ func Test_I13_Attributes_Json(t *testing.T) {
 	}
 	// Deserialize back
 	a2 := &Attributes{}
-	err := a2.ParseInjectUsingJson(j)
+	_, err := a2.ParseInjectUsingJson(&j)
 	if err != nil {
 		t.Fatal("expected no error:", err)
 	}
