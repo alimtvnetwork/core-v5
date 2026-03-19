@@ -51,8 +51,8 @@ func Test_C31_Hashset_Add(t *testing.T) {
 
 func Test_C31_Hashset_AddBool(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddBool(true)
-	h.AddBool(false)
+	h.AddBool("a")
+	h.AddBool("a") // second time should return true (exists)
 }
 
 func Test_C31_Hashset_AddNonEmpty(t *testing.T) {
