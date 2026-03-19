@@ -982,7 +982,7 @@ func Test_Cov12_PanicRangeNotMeet(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_ManyErrorToSingle(t *testing.T) {
-	err := errcore.ManyErrorToSingle(errors.New("a"), errors.New("b"))
+	err := errcore.ManyErrorToSingle([]error{errors.New("a"), errors.New("b")})
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "ManyErrorToSingle", actual)
