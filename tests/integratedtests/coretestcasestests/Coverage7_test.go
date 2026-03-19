@@ -174,9 +174,7 @@ func Test_Cov7_CaseV1_ShouldBeUsingCondition_WithVerify(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "should be condition with verify",
 		ExpectedInput: "hello",
-		VerifyTypeOf: &coretests.VerifyTypeOf{
-			SkipVerify: false,
-		},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
 	}
 	err := c.ShouldBeUsingCondition(
 		t, 0,
