@@ -159,7 +159,7 @@ func Test_Cov4_VersionsCollection_Json(t *testing.T) {
 	vc.Add("1.0.0")
 	j := vc.Json()
 	jp := vc.JsonPtr()
-	actual := args.Map{"hasResult": j.HasResult(), "ptrNotNil": jp != nil}
+	actual := args.Map{"hasResult": j.HasSafeItems(), "ptrNotNil": jp != nil}
 	expected := args.Map{"hasResult": true, "ptrNotNil": true}
 	expected.ShouldBeEqual(t, 0, "Json and JsonPtr", actual)
 }
@@ -498,7 +498,7 @@ func Test_Cov4_Version_Json(t *testing.T) {
 	v := coreversion.New.Create("v1.0.0")
 	j := v.Json()
 	jp := v.JsonPtr()
-	actual := args.Map{"hasResult": j.HasResult(), "ptrNotNil": jp != nil}
+	actual := args.Map{"hasResult": j.HasSafeItems(), "ptrNotNil": jp != nil}
 	expected := args.Map{"hasResult": true, "ptrNotNil": true}
 	expected.ShouldBeEqual(t, 0, "Version Json and JsonPtr", actual)
 }

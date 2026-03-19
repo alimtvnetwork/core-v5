@@ -511,7 +511,6 @@ func Test_C17_KeyValCollection_Serialize_JsonString_JsonStringMust(t *testing.T)
 		"sHandled":  true,
 		"smHandled": true,
 	}
-	}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection Serialize/JsonString", actual)
 }
 

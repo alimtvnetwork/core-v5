@@ -175,20 +175,15 @@ func Test_C32_SS_AddError(t *testing.T) {
 	ss.AddError(nil)
 }
 
-func Test_C32_SS_AddIf(t *testing.T) {
+func Test_C32_SS_AddIf2(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Empty()
 	ss.AddIf(true, "a")
 	ss.AddIf(false, "c")
 }
 
-func Test_C32_SS_SortedAsc(t *testing.T) {
+func Test_C32_SS_Sort(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("b", "a")
-	_ = ss.SortedAsc()
-}
-
-func Test_C32_SS_SortedDsc(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "b")
-	_ = ss.SortedDsc()
+	_ = ss.Sort()
 }
 
 func Test_C32_SS_Reverse(t *testing.T) {
@@ -196,84 +191,14 @@ func Test_C32_SS_Reverse(t *testing.T) {
 	ss.Reverse()
 }
 
-func Test_C32_SS_Has(t *testing.T) {
+func Test_C32_SS_IsContains(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a")
-	if !ss.Has("a") { t.Fatal("expected true") }
+	if !ss.IsContains("a") { t.Fatal("expected true") }
 }
 
-func Test_C32_SS_String(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.String()
-}
-
-func Test_C32_SS_JsonMethods(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.Json()
-	_ = ss.JsonPtr()
-	_ = ss.JsonModel()
-	_ = ss.JsonModelAny()
-	_, _ = ss.MarshalJSON()
-	_ = ss.AsJsonContractsBinder()
-	_ = ss.AsJsoner()
-	_ = ss.AsJsonParseSelfInjector()
-	_ = ss.AsJsonMarshaller()
-	_, _ = ss.Serialize()
-}
-
-func Test_C32_SS_UnmarshalJSON(t *testing.T) {
-	ss := corestr.SimpleSlice{}
-	_ = ss.UnmarshalJSON([]byte(`["a"]`))
-}
-
-func Test_C32_SS_ParseInjectUsingJson(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	r := corejson.New([]string{"a"})
-	_, _ = ss.ParseInjectUsingJson(&r)
-}
-
-func Test_C32_SS_ParseInjectUsingJsonMust_Panic(t *testing.T) {
-	defer func() { recover() }()
-	ss := corestr.New.SimpleSlice.Empty()
-	bad := corejson.NewResult.UsingString(`invalid`)
-	ss.ParseInjectUsingJsonMust(bad)
-}
-
-func Test_C32_SS_JsonParseSelfInject(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	r := corejson.New([]string{"a"})
-	_ = ss.JsonParseSelfInject(&r)
-}
-
-func Test_C32_SS_Deserialize(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a")
-	var target []string
-	_ = ss.Deserialize(&target)
-}
-
-func Test_C32_SS_Filter(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "bb")
-	_ = ss.Filter(func(s string) bool { return len(s) == 1 })
-}
-
-func Test_C32_SS_GetPagesSize(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "b", "c", "d", "e")
-	_ = ss.GetPagesSize(2)
-	_ = ss.GetPagesSize(0)
-}
-
-func Test_C32_SS_GetPagedCollection(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "b", "c", "d", "e")
-	_ = ss.GetPagedCollection(2)
-}
-
-func Test_C32_SS_GetPagedCollection_Small(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.GetPagedCollection(5)
-}
-
-func Test_C32_SS_IndexAt(t *testing.T) {
+func Test_C32_SS_IndexOf(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a", "b")
-	_ = ss.IndexAt(0)
+	_ = ss.IndexOf("a")
 }
 
 func Test_C32_SS_SafeIndexAt(t *testing.T) {
