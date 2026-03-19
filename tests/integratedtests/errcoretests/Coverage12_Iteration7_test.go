@@ -1047,7 +1047,13 @@ func Test_Cov12_ToExitError(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_ExpectationMessageDef(t *testing.T) {
-	result := errcore.ExpectationMessageDef("title", "expect", "actual")
+	def := errcore.ExpectationMessageDef{
+		CaseIndex: 1,
+		FuncName:  "TestFunc",
+		When:      "when testing",
+		Expected:  "expected-value",
+	}
+	result := def.ToString("actual-value")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ExpectationMessageDef", actual)
