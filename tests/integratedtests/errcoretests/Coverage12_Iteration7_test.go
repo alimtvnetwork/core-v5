@@ -692,10 +692,10 @@ func Test_Cov12_HandleErr_Panic(t *testing.T) {
 }
 
 func Test_Cov12_HandleErrMessage(t *testing.T) {
-	errcore.HandleErrMessage(nil, "msg") // no panic
+	errcore.HandleErrMessage("") // no panic for empty string
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "HandleErrMessage nil", actual)
+	expected.ShouldBeEqual(t, 0, "HandleErrMessage empty", actual)
 }
 
 func Test_Cov12_SimpleHandleErr(t *testing.T) {
