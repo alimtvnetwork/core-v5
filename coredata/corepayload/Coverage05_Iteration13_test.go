@@ -213,18 +213,16 @@ func Test_I13_PayloadWrapper_ReCreateUsingJsonResult(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I13_PayloadsCollection_AddAndFilter(t *testing.T) {
-	pc := Empty.PayloadsCollection()
-	pw1 := &PayloadWrapper{Name: "a", Payloads: []byte("x")}
-	pw2 := &PayloadWrapper{Name: "b", Payloads: []byte("y")}
-	pc.Add(pw1)
-	pc.Add(pw2)
+	pc := New.PayloadsCollection.Empty()
+	pc.Add(*New.PayloadWrapper.UsingBytes("a", "id1", "task", "cat", "ent", []byte(`"x"`)))
+	pc.Add(*New.PayloadWrapper.UsingBytes("b", "id2", "task", "cat", "ent", []byte(`"y"`)))
 	if pc.Length() != 2 {
 		t.Fatal("expected 2 items")
 	}
-	filtered := pc.Where(func(w *PayloadWrapper) bool {
+	filtered := pc.Filter(func(w *PayloadWrapper) bool {
 		return w.Name == "a"
 	})
-	if filtered.Length() != 1 {
+	if len(filtered) != 1 {
 		t.Fatal("expected 1 filtered item")
 	}
 }
