@@ -145,7 +145,7 @@ func (h testHelper) TwoReturns(x int) (int, error) {
 	return x * 2, nil
 }
 
-func getMethodProcessor(name string) *reflectmodel.MethodProcessor {
+func getMethodProcessorFull(name string) *reflectmodel.MethodProcessor {
 	t := reflect.TypeOf(testHelper{})
 	for i := 0; i < t.NumMethod(); i++ {
 		m := t.Method(i)

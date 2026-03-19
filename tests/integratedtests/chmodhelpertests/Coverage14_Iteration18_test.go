@@ -306,10 +306,6 @@ func Test_I18_ExpandCharRwx_Valid(t *testing.T) {
 	_ = r
 	_ = w
 	_ = x
-}
-	_ = w
-	_ = x
-}
 
 func Test_I18_ExpandCharRwx_Short(t *testing.T) {
 	defer func() { recover() }() // may panic on short string

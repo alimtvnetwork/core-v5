@@ -1061,8 +1061,8 @@ func Test_I18_FuncWrap_GetPascalCaseFuncName_Nil(t *testing.T) {
 
 func Test_I18_FuncWrap_IsEqual(t *testing.T) {
 	fn := func() {}
-	fw1 := args.NewTypedFuncWrap(fn)
-	fw2 := args.NewTypedFuncWrap(fn)
+	fw1 := args.NewFuncWrap.Default(fn)
+	fw2 := args.NewFuncWrap.Default(fn)
 
 	if fw1.IsNotEqual(fw2) {
 		t.Fatal("expected equal")
