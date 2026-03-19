@@ -1,0 +1,497 @@
+package chmodhelpertests
+
+import (
+	"os"
+	"path/filepath"
+	"testing"
+
+	"github.com/alimtvnetwork/core/chmodhelper"
+	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
+)
+
+// ── RwxInstructionExecutor.CompiledWrapper ──
+
+func Test_Cov10_CompiledWrapper_Fixed(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+	}
+	exec, err := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	if err != nil {
+		t.Fatal(err)
+	}
+	w, err := exec.CompiledWrapper(0755)
+	if err != nil || w == nil {
+		t.Fatal("expected wrapper")
+	}
+}
+
+func Test_Cov10_CompiledWrapper_Var(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw*", Group: "r-*", Other: "r-*",
+		},
+	}
+	exec, err := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	if err != nil {
+		t.Fatal(err)
+	}
+	w, err := exec.CompiledWrapper(0755)
+	if err != nil || w == nil {
+		t.Fatal("expected wrapper")
+	}
+}
+
+// ── RwxInstructionExecutor.CompiledRwxWrapperUsingFixedRwxWrapper ──
+
+func Test_Cov10_CompiledRwxWrapperUsingFixed_Fixed(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+	}
+	exec, err := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	if err != nil {
+		t.Fatal(err)
+	}
+	existing := chmodhelper.New.RwxWrapper.UsingFileModePtr(0755)
+	w, err := exec.CompiledRwxWrapperUsingFixedRwxWrapper(existing)
+	if err != nil || w == nil {
+		t.Fatal("expected wrapper")
+	}
+}
+
+func Test_Cov10_CompiledRwxWrapperUsingFixed_Var(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw*", Group: "*-x", Other: "r-*",
+		},
+	}
+	exec, err := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	if err != nil {
+		t.Fatal(err)
+	}
+	existing := chmodhelper.New.RwxWrapper.UsingFileModePtr(0755)
+	w, err := exec.CompiledRwxWrapperUsingFixedRwxWrapper(existing)
+	if err != nil || w == nil {
+		t.Fatal("expected wrapper")
+	}
+}
+
+// ── RwxInstructionExecutor.ApplyOnPath ──
+
+func Test_Cov10_ApplyOnPath_ExitOnInvalid_Error(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+		Condition: chmodins.Condition{
+			IsExitOnInvalid: true,
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.ApplyOnPath("/nonexistent/cov10/exit_invalid")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+}
+
+func Test_Cov10_ApplyOnPath_SkipOnInvalid(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+		Condition: chmodins.Condition{
+			IsSkipOnInvalid: true,
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.ApplyOnPath("/nonexistent/cov10/skip_invalid")
+	if err != nil {
+		t.Fatal("expected nil for skip on invalid")
+	}
+}
+
+func Test_Cov10_ApplyOnPath_Recursive(t *testing.T) {
+	tmpDir := filepath.Join(os.TempDir(), "cov10_apply_recur")
+	os.MkdirAll(tmpDir, 0755)
+	defer os.RemoveAll(tmpDir)
+
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+		Condition: chmodins.Condition{
+			IsRecursive: true,
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.ApplyOnPath(tmpDir)
+	_ = err
+}
+
+func Test_Cov10_ApplyOnPath_NonRecursive(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_apply_nonrecur.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	defer os.Remove(tmpFile)
+
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.ApplyOnPath(tmpFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// ── RwxInstructionExecutor.ApplyOnPaths / ApplyOnPathsDirect / ApplyOnPathsPtr ──
+
+func Test_Cov10_ApplyOnPaths_Empty(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.ApplyOnPaths([]string{})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_ApplyOnPathsDirect_Empty(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.ApplyOnPathsDirect()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_ApplyOnPathsPtr_Nil(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.ApplyOnPathsPtr(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_ApplyOnPathsPtr_ContinueOnError(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+		Condition: chmodins.Condition{
+			IsContinueOnError: true,
+			IsSkipOnInvalid:   true,
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	locs := []string{"/nonexistent/cov10/p1", "/nonexistent/cov10/p2"}
+	err := exec.ApplyOnPathsPtr(&locs)
+	// skip on invalid -> nil
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_ApplyOnPathsPtr_StopOnError(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_stop.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	defer os.Remove(tmpFile)
+
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	locs := []string{tmpFile}
+	err := exec.ApplyOnPathsPtr(&locs)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// ── RwxInstructionExecutor.VerifyRwxModifiers ──
+
+func Test_Cov10_VerifyRwxModifiers_Empty(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.VerifyRwxModifiers(true, []string{})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_VerifyRwxModifiers_ContinueOnError(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_verify_cont.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	os.Chmod(tmpFile, 0644)
+	defer os.Remove(tmpFile)
+
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+		Condition: chmodins.Condition{
+			IsContinueOnError: true,
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.VerifyRwxModifiers(true, []string{tmpFile, "/nonexistent/cov10/verify1"})
+	_ = err
+}
+
+func Test_Cov10_VerifyRwxModifiers_NoContinue(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_verify_nocont.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	os.Chmod(tmpFile, 0644)
+	defer os.Remove(tmpFile)
+
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.VerifyRwxModifiers(true, []string{tmpFile})
+	_ = err
+}
+
+func Test_Cov10_VerifyRwxModifiers_RecursiveNotSupported(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+		Condition: chmodins.Condition{
+			IsRecursive: true,
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.VerifyRwxModifiers(false, []string{"/some/path"})
+	if err == nil {
+		t.Fatal("expected error for recursive verify")
+	}
+}
+
+func Test_Cov10_VerifyRwxModifiersDirect(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_verify_direct.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	defer os.Remove(tmpFile)
+
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.VerifyRwxModifiersDirect(true, tmpFile)
+	_ = err
+}
+
+// ── RwxInstructionExecutor.verifyChmodLocationsNoContinue branches ──
+
+func Test_Cov10_VerifyNoContinue_ErrorWithSkip(t *testing.T) {
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+		Condition: chmodins.Condition{
+			IsSkipOnInvalid: true,
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.VerifyRwxModifiers(true, []string{"/nonexistent/cov10/vn1"})
+	_ = err
+}
+
+func Test_Cov10_VerifyNoContinue_Mismatch(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_verify_mismatch.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	os.Chmod(tmpFile, 0644)
+	defer os.Remove(tmpFile)
+
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "rwx", Other: "rwx",
+		},
+	}
+	exec, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	err := exec.VerifyRwxModifiers(true, []string{tmpFile})
+	if err == nil {
+		t.Fatal("expected mismatch error")
+	}
+}
+
+// ── RwxInstructionExecutors ──
+
+func Test_Cov10_Executors_Adds(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(5)
+
+	ins1 := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+	}
+	ins2 := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	e1, _ := chmodhelper.ParseRwxInstructionToExecutor(ins1)
+	e2, _ := chmodhelper.ParseRwxInstructionToExecutor(ins2)
+
+	executors.Adds(e1, e2)
+	if executors.Length() != 2 {
+		t.Fatalf("expected 2, got %d", executors.Length())
+	}
+}
+
+func Test_Cov10_Executors_Adds_Nil(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(5)
+	executors.Adds(nil)
+	// nil items get appended (not skipped in Adds)
+}
+
+func Test_Cov10_Executors_Length_Empty(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(0)
+	l := executors.Length()
+	if l != 0 {
+		t.Fatal("expected 0")
+	}
+}
+
+func Test_Cov10_Executors_ApplyOnPath(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_exec_apply.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	defer os.Remove(tmpFile)
+
+	executors := chmodhelper.NewRwxInstructionExecutors(2)
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	e, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	executors.Add(e)
+
+	err := executors.ApplyOnPath(tmpFile)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_Executors_ApplyOnPath_Error(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(2)
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "r-x", Other: "r-x",
+		},
+		Condition: chmodins.Condition{
+			IsExitOnInvalid: true,
+		},
+	}
+	e, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	executors.Add(e)
+
+	err := executors.ApplyOnPath("/nonexistent/cov10/exec_err")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+}
+
+func Test_Cov10_Executors_ApplyOnPaths(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(1)
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	e, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	executors.Add(e)
+
+	err := executors.ApplyOnPaths([]string{})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_Executors_ApplyOnPathsPtr(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_exec_ptr.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	defer os.Remove(tmpFile)
+
+	executors := chmodhelper.NewRwxInstructionExecutors(1)
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	e, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	executors.Add(e)
+
+	locs := []string{tmpFile}
+	err := executors.ApplyOnPathsPtr(locs)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_Cov10_Executors_VerifyRwxModifiers(t *testing.T) {
+	tmpFile := filepath.Join(os.TempDir(), "cov10_exec_verify.txt")
+	os.WriteFile(tmpFile, []byte("x"), 0644)
+	os.Chmod(tmpFile, 0644)
+	defer os.Remove(tmpFile)
+
+	executors := chmodhelper.NewRwxInstructionExecutors(1)
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rw-", Group: "r--", Other: "r--",
+		},
+	}
+	e, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	executors.Add(e)
+
+	err := executors.VerifyRwxModifiers(false, true, []string{tmpFile})
+	_ = err
+}
+
+func Test_Cov10_Executors_VerifyRwxModifiers_ContinueOnErr(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(1)
+	ins := &chmodins.RwxInstruction{
+		RwxOwnerGroupOther: chmodins.RwxOwnerGroupOther{
+			Owner: "rwx", Group: "rwx", Other: "rwx",
+		},
+	}
+	e, _ := chmodhelper.ParseRwxInstructionToExecutor(ins)
+	executors.Add(e)
+
+	err := executors.VerifyRwxModifiers(true, true, []string{"/nonexistent/cov10/v1"})
+	_ = err
+}
+
+func Test_Cov10_Executors_VerifyRwxModifiers_Empty(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(1)
+	err := executors.VerifyRwxModifiers(false, true, []string{})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
