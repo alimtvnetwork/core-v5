@@ -800,6 +800,7 @@ func Test_Cov13_CreateDirsWithFiles_Error(t *testing.T) {
 // ── CreateDirFilesWithRwxPermissions error ──
 
 func Test_Cov13_CreateDirFilesWithRwxPermissions_Error(t *testing.T) {
+	skipOnWindows(t)
 	perms := []chmodhelper.DirFilesWithRwxPermission{
 		{
 			DirWithFiles: chmodhelper.DirWithFiles{Dir: "/tmp/cov13_perms"},
