@@ -993,8 +993,6 @@ pre{white-space:pre-wrap}</style></head><body>
         # ── Per-Package Coverage report (TXT + JSON) ──
         $perPkgTxtFile = Join-Path $coverDir "per-package-coverage.txt"
         $perPkgJsonFile = Join-Path $coverDir "per-package-coverage.json"
-        $rootPerPkgTxtFile = Join-Path $PSScriptRoot "per-package-coverage.txt"
-        $rootPerPkgJsonFile = Join-Path $PSScriptRoot "per-package-coverage.json"
 
         $perPkgTxtLines = [System.Collections.Generic.List[string]]::new()
         $perPkgTxtLines.Add("# Per-Package Coverage Report — $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
