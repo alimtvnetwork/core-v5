@@ -926,8 +926,6 @@ func Test_C15_TypedPayloadCollection_Deserialize(t *testing.T) {
 	_ = err
 	// DeserializeMust may panic due to serialization format mismatch — skip
 }
-	expected.ShouldBeEqual(t, 0, "TypedPayloadCollectionDeserialize", actual)
-}
 
 // ==========================================================================
 // typed_collection_funcs.go coverage
