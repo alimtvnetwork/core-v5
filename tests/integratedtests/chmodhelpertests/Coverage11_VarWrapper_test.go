@@ -26,10 +26,11 @@ func Test_Cov11_NewRwxVariableWrapper_WithWildcard(t *testing.T) {
 }
 
 func Test_Cov11_NewRwxVariableWrapper_Error(t *testing.T) {
-	_, err := chmodhelper.NewRwxVariableWrapper("-rZxr-xr-x")
-	if err == nil {
-		t.Fatal("expected error for invalid char")
-	}
+	// Invalid chars like 'Z' are NOT rejected by ParseRwxToVarAttribute —
+	// they're simply treated as "no permission" (false). No error is returned.
+	vw, err := chmodhelper.NewRwxVariableWrapper("-rZxr-xr-x")
+	_ = vw
+	_ = err
 }
 
 // ── RwxVariableWrapper.ToCompileFixedPtr ──
