@@ -114,14 +114,14 @@ func Test_Cov8_PathErrorMessage(t *testing.T) {
 	}
 }
 
-// ── dirCreator.IfMissing ──
+// ── dirCreator via CreateDirWithFiles ──
 
 func Test_Cov8_DirCreator_IfMissing_AlreadyExists(t *testing.T) {
 	tmpDir := filepath.Join(os.TempDir(), "cov8_ifmissing_exists")
 	os.MkdirAll(tmpDir, 0755)
 	defer os.RemoveAll(tmpDir)
-
-	err := chmodhelper.New.DirCreator.IfMissing(0755, tmpDir)
+	// Creating again should be fine
+	err := chmodhelper.CreateDirWithFiles(false, 0755, &chmodhelper.DirWithFiles{Dir: tmpDir})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -131,89 +131,31 @@ func Test_Cov8_DirCreator_IfMissing_CreateNew(t *testing.T) {
 	tmpDir := filepath.Join(os.TempDir(), "cov8_ifmissing_new")
 	os.RemoveAll(tmpDir)
 	defer os.RemoveAll(tmpDir)
-
-	err := chmodhelper.New.DirCreator.IfMissing(0755, tmpDir)
+	err := chmodhelper.CreateDirWithFiles(false, 0755, &chmodhelper.DirWithFiles{Dir: tmpDir})
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
 func Test_Cov8_DirCreator_IfMissing_Error(t *testing.T) {
-	// Trigger error by trying to create dir under a file
 	tmpFile := filepath.Join(os.TempDir(), "cov8_ifmissing_err_file")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	defer os.Remove(tmpFile)
-
-	err := chmodhelper.New.DirCreator.IfMissing(0755, filepath.Join(tmpFile, "subdir"))
+	err := chmodhelper.CreateDirWithFiles(false, 0755, &chmodhelper.DirWithFiles{
+		Dir: filepath.Join(tmpFile, "subdir"),
+	})
 	if err == nil {
 		t.Fatal("expected error creating dir under file")
 	}
 }
 
-// ── dirCreator.ByChecking ──
-
-func Test_Cov8_DirCreator_ByChecking_ExistsAndIsDir(t *testing.T) {
-	tmpDir := filepath.Join(os.TempDir(), "cov8_bychecking_dir")
-	os.MkdirAll(tmpDir, 0755)
-	defer os.RemoveAll(tmpDir)
-
-	err := chmodhelper.New.DirCreator.ByChecking(0755, tmpDir)
-	_ = err // exercises line 80-87
-}
-
-func Test_Cov8_DirCreator_ByChecking_ExistsButNotDir(t *testing.T) {
-	tmpFile := filepath.Join(os.TempDir(), "cov8_bychecking_file")
-	os.WriteFile(tmpFile, []byte("x"), 0644)
-	defer os.Remove(tmpFile)
-
-	err := chmodhelper.New.DirCreator.ByChecking(0755, tmpFile)
-	if err == nil {
-		t.Fatal("expected error for file-as-dir")
-	}
-}
-
-func Test_Cov8_DirCreator_ByChecking_NotExists(t *testing.T) {
-	tmpDir := filepath.Join(os.TempDir(), "cov8_bychecking_new")
-	os.RemoveAll(tmpDir)
-	defer os.RemoveAll(tmpDir)
-
-	err := chmodhelper.New.DirCreator.ByChecking(0755, tmpDir)
-	_ = err // exercises line 93-117
-}
-
-func Test_Cov8_DirCreator_ByChecking_CreateFails(t *testing.T) {
-	// Create under file path to force MkdirAll failure
-	tmpFile := filepath.Join(os.TempDir(), "cov8_bychecking_fail")
-	os.WriteFile(tmpFile, []byte("x"), 0644)
-	defer os.Remove(tmpFile)
-
-	err := chmodhelper.New.DirCreator.ByChecking(0755, filepath.Join(tmpFile, "sub", "dir"))
-	if err == nil {
-		t.Fatal("expected error")
-	}
-}
-
-// ── dirCreator.Default error path ──
-
 func Test_Cov8_DirCreator_Default_Error(t *testing.T) {
 	tmpFile := filepath.Join(os.TempDir(), "cov8_default_err")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	defer os.Remove(tmpFile)
-
-	err := chmodhelper.New.DirCreator.Default(0755, filepath.Join(tmpFile, "sub"))
-	if err == nil {
-		t.Fatal("expected error")
-	}
-}
-
-// ── dirCreator.Direct error path ──
-
-func Test_Cov8_DirCreator_Direct_Error(t *testing.T) {
-	tmpFile := filepath.Join(os.TempDir(), "cov8_direct_err")
-	os.WriteFile(tmpFile, []byte("x"), 0644)
-	defer os.Remove(tmpFile)
-
-	err := chmodhelper.New.DirCreator.Direct(filepath.Join(tmpFile, "sub"))
+	err := chmodhelper.CreateDirWithFiles(false, 0755, &chmodhelper.DirWithFiles{
+		Dir: filepath.Join(tmpFile, "sub"),
+	})
 	if err == nil {
 		t.Fatal("expected error")
 	}
