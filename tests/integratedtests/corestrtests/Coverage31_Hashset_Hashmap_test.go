@@ -220,12 +220,12 @@ func Test_C31_Hashset_DistinctDiffHashset(t *testing.T) {
 
 func Test_C31_Hashset_DistinctDiffLines(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	_ = a.DistinctDiffLines([]string{"a"})
+	_ = a.DistinctDiffLines("a")
 }
 
 func Test_C31_Hashset_DistinctDiffLinesRaw(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	_ = a.DistinctDiffLinesRaw([]string{"a"})
+	_ = a.DistinctDiffLinesRaw("a")
 }
 
 func Test_C31_Hashset_JsonMethods(t *testing.T) {
@@ -374,10 +374,10 @@ func Test_C31_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
 
 func Test_C31_Hashmap_AddOrUpdateCollection(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add("k", "v")
-	h.AddOrUpdateCollection(kvc)
-	h.AddOrUpdateCollection(nil)
+	keys := corestr.New.Collection.Strings([]string{"k"})
+	vals := corestr.New.Collection.Strings([]string{"v"})
+	h.AddOrUpdateCollection(keys, vals)
+	h.AddOrUpdateCollection(nil, nil)
 }
 
 func Test_C31_Hashmap_AddOrUpdateHashmap(t *testing.T) {
@@ -406,14 +406,8 @@ func Test_C31_Hashmap_AddOrUpdateMap(t *testing.T) {
 func Test_C31_Hashmap_Get(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("k", "v")
-	_ = h.Get("k")
-	_ = h.Get("missing")
-}
-
-func Test_C31_Hashmap_GetLock(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("k", "v")
-	_ = h.GetLock("k")
+	_, _ = h.Get("k")
+	_, _ = h.Get("missing")
 }
 
 func Test_C31_Hashmap_Has(t *testing.T) {
@@ -445,16 +439,10 @@ func Test_C31_Hashmap_Remove(t *testing.T) {
 	h.Remove("k")
 }
 
-func Test_C31_Hashmap_RemoveLock(t *testing.T) {
+func Test_C31_Hashmap_Keys(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("k", "v")
-	h.RemoveLock("k")
-}
-
-func Test_C31_Hashmap_KeysList(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("k", "v")
-	_ = h.KeysList()
+	_ = h.Keys()
 }
 
 func Test_C31_Hashmap_ValuesList(t *testing.T) {
@@ -475,10 +463,10 @@ func Test_C31_Hashmap_Clone(t *testing.T) {
 	_ = h.Clone()
 }
 
-func Test_C31_Hashmap_CloneLock(t *testing.T) {
+func Test_C31_Hashmap_CloneAnother(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("k", "v")
-	_ = h.CloneLock()
+	_ = h.Clone()
 }
 
 func Test_C31_Hashmap_Map(t *testing.T) {

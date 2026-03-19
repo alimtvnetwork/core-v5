@@ -692,21 +692,21 @@ func Test_Cov12_HandleErr_Panic(t *testing.T) {
 }
 
 func Test_Cov12_HandleErrMessage(t *testing.T) {
-	errcore.HandleErrMessage(nil, "msg") // no panic
+	errcore.HandleErrMessage("") // no panic for empty string
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "HandleErrMessage nil", actual)
+	expected.ShouldBeEqual(t, 0, "HandleErrMessage empty", actual)
 }
 
 func Test_Cov12_SimpleHandleErr(t *testing.T) {
-	errcore.SimpleHandleErr(nil) // no panic
+	errcore.SimpleHandleErr(nil, "msg") // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "SimpleHandleErr nil", actual)
 }
 
 func Test_Cov12_SimpleHandleErrMany(t *testing.T) {
-	errcore.SimpleHandleErrMany(nil, nil) // no panic
+	errcore.SimpleHandleErrMany("msg") // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany nil", actual)
@@ -755,30 +755,30 @@ func Test_Cov12_Combine_Func(t *testing.T) {
 // MeaningFulError / MeaningfulMessageError
 // ==========================================================================
 
-func Test_Cov12_MeaningFulError(t *testing.T) {
-	err := errcore.MeaningFulError("msg", errors.New("e"))
-	errNil := errcore.MeaningFulError("msg", nil)
+func Test_Cov12_MeaningfulError(t *testing.T) {
+	err := errcore.MeaningfulError(errcore.InvalidType, "fn", errors.New("e"))
+	errNil := errcore.MeaningfulError(errcore.InvalidType, "fn", nil)
 	actual := args.Map{"notNil": err != nil, "nilNil": errNil == nil}
 	expected := args.Map{"notNil": true, "nilNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningFulError", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulError", actual)
 }
 
-func Test_Cov12_MeaningFulErrorHandle(t *testing.T) {
-	errcore.MeaningFulErrorHandle("msg", nil) // no panic
+func Test_Cov12_MeaningfulErrorHandle(t *testing.T) {
+	errcore.MeaningfulErrorHandle(errcore.InvalidType, "fn", nil) // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "MeaningFulErrorHandle nil", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulErrorHandle nil", actual)
 }
 
-func Test_Cov12_MeaningFulErrorWithData(t *testing.T) {
-	err := errcore.MeaningFulErrorWithData("msg", errors.New("e"), "data")
+func Test_Cov12_MeaningfulErrorWithData(t *testing.T) {
+	err := errcore.MeaningfulErrorWithData(errcore.InvalidType, "fn", errors.New("e"), "data")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningFulErrorWithData", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulErrorWithData", actual)
 }
 
 func Test_Cov12_MeaningfulMessageError(t *testing.T) {
-	err := errcore.MeaningfulMessageError("msg", errors.New("e"))
+	err := errcore.MeaningfulMessageError(errcore.InvalidType, "fn", errors.New("e"), "msg")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError", actual)
@@ -821,11 +821,11 @@ func Test_Cov12_StringLinesToQuoteLines(t *testing.T) {
 	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines", actual)
 }
 
-func Test_Cov12_StringLinesToQuoteLinesWithTabs(t *testing.T) {
-	result := errcore.StringLinesToQuoteLinesWithTabs([]string{"a"})
+func Test_Cov12_StringLinesToQuoteLines_Integrated(t *testing.T) {
+	result := errcore.StringLinesToQuoteLines([]string{"a"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLinesWithTabs", actual)
+	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines integrated", actual)
 }
 
 func Test_Cov12_StringLinesToQuoteLinesToSingle(t *testing.T) {
@@ -848,7 +848,7 @@ func Test_Cov12_PrintError(t *testing.T) {
 }
 
 func Test_Cov12_PrintErrorWithTestIndex(t *testing.T) {
-	errcore.PrintErrorWithTestIndex(0, errors.New("e"))
+	errcore.PrintErrorWithTestIndex(0, "test", errors.New("e"))
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "PrintErrorWithTestIndex", actual)

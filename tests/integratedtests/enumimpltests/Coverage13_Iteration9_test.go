@@ -1509,14 +1509,14 @@ func Test_C13_Format(t *testing.T) {
 	}
 }
 
-type testFormatter struct{}
+type testFormatterC13 struct{}
 
-func (tf testFormatter) TypeName() string   { return "TestType" }
-func (tf testFormatter) Name() string       { return "TestName" }
-func (tf testFormatter) ValueString() string { return "TestVal" }
+func (tf testFormatterC13) TypeName() string   { return "TestType" }
+func (tf testFormatterC13) Name() string       { return "TestName" }
+func (tf testFormatterC13) ValueString() string { return "TestVal" }
 
 func Test_C13_FormatUsingFmt(t *testing.T) {
-	s := enumimpl.FormatUsingFmt(testFormatter{}, "{type-name}-{name}-{value}")
+	s := enumimpl.FormatUsingFmt(testFormatterC13{}, "{type-name}-{name}-{value}")
 	if s == "" {
 		t.Fatal("expected formatted")
 	}
@@ -1863,13 +1863,13 @@ func Test_C13_DynamicMap_IsValueTypeOf(t *testing.T) {
 
 // ===================== AppendPrependJoinNamer =====================
 
-type testNamer struct{ name string }
+type testNamerC13 struct{ name string }
 
-func (n testNamer) Name() string { return n.name }
+func (n testNamerC13) Name() string { return n.name }
 
 func Test_C13_BasicByte_AppendPrependJoinNamer(t *testing.T) {
 	bb := enumimpl.New.BasicByte.Create("T", []byte{0, 1}, []string{"A", "B"}, 0, 1)
-	s := bb.AppendPrependJoinNamer(".", testNamer{"append"}, testNamer{"prepend"})
+	s := bb.AppendPrependJoinNamer(".", testNamerC13{"append"}, testNamerC13{"prepend"})
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
