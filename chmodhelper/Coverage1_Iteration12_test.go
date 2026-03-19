@@ -545,8 +545,11 @@ func Test_I12_ChmodVerifier_PathIf_Skip(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I12_TempDirGetter(t *testing.T) {
-	d := TempDirGetter.Get()
+	d := TempDirGetter.TempDefault()
 	if d == "" {
 		t.Fatal("expected temp dir")
 	}
+	_ = TempDirGetter.TempPermanent()
+	_ = TempDirGetter.TempOption(true)
+	_ = TempDirGetter.TempOption(false)
 }
