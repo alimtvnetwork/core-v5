@@ -48,6 +48,9 @@ func Test_Cov12_Write_Success(t *testing.T) {
 // ── SimpleFileReaderWriter.WritePath ──
 
 func Test_Cov12_WritePath_Error(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rw := newTestRW("/nonexistent/cov12", "test.txt")
 	err := rw.WritePath(false, "/nonexistent/cov12/wp.txt", []byte("x"))
 	if err == nil {
