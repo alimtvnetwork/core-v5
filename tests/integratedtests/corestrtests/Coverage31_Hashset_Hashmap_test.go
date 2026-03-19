@@ -220,12 +220,12 @@ func Test_C31_Hashset_DistinctDiffHashset(t *testing.T) {
 
 func Test_C31_Hashset_DistinctDiffLines(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	_ = a.DistinctDiffLines([]string{"a"})
+	_ = a.DistinctDiffLines("a")
 }
 
 func Test_C31_Hashset_DistinctDiffLinesRaw(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	_ = a.DistinctDiffLinesRaw([]string{"a"})
+	_ = a.DistinctDiffLinesRaw("a")
 }
 
 func Test_C31_Hashset_JsonMethods(t *testing.T) {
