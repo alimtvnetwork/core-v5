@@ -389,6 +389,7 @@ func Test_Cov13_ChmodApplier_RwxPartial_Empty(t *testing.T) {
 }
 
 func Test_Cov13_ChmodApplier_RwxPartial_Error(t *testing.T) {
+	skipOnWindows(t)
 	err := chmodhelper.ChmodApply.RwxPartial("-rwxr-xr-x", nil)
 	if err == nil {
 		t.Fatal("expected error for nil condition")
