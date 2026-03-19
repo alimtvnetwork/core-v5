@@ -28,6 +28,9 @@ func Test_Cov8_NotDirError_PathInvalid(t *testing.T) {
 }
 
 func Test_Cov8_NotDirError_ExistsButNotDir(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// Create a file (not dir) to trigger "path exist but it is not a dir" branch
 	tmpFile := filepath.Join(os.TempDir(), "cov8_notdir_test_file.txt")
 	os.WriteFile(tmpFile, []byte("test"), 0644)
