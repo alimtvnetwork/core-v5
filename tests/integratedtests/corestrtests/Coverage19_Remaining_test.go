@@ -246,7 +246,9 @@ func Test_Cov19_SimpleSlice_DistinctDiff(t *testing.T) {
 	s := corestr.New.SimpleSlice.Lines("a", "b")
 	_ = s.DistinctDiffRaw("b", "c")
 	_ = s.DistinctDiff(corestr.New.SimpleSlice.Lines("b", "c"))
-	_ = s.AddedRemovedLinesDiff("b", "c")
+	added, removed := s.AddedRemovedLinesDiff("b", "c")
+	_ = added
+	_ = removed
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
 	expected.ShouldBeEqual(t, 0, "SimpleSlice DistinctDiff", actual)

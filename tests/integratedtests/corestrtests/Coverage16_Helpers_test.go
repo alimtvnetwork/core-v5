@@ -671,7 +671,7 @@ func Test_Cov16_Collection_GetAllExcept(t *testing.T) {
 
 func Test_Cov16_Collection_GetHashsetPlusHasAll(t *testing.T) {
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
-	hs, hasAll := c.GetHashsetPlusHasAll("a", "b")
+	hs, hasAll := c.GetHashsetPlusHasAll([]string{"a", "b"})
 	actual := args.Map{"hasAll": hasAll, "hsNotNil": hs != nil}
 	expected := args.Map{"hasAll": true, "hsNotNil": true}
 	expected.ShouldBeEqual(t, 0, "Collection GetHashsetPlusHasAll", actual)
