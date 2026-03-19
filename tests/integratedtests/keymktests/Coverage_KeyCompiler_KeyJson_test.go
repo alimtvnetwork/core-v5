@@ -93,7 +93,7 @@ func Test_Cov2_Key_IntRangeEnding(t *testing.T) {
 
 func Test_Cov2_Key_JoinUsingOption(t *testing.T) {
 	k := keymk.NewKey.Default("root", "a")
-	opt := keymk.NewOption("-")
+	opt := &keymk.Option{Joiner: "-"}
 	result := k.JoinUsingOption(opt, "b")
 	if result == "" {
 		t.Error("expected non-empty")
