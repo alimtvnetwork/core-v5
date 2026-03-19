@@ -577,8 +577,7 @@ function Invoke-TestCoverage {
         }
         $blockedContent += ""
 
-        # Write to project root as well
-        $rootBlockedFile = Join-Path $PSScriptRoot "blocked-packages.txt"
+        # (All output goes to $coverDir only — no root writes)
 
         foreach ($bp in $sortedBlocked) {
             $blockedContent += "## $bp"
