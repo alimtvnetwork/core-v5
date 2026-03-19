@@ -232,16 +232,17 @@ func Test_Cov12_ErrorWrapFilePath_Nil(t *testing.T) {
 
 // ── SimpleFileReaderWriter.name ──
 
-func Test_Cov12_Name_Nil(t *testing.T) {
-	var rw *chmodhelper.SimpleFileReaderWriter
-	n := rw.Name()
-	_ = n
-}
+// ── SimpleFileReaderWriter.name (unexported, tested indirectly via errorWrap) ──
 
-func Test_Cov12_Name_Valid(t *testing.T) {
-	rw := &chmodhelper.SimpleFileReaderWriter{}
-	n := rw.Name()
-	_ = n
+func Test_Cov12_Name_CoveredViaErrorWrap(t *testing.T) {
+	// name() is unexported; it's called inside errorWrapFilePath
+	// which is triggered by any Write error
+	rw := newTestRW("/nonexistent/cov12", "test.txt")
+	err := rw.Write([]byte("x"))
+	if err == nil {
+		t.Fatal("expected error")
+	}
+	// error message includes "simple-reader-writer" from name()
 }
 
 // ── SimpleFileReaderWriter.getOnExist ──

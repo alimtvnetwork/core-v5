@@ -371,8 +371,8 @@ func Test_Cov10_Executors_Adds_Nil(t *testing.T) {
 	// nil items get appended (not skipped in Adds)
 }
 
-func Test_Cov10_Executors_Length_NilItems(t *testing.T) {
-	executors := &chmodhelper.RwxInstructionExecutors{}
+func Test_Cov10_Executors_Length_Empty(t *testing.T) {
+	executors := chmodhelper.NewRwxInstructionExecutors(0)
 	l := executors.Length()
 	if l != 0 {
 		t.Fatal("expected 0")

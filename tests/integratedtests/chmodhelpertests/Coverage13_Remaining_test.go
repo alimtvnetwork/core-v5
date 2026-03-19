@@ -147,22 +147,22 @@ func Test_Cov13_Create_InvalidLength(t *testing.T) {
 // We skip testing it directly. It's a known issue.
 
 // ── newRwxWrapperCreator.UsingVariantPtr ──
+// Variant is a string type, so we use valid string values
 
 func Test_Cov13_UsingVariantPtr_Valid(t *testing.T) {
-	w, err := chmodhelper.New.RwxWrapper.UsingVariantPtr(chmodhelper.Variant755)
+	w, err := chmodhelper.New.RwxWrapper.UsingVariantPtr(chmodhelper.Variant("755"))
 	if err != nil || w == nil {
 		t.Fatal("expected valid pointer")
 	}
 }
 
-func Test_Cov13_UsingVariantPtr_Error(t *testing.T) {
-	// variant with bad string will cause error in Create
+func Test_Cov13_UsingVariantPtr_Invalid(t *testing.T) {
 	defer func() {
 		if r := recover(); r != nil {
-			// panics on length != 3
+			// panics on length != 3 — expected
 		}
 	}()
-	_, _ = chmodhelper.New.RwxWrapper.UsingVariantPtr(chmodhelper.Variant(255))
+	_, _ = chmodhelper.New.RwxWrapper.UsingVariantPtr(chmodhelper.Variant("99"))
 }
 
 // ── newRwxWrapperCreator.Instruction ──
