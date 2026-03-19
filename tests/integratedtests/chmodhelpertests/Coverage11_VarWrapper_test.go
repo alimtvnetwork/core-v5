@@ -127,6 +127,9 @@ func Test_Cov11_ApplyRwxOnLocations_NilRwx(t *testing.T) {
 // ── RwxVariableWrapper.RwxMatchingStatus ──
 
 func Test_Cov11_RwxMatchingStatus_Match(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("file permissions not reliable on Windows")
+	}
 	tmpFile := filepath.Join(os.TempDir(), "cov11_rwx_status.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	os.Chmod(tmpFile, 0644)
