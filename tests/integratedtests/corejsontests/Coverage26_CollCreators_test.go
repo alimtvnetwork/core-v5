@@ -374,7 +374,7 @@ func Test_C26_NMR_UsingKeyWithResults(t *testing.T) {
 }
 
 func Test_C26_NMR_UsingKeyJsonersPlusCap_Nil(t *testing.T) {
-	mr := corejson.NewMapResults.UsingKeyJsonersPlusCap(5, nil)
+	mr := corejson.NewMapResults.UsingKeyJsonersPlusCap(5)
 	_ = mr
 }
 
