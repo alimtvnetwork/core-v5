@@ -610,7 +610,7 @@ func Test_Cov12_VarThreeNoType(t *testing.T) {
 }
 
 func Test_Cov12_VarNameValues(t *testing.T) {
-	result := errcore.VarNameValues("n1", "v1", "n2", "v2")
+	result := errcore.VarNameValues(namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValues", actual)
