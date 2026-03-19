@@ -20,9 +20,7 @@ func Test_Cov7_CaseV1_VerifyTypeOfMatch_WithVerifyTypeOf(t *testing.T) {
 		Title:         "verify type match",
 		ArrangeInput:  "hello",
 		ExpectedInput: "world",
-		VerifyTypeOf: &coretests.VerifyTypeOf{
-			SkipVerify: false,
-		},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
 	}
 	// Both are strings — types should match
 	c.VerifyTypeOfMatch(t, 0, "actual-string")
@@ -32,9 +30,7 @@ func Test_Cov7_CaseV1_VerifyTypeOfMust(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "verify type must",
 		ExpectedInput: "world",
-		VerifyTypeOf: &coretests.VerifyTypeOf{
-			SkipVerify: false,
-		},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
 	}
 	c.VerifyTypeOfMust(t, 0, "actual-string")
 }
@@ -43,9 +39,7 @@ func Test_Cov7_CaseV1_VerifyType(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "verify type",
 		ExpectedInput: "world",
-		VerifyTypeOf: &coretests.VerifyTypeOf{
-			SkipVerify: false,
-		},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
 	}
 	c.VerifyType(t, 0, "actual-string")
 }
@@ -54,9 +48,7 @@ func Test_Cov7_CaseV1_VerifyTypeMust(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "verify type must",
 		ExpectedInput: "world",
-		VerifyTypeOf: &coretests.VerifyTypeOf{
-			SkipVerify: false,
-		},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
 	}
 	c.VerifyTypeMust(t, 0, "actual-string")
 }
