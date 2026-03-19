@@ -387,13 +387,16 @@ func Test_C22_BC_InjectIntoAt(t *testing.T) {
 
 func Test_C22_BC_InjectIntoSameIndex_Nil(t *testing.T) {
 	bc := corejson.NewBytesCollection.Empty()
-	errs, hasErr := bc.InjectIntoSameIndex(nil)
+	// Pass nil as a true nil slice (not a single nil interface element)
+	var nilSlice []corejson.JsonParseSelfInjector
+	errs, hasErr := bc.InjectIntoSameIndex(nilSlice...)
 	if hasErr || len(errs) != 0 { t.Fatal("unexpected") }
 }
 
 func Test_C22_BC_UnmarshalIntoSameIndex_Nil(t *testing.T) {
 	bc := corejson.NewBytesCollection.Empty()
-	errs, hasErr := bc.UnmarshalIntoSameIndex(nil)
+	var nilSlice []any
+	errs, hasErr := bc.UnmarshalIntoSameIndex(nilSlice...)
 	if hasErr || len(errs) != 0 { t.Fatal("unexpected") }
 }
 
