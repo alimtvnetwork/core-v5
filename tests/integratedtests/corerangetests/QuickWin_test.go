@@ -14,6 +14,6 @@ func Test_QW_MinMaxByte_DifferenceAbsolute(t *testing.T) {
 
 func Test_QW_Within_StringRangeUint32_LargeValue(t *testing.T) {
 	// Cover the branch where finalInt > MaxInt32
-	val, inRange := corerange.IsRangeWithin.StringRangeUint32(0, 4294967295, "3000000000")
+	val, inRange := corerange.Within.StringRangeUint32(0, 4294967295, "3000000000")
 	_, _ = val, inRange
 }

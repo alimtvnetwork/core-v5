@@ -13,11 +13,11 @@ func Test_QW_Collection_Length_NilItems(t *testing.T) {
 	}
 }
 
-func Test_QW_LinkedList_GetAtIndex_EndOfList(t *testing.T) {
+func Test_QW_LinkedList_IndexAt_EndOfList(t *testing.T) {
 	ll := coregeneric.EmptyLinkedList[string]()
 	ll.Add("a")
 	// Access index beyond list length — covers the out-of-range early return
-	node := ll.GetAtIndex(5)
+	node := ll.IndexAt(5)
 	if node != nil {
 		t.Fatal("expected nil for out-of-range index")
 	}
