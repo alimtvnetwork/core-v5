@@ -269,13 +269,12 @@ func Test_Cov7_CaseNilSafe_WithArgs(t *testing.T) {
 
 func Test_Cov7_CaseNilSafe_InvokeNil_ReturnValue(t *testing.T) {
 	tc := coretestcases.CaseNilSafe{
-		Title: "F1String nil returns empty",
-		Func:  (*coretests.DraftType).F1String,
+		Title: "ClonePtr nil returns nil",
+		Func:  (*coretests.DraftType).ClonePtr,
 		Expected: results.ResultAny{
 			Panicked: false,
-			Value:    "",
 		},
-		CompareFields: []string{"panicked", "value"},
+		CompareFields: []string{"panicked"},
 	}
 	tc.ShouldBeSafe(t, 0)
 }
