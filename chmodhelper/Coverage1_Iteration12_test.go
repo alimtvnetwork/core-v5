@@ -189,9 +189,14 @@ func Test_I12_RwxWrapper_JsonAndClone(t *testing.T) {
 		t.Fatal("expected no json ptr error")
 	}
 	cloned := rwx.Clone()
-	if !cloned.IsEqualNonPtr(rwx) {
+	if !cloned.IsEqualPtr(&rwx) {
 		t.Fatal("clone should be equal")
 	}
+	_ = rwx.FriendlyDisplay()
+	_ = rwx.ToPtr()
+	_ = rwx.ToNonPtr()
+	_ = rwx.AsJsonContractsBinder()
+	_ = rwx.ToRwxOwnerGroupOther()
 }
 
 func Test_I12_RwxWrapper_IsEqualFileMode(t *testing.T) {
