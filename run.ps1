@@ -613,7 +613,6 @@ function Invoke-TestCoverage {
         }
         $blockedJson = $blockedJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $blockedJsonFile -Value $blockedJson -Encoding UTF8
-        Set-Content -Path $rootBlockedJsonFile -Value $blockedJson -Encoding UTF8
         Write-Host "  Blocked details → $blockedFile" -ForegroundColor Gray
         Write-Host "  Blocked JSON    → $blockedJsonFile" -ForegroundColor Gray
     } else {
