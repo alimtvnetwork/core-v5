@@ -546,7 +546,7 @@ func Test_C27_RPC_InjectIntoSameIndex(t *testing.T) {
 	rpc.Add(corejson.New(map[string]string{"a": "b"}).Ptr())
 	target := corejson.Empty.MapResults()
 	_, _ = rpc.InjectIntoSameIndex(target)
-	_, _ = rpc.InjectIntoSameIndex(nil)
+	_, _ = rpc.InjectIntoSameIndex(nil) // nil element in populated collection - ok
 }
 
 func Test_C27_RPC_UnmarshalAt(t *testing.T) {
