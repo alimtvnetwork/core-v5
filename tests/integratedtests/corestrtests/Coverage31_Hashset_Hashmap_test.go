@@ -105,14 +105,14 @@ func Test_C31_Hashset_Remove(t *testing.T) {
 	h.Remove("a")
 }
 
-func Test_C31_Hashset_RemoveLock(t *testing.T) {
+func Test_C31_Hashset_RemoveWithLock(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	h.RemoveLock("a")
+	h.RemoveWithLock("a")
 }
 
-func Test_C31_Hashset_Removes(t *testing.T) {
+func Test_C31_Hashset_SafeRemove(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	h.Removes("a")
+	h.SafeRemove("a")
 }
 
 func Test_C31_Hashset_RemovesLock(t *testing.T) {
