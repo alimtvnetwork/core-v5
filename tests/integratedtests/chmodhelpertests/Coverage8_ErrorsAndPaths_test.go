@@ -90,6 +90,9 @@ func Test_Cov8_PathErrorWithDirValidate_ErrNil(t *testing.T) {
 // ── errorCreator.chmodApplyFailed ──
 
 func Test_Cov8_ChmodApplyFailed_WithErr(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// Covered through ApplyChmod on invalid path
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov8/chmod_fail")
