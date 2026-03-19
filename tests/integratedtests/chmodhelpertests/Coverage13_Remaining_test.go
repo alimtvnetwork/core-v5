@@ -834,6 +834,7 @@ func Test_Cov13_CreateDirFilesWithRwxPermissionsMust_Panic(t *testing.T) {
 // ── DirFilesWithContent.Create error branches ──
 
 func Test_Cov13_DirFilesWithContent_Create_RemoveError(t *testing.T) {
+	skipOnWindows(t)
 	dfc := &chmodhelper.DirFilesWithContent{
 		Dir:         "/nonexistent/cov13/dfc",
 		DirFileMode: 0755,
