@@ -194,14 +194,13 @@ func Test_Cov7_CaseV1_AssertDirectly(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title: "assert directly",
 	}
-	// This should not panic and run the convey assertion
 	c.AssertDirectly(
 		t,
 		"additional info",
 		"comparison message",
 		0,
 		"hello",
-		nil, // assertion func — nil will be handled by convey
+		should.Equal,
 		"hello",
 	)
 }
