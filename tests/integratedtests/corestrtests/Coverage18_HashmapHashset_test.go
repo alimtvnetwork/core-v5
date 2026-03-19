@@ -350,10 +350,9 @@ func Test_Cov18_Hashmap_StringsPtrWgLock(t *testing.T) {
 
 func Test_Cov18_Hashmap_ParseInjectJson(t *testing.T) {
 	h := corestr.New.Hashmap.UsingMap(map[string]string{"a": "1"})
-	jBytes, jErr := h.Serialize()
-	if jErr != nil { t.Fatal(jErr) }
+	j := h.Json()
 	h2 := corestr.New.Hashmap.Empty()
-	_, err := h2.ParseInjectUsingJson(corejson.NewPtr(jBytes))
+	_, err := h2.ParseInjectUsingJson(&j)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
 	expected.ShouldBeEqual(t, 0, "Hashmap ParseInjectJson", actual)
