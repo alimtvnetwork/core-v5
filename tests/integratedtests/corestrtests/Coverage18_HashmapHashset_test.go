@@ -144,7 +144,9 @@ func Test_Cov18_Hashmap_Keys(t *testing.T) {
 	}
 	_ = h.KeysLock()
 	_ = h.ValuesListCopyLock()
-	_ = h.KeysValuesListLock()
+	keys, vals := h.KeysValuesListLock()
+	_ = keys
+	_ = vals
 	_ = h.ItemsCopyLock()
 	expected := args.Map{"allKeysLen": 2, "keysLen": 2, "keysColLen": 2}
 	expected.ShouldBeEqual(t, 0, "Hashmap Keys", actual)
