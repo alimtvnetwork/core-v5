@@ -146,9 +146,7 @@ func Test_Cov7_CaseV1_VerifyError_WithTypeVerify(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "verify error with type",
 		ExpectedInput: "hello",
-		VerifyTypeOf: &coretests.VerifyTypeOf{
-			SkipVerify: false,
-		},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
 	}
 	err := c.VerifyError(0, stringcompareas.Equal, "hello")
 	actual := args.Map{"noErr": err == nil}
