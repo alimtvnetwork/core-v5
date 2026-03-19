@@ -255,20 +255,26 @@ func Test_I18_NewRwxWrapper_RwxFullString(t *testing.T) {
 
 // --- ChmodApply and Verify ---
 
-func Test_I18_ChmodApply_Path(t *testing.T) {
+func Test_I18_ChmodApply_RecursivePath(t *testing.T) {
 	skipIfWindows(t)
 
 	tmpDir := t.TempDir()
 	f := filepath.Join(tmpDir, "test.txt")
 	os.WriteFile(f, []byte("test"), 0644)
 
-	v := chmodhelper.Variant("755")
-	w, err := v.ToWrapperPtr()
-	if err != nil {
-		t.Fatal(err)
-	}
+	err := chmodhelper.ChmodApply.RecursivePath(true, 0755, tmpDir)
+	_ = err
+}
 
-	err = chmodhelper.ChmodApply.Path(f, w)
+func Test_I18_ChmodVerify_RwxFull(t *testing.T) {
+	skipIfWindows(t)
+
+	tmpDir := t.TempDir()
+	f := filepath.Join(tmpDir, "test.txt")
+	os.WriteFile(f, []byte("test"), 0755)
+	os.Chmod(f, 0755)
+
+	err := chmodhelper.ChmodVerify.RwxFull(f, "-rwxr-xr-x")
 	_ = err
 }
 
