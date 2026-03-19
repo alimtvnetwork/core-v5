@@ -159,12 +159,13 @@ func Test_Cov7_CaseV1_VerifyError_WithTypeVerify(t *testing.T) {
 func Test_Cov7_CaseV1_TypeShouldMatch(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "type should match",
-		ExpectedInput: "hello",
-		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
+		ExpectedInput: []string{"hello"},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf([]string{"hello"}),
 	}
 	err := c.TypeShouldMatch(t)
-	// TypeShouldMatch may return type mismatch error depending on internal representation
-	_ = err
+	if err != nil {
+		t.Fatalf("unexpected type mismatch: %v", err)
+	}
 }
 
 // ── CaseV1.ShouldBeUsingCondition with type verify ──
