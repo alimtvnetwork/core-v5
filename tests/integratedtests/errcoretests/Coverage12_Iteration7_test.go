@@ -1026,7 +1026,7 @@ func Test_Cov12_SourceDestinationNoType(t *testing.T) {
 
 func Test_Cov12_CompiledError(t *testing.T) {
 	result := errcore.CompiledError(errors.New("main"), "additional")
-	actual := args.Map{"notEmpty": result != ""}
+	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "CompiledError", actual)
 }
