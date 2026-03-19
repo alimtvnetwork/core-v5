@@ -617,14 +617,14 @@ func Test_Cov12_VarNameValues(t *testing.T) {
 }
 
 func Test_Cov12_VarNameValuesJoiner(t *testing.T) {
-	result := errcore.VarNameValuesJoiner(",", "n1", "v1", "n2", "v2")
+	result := errcore.VarNameValuesJoiner(",", namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner", actual)
 }
 
 func Test_Cov12_VarNameValuesStrings(t *testing.T) {
-	result := errcore.VarNameValuesStrings("n1", "v1", "n2", "v2")
+	result := errcore.VarNameValuesStrings(namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesStrings", actual)
