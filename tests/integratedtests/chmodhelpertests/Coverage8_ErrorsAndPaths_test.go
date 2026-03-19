@@ -83,25 +83,21 @@ func Test_Cov8_PathErrorWithDirValidate_ErrNil(t *testing.T) {
 // ── errorCreator.chmodApplyFailed ──
 
 func Test_Cov8_ChmodApplyFailed_WithErr(t *testing.T) {
-	// chmodApplyFailed returns error with message when err is non-nil
-	// Triggered through dirCreator.ByChecking on existing dir with chmod fail
-	tmpDir := filepath.Join(os.TempDir(), "cov8_chmod_apply_fail")
-	os.MkdirAll(tmpDir, 0755)
-	defer os.RemoveAll(tmpDir)
-
-	// ByChecking applies chmod; if it fails, chmodApplyFailed is called
-	err := chmodhelper.New.DirCreator.ByChecking(0755, tmpDir)
-	// Result depends on permissions, but exercises the code path
-	_ = err
+	// Covered through ApplyChmod on invalid path
+	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
+	err := rwx.ApplyChmod(false, "/nonexistent/cov8/chmod_fail")
+	if err == nil {
+		t.Fatal("expected error")
+	}
 }
 
 func Test_Cov8_ChmodApplyFailed_NilErr(t *testing.T) {
-	// chmodApplyFailed returns nil when err is nil
 	tmpDir := filepath.Join(os.TempDir(), "cov8_chmod_apply_nil")
 	os.MkdirAll(tmpDir, 0755)
 	defer os.RemoveAll(tmpDir)
-	// Successful chmod leads to chmodApplyFailed(mode, dir, nil) -> nil
-	_ = chmodhelper.New.DirCreator.ByChecking(0755, tmpDir)
+	// Successful chmod
+	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
+	_ = rwx.ApplyChmod(false, tmpDir)
 }
 
 // ── pathErrorMessage ──
