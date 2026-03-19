@@ -310,15 +310,15 @@ func Test_I18_ExpandCharRwx_Short(t *testing.T) {
 	chmodhelper.ExpandCharRwx("")
 }
 
-// --- SimpleFileWriter ---
+// --- SimpleFileReaderWriter ---
 
-func Test_I18_SimpleFileWriter(t *testing.T) {
+func Test_I18_SimpleFileReaderWriter(t *testing.T) {
 	skipIfWindows(t)
 
 	tmpDir := t.TempDir()
 	f := filepath.Join(tmpDir, "sub", "test.txt")
 
-	rw := chmodhelper.New.SimpleFileReaderWriter.Default(f)
+	rw := chmodhelper.New.SimpleFileReaderWriter.Default(false, f)
 	if rw == nil {
 		t.Fatal("expected non-nil reader writer")
 	}
