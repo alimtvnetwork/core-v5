@@ -73,31 +73,20 @@ func Test_C31_Hashset_AddCollection(t *testing.T) {
 	h.AddCollection(nil)
 }
 
-func Test_C31_Hashset_AddCollectionLock(t *testing.T) {
+func Test_C31_Hashset_AddHashsetItems(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddCollectionLock(corestr.New.Collection.Strings([]string{"a"}))
+	h.AddHashsetItems(corestr.New.Hashset.StringsSpreadItems("a"))
+	h.AddHashsetItems(nil)
 }
 
-func Test_C31_Hashset_AddHashset(t *testing.T) {
+func Test_C31_Hashset_AddHashsetWgLock(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddHashset(corestr.New.Hashset.StringsSpreadItems("a"))
-	h.AddHashset(nil)
-}
-
-func Test_C31_Hashset_AddHashsetLock(t *testing.T) {
-	h := corestr.New.Hashset.Empty()
-	h.AddHashsetLock(corestr.New.Hashset.StringsSpreadItems("a"))
+	h.AddHashsetWgLock(nil, corestr.New.Hashset.StringsSpreadItems("a"))
 }
 
 func Test_C31_Hashset_Adds(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
 	h.Adds("a", "b")
-	h.Adds(nil...)
-}
-
-func Test_C31_Hashset_AddsLock(t *testing.T) {
-	h := corestr.New.Hashset.Empty()
-	h.AddsLock("a")
 }
 
 func Test_C31_Hashset_AddStrings(t *testing.T) {
