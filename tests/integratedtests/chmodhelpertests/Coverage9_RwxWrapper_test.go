@@ -336,6 +336,9 @@ func Test_Cov9_IsRwxEqualLocation_NonExistent(t *testing.T) {
 }
 
 func Test_Cov9_IsRwxEqualLocation_Valid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	tmpFile := filepath.Join(os.TempDir(), "cov9_rwxloc.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	os.Chmod(tmpFile, 0644)
