@@ -463,10 +463,10 @@ func Test_C31_Hashmap_Clone(t *testing.T) {
 	_ = h.Clone()
 }
 
-func Test_C31_Hashmap_CloneLock(t *testing.T) {
+func Test_C31_Hashmap_CloneAnother(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("k", "v")
-	_ = h.CloneLock()
+	_ = h.Clone()
 }
 
 func Test_C31_Hashmap_Map(t *testing.T) {

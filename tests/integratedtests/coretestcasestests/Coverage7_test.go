@@ -186,7 +186,6 @@ func Test_Cov7_CaseV1_ShouldBeUsingCondition_WithVerify(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }
-}
 
 // ── CaseV1.AssertDirectly ──
 

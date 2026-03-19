@@ -1869,7 +1869,7 @@ func (n testNamerC13) Name() string { return n.name }
 
 func Test_C13_BasicByte_AppendPrependJoinNamer(t *testing.T) {
 	bb := enumimpl.New.BasicByte.Create("T", []byte{0, 1}, []string{"A", "B"}, 0, 1)
-	s := bb.AppendPrependJoinNamer(".", testNamer{"append"}, testNamer{"prepend"})
+	s := bb.AppendPrependJoinNamer(".", testNamerC13{"append"}, testNamerC13{"prepend"})
 	if s == "" {
 		t.Fatal("expected non-empty")
 	}
