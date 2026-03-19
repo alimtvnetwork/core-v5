@@ -325,10 +325,10 @@ func Test_Cov12_ExpectingNotEqualSimpleNoType(t *testing.T) {
 }
 
 func Test_Cov12_ExpectingError(t *testing.T) {
-	err := errcore.ExpectingError("title", "expect", "actual")
+	err := errcore.ExpectingErrorSimpleNoType("title", "expect", "actual")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "ExpectingError", actual)
+	expected.ShouldBeEqual(t, 0, "ExpectingErrorSimpleNoType", actual)
 }
 
 // ==========================================================================
