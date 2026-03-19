@@ -228,6 +228,9 @@ func Test_Cov11_IsEqualUsingLocation_NonExistent(t *testing.T) {
 }
 
 func Test_Cov11_IsEqualUsingLocation_Valid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("file permissions not reliable on Windows")
+	}
 	tmpFile := filepath.Join(os.TempDir(), "cov11_loc.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	os.Chmod(tmpFile, 0644)
