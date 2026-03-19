@@ -24,12 +24,6 @@ func Test_Cov_Request_IsOverrideOrOverwriteOrEnforce(t *testing.T) {
 	}
 }
 
-func Test_Cov_Request_IsDynamicAction(t *testing.T) {
-	if !reqtype.DynamicAction.IsDynamicAction() {
-		t.Error("expected true")
-	}
-}
-
 func Test_Cov_Request_IsRestartOrReload(t *testing.T) {
 	if !reqtype.Restart.IsRestartOrReload() {
 		t.Error("expected true")

@@ -8,7 +8,7 @@ import (
 )
 
 func Test_Cov_Variant_UnmarshalJSON_Error(t *testing.T) {
-	v := &bytetype.Variant{}
+	v := new(bytetype.Variant)
 	err := v.UnmarshalJSON([]byte("invalid"))
 	if err == nil {
 		t.Error("expected error")
