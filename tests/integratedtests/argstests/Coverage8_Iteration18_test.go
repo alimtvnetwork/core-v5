@@ -1181,12 +1181,15 @@ func Test_I18_NewFuncWrap_Default_Valid(t *testing.T) {
 
 // --- FuncDetector ---
 
-func Test_I18_FuncDetector(t *testing.T) {
+func Test_I18_FuncDetector_GetFuncWrap(t *testing.T) {
 	fn := func() {}
-	if !args.FuncDetector.IsFunc(fn) {
-		t.Fatal("expected is func")
+	fw := args.FuncDetector.GetFuncWrap(fn)
+	if fw == nil || fw.IsInvalid() {
+		t.Fatal("expected valid func wrap")
 	}
-	if args.FuncDetector.IsFunc("not a func") {
-		t.Fatal("expected not func")
+
+	fw2 := args.FuncDetector.GetFuncWrap("not a func")
+	if fw2 == nil {
+		t.Fatal("expected non-nil (invalid) func wrap")
 	}
 }
