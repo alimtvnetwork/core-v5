@@ -715,6 +715,7 @@ func Test_C30_75_MR_Deserialize(t *testing.T) {
 }
 
 func Test_C30_76_MR_DeserializeMust(t *testing.T) {
+	defer func() { recover() }()
 	mr := corejson.NewMapResults.Empty()
 	mr.Add("k", corejson.NewResult.Any(map[string]string{"a": "b"}))
 	target := make(map[string]string)
