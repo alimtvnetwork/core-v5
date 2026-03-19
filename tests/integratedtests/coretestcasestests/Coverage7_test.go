@@ -160,9 +160,7 @@ func Test_Cov7_CaseV1_TypeShouldMatch(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "type should match",
 		ExpectedInput: "hello",
-		VerifyTypeOf: &coretests.VerifyTypeOf{
-			SkipVerify: false,
-		},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
 	}
 	err := c.TypeShouldMatch(t)
 	actual := args.Map{"noErr": err == nil}
