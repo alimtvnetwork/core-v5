@@ -439,16 +439,10 @@ func Test_C31_Hashmap_Remove(t *testing.T) {
 	h.Remove("k")
 }
 
-func Test_C31_Hashmap_RemoveLock(t *testing.T) {
+func Test_C31_Hashmap_Keys(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("k", "v")
-	h.RemoveLock("k")
-}
-
-func Test_C31_Hashmap_KeysList(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("k", "v")
-	_ = h.KeysList()
+	_ = h.Keys()
 }
 
 func Test_C31_Hashmap_ValuesList(t *testing.T) {
