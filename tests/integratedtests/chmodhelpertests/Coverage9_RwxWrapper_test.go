@@ -70,6 +70,9 @@ func Test_Cov9_RwxWrapper_ApplyChmod_ChmodFail(t *testing.T) {
 // ── RwxWrapper.invalidPathErr ──
 
 func Test_Cov9_RwxWrapper_InvalidPathErr(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov9/invalid_path")
 	if err == nil {
