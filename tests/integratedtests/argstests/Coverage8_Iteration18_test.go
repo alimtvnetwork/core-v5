@@ -18,8 +18,9 @@ func Test_I18_Map_Length(t *testing.T) {
 
 func Test_I18_Map_ArgsCount(t *testing.T) {
 	m := args.Map{"first": 1, "second": 2}
-	if m.ArgsCount() != 2 {
-		t.Fatal("expected 2 args")
+	// ArgsCount subtracts 1 for func (always present as invalid wrapper)
+	if m.ArgsCount() != 1 {
+		t.Fatal("expected 1 arg (length minus func slot)")
 	}
 }
 
