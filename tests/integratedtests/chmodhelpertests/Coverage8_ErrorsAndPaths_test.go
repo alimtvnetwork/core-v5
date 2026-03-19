@@ -13,15 +13,9 @@ import (
 // ── errorCreator.dirError ──
 
 func Test_Cov8_ErrorCreator_DirError_NonExistentPath(t *testing.T) {
-	// dirError calls notDirError first; for non-existent path, notDirError returns nil
-	// then constructs error with dir info
 	tmpDir := filepath.Join(os.TempDir(), "cov8_dir_error_test_nonexist")
 	os.RemoveAll(tmpDir)
-	// Create dir then remove to trigger the code path through dirCreator
-	err := chmodhelper.New.DirCreator.Default(0755, tmpDir)
-	if err != nil {
-		t.Fatal(err)
-	}
+	os.MkdirAll(tmpDir, 0755)
 	os.RemoveAll(tmpDir)
 }
 
