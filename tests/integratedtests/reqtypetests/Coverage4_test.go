@@ -333,7 +333,8 @@ func Test_Cov4_AsActionTyper(t *testing.T) {
 // ═══════════════════════════════════════════════
 
 func Test_Cov4_IsEnumEqual(t *testing.T) {
-	if !reqtype.Create.IsEnumEqual(reqtype.Create) { t.Fatal() }
+	r := reqtype.Create
+	if !r.IsEnumEqual(&r) { t.Fatal() }
 }
 
 func Test_Cov4_IsByteValueEqual(t *testing.T) {
@@ -342,7 +343,8 @@ func Test_Cov4_IsByteValueEqual(t *testing.T) {
 
 func Test_Cov4_IsAnyEnumsEqual(t *testing.T) {
 	r := reqtype.Create
-	if !r.IsAnyEnumsEqual(reqtype.Create) { t.Fatal() }
+	r2 := reqtype.Create
+	if !r.IsAnyEnumsEqual(&r2) { t.Fatal() }
 }
 
 func Test_Cov4_IsNameEqual(t *testing.T) {

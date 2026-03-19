@@ -457,7 +457,7 @@ func Test_Cov23_KeyAnyValuePair(t *testing.T) {
 
 func Test_Cov23_SimpleStringOnce(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("hello")
-	if sso.IsEmpty() || !sso.HasValue() || sso.Value() != "hello" {
+	if sso.IsEmpty() || !sso.IsDefined() || sso.Value() != "hello" {
 		t.Fatal("basic checks failed")
 	}
 	sso2 := corestr.New.SimpleStringOnce.Empty()
