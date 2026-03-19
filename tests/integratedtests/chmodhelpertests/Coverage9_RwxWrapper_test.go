@@ -140,6 +140,9 @@ func Test_Cov9_LinuxApplyRecursive_SkipInvalid_NotExists(t *testing.T) {
 }
 
 func Test_Cov9_LinuxApplyRecursive_NoSkip_NotExists(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.LinuxApplyRecursive(false, "/nonexistent/cov9/linux_recur2")
 	if err == nil {
