@@ -398,19 +398,14 @@ func Test_C32_SSO_IsEmpty(t *testing.T) {
 	_ = sso.IsEmpty()
 }
 
-func Test_C32_SSO_HasNonEmpty(t *testing.T) {
+func Test_C32_SSO_IsDefined(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("x")
-	_ = sso.HasNonEmpty()
+	_ = sso.IsDefined()
 }
 
 func Test_C32_SSO_IsWhitespace(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("  ")
 	_ = sso.IsWhitespace()
-}
-
-func Test_C32_SSO_HasNonWhitespace(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("x")
-	_ = sso.HasNonWhitespace()
 }
 
 func Test_C32_SSO_IsEqualText(t *testing.T) {
