@@ -138,7 +138,7 @@ func Test_C26_NRC_UsingResultsPtr(t *testing.T) {
 }
 
 func Test_C26_NRC_UsingResultsPlusCap_Nil(t *testing.T) {
-	rc := corejson.NewResultsCollection.UsingResultsPlusCap(5, nil)
+	rc := corejson.NewResultsCollection.UsingResultsPlusCap(5)
 	_ = rc
 }
 
