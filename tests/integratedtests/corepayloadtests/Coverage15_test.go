@@ -454,7 +454,7 @@ func Test_C15_TypedPayloadWrapper_Factories(t *testing.T) {
 }
 
 func Test_C15_TypedPayloadWrapper_Must(t *testing.T) {
-	pw := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", testUser{Name: "X"})
+	pw, _ := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", testUser{Name: "X"})
 	tw := corepayload.NewTypedPayloadWrapperMust[testUser](pw)
 	actual := args.Map{"name": tw.Data().Name}
 	expected := args.Map{"name": "X"}
@@ -1119,7 +1119,7 @@ func Test_C15_ConvertTypedPayloads(t *testing.T) {
 // ==========================================================================
 
 func Test_C15_DeserializePayloadTo(t *testing.T) {
-	pw := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", testUser{Name: "X"})
+	pw, _ := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", testUser{Name: "X"})
 	u, err := corepayload.DeserializePayloadTo[testUser](pw)
 	actual := args.Map{
 		"noErr": err == nil,
@@ -1140,7 +1140,7 @@ func Test_C15_DeserializePayloadTo_Nil(t *testing.T) {
 }
 
 func Test_C15_DeserializePayloadToMust(t *testing.T) {
-	pw := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", testUser{Name: "Y"})
+	pw, _ := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", testUser{Name: "Y"})
 	u := corepayload.DeserializePayloadToMust[testUser](pw)
 	actual := args.Map{"name": u.Name}
 	expected := args.Map{"name": "Y"}
@@ -1149,7 +1149,7 @@ func Test_C15_DeserializePayloadToMust(t *testing.T) {
 
 func Test_C15_DeserializePayloadToSlice(t *testing.T) {
 	users := []testUser{{Name: "A"}, {Name: "B"}}
-	pw := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", users)
+	pw, _ := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", users)
 	result, err := corepayload.DeserializePayloadToSlice[testUser](pw)
 	actual := args.Map{
 		"noErr": err == nil,
@@ -1171,7 +1171,7 @@ func Test_C15_DeserializePayloadToSlice_Nil(t *testing.T) {
 
 func Test_C15_DeserializePayloadToSliceMust(t *testing.T) {
 	users := []testUser{{Name: "C"}}
-	pw := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", users)
+	pw, _ := corepayload.New.PayloadWrapper.NameIdCategory("n", "i", "cat", users)
 	result := corepayload.DeserializePayloadToSliceMust[testUser](pw)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
