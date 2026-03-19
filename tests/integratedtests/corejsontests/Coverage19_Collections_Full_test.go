@@ -365,9 +365,19 @@ func Test_Cov19_BytesCollection_UnmarshalIntoSameIndex(t *testing.T) {
 
 func Test_Cov19_BytesCollection_UnmarshalIntoSameIndex_Nil(t *testing.T) {
 	c := corejson.NewBytesCollection.UsingCap(1)
-	errs, hasErr := c.UnmarshalIntoSameIndex(nil)
+
+	// Test true nil variadic (no args) - hits the anys==nil early return
+	var nilSlice []any
+	errs, hasErr := c.UnmarshalIntoSameIndex(nilSlice...)
 	if hasErr || len(errs) != 0 {
-		t.Fatal("expected no error for nil")
+		t.Fatal("expected no error for nil variadic")
+	}
+
+	// Test with a nil element but collection has an item
+	c.AddAnyItems(true, "hello")
+	errs2, hasErr2 := c.UnmarshalIntoSameIndex(nil)
+	if hasErr2 || len(errs2) != 1 {
+		t.Fatal("expected 1 error slot with nil skip")
 	}
 }
 
