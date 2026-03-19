@@ -1,6 +1,7 @@
 package corestrtests
 
 import (
+	"sync"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corejson"
@@ -81,7 +82,10 @@ func Test_C31_Hashset_AddHashsetItems(t *testing.T) {
 
 func Test_C31_Hashset_AddHashsetWgLock(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddHashsetWgLock(nil, corestr.New.Hashset.StringsSpreadItems("a"))
+	var wg sync.WaitGroup
+	wg.Add(1)
+	h.AddHashsetWgLock(corestr.New.Hashset.StringsSpreadItems("a"), &wg)
+	wg.Wait()
 }
 
 func Test_C31_Hashset_Adds(t *testing.T) {
@@ -117,7 +121,8 @@ func Test_C31_Hashset_SafeRemove(t *testing.T) {
 
 func Test_C31_Hashset_RemovesLock(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	h.RemovesLock("a")
+	h.RemoveWithLock("a")
+	h.RemoveWithLock("b")
 }
 
 func Test_C31_Hashset_Length(t *testing.T) {
@@ -159,7 +164,7 @@ func Test_C31_Hashset_HasAny(t *testing.T) {
 
 func Test_C31_Hashset_HasAnyOfStrings(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.HasAnyOfStrings([]string{"a", "z"})
+	_ = h.HasAny("a", "z")
 }
 
 func Test_C31_Hashset_List(t *testing.T) {
@@ -169,33 +174,34 @@ func Test_C31_Hashset_List(t *testing.T) {
 
 func Test_C31_Hashset_ListLock(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.ListLock()
+	_ = h.ListCopyLock()
 }
 
 func Test_C31_Hashset_SortedListAsc(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("b", "a")
-	_ = h.SortedListAsc()
-	_ = corestr.New.Hashset.Empty().SortedListAsc()
+	_ = h.ListPtrSortedAsc()
+	_ = corestr.New.Hashset.Empty().SortedList()
 }
 
 func Test_C31_Hashset_SortedListDsc(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	_ = h.SortedListDsc()
+	_ = h.ListPtrSortedDsc()
 }
 
 func Test_C31_Hashset_Map(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.Map()
+	_ = h.MapStringAny()
 }
 
-func Test_C31_Hashset_MapLock(t *testing.T) {
+func Test_C31_Hashset_MapStringAnyDiff(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.MapLock()
+	_ = h.MapStringAnyDiff()
 }
 
-func Test_C31_Hashset_CopyMap(t *testing.T) {
+func Test_C31_Hashset_ListPtrSorted(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.CopyMap()
+	_ = h.ListPtrSortedAsc()
+	_ = h.ListPtrSortedDsc()
 }
 
 func Test_C31_Hashset_CopyMapLock(t *testing.T) {
