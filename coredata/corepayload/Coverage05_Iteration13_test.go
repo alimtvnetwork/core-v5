@@ -235,9 +235,8 @@ func Test_I13_PayloadsCollection_NilReceiver(t *testing.T) {
 }
 
 func Test_I13_PayloadsCollection_Json(t *testing.T) {
-	pc := Empty.PayloadsCollection()
-	pw := &PayloadWrapper{Name: "a", Payloads: []byte(`{"k":"v"}`)}
-	pc.Add(pw)
+	pc := New.PayloadsCollection.Empty()
+	pc.Add(*New.PayloadWrapper.UsingBytes("a", "id1", "task", "cat", "ent", []byte(`"x"`)))
 	j := pc.Json()
 	if j.HasError() {
 		t.Fatal("expected no json error")
