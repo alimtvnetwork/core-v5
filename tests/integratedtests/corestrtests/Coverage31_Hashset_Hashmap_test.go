@@ -190,17 +190,18 @@ func Test_C31_Hashset_SortedListDsc(t *testing.T) {
 
 func Test_C31_Hashset_Map(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.Map()
+	_ = h.MapStringAny()
 }
 
-func Test_C31_Hashset_MapLock(t *testing.T) {
+func Test_C31_Hashset_MapStringAnyDiff(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.MapLock()
+	_ = h.MapStringAnyDiff()
 }
 
-func Test_C31_Hashset_CopyMap(t *testing.T) {
+func Test_C31_Hashset_ListPtrSorted(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.CopyMap()
+	_ = h.ListPtrSortedAsc()
+	_ = h.ListPtrSortedDsc()
 }
 
 func Test_C31_Hashset_CopyMapLock(t *testing.T) {

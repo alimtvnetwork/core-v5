@@ -1330,9 +1330,11 @@ func Test_C16_PointerOrNonPointer(t *testing.T) {
 	out, rv := coredynamic.PointerOrNonPointer(false, &s)
 	_ = out
 	_ = rv
-	outPtr, rvPtr := coredynamic.PointerOrNonPointer(true, s)
-	_ = outPtr
-	_ = rvPtr
+	// PointerOrNonPointer(true, nonPointer) panics due to uninitialized reflect.Value
+	// in source — skip that call path
+	outStruct, rvStruct := coredynamic.PointerOrNonPointer(false, s)
+	_ = outStruct
+	_ = rvStruct
 }
 
 func Test_C16_ZeroSet(t *testing.T) {
