@@ -202,6 +202,9 @@ func Test_Cov11_IsEqualUsingFileInfo_Nil(t *testing.T) {
 }
 
 func Test_Cov11_IsEqualUsingFileInfo_Valid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("file permissions not reliable on Windows")
+	}
 	tmpFile := filepath.Join(os.TempDir(), "cov11_fileinfo.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	os.Chmod(tmpFile, 0644)
