@@ -282,7 +282,7 @@ func Test_Gap_BC_AddsPtr(t *testing.T) {
 func Test_Gap_BC_InjectIntoSameIndex(t *testing.T) {
 	c := corejson.NewBytesCollection.UsingCap(2)
 	c.Add([]byte(`"x"`))
-	_, _ = c.InjectIntoSameIndex(nil)
+	_, _ = c.InjectIntoSameIndex(nil) // nil element in populated collection - ok
 	_, _ = c.InjectIntoSameIndex()
 }
 

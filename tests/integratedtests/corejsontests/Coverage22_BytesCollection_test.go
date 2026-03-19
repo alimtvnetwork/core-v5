@@ -423,7 +423,7 @@ func Test_C22_BC_UnmarshalIntoSameIndex_WithItems(t *testing.T) {
 func Test_C22_BC_UnmarshalIntoSameIndex_NilItem(t *testing.T) {
 	bc := corejson.NewBytesCollection.UsingCap(1)
 	bc.Add([]byte(`"hello"`))
-	errs, _ := bc.UnmarshalIntoSameIndex(nil)
+	errs, _ := bc.UnmarshalIntoSameIndex(nil) // nil element in populated collection - ok
 	_ = errs
 }
 

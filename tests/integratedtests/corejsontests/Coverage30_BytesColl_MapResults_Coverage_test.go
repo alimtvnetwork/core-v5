@@ -203,7 +203,8 @@ func Test_C30_20_BC_InjectIntoAt(t *testing.T) {
 
 func Test_C30_21_BC_InjectIntoSameIndex(t *testing.T) {
 	bc := corejson.NewBytesCollection.Empty()
-	errs, has := bc.InjectIntoSameIndex(nil)
+	var nilInjectors []corejson.JsonParseSelfInjector
+	errs, has := bc.InjectIntoSameIndex(nilInjectors...)
 	if has || len(errs) != 0 {
 		t.Fatal("unexpected")
 	}
@@ -216,7 +217,8 @@ func Test_C30_21_BC_InjectIntoSameIndex(t *testing.T) {
 
 func Test_C30_22_BC_UnmarshalIntoSameIndex(t *testing.T) {
 	bc := corejson.NewBytesCollection.Empty()
-	errs, has := bc.UnmarshalIntoSameIndex(nil)
+	var nilAnys []any
+	errs, has := bc.UnmarshalIntoSameIndex(nilAnys...)
 	if has || len(errs) != 0 {
 		t.Fatal("unexpected")
 	}

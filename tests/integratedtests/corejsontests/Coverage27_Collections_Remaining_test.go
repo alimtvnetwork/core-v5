@@ -561,7 +561,7 @@ func Test_C27_RPC_UnmarshalIntoSameIndex(t *testing.T) {
 	rpc.Add(corejson.New("hello").Ptr())
 	var s string
 	_, _ = rpc.UnmarshalIntoSameIndex(&s)
-	_, _ = rpc.UnmarshalIntoSameIndex(nil)
+	_, _ = rpc.UnmarshalIntoSameIndex(nil) // nil element in populated collection - ok
 }
 
 func Test_C27_RPC_NonPtr(t *testing.T) { _ = corejson.NewResultsPtrCollection.Empty().NonPtr() }

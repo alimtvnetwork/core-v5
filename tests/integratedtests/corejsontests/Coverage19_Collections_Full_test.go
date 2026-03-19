@@ -347,9 +347,10 @@ func Test_Cov19_BytesCollection_InjectIntoSameIndex(t *testing.T) {
 }
 
 func Test_Cov19_BytesCollection_InjectIntoSameIndex_Nil(t *testing.T) {
-	defer func() { recover() }() // may panic on empty collection with nil injector
 	c := corejson.NewBytesCollection.UsingCap(1)
-	errs, hasErr := c.InjectIntoSameIndex(nil)
+	// Pass true nil variadic to hit the nil early return
+	var nilSlice []corejson.JsonParseSelfInjector
+	errs, hasErr := c.InjectIntoSameIndex(nilSlice...)
 	_ = errs
 	_ = hasErr
 }

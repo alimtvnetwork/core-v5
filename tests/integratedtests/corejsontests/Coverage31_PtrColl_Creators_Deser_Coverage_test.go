@@ -206,7 +206,8 @@ func Test_C31_21_RPC_InjectIntoAt(t *testing.T) {
 
 func Test_C31_22_RPC_InjectIntoSameIndex(t *testing.T) {
 	rpc := corejson.NewResultsPtrCollection.Empty()
-	errs, has := rpc.InjectIntoSameIndex(nil)
+	var nilInjectors []corejson.JsonParseSelfInjector
+	errs, has := rpc.InjectIntoSameIndex(nilInjectors...)
 	if has || len(errs) != 0 {
 		t.Fatal("unexpected")
 	}
@@ -221,7 +222,8 @@ func Test_C31_22_RPC_InjectIntoSameIndex(t *testing.T) {
 
 func Test_C31_23_RPC_UnmarshalIntoSameIndex(t *testing.T) {
 	rpc := corejson.NewResultsPtrCollection.Empty()
-	errs, has := rpc.UnmarshalIntoSameIndex(nil)
+	var nilAnys []any
+	errs, has := rpc.UnmarshalIntoSameIndex(nilAnys...)
 	if has || len(errs) != 0 {
 		t.Fatal("unexpected")
 	}
