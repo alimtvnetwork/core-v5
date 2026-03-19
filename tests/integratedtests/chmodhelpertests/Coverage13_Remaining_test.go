@@ -438,6 +438,7 @@ func Test_Cov13_RwxStringApplyChmod_Valid(t *testing.T) {
 }
 
 func Test_Cov13_RwxStringApplyChmod_InvalidRwx(t *testing.T) {
+	skipOnWindows(t)
 	err := chmodhelper.RwxStringApplyChmod("-rZxr-xr-x", &chmodins.Condition{}, "/tmp")
 	if err == nil {
 		t.Fatal("expected error")
