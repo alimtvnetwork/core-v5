@@ -1036,9 +1036,9 @@ func Test_Cov12_CompiledError(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_ToExitError(t *testing.T) {
-	err := errcore.ToExitError(errors.New("e"), 1)
-	actual := args.Map{"notNil": err != nil}
-	expected := args.Map{"notNil": true}
+	err := errcore.ToExitError(errors.New("e"))
+	actual := args.Map{"isNil": err == nil}
+	expected := args.Map{"isNil": true} // non-ExitError returns nil
 	expected.ShouldBeEqual(t, 0, "ToExitError", actual)
 }
 
@@ -1078,12 +1078,17 @@ func Test_Cov12_HandleFullStringsWithTracesGetter(t *testing.T) {
 }
 
 // ==========================================================================
-// getReferenceMessage
+// ReferenceStart / ReferenceEnd constants
 // ==========================================================================
 
-func Test_Cov12_GetReferenceMessage(t *testing.T) {
-	result := errcore.GetReferenceMessage("ref")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "GetReferenceMessage", actual)
+func Test_Cov12_ReferenceConstants(t *testing.T) {
+	actual := args.Map{
+		"startNotEmpty": errcore.ReferenceStart != "",
+		"endNotEmpty":   errcore.ReferenceEnd != "",
+	}
+	expected := args.Map{
+		"startNotEmpty": true,
+		"endNotEmpty":   true,
+	}
+	expected.ShouldBeEqual(t, 0, "ReferenceConstants", actual)
 }

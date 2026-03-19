@@ -120,19 +120,12 @@ func Test_C32_SS_Skip(t *testing.T) {
 
 func Test_C32_SS_Collection(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.Collection()
+	_ = ss.Collection(false)
 }
 
 func Test_C32_SS_Hashset(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a")
 	_ = ss.Hashset()
-}
-
-func Test_C32_SS_HashmapKeys(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a")
-	hm := corestr.New.Hashmap.Empty()
-	hm.AddOrUpdate("a", "1")
-	_ = ss.HashmapKeys(hm)
 }
 
 func Test_C32_SS_Clear(t *testing.T) {
@@ -147,17 +140,12 @@ func Test_C32_SS_Dispose(t *testing.T) {
 
 func Test_C32_SS_Clone(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.Clone()
+	_ = ss.Clone(false)
 }
 
-func Test_C32_SS_NonEmptySlice(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("", "a")
-	_ = ss.NonEmptySlice()
-}
-
-func Test_C32_SS_NonWhitespaceSlice(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("  ", "a")
-	_ = ss.NonWhitespaceSlice()
+func Test_C32_SS_DeepClone(t *testing.T) {
+	ss := corestr.New.SimpleSlice.Lines("a")
+	_ = ss.DeepClone()
 }
 
 func Test_C32_SS_AddAsTitleValue(t *testing.T) {
@@ -187,22 +175,10 @@ func Test_C32_SS_AddError(t *testing.T) {
 	ss.AddError(nil)
 }
 
-func Test_C32_SS_AddIfs(t *testing.T) {
+func Test_C32_SS_AddIf(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddIfs(true, "a", "b")
-	ss.AddIfs(false, "c")
-}
-
-func Test_C32_SS_AddNonEmpty(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddNonEmpty("")
-	ss.AddNonEmpty("a")
-}
-
-func Test_C32_SS_AddNonWhitespace(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddNonWhitespace("  ")
-	ss.AddNonWhitespace("a")
+	ss.AddIf(true, "a")
+	ss.AddIf(false, "c")
 }
 
 func Test_C32_SS_SortedAsc(t *testing.T) {
