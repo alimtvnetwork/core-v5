@@ -201,16 +201,10 @@ func Test_C32_SS_IndexOf(t *testing.T) {
 	_ = ss.IndexOf("a")
 }
 
-func Test_C32_SS_SafeIndexAt(t *testing.T) {
+func Test_C32_SS_HasIndex(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.SafeIndexAt(0)
-	_ = ss.SafeIndexAt(99)
-}
-
-func Test_C32_SS_SafeIndexAtWith(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a")
-	_ = ss.SafeIndexAtWith(0, "def")
-	_ = ss.SafeIndexAtWith(99, "def")
+	_ = ss.HasIndex(0)
+	_ = ss.HasIndex(99)
 }
 
 // ── newSimpleSliceCreator ──
@@ -342,22 +336,17 @@ func Test_C32_SSO_Dispose(t *testing.T) {
 
 func Test_C32_SSO_Boolean(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("true")
-	_ = sso.Boolean()
+	_ = sso.Boolean(true)
 }
 
-func Test_C32_SSO_Integer(t *testing.T) {
+func Test_C32_SSO_Int(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("42")
-	_ = sso.Integer()
+	_ = sso.Int()
 }
 
-func Test_C32_SSO_Float(t *testing.T) {
+func Test_C32_SSO_ValueDefFloat64(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("3.14")
-	_ = sso.Float()
-}
-
-func Test_C32_SSO_Float64(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("3.14")
-	_ = sso.Float64()
+	_ = sso.ValueDefFloat64()
 }
 
 func Test_C32_SSO_JsonMethods(t *testing.T) {
@@ -409,44 +398,9 @@ func Test_C32_SSO_IsEmpty(t *testing.T) {
 	_ = sso.IsEmpty()
 }
 
-func Test_C32_SSO_HasNonEmpty(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("x")
-	_ = sso.HasNonEmpty()
-}
-
 func Test_C32_SSO_IsWhitespace(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("  ")
 	_ = sso.IsWhitespace()
-}
-
-func Test_C32_SSO_HasNonWhitespace(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("x")
-	_ = sso.HasNonWhitespace()
-}
-
-func Test_C32_SSO_IsEqualText(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("x")
-	_ = sso.IsEqualText("x")
-}
-
-func Test_C32_SSO_HasPrefix(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.HasPrefix("hel")
-}
-
-func Test_C32_SSO_HasSuffix(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.HasSuffix("llo")
-}
-
-func Test_C32_SSO_Contains(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.Contains("ell")
-}
-
-func Test_C32_SSO_IsMatchRegex(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello123")
-	_ = sso.IsMatchRegex("[0-9]+")
 }
 
 func Test_C32_SSO_Trim(t *testing.T) {
@@ -454,24 +408,9 @@ func Test_C32_SSO_Trim(t *testing.T) {
 	_ = sso.Trim()
 }
 
-func Test_C32_SSO_ToLower(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("HELLO")
-	_ = sso.ToLower()
-}
-
-func Test_C32_SSO_ToUpper(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.ToUpper()
-}
-
-func Test_C32_SSO_ValueLength(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.ValueLength()
-}
-
 // ── newSimpleStringOnceCreator ──
 
-func Test_C32_NSSOC_Any(t *testing.T)       { _ = corestr.New.SimpleStringOnce.Any(42) }
+func Test_C32_NSSOC_Any(t *testing.T)       { _ = corestr.New.SimpleStringOnce.Any(false, 42, true) }
 func Test_C32_NSSOC_Create(t *testing.T)     { _ = corestr.New.SimpleStringOnce.Create(true, "x") }
 func Test_C32_NSSOC_CreatePtr(t *testing.T)  { _ = corestr.New.SimpleStringOnce.CreatePtr(true, "x") }
 func Test_C32_NSSOC_Empty(t *testing.T)      { _ = corestr.New.SimpleStringOnce.Empty() }

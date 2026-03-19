@@ -475,11 +475,11 @@ func Test_C17_KeyValCollection_Json(t *testing.T) {
 	ma := kvc.JsonModelAny()
 	actual := args.Map{
 		"jpOk": jp != nil, "mOk": m != nil, "maOk": ma != nil,
-		"jHasResult": j.HasResult(),
+		"jHasBytes": j.HasBytes(),
 	}
 	expected := args.Map{
 		"jpOk": true, "mOk": true, "maOk": true,
-		"jHasResult": true,
+		"jHasBytes": true,
 	}
 	expected.ShouldBeEqual(t, 0, "KeyValCollection Json", actual)
 }
