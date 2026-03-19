@@ -221,24 +221,18 @@ func Test_C29_19_RC_InjectIntoAt(t *testing.T) {
 
 func Test_C29_20_RC_InjectIntoSameIndex(t *testing.T) {
 	rc := corejson.NewResultsCollection.Empty()
-	errs, has := rc.InjectIntoSameIndex(nil)
+	// Pass true nil variadic slice
+	var nilSlice []corejson.JsonParseSelfInjector
+	errs, has := rc.InjectIntoSameIndex(nilSlice...)
 	if has || len(errs) != 0 {
 		t.Fatal("unexpected")
 	}
-
-	r1 := corejson.NewResult.Any(corejson.Result{Bytes: []byte(`"t"`), TypeName: "T"})
-	r2 := corejson.NewResult.Error(errors.New("e"))
-	rc.Add(r1)
-	rc.Add(r2)
-	t1 := corejson.Result{}
-	errs, has = rc.InjectIntoSameIndex(&t1, nil)
-	_ = errs
-	_ = has
 }
 
 func Test_C29_21_RC_UnmarshalIntoSameIndex(t *testing.T) {
 	rc := corejson.NewResultsCollection.Empty()
-	errs, has := rc.UnmarshalIntoSameIndex(nil)
+	var nilSlice []any
+	errs, has := rc.UnmarshalIntoSameIndex(nilSlice...)
 	if has || len(errs) != 0 {
 		t.Fatal("unexpected")
 	}

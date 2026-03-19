@@ -265,7 +265,7 @@ func Test_C27_RC_InjectIntoSameIndex(t *testing.T) {
 	rc.Add(corejson.New(map[string]string{"a": "b"}))
 	target := corejson.Empty.MapResults()
 	_, _ = rc.InjectIntoSameIndex(target)
-	_, _ = rc.InjectIntoSameIndex(nil)
+	_, _ = rc.InjectIntoSameIndex(nil) // nil element in populated collection - ok
 }
 
 func Test_C27_RC_UnmarshalAt(t *testing.T) {
@@ -280,7 +280,7 @@ func Test_C27_RC_UnmarshalIntoSameIndex(t *testing.T) {
 	rc.Add(corejson.New("hello"))
 	var s string
 	_, _ = rc.UnmarshalIntoSameIndex(&s)
-	_, _ = rc.UnmarshalIntoSameIndex(nil)
+	_, _ = rc.UnmarshalIntoSameIndex(nil) // nil element in populated collection - ok
 }
 
 func Test_C27_RC_NonPtr(t *testing.T) { _ = corejson.NewResultsCollection.Empty().NonPtr() }
@@ -546,7 +546,7 @@ func Test_C27_RPC_InjectIntoSameIndex(t *testing.T) {
 	rpc.Add(corejson.New(map[string]string{"a": "b"}).Ptr())
 	target := corejson.Empty.MapResults()
 	_, _ = rpc.InjectIntoSameIndex(target)
-	_, _ = rpc.InjectIntoSameIndex(nil)
+	_, _ = rpc.InjectIntoSameIndex(nil) // nil element in populated collection - ok
 }
 
 func Test_C27_RPC_UnmarshalAt(t *testing.T) {
@@ -561,7 +561,7 @@ func Test_C27_RPC_UnmarshalIntoSameIndex(t *testing.T) {
 	rpc.Add(corejson.New("hello").Ptr())
 	var s string
 	_, _ = rpc.UnmarshalIntoSameIndex(&s)
-	_, _ = rpc.UnmarshalIntoSameIndex(nil)
+	_, _ = rpc.UnmarshalIntoSameIndex(nil) // nil element in populated collection - ok
 }
 
 func Test_C27_RPC_NonPtr(t *testing.T) { _ = corejson.NewResultsPtrCollection.Empty().NonPtr() }
