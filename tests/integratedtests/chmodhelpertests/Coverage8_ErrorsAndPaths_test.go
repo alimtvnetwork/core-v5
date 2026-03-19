@@ -113,6 +113,9 @@ func Test_Cov8_ChmodApplyFailed_NilErr(t *testing.T) {
 // ── pathErrorMessage ──
 
 func Test_Cov8_PathErrorMessage(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// Covered through any error path in ApplyChmod
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov8/pem")
