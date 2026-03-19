@@ -540,7 +540,7 @@ func Test_Cov12_GherkinsStringWithExpectation(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_MessageNameValues(t *testing.T) {
-	result := errcore.MessageNameValues("msg", "n1", "v1", "n2", "v2")
+	result := errcore.MessageNameValues("msg", namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MessageNameValues", actual)
