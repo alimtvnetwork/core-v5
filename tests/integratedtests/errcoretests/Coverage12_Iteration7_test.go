@@ -942,7 +942,7 @@ func Test_Cov12_PanicOnIndexOutOfRange(t *testing.T) {
 }
 
 func Test_Cov12_PanicOnIndexOutOfRange_Valid(t *testing.T) {
-	errcore.PanicOnIndexOutOfRange(0, 10) // no panic
+	errcore.PanicOnIndexOutOfRange(10, []int{0}) // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange valid", actual)
