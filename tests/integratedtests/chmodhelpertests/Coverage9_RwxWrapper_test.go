@@ -31,6 +31,9 @@ func Test_Cov9_RwxWrapper_ApplyChmod_SkipInvalid(t *testing.T) {
 }
 
 func Test_Cov9_RwxWrapper_ApplyChmod_NotSkipInvalid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov9/noskip")
 	if err == nil {
