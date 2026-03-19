@@ -374,10 +374,10 @@ func Test_C31_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
 
 func Test_C31_Hashmap_AddOrUpdateCollection(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add("k", "v")
-	h.AddOrUpdateCollection(kvc)
-	h.AddOrUpdateCollection(nil)
+	keys := corestr.New.Collection.Strings([]string{"k"})
+	vals := corestr.New.Collection.Strings([]string{"v"})
+	h.AddOrUpdateCollection(keys, vals)
+	h.AddOrUpdateCollection(nil, nil)
 }
 
 func Test_C31_Hashmap_AddOrUpdateHashmap(t *testing.T) {
