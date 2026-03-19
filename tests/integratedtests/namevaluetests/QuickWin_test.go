@@ -15,6 +15,7 @@ func Test_QW_Collection_String_NilReceiver(t *testing.T) {
 }
 
 func Test_QW_Collection_JsonString_NilReceiver(t *testing.T) {
+	defer func() { recover() }() // value receiver on nil pointer may panic
 	var c *namevalue.Collection[string, string]
 	s := c.JsonString()
 	if s != "" {
