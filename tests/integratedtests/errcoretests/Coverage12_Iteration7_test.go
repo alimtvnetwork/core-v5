@@ -699,7 +699,7 @@ func Test_Cov12_HandleErrMessage(t *testing.T) {
 }
 
 func Test_Cov12_SimpleHandleErr(t *testing.T) {
-	errcore.SimpleHandleErr(nil) // no panic
+	errcore.SimpleHandleErr(nil, "msg") // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "SimpleHandleErr nil", actual)
