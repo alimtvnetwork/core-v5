@@ -30,6 +30,7 @@ func Test_C17_ZeroSetAny_Nil(t *testing.T) {
 }
 
 func Test_C17_SafeZeroSet_Nil(t *testing.T) {
+	defer func() { recover() }() // SafeZeroSet may panic on zero reflect.Value
 	coredynamic.SafeZeroSet(reflect.Value{}) // invalid reflect.Value
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}

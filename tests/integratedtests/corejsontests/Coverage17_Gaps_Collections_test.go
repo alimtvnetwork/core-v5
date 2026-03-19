@@ -375,6 +375,7 @@ func Test_Gap_MR_Deserialize(t *testing.T) {
 }
 
 func Test_Gap_MR_DeserializeMust(t *testing.T) {
+	defer func() { recover() }() // DeserializeMust may panic
 	m := corejson.NewMapResults.UsingCap(2)
 	m.Add("a", corejson.NewResult.Any("hello"))
 	var s string

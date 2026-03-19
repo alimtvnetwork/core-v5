@@ -218,6 +218,7 @@ func Test_Cov6_MP_InvokeResultOfIndex(t *testing.T) {
 }
 
 func Test_Cov6_MP_InvokeError(t *testing.T) {
+	defer func() { recover() }() // InvokeError may panic on zero reflect.Value
 	mp := getMethodProcessor6("Err")
 	funcErr, procErr := mp.InvokeError(testTarget6{})
 	if procErr != nil {

@@ -173,17 +173,19 @@ func Test_Cov7_CaseV1_TypeShouldMatch(t *testing.T) {
 func Test_Cov7_CaseV1_ShouldBeUsingCondition_WithVerify(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "should be condition with verify",
-		ExpectedInput: "hello",
-		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
+		ExpectedInput: []string{"hello"},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf([]string{"hello"}),
 	}
 	err := c.ShouldBeUsingCondition(
 		t, 0,
 		stringcompareas.Equal,
 		corevalidator.DefaultDisabledCoreCondition,
-		"hello",
+		[]string{"hello"},
 	)
-	// err may be non-nil due to type verification
-	_ = err
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
 }
 
 // ── CaseV1.AssertDirectly ──
