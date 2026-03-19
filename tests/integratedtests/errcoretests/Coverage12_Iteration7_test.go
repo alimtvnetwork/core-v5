@@ -582,21 +582,21 @@ func Test_Cov12_MessageWithRefToError(t *testing.T) {
 }
 
 func Test_Cov12_VarTwo(t *testing.T) {
-	result := errcore.VarTwo("n1", "v1", "n2", "v2")
+	result := errcore.VarTwo(true, "n1", "v1", "n2", "v2")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarTwo", actual)
 }
 
 func Test_Cov12_VarTwoNoType(t *testing.T) {
-	result := errcore.VarTwoNoType("n1", "v1", "n2", "v2")
+	result := errcore.VarTwo(false, "n1", "v1", "n2", "v2")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarTwoNoType", actual)
 }
 
 func Test_Cov12_VarThree(t *testing.T) {
-	result := errcore.VarThree("n1", "v1", "n2", "v2", "n3", "v3")
+	result := errcore.VarThree(true, "n1", "v1", "n2", "v2", "n3", "v3")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarThree", actual)
