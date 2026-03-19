@@ -394,8 +394,8 @@ func Test_I18_GetExistingChmod(t *testing.T) {
 	f := filepath.Join(tmpDir, "test.txt")
 	os.WriteFile(f, []byte("test"), 0644)
 
-	chmod := chmodhelper.GetExistingChmod(f)
-	if chmod == 0 {
+	chmod, err := chmodhelper.GetExistingChmod(f)
+	if err != nil || chmod == 0 {
 		t.Fatal("expected non-zero chmod")
 	}
 }
