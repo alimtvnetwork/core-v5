@@ -1373,10 +1373,10 @@ func Test_I6_80_String(t *testing.T) {
 		convey.So(dqq.String(), convey.ShouldNotEqual, "hello")
 
 		sq := s.SingleQuote()
-		convey.So(sq.String(), convey.ShouldNotEqual, "hello")
+		convey.So(sq.String(), convey.ShouldContainSubstring, "hello")
 
 		vdq := s.ValueDoubleQuote()
-		convey.So(vdq.String(), convey.ShouldNotEqual, "hello")
+		convey.So(vdq.String(), convey.ShouldContainSubstring, "hello")
 
 		trimmed := args.String("  hello  ").TrimSpace()
 		convey.So(trimmed.String(), convey.ShouldEqual, "hello")
