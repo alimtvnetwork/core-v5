@@ -1014,7 +1014,7 @@ func Test_Cov12_SourceDestinationErr(t *testing.T) {
 }
 
 func Test_Cov12_SourceDestinationNoType(t *testing.T) {
-	result := errcore.SourceDestinationNoType("src", "sv", "dst", "dv")
+	result := errcore.SourceDestinationNoType("sv", "dv")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestinationNoType", actual)
