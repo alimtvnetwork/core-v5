@@ -603,7 +603,7 @@ func Test_Cov12_VarThree(t *testing.T) {
 }
 
 func Test_Cov12_VarThreeNoType(t *testing.T) {
-	result := errcore.VarThreeNoType("n1", "v1", "n2", "v2", "n3", "v3")
+	result := errcore.VarThree(false, "n1", "v1", "n2", "v2", "n3", "v3")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarThreeNoType", actual)
