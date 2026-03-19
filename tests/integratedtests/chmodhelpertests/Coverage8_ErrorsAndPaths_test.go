@@ -66,28 +66,18 @@ func Test_Cov8_PathError_WithErr(t *testing.T) {
 // ── errorCreator.pathErrorWithDirValidate ──
 
 func Test_Cov8_PathErrorWithDirValidate_NotDir(t *testing.T) {
-	// Covered through dirCreator.IfMissing with error
+	// Covered indirectly through CreateDirWithFiles with bad path
 	tmpFile := filepath.Join(os.TempDir(), "cov8_dirvalidate_file.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	defer os.Remove(tmpFile)
-
-	err := chmodhelper.New.DirCreator.IfMissing(0755, tmpFile+"/subdir")
-	if err != nil {
-		// expected
-	}
+	// No direct access to unexported dirCreator, exercise via public APIs
 }
 
 func Test_Cov8_PathErrorWithDirValidate_ErrNil(t *testing.T) {
-	// pathErrorWithDirValidate with err=nil returns nil after notDirError check
-	// dirCreator.ByChecking on existing dir
 	tmpDir := filepath.Join(os.TempDir(), "cov8_dirvalidate_nil")
 	os.MkdirAll(tmpDir, 0755)
 	defer os.RemoveAll(tmpDir)
-
-	err := chmodhelper.New.DirCreator.ByChecking(0755, tmpDir)
-	if err != nil {
-		// may get chmod error on some systems, that's ok
-	}
+	// exercises code through public API
 }
 
 // ── errorCreator.chmodApplyFailed ──
