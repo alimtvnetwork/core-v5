@@ -161,7 +161,7 @@ func getMethodProcessorFull(name string) *reflectmodel.MethodProcessor {
 }
 
 func Test_C9_MethodProcessor_BasicMethods(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	if mp == nil { t.Fatal("method not found") }
 
 	actual := args.Map{
@@ -220,14 +220,14 @@ func Test_C9_MethodProcessor_NilReceiver(t *testing.T) {
 }
 
 func Test_C9_MethodProcessor_Invoke_Success(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	results, err := mp.Invoke(testHelper{}, 2, 3)
 	if err != nil { t.Fatalf("invoke err: %v", err) }
 	if results[0] != 5 { t.Fatalf("expected 5, got %v", results[0]) }
 }
 
 func Test_C9_MethodProcessor_Invoke_ArgsMismatch(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	_, err := mp.Invoke(testHelper{}, 2) // missing arg
 	if err == nil { t.Fatal("expected error for args mismatch") }
 }
@@ -239,28 +239,28 @@ func Test_C9_MethodProcessor_Invoke_NilReceiver(t *testing.T) {
 }
 
 func Test_C9_MethodProcessor_GetFirstResponseOfInvoke(t *testing.T) {
-	mp := getMethodProcessor("Greet")
+	mp := getMethodProcessorFull("Greet")
 	first, err := mp.GetFirstResponseOfInvoke(testHelper{}, "world")
 	if err != nil { t.Fatalf("err: %v", err) }
 	if first != "hi world" { t.Fatalf("expected 'hi world', got %v", first) }
 }
 
 func Test_C9_MethodProcessor_InvokeResultOfIndex(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	result, err := mp.InvokeResultOfIndex(0, testHelper{}, 1, 2)
 	if err != nil { t.Fatalf("err: %v", err) }
 	if result != 3 { t.Fatalf("expected 3, got %v", result) }
 }
 
 func Test_C9_MethodProcessor_InvokeError(t *testing.T) {
-	mp := getMethodProcessor("Fail")
+	mp := getMethodProcessorFull("Fail")
 	funcErr, procErr := mp.InvokeError(testHelper{})
 	if procErr != nil { t.Fatalf("proc err: %v", procErr) }
 	if funcErr == nil { t.Fatal("expected func error") }
 }
 
 func Test_C9_MethodProcessor_InvokeFirstAndError(t *testing.T) {
-	mp := getMethodProcessor("TwoReturns")
+	mp := getMethodProcessorFull("TwoReturns")
 	first, funcErr, procErr := mp.InvokeFirstAndError(testHelper{}, 5)
 	if procErr != nil { t.Fatalf("proc err: %v", procErr) }
 	if funcErr != nil { t.Fatalf("func err: %v", funcErr) }
@@ -268,13 +268,13 @@ func Test_C9_MethodProcessor_InvokeFirstAndError(t *testing.T) {
 }
 
 func Test_C9_MethodProcessor_InvokeFirstAndError_TooFewReturns(t *testing.T) {
-	mp := getMethodProcessor("Add") // only 1 return
+	mp := getMethodProcessorFull("Add") // only 1 return
 	_, _, procErr := mp.InvokeFirstAndError(testHelper{}, 1, 2)
 	if procErr == nil { t.Fatal("expected error for too few returns") }
 }
 
 func Test_C9_MethodProcessor_InvokeFirstAndError_WithError(t *testing.T) {
-	mp := getMethodProcessor("TwoReturns")
+	mp := getMethodProcessorFull("TwoReturns")
 	defer func() { recover() }() // may panic on nil error interface
 	_, _, _ = mp.InvokeFirstAndError(testHelper{}, -1)
 }
@@ -282,7 +282,7 @@ func Test_C9_MethodProcessor_InvokeFirstAndError_WithError(t *testing.T) {
 // ── MethodProcessor — GetInArgsTypes / GetOutArgsTypes / GetInArgsTypesNames ──
 
 func Test_C9_MethodProcessor_ArgTypes(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	inTypes := mp.GetInArgsTypes()
 	if len(inTypes) != 3 { t.Fatalf("expected 3 in args, got %d", len(inTypes)) }
 	// second call should use cache
@@ -301,7 +301,7 @@ func Test_C9_MethodProcessor_ArgTypes(t *testing.T) {
 }
 
 func Test_C9_MethodProcessor_ZeroArgsMethod(t *testing.T) {
-	mp := getMethodProcessor("Fail")
+	mp := getMethodProcessorFull("Fail")
 	// Fail has receiver only → ArgsCount=1, but GetInArgsTypes returns 1
 	inTypes := mp.GetInArgsTypes()
 	outTypes := mp.GetOutArgsTypes()
@@ -314,9 +314,9 @@ func Test_C9_MethodProcessor_ZeroArgsMethod(t *testing.T) {
 // ── MethodProcessor — IsEqual / IsNotEqual ──
 
 func Test_C9_MethodProcessor_IsEqual(t *testing.T) {
-	mp1 := getMethodProcessor("Add")
-	mp2 := getMethodProcessor("Add")
-	mp3 := getMethodProcessor("Greet")
+	mp1 := getMethodProcessorFull("Add")
+	mp2 := getMethodProcessorFull("Add")
+	mp3 := getMethodProcessorFull("Greet")
 	var nilMp *reflectmodel.MethodProcessor
 
 	actual := args.Map{
@@ -341,7 +341,7 @@ func Test_C9_MethodProcessor_IsEqual(t *testing.T) {
 // ── MethodProcessor — VerifyInArgs / VerifyOutArgs / ValidateMethodArgs ──
 
 func Test_C9_MethodProcessor_VerifyInArgs(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	ok, err := mp.VerifyInArgs([]any{testHelper{}, 1, 2})
 	if !ok || err != nil { t.Fatalf("expected ok, err=%v", err) }
 
@@ -351,13 +351,13 @@ func Test_C9_MethodProcessor_VerifyInArgs(t *testing.T) {
 }
 
 func Test_C9_MethodProcessor_VerifyOutArgs(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	ok, err := mp.VerifyOutArgs([]any{0})
 	if !ok || err != nil { t.Fatalf("expected ok, err=%v", err) }
 }
 
 func Test_C9_MethodProcessor_ValidateMethodArgs(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	err := mp.ValidateMethodArgs([]any{testHelper{}, 1, 2})
 	if err != nil { t.Fatalf("expected nil, got %v", err) }
 
@@ -368,7 +368,7 @@ func Test_C9_MethodProcessor_ValidateMethodArgs(t *testing.T) {
 // ── MethodProcessor — InArgsVerifyRv / OutArgsVerifyRv ──
 
 func Test_C9_MethodProcessor_InArgsVerifyRv(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	types := []reflect.Type{reflect.TypeOf(testHelper{}), reflect.TypeOf(0), reflect.TypeOf(0)}
 	ok, err := mp.InArgsVerifyRv(types)
 	if !ok || err != nil { t.Fatalf("err=%v", err) }
@@ -380,7 +380,7 @@ func Test_C9_MethodProcessor_InArgsVerifyRv(t *testing.T) {
 }
 
 func Test_C9_MethodProcessor_OutArgsVerifyRv(t *testing.T) {
-	mp := getMethodProcessor("Add")
+	mp := getMethodProcessorFull("Add")
 	ok, err := mp.OutArgsVerifyRv([]reflect.Type{reflect.TypeOf(0)})
 	if !ok || err != nil { t.Fatalf("err=%v", err) }
 }
