@@ -1057,10 +1057,8 @@ pre{white-space:pre-wrap}</style></head><body>
         }
 
         Set-Content -Path $perPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
-        Set-Content -Path $rootPerPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
         $perPkgJson = $perPkgJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $perPkgJsonFile -Value $perPkgJson -Encoding UTF8
-        Set-Content -Path $rootPerPkgJsonFile -Value $perPkgJson -Encoding UTF8
         Write-Success "Per-package coverage: $perPkgTxtFile"
         Write-Success "Per-package JSON:     $perPkgJsonFile"
 
