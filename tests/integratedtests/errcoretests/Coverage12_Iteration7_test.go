@@ -949,7 +949,7 @@ func Test_Cov12_PanicOnIndexOutOfRange_Valid(t *testing.T) {
 }
 
 func Test_Cov12_RangeNotMeet(t *testing.T) {
-	result := errcore.RangeNotMeet(0, 10)
+	result := errcore.RangeNotMeet("test", 0, 10, nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "RangeNotMeet", actual)
