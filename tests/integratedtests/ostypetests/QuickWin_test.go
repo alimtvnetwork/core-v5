@@ -7,14 +7,14 @@ import (
 )
 
 func Test_QW_Group_IsAnyEnumsEqual_NoMatch(t *testing.T) {
-	g := ostype.Linux
+	g := ostype.UnixGroup
 	if g.IsAnyEnumsEqual() {
 		t.Fatal("expected false for empty enums")
 	}
 }
 
 func Test_QW_Group_MinByte(t *testing.T) {
-	_ = ostype.Linux.MinByte()
+	_ = ostype.UnixGroup.MinByte()
 }
 
 func Test_QW_Variation_IsAnyEnumsEqual_NoMatch(t *testing.T) {
