@@ -236,6 +236,7 @@ func Test_Cov13_ChmodVerifier_IsEqualSkipInvalid(t *testing.T) {
 }
 
 func Test_Cov13_ChmodVerifier_GetRwx9_Short(t *testing.T) {
+	skipOnWindows(t)
 	result := chmodhelper.ChmodVerify.GetRwx9(0)
 	if result != "" {
 		t.Fatal("expected empty for zero mode")
