@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/alimtvnetwork/core/corejson"
+	"github.com/alimtvnetwork/core/coredata/corejson"
 )
 
 // ══════════════════════════════════════════════════════════════════════════════
