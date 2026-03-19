@@ -934,7 +934,7 @@ func Test_Cov12_PanicOnIndexOutOfRange(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		errcore.PanicOnIndexOutOfRange(-1, 10)
+		errcore.PanicOnIndexOutOfRange(-1, []int{10})
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
@@ -942,14 +942,14 @@ func Test_Cov12_PanicOnIndexOutOfRange(t *testing.T) {
 }
 
 func Test_Cov12_PanicOnIndexOutOfRange_Valid(t *testing.T) {
-	errcore.PanicOnIndexOutOfRange(0, 10) // no panic
+	errcore.PanicOnIndexOutOfRange(10, []int{0}) // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange valid", actual)
 }
 
 func Test_Cov12_RangeNotMeet(t *testing.T) {
-	result := errcore.RangeNotMeet(0, 10)
+	result := errcore.RangeNotMeet("test", 0, 10, nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "RangeNotMeet", actual)
@@ -970,7 +970,7 @@ func Test_Cov12_PanicRangeNotMeet(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		errcore.PanicRangeNotMeet(0, 10)
+		errcore.PanicRangeNotMeet("test", 0, 10, nil)
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
@@ -982,7 +982,7 @@ func Test_Cov12_PanicRangeNotMeet(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_ManyErrorToSingle(t *testing.T) {
-	err := errcore.ManyErrorToSingle(errors.New("a"), errors.New("b"))
+	err := errcore.ManyErrorToSingle([]error{errors.New("a"), errors.New("b")})
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "ManyErrorToSingle", actual)
@@ -1000,21 +1000,21 @@ func Test_Cov12_ManyErrorToSingleDirect(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_SourceDestination(t *testing.T) {
-	result := errcore.SourceDestination("src", "sv", "dst", "dv")
+	result := errcore.SourceDestination(true, "sv", "dv")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestination", actual)
 }
 
 func Test_Cov12_SourceDestinationErr(t *testing.T) {
-	err := errcore.SourceDestinationErr("src", "sv", "dst", "dv")
+	err := errcore.SourceDestinationErr(true, "sv", "dv")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestinationErr", actual)
 }
 
 func Test_Cov12_SourceDestinationNoType(t *testing.T) {
-	result := errcore.SourceDestinationNoType("src", "sv", "dst", "dv")
+	result := errcore.SourceDestinationNoType("sv", "dv")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestinationNoType", actual)
@@ -1025,9 +1025,9 @@ func Test_Cov12_SourceDestinationNoType(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_CompiledError(t *testing.T) {
-	result := errcore.CompiledError("msg", errors.New("e"))
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	result := errcore.CompiledError(errors.New("main"), "additional")
+	actual := args.Map{"notNil": result != nil}
+	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "CompiledError", actual)
 }
 
@@ -1047,7 +1047,13 @@ func Test_Cov12_ToExitError(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_ExpectationMessageDef(t *testing.T) {
-	result := errcore.ExpectationMessageDef("title", "expect", "actual")
+	def := errcore.ExpectationMessageDef{
+		CaseIndex: 1,
+		FuncName:  "TestFunc",
+		When:      "when testing",
+		Expected:  "expected-value",
+	}
+	result := def.ToString("actual-value")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "ExpectationMessageDef", actual)
