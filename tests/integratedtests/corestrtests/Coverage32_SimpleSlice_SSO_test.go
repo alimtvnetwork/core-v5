@@ -175,22 +175,10 @@ func Test_C32_SS_AddError(t *testing.T) {
 	ss.AddError(nil)
 }
 
-func Test_C32_SS_AddIfs(t *testing.T) {
+func Test_C32_SS_AddIf(t *testing.T) {
 	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddIfs(true, "a", "b")
-	ss.AddIfs(false, "c")
-}
-
-func Test_C32_SS_AddNonEmpty(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddNonEmpty("")
-	ss.AddNonEmpty("a")
-}
-
-func Test_C32_SS_AddNonWhitespace(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddNonWhitespace("  ")
-	ss.AddNonWhitespace("a")
+	ss.AddIf(true, "a")
+	ss.AddIf(false, "c")
 }
 
 func Test_C32_SS_SortedAsc(t *testing.T) {
