@@ -82,7 +82,10 @@ func Test_C31_Hashset_AddHashsetItems(t *testing.T) {
 
 func Test_C31_Hashset_AddHashsetWgLock(t *testing.T) {
 	h := corestr.New.Hashset.Empty()
-	h.AddHashsetWgLock(nil, corestr.New.Hashset.StringsSpreadItems("a"))
+	var wg sync.WaitGroup
+	wg.Add(1)
+	h.AddHashsetWgLock(corestr.New.Hashset.StringsSpreadItems("a"), &wg)
+	wg.Wait()
 }
 
 func Test_C31_Hashset_Adds(t *testing.T) {
