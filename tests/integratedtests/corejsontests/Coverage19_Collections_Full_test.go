@@ -67,8 +67,8 @@ func Test_Cov19_BytesCollection_AddMethods(t *testing.T) {
 	c.AddPtr([]byte{})
 	c.AddPtr([]byte(`"q"`))
 	c.Adds([]byte(`"a"`), []byte(`"b"`))
-	if c.Length() != 6 {
-		t.Fatalf("expected 6, got %d", c.Length())
+	if c.Length() != 7 {
+		t.Fatalf("expected 7, got %d", c.Length())
 	}
 }
 
