@@ -501,7 +501,7 @@ func Test_Cov23_NewCreator(t *testing.T) {
 
 func Test_Cov23_HashsetsCollection(t *testing.T) {
 	hc := corestr.New.HashsetsCollection.Empty()
-	if !hc.IsEmpty() || hc.HasAnyItem() || hc.Length() != 0 {
+	if !hc.IsEmpty() || hc.HasItems() || hc.Length() != 0 {
 		t.Fatal("basic checks failed")
 	}
 	hs := corestr.New.Hashset.Cap(2)
