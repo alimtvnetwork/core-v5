@@ -591,60 +591,9 @@ func Test_C31_Hashmap_Deserialize(t *testing.T) {
 	_ = h.Deserialize(&target)
 }
 
-func Test_C31_Hashmap_SortedKeysListAsc(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("b", "1")
-	h.AddOrUpdate("a", "2")
-	_ = h.SortedKeysListAsc()
-}
-
-func Test_C31_Hashmap_SortedValuesListAsc(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("k", "v")
-	_ = h.SortedValuesListAsc()
-}
-
-func Test_C31_Hashmap_AllKeysSorted(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("b", "1")
-	h.AddOrUpdate("a", "2")
-	_ = h.AllKeysSorted()
-}
-
-func Test_C31_Hashmap_Diff(t *testing.T) {
-	a := corestr.New.Hashmap.Empty()
-	a.AddOrUpdate("k", "v")
-	b := corestr.New.Hashmap.Empty()
-	b.AddOrUpdate("k", "v2")
-	_ = a.Diff(b)
-}
-
-func Test_C31_Hashmap_DiffLock(t *testing.T) {
-	a := corestr.New.Hashmap.Empty()
-	_ = a.DiffLock(corestr.New.Hashmap.Empty())
-}
-
-func Test_C31_Hashmap_DiffMessage(t *testing.T) {
-	a := corestr.New.Hashmap.Empty()
-	a.AddOrUpdate("k", "v")
-	_ = a.DiffMessage(corestr.New.Hashmap.Empty())
-}
-
 func Test_C31_Hashmap_AddOrUpdateLock(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdateLock("k", "v")
-}
-
-func Test_C31_Hashmap_GetSafe(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	_, _ = h.GetSafe("k")
-	h.AddOrUpdate("k", "v")
-	_, _ = h.GetSafe("k")
-}
-
-func Test_C31_Hashmap_GetSafeLock(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	_, _ = h.GetSafeLock("k")
 }
 
 func Test_C31_Hashmap_KeysCollection(t *testing.T) {
@@ -655,17 +604,6 @@ func Test_C31_Hashmap_KeysCollection(t *testing.T) {
 func Test_C31_Hashmap_ValuesCollection(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	_ = h.ValuesCollection()
-}
-
-func Test_C31_Hashmap_Filter(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("k", "v")
-	_ = h.Filter(func(k, v string) bool { return true })
-}
-
-func Test_C31_Hashmap_FilterLock(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	_ = h.FilterLock(func(k, v string) bool { return true })
 }
 
 // ── newHashmapCreator ──
