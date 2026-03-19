@@ -1000,7 +1000,7 @@ func Test_Cov12_ManyErrorToSingleDirect(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_SourceDestination(t *testing.T) {
-	result := errcore.SourceDestination("src", "sv", "dst", "dv")
+	result := errcore.SourceDestination(true, "sv", "dv")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestination", actual)
