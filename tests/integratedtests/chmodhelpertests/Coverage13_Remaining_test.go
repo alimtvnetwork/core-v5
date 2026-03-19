@@ -3,6 +3,7 @@ package chmodhelpertests
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/alimtvnetwork/core/chmodhelper"
@@ -10,6 +11,13 @@ import (
 	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
 	"github.com/alimtvnetwork/core/coredata/corestr"
 )
+
+func skipOnWindows(t *testing.T) {
+	t.Helper()
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
+}
 
 // ── SingleRwx.ToRwxOwnerGroupOther default panic ──
 
