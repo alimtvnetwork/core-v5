@@ -1863,9 +1863,9 @@ func Test_C13_DynamicMap_IsValueTypeOf(t *testing.T) {
 
 // ===================== AppendPrependJoinNamer =====================
 
-type testNamer struct{ name string }
+type testNamerC13 struct{ name string }
 
-func (n testNamer) Name() string { return n.name }
+func (n testNamerC13) Name() string { return n.name }
 
 func Test_C13_BasicByte_AppendPrependJoinNamer(t *testing.T) {
 	bb := enumimpl.New.BasicByte.Create("T", []byte{0, 1}, []string{"A", "B"}, 0, 1)
