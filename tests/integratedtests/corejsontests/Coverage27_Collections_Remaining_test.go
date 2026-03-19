@@ -280,7 +280,7 @@ func Test_C27_RC_UnmarshalIntoSameIndex(t *testing.T) {
 	rc.Add(corejson.New("hello"))
 	var s string
 	_, _ = rc.UnmarshalIntoSameIndex(&s)
-	_, _ = rc.UnmarshalIntoSameIndex(nil)
+	_, _ = rc.UnmarshalIntoSameIndex(nil) // nil element in populated collection - ok
 }
 
 func Test_C27_RC_NonPtr(t *testing.T) { _ = corejson.NewResultsCollection.Empty().NonPtr() }
