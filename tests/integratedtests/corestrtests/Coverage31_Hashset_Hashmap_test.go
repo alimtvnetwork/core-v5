@@ -174,7 +174,7 @@ func Test_C31_Hashset_List(t *testing.T) {
 
 func Test_C31_Hashset_ListLock(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.ListLock()
+	_ = h.ListCopyLock()
 }
 
 func Test_C31_Hashset_SortedListAsc(t *testing.T) {
