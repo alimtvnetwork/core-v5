@@ -270,19 +270,11 @@ func Test_C31_Hashset_Clear(t *testing.T) {
 	h.Clear()
 }
 
-func Test_C31_Hashset_ClearLock(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	h.ClearLock()
-}
+// ClearLock and DisposeLock do not exist on Hashset — removed.
 
 func Test_C31_Hashset_Dispose(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
 	h.Dispose()
-}
-
-func Test_C31_Hashset_DisposeLock(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	h.DisposeLock()
 }
 
 func Test_C31_Hashset_Filter(t *testing.T) {
