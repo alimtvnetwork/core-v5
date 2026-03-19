@@ -716,9 +716,9 @@ func Test_C30_75_MR_Deserialize(t *testing.T) {
 
 func Test_C30_76_MR_DeserializeMust(t *testing.T) {
 	mr := corejson.NewMapResults.Empty()
-	mr.Add("k", corejson.NewResult.Any("hello"))
-	var s string
-	_ = mr.DeserializeMust("k", &s)
+	mr.Add("k", corejson.NewResult.Any(map[string]string{"a": "b"}))
+	target := make(map[string]string)
+	_ = mr.DeserializeMust("k", &target)
 }
 
 func Test_C30_77_MR_UnmarshalMany(t *testing.T) {
