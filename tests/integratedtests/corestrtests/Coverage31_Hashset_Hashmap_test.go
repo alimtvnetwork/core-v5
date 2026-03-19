@@ -471,23 +471,23 @@ func Test_C31_Hashmap_CloneAnother(t *testing.T) {
 
 func Test_C31_Hashmap_Map(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	_ = h.Map()
+	_ = h.Items()
 }
 
 func Test_C31_Hashmap_MapLock(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	_ = h.MapLock()
+	_ = h.ItemsCopyLock()
 }
 
 func Test_C31_Hashmap_CopyMap(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("k", "v")
-	_ = h.CopyMap()
+	_ = h.ItemsCopyLock()
 }
 
 func Test_C31_Hashmap_CopyMapLock(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	_ = h.CopyMapLock()
+	_ = h.ItemsCopyLock()
 }
 
 func Test_C31_Hashmap_IsEquals(t *testing.T) {
@@ -495,13 +495,15 @@ func Test_C31_Hashmap_IsEquals(t *testing.T) {
 	a.AddOrUpdate("k", "v")
 	b := corestr.New.Hashmap.Empty()
 	b.AddOrUpdate("k", "v")
-	if !a.IsEquals(b) { t.Fatal("expected true") }
+	if !a.IsEqualPtr(b) {
+		t.Fatal("expected true")
+	}
 }
 
 func Test_C31_Hashmap_IsEqualsLock(t *testing.T) {
 	a := corestr.New.Hashmap.Empty()
 	b := corestr.New.Hashmap.Empty()
-	_ = a.IsEqualsLock(b)
+	_ = a.IsEqualPtrLock(b)
 }
 
 func Test_C31_Hashmap_String(t *testing.T) {
@@ -518,8 +520,8 @@ func Test_C31_Hashmap_StringLock(t *testing.T) {
 
 func Test_C31_Hashmap_SummaryString(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	_ = h.SummaryString()
-	_ = h.SummaryStringLock()
+	_ = h.String()
+	_ = h.StringLock()
 }
 
 func Test_C31_Hashmap_JsonMethods(t *testing.T) {
@@ -569,7 +571,7 @@ func Test_C31_Hashmap_Clear(t *testing.T) {
 
 func Test_C31_Hashmap_ClearLock(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	h.ClearLock()
+	h.Clear()
 }
 
 func Test_C31_Hashmap_Dispose(t *testing.T) {
@@ -579,7 +581,7 @@ func Test_C31_Hashmap_Dispose(t *testing.T) {
 
 func Test_C31_Hashmap_DisposeLock(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
-	h.DisposeLock()
+	h.Dispose()
 }
 
 func Test_C31_Hashmap_Deserialize(t *testing.T) {

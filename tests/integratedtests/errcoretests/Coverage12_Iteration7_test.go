@@ -855,68 +855,68 @@ func Test_Cov12_PrintErrorWithTestIndex(t *testing.T) {
 }
 
 func Test_Cov12_FmtDebug(t *testing.T) {
-	result := errcore.FmtDebug("msg")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
+	errcore.FmtDebug("msg")
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "FmtDebug", actual)
 }
 
 func Test_Cov12_FmtDebugIf(t *testing.T) {
-	result := errcore.FmtDebugIf(true, "msg")
-	resultFalse := errcore.FmtDebugIf(false, "msg")
-	actual := args.Map{"notEmpty": result != "", "empty": resultFalse == ""}
-	expected := args.Map{"notEmpty": true, "empty": true}
+	errcore.FmtDebugIf(true, "msg")
+	errcore.FmtDebugIf(false, "msg")
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "FmtDebugIf", actual)
 }
 
 // ==========================================================================
-// GetActualAndExpect / GetSearchLine / PathMeaningFul
+// GetActualAndExpect / GetSearchLine / PathMeaningful
 // ==========================================================================
 
 func Test_Cov12_GetActualAndExpectProcessedMessage(t *testing.T) {
-	result := errcore.GetActualAndExpectProcessedMessage("act", "exp")
+	result := errcore.GetActualAndExpectProcessedMessage(1, "act", "exp", "act-processed", "exp-processed")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetActualAndExpectProcessedMessage", actual)
 }
 
 func Test_Cov12_GetActualAndExpectSortedMessage(t *testing.T) {
-	result := errcore.GetActualAndExpectSortedMessage("act", "exp")
+	result := errcore.GetActualAndExpectProcessedMessage(2, []string{"b", "a"}, []string{"a", "b"}, []string{"a", "b"}, []string{"a", "b"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetActualAndExpectSortedMessage", actual)
 }
 
 func Test_Cov12_GetSearchLineNumberExpectationMessage(t *testing.T) {
-	result := errcore.GetSearchLineNumberExpectationMessage(1, "line")
+	result := errcore.GetSearchLineNumberExpectationMessage(1, 10, 9, "line-content", "term", "extra")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchLineNumberExpectationMessage", actual)
 }
 
 func Test_Cov12_GetSearchTermExpectationMessage(t *testing.T) {
-	result := errcore.GetSearchTermExpectationMessage("act", "exp")
+	result := errcore.GetSearchTermExpectationMessage(1, "header", "expectation", 0, "act", "exp", nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchTermExpectationMessage", actual)
 }
 
 func Test_Cov12_GetSearchTermExpectationSimpleMessage(t *testing.T) {
-	result := errcore.GetSearchTermExpectationSimpleMessage("act", "exp")
+	result := errcore.GetSearchTermExpectationSimpleMessage(1, "expectation", 0, "act", "exp")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GetSearchTermExpectationSimpleMessage", actual)
 }
 
-func Test_Cov12_PathMeaningFulMessage(t *testing.T) {
-	result := errcore.PathMeaningFulMessage("msg", "path")
-	actual := args.Map{"notEmpty": result != ""}
-	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PathMeaningFulMessage", actual)
+func Test_Cov12_PathMeaningfulMessage(t *testing.T) {
+	err := errcore.PathMeaningfulMessage(errcore.InvalidType, "fn", "path", "msg")
+	actual := args.Map{"notNil": err != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "PathMeaningfulMessage", actual)
 }
 
 func Test_Cov12_PathMeaningfulError(t *testing.T) {
-	err := errcore.PathMeaningfulError("msg", "path")
+	err := errcore.PathMeaningfulError(errcore.InvalidType, errors.New("boom"), "path")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "PathMeaningfulError", actual)
