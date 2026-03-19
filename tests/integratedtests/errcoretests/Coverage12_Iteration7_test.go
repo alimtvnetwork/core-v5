@@ -7,6 +7,7 @@ import (
 
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/errcore"
+	"github.com/alimtvnetwork/core/namevalue"
 )
 
 // ==========================================================================
@@ -324,10 +325,10 @@ func Test_Cov12_ExpectingNotEqualSimpleNoType(t *testing.T) {
 }
 
 func Test_Cov12_ExpectingError(t *testing.T) {
-	err := errcore.ExpectingError("title", "expect", "actual")
+	err := errcore.ExpectingErrorSimpleNoType("title", "expect", "actual")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "ExpectingError", actual)
+	expected.ShouldBeEqual(t, 0, "ExpectingErrorSimpleNoType", actual)
 }
 
 // ==========================================================================
@@ -521,14 +522,14 @@ func Test_Cov12_GetSetVariant(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_GherkinsString(t *testing.T) {
-	result := errcore.GherkinsString("given", "when", "then")
+	result := errcore.GherkinsString(0, "feature", "given", "when", "then")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GherkinsString", actual)
 }
 
 func Test_Cov12_GherkinsStringWithExpectation(t *testing.T) {
-	result := errcore.GherkinsStringWithExpectation("given", "when", "then", "expect")
+	result := errcore.GherkinsStringWithExpectation(0, "feature", "given", "when", "then", "actual", "expect")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GherkinsStringWithExpectation", actual)
@@ -539,7 +540,7 @@ func Test_Cov12_GherkinsStringWithExpectation(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_MessageNameValues(t *testing.T) {
-	result := errcore.MessageNameValues("msg", "n1", "v1", "n2", "v2")
+	result := errcore.MessageNameValues("msg", namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "MessageNameValues", actual)
@@ -581,49 +582,49 @@ func Test_Cov12_MessageWithRefToError(t *testing.T) {
 }
 
 func Test_Cov12_VarTwo(t *testing.T) {
-	result := errcore.VarTwo("n1", "v1", "n2", "v2")
+	result := errcore.VarTwo(true, "n1", "v1", "n2", "v2")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarTwo", actual)
 }
 
 func Test_Cov12_VarTwoNoType(t *testing.T) {
-	result := errcore.VarTwoNoType("n1", "v1", "n2", "v2")
+	result := errcore.VarTwo(false, "n1", "v1", "n2", "v2")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarTwoNoType", actual)
 }
 
 func Test_Cov12_VarThree(t *testing.T) {
-	result := errcore.VarThree("n1", "v1", "n2", "v2", "n3", "v3")
+	result := errcore.VarThree(true, "n1", "v1", "n2", "v2", "n3", "v3")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarThree", actual)
 }
 
 func Test_Cov12_VarThreeNoType(t *testing.T) {
-	result := errcore.VarThreeNoType("n1", "v1", "n2", "v2", "n3", "v3")
+	result := errcore.VarThree(false, "n1", "v1", "n2", "v2", "n3", "v3")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarThreeNoType", actual)
 }
 
 func Test_Cov12_VarNameValues(t *testing.T) {
-	result := errcore.VarNameValues("n1", "v1", "n2", "v2")
+	result := errcore.VarNameValues(namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValues", actual)
 }
 
 func Test_Cov12_VarNameValuesJoiner(t *testing.T) {
-	result := errcore.VarNameValuesJoiner(",", "n1", "v1", "n2", "v2")
+	result := errcore.VarNameValuesJoiner(",", namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner", actual)
 }
 
 func Test_Cov12_VarNameValuesStrings(t *testing.T) {
-	result := errcore.VarNameValuesStrings("n1", "v1", "n2", "v2")
+	result := errcore.VarNameValuesStrings(namevalue.StringAny{Name: "n1", Value: "v1"}, namevalue.StringAny{Name: "n2", Value: "v2"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "VarNameValuesStrings", actual)

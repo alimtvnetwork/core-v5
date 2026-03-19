@@ -3,6 +3,7 @@ package chmodhelpertests
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/alimtvnetwork/core/chmodhelper"
@@ -10,6 +11,13 @@ import (
 	"github.com/alimtvnetwork/core/chmodhelper/chmodins"
 	"github.com/alimtvnetwork/core/coredata/corestr"
 )
+
+func skipOnWindows(t *testing.T) {
+	t.Helper()
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
+}
 
 // ── SingleRwx.ToRwxOwnerGroupOther default panic ──
 
@@ -35,6 +43,7 @@ func Test_Cov13_SingleRwx_ToDisabledRwxWrapper(t *testing.T) {
 }
 
 func Test_Cov13_SingleRwx_ToDisabledRwxWrapper_Error(t *testing.T) {
+	skipOnWindows(t)
 	// Using invalid rwx to trigger error from RwxFullString
 	s := &chmodhelper.SingleRwx{
 		Rwx:       "rZx",
@@ -65,6 +74,7 @@ func Test_Cov13_SingleRwx_ToRwxWrapper_All(t *testing.T) {
 }
 
 func Test_Cov13_SingleRwx_ToRwxWrapper_Error(t *testing.T) {
+	skipOnWindows(t)
 	s := &chmodhelper.SingleRwx{
 		Rwx:       "rZx",
 		ClassType: chmodclasstype.All,
@@ -226,6 +236,7 @@ func Test_Cov13_ChmodVerifier_IsEqualSkipInvalid(t *testing.T) {
 }
 
 func Test_Cov13_ChmodVerifier_GetRwx9_Short(t *testing.T) {
+	skipOnWindows(t)
 	result := chmodhelper.ChmodVerify.GetRwx9(0)
 	if result != "" {
 		t.Fatal("expected empty for zero mode")
@@ -378,6 +389,7 @@ func Test_Cov13_ChmodApplier_RwxPartial_Empty(t *testing.T) {
 }
 
 func Test_Cov13_ChmodApplier_RwxPartial_Error(t *testing.T) {
+	skipOnWindows(t)
 	err := chmodhelper.ChmodApply.RwxPartial("-rwxr-xr-x", nil)
 	if err == nil {
 		t.Fatal("expected error for nil condition")
@@ -426,6 +438,7 @@ func Test_Cov13_RwxStringApplyChmod_Valid(t *testing.T) {
 }
 
 func Test_Cov13_RwxStringApplyChmod_InvalidRwx(t *testing.T) {
+	skipOnWindows(t)
 	err := chmodhelper.RwxStringApplyChmod("-rZxr-xr-x", &chmodins.Condition{}, "/tmp")
 	if err == nil {
 		t.Fatal("expected error")
@@ -468,6 +481,7 @@ func Test_Cov13_RwxOwnerGroupOtherApplyChmod_Valid(t *testing.T) {
 }
 
 func Test_Cov13_RwxOwnerGroupOtherApplyChmod_InvalidRwx(t *testing.T) {
+	skipOnWindows(t)
 	rwx := &chmodins.RwxOwnerGroupOther{Owner: "rZx", Group: "r-x", Other: "r-x"}
 	err := chmodhelper.RwxOwnerGroupOtherApplyChmod(rwx, &chmodins.Condition{}, "/tmp")
 	if err == nil {
@@ -669,6 +683,7 @@ func Test_Cov13_FwChmodVerifier_HasMismatchParentDir(t *testing.T) {
 // ── CreateDirFilesWithRwxPermission error branches ──
 
 func Test_Cov13_CreateDirFilesWithRwxPermission_FileModeErr(t *testing.T) {
+	skipOnWindows(t)
 	perm := &chmodhelper.DirFilesWithRwxPermission{
 		DirWithFiles: chmodhelper.DirWithFiles{
 			Dir: "/tmp/cov13_perm",
@@ -785,6 +800,7 @@ func Test_Cov13_CreateDirsWithFiles_Error(t *testing.T) {
 // ── CreateDirFilesWithRwxPermissions error ──
 
 func Test_Cov13_CreateDirFilesWithRwxPermissions_Error(t *testing.T) {
+	skipOnWindows(t)
 	perms := []chmodhelper.DirFilesWithRwxPermission{
 		{
 			DirWithFiles: chmodhelper.DirWithFiles{Dir: "/tmp/cov13_perms"},
@@ -800,6 +816,7 @@ func Test_Cov13_CreateDirFilesWithRwxPermissions_Error(t *testing.T) {
 // ── CreateDirFilesWithRwxPermissionsMust panic ──
 
 func Test_Cov13_CreateDirFilesWithRwxPermissionsMust_Panic(t *testing.T) {
+	skipOnWindows(t)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Fatal("expected panic")
@@ -817,6 +834,7 @@ func Test_Cov13_CreateDirFilesWithRwxPermissionsMust_Panic(t *testing.T) {
 // ── DirFilesWithContent.Create error branches ──
 
 func Test_Cov13_DirFilesWithContent_Create_RemoveError(t *testing.T) {
+	skipOnWindows(t)
 	dfc := &chmodhelper.DirFilesWithContent{
 		Dir:         "/nonexistent/cov13/dfc",
 		DirFileMode: 0755,

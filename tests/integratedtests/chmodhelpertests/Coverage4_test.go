@@ -3,6 +3,7 @@ package chmodhelpertests
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/alimtvnetwork/core/chmodhelper"
@@ -514,6 +515,9 @@ func Test_Cov4_ChmodVerifier_IsEqualRwxFull(t *testing.T) {
 }
 
 func Test_Cov4_ChmodVerifier_IsEqualRwxFullSkipInvalid_InvalidPath(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	result := chmodhelper.ChmodVerify.IsEqualRwxFullSkipInvalid("/nonexistent", "-rw-r--r--")
 	actual := args.Map{"assumedEqual": result}
 	expected := args.Map{"assumedEqual": true}
@@ -521,6 +525,9 @@ func Test_Cov4_ChmodVerifier_IsEqualRwxFullSkipInvalid_InvalidPath(t *testing.T)
 }
 
 func Test_Cov4_ChmodVerifier_IsEqualSkipInvalid_InvalidPath(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	result := chmodhelper.ChmodVerify.IsEqualSkipInvalid("/nonexistent", 0644)
 	actual := args.Map{"assumedEqual": result}
 	expected := args.Map{"assumedEqual": true}

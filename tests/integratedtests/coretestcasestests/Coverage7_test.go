@@ -159,12 +159,13 @@ func Test_Cov7_CaseV1_VerifyError_WithTypeVerify(t *testing.T) {
 func Test_Cov7_CaseV1_TypeShouldMatch(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "type should match",
-		ExpectedInput: "hello",
-		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
+		ExpectedInput: []string{"hello"},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf([]string{"hello"}),
 	}
 	err := c.TypeShouldMatch(t)
-	// TypeShouldMatch may return type mismatch error depending on internal representation
-	_ = err
+	if err != nil {
+		t.Fatalf("unexpected type mismatch: %v", err)
+	}
 }
 
 // ── CaseV1.ShouldBeUsingCondition with type verify ──
@@ -172,17 +173,19 @@ func Test_Cov7_CaseV1_TypeShouldMatch(t *testing.T) {
 func Test_Cov7_CaseV1_ShouldBeUsingCondition_WithVerify(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "should be condition with verify",
-		ExpectedInput: "hello",
-		VerifyTypeOf:  coretests.NewVerifyTypeOf("hello"),
+		ExpectedInput: []string{"hello"},
+		VerifyTypeOf:  coretests.NewVerifyTypeOf([]string{"hello"}),
 	}
 	err := c.ShouldBeUsingCondition(
 		t, 0,
 		stringcompareas.Equal,
 		corevalidator.DefaultDisabledCoreCondition,
-		"hello",
+		[]string{"hello"},
 	)
-	// err may be non-nil due to type verification
-	_ = err
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
 }
 
 // ── CaseV1.AssertDirectly ──

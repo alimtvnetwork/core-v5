@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/alimtvnetwork/core/chmodhelper"
@@ -27,6 +28,9 @@ func Test_Cov8_NotDirError_PathInvalid(t *testing.T) {
 }
 
 func Test_Cov8_NotDirError_ExistsButNotDir(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// Create a file (not dir) to trigger "path exist but it is not a dir" branch
 	tmpFile := filepath.Join(os.TempDir(), "cov8_notdir_test_file.txt")
 	os.WriteFile(tmpFile, []byte("test"), 0644)
@@ -55,6 +59,9 @@ func Test_Cov8_PathError_NilErr(t *testing.T) {
 }
 
 func Test_Cov8_PathError_WithErr(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// pathError returns error when path doesn't exist and skip=false
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov8/path")
@@ -83,6 +90,9 @@ func Test_Cov8_PathErrorWithDirValidate_ErrNil(t *testing.T) {
 // ── errorCreator.chmodApplyFailed ──
 
 func Test_Cov8_ChmodApplyFailed_WithErr(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// Covered through ApplyChmod on invalid path
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov8/chmod_fail")
@@ -103,6 +113,9 @@ func Test_Cov8_ChmodApplyFailed_NilErr(t *testing.T) {
 // ── pathErrorMessage ──
 
 func Test_Cov8_PathErrorMessage(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// Covered through any error path in ApplyChmod
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov8/pem")

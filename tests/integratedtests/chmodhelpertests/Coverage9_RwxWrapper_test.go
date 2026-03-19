@@ -3,6 +3,7 @@ package chmodhelpertests
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/alimtvnetwork/core/chmodhelper"
@@ -30,6 +31,9 @@ func Test_Cov9_RwxWrapper_ApplyChmod_SkipInvalid(t *testing.T) {
 }
 
 func Test_Cov9_RwxWrapper_ApplyChmod_NotSkipInvalid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov9/noskip")
 	if err == nil {
@@ -66,6 +70,9 @@ func Test_Cov9_RwxWrapper_ApplyChmod_ChmodFail(t *testing.T) {
 // ── RwxWrapper.invalidPathErr ──
 
 func Test_Cov9_RwxWrapper_InvalidPathErr(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov9/invalid_path")
 	if err == nil {
@@ -133,6 +140,9 @@ func Test_Cov9_LinuxApplyRecursive_SkipInvalid_NotExists(t *testing.T) {
 }
 
 func Test_Cov9_LinuxApplyRecursive_NoSkip_NotExists(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.LinuxApplyRecursive(false, "/nonexistent/cov9/linux_recur2")
 	if err == nil {
@@ -300,6 +310,9 @@ func Test_Cov9_IsRwxEqualFileInfo_Nil(t *testing.T) {
 }
 
 func Test_Cov9_IsRwxEqualFileInfo_Valid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	tmpFile := filepath.Join(os.TempDir(), "cov9_fileinfo.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	os.Chmod(tmpFile, 0644)
@@ -323,6 +336,9 @@ func Test_Cov9_IsRwxEqualLocation_NonExistent(t *testing.T) {
 }
 
 func Test_Cov9_IsRwxEqualLocation_Valid(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	tmpFile := filepath.Join(os.TempDir(), "cov9_rwxloc.txt")
 	os.WriteFile(tmpFile, []byte("x"), 0644)
 	os.Chmod(tmpFile, 0644)

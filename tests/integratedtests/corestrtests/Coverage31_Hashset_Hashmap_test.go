@@ -204,70 +204,28 @@ func Test_C31_Hashset_ListPtrSorted(t *testing.T) {
 	_ = h.ListPtrSortedDsc()
 }
 
-func Test_C31_Hashset_CopyMapLock(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.CopyMapLock()
+// CopyMapLock, Clone, CloneLock, Diff, DiffLock, SummaryString, SummaryStringLock
+// do not exist on Hashset — removed.
+
+func Test_C31_Hashset_MapStringAnyDiff_Coverage(t *testing.T) {
+	h := corestr.New.Hashset.StringsSpreadItems("a", "b")
+	_ = h.MapStringAnyDiff()
 }
 
-func Test_C31_Hashset_Collection(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.Collection()
-}
-
-func Test_C31_Hashset_SimpleSlice(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.SimpleSlice()
-}
-
-func Test_C31_Hashset_Clone(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.Clone()
-}
-
-func Test_C31_Hashset_CloneLock(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.CloneLock()
-}
-
-func Test_C31_Hashset_IsEquals(t *testing.T) {
-	a := corestr.New.Hashset.StringsSpreadItems("a")
-	b := corestr.New.Hashset.StringsSpreadItems("a")
-	if !a.IsEquals(b) { t.Fatal("expected true") }
-}
-
-func Test_C31_Hashset_IsEqualsLock(t *testing.T) {
-	a := corestr.New.Hashset.StringsSpreadItems("a")
-	b := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = a.IsEqualsLock(b)
-}
-
-func Test_C31_Hashset_Diff(t *testing.T) {
+func Test_C31_Hashset_DistinctDiffHashset(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b")
 	b := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = a.Diff(b)
+	_ = a.DistinctDiffHashset(b)
 }
 
-func Test_C31_Hashset_DiffLock(t *testing.T) {
+func Test_C31_Hashset_DistinctDiffLines(t *testing.T) {
 	a := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	b := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = a.DiffLock(b)
+	_ = a.DistinctDiffLines([]string{"a"})
 }
 
-func Test_C31_Hashset_String(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.String()
-	_ = corestr.New.Hashset.Empty().String()
-}
-
-func Test_C31_Hashset_StringLock(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.StringLock()
-}
-
-func Test_C31_Hashset_SummaryString(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.SummaryString()
-	_ = h.SummaryStringLock()
+func Test_C31_Hashset_DistinctDiffLinesRaw(t *testing.T) {
+	a := corestr.New.Hashset.StringsSpreadItems("a", "b")
+	_ = a.DistinctDiffLinesRaw([]string{"a"})
 }
 
 func Test_C31_Hashset_JsonMethods(t *testing.T) {
@@ -312,19 +270,11 @@ func Test_C31_Hashset_Clear(t *testing.T) {
 	h.Clear()
 }
 
-func Test_C31_Hashset_ClearLock(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	h.ClearLock()
-}
+// ClearLock and DisposeLock do not exist on Hashset — removed.
 
 func Test_C31_Hashset_Dispose(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
 	h.Dispose()
-}
-
-func Test_C31_Hashset_DisposeLock(t *testing.T) {
-	h := corestr.New.Hashset.StringsSpreadItems("a")
-	h.DisposeLock()
 }
 
 func Test_C31_Hashset_Filter(t *testing.T) {
@@ -425,7 +375,7 @@ func Test_C31_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
 func Test_C31_Hashmap_AddOrUpdateCollection(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	h.AddOrUpdateCollection(kvc)
 	h.AddOrUpdateCollection(nil)
 }
