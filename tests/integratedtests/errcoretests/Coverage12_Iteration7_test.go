@@ -706,7 +706,7 @@ func Test_Cov12_SimpleHandleErr(t *testing.T) {
 }
 
 func Test_Cov12_SimpleHandleErrMany(t *testing.T) {
-	errcore.SimpleHandleErrMany(nil, nil) // no panic
+	errcore.SimpleHandleErrMany("msg") // no panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
 	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany nil", actual)
