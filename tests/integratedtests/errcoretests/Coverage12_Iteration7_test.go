@@ -522,14 +522,14 @@ func Test_Cov12_GetSetVariant(t *testing.T) {
 // ==========================================================================
 
 func Test_Cov12_GherkinsString(t *testing.T) {
-	result := errcore.GherkinsString("given", "when", "then")
+	result := errcore.GherkinsString(0, "feature", "given", "when", "then")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GherkinsString", actual)
 }
 
 func Test_Cov12_GherkinsStringWithExpectation(t *testing.T) {
-	result := errcore.GherkinsStringWithExpectation("given", "when", "then", "expect")
+	result := errcore.GherkinsStringWithExpectation(0, "feature", "given", "when", "then", "actual", "expect")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
 	expected.ShouldBeEqual(t, 0, "GherkinsStringWithExpectation", actual)
