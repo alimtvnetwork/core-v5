@@ -164,7 +164,7 @@ func Test_C31_Hashset_HasAny(t *testing.T) {
 
 func Test_C31_Hashset_HasAnyOfStrings(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a")
-	_ = h.HasAnyOfStrings([]string{"a", "z"})
+	_ = h.HasAny("a", "z")
 }
 
 func Test_C31_Hashset_List(t *testing.T) {
