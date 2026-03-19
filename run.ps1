@@ -918,7 +918,7 @@ pre{white-space:pre-wrap}</style></head><body>
 
         # ── JSON export for coverage summary ──
         $coverJsonFile = Join-Path $coverDir "coverage-summary.json"
-        $rootCoverJsonFile = Join-Path $PSScriptRoot "coverage-summary.json"
+        
 
         # Parse total coverage
         $totalPct = 0.0
