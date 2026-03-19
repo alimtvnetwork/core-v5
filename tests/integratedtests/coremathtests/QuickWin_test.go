@@ -7,8 +7,7 @@ import (
 )
 
 func Test_QW_IsOutOfRange_ToUnsignedInt32(t *testing.T) {
-	// Cover the branch for 64-bit architecture (not x32)
-	// Value > MaxUint32 should be out of range
+	// ToUnsignedInt32 takes an int argument
 	result := coremath.IsOutOfRange.ToUnsignedInt32(-1)
 	if !result {
 		t.Fatal("expected true for negative value")

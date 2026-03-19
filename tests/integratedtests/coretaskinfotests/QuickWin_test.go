@@ -19,8 +19,8 @@ func Test_QW_Info_LazyMapWithPayload_ErrorPath(t *testing.T) {
 		RootName:    "test",
 		Description: "desc",
 	}
-	// Pass a channel which can't be JSON-marshaled to cover the error branch
-	m := info.LazyMapWithPayload(make(chan int))
+	// LazyMapWithPayload takes []byte — pass invalid JSON bytes to cover error branch
+	m := info.LazyMapWithPayload([]byte(`{invalid`))
 	if m == nil {
 		t.Fatal("expected non-nil map")
 	}
