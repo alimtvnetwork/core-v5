@@ -175,11 +175,11 @@ func Test_I8_Collection_Filter(t *testing.T) {
 	_ = c.FilteredCollectionLock(func(s string, i int) (string, bool, bool) {
 		return s, true, false
 	})
-	_ = c.FilterPtr(func(s *string) (string, bool, bool) {
-		return *s, true, false
+	_ = c.FilterPtr(func(s *string, i int) (*string, bool, bool) {
+		return s, true, false
 	})
-	_ = c.FilterPtrLock(func(s *string) (string, bool, bool) {
-		return *s, true, false
+	_ = c.FilterPtrLock(func(s *string, i int) (*string, bool, bool) {
+		return s, true, false
 	})
 }
 
