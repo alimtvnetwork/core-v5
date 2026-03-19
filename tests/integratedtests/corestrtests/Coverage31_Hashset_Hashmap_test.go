@@ -185,7 +185,7 @@ func Test_C31_Hashset_SortedListAsc(t *testing.T) {
 
 func Test_C31_Hashset_SortedListDsc(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	_ = h.SortedListDsc()
+	_ = h.ListPtrSortedDsc()
 }
 
 func Test_C31_Hashset_Map(t *testing.T) {
