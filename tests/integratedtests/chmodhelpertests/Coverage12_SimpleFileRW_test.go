@@ -167,6 +167,9 @@ func Test_Cov12_Read_Success(t *testing.T) {
 // ── SimpleFileReaderWriter.ReadMust ──
 
 func Test_Cov12_ReadMust_Panic(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	defer func() {
 		if r := recover(); r == nil {
 			t.Fatal("expected panic")
