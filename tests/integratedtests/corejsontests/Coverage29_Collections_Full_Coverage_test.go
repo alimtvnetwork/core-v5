@@ -231,7 +231,8 @@ func Test_C29_20_RC_InjectIntoSameIndex(t *testing.T) {
 
 func Test_C29_21_RC_UnmarshalIntoSameIndex(t *testing.T) {
 	rc := corejson.NewResultsCollection.Empty()
-	errs, has := rc.UnmarshalIntoSameIndex(nil)
+	var nilSlice []any
+	errs, has := rc.UnmarshalIntoSameIndex(nilSlice...)
 	if has || len(errs) != 0 {
 		t.Fatal("unexpected")
 	}
