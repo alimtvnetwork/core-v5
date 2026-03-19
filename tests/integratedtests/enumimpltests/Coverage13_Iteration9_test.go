@@ -1516,7 +1516,7 @@ func (tf testFormatterC13) Name() string       { return "TestName" }
 func (tf testFormatterC13) ValueString() string { return "TestVal" }
 
 func Test_C13_FormatUsingFmt(t *testing.T) {
-	s := enumimpl.FormatUsingFmt(testFormatter{}, "{type-name}-{name}-{value}")
+	s := enumimpl.FormatUsingFmt(testFormatterC13{}, "{type-name}-{name}-{value}")
 	if s == "" {
 		t.Fatal("expected formatted")
 	}
