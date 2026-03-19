@@ -74,6 +74,7 @@ func Test_Cov13_SingleRwx_ToRwxWrapper_All(t *testing.T) {
 }
 
 func Test_Cov13_SingleRwx_ToRwxWrapper_Error(t *testing.T) {
+	skipOnWindows(t)
 	s := &chmodhelper.SingleRwx{
 		Rwx:       "rZx",
 		ClassType: chmodclasstype.All,
