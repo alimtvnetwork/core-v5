@@ -507,7 +507,7 @@ func Test_Cov23_HashsetsCollection(t *testing.T) {
 	hs := corestr.New.Hashset.Cap(2)
 	hs.Add("a")
 	hc.Add(hs)
-	if hc.Length() != 1 || hc.IsEmpty() || !hc.HasAnyItem() {
+	if hc.Length() != 1 || hc.IsEmpty() || !hc.HasItems() {
 		t.Fatal("filled checks failed")
 	}
 }
