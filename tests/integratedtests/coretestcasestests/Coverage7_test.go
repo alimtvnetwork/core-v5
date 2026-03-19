@@ -180,7 +180,7 @@ func Test_Cov7_CaseV1_ShouldBeUsingCondition_WithVerify(t *testing.T) {
 		t, 0,
 		stringcompareas.Equal,
 		corevalidator.DefaultDisabledCoreCondition,
-		[]string{"hello"},
+		"hello",
 	)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
