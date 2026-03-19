@@ -1,0 +1,262 @@
+package resultstests
+
+import (
+	"errors"
+	"fmt"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/coretests/results"
+)
+
+// ── Result.IsResultTypeOf — uncovered branches ──
+
+func Test_C2_IsResultTypeOf_ActualTypeNil(t *testing.T) {
+	// Value is nil (any), expected is non-nil → actualType == nil → false
+	r := results.Result[any]{Value: nil}
+	actual := args.Map{"result": r.IsResultTypeOf("something")}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "IsResultTypeOf nil value vs non-nil expected", actual)
+}
+
+func Test_C2_IsResultTypeOf_NilExpected_NonZeroValue(t *testing.T) {
+	// expected=nil, value is non-zero → rv.IsValid()=true, rv.IsZero()=false → false
+	r := results.Result[string]{Value: "hello"}
+	actual := args.Map{"result": r.IsResultTypeOf(nil)}
+	expected := args.Map{"result": false}
+	expected.ShouldBeEqual(t, 0, "IsResultTypeOf nil expected with non-zero value", actual)
+}
+
+func Test_C2_IsResultTypeOf_NilExpected_ZeroInt(t *testing.T) {
+	// expected=nil, value=0 → rv.IsZero()=true → true
+	r := results.Result[int]{Value: 0}
+	actual := args.Map{"result": r.IsResultTypeOf(nil)}
+	expected := args.Map{"result": true}
+	expected.ShouldBeEqual(t, 0, "IsResultTypeOf nil expected with zero int", actual)
+}
+
+// ── Result.String — ensure all 3 branches are covered ──
+
+func Test_C2_Result_String_Panicked(t *testing.T) {
+	r := results.Result[string]{Panicked: true, PanicValue: "boom"}
+	s := r.String()
+	if s == "" {
+		t.Fatal("expected non-empty")
+	}
+}
+
+func Test_C2_Result_String_WithError(t *testing.T) {
+	r := results.Result[string]{Value: "v", Error: errors.New("e"), ReturnCount: 1}
+	s := r.String()
+	if s == "" {
+		t.Fatal("expected non-empty")
+	}
+}
+
+func Test_C2_Result_String_Normal(t *testing.T) {
+	r := results.Result[int]{Value: 42, ReturnCount: 1}
+	s := r.String()
+	if s == "" {
+		t.Fatal("expected non-empty")
+	}
+}
+
+// ── Results.String — 3 branches ──
+
+func Test_C2_Results_String_Panicked(t *testing.T) {
+	r := results.Results[string, int]{Result: results.Result[string]{Panicked: true, PanicValue: "p"}}
+	if r.String() == "" {
+		t.Fatal("expected non-empty")
+	}
+}
+
+func Test_C2_Results_String_WithError(t *testing.T) {
+	r := results.Results[string, int]{
+		Result:  results.Result[string]{Value: "v", Error: errors.New("e")},
+		Result2: 5,
+	}
+	if r.String() == "" {
+		t.Fatal("expected non-empty")
+	}
+}
+
+func Test_C2_Results_String_Normal(t *testing.T) {
+	r := results.Results[string, int]{
+		Result:  results.Result[string]{Value: "v"},
+		Result2: 10,
+	}
+	if r.String() == "" {
+		t.Fatal("expected non-empty")
+	}
+}
+
+// ── FromResultAny — type assertion failures ──
+
+func Test_C2_FromResultAny_TypeAssertionFails(t *testing.T) {
+	r := results.ResultAny{
+		ReturnCount: 2,
+		AllResults:  []any{42, "not-int"}, // first is int not string, second is string not int
+	}
+	typed := results.FromResultAny[string, int](r)
+	// Both assertions fail → zero values
+	actual := args.Map{"value": typed.Value, "result2": typed.Result2}
+	expected := args.Map{"value": "", "result2": 0}
+	expected.ShouldBeEqual(t, 0, "FromResultAny type assertion fails", actual)
+}
+
+func Test_C2_FromResultAny_SingleResult(t *testing.T) {
+	r := results.ResultAny{
+		ReturnCount: 1,
+		AllResults:  []any{"hello"},
+	}
+	typed := results.FromResultAny[string, int](r)
+	actual := args.Map{"value": typed.Value, "result2": typed.Result2}
+	expected := args.Map{"value": "hello", "result2": 0}
+	expected.ShouldBeEqual(t, 0, "FromResultAny single result", actual)
+}
+
+// ── InvokeWithPanicRecovery — method with receiver ──
+
+type testReceiver struct{ Name string }
+
+func (tr *testReceiver) Greet() string { return "hello " + tr.Name }
+func (tr *testReceiver) GreetErr() (string, error) {
+	if tr == nil {
+		return "", errors.New("nil receiver")
+	}
+	return "hi " + tr.Name, nil
+}
+
+func Test_C2_Invoke_WithReceiver(t *testing.T) {
+	r := results.InvokeWithPanicRecovery((*testReceiver).Greet, &testReceiver{Name: "World"})
+	actual := args.Map{"panicked": r.Panicked, "value": fmt.Sprintf("%v", r.Value)}
+	expected := args.Map{"panicked": false, "value": "hello World"}
+	expected.ShouldBeEqual(t, 0, "Invoke with receiver", actual)
+}
+
+func Test_C2_Invoke_NilReceiver_PanicRecovery(t *testing.T) {
+	// Calling a method on nil receiver that accesses fields → panic
+	r := results.InvokeWithPanicRecovery((*testReceiver).Greet, nil)
+	actual := args.Map{"panicked": r.Panicked}
+	expected := args.Map{"panicked": true}
+	expected.ShouldBeEqual(t, 0, "Invoke nil receiver panic", actual)
+}
+
+func Test_C2_Invoke_WithNonNilArgs(t *testing.T) {
+	fn := func(a, b string) string { return a + b }
+	r := results.InvokeWithPanicRecovery(fn, nil, "hello", " world")
+	// fn is a plain func, nil receiver doesn't apply → might panic depending on call
+	_ = r
+}
+
+func Test_C2_Invoke_FuncReturningOnlyError(t *testing.T) {
+	fn := func() error { return errors.New("fail") }
+	r := results.InvokeWithPanicRecovery(fn, nil)
+	actual := args.Map{"hasError": r.HasError(), "returnCount": r.ReturnCount}
+	expected := args.Map{"hasError": true, "returnCount": 1}
+	expected.ShouldBeEqual(t, 0, "Invoke func returning only error", actual)
+}
+
+func Test_C2_Invoke_FuncReturningNilError(t *testing.T) {
+	fn := func() error { return nil }
+	r := results.InvokeWithPanicRecovery(fn, nil)
+	actual := args.Map{"hasError": r.HasError(), "returnCount": r.ReturnCount}
+	expected := args.Map{"hasError": false, "returnCount": 1}
+	expected.ShouldBeEqual(t, 0, "Invoke func returning nil error", actual)
+}
+
+func Test_C2_Invoke_FuncReturningIntAndNonError(t *testing.T) {
+	fn := func() (int, string) { return 42, "not-error" }
+	r := results.InvokeWithPanicRecovery(fn, nil)
+	actual := args.Map{
+		"panicked":    r.Panicked,
+		"returnCount": r.ReturnCount,
+		"hasError":    r.HasError(),
+	}
+	expected := args.Map{"panicked": false, "returnCount": 2, "hasError": false}
+	expected.ShouldBeEqual(t, 0, "Invoke func with non-error second return", actual)
+}
+
+func Test_C2_Invoke_PanicFunc(t *testing.T) {
+	fn := func() { panic("deliberate") }
+	r := results.InvokeWithPanicRecovery(fn, nil)
+	actual := args.Map{"panicked": r.Panicked, "panicVal": fmt.Sprintf("%v", r.PanicValue)}
+	expected := args.Map{"panicked": true, "panicVal": "deliberate"}
+	expected.ShouldBeEqual(t, 0, "Invoke panic func", actual)
+}
+
+// ── ShouldMatchResult with explicit compareFields ──
+
+func Test_C2_ShouldMatchResult_ExplicitFields(t *testing.T) {
+	r := results.Result[string]{Value: "ok", ReturnCount: 2}
+	exp := results.ResultAny{Value: "ok", ReturnCount: 2}
+	r.ShouldMatchResult(t, 0, "explicit fields", exp, "value", "returnCount", "panicked")
+}
+
+// ── ShouldMatchResult auto-derive with error ──
+
+func Test_C2_ShouldMatchResult_WithError(t *testing.T) {
+	r := results.Result[string]{Value: "v", Error: errors.New("e"), ReturnCount: 1}
+	exp := results.ResultAny{Value: "v", Error: results.ExpectAnyError, ReturnCount: 1}
+	r.ShouldMatchResult(t, 0, "with error", exp)
+}
+
+// ── filterByFields missing key branch ──
+
+func Test_C2_ShouldMatchResult_MissingFieldKey(t *testing.T) {
+	r := results.Result[string]{Value: "ok"}
+	exp := results.ResultAny{}
+	// "isSafe" is not auto-derived so we force it
+	r.ShouldMatchResult(t, 0, "missing field", exp, "panicked", "isSafe")
+}
+
+// ── MethodName with method expression ──
+
+func Test_C2_MethodName_MethodExpression(t *testing.T) {
+	name := results.MethodName((*testReceiver).Greet)
+	// Should extract "Greet" from the full name
+	if name == "" {
+		t.Fatal("expected non-empty method name")
+	}
+}
+
+// ── ToMap and ToMapCompact completeness ──
+
+func Test_C2_Result_ToMap_AllFields(t *testing.T) {
+	r := results.Result[string]{
+		Value:       "test",
+		Panicked:    false,
+		Error:       errors.New("e"),
+		ReturnCount: 1,
+	}
+	m := r.ToMap()
+	if m["value"] != "test" || m["panicked"] != false || m["hasError"] != true || m["returnCount"] != 1 {
+		t.Fatal("unexpected map values")
+	}
+}
+
+func Test_C2_Result_ToMapCompact_Fields(t *testing.T) {
+	r := results.Result[int]{Value: 5, Panicked: true}
+	m := r.ToMapCompact()
+	if m["value"] != "5" || m["panicked"] != true {
+		t.Fatal("unexpected compact map")
+	}
+}
+
+// ── ResultAt edge cases ──
+
+func Test_C2_Result_ResultAt_ValidIndex(t *testing.T) {
+	r := results.Result[string]{AllResults: []any{"a", "b", "c"}}
+	if r.ResultAt(2) != "c" {
+		t.Fatal("expected c")
+	}
+}
+
+// ── IsResult2 and Result2String ──
+
+func Test_C2_Results_IsResult2_NoMatch(t *testing.T) {
+	r := results.Results[string, int]{Result2: 10}
+	if r.IsResult2(20) {
+		t.Fatal("should not match")
+	}
+}
