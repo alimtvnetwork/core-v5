@@ -588,7 +588,6 @@ function Invoke-TestCoverage {
         }
         $fileContent = $blockedContent -join "`n"
         Set-Content -Path $blockedFile -Value $fileContent -Encoding UTF8
-        Set-Content -Path $rootBlockedFile -Value $fileContent -Encoding UTF8
 
         # ── JSON export for blocked packages ──
         $blockedJsonFile = Join-Path $coverDir "blocked-packages.json"
