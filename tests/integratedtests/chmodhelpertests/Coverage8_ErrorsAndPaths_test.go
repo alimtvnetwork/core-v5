@@ -59,6 +59,9 @@ func Test_Cov8_PathError_NilErr(t *testing.T) {
 }
 
 func Test_Cov8_PathError_WithErr(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// pathError returns error when path doesn't exist and skip=false
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	err := rwx.ApplyChmod(false, "/nonexistent/cov8/path")
