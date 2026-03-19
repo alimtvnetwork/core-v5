@@ -411,15 +411,15 @@ func Test_I18_GetExistingChmodOfValidFile(t *testing.T) {
 	f := filepath.Join(tmpDir, "test.txt")
 	os.WriteFile(f, []byte("test"), 0644)
 
-	chmod, err := chmodhelper.GetExistingChmodOfValidFile(f)
-	if err != nil || chmod == 0 {
+	chmod, isInvalid := chmodhelper.GetExistingChmodOfValidFile(f)
+	if isInvalid || chmod == 0 {
 		t.Fatal("unexpected result")
 	}
 }
 
 func Test_I18_GetExistingChmodOfValidFile_NonExistent(t *testing.T) {
-	_, err := chmodhelper.GetExistingChmodOfValidFile("/nonexistent/xyz")
-	if err == nil {
-		t.Fatal("expected error for nonexistent file")
+	_, isInvalid := chmodhelper.GetExistingChmodOfValidFile("/nonexistent/xyz")
+	if !isInvalid {
+		t.Fatal("expected invalid for nonexistent file")
 	}
 }
