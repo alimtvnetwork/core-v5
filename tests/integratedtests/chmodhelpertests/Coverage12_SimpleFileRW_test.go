@@ -263,6 +263,9 @@ func Test_Cov12_ErrorWrapFilePath_Nil(t *testing.T) {
 // ── SimpleFileReaderWriter.name (unexported, tested indirectly via errorWrap) ──
 
 func Test_Cov12_Name_CoveredViaErrorWrap(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("chmod behavior differs on Windows")
+	}
 	// name() is unexported; it's called inside errorWrapFilePath
 	// which is triggered by any Write error
 	rw := newTestRW("/nonexistent/cov12", "test.txt")
