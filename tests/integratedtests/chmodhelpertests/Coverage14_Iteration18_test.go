@@ -334,7 +334,10 @@ func Test_I18_FileModeFriendlyString(t *testing.T) {
 // --- PathExistStat ---
 
 func Test_I18_GetPathExistStat_NonExistent(t *testing.T) {
-	stat := chmodhelper.GetPathExistStat("/nonexistent/path/xyz")
+	stat := chmodhelper.GetPathExistStat("/nonexistent/path/xyz_i18")
+	if stat == nil {
+		t.Fatal("expected non-nil stat")
+	}
 	if stat.IsExist {
 		t.Fatal("expected non-exist for fake path")
 	}
