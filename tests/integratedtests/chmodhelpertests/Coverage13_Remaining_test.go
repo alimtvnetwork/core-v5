@@ -816,6 +816,7 @@ func Test_Cov13_CreateDirFilesWithRwxPermissions_Error(t *testing.T) {
 // ── CreateDirFilesWithRwxPermissionsMust panic ──
 
 func Test_Cov13_CreateDirFilesWithRwxPermissionsMust_Panic(t *testing.T) {
+	skipOnWindows(t)
 	defer func() {
 		if r := recover(); r == nil {
 			t.Fatal("expected panic")
