@@ -121,7 +121,8 @@ func Test_C31_Hashset_SafeRemove(t *testing.T) {
 
 func Test_C31_Hashset_RemovesLock(t *testing.T) {
 	h := corestr.New.Hashset.StringsSpreadItems("a", "b")
-	h.RemovesLock("a")
+	h.RemoveWithLock("a")
+	h.RemoveWithLock("b")
 }
 
 func Test_C31_Hashset_Length(t *testing.T) {
