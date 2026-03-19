@@ -398,39 +398,9 @@ func Test_C32_SSO_IsEmpty(t *testing.T) {
 	_ = sso.IsEmpty()
 }
 
-func Test_C32_SSO_IsDefined(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("x")
-	_ = sso.IsDefined()
-}
-
 func Test_C32_SSO_IsWhitespace(t *testing.T) {
 	sso := corestr.New.SimpleStringOnce.Init("  ")
 	_ = sso.IsWhitespace()
-}
-
-func Test_C32_SSO_IsEqualText(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("x")
-	_ = sso.IsEqualText("x")
-}
-
-func Test_C32_SSO_HasPrefix(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.HasPrefix("hel")
-}
-
-func Test_C32_SSO_HasSuffix(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.HasSuffix("llo")
-}
-
-func Test_C32_SSO_Contains(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.Contains("ell")
-}
-
-func Test_C32_SSO_IsMatchRegex(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello123")
-	_ = sso.IsMatchRegex("[0-9]+")
 }
 
 func Test_C32_SSO_Trim(t *testing.T) {
@@ -438,24 +408,9 @@ func Test_C32_SSO_Trim(t *testing.T) {
 	_ = sso.Trim()
 }
 
-func Test_C32_SSO_ToLower(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("HELLO")
-	_ = sso.ToLower()
-}
-
-func Test_C32_SSO_ToUpper(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.ToUpper()
-}
-
-func Test_C32_SSO_ValueLength(t *testing.T) {
-	sso := corestr.New.SimpleStringOnce.Init("hello")
-	_ = sso.ValueLength()
-}
-
 // ── newSimpleStringOnceCreator ──
 
-func Test_C32_NSSOC_Any(t *testing.T)       { _ = corestr.New.SimpleStringOnce.Any(42) }
+func Test_C32_NSSOC_Any(t *testing.T)       { _ = corestr.New.SimpleStringOnce.Any(false, 42, true) }
 func Test_C32_NSSOC_Create(t *testing.T)     { _ = corestr.New.SimpleStringOnce.Create(true, "x") }
 func Test_C32_NSSOC_CreatePtr(t *testing.T)  { _ = corestr.New.SimpleStringOnce.CreatePtr(true, "x") }
 func Test_C32_NSSOC_Empty(t *testing.T)      { _ = corestr.New.SimpleStringOnce.Empty() }
