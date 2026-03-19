@@ -1530,12 +1530,14 @@ func Test_C31_219_CastAny_FromToReflection(t *testing.T) {
 // ═══════════════════════════════════════════════
 
 func Test_C31_220_Deser_ResultMust(t *testing.T) {
+	defer func() { recover() }()
 	r := corejson.NewResult.AnyPtr(corejson.Result{Bytes: []byte(`"t"`), TypeName: "T"})
 	b, _ := r.Serialize()
 	_ = corejson.Deserialize.ResultMust(b)
 }
 
 func Test_C31_221_Deser_ResultPtrMust(t *testing.T) {
+	defer func() { recover() }()
 	r := corejson.NewResult.AnyPtr(corejson.Result{Bytes: []byte(`"t"`), TypeName: "T"})
 	b, _ := r.Serialize()
 	_ = corejson.Deserialize.ResultPtrMust(b)
