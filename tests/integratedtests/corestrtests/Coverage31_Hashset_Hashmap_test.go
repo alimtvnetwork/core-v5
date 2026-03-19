@@ -406,14 +406,8 @@ func Test_C31_Hashmap_AddOrUpdateMap(t *testing.T) {
 func Test_C31_Hashmap_Get(t *testing.T) {
 	h := corestr.New.Hashmap.Empty()
 	h.AddOrUpdate("k", "v")
-	_ = h.Get("k")
-	_ = h.Get("missing")
-}
-
-func Test_C31_Hashmap_GetLock(t *testing.T) {
-	h := corestr.New.Hashmap.Empty()
-	h.AddOrUpdate("k", "v")
-	_ = h.GetLock("k")
+	_, _ = h.Get("k")
+	_, _ = h.Get("missing")
 }
 
 func Test_C31_Hashmap_Has(t *testing.T) {
