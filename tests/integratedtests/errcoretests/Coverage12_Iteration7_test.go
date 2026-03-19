@@ -970,7 +970,7 @@ func Test_Cov12_PanicRangeNotMeet(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		errcore.PanicRangeNotMeet(0, 10)
+		errcore.PanicRangeNotMeet("test", 0, 10, nil)
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
