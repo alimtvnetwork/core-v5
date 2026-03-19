@@ -43,6 +43,7 @@ func Test_Cov13_SingleRwx_ToDisabledRwxWrapper(t *testing.T) {
 }
 
 func Test_Cov13_SingleRwx_ToDisabledRwxWrapper_Error(t *testing.T) {
+	skipOnWindows(t)
 	// Using invalid rwx to trigger error from RwxFullString
 	s := &chmodhelper.SingleRwx{
 		Rwx:       "rZx",
