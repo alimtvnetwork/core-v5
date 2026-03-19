@@ -591,7 +591,7 @@ function Invoke-TestCoverage {
 
         # ── JSON export for blocked packages ──
         $blockedJsonFile = Join-Path $coverDir "blocked-packages.json"
-        $rootBlockedJsonFile = Join-Path $PSScriptRoot "blocked-packages.json"
+        
         $blockedJsonItems = [System.Collections.Generic.List[object]]::new()
         foreach ($bp in $sortedBlocked) {
             $errText = ""
