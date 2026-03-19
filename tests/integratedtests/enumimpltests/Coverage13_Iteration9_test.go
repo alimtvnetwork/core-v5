@@ -1509,11 +1509,11 @@ func Test_C13_Format(t *testing.T) {
 	}
 }
 
-type testFormatter struct{}
+type testFormatterC13 struct{}
 
-func (tf testFormatter) TypeName() string   { return "TestType" }
-func (tf testFormatter) Name() string       { return "TestName" }
-func (tf testFormatter) ValueString() string { return "TestVal" }
+func (tf testFormatterC13) TypeName() string   { return "TestType" }
+func (tf testFormatterC13) Name() string       { return "TestName" }
+func (tf testFormatterC13) ValueString() string { return "TestVal" }
 
 func Test_C13_FormatUsingFmt(t *testing.T) {
 	s := enumimpl.FormatUsingFmt(testFormatter{}, "{type-name}-{name}-{value}")
