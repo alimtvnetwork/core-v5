@@ -1007,7 +1007,7 @@ func Test_Cov12_SourceDestination(t *testing.T) {
 }
 
 func Test_Cov12_SourceDestinationErr(t *testing.T) {
-	err := errcore.SourceDestinationErr("src", "sv", "dst", "dv")
+	err := errcore.SourceDestinationErr(true, "sv", "dv")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
 	expected.ShouldBeEqual(t, 0, "SourceDestinationErr", actual)
