@@ -428,7 +428,7 @@ func Test_I17_NewMapResults_UsingKeyAnyItems_Empty(t *testing.T) {
 
 func Test_I17_NewMapResults_UsingKeyAnyItems_Valid(t *testing.T) {
 	mr := NewMapResults.UsingKeyAnyItems(0,
-		KeyAny{Key: "k", AnyItem: "v"})
+		KeyAny{Key: "k", AnyInf: "v"})
 	if mr.Length() != 1 {
 		t.Fatal("unexpected length")
 	}
