@@ -323,7 +323,7 @@ func Test_Cov13_ChmodVerifier_UsingHashmap(t *testing.T) {
 	defer os.Remove(tmpFile)
 
 	hm := corestr.New.Hashmap.Cap(1)
-	hm.Add(tmpFile, "-rw-r--r--")
+	hm.AddOrUpdate(tmpFile, "-rw-r--r--")
 
 	err := chmodhelper.ChmodVerify.UsingHashmap(hm)
 	_ = err
