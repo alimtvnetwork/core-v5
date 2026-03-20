@@ -7,20 +7,15 @@ import (
 )
 
 // ══════════════════════════════════════════════════════════════════════════════
-// Result — FieldsNames non-empty, safeJsonStringInternal, MeaningfulError
-// with error+payload, IsEqualFull jsonString match, SerializeResult error
-// Covers Result.go L85-94, L376-381, L385-387, L639-646, L827-829, L872-874
+// Result — FieldsNames non-empty, safeJsonStringInternal nil, MeaningfulError
+// Covers Result.go L85-94, L376-381, L385-387, L639-646
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov25_Result_FieldsNames_NonEmpty(t *testing.T) {
-	// Arrange — valid JSON object with fields
 	jsonBytes, _ := json.Marshal(map[string]any{"name": "test", "value": 42})
-	r := NewResult.Bytes(jsonBytes)
+	r := NewResult.UsingBytes(jsonBytes)
 
-	// Act
 	fields, err := r.FieldsNames()
-
-	// Assert
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -30,45 +25,28 @@ func Test_Cov25_Result_FieldsNames_NonEmpty(t *testing.T) {
 }
 
 func Test_Cov25_Result_SafeJsonStringInternal_Nil(t *testing.T) {
-	// Arrange
 	var r *Result
-
-	// Act — safeJsonStringInternal via MeaningfulError on nil
-	result := r.SafeJsonString()
-
-	// Assert
+	result := r.safeJsonStringInternal()
 	if result != "" {
 		t.Errorf("expected empty string, got %q", result)
 	}
 }
 
 func Test_Cov25_Result_MeaningfulError_WithPayload(t *testing.T) {
-	// Arrange — Result with both error and bytes
 	r := &Result{
 		Bytes:    []byte(`{"key":"val"}`),
 		Error:    fmt.Errorf("parse failed"),
 		TypeName: "TestType",
 	}
-
-	// Act
 	err := r.MeaningfulError()
-
-	// Assert
 	if err == nil {
 		t.Error("expected meaningful error")
 	}
 }
 
-func Test_Cov25_Result_SerializeResult_MarshalError(t *testing.T) {
-	// Arrange — Result with self-referencing data to trigger marshal error
-	// Actually, Result itself is marshalable. The error path at L639 triggers
-	// when json.Marshal(it) fails. This is rare but let's test the non-error path
-	r := NewResult.Bytes([]byte(`{"ok":true}`))
-
-	// Act
-	bytes, err := r.SerializeResult()
-
-	// Assert
+func Test_Cov25_Result_Serialize(t *testing.T) {
+	r := NewResult.UsingBytes([]byte(`{"ok":true}`))
+	bytes, err := r.Serialize()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -78,8 +56,30 @@ func Test_Cov25_Result_SerializeResult_MarshalError(t *testing.T) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// BytesCollection — AddSerializer, AddSerializers, GetSinglePageCollection negative
-// Covers BytesCollection.go L192-195, L205-209, L308-310, L564-565, L647-653
+// Result — IsEqualFull jsonString cached match, IsEqual jsonString cached
+// Covers Result.go L827-829, L872-874
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov25_Result_IsEqual_JsonStringCached(t *testing.T) {
+	// Create two results sharing same jsonString pointer
+	jsonStr := `{"x":1}`
+	r1 := NewResult.UsingBytes([]byte(jsonStr))
+	r2 := NewResult.UsingBytes([]byte(jsonStr))
+
+	// Force jsonString to be set by calling JsonString
+	_ = r1.JsonString()
+	_ = r2.JsonString()
+
+	// Now IsEqual should use the cached jsonString path
+	result := r1.IsEqual(r2)
+	if !result {
+		t.Error("expected IsEqual=true for identical JSON")
+	}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BytesCollection — AddSerializer, AddSerializers, GetSinglePageCollection
+// Covers BytesCollection.go L192-195, L205-209, L647-653
 // ══════════════════════════════════════════════════════════════════════════════
 
 type mockSerializer struct {
@@ -92,32 +92,28 @@ func (m *mockSerializer) Serialize() ([]byte, error) {
 }
 
 func Test_Cov25_BytesCollection_AddSerializer(t *testing.T) {
-	bc := NewBytesCollection.Cap(2)
+	bc := NewBytesCollection.UsingCap(2)
 	s := &mockSerializer{bytes: []byte(`{"a":1}`)}
-
 	bc.AddSerializer(s)
-
 	if bc.Length() != 1 {
 		t.Errorf("expected length 1, got %d", bc.Length())
 	}
 }
 
 func Test_Cov25_BytesCollection_AddSerializers(t *testing.T) {
-	bc := NewBytesCollection.Cap(2)
+	bc := NewBytesCollection.UsingCap(2)
 	s1 := &mockSerializer{bytes: []byte(`{"a":1}`)}
 	s2 := &mockSerializer{bytes: []byte(`{"b":2}`)}
-
 	bc.AddSerializers(s1, s2)
-
 	if bc.Length() != 2 {
 		t.Errorf("expected length 2, got %d", bc.Length())
 	}
 }
 
 func Test_Cov25_BytesCollection_GetSinglePageCollection_NegativeIndex(t *testing.T) {
-	bc := NewBytesCollection.Cap(5)
+	bc := NewBytesCollection.UsingCap(5)
 	for i := 0; i < 5; i++ {
-		bc.AddBytes([]byte(fmt.Sprintf(`{"i":%d}`, i)))
+		bc.Add([]byte(fmt.Sprintf(`{"i":%d}`, i)))
 	}
 
 	defer func() {
@@ -127,23 +123,21 @@ func Test_Cov25_BytesCollection_GetSinglePageCollection_NegativeIndex(t *testing
 		}
 	}()
 
-	bc.GetSinglePageCollection(0, 2) // pageIndex 0 → skipItems = 2*(0-1) = -2 → panic
+	bc.GetSinglePageCollection(0, 2) // pageIndex 0 → skip = 2*(0-1) = -2 → panic
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// MapResults — Unmarshal non-empty, UnmarshalMany, GetSinglePageCollection
-// Covers MapResults.go L164-165, L202, L217-219, L235-236, L324-326, L718-729, L737-743, L773-779
+// MapResults — Unmarshal, AddAnySkipOnNil error, GetSinglePageCollection
+// Covers MapResults.go L164-165, L202, L324-326, L718-729, L737-743
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_Cov25_MapResults_Unmarshal_NonEmpty(t *testing.T) {
-	mr := NewMapResults.Cap(2)
-	r := NewResult.Bytes([]byte(`{"name":"test"}`))
+func Test_Cov25_MapResults_Unmarshal(t *testing.T) {
+	mr := NewMapResults.UsingCap(2)
+	r := NewResult.UsingBytes([]byte(`{"name":"test"}`))
 	mr.Add("key1", *r)
 
-	// Act
 	var target map[string]any
 	err := mr.Unmarshal("key1", &target)
-
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -152,11 +146,22 @@ func Test_Cov25_MapResults_Unmarshal_NonEmpty(t *testing.T) {
 	}
 }
 
+func Test_Cov25_MapResults_AddAnySkipOnNil_Error(t *testing.T) {
+	mr := NewMapResults.UsingCap(2)
+	// Channel is not marshalable
+	ch := make(chan int)
+	err := mr.AddAnySkipOnNil("bad", ch)
+	if err == nil {
+		t.Error("expected error on unmarshalable item")
+	}
+	close(ch)
+}
+
 func Test_Cov25_MapResults_GetSinglePageCollection_LengthMismatch(t *testing.T) {
-	mr := NewMapResults.Cap(5)
+	mr := NewMapResults.UsingCap(5)
 	for i := 0; i < 5; i++ {
 		key := fmt.Sprintf("k%d", i)
-		r := NewResult.Bytes([]byte(fmt.Sprintf(`{"i":%d}`, i)))
+		r := NewResult.UsingBytes([]byte(fmt.Sprintf(`{"i":%d}`, i)))
 		mr.Add(key, *r)
 	}
 
@@ -167,17 +172,16 @@ func Test_Cov25_MapResults_GetSinglePageCollection_LengthMismatch(t *testing.T) 
 		}
 	}()
 
-	// allKeys has wrong length
 	mr.GetSinglePageCollection(1, 2, []string{"k0", "k1", "k2"})
 }
 
 func Test_Cov25_MapResults_GetSinglePageCollection_NegativeIndex(t *testing.T) {
-	mr := NewMapResults.Cap(5)
+	mr := NewMapResults.UsingCap(5)
 	keys := make([]string, 5)
 	for i := 0; i < 5; i++ {
 		key := fmt.Sprintf("k%d", i)
 		keys[i] = key
-		r := NewResult.Bytes([]byte(fmt.Sprintf(`{"i":%d}`, i)))
+		r := NewResult.UsingBytes([]byte(fmt.Sprintf(`{"i":%d}`, i)))
 		mr.Add(key, *r)
 	}
 
@@ -188,58 +192,40 @@ func Test_Cov25_MapResults_GetSinglePageCollection_NegativeIndex(t *testing.T) {
 		}
 	}()
 
-	mr.GetSinglePageCollection(0, 2, keys) // 0 → negative skip → panic
-}
-
-func Test_Cov25_MapResults_AddSerializeItem_WithError(t *testing.T) {
-	mr := NewMapResults.Cap(2)
-
-	// Attempt to serialize a channel (unmarshalable)
-	ch := make(chan int)
-	err := mr.AddSerializeItem("bad", ch)
-
-	if err == nil {
-		t.Error("expected error on unmarshalable item")
-	}
-	_ = ch
+	mr.GetSinglePageCollection(0, 2, keys)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ResultsCollection — AddSerializer, AddSerializers, UnmarshalToAll error
+// ResultsCollection — AddSerializer, AddSerializers, UnmarshalIntoSameIndex error
 // Covers ResultCollection.go L291-295, L305-307, L382-385, L395-399
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov25_ResultsCollection_AddSerializer(t *testing.T) {
-	rc := NewResultsCollection.Cap(2)
+	rc := NewResultsCollection.UsingCap(2)
 	s := &mockSerializer{bytes: []byte(`{"c":3}`)}
-
 	rc.AddSerializer(s)
-
 	if rc.Length() != 1 {
 		t.Errorf("expected length 1, got %d", rc.Length())
 	}
 }
 
 func Test_Cov25_ResultsCollection_AddSerializers(t *testing.T) {
-	rc := NewResultsCollection.Cap(2)
+	rc := NewResultsCollection.UsingCap(2)
 	s1 := &mockSerializer{bytes: []byte(`{"c":3}`)}
 	s2 := &mockSerializer{bytes: []byte(`{"d":4}`)}
-
 	rc.AddSerializers(s1, s2)
-
 	if rc.Length() != 2 {
 		t.Errorf("expected length 2, got %d", rc.Length())
 	}
 }
 
-func Test_Cov25_ResultsCollection_UnmarshalToAll_WithError(t *testing.T) {
-	rc := NewResultsCollection.Cap(2)
+func Test_Cov25_ResultsCollection_UnmarshalIntoSameIndex_WithError(t *testing.T) {
+	rc := NewResultsCollection.UsingCap(2)
 	r := &Result{Error: fmt.Errorf("bad"), TypeName: "test"}
 	rc.AddSkipOnNil(r)
 
 	var target struct{}
-	errList, hasErr := rc.UnmarshalToAll(&target)
-
+	errList, hasErr := rc.UnmarshalIntoSameIndex(&target)
 	if !hasErr {
 		t.Error("expected hasAnyError=true")
 	}
