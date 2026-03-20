@@ -105,7 +105,7 @@ func Test_Cov2_BaseTestCase_ShouldBeExplicit_Disabled(t *testing.T) {
 		Title:         "disabled test",
 		ExpectedInput: "expected",
 	}
-	tc.IsEnable.SetFalse()
+	tc.IsEnable = issetter.False
 
 	// Act & Assert — exercises the disabled path with noPrintAssert
 	tc.ShouldBeExplicit(
