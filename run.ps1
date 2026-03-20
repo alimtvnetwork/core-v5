@@ -731,9 +731,7 @@ function Invoke-TestCoverage {
 
     if (Test-Path $coverProfile) {
         # Generate func-level summary
-        Write-Host "  [debug] coverProfile = $coverProfile" -ForegroundColor DarkGray
-        Write-Host "  [debug] coverHtml    = $coverHtml" -ForegroundColor DarkGray
-        Write-Host "  [debug] file exists  = $(Test-Path $coverProfile)" -ForegroundColor DarkGray
+        # Generate func-level summary (no debug output)
 
         $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
