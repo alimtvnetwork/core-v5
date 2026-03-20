@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/alimtvnetwork/core/converters"
-	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
 )
 
 // Test_Cov6_ToStringsUsingProcessor_EmptyAnyItems covers
@@ -16,7 +16,6 @@ func Test_Cov6_ToStringsUsingProcessor_EmptyAnyItems(t *testing.T) {
 	}
 
 	// Act
-	// Pass a non-nil but empty slice so anyVal != nil but ToAnyItems returns empty
 	result := converters.AnyTo.ToStringsUsingProcessor(
 		true,
 		processor,
@@ -24,5 +23,7 @@ func Test_Cov6_ToStringsUsingProcessor_EmptyAnyItems(t *testing.T) {
 	)
 
 	// Assert
-	coretests.ShouldBeEqual(t, 0, len(result))
+	actual := args.Map{"length": len(result)}
+	expected := args.Map{"length": 0}
+	expected.ShouldBeEqual(t, 0, "ToStringsUsingProcessor empty anyItems", actual)
 }

@@ -3,7 +3,7 @@ package ostypetests
 import (
 	"testing"
 
-	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/ostype"
 )
 
@@ -18,6 +18,7 @@ func Test_Cov4_Group_UnmarshallEnumToValue(t *testing.T) {
 	val, err := g.UnmarshallEnumToValue(validBytes)
 
 	// Assert
-	coretests.ShouldBeNil(t, err)
-	coretests.ShouldBeEqual(t, byte(ostype.UnixGroup), val)
+	actual := args.Map{"value": val, "hasError": err != nil}
+	expected := args.Map{"value": byte(ostype.UnixGroup), "hasError": false}
+	expected.ShouldBeEqual(t, 0, "Group UnmarshallEnumToValue", actual)
 }

@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corejson"
-	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/enums/versionindexes"
 )
 
@@ -21,5 +21,7 @@ func Test_Cov3_JsonParseSelfInject_HasError(t *testing.T) {
 	err := idx.JsonParseSelfInject(errResult)
 
 	// Assert
-	coretests.ShouldNotBeNil(t, err)
+	actual := args.Map{"hasError": err != nil}
+	expected := args.Map{"hasError": true}
+	expected.ShouldBeEqual(t, 0, "JsonParseSelfInject HasError branch", actual)
 }

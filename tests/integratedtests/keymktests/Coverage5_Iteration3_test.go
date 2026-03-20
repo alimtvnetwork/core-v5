@@ -3,12 +3,12 @@ package keymktests
 import (
 	"testing"
 
-	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/keymk"
 )
 
 // Test_Cov5_CompileSingleItem_WithBrackets covers
-// keymk/KeyCompiler.go L142-145: compileSingleItem with IsUseBrackets=true.
+// keymk/KeyCompiler.go L143-144: compileSingleItem with IsUseBrackets=true.
 func Test_Cov5_CompileSingleItem_WithBrackets(t *testing.T) {
 	// Arrange
 	key := keymk.NewKey.Create(
@@ -21,8 +21,9 @@ func Test_Cov5_CompileSingleItem_WithBrackets(t *testing.T) {
 	result := key.Compile()
 
 	// Assert
-	// With BracketJoinerOption, items are wrapped in [ ]
-	coretests.ShouldNotBeEmptyString(t, result)
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "[root]-[a]-[b]"}
+	expected.ShouldBeEqual(t, 0, "compileSingleItem with brackets", actual)
 }
 
 // Test_Cov5_CompileCompleteAdditional_Empty covers
@@ -34,11 +35,13 @@ func Test_Cov5_CompileCompleteAdditional_Empty(t *testing.T) {
 		"root",
 	)
 
-	// Act — Compile with no additional items triggers compileCompleteAdditional with empty
+	// Act
 	result := key.Compile()
 
 	// Assert
-	coretests.ShouldBeEqual(t, "root", result)
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "root"}
+	expected.ShouldBeEqual(t, 0, "compileCompleteAdditional empty items", actual)
 }
 
 // Test_Cov5_CompileCompleteAdditionalStrings_Empty covers
@@ -54,7 +57,9 @@ func Test_Cov5_CompileCompleteAdditionalStrings_Empty(t *testing.T) {
 	result := key.CompileStrings()
 
 	// Assert
-	coretests.ShouldBeEqual(t, "root", result)
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "root"}
+	expected.ShouldBeEqual(t, 0, "compileCompleteAdditionalStrings empty items", actual)
 }
 
 // Test_Cov5_AppendStringsWithBaseAnyItems_SkipEmpty covers
@@ -71,6 +76,7 @@ func Test_Cov5_AppendStringsWithBaseAnyItems_SkipEmpty(t *testing.T) {
 	result := key.Compile()
 
 	// Assert
-	// IsSkipEmptyEntry=true, so empty string is skipped
-	coretests.ShouldBeEqual(t, "root-a-b", result)
+	actual := args.Map{"result": result}
+	expected := args.Map{"result": "root-a-b"}
+	expected.ShouldBeEqual(t, 0, "appendStringsWithBaseAnyItems skip empty", actual)
 }
