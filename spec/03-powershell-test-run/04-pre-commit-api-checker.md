@@ -70,6 +70,34 @@ The checker categorizes compile errors into API mismatch types:
 | `has no field or method` | `missing-member` | Field renamed or receiver changed |
 | `cannot call non-function` | `field-vs-method` | Field accessed as method or vice versa |
 
+### Console Output
+
+The PC command produces **summary-only** console output — no per-package `✓`/`✗` lines are printed during the compile check. Only boxed summary sections appear:
+
+**All passed:**
+```
+  ┌─────────────────────────────────────────────────
+  │ ✓ ALL 18 PACKAGES PASSED API CHECK
+  └─────────────────────────────────────────────────
+```
+
+**Failures detected:**
+```
+  ┌─────────────────────────────────────────────────
+  │ ✗ 2 PACKAGE(S) HAVE API MISMATCHES
+  │
+  │   ✗ corejsontests (3 error(s))
+  │   ✗ corestrtests (1 error(s))
+  │
+  │ Fix these before committing Coverage* files.
+  └─────────────────────────────────────────────────
+
+  ── corejsontests ──
+    Coverage2_test.go:14 [arg-count] too many arguments in call to result.Clone
+    Coverage2_test.go:28 [undefined] undefined: corejson.BadFunc
+    Coverage3_test.go:9 [missing-member] result.Items has no field or method Len
+```
+
 ### Integration Points
 
 - **Pre-commit hook**: Run `./run.ps1 PC` before committing Coverage files.
@@ -92,6 +120,6 @@ The checker categorizes compile errors into API mismatch types:
 |--------|--------------------|-------------------------|
 | Scope | Coverage* files only | All test files |
 | Speed | Seconds | Minutes |
-| Output | JSON + console | TXT + console |
+| Output | JSON + boxed summary | TXT + boxed summary |
 | `-coverpkg` | No | Yes (instruments source) |
 | When | Before commit | Before coverage run |

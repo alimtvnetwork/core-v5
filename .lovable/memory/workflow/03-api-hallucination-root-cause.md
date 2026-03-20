@@ -1,6 +1,6 @@
 # Root Cause: AI Hallucination of Go API Signatures
 
-## Status: 🔴 Active — Must be followed on every coverage task
+## Status: 🟡 Reference — Coverage complete, guardrails remain mandatory for future test work
 
 ## The One Root Cause
 
