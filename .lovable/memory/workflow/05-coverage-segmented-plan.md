@@ -148,7 +148,7 @@ Each segment = ~200 stmts, aligned to logical file/function boundaries.
 
 | Iteration | Segment | Stmts |
 |-----------|---------|-------|
-| 26 | `corestr` Segment A | ~200 |
+| 26 ✅ | `corestr` Segment A — Coverage30_Iteration26_test.go (LeftRight: New/Invalid/UsingSlice 0+1+2/UsingSlicePtr/TrimmedUsingSlice nil+empty+1+2/Bytes/Trim/IsEmpty/IsWhitespace/HasValidNonEmpty/HasValidNonWhitespace/NonPtr/Ptr/RegexMatch+nil/Is/IsLeft/IsRight/IsEqual+nil/Clone/Clear/Dispose+nil; LeftRightFromSplit/Trimmed/Full/FullTrimmed; LeftMiddleRight: New/Invalid/Bytes/Trim/IsEmpty/IsWhitespace/HasValidNonEmpty/HasValidNonWhitespace/IsAll/Is/Clone/ToLeftRight/Clear/Dispose+nil; LeftMiddleRightFromSplit/Trimmed/SplitN/SplitNTrimmed; KeyValuePair: all 30+ methods including Json/Serialize/ValueBool/ValueInt/ValueByte/ValueDefByte/ValueFloat64/ValueValid/FormatString/Clear/Dispose+nil; TextWithLineNumber: all 6 methods+nil; CloneSlice/CloneSliceIf; AnyToString; AllIndividualStringsOfStringsLength/AllIndividualsLengthOfSimpleSlices; ValueStatus) | ~200 |
 | 27 | `corestr` Segment B | ~200 |
 | 28 | `corestr` Segment C | ~200 |
 | 29 | `corestr` Segment D | ~200 |
