@@ -118,8 +118,8 @@ Fix all 9 compile-blocked packages listed above. No new coverage — just make t
 **Iteration 12** ✅: `namevalue` (188)
 → 188 stmts — Coverage7_Iteration12_test.go (exercised all type aliases: StringInt, StringMapAny, StringMapString through every Collection method; Instance type-specific String/JsonString/Dispose/IsNull; AppendsIf/PrependsIf per type; IsEqualByString, Error, LazyString, FuncIf, AppendPrependIf, CollectionUsing per type)
 
-**Iteration 13**: `reflectcore/reflectmodel` — Segment A (first ~200 of 251)
-→ ~200 stmts
+**Iteration 13** ✅: `reflectcore/reflectmodel` — Segment A (first ~200 of 251)
+→ ~200 stmts — Coverage10_Iteration13_test.go (Invoke with ptr/slice/map/chan/func/interface nil+non-nil returns to exercise ReflectValueToAnyValue + IsNull branches; InvokeFirstAndError/InvokeError with various return types; cached GetOutArgsTypes/GetInArgsTypes/GetInArgsTypesNames; ValidateMethodArgs multi-type-mismatch; VerifyInArgs/VerifyOutArgs; InArgsVerifyRv/OutArgsVerifyRv match+mismatch; ReflectValueKind with Int/Bool/Slice/Map/Struct/Ptr kinds; FieldProcessor Int+Bool fields; ReflectValue struct)
 
 **Iteration 14**: `reflectcore/reflectmodel` — Segment B (remaining ~51)
 → ~51 stmts
