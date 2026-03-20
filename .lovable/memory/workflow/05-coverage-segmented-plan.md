@@ -112,8 +112,8 @@ Fix all 9 compile-blocked packages listed above. No new coverage — just make t
 **Iteration 10** ✅: `chmodhelper` (170)
 → 170 stmts — Coverage15_Iteration10_test.go (SFRW read/write/json/clone/expire, RwxInstructionExecutor, RwxInstructionExecutors, AttrVariant, FilteredPathFileInfoMap, RecursivePathsApply, fileBytesWriter, anyItemWriter, fileReader, newSimpleFileReaderWriterCreator)
 
-**Iteration 11**: `coredata/corepayload` (117), `coreutils/stringutil` (9)
-→ 126 stmts
+**Iteration 11** ✅: `coredata/corepayload` (117), `coreutils/stringutil` (9)
+→ 126 stmts — Coverage16_Iteration11_test.go (newPayloadWrapperCreator: UsingBytesCreateInstruction, TypeStringer variants, CreateUsingTypeStringer, NameIdCategoryStringer, RecordsTypeStringer, RecordTypeStringer, ManyRecords, CastOrDeserializeFrom valid, DeserializeToMany/Collection, string payload branch; PayloadsCollection: Dynamic accessors, SkipDynamic/TakeDynamic/LimitDynamic, SkipCollection/TakeCollection/LimitCollection, IsEqualItems, GetPagedCollection, GetSinglePageCollection, DeserializeMust/ToMany/UsingJsonResult; structs: PayloadCreateInstructionTypeStringer, PayloadTypeExpander, BytesCreateInstructionStringer; emptyCreator; stringutil: Coverage7_Iteration11_test.go)
 
 **Iteration 12**: `namevalue` (188)
 → 188 stmts (new test directory from scratch)
