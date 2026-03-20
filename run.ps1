@@ -1420,7 +1420,6 @@ function Invoke-PreCommitCheck {
             $ErrorActionPreference = $prevPref
 
             if ($ec -eq 0) {
-                Write-Host "  ✓ $shortName" -ForegroundColor Green
                 $passedCount++
             } else {
                 Write-Host "  ✗ $shortName" -ForegroundColor Red
