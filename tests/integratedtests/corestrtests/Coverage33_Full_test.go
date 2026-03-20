@@ -12,18 +12,18 @@ import (
 // ── Collection basics ──
 
 func Test_C33_Collection_JsonString(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	js := c.JsonString()
 	if js == "" { t.Fatal("expected non-empty") }
 }
 
 func Test_C33_Collection_JsonStringMust(t *testing.T) {
-	c := corestr.New.Collection.Strings("a")
+	c := corestr.New.Collection.Strings([]string{"a"})
 	_ = c.JsonStringMust()
 }
 
 func Test_C33_Collection_HasAnyItem(t *testing.T) {
-	c := corestr.New.Collection.Strings("a")
+	c := corestr.New.Collection.Strings([]string{"a"})
 	empty := corestr.New.Collection.Empty()
 	actual := args.Map{"has": c.HasAnyItem(), "empty": empty.HasAnyItem()}
 	expected := args.Map{"has": true, "empty": false}
@@ -31,7 +31,7 @@ func Test_C33_Collection_HasAnyItem(t *testing.T) {
 }
 
 func Test_C33_Collection_LastIndex_HasIndex(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b")
+	c := corestr.New.Collection.Strings([]string{"a", "b"})
 	actual := args.Map{
 		"lastIdx":  c.LastIndex(),
 		"hasIdx0":  c.HasIndex(0),
@@ -43,18 +43,18 @@ func Test_C33_Collection_LastIndex_HasIndex(t *testing.T) {
 }
 
 func Test_C33_Collection_ListStrings(t *testing.T) {
-	c := corestr.New.Collection.Strings("a")
+	c := corestr.New.Collection.Strings([]string{"a"})
 	if len(c.ListStrings()) != 1 { t.Fatal("expected 1") }
 	if len(c.ListStringsPtr()) != 1 { t.Fatal("expected 1") }
 }
 
 func Test_C33_Collection_StringJSON(t *testing.T) {
-	c := corestr.New.Collection.Strings("a")
+	c := corestr.New.Collection.Strings([]string{"a"})
 	_ = c.StringJSON()
 }
 
 func Test_C33_Collection_RemoveAt(t *testing.T) {
-	c := corestr.New.Collection.Strings("a", "b", "c")
+	c := corestr.New.Collection.Strings([]string{"a", "b", "c"})
 	ok := c.RemoveAt(1)
 	if !ok { t.Fatal("expected success") }
 	if c.Length() != 2 { t.Fatal("expected 2") }
@@ -64,7 +64,7 @@ func Test_C33_Collection_RemoveAt(t *testing.T) {
 }
 
 func Test_C33_Collection_Count_Capacity(t *testing.T) {
-	c := corestr.New.Collection.Strings("a")
+	c := corestr.New.Collection.Strings([]string{"a"})
 	if c.Count() != 1 { t.Fatal("expected 1") }
 	_ = c.Capacity()
 }
@@ -75,14 +75,14 @@ func Test_C33_Collection_Length_Nil(t *testing.T) {
 }
 
 func Test_C33_Collection_LengthLock(t *testing.T) {
-	c := corestr.New.Collection.Strings("a")
+	c := corestr.New.Collection.Strings([]string{"a"})
 	if c.LengthLock() != 1 { t.Fatal("expected 1") }
 }
 
 func Test_C33_Collection_IsEquals(t *testing.T) {
-	c1 := corestr.New.Collection.Strings("a", "b")
-	c2 := corestr.New.Collection.Strings("a", "b")
-	c3 := corestr.New.Collection.Strings("a", "c")
+	c1 := corestr.New.Collection.Strings([]string{"a", "b"})
+	c2 := corestr.New.Collection.Strings([]string{"a", "b"})
+	c3 := corestr.New.Collection.Strings([]string{"a", "c"})
 	actual := args.Map{
 		"equal":    c1.IsEquals(c2),
 		"notEqual": c1.IsEquals(c3),

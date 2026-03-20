@@ -410,9 +410,9 @@ func Test_C32_SSO_Trim(t *testing.T) {
 
 // ── newSimpleStringOnceCreator ──
 
-func Test_C32_NSSOC_Any(t *testing.T)       { _ = corestr.New.SimpleStringOnce.Any(false, 42, true) }
-func Test_C32_NSSOC_Create(t *testing.T)     { _ = corestr.New.SimpleStringOnce.Create(true, "x") }
-func Test_C32_NSSOC_CreatePtr(t *testing.T)  { _ = corestr.New.SimpleStringOnce.CreatePtr(true, "x") }
+func Test_C32_NSSOC_Any(t *testing.T)      { _ = corestr.New.SimpleStringOnce.Any(false, 42, true) }
+func Test_C32_NSSOC_Create(t *testing.T)    { _ = corestr.New.SimpleStringOnce.Create("x", true) }
+func Test_C32_NSSOC_CreatePtr(t *testing.T) { _ = corestr.New.SimpleStringOnce.CreatePtr("x", true) }
 func Test_C32_NSSOC_Empty(t *testing.T)      { _ = corestr.New.SimpleStringOnce.Empty() }
 func Test_C32_NSSOC_Init(t *testing.T)       { _ = corestr.New.SimpleStringOnce.Init("x") }
 func Test_C32_NSSOC_InitPtr(t *testing.T)    { _ = corestr.New.SimpleStringOnce.InitPtr("x") }

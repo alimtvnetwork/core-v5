@@ -91,8 +91,7 @@ func Test_I20_Result_PrettyJsonStringOrErrString_Valid(t *testing.T) {
 
 func Test_I20_Result_HandleErrorWithMsg_NoError(t *testing.T) {
 	r := corejson.NewResult.AnyPtr("ok")
-	// Should not panic
-	// HandleErrorWithMsg only panics on HasIssuesOrEmpty
+	r.HandleErrorWithMsg("no-op") // Should not panic
 }
 
 func Test_I20_Result_HandleErrorWithMsg_Panic(t *testing.T) {
