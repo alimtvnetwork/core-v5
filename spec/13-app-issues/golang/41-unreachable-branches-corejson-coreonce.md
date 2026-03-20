@@ -1,4 +1,4 @@
-# Issue: Unreachable Code Branches in corejson and coreonce
+# Issue: Unreachable Code Branches in corecmp, corejson, and coreonce
 
 ## Status: ✅ RESOLVED
 
@@ -6,8 +6,23 @@
 
 ## Packages
 
+- `corecmp`
 - `coredata/coreonce`
 - `coredata/corejson`
+
+---
+
+## corecmp
+
+### Dead `return corecomparator.NotEqual` in 9 comparison functions
+
+**Files:** `Byte.go`, `Integer.go`, `Integer8.go`, `Integer16.go`, `Integer32.go`, `Integer64.go`, `Time.go`, `VersionSliceByte.go`, `VersionSliceInteger.go` — all at line 14 or 41.
+
+Each function has an exhaustive `if equal / else if less / else if greater` chain. The final `return corecomparator.NotEqual` is unreachable because the three conditions are logically exhaustive for comparable types.
+
+**9 uncovered statements total. Cannot be covered by any test input.**
+
+**Fix option:** Remove the dead return or convert `else if greater` to bare `else`.
 
 ---
 
@@ -71,9 +86,10 @@ Same pattern: `newResults.Length() == 0` checks the new empty collection instead
 
 | # | Package | File | Branch | Root Cause | Fixable? |
 |---|---------|------|--------|------------|----------|
-| 1 | coreonce | `StringOnce.go:108` | `len(items) > 2` | `SplitN(..., 2)` caps at 2 | Yes — remove branch or change to `Split` |
-| 2 | corejson | `BytesCollection.go:764` | `Clone` loop body | Checks new collection length (always 0) instead of source | Yes — check `it.Length()` |
-| 3 | corejson | `BytesCollection.go:783` | `ClonePtr` loop body | Same as #2 | Yes — check `it.Length()` |
+| 1 | corecmp | 9 files (Byte, Integer*, Time, VersionSlice*) | `return NotEqual` after exhaustive if/else | All 3 comparison outcomes already covered | Yes — use bare `else` |
+| 2 | coreonce | `StringOnce.go:108` | `len(items) > 2` | `SplitN(..., 2)` caps at 2 | Yes — remove branch or change to `Split` |
+| 3 | corejson | `BytesCollection.go:764` | `Clone` loop body | Checks new collection length (always 0) instead of source | Yes — check `it.Length()` |
+| 4 | corejson | `BytesCollection.go:783` | `ClonePtr` loop body | Same as #3 | Yes — check `it.Length()` |
 
 ## Notes
 
