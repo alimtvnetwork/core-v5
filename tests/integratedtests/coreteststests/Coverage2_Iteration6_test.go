@@ -5,6 +5,7 @@ import (
 
 	"github.com/alimtvnetwork/core/coretests"
 	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/issetter"
 	"github.com/smartystreets/goconvey/convey"
 )
 
