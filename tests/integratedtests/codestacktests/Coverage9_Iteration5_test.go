@@ -184,7 +184,7 @@ func Test_Cov9_TraceCollection_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 // ── TraceCollection.PaginateAt — negative page panic ──
 // Covers TraceCollection.go L419-426
 
-func Test_Cov9_TraceCollection_PaginateAt_NegativePanic(t *testing.T) {
+func Test_Cov9_TraceCollection_GetSinglePageCollection_NegativePanic(t *testing.T) {
 	// Arrange
 	stacks := codestack.New.StackTrace.SkipNone()
 
@@ -196,11 +196,11 @@ func Test_Cov9_TraceCollection_PaginateAt_NegativePanic(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		stacks.PaginateAt(0, 5)
+		stacks.GetSinglePageCollection(5, 0)
 	}()
 
 	// Assert
 	actual := args.Map{"didPanic": didPanic}
 	expected := args.Map{"didPanic": true}
-	expected.ShouldBeEqual(t, 0, "PaginateAt negative page panic", actual)
+	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection negative page panic", actual)
 }
