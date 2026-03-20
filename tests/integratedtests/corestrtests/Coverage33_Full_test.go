@@ -540,7 +540,7 @@ func Test_C33_Hashset_AddCapacities(t *testing.T) {
 }
 
 func Test_C33_Hashset_Resize(t *testing.T) {
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	hs.Resize(10)
 	hs.Resize(0) // smaller, should not resize
 	hs.ResizeLock(20)
@@ -680,8 +680,8 @@ func Test_C33_CloneSlice(t *testing.T) {
 }
 
 func Test_C33_CloneSliceIf(t *testing.T) {
-	result := corestr.CloneSliceIf(true, []string{"a"})
+	result := corestr.CloneSliceIf(true, []string{"a"}...)
 	if len(result) != 1 { t.Fatal("expected 1") }
-	noClone := corestr.CloneSliceIf(false, []string{"a"})
+	noClone := corestr.CloneSliceIf(false, []string{"a"}...)
 	if len(noClone) != 1 { t.Fatal("expected original") }
 }
