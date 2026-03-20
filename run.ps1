@@ -668,9 +668,28 @@ function Invoke-TestCoverage {
         $pkgIndex = $testPkgs.Count
     }
 
-    # Print to console (skip "warning: no packages being tested" noise)
-    Filter-TestWarnings $allOutput | ForEach-Object { Write-Host $_ }
+    # Write test logs to files (no raw dump to console)
     Write-TestLogs $allOutput.ToArray()
+
+    # ── Failing Test Summary (console) ──
+    $failedTestNames = [System.Collections.Generic.HashSet[string]]::new()
+    foreach ($line in $allOutput) {
+        if ($line -match "--- FAIL:\s+(.+?)\s+\(") {
+            $failedTestNames.Add($Matches[1].Trim()) | Out-Null
+        }
+    }
+    if ($failedTestNames.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host "  │ FAILING TESTS ($($failedTestNames.Count) failed)" -ForegroundColor Red
+        Write-Host "  │" -ForegroundColor Red
+        foreach ($ft in ($failedTestNames | Sort-Object)) {
+            Write-Host "  │   ✗ $ft" -ForegroundColor Red
+        }
+        Write-Host "  │" -ForegroundColor Red
+        Write-Host "  │ See data/test-logs/failing-tests.txt for details." -ForegroundColor Yellow
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Red
+    }
 
     # Merge all partial profiles into one, using MAX count per unique line.
     # This is critical because -coverpkg instruments ALL source packages in every test run,
