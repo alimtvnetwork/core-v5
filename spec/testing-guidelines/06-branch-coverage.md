@@ -208,3 +208,20 @@ For each source package, verify:
 | NewMyStruct() | ✅ | n/a | n/a | Complete |
 | Parse(input) | ✅ | ❌ nil | ❌ malformed | Gap |
 ```
+
+---
+
+## Internal Package Exclusion
+
+**All packages under the `internal/` folder are excluded from coverage work.**
+
+This includes (but is not limited to):
+`convertinternal`, `csvinternal`, `fsinternal`, `internalinterface`, `jsoninternal`, `mapdiffinternal`, `messages`, `msgcreator`, `msgformats`, `osconstsinternal`, `pathinternal`, `reflectinternal`, `strutilinternal`, `trydo`
+
+### Rules
+
+- **Never** create `Coverage*_test.go` files for internal packages.
+- **Never** include internal packages in coverage iteration plans.
+- **Do not remove** existing internal tests — they may serve business/integration purposes.
+- Business-critical tests for internal packages are acceptable, but must **not** be motivated by coverage goals.
+- Any future package placed inside `internal/` automatically inherits this exclusion.

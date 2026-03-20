@@ -5,7 +5,7 @@
 
 ## Strategy
 - 2 packages per iteration, lowest coverage first
-- Skip `internal/*` packages (not required)
+- **Skip `internal/*` packages — NEVER write coverage tests for internal packages** (see `.lovable/memory/testing/internal-packages-no-coverage.md`)
 - After each iteration, list remaining items
 - **CRITICAL**: Run `./run.ps1 PC` then `./run.ps1 TC` after fixes to validate
 
