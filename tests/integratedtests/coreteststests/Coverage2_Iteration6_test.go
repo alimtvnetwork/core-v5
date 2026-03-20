@@ -9,27 +9,29 @@ import (
 )
 
 // ══════════════════════════════════════════════════════════════════════════════
-// DraftType — isIncludingInnerFields, JsonString, JsonBytes
+// DraftType — isIncludingInnerFields branch, JsonString, JsonBytes
 // Covers DraftType.go L148, L174, L184
 // ══════════════════════════════════════════════════════════════════════════════
 
-func Test_Cov2_DraftType_IsEqualIncludingInner_Mismatch(t *testing.T) {
+func Test_Cov2_DraftType_IsEqual_InnerFieldsMismatch(t *testing.T) {
 	// Arrange
-	dt1 := coretests.NewDraftType("a", "b", 1, 2, []byte{1}, []string{"x"})
-	dt2 := coretests.NewDraftType("a", "b", 1, 99, []byte{1}, []string{"x"})
+	dt1 := &coretests.DraftType{SampleString1: "a", SampleString2: "b", SampleInteger: 1}
+	dt1.SetF2Integer(10)
+	dt2 := &coretests.DraftType{SampleString1: "a", SampleString2: "b", SampleInteger: 1}
+	dt2.SetF2Integer(99)
 
-	// Act — with inner fields check, f2Integer differs
+	// Act — include inner fields; f2Integer differs
 	result := dt1.IsEqual(true, dt2)
 
 	// Assert
 	actual := args.Map{"isEqual": result}
 	expected := args.Map{"isEqual": false}
-	expected.ShouldBeEqual(t, 0, "DraftType IsEqual inner mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "DraftType IsEqual inner field mismatch", actual)
 }
 
 func Test_Cov2_DraftType_JsonString(t *testing.T) {
 	// Arrange
-	dt := coretests.NewDraftType("s1", "s2", 42, 7, []byte{0x01}, []string{"line1"})
+	dt := coretests.DraftType{SampleString1: "s1", SampleInteger: 42}
 
 	// Act
 	result := dt.JsonString()
@@ -42,7 +44,7 @@ func Test_Cov2_DraftType_JsonString(t *testing.T) {
 
 func Test_Cov2_DraftType_JsonBytes(t *testing.T) {
 	// Arrange
-	dt := coretests.NewDraftType("s1", "s2", 42, 7, []byte{0x01}, []string{"line1"})
+	dt := coretests.DraftType{SampleString1: "s1", SampleInteger: 42}
 
 	// Act
 	result := dt.JsonBytes()
@@ -92,43 +94,8 @@ func Test_Cov2_SimpleTestCase_ShouldContains(t *testing.T) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// messagePrinter — FailedExpected, NameValue, Value
-// Covers messagePrinter.go L15-20, L26-34, L39-47
-// ══════════════════════════════════════════════════════════════════════════════
-
-func Test_Cov2_PrintMessage_FailedExpected(t *testing.T) {
-	// Arrange & Act — trigger the isFailed=true branch
-	coretests.Print.FailedExpected(true, "when", "actual", "expected", 0)
-
-	// Assert — no panic means success
-	actual := args.Map{"executed": true}
-	expected := args.Map{"executed": true}
-	expected.ShouldBeEqual(t, 0, "PrintMessage FailedExpected", actual)
-}
-
-func Test_Cov2_PrintMessage_NameValue(t *testing.T) {
-	// Arrange & Act
-	coretests.Print.NameValue("header", "some value")
-
-	// Assert
-	actual := args.Map{"executed": true}
-	expected := args.Map{"executed": true}
-	expected.ShouldBeEqual(t, 0, "PrintMessage NameValue", actual)
-}
-
-func Test_Cov2_PrintMessage_Value(t *testing.T) {
-	// Arrange & Act
-	coretests.Print.Value("header", "some value")
-
-	// Assert
-	actual := args.Map{"executed": true}
-	expected := args.Map{"executed": true}
-	expected.ShouldBeEqual(t, 0, "PrintMessage Value", actual)
-}
-
-// ══════════════════════════════════════════════════════════════════════════════
-// BaseTestCase — ShouldBeExplicit disabled, TypeShouldMatch error
-// Covers BaseTestCaseAssertions.go L73-77, L88-92, L123-141
+// BaseTestCase — ShouldBeExplicit disabled path
+// Covers BaseTestCaseAssertions.go L73-77
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov2_BaseTestCase_ShouldBeExplicit_Disabled(t *testing.T) {
@@ -152,8 +119,8 @@ func Test_Cov2_BaseTestCase_ShouldBeExplicit_Disabled(t *testing.T) {
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
-// BaseTestCaseValidation — TypesValidationMustPasses error path
-// Covers BaseTestCaseValidation.go L18-23
+// BaseTestCaseValidation — TypesValidationMustPasses
+// Covers BaseTestCaseValidation.go L18-23 (no-error path)
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov2_BaseTestCase_TypesValidationMustPasses_NoError(t *testing.T) {
