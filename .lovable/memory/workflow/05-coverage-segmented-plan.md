@@ -88,7 +88,7 @@
 **Iteration 6** ✅: `corevalidator` (33 — covered via nil receivers, AssertVerifyAll, verify error paths), `coretests` (35 — ~20 covered via DraftType/SimpleTestCase/BaseTestCase; ~15 test infrastructure/env-specific)
 → 68 stmts total
 
-**Iteration 7**: `errcore` (53), `coreimpl/enumimpl` (55)
+**Iteration 7** ✅: `errcore` (53 — covered AssertDiff mismatch paths, ExpectationMessageDef cached/Print, Handle*Getter panic paths, CompiledErrorString), `coreimpl/enumimpl` (55 — covered ConvAnyValToInteger branches, DynamicMap DiffRaw/ConvMap overflow/KeyValue edge cases, BasicByte/String GetValueByName wrapped, CreateUsingStringersSpread)
 → 108 stmts total
 
 **Iteration 8**: `coredata/coregeneric` (57), `coredata/corejson` (106)
