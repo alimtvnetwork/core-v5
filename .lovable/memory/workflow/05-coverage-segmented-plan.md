@@ -130,7 +130,7 @@ Each segment = ~200 stmts, aligned to logical file/function boundaries.
 
 | Iteration | Segment | Stmts |
 |-----------|---------|-------|
-| 15 | `coredynamic` Segment A | ~200 |
+| 15 ✅ | `coredynamic` Segment A — Coverage19_Iteration15_test.go (KeyVal: all value accessors, nil receivers, reflect set methods, JSON methods, CastKeyVal, Serialize; New.Collection creators: String/Int/Int64/Byte/Any/Bool/Float32/Float64/AnyMap/StringMap/IntMap/ByteSlice with Empty/Cap/From/Clone/Items/Create/LenCap) | ~200 |
 | 16 | `coredynamic` Segment B | ~200 |
 | 17 | `coredynamic` Segment C | ~200 |
 | 18 | `coredynamic` Segment D | ~200 |
