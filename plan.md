@@ -45,12 +45,13 @@
 - **Acceptance criteria**: Decision documented with rationale
 - **Spec reference**: `spec/01-app/15-code-review-report.md`
 
-### C.2 — `iter` Package Adoption (Go 1.23+)
+### C.2 — `iter` Package Adoption (Go 1.23+) ✅ Done
 - **Objective**: Use `iter.Seq` for collection iteration patterns
 - **Dependencies**: None
 - **Expected outputs**: Prototype in `coregeneric/`
 - **Acceptance criteria**: Working iterator pattern with tests
 - **Spec reference**: `spec/01-app/11-go-modernization.md`
+- **Completed**: Added `All()`, `Values()`, `Backward()` iter.Seq/Seq2 methods to Collection, Hashset, Hashmap, SimpleSlice, LinkedList via dedicated `*Iter.go` files.
 
 ### C.3 — CI Pipeline ✅ Done
 - **Objective**: Add `golangci-lint`, test coverage, and security scanning
@@ -70,10 +71,11 @@
 
 ## Phase D: Tooling & Runner Improvements
 
-### D.1 — Test Title Audit — Remaining Packages
-- **Objective**: Audit remaining 17 packages for test title consistency
+### D.1 — Test Title Audit — Remaining Packages 🟡 In Progress
+- **Objective**: Audit remaining ~40+ packages for test title consistency
 - **Dependencies**: None
 - **Acceptance criteria**: All test titles follow `"{Function} returns {Result} -- {Input Context}"` format
+- **Progress**: Batches 1–5 done (~352 titles). ~40+ packages remain (discovered via grep scan). Multi-session effort.
 
 ### D.2 — Diagnostic Output Regression Tests
 - **Objective**: Create snapshot tests for diagnostic output formatting
@@ -86,14 +88,13 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **D.1 — Test title audit** | Small | Low |
-| 2 | **C.2 — iter adoption** | Small | Low |
-| 3 | **C.1 — Generic interfaces** | Medium | Low |
-| 4 | **D.2 — Diagnostic snapshots** | Small | Low |
-| 5 | **C.4 — Module splitting** | Large | Medium |
-| 6 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 1 | **D.1 — Test title audit** | Large | Low (multi-session, ~40+ packages) |
+| 2 | **C.1 — Generic interfaces** | Medium | Low |
+| 3 | **D.2 — Diagnostic snapshots** | Small | Low |
+| 4 | **C.4 — Module splitting** | Large | Medium |
+| 5 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **D.1** (test title audit) as the next high-value, low-risk task.
+**Recommended**: **C.1** (generic interfaces) or **D.2** (diagnostic snapshots) as the next actionable tasks.
 
 ---
 
