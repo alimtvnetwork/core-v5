@@ -743,7 +743,7 @@ function Invoke-TestCoverage {
 
         # Generate HTML report — use explicit argument list to avoid variable interpolation issues
         $htmlArgs = @("-html=$coverProfile", "-o=$coverHtml")
-        Write-Host "  [debug] go tool cover args: $($htmlArgs -join ' ')" -ForegroundColor DarkGray
+        
         $htmlErr = & go tool cover $htmlArgs 2>&1
         $htmlExitCode = $LASTEXITCODE
 
