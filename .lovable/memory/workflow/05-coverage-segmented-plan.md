@@ -109,8 +109,8 @@ Fix all 9 compile-blocked packages listed above. No new coverage — just make t
 
 ### Phase 3 — Medium Packages — Iterations 10-14
 
-**Iteration 10**: `chmodhelper` (170)
-→ 170 stmts
+**Iteration 10** ✅: `chmodhelper` (170)
+→ 170 stmts — Coverage15_Iteration10_test.go (SFRW read/write/json/clone/expire, RwxInstructionExecutor, RwxInstructionExecutors, AttrVariant, FilteredPathFileInfoMap, RecursivePathsApply, fileBytesWriter, anyItemWriter, fileReader, newSimpleFileReaderWriterCreator)
 
 **Iteration 11**: `coredata/corepayload` (117), `coreutils/stringutil` (9)
 → 126 stmts
