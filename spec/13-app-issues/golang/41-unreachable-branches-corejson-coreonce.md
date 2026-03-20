@@ -98,6 +98,9 @@ Same pattern: `newResults.Length() == 0` checks the new empty collection instead
 | 10 | iserror | `Equal.go:8` | `left == nil && right == nil` | Previous `left == right` (L4) already catches this | Yes — remove branch |
 | 11 | issetter | `toHashset.go:4` | `len(names) == 0` guard | Unexported; all callers pass non-empty | No — keep as defensive; unreachable in practice |
 | 12 | coremath | `integerOutOfRange.go:21` | `IsX32Architecture` branch | Architecture-specific; only runs on 32-bit | No — environment-specific |
+| 13 | keymk | `KeyCompiler.go:140-148` | `compileSingleItem` method | Never called — dead code | Yes — remove method |
+| 14 | keymk | `KeyCompiler.go:271-273` | `len(items) == 0` in `compileCompleteAdditional` | Caller checks `len(items) == 0` at L96 first | Yes — remove guard |
+| 15 | keymk | `KeyCompiler.go:285-287` | `len(items) == 0` in `compileCompleteAdditionalStrings` | Caller checks `len(items) == 0` at L120 first | Yes — remove guard |
 
 ## Notes
 
