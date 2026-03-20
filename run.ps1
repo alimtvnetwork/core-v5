@@ -690,10 +690,8 @@ function Invoke-TestCoverage {
     }
 
     # Merge all partial profiles into one, using MAX count per unique line.
-    # This is critical because -coverpkg instruments ALL source packages in every test run,
-    # so each line appears N times (once per test package). Without dedup, the last occurrence
-    # (usually count=0 from a package that didn't exercise this code) overwrites the covered entry.
-    # Merge all partial profiles silently
+    # -coverpkg instruments ALL source packages in every test run, so each line
+    # appears N times. Without dedup, the last count=0 overwrites covered entries.
 
     $partialFiles = Get-ChildItem -Path $partialDir -Filter "cover-*.out" | Sort-Object Name
     $coverMap = [System.Collections.Generic.Dictionary[string, int]]::new()
