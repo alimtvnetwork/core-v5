@@ -2,7 +2,7 @@
 
 ## Status: 🔧 Active
 ## Last Updated: 2026-03-20
-## Source Data: `data/coverage/per-package-coverage-17.json`
+## Source Data: PC run `blocked-packages-10.json` + existing coverage data
 
 ---
 
@@ -12,10 +12,29 @@
 2. **Large packages (>1000 uncovered stmts)** are split into ~200-line segments
 3. **Small packages (<200 uncovered)** are grouped 2-4 per iteration
 4. **Each iteration** = one "next" command from the user
-5. **Follow AAA pattern**, `CaseV1` / `args.Map` / `ShouldBeEqual` conventions
+5. **Follow AAA pattern**, `CaseV1` / `args.Map` / `ShouldBeEqual` conventions per `spec/testing-guidelines/`
 6. **Read source files before writing tests** — never assume APIs
 7. **Test file naming**: `Coverage{N}_test.go` in `tests/integratedtests/{pkg}tests/`
 8. **Function naming**: `Test_Cov{N}_{Method}_{Context}`
+9. **ShouldBeEqual** is on `CaseV1` / `SimpleTestCase`, NOT on `coretests.GetAssert`
+
+---
+
+## Blocked Packages (Must Fix First)
+
+9 blocked packages from PC run. Root cause: `coretests.GetAssert.ShouldBeEqual` undefined.
+
+| Package | File(s) | Error | Fix |
+|---------|---------|-------|-----|
+| `coreoncetests` | `Coverage12_Iteration1_test.go` | `GetAssert.ShouldBeEqual` undefined (6 calls) | Rewrite to use `CaseV1.ShouldBeEqual` |
+| `corepropertytests` | `Coverage2_Iteration2_test.go` | `GetAssert.ShouldBeEqual` undefined (2 calls) | Rewrite to use `CaseV1.ShouldBeEqual` |
+| `corerangetests` | `Coverage7_Iteration2_test.go` | `GetAssert.ShouldBeEqual` undefined (1 call) | Rewrite to use `CaseV1.ShouldBeEqual` |
+| `corestrtests` | `Coverage33_LinkedList_LinkedColl_test.go` | `LinkedList` API mismatch (Collection, SimpleSlice, LoopLock, etc.) | Read source, fix all API calls |
+| `coretaskinfotests` | `Coverage3_Iteration2_test.go` | `GetAssert.ShouldBeEqual` undefined (1 call) | Rewrite to use `CaseV1.ShouldBeEqual` |
+| `coreversiontests` | `Coverage5_Iteration2_test.go` | `GetAssert.ShouldBeEqual` undefined (2 calls) | Rewrite to use `CaseV1.ShouldBeEqual` |
+| `resultstests` | `Coverage3_Iteration1_test.go` | `GetAssert.ShouldBeEqual` + `InvokeWithPanicRecovery` wrong signature | Rewrite both |
+| `simplewraptests` | `Coverage8_Iteration2_test.go` | `GetAssert.ShouldBeEqual` undefined (2 calls) | Rewrite to use `CaseV1.ShouldBeEqual` |
+| `stringslicetests` | `Coverage12_Iteration1_test.go` | `GetAssert.ShouldBeEqual` undefined (4 calls) | Rewrite to use `CaseV1.ShouldBeEqual` |
 
 ---
 
@@ -66,106 +85,133 @@
 
 ## Iteration Plan
 
-### Phase 1 — Quick Wins (≤10 uncovered stmts each) — Iterations 1-3
+### Iteration 0 — Fix 9 Blocked Packages (PREREQUISITE)
 
-**Iteration 1** ✅: `corecmp` (9 — dead code documented), `coretests/results` (5), `coredata/coreonce` (5), `coredata/stringslice` (4)
-→ 23 stmts total
+Fix all 9 compile-blocked packages listed above. No new coverage — just make them build.
+- 8 packages: replace `coretests.GetAssert.ShouldBeEqual` with correct `CaseV1.ShouldBeEqual` pattern
+- 1 package (`corestrtests`): fix `LinkedList` API calls in `Coverage33` file
+- 1 package (`resultstests`): fix `InvokeWithPanicRecovery` signature
 
-**Iteration 2** ✅: `coreversion` (3 — 1 dead code), `coretaskinfo` (2 — 1 dead code), `codegen/coreproperty` (2), `simplewrap` (2), `coredata/corerange` (2 — 1 dead code), `reqtype` (2 — dead code)
-→ 14 stmts total
+### Phase 1 — Quick Wins (≤10 uncovered stmts each) — Iterations 1-3 ✅ DONE
 
-**Iteration 3** ✅: `keymk` (6), `converters` (1), `ostype` (1), `enums/versionindexes` (1) — 9 stmts covered; `iserror` (1 — dead code), `isany` (1 — dead code), `issetter` (1 — unreachable), `coremath` (1 — arch-specific)
-→ 13 stmts total (9 covered, 4 dead code documented)
+**Iteration 1** ✅: `corecmp` (9), `coretests/results` (5), `coredata/coreonce` (5), `coredata/stringslice` (4) → 23 stmts
+**Iteration 2** ✅: `coreversion` (3), `coretaskinfo` (2), `codegen/coreproperty` (2), `simplewrap` (2), `coredata/corerange` (2), `reqtype` (2) → 14 stmts
+**Iteration 3** ✅: `keymk` (6), `converters` (1), `ostype` (1), `enums/versionindexes` (1) → 13 stmts
 
-### Phase 2 — Small-Medium Packages — Iterations 4-8
+### Phase 2 — Small-Medium Packages — Iterations 4-9 ✅ DONE
 
-**Iteration 4** ✅: `coreinstruction` (16 — all covered), `coretests/coretestcases` (11 — failure path branches exercised via sub-test pattern)
-→ 27 stmts total
+**Iteration 4** ✅: `coreinstruction` (16), `coretests/coretestcases` (11) → 27 stmts
+**Iteration 5** ✅: `codestack` (24), `regexnew` (29) → 53 stmts
+**Iteration 6** ✅: `corevalidator` (33), `coretests` (35) → 68 stmts
+**Iteration 7** ✅: `errcore` (53), `coreimpl/enumimpl` (55) → 108 stmts
+**Iteration 8** ✅: `coredata/coregeneric` (57), `coredata/corejson` (106) → 163 stmts
+**Iteration 9** ✅: `coretests/args` (156) → 156 stmts
 
-**Iteration 5** ✅: `codestack` (24 — ~14 covered, ~10 dead/env-specific), `regexnew` (29 — ~2 covered, ~27 dead code in lazyRegexMap + env paths)
-→ 53 stmts total
-
-**Iteration 6** ✅: `corevalidator` (33 — covered via nil receivers, AssertVerifyAll, verify error paths), `coretests` (35 — ~20 covered via DraftType/SimpleTestCase/BaseTestCase; ~15 test infrastructure/env-specific)
-→ 68 stmts total
-
-**Iteration 7** ✅: `errcore` (53 — covered AssertDiff mismatch paths, ExpectationMessageDef cached/Print, Handle*Getter panic paths, CompiledErrorString), `coreimpl/enumimpl` (55 — covered ConvAnyValToInteger branches, DynamicMap DiffRaw/ConvMap overflow/KeyValue edge cases, BasicByte/String GetValueByName wrapped, CreateUsingStringersSpread)
-→ 108 stmts total
-
-**Iteration 8** ✅: `coredata/coregeneric` (57 — covered all iterator methods All/Values/Backward/IterKeys/IterValues with break-early for Collection/Hashmap/Hashset/LinkedList/SimpleSlice, MaxOf/MaxOfSlice), `coredata/corejson` (106 — covered Result FieldsNames/safeJsonStringInternal/MeaningfulError/Serialize/IsEqual cached, BytesCollection AddSerializer(s)/GetSinglePage panic, MapResults Unmarshal/AddAny error/GetSinglePage panics, ResultsCollection AddSerializer(s)/UnmarshalIntoSameIndex error)
-→ 163 stmts total
-
-### Phase 3 — Medium Packages — Iterations 9-12
-
-**Iteration 9** ✅: `coretests/args` (156 — covered OneFunc/TwoFunc/ThreeFunc/FourFunc/FiveFunc/SixFunc Invoke/InvokeMust/InvokeArgs/Slice/String, DynamicFunc Get*/Invoke, Dynamic Get/Invoke, FuncWrap IsEqual branches/InvokeMust/InvokeSkip panic/InvokeResultOfIndex/InvokeFirstAndError, FuncWrapTypedHelpers InvokeAs*, FuncWrapArgs InArgNames/OutArgNames, FuncMap Add/Adds/AddStructFunctions/InArgsVerifyRv/OutArgsVerifyRv/MustBeValid/InvokeMust/InvokeError/InvokeFirstAndError, Map GetFuncName/InvokeMust/InvokeWithValidArgs, Holder Invoke variants, newFuncWrapCreator MethodToFunc/StructToMap, funcDetector branches, argsHelper)
-→ 156 stmts
+### Phase 3 — Medium Packages — Iterations 10-14
 
 **Iteration 10**: `chmodhelper` (170)
 → 170 stmts
 
-**Iteration 11**: `coredata/corepayload` (117), `namevalue` (188)
-→ 305 stmts total (namevalue = new test file from scratch)
+**Iteration 11**: `coredata/corepayload` (117), `coreutils/stringutil` (9)
+→ 126 stmts
 
-**Iteration 12**: `reflectcore/reflectmodel` — Segment A (first ~200 of 251)
+**Iteration 12**: `namevalue` (188)
+→ 188 stmts (new test directory from scratch)
+
+**Iteration 13**: `reflectcore/reflectmodel` — Segment A (first ~200 of 251)
 → ~200 stmts
 
-### Phase 4 — reflectmodel remainder — Iteration 13
-
-**Iteration 13**: `reflectcore/reflectmodel` — Segment B (remaining ~51)
+**Iteration 14**: `reflectcore/reflectmodel` — Segment B (remaining ~51)
 → ~51 stmts
 
-### Phase 5 — coredata/coredynamic (2191 uncovered) — Iterations 14-24
+### Phase 4 — coredata/coredynamic (2191 uncovered) — Iterations 15-25
 
-**Iteration 14**: `coredynamic` Segment A — lines/stmts 1-200
-**Iteration 15**: `coredynamic` Segment B — lines/stmts 201-400
-**Iteration 16**: `coredynamic` Segment C — lines/stmts 401-600
-**Iteration 17**: `coredynamic` Segment D — lines/stmts 601-800
-**Iteration 18**: `coredynamic` Segment E — lines/stmts 801-1000
-**Iteration 19**: `coredynamic` Segment F — lines/stmts 1001-1200
-**Iteration 20**: `coredynamic` Segment G — lines/stmts 1201-1400
-**Iteration 21**: `coredynamic` Segment H — lines/stmts 1401-1600
-**Iteration 22**: `coredynamic` Segment I — lines/stmts 1601-1800
-**Iteration 23**: `coredynamic` Segment J — lines/stmts 1801-2000
-**Iteration 24**: `coredynamic` Segment K — lines/stmts 2001-2191
+Each segment = ~200 stmts, aligned to logical file/function boundaries.
 
-### Phase 6 — coredata/corestr (5553 uncovered) — Iterations 25-52
+| Iteration | Segment | Stmts |
+|-----------|---------|-------|
+| 15 | `coredynamic` Segment A | ~200 |
+| 16 | `coredynamic` Segment B | ~200 |
+| 17 | `coredynamic` Segment C | ~200 |
+| 18 | `coredynamic` Segment D | ~200 |
+| 19 | `coredynamic` Segment E | ~200 |
+| 20 | `coredynamic` Segment F | ~200 |
+| 21 | `coredynamic` Segment G | ~200 |
+| 22 | `coredynamic` Segment H | ~200 |
+| 23 | `coredynamic` Segment I | ~200 |
+| 24 | `coredynamic` Segment J | ~200 |
+| 25 | `coredynamic` Segment K | ~191 |
 
-**Iteration 25**: `corestr` Segment A — stmts 1-200
-**Iteration 26**: `corestr` Segment B — stmts 201-400
-**Iteration 27**: `corestr` Segment C — stmts 401-600
-**Iteration 28**: `corestr` Segment D — stmts 601-800
-**Iteration 29**: `corestr` Segment E — stmts 801-1000
-**Iteration 30**: `corestr` Segment F — stmts 1001-1200
-**Iteration 31**: `corestr` Segment G — stmts 1201-1400
-**Iteration 32**: `corestr` Segment H — stmts 1401-1600
-**Iteration 33**: `corestr` Segment I — stmts 1601-1800
-**Iteration 34**: `corestr` Segment J — stmts 1801-2000
-**Iteration 35**: `corestr` Segment K — stmts 2001-2200
-**Iteration 36**: `corestr` Segment L — stmts 2201-2400
-**Iteration 37**: `corestr` Segment M — stmts 2401-2600
-**Iteration 38**: `corestr` Segment N — stmts 2601-2800
-**Iteration 39**: `corestr` Segment O — stmts 2801-3000
-**Iteration 40**: `corestr` Segment P — stmts 3001-3200
-**Iteration 41**: `corestr` Segment Q — stmts 3201-3400
-**Iteration 42**: `corestr` Segment R — stmts 3401-3600
-**Iteration 43**: `corestr` Segment S — stmts 3601-3800
-**Iteration 44**: `corestr` Segment T — stmts 3801-4000
-**Iteration 45**: `corestr` Segment U — stmts 4001-4200
-**Iteration 46**: `corestr` Segment V — stmts 4201-4400
-**Iteration 47**: `corestr` Segment W — stmts 4401-4600
-**Iteration 48**: `corestr` Segment X — stmts 4601-4800
-**Iteration 49**: `corestr` Segment Y — stmts 4801-5000
-**Iteration 50**: `corestr` Segment Z — stmts 5001-5200
-**Iteration 51**: `corestr` Segment AA — stmts 5201-5400
-**Iteration 52**: `corestr` Segment AB — stmts 5401-5553
+### Phase 5 — coredata/corestr (5553 uncovered) — Iterations 26-53
+
+Each segment = ~200 stmts, aligned to logical file/function boundaries.
+
+| Iteration | Segment | Stmts |
+|-----------|---------|-------|
+| 26 | `corestr` Segment A | ~200 |
+| 27 | `corestr` Segment B | ~200 |
+| 28 | `corestr` Segment C | ~200 |
+| 29 | `corestr` Segment D | ~200 |
+| 30 | `corestr` Segment E | ~200 |
+| 31 | `corestr` Segment F | ~200 |
+| 32 | `corestr` Segment G | ~200 |
+| 33 | `corestr` Segment H | ~200 |
+| 34 | `corestr` Segment I | ~200 |
+| 35 | `corestr` Segment J | ~200 |
+| 36 | `corestr` Segment K | ~200 |
+| 37 | `corestr` Segment L | ~200 |
+| 38 | `corestr` Segment M | ~200 |
+| 39 | `corestr` Segment N | ~200 |
+| 40 | `corestr` Segment O | ~200 |
+| 41 | `corestr` Segment P | ~200 |
+| 42 | `corestr` Segment Q | ~200 |
+| 43 | `corestr` Segment R | ~200 |
+| 44 | `corestr` Segment S | ~200 |
+| 45 | `corestr` Segment T | ~200 |
+| 46 | `corestr` Segment U | ~200 |
+| 47 | `corestr` Segment V | ~200 |
+| 48 | `corestr` Segment W | ~200 |
+| 49 | `corestr` Segment X | ~200 |
+| 50 | `corestr` Segment Y | ~200 |
+| 51 | `corestr` Segment Z | ~200 |
+| 52 | `corestr` Segment AA | ~200 |
+| 53 | `corestr` Segment AB | ~153 |
 
 ---
 
-## Execution Notes
+## Total Summary
 
-- For large packages (`corestr`, `coredynamic`), each segment will:
-  1. Read the uncovered source files relevant to that ~200-stmt slice
-  2. Identify uncovered branches/paths from `coverage.out`
-  3. Write tests in a new or appended `Coverage{N}_test.go`
-  4. Segment boundaries are approximate — will align to logical file/function boundaries
-- Segment letters (A, B, C...) will map to specific source files once we begin each phase
-- Total estimated iterations: **52**
+| Phase | Iterations | Stmts | Status |
+|-------|-----------|-------|--------|
+| Blocker Fix | 0 | 0 (fix only) | 🔲 Next |
+| Phase 1 (Quick Wins) | 1-3 | 50 | ✅ Done |
+| Phase 2 (Small-Medium) | 4-9 | 575 | ✅ Done |
+| Phase 3 (Medium) | 10-14 | 735 | 🔲 Pending |
+| Phase 4 (coredynamic) | 15-25 | 2,191 | 🔲 Pending |
+| Phase 5 (corestr) | 26-53 | 5,553 | 🔲 Pending |
+| **Total** | **54 iterations** | **~9,104** | |
+
+---
+
+## Execution Protocol (per iteration)
+
+1. **Read** the uncovered source files relevant to the segment
+2. **Identify** uncovered branches/paths from coverage data
+3. **Write tests** following:
+   - AAA format (Arrange / Act / Assert)
+   - `CaseV1` + `args.Map` for inputs/expectations
+   - `ShouldBeEqual` / `ShouldBeEqualMap` for assertions
+   - File: `Coverage{N}_{SegmentLabel}_test.go` in `tests/integratedtests/{pkg}tests/`
+   - Function: `Test_Cov{N}_{Method}_{Context}`
+4. **Segment boundaries** align to logical file/function boundaries (not arbitrary line numbers)
+5. **For Phases 4-5**: each iteration will map specific source files at execution time
+
+## Process Rules (Mandatory)
+
+1. **Read source before every test edit.** Never infer APIs from naming patterns.
+2. **One package at a time.** Fix → verify → move on.
+3. **Do not trust coverage percentages while blockers exist.** Fix blockers first.
+4. **Do not report success from edits alone.** Only `./run.ps1 PC` and `./run.ps1 TC` are evidence.
+5. **Do not bulk-create coverage suites.** Especially for large packages.
+6. **Honor project behavior standards.** Vacuous truth, nil-handling, byte-slice clone.
+7. **Follow spec/testing-guidelines/ for all conventions.**
