@@ -61,19 +61,15 @@ func Test_Cov25_Result_Serialize(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov25_Result_IsEqual_JsonStringCached(t *testing.T) {
-	// Create two results sharing same jsonString pointer
-	jsonStr := `{"x":1}`
-	r1 := NewResult.UsingBytes([]byte(jsonStr))
-	r2 := NewResult.UsingBytes([]byte(jsonStr))
+	// Create two results sharing the same jsonString pointer
+	sharedStr := `{"x":1}`
+	r1 := Result{Bytes: []byte(sharedStr), jsonString: &sharedStr}
+	r2 := Result{Bytes: []byte(sharedStr), jsonString: &sharedStr}
 
-	// Force jsonString to be set by calling JsonString
-	_ = r1.JsonString()
-	_ = r2.JsonString()
-
-	// Now IsEqual should use the cached jsonString path
+	// IsEqual should use the cached jsonString pointer equality
 	result := r1.IsEqual(r2)
 	if !result {
-		t.Error("expected IsEqual=true for identical JSON")
+		t.Error("expected IsEqual=true for same jsonString pointer")
 	}
 }
 
