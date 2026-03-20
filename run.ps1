@@ -750,7 +750,7 @@ function Invoke-TestCoverage {
         if ($htmlExitCode -ne 0 -or -not (Test-Path $coverHtml)) {
             Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html' (exit: $htmlExitCode)" -ForegroundColor Red
             if ($htmlErr) { Write-Host "  Error: $htmlErr" -ForegroundColor Red }
-            Write-Host "  [debug] Attempted command: go tool cover -html=`"$coverProfile`" -o=`"$coverHtml`"" -ForegroundColor DarkGray
+            
             # Fallback: generate a basic HTML from the func output
             $fallbackHtml = @"
 <!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>
