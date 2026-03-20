@@ -761,7 +761,7 @@ func (it BytesCollection) Clone(isDeepCloneEach bool) BytesCollection {
 	newResults := NewBytesCollection.UsingCap(
 		it.Length())
 
-	if newResults.Length() == 0 {
+	if it.Length() == 0 {
 		return *newResults
 	}
 
