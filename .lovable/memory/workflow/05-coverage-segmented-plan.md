@@ -68,7 +68,7 @@
 
 ### Phase 1 — Quick Wins (≤10 uncovered stmts each) — Iterations 1-3
 
-**Iteration 1**: `corecmp` (9), `coretests/results` (5), `coredata/coreonce` (5), `coredata/stringslice` (4)
+**Iteration 1** ✅: `corecmp` (9 — dead code documented), `coretests/results` (5), `coredata/coreonce` (5), `coredata/stringslice` (4)
 → 23 stmts total
 
 **Iteration 2**: `coreversion` (3), `coretaskinfo` (2), `codegen/coreproperty` (2), `simplewrap` (2), `coredata/corerange` (2), `reqtype` (2)

@@ -86,9 +86,10 @@ Same pattern: `newResults.Length() == 0` checks the new empty collection instead
 
 | # | Package | File | Branch | Root Cause | Fixable? |
 |---|---------|------|--------|------------|----------|
-| 1 | coreonce | `StringOnce.go:108` | `len(items) > 2` | `SplitN(..., 2)` caps at 2 | Yes — remove branch or change to `Split` |
-| 2 | corejson | `BytesCollection.go:764` | `Clone` loop body | Checks new collection length (always 0) instead of source | Yes — check `it.Length()` |
-| 3 | corejson | `BytesCollection.go:783` | `ClonePtr` loop body | Same as #2 | Yes — check `it.Length()` |
+| 1 | corecmp | 9 files (Byte, Integer*, Time, VersionSlice*) | `return NotEqual` after exhaustive if/else | All 3 comparison outcomes already covered | Yes — use bare `else` |
+| 2 | coreonce | `StringOnce.go:108` | `len(items) > 2` | `SplitN(..., 2)` caps at 2 | Yes — remove branch or change to `Split` |
+| 3 | corejson | `BytesCollection.go:764` | `Clone` loop body | Checks new collection length (always 0) instead of source | Yes — check `it.Length()` |
+| 4 | corejson | `BytesCollection.go:783` | `ClonePtr` loop body | Same as #3 | Yes — check `it.Length()` |
 
 ## Notes
 
