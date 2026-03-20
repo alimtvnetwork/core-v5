@@ -38,12 +38,13 @@
 
 ## Phase C: Future Architecture (Low Priority)
 
-### C.1 — Generic Interfaces in `coreinterface/`
+### C.1 — Generic Interfaces in `coreinterface/` ✅ Done
 - **Objective**: Evaluate `ValueGetter[T]` generic interfaces
 - **Dependencies**: None
 - **Expected outputs**: Architecture decision doc
 - **Acceptance criteria**: Decision documented with rationale
-- **Spec reference**: `spec/01-app/15-code-review-report.md`
+- **Spec reference**: `spec/01-app/20-generic-interfaces-decision.md`
+- **Completed**: Added `TypedValueGetter[T]`, `TypedValuesGetter[T]`, `TypedKeyValueGetter[K,V]`. Additive adoption — existing interfaces retained.
 
 ### C.2 — `iter` Package Adoption (Go 1.23+) ✅ Done
 - **Objective**: Use `iter.Seq` for collection iteration patterns
