@@ -925,7 +925,7 @@ pre{white-space:pre-wrap}</style></head><body>
         }
         $coverJson = $coverJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $coverJsonFile -Value $coverJson -Encoding UTF8
-        Write-Success "Coverage JSON: $coverJsonFile"
+        
 
         # ── Per-Package Coverage report (TXT + JSON) ──
         $perPkgTxtFile = Join-Path $coverDir "per-package-coverage.txt"
