@@ -1,0 +1,705 @@
+package corestrtests
+
+import (
+	"regexp"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coredata/corestr"
+	"github.com/alimtvnetwork/core/coretests/args"
+)
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LeftRight
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_LeftRight_NewLeftRight(t *testing.T) {
+	lr := corestr.NewLeftRight("key", "value")
+	actual := args.Map{"left": lr.Left, "right": lr.Right, "valid": lr.IsValid}
+	expected := args.Map{"left": "key", "right": "value", "valid": true}
+	expected.ShouldBeEqual(t, 0, "NewLeftRight", actual)
+}
+
+func Test_I26_LeftRight_InvalidNoMessage(t *testing.T) {
+	lr := corestr.InvalidLeftRightNoMessage()
+	actual := args.Map{"valid": lr.IsValid}
+	expected := args.Map{"valid": false}
+	expected.ShouldBeEqual(t, 0, "InvalidLeftRightNoMessage", actual)
+}
+
+func Test_I26_LeftRight_InvalidWithMessage(t *testing.T) {
+	lr := corestr.InvalidLeftRight("bad")
+	actual := args.Map{"valid": lr.IsValid, "msg": lr.Message}
+	expected := args.Map{"valid": false, "msg": "bad"}
+	expected.ShouldBeEqual(t, 0, "InvalidLeftRight", actual)
+}
+
+func Test_I26_LeftRight_UsingSlice_Two(t *testing.T) {
+	lr := corestr.LeftRightUsingSlice([]string{"a", "b"})
+	actual := args.Map{"left": lr.Left, "right": lr.Right, "valid": lr.IsValid}
+	expected := args.Map{"left": "a", "right": "b", "valid": true}
+	expected.ShouldBeEqual(t, 0, "LeftRightUsingSlice two", actual)
+}
+
+func Test_I26_LeftRight_UsingSlice_One(t *testing.T) {
+	lr := corestr.LeftRightUsingSlice([]string{"only"})
+	actual := args.Map{"left": lr.Left, "right": lr.Right, "valid": lr.IsValid}
+	expected := args.Map{"left": "only", "right": "", "valid": false}
+	expected.ShouldBeEqual(t, 0, "LeftRightUsingSlice one", actual)
+}
+
+func Test_I26_LeftRight_UsingSlice_Empty(t *testing.T) {
+	lr := corestr.LeftRightUsingSlice([]string{})
+	actual := args.Map{"valid": lr.IsValid}
+	expected := args.Map{"valid": false}
+	expected.ShouldBeEqual(t, 0, "LeftRightUsingSlice empty", actual)
+}
+
+func Test_I26_LeftRight_UsingSlicePtr_Empty(t *testing.T) {
+	lr := corestr.LeftRightUsingSlicePtr([]string{})
+	actual := args.Map{"valid": lr.IsValid}
+	expected := args.Map{"valid": false}
+	expected.ShouldBeEqual(t, 0, "LeftRightUsingSlicePtr empty", actual)
+}
+
+func Test_I26_LeftRight_UsingSlicePtr_NonEmpty(t *testing.T) {
+	lr := corestr.LeftRightUsingSlicePtr([]string{"a", "b"})
+	actual := args.Map{"left": lr.Left, "right": lr.Right}
+	expected := args.Map{"left": "a", "right": "b"}
+	expected.ShouldBeEqual(t, 0, "LeftRightUsingSlicePtr non-empty", actual)
+}
+
+func Test_I26_LeftRight_TrimmedUsingSlice_Two(t *testing.T) {
+	lr := corestr.LeftRightTrimmedUsingSlice([]string{" a ", " b "})
+	actual := args.Map{"left": lr.Left, "right": lr.Right}
+	expected := args.Map{"left": "a", "right": "b"}
+	expected.ShouldBeEqual(t, 0, "LeftRightTrimmedUsingSlice two", actual)
+}
+
+func Test_I26_LeftRight_TrimmedUsingSlice_Nil(t *testing.T) {
+	lr := corestr.LeftRightTrimmedUsingSlice(nil)
+	actual := args.Map{"valid": lr.IsValid}
+	expected := args.Map{"valid": false}
+	expected.ShouldBeEqual(t, 0, "LeftRightTrimmedUsingSlice nil", actual)
+}
+
+func Test_I26_LeftRight_TrimmedUsingSlice_Empty(t *testing.T) {
+	lr := corestr.LeftRightTrimmedUsingSlice([]string{})
+	actual := args.Map{"valid": lr.IsValid}
+	expected := args.Map{"valid": false}
+	expected.ShouldBeEqual(t, 0, "LeftRightTrimmedUsingSlice empty", actual)
+}
+
+func Test_I26_LeftRight_TrimmedUsingSlice_One(t *testing.T) {
+	lr := corestr.LeftRightTrimmedUsingSlice([]string{" only "})
+	actual := args.Map{"left": lr.Left, "valid": lr.IsValid}
+	expected := args.Map{"left": "only", "valid": false}
+	expected.ShouldBeEqual(t, 0, "LeftRightTrimmedUsingSlice one", actual)
+}
+
+func Test_I26_LeftRight_Bytes(t *testing.T) {
+	lr := corestr.NewLeftRight("abc", "xyz")
+	actual := args.Map{"leftLen": len(lr.LeftBytes()), "rightLen": len(lr.RightBytes())}
+	expected := args.Map{"leftLen": 3, "rightLen": 3}
+	expected.ShouldBeEqual(t, 0, "LeftRight Bytes", actual)
+}
+
+func Test_I26_LeftRight_Trim(t *testing.T) {
+	lr := corestr.NewLeftRight(" a ", " b ")
+	actual := args.Map{"left": lr.LeftTrim(), "right": lr.RightTrim()}
+	expected := args.Map{"left": "a", "right": "b"}
+	expected.ShouldBeEqual(t, 0, "LeftRight Trim", actual)
+}
+
+func Test_I26_LeftRight_IsEmpty(t *testing.T) {
+	lr := corestr.NewLeftRight("", "x")
+	actual := args.Map{"leftEmpty": lr.IsLeftEmpty(), "rightEmpty": lr.IsRightEmpty()}
+	expected := args.Map{"leftEmpty": true, "rightEmpty": false}
+	expected.ShouldBeEqual(t, 0, "LeftRight IsEmpty", actual)
+}
+
+func Test_I26_LeftRight_IsWhitespace(t *testing.T) {
+	lr := corestr.NewLeftRight("  ", "x")
+	actual := args.Map{"leftWs": lr.IsLeftWhitespace(), "rightWs": lr.IsRightWhitespace()}
+	expected := args.Map{"leftWs": true, "rightWs": false}
+	expected.ShouldBeEqual(t, 0, "LeftRight IsWhitespace", actual)
+}
+
+func Test_I26_LeftRight_HasValidNonEmpty(t *testing.T) {
+	lr := corestr.NewLeftRight("a", "b")
+	actual := args.Map{
+		"left":  lr.HasValidNonEmptyLeft(),
+		"right": lr.HasValidNonEmptyRight(),
+		"safe":  lr.HasSafeNonEmpty(),
+	}
+	expected := args.Map{"left": true, "right": true, "safe": true}
+	expected.ShouldBeEqual(t, 0, "LeftRight HasValidNonEmpty", actual)
+}
+
+func Test_I26_LeftRight_HasValidNonWhitespace(t *testing.T) {
+	lr := corestr.NewLeftRight("a", " ")
+	actual := args.Map{
+		"leftNWS":  lr.HasValidNonWhitespaceLeft(),
+		"rightNWS": lr.HasValidNonWhitespaceRight(),
+	}
+	expected := args.Map{"leftNWS": true, "rightNWS": false}
+	expected.ShouldBeEqual(t, 0, "LeftRight HasValidNonWhitespace", actual)
+}
+
+func Test_I26_LeftRight_NonPtr_Ptr(t *testing.T) {
+	lr := corestr.NewLeftRight("a", "b")
+	np := lr.NonPtr()
+	p := lr.Ptr()
+	actual := args.Map{"npLeft": np.Left, "pSame": p == lr}
+	expected := args.Map{"npLeft": "a", "pSame": true}
+	expected.ShouldBeEqual(t, 0, "LeftRight NonPtr/Ptr", actual)
+}
+
+func Test_I26_LeftRight_RegexMatch(t *testing.T) {
+	lr := corestr.NewLeftRight("abc123", "xyz")
+	re := regexp.MustCompile(`\d+`)
+	actual := args.Map{
+		"leftMatch":  lr.IsLeftRegexMatch(re),
+		"rightMatch": lr.IsRightRegexMatch(re),
+		"nilRegex":   lr.IsLeftRegexMatch(nil),
+	}
+	expected := args.Map{"leftMatch": true, "rightMatch": false, "nilRegex": false}
+	expected.ShouldBeEqual(t, 0, "LeftRight RegexMatch", actual)
+}
+
+func Test_I26_LeftRight_Is_IsKey_IsVal(t *testing.T) {
+	lr := corestr.NewLeftRight("k", "v")
+	actual := args.Map{
+		"is":     lr.Is("k", "v"),
+		"isNot":  lr.Is("k", "x"),
+		"isLeft": lr.IsLeft("k"),
+		"isRight": lr.IsRight("v"),
+	}
+	expected := args.Map{"is": true, "isNot": false, "isLeft": true, "isRight": true}
+	expected.ShouldBeEqual(t, 0, "LeftRight Is/IsLeft/IsRight", actual)
+}
+
+func Test_I26_LeftRight_IsEqual(t *testing.T) {
+	lr1 := corestr.NewLeftRight("a", "b")
+	lr2 := corestr.NewLeftRight("a", "b")
+	lr3 := corestr.NewLeftRight("a", "c")
+	actual := args.Map{
+		"same":    lr1.IsEqual(lr2),
+		"diff":    lr1.IsEqual(lr3),
+		"nilBoth": (*corestr.LeftRight)(nil).IsEqual(nil),
+		"nilOne":  lr1.IsEqual(nil),
+	}
+	expected := args.Map{"same": true, "diff": false, "nilBoth": true, "nilOne": false}
+	expected.ShouldBeEqual(t, 0, "LeftRight IsEqual", actual)
+}
+
+func Test_I26_LeftRight_Clone(t *testing.T) {
+	lr := corestr.NewLeftRight("a", "b")
+	cloned := lr.Clone()
+	actual := args.Map{"left": cloned.Left, "right": cloned.Right, "notSame": cloned != lr}
+	expected := args.Map{"left": "a", "right": "b", "notSame": true}
+	expected.ShouldBeEqual(t, 0, "LeftRight Clone", actual)
+}
+
+func Test_I26_LeftRight_Clear_Dispose(t *testing.T) {
+	lr := corestr.NewLeftRight("a", "b")
+	lr.Clear()
+	actual := args.Map{"left": lr.Left, "right": lr.Right}
+	expected := args.Map{"left": "", "right": ""}
+	expected.ShouldBeEqual(t, 0, "LeftRight Clear", actual)
+
+	lr2 := corestr.NewLeftRight("x", "y")
+	lr2.Dispose()
+	actual2 := args.Map{"left": lr2.Left}
+	expected2 := args.Map{"left": ""}
+	expected2.ShouldBeEqual(t, 0, "LeftRight Dispose", actual2)
+
+	// nil paths
+	(*corestr.LeftRight)(nil).Clear()
+	(*corestr.LeftRight)(nil).Dispose()
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LeftRightFromSplit
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_LeftRightFromSplit(t *testing.T) {
+	lr := corestr.LeftRightFromSplit("key=value", "=")
+	actual := args.Map{"left": lr.Left, "right": lr.Right}
+	expected := args.Map{"left": "key", "right": "value"}
+	expected.ShouldBeEqual(t, 0, "LeftRightFromSplit", actual)
+}
+
+func Test_I26_LeftRightFromSplitTrimmed(t *testing.T) {
+	lr := corestr.LeftRightFromSplitTrimmed(" key = value ", "=")
+	actual := args.Map{"left": lr.Left, "right": lr.Right}
+	expected := args.Map{"left": "key", "right": "value"}
+	expected.ShouldBeEqual(t, 0, "LeftRightFromSplitTrimmed", actual)
+}
+
+func Test_I26_LeftRightFromSplitFull(t *testing.T) {
+	lr := corestr.LeftRightFromSplitFull("a:b:c:d", ":")
+	actual := args.Map{"left": lr.Left, "right": lr.Right}
+	expected := args.Map{"left": "a", "right": "b:c:d"}
+	expected.ShouldBeEqual(t, 0, "LeftRightFromSplitFull", actual)
+}
+
+func Test_I26_LeftRightFromSplitFullTrimmed(t *testing.T) {
+	lr := corestr.LeftRightFromSplitFullTrimmed(" a : b : c ", ":")
+	actual := args.Map{"left": lr.Left, "right": lr.Right}
+	expected := args.Map{"left": "a", "right": "b : c"}
+	expected.ShouldBeEqual(t, 0, "LeftRightFromSplitFullTrimmed", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LeftMiddleRight
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_LeftMiddleRight_New(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
+	actual := args.Map{"left": lmr.Left, "mid": lmr.Middle, "right": lmr.Right, "valid": lmr.IsValid}
+	expected := args.Map{"left": "a", "mid": "b", "right": "c", "valid": true}
+	expected.ShouldBeEqual(t, 0, "NewLeftMiddleRight", actual)
+}
+
+func Test_I26_LeftMiddleRight_Invalid(t *testing.T) {
+	lmr1 := corestr.InvalidLeftMiddleRightNoMessage()
+	lmr2 := corestr.InvalidLeftMiddleRight("err")
+	actual := args.Map{"v1": lmr1.IsValid, "v2": lmr2.IsValid, "msg": lmr2.Message}
+	expected := args.Map{"v1": false, "v2": false, "msg": "err"}
+	expected.ShouldBeEqual(t, 0, "InvalidLeftMiddleRight", actual)
+}
+
+func Test_I26_LeftMiddleRight_Bytes(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("ab", "cd", "ef")
+	actual := args.Map{"lLen": len(lmr.LeftBytes()), "mLen": len(lmr.MiddleBytes()), "rLen": len(lmr.RightBytes())}
+	expected := args.Map{"lLen": 2, "mLen": 2, "rLen": 2}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight Bytes", actual)
+}
+
+func Test_I26_LeftMiddleRight_Trim(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight(" a ", " b ", " c ")
+	actual := args.Map{"l": lmr.LeftTrim(), "m": lmr.MiddleTrim(), "r": lmr.RightTrim()}
+	expected := args.Map{"l": "a", "m": "b", "r": "c"}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight Trim", actual)
+}
+
+func Test_I26_LeftMiddleRight_IsEmpty(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("", "x", "")
+	actual := args.Map{"lEmpty": lmr.IsLeftEmpty(), "mEmpty": lmr.IsMiddleEmpty(), "rEmpty": lmr.IsRightEmpty()}
+	expected := args.Map{"lEmpty": true, "mEmpty": false, "rEmpty": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight IsEmpty", actual)
+}
+
+func Test_I26_LeftMiddleRight_IsWhitespace(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("  ", "x", "  ")
+	actual := args.Map{"lWs": lmr.IsLeftWhitespace(), "mWs": lmr.IsMiddleWhitespace(), "rWs": lmr.IsRightWhitespace()}
+	expected := args.Map{"lWs": true, "mWs": false, "rWs": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight IsWhitespace", actual)
+}
+
+func Test_I26_LeftMiddleRight_HasValidNonEmpty(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
+	actual := args.Map{
+		"l": lmr.HasValidNonEmptyLeft(), "m": lmr.HasValidNonEmptyMiddle(), "r": lmr.HasValidNonEmptyRight(),
+		"safe": lmr.HasSafeNonEmpty(),
+	}
+	expected := args.Map{"l": true, "m": true, "r": true, "safe": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight HasValidNonEmpty", actual)
+}
+
+func Test_I26_LeftMiddleRight_HasValidNonWhitespace(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("a", " ", "c")
+	actual := args.Map{
+		"l": lmr.HasValidNonWhitespaceLeft(), "m": lmr.HasValidNonWhitespaceMiddle(), "r": lmr.HasValidNonWhitespaceRight(),
+	}
+	expected := args.Map{"l": true, "m": false, "r": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight HasValidNonWhitespace", actual)
+}
+
+func Test_I26_LeftMiddleRight_IsAll_Is(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
+	actual := args.Map{"isAll": lmr.IsAll("a", "b", "c"), "is": lmr.Is("a", "c")}
+	expected := args.Map{"isAll": true, "is": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight IsAll/Is", actual)
+}
+
+func Test_I26_LeftMiddleRight_Clone(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
+	cloned := lmr.Clone()
+	actual := args.Map{"left": cloned.Left, "notSame": cloned != lmr}
+	expected := args.Map{"left": "a", "notSame": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight Clone", actual)
+}
+
+func Test_I26_LeftMiddleRight_ToLeftRight(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
+	lr := lmr.ToLeftRight()
+	actual := args.Map{"left": lr.Left, "right": lr.Right, "valid": lr.IsValid}
+	expected := args.Map{"left": "a", "right": "c", "valid": true}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight ToLeftRight", actual)
+}
+
+func Test_I26_LeftMiddleRight_Clear_Dispose(t *testing.T) {
+	lmr := corestr.NewLeftMiddleRight("a", "b", "c")
+	lmr.Clear()
+	actual := args.Map{"left": lmr.Left}
+	expected := args.Map{"left": ""}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight Clear", actual)
+
+	lmr2 := corestr.NewLeftMiddleRight("x", "y", "z")
+	lmr2.Dispose()
+	(*corestr.LeftMiddleRight)(nil).Clear()
+	(*corestr.LeftMiddleRight)(nil).Dispose()
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LeftMiddleRightFromSplit
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_LeftMiddleRightFromSplit(t *testing.T) {
+	lmr := corestr.LeftMiddleRightFromSplit("a.b.c", ".")
+	actual := args.Map{"left": lmr.Left, "mid": lmr.Middle, "right": lmr.Right}
+	expected := args.Map{"left": "a", "mid": "b", "right": "c"}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRightFromSplit", actual)
+}
+
+func Test_I26_LeftMiddleRightFromSplitTrimmed(t *testing.T) {
+	lmr := corestr.LeftMiddleRightFromSplitTrimmed(" a . b . c ", ".")
+	actual := args.Map{"left": lmr.Left, "mid": lmr.Middle, "right": lmr.Right}
+	expected := args.Map{"left": "a", "mid": "b", "right": "c"}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRightFromSplitTrimmed", actual)
+}
+
+func Test_I26_LeftMiddleRightFromSplitN(t *testing.T) {
+	lmr := corestr.LeftMiddleRightFromSplitN("a:b:c:d:e", ":")
+	actual := args.Map{"left": lmr.Left, "mid": lmr.Middle, "right": lmr.Right}
+	expected := args.Map{"left": "a", "mid": "b", "right": "c:d:e"}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRightFromSplitN", actual)
+}
+
+func Test_I26_LeftMiddleRightFromSplitNTrimmed(t *testing.T) {
+	lmr := corestr.LeftMiddleRightFromSplitNTrimmed(" a : b : c : d ", ":")
+	actual := args.Map{"left": lmr.Left, "mid": lmr.Middle}
+	expected := args.Map{"left": "a", "mid": "b"}
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRightFromSplitNTrimmed", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// KeyValuePair
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_KeyValuePair_Basic(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: "name", Value: "alice"}
+	actual := args.Map{
+		"key": kv.KeyName(), "varName": kv.VariableName(), "val": kv.ValueString(),
+		"isVarEq": kv.IsVariableNameEqual("name"), "isValEq": kv.IsValueEqual("alice"),
+	}
+	expected := args.Map{"key": "name", "varName": "name", "val": "alice", "isVarEq": true, "isValEq": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair basic", actual)
+}
+
+func Test_I26_KeyValuePair_Json(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: "k", Value: "v"}
+	jr := kv.Json()
+	actual := args.Map{"noErr": !jr.HasError()}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair Json", actual)
+}
+
+func Test_I26_KeyValuePair_JsonPtr(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: "k", Value: "v"}
+	actual := args.Map{"notNil": kv.JsonPtr() != nil}
+	expected := args.Map{"notNil": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair JsonPtr", actual)
+}
+
+func Test_I26_KeyValuePair_Serialize(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: "k", Value: "v"}
+	b, err := kv.Serialize()
+	actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
+	expected := args.Map{"noErr": true, "hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair Serialize", actual)
+}
+
+func Test_I26_KeyValuePair_SerializeMust(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: "k", Value: "v"}
+	b := kv.SerializeMust()
+	actual := args.Map{"hasBytes": len(b) > 0}
+	expected := args.Map{"hasBytes": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair SerializeMust", actual)
+}
+
+func Test_I26_KeyValuePair_Compile_String(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: "k", Value: "v"}
+	actual := args.Map{"compile": kv.Compile(), "str": kv.String()}
+	expected := args.Map{"compile": "{k:v}", "str": "{k:v}"}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair Compile/String", actual)
+}
+
+func Test_I26_KeyValuePair_EmptyChecks(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: "", Value: ""}
+	actual := args.Map{
+		"keyEmpty": kv.IsKeyEmpty(), "valEmpty": kv.IsValueEmpty(),
+		"hasKey": kv.HasKey(), "hasVal": kv.HasValue(),
+		"kvEmpty": kv.IsKeyValueEmpty(), "kvAnyEmpty": kv.IsKeyValueAnyEmpty(),
+	}
+	expected := args.Map{
+		"keyEmpty": true, "valEmpty": true,
+		"hasKey": false, "hasVal": false,
+		"kvEmpty": true, "kvAnyEmpty": true,
+	}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair EmptyChecks", actual)
+}
+
+func Test_I26_KeyValuePair_Trim(t *testing.T) {
+	kv := corestr.KeyValuePair{Key: " k ", Value: " v "}
+	actual := args.Map{"key": kv.TrimKey(), "val": kv.TrimValue()}
+	expected := args.Map{"key": "k", "val": "v"}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair Trim", actual)
+}
+
+func Test_I26_KeyValuePair_ValueBool(t *testing.T) {
+	kv1 := corestr.KeyValuePair{Value: "true"}
+	kv2 := corestr.KeyValuePair{Value: "abc"}
+	kv3 := corestr.KeyValuePair{Value: ""}
+	actual := args.Map{"t": kv1.ValueBool(), "f": kv2.ValueBool(), "empty": kv3.ValueBool()}
+	expected := args.Map{"t": true, "f": false, "empty": false}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair ValueBool", actual)
+}
+
+func Test_I26_KeyValuePair_ValueInt(t *testing.T) {
+	kv1 := corestr.KeyValuePair{Value: "42"}
+	kv2 := corestr.KeyValuePair{Value: "abc"}
+	actual := args.Map{"val": kv1.ValueInt(0), "def": kv2.ValueInt(99), "defInt": kv1.ValueDefInt()}
+	expected := args.Map{"val": 42, "def": 99, "defInt": 42}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair ValueInt", actual)
+}
+
+func Test_I26_KeyValuePair_ValueByte(t *testing.T) {
+	kv1 := corestr.KeyValuePair{Value: "100"}
+	kv2 := corestr.KeyValuePair{Value: "abc"}
+	kv3 := corestr.KeyValuePair{Value: "300"}
+	actual := args.Map{"val": kv1.ValueByte(0), "def": kv2.ValueByte(7), "overflow": kv3.ValueByte(5)}
+	expected := args.Map{"val": byte(100), "def": byte(7), "overflow": byte(5)}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair ValueByte", actual)
+}
+
+func Test_I26_KeyValuePair_ValueDefByte(t *testing.T) {
+	kv1 := corestr.KeyValuePair{Value: "50"}
+	kv2 := corestr.KeyValuePair{Value: "abc"}
+	kv3 := corestr.KeyValuePair{Value: "999"}
+	actual := args.Map{"val": kv1.ValueDefByte(), "err": kv2.ValueDefByte(), "over": kv3.ValueDefByte()}
+	expected := args.Map{"val": byte(50), "err": byte(0), "over": byte(0)}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair ValueDefByte", actual)
+}
+
+func Test_I26_KeyValuePair_ValueFloat64(t *testing.T) {
+	kv1 := corestr.KeyValuePair{Value: "3.14"}
+	kv2 := corestr.KeyValuePair{Value: "abc"}
+	actual := args.Map{"close": kv1.ValueFloat64(0) > 3.1, "def": kv2.ValueFloat64(1.0), "defFloat": kv1.ValueDefFloat64() > 3.1}
+	expected := args.Map{"close": true, "def": 1.0, "defFloat": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair ValueFloat64", actual)
+}
+
+func Test_I26_KeyValuePair_ValueValid(t *testing.T) {
+	kv := corestr.KeyValuePair{Value: "test"}
+	vv := kv.ValueValid()
+	actual := args.Map{"val": vv.Value, "valid": vv.IsValid}
+	expected := args.Map{"val": "test", "valid": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair ValueValid", actual)
+}
+
+func Test_I26_KeyValuePair_ValueValidOptions(t *testing.T) {
+	kv := corestr.KeyValuePair{Value: "test"}
+	vv := kv.ValueValidOptions(false, "bad")
+	actual := args.Map{"valid": vv.IsValid, "msg": vv.Message}
+	expected := args.Map{"valid": false, "msg": "bad"}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair ValueValidOptions", actual)
+}
+
+func Test_I26_KeyValuePair_Is_IsKey_IsVal(t *testing.T) {
+	kv := &corestr.KeyValuePair{Key: "k", Value: "v"}
+	actual := args.Map{"is": kv.Is("k", "v"), "isKey": kv.IsKey("k"), "isVal": kv.IsVal("v")}
+	expected := args.Map{"is": true, "isKey": true, "isVal": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair Is/IsKey/IsVal", actual)
+}
+
+func Test_I26_KeyValuePair_FormatString(t *testing.T) {
+	kv := &corestr.KeyValuePair{Key: "name", Value: "bob"}
+	actual := args.Map{"fmt": kv.FormatString("%s=%s")}
+	expected := args.Map{"fmt": "name=bob"}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair FormatString", actual)
+}
+
+func Test_I26_KeyValuePair_Clear_Dispose(t *testing.T) {
+	kv := &corestr.KeyValuePair{Key: "k", Value: "v"}
+	kv.Clear()
+	actual := args.Map{"key": kv.Key, "val": kv.Value}
+	expected := args.Map{"key": "", "val": ""}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair Clear", actual)
+
+	kv2 := &corestr.KeyValuePair{Key: "x", Value: "y"}
+	kv2.Dispose()
+	(*corestr.KeyValuePair)(nil).Clear()
+	(*corestr.KeyValuePair)(nil).Dispose()
+}
+
+func Test_I26_KeyValuePair_NilChecks(t *testing.T) {
+	var kv *corestr.KeyValuePair
+	actual := args.Map{"anyEmpty": kv.IsKeyValueAnyEmpty()}
+	expected := args.Map{"anyEmpty": true}
+	expected.ShouldBeEqual(t, 0, "KeyValuePair nil checks", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// TextWithLineNumber
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_TextWithLineNumber_Valid(t *testing.T) {
+	tl := &corestr.TextWithLineNumber{LineNumber: 5, Text: "hello"}
+	actual := args.Map{
+		"hasLine": tl.HasLineNumber(), "invalid": tl.IsInvalidLineNumber(),
+		"len": tl.Length(), "empty": tl.IsEmpty(), "emptyText": tl.IsEmptyText(),
+		"emptyBoth": tl.IsEmptyTextLineBoth(),
+	}
+	expected := args.Map{
+		"hasLine": true, "invalid": false,
+		"len": 5, "empty": false, "emptyText": false,
+		"emptyBoth": false,
+	}
+	expected.ShouldBeEqual(t, 0, "TextWithLineNumber valid", actual)
+}
+
+func Test_I26_TextWithLineNumber_Nil(t *testing.T) {
+	var tl *corestr.TextWithLineNumber
+	actual := args.Map{
+		"hasLine": tl.HasLineNumber(), "invalid": tl.IsInvalidLineNumber(),
+		"len": tl.Length(), "empty": tl.IsEmpty(), "emptyText": tl.IsEmptyText(),
+	}
+	expected := args.Map{
+		"hasLine": false, "invalid": true,
+		"len": 0, "empty": true, "emptyText": true,
+	}
+	expected.ShouldBeEqual(t, 0, "TextWithLineNumber nil", actual)
+}
+
+func Test_I26_TextWithLineNumber_EmptyText(t *testing.T) {
+	tl := &corestr.TextWithLineNumber{LineNumber: 5, Text: ""}
+	actual := args.Map{"empty": tl.IsEmpty(), "emptyText": tl.IsEmptyText()}
+	expected := args.Map{"empty": true, "emptyText": true}
+	expected.ShouldBeEqual(t, 0, "TextWithLineNumber empty text", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// CloneSlice / CloneSliceIf
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_CloneSlice_Normal(t *testing.T) {
+	s := []string{"a", "b", "c"}
+	cloned := corestr.CloneSlice(s)
+	actual := args.Map{"len": len(cloned), "first": cloned[0]}
+	expected := args.Map{"len": 3, "first": "a"}
+	expected.ShouldBeEqual(t, 0, "CloneSlice normal", actual)
+}
+
+func Test_I26_CloneSlice_Empty(t *testing.T) {
+	cloned := corestr.CloneSlice([]string{})
+	actual := args.Map{"len": len(cloned)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "CloneSlice empty", actual)
+}
+
+func Test_I26_CloneSliceIf_Clone(t *testing.T) {
+	cloned := corestr.CloneSliceIf(true, "a", "b")
+	actual := args.Map{"len": len(cloned), "first": cloned[0]}
+	expected := args.Map{"len": 2, "first": "a"}
+	expected.ShouldBeEqual(t, 0, "CloneSliceIf clone", actual)
+}
+
+func Test_I26_CloneSliceIf_NoClone(t *testing.T) {
+	result := corestr.CloneSliceIf(false, "a", "b")
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "CloneSliceIf no clone", actual)
+}
+
+func Test_I26_CloneSliceIf_Empty(t *testing.T) {
+	result := corestr.CloneSliceIf(true)
+	actual := args.Map{"len": len(result)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "CloneSliceIf empty", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AnyToString
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_AnyToString_WithFieldName(t *testing.T) {
+	result := corestr.AnyToString(true, 42)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyToString with field name", actual)
+}
+
+func Test_I26_AnyToString_WithoutFieldName(t *testing.T) {
+	result := corestr.AnyToString(false, 42)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "AnyToString without field name", actual)
+}
+
+func Test_I26_AnyToString_EmptyString(t *testing.T) {
+	result := corestr.AnyToString(false, "")
+	actual := args.Map{"empty": result}
+	expected := args.Map{"empty": ""}
+	expected.ShouldBeEqual(t, 0, "AnyToString empty string", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AllIndividualStringsOfStringsLength / AllIndividualsLengthOfSimpleSlices
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_AllIndividualStringsOfStringsLength_Valid(t *testing.T) {
+	items := [][]string{{"a", "b"}, {"c"}}
+	actual := args.Map{"len": corestr.AllIndividualStringsOfStringsLength(&items)}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "AllIndividualStringsOfStringsLength valid", actual)
+}
+
+func Test_I26_AllIndividualStringsOfStringsLength_Nil(t *testing.T) {
+	actual := args.Map{"len": corestr.AllIndividualStringsOfStringsLength(nil)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "AllIndividualStringsOfStringsLength nil", actual)
+}
+
+func Test_I26_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
+	actual := args.Map{"len": corestr.AllIndividualsLengthOfSimpleSlices(nil)}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "AllIndividualsLengthOfSimpleSlices nil", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ValueStatus
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I26_ValueStatus_Invalid(t *testing.T) {
+	vs := corestr.InvalidValueStatus("bad")
+	actual := args.Map{"valid": vs.ValueValid.IsValid, "msg": vs.ValueValid.Message}
+	expected := args.Map{"valid": false, "msg": "bad"}
+	expected.ShouldBeEqual(t, 0, "ValueStatus invalid", actual)
+}
+
+func Test_I26_ValueStatus_InvalidNoMessage(t *testing.T) {
+	vs := corestr.InvalidValueStatusNoMessage()
+	actual := args.Map{"valid": vs.ValueValid.IsValid}
+	expected := args.Map{"valid": false}
+	expected.ShouldBeEqual(t, 0, "ValueStatus invalid no msg", actual)
+}
+
+func Test_I26_ValueStatus_Clone(t *testing.T) {
+	vs := corestr.InvalidValueStatus("test")
+	cloned := vs.Clone()
+	actual := args.Map{"msg": cloned.ValueValid.Message, "notSame": cloned != vs}
+	expected := args.Map{"msg": "test", "notSame": true}
+	expected.ShouldBeEqual(t, 0, "ValueStatus Clone", actual)
+}
