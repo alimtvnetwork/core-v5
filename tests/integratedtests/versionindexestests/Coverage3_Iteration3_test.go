@@ -1,6 +1,7 @@
 package versionindexestests
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corejson"
