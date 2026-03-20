@@ -1120,3 +1120,241 @@ func Test_I10_NewSFRW_Path(t *testing.T) {
 		t.Fatal("expected non-nil")
 	}
 }
+
+func Test_I10_NewSFRW_Create(t *testing.T) {
+	rw := chmodhelper.New.SimpleFileReaderWriter.Create(false, 0755, 0644, "/tmp/i10", "/tmp/i10/c.txt")
+	if rw == nil {
+		t.Fatal("expected non-nil")
+	}
+}
+
+func Test_I10_NewSFRW_All(t *testing.T) {
+	rw := chmodhelper.New.SimpleFileReaderWriter.All(0755, 0644, false, true, true, "/tmp/i10", "/tmp/i10/a.txt")
+	if rw == nil {
+		t.Fatal("expected non-nil")
+	}
+}
+
+func Test_I10_NewSFRW_Options(t *testing.T) {
+	rw := chmodhelper.New.SimpleFileReaderWriter.Options(false, true, true, "/tmp/i10/opt.txt")
+	if rw == nil {
+		t.Fatal("expected non-nil")
+	}
+}
+
+func Test_I10_NewSFRW_CreateClean(t *testing.T) {
+	rw := chmodhelper.New.SimpleFileReaderWriter.CreateClean(false, 0755, 0644, "/tmp/i10", "/tmp/i10/cc.txt")
+	if rw == nil {
+		t.Fatal("expected non-nil")
+	}
+}
+
+func Test_I10_NewSFRW_DefaultCleanPath(t *testing.T) {
+	rw := chmodhelper.New.SimpleFileReaderWriter.DefaultCleanPath(false, "/tmp/i10/dcp.txt")
+	if rw == nil {
+		t.Fatal("expected non-nil")
+	}
+}
+
+func Test_I10_NewSFRW_PathCondition(t *testing.T) {
+	rw := chmodhelper.New.SimpleFileReaderWriter.PathCondition(false, true, 0755, 0644, "/tmp/i10/pc.txt")
+	if rw == nil {
+		t.Fatal("expected non-nil")
+	}
+	rw2 := chmodhelper.New.SimpleFileReaderWriter.PathCondition(false, false, 0755, 0644, "/tmp/i10/pc2.txt")
+	if rw2 == nil {
+		t.Fatal("expected non-nil")
+	}
+}
+
+func Test_I10_NewSFRW_PathDirDefaultChmod(t *testing.T) {
+	rw := chmodhelper.New.SimpleFileReaderWriter.PathDirDefaultChmod(false, 0644, "/tmp/i10/pddc.txt")
+	if rw == nil {
+		t.Fatal("expected non-nil")
+	}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// GetRecursivePaths — uncovered branches
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I10_GetRecursivePaths_NonExistent(t *testing.T) {
+	_, err := chmodhelper.GetRecursivePaths(false, "/nonexistent/i10/recurse")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+}
+
+func Test_I10_GetRecursivePaths_File(t *testing.T) {
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "file.txt")
+	os.WriteFile(fp, []byte("x"), 0644)
+	paths, err := chmodhelper.GetRecursivePaths(false, fp)
+	if err != nil || len(paths) != 1 {
+		t.Fatal("expected 1 path")
+	}
+}
+
+func Test_I10_GetRecursivePaths_Dir(t *testing.T) {
+	dir := t.TempDir()
+	os.WriteFile(filepath.Join(dir, "a.txt"), []byte("x"), 0644)
+	paths, err := chmodhelper.GetRecursivePaths(false, dir)
+	if err != nil || len(paths) < 2 {
+		t.Fatal("expected >= 2 paths")
+	}
+}
+
+func Test_I10_GetRecursivePaths_ContinueOnError(t *testing.T) {
+	dir := t.TempDir()
+	os.WriteFile(filepath.Join(dir, "b.txt"), []byte("x"), 0644)
+	paths, err := chmodhelper.GetRecursivePaths(true, dir)
+	if err != nil || len(paths) < 2 {
+		t.Fatal("expected >= 2 paths")
+	}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// fileBytesWriter — uncovered methods (via SimpleFileWriter)
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I10_FileBytesWriter_WithDirChmod(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "fbw.txt")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Bytes.WithDirChmod(false, 0755, 0644, fp, []byte("data"))
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_I10_FileBytesWriter_WithDirChmodLock(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "fbwl.txt")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Bytes.WithDirChmodLock(false, 0755, 0644, fp, []byte("data"))
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_I10_FileBytesWriter_Chmod(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "fbwc.txt")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Bytes.Chmod(false, 0755, 0644, fp, []byte("data"))
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_I10_FileBytesWriter_WithDir(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "fbwd.txt")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Bytes.WithDir(false, fp, []byte("data"))
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_I10_FileBytesWriter_WithDirLock(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "fbwdl.txt")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Bytes.WithDirLock(false, fp, []byte("data"))
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_I10_FileBytesWriter_Default(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "fbwdf.txt")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Bytes.Default(false, fp, []byte("data"))
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// anyItemWriter — error path (unmarshalable)
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I10_AnyItemWriter_Chmod_Error(t *testing.T) {
+	ch := make(chan int)
+	err := chmodhelper.SimpleFileWriter.FileWriter.Any.Chmod(
+		false, 0755, 0644, "/tmp", "/tmp/i10_any_err.json", ch)
+	if err == nil {
+		t.Fatal("expected error for channel")
+	}
+}
+
+func Test_I10_AnyItemWriter_ChmodLock(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "anyl.json")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Any.ChmodLock(
+		false, 0755, 0644, dir, fp, map[string]string{"k": "v"})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_I10_AnyItemWriter_Default(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "anydf.json")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Any.Default(false, fp, map[string]string{"k": "v"})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func Test_I10_AnyItemWriter_DefaultLock(t *testing.T) {
+	skipWin(t)
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "anydfl.json")
+	err := chmodhelper.SimpleFileWriter.FileWriter.Any.DefaultLock(false, fp, map[string]string{"k": "v"})
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// fileReader — Read, ReadBytes
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_I10_FileReader_Read(t *testing.T) {
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "fr.txt")
+	os.WriteFile(fp, []byte("hello"), 0644)
+	s, err := chmodhelper.SimpleFileWriter.FileReader.Read(fp)
+	if err != nil || s != "hello" {
+		t.Fatal("unexpected")
+	}
+}
+
+func Test_I10_FileReader_ReadBytes(t *testing.T) {
+	dir := t.TempDir()
+	fp := filepath.Join(dir, "frb.txt")
+	os.WriteFile(fp, []byte("bytes"), 0644)
+	b, err := chmodhelper.SimpleFileWriter.FileReader.ReadBytes(fp)
+	if err != nil || string(b) != "bytes" {
+		t.Fatal("unexpected")
+	}
+}
+
+func Test_I10_FileReader_ReadBytes_Error(t *testing.T) {
+	_, err := chmodhelper.SimpleFileWriter.FileReader.ReadBytes("/nonexistent/i10/fr.txt")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+}
+
+func Test_I10_FileReader_Read_Error(t *testing.T) {
+	_, err := chmodhelper.SimpleFileWriter.FileReader.Read("/nonexistent/i10/fr.txt")
+	if err == nil {
+		t.Fatal("expected error")
+	}
+}
