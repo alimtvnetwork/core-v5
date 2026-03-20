@@ -644,7 +644,6 @@ function Invoke-TestCoverage {
     } else {
         # ── Parallel coverage run (ForEach-Object -Parallel) ──
         $throttle = [Math]::Min($testPkgs.Count, [Environment]::ProcessorCount * 2)
-        Write-Host "  Launching $($testPkgs.Count) test packages ($throttle parallel)..." -ForegroundColor Gray
 
         $coverResults = $testPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
             $pkg = $_
