@@ -1079,34 +1079,47 @@ function copyForAI(){
             Write-Host "  ✓ Injected 'Copy for AI' button into HTML report" -ForegroundColor Green
         }
 
-        # Print per-source-package coverage to console
+        # ── Coverage Summary (console) ──
         if ($srcPkgStmts.Count -gt 0) {
             Write-Host ""
-            Write-Host "  === Per-Source-Package Coverage ===" -ForegroundColor Cyan
-            Write-Host ""
+            Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Cyan
+            Write-Host "  │ COVERAGE SUMMARY" -ForegroundColor Cyan
+            Write-Host "  │" -ForegroundColor Cyan
             $sortedSrcPkgs2 = $srcPkgStmts.GetEnumerator() | ForEach-Object {
                 $pctVal2 = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
                 [pscustomobject]@{ Name = $_.Key; Pct = $pctVal2 }
             } | Sort-Object Pct -Descending
             foreach ($entry2 in $sortedSrcPkgs2) {
-                $color = if ($entry2.Pct -ge 50) { "Green" } elseif ($entry2.Pct -ge 20) { "Yellow" } else { "Red" }
-                Write-Host "  $($entry2.Pct)%`t$($entry2.Name)" -ForegroundColor $color
+                $color = if ($entry2.Pct -ge 100) { "Green" } elseif ($entry2.Pct -ge 80) { "Yellow" } else { "Red" }
+                Write-Host "  │  $($entry2.Pct)%`t$($entry2.Name)" -ForegroundColor $color
             }
+            Write-Host "  │" -ForegroundColor Cyan
+            if ($totalLine) {
+                Write-Host "  │  $totalLine" -ForegroundColor Cyan
+            }
+            if ($lowCovFuncs.Count -gt 0) {
+                Write-Host "  │  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
+            }
+            Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Cyan
         }
 
+        # ── Written Files Summary (console) ──
         Write-Host ""
-        if ($totalLine) {
-            Write-Host "  $totalLine" -ForegroundColor Cyan
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Gray
+        Write-Host "  │ WRITTEN FILES" -ForegroundColor Gray
+        Write-Host "  │  $coverProfile" -ForegroundColor Gray
+        Write-Host "  │  $coverHtml" -ForegroundColor Gray
+        Write-Host "  │  $coverSummary" -ForegroundColor Gray
+        Write-Host "  │  $coverJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $perPkgTxtFile" -ForegroundColor Gray
+        Write-Host "  │  $perPkgJsonFile" -ForegroundColor Gray
+        if ($blockedPkgs.Count -gt 0) {
+            $bFile = Join-Path $coverDir "blocked-packages.txt"
+            $bJsonFile = Join-Path $coverDir "blocked-packages.json"
+            Write-Host "  │  $bFile" -ForegroundColor Gray
+            Write-Host "  │  $bJsonFile" -ForegroundColor Gray
         }
-        Write-Host ""
-        Write-Success "Coverage profile:  $coverProfile"
-        Write-Success "HTML report:       $coverHtml"
-        Write-Success "Summary:           $coverSummary"
-
-        if ($lowCovFuncs.Count -gt 0) {
-            Write-Host ""
-            Write-Host "  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
-        }
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Gray
 
         # ── Generate AI coverage prompts ──────────────────────────────
         $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"
