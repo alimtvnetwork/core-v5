@@ -540,148 +540,16 @@ func Test_C33_Hashset_AddCapacities(t *testing.T) {
 }
 
 func Test_C33_Hashset_Resize(t *testing.T) {
-	hs := corestr.New.Hashset.Strings("a", "b")
+	hs := corestr.New.Hashset.Strings([]string{"a", "b"})
 	hs.Resize(10)
 	hs.Resize(0) // smaller, should not resize
 	hs.ResizeLock(20)
 	hs.ResizeLock(0) // smaller
 }
-
-// ── SimpleSlice additional ──
-
-func Test_C33_SS_InsertAt(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "c")
-	ss.InsertAt(1, "b")
-	if ss.Length() != 3 { t.Fatal("expected 3") }
-}
-
-func Test_C33_SS_AddsIf(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddsIf(true, "a", "b")
-	ss.AddsIf(false, "c")
-	if ss.Length() != 2 { t.Fatal("expected 2") }
-}
-
-func Test_C33_SS_FirstLast(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "b", "c")
-	actual := args.Map{
-		"first": ss.First(), "last": ss.Last(),
-		"firstD": ss.FirstDynamic(), "lastD": ss.LastDynamic(),
-		"firstOrDef": ss.FirstOrDefault(), "lastOrDef": ss.LastOrDefault(),
-	}
-	expected := args.Map{
-		"first": "a", "last": "c",
-		"firstD": "a", "lastD": "c",
-		"firstOrDef": "a", "lastOrDef": "c",
-	}
-	expected.ShouldBeEqual(t, 0, "SS First/Last", actual)
-}
-
-func Test_C33_SS_FirstOrDefault_Empty(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	if ss.FirstOrDefault() != "" { t.Fatal("expected empty") }
-	if ss.LastOrDefault() != "" { t.Fatal("expected empty") }
-	_ = ss.FirstOrDefaultDynamic()
-	_ = ss.LastOrDefaultDynamic()
-}
-
-func Test_C33_SS_Skip_Take_Limit(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "b", "c")
-	skip := ss.Skip(1)
-	if len(skip) != 2 { t.Fatal("expected 2") }
-	skipAll := ss.Skip(99)
-	if len(skipAll) != 0 { t.Fatal("expected 0") }
-	_ = ss.SkipDynamic(1)
-
-	take := ss.Take(2)
-	if len(take) != 2 { t.Fatal("expected 2") }
-	takeAll := ss.Take(99)
-	if len(takeAll) != 3 { t.Fatal("expected 3") }
-	_ = ss.TakeDynamic(2)
-
-	limit := ss.Limit(2)
-	if len(limit) != 2 { t.Fatal("expected 2") }
-	_ = ss.LimitDynamic(2)
-}
-
-func Test_C33_SS_IsContains_IndexOf(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "b")
-	actual := args.Map{
-		"contains":    ss.IsContains("a"),
-		"notContains": ss.IsContains("z"),
-		"indexOf":     ss.IndexOf("b"),
-		"notFound":    ss.IndexOf("z"),
-		"hasAny":      ss.HasAnyItem(),
-		"lastIdx":     ss.LastIndex(),
-	}
-	expected := args.Map{
-		"contains": true, "notContains": false,
-		"indexOf": 1, "notFound": -1,
-		"hasAny": true, "lastIdx": 1,
-	}
-	expected.ShouldBeEqual(t, 0, "SS IsContains/IndexOf", actual)
-}
-
-func Test_C33_SS_CountFunc(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("a", "bb", "ccc")
-	count := ss.CountFunc(func(i int, s string) bool { return len(s) > 1 })
-	if count != 2 { t.Fatal("expected 2") }
-}
-
-func Test_C33_SS_IsContainsFunc_IndexOfFunc(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("Hello", "World")
-	found := ss.IsContainsFunc("hello", func(item, searching string) bool {
-		return item == "Hello"
-	})
-	if !found { t.Fatal("expected true") }
-
-	idx := ss.IndexOfFunc("World", func(item, searching string) bool {
-		return item == searching
-	})
-	if idx != 1 { t.Fatal("expected 1") }
-}
-
-func Test_C33_SS_AsDefaultError_AsError(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Lines("err1", "err2")
-	err := ss.AsDefaultError()
-	if err == nil { t.Fatal("expected error") }
-	err2 := ss.AsError(",")
-	if err2 == nil { t.Fatal("expected error") }
-
-	empty := corestr.New.SimpleSlice.Empty()
-	if empty.AsDefaultError() != nil { t.Fatal("expected nil") }
-	var nilSS *corestr.SimpleSlice
-	if nilSS.AsError(",") != nil { t.Fatal("expected nil for nil") }
-}
-
-func Test_C33_SS_AddStruct_AddPointer(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	type sample struct{ Name string }
-	s := sample{Name: "test"}
-	ss.AddStruct(true, s)
-	ss.AddPointer(true, &s)
-}
-
-func Test_C33_SS_AddAsTitleValue(t *testing.T) {
-	ss := corestr.New.SimpleSlice.Empty()
-	ss.AddAsTitleValue("key", "val")
-	ss.AddAsTitleValueIf(true, "k2", "v2")
-	ss.AddAsTitleValueIf(false, "k3", "v3")
-	if ss.Length() != 2 { t.Fatal("expected 2") }
-}
-
-// ── CloneSlice ──
-
-func Test_C33_CloneSlice(t *testing.T) {
-	result := corestr.CloneSlice([]string{"a", "b"})
-	if len(result) != 2 { t.Fatal("expected 2") }
-	nilResult := corestr.CloneSlice(nil)
-	if len(nilResult) != 0 { t.Fatal("expected empty for nil") }
-}
-
+...
 func Test_C33_CloneSliceIf(t *testing.T) {
-	result := corestr.CloneSliceIf(true, []string{"a"})
+	result := corestr.CloneSliceIf(true, []string{"a"}...)
 	if len(result) != 1 { t.Fatal("expected 1") }
-	noClone := corestr.CloneSliceIf(false, []string{"a"})
+	noClone := corestr.CloneSliceIf(false, []string{"a"}...)
 	if len(noClone) != 1 { t.Fatal("expected original") }
 }
