@@ -56,8 +56,8 @@ func Test_C33_LL_IsEquals_Nil(t *testing.T) {
 
 func Test_C33_LL_AddBack(t *testing.T) {
 	ll := corestr.New.LinkedList.Empty()
-	ll.AddBack("a")
-	ll.AddBack("b")
+	ll.PushBack("a")
+	ll.PushBack("b")
 }
 
 func Test_C33_LL_AddLock(t *testing.T) {
@@ -67,7 +67,7 @@ func Test_C33_LL_AddLock(t *testing.T) {
 
 func Test_C33_LL_AddBackLock(t *testing.T) {
 	ll := corestr.New.LinkedList.Empty()
-	ll.AddBackLock("a")
+	ll.AddLock("a")
 }
 
 func Test_C33_LL_AddCollection(t *testing.T) {
@@ -95,26 +95,26 @@ func Test_C33_LL_AddAfterNode(t *testing.T) {
 
 func Test_C33_LL_AddBackNode(t *testing.T) {
 	ll := corestr.New.LinkedList.Empty()
-	ll.AddBack("a")
+	ll.PushBack("a")
 	// AddBackNode tested implicitly
 }
 
 func Test_C33_LL_Remove(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c"})
-	ll.Remove("b")
-	ll.Remove("a")
-	ll.Remove("c")
+	ll.RemoveNodeByElementValue("b", true, false)
+	ll.RemoveNodeByElementValue("a", true, false)
+	ll.RemoveNodeByElementValue("c", true, false)
 }
 
 func Test_C33_LL_RemoveLock(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
-	ll.RemoveLock("a")
+	ll.RemoveNodeByElementValue("a", true, false)
 }
 
 func Test_C33_LL_RemoveAt(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c"})
-	ll.RemoveAt(1)
-	ll.RemoveAt(0)
+	ll.RemoveNodeByIndex(1)
+	ll.RemoveNodeByIndex(0)
 }
 
 func Test_C33_LL_List(t *testing.T) {
@@ -268,7 +268,8 @@ func Test_C33_LL_AddCollectionToNode(t *testing.T) {
 
 func Test_C33_LL_AddStringsPtrToNode(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	ll.AddStringsPtrToNode(false, ll.Head(), []string{"b"}, false)
+	items := []string{"b"}
+	ll.AddStringsPtrToNode(false, ll.Head(), &items)
 }
 
 // ── newLinkedListCreator ──
@@ -515,12 +516,13 @@ func Test_C33_LLN_AddNextNode(t *testing.T) {
 
 func Test_C33_LLN_AddStringsToNode(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	ll.Head().AddStringsToNode(ll, false, []string{"b"}, false)
+	ll.Head().AddStringsToNode(ll, false, []string{"b"})
 }
 
 func Test_C33_LLN_AddStringsPtrToNode(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	ll.Head().AddStringsPtrToNode(ll, false, []string{"b"}, false)
+	items := []string{"b"}
+	ll.Head().AddStringsPtrToNode(ll, false, &items)
 }
 
 func Test_C33_LLN_AddCollectionToNode(t *testing.T) {
