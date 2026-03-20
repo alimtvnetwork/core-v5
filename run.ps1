@@ -477,10 +477,8 @@ function Invoke-TestCoverage {
             $ErrorActionPreference = $prevPref
 
             if ($compileExit -eq 0) {
-                Write-Host "  ✓ $shortName" -ForegroundColor Green
                 $testPkgs.Add($testPkg)
             } else {
-                Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($compileOut -join "`n")
             }
@@ -512,10 +510,8 @@ function Invoke-TestCoverage {
             if (-not $shortName) { $shortName = "(root)" }
 
             if ($result.ExitCode -eq 0) {
-                Write-Host "  ✓ $shortName" -ForegroundColor Green
                 $testPkgs.Add($result.Pkg)
             } else {
-                Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($result.Output -join "`n")
             }
@@ -603,8 +599,6 @@ function Invoke-TestCoverage {
         }
         $blockedJson = $blockedJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $blockedJsonFile -Value $blockedJson -Encoding UTF8
-        Write-Host "  Blocked details → $blockedFile" -ForegroundColor Gray
-        Write-Host "  Blocked JSON    → $blockedJsonFile" -ForegroundColor Gray
     } else {
         Write-Host ""
         Write-Success "All $($testPkgs.Count) packages compiled successfully"
@@ -622,8 +616,7 @@ function Invoke-TestCoverage {
     $pkgIndex = 0
 
     Write-Host ""
-    Write-Host "  Running $($testPkgs.Count) test packages with individual coverage profiles ($modeLabel)..." -ForegroundColor Yellow
-    Write-Host ""
+    Write-Host "  Running $($testPkgs.Count) test packages ($modeLabel)..." -ForegroundColor Yellow
 
     if ($isSyncMode) {
         # ── Sequential coverage run ──
@@ -644,38 +637,11 @@ function Invoke-TestCoverage {
 
             if ($pkgExit -ne 0) { $overallExit = $pkgExit }
 
-            $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
-            $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
-
-            $partialPct = ""
-            if (Test-Path $partialProfile) {
-                $srcMatchPattern = $srcTarget -replace '/', '/'
-                $pStmts = 0; $pCovered = 0
-                $pTotalLines = 0; $pMatchedLines = 0
-                foreach ($pLine in (Get-Content $partialProfile)) {
-                    if ($pLine -match "^mode:") { continue }
-                    $pTotalLines++
-                    if ($pLine -notmatch "/$srcMatchPattern/") { continue }
-                    $pMatchedLines++
-                    if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
-                        $pStmts += [int]$Matches[1]
-                        if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
-                    }
-                }
-                if ($pStmts -gt 0) {
-                    $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
-                }
-                Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
-            }
-
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
-
             if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
         }
     } else {
         # ── Parallel coverage run (ForEach-Object -Parallel) ──
         $throttle = [Math]::Min($testPkgs.Count, [Environment]::ProcessorCount * 2)
-        Write-Host "  Launching $($testPkgs.Count) test packages ($throttle parallel)..." -ForegroundColor Gray
 
         $coverResults = $testPkgs | ForEach-Object -ThrottleLimit $throttle -Parallel {
             $pkg = $_
@@ -693,57 +659,39 @@ function Invoke-TestCoverage {
             }
         }
 
-        $displayIndex = 0
         foreach ($result in ($coverResults | Sort-Object Pkg)) {
-            $displayIndex++
-            $shortName = $result.Pkg -replace '.*integratedtests/?', ''
-            if (-not $shortName) { $shortName = "(root)" }
-            $srcTarget = $shortName -replace 'tests$', '' -replace 'tests/', '/'
-            if (-not $srcTarget) { $srcTarget = $shortName }
-
             if ($result.ExitCode -ne 0) { $overallExit = $result.ExitCode }
-
-            $statusIcon = if ($result.ExitCode -eq 0) { "✓" } else { "✗" }
-            $statusColor = if ($result.ExitCode -eq 0) { "Green" } else { "Red" }
-
-            $partialPct = ""
-            if (Test-Path $result.Profile) {
-                $srcMatchPattern = $srcTarget -replace '/', '/'
-                $pStmts = 0; $pCovered = 0
-                $pTotalLines = 0; $pMatchedLines = 0
-                foreach ($pLine in (Get-Content $result.Profile)) {
-                    if ($pLine -match "^mode:") { continue }
-                    $pTotalLines++
-                    if ($pLine -notmatch "/$srcMatchPattern/") { continue }
-                    $pMatchedLines++
-                    if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
-                        $pStmts += [int]$Matches[1]
-                        if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
-                    }
-                }
-                if ($pStmts -gt 0) {
-                    $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
-                }
-                Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
-            }
-
-            Write-Host "  [$displayIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
-
             if ($result.Output) { foreach ($line in $result.Output) { $allOutput.Add([string]$line) } }
         }
         $pkgIndex = $testPkgs.Count
     }
 
-    # Print to console (skip "warning: no packages being tested" noise)
-    Filter-TestWarnings $allOutput | ForEach-Object { Write-Host $_ }
+    # Write test logs to files (no raw dump to console)
     Write-TestLogs $allOutput.ToArray()
 
+    # ── Failing Test Summary (console) ──
+    $failedTestNames = [System.Collections.Generic.HashSet[string]]::new()
+    foreach ($line in $allOutput) {
+        if ($line -match "--- FAIL:\s+(.+?)\s+\(") {
+            $failedTestNames.Add($Matches[1].Trim()) | Out-Null
+        }
+    }
+    if ($failedTestNames.Count -gt 0) {
+        Write-Host ""
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Red
+        Write-Host "  │ FAILING TESTS ($($failedTestNames.Count) failed)" -ForegroundColor Red
+        Write-Host "  │" -ForegroundColor Red
+        foreach ($ft in ($failedTestNames | Sort-Object)) {
+            Write-Host "  │   ✗ $ft" -ForegroundColor Red
+        }
+        Write-Host "  │" -ForegroundColor Red
+        Write-Host "  │ See data/test-logs/failing-tests.txt for details." -ForegroundColor Yellow
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Red
+    }
+
     # Merge all partial profiles into one, using MAX count per unique line.
-    # This is critical because -coverpkg instruments ALL source packages in every test run,
-    # so each line appears N times (once per test package). Without dedup, the last occurrence
-    # (usually count=0 from a package that didn't exercise this code) overwrites the covered entry.
-    Write-Host ""
-    Write-Host "  Merging $pkgIndex coverage profiles (max-count dedup)..." -ForegroundColor Yellow
+    # -coverpkg instruments ALL source packages in every test run, so each line
+    # appears N times. Without dedup, the last count=0 overwrites covered entries.
 
     $partialFiles = Get-ChildItem -Path $partialDir -Filter "cover-*.out" | Sort-Object Name
     $coverMap = [System.Collections.Generic.Dictionary[string, int]]::new()
@@ -775,16 +723,11 @@ function Invoke-TestCoverage {
     }
 
     Set-Content -Path $coverProfile -Value ($mergedLines -join "`n") -Encoding UTF8
-    Write-Success "Merged profile: $coverProfile ($($coverMap.Count) unique coverage lines)"
-
-    # Keep partial profiles for per-package inspection
-    Write-Success "Partial profiles kept in: $partialDir"
+    # (file write messages deferred to written files summary)
 
     if (Test-Path $coverProfile) {
         # Generate func-level summary
-        Write-Host "  [debug] coverProfile = $coverProfile" -ForegroundColor DarkGray
-        Write-Host "  [debug] coverHtml    = $coverHtml" -ForegroundColor DarkGray
-        Write-Host "  [debug] file exists  = $(Test-Path $coverProfile)" -ForegroundColor DarkGray
+        # Generate func-level summary (no debug output)
 
         $funcOutput = & go tool cover "-func=$coverProfile" 2>&1 | ForEach-Object { $_.ToString() }
 
@@ -796,14 +739,14 @@ function Invoke-TestCoverage {
 
         # Generate HTML report — use explicit argument list to avoid variable interpolation issues
         $htmlArgs = @("-html=$coverProfile", "-o=$coverHtml")
-        Write-Host "  [debug] go tool cover args: $($htmlArgs -join ' ')" -ForegroundColor DarkGray
+        
         $htmlErr = & go tool cover $htmlArgs 2>&1
         $htmlExitCode = $LASTEXITCODE
 
         if ($htmlExitCode -ne 0 -or -not (Test-Path $coverHtml)) {
             Write-Host "  ⚠ Failed to generate HTML report via 'go tool cover -html' (exit: $htmlExitCode)" -ForegroundColor Red
             if ($htmlErr) { Write-Host "  Error: $htmlErr" -ForegroundColor Red }
-            Write-Host "  [debug] Attempted command: go tool cover -html=`"$coverProfile`" -o=`"$coverHtml`"" -ForegroundColor DarkGray
+            
             # Fallback: generate a basic HTML from the func output
             $fallbackHtml = @"
 <!DOCTYPE html><html><head><meta charset="utf-8"><title>Coverage Report</title>
@@ -978,7 +921,7 @@ pre{white-space:pre-wrap}</style></head><body>
         }
         $coverJson = $coverJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $coverJsonFile -Value $coverJson -Encoding UTF8
-        Write-Success "Coverage JSON: $coverJsonFile"
+        
 
         # ── Per-Package Coverage report (TXT + JSON) ──
         $perPkgTxtFile = Join-Path $coverDir "per-package-coverage.txt"
@@ -1049,8 +992,6 @@ pre{white-space:pre-wrap}</style></head><body>
         Set-Content -Path $perPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
         $perPkgJson = $perPkgJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $perPkgJsonFile -Value $perPkgJson -Encoding UTF8
-        Write-Success "Per-package coverage: $perPkgTxtFile"
-        Write-Success "Per-package JSON:     $perPkgJsonFile"
 
         # Build AI-friendly text for copy button
         $aiTextLines.Add("## Goal: Improve test coverage for the packages listed below.")
@@ -1134,34 +1075,47 @@ function copyForAI(){
             Write-Host "  ✓ Injected 'Copy for AI' button into HTML report" -ForegroundColor Green
         }
 
-        # Print per-source-package coverage to console
+        # ── Coverage Summary (console) ──
         if ($srcPkgStmts.Count -gt 0) {
             Write-Host ""
-            Write-Host "  === Per-Source-Package Coverage ===" -ForegroundColor Cyan
-            Write-Host ""
+            Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Cyan
+            Write-Host "  │ COVERAGE SUMMARY" -ForegroundColor Cyan
+            Write-Host "  │" -ForegroundColor Cyan
             $sortedSrcPkgs2 = $srcPkgStmts.GetEnumerator() | ForEach-Object {
                 $pctVal2 = if ($_.Value.Stmts -gt 0) { [math]::Round(($_.Value.Covered / $_.Value.Stmts) * 100, 1) } else { 0 }
                 [pscustomobject]@{ Name = $_.Key; Pct = $pctVal2 }
             } | Sort-Object Pct -Descending
             foreach ($entry2 in $sortedSrcPkgs2) {
-                $color = if ($entry2.Pct -ge 50) { "Green" } elseif ($entry2.Pct -ge 20) { "Yellow" } else { "Red" }
-                Write-Host "  $($entry2.Pct)%`t$($entry2.Name)" -ForegroundColor $color
+                $color = if ($entry2.Pct -ge 100) { "Green" } elseif ($entry2.Pct -ge 80) { "Yellow" } else { "Red" }
+                Write-Host "  │  $($entry2.Pct)%`t$($entry2.Name)" -ForegroundColor $color
             }
+            Write-Host "  │" -ForegroundColor Cyan
+            if ($totalLine) {
+                Write-Host "  │  $totalLine" -ForegroundColor Cyan
+            }
+            if ($lowCovFuncs.Count -gt 0) {
+                Write-Host "  │  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
+            }
+            Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Cyan
         }
 
+        # ── Written Files Summary (console) ──
         Write-Host ""
-        if ($totalLine) {
-            Write-Host "  $totalLine" -ForegroundColor Cyan
+        Write-Host "  ┌─────────────────────────────────────────────────" -ForegroundColor Gray
+        Write-Host "  │ WRITTEN FILES" -ForegroundColor Gray
+        Write-Host "  │  $coverProfile" -ForegroundColor Gray
+        Write-Host "  │  $coverHtml" -ForegroundColor Gray
+        Write-Host "  │  $coverSummary" -ForegroundColor Gray
+        Write-Host "  │  $coverJsonFile" -ForegroundColor Gray
+        Write-Host "  │  $perPkgTxtFile" -ForegroundColor Gray
+        Write-Host "  │  $perPkgJsonFile" -ForegroundColor Gray
+        if ($blockedPkgs.Count -gt 0) {
+            $bFile = Join-Path $coverDir "blocked-packages.txt"
+            $bJsonFile = Join-Path $coverDir "blocked-packages.json"
+            Write-Host "  │  $bFile" -ForegroundColor Gray
+            Write-Host "  │  $bJsonFile" -ForegroundColor Gray
         }
-        Write-Host ""
-        Write-Success "Coverage profile:  $coverProfile"
-        Write-Success "HTML report:       $coverHtml"
-        Write-Success "Summary:           $coverSummary"
-
-        if ($lowCovFuncs.Count -gt 0) {
-            Write-Host ""
-            Write-Host "  ⚠ $($lowCovFuncs.Count) function(s) below 50% coverage" -ForegroundColor Yellow
-        }
+        Write-Host "  └─────────────────────────────────────────────────" -ForegroundColor Gray
 
         # ── Generate AI coverage prompts ──────────────────────────────
         $promptScript = Join-Path $PSScriptRoot "scripts" "coverage" "Generate-CoveragePrompts.ps1"

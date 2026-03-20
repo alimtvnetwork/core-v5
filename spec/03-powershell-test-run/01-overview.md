@@ -129,10 +129,21 @@ Running `./run.ps1 -tc` produces:
 | `data/coverage/coverage.html` | Visual HTML report (auto-opens in browser) |
 | `data/coverage/coverage-summary.txt` | Text summary with per-package and low-coverage highlights |
 | `data/coverage/coverage-summary.json` | Machine-readable JSON (see schema below) |
-| `data/coverage/blocked-packages.txt` | Text report of packages that failed to compile |
+| `data/coverage/per-package-coverage.txt` | Per-package coverage table |
+| `data/coverage/per-package-coverage.json` | Per-package JSON |
+| `data/coverage/blocked-packages.txt` | Text report of packages that failed to compile (full errors + stack traces) |
 | `data/coverage/blocked-packages.json` | Machine-readable JSON (see schema below) |
 
-Root-level copies (`coverage-summary.json`, `blocked-packages.json`) are also written for convenience.
+### Console Output Sections
+
+The TC command prints exactly **four sections** to the console (no per-package test rows):
+
+1. **Build Failure Packages** — boxed list of packages that failed `go test -c`, or a single "all compiled" message
+2. **Failing Test Summary** — boxed list of test functions that produced `--- FAIL:`, with pointer to `failing-tests.txt` for details
+3. **Coverage Summary** — boxed per-source-package coverage table sorted by % descending, total line, and low-coverage warning
+4. **Written Files Summary** — boxed list of all generated report file paths
+
+Individual package compile/test results are **not** printed to the console — they are captured in log files only.
 
 ### Coverage Summary Contents
 
