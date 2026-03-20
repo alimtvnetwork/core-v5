@@ -79,7 +79,7 @@
 
 ### Phase 2 — Small-Medium Packages — Iterations 4-8
 
-**Iteration 4**: `coretests/coretestcases` (11), `coreinstruction` (16)
+**Iteration 4** ✅: `coreinstruction` (16 — all covered), `coretests/coretestcases` (11 — failure path branches exercised via sub-test pattern)
 → 27 stmts total
 
 **Iteration 5**: `codestack` (24), `regexnew` (29)
