@@ -17,7 +17,7 @@ func Test_Cov6_ToStringsUsingProcessor_EmptyAnyItems(t *testing.T) {
 
 	// Act
 	// Pass a non-nil but empty slice so anyVal != nil but ToAnyItems returns empty
-	result := converters.AnyItem.ToStringsUsingProcessor(
+	result := converters.AnyTo.ToStringsUsingProcessor(
 		true,
 		processor,
 		[]int{},

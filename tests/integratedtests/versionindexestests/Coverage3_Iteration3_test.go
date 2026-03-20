@@ -14,7 +14,7 @@ func Test_Cov3_JsonParseSelfInject_HasError(t *testing.T) {
 	// Arrange
 	idx := versionindexes.Major
 	errResult := corejson.NewPtr("invalid-data")
-	errResult.SetError("simulated parse error")
+	errResult.Error = fmt.Errorf("simulated parse error")
 
 	// Act
 	err := idx.JsonParseSelfInject(errResult)
