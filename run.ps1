@@ -482,12 +482,7 @@ function Invoke-TestCoverage {
             } else {
                 Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
-                $goLines = @($compileOut | Where-Object { $_ -match '\.go:\d+:' })
-                if ($goLines.Count -gt 0) {
-                    $blockedErrors[$shortName] = $goLines -join "`n"
-                } else {
-                    $blockedErrors[$shortName] = ($compileOut -join "`n")
-                }
+                $blockedErrors[$shortName] = ($compileOut -join "`n")
             }
         }
     } else {
@@ -522,12 +517,7 @@ function Invoke-TestCoverage {
             } else {
                 Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
-                $goLines = @($result.Output | Where-Object { $_ -match '\.go:\d+:' })
-                if ($goLines.Count -gt 0) {
-                    $blockedErrors[$shortName] = $goLines -join "`n"
-                } else {
-                    $blockedErrors[$shortName] = ($result.Output -join "`n")
-                }
+                $blockedErrors[$shortName] = ($result.Output -join "`n")
             }
         }
     }
