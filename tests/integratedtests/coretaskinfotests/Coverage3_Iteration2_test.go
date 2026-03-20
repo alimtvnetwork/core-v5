@@ -23,8 +23,8 @@ func Test_Cov3_JsonString_NilInfo(t *testing.T) {
 	)
 }
 
-// Test_Cov3_MapWithPayload_SerializeError tests the HasError branch in MapWithPayload.
-func Test_Cov3_MapWithPayload_SerializeError(t *testing.T) {
+// Test_Cov3_MapWithPayloadAsAny_SerializeError tests the HasError branch in MapWithPayloadAsAny.
+func Test_Cov3_MapWithPayloadAsAny_SerializeError(t *testing.T) {
 	// Arrange
 	info := &coretaskinfo.Info{
 		RootName:    "test",
@@ -33,13 +33,13 @@ func Test_Cov3_MapWithPayload_SerializeError(t *testing.T) {
 
 	// Act — pass a channel which cannot be JSON-marshalled
 	ch := make(chan int)
-	result := info.MapWithPayload(ch)
+	result := info.MapWithPayloadAsAny(ch)
 
-	// Assert — should have a payloads-error field
-	_, hasPayloadsErr := result["PayloadsError"]
+	// Assert — should have a serializing error field
+	_, hasPayloadsErr := result["Payloads.SerializingErr"]
 	coretests.GetAssert.ShouldBeEqual(
 		t, 0,
-		"MapWithPayload with unmarshal-able payload should have error",
+		"MapWithPayloadAsAny with unmarshal-able payload should have error",
 		hasPayloadsErr, true,
 	)
 }
