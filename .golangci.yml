@@ -18,11 +18,13 @@ linters:
     - errcheck
     - ineffassign
     - typecheck
+    - gosimple
+    - nilerr
+    - durationcheck
 
-  disable:
-    - deadcode
-    - structcheck
-    - varcheck
+    # Performance
+    - prealloc
+    - gocritic
 
 linters-settings:
   revive:
