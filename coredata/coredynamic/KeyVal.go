@@ -24,10 +24,18 @@ func (it KeyVal) ValueDynamic() Dynamic {
 }
 
 func (it *KeyVal) KeyDynamicPtr() *Dynamic {
+	if it == nil {
+		return nil
+	}
+
 	return NewDynamicPtr(it.Key, true)
 }
 
 func (it *KeyVal) ValueDynamicPtr() *Dynamic {
+	if it == nil {
+		return nil
+	}
+
 	return NewDynamicPtr(it.Value, true)
 }
 
@@ -44,6 +52,10 @@ func (it KeyVal) IsValueNull() bool {
 }
 
 func (it *KeyVal) String() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return fmt.Sprintf(
 		constants.KeyValuePariSimpleFormat,
 		it.Key,

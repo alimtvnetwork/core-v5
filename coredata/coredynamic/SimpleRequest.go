@@ -53,14 +53,26 @@ func NewSimpleRequestValid(
 }
 
 func (receiver *SimpleRequest) Message() string {
+	if receiver == nil {
+		return constants.EmptyString
+	}
+
 	return receiver.message
 }
 
 func (receiver *SimpleRequest) Request() any {
+	if receiver == nil {
+		return nil
+	}
+
 	return receiver.Dynamic.Data()
 }
 
 func (receiver *SimpleRequest) Value() any {
+	if receiver == nil {
+		return nil
+	}
+
 	return receiver.Dynamic.Data()
 }
 
@@ -68,6 +80,10 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 	typeMatch reflect.Type,
 	isIncludeInvalidMessage bool,
 ) error {
+	if receiver == nil {
+		return nil
+	}
+
 	if receiver.IsReflectTypeOf(typeMatch) {
 		return nil
 	}
@@ -88,10 +104,18 @@ func (receiver *SimpleRequest) GetErrorOnTypeMismatch(
 }
 
 func (receiver *SimpleRequest) IsReflectKind(checkingKind reflect.Kind) bool {
+	if receiver == nil {
+		return false
+	}
+
 	return receiver.ReflectKind() == checkingKind
 }
 
 func (receiver *SimpleRequest) IsPointer() bool {
+	if receiver == nil {
+		return false
+	}
+
 	if receiver.isPointer.IsUninitialized() {
 		receiver.isPointer = issetter.GetBool(
 			receiver.IsReflectKind(reflect.Ptr),
@@ -102,6 +126,10 @@ func (receiver *SimpleRequest) IsPointer() bool {
 }
 
 func (receiver *SimpleRequest) InvalidError() error {
+	if receiver == nil {
+		return nil
+	}
+
 	if receiver.err != nil {
 		return receiver.err
 	}

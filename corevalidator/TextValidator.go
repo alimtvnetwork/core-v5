@@ -20,6 +20,10 @@ type TextValidator struct {
 }
 
 func (it *TextValidator) ToString(isSingleLine bool) string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	if isSingleLine {
 		return fmt.Sprintf(
 			msgformats.TextValidatorSingleLineFormat,
@@ -46,10 +50,18 @@ func (it *TextValidator) ToString(isSingleLine bool) string {
 }
 
 func (it *TextValidator) String() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return it.ToString(true)
 }
 
 func (it *TextValidator) SearchTextFinalized() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return *it.SearchTextFinalizedPtr()
 }
 
@@ -101,6 +113,10 @@ func (it *TextValidator) IsMatch(
 	content string,
 	isCaseSensitive bool,
 ) bool {
+	if it == nil {
+		return false
+	}
+
 	search := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
 		content,
@@ -194,6 +210,10 @@ func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
 }
 
 func (it *TextValidator) MethodName() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return it.SearchAs.Name()
 }
 

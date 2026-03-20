@@ -1,6 +1,6 @@
 # Issue: Unreachable Code Branches in corejson and coreonce
 
-## Status: 📋 DOCUMENTED
+## Status: ✅ RESOLVED
 
 ## Phase: 9.2 — Code Quality / Coverage
 

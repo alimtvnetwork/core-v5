@@ -41,18 +41,34 @@ func (it *PayloadsCollection) HasIndex(index int) bool {
 // =============================================================================
 
 func (it *PayloadsCollection) FirstDynamic() any {
+	if it == nil || it.IsEmpty() {
+		return nil
+	}
+
 	return it.Items[0]
 }
 
 func (it *PayloadsCollection) First() *PayloadWrapper {
+	if it == nil || it.IsEmpty() {
+		return nil
+	}
+
 	return it.Items[0]
 }
 
 func (it *PayloadsCollection) LastDynamic() any {
+	if it == nil || it.IsEmpty() {
+		return nil
+	}
+
 	return it.Items[it.LastIndex()]
 }
 
 func (it *PayloadsCollection) Last() *PayloadWrapper {
+	if it == nil || it.IsEmpty() {
+		return nil
+	}
+
 	return it.Items[it.LastIndex()]
 }
 

@@ -1,6 +1,6 @@
 # Audit: Nil Pointer Dereference on Pointer Receivers
 
-## Status: ✅ RESOLVED (Critical), 📋 DOCUMENTED (Medium/Low)
+## Status: ✅ RESOLVED
 
 ## Phase: 9.1 — Critical Bugs
 
@@ -71,7 +71,7 @@ Scanned 245+ Go files for pointer receiver methods (`func (it *T)`) that access 
 
 ---
 
-## Medium Risk — Documented (Not Fixed)
+## Medium Risk — Fixed
 
 These types are typically constructed via factory functions and rarely nil, but callers could still pass nil pointers.
 
