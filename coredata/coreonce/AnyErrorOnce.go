@@ -287,8 +287,8 @@ func (it *AnyErrorOnce) Deserialize(toPtr any) error {
 
 	unmarshallErr := json.Unmarshal(allBytes, toPtr)
 
-	if err == nil {
-		return err
+	if unmarshallErr == nil {
+		return nil
 	}
 
 	var safeString string

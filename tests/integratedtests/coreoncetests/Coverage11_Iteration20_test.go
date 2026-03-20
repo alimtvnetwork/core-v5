@@ -1307,3 +1307,51 @@ func Test_I20_AnyOnce_IsNull(t *testing.T) {
 		t.Fatal("expected true")
 	}
 }
+
+// ===== Bug-fix tests: Deserialize unmarshal error paths (previously unreachable) =====
+
+func Test_I20_AnyOnce_Deserialize_UnmarshalError(t *testing.T) {
+	// Value is valid JSON ("hello") but cannot unmarshal into *int
+	o := coreonce.NewAnyOncePtr(func() any { return "hello" })
+	var result int
+	err := o.Deserialize(&result)
+	if err == nil {
+		t.Fatal("expected unmarshal error, got nil")
+	}
+	expected := "deserializing failed:"
+	if len(err.Error()) < len(expected) {
+		t.Fatalf("error too short: %s", err.Error())
+	}
+	if err.Error()[:len(expected)] != expected {
+		t.Fatalf("expected error starting with '%s', got '%s'", expected, err.Error())
+	}
+}
+
+func Test_I20_AnyOnce_Deserialize_UnmarshalError_NilToPtr(t *testing.T) {
+	o := coreonce.NewAnyOncePtr(func() any { return map[string]any{"a": 1} })
+	err := o.Deserialize(nil)
+	if err == nil {
+		t.Fatal("expected unmarshal error for nil toPtr")
+	}
+}
+
+func Test_I20_AnyErrorOnce_Deserialize_UnmarshalError(t *testing.T) {
+	o := coreonce.NewAnyErrorOncePtr(func() (any, error) { return "hello", nil })
+	var result int
+	err := o.Deserialize(&result)
+	if err == nil {
+		t.Fatal("expected unmarshal error, got nil")
+	}
+	expected := "deserializing failed:"
+	if err.Error()[:len(expected)] != expected {
+		t.Fatalf("expected error starting with '%s', got '%s'", expected, err.Error())
+	}
+}
+
+func Test_I20_AnyErrorOnce_Deserialize_UnmarshalError_NilToPtr(t *testing.T) {
+	o := coreonce.NewAnyErrorOncePtr(func() (any, error) { return map[string]any{"a": 1}, nil })
+	err := o.Deserialize(nil)
+	if err == nil {
+		t.Fatal("expected unmarshal error for nil toPtr")
+	}
+}
