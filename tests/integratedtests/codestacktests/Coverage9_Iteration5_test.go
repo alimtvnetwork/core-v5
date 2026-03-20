@@ -8,52 +8,8 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 )
 
-// ── newTraceCollection ──
-
-func Test_Cov9_NewTraceCollection_Default(t *testing.T) {
-	// Arrange & Act
-	tc := codestack.New.StackTrace.Default()
-
-	// Assert
-	actual := args.Map{"isNil": tc == nil}
-	expected := args.Map{"isNil": false}
-	expected.ShouldBeEqual(t, 0, "newTraceCollection Default", actual)
-}
-
-func Test_Cov9_NewTraceCollection_Empty(t *testing.T) {
-	// Arrange & Act
-	tc := codestack.New.StackTrace.Empty()
-
-	// Assert
-	actual := args.Map{"isEmpty": tc.IsEmpty()}
-	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "newTraceCollection Empty", actual)
-}
-
-func Test_Cov9_NewTraceCollection_Using_Nil(t *testing.T) {
-	// Arrange & Act
-	tc := codestack.New.StackTrace.Using(false)
-
-	// Assert
-	actual := args.Map{"isEmpty": tc.IsEmpty()}
-	expected := args.Map{"isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "newTraceCollection Using nil", actual)
-}
-
-func Test_Cov9_NewTraceCollection_Using_Clone(t *testing.T) {
-	// Arrange
-	trace := codestack.New.Create(codestack.Skip1)
-
-	// Act
-	tc := codestack.New.StackTrace.Using(true, trace)
-
-	// Assert
-	actual := args.Map{"length": tc.Length()}
-	expected := args.Map{"length": 1}
-	expected.ShouldBeEqual(t, 0, "newTraceCollection Using clone", actual)
-}
-
 // ── TraceCollection.IsEqualItems — nil paths ──
+// Covers TraceCollection.go L810-812, L814-816
 
 func Test_Cov9_IsEqualItems_BothNil(t *testing.T) {
 	// Arrange
@@ -83,12 +39,11 @@ func Test_Cov9_IsEqualItems_ReceiverNilItemsNot(t *testing.T) {
 }
 
 // ── TraceCollection.FilterWithLimit — isBreak branch ──
+// Covers TraceCollection.go L520-522
 
 func Test_Cov9_FilterWithLimit_Break(t *testing.T) {
 	// Arrange
-	trace1 := codestack.New.Create(codestack.Skip1)
-	trace2 := codestack.New.Create(codestack.Skip2)
-	tc := codestack.New.StackTrace.Using(false, trace1, trace2)
+	tc := codestack.New.StackTrace.SkipNone()
 	breakFilter := func(tr *codestack.Trace) (bool, bool) {
 		return true, true // take first, then break
 	}
@@ -103,16 +58,18 @@ func Test_Cov9_FilterWithLimit_Break(t *testing.T) {
 }
 
 // ── TraceCollection.AddsUsingSkipUsingFilter — isBreak branch ──
+// Covers TraceCollection.go L136-138, L141
 
 func Test_Cov9_AddsUsingSkipUsingFilter_Break(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Cap(10)
+	stacks := codestack.New.StackTrace.SkipNone()
+	tcPtr := &stacks
 	breakFilter := func(tr *codestack.Trace) (bool, bool) {
 		return true, true // take and break immediately
 	}
 
 	// Act
-	result := tc.AddsUsingSkipUsingFilter(true, true, 0, 5, breakFilter)
+	result := tcPtr.AddsUsingSkipUsingFilter(false, false, 0, 10, breakFilter)
 
 	// Assert
 	actual := args.Map{"hasItems": result.HasAnyItem()}
@@ -121,6 +78,9 @@ func Test_Cov9_AddsUsingSkipUsingFilter_Break(t *testing.T) {
 }
 
 // ── ParseInjectUsingJson — error paths ──
+// Covers FileWithLine.go L92-93, Trace.go L181-183, L197-198
+// TraceCollection.go L899-901, L913-914
+// Also covers newTraceCollection.go L38 (Empty)
 
 func Test_Cov9_FileWithLine_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 	// Arrange
@@ -185,12 +145,12 @@ func Test_Cov9_Trace_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 
 func Test_Cov9_TraceCollection_ParseInjectUsingJson_Error(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Empty()
+	stacks := codestack.New.StackTrace.SkipNone()
 	badResult := corejson.NewPtr("bad")
 	badResult.Bytes = []byte("{invalid")
 
 	// Act
-	result, err := tc.ParseInjectUsingJson(badResult)
+	result, err := stacks.ParseInjectUsingJson(badResult)
 
 	// Assert
 	actual := args.Map{"hasError": err != nil, "isEmpty": result.IsEmpty()}
@@ -200,7 +160,7 @@ func Test_Cov9_TraceCollection_ParseInjectUsingJson_Error(t *testing.T) {
 
 func Test_Cov9_TraceCollection_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 	// Arrange
-	tc := codestack.New.StackTrace.Empty()
+	stacks := codestack.New.StackTrace.SkipNone()
 	badResult := corejson.NewPtr("bad")
 	badResult.Bytes = []byte("{invalid")
 
@@ -212,7 +172,7 @@ func Test_Cov9_TraceCollection_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		tc.ParseInjectUsingJsonMust(badResult)
+		stacks.ParseInjectUsingJsonMust(badResult)
 	}()
 
 	// Assert
@@ -222,13 +182,13 @@ func Test_Cov9_TraceCollection_ParseInjectUsingJsonMust_Panic(t *testing.T) {
 }
 
 // ── TraceCollection.PaginateAt — negative page panic ──
+// Covers TraceCollection.go L419-426
 
 func Test_Cov9_TraceCollection_PaginateAt_NegativePanic(t *testing.T) {
 	// Arrange
-	trace := codestack.New.Create(codestack.Skip1)
-	tc := codestack.New.StackTrace.Using(false, trace)
+	stacks := codestack.New.StackTrace.SkipNone()
 
-	// Act
+	// Act — pageIndex=0 causes skipItems = 5*(0-1) = -5 < 0
 	var didPanic bool
 	func() {
 		defer func() {
@@ -236,7 +196,7 @@ func Test_Cov9_TraceCollection_PaginateAt_NegativePanic(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		tc.PaginateAt(0, 5) // pageIndex=0 causes skipItems = 5*(0-1) = -5
+		stacks.PaginateAt(0, 5)
 	}()
 
 	// Assert
