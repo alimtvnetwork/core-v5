@@ -477,10 +477,8 @@ function Invoke-TestCoverage {
             $ErrorActionPreference = $prevPref
 
             if ($compileExit -eq 0) {
-                Write-Host "  ✓ $shortName" -ForegroundColor Green
                 $testPkgs.Add($testPkg)
             } else {
-                Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($compileOut -join "`n")
             }
