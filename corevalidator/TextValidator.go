@@ -113,6 +113,10 @@ func (it *TextValidator) IsMatch(
 	content string,
 	isCaseSensitive bool,
 ) bool {
+	if it == nil {
+		return false
+	}
+
 	search := it.SearchTextFinalized()
 	processedContent := it.GetCompiledTermBasedOnConditions(
 		content,
