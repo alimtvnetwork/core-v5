@@ -96,7 +96,7 @@
 
 ### Phase 3 — Medium Packages — Iterations 9-12
 
-**Iteration 9**: `coretests/args` (156)
+**Iteration 9** ✅: `coretests/args` (156 — covered OneFunc/TwoFunc/ThreeFunc/FourFunc/FiveFunc/SixFunc Invoke/InvokeMust/InvokeArgs/Slice/String, DynamicFunc Get*/Invoke, Dynamic Get/Invoke, FuncWrap IsEqual branches/InvokeMust/InvokeSkip panic/InvokeResultOfIndex/InvokeFirstAndError, FuncWrapTypedHelpers InvokeAs*, FuncWrapArgs InArgNames/OutArgNames, FuncMap Add/Adds/AddStructFunctions/InArgsVerifyRv/OutArgsVerifyRv/MustBeValid/InvokeMust/InvokeError/InvokeFirstAndError, Map GetFuncName/InvokeMust/InvokeWithValidArgs, Holder Invoke variants, newFuncWrapCreator MethodToFunc/StructToMap, funcDetector branches, argsHelper)
 → 156 stmts
 
 **Iteration 10**: `chmodhelper` (170)
