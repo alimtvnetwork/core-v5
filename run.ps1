@@ -695,8 +695,7 @@ function Invoke-TestCoverage {
     # This is critical because -coverpkg instruments ALL source packages in every test run,
     # so each line appears N times (once per test package). Without dedup, the last occurrence
     # (usually count=0 from a package that didn't exercise this code) overwrites the covered entry.
-    Write-Host ""
-    Write-Host "  Merging $pkgIndex coverage profiles (max-count dedup)..." -ForegroundColor Yellow
+    # Merge all partial profiles silently
 
     $partialFiles = Get-ChildItem -Path $partialDir -Filter "cover-*.out" | Sort-Object Name
     $coverMap = [System.Collections.Generic.Dictionary[string, int]]::new()
