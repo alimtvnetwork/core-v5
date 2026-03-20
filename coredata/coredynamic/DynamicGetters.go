@@ -31,10 +31,18 @@ func (it Dynamic) Value() any {
 //
 // Reference : https://cutt.ly/PnaWAFn | https://cutt.ly/jnaEig8 | https://play.golang.org/p/UCORoShXlv1
 func (it *Dynamic) Length() int {
+	if it == nil {
+		return constants.Zero
+	}
+
 	return it.length.Value()
 }
 
 func (it *Dynamic) StructStringPtr() *string {
+	if it == nil {
+		return nil
+	}
+
 	if it.innerDataString != nil {
 		return it.innerDataString
 	}
@@ -46,10 +54,18 @@ func (it *Dynamic) StructStringPtr() *string {
 }
 
 func (it *Dynamic) String() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return *it.StructStringPtr()
 }
 
 func (it *Dynamic) StructString() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return *it.StructStringPtr()
 }
 
@@ -66,6 +82,10 @@ func (it Dynamic) IsInvalid() bool {
 }
 
 func (it *Dynamic) IsPointer() bool {
+	if it == nil {
+		return false
+	}
+
 	if it.isPointer.IsUninitialized() {
 		it.isPointer = issetter.GetBool(
 			it.IsReflectKind(reflect.Ptr),
@@ -76,51 +96,91 @@ func (it *Dynamic) IsPointer() bool {
 }
 
 func (it *Dynamic) IsValueType() bool {
+	if it == nil {
+		return false
+	}
+
 	return !it.IsPointer()
 }
 
 func (it *Dynamic) IsStructStringNullOrEmpty() bool {
+	if it == nil {
+		return true
+	}
+
 	return it.IsNull() || strutilinternal.IsNullOrEmpty(
 		it.StructStringPtr(),
 	)
 }
 
 func (it *Dynamic) IsStructStringNullOrEmptyOrWhitespace() bool {
+	if it == nil {
+		return true
+	}
+
 	return it.IsNull() || strutilinternal.IsNullOrEmptyOrWhitespace(
 		it.StructStringPtr(),
 	)
 }
 
 func (it *Dynamic) IsPrimitive() bool {
+	if it == nil {
+		return false
+	}
+
 	return reflectinternal.Is.PrimitiveKind(it.ReflectKind())
 }
 
 // IsNumber true if float (any), byte, int (any), uint(any)
 func (it *Dynamic) IsNumber() bool {
+	if it == nil {
+		return false
+	}
+
 	return reflectinternal.Is.NumberKind(it.ReflectKind())
 }
 
 func (it *Dynamic) IsStringType() bool {
+	if it == nil {
+		return false
+	}
+
 	_, isString := it.innerData.(string)
 
 	return isString
 }
 
 func (it *Dynamic) IsStruct() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.ReflectKind() == reflect.Struct
 }
 
 func (it *Dynamic) IsFunc() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.ReflectKind() == reflect.Func
 }
 
 func (it *Dynamic) IsSliceOrArray() bool {
+	if it == nil {
+		return false
+	}
+
 	k := it.ReflectKind()
 
 	return k == reflect.Slice || k == reflect.Array
 }
 
 func (it *Dynamic) IsSliceOrArrayOrMap() bool {
+	if it == nil {
+		return false
+	}
+
 	k := it.ReflectKind()
 
 	return k == reflect.Slice ||
@@ -129,6 +189,10 @@ func (it *Dynamic) IsSliceOrArrayOrMap() bool {
 }
 
 func (it *Dynamic) IsMap() bool {
+	if it == nil {
+		return false
+	}
+
 	return it.ReflectKind() == reflect.Map
 }
 
@@ -137,7 +201,7 @@ func (it *Dynamic) IsMap() bool {
 // =============================================================================
 
 func (it *Dynamic) IntDefault(defaultInt int) (val int, isSuccess bool) {
-	if it.IsNull() {
+	if it == nil || it.IsNull() {
 		return defaultInt, false
 	}
 
@@ -152,7 +216,7 @@ func (it *Dynamic) IntDefault(defaultInt int) (val int, isSuccess bool) {
 }
 
 func (it *Dynamic) Float64() (val float64, err error) {
-	if it.IsNull() {
+	if it == nil || it.IsNull() {
 		return constants.Zero, errcore.
 			ParsingFailedType.Error(
 			messages.DynamicFailedToParseToFloat64BecauseNull,

@@ -210,6 +210,10 @@ func (it *TextValidator) verifyDetailErrorUsingLineProcessing(
 }
 
 func (it *TextValidator) MethodName() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return it.SearchAs.Name()
 }
 

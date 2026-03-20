@@ -60,6 +60,10 @@ func (it *SimpleResult) GetErrorOnTypeMismatch(
 	typeMatch reflect.Type,
 	isIncludeInvalidMessage bool,
 ) error {
+	if it == nil {
+		return nil
+	}
+
 	if it.IsReflectTypeOf(typeMatch) {
 		return nil
 	}
@@ -80,6 +84,10 @@ func (it *SimpleResult) GetErrorOnTypeMismatch(
 }
 
 func (it *SimpleResult) InvalidError() error {
+	if it == nil {
+		return nil
+	}
+
 	if it.err != nil {
 		return it.err
 	}
@@ -96,6 +104,10 @@ func (it *SimpleResult) InvalidError() error {
 }
 
 func (it *SimpleResult) Clone() SimpleResult {
+	if it == nil {
+		return SimpleResult{}
+	}
+
 	return SimpleResult{
 		Dynamic: it.Dynamic.Clone(),
 		Result:  it.Result,

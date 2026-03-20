@@ -52,6 +52,10 @@ func (it KeyVal) IsValueNull() bool {
 }
 
 func (it *KeyVal) String() string {
+	if it == nil {
+		return constants.EmptyString
+	}
+
 	return fmt.Sprintf(
 		constants.KeyValuePariSimpleFormat,
 		it.Key,
