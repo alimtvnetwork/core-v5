@@ -18,11 +18,13 @@ linters:
     - errcheck
     - ineffassign
     - typecheck
+    - gosimple
+    - nilerr
+    - durationcheck
 
-  disable:
-    - deadcode
-    - structcheck
-    - varcheck
+    # Performance
+    - prealloc
+    - gocritic
 
 linters-settings:
   revive:
@@ -102,6 +104,14 @@ linters-settings:
       - "all"
       - "-ST1000" # package comments — disable until ready
       - "-ST1003" # allow non-standard naming for now (gradual migration)
+
+  gocritic:
+    enabled-tags:
+      - diagnostic
+      - performance
+    disabled-checks:
+      - hugeParam
+      - rangeValCopy
 
   misspell:
     locale: US

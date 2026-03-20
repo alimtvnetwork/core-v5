@@ -52,11 +52,12 @@
 - **Acceptance criteria**: Working iterator pattern with tests
 - **Spec reference**: `spec/01-app/11-go-modernization.md`
 
-### C.3 — CI Pipeline
+### C.3 — CI Pipeline ✅ Done
 - **Objective**: Add `golangci-lint`, test coverage, and security scanning
 - **Dependencies**: None
 - **Expected outputs**: CI config file, lint config
 - **Acceptance criteria**: CI runs on push, blocks on failures
+- **Completed**: GitHub Actions workflow (`.github/workflows/ci.yml`) with 4 jobs: lint, test+coverage gate (60%), govulncheck, build. `.golangci.yml` updated with gocritic, nilerr, durationcheck, prealloc, gosimple.
 
 ### C.4 — Module Splitting
 - **Objective**: Evaluate splitting monorepo into focused Go modules
@@ -85,15 +86,14 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
-| 2 | **C.3 — CI pipeline** | Medium | Low |
+| 1 | **D.1 — Test title audit** | Small | Low |
+| 2 | **C.2 — iter adoption** | Small | Low |
 | 3 | **C.1 — Generic interfaces** | Medium | Low |
-| 4 | **C.2 — iter adoption** | Small | Low |
+| 4 | **D.2 — Diagnostic snapshots** | Small | Low |
 | 5 | **C.4 — Module splitting** | Large | Medium |
-| 6 | **D.1 — Test title audit** | Small | Low |
-| 7 | **D.2 — Diagnostic snapshots** | Small | Low |
+| 6 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **C.3** (CI pipeline) or **D.1** (test title audit) as the next high-value, low-risk tasks.
+**Recommended**: **D.1** (test title audit) as the next high-value, low-risk task.
 
 ---
 
