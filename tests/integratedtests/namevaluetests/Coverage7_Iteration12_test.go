@@ -1,0 +1,600 @@
+package namevaluetests
+
+import (
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/namevalue"
+)
+
+// ==========================================================================
+// StringInt — full Collection[string, int] coverage
+// ==========================================================================
+
+func Test_I12_StringInt_FullCoverage(t *testing.T) {
+	// Constructors
+	c := namevalue.NewGenericCollection[string, int](5)
+	cd := namevalue.NewGenericCollectionDefault[string, int]()
+	ce := namevalue.EmptyGenericCollection[string, int]()
+
+	actual := args.Map{"c": c.IsEmpty(), "cd": cd.IsEmpty(), "ce": ce.IsEmpty()}
+	expected := args.Map{"c": true, "cd": true, "ce": true}
+	expected.ShouldBeEqual(t, 0, "StringInt constructors", actual)
+}
+
+func Test_I12_StringInt_CollectionUsing(t *testing.T) {
+	items := []namevalue.StringInt{{Name: "x", Value: 10}, {Name: "y", Value: 20}}
+	c1 := namevalue.NewGenericCollectionUsing[string, int](true, items...)
+	c2 := namevalue.NewGenericCollectionUsing[string, int](false, items...)
+	c3 := namevalue.NewGenericCollectionUsing[string, int](true)
+
+	actual := args.Map{"c1": c1.Length(), "c2": c2.Length(), "c3": c3.Length()}
+	expected := args.Map{"c1": 2, "c2": 2, "c3": 0}
+	expected.ShouldBeEqual(t, 0, "StringInt CollectionUsing", actual)
+}
+
+func Test_I12_StringInt_AddMethods(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.Add(namevalue.StringInt{Name: "a", Value: 1})
+	c.Adds(namevalue.StringInt{Name: "b", Value: 2}, namevalue.StringInt{Name: "c", Value: 3})
+	c.Adds() // empty
+	c.Append(namevalue.StringInt{Name: "d", Value: 4})
+	c.Append() // empty
+	c.Prepend(namevalue.StringInt{Name: "z", Value: 0})
+	c.Prepend() // empty
+	c.AppendIf(true, namevalue.StringInt{Name: "e", Value: 5})
+	c.AppendIf(false, namevalue.StringInt{Name: "f", Value: 6})
+	c.AppendIf(true) // empty items
+	c.PrependIf(true, namevalue.StringInt{Name: "y", Value: -1})
+	c.PrependIf(false, namevalue.StringInt{Name: "w", Value: -2})
+	c.PrependIf(true) // empty items
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 7}
+	expected.ShouldBeEqual(t, 0, "StringInt add methods", actual)
+}
+
+func Test_I12_StringInt_FuncAppendPrepend(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.Add(namevalue.StringInt{Name: "mid", Value: 0})
+	c.PrependUsingFuncIf(true, func() []namevalue.StringInt {
+		return []namevalue.StringInt{{Name: "first", Value: -1}}
+	})
+	c.PrependUsingFuncIf(false, func() []namevalue.StringInt {
+		return []namevalue.StringInt{{Name: "skip", Value: -2}}
+	})
+	c.PrependUsingFuncIf(true, nil) // nil func
+	c.AppendUsingFuncIf(true, func() []namevalue.StringInt {
+		return []namevalue.StringInt{{Name: "last", Value: 1}}
+	})
+	c.AppendUsingFuncIf(false, func() []namevalue.StringInt {
+		return []namevalue.StringInt{{Name: "skip", Value: 2}}
+	})
+	c.AppendUsingFuncIf(true, nil) // nil func
+
+	actual := args.Map{"len": c.Length(), "first": c.Items[0].Name}
+	expected := args.Map{"len": 3, "first": "first"}
+	expected.ShouldBeEqual(t, 0, "StringInt func append/prepend", actual)
+}
+
+func Test_I12_StringInt_AppendPrependIf(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.Add(namevalue.StringInt{Name: "mid", Value: 0})
+	pre := []namevalue.StringInt{{Name: "a", Value: -1}}
+	app := []namevalue.StringInt{{Name: "z", Value: 1}}
+	c.AppendPrependIf(true, pre, app)
+	c.AppendPrependIf(false, pre, app)
+	c.AppendPrependIf(true, nil, nil) // empty slices
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "StringInt AppendPrependIf", actual)
+}
+
+func Test_I12_StringInt_AddsPtr(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	item := namevalue.StringInt{Name: "a", Value: 1}
+	c.AddsPtr(&item, nil)
+	c.AddsPtr() // empty
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "StringInt AddsPtr", actual)
+}
+
+func Test_I12_StringInt_AddsIf(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.AddsIf(true, namevalue.StringInt{Name: "a", Value: 1})
+	c.AddsIf(false, namevalue.StringInt{Name: "b", Value: 2})
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 1}
+	expected.ShouldBeEqual(t, 0, "StringInt AddsIf", actual)
+}
+
+func Test_I12_StringInt_QueryMethods(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.Add(namevalue.StringInt{Name: "a", Value: 1})
+	c.Add(namevalue.StringInt{Name: "b", Value: 2})
+
+	var nilC *namevalue.Collection[string, int]
+
+	actual := args.Map{
+		"len": c.Length(), "count": c.Count(), "empty": c.IsEmpty(),
+		"hasAny": c.HasAnyItem(), "lastIdx": c.LastIndex(),
+		"hasIdx0": c.HasIndex(0), "hasIdx5": c.HasIndex(5),
+		"nilLen": nilC.Length(),
+	}
+	expected := args.Map{
+		"len": 2, "count": 2, "empty": false,
+		"hasAny": true, "lastIdx": 1,
+		"hasIdx0": true, "hasIdx5": false,
+		"nilLen": 0,
+	}
+	expected.ShouldBeEqual(t, 0, "StringInt query methods", actual)
+}
+
+func Test_I12_StringInt_StringMethods(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.Add(namevalue.StringInt{Name: "a", Value: 1})
+
+	actual := args.Map{
+		"strings":    len(c.Strings()) > 0,
+		"json":       len(c.JsonStrings()) > 0,
+		"joinJson":   c.JoinJsonStrings(",") != "",
+		"join":       c.Join(",") != "",
+		"joinLines":  c.JoinLines() != "",
+		"joinCsv":    c.JoinCsv() != "",
+		"joinCsvLn":  c.JoinCsvLine() != "",
+		"csvStrings": len(c.CsvStrings()) > 0,
+		"jsonString": c.JsonString() != "",
+		"string":     c.String() != "",
+	}
+	expected := args.Map{
+		"strings": true, "json": true, "joinJson": true,
+		"join": true, "joinLines": true, "joinCsv": true,
+		"joinCsvLn": true, "csvStrings": true, "jsonString": true,
+		"string": true,
+	}
+	expected.ShouldBeEqual(t, 0, "StringInt string methods", actual)
+}
+
+func Test_I12_StringInt_LazyString(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.Add(namevalue.StringInt{Name: "a", Value: 1})
+	s1 := c.CompiledLazyString()
+	s2 := c.CompiledLazyString() // cached
+	c.InvalidateLazyString()
+
+	var nilC *namevalue.Collection[string, int]
+
+	actual := args.Map{
+		"same":    s1 == s2,
+		"hasPre":  c.HasCompiledString(),
+		"nilComp": nilC.HasCompiledString(),
+		"nilLazy": nilC.CompiledLazyString(),
+	}
+	expected := args.Map{"same": true, "hasPre": false, "nilComp": false, "nilLazy": ""}
+	expected.ShouldBeEqual(t, 0, "StringInt lazy string", actual)
+
+	nilC.InvalidateLazyString() // should not panic
+}
+
+func Test_I12_StringInt_IsEqualByString(t *testing.T) {
+	c1 := namevalue.NewGenericCollectionDefault[string, int]()
+	c1.Add(namevalue.StringInt{Name: "a", Value: 1})
+	c2 := namevalue.NewGenericCollectionDefault[string, int]()
+	c2.Add(namevalue.StringInt{Name: "a", Value: 1})
+	c3 := namevalue.NewGenericCollectionDefault[string, int]()
+	c3.Add(namevalue.StringInt{Name: "b", Value: 2})
+	var nilC *namevalue.Collection[string, int]
+
+	actual := args.Map{
+		"equal":    c1.IsEqualByString(c2),
+		"notEqual": c1.IsEqualByString(c3),
+		"nilBoth":  nilC.IsEqualByString(nil),
+		"nilOne":   c1.IsEqualByString(nil),
+		"diffLen":  c1.IsEqualByString(namevalue.EmptyGenericCollection[string, int]()),
+	}
+	expected := args.Map{"equal": true, "notEqual": false, "nilBoth": true, "nilOne": false, "diffLen": false}
+	expected.ShouldBeEqual(t, 0, "StringInt IsEqualByString", actual)
+}
+
+func Test_I12_StringInt_ErrorMethods(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	nilErr := c.Error()
+	nilMsgErr := c.ErrorUsingMessage("prefix")
+	c.Add(namevalue.StringInt{Name: "err", Value: 42})
+
+	actual := args.Map{
+		"nilErr":    nilErr == nil,
+		"nilMsgErr": nilMsgErr == nil,
+		"hasErr":    c.Error() != nil,
+		"hasMsgErr": c.ErrorUsingMessage("prefix") != nil,
+	}
+	expected := args.Map{"nilErr": true, "nilMsgErr": true, "hasErr": true, "hasMsgErr": true}
+	expected.ShouldBeEqual(t, 0, "StringInt error methods", actual)
+}
+
+func Test_I12_StringInt_ConcatCloneClearDispose(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	c.Add(namevalue.StringInt{Name: "a", Value: 1})
+
+	cn := c.ConcatNew(namevalue.StringInt{Name: "b", Value: 2})
+	item := namevalue.StringInt{Name: "c", Value: 3}
+	cnp := c.ConcatNewPtr(&item)
+	cl := c.Clone()
+	clp := c.ClonePtr()
+
+	var nilC *namevalue.Collection[string, int]
+	nilClp := nilC.ClonePtr()
+
+	actual := args.Map{
+		"concatLen": cn.Length(), "concatPtrLen": cnp.Length(),
+		"cloneLen": cl.Length(), "clonePtrLen": clp.Length(),
+		"nilClone": nilClp == nil, "origLen": c.Length(),
+	}
+	expected := args.Map{
+		"concatLen": 2, "concatPtrLen": 2,
+		"cloneLen": 1, "clonePtrLen": 1,
+		"nilClone": true, "origLen": 1,
+	}
+	expected.ShouldBeEqual(t, 0, "StringInt concat/clone", actual)
+
+	c.Clear()
+	actual2 := args.Map{"afterClear": c.IsEmpty()}
+	expected2 := args.Map{"afterClear": true}
+	expected2.ShouldBeEqual(t, 0, "StringInt clear", actual2)
+
+	nilC.Clear()  // should not panic
+	nilC.Dispose() // should not panic
+}
+
+func Test_I12_StringInt_CsvStrings_Empty(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	actual := args.Map{"len": len(c.CsvStrings())}
+	expected := args.Map{"len": 0}
+	expected.ShouldBeEqual(t, 0, "StringInt CsvStrings empty", actual)
+}
+
+func Test_I12_StringInt_JsonString_Empty(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, int]()
+	actual := args.Map{"val": c.JsonString()}
+	expected := args.Map{"val": ""}
+	expected.ShouldBeEqual(t, 0, "StringInt JsonString empty", actual)
+}
+
+// ==========================================================================
+// StringMapAny — Collection[string, map[string]any] coverage
+// ==========================================================================
+
+func Test_I12_StringMapAny_FullCoverage(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]any]()
+	ce := namevalue.EmptyGenericCollection[string, map[string]any]()
+	c5 := namevalue.NewGenericCollection[string, map[string]any](5)
+
+	actual := args.Map{"c": c.IsEmpty(), "ce": ce.IsEmpty(), "c5": c5.IsEmpty()}
+	expected := args.Map{"c": true, "ce": true, "c5": true}
+	expected.ShouldBeEqual(t, 0, "StringMapAny constructors", actual)
+}
+
+func Test_I12_StringMapAny_AddAndQuery(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]any]()
+	c.Add(namevalue.StringMapAny{Name: "cfg", Value: map[string]any{"k": "v"}})
+	c.Adds(namevalue.StringMapAny{Name: "cfg2", Value: map[string]any{"k2": "v2"}})
+	c.Adds() // empty
+	c.Append(namevalue.StringMapAny{Name: "cfg3", Value: map[string]any{"k3": "v3"}})
+	c.Append()                                                                          // empty
+	c.Prepend(namevalue.StringMapAny{Name: "cfg0", Value: map[string]any{"k0": "v0"}})
+	c.Prepend()                                                                          // empty
+	c.AppendIf(true, namevalue.StringMapAny{Name: "cfg4", Value: map[string]any{"k4": "v4"}})
+	c.AppendIf(false, namevalue.StringMapAny{Name: "skip", Value: nil})
+	c.PrependIf(true, namevalue.StringMapAny{Name: "cfgP", Value: map[string]any{"kP": "vP"}})
+	c.PrependIf(false, namevalue.StringMapAny{Name: "skip2", Value: nil})
+
+	actual := args.Map{
+		"len": c.Length(), "count": c.Count(), "empty": c.IsEmpty(),
+		"hasAny": c.HasAnyItem(), "lastIdx": c.LastIndex(),
+		"hasIdx0": c.HasIndex(0),
+	}
+	expected := args.Map{
+		"len": 6, "count": 6, "empty": false,
+		"hasAny": true, "lastIdx": 5,
+		"hasIdx0": true,
+	}
+	expected.ShouldBeEqual(t, 0, "StringMapAny add and query", actual)
+}
+
+func Test_I12_StringMapAny_StringMethods(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]any]()
+	c.Add(namevalue.StringMapAny{Name: "cfg", Value: map[string]any{"k": "v"}})
+
+	actual := args.Map{
+		"strings":  len(c.Strings()) > 0,
+		"join":     c.Join(",") != "",
+		"string":   c.String() != "",
+	}
+	expected := args.Map{"strings": true, "join": true, "string": true}
+	expected.ShouldBeEqual(t, 0, "StringMapAny string methods", actual)
+}
+
+func Test_I12_StringMapAny_CloneDispose(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]any]()
+	c.Add(namevalue.StringMapAny{Name: "a", Value: map[string]any{"k": "v"}})
+	cl := c.Clone()
+	c.Dispose()
+
+	actual := args.Map{"cloneLen": cl.Length(), "disposed": c.Items == nil}
+	expected := args.Map{"cloneLen": 1, "disposed": true}
+	expected.ShouldBeEqual(t, 0, "StringMapAny clone/dispose", actual)
+}
+
+func Test_I12_StringMapAny_CollectionUsing(t *testing.T) {
+	items := []namevalue.StringMapAny{{Name: "a", Value: map[string]any{"k": 1}}}
+	c1 := namevalue.NewGenericCollectionUsing[string, map[string]any](true, items...)
+	c2 := namevalue.NewGenericCollectionUsing[string, map[string]any](false, items...)
+
+	actual := args.Map{"c1": c1.Length(), "c2": c2.Length()}
+	expected := args.Map{"c1": 1, "c2": 1}
+	expected.ShouldBeEqual(t, 0, "StringMapAny CollectionUsing", actual)
+}
+
+func Test_I12_StringMapAny_FuncIf(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]any]()
+	c.PrependUsingFuncIf(true, func() []namevalue.StringMapAny {
+		return []namevalue.StringMapAny{{Name: "a", Value: map[string]any{"k": "v"}}}
+	})
+	c.AppendUsingFuncIf(true, func() []namevalue.StringMapAny {
+		return []namevalue.StringMapAny{{Name: "b", Value: map[string]any{"k": "v"}}}
+	})
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "StringMapAny FuncIf", actual)
+}
+
+// ==========================================================================
+// StringMapString — Collection[string, map[string]string] coverage
+// ==========================================================================
+
+func Test_I12_StringMapString_FullCoverage(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]string]()
+	c.Add(namevalue.StringMapString{Name: "cfg", Value: map[string]string{"k": "v"}})
+	c.Adds(namevalue.StringMapString{Name: "cfg2", Value: map[string]string{"k2": "v2"}})
+	c.Append(namevalue.StringMapString{Name: "cfg3", Value: map[string]string{"k3": "v3"}})
+	c.Prepend(namevalue.StringMapString{Name: "cfg0", Value: map[string]string{"k0": "v0"}})
+
+	actual := args.Map{
+		"len": c.Length(), "count": c.Count(),
+		"lastIdx": c.LastIndex(), "hasAny": c.HasAnyItem(),
+		"strings": len(c.Strings()) > 0, "join": c.Join(",") != "",
+	}
+	expected := args.Map{
+		"len": 4, "count": 4,
+		"lastIdx": 3, "hasAny": true,
+		"strings": true, "join": true,
+	}
+	expected.ShouldBeEqual(t, 0, "StringMapString full coverage", actual)
+}
+
+func Test_I12_StringMapString_CloneAndConcat(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]string]()
+	c.Add(namevalue.StringMapString{Name: "a", Value: map[string]string{"k": "v"}})
+	cl := c.Clone()
+	cn := c.ConcatNew(namevalue.StringMapString{Name: "b", Value: map[string]string{"k2": "v2"}})
+	item := namevalue.StringMapString{Name: "c", Value: map[string]string{"k3": "v3"}}
+	cnp := c.ConcatNewPtr(&item)
+
+	actual := args.Map{"clone": cl.Length(), "concat": cn.Length(), "concatPtr": cnp.Length()}
+	expected := args.Map{"clone": 1, "concat": 2, "concatPtr": 2}
+	expected.ShouldBeEqual(t, 0, "StringMapString clone/concat", actual)
+}
+
+func Test_I12_StringMapString_AddsIf_AddsPtr(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]string]()
+	c.AddsIf(true, namevalue.StringMapString{Name: "a", Value: map[string]string{"k": "v"}})
+	c.AddsIf(false, namevalue.StringMapString{Name: "b", Value: map[string]string{"k2": "v2"}})
+	item := namevalue.StringMapString{Name: "c", Value: map[string]string{"k3": "v3"}}
+	c.AddsPtr(&item, nil)
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "StringMapString AddsIf/AddsPtr", actual)
+}
+
+func Test_I12_StringMapString_LazyString(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]string]()
+	c.Add(namevalue.StringMapString{Name: "a", Value: map[string]string{"k": "v"}})
+	s1 := c.CompiledLazyString()
+	s2 := c.CompiledLazyString()
+	c.InvalidateLazyString()
+
+	actual := args.Map{"same": s1 == s2, "invalidated": !c.HasCompiledString()}
+	expected := args.Map{"same": true, "invalidated": true}
+	expected.ShouldBeEqual(t, 0, "StringMapString lazy string", actual)
+}
+
+// ==========================================================================
+// Instance — type-specific coverage for StringInt, StringMapAny, StringMapString
+// ==========================================================================
+
+func Test_I12_Instance_StringInt(t *testing.T) {
+	inst := namevalue.StringInt{Name: "count", Value: 42}
+	s := inst.String()
+	js := inst.JsonString()
+	inst.Dispose()
+
+	actual := args.Map{"string": s != "", "json": js != "", "disposed": inst.Name}
+	expected := args.Map{"string": true, "json": true, "disposed": ""}
+	expected.ShouldBeEqual(t, 0, "Instance StringInt", actual)
+}
+
+func Test_I12_Instance_StringMapAny(t *testing.T) {
+	inst := namevalue.StringMapAny{Name: "cfg", Value: map[string]any{"k": "v"}}
+	s := inst.String()
+	js := inst.JsonString()
+	inst.Dispose()
+
+	actual := args.Map{"string": s != "", "json": js != "", "disposed": inst.Name}
+	expected := args.Map{"string": true, "json": true, "disposed": ""}
+	expected.ShouldBeEqual(t, 0, "Instance StringMapAny", actual)
+}
+
+func Test_I12_Instance_StringMapString(t *testing.T) {
+	inst := namevalue.StringMapString{Name: "cfg", Value: map[string]string{"k": "v"}}
+	s := inst.String()
+	js := inst.JsonString()
+	inst.Dispose()
+
+	actual := args.Map{"string": s != "", "json": js != "", "disposed": inst.Name}
+	expected := args.Map{"string": true, "json": true, "disposed": ""}
+	expected.ShouldBeEqual(t, 0, "Instance StringMapString", actual)
+}
+
+// ==========================================================================
+// AppendsIf / PrependsIf — type-specific coverage
+// ==========================================================================
+
+func Test_I12_AppendsIf_StringInt(t *testing.T) {
+	items := []namevalue.StringInt{{Name: "a", Value: 1}}
+	r1 := namevalue.AppendsIf(true, items, namevalue.StringInt{Name: "b", Value: 2})
+	r2 := namevalue.AppendsIf(false, items, namevalue.StringInt{Name: "c", Value: 3})
+	r3 := namevalue.AppendsIf[string, int](true, items)
+
+	actual := args.Map{"r1": len(r1), "r2": len(r2), "r3": len(r3)}
+	expected := args.Map{"r1": 2, "r2": 2, "r3": 2}
+	expected.ShouldBeEqual(t, 0, "AppendsIf StringInt", actual)
+}
+
+func Test_I12_PrependsIf_StringInt(t *testing.T) {
+	items := []namevalue.StringInt{{Name: "b", Value: 2}}
+	r1 := namevalue.PrependsIf(true, items, namevalue.StringInt{Name: "a", Value: 1})
+	r2 := namevalue.PrependsIf(false, items, namevalue.StringInt{Name: "c", Value: 3})
+	r3 := namevalue.PrependsIf[string, int](true, items)
+
+	actual := args.Map{"r1": len(r1), "r2": len(r2), "r3": len(r3)}
+	expected := args.Map{"r1": 2, "r2": 2, "r3": 2}
+	expected.ShouldBeEqual(t, 0, "PrependsIf StringInt", actual)
+}
+
+func Test_I12_AppendsIf_StringMapAny(t *testing.T) {
+	items := []namevalue.StringMapAny{{Name: "a", Value: map[string]any{"k": 1}}}
+	r := namevalue.AppendsIf(true, items, namevalue.StringMapAny{Name: "b", Value: map[string]any{"k": 2}})
+
+	actual := args.Map{"len": len(r)}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "AppendsIf StringMapAny", actual)
+}
+
+func Test_I12_PrependsIf_StringMapString(t *testing.T) {
+	items := []namevalue.StringMapString{{Name: "b", Value: map[string]string{"k": "v"}}}
+	r := namevalue.PrependsIf(true, items, namevalue.StringMapString{Name: "a", Value: map[string]string{"k": "v"}})
+
+	actual := args.Map{"len": len(r), "first": r[0].Name}
+	expected := args.Map{"len": 2, "first": "a"}
+	expected.ShouldBeEqual(t, 0, "PrependsIf StringMapString", actual)
+}
+
+// ==========================================================================
+// IsEqualByString — type-specific for StringInt, StringMapString
+// ==========================================================================
+
+func Test_I12_StringInt_IsEqualByString(t *testing.T) {
+	c1 := namevalue.NewGenericCollectionDefault[string, int]()
+	c1.Add(namevalue.StringInt{Name: "a", Value: 1})
+	c2 := c1.Clone()
+
+	actual := args.Map{"equal": c1.IsEqualByString(c2)}
+	expected := args.Map{"equal": true}
+	expected.ShouldBeEqual(t, 0, "StringInt IsEqualByString", actual)
+}
+
+func Test_I12_StringMapString_IsEqualByString(t *testing.T) {
+	c1 := namevalue.NewGenericCollectionDefault[string, map[string]string]()
+	c1.Add(namevalue.StringMapString{Name: "a", Value: map[string]string{"k": "v"}})
+	c2 := c1.Clone()
+
+	actual := args.Map{"equal": c1.IsEqualByString(c2)}
+	expected := args.Map{"equal": true}
+	expected.ShouldBeEqual(t, 0, "StringMapString IsEqualByString", actual)
+}
+
+// ==========================================================================
+// Error/ErrorUsingMessage — type-specific
+// ==========================================================================
+
+func Test_I12_StringInt_ErrorMethods_Empty(t *testing.T) {
+	c := namevalue.EmptyGenericCollection[string, int]()
+	actual := args.Map{"err": c.Error() == nil, "msgErr": c.ErrorUsingMessage("p") == nil}
+	expected := args.Map{"err": true, "msgErr": true}
+	expected.ShouldBeEqual(t, 0, "StringInt Error empty", actual)
+}
+
+func Test_I12_StringMapAny_ErrorMethods(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]any]()
+	c.Add(namevalue.StringMapAny{Name: "e", Value: map[string]any{"k": "v"}})
+	actual := args.Map{"err": c.Error() != nil, "msgErr": c.ErrorUsingMessage("p") != nil}
+	expected := args.Map{"err": true, "msgErr": true}
+	expected.ShouldBeEqual(t, 0, "StringMapAny Error", actual)
+}
+
+// ==========================================================================
+// AppendPrependIf, CollectionUsing — type-specific for StringMapString
+// ==========================================================================
+
+func Test_I12_StringMapString_AppendPrependIf(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]string]()
+	c.Add(namevalue.StringMapString{Name: "mid", Value: map[string]string{"k": "v"}})
+	pre := []namevalue.StringMapString{{Name: "first", Value: map[string]string{"k": "v"}}}
+	app := []namevalue.StringMapString{{Name: "last", Value: map[string]string{"k": "v"}}}
+	c.AppendPrependIf(true, pre, app)
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 3}
+	expected.ShouldBeEqual(t, 0, "StringMapString AppendPrependIf", actual)
+}
+
+func Test_I12_StringMapString_FuncIf(t *testing.T) {
+	c := namevalue.NewGenericCollectionDefault[string, map[string]string]()
+	c.PrependUsingFuncIf(true, func() []namevalue.StringMapString {
+		return []namevalue.StringMapString{{Name: "a", Value: map[string]string{"k": "v"}}}
+	})
+	c.AppendUsingFuncIf(true, func() []namevalue.StringMapString {
+		return []namevalue.StringMapString{{Name: "b", Value: map[string]string{"k": "v"}}}
+	})
+
+	actual := args.Map{"len": c.Length()}
+	expected := args.Map{"len": 2}
+	expected.ShouldBeEqual(t, 0, "StringMapString FuncIf", actual)
+}
+
+func Test_I12_StringMapString_CollectionUsing(t *testing.T) {
+	items := []namevalue.StringMapString{{Name: "a", Value: map[string]string{"k": "v"}}}
+	c1 := namevalue.NewGenericCollectionUsing[string, map[string]string](true, items...)
+	c2 := namevalue.NewGenericCollectionUsing[string, map[string]string](false, items...)
+	c3 := namevalue.NewGenericCollectionUsing[string, map[string]string](true)
+
+	actual := args.Map{"c1": c1.Length(), "c2": c2.Length(), "c3": c3.Length()}
+	expected := args.Map{"c1": 1, "c2": 1, "c3": 0}
+	expected.ShouldBeEqual(t, 0, "StringMapString CollectionUsing", actual)
+}
+
+// ==========================================================================
+// Nil Instance IsNull — type-specific
+// ==========================================================================
+
+func Test_I12_Instance_IsNull_StringInt(t *testing.T) {
+	var nilInst *namevalue.StringInt
+	inst := &namevalue.StringInt{Name: "a", Value: 1}
+	actual := args.Map{"nil": nilInst.IsNull(), "nonNil": inst.IsNull()}
+	expected := args.Map{"nil": true, "nonNil": false}
+	expected.ShouldBeEqual(t, 0, "Instance IsNull StringInt", actual)
+}
+
+func Test_I12_Instance_Dispose_NilStringInt(t *testing.T) {
+	var nilInst *namevalue.StringInt
+	nilInst.Dispose() // should not panic
+	actual := args.Map{"ok": true}
+	expected := args.Map{"ok": true}
+	expected.ShouldBeEqual(t, 0, "Instance Dispose nil StringInt", actual)
+}
