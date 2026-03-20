@@ -91,7 +91,7 @@
 **Iteration 7** ✅: `errcore` (53 — covered AssertDiff mismatch paths, ExpectationMessageDef cached/Print, Handle*Getter panic paths, CompiledErrorString), `coreimpl/enumimpl` (55 — covered ConvAnyValToInteger branches, DynamicMap DiffRaw/ConvMap overflow/KeyValue edge cases, BasicByte/String GetValueByName wrapped, CreateUsingStringersSpread)
 → 108 stmts total
 
-**Iteration 8**: `coredata/coregeneric` (57), `coredata/corejson` (106)
+**Iteration 8** ✅: `coredata/coregeneric` (57 — covered all iterator methods All/Values/Backward/IterKeys/IterValues with break-early for Collection/Hashmap/Hashset/LinkedList/SimpleSlice, MaxOf/MaxOfSlice), `coredata/corejson` (106 — covered Result FieldsNames/safeJsonStringInternal/MeaningfulError/Serialize/IsEqual cached, BytesCollection AddSerializer(s)/GetSinglePage panic, MapResults Unmarshal/AddAny error/GetSinglePage panics, ResultsCollection AddSerializer(s)/UnmarshalIntoSameIndex error)
 → 163 stmts total
 
 ### Phase 3 — Medium Packages — Iterations 9-12
