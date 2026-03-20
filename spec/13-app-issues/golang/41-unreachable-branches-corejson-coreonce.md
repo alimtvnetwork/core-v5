@@ -90,6 +90,10 @@ Same pattern: `newResults.Length() == 0` checks the new empty collection instead
 | 2 | coreonce | `StringOnce.go:108` | `len(items) > 2` | `SplitN(..., 2)` caps at 2 | Yes — remove branch or change to `Split` |
 | 3 | corejson | `BytesCollection.go:764` | `Clone` loop body | Checks new collection length (always 0) instead of source | Yes — check `it.Length()` |
 | 4 | corejson | `BytesCollection.go:783` | `ClonePtr` loop body | Same as #3 | Yes — check `it.Length()` |
+| 5 | coreversion | `hasDeductUsingNilNess.go:20` | `left == nil \|\| right == nil` | Previous if/else exhausts all nil combinations | Yes — remove branch |
+| 6 | corerange | `MinMaxByte.go:46` | `if diff < 0` | `byte` is `uint8`, never negative | Yes — remove branch |
+| 7 | reqtype | `start.go:8`, `end.go:6` | `len(reqs) == 0` guard | Caller `RangesNotMeet` already guards | Yes — remove guard |
+| 8 | coretaskinfo | `InfoJson.go:25` | `it.IsNull()` in `JsonString` | Value receiver — auto-addressed `&it` never nil | Yes — change to ptr receiver or remove |
 
 ## Notes
 

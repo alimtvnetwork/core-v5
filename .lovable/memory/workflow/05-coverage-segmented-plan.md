@@ -71,7 +71,7 @@
 **Iteration 1** ✅: `corecmp` (9 — dead code documented), `coretests/results` (5), `coredata/coreonce` (5), `coredata/stringslice` (4)
 → 23 stmts total
 
-**Iteration 2**: `coreversion` (3), `coretaskinfo` (2), `codegen/coreproperty` (2), `simplewrap` (2), `coredata/corerange` (2), `reqtype` (2)
+**Iteration 2** ✅: `coreversion` (3 — 1 dead code), `coretaskinfo` (2 — 1 dead code), `codegen/coreproperty` (2), `simplewrap` (2), `coredata/corerange` (2 — 1 dead code), `reqtype` (2 — dead code)
 → 14 stmts total
 
 **Iteration 3**: `keymk` (6), `iserror` (1), `isany` (1), `ostype` (1), `issetter` (1), `converters` (1), `coremath` (1), `enums/versionindexes` (1)
