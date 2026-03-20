@@ -28,7 +28,7 @@ A targeted compile check that validates **only** `Coverage*` test files against 
    - File and line number
    - Error message (missing method, wrong arg count, type mismatch)
    - Affected symbol (function/method name)
-4. **Outputs** results to console with pass/fail per package.
+4. **Outputs** summary-only console output (no per-package ✓/✗ lines — only boxed summary sections).
 5. **Writes** `data/precommit/api-check.json` with structured results.
 
 ### JSON Output Schema
