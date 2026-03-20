@@ -1447,7 +1447,6 @@ function Invoke-PreCommitCheck {
         foreach ($r in ($results | Sort-Object Pkg)) {
             $shortName = $r.Pkg -replace '.*integratedtests/?', ''
             if ($r.ExitCode -eq 0) {
-                Write-Host "  ✓ $shortName" -ForegroundColor Green
                 $passedCount++
             } else {
                 Write-Host "  ✗ $shortName" -ForegroundColor Red
