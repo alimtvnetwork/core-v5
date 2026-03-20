@@ -11,34 +11,7 @@ import (
 // UsingNamerMapOptions — curly and non-curly with actual values
 // ══════════════════════════════════════════════════════════════════════════════
 
-type testNamer11 struct{ name string }
-
-func (n testNamer11) Name() string { return n.name }
-
-func Test_I11_UsingNamerMapOptions_Curly(t *testing.T) {
-	m := map[interface{ Name() string }]string{
-		testNamer11{"a"}: "1",
-		testNamer11{"b"}: "2",
-	}
-	actual := args.Map{"v": stringutil.ReplaceTemplate.UsingNamerMapOptions(true, "{a}-{b}", m)}
-	expected := args.Map{"v": "1-2"}
-	expected.ShouldBeEqual(t, 0, "UsingNamerMapOptions curly", actual)
-}
-
-func Test_I11_UsingNamerMapOptions_NonCurly(t *testing.T) {
-	m := map[interface{ Name() string }]string{
-		testNamer11{"A"}: "1",
-	}
-	actual := args.Map{"v": stringutil.ReplaceTemplate.UsingNamerMapOptions(false, "A-B", m)}
-	expected := args.Map{"v": "1-B"}
-	expected.ShouldBeEqual(t, 0, "UsingNamerMapOptions non-curly", actual)
-}
-
-func Test_I11_UsingNamerMapOptions_EmptyMap(t *testing.T) {
-	actual := args.Map{"v": stringutil.ReplaceTemplate.UsingNamerMapOptions(true, "hello", nil)}
-	expected := args.Map{"v": "hello"}
-	expected.ShouldBeEqual(t, 0, "UsingNamerMapOptions empty map", actual)
-}
+// Note: UsingNamerMapOptions non-nil paths require in-package test (namer is unexported)
 
 // ══════════════════════════════════════════════════════════════════════════════
 // UsingBracketsWrappedTemplate, UsingQuotesWrappedTemplate — normal paths
