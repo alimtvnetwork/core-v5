@@ -115,8 +115,8 @@ Fix all 9 compile-blocked packages listed above. No new coverage — just make t
 **Iteration 11** ✅: `coredata/corepayload` (117), `coreutils/stringutil` (9)
 → 126 stmts — Coverage16_Iteration11_test.go (newPayloadWrapperCreator: UsingBytesCreateInstruction, TypeStringer variants, CreateUsingTypeStringer, NameIdCategoryStringer, RecordsTypeStringer, RecordTypeStringer, ManyRecords, CastOrDeserializeFrom valid, DeserializeToMany/Collection, string payload branch; PayloadsCollection: Dynamic accessors, SkipDynamic/TakeDynamic/LimitDynamic, SkipCollection/TakeCollection/LimitCollection, IsEqualItems, GetPagedCollection, GetSinglePageCollection, DeserializeMust/ToMany/UsingJsonResult; structs: PayloadCreateInstructionTypeStringer, PayloadTypeExpander, BytesCreateInstructionStringer; emptyCreator; stringutil: Coverage7_Iteration11_test.go)
 
-**Iteration 12**: `namevalue` (188)
-→ 188 stmts (new test directory from scratch)
+**Iteration 12** ✅: `namevalue` (188)
+→ 188 stmts — Coverage7_Iteration12_test.go (exercised all type aliases: StringInt, StringMapAny, StringMapString through every Collection method; Instance type-specific String/JsonString/Dispose/IsNull; AppendsIf/PrependsIf per type; IsEqualByString, Error, LazyString, FuncIf, AppendPrependIf, CollectionUsing per type)
 
 **Iteration 13**: `reflectcore/reflectmodel` — Segment A (first ~200 of 251)
 → ~200 stmts
