@@ -94,6 +94,10 @@ Same pattern: `newResults.Length() == 0` checks the new empty collection instead
 | 6 | corerange | `MinMaxByte.go:46` | `if diff < 0` | `byte` is `uint8`, never negative | Yes — remove branch |
 | 7 | reqtype | `start.go:8`, `end.go:6` | `len(reqs) == 0` guard | Caller `RangesNotMeet` already guards | Yes — remove guard |
 | 8 | coretaskinfo | `InfoJson.go:25` | `it.IsNull()` in `JsonString` | Value receiver — auto-addressed `&it` never nil | Yes — change to ptr receiver or remove |
+| 9 | isany | `Conclusive.go:18` | `left == nil && right == nil` | Previous `left == right` (L14) already catches this | Yes — remove branch |
+| 10 | iserror | `Equal.go:8` | `left == nil && right == nil` | Previous `left == right` (L4) already catches this | Yes — remove branch |
+| 11 | issetter | `toHashset.go:4` | `len(names) == 0` guard | Unexported; all callers pass non-empty | No — keep as defensive; unreachable in practice |
+| 12 | coremath | `integerOutOfRange.go:21` | `IsX32Architecture` branch | Architecture-specific; only runs on 32-bit | No — environment-specific |
 
 ## Notes
 

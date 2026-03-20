@@ -74,8 +74,8 @@
 **Iteration 2** ✅: `coreversion` (3 — 1 dead code), `coretaskinfo` (2 — 1 dead code), `codegen/coreproperty` (2), `simplewrap` (2), `coredata/corerange` (2 — 1 dead code), `reqtype` (2 — dead code)
 → 14 stmts total
 
-**Iteration 3**: `keymk` (6), `iserror` (1), `isany` (1), `ostype` (1), `issetter` (1), `converters` (1), `coremath` (1), `enums/versionindexes` (1)
-→ 13 stmts total
+**Iteration 3** ✅: `keymk` (6), `converters` (1), `ostype` (1), `enums/versionindexes` (1) — 9 stmts covered; `iserror` (1 — dead code), `isany` (1 — dead code), `issetter` (1 — unreachable), `coremath` (1 — arch-specific)
+→ 13 stmts total (9 covered, 4 dead code documented)
 
 ### Phase 2 — Small-Medium Packages — Iterations 4-8
 
