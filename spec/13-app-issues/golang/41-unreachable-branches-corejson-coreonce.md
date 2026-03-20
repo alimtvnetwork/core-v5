@@ -101,6 +101,13 @@ Same pattern: `newResults.Length() == 0` checks the new empty collection instead
 | 13 | keymk | `KeyCompiler.go:140-148` | `compileSingleItem` method | Never called — dead code | Yes — remove method |
 | 14 | keymk | `KeyCompiler.go:271-273` | `len(items) == 0` in `compileCompleteAdditional` | Caller checks `len(items) == 0` at L96 first | Yes — remove guard |
 | 15 | keymk | `KeyCompiler.go:285-287` | `len(items) == 0` in `compileCompleteAdditionalStrings` | Caller checks `len(items) == 0` at L120 first | Yes — remove guard |
+| 16 | regexnew | `lazyRegexMap.go` (all methods) | `IsEmpty`, `IsEmptyLock`, `HasAnyItem`, `HasAnyItemLock`, `Length`, `LengthLock`, `Has`, `HasLock`, `CreateOrExistingLockIf`, `createLazyRegex` | Never called outside definition file | Yes — remove unused methods |
+| 17 | regexnew | `prettyJson.go:16-18` | `anyItem == nil` guard | All callers pass non-nil map literal | No — defensive; unreachable in practice |
+| 18 | regexnew | `prettyJson.go:22-24` | `err != nil \|\| len(allBytes) == 0` | `json.Marshal(map)` never fails | No — defensive; unreachable in practice |
+| 19 | regexnew | `regExMatchValidationError.go:21-26` | `regEx == nil` branch | `regexp.Compile` never returns `(nil, nil)` | Yes — remove branch |
+| 20 | codestack | `dirGetter.go:22,49` | `runtime.Caller` failure returns | `runtime.Caller` doesn't fail in normal execution | No — environment-specific |
+| 21 | codestack | `fileGetter.go:15,31,74` | `runtime.Caller` failure returns | Same as #20 | No — environment-specific |
+| 22 | codestack | `TraceCollection.go:75,119` | `isSkip` continue in `AddsUsingSkip`/`AddsUsingSkipUsingFilter` | Stack traces at valid indices are never invalid+skippable | No — defensive |
 
 ## Notes
 
