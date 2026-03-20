@@ -85,7 +85,7 @@
 **Iteration 5** ✅: `codestack` (24 — ~14 covered, ~10 dead/env-specific), `regexnew` (29 — ~2 covered, ~27 dead code in lazyRegexMap + env paths)
 → 53 stmts total
 
-**Iteration 6**: `corevalidator` (33), `coretests` (35)
+**Iteration 6** ✅: `corevalidator` (33 — covered via nil receivers, AssertVerifyAll, verify error paths), `coretests` (35 — ~20 covered via DraftType/SimpleTestCase/BaseTestCase; ~15 test infrastructure/env-specific)
 → 68 stmts total
 
 **Iteration 7**: `errcore` (53), `coreimpl/enumimpl` (55)
