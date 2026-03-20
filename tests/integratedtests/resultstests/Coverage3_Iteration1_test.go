@@ -4,61 +4,42 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/alimtvnetwork/core/coretests"
-	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/results"
 )
 
 // Test_Cov3_MethodName_NilInput tests MethodName with nil funcRef.
 func Test_Cov3_MethodName_NilInput(t *testing.T) {
-	// Arrange
-	expected := ""
-
-	// Act
+	// Arrange / Act
 	actual := results.MethodName(nil)
 
 	// Assert
-	coretests.GetAssert.ShouldBeEqual(
-		t,
-		0,
-		"MethodName(nil) should return empty string",
-		actual,
-		expected,
-	)
+	if actual != "" {
+		t.Fatalf("MethodName(nil) should return empty string, got %q", actual)
+	}
 }
 
 // Test_Cov3_MethodName_NonFuncInput tests MethodName with a non-function value.
 func Test_Cov3_MethodName_NonFuncInput(t *testing.T) {
-	// Arrange
-	expected := ""
-
-	// Act
+	// Arrange / Act
 	actual := results.MethodName("not-a-func")
 
 	// Assert
-	coretests.GetAssert.ShouldBeEqual(
-		t,
-		0,
-		"MethodName(string) should return empty string",
-		actual,
-		expected,
-	)
+	if actual != "" {
+		t.Fatalf("MethodName(string) should return empty string, got %q", actual)
+	}
 }
 
-// Test_Cov3_MethodName_SimpleFuncNoDot tests MethodName with a simple function name.
+// Test_Cov3_MethodName_SimpleFuncNoDot tests MethodName with a simple function.
 func Test_Cov3_MethodName_SimpleFuncNoDot(t *testing.T) {
 	// Arrange
-	// A plain function — name has dots in the full path, so lastDot >= 0.
-	// This just verifies normal extraction works.
 	myFunc := func() {}
 
 	// Act
 	actual := results.MethodName(myFunc)
 
 	// Assert
-	// The result should be non-empty (the Go runtime-assigned name)
 	if actual == "" {
-		t.Errorf("MethodName(func) should return non-empty, got empty")
+		t.Fatalf("MethodName(func) should return non-empty, got empty")
 	}
 }
 
@@ -66,49 +47,54 @@ func Test_Cov3_MethodName_SimpleFuncNoDot(t *testing.T) {
 func Test_Cov3_InvokeWithPanicRecovery_VoidFunc(t *testing.T) {
 	// Arrange
 	voidFunc := func() {}
-	expected := args.Map{
-		"panicked":    false,
-		"returnCount": 0,
-	}
 
-	// Act
-	result := results.InvokeWithPanicRecovery(voidFunc)
+	// Act — signature is InvokeWithPanicRecovery(funcRef any, receiver any, args ...any)
+	result := results.InvokeWithPanicRecovery(voidFunc, nil)
 
 	// Assert
-	actual := args.Map{
-		"panicked":    result.Panicked,
-		"returnCount": result.ReturnCount,
+	if result.Panicked {
+		t.Fatalf("void func should not panic, got panicked")
 	}
-	coretests.GetAssert.ShouldBeEqualMap(
-		t,
-		0,
-		"InvokeWithPanicRecovery void func",
-		actual,
-		expected,
-	)
+	if result.ReturnCount != 0 {
+		t.Fatalf("void func return count: got %d, want 0", result.ReturnCount)
+	}
 }
 
 // Test_Cov3_InvokeWithPanicRecovery_NilPtrError tests extractErrorFromValue with nil ptr implementing error.
 func Test_Cov3_InvokeWithPanicRecovery_NilPtrError(t *testing.T) {
 	// Arrange
-	// A function returning a nil *customError (which implements error)
 	funcReturningNilPtrError := func() error {
 		var e *customError
 		return e
 	}
 
 	// Act
-	result := results.InvokeWithPanicRecovery(funcReturningNilPtrError)
+	result := results.InvokeWithPanicRecovery(funcReturningNilPtrError, nil)
 
 	// Assert
-	// Error should be nil since the pointer is nil
 	if result.Error != nil {
-		t.Errorf("expected nil error for nil ptr error, got %v", result.Error)
+		t.Fatalf("expected nil error for nil ptr error, got %v", result.Error)
+	}
+}
+
+// Test_Cov3_InvokeWithPanicRecovery_FuncReturning42 tests with a func returning int.
+func Test_Cov3_InvokeWithPanicRecovery_FuncReturning42(t *testing.T) {
+	// Arrange
+	funcReturning42 := func() int { return 42 }
+
+	// Act
+	result := results.InvokeWithPanicRecovery(funcReturning42, nil)
+
+	// Assert
+	if result.Panicked {
+		t.Fatalf("expected no panic")
+	}
+	if result.ReturnCount != 1 {
+		t.Fatalf("expected return count 1, got %d", result.ReturnCount)
 	}
 }
 
 // Test_Cov3_FilterByFields_MissingKey tests filterByFields with a key not present in the map.
-// This is tested indirectly through ShouldMatchResult with explicit compareFields.
 func Test_Cov3_FilterByFields_MissingKey(t *testing.T) {
 	// Arrange
 	funcReturning42 := func() int { return 42 }
@@ -118,10 +104,9 @@ func Test_Cov3_FilterByFields_MissingKey(t *testing.T) {
 	}
 
 	// Act
-	result := results.InvokeWithPanicRecovery(funcReturning42)
+	result := results.InvokeWithPanicRecovery(funcReturning42, nil)
 
 	// Assert — request a field "isSafe" that won't be in the map
-	// This exercises the filterByFields missing-key branch
 	result.ShouldMatchResult(
 		t,
 		0,
