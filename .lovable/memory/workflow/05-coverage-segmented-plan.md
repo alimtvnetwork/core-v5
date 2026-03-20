@@ -82,7 +82,7 @@
 **Iteration 4** ✅: `coreinstruction` (16 — all covered), `coretests/coretestcases` (11 — failure path branches exercised via sub-test pattern)
 → 27 stmts total
 
-**Iteration 5**: `codestack` (24), `regexnew` (29)
+**Iteration 5** ✅: `codestack` (24 — ~14 covered, ~10 dead/env-specific), `regexnew` (29 — ~2 covered, ~27 dead code in lazyRegexMap + env paths)
 → 53 stmts total
 
 **Iteration 6**: `corevalidator` (33), `coretests` (35)
