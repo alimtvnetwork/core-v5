@@ -727,10 +727,7 @@ function Invoke-TestCoverage {
     }
 
     Set-Content -Path $coverProfile -Value ($mergedLines -join "`n") -Encoding UTF8
-    Write-Success "Merged profile: $coverProfile ($($coverMap.Count) unique coverage lines)"
-
-    # Keep partial profiles for per-package inspection
-    Write-Success "Partial profiles kept in: $partialDir"
+    # (file write messages deferred to written files summary)
 
     if (Test-Path $coverProfile) {
         # Generate func-level summary
