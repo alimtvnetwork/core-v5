@@ -1,6 +1,6 @@
 # Plan — Future Work Roadmap
 
-## Last Updated: 2026-03-16T09:50:00+08:00
+## Last Updated: 2026-03-20T12:00:00+08:00
 
 ---
 
@@ -11,50 +11,17 @@
 | Phase 1 (Foundation) | ✅ Done | `interface{}` → `any`, Go 1.24, bug fixes |
 | Phase 2 (Generics — Collections) | ✅ Done | Collection[T], Hashset[T], Hashmap[K,V], SimpleSlice[T], LinkedList[T] |
 | Phase 3 (Generics — Payload/Dynamic) | ✅ Done | TypedPayloadWrapper[T], TypedDynamic[T], generic deserialize helpers |
-| Phase 4 (Test Coverage Expansion) | ✅ Done (P0) | `conditional/`, `errcore/`, `converters/` expanded |
+| Phase 4 (Test Coverage Expansion) | ✅ Done | `conditional/`, `errcore/`, `converters/` expanded |
 | Phase 5 (File Splitting) | ✅ Done | PayloadWrapper, Attributes, Info, Dynamic, BaseTestCase |
-| Phase 6 (Value Receiver Migration) | ✅ Done | issetter, coreversion, corepayload; remaining audited — no convertible methods |
+| Phase 6 (Value Receiver Migration) | ✅ Done | issetter, coreversion, corepayload; remaining audited |
 | Phase 7 (Expert Code Review Fixes) | ✅ Done | 16 findings across 4 sub-phases |
 | Phase 8 (Deep Quality Sweep) | ✅ Done | ~190 inline negation refactors, bug fixes, regression tests |
 | Error Modernization | ✅ Done | errors.Join, errors.Is/As, fmt.Errorf with %w |
 | Go Modernization (Phases 1-7) | ✅ Done | All 7 phases complete including slog, legacy removal |
 | Test Title Audit (Batches 1-5) | ✅ Done | ~375+ titles renamed |
 | Package READMEs | ✅ Done | All core packages documented |
-
----
-
-## Phase A: Coverage Stabilization (CURRENT PRIORITY)
-
-### A.0 — Compile Baseline Refresh ⚠️ USER ACTION REQUIRED
-- **Objective**: Run `./run.ps1 PC` to validate all existing test files compile, especially Batch 4
-- **Dependencies**: None (user action)
-- **Expected outputs**: Blocked package list; Batch 4 file compilation status
-- **Acceptance criteria**: `./run.ps1 PC` runs; results shared and documented
-- **Suggestion ref**: S-001, S-002
-
-### A.1 — Phase 1 Quick Wins (6 packages, ~195 test cases)
-- **Objective**: Push 6 near-100% packages to full branch coverage
-- **Dependencies**: A.0 (compile baseline must be clean)
-- **Expected outputs**: 6-8 new coverage test files
-- **Acceptance criteria**: `./run.ps1 TC` shows 100% for each
-- **Packages**: `coreonce` (95.7%), `keymk` (95.6%), `corerange` (94.3%), `enumimpl` (95.9%), `corevalidator` (91.2%), `stringslice` (90.6%)
-- **Suggestion ref**: S-003
-
-### A.2 — Phase 2 Moderate Effort (5 packages, ~215 test cases)
-- **Objective**: Push 5 medium-gap packages to 100%
-- **Dependencies**: A.1
-- **Expected outputs**: 5-10 new coverage test files
-- **Acceptance criteria**: `./run.ps1 TC` shows 100% for each
-- **Packages**: `errcore` (90.2%), `reflectmodel` (72.6%), `reflectinternal` (80.4%), `corejson` (45%) ⚠️, `corepayload` (56%) ⚠️
-- **Suggestion ref**: S-004
-
-### A.3 — Phase 3 Heavy Lift (4 packages, ~365+ test cases)
-- **Objective**: Full coverage for largest uncovered packages
-- **Dependencies**: A.2
-- **Expected outputs**: 10-20+ new coverage test files
-- **Acceptance criteria**: `./run.ps1 TC` shows 100% for each
-- **Packages**: `codestack` (0%), `corecmp` (10.8%), `corestr` (3.3%) ⚠️, `coredynamic` (0.9%) ⚠️
-- **Suggestion ref**: S-005
+| Phase A (Coverage Stabilization) | ✅ Done | 20-iteration plan executed; all non-internal packages covered |
+| Phase B.2 (Spec Reconciliation) | ✅ Done | 9 spec files cleaned |
 
 ---
 
@@ -65,16 +32,7 @@
 - **Dependencies**: User runs external audit (`grep` across auk-go repos)
 - **Expected outputs**: Deleted `codegen/`, `cmd/main/unitTestGenerator.go`, `tests/integratedtests/codegentests/`; updated `go.mod`
 - **Acceptance criteria**: All exit criteria in `spec/01-app/10-codegen-deprecation-plan.md` met
-- **Suggestion ref**: S-006
-- **Note**: User chose to skip this task (2026-03-16). Revisit when coverage stabilization is complete.
-
-### B.2 — Spec Reconciliation ✅ DONE
-- **Objective**: Remove stale entries from spec files
-- **Dependencies**: None
-- **Expected outputs**: Updated spec files with accurate status markers
-- **Acceptance criteria**: No spec references completed work as pending
-- **Suggestion ref**: S-007
-- **Completed**: 2026-03-16 — Fixed 9 spec files
+- **Note**: User chose to skip (2026-03-16). Revisit when convenient.
 
 ---
 
@@ -99,31 +57,43 @@
 - **Dependencies**: None
 - **Expected outputs**: CI config file, lint config
 - **Acceptance criteria**: CI runs on push, blocks on failures
-- **Suggestion ref**: S-008
 
 ### C.4 — Module Splitting
 - **Objective**: Evaluate splitting monorepo into focused Go modules
-- **Dependencies**: All coverage work complete
+- **Dependencies**: All coverage work complete ✅
 - **Expected outputs**: Architecture decision doc
 - **Acceptance criteria**: Decision documented with migration path
 - **Spec reference**: `spec/01-app/15-code-review-report.md`
 
 ---
 
+## Phase D: Tooling & Runner Improvements
+
+### D.1 — Test Title Audit — Remaining Packages
+- **Objective**: Audit remaining 17 packages for test title consistency
+- **Dependencies**: None
+- **Acceptance criteria**: All test titles follow `"{Function} returns {Result} -- {Input Context}"` format
+
+### D.2 — Diagnostic Output Regression Tests
+- **Objective**: Create snapshot tests for diagnostic output formatting
+- **Dependencies**: None
+- **Acceptance criteria**: Snapshot tests pass for all formatter outputs
+
+---
+
 ## Next Task Selection
 
-Pick one to implement next:
+| # | Task | Effort | Risk |
+|---|------|--------|------|
+| 1 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 2 | **C.3 — CI pipeline** | Medium | Low |
+| 3 | **C.1 — Generic interfaces** | Medium | Low |
+| 4 | **C.2 — iter adoption** | Small | Low |
+| 5 | **C.4 — Module splitting** | Large | Medium |
+| 6 | **D.1 — Test title audit** | Small | Low |
+| 7 | **D.2 — Diagnostic snapshots** | Small | Low |
 
-| # | Task | Effort | Risk | Prerequisite |
-|---|------|--------|------|-------------|
-| 1 | **A.0 — Run `./run.ps1 PC`** | User action | None | — |
-| 2 | **A.1 — Coverage Phase 1: `coreonce`** | Small (30 tests) | Low | A.0 results |
-| 3 | **A.1 — Coverage Phase 1: `keymk`** | Small (20 tests) | Low | A.0 results |
-| 4 | ~~**B.1 — Codegen removal**~~ | ⏭️ Skipped | — | — |
-| 5 | ~~**B.2 — Spec reconciliation**~~ | ✅ Done | — | — |
-| 6 | **C.3 — CI pipeline** | Medium | Low | — |
-
-**Recommended**: Start with **A.0** (user runs `./run.ps1 PC`), then pick from **A.1** packages one at a time.
+**Recommended**: **C.3** (CI pipeline) or **D.1** (test title audit) as the next high-value, low-risk tasks.
 
 ---
 
