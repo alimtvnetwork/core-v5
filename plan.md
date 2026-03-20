@@ -89,13 +89,12 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **D.1 — Test title audit** | Large | Low (multi-session, ~40+ packages) |
-| 2 | **C.1 — Generic interfaces** | Medium | Low |
-| 3 | **D.2 — Diagnostic snapshots** | Small | Low |
-| 4 | **C.4 — Module splitting** | Large | Medium |
-| 5 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 1 | **D.2 — Diagnostic snapshots** | Small | Low |
+| 2 | **D.1 — Test title audit** | Large | Low (multi-session, ~40+ packages) |
+| 3 | **C.4 — Module splitting** | Large | Medium |
+| 4 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **C.1** (generic interfaces) or **D.2** (diagnostic snapshots) as the next actionable tasks.
+**Recommended**: **D.2** (diagnostic snapshots) as the next actionable task.
 
 ---
 
