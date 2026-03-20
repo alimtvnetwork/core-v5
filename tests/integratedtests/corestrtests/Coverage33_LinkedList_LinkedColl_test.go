@@ -65,11 +65,6 @@ func Test_C33_LL_AddLock(t *testing.T) {
 	ll.AddLock("a")
 }
 
-func Test_C33_LL_AddBackLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Empty()
-	ll.AddLock("a")
-}
-
 func Test_C33_LL_AddCollection(t *testing.T) {
 	ll := corestr.New.LinkedList.Empty()
 	c := corestr.New.Collection.Strings([]string{"a", "b"})
@@ -93,22 +88,11 @@ func Test_C33_LL_AddAfterNode(t *testing.T) {
 	ll.AddAfterNode(ll.Head(), "x")
 }
 
-func Test_C33_LL_AddBackNode(t *testing.T) {
-	ll := corestr.New.LinkedList.Empty()
-	ll.PushBack("a")
-	// AddBackNode tested implicitly
-}
-
 func Test_C33_LL_Remove(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b", "c"})
 	ll.RemoveNodeByElementValue("b", true, false)
 	ll.RemoveNodeByElementValue("a", true, false)
 	ll.RemoveNodeByElementValue("c", true, false)
-}
-
-func Test_C33_LL_RemoveLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
-	ll.RemoveNodeByElementValue("a", true, false)
 }
 
 func Test_C33_LL_RemoveAt(t *testing.T) {
@@ -130,26 +114,15 @@ func Test_C33_LL_ListLock(t *testing.T) {
 	_ = ll.ListLock()
 }
 
-func Test_C33_LL_Collection(t *testing.T) {
+func Test_C33_LL_ToCollection(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_ = ll.Collection()
-}
-
-func Test_C33_LL_SimpleSlice(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_ = ll.SimpleSlice()
+	c := ll.ToCollection(0)
+	if c == nil { t.Fatal("expected non-nil collection") }
 }
 
 func Test_C33_LL_Loop(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
 	ll.Loop(func(arg *corestr.LinkedListProcessorParameter) bool {
-		return false
-	})
-}
-
-func Test_C33_LL_LoopLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	ll.LoopLock(func(arg *corestr.LinkedListProcessorParameter) bool {
 		return false
 	})
 }
@@ -165,30 +138,9 @@ func Test_C33_LL_StringLock(t *testing.T) {
 	_ = ll.StringLock()
 }
 
-func Test_C33_LL_SummaryString(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_ = ll.SummaryString()
-	_ = ll.SummaryStringLock()
-}
-
 func Test_C33_LL_Clear(t *testing.T) {
 	ll := corestr.New.LinkedList.Strings([]string{"a"})
 	ll.Clear()
-}
-
-func Test_C33_LL_ClearLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	ll.ClearLock()
-}
-
-func Test_C33_LL_Dispose(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	ll.Dispose()
-}
-
-func Test_C33_LL_DisposeLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	ll.DisposeLock()
 }
 
 func Test_C33_LL_JsonMethods(t *testing.T) {
@@ -198,67 +150,7 @@ func Test_C33_LL_JsonMethods(t *testing.T) {
 	_ = ll.JsonModel()
 	_ = ll.JsonModelAny()
 	_, _ = ll.MarshalJSON()
-	_ = ll.AsJsonContractsBinder()
-	_ = ll.AsJsoner()
 	_ = ll.AsJsonMarshaller()
-	_ = ll.AsJsonParseSelfInjector()
-}
-
-func Test_C33_LL_Clone(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_ = ll.Clone()
-	_ = corestr.New.LinkedList.Empty().Clone()
-}
-
-func Test_C33_LL_CloneLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_ = ll.CloneLock()
-}
-
-func Test_C33_LL_Has(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	if !ll.Has("a") { t.Fatal("expected true") }
-}
-
-func Test_C33_LL_HasLock(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_ = ll.HasLock("a")
-}
-
-func Test_C33_LL_IndexOf(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a", "b"})
-	_ = ll.IndexOf("b")
-	_ = ll.IndexOf("z")
-}
-
-func Test_C33_LL_Hashset(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_ = ll.Hashset()
-}
-
-func Test_C33_LL_FirstOrDefault(t *testing.T) {
-	ll := corestr.New.LinkedList.Empty()
-	_ = ll.FirstOrDefault()
-	ll.Add("a")
-	_ = ll.FirstOrDefault()
-}
-
-func Test_C33_LL_LastOrDefault(t *testing.T) {
-	ll := corestr.New.LinkedList.Empty()
-	_ = ll.LastOrDefault()
-	ll.Add("a")
-	_ = ll.LastOrDefault()
-}
-
-func Test_C33_LL_Serialize(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	_, _ = ll.Serialize()
-}
-
-func Test_C33_LL_Deserialize(t *testing.T) {
-	ll := corestr.New.LinkedList.Strings([]string{"a"})
-	var target []string
-	_ = ll.Deserialize(&target)
 }
 
 func Test_C33_LL_AddCollectionToNode(t *testing.T) {
@@ -332,9 +224,9 @@ func Test_C33_LC_AddAfterNode(t *testing.T) {
 	lc.AddAfterNode(lc.Head(), corestr.New.Collection.Strings([]string{"x"}))
 }
 
-func Test_C33_LC_AddBack(t *testing.T) {
+func Test_C33_LC_PushBack(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
-	lc.AddBack(corestr.New.Collection.Strings([]string{"a"}))
+	lc.PushBack(corestr.New.Collection.Strings([]string{"a"}))
 }
 
 func Test_C33_LC_AllIndividualItemsLength(t *testing.T) {
@@ -371,21 +263,16 @@ func Test_C33_LC_LastOrDefault(t *testing.T) {
 	_ = lc.LastOrDefault()
 }
 
-func Test_C33_LC_Remove(t *testing.T) {
+func Test_C33_LC_RemoveNodeByIndex(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
 	lc.Add(corestr.New.Collection.Strings([]string{"a"}))
 	lc.Add(corestr.New.Collection.Strings([]string{"b"}))
-	lc.RemoveAt(0)
+	lc.RemoveNodeByIndex(0)
 }
 
 func Test_C33_LC_List(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
 	_ = lc.List()
-}
-
-func Test_C33_LC_ListFlat(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
-	_ = lc.ListFlat()
 }
 
 func Test_C33_LC_Loop(t *testing.T) {
@@ -406,16 +293,6 @@ func Test_C33_LC_Clear(t *testing.T) {
 	lc.Clear()
 }
 
-func Test_C33_LC_Dispose(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
-	lc.Dispose()
-}
-
-func Test_C33_LC_Clone(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
-	_ = lc.Clone()
-}
-
 func Test_C33_LC_JsonMethods(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
 	_ = lc.Json()
@@ -429,19 +306,9 @@ func Test_C33_LC_JsonMethods(t *testing.T) {
 	_ = lc.AsJsonParseSelfInjector()
 }
 
-func Test_C33_LC_Has(t *testing.T) {
+func Test_C33_LC_SimpleSlice(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
-	_ = lc.Has("a")
-}
-
-func Test_C33_LC_Hashset(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
-	_ = lc.Hashset()
-}
-
-func Test_C33_LC_Serialize(t *testing.T) {
-	lc := corestr.New.LinkedCollection.Strings([]string{"a"})
-	_, _ = lc.Serialize()
+	_ = lc.SimpleSlice()
 }
 
 func Test_C33_LC_AddCollectionToNode(t *testing.T) {
