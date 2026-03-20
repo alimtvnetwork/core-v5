@@ -618,8 +618,7 @@ function Invoke-TestCoverage {
     $pkgIndex = 0
 
     Write-Host ""
-    Write-Host "  Running $($testPkgs.Count) test packages with individual coverage profiles ($modeLabel)..." -ForegroundColor Yellow
-    Write-Host ""
+    Write-Host "  Running $($testPkgs.Count) test packages ($modeLabel)..." -ForegroundColor Yellow
 
     if ($isSyncMode) {
         # ── Sequential coverage run ──
