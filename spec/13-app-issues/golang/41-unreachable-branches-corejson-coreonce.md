@@ -1,4 +1,4 @@
-# Issue: Unreachable Code Branches in corejson and coreonce
+# Issue: Unreachable Code Branches in corecmp, corejson, and coreonce
 
 ## Status: ✅ RESOLVED
 
