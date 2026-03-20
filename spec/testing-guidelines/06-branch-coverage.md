@@ -2,7 +2,7 @@
 
 ## Goal
 
-Every code branch must have at least one test case exercising it. Branches include:
+Every code branch must have at least one test case exercising it — **except for `internal/` packages** (see [Internal Package Exclusion](#internal-package-exclusion) below). Branches include:
 - `if/else` and `if/else if/else`
 - `switch/case`
 - Nil guards (`if it == nil`)
