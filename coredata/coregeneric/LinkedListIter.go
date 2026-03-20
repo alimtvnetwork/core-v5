@@ -11,7 +11,7 @@ func (it *LinkedList[T]) All() iter.Seq2[int, T] {
 		current := it.head
 
 		for current != nil {
-			if !yield(i, current.Value) {
+			if !yield(i, current.Element) {
 				return
 			}
 
@@ -29,7 +29,7 @@ func (it *LinkedList[T]) Values() iter.Seq[T] {
 		current := it.head
 
 		for current != nil {
-			if !yield(current.Value) {
+			if !yield(current.Element) {
 				return
 			}
 

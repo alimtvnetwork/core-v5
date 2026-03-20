@@ -15,10 +15,10 @@ func (it *Hashmap[K, V]) All() iter.Seq2[K, V] {
 	}
 }
 
-// Keys returns an iter.Seq[K] over all keys.
+// IterKeys returns an iter.Seq[K] over all keys.
 //
-//	for key := range hashmap.Keys() { ... }
-func (it *Hashmap[K, V]) Keys() iter.Seq[K] {
+//	for key := range hashmap.IterKeys() { ... }
+func (it *Hashmap[K, V]) IterKeys() iter.Seq[K] {
 	return func(yield func(K) bool) {
 		for k := range it.items {
 			if !yield(k) {
@@ -28,10 +28,10 @@ func (it *Hashmap[K, V]) Keys() iter.Seq[K] {
 	}
 }
 
-// Values returns an iter.Seq[V] over all values.
+// IterValues returns an iter.Seq[V] over all values.
 //
-//	for value := range hashmap.Values() { ... }
-func (it *Hashmap[K, V]) Values() iter.Seq[V] {
+//	for value := range hashmap.IterValues() { ... }
+func (it *Hashmap[K, V]) IterValues() iter.Seq[V] {
 	return func(yield func(V) bool) {
 		for _, v := range it.items {
 			if !yield(v) {
