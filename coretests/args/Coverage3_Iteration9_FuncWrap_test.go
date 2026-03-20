@@ -121,7 +121,7 @@ func Test_Cov9_DynamicFunc_InvokeArgs(t *testing.T) {
 
 func Test_Cov9_Dynamic_GetWorkFunc(t *testing.T) {
 	d := &Dynamic[string]{
-		Params: Map{funcKey: sampleGreet},
+		Params: Map{"func": sampleGreet},
 	}
 	wf := d.GetWorkFunc()
 	if wf == nil {
@@ -131,7 +131,7 @@ func Test_Cov9_Dynamic_GetWorkFunc(t *testing.T) {
 
 func Test_Cov9_Dynamic_Invoke(t *testing.T) {
 	d := &Dynamic[string]{
-		Params: Map{funcKey: sampleGreet},
+		Params: Map{"func": sampleGreet},
 	}
 	results, err := d.Invoke("World")
 	if err != nil {
@@ -144,7 +144,7 @@ func Test_Cov9_Dynamic_Invoke(t *testing.T) {
 
 func Test_Cov9_Dynamic_InvokeMust(t *testing.T) {
 	d := &Dynamic[string]{
-		Params: Map{funcKey: sampleGreet},
+		Params: Map{"func": sampleGreet},
 	}
 	results := d.InvokeMust("Test")
 	if results[0] != "Hello Test" {
@@ -549,7 +549,7 @@ func Test_Cov9_Map_SortedKeysMust_Panic(t *testing.T) {
 }
 
 func Test_Cov9_Map_InvokeMust(t *testing.T) {
-	m := Map{funcKey: sampleGreet}
+	m := Map{"func": sampleGreet}
 	results := m.InvokeMust("MapTest")
 	if results[0] != "Hello MapTest" {
 		t.Errorf("got %v", results[0])
@@ -557,7 +557,7 @@ func Test_Cov9_Map_InvokeMust(t *testing.T) {
 }
 
 func Test_Cov9_Map_InvokeMust_Panic(t *testing.T) {
-	m := Map{funcKey: sampleGreet}
+	m := Map{"func": sampleGreet}
 	defer func() {
 		if r := recover(); r == nil {
 			t.Error("expected panic from InvokeMust with wrong args")
@@ -568,7 +568,7 @@ func Test_Cov9_Map_InvokeMust_Panic(t *testing.T) {
 
 func Test_Cov9_Map_InvokeWithValidArgs(t *testing.T) {
 	m := Map{
-		funcKey:          sampleGreet,
+		"func":          sampleGreet,
 		"input-String1": "ValidArg",
 	}
 	results, err := m.InvokeWithValidArgs()
@@ -660,7 +660,7 @@ func Test_Cov9_NewFuncWrap_StructToMap(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_Cov9_FuncDetector_Map(t *testing.T) {
-	m := Map{funcKey: sampleGreet}
+	m := Map{"func": sampleGreet}
 	fd := funcDetector{}
 	fw := fd.GetFuncWrap(m)
 	if fw == nil {
