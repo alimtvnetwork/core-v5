@@ -1,6 +1,7 @@
 package corestrtests
 
 import (
+	"fmt"
 	"sync"
 	"testing"
 
