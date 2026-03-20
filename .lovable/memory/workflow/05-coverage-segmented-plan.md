@@ -121,8 +121,8 @@ Fix all 9 compile-blocked packages listed above. No new coverage — just make t
 **Iteration 13** ✅: `reflectcore/reflectmodel` — Segment A (first ~200 of 251)
 → ~200 stmts — Coverage10_Iteration13_test.go (Invoke with ptr/slice/map/chan/func/interface nil+non-nil returns to exercise ReflectValueToAnyValue + IsNull branches; InvokeFirstAndError/InvokeError with various return types; cached GetOutArgsTypes/GetInArgsTypes/GetInArgsTypesNames; ValidateMethodArgs multi-type-mismatch; VerifyInArgs/VerifyOutArgs; InArgsVerifyRv/OutArgsVerifyRv match+mismatch; ReflectValueKind with Int/Bool/Slice/Map/Struct/Ptr kinds; FieldProcessor Int+Bool fields; ReflectValue struct)
 
-**Iteration 14**: `reflectcore/reflectmodel` — Segment B (remaining ~51)
-→ ~51 stmts
+**Iteration 14** ✅: `reflectcore/reflectmodel` — Segment B (remaining ~51)
+→ ~51 stmts — Coverage11_Iteration14_test.go (nil receiver paths for MethodProcessor/ReflectValueKind/FieldProcessor; IsEqual nil+same-pointer+same-signature+diff-signature; InvalidReflectValueKindModel constructor; InvokeFirstAndError single-return error; InvokeError non-error panic; ValidateMethodArgs too-few/too-many/empty; GetFirstResponseOfInvoke success; InvokeResultOfIndex second result; RVK invalid-not-nil PointerRv)
 
 ### Phase 4 — coredata/coredynamic (2191 uncovered) — Iterations 15-25
 
