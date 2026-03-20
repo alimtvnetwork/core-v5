@@ -6,8 +6,23 @@
 
 ## Packages
 
+- `corecmp`
 - `coredata/coreonce`
 - `coredata/corejson`
+
+---
+
+## corecmp
+
+### Dead `return corecomparator.NotEqual` in 9 comparison functions
+
+**Files:** `Byte.go`, `Integer.go`, `Integer8.go`, `Integer16.go`, `Integer32.go`, `Integer64.go`, `Time.go`, `VersionSliceByte.go`, `VersionSliceInteger.go` — all at line 14 or 41.
+
+Each function has an exhaustive `if equal / else if less / else if greater` chain. The final `return corecomparator.NotEqual` is unreachable because the three conditions are logically exhaustive for comparable types.
+
+**9 uncovered statements total. Cannot be covered by any test input.**
+
+**Fix option:** Remove the dead return or convert `else if greater` to bare `else`.
 
 ---
 
