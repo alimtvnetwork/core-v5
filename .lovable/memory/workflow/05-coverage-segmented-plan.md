@@ -132,7 +132,7 @@ Each segment = ~200 stmts, aligned to logical file/function boundaries.
 |-----------|---------|-------|
 | 15 ✅ | `coredynamic` Segment A — Coverage19_Iteration15_test.go (KeyVal: all value accessors, nil receivers, reflect set methods, JSON methods, CastKeyVal, Serialize; New.Collection creators: String/Int/Int64/Byte/Any/Bool/Float32/Float64/AnyMap/StringMap/IntMap/ByteSlice with Empty/Cap/From/Clone/Items/Create/LenCap) | ~200 |
 | 16 ✅ | `coredynamic` Segment B — Coverage20_Iteration16_test.go (KeyValCollection: constructors, Add/AddPtr/AddMany/AddManyPtr, MapAnyItems, AllKeys/AllKeysSorted/AllValues, paging, JSON/Serialize/Clone/ClonePtr; DynamicCollection: Add/AddAny/AddAnyNonNull/AddAnyMany/AddPtr/AddManyPtr, First/Last/Skip/Take/Limit + Collection variants, RemoveAt, Loop, AnyItems, Strings, type validation add, JSON/paging/Marshal/Unmarshal) | ~200 |
-| 17 | `coredynamic` Segment C | ~200 |
+| 17 ✅ | `coredynamic` Segment C — Coverage21_Iteration17_test.go (BytesConverter: all 20+ To* methods with success+invalid paths; SimpleResult: Clone/ClonePtr/InvalidError cached+nil+empty/GetErrorOnTypeMismatch match+mismatch±includeMsg; SimpleRequest: nil receivers, InvalidError cached, GetErrorOnTypeMismatch, IsPointer cached; MapAsKeyValSlice success+notMap; NotAcceptedTypesErr/MustBeAcceptedTypes match+noMatch+panic; AnyToReflectVal; ReflectInterfaceVal ptr+nonPtr) | ~200 |
 | 18 | `coredynamic` Segment D | ~200 |
 | 19 | `coredynamic` Segment E | ~200 |
 | 20 | `coredynamic` Segment F | ~200 |
