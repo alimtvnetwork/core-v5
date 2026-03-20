@@ -105,10 +105,6 @@ func (it *StringOnce) SplitLeftRight(
 		return items[0], items[1]
 	}
 
-	if len(items) > 2 {
-		return items[0], items[len(items)-1]
-	}
-
 	// len <= 1
 	return items[0], ""
 }
