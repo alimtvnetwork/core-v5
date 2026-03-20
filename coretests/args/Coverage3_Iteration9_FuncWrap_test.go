@@ -537,15 +537,12 @@ func Test_Cov9_Map_GetFuncName_NilFunc(t *testing.T) {
 	}
 }
 
-func Test_Cov9_Map_SortedKeysMust_Panic(t *testing.T) {
-	// A nil Map should panic when SortedKeys fails
-	var m Map
-	defer func() {
-		if r := recover(); r == nil {
-			t.Error("expected panic from SortedKeysMust on nil map")
-		}
-	}()
-	m.SortedKeysMust()
+func Test_Cov9_Map_SortedKeysMust_Success(t *testing.T) {
+	m := Map{"b": 2, "a": 1}
+	keys := m.SortedKeysMust()
+	if len(keys) != 2 {
+		t.Errorf("expected 2 keys, got %d", len(keys))
+	}
 }
 
 func Test_Cov9_Map_InvokeMust(t *testing.T) {
