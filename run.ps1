@@ -510,10 +510,8 @@ function Invoke-TestCoverage {
             if (-not $shortName) { $shortName = "(root)" }
 
             if ($result.ExitCode -eq 0) {
-                Write-Host "  ✓ $shortName" -ForegroundColor Green
                 $testPkgs.Add($result.Pkg)
             } else {
-                Write-Host "  ✗ $shortName [build failed]" -ForegroundColor Red
                 $blockedPkgs.Add($shortName)
                 $blockedErrors[$shortName] = ($result.Output -join "`n")
             }
