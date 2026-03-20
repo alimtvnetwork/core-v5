@@ -45,12 +45,13 @@
 - **Acceptance criteria**: Decision documented with rationale
 - **Spec reference**: `spec/01-app/15-code-review-report.md`
 
-### C.2 — `iter` Package Adoption (Go 1.23+)
+### C.2 — `iter` Package Adoption (Go 1.23+) ✅ Done
 - **Objective**: Use `iter.Seq` for collection iteration patterns
 - **Dependencies**: None
 - **Expected outputs**: Prototype in `coregeneric/`
 - **Acceptance criteria**: Working iterator pattern with tests
 - **Spec reference**: `spec/01-app/11-go-modernization.md`
+- **Completed**: Added `All()`, `Values()`, `Backward()` iter.Seq/Seq2 methods to Collection, Hashset, Hashmap, SimpleSlice, LinkedList via dedicated `*Iter.go` files.
 
 ### C.3 — CI Pipeline ✅ Done
 - **Objective**: Add `golangci-lint`, test coverage, and security scanning
