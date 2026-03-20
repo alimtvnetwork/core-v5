@@ -38,12 +38,13 @@
 
 ## Phase C: Future Architecture (Low Priority)
 
-### C.1 — Generic Interfaces in `coreinterface/`
+### C.1 — Generic Interfaces in `coreinterface/` ✅ Done
 - **Objective**: Evaluate `ValueGetter[T]` generic interfaces
 - **Dependencies**: None
 - **Expected outputs**: Architecture decision doc
 - **Acceptance criteria**: Decision documented with rationale
-- **Spec reference**: `spec/01-app/15-code-review-report.md`
+- **Spec reference**: `spec/01-app/20-generic-interfaces-decision.md`
+- **Completed**: Added `TypedValueGetter[T]`, `TypedValuesGetter[T]`, `TypedKeyValueGetter[K,V]`. Additive adoption — existing interfaces retained.
 
 ### C.2 — `iter` Package Adoption (Go 1.23+) ✅ Done
 - **Objective**: Use `iter.Seq` for collection iteration patterns
@@ -88,13 +89,12 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **D.1 — Test title audit** | Large | Low (multi-session, ~40+ packages) |
-| 2 | **C.1 — Generic interfaces** | Medium | Low |
-| 3 | **D.2 — Diagnostic snapshots** | Small | Low |
-| 4 | **C.4 — Module splitting** | Large | Medium |
-| 5 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 1 | **D.2 — Diagnostic snapshots** | Small | Low |
+| 2 | **D.1 — Test title audit** | Large | Low (multi-session, ~40+ packages) |
+| 3 | **C.4 — Module splitting** | Large | Medium |
+| 4 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **C.1** (generic interfaces) or **D.2** (diagnostic snapshots) as the next actionable tasks.
+**Recommended**: **D.2** (diagnostic snapshots) as the next actionable task.
 
 ---
 
