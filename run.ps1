@@ -996,8 +996,6 @@ pre{white-space:pre-wrap}</style></head><body>
         Set-Content -Path $perPkgTxtFile -Value ($perPkgTxtLines -join "`n") -Encoding UTF8
         $perPkgJson = $perPkgJsonObj | ConvertTo-Json -Depth 4
         Set-Content -Path $perPkgJsonFile -Value $perPkgJson -Encoding UTF8
-        Write-Success "Per-package coverage: $perPkgTxtFile"
-        Write-Success "Per-package JSON:     $perPkgJsonFile"
 
         # Build AI-friendly text for copy button
         $aiTextLines.Add("## Goal: Improve test coverage for the packages listed below.")
