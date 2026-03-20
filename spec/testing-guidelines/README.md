@@ -23,3 +23,4 @@
 3. **No raw `t.Error` / `t.Errorf`** — always use framework assertions (`ShouldBeEqual`, `ShouldBeEqualMap`, etc.)
 4. **Native types in expectations** — use `bool`, `int`, `string` in `args.Map`, not `"true"`, `"5"`
 5. **One test function per logical scenario** — no branching logic inside test bodies
+6. **No coverage tests for `internal/` packages** — never write coverage-motivated tests for any package under the `internal/` folder. Business-critical tests are allowed, but coverage push work must target only public packages.
