@@ -1449,7 +1449,7 @@ function Invoke-PreCommitCheck {
             if ($r.ExitCode -eq 0) {
                 $passedCount++
             } else {
-                Write-Host "  ✗ $shortName" -ForegroundColor Red
+                
                 $parsedErrors = ParseCompileErrors $r.Output
                 $failures.Add(@{
                     package    = $shortName
