@@ -639,32 +639,6 @@ function Invoke-TestCoverage {
 
             if ($pkgExit -ne 0) { $overallExit = $pkgExit }
 
-            $statusIcon = if ($pkgExit -eq 0) { "✓" } else { "✗" }
-            $statusColor = if ($pkgExit -eq 0) { "Green" } else { "Red" }
-
-            $partialPct = ""
-            if (Test-Path $partialProfile) {
-                $srcMatchPattern = $srcTarget -replace '/', '/'
-                $pStmts = 0; $pCovered = 0
-                $pTotalLines = 0; $pMatchedLines = 0
-                foreach ($pLine in (Get-Content $partialProfile)) {
-                    if ($pLine -match "^mode:") { continue }
-                    $pTotalLines++
-                    if ($pLine -notmatch "/$srcMatchPattern/") { continue }
-                    $pMatchedLines++
-                    if ($pLine -match "\s+(\d+)\s+(\d+)\s*$") {
-                        $pStmts += [int]$Matches[1]
-                        if ([int]$Matches[2] -gt 0) { $pCovered += [int]$Matches[1] }
-                    }
-                }
-                if ($pStmts -gt 0) {
-                    $partialPct = " — $([math]::Round(($pCovered / $pStmts) * 100, 1))%"
-                }
-                Write-Host "    [debug] filter=/$srcMatchPattern/ matched=$pMatchedLines/$pTotalLines stmts=$pCovered/$pStmts" -ForegroundColor DarkGray
-            }
-
-            Write-Host "  [$pkgIndex/$($testPkgs.Count)] $statusIcon $srcTarget$partialPct" -ForegroundColor $statusColor
-
             if ($output) { foreach ($line in $output) { $allOutput.Add([string]$line) } }
         }
     } else {
