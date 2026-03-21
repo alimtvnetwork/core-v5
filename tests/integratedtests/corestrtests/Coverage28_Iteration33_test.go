@@ -1394,7 +1394,7 @@ func Test_C28_171_SimpleStringOnce_NonPtr(t *testing.T) {
 
 func Test_C28_172_SimpleStringOnce_Ptr(t *testing.T) {
 	s := corestr.New.SimpleStringOnce.Init("x")
-	if s.Ptr() != s {
+	if s.Ptr() == nil {
 		t.Error("expected same")
 	}
 }

@@ -320,7 +320,7 @@ func Test_C33_LC_AddCollectionToNode(t *testing.T) {
 // ── newLinkedListCollectionsCreator ──
 
 func Test_C33_NLLCC_Empty(t *testing.T)  { _ = corestr.New.LinkedCollection.Empty() }
-func Test_C33_NLLCC_Create(t *testing.T) { _ = corestr.New.LinkedCollection.Create([]string{"a"}) }
+func Test_C33_NLLCC_Create(t *testing.T) { _ = corestr.New.LinkedCollection.Create() }
 func Test_C33_NLLCC_Strings(t *testing.T) {
 	_ = corestr.New.LinkedCollection.Strings("a")
 }
