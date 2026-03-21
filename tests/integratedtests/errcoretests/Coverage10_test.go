@@ -483,14 +483,14 @@ func Test_Cov10_GherkinsString(t *testing.T) {
 	result := errcore.GherkinsString(0, "f", "g", "w", "th")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "GherkinsString", actual)
+	expected.ShouldBeEqual(t, 0, "GherkinsString returns non-empty -- with args", actual)
 }
 
 func Test_Cov10_GherkinsStringWithExpectation(t *testing.T) {
 	result := errcore.GherkinsStringWithExpectation(0, "f", "g", "w", "th", "a", "e")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "GherkinsStringWithExpectation", actual)
+	expected.ShouldBeEqual(t, 0, "GherkinsStringWithExpectation returns non-empty -- with args", actual)
 }
 
 // ── Handle functions (panic paths) ──
@@ -499,7 +499,7 @@ func Test_Cov10_HandleErr_Nil(t *testing.T) {
 	errcore.HandleErr(nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "HandleErr nil", actual)
+	expected.ShouldBeEqual(t, 0, "HandleErr completes safely -- nil error", actual)
 }
 
 func Test_Cov10_HandleErr_WithErr(t *testing.T) {
@@ -510,14 +510,14 @@ func Test_Cov10_HandleErr_WithErr(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "HandleErr with err", actual)
+	expected.ShouldBeEqual(t, 0, "HandleErr panics -- with error", actual)
 }
 
 func Test_Cov10_HandleErrMessage_Empty(t *testing.T) {
 	errcore.HandleErrMessage("")
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "HandleErrMessage empty", actual)
+	expected.ShouldBeEqual(t, 0, "HandleErrMessage completes safely -- empty message", actual)
 }
 
 func Test_Cov10_HandleErrMessage_WithMsg(t *testing.T) {
@@ -528,35 +528,35 @@ func Test_Cov10_HandleErrMessage_WithMsg(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "HandleErrMessage with msg", actual)
+	expected.ShouldBeEqual(t, 0, "HandleErrMessage panics -- with message", actual)
 }
 
 func Test_Cov10_HandleErrorGetter_Nil(t *testing.T) {
 	errcore.HandleErrorGetter(nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "HandleErrorGetter nil", actual)
+	expected.ShouldBeEqual(t, 0, "HandleErrorGetter completes safely -- nil getter", actual)
 }
 
 func Test_Cov10_HandleCompiledErrorGetter_Nil(t *testing.T) {
 	errcore.HandleCompiledErrorGetter(nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "HandleCompiledErrorGetter nil", actual)
+	expected.ShouldBeEqual(t, 0, "HandleCompiledErrorGetter completes safely -- nil getter", actual)
 }
 
 func Test_Cov10_HandleCompiledErrorWithTracesGetter_Nil(t *testing.T) {
 	errcore.HandleCompiledErrorWithTracesGetter(nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "HandleCompiledErrorWithTracesGetter nil", actual)
+	expected.ShouldBeEqual(t, 0, "HandleCompiledErrorWithTracesGetter completes safely -- nil getter", actual)
 }
 
 func Test_Cov10_HandleFullStringsWithTracesGetter_Nil(t *testing.T) {
 	errcore.HandleFullStringsWithTracesGetter(nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "HandleFullStringsWithTracesGetter nil", actual)
+	expected.ShouldBeEqual(t, 0, "HandleFullStringsWithTracesGetter completes safely -- nil getter", actual)
 }
 
 // ── SimpleHandleErr ──
@@ -565,7 +565,7 @@ func Test_Cov10_SimpleHandleErr_Nil(t *testing.T) {
 	errcore.SimpleHandleErr(nil, "msg")
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "SimpleHandleErr nil", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleHandleErr completes safely -- nil error", actual)
 }
 
 func Test_Cov10_SimpleHandleErr_WithErr(t *testing.T) {
@@ -576,7 +576,7 @@ func Test_Cov10_SimpleHandleErr_WithErr(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "SimpleHandleErr with err", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleHandleErr panics -- with error", actual)
 }
 
 // ── SimpleHandleErrMany ──
@@ -585,14 +585,14 @@ func Test_Cov10_SimpleHandleErrMany_Nil(t *testing.T) {
 	errcore.SimpleHandleErrMany("msg")
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany nil", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany completes safely -- nil errors", actual)
 }
 
 func Test_Cov10_SimpleHandleErrMany_AllNil(t *testing.T) {
 	errcore.SimpleHandleErrMany("msg", nil, nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany all nil", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany completes safely -- all nil errors", actual)
 }
 
 func Test_Cov10_SimpleHandleErrMany_WithErr(t *testing.T) {
@@ -603,7 +603,7 @@ func Test_Cov10_SimpleHandleErrMany_WithErr(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany with err", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleHandleErrMany panics -- with error", actual)
 }
 
 // ── MsgHeader / MsgHeaderIf / MsgHeaderPlusEnding ──
@@ -612,28 +612,28 @@ func Test_Cov10_MsgHeader(t *testing.T) {
 	result := errcore.MsgHeader("hello")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "MsgHeader", actual)
+	expected.ShouldBeEqual(t, 0, "MsgHeader returns non-empty -- with args", actual)
 }
 
 func Test_Cov10_MsgHeaderIf_True(t *testing.T) {
 	result := errcore.MsgHeaderIf(true, "hello")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "MsgHeaderIf true", actual)
+	expected.ShouldBeEqual(t, 0, "MsgHeaderIf returns header -- condition true", actual)
 }
 
 func Test_Cov10_MsgHeaderIf_False(t *testing.T) {
 	result := errcore.MsgHeaderIf(false, "hello")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "MsgHeaderIf false", actual)
+	expected.ShouldBeEqual(t, 0, "MsgHeaderIf returns sprint -- condition false", actual)
 }
 
 func Test_Cov10_MsgHeaderPlusEnding(t *testing.T) {
 	result := errcore.MsgHeaderPlusEnding("h", "e")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "MsgHeaderPlusEnding", actual)
+	expected.ShouldBeEqual(t, 0, "MsgHeaderPlusEnding returns non-empty -- with args", actual)
 }
 
 // ── PanicOnIndexOutOfRange ──
@@ -646,7 +646,7 @@ func Test_Cov10_PanicOnIndexOutOfRange_InRange(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": false}
-	expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange in range", actual)
+	expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange completes safely -- index in range", actual)
 }
 
 func Test_Cov10_PanicOnIndexOutOfRange_OutOfRange(t *testing.T) {
@@ -657,7 +657,7 @@ func Test_Cov10_PanicOnIndexOutOfRange_OutOfRange(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": didPanic}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange out of range", actual)
+	expected.ShouldBeEqual(t, 0, "PanicOnIndexOutOfRange panics -- index out of range", actual)
 }
 
 // ── PanicRangeNotMeet / RangeNotMeet ──
@@ -666,28 +666,28 @@ func Test_Cov10_PanicRangeNotMeet_WithRange(t *testing.T) {
 	result := errcore.PanicRangeNotMeet("msg", 1, 10, "1-10")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PanicRangeNotMeet with range", actual)
+	expected.ShouldBeEqual(t, 0, "PanicRangeNotMeet panics -- with range string", actual)
 }
 
 func Test_Cov10_PanicRangeNotMeet_WithoutRange(t *testing.T) {
 	result := errcore.PanicRangeNotMeet("msg", 1, 10, nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PanicRangeNotMeet without range", actual)
+	expected.ShouldBeEqual(t, 0, "PanicRangeNotMeet panics -- nil range", actual)
 }
 
 func Test_Cov10_RangeNotMeet_WithRange(t *testing.T) {
 	result := errcore.RangeNotMeet("msg", 1, 10, "1-10")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangeNotMeet with range", actual)
+	expected.ShouldBeEqual(t, 0, "RangeNotMeet returns non-empty -- with range string", actual)
 }
 
 func Test_Cov10_RangeNotMeet_WithoutRange(t *testing.T) {
 	result := errcore.RangeNotMeet("msg", 1, 10, nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangeNotMeet without range", actual)
+	expected.ShouldBeEqual(t, 0, "RangeNotMeet returns non-empty -- nil range", actual)
 }
 
 // ── PathMeaningfulMessage ──
@@ -696,14 +696,14 @@ func Test_Cov10_PathMeaningfulMessage_Empty(t *testing.T) {
 	err := errcore.PathMeaningfulMessage(errcore.PathErrorType, "fn", "/path")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "PathMeaningfulMessage empty", actual)
+	expected.ShouldBeEqual(t, 0, "PathMeaningfulMessage returns nil -- no messages", actual)
 }
 
 func Test_Cov10_PathMeaningfulMessage_WithMsgs(t *testing.T) {
 	err := errcore.PathMeaningfulMessage(errcore.PathErrorType, "fn", "/path", "msg1", "msg2")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "PathMeaningfulMessage with msgs", actual)
+	expected.ShouldBeEqual(t, 0, "PathMeaningfulMessage returns error -- with messages", actual)
 }
 
 // ── PathMeaningfulError ──
@@ -712,14 +712,14 @@ func Test_Cov10_PathMeaningfulError_Nil(t *testing.T) {
 	err := errcore.PathMeaningfulError(errcore.PathErrorType, nil, "/path")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "PathMeaningfulError nil", actual)
+	expected.ShouldBeEqual(t, 0, "PathMeaningfulError returns nil -- nil error", actual)
 }
 
 func Test_Cov10_PathMeaningfulError_WithErr(t *testing.T) {
 	err := errcore.PathMeaningfulError(errcore.PathErrorType, errors.New("e"), "/path")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "PathMeaningfulError with err", actual)
+	expected.ShouldBeEqual(t, 0, "PathMeaningfulError returns error -- with error", actual)
 }
 
 // ── MeaningfulError / MeaningfulErrorWithData / MeaningfulMessageError ──
@@ -728,42 +728,42 @@ func Test_Cov10_MeaningfulError_Nil(t *testing.T) {
 	err := errcore.MeaningfulError(errcore.InvalidType, "fn", nil)
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningfulError nil", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulError returns nil -- nil error", actual)
 }
 
 func Test_Cov10_MeaningfulError_WithErr(t *testing.T) {
 	err := errcore.MeaningfulError(errcore.InvalidType, "fn", errors.New("e"))
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningfulError with err", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulError returns error -- with error", actual)
 }
 
 func Test_Cov10_MeaningfulErrorWithData_Nil(t *testing.T) {
 	err := errcore.MeaningfulErrorWithData(errcore.InvalidType, "fn", nil, "data")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningfulErrorWithData nil", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulErrorWithData returns nil -- nil error", actual)
 }
 
 func Test_Cov10_MeaningfulErrorWithData_WithErr(t *testing.T) {
 	err := errcore.MeaningfulErrorWithData(errcore.InvalidType, "fn", errors.New("e"), "data")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningfulErrorWithData with err", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulErrorWithData returns error -- with error", actual)
 }
 
 func Test_Cov10_MeaningfulMessageError_Nil(t *testing.T) {
 	err := errcore.MeaningfulMessageError(errcore.InvalidType, "fn", nil, "msg")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError nil", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError returns nil -- nil error", actual)
 }
 
 func Test_Cov10_MeaningfulMessageError_WithErr(t *testing.T) {
 	err := errcore.MeaningfulMessageError(errcore.InvalidType, "fn", errors.New("e"), "msg")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError with err", actual)
+	expected.ShouldBeEqual(t, 0, "MeaningfulMessageError returns error -- with error", actual)
 }
 
 // ── MeaningfulErrorHandle ──
@@ -792,7 +792,7 @@ func Test_Cov10_PrintError_Nil(t *testing.T) {
 	errcore.PrintError(nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "PrintError nil", actual)
+	expected.ShouldBeEqual(t, 0, "PrintError completes safely -- nil error", actual)
 }
 
 func Test_Cov10_PrintError_WithErr(t *testing.T) {
@@ -806,7 +806,7 @@ func Test_Cov10_PrintErrorWithTestIndex_Nil(t *testing.T) {
 	errcore.PrintErrorWithTestIndex(0, "h", nil)
 	actual := args.Map{"passed": true}
 	expected := args.Map{"passed": true}
-	expected.ShouldBeEqual(t, 0, "PrintErrorWithTestIndex nil", actual)
+	expected.ShouldBeEqual(t, 0, "PrintErrorWithTestIndex completes safely -- nil error", actual)
 }
 
 func Test_Cov10_PrintErrorWithTestIndex_WithErr(t *testing.T) {
@@ -829,14 +829,14 @@ func Test_Cov10_SourceDestinationErr(t *testing.T) {
 	err := errcore.SourceDestinationErr(false, "s", "d")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "SourceDestinationErr", actual)
+	expected.ShouldBeEqual(t, 0, "SourceDestinationErr returns error -- with args", actual)
 }
 
 func Test_Cov10_SourceDestinationNoType(t *testing.T) {
 	result := errcore.SourceDestinationNoType("s", "d")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SourceDestinationNoType", actual)
+	expected.ShouldBeEqual(t, 0, "SourceDestinationNoType returns formatted -- with args", actual)
 }
 
 // ── StackTracesCompiled ──
@@ -845,7 +845,7 @@ func Test_Cov10_StackTracesCompiled(t *testing.T) {
 	result := errcore.StackTracesCompiled([]string{"t1", "t2"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StackTracesCompiled", actual)
+	expected.ShouldBeEqual(t, 0, "StackTracesCompiled returns non-empty -- with traces", actual)
 }
 
 // ── StringLinesToQuoteLines / StringLinesToQuoteLinesToSingle / LinesToDoubleQuoteLinesWithTabs ──
@@ -854,21 +854,21 @@ func Test_Cov10_StringLinesToQuoteLines_Empty(t *testing.T) {
 	result := errcore.StringLinesToQuoteLines([]string{})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines empty", actual)
+	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines returns empty -- nil input", actual)
 }
 
 func Test_Cov10_StringLinesToQuoteLines_NonEmpty(t *testing.T) {
 	result := errcore.StringLinesToQuoteLines([]string{"a", "b"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLines returns formatted -- non-empty input", actual)
 }
 
 func Test_Cov10_StringLinesToQuoteLinesToSingle(t *testing.T) {
 	result := errcore.StringLinesToQuoteLinesToSingle([]string{"a", "b"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLinesToSingle", actual)
+	expected.ShouldBeEqual(t, 0, "StringLinesToQuoteLinesToSingle returns non-empty -- with input", actual)
 }
 
 func Test_Cov10_LinesToDoubleQuoteLinesWithTabs_Empty(t *testing.T) {
@@ -891,14 +891,14 @@ func Test_Cov10_ToExitError_Nil(t *testing.T) {
 	result := errcore.ToExitError(nil)
 	actual := args.Map{"isNil": result == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "ToExitError nil", actual)
+	expected.ShouldBeEqual(t, 0, "ToExitError returns nil -- nil error", actual)
 }
 
 func Test_Cov10_ToExitError_NonExitError(t *testing.T) {
 	result := errcore.ToExitError(errors.New("e"))
 	actual := args.Map{"isNil": result == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "ToExitError non-exit", actual)
+	expected.ShouldBeEqual(t, 0, "ToExitError returns nil -- non-ExitError", actual)
 }
 
 // ── getReferenceMessage (indirect via CombineWithMsgTypeNoStack) ──
@@ -1084,7 +1084,7 @@ func Test_Cov10_RawErrorType_Expecting(t *testing.T) {
 	err := errcore.InvalidType.Expecting("e", "a")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Expecting", actual)
+	expected.ShouldBeEqual(t, 0, "Expecting returns formatted -- with args", actual)
 }
 
 func Test_Cov10_RawErrorType_NoRef_Empty(t *testing.T) {
@@ -1336,35 +1336,35 @@ func Test_Cov10_VarNameValues_Empty(t *testing.T) {
 	result := errcore.VarNameValues()
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "VarNameValues empty", actual)
+	expected.ShouldBeEqual(t, 0, "VarNameValues returns empty -- no args", actual)
 }
 
 func Test_Cov10_VarNameValues_NonEmpty(t *testing.T) {
 	result := errcore.VarNameValues(namevalue.StringAny{Name: "k", Value: "v"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "VarNameValues non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "VarNameValues returns formatted -- with args", actual)
 }
 
 func Test_Cov10_VarNameValuesJoiner_Empty(t *testing.T) {
 	result := errcore.VarNameValuesJoiner(",")
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner empty", actual)
+	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner returns empty -- no args", actual)
 }
 
 func Test_Cov10_VarNameValuesJoiner_NonEmpty(t *testing.T) {
 	result := errcore.VarNameValuesJoiner(",", namevalue.StringAny{Name: "k", Value: "v"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "VarNameValuesJoiner returns joined -- with name-values", actual)
 }
 
 func Test_Cov10_VarNameValuesStrings_Empty(t *testing.T) {
 	result := errcore.VarNameValuesStrings()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "VarNameValuesStrings empty", actual)
+	expected.ShouldBeEqual(t, 0, "VarNameValuesStrings returns empty -- no args", actual)
 }
 
 // ── MessageNameValues ──
@@ -1373,12 +1373,12 @@ func Test_Cov10_MessageNameValues_Empty(t *testing.T) {
 	result := errcore.MessageNameValues("msg")
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "msg"}
-	expected.ShouldBeEqual(t, 0, "MessageNameValues empty", actual)
+	expected.ShouldBeEqual(t, 0, "MessageNameValues returns msg only -- no name-values", actual)
 }
 
 func Test_Cov10_MessageNameValues_NonEmpty(t *testing.T) {
 	result := errcore.MessageNameValues("msg", namevalue.StringAny{Name: "k", Value: "v"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "MessageNameValues non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "MessageNameValues returns formatted -- with name-values", actual)
 }
