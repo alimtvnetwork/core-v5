@@ -90,11 +90,10 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **D.2 — Diagnostic snapshots** | Small | Low |
-| 2 | **C.4 — Module splitting** | Large | Medium |
-| 3 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 1 | **C.4 — Module splitting** | Large | Medium |
+| 2 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **D.2** (diagnostic snapshots) as the next actionable task.
+**Recommended**: **C.4** (module splitting architecture decision) as the next actionable task.
 
 ---
 
