@@ -61,12 +61,13 @@
 - **Acceptance criteria**: CI runs on push, blocks on failures
 - **Completed**: GitHub Actions workflow (`.github/workflows/ci.yml`) with 4 jobs: lint, test+coverage gate (60%), govulncheck, build. `.golangci.yml` updated with gocritic, nilerr, durationcheck, prealloc, gosimple.
 
-### C.4 — Module Splitting
+### C.4 — Module Splitting ✅ Done
 - **Objective**: Evaluate splitting monorepo into focused Go modules
 - **Dependencies**: All coverage work complete ✅
 - **Expected outputs**: Architecture decision doc
 - **Acceptance criteria**: Decision documented with migration path
-- **Spec reference**: `spec/01-app/15-code-review-report.md`
+- **Spec reference**: `spec/01-app/26-module-splitting-decision.md`
+- **Completed**: Decision — **keep single module**. High internal coupling (especially `internal/*`, `constants`, `errcore`) makes clean splits impractical. Documented triggers for re-evaluation.
 
 ---
 
@@ -90,10 +91,9 @@
 
 | # | Task | Effort | Risk |
 |---|------|--------|------|
-| 1 | **C.4 — Module splitting** | Large | Medium |
-| 2 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
+| 1 | **B.1 — Codegen removal** | Medium | Low (deferred — needs user audit) |
 
-**Recommended**: **C.4** (module splitting architecture decision) as the next actionable task.
+**Note**: All proactive tasks are complete. Only **B.1 (codegen removal)** remains, blocked on user running an external audit (`grep` across auk-go repos) to confirm no consumers.
 
 ---
 
