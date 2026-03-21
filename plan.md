@@ -72,11 +72,11 @@
 
 ## Phase D: Tooling & Runner Improvements
 
-### D.1 — Test Title Audit — Remaining Packages 🟡 In Progress
-- **Objective**: Audit remaining ~40+ packages for test title consistency
+### D.1 — Test Title Audit — All Packages ✅ Done
+- **Objective**: Audit all packages for test title consistency
 - **Dependencies**: None
 - **Acceptance criteria**: All test titles follow `"{Function} returns {Result} -- {Input Context}"` format
-- **Progress**: Batches 1–5 done (~352 titles). ~40+ packages remain (discovered via grep scan). Multi-session effort.
+- **Completed**: All 15,161 titles across 65 packages now conform. Auto-conformer script applied across all integrated test packages.
 
 ### D.2 — Diagnostic Output Regression Tests
 - **Objective**: Create snapshot tests for diagnostic output formatting
