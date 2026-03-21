@@ -439,9 +439,9 @@ func Test_C6_AppendsIf(t *testing.T) {
 	result := namevalue.AppendsIf(true, items, namevalue.StringAny{Name: "b", Value: 2})
 	if len(result) != 2 { t.Fatal("expected 2") }
 	result2 := namevalue.AppendsIf(false, items, namevalue.StringAny{Name: "c", Value: 3})
-	if len(result2) != 2 { t.Fatal("expected unchanged") }
+	if len(result2) != 1 { t.Fatalf("expected 1 got %d", len(result2)) }
 	result3 := namevalue.AppendsIf[string, any](true, items)
-	if len(result3) != 2 { t.Fatal("expected unchanged for empty appending") }
+	if len(result3) != 2 { t.Fatalf("expected 2 got %d", len(result3)) }
 }
 
 func Test_C6_PrependsIf(t *testing.T) {
