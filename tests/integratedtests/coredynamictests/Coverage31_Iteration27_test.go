@@ -2,6 +2,7 @@ package coredynamictests
 
 import (
 	"reflect"
+	"sync"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/coredynamic"
