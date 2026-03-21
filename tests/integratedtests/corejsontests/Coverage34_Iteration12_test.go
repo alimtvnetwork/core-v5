@@ -49,8 +49,8 @@ func Test_Cov34_AnyTo_String(t *testing.T) {
 // Covers Result.go L85-94
 
 func Test_Cov34_Result_FieldsNames(t *testing.T) {
-	result := corejson.NewResult.UsingBytes([]byte(`{"name":"test","age":30}`))
-	names, err := result.FieldsNames()
+	r := corejson.NewResult.UsingBytes([]byte(`{"name":"test","age":30}`))
+	names, err := r.FieldsNames()
 
 	actual := args.Map{"noErr": err == nil, "hasNames": len(names) > 0}
 	expected := args.Map{"noErr": true, "hasNames": true}
