@@ -202,8 +202,8 @@ func Test_Cov34_MapResults_AddAnySkipOnNil_Valid(t *testing.T) {
 func Test_Cov34_MapResults_GetSinglePageCollection_LengthMismatch(t *testing.T) {
 	mr := &corejson.MapResults{
 		Items: map[string]corejson.Result{
-			"a": *corejson.NewResult.UsingBytes([]byte(`"1"`)),
-			"b": *corejson.NewResult.UsingBytes([]byte(`"2"`)),
+			"a": corejson.NewResult.UsingBytes([]byte(`"1"`)),
+			"b": corejson.NewResult.UsingBytes([]byte(`"2"`)),
 		},
 	}
 
