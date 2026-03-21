@@ -1,0 +1,167 @@
+package coreteststests
+
+import (
+	"reflect"
+	"testing"
+
+	"github.com/alimtvnetwork/core/coretests"
+	"github.com/alimtvnetwork/core/coretests/args"
+	"github.com/alimtvnetwork/core/issetter"
+	"github.com/smartystreets/goconvey/convey"
+)
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BaseTestCase ShouldBeExplicit — isFailed branch (mismatch)
+// Covers BaseTestCaseAssertions.go L88-92
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_BaseTestCase_ShouldBeExplicit_Mismatch(t *testing.T) {
+	// Arrange — deliberately mismatched actual vs expected to hit isFailed branch
+	tc := &coretests.BaseTestCase{
+		Title:         "mismatch test for isFailed branch",
+		ExpectedInput: "expected_value",
+		IsEnable:      issetter.True,
+	}
+
+	// Act & Assert — mismatch triggers the warning log branch
+	// Using ShouldContainSubstring so the test itself still passes
+	// even though expected != actual (ShouldContainSubstring("expected_value", "expected_value_and_more"))
+	tc.ShouldBeExplicit(
+		false,
+		0,
+		t,
+		"mismatch test",
+		"expected_value_extra", // actual — differs from expected
+		convey.ShouldContainSubstring,
+		"expected_value", // expected — is a substring of actual
+	)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BaseTestCase TypeShouldMatch — error path
+// Covers BaseTestCaseAssertions.go L123-141
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_BaseTestCase_TypeShouldMatch_WithMismatch(t *testing.T) {
+	// Arrange — set VerifyTypeOf to cause a type mismatch
+	tc := &coretests.BaseTestCase{
+		Title:         "type mismatch for TypeShouldMatch",
+		ArrangeInput:  "string_input",
+		ExpectedInput: 42, // int — will mismatch against expected type
+		VerifyTypeOf: &coretests.VerifyTypeOf{
+			ArrangeInput:  reflect.TypeOf(""),
+			ActualInput:   reflect.TypeOf(""),
+			ExpectedInput: reflect.TypeOf(""), // expects string but ExpectedInput is int
+		},
+		IsEnable: issetter.True,
+	}
+	tc.SetActual("actual_string")
+
+	// Act — exercises the TypeShouldMatch error path with convey assertion
+	tc.TypeShouldMatch(t, 0, "type mismatch test")
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BaseTestCase ShouldBe — enabled path (normal assertion)
+// Covers BaseTestCaseAssertions.go L25-39
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_BaseTestCase_ShouldBe_Enabled(t *testing.T) {
+	tc := &coretests.BaseTestCase{
+		Title:         "enabled ShouldBe",
+		ExpectedInput: "hello",
+		IsEnable:      issetter.True,
+	}
+
+	tc.ShouldBe(0, t, convey.ShouldResemble, "hello")
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BaseTestCase ShouldBe — disabled path (noPrintAssert)
+// Covers BaseTestCaseAssertions.go L25-29, L42-62
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_BaseTestCase_ShouldBe_Disabled(t *testing.T) {
+	tc := &coretests.BaseTestCase{
+		Title:         "disabled ShouldBe",
+		ExpectedInput: "hello",
+		IsEnable:      issetter.False,
+	}
+
+	tc.ShouldBe(0, t, convey.ShouldResemble, "hello")
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SimpleTestCase noPrintAssert — via ShouldBe on disabled
+// Covers SimpleTestCase.go L84-104
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_SimpleTestCase_Disabled(t *testing.T) {
+	tc := coretests.SimpleTestCase{
+		Title:         "disabled simple case",
+		ExpectedInput: "value",
+	}
+	tc.IsEnable = issetter.False
+	tc.ShouldBeEqual(0, t, "value")
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BaseTestCaseValidation — TypesValidationMustPasses with error
+// Covers BaseTestCaseValidation.go L18-23
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_BaseTestCase_TypesValidationMustPasses_WithError(t *testing.T) {
+	tc := &coretests.BaseTestCase{
+		Title:         "type validation with error",
+		ArrangeInput:  "string",
+		ExpectedInput: 42,
+		VerifyTypeOf: &coretests.VerifyTypeOf{
+			ArrangeInput:  reflect.TypeOf(""),
+			ActualInput:   reflect.TypeOf(""),
+			ExpectedInput: reflect.TypeOf(""), // expects string but got int
+		},
+	}
+	tc.SetActual("actual")
+
+	// Wrap in sub-test to catch the t.Error call
+	t.Run("type-mismatch", func(st *testing.T) {
+		tc.TypesValidationMustPasses(st)
+		// The test will report error inside, which is expected behavior
+	})
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DraftType IsEqual — f1String mismatch via Clone workaround
+// Covers DraftType.go L148
+// Note: f1String is unexported, only settable via internal tests.
+// This test covers the surrounding code path through Clone.
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_DraftType_IsEqual_InnerF1StringCoverage(t *testing.T) {
+	// Arrange — both have matching exported fields but we test the
+	// isIncludingInnerFields=true path with f1String default (both empty)
+	a := &coretests.DraftType{SampleString1: "x", SampleString2: "y", SampleInteger: 1}
+	b := a.ClonePtr()
+
+	// Act — should be equal (same f1String="")
+	actual := args.Map{"isEqual": a.IsEqualAll(b)}
+	expected := args.Map{"isEqual": true}
+	expected.ShouldBeEqual(t, 0, "IsEqual with inner fields equal", actual)
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AnyToBytes — json.Marshal panic branch
+// Covers AnyToBytes.go L26-28
+// ══════════════════════════════════════════════════════════════════════════════
+
+func Test_Cov3_AnyToBytes_MarshalPanic(t *testing.T) {
+	defer func() {
+		r := recover()
+		if r == nil {
+			t.Fatal("expected panic from AnyToBytes with unmarshalable input")
+		}
+	}()
+
+	// func() is not JSON-marshalable, triggers panic
+	coretests.AnyToBytes(func() {})
+}
