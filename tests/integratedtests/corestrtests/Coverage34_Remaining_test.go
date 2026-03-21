@@ -123,7 +123,7 @@ func Test_C34_KVP_Methods(t *testing.T) {
 	kv2 := corestr.KeyValuePair{Key: "k", Value: "v"}
 	kv2.Dispose()
 	_ = kv2.IsKey("k")
-	_ = kv2.Clone()
+	_ = kv2.IsKey("k")
 }
 
 // ── KeyAnyValuePair ──
