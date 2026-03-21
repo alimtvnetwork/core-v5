@@ -59,7 +59,8 @@ func Test_Cov10_FilterWithLimit_NaturalExhaustion(t *testing.T) {
 
 func Test_Cov10_GetSinglePageCollection_NegativePagePanic(t *testing.T) {
 	// Arrange — need length >= eachPageSize for the method to not short-circuit
-	tc := codestack.New.StackTrace.Default(1, 30)
+	tcVal := codestack.New.StackTrace.Default(1, 30)
+	tc := &tcVal
 
 	// Act
 	didPanic := false
