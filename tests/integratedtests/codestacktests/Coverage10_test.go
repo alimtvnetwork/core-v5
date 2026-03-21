@@ -39,7 +39,7 @@ func Test_Cov10_StackTrace_Default(t *testing.T) {
 
 func Test_Cov10_FilterWithLimit_NaturalExhaustion(t *testing.T) {
 	// Arrange
-	tcVal := codestack.New.StackTrace.Default(1, 3)
+	tcVal := codestack.New.StackTrace.Default(0, 10)
 	tc := &tcVal
 	takeAll := func(trace *codestack.Trace) (bool, bool) {
 		return true, false
