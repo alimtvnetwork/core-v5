@@ -448,7 +448,7 @@ func Test_Cov17_PayloadsCollection_ParseInjectUsingJsonMust_Success(t *testing.T
 // Covers PayloadsCollectionPaging.go L81-87
 
 func Test_Cov17_PayloadsCollection_GetSinglePageCollection_Panic(t *testing.T) {
-	coll := New.PayloadsCollection.Empty()
+	coll := corepayload.New.PayloadsCollection.Empty()
 	for i := 0; i < 20; i++ {
 		coll.AddsPtr(&corepayload.PayloadWrapper{Name: "item"})
 	}
