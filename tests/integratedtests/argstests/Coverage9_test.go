@@ -168,7 +168,7 @@ func Test_Cov9_FuncDetector_DirectFuncWrap(t *testing.T) {
 	fn := func() {}
 	fw := args.NewFuncWrap.Default(fn)
 
-	result := args.Detect.GetFuncWrap(fw)
+	result := args.FuncDetector.GetFuncWrap(fw)
 
 	actual := args.Map{"notNil": result != nil, "valid": result.IsValid()}
 	expected := args.Map{"notNil": true, "valid": true}
@@ -181,7 +181,7 @@ func Test_Cov9_FuncDetector_DirectFuncWrap(t *testing.T) {
 func Test_Cov9_FuncDetector_RawFunc(t *testing.T) {
 	fn := func(s string) string { return s }
 
-	result := args.Detect.GetFuncWrap(fn)
+	result := args.FuncDetector.GetFuncWrap(fn)
 
 	actual := args.Map{"notNil": result != nil, "valid": result.IsValid()}
 	expected := args.Map{"notNil": true, "valid": true}
@@ -224,7 +224,7 @@ func Test_Cov9_OneFunc_InvokeMust(t *testing.T) {
 	of := &args.OneFunc[string]{
 		First: "hi",
 	}
-	of.SetWorkFunc(fn)
+	
 
 	results := of.InvokeMust("test")
 
@@ -238,7 +238,7 @@ func Test_Cov9_OneFunc_InvokeWithValidArgs(t *testing.T) {
 	of := &args.OneFunc[string]{
 		First: "hi",
 	}
-	of.SetWorkFunc(fn)
+	
 
 	results, err := of.InvokeWithValidArgs()
 
@@ -252,7 +252,7 @@ func Test_Cov9_OneFunc_InvokeArgs(t *testing.T) {
 	of := &args.OneFunc[string]{
 		First: "hi",
 	}
-	of.SetWorkFunc(fn)
+	
 
 	results, err := of.InvokeArgs(1)
 
@@ -267,7 +267,7 @@ func Test_Cov9_OneFunc_InvokeArgs(t *testing.T) {
 func Test_Cov9_Holder_InvokeMust(t *testing.T) {
 	fn := func() string { return "test" }
 	h := &args.Holder[string]{}
-	h.SetWorkFunc(fn)
+	
 
 	results := h.InvokeMust()
 
@@ -279,7 +279,7 @@ func Test_Cov9_Holder_InvokeMust(t *testing.T) {
 func Test_Cov9_Holder_InvokeWithValidArgs(t *testing.T) {
 	fn := func() string { return "test" }
 	h := &args.Holder[string]{}
-	h.SetWorkFunc(fn)
+	
 
 	results, err := h.InvokeWithValidArgs()
 
@@ -291,7 +291,7 @@ func Test_Cov9_Holder_InvokeWithValidArgs(t *testing.T) {
 func Test_Cov9_Holder_InvokeArgs(t *testing.T) {
 	fn := func() string { return "test" }
 	h := &args.Holder[string]{}
-	h.SetWorkFunc(fn)
+	
 
 	results, err := h.InvokeArgs(0)
 
