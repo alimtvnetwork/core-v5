@@ -132,7 +132,7 @@ func Test_Cov9_CaseV1_AssertDirectly(t *testing.T) {
 		ExpectedInput: 42,
 	}
 
-	tc.AssertDirectly(t, "msg", "check", 0, 42, nil, 42)
+	tc.AssertDirectly(t, "msg", "check", 0, 42, should.Equal, 42)
 }
 
 // ── CaseV1: PrepareTitle ──
