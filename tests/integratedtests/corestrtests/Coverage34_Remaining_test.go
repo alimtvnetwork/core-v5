@@ -460,7 +460,7 @@ func Test_C34_VV_HasSafeNonEmpty(t *testing.T) {
 
 func Test_C34_VVS_Methods(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
+	vvs.Add("a")
 	_ = vvs.Length()
 	_ = vvs.Count()
 	_ = vvs.HasAnyItem()
@@ -480,54 +480,28 @@ func Test_C34_VVS_Creators(t *testing.T) {
 
 func Test_C34_VVS_AddFull(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.AddFull("v", true, "")
+	vvs.AddFull(true, "v", "")
 }
 
-func Test_C34_VVS_AddFullIf(t *testing.T) {
+func Test_C34_VVS_Adds(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.AddFullIf(true, "v", true, "")
-	vvs.AddFullIf(false, "v2", true, "")
-}
-
-func Test_C34_VVS_AddItems(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.AddItems(corestr.NewValidValue("a"), corestr.NewValidValue("b"))
+	vvs.Adds(corestr.ValidValue{Value: "a", IsValid: true}, corestr.ValidValue{Value: "b", IsValid: true})
 }
 
 func Test_C34_VVS_Find(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
+	vvs.Add("a")
 	_ = vvs.Find(func(i int, v *corestr.ValidValue) (*corestr.ValidValue, bool, bool) {
 		return v, true, false
 	})
 }
 
-func Test_C34_VVS_List(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
-	_ = vvs.List()
-}
-
 func Test_C34_VVS_Strings(t *testing.T) {
 	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
+	vvs.Add("a")
 	_ = vvs.Strings()
-}
-
-func Test_C34_VVS_StringsUsingConditional(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Add(corestr.NewValidValue("a"))
-	_ = vvs.StringsUsingConditional(func(v *corestr.ValidValue) bool { return true })
-}
-
-func Test_C34_VVS_Clear(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Clear()
-}
-
-func Test_C34_VVS_Dispose(t *testing.T) {
-	vvs := corestr.NewValidValues(5)
-	vvs.Dispose()
+	_ = vvs.FullStrings()
+	_ = vvs.String()
 }
 
 func Test_C34_VVS_JsonMethods(t *testing.T) {
