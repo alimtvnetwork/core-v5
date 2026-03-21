@@ -1,6 +1,7 @@
 package corestrtests
 
 import (
+	"sync"
 	"testing"
 
 	"github.com/alimtvnetwork/core/coredata/corestr"
