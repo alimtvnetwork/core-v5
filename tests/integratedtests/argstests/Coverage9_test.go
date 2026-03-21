@@ -95,22 +95,22 @@ func Test_Cov9_FuncWrap_IsEqual_Nil(t *testing.T) {
 // Covers FuncWrapInvoke.go L121-137
 
 func Test_Cov9_FuncWrap_InvokeFirstAndError(t *testing.T) {
-	fn := func(s string) (string, error) { return s + "!", nil }
+	fn := func(s string) (string, error) { return s + "!", fmt.Errorf("test-err") }
 	fw := args.NewFuncWrap.Default(fn)
 
 	first, funcErr, procErr := fw.InvokeFirstAndError("hello")
 
 	actual := args.Map{
-		"first":     first,
-		"noFuncErr": funcErr == nil,
-		"noProcErr": procErr == nil,
+		"first":      first,
+		"hasFuncErr": funcErr != nil,
+		"noProcErr":  procErr == nil,
 	}
 	expected := args.Map{
-		"first":     "hello!",
-		"noFuncErr": true,
-		"noProcErr": true,
+		"first":      "hello!",
+		"hasFuncErr": true,
+		"noProcErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns first and nil errors", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns first and error", actual)
 }
 
 // ── FuncWrap: InvokeError ──
