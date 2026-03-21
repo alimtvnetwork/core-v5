@@ -226,11 +226,11 @@ func Test_C34_KVC_AddHashsetMap(t *testing.T) {
 	kvc.AddHashsetMap(map[string]bool{"a": true})
 }
 
-func Test_C34_KVC_GetValueByKey(t *testing.T) {
+func Test_C34_KVC_GetByKey(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
-	_ = kvc.GetValueByKey("k")
-	_ = kvc.GetValueByKey("missing")
+	_, _ = kvc.Get("k")
+	_, _ = kvc.Get("missing")
 }
 
 func Test_C34_KVC_Adds(t *testing.T) {
@@ -238,9 +238,9 @@ func Test_C34_KVC_Adds(t *testing.T) {
 	kvc.Adds(corestr.KeyValuePair{Key: "k", Value: "v"})
 }
 
-func Test_C34_KVC_AddKeyValues(t *testing.T) {
+func Test_C34_KVC_AddMap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.AddKeyValues("k", "v")
+	kvc.AddMap(map[string]string{"k": "v"})
 }
 
 func Test_C34_KVC_Hashmap(t *testing.T) {
