@@ -276,7 +276,7 @@ func Test_Cov9_CaseV1_VerifyError(t *testing.T) {
 		ExpectedInput: "hello",
 	}
 
-	err := tc.VerifyError(0, 0, "hello") // stringcompareas.Equal = 0
+	err := tc.VerifyError(0, stringcompareas.Equal, "hello")
 
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
