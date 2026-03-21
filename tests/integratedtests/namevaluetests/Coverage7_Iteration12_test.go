@@ -499,14 +499,14 @@ func Test_I12_PrependsIf_StringMapString(t *testing.T) {
 // IsEqualByString — type-specific for StringInt, StringMapString
 // ==========================================================================
 
-func Test_I12_StringInt_IsEqualByString(t *testing.T) {
+func Test_I12_StringInt_IsEqualByString_Clone(t *testing.T) {
 	c1 := namevalue.NewGenericCollectionDefault[string, int]()
 	c1.Add(namevalue.StringInt{Name: "a", Value: 1})
 	c2 := c1.Clone()
 
 	actual := args.Map{"equal": c1.IsEqualByString(c2)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- IsEqualByString", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- IsEqualByString clone", actual)
 }
 
 func Test_I12_StringMapString_IsEqualByString(t *testing.T) {

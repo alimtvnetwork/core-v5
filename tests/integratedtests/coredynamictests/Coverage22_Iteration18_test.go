@@ -623,21 +623,21 @@ func Test_I18_Dynamic_JsonStringMust(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I18_CollectionLock_LengthLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b"})
 	actual := args.Map{"len": c.LengthLock()}
 	expected := args.Map{"len": 2}
 	expected.ShouldBeEqual(t, 0, "CollectionLock returns correct value -- LengthLock", actual)
 }
 
 func Test_I18_CollectionLock_IsEmptyLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.EmptyCollection[string]()
 	actual := args.Map{"empty": c.IsEmptyLock()}
 	expected := args.Map{"empty": true}
 	expected.ShouldBeEqual(t, 0, "CollectionLock returns empty -- IsEmptyLock", actual)
 }
 
 func Test_I18_CollectionLock_AddLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.EmptyCollection[string]()
 	c.AddLock("x")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
@@ -645,7 +645,7 @@ func Test_I18_CollectionLock_AddLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_AddsLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.EmptyCollection[string]()
 	c.AddsLock("a", "b", "c")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
@@ -653,8 +653,8 @@ func Test_I18_CollectionLock_AddsLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_AddCollectionLock(t *testing.T) {
-	c1 := coredynamic.NewCollectionString.From([]string{"a"})
-	c2 := coredynamic.NewCollectionString.From([]string{"b", "c"})
+	c1 := coredynamic.CollectionFrom[string]([]string{"a"})
+	c2 := coredynamic.CollectionFrom[string]([]string{"b", "c"})
 	c1.AddCollectionLock(c2)
 	actual := args.Map{"len": c1.Length()}
 	expected := args.Map{"len": 3}
@@ -662,7 +662,7 @@ func Test_I18_CollectionLock_AddCollectionLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_AddCollectionLock_Nil(t *testing.T) {
-	c1 := coredynamic.NewCollectionString.From([]string{"a"})
+	c1 := coredynamic.CollectionFrom[string]([]string{"a"})
 	c1.AddCollectionLock(nil)
 	actual := args.Map{"len": c1.Length()}
 	expected := args.Map{"len": 1}
@@ -670,9 +670,9 @@ func Test_I18_CollectionLock_AddCollectionLock_Nil(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_AddCollectionsLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
-	c1 := coredynamic.NewCollectionString.From([]string{"a"})
-	c2 := coredynamic.NewCollectionString.From([]string{"b"})
+	c := coredynamic.EmptyCollection[string]()
+	c1 := coredynamic.CollectionFrom[string]([]string{"a"})
+	c2 := coredynamic.CollectionFrom[string]([]string{"b"})
 	c.AddCollectionsLock(c1, nil, c2)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
@@ -680,7 +680,7 @@ func Test_I18_CollectionLock_AddCollectionsLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_AddIfLock_True(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.EmptyCollection[string]()
 	c.AddIfLock(true, "x")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
@@ -688,7 +688,7 @@ func Test_I18_CollectionLock_AddIfLock_True(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_AddIfLock_False(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.EmptyCollection[string]()
 	c.AddIfLock(false, "x")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
@@ -696,7 +696,7 @@ func Test_I18_CollectionLock_AddIfLock_False(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_RemoveAtLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b", "c"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b", "c"})
 	ok := c.RemoveAtLock(1)
 	actual := args.Map{"ok": ok, "len": c.Length()}
 	expected := args.Map{"ok": true, "len": 2}
@@ -704,7 +704,7 @@ func Test_I18_CollectionLock_RemoveAtLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_RemoveAtLock_Invalid(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a"})
+	c := coredynamic.CollectionFrom[string]([]string{"a"})
 	ok := c.RemoveAtLock(5)
 	actual := args.Map{"ok": ok}
 	expected := args.Map{"ok": false}
@@ -712,7 +712,7 @@ func Test_I18_CollectionLock_RemoveAtLock_Invalid(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_ClearLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b"})
 	c.ClearLock()
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
@@ -720,7 +720,7 @@ func Test_I18_CollectionLock_ClearLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_ItemsLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b"})
 	items := c.ItemsLock()
 	actual := args.Map{"len": len(items)}
 	expected := args.Map{"len": 2}
@@ -728,21 +728,21 @@ func Test_I18_CollectionLock_ItemsLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_FirstLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b"})
 	actual := args.Map{"val": c.FirstLock()}
 	expected := args.Map{"val": "a"}
 	expected.ShouldBeEqual(t, 0, "CollectionLock returns correct value -- FirstLock", actual)
 }
 
 func Test_I18_CollectionLock_LastLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b"})
 	actual := args.Map{"val": c.LastLock()}
 	expected := args.Map{"val": "b"}
 	expected.ShouldBeEqual(t, 0, "CollectionLock returns correct value -- LastLock", actual)
 }
 
 func Test_I18_CollectionLock_AddWithWgLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.EmptyCollection[string]()
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
 	c.AddWithWgLock(wg, "x")
@@ -753,7 +753,7 @@ func Test_I18_CollectionLock_AddWithWgLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_LoopLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b", "c"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b", "c"})
 	count := 0
 	c.LoopLock(func(i int, item string) bool {
 		count++
@@ -765,7 +765,7 @@ func Test_I18_CollectionLock_LoopLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_LoopLock_Break(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b", "c"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b", "c"})
 	count := 0
 	c.LoopLock(func(i int, item string) bool {
 		count++
@@ -777,7 +777,7 @@ func Test_I18_CollectionLock_LoopLock_Break(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_FilterLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "bb", "ccc"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "bb", "ccc"})
 	filtered := c.FilterLock(func(s string) bool {
 		return len(s) > 1
 	})
@@ -787,7 +787,7 @@ func Test_I18_CollectionLock_FilterLock(t *testing.T) {
 }
 
 func Test_I18_CollectionLock_StringsLock(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.CollectionFrom[string]([]string{"a", "b"})
 	strs := c.StringsLock()
 	actual := args.Map{"len": len(strs)}
 	expected := args.Map{"len": 2}
