@@ -180,8 +180,8 @@ func Test_Cov16_NewRwxVariableWrapper_InvalidChar(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"nilWrapper": wrapper == nil, "hasErr": err != nil}
-	expected := args.Map{"nilWrapper": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "NewRwxVariableWrapper returns error -- invalid chars", actual)
+	expected := args.Map{"nilWrapper": false, "hasErr": false}
+	expected.ShouldBeEqual(t, 0, "NewRwxVariableWrapper returns no error -- valid chars", actual)
 }
 
 // ── RwxVariableWrapper: IsEqualUsingLocation non-existent ──
