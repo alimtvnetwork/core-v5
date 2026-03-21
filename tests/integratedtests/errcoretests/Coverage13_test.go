@@ -2,7 +2,6 @@ package errcoretests
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 	"testing"
 
