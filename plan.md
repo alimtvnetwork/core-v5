@@ -27,12 +27,12 @@
 
 ## Phase B: Code Cleanup
 
-### B.1 — Codegen Removal ⏭️ SKIPPED / DEFERRED
+### B.1 — Codegen Removal ✅ Done
 - **Objective**: Remove deprecated `codegen/` entirely
 - **Dependencies**: User runs external audit (`grep` across auk-go repos)
-- **Expected outputs**: Deleted `codegen/`, `cmd/main/unitTestGenerator.go`, `tests/integratedtests/codegentests/`; updated `go.mod`
+- **Expected outputs**: Deleted `codegen/`, `cmd/main/unitTestGenerator.go`, `tests/integratedtests/codegentests/`, `tests/integratedtests/corepropertytests/`; updated specs
 - **Acceptance criteria**: All exit criteria in `spec/01-app/10-codegen-deprecation-plan.md` met
-- **Note**: User chose to skip (2026-03-16). Revisit when convenient.
+- **Completed**: Removed all codegen packages, consumers, and tests. Updated README, repo overview, folder map, and deprecation plan. Confirmed zero remaining Go imports. Shared types in `coretests/` unaffected.
 
 ---
 
