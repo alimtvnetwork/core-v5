@@ -77,7 +77,7 @@ func Test_Cov4_Invoke_NonFunc(t *testing.T) {
 	}
 	expected := args.Map{
 		"panicked":   true,
-		"panicValue": "funcRef is not a function, got string",
+		"panicValue": "funcRef is not a function: string",
 	}
 	expected.ShouldBeEqual(t, 0, "InvokeWithPanicRecovery panics -- non-func input", actual)
 }

@@ -261,6 +261,6 @@ func Test_Cov16_RwxWrapper_ToFileModeString(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"hasStr": len(str) > 0, "octal": int(octal)}
-	expected := args.Map{"hasStr": true, "octal": 755}
-	expected.ShouldBeEqual(t, 0, "ToUint32Octal returns 755 -- rwxr-xr-x", actual)
+	expected := args.Map{"hasStr": true, "octal": 493}
+	expected.ShouldBeEqual(t, 0, "ToUint32Octal returns 493 (0755 octal) -- rwxr-xr-x", actual)
 }

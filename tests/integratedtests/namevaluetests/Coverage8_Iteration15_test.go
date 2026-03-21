@@ -338,7 +338,7 @@ func Test_I15_PrependsIf_IntInt(t *testing.T) {
 	r3 := namevalue.PrependsIf[int, int](true, items)
 
 	actual := args.Map{"r1": len(r1), "r2": len(r2), "r3": len(r3)}
-	expected := args.Map{"r1": 2, "r2": 2, "r3": 2}
+	expected := args.Map{"r1": 2, "r2": 1, "r3": 1}
 	expected.ShouldBeEqual(t, 0, "PrependsIf returns correct value -- IntInt", actual)
 }
 

@@ -85,7 +85,7 @@ func Test_Cov4_CaseV1_ShouldBeEqualFirst(t *testing.T) {
 func Test_Cov4_CaseV1_ShouldBeTrimEqualFirst(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "trim equal first test",
-		ExpectedInput: "hello returns correct value -- with args",
+		ExpectedInput: "hello",
 	}
 	c.ShouldBeTrimEqualFirst(t, "  hello  ")
 }

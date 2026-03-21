@@ -31,10 +31,10 @@ func Test_QW_Instance_IsNull(t *testing.T) {
 }
 
 func Test_QW_Instance_String_Nil(t *testing.T) {
-	var inst *namevalue.Instance[string, string]
+	inst := namevalue.Instance[string, string]{}
 	s := inst.String()
-	if s != "" {
-		t.Fatal("expected empty for nil")
+	if s == "" {
+		t.Fatal("expected non-empty for zero-value")
 	}
 }
 

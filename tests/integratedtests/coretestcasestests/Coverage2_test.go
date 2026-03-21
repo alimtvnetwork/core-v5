@@ -150,7 +150,7 @@ func Test_Cov2_CaseV1_ShouldBeSortedEqualFirst(t *testing.T) {
 func Test_Cov2_CaseV1_ShouldContains(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "ShouldContains test",
-		ExpectedInput: "hello returns correct value -- with args",
+		ExpectedInput: "hello",
 	}
 
 	c.ShouldContains(t, 0, "hello world")
@@ -159,7 +159,7 @@ func Test_Cov2_CaseV1_ShouldContains(t *testing.T) {
 func Test_Cov2_CaseV1_ShouldContainsFirst(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "ShouldContainsFirst test",
-		ExpectedInput: "hello returns correct value -- with args",
+		ExpectedInput: "hello",
 	}
 
 	c.ShouldContainsFirst(t, "hello world")
@@ -168,7 +168,7 @@ func Test_Cov2_CaseV1_ShouldContainsFirst(t *testing.T) {
 func Test_Cov2_CaseV1_ShouldStartsWith(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "ShouldStartsWith test",
-		ExpectedInput: "hello returns correct value -- with args",
+		ExpectedInput: "hello",
 	}
 
 	c.ShouldStartsWith(t, 0, "hello world")
@@ -177,7 +177,7 @@ func Test_Cov2_CaseV1_ShouldStartsWith(t *testing.T) {
 func Test_Cov2_CaseV1_ShouldStartsWithFirst(t *testing.T) {
 	c := coretestcases.CaseV1{
 		Title:         "ShouldStartsWithFirst test",
-		ExpectedInput: "hello returns correct value -- with args",
+		ExpectedInput: "hello",
 	}
 
 	c.ShouldStartsWithFirst(t, "hello world")
