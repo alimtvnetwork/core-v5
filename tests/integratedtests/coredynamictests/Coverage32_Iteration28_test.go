@@ -863,7 +863,9 @@ func Test_C32_65_MapAnyItems_AddManyMapResultsUsingOption(t *testing.T) {
 
 func Test_C32_66_MapAnyItems_GetNewMapUsingKeys(t *testing.T) {
 	m := coredynamic.NewMapAnyItems(4)
-	m.Add("a", 1).Add("b", 2).Add("c", 3)
+	m.Add("a", 1)
+	m.Add("b", 2)
+	m.Add("c", 3)
 	sub := m.GetNewMapUsingKeys(false, "a", "c")
 	if sub.Length() != 2 {
 		t.Errorf("expected 2")
