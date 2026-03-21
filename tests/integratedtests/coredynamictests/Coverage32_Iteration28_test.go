@@ -1904,7 +1904,8 @@ func Test_C32_141_DynCol_SafeLimitCollection(t *testing.T) {
 func Test_C32_142_DynCol_At_First_Last_Accessors(t *testing.T) {
 	dc := coredynamic.NewDynamicCollection(4)
 	dc.AddAny("a", true).AddAny("b", true).AddAny("c", true)
-	if dc.At(1).ValueString() == "" {
+	atVal := dc.At(1)
+	if atVal.ValueString() == "" {
 		t.Errorf("expected non-empty")
 	}
 	f := dc.First()
