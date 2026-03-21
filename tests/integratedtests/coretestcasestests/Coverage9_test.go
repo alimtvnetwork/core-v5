@@ -6,6 +6,7 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/coretests/results"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 )
 
 // ── CaseV1: ArrangeTypeName ──
