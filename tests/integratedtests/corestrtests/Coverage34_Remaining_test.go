@@ -199,7 +199,7 @@ func Test_C34_KVC_Basic(t *testing.T) {
 
 func Test_C34_KVC_Find(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Find(func(i int, kv corestr.KeyValuePair) (corestr.KeyValuePair, bool, bool) {
 		return kv, true, false
 	})
