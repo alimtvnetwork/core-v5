@@ -419,7 +419,8 @@ func Test_Cov17_PayloadsCollection_IsEqualItems_DiffItem(t *testing.T) {
 
 func Test_Cov17_PayloadsCollection_ParseInjectUsingJson_Error(t *testing.T) {
 	coll := corepayload.New.PayloadsCollection.Empty()
-	r := corejson.NewResult.Error(errTestHelper("bad")); badResult := &r
+	r := corejson.NewResult.Error(errTestHelper("bad"))
+	badResult := &r
 
 	_, err := coll.ParseInjectUsingJson(badResult)
 
