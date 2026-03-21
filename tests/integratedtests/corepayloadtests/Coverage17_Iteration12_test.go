@@ -90,16 +90,16 @@ func Test_Cov17_Attributes_MustBeEmptyError(t *testing.T) {
 // ── AttributesGetters: Error with compiled ──
 // Covers AttributesGetters.go L130-132
 
-// ── AttributesGetters: GetAnyKeyValuePair (nil) ──
-// Covers AttributesGetters.go L295, L307
+// ── AttributesGetters: HasAnyKey (nil pairs) ──
+// Covers AttributesGetters.go L23-28
 
-func Test_Cov17_Attributes_GetAnyKeyValuePair_NilPairs(t *testing.T) {
+func Test_Cov17_Attributes_HasAnyKey_NilPairs(t *testing.T) {
 	a := &corepayload.Attributes{}
-	val, found := a.GetAnyKeyValuePair("key")
+	found := a.HasAnyKey("key")
 
-	actual := args.Map{"found": found, "isNil": val == nil}
-	expected := args.Map{"found": false, "isNil": true}
-	expected.ShouldBeEqual(t, 0, "GetAnyKeyValuePair returns false -- nil pairs", actual)
+	actual := args.Map{"found": found}
+	expected := args.Map{"found": false}
+	expected.ShouldBeEqual(t, 0, "HasAnyKey returns false -- nil pairs", actual)
 }
 
 // ── PayloadWrapper: UnmarshalJSON nil ──
