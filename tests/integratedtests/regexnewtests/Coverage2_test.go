@@ -12,21 +12,21 @@ func Test_CreateLockIf_WithLock_Cov2(t *testing.T) {
 	r, err := regexnew.CreateLockIf(true, `^\d+$`)
 	actual := args.Map{"hasErr": err != nil, "notNil": r != nil}
 	expected := args.Map{"hasErr": false, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "CreateLockIf_WithLock", actual)
+	expected.ShouldBeEqual(t, 0, "CreateLockIf_WithLock returns non-empty -- with args", actual)
 }
 
 func Test_CreateLockIf_WithoutLock_Cov2(t *testing.T) {
 	r, err := regexnew.CreateLockIf(false, `^\d+$`)
 	actual := args.Map{"hasErr": err != nil, "notNil": r != nil}
 	expected := args.Map{"hasErr": false, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "CreateLockIf_WithoutLock", actual)
+	expected.ShouldBeEqual(t, 0, "CreateLockIf_WithoutLock returns non-empty -- with args", actual)
 }
 
 func Test_CreateLockIf_Invalid_Cov2(t *testing.T) {
 	_, err := regexnew.CreateLockIf(true, `[invalid`)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "CreateLockIf_Invalid", actual)
+	expected.ShouldBeEqual(t, 0, "CreateLockIf_Invalid returns error -- with args", actual)
 }
 
 func Test_CreateMustLockIf_Cov2(t *testing.T) {
@@ -35,21 +35,21 @@ func Test_CreateMustLockIf_Cov2(t *testing.T) {
 		"withoutLock": regexnew.CreateMustLockIf(false, `^\d+$`) != nil,
 	}
 	expected := args.Map{"withLock": true, "withoutLock": true}
-	expected.ShouldBeEqual(t, 0, "CreateMustLockIf", actual)
+	expected.ShouldBeEqual(t, 0, "CreateMustLockIf returns correct value -- with args", actual)
 }
 
 func Test_CreateApplicableLock_Cov2(t *testing.T) {
 	r, err, isApplicable := regexnew.CreateApplicableLock(`^\d+$`)
 	actual := args.Map{"hasErr": err != nil, "notNil": r != nil, "isApplicable": isApplicable}
 	expected := args.Map{"hasErr": false, "notNil": true, "isApplicable": true}
-	expected.ShouldBeEqual(t, 0, "CreateApplicableLock_Valid", actual)
+	expected.ShouldBeEqual(t, 0, "CreateApplicableLock_Valid returns non-empty -- with args", actual)
 }
 
 func Test_CreateApplicableLock_Invalid_Cov2(t *testing.T) {
 	_, err, isApplicable := regexnew.CreateApplicableLock(`[invalid`)
 	actual := args.Map{"hasErr": err != nil, "isApplicable": isApplicable}
 	expected := args.Map{"hasErr": true, "isApplicable": false}
-	expected.ShouldBeEqual(t, 0, "CreateApplicableLock_Invalid", actual)
+	expected.ShouldBeEqual(t, 0, "CreateApplicableLock_Invalid returns error -- with args", actual)
 }
 
 func Test_IsMatchFailed_Cov2(t *testing.T) {
@@ -58,7 +58,7 @@ func Test_IsMatchFailed_Cov2(t *testing.T) {
 		"failAlpha":     regexnew.IsMatchFailed(`^\d+$`, "abc"),
 	}
 	expected := args.Map{"matchDigits": false, "failAlpha": true}
-	expected.ShouldBeEqual(t, 0, "IsMatchFailed", actual)
+	expected.ShouldBeEqual(t, 0, "IsMatchFailed returns correct value -- with args", actual)
 }
 
 func Test_MatchError_Cov2(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_MatchError_Cov2(t *testing.T) {
 		"invalidErr": regexnew.MatchError(`[invalid`, "abc") != nil,
 	}
 	expected := args.Map{"matchErr": false, "noMatchErr": true, "invalidErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchError", actual)
+	expected.ShouldBeEqual(t, 0, "MatchError returns error -- with args", actual)
 }
 
 func Test_MatchErrorLock_Cov2(t *testing.T) {
@@ -77,7 +77,7 @@ func Test_MatchErrorLock_Cov2(t *testing.T) {
 		"noMatchErr": regexnew.MatchErrorLock(`^\d+$`, "abc") != nil,
 	}
 	expected := args.Map{"matchErr": false, "noMatchErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchErrorLock", actual)
+	expected.ShouldBeEqual(t, 0, "MatchErrorLock returns error -- with args", actual)
 }
 
 func Test_MatchUsingFuncErrorLock_Cov2(t *testing.T) {
@@ -87,7 +87,7 @@ func Test_MatchUsingFuncErrorLock_Cov2(t *testing.T) {
 		"noMatchErr": regexnew.MatchUsingFuncErrorLock(`^\d+$`, "abc", matchFunc) != nil,
 	}
 	expected := args.Map{"matchErr": false, "noMatchErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchUsingFuncErrorLock", actual)
+	expected.ShouldBeEqual(t, 0, "MatchUsingFuncErrorLock returns error -- with args", actual)
 }
 
 func Test_MatchUsingCustomizeErrorFuncLock_Cov2(t *testing.T) {
@@ -97,7 +97,7 @@ func Test_MatchUsingCustomizeErrorFuncLock_Cov2(t *testing.T) {
 		"noMatchNilCustom":  regexnew.MatchUsingCustomizeErrorFuncLock(`^\d+$`, "abc", matchFunc, nil) != nil,
 	}
 	expected := args.Map{"matchNilCustom": false, "noMatchNilCustom": true}
-	expected.ShouldBeEqual(t, 0, "MatchUsingCustomizeErrorFuncLock", actual)
+	expected.ShouldBeEqual(t, 0, "MatchUsingCustomizeErrorFuncLock returns error -- with args", actual)
 }
 
 func Test_MatchUsingCustomizeErrorFuncLock_WithCustomize_Cov2(t *testing.T) {
@@ -106,13 +106,13 @@ func Test_MatchUsingCustomizeErrorFuncLock_WithCustomize_Cov2(t *testing.T) {
 	_ = regexnew.MatchUsingCustomizeErrorFuncLock(`^\d+$`, "abc", matchFunc, customErr)
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "MatchUsingCustomizeErrorFuncLock_WithCustomize", actual)
+	expected.ShouldBeEqual(t, 0, "MatchUsingCustomizeErrorFuncLock_WithCustomize returns error -- with args", actual)
 }
 
 func Test_NewMustLock_Cov2(t *testing.T) {
 	actual := args.Map{"notNil": regexnew.NewMustLock(`^\d+$`) != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewMustLock", actual)
+	expected.ShouldBeEqual(t, 0, "NewMustLock returns correct value -- with args", actual)
 }
 
 func Test_NewCreator_Cov2(t *testing.T) {
@@ -132,7 +132,7 @@ func Test_NewCreator_Cov2(t *testing.T) {
 		"default": true, "lock": true, "lockIf": true,
 		"applicable": true, "lazy": true, "lazyLock": true,
 	}
-	expected.ShouldBeEqual(t, 0, "NewCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewCreator returns correct value -- with args", actual)
 }
 
 func Test_LazyRegex_Methods_Cov2(t *testing.T) {
@@ -159,7 +159,7 @@ func Test_LazyRegex_Methods_Cov2(t *testing.T) {
 		"hasError": false, "hasIssues": false, "isInvalid": false,
 		"compiledErr": false, "error": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LazyRegex_Methods", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex_Methods returns correct value -- with args", actual)
 }
 
 func Test_LazyRegex_FirstMatchLine_Cov2(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_LazyRegex_FirstMatchLine_Cov2(t *testing.T) {
 		"match": "123", "isInvalid": false,
 		"noMatch": "", "noIsInvalid": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LazyRegex_FirstMatchLine", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex_FirstMatchLine returns correct value -- with args", actual)
 }
 
 func Test_LazyRegex_MatchUsingFuncError_Cov2(t *testing.T) {
@@ -185,7 +185,7 @@ func Test_LazyRegex_MatchUsingFuncError_Cov2(t *testing.T) {
 		"noMatchErr": lazy.MatchUsingFuncError("abc", matchFunc) != nil,
 	}
 	expected := args.Map{"matchErr": false, "noMatchErr": true}
-	expected.ShouldBeEqual(t, 0, "LazyRegex_MatchUsingFuncError", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex_MatchUsingFuncError returns error -- with args", actual)
 }
 
 func Test_LazyRegex_MustBeSafe_Cov2(t *testing.T) {
@@ -193,7 +193,7 @@ func Test_LazyRegex_MustBeSafe_Cov2(t *testing.T) {
 	lazy.MustBeSafe()
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "LazyRegex_MustBeSafe", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex_MustBeSafe returns correct value -- with args", actual)
 }
 
 func Test_LazyRegex_NilReceiver_Cov2(t *testing.T) {
@@ -217,7 +217,7 @@ func Test_LazyRegex_NilReceiver_Cov2(t *testing.T) {
 		"fullString": "", "hasIssues": true, "isInvalid": true,
 		"isApplicable": false, "reqCompiled": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LazyRegex_NilReceiver", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex_NilReceiver returns nil -- with args", actual)
 }
 
 func Test_LazyRegex_OnRequiredCompiledMust_NilPanic_Cov2(t *testing.T) {
@@ -233,13 +233,13 @@ func Test_LazyRegex_OnRequiredCompiledMust_NilPanic_Cov2(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "LazyRegex_OnRequiredCompiledMust_NilPanic", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex_OnRequiredCompiledMust_NilPanic panics -- with args", actual)
 }
 
 func Test_LazyRegex_CompileMust_Valid_Cov2(t *testing.T) {
 	actual := args.Map{"notNil": regexnew.New.Lazy(`^\d+$`).CompileMust() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "LazyRegex_CompileMust_Valid", actual)
+	expected.ShouldBeEqual(t, 0, "LazyRegex_CompileMust_Valid returns non-empty -- with args", actual)
 }
 
 func Test_NewLazyRegexCreator_Cov2(t *testing.T) {
@@ -260,5 +260,5 @@ func Test_NewLazyRegexCreator_Cov2(t *testing.T) {
 		"manyLen": 2, "emptyLen": 0,
 		"patternsMap": true, "lockIfTrue": true, "lockIfFalse": true,
 	}
-	expected.ShouldBeEqual(t, 0, "NewLazyRegexCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewLazyRegexCreator returns correct value -- with args", actual)
 }
