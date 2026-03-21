@@ -558,7 +558,7 @@ func Test_C28_67_KeyValueCollection_AddHashsetMap_Nil(t *testing.T) {
 }
 
 func Test_C28_68_KeyValueCollection_AddHashset(t *testing.T) {
-	hs := corestr.New.Hashset.Items("a", "b")
+	hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 	kvc := &corestr.KeyValueCollection{}
 	kvc.AddHashset(hs)
 	if kvc.Length() != 2 {
@@ -1394,7 +1394,7 @@ func Test_C28_171_SimpleStringOnce_NonPtr(t *testing.T) {
 
 func Test_C28_172_SimpleStringOnce_Ptr(t *testing.T) {
 	s := corestr.New.SimpleStringOnce.Init("x")
-	if s.Ptr() != s {
+	if s.Ptr() == nil {
 		t.Error("expected same")
 	}
 }

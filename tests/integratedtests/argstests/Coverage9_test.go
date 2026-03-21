@@ -136,15 +136,15 @@ func Test_Cov9_FuncWrap_InvokeError(t *testing.T) {
 // ── FuncWrap: GetResponseOfInvoke with index ──
 // Covers FuncWrapInvoke.go L85-101
 
-func Test_Cov9_FuncWrap_GetResponseOfInvoke(t *testing.T) {
+func Test_Cov9_FuncWrap_InvokeResultOfIndex(t *testing.T) {
 	fn := func() (string, int) { return "a", 42 }
 	fw := args.NewFuncWrap.Default(fn)
 
-	result, err := fw.GetResponseOfInvoke(1)
+	result, err := fw.InvokeResultOfIndex(1)
 
 	actual := args.Map{"result": result, "noErr": err == nil}
 	expected := args.Map{"result": 42, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "GetResponseOfInvoke returns indexed result", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex returns indexed result", actual)
 }
 
 // ── FuncWrap: InvokeSkip with panic ──

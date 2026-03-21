@@ -93,7 +93,7 @@ func Test_Cov15_BasicUInt16_GetValueByName_WrappedQuotePath(t *testing.T) {
 
 func Test_Cov15_BasicString_GetValueByName_WrappedQuotePath(t *testing.T) {
 	// Arrange
-	bs := enumimpl.New.BasicString.UsingNames("TestString", []string{"Foo", "Bar"})
+	bs := enumimpl.New.BasicString.CreateUsingNamesSpread("TestString", "Foo", "Bar")
 
 	// Act
 	val, err := bs.GetValueByName("Foo")

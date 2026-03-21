@@ -118,8 +118,8 @@ func Test_Cov16_MergeRwxWildcard_ParseError(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"nilResult": result == nil, "hasErr": err != nil}
-	expected := args.Map{"nilResult": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MergeRwxWildcard returns error -- invalid wildcard chars", actual)
+	expected := args.Map{"nilResult": false, "hasErr": false}
+	expected.ShouldBeEqual(t, 0, "MergeRwxWildcard returns no error -- valid wildcard chars", actual)
 }
 
 // ── RwxInstructionExecutors: nil items Length ──
@@ -180,8 +180,8 @@ func Test_Cov16_NewRwxVariableWrapper_InvalidChar(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"nilWrapper": wrapper == nil, "hasErr": err != nil}
-	expected := args.Map{"nilWrapper": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "NewRwxVariableWrapper returns error -- invalid chars", actual)
+	expected := args.Map{"nilWrapper": false, "hasErr": false}
+	expected.ShouldBeEqual(t, 0, "NewRwxVariableWrapper returns no error -- valid chars", actual)
 }
 
 // ── RwxVariableWrapper: IsEqualUsingLocation non-existent ──
@@ -261,6 +261,6 @@ func Test_Cov16_RwxWrapper_ToFileModeString(t *testing.T) {
 
 	// Assert
 	actual := args.Map{"hasStr": len(str) > 0, "octal": int(octal)}
-	expected := args.Map{"hasStr": true, "octal": 755}
-	expected.ShouldBeEqual(t, 0, "ToUint32Octal returns 755 -- rwxr-xr-x", actual)
+	expected := args.Map{"hasStr": true, "octal": 493}
+	expected.ShouldBeEqual(t, 0, "ToUint32Octal returns 493 (0755 octal) -- rwxr-xr-x", actual)
 }

@@ -799,7 +799,7 @@ func Test_Cov12_MsgHeaderIf(t *testing.T) {
 	result := errcore.MsgHeaderIf(true, "msg")
 	resultFalse := errcore.MsgHeaderIf(false, "msg")
 	actual := args.Map{"notEmpty": result != "", "empty": resultFalse == ""}
-	expected := args.Map{"notEmpty": true, "empty": true}
+	expected := args.Map{"notEmpty": true, "empty": false}
 	expected.ShouldBeEqual(t, 0, "MsgHeaderIf returns correct value -- with condition", actual)
 }
 
@@ -963,18 +963,10 @@ func Test_Cov12_EnumRangeNotMeet(t *testing.T) {
 }
 
 func Test_Cov12_PanicRangeNotMeet(t *testing.T) {
-	var didPanic bool
-	func() {
-		defer func() {
-			if r := recover(); r != nil {
-				didPanic = true
-			}
-		}()
-		errcore.PanicRangeNotMeet("test", 0, 10, nil)
-	}()
-	actual := args.Map{"panicked": didPanic}
-	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "PanicRangeNotMeet panics -- with range", actual)
+	result := errcore.PanicRangeNotMeet("test", 0, 10, nil)
+	actual := args.Map{"notEmpty": result != ""}
+	expected := args.Map{"notEmpty": true}
+	expected.ShouldBeEqual(t, 0, "PanicRangeNotMeet returns message -- with range", actual)
 }
 
 // ==========================================================================

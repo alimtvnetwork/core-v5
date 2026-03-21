@@ -123,7 +123,7 @@ func Test_C34_KVP_Methods(t *testing.T) {
 	kv2 := corestr.KeyValuePair{Key: "k", Value: "v"}
 	kv2.Dispose()
 	_ = kv2.IsKey("k")
-	_ = kv2.Clone()
+	_ = kv2.IsKey("k")
 }
 
 // ── KeyAnyValuePair ──
@@ -177,7 +177,7 @@ func Test_C34_KAVP_JsonParseSelfInject(t *testing.T) {
 
 func Test_C34_KVC_Basic(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Length()
 	_ = kvc.Count()
 	_ = kvc.HasAnyItem()
@@ -199,7 +199,7 @@ func Test_C34_KVC_Basic(t *testing.T) {
 
 func Test_C34_KVC_Find(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Find(func(i int, kv corestr.KeyValuePair) (corestr.KeyValuePair, bool, bool) {
 		return kv, true, false
 	})
@@ -207,8 +207,8 @@ func Test_C34_KVC_Find(t *testing.T) {
 
 func Test_C34_KVC_AddIf(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.AddIf(true, corestr.KeyValuePair{Key: "k", Value: "v"})
-	kvc.AddIf(false, corestr.KeyValuePair{Key: "k2", Value: "v2"})
+	kvc.AddIf(true, "k", "v")
+	kvc.AddIf(false, "k2", "v2")
 }
 
 func Test_C34_KVC_AddMap(t *testing.T) {
@@ -223,7 +223,7 @@ func Test_C34_KVC_AddHashset(t *testing.T) {
 
 func Test_C34_KVC_AddHashsetMap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.AddHashsetMap(corestr.New.Hashmap.Empty())
+	kvc.AddHashsetMap(map[string]bool{"a": true})
 }
 
 func Test_C34_KVC_GetValueByKey(t *testing.T) {

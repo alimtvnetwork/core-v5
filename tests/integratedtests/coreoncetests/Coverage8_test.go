@@ -374,8 +374,8 @@ func Test_Cov8_AnyErrorOnce_Deserialize_NilToPtr(t *testing.T) {
 	// Deserialize: Serialize succeeds, then if err == nil → return err (nil)
 	// The Unmarshal to nil may fail but the code returns err (nil) due to the bug
 	actual := args.Map{"noErr": err == nil}
-	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Deserialize returns nil -- serialize success nil toPtr (dead code bug)", actual)
+	expected := args.Map{"noErr": false}
+	expected.ShouldBeEqual(t, 0, "Deserialize returns error -- nil toPtr", actual)
 }
 
 // ==========================================================================

@@ -503,7 +503,7 @@ func Test_I19_MapAnyItems_NewUsingAnyTypeMap_Nil(t *testing.T) {
 // ══════════════════════════════════════════════════════════════════════════════
 
 func Test_I19_CollectionMethods_AddIf_True(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.New.Collection.String.Empty()
 	c.AddIf(true, "x")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
@@ -511,7 +511,7 @@ func Test_I19_CollectionMethods_AddIf_True(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_AddIf_False(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.New.Collection.String.Empty()
 	c.AddIf(false, "x")
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
@@ -519,7 +519,7 @@ func Test_I19_CollectionMethods_AddIf_False(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_AddManyIf(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.New.Collection.String.Empty()
 	c.AddManyIf(true, "a", "b")
 	c.AddManyIf(false, "c")
 	actual := args.Map{"len": c.Length()}
@@ -528,8 +528,8 @@ func Test_I19_CollectionMethods_AddManyIf(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_AddCollection(t *testing.T) {
-	c1 := coredynamic.NewCollectionString.From([]string{"a"})
-	c2 := coredynamic.NewCollectionString.From([]string{"b", "c"})
+	c1 := coredynamic.New.Collection.String.From([]string{"a"})
+	c2 := coredynamic.New.Collection.String.From([]string{"b", "c"})
 	c1.AddCollection(c2)
 	actual := args.Map{"len": c1.Length()}
 	expected := args.Map{"len": 3}
@@ -537,9 +537,9 @@ func Test_I19_CollectionMethods_AddCollection(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_AddCollections(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
-	c1 := coredynamic.NewCollectionString.From([]string{"a"})
-	c2 := coredynamic.NewCollectionString.From([]string{"b"})
+	c := coredynamic.New.Collection.String.Empty()
+	c1 := coredynamic.New.Collection.String.From([]string{"a"})
+	c2 := coredynamic.New.Collection.String.From([]string{"b"})
 	c.AddCollections(c1, nil, c2)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
@@ -547,7 +547,7 @@ func Test_I19_CollectionMethods_AddCollections(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_ConcatNew(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a"})
+	c := coredynamic.New.Collection.String.From([]string{"a"})
 	c2 := c.ConcatNew("b", "c")
 	actual := args.Map{"origLen": c.Length(), "newLen": c2.Length()}
 	expected := args.Map{"origLen": 1, "newLen": 3}
@@ -555,7 +555,7 @@ func Test_I19_CollectionMethods_ConcatNew(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_Clone(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.New.Collection.String.From([]string{"a", "b"})
 	cloned := c.Clone()
 	actual := args.Map{"len": cloned.Length()}
 	expected := args.Map{"len": 2}
@@ -571,14 +571,14 @@ func Test_I19_CollectionMethods_Clone_Nil(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_Capacity(t *testing.T) {
-	c := coredynamic.NewCollectionString.Cap(10)
+	c := coredynamic.New.Collection.String.Cap(10)
 	actual := args.Map{"cap": c.Capacity() >= 10}
 	expected := args.Map{"cap": true}
 	expected.ShouldBeEqual(t, 0, "CollectionMethods returns correct value -- Capacity", actual)
 }
 
 func Test_I19_CollectionMethods_AddCapacity(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.New.Collection.String.Empty()
 	c.AddCapacity(5)
 	actual := args.Map{"cap": c.Capacity() >= 5}
 	expected := args.Map{"cap": true}
@@ -586,7 +586,7 @@ func Test_I19_CollectionMethods_AddCapacity(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_Resize(t *testing.T) {
-	c := coredynamic.NewCollectionString.Empty()
+	c := coredynamic.New.Collection.String.Empty()
 	c.Resize(20)
 	actual := args.Map{"cap": c.Capacity() >= 20}
 	expected := args.Map{"cap": true}
@@ -594,7 +594,7 @@ func Test_I19_CollectionMethods_Resize(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_Reverse(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b", "c"})
+	c := coredynamic.New.Collection.String.From([]string{"a", "b", "c"})
 	c.Reverse()
 	actual := args.Map{"first": c.First(), "last": c.Last()}
 	expected := args.Map{"first": "c", "last": "a"}
@@ -602,7 +602,7 @@ func Test_I19_CollectionMethods_Reverse(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_InsertAt(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "c"})
+	c := coredynamic.New.Collection.String.From([]string{"a", "c"})
 	c.InsertAt(1, "b")
 	items := c.Items()
 	actual := args.Map{"len": len(items), "mid": items[1]}
@@ -611,7 +611,7 @@ func Test_I19_CollectionMethods_InsertAt(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_IndexOfFunc(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b", "c"})
+	c := coredynamic.New.Collection.String.From([]string{"a", "b", "c"})
 	idx := c.IndexOfFunc(func(s string) bool { return s == "b" })
 	actual := args.Map{"idx": idx}
 	expected := args.Map{"idx": 1}
@@ -619,7 +619,7 @@ func Test_I19_CollectionMethods_IndexOfFunc(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_IndexOfFunc_NotFound(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a"})
+	c := coredynamic.New.Collection.String.From([]string{"a"})
 	idx := c.IndexOfFunc(func(s string) bool { return s == "z" })
 	actual := args.Map{"idx": idx}
 	expected := args.Map{"idx": -1}
@@ -627,21 +627,21 @@ func Test_I19_CollectionMethods_IndexOfFunc_NotFound(t *testing.T) {
 }
 
 func Test_I19_CollectionMethods_ContainsFunc(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.New.Collection.String.From([]string{"a", "b"})
 	actual := args.Map{"has": c.ContainsFunc(func(s string) bool { return s == "a" })}
 	expected := args.Map{"has": true}
 	expected.ShouldBeEqual(t, 0, "CollectionMethods returns correct value -- ContainsFunc", actual)
 }
 
 func Test_I19_CollectionMethods_SafeAt(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.New.Collection.String.From([]string{"a", "b"})
 	actual := args.Map{"valid": c.SafeAt(0), "invalid": c.SafeAt(99)}
 	expected := args.Map{"valid": "a", "invalid": ""}
 	expected.ShouldBeEqual(t, 0, "CollectionMethods returns correct value -- SafeAt", actual)
 }
 
 func Test_I19_CollectionMethods_SprintItems(t *testing.T) {
-	c := coredynamic.NewCollectionString.From([]string{"a", "b"})
+	c := coredynamic.New.Collection.String.From([]string{"a", "b"})
 	strs := c.SprintItems("[%s]")
 	actual := args.Map{"first": strs[0]}
 	expected := args.Map{"first": "[a]"}

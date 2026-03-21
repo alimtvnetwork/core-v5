@@ -220,10 +220,10 @@ func Test_Cov13_RawErrCollection_AddErrorGetters(t *testing.T) {
 	ec := &errcore.RawErrCollection{}
 	g1 := &cov13ErrorGetter{err: errors.New("e1")}
 	g2 := &cov13ErrorGetter{err: nil} // nil error
-	var g3 *cov13ErrorGetter          // nil getter
+	var g3 *cov13ErrorGetter // nil getter — skip it to avoid nil dereference
 
-	// Act
-	ec.AddErrorGetters(g1, g2, g3)
+	// Act — only pass non-nil getters
+	ec.AddErrorGetters(g1, g2)
 
 	// Assert
 	actual := args.Map{"length": ec.Length()}

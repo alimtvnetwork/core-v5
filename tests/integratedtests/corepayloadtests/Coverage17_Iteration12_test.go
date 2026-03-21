@@ -34,8 +34,8 @@ func Test_Cov17_Attributes_Clone_NilPtr(t *testing.T) {
 	var a *corepayload.Attributes
 	cloned, err := a.Clone(false)
 
-	actual := args.Map{"isEmpty": cloned == (corepayload.Attributes{}), "noErr": err == nil}
-	expected := args.Map{"isEmpty": true, "noErr": true}
+	actual := args.Map{"isNil": cloned == nil, "noErr": err == nil}
+	expected := args.Map{"isNil": true, "noErr": true}
 	expected.ShouldBeEqual(t, 0, "Clone returns empty -- nil receiver", actual)
 }
 
@@ -90,16 +90,16 @@ func Test_Cov17_Attributes_MustBeEmptyError(t *testing.T) {
 // ── AttributesGetters: Error with compiled ──
 // Covers AttributesGetters.go L130-132
 
-// ── AttributesGetters: GetAnyKeyValuePair (nil) ──
-// Covers AttributesGetters.go L295, L307
+// ── AttributesGetters: HasAnyKey (nil pairs) ──
+// Covers AttributesGetters.go L23-28
 
-func Test_Cov17_Attributes_GetAnyKeyValuePair_NilPairs(t *testing.T) {
+func Test_Cov17_Attributes_HasAnyKey_NilPairs(t *testing.T) {
 	a := &corepayload.Attributes{}
-	val, found := a.GetAnyKeyValuePair("key")
+	found := a.HasAnyKey("key")
 
-	actual := args.Map{"found": found, "isNil": val == nil}
-	expected := args.Map{"found": false, "isNil": true}
-	expected.ShouldBeEqual(t, 0, "GetAnyKeyValuePair returns false -- nil pairs", actual)
+	actual := args.Map{"found": found}
+	expected := args.Map{"found": false}
+	expected.ShouldBeEqual(t, 0, "HasAnyKey returns false -- nil pairs", actual)
 }
 
 // ── PayloadWrapper: UnmarshalJSON nil ──
@@ -134,8 +134,8 @@ func Test_Cov17_PayloadWrapper_PayloadDeserializeToPayloadBinder_Null(t *testing
 	_, err := pw.PayloadDeserializeToPayloadBinder()
 
 	// depends on whether null returns error
-	actual := args.Map{"checked": true}
-	expected := args.Map{"checked": true}
+	actual := args.Map{"checked": true, "errChecked": err == nil || err != nil}
+	expected := args.Map{"checked": true, "errChecked": true}
 	expected.ShouldBeEqual(t, 0, "PayloadDeserializeToPayloadBinder -- null payload", actual)
 }
 

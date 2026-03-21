@@ -699,7 +699,7 @@ func Test_C27_80_ValidValues_AddHashsetMap_Nil(t *testing.T) {
 }
 
 func Test_C27_81_ValidValues_AddHashset(t *testing.T) {
-	hs := corestr.New.Hashset.Items("a", "b")
+	hs := corestr.New.Hashset.StringsSpreadItems("a", "b")
 	vv := corestr.NewValidValues(4)
 	vv.AddHashset(hs)
 	if vv.Length() != 2 {
