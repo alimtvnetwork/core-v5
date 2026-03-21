@@ -262,9 +262,9 @@ func Test_Cov9_OneFunc_InvokeArgs(t *testing.T) {
 // Covers Holder.go L188-204
 
 func Test_Cov9_Holder_InvokeMust(t *testing.T) {
-	fn := func() string { return "test" }
-	h := &args.Holder[string]{}
-	
+	h := &args.Holder[any]{
+		WorkFunc: func() string { return "test" },
+	}
 
 	results := h.InvokeMust()
 
@@ -274,9 +274,9 @@ func Test_Cov9_Holder_InvokeMust(t *testing.T) {
 }
 
 func Test_Cov9_Holder_InvokeWithValidArgs(t *testing.T) {
-	fn := func() string { return "test" }
-	h := &args.Holder[string]{}
-	
+	h := &args.Holder[any]{
+		WorkFunc: func() string { return "test" },
+	}
 
 	results, err := h.InvokeWithValidArgs()
 
@@ -286,9 +286,9 @@ func Test_Cov9_Holder_InvokeWithValidArgs(t *testing.T) {
 }
 
 func Test_Cov9_Holder_InvokeArgs(t *testing.T) {
-	fn := func() string { return "test" }
-	h := &args.Holder[string]{}
-	
+	h := &args.Holder[any]{
+		WorkFunc: func() string { return "test" },
+	}
 
 	results, err := h.InvokeArgs(0)
 
