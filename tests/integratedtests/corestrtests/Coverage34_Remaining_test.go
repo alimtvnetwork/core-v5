@@ -250,10 +250,10 @@ func Test_C34_KVC_Hashmap(t *testing.T) {
 	_ = corestr.New.KeyValues.Empty().Hashmap()
 }
 
-func Test_C34_KVC_HashmapOptions(t *testing.T) {
+func Test_C34_KVC_Hashmap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
 	kvc.Add("k", "v")
-	_ = kvc.HashmapOptions(true)
+	_ = kvc.Hashmap()
 }
 
 func Test_C34_KVC_Clear(t *testing.T) {
