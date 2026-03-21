@@ -244,7 +244,7 @@ func Test_I18_NewRwxWrapper_UsingVariantPtr(t *testing.T) {
 }
 
 func Test_I18_NewRwxWrapper_RwxFullString(t *testing.T) {
-	w, err := chmodhelper.New.RwxWrapper.RwxFullString("rwxr-xr-x")
+	w, err := chmodhelper.New.RwxWrapper.RwxFullString("-rwxr-xr-x")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
