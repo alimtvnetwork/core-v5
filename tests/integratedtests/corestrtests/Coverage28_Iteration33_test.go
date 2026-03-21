@@ -905,21 +905,21 @@ func Test_C28_106_KeyValueCollection_Deserialize(t *testing.T) {
 // ═══════════════════════════════════════════════════════════════════════
 
 func Test_C28_107_SimpleStringOnce_Value(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	if s.Value() != "hello" {
 		t.Error("expected hello")
 	}
 }
 
 func Test_C28_108_SimpleStringOnce_IsInitialized(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	if !s.IsInitialized() {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_109_SimpleStringOnce_IsDefined(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	if !s.IsDefined() {
 		t.Error("expected true")
 	}
@@ -933,7 +933,7 @@ func Test_C28_110_SimpleStringOnce_IsUninitialized(t *testing.T) {
 }
 
 func Test_C28_111_SimpleStringOnce_Invalidate(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	s.Invalidate()
 	if s.IsInitialized() {
 		t.Error("expected false")
@@ -941,7 +941,7 @@ func Test_C28_111_SimpleStringOnce_Invalidate(t *testing.T) {
 }
 
 func Test_C28_112_SimpleStringOnce_Reset(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	s.Reset()
 	if s.IsInitialized() || s.Value() != "" {
 		t.Error("expected reset")
@@ -956,21 +956,21 @@ func Test_C28_113_SimpleStringOnce_IsInvalid(t *testing.T) {
 }
 
 func Test_C28_114_SimpleStringOnce_IsInvalid_Valid(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	if s.IsInvalid() {
 		t.Error("expected false")
 	}
 }
 
 func Test_C28_115_SimpleStringOnce_ValueBytes(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	if string(s.ValueBytes()) != "hello" {
 		t.Error("expected hello")
 	}
 }
 
 func Test_C28_116_SimpleStringOnce_ValueBytesPtr(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	if string(s.ValueBytesPtr()) != "hello" {
 		t.Error("expected hello")
 	}
@@ -985,7 +985,7 @@ func Test_C28_117_SimpleStringOnce_SetOnUninitialized(t *testing.T) {
 }
 
 func Test_C28_118_SimpleStringOnce_SetOnUninitialized_AlreadyInit(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	err := s.SetOnUninitialized("world")
 	if err == nil {
 		t.Error("expected error")
@@ -1046,7 +1046,7 @@ func Test_C28_123_SimpleStringOnce_SetInitialize(t *testing.T) {
 }
 
 func Test_C28_124_SimpleStringOnce_SetUnInit(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	s.SetUnInit()
 	if s.IsInitialized() {
 		t.Error("expected false")
@@ -1054,7 +1054,7 @@ func Test_C28_124_SimpleStringOnce_SetUnInit(t *testing.T) {
 }
 
 func Test_C28_125_SimpleStringOnce_ConcatNew(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	s2 := s.ConcatNew(" world")
 	if s2.Value() != "hello world" {
 		t.Error("expected hello world")
@@ -1062,7 +1062,7 @@ func Test_C28_125_SimpleStringOnce_ConcatNew(t *testing.T) {
 }
 
 func Test_C28_126_SimpleStringOnce_ConcatNewUsingStrings(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a")
+	s := corestr.New.SimpleStringOnce.Init("a")
 	s2 := s.ConcatNewUsingStrings(",", "b", "c")
 	if s2.Value() != "a,b,c" {
 		t.Error("expected a,b,c")
@@ -1077,42 +1077,42 @@ func Test_C28_127_SimpleStringOnce_IsEmpty(t *testing.T) {
 }
 
 func Test_C28_128_SimpleStringOnce_IsWhitespace(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("   ")
+	s := corestr.New.SimpleStringOnce.Init("   ")
 	if !s.IsWhitespace() {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_129_SimpleStringOnce_Trim(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("  hello  ")
+	s := corestr.New.SimpleStringOnce.Init("  hello  ")
 	if s.Trim() != "hello" {
 		t.Error("expected hello")
 	}
 }
 
 func Test_C28_130_SimpleStringOnce_HasValidNonEmpty(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	if !s.HasValidNonEmpty() {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_131_SimpleStringOnce_HasValidNonWhitespace(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	if !s.HasValidNonWhitespace() {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_132_SimpleStringOnce_IsValueBool(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("true")
+	s := corestr.New.SimpleStringOnce.Init("true")
 	if !s.IsValueBool() {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_133_SimpleStringOnce_SafeValue(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	if s.SafeValue() != "x" {
 		t.Error("expected x")
 	}
@@ -1126,7 +1126,7 @@ func Test_C28_134_SimpleStringOnce_SafeValue_Uninit(t *testing.T) {
 }
 
 func Test_C28_135_SimpleStringOnce_Uint16(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("100")
+	s := corestr.New.SimpleStringOnce.Init("100")
 	v, ok := s.Uint16()
 	if !ok || v != 100 {
 		t.Error("expected 100")
@@ -1134,7 +1134,7 @@ func Test_C28_135_SimpleStringOnce_Uint16(t *testing.T) {
 }
 
 func Test_C28_136_SimpleStringOnce_Uint32(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("1000")
+	s := corestr.New.SimpleStringOnce.Init("1000")
 	v, ok := s.Uint32()
 	if !ok || v != 1000 {
 		t.Error("expected 1000")
@@ -1142,7 +1142,7 @@ func Test_C28_136_SimpleStringOnce_Uint32(t *testing.T) {
 }
 
 func Test_C28_137_SimpleStringOnce_WithinRange(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("50")
+	s := corestr.New.SimpleStringOnce.Init("50")
 	v, ok := s.WithinRange(true, 0, 100)
 	if !ok || v != 50 {
 		t.Error("expected 50")
@@ -1150,7 +1150,7 @@ func Test_C28_137_SimpleStringOnce_WithinRange(t *testing.T) {
 }
 
 func Test_C28_138_SimpleStringOnce_WithinRange_OutOfRange(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("200")
+	s := corestr.New.SimpleStringOnce.Init("200")
 	v, ok := s.WithinRange(true, 0, 100)
 	if ok || v != 100 {
 		t.Error("expected 100 bounded")
@@ -1158,7 +1158,7 @@ func Test_C28_138_SimpleStringOnce_WithinRange_OutOfRange(t *testing.T) {
 }
 
 func Test_C28_139_SimpleStringOnce_WithinRange_NoBoundary(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("200")
+	s := corestr.New.SimpleStringOnce.Init("200")
 	v, ok := s.WithinRange(false, 0, 100)
 	if ok || v != 200 {
 		t.Error("expected 200 no boundary")
@@ -1166,7 +1166,7 @@ func Test_C28_139_SimpleStringOnce_WithinRange_NoBoundary(t *testing.T) {
 }
 
 func Test_C28_140_SimpleStringOnce_WithinRange_Below(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("-5")
+	s := corestr.New.SimpleStringOnce.Init("-5")
 	v, ok := s.WithinRange(true, 0, 100)
 	if ok || v != 0 {
 		t.Error("expected 0 bounded")
@@ -1174,7 +1174,7 @@ func Test_C28_140_SimpleStringOnce_WithinRange_Below(t *testing.T) {
 }
 
 func Test_C28_141_SimpleStringOnce_WithinRange_ParseErr(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("abc")
+	s := corestr.New.SimpleStringOnce.Init("abc")
 	v, ok := s.WithinRange(true, 0, 100)
 	if ok || v != 0 {
 		t.Error("expected 0")
@@ -1182,7 +1182,7 @@ func Test_C28_141_SimpleStringOnce_WithinRange_ParseErr(t *testing.T) {
 }
 
 func Test_C28_142_SimpleStringOnce_WithinRangeDefault(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("50")
+	s := corestr.New.SimpleStringOnce.Init("50")
 	v, ok := s.WithinRangeDefault(0, 100)
 	if !ok || v != 50 {
 		t.Error("expected 50")
@@ -1190,112 +1190,112 @@ func Test_C28_142_SimpleStringOnce_WithinRangeDefault(t *testing.T) {
 }
 
 func Test_C28_143_SimpleStringOnce_Int(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("42")
+	s := corestr.New.SimpleStringOnce.Init("42")
 	if s.Int() != 42 {
 		t.Error("expected 42")
 	}
 }
 
 func Test_C28_144_SimpleStringOnce_Int_Error(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("abc")
+	s := corestr.New.SimpleStringOnce.Init("abc")
 	if s.Int() != 0 {
 		t.Error("expected 0")
 	}
 }
 
 func Test_C28_145_SimpleStringOnce_Byte(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("200")
+	s := corestr.New.SimpleStringOnce.Init("200")
 	if s.Byte() != 200 {
 		t.Error("expected 200")
 	}
 }
 
 func Test_C28_146_SimpleStringOnce_Byte_OutOfRange(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("300")
+	s := corestr.New.SimpleStringOnce.Init("300")
 	if s.Byte() != 0 {
 		t.Error("expected 0")
 	}
 }
 
 func Test_C28_147_SimpleStringOnce_Byte_Error(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("abc")
+	s := corestr.New.SimpleStringOnce.Init("abc")
 	if s.Byte() != 0 {
 		t.Error("expected 0")
 	}
 }
 
 func Test_C28_148_SimpleStringOnce_Int16(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("100")
+	s := corestr.New.SimpleStringOnce.Init("100")
 	if s.Int16() != 100 {
 		t.Error("expected 100")
 	}
 }
 
 func Test_C28_149_SimpleStringOnce_Int16_OutOfRange(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("40000")
+	s := corestr.New.SimpleStringOnce.Init("40000")
 	if s.Int16() != 0 {
 		t.Error("expected 0")
 	}
 }
 
 func Test_C28_150_SimpleStringOnce_Int32(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("1000")
+	s := corestr.New.SimpleStringOnce.Init("1000")
 	if s.Int32() != 1000 {
 		t.Error("expected 1000")
 	}
 }
 
 func Test_C28_151_SimpleStringOnce_Int32_OutOfRange(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("3000000000")
+	s := corestr.New.SimpleStringOnce.Init("3000000000")
 	if s.Int32() != 0 {
 		t.Error("expected 0")
 	}
 }
 
 func Test_C28_152_SimpleStringOnce_BooleanDefault(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("true")
+	s := corestr.New.SimpleStringOnce.Init("true")
 	if !s.BooleanDefault() {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_153_SimpleStringOnce_Boolean_Yes(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("yes")
+	s := corestr.New.SimpleStringOnce.Init("yes")
 	if !s.Boolean(false) {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_154_SimpleStringOnce_Boolean_Y(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("y")
+	s := corestr.New.SimpleStringOnce.Init("y")
 	if !s.Boolean(false) {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_155_SimpleStringOnce_Boolean_1(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("1")
+	s := corestr.New.SimpleStringOnce.Init("1")
 	if !s.Boolean(false) {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_156_SimpleStringOnce_Boolean_YES(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("YES")
+	s := corestr.New.SimpleStringOnce.Init("YES")
 	if !s.Boolean(false) {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_157_SimpleStringOnce_Boolean_CapY(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("Y")
+	s := corestr.New.SimpleStringOnce.Init("Y")
 	if !s.Boolean(false) {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_158_SimpleStringOnce_Boolean_Bad(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("xyz")
+	s := corestr.New.SimpleStringOnce.Init("xyz")
 	if s.Boolean(false) {
 		t.Error("expected false")
 	}
@@ -1309,7 +1309,7 @@ func Test_C28_159_SimpleStringOnce_Boolean_ConsiderInit_Uninit(t *testing.T) {
 }
 
 func Test_C28_160_SimpleStringOnce_IsSetter(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("yes")
+	s := corestr.New.SimpleStringOnce.Init("yes")
 	sv := s.IsSetter(false)
 	if !sv.IsTrue() {
 		t.Error("expected true")
@@ -1325,96 +1325,96 @@ func Test_C28_161_SimpleStringOnce_IsSetter_False(t *testing.T) {
 }
 
 func Test_C28_162_SimpleStringOnce_IsSetter_Bad(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("xyz")
+	s := corestr.New.SimpleStringOnce.Init("xyz")
 	sv := s.IsSetter(false)
 	_ = sv
 }
 
 func Test_C28_163_SimpleStringOnce_ValueInt(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("42")
+	s := corestr.New.SimpleStringOnce.Init("42")
 	if s.ValueInt(0) != 42 {
 		t.Error("expected 42")
 	}
 }
 
 func Test_C28_164_SimpleStringOnce_ValueDefInt(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("10")
+	s := corestr.New.SimpleStringOnce.Init("10")
 	if s.ValueDefInt() != 10 {
 		t.Error("expected 10")
 	}
 }
 
 func Test_C28_165_SimpleStringOnce_ValueByte(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("200")
+	s := corestr.New.SimpleStringOnce.Init("200")
 	if s.ValueByte(0) != 200 {
 		t.Error("expected 200")
 	}
 }
 
 func Test_C28_166_SimpleStringOnce_ValueByte_Overflow(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("300")
+	s := corestr.New.SimpleStringOnce.Init("300")
 	if s.ValueByte(99) != 99 {
 		t.Error("expected 99")
 	}
 }
 
 func Test_C28_167_SimpleStringOnce_ValueDefByte(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("100")
+	s := corestr.New.SimpleStringOnce.Init("100")
 	if s.ValueDefByte() != 100 {
 		t.Error("expected 100")
 	}
 }
 
 func Test_C28_168_SimpleStringOnce_ValueFloat64(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("3.14")
+	s := corestr.New.SimpleStringOnce.Init("3.14")
 	if s.ValueFloat64(0) != 3.14 {
 		t.Error("expected 3.14")
 	}
 }
 
 func Test_C28_169_SimpleStringOnce_ValueFloat64_Error(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("abc")
+	s := corestr.New.SimpleStringOnce.Init("abc")
 	if s.ValueFloat64(1.0) != 1.0 {
 		t.Error("expected 1.0")
 	}
 }
 
 func Test_C28_170_SimpleStringOnce_ValueDefFloat64(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("2.5")
+	s := corestr.New.SimpleStringOnce.Init("2.5")
 	if s.ValueDefFloat64() != 2.5 {
 		t.Error("expected 2.5")
 	}
 }
 
 func Test_C28_171_SimpleStringOnce_NonPtr(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	np := s.NonPtr()
 	_ = np
 }
 
 func Test_C28_172_SimpleStringOnce_Ptr(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	if s.Ptr() != s {
 		t.Error("expected same")
 	}
 }
 
 func Test_C28_173_SimpleStringOnce_HasSafeNonEmpty(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("x")
+	s := corestr.New.SimpleStringOnce.Init("x")
 	if !s.HasSafeNonEmpty() {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_174_SimpleStringOnce_Is(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	if !s.Is("hello") {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_175_SimpleStringOnce_IsAnyOf(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("b")
+	s := corestr.New.SimpleStringOnce.Init("b")
 	if !s.IsAnyOf("a", "b", "c") {
 		t.Error("expected true")
 	}
@@ -1427,14 +1427,14 @@ func Test_C28_175_SimpleStringOnce_IsAnyOf(t *testing.T) {
 }
 
 func Test_C28_176_SimpleStringOnce_IsContains(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello world")
+	s := corestr.New.SimpleStringOnce.Init("hello world")
 	if !s.IsContains("world") {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_177_SimpleStringOnce_IsAnyContains(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello world")
+	s := corestr.New.SimpleStringOnce.Init("hello world")
 	if !s.IsAnyContains("xyz", "world") {
 		t.Error("expected true")
 	}
@@ -1444,14 +1444,14 @@ func Test_C28_177_SimpleStringOnce_IsAnyContains(t *testing.T) {
 }
 
 func Test_C28_178_SimpleStringOnce_IsEqualNonSensitive(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("Hello")
+	s := corestr.New.SimpleStringOnce.Init("Hello")
 	if !s.IsEqualNonSensitive("hello") {
 		t.Error("expected true")
 	}
 }
 
 func Test_C28_179_SimpleStringOnce_IsRegexMatches(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("abc123")
+	s := corestr.New.SimpleStringOnce.Init("abc123")
 	re := regexp.MustCompile(`\d+`)
 	if !s.IsRegexMatches(re) {
 		t.Error("expected true")
@@ -1462,7 +1462,7 @@ func Test_C28_179_SimpleStringOnce_IsRegexMatches(t *testing.T) {
 }
 
 func Test_C28_180_SimpleStringOnce_RegexFindString(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("abc123")
+	s := corestr.New.SimpleStringOnce.Init("abc123")
 	re := regexp.MustCompile(`\d+`)
 	if s.RegexFindString(re) != "123" {
 		t.Error("expected 123")
@@ -1473,7 +1473,7 @@ func Test_C28_180_SimpleStringOnce_RegexFindString(t *testing.T) {
 }
 
 func Test_C28_181_SimpleStringOnce_RegexFindAllStringsWithFlag(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a1b2c3")
+	s := corestr.New.SimpleStringOnce.Init("a1b2c3")
 	re := regexp.MustCompile(`\d`)
 	items, has := s.RegexFindAllStringsWithFlag(re, -1)
 	if !has || len(items) != 3 {
@@ -1486,7 +1486,7 @@ func Test_C28_181_SimpleStringOnce_RegexFindAllStringsWithFlag(t *testing.T) {
 }
 
 func Test_C28_182_SimpleStringOnce_RegexFindAllStrings(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a1b2")
+	s := corestr.New.SimpleStringOnce.Init("a1b2")
 	re := regexp.MustCompile(`\d`)
 	items := s.RegexFindAllStrings(re, -1)
 	if len(items) != 2 {
@@ -1499,7 +1499,7 @@ func Test_C28_182_SimpleStringOnce_RegexFindAllStrings(t *testing.T) {
 }
 
 func Test_C28_183_SimpleStringOnce_LinesSimpleSlice(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a\nb")
+	s := corestr.New.SimpleStringOnce.Init("a\nb")
 	sl := s.LinesSimpleSlice()
 	if sl.Length() != 2 {
 		t.Error("expected 2")
@@ -1507,7 +1507,7 @@ func Test_C28_183_SimpleStringOnce_LinesSimpleSlice(t *testing.T) {
 }
 
 func Test_C28_184_SimpleStringOnce_SimpleSlice(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a,b,c")
+	s := corestr.New.SimpleStringOnce.Init("a,b,c")
 	sl := s.SimpleSlice(",")
 	if sl.Length() != 3 {
 		t.Error("expected 3")
@@ -1515,7 +1515,7 @@ func Test_C28_184_SimpleStringOnce_SimpleSlice(t *testing.T) {
 }
 
 func Test_C28_185_SimpleStringOnce_Split(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a,b")
+	s := corestr.New.SimpleStringOnce.Init("a,b")
 	sp := s.Split(",")
 	if len(sp) != 2 {
 		t.Error("expected 2")
@@ -1523,7 +1523,7 @@ func Test_C28_185_SimpleStringOnce_Split(t *testing.T) {
 }
 
 func Test_C28_186_SimpleStringOnce_SplitLeftRight(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("key=value")
+	s := corestr.New.SimpleStringOnce.Init("key=value")
 	left, right := s.SplitLeftRight("=")
 	if left != "key" || right != "value" {
 		t.Error("expected key, value")
@@ -1531,7 +1531,7 @@ func Test_C28_186_SimpleStringOnce_SplitLeftRight(t *testing.T) {
 }
 
 func Test_C28_187_SimpleStringOnce_SplitLeftRight_NoSep(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("nosep")
+	s := corestr.New.SimpleStringOnce.Init("nosep")
 	left, right := s.SplitLeftRight("=")
 	if left != "nosep" || right != "" {
 		t.Error("expected nosep, empty")
@@ -1539,7 +1539,7 @@ func Test_C28_187_SimpleStringOnce_SplitLeftRight_NoSep(t *testing.T) {
 }
 
 func Test_C28_188_SimpleStringOnce_SplitLeftRightTrim(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default(" key = value ")
+	s := corestr.New.SimpleStringOnce.Init(" key = value ")
 	left, right := s.SplitLeftRightTrim("=")
 	if left != "key" || right != "value" {
 		t.Error("expected trimmed key, value")
@@ -1547,7 +1547,7 @@ func Test_C28_188_SimpleStringOnce_SplitLeftRightTrim(t *testing.T) {
 }
 
 func Test_C28_189_SimpleStringOnce_SplitLeftRightTrim_NoSep(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default(" nosep ")
+	s := corestr.New.SimpleStringOnce.Init(" nosep ")
 	left, right := s.SplitLeftRightTrim("=")
 	if left != "nosep" || right != "" {
 		t.Error("expected trimmed nosep, empty")
@@ -1555,19 +1555,19 @@ func Test_C28_189_SimpleStringOnce_SplitLeftRightTrim_NoSep(t *testing.T) {
 }
 
 func Test_C28_190_SimpleStringOnce_SplitNonEmpty(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a,,b")
+	s := corestr.New.SimpleStringOnce.Init("a,,b")
 	sp := s.SplitNonEmpty(",")
 	_ = sp
 }
 
 func Test_C28_191_SimpleStringOnce_SplitTrimNonWhitespace(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("a , b , c")
+	s := corestr.New.SimpleStringOnce.Init("a , b , c")
 	sp := s.SplitTrimNonWhitespace(",")
 	_ = sp
 }
 
 func Test_C28_192_SimpleStringOnce_ClonePtr(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	c := s.ClonePtr()
 	if c.Value() != "hello" {
 		t.Error("expected hello")
@@ -1582,7 +1582,7 @@ func Test_C28_193_SimpleStringOnce_ClonePtr_Nil(t *testing.T) {
 }
 
 func Test_C28_194_SimpleStringOnce_Clone(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	c := s.Clone()
 	if c.Value() != "hello" {
 		t.Error("expected hello")
@@ -1590,7 +1590,7 @@ func Test_C28_194_SimpleStringOnce_Clone(t *testing.T) {
 }
 
 func Test_C28_195_SimpleStringOnce_CloneUsingNewVal(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	c := s.CloneUsingNewVal("world")
 	if c.Value() != "world" {
 		t.Error("expected world")
@@ -1598,7 +1598,7 @@ func Test_C28_195_SimpleStringOnce_CloneUsingNewVal(t *testing.T) {
 }
 
 func Test_C28_196_SimpleStringOnce_Dispose(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hello")
+	s := corestr.New.SimpleStringOnce.Init("hello")
 	s.Dispose()
 }
 
@@ -1608,7 +1608,7 @@ func Test_C28_197_SimpleStringOnce_Dispose_Nil(t *testing.T) {
 }
 
 func Test_C28_198_SimpleStringOnce_String(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hi")
+	s := corestr.New.SimpleStringOnce.Init("hi")
 	if s.String() != "hi" {
 		t.Error("expected hi")
 	}
@@ -1622,7 +1622,7 @@ func Test_C28_199_SimpleStringOnce_String_Nil(t *testing.T) {
 }
 
 func Test_C28_200_SimpleStringOnce_StringPtr(t *testing.T) {
-	s := corestr.New.SimpleStringOnce.Default("hi")
+	s := corestr.New.SimpleStringOnce.Init("hi")
 	if *s.StringPtr() != "hi" {
 		t.Error("expected hi")
 	}
