@@ -14,11 +14,11 @@ import (
 
 // --- CountStateChangeTracker ---
 
-type mockLengthGetter struct {
+type cov14MockLengthGetter struct {
 	length int
 }
 
-func (m *mockLengthGetter) Length() int {
+func (m *cov14MockLengthGetter) Length() int {
 	return m.length
 }
 

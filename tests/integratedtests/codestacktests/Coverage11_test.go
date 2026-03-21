@@ -7,59 +7,48 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 )
 
-// ── newTraceCollection.Default ──
-// Covers newTraceCollection.go L13-15
+// ── TraceCollection via StackTrace ──
 
 func Test_Cov11_TraceCollection_Default(t *testing.T) {
-	// Arrange & Act
-	tc := codestack.New.TraceCollection.Default()
+	// Arrange & Act — use exported StackTrace to get a TraceCollection
+	tc := codestack.New.StackTrace.Default()
 
 	// Assert
-	actual := args.Map{"notNil": tc != nil, "length": tc.Length()}
-	expected := args.Map{"notNil": true, "length": 0}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Default creates empty collection", actual)
+	actual := args.Map{"hasItems": tc.Length() > 0}
+	expected := args.Map{"hasItems": true}
+	expected.ShouldBeEqual(t, 0, "StackTrace Default returns non-empty collection", actual)
 }
 
-// ── newTraceCollection.Using with nil traces ──
-// Covers newTraceCollection.go L21-23
-
-func Test_Cov11_TraceCollection_Using_NilTraces(t *testing.T) {
-	// Arrange & Act
-	tc := codestack.New.TraceCollection.Using(false, nil...)
+func Test_Cov11_TraceCollection_Empty(t *testing.T) {
+	// Arrange & Act — use zero-value TraceCollection
+	tc := codestack.TraceCollection{}
 
 	// Assert
-	actual := args.Map{"notNil": tc != nil, "length": tc.Length()}
-	expected := args.Map{"notNil": true, "length": 0}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Using nil traces returns empty", actual)
+	actual := args.Map{"length": tc.Length()}
+	expected := args.Map{"length": 0}
+	expected.ShouldBeEqual(t, 0, "TraceCollection zero-value returns empty -- default", actual)
 }
 
-// ── newTraceCollection.Using with clone=true ──
-// Covers newTraceCollection.go L33-35
-
-func Test_Cov11_TraceCollection_Using_Clone(t *testing.T) {
-	// Arrange — create some traces
-	traces := []codestack.Trace{
-		{},
-		{},
-	}
+func Test_Cov11_TraceCollection_Add(t *testing.T) {
+	// Arrange
+	tc := codestack.TraceCollection{}
+	trace := codestack.New.Default()
 
 	// Act
-	tc := codestack.New.TraceCollection.Using(true, traces...)
+	tc.Add(trace)
 
 	// Assert
-	actual := args.Map{"notNil": tc != nil, "length": tc.Length()}
-	expected := args.Map{"notNil": true, "length": 2}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Using clone copies traces", actual)
+	actual := args.Map{"length": tc.Length()}
+	expected := args.Map{"length": 1}
+	expected.ShouldBeEqual(t, 0, "TraceCollection Add increases length -- single trace", actual)
 }
 
-// ── GetSinglePageCollection: pageIndex=0 triggers negative skipItems panic ──
-// Covers TraceCollection.go L419-426
-
 func Test_Cov11_GetSinglePageCollection_ZeroPagePanic(t *testing.T) {
-	// Arrange — create collection with items
-	tc := codestack.New.TraceCollection.Default()
-	traces := []codestack.Trace{{}, {}, {}}
-	tc.Adds(traces...)
+	// Arrange
+	tc := codestack.TraceCollection{}
+	tc.Add(codestack.New.Default())
+	tc.Add(codestack.New.Default())
+	tc.Add(codestack.New.Default())
 
 	// Act
 	didPanic := false
@@ -69,11 +58,11 @@ func Test_Cov11_GetSinglePageCollection_ZeroPagePanic(t *testing.T) {
 				didPanic = true
 			}
 		}()
-		tc.GetSinglePageCollection(2, 0) // pageIndex=0 → skipItems = 2*(0-1) = -2 → panic
+		tc.GetSinglePageCollection(2, 0)
 	}()
 
 	// Assert
 	actual := args.Map{"didPanic": didPanic}
 	expected := args.Map{"didPanic": true}
-	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection panics on zero pageIndex", actual)
+	expected.ShouldBeEqual(t, 0, "GetSinglePageCollection panics -- zero pageIndex", actual)
 }

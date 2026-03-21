@@ -643,7 +643,7 @@ func Test_I25_DynamicReflect_ReflectSetTo_Nil(t *testing.T) {
 func Test_I25_DynamicReflect_ConvertUsingFunc(t *testing.T) {
 	d := coredynamic.NewDynamic("hello", true)
 	converter := func(in any, typeMust reflect.Type) *coredynamic.SimpleResult {
-		return coredynamic.NewSimpleResult(in, true)
+		return coredynamic.NewSimpleResult(in, true, "")
 	}
 	result := d.ConvertUsingFunc(converter, reflect.TypeOf(""))
 	actual := args.Map{"valid": result.IsValid()}
