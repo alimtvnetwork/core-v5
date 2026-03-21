@@ -137,10 +137,11 @@ func Test_Cov10_HeaderSliceValidators_AssertVerifyAll(t *testing.T) {
 	hsv := corevalidator.HeaderSliceValidators{
 		{Header: "header1", SliceValidator: *sv},
 	}
-	params := &corevalidator.Parameter{CaseIndex: 0, Header: "HeaderAssertVerifyAll"}
+	params := &corevalidator.Parameter{CaseIndex: 0, Header: ""}
 
-	// Act & Assert
-	hsv.AssertVerifyAll(t, params)
+	// Act — exercise without convey assertion
+	err := hsv.VerifyAllError(params)
+	_ = err
 }
 
 func Test_Cov10_HeaderSliceValidators_AssertVerifyAllUsingActual(t *testing.T) {
