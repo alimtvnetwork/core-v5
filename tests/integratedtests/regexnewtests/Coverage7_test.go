@@ -17,7 +17,7 @@ func Test_Cov7_LazyRegex_Compile_Valid(t *testing.T) {
 	re, err := lr.Compile()
 	actual := args.Map{"notNil": re != nil, "noErr": err == nil}
 	expected := args.Map{"notNil": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Compile valid", actual)
+	expected.ShouldBeEqual(t, 0, "Compile returns non-empty -- valid", actual)
 }
 
 func Test_Cov7_LazyRegex_Compile_Invalid(t *testing.T) {
@@ -25,21 +25,21 @@ func Test_Cov7_LazyRegex_Compile_Invalid(t *testing.T) {
 	re, err := lr.Compile()
 	actual := args.Map{"nil": re == nil, "hasErr": err != nil}
 	expected := args.Map{"nil": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Compile invalid", actual)
+	expected.ShouldBeEqual(t, 0, "Compile returns error -- invalid", actual)
 }
 
 func Test_Cov7_LazyRegex_IsMatch_True(t *testing.T) {
 	lr := regexnew.New.LazyLock(`^cov7m\d+$`)
 	actual := args.Map{"v": lr.IsMatch("cov7m123")}
 	expected := args.Map{"v": true}
-	expected.ShouldBeEqual(t, 0, "IsMatch true", actual)
+	expected.ShouldBeEqual(t, 0, "IsMatch returns correct value -- true", actual)
 }
 
 func Test_Cov7_LazyRegex_IsMatch_False(t *testing.T) {
 	lr := regexnew.New.LazyLock(`^cov7m\d+$`)
 	actual := args.Map{"v": lr.IsMatch("notmatch")}
 	expected := args.Map{"v": false}
-	expected.ShouldBeEqual(t, 0, "IsMatch false", actual)
+	expected.ShouldBeEqual(t, 0, "IsMatch returns correct value -- false", actual)
 }
 
 func Test_Cov7_LazyRegex_MatchError_Valid(t *testing.T) {
@@ -47,7 +47,7 @@ func Test_Cov7_LazyRegex_MatchError_Valid(t *testing.T) {
 	err := lr.MatchError("cov7me123")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchError valid", actual)
+	expected.ShouldBeEqual(t, 0, "MatchError returns error -- valid", actual)
 }
 
 func Test_Cov7_LazyRegex_MatchError_NoMatch(t *testing.T) {
@@ -55,7 +55,7 @@ func Test_Cov7_LazyRegex_MatchError_NoMatch(t *testing.T) {
 	err := lr.MatchError("notmatch")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchError no match", actual)
+	expected.ShouldBeEqual(t, 0, "MatchError returns empty -- no match", actual)
 }
 
 func Test_Cov7_LazyRegex_MatchError_Undefined(t *testing.T) {
@@ -63,7 +63,7 @@ func Test_Cov7_LazyRegex_MatchError_Undefined(t *testing.T) {
 	err := lr.MatchError("test")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchError undefined", actual)
+	expected.ShouldBeEqual(t, 0, "MatchError returns error -- undefined", actual)
 }
 
 func Test_Cov7_LazyRegex_MatchUsingFuncError_Undefined(t *testing.T) {
@@ -73,14 +73,14 @@ func Test_Cov7_LazyRegex_MatchUsingFuncError_Undefined(t *testing.T) {
 	})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchUsingFuncError undefined", actual)
+	expected.ShouldBeEqual(t, 0, "MatchUsingFuncError returns error -- undefined", actual)
 }
 
 func Test_Cov7_LazyRegex_IsMatch_Undefined(t *testing.T) {
 	lr := regexnew.New.Lazy("")
 	actual := args.Map{"v": lr.IsMatch("test")}
 	expected := args.Map{"v": false}
-	expected.ShouldBeEqual(t, 0, "IsMatch undefined", actual)
+	expected.ShouldBeEqual(t, 0, "IsMatch returns correct value -- undefined", actual)
 }
 
 func Test_Cov7_LazyRegex_CompileMust_Valid(t *testing.T) {
@@ -88,7 +88,7 @@ func Test_Cov7_LazyRegex_CompileMust_Valid(t *testing.T) {
 	re := lr.CompileMust()
 	actual := args.Map{"notNil": re != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "CompileMust valid", actual)
+	expected.ShouldBeEqual(t, 0, "CompileMust returns non-empty -- valid", actual)
 }
 
 func Test_Cov7_LazyRegex_CompileMust_Panic(t *testing.T) {
@@ -104,7 +104,7 @@ func Test_Cov7_LazyRegex_CompileMust_Panic(t *testing.T) {
 	}()
 	actual := args.Map{"panicked": panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "CompileMust panic", actual)
+	expected.ShouldBeEqual(t, 0, "CompileMust panics -- panic", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -118,7 +118,7 @@ func Test_Cov7_MatchUsingCustomizeErrorFuncLock_InvalidRegex(t *testing.T) {
 	)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "CustomErrLock invalid regex", actual)
+	expected.ShouldBeEqual(t, 0, "CustomErrLock returns error -- invalid regex", actual)
 }
 
 func Test_Cov7_MatchUsingCustomizeErrorFuncLock_Valid(t *testing.T) {
@@ -128,7 +128,7 @@ func Test_Cov7_MatchUsingCustomizeErrorFuncLock_Valid(t *testing.T) {
 	)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "CustomErrLock valid", actual)
+	expected.ShouldBeEqual(t, 0, "CustomErrLock returns error -- valid", actual)
 }
 
 func Test_Cov7_MatchUsingCustomizeErrorFuncLock_NoMatch(t *testing.T) {
@@ -138,7 +138,7 @@ func Test_Cov7_MatchUsingCustomizeErrorFuncLock_NoMatch(t *testing.T) {
 	)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "CustomErrLock no match", actual)
+	expected.ShouldBeEqual(t, 0, "CustomErrLock returns empty -- no match", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -151,7 +151,7 @@ func Test_Cov7_MatchUsingFuncErrorLock_Valid(t *testing.T) {
 	)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchUsingFuncErrorLock valid", actual)
+	expected.ShouldBeEqual(t, 0, "MatchUsingFuncErrorLock returns error -- valid", actual)
 }
 
 func Test_Cov7_MatchUsingFuncErrorLock_Invalid(t *testing.T) {
@@ -160,7 +160,7 @@ func Test_Cov7_MatchUsingFuncErrorLock_Invalid(t *testing.T) {
 	)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchUsingFuncErrorLock invalid", actual)
+	expected.ShouldBeEqual(t, 0, "MatchUsingFuncErrorLock returns error -- invalid", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -173,7 +173,7 @@ func Test_Cov7_LazyRegex_FullString_Valid(t *testing.T) {
 	s := lr.FullString()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "FullString valid", actual)
+	expected.ShouldBeEqual(t, 0, "FullString returns non-empty -- valid", actual)
 }
 
 func Test_Cov7_LazyRegex_FullString_Invalid(t *testing.T) {
@@ -181,7 +181,7 @@ func Test_Cov7_LazyRegex_FullString_Invalid(t *testing.T) {
 	s := lr.FullString()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "FullString invalid pattern", actual)
+	expected.ShouldBeEqual(t, 0, "FullString returns error -- invalid pattern", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -195,5 +195,5 @@ func Test_Cov7_LazyRegex_MatchUsingFuncError_FuncReturnsFalse(t *testing.T) {
 	})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "MatchUsingFuncError func returns false", actual)
+	expected.ShouldBeEqual(t, 0, "MatchUsingFuncError returns error -- func returns false", actual)
 }

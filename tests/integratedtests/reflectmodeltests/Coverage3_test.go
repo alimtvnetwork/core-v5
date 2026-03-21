@@ -24,7 +24,7 @@ func Test_Cov3_ReflectValueKind_InvalidModel(t *testing.T) {
 		"hasError": true, "isEmptyErr": false,
 		"errMsg": "test error",
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValueKind InvalidModel", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueKind returns error -- InvalidModel", actual)
 }
 
 func Test_Cov3_ReflectValueKind_Nil(t *testing.T) {
@@ -45,7 +45,7 @@ func Test_Cov3_ReflectValueKind_Nil(t *testing.T) {
 		"pkgPath": "", "typeName": "",
 		"pointerRv": true, "pointerInf": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValueKind nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueKind returns nil -- nil receiver", actual)
 }
 
 func Test_Cov3_ReflectValueKind_Valid(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_Cov3_ReflectValueKind_Valid(t *testing.T) {
 		"hasError": false, "actual": "hello",
 		"pkgPathEmp": true, "typeName": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValueKind valid", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueKind returns non-empty -- valid", actual)
 }
 
 func Test_Cov3_ReflectValueKind_PointerRv_Invalid(t *testing.T) {
@@ -80,7 +80,7 @@ func Test_Cov3_ReflectValueKind_PointerRv_Invalid(t *testing.T) {
 	rv := rvk.PointerRv()
 	actual := args.Map{"notNil": rv != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "ReflectValueKind PointerRv invalid", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueKind returns error -- PointerRv invalid", actual)
 }
 
 // ── ReflectValue ──
@@ -102,7 +102,7 @@ func Test_Cov3_ReflectValue_Fields(t *testing.T) {
 		"typeName": "TestType", "fieldsLen": 2,
 		"methodsLen": 1, "rawData": "raw",
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValue fields", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValue returns correct value -- fields", actual)
 }
 
 // ── FieldProcessor ──
@@ -116,7 +116,7 @@ func Test_Cov3_FieldProcessor_Nil(t *testing.T) {
 	expected := args.Map{
 		"isFieldType": false, "isFieldKind": false,
 	}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor nil", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor returns nil -- nil", actual)
 }
 
 func Test_Cov3_FieldProcessor_Valid(t *testing.T) {
@@ -134,7 +134,7 @@ func Test_Cov3_FieldProcessor_Valid(t *testing.T) {
 	expected := args.Map{
 		"isFieldType": true, "isFieldKind": true, "wrongKind": false,
 	}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor valid", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor returns non-empty -- valid", actual)
 }
 
 // ── MethodProcessor ──
@@ -151,7 +151,7 @@ func Test_Cov3_MethodProcessor_Nil(t *testing.T) {
 		"isInvalid": true, "hasValidFunc": false,
 		"func": true, "returnLen": -1,
 	}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- nil", actual)
 }
 
 func Test_Cov3_MethodProcessor_IsEqual_BothNil(t *testing.T) {
@@ -161,21 +161,21 @@ func Test_Cov3_MethodProcessor_IsEqual_BothNil(t *testing.T) {
 		"notEqual": mp1.IsNotEqual(mp2),
 	}
 	expected := args.Map{"equal": true, "notEqual": false}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor IsEqual both nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- IsEqual both nil", actual)
 }
 
 func Test_Cov3_MethodProcessor_IsEqual_OneNil(t *testing.T) {
 	mp := &reflectmodel.MethodProcessor{Name: "Test"}
 	actual := args.Map{"equal": mp.IsEqual(nil)}
 	expected := args.Map{"equal": false}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor IsEqual one nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- IsEqual one nil", actual)
 }
 
 func Test_Cov3_MethodProcessor_GetType_Invalid(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{"isNil": mp.GetType() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor GetType nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- GetType nil", actual)
 }
 
 func Test_Cov3_MethodProcessor_GetInOutArgsTypes_Invalid(t *testing.T) {
@@ -186,5 +186,5 @@ func Test_Cov3_MethodProcessor_GetInOutArgsTypes_Invalid(t *testing.T) {
 		"inNamesLen":  len(mp.GetInArgsTypesNames()),
 	}
 	expected := args.Map{"inLen": 0, "outLen": 0, "inNamesLen": 0}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor GetInOutArgsTypes nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- GetInOutArgsTypes nil", actual)
 }

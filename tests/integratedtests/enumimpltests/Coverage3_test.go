@@ -36,7 +36,7 @@ func Test_Cov3_BasicByte_Create_Default(t *testing.T) {
 		"length":       3,
 		"count":        3,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_Create_Default", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_Create_Default returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_IsAnyOf(t *testing.T) {
@@ -56,7 +56,7 @@ func Test_Cov3_BasicByte_IsAnyOf(t *testing.T) {
 		"isAnyMatch":  true,
 		"isAnyNoMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_IsAnyOf returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_IsAnyNamesOf(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_Cov3_BasicByte_IsAnyNamesOf(t *testing.T) {
 		"matchName":   true,
 		"noMatchName": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_GetValueByString(t *testing.T) {
@@ -90,7 +90,7 @@ func Test_Cov3_BasicByte_GetValueByString(t *testing.T) {
 	expected := args.Map{
 		"byName": byte(1),
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_GetValueByString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_GetValueByString returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_GetValueByName(t *testing.T) {
@@ -113,7 +113,7 @@ func Test_Cov3_BasicByte_GetValueByName(t *testing.T) {
 		"noErr":    true,
 		"hasError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_GetValueByName returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_GetStringValue(t *testing.T) {
@@ -129,7 +129,7 @@ func Test_Cov3_BasicByte_GetStringValue(t *testing.T) {
 	expected := args.Map{
 		"val": "Invalid",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_GetStringValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_GetStringValue returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_Ranges(t *testing.T) {
@@ -145,7 +145,7 @@ func Test_Cov3_BasicByte_Ranges(t *testing.T) {
 	expected := args.Map{
 		"rangesLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_Ranges returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_Hashmap(t *testing.T) {
@@ -166,7 +166,7 @@ func Test_Cov3_BasicByte_Hashmap(t *testing.T) {
 		"hmHasItems":    true,
 		"hmPtrNotNil":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_Hashmap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_Hashmap returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_ToEnumJsonBytes(t *testing.T) {
@@ -189,7 +189,7 @@ func Test_Cov3_BasicByte_ToEnumJsonBytes(t *testing.T) {
 		"noErr":     true,
 		"notFound":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_ToEnumJsonBytes", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_ToEnumJsonBytes returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_AppendPrependJoinValue(t *testing.T) {
@@ -207,7 +207,7 @@ func Test_Cov3_BasicByte_AppendPrependJoinValue(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_AppendPrependJoinValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_AppendPrependJoinValue returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_ToNumberString(t *testing.T) {
@@ -223,7 +223,7 @@ func Test_Cov3_BasicByte_ToNumberString(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_ToNumberString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_ToNumberString returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_UnmarshallToValue(t *testing.T) {
@@ -260,7 +260,7 @@ func Test_Cov3_BasicByte_UnmarshallToValue(t *testing.T) {
 		"validVal":     byte(1),
 		"validNoErr":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_UnmarshallToValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_UnmarshallToValue returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_EnumType(t *testing.T) {
@@ -276,7 +276,7 @@ func Test_Cov3_BasicByte_EnumType(t *testing.T) {
 	expected := args.Map{
 		"enumType": "Byte",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_EnumType", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_EnumType returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_AsBasicByter(t *testing.T) {
@@ -294,7 +294,7 @@ func Test_Cov3_BasicByte_AsBasicByter(t *testing.T) {
 	expected := args.Map{
 		"notNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_AsBasicByter", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_AsBasicByter returns correct value -- with args", actual)
 }
 
 // ── BasicByte with alias map ──
@@ -317,7 +317,7 @@ func Test_Cov3_BasicByte_WithAliasMap(t *testing.T) {
 		"aliasVal": byte(1),
 		"noErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_WithAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_WithAliasMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov3_BasicByte_AllCases(t *testing.T) {
@@ -337,7 +337,7 @@ func Test_Cov3_BasicByte_AllCases(t *testing.T) {
 		"lowerVal": byte(1),
 		"noErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_AllCases", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_AllCases returns correct value -- with args", actual)
 }
 
 // ── numberEnumBase methods via BasicByte ──
@@ -359,7 +359,7 @@ func Test_Cov3_NumberEnumBase_MinMaxAny(t *testing.T) {
 		"min": byte(0),
 		"max": byte(1),
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_MinMaxAny", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_MinMaxAny returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_ValueStrings(t *testing.T) {
@@ -387,7 +387,7 @@ func Test_Cov3_NumberEnumBase_ValueStrings(t *testing.T) {
 		"rangesInvalid": true,
 		"rangesErr":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_ValueStrings", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_ValueStrings returns non-empty -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_StringRanges(t *testing.T) {
@@ -407,7 +407,7 @@ func Test_Cov3_NumberEnumBase_StringRanges(t *testing.T) {
 		"strRangesPtrLen": 2,
 		"namesHashLen":    2,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_StringRanges", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_StringRanges returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_DynamicMap(t *testing.T) {
@@ -428,7 +428,7 @@ func Test_Cov3_NumberEnumBase_DynamicMap(t *testing.T) {
 		"dmLen":  2,
 		"dm2Len": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_DynamicMap", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_DynamicMap returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_IntegerEnumRanges(t *testing.T) {
@@ -446,7 +446,7 @@ func Test_Cov3_NumberEnumBase_IntegerEnumRanges(t *testing.T) {
 	expected := args.Map{
 		"len": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_IntegerEnumRanges", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_IntegerEnumRanges returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_AllNameValues(t *testing.T) {
@@ -464,7 +464,7 @@ func Test_Cov3_NumberEnumBase_AllNameValues(t *testing.T) {
 	expected := args.Map{
 		"len": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_AllNameValues", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_AllNameValues returns non-empty -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_KeyAnyValues(t *testing.T) {
@@ -485,7 +485,7 @@ func Test_Cov3_NumberEnumBase_KeyAnyValues(t *testing.T) {
 		"kavLen": 2,
 		"kviLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_KeyAnyValues", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_KeyAnyValues returns non-empty -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_Loop(t *testing.T) {
@@ -515,7 +515,7 @@ func Test_Cov3_NumberEnumBase_Loop(t *testing.T) {
 		"loopCount":    2,
 		"intLoopCount": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_Loop", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_Loop returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_LoopBreak(t *testing.T) {
@@ -537,7 +537,7 @@ func Test_Cov3_NumberEnumBase_LoopBreak(t *testing.T) {
 	expected := args.Map{
 		"breakCount": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_LoopBreak", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_LoopBreak returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_Format(t *testing.T) {
@@ -555,7 +555,7 @@ func Test_Cov3_NumberEnumBase_Format(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_Format", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_Format returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_NameWithValue(t *testing.T) {
@@ -579,7 +579,7 @@ func Test_Cov3_NumberEnumBase_NameWithValue(t *testing.T) {
 		"nvOpt":   true,
 		"nvOptNo": true,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_NameWithValue", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_NameWithValue returns non-empty -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_RangesMap(t *testing.T) {
@@ -600,7 +600,7 @@ func Test_Cov3_NumberEnumBase_RangesMap(t *testing.T) {
 		"rmLen":   2,
 		"rismLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_RangesMap", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_RangesMap returns correct value -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_OnlySupportedErr(t *testing.T) {
@@ -624,7 +624,7 @@ func Test_Cov3_NumberEnumBase_OnlySupportedErr(t *testing.T) {
 		"hasErr": true,
 		"msgErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_OnlySupportedErr", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_OnlySupportedErr returns error -- with args", actual)
 }
 
 func Test_Cov3_NumberEnumBase_JsonString(t *testing.T) {
@@ -648,7 +648,7 @@ func Test_Cov3_NumberEnumBase_JsonString(t *testing.T) {
 		"es": true,
 		"tn": true,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_JsonString returns correct value -- with args", actual)
 }
 
 // ── BasicString ──
@@ -677,7 +677,7 @@ func Test_Cov3_BasicString_Create(t *testing.T) {
 		"isValidActive": true,
 		"isValidBad":    false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_Create", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_Create returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_IsAnyOf(t *testing.T) {
@@ -696,7 +696,7 @@ func Test_Cov3_BasicString_IsAnyOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_IsAnyOf returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_IsAnyNamesOf(t *testing.T) {
@@ -713,7 +713,7 @@ func Test_Cov3_BasicString_IsAnyNamesOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_GetNameByIndex(t *testing.T) {
@@ -730,7 +730,7 @@ func Test_Cov3_BasicString_GetNameByIndex(t *testing.T) {
 		"valid":   "Active",
 		"invalid": "",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_GetNameByIndex", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_GetNameByIndex returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_GetIndexByName(t *testing.T) {
@@ -749,7 +749,7 @@ func Test_Cov3_BasicString_GetIndexByName(t *testing.T) {
 		"empty":   -1,
 		"missing": -1,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_GetIndexByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_GetIndexByName returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_Ranges(t *testing.T) {
@@ -772,7 +772,7 @@ func Test_Cov3_BasicString_Ranges(t *testing.T) {
 		"integersLen": 2,
 		"nameIdxLen":  len(bs.NameWithIndexMap()),
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_Ranges returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_GetValueByName(t *testing.T) {
@@ -794,7 +794,7 @@ func Test_Cov3_BasicString_GetValueByName(t *testing.T) {
 		"noErr":    true,
 		"hasError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_GetValueByName returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_ToEnumJsonBytes(t *testing.T) {
@@ -816,7 +816,7 @@ func Test_Cov3_BasicString_ToEnumJsonBytes(t *testing.T) {
 		"noErr":     true,
 		"errOnBad":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_ToEnumJsonBytes", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_ToEnumJsonBytes returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_UnmarshallToValue(t *testing.T) {
@@ -848,7 +848,7 @@ func Test_Cov3_BasicString_UnmarshallToValue(t *testing.T) {
 		"validVal":    "Active",
 		"validErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_UnmarshallToValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_UnmarshallToValue returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_EnumType(t *testing.T) {
@@ -863,7 +863,7 @@ func Test_Cov3_BasicString_EnumType(t *testing.T) {
 	expected := args.Map{
 		"enumType": "String",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_EnumType", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_EnumType returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_AppendPrependJoinValue(t *testing.T) {
@@ -880,7 +880,7 @@ func Test_Cov3_BasicString_AppendPrependJoinValue(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_AppendPrependJoinValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_AppendPrependJoinValue returns correct value -- with args", actual)
 }
 
 func Test_Cov3_BasicString_OnlySupportedErr(t *testing.T) {
@@ -903,7 +903,7 @@ func Test_Cov3_BasicString_OnlySupportedErr(t *testing.T) {
 		"hasErr": true,
 		"msgErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_OnlySupportedErr", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_OnlySupportedErr returns error -- with args", actual)
 }
 
 // ── differCheckerImpl ──
@@ -920,7 +920,7 @@ func Test_Cov3_DifferChecker_GetSingleDiffResult(t *testing.T) {
 		"left":  "L",
 		"right": "R",
 	}
-	expected.ShouldBeEqual(t, 0, "DifferChecker_GetSingleDiffResult", actual)
+	expected.ShouldBeEqual(t, 0, "DifferChecker_GetSingleDiffResult returns correct value -- with args", actual)
 }
 
 func Test_Cov3_DifferChecker_GetResultOnKeyMissing(t *testing.T) {
@@ -932,7 +932,7 @@ func Test_Cov3_DifferChecker_GetResultOnKeyMissing(t *testing.T) {
 	expected := args.Map{
 		"result": "val",
 	}
-	expected.ShouldBeEqual(t, 0, "DifferChecker_GetResultOnKeyMissing", actual)
+	expected.ShouldBeEqual(t, 0, "DifferChecker_GetResultOnKeyMissing returns correct value -- with args", actual)
 }
 
 func Test_Cov3_DifferChecker_IsEqual(t *testing.T) {
@@ -948,7 +948,7 @@ func Test_Cov3_DifferChecker_IsEqual(t *testing.T) {
 		"strictSame":     true,
 		"strictDiff":     false,
 	}
-	expected.ShouldBeEqual(t, 0, "DifferChecker_IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "DifferChecker_IsEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov3_DifferChecker_AsDifferChecker(t *testing.T) {
@@ -960,7 +960,7 @@ func Test_Cov3_DifferChecker_AsDifferChecker(t *testing.T) {
 	expected := args.Map{
 		"notNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "DifferChecker_AsDifferChecker", actual)
+	expected.ShouldBeEqual(t, 0, "DifferChecker_AsDifferChecker returns correct value -- with args", actual)
 }
 
 // ── leftRightDiffCheckerImpl ──
@@ -974,7 +974,7 @@ func Test_Cov3_LeftRightDiffChecker_GetSingleDiffResult(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_GetSingleDiffResult", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_GetSingleDiffResult returns correct value -- with args", actual)
 }
 
 func Test_Cov3_LeftRightDiffChecker_GetResultOnKeyMissing(t *testing.T) {
@@ -986,7 +986,7 @@ func Test_Cov3_LeftRightDiffChecker_GetResultOnKeyMissing(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_GetResultOnKeyMissing", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_GetResultOnKeyMissing returns correct value -- with args", actual)
 }
 
 func Test_Cov3_LeftRightDiffChecker_IsEqual(t *testing.T) {
@@ -998,7 +998,7 @@ func Test_Cov3_LeftRightDiffChecker_IsEqual(t *testing.T) {
 		"same": true,
 		"diff": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_IsEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov3_LeftRightDiffChecker_AsChecker(t *testing.T) {
@@ -1010,7 +1010,7 @@ func Test_Cov3_LeftRightDiffChecker_AsChecker(t *testing.T) {
 	expected := args.Map{
 		"notNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_AsChecker", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_AsChecker returns correct value -- with args", actual)
 }
 
 // ── FormatUsingFmt ──
@@ -1030,7 +1030,7 @@ func Test_Cov3_FormatUsingFmt(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "FormatUsingFmt", actual)
+	expected.ShouldBeEqual(t, 0, "FormatUsingFmt returns correct value -- with args", actual)
 }
 
 // ── ConvEnumAnyValToInteger additional branches ──
@@ -1045,7 +1045,7 @@ func Test_Cov3_ConvEnumAnyValToInteger_Byte(t *testing.T) {
 	expected := args.Map{
 		"isPositive": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ConvEnumAnyValToInteger_Byte", actual)
+	expected.ShouldBeEqual(t, 0, "ConvEnumAnyValToInteger_Byte returns correct value -- with args", actual)
 }
 
 // ── BasicByte via CreateUsingMap ──
@@ -1064,7 +1064,7 @@ func Test_Cov3_BasicByte_CreateUsingMap(t *testing.T) {
 		"typeName": "testEnum",
 		"length":   2,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_CreateUsingMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_CreateUsingMap returns correct value -- with args", actual)
 }
 
 // ── BasicByte ExpectingEnumValueError ──
@@ -1090,7 +1090,7 @@ func Test_Cov3_BasicByte_ExpectingEnumValueError(t *testing.T) {
 		"mismatchErr": true,
 		"parseErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicByte_ExpectingEnumValueError", actual)
+	expected.ShouldBeEqual(t, 0, "BasicByte_ExpectingEnumValueError returns error -- with args", actual)
 }
 
 // ── NamesHashset empty ──
@@ -1108,5 +1108,5 @@ func Test_Cov3_NumberEnumBase_NamesHashsetEmpty(t *testing.T) {
 	expected := args.Map{
 		"len": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "numberEnumBase_NamesHashsetEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "numberEnumBase_NamesHashsetEmpty returns empty -- with args", actual)
 }

@@ -14,14 +14,14 @@ func Test_Cov6_Clone_NonEmpty(t *testing.T) {
 	result := stringslice.Clone([]string{"a", "b"})
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 2, "first": "a"}
-	expected.ShouldBeEqual(t, 0, "Clone non-empty", actual)
+	expected.ShouldBeEqual(t, 0, "Clone returns empty -- non-empty", actual)
 }
 
 func Test_Cov6_Clone_Empty(t *testing.T) {
 	result := stringslice.Clone(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Clone nil", actual)
+	expected.ShouldBeEqual(t, 0, "Clone returns nil -- nil", actual)
 }
 
 // ── FirstLastDefault ──
@@ -30,21 +30,21 @@ func Test_Cov6_FirstLastDefault_SingleElement(t *testing.T) {
 	first, last := stringslice.FirstLastDefault([]string{"only"})
 	actual := args.Map{"first": first, "last": last}
 	expected := args.Map{"first": "only", "last": ""}
-	expected.ShouldBeEqual(t, 0, "FirstLastDefault single element", actual)
+	expected.ShouldBeEqual(t, 0, "FirstLastDefault returns correct value -- single element", actual)
 }
 
 func Test_Cov6_FirstLastDefault_Empty(t *testing.T) {
 	first, last := stringslice.FirstLastDefault(nil)
 	actual := args.Map{"first": first, "last": last}
 	expected := args.Map{"first": "", "last": ""}
-	expected.ShouldBeEqual(t, 0, "FirstLastDefault empty", actual)
+	expected.ShouldBeEqual(t, 0, "FirstLastDefault returns empty -- empty", actual)
 }
 
 func Test_Cov6_FirstLastDefault_Multi(t *testing.T) {
 	first, last := stringslice.FirstLastDefault([]string{"a", "b", "c"})
 	actual := args.Map{"first": first, "last": last}
 	expected := args.Map{"first": "a", "last": "c"}
-	expected.ShouldBeEqual(t, 0, "FirstLastDefault multi", actual)
+	expected.ShouldBeEqual(t, 0, "FirstLastDefault returns correct value -- multi", actual)
 }
 
 // ── SafeIndexAt ──
@@ -62,7 +62,7 @@ func Test_Cov6_SafeIndexAt(t *testing.T) {
 		"at0": "a", "at2": "c",
 		"atNeg": "", "atOutBound": "", "emptySlice": "",
 	}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAt", actual)
+	expected.ShouldBeEqual(t, 0, "SafeIndexAt returns correct value -- with args", actual)
 }
 
 // ── NonEmptyJoin ──
@@ -79,7 +79,7 @@ func Test_Cov6_NonEmptyJoin(t *testing.T) {
 	expected := args.Map{
 		"result": "a,b", "nilResult": "", "emptyRes": "",
 	}
-	expected.ShouldBeEqual(t, 0, "NonEmptyJoin", actual)
+	expected.ShouldBeEqual(t, 0, "NonEmptyJoin returns empty -- with args", actual)
 }
 
 // ── MergeNew ──
@@ -92,7 +92,7 @@ func Test_Cov6_MergeNew(t *testing.T) {
 		"emptyLen": len(resultEmpty),
 	}
 	expected := args.Map{"len": 3, "emptyLen": 1}
-	expected.ShouldBeEqual(t, 0, "MergeNew", actual)
+	expected.ShouldBeEqual(t, 0, "MergeNew returns correct value -- with args", actual)
 }
 
 // ── InPlaceReverse ──
@@ -102,7 +102,7 @@ func Test_Cov6_InPlaceReverse(t *testing.T) {
 	result := stringslice.InPlaceReverse(&slice)
 	actual := args.Map{"first": (*result)[0], "last": (*result)[3]}
 	expected := args.Map{"first": "d", "last": "a"}
-	expected.ShouldBeEqual(t, 0, "InPlaceReverse 4 elements", actual)
+	expected.ShouldBeEqual(t, 0, "InPlaceReverse returns correct value -- 4 elements", actual)
 }
 
 func Test_Cov6_InPlaceReverse_Two(t *testing.T) {
@@ -110,7 +110,7 @@ func Test_Cov6_InPlaceReverse_Two(t *testing.T) {
 	result := stringslice.InPlaceReverse(&slice)
 	actual := args.Map{"first": (*result)[0], "last": (*result)[1]}
 	expected := args.Map{"first": "b", "last": "a"}
-	expected.ShouldBeEqual(t, 0, "InPlaceReverse 2 elements", actual)
+	expected.ShouldBeEqual(t, 0, "InPlaceReverse returns correct value -- 2 elements", actual)
 }
 
 func Test_Cov6_InPlaceReverse_SingleAndNil(t *testing.T) {
@@ -122,7 +122,7 @@ func Test_Cov6_InPlaceReverse_SingleAndNil(t *testing.T) {
 		"nilLen":      len(*r2),
 	}
 	expected := args.Map{"singleFirst": "only", "nilLen": 0}
-	expected.ShouldBeEqual(t, 0, "InPlaceReverse single and nil", actual)
+	expected.ShouldBeEqual(t, 0, "InPlaceReverse returns nil -- single and nil", actual)
 }
 
 // ── SortIf ──
@@ -136,7 +136,7 @@ func Test_Cov6_SortIf(t *testing.T) {
 		"notSortedFirst": notSorted[0],
 	}
 	expected := args.Map{"sortedFirst": "a", "notSortedFirst": "c"}
-	expected.ShouldBeEqual(t, 0, "SortIf", actual)
+	expected.ShouldBeEqual(t, 0, "SortIf returns correct value -- with args", actual)
 }
 
 // ── ExpandByFunc ──
@@ -148,14 +148,14 @@ func Test_Cov6_ExpandByFunc(t *testing.T) {
 	)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 4}
-	expected.ShouldBeEqual(t, 0, "ExpandByFunc", actual)
+	expected.ShouldBeEqual(t, 0, "ExpandByFunc returns correct value -- with args", actual)
 }
 
 func Test_Cov6_ExpandByFunc_Empty(t *testing.T) {
 	result := stringslice.ExpandByFunc(nil, func(line string) []string { return nil })
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "ExpandByFunc empty", actual)
+	expected.ShouldBeEqual(t, 0, "ExpandByFunc returns empty -- empty", actual)
 }
 
 // ── AllElemLengthSlices ──
@@ -168,14 +168,14 @@ func Test_Cov6_AllElemLengthSlices(t *testing.T) {
 	)
 	actual := args.Map{"total": result}
 	expected := args.Map{"total": 3}
-	expected.ShouldBeEqual(t, 0, "AllElemLengthSlices", actual)
+	expected.ShouldBeEqual(t, 0, "AllElemLengthSlices returns correct value -- with args", actual)
 }
 
 func Test_Cov6_AllElemLengthSlices_Empty(t *testing.T) {
 	result := stringslice.AllElemLengthSlices()
 	actual := args.Map{"total": result}
 	expected := args.Map{"total": 0}
-	expected.ShouldBeEqual(t, 0, "AllElemLengthSlices empty", actual)
+	expected.ShouldBeEqual(t, 0, "AllElemLengthSlices returns empty -- empty", actual)
 }
 
 // ── PrependLineNew ──
@@ -184,7 +184,7 @@ func Test_Cov6_PrependLineNew(t *testing.T) {
 	result := stringslice.PrependLineNew("first", []string{"second", "third"})
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 3, "first": "first"}
-	expected.ShouldBeEqual(t, 0, "PrependLineNew", actual)
+	expected.ShouldBeEqual(t, 0, "PrependLineNew returns correct value -- with args", actual)
 }
 
 // ── AppendLineNew ──
@@ -193,5 +193,5 @@ func Test_Cov6_AppendLineNew(t *testing.T) {
 	result := stringslice.AppendLineNew([]string{"a", "b"}, "c")
 	actual := args.Map{"len": len(result), "last": result[2]}
 	expected := args.Map{"len": 3, "last": "c"}
-	expected.ShouldBeEqual(t, 0, "AppendLineNew", actual)
+	expected.ShouldBeEqual(t, 0, "AppendLineNew returns correct value -- with args", actual)
 }

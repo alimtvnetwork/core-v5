@@ -20,7 +20,7 @@ func Test_Cov4_Attributes_IsEqual(t *testing.T) {
 		"nilNonNil": nilA.IsEqual(a1),
 	}
 	expected := args.Map{"equal": true, "self": true, "nilNil": true, "nilNonNil": false}
-	expected.ShouldBeEqual(t, 0, "Attributes IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Attributes returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov4_Attributes_Clone(t *testing.T) {
@@ -38,7 +38,7 @@ func Test_Cov4_Attributes_Clone(t *testing.T) {
 		"noErr": true, "len": true, "deepNoErr": true, "deepLen": true,
 		"nilClone": true, "nilErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Attributes Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Attributes returns correct value -- Clone", actual)
 }
 
 func Test_Cov4_Attributes_Getters(t *testing.T) {
@@ -101,7 +101,7 @@ func Test_Cov4_Attributes_Getters(t *testing.T) {
 		"isUserInfoEmpty": true, "isAuthInfoEmpty": true, "isSessionInfoEmpty": true,
 		"hasUserInfo": false, "hasAuthInfo": false, "hasSessionInfo": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Attributes Getters", actual)
+	expected.ShouldBeEqual(t, 0, "Attributes returns correct value -- Getters", actual)
 }
 
 func Test_Cov4_Attributes_GetStringKeyValue(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_Cov4_Attributes_GetStringKeyValue(t *testing.T) {
 	_, nilFound := nilA.GetStringKeyValue("x")
 	actual := args.Map{"found": found, "nilFound": nilFound}
 	expected := args.Map{"found": false, "nilFound": false}
-	expected.ShouldBeEqual(t, 0, "Attributes GetStringKeyValue", actual)
+	expected.ShouldBeEqual(t, 0, "Attributes returns correct value -- GetStringKeyValue", actual)
 }
 
 func Test_Cov4_Attributes_IsErrorEqual(t *testing.T) {
@@ -121,7 +121,7 @@ func Test_Cov4_Attributes_IsErrorEqual(t *testing.T) {
 		"differentNil": a.IsErrorDifferent(nil),
 	}
 	expected := args.Map{"equalNil": true, "differentNil": false}
-	expected.ShouldBeEqual(t, 0, "Attributes IsErrorEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Attributes returns error -- IsErrorEqual", actual)
 }
 
 // ── PagingInfo ──
@@ -151,7 +151,7 @@ func Test_Cov4_PagingInfo(t *testing.T) {
 		"invalidTotal": false, "invalidCurr": false, "invalidPer": false, "invalidTotalI": false,
 		"cloneTotalP": 5, "clonePtrNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "PagingInfo", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo returns correct value -- with args", actual)
 }
 
 // ── SessionInfo ──
@@ -179,7 +179,7 @@ func Test_Cov4_SessionInfo(t *testing.T) {
 		"idInt": 42, "idUint": uint(42), "cloneId": "42",
 		"nilEmpty": true, "nilClone": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SessionInfo", actual)
+	expected.ShouldBeEqual(t, 0, "SessionInfo returns correct value -- with args", actual)
 }
 
 // ── AuthInfo ──
@@ -214,7 +214,7 @@ func Test_Cov4_AuthInfo(t *testing.T) {
 		"idInt": 42, "idUint": uint(42),
 		"str": true, "pretty": true, "nilEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- with args", actual)
 }
 
 func Test_Cov4_AuthInfo_Setters(t *testing.T) {
@@ -242,7 +242,7 @@ func Test_Cov4_AuthInfo_Setters(t *testing.T) {
 		"idNotNil": true, "sessionNotNil": true, "sysUserNotNil": true,
 		"setUserNotNil": true, "setSysNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo Setters", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- Setters", actual)
 }
 
 func Test_Cov4_AuthInfo_Clone(t *testing.T) {
@@ -254,7 +254,7 @@ func Test_Cov4_AuthInfo_Clone(t *testing.T) {
 		"nilClone": nilA.ClonePtr() == nil,
 	}
 	expected := args.Map{"action": "login", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "AuthInfo Clone", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- Clone", actual)
 }
 
 // ── TypedPayloadWrapper ──
@@ -294,7 +294,7 @@ func Test_Cov4_TypedPayloadWrapper(t *testing.T) {
 		"hasItems": true, "isEmpty": false, "hasSafe": true,
 		"hasError": false, "err": true, "str": true, "pretty": true, "jsonStr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- with args", actual)
 }
 
 func Test_Cov4_TypedPayloadWrapper_Nil(t *testing.T) {
@@ -321,7 +321,7 @@ func Test_Cov4_TypedPayloadWrapper_Nil(t *testing.T) {
 		"hasMany": false, "isEmpty": true, "hasError": false, "err": true,
 		"str": "", "pretty": "", "jsonStr": "", "isParsed": false, "attrs": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns nil -- Nil", actual)
 }
 
 func Test_Cov4_TypedPayloadWrapper_JSON(t *testing.T) {
@@ -337,7 +337,7 @@ func Test_Cov4_TypedPayloadWrapper_JSON(t *testing.T) {
 		"name": typed2.Data().Name,
 	}
 	expected := args.Map{"noErr": true, "noErr2": true, "name": "alice"}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper JSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- JSON", actual)
 }
 
 func Test_Cov4_TypedPayloadWrapper_Serialize(t *testing.T) {
@@ -348,7 +348,7 @@ func Test_Cov4_TypedPayloadWrapper_Serialize(t *testing.T) {
 	bytes, err := typed.Serialize()
 	actual := args.Map{"noErr": err == nil, "notEmpty": len(bytes) > 0}
 	expected := args.Map{"noErr": true, "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "TypedPayloadWrapper returns correct value -- Serialize", actual)
 }
 
 // ── PayloadCreateInstructionTypeStringer ──
@@ -364,7 +364,7 @@ func Test_Cov4_PayloadCreateInstructionTypeStringer(t *testing.T) {
 	result := ms.PayloadCreateInstruction()
 	actual := args.Map{"name": result.Name}
 	expected := args.Map{"name": "test"}
-	expected.ShouldBeEqual(t, 0, "PayloadCreateInstructionTypeStringer", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadCreateInstructionTypeStringer returns correct value -- with args", actual)
 }
 
 // ── Empty creator ──
@@ -384,5 +384,5 @@ func Test_Cov4_EmptyCreator(t *testing.T) {
 		"attrsNotNil": true, "attrsDefHasKV": false,
 		"pwNotNil": true, "pcNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "EmptyCreator", actual)
+	expected.ShouldBeEqual(t, 0, "EmptyCreator returns empty -- with args", actual)
 }

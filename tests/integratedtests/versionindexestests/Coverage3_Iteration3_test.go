@@ -23,5 +23,5 @@ func Test_Cov3_JsonParseSelfInject_HasError(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "JsonParseSelfInject HasError branch", actual)
+	expected.ShouldBeEqual(t, 0, "JsonParseSelfInject returns error -- HasError branch", actual)
 }

@@ -31,7 +31,7 @@ func Test_Cov_Key_Default_Compile(t *testing.T) {
 		"name":        key.Compile(),
 		"keyCompiled": key.Compile(),
 	}
-	expected.ShouldBeEqual(t, 0, "Key Default Compile", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- Default Compile", actual)
 }
 
 func Test_Cov_Key_CompileDefault(t *testing.T) {
@@ -39,7 +39,7 @@ func Test_Cov_Key_CompileDefault(t *testing.T) {
 	result := key.CompileDefault()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key CompileDefault", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- CompileDefault", actual)
 }
 
 func Test_Cov_Key_Nil(t *testing.T) {
@@ -51,14 +51,14 @@ func Test_Cov_Key_Nil(t *testing.T) {
 		"hasIn":     key.HasInChains("x"),
 	}
 	expected := args.Map{"length": 0, "keyChains": true, "allRaw": true, "hasIn": false}
-	expected.ShouldBeEqual(t, 0, "Key nil", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns nil -- nil", actual)
 }
 
 func Test_Cov_Key_ClonePtr_Nil(t *testing.T) {
 	var key *keymk.Key
 	actual := args.Map{"isNil": key.ClonePtr() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "Key ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns nil -- ClonePtr nil", actual)
 }
 
 func Test_Cov_Key_AppendChainStrings(t *testing.T) {
@@ -66,7 +66,7 @@ func Test_Cov_Key_AppendChainStrings(t *testing.T) {
 	key.AppendChainStrings("a", "b")
 	actual := args.Map{"length": key.Length()}
 	expected := args.Map{"length": 2}
-	expected.ShouldBeEqual(t, 0, "Key AppendChainStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- AppendChainStrings", actual)
 }
 
 func Test_Cov_Key_AppendChainStrings_SkipEmpty(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_Cov_Key_AppendChainStrings_SkipEmpty(t *testing.T) {
 	key.AppendChainStrings("", "b")
 	actual := args.Map{"length": key.Length()}
 	expected := args.Map{"length": 2}
-	expected.ShouldBeEqual(t, 0, "Key AppendChainStrings skip empty", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns empty -- AppendChainStrings skip empty", actual)
 }
 
 func Test_Cov_Key_AppendChainKeys(t *testing.T) {
@@ -83,7 +83,7 @@ func Test_Cov_Key_AppendChainKeys(t *testing.T) {
 	key1.AppendChainKeys(key2, nil)
 	actual := args.Map{"length": key1.Length()}
 	expected := args.Map{"length": 3}
-	expected.ShouldBeEqual(t, 0, "Key AppendChainKeys", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- AppendChainKeys", actual)
 }
 
 func Test_Cov_Key_AppendChainKeys_Empty(t *testing.T) {
@@ -91,7 +91,7 @@ func Test_Cov_Key_AppendChainKeys_Empty(t *testing.T) {
 	result := key.AppendChainKeys()
 	actual := args.Map{"length": result.Length()}
 	expected := args.Map{"length": 1}
-	expected.ShouldBeEqual(t, 0, "Key AppendChainKeys empty", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns empty -- AppendChainKeys empty", actual)
 }
 
 func Test_Cov_Key_HasInChains(t *testing.T) {
@@ -101,7 +101,7 @@ func Test_Cov_Key_HasInChains(t *testing.T) {
 		"hasC":    key.HasInChains("c"),
 	}
 	expected := args.Map{"hasA": true, "hasC": false}
-	expected.ShouldBeEqual(t, 0, "Key HasInChains", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- HasInChains", actual)
 }
 
 func Test_Cov_Key_ConcatNewUsingKeys(t *testing.T) {
@@ -110,7 +110,7 @@ func Test_Cov_Key_ConcatNewUsingKeys(t *testing.T) {
 	result := key1.ConcatNewUsingKeys(key2)
 	actual := args.Map{"length": result.Length(), "originalLen": key1.Length()}
 	expected := args.Map{"length": 3, "originalLen": 1}
-	expected.ShouldBeEqual(t, 0, "Key ConcatNewUsingKeys", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- ConcatNewUsingKeys", actual)
 }
 
 func Test_Cov_Key_ClonePtr(t *testing.T) {
@@ -118,21 +118,21 @@ func Test_Cov_Key_ClonePtr(t *testing.T) {
 	cloned := key.ClonePtr("b")
 	actual := args.Map{"clonedLen": cloned.Length(), "originalLen": key.Length()}
 	expected := args.Map{"clonedLen": 2, "originalLen": 1}
-	expected.ShouldBeEqual(t, 0, "Key ClonePtr", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- ClonePtr", actual)
 }
 
 func Test_Cov_Key_Strings(t *testing.T) {
 	key := keymk.NewKey.Default("root", "a", "b")
 	actual := args.Map{"len": len(key.Strings())}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Key Strings", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- Strings", actual)
 }
 
 func Test_Cov_Key_CompiledChain_NotComplete(t *testing.T) {
 	key := keymk.NewKey.Default("root")
 	actual := args.Map{"result": key.CompiledChain()}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "Key CompiledChain not complete", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- CompiledChain not complete", actual)
 }
 
 // ── Finalized ──
@@ -145,7 +145,7 @@ func Test_Cov_Key_Finalized(t *testing.T) {
 		"compiledChain": key.CompiledChain() != "",
 	}
 	expected := args.Map{"isComplete": true, "compiledChain": true}
-	expected.ShouldBeEqual(t, 0, "Key Finalized", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- Finalized", actual)
 }
 
 func Test_Cov_Key_Finalized_Compile_Additional(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_Cov_Key_Finalized_Compile_Additional(t *testing.T) {
 	result := key.Compile("extra")
 	actual := args.Map{"notEmpty": result != "", "containsExtra": len(result) > len(key.CompiledChain())}
 	expected := args.Map{"notEmpty": true, "containsExtra": true}
-	expected.ShouldBeEqual(t, 0, "Key Finalized Compile with extra", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns non-empty -- Finalized Compile with extra", actual)
 }
 
 func Test_Cov_Key_Finalized_CompileStrings_Additional(t *testing.T) {
@@ -163,7 +163,7 @@ func Test_Cov_Key_Finalized_CompileStrings_Additional(t *testing.T) {
 	result := key.CompileStrings("extra")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key Finalized CompileStrings with extra", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns non-empty -- Finalized CompileStrings with extra", actual)
 }
 
 func Test_Cov_Key_Finalized_Compile_NoAdditional(t *testing.T) {
@@ -172,7 +172,7 @@ func Test_Cov_Key_Finalized_Compile_NoAdditional(t *testing.T) {
 	result := key.Compile()
 	actual := args.Map{"result": result, "chain": key.CompiledChain()}
 	expected := args.Map{"result": key.CompiledChain(), "chain": key.CompiledChain()}
-	expected.ShouldBeEqual(t, 0, "Key Finalized Compile no additional", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns empty -- Finalized Compile no additional", actual)
 }
 
 // ── CompileKeys ──
@@ -183,7 +183,7 @@ func Test_Cov_Key_CompileKeys(t *testing.T) {
 	result := key1.CompileKeys(key2, nil)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key CompileKeys", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- CompileKeys", actual)
 }
 
 func Test_Cov_Key_CompileKeys_Empty(t *testing.T) {
@@ -191,7 +191,7 @@ func Test_Cov_Key_CompileKeys_Empty(t *testing.T) {
 	result := key.CompileKeys()
 	actual := args.Map{"result": result, "compile": key.Compile()}
 	expected := args.Map{"result": key.Compile(), "compile": key.Compile()}
-	expected.ShouldBeEqual(t, 0, "Key CompileKeys empty", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns empty -- CompileKeys empty", actual)
 }
 
 // ── CompileReplaceCurlyKeyMap ──
@@ -201,7 +201,7 @@ func Test_Cov_Key_CompileReplaceCurlyKeyMap(t *testing.T) {
 	result := key.CompileReplaceCurlyKeyMap(map[string]string{"name": "test", "id": "42"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key CompileReplaceCurlyKeyMap", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- CompileReplaceCurlyKeyMap", actual)
 }
 
 func Test_Cov_Key_CompileReplaceMapUsingItemsOption_NoCurly(t *testing.T) {
@@ -209,7 +209,7 @@ func Test_Cov_Key_CompileReplaceMapUsingItemsOption_NoCurly(t *testing.T) {
 	result := key.CompileReplaceMapUsingItemsOption(false, map[string]string{"NAME": "test"})
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key CompileReplaceMap no curly", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns empty -- CompileReplaceMap no curly", actual)
 }
 
 func Test_Cov_Key_CompileReplaceMapUsingItemsOption_EmptyMap(t *testing.T) {
@@ -217,7 +217,7 @@ func Test_Cov_Key_CompileReplaceMapUsingItemsOption_EmptyMap(t *testing.T) {
 	result := key.CompileReplaceMapUsingItemsOption(true, map[string]string{})
 	actual := args.Map{"result": result, "compile": key.Compile()}
 	expected := args.Map{"result": key.Compile(), "compile": key.Compile()}
-	expected.ShouldBeEqual(t, 0, "Key CompileReplaceMap empty map", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns empty -- CompileReplaceMap empty map", actual)
 }
 
 // ── JoinUsingJoiner / JoinUsingOption ──
@@ -227,7 +227,7 @@ func Test_Cov_Key_JoinUsingJoiner(t *testing.T) {
 	result := key.JoinUsingJoiner("/")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key JoinUsingJoiner", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- JoinUsingJoiner", actual)
 }
 
 func Test_Cov_Key_JoinUsingOption(t *testing.T) {
@@ -235,7 +235,7 @@ func Test_Cov_Key_JoinUsingOption(t *testing.T) {
 	result := key.JoinUsingOption(keymk.CurlyBracePathJoinerOption, "b")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key JoinUsingOption", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- JoinUsingOption", actual)
 }
 
 // ── IntRange / IntRangeEnding ──
@@ -245,7 +245,7 @@ func Test_Cov_Key_IntRange(t *testing.T) {
 	result := key.IntRange(1, 3)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Key IntRange", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- IntRange", actual)
 }
 
 func Test_Cov_Key_IntRangeEnding(t *testing.T) {
@@ -253,7 +253,7 @@ func Test_Cov_Key_IntRangeEnding(t *testing.T) {
 	result := key.IntRangeEnding(2)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Key IntRangeEnding", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- IntRangeEnding", actual)
 }
 
 // ── JSON ──
@@ -264,7 +264,7 @@ func Test_Cov_Key_JsonString(t *testing.T) {
 	notEmpty := result != ""
 	actual := args.Map{"notEmpty": notEmpty}
 	expected := args.Map{"notEmpty": notEmpty}
-	expected.ShouldBeEqual(t, 0, "Key JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- JsonString", actual)
 }
 
 func Test_Cov_Key_MarshalUnmarshalJSON(t *testing.T) {
@@ -279,7 +279,7 @@ func Test_Cov_Key_MarshalUnmarshalJSON(t *testing.T) {
 		"mainName":  key2.MainName(),
 	}
 	expected := args.Map{"noErr": true, "noErr2": true, "notEmpty": true, "mainName": "root"}
-	expected.ShouldBeEqual(t, 0, "Key MarshalUnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- MarshalUnmarshalJSON", actual)
 }
 
 func Test_Cov_Key_UnmarshalJSON_Invalid(t *testing.T) {
@@ -287,7 +287,7 @@ func Test_Cov_Key_UnmarshalJSON_Invalid(t *testing.T) {
 	err := key.UnmarshalJSON([]byte(`invalid`))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Key UnmarshalJSON invalid", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns error -- UnmarshalJSON invalid", actual)
 }
 
 func Test_Cov_Key_Serialize(t *testing.T) {
@@ -295,7 +295,7 @@ func Test_Cov_Key_Serialize(t *testing.T) {
 	data, err := key.Serialize()
 	actual := args.Map{"noErr": err == nil, "notEmpty": len(data) > 0}
 	expected := args.Map{"noErr": true, "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- Serialize", actual)
 }
 
 func Test_Cov_Key_Json(t *testing.T) {
@@ -304,7 +304,7 @@ func Test_Cov_Key_Json(t *testing.T) {
 	notEmpty := j.JsonString() != ""
 	actual := args.Map{"notEmpty": notEmpty}
 	expected := args.Map{"notEmpty": notEmpty}
-	expected.ShouldBeEqual(t, 0, "Key Json", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- Json", actual)
 }
 
 func Test_Cov_Key_JsonPtr(t *testing.T) {
@@ -312,7 +312,7 @@ func Test_Cov_Key_JsonPtr(t *testing.T) {
 	j := key.JsonPtr()
 	actual := args.Map{"notNil": j != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Key JsonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- JsonPtr", actual)
 }
 
 func Test_Cov_Key_JsonModel(t *testing.T) {
@@ -320,14 +320,14 @@ func Test_Cov_Key_JsonModel(t *testing.T) {
 	model := key.JsonModel()
 	actual := args.Map{"mainName": model.MainName}
 	expected := args.Map{"mainName": "root"}
-	expected.ShouldBeEqual(t, 0, "Key JsonModel", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- JsonModel", actual)
 }
 
 func Test_Cov_Key_JsonModelAny(t *testing.T) {
 	key := keymk.NewKey.Default("root")
 	actual := args.Map{"notNil": key.JsonModelAny() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Key JsonModelAny", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- JsonModelAny", actual)
 }
 
 func Test_Cov_Key_Contracts(t *testing.T) {
@@ -342,7 +342,7 @@ func Test_Cov_Key_Contracts(t *testing.T) {
 		"jsonBinder": true, "jsoner": true,
 		"selfInjector": true, "jsonMarshaller": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Key contracts", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns correct value -- contracts", actual)
 }
 
 // ── TemplateReplacer ──
@@ -353,7 +353,7 @@ func Test_Cov_Key_TemplateReplacer_IntRange(t *testing.T) {
 	result := tr.IntRange(false, "id", 1, 3)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "TemplateReplacer IntRange", actual)
+	expected.ShouldBeEqual(t, 0, "TemplateReplacer returns correct value -- IntRange", actual)
 }
 
 func Test_Cov_Key_TemplateReplacer_RequestIntRange(t *testing.T) {
@@ -363,7 +363,7 @@ func Test_Cov_Key_TemplateReplacer_RequestIntRange(t *testing.T) {
 	result := tr.RequestIntRange(false, req)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "TemplateReplacer RequestIntRange", actual)
+	expected.ShouldBeEqual(t, 0, "TemplateReplacer returns correct value -- RequestIntRange", actual)
 }
 
 // ── Factory methods ──
@@ -391,21 +391,21 @@ func Test_Cov_NewKey_Factories(t *testing.T) {
 		"pathTemplate": "r", "pathTemplateDef": true,
 		"optionMain": "r",
 	}
-	expected.ShouldBeEqual(t, 0, "NewKey factories", actual)
+	expected.ShouldBeEqual(t, 0, "NewKey returns correct value -- factories", actual)
 }
 
 func Test_Cov_NewKey_AllStrings(t *testing.T) {
 	key := keymk.NewKey.AllStrings(keymk.JoinerOption, "root", "a", "b")
 	actual := args.Map{"mainName": key.MainName(), "len": key.Length()}
 	expected := args.Map{"mainName": "root", "len": 2}
-	expected.ShouldBeEqual(t, 0, "NewKey AllStrings", actual)
+	expected.ShouldBeEqual(t, 0, "NewKey returns correct value -- AllStrings", actual)
 }
 
 func Test_Cov_NewKey_StringsWithOptions(t *testing.T) {
 	key := keymk.NewKey.StringsWithOptions(keymk.JoinerOption, "root", "a")
 	actual := args.Map{"mainName": key.MainName(), "len": key.Length()}
 	expected := args.Map{"mainName": "root", "len": 1}
-	expected.ShouldBeEqual(t, 0, "NewKey StringsWithOptions", actual)
+	expected.ShouldBeEqual(t, 0, "NewKey returns non-empty -- StringsWithOptions", actual)
 }
 
 // ── Option ──
@@ -415,21 +415,21 @@ func Test_Cov_Option_Clone(t *testing.T) {
 	cloned := opt.Clone()
 	actual := args.Map{"joiner": cloned.Joiner}
 	expected := args.Map{"joiner": opt.Joiner}
-	expected.ShouldBeEqual(t, 0, "Option Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Option returns correct value -- Clone", actual)
 }
 
 func Test_Cov_Option_ClonePtr_Nil(t *testing.T) {
 	var opt *keymk.Option
 	actual := args.Map{"isNil": opt.ClonePtr() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "Option ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "Option returns nil -- ClonePtr nil", actual)
 }
 
 func Test_Cov_Option_IsAddEntryRegardlessOfEmptiness_Nil(t *testing.T) {
 	var opt *keymk.Option
 	actual := args.Map{"result": opt.IsAddEntryRegardlessOfEmptiness()}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "Option IsAddEntry nil", actual)
+	expected.ShouldBeEqual(t, 0, "Option returns nil -- IsAddEntry nil", actual)
 }
 
 // ── Brackets Key ──
@@ -439,5 +439,5 @@ func Test_Cov_Key_Brackets(t *testing.T) {
 	result := key.Compile()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Key with brackets", actual)
+	expected.ShouldBeEqual(t, 0, "Key returns non-empty -- with brackets", actual)
 }

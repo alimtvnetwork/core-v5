@@ -40,7 +40,7 @@ func Test_Cov6_BasicInt32_Default(t *testing.T) {
 		"length":       3,
 		"enumType":     "Integer32",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_Default", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_Default returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_IsAnyOf(t *testing.T) {
@@ -60,7 +60,7 @@ func Test_Cov6_BasicInt32_IsAnyOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_IsAnyOf returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_IsAnyNamesOf(t *testing.T) {
@@ -78,7 +78,7 @@ func Test_Cov6_BasicInt32_IsAnyNamesOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_GetValueByName(t *testing.T) {
@@ -101,7 +101,7 @@ func Test_Cov6_BasicInt32_GetValueByName(t *testing.T) {
 		"noErr":    true,
 		"hasError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_GetValueByName returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_GetStringValue(t *testing.T) {
@@ -113,7 +113,7 @@ func Test_Cov6_BasicInt32_GetStringValue(t *testing.T) {
 
 	actual := args.Map{"val": bi.GetStringValue(0)}
 	expected := args.Map{"val": "Invalid"}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_GetStringValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_GetStringValue returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_Ranges(t *testing.T) {
@@ -133,7 +133,7 @@ func Test_Cov6_BasicInt32_Ranges(t *testing.T) {
 		"hmLen":       true,
 		"hmPtrNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_Ranges returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_ToEnumJsonBytes(t *testing.T) {
@@ -156,7 +156,7 @@ func Test_Cov6_BasicInt32_ToEnumJsonBytes(t *testing.T) {
 		"noErr":    true,
 		"notFound": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_ToEnumJsonBytes", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_ToEnumJsonBytes returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_AppendPrependJoinValue(t *testing.T) {
@@ -169,7 +169,7 @@ func Test_Cov6_BasicInt32_AppendPrependJoinValue(t *testing.T) {
 	result := bi.AppendPrependJoinValue(".", 1, 0)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_AppendPrependJoinValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_AppendPrependJoinValue returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_AppendPrependJoinNamer(t *testing.T) {
@@ -182,7 +182,7 @@ func Test_Cov6_BasicInt32_AppendPrependJoinNamer(t *testing.T) {
 	result := bi.AppendPrependJoinNamer(".", mockNamer6{"B"}, mockNamer6{"A"})
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "A.B"}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_AppendPrependJoinNamer", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_AppendPrependJoinNamer returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_ToNumberString(t *testing.T) {
@@ -194,7 +194,7 @@ func Test_Cov6_BasicInt32_ToNumberString(t *testing.T) {
 
 	actual := args.Map{"notEmpty": bi.ToNumberString(1) != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_ToNumberString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_ToNumberString returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_UnmarshallToValue(t *testing.T) {
@@ -232,7 +232,7 @@ func Test_Cov6_BasicInt32_UnmarshallToValue(t *testing.T) {
 		"validVal":    int32(1),
 		"validErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_UnmarshallToValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_UnmarshallToValue returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_ExpectingEnumValueError(t *testing.T) {
@@ -256,7 +256,7 @@ func Test_Cov6_BasicInt32_ExpectingEnumValueError(t *testing.T) {
 		"mismatchErr": true,
 		"parseErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_ExpectingEnumValueError", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_ExpectingEnumValueError returns error -- with args", actual)
 }
 
 // ── newBasicInt32Creator paths ──
@@ -269,7 +269,7 @@ func Test_Cov6_BasicInt32_CreateUsingMap(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName(), "length": bi.Length()}
 	expected := args.Map{"typeName": "testInt32Enum", "length": 2}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_CreateUsingMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_CreateUsingMap returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_WithAliasMap(t *testing.T) {
@@ -283,7 +283,7 @@ func Test_Cov6_BasicInt32_WithAliasMap(t *testing.T) {
 	val, err := bi.GetValueByName("on")
 	actual := args.Map{"aliasVal": val, "noErr": err == nil}
 	expected := args.Map{"aliasVal": int32(1), "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_WithAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_WithAliasMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_UsingFirstItemSliceAliasMap(t *testing.T) {
@@ -296,7 +296,7 @@ func Test_Cov6_BasicInt32_UsingFirstItemSliceAliasMap(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName()}
 	expected := args.Map{"typeName": "enumimpltests.myInt32"}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_UsingFirstItemSliceAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_UsingFirstItemSliceAliasMap returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_UsingTypeSlice(t *testing.T) {
@@ -307,7 +307,7 @@ func Test_Cov6_BasicInt32_UsingTypeSlice(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName()}
 	expected := args.Map{"typeName": "testInt32"}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_UsingTypeSlice", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_UsingTypeSlice returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicInt32_GetValueByString(t *testing.T) {
@@ -319,7 +319,7 @@ func Test_Cov6_BasicInt32_GetValueByString(t *testing.T) {
 
 	actual := args.Map{"byName": bi.GetValueByString("Active")}
 	expected := args.Map{"byName": int32(1)}
-	expected.ShouldBeEqual(t, 0, "BasicInt32_GetValueByString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt32_GetValueByString returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════
@@ -353,7 +353,7 @@ func Test_Cov6_BasicUInt16_Default(t *testing.T) {
 		"length":       3,
 		"enumType":     "UnsignedInteger16",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_Default", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_Default returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_IsAnyOf(t *testing.T) {
@@ -373,7 +373,7 @@ func Test_Cov6_BasicUInt16_IsAnyOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_IsAnyOf returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_IsAnyNamesOf(t *testing.T) {
@@ -391,7 +391,7 @@ func Test_Cov6_BasicUInt16_IsAnyNamesOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_GetValueByName(t *testing.T) {
@@ -414,7 +414,7 @@ func Test_Cov6_BasicUInt16_GetValueByName(t *testing.T) {
 		"noErr":    true,
 		"hasError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_GetValueByName returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_GetStringValue(t *testing.T) {
@@ -426,7 +426,7 @@ func Test_Cov6_BasicUInt16_GetStringValue(t *testing.T) {
 
 	actual := args.Map{"val": bi.GetStringValue(0)}
 	expected := args.Map{"val": "Invalid"}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_GetStringValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_GetStringValue returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_Ranges(t *testing.T) {
@@ -446,7 +446,7 @@ func Test_Cov6_BasicUInt16_Ranges(t *testing.T) {
 		"hmLen":       true,
 		"hmPtrNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_Ranges returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_ToEnumJsonBytes(t *testing.T) {
@@ -469,7 +469,7 @@ func Test_Cov6_BasicUInt16_ToEnumJsonBytes(t *testing.T) {
 		"noErr":    true,
 		"notFound": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_ToEnumJsonBytes", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_ToEnumJsonBytes returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_AppendPrependJoinValue(t *testing.T) {
@@ -482,7 +482,7 @@ func Test_Cov6_BasicUInt16_AppendPrependJoinValue(t *testing.T) {
 	result := bi.AppendPrependJoinValue(".", 1, 0)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_AppendPrependJoinValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_AppendPrependJoinValue returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_AppendPrependJoinNamer(t *testing.T) {
@@ -495,7 +495,7 @@ func Test_Cov6_BasicUInt16_AppendPrependJoinNamer(t *testing.T) {
 	result := bi.AppendPrependJoinNamer(".", mockNamer6{"B"}, mockNamer6{"A"})
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "A.B"}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_AppendPrependJoinNamer", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_AppendPrependJoinNamer returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_ToNumberString(t *testing.T) {
@@ -507,7 +507,7 @@ func Test_Cov6_BasicUInt16_ToNumberString(t *testing.T) {
 
 	actual := args.Map{"notEmpty": bi.ToNumberString(1) != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_ToNumberString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_ToNumberString returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_UnmarshallToValue(t *testing.T) {
@@ -545,7 +545,7 @@ func Test_Cov6_BasicUInt16_UnmarshallToValue(t *testing.T) {
 		"validVal":    uint16(1),
 		"validErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_UnmarshallToValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_UnmarshallToValue returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_ExpectingEnumValueError(t *testing.T) {
@@ -569,7 +569,7 @@ func Test_Cov6_BasicUInt16_ExpectingEnumValueError(t *testing.T) {
 		"mismatchErr": true,
 		"parseErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_ExpectingEnumValueError", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_ExpectingEnumValueError returns error -- with args", actual)
 }
 
 // ── newBasicUInt16Creator paths ──
@@ -582,7 +582,7 @@ func Test_Cov6_BasicUInt16_CreateUsingMap(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName(), "length": bi.Length()}
 	expected := args.Map{"typeName": "testUInt16Enum", "length": 2}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_CreateUsingMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_CreateUsingMap returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_WithAliasMap(t *testing.T) {
@@ -596,7 +596,7 @@ func Test_Cov6_BasicUInt16_WithAliasMap(t *testing.T) {
 	val, err := bi.GetValueByName("on")
 	actual := args.Map{"aliasVal": val, "noErr": err == nil}
 	expected := args.Map{"aliasVal": uint16(1), "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_WithAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_WithAliasMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_UsingFirstItemSliceAliasMap(t *testing.T) {
@@ -609,7 +609,7 @@ func Test_Cov6_BasicUInt16_UsingFirstItemSliceAliasMap(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName()}
 	expected := args.Map{"typeName": "enumimpltests.myUInt16"}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_UsingFirstItemSliceAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_UsingFirstItemSliceAliasMap returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_UsingTypeSlice(t *testing.T) {
@@ -620,7 +620,7 @@ func Test_Cov6_BasicUInt16_UsingTypeSlice(t *testing.T) {
 
 	actual := args.Map{"typeName": bi.TypeName()}
 	expected := args.Map{"typeName": "testUInt16"}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_UsingTypeSlice", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_UsingTypeSlice returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicUInt16_GetValueByString(t *testing.T) {
@@ -632,7 +632,7 @@ func Test_Cov6_BasicUInt16_GetValueByString(t *testing.T) {
 
 	actual := args.Map{"byName": bi.GetValueByString("Active")}
 	expected := args.Map{"byName": uint16(1)}
-	expected.ShouldBeEqual(t, 0, "BasicUInt16_GetValueByString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicUInt16_GetValueByString returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════
@@ -659,7 +659,7 @@ func Test_Cov6_FormatUsingFmt(t *testing.T) {
 		"notEmpty":    true,
 		"containsAll": true,
 	}
-	expected.ShouldBeEqual(t, 0, "FormatUsingFmt", actual)
+	expected.ShouldBeEqual(t, 0, "FormatUsingFmt returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════
@@ -681,7 +681,7 @@ func Test_Cov6_DynamicMap_Set(t *testing.T) {
 		"isUpdate": false,
 		"len":      2,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_Set", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_Set returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_AddNewOnly(t *testing.T) {
@@ -699,7 +699,7 @@ func Test_Cov6_DynamicMap_AddNewOnly(t *testing.T) {
 		"notAdded": false,
 		"aVal":     1,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_AddNewOnly", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_AddNewOnly returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_Add(t *testing.T) {
@@ -714,7 +714,7 @@ func Test_Cov6_DynamicMap_Add(t *testing.T) {
 		"notNil": true,
 		"len":    2,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_Add", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_Add returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_LastIndex(t *testing.T) {
@@ -730,7 +730,7 @@ func Test_Cov6_DynamicMap_LastIndex(t *testing.T) {
 		"hasIndex":  true,
 		"noIndex":   false,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_LastIndex", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_LastIndex returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_AllValuesIntegers(t *testing.T) {
@@ -739,7 +739,7 @@ func Test_Cov6_DynamicMap_AllValuesIntegers(t *testing.T) {
 
 	actual := args.Map{"len": len(vals)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_AllValuesIntegers", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_AllValuesIntegers returns non-empty -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_KeyValue(t *testing.T) {
@@ -757,7 +757,7 @@ func Test_Cov6_DynamicMap_KeyValue(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValue", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValue returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_KeyValueString(t *testing.T) {
@@ -775,7 +775,7 @@ func Test_Cov6_DynamicMap_KeyValueString(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueString", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueString returns non-empty -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_KeyValueInt(t *testing.T) {
@@ -795,7 +795,7 @@ func Test_Cov6_DynamicMap_KeyValueInt(t *testing.T) {
 		"failed":   false,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueInt", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueInt returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_KeyValueByte(t *testing.T) {
@@ -815,7 +815,7 @@ func Test_Cov6_DynamicMap_KeyValueByte(t *testing.T) {
 		"failed":   false,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueByte", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueByte returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_KeyValueIntDefault(t *testing.T) {
@@ -825,7 +825,7 @@ func Test_Cov6_DynamicMap_KeyValueIntDefault(t *testing.T) {
 
 	actual := args.Map{"val": val, "missing": missing < 0}
 	expected := args.Map{"val": 42, "missing": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueIntDefault", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_KeyValueIntDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_IsValueTypeOf(t *testing.T) {
@@ -834,7 +834,7 @@ func Test_Cov6_DynamicMap_IsValueTypeOf(t *testing.T) {
 
 	actual := args.Map{"checked": isStr}
 	expected := args.Map{"checked": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_IsValueTypeOf", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_IsValueTypeOf returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_IsRawEqual(t *testing.T) {
@@ -845,7 +845,7 @@ func Test_Cov6_DynamicMap_IsRawEqual(t *testing.T) {
 
 	actual := args.Map{"same": same, "diff": diff, "diffLen": diffLen}
 	expected := args.Map{"same": true, "diff": false, "diffLen": false}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_IsRawEqual", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_IsRawEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_IsRawMismatch(t *testing.T) {
@@ -854,7 +854,7 @@ func Test_Cov6_DynamicMap_IsRawMismatch(t *testing.T) {
 
 	actual := args.Map{"mismatch": mismatch}
 	expected := args.Map{"mismatch": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_IsRawMismatch", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_IsRawMismatch returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_IsKeysEqualOnly(t *testing.T) {
@@ -881,7 +881,7 @@ func Test_Cov6_DynamicMap_IsKeysEqualOnly(t *testing.T) {
 		"bothNil": true,
 		"leftNil": false,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_IsKeysEqualOnly", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_IsKeysEqualOnly returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_DiffRaw(t *testing.T) {
@@ -890,7 +890,7 @@ func Test_Cov6_DynamicMap_DiffRaw(t *testing.T) {
 
 	actual := args.Map{"hasDiff": diff.Length() > 0}
 	expected := args.Map{"hasDiff": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffRaw", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffRaw returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_DiffRawNilCases(t *testing.T) {
@@ -913,7 +913,7 @@ func Test_Cov6_DynamicMap_DiffRawNilCases(t *testing.T) {
 		"leftNilLen": 1,
 		"rightNil":   1,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffRawNilCases", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffRawNilCases returns nil -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_DiffJsonMessage(t *testing.T) {
@@ -929,7 +929,7 @@ func Test_Cov6_DynamicMap_DiffJsonMessage(t *testing.T) {
 		"noDiff":  true,
 		"hasDiff": true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffJsonMessage", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffJsonMessage returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_ShouldDiffMessage(t *testing.T) {
@@ -945,7 +945,7 @@ func Test_Cov6_DynamicMap_ShouldDiffMessage(t *testing.T) {
 		"noDiff":  true,
 		"hasDiff": true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_ShouldDiffMessage", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_ShouldDiffMessage returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_ExpectingMessage(t *testing.T) {
@@ -961,7 +961,7 @@ func Test_Cov6_DynamicMap_ExpectingMessage(t *testing.T) {
 		"noMsg":  true,
 		"hasMsg": true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_ExpectingMessage", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_ExpectingMessage returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_Strings(t *testing.T) {
@@ -982,7 +982,7 @@ func Test_Cov6_DynamicMap_Strings(t *testing.T) {
 		"notEmpty": true,
 		"emptyLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_Strings", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_Strings returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_StringsUsingFmt(t *testing.T) {
@@ -1004,7 +1004,7 @@ func Test_Cov6_DynamicMap_StringsUsingFmt(t *testing.T) {
 		"len":      1,
 		"emptyLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_StringsUsingFmt", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_StringsUsingFmt returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_IsStringEqual(t *testing.T) {
@@ -1019,7 +1019,7 @@ func Test_Cov6_DynamicMap_IsStringEqual(t *testing.T) {
 		"same": true,
 		"diff": false,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_IsStringEqual", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_IsStringEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_Serialize(t *testing.T) {
@@ -1034,7 +1034,7 @@ func Test_Cov6_DynamicMap_Serialize(t *testing.T) {
 		"hasBytes": true,
 		"noErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_Serialize returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_ConcatNew(t *testing.T) {
@@ -1057,7 +1057,7 @@ func Test_Cov6_DynamicMap_ConcatNew(t *testing.T) {
 		"notOverA":     1,
 		"bothEmptyLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_ConcatNew", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_ConcatNew returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_ConvMaps(t *testing.T) {
@@ -1124,7 +1124,7 @@ func Test_Cov6_DynamicMap_ConvMaps(t *testing.T) {
 		"emptySI":    0,
 		"emptyIS":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_ConvMaps", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_ConvMaps returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_BasicFromDynamicMap(t *testing.T) {
@@ -1153,7 +1153,7 @@ func Test_Cov6_DynamicMap_BasicFromDynamicMap(t *testing.T) {
 		"bu16NotNil": true,
 		"bsNotNil":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_BasicFromDynamicMap", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_BasicFromDynamicMap returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_BasicWithAliasFromDynamicMap(t *testing.T) {
@@ -1182,7 +1182,7 @@ func Test_Cov6_DynamicMap_BasicWithAliasFromDynamicMap(t *testing.T) {
 		"bu16NotNil": true,
 		"bsNotNil":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_BasicWithAliasFromDynamicMap", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_BasicWithAliasFromDynamicMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_DiffLeftRight(t *testing.T) {
@@ -1201,7 +1201,7 @@ func Test_Cov6_DynamicMap_DiffLeftRight(t *testing.T) {
 		"lDiffLen": 1,
 		"rDiffLen": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffLeftRight", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffLeftRight returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_DiffLeftRightNilCases(t *testing.T) {
@@ -1227,7 +1227,7 @@ func Test_Cov6_DynamicMap_DiffLeftRightNilCases(t *testing.T) {
 		"rightNilL": 1,
 		"rightNilR": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffLeftRightNilCases", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffLeftRightNilCases returns nil -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_DiffJsonMessageLeftRight(t *testing.T) {
@@ -1243,7 +1243,7 @@ func Test_Cov6_DynamicMap_DiffJsonMessageLeftRight(t *testing.T) {
 		"noDiff":  true,
 		"hasDiff": true,
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffJsonMessageLeftRight", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffJsonMessageLeftRight returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_ShouldDiffUsingDifferChecker(t *testing.T) {
@@ -1255,7 +1255,7 @@ func Test_Cov6_DynamicMap_ShouldDiffUsingDifferChecker(t *testing.T) {
 
 	actual := args.Map{"noDiff": noDiff == "", "hasDiff": hasDiff != ""}
 	expected := args.Map{"noDiff": true, "hasDiff": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_ShouldDiffUsingDifferChecker", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_ShouldDiffUsingDifferChecker returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_ShouldDiffLeftRightUsingDifferChecker(t *testing.T) {
@@ -1267,7 +1267,7 @@ func Test_Cov6_DynamicMap_ShouldDiffLeftRightUsingDifferChecker(t *testing.T) {
 
 	actual := args.Map{"noDiff": noDiff == "", "hasDiff": hasDiff != ""}
 	expected := args.Map{"noDiff": true, "hasDiff": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_ShouldDiffLeftRightUsingDifferChecker", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_ShouldDiffLeftRightUsingDifferChecker returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_MapIntegerString(t *testing.T) {
@@ -1296,7 +1296,7 @@ func Test_Cov6_DynamicMap_MapIntegerString(t *testing.T) {
 		"strRmLen":    len(strRm),
 		"strSorted":   len(strSorted),
 	}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_MapIntegerString", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_MapIntegerString returns correct value -- with args", actual)
 }
 
 // ── BasicString creator paths ──
@@ -1315,7 +1315,7 @@ func Test_Cov6_BasicString_CreateUsingNamesSpread(t *testing.T) {
 		"typeName": "testStrEnum",
 		"length":   2,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_CreateUsingNamesSpread", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_CreateUsingNamesSpread returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicString_CreateUsingNamesMinMax(t *testing.T) {
@@ -1334,7 +1334,7 @@ func Test_Cov6_BasicString_CreateUsingNamesMinMax(t *testing.T) {
 		"min": "Active",
 		"max": "Invalid",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicString_CreateUsingNamesMinMax", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_CreateUsingNamesMinMax returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicString_UsingFirstItemSliceAllCases(t *testing.T) {
@@ -1345,7 +1345,7 @@ func Test_Cov6_BasicString_UsingFirstItemSliceAllCases(t *testing.T) {
 
 	actual := args.Map{"typeName": bs.TypeName()}
 	expected := args.Map{"typeName": "string"}
-	expected.ShouldBeEqual(t, 0, "BasicString_UsingFirstItemSliceAllCases", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_UsingFirstItemSliceAllCases returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicString_UsingFirstItemSliceCaseOptions(t *testing.T) {
@@ -1357,7 +1357,7 @@ func Test_Cov6_BasicString_UsingFirstItemSliceCaseOptions(t *testing.T) {
 
 	actual := args.Map{"typeName": bs.TypeName()}
 	expected := args.Map{"typeName": "string"}
-	expected.ShouldBeEqual(t, 0, "BasicString_UsingFirstItemSliceCaseOptions", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_UsingFirstItemSliceCaseOptions returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicString_CreateDefault(t *testing.T) {
@@ -1368,7 +1368,7 @@ func Test_Cov6_BasicString_CreateDefault(t *testing.T) {
 
 	actual := args.Map{"typeName": bs.TypeName()}
 	expected := args.Map{"typeName": "string"}
-	expected.ShouldBeEqual(t, 0, "BasicString_CreateDefault", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_CreateDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BasicString_ToEnumString(t *testing.T) {
@@ -1380,7 +1380,7 @@ func Test_Cov6_BasicString_ToEnumString(t *testing.T) {
 	result := bs.ToEnumString("Active")
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "Active"}
-	expected.ShouldBeEqual(t, 0, "BasicString_ToEnumString_passthrough", actual)
+	expected.ShouldBeEqual(t, 0, "BasicString_ToEnumString_passthrough returns correct value -- with args", actual)
 }
 
 // ── LeftRightDiffChecker – same values ──
@@ -1390,7 +1390,7 @@ func Test_Cov6_LeftRightDiffChecker_SameValues(t *testing.T) {
 
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_SameValues", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRightDiffChecker_SameValues returns non-empty -- with args", actual)
 }
 
 // ── DynamicMap LogExpectingMessage (no crash) ──
@@ -1402,7 +1402,7 @@ func Test_Cov6_DynamicMap_LogExpectingMessage(t *testing.T) {
 
 	actual := args.Map{"noCrash": true}
 	expected := args.Map{"noCrash": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_LogExpectingMessage", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_LogExpectingMessage returns correct value -- with args", actual)
 }
 
 func Test_Cov6_DynamicMap_LogShouldDiff(t *testing.T) {
@@ -1422,7 +1422,7 @@ func Test_Cov6_DynamicMap_LogShouldDiff(t *testing.T) {
 
 	actual := args.Map{"noCrash": true}
 	expected := args.Map{"noCrash": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_LogShouldDiff", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_LogShouldDiff returns correct value -- with args", actual)
 }
 
 // ── DynamicMap DiffJsonMessageUsingDifferChecker ──
@@ -1436,7 +1436,7 @@ func Test_Cov6_DynamicMap_DiffJsonMessageUsingDifferChecker(t *testing.T) {
 
 	actual := args.Map{"noDiff": noDiff == "", "hasDiff": hasDiff != ""}
 	expected := args.Map{"noDiff": true, "hasDiff": true}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffJsonMessageUsingDifferChecker", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_DiffJsonMessageUsingDifferChecker returns correct value -- with args", actual)
 }
 
 // ── DynamicMap with string values (SortedKeyAnyValues string path) ──
@@ -1447,7 +1447,7 @@ func Test_Cov6_DynamicMap_SortedKeyAnyValues_StringValues(t *testing.T) {
 
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "DynamicMap_SortedKeyAnyValues_StringValues", actual)
+	expected.ShouldBeEqual(t, 0, "DynamicMap_SortedKeyAnyValues_StringValues returns non-empty -- with args", actual)
 }
 
 type mockNamer6 struct{ name string }

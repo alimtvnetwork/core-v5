@@ -14,7 +14,7 @@ func Test_C6_Instance_IsNull(t *testing.T) {
 	var nilInst *namevalue.StringAny
 	actual := args.Map{"notNull": !inst.IsNull(), "nilIsNull": nilInst.IsNull()}
 	expected := args.Map{"notNull": true, "nilIsNull": true}
-	expected.ShouldBeEqual(t, 0, "Instance IsNull", actual)
+	expected.ShouldBeEqual(t, 0, "Instance returns correct value -- IsNull", actual)
 }
 
 func Test_C6_Instance_String(t *testing.T) {
@@ -45,7 +45,7 @@ func Test_C6_NewGenericCollection(t *testing.T) {
 	c := namevalue.NewGenericCollection[string, any](5)
 	actual := args.Map{"len": c.Length(), "empty": c.IsEmpty()}
 	expected := args.Map{"len": 0, "empty": true}
-	expected.ShouldBeEqual(t, 0, "NewGenericCollection", actual)
+	expected.ShouldBeEqual(t, 0, "NewGenericCollection returns correct value -- with args", actual)
 }
 
 func Test_C6_NewGenericCollectionDefault(t *testing.T) {
@@ -71,7 +71,7 @@ func Test_C6_NewGenericCollectionUsing(t *testing.T) {
 	c3 := namevalue.NewGenericCollectionUsing[string, any](false)
 	actual := args.Map{"c1Len": c1.Length(), "c2Len": c2.Length(), "c3Len": c3.Length()}
 	expected := args.Map{"c1Len": 2, "c2Len": 2, "c3Len": 0}
-	expected.ShouldBeEqual(t, 0, "NewGenericCollectionUsing", actual)
+	expected.ShouldBeEqual(t, 0, "NewGenericCollectionUsing returns correct value -- with args", actual)
 }
 
 // ── NameValuesCollection constructors ──
@@ -214,7 +214,7 @@ func Test_C6_Collection_LengthCountEmpty(t *testing.T) {
 		"hasAny":   false,
 		"nilLen":   0,
 	}
-	expected.ShouldBeEqual(t, 0, "Length/Count/Empty", actual)
+	expected.ShouldBeEqual(t, 0, "Length/Count/Empty returns empty -- with args", actual)
 }
 
 func Test_C6_Collection_LastIndex_HasIndex(t *testing.T) {
@@ -223,7 +223,7 @@ func Test_C6_Collection_LastIndex_HasIndex(t *testing.T) {
 	c.Add(namevalue.StringAny{Name: "b", Value: 2})
 	actual := args.Map{"lastIdx": c.LastIndex(), "hasIdx0": c.HasIndex(0), "hasIdx5": c.HasIndex(5)}
 	expected := args.Map{"lastIdx": 1, "hasIdx0": true, "hasIdx5": false}
-	expected.ShouldBeEqual(t, 0, "LastIndex/HasIndex", actual)
+	expected.ShouldBeEqual(t, 0, "LastIndex/HasIndex returns correct value -- with args", actual)
 }
 
 // ── Collection string methods ──
@@ -312,7 +312,7 @@ func Test_C6_Collection_IsEqualByString(t *testing.T) {
 		"nilRight":  false,
 		"diffLen":   false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsEqualByString", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualByString returns correct value -- with args", actual)
 }
 
 // ── Collection JsonString / String ──

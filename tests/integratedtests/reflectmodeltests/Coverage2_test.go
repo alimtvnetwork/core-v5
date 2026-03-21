@@ -22,7 +22,7 @@ func Test_Cov2_FieldProcessor_IsFieldType(t *testing.T) {
 		"nil":      nilFP.IsFieldType(reflect.TypeOf(42)),
 	}
 	expected := args.Map{"isInt": true, "isString": false, "nil": false}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor IsFieldType", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor returns correct value -- IsFieldType", actual)
 }
 
 func Test_Cov2_FieldProcessor_IsFieldKind(t *testing.T) {
@@ -36,7 +36,7 @@ func Test_Cov2_FieldProcessor_IsFieldKind(t *testing.T) {
 		"nil":    nilFP.IsFieldKind(reflect.Int),
 	}
 	expected := args.Map{"isInt": true, "isStr": false, "nil": false}
-	expected.ShouldBeEqual(t, 0, "FieldProcessor IsFieldKind", actual)
+	expected.ShouldBeEqual(t, 0, "FieldProcessor returns correct value -- IsFieldKind", actual)
 }
 
 // ── MethodProcessor extended ──
@@ -55,21 +55,21 @@ func Test_Cov2_MethodProcessor_Nil(t *testing.T) {
 		"hasValid": false, "isInvalid": true,
 		"funcNil": true, "isPublic": false, "isPrivate": false,
 	}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor Nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- Nil", actual)
 }
 
 func Test_Cov2_MethodProcessor_IsEqual(t *testing.T) {
 	var mp1, mp2 *reflectmodel.MethodProcessor
 	actual := args.Map{"nilNil": mp1.IsEqual(mp2)}
 	expected := args.Map{"nilNil": true}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor IsEqual nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- IsEqual nil", actual)
 }
 
 func Test_Cov2_MethodProcessor_IsNotEqual(t *testing.T) {
 	var mp1, mp2 *reflectmodel.MethodProcessor
 	actual := args.Map{"notEqual": mp1.IsNotEqual(mp2)}
 	expected := args.Map{"notEqual": false}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor IsNotEqual", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns correct value -- IsNotEqual", actual)
 }
 
 func Test_Cov2_MethodProcessor_GetOutArgsTypes_Nil(t *testing.T) {
@@ -77,7 +77,7 @@ func Test_Cov2_MethodProcessor_GetOutArgsTypes_Nil(t *testing.T) {
 	result := mp.GetOutArgsTypes()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor GetOutArgsTypes nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- GetOutArgsTypes nil", actual)
 }
 
 func Test_Cov2_MethodProcessor_GetInArgsTypes_Nil(t *testing.T) {
@@ -85,7 +85,7 @@ func Test_Cov2_MethodProcessor_GetInArgsTypes_Nil(t *testing.T) {
 	result := mp.GetInArgsTypes()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor GetInArgsTypes nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- GetInArgsTypes nil", actual)
 }
 
 func Test_Cov2_MethodProcessor_GetInArgsTypesNames_Nil(t *testing.T) {
@@ -93,7 +93,7 @@ func Test_Cov2_MethodProcessor_GetInArgsTypesNames_Nil(t *testing.T) {
 	result := mp.GetInArgsTypesNames()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "MethodProcessor GetInArgsTypesNames nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodProcessor returns nil -- GetInArgsTypesNames nil", actual)
 }
 
 // ── rvUtils is unexported — cannot be tested from external package ──

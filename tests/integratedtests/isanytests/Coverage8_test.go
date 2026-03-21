@@ -174,7 +174,7 @@ func Test_Cov8_NotDeepEqual(t *testing.T) {
 		"same": isany.NotDeepEqual(1, 1),
 	}
 	expected := args.Map{"diff": true, "same": false}
-	expected.ShouldBeEqual(t, 0, "NotDeepEqual", actual)
+	expected.ShouldBeEqual(t, 0, "NotDeepEqual returns correct value -- with args", actual)
 }
 
 // ── NullLeftRight ──
@@ -183,7 +183,7 @@ func Test_Cov8_NullLeftRight_BothNil(t *testing.T) {
 	l, r := isany.NullLeftRight(nil, nil)
 	actual := args.Map{"left": l, "right": r}
 	expected := args.Map{"left": true, "right": true}
-	expected.ShouldBeEqual(t, 0, "NullLeftRight both nil", actual)
+	expected.ShouldBeEqual(t, 0, "NullLeftRight returns nil -- both nil", actual)
 }
 
 // ── Null with typed nil variants ──

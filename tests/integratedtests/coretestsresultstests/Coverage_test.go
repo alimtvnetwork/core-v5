@@ -25,28 +25,28 @@ func Test_Cov_Result_IsSafe(t *testing.T) {
 		"unsafe": false,
 		"errSafe": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsSafe", actual)
+	expected.ShouldBeEqual(t, 0, "IsSafe returns correct value -- with args", actual)
 }
 
 func Test_Cov_Result_HasError(t *testing.T) {
 	r := results.ResultAny{Error: errors.New("e")}
 	actual := args.Map{"hasErr": r.HasError()}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "HasError", actual)
+	expected.ShouldBeEqual(t, 0, "HasError returns error -- with args", actual)
 }
 
 func Test_Cov_Result_HasPanicked(t *testing.T) {
 	r := results.ResultAny{Panicked: true}
 	actual := args.Map{"panicked": r.HasPanicked()}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "HasPanicked", actual)
+	expected.ShouldBeEqual(t, 0, "HasPanicked panics -- with args", actual)
 }
 
 func Test_Cov_Result_IsResult(t *testing.T) {
 	r := results.Result[int]{Value: 42}
 	actual := args.Map{"match": r.IsResult(42), "noMatch": r.IsResult(99)}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "IsResult", actual)
+	expected.ShouldBeEqual(t, 0, "IsResult returns correct value -- with args", actual)
 }
 
 func Test_Cov_Result_IsResultTypeOf(t *testing.T) {
@@ -59,7 +59,7 @@ func Test_Cov_Result_IsResultTypeOf(t *testing.T) {
 		"intType":  true,
 		"nilType":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsResultTypeOf", actual)
+	expected.ShouldBeEqual(t, 0, "IsResultTypeOf returns correct value -- with args", actual)
 }
 
 func Test_Cov_Result_IsError(t *testing.T) {
@@ -75,14 +75,14 @@ func Test_Cov_Result_IsError(t *testing.T) {
 		"noMatch": false,
 		"noErr":   false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsError", actual)
+	expected.ShouldBeEqual(t, 0, "IsError returns error -- with args", actual)
 }
 
 func Test_Cov_Result_ValueString(t *testing.T) {
 	r := results.Result[int]{Value: 42}
 	actual := args.Map{"val": r.ValueString()}
 	expected := args.Map{"val": "42"}
-	expected.ShouldBeEqual(t, 0, "ValueString", actual)
+	expected.ShouldBeEqual(t, 0, "ValueString returns non-empty -- with args", actual)
 }
 
 func Test_Cov_Result_ResultAt(t *testing.T) {
@@ -99,7 +99,7 @@ func Test_Cov_Result_ResultAt(t *testing.T) {
 		"outOfBounds": true,
 		"negative":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "ResultAt", actual)
+	expected.ShouldBeEqual(t, 0, "ResultAt returns correct value -- with args", actual)
 }
 
 func Test_Cov_Result_ToMap(t *testing.T) {
@@ -115,7 +115,7 @@ func Test_Cov_Result_ToMap(t *testing.T) {
 		"panicked":    false,
 		"returnCount": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "ToMap", actual)
+	expected.ShouldBeEqual(t, 0, "ToMap returns correct value -- with args", actual)
 }
 
 func Test_Cov_Result_ToMapCompact(t *testing.T) {
@@ -123,7 +123,7 @@ func Test_Cov_Result_ToMapCompact(t *testing.T) {
 	m := r.ToMapCompact()
 	actual := args.Map{"value": m["value"], "panicked": m["panicked"]}
 	expected := args.Map{"value": "42", "panicked": false}
-	expected.ShouldBeEqual(t, 0, "ToMapCompact", actual)
+	expected.ShouldBeEqual(t, 0, "ToMapCompact returns correct value -- with args", actual)
 }
 
 func Test_Cov_Result_String(t *testing.T) {
@@ -140,7 +140,7 @@ func Test_Cov_Result_String(t *testing.T) {
 		"panicNotEmpty":  true,
 		"errNotEmpty":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "String", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- with args", actual)
 }
 
 // ── Results (two-value) ──
@@ -159,21 +159,21 @@ func Test_Cov_Results_String(t *testing.T) {
 		"panicNotEmpty":  true,
 		"errNotEmpty":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "Results_String", actual)
+	expected.ShouldBeEqual(t, 0, "Results_String returns correct value -- with args", actual)
 }
 
 func Test_Cov_Results_IsResult2(t *testing.T) {
 	r := results.Results[int, string]{Result2: "hello"}
 	actual := args.Map{"match": r.IsResult2("hello"), "noMatch": r.IsResult2("other")}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "IsResult2", actual)
+	expected.ShouldBeEqual(t, 0, "IsResult2 returns correct value -- with args", actual)
 }
 
 func Test_Cov_Results_Result2String(t *testing.T) {
 	r := results.Results[int, string]{Result2: "hello"}
 	actual := args.Map{"val": r.Result2String()}
 	expected := args.Map{"val": "hello"}
-	expected.ShouldBeEqual(t, 0, "Result2String", actual)
+	expected.ShouldBeEqual(t, 0, "Result2String returns correct value -- with args", actual)
 }
 
 func Test_Cov_FromResultAny(t *testing.T) {
@@ -185,7 +185,7 @@ func Test_Cov_FromResultAny(t *testing.T) {
 	r := results.FromResultAny[int, string](raw)
 	actual := args.Map{"val1": r.Value, "val2": r.Result2, "count": r.ReturnCount}
 	expected := args.Map{"val1": 42, "val2": "hello", "count": 2}
-	expected.ShouldBeEqual(t, 0, "FromResultAny", actual)
+	expected.ShouldBeEqual(t, 0, "FromResultAny returns correct value -- with args", actual)
 }
 
 func Test_Cov_FromResultAny_TypeMismatch(t *testing.T) {
@@ -193,7 +193,7 @@ func Test_Cov_FromResultAny_TypeMismatch(t *testing.T) {
 	r := results.FromResultAny[int, string](raw)
 	actual := args.Map{"val1": r.Value, "val2": r.Result2}
 	expected := args.Map{"val1": 0, "val2": ""}
-	expected.ShouldBeEqual(t, 0, "FromResultAny_TypeMismatch", actual)
+	expected.ShouldBeEqual(t, 0, "FromResultAny_TypeMismatch returns correct value -- with args", actual)
 }
 
 // ── InvokeWithPanicRecovery ──
@@ -202,14 +202,14 @@ func Test_Cov_InvokeWithPanicRecovery_NilFunc(t *testing.T) {
 	result := results.InvokeWithPanicRecovery(nil, nil)
 	actual := args.Map{"panicked": result.Panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "NilFunc", actual)
+	expected.ShouldBeEqual(t, 0, "NilFunc returns nil -- with args", actual)
 }
 
 func Test_Cov_InvokeWithPanicRecovery_NotFunc(t *testing.T) {
 	result := results.InvokeWithPanicRecovery(42, nil)
 	actual := args.Map{"panicked": result.Panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "NotFunc", actual)
+	expected.ShouldBeEqual(t, 0, "NotFunc returns correct value -- with args", actual)
 }
 
 func Test_Cov_InvokeWithPanicRecovery_SimpleFunc(t *testing.T) {
@@ -218,7 +218,7 @@ func Test_Cov_InvokeWithPanicRecovery_SimpleFunc(t *testing.T) {
 	// buildCallArgs creates a zero int for nil receiver + arg 5 = 2 args for 1-param func → panic
 	actual := args.Map{"panicked": result.Panicked}
 	expected := args.Map{"panicked": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFunc", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFunc returns correct value -- with args", actual)
 }
 
 func Test_Cov_InvokeWithPanicRecovery_VoidFunc(t *testing.T) {
@@ -227,7 +227,7 @@ func Test_Cov_InvokeWithPanicRecovery_VoidFunc(t *testing.T) {
 	result := results.InvokeWithPanicRecovery(fn, nil)
 	actual := args.Map{"panicked": result.Panicked, "called": called, "count": result.ReturnCount}
 	expected := args.Map{"panicked": false, "called": true, "count": 0}
-	expected.ShouldBeEqual(t, 0, "VoidFunc", actual)
+	expected.ShouldBeEqual(t, 0, "VoidFunc returns correct value -- with args", actual)
 }
 
 func Test_Cov_InvokeWithPanicRecovery_PanicFunc(t *testing.T) {
@@ -235,7 +235,7 @@ func Test_Cov_InvokeWithPanicRecovery_PanicFunc(t *testing.T) {
 	result := results.InvokeWithPanicRecovery(fn, nil)
 	actual := args.Map{"panicked": result.Panicked, "panicVal": fmt.Sprintf("%v", result.PanicValue)}
 	expected := args.Map{"panicked": true, "panicVal": "boom"}
-	expected.ShouldBeEqual(t, 0, "PanicFunc", actual)
+	expected.ShouldBeEqual(t, 0, "PanicFunc panics -- with args", actual)
 }
 
 // ── MethodName ──
@@ -244,21 +244,21 @@ func Test_Cov_MethodName_Nil(t *testing.T) {
 	result := results.MethodName(nil)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": ""}
-	expected.ShouldBeEqual(t, 0, "MethodName_Nil", actual)
+	expected.ShouldBeEqual(t, 0, "MethodName_Nil returns nil -- with args", actual)
 }
 
 func Test_Cov_MethodName_NotFunc(t *testing.T) {
 	result := results.MethodName(42)
 	actual := args.Map{"val": result}
 	expected := args.Map{"val": ""}
-	expected.ShouldBeEqual(t, 0, "MethodName_NotFunc", actual)
+	expected.ShouldBeEqual(t, 0, "MethodName_NotFunc returns correct value -- with args", actual)
 }
 
 func Test_Cov_MethodName_Func(t *testing.T) {
 	result := results.MethodName(fmt.Sprintf)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "MethodName_Func", actual)
+	expected.ShouldBeEqual(t, 0, "MethodName_Func returns correct value -- with args", actual)
 }
 
 // ── ResultAssert (ShouldMatchResult) ──

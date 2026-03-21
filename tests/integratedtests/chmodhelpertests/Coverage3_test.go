@@ -29,14 +29,14 @@ func Test_Cov3_RwxWrapper_Basic(t *testing.T) {
 		"isDefined": true, "hasAny": true, "isInvalid": false,
 		"string": true,
 	}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper basic", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- basic", actual)
 }
 
 func Test_Cov3_RwxWrapper_NilReceiver(t *testing.T) {
 	var rwx *chmodhelper.RwxWrapper
 	actual := args.Map{"isEmpty": rwx.IsEmpty(), "isNull": rwx.IsNull()}
 	expected := args.Map{"isEmpty": true, "isNull": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper nil", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns nil -- nil", actual)
 }
 
 func Test_Cov3_RwxWrapper_Bytes(t *testing.T) {
@@ -44,7 +44,7 @@ func Test_Cov3_RwxWrapper_Bytes(t *testing.T) {
 	bytes := rwx.Bytes()
 	actual := args.Map{"owner": bytes[0], "group": bytes[1], "other": bytes[2]}
 	expected := args.Map{"owner": byte(7), "group": byte(5), "other": byte(4)}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper Bytes", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- Bytes", actual)
 }
 
 func Test_Cov3_RwxWrapper_ToUint32Octal(t *testing.T) {
@@ -52,7 +52,7 @@ func Test_Cov3_RwxWrapper_ToUint32Octal(t *testing.T) {
 	octal := rwx.ToUint32Octal()
 	actual := args.Map{"gt0": octal > 0}
 	expected := args.Map{"gt0": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper ToUint32Octal", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- ToUint32Octal", actual)
 }
 
 func Test_Cov3_RwxWrapper_ToCompiledOctalBytes(t *testing.T) {
@@ -62,7 +62,7 @@ func Test_Cov3_RwxWrapper_ToCompiledOctalBytes(t *testing.T) {
 	o, g, ot := rwx.ToCompiledSplitValues()
 	actual := args.Map{"b4Len": len(b4), "b3Len": len(b3), "ownerGt0": o > 0, "groupGt0": g > 0, "otherGt0": ot > 0}
 	expected := args.Map{"b4Len": 4, "b3Len": 3, "ownerGt0": true, "groupGt0": true, "otherGt0": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper compiled bytes", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- compiled bytes", actual)
 }
 
 func Test_Cov3_RwxWrapper_FileModeString(t *testing.T) {
@@ -77,7 +77,7 @@ func Test_Cov3_RwxWrapper_FileModeString(t *testing.T) {
 		"noHyphen": len(noHyphen), "charsLen": len(chars),
 	}
 	expected := args.Map{"fms": 4, "rwxStr": 3, "fullRwx": 10, "noHyphen": 9, "charsLen": 10}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper string conversions", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- string conversions", actual)
 }
 
 func Test_Cov3_RwxWrapper_ToFileMode(t *testing.T) {
@@ -85,7 +85,7 @@ func Test_Cov3_RwxWrapper_ToFileMode(t *testing.T) {
 	mode := rwx.ToFileMode()
 	actual := args.Map{"gt0": mode > 0}
 	expected := args.Map{"gt0": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper ToFileMode", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- ToFileMode", actual)
 }
 
 func Test_Cov3_RwxWrapper_ApplyChmod(t *testing.T) {
@@ -95,7 +95,7 @@ func Test_Cov3_RwxWrapper_ApplyChmod(t *testing.T) {
 	err := rwx.ApplyChmod(false, filePath)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper ApplyChmod", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- ApplyChmod", actual)
 }
 
 func Test_Cov3_RwxWrapper_ApplyChmodSkipInvalid(t *testing.T) {
@@ -103,7 +103,7 @@ func Test_Cov3_RwxWrapper_ApplyChmodSkipInvalid(t *testing.T) {
 	err := rwx.ApplyChmodSkipInvalid("/nonexistent_xyz_cov3")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper ApplyChmodSkipInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns error -- ApplyChmodSkipInvalid", actual)
 }
 
 func Test_Cov3_RwxWrapper_ApplyChmodOptions(t *testing.T) {
@@ -114,7 +114,7 @@ func Test_Cov3_RwxWrapper_ApplyChmodOptions(t *testing.T) {
 	skipErr := rwx.ApplyChmodOptions(false, false, false, filePath)
 	actual := args.Map{"noErr": err == nil, "skipNoErr": skipErr == nil}
 	expected := args.Map{"noErr": true, "skipNoErr": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper ApplyChmodOptions", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- ApplyChmodOptions", actual)
 }
 
 func Test_Cov3_RwxWrapper_Verify(t *testing.T) {
@@ -125,7 +125,7 @@ func Test_Cov3_RwxWrapper_Verify(t *testing.T) {
 	noErr := err == nil
 	actual := args.Map{"noErr": noErr}
 	expected := args.Map{"noErr": noErr}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper Verify", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- Verify", actual)
 }
 
 func Test_Cov3_RwxWrapper_HasChmod(t *testing.T) {
@@ -134,7 +134,7 @@ func Test_Cov3_RwxWrapper_HasChmod(t *testing.T) {
 	result := rwx.HasChmod(dir)
 	actual := args.Map{"ok": result || !result}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper HasChmod", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- HasChmod", actual)
 }
 
 func Test_Cov3_RwxWrapper_ApplyRecursive(t *testing.T) {
@@ -146,7 +146,7 @@ func Test_Cov3_RwxWrapper_ApplyRecursive(t *testing.T) {
 	err := rwx.ApplyRecursive(true, dir)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper ApplyRecursive", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns correct value -- ApplyRecursive", actual)
 }
 
 func Test_Cov3_RwxWrapper_ApplyRecursive_Invalid(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_Cov3_RwxWrapper_ApplyRecursive_Invalid(t *testing.T) {
 	err := rwx.ApplyRecursive(true, "/nonexistent_cov3_dir")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "RwxWrapper ApplyRecursive skip invalid", actual)
+	expected.ShouldBeEqual(t, 0, "RwxWrapper returns error -- ApplyRecursive skip invalid", actual)
 }
 
 // ── SimpleFileReaderWriter — comprehensive ──
@@ -166,7 +166,7 @@ func Test_Cov3_SimpleFileRW_InitializeDefault(t *testing.T) {
 	initialized := rw.InitializeDefault(true)
 	actual := args.Map{"notNil": initialized != nil, "parentNotEmpty": initialized.ParentDir != ""}
 	expected := args.Map{"notNil": true, "parentNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW InitializeDefault", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- InitializeDefault", actual)
 }
 
 func Test_Cov3_SimpleFileRW_InitializeDefaultApplyChmod(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_Cov3_SimpleFileRW_InitializeDefaultApplyChmod(t *testing.T) {
 	initialized := rw.InitializeDefaultApplyChmod()
 	actual := args.Map{"notNil": initialized != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW InitializeDefaultApplyChmod", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- InitializeDefaultApplyChmod", actual)
 }
 
 func Test_Cov3_SimpleFileRW_PathChecks(t *testing.T) {
@@ -193,7 +193,7 @@ func Test_Cov3_SimpleFileRW_PathChecks(t *testing.T) {
 		"parentExist": true, "exist": true, "hasPathIssues": false,
 		"isPathInvalid": false, "isParentInvalid": false, "hasAnyIssues": false,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW path checks", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- path checks", actual)
 }
 
 func Test_Cov3_SimpleFileRW_WriteRead(t *testing.T) {
@@ -204,7 +204,7 @@ func Test_Cov3_SimpleFileRW_WriteRead(t *testing.T) {
 	content, readErr := rw.ReadString()
 	actual := args.Map{"writeNoErr": writeErr == nil, "readNoErr": readErr == nil, "content": content}
 	expected := args.Map{"writeNoErr": true, "readNoErr": true, "content": "hello"}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW WriteRead", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- WriteRead", actual)
 }
 
 func Test_Cov3_SimpleFileRW_WriteString(t *testing.T) {
@@ -214,7 +214,7 @@ func Test_Cov3_SimpleFileRW_WriteString(t *testing.T) {
 	err := rw.WriteString("world")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW WriteString", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- WriteString", actual)
 }
 
 func Test_Cov3_SimpleFileRW_WritePath(t *testing.T) {
@@ -224,7 +224,7 @@ func Test_Cov3_SimpleFileRW_WritePath(t *testing.T) {
 	err := rw.WritePath(false, filePath, []byte("path"))
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW WritePath", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- WritePath", actual)
 }
 
 func Test_Cov3_SimpleFileRW_WriteRelativePath(t *testing.T) {
@@ -233,7 +233,7 @@ func Test_Cov3_SimpleFileRW_WriteRelativePath(t *testing.T) {
 	err := rw.WriteRelativePath(false, "rel.txt", []byte("rel"))
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW WriteRelativePath", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- WriteRelativePath", actual)
 }
 
 func Test_Cov3_SimpleFileRW_JoinRelPath(t *testing.T) {
@@ -242,7 +242,7 @@ func Test_Cov3_SimpleFileRW_JoinRelPath(t *testing.T) {
 	empty := rw.JoinRelPath("")
 	actual := args.Map{"notEmpty": result != "", "emptyNotEmpty": empty != ""}
 	expected := args.Map{"notEmpty": true, "emptyNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW JoinRelPath", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- JoinRelPath", actual)
 }
 
 func Test_Cov3_SimpleFileRW_ReadOnExist(t *testing.T) {
@@ -253,7 +253,7 @@ func Test_Cov3_SimpleFileRW_ReadOnExist(t *testing.T) {
 	content, strErr := rw.ReadStringOnExist()
 	actual := args.Map{"noErr": err == nil, "len": len(bytes), "strNoErr": strErr == nil, "content": content}
 	expected := args.Map{"noErr": true, "len": 4, "strNoErr": true, "content": "data"}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW ReadOnExist", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- ReadOnExist", actual)
 }
 
 func Test_Cov3_SimpleFileRW_ReadOnExist_NotExist(t *testing.T) {
@@ -262,7 +262,7 @@ func Test_Cov3_SimpleFileRW_ReadOnExist_NotExist(t *testing.T) {
 	content, strErr := rw.ReadStringOnExist()
 	actual := args.Map{"nilBytes": bytes == nil, "noErr": err == nil, "empty": content, "strNoErr": strErr == nil}
 	expected := args.Map{"nilBytes": true, "noErr": true, "empty": "", "strNoErr": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW ReadOnExist not exist", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- ReadOnExist not exist", actual)
 }
 
 func Test_Cov3_SimpleFileRW_ReadLock(t *testing.T) {
@@ -272,7 +272,7 @@ func Test_Cov3_SimpleFileRW_ReadLock(t *testing.T) {
 	bytes, err := rw.ReadLock()
 	actual := args.Map{"noErr": err == nil, "len": len(bytes)}
 	expected := args.Map{"noErr": true, "len": 6}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW ReadLock", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- ReadLock", actual)
 }
 
 func Test_Cov3_SimpleFileRW_ReadStringLock(t *testing.T) {
@@ -282,7 +282,7 @@ func Test_Cov3_SimpleFileRW_ReadStringLock(t *testing.T) {
 	content, err := rw.ReadStringLock()
 	actual := args.Map{"noErr": err == nil, "content": content}
 	expected := args.Map{"noErr": true, "content": "strlocked"}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW ReadStringLock", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- ReadStringLock", actual)
 }
 
 func Test_Cov3_SimpleFileRW_ReadOnExistLock(t *testing.T) {
@@ -293,7 +293,7 @@ func Test_Cov3_SimpleFileRW_ReadOnExistLock(t *testing.T) {
 	content, strErr := rw.ReadStringOnExistLock()
 	actual := args.Map{"noErr": err == nil, "len": len(bytes), "strNoErr": strErr == nil, "content": content}
 	expected := args.Map{"noErr": true, "len": 11, "strNoErr": true, "content": "existlocked"}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW ReadOnExistLock", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- ReadOnExistLock", actual)
 }
 
 func Test_Cov3_SimpleFileRW_NewPath(t *testing.T) {
@@ -301,7 +301,7 @@ func Test_Cov3_SimpleFileRW_NewPath(t *testing.T) {
 	newRw := rw.NewPath(false, "/tmp/newfile.txt")
 	actual := args.Map{"notNil": newRw != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW NewPath", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- NewPath", actual)
 }
 
 func Test_Cov3_SimpleFileRW_NewPathJoin(t *testing.T) {
@@ -309,7 +309,7 @@ func Test_Cov3_SimpleFileRW_NewPathJoin(t *testing.T) {
 	newRw := rw.NewPathJoin(false, "sub", "file.txt")
 	actual := args.Map{"notNil": newRw != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW NewPathJoin", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- NewPathJoin", actual)
 }
 
 func Test_Cov3_SimpleFileRW_InitializeDefaultNew(t *testing.T) {
@@ -317,7 +317,7 @@ func Test_Cov3_SimpleFileRW_InitializeDefaultNew(t *testing.T) {
 	newRw := rw.InitializeDefaultNew()
 	actual := args.Map{"notNil": newRw != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW InitializeDefaultNew", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- InitializeDefaultNew", actual)
 }
 
 func Test_Cov3_SimpleFileRW_ChmodApplierVerifier(t *testing.T) {
@@ -328,7 +328,7 @@ func Test_Cov3_SimpleFileRW_ChmodApplierVerifier(t *testing.T) {
 	verifier := rw.ChmodVerifier()
 	actual := args.Map{"applierNotNil": fmt.Sprintf("%T", applier) != "", "verifierOk": fmt.Sprintf("%T", verifier) != ""}
 	expected := args.Map{"applierNotNil": true, "verifierOk": true}
-	expected.ShouldBeEqual(t, 0, "SimpleFileRW ChmodApplier/Verifier", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleFileRW returns correct value -- ChmodApplier/Verifier", actual)
 }
 
 // ── chmodApplier — more methods ──
@@ -338,14 +338,14 @@ func Test_Cov3_ChmodApply_OnMismatch(t *testing.T) {
 	err := chmodhelper.ChmodApply.OnMismatch(true, 0755, dir)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "ChmodApply OnMismatch", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodApply returns correct value -- OnMismatch", actual)
 }
 
 func Test_Cov3_ChmodApply_OnMismatchSkipInvalid(t *testing.T) {
 	err := chmodhelper.ChmodApply.OnMismatchSkipInvalid(0755, "/nonexistent_cov3_skip")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "ChmodApply OnMismatchSkipInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodApply returns error -- OnMismatchSkipInvalid", actual)
 }
 
 func Test_Cov3_ChmodApply_OnMismatchOption(t *testing.T) {
@@ -354,14 +354,14 @@ func Test_Cov3_ChmodApply_OnMismatchOption(t *testing.T) {
 	skipErr := chmodhelper.ChmodApply.OnMismatchOption(false, false, 0755, dir)
 	actual := args.Map{"noErr": err == nil, "skipNoErr": skipErr == nil}
 	expected := args.Map{"noErr": true, "skipNoErr": true}
-	expected.ShouldBeEqual(t, 0, "ChmodApply OnMismatchOption", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodApply returns correct value -- OnMismatchOption", actual)
 }
 
 func Test_Cov3_ChmodApply_SkipInvalidFile(t *testing.T) {
 	err := chmodhelper.ChmodApply.SkipInvalidFile(0755, "/nonexistent_cov3_skip2")
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "ChmodApply SkipInvalidFile", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodApply returns error -- SkipInvalidFile", actual)
 }
 
 func Test_Cov3_ChmodApply_ApplyIf(t *testing.T) {
@@ -370,7 +370,7 @@ func Test_Cov3_ChmodApply_ApplyIf(t *testing.T) {
 	skipErr := chmodhelper.ChmodApply.ApplyIf(false, 0755, dir)
 	actual := args.Map{"noErr": err == nil, "skipNoErr": skipErr == nil}
 	expected := args.Map{"noErr": true, "skipNoErr": true}
-	expected.ShouldBeEqual(t, 0, "ChmodApply ApplyIf", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodApply returns correct value -- ApplyIf", actual)
 }
 
 func Test_Cov3_ChmodApply_Options(t *testing.T) {
@@ -378,7 +378,7 @@ func Test_Cov3_ChmodApply_Options(t *testing.T) {
 	err := chmodhelper.ChmodApply.Options(true, false, 0755, dir)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "ChmodApply Options", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodApply returns correct value -- Options", actual)
 }
 
 func Test_Cov3_ChmodApply_RecursivePath(t *testing.T) {
@@ -386,21 +386,21 @@ func Test_Cov3_ChmodApply_RecursivePath(t *testing.T) {
 	err := chmodhelper.ChmodApply.RecursivePath(true, 0755, dir)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "ChmodApply RecursivePath", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodApply returns correct value -- RecursivePath", actual)
 }
 
 func Test_Cov3_ChmodApply_PathsUsingFileModeConditions_Empty(t *testing.T) {
 	err := chmodhelper.ChmodApply.PathsUsingFileModeConditions(0755, &chmodins.Condition{})
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "PathsUsingFileModeConditions empty", actual)
+	expected.ShouldBeEqual(t, 0, "PathsUsingFileModeConditions returns empty -- empty", actual)
 }
 
 func Test_Cov3_ChmodApply_PathsUsingFileModeConditions_NilCond(t *testing.T) {
 	err := chmodhelper.ChmodApply.PathsUsingFileModeConditions(0755, nil, "/tmp")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "PathsUsingFileModeConditions nil condition", actual)
+	expected.ShouldBeEqual(t, 0, "PathsUsingFileModeConditions returns nil -- nil condition", actual)
 }
 
 // ── chmodVerifier — more methods ──
@@ -411,21 +411,21 @@ func Test_Cov3_ChmodVerify_IsEqualRwxFull(t *testing.T) {
 	result := chmodhelper.ChmodVerify.IsEqualRwxFull(dir, "-rwxr-xr-x")
 	actual := args.Map{"ok": result || !result}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify IsEqualRwxFull", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns correct value -- IsEqualRwxFull", actual)
 }
 
 func Test_Cov3_ChmodVerify_IsEqualRwxFullSkipInvalid(t *testing.T) {
 	result := chmodhelper.ChmodVerify.IsEqualRwxFullSkipInvalid("/nonexistent_cov3", "-rwxr-xr-x")
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify IsEqualRwxFullSkipInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns error -- IsEqualRwxFullSkipInvalid", actual)
 }
 
 func Test_Cov3_ChmodVerify_IsEqualSkipInvalid(t *testing.T) {
 	result := chmodhelper.ChmodVerify.IsEqualSkipInvalid("/nonexistent_cov3", 0755)
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify IsEqualSkipInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns error -- IsEqualSkipInvalid", actual)
 }
 
 func Test_Cov3_ChmodVerify_MismatchError(t *testing.T) {
@@ -434,7 +434,7 @@ func Test_Cov3_ChmodVerify_MismatchError(t *testing.T) {
 	actual := args.Map{"executed": true}
 	_ = err
 	expected := args.Map{"executed": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify MismatchError", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns error -- MismatchError", actual)
 }
 
 func Test_Cov3_ChmodVerify_PathIf(t *testing.T) {
@@ -442,7 +442,7 @@ func Test_Cov3_ChmodVerify_PathIf(t *testing.T) {
 	skipErr := chmodhelper.ChmodVerify.PathIf(false, dir, 0755)
 	actual := args.Map{"skipNil": skipErr == nil}
 	expected := args.Map{"skipNil": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify PathIf false", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns non-empty -- PathIf false", actual)
 }
 
 func Test_Cov3_ChmodVerify_Path(t *testing.T) {
@@ -451,7 +451,7 @@ func Test_Cov3_ChmodVerify_Path(t *testing.T) {
 	actual := args.Map{"executed": true}
 	_ = err
 	expected := args.Map{"executed": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify Path", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns correct value -- Path", actual)
 }
 
 func Test_Cov3_ChmodVerify_GetExistingRwxWrapper(t *testing.T) {
@@ -459,7 +459,7 @@ func Test_Cov3_ChmodVerify_GetExistingRwxWrapper(t *testing.T) {
 	rwx, err := chmodhelper.ChmodVerify.GetExistingRwxWrapper(dir)
 	actual := args.Map{"noErr": err == nil, "defined": rwx.IsDefined()}
 	expected := args.Map{"noErr": true, "defined": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify GetExistingRwxWrapper", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns correct value -- GetExistingRwxWrapper", actual)
 }
 
 func Test_Cov3_ChmodVerify_GetExistingRwxWrapperMust(t *testing.T) {
@@ -467,7 +467,7 @@ func Test_Cov3_ChmodVerify_GetExistingRwxWrapperMust(t *testing.T) {
 	rwx := chmodhelper.ChmodVerify.GetExistingRwxWrapperMust(dir)
 	actual := args.Map{"defined": rwx.IsDefined()}
 	expected := args.Map{"defined": true}
-	expected.ShouldBeEqual(t, 0, "ChmodVerify GetExistingRwxWrapperMust", actual)
+	expected.ShouldBeEqual(t, 0, "ChmodVerify returns correct value -- GetExistingRwxWrapperMust", actual)
 }
 
 // ── Attribute ──
@@ -488,7 +488,7 @@ func Test_Cov3_Attribute_Basic(t *testing.T) {
 		"hasAny": true, "byte": byte(7), "sum": byte(7),
 		"rwxStr": "rwx", "strByte": true, "nilEmpty": true, "nilNull": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Attribute basic", actual)
+	expected.ShouldBeEqual(t, 0, "Attribute returns correct value -- basic", actual)
 }
 
 func Test_Cov3_Attribute_Clone(t *testing.T) {
@@ -497,7 +497,7 @@ func Test_Cov3_Attribute_Clone(t *testing.T) {
 	nilAttr := (*chmodhelper.Attribute)(nil)
 	actual := args.Map{"read": cloned.IsRead, "nilClone": nilAttr.Clone() == nil}
 	expected := args.Map{"read": true, "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "Attribute Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Attribute returns correct value -- Clone", actual)
 }
 
 func Test_Cov3_Attribute_IsEqual(t *testing.T) {
@@ -513,7 +513,7 @@ func Test_Cov3_Attribute_IsEqual(t *testing.T) {
 		"nilLeft": nilAttr.IsEqualPtr(a1),
 	}
 	expected := args.Map{"equal": true, "notEq": false, "valEq": true, "nilNil": true, "nilLeft": false}
-	expected.ShouldBeEqual(t, 0, "Attribute IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Attribute returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov3_Attribute_ToAttributeValue(t *testing.T) {
@@ -521,7 +521,7 @@ func Test_Cov3_Attribute_ToAttributeValue(t *testing.T) {
 	av := attr.ToAttributeValue()
 	actual := args.Map{"sum": av.Sum}
 	expected := args.Map{"sum": byte(5)}
-	expected.ShouldBeEqual(t, 0, "Attribute ToAttributeValue", actual)
+	expected.ShouldBeEqual(t, 0, "Attribute returns correct value -- ToAttributeValue", actual)
 }
 
 func Test_Cov3_Attribute_ToVariant(t *testing.T) {
@@ -529,7 +529,7 @@ func Test_Cov3_Attribute_ToVariant(t *testing.T) {
 	v := attr.ToVariant()
 	actual := args.Map{"gt0": v > 0}
 	expected := args.Map{"gt0": true}
-	expected.ShouldBeEqual(t, 0, "Attribute ToVariant", actual)
+	expected.ShouldBeEqual(t, 0, "Attribute returns correct value -- ToVariant", actual)
 }
 
 // ── Variant ──
@@ -538,28 +538,28 @@ func Test_Cov3_Variant_String(t *testing.T) {
 	v := chmodhelper.X755
 	actual := args.Map{"str": v.String()}
 	expected := args.Map{"str": "755"}
-	expected.ShouldBeEqual(t, 0, "Variant String", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- String", actual)
 }
 
 func Test_Cov3_Variant_ExpandOctalByte(t *testing.T) {
 	r, w, x := chmodhelper.X755.ExpandOctalByte()
 	actual := args.Map{"r": r, "w": w, "x": x}
 	expected := args.Map{"r": r, "w": w, "x": x}
-	expected.ShouldBeEqual(t, 0, "Variant ExpandOctalByte", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- ExpandOctalByte", actual)
 }
 
 func Test_Cov3_Variant_ToWrapper(t *testing.T) {
 	rwx, err := chmodhelper.X755.ToWrapper()
 	actual := args.Map{"noErr": err == nil, "defined": rwx.IsDefined()}
 	expected := args.Map{"noErr": true, "defined": true}
-	expected.ShouldBeEqual(t, 0, "Variant ToWrapper", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- ToWrapper", actual)
 }
 
 func Test_Cov3_Variant_ToWrapperPtr(t *testing.T) {
 	rwx, err := chmodhelper.X755.ToWrapperPtr()
 	actual := args.Map{"noErr": err == nil, "notNil": rwx != nil}
 	expected := args.Map{"noErr": true, "notNil": true}
-	expected.ShouldBeEqual(t, 0, "Variant ToWrapperPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- ToWrapperPtr", actual)
 }
 
 // ── GetRecursivePaths ──
@@ -570,7 +570,7 @@ func Test_Cov3_GetRecursivePaths(t *testing.T) {
 	paths, err := chmodhelper.GetRecursivePaths(false, dir)
 	actual := args.Map{"noErr": err == nil, "gt0": len(paths) > 0}
 	expected := args.Map{"noErr": true, "gt0": true}
-	expected.ShouldBeEqual(t, 0, "GetRecursivePaths", actual)
+	expected.ShouldBeEqual(t, 0, "GetRecursivePaths returns correct value -- with args", actual)
 }
 
 func Test_Cov3_GetRecursivePaths_File(t *testing.T) {
@@ -579,14 +579,14 @@ func Test_Cov3_GetRecursivePaths_File(t *testing.T) {
 	paths, err := chmodhelper.GetRecursivePaths(false, filePath)
 	actual := args.Map{"noErr": err == nil, "len": len(paths)}
 	expected := args.Map{"noErr": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "GetRecursivePaths file", actual)
+	expected.ShouldBeEqual(t, 0, "GetRecursivePaths returns correct value -- file", actual)
 }
 
 func Test_Cov3_GetRecursivePaths_Invalid(t *testing.T) {
 	_, err := chmodhelper.GetRecursivePaths(false, "/nonexistent_cov3_rec")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "GetRecursivePaths invalid", actual)
+	expected.ShouldBeEqual(t, 0, "GetRecursivePaths returns error -- invalid", actual)
 }
 
 // ── TempDirGetter ──
@@ -594,7 +594,7 @@ func Test_Cov3_GetRecursivePaths_Invalid(t *testing.T) {
 func Test_Cov3_TempDirDefault(t *testing.T) {
 	actual := args.Map{"notEmpty": chmodhelper.TempDirDefault != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TempDirDefault", actual)
+	expected.ShouldBeEqual(t, 0, "TempDirDefault returns correct value -- with args", actual)
 }
 
 // ── GetPathExistStat ──
@@ -605,7 +605,7 @@ func Test_Cov3_GetPathExistStat(t *testing.T) {
 	invalidStat := chmodhelper.GetPathExistStat("/nonexistent_cov3")
 	actual := args.Map{"isExist": stat.IsExist, "invalidNotExist": !invalidStat.IsExist}
 	expected := args.Map{"isExist": true, "invalidNotExist": true}
-	expected.ShouldBeEqual(t, 0, "GetPathExistStat", actual)
+	expected.ShouldBeEqual(t, 0, "GetPathExistStat returns correct value -- with args", actual)
 }
 
 // ── IsPathExists / IsPathInvalid / IsDirectory ──
@@ -618,7 +618,7 @@ func Test_Cov3_IsPathExists(t *testing.T) {
 		"isDir":   chmodhelper.IsDirectory(dir),
 	}
 	expected := args.Map{"exists": true, "invalid": true, "isDir": true}
-	expected.ShouldBeEqual(t, 0, "IsPathExists/IsPathInvalid/IsDirectory", actual)
+	expected.ShouldBeEqual(t, 0, "IsPathExists/IsPathInvalid/IsDirectory returns error -- with args", actual)
 }
 
 // ── New.RwxWrapper creators ──
@@ -627,21 +627,21 @@ func Test_Cov3_NewRwxWrapper_UsingFileMode(t *testing.T) {
 	rwx := chmodhelper.New.RwxWrapper.UsingFileMode(0755)
 	actual := args.Map{"defined": rwx.IsDefined()}
 	expected := args.Map{"defined": true}
-	expected.ShouldBeEqual(t, 0, "NewRwxWrapper UsingFileMode", actual)
+	expected.ShouldBeEqual(t, 0, "NewRwxWrapper returns correct value -- UsingFileMode", actual)
 }
 
 func Test_Cov3_NewRwxWrapper_UsingFileModePtr(t *testing.T) {
 	rwx := chmodhelper.New.RwxWrapper.UsingFileModePtr(0755)
 	actual := args.Map{"notNil": rwx != nil, "defined": rwx.IsDefined()}
 	expected := args.Map{"notNil": true, "defined": true}
-	expected.ShouldBeEqual(t, 0, "NewRwxWrapper UsingFileModePtr", actual)
+	expected.ShouldBeEqual(t, 0, "NewRwxWrapper returns correct value -- UsingFileModePtr", actual)
 }
 
 func Test_Cov3_NewRwxWrapper_UsingVariant(t *testing.T) {
 	rwx, err := chmodhelper.New.RwxWrapper.UsingVariant(chmodhelper.X755)
 	actual := args.Map{"noErr": err == nil, "defined": rwx.IsDefined()}
 	expected := args.Map{"noErr": true, "defined": true}
-	expected.ShouldBeEqual(t, 0, "NewRwxWrapper UsingVariant", actual)
+	expected.ShouldBeEqual(t, 0, "NewRwxWrapper returns correct value -- UsingVariant", actual)
 }
 
 // ── New.SimpleFileReaderWriter ──
@@ -650,14 +650,14 @@ func Test_Cov3_NewSimpleFileRW_Default(t *testing.T) {
 	rw := chmodhelper.New.SimpleFileReaderWriter.Default(false, "/tmp/test.txt")
 	actual := args.Map{"notNil": rw != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewSimpleFileRW Default", actual)
+	expected.ShouldBeEqual(t, 0, "NewSimpleFileRW returns correct value -- Default", actual)
 }
 
 func Test_Cov3_NewSimpleFileRW_Path(t *testing.T) {
 	rw := chmodhelper.New.SimpleFileReaderWriter.Path(false, 0755, 0644, "/tmp/test.txt")
 	actual := args.Map{"notNil": rw != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "NewSimpleFileRW Path", actual)
+	expected.ShouldBeEqual(t, 0, "NewSimpleFileRW returns correct value -- Path", actual)
 }
 
 // ── New.Attribute ──
@@ -666,5 +666,5 @@ func Test_Cov3_NewAttribute_UsingRwx(t *testing.T) {
 	attr := chmodhelper.New.Attribute.UsingRwxString("rwx")
 	actual := args.Map{"defined": attr.IsDefined()}
 	expected := args.Map{"defined": true}
-	expected.ShouldBeEqual(t, 0, "NewAttribute UsingRwx", actual)
+	expected.ShouldBeEqual(t, 0, "NewAttribute returns correct value -- UsingRwx", actual)
 }

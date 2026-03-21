@@ -17,7 +17,7 @@ func Test_I29_Hashmap_IsEmpty_New(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"empty": hm.IsEmpty(), "items": hm.HasItems(), "len": hm.Length()}
 	expected := args.Map{"empty": true, "items": false, "len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashmap empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- empty", actual)
 }
 
 func Test_I29_Hashmap_HasAnyItem(t *testing.T) {
@@ -25,14 +25,14 @@ func Test_I29_Hashmap_HasAnyItem(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"hasAny": hm.HasAnyItem(), "len": hm.Length()}
 	expected := args.Map{"hasAny": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap HasAnyItem", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- HasAnyItem", actual)
 }
 
 func Test_I29_Hashmap_Length_Nil(t *testing.T) {
 	var hm *corestr.Hashmap
 	actual := args.Map{"len": hm.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashmap nil length", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- nil length", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -46,7 +46,7 @@ func Test_I29_Hashmap_AddOrUpdate(t *testing.T) {
 	v, _ := hm.Get("k")
 	actual := args.Map{"isNew1": isNew1, "isNew2": isNew2, "val": v}
 	expected := args.Map{"isNew1": true, "isNew2": false, "val": "v2"}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdate", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdate", actual)
 }
 
 func Test_I29_Hashmap_Set(t *testing.T) {
@@ -54,7 +54,7 @@ func Test_I29_Hashmap_Set(t *testing.T) {
 	isNew := hm.Set("k", "v")
 	actual := args.Map{"isNew": isNew}
 	expected := args.Map{"isNew": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Set", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Set", actual)
 }
 
 func Test_I29_Hashmap_SetTrim(t *testing.T) {
@@ -63,7 +63,7 @@ func Test_I29_Hashmap_SetTrim(t *testing.T) {
 	v, found := hm.Get("k")
 	actual := args.Map{"found": found, "val": v}
 	expected := args.Map{"found": true, "val": "v"}
-	expected.ShouldBeEqual(t, 0, "Hashmap SetTrim", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- SetTrim", actual)
 }
 
 func Test_I29_Hashmap_SetBySplitter(t *testing.T) {
@@ -72,7 +72,7 @@ func Test_I29_Hashmap_SetBySplitter(t *testing.T) {
 	v, _ := hm.Get("key")
 	actual := args.Map{"isNew": isNew, "val": v}
 	expected := args.Map{"isNew": true, "val": "value"}
-	expected.ShouldBeEqual(t, 0, "Hashmap SetBySplitter", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- SetBySplitter", actual)
 }
 
 func Test_I29_Hashmap_SetBySplitter_NoSplit(t *testing.T) {
@@ -81,7 +81,7 @@ func Test_I29_Hashmap_SetBySplitter_NoSplit(t *testing.T) {
 	v, found := hm.Get("keyonly")
 	actual := args.Map{"found": found, "val": v}
 	expected := args.Map{"found": true, "val": ""}
-	expected.ShouldBeEqual(t, 0, "Hashmap SetBySplitter no split", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- SetBySplitter no split", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyStrValInt(t *testing.T) {
@@ -90,7 +90,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyStrValInt(t *testing.T) {
 	v, _ := hm.Get("k")
 	actual := args.Map{"val": v}
 	expected := args.Map{"val": "42"}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyStrValInt", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateKeyStrValInt", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyStrValFloat(t *testing.T) {
@@ -99,7 +99,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyStrValFloat(t *testing.T) {
 	v, found := hm.Get("k")
 	actual := args.Map{"found": found, "notEmpty": v != ""}
 	expected := args.Map{"found": true, "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyStrValFloat", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateKeyStrValFloat", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyStrValFloat64(t *testing.T) {
@@ -108,7 +108,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyStrValFloat64(t *testing.T) {
 	v, found := hm.Get("k")
 	actual := args.Map{"found": found, "notEmpty": v != ""}
 	expected := args.Map{"found": true, "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyStrValFloat64", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateKeyStrValFloat64", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyStrValAny(t *testing.T) {
@@ -117,7 +117,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyStrValAny(t *testing.T) {
 	_, found := hm.Get("k")
 	actual := args.Map{"found": found}
 	expected := args.Map{"found": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyStrValAny", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateKeyStrValAny", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyVal(t *testing.T) {
@@ -126,7 +126,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyVal(t *testing.T) {
 	isNew := hm.AddOrUpdateKeyVal(kv)
 	actual := args.Map{"isNew": isNew}
 	expected := args.Map{"isNew": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyVal", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateKeyVal", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
@@ -136,7 +136,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyValueAny(t *testing.T) {
 	v, _ := hm.Get("x")
 	actual := args.Map{"val": v}
 	expected := args.Map{"val": "hello"}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyValueAny", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateKeyValueAny", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
@@ -145,7 +145,7 @@ func Test_I29_Hashmap_AddOrUpdateHashmap_Nil(t *testing.T) {
 	result := hm.AddOrUpdateHashmap(nil)
 	actual := args.Map{"len": result.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateHashmap nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddOrUpdateHashmap nil", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateHashmap(t *testing.T) {
@@ -156,7 +156,7 @@ func Test_I29_Hashmap_AddOrUpdateHashmap(t *testing.T) {
 	hm.AddOrUpdateHashmap(other)
 	actual := args.Map{"len": hm.Length(), "hasB": hm.Has("b")}
 	expected := args.Map{"len": 2, "hasB": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateHashmap", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateHashmap", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateMap_Empty(t *testing.T) {
@@ -165,7 +165,7 @@ func Test_I29_Hashmap_AddOrUpdateMap_Empty(t *testing.T) {
 	hm.AddOrUpdateMap(map[string]string{})
 	actual := args.Map{"len": hm.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateMap empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- AddOrUpdateMap empty", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateMap(t *testing.T) {
@@ -173,7 +173,7 @@ func Test_I29_Hashmap_AddOrUpdateMap(t *testing.T) {
 	hm.AddOrUpdateMap(map[string]string{"x": "y"})
 	actual := args.Map{"has": hm.Has("x")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateMap", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateMap", actual)
 }
 
 func Test_I29_Hashmap_AddsOrUpdates_Nil(t *testing.T) {
@@ -181,7 +181,7 @@ func Test_I29_Hashmap_AddsOrUpdates_Nil(t *testing.T) {
 	result := hm.AddsOrUpdates(nil...)
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdates nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddsOrUpdates nil", actual)
 }
 
 func Test_I29_Hashmap_AddsOrUpdates(t *testing.T) {
@@ -192,7 +192,7 @@ func Test_I29_Hashmap_AddsOrUpdates(t *testing.T) {
 	)
 	actual := args.Map{"len": hm.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdates", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddsOrUpdates", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyAnyValues_Empty(t *testing.T) {
@@ -200,7 +200,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyAnyValues_Empty(t *testing.T) {
 	hm.AddOrUpdateKeyAnyValues()
 	actual := args.Map{"empty": hm.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyAnyValues empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- AddOrUpdateKeyAnyValues empty", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyValues_Empty(t *testing.T) {
@@ -208,7 +208,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyValues_Empty(t *testing.T) {
 	hm.AddOrUpdateKeyValues()
 	actual := args.Map{"empty": hm.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyValues empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- AddOrUpdateKeyValues empty", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateKeyValues(t *testing.T) {
@@ -218,7 +218,7 @@ func Test_I29_Hashmap_AddOrUpdateKeyValues(t *testing.T) {
 	)
 	actual := args.Map{"has": hm.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateKeyValues", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- AddOrUpdateKeyValues", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateLock(t *testing.T) {
@@ -227,7 +227,7 @@ func Test_I29_Hashmap_AddOrUpdateLock(t *testing.T) {
 	v, _ := hm.Get("k")
 	actual := args.Map{"val": v}
 	expected := args.Map{"val": "v"}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateLock", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateWithWgLock(t *testing.T) {
@@ -238,7 +238,7 @@ func Test_I29_Hashmap_AddOrUpdateWithWgLock(t *testing.T) {
 	wg.Wait()
 	actual := args.Map{"has": hm.Has("k")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateWithWgLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- AddOrUpdateWithWgLock", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -250,7 +250,7 @@ func Test_I29_Hashmap_Has_Contains(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"has": hm.Has("a"), "contains": hm.Contains("a"), "missing": hm.IsKeyMissing("b")}
 	expected := args.Map{"has": true, "contains": true, "missing": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Has/Contains", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Has/Contains", actual)
 }
 
 func Test_I29_Hashmap_ContainsLock(t *testing.T) {
@@ -258,7 +258,7 @@ func Test_I29_Hashmap_ContainsLock(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"cl": hm.ContainsLock("a"), "hl": hm.HasLock("a"), "hwl": hm.HasWithLock("a"), "mkl": hm.IsKeyMissingLock("z")}
 	expected := args.Map{"cl": true, "hl": true, "hwl": true, "mkl": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap lock variants", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- lock variants", actual)
 }
 
 func Test_I29_Hashmap_HasAllStrings(t *testing.T) {
@@ -267,7 +267,7 @@ func Test_I29_Hashmap_HasAllStrings(t *testing.T) {
 	hm.AddOrUpdate("b", "2")
 	actual := args.Map{"all": hm.HasAllStrings("a", "b"), "missing": hm.HasAllStrings("a", "c")}
 	expected := args.Map{"all": true, "missing": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap HasAllStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- HasAllStrings", actual)
 }
 
 func Test_I29_Hashmap_HasAll(t *testing.T) {
@@ -275,7 +275,7 @@ func Test_I29_Hashmap_HasAll(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"all": hm.HasAll("a"), "miss": hm.HasAll("a", "z")}
 	expected := args.Map{"all": true, "miss": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap HasAll", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- HasAll", actual)
 }
 
 func Test_I29_Hashmap_HasAny(t *testing.T) {
@@ -283,7 +283,7 @@ func Test_I29_Hashmap_HasAny(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"any": hm.HasAny("z", "a"), "none": hm.HasAny("x", "y")}
 	expected := args.Map{"any": true, "none": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap HasAny", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- HasAny", actual)
 }
 
 func Test_I29_Hashmap_HasAllCollectionItems(t *testing.T) {
@@ -292,7 +292,7 @@ func Test_I29_Hashmap_HasAllCollectionItems(t *testing.T) {
 	coll := corestr.New.Collection.Strings([]string{"a"})
 	actual := args.Map{"all": hm.HasAllCollectionItems(coll), "nil": hm.HasAllCollectionItems(nil)}
 	expected := args.Map{"all": true, "nil": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap HasAllCollectionItems", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- HasAllCollectionItems", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -307,7 +307,7 @@ func Test_I29_Hashmap_Get(t *testing.T) {
 	_, notFound := hm.Get("missing")
 	actual := args.Map{"val": val, "found": found, "val2": val2, "found2": found2, "notFound": notFound}
 	expected := args.Map{"val": "v", "found": true, "val2": "v", "found2": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap Get/GetValue", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Get/GetValue", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -319,14 +319,14 @@ func Test_I29_Hashmap_Items(t *testing.T) {
 	hm.AddOrUpdate("k", "v")
 	actual := args.Map{"len": len(hm.Items())}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap Items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Items", actual)
 }
 
 func Test_I29_Hashmap_SafeItems_Nil(t *testing.T) {
 	var hm *corestr.Hashmap
 	actual := args.Map{"nil": hm.SafeItems() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap SafeItems nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- SafeItems nil", actual)
 }
 
 func Test_I29_Hashmap_Keys(t *testing.T) {
@@ -337,7 +337,7 @@ func Test_I29_Hashmap_Keys(t *testing.T) {
 	allKeys := hm.AllKeys()
 	actual := args.Map{"keysLen": len(keys), "allKeysLen": len(allKeys)}
 	expected := args.Map{"keysLen": 2, "allKeysLen": 2}
-	expected.ShouldBeEqual(t, 0, "Hashmap Keys", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Keys", actual)
 }
 
 func Test_I29_Hashmap_KeysCollection(t *testing.T) {
@@ -346,7 +346,7 @@ func Test_I29_Hashmap_KeysCollection(t *testing.T) {
 	kc := hm.KeysCollection()
 	actual := args.Map{"len": kc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- KeysCollection", actual)
 }
 
 func Test_I29_Hashmap_ValuesList(t *testing.T) {
@@ -355,7 +355,7 @@ func Test_I29_Hashmap_ValuesList(t *testing.T) {
 	vl := hm.ValuesList()
 	actual := args.Map{"len": len(vl), "val": vl[0]}
 	expected := args.Map{"len": 1, "val": "1"}
-	expected.ShouldBeEqual(t, 0, "Hashmap ValuesList", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ValuesList", actual)
 }
 
 func Test_I29_Hashmap_ValuesCollection(t *testing.T) {
@@ -364,7 +364,7 @@ func Test_I29_Hashmap_ValuesCollection(t *testing.T) {
 	vc := hm.ValuesCollection()
 	actual := args.Map{"len": vc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap ValuesCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ValuesCollection", actual)
 }
 
 func Test_I29_Hashmap_ValuesHashset(t *testing.T) {
@@ -373,7 +373,7 @@ func Test_I29_Hashmap_ValuesHashset(t *testing.T) {
 	vh := hm.ValuesHashset()
 	actual := args.Map{"has": vh.Has("1")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ValuesHashset", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ValuesHashset", actual)
 }
 
 func Test_I29_Hashmap_Collection(t *testing.T) {
@@ -382,7 +382,7 @@ func Test_I29_Hashmap_Collection(t *testing.T) {
 	coll := hm.Collection()
 	actual := args.Map{"len": coll.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap Collection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Collection", actual)
 }
 
 func Test_I29_Hashmap_KeysValuesList(t *testing.T) {
@@ -391,7 +391,7 @@ func Test_I29_Hashmap_KeysValuesList(t *testing.T) {
 	keys, vals := hm.KeysValuesList()
 	actual := args.Map{"kLen": len(keys), "vLen": len(vals)}
 	expected := args.Map{"kLen": 1, "vLen": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysValuesList", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- KeysValuesList", actual)
 }
 
 func Test_I29_Hashmap_KeysValuesCollection(t *testing.T) {
@@ -400,7 +400,7 @@ func Test_I29_Hashmap_KeysValuesCollection(t *testing.T) {
 	keys, vals := hm.KeysValuesCollection()
 	actual := args.Map{"kLen": keys.Length(), "vLen": vals.Length()}
 	expected := args.Map{"kLen": 1, "vLen": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysValuesCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- KeysValuesCollection", actual)
 }
 
 func Test_I29_Hashmap_KeysValuePairs(t *testing.T) {
@@ -409,7 +409,7 @@ func Test_I29_Hashmap_KeysValuePairs(t *testing.T) {
 	pairs := hm.KeysValuePairs()
 	actual := args.Map{"len": len(pairs)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysValuePairs", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- KeysValuePairs", actual)
 }
 
 func Test_I29_Hashmap_KeysValuePairsCollection(t *testing.T) {
@@ -418,7 +418,7 @@ func Test_I29_Hashmap_KeysValuePairsCollection(t *testing.T) {
 	kvColl := hm.KeysValuePairsCollection()
 	actual := args.Map{"len": kvColl.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysValuePairsCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- KeysValuePairsCollection", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -429,7 +429,7 @@ func Test_I29_Hashmap_IsEmptyLock(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"empty": hm.IsEmptyLock()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEmptyLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- IsEmptyLock", actual)
 }
 
 func Test_I29_Hashmap_LengthLock(t *testing.T) {
@@ -437,7 +437,7 @@ func Test_I29_Hashmap_LengthLock(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"len": hm.LengthLock()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap LengthLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- LengthLock", actual)
 }
 
 func Test_I29_Hashmap_KeysLock(t *testing.T) {
@@ -446,7 +446,7 @@ func Test_I29_Hashmap_KeysLock(t *testing.T) {
 	kl := hm.KeysLock()
 	actual := args.Map{"len": len(kl)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- KeysLock", actual)
 }
 
 func Test_I29_Hashmap_ValuesListCopyLock(t *testing.T) {
@@ -455,7 +455,7 @@ func Test_I29_Hashmap_ValuesListCopyLock(t *testing.T) {
 	vl := hm.ValuesListCopyLock()
 	actual := args.Map{"len": len(vl)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap ValuesListCopyLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ValuesListCopyLock", actual)
 }
 
 func Test_I29_Hashmap_ValuesCollectionLock(t *testing.T) {
@@ -464,7 +464,7 @@ func Test_I29_Hashmap_ValuesCollectionLock(t *testing.T) {
 	vc := hm.ValuesCollectionLock()
 	actual := args.Map{"len": vc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap ValuesCollectionLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ValuesCollectionLock", actual)
 }
 
 func Test_I29_Hashmap_ValuesHashsetLock(t *testing.T) {
@@ -473,7 +473,7 @@ func Test_I29_Hashmap_ValuesHashsetLock(t *testing.T) {
 	vh := hm.ValuesHashsetLock()
 	actual := args.Map{"has": vh.Has("1")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ValuesHashsetLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ValuesHashsetLock", actual)
 }
 
 func Test_I29_Hashmap_ItemsCopyLock(t *testing.T) {
@@ -482,7 +482,7 @@ func Test_I29_Hashmap_ItemsCopyLock(t *testing.T) {
 	cp := hm.ItemsCopyLock()
 	actual := args.Map{"len": len(*cp)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap ItemsCopyLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- ItemsCopyLock", actual)
 }
 
 func Test_I29_Hashmap_KeysValuesListLock(t *testing.T) {
@@ -491,7 +491,7 @@ func Test_I29_Hashmap_KeysValuesListLock(t *testing.T) {
 	keys, vals := hm.KeysValuesListLock()
 	actual := args.Map{"kLen": len(keys), "vLen": len(vals)}
 	expected := args.Map{"kLen": 1, "vLen": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysValuesListLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- KeysValuesListLock", actual)
 }
 
 func Test_I29_Hashmap_StringLock(t *testing.T) {
@@ -499,7 +499,7 @@ func Test_I29_Hashmap_StringLock(t *testing.T) {
 	s := hm.StringLock()
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap StringLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- StringLock", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -512,7 +512,7 @@ func Test_I29_Hashmap_ConcatNew_NoArgs(t *testing.T) {
 	c := hm.ConcatNew(true)
 	actual := args.Map{"len": c.Length(), "has": c.Has("a")}
 	expected := args.Map{"len": 1, "has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ConcatNew no args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- ConcatNew no args", actual)
 }
 
 func Test_I29_Hashmap_ConcatNew_WithArgs(t *testing.T) {
@@ -523,7 +523,7 @@ func Test_I29_Hashmap_ConcatNew_WithArgs(t *testing.T) {
 	c := hm.ConcatNew(true, other)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashmap ConcatNew with args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ConcatNew with args", actual)
 }
 
 func Test_I29_Hashmap_ConcatNew_NilInArgs(t *testing.T) {
@@ -532,7 +532,7 @@ func Test_I29_Hashmap_ConcatNew_NilInArgs(t *testing.T) {
 	c := hm.ConcatNew(true, nil)
 	actual := args.Map{"has": c.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ConcatNew nil in args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- ConcatNew nil in args", actual)
 }
 
 func Test_I29_Hashmap_ConcatNewUsingMaps_NoArgs(t *testing.T) {
@@ -541,7 +541,7 @@ func Test_I29_Hashmap_ConcatNewUsingMaps_NoArgs(t *testing.T) {
 	c := hm.ConcatNewUsingMaps(true)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap ConcatNewUsingMaps no args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- ConcatNewUsingMaps no args", actual)
 }
 
 func Test_I29_Hashmap_ConcatNewUsingMaps_WithArgs(t *testing.T) {
@@ -550,7 +550,7 @@ func Test_I29_Hashmap_ConcatNewUsingMaps_WithArgs(t *testing.T) {
 	c := hm.ConcatNewUsingMaps(true, map[string]string{"b": "2"}, nil)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashmap ConcatNewUsingMaps with args", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ConcatNewUsingMaps with args", actual)
 }
 
 func Test_I29_Hashmap_Diff(t *testing.T) {
@@ -563,7 +563,7 @@ func Test_I29_Hashmap_Diff(t *testing.T) {
 	diff := hm.Diff(other)
 	actual := args.Map{"hasDiff": diff.HasAnyItem()}
 	expected := args.Map{"hasDiff": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Diff", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Diff", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -576,7 +576,7 @@ func Test_I29_Hashmap_Remove(t *testing.T) {
 	hm.Remove("a")
 	actual := args.Map{"has": hm.Has("a")}
 	expected := args.Map{"has": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap Remove", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Remove", actual)
 }
 
 func Test_I29_Hashmap_RemoveWithLock(t *testing.T) {
@@ -585,7 +585,7 @@ func Test_I29_Hashmap_RemoveWithLock(t *testing.T) {
 	hm.RemoveWithLock("a")
 	actual := args.Map{"has": hm.Has("a")}
 	expected := args.Map{"has": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap RemoveWithLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- RemoveWithLock", actual)
 }
 
 func Test_I29_Hashmap_Clear(t *testing.T) {
@@ -594,7 +594,7 @@ func Test_I29_Hashmap_Clear(t *testing.T) {
 	hm.Clear()
 	actual := args.Map{"empty": hm.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Clear", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Clear", actual)
 }
 
 func Test_I29_Hashmap_Clear_Nil(t *testing.T) {
@@ -602,7 +602,7 @@ func Test_I29_Hashmap_Clear_Nil(t *testing.T) {
 	result := hm.Clear()
 	actual := args.Map{"nil": result == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Clear nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- Clear nil", actual)
 }
 
 func Test_I29_Hashmap_Dispose(t *testing.T) {
@@ -611,7 +611,7 @@ func Test_I29_Hashmap_Dispose(t *testing.T) {
 	hm.Dispose()
 	actual := args.Map{"empty": hm.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Dispose", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Dispose", actual)
 }
 
 func Test_I29_Hashmap_Dispose_Nil(t *testing.T) {
@@ -619,7 +619,7 @@ func Test_I29_Hashmap_Dispose_Nil(t *testing.T) {
 	hm.Dispose() // should not panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Dispose nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- Dispose nil", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -631,21 +631,21 @@ func Test_I29_Hashmap_IsEqualPtr_Same(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"same": hm.IsEqualPtr(hm)}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqualPtr same ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- IsEqualPtr same ptr", actual)
 }
 
 func Test_I29_Hashmap_IsEqualPtr_BothNil(t *testing.T) {
 	var hm *corestr.Hashmap
 	actual := args.Map{"eq": hm.IsEqualPtr(nil)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqualPtr both nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- IsEqualPtr both nil", actual)
 }
 
 func Test_I29_Hashmap_IsEqualPtr_OneNil(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"eq": hm.IsEqualPtr(nil)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqualPtr one nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- IsEqualPtr one nil", actual)
 }
 
 func Test_I29_Hashmap_IsEqualPtr_BothEmpty(t *testing.T) {
@@ -653,7 +653,7 @@ func Test_I29_Hashmap_IsEqualPtr_BothEmpty(t *testing.T) {
 	hm2 := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"eq": hm1.IsEqualPtr(hm2)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqualPtr both empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- IsEqualPtr both empty", actual)
 }
 
 func Test_I29_Hashmap_IsEqualPtr_DiffLength(t *testing.T) {
@@ -662,7 +662,7 @@ func Test_I29_Hashmap_IsEqualPtr_DiffLength(t *testing.T) {
 	hm2 := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"eq": hm1.IsEqualPtr(hm2)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqualPtr diff length", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- IsEqualPtr diff length", actual)
 }
 
 func Test_I29_Hashmap_IsEqualPtr_DiffValues(t *testing.T) {
@@ -672,7 +672,7 @@ func Test_I29_Hashmap_IsEqualPtr_DiffValues(t *testing.T) {
 	hm2.AddOrUpdate("a", "2")
 	actual := args.Map{"eq": hm1.IsEqualPtr(hm2)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqualPtr diff values", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- IsEqualPtr diff values", actual)
 }
 
 func Test_I29_Hashmap_IsEqual(t *testing.T) {
@@ -681,7 +681,7 @@ func Test_I29_Hashmap_IsEqual(t *testing.T) {
 	cloned := hm.Clone()
 	actual := args.Map{"eq": hm.IsEqual(cloned)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- IsEqual", actual)
 }
 
 func Test_I29_Hashmap_IsEqualPtrLock(t *testing.T) {
@@ -689,7 +689,7 @@ func Test_I29_Hashmap_IsEqualPtrLock(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"eq": hm.IsEqualPtrLock(hm)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap IsEqualPtrLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- IsEqualPtrLock", actual)
 }
 
 func Test_I29_Hashmap_Clone(t *testing.T) {
@@ -698,7 +698,7 @@ func Test_I29_Hashmap_Clone(t *testing.T) {
 	c := hm.Clone()
 	actual := args.Map{"len": c.Length(), "has": c.Has("a")}
 	expected := args.Map{"len": 1, "has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Clone", actual)
 }
 
 func Test_I29_Hashmap_ClonePtr(t *testing.T) {
@@ -707,7 +707,7 @@ func Test_I29_Hashmap_ClonePtr(t *testing.T) {
 	cp := hm.ClonePtr()
 	actual := args.Map{"notNil": cp != nil, "has": cp.Has("a")}
 	expected := args.Map{"notNil": true, "has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ClonePtr", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- ClonePtr", actual)
 }
 
 func Test_I29_Hashmap_ClonePtr_Nil(t *testing.T) {
@@ -715,7 +715,7 @@ func Test_I29_Hashmap_ClonePtr_Nil(t *testing.T) {
 	cp := hm.ClonePtr()
 	actual := args.Map{"nil": cp == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- ClonePtr nil", actual)
 }
 
 func Test_I29_Hashmap_Clone_Empty(t *testing.T) {
@@ -723,7 +723,7 @@ func Test_I29_Hashmap_Clone_Empty(t *testing.T) {
 	c := hm.Clone()
 	actual := args.Map{"empty": c.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Clone empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- Clone empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -734,7 +734,7 @@ func Test_I29_Hashmap_String_Empty(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"notEmpty": hm.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap String empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- String empty", actual)
 }
 
 func Test_I29_Hashmap_String_WithItems(t *testing.T) {
@@ -742,7 +742,7 @@ func Test_I29_Hashmap_String_WithItems(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"notEmpty": hm.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap String with items", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- String with items", actual)
 }
 
 func Test_I29_Hashmap_Join(t *testing.T) {
@@ -750,7 +750,7 @@ func Test_I29_Hashmap_Join(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"val": hm.Join(",")}
 	expected := args.Map{"val": "1"}
-	expected.ShouldBeEqual(t, 0, "Hashmap Join", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Join", actual)
 }
 
 func Test_I29_Hashmap_JoinKeys(t *testing.T) {
@@ -758,7 +758,7 @@ func Test_I29_Hashmap_JoinKeys(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"val": hm.JoinKeys(",")}
 	expected := args.Map{"val": "a"}
-	expected.ShouldBeEqual(t, 0, "Hashmap JoinKeys", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- JoinKeys", actual)
 }
 
 func Test_I29_Hashmap_KeysToLower(t *testing.T) {
@@ -767,7 +767,7 @@ func Test_I29_Hashmap_KeysToLower(t *testing.T) {
 	lower := hm.KeysToLower()
 	actual := args.Map{"has": lower.Has("abc")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeysToLower", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- KeysToLower", actual)
 }
 
 func Test_I29_Hashmap_ValuesToLower(t *testing.T) {
@@ -776,7 +776,7 @@ func Test_I29_Hashmap_ValuesToLower(t *testing.T) {
 	lower := hm.ValuesToLower()
 	actual := args.Map{"has": lower.Has("abc")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ValuesToLower deprecated", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- ValuesToLower deprecated", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -789,7 +789,7 @@ func Test_I29_Hashmap_JsonModel(t *testing.T) {
 	jm := hm.JsonModel()
 	actual := args.Map{"len": len(jm)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap JsonModel", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- JsonModel", actual)
 }
 
 func Test_I29_Hashmap_JsonModelAny(t *testing.T) {
@@ -797,7 +797,7 @@ func Test_I29_Hashmap_JsonModelAny(t *testing.T) {
 	hm.AddOrUpdate("a", "1")
 	actual := args.Map{"notNil": hm.JsonModelAny() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap JsonModelAny", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- JsonModelAny", actual)
 }
 
 func Test_I29_Hashmap_MarshalJSON(t *testing.T) {
@@ -806,7 +806,7 @@ func Test_I29_Hashmap_MarshalJSON(t *testing.T) {
 	b, err := hm.MarshalJSON()
 	actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
 	expected := args.Map{"noErr": true, "hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap MarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- MarshalJSON", actual)
 }
 
 func Test_I29_Hashmap_UnmarshalJSON(t *testing.T) {
@@ -815,7 +815,7 @@ func Test_I29_Hashmap_UnmarshalJSON(t *testing.T) {
 	v, _ := hm.Get("x")
 	actual := args.Map{"noErr": err == nil, "val": v}
 	expected := args.Map{"noErr": true, "val": "y"}
-	expected.ShouldBeEqual(t, 0, "Hashmap UnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- UnmarshalJSON", actual)
 }
 
 func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
@@ -823,7 +823,7 @@ func Test_I29_Hashmap_UnmarshalJSON_Err(t *testing.T) {
 	err := hm.UnmarshalJSON([]byte(`{invalid`))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap UnmarshalJSON err", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns error -- UnmarshalJSON err", actual)
 }
 
 func Test_I29_Hashmap_Json(t *testing.T) {
@@ -832,7 +832,7 @@ func Test_I29_Hashmap_Json(t *testing.T) {
 	j := hm.Json()
 	actual := args.Map{"hasBytes": j.HasBytes()}
 	expected := args.Map{"hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Json", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Json", actual)
 }
 
 func Test_I29_Hashmap_JsonPtr(t *testing.T) {
@@ -841,7 +841,7 @@ func Test_I29_Hashmap_JsonPtr(t *testing.T) {
 	jp := hm.JsonPtr()
 	actual := args.Map{"notNil": jp != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap JsonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- JsonPtr", actual)
 }
 
 func Test_I29_Hashmap_Serialize(t *testing.T) {
@@ -850,7 +850,7 @@ func Test_I29_Hashmap_Serialize(t *testing.T) {
 	b, err := hm.Serialize()
 	actual := args.Map{"noErr": err == nil, "hasBytes": len(b) > 0}
 	expected := args.Map{"noErr": true, "hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Serialize", actual)
 }
 
 func Test_I29_Hashmap_Deserialize(t *testing.T) {
@@ -860,7 +860,7 @@ func Test_I29_Hashmap_Deserialize(t *testing.T) {
 	err := hm.Deserialize(&target)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- Deserialize", actual)
 }
 
 func Test_I29_Hashmap_ParseInjectUsingJson(t *testing.T) {
@@ -871,7 +871,7 @@ func Test_I29_Hashmap_ParseInjectUsingJson(t *testing.T) {
 	result, err := hm2.ParseInjectUsingJson(jr)
 	actual := args.Map{"noErr": err == nil, "has": result.Has("a")}
 	expected := args.Map{"noErr": true, "has": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ParseInjectUsingJson", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- ParseInjectUsingJson", actual)
 }
 
 func Test_I29_Hashmap_ParseInjectUsingJson_Err(t *testing.T) {
@@ -880,7 +880,7 @@ func Test_I29_Hashmap_ParseInjectUsingJson_Err(t *testing.T) {
 	_, err := hm.ParseInjectUsingJson(badJson)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ParseInjectUsingJson err", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns error -- ParseInjectUsingJson err", actual)
 }
 
 func Test_I29_Hashmap_JsonParseSelfInject(t *testing.T) {
@@ -891,35 +891,35 @@ func Test_I29_Hashmap_JsonParseSelfInject(t *testing.T) {
 	err := hm2.JsonParseSelfInject(jr)
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap JsonParseSelfInject", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- JsonParseSelfInject", actual)
 }
 
 func Test_I29_Hashmap_AsJsoner(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"notNil": hm.AsJsoner() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AsJsoner", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsoner", actual)
 }
 
 func Test_I29_Hashmap_AsJsonContractsBinder(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"notNil": hm.AsJsonContractsBinder() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AsJsonContractsBinder", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsonContractsBinder", actual)
 }
 
 func Test_I29_Hashmap_AsJsonParseSelfInjector(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"notNil": hm.AsJsonParseSelfInjector() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AsJsonParseSelfInjector", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsonParseSelfInjector", actual)
 }
 
 func Test_I29_Hashmap_AsJsonMarshaller(t *testing.T) {
 	hm := corestr.New.Hashmap.Cap(5)
 	actual := args.Map{"notNil": hm.AsJsonMarshaller() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AsJsonMarshaller", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AsJsonMarshaller", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -932,7 +932,7 @@ func Test_I29_Hashmap_ToError(t *testing.T) {
 	err := hm.ToError(", ")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ToError", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns error -- ToError", actual)
 }
 
 func Test_I29_Hashmap_ToDefaultError(t *testing.T) {
@@ -941,7 +941,7 @@ func Test_I29_Hashmap_ToDefaultError(t *testing.T) {
 	err := hm.ToDefaultError()
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap ToDefaultError", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns error -- ToDefaultError", actual)
 }
 
 func Test_I29_Hashmap_KeyValStringLines(t *testing.T) {
@@ -950,7 +950,7 @@ func Test_I29_Hashmap_KeyValStringLines(t *testing.T) {
 	lines := hm.KeyValStringLines()
 	actual := args.Map{"len": len(lines)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap KeyValStringLines", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- KeyValStringLines", actual)
 }
 
 func Test_I29_Hashmap_ToStringsUsingCompiler_Empty(t *testing.T) {
@@ -958,7 +958,7 @@ func Test_I29_Hashmap_ToStringsUsingCompiler_Empty(t *testing.T) {
 	result := hm.ToStringsUsingCompiler(func(k, v string) string { return k + v })
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashmap ToStringsUsingCompiler empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- ToStringsUsingCompiler empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -973,7 +973,7 @@ func Test_I29_Hashmap_GetValuesExceptKeysInHashset(t *testing.T) {
 	result := hm.GetValuesExceptKeysInHashset(exclude)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetValuesExceptKeysInHashset", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- GetValuesExceptKeysInHashset", actual)
 }
 
 func Test_I29_Hashmap_GetValuesExceptKeysInHashset_Nil(t *testing.T) {
@@ -982,7 +982,7 @@ func Test_I29_Hashmap_GetValuesExceptKeysInHashset_Nil(t *testing.T) {
 	result := hm.GetValuesExceptKeysInHashset(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetValuesExceptKeysInHashset nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- GetValuesExceptKeysInHashset nil", actual)
 }
 
 func Test_I29_Hashmap_GetValuesKeysExcept(t *testing.T) {
@@ -992,7 +992,7 @@ func Test_I29_Hashmap_GetValuesKeysExcept(t *testing.T) {
 	result := hm.GetValuesKeysExcept([]string{"a"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetValuesKeysExcept", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns non-empty -- GetValuesKeysExcept", actual)
 }
 
 func Test_I29_Hashmap_GetValuesKeysExcept_Nil(t *testing.T) {
@@ -1001,7 +1001,7 @@ func Test_I29_Hashmap_GetValuesKeysExcept_Nil(t *testing.T) {
 	result := hm.GetValuesKeysExcept(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetValuesKeysExcept nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- GetValuesKeysExcept nil", actual)
 }
 
 func Test_I29_Hashmap_GetAllExceptCollection(t *testing.T) {
@@ -1012,7 +1012,7 @@ func Test_I29_Hashmap_GetAllExceptCollection(t *testing.T) {
 	result := hm.GetAllExceptCollection(coll)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetAllExceptCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetAllExceptCollection", actual)
 }
 
 func Test_I29_Hashmap_GetAllExceptCollection_Nil(t *testing.T) {
@@ -1021,7 +1021,7 @@ func Test_I29_Hashmap_GetAllExceptCollection_Nil(t *testing.T) {
 	result := hm.GetAllExceptCollection(nil)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetAllExceptCollection nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- GetAllExceptCollection nil", actual)
 }
 
 func Test_I29_Hashmap_GetKeysFilteredItems(t *testing.T) {
@@ -1033,7 +1033,7 @@ func Test_I29_Hashmap_GetKeysFilteredItems(t *testing.T) {
 	})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetKeysFilteredItems", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredItems", actual)
 }
 
 func Test_I29_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
@@ -1043,7 +1043,7 @@ func Test_I29_Hashmap_GetKeysFilteredItems_Empty(t *testing.T) {
 	})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetKeysFilteredItems empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- GetKeysFilteredItems empty", actual)
 }
 
 func Test_I29_Hashmap_GetKeysFilteredCollection(t *testing.T) {
@@ -1054,7 +1054,7 @@ func Test_I29_Hashmap_GetKeysFilteredCollection(t *testing.T) {
 	})
 	actual := args.Map{"len": coll.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetKeysFilteredCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredCollection", actual)
 }
 
 func Test_I29_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
@@ -1064,7 +1064,7 @@ func Test_I29_Hashmap_GetKeysFilteredCollection_Empty(t *testing.T) {
 	})
 	actual := args.Map{"empty": coll.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetKeysFilteredCollection empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- GetKeysFilteredCollection empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1076,7 +1076,7 @@ func Test_I29_Hashmap_AddOrUpdateCollection_Nil(t *testing.T) {
 	result := hm.AddOrUpdateCollection(nil, nil)
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateCollection nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddOrUpdateCollection nil", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateCollection_Mismatch(t *testing.T) {
@@ -1086,7 +1086,7 @@ func Test_I29_Hashmap_AddOrUpdateCollection_Mismatch(t *testing.T) {
 	result := hm.AddOrUpdateCollection(keys, vals)
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateCollection mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateCollection mismatch", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateCollection(t *testing.T) {
@@ -1097,7 +1097,7 @@ func Test_I29_Hashmap_AddOrUpdateCollection(t *testing.T) {
 	v, _ := hm.Get("a")
 	actual := args.Map{"val": v}
 	expected := args.Map{"val": "1"}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateCollection", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
@@ -1108,7 +1108,7 @@ func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock(t *testing.T) {
 	wg.Wait()
 	actual := args.Map{"len": hm.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateStringsPtrWgLock", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddOrUpdateStringsPtrWgLock", actual)
 }
 
 func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock_Empty(t *testing.T) {
@@ -1116,7 +1116,7 @@ func Test_I29_Hashmap_AddOrUpdateStringsPtrWgLock_Empty(t *testing.T) {
 	result := hm.AddOrUpdateStringsPtrWgLock(&sync.WaitGroup{}, []string{}, []string{})
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddOrUpdateStringsPtrWgLock empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- AddOrUpdateStringsPtrWgLock empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1128,7 +1128,7 @@ func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Nil(t *testing.T) {
 	result := hm.AddsOrUpdatesAnyUsingFilter(nil, nil...)
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdatesAnyUsingFilter nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddsOrUpdatesAnyUsingFilter nil", actual)
 }
 
 func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
@@ -1142,7 +1142,7 @@ func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilter_Break(t *testing.T) {
 	)
 	actual := args.Map{"len": hm.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdatesAnyUsingFilter break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddsOrUpdatesAnyUsingFilter break", actual)
 }
 
 func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Nil(t *testing.T) {
@@ -1150,7 +1150,7 @@ func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Nil(t *testing.T) {
 	result := hm.AddsOrUpdatesAnyUsingFilterLock(nil, nil...)
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdatesAnyUsingFilterLock nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddsOrUpdatesAnyUsingFilterLock nil", actual)
 }
 
 func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Break(t *testing.T) {
@@ -1164,7 +1164,7 @@ func Test_I29_Hashmap_AddsOrUpdatesAnyUsingFilterLock_Break(t *testing.T) {
 	)
 	actual := args.Map{"len": hm.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdatesAnyUsingFilterLock break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddsOrUpdatesAnyUsingFilterLock break", actual)
 }
 
 func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Nil(t *testing.T) {
@@ -1172,7 +1172,7 @@ func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Nil(t *testing.T) {
 	result := hm.AddsOrUpdatesUsingFilter(nil, nil...)
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdatesUsingFilter nil", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns nil -- AddsOrUpdatesUsingFilter nil", actual)
 }
 
 func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
@@ -1186,7 +1186,7 @@ func Test_I29_Hashmap_AddsOrUpdatesUsingFilter_Break(t *testing.T) {
 	)
 	actual := args.Map{"len": hm.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap AddsOrUpdatesUsingFilter break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- AddsOrUpdatesUsingFilter break", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1202,7 +1202,7 @@ func Test_I29_Hashmap_GetKeysFilteredItems_Break(t *testing.T) {
 	})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetKeysFilteredItems break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredItems break", actual)
 }
 
 func Test_I29_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
@@ -1214,7 +1214,7 @@ func Test_I29_Hashmap_GetKeysFilteredCollection_Break(t *testing.T) {
 	})
 	actual := args.Map{"len": coll.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Hashmap GetKeysFilteredCollection break", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns correct value -- GetKeysFilteredCollection break", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1226,7 +1226,7 @@ func Test_I29_HashsetDataModel_NewUsing(t *testing.T) {
 	hs := corestr.NewHashsetUsingDataModel(dm)
 	actual := args.Map{"has": hs.Has("a")}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "HashsetDataModel NewUsing", actual)
+	expected.ShouldBeEqual(t, 0, "HashsetDataModel returns correct value -- NewUsing", actual)
 }
 
 func Test_I29_HashsetDataModel_NewFromCollection(t *testing.T) {
@@ -1234,5 +1234,5 @@ func Test_I29_HashsetDataModel_NewFromCollection(t *testing.T) {
 	dm := corestr.NewHashsetsDataModelUsing(hs)
 	actual := args.Map{"notNil": dm != nil, "len": len(dm.Items)}
 	expected := args.Map{"notNil": true, "len": 2}
-	expected.ShouldBeEqual(t, 0, "HashsetDataModel NewFromCollection", actual)
+	expected.ShouldBeEqual(t, 0, "HashsetDataModel returns correct value -- NewFromCollection", actual)
 }

@@ -16,35 +16,35 @@ func Test_I14_MethodProcessor_NilReceiver_HasValidFunc(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{"hasValid": mp.HasValidFunc()}
 	expected := args.Map{"hasValid": false}
-	expected.ShouldBeEqual(t, 0, "nil HasValidFunc", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- HasValidFunc", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_IsInvalid(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{"isInvalid": mp.IsInvalid()}
 	expected := args.Map{"isInvalid": true}
-	expected.ShouldBeEqual(t, 0, "nil IsInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- IsInvalid", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_Func(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{"funcNil": mp.Func() == nil}
 	expected := args.Map{"funcNil": true}
-	expected.ShouldBeEqual(t, 0, "nil Func", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- Func", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_ReturnLength(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{"retLen": mp.ReturnLength()}
 	expected := args.Map{"retLen": -1}
-	expected.ShouldBeEqual(t, 0, "nil ReturnLength", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- ReturnLength", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_GetType(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{"typeNil": mp.GetType() == nil}
 	expected := args.Map{"typeNil": true}
-	expected.ShouldBeEqual(t, 0, "nil GetType", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- GetType", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_GetOutArgsTypes(t *testing.T) {
@@ -52,7 +52,7 @@ func Test_I14_MethodProcessor_NilReceiver_GetOutArgsTypes(t *testing.T) {
 	out := mp.GetOutArgsTypes()
 	actual := args.Map{"len": len(out)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "nil GetOutArgsTypes", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- GetOutArgsTypes", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_GetInArgsTypes(t *testing.T) {
@@ -60,7 +60,7 @@ func Test_I14_MethodProcessor_NilReceiver_GetInArgsTypes(t *testing.T) {
 	in := mp.GetInArgsTypes()
 	actual := args.Map{"len": len(in)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "nil GetInArgsTypes", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- GetInArgsTypes", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_GetInArgsTypesNames(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_I14_MethodProcessor_NilReceiver_GetInArgsTypesNames(t *testing.T) {
 	names := mp.GetInArgsTypesNames()
 	actual := args.Map{"len": len(names)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "nil GetInArgsTypesNames", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- GetInArgsTypesNames", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_Invoke(t *testing.T) {
@@ -76,14 +76,14 @@ func Test_I14_MethodProcessor_NilReceiver_Invoke(t *testing.T) {
 	_, err := mp.Invoke()
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "nil Invoke", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- Invoke", actual)
 }
 
 func Test_I14_MethodProcessor_NilReceiver_IsPublic(t *testing.T) {
 	var mp *reflectmodel.MethodProcessor
 	actual := args.Map{"isPublic": mp.IsPublicMethod(), "isPrivate": mp.IsPrivateMethod()}
 	expected := args.Map{"isPublic": false, "isPrivate": false}
-	expected.ShouldBeEqual(t, 0, "nil IsPublicMethod/IsPrivateMethod", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- IsPublicMethod/IsPrivateMethod", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -94,7 +94,7 @@ func Test_I14_IsEqual_BothNil(t *testing.T) {
 	var a, b *reflectmodel.MethodProcessor
 	actual := args.Map{"eq": a.IsEqual(b)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns nil -- both nil", actual)
 }
 
 func Test_I14_IsEqual_LeftNil(t *testing.T) {
@@ -102,21 +102,21 @@ func Test_I14_IsEqual_LeftNil(t *testing.T) {
 	b := newMethodProcessor("PublicMethod")
 	actual := args.Map{"eq": a.IsEqual(b)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual left nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns nil -- left nil", actual)
 }
 
 func Test_I14_IsEqual_RightNil(t *testing.T) {
 	a := newMethodProcessor("PublicMethod")
 	actual := args.Map{"eq": a.IsEqual(nil)}
 	expected := args.Map{"eq": false}
-	expected.ShouldBeEqual(t, 0, "IsEqual right nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns nil -- right nil", actual)
 }
 
 func Test_I14_IsEqual_SamePointer(t *testing.T) {
 	a := newMethodProcessor("PublicMethod")
 	actual := args.Map{"eq": a.IsEqual(a)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual same pointer", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- same pointer", actual)
 }
 
 func Test_I14_IsEqual_SameSignature(t *testing.T) {
@@ -124,7 +124,7 @@ func Test_I14_IsEqual_SameSignature(t *testing.T) {
 	b := newMethodProcessor("PublicMethod")
 	actual := args.Map{"eq": a.IsEqual(b)}
 	expected := args.Map{"eq": true}
-	expected.ShouldBeEqual(t, 0, "IsEqual same signature", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- same signature", actual)
 }
 
 func Test_I14_IsNotEqual_DiffSignature(t *testing.T) {
@@ -132,7 +132,7 @@ func Test_I14_IsNotEqual_DiffSignature(t *testing.T) {
 	b := newMethodProcessor("NoArgsMethod")
 	actual := args.Map{"notEq": a.IsNotEqual(b)}
 	expected := args.Map{"notEq": true}
-	expected.ShouldBeEqual(t, 0, "IsNotEqual different signature", actual)
+	expected.ShouldBeEqual(t, 0, "IsNotEqual returns correct value -- different signature", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -144,7 +144,7 @@ func Test_I14_InvokeFirstAndError_SingleReturn(t *testing.T) {
 	_, _, procErr := mp.InvokeFirstAndError(sampleStruct{})
 	actual := args.Map{"hasErr": procErr != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError single return", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- single return", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -157,7 +157,7 @@ func Test_I14_InvokeError_NoArgsError(t *testing.T) {
 		r := recover()
 		actual := args.Map{"panicked": r != nil}
 		expected := args.Map{"panicked": true}
-		expected.ShouldBeEqual(t, 0, "InvokeError non-error return panics", actual)
+		expected.ShouldBeEqual(t, 0, "InvokeError panics -- non-error return panics", actual)
 	}()
 	mp.InvokeError(sampleStruct{})
 }
@@ -184,7 +184,7 @@ func Test_I14_InvalidReflectValueKindModel(t *testing.T) {
 		"typeName":  "",
 		"pkgPath":   "",
 	}
-	expected.ShouldBeEqual(t, 0, "InvalidReflectValueKindModel", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidReflectValueKindModel returns error -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -195,42 +195,42 @@ func Test_I14_RVK_NilReceiver_IsInvalid(t *testing.T) {
 	var rvk *reflectmodel.ReflectValueKind
 	actual := args.Map{"isInvalid": rvk.IsInvalid(), "hasErr": rvk.HasError(), "emptyErr": rvk.IsEmptyError()}
 	expected := args.Map{"isInvalid": true, "hasErr": false, "emptyErr": true}
-	expected.ShouldBeEqual(t, 0, "nil RVK IsInvalid/HasError/IsEmptyError", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- RVK IsInvalid/HasError/IsEmptyError", actual)
 }
 
 func Test_I14_RVK_NilReceiver_ActualInstance(t *testing.T) {
 	var rvk *reflectmodel.ReflectValueKind
 	actual := args.Map{"actNil": rvk.ActualInstance() == nil}
 	expected := args.Map{"actNil": true}
-	expected.ShouldBeEqual(t, 0, "nil RVK ActualInstance", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- RVK ActualInstance", actual)
 }
 
 func Test_I14_RVK_NilReceiver_PkgPath(t *testing.T) {
 	var rvk *reflectmodel.ReflectValueKind
 	actual := args.Map{"pkgPath": rvk.PkgPath()}
 	expected := args.Map{"pkgPath": ""}
-	expected.ShouldBeEqual(t, 0, "nil RVK PkgPath", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- RVK PkgPath", actual)
 }
 
 func Test_I14_RVK_NilReceiver_PointerRv(t *testing.T) {
 	var rvk *reflectmodel.ReflectValueKind
 	actual := args.Map{"nil": rvk.PointerRv() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "nil RVK PointerRv", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- RVK PointerRv", actual)
 }
 
 func Test_I14_RVK_NilReceiver_PointerInterface(t *testing.T) {
 	var rvk *reflectmodel.ReflectValueKind
 	actual := args.Map{"nil": rvk.PointerInterface() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "nil RVK PointerInterface", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- RVK PointerInterface", actual)
 }
 
 func Test_I14_RVK_NilReceiver_TypeName(t *testing.T) {
 	var rvk *reflectmodel.ReflectValueKind
 	actual := args.Map{"typeName": rvk.TypeName()}
 	expected := args.Map{"typeName": ""}
-	expected.ShouldBeEqual(t, 0, "nil RVK TypeName", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- RVK TypeName", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -246,7 +246,7 @@ func Test_I14_RVK_InvalidNotNil_PointerRv(t *testing.T) {
 	ptr := rvk.PointerRv()
 	actual := args.Map{"notNil": ptr != nil, "pkgPath": rvk.PkgPath(), "typeName": rvk.TypeName()}
 	expected := args.Map{"notNil": true, "pkgPath": "", "typeName": ""}
-	expected.ShouldBeEqual(t, 0, "RVK invalid non-nil PointerRv", actual)
+	expected.ShouldBeEqual(t, 0, "RVK returns nil -- invalid non-nil PointerRv", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -257,7 +257,7 @@ func Test_I14_FieldProcessor_NilReceiver_IsFieldType(t *testing.T) {
 	var fp *reflectmodel.FieldProcessor
 	actual := args.Map{"isType": fp.IsFieldType(reflect.TypeOf(0))}
 	expected := args.Map{"isType": false}
-	expected.ShouldBeEqual(t, 0, "nil FieldProcessor IsFieldType", actual)
+	expected.ShouldBeEqual(t, 0, "nil returns nil -- FieldProcessor IsFieldType", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -270,7 +270,7 @@ func Test_I14_ValidateMethodArgs_TooFewArgs(t *testing.T) {
 	err := mp.ValidateMethodArgs([]any{sampleStruct{}})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs too few args", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns non-empty -- too few args", actual)
 }
 
 func Test_I14_ValidateMethodArgs_TooManyArgs(t *testing.T) {
@@ -278,7 +278,7 @@ func Test_I14_ValidateMethodArgs_TooManyArgs(t *testing.T) {
 	err := mp.ValidateMethodArgs([]any{sampleStruct{}, "a", 1, "extra", "extra2"})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs too many args", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns non-empty -- too many args", actual)
 }
 
 func Test_I14_ValidateMethodArgs_EmptyArgs(t *testing.T) {
@@ -286,7 +286,7 @@ func Test_I14_ValidateMethodArgs_EmptyArgs(t *testing.T) {
 	err := mp.ValidateMethodArgs([]any{})
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs empty args", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns empty -- empty args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -298,7 +298,7 @@ func Test_I14_InvokeFirstAndError_MultiReturn(t *testing.T) {
 	first, funcErr, procErr := mp.InvokeFirstAndError(sampleStruct{})
 	actual := args.Map{"procErr": procErr == nil, "funcErr": funcErr == nil, "first": first}
 	expected := args.Map{"procErr": true, "funcErr": true, "first": 0}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError MultiReturn", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- MultiReturn", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -310,7 +310,7 @@ func Test_I14_GetFirstResponseOfInvoke_Success(t *testing.T) {
 	first, err := mp.GetFirstResponseOfInvoke(sampleStruct{})
 	actual := args.Map{"noErr": err == nil, "val": first}
 	expected := args.Map{"noErr": true, "val": "hello"}
-	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke success", actual)
+	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke returns correct value -- success", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -322,5 +322,5 @@ func Test_I14_InvokeResultOfIndex_SecondResult(t *testing.T) {
 	second, err := mp.InvokeResultOfIndex(1, sampleStruct{}, "test", 42)
 	actual := args.Map{"noErr": err == nil, "nilErr": second == nil}
 	expected := args.Map{"noErr": true, "nilErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex second result", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex returns correct value -- second result", actual)
 }

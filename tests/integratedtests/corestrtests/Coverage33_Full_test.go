@@ -27,7 +27,7 @@ func Test_C33_Collection_HasAnyItem(t *testing.T) {
 	empty := corestr.New.Collection.Empty()
 	actual := args.Map{"has": c.HasAnyItem(), "empty": empty.HasAnyItem()}
 	expected := args.Map{"has": true, "empty": false}
-	expected.ShouldBeEqual(t, 0, "HasAnyItem", actual)
+	expected.ShouldBeEqual(t, 0, "HasAnyItem returns correct value -- with args", actual)
 }
 
 func Test_C33_Collection_LastIndex_HasIndex(t *testing.T) {
@@ -39,7 +39,7 @@ func Test_C33_Collection_LastIndex_HasIndex(t *testing.T) {
 		"hasIdxN1": c.HasIndex(-1),
 	}
 	expected := args.Map{"lastIdx": 1, "hasIdx0": true, "hasIdx5": false, "hasIdxN1": false}
-	expected.ShouldBeEqual(t, 0, "LastIndex/HasIndex", actual)
+	expected.ShouldBeEqual(t, 0, "LastIndex/HasIndex returns correct value -- with args", actual)
 }
 
 func Test_C33_Collection_ListStrings(t *testing.T) {
@@ -88,7 +88,7 @@ func Test_C33_Collection_IsEquals(t *testing.T) {
 		"notEqual": c1.IsEquals(c3),
 	}
 	expected := args.Map{"equal": true, "notEqual": false}
-	expected.ShouldBeEqual(t, 0, "Collection.IsEquals", actual)
+	expected.ShouldBeEqual(t, 0, "Collection.IsEquals returns correct value -- with args", actual)
 }
 
 // ── ValidValue ──
@@ -110,7 +110,7 @@ func Test_C33_ValidValue_Constructors(t *testing.T) {
 		"v3Invalid": true, "v4Invalid": true,
 		"v5NotNil": true, "v6NotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue constructors", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- constructors", actual)
 }
 
 func Test_C33_ValidValue_ValueBytesOnce(t *testing.T) {
@@ -134,7 +134,7 @@ func Test_C33_ValidValue_IsEmpty_IsWhitespace(t *testing.T) {
 	expected := args.Map{
 		"empty": true, "ws": true, "notEmpty": false, "trim": "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue empty/ws", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns empty -- empty/ws", actual)
 }
 
 func Test_C33_ValidValue_HasValidNonEmpty(t *testing.T) {
@@ -149,7 +149,7 @@ func Test_C33_ValidValue_HasValidNonEmpty(t *testing.T) {
 	expected := args.Map{
 		"nonEmpty": true, "nonWs": true, "safe": true, "emptyFail": false,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue HasValidNonEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns empty -- HasValidNonEmpty", actual)
 }
 
 func Test_C33_ValidValue_ValueBool(t *testing.T) {
@@ -162,7 +162,7 @@ func Test_C33_ValidValue_ValueBool(t *testing.T) {
 		"bad": vBad.ValueBool(), "empty": vEmpty.ValueBool(),
 	}
 	expected := args.Map{"true": true, "false": false, "bad": false, "empty": false}
-	expected.ShouldBeEqual(t, 0, "ValidValue ValueBool", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- ValueBool", actual)
 }
 
 func Test_C33_ValidValue_ValueInt(t *testing.T) {
@@ -175,7 +175,7 @@ func Test_C33_ValidValue_ValueInt(t *testing.T) {
 		"badDef": vBad.ValueDefInt(),
 	}
 	expected := args.Map{"good": 42, "bad": 99, "defInt": 42, "badDef": 0}
-	expected.ShouldBeEqual(t, 0, "ValidValue ValueInt", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- ValueInt", actual)
 }
 
 func Test_C33_ValidValue_ValueByte(t *testing.T) {
@@ -199,7 +199,7 @@ func Test_C33_ValidValue_ValueFloat64(t *testing.T) {
 		"defF64": v.ValueDefFloat64(),
 	}
 	expected := args.Map{"good": 3.14, "bad": 1.0, "defF64": 3.14}
-	expected.ShouldBeEqual(t, 0, "ValidValue float64", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- float64", actual)
 }
 
 func Test_C33_ValidValue_Is_IsAnyOf(t *testing.T) {
@@ -215,7 +215,7 @@ func Test_C33_ValidValue_Is_IsAnyOf(t *testing.T) {
 		"is": true, "isNot": false, "anyOf": true,
 		"anyEmpty": true, "anyNone": false,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue Is/IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- Is/IsAnyOf", actual)
 }
 
 func Test_C33_ValidValue_IsContains_IsAnyContains(t *testing.T) {
@@ -231,7 +231,7 @@ func Test_C33_ValidValue_IsContains_IsAnyContains(t *testing.T) {
 		"contains": true, "notContains": false,
 		"anyContains": true, "anyEmpty": true, "anyNone": false,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue IsContains", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- IsContains", actual)
 }
 
 func Test_C33_ValidValue_IsEqualNonSensitive(t *testing.T) {
@@ -252,7 +252,7 @@ func Test_C33_ValidValue_Regex(t *testing.T) {
 		"matches": true, "nilMatch": false,
 		"find": "123", "nilFind": "",
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue Regex", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue returns non-empty -- Regex", actual)
 
 	items, hasAny := v.RegexFindAllStringsWithFlag(re, -1)
 	if !hasAny || len(items) == 0 { t.Fatal("expected items") }
@@ -353,7 +353,7 @@ func Test_C33_LeftRight_Constructors(t *testing.T) {
 		"trimValid": true, "trim1Inv": true,
 		"trimNilInv": true, "trimEmptyInv": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight constructors", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- constructors", actual)
 }
 
 func Test_C33_LeftRight_Methods(t *testing.T) {
@@ -384,7 +384,7 @@ func Test_C33_LeftRight_Methods(t *testing.T) {
 		"hasValidWsL": true, "hasValidWsR": true,
 		"hasSafe": true, "isLeft": true, "isRight": true, "is": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight methods", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- methods", actual)
 }
 
 func Test_C33_LeftRight_IsEqual(t *testing.T) {
@@ -399,7 +399,7 @@ func Test_C33_LeftRight_IsEqual(t *testing.T) {
 		"nilLeft":  nilLR.IsEqual(lr1),
 	}
 	expected := args.Map{"equal": true, "notEqual": false, "nilBoth": true, "nilLeft": false}
-	expected.ShouldBeEqual(t, 0, "LeftRight IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- IsEqual", actual)
 }
 
 func Test_C33_LeftRight_Regex(t *testing.T) {
@@ -415,7 +415,7 @@ func Test_C33_LeftRight_Regex(t *testing.T) {
 		"leftMatch": true, "rightMatch": true,
 		"nilLeft": false, "nilRight": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight regex", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight returns correct value -- regex", actual)
 }
 
 func Test_C33_LeftRight_Clone_Clear_Dispose(t *testing.T) {
@@ -441,7 +441,7 @@ func Test_C33_LeftMiddleRight_Constructors(t *testing.T) {
 		"valid": lmr.IsValid, "inv": !inv.IsValid, "invNoMsg": !invNoMsg.IsValid,
 	}
 	expected := args.Map{"valid": true, "inv": true, "invNoMsg": true}
-	expected.ShouldBeEqual(t, 0, "LMR constructors", actual)
+	expected.ShouldBeEqual(t, 0, "LMR returns correct value -- constructors", actual)
 }
 
 func Test_C33_LeftMiddleRight_Methods(t *testing.T) {
@@ -474,7 +474,7 @@ func Test_C33_LeftMiddleRight_Methods(t *testing.T) {
 		"hasValidWsL": true, "hasValidWsR": true, "hasValidWsM": true,
 		"hasSafe": true, "isAll": true, "is": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LMR methods", actual)
+	expected.ShouldBeEqual(t, 0, "LMR returns correct value -- methods", actual)
 }
 
 func Test_C33_LeftMiddleRight_Clone_ToLeftRight_Clear(t *testing.T) {
@@ -496,7 +496,7 @@ func Test_C33_Hashmap_IsEmpty_HasItems(t *testing.T) {
 	hm := corestr.New.Hashmap.Empty()
 	actual := args.Map{"empty": hm.IsEmpty(), "hasItems": hm.HasItems()}
 	expected := args.Map{"empty": true, "hasItems": false}
-	expected.ShouldBeEqual(t, 0, "Hashmap empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap returns empty -- empty", actual)
 }
 
 func Test_C33_Hashmap_AddOrUpdate(t *testing.T) {
@@ -527,7 +527,7 @@ func Test_C33_Hashset_IsEmpty_HasItems(t *testing.T) {
 	hs := corestr.New.Hashset.Empty()
 	actual := args.Map{"empty": hs.IsEmpty(), "hasItems": hs.HasItems()}
 	expected := args.Map{"empty": true, "hasItems": false}
-	expected.ShouldBeEqual(t, 0, "Hashset empty", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset returns empty -- empty", actual)
 }
 
 func Test_C33_Hashset_AddCapacities(t *testing.T) {
@@ -574,7 +574,7 @@ func Test_C33_SS_FirstLast(t *testing.T) {
 		"firstD": "a", "lastD": "c",
 		"firstOrDef": "a", "lastOrDef": "c",
 	}
-	expected.ShouldBeEqual(t, 0, "SS First/Last", actual)
+	expected.ShouldBeEqual(t, 0, "SS returns correct value -- First/Last", actual)
 }
 
 func Test_C33_SS_FirstOrDefault_Empty(t *testing.T) {
@@ -619,7 +619,7 @@ func Test_C33_SS_IsContains_IndexOf(t *testing.T) {
 		"indexOf": 1, "notFound": -1,
 		"hasAny": true, "lastIdx": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "SS IsContains/IndexOf", actual)
+	expected.ShouldBeEqual(t, 0, "SS returns correct value -- IsContains/IndexOf", actual)
 }
 
 func Test_C33_SS_CountFunc(t *testing.T) {

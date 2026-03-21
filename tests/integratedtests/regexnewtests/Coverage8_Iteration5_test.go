@@ -20,7 +20,7 @@ func Test_Cov8_LazyRegex_IsMatchBytes_InvalidPattern(t *testing.T) {
 	// Assert
 	actual := args.Map{"matches": result}
 	expected := args.Map{"matches": false}
-	expected.ShouldBeEqual(t, 0, "IsMatchBytes invalid pattern", actual)
+	expected.ShouldBeEqual(t, 0, "IsMatchBytes returns error -- invalid pattern", actual)
 }
 
 // ── regExMatchValidationError — err != nil path ──
@@ -35,5 +35,5 @@ func Test_Cov8_MatchError_InvalidPattern(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasError": err != nil}
 	expected := args.Map{"hasError": true}
-	expected.ShouldBeEqual(t, 0, "MatchError invalid pattern", actual)
+	expected.ShouldBeEqual(t, 0, "MatchError returns error -- invalid pattern", actual)
 }

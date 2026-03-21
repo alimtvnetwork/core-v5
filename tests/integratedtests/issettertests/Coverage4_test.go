@@ -137,14 +137,14 @@ func Test_Cov4_ToBooleanValue_Wildcard(t *testing.T) {
 	result := issetter.Wildcard.ToBooleanValue()
 	actual := args.Map{"isWild": result == issetter.Wildcard}
 	expected := args.Map{"isWild": true}
-	expected.ShouldBeEqual(t, 0, "ToBooleanValue Wildcard stays Wildcard", actual)
+	expected.ShouldBeEqual(t, 0, "ToBooleanValue returns correct value -- Wildcard stays Wildcard", actual)
 }
 
 func Test_Cov4_ToSetUnsetValue_Wildcard(t *testing.T) {
 	result := issetter.Wildcard.ToSetUnsetValue()
 	actual := args.Map{"isWild": result == issetter.Wildcard}
 	expected := args.Map{"isWild": true}
-	expected.ShouldBeEqual(t, 0, "ToSetUnsetValue Wildcard stays Wildcard", actual)
+	expected.ShouldBeEqual(t, 0, "ToSetUnsetValue returns correct value -- Wildcard stays Wildcard", actual)
 }
 
 // ============================================================================

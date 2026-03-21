@@ -28,7 +28,7 @@ func Test_Pretty_AnyTo_String(t *testing.T) {
 		"safeNotEmpty": true,
 		"nilEmpty":    nilStr,
 	}
-	expected.ShouldBeEqual(t, 0, "Pretty_AnyTo_String", actual)
+	expected.ShouldBeEqual(t, 0, "Pretty_AnyTo_String returns correct value -- with args", actual)
 }
 
 func Test_Pretty_AnyTo_PrettyString(t *testing.T) {
@@ -60,7 +60,7 @@ func Test_Pretty_AnyTo_PrettyString(t *testing.T) {
 		"defaultNotEmpty":  true,
 		"nilEmpty":         nilPretty,
 	}
-	expected.ShouldBeEqual(t, 0, "Pretty_AnyTo_PrettyString", actual)
+	expected.ShouldBeEqual(t, 0, "Pretty_AnyTo_PrettyString returns correct value -- with args", actual)
 }
 
 func Test_Pretty_Bytes(t *testing.T) {
@@ -89,7 +89,7 @@ func Test_Pretty_Bytes(t *testing.T) {
 		"prefixNotEmpty":  true,
 		"indentNotEmpty":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Pretty_Bytes", actual)
+	expected.ShouldBeEqual(t, 0, "Pretty_Bytes returns correct value -- with args", actual)
 }
 
 func Test_Pretty_String(t *testing.T) {
@@ -118,7 +118,7 @@ func Test_Pretty_String(t *testing.T) {
 		"prefixNotEmpty":  true,
 		"indentNotEmpty":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Pretty_String", actual)
+	expected.ShouldBeEqual(t, 0, "Pretty_String returns correct value -- with args", actual)
 }
 
 func Test_StringJsonConverter(t *testing.T) {
@@ -147,5 +147,5 @@ func Test_StringJsonConverter(t *testing.T) {
 		"prettyNotEmpty":   true,
 		"strValNotEmpty":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringJsonConverter", actual)
+	expected.ShouldBeEqual(t, 0, "StringJsonConverter returns correct value -- with args", actual)
 }

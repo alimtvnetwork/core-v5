@@ -19,7 +19,7 @@ func Test_Cov_ReflectValueKind_InvalidModel(t *testing.T) {
 		"isInvalid": true, "hasError": true,
 		"isEmptyErr": false, "typeName": "",
 	}
-	expected.ShouldBeEqual(t, 0, "InvalidModel", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidModel returns error -- with args", actual)
 }
 
 func Test_Cov_ReflectValueKind_NilMethods(t *testing.T) {
@@ -36,7 +36,7 @@ func Test_Cov_ReflectValueKind_NilMethods(t *testing.T) {
 		"pkgPath": "", "pointerRv": true,
 		"typeName": "", "pointerInf": true,
 	}
-	expected.ShouldBeEqual(t, 0, "NilMethods", actual)
+	expected.ShouldBeEqual(t, 0, "NilMethods returns nil -- with args", actual)
 }
 
 func Test_Cov_ReflectValueKind_ValidModel(t *testing.T) {
@@ -54,14 +54,14 @@ func Test_Cov_ReflectValueKind_ValidModel(t *testing.T) {
 		"actualVal": 42, "ptrNotNil": true,
 		"ptrInfNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidModel", actual)
+	expected.ShouldBeEqual(t, 0, "ValidModel returns non-empty -- with args", actual)
 }
 
 func Test_Cov_ReflectValueKind_InvalidNotValid(t *testing.T) {
 	m := &reflectmodel.ReflectValueKind{IsValid: false, FinalReflectVal: reflect.ValueOf(42)}
 	actual := args.Map{"ptrRvNotNil": m.PointerRv() != nil}
 	expected := args.Map{"ptrRvNotNil": true}
-	expected.ShouldBeEqual(t, 0, "InvalidNotValid", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidNotValid returns error -- with args", actual)
 }
 
 func Test_Cov_ReflectValueKind_WithError(t *testing.T) {
@@ -71,7 +71,7 @@ func Test_Cov_ReflectValueKind_WithError(t *testing.T) {
 	}
 	actual := args.Map{"isInvalid": m.IsInvalid(), "hasError": m.HasError()}
 	expected := args.Map{"isInvalid": true, "hasError": true}
-	expected.ShouldBeEqual(t, 0, "WithError", actual)
+	expected.ShouldBeEqual(t, 0, "WithError returns error -- with args", actual)
 }
 
 func Test_Cov_ReflectValue_Fields(t *testing.T) {
@@ -87,5 +87,5 @@ func Test_Cov_ReflectValue_Fields(t *testing.T) {
 		"typeName": "MyType", "fieldsLen": 2,
 		"methodsLen": 1, "rawData": 42,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValue", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValue returns correct value -- with args", actual)
 }

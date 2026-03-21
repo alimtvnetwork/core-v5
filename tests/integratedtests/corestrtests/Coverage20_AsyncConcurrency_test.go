@@ -27,7 +27,7 @@ func Test_Cov20_Collection_AddWithWgLock(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection AddWithWgLock", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns non-empty -- AddWithWgLock", actual)
 }
 
 func Test_Cov20_Collection_AddStringsAsync(t *testing.T) {
@@ -42,7 +42,7 @@ func Test_Cov20_Collection_AddStringsAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasItems": c.HasItems()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Collection AddStringsAsync", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddStringsAsync", actual)
 }
 
 func Test_Cov20_Collection_AddStringsAsync_Empty(t *testing.T) {
@@ -56,7 +56,7 @@ func Test_Cov20_Collection_AddStringsAsync_Empty(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Collection AddStringsAsync empty", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns empty -- AddStringsAsync empty", actual)
 }
 
 func Test_Cov20_Collection_AddsAsync(t *testing.T) {
@@ -72,7 +72,7 @@ func Test_Cov20_Collection_AddsAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection AddsAsync", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- AddsAsync", actual)
 }
 
 func Test_Cov20_Collection_AddsAsync_Nil(t *testing.T) {
@@ -85,7 +85,7 @@ func Test_Cov20_Collection_AddsAsync_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Collection AddsAsync nil", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns nil -- AddsAsync nil", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -106,7 +106,7 @@ func Test_Cov20_Collection_GetPagedCollection(t *testing.T) {
 	// Assert
 	actual := args.Map{"pages": paged.Length()}
 	expected := args.Map{"pages": 4}
-	expected.ShouldBeEqual(t, 0, "Collection GetPagedCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetPagedCollection", actual)
 }
 
 func Test_Cov20_Collection_GetPagedCollection_Small(t *testing.T) {
@@ -119,7 +119,7 @@ func Test_Cov20_Collection_GetPagedCollection_Small(t *testing.T) {
 	// Assert
 	actual := args.Map{"pages": paged.Length()}
 	expected := args.Map{"pages": 1}
-	expected.ShouldBeEqual(t, 0, "Collection GetPagedCollection small", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetPagedCollection small", actual)
 }
 
 func Test_Cov20_Collection_GetSinglePageCollection(t *testing.T) {
@@ -136,7 +136,7 @@ func Test_Cov20_Collection_GetSinglePageCollection(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": page.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "Collection GetSinglePageCollection", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetSinglePageCollection", actual)
 }
 
 func Test_Cov20_Collection_GetSinglePageCollection_LastPage(t *testing.T) {
@@ -153,7 +153,7 @@ func Test_Cov20_Collection_GetSinglePageCollection_LastPage(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": page.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection GetSinglePageCollection last", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetSinglePageCollection last", actual)
 }
 
 func Test_Cov20_Collection_GetSinglePageCollection_Small(t *testing.T) {
@@ -166,7 +166,7 @@ func Test_Cov20_Collection_GetSinglePageCollection_Small(t *testing.T) {
 	// Assert — returns self when length < eachPageSize
 	actual := args.Map{"len": page.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection GetSinglePageCollection small", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- GetSinglePageCollection small", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -184,7 +184,7 @@ func Test_Cov20_Collection_SafeIndexAtUsingLength(t *testing.T) {
 	// Assert
 	actual := args.Map{"found": found, "oob": oob}
 	expected := args.Map{"found": "a", "oob": "def"}
-	expected.ShouldBeEqual(t, 0, "Collection SafeIndexAtUsingLength", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- SafeIndexAtUsingLength", actual)
 }
 
 func Test_Cov20_Collection_Single(t *testing.T) {
@@ -197,7 +197,7 @@ func Test_Cov20_Collection_Single(t *testing.T) {
 	// Assert
 	actual := args.Map{"val": val}
 	expected := args.Map{"val": "only"}
-	expected.ShouldBeEqual(t, 0, "Collection Single", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Single", actual)
 }
 
 func Test_Cov20_Collection_ChainRemoveAt(t *testing.T) {
@@ -210,7 +210,7 @@ func Test_Cov20_Collection_ChainRemoveAt(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection ChainRemoveAt", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- ChainRemoveAt", actual)
 }
 
 func Test_Cov20_Collection_RemoveItemsIndexes(t *testing.T) {
@@ -223,7 +223,7 @@ func Test_Cov20_Collection_RemoveItemsIndexes(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection RemoveItemsIndexes", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- RemoveItemsIndexes", actual)
 }
 
 func Test_Cov20_Collection_RemoveItemsIndexes_NilIndexes(t *testing.T) {
@@ -236,7 +236,7 @@ func Test_Cov20_Collection_RemoveItemsIndexes_NilIndexes(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection RemoveItemsIndexes nil", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns nil -- RemoveItemsIndexes nil", actual)
 }
 
 func Test_Cov20_Collection_RemoveItemsIndexes_IgnoreError(t *testing.T) {
@@ -249,7 +249,7 @@ func Test_Cov20_Collection_RemoveItemsIndexes_IgnoreError(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Collection RemoveItemsIndexes ignoreErr nil", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns nil -- RemoveItemsIndexes ignoreErr nil", actual)
 }
 
 func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
@@ -268,7 +268,7 @@ func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddHashmapsKeysValuesUsingFilter", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns non-empty -- AddHashmapsKeysValuesUsingFilter", actual)
 }
 
 func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter_Nil(t *testing.T) {
@@ -281,7 +281,7 @@ func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Collection AddHashmapsKeysValuesUsingFilter nil", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns nil -- AddHashmapsKeysValuesUsingFilter nil", actual)
 }
 
 func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) {
@@ -303,7 +303,7 @@ func Test_Cov20_Collection_AddHashmapsKeysValuesUsingFilter_Break(t *testing.T) 
 	// Assert
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Collection AddHashmapsKeysValuesUsingFilter break", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns non-empty -- AddHashmapsKeysValuesUsingFilter break", actual)
 }
 
 func Test_Cov20_Collection_InsertAt(t *testing.T) {
@@ -316,7 +316,7 @@ func Test_Cov20_Collection_InsertAt(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasItems": c.HasItems()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Collection InsertAt", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- InsertAt", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -340,7 +340,7 @@ func Test_Cov20_CollectionsOfCollection_AddAsyncFuncItems(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": coc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection AddAsyncFuncItems", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns correct value -- AddAsyncFuncItems", actual)
 }
 
 func Test_Cov20_CollectionsOfCollection_AddAsyncFuncItems_Empty(t *testing.T) {
@@ -359,7 +359,7 @@ func Test_Cov20_CollectionsOfCollection_AddAsyncFuncItems_Empty(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": coc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection AddAsyncFuncItems empty", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns empty -- AddAsyncFuncItems empty", actual)
 }
 
 func Test_Cov20_CollectionsOfCollection_AddAsyncFuncItems_Nil(t *testing.T) {
@@ -372,7 +372,7 @@ func Test_Cov20_CollectionsOfCollection_AddAsyncFuncItems_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": coc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection AddAsyncFuncItems nil", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns nil -- AddAsyncFuncItems nil", actual)
 }
 
 func Test_Cov20_CollectionsOfCollection_AddsStringsOfStrings(t *testing.T) {
@@ -386,7 +386,7 @@ func Test_Cov20_CollectionsOfCollection_AddsStringsOfStrings(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": coc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection AddsStringsOfStrings", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns correct value -- AddsStringsOfStrings", actual)
 }
 
 func Test_Cov20_CollectionsOfCollection_AddCollections(t *testing.T) {
@@ -401,7 +401,7 @@ func Test_Cov20_CollectionsOfCollection_AddCollections(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": coc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection AddCollections", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns correct value -- AddCollections", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -421,7 +421,7 @@ func Test_Cov20_LinkedCollections_AddAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAsync", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddAsync", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddsAsyncOnComplete(t *testing.T) {
@@ -444,7 +444,7 @@ func Test_Cov20_LinkedCollections_AddsAsyncOnComplete(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddsAsyncOnComplete", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddsAsyncOnComplete", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddsUsingProcessorAsyncOnComplete(t *testing.T) {
@@ -468,7 +468,7 @@ func Test_Cov20_LinkedCollections_AddsUsingProcessorAsyncOnComplete(t *testing.T
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddsUsingProcessorAsyncOnComplete", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddsUsingProcessorAsyncOnComplete", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddsUsingProcessorAsyncOnComplete_NilSkip(t *testing.T) {
@@ -491,7 +491,7 @@ func Test_Cov20_LinkedCollections_AddsUsingProcessorAsyncOnComplete_NilSkip(t *t
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddsUsingProcessorAsyncOnComplete nilSkip", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- AddsUsingProcessorAsyncOnComplete nilSkip", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddsUsingProcessorAsync(t *testing.T) {
@@ -514,7 +514,7 @@ func Test_Cov20_LinkedCollections_AddsUsingProcessorAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddsUsingProcessorAsync", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddsUsingProcessorAsync", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddsUsingProcessorAsync_NilSkip(t *testing.T) {
@@ -530,7 +530,7 @@ func Test_Cov20_LinkedCollections_AddsUsingProcessorAsync_NilSkip(t *testing.T) 
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddsUsingProcessorAsync nilSkip", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- AddsUsingProcessorAsync nilSkip", actual)
 }
 
 func Test_Cov20_LinkedCollections_AppendChainOfNodesAsync(t *testing.T) {
@@ -549,7 +549,7 @@ func Test_Cov20_LinkedCollections_AppendChainOfNodesAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AppendChainOfNodesAsync", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AppendChainOfNodesAsync", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddCollectionsToNodeAsync(t *testing.T) {
@@ -573,7 +573,7 @@ func Test_Cov20_LinkedCollections_AddCollectionsToNodeAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddCollectionsToNodeAsync", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddCollectionsToNodeAsync", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddCollectionsToNodeAsync_NilSkip(t *testing.T) {
@@ -586,7 +586,7 @@ func Test_Cov20_LinkedCollections_AddCollectionsToNodeAsync_NilSkip(t *testing.T
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddCollectionsToNodeAsync nil", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- AddCollectionsToNodeAsync nil", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAfterNodeAsync(t *testing.T) {
@@ -604,7 +604,7 @@ func Test_Cov20_LinkedCollections_AddAfterNodeAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAfterNodeAsync", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddAfterNodeAsync", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddStringsAsync(t *testing.T) {
@@ -620,7 +620,7 @@ func Test_Cov20_LinkedCollections_AddStringsAsync(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddStringsAsync", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddStringsAsync", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddStringsAsync_Nil(t *testing.T) {
@@ -633,7 +633,7 @@ func Test_Cov20_LinkedCollections_AddStringsAsync_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddStringsAsync nil", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- AddStringsAsync nil", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAsyncFuncItems(t *testing.T) {
@@ -653,7 +653,7 @@ func Test_Cov20_LinkedCollections_AddAsyncFuncItems(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAsyncFuncItems", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddAsyncFuncItems", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAsyncFuncItems_EmptyReturn(t *testing.T) {
@@ -668,7 +668,7 @@ func Test_Cov20_LinkedCollections_AddAsyncFuncItems_EmptyReturn(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAsyncFuncItems empty", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns empty -- AddAsyncFuncItems empty", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAsyncFuncItems_Nil(t *testing.T) {
@@ -681,7 +681,7 @@ func Test_Cov20_LinkedCollections_AddAsyncFuncItems_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAsyncFuncItems nil", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- AddAsyncFuncItems nil", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAsyncFuncItemsPointer(t *testing.T) {
@@ -701,7 +701,7 @@ func Test_Cov20_LinkedCollections_AddAsyncFuncItemsPointer(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAsyncFuncItemsPointer", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddAsyncFuncItemsPointer", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAsyncFuncItemsPointer_Nil(t *testing.T) {
@@ -714,7 +714,7 @@ func Test_Cov20_LinkedCollections_AddAsyncFuncItemsPointer_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAsyncFuncItemsPointer nil", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- AddAsyncFuncItemsPointer nil", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAsyncFuncItemsPointer_EmptyReturn(t *testing.T) {
@@ -729,7 +729,7 @@ func Test_Cov20_LinkedCollections_AddAsyncFuncItemsPointer_EmptyReturn(t *testin
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAsyncFuncItemsPointer empty", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns empty -- AddAsyncFuncItemsPointer empty", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -753,7 +753,7 @@ func Test_Cov20_LinkedCollections_AttachWithNode(t *testing.T) {
 	// Assert
 	actual := args.Map{"err": err == nil, "len": lc.Length()}
 	expected := args.Map{"err": true, "len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AttachWithNode", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns non-empty -- AttachWithNode", actual)
 }
 
 func Test_Cov20_LinkedCollections_AttachWithNode_NilCurrent(t *testing.T) {
@@ -769,7 +769,7 @@ func Test_Cov20_LinkedCollections_AttachWithNode_NilCurrent(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AttachWithNode nil current", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns nil -- AttachWithNode nil current", actual)
 }
 
 func Test_Cov20_LinkedCollections_FilterAsCollection(t *testing.T) {
@@ -789,7 +789,7 @@ func Test_Cov20_LinkedCollections_FilterAsCollection(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": result.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections FilterAsCollection", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- FilterAsCollection", actual)
 }
 
 func Test_Cov20_LinkedCollections_FilterAsCollection_Empty(t *testing.T) {
@@ -807,7 +807,7 @@ func Test_Cov20_LinkedCollections_FilterAsCollection_Empty(t *testing.T) {
 	// Assert
 	actual := args.Map{"empty": result.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections FilterAsCollection empty", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns empty -- FilterAsCollection empty", actual)
 }
 
 func Test_Cov20_LinkedCollections_FilterAsCollections(t *testing.T) {
@@ -826,7 +826,7 @@ func Test_Cov20_LinkedCollections_FilterAsCollections(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections FilterAsCollections", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- FilterAsCollections", actual)
 }
 
 func Test_Cov20_LinkedCollections_RemoveNodeByIndex(t *testing.T) {
@@ -842,7 +842,7 @@ func Test_Cov20_LinkedCollections_RemoveNodeByIndex(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections RemoveNodeByIndex middle", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- RemoveNodeByIndex middle", actual)
 }
 
 func Test_Cov20_LinkedCollections_RemoveNodeByIndex_Last(t *testing.T) {
@@ -857,7 +857,7 @@ func Test_Cov20_LinkedCollections_RemoveNodeByIndex_Last(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections RemoveNodeByIndex last", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- RemoveNodeByIndex last", actual)
 }
 
 func Test_Cov20_LinkedCollections_RemoveNode(t *testing.T) {
@@ -873,7 +873,7 @@ func Test_Cov20_LinkedCollections_RemoveNode(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections RemoveNode head", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- RemoveNode head", actual)
 }
 
 func Test_Cov20_LinkedCollections_RemoveNodeByIndexes(t *testing.T) {
@@ -889,7 +889,7 @@ func Test_Cov20_LinkedCollections_RemoveNodeByIndexes(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections RemoveNodeByIndexes", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- RemoveNodeByIndexes", actual)
 }
 
 func Test_Cov20_LinkedCollections_ConcatNew(t *testing.T) {
@@ -905,7 +905,7 @@ func Test_Cov20_LinkedCollections_ConcatNew(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": result.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections ConcatNew", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- ConcatNew", actual)
 }
 
 func Test_Cov20_LinkedCollections_ConcatNew_EmptyClone(t *testing.T) {
@@ -919,7 +919,7 @@ func Test_Cov20_LinkedCollections_ConcatNew_EmptyClone(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": result.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections ConcatNew emptyClone", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns empty -- ConcatNew emptyClone", actual)
 }
 
 func Test_Cov20_LinkedCollections_ConcatNew_EmptyNoClone(t *testing.T) {
@@ -933,7 +933,7 @@ func Test_Cov20_LinkedCollections_ConcatNew_EmptyNoClone(t *testing.T) {
 	// Assert — returns self
 	actual := args.Map{"len": result.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections ConcatNew emptyNoClone", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns empty -- ConcatNew emptyNoClone", actual)
 }
 
 func Test_Cov20_LinkedCollections_AppendCollections(t *testing.T) {
@@ -949,7 +949,7 @@ func Test_Cov20_LinkedCollections_AppendCollections(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AppendCollections", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AppendCollections", actual)
 }
 
 func Test_Cov20_LinkedCollections_AppendCollectionsPointersLock(t *testing.T) {
@@ -966,7 +966,7 @@ func Test_Cov20_LinkedCollections_AppendCollectionsPointersLock(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AppendCollectionsPointersLock", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AppendCollectionsPointersLock", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddStringsOfStrings(t *testing.T) {
@@ -980,7 +980,7 @@ func Test_Cov20_LinkedCollections_AddStringsOfStrings(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddStringsOfStrings", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddStringsOfStrings", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddCollections(t *testing.T) {
@@ -1000,7 +1000,7 @@ func Test_Cov20_LinkedCollections_AddCollections(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddCollections", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddCollections", actual)
 }
 
 func Test_Cov20_LinkedCollections_InsertAt(t *testing.T) {
@@ -1015,7 +1015,7 @@ func Test_Cov20_LinkedCollections_InsertAt(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections InsertAt", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- InsertAt", actual)
 }
 
 func Test_Cov20_LinkedCollections_InsertAt_Front(t *testing.T) {
@@ -1029,7 +1029,7 @@ func Test_Cov20_LinkedCollections_InsertAt_Front(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections InsertAt front", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- InsertAt front", actual)
 }
 
 func Test_Cov20_LinkedCollections_GetNextNodes(t *testing.T) {
@@ -1046,7 +1046,7 @@ func Test_Cov20_LinkedCollections_GetNextNodes(t *testing.T) {
 	// Assert
 	actual := args.Map{"next": len(nodes), "all": len(all)}
 	expected := args.Map{"next": 2, "all": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections GetNextNodes", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- GetNextNodes", actual)
 }
 
 func Test_Cov20_LinkedCollections_SafeIndexAt(t *testing.T) {
@@ -1074,7 +1074,7 @@ func Test_Cov20_LinkedCollections_SafeIndexAt(t *testing.T) {
 		"found": true, "nilNode": true, "negNode": true,
 		"ptr": true, "nilPtr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections SafeIndexAt", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- SafeIndexAt", actual)
 }
 
 func Test_Cov20_LinkedCollections_JsonRoundTrip(t *testing.T) {
@@ -1099,7 +1099,7 @@ func Test_Cov20_LinkedCollections_JsonRoundTrip(t *testing.T) {
 	// Assert
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections JsonRoundTrip", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- JsonRoundTrip", actual)
 }
 
 func Test_Cov20_LinkedCollections_Clear(t *testing.T) {
@@ -1114,7 +1114,7 @@ func Test_Cov20_LinkedCollections_Clear(t *testing.T) {
 	// Assert
 	actual := args.Map{"empty": lc.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections Clear", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- Clear", actual)
 }
 
 func Test_Cov20_LinkedCollections_AppendNode(t *testing.T) {
@@ -1133,7 +1133,7 @@ func Test_Cov20_LinkedCollections_AppendNode(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AppendNode", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AppendNode", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddAnother(t *testing.T) {
@@ -1151,7 +1151,7 @@ func Test_Cov20_LinkedCollections_AddAnother(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc1.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddAnother", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddAnother", actual)
 }
 
 func Test_Cov20_LinkedCollections_AddCollectionToNode(t *testing.T) {
@@ -1166,7 +1166,7 @@ func Test_Cov20_LinkedCollections_AddCollectionToNode(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": lc.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections AddCollectionToNode", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- AddCollectionToNode", actual)
 }
 
 func Test_Cov20_LinkedCollections_ListAndConversions(t *testing.T) {
@@ -1188,7 +1188,7 @@ func Test_Cov20_LinkedCollections_ListAndConversions(t *testing.T) {
 	// Assert
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections ListAndConversions", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- ListAndConversions", actual)
 }
 
 func Test_Cov20_LinkedCollections_IsEqualsPtr(t *testing.T) {
@@ -1210,5 +1210,5 @@ func Test_Cov20_LinkedCollections_IsEqualsPtr(t *testing.T) {
 		"equal": true, "self": true, "nil": false,
 		"bothEmpty": true, "oneEmpty": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections IsEqualsPtr", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- IsEqualsPtr", actual)
 }

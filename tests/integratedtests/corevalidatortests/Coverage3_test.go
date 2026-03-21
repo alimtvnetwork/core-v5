@@ -13,28 +13,28 @@ func Test_Cov3_LineNumber_Methods(t *testing.T) {
 	ln := corevalidator.LineNumber{LineNumber: 5}
 	actual := args.Map{"has": ln.HasLineNumber(), "isMatch": ln.IsMatch(5), "mismatchErr": ln.VerifyError(6) != nil}
 	expected := args.Map{"has": true, "isMatch": true, "mismatchErr": true}
-	expected.ShouldBeEqual(t, 0, "LineNumber methods", actual)
+	expected.ShouldBeEqual(t, 0, "LineNumber returns correct value -- methods", actual)
 }
 
 func Test_Cov3_Condition_Methods(t *testing.T) {
 	c := corevalidator.Condition{IsUniqueWordOnly: true}
 	actual := args.Map{"splitByWhitespace": c.IsSplitByWhitespace()}
 	expected := args.Map{"splitByWhitespace": true}
-	expected.ShouldBeEqual(t, 0, "Condition methods", actual)
+	expected.ShouldBeEqual(t, 0, "Condition returns correct value -- methods", actual)
 }
 
 func Test_Cov3_Parameter_Methods(t *testing.T) {
 	p := corevalidator.Parameter{CaseIndex: 1, Header: "h", IsCaseSensitive: false}
 	actual := args.Map{"caseIndex": p.CaseIndex, "header": p.Header, "ignoreCase": p.IsIgnoreCase()}
 	expected := args.Map{"caseIndex": 1, "header": "h", "ignoreCase": true}
-	expected.ShouldBeEqual(t, 0, "Parameter methods", actual)
+	expected.ShouldBeEqual(t, 0, "Parameter returns correct value -- methods", actual)
 }
 
 func Test_Cov3_RangesSegment(t *testing.T) {
 	rs := corevalidator.RangesSegment{RangeInt: corerange.RangeInt{Start: 0, End: 10}, ExpectedLines: []string{"a"}, CompareAs: stringcompareas.Equal}
 	actual := args.Map{"start": rs.Start, "end": rs.End, "expLen": len(rs.ExpectedLines), "compareAs": rs.CompareAs.Name()}
 	expected := args.Map{"start": 0, "end": 10, "expLen": 1, "compareAs": "Equal"}
-	expected.ShouldBeEqual(t, 0, "RangesSegment struct", actual)
+	expected.ShouldBeEqual(t, 0, "RangesSegment returns correct value -- struct", actual)
 }
 
 func Test_Cov3_BaseValidatorCoreCondition_Default(t *testing.T) {
@@ -42,5 +42,5 @@ func Test_Cov3_BaseValidatorCoreCondition_Default(t *testing.T) {
 	cond := bv.ValidatorCoreConditionDefault()
 	actual := args.Map{"notNil": bv.ValidatorCoreCondition != nil, "split": cond.IsSplitByWhitespace()}
 	expected := args.Map{"notNil": true, "split": false}
-	expected.ShouldBeEqual(t, 0, "BaseValidatorCoreCondition default", actual)
+	expected.ShouldBeEqual(t, 0, "BaseValidatorCoreCondition returns non-empty -- default", actual)
 }

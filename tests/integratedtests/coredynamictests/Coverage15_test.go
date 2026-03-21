@@ -30,7 +30,7 @@ func Test_Cov15_TypedSimpleRequest_Constructors(t *testing.T) {
 		"invValid": false, "invMsg": "err",
 		"invNMValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest constructors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- constructors", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_NilReceiver(t *testing.T) {
@@ -44,7 +44,7 @@ func Test_Cov15_TypedSimpleRequest_NilReceiver(t *testing.T) {
 		"valid": false, "invalid": true,
 		"msg": "", "str": "", "err": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns nil -- nil", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_InvalidError(t *testing.T) {
@@ -55,14 +55,14 @@ func Test_Cov15_TypedSimpleRequest_InvalidError(t *testing.T) {
 	err3 := inv.InvalidError() // cached
 	actual := args.Map{"noErr": err1 == nil, "hasErr": err2 != nil, "cached": err3 == err2}
 	expected := args.Map{"noErr": true, "hasErr": true, "cached": true}
-	expected.ShouldBeEqual(t, 0, "InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidError returns error -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_String(t *testing.T) {
 	r := coredynamic.NewTypedSimpleRequestValid("hello")
 	actual := args.Map{"v": r.String()}
 	expected := args.Map{"v": "hello"}
-	expected.ShouldBeEqual(t, 0, "String", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_Json(t *testing.T) {
@@ -86,7 +86,7 @@ func Test_Cov15_TypedSimpleRequest_Json(t *testing.T) {
 		"mbLen": true, "merrNil": true,
 		"jm": "hello", "jmaNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest Json", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- Json", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_GetAs(t *testing.T) {
@@ -114,7 +114,7 @@ func Test_Cov15_TypedSimpleRequest_GetAs(t *testing.T) {
 		"f32": float32(0), "f32OK": false, "b": true, "bOK": true,
 		"bytesOK": false, "strsOK": false,
 	}
-	expected.ShouldBeEqual(t, 0, "GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "GetAs returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_Clone(t *testing.T) {
@@ -124,7 +124,7 @@ func Test_Cov15_TypedSimpleRequest_Clone(t *testing.T) {
 	nilClone := nilR.Clone()
 	actual := args.Map{"cData": cloned.Data(), "nilNil": nilClone == nil}
 	expected := args.Map{"cData": "hello", "nilNil": true}
-	expected.ShouldBeEqual(t, 0, "Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Clone returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_ToSimpleRequest(t *testing.T) {
@@ -134,7 +134,7 @@ func Test_Cov15_TypedSimpleRequest_ToSimpleRequest(t *testing.T) {
 	nilSR := nilR.ToSimpleRequest()
 	actual := args.Map{"valid": sr.IsValid(), "nilValid": nilSR.IsValid()}
 	expected := args.Map{"valid": true, "nilValid": false}
-	expected.ShouldBeEqual(t, 0, "ToSimpleRequest", actual)
+	expected.ShouldBeEqual(t, 0, "ToSimpleRequest returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_ToTypedDynamic(t *testing.T) {
@@ -144,7 +144,7 @@ func Test_Cov15_TypedSimpleRequest_ToTypedDynamic(t *testing.T) {
 	nilTD := nilR.ToTypedDynamic()
 	actual := args.Map{"data": td.Data(), "valid": td.IsValid(), "nilValid": nilTD.IsValid()}
 	expected := args.Map{"data": "hello", "valid": true, "nilValid": false}
-	expected.ShouldBeEqual(t, 0, "ToTypedDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "ToTypedDynamic returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleRequest_ToDynamic(t *testing.T) {
@@ -154,7 +154,7 @@ func Test_Cov15_TypedSimpleRequest_ToDynamic(t *testing.T) {
 	nilD := nilR.ToDynamic()
 	actual := args.Map{"data": d.Data(), "valid": d.IsValid(), "nilValid": nilD.IsValid()}
 	expected := args.Map{"data": "hello", "valid": true, "nilValid": false}
-	expected.ShouldBeEqual(t, 0, "ToDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "ToDynamic returns correct value -- with args", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -180,7 +180,7 @@ func Test_Cov15_TypedSimpleResult_Constructors(t *testing.T) {
 		"invValid": false, "invMsg": "err",
 		"invNMValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult constructors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- constructors", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_NilReceiver(t *testing.T) {
@@ -194,7 +194,7 @@ func Test_Cov15_TypedSimpleResult_NilReceiver(t *testing.T) {
 		"valid": false, "invalid": true,
 		"msg": "", "str": "", "err": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult nil", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns nil -- nil", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_InvalidError(t *testing.T) {
@@ -205,14 +205,14 @@ func Test_Cov15_TypedSimpleResult_InvalidError(t *testing.T) {
 	err3 := inv.InvalidError() // cached
 	actual := args.Map{"noErr": err1 == nil, "hasErr": err2 != nil, "cached": err3 == err2}
 	expected := args.Map{"noErr": true, "hasErr": true, "cached": true}
-	expected.ShouldBeEqual(t, 0, "InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidError returns error -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_String(t *testing.T) {
 	r := coredynamic.NewTypedSimpleResultValid("hello")
 	actual := args.Map{"v": r.String()}
 	expected := args.Map{"v": "hello"}
-	expected.ShouldBeEqual(t, 0, "String", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_Json(t *testing.T) {
@@ -236,7 +236,7 @@ func Test_Cov15_TypedSimpleResult_Json(t *testing.T) {
 		"mbLen": true, "merrNil": true,
 		"jm": "hello", "jmaNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult Json", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- Json", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_GetAs(t *testing.T) {
@@ -263,7 +263,7 @@ func Test_Cov15_TypedSimpleResult_GetAs(t *testing.T) {
 		"b": true, "bOK": true,
 		"bytesOK": false, "strsOK": false,
 	}
-	expected.ShouldBeEqual(t, 0, "GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "GetAs returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_Clone(t *testing.T) {
@@ -281,7 +281,7 @@ func Test_Cov15_TypedSimpleResult_Clone(t *testing.T) {
 		"cData": "hello", "cpNN": true,
 		"nilNil": true, "nilValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Clone returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_ToSimpleResult(t *testing.T) {
@@ -291,7 +291,7 @@ func Test_Cov15_TypedSimpleResult_ToSimpleResult(t *testing.T) {
 	nilSR := nilR.ToSimpleResult()
 	actual := args.Map{"valid": sr.IsValid(), "nilValid": nilSR.IsValid()}
 	expected := args.Map{"valid": true, "nilValid": false}
-	expected.ShouldBeEqual(t, 0, "ToSimpleResult", actual)
+	expected.ShouldBeEqual(t, 0, "ToSimpleResult returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_ToTypedDynamic(t *testing.T) {
@@ -301,7 +301,7 @@ func Test_Cov15_TypedSimpleResult_ToTypedDynamic(t *testing.T) {
 	nilTD := nilR.ToTypedDynamic()
 	actual := args.Map{"data": td.Data(), "valid": td.IsValid(), "nilValid": nilTD.IsValid()}
 	expected := args.Map{"data": "hello", "valid": true, "nilValid": false}
-	expected.ShouldBeEqual(t, 0, "ToTypedDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "ToTypedDynamic returns correct value -- with args", actual)
 }
 
 func Test_Cov15_TypedSimpleResult_ToDynamic(t *testing.T) {
@@ -311,5 +311,5 @@ func Test_Cov15_TypedSimpleResult_ToDynamic(t *testing.T) {
 	nilD := nilR.ToDynamic()
 	actual := args.Map{"data": d.Data(), "valid": d.IsValid(), "nilValid": nilD.IsValid()}
 	expected := args.Map{"data": "hello", "valid": true, "nilValid": false}
-	expected.ShouldBeEqual(t, 0, "ToDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "ToDynamic returns correct value -- with args", actual)
 }

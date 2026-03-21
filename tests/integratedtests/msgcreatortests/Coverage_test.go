@@ -25,7 +25,7 @@ func Test_Cov_SplitByEachWordTrimmedNoSpace(t *testing.T) {
 		"emptyLen":  0,
 		"unsorted0": "b",
 	}
-	expected.ShouldBeEqual(t, 0, "SplitByEachWord", actual)
+	expected.ShouldBeEqual(t, 0, "SplitByEachWord returns correct value -- with args", actual)
 }
 
 // ── Assert.Quick ──
@@ -34,7 +34,7 @@ func Test_Cov_Assert_Quick(t *testing.T) {
 	result := msgcreator.Assert.Quick("input", "actual", "expected", 0)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Quick", actual)
+	expected.ShouldBeEqual(t, 0, "Quick returns correct value -- with args", actual)
 }
 
 // ── Assert message methods ──
@@ -60,7 +60,7 @@ func Test_Cov_Assert_Messages(t *testing.T) {
 		"shouldBe":   true,
 		"shouldNot":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Messages", actual)
+	expected.ShouldBeEqual(t, 0, "Messages returns correct value -- with args", actual)
 }
 
 // ── Assert.SortedMessage ──
@@ -69,7 +69,7 @@ func Test_Cov_Assert_SortedMessage(t *testing.T) {
 	result := msgcreator.Assert.SortedMessage(false, "hello world", " ")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SortedMessage", actual)
+	expected.ShouldBeEqual(t, 0, "SortedMessage returns correct value -- with args", actual)
 }
 
 // ── Assert.SortedArrayNoPrint ──
@@ -78,7 +78,7 @@ func Test_Cov_Assert_SortedArrayNoPrint(t *testing.T) {
 	result := msgcreator.Assert.SortedArrayNoPrint("c b a")
 	actual := args.Map{"first": result[0]}
 	expected := args.Map{"first": "a"}
-	expected.ShouldBeEqual(t, 0, "SortedArrayNoPrint", actual)
+	expected.ShouldBeEqual(t, 0, "SortedArrayNoPrint returns correct value -- with args", actual)
 }
 
 // ── Assert.ToStrings ──
@@ -87,7 +87,7 @@ func Test_Cov_Assert_ToStrings(t *testing.T) {
 	result := msgcreator.Assert.ToStrings("hello")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "ToStrings", actual)
+	expected.ShouldBeEqual(t, 0, "ToStrings returns correct value -- with args", actual)
 }
 
 // ── Assert.ToStringsWithSpace ──
@@ -96,21 +96,21 @@ func Test_Cov_Assert_ToStringsWithSpace(t *testing.T) {
 	result := msgcreator.Assert.ToStringsWithSpace(2, "hello")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "ToStringsWithSpace", actual)
+	expected.ShouldBeEqual(t, 0, "ToStringsWithSpace returns non-empty -- with args", actual)
 }
 
 func Test_Cov_Assert_ToStringsWithSpaceDefault(t *testing.T) {
 	result := msgcreator.Assert.ToStringsWithSpaceDefault("hello")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "ToStringsWithSpaceDefault", actual)
+	expected.ShouldBeEqual(t, 0, "ToStringsWithSpaceDefault returns non-empty -- with args", actual)
 }
 
 func Test_Cov_Assert_ToStringWithSpace(t *testing.T) {
 	result := msgcreator.Assert.ToStringWithSpace(2, "hello")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "ToStringWithSpace", actual)
+	expected.ShouldBeEqual(t, 0, "ToStringWithSpace returns non-empty -- with args", actual)
 }
 
 // ── Assert.StringsToWithSpaceLines ──
@@ -120,7 +120,7 @@ func Test_Cov_Assert_StringsToWithSpaceLines(t *testing.T) {
 	empty := msgcreator.Assert.StringsToWithSpaceLines(2)
 	actual := args.Map{"len": len(result), "emptyLen": len(empty)}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "StringsToWithSpaceLines", actual)
+	expected.ShouldBeEqual(t, 0, "StringsToWithSpaceLines returns non-empty -- with args", actual)
 }
 
 // ── Assert.StringsToSpaceStringUsingFunc ──
@@ -134,5 +134,5 @@ func Test_Cov_Assert_StringsToSpaceStringUsingFunc(t *testing.T) {
 	})
 	actual := args.Map{"len": len(result), "emptyLen": len(empty)}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "StringsToSpaceStringUsingFunc", actual)
+	expected.ShouldBeEqual(t, 0, "StringsToSpaceStringUsingFunc returns correct value -- with args", actual)
 }

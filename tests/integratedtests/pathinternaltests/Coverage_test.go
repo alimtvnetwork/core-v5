@@ -24,7 +24,7 @@ func Test_Cov_Clean(t *testing.T) {
 		"doubleBack":  "a/b",
 		"normal":      "/a/b/c",
 	}
-	expected.ShouldBeEqual(t, 0, "Clean", actual)
+	expected.ShouldBeEqual(t, 0, "Clean returns correct value -- with args", actual)
 }
 
 func Test_Cov_Join(t *testing.T) {
@@ -38,7 +38,7 @@ func Test_Cov_Join(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Join", actual)
+	expected.ShouldBeEqual(t, 0, "Join returns correct value -- with args", actual)
 }
 
 func Test_Cov_ParentDir(t *testing.T) {
@@ -55,7 +55,7 @@ func Test_Cov_ParentDir(t *testing.T) {
 		"notEmpty":    true,
 		"emptyResult": "",
 	}
-	expected.ShouldBeEqual(t, 0, "ParentDir", actual)
+	expected.ShouldBeEqual(t, 0, "ParentDir returns correct value -- with args", actual)
 }
 
 func Test_Cov_Relative(t *testing.T) {
@@ -69,7 +69,7 @@ func Test_Cov_Relative(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Relative", actual)
+	expected.ShouldBeEqual(t, 0, "Relative returns correct value -- with args", actual)
 }
 
 func Test_Cov_IsPathExists(t *testing.T) {
@@ -82,7 +82,7 @@ func Test_Cov_IsPathExists(t *testing.T) {
 		"tempExists":  true,
 		"fakeNotExist": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsPathExists", actual)
+	expected.ShouldBeEqual(t, 0, "IsPathExists returns correct value -- with args", actual)
 }
 
 func Test_Cov_GetTemp(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_Cov_GetTemp(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetTemp", actual)
+	expected.ShouldBeEqual(t, 0, "GetTemp returns correct value -- with args", actual)
 }
 
 func Test_Cov_JoinTemp(t *testing.T) {
@@ -110,7 +110,7 @@ func Test_Cov_JoinTemp(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "JoinTemp", actual)
+	expected.ShouldBeEqual(t, 0, "JoinTemp returns correct value -- with args", actual)
 }
 
 func Test_Cov_RemoveDirIf_NonExistent(t *testing.T) {
@@ -124,5 +124,5 @@ func Test_Cov_RemoveDirIf_NonExistent(t *testing.T) {
 	expected := args.Map{
 		"noError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "RemoveDirIf_NonExistent", actual)
+	expected.ShouldBeEqual(t, 0, "RemoveDirIf_NonExistent returns correct value -- with args", actual)
 }

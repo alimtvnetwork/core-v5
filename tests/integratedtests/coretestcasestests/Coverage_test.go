@@ -20,7 +20,7 @@ func Test_Cov_GenericGherkins_IsFailedToMatch(t *testing.T) {
 		"matchingFails": false,
 		"notMatchFails": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsFailedToMatch", actual)
+	expected.ShouldBeEqual(t, 0, "IsFailedToMatch returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_HasExtraArgs(t *testing.T) {
@@ -37,7 +37,7 @@ func Test_Cov_GenericGherkins_HasExtraArgs(t *testing.T) {
 		"noExtra":     false,
 		"nilHasExtra": false,
 	}
-	expected.ShouldBeEqual(t, 0, "HasExtraArgs", actual)
+	expected.ShouldBeEqual(t, 0, "HasExtraArgs returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_GetExtra(t *testing.T) {
@@ -53,7 +53,7 @@ func Test_Cov_GenericGherkins_GetExtra(t *testing.T) {
 		"notFound": true,
 		"nilGet":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetExtra", actual)
+	expected.ShouldBeEqual(t, 0, "GetExtra returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_GetExtraAsString(t *testing.T) {
@@ -63,7 +63,7 @@ func Test_Cov_GenericGherkins_GetExtraAsString(t *testing.T) {
 	nilVal, nilOk := gNil.GetExtraAsString("k")
 	actual := args.Map{"val": val, "ok": ok, "nilVal": nilVal, "nilOk": nilOk}
 	expected := args.Map{"val": "v", "ok": true, "nilVal": "", "nilOk": false}
-	expected.ShouldBeEqual(t, 0, "GetExtraAsString", actual)
+	expected.ShouldBeEqual(t, 0, "GetExtraAsString returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_GetExtraAsBool(t *testing.T) {
@@ -73,7 +73,7 @@ func Test_Cov_GenericGherkins_GetExtraAsBool(t *testing.T) {
 	nilVal, nilOk := gNil.GetExtraAsBool("k")
 	actual := args.Map{"val": val, "ok": ok, "nilVal": nilVal, "nilOk": nilOk}
 	expected := args.Map{"val": true, "ok": true, "nilVal": false, "nilOk": false}
-	expected.ShouldBeEqual(t, 0, "GetExtraAsBool", actual)
+	expected.ShouldBeEqual(t, 0, "GetExtraAsBool returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_GetExtraAsBoolDefault(t *testing.T) {
@@ -83,7 +83,7 @@ func Test_Cov_GenericGherkins_GetExtraAsBoolDefault(t *testing.T) {
 	nilVal := gNil.GetExtraAsBoolDefault("k", true)
 	actual := args.Map{"val": val, "nilVal": nilVal}
 	expected := args.Map{"val": true, "nilVal": true}
-	expected.ShouldBeEqual(t, 0, "GetExtraAsBoolDefault", actual)
+	expected.ShouldBeEqual(t, 0, "GetExtraAsBoolDefault returns correct value -- with args", actual)
 }
 
 // ── GenericGherkins Formatting ──
@@ -95,14 +95,14 @@ func Test_Cov_GenericGherkins_ToString(t *testing.T) {
 	result := g.ToString(0)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "ToString", actual)
+	expected.ShouldBeEqual(t, 0, "ToString returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_String(t *testing.T) {
 	g := &coretestcases.StringBoolGherkins{Feature: "f"}
 	actual := args.Map{"notEmpty": g.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "String", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_GetWithExpectation(t *testing.T) {
@@ -110,7 +110,7 @@ func Test_Cov_GenericGherkins_GetWithExpectation(t *testing.T) {
 	result := g.GetWithExpectation(0)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "GetWithExpectation", actual)
+	expected.ShouldBeEqual(t, 0, "GetWithExpectation returns non-empty -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_GetMessageConditional(t *testing.T) {
@@ -125,7 +125,7 @@ func Test_Cov_GenericGherkins_GetMessageConditional(t *testing.T) {
 		"withNotEmpty":    true,
 		"withoutNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetMessageConditional", actual)
+	expected.ShouldBeEqual(t, 0, "GetMessageConditional returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_FullString(t *testing.T) {
@@ -136,7 +136,7 @@ func Test_Cov_GenericGherkins_FullString(t *testing.T) {
 	result := g.FullString()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "FullString", actual)
+	expected.ShouldBeEqual(t, 0, "FullString returns correct value -- with args", actual)
 }
 
 func Test_Cov_GenericGherkins_FullString_Nil(t *testing.T) {
@@ -144,7 +144,7 @@ func Test_Cov_GenericGherkins_FullString_Nil(t *testing.T) {
 	result := g.FullString()
 	actual := args.Map{"isNilMsg": result == "<nil GenericGherkins>"}
 	expected := args.Map{"isNilMsg": true}
-	expected.ShouldBeEqual(t, 0, "FullString_Nil", actual)
+	expected.ShouldBeEqual(t, 0, "FullString_Nil returns nil -- with args", actual)
 }
 
 // ── GenericGherkins CaseTitle ──
@@ -160,5 +160,5 @@ func Test_Cov_GenericGherkins_CaseTitle(t *testing.T) {
 		"titleResult": "myTitle",
 		"whenResult":  "myWhen",
 	}
-	expected.ShouldBeEqual(t, 0, "CaseTitle", actual)
+	expected.ShouldBeEqual(t, 0, "CaseTitle returns correct value -- with args", actual)
 }

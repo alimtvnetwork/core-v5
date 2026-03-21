@@ -18,7 +18,7 @@ func Test_Cov7_Trace_Message(t *testing.T) {
 	// Assert
 	actual := args.Map{"msgNotEmpty": msg != "", "shortNotEmpty": short != ""}
 	expected := args.Map{"msgNotEmpty": true, "shortNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Trace Message and ShortString", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns correct value -- Message and ShortString", actual)
 }
 
 func Test_Cov7_Trace_MessageCached(t *testing.T) {
@@ -32,7 +32,7 @@ func Test_Cov7_Trace_MessageCached(t *testing.T) {
 	// Assert
 	actual := args.Map{"msgSame": msg1 == msg2, "shortSame": short1 == short2}
 	expected := args.Map{"msgSame": true, "shortSame": true}
-	expected.ShouldBeEqual(t, 0, "Trace cached Message", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns correct value -- cached Message", actual)
 }
 
 func Test_Cov7_Trace_NilChecks(t *testing.T) {
@@ -50,7 +50,7 @@ func Test_Cov7_Trace_NilChecks(t *testing.T) {
 		"isNil": true, "isNotNil": true,
 		"hasIssuesNil": true, "stringNil": "",
 	}
-	expected.ShouldBeEqual(t, 0, "Trace nil checks", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns nil -- nil checks", actual)
 }
 
 func Test_Cov7_Trace_FileInfo(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_Cov7_Trace_FileInfo(t *testing.T) {
 		"fwlNotEmpty": true, "fullPathNotEmpty": true,
 		"fileNameNotEmpty": true, "lineNumGt0": true, "fwlStrNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Trace file info", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns correct value -- file info", actual)
 }
 
 func Test_Cov7_Trace_StringUsingFmt(t *testing.T) {
@@ -85,7 +85,7 @@ func Test_Cov7_Trace_StringUsingFmt(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Trace StringUsingFmt", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns correct value -- StringUsingFmt", actual)
 }
 
 func Test_Cov7_Trace_CloneDispose(t *testing.T) {
@@ -100,7 +100,7 @@ func Test_Cov7_Trace_CloneDispose(t *testing.T) {
 		"clonedPtrNil": clonedPtr != nil,
 	}
 	expected := args.Map{"clonedPkg": true, "clonedPtrNil": true}
-	expected.ShouldBeEqual(t, 0, "Trace Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns correct value -- Clone", actual)
 	// Cleanup
 	trace.Dispose()
 	clonedPtr.Dispose()
@@ -114,7 +114,7 @@ func Test_Cov7_Trace_ClonePtr_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"isNil": result == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "Trace ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns nil -- ClonePtr nil", actual)
 }
 
 func Test_Cov7_Trace_Json(t *testing.T) {
@@ -133,7 +133,7 @@ func Test_Cov7_Trace_Json(t *testing.T) {
 	expected := args.Map{
 		"jsonNotEmpty": true, "jsonValid": true, "modelNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Trace Json", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns correct value -- Json", actual)
 }
 
 func Test_Cov7_Trace_AsFileLiner(t *testing.T) {
@@ -144,7 +144,7 @@ func Test_Cov7_Trace_AsFileLiner(t *testing.T) {
 	// Assert
 	actual := args.Map{"notNil": fl != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Trace AsFileLiner", actual)
+	expected.ShouldBeEqual(t, 0, "Trace returns correct value -- AsFileLiner", actual)
 }
 
 // ── FileWithLine ──
@@ -166,7 +166,7 @@ func Test_Cov7_FileWithLine_Methods(t *testing.T) {
 		"str": "/test.go:42", "fwlStr": "/test.go:42",
 		"isNil": false, "isNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "FileWithLine methods", actual)
+	expected.ShouldBeEqual(t, 0, "FileWithLine returns non-empty -- methods", actual)
 }
 
 func Test_Cov7_FileWithLine_Nil(t *testing.T) {
@@ -175,7 +175,7 @@ func Test_Cov7_FileWithLine_Nil(t *testing.T) {
 	// Act & Assert
 	actual := args.Map{"str": fwl.String(), "isNil": fwl.IsNil(), "isNotNil": fwl.IsNotNil()}
 	expected := args.Map{"str": "", "isNil": true, "isNotNil": false}
-	expected.ShouldBeEqual(t, 0, "FileWithLine nil", actual)
+	expected.ShouldBeEqual(t, 0, "FileWithLine returns nil -- nil", actual)
 }
 
 func Test_Cov7_FileWithLine_StringUsingFmt(t *testing.T) {
@@ -186,7 +186,7 @@ func Test_Cov7_FileWithLine_StringUsingFmt(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "/test.go"}
-	expected.ShouldBeEqual(t, 0, "FileWithLine StringUsingFmt", actual)
+	expected.ShouldBeEqual(t, 0, "FileWithLine returns non-empty -- StringUsingFmt", actual)
 }
 
 func Test_Cov7_FileWithLine_Json(t *testing.T) {
@@ -208,7 +208,7 @@ func Test_Cov7_FileWithLine_Json(t *testing.T) {
 		"jsonNotEmpty": true, "modelPath": "/test.go",
 		"anyNotNil": true, "flNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "FileWithLine Json", actual)
+	expected.ShouldBeEqual(t, 0, "FileWithLine returns non-empty -- Json", actual)
 }
 
 // ── TraceCollection basic methods ──
@@ -227,7 +227,7 @@ func Test_Cov7_TraceCollection_Empty(t *testing.T) {
 	expected := args.Map{
 		"isEmpty": true, "hasAny": false, "length": 0, "count": 0, "lastIndex": -1,
 	}
-	expected.ShouldBeEqual(t, 0, "TraceCollection empty", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns empty -- empty", actual)
 }
 
 func Test_Cov7_TraceCollection_Add(t *testing.T) {
@@ -239,7 +239,7 @@ func Test_Cov7_TraceCollection_Add(t *testing.T) {
 	// Assert
 	actual := args.Map{"length": tc.Length(), "hasAny": tc.HasAnyItem()}
 	expected := args.Map{"length": 1, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Add", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- Add", actual)
 }
 
 func Test_Cov7_TraceCollection_Adds(t *testing.T) {
@@ -252,7 +252,7 @@ func Test_Cov7_TraceCollection_Adds(t *testing.T) {
 	// Assert
 	actual := args.Map{"length": tc.Length()}
 	expected := args.Map{"length": 2}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Adds", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- Adds", actual)
 }
 
 func Test_Cov7_TraceCollection_Adds_Empty(t *testing.T) {
@@ -263,7 +263,7 @@ func Test_Cov7_TraceCollection_Adds_Empty(t *testing.T) {
 	// Assert
 	actual := args.Map{"length": tc.Length()}
 	expected := args.Map{"length": 0}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Adds empty", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns empty -- Adds empty", actual)
 }
 
 func Test_Cov7_TraceCollection_AddsIf(t *testing.T) {
@@ -278,7 +278,7 @@ func Test_Cov7_TraceCollection_AddsIf(t *testing.T) {
 	// Assert
 	actual := args.Map{"afterFalse": lenAfterFalse, "afterTrue": lenAfterTrue}
 	expected := args.Map{"afterFalse": 0, "afterTrue": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection AddsIf", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- AddsIf", actual)
 }
 
 func Test_Cov7_TraceCollection_FirstLast(t *testing.T) {
@@ -298,7 +298,7 @@ func Test_Cov7_TraceCollection_FirstLast(t *testing.T) {
 		"first": "first", "last": "last",
 		"firstOrDefault": true, "lastOrDefault": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TraceCollection First/Last", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- First/Last", actual)
 }
 
 func Test_Cov7_TraceCollection_FirstLastOrDefault_Empty(t *testing.T) {
@@ -310,7 +310,7 @@ func Test_Cov7_TraceCollection_FirstLastOrDefault_Empty(t *testing.T) {
 		"lastOrDefault":  tc.LastOrDefault() == nil,
 	}
 	expected := args.Map{"firstOrDefault": true, "lastOrDefault": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection FirstLast empty", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns empty -- FirstLast empty", actual)
 }
 
 func Test_Cov7_TraceCollection_HasIndex(t *testing.T) {
@@ -320,7 +320,7 @@ func Test_Cov7_TraceCollection_HasIndex(t *testing.T) {
 	// Assert
 	actual := args.Map{"has0": tc.HasIndex(0), "has1": tc.HasIndex(1)}
 	expected := args.Map{"has0": true, "has1": false}
-	expected.ShouldBeEqual(t, 0, "TraceCollection HasIndex", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- HasIndex", actual)
 }
 
 func Test_Cov7_TraceCollection_Strings(t *testing.T) {
@@ -332,7 +332,7 @@ func Test_Cov7_TraceCollection_Strings(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": len(strs), "notEmpty": strs[0] != ""}
 	expected := args.Map{"len": 1, "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Strings", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- Strings", actual)
 }
 
 func Test_Cov7_TraceCollection_Nil(t *testing.T) {
@@ -341,7 +341,7 @@ func Test_Cov7_TraceCollection_Nil(t *testing.T) {
 	// Assert
 	actual := args.Map{"length": tc.Length()}
 	expected := args.Map{"length": 0}
-	expected.ShouldBeEqual(t, 0, "TraceCollection nil Length", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns nil -- nil Length", actual)
 }
 
 func Test_Cov7_TraceCollection_Clone(t *testing.T) {
@@ -353,7 +353,7 @@ func Test_Cov7_TraceCollection_Clone(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": cloned.Length(), "pkg": cloned.First().PackageName}
 	expected := args.Map{"len": 1, "pkg": "pkg"}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Clone", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- Clone", actual)
 }
 
 func Test_Cov7_TraceCollection_ConcatNew(t *testing.T) {
@@ -366,7 +366,7 @@ func Test_Cov7_TraceCollection_ConcatNew(t *testing.T) {
 	// Assert
 	actual := args.Map{"origLen": tc.Length(), "newLen": newTc.Length()}
 	expected := args.Map{"origLen": 1, "newLen": 2}
-	expected.ShouldBeEqual(t, 0, "TraceCollection ConcatNew", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- ConcatNew", actual)
 }
 
 func Test_Cov7_TraceCollection_Skip(t *testing.T) {
@@ -378,7 +378,7 @@ func Test_Cov7_TraceCollection_Skip(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": len(skipped), "first": skipped[0].PackageName}
 	expected := args.Map{"len": 1, "first": "b"}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Skip", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- Skip", actual)
 }
 
 func Test_Cov7_TraceCollection_Take(t *testing.T) {
@@ -390,7 +390,7 @@ func Test_Cov7_TraceCollection_Take(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": len(taken)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Take", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- Take", actual)
 }
 
 func Test_Cov7_TraceCollection_Filter(t *testing.T) {
@@ -407,7 +407,7 @@ func Test_Cov7_TraceCollection_Filter(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": len(filtered)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection Filter", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- Filter", actual)
 }
 
 func Test_Cov7_TraceCollection_GetPagesSize(t *testing.T) {
@@ -423,7 +423,7 @@ func Test_Cov7_TraceCollection_GetPagesSize(t *testing.T) {
 		"pagesNeg": tc.GetPagesSize(-1),
 	}
 	expected := args.Map{"pages10": 2, "pages0": 0, "pagesNeg": 0}
-	expected.ShouldBeEqual(t, 0, "TraceCollection GetPagesSize", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- GetPagesSize", actual)
 }
 
 // ── currentNameOf ──
@@ -441,7 +441,7 @@ func Test_Cov7_NameOf_All(t *testing.T) {
 		"full": "pkg.Method", "pkg": "pkg", "method": "Method",
 		"emptyFull": "", "emptyPkg": "", "emptyMethod": "",
 	}
-	expected.ShouldBeEqual(t, 0, "NameOf.All", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.All returns correct value -- with args", actual)
 }
 
 func Test_Cov7_NameOf_Method(t *testing.T) {
@@ -450,7 +450,7 @@ func Test_Cov7_NameOf_Method(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": method != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NameOf.Method", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.Method returns correct value -- with args", actual)
 }
 
 func Test_Cov7_NameOf_Package(t *testing.T) {
@@ -459,7 +459,7 @@ func Test_Cov7_NameOf_Package(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": pkg != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NameOf.Package", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.Package returns correct value -- with args", actual)
 }
 
 func Test_Cov7_NameOf_MethodByFullName(t *testing.T) {
@@ -468,7 +468,7 @@ func Test_Cov7_NameOf_MethodByFullName(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "MyFunc"}
-	expected.ShouldBeEqual(t, 0, "NameOf.MethodByFullName", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.MethodByFullName returns correct value -- with args", actual)
 }
 
 func Test_Cov7_NameOf_PackageByFullName(t *testing.T) {
@@ -477,7 +477,7 @@ func Test_Cov7_NameOf_PackageByFullName(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "pkg"}
-	expected.ShouldBeEqual(t, 0, "NameOf.PackageByFullName", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.PackageByFullName returns correct value -- with args", actual)
 }
 
 func Test_Cov7_NameOf_JoinPackageNameWithRelative(t *testing.T) {
@@ -486,7 +486,7 @@ func Test_Cov7_NameOf_JoinPackageNameWithRelative(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "pkg.SubPkg.Method"}
-	expected.ShouldBeEqual(t, 0, "NameOf.JoinPackageNameWithRelative", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.JoinPackageNameWithRelative returns non-empty -- with args", actual)
 }
 
 func Test_Cov7_NameOf_CurrentFuncFullPath(t *testing.T) {
@@ -495,7 +495,7 @@ func Test_Cov7_NameOf_CurrentFuncFullPath(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "pkg.Func"}
-	expected.ShouldBeEqual(t, 0, "NameOf.CurrentFuncFullPath", actual)
+	expected.ShouldBeEqual(t, 0, "NameOf.CurrentFuncFullPath returns correct value -- with args", actual)
 }
 
 // ── Dir / File ──
@@ -506,7 +506,7 @@ func Test_Cov7_Dir_CurDir(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": dir != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir.CurDir", actual)
+	expected.ShouldBeEqual(t, 0, "Dir.CurDir returns correct value -- with args", actual)
 }
 
 func Test_Cov7_Dir_RepoDir(t *testing.T) {
@@ -515,7 +515,7 @@ func Test_Cov7_Dir_RepoDir(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": repo != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir.RepoDir", actual)
+	expected.ShouldBeEqual(t, 0, "Dir.RepoDir returns correct value -- with args", actual)
 }
 
 func Test_Cov7_Dir_RepoDirJoin(t *testing.T) {
@@ -524,7 +524,7 @@ func Test_Cov7_Dir_RepoDirJoin(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": joined != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir.RepoDirJoin", actual)
+	expected.ShouldBeEqual(t, 0, "Dir.RepoDirJoin returns correct value -- with args", actual)
 }
 
 func Test_Cov7_Dir_CurDirJoin(t *testing.T) {
@@ -533,7 +533,7 @@ func Test_Cov7_Dir_CurDirJoin(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": joined != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Dir.CurDirJoin", actual)
+	expected.ShouldBeEqual(t, 0, "Dir.CurDirJoin returns correct value -- with args", actual)
 }
 
 func Test_Cov7_File_CurrentFilePath(t *testing.T) {
@@ -542,7 +542,7 @@ func Test_Cov7_File_CurrentFilePath(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": fp != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.CurrentFilePath", actual)
+	expected.ShouldBeEqual(t, 0, "File.CurrentFilePath returns correct value -- with args", actual)
 }
 
 func Test_Cov7_File_Name(t *testing.T) {
@@ -551,7 +551,7 @@ func Test_Cov7_File_Name(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": name != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.Name", actual)
+	expected.ShouldBeEqual(t, 0, "File.Name returns correct value -- with args", actual)
 }
 
 func Test_Cov7_File_Path(t *testing.T) {
@@ -560,7 +560,7 @@ func Test_Cov7_File_Path(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": fp != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.Path", actual)
+	expected.ShouldBeEqual(t, 0, "File.Path returns correct value -- with args", actual)
 }
 
 func Test_Cov7_File_PathLineSep(t *testing.T) {
@@ -569,7 +569,7 @@ func Test_Cov7_File_PathLineSep(t *testing.T) {
 	// Assert
 	actual := args.Map{"pathNotEmpty": fp != "", "lineGt0": line > 0}
 	expected := args.Map{"pathNotEmpty": true, "lineGt0": true}
-	expected.ShouldBeEqual(t, 0, "File.PathLineSep", actual)
+	expected.ShouldBeEqual(t, 0, "File.PathLineSep returns correct value -- with args", actual)
 }
 
 func Test_Cov7_File_PathLineSepDefault(t *testing.T) {
@@ -578,7 +578,7 @@ func Test_Cov7_File_PathLineSepDefault(t *testing.T) {
 	// Assert
 	actual := args.Map{"pathNotEmpty": fp != "", "lineGt0": line > 0}
 	expected := args.Map{"pathNotEmpty": true, "lineGt0": true}
-	expected.ShouldBeEqual(t, 0, "File.PathLineSepDefault", actual)
+	expected.ShouldBeEqual(t, 0, "File.PathLineSepDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov7_File_FilePathWithLineString(t *testing.T) {
@@ -587,7 +587,7 @@ func Test_Cov7_File_FilePathWithLineString(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.FilePathWithLineString", actual)
+	expected.ShouldBeEqual(t, 0, "File.FilePathWithLineString returns non-empty -- with args", actual)
 }
 
 func Test_Cov7_File_PathLineStringDefault(t *testing.T) {
@@ -596,7 +596,7 @@ func Test_Cov7_File_PathLineStringDefault(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "File.PathLineStringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "File.PathLineStringDefault returns correct value -- with args", actual)
 }
 
 // ── StacksTo ──
@@ -607,7 +607,7 @@ func Test_Cov7_StacksTo_String(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.String", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.String returns correct value -- with args", actual)
 }
 
 func Test_Cov7_StacksTo_StringDefault(t *testing.T) {
@@ -616,7 +616,7 @@ func Test_Cov7_StacksTo_StringDefault(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.StringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.StringDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov7_StacksTo_StringNoCount(t *testing.T) {
@@ -625,7 +625,7 @@ func Test_Cov7_StacksTo_StringNoCount(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.StringNoCount", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.StringNoCount returns correct value -- with args", actual)
 }
 
 func Test_Cov7_StacksTo_Bytes(t *testing.T) {
@@ -634,7 +634,7 @@ func Test_Cov7_StacksTo_Bytes(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasContent": len(result) > 0}
 	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.Bytes", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.Bytes returns correct value -- with args", actual)
 }
 
 func Test_Cov7_StacksTo_BytesDefault(t *testing.T) {
@@ -643,7 +643,7 @@ func Test_Cov7_StacksTo_BytesDefault(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasContent": len(result) > 0}
 	expected := args.Map{"hasContent": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.BytesDefault", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.BytesDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov7_StacksTo_JsonString(t *testing.T) {
@@ -652,7 +652,7 @@ func Test_Cov7_StacksTo_JsonString(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.JsonString returns correct value -- with args", actual)
 }
 
 func Test_Cov7_StacksTo_JsonStringDefault(t *testing.T) {
@@ -661,7 +661,7 @@ func Test_Cov7_StacksTo_JsonStringDefault(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StacksTo.JsonStringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "StacksTo.JsonStringDefault returns correct value -- with args", actual)
 }
 
 // ── New.StackTrace ──
@@ -672,7 +672,7 @@ func Test_Cov7_NewStackTrace_SkipNone(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasItems": tc.HasAnyItem()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "New.StackTrace.SkipNone", actual)
+	expected.ShouldBeEqual(t, 0, "New.StackTrace.SkipNone returns correct value -- with args", actual)
 }
 
 func Test_Cov7_NewStackTrace_SkipOne(t *testing.T) {
@@ -681,7 +681,7 @@ func Test_Cov7_NewStackTrace_SkipOne(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasItems": tc.HasAnyItem()}
 	expected := args.Map{"hasItems": actual["hasItems"]}
-	expected.ShouldBeEqual(t, 0, "New.StackTrace.SkipOne", actual)
+	expected.ShouldBeEqual(t, 0, "New.StackTrace.SkipOne returns correct value -- with args", actual)
 }
 
 func Test_Cov7_NewStackTrace_DefaultCount(t *testing.T) {
@@ -690,7 +690,7 @@ func Test_Cov7_NewStackTrace_DefaultCount(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasItems": tc.HasAnyItem()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "New.StackTrace.DefaultCount", actual)
+	expected.ShouldBeEqual(t, 0, "New.StackTrace.DefaultCount returns correct value -- with args", actual)
 }
 
 // ── newTraceCollection ──
@@ -704,7 +704,7 @@ func Test_Cov7_TraceCollection_SkipCollection(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": skipped.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection SkipCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- SkipCollection", actual)
 }
 
 func Test_Cov7_TraceCollection_TakeCollection(t *testing.T) {
@@ -716,7 +716,7 @@ func Test_Cov7_TraceCollection_TakeCollection(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": taken.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection TakeCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- TakeCollection", actual)
 }
 
 func Test_Cov7_TraceCollection_LimitCollection(t *testing.T) {
@@ -728,7 +728,7 @@ func Test_Cov7_TraceCollection_LimitCollection(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": limited.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection LimitCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- LimitCollection", actual)
 }
 
 func Test_Cov7_TraceCollection_SafeLimitCollection(t *testing.T) {
@@ -740,7 +740,7 @@ func Test_Cov7_TraceCollection_SafeLimitCollection(t *testing.T) {
 	// Assert
 	actual := args.Map{"len": limited.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "TraceCollection SafeLimitCollection", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- SafeLimitCollection", actual)
 }
 
 func Test_Cov7_TraceCollection_Dynamics(t *testing.T) {
@@ -764,7 +764,7 @@ func Test_Cov7_TraceCollection_Dynamics(t *testing.T) {
 		"skipDynNotNil": true, "takeDynNotNil": true,
 		"limitDynNotNil": true, "limitNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TraceCollection dynamics", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- dynamics", actual)
 }
 
 func Test_Cov7_TraceCollection_SkipDynamic_AllSkipped(t *testing.T) {
@@ -776,5 +776,5 @@ func Test_Cov7_TraceCollection_SkipDynamic_AllSkipped(t *testing.T) {
 	// Assert
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "TraceCollection SkipDynamic all skipped", actual)
+	expected.ShouldBeEqual(t, 0, "TraceCollection returns correct value -- SkipDynamic all skipped", actual)
 }

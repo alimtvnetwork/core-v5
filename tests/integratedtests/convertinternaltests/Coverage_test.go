@@ -21,7 +21,7 @@ func Test_AnyTo_ValueString(t *testing.T) {
 		"nil":    "",
 		"string": "hello",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyTo_ValueString", actual)
+	expected.ShouldBeEqual(t, 0, "AnyTo_ValueString returns non-empty -- with args", actual)
 }
 
 func Test_AnyTo_SmartString(t *testing.T) {
@@ -36,7 +36,7 @@ func Test_AnyTo_SmartString(t *testing.T) {
 		"nil":    "",
 		"int":    "42",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyTo_SmartString", actual)
+	expected.ShouldBeEqual(t, 0, "AnyTo_SmartString returns correct value -- with args", actual)
 }
 
 func Test_AnyTo_SmartJson(t *testing.T) {
@@ -51,7 +51,7 @@ func Test_AnyTo_SmartJson(t *testing.T) {
 		"string": "hello",
 		"int":    "42",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyTo_SmartJson", actual)
+	expected.ShouldBeEqual(t, 0, "AnyTo_SmartJson returns correct value -- with args", actual)
 }
 
 func Test_AnyTo_String(t *testing.T) {
@@ -71,7 +71,7 @@ func Test_AnyTo_String(t *testing.T) {
 		"int":       "42",
 		"bool":      "true",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyTo_String", actual)
+	expected.ShouldBeEqual(t, 0, "AnyTo_String returns correct value -- with args", actual)
 }
 
 func Test_AnyTo_Strings(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_AnyTo_Strings(t *testing.T) {
 		"nilLen":  0,
 		"mapLen":  1,
 	}
-	expected.ShouldBeEqual(t, 0, "AnyTo_Strings", actual)
+	expected.ShouldBeEqual(t, 0, "AnyTo_Strings returns correct value -- with args", actual)
 }
 
 func Test_AnyTo_PrettyJsonLines(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_AnyTo_PrettyJsonLines(t *testing.T) {
 		"resultLen": true,
 		"nilLen":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "AnyTo_PrettyJsonLines", actual)
+	expected.ShouldBeEqual(t, 0, "AnyTo_PrettyJsonLines returns correct value -- with args", actual)
 }
 
 // ── Integers ──
@@ -133,7 +133,7 @@ func Test_Integers_ToMapBool(t *testing.T) {
 		"emptyLen":  0,
 		"int8Len":   2,
 	}
-	expected.ShouldBeEqual(t, 0, "Integers_ToMapBool", actual)
+	expected.ShouldBeEqual(t, 0, "Integers_ToMapBool returns correct value -- with args", actual)
 }
 
 func Test_Integers_IntegersToStrings(t *testing.T) {
@@ -148,7 +148,7 @@ func Test_Integers_IntegersToStrings(t *testing.T) {
 		"len":   3,
 		"first": "1",
 	}
-	expected.ShouldBeEqual(t, 0, "Integers_IntegersToStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Integers_IntegersToStrings returns correct value -- with args", actual)
 }
 
 // ── StringsTo ──
@@ -166,7 +166,7 @@ func Test_StringsTo_WithSpaces(t *testing.T) {
 		"resultLen": 2,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "StringsTo_WithSpaces", actual)
+	expected.ShouldBeEqual(t, 0, "StringsTo_WithSpaces returns non-empty -- with args", actual)
 }
 
 // ── Map ──
@@ -191,7 +191,7 @@ func Test_Map_Keys(t *testing.T) {
 		"noErr2":     true,
 		"hasErrBad":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "Map_Keys", actual)
+	expected.ShouldBeEqual(t, 0, "Map_Keys returns correct value -- with args", actual)
 }
 
 func Test_Map_Values(t *testing.T) {
@@ -209,7 +209,7 @@ func Test_Map_Values(t *testing.T) {
 		"noErr":     true,
 		"hasErrBad": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Map_Values", actual)
+	expected.ShouldBeEqual(t, 0, "Map_Values returns non-empty -- with args", actual)
 }
 
 func Test_Map_StringAnyToStringString(t *testing.T) {
@@ -225,7 +225,7 @@ func Test_Map_StringAnyToStringString(t *testing.T) {
 		"resultLen": 1,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "Map_StringAnyToStringString", actual)
+	expected.ShouldBeEqual(t, 0, "Map_StringAnyToStringString returns correct value -- with args", actual)
 }
 
 func Test_Map_FromIntegersToMap(t *testing.T) {
@@ -241,7 +241,7 @@ func Test_Map_FromIntegersToMap(t *testing.T) {
 		"resultLen": 3,
 		"emptyLen":  0,
 	}
-	expected.ShouldBeEqual(t, 0, "Map_FromIntegersToMap", actual)
+	expected.ShouldBeEqual(t, 0, "Map_FromIntegersToMap returns correct value -- with args", actual)
 }
 
 // ── CodeFormatter / Util ──
@@ -260,7 +260,7 @@ func Test_Util_StringIndexToPosition(t *testing.T) {
 		"2": "3rd",
 		"3": "4th",
 	}
-	expected.ShouldBeEqual(t, 0, "Util_StringIndexToPosition", actual)
+	expected.ShouldBeEqual(t, 0, "Util_StringIndexToPosition returns correct value -- with args", actual)
 }
 
 func Test_Util_StringPascalCase(t *testing.T) {
@@ -275,7 +275,7 @@ func Test_Util_StringPascalCase(t *testing.T) {
 		"underscore": "HelloWorld",
 		"empty":      "",
 	}
-	expected.ShouldBeEqual(t, 0, "Util_StringPascalCase", actual)
+	expected.ShouldBeEqual(t, 0, "Util_StringPascalCase returns correct value -- with args", actual)
 }
 
 func Test_Util_StringCamelCase(t *testing.T) {
@@ -290,5 +290,5 @@ func Test_Util_StringCamelCase(t *testing.T) {
 		"underscore": "helloWorld",
 		"empty":      "",
 	}
-	expected.ShouldBeEqual(t, 0, "Util_StringCamelCase", actual)
+	expected.ShouldBeEqual(t, 0, "Util_StringCamelCase returns correct value -- with args", actual)
 }

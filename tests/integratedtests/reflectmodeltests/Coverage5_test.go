@@ -62,7 +62,7 @@ func Test_Cov5_MethodProcessor_InvokeError_Success(t *testing.T) {
 		"funcErrMsg": "test-error",
 		"procErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "InvokeError success", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeError returns error -- success", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeError_WrongArgs(t *testing.T) {
@@ -71,7 +71,7 @@ func Test_Cov5_MethodProcessor_InvokeError_WrongArgs(t *testing.T) {
 	_, procErr := mp.InvokeError(cov5ErrorReturner{}, "extra")
 	actual := args.Map{"hasErr": procErr != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeError wrong args", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeError returns error -- wrong args", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeFirstAndError_Success(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_Cov5_MethodProcessor_InvokeFirstAndError_WithFuncError(t *testing.T) {
 		"hasFuncErr": true,
 		"procErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError with func error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- with func error", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeFirstAndError_ProcessingError(t *testing.T) {
@@ -105,7 +105,7 @@ func Test_Cov5_MethodProcessor_InvokeFirstAndError_ProcessingError(t *testing.T)
 	_, _, procErr := mp.InvokeFirstAndError(cov5ErrorReturner{})
 	actual := args.Map{"hasProcErr": procErr != nil}
 	expected := args.Map{"hasProcErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError processing error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- processing error", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeFirstAndError_SingleReturn(t *testing.T) {
@@ -120,7 +120,7 @@ func Test_Cov5_MethodProcessor_InvokeFirstAndError_SingleReturn(t *testing.T) {
 		"hasProcErr":  true,
 		"firstNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError single return", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns error -- single return", actual)
 }
 
 func Test_Cov5_MethodProcessor_GetFirstResponseOfInvoke_Error(t *testing.T) {
@@ -135,7 +135,7 @@ func Test_Cov5_MethodProcessor_GetFirstResponseOfInvoke_Error(t *testing.T) {
 		"firstNil": true,
 		"hasErr":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke error", actual)
+	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke returns error -- error", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeResultOfIndex_Error(t *testing.T) {
@@ -150,7 +150,7 @@ func Test_Cov5_MethodProcessor_InvokeResultOfIndex_Error(t *testing.T) {
 		"resultNil": true,
 		"hasErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex error", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex returns error -- error", actual)
 }
 
 // ── MethodProcessor.GetOutArgsTypes with zero-return method ──
@@ -160,7 +160,7 @@ func Test_Cov5_MethodProcessor_GetOutArgsTypes_ZeroReturn(t *testing.T) {
 	types := mp.GetOutArgsTypes()
 	actual := args.Map{"len": len(types)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "GetOutArgsTypes zero return", actual)
+	expected.ShouldBeEqual(t, 0, "GetOutArgsTypes returns correct value -- zero return", actual)
 }
 
 // ── MethodProcessor.GetInArgsTypes with zero-arg method (just receiver) ──
@@ -171,7 +171,7 @@ func Test_Cov5_MethodProcessor_GetInArgsTypesNames_NoReturn(t *testing.T) {
 	// NoReturn() only has receiver
 	actual := args.Map{"len": len(names)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "GetInArgsTypesNames no return method", actual)
+	expected.ShouldBeEqual(t, 0, "GetInArgsTypesNames returns empty -- no return method", actual)
 }
 
 // ── MethodProcessor.IsEqual — different methods (in/out args mismatch) ──
@@ -187,7 +187,7 @@ func Test_Cov5_MethodProcessor_IsEqual_DiffInArgs(t *testing.T) {
 		"equal":    false,
 		"notEqual": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsEqual diff in args", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- diff in args", actual)
 }
 
 // ── MethodProcessor.IsEqual — same signature but different names ──
@@ -204,7 +204,7 @@ func Test_Cov5_MethodProcessor_IsEqual_SameSignature(t *testing.T) {
 	expected := args.Map{
 		"equal": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsEqual same signature different name", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqual returns correct value -- same signature different name", actual)
 }
 
 // ── MethodProcessor.VerifyOutArgs mismatch ──
@@ -215,7 +215,7 @@ func Test_Cov5_MethodProcessor_VerifyOutArgs_Mismatch(t *testing.T) {
 	ok, err := mp.VerifyOutArgs([]any{42})
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyOutArgs mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyOutArgs returns correct value -- mismatch", actual)
 }
 
 // ── MethodProcessor.OutArgsVerifyRv length mismatch ──
@@ -226,7 +226,7 @@ func Test_Cov5_MethodProcessor_OutArgsVerifyRv_LengthMismatch(t *testing.T) {
 	ok, err := mp.OutArgsVerifyRv([]reflect.Type{reflect.TypeOf(""), reflect.TypeOf(0)})
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "OutArgsVerifyRv length mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "OutArgsVerifyRv returns correct value -- length mismatch", actual)
 }
 
 // ── MethodProcessor.ValidateMethodArgs correct types ──
@@ -236,7 +236,7 @@ func Test_Cov5_MethodProcessor_ValidateMethodArgs_Correct(t *testing.T) {
 	err := mp.ValidateMethodArgs([]any{cov5ErrorReturner{}, true})
 	actual := args.Map{"noErr": err == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs correct", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns non-empty -- correct", actual)
 }
 
 // ── MethodProcessor — nil receiver invoke ──
@@ -246,7 +246,7 @@ func Test_Cov5_MethodProcessor_Invoke_NilReceiver(t *testing.T) {
 	_, err := mp.Invoke()
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Invoke nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "Invoke returns nil -- nil receiver", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeError_NilReceiver(t *testing.T) {
@@ -254,7 +254,7 @@ func Test_Cov5_MethodProcessor_InvokeError_NilReceiver(t *testing.T) {
 	_, procErr := mp.InvokeError()
 	actual := args.Map{"hasErr": procErr != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeError nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeError returns nil -- nil receiver", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeFirstAndError_NilReceiver(t *testing.T) {
@@ -262,7 +262,7 @@ func Test_Cov5_MethodProcessor_InvokeFirstAndError_NilReceiver(t *testing.T) {
 	_, _, procErr := mp.InvokeFirstAndError()
 	actual := args.Map{"hasErr": procErr != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeFirstAndError returns nil -- nil receiver", actual)
 }
 
 func Test_Cov5_MethodProcessor_GetFirstResponseOfInvoke_NilReceiver(t *testing.T) {
@@ -270,7 +270,7 @@ func Test_Cov5_MethodProcessor_GetFirstResponseOfInvoke_NilReceiver(t *testing.T
 	first, err := mp.GetFirstResponseOfInvoke()
 	actual := args.Map{"firstNil": first == nil, "hasErr": err != nil}
 	expected := args.Map{"firstNil": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke nil", actual)
+	expected.ShouldBeEqual(t, 0, "GetFirstResponseOfInvoke returns nil -- nil", actual)
 }
 
 func Test_Cov5_MethodProcessor_InvokeResultOfIndex_NilReceiver(t *testing.T) {
@@ -278,7 +278,7 @@ func Test_Cov5_MethodProcessor_InvokeResultOfIndex_NilReceiver(t *testing.T) {
 	result, err := mp.InvokeResultOfIndex(0)
 	actual := args.Map{"resultNil": result == nil, "hasErr": err != nil}
 	expected := args.Map{"resultNil": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex nil", actual)
+	expected.ShouldBeEqual(t, 0, "InvokeResultOfIndex returns nil -- nil", actual)
 }
 
 // ── MethodProcessor.ValidateMethodArgs nil ──
@@ -289,7 +289,7 @@ func Test_Cov5_MethodProcessor_ValidateMethodArgs_Nil(t *testing.T) {
 	_, err := mp.Invoke("something")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs nil processor", actual)
+	expected.ShouldBeEqual(t, 0, "ValidateMethodArgs returns nil -- nil processor", actual)
 }
 
 // ── ReflectValueKind — with Interface reflect value ──
@@ -312,5 +312,5 @@ func Test_Cov5_ReflectValueKind_InterfaceReflectValue(t *testing.T) {
 		"pkgPath":     "",
 		"ptrRvNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "ReflectValueKind interface rv", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueKind returns correct value -- interface rv", actual)
 }

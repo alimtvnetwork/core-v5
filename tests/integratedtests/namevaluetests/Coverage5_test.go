@@ -61,7 +61,7 @@ func Test_Cov5_PrependUsingFuncIf_True(t *testing.T) {
 	})
 	actual := args.Map{"len": c.Length(), "first": c.Items[0].Name}
 	expected := args.Map{"len": 2, "first": "a"}
-	expected.ShouldBeEqual(t, 0, "PrependUsingFuncIf true", actual)
+	expected.ShouldBeEqual(t, 0, "PrependUsingFuncIf returns non-empty -- true", actual)
 }
 
 func Test_Cov5_PrependUsingFuncIf_False(t *testing.T) {
@@ -72,7 +72,7 @@ func Test_Cov5_PrependUsingFuncIf_False(t *testing.T) {
 	})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "PrependUsingFuncIf false", actual)
+	expected.ShouldBeEqual(t, 0, "PrependUsingFuncIf returns non-empty -- false", actual)
 }
 
 func Test_Cov5_PrependUsingFuncIf_NilFunc(t *testing.T) {
@@ -80,7 +80,7 @@ func Test_Cov5_PrependUsingFuncIf_NilFunc(t *testing.T) {
 	c.PrependUsingFuncIf(true, nil)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "PrependUsingFuncIf nil func", actual)
+	expected.ShouldBeEqual(t, 0, "PrependUsingFuncIf returns nil -- nil func", actual)
 }
 
 // ── Collection AppendUsingFuncIf ──
@@ -93,7 +93,7 @@ func Test_Cov5_AppendUsingFuncIf_True(t *testing.T) {
 	})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "AppendUsingFuncIf true", actual)
+	expected.ShouldBeEqual(t, 0, "AppendUsingFuncIf returns non-empty -- true", actual)
 }
 
 func Test_Cov5_AppendUsingFuncIf_False(t *testing.T) {
@@ -103,7 +103,7 @@ func Test_Cov5_AppendUsingFuncIf_False(t *testing.T) {
 	})
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "AppendUsingFuncIf false", actual)
+	expected.ShouldBeEqual(t, 0, "AppendUsingFuncIf returns non-empty -- false", actual)
 }
 
 func Test_Cov5_AppendUsingFuncIf_NilFunc(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_Cov5_AppendUsingFuncIf_NilFunc(t *testing.T) {
 	c.AppendUsingFuncIf(true, nil)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "AppendUsingFuncIf nil func", actual)
+	expected.ShouldBeEqual(t, 0, "AppendUsingFuncIf returns nil -- nil func", actual)
 }
 
 // ── Collection AddsPtr ──
@@ -122,7 +122,7 @@ func Test_Cov5_AddsPtr(t *testing.T) {
 	c.AddsPtr(&item, nil) // nil should be skipped
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "AddsPtr with nil skip", actual)
+	expected.ShouldBeEqual(t, 0, "AddsPtr returns nil -- with nil skip", actual)
 }
 
 func Test_Cov5_AddsPtr_Empty(t *testing.T) {
@@ -130,7 +130,7 @@ func Test_Cov5_AddsPtr_Empty(t *testing.T) {
 	c.AddsPtr()
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "AddsPtr empty", actual)
+	expected.ShouldBeEqual(t, 0, "AddsPtr returns empty -- empty", actual)
 }
 
 // ── Collection ConcatNew / ConcatNewPtr ──
@@ -151,7 +151,7 @@ func Test_Cov5_ConcatNewPtr(t *testing.T) {
 	result := c.ConcatNewPtr(&item, nil)
 	actual := args.Map{"newLen": result.Length()}
 	expected := args.Map{"newLen": 2}
-	expected.ShouldBeEqual(t, 0, "ConcatNewPtr", actual)
+	expected.ShouldBeEqual(t, 0, "ConcatNewPtr returns correct value -- with args", actual)
 }
 
 // ── Collection IsEqualByString ──
@@ -163,7 +163,7 @@ func Test_Cov5_IsEqualByString_Equal(t *testing.T) {
 	c2.Add(namevalue.Instance[string, string]{Name: "a", Value: "1"})
 	actual := args.Map{"result": c1.IsEqualByString(c2)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsEqualByString equal", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualByString returns correct value -- equal", actual)
 }
 
 func Test_Cov5_IsEqualByString_DiffLen(t *testing.T) {
@@ -172,7 +172,7 @@ func Test_Cov5_IsEqualByString_DiffLen(t *testing.T) {
 	c2 := namevalue.NewGenericCollectionDefault[string, string]()
 	actual := args.Map{"result": c1.IsEqualByString(c2)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "IsEqualByString diff len", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualByString returns correct value -- diff len", actual)
 }
 
 func Test_Cov5_IsEqualByString_DiffContent(t *testing.T) {
@@ -182,21 +182,21 @@ func Test_Cov5_IsEqualByString_DiffContent(t *testing.T) {
 	c2.Add(namevalue.Instance[string, string]{Name: "b", Value: "2"})
 	actual := args.Map{"result": c1.IsEqualByString(c2)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "IsEqualByString diff content", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualByString returns correct value -- diff content", actual)
 }
 
 func Test_Cov5_IsEqualByString_BothNil(t *testing.T) {
 	var c1, c2 *namevalue.Collection[string, string]
 	actual := args.Map{"result": c1.IsEqualByString(c2)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "IsEqualByString both nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualByString returns nil -- both nil", actual)
 }
 
 func Test_Cov5_IsEqualByString_OneNil(t *testing.T) {
 	c := namevalue.NewGenericCollectionDefault[string, string]()
 	actual := args.Map{"result": c.IsEqualByString(nil)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "IsEqualByString one nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsEqualByString returns nil -- one nil", actual)
 }
 
 // ── NewGenericCollectionUsing no-clone ──
@@ -206,14 +206,14 @@ func Test_Cov5_NewGenericCollectionUsing_NoClone(t *testing.T) {
 	c := namevalue.NewGenericCollectionUsing[string, string](false, items...)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "NewGenericCollectionUsing no clone", actual)
+	expected.ShouldBeEqual(t, 0, "NewGenericCollectionUsing returns empty -- no clone", actual)
 }
 
 func Test_Cov5_NewGenericCollectionUsing_NilItems(t *testing.T) {
 	c := namevalue.NewGenericCollectionUsing[string, string](true)
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "NewGenericCollectionUsing nil items", actual)
+	expected.ShouldBeEqual(t, 0, "NewGenericCollectionUsing returns nil -- nil items", actual)
 }
 
 // ── Collection HasIndex / LastIndex / HasAnyItem ──
@@ -234,7 +234,7 @@ func Test_Cov5_Collection_IndexMethods(t *testing.T) {
 		"lastIndex": 1, "hasIndex0": true, "hasIndex1": true,
 		"hasIndex2": false, "hasAny": true, "count": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection index methods", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- index methods", actual)
 }
 
 // ── Collection CompiledLazyString nil ──
@@ -254,7 +254,7 @@ func Test_Cov5_Instance_IsNull(t *testing.T) {
 	var nilInst *namevalue.Instance[string, string]
 	actual := args.Map{"nonNil": inst.IsNull(), "nil": nilInst.IsNull()}
 	expected := args.Map{"nonNil": false, "nil": true}
-	expected.ShouldBeEqual(t, 0, "Instance IsNull", actual)
+	expected.ShouldBeEqual(t, 0, "Instance returns correct value -- IsNull", actual)
 }
 
 func Test_Cov5_Instance_Dispose(t *testing.T) {
@@ -326,5 +326,5 @@ func Test_Cov5_Join(t *testing.T) {
 	result := c.Join("; ")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Collection Join", actual)
+	expected.ShouldBeEqual(t, 0, "Collection returns correct value -- Join", actual)
 }

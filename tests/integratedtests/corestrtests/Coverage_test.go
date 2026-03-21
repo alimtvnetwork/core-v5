@@ -36,7 +36,7 @@ func Test_Collection_BasicMethods(t *testing.T) {
 		"hasIndex10": false,
 		"capacity":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_Collection_NilSafe(t *testing.T) {
@@ -52,7 +52,7 @@ func Test_Collection_NilSafe(t *testing.T) {
 		"length":  0,
 		"isEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_NilSafe", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_NilSafe returns nil -- with args", actual)
 }
 
 func Test_Collection_AddMethods(t *testing.T) {
@@ -75,7 +75,7 @@ func Test_Collection_AddMethods(t *testing.T) {
 	expected := args.Map{
 		"length": 6,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_AddMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_AddMethods returns correct value -- with args", actual)
 }
 
 func Test_Collection_RemoveAt(t *testing.T) {
@@ -99,7 +99,7 @@ func Test_Collection_RemoveAt(t *testing.T) {
 		"ok3":    false,
 		"length": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_RemoveAt", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_RemoveAt returns correct value -- with args", actual)
 }
 
 func Test_Collection_IsEquals(t *testing.T) {
@@ -122,7 +122,7 @@ func Test_Collection_IsEquals(t *testing.T) {
 		"insensitive":   true,
 		"sensitiveCase": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_IsEquals", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_IsEquals returns correct value -- with args", actual)
 }
 
 func Test_Collection_JoinAndString(t *testing.T) {
@@ -141,7 +141,7 @@ func Test_Collection_JoinAndString(t *testing.T) {
 		"joined":      "a,b,c",
 		"strNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_JoinAndString", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_JoinAndString returns correct value -- with args", actual)
 }
 
 func Test_Collection_AddError(t *testing.T) {
@@ -161,7 +161,7 @@ func Test_Collection_AddError(t *testing.T) {
 		"length":   1,
 		"hasError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_AddError", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_AddError returns error -- with args", actual)
 }
 
 func Test_Collection_ConcatNew(t *testing.T) {
@@ -180,7 +180,7 @@ func Test_Collection_ConcatNew(t *testing.T) {
 		"newLen":   4,
 		"noAddLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_ConcatNew", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_ConcatNew returns correct value -- with args", actual)
 }
 
 func Test_Collection_EachItemSplitBy(t *testing.T) {
@@ -196,7 +196,7 @@ func Test_Collection_EachItemSplitBy(t *testing.T) {
 	expected := args.Map{
 		"splitLen": 4,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_EachItemSplitBy", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_EachItemSplitBy returns correct value -- with args", actual)
 }
 
 func Test_Collection_AddCollections(t *testing.T) {
@@ -214,7 +214,7 @@ func Test_Collection_AddCollections(t *testing.T) {
 	expected := args.Map{
 		"length": 3,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_AddCollections", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_AddCollections returns correct value -- with args", actual)
 }
 
 func Test_Collection_AsError(t *testing.T) {
@@ -231,7 +231,7 @@ func Test_Collection_AsError(t *testing.T) {
 		"emptyErr": true,
 		"hasErr":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "Collection_AsError", actual)
+	expected.ShouldBeEqual(t, 0, "Collection_AsError returns error -- with args", actual)
 }
 
 // ── Hashset ──
@@ -259,7 +259,7 @@ func Test_Hashset_BasicMethods(t *testing.T) {
 		"containsB":  true,
 		"isMissingD": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashset_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_Hashset_AddMethods(t *testing.T) {
@@ -282,7 +282,7 @@ func Test_Hashset_AddMethods(t *testing.T) {
 	expected := args.Map{
 		"length": 6,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashset_AddMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset_AddMethods returns correct value -- with args", actual)
 }
 
 func Test_Hashset_AddBool(t *testing.T) {
@@ -301,7 +301,7 @@ func Test_Hashset_AddBool(t *testing.T) {
 		"firstAdd":  false,
 		"secondAdd": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashset_AddBool", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset_AddBool returns correct value -- with args", actual)
 }
 
 func Test_Hashset_NilSafe(t *testing.T) {
@@ -315,7 +315,7 @@ func Test_Hashset_NilSafe(t *testing.T) {
 	expected := args.Map{
 		"isEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashset_NilSafe", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset_NilSafe returns nil -- with args", actual)
 }
 
 func Test_Hashset_ListAndSortedList(t *testing.T) {
@@ -336,7 +336,7 @@ func Test_Hashset_ListAndSortedList(t *testing.T) {
 		"sortedLen": 3,
 		"sortedFirst": "a",
 	}
-	expected.ShouldBeEqual(t, 0, "Hashset_ListAndSortedList", actual)
+	expected.ShouldBeEqual(t, 0, "Hashset_ListAndSortedList returns correct value -- with args", actual)
 }
 
 // ── Hashmap ──
@@ -367,7 +367,7 @@ func Test_Hashmap_BasicMethods(t *testing.T) {
 		"containsK2":  true,
 		"isMissingK3": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_Hashmap_GetValue(t *testing.T) {
@@ -389,7 +389,7 @@ func Test_Hashmap_GetValue(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap_GetValue", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap_GetValue returns correct value -- with args", actual)
 }
 
 func Test_Hashmap_SetBySplitter(t *testing.T) {
@@ -410,7 +410,7 @@ func Test_Hashmap_SetBySplitter(t *testing.T) {
 		"isNew2": true,
 		"length": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap_SetBySplitter", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap_SetBySplitter returns correct value -- with args", actual)
 }
 
 func Test_Hashmap_NilSafe(t *testing.T) {
@@ -424,7 +424,7 @@ func Test_Hashmap_NilSafe(t *testing.T) {
 	expected := args.Map{
 		"isEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Hashmap_NilSafe", actual)
+	expected.ShouldBeEqual(t, 0, "Hashmap_NilSafe returns nil -- with args", actual)
 }
 
 // ── SimpleSlice ──
@@ -454,7 +454,7 @@ func Test_SimpleSlice_BasicMethods(t *testing.T) {
 		"last":      "c",
 		"hasIndex1": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_SimpleSlice_AddMethods(t *testing.T) {
@@ -475,7 +475,7 @@ func Test_SimpleSlice_AddMethods(t *testing.T) {
 	expected := args.Map{
 		"length": 5,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_AddMethods", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_AddMethods returns correct value -- with args", actual)
 }
 
 func Test_SimpleSlice_SkipTake(t *testing.T) {
@@ -497,7 +497,7 @@ func Test_SimpleSlice_SkipTake(t *testing.T) {
 		"takenLen":   3,
 		"limitedLen": 2,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_SkipTake", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_SkipTake returns correct value -- with args", actual)
 }
 
 func Test_SimpleSlice_FirstLastOrDefault(t *testing.T) {
@@ -518,7 +518,7 @@ func Test_SimpleSlice_FirstLastOrDefault(t *testing.T) {
 		"emptyFirstOrDef": "",
 		"emptyLastOrDef":  "",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_FirstLastOrDefault", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_FirstLastOrDefault returns correct value -- with args", actual)
 }
 
 func Test_SimpleSlice_IsContains(t *testing.T) {
@@ -538,7 +538,7 @@ func Test_SimpleSlice_IsContains(t *testing.T) {
 		"indexOf":         1,
 		"indexOfMissing":  -1,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_IsContains", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_IsContains returns correct value -- with args", actual)
 }
 
 func Test_SimpleSlice_InsertAt(t *testing.T) {
@@ -556,7 +556,7 @@ func Test_SimpleSlice_InsertAt(t *testing.T) {
 		"length": 3,
 		"item1":  "b",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_InsertAt", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_InsertAt returns correct value -- with args", actual)
 }
 
 func Test_SimpleSlice_NilSafe(t *testing.T) {
@@ -572,7 +572,7 @@ func Test_SimpleSlice_NilSafe(t *testing.T) {
 		"length":  0,
 		"isEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice_NilSafe", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice_NilSafe returns nil -- with args", actual)
 }
 
 // ── LeftRight ──
@@ -602,7 +602,7 @@ func Test_LeftRight_BasicMethods(t *testing.T) {
 		"leftTrim":       "hello",
 		"rightTrim":      "world",
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_LeftRight_UsingSlice(t *testing.T) {
@@ -632,7 +632,7 @@ func Test_LeftRight_UsingSlice(t *testing.T) {
 		"lrTrim_left":  "a",
 		"lrTrim_right": "b",
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight_UsingSlice", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight_UsingSlice returns correct value -- with args", actual)
 }
 
 func Test_LeftRight_IsEqual(t *testing.T) {
@@ -652,7 +652,7 @@ func Test_LeftRight_IsEqual(t *testing.T) {
 		"diff":    false,
 		"nilBoth": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftRight_IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "LeftRight_IsEqual returns correct value -- with args", actual)
 }
 
 // ── ValidValue ──
@@ -682,7 +682,7 @@ func Test_ValidValue_BasicMethods(t *testing.T) {
 		"valueByte":   42,
 		"trim":        "42",
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue_BasicMethods returns non-empty -- with args", actual)
 }
 
 func Test_ValidValue_InvalidAndEmpty(t *testing.T) {
@@ -706,7 +706,7 @@ func Test_ValidValue_InvalidAndEmpty(t *testing.T) {
 		"emptyValue":     "",
 		"noMsgIsValid":   false,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue_InvalidAndEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue_InvalidAndEmpty returns empty -- with args", actual)
 }
 
 func Test_ValidValue_Clone(t *testing.T) {
@@ -726,7 +726,7 @@ func Test_ValidValue_Clone(t *testing.T) {
 		"clonedVal": "hello",
 		"nilClone":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue_Clone", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue_Clone returns non-empty -- with args", actual)
 }
 
 func Test_ValidValue_IsAnyOf(t *testing.T) {
@@ -744,7 +744,7 @@ func Test_ValidValue_IsAnyOf(t *testing.T) {
 		"notFound": false,
 		"empty":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValue_IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValue_IsAnyOf returns non-empty -- with args", actual)
 }
 
 // ── KeyValuePair ──
@@ -786,7 +786,7 @@ func Test_KeyValuePair_BasicMethods(t *testing.T) {
 		"is":           true,
 		"strNotEmpty":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValuePair_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValuePair_BasicMethods returns correct value -- with args", actual)
 }
 
 // ── LeftMiddleRight ──
@@ -818,7 +818,7 @@ func Test_LeftMiddleRight_BasicMethods(t *testing.T) {
 		"isRightEmpty":   false,
 		"isAll":          true,
 	}
-	expected.ShouldBeEqual(t, 0, "LeftMiddleRight_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "LeftMiddleRight_BasicMethods returns correct value -- with args", actual)
 }
 
 // ── TextWithLineNumber ──
@@ -847,7 +847,7 @@ func Test_TextWithLineNumber_BasicMethods(t *testing.T) {
 		"nilLength":          0,
 		"nilIsEmpty":         true,
 	}
-	expected.ShouldBeEqual(t, 0, "TextWithLineNumber_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "TextWithLineNumber_BasicMethods returns non-empty -- with args", actual)
 }
 
 // ── ValidValues ──
@@ -874,7 +874,7 @@ func Test_ValidValues_BasicMethods(t *testing.T) {
 		"safeAt10": "",
 		"strLen":   3,
 	}
-	expected.ShouldBeEqual(t, 0, "ValidValues_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "ValidValues_BasicMethods returns non-empty -- with args", actual)
 }
 
 // ── ValueStatus ──
@@ -897,7 +897,7 @@ func Test_ValueStatus_Creation(t *testing.T) {
 		"noMsgIsValid":   false,
 		"clonedIndex":    invalid.Index,
 	}
-	expected.ShouldBeEqual(t, 0, "ValueStatus_Creation", actual)
+	expected.ShouldBeEqual(t, 0, "ValueStatus_Creation returns non-empty -- with args", actual)
 }
 
 // ── KeyValueCollection ──
@@ -926,7 +926,7 @@ func Test_KeyValueCollection_BasicMethods(t *testing.T) {
 		"keysLen":    2,
 		"valsLen":    2,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_KeyValueCollection_Get(t *testing.T) {
@@ -948,7 +948,7 @@ func Test_KeyValueCollection_Get(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection_Get", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection_Get returns correct value -- with args", actual)
 }
 
 // ── LinkedList ──
@@ -973,7 +973,7 @@ func Test_LinkedList_BasicMethods(t *testing.T) {
 		"headElem": "a",
 		"tailElem": "c",
 	}
-	expected.ShouldBeEqual(t, 0, "LinkedList_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_LinkedList_AddFront(t *testing.T) {
@@ -990,7 +990,7 @@ func Test_LinkedList_AddFront(t *testing.T) {
 		"length":   2,
 		"headElem": "a",
 	}
-	expected.ShouldBeEqual(t, 0, "LinkedList_AddFront", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList_AddFront returns correct value -- with args", actual)
 }
 
 func Test_LinkedList_IsEquals(t *testing.T) {
@@ -1011,7 +1011,7 @@ func Test_LinkedList_IsEquals(t *testing.T) {
 		"same": true,
 		"diff": false,
 	}
-	expected.ShouldBeEqual(t, 0, "LinkedList_IsEquals", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList_IsEquals returns correct value -- with args", actual)
 }
 
 // ── Creators ──
@@ -1044,7 +1044,7 @@ func Test_NewCreators(t *testing.T) {
 		"colCloneLen":  2,
 		"colLineLen":   3,
 	}
-	expected.ShouldBeEqual(t, 0, "NewCreators", actual)
+	expected.ShouldBeEqual(t, 0, "NewCreators returns correct value -- with args", actual)
 }
 
 func Test_EmptyCreators(t *testing.T) {
@@ -1078,5 +1078,5 @@ func Test_EmptyCreators(t *testing.T) {
 		"hsEmpty":    true,
 		"hmEmpty":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "EmptyCreators", actual)
+	expected.ShouldBeEqual(t, 0, "EmptyCreators returns empty -- with args", actual)
 }

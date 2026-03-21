@@ -27,7 +27,7 @@ func Test_Cov2_DraftType_IsEqual_InnerFieldsMismatch(t *testing.T) {
 	// Assert
 	actual := args.Map{"isEqual": result}
 	expected := args.Map{"isEqual": false}
-	expected.ShouldBeEqual(t, 0, "DraftType IsEqual inner field mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "DraftType returns correct value -- IsEqual inner field mismatch", actual)
 }
 
 func Test_Cov2_DraftType_JsonString(t *testing.T) {
@@ -40,7 +40,7 @@ func Test_Cov2_DraftType_JsonString(t *testing.T) {
 	// Assert
 	actual := args.Map{"nonEmpty": result != ""}
 	expected := args.Map{"nonEmpty": true}
-	expected.ShouldBeEqual(t, 0, "DraftType JsonString", actual)
+	expected.ShouldBeEqual(t, 0, "DraftType returns correct value -- JsonString", actual)
 }
 
 func Test_Cov2_DraftType_JsonBytes(t *testing.T) {
@@ -53,7 +53,7 @@ func Test_Cov2_DraftType_JsonBytes(t *testing.T) {
 	// Assert
 	actual := args.Map{"hasBytes": len(result) > 0}
 	expected := args.Map{"hasBytes": true}
-	expected.ShouldBeEqual(t, 0, "DraftType JsonBytes", actual)
+	expected.ShouldBeEqual(t, 0, "DraftType returns correct value -- JsonBytes", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

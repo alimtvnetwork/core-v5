@@ -15,7 +15,7 @@ func Test_I5_SC01_Variant_Value(t *testing.T) {
 	v := stringcompareas.Equal
 	actual := args.Map{"val": int(v.Value())}
 	expected := args.Map{"val": 0}
-	expected.ShouldBeEqual(t, 0, "Variant_Value", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_Value returns correct value -- with args", actual)
 }
 
 func Test_I5_SC02_Variant_IsAnyMethod(t *testing.T) {
@@ -25,7 +25,7 @@ func Test_I5_SC02_Variant_IsAnyMethod(t *testing.T) {
 		"noMatchOther": v.IsAnyMethod("NotEqual"),
 	}
 	expected := args.Map{"matchEqual": true, "noMatchOther": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsAnyMethod", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsAnyMethod returns correct value -- with args", actual)
 }
 
 func Test_I5_SC03_Variant_AllNameValues(t *testing.T) {
@@ -33,7 +33,7 @@ func Test_I5_SC03_Variant_AllNameValues(t *testing.T) {
 	names := v.AllNameValues()
 	actual := args.Map{"hasItems": len(names) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Variant_AllNameValues", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_AllNameValues returns non-empty -- with args", actual)
 }
 
 func Test_I5_SC04_Variant_OnlySupportedErr(t *testing.T) {
@@ -41,7 +41,7 @@ func Test_I5_SC04_Variant_OnlySupportedErr(t *testing.T) {
 	err := v.OnlySupportedErr("Equal", "StartsWith")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Variant_OnlySupportedErr", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_OnlySupportedErr returns error -- with args", actual)
 }
 
 func Test_I5_SC05_Variant_OnlySupportedMsgErr(t *testing.T) {
@@ -49,14 +49,14 @@ func Test_I5_SC05_Variant_OnlySupportedMsgErr(t *testing.T) {
 	err := v.OnlySupportedMsgErr("test msg", "Equal")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Variant_OnlySupportedMsgErr", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_OnlySupportedMsgErr returns error -- with args", actual)
 }
 
 func Test_I5_SC06_Variant_ValueUInt16(t *testing.T) {
 	v := stringcompareas.StartsWith
 	actual := args.Map{"val": int(v.ValueUInt16())}
 	expected := args.Map{"val": 1}
-	expected.ShouldBeEqual(t, 0, "Variant_ValueUInt16", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_ValueUInt16 returns correct value -- with args", actual)
 }
 
 func Test_I5_SC07_Variant_IntegerEnumRanges(t *testing.T) {
@@ -64,7 +64,7 @@ func Test_I5_SC07_Variant_IntegerEnumRanges(t *testing.T) {
 	ranges := v.IntegerEnumRanges()
 	actual := args.Map{"hasItems": len(ranges) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Variant_IntegerEnumRanges", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IntegerEnumRanges returns correct value -- with args", actual)
 }
 
 func Test_I5_SC08_Variant_MinMaxAny(t *testing.T) {
@@ -72,7 +72,7 @@ func Test_I5_SC08_Variant_MinMaxAny(t *testing.T) {
 	min, max := v.MinMaxAny()
 	actual := args.Map{"minNotNil": min != nil, "maxNotNil": max != nil}
 	expected := args.Map{"minNotNil": true, "maxNotNil": true}
-	expected.ShouldBeEqual(t, 0, "Variant_MinMaxAny", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_MinMaxAny returns correct value -- with args", actual)
 }
 
 func Test_I5_SC09_Variant_MinMaxValueString(t *testing.T) {
@@ -82,14 +82,14 @@ func Test_I5_SC09_Variant_MinMaxValueString(t *testing.T) {
 		"maxNotEmpty": v.MaxValueString() != "",
 	}
 	expected := args.Map{"minNotEmpty": true, "maxNotEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Variant_MinMaxValueString", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_MinMaxValueString returns non-empty -- with args", actual)
 }
 
 func Test_I5_SC10_Variant_MaxInt_MinInt(t *testing.T) {
 	v := stringcompareas.Equal
 	actual := args.Map{"maxGe0": v.MaxInt() >= 0, "minGe0": v.MinInt() >= 0}
 	expected := args.Map{"maxGe0": true, "minGe0": true}
-	expected.ShouldBeEqual(t, 0, "Variant_MaxInt_MinInt", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_MaxInt_MinInt returns correct value -- with args", actual)
 }
 
 func Test_I5_SC11_Variant_RangesDynamicMap(t *testing.T) {
@@ -97,7 +97,7 @@ func Test_I5_SC11_Variant_RangesDynamicMap(t *testing.T) {
 	m := v.RangesDynamicMap()
 	actual := args.Map{"hasItems": len(m) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Variant_RangesDynamicMap", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_RangesDynamicMap returns correct value -- with args", actual)
 }
 
 func Test_I5_SC12_Variant_IsByteValueEqual(t *testing.T) {
@@ -107,7 +107,7 @@ func Test_I5_SC12_Variant_IsByteValueEqual(t *testing.T) {
 		"noMatchOth": v.IsByteValueEqual(byte(stringcompareas.Regex)),
 	}
 	expected := args.Map{"matchSelf": true, "noMatchOth": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsByteValueEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsByteValueEqual returns correct value -- with args", actual)
 }
 
 func Test_I5_SC13_Variant_Format(t *testing.T) {
@@ -115,7 +115,7 @@ func Test_I5_SC13_Variant_Format(t *testing.T) {
 	s := v.Format("{name}")
 	actual := args.Map{"notEmpty": s != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Variant_Format", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_Format returns correct value -- with args", actual)
 }
 
 func Test_I5_SC14_Variant_IsEnumEqual(t *testing.T) {
@@ -127,7 +127,7 @@ func Test_I5_SC14_Variant_IsEnumEqual(t *testing.T) {
 		"diff": v.IsEnumEqual(&v3),
 	}
 	expected := args.Map{"same": true, "diff": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsEnumEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsEnumEqual returns correct value -- with args", actual)
 }
 
 func Test_I5_SC15_Variant_IsAnyEnumsEqual(t *testing.T) {
@@ -139,14 +139,14 @@ func Test_I5_SC15_Variant_IsAnyEnumsEqual(t *testing.T) {
 		"noMatchAny": v.IsAnyEnumsEqual(&v2),
 	}
 	expected := args.Map{"matchAny": true, "noMatchAny": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsAnyEnumsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsAnyEnumsEqual returns correct value -- with args", actual)
 }
 
 func Test_I5_SC16_Variant_IsNameEqual(t *testing.T) {
 	v := stringcompareas.Equal
 	actual := args.Map{"match": v.IsNameEqual("Equal"), "noMatch": v.IsNameEqual("Regex")}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsNameEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsNameEqual returns correct value -- with args", actual)
 }
 
 func Test_I5_SC17_Variant_IsAnyNamesOf(t *testing.T) {
@@ -156,7 +156,7 @@ func Test_I5_SC17_Variant_IsAnyNamesOf(t *testing.T) {
 		"noMatch": v.IsAnyNamesOf("Regex", "StartsWith"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_I5_SC18_Variant_IsValueEqual(t *testing.T) {
@@ -166,7 +166,7 @@ func Test_I5_SC18_Variant_IsValueEqual(t *testing.T) {
 		"noMatch": v.IsValueEqual(byte(stringcompareas.Regex)),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsValueEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsValueEqual returns correct value -- with args", actual)
 }
 
 func Test_I5_SC19_Variant_IsAnyValuesEqual(t *testing.T) {
@@ -176,7 +176,7 @@ func Test_I5_SC19_Variant_IsAnyValuesEqual(t *testing.T) {
 		"noMatch": v.IsAnyValuesEqual(byte(stringcompareas.Regex)),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant_IsAnyValuesEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsAnyValuesEqual returns non-empty -- with args", actual)
 }
 
 func Test_I5_SC20_Variant_ValueInt_Variants(t *testing.T) {
@@ -188,14 +188,14 @@ func Test_I5_SC20_Variant_ValueInt_Variants(t *testing.T) {
 		"int32": int(v.ValueInt32()),
 	}
 	expected := args.Map{"int": 1, "int8": 1, "int16": 1, "int32": 1}
-	expected.ShouldBeEqual(t, 0, "Variant_ValueInt_Variants", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_ValueInt_Variants returns correct value -- with args", actual)
 }
 
 func Test_I5_SC21_Variant_ValueString(t *testing.T) {
 	v := stringcompareas.Equal
 	actual := args.Map{"notEmpty": v.ValueString() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Variant_ValueString", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_ValueString returns non-empty -- with args", actual)
 }
 
 func Test_I5_SC22_Variant_IsValid_IsInvalid(t *testing.T) {
@@ -208,7 +208,7 @@ func Test_I5_SC22_Variant_IsValid_IsInvalid(t *testing.T) {
 		"notValid":   !inv.IsValid(),
 	}
 	expected := args.Map{"valid": true, "notInvalid": true, "invalid": true, "notValid": true}
-	expected.ShouldBeEqual(t, 0, "Variant_IsValid_IsInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsValid_IsInvalid returns error -- with args", actual)
 }
 
 func Test_I5_SC23_Variant_Name_NameValue_TypeName(t *testing.T) {
@@ -227,14 +227,14 @@ func Test_I5_SC23_Variant_Name_NameValue_TypeName(t *testing.T) {
 		"toString":     true,
 		"stringMethod": "Equal",
 	}
-	expected.ShouldBeEqual(t, 0, "Variant_Name_NameValue_TypeName", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_Name_NameValue_TypeName returns correct value -- with args", actual)
 }
 
 func Test_I5_SC24_Variant_Is(t *testing.T) {
 	v := stringcompareas.Equal
 	actual := args.Map{"isSelf": v.Is(stringcompareas.Equal), "isOther": v.Is(stringcompareas.Regex)}
 	expected := args.Map{"isSelf": true, "isOther": false}
-	expected.ShouldBeEqual(t, 0, "Variant_Is", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_Is returns correct value -- with args", actual)
 }
 
 func Test_I5_SC25_Variant_IsBoolean_Methods(t *testing.T) {
@@ -261,7 +261,7 @@ func Test_I5_SC25_Variant_IsBoolean_Methods(t *testing.T) {
 		"isNotEndsWith": true, "isNotContains": true, "isNotMatchRegex": true,
 		"isGlob": true, "isNonGlob": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variant_IsBoolean_Methods", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsBoolean_Methods returns correct value -- with args", actual)
 }
 
 func Test_I5_SC26_Variant_IsNegativeCondition(t *testing.T) {
@@ -280,7 +280,7 @@ func Test_I5_SC26_Variant_IsNegativeCondition(t *testing.T) {
 		"notContains": true, "notAnyChars": true, "notMatchRegex": true,
 		"nonGlob": true, "equal": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Variant_IsNegativeCondition", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsNegativeCondition returns correct value -- with args", actual)
 }
 
 func Test_I5_SC27_Variant_MarshalJSON(t *testing.T) {
@@ -288,7 +288,7 @@ func Test_I5_SC27_Variant_MarshalJSON(t *testing.T) {
 	b, err := v.MarshalJSON()
 	actual := args.Map{"hasBytes": len(b) > 0, "nilErr": err == nil}
 	expected := args.Map{"hasBytes": true, "nilErr": true}
-	expected.ShouldBeEqual(t, 0, "Variant_MarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_MarshalJSON returns correct value -- with args", actual)
 }
 
 func Test_I5_SC28_Variant_UnmarshalJSON(t *testing.T) {
@@ -296,7 +296,7 @@ func Test_I5_SC28_Variant_UnmarshalJSON(t *testing.T) {
 	err := v.UnmarshalJSON([]byte(`"Equal"`))
 	actual := args.Map{"nilErr": err == nil, "isEqual": v.IsEqual()}
 	expected := args.Map{"nilErr": true, "isEqual": true}
-	expected.ShouldBeEqual(t, 0, "Variant_UnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_UnmarshalJSON returns correct value -- with args", actual)
 }
 
 func Test_I5_SC29_Variant_RangeNamesCsv(t *testing.T) {
@@ -304,7 +304,7 @@ func Test_I5_SC29_Variant_RangeNamesCsv(t *testing.T) {
 	csv := v.RangeNamesCsv()
 	actual := args.Map{"notEmpty": csv != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Variant_RangeNamesCsv", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_RangeNamesCsv returns correct value -- with args", actual)
 }
 
 func Test_I5_SC30_Variant_MaxByte_MinByte_ValueByte_RangesByte(t *testing.T) {
@@ -316,7 +316,7 @@ func Test_I5_SC30_Variant_MaxByte_MinByte_ValueByte_RangesByte(t *testing.T) {
 		"rangesLen":  len(v.RangesByte()) > 0,
 	}
 	expected := args.Map{"maxGe0": true, "minGe0": true, "valueByte0": true, "rangesLen": true}
-	expected.ShouldBeEqual(t, 0, "Variant_MaxByte_MinByte_ValueByte_RangesByte", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_MaxByte_MinByte_ValueByte_RangesByte returns correct value -- with args", actual)
 }
 
 func Test_I5_SC31_Variant_UnmarshallEnumToValue(t *testing.T) {
@@ -324,7 +324,7 @@ func Test_I5_SC31_Variant_UnmarshallEnumToValue(t *testing.T) {
 	val, err := v.UnmarshallEnumToValue([]byte(`"Equal"`))
 	actual := args.Map{"val": int(val), "nilErr": err == nil}
 	expected := args.Map{"val": 0, "nilErr": true}
-	expected.ShouldBeEqual(t, 0, "Variant_UnmarshallEnumToValue", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_UnmarshallEnumToValue returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -335,7 +335,7 @@ func Test_I5_SC32_Variant_IsLineCompareFunc(t *testing.T) {
 	fn := stringcompareas.Equal.IsLineCompareFunc()
 	actual := args.Map{"notNil": fn != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Variant_IsLineCompareFunc", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_IsLineCompareFunc returns correct value -- with args", actual)
 }
 
 func Test_I5_SC33_Variant_DynamicCompare(t *testing.T) {
@@ -345,7 +345,7 @@ func Test_I5_SC33_Variant_DynamicCompare(t *testing.T) {
 	}
 	actual := args.Map{"result": v.DynamicCompare(fn, 0, "test")}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "Variant_DynamicCompare", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_DynamicCompare returns correct value -- with args", actual)
 }
 
 func Test_I5_SC34_Variant_IsCompareSuccess_AllVariants(t *testing.T) {
@@ -373,7 +373,7 @@ func Test_I5_SC34_Variant_IsCompareSuccess_AllVariants(t *testing.T) {
 		"notEndsWith": true, "notContains": true, "notAnyChars": true,
 		"notMatchRegex": true, "glob": true, "nonGlob": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsCompareSuccess_AllVariants", actual)
+	expected.ShouldBeEqual(t, 0, "IsCompareSuccess_AllVariants returns correct value -- with args", actual)
 }
 
 func Test_I5_SC35_Variant_IsCompareSuccess_IgnoreCase(t *testing.T) {
@@ -393,7 +393,7 @@ func Test_I5_SC35_Variant_IsCompareSuccess_IgnoreCase(t *testing.T) {
 		"anywhereIgn": true, "anyCharsIgn": true, "notAnyCharsIgn": true,
 		"notContainsIgn": true, "globIgn": true, "nonGlobIgn": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsCompareSuccess_IgnoreCase", actual)
+	expected.ShouldBeEqual(t, 0, "IsCompareSuccess_IgnoreCase returns correct value -- with args", actual)
 }
 
 func Test_I5_SC36_Variant_IsCompareSuccessCaseSensitive(t *testing.T) {
@@ -403,14 +403,14 @@ func Test_I5_SC36_Variant_IsCompareSuccessCaseSensitive(t *testing.T) {
 		"noMatch": v.IsCompareSuccessCaseSensitive("Hello", "hello"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "IsCompareSuccessCaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "IsCompareSuccessCaseSensitive returns correct value -- with args", actual)
 }
 
 func Test_I5_SC37_Variant_IsCompareSuccessNonCaseSensitive(t *testing.T) {
 	v := stringcompareas.Equal
 	actual := args.Map{"match": v.IsCompareSuccessNonCaseSensitive("Hello", "hello")}
 	expected := args.Map{"match": true}
-	expected.ShouldBeEqual(t, 0, "IsCompareSuccessNonCaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "IsCompareSuccessNonCaseSensitive returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -421,56 +421,56 @@ func Test_I5_SC38_Variant_VerifyMessage_Match(t *testing.T) {
 	msg := stringcompareas.Equal.VerifyMessage(false, "hello", "hello")
 	actual := args.Map{"empty": msg == ""}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "VerifyMessage_Match", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyMessage_Match returns correct value -- with args", actual)
 }
 
 func Test_I5_SC39_Variant_VerifyMessage_Mismatch_Positive(t *testing.T) {
 	msg := stringcompareas.Equal.VerifyMessage(false, "hello", "world")
 	actual := args.Map{"notEmpty": msg != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "VerifyMessage_Mismatch_Positive", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyMessage_Mismatch_Positive returns correct value -- with args", actual)
 }
 
 func Test_I5_SC40_Variant_VerifyMessage_Mismatch_IgnoreCase(t *testing.T) {
 	msg := stringcompareas.Equal.VerifyMessage(true, "Hello", "world")
 	actual := args.Map{"notEmpty": msg != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "VerifyMessage_Mismatch_IgnoreCase", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyMessage_Mismatch_IgnoreCase returns correct value -- with args", actual)
 }
 
 func Test_I5_SC41_Variant_VerifyMessage_Mismatch_Negative(t *testing.T) {
 	msg := stringcompareas.NotEqual.VerifyMessage(false, "hello", "hello")
 	actual := args.Map{"notEmpty": msg != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "VerifyMessage_Mismatch_Negative", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyMessage_Mismatch_Negative returns correct value -- with args", actual)
 }
 
 func Test_I5_SC42_Variant_VerifyError_Match(t *testing.T) {
 	err := stringcompareas.Equal.VerifyError(false, "hello", "hello")
 	actual := args.Map{"nilErr": err == nil}
 	expected := args.Map{"nilErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyError_Match", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyError_Match returns error -- with args", actual)
 }
 
 func Test_I5_SC43_Variant_VerifyError_Mismatch(t *testing.T) {
 	err := stringcompareas.Equal.VerifyError(false, "hello", "world")
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyError_Mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyError_Mismatch returns error -- with args", actual)
 }
 
 func Test_I5_SC44_Variant_VerifyMessageCaseSensitive(t *testing.T) {
 	msg := stringcompareas.Equal.VerifyMessageCaseSensitive("hello", "hello")
 	actual := args.Map{"empty": msg == ""}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "VerifyMessageCaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyMessageCaseSensitive returns correct value -- with args", actual)
 }
 
 func Test_I5_SC45_Variant_VerifyErrorCaseSensitive(t *testing.T) {
 	err := stringcompareas.Equal.VerifyErrorCaseSensitive("hello", "hello")
 	actual := args.Map{"nilErr": err == nil}
 	expected := args.Map{"nilErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyErrorCaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyErrorCaseSensitive returns error -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -482,7 +482,7 @@ func Test_I5_SC46_Variant_EnumType(t *testing.T) {
 	et := v.EnumType()
 	actual := args.Map{"notNil": et != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Variant_EnumType", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_EnumType returns correct value -- with args", actual)
 }
 
 func Test_I5_SC47_Variant_AsInterfaces(t *testing.T) {
@@ -497,7 +497,7 @@ func Test_I5_SC47_Variant_AsInterfaces(t *testing.T) {
 		"stringCompareTyper":     true,
 		"basicByteEnumContracts": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variant_AsInterfaces", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_AsInterfaces returns correct value -- with args", actual)
 }
 
 func Test_I5_SC48_Variant_ToPtr(t *testing.T) {
@@ -505,7 +505,7 @@ func Test_I5_SC48_Variant_ToPtr(t *testing.T) {
 	p := v.ToPtr()
 	actual := args.Map{"notNil": p != nil, "isEqual": p.IsEqual()}
 	expected := args.Map{"notNil": true, "isEqual": true}
-	expected.ShouldBeEqual(t, 0, "Variant_ToPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Variant_ToPtr returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -518,7 +518,7 @@ func Test_I5_SC49_AnyChars_CaseSensitive(t *testing.T) {
 		"noMatch": stringcompareas.AnyChars.IsCompareSuccess(false, "hello", "H"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "AnyChars_CaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "AnyChars_CaseSensitive returns correct value -- with args", actual)
 }
 
 func Test_I5_SC50_NotAnyChars_CaseSensitive(t *testing.T) {
@@ -527,14 +527,14 @@ func Test_I5_SC50_NotAnyChars_CaseSensitive(t *testing.T) {
 		"found":    stringcompareas.NotAnyChars.IsCompareSuccess(false, "hello", "h"),
 	}
 	expected := args.Map{"notFound": true, "found": false}
-	expected.ShouldBeEqual(t, 0, "NotAnyChars_CaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "NotAnyChars_CaseSensitive returns correct value -- with args", actual)
 }
 
 func Test_I5_SC51_Glob_InvalidPattern(t *testing.T) {
 	// Invalid glob pattern
 	actual := args.Map{"result": stringcompareas.Glob.IsCompareSuccess(false, "hello", "[")}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "Glob_InvalidPattern", actual)
+	expected.ShouldBeEqual(t, 0, "Glob_InvalidPattern returns error -- with args", actual)
 }
 
 func Test_I5_SC52_Glob_CaseSensitive(t *testing.T) {
@@ -543,7 +543,7 @@ func Test_I5_SC52_Glob_CaseSensitive(t *testing.T) {
 		"noMatch": stringcompareas.Glob.IsCompareSuccess(false, "Hello.TXT", "*.txt"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Glob_CaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "Glob_CaseSensitive returns correct value -- with args", actual)
 }
 
 func Test_I5_SC53_NonGlob_CaseSensitive(t *testing.T) {
@@ -552,7 +552,7 @@ func Test_I5_SC53_NonGlob_CaseSensitive(t *testing.T) {
 		"match":   stringcompareas.NonGlob.IsCompareSuccess(false, "hello.txt", "*.txt"),
 	}
 	expected := args.Map{"noMatch": true, "match": false}
-	expected.ShouldBeEqual(t, 0, "NonGlob_CaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "NonGlob_CaseSensitive returns correct value -- with args", actual)
 }
 
 func Test_I5_SC54_NonGlob_IgnoreCase(t *testing.T) {
@@ -560,7 +560,7 @@ func Test_I5_SC54_NonGlob_IgnoreCase(t *testing.T) {
 		"noMatch": stringcompareas.NonGlob.IsCompareSuccess(true, "Hello.TXT", "*.csv"),
 	}
 	expected := args.Map{"noMatch": true}
-	expected.ShouldBeEqual(t, 0, "NonGlob_IgnoreCase", actual)
+	expected.ShouldBeEqual(t, 0, "NonGlob_IgnoreCase returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -570,5 +570,5 @@ func Test_I5_SC54_NonGlob_IgnoreCase(t *testing.T) {
 func Test_I5_SC55_BasicEnumImpl(t *testing.T) {
 	actual := args.Map{"notNil": stringcompareas.BasicEnumImpl != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "BasicEnumImpl", actual)
+	expected.ShouldBeEqual(t, 0, "BasicEnumImpl returns correct value -- with args", actual)
 }

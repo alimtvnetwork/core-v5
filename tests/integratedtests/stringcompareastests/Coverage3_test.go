@@ -70,7 +70,7 @@ func Test_Cov3_Variant_Invalid(t *testing.T) {
 		"isInvalid": stringcompareas.Invalid.IsInvalid(),
 	}
 	expected := args.Map{"isValid": false, "isInvalid": true}
-	expected.ShouldBeEqual(t, 0, "Variant Invalid checks", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns error -- Invalid checks", actual)
 }
 
 // ── Enum interface methods ──
@@ -93,7 +93,7 @@ func Test_Cov3_Variant_EnumMethods(t *testing.T) {
 		"enumType": true, "isByteEqual": true,
 		"isValueEqual": true, "isNameEqual": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Variant enum methods", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- enum methods", actual)
 }
 
 func Test_Cov3_Variant_IsAnyNamesOf(t *testing.T) {
@@ -102,7 +102,7 @@ func Test_Cov3_Variant_IsAnyNamesOf(t *testing.T) {
 		"noMatch": stringcompareas.Equal.IsAnyNamesOf("StartsWith"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- IsAnyNamesOf", actual)
 }
 
 func Test_Cov3_Variant_IsAnyValuesEqual(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_Cov3_Variant_IsAnyValuesEqual(t *testing.T) {
 		"noMatch": stringcompareas.Equal.IsAnyValuesEqual(1, 2),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant IsAnyValuesEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns non-empty -- IsAnyValuesEqual", actual)
 }
 
 // ── IsAnyMethod ──
@@ -122,7 +122,7 @@ func Test_Cov3_Variant_IsAnyMethod(t *testing.T) {
 		"noMatch": stringcompareas.Equal.IsAnyMethod("Invalid"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant IsAnyMethod", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- IsAnyMethod", actual)
 }
 
 // ── Is / AllNameValues / OnlySupportedErr ──
@@ -133,14 +133,14 @@ func Test_Cov3_Variant_Is(t *testing.T) {
 		"no":    stringcompareas.Equal.Is(stringcompareas.Regex),
 	}
 	expected := args.Map{"match": true, "no": false}
-	expected.ShouldBeEqual(t, 0, "Variant Is", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- Is", actual)
 }
 
 func Test_Cov3_Variant_AllNameValues(t *testing.T) {
 	result := stringcompareas.Equal.AllNameValues()
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Variant AllNameValues", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns non-empty -- AllNameValues", actual)
 }
 
 func Test_Cov3_Variant_OnlySupportedErr(t *testing.T) {
@@ -148,14 +148,14 @@ func Test_Cov3_Variant_OnlySupportedErr(t *testing.T) {
 	actual := args.Map{"notNil": err != nil}
 	// OnlySupportedErr checks if names NOT in the enum's names are present
 	expected := args.Map{"notNil": err != nil}
-	expected.ShouldBeEqual(t, 0, "Variant OnlySupportedErr", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns error -- OnlySupportedErr", actual)
 }
 
 func Test_Cov3_Variant_OnlySupportedMsgErr(t *testing.T) {
 	err := stringcompareas.Equal.OnlySupportedMsgErr("msg: ", "Equal")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": err != nil}
-	expected.ShouldBeEqual(t, 0, "Variant OnlySupportedMsgErr", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns error -- OnlySupportedMsgErr", actual)
 }
 
 // ── RangesByte / MinByte / MaxByte ──
@@ -165,7 +165,7 @@ func Test_Cov3_Variant_RangesByte(t *testing.T) {
 	result := v.RangesByte()
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Variant RangesByte", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- RangesByte", actual)
 }
 
 func Test_Cov3_Variant_MinMaxByte(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_Cov3_Variant_MinMaxByte(t *testing.T) {
 		"minOK": v.MinByte() <= v.MaxByte(),
 	}
 	expected := args.Map{"minOK": true}
-	expected.ShouldBeEqual(t, 0, "Variant Min/MaxByte", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- Min/MaxByte", actual)
 }
 
 // ── Format / IntegerEnumRanges / MinMaxAny / RangesDynamicMap ──
@@ -183,21 +183,21 @@ func Test_Cov3_Variant_Format(t *testing.T) {
 	result := stringcompareas.Equal.Format("{name}={value}")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Variant Format", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- Format", actual)
 }
 
 func Test_Cov3_Variant_IntegerEnumRanges(t *testing.T) {
 	result := stringcompareas.Equal.IntegerEnumRanges()
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Variant IntegerEnumRanges", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- IntegerEnumRanges", actual)
 }
 
 func Test_Cov3_Variant_MinMaxAny(t *testing.T) {
 	min, max := stringcompareas.Equal.MinMaxAny()
 	actual := args.Map{"minNotNil": min != nil, "maxNotNil": max != nil}
 	expected := args.Map{"minNotNil": true, "maxNotNil": true}
-	expected.ShouldBeEqual(t, 0, "Variant MinMaxAny", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- MinMaxAny", actual)
 }
 
 func Test_Cov3_Variant_MinMaxIntStr(t *testing.T) {
@@ -211,14 +211,14 @@ func Test_Cov3_Variant_MinMaxIntStr(t *testing.T) {
 		"minStr": actual["minStr"], "maxStr": actual["maxStr"],
 		"minInt": actual["minInt"], "maxInt": actual["maxInt"],
 	}
-	expected.ShouldBeEqual(t, 0, "Variant MinMax int/str", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- MinMax int/str", actual)
 }
 
 func Test_Cov3_Variant_RangesDynamicMap(t *testing.T) {
 	result := stringcompareas.Equal.RangesDynamicMap()
 	actual := args.Map{"hasItems": len(result) > 0}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "Variant RangesDynamicMap", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- RangesDynamicMap", actual)
 }
 
 // ── MarshalJSON / UnmarshalJSON / UnmarshallEnumToValue ──
@@ -227,7 +227,7 @@ func Test_Cov3_Variant_MarshalJSON(t *testing.T) {
 	data, err := stringcompareas.Equal.MarshalJSON()
 	actual := args.Map{"hasData": len(data) > 0, "noErr": err == nil}
 	expected := args.Map{"hasData": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Variant MarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- MarshalJSON", actual)
 }
 
 func Test_Cov3_Variant_UnmarshalJSON(t *testing.T) {
@@ -235,14 +235,14 @@ func Test_Cov3_Variant_UnmarshalJSON(t *testing.T) {
 	err := v.UnmarshalJSON([]byte(`"Equal"`))
 	actual := args.Map{"noErr": err == nil, "val": v.Name()}
 	expected := args.Map{"noErr": true, "val": "Equal"}
-	expected.ShouldBeEqual(t, 0, "Variant UnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- UnmarshalJSON", actual)
 }
 
 func Test_Cov3_Variant_UnmarshallEnumToValue(t *testing.T) {
 	val, err := stringcompareas.Equal.UnmarshallEnumToValue([]byte(`"Equal"`))
 	actual := args.Map{"noErr": err == nil, "val": int(val)}
 	expected := args.Map{"noErr": true, "val": 0}
-	expected.ShouldBeEqual(t, 0, "Variant UnmarshallEnumToValue", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- UnmarshallEnumToValue", actual)
 }
 
 // ── IsEnumEqual / IsAnyEnumsEqual ──
@@ -255,7 +255,7 @@ func Test_Cov3_Variant_IsEnumEqual(t *testing.T) {
 		"diff": a.IsEnumEqual(&b),
 	}
 	expected := args.Map{"same": true, "diff": false}
-	expected.ShouldBeEqual(t, 0, "Variant IsEnumEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- IsEnumEqual", actual)
 }
 
 func Test_Cov3_Variant_IsAnyEnumsEqual_NoMatch(t *testing.T) {
@@ -264,7 +264,7 @@ func Test_Cov3_Variant_IsAnyEnumsEqual_NoMatch(t *testing.T) {
 	c := stringcompareas.EndsWith
 	actual := args.Map{"result": a.IsAnyEnumsEqual(&b, &c)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "Variant IsAnyEnumsEqual no match", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns empty -- IsAnyEnumsEqual no match", actual)
 }
 
 // ── ToPtr / AsBasicEnumContractsBinder / AsStringCompareTyper / AsBasicByteEnumContractsBinder ──
@@ -273,7 +273,7 @@ func Test_Cov3_Variant_ToPtr(t *testing.T) {
 	ptr := stringcompareas.Equal.ToPtr()
 	actual := args.Map{"notNil": ptr != nil, "val": *ptr == stringcompareas.Equal}
 	expected := args.Map{"notNil": true, "val": true}
-	expected.ShouldBeEqual(t, 0, "Variant ToPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- ToPtr", actual)
 }
 
 func Test_Cov3_Variant_Binders(t *testing.T) {
@@ -284,7 +284,7 @@ func Test_Cov3_Variant_Binders(t *testing.T) {
 		"byteBind": v.AsBasicByteEnumContractsBinder() != nil,
 	}
 	expected := args.Map{"basic": true, "compare": true, "byteBind": true}
-	expected.ShouldBeEqual(t, 0, "Variant binder methods", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- binder methods", actual)
 }
 
 // ── DynamicCompare ──
@@ -298,7 +298,7 @@ func Test_Cov3_Variant_DynamicCompare(t *testing.T) {
 		"noMatch": stringcompareas.Equal.DynamicCompare(dynFunc, 0, "world"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant DynamicCompare", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- DynamicCompare", actual)
 }
 
 // ── IsCompareSuccessCaseSensitive / IsCompareSuccessNonCaseSensitive ──
@@ -310,7 +310,7 @@ func Test_Cov3_Variant_CompareSuccessCaseSensitive(t *testing.T) {
 		"noMatch": v.IsCompareSuccessCaseSensitive("Hello", "hello"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Variant IsCompareSuccessCaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- IsCompareSuccessCaseSensitive", actual)
 }
 
 func Test_Cov3_Variant_CompareSuccessNonCaseSensitive(t *testing.T) {
@@ -319,7 +319,7 @@ func Test_Cov3_Variant_CompareSuccessNonCaseSensitive(t *testing.T) {
 		"match": v.IsCompareSuccessNonCaseSensitive("Hello", "hello"),
 	}
 	expected := args.Map{"match": true}
-	expected.ShouldBeEqual(t, 0, "Variant IsCompareSuccessNonCaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "Variant returns correct value -- IsCompareSuccessNonCaseSensitive", actual)
 }
 
 // ── IsNegativeCondition for non-negative ──
@@ -327,7 +327,7 @@ func Test_Cov3_Variant_CompareSuccessNonCaseSensitive(t *testing.T) {
 func Test_Cov3_Equal_IsNotNegativeCondition(t *testing.T) {
 	actual := args.Map{"result": stringcompareas.Equal.IsNegativeCondition()}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "Equal not a negative condition", actual)
+	expected.ShouldBeEqual(t, 0, "Equal returns correct value -- not a negative condition", actual)
 }
 
 // ── NonGlob IsNegativeCondition ──
@@ -335,7 +335,7 @@ func Test_Cov3_Equal_IsNotNegativeCondition(t *testing.T) {
 func Test_Cov3_NonGlob_IsNegativeCondition(t *testing.T) {
 	actual := args.Map{"result": stringcompareas.NonGlob.IsNegativeCondition()}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "NonGlob is negative condition", actual)
+	expected.ShouldBeEqual(t, 0, "NonGlob returns correct value -- is negative condition", actual)
 }
 
 // ── IsCompareSuccess with Glob/NonGlob ──
@@ -347,7 +347,7 @@ func Test_Cov3_Glob_IsCompareSuccess(t *testing.T) {
 		"ignoreCase": stringcompareas.Glob.IsCompareSuccess(true, "Hello.TXT", "*.txt"),
 	}
 	expected := args.Map{"match": true, "noMatch": false, "ignoreCase": true}
-	expected.ShouldBeEqual(t, 0, "Glob IsCompareSuccess", actual)
+	expected.ShouldBeEqual(t, 0, "Glob returns correct value -- IsCompareSuccess", actual)
 }
 
 func Test_Cov3_NonGlob_IsCompareSuccess(t *testing.T) {
@@ -356,7 +356,7 @@ func Test_Cov3_NonGlob_IsCompareSuccess(t *testing.T) {
 		"match":   stringcompareas.NonGlob.IsCompareSuccess(false, "hello.go", "*.txt"),
 	}
 	expected := args.Map{"noMatch": false, "match": true}
-	expected.ShouldBeEqual(t, 0, "NonGlob IsCompareSuccess", actual)
+	expected.ShouldBeEqual(t, 0, "NonGlob returns correct value -- IsCompareSuccess", actual)
 }
 
 // ── AnyChars ──
@@ -367,7 +367,7 @@ func Test_Cov3_AnyChars_IsCompareSuccess(t *testing.T) {
 		"ignoreCase": stringcompareas.AnyChars.IsCompareSuccess(true, "HELLO", "eo"),
 	}
 	expected := args.Map{"match": true, "ignoreCase": true}
-	expected.ShouldBeEqual(t, 0, "AnyChars IsCompareSuccess", actual)
+	expected.ShouldBeEqual(t, 0, "AnyChars returns correct value -- IsCompareSuccess", actual)
 }
 
 // ── NotAnyChars ──
@@ -377,7 +377,7 @@ func Test_Cov3_NotAnyChars_IsCompareSuccess(t *testing.T) {
 		"noChars": stringcompareas.NotAnyChars.IsCompareSuccess(false, "hello", "xyz"),
 	}
 	expected := args.Map{"noChars": true}
-	expected.ShouldBeEqual(t, 0, "NotAnyChars IsCompareSuccess", actual)
+	expected.ShouldBeEqual(t, 0, "NotAnyChars returns correct value -- IsCompareSuccess", actual)
 }
 
 // ── VerifyMessage match returns empty ──

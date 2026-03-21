@@ -118,31 +118,31 @@ func Test_Cov5_FirstLastDefaultStatus_Multiple(t *testing.T) {
 func Test_Cov5_HasAnyItem(t *testing.T) {
 	actual := args.Map{"yes": stringslice.HasAnyItem([]string{"a"}), "no": stringslice.HasAnyItem(nil)}
 	expected := args.Map{"yes": true, "no": false}
-	expected.ShouldBeEqual(t, 0, "HasAnyItem returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "HasAnyItem returns correct value -- returns correct", actual)
 }
 
 func Test_Cov5_HasAnyItemPtr(t *testing.T) {
 	actual := args.Map{"yes": stringslice.HasAnyItemPtr([]string{"a"}), "no": stringslice.HasAnyItemPtr(nil)}
 	expected := args.Map{"yes": true, "no": false}
-	expected.ShouldBeEqual(t, 0, "HasAnyItemPtr returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "HasAnyItemPtr returns correct value -- returns correct", actual)
 }
 
 func Test_Cov5_IsEmptyPtr(t *testing.T) {
 	actual := args.Map{"empty": stringslice.IsEmptyPtr(nil), "notEmpty": stringslice.IsEmptyPtr([]string{"a"})}
 	expected := args.Map{"empty": true, "notEmpty": false}
-	expected.ShouldBeEqual(t, 0, "IsEmptyPtr returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "IsEmptyPtr returns empty -- returns correct", actual)
 }
 
 func Test_Cov5_LengthOfPointer(t *testing.T) {
 	actual := args.Map{"len": stringslice.LengthOfPointer([]string{"a", "b"})}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LengthOfPointer returns 2", actual)
+	expected.ShouldBeEqual(t, 0, "LengthOfPointer returns correct value -- returns 2", actual)
 }
 
 func Test_Cov5_SlicePtr(t *testing.T) {
 	actual := args.Map{"len": len(stringslice.SlicePtr([]string{"a"})), "emptyLen": len(stringslice.SlicePtr(nil))}
 	expected := args.Map{"len": 1, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "SlicePtr returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "SlicePtr returns correct value -- returns correct", actual)
 }
 
 // ── IndexAt / SafeIndexAt / SafeIndexAtWith ──
@@ -170,7 +170,7 @@ func Test_Cov5_SafeIndexAtWith(t *testing.T) {
 		"invalid": stringslice.SafeIndexAtWith([]string{"a"}, 5, "def"),
 	}
 	expected := args.Map{"valid": "b", "invalid": "def"}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAtWith returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "SafeIndexAtWith returns non-empty -- returns correct", actual)
 }
 
 // ── SafeIndexAtUsingLastIndexPtr ──
@@ -182,7 +182,7 @@ func Test_Cov5_SafeIndexAtUsingLastIndexPtr(t *testing.T) {
 		"negLast":  stringslice.SafeIndexAtUsingLastIndexPtr([]string{"a"}, -1, 0),
 	}
 	expected := args.Map{"valid": "a", "zeroLast": "", "negLast": ""}
-	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndexPtr returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "SafeIndexAtUsingLastIndexPtr returns correct value -- returns correct", actual)
 }
 
 // ── NonEmpty / NonEmptyIf / NonEmptyStrings / NonNullStrings ──
@@ -217,7 +217,7 @@ func Test_Cov5_NonNullStrings(t *testing.T) {
 	nilResult := stringslice.NonNullStrings(nil)
 	actual := args.Map{"len": len(result), "nilLen": len(nilResult)}
 	expected := args.Map{"len": 2, "nilLen": 0}
-	expected.ShouldBeEqual(t, 0, "NonNullStrings returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "NonNullStrings returns correct value -- returns correct", actual)
 }
 
 // ── NonWhitespace / NonWhitespaceJoin ──
@@ -237,7 +237,7 @@ func Test_Cov5_NonWhitespaceJoin(t *testing.T) {
 	emptyResult := stringslice.NonWhitespaceJoin([]string{}, ",")
 	actual := args.Map{"val": result, "nilVal": nilResult, "emptyVal": emptyResult}
 	expected := args.Map{"val": "a,b", "nilVal": "", "emptyVal": ""}
-	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoin returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoin returns correct value -- returns correct", actual)
 }
 
 func Test_Cov5_NonEmptyJoin(t *testing.T) {
@@ -246,7 +246,7 @@ func Test_Cov5_NonEmptyJoin(t *testing.T) {
 	emptyResult := stringslice.NonEmptyJoin([]string{}, ",")
 	actual := args.Map{"val": result, "nilVal": nilResult, "emptyVal": emptyResult}
 	expected := args.Map{"val": "a,b", "nilVal": "", "emptyVal": ""}
-	expected.ShouldBeEqual(t, 0, "NonEmptyJoin returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "NonEmptyJoin returns empty -- returns correct", actual)
 }
 
 // ── InPlaceReverse ──
@@ -276,7 +276,7 @@ func Test_Cov5_TrimmedEachWords(t *testing.T) {
 	emptyResult := stringslice.TrimmedEachWords([]string{})
 	actual := args.Map{"len": len(result), "first": result[0], "nilNil": nilResult == nil, "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 2, "first": "a", "nilNil": true, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "TrimmedEachWords returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "TrimmedEachWords returns correct value -- returns correct", actual)
 }
 
 func Test_Cov5_TrimmedEachWordsIf(t *testing.T) {
@@ -284,7 +284,7 @@ func Test_Cov5_TrimmedEachWordsIf(t *testing.T) {
 	result2 := stringslice.TrimmedEachWordsIf(false, []string{"  a  ", " "})
 	actual := args.Map{"trueLen": len(result), "falseLen": len(result2)}
 	expected := args.Map{"trueLen": 1, "falseLen": 2}
-	expected.ShouldBeEqual(t, 0, "TrimmedEachWordsIf returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "TrimmedEachWordsIf returns correct value -- returns correct", actual)
 }
 
 // ── MergeNew / MergeNewSimple / MergeSlicesOfSlices / PrependNew / AppendLineNew ──
@@ -301,7 +301,7 @@ func Test_Cov5_MergeNewSimple(t *testing.T) {
 	emptyResult := stringslice.MergeNewSimple()
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 3, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "MergeNewSimple returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "MergeNewSimple returns correct value -- returns correct", actual)
 }
 
 func Test_Cov5_MergeSlicesOfSlices(t *testing.T) {
@@ -309,7 +309,7 @@ func Test_Cov5_MergeSlicesOfSlices(t *testing.T) {
 	emptyResult := stringslice.MergeSlicesOfSlices()
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "MergeSlicesOfSlices returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "MergeSlicesOfSlices returns correct value -- returns correct", actual)
 }
 
 func Test_Cov5_PrependNew(t *testing.T) {
@@ -334,7 +334,7 @@ func Test_Cov5_AppendStringsWithMainSlice(t *testing.T) {
 	noAppend := stringslice.AppendStringsWithMainSlice(false, []string{"a"})
 	actual := args.Map{"skipLen": len(result), "noSkipLen": len(noSkip), "noAppendLen": len(noAppend)}
 	expected := args.Map{"skipLen": 3, "noSkipLen": 4, "noAppendLen": 1}
-	expected.ShouldBeEqual(t, 0, "AppendStringsWithMainSlice returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "AppendStringsWithMainSlice returns non-empty -- returns correct", actual)
 }
 
 // ── AppendStringsWithAnyItems / AppendAnyItemsWithStrings ──
@@ -344,7 +344,7 @@ func Test_Cov5_AppendStringsWithAnyItems_Func(t *testing.T) {
 	noAppend := stringslice.AppendStringsWithAnyItems(false, false, []any{1})
 	actual := args.Map{"len": len(result), "noAppendLen": len(noAppend)}
 	expected := args.Map{"len": 3, "noAppendLen": 1}
-	expected.ShouldBeEqual(t, 0, "AppendStringsWithAnyItems returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "AppendStringsWithAnyItems returns non-empty -- returns correct", actual)
 }
 
 func Test_Cov5_AppendAnyItemsWithStrings_Func(t *testing.T) {
@@ -352,7 +352,7 @@ func Test_Cov5_AppendAnyItemsWithStrings_Func(t *testing.T) {
 	noAppend := stringslice.AppendAnyItemsWithStrings(false, false, []string{"a"})
 	actual := args.Map{"len": len(result), "noAppendLen": len(noAppend)}
 	expected := args.Map{"len": 3, "noAppendLen": 1}
-	expected.ShouldBeEqual(t, 0, "AppendAnyItemsWithStrings returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "AppendAnyItemsWithStrings returns non-empty -- returns correct", actual)
 }
 
 // ── AnyItemsCloneIf / AnyItemsCloneUsingCap ──
@@ -363,7 +363,7 @@ func Test_Cov5_AnyItemsCloneIf(t *testing.T) {
 	nilNoClone := stringslice.AnyItemsCloneIf(false, 0, nil)
 	actual := args.Map{"len": len(result), "noCloneLen": len(noClone), "nilLen": len(nilNoClone)}
 	expected := args.Map{"len": 2, "noCloneLen": 1, "nilLen": 0}
-	expected.ShouldBeEqual(t, 0, "AnyItemsCloneIf returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItemsCloneIf returns correct value -- returns correct", actual)
 }
 
 // ── AllElemLengthSlices ──
@@ -373,7 +373,7 @@ func Test_Cov5_AllElemLengthSlices(t *testing.T) {
 	emptyResult := stringslice.AllElemLengthSlices()
 	actual := args.Map{"count": result, "emptyCount": emptyResult}
 	expected := args.Map{"count": 3, "emptyCount": 0}
-	expected.ShouldBeEqual(t, 0, "AllElemLengthSlices returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "AllElemLengthSlices returns correct value -- returns correct", actual)
 }
 
 // ── SafeRangeItems ──
@@ -385,7 +385,7 @@ func Test_Cov5_SafeRangeItems(t *testing.T) {
 	outResult := stringslice.SafeRangeItems([]string{"a"}, 5, 6)
 	actual := args.Map{"len": len(result), "nilLen": len(nilResult), "emptyLen": len(emptyResult), "outLen": len(outResult)}
 	expected := args.Map{"len": 2, "nilLen": 0, "emptyLen": 0, "outLen": 0}
-	expected.ShouldBeEqual(t, 0, "SafeRangeItems returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "SafeRangeItems returns correct value -- returns correct", actual)
 }
 
 // ── SafeIndexesDefaultWithDetail ──
@@ -400,7 +400,7 @@ func Test_Cov5_SafeIndexesDefaultWithDetail(t *testing.T) {
 		"emptyValid": emptyResult.IsValid,
 	}
 	expected := args.Map{"valuesLen": 2, "anyMissing": true, "isValid": true, "emptyValid": false}
-	expected.ShouldBeEqual(t, 0, "SafeIndexesDefaultWithDetail returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "SafeIndexesDefaultWithDetail returns non-empty -- returns correct", actual)
 }
 
 // ── IndexesDefault ──
@@ -411,7 +411,7 @@ func Test_Cov5_IndexesDefault(t *testing.T) {
 	noIndexResult := stringslice.IndexesDefault([]string{"a"})
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult), "noIdxLen": len(noIndexResult)}
 	expected := args.Map{"len": 2, "emptyLen": 0, "noIdxLen": 0}
-	expected.ShouldBeEqual(t, 0, "IndexesDefault returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "IndexesDefault returns correct value -- returns correct", actual)
 }
 
 // ── SplitTrimmedNonEmpty ──
@@ -430,7 +430,7 @@ func Test_Cov5_RegexTrimmedSplitNonEmptyAll(t *testing.T) {
 	result := stringslice.RegexTrimmedSplitNonEmptyAll(re, "a, ;b; c")
 	actual := args.Map{"gt0": len(result) > 0}
 	expected := args.Map{"gt0": true}
-	expected.ShouldBeEqual(t, 0, "RegexTrimmedSplitNonEmptyAll returns items", actual)
+	expected.ShouldBeEqual(t, 0, "RegexTrimmedSplitNonEmptyAll returns empty -- returns items", actual)
 }
 
 // ── ExpandByFunc / ExpandBySplit / ExpandBySplits ──
@@ -440,7 +440,7 @@ func Test_Cov5_ExpandByFunc(t *testing.T) {
 	emptyResult := stringslice.ExpandByFunc(nil, nil)
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "ExpandByFunc returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "ExpandByFunc returns correct value -- returns correct", actual)
 }
 
 func Test_Cov5_ExpandBySplit(t *testing.T) {
@@ -448,7 +448,7 @@ func Test_Cov5_ExpandBySplit(t *testing.T) {
 	emptyResult := stringslice.ExpandBySplit(nil, ",")
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 4, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "ExpandBySplit returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "ExpandBySplit returns correct value -- returns correct", actual)
 }
 
 // ── LinesProcess ──
@@ -481,7 +481,7 @@ func Test_Cov5_SafeIndexesPtr(t *testing.T) {
 	emptyResult := stringslice.SafeIndexesPtr(nil, 0)
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 2, "emptyLen": 1}
-	expected.ShouldBeEqual(t, 0, "SafeIndexesPtr returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "SafeIndexesPtr returns correct value -- returns correct", actual)
 }
 
 // ── NonEmptySlicePtr (deprecated) ──
@@ -491,7 +491,7 @@ func Test_Cov5_NonEmptySlicePtr(t *testing.T) {
 	emptyResult := stringslice.NonEmptySlicePtr(nil)
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "NonEmptySlicePtr returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "NonEmptySlicePtr returns empty -- returns correct", actual)
 }
 
 // ── Joins / JoinWith (from CloneIf.go) ──
@@ -501,7 +501,7 @@ func Test_Cov5_JoinWith(t *testing.T) {
 	emptyResult := stringslice.JoinWith(",")
 	actual := args.Map{"val": result, "empty": emptyResult}
 	expected := args.Map{"val": ",a,b", "empty": ""}
-	expected.ShouldBeEqual(t, 0, "JoinWith returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "JoinWith returns non-empty -- returns correct", actual)
 }
 
 func Test_Cov5_Joins(t *testing.T) {
@@ -509,7 +509,7 @@ func Test_Cov5_Joins(t *testing.T) {
 	emptyResult := stringslice.Joins(",")
 	actual := args.Map{"val": result, "empty": emptyResult}
 	expected := args.Map{"val": "a,b", "empty": ""}
-	expected.ShouldBeEqual(t, 0, "Joins returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "Joins returns correct value -- returns correct", actual)
 }
 
 // ── SplitContentsByWhitespace ──
@@ -518,7 +518,7 @@ func Test_Cov5_SplitContentsByWhitespace(t *testing.T) {
 	result := stringslice.SplitContentsByWhitespace("  hello  world  ")
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 2, "first": "hello"}
-	expected.ShouldBeEqual(t, 0, "SplitContentsByWhitespace returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "SplitContentsByWhitespace returns correct value -- returns correct", actual)
 }
 
 // ── PrependLineNew ──
@@ -527,5 +527,5 @@ func Test_Cov5_PrependLineNew(t *testing.T) {
 	result := stringslice.PrependLineNew("first", []string{"second"})
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 2, "first": "first"}
-	expected.ShouldBeEqual(t, 0, "PrependLineNew returns correct", actual)
+	expected.ShouldBeEqual(t, 0, "PrependLineNew returns correct value -- returns correct", actual)
 }

@@ -14,14 +14,14 @@ func Test_Cov6_ReflectNull_ReflectValueInput_Invalid(t *testing.T) {
 	rv := reflect.Value{} // invalid reflect.Value
 	actual := args.Map{"result": isany.ReflectNull(rv)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "ReflectNull reflect.Value invalid", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectNull returns error -- reflect.Value invalid", actual)
 }
 
 func Test_Cov6_ReflectNull_ReflectValueInput_Valid(t *testing.T) {
 	rv := reflect.ValueOf(42)
 	actual := args.Map{"result": isany.ReflectNull(rv)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "ReflectNull reflect.Value valid int", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectNull returns non-empty -- reflect.Value valid int", actual)
 }
 
 func Test_Cov6_ReflectNull_ReflectValueInput_NilPtr(t *testing.T) {
@@ -29,7 +29,7 @@ func Test_Cov6_ReflectNull_ReflectValueInput_NilPtr(t *testing.T) {
 	rv := reflect.ValueOf(ptr)
 	actual := args.Map{"result": isany.ReflectNull(rv)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "ReflectNull reflect.Value nil ptr", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectNull returns nil -- reflect.Value nil ptr", actual)
 }
 
 // ── JsonEqual error paths ──
@@ -40,21 +40,21 @@ func Test_Cov6_JsonEqual_BothUnmarshalable(t *testing.T) {
 	ch2 := make(chan int)
 	actual := args.Map{"result": isany.JsonEqual(ch1, ch2)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "JsonEqual both unmarshalable", actual)
+	expected.ShouldBeEqual(t, 0, "JsonEqual returns correct value -- both unmarshalable", actual)
 }
 
 func Test_Cov6_JsonEqual_OneUnmarshalable(t *testing.T) {
 	ch := make(chan int)
 	actual := args.Map{"result": isany.JsonEqual(ch, 42)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "JsonEqual one unmarshalable", actual)
+	expected.ShouldBeEqual(t, 0, "JsonEqual returns correct value -- one unmarshalable", actual)
 }
 
 func Test_Cov6_JsonEqual_OtherUnmarshalable(t *testing.T) {
 	ch := make(chan int)
 	actual := args.Map{"result": isany.JsonEqual(42, ch)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "JsonEqual other unmarshalable", actual)
+	expected.ShouldBeEqual(t, 0, "JsonEqual returns correct value -- other unmarshalable", actual)
 }
 
 // ── JsonMismatch with channels ──
@@ -64,7 +64,7 @@ func Test_Cov6_JsonMismatch_BothUnmarshalable(t *testing.T) {
 	ch2 := make(chan int)
 	actual := args.Map{"result": isany.JsonMismatch(ch1, ch2)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "JsonMismatch both unmarshalable", actual)
+	expected.ShouldBeEqual(t, 0, "JsonMismatch returns correct value -- both unmarshalable", actual)
 }
 
 // ── Null with non-nil chan ──
@@ -73,7 +73,7 @@ func Test_Cov6_Null_NonNilChan(t *testing.T) {
 	ch := make(chan int)
 	actual := args.Map{"result": isany.Null(ch)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "Null non-nil chan", actual)
+	expected.ShouldBeEqual(t, 0, "Null returns nil -- non-nil chan", actual)
 }
 
 // ── ReflectValueNull invalid ──
@@ -82,7 +82,7 @@ func Test_Cov6_ReflectValueNull_Invalid(t *testing.T) {
 	rv := reflect.Value{}
 	actual := args.Map{"result": isany.ReflectValueNull(rv)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "ReflectValueNull invalid", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectValueNull returns error -- invalid", actual)
 }
 
 // ── FuncOnly with func ──
@@ -90,7 +90,7 @@ func Test_Cov6_ReflectValueNull_Invalid(t *testing.T) {
 func Test_Cov6_FuncOnly_ValidFunc(t *testing.T) {
 	actual := args.Map{"result": isany.FuncOnly(func() {})}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "FuncOnly valid func", actual)
+	expected.ShouldBeEqual(t, 0, "FuncOnly returns non-empty -- valid func", actual)
 }
 
 // ── Conclusive same nil values but non-interface ──
@@ -101,7 +101,7 @@ func Test_Cov6_Conclusive_BothTypedNilDiffType(t *testing.T) {
 	isEq, isConcl := isany.Conclusive(a, b)
 	actual := args.Map{"isEqual": isEq, "isConclusive": isConcl}
 	expected := args.Map{"isEqual": true, "isConclusive": true}
-	expected.ShouldBeEqual(t, 0, "Conclusive both typed nil diff type", actual)
+	expected.ShouldBeEqual(t, 0, "Conclusive returns nil -- both typed nil diff type", actual)
 }
 
 // ── ReflectNull with nil directly ──
@@ -109,7 +109,7 @@ func Test_Cov6_Conclusive_BothTypedNilDiffType(t *testing.T) {
 func Test_Cov6_ReflectNull_NilDirect(t *testing.T) {
 	actual := args.Map{"result": isany.ReflectNull(nil)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "ReflectNull nil direct", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectNull returns nil -- nil direct", actual)
 }
 
 // ── ReflectNotNull with value ──
@@ -117,7 +117,7 @@ func Test_Cov6_ReflectNull_NilDirect(t *testing.T) {
 func Test_Cov6_ReflectNotNull_Value(t *testing.T) {
 	actual := args.Map{"result": isany.ReflectNotNull(42)}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "ReflectNotNull value", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectNotNull returns correct value -- value", actual)
 }
 
 // ── PositiveIntegerType uint ──
@@ -125,7 +125,7 @@ func Test_Cov6_ReflectNotNull_Value(t *testing.T) {
 func Test_Cov6_PositiveIntegerType_Uint(t *testing.T) {
 	actual := args.Map{"result": isany.PositiveIntegerType(uint(42))}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "PositiveIntegerType uint", actual)
+	expected.ShouldBeEqual(t, 0, "PositiveIntegerType returns correct value -- uint", actual)
 }
 
 // ── FloatingPointType float64 ──
@@ -133,11 +133,11 @@ func Test_Cov6_PositiveIntegerType_Uint(t *testing.T) {
 func Test_Cov6_FloatingPointType_Float64(t *testing.T) {
 	actual := args.Map{"result": isany.FloatingPointType(float64(3.14))}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "FloatingPointType float64", actual)
+	expected.ShouldBeEqual(t, 0, "FloatingPointType returns correct value -- float64", actual)
 }
 
 func Test_Cov6_FloatingPointType_Int(t *testing.T) {
 	actual := args.Map{"result": isany.FloatingPointType(42)}
 	expected := args.Map{"result": false}
-	expected.ShouldBeEqual(t, 0, "FloatingPointType int", actual)
+	expected.ShouldBeEqual(t, 0, "FloatingPointType returns correct value -- int", actual)
 }

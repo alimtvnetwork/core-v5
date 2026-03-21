@@ -22,5 +22,5 @@ func Test_Cov5_AppendStringsWithBaseAnyItems_SkipEmpty(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "root-a-b"}
-	expected.ShouldBeEqual(t, 0, "appendStringsWithBaseAnyItems skip empty", actual)
+	expected.ShouldBeEqual(t, 0, "appendStringsWithBaseAnyItems returns empty -- skip empty", actual)
 }

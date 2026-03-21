@@ -38,7 +38,7 @@ func Test_Cov4_BasicInt8_Default(t *testing.T) {
 		"length":       3,
 		"enumType":     "Integer8",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_Default", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_Default returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_IsAnyOf(t *testing.T) {
@@ -58,7 +58,7 @@ func Test_Cov4_BasicInt8_IsAnyOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_IsAnyOf returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_IsAnyNamesOf(t *testing.T) {
@@ -76,7 +76,7 @@ func Test_Cov4_BasicInt8_IsAnyNamesOf(t *testing.T) {
 		"match":   true,
 		"noMatch": false,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_IsAnyNamesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_GetValueByString(t *testing.T) {
@@ -92,7 +92,7 @@ func Test_Cov4_BasicInt8_GetValueByString(t *testing.T) {
 	expected := args.Map{
 		"byName": int8(1),
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_GetValueByString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_GetValueByString returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_GetValueByName(t *testing.T) {
@@ -115,7 +115,7 @@ func Test_Cov4_BasicInt8_GetValueByName(t *testing.T) {
 		"noErr":    true,
 		"hasError": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_GetValueByName", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_GetValueByName returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_GetStringValue(t *testing.T) {
@@ -131,7 +131,7 @@ func Test_Cov4_BasicInt8_GetStringValue(t *testing.T) {
 	expected := args.Map{
 		"val": "Invalid",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_GetStringValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_GetStringValue returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_Ranges(t *testing.T) {
@@ -151,7 +151,7 @@ func Test_Cov4_BasicInt8_Ranges(t *testing.T) {
 		"hmLen":      true,
 		"hmPtrNotNil": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_Ranges", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_Ranges returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_ToEnumJsonBytes(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_Cov4_BasicInt8_ToEnumJsonBytes(t *testing.T) {
 		"noErr":    true,
 		"notFound": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_ToEnumJsonBytes", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_ToEnumJsonBytes returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_AppendPrependJoin(t *testing.T) {
@@ -192,7 +192,7 @@ func Test_Cov4_BasicInt8_AppendPrependJoin(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_AppendPrependJoin", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_AppendPrependJoin returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_ToNumberString(t *testing.T) {
@@ -208,7 +208,7 @@ func Test_Cov4_BasicInt8_ToNumberString(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_ToNumberString", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_ToNumberString returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_UnmarshallToValue(t *testing.T) {
@@ -246,7 +246,7 @@ func Test_Cov4_BasicInt8_UnmarshallToValue(t *testing.T) {
 		"validVal":       int8(1),
 		"validNoErr":     true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_UnmarshallToValue", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_UnmarshallToValue returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_ExpectingEnumValueError(t *testing.T) {
@@ -270,7 +270,7 @@ func Test_Cov4_BasicInt8_ExpectingEnumValueError(t *testing.T) {
 		"mismatchErr": true,
 		"parseErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_ExpectingEnumValueError", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_ExpectingEnumValueError returns error -- with args", actual)
 }
 
 // ── newBasicInt8Creator paths ──
@@ -289,7 +289,7 @@ func Test_Cov4_BasicInt8_CreateUsingMap(t *testing.T) {
 		"typeName": "testInt8Enum",
 		"length":   2,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_CreateUsingMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_CreateUsingMap returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_WithAliasMap(t *testing.T) {
@@ -310,7 +310,7 @@ func Test_Cov4_BasicInt8_WithAliasMap(t *testing.T) {
 		"aliasVal": int8(1),
 		"noErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_WithAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_WithAliasMap returns non-empty -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_DefaultAllCases(t *testing.T) {
@@ -330,7 +330,7 @@ func Test_Cov4_BasicInt8_DefaultAllCases(t *testing.T) {
 		"lowerVal": int8(1),
 		"noErr":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_DefaultAllCases", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_DefaultAllCases returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_DefaultWithAliasMapAllCases(t *testing.T) {
@@ -351,7 +351,7 @@ func Test_Cov4_BasicInt8_DefaultWithAliasMapAllCases(t *testing.T) {
 		"upperAlias": int8(1),
 		"noErr":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_DefaultWithAliasMapAllCases", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_DefaultWithAliasMapAllCases returns non-empty -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_CreateUsingMapPlusAliasMapOptions(t *testing.T) {
@@ -373,7 +373,7 @@ func Test_Cov4_BasicInt8_CreateUsingMapPlusAliasMapOptions(t *testing.T) {
 		"upperAlias": int8(1),
 		"noErr":      true,
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_CreateUsingMapPlusAliasMapOptions", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_CreateUsingMapPlusAliasMapOptions returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_UsingFirstItemSliceAliasMap(t *testing.T) {
@@ -390,7 +390,7 @@ func Test_Cov4_BasicInt8_UsingFirstItemSliceAliasMap(t *testing.T) {
 	expected := args.Map{
 		"typeName": "enumimpltests.myInt8",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_UsingFirstItemSliceAliasMap", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_UsingFirstItemSliceAliasMap returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_UsingTypeSlice(t *testing.T) {
@@ -405,7 +405,7 @@ func Test_Cov4_BasicInt8_UsingTypeSlice(t *testing.T) {
 	expected := args.Map{
 		"typeName": "testInt8",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_UsingTypeSlice", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_UsingTypeSlice returns correct value -- with args", actual)
 }
 
 func Test_Cov4_BasicInt8_AppendPrependJoinNamer(t *testing.T) {
@@ -423,7 +423,7 @@ func Test_Cov4_BasicInt8_AppendPrependJoinNamer(t *testing.T) {
 	expected := args.Map{
 		"result": "A.B",
 	}
-	expected.ShouldBeEqual(t, 0, "BasicInt8_AppendPrependJoinNamer", actual)
+	expected.ShouldBeEqual(t, 0, "BasicInt8_AppendPrependJoinNamer returns correct value -- with args", actual)
 }
 
 type mockNamer4 struct{ name string }

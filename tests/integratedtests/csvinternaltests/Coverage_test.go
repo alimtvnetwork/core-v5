@@ -26,7 +26,7 @@ func Test_StringsToCsvString(t *testing.T) {
 		"doubleQuoteNotEmpty": true,
 		"empty":               "",
 	}
-	expected.ShouldBeEqual(t, 0, "StringsToCsvString", actual)
+	expected.ShouldBeEqual(t, 0, "StringsToCsvString returns correct value -- with args", actual)
 }
 
 func Test_AnyItemsToCsvString(t *testing.T) {
@@ -42,7 +42,7 @@ func Test_AnyItemsToCsvString(t *testing.T) {
 		"resultNotEmpty": true,
 		"empty":          "",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyItemsToCsvString", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItemsToCsvString returns correct value -- with args", actual)
 }
 
 func Test_RangeNamesWithValuesIndexes(t *testing.T) {
@@ -60,7 +60,7 @@ func Test_RangeNamesWithValuesIndexes(t *testing.T) {
 		"emptyLen":  0,
 		"first":     result[0],
 	}
-	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexes", actual)
+	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexes returns non-empty -- with args", actual)
 }
 
 type testStringer struct{ val string }
@@ -81,7 +81,7 @@ func Test_StringersToString(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringersToString", actual)
+	expected.ShouldBeEqual(t, 0, "StringersToString returns correct value -- with args", actual)
 }
 
 func Test_CompileStringersToString(t *testing.T) {
@@ -98,5 +98,5 @@ func Test_CompileStringersToString(t *testing.T) {
 	expected := args.Map{
 		"notEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "CompileStringersToString", actual)
+	expected.ShouldBeEqual(t, 0, "CompileStringersToString returns correct value -- with args", actual)
 }

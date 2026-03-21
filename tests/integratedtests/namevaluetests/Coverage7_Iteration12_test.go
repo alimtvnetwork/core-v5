@@ -19,7 +19,7 @@ func Test_I12_StringInt_FullCoverage(t *testing.T) {
 
 	actual := args.Map{"c": c.IsEmpty(), "cd": cd.IsEmpty(), "ce": ce.IsEmpty()}
 	expected := args.Map{"c": true, "cd": true, "ce": true}
-	expected.ShouldBeEqual(t, 0, "StringInt constructors", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- constructors", actual)
 }
 
 func Test_I12_StringInt_CollectionUsing(t *testing.T) {
@@ -30,7 +30,7 @@ func Test_I12_StringInt_CollectionUsing(t *testing.T) {
 
 	actual := args.Map{"c1": c1.Length(), "c2": c2.Length(), "c3": c3.Length()}
 	expected := args.Map{"c1": 2, "c2": 2, "c3": 0}
-	expected.ShouldBeEqual(t, 0, "StringInt CollectionUsing", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- CollectionUsing", actual)
 }
 
 func Test_I12_StringInt_AddMethods(t *testing.T) {
@@ -51,7 +51,7 @@ func Test_I12_StringInt_AddMethods(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 7}
-	expected.ShouldBeEqual(t, 0, "StringInt add methods", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- add methods", actual)
 }
 
 func Test_I12_StringInt_FuncAppendPrepend(t *testing.T) {
@@ -74,7 +74,7 @@ func Test_I12_StringInt_FuncAppendPrepend(t *testing.T) {
 
 	actual := args.Map{"len": c.Length(), "first": c.Items[0].Name}
 	expected := args.Map{"len": 3, "first": "first"}
-	expected.ShouldBeEqual(t, 0, "StringInt func append/prepend", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- func append/prepend", actual)
 }
 
 func Test_I12_StringInt_AppendPrependIf(t *testing.T) {
@@ -88,7 +88,7 @@ func Test_I12_StringInt_AppendPrependIf(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "StringInt AppendPrependIf", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- AppendPrependIf", actual)
 }
 
 func Test_I12_StringInt_AddsPtr(t *testing.T) {
@@ -99,7 +99,7 @@ func Test_I12_StringInt_AddsPtr(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "StringInt AddsPtr", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- AddsPtr", actual)
 }
 
 func Test_I12_StringInt_AddsIf(t *testing.T) {
@@ -109,7 +109,7 @@ func Test_I12_StringInt_AddsIf(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "StringInt AddsIf", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- AddsIf", actual)
 }
 
 func Test_I12_StringInt_QueryMethods(t *testing.T) {
@@ -131,7 +131,7 @@ func Test_I12_StringInt_QueryMethods(t *testing.T) {
 		"hasIdx0": true, "hasIdx5": false,
 		"nilLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "StringInt query methods", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- query methods", actual)
 }
 
 func Test_I12_StringInt_StringMethods(t *testing.T) {
@@ -156,7 +156,7 @@ func Test_I12_StringInt_StringMethods(t *testing.T) {
 		"joinCsvLn": true, "csvStrings": true, "jsonString": true,
 		"string": true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringInt string methods", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- string methods", actual)
 }
 
 func Test_I12_StringInt_LazyString(t *testing.T) {
@@ -175,7 +175,7 @@ func Test_I12_StringInt_LazyString(t *testing.T) {
 		"nilLazy": nilC.CompiledLazyString(),
 	}
 	expected := args.Map{"same": true, "hasPre": false, "nilComp": false, "nilLazy": ""}
-	expected.ShouldBeEqual(t, 0, "StringInt lazy string", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- lazy string", actual)
 
 	nilC.InvalidateLazyString() // should not panic
 }
@@ -197,7 +197,7 @@ func Test_I12_StringInt_IsEqualByString(t *testing.T) {
 		"diffLen":  c1.IsEqualByString(namevalue.EmptyGenericCollection[string, int]()),
 	}
 	expected := args.Map{"equal": true, "notEqual": false, "nilBoth": true, "nilOne": false, "diffLen": false}
-	expected.ShouldBeEqual(t, 0, "StringInt IsEqualByString", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- IsEqualByString", actual)
 }
 
 func Test_I12_StringInt_ErrorMethods(t *testing.T) {
@@ -213,7 +213,7 @@ func Test_I12_StringInt_ErrorMethods(t *testing.T) {
 		"hasMsgErr": c.ErrorUsingMessage("prefix") != nil,
 	}
 	expected := args.Map{"nilErr": true, "nilMsgErr": true, "hasErr": true, "hasMsgErr": true}
-	expected.ShouldBeEqual(t, 0, "StringInt error methods", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns error -- error methods", actual)
 }
 
 func Test_I12_StringInt_ConcatCloneClearDispose(t *testing.T) {
@@ -239,12 +239,12 @@ func Test_I12_StringInt_ConcatCloneClearDispose(t *testing.T) {
 		"cloneLen": 1, "clonePtrLen": 1,
 		"nilClone": true, "origLen": 1,
 	}
-	expected.ShouldBeEqual(t, 0, "StringInt concat/clone", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- concat/clone", actual)
 
 	c.Clear()
 	actual2 := args.Map{"afterClear": c.IsEmpty()}
 	expected2 := args.Map{"afterClear": true}
-	expected2.ShouldBeEqual(t, 0, "StringInt clear", actual2)
+	expected2.ShouldBeEqual(t, 0, "StringInt returns correct value -- clear", actual2)
 
 	nilC.Clear()  // should not panic
 	nilC.Dispose() // should not panic
@@ -254,14 +254,14 @@ func Test_I12_StringInt_CsvStrings_Empty(t *testing.T) {
 	c := namevalue.NewGenericCollectionDefault[string, int]()
 	actual := args.Map{"len": len(c.CsvStrings())}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "StringInt CsvStrings empty", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns empty -- CsvStrings empty", actual)
 }
 
 func Test_I12_StringInt_JsonString_Empty(t *testing.T) {
 	c := namevalue.NewGenericCollectionDefault[string, int]()
 	actual := args.Map{"val": c.JsonString()}
 	expected := args.Map{"val": ""}
-	expected.ShouldBeEqual(t, 0, "StringInt JsonString empty", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns empty -- JsonString empty", actual)
 }
 
 // ==========================================================================
@@ -275,7 +275,7 @@ func Test_I12_StringMapAny_FullCoverage(t *testing.T) {
 
 	actual := args.Map{"c": c.IsEmpty(), "ce": ce.IsEmpty(), "c5": c5.IsEmpty()}
 	expected := args.Map{"c": true, "ce": true, "c5": true}
-	expected.ShouldBeEqual(t, 0, "StringMapAny constructors", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapAny returns correct value -- constructors", actual)
 }
 
 func Test_I12_StringMapAny_AddAndQuery(t *testing.T) {
@@ -302,7 +302,7 @@ func Test_I12_StringMapAny_AddAndQuery(t *testing.T) {
 		"hasAny": true, "lastIdx": 5,
 		"hasIdx0": true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringMapAny add and query", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapAny returns correct value -- add and query", actual)
 }
 
 func Test_I12_StringMapAny_StringMethods(t *testing.T) {
@@ -315,7 +315,7 @@ func Test_I12_StringMapAny_StringMethods(t *testing.T) {
 		"string":   c.String() != "",
 	}
 	expected := args.Map{"strings": true, "join": true, "string": true}
-	expected.ShouldBeEqual(t, 0, "StringMapAny string methods", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapAny returns correct value -- string methods", actual)
 }
 
 func Test_I12_StringMapAny_CloneDispose(t *testing.T) {
@@ -326,7 +326,7 @@ func Test_I12_StringMapAny_CloneDispose(t *testing.T) {
 
 	actual := args.Map{"cloneLen": cl.Length(), "disposed": c.Items == nil}
 	expected := args.Map{"cloneLen": 1, "disposed": true}
-	expected.ShouldBeEqual(t, 0, "StringMapAny clone/dispose", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapAny returns correct value -- clone/dispose", actual)
 }
 
 func Test_I12_StringMapAny_CollectionUsing(t *testing.T) {
@@ -336,7 +336,7 @@ func Test_I12_StringMapAny_CollectionUsing(t *testing.T) {
 
 	actual := args.Map{"c1": c1.Length(), "c2": c2.Length()}
 	expected := args.Map{"c1": 1, "c2": 1}
-	expected.ShouldBeEqual(t, 0, "StringMapAny CollectionUsing", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapAny returns correct value -- CollectionUsing", actual)
 }
 
 func Test_I12_StringMapAny_FuncIf(t *testing.T) {
@@ -350,7 +350,7 @@ func Test_I12_StringMapAny_FuncIf(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringMapAny FuncIf", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapAny returns correct value -- FuncIf", actual)
 }
 
 // ==========================================================================
@@ -374,7 +374,7 @@ func Test_I12_StringMapString_FullCoverage(t *testing.T) {
 		"lastIdx": 3, "hasAny": true,
 		"strings": true, "join": true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringMapString full coverage", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- full coverage", actual)
 }
 
 func Test_I12_StringMapString_CloneAndConcat(t *testing.T) {
@@ -387,7 +387,7 @@ func Test_I12_StringMapString_CloneAndConcat(t *testing.T) {
 
 	actual := args.Map{"clone": cl.Length(), "concat": cn.Length(), "concatPtr": cnp.Length()}
 	expected := args.Map{"clone": 1, "concat": 2, "concatPtr": 2}
-	expected.ShouldBeEqual(t, 0, "StringMapString clone/concat", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- clone/concat", actual)
 }
 
 func Test_I12_StringMapString_AddsIf_AddsPtr(t *testing.T) {
@@ -399,7 +399,7 @@ func Test_I12_StringMapString_AddsIf_AddsPtr(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringMapString AddsIf/AddsPtr", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- AddsIf/AddsPtr", actual)
 }
 
 func Test_I12_StringMapString_LazyString(t *testing.T) {
@@ -411,7 +411,7 @@ func Test_I12_StringMapString_LazyString(t *testing.T) {
 
 	actual := args.Map{"same": s1 == s2, "invalidated": !c.HasCompiledString()}
 	expected := args.Map{"same": true, "invalidated": true}
-	expected.ShouldBeEqual(t, 0, "StringMapString lazy string", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- lazy string", actual)
 }
 
 // ==========================================================================
@@ -426,7 +426,7 @@ func Test_I12_Instance_StringInt(t *testing.T) {
 
 	actual := args.Map{"string": s != "", "json": js != "", "disposed": inst.Name}
 	expected := args.Map{"string": true, "json": true, "disposed": ""}
-	expected.ShouldBeEqual(t, 0, "Instance StringInt", actual)
+	expected.ShouldBeEqual(t, 0, "Instance returns correct value -- StringInt", actual)
 }
 
 func Test_I12_Instance_StringMapAny(t *testing.T) {
@@ -437,7 +437,7 @@ func Test_I12_Instance_StringMapAny(t *testing.T) {
 
 	actual := args.Map{"string": s != "", "json": js != "", "disposed": inst.Name}
 	expected := args.Map{"string": true, "json": true, "disposed": ""}
-	expected.ShouldBeEqual(t, 0, "Instance StringMapAny", actual)
+	expected.ShouldBeEqual(t, 0, "Instance returns correct value -- StringMapAny", actual)
 }
 
 func Test_I12_Instance_StringMapString(t *testing.T) {
@@ -448,7 +448,7 @@ func Test_I12_Instance_StringMapString(t *testing.T) {
 
 	actual := args.Map{"string": s != "", "json": js != "", "disposed": inst.Name}
 	expected := args.Map{"string": true, "json": true, "disposed": ""}
-	expected.ShouldBeEqual(t, 0, "Instance StringMapString", actual)
+	expected.ShouldBeEqual(t, 0, "Instance returns correct value -- StringMapString", actual)
 }
 
 // ==========================================================================
@@ -463,7 +463,7 @@ func Test_I12_AppendsIf_StringInt(t *testing.T) {
 
 	actual := args.Map{"r1": len(r1), "r2": len(r2), "r3": len(r3)}
 	expected := args.Map{"r1": 2, "r2": 2, "r3": 2}
-	expected.ShouldBeEqual(t, 0, "AppendsIf StringInt", actual)
+	expected.ShouldBeEqual(t, 0, "AppendsIf returns correct value -- StringInt", actual)
 }
 
 func Test_I12_PrependsIf_StringInt(t *testing.T) {
@@ -474,7 +474,7 @@ func Test_I12_PrependsIf_StringInt(t *testing.T) {
 
 	actual := args.Map{"r1": len(r1), "r2": len(r2), "r3": len(r3)}
 	expected := args.Map{"r1": 2, "r2": 2, "r3": 2}
-	expected.ShouldBeEqual(t, 0, "PrependsIf StringInt", actual)
+	expected.ShouldBeEqual(t, 0, "PrependsIf returns correct value -- StringInt", actual)
 }
 
 func Test_I12_AppendsIf_StringMapAny(t *testing.T) {
@@ -483,7 +483,7 @@ func Test_I12_AppendsIf_StringMapAny(t *testing.T) {
 
 	actual := args.Map{"len": len(r)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "AppendsIf StringMapAny", actual)
+	expected.ShouldBeEqual(t, 0, "AppendsIf returns correct value -- StringMapAny", actual)
 }
 
 func Test_I12_PrependsIf_StringMapString(t *testing.T) {
@@ -492,7 +492,7 @@ func Test_I12_PrependsIf_StringMapString(t *testing.T) {
 
 	actual := args.Map{"len": len(r), "first": r[0].Name}
 	expected := args.Map{"len": 2, "first": "a"}
-	expected.ShouldBeEqual(t, 0, "PrependsIf StringMapString", actual)
+	expected.ShouldBeEqual(t, 0, "PrependsIf returns correct value -- StringMapString", actual)
 }
 
 // ==========================================================================
@@ -506,7 +506,7 @@ func Test_I12_StringInt_IsEqualByString(t *testing.T) {
 
 	actual := args.Map{"equal": c1.IsEqualByString(c2)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "StringInt IsEqualByString", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns correct value -- IsEqualByString", actual)
 }
 
 func Test_I12_StringMapString_IsEqualByString(t *testing.T) {
@@ -516,7 +516,7 @@ func Test_I12_StringMapString_IsEqualByString(t *testing.T) {
 
 	actual := args.Map{"equal": c1.IsEqualByString(c2)}
 	expected := args.Map{"equal": true}
-	expected.ShouldBeEqual(t, 0, "StringMapString IsEqualByString", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- IsEqualByString", actual)
 }
 
 // ==========================================================================
@@ -527,7 +527,7 @@ func Test_I12_StringInt_ErrorMethods_Empty(t *testing.T) {
 	c := namevalue.EmptyGenericCollection[string, int]()
 	actual := args.Map{"err": c.Error() == nil, "msgErr": c.ErrorUsingMessage("p") == nil}
 	expected := args.Map{"err": true, "msgErr": true}
-	expected.ShouldBeEqual(t, 0, "StringInt Error empty", actual)
+	expected.ShouldBeEqual(t, 0, "StringInt returns empty -- Error empty", actual)
 }
 
 func Test_I12_StringMapAny_ErrorMethods(t *testing.T) {
@@ -535,7 +535,7 @@ func Test_I12_StringMapAny_ErrorMethods(t *testing.T) {
 	c.Add(namevalue.StringMapAny{Name: "e", Value: map[string]any{"k": "v"}})
 	actual := args.Map{"err": c.Error() != nil, "msgErr": c.ErrorUsingMessage("p") != nil}
 	expected := args.Map{"err": true, "msgErr": true}
-	expected.ShouldBeEqual(t, 0, "StringMapAny Error", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapAny returns error -- Error", actual)
 }
 
 // ==========================================================================
@@ -551,7 +551,7 @@ func Test_I12_StringMapString_AppendPrependIf(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "StringMapString AppendPrependIf", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- AppendPrependIf", actual)
 }
 
 func Test_I12_StringMapString_FuncIf(t *testing.T) {
@@ -565,7 +565,7 @@ func Test_I12_StringMapString_FuncIf(t *testing.T) {
 
 	actual := args.Map{"len": c.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringMapString FuncIf", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- FuncIf", actual)
 }
 
 func Test_I12_StringMapString_CollectionUsing(t *testing.T) {
@@ -576,7 +576,7 @@ func Test_I12_StringMapString_CollectionUsing(t *testing.T) {
 
 	actual := args.Map{"c1": c1.Length(), "c2": c2.Length(), "c3": c3.Length()}
 	expected := args.Map{"c1": 1, "c2": 1, "c3": 0}
-	expected.ShouldBeEqual(t, 0, "StringMapString CollectionUsing", actual)
+	expected.ShouldBeEqual(t, 0, "StringMapString returns correct value -- CollectionUsing", actual)
 }
 
 // ==========================================================================
@@ -588,7 +588,7 @@ func Test_I12_Instance_IsNull_StringInt(t *testing.T) {
 	inst := &namevalue.StringInt{Name: "a", Value: 1}
 	actual := args.Map{"nil": nilInst.IsNull(), "nonNil": inst.IsNull()}
 	expected := args.Map{"nil": true, "nonNil": false}
-	expected.ShouldBeEqual(t, 0, "Instance IsNull StringInt", actual)
+	expected.ShouldBeEqual(t, 0, "Instance returns correct value -- IsNull StringInt", actual)
 }
 
 func Test_I12_Instance_Dispose_NilStringInt(t *testing.T) {
@@ -596,5 +596,5 @@ func Test_I12_Instance_Dispose_NilStringInt(t *testing.T) {
 	nilInst.Dispose() // should not panic
 	actual := args.Map{"ok": true}
 	expected := args.Map{"ok": true}
-	expected.ShouldBeEqual(t, 0, "Instance Dispose nil StringInt", actual)
+	expected.ShouldBeEqual(t, 0, "Instance returns nil -- Dispose nil StringInt", actual)
 }

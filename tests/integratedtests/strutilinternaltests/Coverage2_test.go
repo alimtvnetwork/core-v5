@@ -14,7 +14,7 @@ func Test_Cov2_NonWhitespaceSlicePtr(t *testing.T) {
 	emptyResult := strutilinternal.NonWhitespaceSlicePtr([]string{})
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult)}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "NonWhitespaceSlicePtr", actual)
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceSlicePtr returns correct value -- with args", actual)
 }
 
 // ── NonWhitespaceTrimSlicePtr ──
@@ -24,7 +24,7 @@ func Test_Cov2_NonWhitespaceTrimSlicePtr(t *testing.T) {
 	emptyResult := strutilinternal.NonWhitespaceTrimSlicePtr([]string{})
 	actual := args.Map{"len": len(result), "emptyLen": len(emptyResult), "first": result[0]}
 	expected := args.Map{"len": 1, "emptyLen": 0, "first": "a"}
-	expected.ShouldBeEqual(t, 0, "NonWhitespaceTrimSlicePtr", actual)
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceTrimSlicePtr returns correct value -- with args", actual)
 }
 
 // ── NonWhitespaceJoinPtr ──
@@ -34,7 +34,7 @@ func Test_Cov2_NonWhitespaceJoinPtr(t *testing.T) {
 	emptyResult := strutilinternal.NonWhitespaceJoinPtr([]string{}, ",")
 	actual := args.Map{"result": result, "empty": emptyResult}
 	expected := args.Map{"result": "a,b", "empty": ""}
-	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoinPtr", actual)
+	expected.ShouldBeEqual(t, 0, "NonWhitespaceJoinPtr returns correct value -- with args", actual)
 }
 
 // ── SliceToMapConverter extended ──
@@ -44,7 +44,7 @@ func Test_Cov2_SliceToMapConverter_Hashset(t *testing.T) {
 	hs := conv.Hashset()
 	actual := args.Map{"len": len(hs), "hasA": hs["a"], "hasB": hs["b"]}
 	expected := args.Map{"len": 2, "hasA": true, "hasB": true}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter Hashset", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter returns correct value -- Hashset", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineSplitMap(t *testing.T) {
@@ -52,7 +52,7 @@ func Test_Cov2_SliceToMapConverter_LineSplitMap(t *testing.T) {
 	result := conv.LineSplitMap("=")
 	actual := args.Map{"key": result["key"], "a": result["a"]}
 	expected := args.Map{"key": "value", "a": "b"}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMap", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter returns correct value -- LineSplitMap", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineSplitMapTrim(t *testing.T) {
@@ -60,7 +60,7 @@ func Test_Cov2_SliceToMapConverter_LineSplitMapTrim(t *testing.T) {
 	result := conv.LineSplitMapTrim("=")
 	actual := args.Map{"hasKey": result["key"] != ""}
 	expected := args.Map{"hasKey": true}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMapTrim", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter returns correct value -- LineSplitMapTrim", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineSplitMapOptions(t *testing.T) {
@@ -72,7 +72,7 @@ func Test_Cov2_SliceToMapConverter_LineSplitMapOptions(t *testing.T) {
 		"noTrimLen": len(noTrimResult),
 	}
 	expected := args.Map{"trimLen": 1, "noTrimLen": 1}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMapOptions", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter returns correct value -- LineSplitMapOptions", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineSplitMap_Empty(t *testing.T) {
@@ -80,7 +80,7 @@ func Test_Cov2_SliceToMapConverter_LineSplitMap_Empty(t *testing.T) {
 	result := conv.LineSplitMap("=")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineSplitMap empty", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter returns empty -- LineSplitMap empty", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineProcessorMapOptions(t *testing.T) {
@@ -95,7 +95,7 @@ func Test_Cov2_SliceToMapConverter_LineProcessorMapOptions(t *testing.T) {
 		"nilLen":    len(nilResult),
 	}
 	expected := args.Map{"trimLen": 2, "noTrimLen": 3, "nilLen": 0}
-	expected.ShouldBeEqual(t, 0, "SliceToMapConverter LineProcessorMapOptions", actual)
+	expected.ShouldBeEqual(t, 0, "SliceToMapConverter returns correct value -- LineProcessorMapOptions", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineProcessorMapStringIntegerTrim(t *testing.T) {
@@ -104,7 +104,7 @@ func Test_Cov2_SliceToMapConverter_LineProcessorMapStringIntegerTrim(t *testing.
 	result := conv.LineProcessorMapStringIntegerTrim(fn)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringIntegerTrim", actual)
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringIntegerTrim returns correct value -- with args", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineProcessorMapStringIntegerOptions(t *testing.T) {
@@ -119,7 +119,7 @@ func Test_Cov2_SliceToMapConverter_LineProcessorMapStringIntegerOptions(t *testi
 		"nilLen":    len(nilResult),
 	}
 	expected := args.Map{"trimLen": 1, "noTrimLen": 1, "nilLen": 0}
-	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringIntegerOptions", actual)
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringIntegerOptions returns correct value -- with args", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineProcessorMapStringAnyTrim(t *testing.T) {
@@ -128,7 +128,7 @@ func Test_Cov2_SliceToMapConverter_LineProcessorMapStringAnyTrim(t *testing.T) {
 	result := conv.LineProcessorMapStringAnyTrim(fn)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAnyTrim", actual)
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAnyTrim returns correct value -- with args", actual)
 }
 
 func Test_Cov2_SliceToMapConverter_LineProcessorMapStringAnyOptions(t *testing.T) {
@@ -143,7 +143,7 @@ func Test_Cov2_SliceToMapConverter_LineProcessorMapStringAnyOptions(t *testing.T
 		"nilLen":    len(nilResult),
 	}
 	expected := args.Map{"trimLen": 1, "noTrimLen": 1, "nilLen": 0}
-	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAnyOptions", actual)
+	expected.ShouldBeEqual(t, 0, "LineProcessorMapStringAnyOptions returns correct value -- with args", actual)
 }
 
 // ── ReplaceTemplateMap non-curly ──
@@ -156,5 +156,5 @@ func Test_Cov2_ReplaceTemplateMap_NonCurly(t *testing.T) {
 	)
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "Hello Alice, you are 30"}
-	expected.ShouldBeEqual(t, 0, "ReplaceTemplateMap non-curly", actual)
+	expected.ShouldBeEqual(t, 0, "ReplaceTemplateMap returns non-empty -- non-curly", actual)
 }

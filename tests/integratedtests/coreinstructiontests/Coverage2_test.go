@@ -15,7 +15,7 @@ func Test_Cov2_FlatSpec_InvalidFlatSpecification(t *testing.T) {
 	flat := coreinstruction.InvalidFlatSpecification()
 	actual := args.Map{"valid": flat.IsValid, "id": flat.Id}
 	expected := args.Map{"valid": false, "id": ""}
-	expected.ShouldBeEqual(t, 0, "InvalidFlatSpecification", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidFlatSpecification returns error -- with args", actual)
 }
 
 func Test_Cov2_FlatSpec_BaseAccessors(t *testing.T) {
@@ -35,7 +35,7 @@ func Test_Cov2_FlatSpec_BaseAccessors(t *testing.T) {
 		"baseIsGlobal": true,
 		"tagsLen":      1,
 	}
-	expected.ShouldBeEqual(t, 0, "FlatSpec_BaseAccessors", actual)
+	expected.ShouldBeEqual(t, 0, "FlatSpec_BaseAccessors returns correct value -- with args", actual)
 }
 
 func Test_Cov2_FlatSpec_SpecCaching(t *testing.T) {
@@ -44,14 +44,14 @@ func Test_Cov2_FlatSpec_SpecCaching(t *testing.T) {
 	s2 := flat.Spec()
 	actual := args.Map{"same": s1 == s2, "id": s1.Id}
 	expected := args.Map{"same": true, "id": "x"}
-	expected.ShouldBeEqual(t, 0, "FlatSpec_SpecCaching", actual)
+	expected.ShouldBeEqual(t, 0, "FlatSpec_SpecCaching returns correct value -- with args", actual)
 }
 
 func Test_Cov2_FlatSpec_NilSpec(t *testing.T) {
 	var flat *coreinstruction.FlatSpecification
 	actual := args.Map{"isNil": flat.Spec() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "FlatSpec_NilSpec", actual)
+	expected.ShouldBeEqual(t, 0, "FlatSpec_NilSpec returns nil -- with args", actual)
 }
 
 func Test_Cov2_FlatSpec_Clone(t *testing.T) {
@@ -68,7 +68,7 @@ func Test_Cov2_FlatSpec_Clone(t *testing.T) {
 		"tagsLen":  1,
 		"nilClone": true,
 	}
-	expected.ShouldBeEqual(t, 0, "FlatSpec_Clone", actual)
+	expected.ShouldBeEqual(t, 0, "FlatSpec_Clone returns correct value -- with args", actual)
 }
 
 // ── StringCompare ──
@@ -94,7 +94,7 @@ func Test_Cov2_StringCompare_Constructors(t *testing.T) {
 		"endsMatch":     true,
 		"regexMatch":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringCompare_Constructors", actual)
+	expected.ShouldBeEqual(t, 0, "StringCompare_Constructors returns correct value -- with args", actual)
 }
 
 func Test_Cov2_StringCompare_NilMethods(t *testing.T) {
@@ -113,21 +113,21 @@ func Test_Cov2_StringCompare_NilMethods(t *testing.T) {
 		"matchFail":  false,
 		"verifyErr":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringCompare_Nil", actual)
+	expected.ShouldBeEqual(t, 0, "StringCompare_Nil returns nil -- with args", actual)
 }
 
 func Test_Cov2_StringCompare_VerifyError_Regex(t *testing.T) {
 	sc := coreinstruction.NewStringCompareRegex(`\w+`, "abc")
 	actual := args.Map{"noErr": sc.VerifyError() == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyError_Regex", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyError_Regex returns error -- with args", actual)
 }
 
 func Test_Cov2_StringCompare_VerifyError_NonRegex(t *testing.T) {
 	sc := coreinstruction.NewStringCompare(stringcompareas.Equal, false, "abc", "abc")
 	actual := args.Map{"noErr": sc.VerifyError() == nil}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "VerifyError_NonRegex", actual)
+	expected.ShouldBeEqual(t, 0, "VerifyError_NonRegex returns error -- with args", actual)
 }
 
 // ── StringSearch ──
@@ -148,7 +148,7 @@ func Test_Cov2_StringSearch_Methods(t *testing.T) {
 		"nilMatch":   true,
 		"nilVerify":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "StringSearch_Nil", actual)
+	expected.ShouldBeEqual(t, 0, "StringSearch_Nil returns nil -- with args", actual)
 }
 
 func Test_Cov2_StringSearch_IsAllMatch(t *testing.T) {
@@ -161,7 +161,7 @@ func Test_Cov2_StringSearch_IsAllMatch(t *testing.T) {
 		"emptyMatch":   true,
 		"anyMatchFail": false,
 	}
-	expected.ShouldBeEqual(t, 0, "StringSearch_AllMatch", actual)
+	expected.ShouldBeEqual(t, 0, "StringSearch_AllMatch returns correct value -- with args", actual)
 }
 
 // ── NameList / NameListCollection ──
@@ -171,14 +171,14 @@ func Test_Cov2_NameList_DeepClone(t *testing.T) {
 	cloned := nl.DeepClone()
 	actual := args.Map{"name": cloned.Name, "notNil": cloned.List != nil}
 	expected := args.Map{"name": "test", "notNil": true}
-	expected.ShouldBeEqual(t, 0, "NameList_DeepClone", actual)
+	expected.ShouldBeEqual(t, 0, "NameList_DeepClone returns correct value -- with args", actual)
 }
 
 func Test_Cov2_NameList_String(t *testing.T) {
 	nl := coreinstruction.NameList{Name: "test"}
 	actual := args.Map{"notEmpty": nl.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NameList_String", actual)
+	expected.ShouldBeEqual(t, 0, "NameList_String returns correct value -- with args", actual)
 }
 
 func Test_Cov2_NameListCollection(t *testing.T) {
@@ -203,7 +203,7 @@ func Test_Cov2_NameListCollection(t *testing.T) {
 		"hasAny":     true,
 		"notEmpty":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "NameListCollection", actual)
+	expected.ShouldBeEqual(t, 0, "NameListCollection returns correct value -- with args", actual)
 }
 
 // ── Identifiers ──
@@ -227,7 +227,7 @@ func Test_Cov2_Identifiers_AddsAndLookup(t *testing.T) {
 		"getById":  true,
 		"getNil":   true,
 	}
-	expected.ShouldBeEqual(t, 0, "Identifiers", actual)
+	expected.ShouldBeEqual(t, 0, "Identifiers returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Identifiers_EmptyOps(t *testing.T) {
@@ -243,7 +243,7 @@ func Test_Cov2_Identifiers_EmptyOps(t *testing.T) {
 		"indexOf":  -1,
 		"getEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Identifiers_Empty", actual)
+	expected.ShouldBeEqual(t, 0, "Identifiers_Empty returns empty -- with args", actual)
 }
 
 func Test_Cov2_Identifiers_Clone(t *testing.T) {
@@ -251,14 +251,14 @@ func Test_Cov2_Identifiers_Clone(t *testing.T) {
 	cloned := ids.Clone()
 	actual := args.Map{"len": cloned.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Identifiers_Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Identifiers_Clone returns correct value -- with args", actual)
 }
 
 func Test_Cov2_Identifiers_NewUsingCap(t *testing.T) {
 	ids := coreinstruction.NewIdentifiersUsingCap(5)
 	actual := args.Map{"len": ids.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "NewIdentifiersUsingCap", actual)
+	expected.ShouldBeEqual(t, 0, "NewIdentifiersUsingCap returns correct value -- with args", actual)
 }
 
 // ── LineIdentifier ──
@@ -287,7 +287,7 @@ func Test_Cov2_LineIdentifier_Methods(t *testing.T) {
 		"nilClone":     true,
 		"nilInvalidLn": true,
 	}
-	expected.ShouldBeEqual(t, 0, "LineIdentifier_Nil", actual)
+	expected.ShouldBeEqual(t, 0, "LineIdentifier_Nil returns nil -- with args", actual)
 }
 
 // ── BaseTypeDotFilter ──
@@ -299,7 +299,7 @@ func Test_Cov2_BaseTypeDotFilter(t *testing.T) {
 	splits2 := f.GetDotSplitTypes() // cached
 	actual := args.Map{"same": len(splits) == len(splits2)}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "BaseTypeDotFilter", actual)
+	expected.ShouldBeEqual(t, 0, "BaseTypeDotFilter returns correct value -- with args", actual)
 }
 
 // ── RequestSpecification ──
@@ -311,5 +311,5 @@ func Test_Cov2_RequestSpecification_Clone(t *testing.T) {
 	cloned := rs.Clone()
 	actual := args.Map{"id": cloned.Id, "tagsLen": len(cloned.Tags)}
 	expected := args.Map{"id": "x", "tagsLen": 1}
-	expected.ShouldBeEqual(t, 0, "RequestSpecification_Clone", actual)
+	expected.ShouldBeEqual(t, 0, "RequestSpecification_Clone returns correct value -- with args", actual)
 }

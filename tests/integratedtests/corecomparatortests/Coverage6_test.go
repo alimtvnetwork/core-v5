@@ -15,7 +15,7 @@ func Test_Cov6_Compare_Is(t *testing.T) {
 		"diff": corecomparator.Equal.Is(corecomparator.LeftGreater),
 	}
 	expected := args.Map{"same": true, "diff": false}
-	expected.ShouldBeEqual(t, 0, "Compare.Is", actual)
+	expected.ShouldBeEqual(t, 0, "Compare.Is returns correct value -- with args", actual)
 }
 
 func Test_Cov6_Compare_LessEqual(t *testing.T) {
@@ -25,7 +25,7 @@ func Test_Cov6_Compare_LessEqual(t *testing.T) {
 		"greater":  corecomparator.LeftGreater.IsLessEqual(),
 	}
 	expected := args.Map{"less": true, "equal": true, "greater": false}
-	expected.ShouldBeEqual(t, 0, "Compare LessEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- LessEqual", actual)
 }
 
 func Test_Cov6_Compare_GreaterEqual(t *testing.T) {
@@ -35,7 +35,7 @@ func Test_Cov6_Compare_GreaterEqual(t *testing.T) {
 		"less":    corecomparator.LeftLess.IsGreaterEqual(),
 	}
 	expected := args.Map{"greater": true, "equal": true, "less": false}
-	expected.ShouldBeEqual(t, 0, "Compare GreaterEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- GreaterEqual", actual)
 }
 
 func Test_Cov6_Compare_IsNameEqual(t *testing.T) {
@@ -44,13 +44,13 @@ func Test_Cov6_Compare_IsNameEqual(t *testing.T) {
 		"noMatch": corecomparator.Equal.IsNameEqual("NotEqual"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsNameEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsNameEqual", actual)
 }
 
 func Test_Cov6_Compare_ToNumberString(t *testing.T) {
 	actual := args.Map{"result": corecomparator.Equal.ToNumberString()}
 	expected := args.Map{"result": "0"}
-	expected.ShouldBeEqual(t, 0, "Compare ToNumberString", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- ToNumberString", actual)
 }
 
 func Test_Cov6_Compare_IsLeftLessOrLessEqualOrEqual(t *testing.T) {
@@ -61,7 +61,7 @@ func Test_Cov6_Compare_IsLeftLessOrLessEqualOrEqual(t *testing.T) {
 		"greater": corecomparator.LeftGreater.IsLeftLessOrLessEqualOrEqual(),
 	}
 	expected := args.Map{"less": true, "le": true, "eq": true, "greater": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsLeftLessOrLessEqualOrEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsLeftLessOrLessEqualOrEqual", actual)
 }
 
 func Test_Cov6_Compare_IsLeftGreaterOrGreaterEqualOrEqual(t *testing.T) {
@@ -72,7 +72,7 @@ func Test_Cov6_Compare_IsLeftGreaterOrGreaterEqualOrEqual(t *testing.T) {
 		"less":    corecomparator.LeftLess.IsLeftGreaterOrGreaterEqualOrEqual(),
 	}
 	expected := args.Map{"greater": true, "ge": true, "eq": true, "less": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsLeftGreaterOrGreaterEqualOrEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsLeftGreaterOrGreaterEqualOrEqual", actual)
 }
 
 func Test_Cov6_Compare_IsNotEqualLogically(t *testing.T) {
@@ -81,7 +81,7 @@ func Test_Cov6_Compare_IsNotEqualLogically(t *testing.T) {
 		"eq":    corecomparator.Equal.IsNotEqualLogically(),
 	}
 	expected := args.Map{"notEq": true, "eq": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsNotEqualLogically", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsNotEqualLogically", actual)
 }
 
 func Test_Cov6_Compare_IsDefinedPlus(t *testing.T) {
@@ -91,7 +91,7 @@ func Test_Cov6_Compare_IsDefinedPlus(t *testing.T) {
 		"noMatch":   corecomparator.Equal.IsDefinedPlus(corecomparator.LeftGreater),
 	}
 	expected := args.Map{"match": true, "incon": false, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsDefinedPlus", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsDefinedPlus", actual)
 }
 
 func Test_Cov6_Compare_IsInconclusiveOrNotEqual(t *testing.T) {
@@ -101,7 +101,7 @@ func Test_Cov6_Compare_IsInconclusiveOrNotEqual(t *testing.T) {
 		"eq":     corecomparator.Equal.IsInconclusiveOrNotEqual(),
 	}
 	expected := args.Map{"incon": true, "notEq": true, "eq": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsInconclusiveOrNotEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsInconclusiveOrNotEqual", actual)
 }
 
 func Test_Cov6_Compare_IsAnyOf(t *testing.T) {
@@ -111,7 +111,7 @@ func Test_Cov6_Compare_IsAnyOf(t *testing.T) {
 		"noMatch": corecomparator.Equal.IsAnyOf(corecomparator.LeftGreater),
 	}
 	expected := args.Map{"match": true, "empty": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsAnyOf", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsAnyOf", actual)
 }
 
 func Test_Cov6_Compare_NameValue(t *testing.T) {
@@ -125,28 +125,28 @@ func Test_Cov6_Compare_CsvString(t *testing.T) {
 	result := corecomparator.Equal.CsvString(corecomparator.Equal, corecomparator.LeftGreater)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Compare CsvString", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- CsvString", actual)
 }
 
 func Test_Cov6_Compare_CsvStrings(t *testing.T) {
 	result := corecomparator.Equal.CsvStrings(corecomparator.Equal)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Compare CsvStrings", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- CsvStrings", actual)
 }
 
 func Test_Cov6_Compare_CsvStrings_Empty(t *testing.T) {
 	result := corecomparator.Equal.CsvStrings()
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "Compare CsvStrings empty", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns empty -- CsvStrings empty", actual)
 }
 
 func Test_Cov6_Compare_CsvString_Empty(t *testing.T) {
 	result := corecomparator.Equal.CsvString()
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "Compare CsvString empty", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns empty -- CsvString empty", actual)
 }
 
 func Test_Cov6_Compare_OperatorSymbol(t *testing.T) {
@@ -155,7 +155,7 @@ func Test_Cov6_Compare_OperatorSymbol(t *testing.T) {
 		"gt": corecomparator.LeftGreater.OperatorSymbol(),
 	}
 	expected := args.Map{"eq": "=", "gt": ">"}
-	expected.ShouldBeEqual(t, 0, "Compare OperatorSymbol", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- OperatorSymbol", actual)
 }
 
 func Test_Cov6_Compare_OperatorShortForm(t *testing.T) {
@@ -164,7 +164,7 @@ func Test_Cov6_Compare_OperatorShortForm(t *testing.T) {
 		"gt": corecomparator.LeftGreater.OperatorShortForm(),
 	}
 	expected := args.Map{"eq": "eq", "gt": "gt"}
-	expected.ShouldBeEqual(t, 0, "Compare OperatorShortForm", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- OperatorShortForm", actual)
 }
 
 func Test_Cov6_Compare_SqlOperatorSymbol(t *testing.T) {
@@ -173,13 +173,13 @@ func Test_Cov6_Compare_SqlOperatorSymbol(t *testing.T) {
 		"notEq": corecomparator.NotEqual.SqlOperatorSymbol(),
 	}
 	expected := args.Map{"eq": "=", "notEq": "<>"}
-	expected.ShouldBeEqual(t, 0, "Compare SqlOperatorSymbol", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- SqlOperatorSymbol", actual)
 }
 
 func Test_Cov6_Compare_NumberJsonString(t *testing.T) {
 	actual := args.Map{"result": corecomparator.Equal.NumberJsonString()}
 	expected := args.Map{"result": "\"0\""}
-	expected.ShouldBeEqual(t, 0, "Compare NumberJsonString", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- NumberJsonString", actual)
 }
 
 func Test_Cov6_Compare_IsAnyNamesOf(t *testing.T) {
@@ -188,7 +188,7 @@ func Test_Cov6_Compare_IsAnyNamesOf(t *testing.T) {
 		"noMatch": corecomparator.Equal.IsAnyNamesOf("LeftGreater"),
 	}
 	expected := args.Map{"match": true, "noMatch": false}
-	expected.ShouldBeEqual(t, 0, "Compare IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsAnyNamesOf", actual)
 }
 
 func Test_Cov6_Compare_ValueAccessors(t *testing.T) {
@@ -204,13 +204,13 @@ func Test_Cov6_Compare_ValueAccessors(t *testing.T) {
 		"valueByte": byte(0), "valueInt": 0, "valueInt8": int8(0),
 		"valueInt16": int16(0), "valueInt32": int32(0), "valueStr": "0",
 	}
-	expected.ShouldBeEqual(t, 0, "Compare value accessors", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- value accessors", actual)
 }
 
 func Test_Cov6_Compare_Value(t *testing.T) {
 	actual := args.Map{"result": corecomparator.LeftGreater.Value()}
 	expected := args.Map{"result": byte(1)}
-	expected.ShouldBeEqual(t, 0, "Compare Value", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- Value", actual)
 }
 
 func Test_Cov6_Compare_IsCompareEqualLogically(t *testing.T) {
@@ -221,7 +221,7 @@ func Test_Cov6_Compare_IsCompareEqualLogically(t *testing.T) {
 		"leLogic": corecomparator.Equal.IsCompareEqualLogically(corecomparator.LeftLessEqual),
 	}
 	expected := args.Map{"same": true, "neLogic": true, "geLogic": true, "leLogic": true}
-	expected.ShouldBeEqual(t, 0, "Compare IsCompareEqualLogically", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- IsCompareEqualLogically", actual)
 }
 
 func Test_Cov6_Compare_OnlySupportedErr(t *testing.T) {
@@ -249,7 +249,7 @@ func Test_Cov6_Compare_MarshalUnmarshalJSON(t *testing.T) {
 	data, _ := corecomparator.Equal.MarshalJSON()
 	actual := args.Map{"notEmpty": len(data) > 0}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Compare MarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns correct value -- MarshalJSON", actual)
 }
 
 func Test_Cov6_Compare_UnmarshalJSON_Valid(t *testing.T) {
@@ -257,7 +257,7 @@ func Test_Cov6_Compare_UnmarshalJSON_Valid(t *testing.T) {
 	err := c.UnmarshalJSON([]byte("Equal"))
 	actual := args.Map{"isNil": err == nil, "value": c.Name()}
 	expected := args.Map{"isNil": true, "value": "Equal"}
-	expected.ShouldBeEqual(t, 0, "Compare UnmarshalJSON valid", actual)
+	expected.ShouldBeEqual(t, 0, "Compare returns non-empty -- UnmarshalJSON valid", actual)
 }
 
 func Test_Cov6_Compare_UnmarshalJSON_Nil(t *testing.T) {
@@ -296,7 +296,7 @@ func Test_Cov6_MinLength(t *testing.T) {
 		"rightSmaller": corecomparator.MinLength(5, 3),
 	}
 	expected := args.Map{"leftSmaller": 2, "rightSmaller": 3}
-	expected.ShouldBeEqual(t, 0, "MinLength", actual)
+	expected.ShouldBeEqual(t, 0, "MinLength returns correct value -- with args", actual)
 }
 
 func Test_Cov6_RangeNamesCsv(t *testing.T) {
@@ -322,7 +322,7 @@ func Test_Cov6_BaseIsCaseSensitive(t *testing.T) {
 		"toIgnore":     b.BaseIsIgnoreCase().IsIgnoreCase,
 	}
 	expected := args.Map{"isIgnoreCase": false, "toIgnore": false}
-	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BaseIsCaseSensitive_Clone(t *testing.T) {
@@ -330,7 +330,7 @@ func Test_Cov6_BaseIsCaseSensitive_Clone(t *testing.T) {
 	cloned := b.Clone()
 	actual := args.Map{"isCaseSensitive": cloned.IsCaseSensitive}
 	expected := args.Map{"isCaseSensitive": true}
-	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive Clone", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive returns correct value -- Clone", actual)
 }
 
 func Test_Cov6_BaseIsCaseSensitive_ClonePtr(t *testing.T) {
@@ -338,7 +338,7 @@ func Test_Cov6_BaseIsCaseSensitive_ClonePtr(t *testing.T) {
 	cloned := b.ClonePtr()
 	actual := args.Map{"notNil": cloned != nil, "val": cloned.IsCaseSensitive}
 	expected := args.Map{"notNil": true, "val": true}
-	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive ClonePtr", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive returns correct value -- ClonePtr", actual)
 }
 
 func Test_Cov6_BaseIsCaseSensitive_ClonePtr_Nil(t *testing.T) {
@@ -346,7 +346,7 @@ func Test_Cov6_BaseIsCaseSensitive_ClonePtr_Nil(t *testing.T) {
 	cloned := b.ClonePtr()
 	actual := args.Map{"isNil": cloned == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsCaseSensitive returns nil -- ClonePtr nil", actual)
 }
 
 func Test_Cov6_BaseIsIgnoreCase(t *testing.T) {
@@ -356,7 +356,7 @@ func Test_Cov6_BaseIsIgnoreCase(t *testing.T) {
 		"toSensitive":     b.BaseIsCaseSensitive().IsCaseSensitive,
 	}
 	expected := args.Map{"isCaseSensitive": false, "toSensitive": false}
-	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase returns correct value -- with args", actual)
 }
 
 func Test_Cov6_BaseIsIgnoreCase_Clone(t *testing.T) {
@@ -364,7 +364,7 @@ func Test_Cov6_BaseIsIgnoreCase_Clone(t *testing.T) {
 	cloned := b.Clone()
 	actual := args.Map{"isIgnoreCase": cloned.IsIgnoreCase}
 	expected := args.Map{"isIgnoreCase": true}
-	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase Clone", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase returns correct value -- Clone", actual)
 }
 
 func Test_Cov6_BaseIsIgnoreCase_ClonePtr(t *testing.T) {
@@ -372,7 +372,7 @@ func Test_Cov6_BaseIsIgnoreCase_ClonePtr(t *testing.T) {
 	cloned := b.ClonePtr()
 	actual := args.Map{"notNil": cloned != nil, "val": cloned.IsIgnoreCase}
 	expected := args.Map{"notNil": true, "val": true}
-	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase ClonePtr", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase returns correct value -- ClonePtr", actual)
 }
 
 func Test_Cov6_BaseIsIgnoreCase_ClonePtr_Nil(t *testing.T) {
@@ -380,5 +380,5 @@ func Test_Cov6_BaseIsIgnoreCase_ClonePtr_Nil(t *testing.T) {
 	cloned := b.ClonePtr()
 	actual := args.Map{"isNil": cloned == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "BaseIsIgnoreCase returns nil -- ClonePtr nil", actual)
 }

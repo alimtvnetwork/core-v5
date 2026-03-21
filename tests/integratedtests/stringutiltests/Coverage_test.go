@@ -19,7 +19,7 @@ func Test_AnyToString(t *testing.T) {
 		"nil":    "",
 		"int":    "42",
 	}
-	expected.ShouldBeEqual(t, 0, "AnyToString", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToString returns correct value -- with args", actual)
 }
 
 func Test_IsEmpty(t *testing.T) {
@@ -32,7 +32,7 @@ func Test_IsEmpty(t *testing.T) {
 		"empty":    true,
 		"nonEmpty": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsEmpty returns empty -- with args", actual)
 }
 
 func Test_IsNotEmpty(t *testing.T) {
@@ -45,7 +45,7 @@ func Test_IsNotEmpty(t *testing.T) {
 		"empty":    false,
 		"nonEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsNotEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsNotEmpty returns empty -- with args", actual)
 }
 
 func Test_IsBlank(t *testing.T) {
@@ -60,7 +60,7 @@ func Test_IsBlank(t *testing.T) {
 		"space":    true,
 		"text":     false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsBlank", actual)
+	expected.ShouldBeEqual(t, 0, "IsBlank returns correct value -- with args", actual)
 }
 
 func Test_IsEmptyOrWhitespace(t *testing.T) {
@@ -77,7 +77,7 @@ func Test_IsEmptyOrWhitespace(t *testing.T) {
 		"tab":      true,
 		"text":     false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsEmptyOrWhitespace", actual)
+	expected.ShouldBeEqual(t, 0, "IsEmptyOrWhitespace returns empty -- with args", actual)
 }
 
 func Test_IsDefined(t *testing.T) {
@@ -90,7 +90,7 @@ func Test_IsDefined(t *testing.T) {
 		"empty":    false,
 		"nonEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "IsDefined", actual)
+	expected.ShouldBeEqual(t, 0, "IsDefined returns correct value -- with args", actual)
 }
 
 func Test_IsContains(t *testing.T) {
@@ -103,7 +103,7 @@ func Test_IsContains(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsContains", actual)
+	expected.ShouldBeEqual(t, 0, "IsContains returns correct value -- with args", actual)
 }
 
 func Test_IsStarts(t *testing.T) {
@@ -116,7 +116,7 @@ func Test_IsStarts(t *testing.T) {
 		"starts": true,
 		"not":    false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsStarts", actual)
+	expected.ShouldBeEqual(t, 0, "IsStarts returns correct value -- with args", actual)
 }
 
 func Test_IsEnds(t *testing.T) {
@@ -129,7 +129,7 @@ func Test_IsEnds(t *testing.T) {
 		"ends": true,
 		"not":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsEnds", actual)
+	expected.ShouldBeEqual(t, 0, "IsEnds returns correct value -- with args", actual)
 }
 
 func Test_FirstChar(t *testing.T) {
@@ -142,7 +142,7 @@ func Test_FirstChar(t *testing.T) {
 		"first": byte('h'),
 		"empty": byte(0),
 	}
-	expected.ShouldBeEqual(t, 0, "FirstChar", actual)
+	expected.ShouldBeEqual(t, 0, "FirstChar returns correct value -- with args", actual)
 }
 
 func Test_ToInt(t *testing.T) {
@@ -158,7 +158,7 @@ func Test_ToInt(t *testing.T) {
 		"val":    42,
 		"valBad": -1,
 	}
-	expected.ShouldBeEqual(t, 0, "ToInt", actual)
+	expected.ShouldBeEqual(t, 0, "ToInt returns correct value -- with args", actual)
 }
 
 func Test_ToIntDefault(t *testing.T) {
@@ -171,7 +171,7 @@ func Test_ToIntDefault(t *testing.T) {
 		"valid":   42,
 		"invalid": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "ToIntDefault", actual)
+	expected.ShouldBeEqual(t, 0, "ToIntDefault returns correct value -- with args", actual)
 }
 
 func Test_ToBool(t *testing.T) {
@@ -186,7 +186,7 @@ func Test_ToBool(t *testing.T) {
 		"false":   false,
 		"invalid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "ToBool", actual)
+	expected.ShouldBeEqual(t, 0, "ToBool returns correct value -- with args", actual)
 }
 
 func Test_SplitLeftRight(t *testing.T) {
@@ -206,7 +206,7 @@ func Test_SplitLeftRight(t *testing.T) {
 		"left2":  "noequals",
 		"right2": "",
 	}
-	expected.ShouldBeEqual(t, 0, "SplitLeftRight", actual)
+	expected.ShouldBeEqual(t, 0, "SplitLeftRight returns correct value -- with args", actual)
 }
 
 func Test_MaskLine(t *testing.T) {
@@ -219,7 +219,7 @@ func Test_MaskLine(t *testing.T) {
 	expected := args.Map{
 		"result": "abcXXXXXXX",
 	}
-	expected.ShouldBeEqual(t, 0, "MaskLine", actual)
+	expected.ShouldBeEqual(t, 0, "MaskLine returns correct value -- with args", actual)
 }
 
 func Test_SafeSubstring(t *testing.T) {
@@ -234,7 +234,7 @@ func Test_SafeSubstring(t *testing.T) {
 		"over":   "",
 		"empty":  "",
 	}
-	expected.ShouldBeEqual(t, 0, "SafeSubstring", actual)
+	expected.ShouldBeEqual(t, 0, "SafeSubstring returns correct value -- with args", actual)
 }
 
 func Test_IsNullOrEmptyPtr(t *testing.T) {
@@ -253,7 +253,7 @@ func Test_IsNullOrEmptyPtr(t *testing.T) {
 		"empty":    true,
 		"nonEmpty": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsNullOrEmptyPtr", actual)
+	expected.ShouldBeEqual(t, 0, "IsNullOrEmptyPtr returns empty -- with args", actual)
 }
 
 func Test_IsAnyStartsWith(t *testing.T) {
@@ -266,7 +266,7 @@ func Test_IsAnyStartsWith(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyStartsWith", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyStartsWith returns non-empty -- with args", actual)
 }
 
 func Test_IsAnyEndsWith(t *testing.T) {
@@ -279,7 +279,7 @@ func Test_IsAnyEndsWith(t *testing.T) {
 		"found":    true,
 		"notFound": false,
 	}
-	expected.ShouldBeEqual(t, 0, "IsAnyEndsWith", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyEndsWith returns non-empty -- with args", actual)
 }
 
 func Test_RemoveMany(t *testing.T) {
@@ -292,5 +292,5 @@ func Test_RemoveMany(t *testing.T) {
 	expected := args.Map{
 		"result": "hello  ",
 	}
-	expected.ShouldBeEqual(t, 0, "RemoveMany", actual)
+	expected.ShouldBeEqual(t, 0, "RemoveMany returns correct value -- with args", actual)
 }

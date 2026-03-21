@@ -20,7 +20,7 @@ func Test_Cov4_Utils_MaxLimit(t *testing.T) {
 	expected := args.Map{
 		"noLimit": 10, "belowMax": 5, "aboveMax": 10, "equalMax": 10,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils MaxLimit", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- MaxLimit", actual)
 }
 
 // ── reflectUtils.AppendArgs ──
@@ -29,14 +29,14 @@ func Test_Cov4_Utils_AppendArgs_Empty(t *testing.T) {
 	result := reflectinternal.Utils.AppendArgs("first", []any{})
 	actual := args.Map{"len": len(result), "first": result[0]}
 	expected := args.Map{"len": 1, "first": "first"}
-	expected.ShouldBeEqual(t, 0, "Utils AppendArgs empty", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns empty -- AppendArgs empty", actual)
 }
 
 func Test_Cov4_Utils_AppendArgs_WithItems(t *testing.T) {
 	result := reflectinternal.Utils.AppendArgs("first", []any{"second"})
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "Utils AppendArgs with items", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns non-empty -- AppendArgs with items", actual)
 }
 
 // ── reflectUtils.IsReflectTypeMatch ──
@@ -54,7 +54,7 @@ func Test_Cov4_Utils_IsReflectTypeMatch(t *testing.T) {
 		"sameOk": true, "sameErr": true,
 		"diffOk": false, "diffErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils IsReflectTypeMatch", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- IsReflectTypeMatch", actual)
 }
 
 func Test_Cov4_Utils_IsReflectTypeMatch_InterfaceType(t *testing.T) {
@@ -64,7 +64,7 @@ func Test_Cov4_Utils_IsReflectTypeMatch_InterfaceType(t *testing.T) {
 	ok, err := reflectinternal.Utils.IsReflectTypeMatch(ifaceType, strType)
 	actual := args.Map{"ok": ok, "noErr": err == nil}
 	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Utils IsReflectTypeMatch interface", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- IsReflectTypeMatch interface", actual)
 }
 
 // ── reflectUtils.IsReflectTypeMatchAny ──
@@ -80,7 +80,7 @@ func Test_Cov4_Utils_IsReflectTypeMatchAny(t *testing.T) {
 		"sameOk": true, "sameErr": true,
 		"diffOk": false, "diffErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Utils IsReflectTypeMatchAny", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- IsReflectTypeMatchAny", actual)
 }
 
 // ── reflectUtils.VerifyReflectTypesAny ──
@@ -92,7 +92,7 @@ func Test_Cov4_Utils_VerifyReflectTypesAny_LenMismatch(t *testing.T) {
 	)
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Utils VerifyReflectTypesAny len mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- VerifyReflectTypesAny len mismatch", actual)
 }
 
 func Test_Cov4_Utils_VerifyReflectTypesAny_Match(t *testing.T) {
@@ -102,7 +102,7 @@ func Test_Cov4_Utils_VerifyReflectTypesAny_Match(t *testing.T) {
 	)
 	actual := args.Map{"ok": ok, "noErr": err == nil}
 	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Utils VerifyReflectTypesAny match", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- VerifyReflectTypesAny match", actual)
 }
 
 func Test_Cov4_Utils_VerifyReflectTypesAny_Mismatch(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_Cov4_Utils_VerifyReflectTypesAny_Mismatch(t *testing.T) {
 	)
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Utils VerifyReflectTypesAny mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- VerifyReflectTypesAny mismatch", actual)
 }
 
 // ── reflectUtils.VerifyReflectTypes ──
@@ -125,7 +125,7 @@ func Test_Cov4_Utils_VerifyReflectTypes_LenMismatch(t *testing.T) {
 	)
 	actual := args.Map{"ok": ok, "hasErr": err != nil}
 	expected := args.Map{"ok": false, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Utils VerifyReflectTypes len mismatch", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- VerifyReflectTypes len mismatch", actual)
 }
 
 func Test_Cov4_Utils_VerifyReflectTypes_Match(t *testing.T) {
@@ -136,7 +136,7 @@ func Test_Cov4_Utils_VerifyReflectTypes_Match(t *testing.T) {
 	)
 	actual := args.Map{"ok": ok, "noErr": err == nil}
 	expected := args.Map{"ok": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Utils VerifyReflectTypes match", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- VerifyReflectTypes match", actual)
 }
 
 // ── reflectUtils.PkgNameOnly / FullNameToPkgName ──
@@ -145,5 +145,5 @@ func Test_Cov4_Utils_PkgNameOnly(t *testing.T) {
 	result := reflectinternal.Utils.PkgNameOnly(Test_Cov4_Utils_PkgNameOnly)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Utils PkgNameOnly", actual)
+	expected.ShouldBeEqual(t, 0, "Utils returns correct value -- PkgNameOnly", actual)
 }

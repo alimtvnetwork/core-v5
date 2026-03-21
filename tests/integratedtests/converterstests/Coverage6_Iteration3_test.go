@@ -25,5 +25,5 @@ func Test_Cov6_ToStringsUsingProcessor_EmptyAnyItems(t *testing.T) {
 	// Assert
 	actual := args.Map{"length": len(result)}
 	expected := args.Map{"length": 0}
-	expected.ShouldBeEqual(t, 0, "ToStringsUsingProcessor empty anyItems", actual)
+	expected.ShouldBeEqual(t, 0, "ToStringsUsingProcessor returns empty -- empty anyItems", actual)
 }

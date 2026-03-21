@@ -25,7 +25,7 @@ func Test_Cov2_Index_ValueAccessors(t *testing.T) {
 		"valueUInt16": uint16(1), "valueByte": byte(1), "valueInt": 1,
 		"valueStr": v.ToNumberString(),
 	}
-	expected.ShouldBeEqual(t, 0, "Index ValueAccessors", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- ValueAccessors", actual)
 }
 
 func Test_Cov2_Index_MinMaxAny(t *testing.T) {
@@ -33,7 +33,7 @@ func Test_Cov2_Index_MinMaxAny(t *testing.T) {
 	min, max := v.MinMaxAny()
 	actual := args.Map{"minNotNil": min != nil, "maxNotNil": max != nil}
 	expected := args.Map{"minNotNil": true, "maxNotNil": true}
-	expected.ShouldBeEqual(t, 0, "Index MinMaxAny", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- MinMaxAny", actual)
 }
 
 func Test_Cov2_Index_MinMaxValueString(t *testing.T) {
@@ -45,7 +45,7 @@ func Test_Cov2_Index_MinMaxValueString(t *testing.T) {
 		"maxInt": v.MaxInt() > 0,
 	}
 	expected := args.Map{"minStr": true, "maxStr": true, "minInt": true, "maxInt": true}
-	expected.ShouldBeEqual(t, 0, "Index MinMaxValueString", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns non-empty -- MinMaxValueString", actual)
 }
 
 func Test_Cov2_Index_RangesDynamic(t *testing.T) {
@@ -61,7 +61,7 @@ func Test_Cov2_Index_RangesDynamic(t *testing.T) {
 		"rangesMap": true, "intRanges": true, "rangesByte": true,
 		"maxByte": true, "minByte": byte(0),
 	}
-	expected.ShouldBeEqual(t, 0, "Index RangesDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- RangesDynamic", actual)
 }
 
 func Test_Cov2_Index_OnlySupportedErr(t *testing.T) {
@@ -70,14 +70,14 @@ func Test_Cov2_Index_OnlySupportedErr(t *testing.T) {
 	noErrResult := noErr == nil
 	actual := args.Map{"noErr": noErrResult, "hasErr": hasErr != nil}
 	expected := args.Map{"noErr": noErrResult, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Index OnlySupportedErr", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns error -- OnlySupportedErr", actual)
 }
 
 func Test_Cov2_Index_Format(t *testing.T) {
 	result := versionindexes.Major.Format("%s")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Index Format", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- Format", actual)
 }
 
 func Test_Cov2_Index_IsEnumEqual(t *testing.T) {
@@ -90,7 +90,7 @@ func Test_Cov2_Index_IsEnumEqual(t *testing.T) {
 		"notEqual": versionindexes.Major.IsEnumEqual(minp),
 	}
 	expected := args.Map{"equal": true, "notEqual": false}
-	expected.ShouldBeEqual(t, 0, "Index IsEnumEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- IsEnumEqual", actual)
 }
 
 func Test_Cov2_Index_IsAnyEnumsEqual(t *testing.T) {
@@ -108,7 +108,7 @@ func Test_Cov2_Index_IsAnyEnumsEqual(t *testing.T) {
 		"notFound": v.IsAnyEnumsEqual(pp, bp),
 	}
 	expected := args.Map{"found": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "Index IsAnyEnumsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- IsAnyEnumsEqual", actual)
 }
 
 func Test_Cov2_Index_IsByteValueEqual(t *testing.T) {
@@ -117,7 +117,7 @@ func Test_Cov2_Index_IsByteValueEqual(t *testing.T) {
 		"notEqual": versionindexes.Major.IsByteValueEqual(1),
 	}
 	expected := args.Map{"equal": true, "notEqual": false}
-	expected.ShouldBeEqual(t, 0, "Index IsByteValueEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- IsByteValueEqual", actual)
 }
 
 func Test_Cov2_Index_IsAnyValuesEqual(t *testing.T) {
@@ -126,7 +126,7 @@ func Test_Cov2_Index_IsAnyValuesEqual(t *testing.T) {
 		"notFound": versionindexes.Minor.IsAnyValuesEqual(2, 3),
 	}
 	expected := args.Map{"found": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "Index IsAnyValuesEqual", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns non-empty -- IsAnyValuesEqual", actual)
 }
 
 func Test_Cov2_Index_IsAnyNamesOf(t *testing.T) {
@@ -135,13 +135,13 @@ func Test_Cov2_Index_IsAnyNamesOf(t *testing.T) {
 		"notFound": versionindexes.Minor.IsAnyNamesOf("Patch", "Build"),
 	}
 	expected := args.Map{"found": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "Index IsAnyNamesOf", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- IsAnyNamesOf", actual)
 }
 
 func Test_Cov2_Index_EnumType(t *testing.T) {
 	actual := args.Map{"notNil": versionindexes.Major.EnumType() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Index EnumType", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- EnumType", actual)
 }
 
 func Test_Cov2_Index_Contracts(t *testing.T) {
@@ -152,7 +152,7 @@ func Test_Cov2_Index_Contracts(t *testing.T) {
 		"basicByteBinder": v.AsBasicByteEnumContractsBinder() != nil,
 	}
 	expected := args.Map{"basicBinder": true, "jsonBinder": true, "basicByteBinder": true}
-	expected.ShouldBeEqual(t, 0, "Index Contracts", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- Contracts", actual)
 }
 
 func Test_Cov2_Index_ToPtr(t *testing.T) {
@@ -160,7 +160,7 @@ func Test_Cov2_Index_ToPtr(t *testing.T) {
 	p := v.ToPtr()
 	actual := args.Map{"notNil": p != nil, "isMajor": p.IsMajor()}
 	expected := args.Map{"notNil": true, "isMajor": true}
-	expected.ShouldBeEqual(t, 0, "Index ToPtr", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- ToPtr", actual)
 }
 
 func Test_Cov2_Index_JsonParseSelfInject(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_Cov2_Index_JsonParseSelfInject(t *testing.T) {
 		"nilErr": errNil != nil,
 	}
 	expected := args.Map{"noErr": true, "isMinor": true, "nilErr": true}
-	expected.ShouldBeEqual(t, 0, "Index JsonParseSelfInject", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- JsonParseSelfInject", actual)
 }
 
 func Test_Cov2_Index_Json(t *testing.T) {
@@ -186,7 +186,7 @@ func Test_Cov2_Index_Json(t *testing.T) {
 		"ptrNotNil":  jsonPtr != nil,
 	}
 	expected := args.Map{"noErr": true, "ptrNotNil": true}
-	expected.ShouldBeEqual(t, 0, "Index Json", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns correct value -- Json", actual)
 }
 
 func Test_Cov2_Index_UnmarshalJSON_Invalid(t *testing.T) {
@@ -194,5 +194,5 @@ func Test_Cov2_Index_UnmarshalJSON_Invalid(t *testing.T) {
 	err := v.UnmarshalJSON([]byte("invalid"))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "Index UnmarshalJSON invalid", actual)
+	expected.ShouldBeEqual(t, 0, "Index returns error -- UnmarshalJSON invalid", actual)
 }

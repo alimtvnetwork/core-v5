@@ -27,7 +27,7 @@ func Test_Cov2_PagingInfo(t *testing.T) {
 		"hasTotalPages": true,
 		"hasCurrentPage": true,
 	}
-	expected.ShouldBeEqual(t, 0, "PagingInfo", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo returns correct value -- with args", actual)
 }
 
 func Test_Cov2_PagingInfo_Empty(t *testing.T) {
@@ -41,7 +41,7 @@ func Test_Cov2_PagingInfo_Empty(t *testing.T) {
 		"isEmpty":    true,
 		"hasTotalPages": false,
 	}
-	expected.ShouldBeEqual(t, 0, "PagingInfo empty", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo returns empty -- empty", actual)
 }
 
 func Test_Cov2_PagingInfo_Clone(t *testing.T) {
@@ -61,7 +61,7 @@ func Test_Cov2_PagingInfo_Clone(t *testing.T) {
 		"isEqual": true,
 		"totalPages": 5,
 	}
-	expected.ShouldBeEqual(t, 0, "PagingInfo clone", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo returns correct value -- clone", actual)
 }
 
 func Test_Cov2_PagingInfo_ClonePtr(t *testing.T) {
@@ -76,7 +76,7 @@ func Test_Cov2_PagingInfo_ClonePtr(t *testing.T) {
 		"notNil":  true,
 		"isEqual": true,
 	}
-	expected.ShouldBeEqual(t, 0, "PagingInfo clonePtr", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo returns correct value -- clonePtr", actual)
 }
 
 func Test_Cov2_PagingInfo_ClonePtr_Nil(t *testing.T) {
@@ -85,7 +85,7 @@ func Test_Cov2_PagingInfo_ClonePtr_Nil(t *testing.T) {
 
 	actual := args.Map{"isNil": cloned == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "PagingInfo clonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo returns nil -- clonePtr nil", actual)
 }
 
 func Test_Cov2_PagingInfo_InvalidChecks(t *testing.T) {
@@ -103,7 +103,7 @@ func Test_Cov2_PagingInfo_InvalidChecks(t *testing.T) {
 		"invalidPerPageItems":     true,
 		"invalidTotalItems":       true,
 	}
-	expected.ShouldBeEqual(t, 0, "PagingInfo invalid checks", actual)
+	expected.ShouldBeEqual(t, 0, "PagingInfo returns error -- invalid checks", actual)
 }
 
 // ── SessionInfo ──
@@ -119,7 +119,7 @@ func Test_Cov2_SessionInfo(t *testing.T) {
 		"isValid": true,
 		"id":      "abc123",
 	}
-	expected.ShouldBeEqual(t, 0, "SessionInfo", actual)
+	expected.ShouldBeEqual(t, 0, "SessionInfo returns correct value -- with args", actual)
 }
 
 func Test_Cov2_SessionInfo_Empty(t *testing.T) {
@@ -145,7 +145,7 @@ func Test_Cov2_AuthInfo(t *testing.T) {
 		"hasResource": true,
 		"identifier":  "id1",
 	}
-	expected.ShouldBeEqual(t, 0, "AuthInfo", actual)
+	expected.ShouldBeEqual(t, 0, "AuthInfo returns correct value -- with args", actual)
 }
 
 // ── PayloadWrapper ──
@@ -164,7 +164,7 @@ func Test_Cov2_PayloadWrapper_Basic(t *testing.T) {
 		"notNil":  true,
 		"hasAny":  true,
 	}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper basic", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns correct value -- basic", actual)
 }
 
 func Test_Cov2_PayloadWrapper_Empty(t *testing.T) {
@@ -178,5 +178,5 @@ func Test_Cov2_PayloadWrapper_Empty(t *testing.T) {
 		"notNil":  true,
 		"hasAny":  false,
 	}
-	expected.ShouldBeEqual(t, 0, "PayloadWrapper empty", actual)
+	expected.ShouldBeEqual(t, 0, "PayloadWrapper returns empty -- empty", actual)
 }

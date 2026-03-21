@@ -56,7 +56,7 @@ func Test_Cov3_Version_NilReceiver(t *testing.T) {
 		"isDefined":       false,
 		"displayMajor":    "",
 	}
-	expected.ShouldBeEqual(t, 0, "Version nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "Version returns nil -- nil receiver", actual)
 }
 
 // ── Version nil VersionCompareEqual ──
@@ -73,7 +73,7 @@ func Test_Cov3_Version_IsVersionCompareEqual_Nil(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"bothEmpty": true, "nilNonEmpty": false}
-	expected.ShouldBeEqual(t, 0, "IsVersionCompareEqual nil", actual)
+	expected.ShouldBeEqual(t, 0, "IsVersionCompareEqual returns nil -- nil", actual)
 }
 
 // ── Version IsMajorInvalidOrZero / IsMinorInvalidOrZero / IsPatchInvalidOrZero / IsBuildInvalidOrZero ──
@@ -106,7 +106,7 @@ func Test_Cov3_Version_InvalidOrZero(t *testing.T) {
 		"zeroPatch":    true,
 		"zeroBuild":    true,
 	}
-	expected.ShouldBeEqual(t, 0, "InvalidOrZero", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidOrZero returns error -- with args", actual)
 }
 
 // ── Version String / AllVersionValues / AllValidVersionValues ──
@@ -128,7 +128,7 @@ func Test_Cov3_Version_String_And_AllValues(t *testing.T) {
 		"allValuesLen":     4,
 		"allValidLen":      4,
 	}
-	expected.ShouldBeEqual(t, 0, "String and AllValues", actual)
+	expected.ShouldBeEqual(t, 0, "String returns non-empty -- and AllValues", actual)
 }
 
 // ── Version comparison methods ──
@@ -166,7 +166,7 @@ func Test_Cov3_Version_MajorMinorPatchBuild_Comparisons(t *testing.T) {
 		"majorBuildString":    true,
 		"majorMinorPatchBuildString": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Comparison methods", actual)
+	expected.ShouldBeEqual(t, 0, "Comparison returns correct value -- methods", actual)
 }
 
 // ── Package-level compare functions ──
@@ -189,7 +189,7 @@ func Test_Cov3_CompareVersionString(t *testing.T) {
 		"atLeast": true,
 		"expected": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Package compare functions", actual)
+	expected.ShouldBeEqual(t, 0, "Package returns correct value -- compare functions", actual)
 }
 
 // ── VersionsCollection — uncovered methods ──
@@ -206,7 +206,7 @@ func Test_Cov3_VersionsCollection_AddSkipInvalid(t *testing.T) {
 	// Assert
 	actual := args.Map{"length": vc.Length()}
 	expected := args.Map{"length": 2}
-	expected.ShouldBeEqual(t, 0, "AddSkipInvalid", actual)
+	expected.ShouldBeEqual(t, 0, "AddSkipInvalid returns error -- with args", actual)
 }
 
 func Test_Cov3_VersionsCollection_Methods(t *testing.T) {
@@ -246,7 +246,7 @@ func Test_Cov3_VersionsCollection_Methods(t *testing.T) {
 		"notContains":   false,
 		"stringNotEmpty": true,
 	}
-	expected.ShouldBeEqual(t, 0, "VersionsCollection methods", actual)
+	expected.ShouldBeEqual(t, 0, "VersionsCollection returns correct value -- methods", actual)
 }
 
 func Test_Cov3_VersionsCollection_NilReceiver(t *testing.T) {
@@ -258,7 +258,7 @@ func Test_Cov3_VersionsCollection_NilReceiver(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"length": 0, "isEmpty": true}
-	expected.ShouldBeEqual(t, 0, "VersionsCollection nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "VersionsCollection returns nil -- nil receiver", actual)
 }
 
 func Test_Cov3_VersionsCollection_IsEqual(t *testing.T) {
@@ -284,7 +284,7 @@ func Test_Cov3_VersionsCollection_IsEqual(t *testing.T) {
 		"equal":       true,
 		"diffLen":     false,
 	}
-	expected.ShouldBeEqual(t, 0, "VersionsCollection IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "VersionsCollection returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov3_VersionsCollection_JsonParseSelfInject(t *testing.T) {
@@ -300,7 +300,7 @@ func Test_Cov3_VersionsCollection_JsonParseSelfInject(t *testing.T) {
 	// Assert
 	actual := args.Map{"noErr": err == nil, "len": vc2.Length()}
 	expected := args.Map{"noErr": true, "len": 1}
-	expected.ShouldBeEqual(t, 0, "VersionsCollection JsonParseSelfInject", actual)
+	expected.ShouldBeEqual(t, 0, "VersionsCollection returns correct value -- JsonParseSelfInject", actual)
 }
 
 func Test_Cov3_VersionsCollection_AsBinderInterfaces(t *testing.T) {
@@ -315,7 +315,7 @@ func Test_Cov3_VersionsCollection_AsBinderInterfaces(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"jsonBinder": true, "sliceBinder": true}
-	expected.ShouldBeEqual(t, 0, "VersionsCollection AsBinderInterfaces", actual)
+	expected.ShouldBeEqual(t, 0, "VersionsCollection returns correct value -- AsBinderInterfaces", actual)
 }
 
 func Test_Cov3_VersionsCollection_AddVersionsRaw(t *testing.T) {
@@ -328,5 +328,5 @@ func Test_Cov3_VersionsCollection_AddVersionsRaw(t *testing.T) {
 	// Assert
 	actual := args.Map{"length": vc.Length()}
 	expected := args.Map{"length": 3}
-	expected.ShouldBeEqual(t, 0, "AddVersionsRaw", actual)
+	expected.ShouldBeEqual(t, 0, "AddVersionsRaw returns correct value -- with args", actual)
 }

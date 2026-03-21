@@ -69,7 +69,7 @@ func Test_Cov_Throw(t *testing.T) {
 	expected := args.Map{
 		"isNil": false,
 	}
-	expected.ShouldBeEqual(t, 0, "Throw panics and is caught", actual)
+	expected.ShouldBeEqual(t, 0, "Throw panics -- panics and is caught", actual)
 }
 
 // ── WrappedErr.HasErrorOrException with exception only ──
@@ -81,7 +81,7 @@ func Test_Cov_WrappedErr_HasErrorOrException_ExcOnly(t *testing.T) {
 	}
 	actual := args.Map{"result": we.HasErrorOrException()}
 	expected := args.Map{"result": true}
-	expected.ShouldBeEqual(t, 0, "HasErrorOrException exception only", actual)
+	expected.ShouldBeEqual(t, 0, "HasErrorOrException returns error -- exception only", actual)
 }
 
 // ── WrappedErr.String() exception only path ──
@@ -94,7 +94,7 @@ func Test_Cov_WrappedErr_String_ExcOnly(t *testing.T) {
 	str := we.String()
 	actual := args.Map{"nonEmpty": str != ""}
 	expected := args.Map{"nonEmpty": true}
-	expected.ShouldBeEqual(t, 0, "String exception only", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- exception only", actual)
 }
 
 // ── WrappedErr.ErrorString with nil error ──
@@ -103,5 +103,5 @@ func Test_Cov_WrappedErr_ErrorString_NilError(t *testing.T) {
 	we := &trydo.WrappedErr{}
 	actual := args.Map{"result": we.ErrorString()}
 	expected := args.Map{"result": ""}
-	expected.ShouldBeEqual(t, 0, "ErrorString nil error", actual)
+	expected.ShouldBeEqual(t, 0, "ErrorString returns nil -- nil error", actual)
 }

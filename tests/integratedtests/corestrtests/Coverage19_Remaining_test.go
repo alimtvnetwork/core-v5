@@ -21,7 +21,7 @@ func Test_Cov19_SimpleSlice_Basic(t *testing.T) {
 	expected := args.Map{
 		"empty": true, "hasAny": false, "len": 0, "count": 0, "lastIdx": -1, "nilLen": 0,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice basic", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- basic", actual)
 }
 
 func Test_Cov19_SimpleSlice_Add(t *testing.T) {
@@ -48,7 +48,7 @@ func Test_Cov19_SimpleSlice_Add(t *testing.T) {
 	s.AddsIf(true, "x", "y")
 	actual := args.Map{"hasItems": s.HasAnyItem()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice Add", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- Add", actual)
 }
 
 func Test_Cov19_SimpleSlice_InsertAt(t *testing.T) {
@@ -58,7 +58,7 @@ func Test_Cov19_SimpleSlice_InsertAt(t *testing.T) {
 	s.InsertAt(100, "x")
 	actual := args.Map{"len": s.Length()}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice InsertAt", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- InsertAt", actual)
 }
 
 func Test_Cov19_SimpleSlice_AddError(t *testing.T) {
@@ -67,7 +67,7 @@ func Test_Cov19_SimpleSlice_AddError(t *testing.T) {
 	s.AddError(nil) // just exercising nil path
 	actual := args.Map{"len": s.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice AddError nil", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns nil -- AddError nil", actual)
 }
 
 func Test_Cov19_SimpleSlice_AddStruct(t *testing.T) {
@@ -76,7 +76,7 @@ func Test_Cov19_SimpleSlice_AddStruct(t *testing.T) {
 	s.AddStruct(false, "hello")
 	actual := args.Map{"len": s.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice AddStruct", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- AddStruct", actual)
 }
 
 func Test_Cov19_SimpleSlice_AddPointer(t *testing.T) {
@@ -86,7 +86,7 @@ func Test_Cov19_SimpleSlice_AddPointer(t *testing.T) {
 	s.AddPointer(false, &val)
 	actual := args.Map{"len": s.Length()}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice AddPointer", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- AddPointer", actual)
 }
 
 func Test_Cov19_SimpleSlice_AsError(t *testing.T) {
@@ -97,7 +97,7 @@ func Test_Cov19_SimpleSlice_AsError(t *testing.T) {
 	hasDef := s.AsDefaultError() != nil
 	actual := args.Map{"nilDef": nilDef, "nilSep": nilSep, "hasDef": hasDef}
 	expected := args.Map{"nilDef": true, "nilSep": true, "hasDef": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice AsError", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns error -- AsError", actual)
 }
 
 func Test_Cov19_SimpleSlice_FirstLast(t *testing.T) {
@@ -112,14 +112,14 @@ func Test_Cov19_SimpleSlice_FirstLast(t *testing.T) {
 		"first": "a", "last": "c", "firstDyn": "a", "lastDyn": "c",
 		"firstDef": "a", "lastDef": "c", "firstDefDyn": "a", "lastDefDyn": "c",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice FirstLast", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- FirstLast", actual)
 }
 
 func Test_Cov19_SimpleSlice_FirstOrDefault_Empty(t *testing.T) {
 	s := corestr.New.SimpleSlice.Empty()
 	actual := args.Map{"first": s.FirstOrDefault(), "last": s.LastOrDefault()}
 	expected := args.Map{"first": "", "last": ""}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice FirstOrDefault empty", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns empty -- FirstOrDefault empty", actual)
 }
 
 func Test_Cov19_SimpleSlice_SkipTake(t *testing.T) {
@@ -135,7 +135,7 @@ func Test_Cov19_SimpleSlice_SkipTake(t *testing.T) {
 	_ = s.LimitDynamic(1)
 	_ = s.Limit(1)
 	expected := args.Map{"skip1": 2, "skip100": 0, "take2": 2, "take100": 3}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice SkipTake", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- SkipTake", actual)
 }
 
 func Test_Cov19_SimpleSlice_CountFunc(t *testing.T) {
@@ -145,21 +145,21 @@ func Test_Cov19_SimpleSlice_CountFunc(t *testing.T) {
 	emptyCount := empty.CountFunc(func(i int, item string) bool { return true })
 	actual := args.Map{"count": count, "emptyCount": emptyCount}
 	expected := args.Map{"count": 2, "emptyCount": 0}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice CountFunc", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- CountFunc", actual)
 }
 
 func Test_Cov19_SimpleSlice_IsContains(t *testing.T) {
 	s := corestr.New.SimpleSlice.Lines("a", "b")
 	actual := args.Map{"has": s.IsContains("a"), "notHas": !s.IsContains("c")}
 	expected := args.Map{"has": true, "notHas": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice IsContains", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- IsContains", actual)
 }
 
 func Test_Cov19_SimpleSlice_IndexOf(t *testing.T) {
 	s := corestr.New.SimpleSlice.Lines("a", "b", "c")
 	actual := args.Map{"found": s.IndexOf("b"), "notFound": s.IndexOf("z")}
 	expected := args.Map{"found": 1, "notFound": -1}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice IndexOf", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- IndexOf", actual)
 }
 
 func Test_Cov19_SimpleSlice_Extended(t *testing.T) {
@@ -218,7 +218,7 @@ func Test_Cov19_SimpleSlice_Extended(t *testing.T) {
 
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice extended", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- extended", actual)
 }
 
 func Test_Cov19_SimpleSlice_IsEqual(t *testing.T) {
@@ -239,7 +239,7 @@ func Test_Cov19_SimpleSlice_IsEqual(t *testing.T) {
 		"equalUnorderedClone": true, "distinctEqual": true, "distinctEqualRaw": true,
 		"unorderedEqual": true, "unorderedEqualRaw": true,
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov19_SimpleSlice_DistinctDiff(t *testing.T) {
@@ -251,7 +251,7 @@ func Test_Cov19_SimpleSlice_DistinctDiff(t *testing.T) {
 	_ = removed
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice DistinctDiff", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- DistinctDiff", actual)
 }
 
 func Test_Cov19_SimpleSlice_RemoveIndexes(t *testing.T) {
@@ -261,7 +261,7 @@ func Test_Cov19_SimpleSlice_RemoveIndexes(t *testing.T) {
 	_, err2 := empty.RemoveIndexes(0)
 	actual := args.Map{"len": newS.Length(), "noErr": err == nil, "errEmpty": err2 != nil}
 	expected := args.Map{"len": 2, "noErr": true, "errEmpty": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice RemoveIndexes", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- RemoveIndexes", actual)
 }
 
 func Test_Cov19_SimpleSlice_Clone(t *testing.T) {
@@ -273,7 +273,7 @@ func Test_Cov19_SimpleSlice_Clone(t *testing.T) {
 	var nilS *corestr.SimpleSlice
 	actual := args.Map{"nilClone": nilS.ClonePtr(true) == nil}
 	expected := args.Map{"nilClone": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice Clone", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- Clone", actual)
 }
 
 func Test_Cov19_SimpleSlice_ClearDispose(t *testing.T) {
@@ -284,7 +284,7 @@ func Test_Cov19_SimpleSlice_ClearDispose(t *testing.T) {
 	_ = nilS.Clear()
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice ClearDispose", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- ClearDispose", actual)
 }
 
 func Test_Cov19_SimpleSlice_IsContainsFunc(t *testing.T) {
@@ -292,7 +292,7 @@ func Test_Cov19_SimpleSlice_IsContainsFunc(t *testing.T) {
 	found := s.IsContainsFunc("hello", func(item, searching string) bool { return item == searching })
 	actual := args.Map{"found": found}
 	expected := args.Map{"found": true}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice IsContainsFunc", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- IsContainsFunc", actual)
 }
 
 func Test_Cov19_SimpleSlice_IndexOfFunc(t *testing.T) {
@@ -300,7 +300,7 @@ func Test_Cov19_SimpleSlice_IndexOfFunc(t *testing.T) {
 	idx := s.IndexOfFunc("b", func(item, searching string) bool { return item == searching })
 	actual := args.Map{"idx": idx}
 	expected := args.Map{"idx": 1}
-	expected.ShouldBeEqual(t, 0, "SimpleSlice IndexOfFunc", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleSlice returns correct value -- IndexOfFunc", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -311,7 +311,7 @@ func Test_Cov19_LinkedList_Basic(t *testing.T) {
 	ll := corestr.New.LinkedList.Create()
 	actual := args.Map{"empty": ll.IsEmpty(), "emptyLock": ll.IsEmptyLock(), "len": ll.Length()}
 	expected := args.Map{"empty": true, "emptyLock": true, "len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedList basic", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- basic", actual)
 }
 
 func Test_Cov19_LinkedList_Add(t *testing.T) {
@@ -334,7 +334,7 @@ func Test_Cov19_LinkedList_Add(t *testing.T) {
 	ll.PushBack("n")
 	actual := args.Map{"head": ll.Head().Element, "hasItems": ll.HasItems()}
 	expected := args.Map{"head": "m", "hasItems": true}
-	expected.ShouldBeEqual(t, 0, "LinkedList Add", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- Add", actual)
 }
 
 func Test_Cov19_LinkedList_AddStrings(t *testing.T) {
@@ -350,7 +350,7 @@ func Test_Cov19_LinkedList_AddStrings(t *testing.T) {
 	ll.AddItemsMap(nil)
 	actual := args.Map{"hasItems": ll.HasItems()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "LinkedList AddStrings", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- AddStrings", actual)
 }
 
 func Test_Cov19_LinkedList_List(t *testing.T) {
@@ -364,7 +364,7 @@ func Test_Cov19_LinkedList_List(t *testing.T) {
 	_ = ll.Join(",")
 	_ = ll.JoinLock(",")
 	expected := args.Map{"listLen": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedList List", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- List", actual)
 }
 
 func Test_Cov19_LinkedList_ToCollection(t *testing.T) {
@@ -374,7 +374,7 @@ func Test_Cov19_LinkedList_ToCollection(t *testing.T) {
 	c2 := empty.ToCollection(0)
 	actual := args.Map{"len": c.Length(), "emptyLen": c2.Length()}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedList ToCollection", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- ToCollection", actual)
 }
 
 func Test_Cov19_LinkedList_Loop(t *testing.T) {
@@ -386,7 +386,7 @@ func Test_Cov19_LinkedList_Loop(t *testing.T) {
 	})
 	actual := args.Map{"count": count}
 	expected := args.Map{"count": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedList Loop", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- Loop", actual)
 }
 
 func Test_Cov19_LinkedList_Filter(t *testing.T) {
@@ -396,7 +396,7 @@ func Test_Cov19_LinkedList_Filter(t *testing.T) {
 	})
 	actual := args.Map{"len": len(nodes)}
 	expected := args.Map{"len": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedList Filter", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- Filter", actual)
 }
 
 func Test_Cov19_LinkedList_IndexAt(t *testing.T) {
@@ -414,7 +414,7 @@ func Test_Cov19_LinkedList_IndexAt(t *testing.T) {
 	_ = ll.SafePointerIndexAtUsingDefaultLock(0, "def")
 	_ = ll.SafeIndexAtLock(0)
 	expected := args.Map{"found": true, "negNil": true, "bigNil": true}
-	expected.ShouldBeEqual(t, 0, "LinkedList IndexAt", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- IndexAt", actual)
 }
 
 func Test_Cov19_LinkedList_GetNextNodes(t *testing.T) {
@@ -423,7 +423,7 @@ func Test_Cov19_LinkedList_GetNextNodes(t *testing.T) {
 	all := ll.GetAllLinkedNodes()
 	actual := args.Map{"nextLen": len(nodes), "allLen": len(all)}
 	expected := args.Map{"nextLen": 2, "allLen": 3}
-	expected.ShouldBeEqual(t, 0, "LinkedList GetNextNodes", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- GetNextNodes", actual)
 }
 
 func Test_Cov19_LinkedList_IsEquals(t *testing.T) {
@@ -431,7 +431,7 @@ func Test_Cov19_LinkedList_IsEquals(t *testing.T) {
 	ll2 := corestr.New.LinkedList.Strings([]string{"a", "b"})
 	actual := args.Map{"equal": ll1.IsEquals(ll2), "sensEqual": ll1.IsEqualsWithSensitive(ll2, false)}
 	expected := args.Map{"equal": true, "sensEqual": true}
-	expected.ShouldBeEqual(t, 0, "LinkedList IsEquals", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- IsEquals", actual)
 }
 
 func Test_Cov19_LinkedList_RemoveNodeByIndex(t *testing.T) {
@@ -439,7 +439,7 @@ func Test_Cov19_LinkedList_RemoveNodeByIndex(t *testing.T) {
 	ll.RemoveNodeByIndex(0)
 	actual := args.Map{"len": ll.Length()}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "LinkedList RemoveNodeByIndex", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- RemoveNodeByIndex", actual)
 }
 
 func Test_Cov19_LinkedList_Clear(t *testing.T) {
@@ -448,7 +448,7 @@ func Test_Cov19_LinkedList_Clear(t *testing.T) {
 	ll.RemoveAll()
 	actual := args.Map{"len": ll.Length()}
 	expected := args.Map{"len": 0}
-	expected.ShouldBeEqual(t, 0, "LinkedList Clear", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- Clear", actual)
 }
 
 func Test_Cov19_LinkedList_JsonAndMarshal(t *testing.T) {
@@ -460,7 +460,7 @@ func Test_Cov19_LinkedList_JsonAndMarshal(t *testing.T) {
 	_ = ll.Joins(",", "c")
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "LinkedList Json", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedList returns correct value -- Json", actual)
 }
 
 func Test_Cov19_LinkedListNode_Methods(t *testing.T) {
@@ -479,7 +479,7 @@ func Test_Cov19_LinkedListNode_Methods(t *testing.T) {
 	_ = n.StringList("header: ")
 	_ = n.CreateLinkedList()
 	expected := args.Map{"noNext": true, "str": true, "isEqual": true, "isSens": true}
-	expected.ShouldBeEqual(t, 0, "LinkedListNode", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedListNode returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -525,7 +525,7 @@ func Test_Cov19_KeyValueCollection(t *testing.T) {
 	_ = kv.AsJsonContractsBinder()
 	_ = kv.AsJsonParseSelfInjector()
 	expected := args.Map{"len": 2, "hasKey": true, "contains": true, "found": true, "val": "v1"}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- with args", actual)
 }
 
 func Test_Cov19_KeyValueCollection_AddVariants(t *testing.T) {
@@ -548,7 +548,7 @@ func Test_Cov19_KeyValueCollection_AddVariants(t *testing.T) {
 	kv.AddStringBySplitTrim("=", " m = n ")
 	actual := args.Map{"hasItems": kv.HasAnyItem()}
 	expected := args.Map{"hasItems": true}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection AddVariants", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- AddVariants", actual)
 }
 
 func Test_Cov19_KeyValueCollection_Find(t *testing.T) {
@@ -559,7 +559,7 @@ func Test_Cov19_KeyValueCollection_Find(t *testing.T) {
 	})
 	actual := args.Map{"len": len(r)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection Find", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- Find", actual)
 }
 
 func Test_Cov19_KeyValueCollection_ClearDispose(t *testing.T) {
@@ -572,7 +572,7 @@ func Test_Cov19_KeyValueCollection_ClearDispose(t *testing.T) {
 	nilKv.Dispose()
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "KeyValueCollection ClearDispose", actual)
+	expected.ShouldBeEqual(t, 0, "KeyValueCollection returns correct value -- ClearDispose", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -597,7 +597,7 @@ func Test_Cov19_NewCollectionCreator(t *testing.T) {
 	_ = corestr.New.Collection.LenCap(2, 5)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewCollectionCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewCollectionCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewSimpleSliceCreator(t *testing.T) {
@@ -633,7 +633,7 @@ func Test_Cov19_NewSimpleSliceCreator(t *testing.T) {
 	_ = corestr.New.SimpleSlice.Map(nil)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewSimpleSliceCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewSimpleSliceCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewHashmapCreator(t *testing.T) {
@@ -658,7 +658,7 @@ func Test_Cov19_NewHashmapCreator(t *testing.T) {
 	_ = corestr.New.Hashmap.KeyValuesCollection(nil, nil)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewHashmapCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewHashmapCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewHashsetCreator(t *testing.T) {
@@ -683,7 +683,7 @@ func Test_Cov19_NewHashsetCreator(t *testing.T) {
 	_ = corestr.New.Hashset.SimpleSlice(corestr.New.SimpleSlice.Empty())
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewHashsetCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewHashsetCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewLinkedListCreator(t *testing.T) {
@@ -697,7 +697,7 @@ func Test_Cov19_NewLinkedListCreator(t *testing.T) {
 	_ = corestr.New.LinkedList.UsingMap(nil)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewLinkedListCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewLinkedListCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewLinkedCollectionCreator(t *testing.T) {
@@ -709,7 +709,7 @@ func Test_Cov19_NewLinkedCollectionCreator(t *testing.T) {
 	_ = corestr.New.LinkedCollection.UsingCollections()
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewLinkedCollectionCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewLinkedCollectionCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewKeyValuesCreator(t *testing.T) {
@@ -723,7 +723,7 @@ func Test_Cov19_NewKeyValuesCreator(t *testing.T) {
 	_ = corestr.New.KeyValues.UsingKeyValueStrings(nil, nil)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewKeyValuesCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewKeyValuesCreator returns non-empty -- with args", actual)
 }
 
 func Test_Cov19_NewCollectionsOfCollectionCreator(t *testing.T) {
@@ -738,7 +738,7 @@ func Test_Cov19_NewCollectionsOfCollectionCreator(t *testing.T) {
 	_ = corestr.New.CollectionsOfCollection.LenCap(0, 5)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewCollectionsOfCollectionCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewCollectionsOfCollectionCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewHashsetsCollectionCreator(t *testing.T) {
@@ -750,7 +750,7 @@ func Test_Cov19_NewHashsetsCollectionCreator(t *testing.T) {
 	_ = corestr.New.HashsetsCollection.UsingHashsetsPointers()
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewHashsetsCollectionCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewHashsetsCollectionCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewCharCollectionMapCreator(t *testing.T) {
@@ -763,7 +763,7 @@ func Test_Cov19_NewCharCollectionMapCreator(t *testing.T) {
 	_ = corestr.New.CharCollectionMap.ItemsPtrWithCap(5, 5, nil)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewCharCollectionMapCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewCharCollectionMapCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewCharHashsetMapCreator(t *testing.T) {
@@ -774,7 +774,7 @@ func Test_Cov19_NewCharHashsetMapCreator(t *testing.T) {
 	_ = corestr.New.CharHashsetMap.Strings(20, nil)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewCharHashsetMapCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewCharHashsetMapCreator returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NewSimpleStringOnceCreator(t *testing.T) {
@@ -787,7 +787,7 @@ func Test_Cov19_NewSimpleStringOnceCreator(t *testing.T) {
 	_ = corestr.New.SimpleStringOnce.Any(false, "hello", true)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "NewSimpleStringOnceCreator", actual)
+	expected.ShouldBeEqual(t, 0, "NewSimpleStringOnceCreator returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -845,7 +845,7 @@ func Test_Cov19_CharCollectionMap(t *testing.T) {
 	nilCcm.Dispose()
 	actual := args.Map{"notEmpty": !ccm.IsEmpty()}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CharCollectionMap", actual)
+	expected.ShouldBeEqual(t, 0, "CharCollectionMap returns correct value -- with args", actual)
 }
 
 func Test_Cov19_CharHashsetMap(t *testing.T) {
@@ -900,7 +900,7 @@ func Test_Cov19_CharHashsetMap(t *testing.T) {
 	chm2.RemoveAll()
 	actual := args.Map{"notEmpty": !chm.IsEmpty()}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CharHashsetMap", actual)
+	expected.ShouldBeEqual(t, 0, "CharHashsetMap returns correct value -- with args", actual)
 }
 
 func Test_Cov19_LinkedCollections(t *testing.T) {
@@ -949,7 +949,7 @@ func Test_Cov19_LinkedCollections(t *testing.T) {
 
 	actual := args.Map{"len": lc.Length(), "loopCount": count > 0}
 	expected := args.Map{"len": 1, "loopCount": true}
-	expected.ShouldBeEqual(t, 0, "LinkedCollections", actual)
+	expected.ShouldBeEqual(t, 0, "LinkedCollections returns correct value -- with args", actual)
 }
 
 func Test_Cov19_CollectionsOfCollection(t *testing.T) {
@@ -969,7 +969,7 @@ func Test_Cov19_CollectionsOfCollection(t *testing.T) {
 	_ = coc.AsJsonParseSelfInjector()
 	_ = coc.AsJsonMarshaller()
 	expected := args.Map{"len": 2, "allLen": 3}
-	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection", actual)
+	expected.ShouldBeEqual(t, 0, "CollectionsOfCollection returns correct value -- with args", actual)
 }
 
 func Test_Cov19_HashsetsCollection(t *testing.T) {
@@ -1009,7 +1009,7 @@ func Test_Cov19_HashsetsCollection(t *testing.T) {
 	hc.AddHashsetsCollection(nil)
 	actual := args.Map{"done": true}
 	expected := args.Map{"done": true}
-	expected.ShouldBeEqual(t, 0, "HashsetsCollection", actual)
+	expected.ShouldBeEqual(t, 0, "HashsetsCollection returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NonChainedLinkedListNodes(t *testing.T) {
@@ -1027,7 +1027,7 @@ func Test_Cov19_NonChainedLinkedListNodes(t *testing.T) {
 	_ = nc.ToChainedNodes()
 	actual := args.Map{"len": nc.Length(), "notEmpty": !nc.IsEmpty()}
 	expected := args.Map{"len": 2, "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NonChainedLinkedListNodes", actual)
+	expected.ShouldBeEqual(t, 0, "NonChainedLinkedListNodes returns correct value -- with args", actual)
 }
 
 func Test_Cov19_NonChainedLinkedCollectionNodes(t *testing.T) {
@@ -1047,5 +1047,5 @@ func Test_Cov19_NonChainedLinkedCollectionNodes(t *testing.T) {
 	_ = nc.ToChainedNodes()
 	actual := args.Map{"len": nc.Length(), "notEmpty": !nc.IsEmpty()}
 	expected := args.Map{"len": 2, "notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "NonChainedLinkedCollectionNodes", actual)
+	expected.ShouldBeEqual(t, 0, "NonChainedLinkedCollectionNodes returns correct value -- with args", actual)
 }

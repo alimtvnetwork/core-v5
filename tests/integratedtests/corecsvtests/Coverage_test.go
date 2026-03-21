@@ -13,21 +13,21 @@ func Test_Cov_DefaultCsv(t *testing.T) {
 	result := corecsv.DefaultCsv("a", "b")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "DefaultCsv", actual)
+	expected.ShouldBeEqual(t, 0, "DefaultCsv returns correct value -- with args", actual)
 }
 
 func Test_Cov_DefaultCsvStrings(t *testing.T) {
 	result := corecsv.DefaultCsvStrings("a", "b")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "DefaultCsvStrings", actual)
+	expected.ShouldBeEqual(t, 0, "DefaultCsvStrings returns correct value -- with args", actual)
 }
 
 func Test_Cov_DefaultCsvUsingJoiner(t *testing.T) {
 	result := corecsv.DefaultCsvUsingJoiner(" | ", "a", "b")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "DefaultCsvUsingJoiner", actual)
+	expected.ShouldBeEqual(t, 0, "DefaultCsvUsingJoiner returns correct value -- with args", actual)
 }
 
 // ── DefaultAnyCsv / DefaultAnyCsvStrings ──
@@ -36,21 +36,21 @@ func Test_Cov_DefaultAnyCsv(t *testing.T) {
 	result := corecsv.DefaultAnyCsv("a", 1)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "DefaultAnyCsv", actual)
+	expected.ShouldBeEqual(t, 0, "DefaultAnyCsv returns correct value -- with args", actual)
 }
 
 func Test_Cov_DefaultAnyCsvStrings(t *testing.T) {
 	result := corecsv.DefaultAnyCsvStrings("a", 1)
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "DefaultAnyCsvStrings", actual)
+	expected.ShouldBeEqual(t, 0, "DefaultAnyCsvStrings returns correct value -- with args", actual)
 }
 
 func Test_Cov_DefaultAnyCsvUsingJoiner(t *testing.T) {
 	result := corecsv.DefaultAnyCsvUsingJoiner(" | ", "a", 1)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "DefaultAnyCsvUsingJoiner", actual)
+	expected.ShouldBeEqual(t, 0, "DefaultAnyCsvUsingJoiner returns correct value -- with args", actual)
 }
 
 // ── StringsToCsvStrings all quote branches ──
@@ -59,28 +59,28 @@ func Test_Cov_StringsToCsvStrings_SingleQuote(t *testing.T) {
 	result := corecsv.StringsToCsvStrings(true, true, "a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "SingleQuote", actual)
+	expected.ShouldBeEqual(t, 0, "SingleQuote returns correct value -- with args", actual)
 }
 
 func Test_Cov_StringsToCsvStrings_NoQuote(t *testing.T) {
 	result := corecsv.StringsToCsvStrings(false, false, "a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "NoQuote", actual)
+	expected.ShouldBeEqual(t, 0, "NoQuote returns correct value -- with args", actual)
 }
 
 func Test_Cov_StringsToCsvStringsDefault(t *testing.T) {
 	result := corecsv.StringsToCsvStringsDefault("a", "b")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 2}
-	expected.ShouldBeEqual(t, 0, "StringsToCsvStringsDefault", actual)
+	expected.ShouldBeEqual(t, 0, "StringsToCsvStringsDefault returns correct value -- with args", actual)
 }
 
 func Test_Cov_StringsToStringDefault(t *testing.T) {
 	result := corecsv.StringsToStringDefault("a", "b")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StringsToStringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "StringsToStringDefault returns correct value -- with args", actual)
 }
 
 // ── AnyItemsToCsvStrings all quote branches ──
@@ -89,21 +89,21 @@ func Test_Cov_AnyItemsToCsvStrings_SingleQuote(t *testing.T) {
 	result := corecsv.AnyItemsToCsvStrings(true, true, "a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "AnyItems_SingleQuote", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItems_SingleQuote returns correct value -- with args", actual)
 }
 
 func Test_Cov_AnyItemsToCsvStrings_NoQuote(t *testing.T) {
 	result := corecsv.AnyItemsToCsvStrings(false, false, "a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "AnyItems_NoQuote", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItems_NoQuote returns correct value -- with args", actual)
 }
 
 func Test_Cov_AnyItemsToStringDefault(t *testing.T) {
 	result := corecsv.AnyItemsToStringDefault("a", 1)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AnyItemsToStringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "AnyItemsToStringDefault returns correct value -- with args", actual)
 }
 
 // ── AnyToTypesCsvStrings all branches ──
@@ -112,21 +112,21 @@ func Test_Cov_AnyToTypesCsvStrings_SingleQuote(t *testing.T) {
 	result := corecsv.AnyToTypesCsvStrings(true, true, "a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Types_SingleQuote", actual)
+	expected.ShouldBeEqual(t, 0, "Types_SingleQuote returns correct value -- with args", actual)
 }
 
 func Test_Cov_AnyToTypesCsvStrings_DoubleQuote(t *testing.T) {
 	result := corecsv.AnyToTypesCsvStrings(true, false, "a")
 	actual := args.Map{"len": len(result)}
 	expected := args.Map{"len": 1}
-	expected.ShouldBeEqual(t, 0, "Types_DoubleQuote", actual)
+	expected.ShouldBeEqual(t, 0, "Types_DoubleQuote returns correct value -- with args", actual)
 }
 
 func Test_Cov_AnyToTypesCsvDefault(t *testing.T) {
 	result := corecsv.AnyToTypesCsvDefault("a", 1)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AnyToTypesCsvDefault", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToTypesCsvDefault returns correct value -- with args", actual)
 }
 
 // ── AnyToValuesTypeStrings ──
@@ -136,7 +136,7 @@ func Test_Cov_AnyToValuesTypeStrings(t *testing.T) {
 	empty := corecsv.AnyToValuesTypeStrings()
 	actual := args.Map{"len": len(result), "emptyLen": len(empty)}
 	expected := args.Map{"len": 2, "emptyLen": 0}
-	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeStrings", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeStrings returns non-empty -- with args", actual)
 }
 
 func Test_Cov_AnyToValuesTypeString(t *testing.T) {
@@ -144,7 +144,7 @@ func Test_Cov_AnyToValuesTypeString(t *testing.T) {
 	empty := corecsv.AnyToValuesTypeString()
 	actual := args.Map{"notEmpty": result != "", "empty": empty}
 	expected := args.Map{"notEmpty": true, "empty": ""}
-	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeString", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToValuesTypeString returns non-empty -- with args", actual)
 }
 
 // ── Stringers ──
@@ -171,7 +171,7 @@ func Test_Cov_StringersToCsvStrings_AllBranches(t *testing.T) {
 		"noQuoteLen": 1,
 		"emptyLen":   0,
 	}
-	expected.ShouldBeEqual(t, 0, "StringersToCsvStrings", actual)
+	expected.ShouldBeEqual(t, 0, "StringersToCsvStrings returns correct value -- with args", actual)
 }
 
 func Test_Cov_StringersToString(t *testing.T) {
@@ -179,7 +179,7 @@ func Test_Cov_StringersToString(t *testing.T) {
 	result := corecsv.StringersToString(", ", false, false, s)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StringersToString", actual)
+	expected.ShouldBeEqual(t, 0, "StringersToString returns correct value -- with args", actual)
 }
 
 func Test_Cov_StringersToStringDefault(t *testing.T) {
@@ -187,7 +187,7 @@ func Test_Cov_StringersToStringDefault(t *testing.T) {
 	result := corecsv.StringersToStringDefault(s)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StringersToStringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "StringersToStringDefault returns correct value -- with args", actual)
 }
 
 // ── CompileStringers ──
@@ -210,7 +210,7 @@ func Test_Cov_CompileStringersToCsvStrings_AllBranches(t *testing.T) {
 		"noQuoteLen": 1,
 		"emptyLen":   0,
 	}
-	expected.ShouldBeEqual(t, 0, "CompileStringersToCsvStrings", actual)
+	expected.ShouldBeEqual(t, 0, "CompileStringersToCsvStrings returns correct value -- with args", actual)
 }
 
 func Test_Cov_CompileStringersToString(t *testing.T) {
@@ -218,7 +218,7 @@ func Test_Cov_CompileStringersToString(t *testing.T) {
 	result := corecsv.CompileStringersToString(", ", false, false, f)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CompileStringersToString", actual)
+	expected.ShouldBeEqual(t, 0, "CompileStringersToString returns correct value -- with args", actual)
 }
 
 func Test_Cov_CompileStringersToStringDefault(t *testing.T) {
@@ -226,7 +226,7 @@ func Test_Cov_CompileStringersToStringDefault(t *testing.T) {
 	result := corecsv.CompileStringersToStringDefault(f)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CompileStringersToStringDefault", actual)
+	expected.ShouldBeEqual(t, 0, "CompileStringersToStringDefault returns correct value -- with args", actual)
 }
 
 // ── StringFunctionsToString all branches ──
@@ -249,7 +249,7 @@ func Test_Cov_StringFunctionsToString_AllBranches(t *testing.T) {
 		"noQuoteLen": 1,
 		"emptyLen":   0,
 	}
-	expected.ShouldBeEqual(t, 0, "StringFunctionsToString", actual)
+	expected.ShouldBeEqual(t, 0, "StringFunctionsToString returns correct value -- with args", actual)
 }
 
 // ── RangeNames ──
@@ -258,14 +258,14 @@ func Test_Cov_RangeNamesWithValuesIndexesCsvString(t *testing.T) {
 	result := corecsv.RangeNamesWithValuesIndexesCsvString("A", "B")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexesCsvString", actual)
+	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexesCsvString returns non-empty -- with args", actual)
 }
 
 func Test_Cov_RangeNamesWithValuesIndexesString(t *testing.T) {
 	result := corecsv.RangeNamesWithValuesIndexesString(" | ", "A", "B")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexesString", actual)
+	expected.ShouldBeEqual(t, 0, "RangeNamesWithValuesIndexesString returns non-empty -- with args", actual)
 }
 
 // ── Empty-items branch coverage ──

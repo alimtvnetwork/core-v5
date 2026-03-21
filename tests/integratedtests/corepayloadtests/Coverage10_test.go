@@ -15,28 +15,28 @@ func Test_Cov10_User_IdentifierInteger_Empty(t *testing.T) {
 	u := corepayload.User{}
 	actual := args.Map{"val": u.IdentifierInteger()}
 	expected := args.Map{"val": -1}
-	expected.ShouldBeEqual(t, 0, "IdentifierInteger empty", actual)
+	expected.ShouldBeEqual(t, 0, "IdentifierInteger returns empty -- empty", actual)
 }
 
 func Test_Cov10_User_IdentifierInteger_Valid(t *testing.T) {
 	u := corepayload.User{Identifier: "42"}
 	actual := args.Map{"val": u.IdentifierInteger()}
 	expected := args.Map{"val": 42}
-	expected.ShouldBeEqual(t, 0, "IdentifierInteger valid", actual)
+	expected.ShouldBeEqual(t, 0, "IdentifierInteger returns non-empty -- valid", actual)
 }
 
 func Test_Cov10_User_IdentifierUnsignedInteger_Negative(t *testing.T) {
 	u := corepayload.User{Identifier: "-1"}
 	actual := args.Map{"val": u.IdentifierUnsignedInteger()}
 	expected := args.Map{"val": uint(0)}
-	expected.ShouldBeEqual(t, 0, "IdentifierUnsignedInteger negative", actual)
+	expected.ShouldBeEqual(t, 0, "IdentifierUnsignedInteger returns correct value -- negative", actual)
 }
 
 func Test_Cov10_User_IdentifierUnsignedInteger_Valid(t *testing.T) {
 	u := corepayload.User{Identifier: "42"}
 	actual := args.Map{"val": u.IdentifierUnsignedInteger()}
 	expected := args.Map{"val": uint(42)}
-	expected.ShouldBeEqual(t, 0, "IdentifierUnsignedInteger valid", actual)
+	expected.ShouldBeEqual(t, 0, "IdentifierUnsignedInteger returns non-empty -- valid", actual)
 }
 
 func Test_Cov10_User_HasAuthToken(t *testing.T) {
@@ -44,14 +44,14 @@ func Test_Cov10_User_HasAuthToken(t *testing.T) {
 	var u2 *corepayload.User
 	actual := args.Map{"has": u1.HasAuthToken(), "nil": u2.HasAuthToken()}
 	expected := args.Map{"has": true, "nil": false}
-	expected.ShouldBeEqual(t, 0, "HasAuthToken", actual)
+	expected.ShouldBeEqual(t, 0, "HasAuthToken returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_HasPasswordHash(t *testing.T) {
 	u := &corepayload.User{PasswordHash: "hash"}
 	actual := args.Map{"has": u.HasPasswordHash()}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "HasPasswordHash", actual)
+	expected.ShouldBeEqual(t, 0, "HasPasswordHash returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_IsPasswordHashEmpty(t *testing.T) {
@@ -59,14 +59,14 @@ func Test_Cov10_User_IsPasswordHashEmpty(t *testing.T) {
 	var u2 *corepayload.User
 	actual := args.Map{"empty": u.IsPasswordHashEmpty(), "nil": u2.IsPasswordHashEmpty()}
 	expected := args.Map{"empty": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "IsPasswordHashEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsPasswordHashEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_User_IsAuthTokenEmpty(t *testing.T) {
 	u := &corepayload.User{}
 	actual := args.Map{"empty": u.IsAuthTokenEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "IsAuthTokenEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsAuthTokenEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_User_IsEmpty(t *testing.T) {
@@ -75,21 +75,21 @@ func Test_Cov10_User_IsEmpty(t *testing.T) {
 	var u3 *corepayload.User
 	actual := args.Map{"empty": u1.IsEmpty(), "notEmpty": u2.IsEmpty(), "nil": u3.IsEmpty()}
 	expected := args.Map{"empty": true, "notEmpty": false, "nil": true}
-	expected.ShouldBeEqual(t, 0, "IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_User_IsValidUser(t *testing.T) {
 	u := &corepayload.User{Name: "test"}
 	actual := args.Map{"val": u.IsValidUser()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsValidUser", actual)
+	expected.ShouldBeEqual(t, 0, "IsValidUser returns non-empty -- with args", actual)
 }
 
 func Test_Cov10_User_IsNameEmpty(t *testing.T) {
 	u := &corepayload.User{}
 	actual := args.Map{"val": u.IsNameEmpty()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsNameEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsNameEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_User_IsNameEqual(t *testing.T) {
@@ -97,28 +97,28 @@ func Test_Cov10_User_IsNameEqual(t *testing.T) {
 	var u2 *corepayload.User
 	actual := args.Map{"match": u.IsNameEqual("alice"), "no": u.IsNameEqual("bob"), "nil": u2.IsNameEqual("alice")}
 	expected := args.Map{"match": true, "no": false, "nil": false}
-	expected.ShouldBeEqual(t, 0, "IsNameEqual", actual)
+	expected.ShouldBeEqual(t, 0, "IsNameEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_IsNotSystemUser(t *testing.T) {
 	u := &corepayload.User{Name: "u"}
 	actual := args.Map{"val": u.IsNotSystemUser()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsNotSystemUser", actual)
+	expected.ShouldBeEqual(t, 0, "IsNotSystemUser returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_IsVirtualUser(t *testing.T) {
 	u := &corepayload.User{Name: "u"}
 	actual := args.Map{"val": u.IsVirtualUser()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsVirtualUser", actual)
+	expected.ShouldBeEqual(t, 0, "IsVirtualUser returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_HasType(t *testing.T) {
 	u := &corepayload.User{Type: "admin"}
 	actual := args.Map{"has": u.HasType()}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "HasType", actual)
+	expected.ShouldBeEqual(t, 0, "HasType returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_IsTypeEmpty(t *testing.T) {
@@ -126,21 +126,21 @@ func Test_Cov10_User_IsTypeEmpty(t *testing.T) {
 	var u2 *corepayload.User
 	actual := args.Map{"empty": u.IsTypeEmpty(), "nil": u2.IsTypeEmpty()}
 	expected := args.Map{"empty": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "IsTypeEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsTypeEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_User_String(t *testing.T) {
 	u := corepayload.User{Name: "alice"}
 	actual := args.Map{"notEmpty": u.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "String", actual)
+	expected.ShouldBeEqual(t, 0, "String returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_PrettyJsonString(t *testing.T) {
 	u := &corepayload.User{Name: "alice"}
 	actual := args.Map{"notEmpty": u.PrettyJsonString() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "PrettyJsonString", actual)
+	expected.ShouldBeEqual(t, 0, "PrettyJsonString returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_Json(t *testing.T) {
@@ -148,7 +148,7 @@ func Test_Cov10_User_Json(t *testing.T) {
 	r := u.Json()
 	actual := args.Map{"noErr": !r.HasError()}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "Json", actual)
+	expected.ShouldBeEqual(t, 0, "Json returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_JsonPtr(t *testing.T) {
@@ -156,7 +156,7 @@ func Test_Cov10_User_JsonPtr(t *testing.T) {
 	r := u.JsonPtr()
 	actual := args.Map{"notNil": r != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "JsonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "JsonPtr returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_Serialize(t *testing.T) {
@@ -164,7 +164,7 @@ func Test_Cov10_User_Serialize(t *testing.T) {
 	b, err := u.Serialize()
 	actual := args.Map{"hasBytes": len(b) > 0, "noErr": err == nil}
 	expected := args.Map{"hasBytes": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Serialize", actual)
+	expected.ShouldBeEqual(t, 0, "Serialize returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_Deserialize(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_Cov10_User_Deserialize(t *testing.T) {
 	err := u2.Deserialize(b)
 	actual := args.Map{"name": u2.Name, "noErr": err == nil}
 	expected := args.Map{"name": "alice", "noErr": true}
-	expected.ShouldBeEqual(t, 0, "Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "Deserialize returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_Clone(t *testing.T) {
@@ -182,14 +182,14 @@ func Test_Cov10_User_Clone(t *testing.T) {
 	c := u.Clone()
 	actual := args.Map{"name": c.Name, "type": c.Type, "token": c.AuthToken, "hash": c.PasswordHash, "sys": c.IsSystemUser}
 	expected := args.Map{"name": "alice", "type": "admin", "token": "tok", "hash": "hash", "sys": true}
-	expected.ShouldBeEqual(t, 0, "Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Clone returns correct value -- with args", actual)
 }
 
 func Test_Cov10_User_ClonePtr_Nil(t *testing.T) {
 	var u *corepayload.User
 	actual := args.Map{"nil": u.ClonePtr() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "ClonePtr returns nil -- nil", actual)
 }
 
 func Test_Cov10_User_ClonePtr_Valid(t *testing.T) {
@@ -197,7 +197,7 @@ func Test_Cov10_User_ClonePtr_Valid(t *testing.T) {
 	c := u.ClonePtr()
 	actual := args.Map{"name": c.Name, "diff": c != u}
 	expected := args.Map{"name": "alice", "diff": true}
-	expected.ShouldBeEqual(t, 0, "ClonePtr valid", actual)
+	expected.ShouldBeEqual(t, 0, "ClonePtr returns non-empty -- valid", actual)
 }
 
 func Test_Cov10_User_Ptr(t *testing.T) {
@@ -205,7 +205,7 @@ func Test_Cov10_User_Ptr(t *testing.T) {
 	p := u.Ptr()
 	actual := args.Map{"notNil": p != nil, "name": p.Name}
 	expected := args.Map{"notNil": true, "name": "alice"}
-	expected.ShouldBeEqual(t, 0, "Ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Ptr returns correct value -- with args", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -219,7 +219,7 @@ func Test_Cov10_UserInfo_SetUserSystemUser_Nil(t *testing.T) {
 	result := ui.SetUserSystemUser(u, su)
 	actual := args.Map{"notNil": result != nil, "user": result.User.Name, "sys": result.SystemUser.Name}
 	expected := args.Map{"notNil": true, "user": "a", "sys": "b"}
-	expected.ShouldBeEqual(t, 0, "SetUserSystemUser nil", actual)
+	expected.ShouldBeEqual(t, 0, "SetUserSystemUser returns nil -- nil", actual)
 }
 
 func Test_Cov10_UserInfo_SetUserSystemUser_NonNil(t *testing.T) {
@@ -229,7 +229,7 @@ func Test_Cov10_UserInfo_SetUserSystemUser_NonNil(t *testing.T) {
 	result := ui.SetUserSystemUser(u, su)
 	actual := args.Map{"same": result == ui, "user": result.User.Name}
 	expected := args.Map{"same": true, "user": "a"}
-	expected.ShouldBeEqual(t, 0, "SetUserSystemUser non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "SetUserSystemUser returns nil -- non-nil", actual)
 }
 
 func Test_Cov10_UserInfo_SetUser_Nil(t *testing.T) {
@@ -237,7 +237,7 @@ func Test_Cov10_UserInfo_SetUser_Nil(t *testing.T) {
 	result := ui.SetUser(&corepayload.User{Name: "a"})
 	actual := args.Map{"notNil": result != nil, "user": result.User.Name}
 	expected := args.Map{"notNil": true, "user": "a"}
-	expected.ShouldBeEqual(t, 0, "SetUser nil", actual)
+	expected.ShouldBeEqual(t, 0, "SetUser returns nil -- nil", actual)
 }
 
 func Test_Cov10_UserInfo_SetUser_NonNil(t *testing.T) {
@@ -245,7 +245,7 @@ func Test_Cov10_UserInfo_SetUser_NonNil(t *testing.T) {
 	result := ui.SetUser(&corepayload.User{Name: "a"})
 	actual := args.Map{"same": result == ui}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "SetUser non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "SetUser returns nil -- non-nil", actual)
 }
 
 func Test_Cov10_UserInfo_SetSystemUser_Nil(t *testing.T) {
@@ -253,7 +253,7 @@ func Test_Cov10_UserInfo_SetSystemUser_Nil(t *testing.T) {
 	result := ui.SetSystemUser(&corepayload.User{Name: "sys"})
 	actual := args.Map{"notNil": result != nil, "name": result.SystemUser.Name}
 	expected := args.Map{"notNil": true, "name": "sys"}
-	expected.ShouldBeEqual(t, 0, "SetSystemUser nil", actual)
+	expected.ShouldBeEqual(t, 0, "SetSystemUser returns nil -- nil", actual)
 }
 
 func Test_Cov10_UserInfo_HasUser(t *testing.T) {
@@ -261,14 +261,14 @@ func Test_Cov10_UserInfo_HasUser(t *testing.T) {
 	var ui2 *corepayload.UserInfo
 	actual := args.Map{"has": ui.HasUser(), "nil": ui2.HasUser()}
 	expected := args.Map{"has": true, "nil": false}
-	expected.ShouldBeEqual(t, 0, "HasUser", actual)
+	expected.ShouldBeEqual(t, 0, "HasUser returns correct value -- with args", actual)
 }
 
 func Test_Cov10_UserInfo_HasSystemUser(t *testing.T) {
 	ui := &corepayload.UserInfo{SystemUser: &corepayload.User{Name: "sys"}}
 	actual := args.Map{"has": ui.HasSystemUser()}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "HasSystemUser", actual)
+	expected.ShouldBeEqual(t, 0, "HasSystemUser returns correct value -- with args", actual)
 }
 
 func Test_Cov10_UserInfo_IsEmpty(t *testing.T) {
@@ -277,21 +277,21 @@ func Test_Cov10_UserInfo_IsEmpty(t *testing.T) {
 	var ui3 *corepayload.UserInfo
 	actual := args.Map{"empty": ui1.IsEmpty(), "notEmpty": ui2.IsEmpty(), "nil": ui3.IsEmpty()}
 	expected := args.Map{"empty": true, "notEmpty": false, "nil": true}
-	expected.ShouldBeEqual(t, 0, "IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_UserInfo_IsUserEmpty(t *testing.T) {
 	ui := &corepayload.UserInfo{}
 	actual := args.Map{"val": ui.IsUserEmpty()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsUserEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsUserEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_UserInfo_IsSystemUserEmpty(t *testing.T) {
 	ui := &corepayload.UserInfo{}
 	actual := args.Map{"val": ui.IsSystemUserEmpty()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsSystemUserEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsSystemUserEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_UserInfo_Clone(t *testing.T) {
@@ -302,14 +302,14 @@ func Test_Cov10_UserInfo_Clone(t *testing.T) {
 	c := ui.Clone()
 	actual := args.Map{"user": c.User.Name, "sys": c.SystemUser.Name}
 	expected := args.Map{"user": "a", "sys": "b"}
-	expected.ShouldBeEqual(t, 0, "Clone", actual)
+	expected.ShouldBeEqual(t, 0, "Clone returns correct value -- with args", actual)
 }
 
 func Test_Cov10_UserInfo_ClonePtr_Nil(t *testing.T) {
 	var ui *corepayload.UserInfo
 	actual := args.Map{"nil": ui.ClonePtr() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "ClonePtr returns nil -- nil", actual)
 }
 
 func Test_Cov10_UserInfo_Ptr(t *testing.T) {
@@ -317,7 +317,7 @@ func Test_Cov10_UserInfo_Ptr(t *testing.T) {
 	p := ui.Ptr()
 	actual := args.Map{"notNil": p != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Ptr", actual)
+	expected.ShouldBeEqual(t, 0, "Ptr returns correct value -- with args", actual)
 }
 
 func Test_Cov10_UserInfo_ToNonPtr_Nil(t *testing.T) {
@@ -325,7 +325,7 @@ func Test_Cov10_UserInfo_ToNonPtr_Nil(t *testing.T) {
 	np := ui.ToNonPtr()
 	actual := args.Map{"empty": np.IsEmpty()}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "ToNonPtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "ToNonPtr returns nil -- nil", actual)
 }
 
 func Test_Cov10_UserInfo_ToNonPtr_Valid(t *testing.T) {
@@ -333,7 +333,7 @@ func Test_Cov10_UserInfo_ToNonPtr_Valid(t *testing.T) {
 	np := ui.ToNonPtr()
 	actual := args.Map{"name": np.User.Name}
 	expected := args.Map{"name": "a"}
-	expected.ShouldBeEqual(t, 0, "ToNonPtr valid", actual)
+	expected.ShouldBeEqual(t, 0, "ToNonPtr returns non-empty -- valid", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -344,21 +344,21 @@ func Test_Cov10_SessionInfo_IdentifierInteger_Empty(t *testing.T) {
 	si := corepayload.SessionInfo{}
 	actual := args.Map{"val": si.IdentifierInteger()}
 	expected := args.Map{"val": -1}
-	expected.ShouldBeEqual(t, 0, "SI IdentifierInteger empty", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns empty -- IdentifierInteger empty", actual)
 }
 
 func Test_Cov10_SessionInfo_IdentifierInteger_Valid(t *testing.T) {
 	si := corepayload.SessionInfo{Id: "42"}
 	actual := args.Map{"val": si.IdentifierInteger()}
 	expected := args.Map{"val": 42}
-	expected.ShouldBeEqual(t, 0, "SI IdentifierInteger valid", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns non-empty -- IdentifierInteger valid", actual)
 }
 
 func Test_Cov10_SessionInfo_IdentifierUnsignedInteger_Negative(t *testing.T) {
 	si := corepayload.SessionInfo{Id: "-1"}
 	actual := args.Map{"val": si.IdentifierUnsignedInteger()}
 	expected := args.Map{"val": uint(0)}
-	expected.ShouldBeEqual(t, 0, "SI IdentifierUnsignedInteger negative", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns correct value -- IdentifierUnsignedInteger negative", actual)
 }
 
 func Test_Cov10_SessionInfo_IsEmpty(t *testing.T) {
@@ -367,7 +367,7 @@ func Test_Cov10_SessionInfo_IsEmpty(t *testing.T) {
 	var s3 *corepayload.SessionInfo
 	actual := args.Map{"empty": s1.IsEmpty(), "notEmpty": s2.IsEmpty(), "nil": s3.IsEmpty()}
 	expected := args.Map{"empty": true, "notEmpty": false, "nil": true}
-	expected.ShouldBeEqual(t, 0, "SI IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns empty -- IsEmpty", actual)
 }
 
 func Test_Cov10_SessionInfo_IsValid(t *testing.T) {
@@ -375,7 +375,7 @@ func Test_Cov10_SessionInfo_IsValid(t *testing.T) {
 	s2 := &corepayload.SessionInfo{}
 	actual := args.Map{"valid": s1.IsValid(), "invalid": s2.IsValid()}
 	expected := args.Map{"valid": true, "invalid": false}
-	expected.ShouldBeEqual(t, 0, "SI IsValid", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns non-empty -- IsValid", actual)
 }
 
 func Test_Cov10_SessionInfo_IsUserNameEmpty(t *testing.T) {
@@ -383,21 +383,21 @@ func Test_Cov10_SessionInfo_IsUserNameEmpty(t *testing.T) {
 	var s2 *corepayload.SessionInfo
 	actual := args.Map{"empty": s.IsUserNameEmpty(), "nil": s2.IsUserNameEmpty()}
 	expected := args.Map{"empty": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "IsUserNameEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsUserNameEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_SessionInfo_IsUserEmpty(t *testing.T) {
 	s := &corepayload.SessionInfo{}
 	actual := args.Map{"val": s.IsUserEmpty()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsUserEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsUserEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_SessionInfo_HasUser(t *testing.T) {
 	s := &corepayload.SessionInfo{User: &corepayload.User{Name: "a"}}
 	actual := args.Map{"val": s.HasUser()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "SI HasUser", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns correct value -- HasUser", actual)
 }
 
 func Test_Cov10_SessionInfo_IsUsernameEqual(t *testing.T) {
@@ -405,7 +405,7 @@ func Test_Cov10_SessionInfo_IsUsernameEqual(t *testing.T) {
 	var s2 *corepayload.SessionInfo
 	actual := args.Map{"match": s.IsUsernameEqual("alice"), "no": s.IsUsernameEqual("bob"), "nil": s2.IsUsernameEqual("alice")}
 	expected := args.Map{"match": true, "no": false, "nil": false}
-	expected.ShouldBeEqual(t, 0, "IsUsernameEqual", actual)
+	expected.ShouldBeEqual(t, 0, "IsUsernameEqual returns correct value -- with args", actual)
 }
 
 func Test_Cov10_SessionInfo_Clone(t *testing.T) {
@@ -413,14 +413,14 @@ func Test_Cov10_SessionInfo_Clone(t *testing.T) {
 	c := s.Clone()
 	actual := args.Map{"id": c.Id, "user": c.User.Name, "path": c.SessionPath}
 	expected := args.Map{"id": "1", "user": "a", "path": "/p"}
-	expected.ShouldBeEqual(t, 0, "SI Clone", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns correct value -- Clone", actual)
 }
 
 func Test_Cov10_SessionInfo_ClonePtr_Nil(t *testing.T) {
 	var s *corepayload.SessionInfo
 	actual := args.Map{"nil": s.ClonePtr() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "SI ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns nil -- ClonePtr nil", actual)
 }
 
 func Test_Cov10_SessionInfo_Ptr(t *testing.T) {
@@ -428,7 +428,7 @@ func Test_Cov10_SessionInfo_Ptr(t *testing.T) {
 	p := s.Ptr()
 	actual := args.Map{"notNil": p != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "SI Ptr", actual)
+	expected.ShouldBeEqual(t, 0, "SI returns correct value -- Ptr", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -439,21 +439,21 @@ func Test_Cov10_AuthInfo_IdentifierInteger_Empty(t *testing.T) {
 	ai := corepayload.AuthInfo{}
 	actual := args.Map{"val": ai.IdentifierInteger()}
 	expected := args.Map{"val": -1}
-	expected.ShouldBeEqual(t, 0, "AI IdentifierInteger empty", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns empty -- IdentifierInteger empty", actual)
 }
 
 func Test_Cov10_AuthInfo_IdentifierInteger_Valid(t *testing.T) {
 	ai := corepayload.AuthInfo{Identifier: "10"}
 	actual := args.Map{"val": ai.IdentifierInteger()}
 	expected := args.Map{"val": 10}
-	expected.ShouldBeEqual(t, 0, "AI IdentifierInteger valid", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns non-empty -- IdentifierInteger valid", actual)
 }
 
 func Test_Cov10_AuthInfo_IdentifierUnsignedInteger_Negative(t *testing.T) {
 	ai := corepayload.AuthInfo{Identifier: "-5"}
 	actual := args.Map{"val": ai.IdentifierUnsignedInteger()}
 	expected := args.Map{"val": uint(0)}
-	expected.ShouldBeEqual(t, 0, "AI IdentifierUnsignedInteger negative", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- IdentifierUnsignedInteger negative", actual)
 }
 
 func Test_Cov10_AuthInfo_IsEmpty(t *testing.T) {
@@ -462,14 +462,14 @@ func Test_Cov10_AuthInfo_IsEmpty(t *testing.T) {
 	var a3 *corepayload.AuthInfo
 	actual := args.Map{"empty": a1.IsEmpty(), "notEmpty": a2.IsEmpty(), "nil": a3.IsEmpty()}
 	expected := args.Map{"empty": true, "notEmpty": false, "nil": true}
-	expected.ShouldBeEqual(t, 0, "AI IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns empty -- IsEmpty", actual)
 }
 
 func Test_Cov10_AuthInfo_HasAnyItem(t *testing.T) {
 	a := &corepayload.AuthInfo{ActionType: "x"}
 	actual := args.Map{"val": a.HasAnyItem()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "AI HasAnyItem", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- HasAnyItem", actual)
 }
 
 func Test_Cov10_AuthInfo_IsActionTypeEmpty(t *testing.T) {
@@ -477,21 +477,21 @@ func Test_Cov10_AuthInfo_IsActionTypeEmpty(t *testing.T) {
 	var a2 *corepayload.AuthInfo
 	actual := args.Map{"empty": a.IsActionTypeEmpty(), "nil": a2.IsActionTypeEmpty()}
 	expected := args.Map{"empty": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "IsActionTypeEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsActionTypeEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_AuthInfo_IsResourceNameEmpty(t *testing.T) {
 	a := &corepayload.AuthInfo{}
 	actual := args.Map{"val": a.IsResourceNameEmpty()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "IsResourceNameEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "IsResourceNameEmpty returns empty -- with args", actual)
 }
 
 func Test_Cov10_AuthInfo_IsValid(t *testing.T) {
 	a := &corepayload.AuthInfo{ActionType: "x"}
 	actual := args.Map{"val": a.IsValid()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "AI IsValid", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns non-empty -- IsValid", actual)
 }
 
 func Test_Cov10_AuthInfo_HasActionType(t *testing.T) {
@@ -499,14 +499,14 @@ func Test_Cov10_AuthInfo_HasActionType(t *testing.T) {
 	var a2 *corepayload.AuthInfo
 	actual := args.Map{"has": a.HasActionType(), "nil": a2.HasActionType()}
 	expected := args.Map{"has": true, "nil": false}
-	expected.ShouldBeEqual(t, 0, "HasActionType", actual)
+	expected.ShouldBeEqual(t, 0, "HasActionType returns correct value -- with args", actual)
 }
 
 func Test_Cov10_AuthInfo_HasResourceName(t *testing.T) {
 	a := &corepayload.AuthInfo{ResourceName: "r"}
 	actual := args.Map{"has": a.HasResourceName()}
 	expected := args.Map{"has": true}
-	expected.ShouldBeEqual(t, 0, "HasResourceName", actual)
+	expected.ShouldBeEqual(t, 0, "HasResourceName returns correct value -- with args", actual)
 }
 
 func Test_Cov10_AuthInfo_IsUserInfoEmpty(t *testing.T) {
@@ -514,42 +514,42 @@ func Test_Cov10_AuthInfo_IsUserInfoEmpty(t *testing.T) {
 	var a2 *corepayload.AuthInfo
 	actual := args.Map{"empty": a.IsUserInfoEmpty(), "nil": a2.IsUserInfoEmpty()}
 	expected := args.Map{"empty": true, "nil": true}
-	expected.ShouldBeEqual(t, 0, "AI IsUserInfoEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns empty -- IsUserInfoEmpty", actual)
 }
 
 func Test_Cov10_AuthInfo_IsSessionInfoEmpty(t *testing.T) {
 	a := &corepayload.AuthInfo{}
 	actual := args.Map{"val": a.IsSessionInfoEmpty()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "AI IsSessionInfoEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns empty -- IsSessionInfoEmpty", actual)
 }
 
 func Test_Cov10_AuthInfo_HasUserInfo(t *testing.T) {
 	a := &corepayload.AuthInfo{UserInfo: &corepayload.UserInfo{User: &corepayload.User{Name: "u"}}}
 	actual := args.Map{"val": a.HasUserInfo()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "AI HasUserInfo", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- HasUserInfo", actual)
 }
 
 func Test_Cov10_AuthInfo_HasSessionInfo(t *testing.T) {
 	a := &corepayload.AuthInfo{SessionInfo: &corepayload.SessionInfo{Id: "1"}}
 	actual := args.Map{"val": a.HasSessionInfo()}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "AI HasSessionInfo", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- HasSessionInfo", actual)
 }
 
 func Test_Cov10_AuthInfo_String(t *testing.T) {
 	a := corepayload.AuthInfo{ActionType: "login"}
 	actual := args.Map{"notEmpty": a.String() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AI String", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- String", actual)
 }
 
 func Test_Cov10_AuthInfo_PrettyJsonString(t *testing.T) {
 	a := corepayload.AuthInfo{ActionType: "x"}
 	actual := args.Map{"notEmpty": a.PrettyJsonString() != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AI PrettyJsonString", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- PrettyJsonString", actual)
 }
 
 func Test_Cov10_AuthInfo_Json(t *testing.T) {
@@ -557,14 +557,14 @@ func Test_Cov10_AuthInfo_Json(t *testing.T) {
 	r := a.Json()
 	actual := args.Map{"noErr": !r.HasError()}
 	expected := args.Map{"noErr": true}
-	expected.ShouldBeEqual(t, 0, "AI Json", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- Json", actual)
 }
 
 func Test_Cov10_AuthInfo_JsonPtr(t *testing.T) {
 	a := corepayload.AuthInfo{ActionType: "x"}
 	actual := args.Map{"notNil": a.JsonPtr() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "AI JsonPtr", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- JsonPtr", actual)
 }
 
 func Test_Cov10_AuthInfo_Clone(t *testing.T) {
@@ -578,21 +578,21 @@ func Test_Cov10_AuthInfo_Clone(t *testing.T) {
 	c := a.Clone()
 	actual := args.Map{"id": c.Identifier, "action": c.ActionType, "res": c.ResourceName, "hasSession": c.SessionInfo != nil, "hasUser": c.UserInfo != nil}
 	expected := args.Map{"id": "id1", "action": "login", "res": "res", "hasSession": true, "hasUser": true}
-	expected.ShouldBeEqual(t, 0, "AI Clone", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- Clone", actual)
 }
 
 func Test_Cov10_AuthInfo_ClonePtr_Nil(t *testing.T) {
 	var a *corepayload.AuthInfo
 	actual := args.Map{"nil": a.ClonePtr() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "AI ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- ClonePtr nil", actual)
 }
 
 func Test_Cov10_AuthInfo_Ptr(t *testing.T) {
 	a := corepayload.AuthInfo{ActionType: "x"}
 	actual := args.Map{"notNil": a.Ptr() != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "AI Ptr", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns correct value -- Ptr", actual)
 }
 
 // AuthInfo Set* methods
@@ -601,7 +601,7 @@ func Test_Cov10_AuthInfo_SetUserInfo_Nil(t *testing.T) {
 	result := a.SetUserInfo(&corepayload.UserInfo{User: &corepayload.User{Name: "u"}})
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "AI SetUserInfo nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetUserInfo nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetUserInfo_NonNil(t *testing.T) {
@@ -609,7 +609,7 @@ func Test_Cov10_AuthInfo_SetUserInfo_NonNil(t *testing.T) {
 	result := a.SetUserInfo(&corepayload.UserInfo{})
 	actual := args.Map{"same": result == a}
 	expected := args.Map{"same": true}
-	expected.ShouldBeEqual(t, 0, "AI SetUserInfo non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetUserInfo non-nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetActionType_Nil(t *testing.T) {
@@ -617,7 +617,7 @@ func Test_Cov10_AuthInfo_SetActionType_Nil(t *testing.T) {
 	result := a.SetActionType("login")
 	actual := args.Map{"notNil": result != nil, "action": result.ActionType}
 	expected := args.Map{"notNil": true, "action": "login"}
-	expected.ShouldBeEqual(t, 0, "AI SetActionType nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetActionType nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetActionType_NonNil(t *testing.T) {
@@ -625,7 +625,7 @@ func Test_Cov10_AuthInfo_SetActionType_NonNil(t *testing.T) {
 	result := a.SetActionType("login")
 	actual := args.Map{"same": result == a, "action": result.ActionType}
 	expected := args.Map{"same": true, "action": "login"}
-	expected.ShouldBeEqual(t, 0, "AI SetActionType non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetActionType non-nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetResourceName_Nil(t *testing.T) {
@@ -633,7 +633,7 @@ func Test_Cov10_AuthInfo_SetResourceName_Nil(t *testing.T) {
 	result := a.SetResourceName("res")
 	actual := args.Map{"notNil": result != nil, "res": result.ResourceName}
 	expected := args.Map{"notNil": true, "res": "res"}
-	expected.ShouldBeEqual(t, 0, "AI SetResourceName nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetResourceName nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetResourceName_NonNil(t *testing.T) {
@@ -641,7 +641,7 @@ func Test_Cov10_AuthInfo_SetResourceName_NonNil(t *testing.T) {
 	a.SetResourceName("res")
 	actual := args.Map{"res": a.ResourceName}
 	expected := args.Map{"res": "res"}
-	expected.ShouldBeEqual(t, 0, "AI SetResourceName non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetResourceName non-nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetIdentifier_Nil(t *testing.T) {
@@ -649,7 +649,7 @@ func Test_Cov10_AuthInfo_SetIdentifier_Nil(t *testing.T) {
 	result := a.SetIdentifier("id1")
 	actual := args.Map{"notNil": result != nil, "id": result.Identifier}
 	expected := args.Map{"notNil": true, "id": "id1"}
-	expected.ShouldBeEqual(t, 0, "AI SetIdentifier nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetIdentifier nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetIdentifier_NonNil(t *testing.T) {
@@ -657,7 +657,7 @@ func Test_Cov10_AuthInfo_SetIdentifier_NonNil(t *testing.T) {
 	a.SetIdentifier("id1")
 	actual := args.Map{"id": a.Identifier}
 	expected := args.Map{"id": "id1"}
-	expected.ShouldBeEqual(t, 0, "AI SetIdentifier non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetIdentifier non-nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetSessionInfo_Nil(t *testing.T) {
@@ -665,7 +665,7 @@ func Test_Cov10_AuthInfo_SetSessionInfo_Nil(t *testing.T) {
 	result := a.SetSessionInfo(&corepayload.SessionInfo{Id: "s1"})
 	actual := args.Map{"notNil": result != nil, "id": result.SessionInfo.Id}
 	expected := args.Map{"notNil": true, "id": "s1"}
-	expected.ShouldBeEqual(t, 0, "AI SetSessionInfo nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetSessionInfo nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetUserSystemUser_Nil(t *testing.T) {
@@ -675,7 +675,7 @@ func Test_Cov10_AuthInfo_SetUserSystemUser_Nil(t *testing.T) {
 	result := a.SetUserSystemUser(u, su)
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "AI SetUserSystemUser nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetUserSystemUser nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetUserSystemUser_NonNil(t *testing.T) {
@@ -683,7 +683,7 @@ func Test_Cov10_AuthInfo_SetUserSystemUser_NonNil(t *testing.T) {
 	a.SetUserSystemUser(&corepayload.User{Name: "u"}, &corepayload.User{Name: "su"})
 	actual := args.Map{"user": a.UserInfo.User.Name, "sys": a.UserInfo.SystemUser.Name}
 	expected := args.Map{"user": "u", "sys": "su"}
-	expected.ShouldBeEqual(t, 0, "AI SetUserSystemUser non-nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetUserSystemUser non-nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetUser_Nil(t *testing.T) {
@@ -691,7 +691,7 @@ func Test_Cov10_AuthInfo_SetUser_Nil(t *testing.T) {
 	result := a.SetUser(&corepayload.User{Name: "u"})
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "AI SetUser nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetUser nil", actual)
 }
 
 func Test_Cov10_AuthInfo_SetSystemUser_Nil(t *testing.T) {
@@ -699,7 +699,7 @@ func Test_Cov10_AuthInfo_SetSystemUser_Nil(t *testing.T) {
 	result := a.SetSystemUser(&corepayload.User{Name: "su"})
 	actual := args.Map{"notNil": result != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "AI SetSystemUser nil", actual)
+	expected.ShouldBeEqual(t, 0, "AI returns nil -- SetSystemUser nil", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -712,21 +712,21 @@ func Test_Cov10_PagingInfo_IsEmpty(t *testing.T) {
 	var p3 *corepayload.PagingInfo
 	actual := args.Map{"empty": p1.IsEmpty(), "notEmpty": p2.IsEmpty(), "nil": p3.IsEmpty()}
 	expected := args.Map{"empty": true, "notEmpty": false, "nil": true}
-	expected.ShouldBeEqual(t, 0, "PI IsEmpty", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns empty -- IsEmpty", actual)
 }
 
 func Test_Cov10_PagingInfo_IsEqual_BothNil(t *testing.T) {
 	var p1, p2 *corepayload.PagingInfo
 	actual := args.Map{"val": p1.IsEqual(p2)}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "PI IsEqual both nil", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns nil -- IsEqual both nil", actual)
 }
 
 func Test_Cov10_PagingInfo_IsEqual_OneNil(t *testing.T) {
 	p := &corepayload.PagingInfo{TotalPages: 1}
 	actual := args.Map{"val": p.IsEqual(nil)}
 	expected := args.Map{"val": false}
-	expected.ShouldBeEqual(t, 0, "PI IsEqual one nil", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns nil -- IsEqual one nil", actual)
 }
 
 func Test_Cov10_PagingInfo_IsEqual_DiffTotalPages(t *testing.T) {
@@ -734,7 +734,7 @@ func Test_Cov10_PagingInfo_IsEqual_DiffTotalPages(t *testing.T) {
 	p2 := &corepayload.PagingInfo{TotalPages: 2}
 	actual := args.Map{"val": p1.IsEqual(p2)}
 	expected := args.Map{"val": false}
-	expected.ShouldBeEqual(t, 0, "PI IsEqual diff total pages", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns correct value -- IsEqual diff total pages", actual)
 }
 
 func Test_Cov10_PagingInfo_IsEqual_DiffCurrentPage(t *testing.T) {
@@ -742,7 +742,7 @@ func Test_Cov10_PagingInfo_IsEqual_DiffCurrentPage(t *testing.T) {
 	p2 := &corepayload.PagingInfo{TotalPages: 1, CurrentPageIndex: 2}
 	actual := args.Map{"val": p1.IsEqual(p2)}
 	expected := args.Map{"val": false}
-	expected.ShouldBeEqual(t, 0, "PI IsEqual diff current page", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns correct value -- IsEqual diff current page", actual)
 }
 
 func Test_Cov10_PagingInfo_IsEqual_DiffPerPage(t *testing.T) {
@@ -750,7 +750,7 @@ func Test_Cov10_PagingInfo_IsEqual_DiffPerPage(t *testing.T) {
 	p2 := &corepayload.PagingInfo{TotalPages: 1, CurrentPageIndex: 1, PerPageItems: 20}
 	actual := args.Map{"val": p1.IsEqual(p2)}
 	expected := args.Map{"val": false}
-	expected.ShouldBeEqual(t, 0, "PI IsEqual diff per page", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns correct value -- IsEqual diff per page", actual)
 }
 
 func Test_Cov10_PagingInfo_IsEqual_DiffTotal(t *testing.T) {
@@ -758,7 +758,7 @@ func Test_Cov10_PagingInfo_IsEqual_DiffTotal(t *testing.T) {
 	p2 := &corepayload.PagingInfo{TotalPages: 1, CurrentPageIndex: 1, PerPageItems: 10, TotalItems: 20}
 	actual := args.Map{"val": p1.IsEqual(p2)}
 	expected := args.Map{"val": false}
-	expected.ShouldBeEqual(t, 0, "PI IsEqual diff total items", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns correct value -- IsEqual diff total items", actual)
 }
 
 func Test_Cov10_PagingInfo_IsEqual_Same(t *testing.T) {
@@ -766,7 +766,7 @@ func Test_Cov10_PagingInfo_IsEqual_Same(t *testing.T) {
 	p2 := &corepayload.PagingInfo{TotalPages: 1, CurrentPageIndex: 1, PerPageItems: 10, TotalItems: 10}
 	actual := args.Map{"val": p1.IsEqual(p2)}
 	expected := args.Map{"val": true}
-	expected.ShouldBeEqual(t, 0, "PI IsEqual same", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns correct value -- IsEqual same", actual)
 }
 
 func Test_Cov10_PagingInfo_HasMethods(t *testing.T) {
@@ -782,7 +782,7 @@ func Test_Cov10_PagingInfo_HasMethods(t *testing.T) {
 		"hasPerPage": true, "hasTotal": true,
 		"nilTotalPages": false, "nilCurrentPage": false,
 	}
-	expected.ShouldBeEqual(t, 0, "PI Has methods", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns correct value -- Has methods", actual)
 }
 
 func Test_Cov10_PagingInfo_IsInvalidMethods(t *testing.T) {
@@ -798,7 +798,7 @@ func Test_Cov10_PagingInfo_IsInvalidMethods(t *testing.T) {
 		"invPerPage": true, "invTotal": true,
 		"nilInvTotal": true,
 	}
-	expected.ShouldBeEqual(t, 0, "PI IsInvalid methods", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns error -- IsInvalid methods", actual)
 }
 
 func Test_Cov10_PagingInfo_Clone(t *testing.T) {
@@ -806,14 +806,14 @@ func Test_Cov10_PagingInfo_Clone(t *testing.T) {
 	c := p.Clone()
 	actual := args.Map{"total": c.TotalPages, "current": c.CurrentPageIndex, "perPage": c.PerPageItems, "items": c.TotalItems}
 	expected := args.Map{"total": 5, "current": 2, "perPage": 10, "items": 50}
-	expected.ShouldBeEqual(t, 0, "PI Clone", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns correct value -- Clone", actual)
 }
 
 func Test_Cov10_PagingInfo_ClonePtr_Nil(t *testing.T) {
 	var p *corepayload.PagingInfo
 	actual := args.Map{"nil": p.ClonePtr() == nil}
 	expected := args.Map{"nil": true}
-	expected.ShouldBeEqual(t, 0, "PI ClonePtr nil", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns nil -- ClonePtr nil", actual)
 }
 
 func Test_Cov10_PagingInfo_ClonePtr_Valid(t *testing.T) {
@@ -821,7 +821,7 @@ func Test_Cov10_PagingInfo_ClonePtr_Valid(t *testing.T) {
 	c := p.ClonePtr()
 	actual := args.Map{"notNil": c != nil, "total": c.TotalPages, "diff": c != p}
 	expected := args.Map{"notNil": true, "total": 5, "diff": true}
-	expected.ShouldBeEqual(t, 0, "PI ClonePtr valid", actual)
+	expected.ShouldBeEqual(t, 0, "PI returns non-empty -- ClonePtr valid", actual)
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -832,56 +832,56 @@ func Test_Cov10_NewUser_Empty(t *testing.T) {
 	u := corepayload.New.User.Empty()
 	actual := args.Map{"notNil": u != nil, "empty": u.IsEmpty()}
 	expected := args.Map{"notNil": true, "empty": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.Empty", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.Empty returns empty -- with args", actual)
 }
 
 func Test_Cov10_NewUser_Create(t *testing.T) {
 	u := corepayload.New.User.Create(true, "alice", "admin")
 	actual := args.Map{"name": u.Name, "type": u.Type, "sys": u.IsSystemUser}
 	expected := args.Map{"name": "alice", "type": "admin", "sys": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.Create", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.Create returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_NonSysCreate(t *testing.T) {
 	u := corepayload.New.User.NonSysCreate("alice", "admin")
 	actual := args.Map{"name": u.Name, "sys": u.IsSystemUser}
 	expected := args.Map{"name": "alice", "sys": false}
-	expected.ShouldBeEqual(t, 0, "NewUser.NonSysCreate", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.NonSysCreate returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_NonSysCreateId(t *testing.T) {
 	u := corepayload.New.User.NonSysCreateId("id1", "alice", "admin")
 	actual := args.Map{"id": u.Identifier, "name": u.Name}
 	expected := args.Map{"id": "id1", "name": "alice"}
-	expected.ShouldBeEqual(t, 0, "NewUser.NonSysCreateId", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.NonSysCreateId returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_System(t *testing.T) {
 	u := corepayload.New.User.System("sys", "os")
 	actual := args.Map{"name": u.Name, "sys": u.IsSystemUser}
 	expected := args.Map{"name": "sys", "sys": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.System", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.System returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_SystemId(t *testing.T) {
 	u := corepayload.New.User.SystemId("id1", "sys", "os")
 	actual := args.Map{"id": u.Identifier, "sys": u.IsSystemUser}
 	expected := args.Map{"id": "id1", "sys": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.SystemId", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.SystemId returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_UsingName(t *testing.T) {
 	u := corepayload.New.User.UsingName("alice")
 	actual := args.Map{"name": u.Name}
 	expected := args.Map{"name": "alice"}
-	expected.ShouldBeEqual(t, 0, "NewUser.UsingName", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.UsingName returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_All(t *testing.T) {
 	u := corepayload.New.User.All(true, "id1", "alice", "admin", "tok", "hash")
 	actual := args.Map{"id": u.Identifier, "name": u.Name, "type": u.Type, "token": u.AuthToken, "hash": u.PasswordHash, "sys": u.IsSystemUser}
 	expected := args.Map{"id": "id1", "name": "alice", "type": "admin", "token": "tok", "hash": "hash", "sys": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.All", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.All returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_Deserialize(t *testing.T) {
@@ -890,19 +890,19 @@ func Test_Cov10_NewUser_Deserialize(t *testing.T) {
 	u2, err := corepayload.New.User.Deserialize(b)
 	actual := args.Map{"name": u2.Name, "noErr": err == nil}
 	expected := args.Map{"name": "alice", "noErr": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.Deserialize returns correct value -- with args", actual)
 }
 
 func Test_Cov10_NewUser_Deserialize_Bad(t *testing.T) {
 	_, err := corepayload.New.User.Deserialize([]byte("{bad"))
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.Deserialize bad", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.Deserialize returns correct value -- bad", actual)
 }
 
 func Test_Cov10_NewUser_CastOrDeserializeFrom_Nil(t *testing.T) {
 	_, err := corepayload.New.User.CastOrDeserializeFrom(nil)
 	actual := args.Map{"hasErr": err != nil}
 	expected := args.Map{"hasErr": true}
-	expected.ShouldBeEqual(t, 0, "NewUser.CastOrDeserializeFrom nil", actual)
+	expected.ShouldBeEqual(t, 0, "NewUser.CastOrDeserializeFrom returns nil -- nil", actual)
 }

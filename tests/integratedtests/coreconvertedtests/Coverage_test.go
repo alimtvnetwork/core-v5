@@ -37,7 +37,7 @@ func Test_Bytes_BasicMethods(t *testing.T) {
 		"errHasIssues":  true,
 		"nilLength":     0,
 	}
-	expected.ShouldBeEqual(t, 0, "Bytes_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Bytes_BasicMethods returns correct value -- with args", actual)
 }
 
 func Test_Integers_BasicMethods(t *testing.T) {
@@ -67,5 +67,5 @@ func Test_Integers_BasicMethods(t *testing.T) {
 		"errHasIssues": true,
 		"nilLength":    0,
 	}
-	expected.ShouldBeEqual(t, 0, "Integers_BasicMethods", actual)
+	expected.ShouldBeEqual(t, 0, "Integers_BasicMethods returns correct value -- with args", actual)
 }

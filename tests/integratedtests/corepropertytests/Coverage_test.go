@@ -13,7 +13,7 @@ func Test_Cov_Writer_Nil(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"result": "nil"}
-	expected.ShouldBeEqual(t, 0, "Writer nil", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns nil -- nil", actual)
 }
 
 func Test_Cov_Writer_String(t *testing.T) {
@@ -23,7 +23,7 @@ func Test_Cov_Writer_String(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Writer string", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- string", actual)
 }
 
 func Test_Cov_Writer_Bool(t *testing.T) {
@@ -32,7 +32,7 @@ func Test_Cov_Writer_Bool(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"result": "true"}
-	expected.ShouldBeEqual(t, 0, "Writer bool", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- bool", actual)
 }
 
 func Test_Cov_Writer_Int(t *testing.T) {
@@ -41,7 +41,7 @@ func Test_Cov_Writer_Int(t *testing.T) {
 
 	// Assert
 	expected := args.Map{"result": "42"}
-	expected.ShouldBeEqual(t, 0, "Writer int", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- int", actual)
 }
 
 func Test_Cov_Writer_Struct(t *testing.T) {
@@ -57,7 +57,7 @@ func Test_Cov_Writer_Struct(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Writer struct", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- struct", actual)
 }
 
 func Test_Cov_Writer_Slice(t *testing.T) {
@@ -67,7 +67,7 @@ func Test_Cov_Writer_Slice(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Writer slice", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- slice", actual)
 }
 
 func Test_Cov_Writer_Map(t *testing.T) {
@@ -77,7 +77,7 @@ func Test_Cov_Writer_Map(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Writer map", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- map", actual)
 }
 
 func Test_Cov_Writer_Pointer(t *testing.T) {
@@ -92,7 +92,7 @@ func Test_Cov_Writer_Pointer(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != "", "nilResult": nilResult}
 	expected := args.Map{"notEmpty": true, "nilResult": "nil"}
-	expected.ShouldBeEqual(t, 0, "Writer pointer", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- pointer", actual)
 }
 
 func Test_Cov_Writer_ArgsString(t *testing.T) {
@@ -102,7 +102,7 @@ func Test_Cov_Writer_ArgsString(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "test"}
-	expected.ShouldBeEqual(t, 0, "Writer args.String", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- args.String", actual)
 }
 
 func Test_Cov_Writer_WritePropertyOptions_SubRequest(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_Cov_Writer_WritePropertyOptions_SubRequest(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "WritePropertyOptions sub-request", actual)
+	expected.ShouldBeEqual(t, 0, "WritePropertyOptions returns correct value -- sub-request", actual)
 }
 
 func Test_Cov_Writer_Byte(t *testing.T) {
@@ -122,7 +122,7 @@ func Test_Cov_Writer_Byte(t *testing.T) {
 	// Assert
 	actual := args.Map{"result": result}
 	expected := args.Map{"result": "5"}
-	expected.ShouldBeEqual(t, 0, "Writer byte", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- byte", actual)
 }
 
 func Test_Cov_Writer_Float64(t *testing.T) {
@@ -132,5 +132,5 @@ func Test_Cov_Writer_Float64(t *testing.T) {
 	// Assert
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Writer float64", actual)
+	expected.ShouldBeEqual(t, 0, "Writer returns correct value -- float64", actual)
 }

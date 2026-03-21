@@ -41,7 +41,7 @@ func Test_Cov5_InvalidDynamicPtr(t *testing.T) {
 	d := coredynamic.InvalidDynamicPtr()
 	actual := args.Map{"isInvalid": d.IsInvalid()}
 	expected := args.Map{"isInvalid": true}
-	expected.ShouldBeEqual(t, 0, "InvalidDynamicPtr returns invalid", actual)
+	expected.ShouldBeEqual(t, 0, "InvalidDynamicPtr returns error -- returns invalid", actual)
 }
 
 // ── Dynamic Clone ──

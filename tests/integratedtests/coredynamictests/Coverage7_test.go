@@ -31,14 +31,14 @@ func Test_Cov7_TypedDynamic_Constructors(t *testing.T) {
 		"tdData": "hello", "tdValid": true, "tdvData": "world",
 		"tdpNotNil": true, "invValid": false, "invInv": true, "invpNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic constructors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- constructors", actual)
 }
 
 func Test_Cov7_TypedDynamic_String(t *testing.T) {
 	td := coredynamic.NewTypedDynamicValid[int](42)
 	actual := args.Map{"str": td.String()}
 	expected := args.Map{"str": "42"}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic String", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- String", actual)
 }
 
 func Test_Cov7_TypedDynamic_JsonOps(t *testing.T) {
@@ -70,7 +70,7 @@ func Test_Cov7_TypedDynamic_JsonOps(t *testing.T) {
 		"mjLen": true, "mjErr": true, "vmLen": true, "vmErr": true,
 		"jrNotNil": true, "jpNotNil": true, "jm": "test", "jmaNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic JSON ops", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- JSON ops", actual)
 }
 
 func Test_Cov7_TypedDynamic_GetAs(t *testing.T) {
@@ -96,7 +96,7 @@ func Test_Cov7_TypedDynamic_GetAs(t *testing.T) {
 		"i64Ok": false, "uOk": false, "f64Ok": false, "f32Ok": false,
 		"byOk": false, "ssOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- GetAs", actual)
 }
 
 func Test_Cov7_TypedDynamic_Value(t *testing.T) {
@@ -112,7 +112,7 @@ func Test_Cov7_TypedDynamic_Value(t *testing.T) {
 	expected := args.Map{
 		"valueStr": "hello", "valueInt": 42, "valueI64": int64(-1), "valueBool": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Value methods", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Value methods", actual)
 }
 
 func Test_Cov7_TypedDynamic_Bytes(t *testing.T) {
@@ -122,7 +122,7 @@ func Test_Cov7_TypedDynamic_Bytes(t *testing.T) {
 	b2, ok2 := tdStr.Bytes()
 	actual := args.Map{"len": len(b), "ok": ok, "len2": len(b2) > 0, "ok2": ok2}
 	expected := args.Map{"len": 3, "ok": true, "len2": true, "ok2": true}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Bytes", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Bytes", actual)
 }
 
 func Test_Cov7_TypedDynamic_Clone(t *testing.T) {
@@ -143,7 +143,7 @@ func Test_Cov7_TypedDynamic_Clone(t *testing.T) {
 		"clonedData": "hello", "cpData": "hello", "nonPtrData": "hello",
 		"ptrNN": true, "nilClone": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Clone", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Clone", actual)
 }
 
 func Test_Cov7_TypedDynamic_ToDynamic(t *testing.T) {
@@ -151,7 +151,7 @@ func Test_Cov7_TypedDynamic_ToDynamic(t *testing.T) {
 	d := td.ToDynamic()
 	actual := args.Map{"valid": d.IsValid(), "data": d.Data()}
 	expected := args.Map{"valid": true, "data": "hello"}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic ToDynamic", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- ToDynamic", actual)
 }
 
 func Test_Cov7_TypedDynamic_UnmarshalJSON(t *testing.T) {
@@ -159,7 +159,7 @@ func Test_Cov7_TypedDynamic_UnmarshalJSON(t *testing.T) {
 	err := td.UnmarshalJSON([]byte(`"parsed"`))
 	actual := args.Map{"data": td.Data(), "valid": td.IsValid(), "noErr": err == nil}
 	expected := args.Map{"data": "parsed", "valid": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic UnmarshalJSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- UnmarshalJSON", actual)
 }
 
 func Test_Cov7_TypedDynamic_Deserialize(t *testing.T) {
@@ -174,7 +174,7 @@ func Test_Cov7_TypedDynamic_Deserialize(t *testing.T) {
 	expected := args.Map{
 		"data": "deserialized", "valid": true, "noErr": true, "nilErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedDynamic Deserialize", actual)
+	expected.ShouldBeEqual(t, 0, "TypedDynamic returns correct value -- Deserialize", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -198,7 +198,7 @@ func Test_Cov7_TypedSimpleRequest_Constructors(t *testing.T) {
 		"invValid": false, "invInv": true, "invMsg": "err msg",
 		"invNoMsg": "",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest constructors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- constructors", actual)
 }
 
 func Test_Cov7_TypedSimpleRequest_NilReceiver(t *testing.T) {
@@ -213,7 +213,7 @@ func Test_Cov7_TypedSimpleRequest_NilReceiver(t *testing.T) {
 	expected := args.Map{
 		"valid": false, "inv": true, "msg": "", "str": "", "invErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns nil -- nil receiver", actual)
 }
 
 func Test_Cov7_TypedSimpleRequest_InvalidError(t *testing.T) {
@@ -227,7 +227,7 @@ func Test_Cov7_TypedSimpleRequest_InvalidError(t *testing.T) {
 		"noErr":  rv.InvalidError() == nil,
 	}
 	expected := args.Map{"hasErr": true, "cached": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns error -- InvalidError", actual)
 }
 
 func Test_Cov7_TypedSimpleRequest_JSON(t *testing.T) {
@@ -248,7 +248,7 @@ func Test_Cov7_TypedSimpleRequest_JSON(t *testing.T) {
 		"jpNN": true, "mjLen": true, "mjErr": true,
 		"jm": "test", "jma": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest JSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- JSON", actual)
 }
 
 func Test_Cov7_TypedSimpleRequest_GetAs(t *testing.T) {
@@ -269,7 +269,7 @@ func Test_Cov7_TypedSimpleRequest_GetAs(t *testing.T) {
 		"s": "hello", "sOk": true, "iOk": false, "i64Ok": false,
 		"f64Ok": false, "f32Ok": false, "bOk": false, "byOk": false, "ssOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- GetAs", actual)
 }
 
 func Test_Cov7_TypedSimpleRequest_Clone(t *testing.T) {
@@ -282,7 +282,7 @@ func Test_Cov7_TypedSimpleRequest_Clone(t *testing.T) {
 		"nilClone":  nilClone == nil,
 	}
 	expected := args.Map{"cloneData": "hello", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest Clone", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- Clone", actual)
 }
 
 func Test_Cov7_TypedSimpleRequest_Conversions(t *testing.T) {
@@ -302,7 +302,7 @@ func Test_Cov7_TypedSimpleRequest_Conversions(t *testing.T) {
 		"srValid": true, "tdValid": true, "dValid": true,
 		"nilSRValid": false, "nilTDValid": false, "nilDValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest conversions", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleRequest returns correct value -- conversions", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -323,7 +323,7 @@ func Test_Cov7_TypedSimpleResult_Constructors(t *testing.T) {
 		"data": "hello", "result": "hello", "valid": true,
 		"rvData": "world", "invValid": false, "invInv": true, "invNoMsgMsg": "",
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult constructors", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- constructors", actual)
 }
 
 func Test_Cov7_TypedSimpleResult_NilReceiver(t *testing.T) {
@@ -335,7 +335,7 @@ func Test_Cov7_TypedSimpleResult_NilReceiver(t *testing.T) {
 	expected := args.Map{
 		"valid": false, "inv": true, "msg": "", "str": "", "invErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult nil receiver", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns nil -- nil receiver", actual)
 }
 
 func Test_Cov7_TypedSimpleResult_InvalidError(t *testing.T) {
@@ -344,7 +344,7 @@ func Test_Cov7_TypedSimpleResult_InvalidError(t *testing.T) {
 	err2 := r.InvalidError()
 	actual := args.Map{"hasErr": err1 != nil, "cached": err1 == err2}
 	expected := args.Map{"hasErr": true, "cached": true}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns error -- InvalidError", actual)
 }
 
 func Test_Cov7_TypedSimpleResult_JSON(t *testing.T) {
@@ -365,7 +365,7 @@ func Test_Cov7_TypedSimpleResult_JSON(t *testing.T) {
 		"jpNN": true, "mjLen": true, "mjErr": true,
 		"jm": "test", "jma": true,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult JSON", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- JSON", actual)
 }
 
 func Test_Cov7_TypedSimpleResult_GetAs(t *testing.T) {
@@ -385,7 +385,7 @@ func Test_Cov7_TypedSimpleResult_GetAs(t *testing.T) {
 		"sOk": false, "i": 42, "iOk": true, "i64Ok": false,
 		"f64Ok": false, "bOk": false, "byOk": false, "ssOk": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult GetAs", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- GetAs", actual)
 }
 
 func Test_Cov7_TypedSimpleResult_Clone(t *testing.T) {
@@ -399,7 +399,7 @@ func Test_Cov7_TypedSimpleResult_Clone(t *testing.T) {
 		"nilClone": nilClone == nil,
 	}
 	expected := args.Map{"cloneData": "hello", "cpData": "hello", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult Clone", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- Clone", actual)
 }
 
 func Test_Cov7_TypedSimpleResult_Conversions(t *testing.T) {
@@ -419,7 +419,7 @@ func Test_Cov7_TypedSimpleResult_Conversions(t *testing.T) {
 		"srValid": true, "tdValid": true, "dValid": true,
 		"nilSRValid": false, "nilTDValid": false, "nilDValid": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypedSimpleResult conversions", actual)
+	expected.ShouldBeEqual(t, 0, "TypedSimpleResult returns correct value -- conversions", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -445,7 +445,7 @@ func Test_Cov7_KeyVal_BasicAccessors(t *testing.T) {
 		"valInt": -1, "valUInt": uint(0), "valBool": false, "valI64": int64(-1),
 		"valStrs": true, "strNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal basic accessors", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- basic accessors", actual)
 }
 
 func Test_Cov7_KeyVal_Dynamics(t *testing.T) {
@@ -461,7 +461,7 @@ func Test_Cov7_KeyVal_Dynamics(t *testing.T) {
 	expected := args.Map{
 		"kdValid": true, "vdValid": true, "kdpNN": true, "vdpNN": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal Dynamics", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- Dynamics", actual)
 }
 
 func Test_Cov7_KeyVal_NullErr(t *testing.T) {
@@ -477,7 +477,7 @@ func Test_Cov7_KeyVal_NullErr(t *testing.T) {
 		"valNullErr": true, "keyNullErr": true,
 		"nilValErr": true, "nilKeyErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal NullErr", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns error -- NullErr", actual)
 }
 
 func Test_Cov7_KeyVal_JSON(t *testing.T) {
@@ -496,7 +496,7 @@ func Test_Cov7_KeyVal_JSON(t *testing.T) {
 		"jHas": true, "jpNN": true, "jmNN": true, "jmaNN": true,
 		"bLen": true, "noErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "KeyVal JSON", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- JSON", actual)
 }
 
 func Test_Cov7_KeyVal_ReflectSet(t *testing.T) {
@@ -511,7 +511,7 @@ func Test_Cov7_KeyVal_ReflectSet(t *testing.T) {
 		"nilKeySet": true, "nilValSet": true, "nilSetTo": true,
 	}
 	_ = kv
-	expected.ShouldBeEqual(t, 0, "KeyVal ReflectSet nil", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns nil -- ReflectSet nil", actual)
 }
 
 func Test_Cov7_KeyVal_ValueReflectValue(t *testing.T) {
@@ -519,7 +519,7 @@ func Test_Cov7_KeyVal_ValueReflectValue(t *testing.T) {
 	rv := kv.ValueReflectValue()
 	actual := args.Map{"kind": rv.Kind().String()}
 	expected := args.Map{"kind": "int"}
-	expected.ShouldBeEqual(t, 0, "KeyVal ValueReflectValue", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- ValueReflectValue", actual)
 }
 
 func Test_Cov7_KeyVal_ValTyped(t *testing.T) {
@@ -529,7 +529,7 @@ func Test_Cov7_KeyVal_ValTyped(t *testing.T) {
 		"valI64": kv.ValueInt64(),
 	}
 	expected := args.Map{"valInt": 42, "valI64": int64(-1)}
-	expected.ShouldBeEqual(t, 0, "KeyVal val typed", actual)
+	expected.ShouldBeEqual(t, 0, "KeyVal returns correct value -- val typed", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -552,7 +552,7 @@ func Test_Cov7_SimpleRequest_Constructors(t *testing.T) {
 		"rVal": "data", "rReq": "data", "invMsg": "err",
 		"invNoMsg": "", "fullMsg": "msg",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest constructors", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns correct value -- constructors", actual)
 }
 
 func Test_Cov7_SimpleRequest_InvalidError(t *testing.T) {
@@ -565,7 +565,7 @@ func Test_Cov7_SimpleRequest_InvalidError(t *testing.T) {
 		"validNoErr": rv.InvalidError() == nil,
 	}
 	expected := args.Map{"hasErr": true, "cached": true, "validNoErr": true}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest InvalidError", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns error -- InvalidError", actual)
 }
 
 func Test_Cov7_SimpleRequest_TypeMismatch(t *testing.T) {
@@ -574,7 +574,7 @@ func Test_Cov7_SimpleRequest_TypeMismatch(t *testing.T) {
 	noErr := r.GetErrorOnTypeMismatch(reflect.TypeOf(""), false)
 	actual := args.Map{"hasErr": err != nil, "noErr": noErr == nil}
 	expected := args.Map{"hasErr": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "SimpleRequest GetErrorOnTypeMismatch", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleRequest returns error -- GetErrorOnTypeMismatch", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -593,7 +593,7 @@ func Test_Cov7_SimpleResult_Constructors(t *testing.T) {
 	expected := args.Map{
 		"rResult": "data", "invMsg": "err", "invNoMsg": "", "fullMsg": "msg",
 	}
-	expected.ShouldBeEqual(t, 0, "SimpleResult constructors", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleResult returns correct value -- constructors", actual)
 }
 
 func Test_Cov7_SimpleResult_Clone(t *testing.T) {
@@ -607,7 +607,7 @@ func Test_Cov7_SimpleResult_Clone(t *testing.T) {
 		"nilClone": nilClone == nil,
 	}
 	expected := args.Map{"cloneResult": "data", "cpResult": "data", "nilClone": true}
-	expected.ShouldBeEqual(t, 0, "SimpleResult Clone", actual)
+	expected.ShouldBeEqual(t, 0, "SimpleResult returns correct value -- Clone", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -639,7 +639,7 @@ func Test_Cov7_Dynamic_Getters_Types(t *testing.T) {
 		"isStruct": true, "isFunc": true,
 		"isPointer": false, "isValueType": true,
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic Getters types", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- Getters types", actual)
 }
 
 func Test_Cov7_Dynamic_ValueExtraction(t *testing.T) {
@@ -659,7 +659,7 @@ func Test_Cov7_Dynamic_ValueExtraction(t *testing.T) {
 		"valInt": 42, "valBool": true, "valUint": uint(10),
 		"valStrs": 2, "valI64": int64(100),
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic value extraction", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- value extraction", actual)
 }
 
 func Test_Cov7_Dynamic_IntDefault(t *testing.T) {
@@ -669,7 +669,7 @@ func Test_Cov7_Dynamic_IntDefault(t *testing.T) {
 	val2, ok2 := d2.IntDefault(77)
 	actual := args.Map{"val": val, "ok": ok, "val2": val2, "ok2": ok2}
 	expected := args.Map{"val": 99, "ok": false, "val2": 77, "ok2": false}
-	expected.ShouldBeEqual(t, 0, "Dynamic IntDefault", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- IntDefault", actual)
 }
 
 func Test_Cov7_Dynamic_Float64(t *testing.T) {
@@ -679,7 +679,7 @@ func Test_Cov7_Dynamic_Float64(t *testing.T) {
 	_, err2 := dBad.Float64()
 	actual := args.Map{"nullErr": err1 != nil, "badErr": err2 != nil}
 	expected := args.Map{"nullErr": true, "badErr": true}
-	expected.ShouldBeEqual(t, 0, "Dynamic Float64 errors", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns error -- Float64 errors", actual)
 }
 
 func Test_Cov7_Dynamic_ValueNullErr(t *testing.T) {
@@ -690,7 +690,7 @@ func Test_Cov7_Dynamic_ValueNullErr(t *testing.T) {
 		"nilErr": nilD.ValueNullErr() != nil,
 	}
 	expected := args.Map{"noErr": true, "nilErr": true}
-	expected.ShouldBeEqual(t, 0, "Dynamic ValueNullErr", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns error -- ValueNullErr", actual)
 }
 
 func Test_Cov7_Dynamic_ValueString(t *testing.T) {
@@ -703,7 +703,7 @@ func Test_Cov7_Dynamic_ValueString(t *testing.T) {
 		"nilStr": nilD.ValueString(),
 	}
 	expected := args.Map{"str": "hello", "intStr": true, "nilStr": ""}
-	expected.ShouldBeEqual(t, 0, "Dynamic ValueString", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns non-empty -- ValueString", actual)
 }
 
 func Test_Cov7_Dynamic_Bytes(t *testing.T) {
@@ -715,7 +715,7 @@ func Test_Cov7_Dynamic_Bytes(t *testing.T) {
 	_, ok3 := nilD.Bytes()
 	actual := args.Map{"len": len(b), "ok": ok, "ok2": ok2, "ok3": ok3}
 	expected := args.Map{"len": 5, "ok": true, "ok2": false, "ok3": false}
-	expected.ShouldBeEqual(t, 0, "Dynamic Bytes", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- Bytes", actual)
 }
 
 func Test_Cov7_Dynamic_StructString(t *testing.T) {
@@ -724,7 +724,7 @@ func Test_Cov7_Dynamic_StructString(t *testing.T) {
 	s2 := d.String()
 	actual := args.Map{"s1NN": s1 != "", "s2NN": s2 != ""}
 	expected := args.Map{"s1NN": true, "s2NN": true}
-	expected.ShouldBeEqual(t, 0, "Dynamic StructString", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- StructString", actual)
 }
 
 func Test_Cov7_Dynamic_IsStructStringNull(t *testing.T) {
@@ -740,7 +740,7 @@ func Test_Cov7_Dynamic_IsStructStringNull(t *testing.T) {
 		"nullOrEmpty": true, "empty": actual["empty"],
 		"wsOrEmpty": actual["wsOrEmpty"],
 	}
-	expected.ShouldBeEqual(t, 0, "Dynamic IsStructStringNull", actual)
+	expected.ShouldBeEqual(t, 0, "Dynamic returns correct value -- IsStructStringNull", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -761,7 +761,7 @@ func Test_Cov7_TypeSameStatus(t *testing.T) {
 		"same": true, "notSame": true, "notEq": true,
 		"anyPtr": false, "bothPtr": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeSameStatus", actual)
+	expected.ShouldBeEqual(t, 0, "TypeSameStatus returns correct value -- with args", actual)
 }
 
 func Test_Cov7_TypeStatus_Names(t *testing.T) {
@@ -784,7 +784,7 @@ func Test_Cov7_TypeStatus_Names(t *testing.T) {
 		"notMatchMsg": true, "notMatchErr": true, "validErr": true,
 		"srcDestMsg": true, "srcDestErr": true, "sameRegPt": false,
 	}
-	expected.ShouldBeEqual(t, 0, "TypeStatus names", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns correct value -- names", actual)
 }
 
 func Test_Cov7_TypeStatus_SameNoError(t *testing.T) {
@@ -795,7 +795,7 @@ func Test_Cov7_TypeStatus_SameNoError(t *testing.T) {
 		"validErr": ts.ValidationError() == nil,
 	}
 	expected := args.Map{"matchMsg": "", "matchErr": true, "validErr": true}
-	expected.ShouldBeEqual(t, 0, "TypeStatus same no error", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns empty -- same no error", actual)
 }
 
 func Test_Cov7_TypeStatus_IsEqual(t *testing.T) {
@@ -810,7 +810,7 @@ func Test_Cov7_TypeStatus_IsEqual(t *testing.T) {
 		"nilOneNil": nilTS.IsEqual(&ts1),
 	}
 	expected := args.Map{"eq": true, "notEq": false, "nilBoth": true, "nilOneNil": false}
-	expected.ShouldBeEqual(t, 0, "TypeStatus IsEqual", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns correct value -- IsEqual", actual)
 }
 
 func Test_Cov7_TypeStatus_Valid(t *testing.T) {
@@ -823,7 +823,7 @@ func Test_Cov7_TypeStatus_Valid(t *testing.T) {
 		"nilInv":   nilTS.IsInvalid(),
 	}
 	expected := args.Map{"valid": true, "invalid": false, "nilValid": false, "nilInv": true}
-	expected.ShouldBeEqual(t, 0, "TypeStatus Valid", actual)
+	expected.ShouldBeEqual(t, 0, "TypeStatus returns non-empty -- Valid", actual)
 }
 
 // ═══════════════════════════════════════════
@@ -835,7 +835,7 @@ func Test_Cov7_TypeNotEqualErr(t *testing.T) {
 	hasErr := coredynamic.TypeNotEqualErr("a", 1)
 	actual := args.Map{"noErr": noErr == nil, "hasErr": hasErr != nil}
 	expected := args.Map{"noErr": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "TypeNotEqualErr", actual)
+	expected.ShouldBeEqual(t, 0, "TypeNotEqualErr returns error -- with args", actual)
 }
 
 func Test_Cov7_TypeMustBeSame_NoPanic(t *testing.T) {
@@ -853,7 +853,7 @@ func Test_Cov7_TypeMustBeSame_Panic(t *testing.T) {
 		r := recover()
 		actual := args.Map{"panicked": r != nil}
 		expected := args.Map{"panicked": true}
-		expected.ShouldBeEqual(t, 0, "TypeMustBeSame panic", actual)
+		expected.ShouldBeEqual(t, 0, "TypeMustBeSame panics -- panic", actual)
 	}()
 	coredynamic.TypeMustBeSame("a", 1)
 }
@@ -866,7 +866,7 @@ func Test_Cov7_IsAnyTypesOf(t *testing.T) {
 		"notFound": coredynamic.IsAnyTypesOf(strType, intType),
 	}
 	expected := args.Map{"found": true, "notFound": false}
-	expected.ShouldBeEqual(t, 0, "IsAnyTypesOf", actual)
+	expected.ShouldBeEqual(t, 0, "IsAnyTypesOf returns correct value -- with args", actual)
 }
 
 func Test_Cov7_TypesIndexOf(t *testing.T) {
@@ -877,14 +877,14 @@ func Test_Cov7_TypesIndexOf(t *testing.T) {
 		"notFound": coredynamic.TypesIndexOf(strType, intType),
 	}
 	expected := args.Map{"found": 1, "notFound": -1}
-	expected.ShouldBeEqual(t, 0, "TypesIndexOf", actual)
+	expected.ShouldBeEqual(t, 0, "TypesIndexOf returns correct value -- with args", actual)
 }
 
 func Test_Cov7_AnyToReflectVal(t *testing.T) {
 	rv := coredynamic.AnyToReflectVal("hello")
 	actual := args.Map{"kind": rv.Kind().String()}
 	expected := args.Map{"kind": "string"}
-	expected.ShouldBeEqual(t, 0, "AnyToReflectVal", actual)
+	expected.ShouldBeEqual(t, 0, "AnyToReflectVal returns correct value -- with args", actual)
 }
 
 func Test_Cov7_ReflectKindValidation(t *testing.T) {
@@ -892,7 +892,7 @@ func Test_Cov7_ReflectKindValidation(t *testing.T) {
 	hasErr := coredynamic.ReflectKindValidation(reflect.Int, "hello")
 	actual := args.Map{"noErr": noErr == nil, "hasErr": hasErr != nil}
 	expected := args.Map{"noErr": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "ReflectKindValidation", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectKindValidation returns non-empty -- with args", actual)
 }
 
 func Test_Cov7_ReflectTypeValidation(t *testing.T) {
@@ -904,7 +904,7 @@ func Test_Cov7_ReflectTypeValidation(t *testing.T) {
 		"noErr": noErr == nil, "nilErr": nilErr != nil, "mismatch": mismatch != nil,
 	}
 	expected := args.Map{"noErr": true, "nilErr": true, "mismatch": true}
-	expected.ShouldBeEqual(t, 0, "ReflectTypeValidation", actual)
+	expected.ShouldBeEqual(t, 0, "ReflectTypeValidation returns non-empty -- with args", actual)
 }
 
 func Test_Cov7_NotAcceptedTypesErr(t *testing.T) {
@@ -913,14 +913,14 @@ func Test_Cov7_NotAcceptedTypesErr(t *testing.T) {
 	hasErr := coredynamic.NotAcceptedTypesErr(42, strType)
 	actual := args.Map{"noErr": noErr == nil, "hasErr": hasErr != nil}
 	expected := args.Map{"noErr": true, "hasErr": true}
-	expected.ShouldBeEqual(t, 0, "NotAcceptedTypesErr", actual)
+	expected.ShouldBeEqual(t, 0, "NotAcceptedTypesErr returns error -- with args", actual)
 }
 
 func Test_Cov7_PointerOrNonPointer(t *testing.T) {
 	val, _ := coredynamic.PointerOrNonPointer(false, "hello")
 	actual := args.Map{"val": val}
 	expected := args.Map{"val": "hello"}
-	expected.ShouldBeEqual(t, 0, "PointerOrNonPointer", actual)
+	expected.ShouldBeEqual(t, 0, "PointerOrNonPointer returns correct value -- with args", actual)
 }
 
 func Test_Cov7_BytesConverter_Basic(t *testing.T) {
@@ -934,7 +934,7 @@ func Test_Cov7_BytesConverter_Basic(t *testing.T) {
 	expected := args.Map{
 		"s": "hello", "noErr": true, "cs": true, "cs2": true, "csErr": true,
 	}
-	expected.ShouldBeEqual(t, 0, "BytesConverter basic", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- basic", actual)
 }
 
 func Test_Cov7_BytesConverter_Empty(t *testing.T) {
@@ -943,7 +943,7 @@ func Test_Cov7_BytesConverter_Empty(t *testing.T) {
 	_, csErr := bc.CastString()
 	actual := args.Map{"cs": cs, "csErr": csErr != nil}
 	expected := args.Map{"cs": "", "csErr": true}
-	expected.ShouldBeEqual(t, 0, "BytesConverter empty", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns empty -- empty", actual)
 }
 
 func Test_Cov7_BytesConverter_ToBool(t *testing.T) {
@@ -951,7 +951,7 @@ func Test_Cov7_BytesConverter_ToBool(t *testing.T) {
 	b, err := bc.ToBool()
 	actual := args.Map{"b": b, "noErr": err == nil}
 	expected := args.Map{"b": true, "noErr": true}
-	expected.ShouldBeEqual(t, 0, "BytesConverter ToBool", actual)
+	expected.ShouldBeEqual(t, 0, "BytesConverter returns correct value -- ToBool", actual)
 }
 
 func Test_Cov7_CastedResult_Methods(t *testing.T) {
@@ -983,7 +983,7 @@ func Test_Cov7_CastedResult_Methods(t *testing.T) {
 		"nilNotPtr": false, "nilNotMatch": false, "nilSrcKind": false,
 		"nilHasErr": false,
 	}
-	expected.ShouldBeEqual(t, 0, "CastedResult methods", actual)
+	expected.ShouldBeEqual(t, 0, "CastedResult returns correct value -- methods", actual)
 }
 
 func Test_Cov7_ZeroSetAny(t *testing.T) {
@@ -992,7 +992,7 @@ func Test_Cov7_ZeroSetAny(t *testing.T) {
 	coredynamic.ZeroSetAny(s)
 	actual := args.Map{"name": s.Name}
 	expected := args.Map{"name": ""}
-	expected.ShouldBeEqual(t, 0, "ZeroSetAny", actual)
+	expected.ShouldBeEqual(t, 0, "ZeroSetAny returns correct value -- with args", actual)
 }
 
 func Test_Cov7_ZeroSetAny_Nil(t *testing.T) {
@@ -1010,7 +1010,7 @@ func Test_Cov7_MapAnyItems_Constructors(t *testing.T) {
 		"emptyItemsLen": emptyItems.Length(),
 	}
 	expected := args.Map{"emptyLen": 0, "withItemsLen": 1, "emptyItemsLen": 0}
-	expected.ShouldBeEqual(t, 0, "MapAnyItems constructors", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItems returns correct value -- constructors", actual)
 }
 
 func Test_Cov7_MapAnyItems_AddAndGet(t *testing.T) {
@@ -1024,7 +1024,7 @@ func Test_Cov7_MapAnyItems_AddAndGet(t *testing.T) {
 		"isNew": isNew, "isNew2": isNew2, "v": v, "has": has, "notHas": notHas,
 	}
 	expected := args.Map{"isNew": true, "isNew2": false, "v": "val2", "has": true, "notHas": false}
-	expected.ShouldBeEqual(t, 0, "MapAnyItems Add/Get", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItems returns correct value -- Add/Get", actual)
 }
 
 func Test_Cov7_MapAnyItems_HasKey(t *testing.T) {
@@ -1039,5 +1039,5 @@ func Test_Cov7_MapAnyItems_HasKey(t *testing.T) {
 		"hasAny": m.HasAnyItem(),
 	}
 	expected := args.Map{"has": true, "notHas": false, "nilHas": false, "empty": false, "hasAny": true}
-	expected.ShouldBeEqual(t, 0, "MapAnyItems HasKey", actual)
+	expected.ShouldBeEqual(t, 0, "MapAnyItems returns correct value -- HasKey", actual)
 }
