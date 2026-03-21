@@ -245,7 +245,7 @@ func Test_C34_KVC_AddKeyValues(t *testing.T) {
 
 func Test_C34_KVC_Hashmap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Hashmap()
 	_ = corestr.New.KeyValues.Empty().Hashmap()
 }
