@@ -374,8 +374,8 @@ func Test_C34_LMR_Methods(t *testing.T) {
 func Test_C34_LMRFS_Methods(t *testing.T) {
 	_ = corestr.LeftMiddleRightFromSplit("a:b:c", ":")
 	_ = corestr.LeftMiddleRightFromSplitTrimmed("a : b : c", ":")
-	_ = corestr.LeftMiddleRightFromSplitN("a:b:c", ":", 3)
-	_ = corestr.LeftMiddleRightFromSplitNTrimmed("a : b : c", ":", 3)
+	_ = corestr.LeftMiddleRightFromSplitN("a:b:c", ":")
+	_ = corestr.LeftMiddleRightFromSplitNTrimmed("a : b : c", ":")
 }
 
 // ── ValidValue ──
