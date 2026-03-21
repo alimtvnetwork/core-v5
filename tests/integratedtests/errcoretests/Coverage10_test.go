@@ -1049,7 +1049,7 @@ func Test_Cov10_RawErrorType_MsgCsvRef_Empty(t *testing.T) {
 	result := errcore.InvalidType.MsgCsvRef("msg")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "MsgCsvRef empty", actual)
+	expected.ShouldBeEqual(t, 0, "MsgCsvRef returns non-empty -- empty msg", actual)
 }
 
 func Test_Cov10_RawErrorType_MsgCsvRef_WithItems(t *testing.T) {
@@ -1162,42 +1162,42 @@ func Test_Cov10_ShouldBe_StrEqMsg(t *testing.T) {
 	result := errcore.ShouldBe.StrEqMsg("a", "b")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StrEqMsg", actual)
+	expected.ShouldBeEqual(t, 0, "ShouldBe.StrEqMsg returns non-empty -- different strings", actual)
 }
 
 func Test_Cov10_ShouldBe_StrEqErr(t *testing.T) {
 	err := errcore.ShouldBe.StrEqErr("a", "b")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "StrEqErr", actual)
+	expected.ShouldBeEqual(t, 0, "ShouldBe.StrEqErr returns error -- different strings", actual)
 }
 
 func Test_Cov10_ShouldBe_AnyEqMsg(t *testing.T) {
 	result := errcore.ShouldBe.AnyEqMsg(1, 2)
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "AnyEqMsg", actual)
+	expected.ShouldBeEqual(t, 0, "ShouldBe.AnyEqMsg returns non-empty -- different values", actual)
 }
 
 func Test_Cov10_ShouldBe_AnyEqErr(t *testing.T) {
 	err := errcore.ShouldBe.AnyEqErr(1, 2)
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "AnyEqErr", actual)
+	expected.ShouldBeEqual(t, 0, "ShouldBe.AnyEqErr returns error -- different values", actual)
 }
 
 func Test_Cov10_ShouldBe_JsonEqMsg(t *testing.T) {
 	result := errcore.ShouldBe.JsonEqMsg("a", "b")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "JsonEqMsg", actual)
+	expected.ShouldBeEqual(t, 0, "ShouldBe.JsonEqMsg returns non-empty -- different json", actual)
 }
 
 func Test_Cov10_ShouldBe_JsonEqErr(t *testing.T) {
 	err := errcore.ShouldBe.JsonEqErr("a", "b")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "JsonEqErr", actual)
+	expected.ShouldBeEqual(t, 0, "ShouldBe.JsonEqErr returns error -- different json", actual)
 }
 
 // ── Expected ──
@@ -1206,49 +1206,49 @@ func Test_Cov10_Expected_But(t *testing.T) {
 	err := errcore.Expected.But("title", "exp", "act")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Expected But", actual)
+	expected.ShouldBeEqual(t, 0, "Expected.But returns error -- with args", actual)
 }
 
 func Test_Cov10_Expected_ButFoundAsMsg(t *testing.T) {
 	result := errcore.Expected.ButFoundAsMsg("title", "exp", "act")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Expected ButFoundAsMsg", actual)
+	expected.ShouldBeEqual(t, 0, "Expected.ButFoundAsMsg returns non-empty -- with args", actual)
 }
 
 func Test_Cov10_Expected_ButFoundWithTypeAsMsg(t *testing.T) {
 	result := errcore.Expected.ButFoundWithTypeAsMsg("title", "exp", "act")
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "Expected ButFoundWithTypeAsMsg", actual)
+	expected.ShouldBeEqual(t, 0, "Expected.ButFoundWithTypeAsMsg returns non-empty -- with args", actual)
 }
 
 func Test_Cov10_Expected_ButUsingType(t *testing.T) {
 	err := errcore.Expected.ButUsingType("title", "exp", "act")
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Expected ButUsingType", actual)
+	expected.ShouldBeEqual(t, 0, "Expected.ButUsingType returns error -- with args", actual)
 }
 
 func Test_Cov10_Expected_ReflectButFound(t *testing.T) {
 	err := errcore.Expected.ReflectButFound(reflect.String, reflect.Int)
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Expected ReflectButFound", actual)
+	expected.ShouldBeEqual(t, 0, "Expected.ReflectButFound returns error -- different kinds", actual)
 }
 
 func Test_Cov10_Expected_PrimitiveButFound(t *testing.T) {
 	err := errcore.Expected.PrimitiveButFound(reflect.Slice)
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Expected PrimitiveButFound", actual)
+	expected.ShouldBeEqual(t, 0, "Expected.PrimitiveButFound returns error -- non-primitive kind", actual)
 }
 
 func Test_Cov10_Expected_ValueHasNoElements(t *testing.T) {
 	err := errcore.Expected.ValueHasNoElements(reflect.Slice)
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "Expected ValueHasNoElements", actual)
+	expected.ShouldBeEqual(t, 0, "Expected.ValueHasNoElements returns error -- with kind", actual)
 }
 
 // ── StackEnhance ──
@@ -1257,21 +1257,21 @@ func Test_Cov10_StackEnhance_Error_Nil(t *testing.T) {
 	err := errcore.StackEnhance.Error(nil)
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance Error nil", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.Error returns nil -- nil error", actual)
 }
 
 func Test_Cov10_StackEnhance_Error_WithErr(t *testing.T) {
 	err := errcore.StackEnhance.Error(errors.New("e"))
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance Error with err", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.Error returns error -- with error", actual)
 }
 
 func Test_Cov10_StackEnhance_Msg_Empty(t *testing.T) {
 	result := errcore.StackEnhance.Msg("")
 	actual := args.Map{"empty": result == ""}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance Msg empty", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.Msg returns empty -- empty message", actual)
 }
 
 func Test_Cov10_StackEnhance_Msg_NonEmpty(t *testing.T) {
@@ -1285,14 +1285,14 @@ func Test_Cov10_StackEnhance_MsgToErrSkip_Empty(t *testing.T) {
 	err := errcore.StackEnhance.MsgToErrSkip(0, "")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance MsgToErrSkip empty", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.MsgToErrSkip returns nil -- empty message", actual)
 }
 
 func Test_Cov10_StackEnhance_FmtSkip_Empty(t *testing.T) {
 	err := errcore.StackEnhance.FmtSkip(0, "")
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance FmtSkip empty", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.FmtSkip returns nil -- empty format", actual)
 }
 
 func Test_Cov10_StackEnhance_FmtSkip_NonEmpty(t *testing.T) {
@@ -1313,21 +1313,21 @@ func Test_Cov10_StackEnhance_MsgErrorSkip_WithErr(t *testing.T) {
 	result := errcore.StackEnhance.MsgErrorSkip(0, "msg", errors.New("e"))
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance MsgErrorSkip with err", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.MsgErrorSkip returns non-empty -- with error", actual)
 }
 
 func Test_Cov10_StackEnhance_MsgErrorToErrSkip_Nil(t *testing.T) {
 	err := errcore.StackEnhance.MsgErrorToErrSkip(0, "msg", nil)
 	actual := args.Map{"isNil": err == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance MsgErrorToErrSkip nil", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.MsgErrorToErrSkip returns nil -- nil error", actual)
 }
 
 func Test_Cov10_StackEnhance_MsgErrorToErrSkip_WithErr(t *testing.T) {
 	err := errcore.StackEnhance.MsgErrorToErrSkip(0, "msg", errors.New("e"))
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "StackEnhance MsgErrorToErrSkip with err", actual)
+	expected.ShouldBeEqual(t, 0, "StackEnhance.MsgErrorToErrSkip returns error -- with error", actual)
 }
 
 // ── VarNameValues / VarNameValuesJoiner / VarNameValuesStrings ──
