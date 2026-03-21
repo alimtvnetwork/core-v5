@@ -199,20 +199,22 @@ func Test_C33_LC_AddLock(t *testing.T) {
 
 func Test_C33_LC_AddAsync(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
-	lc.AddAsync(corestr.New.Collection.Strings([]string{"a"}))
+	var wg sync.WaitGroup
+	wg.Add(1)
+	lc.AddAsync(corestr.New.Collection.Strings([]string{"a"}), &wg)
+	wg.Wait()
 }
 
 func Test_C33_LC_AddAnother(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
-	other := corestr.New.LinkedCollection.Strings([]string{"a"})
+	other := corestr.New.LinkedCollection.Strings("a")
 	lc.AddAnother(other)
 	lc.AddAnother(corestr.New.LinkedCollection.Empty())
 }
 
 func Test_C33_LC_AddStrings(t *testing.T) {
 	lc := corestr.New.LinkedCollection.Empty()
-	lc.AddStrings(false, []string{"a"})
-	lc.AddStrings(false, nil)
+	lc.AddStrings("a")
 }
 
 func Test_C33_LC_AddAfterNode(t *testing.T) {
