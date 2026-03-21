@@ -177,7 +177,7 @@ func Test_C34_KAVP_JsonParseSelfInject(t *testing.T) {
 
 func Test_C34_KVC_Basic(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Length()
 	_ = kvc.Count()
 	_ = kvc.HasAnyItem()
