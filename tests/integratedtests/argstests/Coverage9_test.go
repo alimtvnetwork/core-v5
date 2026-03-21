@@ -220,11 +220,10 @@ func Test_Cov9_NewFuncWrap_StructToMap(t *testing.T) {
 // Covers OneFunc.go L84-105
 
 func Test_Cov9_OneFunc_InvokeMust(t *testing.T) {
-	fn := func(s string) string { return s + "!" }
 	of := &args.OneFunc[string]{
-		First: "hi",
+		First:    "hi",
+		WorkFunc: func(s string) string { return s + "!" },
 	}
-	
 
 	results := of.InvokeMust("test")
 
@@ -234,11 +233,10 @@ func Test_Cov9_OneFunc_InvokeMust(t *testing.T) {
 }
 
 func Test_Cov9_OneFunc_InvokeWithValidArgs(t *testing.T) {
-	fn := func(s string) string { return s + "!" }
 	of := &args.OneFunc[string]{
-		First: "hi",
+		First:    "hi",
+		WorkFunc: func(s string) string { return s + "!" },
 	}
-	
 
 	results, err := of.InvokeWithValidArgs()
 
@@ -248,11 +246,10 @@ func Test_Cov9_OneFunc_InvokeWithValidArgs(t *testing.T) {
 }
 
 func Test_Cov9_OneFunc_InvokeArgs(t *testing.T) {
-	fn := func(s string) string { return s + "!" }
 	of := &args.OneFunc[string]{
-		First: "hi",
+		First:    "hi",
+		WorkFunc: func(s string) string { return s + "!" },
 	}
-	
 
 	results, err := of.InvokeArgs(1)
 
