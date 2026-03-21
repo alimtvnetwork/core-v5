@@ -223,7 +223,7 @@ func Test_C34_KVC_AddHashset(t *testing.T) {
 
 func Test_C34_KVC_AddHashsetMap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.AddHashsetMap(corestr.New.Hashmap.Empty())
+	kvc.AddHashsetMap(map[string]bool{"a": true})
 }
 
 func Test_C34_KVC_GetValueByKey(t *testing.T) {
