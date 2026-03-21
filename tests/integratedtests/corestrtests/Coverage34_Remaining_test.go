@@ -228,7 +228,7 @@ func Test_C34_KVC_AddHashsetMap(t *testing.T) {
 
 func Test_C34_KVC_GetValueByKey(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.GetValueByKey("k")
 	_ = kvc.GetValueByKey("missing")
 }
