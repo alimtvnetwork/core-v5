@@ -34,7 +34,7 @@ func Test_Cov17_Attributes_Clone_NilPtr(t *testing.T) {
 	var a *corepayload.Attributes
 	cloned, err := a.Clone(false)
 
-	actual := args.Map{"isEmpty": cloned == (corepayload.Attributes{}), "noErr": err == nil}
+	actual := args.Map{"isNil": cloned == nil, "noErr": err == nil}
 	expected := args.Map{"isEmpty": true, "noErr": true}
 	expected.ShouldBeEqual(t, 0, "Clone returns empty -- nil receiver", actual)
 }
