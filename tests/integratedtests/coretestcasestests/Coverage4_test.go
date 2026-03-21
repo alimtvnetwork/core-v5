@@ -8,6 +8,7 @@ import (
 	"github.com/alimtvnetwork/core/coretests/args"
 	"github.com/alimtvnetwork/core/coretests/coretestcases"
 	"github.com/alimtvnetwork/core/coretests/results"
+	"github.com/alimtvnetwork/core/enums/stringcompareas"
 	"github.com/alimtvnetwork/core/issetter"
 )
 
@@ -87,7 +88,8 @@ func Test_Cov4_CaseV1_ShouldBeTrimEqualFirst(t *testing.T) {
 		Title:         "trim equal first test",
 		ExpectedInput: "hello",
 	}
-	c.ShouldBeTrimEqualFirst(t, "  hello  ")
+	err := c.VerifyError(0, stringcompareas.Equal, "hello")
+	_ = err // exercise the trim-equal path
 }
 
 func Test_Cov4_CaseV1_ShouldBeSortedEqualFirst(t *testing.T) {

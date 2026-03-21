@@ -228,7 +228,7 @@ func Test_C34_KVC_AddHashsetMap(t *testing.T) {
 
 func Test_C34_KVC_GetValueByKey(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.GetValueByKey("k")
 	_ = kvc.GetValueByKey("missing")
 }
@@ -245,20 +245,20 @@ func Test_C34_KVC_AddKeyValues(t *testing.T) {
 
 func Test_C34_KVC_Hashmap(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Hashmap()
 	_ = corestr.New.KeyValues.Empty().Hashmap()
 }
 
 func Test_C34_KVC_HashmapOptions(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.HashmapOptions(true)
 }
 
 func Test_C34_KVC_Clear(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	kvc.Clear()
 }
 
@@ -269,7 +269,7 @@ func Test_C34_KVC_Dispose(t *testing.T) {
 
 func Test_C34_KVC_JsonMethods(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Json()
 	_ = kvc.JsonPtr()
 	_ = kvc.JsonModel()
