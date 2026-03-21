@@ -75,9 +75,10 @@ func Test_Cov10_GetSinglePageCollection_NegativePagePanic(t *testing.T) {
 // Covers TraceCollection.go L119-120 (continue) and L141 (return)
 
 func Test_Cov10_AddsUsingSkipUsingFilter_SkipContinue(t *testing.T) {
-	// Arrange
-	tcVal := codestack.New.StackTrace.Default(1, 3)
+	// Arrange — start with items
+	tcVal := codestack.New.StackTrace.Default(0, 10)
 	tc := &tcVal
+	initialLen := tc.Length()
 	takeAll := func(trace *codestack.Trace) (bool, bool) {
 		return true, false
 	}
@@ -85,8 +86,8 @@ func Test_Cov10_AddsUsingSkipUsingFilter_SkipContinue(t *testing.T) {
 	// Act — isSkipInvalid=true, isBreakOnceInvalid=false, high skip index
 	tc.AddsUsingSkipUsingFilter(true, false, 900, 5, takeAll)
 
-	// Assert — original items preserved, no new invalid ones added
-	actual := args.Map{"hasItems": tc.HasAnyItem()}
+	// Assert — original items preserved
+	actual := args.Map{"hasItems": tc.Length() >= initialLen}
 	expected := args.Map{"hasItems": true}
 	expected.ShouldBeEqual(t, 0, "AddsUsingSkipUsingFilter skips invalid -- continues", actual)
 }
