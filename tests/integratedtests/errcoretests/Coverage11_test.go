@@ -851,24 +851,24 @@ func Test_Cov11_RawErrCollection_CompiledErrorWithStackTraces(t *testing.T) {
 	rec := &errcore.RawErrCollection{}
 	actual := args.Map{"isNil": rec.CompiledErrorWithStackTraces() == nil}
 	expected := args.Map{"isNil": true}
-	expected.ShouldBeEqual(t, 0, "CEWST empty", actual)
+	expected.ShouldBeEqual(t, 0, "RawErrCollection.CompiledErrorWithStackTraces returns nil -- empty with traces", actual)
 
 	rec.Add(errors.New("a"))
 	actual2 := args.Map{"notNil": rec.CompiledErrorWithStackTraces() != nil}
 	expected2 := args.Map{"notNil": true}
-	expected2.ShouldBeEqual(t, 0, "CEWST non-empty", actual2)
+	expected2.ShouldBeEqual(t, 0, "RawErrCollection.CompiledErrorWithStackTraces returns error -- with traces", actual2)
 }
 
 func Test_Cov11_RawErrCollection_CompiledStackTracesString(t *testing.T) {
 	rec := &errcore.RawErrCollection{}
 	actual := args.Map{"empty": rec.CompiledStackTracesString() == ""}
 	expected := args.Map{"empty": true}
-	expected.ShouldBeEqual(t, 0, "CSTS empty", actual)
+	expected.ShouldBeEqual(t, 0, "RawErrCollection.CompiledStringToString returns empty -- empty collection", actual)
 
 	rec.Add(errors.New("a"))
 	actual2 := args.Map{"notEmpty": rec.CompiledStackTracesString() != ""}
 	expected2 := args.Map{"notEmpty": true}
-	expected2.ShouldBeEqual(t, 0, "CSTS non-empty", actual2)
+	expected2.ShouldBeEqual(t, 0, "RawErrCollection.CompiledStringToString returns non-empty -- with errors", actual2)
 }
 
 func Test_Cov11_RawErrCollection_CompiledJsonErrorWithStackTraces(t *testing.T) {
@@ -877,7 +877,7 @@ func Test_Cov11_RawErrCollection_CompiledJsonErrorWithStackTraces(t *testing.T) 
 	err := rec.CompiledJsonErrorWithStackTraces()
 	actual := args.Map{"notNil": err != nil}
 	expected := args.Map{"notNil": true}
-	expected.ShouldBeEqual(t, 0, "CJEWST", actual)
+	expected.ShouldBeEqual(t, 0, "RawErrCollection.CompiledJoinErrorWithStackTraces returns non-empty -- with errors", actual)
 }
 
 func Test_Cov11_RawErrCollection_CompiledJsonStringWithStackTraces(t *testing.T) {
@@ -886,7 +886,7 @@ func Test_Cov11_RawErrCollection_CompiledJsonStringWithStackTraces(t *testing.T)
 	result := rec.CompiledJsonStringWithStackTraces()
 	actual := args.Map{"notEmpty": result != ""}
 	expected := args.Map{"notEmpty": true}
-	expected.ShouldBeEqual(t, 0, "CJSWST", actual)
+	expected.ShouldBeEqual(t, 0, "RawErrCollection.CompiledJoinStringWithStackTraces returns non-empty -- with errors", actual)
 }
 
 func Test_Cov11_RawErrCollection_FullString(t *testing.T) {
@@ -894,7 +894,7 @@ func Test_Cov11_RawErrCollection_FullString(t *testing.T) {
 	rec.Add(errors.New("a"))
 	actual := args.Map{"v": rec.FullString() != ""}
 	expected := args.Map{"v": true}
-	expected.ShouldBeEqual(t, 0, "FullString", actual)
+	expected.ShouldBeEqual(t, 0, "RawErrCollection.FullString returns non-empty -- with errors populated", actual)
 }
 
 func Test_Cov11_RawErrCollection_FullStringWithTraces(t *testing.T) {
