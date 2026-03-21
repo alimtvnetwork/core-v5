@@ -61,12 +61,13 @@
 - **Acceptance criteria**: CI runs on push, blocks on failures
 - **Completed**: GitHub Actions workflow (`.github/workflows/ci.yml`) with 4 jobs: lint, test+coverage gate (60%), govulncheck, build. `.golangci.yml` updated with gocritic, nilerr, durationcheck, prealloc, gosimple.
 
-### C.4 — Module Splitting
+### C.4 — Module Splitting ✅ Done
 - **Objective**: Evaluate splitting monorepo into focused Go modules
 - **Dependencies**: All coverage work complete ✅
 - **Expected outputs**: Architecture decision doc
 - **Acceptance criteria**: Decision documented with migration path
-- **Spec reference**: `spec/01-app/15-code-review-report.md`
+- **Spec reference**: `spec/01-app/26-module-splitting-decision.md`
+- **Completed**: Decision — **keep single module**. High internal coupling (especially `internal/*`, `constants`, `errcore`) makes clean splits impractical. Documented triggers for re-evaluation.
 
 ---
 
