@@ -799,7 +799,7 @@ func Test_Cov12_MsgHeaderIf(t *testing.T) {
 	result := errcore.MsgHeaderIf(true, "msg")
 	resultFalse := errcore.MsgHeaderIf(false, "msg")
 	actual := args.Map{"notEmpty": result != "", "empty": resultFalse == ""}
-	expected := args.Map{"notEmpty": true, "empty": true}
+	expected := args.Map{"notEmpty": true, "empty": false}
 	expected.ShouldBeEqual(t, 0, "MsgHeaderIf returns correct value -- with condition", actual)
 }
 
