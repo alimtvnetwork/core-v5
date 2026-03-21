@@ -1452,7 +1452,7 @@ func Test_C27_178_Utils_WrapSingle(t *testing.T) {
 }
 
 func Test_C27_179_Utils_WrapTilda(t *testing.T) {
-	u := corestr.Utils
+	u := corestr.StringUtils
 	if u.WrapTilda("hi") != "`hi`" {
 		t.Error("expected wrapped")
 	}
