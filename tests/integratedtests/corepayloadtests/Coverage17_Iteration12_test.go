@@ -307,9 +307,8 @@ func Test_Cov17_PayloadWrapper_DeserializeToPayloadWrapperMust(t *testing.T) {
 
 func Test_Cov17_PayloadWrapper_ParseInjectUsingJson_Error(t *testing.T) {
 	pw := &corepayload.PayloadWrapper{}
-	badResult := corejson.NewResult.Error(
-		errTestHelper("bad json"),
-	)
+	r := corejson.NewResult.Error(errTestHelper("bad json"))
+	badResult := &r
 
 	_, err := pw.ParseInjectUsingJson(badResult)
 
