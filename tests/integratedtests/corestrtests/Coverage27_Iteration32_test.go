@@ -1412,7 +1412,7 @@ func Test_C27_174_AllIndividualsLengthOfSimpleSlices_Nil(t *testing.T) {
 // ═══════════════════════════════════════════════════════════════════════
 
 func Test_C27_175_Utils_WrapDoubleIfMissing(t *testing.T) {
-	u := corestr.Utils
+	u := corestr.StringUtils
 	if u.WrapDoubleIfMissing("hello") != `"hello"` {
 		t.Error("expected wrapped")
 	}
