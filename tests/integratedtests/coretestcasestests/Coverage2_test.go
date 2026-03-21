@@ -153,7 +153,10 @@ func Test_Cov2_CaseV1_ShouldContains(t *testing.T) {
 		ExpectedInput: "hello",
 	}
 
-	c.ShouldContains(t, 0, "hello world")
+	err := c.VerifyError(0, stringcompareas.Contains, "hello world")
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "ShouldContains passes -- hello in hello world", actual)
 }
 
 func Test_Cov2_CaseV1_ShouldContainsFirst(t *testing.T) {
@@ -162,7 +165,10 @@ func Test_Cov2_CaseV1_ShouldContainsFirst(t *testing.T) {
 		ExpectedInput: "hello",
 	}
 
-	c.ShouldContainsFirst(t, "hello world")
+	err := c.VerifyError(0, stringcompareas.Contains, "hello world")
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "ShouldContainsFirst passes -- hello in hello world", actual)
 }
 
 func Test_Cov2_CaseV1_ShouldStartsWith(t *testing.T) {
@@ -171,7 +177,10 @@ func Test_Cov2_CaseV1_ShouldStartsWith(t *testing.T) {
 		ExpectedInput: "hello",
 	}
 
-	c.ShouldStartsWith(t, 0, "hello world")
+	err := c.VerifyError(0, stringcompareas.StartsWith, "hello world")
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "ShouldStartsWith passes -- hello starts hello world", actual)
 }
 
 func Test_Cov2_CaseV1_ShouldStartsWithFirst(t *testing.T) {
@@ -180,7 +189,10 @@ func Test_Cov2_CaseV1_ShouldStartsWithFirst(t *testing.T) {
 		ExpectedInput: "hello",
 	}
 
-	c.ShouldStartsWithFirst(t, "hello world")
+	err := c.VerifyError(0, stringcompareas.StartsWith, "hello world")
+	actual := args.Map{"noErr": err == nil}
+	expected := args.Map{"noErr": true}
+	expected.ShouldBeEqual(t, 0, "ShouldStartsWithFirst passes -- hello starts hello world", actual)
 }
 
 func Test_Cov2_CaseV1_ShouldEndsWith(t *testing.T) {
