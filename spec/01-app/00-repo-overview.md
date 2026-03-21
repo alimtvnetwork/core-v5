@@ -16,7 +16,7 @@
 core.go                  ← root package: slice/map factory helpers
 ├── chmodhelper/          ← file-system chmod parsing, verification, application
 ├── cmd/                  ← CLI entry-points (main, server, client, sample)
-├── codegen/              ← unit-test code generation (DEPRECATED — see 10-codegen-deprecation-plan.md)
+│   # codegen/ removed (v1.6.0)
 ├── codestack/            ← call-stack capture & trace formatting
 ├── conditional/          ← generic ternary helpers (Bool, Int, String, …)
 ├── constants/            ← global constants, line separators per OS, capacity defaults
@@ -111,7 +111,7 @@ go get github.com/alimtvnetwork/core
 ## Related Docs
 
 - [Folder Map](./01-folder-map.md)
-- [Codegen Deprecation Plan](./10-codegen-deprecation-plan.md)
+- [Module Splitting Decision](./26-module-splitting-decision.md)
 - [Go Modernization Plan](./11-go-modernization.md)
 - [CMD Entrypoints](./12-cmd-entrypoints.md)
 - [Testing Patterns](./13-testing-patterns.md)

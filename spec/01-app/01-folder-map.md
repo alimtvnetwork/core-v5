@@ -6,7 +6,7 @@
 |---|--------|---------|-------------------|
 | 1 | `chmodhelper/` | File permission parsing, verification, chmod application | `RwxWrapper`, `SimpleFileReaderWriter`, `ChmodApply`, `ChmodVerify` |
 | 2 | `cmd/` | CLI entry-points for running, testing, and demos | `cmd/main/main.go` |
-| 3 | `codegen/` | Unit-test code generation from function signatures (**deprecated**) | `GenerateFunc`, `FinalCode` |
+| 3 | ~~`codegen/`~~ | **Removed** (v1.6.0) — was unit-test code generation | — |
 | 4 | `codestack/` | Runtime call-stack capture and trace formatting | `Trace`, `TraceCollection` |
 | 5 | `conditional/` | Ternary-style helpers for all primitive types | `Bool()`, `Int()`, `String()`, `Interface()` |
 | 6 | `constants/` | Global constants, OS line separators, capacity defaults | `constants.go`, `line_*.go` |
@@ -79,9 +79,6 @@
 | `coreinterface/` | `serializerinf/` | Serializer interfaces |
 | `chmodhelper/` | `chmodclasstype/` | Chmod class type enums |
 | `chmodhelper/` | `chmodins/` | Chmod instruction types |
-| `codegen/` | `codegentype/` | Code generation type variants |
-| `codegen/` | `fmtcodegentype/` | Format code generation type variants |
-| `codegen/` | `aukast/` | AST utilities for codegen |
 | `internal/` | `reflectinternal/` | Reflection helpers |
 | `internal/` | `convertinteranl/` | Conversion internals (note: typo in name) |
 | `internal/` | `pathinternal/` | Path manipulation internals |
