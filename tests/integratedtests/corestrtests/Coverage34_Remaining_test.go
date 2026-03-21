@@ -269,7 +269,7 @@ func Test_C34_KVC_Dispose(t *testing.T) {
 
 func Test_C34_KVC_JsonMethods(t *testing.T) {
 	kvc := corestr.New.KeyValues.Empty()
-	kvc.Add(corestr.KeyValuePair{Key: "k", Value: "v"})
+	kvc.Add("k", "v")
 	_ = kvc.Json()
 	_ = kvc.JsonPtr()
 	_ = kvc.JsonModel()
